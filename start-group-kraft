@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo 'Kraft' > /home/pi/sonic-pi/tmp/group-name
+/home/pi/sonic-pi/app/gui/application
