@@ -56,7 +56,7 @@ MainWindow::MainWindow(QApplication &app)
 {
   runProcess =  NULL;
   groupName = "default";
-  QFile file(QCoreApplication::applicationDirPath() + "/../../tmp/group-name");
+  QFile file("/tmp/sonic-pi/group-name");
   bool ret = file.open(QIODevice::ReadOnly | QIODevice::Text);
   if( ret )
     {

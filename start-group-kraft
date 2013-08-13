@@ -1,4 +1,5 @@
 #!/bin/bash
 
-echo 'Kraft' > /home/pi/sonic-pi/tmp/group-name
+mkdir -p /tmp/sonic-pi
+echo 'Kraft' > /tmp/sonic-pi/group-name
 /home/pi/sonic-pi/app/gui/application
