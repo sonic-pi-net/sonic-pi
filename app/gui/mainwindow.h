@@ -75,6 +75,7 @@ private:
     bool saveWorkspace(QsciScintilla* text);
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
+    void ensureWorkspaces();
     void loadWorkspaces();
     void saveWorkspaces();
     QString workspaceFilename(QsciScintilla* text);

@@ -10,6 +10,10 @@ spider_log "Booting Sonic Pi"
 spider_log "----------------"
 spider_log ""
 
+#start dbus
+`eval $(dbus-launch --auto-syntax)`
+sleep 2
+
 #Kill any existing services that belong to us
 kill_scsynth
 kill_jackd

@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# start dbus which is needed by jack
+eval $(dbus-launch --auto-syntax)
+sleep 2
 # start jackd and scsynth
-
 jackd -R -p 32 -d alsa -n 3&
 sleep 2
 scsynth -u 4556 -m 131072 &

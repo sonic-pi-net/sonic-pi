@@ -15,11 +15,11 @@ def spider_log(message)
 end
 
 def scsynth_pidfile()
-  File.absolute_path("#{sp_sonic_pi_path}/tmp/scsynth-pid")
+  File.absolute_path("/tmp/sonic-pi-scsynth-pid")
 end
 
 def jackd_pidfile()
-  File.absolute_path("#{sp_sonic_pi_path}/tmp/jackd-pid")
+  File.absolute_path("/tmp/sonic-pi-jackd-pid")
 end
 
 def jackd_pid()

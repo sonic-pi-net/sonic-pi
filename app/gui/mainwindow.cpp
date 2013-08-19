@@ -54,6 +54,9 @@
 
 MainWindow::MainWindow(QApplication &app)
 {
+
+  ensureWorkspaces();
+
   runProcess =  NULL;
   groupName = "default";
   QFile file("/tmp/sonic-pi/group-name");
@@ -192,6 +195,16 @@ MainWindow::MainWindow(QApplication &app)
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 }
 
+void MainWindow::ensureWorkspaces()
+{
+  QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/ensure-workspaces.rb";
+  QStringList arguments;
+  QObject *parent;
+  runProcess = new QProcess(parent);
+  runProcess->start(program, arguments);
+  runProcess->waitForFinished();
+}
+
 void MainWindow::onExitCleanup()
 {
   QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/shutdown.rb";
@@ -199,31 +212,30 @@ void MainWindow::onExitCleanup()
   QObject *parent;
   runProcess = new QProcess(parent);
   runProcess->start(program, arguments);
-
 }
 
 void MainWindow::loadWorkspaces()
 {
-  loadFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/one/1.spi", workspace1);
-  loadFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/two/1.spi", workspace2);
-  loadFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/three/1.spi", workspace3);
-  loadFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/four/1.spi", workspace4);
-  loadFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/five/1.spi", workspace5);
-  loadFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/six/1.spi", workspace6);
-  loadFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/seven/1.spi", workspace7);
-  loadFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/eight/1.spi", workspace8);
+  loadFile("/home/pi/.sonic-pi/workspaces/" + groupName + "/one/1.spi", workspace1);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/two/1.spi", workspace2);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/three/1.spi", workspace3);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/four/1.spi", workspace4);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/five/1.spi", workspace5);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/six/1.spi", workspace6);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/seven/1.spi", workspace7);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/eight/1.spi", workspace8);
 }
 
 void MainWindow::saveWorkspaces()
 {
-  saveFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/one/1.spi", workspace1);
-  saveFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/two/1.spi", workspace2);
-  saveFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/three/1.spi", workspace3);
-  saveFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/four/1.spi", workspace4);
-  saveFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/five/1.spi", workspace5);
-  saveFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/six/1.spi", workspace6);
-  saveFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/seven/1.spi", workspace7);
-  saveFile(QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/eight/1.spi", workspace8);
+  saveFile("/home/pi/.sonic-pi/workspaces/" + groupName + "/one/1.spi", workspace1);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/two/1.spi", workspace2);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/three/1.spi", workspace3);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/four/1.spi", workspace4);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/five/1.spi", workspace5);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/six/1.spi", workspace6);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/seven/1.spi", workspace7);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/eight/1.spi", workspace8);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -258,7 +270,7 @@ void MainWindow::runCode()
   //  printf("running code");
   killSynths();
   saveWorkspace( (QsciScintilla*)tabs->currentWidget());
-  saveFile("/tmp/sonic-pi", (QsciScintilla*)tabs->currentWidget());
+  saveFile("/tmp/sonic-pi-current-code.rb", (QsciScintilla*)tabs->currentWidget());
   outputPane->clear();
   errorPane->clear();
   lexer->setPaper(Qt::lightGray);
@@ -270,7 +282,7 @@ void MainWindow::runCode()
   //  printf((QCoreApplication::applicationDirPath() + "/../../app/scripts/run-code.rb").toAscii().data());
   QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/run-code.rb";
   QStringList arguments;
-  arguments << "/tmp/sonic-pi";
+  arguments << "/tmp/sonic-pi-current-code.rb";
   QObject *parent;
   runProcess = new QProcess(parent);
 
@@ -563,15 +575,15 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
 
 QString MainWindow::workspaceFilename(QsciScintilla* text)
 {
-  if(text == workspace1) {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/one/1.spi";}
-  else if(text == workspace2) {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/two/1.spi";}
-  else if(text == workspace3) {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/three/1.spi";}
-  else if(text == workspace4) {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/four/1.spi";}
-  else if(text == workspace5) {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/five/1.spi";}
-  else if(text == workspace6) {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/six/1.spi";}
-  else if(text == workspace7) {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/seven/1.spi";}
-  else if(text == workspace8) {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/eight/1.spi";}
- else {return QCoreApplication::applicationDirPath() + "/../../workspaces/" + groupName + "/one/1.spi";}
+  if(text == workspace1) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/one/1.spi";}
+  else if(text == workspace2) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/two/1.spi";}
+  else if(text == workspace3) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/three/1.spi";}
+  else if(text == workspace4) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/four/1.spi";}
+  else if(text == workspace5) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/five/1.spi";}
+  else if(text == workspace6) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/six/1.spi";}
+  else if(text == workspace7) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/seven/1.spi";}
+  else if(text == workspace8) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/eight/1.spi";}
+ else {return "/home/pi/.sonic-pi/workspaces/" + groupName + "/one/1.spi";}
 }
 
 bool MainWindow::saveWorkspace(QsciScintilla* text)
