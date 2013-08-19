@@ -11,7 +11,7 @@ def sp_synthdefs_path()
 end
 
 def spider_log(message)
-  File.open("#{sp_sonic_pi_path}/log/spider.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")}
+  #File.open("/tmp/sonic-pi-spider.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")}
 end
 
 def scsynth_pidfile()
