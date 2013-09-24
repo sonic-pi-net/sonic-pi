@@ -216,7 +216,7 @@ void MainWindow::onExitCleanup()
 
 void MainWindow::loadWorkspaces()
 {
-  loadFile("/home/pi/.sonic-pi/workspaces/" + groupName + "/one/1.spi", workspace1);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/one/1.spi", workspace1);
   loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/two/1.spi", workspace2);
   loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/three/1.spi", workspace3);
   loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/four/1.spi", workspace4);
@@ -228,7 +228,7 @@ void MainWindow::loadWorkspaces()
 
 void MainWindow::saveWorkspaces()
 {
-  saveFile("/home/pi/.sonic-pi/workspaces/" + groupName + "/one/1.spi", workspace1);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/one/1.spi", workspace1);
   saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/two/1.spi", workspace2);
   saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/three/1.spi", workspace3);
   saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/four/1.spi", workspace4);
@@ -261,7 +261,7 @@ QString MainWindow::currentTabLabel()
 
 bool MainWindow::saveAs()
 {
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), "/home/pi/Desktop");
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), QDir::homePath() + "/Desktop");
   saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
 }
 
@@ -583,7 +583,7 @@ QString MainWindow::workspaceFilename(QsciScintilla* text)
   else if(text == workspace6) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/six/1.spi";}
   else if(text == workspace7) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/seven/1.spi";}
   else if(text == workspace8) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/eight/1.spi";}
- else {return "/home/pi/.sonic-pi/workspaces/" + groupName + "/one/1.spi";}
+ else {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/one/1.spi";}
 }
 
 bool MainWindow::saveWorkspace(QsciScintilla* text)

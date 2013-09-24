@@ -2,4 +2,4 @@
 
 mkdir -p /tmp/sonic-pi
 echo 'Kraft' > /tmp/sonic-pi/group-name
-/home/pi/sonic-pi/app/gui/application
+${HOME}/sonic-pi/app/gui/application
