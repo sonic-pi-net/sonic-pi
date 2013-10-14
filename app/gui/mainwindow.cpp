@@ -199,8 +199,8 @@ void MainWindow::ensureWorkspaces()
 {
   QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/ensure-workspaces.rb";
   QStringList arguments;
-  QObject *parent;
-  runProcess = new QProcess(parent);
+  //QObject *parent = 0;
+  runProcess = new QProcess(this);
   runProcess->start(program, arguments);
   runProcess->waitForFinished();
 }
@@ -209,8 +209,8 @@ void MainWindow::onExitCleanup()
 {
   QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/shutdown.rb";
   QStringList arguments;
-  QObject *parent;
-  runProcess = new QProcess(parent);
+  //QObject *parent = 0;
+  runProcess = new QProcess(this);
   runProcess->start(program, arguments);
 }
 
@@ -262,7 +262,7 @@ QString MainWindow::currentTabLabel()
 bool MainWindow::saveAs()
 {
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), QDir::homePath() + "/Desktop");
-  saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
+  return saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
 }
 
 void MainWindow::runCode()
@@ -273,7 +273,7 @@ void MainWindow::runCode()
   saveFile("/tmp/sonic-pi-current-code.rb", (QsciScintilla*)tabs->currentWidget());
   outputPane->clear();
   errorPane->clear();
-  lexer->setPaper(Qt::lightGray);
+  //lexer->setPaper(Qt::lightGray);
   QString emptyText = "";
   statusBar()->showMessage(tr("Running..."), 2000);
 
@@ -283,8 +283,8 @@ void MainWindow::runCode()
   QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/run-code.rb";
   QStringList arguments;
   arguments << "/tmp/sonic-pi-current-code.rb";
-  QObject *parent;
-  runProcess = new QProcess(parent);
+  // QObject *parent;
+  runProcess = new QProcess(this);
 
   connect(runProcess, SIGNAL(readyReadStandardOutput()),
           this, SLOT(updateOutput()));
@@ -297,7 +297,7 @@ void MainWindow::runCode()
   runProcess->start(program, arguments);
   //runProcess->write(tabs->currentWidget()->text().toAscii());
   //  runProcess->waitForFinished();
-  lexer->setPaper(Qt::white);
+  // lexer->setPaper(Qt::white);
 }
 
 void MainWindow::killSynths()
@@ -354,7 +354,7 @@ void MainWindow::open()
 
 bool MainWindow::save()
 {
-
+  return false;
 }
 
 void MainWindow::about()
@@ -379,8 +379,8 @@ void MainWindow::callInitScript()
 {
   QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/boot.rb";
   QStringList arguments;
-  QObject *parent;
-  QProcess *myProcess = new QProcess(parent);
+  // QObject *parent;
+  QProcess *myProcess = new QProcess(this);
   myProcess->start(program, arguments);
   myProcess->waitForFinished();
 }
@@ -389,8 +389,8 @@ void MainWindow::stopRunningSynths()
 {
   QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/stop-running-synths.rb";
   QStringList arguments;
-  QObject *parent;
-  QProcess *myProcess = new QProcess(parent);
+  // QObject *parent;
+  QProcess *myProcess = new QProcess(this);
   myProcess->start(program, arguments);
   myProcess->waitForFinished();
 }
