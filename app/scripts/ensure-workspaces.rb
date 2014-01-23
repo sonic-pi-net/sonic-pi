@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 
-group_name = File.open("/tmp/sonic-pi/group-name").readlines.first.strip
+group_name="default"
 
 ["one", "two", "three", "four", "five", "six", "seven", "eight"].each do |n|
   dir_path = "~/.sonic-pi/workspaces/#{group_name}/#{n}"
