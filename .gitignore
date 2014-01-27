@@ -35,3 +35,4 @@ app/gui/html/target
 # ---------
 
 *.DS_Store
+*.log
