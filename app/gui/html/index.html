@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Sonic Pi</title>
+    <link rel="stylesheet" href="vendor/codemirror/lib/codemirror.css">
+    <script src="vendor/codemirror/lib/codemirror.js"></script>
+    <script src="vendor/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="vendor/codemirror/mode/ruby/ruby.js"></script>
+    <script type="text/javascript" src="vendor/kinetic-v4.7.2.min.js"></script>
+
+    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <style>
+      .CodeMirror {border-top: 10px solid black; border-bottom: 10px solid black;}
+      .cm-s-default span.cm-arrow { color: red; }
+    </style>
+  </head>
+
+  <body>
+    <h1>Sonic Pi</h1>
+    <div id="my-stage"></div>
+    <button id="run" class="btn btn-primary" onClick="defpi.ws.sendCode()">Run</button>
+    <button id="stop" class="btn btn-danger" onClick="defpi.ws.stopCode()">Stop</button>
+
+    <textarea id="code"></textarea>
+
+    <div id="msgs" style="height: 100px; overflow: auto;"></div>
+
+  </body>
+
+  <script src="js/init_editor.js"></script>
+  <script src="js/cljs-main.js"></script>
+
+</html>
