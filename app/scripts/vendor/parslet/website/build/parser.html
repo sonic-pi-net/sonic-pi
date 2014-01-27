@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-type" />
+    <title>parslet -Parser construction</title>
+    <meta content="Kaspar Schiess (http://absurd.li)" name="author" />
+    <link href="images/favicon3.ico" rel="shortcut icon" /><link href="/parslet/stylesheets/site.css" media="screen" rel="stylesheet" type="text/css" /><link href="/parslet/stylesheets/sh_whitengrey.css" media="screen" rel="stylesheet" type="text/css" /><script src="/parslet/javascripts/sh_main.min.js" type="text/javascript"></script><script src="/parslet/javascripts/sh_ruby.min.js" type="text/javascript"></script></head>
+  <body class="code" onload="sh_highlightDocument();">
+    <div id="everything">
+      <div class="main_menu"><img alt="Parslet Logo" src="/parslet/images/parsley_logo.png" /><ul>
+          <li><a href="/parslet/">about</a></li>
+          <li><a href="/parslet/get-started.html">get started</a></li>
+          <li><a href="/parslet/install.html">install</a></li>
+          <li><a href="/parslet/documentation.html">documentation</a></li>
+          <li><a href="/parslet/contribute.html">contribute</a></li>
+        </ul>
+      </div>
+      <div class="content">
+        <h1>Parser construction</h1><p>A parser is nothing more than a class that derives from
+<code>Parslet::Parser</code>. The simplest parser that one could write would
+look like this:</p>
+<pre class="sh_ruby"><code>
+  class SimpleParser &lt; Parslet::Parser
+    rule(:a_rule) { str('simple_parser') }
+    root(:a_rule)
+  end
+</code></pre>
+<p>The language recognized by this parser is simply the string &#8220;simple_parser&#8221;. 
+Parser rules do look a lot like methods and are defined by</p>
+<pre class="sh_ruby"><code>
+  rule(name) { definition_block }
+</code></pre>
+<p>Behind the scenes, this really defines a method that returns whatever you 
+return from it.</p>
+<p>Every parser has a root. This designates where parsing should start. It is like
+an entry point to your parser. With a root defined like this:</p>
+<pre class="sh_ruby"><code>
+  root(:my_root)
+</code></pre>
+<p>you create a <code>#parse</code> method in your parser that will start parsing
+by calling the <code>#my_root</code> method. You&#8217;ll also have a <code>#root</code>
+(instance) method that is an alias of the root method. The following things are
+really one and the same:</p>
+<pre class="sh_ruby"><code>
+  SimpleParser.new.parse(string)
+  SimpleParser.new.root.parse(string)
+  SimpleParser.new.a_rule.parse(string)
+</code></pre>
+<p>Knowing these things gives you a lot of flexibility; I&#8217;ll explain why at the
+end of the chapter. For now, just let me point out that because all of this is
+Ruby, your favorite editor will syntax highlight parser code just fine.</p>
+<h2>Atoms: The inside of a parser</h2>
+<h3>Matching strings of characters</h3>
+<p>A parser is constructed from parser atoms (or parslets, hence the name). The
+atoms are what appear inside your rules (and maybe elsewhere). We&#8217;ve already
+encountered an atom, the string atom:</p>
+<pre class="sh_ruby"><code>
+  str('simple_parser')
+</code></pre>
+<p>This returns a <code>Parslet::Atoms::Str</code> instance. These parser atoms
+all derive from <code>Parslet::Atoms::Base</code> and have essentially just
+one method you can call: <code>#parse</code>. So this works:</p>
+<pre class="sh_ruby"><code title="parser atoms">
+  str('foobar').parse('foobar') # =&gt; "foobar"@0
+</code></pre>
+<p>The atoms are small parsers that can recognize languages and throw errors, just
+like real <code>Parslet::Parser</code> subclasses.</p>
+<h3>Matching character ranges</h3>
+<p>The second parser atom you will have to know about allows you to match
+character ranges:</p>
+<pre class="sh_ruby"><code>
+  match('[0-9a-f]')
+</code></pre>
+<p>The above atom would match the numbers zero through nine and the letters &#8216;a&#8217; 
+to &#8216;f&#8217; &#8211; yeah, you guessed right &#8211; hexadecimal numbers for example. The inside
+of such a match parslet is essentially a regular expression that matches 
+a single character of input. Because we&#8217;ll be using ranges so much with 
+<code>#match</code> and because typing (&#8216;[]&#8217;) is tiresome, here&#8217;s another way
+to write the above <code>#match</code> atom:</p>
+<pre class="sh_ruby"><code>
+  match['0-9a-f']
+</code></pre>
+<p>Character matches are instances of <code>Parslet::Atoms::Re</code>. Here are 
+some more examples of character ranges:</p>
+<pre class="sh_ruby"><code>
+  match['[:alnum:]']      # letters and numbers
+  match['\\n']            # newlines
+  match('\\w')            # word characters
+  match('.')              # any character
+</code></pre>
+<h3>The wild wild <code>#any</code></h3>
+<p>The last example above corresponds to the regular expression <code>/./</code> that matches
+any one character. There is a special atom for that:</p>
+<pre class="sh_ruby"><code>
+  any 
+</code></pre>
+<h2>Composition of Atoms</h2>
+<p>These basic atoms can be composed to form complex grammars. The following
+few sections will tell you about the various ways atoms can be composed.</p>
+<h3>Simple Sequences</h3>
+<p>Match &#8216;foo&#8217; and then &#8216;bar&#8217;:</p>
+<pre class="sh_ruby"><code>
+  str('foo') &gt;&gt; str('bar')    # same as str('foobar')
+</code></pre>
+<p>Sequences correspond to instances of the class
+<code>Parslet::Atoms::Sequence</code>.</p>
+<h3>Repetition and its Special Cases</h3>
+<p>To model atoms that can be repeated, you should use <code>#repeat</code>:</p>
+<pre class="sh_ruby"><code>
+  str('foo').repeat
+</code></pre>
+<p>This will allow foo to repeat any number of times, including zero. If you
+look at the signature for <code>#repeat</code> in <code>Parslet::Atoms::Base</code>, 
+you&#8217;ll see that it has really two arguments: <em>min</em> and <em>max</em>. So the following
+code all makes sense:</p>
+<pre class="sh_ruby"><code>
+  str('foo').repeat(1)      # match 'foo' at least once
+  str('foo').repeat(1,3)    # at least once and at most 3 times
+  str('foo').repeat(0, nil) # the default: same as str('foo').repeat
+</code></pre>
+<p>Repetition has a special case that is used frequently: Matching something
+once or not at all can be achieved by <code>repeat(0,1)</code>, but also 
+through the prettier:</p>
+<pre class="sh_ruby"><code>
+  str('foo').maybe          # same as str('foo').repeat(0,1)
+</code></pre>
+<p>These all map to <code>Parslet::Atoms::Repetition</code>. Please note this
+little twist to <code>#maybe</code>:</p>
+<pre class="sh_ruby"><code title="maybes twist">
+  str('foo').maybe.as(:f).parse('')         # =&gt; {:f=&gt;nil}
+  str('foo').repeat(0,1).as(:f).parse('')   # =&gt; {:f=&gt;[]}
+</code></pre>
+<p>The &#8216;nil&#8217;-value of <code>#maybe</code> is nil. This is catering to the
+intuition that <code>foo.maybe</code> either gives me <code>foo</code> or
+nothing at all, not an empty array. But have it your way!</p>
+<h3>Alternation</h3>
+<p>The most important composition method for grammars is alternation. Without
+it, your grammars would only vary in the amount of things matched, but not
+in content. Here&#8217;s how this looks:</p>
+<pre class="sh_ruby"><code>
+  str('foo') | str('bar')   # matches 'foo' OR 'bar'
+</code></pre>
+<p>This reads naturally as &#8220;&#8216;foo&#8217; or &#8216;bar&#8217;&#8221;.</p>
+<h3>Operator precedence</h3>
+<p>The operators we have chosen for parslet atom combination have the operator
+precedence that you would expect. No parenthesis are needed to express
+alternation of sequences:</p>
+<pre class="sh_ruby"><code>
+  str('s') &gt;&gt; str('equence') | 
+    str('se') &gt;&gt; str('quence')
+</code></pre>
+<h3>And more</h3>
+<p>Parslet atoms are not as pretty as Treetop atoms. There you go, we said it. 
+However, there seems to be a different kind of aesthetic about them; they 
+are pure Ruby and integrate well with the rest of your environment. Have a 
+look at this:</p>
+<pre class="sh_ruby"><code>
+  # Also consumes the space after important things like ';' or ':'. Call this
+  # giving the character you want to match as argument: 
+  #
+  #   arg &gt;&gt; (spaced(',') &gt;&gt; arg).repeat
+  #
+  def spaced(character)
+    str(character) &gt;&gt; match["\s"]
+  end
+</code></pre>
+<p>or even this:</p>
+<pre class="sh_ruby"><code>
+  # Turns any atom into an expression that matches a left parenthesis, the 
+  # atom and then a right parenthesis.
+  #
+  #   bracketed(sum)
+  #
+  def bracketed(atom)
+    spaced('(') &gt;&gt; atom &gt;&gt; spaced(')')
+  end
+</code></pre>
+<p>You might say that because parslet is just plain old Ruby objects itself (<span class="caps">PORO</span>
+&#8482;), it allows for very tight code. Module inclusion, class inheritance, &#8230;
+all your tools should work well with parslet.</p>
+<h2>Tree construction</h2>
+<p>By default, parslet will just echo back to you the strings you feed into it. 
+Parslet will not generate a parser for you and neither will it generate your
+abstract syntax tree for you. The method <code>#as(name)</code> allows you
+to specify exactly how you want your tree to look like:</p>
+<pre class="sh_ruby"><code title="using as">
+  str('foo').parse('foo')             # =&gt; "foo"@0
+  str('foo').as(:bar).parse('foo')    # =&gt; {:bar=&gt;"foo"@0}
+</code></pre>
+<p>So you think: <code>#as(name)</code> allows me to create a hash, big deal.
+That&#8217;s not all. You&#8217;ll notice that annotating everything that you want to keep
+in your grammar with <code>#as(name)</code> autocreates a sensible tree
+composed of hashes and arrays and strings. It&#8217;s really somewhat magic: Parslet
+has a set of clever rules that merge the annotated output from your atoms into
+a tree. Here are some more examples, with the atom on the left and the resulting
+tree (assuming a successful parse) on the right:</p>
+<pre class="sh_ruby"><code>
+  # Normal strings just map to strings
+  str('a').repeat                         "aaa"@0                                 
+
+  # Arrays capture repetition of non-strings
+  str('a').repeat.as(:b)                  {:b=&gt;"aaa"@0}                           
+  str('a').as(:b).repeat                  [{:b=&gt;"a"@0}, {:b=&gt;"a"@1}, {:b=&gt;"a"@2}] 
+
+  # Subtrees get merged - unlabeled strings discarded
+  str('a').as(:a) &gt;&gt; str('b').as(:b)      {:a=&gt;"a"@0, :b=&gt;"b"@1}                  
+  str('a') &gt;&gt; str('b').as(:b) &gt;&gt; str('c') {:b=&gt;"b"@1}                             
+
+  # #maybe will return nil, not the empty array
+  str('a').maybe.as(:a)                   {:a=&gt;"a"@0}                             
+  str('a').maybe.as(:a)                   {:a=&gt;nil}
+</code></pre>
+<h2>Capturing input</h2>
+<p><em>Advanced reading material &#8211; feel free to skip this.</em></p>
+<p>Sometimes a parser needs to match against something that was already matched
+against. Think about Ruby heredocs for example:</p>
+<pre class="sh_ruby"><code>
+  str = &lt;-HERE
+    This is part of the heredoc.
+  HERE
+</code></pre>
+<p>The key to matching this kind of document is to capture part of the input
+first and then construct the rest of the parser based on the captured part.
+This is what it looks like in its simplest form:</p>
+<pre class="sh_ruby"><code>
+  match['ab'].capture(:capt) &gt;&gt;               # create the capture
+    dynamic { |s,c| str(c.captures[:capt]) }  # and match using the capture
+</code></pre>
+<p>This parser matches either &#8216;aa&#8217; or &#8216;bb&#8217;, but not mixed forms &#8216;ab&#8217; or &#8216;ba&#8217;. The
+last sample introduced two new concepts for this kind of complex parser: the 
+<code>#capture(name)</code> method and the <code>dynamic { ... }</code> code
+block.</p>
+<p>Appending <code>#capture(name)</code> to any parser will capture that parsers
+result in the captures hash in the parse context. If and only if the parser
+<code>match['ab']</code> succeeds, it stores either &#8216;a&#8217; or &#8216;b&#8217; in 
+<code>context.captures[:capt]</code>.</p>
+<p>The only way to get at that hash during the parse process is in a
+<code>dynamic { ... }</code> code block. (for reasons that are out of the
+scope of this document) In such a block, you can:</p>
+<pre class="sh_ruby"><code>
+  dynamic { |source, context|
+    # construct parsers by using randomness
+    rand &lt; 0.5 ? str('a') : str('b')
+    
+    # Or by using context information 
+    str( context.captures[:capt] )
+    
+    # Or by .. doing other kind of work (consumes 100 chars and then 'a')
+    source.consume(100)
+    return str('a')
+  }
+</code></pre>
+<h3>Scopes</h3>
+<p>What if you want to parse heredocs contained within heredocs? It&#8217;s turtles all
+the way down, after all. To be able to remember what string was used to
+construct the outer heredoc, you would use the <code>#scope { ... }</code>
+block that was introduced in parslet 1.5. Like opening a Ruby block, it allows
+you to capture results (assign values to variables) to the same names you&#8217;ve 
+already used in outer scope &#8211; <em>without destroying the outer scopes values for 
+these captures!</em>.</p>
+<p>Here&#8217;s an example for this: 
+<pre class="sh_ruby"><code>
+  str('a').capture(:a) &gt;&gt; scope { str('b').capture(:a) } &gt;&gt; 
+    dynamic { |s,c| str(c.captures[:a]) }
+</code></pre></p>
+<p>This parses &#8216;aba&#8217; &#8211; if you understand that, you understand scopes and
+captures. Congrats.</p>
+<h2>And more</h2>
+<p>Now you know exactly how to create parsers using Parslet. Your parsers
+will output intricate structures made of endless arrays, complex hashes and 
+a few string leftovers. But your programming skills fail you when you try
+to put all this data to use. Selecting keys upon keys in hash after hash, you
+feel like a cockroach that has just read Kafka&#8217;s works. This is no fun. This 
+is not what you signed up for.</p>
+<p>Time to introduce you to <a href="transform.html">Parslet::Transform</a> and its workings.</p></div>
+      <div class="copyright"><p><span class="caps">MIT</span> License, 2010-2012, &#169; <a href="http://absurd.li">Kaspar Schiess</a><br/>
+        Logo by <a href="http://floere.github.com">Florian Hanke</a>, <a href="http://creativecommons.org/licenses/by/1.0/">CC Attribution</a> license</p></div>
+      <script type="text/javascript">var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16365074-2']);
+        _gaq.push(['_trackPageview']); 
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();</script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+/Users/kaspar/git_work/own/parslet/lib/parslet/atoms/base.rb:326:in `parse_failed': Don't know what to do with bbbb at line 1 char 1. (Parslet::ParseFailed)
+	from /Users/kaspar/git_work/own/parslet/lib/parslet/atoms/base.rb:55:in `parse'
+	from example/documentation.rb:13:in `parse'
+	from example/documentation.rb:18:in `<main>'

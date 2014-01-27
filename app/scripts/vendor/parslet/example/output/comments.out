@@ -1,0 +1,8 @@
+[{:exp=>{:a=>"a"@3}},
+ {:line=>"// line comment"@7},
+ {:exp=>{:a=>"a"@25}},
+ {:exp=>{:a=>"a"@27}},
+ {:exp=>[{:a=>"a"@29}, {:line=>"// line comment"@31}]},
+ {:exp=>[{:a=>"a"@49}, {:multi=>"/* inline comment */"@51}]},
+ {:exp=>{:a=>"a"@72}},
+ {:multi=>"/* multiline\n  comment */"@77}]

@@ -1,0 +1,110 @@
+---
+title: Contribute
+---
+
+Find parslet to be really useful? Or just found a bug that is really ruining
+the day for you? Please contribute! Find the code on 
+"github":http://github.com/kschiess/parslet.
+
+h2. Contact
+
+Join us on IRC in #parslet on irc.freenode.net.
+
+Discussion and patches (or the odd cry for 'Help! How can I parse X?') should
+go to our mailing list at
+"ruby.parslet@librelist.com":mailto:ruby.parslet@librelist.com. Just write a
+short message to that address and "librelist":http://librelist.com will
+subscribe you. NNTP/web interface can be had through
+"gmane.org":http://dir.gmane.org/gmane.comp.lang.ruby.parslet:
+<code>gmane.comp.lang.ruby.parslet</code>.
+
+h2. Bugs 
+
+Log in to github and open a bug ticket
+"here":https://github.com/kschiess/parslet/issues. Please be sure to include
+the version of parslet and Ruby; maybe you can even provide some code that
+exhibits the bug?
+
+And of course if you provide a properly tested patch, you'll be our hero and 
+get a place in the space below for lifetime. 
+
+h2. Projects
+
+Have you got a project that uses parslet? Please write
+"us":mailto:kaspar.schiess@absurd.li about it. 
+
+"*edn-ruby*":https://github.com/relevance/edn-ruby
+
+edn-ruby is a Ruby library to read and write "edn":https://github.com/edn-format/edn 
+(extensible data notation), a subset of Clojure used for transferring data between 
+applications, much like JSON, YAML, or XML.
+
+"*Examples*":https://github.com/kschiess/parslet/tree/master/example/
+
+In here, you can find a parser for a lisp like language and much more. 
+
+"*Net::HTTP::Server*":https://github.com/postmodern/net-http-server
+
+A really small and elegant HTTP server written in Ruby. Think Webrick. Using
+parslet. (Postmodern)
+
+"*regexador*":https://github.com/Hal9000/regexador
+
+An external DSL for Ruby that tries to make regular expressions readable and maintainable. (Hal Fulton)
+
+"*self-ml*":https://github.com/self-ml/selfml
+
+A "self-ml":http://self-ml.github.io/ implementation using parslet. 
+(Ricardo Mendes)
+
+"*thnad*":https://github.com/undees/thnad 
+
+Thnad is a tiny programming language with so few features that it is not
+useful for anything at all -- except showing how to write a compiler in half
+an hour.
+
+"*Werd.rb*":https://github.com/rk/werd
+
+A variant of Chris Pound's word generator written in Ruby, with some
+improvements. (Robert Kosek)
+
+"*versionub*":https://github.com/meh/versionub
+
+A semantic version parser. (meh)
+
+h2. Thanks for all the fish -- Contributions
+
+* *Rory O’Kane* ("roryokane":https://github.com/roryokane) for a careful code 
+  review!
+
+* *Zach Moazeni* ("zmoazeni":https://github.com/zmoazeni) for his work on
+  Unicode performance.
+
+* *rogerbraun* ("rogerbraun":https://github.com/rogerbraun) for being my
+  unicode tester. 
+
+* *meh* ("meh":http://meh.paranoid.pk/) for taking a real close look. 
+
+* *John Mettraux* ("jmettraux":http://jmettraux.wordpress.com/) for the really
+  nice JSON example and for pushing parslet beyond its limits.
+
+* *Josep M. Bach* ("txus":http://www.txustice.me/) for minding the small 
+  things that make a big difference.
+
+* *Matthew Draper* ("matthewd":http://matthewd.net/) for bothering with my 
+  broken CSS.
+
+* *Hal Brodigan* ("postmodern":http://postmodern.github.com/) for solving our
+  email parsing needs!
+
+* *R. Konstantin Haase* ("rhk":http://rkh.im/) for rspec matchers that help
+  stamp out, eliminate and abolish redundancy.
+
+* *Florian Hanke* ("floere":http://floere.github.com) has given a lot of very
+  inspiring input for parslet. His questions have been key to rounding off the
+  corners and making the library as aesthetic as it is. And just look at the 
+  logo. 
+  
+* *Kaspar Schiess* ("absurd.li":http://www.absurd.li) for being brave enough
+  to actually add another parser library to a field that's already bursting
+  at the seams.

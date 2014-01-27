@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-type" />
+    <title>parslet -Overview</title>
+    <meta content="Kaspar Schiess (http://absurd.li)" name="author" />
+    <link href="images/favicon3.ico" rel="shortcut icon" /><link href="/parslet/stylesheets/site.css" media="screen" rel="stylesheet" type="text/css" /><link href="/parslet/stylesheets/sh_whitengrey.css" media="screen" rel="stylesheet" type="text/css" /><script src="/parslet/javascripts/sh_main.min.js" type="text/javascript"></script><script src="/parslet/javascripts/sh_ruby.min.js" type="text/javascript"></script></head>
+  <body class="code" onload="sh_highlightDocument();">
+    <div id="everything">
+      <div class="main_menu"><img alt="Parslet Logo" src="/parslet/images/parsley_logo.png" /><ul>
+          <li><a href="/parslet/">about</a></li>
+          <li><a href="/parslet/get-started.html">get started</a></li>
+          <li><a href="/parslet/install.html">install</a></li>
+          <li><a href="/parslet/documentation.html">documentation</a></li>
+          <li><a href="/parslet/contribute.html">contribute</a></li>
+        </ul>
+      </div>
+      <div class="content">
+        <h1>Overview</h1><p>Parslet is a library with a clear philosophy: It makes parser writing easy and
+        testable. On top of that, it provides understandable error messages (&#8220;General
+        Protection Fault&#8221;) to you, the language writer. In extension, you will
+        hopefully manage to provide good error messages to your users. Together, we 
+        can create a better world!</p>
+        <p>Traditional texts on the subject will have you write a compiler or interpreter
+        for a language in several stages:</p>
+        <ul>
+        	<li>Parsing or Lexing/Parsing</li>
+        	<li>Abstract Syntax Tree construction</li>
+        	<li>Optimization and checking of the tree</li>
+        	<li>Generation of code / Execution</li>
+        </ul>
+        <p>This library will be good for the first two stages only. After that, you&#8217;ll
+        be on your own.</p>
+        <p>The parsing step has literally been implemented by hundreds (thousands) of
+        clever people; No lack of alternatives. Even in Ruby, you&#8217;ll have the choice 
+        among a handful of libraries. There&#8217;s a distinction to make on this level as
+        well:</p>
+        <p><strong>LRk parsers and related fields</strong> Parsers in this class use a lexical analyzer
+        (a <em>lexer</em> ) to transform the input text into tokens (<em>tokenizing</em> ). They
+        then check if your stream of tokens has a corresponding tree that conforms to
+        the grammar. Most of these parsers allow grammars that are ambiguous and will
+        provide a mechanism for resolving the arising ambiguities. These are the
+        earliest parser generators and the most widely used (<em>yacc</em>, <em>bison</em>, &#8230;) &#8212;
+        chances are, you&#8217;ll have more than one of these libraries installed on your
+        system.</p>
+        <p><strong><span class="caps">PEG</span> or packrat parsers</strong> Parsers in this class are based on a slightly more
+        modern algorithm, which translates what one does when writing a parser by hand
+        in top-down fashion. This is what we programmers do all over, methods calling
+        methods &#8211; and its also (grossly) what these parsers do to recognize input.
+        Left recursion is impossible to express in these grammars. No lexers are
+        required &#8211; lexical tokenizing and parsing are one single step. Ruby has
+        several implementations of this algorithm in library form:
+        <a href="http://github.com/nathansobo/treetop">Treetop</a>,
+        <a href="http://github.com/mjijackson/citrus">Citrus</a>,
+        <a href="http://wiki.github.com/luikore/rsec/">rsec</a> and of course
+        <a href="http://kschiess.github.com/parslet">Parslet</a>.</p>
+        <p>All of these generators are different in small ways; yet most implement common
+        patterns and provide almost identical APIs. We believe this is an error:
+        choice is good, but there should be visible attributes distinguishing the
+        choices.</p>
+        <p>Parslet is not like the others, in fact it is radically different on some
+        key elements.</p>
+        <h2>Writing a language</h2>
+        <p>Whether you write a language for a configuration file or a new computer
+        language (the holy grail), the steps are always the same:</p>
+        <ol>
+        	<li>Create a grammar: <em>What should be legal syntax?</em></li>
+        	<li>Annotate the grammar: <em>What is important data?</em></li>
+        	<li>Create a transformation: <em>How do I want to work with that data?</em></li>
+        </ol>
+        <p>The creation of grammars and the various concepts that are associated are treated
+        in <a href="parser.html">Parslet::Parser</a>.</p>
+        <p>Transformation of the resulting intermediary tree is treated in
+        <a href="transform.html">Parslet::Transform</a></p></div>
+      <div class="copyright"><p><span class="caps">MIT</span> License, 2010-2012, &#169; <a href="http://absurd.li">Kaspar Schiess</a><br/>
+        Logo by <a href="http://floere.github.com">Florian Hanke</a>, <a href="http://creativecommons.org/licenses/by/1.0/">CC Attribution</a> license</p></div>
+      <script type="text/javascript">var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16365074-2']);
+        _gaq.push(['_trackPageview']); 
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();</script>
+    </div>
+  </body>
+</html>

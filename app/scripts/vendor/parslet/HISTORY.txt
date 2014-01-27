@@ -1,0 +1,229 @@
+= 2.0 / ?? (future release changes, like a reminder to self)
+  
+  - prsnt? and absnt? are now finally banned into oblivion. Wasting vocals for
+    the win. 
+
+= 1.6 / ??
+
+  + Parslet accelerators permit replacing parts of your parser with optimized
+    atoms using pattern matching. Look at examples/optimized_erb.rb or the
+    introduction to the feature in qed/accelerators.md.
+
+  + infix_expression permits to declare an infix expression parser (think 
+    calculator) directly. This will solve many of the problems we have 
+    more elegantly. 
+
+  - Drops 1.8.7 compatibility. 
+
+  ! A performance anomaly when parsing multibyte characters has been detected
+    and fixed with the help of Zach Moazeni (@zmoazeni).
+
+  ! A few small bug fixes and optimisations have been introduced. API should 
+    remain unchanged. 
+    
+= 1.5 / 27Dec2012
+    
+  + Handles unconsumed input at end of parse completely differently. Instead
+    of generating a toplevel error, it now raises an error in every branch
+    of the parse. More information in the resulting exception ensues! Thanks
+    again to John Mettraux for inspiration & acceptance specs. 
+    
+    NOTE that this means that the UnconsumedInput exception is gone, since the
+    unconsumed input case is nothing special anymore. 
+    
+  * This history now finally reads like the Changelog of the linux kernel. 
+    Meaning that probably no one ever reads this. 
+    
+  + Captures and parsing subsequent input based on captured values. This has
+    been long overdue - finally you can parse HEREdocs with parslet!
+    
+= 1.4.0 / 25May2012
+
+  + Revised documentation. A few new API features have finally made it into
+    the documentation. Examples in the documentation are now curated and
+    run against the current code so that they really really work. 
+    Also, the website generation tools have been replaced with 2012-style
+    tools. Much less pain to update now. 
+
+  + Parslet::Source now doesn't hold a StringIO, it directly holds the 
+    buffer to be parsed. The api of Source has changed a tiny bit. This change
+    has been made for speed optimisation reasons.
+
+  + :reporter argument to parse, allowing to customize error reporting within
+    wide boundaries. See issue #64 for a discussion. 
+    Included are two error reporters, one (default) with the existing error
+    tree functionality, one reporting deepest errors as defined by the above
+    ticket.
+
+  + Optimistic parse: Parsing is two phase, with the first phase assuming 
+    there will be no errors. This yields ~ 20% speed improvement in the 
+    case where the parse succeeds.
+    Also, internal error handling is now using tuples. This and other 
+    optimizations have yielded ~ 30% overall improvement. 
+
+  ! #error_tree and #cause removed from all of parslet. The 
+    Parslet::ParseFailed exception now contains a #cause field that can
+    be asked for an #ascii_tree as before. 
+    Cleaner internal error handling, not stateful in atoms anymore. Some 
+    parsers will see correct error reporting for the first time. (issue #65)
+
+  + Made it possible to pass a custom Parslet::Source implementor to #parse.
+    (see #63)
+    
+  + #parse has now a second argument that is an options hash. See 
+    Parslet::Atoms::Base#parse for documentation.
+
+  - VM engine on the way out. No benefit except for the intellectual
+    challenge.
+    
+= 1.3.0 / 5Mar2012
+
+  ! Parslet::Transform::Context is now much more well-behaved. It has
+    #respond_to? and #method_missing; it now looks like a plain old Ruby
+    object with instance variables and attribute readers.
+
+  - Grammar transforms turned out to be a dead end and have been removed. 
+
+  ! A few problems in error message generation have been fixed. This will
+  	improve diagnostics further.
+	
+  + A VM driven parser engine: Removes the limitation that parsing needs a 
+    lot of stack space, something dearly missing from Ruby 1.9.3 fibers.
+    This engine is experimental and might be removed in the future. 
+
+  ! Interaction with mathn fixed - Line number generation will terminate. 
+	
+  . Internal reorganisation, removing cruft and bit rot.
+    
+= 1.2.3 / 22Sep2011
+
+  + Transform#apply can now be called with a hash as second argument. This 
+    provides bindings and a way to inject context.
+
+  ! Fixes a bug thar modified parslet atoms in place, defeating oop chaining. 
+    (#50)
+    
+= 1.2.1 / 6Jun2011
+
+  ! FIX: Input at the end of a parse raises Parslet::UnconsumedInput. (see
+    issue 18)
+
+  ! FIX: Unicode parsing should now work as expected. (see issue 38)
+  
+  ! FIX: Slice#slice returned wrong bits at times (see issue 36).
+
+= 1.2.0 / 4Feb2011
+  
+  + Parslet::Parser is now also a grammar atom, it can be composed freely with
+    other atoms. (str('f') >> MiniLispParser.new >> str('b'))
+    
+  + No strings, only slices are returned as part of the parser result. 
+    Parslet::Slice is almost a string class, but one that remembers the 
+    source offset. This has also bought us a slight speedup.
+    
+  + require 'parslet/convenience' now brings #parse_with_debug to all parslets.
+    This is a consequence of the above change. 
+  
+  + Deprecates prsnt? and absnt? in favor of the more readable absent? and
+    prsnt?. Uses 3 bytes more RAM. The old variants will exist until we release
+    2.0. 
+  
+  INTERNALLY
+  
+  + Visitors now should have methods that all begin with 'visit_*'. #str 
+    becomes #visit_str.
+
+  + Parslet::Atoms::Entity now takes only a block argument instead of context
+    and block. 
+
+= 1.1.1 / 4Feb2011
+
+  ! FIX: Line counting was broken by performance optimisations. 
+  
+  + Squeezed out another few drops of performance. 
+
+= 1.1.0 / 2Feb2011
+  
+  + Uses return (fail/success), cached line counts, memoizing of parse results 
+    and other tricks internally for at least an order of magnitude increase 
+    in execution speed.
+    
+  + str('foo').maybe will now return an empty string again. Use .as(...) to 
+    name things and get back [] from #repeat and nil from #maybe.
+    
+  + If you require 'parslet/atoms/visitor', you'll get an accept method on
+    all known Parslet::Atoms.
+    
+  + If you require 'parslet/export', you can call #to_citrus and #to_treetop
+    to produce string versions of your grammar in those dialects.
+  
+  + Requiring 'parslet/convenience' will given you a parse_with_debug on 
+    your Parslet::Parser class. This prints some diagnostics on parse failure. 
+    (Thanks to Florian Hanke)
+        
+= 1.0.1 / 17Jan2011
+
+  A happy new year!
+  
+  ! FIX: Parslet::Transform was wrongly fixed earlier - it now wont mangle 
+    hashes anymore. (Blake Sweeney)
+    
+  + parslet/rig/rspec.rb contains useful rspec matchers. (R. Konstantin Haase)
+
+= 1.0.0 / 29Dez2010
+
+  - #each_match was removed. There was some duplication of code that even 
+    confused me - and we should not have 2 methods of achieving the same
+    goal. 
+    
+  + Full documentation. Fixed sdoc. 
+
+= 0.11.0 / 25Nov2010
+
+  ! Bugfixes to tree handling. Let's hope that was the last such significant
+    change to the core.
+
+= 0.10.1 / 22Nov2010
+
+  + Allow match['a-z'], shortcut for match('[a-z]')
+
+  ! Fixed output inconsistencies (behaviour in connection to 'maybe')
+
+= 0.10.0 / 22Nov2010
+
+  + Parslet::Transform now takes a block on initialisation, wherein you can
+    define all the rules directly.
+    
+  + Parslet::Transform now only passes a hash to the block during transform
+    when its arity is 1. Otherwise all hash contents as bound as local     
+    variables.
+    
+  + Both inline and other documentation have been improved. 
+  
+  + You can now use 'subtree(:x)' to bind any subtree to x during tree pattern
+    matching. 
+    
+  + Transform classes can now include rules into class definition. This makes
+    Parser and Transformer behave the same. 
+  
+= 0.9.0 / 28Oct2010
+  * More of everything: Examples, documentation, etc...
+
+  * Breaking change: Ruby's binary or ('|') is now used for alternatives, 
+    instead of the division sign ('/') - this reduces the amount of 
+    parenthesis needed for a grammar overall. 
+
+  * parslet.maybe now yields the result or nil in case of parse failure. This
+    is probably better than the array it did before; the jury is still out on
+    that. 
+    
+  * parslet.repeat(min, max) is now valid syntax
+
+= 0.1.0 / not released.
+
+  * Initial version. Classes for parsing, matching in the resulting trees
+    and transforming the trees into something more useful.  
+    
+  * Parses and outputs intermediary trees
+    
+  * Matching of single elements and sequences

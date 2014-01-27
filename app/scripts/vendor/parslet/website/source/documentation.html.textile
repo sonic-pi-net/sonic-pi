@@ -1,0 +1,60 @@
+---
+title: Documentation
+---
+
+"*Getting Started*":get-started.html
+
+Are you brand new to parslet? Well then let's introduce you guys. This is what
+you should read and try out first. 
+
+"*Examples*":https://github.com/kschiess/parslet/tree/master/example/
+
+Parslet comes with a lot of examples that explain how to use various aspects. 
+Take a look at those. 
+
+"*In depth*":overview.html
+
+This is the real technical documentation, showing you how to use all aspects
+of parslet. Especially: 
+
+* "Overview":overview.html explains parslet's goals and gives you a bigger
+  picture.
+* Using "Parslet::Parser":parser.html to *write parsers*.
+* Using "Parslet::Transform":transform.html to *transmogrify your intermediary
+  trees*.
+* "Tricks":tricks.html for common situations.
+
+*Presentations*
+
+* "Parslet, An Introduction":https://docs.google.com/present/view?id=0AfXgUAUtzyc7ZGZrcG1mNXNfMzIwZ3JjY2c3NW0 introduces parslet in a few poignant slides. (Bo Jeanes and David Pick)
+
+*Videos*
+
+* "Writing DSL's with Parslet":http://www.confreaks.com/videos/2730-wickedgoodruby-writing-dsl-s-with-parslet Talk given by Jason Garber at the Wicked Good Ruby Conference 2013.
+
+*Blogs*
+
+* "Parslet Intro":http://florianhanke.com/blog/2011/02/01/parslet-intro.html
+  explains quite a few things on how parsers work and on parser
+  metaprogramming. Besides, Florian Hanke also explains how to create an ERB
+  parser in just a few lines!
+  
+* "Parslet and
+  JSON":http://jmettraux.wordpress.com/2011/05/11/parslet-and-json/ shows how
+  to construct a JSON parser in a few lines.
+  "John":http://jmettraux.wordpress.com/about/ does a great job of explaining
+  how parslet ties back in with railroad diagrams.
+
+* "Parsing TOML in Ruby with Parslet":http://zerowidth.com/2013/02/24/parsing-toml-in-ruby-with-parslet.html
+  shows how to parse TOML ("Tom's Obvious Minimal Language":https://github.com/mojombo/toml)
+  using parslet. I sense a theme here. Code is on github - this is the first
+  article in a series, linked from the article.
+
+* "Write You a Parser for Fun and Win":http://viget.com/extend/write-you-a-parser-for-fun-and-win
+  a succinct writeup on parsing text formats by David Eisinger.
+ 
+"*YARD Class Documentation*":http://rubydoc.info/gems/parslet/frames
+
+The "YARD documentation":http://rubydoc.info/gems/parslet/frames will help you
+with the nitty gritty. This documentation is real important too. It will be
+constantly improved! (Thanks linode.com and DockYard for sponsoring this tool.)

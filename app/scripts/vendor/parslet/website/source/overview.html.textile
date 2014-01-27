@@ -1,0 +1,72 @@
+---
+title: Overview
+---
+
+Parslet is a library with a clear philosophy: It makes parser writing easy and
+testable. On top of that, it provides understandable error messages ("General
+Protection Fault") to you, the language writer. In extension, you will
+hopefully manage to provide good error messages to your users. Together, we 
+can create a better world!
+
+Traditional texts on the subject will have you write a compiler or interpreter
+for a language in several stages: 
+
+* Parsing or Lexing/Parsing
+* Abstract Syntax Tree construction
+* Optimization and checking of the tree
+* Generation of code / Execution
+
+This library will be good for the first two stages only. After that, you'll
+be on your own. 
+
+The parsing step has literally been implemented by hundreds (thousands) of
+clever people; No lack of alternatives. Even in Ruby, you'll have the choice 
+among a handful of libraries. There's a distinction to make on this level as
+well: 
+
+*LRk parsers and related fields* Parsers in this class use a lexical analyzer
+(a _lexer_ ) to transform the input text into tokens (_tokenizing_ ). They
+then check if your stream of tokens has a corresponding tree that conforms to
+the grammar. Most of these parsers allow grammars that are ambiguous and will
+provide a mechanism for resolving the arising ambiguities. These are the
+earliest parser generators and the most widely used (_yacc_, _bison_, ...) --
+chances are, you'll have more than one of these libraries installed on your
+system.
+
+*PEG or packrat parsers* Parsers in this class are based on a slightly more
+modern algorithm, which translates what one does when writing a parser by hand
+in top-down fashion. This is what we programmers do all over, methods calling
+methods - and its also (grossly) what these parsers do to recognize input.
+Left recursion is impossible to express in these grammars. No lexers are
+required - lexical tokenizing and parsing are one single step. Ruby has
+several implementations of this algorithm in library form:
+"Treetop":http://github.com/nathansobo/treetop,
+"Citrus":http://github.com/mjijackson/citrus,
+"rsec":http://wiki.github.com/luikore/rsec/ and of course
+"Parslet":http://kschiess.github.com/parslet.
+
+All of these generators are different in small ways; yet most implement common
+patterns and provide almost identical APIs. We believe this is an error:
+choice is good, but there should be visible attributes distinguishing the
+choices.
+
+Parslet is not like the others, in fact it is radically different on some
+key elements. 
+
+h2. Writing a language
+
+Whether you write a language for a configuration file or a new computer
+language (the holy grail), the steps are always the same: 
+
+# Create a grammar: _What should be legal syntax?_
+# Annotate the grammar: _What is important data?_
+# Create a transformation: _How do I want to work with that data?_
+
+The creation of grammars and the various concepts that are associated are treated
+in "Parslet::Parser":parser.html.
+
+Transformation of the resulting intermediary tree is treated in
+"Parslet::Transform":transform.html
+
+
+

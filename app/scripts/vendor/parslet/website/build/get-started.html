@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-type" />
+    <title>parslet -Get Started</title>
+    <meta content="Kaspar Schiess (http://absurd.li)" name="author" />
+    <link href="images/favicon3.ico" rel="shortcut icon" /><link href="/parslet/stylesheets/site.css" media="screen" rel="stylesheet" type="text/css" /><link href="/parslet/stylesheets/sh_whitengrey.css" media="screen" rel="stylesheet" type="text/css" /><script src="/parslet/javascripts/sh_main.min.js" type="text/javascript"></script><script src="/parslet/javascripts/sh_ruby.min.js" type="text/javascript"></script></head>
+  <body class="code" onload="sh_highlightDocument();">
+    <div id="everything">
+      <div class="main_menu"><img alt="Parslet Logo" src="/parslet/images/parsley_logo.png" /><ul>
+          <li><a href="/parslet/">about</a></li>
+          <li><a href="/parslet/get-started.html">get started</a></li>
+          <li><a href="/parslet/install.html">install</a></li>
+          <li><a href="/parslet/documentation.html">documentation</a></li>
+          <li><a href="/parslet/contribute.html">contribute</a></li>
+        </ul>
+      </div>
+      <div class="content">
+        <h1>Get Started</h1><p>Let&#8217;s develop a small language that allows for simple computation together. 
+Here&#8217;s a valid input file for that language:</p>
+<pre class="sh_ruby"><code> 
+  puts(1 + 2)
+  puts(4 + 2)
+</code></pre>
+<p>To install the parslet library, please do a</p>
+<pre><code> 
+  gem install parslet
+</code></pre>
+<p>Now let&#8217;s write the first part of our parser. For now, we&#8217;ll just recognize
+simple numbers like &#8216;1&#8217; or &#8216;42&#8217;.</p>
+<pre class="sh_ruby"><code title="mini_parser"> 
+  require 'parslet' 
+
+  class Mini &lt; Parslet::Parser
+    rule(:integer) { match('[0-9]').repeat(1) }
+    root(:integer)
+  end
+
+  Mini.new.parse("132432")  # =&gt; "132432"@0
+</code></pre>
+<p>Running this example will print &#8220;132432@0&#8221;. Congratulations! You just have
+written your first parser. Running it on the input &#8216;<code>puts(1)</code>&#8217; will
+not work yet. Let&#8217;s see what happens in case of a failure:</p>
+<pre class="sh_ruby"><code> 
+  Mini.new.parse("puts(1)") # raises Parslet::ParseFailed
+</code></pre>
+<p>Here&#8217;s the error message provided by that exception: &#8220;Expected at least 1 of
+[0-9] at line 1 char 1.&#8221; parslet tries to find a number there, but can&#8217;t find
+one.</p>
+<p>There are just two lines to the definition of this parser, let&#8217;s go through
+them:</p>
+<pre class="sh_ruby"><code> 
+  rule(:integer) { match('[0-9]').repeat(1) }
+</code></pre>
+<p><code>rule</code> lets you create a new parser rule. Inside the block of that
+<code>:integer</code> rule, you find <code>match('[0-9]').repeat(1)</code>.
+This says: &#8220;match a character that is in the range <code>0-9</code>, then
+match any number of those, but at least match one.&#8221;</p>
+<pre class="sh_ruby"><code> 
+  root(:integer)
+</code></pre>
+<p>That second line just says: Start parsing at the rule called
+<code>:integer</code>.</p>
+<h2>Addition</h2>
+<p>Let&#8217;s go for simple addition. We&#8217;ll have to allow for spaces in our input,
+since those help make code readable.</p>
+<pre class="sh_ruby"><code> 
+  rule(:space)  { match('\s').repeat(1) }
+  rule(:space?) { space.maybe }
+</code></pre>
+<p>Two things are new here: (and both in the second line)</p>
+<ul>
+	<li>you can use (&#8216;call&#8217;) other rules in your rules</li>
+	<li><code>.maybe</code>, the same as <code>.repeat(0,1)</code><sup class="footnote" id="fnr1"><a href="#fn1">1</a></sup>, indicating 
+  that the thing before it is maybe present once in the input.</li>
+</ul>
+<p>Essentially, you can think about parslet rules as instructing Ruby to &#8220;parse
+this&#8221; and &#8220;parse that&#8221;. Calling other rules can be looked at in the same way;
+you tell Ruby to go off, parse that subrule and then come back with the
+results. This helps when thinking about rule recursion. For example, a
+self-recursive rule like this one will of course create an endless loop:</p>
+<pre class="sh_ruby"><code> 
+  rule(:infinity) {
+    infinity &gt;&gt; str(';')
+  }
+</code></pre>
+<p>Even though infinity seems to be delimited by &#8216;;&#8217;, in reality, infinity is
+very long, especially towards the end. There is no way of knowing for the
+parser when to stop processing <code>infinity</code> and start reading
+semicolons. Ergo, we need to make sure we talk about concrete items that
+consume input first, and then do recursion. This way we ensure that our
+grammar terminates, since in a way, it is like a normal program.</p>
+<p>Here&#8217;s the full parser:</p>
+<pre class="sh_ruby"><code title="full_parser">  
+  class Mini &lt; Parslet::Parser
+    rule(:integer)    { match('[0-9]').repeat(1) &gt;&gt; space? }
+  
+    rule(:space)      { match('\s').repeat(1) }
+    rule(:space?)     { space.maybe }
+  
+    rule(:operator)   { match('[+]') &gt;&gt; space? }
+  
+    rule(:sum)        { integer &gt;&gt; operator &gt;&gt; expression }
+    rule(:expression) { sum | integer }
+
+    root :expression
+  end
+
+  def parse(str)
+    mini = Mini.new
+  
+    mini.parse(str)
+  rescue Parslet::ParseFailed =&gt; failure
+    puts failure.cause.ascii_tree
+  end
+
+  parse "1 + 2 + 3"  # =&gt; "1 + 2 + 3"@0
+  parse "a + 2"      # fails, see below
+</code></pre>
+<p>As you can see, the parser got decorated with the <code>space?</code> idiom.
+Every atom of our language consumes the space right after it. This is a useful
+convention that makes top level rules (the important ones) look cleaner.</p>
+<p>Note also the addition of <code>:operator</code>, <code>:sum</code> and
+<code>:expression</code>. The runner code has been extended a bit, so as to
+throw nice explanations of what went wrong when a parse failure is
+encountered. Running the code on &#8216;<code>a + 2</code>&#8217; for example outputs:</p>
+<pre class="output">  
+Expected one of [SUM, INTEGER] at line 1 char 1.
+|- Failed to match sequence (INTEGER OPERATOR EXPRESSION) at line 1 char 1.
+|  `- Failed to match sequence ([0-9]{1, } SPACE?) at line 1 char 1.
+|     `- Expected at least 1 of [0-9] at line 1 char 1.
+|        `- Failed to match [0-9] at line 1 char 1.
+`- Failed to match sequence ([0-9]{1, } SPACE?) at line 1 char 1.
+   `- Expected at least 1 of [0-9] at line 1 char 1.
+      `- Failed to match [0-9] at line 1 char 1.
+</pre>
+<p>This is what parslet calls an <code>#error_tree</code>. Not only the output of
+your parser, but also its grammar is constructed like a tree. When things go
+wrong, every branch of the tree has its own reasons for not accepting a given
+input. The <code>#cause</code> method returns those reasons.</p>
+<p>Our grammar has essentially two branches, <code>SUM</code> and
+<code>INTEGER</code>. Can you see why all rules expect a number as the first
+character?</p>
+<h2>Tree output (and what to do about it)</h2>
+<p>But if we leave the negative examples for a second; what happens if the parse
+succeeds? It turns out, not much:</p>
+<pre class="sh_ruby"><code>
+  parse "1 + 2 + 3"  # =&gt; "1 + 2 + 3"@0
+</code></pre>
+<p>The only notable difference between input and output is that the output has an
+extra &#8216;@0&#8217; appended to it. This is related to line number tracking and will be
+explained later on (or you can skip ahead and look up
+<code>Parslet::Slice</code>).</p>
+<p>The code we now have parses the input successfully, but doesn&#8217;t do much else. 
+Parslet hasn&#8217;t got its own opinion on what to do with your input. By default, 
+it will just play it back to you. But parslet provides also a method of 
+structuring its output:</p>
+<pre class="sh_ruby"><code title="output_samples"> 
+  # Without structure: just strings.
+  str('ooo').parse('ooo')                           # =&gt; "ooo"@0
+  str('o').repeat.parse('ooo')                      # =&gt; "ooo"@0
+
+  # Added structure: .as(...)
+  str('ooo').as(:ex1).parse('ooo')                  # =&gt; {:ex1=&gt;"ooo"@0}
+  
+  long = str('o').as(:ex2a).repeat.as(:ex2b).parse('ooo')  
+  long # =&gt; {:ex2b=&gt;[{:ex2a=&gt;"o"@0}, {:ex2a=&gt;"o"@1}, {:ex2a=&gt;"o"@2}]}
+</code></pre>
+<p>You get to name things the way you want! This is also free. Seriously: parslet
+requires you to add all the structure to its output. Annotate important parts
+of your grammar with <code>.as(:symbol)</code> and get back a tree-like
+structure composed of hashes (sequence), arrays (repetition) and strings (like
+we had initially).</p>
+<p>Once you start naming things, you&#8217;ll notice that what you don&#8217;t name,
+disappears. Parslet assumes that <em>what you don&#8217;t name is unimportant</em>.</p>
+<pre class="sh_ruby"><code title="inline_parser"> 
+parser =  str('a').as(:a) &gt;&gt; str(' ').maybe &gt;&gt; 
+          str('+').as(:o) &gt;&gt; str(' ').maybe &gt;&gt; 
+          str('b').as(:b)
+parser.parse('a + b') # =&gt; {:a=&gt;"a"@0, :o=&gt;"+"@2, :b=&gt;"b"@4}
+</code></pre>
+<p>Think of this like using a highlighter on your input: What is there not to
+like about neon yellow?</p>
+<h2>Making the parser complete</h2>
+<p>Let&#8217;s look at the complete parser definition that also allows for function
+calls:</p>
+<pre class="sh_ruby"><code title="full_parser"> 
+class MiniP &lt; Parslet::Parser
+  # Single character rules
+  rule(:lparen)     { str('(') &gt;&gt; space? }
+  rule(:rparen)     { str(')') &gt;&gt; space? }
+  rule(:comma)      { str(',') &gt;&gt; space? }
+
+  rule(:space)      { match('\s').repeat(1) }
+  rule(:space?)     { space.maybe }
+
+  # Things
+  rule(:integer)    { match('[0-9]').repeat(1).as(:int) &gt;&gt; space? }
+  rule(:identifier) { match['a-z'].repeat(1) }
+  rule(:operator)   { match('[+]') &gt;&gt; space? }
+  
+  # Grammar parts
+  rule(:sum)        { integer.as(:left) &gt;&gt; operator.as(:op) &gt;&gt; expression.as(:right) }
+  rule(:arglist)    { expression &gt;&gt; (comma &gt;&gt; expression).repeat }
+  rule(:funcall)    { identifier.as(:funcall) &gt;&gt; lparen &gt;&gt; arglist.as(:arglist) &gt;&gt; rparen }
+  
+  rule(:expression) { funcall | sum | integer }
+  root :expression
+end
+
+require 'pp'
+pp MiniP.new.parse("puts(1 + 2 + 3, 45)")
+</code></pre>
+<p>That&#8217;s really all there is to it &#8212; our language is a really simple language. 
+When fed with a string like &#8217;<code>puts(1 + 2 + 3, 45)</code>, our parser outputs
+the following:</p>
+<pre class="output"> 
+{:funcall=&gt;"puts"@0,
+ :arglist=&gt;
+  [{:left=&gt;{:int=&gt;"1"@5},
+    :op=&gt;"+ "@7,
+    :right=&gt;{:left=&gt;{:int=&gt;"2"@9}, :op=&gt;"+ "@11, :right=&gt;{:int=&gt;"3"@13}}},
+   {:int=&gt;"45"@16}]}
+</code></pre>
+<p>Parslet calls this the <em>intermediary tree</em>. There are three types of nodes in
+this tree:</p>
+<ul>
+	<li><strong>Hashes</strong>: a node that has named subtrees</li>
+	<li><strong>Arrays</strong>: a node storing a collection of sub-nodes</li>
+	<li><strong>Strings</strong> are the leaves, containing the <em>accepted source</em></li>
+</ul>
+<p>The format of this tree is easy to work with and to read. Here&#8217;s what the
+above tree would look like as a graphic:</p>
+<p><img src="images/ast.png" alt="" /></p>
+<h2>Where to go from here: An Interpreter</h2>
+<p>As nice as the format above is for printing and looking at &#8211; it may be
+difficult at times to get the information out of it again. Let&#8217;s look at how
+to transform the tree:</p>
+<pre class="sh_ruby"><code> 
+class SimpleTransform &lt; Parslet::Transform
+  rule(funcall: 'puts', arglist: sequence(:args)) {
+    "puts(#{args.inspect})"
+  }
+  # ... other rules
+end
+
+tree = {funcall: 'puts', arglist: [1,2,3]}
+SimpleTransform.new.apply(tree) # =&gt; "puts([1, 2, 3])"
+</code></pre>
+<p>Transformation is an entire topic by itself; this will be covered in detail
+<a href="transform.html">later on</a>. To whet your appetite, let me just give you a few
+teasers:</p>
+<ul>
+	<li>Transformations match portions of your tree at any depth, replacing them
+  with whatever you decide.</li>
+	<li>In addition to <code>sequence(sym)</code>, there is also
+  <code>simple(sym)</code> and <code>subtree(sym)</code>. Those match simple
+  strings and entire subtrees respectively. Caution with the latter.</li>
+</ul>
+<p>Here&#8217;s how you would write a somewhat classical interpreter for our little 
+language by using a transformation. Note that from this point on, there is
+not one way to go about this, but thousands; you are really free (and on
+your own):</p>
+<pre class="sh_ruby"><code title="putting it all together"> 
+class MiniP &lt; Parslet::Parser
+  # Single character rules
+  rule(:lparen)     { str('(') &gt;&gt; space? }
+  rule(:rparen)     { str(')') &gt;&gt; space? }
+  rule(:comma)      { str(',') &gt;&gt; space? }
+
+  rule(:space)      { match('\s').repeat(1) }
+  rule(:space?)     { space.maybe }
+
+  # Things
+  rule(:integer)    { match('[0-9]').repeat(1).as(:int) &gt;&gt; space? }
+  rule(:identifier) { match['a-z'].repeat(1) }
+  rule(:operator)   { match('[+]') &gt;&gt; space? }
+  
+  # Grammar parts
+  rule(:sum)        { 
+    integer.as(:left) &gt;&gt; operator.as(:op) &gt;&gt; expression.as(:right) }
+  rule(:arglist)    { expression &gt;&gt; (comma &gt;&gt; expression).repeat }
+  rule(:funcall)    { 
+    identifier.as(:funcall) &gt;&gt; lparen &gt;&gt; arglist.as(:arglist) &gt;&gt; rparen }
+  
+  rule(:expression) { funcall | sum | integer }
+  root :expression
+end
+
+class IntLit   &lt; Struct.new(:int)
+  def eval; int.to_i; end
+end
+class Addition &lt; Struct.new(:left, :right) 
+  def eval; left.eval + right.eval; end
+end
+class FunCall &lt; Struct.new(:name, :args); 
+  def eval
+    p args.map { |s| s.eval }
+  end
+end
+
+class MiniT &lt; Parslet::Transform
+  rule(:int =&gt; simple(:int))        { IntLit.new(int) }
+  rule(
+    :left =&gt; simple(:left), 
+    :right =&gt; simple(:right), 
+    :op =&gt; '+')                     { Addition.new(left, right) }
+  rule(
+    :funcall =&gt; 'puts', 
+    :arglist =&gt; subtree(:arglist))  { FunCall.new('puts', arglist) }
+end
+
+parser = MiniP.new
+transf = MiniT.new
+
+ast = transf.apply(
+  parser.parse(
+    'puts(1,2,3, 4+5)'))
+        
+ast.eval # =&gt; [1, 2, 3, 9]
+</code></pre>
+<p>That&#8217;s a bunch of code for printing <code>[1, 2, 3, 9]</code>. Welcome to the
+fantastic world of compiler and interpreter writing!</p>
+<p><sup class="footnote" id="fnr1"><a href="#fn1">1</a></sup> As far as parsing goes. There is a subtle difference between
+<code>#repeat(0,1)</code> and <code>#maybe</code>. Can you figure it out?</p></div>
+      <div class="copyright"><p><span class="caps">MIT</span> License, 2010-2012, &#169; <a href="http://absurd.li">Kaspar Schiess</a><br/>
+        Logo by <a href="http://floere.github.com">Florian Hanke</a>, <a href="http://creativecommons.org/licenses/by/1.0/">CC Attribution</a> license</p></div>
+      <script type="text/javascript">var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16365074-2']);
+        _gaq.push(['_trackPageview']); 
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();</script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-type" />
+    <title>parslet -Transformation</title>
+    <meta content="Kaspar Schiess (http://absurd.li)" name="author" />
+    <link href="images/favicon3.ico" rel="shortcut icon" /><link href="/parslet/stylesheets/site.css" media="screen" rel="stylesheet" type="text/css" /><link href="/parslet/stylesheets/sh_whitengrey.css" media="screen" rel="stylesheet" type="text/css" /><script src="/parslet/javascripts/sh_main.min.js" type="text/javascript"></script><script src="/parslet/javascripts/sh_ruby.min.js" type="text/javascript"></script></head>
+  <body class="code" onload="sh_highlightDocument();">
+    <div id="everything">
+      <div class="main_menu"><img alt="Parslet Logo" src="/parslet/images/parsley_logo.png" /><ul>
+          <li><a href="/parslet/">about</a></li>
+          <li><a href="/parslet/get-started.html">get started</a></li>
+          <li><a href="/parslet/install.html">install</a></li>
+          <li><a href="/parslet/documentation.html">documentation</a></li>
+          <li><a href="/parslet/contribute.html">contribute</a></li>
+        </ul>
+      </div>
+      <div class="content">
+        <h1>Transformation</h1><p>Parslet parsers output deep nested hashes. Those are nice for printing, but 
+hard to work with. The structure of the nested hashes is determined by the
+grammar and can thus vary largely. Testing for the presence of individual 
+keys would produce code that is hard to read and maintain.</p>
+<p>This is why parslet also comes with a hash transformation engine. To construct
+such a transform, you have to derive from <code>Parslet::Transform</code>:</p>
+<pre class="sh_ruby"><code title="simple transform">
+  class MyTransform &lt; Parslet::Transform
+    rule('a') { 'b' }
+  end
+  MyTransform.new.apply('a') # =&gt; "b"
+</code></pre>
+<p>This is a transformation that replaces all &#8217;a&#8217;s with &#8217;b&#8217;s. A transformation
+rule has two parts: A <strong>pattern</strong> (here: <code>'a'</code>) and an <strong>action block</strong>
+(<code>{ 'b' }</code>).</p>
+<p>The engine will go through the input and traverse the tree in depth-first
+post-order fashion. This means that for a given tree node, it will first visit
+the children and only then look at the node itself. While traversing, all
+rules are tested in the order in which they are defined. If a rule matches, the
+corresponding tree is <em>replaced</em> by whatever the action block returns.</p>
+<p>Here&#8217;s another way of saying the same thing, perhaps more in line with what
+you need as a user of Parslet: <code>Parslet::Transform</code> is what allows
+you to transform the <span class="caps">PORO</span>-trees magically into a real abstract syntax tree.
+The rule definitions are the futuristic nano-machines that act on tree leaves
+first, eating them away and replacing them with contraptions of your own
+design. Here&#8217;s how that might look like in Ruby:</p>
+<pre class="sh_ruby"><code title="poro magic">
+  tree = {:left =&gt; {:int =&gt; '1'}, 
+          :op   =&gt; '+', 
+          :right =&gt; {:int =&gt; '2'}}
+        
+  class Trans &lt; Parslet::Transform
+    rule(:int =&gt; simple(:x)) { Integer(x) }
+  end
+  Trans.new.apply(tree)     # =&gt; {:left=&gt;1, :op=&gt;"+", :right=&gt;2}
+</code></pre>
+<p>You can start thinking about the leaves first, transforming those <code>:int
+=&gt; '1'</code> into real Ruby integers. This incremental (test driven!)
+approach will prevent your intermediary tree from turning into grey goo
+from too many nano-machines. Rules should in general be simple and transform
+a small part of the tree into a more useful variant. Turns out that if we were
+looking for an interpreter, one more rule will give us evaluation:</p>
+<pre class="sh_ruby"><code title="building up">
+  tree = {:left =&gt; {:int =&gt; '1'}, 
+          :op   =&gt; '+', 
+          :right =&gt; {:int =&gt; '2'}}
+
+  class Trans &lt; Parslet::Transform
+    rule(:int =&gt; simple(:x)) { Integer(x) }
+    rule(:op =&gt; '+', :left =&gt; simple(:l), :right =&gt; simple(:r)) { l + r }
+  end
+  Trans.new.apply(tree)     # =&gt; 3
+</code></pre>
+<p>Cool, isn&#8217;t it? To recap: parslet intentionally spits out deep nested hashes, 
+because it also gives you the tool to work with those. Turning the intermediary
+trees into something useful is really easy.</p>
+<h2></h2>
+<h2>Working with Captures</h2>
+<p>What is this <code>simple(symbol)</code> business all about, you might ask.
+Glad you do.</p>
+<h3>Simple captures</h3>
+<p>Transform allows you to specify patterns that have wildcards in them. The
+wildcards match part of the tree, but at the same time capture it for working
+on it in your action block. The wildcard</p>
+<pre class="sh_ruby"><code>
+  simple(:x)
+</code></pre>
+<p>will match any object <span class="caps">BUT</span> hashes or arrays. While this is obviously useful
+for capturing strings, you can also capture other &#8216;simple&#8217; (as opposed to 
+composed) objects of your own creation. <code>simple(:x)</code> would thus match
+all of these objects:</p>
+<pre class="sh_ruby"><code>
+  "a string"
+  123
+  Foo.new(:some, :class, :instance)
+</code></pre>
+<p>If you think about what you&#8217;ll be doing to your intermediary trees, replacing
+leaves with more useful objects, <code>simple</code> really makes good sense, 
+since it will stop you from matching entire subtrees.</p>
+<h3>Matching Repetitions and Sequences</h3>
+<p>Some patterns (like repetitions and sequences) produce arrays of objects as
+result. You can use <code>simple(...)</code> to replace all parts of these
+arrays with your own objects, but you cannot replace the array as a whole. 
+This is the purpose of <code>sequence(symbol)</code>:</p>
+<pre class="sh_ruby"><code>
+  sequence(:x)
+</code></pre>
+<p>will match all of these:</p>
+<pre class="sh_ruby"><code>
+  ['a', 'b', 'c']
+  ['a', 'a', 'a']
+  [Foo.new, Bar.new]
+</code></pre>
+<p>but not</p>
+<pre class="sh_ruby"><code>
+  [{:a =&gt; :b}]
+  [['a', 'b']]
+</code></pre>
+<p>Like its smaller brother, <code>sequence</code> is very picky about what it
+consumes and what not. All for the same reasons.</p>
+<h3>Matching entire subtrees</h3>
+<p>So you don&#8217;t want to listen and really want that big gun with the foot aiming
+addon. You&#8217;ll be needing <code>subtree(symbol)</code>. It always matches. 
+Nuff said.</p>
+<h3>Matching context</h3>
+<p>A match always binds in a context. The context consists of all bindings
+that were previously made. If you reuse the same symbol for two consecutive
+matches within the same pattern, the engine will assume that you want these
+two matched objects to be equal (under <code>==</code>). This allows to 
+specify constraints on your matches that would need code to express otherwise:</p>
+<pre class="sh_ruby"><code>
+  # The following code is an excerpt from example/simple_xml.rb in the distro
+  t.rule(
+    open: {name: simple(:tag)}, 
+    close: {name: simple(:tag)}, 
+    inner: simple(:t)
+  ) { 'verified' }
+</code></pre>
+<p>This replaces <em>matching</em> open and close tags with the word &#8216;verified&#8217;,
+consuming them from the tree and allowing the same rule to match higher up. A
+valid <span class="caps">XML</span> tree will leave only the word &#8216;verified&#8217; behind, while the parser
+will stop at the problem nodes in invalid trees.</p>
+<h2>Transformation rules</h2>
+<p>In this chapter, we&#8217;ll look more closely at transformation rules and the
+different ways they can be laid out in your code.</p>
+<h3>Usage Patterns</h3>
+<p>The way the transformation engine is constructed, there is not one, but three
+ways to use it. Since at least one of those is inconvenient for you, the user,
+I am going to show only the remaining two, Variant 1 that produces an instance
+of the transform for direct use:</p>
+<pre class="sh_ruby"><code>
+  # Variant 1
+  transform = Parslet::Transform.new do
+    rule(...) { ... } 
+    rule(...) { ... } 
+    rule(...) { ... } 
+  end
+  transform.apply(tree)
+</code></pre>
+<p>and Variant 2 that allows constructing the transformation as a class:</p>
+<pre class="sh_ruby"><code>
+  # Variant 2
+  class MyTransform &lt; Parslet::Transform
+    rule(...) { ... } 
+    rule(...) { ... } 
+    rule(...) { ... } 
+  end
+  MyTransform.new.apply(tree)
+</code></pre>
+<p>I guess both have their sweet spot.</p>
+<h3>Action blocks: Two flavors</h3>
+<p>As you might have noticed by now, parslet provides choice as well as nice
+parsers. To recap: Rules have a left side called <em>pattern</em> and a right side 
+called <em>action block</em>:</p>
+<pre class="sh_ruby"><code>
+  rule(PATTERN) {ACTION_BLOCK}
+</code></pre>
+<p>There are two ways of writing action blocks, and the difference might be 
+fundamental to know to you one day. If written like this:</p>
+<pre class="sh_ruby"><code>
+  rule(:foo =&gt; simple(:x)) { puts x }
+</code></pre>
+<p>the block will be able to access <code>x</code> as a local variable. This is 
+very convenient and shortens the action code, often to the point of being
+very expressive.</p>
+<p>But there is a <em>big downside</em> to this way of writing things: The action block
+must be executed in the context of some magic instance that has <code>x</code>
+as a local method (aka accessor). You can only have one self at any one time; 
+variable access to the binding of the block isn&#8217;t possible inside this kind
+of action blocks:</p>
+<pre class="sh_ruby"><code>
+  y = 12
+  rule(:foo =&gt; simple(:x)) { Integer(x) + y }
+</code></pre>
+<p>This will (depending on the context) throw a <code>NameError</code> or a
+<code>NoMethodError</code>.</p>
+<p>But this can be fixed by using the other, less elegant style for action
+blocks:</p>
+<pre class="sh_ruby"><code>
+  y = 12
+  rule(:foo =&gt; simple(:x)) { |dictionary| Integer(dictionary[:x]) + y }
+</code></pre>
+<p>In this second flavor, the block gets executed in the context of definition, 
+whatever that was. This means that it can capture and access local variables
+just fine. Access to the bindings (called <code>dictionary</code> here) is 
+more clumsy, but hey, you can&#8217;t have your cake and eat it too, I guess. Even 
+though that is a pity.</p>
+<h2>A word on patterns</h2>
+<p>Given the <span class="caps">PORO</span> hash</p>
+<pre class="sh_ruby"><code>
+  { 
+    :dog =&gt; 'terrier', 
+    :cat =&gt; 'suit' }
+</code></pre>
+<p>one might assume that the following rule matches <code>:dog</code> and
+replaces it by <code>'foo'</code>:</p>
+<pre class="sh_ruby"><code>
+  rule(:dog =&gt; 'terrier') { 'foo' }
+</code></pre>
+<p>This is frankly impossible. How would <code>'foo'</code> live besides
+<code>:cat =&gt; 'suit'</code> inside the hash? It cannot. This is why hashes are
+either matched completely, cats n&#8217; all, or not at all.</p>
+<p>Transformations are there for one thing: Getting out of the hash/array/slice
+mess parslet creates (on purpose) into the realm of your own beautifully
+crafted <span class="caps">AST</span> classes. Such
+<a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree"><span class="caps">AST</span></a> nodes will generally
+correspond 1:1 to hashes inside your intermediary tree.</p>
+<p>If transformations get you into a mess, remember this simple truth: They have
+been designed for the above purpose. Abusing them is fun (and almost all the
+examples in the project do so) but the mess you get when you do is all yours.</p>
+<p>If you are really desperate, try to look at the example in <a href="get-started.html">Get Started</a> or at the parser in the sample project
+<a href="https://github.com/kschiess/wt">wt</a>. Imitating them would be a good first step. And if all else fails, we&#8217;re there for you, see the &#8216;Contact&#8217; section in <a href="contribute.html">Contribute</a>.</p>
+<h2>Summary</h2>
+<p>This concludes this (three part) introduction to parslet and leaves you with a
+good knowledge of most tricky parts. If you are missing some detail, maybe
+you can find it in the texts referenced <a href="documentation.html">here</a>? There is 
+also an entire page on the tricks useful in practice here: <a href="tricks.html">Tricks</a>.</p>
+<p>If not, please tell us about it. We&#8217;ll include it in this documentation in no 
+time.</p></div>
+      <div class="copyright"><p><span class="caps">MIT</span> License, 2010-2012, &#169; <a href="http://absurd.li">Kaspar Schiess</a><br/>
+        Logo by <a href="http://floere.github.com">Florian Hanke</a>, <a href="http://creativecommons.org/licenses/by/1.0/">CC Attribution</a> license</p></div>
+      <script type="text/javascript">var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16365074-2']);
+        _gaq.push(['_trackPageview']); 
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();</script>
+    </div>
+  </body>
+</html>

@@ -4,17 +4,17 @@
                                 get-html
                                 append-child!
                                 insert-before!]]
-             [cljs.reader :as reader]
-             [defpi.canvas :as c]
-              [dommy.utils :as utils]
-              [dommy.core :as dommy])
-
-  (:use-macros
-   [dommy.macros :only [sel sel1]]))
+             [cljs.reader :as reader]))
 
 (def err-cnt (atom 0))
 
-(def ws (js/WebSocket. (str "ws://" (.-host (.-location js/window)))))
+(def hostname
+  (let [hn (.-host (.-location js/window))]
+    (if (= "" hn)
+      "localhost"
+      hn)))
+
+(def ws (js/WebSocket. (str "ws://" hostname  ":25252")))
 
 (defn show-msg
   [val]
@@ -61,18 +61,6 @@
       (append-child! msgs div))
 ))
 
-(defn show-sketch
-  [msg]
-  (case (:cmd msg)
-    :circle (c/draw-circle msg)
-    :text   (c/draw-text msg)
-    :image  (c/draw-image msg)
-    :clear  (c/clear)
-    :destroy (c/destroy msg)
-    :star (c/draw-star msg)
-    :rect (c/draw-rect msg)
-    :move (c/move-shape msg)))
-
 (defn reply-sync
   [msg res]
   (when-let [id (:sync msg)]
@@ -88,10 +76,6 @@
 (defmethod handle-message :message
   [msg]
   (show-msg (:val msg)))
-
-(defmethod handle-message :sketch
-  [msg]
-  (show-sketch (:opts msg)))
 
 (defmethod handle-message :error
   [msg]
@@ -120,7 +104,3 @@
   []
   (.send ws {:cmd "stop"
              :val (.getValue js/editor)}))
-
-(defn ^:export takePhoto
-  []
-  (js/alert "soon, i'll be able to take a photo..."))

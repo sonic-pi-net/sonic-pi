@@ -1,0 +1,28 @@
+"And when Spring comes"
+{:bud=>{:stem=>[{:branch=>:leaf}]}}
+
+"And when Summer comes"
+{:bud=>{:stem=>[{:branch=>[:leaf, :flower]}]}}
+
+"And when Fall comes"
+Fruit!
+Falling Leaves!
+{:bud=>{:stem=>[{:branch=>[]}]}}
+
+"And when Winter comes"
+{:bud=>{:stem=>[]}}
+
+"And when Spring comes"
+{:bud=>{:stem=>[{:branch=>:leaf}]}}
+
+"And when Summer comes"
+{:bud=>{:stem=>[{:branch=>[:leaf, :flower]}]}}
+
+"And when Fall comes"
+Fruit!
+Falling Leaves!
+{:bud=>{:stem=>[{:branch=>[]}]}}
+
+"And when Winter comes"
+{:bud=>{:stem=>[]}}
+

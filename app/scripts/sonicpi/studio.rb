@@ -63,8 +63,6 @@ module SonicPi
       @server.trigger_synth(:tail, @synth_group, synth_name, "out-bus", @mixer_bus, *args)
     end
 
-
-
     def switch_to_pad(name, *args)
       full_name = "sp/#{name}"
       if PAD_SYNTHS.include? name

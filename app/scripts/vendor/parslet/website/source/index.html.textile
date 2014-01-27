@@ -1,0 +1,38 @@
+---
+layout: layout
+title: About
+---
+
+
+<pre class="sh_ruby"><code>
+  require 'parslet'
+  include Parslet
+
+  # Constructs a parser using a Parser Expression Grammar 
+  parser =  str('"') >> 
+            (
+              str('\\') >> any |
+              str('"').absent? >> any
+            ).repeat.as(:string) >> 
+            str('"')
+
+  result = parser.parse %Q("this is a valid string") 
+  result # => {:string=>"this is a valid string"@1}
+</code></pre>
+
+A small Ruby library for constructing parsers in the
+"PEG":http://en.wikipedia.org/wiki/Parsing_expression_grammar (Parsing
+Expression Grammar) fashion.
+
+
+Parslet makes developing complex parsers easy. It does so by
+
+* providing the best *error reporting* possible
+* *not generating* reams of code for you to debug
+
+Parslet takes the long way around to make *your job* easier. It allows for
+incremental language construction. Often, you start out small, implementing
+the atoms of your language first; _parslet_ takes pride in making this
+possible. 
+
+Eager to try this out? "Get started":get-started.html!

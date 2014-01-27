@@ -1,0 +1,5 @@
+
+{:array=>[{:number=>"1"@5}, {:number=>"2"@8}, {:number=>"3"@11}, {:null=>"null"@14}, {:string=>"asdfasdf asdfds"@25}, {:object=>{:entry=>{:key=>{:string=>"a"@46}, :val=>{:number=>"-1.2"@50}}}}, {:object=>[{:entry=>{:key=>{:string=>"b"@61}, :val=>{:true=>"true"@65}}}, {:entry=>{:key=>{:string=>"c"@72}, :val=>{:false=>"false"@76}}}]}, {:number=>"0.1e24"@89}, {:true=>"true"@97}, {:false=>"false"@103}, {:array=>{:number=>"1"@112}}]}
+
+[1, 2, 3, nil, "asdfasdf asdfds", {"a"=>-1.2}, {"b"=>true, "c"=>false}, 1.0e+23, true, false, [1]]
+

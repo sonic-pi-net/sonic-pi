@@ -1,6 +1,5 @@
 (ns defpi.onload
-  (:require [defpi.ws :refer [add-ws-handlers]]
-            [defpi.canvas]))
+  (:require [defpi.ws :refer [add-ws-handlers]]))
 
 (set! (.-onload js/window)
       (fn []

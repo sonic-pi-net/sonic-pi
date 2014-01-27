@@ -1,0 +1,48 @@
+doctype 5
+html
+  head
+    meta(http-equiv="Content-type" content="text/html;charset=UTF-8")
+    title
+      | parslet -
+      = data.page.title || 'parslet - beautiful parsers.'
+      
+    meta name='author' content="Kaspar Schiess (http://absurd.li)"
+
+    link rel='shortcut icon' href='images/favicon3.ico'
+    == stylesheet_link_tag 'site'
+    == stylesheet_link_tag 'sh_whitengrey'
+    
+    == javascript_include_tag 'sh_main.min.js'
+    == javascript_include_tag 'sh_ruby.min.js'
+    
+    
+  body.code onload="sh_highlightDocument();"
+    #everything
+      .main_menu
+        == image_tag 'parsley_logo.png', alt: 'Parslet Logo'
+        ul
+          li== link_to('about', 'index.html')
+          li== link_to('get started', 'get-started.html')
+          li== link_to('install', 'install.html')
+          li== link_to('documentation', 'documentation.html')
+          li== link_to('contribute', 'contribute.html')
+          
+      .content
+        h1= data.page.title || 'parslet - beautiful parsers.'
+        == yield
+    
+      .copyright
+        textile:
+          MIT License, 2010-2012, (c) <a href="http://absurd.li">Kaspar Schiess</a><br/>
+          Logo by "Florian Hanke":http://floere.github.com, "CC Attribution":http://creativecommons.org/licenses/by/1.0/ license
+      
+      javascript:
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16365074-2']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();

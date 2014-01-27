@@ -1,0 +1,1 @@
+example/empty.rb:13:in `<main>': rule(:empty) { ... }  returns nil. Still not implemented, but already used? (NotImplementedError)

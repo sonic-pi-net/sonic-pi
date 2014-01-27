@@ -1,0 +1,9 @@
+Parslets website is built with middleman. Just do a 'bundle install' in this
+directory and you should be good to go. 'middleman server' will give you
+a development server. 
+
+Once you want to publish the website to github, you need to set the gh-pages
+branch to the build directory below this website directory. The script
+publish-gh-pages.sh will do this using a little black git magic. (Panic!)
+
+ 

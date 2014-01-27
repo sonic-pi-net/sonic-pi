@@ -1,0 +1,23 @@
+---
+title: Install
+---
+
+Parslet is at version _1.5.0_. 
+
+*Rubygems*
+
+<pre>
+  gem install parslet
+</pre>
+
+*Bundler*
+
+<pre>
+  gem 'parslet', '~> 1.5'
+</pre>
+
+or if you want to track the edge: 
+
+<pre>
+  gem 'parslet', :git => 'git://github.com/kschiess/parslet.git'
+</pre>

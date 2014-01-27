@@ -1,0 +1,129 @@
+For any further change descriptions, see the Git logs.
+
+2007-12-11  Jim Menard  <jim@iamplify.com>
+
+	* lib/midilib/io/seqreader.rb: Fixed text method and added default
+	implementation of key_signature.
+
+2007-12-09  Jim Menard  <jim@iamplify.com>
+
+	* examples/measures_mbt.rb: Added.
+
+2007-12-09  Jim Menard  <jim@iamplify.com>
+
+	* lib/midilib/event.rb: Added code that fixes bpm calculation
+	bugs, and his TimeSig and KeySig classes.
+
+	* lib/midilib/measure.rb: Added.
+
+	* lib/midilib/sequence.rb: Fixed clock. Added get_measures method.
+
+2007-12-09  Jim Menard  <jim@iamplify.com>
+
+	* lib/midilib/event.rb: added program_change? and
+	print_channel_numbers_from_one to Event.
+
+2007-03-17  Jim Menard  <jimm@io.com>
+
+	* Version 1.0.0 released. I will no longer be maintaining this
+	change log; the Subversion comments should be sufficient.
+
+2006-08-20  Jim Menard  <jimm@io.com>
+
+	* lib/midilib/event.rb (PolyPressure::initialize): Fixed the
+	misspelled POLY_PRESSURE cosntant, thanks to Mario Pehle
+	<rubyforge.org@errorinitus.de>.
+
+2006-05-15  Jim Menard  <jimm@localhost.localdomain>
+
+	* test/test.mid: created (copied examples/from_scratch.mid).
+
+2005-03-21  Jim Menard  <jimm@io.com>
+
+	* Version 0.8.4 released.
+
+	* lib/midilib/event.rb (Realtime::initialize): set @is_realtime
+	to true, not false.
+	(SystemCommon::initialize): moved @is_system = true to here
+	(SystemExclusive::initialize): ...from here.
+
+2005-03-20  Jim Menard  <jimm@io.com>
+
+	* lib/midilib/sequence.rb (Sequence::note_to_delta): created.
+	(Sequence::note_to_length): created.
+	(Sequence::length_to_delta): created.
+
+	* examples/from_scratch.rb: created.
+
+2004-07-16  Jim Menard  <jimm@io.com>
+
+	* Version 0.8.3 released.
+
+2004-07-10  Jim Menard  <jimm@io.com>
+
+	* lib/midilib/event.rb (NoteEvent::note_to_s): created.
+	(Event::number_to_s): created.
+	(Event): added @print_note_names and @print_decimal_numbers
+	attributes.
+	(to_s all classes): use @print_note_names and @print_decimal_numbers
+
+2004-06-30  Jim Menard  <jimm@io.com>
+
+	* Version 0.8.2 released.
+
+	* lib/midilib/event.rb (MetaEvent): changed @type to @meta_type to
+	avoid warnings like "Object#type is deprecated; use Object#class".
+
+	* lib/midilib/track.rb (Track::name): use Event.meta_type (renamed
+	from Event.type).
+	(Track::name=): use Event.meta_type (renamed from Event.type).
+
+	* test/event_equality.rb (MIDI::MetaEvent): use meta_type instead
+	of type.
+
+	* examples/transpose.rb: fixed $LOAD_PATH. Added 'b' to file open
+	modes for Windows.
+
+	* examples/strings.rb: fixed $LOAD_PATH. Fixed arguments passed to
+	read block. Fixed code that looks for meta events. Added 'b' to
+	file open modes for Windows.
+
+	* examples/seq2text.rb: fixed $LOAD_PATH. Fixed arguments passed
+	to read block. Added 'b' to file open modes for Windows.
+
+	* examples/reader2text.rb: fixed $LOAD_PATH. Fixed TextTranslator
+	superclass. Fixed arguments passed to read block. Added 'b' to
+	file open modes for Windows.
+
+	* lib/midilib/io/seqwriter.rb (SeqWriter::initialize): added block
+	rdoc comment.
+	(SeqWriter::write_to): added track to @update_block args.
+
+	* lib/midilib/io/seqreader.rb (SeqReader::initialize): added block
+	rdoc comment.
+
+2004-06-27  Jim Menard  <jimm@io.com>
+
+	* Version 0.8.1 released.
+
+	* test/test_event.rb: created.
+
+	* lib/midilib/track.rb: more documentation.
+	(Track::sort): sorts by events' time_from_start and modifies
+	@events (which wasn't happening before; I forgot to assign the
+	sorted results back to @events).
+	(Track::recalc_delta_from_times): fixed.
+	(Track::quantize): call recalc_delta_from_times.
+
+	* test/test_track.rb (TrackTester::test_sort): created.
+	(TrackTester::test_recalc_delta_from_times): created.
+
+	* lib/midilib/sequence.rb: more documentation.
+
+	* lib/midilib/consts.rb: hid some comments from RDoc.
+
+	* lib/midilib/event.rb: more documentation.
+	(Event::realtime): fix quantize_to so it changes the event's
+	time_from_start instead of delta_time.
+
+	* test/*.rb: removed redundant copyright and license notices.

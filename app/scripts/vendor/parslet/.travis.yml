@@ -1,0 +1,7 @@
+language: ruby
+rvm: 
+  - 1.9.3
+  # The rubies below all fail. 
+  # - jruby-19mode # JRuby in 1.9 mode
+  # - rbx-18mode
+  # - rbx-19mode

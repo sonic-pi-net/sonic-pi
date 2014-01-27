@@ -1,0 +1,13 @@
+source "https://rubygems.org"
+
+gem "middleman"
+gem 'rb-fsevent'
+gem 'RedCloth'
+gem 'slim'
+
+gem 'cod'
+gem 'case'
+gem 'text-highlight'
+
+gem 'parslet'
+gem 'rspec'

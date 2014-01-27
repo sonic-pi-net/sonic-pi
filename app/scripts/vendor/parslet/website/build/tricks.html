@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-type" />
+    <title>parslet -Tricks for common situations</title>
+    <meta content="Kaspar Schiess (http://absurd.li)" name="author" />
+    <link href="images/favicon3.ico" rel="shortcut icon" /><link href="/parslet/stylesheets/site.css" media="screen" rel="stylesheet" type="text/css" /><link href="/parslet/stylesheets/sh_whitengrey.css" media="screen" rel="stylesheet" type="text/css" /><script src="/parslet/javascripts/sh_main.min.js" type="text/javascript"></script><script src="/parslet/javascripts/sh_ruby.min.js" type="text/javascript"></script></head>
+  <body class="code" onload="sh_highlightDocument();">
+    <div id="everything">
+      <div class="main_menu"><img alt="Parslet Logo" src="/parslet/images/parsley_logo.png" /><ul>
+          <li><a href="/parslet/">about</a></li>
+          <li><a href="/parslet/get-started.html">get started</a></li>
+          <li><a href="/parslet/install.html">install</a></li>
+          <li><a href="/parslet/documentation.html">documentation</a></li>
+          <li><a href="/parslet/contribute.html">contribute</a></li>
+        </ul>
+      </div>
+      <div class="content">
+        <h1>Tricks for common situations</h1><h2>Matching <span class="caps">EOF</span> (End Of File)</h2>
+<p>Ahh Sir, you&#8217;ll be needin what us parsers call <em>epsilon</em>:</p>
+<pre class="sh_ruby"><code>
+  rule(:eof) { any.absent? }
+</code></pre>
+<p>Of course, most of us don&#8217;t use this at all, since any parser has <span class="caps">EOF</span> as
+implicit last input.</p>
+<h2>Matching Strings Case Insensitive</h2>
+<p>Parslet is fully hackable: You can use code to create parsers easily. Here&#8217;s
+how I would match a string in case insensitive manner:</p>
+<pre class="sh_ruby"><code title="case insensitive match">
+  def stri(str)
+    key_chars = str.split(//)
+    key_chars.
+      collect! { |char| match["#{char.upcase}#{char.downcase}"] }.
+      reduce(:&gt;&gt;)
+  end
+
+  # Constructs a parser using a Parser Expression Grammar 
+  stri('keyword').parse "kEyWoRd"     # =&gt; "kEyWoRd"@0
+</code></pre>
+<h2>Testing</h2>
+<p>Parslet helps you to create parsers that are in turn created out of many small
+parsers. It is really turtles all the way down. Imagine you have a complex 
+parser:</p>
+<pre class="sh_ruby"><code>
+  class ComplexParser &lt; Parslet::Parser
+    root :lots_of_stuff
+  
+    rule(:lots_of_stuff) { ... }
+  
+    # and many lines later: 
+    rule(:simple_rule) { str('a') }
+  end
+</code></pre>
+<p>Also imagine that the parser (as a whole) fails to consume the &#8216;a&#8217; that 
+<code>simple_rule</code> is talking about.</p>
+<p>This kind of problem can very often be fixed by bisecting it into two possible
+problems. Either:</p>
+<ol>
+	<li>the <code>lots_of_stuff</code> rule somehow doesn&#8217;t place <code>simple_rule</code>
+  in the right context or</li>
+	<li>the <code>simple_rule</code> simply (hah!) fails to match its input.</li>
+</ol>
+<p>I find it very useful in this situation to eliminate 2. from our options:</p>
+<pre class="sh_ruby"><code title="rspec">
+  require 'rspec'
+  require 'parslet/rig/rspec'
+  
+  class ComplexParser &lt; Parslet::Parser
+    rule(:simple_rule) { str('a') }
+  end
+
+  describe ComplexParser  do
+    let(:parser) { ComplexParser.new }
+    context "simple_rule" do
+      it "should consume 'a'" do
+        parser.simple_rule.should parse('a')
+      end 
+    end
+  end
+  
+  RSpec::Core::Runner.run([])
+</code></pre>
+<p>Output is: 
+<pre class="output"></p>
+<p>Example::ComplexParser
+  simple_rule
+    should consume &#8216;a&#8217;</p>
+<p>Finished in 0.00115 seconds
+1 example, 0 failures
+</pre></p>
+<p>Parslet parsers have one method per rule. These methods return valid parsers
+for a subset of your grammar.</p>
+<h2>Error reports</h2>
+<p>If your grammar fails and you&#8217;re aching to know why, here&#8217;s a bit of exception
+handling code that will help you out:</p>
+<pre class="sh_ruby"><code title="exception handling">
+  parser = str('foo')
+  begin
+    parser.parse('bar')
+  rescue Parslet::ParseFailed =&gt; error
+    puts error.cause.ascii_tree
+  end
+</code></pre>
+<p>This should print something akin to:</p>
+<pre class="output"> 
+Expected "foo", but got "bar" at line 1 char 1.
+</pre>
+<p>These error reports are probably the fastest way to know exactly where you
+went wrong (or where your input is wrong, which is aequivalent).</p>
+<p>And since this is such a common idiom, we provide you with a shortcut: to
+get the above, just:</p>
+<pre class="sh_ruby"><code>
+require 'parslet/convenience'
+parser.parse_with_debug(input)
+</code></pre>
+<h3>Reporter engines</h3>
+<p>Note that there is currently not one, but two error reporting engines! The 
+default engine will report errors in a structure that looks exactly like the
+grammar structure:</p>
+<pre class="sh_ruby"><code title="error reporter 1">
+  class P &lt; Parslet::Parser
+    root(:body)
+    rule(:body) { elements }
+    rule(:elements) { (call | element).repeat(2) }
+    rule(:element) { str('bar') }
+    rule(:call) { str('baz') &gt;&gt; str('()') }
+  end
+  
+  begin
+    P.new.parse('barbaz')
+  rescue Parslet::ParseFailed =&gt; error
+    puts error.cause.ascii_tree
+  end
+</code></pre>
+<p>Outputs:</p>
+<pre class="output"> 
+Expected at least 2 of CALL / ELEMENT at line 1 char 1.
+`- Expected one of [CALL, ELEMENT] at line 1 char 4.
+   |- Failed to match sequence ('baz' '()') at line 1 char 7.
+   |  `- Premature end of input at line 1 char 7.
+   `- Expected "bar", but got "baz" at line 1 char 4.
+</pre>
+<p>Let&#8217;s switch out the &#8216;grammar structure&#8217; engine (called &#8216;<code>Tree</code>&#8217;)
+with the &#8216;deepest error position&#8217; engine:</p>
+<pre class="sh_ruby"><code title="error reporter 2">
+  class P &lt; Parslet::Parser
+    root(:body)
+    rule(:body) { elements }
+    rule(:elements) { (call | element).repeat(2) }
+    rule(:element) { str('bar') }
+    rule(:call) { str('baz') &gt;&gt; str('()') }
+  end
+  
+  begin
+    P.new.parse('barbaz', reporter: Parslet::ErrorReporter::Deepest.new)
+  rescue Parslet::ParseFailed =&gt; error
+    puts error.cause.ascii_tree
+  end
+</code></pre>
+<p>Outputs:</p>
+<pre class="output"> 
+Expected at least 2 of CALL / ELEMENT at line 1 char 1.
+`- Expected one of [CALL, ELEMENT] at line 1 char 4.
+   |- Failed to match sequence ('baz' '()') at line 1 char 7.
+   |  `- Premature end of input at line 1 char 7.
+   `- Premature end of input at line 1 char 7.
+</pre>
+<p>The <code>'Deepest'</code> position engine will store errors that are the
+farthest into the input. In some examples, this produces more readable output
+for the end user.</p>
+<h2>Line numbers from parser output</h2>
+<p>A traditional parser would parse and then perform several checking phases,
+like for example verifying all type constraints are respected in the input.
+During this checking phase, you will most likely want to report screens full
+of type errors back to the user (&#8216;cause that&#8217;s what types are for, right?).
+Now where did that &#8216;int&#8217; come from?</p>
+<p>Parslet gives you slices (Parslet::Slice) of input as part of your tree. These
+are essentially strings with line numbers. Here&#8217;s how to print that error
+message:</p>
+<pre class="sh_ruby"><code>
+  # assume that type == "int"@0 - a piece from your parser output
+  line, col = type.line_and_column
+  puts "Sorry. Can't have #{type} at #{line}:#{col}!"
+</code></pre></div>
+      <div class="copyright"><p><span class="caps">MIT</span> License, 2010-2012, &#169; <a href="http://absurd.li">Kaspar Schiess</a><br/>
+        Logo by <a href="http://floere.github.com">Florian Hanke</a>, <a href="http://creativecommons.org/licenses/by/1.0/">CC Attribution</a> license</p></div>
+      <script type="text/javascript">var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16365074-2']);
+        _gaq.push(['_trackPageview']); 
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();</script>
+    </div>
+  </body>
+</html>

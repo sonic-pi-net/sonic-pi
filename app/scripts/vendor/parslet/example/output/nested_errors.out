@@ -1,0 +1,54 @@
+--------------------------------------------------------------------------------
+       .    10   .    20
+01 
+02     define f()
+03       @res.name
+04     end
+05   
+Failed to match sequence (LINE_SEPARATOR? BLOCK LINE_SEPARATOR?) at line 2 char 5.
+`- Expected one of [DEFINE_BLOCK, BEGIN_BLOCK] at line 2 char 5.
+   |- Failed to match sequence (define:'define' SPACE name:IDENTIFIER '()' BODY 'end') at line 2 char 15.
+   |  `- Failed to match sequence (body:((LINE_SEPARATOR (BLOCK / EXPRESSION)){1, }) LINE_SEPARATOR) at line 3 char 11.
+   |     `- Expected at least 1 of SPACE? (COMMENT? NEWLINE / ';') SPACE? at line 3 char 11.
+   |        `- Failed to match sequence (SPACE? (COMMENT? NEWLINE / ';') SPACE?) at line 3 char 11.
+   |           `- Expected one of [COMMENT? NEWLINE, ';'] at line 3 char 11.
+   |              |- Failed to match sequence (COMMENT? NEWLINE) at line 3 char 11.
+   |              |  `- Failed to match [\\r\\n] at line 3 char 11.
+   |              `- Expected ";", but got "." at line 3 char 11.
+   `- Failed to match sequence (pre:((type:'concurrent' SPACE)?) begin:'begin' BODY 'end') at line 2 char 5.
+      `- Expected "begin", but got "defin" at line 2 char 5.
+--------------------------------------------------------------------------------
+       .    10   .    20
+01 
+02     define f()
+03       begin
+04         @res.name
+05       end
+06     end
+07   
+Failed to match sequence (LINE_SEPARATOR? BLOCK LINE_SEPARATOR?) at line 2 char 5.
+`- Expected one of [DEFINE_BLOCK, BEGIN_BLOCK] at line 2 char 5.
+   |- Failed to match sequence (define:'define' SPACE name:IDENTIFIER '()' BODY 'end') at line 2 char 15.
+   |  `- Failed to match sequence (body:((LINE_SEPARATOR (BLOCK / EXPRESSION)){1, }) LINE_SEPARATOR) at line 2 char 15.
+   |     `- Expected at least 1 of LINE_SEPARATOR (BLOCK / EXPRESSION) at line 2 char 15.
+   |        `- Failed to match sequence (LINE_SEPARATOR (BLOCK / EXPRESSION)) at line 3 char 7.
+   |           `- Expected one of [BLOCK, EXPRESSION] at line 3 char 7.
+   |              |- Expected one of [DEFINE_BLOCK, BEGIN_BLOCK] at line 3 char 7.
+   |              |  |- Failed to match sequence (define:'define' SPACE name:IDENTIFIER '()' BODY 'end') at line 3 char 7.
+   |              |  |  `- Expected "define", but got "begin\n" at line 3 char 7.
+   |              |  `- Failed to match sequence (pre:((type:'concurrent' SPACE)?) begin:'begin' BODY 'end') at line 3 char 12.
+   |              |     `- Failed to match sequence (body:((LINE_SEPARATOR (BLOCK / EXPRESSION)){1, }) LINE_SEPARATOR) at line 4 char 13.
+   |              |        `- Expected at least 1 of SPACE? (COMMENT? NEWLINE / ';') SPACE? at line 4 char 13.
+   |              |           `- Failed to match sequence (SPACE? (COMMENT? NEWLINE / ';') SPACE?) at line 4 char 13.
+   |              |              `- Expected one of [COMMENT? NEWLINE, ';'] at line 4 char 13.
+   |              |                 |- Failed to match sequence (COMMENT? NEWLINE) at line 4 char 13.
+   |              |                 |  `- Failed to match [\\r\\n] at line 4 char 13.
+   |              |                 `- Expected ";", but got "." at line 4 char 13.
+   |              `- Failed to match sequence (RES_ACTIONS res_field:((':' name:IDENTIFIER)?)) at line 3 char 7.
+   |                 `- Failed to match sequence (resources:REFERENCE res_actions:(res_action:RES_ACTION_OR_LINK{0, })) at line 3 char 7.
+   |                    `- Failed to match sequence ('@'{1, 2} IDENTIFIER) at line 3 char 7.
+   |                       `- Expected at least 1 of '@' at line 3 char 7.
+   |                          `- Expected "@", but got "b" at line 3 char 7.
+   `- Failed to match sequence (pre:((type:'concurrent' SPACE)?) begin:'begin' BODY 'end') at line 2 char 5.
+      `- Expected "begin", but got "defin" at line 2 char 5.
+--------------------------------------------------------------------------------

@@ -1,0 +1,4 @@
+it terminates before we require mathn
+requiring mathn now
+and trying again (will hang without the fix)
+okay!

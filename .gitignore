@@ -1,3 +1,6 @@
+# QT GUI
+# --------
+
 # Compiled Object files
 *.slo
 *.lo
@@ -12,4 +15,23 @@
 *.la
 *.a
 
-app/gui/application
+# Application binary
+app/gui/qt/application
+
+
+
+# HTML GUI
+# --------
+
+# Javascript map files
+app/gui/html/js/*.map
+
+# Dev Javascript
+app/gui/html/js/generated
+app/gui/html/target
+
+
+# Detritus
+# ---------
+
+*.DS_Store

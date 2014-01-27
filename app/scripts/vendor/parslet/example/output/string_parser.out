@@ -1,0 +1,3 @@
+[#<struct IntLit text="123"@0>,
+ #<struct IntLit text="12345"@4>,
+ #<struct StringLit text=" Some String with \\\"escapes\\\""@11>]

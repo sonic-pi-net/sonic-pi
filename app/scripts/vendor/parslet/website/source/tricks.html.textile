@@ -1,0 +1,211 @@
+---
+title: Tricks for common situations
+---
+
+h2. Matching EOF (End Of File)
+
+Ahh Sir, you'll be needin what us parsers call _epsilon_: 
+
+<pre class="sh_ruby"><code>
+  rule(:eof) { any.absent? }
+</code></pre>
+
+Of course, most of us don't use this at all, since any parser has EOF as
+implicit last input.
+
+h2. Matching Strings Case Insensitive
+
+Parslet is fully hackable: You can use code to create parsers easily. Here's
+how I would match a string in case insensitive manner: 
+
+<pre class="sh_ruby"><code title="case insensitive match">
+  def stri(str)
+    key_chars = str.split(//)
+    key_chars.
+      collect! { |char| match["#{char.upcase}#{char.downcase}"] }.
+      reduce(:>>)
+  end
+
+  # Constructs a parser using a Parser Expression Grammar 
+  stri('keyword').parse "kEyWoRd"     # => "kEyWoRd"@0
+</code></pre>
+
+h2. Testing
+
+Parslet helps you to create parsers that are in turn created out of many small
+parsers. It is really turtles all the way down. Imagine you have a complex 
+parser: 
+
+<pre class="sh_ruby"><code>
+  class ComplexParser < Parslet::Parser
+    root :lots_of_stuff
+  
+    rule(:lots_of_stuff) { ... }
+  
+    # and many lines later: 
+    rule(:simple_rule) { str('a') }
+  end
+</code></pre>
+
+Also imagine that the parser (as a whole) fails to consume the 'a' that 
+<code>simple_rule</code> is talking about. 
+
+This kind of problem can very often be fixed by bisecting it into two possible
+problems. Either: 
+
+# the <code>lots_of_stuff</code> rule somehow doesn't place <code>simple_rule</code>
+  in the right context or
+# the <code>simple_rule</code> simply (hah!) fails to match its input. 
+
+I find it very useful in this situation to eliminate 2. from our options: 
+
+<pre class="sh_ruby"><code title="rspec">
+  require 'rspec'
+  require 'parslet/rig/rspec'
+  
+  class ComplexParser < Parslet::Parser
+    rule(:simple_rule) { str('a') }
+  end
+
+  describe ComplexParser  do
+    let(:parser) { ComplexParser.new }
+    context "simple_rule" do
+      it "should consume 'a'" do
+        parser.simple_rule.should parse('a')
+      end 
+    end
+  end
+  
+  RSpec::Core::Runner.run([])
+</code></pre>
+
+Output is: 
+<pre class="output">
+
+Example::ComplexParser
+  simple_rule
+    should consume 'a'
+
+Finished in 0.00115 seconds
+1 example, 0 failures
+</pre>
+
+Parslet parsers have one method per rule. These methods return valid parsers
+for a subset of your grammar. 
+
+h2. Error reports
+
+If your grammar fails and you're aching to know why, here's a bit of exception
+handling code that will help you out: 
+
+<pre class="sh_ruby"><code title="exception handling">
+  parser = str('foo')
+  begin
+    parser.parse('bar')
+  rescue Parslet::ParseFailed => error
+    puts error.cause.ascii_tree
+  end
+</code></pre>
+
+This should print something akin to: 
+
+<pre class="output"> 
+Expected "foo", but got "bar" at line 1 char 1.
+</pre>
+
+These error reports are probably the fastest way to know exactly where you
+went wrong (or where your input is wrong, which is aequivalent).
+
+And since this is such a common idiom, we provide you with a shortcut: to
+get the above, just: 
+
+<pre class="sh_ruby"><code>
+require 'parslet/convenience'
+parser.parse_with_debug(input)
+</code></pre>
+
+
+h3. Reporter engines
+
+Note that there is currently not one, but two error reporting engines! The 
+default engine will report errors in a structure that looks exactly like the
+grammar structure: 
+
+<pre class="sh_ruby"><code title="error reporter 1">
+  class P < Parslet::Parser
+    root(:body)
+    rule(:body) { elements }
+    rule(:elements) { (call | element).repeat(2) }
+    rule(:element) { str('bar') }
+    rule(:call) { str('baz') >> str('()') }
+  end
+  
+  begin
+    P.new.parse('barbaz')
+  rescue Parslet::ParseFailed => error
+    puts error.cause.ascii_tree
+  end
+</code></pre>
+
+Outputs: 
+
+<pre class="output"> 
+Expected at least 2 of CALL / ELEMENT at line 1 char 1.
+`- Expected one of [CALL, ELEMENT] at line 1 char 4.
+   |- Failed to match sequence ('baz' '()') at line 1 char 7.
+   |  `- Premature end of input at line 1 char 7.
+   `- Expected "bar", but got "baz" at line 1 char 4.
+</pre>
+
+Let's switch out the 'grammar structure' engine (called '<code>Tree</code>')
+with the 'deepest error position' engine:
+
+<pre class="sh_ruby"><code title="error reporter 2">
+  class P < Parslet::Parser
+    root(:body)
+    rule(:body) { elements }
+    rule(:elements) { (call | element).repeat(2) }
+    rule(:element) { str('bar') }
+    rule(:call) { str('baz') >> str('()') }
+  end
+  
+  begin
+    P.new.parse('barbaz', reporter: Parslet::ErrorReporter::Deepest.new)
+  rescue Parslet::ParseFailed => error
+    puts error.cause.ascii_tree
+  end
+</code></pre>
+
+Outputs: 
+
+<pre class="output"> 
+Expected at least 2 of CALL / ELEMENT at line 1 char 1.
+`- Expected one of [CALL, ELEMENT] at line 1 char 4.
+   |- Failed to match sequence ('baz' '()') at line 1 char 7.
+   |  `- Premature end of input at line 1 char 7.
+   `- Premature end of input at line 1 char 7.
+</pre>
+
+The <code>'Deepest'</code> position engine will store errors that are the
+farthest into the input. In some examples, this produces more readable output
+for the end user. 
+
+h2. Line numbers from parser output
+
+A traditional parser would parse and then perform several checking phases,
+like for example verifying all type constraints are respected in the input.
+During this checking phase, you will most likely want to report screens full
+of type errors back to the user ('cause that's what types are for, right?).
+Now where did that 'int' come from?
+
+Parslet gives you slices (Parslet::Slice) of input as part of your tree. These
+are essentially strings with line numbers. Here's how to print that error
+message:
+
+<pre class="sh_ruby"><code>
+  # assume that type == "int"@0 - a piece from your parser output
+  line, col = type.line_and_column
+  puts "Sorry. Can't have #{type} at #{line}:#{col}!"
+</code></pre>
+
+

@@ -1,0 +1,28 @@
+== Bugs
+
+No known bugs. (If that's not a challenge, I don't know what is.)
+
+== Features
+
+* +print_decimal_numbers+ and +print_channel_numbers_from_one+ should be
+  associated with sequence, or perhaps track, not event.
+
+* Method to translate event's time_from_start to number of milliseconds from
+  start.
+
+* Swing quantizing. (Implied by list email from Carl Youngblood
+  <carl.youngblood@gmail.com>)
+
+* Implement key signature in SeqReader.
+
+* Format 0 files.
+
+* Format 2 files(?).
+
+== Documentation
+
+* Write better docs.
+
+== Tests
+
+* Tests for Noah Thorp's midilib bug fixes.

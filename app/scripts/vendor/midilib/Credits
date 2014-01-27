@@ -1,0 +1,56 @@
+midilib is developed by Jim Menard, jim@jimmenard.com. Additional bug fixes
+and suggestions have come from:
+
+Mario Pehle <rubyforge.org@errorinitus.de>
+
+    Noticed that the PolyPressure class used the misspelled constant
+    POLY_PRESSSURE.
+
+Mike Hall <m3ha11@rcn.com>
+
+    Found errors in example scripts' $LOAD_PATH and a bug in sequence reading
+    block callback arguments. Found a bug in meta events that caused
+    "Object#type is deprecated" error messages.
+
+Emanuel Borsboom <emanuel.borsboom@gmail.com>
+
+    Found and fixed an error in PitchBend data encoding.
+
+Christopher Rose <cmr@synopsys.com>
+
+    Found bug in Track#recalc_delta_from_times.
+
+Jari Williamsson <jari.williamsson@mailbox.swipnet.se>
+
+    Contributed Measure and Measures, TimeSig and KeySig, and fixes to events.
+    Added get_measures to Sequence. Added default implementation of
+    key_signature in SeqReader. Contributed the measures_mbt.rb example.
+
+Noah Thorp
+
+    Found a bug in the code intended to make midilib work under Ruby 1.9.
+    Found another bug in KeySing.data_as_bytes.
+
+Zach Chadwick (zachad on Github)
+
+    Reported a problem that led to a fix in the way that strings and byte
+    arrays are handled and output in meta events.
+
+Adam Murray (adamjmurray on Github)
+
+    Found problem with Track#recalc_delta_from_times sorting, and wrote the
+    fix that is incorporated there.
+
+Shai Rosenfeld (shaiguitar on Github)
+
+    Corrected missing block arg in README.
+
+J (dark-panda on Github)
+
+    Instead of monkeypatching ::Array, put sorting methods into new
+    MIDI::Array subclass to avoid clashes with Rails app.
+
+Lucas lfzawacki (lfzawacki on Github)
+
+    Found a bug in the MIDI::IO::SeqReader class: the pitch_bend method's
+    msb and lsb parameters were reversed.
