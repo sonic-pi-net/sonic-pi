@@ -61,3 +61,40 @@ module OSC
 
   end
 end
+
+
+require 'rubame'
+
+## Teach Rubame::Server#run to block on IO.select
+## and therefore not thrash round in a loop
+module Rubame
+  class Server
+    def run(time = 0, &blk)
+      readable, writable = IO.select(@reading, @writing)
+
+      if readable
+        readable.each do |socket|
+          client = @clients[socket]
+          if socket == @socket
+            client = accept
+          else
+            msg = read(client)
+            client.messaged = msg
+          end
+
+          blk.call(client) if client and blk
+        end
+      end
+
+      # Check for lazy send items
+      timer_start = Time.now
+      time_passed = 0
+      begin
+        @clients.each do |s, c|
+          c.send_some_lazy(5)
+        end
+        time_passed = Time.now - timer_start
+      end while time_passed < time
+    end
+  end
+end
