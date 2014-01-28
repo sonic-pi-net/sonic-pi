@@ -4,7 +4,6 @@ require_relative "group"
 require_relative "synthnode"
 require_relative "audiobusallocator"
 require_relative "controlbusallocator"
-require_relative "incomingchan"
 require_relative "promise"
 require_relative "incomingevents"
 
@@ -30,13 +29,11 @@ module SonicPi
       @msg_queue = msg_queue
       message "Initialising comms... #{msg_queue}"
       @port = port
-      @chan = IncomingChan.new
       @events = IncomingEvents.new
       @client = OSC::Server.new(4800)
 
       # Push all incoming OSC messages to the event system
       @client.add_method '*' do |m|
-        @chan.push m
         @events.event m.address, m.to_a
       end
 
