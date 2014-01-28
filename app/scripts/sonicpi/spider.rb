@@ -84,9 +84,9 @@ module SonicPi
       message output
     end
 
-    # def puts(output)
-    #   message output
-    # end
+    def puts(output)
+      message output
+    end
 
   end
 end
