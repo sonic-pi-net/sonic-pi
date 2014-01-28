@@ -64,12 +64,11 @@ module SonicPi
     end
 
     def switch_to_pad(name, *args)
-      full_name = "sp/#{name}"
       if PAD_SYNTHS.include? name
         PAD_SEM.synchronize do
           @current_pad_synth.kill if @current_pad_synth
           message "Switching to pad #{name} with args: #{args}"
-          @current_pad_synth = trigger_synth :head, @synth_group, full_name, "out-bus", @mixer_bus, *args
+          @current_pad_synth = trigger_synth name, *args
         end
       else
         message "Unknown pad name: #{name}"
