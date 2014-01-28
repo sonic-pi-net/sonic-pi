@@ -26,6 +26,12 @@ module SonicPi
           if(res == :remove_handler)
             hs.delete key
           end
+          if(res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
+            res[1].each do |h_info|
+              hs = @handlers[h_info[0]]
+              hs.delete h_info[1]
+            end
+          end
         end
       end
     end
