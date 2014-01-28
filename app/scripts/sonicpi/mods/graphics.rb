@@ -30,7 +30,7 @@ require 'chunky_png'
          image_info = fetch_image(src)
          p = ChunkyPNG::Image.from_file(image_info[:path])
          @pngs[src] = {:png => p, :modified => true}
-         message "PNG succesfully read"
+         __message "PNG succesfully read"
        end
 
        def clear_image_cache
@@ -54,7 +54,7 @@ require 'chunky_png'
        def png(width, height, id)
          p = ChunkyPNG::Image.new(width, height, ChunkyPNG::Color::TRANSPARENT)
          @pngs[id] = {:png => p, :modified => true}
-         message "Created png with id: #{id} #{width}x#{height}"
+         __message "Created png with id: #{id} #{width}x#{height}"
        end
 
        def set_png_pixel(id, x, y, color)
@@ -108,7 +108,7 @@ require 'chunky_png'
 
        def sketch_command(opts)
          cmd = {:type => :sketch, :opts => opts}
-         sync_msg_command cmd
+         __sync_msg_command cmd
        end
 
        def circle(x, y, radius, *opts)

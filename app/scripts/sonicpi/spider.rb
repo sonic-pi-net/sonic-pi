@@ -21,13 +21,13 @@ module SonicPi
       @msg_queue = msg_queue
       @event_queue = Queue.new
       @keypress_handlers = {}
-      message "Starting..."
+      __message "Starting..."
       @events = IncomingEvents.new
       @sync_counter = Counter.new
       Thread.new do
         loop do
           event = @event_queue.pop
-          handle_event event
+          __handle_event event
         end
       end
     end
@@ -40,28 +40,27 @@ module SonicPi
 #    include SonicPi::Mods::Feeds
 #    include SonicPi::Mods::GlobalKeys
 
-    def sync(id, res)
-      @events.event("/sync", {:id => id, :result => res})
-    end
-
-    def handle_event(e)
-      case e[:type]
-      when :keypress
-        @keypress_handlers.values.each{|h| h.call(e[:val])}
-        else
-          puts "Unknown event: #{e}"
-        end
-    end
-
     def on_keypress(&block)
       @keypress_handlers[:foo] = block
     end
 
-    def message(s)
+    def print(output)
+      __message output
+    end
+
+    def puts(output)
+      __message output
+    end
+
+
+    ## Not officially part of the API
+
+    def __message(s)
       @msg_queue.push({:type => :message, :val => s.to_s})
     end
 
-    def sync_msg_command(msg)
+
+    def __sync_msg_command(msg)
       id = @sync_counter.next
       prom = Promise.new
       @events.add_handler("/sync", @events.gensym("/spider")) do |payload|
@@ -75,18 +74,27 @@ module SonicPi
       prom.get
     end
 
-    def spider_eval(code)
+    def __handle_event(e)
+      case e[:type]
+      when :keypress
+        @keypress_handlers.values.each{|h| h.call(e[:val])}
+        else
+          puts "Unknown event: #{e}"
+        end
+    end
+
+    def __sync(id, res)
+      @events.event("/sync", {:id => id, :result => res})
+    end
+
+
+    def __spider_eval(code)
       eval(code)
       STDOUT.flush
     end
 
-    def print(output)
-      message output
-    end
 
-    def puts(output)
-      message output
-    end
+
 
   end
 end

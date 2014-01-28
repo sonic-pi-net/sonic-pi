@@ -20,7 +20,7 @@
        end
 
        def play_synth(synth_name, *args)
-         message "playing #{synth_name} with: #{args}"
+         __message "playing #{synth_name} with: #{args}"
          STDOUT.flush
          STDOUT.flush
          @mod_sound_studio.trigger_synth synth_name, *args
@@ -53,7 +53,7 @@
        end
 
        def stop
-         message "Stopping..."
+         __message "Stopping..."
          @mod_sound_studio.stop
        end
 
@@ -121,12 +121,12 @@
        def sample(path, *args)
          buf_info = load_sample(path)
          synth_name = (buf_info[:num_chans] == 1) ? "overtone.sc.sample/mono-player" : "overtone.sc.saddd/stereo-player"
-         message "Playing sample: #{path}"
+         __message "Playing sample: #{path}"
          @mod_sound_studio.trigger_non_sp_synth(synth_name, "buf", buf_info[:id], *args)
        end
 
        def status
-         message @mod_sound_studio.status
+         __message @mod_sound_studio.status
        end
 
      end
