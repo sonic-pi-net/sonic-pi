@@ -69,13 +69,7 @@ class RcvDispatch
   end
 
   def exec_cmd(data)
-    @threads << Thread.new do
-      begin
-        @spider.__spider_eval data[:val]
-      rescue Exception => e
-        @out_queue.push({type: :error, val: e.message, backtrace: e.backtrace })
-      end
-    end
+    @spider.__spider_eval data[:val]
   end
 
   def exec_event(data)
