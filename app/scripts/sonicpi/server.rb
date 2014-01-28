@@ -33,13 +33,15 @@ module SonicPi
       @chan = IncomingChan.new
       @events = IncomingEvents.new
       @client = OSC::Server.new(4800)
+
+      # Push all incoming OSC messages to the event system
       @client.add_method '*' do |m|
         @chan.push m
-        @events.event m.address, m
+        @events.event m.address, m.to_a
       end
 
       clear_scsynth!
-      #request_notifications
+      request_notifications
 
       @current_sync_id = 0
       @current_node_id = 1
@@ -263,6 +265,22 @@ module SonicPi
 
         @client.send(OSC::Message.new(*args), @hostname, @port)
       end
+    end
+
+    def add_event_handler(handle, key, &block)
+      @events.add_handler(handle, key, &block)
+    end
+
+    def add_event_oneshot_handler(handle, &block)
+      @events.oneshot_handler(handle, &block)
+    end
+
+    def rm_event_handler(handle, key)
+      @events.rm_handler(handle, key)
+    end
+
+    def event_gensym(s)
+      @events.gensym(s)
     end
 
   end
