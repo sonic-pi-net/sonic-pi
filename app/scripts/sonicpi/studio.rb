@@ -10,13 +10,15 @@ module SonicPi
     SYNTH_MOD = Mutex.new
     PAD_SEM = Mutex.new
     SAMPLE_SEM = Mutex.new
-    attr_accessor :bpm, :current_synth_name
     attr_reader :synth_group, :mixer_group, :mixer_id, :mixer_bus, :pad_synth, :current_pad_synth, :mixer, :max_concurrent_synths
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
       @server = Server.new(hostname, port, msg_queue)
-      @bpm = 60
-      @current_synth_name = "pretty_bell"
+
+      # Thread local variables
+
+      Thread.current.thread_variable_set :sonic_pi_studio_current_pad_synth, nil
+
       @msg_queue = msg_queue
       @running_synths = []
       @max_concurrent_synths = max_concurrent_synths
@@ -47,8 +49,26 @@ module SonicPi
       start_mixer
     end
 
+    def bpm
+      Thread.current.thread_variable_get(:sonic_pi_studio_bpm) ||
+      Thread.current.thread_variable_set(:sonic_pi_studio_bpm, 60)
+    end
+
+    def bpm=(new_bpm)
+      Thread.current.thread_variable_set(:sonic_pi_studio_bpm, new_bpm)
+    end
+
+    def current_synth_name
+      Thread.current.thread_variable_get(:sonic_pi_studio_current_synth_name) ||
+      Thread.current.thread_variable_set(:sonic_pi_studio_current_synth_name, "pretty_bell")
+    end
+
+    def current_synth_name=(name)
+      Thread.current.thread_variable_set(:sonic_pi_studio_current_synth_name, name)
+    end
+
     def beat_s
-      60.0 / @bpm
+      60.0 / bpm
     end
 
     def message(s)
@@ -63,12 +83,16 @@ module SonicPi
       @server.trigger_synth(:tail, @synth_group, synth_name, "out-bus", @mixer_bus, *args)
     end
 
+    def current_pad_synth
+      Thread.current.thread_variable_get :sonic_pi_studio_current_pad_synth
+    end
+
     def switch_to_pad(name, *args)
       if PAD_SYNTHS.include? name
         PAD_SEM.synchronize do
-          @current_pad_synth.kill if @current_pad_synth
+          current_pad_synth.kill if current_pad_synth
           message "Switching to pad #{name} with args: #{args}"
-          @current_pad_synth = trigger_synth name, *args
+          Thread.current.thread_variable_set :sonic_pi_studio_current_pad_synth, trigger_synth(name, *args)
         end
       else
         message "Unknown pad name: #{name}"
