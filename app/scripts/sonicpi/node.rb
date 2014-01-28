@@ -30,13 +30,13 @@ module SonicPi
 
       @comms.add_event_handler("/n_on", started_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
-          @state = :live
+          @state = :running
         end
       end
 
       @comms.add_event_handler("/n_go", created_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
-          @state = :live
+          @state = :running
         end
       end
     end
@@ -63,8 +63,8 @@ module SonicPi
       @state == :paused
     end
 
-    def playing?
-      @state == :live
+    def running?
+      @state == :running
     end
 
     def state
