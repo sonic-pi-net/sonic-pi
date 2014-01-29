@@ -14,7 +14,6 @@
          end
        end
 
-
        def with_synth(synth_name)
          @mod_sound_studio.current_synth_name = synth_name
        end
@@ -38,6 +37,10 @@
 
        def with_tempo(n)
          @mod_sound_studio.bpm = n
+       end
+
+       def current_tempo
+         @mod_sound_studio.bpm
        end
 
        def play_pattern(notes, *args)
@@ -104,7 +107,6 @@
        def resolve_sample_symbol_path(sym)
          samples_path + "/" + sym.to_s + ".wav"
        end
-
 
        def load_sample(path)
          if path.class == Symbol
