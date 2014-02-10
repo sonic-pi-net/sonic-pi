@@ -124,9 +124,5 @@ module SonicPi
       @user_jobs.add_job(id, job, info)
 
     end
-
-
-
-
   end
 end
