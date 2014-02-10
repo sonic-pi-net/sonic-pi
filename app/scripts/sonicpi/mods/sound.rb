@@ -10,6 +10,11 @@
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
+             @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
+
+               current_synth_proms.each{|csp| csp.get}
+               current_synth_group.kill
+             end
            end
          end
        end
@@ -18,15 +23,24 @@
          @mod_sound_studio.current_synth_name = synth_name
        end
 
-       def play_synth(synth_name, *args)
+       def trigger_sp_synth(synth_name, *args)
          __message "playing #{synth_name} with: #{args}"
-         STDOUT.flush
-         STDOUT.flush
-         @mod_sound_studio.trigger_synth synth_name, *args
+         s = @mod_sound_studio.trigger_sp_synth synth_name, current_synth_group, *args
+         s.on_destroyed{ p.deliver! true ; __message "howdydoody"}
+         s
+       end
+
+       def trigger_synth(synth_name, *args)
+         p = Promise.new
+         current_synth_proms_add p
+         __message "playing #{synth_name} with: #{args}"
+         s = @mod_sound_studio.trigger_synth synth_name, current_synth_group, *args
+         s.on_destroyed{ p.deliver! true ; __message "howdydoody"}
+         s
        end
 
        def play(note, *args)
-         play_synth @mod_sound_studio.current_synth_name, "note", note, *args
+         trigger_sp_synth @mod_sound_studio.current_synth_name, "note", note, *args
        end
 
        def repeat(&block)
@@ -124,13 +138,35 @@
          buf_info = load_sample(path)
          synth_name = (buf_info[:num_chans] == 1) ? "overtone.sc.sample/mono-player" : "overtone.sc.saddd/stereo-player"
          __message "Playing sample: #{path}"
-         @mod_sound_studio.trigger_non_sp_synth(synth_name, "buf", buf_info[:id], *args)
+         trigger_synth synth_name, "buf", buf_info[:id], *args
        end
 
        def status
          __message @mod_sound_studio.status
        end
 
+       private
+
+       def current_synth_group
+         g = Thread.current.thread_variable_get :sonic_pi_mod_sound_synth_group
+         return g if g
+         g = @mod_sound_studio.new_user_synth_group
+         Thread.current.thread_variable_set :sonic_pi_spider_synth_group, g
+         g
+       end
+
+       def current_synth_proms
+         s = Thread.current.thread_variable_get :sonic_pi_mod_sound_synth_proms
+         return s if s
+         s = []
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_proms, s
+         s
+       end
+
+       def current_synth_proms_add(p)
+         proms = current_synth_proms
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_proms, proms + [p]
+       end
      end
    end
  end

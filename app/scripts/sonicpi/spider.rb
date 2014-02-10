@@ -113,6 +113,8 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           eval(code)
+          @events.event("/job-completed", {:id => id})
+          # wait until all synths are dead
           @user_jobs.job_completed(id)
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
         rescue Exception => e

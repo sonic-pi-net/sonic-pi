@@ -75,12 +75,12 @@ module SonicPi
       # @msg_queue.push "Studio: #{s}"
     end
 
-    def trigger_synth(synth_name, *args)
-      trigger_non_sp_synth("sp/#{synth_name}", *args)
+    def trigger_sp_synth(synth_name, group, *args)
+      trigger_synth("sp/#{synth_name}", group, *args)
     end
 
-    def trigger_non_sp_synth(synth_name, *args)
-      @server.trigger_synth(:tail, @synth_group, synth_name, "out-bus", @mixer_bus, *args)
+    def trigger_synth(synth_name, group, *args)
+      @server.trigger_synth(:tail, group, synth_name, "out-bus", @mixer_bus, *args)
     end
 
     def current_pad_synth
@@ -92,7 +92,7 @@ module SonicPi
         PAD_SEM.synchronize do
           current_pad_synth.kill if current_pad_synth
           message "Switching to pad #{name} with args: #{args}"
-          Thread.current.thread_variable_set :sonic_pi_studio_current_pad_synth, trigger_synth(name, *args)
+          Thread.current.thread_variable_set :sonic_pi_studio_current_pad_synth, trigger_sp_synth(name, *args)
         end
       else
         message "Unknown pad name: #{name}"
@@ -129,6 +129,12 @@ module SonicPi
       @server.clear_schedule
       @server.group_clear @synth_group
     end
+
+
+    def new_user_synth_group
+      @server.create_group(:tail, @synth_group)
+    end
+
 
     private
 

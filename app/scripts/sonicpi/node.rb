@@ -2,10 +2,14 @@ module SonicPi
   class Node
     attr_reader :id, :comms
 
+    NODE_HANDLER_SEM = Mutex.new
+
     def initialize(id, comms)
       @id = id
       @comms = comms
       @state = :pending
+      @state_change_sem = Mutex.new
+      @on_destroyed_callbacks = []
 
       killed_event_id = @comms.event_gensym("/sonicpi/node/killed#{id}")
       paused_event_id = @comms.event_gensym("/sonicpi/node/paused#{id}")
@@ -14,7 +18,10 @@ module SonicPi
 
       @comms.add_event_handler("/n_end", killed_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
-          @state = :destroyed
+          @state_change_sem.synchronize do
+            call_on_destroyed_callbacks if @state != :destroyed
+            @state = :destroyed
+          end
           [:remove_handlers,
             [ ["/n_go", created_event_id],
               ["/n_off", paused_event_id],
@@ -24,19 +31,37 @@ module SonicPi
 
       @comms.add_event_handler("/n_off", paused_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
-          @state = :paused
+          @state_change_sem.synchronize do
+            @state = :paused
+          end
         end
       end
 
       @comms.add_event_handler("/n_on", started_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
-          @state = :running
+          @state_change_sem.synchronize do
+            @state = :running
+          end
         end
       end
 
       @comms.add_event_handler("/n_go", created_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
-          @state = :running
+          @state_change_sem.synchronize do
+            @state = :running
+          end
+        end
+      end
+    end
+
+    # block will be called when the node is destroyed or immediately if
+    # node is already destroyed. Possibly executed on a separate thread.
+    def on_destroyed(&block)
+      @state_change_sem.synchronize do
+        if @state == :destroyed
+          call_on_destroyed_callbacks
+        else
+          @on_destroyed_callbacks << block
         end
       end
     end
@@ -85,6 +110,13 @@ module SonicPi
 
     def inspect
       to_s
+    end
+
+    private
+
+    def call_on_destroyed_callbacks
+      @on_destroyed_callbacks.each{|cb| cb.call}
+      @on_destroyed_callbacks = []
     end
   end
 end
