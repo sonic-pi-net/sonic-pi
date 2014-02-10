@@ -164,10 +164,11 @@ module SonicPi
       pos_code = position_code(position)
       group_id = group.to_i
       node_id = new_node_id
+      sn = SynthNode.new(node_id.to_f, self, synth_name.to_s)
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
       osc "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args
-      SynthNode.new(node_id.to_f, self, synth_name.to_s)
+      sn
     end
 
     def node_ctl(node, *args)
