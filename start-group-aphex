@@ -1,5 +1,0 @@
-#!/bin/bash
-
-mkdir -p /tmp/sonic-pi
-echo 'Aphex' > /tmp/sonic-pi/group-name
-${HOME}/sonic-pi/app/gui/application
