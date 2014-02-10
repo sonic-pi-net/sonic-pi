@@ -1,12 +1,38 @@
 (ns defpi.ws
-  (:require  [defpi.dom :refer [by-id by-class
-                                set-html!
-                                get-html
-                                append-child!
-                                insert-before!]]
-             [cljs.reader :as reader]))
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require
+   [cljs.core.async :as async :refer [>! <! put! chan]]
+   [om.core :as om :include-macros true]
+   [om.dom :as dom :include-macros true]
+   [cljs.reader :as reader]))
+
+(enable-console-print!)
 
 (def err-cnt (atom 0))
+(def app-state (atom {:messages []
+                      :jobs #{}}))
+
+(defn jobs-comp [data owner]
+  (om/component
+   (apply dom/div nil
+          (map (fn [j-id]
+                 (dom/div #js{:className "animated rotateIn"
+                              :onClick #(js/alert "clicked!")
+                              :style #js{:float "right"
+                                         :height "30px"
+                                         :width "30px"
+                                         :background "red"}} j-id))
+               (:jobs data)))))
+
+(defn message-comp [data owner]
+  (om/component
+   (apply dom/div nil
+          (map (fn [m]
+                 (dom/div nil (:val m)))
+               (reverse (:messages data))))))
+
+(om/root app-state message-comp (.getElementById js/document "app-messages"))
+(om/root app-state jobs-comp (.getElementById js/document "app-jobs"))
 
 (def hostname
   (let [hn (.-host (.-location js/window))]
@@ -17,49 +43,8 @@
 (def ws (js/WebSocket. (str "ws://" hostname  ":25252")))
 
 (defn show-msg
-  [val]
-  (let [msgs     (by-id "msgs")
-        p        (.createElement js/document "p")
-        val-node (.createTextNode js/document val)]
-
-    (js/console.log (str "show: " val))
-    (append-child! p val-node)
-
-    (if-let [c (.-firstElementChild msgs)]
-      (.insertBefore msgs p c)
-      (append-child! msgs p))))
-
-(defn show-err
   [msg]
-  (let [cnt       (swap! err-cnt inc)
-        val       (:val msg)
-        backtrace (:backtrace msg)
-        msgs      (by-id "msgs")
-        div       (.createElement js/document "div")
-        err       (.createElement js/document "p")
-        stack     (.createElement js/document "p")
-        val-node  (.createTextNode js/document val)
-        bt-node   (.createTextNode js/document backtrace)
-        id        (str "spi-error-" cnt)]
-
-    (.setAttribute div "class" "expandable")
-    (.setAttribute stack "class" "hidden-content")
-    (.setAttribute div "id" id)
-
-    (set! (.-scrollTop div) 0)
-
-    (set! (.-display (.-style stack)) "none")
-
-    (append-child! err val-node)
-    (append-child! stack bt-node)
-    (append-child! div err)
-    (append-child! div stack)
-
-
-    (if-let [c (.-firstElementChild msgs)]
-      (.insertBefore msgs div c)
-      (append-child! msgs div))
-))
+  (swap! app-state update-in [:messages] conj msg))
 
 (defn reply-sync
   [msg res]
@@ -75,11 +60,30 @@
 
 (defmethod handle-message :message
   [msg]
-  (show-msg (:val msg)))
+  (show-msg msg))
 
 (defmethod handle-message :error
   [msg]
-  (show-err msg))
+  (show-msg msg))
+
+(defmethod handle-message :debug_message
+  [msg]
+  (println "debug=> " msg))
+
+(defmethod handle-message :job
+  [msg]
+  (cond
+   (= :start (:action msg))
+   (swap! app-state update-in [:jobs] conj (:jobid msg))
+
+   (= :completed (:action msg))
+   (swap! app-state update-in [:jobs] disj (:jobid msg))
+
+   :else
+   (js/alert (str "Unknown job action: " (:action msg)))
+
+    ))
+
 
 (defmethod handle-message js/Object
   [m]
@@ -89,7 +93,6 @@
   []
   (set! (.-onclose ws) #(show-msg "Websocket Closed"))
   (set! (.-onmessage ws) (fn [m]
-                           (js/console.log (.-data m))
                            (let [msg (reader/read-string (.-data m))
                                  res (handle-message msg)]
                              (reply-sync msg res)))))

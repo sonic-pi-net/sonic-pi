@@ -3,34 +3,43 @@
   <head>
     <meta charset="utf-8"/>
     <title>Sonic Pi</title>
-    <link rel="stylesheet" href="js/vendor/codemirror/lib/codemirror.css">
-    <script src="js/vendor/codemirror/lib/codemirror.js"></script>
-    <script src="js/vendor/codemirror/addon/edit/matchbrackets.js"></script>
-    <script src="js/vendor/codemirror/mode/ruby/ruby.js"></script>
-    <script type="text/javascript" src="js/vendor/kinetic-v4.7.2.min.js"></script>
 
-    <link href="js/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="vendor/codemirror/lib/codemirror.js"></script>
+    <script src="vendor/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="vendor/codemirror/mode/ruby/ruby.js"></script>
 
-    <style>
-      .CodeMirror {border-top: 10px solid black; border-bottom: 10px solid black;}
-      .cm-s-default span.cm-arrow { color: red; }
-    </style>
+    <link rel="stylesheet" href="vendor/animate.css">
+    <link rel="stylesheet" href="vendor/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="style//main.css">
   </head>
 
   <body>
     <h1>Sonic Pi</h1>
     <div id="my-stage"></div>
-    <button id="run" class="btn btn-primary" onClick="defpi.ws.sendCode()">Run</button>
-    <button id="stop" class="btn btn-danger" onClick="defpi.ws.stopCode()">Stop</button>
-    <button id="stop" class="btn btn-success" onClick="defpi.ws.reloadCode()">Reload</button>
+    <button id="run" class="btn btn-primary animated bounceInLeft" onClick="defpi.ws.sendCode()">Run</button>
+    <button id="stop" class="btn btn-danger animated bounceInLeft" onClick="defpi.ws.stopCode()">Stop</button>
+    <button id="stop" class="btn btn-success animated bounceInLeft" onClick="defpi.ws.reloadCode()">Reload</button>
+    <div id="app-jobs" style="float: right;"></div>
+    <div  class="animated fadeIn">
 
-    <textarea id="code"></textarea>
+      <textarea id="code">play 3
+sleep 2
+play 30
+</textarea>
+      </div>
 
-    <div id="msgs" style="height: 100px; overflow: auto;"></div>
+    <div id="app-messages"></div>
+
+    <script src="js/init_editor.js"></script>
+    <script src="http://fb.me/react-0.8.0.js"></script>
+    <script src="js/generated/goog/base.js" type="text/javascript"></script>
+    <script src="js/cljs-main.js" type="text/javascript"></script>
+    <script type="text/javascript">goog.require("defpi.onload");</script>
 
   </body>
 
-  <script src="js/init_editor.js"></script>
-  <script src="js/cljs-main.js"></script>
+
+
 
 </html>

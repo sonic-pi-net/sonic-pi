@@ -100,7 +100,7 @@ module SonicPi
       @events.event("/sync", {:id => id, :result => res})
     end
 
-    def __stop
+    def __stop_jobs
       __message "stopping..."
       stop
     end
