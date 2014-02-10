@@ -102,5 +102,10 @@
 
 (defn ^:export stopCode
   []
-  (.send ws {:cmd "stop"
+  (.send ws {:cmd "stop-jobs"
+             :val (.getValue js/editor)}))
+
+(defn ^:export reloadCode
+  []
+  (.send ws {:cmd "reload"
              :val (.getValue js/editor)}))

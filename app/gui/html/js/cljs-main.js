@@ -24079,9 +24079,13 @@ defpi.ws.sendCode = function sendCode() {
 };
 goog.exportSymbol("defpi.ws.sendCode", defpi.ws.sendCode);
 defpi.ws.stopCode = function stopCode() {
-  return defpi.ws.ws.send(new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "cmd", "cmd", 1014002860), "stop", new cljs.core.Keyword(null, "val", "val", 1014020755), editor.getValue()], null));
+  return defpi.ws.ws.send(new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "cmd", "cmd", 1014002860), "stop-jobs", new cljs.core.Keyword(null, "val", "val", 1014020755), editor.getValue()], null));
 };
 goog.exportSymbol("defpi.ws.stopCode", defpi.ws.stopCode);
+defpi.ws.reloadCode = function reloadCode() {
+  return defpi.ws.ws.send(new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "cmd", "cmd", 1014002860), "reload", new cljs.core.Keyword(null, "val", "val", 1014020755), editor.getValue()], null));
+};
+goog.exportSymbol("defpi.ws.reloadCode", defpi.ws.reloadCode);
 goog.provide("goog.events.EventWrapper");
 goog.events.EventWrapper = function() {
 };

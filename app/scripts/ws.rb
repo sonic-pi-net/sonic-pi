@@ -28,7 +28,6 @@ $sp =  SonicPi::Spider.new "localhost", 4556, ws_out, 5
 
 class RcvDispatch
   def initialize(spider, out_queue)
-    @threads = []
     @t_sem = Mutex.new
     @spider = spider
     @out_queue = out_queue
@@ -42,14 +41,14 @@ class RcvDispatch
       case cmd
       when "run-code"
         exec_cmd(data)
-      when "stop"
+      when "stop-jobs"
         exec_stop(data)
-      when "photo"
-        exec_photo(data)
       when "event"
         exec_event(data)
       when "sync"
         exec_sync(data)
+      when "reload"
+        exec_reload
       else
         raise "Unknown command: #{cmd}"
       end
@@ -63,9 +62,7 @@ class RcvDispatch
   end
 
   def exec_stop(data)
-    @threads.each {|t| t.kill}
-    @threads = []
-    @spider.stop
+    @spider.__stop
   end
 
   def exec_cmd(data)
@@ -75,11 +72,21 @@ class RcvDispatch
   def exec_event(data)
     @event_queue.push data
   end
+
+  def exec_reload
+    dir = File.dirname("#{File.absolute_path(__FILE__)}")
+    Dir["#{dir}/sonicpi/**/*.rb"].each do |d|
+      load d
+      puts "loaded #{d}"
+    end
+    puts "reloaded"
+  end
 end
 
 $rd = RcvDispatch.new($sp, ws_out)
 $clients = []
 
+# Send stuff out from Sonic Pi jobs out to GUI
 Thread.new do
   loop do
     begin
@@ -102,6 +109,7 @@ Thread.new do
   end
 end
 
+# Receive events from the GUI to Sonic Pi (potentially creating new jobs)
 server = Rubame::Server.new("0.0.0.0", 25252)
 
 while true
@@ -109,7 +117,7 @@ while true
     client.onopen do
       client.send({:type => :message, :val => "Connection initiated..."}.to_edn)
       $clients << client
-      puts "New Websocket Client"
+      puts "New Websocket Client: \n#{client.frame} \n #{client.socket} \n"
 
     end
     client.onmessage do |msg|

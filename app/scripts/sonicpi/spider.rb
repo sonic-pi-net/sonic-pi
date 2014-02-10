@@ -100,6 +100,11 @@ module SonicPi
       @events.event("/sync", {:id => id, :result => res})
     end
 
+    def __stop
+      __message "stopping..."
+      stop
+    end
+
     def __spider_eval(code, info={})
       id = @job_counter.next
       job = Thread.new do
