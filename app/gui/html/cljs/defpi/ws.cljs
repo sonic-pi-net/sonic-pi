@@ -8,6 +8,9 @@
 
 (enable-console-print!)
 
+(declare stop-job)
+
+
 (def err-cnt (atom 0))
 (def app-state (atom {:messages []
                       :jobs #{}}))
@@ -17,7 +20,7 @@
    (apply dom/div nil
           (map (fn [j-id]
                  (dom/div #js{:className "animated rotateIn"
-                              :onClick #(js/alert "clicked!")
+                              :onClick #(stop-job jo-id)
                               :style #js{:float "right"
                                          :height "30px"
                                          :width "30px"
@@ -112,3 +115,7 @@
   []
   (.send ws {:cmd "reload"
              :val (.getValue js/editor)}))
+
+(defn stop-job [j-id]
+  (.send ws {:cmd "stop-job"
+             :val j-id}))

@@ -100,9 +100,19 @@ module SonicPi
       @events.event("/sync", {:id => id, :result => res})
     end
 
+    def __stop_job(j)
+      __message "Stopping job #{j}"
+      @events.event("/stop-job", {:id => j})
+      @user_jobs.kill_job j
+      @msg_queue.push({type: :job, jobid: j, action: :completed})
+    end
+
     def __stop_jobs
       __message "stopping..."
       stop
+      @user_jobs.each_id do |id|
+        __stop_job id
+      end
     end
 
     def __spider_eval(code, info={})

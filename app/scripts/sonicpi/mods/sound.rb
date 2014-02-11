@@ -9,11 +9,20 @@
            define_method(:initialize) do |*splat, &block|
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
+             @job_groups = {}
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
 
                current_synth_proms.each{|csp| csp.get}
                current_synth_group.kill
+             end
+
+
+             @events.add_handler("/stop-job", @events.gensym("/mods-sound-stop-job")) do |payload|
+               job_id = payload[:id]
+               group = @job_groups[job_id]
+               group.kill
+               @job_groups.delete(job_id)
              end
            end
          end
@@ -149,10 +158,15 @@
 
        private
 
+       def current_job_id
+         Thread.current.thread_variable_get :sonic_pi_spider_job_id
+       end
+
        def current_synth_group
          g = Thread.current.thread_variable_get :sonic_pi_mod_sound_synth_group
          return g if g
          g = @mod_sound_studio.new_user_synth_group
+         @job_groups[current_job_id] = g
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_group, g
          g
        end
