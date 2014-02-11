@@ -1,45 +1,41 @@
-require 'thread'
+require "hamster/hash"
 require_relative "util"
+require_relative "atom"
+
 
 module SonicPi
   class IncomingEvents
 
     def initialize
-      @gensym_id_sem = Mutex.new
-      @current_gensym_id = 0
-      @handler_sem = Mutex.new
-      @handlers = {}
+      @current_gensym_id_A = Atom.new(0)
+      @handlers_A = Atom.new(Hamster.hash)
     end
 
     def gensym(s)
-      @gensym_id_sem.synchronize do
-        id = @current_gensym_id += 1
-        "#{s}-#{id}"
-      end
+      id = @current_gensym_id_A.swap!{|el| el + 1}
+      "#{s}-#{id}"
     end
 
     def event(handle, payload)
-      @handler_sem.synchronize do
-        hs = @handlers[handle] || {}
-        hs.each do |key, fn|
-          res = fn.call payload
-          if(res == :remove_handler)
-            hs.delete key
-          end
-          if(res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
-            res[1].each do |h_info|
-              hs = @handlers[h_info[0]]
-              hs.delete h_info[1]
-            end
+      handlers = @handlers_A.deref
+      hs = handlers[handle] || {}
+
+      hs.each do |key, fn|
+        res = fn.call payload
+        if(res == :remove_handler)
+          rm_handler(handle, key)
+        elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
+          res[1].each do |h_info|
+            rm_handler(h_info[0], h_info[1])
           end
         end
       end
     end
 
     def add_handler(handle, key, &block)
-      @handler_sem.synchronize do
-        @handlers[handle] = {} unless @handlers[handle]
-        @handlers[handle][key] = block
+      @handlers_A.swap! do |hs|
+        handlers = hs[handle] || Hamster.hash
+        hs.put(handle, handlers.put(key, block))
       end
     end
 
@@ -51,10 +47,9 @@ module SonicPi
     end
 
     def rm_handler(handle, key)
-      @handler_sem.synchronize do
-        if @handlers[handle]
-          @handlers[handle].delete key
-        end
+      @handlers_A.swap! do |hs|
+        handlers = hs[handle] || Hamster.hash
+        hs.put(handle, handlers.delete(key))
       end
     end
   end

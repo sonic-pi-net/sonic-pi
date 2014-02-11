@@ -1,37 +1,40 @@
 require_relative "bus"
+require_relative "atom"
+require "hamster/vector"
 
 module SonicPi
   class BusAllocator
     def initialize(max_bus_id, idx_offset)
-      @idx_offset = idx_offset
-      @max_bus_id = max_bus_id
-      @bus_ids = []
-      @bus_ids[max_bus_id] = nil
-      @busses = []
-      @sem = Mutex.new
+      @IDX_OFFSET = idx_offset
+      @MAX_BUS_ID = max_bus_id
+
+      @bus_ids_A = Atom.new(Hamster.vector)
+      @busses_A = Atom.new(Hamster.vector)
     end
 
     def allocate(num_adj_busses)
-      @sem.synchronize do
-        idx = find_gap(0, num_adj_busses)
-        (idx...idx+num_adj_busses).each {|i| @bus_ids[i] = true}
-        offsetted = idx + @idx_offset
-        bus = bus_class.new(offsetted, num_adj_busses, self){|id, size| release!(id-@idx_offset, size)}
-        @busses << bus
-        bus
+      idx = nil
+      ids = @bus_ids_A.swap! do |bids|
+        idx = find_gap(0, num_adj_busses, bids)
+        new_bus_ids = (idx...idx+num_adj_busses).reduce {|bs, i| bs.set(i, true)}
       end
+
+      offsetted = idx + @IDX_OFFSET
+      bus = bus_class.new(offsetted, num_adj_busses, self){|id, size| release!(id-@IDX_OFFSET, size)}
+
+      @busses_A.swap! {|bs| bs.add(bus)}
+      bus
     end
 
     def release(bus)
-      @bus.free
+      bus.free
     end
 
     def reset!
-      @sem.synchronize do
-        @busses.each {|b| b.free}
-        @busses = []
-        @bus_ids = []
-      end
+      old_busses = @busses_A.swap_returning_old! {|bs| Hamster.vector}
+      old_busses.each {|b| b.free}
+
+      @busses_A.reset! Hamster.vector
     end
 
     private
@@ -41,23 +44,23 @@ module SonicPi
     end
 
     def release!(idx, num_adj_busses)
-      @sem.synchronize do
-        (idx...idx+num_adj_busses).each {|i| @bus_ids[i] = false}
+      @bus_ids_A.swap! do |bids|
+        (idx...idx+num_adj_busses).reduce {|bs, i| bs.set(i, false)}
       end
     end
 
-    def valid_gap?(idx, gap_size)
-      bus_seg = @bus_ids[idx...idx+gap_size]
+    def valid_gap?(idx, gap_size, bids)
+      bus_seg = bids.to_a[idx...idx+gap_size]
       bus_seg.all?{|el| !el}
     end
 
-    def find_gap(idx, gap_size)
-      raise "Unable to allocate bus" if (idx > @max_bus_id)
+    def find_gap(idx, gap_size, bids)
+      raise "Unable to allocate bus" if (idx > @MAX_BUS_ID)
 
-      if valid_gap?(idx, gap_size)
+      if valid_gap?(idx, gap_size, bids)
         idx
       else
-        find_gap idx+1, gap_size
+        find_gap idx+1, gap_size, bids
       end
     end
   end

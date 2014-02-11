@@ -16,6 +16,8 @@ module SonicPi
           exec_cmd(data)
         when "stop-jobs"
           exec_stop(data)
+        when "stop-job"
+          exec_stop_job(data)
         when "event"
           exec_event(data)
         when "sync"
@@ -36,6 +38,10 @@ module SonicPi
 
     def exec_stop(data)
       @spider.__stop_jobs
+    end
+
+    def exec_stop_job(data)
+      @spider.__stop_job(data[:val])
     end
 
     def exec_cmd(data)

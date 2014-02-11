@@ -6,6 +6,7 @@ require_relative "audiobusallocator"
 require_relative "controlbusallocator"
 require_relative "promise"
 require_relative "incomingevents"
+require_relative "counter"
 
 module SonicPi
   class Server
@@ -13,49 +14,46 @@ module SonicPi
 
     attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x
 
-    ID_SEM = Mutex.new
-    OSC_SEM = Mutex.new
-    PRINT_SEM = Mutex.new
-    BUS_SEM = Mutex.new
-    CALLBACK_SEM = Mutex.new
-    INCOMING_MSG_SEM = Mutex.new
-    BUF_SEM = Mutex.new
-    SYNC_ID_SEM = Mutex.new
-    GENSYM_ID_SEM = Mutex.new
-    ROOT_GROUP = 0
+
 
     def initialize(hostname, port, msg_queue)
-      @hostname = hostname
-      @msg_queue = msg_queue
-      message "Initialising comms... #{msg_queue}"
-      @port = port
-      @events = IncomingEvents.new
-      @client = OSC::Server.new(4800)
+      @OSC_SEM = Mutex.new
+      @HOSTNAME = hostname
+
+      @MSG_QUEUE = msg_queue
+
+
+
+      @PORT = port
+      @CLIENT = OSC::Server.new(4800)
+      @EVENTS = IncomingEvents.new
+
 
       # Push all incoming OSC messages to the event system
-      @client.add_method '*' do |m|
-        @events.event m.address, m.to_a
+      @CLIENT.add_method '*' do |m|
+        @EVENTS.event m.address, m.to_a
       end
 
+      @CURRENT_NODE_ID = Counter.new(1)
+      @CURRENT_BUFFER_ID = Counter.new(0)
+      @CURRENT_SYNC_ID = Counter.new(0)
+
+      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new 100, 10 #TODO: remove these magic nums
+      @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 1000, 0
+
+      @SERVER_THREAD = Thread.new do
+        log "starting server thread"
+        @CLIENT.run
+      end
+
+      message "Initialising comms... #{msg_queue}"
       clear_scsynth!
       request_notifications
 
-      @current_sync_id = 0
-      @current_node_id = 1
-      @current_buffer_id = 0
-      @current_gensym_id = 0
-      @busses = []
-      @audio_bus_allocator = AudioBusAllocator.new 100, 10 #TODO: remove these magic nums
-      @control_bus_allocator = ControlBusAllocator.new 1000, 0
-      @callbacks = {}
-      @server_thread = Thread.new do
-        log "starting server thread"
-        @client.run
-      end
     end
 
     def message(s)
-       @msg_queue.push({:type => :debug_message, :val => s}) if debug_mode
+      @MSG_QUEUE.push({:type => :debug_message, :val => s}) if debug_mode
     end
 
     def request_notifications
@@ -71,11 +69,9 @@ module SonicPi
 
     def clear_scsynth!
       message "Clearing scsynth"
-      ID_SEM.synchronize do
-        @current_node_id = 1
-        clear_schedule
-        group_clear 0
-      end
+      @CURRENT_NODE_ID.reset!
+      clear_schedule
+      group_clear 0
     end
 
     def clear_schedule
@@ -85,12 +81,13 @@ module SonicPi
     def reset!
       clear_schedule
       clear_scsynth!
-      @audio_bus_allocator.reset!
-      @control_bus_allocator.reset!
+      @AUDIO_BUS_ALLOCATOR.reset!
+      @CONTROL_BUS_ALLOCATOR.reset!
     end
 
     def position_code(position)
-      {head: 0,
+      {
+        head: 0,
         tail: 1,
         before: 2,
         after: 3,
@@ -115,7 +112,7 @@ module SonicPi
     def create_group(position, target)
       target_id = target.to_i
       pos_code = position_code(position)
-      id = new_node_id
+      id = @CURRENT_NODE_ID.next
       if (pos_code && target_id)
         message "Group created with id: #{id}"
         osc "/g_new", id.to_f, pos_code.to_f, target_id.to_f
@@ -127,43 +124,18 @@ module SonicPi
     end
 
     def allocate_audio_bus(num_chans)
-      @audio_bus_allocator.allocate num_chans
+      @AUDIO_BUS_ALLOCATOR.allocate num_chans
     end
 
     def allocate_control_bus(num_chans)
-      @control_bus_allocator.allocate num_chans
-    end
-
-    def new_node_id
-      ID_SEM.synchronize do
-        @current_node_id += 1
-      end
-    end
-
-    def new_buffer_id
-      BUF_SEM.synchronize do
-        @current_buffer_id += 1
-      end
-    end
-
-    def new_sync_id
-      SYNC_ID_SEM.synchronize do
-        @current_sync_id += 1
-      end
-    end
-
-    def gensym(s)
-      GENSYM_ID_SEM.synchronize do
-        id = @current_gensym_id += 1
-        "#{s}-#{id}"
-      end
+      @CONTROL_BUS_ALLOCATOR.allocate num_chans
     end
 
     def trigger_synth(position, group, synth_name, *args)
       message "Triggering synth #{synth_name} at #{position}, #{group.to_s}"
       pos_code = position_code(position)
       group_id = group.to_i
-      node_id = new_node_id
+      node_id = @CURRENT_NODE_ID.next
       sn = SynthNode.new(node_id.to_f, self, synth_name.to_s)
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
@@ -179,7 +151,7 @@ module SonicPi
     end
 
     def buffer_alloc_read(path, start=0, n_frames=0)
-      buffer_id = new_buffer_id
+      buffer_id = @CURRENT_BUFFER_ID.next
       with_done_sync do
         osc "/b_allocRead", buffer_id, path, start, n_frames
       end
@@ -188,7 +160,7 @@ module SonicPi
 
     def buffer_info(id)
       prom = Promise.new
-      @events.add_handler("/b_info", @events.gensym("/sonicpi/server")) do |payload|
+      @EVENTS.add_handler("/b_info", @EVENTS.gensym("/sonicpi/server")) do |payload|
         if (id == payload.to_a[0])
           prom.deliver!  payload
           :remove_handler
@@ -207,7 +179,7 @@ module SonicPi
     def with_done_sync(&block)
       with_server_sync do
         prom = Promise.new
-        @events.add_handler("/done", @events.gensym("/sonicpi/server")) do |pl|
+        @EVENTS.add_handler("/done", @EVENTS.gensym("/sonicpi/server")) do |pl|
           prom.deliver! true
           :remove_handler
         end
@@ -218,9 +190,9 @@ module SonicPi
     end
 
     def with_server_sync(&block)
-      id = new_sync_id
+      id = @CURRENT_SYNC_ID.next
       prom = Promise.new
-      @events.add_handler("/synced", @events.gensym("/sonicpi/server")) do |payload|
+      @EVENTS.add_handler("/synced", @EVENTS.gensym("/sonicpi/server")) do |payload|
         if (id == payload.to_a[0])
           prom.deliver!  true
           :remove_handler
@@ -236,7 +208,7 @@ module SonicPi
       prom = Promise.new
       res = nil
 
-      @events.oneshot_handler("/status.reply") do |pl|
+      @EVENTS.oneshot_handler("/status.reply") do |pl|
         prom.deliver! pl
       end
 
@@ -244,6 +216,7 @@ module SonicPi
         osc "/status"
         res = prom.get
       end
+
       args = res.to_a
       {
         :ugens => args[1],
@@ -258,27 +231,26 @@ module SonicPi
     end
 
     def osc(*args)
-      OSC_SEM.synchronize do
+      @OSC_SEM.synchronize do
         message "--> osc: #{args}"
-
-        @client.send(OSC::Message.new(*args), @hostname, @port)
+        @CLIENT.send(OSC::Message.new(*args), @HOSTNAME, @PORT)
       end
     end
 
     def add_event_handler(handle, key, &block)
-      @events.add_handler(handle, key, &block)
+      @EVENTS.add_handler(handle, key, &block)
     end
 
     def add_event_oneshot_handler(handle, &block)
-      @events.oneshot_handler(handle, &block)
+      @EVENTS.oneshot_handler(handle, &block)
     end
 
     def rm_event_handler(handle, key)
-      @events.rm_handler(handle, key)
+      @EVENTS.rm_handler(handle, key)
     end
 
     def event_gensym(s)
-      @events.gensym(s)
+      @EVENTS.gensym(s)
     end
 
   end

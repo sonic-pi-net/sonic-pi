@@ -8,7 +8,7 @@
     path))
 
 (defn save-to-pi [sdef]
-  (save-synthdef sdef "/Users/sam/Dropbox/lab/code/defining-pi/etc/synthdefs/"))
+  (save-synthdef sdef "/path/to/sythdefs"))
 
 (do
   (defsynth space_organ [note 24 amp 1 x 0 y 0 out-bus 0]
