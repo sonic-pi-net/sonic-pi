@@ -26,6 +26,7 @@ module SonicPi
       @events = IncomingEvents.new
       @sync_counter = Counter.new
       @job_counter = Counter.new
+      @sub_threads = {}
       Thread.new do
         loop do
           event = @event_queue.pop
@@ -105,6 +106,8 @@ module SonicPi
       @events.event("/stop-job", {:id => j})
       @user_jobs.kill_job j
       @msg_queue.push({type: :job, jobid: j, action: :completed})
+      @sub_threads[j].each{|st| st.kill if st} if @sub_threads[j]
+      @sub_threads.delete(j)
     end
 
     def __stop_jobs
@@ -123,6 +126,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           eval(code)
+          @sub_threads[id].each{|t| t.join}
           @events.event("/job-completed", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)

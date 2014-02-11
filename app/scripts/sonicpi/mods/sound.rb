@@ -21,7 +21,7 @@
              @events.add_handler("/stop-job", @events.gensym("/mods-sound-stop-job")) do |payload|
                job_id = payload[:id]
                group = @job_groups[job_id]
-               group.kill
+               group.kill if group
                @job_groups.delete(job_id)
              end
            end
@@ -113,10 +113,17 @@
        end
 
        def in_thread(&block)
-         Thread.new do
+         cur_t = Thread.current
+         t = Thread.new do
+           cur_t.thread_variables.each do |v|
+             __message "-->> #{v} : #{cur_t.thread_variable_get(v)}"
+             Thread.current.thread_variable_set(v, cur_t.thread_variable_get(v))
+           end
            with_synth "pretty_bell"
            block.call
          end
+         register_thread t
+         t
        end
 
        def with_volume(vol)
@@ -157,6 +164,11 @@
        end
 
        private
+
+       def register_thread(t)
+         ts = @sub_threads[current_job_id] || []
+         @sub_threads[current_job_id] = ts << t
+       end
 
        def current_job_id
          Thread.current.thread_variable_get :sonic_pi_spider_job_id

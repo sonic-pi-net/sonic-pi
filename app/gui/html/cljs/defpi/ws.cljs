@@ -20,7 +20,7 @@
    (apply dom/div nil
           (map (fn [j-id]
                  (dom/div #js{:className "animated rotateIn"
-                              :onClick #(stop-job jo-id)
+                              :onClick #(stop-job j-id)
                               :style #js{:float "right"
                                          :height "30px"
                                          :width "30px"
