@@ -24,9 +24,11 @@
        end
 
        def trigger_sp_synth(synth_name, *args)
+         p = Promise.new
+         current_synth_proms_add p
          __message "playing #{synth_name} with: #{args}"
          s = @mod_sound_studio.trigger_sp_synth synth_name, current_synth_group, *args
-         s.on_destroyed{ p.deliver! true ; __message "howdydoody"}
+         s.on_destroyed{ p.deliver! true }
          s
        end
 
@@ -151,7 +153,7 @@
          g = Thread.current.thread_variable_get :sonic_pi_mod_sound_synth_group
          return g if g
          g = @mod_sound_studio.new_user_synth_group
-         Thread.current.thread_variable_set :sonic_pi_spider_synth_group, g
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_group, g
          g
        end
 
