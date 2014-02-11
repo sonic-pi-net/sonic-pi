@@ -48,7 +48,7 @@ module SonicPi
     end
 
     def debug_mode
-      true
+      false
     end
 
   end
