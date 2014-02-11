@@ -35,7 +35,7 @@
          current_synth_proms_add p
          __message "playing #{synth_name} with: #{args}"
          s = @mod_sound_studio.trigger_synth synth_name, current_synth_group, *args
-         s.on_destroyed{ p.deliver! true ; __message "howdydoody"}
+         s.on_destroyed{ p.deliver! true }
          s
        end
 
