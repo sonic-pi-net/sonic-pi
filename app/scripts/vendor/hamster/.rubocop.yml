@@ -1,0 +1,51 @@
+AllCops:
+  Excludes:
+    - bench/**/*
+
+# We simply disagree with this rule
+StringLiterals:
+  EnforcedStyle: double_quotes
+
+# We simply disagree with this rule
+SignalException:
+  Enabled: false
+
+# We're going to have to work on this over time
+Documentation:
+  Enabled: false
+
+# We're a collection library, so we disagree with some of this
+CollectionMethods:
+  PreferredMethods:
+    collect: map
+    collect!: map!
+    inject: reduce
+    detect: find
+
+# We're a cross-implementation library, all the back to 1.8
+HashSyntax:
+  Enabled: false
+
+# We have to wait this out
+ClassLength:
+  Enabled: false
+
+# We have to wait this out
+MethodLength:
+  Enabled: false
+
+# We have to wait this out
+LineLength:
+  Enabled: false
+
+# This is a really dumb style checker, who the hell uses |a, e|?
+SingleLineBlockParams:
+  Enabled: false
+
+# Our usecase is pretty standard, not sure why we have to block this
+CaseEquality:
+  Enabled: false
+
+# We're not ready to deprecate the method yet
+HashMethods:
+  Enabled: false
