@@ -126,7 +126,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           eval(code)
-          @sub_threads[id].each{|t| t.join}
+          @sub_threads[id].each{|t| t.join}  if @sub_threads[id]
           @events.event("/job-completed", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)
