@@ -32,7 +32,7 @@
    (apply dom/div nil
           (map (fn [m]
                  (dom/div nil (:val m)))
-               (reverse (:messages data))))))
+               (take 20 (reverse (:messages data)))))))
 
 (om/root app-state message-comp (.getElementById js/document "app-messages"))
 (om/root app-state jobs-comp (.getElementById js/document "app-jobs"))
@@ -47,7 +47,8 @@
 
 (defn show-msg
   [msg]
-  (swap! app-state update-in [:messages] conj msg))
+  (swap! app-state update-in [:messages] conj msg)
+  )
 
 (defn reply-sync
   [msg res]
