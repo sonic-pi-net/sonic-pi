@@ -33,6 +33,9 @@
        end
 
        def trigger_sp_synth(synth_name, *args)
+         args_h = Hash[*args]
+         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
+         args = t_l_args.merge(args_h).to_a.flatten
          p = Promise.new
          current_synth_proms_add p
          __message "playing #{synth_name} with: #{args}"
@@ -42,6 +45,9 @@
        end
 
        def trigger_synth(synth_name, *args)
+         args_h = Hash[*args]
+         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
+         args = t_l_args.merge(args_h).to_a.flatten
          p = Promise.new
          current_synth_proms_add p
          __message "playing #{synth_name} with: #{args}"
@@ -58,6 +64,10 @@
          while true
            block.call
          end
+       end
+
+       def with_synth_defaults(*args)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, Hash[*args]
        end
 
        def with_tempo(n)
