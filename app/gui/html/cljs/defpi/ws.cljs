@@ -41,9 +41,9 @@
   (let [hn (.-host (.-location js/window))]
     (if (= "" hn)
       "localhost"
-      hn)))
+      (re-find #"[^\:]+" hn))))
 
-(def ws (js/WebSocket. (str "ws://" hostname  ":25252")))
+(def ws (js/WebSocket. (str "ws://" hostname  ":8001")))
 
 (defn show-msg
   [msg]

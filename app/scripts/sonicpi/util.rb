@@ -39,8 +39,8 @@ module SonicPi
       File.absolute_path("#{etc_path}/samples")
     end
 
-    def media_path
-      File.absolute_path("#{root_path}/public/media")
+    def html_public_path
+      File.absolute_path("#{root_path}/app/gui/html")
     end
 
     def log(message)
