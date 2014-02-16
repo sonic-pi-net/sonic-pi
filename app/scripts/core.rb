@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "1.9.3"
+
 ## This core file sets up the load path and applies any necessary monkeypatches.
 
 ## Ensure all libs in vendor directory are available
@@ -95,6 +97,20 @@ module Rubame
         end
         time_passed = Time.now - timer_start
       end while time_passed < time
+    end
+  end
+end
+
+
+# Backport Ruby 2+ thread local variable syntax
+if RUBY_VERSION < "2"
+  class Thread
+    def thread_variable_get(n)
+      self[n]
+    end
+
+    def thread_variable_set(n, v)
+      self[n] = v
     end
   end
 end
