@@ -57,6 +57,20 @@ module SonicPi
       __message output
     end
 
+    def sleep(seconds)
+      last = Thread.current.thread_variable_get :sonic_pi_spider_time
+      now = Time.now
+
+      new_t = last + seconds
+      if now > new_t
+        __message "Can't keep up..."
+      else
+        Kernel.sleep new_t - now
+      end
+
+      Thread.current.thread_variable_set :sonic_pi_spider_time, new_t
+    end
+
     ## Not officially part of the API
     ## Probably should be moved somewhere else
 
@@ -122,6 +136,7 @@ module SonicPi
       id = @job_counter.next
       job = Thread.new do
         begin
+          Thread.current.thread_variable_set :sonic_pi_spider_time, Time.now
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
