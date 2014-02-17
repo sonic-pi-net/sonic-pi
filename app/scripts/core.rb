@@ -112,5 +112,9 @@ if RUBY_VERSION < "2"
     def thread_variable_set(n, v)
       self[n] = v
     end
+
+    def thread_variables
+      self.keys
+    end
   end
 end
