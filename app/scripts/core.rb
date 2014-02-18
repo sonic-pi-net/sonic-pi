@@ -118,3 +118,9 @@ if RUBY_VERSION < "2"
     end
   end
 end
+
+class Array
+  def choose
+    self.sample
+  end
+end
