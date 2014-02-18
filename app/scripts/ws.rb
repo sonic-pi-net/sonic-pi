@@ -81,7 +81,9 @@ in_t = Thread.new do
   end
 end
 
-$web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "127.0.0.1" , :DocumentRoot => html_public_path
-$web_server.start
+$web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "localhost" , :DocumentRoot => html_public_path
+web_t = Thread.new { $web_server.start}
+
 out_t.join
 in_t.join
+web_t.join
