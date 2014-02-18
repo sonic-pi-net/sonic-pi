@@ -58,3 +58,17 @@ Links to samples:
 * elec_twip - http://www.freesound.org/people/looppool/sounds/13094/
 * elec_plip - http://www.freesound.org/people/looppool/sounds/13093/
 * elec_blup - http://www.freesound.org/people/looppool/sounds/13092/
+
+## Misc
+
+* soft_buzz - http://freesound.org/people/ludvique/sounds/71852/
+* swoosh - http://freesound.org/people/Halgrimm/sounds/169867/
+* drone - http://freesound.org/people/Autistic%20Lucario/sounds/195341/
+* glass_hum - http://freesound.org/people/kaligari/sounds/35391/
+* haunted_hum - http://freesound.org/people/kaligari/sounds/35392/
+* guitar_harmonics - http://freesound.org/people/BStateham/sounds/141524/<
+* guitar_e_fifths - http://freesound.org/people/Sub-d/sounds/46990/
+* guitar_e_slide - http://freesound.org/people/Suva/sounds/2410/
+* atmos_piano - http://freesound.org/people/RutgerMuller/sounds/51245/
+* lunar_land - http://freesound.org/people/maqsim/sounds/172157/
+
