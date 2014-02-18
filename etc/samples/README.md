@@ -7,7 +7,12 @@ http://creativecommons.org/publicdomain/zero/1.0/
 
 Links to samples:
 
+## Zajo
+
 * heavy_kick - http://freesound.org/people/Zajo/sounds/4832/
+
+## Menegass
+
 * tom_mid_soft - http://www.freesound.org/people/menegass/sounds/100067/
 * tom_mid_hard - http://www.freesound.org/people/menegass/sounds/100066/
 * tom_lo_soft - http://www.freesound.org/people/menegass/sounds/100065/
@@ -26,7 +31,30 @@ Links to samples:
 * bass_drum_soft - http://www.freesound.org/people/menegass/sounds/100052/
 * bass_drum_hard - http://www.freesound.org/people/menegass/sounds/100051/
 
+## Looppol
 
-
-
-
+* elec_triangle - http://www.freesound.org/people/looppool/sounds/13147/
+* elec_snare - http://www.freesound.org/people/looppool/sounds/13146/
+* elec_lo_snare - http://www.freesound.org/people/looppool/sounds/13145/
+* elec_hi_snare - http://www.freesound.org/people/looppool/sounds/13125/
+* elec_mid_snare - http://www.freesound.org/people/looppool/sounds/13132/
+* elec_cymbal - http://www.freesound.org/people/looppool/sounds/13143/
+* elec_soft_kick - http://www.freesound.org/people/looppool/sounds/13142/
+* elec_filt_snare - http://www.freesound.org/people/looppool/sounds/13141/
+* elec_fuzz_tom - http://www.freesound.org/people/looppool/sounds/13140/
+* elec_chime - http://www.freesound.org/people/looppool/sounds/13138/
+* elec_bong - http://www.freesound.org/people/looppool/sounds/13137/
+* elec_twang - http://www.freesound.org/people/looppool/sounds/13136/
+* elec_wood - http://www.freesound.org/people/looppool/sounds/13135/
+* elec_pop - http://www.freesound.org/people/looppool/sounds/13134/
+* elec_beep - http://www.freesound.org/people/looppool/sounds/13126/
+* elec_blip - http://www.freesound.org/people/looppool/sounds/13121/
+* elec_blip2 - http://www.freesound.org/people/looppool/sounds/13120/
+* elec_ping - http://www.freesound.org/people/looppool/sounds/13119/
+* elec_bell - http://www.freesound.org/people/looppool/sounds/13116/
+* elec_flip - http://www.freesound.org/people/looppool/sounds/13114/
+* elec_tick - http://www.freesound.org/people/looppool/sounds/13113/
+* elec_hollow_kick - http://www.freesound.org/people/looppool/sounds/13099/
+* elec_twip - http://www.freesound.org/people/looppool/sounds/13094/
+* elec_plip - http://www.freesound.org/people/looppool/sounds/13093/
+* elec_blup - http://www.freesound.org/people/looppool/sounds/13092/
