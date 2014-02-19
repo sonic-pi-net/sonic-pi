@@ -25,7 +25,8 @@ module SonicPi
           [:remove_handlers,
             [ ["/n_go", created_event_id],
               ["/n_off", paused_event_id],
-              ["/n_on", started_event_id]]]
+              ["/n_on", started_event_id],
+              ["/n_end", killed_event_id]]]
         end
       end
 
