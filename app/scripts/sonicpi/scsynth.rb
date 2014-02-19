@@ -25,7 +25,7 @@ module SonicPi
       when :osx
         boot_server_osx
       when :windows
-        raise "Windows is not yet supported..."
+        boot_server_windows
       end
       true
     end
@@ -90,6 +90,13 @@ module SonicPi
       sleep 4
       updated_scsynth_pids = `ps cax | grep scsynth`.split("\n").map{|l| l.split(" ").first}
       @scsynth_pid = (updated_scsynth_pids - existing_scsynth_pids).first
+    end
+
+    def boot_server_windows
+      log_boot_msg
+      log "Booting on Windows"
+      Thread.new {system "C:/Program Files (x86)/SuperCollider-3.6.6/scsynth.exe", "-u", "4556"}
+      sleep 5
     end
 
     def boot_server_linux

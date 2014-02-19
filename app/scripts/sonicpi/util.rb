@@ -8,7 +8,7 @@ module SonicPi
         :linux
       when /.*darwin.*/
         :osx
-      when /.*mswin.*/
+      when /.*mingw.*/
         :windows
       else
         raise "Unsupported platform #{RUBY_PLATFORM}"
