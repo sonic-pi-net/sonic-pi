@@ -162,6 +162,10 @@
          load_sample(path)
        end
 
+       def sample_duration(path)
+         load_sample(path).duration
+       end
+
        def sample(path, *args)
          buf_info = load_sample(path)
          synth_name = (buf_info.num_chans == 1) ? "sp/mono-partial-playr" : "sp/stereo-partial-playr"
