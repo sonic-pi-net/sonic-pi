@@ -231,3 +231,53 @@
 ;;              * 800 + 1000, 0.03, 0.005)}!2)  * 4;
 ;;      Out.ar(out, son * (amp * 20))
 ;; },
+(do
+
+  (defsynth mono-player
+    [buf 0 rate 1 out-bus 0 loop 0]
+    (let [rate (* rate (buf-rate-scale buf ))]
+      (out out-bus (play-buf 1 buf rate :loop loop :action FREE))))
+
+  (defsynth stereo-player
+    [buf 0 rate 1 out-bus 0 loop 0]
+    (let [rate (* rate (buf-rate-scale buf ))]
+      (out out-bus (play-buf 2 buf rate :loop loop :action FREE))))
+
+  (defsynth mono-partial-playr
+    "Plays a mono buffer from start pos to end pos (represented as
+       values between 0 and 1). May be looped via the loop?
+       argument. Release time is the release phase after the looping has
+       finished to remove clipping."
+    [buf 0 rate 1 start 0 end 1 loop? 0 amp 1 release 0.01 out-bus 0]
+    (let [n-frames  (buf-frames buf)
+          rate      (* rate (buf-rate-scale buf))
+          start-pos (* start n-frames)
+          end-pos   (* end n-frames)
+          phase     (phasor:ar :start start-pos :end end-pos :rate rate)
+          snd       (buf-rd 1 buf phase)
+          e-gate    (+ loop?
+                       (latch:ar (line 1 0 0.0001) (bpz2 phase)))
+          env       (env-gen:ar (asr 0 1 release) :gate e-gate :action FREE)]
+      (out out-bus (* amp env snd))))
+
+      (defsynth stereo-partial-playr
+      "Plays a stereo buffer from start pos to end pos (represented as
+       values between 0 and 1). May be looped via the loop?
+       argument. Release time is the release phase after the looping has
+       finished to remove clipping."
+      [buf 0 rate 1 start 0 end 1 loop? 0 amp 1 release 0.01 out-bus 0]
+      (let [n-frames  (buf-frames buf)
+            rate      (* rate (buf-rate-scale buf))
+            start-pos (* start n-frames)
+            end-pos   (* end n-frames)
+            phase     (phasor:ar :start start-pos :end end-pos :rate rate)
+            snd       (buf-rd 2 buf phase)
+            e-gate    (+ loop?
+                         (latch:ar (line 1 0 0.0001) (bpz2 phase)))
+            env       (env-gen:ar (asr 0 1 release) :gate e-gate :action FREE)]
+        (out out-bus (* amp env snd))))
+
+      (save-to-pi mono-player)
+      (save-to-pi stereo-player)
+      (save-to-pi mono-partial-playr)
+      (save-to-pi stereo-partial-playr))

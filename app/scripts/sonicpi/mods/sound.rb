@@ -168,6 +168,13 @@
 
        def sample(path, *args)
          buf_info = load_sample(path)
+         synth_name = (buf_info.num_chans == 1) ? "sp/mono-player" : "sp/stereo-player"
+         __message "Playing sample: #{path}"
+         trigger_synth synth_name, "buf", buf_info.id, *args
+       end
+
+       def sample_partial(path, *args)
+         buf_info = load_sample(path)
          synth_name = (buf_info.num_chans == 1) ? "sp/mono-partial-playr" : "sp/stereo-partial-playr"
          __message "Playing sample: #{path}"
          trigger_synth synth_name, "buf", buf_info.id, *args
