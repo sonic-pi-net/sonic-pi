@@ -63,7 +63,8 @@ module SonicPi
       when :osx
         osx_scsynth_path
       when :windows
-        raise "Windows isn't yet supported, so no path here..."
+        # Do some globbing here for both 32/64 bit and different versions of SC
+        "C:/Program Files (x86)/SuperCollider-3.6.6/scsynth.exe"
       end
     end
 
@@ -95,7 +96,7 @@ module SonicPi
     def boot_server_windows
       log_boot_msg
       log "Booting on Windows"
-      Thread.new {system "C:/Program Files (x86)/SuperCollider-3.6.6/scsynth.exe", "-u", "4556"}
+      Thread.new {system scsynth_path, "-u", @port.to_s}
       sleep 5
     end
 
@@ -120,7 +121,7 @@ module SonicPi
       #Start new instance of SuperCollider server and store its PID.
       existing_scsynth_pids = `ps cax | grep scsynth`.split("\n").map{|l| l.split(" ").first}
       log "Starting the SuperCollider server..."
-      system("scsynth -u 4556 -m 131072 &")
+      system("scsynth -u #{@port} -m 131072 &")
       sleep 4
       updated_scsynth_pids = `ps cax | grep scsynth`.split("\n").map{|l| l.split(" ").first}
       @scsynth_pid = (updated_scsynth_pids - existing_scsynth_pids).first
