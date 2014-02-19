@@ -56,8 +56,9 @@
          s
        end
 
-       def play(note, *args)
-         trigger_sp_synth @mod_sound_studio.current_synth_name, "note", note, *args
+       def play(n, *args)
+         n = note(n)
+         trigger_sp_synth @mod_sound_studio.current_synth_name, "note", n, *args if n
        end
 
        def repeat(&block)
@@ -183,6 +184,28 @@
        def status
          __message @mod_sound_studio.status
        end
+
+
+       def note_info(n, o=nil)
+         @mod_sound_studio.note(n, o)
+       end
+
+
+       def note(n, o=nil)
+         case n
+         when String
+           @mod_sound_studio.note(n, o).midi_note
+         when NilClass
+           nil
+         when Integer
+           n
+         when Float
+           n
+         when Symbol
+           note(n.to_s, o)
+         end
+       end
+
 
        private
 

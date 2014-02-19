@@ -1,5 +1,6 @@
-require File.absolute_path("#{File.dirname(__FILE__)}/util")
-require File.absolute_path("#{File.dirname(__FILE__)}/server")
+require_relative "util"
+require_relative "server"
+require_relative "note"
 
 module SonicPi
   class Studio
@@ -24,6 +25,10 @@ module SonicPi
       @max_concurrent_synths = max_concurrent_synths
       @samples = {}
       reset
+    end
+
+    def note(n, o=nil)
+      Note.new(n, o)
     end
 
     def load_sample(path)
