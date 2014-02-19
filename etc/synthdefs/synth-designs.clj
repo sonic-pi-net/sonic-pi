@@ -234,14 +234,14 @@
 (do
 
   (defsynth mono-player
-    [buf 0 rate 1 out-bus 0 loop 0]
+    [buf 0 rate 1 out-bus 0 amp 1 loop 0]
     (let [rate (* rate (buf-rate-scale buf ))]
-      (out out-bus (play-buf 1 buf rate :loop loop :action FREE))))
+      (out out-bus (* amp (play-buf 1 buf rate :loop loop :action FREE)))))
 
   (defsynth stereo-player
-    [buf 0 rate 1 out-bus 0 loop 0]
+    [buf 0 rate 1 out-bus 0 amp 1 loop 0]
     (let [rate (* rate (buf-rate-scale buf ))]
-      (out out-bus (play-buf 2 buf rate :loop loop :action FREE))))
+      (out out-bus (* amp (play-buf 2 buf rate :loop loop :action FREE)))))
 
   (defsynth mono-partial-playr
     "Plays a mono buffer from start pos to end pos (represented as
