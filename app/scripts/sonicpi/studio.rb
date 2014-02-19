@@ -21,7 +21,6 @@ module SonicPi
       Thread.current.thread_variable_set :sonic_pi_studio_current_pad_synth, nil
 
       @msg_queue = msg_queue
-      @running_synths = []
       @max_concurrent_synths = max_concurrent_synths
       @samples = {}
       reset
@@ -35,6 +34,7 @@ module SonicPi
       return @samples[path] if @samples[path]
       buf_info = nil
       SAMPLE_SEM.synchronize do
+        return @samples[path] if @samples[path]
         buf_info = @server.buffer_alloc_read(path)
         @samples[path] = buf_info
       end
@@ -139,13 +139,8 @@ module SonicPi
       @server.create_group(:tail, @synth_group)
     end
 
-
-    private
-
-    def kill_old_synths
-      SYNTH_MOD.synchronize do
-
-      end
+    def exit
+      @server.exit
     end
 
   end
