@@ -76,6 +76,10 @@ module SonicPi
       self
     end
 
+    def control(*args)
+      ctl(*args)
+    end
+
     def live?
       !(@state == :destroyed)
     end
