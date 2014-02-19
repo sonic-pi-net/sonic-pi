@@ -27,7 +27,7 @@ module SonicPi
       @sync_counter = Counter.new
       @job_counter = Counter.new
       @sub_threads = {}
-      Thread.new do
+      @event_t = Thread.new do
         loop do
           event = @event_queue.pop
           __handle_event event
@@ -153,6 +153,13 @@ module SonicPi
       end
 
       @user_jobs.add_job(id, job, info)
+
+    end
+
+    def __exit
+      __stop_jobs
+      @msg_queue.push({:type => :exit, :jobid => __current_job_id, :jobinfo => __current_job_info})
+      @event_t.kill
 
     end
   end

@@ -24,6 +24,11 @@
                group.kill if group
                @job_groups.delete(job_id)
              end
+
+
+             @events.add_handler("/exit", @events.gensym("/mods-sound-exit")) do |payload|
+               @mod_sound_studio.exit
+             end
            end
          end
        end

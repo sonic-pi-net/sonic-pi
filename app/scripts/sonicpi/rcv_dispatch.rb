@@ -24,6 +24,8 @@ module SonicPi
           exec_sync(data)
         when "reload"
           exec_reload
+        when "exit"
+          exec_exit
         else
           raise "Unknown command: #{cmd}"
         end
@@ -50,6 +52,10 @@ module SonicPi
 
     def exec_event(data)
       @event_queue.push data
+    end
+
+    def exec_exit
+      @spider.__exit
     end
 
     def exec_reload

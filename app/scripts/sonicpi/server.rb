@@ -249,5 +249,10 @@ module SonicPi
       @EVENTS.gensym(s)
     end
 
+    def exit
+      osc "/quit"
+      @SERVER_THREAD.kill
+    end
+
   end
 end
