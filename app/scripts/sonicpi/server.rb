@@ -7,14 +7,13 @@ require_relative "controlbusallocator"
 require_relative "promise"
 require_relative "incomingevents"
 require_relative "counter"
+require_relative "buffer"
 
 module SonicPi
   class Server
     include Util
 
     attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x
-
-
 
     def initialize(hostname, port, msg_queue)
       @OSC_SEM = Mutex.new
@@ -155,7 +154,7 @@ module SonicPi
       with_done_sync do
         osc "/b_allocRead", buffer_id, path, start, n_frames
       end
-      buffer_id
+      buffer_info(buffer_id)
     end
 
     def buffer_info(id)
@@ -170,10 +169,7 @@ module SonicPi
       res = prom.get
 
       args = res.to_a
-      { :id => args[0],
-        :num_frames => args[1],
-        :num_chans => args[2],
-        :sample_rate => args[3]}
+      Buffer.new(args[0], args[1], args[2], args[3])
     end
 
     def with_done_sync(&block)

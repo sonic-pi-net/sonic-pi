@@ -164,9 +164,9 @@
 
        def sample(path, *args)
          buf_info = load_sample(path)
-         synth_name = (buf_info[:num_chans] == 1) ? "overtone.sc.sample/mono-player" : "overtone.sc.saddd/stereo-player"
+         synth_name = (buf_info.num_chans == 1) ? "sp/mono-partial-playr" : "sp/stereo-partial-playr"
          __message "Playing sample: #{path}"
-         trigger_synth synth_name, "buf", buf_info[:id], *args
+         trigger_synth synth_name, "buf", buf_info.id, *args
        end
 
        def status

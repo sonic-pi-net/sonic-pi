@@ -30,8 +30,7 @@ module SonicPi
       return @samples[path] if @samples[path]
       buf_info = nil
       SAMPLE_SEM.synchronize do
-        id = @server.buffer_alloc_read(path)
-        buf_info = @server.buffer_info(id)
+        buf_info = @server.buffer_alloc_read(path)
         @samples[path] = buf_info
       end
       buf_info

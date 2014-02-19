@@ -8,7 +8,7 @@
     path))
 
 (defn save-to-pi [sdef]
-  (save-synthdef sdef "/path/to/sythdefs"))
+  (save-synthdef sdef "/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/"))
 
 (do
   (defsynth space_organ [note 24 amp 1 x 0 y 0 out-bus 0]
@@ -37,26 +37,27 @@
   (defsynth trig))
 
 (do
-  (defsynth beep [note 52 attack 0.1 release 0.3 out-bus 0]
+  (defsynth beep [note 52 attack 0.1 release 0.3 amp 1 out-bus 0]
     (let [freq (midicps note)]
-      (out out-bus (* (sin-osc freq)
+      (out out-bus (* amp
+                      (sin-osc freq)
                       (env-gen (perc attack release) :action FREE)))))
 
   (save-to-pi beep))
 
 (do
-  (defsynth saw_beep [note 52 attack 0.1 release 0.3 out-bus 0]
+  (defsynth saw_beep [note 52 attack 0.1 release 0.3 amp 1 out-bus 0]
     (let [freq (midicps note)]
-      (out out-bus (* 0.3
+      (out out-bus (* amp
                       (saw [freq (+ freq (* freq 0.01))])
                       (env-gen (perc attack release) :action FREE)))))
 
   (save-to-pi saw_beep))
 
 (do
-  (defsynth loop-synth [buf 0 vol 1 rate 1 out-bus 0]
+  (defsynth loop-synth [buf 0 rate 1 amp 1 out-bus 0]
     (let [src (play-buf 1 buf rate 1.0 0.0 1.0 1)]
-      (out out-bus (pan2 (* src vol)))))
+      (out out-bus (pan2 (* src amp)))))
   (save-to-pi loop-synth))
 
 (do
@@ -93,12 +94,12 @@
   (save-to-pi babbling))
 
 (do
-  (defsynth fm [note 52 divisor 2.0 depth 1.0 out-bus 0]
+  (defsynth fm [note 52 amp 1 attack 1 release 1 divisor 2.0 depth 1.0 out-bus 0]
     (let [carrier   (midicps note)
           modulator (/ carrier divisor)
-          mod-env   (env-gen (lin-env 1 0 1))
-          amp-env   (env-gen (lin-env 0 1 1) :action FREE)]
-      (out out-bus (* 0.25 (* amp-env
+          mod-env   (env-gen (env-lin attack 0 release))
+          amp-env   (env-gen (env-lin 0 attack release) :action FREE)]
+      (out out-bus (* amp (* amp-env
                              (sin-osc (+ carrier
                                          (* mod-env  (* carrier depth) (sin-osc modulator)))))))))
 
@@ -205,15 +206,15 @@
            ))))
 
 
-(defsynth dull_bell [note 52 attack 0.01 release 1.0 vol 1.0 out-bus 0]
+(defsynth dull_bell [note 52 attack 0.01 release 1.0 amp 1.0 out-bus 0]
   (let [freq (midicps note)
-        snd (* vol (bell-partials freq attack release dull-partials))]
+        snd (* amp (bell-partials freq attack release dull-partials))]
     (detect-silence snd :action FREE)
     (out out-bus snd)))
 
-(defsynth pretty_bell [note 52 attack 0.01 release 1 vol 1.0 out-bus 0]
+(defsynth pretty_bell [note 52 attack 0.01 release 1 amp 1.0 out-bus 0]
   (let [freq (midicps note)
-        snd (* vol (bell-partials freq attack release partials))]
+        snd (* amp (bell-partials freq attack release partials))]
     (detect-silence snd :action FREE)
     (out out-bus snd)))
 
