@@ -167,6 +167,10 @@ module SonicPi
          @mod_sound_studio.load_sample(path)
        end
 
+       def load_samples(*paths)
+         paths.each{|p| load_sample p}
+       end
+
        def sample_info(path)
          load_sample(path)
        end
