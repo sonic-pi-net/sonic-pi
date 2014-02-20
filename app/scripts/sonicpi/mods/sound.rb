@@ -1,3 +1,4 @@
+require 'thread'
 require "hamster/set"
 
 module SonicPi
@@ -11,8 +12,9 @@ module SonicPi
            define_method(:initialize) do |*splat, &block|
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
-             @job_groups = {}
              @JOB_SYNTH_PROMS_A = Atom.new(Hamster.hash)
+             @JOB_GROUPS_A = Atom.new(Hamster.hash)
+             @JOB_GROUP_MUTEX = Mutex.new
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
                job_id = payload[:id]
@@ -25,22 +27,21 @@ module SonicPi
                  ps.delete job_id
                end
 
-               current_synth_group.kill
+               kill_job_group(job_id)
 
              end
 
 
              @events.add_handler("/stop-job", @events.gensym("/mods-sound-stop-job")) do |payload|
                job_id = payload[:id]
-               group = @job_groups[job_id]
-               group.kill if group
-               @job_groups.delete(job_id)
+               kill_job_group(job_id)
+
 
                @JOB_SYNTH_PROMS_A.swap! do |ps|
                  ps.delete job_id
                end
-             end
 
+             end
 
              @events.add_handler("/exit", @events.gensym("/mods-sound-exit")) do |payload|
                @mod_sound_studio.exit
@@ -54,30 +55,32 @@ module SonicPi
        end
 
        def trigger_sp_synth(synth_name, *args)
+         job_id = current_job_id
          args_h = Hash[*args]
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          args = t_l_args.merge(args_h).to_a.flatten
          p = Promise.new
-         job_synth_proms_add(current_job_id, p)
+         job_synth_proms_add(job_id, p)
          __message "playing #{synth_name} with: #{args}"
-         s = @mod_sound_studio.trigger_sp_synth synth_name, current_synth_group, *args
+         s = @mod_sound_studio.trigger_sp_synth synth_name, job_synth_group(current_job_id), *args
          s.on_destroyed do
-           job_synth_proms_rm(current_job_id, p)
+           job_synth_proms_rm(job_id, p)
            p.deliver! true
          end
          s
        end
 
        def trigger_synth(synth_name, *args)
+         job_id = current_job_id
          args_h = Hash[*args]
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          args = t_l_args.merge(args_h).to_a.flatten
          p = Promise.new
-         job_synth_proms_add(current_job_id, p)
+         job_synth_proms_add(job_id, p)
          __message "playing #{synth_name} with: #{args}"
-         s = @mod_sound_studio.trigger_synth synth_name, current_synth_group, *args
+         s = @mod_sound_studio.trigger_synth synth_name, job_synth_group(current_job_id), *args
          s.on_destroyed do
-           job_synth_proms_rm(current_job_id, p)
+           job_synth_proms_rm(job_id, p)
            p.deliver! true
          end
          s
@@ -203,7 +206,6 @@ module SonicPi
          @mod_sound_studio.note(n, o)
        end
 
-
        def note(n, o=nil)
          case n
          when String
@@ -219,37 +221,51 @@ module SonicPi
          end
        end
 
-
        private
-
 
        def current_job_id
          Thread.current.thread_variable_get :sonic_pi_spider_job_id
        end
 
-       def current_synth_group
-         g = Thread.current.thread_variable_get :sonic_pi_mod_sound_synth_group
+       def job_synth_group(job_id)
+         g = @JOB_GROUPS_A.deref[job_id]
          return g if g
-         g = @mod_sound_studio.new_user_synth_group
-         @job_groups[current_job_id] = g
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_group, g
+
+         @JOB_GROUP_MUTEX.synchronize do
+           g = @JOB_GROUPS_A.deref[job_id]
+           return g if g
+           g = @mod_sound_studio.new_user_synth_group
+
+           @JOB_GROUPS_A.swap! do |gs|
+             gs.put job_id, g
+           end
+         end
          g
        end
 
        def job_synth_proms_add(job_id, p)
          @JOB_SYNTH_PROMS_A.swap! do |js|
-           proms = js[:job_id] || Hamster.set
+           proms = js[job_id] || Hamster.set
            proms = proms.add p
-           js.put :job_id, proms
+           js.put job_id, proms
          end
        end
 
        def job_synth_proms_rm(job_id, p)
          @JOB_SYNTH_PROMS_A.swap! do |js|
-           proms = js[:job_id] || Hamster.set
+           proms = js[job_id] || Hamster.set
            proms = proms.delete p
-           js.put :job_id, proms
+           js.put job_id, proms
          end
+       end
+
+       def kill_job_group(job_id)
+         old_job_groups = @JOB_GROUPS_A.swap_returning_old! do |js|
+           js.delete job_id
+         end
+
+         job_group = old_job_groups[job_id]
+         job_group.kill if job_group
        end
      end
    end
