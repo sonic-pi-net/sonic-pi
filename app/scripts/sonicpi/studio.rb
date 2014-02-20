@@ -134,13 +134,16 @@ module SonicPi
       @server.group_clear @synth_group
     end
 
-
     def new_user_synth_group
       @server.create_group(:tail, @synth_group)
     end
 
     def exit
       @server.exit
+    end
+
+    def sched_ahead_time(t)
+      @server.sched_ahead_time = t
     end
 
   end

@@ -13,9 +13,10 @@ module SonicPi
   class Server
     include Util
 
-    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x
+    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time
 
     def initialize(hostname, port, msg_queue)
+      @sched_ahead_time = 0.1
       @OSC_SEM = Mutex.new
       @HOSTNAME = hostname
 
@@ -138,7 +139,7 @@ module SonicPi
       sn = SynthNode.new(node_id.to_f, self, synth_name.to_s)
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
-      ts = (Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now) + 0.1
+      ts = (Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now) + @sched_ahead_time
       osc_bundle ts, "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args
       sn
     end
