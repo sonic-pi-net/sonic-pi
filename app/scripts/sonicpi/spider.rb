@@ -130,12 +130,10 @@ module SonicPi
       @events.event("/sync", {:id => id, :result => res})
     end
 
-
-
     def __stop_job(j)
       __message "Stopping job #{j}"
       job_subthreads_kill(j)
-      @events.event("/job-completed", {:id => id})
+      @events.event("/job-completed", {:id => j})
       @user_jobs.kill_job j
       @msg_queue.push({type: :job, jobid: j, action: :completed})
     end
@@ -203,7 +201,7 @@ module SonicPi
       end
     end
 
-    def job_suthreads_kill(job_id)
+    def job_subthreads_kill(job_id)
       @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         return :no_threads_to_kill unless threads
