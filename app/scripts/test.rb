@@ -16,6 +16,12 @@ ws_out = Queue.new
 $scsynth = SonicPi::SCSynth.instance
 
 $c = OSC::Client.new("localhost", 4556)
+
+at_exit do
+  $c.send(OSC::Message.new("/quit"))
+end
+
+
 $c.send(OSC::Message.new("/d_loadDir", synthdef_path))
 sleep 2
 
@@ -98,11 +104,16 @@ def test_exception_throwing_within_subthread
   end
 end
 
-test_multi_play
-
-at_exit do
-  $c.send(OSC::Message.new("/quit"))
+def test_all_jobs_stopping
+  loop do
+    $rd.dispatch({:cmd => "run-code",
+                   :val => "loop do ; play 60 ; sleep 0.025 ; end"})
+    sleep 3
+    $rd.dispatch({:cmd => "stop-jobs"})
+    sleep 1
+  end
 end
 
+test_all_jobs_stopping
 
 out_t.join
