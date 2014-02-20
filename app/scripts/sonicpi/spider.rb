@@ -36,7 +36,6 @@ module SonicPi
           __handle_event event
         end
       end
-
     end
 
     #These includes must happen after the initialize method
