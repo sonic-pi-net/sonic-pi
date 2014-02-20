@@ -157,6 +157,7 @@ module SonicPi
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           eval(code)
           @events.event("/job-join", {:id => id})
+          job_subthread_join(id)
           @events.event("/job-completed", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)
@@ -164,6 +165,7 @@ module SonicPi
         rescue Exception => e
           @events.event("/job-join", {:id => id})
           @events.event("/job-completed", {:id => id})
+          job_subthreads_kill(id)
           @user_jobs.job_completed(id)
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
           @msg_queue.push({type: :error, val: e.message, backtrace: e.backtrace, jobid: id  , jobinfo: info})
@@ -187,6 +189,12 @@ module SonicPi
       @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id] || Set.new([])
         @job_subthreads[job_id] = threads.add(t)
+      end
+    end
+
+    def job_subthread_join(job_id)
+      (@job_subthreads[job_id] || []).each do |j|
+        j.join
       end
     end
 
