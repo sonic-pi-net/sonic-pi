@@ -4,6 +4,8 @@ module SonicPi
   module Util
     def os
       case RUBY_PLATFORM
+      when /.*armv6l-linux.*/
+        :raspberry
       when /.*linux.*/
         :linux
       when /.*darwin.*/

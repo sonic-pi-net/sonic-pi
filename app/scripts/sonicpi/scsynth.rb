@@ -20,6 +20,8 @@ module SonicPi
       end
 
       case os
+      when :raspberry
+        boot_server_linux
       when :linux
         boot_server_linux
       when :osx
@@ -28,6 +30,10 @@ module SonicPi
         boot_server_windows
       end
       true
+    end
+
+    def raspberry?
+      os == :raspberry
     end
 
     def reboot
@@ -58,6 +64,8 @@ module SonicPi
 
     def scsynth_path
       case os
+      when :raspberry
+        "scsynth"
       when :linux
         "scsynth"
       when :osx
@@ -110,7 +118,7 @@ module SonicPi
         #Jack not running - start a new instance and store its PID
         log "Jackd not running on system. Starting..."
         system("jackd -R -p 32 -d alsa -n 3& ")
-        sleep 3
+        raspberry? ? sleep(10) : sleep(3)
         jack_pid = `ps cax | grep jackd`.split(" ").first
         log "Jack started with pid #{jack_pid}"
         #write_jackd_pid(jack_pid)
@@ -122,11 +130,13 @@ module SonicPi
       existing_scsynth_pids = `ps cax | grep scsynth`.split("\n").map{|l| l.split(" ").first}
       log "Starting the SuperCollider server..."
       system("scsynth -u #{@port} -m 131072 &")
-      sleep 4
+      raspberry? ? sleep(10) : sleep(3)
       updated_scsynth_pids = `ps cax | grep scsynth`.split("\n").map{|l| l.split(" ").first}
       @scsynth_pid = (updated_scsynth_pids - existing_scsynth_pids).first
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
+
+      sleep 3 if raspberry?
     end
   end
 end
