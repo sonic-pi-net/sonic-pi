@@ -1,4 +1,6 @@
- module SonicPi
+require "hamster/set"
+
+module SonicPi
    module Mods
      module Sound
 
@@ -10,11 +12,21 @@
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
              @job_groups = {}
+             @JOB_SYNTH_PROMS_A = Atom.new(Hamster.hash)
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
+               job_id = payload[:id]
 
-               current_synth_proms.each{|csp| csp.get}
+               @JOB_SYNTH_PROMS_A.deref[job_id].each do |csp|
+                 csp.get
+               end
+
+               @JOB_SYNTH_PROMS_A.swap! do |ps|
+                 ps.delete job_id
+               end
+
                current_synth_group.kill
+
              end
 
 
@@ -23,6 +35,10 @@
                group = @job_groups[job_id]
                group.kill if group
                @job_groups.delete(job_id)
+
+               @JOB_SYNTH_PROMS_A.swap! do |ps|
+                 ps.delete job_id
+               end
              end
 
 
@@ -42,10 +58,13 @@
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          args = t_l_args.merge(args_h).to_a.flatten
          p = Promise.new
-         current_synth_proms_add p
+         job_synth_proms_add(current_job_id, p)
          __message "playing #{synth_name} with: #{args}"
          s = @mod_sound_studio.trigger_sp_synth synth_name, current_synth_group, *args
-         s.on_destroyed{ p.deliver! true }
+         s.on_destroyed do
+           job_synth_proms_rm(current_job_id, p)
+           p.deliver! true
+         end
          s
        end
 
@@ -54,10 +73,13 @@
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          args = t_l_args.merge(args_h).to_a.flatten
          p = Promise.new
-         current_synth_proms_add p
+         job_synth_proms_add(current_job_id, p)
          __message "playing #{synth_name} with: #{args}"
          s = @mod_sound_studio.trigger_synth synth_name, current_synth_group, *args
-         s.on_destroyed{ p.deliver! true }
+         s.on_destroyed do
+           job_synth_proms_rm(current_job_id, p)
+           p.deliver! true
+         end
          s
        end
 
@@ -232,17 +254,20 @@
          g
        end
 
-       def current_synth_proms
-         s = Thread.current.thread_variable_get :sonic_pi_mod_sound_synth_proms
-         return s if s
-         s = []
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_proms, s
-         s
+       def job_synth_proms_add(job_id, p)
+         @JOB_SYNTH_PROMS_A.swap! do |js|
+           proms = js[:job_id] || Hamster.set
+           proms = proms.add p
+           js.put :job_id, proms
+         end
        end
 
-       def current_synth_proms_add(p)
-         proms = current_synth_proms
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_proms, proms + [p]
+       def job_synth_proms_rm(job_id, p)
+         @JOB_SYNTH_PROMS_A.swap! do |js|
+           proms = js[:job_id] || Hamster.set
+           proms = proms.delete p
+           js.put :job_id, proms
+         end
        end
      end
    end
