@@ -150,20 +150,6 @@ module SonicPi
          @mod_sound_studio.debug = false
        end
 
-       def in_thread(&block)
-         cur_t = Thread.current
-         t = Thread.new do
-           cur_t.thread_variables.each do |v|
-             __message "-->> #{v} : #{cur_t.thread_variable_get(v)}"
-             Thread.current.thread_variable_set(v, cur_t.thread_variable_get(v))
-           end
-           with_synth "pretty_bell"
-           block.call
-         end
-         register_thread t
-         t
-       end
-
        def with_volume(vol)
          if (vol < 0)
            @mod_sound_studio.volume = 0
@@ -236,10 +222,6 @@ module SonicPi
 
        private
 
-       def register_thread(t)
-         ts = @sub_threads[current_job_id] || []
-         @sub_threads[current_job_id] = ts << t
-       end
 
        def current_job_id
          Thread.current.thread_variable_get :sonic_pi_spider_job_id

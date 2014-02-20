@@ -26,7 +26,10 @@ module SonicPi
       @events = IncomingEvents.new
       @sync_counter = Counter.new
       @job_counter = Counter.new
-      @sub_threads = {}
+      @job_subthreads = {}
+      @job_subthread_mutex = Mutex.new
+      @user_jobs = Jobs.new
+
       @event_t = Thread.new do
         loop do
           event = @event_queue.pop
@@ -34,7 +37,6 @@ module SonicPi
         end
       end
 
-      @user_jobs = Jobs.new
     end
 
     #These includes must happen after the initialize method
@@ -69,6 +71,20 @@ module SonicPi
       end
 
       Thread.current.thread_variable_set :sonic_pi_spider_time, new_t
+    end
+
+    def in_thread(&block)
+      cur_t = Thread.current
+      job_id = __current_job_id
+      t = Thread.new do
+        cur_t.thread_variables.each do |v|
+          Thread.current.thread_variable_set(v, cur_t.thread_variable_get(v))
+        end
+        block.call
+        job_subthread_rm(job_id, t)
+      end
+      job_subthread_add(job_id, t)
+      t
     end
 
     ## Not officially part of the API
@@ -115,13 +131,14 @@ module SonicPi
       @events.event("/sync", {:id => id, :result => res})
     end
 
+
+
     def __stop_job(j)
       __message "Stopping job #{j}"
+      job_subthreads_kill(j)
       @events.event("/stop-job", {:id => j})
       @user_jobs.kill_job j
       @msg_queue.push({type: :job, jobid: j, action: :completed})
-      @sub_threads[j].each{|st| st.kill if st} if @sub_threads[j]
-      @sub_threads.delete(j)
     end
 
     def __stop_jobs
@@ -141,7 +158,6 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           eval(code)
-          @sub_threads[id].each{|t| t.join}  if @sub_threads[id]
           @events.event("/job-completed", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)
@@ -161,6 +177,40 @@ module SonicPi
       @msg_queue.push({:type => :exit, :jobid => __current_job_id, :jobinfo => __current_job_info})
       @event_t.kill
 
+    end
+
+    private
+
+    def job_subthread_add(job_id, t)
+      @job_subthread_mutex.synchronize do
+        threads = @job_subthreads[job_id] || Set.new([])
+        @job_subthreads[job_id] = threads.add(t)
+      end
+    end
+
+    def job_subthread_rm(job_id, t)
+      @job_subthread_mutex.synchronize do
+        threads = @job_subthreads[job_id] || Set.new([])
+        threads.delete(t)
+        if threads.empty?
+          @job_subthreads.delete(job_id)
+        else
+          @job_subthreads[job_id] = threads
+        end
+      end
+    end
+
+    def job_suthreads_kill(job_id)
+      @job_subthread_mutex.synchronize do
+        threads = @job_subthreads[job_id]
+        return :no_threads_to_kill unless threads
+
+        threads.each do |t|
+          t.kill
+        end
+
+        @job_subthreads.delete(job_id)
+      end
     end
   end
 end
