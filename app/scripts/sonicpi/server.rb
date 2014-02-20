@@ -138,7 +138,8 @@ module SonicPi
       sn = SynthNode.new(node_id.to_f, self, synth_name.to_s)
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
-      osc "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args
+      ts = (Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now) + 0.5
+      osc_bundle ts, "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args
       sn
     end
 
@@ -227,10 +228,14 @@ module SonicPi
     end
 
     def osc(*args)
-      @OSC_SEM.synchronize do
-        message "--> osc: #{args}"
-        @CLIENT.send(OSC::Message.new(*args), @HOSTNAME, @PORT)
-      end
+      message "--> osc: #{args}"
+      @CLIENT.send(OSC::Message.new(*args), @HOSTNAME, @PORT)
+    end
+
+    def osc_bundle(ts, *args)
+      m = OSC::Message.new(*args)
+      b = OSC::Bundle.new(ts, m)
+      @CLIENT.send(b, @HOSTNAME, @PORT)
     end
 
     def add_event_handler(handle, key, &block)
