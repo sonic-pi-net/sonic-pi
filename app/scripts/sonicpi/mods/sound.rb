@@ -16,30 +16,22 @@ module SonicPi
              @JOB_GROUPS_A = Atom.new(Hamster.hash)
              @JOB_GROUP_MUTEX = Mutex.new
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
-             @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
+             @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
                job_id = payload[:id]
 
                @JOB_SYNTH_PROMS_A.deref[job_id].each do |csp|
                  csp.get
                end
-
-               @JOB_SYNTH_PROMS_A.swap! do |ps|
-                 ps.delete job_id
-               end
-
-               kill_job_group(job_id)
-
              end
 
-
-             @events.add_handler("/stop-job", @events.gensym("/mods-sound-stop-job")) do |payload|
+             @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
                job_id = payload[:id]
-               kill_job_group(job_id)
-
 
                @JOB_SYNTH_PROMS_A.swap! do |ps|
                  ps.delete job_id
                end
+
+               kill_job_group(job_id)
 
              end
 
