@@ -17,9 +17,10 @@ module SonicPi
              @JOB_GROUP_MUTEX = Mutex.new
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
+
                job_id = payload[:id]
 
-               @JOB_SYNTH_PROMS_A.deref[job_id].each do |csp|
+               (@JOB_SYNTH_PROMS_A.deref[job_id] || []).each do |csp|
                  csp.get
                end
              end
