@@ -12,6 +12,7 @@ require_relative "mods/sound"
 
 require 'thread'
 require 'fileutils'
+require 'set'
 
 module SonicPi
   class Spider
