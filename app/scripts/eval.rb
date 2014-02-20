@@ -46,7 +46,7 @@ out_t = Thread.new do
 end
 
 $rd.dispatch({:cmd => "run-code",
-               :val => ARGF.read})
+              :val => ARGF.read})
 
 
 at_exit do
