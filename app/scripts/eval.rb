@@ -16,6 +16,11 @@ ws_out = Queue.new
 $scsynth = SonicPi::SCSynth.instance
 
 $c = OSC::Client.new("localhost", 4556)
+
+at_exit do
+  $c.send(OSC::Message.new("/quit"))
+end
+
 $c.send(OSC::Message.new("/d_loadDir", synthdef_path))
 sleep 2
 
@@ -47,11 +52,5 @@ end
 
 $rd.dispatch({:cmd => "run-code",
               :val => ARGF.read})
-
-
-at_exit do
-  $c.send(OSC::Message.new("/quit"))
-end
-
 
 out_t.join
