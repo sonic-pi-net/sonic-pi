@@ -8,7 +8,6 @@ def drums
     sample :heavy_kick, :rate, 0.8
     sleep 0.125
   end
-  #sample :glass_hum, :rate, 0.5
 end
 
 def snare
