@@ -15,11 +15,17 @@
 
 ;; Main mixer
 
+
+
 (do
-  (defsynth mixer [in-bus 0 amp 1]
-    (let [src (in:ar in-bus 2)
-          src (lpf src 20000)]
-      (out 0 (* (lag-ud amp 0 0.02) src))))
+
+  (defsynth mixer [in-bus 0 amp 1 safe-recovery-time 3]
+    (let [source   (in in-bus 2)
+          source   (* amp source)
+          source   (lpf source 20000)
+          amp      (lag-ud amp 0 0.02)
+          safe-snd (limiter source 0.99 0.001)]
+        (replace-out 0 safe-snd)))
 
   (save-to-pi mixer))
 
