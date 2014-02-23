@@ -102,18 +102,20 @@
 
 
 
-  (defsynth saw_beep [note 52 amp 1 pan 0 attack 0.1 release 0.3 out-bus 0]
-    (let [freq (midicps note)]
+  (defsynth saw_beep [note 52 amp 1 pan 0 attack 0.1 release 0.3 cutoff 100 out-bus 0]
+    (let [freq        (midicps note)
+          cutoff-freq (midicps cutoff)]
       (out out-bus (pan2 (* amp
-                            (saw freq)
+                            (normalizer (lpf (saw freq) cutoff-freq))
                             (env-gen (perc attack release) :action FREE))
                          pan))))
 
-  (defsynth dsaw [note 52 amp 1 pan 0 detune 0.1 attack 0.1 release 0.3 out-bus 0]
+  (defsynth dsaw [note 52 amp 1 pan 0 detune 0.1 attack 0.1 release 0.3 cutoff 100 out-bus 0]
     (let [freq        (midicps note)
-          detune_freq (midicps (+ note detune))]
+          cutoff-freq (midicps cutoff)
+          detune-freq (midicps (+ note detune))]
       (out out-bus (pan2 (* amp
-                            (mix (saw [freq detune_freq]))
+                            (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
                             (env-gen (perc attack release) :action FREE))
                          pan))))
 
