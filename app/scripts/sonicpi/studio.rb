@@ -112,7 +112,7 @@ module SonicPi
 
     def start_mixer
       message "Starting mixer"
-      @mixer = @server.trigger_synth(:head, @mixer_group, "sp/mixer", "in-bus", @mixer_bus, "pan", 0)
+      @mixer = @server.trigger_synth(:head, @mixer_group, "sp/mixer", "in-bus", @mixer_bus)
     end
 
     def volume=(vol)
