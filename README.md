@@ -28,8 +28,8 @@ If you wish to play with the (development) HTML interface on OS X:
 
 * Install SuperCollider manually (the Mac OS X app): http://supercollider.sourceforge.net
 * Download a tar ball of the latest version of Sonic Pi: https://github.com/samaaron/sonic-pi/
-* Unzip the tar ball and in your terminal, `cd` into the dir `app/scripts`
+* Unzip the tar ball somewhere useful
 * Install JDK 1.6+ and Leiningen (to compile ClojureScript -> Javascript, not for running the app)
 * Compile the `cljs` source: `cd app/gui/html`, `lein cljsbuild once`
-* type: `ruby ws.rb`
+* Start the server: `cd app/scripts`, `ruby ws.rb`
 * Open a browser and go to `http://localhost:8000`
