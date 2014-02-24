@@ -91,15 +91,59 @@ module SonicPi
 
     def in_thread(&block)
       cur_t = Thread.current
-      job_id = __current_job_id
-      t = Thread.new do
-        cur_t.thread_variables.each do |v|
-          Thread.current.thread_variable_set(v, cur_t.thread_variable_get(v))
-        end
-        block.call
-        job_subthread_rm(job_id, t)
+
+      # Get copy of thread locals whilst we're sure they're not being modified
+      # as we're in the thread cur_t
+      cur_t_vars = {}
+      cur_t.thread_variables.each do |v|
+        cur_t_vars[v] = cur_t.thread_variable_get(v)
       end
-      job_subthread_add(job_id, t)
+
+      job_id = __current_job_id
+      reg_with_parent_completed = Promise.new
+
+      # Create the new thread
+      t = Thread.new do
+
+        # Synchronise on the promise. This means that we block this new
+        # thread until we're absolutly sure it's been registered with
+        # the parent thread as a thread local var
+        reg_with_parent_completed.get
+
+        # Attempt to associate the current thread with job with
+        # job_id. This will kill the current thread if job is no longer
+        # running.
+        job_subthread_add(job_id, Thread.current)
+
+        # Copy thread locals across from parent thread to this new thread
+        cur_t_vars.each do |k,v|
+          Thread.current.thread_variable_set(k, v) unless k == :sonic_pi_spider_subthreads
+        end
+
+        # Reset subthreads thread local to the empty set. This shouldn't
+        # be inherited from the parent thread.
+        Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
+
+        # Actually run the thread code specified by the user!
+        block.call
+
+        # Disassociate thread with job as it has now finished
+        job_subthread_rm(job_id, Thread.current)
+      end
+
+      # Whilst we know that the new thread is waiting on the promise to
+      # be delivered, we can now add it to our list of subthreads. Using
+      # the promise means that we can be assured that killing this
+      # current thread won't create a zombie child thread as the child
+      # thread will only continue exiting after it has been sucessfully
+      # registered.
+      subthreads = cur_t.thread_variable_get :sonic_pi_spider_subthreads
+      subthreads.add(t)
+
+      # Allow the subthread to continue running
+      reg_with_parent_completed.deliver! true
+
+      # Return subthread
       t
     end
 
@@ -163,20 +207,31 @@ module SonicPi
       end
     end
 
+    def __join_subthreads(t)
+      subthreads = t.thread_variable_get :sonic_pi_spider_subthreads
+      subthreads.each do |st|
+        st.join
+        __join_subthreads(st)
+      end
+    end
+
     def __spider_eval(code, info={})
       id = @job_counter.next
       job = Thread.new do
         begin
+          reg_job(id)
           Thread.current.thread_variable_set :sonic_pi_spider_time, Time.now
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
+          Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           eval(code)
+          __join_subthreads(Thread.current)
           @events.event("/job-join", {:id => id})
-          job_subthread_join(id)
           @events.event("/job-completed", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)
+          job_subthreads_kill(id)
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
         rescue Exception => e
           @events.event("/job-join", {:id => id})
@@ -201,41 +256,39 @@ module SonicPi
 
     private
 
-    def job_subthread_add(job_id, t)
+    def reg_job(job_id)
       @job_subthread_mutex.synchronize do
-        threads = @job_subthreads[job_id] || Set.new([])
-        @job_subthreads[job_id] = threads.add(t)
+        @job_subthreads[job_id] = Set.new
       end
     end
 
-    def job_subthread_join(job_id)
-      (@job_subthreads[job_id] || []).each do |j|
-        j.join
+    def job_subthread_add(job_id, t)
+      @job_subthread_mutex.synchronize do
+        return t.kill unless @job_subthreads[job_id]
+
+        threads = @job_subthreads[job_id]
+        @job_subthreads[job_id] = threads.add(t)
       end
     end
 
     def job_subthread_rm(job_id, t)
       @job_subthread_mutex.synchronize do
-        threads = @job_subthreads[job_id] || Set.new([])
-        threads.delete(t)
-        if threads.empty?
-          @job_subthreads.delete(job_id)
-        else
-          @job_subthreads[job_id] = threads
-        end
+        threads = @job_subthreads[job_id]
+        threads.delete(t) if threads
       end
     end
 
     def job_subthreads_kill(job_id)
-      @job_subthread_mutex.synchronize do
+      threads = @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
-        return :no_threads_to_kill unless threads
-
-        threads.each do |t|
-          t.kill
-        end
-
         @job_subthreads.delete(job_id)
+        threads
+      end
+
+      return :no_threads_to_kill unless threads
+
+      threads.each do |t|
+        t.kill
       end
     end
   end
