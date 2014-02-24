@@ -73,17 +73,20 @@ module SonicPi
       Thread.current.thread_variable_set :sonic_pi_spider_time, new_t
     end
 
-    def sync(sync_id = nil)
-      @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time)})
+    def sync(sync_id, val = nil)
+      @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => val})
     end
 
-    def wait(sync_id = nil)
+    def wait(sync_id)
       p = Promise.new
       @events.oneshot_handler("/spider_thread_sync/" + sync_id.to_s) do |payload|
-        p.deliver! payload[:time]
+        p.deliver! payload
       end
-      time = p.get
+      payload = p.get
+      time = payload[:time]
+      val = payload[:val]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
+      val
     end
 
     def in_thread(&block)
