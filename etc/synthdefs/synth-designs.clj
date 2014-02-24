@@ -27,7 +27,8 @@
           safe-snd (limiter source 0.99 0.001)]
         (replace-out 0 safe-snd)))
 
-  (save-to-pi mixer))
+  ;; (save-to-pi mixer)
+  )
 
 
 ;; Simple Trigger synths
@@ -149,6 +150,16 @@
           env            (env-gen (env-perc attack release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
+  (defsynth mod_saw_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [freq           (midicps note)
+          mod_range_freq (- (midicps (+ mod_range note))
+                            freq)
+          freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+          freq           (+ freq freq-mod)
+          snd            (saw freq)
+          env            (env-gen (env-perc attack release) :action FREE)]
+      (out out-bus (pan2 (* env snd) pan amp))))
+
   (defsynth mod_dsaw [note 52 amp 1 pan 0 attack 0.01 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
     (let [freq           (midicps note)
           cutoff-freq    (midicps cutoff)
@@ -160,6 +171,17 @@
           snd            (mix (saw [freq detune-freq]))
           snd            (lpf snd cutoff-freq)
           snd            (normalizer snd)
+          env            (env-gen (env-perc attack release) :action FREE)]
+      (out out-bus (pan2 (* env snd) pan amp))))
+
+  (defsynth mod_dsaw_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
+    (let [freq           (midicps note)
+          mod-range-freq (- (midicps (+ mod_range note))
+                            freq)
+          detune-freq    (midicps (+ note detune))
+          freq-mod       (* mod-range-freq (lf-pulse mod_rate 0.5 mod_width))
+          freq           (+ freq freq-mod)
+          snd            (mix (saw [freq detune-freq]))
           env            (env-gen (env-perc attack release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
@@ -176,6 +198,16 @@
           env            (env-gen (env-perc attack release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
+  (defsynth mod_sine_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [freq           (midicps note)
+          mod_range_freq (- (midicps (+ mod_range note))
+                            freq)
+          freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+          freq           (+ freq freq-mod)
+          snd            (sin-osc freq)
+          env            (env-gen (env-perc attack release) :action FREE)]
+      (out out-bus (pan2 (* env snd) pan amp))))
+
   (defsynth mod_tri [note 52 amp 1 pan 0 attack 0.01 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           cutoff-freq    (midicps cutoff)
@@ -186,6 +218,16 @@
           snd            (lf-tri freq)
           snd            (lpf snd cutoff-freq)
           snd            (normalizer snd)
+          env            (env-gen (env-perc attack release) :action FREE)]
+      (out out-bus (pan2 (* env snd) pan amp))))
+
+  (defsynth mod_tri_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [freq           (midicps note)
+          mod_range_freq (- (midicps (+ mod_range note))
+                            freq)
+          freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+          freq           (+ freq freq-mod)
+          snd            (lf-tri freq)
           env            (env-gen (env-perc attack release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
@@ -202,19 +244,34 @@
           env            (env-gen (env-perc attack release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
+  (defsynth mod_pulse_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
+    (let [freq           (midicps note)
+          mod_range_freq (- (midicps (+ mod_range note))
+                            freq)
+          freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+          freq           (+ freq freq-mod)
+          snd            (pulse freq pulse_width)
+          env            (env-gen (env-perc attack release) :action FREE)]
+      (out out-bus (pan2 (* env snd) pan amp))))
 
-  (save-to-pi dull_bell)
-  (save-to-pi pretty_bell)
-  (save-to-pi beep)
-  (save-to-pi saw_beep)
-  (save-to-pi dsaw)
-  (save-to-pi fm)
 
-  (save-to-pi mod_saw)
-  (save-to-pi mod_dsaw)
-  (save-to-pi mod_sine)
-  (save-to-pi mod_tri)
-  (save-to-pi mod_pulse)
+  ;; (save-to-pi dull_bell)
+  ;; (save-to-pi pretty_bell)
+  ;; (save-to-pi beep)
+  ;; (save-to-pi saw_beep)
+  ;; (save-to-pi dsaw)
+  ;; (save-to-pi fm)
+
+  ;; (save-to-pi mod_saw)
+  ;; (save-to-pi mod_saw_s)
+  ;; (save-to-pi mod_dsaw)
+  ;; (save-to-pi mod_dsaw_s)
+  ;; (save-to-pi mod_sine)
+  ;; (save-to-pi mod_sine_s)
+  ;; (save-to-pi mod_tri)
+  ;; (save-to-pi mod_tri_s)
+  ;; (save-to-pi mod_pulse)
+  ;; (save-to-pi mod_pulse_s)
   )
 
 
@@ -267,10 +324,11 @@
           env       (env-gen:ar (asr 0 1 release) :gate e-gate :action FREE)]
       (out out-bus (* amp env snd))))
 
-  (save-to-pi mono-player)
-  (save-to-pi stereo-player)
-  (save-to-pi mono-partial-playr)
-  (save-to-pi stereo-partial-playr))
+  ;; (save-to-pi mono-player)
+  ;; (save-to-pi stereo-player)
+  ;; (save-to-pi mono-partial-playr)
+  ;; (save-to-pi stereo-partial-playr)
+  )
 
 
 
