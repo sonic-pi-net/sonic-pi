@@ -80,6 +80,11 @@ def test_multi_threads
                 :val => "loop do ; in_thread do ; play 60 ; sleep 3 ; end ; sleep 0.025 ; end"})
 end
 
+def test_multi_inner_threads
+  $rd.dispatch({:cmd => "run-code",
+                :val => "loop do ; in_thread do ; in_thread do ; play 60 ; end ; end ; sleep 0.025 ; end"})
+end
+
 def test_multi_jobs
   loop do
     $rd.dispatch({:cmd => "run-code",
@@ -114,63 +119,15 @@ def test_all_jobs_stopping
   end
 end
 
-def test_blue_monday
-  $rd.dispatch({:cmd => "run-code",
-                :val => "
+#test_simple
+#test_multi_osc
+#test_multi_play
+#test_multi_threads
+#test_multi_inner_threads
+#test_multi_jobs
+#test_exception_throwing
+#test_exception_throwing_within_subthread
+#test_all_jobs_stopping
 
-load_samples :heavy_kick, :snare_soft
-
-def drums
-  6.times do
-    sample :heavy_kick, :rate, 0.8
-    sleep 0.5
-  end
-
-  8.times do
-    sample :heavy_kick, :rate, 0.8
-    sleep 0.125
-  end
-end
-
-def snare
-  sample :snare_soft
-  sleep 1
-end
-
-def synths
-  with_synth \"saw_beep\"
-  notes = [:F, :C, :D, :D, :G, :C, :D, :D]
-  notes.each do |n|
-    2.times do
-      play note(n, 1), :amp, 0.5, :attack, 0.01, :release, 0.5
-      play note(n, 2), :amp, 0.5, :attack, 0.01, :release, 0.75
-
-      sleep 0.25
-      play note(n, 2), :amp, 0.5, :attack, 0.01, :release, 0.5
-      play note(n, 3), :amp, 0.5, :attack, 0.01, :release, 0.75
-
-      sleep 0.25
-    end
-  end
-end
-
-
-in_thread do
-  loop{drums}
-end
-
-in_thread do
-  sleep 6
-  loop{synths}
-end
-
-in_thread do
-  sleep 12.5
-  loop{snare}
-end"})
-
-end
-
-test_blue_monday
 
 out_t.join
