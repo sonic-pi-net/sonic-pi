@@ -210,8 +210,7 @@ module SonicPi
     end
 
     def __stop_jobs
-      __message "stopping..."
-      stop
+      __message "Stopping all jobs."
       @user_jobs.each_id do |id|
         __stop_job id
       end

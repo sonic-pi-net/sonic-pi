@@ -119,11 +119,6 @@ module SonicPi
          notes.each{|note| play(note, *args)}
        end
 
-       def stop
-         __message "Stopping..."
-         @mod_sound_studio.stop
-       end
-
        def play_pad(name, *args)
          if args.size == 1
            @mod_sound_studio.switch_to_pad(name, "note", args[0])
@@ -265,9 +260,9 @@ module SonicPi
          old_job_groups = @JOB_GROUPS_A.swap_returning_old! do |js|
            js.delete job_id
          end
-
          job_group = old_job_groups[job_id]
          job_group.kill if job_group
+
        end
      end
    end
