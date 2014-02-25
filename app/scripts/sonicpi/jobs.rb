@@ -30,7 +30,7 @@ module SonicPi
 
       job = old[id]
       if job
-        Thread.current.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+        job[:job].thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
           job[:job].kill
         end
       end
