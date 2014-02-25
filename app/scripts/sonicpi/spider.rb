@@ -74,7 +74,9 @@ module SonicPi
     end
 
     def sync(sync_id, val = nil)
-      @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => val})
+      __no_kill_block do
+        @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => val})
+      end
     end
 
     def wait(sync_id)
@@ -127,6 +129,9 @@ module SonicPi
         # Give new thread a new subthread mutex
         Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
 
+        # Give new thread a new no_kill mutex
+        Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
+
         # Actually run the thread code specified by the user!
         block.call
 
@@ -159,6 +164,12 @@ module SonicPi
 
     ## Not officially part of the API
     ## Probably should be moved somewhere else
+
+    def __no_kill_block(&block)
+      Thread.current.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+        block.call
+      end
+    end
 
     def __message(s)
       @msg_queue.push({:type => :message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
@@ -234,6 +245,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
           Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
+          Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           eval(code)
           __join_subthreads(Thread.current)
@@ -298,7 +310,9 @@ module SonicPi
       return :no_threads_to_kill unless threads
 
       threads.each do |t|
-        t.kill
+        t.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+          t.kill
+        end
       end
     end
   end

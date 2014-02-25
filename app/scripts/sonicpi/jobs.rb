@@ -29,7 +29,11 @@ module SonicPi
       end
 
       job = old[id]
-      job[:job].kill if job
+      if job
+        Thread.current.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+          job[:job].kill
+        end
+      end
     end
 
     def each_id(&block)
