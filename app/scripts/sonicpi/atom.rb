@@ -12,9 +12,11 @@ module SonicPi
       Thread.current.thread_variable_set :sonic_pi_atom_last, @val
       Thread.current.thread_variable_set :sonic_pi_atom_new, block.call(@val)
       @sem.synchronize do
-        if @val == Thread.current.thread_variable_get(:sonic_pi_atom_last)
-          @val = Thread.current.thread_variable_get(:sonic_pi_atom_new)
-          return @val
+        last = Thread.current.thread_variable_get(:sonic_pi_atom_last)
+        new = Thread.current.thread_variable_get(:sonic_pi_atom_new)
+        if @val == last
+          @val = new
+          return new
         end
       end
 
@@ -27,8 +29,9 @@ module SonicPi
       Thread.current.thread_variable_set :sonic_pi_atom_new, block.call(@val)
       @sem.synchronize do
         last = Thread.current.thread_variable_get(:sonic_pi_atom_last)
+        new = Thread.current.thread_variable_get(:sonic_pi_atom_new)
         if @val == last
-          @val = Thread.current.thread_variable_get(:sonic_pi_atom_new)
+          @val = new
           return last
         end
       end
