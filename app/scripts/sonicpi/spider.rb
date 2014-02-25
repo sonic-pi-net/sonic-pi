@@ -204,8 +204,8 @@ module SonicPi
     def __stop_job(j)
       __message "Stopping job #{j}"
       job_subthreads_kill(j)
-      @events.event("/job-completed", {:id => j})
       @user_jobs.kill_job j
+      @events.event("/job-completed", {:id => j})
       @msg_queue.push({type: :job, jobid: j, action: :completed})
     end
 
@@ -238,10 +238,10 @@ module SonicPi
           eval(code)
           __join_subthreads(Thread.current)
           @events.event("/job-join", {:id => id})
-          @events.event("/job-completed", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)
           job_subthreads_kill(id)
+          @events.event("/job-completed", {:id => id})
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
         rescue Exception => e
           @events.event("/job-join", {:id => id})
