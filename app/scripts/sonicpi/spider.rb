@@ -90,13 +90,13 @@ module SonicPi
     end
 
     def in_thread(&block)
-      cur_t = Thread.current
+      parent_t = Thread.current
 
       # Get copy of thread locals whilst we're sure they're not being modified
-      # as we're in the thread cur_t
-      cur_t_vars = {}
-      cur_t.thread_variables.each do |v|
-        cur_t_vars[v] = cur_t.thread_variable_get(v)
+      # as we're in the thread parent_t
+      parent_t_vars = {}
+      parent_t.thread_variables.each do |v|
+        parent_t_vars[v] = parent_t.thread_variable_get(v)
       end
 
       job_id = __current_job_id
@@ -116,19 +116,26 @@ module SonicPi
         job_subthread_add(job_id, Thread.current)
 
         # Copy thread locals across from parent thread to this new thread
-        cur_t_vars.each do |k,v|
-          Thread.current.thread_variable_set(k, v) unless k == :sonic_pi_spider_subthreads
+        parent_t_vars.each do |k,v|
+          Thread.current.thread_variable_set(k, v)
         end
 
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
         Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
 
+        # Give new thread a new subthread mutex
+        Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
+
         # Actually run the thread code specified by the user!
         block.call
 
         # Disassociate thread with job as it has now finished
         job_subthread_rm(job_id, Thread.current)
+
+        parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
+          parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(Thread.current)
+        end
       end
 
       # Whilst we know that the new thread is waiting on the promise to
@@ -137,8 +144,11 @@ module SonicPi
       # current thread won't create a zombie child thread as the child
       # thread will only continue exiting after it has been sucessfully
       # registered.
-      subthreads = cur_t.thread_variable_get :sonic_pi_spider_subthreads
-      subthreads.add(t)
+
+      parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
+        subthreads = parent_t.thread_variable_get :sonic_pi_spider_subthreads
+        subthreads.add(t)
+      end
 
       # Allow the subthread to continue running
       reg_with_parent_completed.deliver! true
@@ -224,6 +234,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
+          Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           eval(code)
           __join_subthreads(Thread.current)
