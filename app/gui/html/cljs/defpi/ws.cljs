@@ -34,8 +34,8 @@
                  (dom/div nil (:val m)))
                (take 20 (reverse (:messages data)))))))
 
-(om/root app-state message-comp (.getElementById js/document "app-messages"))
-(om/root app-state jobs-comp (.getElementById js/document "app-jobs"))
+(om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
+(om/root jobs-comp app-state {:target (.getElementById js/document "app-jobs")})
 
 (def hostname
   (let [hn (.-host (.-location js/window))]
