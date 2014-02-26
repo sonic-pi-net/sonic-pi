@@ -1,8 +1,12 @@
 ## Sonic Pi
 
-This is the source for the Sonic Pi music programming environment. There are currently two interfaces, firstly the QT interface, which is the officially supported interface for use with the Raspberry Pi. Secondly there is a HTML interface which is unsupported and currently only for development purposes (also supports OS X).
+This is the source for the Sonic Pi music programming environment. There
+are currently two interfaces, firstly the Qt interface, which is the
+officially supported interface for use with the Raspberry Pi. Secondly
+there is a HTML interface which is unsupported and currently only for
+development purposes (also supports OS X).
 
-### Official QT Interface
+### Official Qt Interface
 
 The dependencies for this are:
 
@@ -10,9 +14,11 @@ The dependencies for this are:
 * ruby1.9.3
 * libqscintilla2-8
 
-You will need to compile the Qt app within `app/gui` and run one of the `start-group-*` scripts to start the app.
+You will need to compile the Qt app within `app/gui` and run one of the
+`start-group-*` scripts to start the app.
 
-The current implementation assumes the execution context is a Raspberry Pi. Patches for other platforms will be happily considered.
+The current implementation assumes the execution context is a Raspberry
+Pi. Patches for other platforms will be happily considered.
 
 ### Development HTML Interface
 
@@ -23,7 +29,10 @@ The dependencies for this are:
 
 If you wish to play with the (development) HTML interface on OS X:
 
-**BE WARNED** Running the development server may open your machine to external exploits as Ruby code is currently evaluated on the server directly. Do not use this development interface on an open network until security features have been added.
+**BE WARNED** Running the development server may open your machine to
+external exploits as Ruby code is currently evaluated on the server
+directly. Do not use this development interface on an open network until
+security features have been added.
 
 
 * Install SuperCollider manually (the Mac OS X app): http://supercollider.sourceforge.net
