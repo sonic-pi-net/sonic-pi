@@ -4,7 +4,11 @@
    [cljs.core.async :as async :refer [>! <! put! chan]]
    [om.core :as om :include-macros true]
    [om.dom :as dom :include-macros true]
-   [cljs.reader :as reader]))
+   [goog.events :as events]
+   [cljs.reader :as reader]
+   [defpi.ringbuffer :as rb]
+   [defpi.keyboard :as kb]
+  ))
 
 (enable-console-print!)
 
@@ -88,7 +92,6 @@
 
     ))
 
-
 (defmethod handle-message js/Object
   [m]
   (js/console.log "can't handle: " (:type m)))
@@ -99,7 +102,15 @@
   (set! (.-onmessage ws) (fn [m]
                            (let [msg (reader/read-string (.-data m))
                                  res (handle-message msg)]
-                             (reply-sync msg res)))))
+                             (reply-sync msg res))))
+  (events/listen js/document (kb/keyword->event-type :keypress)
+               (fn [e]
+                 (let [code (.-charCode e)]
+                   (if (= 18 code)
+                     (.send ws {:cmd "run-code"
+                                :val (.getValue js/editor)})))))
+
+)
 
 (defn ^:export sendCode
   []

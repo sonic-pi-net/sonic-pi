@@ -1,6 +1,5 @@
 (ns defpi.keyboard
   (:require
-   [defpi.ws :as ws]
    [goog.events :as events]
    [goog.events.EventType]))
 
@@ -22,10 +21,3 @@
 (defn charcode->char
   [code]
   (js/String.fromCharCode code))
-
-(events/listen js/document (keyword->event-type :keypress)
-               (fn [e]
-                 (let [code (charcode->char (.-charCode e))]
-                   (.send ws/ws {:cmd "event"
-                                 :type :keypress
-                                 :val code}))))
