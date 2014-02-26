@@ -57,7 +57,8 @@ out_t = Thread.new do
 end
 
 # Receive events from the GUI to Sonic Pi (potentially creating new jobs)
-#server = Rubame::Server.new("0.0.0.0", 25252)
+
+# ws_server = Rubame::Server.new("0.0.0.0", 8001)
 ws_server = Rubame::Server.new("localhost", 8001)
 
 in_t = Thread.new do
@@ -81,7 +82,9 @@ in_t = Thread.new do
   end
 end
 
+# $web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "0.0.0.0" , :DocumentRoot => html_public_path
 $web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "localhost" , :DocumentRoot => html_public_path
+
 web_t = Thread.new { $web_server.start}
 
 out_t.join
