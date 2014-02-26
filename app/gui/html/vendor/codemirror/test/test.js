@@ -172,7 +172,7 @@ test("core_defaults", function() {
   for (var opt in defs) defsCopy[opt] = defs[opt];
   defs.indentUnit = 5;
   defs.value = "uu";
-  defs.enterMode = "keep";
+  defs.indentWithTabs = true;
   defs.tabindex = 55;
   var place = document.getElementById("testground"), cm = CodeMirror(place);
   try {
@@ -180,7 +180,7 @@ test("core_defaults", function() {
     cm.setOption("indentUnit", 10);
     eq(defs.indentUnit, 5);
     eq(cm.getValue(), "uu");
-    eq(cm.getOption("enterMode"), "keep");
+    eq(cm.getOption("indentWithTabs"), true);
     eq(cm.getInputField().tabIndex, 55);
   }
   finally {
@@ -1133,12 +1133,31 @@ testCM("groupMovementCommands", function(cm) {
   cm.execCommand("goGroupRight"); cm.execCommand("goGroupRight");
   eqPos(cm.getCursor(), Pos(0, 20));
   cm.execCommand("goGroupRight");
+  eqPos(cm.getCursor(), Pos(1, 0));
+  cm.execCommand("goGroupRight");
+  eqPos(cm.getCursor(), Pos(1, 2));
+  cm.execCommand("goGroupRight");
   eqPos(cm.getCursor(), Pos(1, 5));
   cm.execCommand("goGroupLeft"); cm.execCommand("goGroupLeft");
   eqPos(cm.getCursor(), Pos(1, 0));
   cm.execCommand("goGroupLeft");
+  eqPos(cm.getCursor(), Pos(0, 20));
+  cm.execCommand("goGroupLeft");
   eqPos(cm.getCursor(), Pos(0, 16));
 }, {value: "booo ba---quux. ffff\n  abc d"});
+
+testCM("groupsAndWhitespace", function(cm) {
+  var positions = [Pos(0, 0), Pos(0, 2), Pos(0, 5), Pos(0, 9), Pos(0, 11),
+                   Pos(1, 0), Pos(1, 2), Pos(1, 5)];
+  for (var i = 1; i < positions.length; i++) {
+    cm.execCommand("goGroupRight");
+    eqPos(cm.getCursor(), positions[i]);
+  }
+  for (var i = positions.length - 2; i >= 0; i--) {
+    cm.execCommand("goGroupLeft");
+    eqPos(cm.getCursor(), i == 2 ? Pos(0, 6) : positions[i]);
+  }
+}, {value: "  foo +++  \n  bar"});
 
 testCM("charMovementCommands", function(cm) {
   cm.execCommand("goCharLeft"); cm.execCommand("goColumnLeft");
@@ -1625,8 +1644,9 @@ testCM("change_removedText", function(cm) {
 testCM("lineStyleFromMode", function(cm) {
   CodeMirror.defineMode("test_mode", function() {
     return {token: function(stream) {
-      if (stream.match(/^\[[^\]]*\]/)) return "line-brackets";
-      if (stream.match(/^\([^\]]*\)/)) return "line-background-parens";
+      if (stream.match(/^\[[^\]]*\]/)) return "  line-brackets  ";
+      if (stream.match(/^\([^\)]*\)/)) return "  line-background-parens  ";
+      if (stream.match(/^<[^>]*>/)) return "  span  line-line  line-background-bg  ";
       stream.match(/^\s+|^\S+/);
     }};
   });
@@ -1639,7 +1659,14 @@ testCM("lineStyleFromMode", function(cm) {
   eq(parenElts.length, 1);
   eq(parenElts[0].nodeName, "DIV");
   is(!/parens.*parens/.test(parenElts[0].className));
-}, {value: "line1: [br] [br]\nline2: (par) (par)\nline3: nothing"});
+  eq(parenElts[0].parentElement.nodeName, "DIV");
+
+  eq(byClassName(cm.getWrapperElement(), "bg").length, 1);
+  eq(byClassName(cm.getWrapperElement(), "line").length, 1);
+  var spanElts = byClassName(cm.getWrapperElement(), "cm-span");
+  eq(spanElts.length, 2);
+  is(/^\s*cm-span\s*$/.test(spanElts[0].className));
+}, {value: "line1: [br] [br]\nline2: (par) (par)\nline3: <tag> <tag>"});
 
 CodeMirror.registerHelper("xxx", "a", "A");
 CodeMirror.registerHelper("xxx", "b", "B");
