@@ -65,8 +65,9 @@
 
   (defcgen bell-partials
     "Bell partial generator"
-    [freq {:default 440 :doc "The fundamental frequency for the partials"}
-     attack {:default 0.01}
+    [freq     {:default 440 :doc "The fundamental frequency for the partials"}
+     attack   {:default 0.01}
+     sustain  {:default 0}
      release  {:default 1.0 :doc "Duration multiplier. Length of longest partial will
                             be dur seconds"}
      partials {:default [0.5 1 2 4] :doc "sequence of frequencies which are
@@ -78,66 +79,64 @@
      (apply +
             (map
              (fn [partial proportion]
-               (let [env      (env-gen (perc attack (* release proportion)))
-                     vol      (/ proportion 2)
+               (let [vol      (/ proportion 2)
+                     env      (env-gen (envelope [0 1 1 0] [attack sustain (* release proportion)]) :level-scale vol)
                      overtone (* partial freq)]
-                 (* env vol (sin-osc overtone))))
+                 (* env (sin-osc overtone))))
              partials ;; current partial
              (iterate #(/ % 2) 1.0)  ;; proportions (1.0  0.5 0.25)  etc
              ))))
 
 
-  (defsynth dull_bell [note 52 amp 1 pan 0 attack 0.01 release 1.0 out-bus 0]
+  (defsynth dull_bell [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 1.0 out-bus 0]
     (let [freq (midicps note)
-          snd (* amp (bell-partials freq attack release dull-partials))]
+          snd (* amp (bell-partials freq attack sustain release dull-partials))]
       (detect-silence snd :action FREE)
       (out out-bus (pan2 snd pan))))
 
-  (defsynth pretty_bell [note 52 amp 1 pan 0 attack 0.01 release 1 out-bus 0]
+  (defsynth pretty_bell [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 1 out-bus 0]
     (let [freq (midicps note)
-          snd (* amp (bell-partials freq attack release partials))]
+          snd (* amp (bell-partials freq attack sustain release partials))]
       (detect-silence snd :action FREE)
       (out out-bus (pan2 snd pan))))
 
 
-  (defsynth beep [note 52 amp 1 pan 0 attack 0.1 release 0.3 out-bus 0]
+  (defsynth beep [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 out-bus 0]
     (let [freq (midicps note)]
-      (out out-bus (pan2 (* amp
-                            (sin-osc freq)
-                            (env-gen (perc attack release) :action FREE))
+      (out out-bus (pan2 (* (sin-osc freq)
+                            (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
+)
                          pan))))
 
 
 
-  (defsynth saw_beep [note 52 amp 1 pan 0 attack 0.1 release 0.3 cutoff 100 out-bus 0]
+  (defsynth saw_beep [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 cutoff 100 out-bus 0]
     (let [freq        (midicps note)
           cutoff-freq (midicps cutoff)]
-      (out out-bus (pan2 (* amp
-                            (normalizer (lpf (saw freq) cutoff-freq))
-                            (env-gen (perc attack release) :action FREE))
+      (out out-bus (pan2 (* (normalizer (lpf (saw freq) cutoff-freq))
+                            (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE))
                          pan))))
 
-  (defsynth dsaw [note 52 amp 1 pan 0 detune 0.1 attack 0.1 release 0.3 cutoff 100 out-bus 0]
+  (defsynth dsaw [note 52 amp 1 pan 0 detune 0.1 attack 0.1 sustain 0 release 0.3 cutoff 100 out-bus 0]
     (let [freq        (midicps note)
           cutoff-freq (midicps cutoff)
           detune-freq (midicps (+ note detune))]
-      (out out-bus (pan2 (* amp
-                            (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
-                            (env-gen (perc attack release) :action FREE))
+      (out out-bus (pan2 (* (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
+                            (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
+)
                          pan))))
 
-  (defsynth fm [note 52 amp 1 pan 0 attack 1 release 1 divisor 2.0 depth 1.0 out-bus 0]
+  (defsynth fm [note 52 amp 1 pan 0 attack 1 sustain 0 release 1 divisor 2.0 depth 1.0 out-bus 0]
     (let [carrier   (midicps note)
           modulator (/ carrier divisor)
-          mod-env   (env-gen (env-lin attack 0 release))
-          amp-env   (env-gen (env-lin 0 attack release) :action FREE)]
-      (out out-bus (pan2 (* amp (* amp-env
-                                   (sin-osc (+ carrier
-                                               (* mod-env  (* carrier depth) (sin-osc modulator))))))
+          env       (env-gen (env-lin attack sustain release) :level-scale amp :action FREE)]
+      (out out-bus (pan2 (* env
+                            (sin-osc (+ carrier
+                                        (* env  (* carrier depth) (sin-osc modulator)))))
                          pan))))
 
 
-  (defsynth mod_saw [note 52 amp 1 pan 0 attack 0.01 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+  (defsynth mod_saw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -147,20 +146,20 @@
           snd            (saw freq)
           snd            (lpf snd cutoff-freq)
           snd            (normalizer snd)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_saw_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+  (defsynth mod_saw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
           freq           (+ freq freq-mod)
           snd            (saw freq)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_dsaw [note 52 amp 1 pan 0 attack 0.01 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
+  (defsynth mod_dsaw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
     (let [freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod-range-freq (- (midicps (+ mod_range note))
@@ -171,10 +170,10 @@
           snd            (mix (saw [freq detune-freq]))
           snd            (lpf snd cutoff-freq)
           snd            (normalizer snd)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_dsaw_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
+  (defsynth mod_dsaw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
     (let [freq           (midicps note)
           mod-range-freq (- (midicps (+ mod_range note))
                             freq)
@@ -182,10 +181,10 @@
           freq-mod       (* mod-range-freq (lf-pulse mod_rate 0.5 mod_width))
           freq           (+ freq freq-mod)
           snd            (mix (saw [freq detune-freq]))
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_sine [note 52 amp 1 pan 0 attack 0.01 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+  (defsynth mod_sine [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -195,20 +194,20 @@
           snd            (sin-osc freq)
           snd            (lpf snd cutoff-freq)
           snd            (normalizer snd)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_sine_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+  (defsynth mod_sine_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
           freq           (+ freq freq-mod)
           snd            (sin-osc freq)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_tri [note 52 amp 1 pan 0 attack 0.01 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+  (defsynth mod_tri [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -218,20 +217,20 @@
           snd            (lf-tri freq)
           snd            (lpf snd cutoff-freq)
           snd            (normalizer snd)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_tri_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+  (defsynth mod_tri_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
           freq           (+ freq freq-mod)
           snd            (lf-tri freq)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_pulse [note 52 amp 1 pan 0 attack 0.01 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
+  (defsynth mod_pulse [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -241,17 +240,17 @@
           snd            (pulse freq pulse_width)
           snd            (lpf snd cutoff-freq)
           snd            (normalizer snd)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_pulse_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
+  (defsynth mod_pulse_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
     (let [freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
           freq           (+ freq freq-mod)
           snd            (pulse freq pulse_width)
-          env            (env-gen (env-perc attack release) :action FREE)]
+          env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
 
