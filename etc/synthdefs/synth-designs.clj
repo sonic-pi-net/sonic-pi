@@ -278,15 +278,6 @@
 ;; Sample playback synths
 
 (do
-  (defsynth mod_pulse_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
-          mod_range_freq (- (midicps (+ mod_range note))
-                            freq)
-          freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
-          freq           (+ freq freq-mod)
-          snd            (pulse freq pulse_width)
-          env            (env-gen (env-perc attack release) :action FREE)]
-      (out out-bus (pan2 (* env snd) pan amp))))
 
   (defsynth mono-player
     "Plays a mono buffer from start pos to end pos (represented as
