@@ -29,6 +29,7 @@ app/gui/html/js/*.map
 # Dev Javascript
 app/gui/html/js/generated
 app/gui/html/target
+app/gui/html/js/cljs-main.js
 
 
 # Detritus
