@@ -30,6 +30,7 @@ module SonicPi
       @job_subthreads = {}
       @job_subthread_mutex = Mutex.new
       @user_jobs = Jobs.new
+      @random_generator = Random.new(0)
 
       @event_t = Thread.new do
         loop do
@@ -57,6 +58,10 @@ module SonicPi
 
     def puts(output)
       __message output
+    end
+
+    def rand(limit=1.0)
+      @random_generator.rand(limit)
     end
 
     def sleep(seconds)
