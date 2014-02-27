@@ -7,8 +7,7 @@
    [goog.events :as events]
    [cljs.reader :as reader]
    [defpi.ringbuffer :as rb]
-   [defpi.keyboard :as kb]
-  ))
+   [defpi.keyboard :as kb]))
 
 (enable-console-print!)
 
@@ -16,7 +15,7 @@
 
 
 (def err-cnt (atom 0))
-(def app-state (atom {:messages []
+(def app-state (atom {:messages (rb/mk-ringbuffer 10)
                       :jobs #{}}))
 
 (defn jobs-comp [data owner]
@@ -36,7 +35,7 @@
    (apply dom/div nil
           (map (fn [m]
                  (dom/div nil (:val m)))
-               (take 20 (reverse (:messages data)))))))
+               (:messages data)))))
 
 (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
 (om/root jobs-comp app-state {:target (.getElementById js/document "app-jobs")})
@@ -51,7 +50,7 @@
 
 (defn show-msg
   [msg]
-  (swap! app-state update-in [:messages] conj msg)
+  (swap! app-state update-in [:messages] rb/add msg)
   )
 
 (defn reply-sync
