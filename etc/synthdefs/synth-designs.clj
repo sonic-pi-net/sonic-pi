@@ -278,59 +278,53 @@
 ;; Sample playback synths
 
 (do
+  (defsynth mod_pulse_s [note 52 amp 1 pan 0 attack 0.01 release 2 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
+    (let [freq           (midicps note)
+          mod_range_freq (- (midicps (+ mod_range note))
+                            freq)
+          freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+          freq           (+ freq freq-mod)
+          snd            (pulse freq pulse_width)
+          env            (env-gen (env-perc attack release) :action FREE)]
+      (out out-bus (pan2 (* env snd) pan amp))))
+
   (defsynth mono-player
-    [buf 0 rate 1 out-bus 0 amp 1 pan 0 loop 0]
-    (let [rate (* rate (buf-rate-scale buf ))]
-      (out out-bus (pan2 (* amp (play-buf 1 buf rate :loop loop :action FREE))
-                         pan))))
-
-  (defsynth stereo-player
-    [buf 0 rate 1 out-bus 0 amp 1 loop 0]
-    (let [rate (* rate (buf-rate-scale buf ))]
-      (out out-bus (* amp (play-buf 2 buf rate :loop loop :action FREE)))))
-
-  (defsynth mono-partial-playr
     "Plays a mono buffer from start pos to end pos (represented as
-       values between 0 and 1). May be looped via the loop?
-       argument. Release time is the release phase after the looping has
-       finished to remove clipping."
-    [buf 0 rate 1 start 0 end 1 loop? 0 amp 1 release 0.01 pan 0 out-bus 0]
+     values between 0 and 1). Outputs a stereo signal."
+    [buf 0 amp 1 pan 0 attack 0.0 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
     (let [n-frames  (buf-frames buf)
-          rate      (* rate (buf-rate-scale buf))
           start-pos (* start n-frames)
           end-pos   (* end n-frames)
-          phase     (phasor:ar :start start-pos :end end-pos :rate rate)
+          play-time (/ (* (buf-dur buf) (absdif end start))
+                       rate)
+          phase     (line:ar :start start-pos :end end-pos :dur play-time :action FREE)
+          sustain   (- play-time attack release)
+          env       (env-gen (envelope [0 amp amp 0] [attack sustain release]))
           snd       (buf-rd 1 buf phase)
-          snd       (pan2 snd pan)
-          e-gate    (+ loop?
-                       (latch:ar (line 1 0 0.0001) (bpz2 phase)))
-          env       (env-gen:ar (asr 0 1 release) :gate e-gate :action FREE)]
-      (out out-bus (* amp env snd))))
+          snd       (* env snd)
+          snd       (pan2 snd pan)]
+      (out out-bus snd)))
 
-  (defsynth stereo-partial-playr
+    (defsynth stereo-player
     "Plays a stereo buffer from start pos to end pos (represented as
-       values between 0 and 1). May be looped via the loop?
-       argument. Release time is the release phase after the looping has
-       finished to remove clipping."
-    [buf 0 rate 1 start 0 end 1 loop? 0 amp 1 release 0.01 out-bus 0]
+     values between 0 and 1). Outputs a stereo signal."
+    [buf 0 amp 1 pan 0 attack 0.0 release 0.0 rate 1 start 0 end 1 out-bus 0]
     (let [n-frames  (buf-frames buf)
-          rate      (* rate (buf-rate-scale buf))
           start-pos (* start n-frames)
           end-pos   (* end n-frames)
-          phase     (phasor:ar :start start-pos :end end-pos :rate rate)
+          play-time (/ (* (buf-dur buf) (absdif end start))
+                       rate)
+          phase     (line:ar :start start-pos :end end-pos :dur play-time :action FREE)
+          sustain   (- play-time attack release)
+          env       (env-gen (envelope [0 amp amp 0] [attack sustain release]))
           snd       (buf-rd 2 buf phase)
-          e-gate    (+ loop?
-                       (latch:ar (line 1 0 0.0001) (bpz2 phase)))
-          env       (env-gen:ar (asr 0 1 release) :gate e-gate :action FREE)]
-      (out out-bus (* amp env snd))))
-
-  ;; (save-to-pi mono-player)
-  ;; (save-to-pi stereo-player)
-  ;; (save-to-pi mono-partial-playr)
-  ;; (save-to-pi stereo-partial-playr)
-  )
+          snd       (* env snd)]
+      (out out-bus snd)))
 
 
+   (save-to-pi mono-player)
+   (save-to-pi stereo-player)
+   )
 
 
 ;; Experimental
