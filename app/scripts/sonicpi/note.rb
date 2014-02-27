@@ -2,18 +2,19 @@ module SonicPi
   class Note
 
     NOTES_TO_INTERVALS =
-      {c:  0,  bs: 0,
-      cs: 1,  df: 1,  db: 1,
-      d:  2,
-      eb: 3,  ef: 3,  ds: 3,
-      e:  4,  fb: 4,  ff: 4,
-      f:  5,  es: 5,
-      fs: 6,  gb: 6,  gf: 6,
-      g:  7,
-      gs: 8,  ab: 8,  af: 8,
-      a:  9,
-      bb: 10, bf: 10, as: 10,
-      b:  11, cf: 11, cb: 11}
+      {c:  0,
+       cs: 1,  df: 1,  db: 1,
+       d:  2,
+       eb: 3,  ef: 3,  ds: 3,
+       e:  4,  fb: 4,  ff: 4,
+       f:  5,  es: 5,
+       fs: 6,  gb: 6,  gf: 6,
+       g:  7,
+       gs: 8,  ab: 8,  af: 8,
+       a:  9,
+       bb: 10, bf: 10, as: 10,
+       b:  11, cf: 11, cb: 11,
+       bs: 12}
 
     INTERVALS_TO_NOTES = {
       0  => :C,
@@ -35,7 +36,7 @@ module SonicPi
 
     def initialize(n, o=nil)
       n = n.to_s
-      midi_note_re = /([a-gA-G][sSdBfF]?)([-]?[-0-9]*)/
+      midi_note_re = /([a-gA-G][sSbBfF]?)([-]?[-0-9]*)/
       m = midi_note_re.match n
 
       raise "Invalid note: #{n}" unless m
