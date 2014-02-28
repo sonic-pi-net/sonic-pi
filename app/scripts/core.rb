@@ -1,4 +1,16 @@
 #!/usr/bin/env ruby
+#--
+# This file is part of Sonic Pi: http://sonic-pi.net
+# Full project source: https://github.com/samaaron/sonic-pi
+# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+#
+# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# All rights reserved.
+#
+# Permission is granted for use, copying, modification, distribution,
+# and distribution of modified versions of this work as long as this
+# notice is included.
+#++
 
 raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "1.9.3"
 
