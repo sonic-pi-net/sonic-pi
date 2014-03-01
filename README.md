@@ -1,12 +1,23 @@
-## Sonic Pi
+# Sonic Pi
 
-This is the source for the Sonic Pi music programming environment. There
-are currently two interfaces, firstly the Qt interface, which is the
+Developed at the University of Cambridge Computer Laboratory, Sonic Pi is an open source programming environment designed to explore and teach programming concepts through the process of creating new sounds. Sonic Pi comes with an associated scheme of work which emphasises the importance of creativity in the learning process and gives users the control to turn their sonic ideas into reality.
+
+https://github.com/samaaron/sonic-pi
+
+
+## Interfaces
+
+There are currently two interfaces, firstly the Qt interface, which is the
 officially supported interface for use with the Raspberry Pi. Secondly
 there is a HTML interface which is unsupported and currently only for
 development purposes (also supports OS X).
 
 ### Official Qt Interface
+
+At this moment, the official Qt interface hasn't yet been re-integrated with 
+the latest development work.  Therefore, if you wish to play with the recent 
+developments you need to use the development HTML interface.
+
 
 The dependencies for this are:
 
