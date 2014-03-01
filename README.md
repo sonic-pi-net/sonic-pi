@@ -1,6 +1,6 @@
 # Sonic Pi
 
-Developed at the University of Cambridge Computer Laboratory, Sonic Pi is an open source programming environment designed to explore and teach programming concepts through the process of creating new sounds. Sonic Pi comes with an associated scheme of work which emphasises the importance of creativity in the learning process and gives users the control to turn their sonic ideas into reality.
+Sonic Pi is an open source programming environment designed to explore and teach programming concepts through the process of creating new sounds. Sonic Pi comes with an associated scheme of work which emphasises the importance of creativity in the learning process and gives users the control to turn their sonic ideas into reality.
 
 * Info: http://www.cl.cam.ac.uk/projects/raspberrypi/sonicpi/
 * Source: https://github.com/samaaron/sonic-pi
@@ -53,3 +53,7 @@ security features have been added.
 * Compile the `cljs` source: `cd app/gui/html`, `lein cljsbuild once`
 * Start the server: `cd app/scripts`, `ruby ws.rb`
 * Open a browser and go to `http://localhost:8000`
+
+## Acknowledgements
+
+Sonic Pi has been developed within the Computer Laboratory at the University of Cambridge in collaboration with the Raspberry Pi Foundation.
