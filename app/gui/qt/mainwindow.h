@@ -32,7 +32,7 @@ class QMenu;
 class QsciScintilla;
 class QProcess;
 class QTextEdit;
-class QsciLexerRuby;
+class SonicPiLexer;
 class QString;
 
 class MainWindow : public QMainWindow
@@ -93,14 +93,14 @@ private:
     QsciScintilla *workspace7;
     QsciScintilla *workspace8;
     QTextEdit *outputPane;
-    QsciScintilla *errorPane;
+    QTextEdit *errorPane;
 
     QString curFile;
     QString groupName;
 
     QTabWidget *tabs;
 
-    QsciLexerRuby *lexer;
+    SonicPiLexer *lexer;
     QProcess *runProcess;
     QMenu *fileMenu;
     QMenu *editMenu;

@@ -48,25 +48,16 @@
 #include <QTextStream>
 #include <QFile>
 #include <Qsci/qsciscintilla.h>
-#include <Qsci/qscilexerruby.h>
+#include <sonicpilexer.h>
 
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QApplication &app)
 {
 
-  ensureWorkspaces();
+  //ensureWorkspaces();
 
   runProcess =  NULL;
-  groupName = "default";
-  QFile file("/tmp/sonic-pi/group-name");
-  bool ret = file.open(QIODevice::ReadOnly | QIODevice::Text);
-  if( ret )
-    {
-      QTextStream stream(&file);
-      groupName = stream.readAll().trimmed();
-    }
-
   QMap<QString, QString> map;
   tabs = new QTabWidget();
   tabs->setTabsClosable(false);
@@ -90,7 +81,6 @@ MainWindow::MainWindow(QApplication &app)
   QString w6 = "Workspace 6";
   QString w7 = "Workspace 7";
   QString w8 = "Workspace 8";
-
 
   tabs->addTab(workspace1, w1);
   tabs->addTab(workspace2, w2);
@@ -128,7 +118,7 @@ MainWindow::MainWindow(QApplication &app)
   workspace7->setUtf8(true);
   workspace8->setUtf8(true);
 
-  lexer = new QsciLexerRuby;
+  lexer = new SonicPiLexer;
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -159,7 +149,7 @@ MainWindow::MainWindow(QApplication &app)
   workspace8->zoomIn(13);
 
   outputPane = new QTextEdit;
-  errorPane = new QsciScintilla;
+  errorPane = new QTextEdit;
 
   outputPane->zoomIn(7);
   errorPane->zoomIn(3);
@@ -184,8 +174,7 @@ MainWindow::MainWindow(QApplication &app)
   // connect(textEdit, SIGNAL(textChanged()),
   //         this, SLOT(documentWasModified()));
 
-  //  setWindowTitle(tr("Sonic Pi"));
-  setWindowTitle("Sonic Pi - " + groupName);
+  setWindowTitle(tr("Sonic Pi"));
   callInitScript();
   loadWorkspaces();
 
@@ -216,26 +205,26 @@ void MainWindow::onExitCleanup()
 
 void MainWindow::loadWorkspaces()
 {
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/one/1.spi", workspace1);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/two/1.spi", workspace2);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/three/1.spi", workspace3);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/four/1.spi", workspace4);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/five/1.spi", workspace5);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/six/1.spi", workspace6);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/seven/1.spi", workspace7);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/eight/1.spi", workspace8);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi", workspace1);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/two/1.spi", workspace2);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/three/1.spi", workspace3);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/four/1.spi", workspace4);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/five/1.spi", workspace5);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/six/1.spi", workspace6);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/seven/1.spi", workspace7);
+  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/eight/1.spi", workspace8);
 }
 
 void MainWindow::saveWorkspaces()
 {
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/one/1.spi", workspace1);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/two/1.spi", workspace2);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/three/1.spi", workspace3);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/four/1.spi", workspace4);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/five/1.spi", workspace5);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/six/1.spi", workspace6);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/seven/1.spi", workspace7);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/eight/1.spi", workspace8);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi", workspace1);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/two/1.spi", workspace2);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/three/1.spi", workspace3);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/four/1.spi", workspace4);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/five/1.spi", workspace5);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/six/1.spi", workspace6);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/seven/1.spi", workspace7);
+  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/eight/1.spi", workspace8);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -284,19 +273,19 @@ void MainWindow::runCode()
   QStringList arguments;
   arguments << "/tmp/sonic-pi-current-code.rb";
   QObject *parent;
-  runProcess = new QProcess(parent);
+  // runProcess = new QProcess(parent);
 
-  connect(runProcess, SIGNAL(readyReadStandardOutput()),
-          this, SLOT(updateOutput()));
+  // connect(runProcess, SIGNAL(readyReadStandardOutput()),
+  //         this, SLOT(updateOutput()));
 
-  connect(runProcess, SIGNAL(readyReadStandardError()),
-          this, SLOT(updateError()));
+  // connect(runProcess, SIGNAL(readyReadStandardError()),
+  //         this, SLOT(updateError()));
 
 
 
-  runProcess->start(program, arguments);
-  //runProcess->write(tabs->currentWidget()->text().toAscii());
-  //  runProcess->waitForFinished();
+  // runProcess->start(program, arguments);
+  // //runProcess->write(tabs->currentWidget()->text().toAscii());
+  // //  runProcess->waitForFinished();
   lexer->setPaper(Qt::white);
 }
 
@@ -359,10 +348,20 @@ bool MainWindow::save()
 
 void MainWindow::about()
 {
-   QMessageBox::about(this, tr("About Sonic Pi"),
-            tr("<b>Sonic Pi</b> is an experimental language and application"
-               "for using creative processes to engage students with a"
-               "computer science curriculum."));
+   // QMessageBox::about(this, tr("About Sonic Pi"),
+   //          tr("Sonic Pi \nMaking Computer Science Audible\n Copyright 2013, 2014, Sam Aaron \n Developed at the University of Cambridge Computer Laboratory \n http://www.cl.cam.ac.uk/projects/raspberrypi/sonicpi/"));
+
+  QMessageBox about;
+
+  about.setWindowTitle("About Sonic Pi");
+  about.setText("Sonic Pi - Making Computer Science Audible");
+  about.setDetailedText("For further information visit: \nhttp://www.cl.cam.ac.uk/projects/raspberrypi/sonicpi/");
+  about.setInformativeText("Version 2.0\nCopyright © 2013, 2014 Sam Aaron\n\nA University of Cambridge Computer Laboratory project developed in collaboration with the Raspberry Pi Foundation");
+  about.setStandardButtons(QMessageBox::Ok);
+  about.setDefaultButton(QMessageBox::Ok);
+  about.show();
+  about.exec();
+
 }
 
 void MainWindow::documentWasModified()
@@ -377,12 +376,12 @@ void MainWindow::documentWasModified()
 
 void MainWindow::callInitScript()
 {
-  QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/boot.rb";
-  QStringList arguments;
-  QObject *parent;
-  QProcess *myProcess = new QProcess(parent);
-  myProcess->start(program, arguments);
-  myProcess->waitForFinished();
+  // QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/boot.rb";
+  // QStringList arguments;
+  // QObject *parent;
+  // QProcess *myProcess = new QProcess(parent);
+  // myProcess->start(program, arguments);
+  // myProcess->waitForFinished();
 }
 
 void MainWindow::stopRunningSynths()
@@ -483,8 +482,8 @@ void MainWindow::createMenus()
 
     // menuBar()->addSeparator();
 
-    // helpMenu = menuBar()->addMenu(tr("&Help"));
-    // helpMenu->addAction(aboutAct);
+    helpMenu = menuBar()->addMenu(tr("&Help"));
+    helpMenu->addAction(aboutAct);
     // helpMenu->addAction(aboutQtAct);f
 }
 
@@ -505,7 +504,7 @@ void MainWindow::createStatusBar()
 
 void MainWindow::readSettings()
 {
-    QSettings settings("Trolltech", "Application Example");
+    QSettings settings("uk.ac.cam.cl", "Sonic Pi");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     resize(size);
@@ -514,7 +513,7 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("Trolltech", "Application Example");
+    QSettings settings("uk.ac.cam.cl", "Sonic Pi");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
 }
@@ -575,15 +574,15 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
 
 QString MainWindow::workspaceFilename(QsciScintilla* text)
 {
-  if(text == workspace1) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/one/1.spi";}
-  else if(text == workspace2) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/two/1.spi";}
-  else if(text == workspace3) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/three/1.spi";}
-  else if(text == workspace4) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/four/1.spi";}
-  else if(text == workspace5) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/five/1.spi";}
-  else if(text == workspace6) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/six/1.spi";}
-  else if(text == workspace7) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/seven/1.spi";}
-  else if(text == workspace8) {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/eight/1.spi";}
- else {return QDir::homePath() + "/.sonic-pi/workspaces/" + groupName + "/one/1.spi";}
+  if(text == workspace1) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi";}
+  else if(text == workspace2) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/two/1.spi";}
+  else if(text == workspace3) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/three/1.spi";}
+  else if(text == workspace4) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/four/1.spi";}
+  else if(text == workspace5) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/five/1.spi";}
+  else if(text == workspace6) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/six/1.spi";}
+  else if(text == workspace7) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/seven/1.spi";}
+  else if(text == workspace8) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/eight/1.spi";}
+ else {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi";}
 }
 
 bool MainWindow::saveWorkspace(QsciScintilla* text)

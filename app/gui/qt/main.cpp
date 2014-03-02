@@ -20,16 +20,25 @@
 ****************************************************************************/
 
 #include <QApplication>
+#include <QSplashScreen>
+#include <QPixmap>
 
 #include "mainwindow.h"
-#include <signal.h>
-#include <stdio.h>
- main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-    Q_INIT_RESOURCE(application);
+        Q_INIT_RESOURCE(application);
 
     QApplication app(argc, argv);
+    QPixmap pixmap(":/images/splash.png");
+    QSplashScreen splash(pixmap);
+    splash.show();
+    sleep(1);
+    //    QIcon icon(":images/app.icns");
     MainWindow mainWin(app);
+    //    mainWin.setWindowIcon(icon);
     mainWin.show();
+    splash.finish(&mainWin);
     return app.exec();
+    return app.exec();
+
 }
