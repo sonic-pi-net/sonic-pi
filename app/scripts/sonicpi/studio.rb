@@ -27,7 +27,7 @@ module SonicPi
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
       @server = Server.new(hostname, port, msg_queue)
-
+      @server.load_synthdefs(synthdef_path)
       # Thread local variables
 
       Thread.current.thread_variable_set :sonic_pi_studio_current_pad_synth, nil
