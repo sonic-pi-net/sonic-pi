@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     //    sleep(1);
     //    QIcon icon(":images/app.icns");
     MainWindow mainWin(app);
+    mainWin.setUnifiedTitleAndToolBarOnMac(true);
     //    mainWin.setWindowIcon(icon);
     mainWin.show();
     splash.finish(&mainWin);

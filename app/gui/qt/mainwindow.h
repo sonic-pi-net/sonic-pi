@@ -107,18 +107,25 @@ private:
     QMenu *editMenu;
     QMenu *helpMenu;
     QToolBar *fileToolBar;
+    QToolBar *supportToolBar;
     QToolBar *editToolBar;
     QAction *runAct;
     QAction *stopAct;
+    QAction *saveAct;
+
     QAction *newAct;
     QAction *openAct;
-    QAction *saveAct;
+
+    QAction *infoAct;
+    QAction *prefsAct;
+    QAction *helpAct;
+
     QAction *saveAsAct;
     QAction *exitAct;
     QAction *cutAct;
     QAction *copyAct;
     QAction *pasteAct;
-    QAction *aboutAct;
+
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 

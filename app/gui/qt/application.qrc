@@ -1,9 +1,12 @@
 <RCC>
     <qresource prefix="/">
+        <file>images/splash.png</file>
+        <file>images/app.icns</file>
+        <file>images/help.png</file>
+        <file>images/info.png</file>
+        <file>images/prefs.png</file>
         <file>images/run.png</file>
         <file>images/save.png</file>
         <file>images/stop.png</file>
-        <file>images/splash.png</file>
-        <file>images/app.icns</file>
     </qresource>
 </RCC>

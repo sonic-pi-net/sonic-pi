@@ -513,6 +513,16 @@ void MainWindow::createActions()
   saveAsAct->setStatusTip(tr("Save the document under a new name"));
   connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
+  infoAct = new QAction(QIcon(":/images/info.png"), tr("&Info"), this);
+  infoAct->setStatusTip(tr("See information about Sonic Pi"));
+  connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
+
+  helpAct = new QAction(QIcon(":/images/help.png"), tr("&Help"), this);
+  helpAct->setStatusTip(tr("Get help"));
+
+  prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("&Prefs"), this);
+  prefsAct->setStatusTip(tr("Preferences"));
+
     // exitAct = new QAction(tr("E&xit"), this);
     // exitAct->setShortcut(tr("Ctrl+Q"));
     // exitAct->setStatusTip(tr("Exit the application"));
@@ -535,15 +545,6 @@ void MainWindow::createActions()
     // pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
     //                           "selection"));
     // connect(pasteAct, SIGNAL(triggered()), textEdit, SLOT(paste()));
-
-    aboutAct = new QAction(tr("&About"), this);
-    aboutAct->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
-
-    aboutQtAct = new QAction(tr("About &Qt"), this);
-    aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-
     // cutAct->setEnabled(false);
     // copyAct->setEnabled(false);
     // connect(textEdit, SIGNAL(copyAvailable(bool)),
@@ -569,20 +570,32 @@ void MainWindow::createMenus()
 
     // menuBar()->addSeparator();
 
-    helpMenu = menuBar()->addMenu(tr("&Help"));
-    helpMenu->addAction(aboutAct);
+    // helpMenu = menuBar()->addMenu(tr("&Help"));
+    // helpMenu->addAction(aboutAct);
     // helpMenu->addAction(aboutQtAct);f
 }
 
 void MainWindow::createToolBars()
 {
-    fileToolBar = addToolBar(tr("Run"));
-    fileToolBar->addAction(runAct);
-    fileToolBar->addAction(stopAct);
-    fileToolBar->setIconSize(QSize(270/2.5, 109/2.5));
-    // fileToolBar->addAction(newAct);
-    // fileToolBar->addAction(openAct);
-    fileToolBar->addAction(saveAsAct);
+
+
+
+  fileToolBar = addToolBar(tr("Run"));
+  fileToolBar->addAction(runAct);
+  fileToolBar->addAction(stopAct);
+  fileToolBar->setIconSize(QSize(270/2.5, 109/2.5));
+  fileToolBar->addAction(saveAsAct);
+
+  QWidget *spacerWidget = new QWidget(this);
+  spacerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  spacerWidget->setVisible(true);
+
+  supportToolBar = addToolBar(tr("Support"));
+  supportToolBar->addWidget(spacerWidget);
+  supportToolBar->addAction(infoAct);
+  supportToolBar->addAction(helpAct);
+  supportToolBar->setIconSize(QSize(270/2.5, 109/2.5));
+  supportToolBar->addAction(prefsAct);
 }
 
 void MainWindow::createStatusBar()

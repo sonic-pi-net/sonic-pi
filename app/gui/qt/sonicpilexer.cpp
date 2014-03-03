@@ -9,11 +9,13 @@ QColor QsciLexerRuby::defaultColor(int style) const
     switch (style)
     {
     case Default:
-        return QColor(0x80,0x80,0x80);
+      //        return QColor(0x80,0x80,0x80);
+      return QColor(60, 60, 60);
 
     case Comment:
-      return QColor(40, 40, 40);
-
+      //      return QColor(40, 40, 40);
+      //return QColor(60, 60, 60);
+      return QColor("white");
     case POD:
         return QColor(0x00,0x40,0x00);
 
@@ -77,7 +79,10 @@ QColor QsciLexerRuby::defaultPaper(int style) const
   switch (style)
     {
     case Comment:
-        return QColor(0xa0,0xff,0xa0);
+      //      return QColor(94,94,94);
+      return QColor("#5e5e5e");
+      //return QColor(202, 225, 255); // lilac
+      //      return QColor(191,239,255); //nice light blue
     case Error:
         return QColor(0xff,0x00,0x00);
 
@@ -151,7 +156,7 @@ QFont QsciLexerRuby::defaultFont(int style) const
     case ModuleName:
     case DemotedKeyword:
         f = QsciLexer::defaultFont(style);
-        f.setBold(true);
+        f.setBold(false);
         break;
 
     default:
