@@ -57,8 +57,14 @@ MainWindow::MainWindow(QApplication &app)
 {
 
   //ensureWorkspaces();
+  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/ensure-workspaces.rb";
+  // QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
+  // QProcess *runProcess = new QProcess();
+  // runProcess->start(program, arguments);
+  // runProcess->waitForFinished();
 
-  runProcess =  NULL;
+  runProcess = NULL;
+
   QMap<QString, QString> map;
   tabs = new QTabWidget();
   tabs->setTabsClosable(false);
@@ -125,8 +131,6 @@ MainWindow::MainWindow(QApplication &app)
 
   lexer = new SonicPiLexer;
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
-
-
 
   QsciAPIs* api = new QsciAPIs(lexer);
 
@@ -198,24 +202,38 @@ MainWindow::MainWindow(QApplication &app)
 
   workspace2->setLexer(lexer);
   workspace2->zoomIn(13);
+  workspace2->setAutoCompletionThreshold(5);
+  workspace2->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   workspace3->setLexer(lexer);
   workspace3->zoomIn(13);
+  workspace3->setAutoCompletionThreshold(5);
+  workspace3->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   workspace4->setLexer(lexer);
   workspace4->zoomIn(13);
+  workspace4->setAutoCompletionThreshold(5);
+  workspace4->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   workspace5->setLexer(lexer);
   workspace5->zoomIn(13);
+  workspace5->setAutoCompletionThreshold(5);
+  workspace5->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   workspace6->setLexer(lexer);
   workspace6->zoomIn(13);
+  workspace6->setAutoCompletionThreshold(5);
+  workspace6->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   workspace7->setLexer(lexer);
   workspace7->zoomIn(13);
+  workspace7->setAutoCompletionThreshold(5);
+  workspace7->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   workspace8->setLexer(lexer);
   workspace8->zoomIn(13);
+  workspace8->setAutoCompletionThreshold(5);
+  workspace8->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
@@ -472,12 +490,12 @@ void MainWindow::clearOutputPanels()
 void MainWindow::createActions()
 {
 
-  runAct = new QAction(QIcon(":/images/save.png"), tr("&Run"), this);
+  runAct = new QAction(QIcon(":/images/run.png"), tr("&Run"), this);
   runAct->setShortcut(tr("Ctrl+R"));
   runAct->setStatusTip(tr("Run code"));
   connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
-  stopAct = new QAction(QIcon(":/images/new.png"), tr("&Stop"), this);
+  stopAct = new QAction(QIcon(":/images/stop.png"), tr("&Stop"), this);
   stopAct->setShortcut(tr("Ctrl+Q"));
   stopAct->setStatusTip(tr("Stop code"));
   connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
@@ -491,7 +509,7 @@ void MainWindow::createActions()
     // openAct->setShortcut(tr("Ctrl+O"));
     // openAct->setStatusTip(tr("Open an existing file"));
     // connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
-  saveAsAct = new QAction(QIcon(":/images/open.png"), tr("&Save &As..."), this);
+  saveAsAct = new QAction(QIcon(":/images/save.png"), tr("&Save &As..."), this);
   saveAsAct->setStatusTip(tr("Save the document under a new name"));
   connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
@@ -561,6 +579,7 @@ void MainWindow::createToolBars()
     fileToolBar = addToolBar(tr("Run"));
     fileToolBar->addAction(runAct);
     fileToolBar->addAction(stopAct);
+    fileToolBar->setIconSize(QSize(270/2.5, 109/2.5));
     // fileToolBar->addAction(newAct);
     // fileToolBar->addAction(openAct);
     fileToolBar->addAction(saveAsAct);

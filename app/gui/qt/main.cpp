@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     QPixmap pixmap(":/images/splash.png");
     QSplashScreen splash(pixmap);
     splash.show();
-    sleep(1);
+    //    sleep(1);
     //    QIcon icon(":images/app.icns");
     MainWindow mainWin(app);
     //    mainWin.setWindowIcon(icon);

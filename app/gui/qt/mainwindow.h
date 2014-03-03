@@ -100,8 +100,9 @@ private:
 
     QTabWidget *tabs;
 
-    SonicPiLexer *lexer;
     QProcess *runProcess;
+
+    SonicPiLexer *lexer;
     QMenu *fileMenu;
     QMenu *editMenu;
     QMenu *helpMenu;

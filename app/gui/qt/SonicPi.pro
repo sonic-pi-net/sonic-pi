@@ -19,7 +19,7 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     sonicpilexer.h
 
-LIBS += -lqscintilla2
+LIBS += -l qscintilla2
 
 
 
@@ -35,4 +35,4 @@ OTHER_FILES += \
 RESOURCES += \
     application.qrc
 
- ICON = images/app.icns
+ICON = images/app.icns
