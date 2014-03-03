@@ -47,6 +47,7 @@
 #include <QString>
 #include <QTextStream>
 #include <QFile>
+#include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
 
@@ -72,6 +73,10 @@ MainWindow::MainWindow(QApplication &app)
   workspace6 = new QsciScintilla;
   workspace7 = new QsciScintilla;
   workspace8 = new QsciScintilla;
+
+  workspace1->setAutoIndent(true);
+  workspace1->setIndentationsUseTabs(false);
+  workspace1->setIndentationWidth(2);
 
   QString w1 = "Workspace 1";
   QString w2 = "Workspace 2";
@@ -119,6 +124,68 @@ MainWindow::MainWindow(QApplication &app)
   workspace8->setUtf8(true);
 
   lexer = new SonicPiLexer;
+  lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
+
+
+
+  QsciAPIs* api = new QsciAPIs(lexer);
+
+  api->add("ambi_drone");
+  api->add("ambi_haunted_hum");
+  api->add("ambi_lunar_land");
+  api->add("ambi_soft_buzz");
+  api->add("ambi_swoosh");
+  api->add("ambi_piano");
+  api->add("drum_bass_hard");
+  api->add("drum_bass_soft");
+  api->add("drum_cymbal_closed");
+  api->add("drum_cymbal_hard");
+  api->add("drum_cymbal_open");
+  api->add("drum_cymbal_pedal");
+  api->add("drum_cymbal_soft");
+  api->add("drum_heavy_kick");
+  api->add("drum_snare_hard");
+  api->add("drum_snare_soft");
+  api->add("drum_splash_hard");
+  api->add("drum_splash_soft");
+  api->add("drum_tom_hi_hard");
+  api->add("drum_tom_hi_soft");
+  api->add("drum_tom_lo_hard");
+  api->add("drum_tom_lo_soft");
+  api->add("drum_tom_mid_hard");
+  api->add("drum_tom_mid_soft");
+  api->add("elec_beep");
+  api->add("elec_bell");
+  api->add("elec_blip");
+  api->add("elec_blip2");
+  api->add("elec_blup");
+  api->add("elec_bong");
+  api->add("elec_chime");
+  api->add("elec_cymbal");
+  api->add("elec_filt_snare");
+  api->add("elec_flip");
+  api->add("elec_fuzz_tom");
+  api->add("elec_hi_snare");
+  api->add("elec_hollow_kick");
+  api->add("elec_lo_snare");
+  api->add("elec_mid_snare");
+  api->add("elec_ping");
+  api->add("elec_plip");
+  api->add("elec_pop");
+  api->add("elec_snare");
+  api->add("elec_soft_kick");
+  api->add("elec_tick");
+  api->add("elec_triangle");
+  api->add("elec_twang");
+  api->add("elec_twip");
+  api->add("elec_wood");
+  api->add("glass_hum");
+  api->add("guit_e_fifths");
+  api->add("guit_e_slide");
+  api->add("guit_harmonics");
+  api->add("loop_breakbeat");
+
+  api->prepare();
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -126,6 +193,8 @@ MainWindow::MainWindow(QApplication &app)
 
   workspace1->setLexer(lexer);
   workspace1->zoomIn(13);
+  workspace1->setAutoCompletionThreshold(5);
+  workspace1->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   workspace2->setLexer(lexer);
   workspace2->zoomIn(13);
