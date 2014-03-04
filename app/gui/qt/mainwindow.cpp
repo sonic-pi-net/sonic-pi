@@ -216,6 +216,12 @@ MainWindow::MainWindow(QApplication &app)
   api->add("guit_harmonics");
   api->add("loop_breakbeat");
 
+  api->add("with_synth");
+  api->add("with_merged_synth_defaults");
+  api->add("with_synth_defaults");
+
+
+
   api->prepare();
 
   QFont font("Monospace");
