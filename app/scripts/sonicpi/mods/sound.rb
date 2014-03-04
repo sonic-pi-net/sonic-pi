@@ -60,8 +60,15 @@ module SonicPi
          @mod_sound_studio.sched_ahead_time(t)
        end
 
-       def with_synth(synth_name)
-         @mod_sound_studio.current_synth_name = synth_name
+       def with_synth(synth_name, &block)
+         orig_synth = @mod_sound_studio.current_synth_name
+         if block
+           @mod_sound_studio.current_synth_name = synth_name
+           block.call
+           @mod_sound_studio.current_synth_name = orig_synth
+         else
+           @mod_sound_studio.current_synth_name = synth_name
+         end
        end
 
        def trigger_sp_synth(synth_name, *args)
@@ -107,8 +114,28 @@ module SonicPi
          end
        end
 
-       def with_synth_defaults(*args)
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, Hash[*args]
+       def with_merged_synth_defaults(*args, &block)
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         merged = current.merge(Hash[*args])
+         if block
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
+           block.call
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current
+         else
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
+         end
+       end
+
+       def with_synth_defaults(*args, &block)
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         new = Hash[*args]
+         if block
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
+           block.call
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current
+         else
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
+         end
        end
 
        def with_tempo(n)
