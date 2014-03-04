@@ -71,8 +71,10 @@ MainWindow::MainWindow(QApplication &app)
 
   QMap<QString, QString> map;
   tabs = new QTabWidget();
+
   tabs->setTabsClosable(false);
   tabs->setMovable(false);
+  tabs->setTabPosition(QTabWidget::South);
   setCentralWidget(tabs);
 
   workspace1 = new QsciScintilla;
