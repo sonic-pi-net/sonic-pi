@@ -53,6 +53,7 @@
 #include <QLabel>
 #include <QToolBox>
 #include <QSlider>
+#include <QPushButton>
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
@@ -264,8 +265,8 @@ MainWindow::MainWindow(QApplication &app)
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
 
-  outputPane->zoomIn(7);
-  errorPane->zoomIn(3);
+  outputPane->zoomIn(1);
+  errorPane->zoomIn(1);
 
   QDockWidget *outputWidget = new QDockWidget(tr("Output"), this);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
@@ -385,7 +386,7 @@ void MainWindow::runCode()
   //  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
   QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/run-code.rb";
   runProcess = new QProcess();
-  runProcess->startDetached(program);
+  runProcess->start(program);
   runProcess->waitForStarted();
 }
 
@@ -404,7 +405,7 @@ void MainWindow::stopCode()
   //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/stop-code.rb";
   QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/stop-code.rb";
   QProcess *p = new QProcess();
-  p->startDetached(program);
+  p->start(program);
   p->waitForStarted();
 
   // connect(runProcess, SIGNAL(readyReadStandardOutput()),
@@ -478,11 +479,29 @@ void MainWindow::prefs()
 
   prefsWindow = new QMainWindow();
   QToolBox *tools = new QToolBox();
-  QSlider *slider = new QSlider();
+
   prefsWindow->setCentralWidget(tools);
-  tools->addItem(slider, "Volume");
+  QPushButton *but = new QPushButton();
+  tools->addItem(but, "Font Size UP");
+  connect(but, SIGNAL(clicked()), this, SLOT(zoomFontIn()));
+
+  QPushButton *but2 = new QPushButton();
+  tools->addItem(but2, "Font Size Down");
+  connect(but2, SIGNAL(clicked()), this, SLOT(zoomFontOut()));
   prefsWindow->show();
+
 }
+
+void MainWindow::zoomFontIn()
+{
+  outputPane->zoomIn(1);
+}
+
+void MainWindow::zoomFontOut()
+{
+  outputPane->zoomOut(1);
+}
+
 
 void MainWindow::documentWasModified()
 {

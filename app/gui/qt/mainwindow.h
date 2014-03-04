@@ -65,6 +65,8 @@ private slots:
     void updateOutput();
     void updateError();
     void onExitCleanup();
+    void zoomFontIn();
+    void zoomFontOut();
 
 
 private:
