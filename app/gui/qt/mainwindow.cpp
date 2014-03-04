@@ -51,6 +51,8 @@
 #include <QPixmap>
 #include <QWindow>
 #include <QLabel>
+#include <QToolBox>
+#include <QSlider>
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
@@ -61,11 +63,17 @@ MainWindow::MainWindow(QApplication &app)
 {
 
   //ensureWorkspaces();
-  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/ensure-workspaces.rb";
-  // QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
-  // QProcess *runProcess = new QProcess();
-  // runProcess->start(program, arguments);
-  // runProcess->waitForFinished();
+  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/start-server.rb";
+  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
+  serverProcess = new QProcess();
+  serverProcess->start(program);
+  serverProcess->waitForStarted();
+
+  connect(serverProcess, SIGNAL(readyReadStandardOutput()),
+          this, SLOT(updateOutput()));
+
+  connect(serverProcess, SIGNAL(readyReadStandardError()),
+          this, SLOT(updateError()));
 
   runProcess = NULL;
 
@@ -125,6 +133,12 @@ MainWindow::MainWindow(QApplication &app)
   map.insert(w6, six);
   map.insert(w7, seven);
   map.insert(w8, eight);
+
+  workspace1->setMarginLineNumbers(0, true);
+  workspace1->setMarginWidth(0, 30);
+  workspace1->setMarginsBackgroundColor(QColor("white"));
+  workspace1->setMarginsForegroundColor(QColor("lightgray"));
+  workspace1->setMarginsFont(QFont("Menlo",10, -1, true));
 
   workspace1->setUtf8(true);
   workspace2->setUtf8(true);
@@ -289,7 +303,8 @@ void MainWindow::ensureWorkspaces()
 
 void MainWindow::onExitCleanup()
 {
-  QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/shutdown.rb";
+  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/shutdown.rb";
+  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/kill-server.rb";
   QStringList arguments;
   QObject *parent;
   runProcess = new QProcess(parent);
@@ -350,44 +365,30 @@ bool MainWindow::saveAs()
 void MainWindow::runCode()
 {
   //  printf("running code");
-  killSynths();
+  //  killSynths();
   saveWorkspace( (QsciScintilla*)tabs->currentWidget());
   saveFile("/tmp/sonic-pi-current-code.rb", (QsciScintilla*)tabs->currentWidget());
-  outputPane->clear();
-  errorPane->clear();
+  //outputPane->clear();
+  //errorPane->clear();
   lexer->setPaper(Qt::lightGray);
   QString emptyText = "";
-  statusBar()->showMessage(tr("Running..."), 2000);
+  statusBar()->showMessage(tr("Running...."), 2000);
 
   //  clearOutputPanels();
 
   //  printf((QCoreApplication::applicationDirPath() + "/../../app/scripts/run-code.rb").toAscii().data());
-  QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/run-code.rb";
-  QStringList arguments;
-  arguments << "/tmp/sonic-pi-current-code.rb";
-  QObject *parent;
-  // runProcess = new QProcess(parent);
+  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/run-code.rb";
+  //  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
+  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/run-code.rb";
+  runProcess = new QProcess();
+  runProcess->startDetached(program);
+  runProcess->waitForStarted();
 
-  // connect(runProcess, SIGNAL(readyReadStandardOutput()),
-  //         this, SLOT(updateOutput()));
-
-  // connect(runProcess, SIGNAL(readyReadStandardError()),
-  //         this, SLOT(updateError()));
-
-
-
-  // runProcess->start(program, arguments);
-  // //runProcess->write(tabs->currentWidget()->text().toAscii());
-  // //  runProcess->waitForFinished();
   lexer->setPaper(Qt::white);
 }
 
 void MainWindow::killSynths()
 {
-  if (runProcess)
-    {
-      runProcess->kill();
-    }
   stopRunningSynths();
 }
 
@@ -397,13 +398,13 @@ void MainWindow::stopCode()
   errorPane->clear();
   lexer->setPaper(Qt::red);
   statusBar()->showMessage(tr("Stopping..."), 2000);
-  killSynths();
+  //  killSynths();
   //  clearOutputPanels();
-  // QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/stop-code.rb";
-  // QStringList arguments;
-  // arguments << "/tmp/sonic-pi";
-  // QObject *parent;
-  // runProcess = new QProcess(parent);
+  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/stop-code.rb";
+  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/stop-code.rb";
+  QProcess *p = new QProcess();
+  p->startDetached(program);
+  p->waitForStarted();
 
   // connect(runProcess, SIGNAL(readyReadStandardOutput()),
   //         this, SLOT(updateOutput()));
@@ -419,13 +420,13 @@ void MainWindow::stopCode()
 
 void MainWindow::updateError()
 {
-  QByteArray output = runProcess->readAllStandardError();
+  QByteArray output = serverProcess->readAllStandardError();
   errorPane->append(output);
 }
 
 void MainWindow::updateOutput()
 {
-  QByteArray output = runProcess->readAllStandardOutput();
+  QByteArray output = serverProcess->readAllStandardOutput();
   outputPane->append(output);
 }
 
@@ -475,8 +476,12 @@ void MainWindow::help()
 void MainWindow::prefs()
 {
 
-    prefsWindow = new QWindow();
-    prefsWindow->show();
+  prefsWindow = new QMainWindow();
+  QToolBox *tools = new QToolBox();
+  QSlider *slider = new QSlider();
+  prefsWindow->setCentralWidget(tools);
+  tools->addItem(slider, "Volume");
+  prefsWindow->show();
 }
 
 void MainWindow::documentWasModified()
@@ -501,12 +506,12 @@ void MainWindow::callInitScript()
 
 void MainWindow::stopRunningSynths()
 {
-  QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/stop-running-synths.rb";
-  QStringList arguments;
-  QObject *parent;
-  QProcess *myProcess = new QProcess(parent);
-  myProcess->start(program, arguments);
-  myProcess->waitForFinished();
+  // QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/stop-running-synths.rb";
+  // QStringList arguments;
+  // QObject *parent;
+  // QProcess *myProcess = new QProcess(parent);
+  // myProcess->start(program, arguments);
+  // myProcess->waitForFinished();
 }
 
 void MainWindow::clearOutputPanels()

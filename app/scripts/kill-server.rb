@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby  -wKU
+#!/usr/bin/env ruby
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
@@ -12,9 +12,10 @@
 # notice is included.
 #++
 
-$:.unshift File.expand_path("../vendor/osc-ruby/lib", __FILE__)
-require 'osc-ruby'
+require_relative "core.rb"
 
-load(File.absolute_path("#{File.dirname(__FILE__)}/util.rb"))
-client = OSC::Client.new('localhost', 4556)
-client.send(OSC::Message.new("/d_loadDir", sp_synthdefs_path))
+require 'edn'
+
+sp = OSC::Client.new("localhost", 4557)
+payload = {:cmd => "exit"}.to_edn
+sp.send(OSC::Message.new("/edn", payload))

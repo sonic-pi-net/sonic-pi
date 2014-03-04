@@ -106,6 +106,7 @@ private:
     QTabWidget *tabs;
 
     QProcess *runProcess;
+    QProcess *serverProcess;
 
     SonicPiLexer *lexer;
     QMenu *fileMenu;
@@ -135,8 +136,7 @@ private:
     QMap<QString, QString> *map;
 
     QMainWindow *infoWindow;
-    QWindow *prefsWindow;
-    QWindow *helpWindow;
+    QMainWindow *prefsWindow;
     QLabel *imageLabel;
 
 };

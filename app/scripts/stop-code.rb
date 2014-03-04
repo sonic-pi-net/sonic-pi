@@ -12,14 +12,10 @@
 # notice is included.
 #++
 
-$:.unshift File.expand_path("../vendor/osc-ruby/lib", __FILE__)
-load(File.absolute_path("#{File.dirname(__FILE__)}/util.rb"))
+require_relative "core.rb"
 
-require 'osc-ruby'
-STDOUT.sync
+require 'edn'
 
-SYNTH_GROUP = 1
-
-client = OSC::Client.new('localhost', 4556)
-puts "freeing all synths"
-client.send(OSC::Message.new("/g_freeAll", SYNTH_GROUP))
+sp = OSC::Client.new("localhost", 4557)
+payload = {:cmd => "stop-jobs"}.to_edn
+sp.send(OSC::Message.new("/edn", payload))

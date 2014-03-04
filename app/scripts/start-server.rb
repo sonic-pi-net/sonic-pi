@@ -21,28 +21,31 @@ require_relative "sonicpi/server"
 require_relative "sonicpi/util"
 require_relative "sonicpi/rcv_dispatch"
 
-Thread.abort_on_exception=true
+require 'edn'
 
 include SonicPi::Util
 
 ws_out = Queue.new
-$scsynth = SonicPi::SCSynth.instance
-
-$c = OSC::Client.new("localhost", 4556)
+scsynth = SonicPi::SCSynth.instance
+sc_server = OSC::Client.new("localhost", 4556)
+osc_server = OSC::Server.new(4557)
 
 at_exit do
-  $c.send(OSC::Message.new("/quit"))
+  sc_server.send(OSC::Message.new("/quit"))
 end
 
-$c.send(OSC::Message.new("/d_loadDir", synthdef_path))
-sleep 2
+sp =  SonicPi::Spider.new "localhost", 4556, ws_out, 5
+rd = SonicPi::RcvDispatch.new(sp, ws_out)
 
-$sp =  SonicPi::Spider.new "localhost", 4556, ws_out, 5
+osc_server.add_method("/edn") do |payload|
+  puts "Received OSC: #{payload}"
+  decoded = EDN.read(payload.to_a[0])
+  rd.dispatch(decoded)
+end
 
-$rd = SonicPi::RcvDispatch.new($sp, ws_out)
-$clients = []
+Thread.new{osc_server.run}
 
-# Send stuff out from Sonic Pi jobs out to GUI
+# Send stuff out from Sonic Pi jobs out to STDOUT
 out_t = Thread.new do
   continue = true
   while continue
@@ -62,8 +65,5 @@ out_t = Thread.new do
     end
   end
 end
-
-$rd.dispatch({:cmd => "run-code",
-              :val => ARGF.read})
 
 out_t.join
