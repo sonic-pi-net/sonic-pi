@@ -16,6 +16,6 @@ require_relative "core.rb"
 
 require 'edn'
 
-sp = OSC::Client.new("localhost", 4558)
+sp = OSC::Client.new("localhost", 4557)
 payload = {:cmd => "exit"}.to_edn
 sp.send(OSC::Message.new("/edn", payload))
