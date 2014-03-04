@@ -26,6 +26,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QWindow>
+#include <QDialog>
+#include <QLabel>
 
 class QAction;
 class QMenu;
@@ -56,6 +59,8 @@ private slots:
     bool save();
     bool saveAs();
     void about();
+    void help();
+    void prefs();
     void documentWasModified();
     void updateOutput();
     void updateError();
@@ -128,6 +133,11 @@ private:
 
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
+
+    QMainWindow *infoWindow;
+    QWindow *prefsWindow;
+    QWindow *helpWindow;
+    QLabel *imageLabel;
 
 };
 

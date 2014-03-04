@@ -47,6 +47,10 @@
 #include <QString>
 #include <QTextStream>
 #include <QFile>
+#include <QSplashScreen>
+#include <QPixmap>
+#include <QWindow>
+#include <QLabel>
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
@@ -435,20 +439,42 @@ bool MainWindow::save()
 
 void MainWindow::about()
 {
+  infoWindow = new QMainWindow();
+  imageLabel = new QLabel(this);
+  QPixmap image(":/images/splash.png");
+
+  imageLabel->setPixmap(image);
+  infoWindow->setCentralWidget(imageLabel);
+  infoWindow->setMinimumHeight(image.height());
+  infoWindow->setMaximumHeight(image.height());
+  infoWindow->setMinimumWidth(image.width());
+  infoWindow->setMaximumWidth(image.width());
+  infoWindow->show();
+}
+
+
+void MainWindow::help()
+{
    // QMessageBox::about(this, tr("About Sonic Pi"),
    //          tr("Sonic Pi \nMaking Computer Science Audible\n Copyright 2013, 2014, Sam Aaron \n Developed at the University of Cambridge Computer Laboratory \n http://www.cl.cam.ac.uk/projects/raspberrypi/sonicpi/"));
 
   QMessageBox about;
 
-  about.setWindowTitle("About Sonic Pi");
+  about.setWindowTitle("Sonic Pi Help");
   about.setText("Sonic Pi - Making Computer Science Audible");
-  about.setDetailedText("For further information visit: \nhttp://www.cl.cam.ac.uk/projects/raspberrypi/sonicpi/");
   about.setInformativeText("Version 2.0\nCopyright © 2013, 2014 Sam Aaron\n\nA University of Cambridge Computer Laboratory project developed in collaboration with the Raspberry Pi Foundation");
   about.setStandardButtons(QMessageBox::Ok);
   about.setDefaultButton(QMessageBox::Ok);
   about.show();
   about.exec();
 
+}
+
+void MainWindow::prefs()
+{
+
+    prefsWindow = new QWindow();
+    prefsWindow->show();
 }
 
 void MainWindow::documentWasModified()
@@ -519,9 +545,11 @@ void MainWindow::createActions()
 
   helpAct = new QAction(QIcon(":/images/help.png"), tr("&Help"), this);
   helpAct->setStatusTip(tr("Get help"));
+  connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("&Prefs"), this);
   prefsAct->setStatusTip(tr("Preferences"));
+  connect(prefsAct, SIGNAL(triggered()), this, SLOT(prefs()));
 
     // exitAct = new QAction(tr("E&xit"), this);
     // exitAct->setShortcut(tr("Ctrl+Q"));
