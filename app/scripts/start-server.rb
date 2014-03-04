@@ -29,6 +29,7 @@ ws_out = Queue.new
 scsynth = SonicPi::SCSynth.instance
 sc_server = OSC::Client.new("localhost", 4556)
 osc_server = OSC::Server.new(4557)
+proxy = OSC::Client.new("localhost", 4558)
 
 at_exit do
   sc_server.send(OSC::Message.new("/quit"))
@@ -45,7 +46,7 @@ end
 
 Thread.new{osc_server.run}
 
-# Send stuff out from Sonic Pi jobs out to STDOUT
+# Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
   continue = true
   while continue
@@ -56,7 +57,7 @@ out_t = Thread.new do
       if message[:type] == :exit
         continue = false
       else
-        puts message
+        proxy.send(OSC::Message.new("/reply", message.to_edn))
       end
     rescue Exception => e
       puts "Exception!"

@@ -107,6 +107,7 @@ private:
 
     QProcess *runProcess;
     QProcess *serverProcess;
+    QProcess *proxyProcess;
 
     SonicPiLexer *lexer;
     QMenu *fileMenu;

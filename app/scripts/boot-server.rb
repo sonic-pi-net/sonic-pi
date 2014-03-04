@@ -14,8 +14,5 @@
 
 require_relative "core.rb"
 
-require 'edn'
-
-sp = OSC::Client.new("localhost", 4558)
-payload = {:cmd => "exit"}.to_edn
-sp.send(OSC::Message.new("/edn", payload))
+require_relative "sonicpi/scsynth"
+scsynth = SonicPi::SCSynth.instance

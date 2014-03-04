@@ -13,9 +13,24 @@
 #++
 
 require_relative "core.rb"
-
 require 'edn'
+incoming = OSC::Server.new(4558)
 
-sp = OSC::Client.new("localhost", 4558)
-payload = {:cmd => "exit"}.to_edn
-sp.send(OSC::Message.new("/edn", payload))
+incoming.add_method("/reply") do |payload|
+  info = EDN.read(payload.to_a[0])
+  case info[:type]
+  when :message
+    puts info[:val]
+  when :error
+    STDERR.puts info[:val]
+  else
+    #puts info[:type]
+  end
+
+  STDOUT.flush
+end
+
+puts "starting up..."
+t1 = Thread.new{incoming.run}
+
+t1.join

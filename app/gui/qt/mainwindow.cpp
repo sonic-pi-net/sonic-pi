@@ -64,15 +64,21 @@ MainWindow::MainWindow(QApplication &app)
 
   //ensureWorkspaces();
   //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/start-server.rb";
-  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
+
+  QString serverProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
   serverProcess = new QProcess();
-  serverProcess->start(program);
+  serverProcess->start(serverProgram);
   serverProcess->waitForStarted();
 
-  connect(serverProcess, SIGNAL(readyReadStandardOutput()),
+  QString proxyProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/qt-proxy.rb";
+  proxyProcess = new QProcess();
+  proxyProcess->start(proxyProgram);
+  proxyProcess->waitForStarted();
+
+  connect(proxyProcess, SIGNAL(readyReadStandardOutput()),
           this, SLOT(updateOutput()));
 
-  connect(serverProcess, SIGNAL(readyReadStandardError()),
+  connect(proxyProcess, SIGNAL(readyReadStandardError()),
           this, SLOT(updateError()));
 
   runProcess = NULL;
@@ -370,7 +376,6 @@ void MainWindow::runCode()
   saveFile("/tmp/sonic-pi-current-code.rb", (QsciScintilla*)tabs->currentWidget());
   //outputPane->clear();
   //errorPane->clear();
-  lexer->setPaper(Qt::lightGray);
   QString emptyText = "";
   statusBar()->showMessage(tr("Running...."), 2000);
 
@@ -383,8 +388,6 @@ void MainWindow::runCode()
   runProcess = new QProcess();
   runProcess->startDetached(program);
   runProcess->waitForStarted();
-
-  lexer->setPaper(Qt::white);
 }
 
 void MainWindow::killSynths()
@@ -396,7 +399,6 @@ void MainWindow::stopCode()
 {
   outputPane->clear();
   errorPane->clear();
-  lexer->setPaper(Qt::red);
   statusBar()->showMessage(tr("Stopping..."), 2000);
   //  killSynths();
   //  clearOutputPanels();
@@ -415,18 +417,17 @@ void MainWindow::stopCode()
   // runProcess->start(program, arguments);
   //runProcess->write(currentTextArea()->text().toAscii());
   //  runProcess->waitForFinished();
-  lexer->setPaper(Qt::white);
 }
 
 void MainWindow::updateError()
 {
-  QByteArray output = serverProcess->readAllStandardError();
+  QByteArray output = proxyProcess->readAllStandardError();
   errorPane->append(output);
 }
 
 void MainWindow::updateOutput()
 {
-  QByteArray output = serverProcess->readAllStandardOutput();
+  QByteArray output = proxyProcess->readAllStandardOutput();
   outputPane->append(output);
 }
 
@@ -618,7 +619,7 @@ void MainWindow::createToolBars()
   fileToolBar = addToolBar(tr("Run"));
   fileToolBar->addAction(runAct);
   fileToolBar->addAction(stopAct);
-  fileToolBar->setIconSize(QSize(270/2.5, 109/2.5));
+  fileToolBar->setIconSize(QSize(270/3, 109/3));
   fileToolBar->addAction(saveAsAct);
 
   QWidget *spacerWidget = new QWidget(this);
