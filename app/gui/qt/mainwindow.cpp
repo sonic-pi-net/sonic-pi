@@ -629,7 +629,7 @@ void MainWindow::createToolBars()
   supportToolBar->addWidget(spacerWidget);
   supportToolBar->addAction(infoAct);
   supportToolBar->addAction(helpAct);
-  supportToolBar->setIconSize(QSize(270/2.5, 109/2.5));
+  supportToolBar->setIconSize(QSize(270/3, 109/3));
   supportToolBar->addAction(prefsAct);
 }
 
