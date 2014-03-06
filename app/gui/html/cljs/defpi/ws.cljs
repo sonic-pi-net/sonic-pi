@@ -37,9 +37,14 @@
                  (dom/div #js{:className "animated rotateIn"
                               :onClick #(stop-job j-id)
                               :style #js{:float "right"
-                                         :height "30px"
-                                         :width "30px"
-                                         :background "red"}} j-id))
+                                         :height "35px"
+                                         :width "35px"
+                                         :color "white"
+                                         :font-size "15px"
+                                         ;; :border-width "5px"
+                                         ;; :border-style "solid"
+                                         ;; :border-color "#5e5e5e"
+                                         :background "deeppink"}} j-id))
                (:jobs data)))))
 
 (defn message-comp [data owner]
