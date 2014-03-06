@@ -335,7 +335,7 @@
           sustain       (select:kr (= -1 sustain) [sustain (- play-time attack release)])
           env           (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
           [snd-l snd-r] (buf-rd 2 buf phase)
-          snd (balance2 snd-l snd-r pan)]
+          snd           (balance2 snd-l snd-r pan)]
       (out out-bus snd)))
 
    ;; (save-to-pi mono-player)
