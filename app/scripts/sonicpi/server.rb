@@ -33,7 +33,7 @@ module SonicPi
       @HOSTNAME = hostname
 
       @MSG_QUEUE = msg_queue
-
+      @control_delta = 0.005
 
 
       @PORT = port
@@ -152,15 +152,27 @@ module SonicPi
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
       ts = (Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now) + @sched_ahead_time
+
       osc_bundle ts, "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args
       sn
     end
 
     def node_ctl(node, *args)
       message "controlling node: #{node} with args: #{args}"
+
+      thread_local_time = Thread.current.thread_variable_get(:sonic_pi_spider_time)
+
+      if thread_local_time
+        thread_local_deltas = Thread.current.thread_variable_get(:sonic_pi_control_deltas)
+        thread_local_deltas[node] ||= 0
+        d = thread_local_deltas[node] += @control_delta
+        ts = thread_local_time + d + @sched_ahead_time
+      else
+        ts = Time.now + @sched_ahead_time
+      end
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
-      osc "/n_set", node.to_f, *normalised_args
+      osc_bundle ts, "/n_set", node.to_f, *normalised_args
     end
 
     def buffer_alloc_read(path, start=0, n_frames=0)

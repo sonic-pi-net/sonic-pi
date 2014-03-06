@@ -88,6 +88,9 @@ module SonicPi
       end
 
       Thread.current.thread_variable_set :sonic_pi_spider_time, new_t
+
+      ## reset control deltas now that time has advanced
+      Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
     end
 
     def sync(sync_id, val = nil)
@@ -261,6 +264,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
+          Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
           Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
