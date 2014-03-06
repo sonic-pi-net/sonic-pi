@@ -72,6 +72,6 @@ Links to samples:
 * :ambi_drone - http://freesound.org/people/Autistic%20Lucario/sounds/195341/
 * :ambi_glass_hum - http://freesound.org/people/kaligari/sounds/35391/
 * :ambi_haunted_hum - http://freesound.org/people/kaligari/sounds/35392/
-* :ambi_atmos_piano - http://freesound.org/people/RutgerMuller/sounds/51245/
+* :ambi_piano - http://freesound.org/people/RutgerMuller/sounds/51245/
 * :ambi_lunar_land - http://freesound.org/people/maqsim/sounds/172157/
 
