@@ -322,25 +322,24 @@
     (defsynth stereo-player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
-    [buf 0 amp 1 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
-    (let [n-frames    (buf-frames buf)
-          start-pos   (* start n-frames)
-          end-pos     (* end n-frames)
-          n-start-pos (select:kr (not-pos? rate) [start-pos end-pos])
-          n-end-pos   (select:kr (not-pos? rate) [end-pos start-pos])
-          rate        (abs rate)
-          play-time   (/ (* (buf-dur buf) (absdif end start))
-                         rate)
-          phase       (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
-          sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release)])
-          env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
-          snd         (buf-rd 2 buf phase)
-          snd         (* env snd)]
+    [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
+    (let [n-frames      (buf-frames buf)
+          start-pos     (* start n-frames)
+          end-pos       (* end n-frames)
+          n-start-pos   (select:kr (not-pos? rate) [start-pos end-pos])
+          n-end-pos     (select:kr (not-pos? rate) [end-pos start-pos])
+          rate          (abs rate)
+          play-time     (/ (* (buf-dur buf) (absdif end start))
+                           rate)
+          phase         (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
+          sustain       (select:kr (= -1 sustain) [sustain (- play-time attack release)])
+          env           (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
+          [snd-l snd-r] (buf-rd 2 buf phase)
+          snd (balance2 snd-l snd-r pan)]
       (out out-bus snd)))
 
-
-   (save-to-pi mono-player)
-   (save-to-pi stereo-player)
+   ;; (save-to-pi mono-player)
+   ;; (save-to-pi stereo-player)
    )
 
 ;; Experimental
