@@ -88,37 +88,41 @@
              ))))
 
 
-  (defsynth dull_bell [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 1.0 out-bus 0]
-    (let [freq (midicps note)
-          snd (* amp (bell-partials freq attack sustain release dull-partials))]
+  (defsynth dull_bell [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 1.0 slide 0 out-bus 0]
+    (let [note (lag note slide)
+          freq (midicps note)
+          snd  (* amp (bell-partials freq attack sustain release dull-partials))]
       (detect-silence snd :action FREE)
       (out out-bus (pan2 snd pan))))
 
-  (defsynth pretty_bell [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 1 out-bus 0]
-    (let [freq (midicps note)
-          snd (* amp (bell-partials freq attack sustain release partials))]
+  (defsynth pretty_bell [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 1 slide 0 out-bus 0]
+    (let [note (lag note slide)
+          freq (midicps note)
+          snd  (* amp (bell-partials freq attack sustain release partials))]
       (detect-silence snd :action FREE)
       (out out-bus (pan2 snd pan))))
 
-
-  (defsynth beep [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 out-bus 0]
-    (let [freq (midicps note)]
+  (defsynth beep [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 slide 0 out-bus 0]
+    (let [note (lag note slide)
+          freq (midicps note)]
       (out out-bus (pan2 (* (sin-osc freq)
                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
 )
                          pan))))
 
-
-
-  (defsynth saw_beep [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 cutoff 100 out-bus 0]
-    (let [freq        (midicps note)
+  (defsynth saw_beep [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 slide 0 cutoff 100 cutoff_slide 0 out-bus 0]
+    (let [note        (lag note slide)
+          cutoff      (lag cutoff cutoff_slide)
+          freq        (midicps note)
           cutoff-freq (midicps cutoff)]
       (out out-bus (pan2 (* (normalizer (lpf (saw freq) cutoff-freq))
                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE))
                          pan))))
 
-  (defsynth dsaw [note 52 amp 1 pan 0 detune 0.1 attack 0.1 sustain 0 release 0.3 cutoff 100 out-bus 0]
-    (let [freq        (midicps note)
+  (defsynth dsaw [note 52 amp 1 pan 0 detune 0.1 attack 0.1 sustain 0 release 0.3 slide 0 cutoff 100 cutoff_slide 0 out-bus 0]
+    (let [note        (lag note slide)
+          cutoff      (lag cutoff cutoff_slide)
+          freq        (midicps note)
           cutoff-freq (midicps cutoff)
           detune-freq (midicps (+ note detune))]
       (out out-bus (pan2 (* (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
@@ -126,9 +130,11 @@
 )
                          pan))))
 
-  (defsynth fm [note 52 amp 1 pan 0 attack 1 sustain 0 release 1 divisor 2.0 depth 1.0 out-bus 0]
-    (let [carrier   (midicps note)
+  (defsynth fm [note 52 amp 1 pan 0 attack 1 sustain 0 release 1 slide 0 divisor 2.0 depth 1.0 mod_slide 0 out-bus 0]
+    (let [note      (lag note slide)
+          carrier   (midicps note)
           modulator (/ carrier divisor)
+          modulator (lag modulator mod_slide)
           env       (env-gen (env-lin attack sustain release) :level-scale amp :action FREE)]
       (out out-bus (pan2 (* env
                             (sin-osc (+ carrier
@@ -136,8 +142,10 @@
                          pan))))
 
 
-  (defsynth mod_saw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_saw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [note           (lag note slide)
+          cutoff         (lag cutoff cutoff_slide)
+          freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -149,8 +157,9 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_saw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_saw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [note           (lag note slide)
+          freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
@@ -159,8 +168,10 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_dsaw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_dsaw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
+    (let [note           (lag note slide)
+          cutoff         (lag cutoff cutoff_slide)
+          freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod-range-freq (- (midicps (+ mod_range note))
                             freq)
@@ -173,8 +184,9 @@
           env            (env-gen (env-lin attack release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_dsaw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_dsaw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
+    (let [note           (lag note slide)
+          freq           (midicps note)
           mod-range-freq (- (midicps (+ mod_range note))
                             freq)
           detune-freq    (midicps (+ note detune))
@@ -184,8 +196,10 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_sine [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_sine [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [note           (lag note slide)
+          cutoff         (lag cutoff cutoff_slide)
+          freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -197,8 +211,9 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_sine_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_sine_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [note           (lag note slide)
+          freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
@@ -207,8 +222,10 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_tri [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_tri [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [note           (lag note slide)
+          cutoff         (lag cutoff cutoff_slide)
+          freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -220,8 +237,9 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_tri_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_tri_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
+    (let [note           (lag note slide)
+          freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
@@ -230,8 +248,10 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_pulse [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 cutoff 100 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_pulse [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
+    (let [note           (lag note slide)
+          cutoff         (lag cutoff cutoff_slide)
+          freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -243,8 +263,9 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_pulse_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
-    (let [freq           (midicps note)
+  (defsynth mod_pulse_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
+    (let [note           (lag note slide)
+          freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
@@ -254,23 +275,23 @@
       (out out-bus (pan2 (* env snd) pan amp))))
 
 
-  ;; (save-to-pi dull_bell)
-  ;; (save-to-pi pretty_bell)
-  ;; (save-to-pi beep)
-  ;; (save-to-pi saw_beep)
-  ;; (save-to-pi dsaw)
-  ;; (save-to-pi fm)
+  (save-to-pi dull_bell)
+  (save-to-pi pretty_bell)
+  (save-to-pi beep)
+  (save-to-pi saw_beep)
+  (save-to-pi dsaw)
+  (save-to-pi fm)
 
-  ;; (save-to-pi mod_saw)
-  ;; (save-to-pi mod_saw_s)
-  ;; (save-to-pi mod_dsaw)
-  ;; (save-to-pi mod_dsaw_s)
-  ;; (save-to-pi mod_sine)
-  ;; (save-to-pi mod_sine_s)
-  ;; (save-to-pi mod_tri)
-  ;; (save-to-pi mod_tri_s)
-  ;; (save-to-pi mod_pulse)
-  ;; (save-to-pi mod_pulse_s)
+  (save-to-pi mod_saw)
+  (save-to-pi mod_saw_s)
+  (save-to-pi mod_dsaw)
+  (save-to-pi mod_dsaw_s)
+  (save-to-pi mod_sine)
+  (save-to-pi mod_sine_s)
+  (save-to-pi mod_tri)
+  (save-to-pi mod_tri_s)
+  (save-to-pi mod_pulse)
+  (save-to-pi mod_pulse_s)
   )
 
 
@@ -281,7 +302,7 @@
   (defsynth mono-player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
-    [buf 0 amp 1 pan 0 attack 0.0 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
+    [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
     (let [n-frames    (buf-frames buf)
           start-pos   (* start n-frames)
           end-pos     (* end n-frames)
@@ -291,8 +312,8 @@
           play-time   (/ (* (buf-dur buf) (absdif end start))
                          rate)
           phase       (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
-          sustain     (- play-time attack release)
-          env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp)
+          sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release)])
+          env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
           snd         (buf-rd 1 buf phase)
           snd         (* env snd)
           snd         (pan2 snd pan)]
@@ -301,7 +322,7 @@
     (defsynth stereo-player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
-    [buf 0 amp 1 attack 0.0 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
+    [buf 0 amp 1 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
     (let [n-frames    (buf-frames buf)
           start-pos   (* start n-frames)
           end-pos     (* end n-frames)
@@ -311,13 +332,11 @@
           play-time   (/ (* (buf-dur buf) (absdif end start))
                          rate)
           phase       (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
-          sustain     (- play-time attack release)
-          env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp)
+          sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release)])
+          env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
           snd         (buf-rd 2 buf phase)
           snd         (* env snd)]
       (out out-bus snd)))
-
-
 
 
    (save-to-pi mono-player)
