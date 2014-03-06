@@ -76,6 +76,13 @@ module SonicPi
       @random_generator.rand(limit)
     end
 
+    def rrand(limit=1.0, limit2=0)
+      range = (limit - limit2).abs
+      r = @random_generator.rand(range.to_f)
+      smallest = [limit, limit2].min
+      r + smallest
+    end
+
     def sleep(seconds)
       last = Thread.current.thread_variable_get :sonic_pi_spider_time
       now = Time.now
