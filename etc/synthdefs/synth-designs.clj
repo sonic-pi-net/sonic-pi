@@ -313,13 +313,13 @@
                          rate)
           phase       (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
           sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release)])
-          env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
+          env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :action FREE)
           snd         (buf-rd 1 buf phase)
           snd         (* env snd)
-          snd         (pan2 snd pan)]
+          snd         (pan2 snd pan amp)]
       (out out-bus snd)))
 
-    (defsynth stereo-player
+  (defsynth stereo-player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
     [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
@@ -333,14 +333,16 @@
                            rate)
           phase         (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
           sustain       (select:kr (= -1 sustain) [sustain (- play-time attack release)])
-          env           (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
+          env           (env-gen (envelope [0 1 1 0] [attack sustain release]) :action FREE)
           [snd-l snd-r] (buf-rd 2 buf phase)
-          snd           (balance2 snd-l snd-r pan)]
+          snd           (balance2 snd-l snd-r pan amp)
+          snd           (* env snd)]
       (out out-bus snd)))
 
-   ;; (save-to-pi mono-player)
-   ;; (save-to-pi stereo-player)
+   (save-to-pi mono-player)
+   (save-to-pi stereo-player)
    )
+
 
 ;; Experimental
 (comment
