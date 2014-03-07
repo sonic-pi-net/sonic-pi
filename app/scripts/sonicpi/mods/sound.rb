@@ -105,7 +105,7 @@ module SonicPi
 
        def play(n, *args)
          n = note(n)
-         args_h = resolve_opts_hash_or_list(args)
+         args_h = resolve_opts_hash_or_array(args)
          args_h = {:note => n}.merge(args_h)
          trigger_sp_synth @mod_sound_studio.current_synth_name, args_h if n
        end
@@ -222,8 +222,8 @@ module SonicPi
        end
 
        def sample(path, *args)
-         args_h = resolve_opts_hash_or_list(args)
          buf_info = load_sample(path)
+         args_h = resolve_opts_hash_or_array(args)
          synth_name = (buf_info.num_chans == 1) ? "sp/mono-player" : "sp/stereo-player"
          __message "Playing sample: #{path}"
          trigger_synth synth_name, "buf", buf_info.id, args_h
