@@ -46,7 +46,31 @@ module SonicPi
 
     attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
+    def self.resolve_midi_note(n, o=nil)
+      case n
+      when String
+        self.new(n, o).midi_note
+      when NilClass
+        nil
+      when Integer
+        n
+      when Float
+        n
+      when Symbol
+        resolve_midi_note(n.to_s, o)
+      when Array
+        resolve_midi_note(n[0], n[1])
+      end
+    end
+
+    def self.resolve_note_name(n, o=nil)
+      note = resolve_midi_note(n, o)
+      note = note % 12
+      INTERVALS_TO_NOTES[note]
+    end
+
     def initialize(n, o=nil)
+
       n = n.to_s
       midi_note_re = /([a-gA-G][sSbBfF]?)([-]?[-0-9]*)/
       m = midi_note_re.match n

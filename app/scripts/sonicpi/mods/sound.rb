@@ -12,6 +12,8 @@
 #++
 require 'thread'
 require "hamster/set"
+require_relative "../note"
+require_relative "../scale"
 
 module SonicPi
    module Mods
@@ -230,24 +232,19 @@ module SonicPi
          __message @mod_sound_studio.status
        end
 
-
-       def note_info(n, o=nil)
-         @mod_sound_studio.note(n, o)
+       def note(n, o=nil)
+         Note.resolve_midi_note(n, o)
        end
 
-       def note(n, o=nil)
-         case n
-         when String
-           @mod_sound_studio.note(n, o).midi_note
-         when NilClass
-           nil
-         when Integer
-           n
-         when Float
-           n
-         when Symbol
-           note(n.to_s, o)
-         end
+       def note_info(n, o=nil)
+         Note.new(n, o)
+       end
+
+       def scale(tonic, name, *opts)
+         opts = resolve_opts_hash_or_array(opts)
+         opts = {:num_octaves => 1}.merge(opts)
+         puts "opts: #{opts}"
+         Scale.new(tonic, name,  opts[:num_octaves])
        end
 
        private
@@ -295,6 +292,18 @@ module SonicPi
          job_group = old_job_groups[job_id]
          job_group.kill if job_group
 
+       end
+
+       def resolve_opts_hash_or_array(opts)
+         opts = case opts.size
+                when 0
+                  {}
+                when 1
+                  opts[0]
+                else
+                  raise "Number of items in options should be even - got #{opts.size}: #{opts}" if opts.size.odd?
+                  Hash[*opts]
+                end
        end
      end
    end

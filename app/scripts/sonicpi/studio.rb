@@ -38,10 +38,6 @@ module SonicPi
       reset
     end
 
-    def note(n, o=nil)
-      Note.new(n, o)
-    end
-
     def load_sample(path)
       return @samples[path] if @samples[path]
       buf_info = nil
