@@ -104,7 +104,7 @@ module SonicPi
     end
 
     def to_s
-      "Chord :#{Note.resolve_note_name(@tonic)} :#{@name} #{@notes}"
+      "#<SonicPi::Chord :#{Note.resolve_note_name(@tonic)} :#{@name} #{@notes}>"
     end
 
     def to_a

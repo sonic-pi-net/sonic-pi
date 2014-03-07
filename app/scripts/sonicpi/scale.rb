@@ -117,7 +117,7 @@ module SonicPi
     end
 
     def to_s
-      "Scale :#{Note.resolve_note_name(@tonic)} :#{@name} #{@notes}"
+      "#<SonicPi::Scale :#{Note.resolve_note_name(@tonic)} :#{@name} #{@notes}>"
     end
 
     def to_a
