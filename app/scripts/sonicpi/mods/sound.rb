@@ -119,7 +119,8 @@ module SonicPi
 
        def with_merged_synth_defaults(*args, &block)
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         merged = (current || {}).merge(Hash[*args])
+         args_h = resolve_opts_hash_or_array(args)
+         merged = (current || {}).merge(args_h)
          if block
            Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
            block.call
@@ -131,7 +132,7 @@ module SonicPi
 
        def with_synth_defaults(*args, &block)
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         new = Hash[*args]
+         new = resolve_opts_hash_or_array(args)
          if block
            Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
            block.call
