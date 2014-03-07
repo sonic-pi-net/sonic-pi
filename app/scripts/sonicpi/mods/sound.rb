@@ -15,10 +15,13 @@ require "hamster/set"
 require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
+require_relative "../chordgroup"
 
 module SonicPi
    module Mods
      module Sound
+
+       include SonicPi::Util
 
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
@@ -74,7 +77,7 @@ module SonicPi
          end
        end
 
-       def trigger_synth(synth_name, args_h)
+       def trigger_synth(synth_name, args_h, group=current_job_synth_group)
          synth_name = "sp/#{synth_name}"
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
@@ -82,7 +85,7 @@ module SonicPi
          p = Promise.new
          job_synth_proms_add(job_id, p)
          __message "playing #{synth_name} with: #{args}"
-         s = @mod_sound_studio.trigger_synth synth_name, job_synth_group(current_job_id), *args
+         s = @mod_sound_studio.trigger_synth synth_name, group, *args
          s.on_destroyed do
            job_synth_proms_rm(job_id, p)
            p.deliver! true
@@ -92,7 +95,7 @@ module SonicPi
 
        def play(n, *args)
          n = note(n)
-         args_h = resolve_opts_hash_or_array(args)
+         args_h = resolve_synth_opts_hash_or_array(args)
          args_h = {:note => n}.merge(args_h)
          trigger_synth @mod_sound_studio.current_synth_name, args_h if n
        end
@@ -105,7 +108,7 @@ module SonicPi
 
        def with_merged_synth_defaults(*args, &block)
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         args_h = resolve_opts_hash_or_array(args)
+         args_h = resolve_synth_opts_hash_or_array(args)
          merged = (current || {}).merge(args_h)
          if block
            Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
@@ -118,7 +121,7 @@ module SonicPi
 
        def with_synth_defaults(*args, &block)
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         new = resolve_opts_hash_or_array(args)
+         new = resolve_synth_opts_hash_or_array(args)
          if block
            Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
            block.call
@@ -145,7 +148,16 @@ module SonicPi
        end
 
        def play_chord(notes, *args)
-         notes.each{|note| play(note, *args)}
+         args_h = resolve_synth_opts_hash_or_array(args)
+         g = @mod_sound_studio.new_group(:tail, current_job_synth_group)
+         cg = ChordGroup.new(g)
+         nodes = []
+         notes.each do |note|
+           note_args_h = {:note => note}.merge(args_h)
+           nodes << trigger_synth(@mod_sound_studio.current_synth_name, note_args_h, cg) if note
+         end
+         cg.sub_nodes = nodes
+         cg
        end
 
        def debug!
@@ -193,7 +205,7 @@ module SonicPi
 
        def sample(path, *args)
          buf_info = load_sample(path)
-         args_h = resolve_opts_hash_or_array(args)
+         args_h = resolve_synth_opts_hash_or_array(args)
          args_h = {:buf => buf_info.id}.merge(args_h)
          synth_name = (buf_info.num_chans == 1) ? "mono-player" : "stereo-player"
          __message "Playing sample: #{path}"
@@ -213,7 +225,7 @@ module SonicPi
        end
 
        def scale(tonic, name, *opts)
-         opts = resolve_opts_hash_or_array(opts)
+         opts = resolve_synth_opts_hash_or_array(opts)
          opts = {:num_octaves => 1}.merge(opts)
          Scale.new(tonic, name,  opts[:num_octaves])
        end
@@ -226,6 +238,10 @@ module SonicPi
 
        def current_job_id
          Thread.current.thread_variable_get :sonic_pi_spider_job_id
+       end
+
+       def current_job_synth_group
+         job_synth_group(current_job_id)
        end
 
        def job_synth_group(job_id)
@@ -269,24 +285,6 @@ module SonicPi
 
        end
 
-       def resolve_opts_hash_or_array(opts)
-         opts = case opts.size
-                when 0
-                  {}
-                when 1
-                  case opts[0]
-                  when Array
-                    resolve_opts_hash_or_list opts[0]
-                  when Hash
-                    opts[0]
-                  else
-                    raise "Invalid options. Options should either be an even list of key value pairs or a single Hash. Got #{opts[0].inspect}"
-                  end
-                else
-                  raise "Number of items in options should be even - got #{opts.size}: #{opts}" if opts.size.odd?
-                  Hash[*opts]
-                end
-       end
      end
    end
  end

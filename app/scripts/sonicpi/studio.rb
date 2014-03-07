@@ -138,8 +138,12 @@ module SonicPi
       @server.group_clear @synth_group
     end
 
+    def new_group(position, target)
+      @server.create_group(position, target)
+    end
+
     def new_user_synth_group
-      @server.create_group(:tail, @synth_group)
+      new_group(:tail, @synth_group)
     end
 
     def exit
