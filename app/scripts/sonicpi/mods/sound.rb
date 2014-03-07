@@ -228,7 +228,7 @@ module SonicPi
        def scale(tonic, name, *opts)
          opts = resolve_synth_opts_hash_or_array(opts)
          opts = {:num_octaves => 1}.merge(opts)
-         Scale.new(tonic, name,  opts[:num_octaves])
+         Scale.new(tonic, name,  opts[:num_octaves]).to_a
        end
 
        def chord(tonic, name)
