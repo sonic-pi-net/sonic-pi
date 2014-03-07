@@ -339,10 +339,9 @@
           snd           (* env snd)]
       (out out-bus snd)))
 
-   (save-to-pi mono-player)
-   (save-to-pi stereo-player)
+   ;; (save-to-pi mono-player)
+   ;; (save-to-pi stereo-player)
    )
-
 
 ;; Experimental
 (comment
