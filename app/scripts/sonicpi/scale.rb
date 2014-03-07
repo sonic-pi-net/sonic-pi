@@ -10,6 +10,7 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+
 module SonicPi
   class Scale
     # Ported from Overtone: https://github.com/overtone/overtone/blob/master/src/overtone/music/pitch.clj
@@ -100,7 +101,7 @@ module SonicPi
     def initialize(tonic, name, num_octaves=1)
       name = name.to_sym
       intervals = SCALE[name]
-      raise "Unknown scale name: #{name}" unless intervals
+      raise "Unknown scale name: #{name.inspect}" unless intervals
       intervals = intervals * num_octaves
       current = Note.resolve_midi_note(tonic)
       res = [current]
@@ -116,7 +117,7 @@ module SonicPi
     end
 
     def to_s
-      ":#{Note.resolve_note_name(@tonic)} :#{@name} #{@notes}"
+      "Scale :#{Note.resolve_note_name(@tonic)} :#{@name} #{@notes}"
     end
 
     def to_a
