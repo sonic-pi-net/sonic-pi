@@ -94,6 +94,7 @@ module SonicPi
        end
 
        def play(n, *args)
+         return play_chord(n, *args) if n.is_a?(Array)
          n = note(n)
          args_h = resolve_synth_opts_hash_or_array(args)
          args_h = {:note => n}.merge(args_h)
