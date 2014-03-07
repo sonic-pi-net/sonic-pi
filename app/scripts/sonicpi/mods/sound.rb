@@ -14,6 +14,7 @@ require 'thread'
 require "hamster/set"
 require_relative "../note"
 require_relative "../scale"
+require_relative "../chord"
 
 module SonicPi
    module Mods
@@ -227,6 +228,7 @@ module SonicPi
          args_h = {:buf => buf_info.id}.merge(args_h)
          synth_name = (buf_info.num_chans == 1) ? "sp/mono-player" : "sp/stereo-player"
          __message "Playing sample: #{path}"
+         trigger_synth synth_name, args_h
        end
 
        def status
@@ -244,8 +246,11 @@ module SonicPi
        def scale(tonic, name, *opts)
          opts = resolve_opts_hash_or_array(opts)
          opts = {:num_octaves => 1}.merge(opts)
-         puts "opts: #{opts}"
          Scale.new(tonic, name,  opts[:num_octaves])
+       end
+
+       def chord(tonic, name)
+         Chord.new(tonic, name).to_a
        end
 
        private
