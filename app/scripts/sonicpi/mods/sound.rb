@@ -162,13 +162,6 @@ module SonicPi
          notes.each{|note| play(note, *args)}
        end
 
-       def comms_eval(code)
-         eval(code)
-         STDOUT.flush
-         STDOUT.flush
-         Thread.list.map {|t| t.join 60}
-       end
-
        def debug!
          @mod_sound_studio.debug = true
        end
