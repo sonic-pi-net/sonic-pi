@@ -178,10 +178,11 @@ module SonicPi
        end
 
        def with_volume(vol)
+         max_vol = 20
          if (vol < 0)
            @mod_sound_studio.volume = 0
-         elsif (vol > 20)
-           @mod_sound_studio.volume = 20
+         elsif (vol > max_vol)
+           @mod_sound_studio.volume = max_vol
          else
            @mod_sound_studio.volume = vol
          end
