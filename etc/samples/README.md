@@ -75,3 +75,6 @@ Links to samples:
 * :ambi_piano - http://freesound.org/people/RutgerMuller/sounds/51245/
 * :ambi_lunar_land - http://freesound.org/people/maqsim/sounds/172157/
 
+## Loops
+
+* :loop_amen - http://freesound.org/people/gowers/sounds/202537/
