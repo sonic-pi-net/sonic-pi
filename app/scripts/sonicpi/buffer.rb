@@ -20,5 +20,10 @@ module SonicPi
       @sample_rate = sample_rate
       @duration = num_frames.to_f / sample_rate.to_f
     end
+
+    def to_s
+      "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}"
+    end
+
   end
 end
