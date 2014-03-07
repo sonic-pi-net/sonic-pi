@@ -98,6 +98,7 @@ module SonicPi
     attr_reader :name, :tonic, :num_octaves, :notes
 
     def initialize(tonic, name, num_octaves=1)
+      name = name.to_sym
       intervals = SCALE[name]
       raise "Unknown scale name: #{name}" unless intervals
       intervals = intervals * num_octaves
