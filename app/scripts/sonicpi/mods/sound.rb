@@ -73,9 +73,8 @@ module SonicPi
          end
        end
 
-       def trigger_sp_synth(synth_name, *args)
+       def trigger_sp_synth(synth_name, args_h)
          job_id = current_job_id
-         args_h = Hash[*args]
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          args = t_l_args.merge(args_h).to_a.flatten
          p = Promise.new
@@ -89,9 +88,8 @@ module SonicPi
          s
        end
 
-       def trigger_synth(synth_name, *args)
+       def trigger_synth(synth_name, args_h)
          job_id = current_job_id
-         args_h = Hash[*args]
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          args = t_l_args.merge(args_h).to_a.flatten
          p = Promise.new
@@ -107,7 +105,9 @@ module SonicPi
 
        def play(n, *args)
          n = note(n)
-         trigger_sp_synth @mod_sound_studio.current_synth_name, "note", n, *args if n
+         args_h = resolve_opts_hash_or_list(args)
+         args_h = {:note => n}.merge(args_h)
+         trigger_sp_synth @mod_sound_studio.current_synth_name, args_h if n
        end
 
        def repeat(&block)
@@ -222,10 +222,11 @@ module SonicPi
        end
 
        def sample(path, *args)
+         args_h = resolve_opts_hash_or_list(args)
          buf_info = load_sample(path)
          synth_name = (buf_info.num_chans == 1) ? "sp/mono-player" : "sp/stereo-player"
          __message "Playing sample: #{path}"
-         trigger_synth synth_name, "buf", buf_info.id, *args
+         trigger_synth synth_name, "buf", buf_info.id, args_h
        end
 
        def status
@@ -299,7 +300,14 @@ module SonicPi
                 when 0
                   {}
                 when 1
-                  opts[0]
+                  case opts[0]
+                  when Array
+                    resolve_opts_hash_or_list opts[0]
+                  when Hash
+                    opts[0]
+                  else
+                    raise "Invalid options. Options should either be an even list of key value pairs or a single Hash. Got #{opts[0].inspect}"
+                  end
                 else
                   raise "Number of items in options should be even - got #{opts.size}: #{opts}" if opts.size.odd?
                   Hash[*opts]
