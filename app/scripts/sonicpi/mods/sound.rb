@@ -74,22 +74,8 @@ module SonicPi
          end
        end
 
-       def trigger_sp_synth(synth_name, args_h)
-         job_id = current_job_id
-         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-         args = t_l_args.merge(args_h).to_a.flatten
-         p = Promise.new
-         job_synth_proms_add(job_id, p)
-         __message "playing #{synth_name} with: #{args}"
-         s = @mod_sound_studio.trigger_sp_synth synth_name, job_synth_group(current_job_id), *args
-         s.on_destroyed do
-           job_synth_proms_rm(job_id, p)
-           p.deliver! true
-         end
-         s
-       end
-
        def trigger_synth(synth_name, args_h)
+         synth_name = "sp/#{synth_name}"
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          args = t_l_args.merge(args_h).to_a.flatten
@@ -108,7 +94,7 @@ module SonicPi
          n = note(n)
          args_h = resolve_opts_hash_or_array(args)
          args_h = {:note => n}.merge(args_h)
-         trigger_sp_synth @mod_sound_studio.current_synth_name, args_h if n
+         trigger_synth @mod_sound_studio.current_synth_name, args_h if n
        end
 
        def repeat(&block)
@@ -209,7 +195,7 @@ module SonicPi
          buf_info = load_sample(path)
          args_h = resolve_opts_hash_or_array(args)
          args_h = {:buf => buf_info.id}.merge(args_h)
-         synth_name = (buf_info.num_chans == 1) ? "sp/mono-player" : "sp/stereo-player"
+         synth_name = (buf_info.num_chans == 1) ? "mono-player" : "stereo-player"
          __message "Playing sample: #{path}"
          trigger_synth synth_name, args_h
        end

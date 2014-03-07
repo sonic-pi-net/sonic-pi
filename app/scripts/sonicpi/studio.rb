@@ -87,10 +87,6 @@ module SonicPi
       # @msg_queue.push "Studio: #{s}"
     end
 
-    def trigger_sp_synth(synth_name, group, *args)
-      trigger_synth("sp/#{synth_name}", group, *args)
-    end
-
     def trigger_synth(synth_name, group, *args)
       @server.trigger_synth(:tail, group, synth_name, "out-bus", @mixer_bus, *args)
     end
