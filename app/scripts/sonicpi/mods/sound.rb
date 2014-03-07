@@ -162,18 +162,6 @@ module SonicPi
          notes.each{|note| play(note, *args)}
        end
 
-       def play_pad(name, *args)
-         if args.size == 1
-           @mod_sound_studio.switch_to_pad(name, "note", args[0])
-         else
-           @mod_sound_studio.switch_to_pad(name, *args)
-         end
-       end
-
-       def control_pad(*args)
-         @mod_sound_studio.control_pad(*args)
-       end
-
        def comms_eval(code)
          eval(code)
          STDOUT.flush
