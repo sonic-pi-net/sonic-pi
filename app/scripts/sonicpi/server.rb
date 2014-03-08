@@ -183,7 +183,19 @@ module SonicPi
 
       ts = sched_ahead_time_for_node(node)
       osc_bundle ts, "/n_set", node.to_f, *normalised_args
+    end
 
+    def node_pause(node)
+      message "pausing node: #{node}"
+      ts = sched_ahead_time_for_node(node)
+      osc_bundle ts, "/n_run", node.to_i, 0
+    end
+
+    def node_run(node)
+      puts "node run #{node}"
+      message "running node: #{node}"
+      ts = sched_ahead_time_for_node(node)
+      osc_bundle ts, "/n_run", node.to_i, 1
     end
 
     def buffer_alloc_read(path, start=0, n_frames=0)

@@ -84,6 +84,16 @@ module SonicPi
       self
     end
 
+    def pause
+      @comms.node_pause @id
+      self
+    end
+
+    def run
+      @comms.node_run @id
+      self
+    end
+
     def ctl(*args)
       @comms.node_ctl @id, *args
       self
