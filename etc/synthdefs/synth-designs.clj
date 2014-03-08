@@ -341,7 +341,102 @@
 
    ;; (save-to-pi mono-player)
    ;; (save-to-pi stereo-player)
-   )
+  )
+
+
+(do
+
+  (defsynth tb303
+  "A simple clone of the sound of a Roland TB-303 bass synthesizer."
+  [note     52        ; midi note value input
+   amp      1
+   pan      0
+   attack   0.01
+   sustain  0
+   release  2
+   slide    0
+   cutoff   80
+   cutoff_min 30
+   res      0.2       ; rlpf resonance
+   wave     0         ; 0=saw, 1=pulse
+   pulse_width 0.5    ; only for pulse wave
+   out-bus  0]
+  (let [note            (lag note slide)
+        cutoff-freq     (midicps cutoff)
+        cutoff-min-freq (midicps cutoff_min)
+        freq            (midicps note)
+        env             (env-gen (env-lin attack sustain release) :action FREE)
+        snd             (rlpf (select wave [(saw freq) (pulse freq pulse_width)])
+                              (+ cutoff-min-freq (* env cutoff-freq))
+                              res)
+        snd             (* env snd)]
+    (out out-bus (pan2 snd pan amp))))
+
+  (defsynth supersaw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 130 cutoff_slide 0 out-bus 0]
+    (let [note        (lag note slide)
+          cutoff      (lag cutoff cutoff_slide)
+          freq        (midicps note)
+          cutoff-freq (midicps cutoff)
+          input       (lf-saw freq)
+          shift1      (lf-saw 4)
+          shift2      (lf-saw 7)
+          shift3      (lf-saw 5)
+          shift4      (lf-saw 2)
+          comp1       (> input shift1)
+          comp2       (> input shift2)
+          comp3       (> input shift3)
+          comp4       (> input shift4)
+          output      (+ (- input comp1) (- input comp2) (- input comp3) (- input comp4))
+          output      (- output input)
+          output      (leak-dc:ar (* output 0.25))
+          env         (env-gen (env-lin attack sustain release) :action FREE)
+          output      (* env output)
+          output      (pan2 output pan amp)]
+      (out out-bus output)))
+
+  (defsynth prophet
+  "The Prophet Speaks (page 2)
+
+   Dark and swirly, this synth uses Pulse Width Modulation (PWM) to
+   create a timbre which continually moves around. This effect is
+   created using the pulse ugen which produces a variable width square
+   wave. We then control the width of the pulses using a variety of LFOs
+   - sin-osc and lf-tri in this case. We use a number of these LFO
+   modulated pulse ugens with varying LFO type and rate (and phase in
+   some cases to provide the LFO with a different starting point. We
+   then mix all these pulses together to create a thick sound and then
+   feed it through a resonant low pass filter (rlpf).
+
+   For extra bass, one of the pulses is an octave lower (half the
+   frequency) and its LFO has a little bit of randomisation thrown into
+   its frequency component for that extra bit of variety."
+
+  [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 110 cutoff_slide 0 res 0.3 out-bus 0 ]
+
+  (let [note        (lag note slide)
+        cutoff      (lag cutoff cutoff_slide)
+        freq        (midicps note)
+        cutoff-freq (midicps cutoff)
+        snd         (mix [(pulse freq (* 0.1 (/ (+ 1.2 (sin-osc:kr 1)) )))
+                          (pulse freq (* 0.8 (/ (+ 1.2 (sin-osc:kr 0.3) 0.7) 2)))
+                          (pulse freq (* 0.8 (/ (+ 1.2 (lf-tri:kr 0.4 )) 2)))
+                          (pulse freq (* 0.8 (/ (+ 1.2 (lf-tri:kr 0.4 0.19)) 2)))
+                          (* 0.5 (pulse (/ freq 2) (* 0.8 (/ (+ 1.2 (lf-tri:kr (+ 2 (lf-noise2:kr 0.2))))
+                                                             2))))])
+        snd         (normalizer snd)
+        env         (env-gen (env-lin attack sustain release) :action FREE)
+        snd         (rlpf (* env snd snd) cutoff-freq res)
+        snd         (pan2 snd pan amp)]
+
+    (out out-bus snd)))
+
+  ;;(save-to-pi tb303)
+  ;;(save-to-pi supersaw)
+  ;;(save-to-pi prophet)
+  )
+
+(do)
+
 
 ;; Experimental
 (comment
