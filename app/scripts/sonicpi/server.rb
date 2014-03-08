@@ -151,26 +151,28 @@ module SonicPi
       sn = SynthNode.new(node_id.to_f, self, synth_name.to_s)
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
-      ts = (Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now) + @sched_ahead_time
+
+      ts = sched_ahead_time_for_node(sn)
 
       osc_bundle ts, "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args
       sn
     end
 
-    def sched_osc_for_node(node, path, *args)
+
+    def sched_ahead_time_for_node(node)
+      node_id = node.to_i
       thread_local_time = Thread.current.thread_variable_get(:sonic_pi_spider_time)
 
       if thread_local_time
         thread_local_deltas = Thread.current.thread_variable_get(:sonic_pi_control_deltas)
-        thread_local_deltas[node] ||= 0
-        d = thread_local_deltas[node] += @control_delta
+        d = thread_local_deltas[node_id] ||= 0
+        thread_local_deltas[node_id] += @control_delta
         ts = thread_local_time + d + @sched_ahead_time
       else
         ts = Time.now + @sched_ahead_time
       end
 
-      osc_bundle ts, path, *args
-
+      ts
     end
 
     def node_ctl(node, *args)
@@ -179,7 +181,8 @@ module SonicPi
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
 
-      sched_osc_for_node(node, "/n_set", node.to_f, *normalised_args)
+      ts = sched_ahead_time_for_node(node)
+      osc_bundle ts, "/n_set", node.to_f, *normalised_args
 
     end
 
