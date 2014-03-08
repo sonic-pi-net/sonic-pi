@@ -157,9 +157,7 @@ module SonicPi
       sn
     end
 
-    def node_ctl(node, *args)
-      message "controlling node: #{node} with args: #{args}"
-
+    def sched_osc_for_node(node, path, *args)
       thread_local_time = Thread.current.thread_variable_get(:sonic_pi_spider_time)
 
       if thread_local_time
@@ -170,9 +168,19 @@ module SonicPi
       else
         ts = Time.now + @sched_ahead_time
       end
+
+      osc_bundle ts, path, *args
+
+    end
+
+    def node_ctl(node, *args)
+      message "controlling node: #{node} with args: #{args}"
+
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
-      osc_bundle ts, "/n_set", node.to_f, *normalised_args
+
+      sched_osc_for_node(node, "/n_set", node.to_f, *normalised_args)
+
     end
 
     def buffer_alloc_read(path, start=0, n_frames=0)
