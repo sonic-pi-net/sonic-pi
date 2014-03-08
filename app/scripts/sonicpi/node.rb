@@ -114,7 +114,7 @@ module SonicPi
     end
 
     def to_i
-      @id
+      @id.to_i
     end
 
     def to_f
