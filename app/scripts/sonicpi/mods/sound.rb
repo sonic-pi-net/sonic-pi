@@ -200,8 +200,10 @@ module SonicPi
          load_sample(path)
        end
 
-       def sample_duration(path)
-         load_sample(path).duration
+       def sample_duration(path, *args)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         args_h = {:rate => 1}.merge(args_h)
+         load_sample(path).duration * 1.0/args_h[:rate]
        end
 
        def sample(path, *args)
