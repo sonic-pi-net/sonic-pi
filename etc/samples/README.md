@@ -11,7 +11,7 @@ Links to samples:
 
 * heavy_kick - http://freesound.org/people/Zajo/sounds/4832/
 
-## Menegass
+## Drums
 
 * :drum_tom_mid_soft - http://www.freesound.org/people/menegass/sounds/100067/
 * :drum_tom_mid_hard - http://www.freesound.org/people/menegass/sounds/100066/
@@ -31,7 +31,7 @@ Links to samples:
 * :drum_bass_soft - http://www.freesound.org/people/menegass/sounds/100052/
 * :drum_bass_hard - http://www.freesound.org/people/menegass/sounds/100051/
 
-## Looppol
+## Electric sounds
 
 * :elec_triangle - http://www.freesound.org/people/looppool/sounds/13147/
 * :elec_snare - http://www.freesound.org/people/looppool/sounds/13146/
@@ -67,6 +67,14 @@ Links to samples:
 
 ## Misc
 
+* :misc_burp - http://freesound.org/people/anas76/sounds/222022/
+
+## Percussion
+
+* :perc_bell - http://freesound.org/people/AlaskaRobotics/sounds/221515/
+
+## Ambient
+
 * :ambi_soft_buzz - http://freesound.org/people/ludvique/sounds/71852/
 * :ambi_swoosh - http://freesound.org/people/Halgrimm/sounds/169867/
 * :ambi_drone - http://freesound.org/people/Autistic%20Lucario/sounds/195341/
@@ -74,7 +82,14 @@ Links to samples:
 * :ambi_haunted_hum - http://freesound.org/people/kaligari/sounds/35392/
 * :ambi_piano - http://freesound.org/people/RutgerMuller/sounds/51245/
 * :ambi_lunar_land - http://freesound.org/people/maqsim/sounds/172157/
+* :ambi_dark_woosh - http://freesound.org/people/EcoDTR/sounds/27281/
+
+## Bass
+
+* :bass_hit - http://freesound.org/people/oceanictrancer/sounds/211614/
+
 
 ## Loops
 
+* :loop_industrial - http://freesound.org/people/godspine/sounds/222072/
 * :loop_amen - http://freesound.org/people/gowers/sounds/202537/
