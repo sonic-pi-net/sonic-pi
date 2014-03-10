@@ -43,6 +43,7 @@ module SonicPi
       @job_subthread_mutex = Mutex.new
       @user_jobs = Jobs.new
       @random_generator = Random.new(0)
+      @sync_real_sleep_time = 0.05
 
       @event_t = Thread.new do
         loop do
@@ -102,6 +103,7 @@ module SonicPi
 
     def sync(sync_id, val = nil)
       __no_kill_block do
+        Kernel.sleep @sync_real_sleep_time
         @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => val})
       end
     end
