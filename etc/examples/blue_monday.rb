@@ -1,17 +1,17 @@
 def drums
   6.times do
-    sample :heavy_kick, :rate, 0.8
+    sample :drum_heavy_kick, :rate, 0.8
     sleep 0.5
   end
 
   8.times do
-    sample :heavy_kick, :rate, 0.8
+    sample :drum_heavy_kick, :rate, 0.8
     sleep 0.125
   end
 end
 
 def snare
-  sample :snare_soft
+  sample :drum_snare_soft
   sleep 1
 end
 
