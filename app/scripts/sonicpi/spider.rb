@@ -136,10 +136,10 @@ module SonicPi
       # Create the new thread
       t = Thread.new do
 
-        # Synchronise on the promise. This means that we block this new
-        # thread until we're absolutly sure it's been registered with
-        # the parent thread as a thread local var
-        reg_with_parent_completed.get_with_timeout(10, 1)
+        # Wait for parent to deliver promise. Throws an exception if
+        # parent dies before the promise is delivered, thus stopping
+        # this thread from continually waiting for forgotten promises...
+        wait_for_parent_thread!(parent_t, reg_with_parent_completed)
 
         # Attempt to associate the current thread with job with
         # job_id. This will kill the current thread if job is no longer
@@ -343,6 +343,20 @@ module SonicPi
         t.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
           t.kill
         end
+      end
+    end
+
+    # Synchronise on the promise. This means that we block this new
+    # thread until we're absolutly sure it's been registered with the
+    # parent thread as a thread local var. If the promise isn't
+    # delivered within 10s, we assume the parent thread has been killed
+    # so we abord running this thread.
+    def wait_for_parent_thread!(parent_t, prom)
+      raise "Parent thread died!" unless parent_t.alive?
+      begin
+        prom.get_with_timeout(10, 2)
+      rescue
+        wait_for_parent_thread!(parent_t, prom)
       end
     end
   end
