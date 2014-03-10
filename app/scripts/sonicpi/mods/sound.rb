@@ -186,10 +186,17 @@ module SonicPi
 
        def load_sample(path)
          if path.class == Symbol
-           path = resolve_sample_symbol_path(path)
+           full_path = resolve_sample_symbol_path(path)
          end
-
-         @mod_sound_studio.load_sample(path)
+         if File.exists?(full_path)
+           @mod_sound_studio.load_sample(full_path)
+         else
+           if path.class == Symbol
+             raise "No sample exists called #{path.inspect}"
+           else
+             raise "No sample exists with path #{path}"
+           end
+         end
        end
 
        def load_samples(*paths)
