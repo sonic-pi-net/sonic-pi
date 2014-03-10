@@ -139,7 +139,7 @@ module SonicPi
         # Synchronise on the promise. This means that we block this new
         # thread until we're absolutly sure it's been registered with
         # the parent thread as a thread local var
-        reg_with_parent_completed.get
+        reg_with_parent_completed.get_with_timeout(10, 1)
 
         # Attempt to associate the current thread with job with
         # job_id. This will kill the current thread if job is no longer

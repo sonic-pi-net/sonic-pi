@@ -24,7 +24,40 @@ module SonicPi
       @pushed = false
     end
 
-    def get
+    def get_with_timeout(timeout, resolution)
+      raise "Promise timeout resolution must be positive" if resolution <= 0
+      raise "Promise timeout must be positive" if timeout <= 0
+      return @value if @delivered
+      value_obtained = false
+      val = nil
+      @val_sem.synchronize do
+        return @value if @delivered
+        begin
+          val = @box.pop(true)
+          @value = val
+          @delivered = true
+          value_obtained = true
+        rescue
+          # no value in box
+          val = nil
+          value_obtained = false
+        end
+      end
+
+      if value_obtained
+        return val
+      else
+        new_time = timeout - resolution
+        if new_time > 0
+          sleep resolution
+          get_with_timeout(timeout - resolution, resolution)
+        else
+          raise "Timeout attempting to get value from promise #{self}"
+        end
+      end
+    end
+
+    def get()
       return @value if @delivered
       @val_sem.synchronize do
         return @value if @delivered
