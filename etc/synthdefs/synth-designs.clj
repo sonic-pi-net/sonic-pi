@@ -299,6 +299,18 @@
 
 (do
 
+  (defsynth basic-mono-player
+    [buf 0 amp 1 pan 0 rate 1 out-bus 0]
+    (let [rate (* rate (buf-rate-scale buf))
+          snd  (play-buf 1 buf rate)]
+      (out out-bus (pan2 snd pan  amp))))
+
+  (defsynth basic-stereo-player
+    [buf 0 amp 1 pan 0 rate 1 out-bus 0]
+    (let [rate (* rate (buf-rate-scale buf))
+          snd  (play-buf 2 buf rate)]
+      (out out-bus (pan2 snd pan amp))))
+
   (defsynth mono-player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
@@ -339,10 +351,12 @@
           snd           (* env snd)]
       (out out-bus snd)))
 
-   ;; (save-to-pi mono-player)
-   ;; (save-to-pi stereo-player)
-  )
+  ;; (save-to-pi mono-player)
+  ;; (save-to-pi stereo-player)
+  ;; (save-to-pi basic-mono-player)
+  ;; (save-to-pi basic-stereo-player)
 
+  )
 
 (do
 
