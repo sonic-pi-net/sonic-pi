@@ -350,7 +350,6 @@ module SonicPi
     end
 
     def job_subthread_rm(job_id, t)
-      puts "removing #{job_id}, #{t}"
       @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         threads.delete(t) if threads
@@ -360,7 +359,6 @@ module SonicPi
     end
 
     def job_subthreads_kill(job_id)
-      puts "killing #{job_id}"
       threads = @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         @job_subthreads.delete(job_id)
