@@ -303,7 +303,7 @@
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
     [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
-    (let [n-frames    (buf-frames buf)
+    (let [n-frames    (- (buf-frames buf) 1)
           start-pos   (* start n-frames)
           end-pos     (* end n-frames)
           n-start-pos (select:kr (not-pos? rate) [start-pos end-pos])
@@ -323,7 +323,7 @@
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
     [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
-    (let [n-frames      (buf-frames buf)
+    (let [n-frames      (- (buf-frames buf) 1)
           start-pos     (* start n-frames)
           end-pos       (* end n-frames)
           n-start-pos   (select:kr (not-pos? rate) [start-pos end-pos])
