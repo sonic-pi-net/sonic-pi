@@ -40,6 +40,7 @@ module SonicPi
       @sync_counter = Counter.new
       @job_counter = Counter.new
       @job_subthreads = {}
+      @named_subthreads = {}
       @job_subthread_mutex = Mutex.new
       @user_jobs = Jobs.new
       @random_generator = Random.new(0)
@@ -120,7 +121,7 @@ module SonicPi
       val
     end
 
-    def in_thread(&block)
+    def in_thread(name=nil, &block)
       parent_t = Thread.current
 
       # Get copy of thread locals whilst we're sure they're not being modified
@@ -136,20 +137,13 @@ module SonicPi
       # Create the new thread
       t = Thread.new do
 
-        # Wait for parent to deliver promise. Throws an exception if
-        # parent dies before the promise is delivered, thus stopping
-        # this thread from continually waiting for forgotten promises...
-        wait_for_parent_thread!(parent_t, reg_with_parent_completed)
-
-        # Attempt to associate the current thread with job with
-        # job_id. This will kill the current thread if job is no longer
-        # running.
-        job_subthread_add(job_id, Thread.current)
-
         # Copy thread locals across from parent thread to this new thread
         parent_t_vars.each do |k,v|
           Thread.current.thread_variable_set(k, v)
         end
+
+        # This new thread doesn't yet have a name
+        Thread.current.thread_variable_set(:sonic_pi_spider_subthread_name, nil)
 
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
@@ -160,6 +154,16 @@ module SonicPi
 
         # Give new thread a new no_kill mutex
         Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
+
+        # Wait for parent to deliver promise. Throws an exception if
+        # parent dies before the promise is delivered, thus stopping
+        # this thread from continually waiting for forgotten promises...
+        wait_for_parent_thread!(parent_t, reg_with_parent_completed)
+
+        # Attempt to associate the current thread with job with
+        # job_id. This will kill the current thread if job is no longer
+        # running.
+        job_subthread_add(job_id, Thread.current, name)
 
         # Actually run the thread code specified by the user!
         begin
@@ -322,9 +326,23 @@ module SonicPi
       end
     end
 
-    def job_subthread_add(job_id, t)
+    def job_subthread_add(job_id, t, name=nil)
+      #todo only add subthread if name isn't registered yet
       @job_subthread_mutex.synchronize do
         return t.kill unless @job_subthreads[job_id]
+        puts @named_subthreads.inspect
+        if name
+          if @named_subthreads[name]
+            puts "Skipping thread creation: thread with name #{name.inspect} already exists."
+            return t.kill
+          else
+            # register this name with the corresponding job id and also
+            # store it in a thread local
+            @named_subthreads[name] = job_id
+            t.thread_variable_set :sonic_pi_spider_subthread_name, name
+          end
+        end
+
 
         threads = @job_subthreads[job_id]
         @job_subthreads[job_id] = threads.add(t)
@@ -332,16 +350,21 @@ module SonicPi
     end
 
     def job_subthread_rm(job_id, t)
+      puts "removing #{job_id}, #{t}"
       @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         threads.delete(t) if threads
+        subthread_name = t.thread_variable_get(:sonic_pi_spider_subthread_name)
+        @named_subthreads.delete(subthread_name) if subthread_name
       end
     end
 
     def job_subthreads_kill(job_id)
+      puts "killing #{job_id}"
       threads = @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         @job_subthreads.delete(job_id)
+        @named_subthreads.delete_if{|k,v| v == job_id}
         threads
       end
 
