@@ -27,7 +27,7 @@
 
 
 (def err-cnt (atom 0))
-(def app-state (atom {:messages (rb/mk-ringbuffer 10)
+(def app-state (atom {:messages (rb/mk-ringbuffer 100)
                       :jobs #{}}))
 
 (defn jobs-comp [data owner]
