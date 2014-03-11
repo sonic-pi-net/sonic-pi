@@ -162,7 +162,11 @@ module SonicPi
         Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
 
         # Actually run the thread code specified by the user!
-        block.call
+        begin
+          block.call
+        rescue Exception => e
+          puts "Thread died: #{e}"
+        end
 
         # Disassociate thread with job as it has now finished
         job_subthread_rm(job_id, Thread.current)
@@ -350,12 +354,12 @@ module SonicPi
     # thread until we're absolutly sure it's been registered with the
     # parent thread as a thread local var. If the promise isn't
     # delivered within 10s, we assume the parent thread has been killed
-    # so we abord running this thread.
+    # so we abort running this thread.
     def wait_for_parent_thread!(parent_t, prom)
-      raise "Parent thread died!" unless parent_t.alive?
       begin
-        prom.get_with_timeout(10, 2)
+        prom.get_with_timeout(10, 0.1)
       rescue
+        raise "Parent thread died!" unless parent_t.alive?
         wait_for_parent_thread!(parent_t, prom)
       end
     end
