@@ -165,7 +165,7 @@ module SonicPi
         begin
           block.call
         rescue Exception => e
-          puts "Thread died: #{e}"
+          __error "Thread #{name} died: #{e.inspect}", e
         end
 
         # Disassociate thread with job as it has now finished
@@ -206,6 +206,10 @@ module SonicPi
 
     def __message(s)
       @msg_queue.push({:type => :message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
+    end
+
+    def __error(s, e)
+      @msg_queue.push({:type => :error, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info, :backtrace => e.backtrace})
     end
 
     def __current_job_id

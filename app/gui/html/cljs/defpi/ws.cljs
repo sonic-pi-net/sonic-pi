@@ -51,7 +51,10 @@
   (om/component
    (apply dom/div nil
           (map (fn [m]
-                 (dom/div nil (:val m)))
+                 (dom/div nil (:val m)
+                          (when (:backtrace m)
+                            (dom/div nil
+                                     (dom/pre nil (:backtrace m))))))
                (:messages data)))))
 
 (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
