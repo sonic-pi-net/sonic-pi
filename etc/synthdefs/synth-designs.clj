@@ -386,7 +386,7 @@
         snd             (* env snd)]
     (out out-bus (pan2 snd pan amp))))
 
-  (defsynth supersaw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 130 cutoff_slide 0 out-bus 0]
+  (defsynth supersaw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 130 cutoff_slide 0 res 0.3 out-bus 0]
     (let [note        (lag note slide)
           cutoff      (lag cutoff cutoff_slide)
           freq        (midicps note)
@@ -403,6 +403,25 @@
           output      (+ (- input comp1) (- input comp2) (- input comp3) (- input comp4))
           output      (- output input)
           output      (leak-dc:ar (* output 0.25))
+          output      (normalizer (rlpf output cutoff-freq res))
+          env         (env-gen (env-lin attack sustain release) :action FREE)
+          output      (* env output)
+          output      (pan2 output pan amp)]
+      (out out-bus output)))
+
+  (defsynth supersaw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 out-bus 0]
+    (let [note        (lag note slide)
+          freq        (midicps note)
+          input       (lf-saw freq)
+          shift1      (lf-saw 4)
+          shift2      (lf-saw 7)
+          shift3      (lf-saw 2)
+          comp1       (> input shift1)
+          comp2       (> input shift2)
+          comp3       (> input shift3)
+          output      (+ (- input comp1) (- input comp2) (- input comp3))
+          output      (- output input)
+          output      (leak-dc:ar (* output 0.333))
           env         (env-gen (env-lin attack sustain release) :action FREE)
           output      (* env output)
           output      (pan2 output pan amp)]
@@ -446,6 +465,7 @@
 
   ;;(save-to-pi tb303)
   ;;(save-to-pi supersaw)
+  ;;(save-to-pi supersaw_s)
   ;;(save-to-pi prophet)
   )
 
