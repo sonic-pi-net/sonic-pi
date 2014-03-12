@@ -136,7 +136,7 @@
                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE))
                          pan))))
 
-  (defsynth dsaw [note 52 amp 1 pan 0 detune 0.1 attack 0.1 sustain 0 release 0.3 slide 0 cutoff 100 cutoff_slide 0 out-bus 0]
+  (defsynth dsaw [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 slide 0 cutoff 100 cutoff_slide 0 detune 0.1 out-bus 0]
     (let [note        (lag note slide)
           cutoff      (lag cutoff cutoff_slide)
           freq        (midicps note)
