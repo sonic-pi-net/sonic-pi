@@ -11,5 +11,5 @@ def bass
   sleep sample_duration(:loop_compus) / 4
 end
 
-in_thread{loop{loopr}}
-in_thread{loop{bass}}
+in_thread(:loopr){loop{loopr}}
+in_thread(:bass){loop{bass}}
