@@ -147,11 +147,12 @@
 )
                          pan))))
 
-  (defsynth fm [note 52 amp 1 pan 0 attack 1 sustain 0 release 1 slide 0 divisor 2.0 depth 1.0 mod_slide 0 out-bus 0]
+  (defsynth fm [note 52 amp 1 pan 0 attack 1 sustain 0 release 1 slide 0 divisor 2.0 depth 1.0 div_slide 0 depth_slide 0 out-bus 0]
     (let [note      (lag note slide)
+          divisor   (lag divisor div_slide)
+          depth     (lag depth depth_slide)
           carrier   (midicps note)
           modulator (/ carrier divisor)
-          modulator (lag modulator mod_slide)
           env       (env-gen (env-lin attack sustain release) :level-scale amp :action FREE)]
       (out out-bus (pan2 (* env
                             (sin-osc (+ carrier
