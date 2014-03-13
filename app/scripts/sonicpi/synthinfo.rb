@@ -1,15 +1,7 @@
 module SonicPi
   class SynthInfo
-
-    def self.get_info(synth_name)
-      synth_classes =
-        {
-        :dull_bell => DullBell,
-        :pretty_bell => PrettyBell
-      }
-
-      klass = synth_classes[synth_name.to_sym]
-      klass.new
+    def doc
+      raise "please implement me!"
     end
 
     def arg_defaults
@@ -72,6 +64,10 @@ module SonicPi
 
     def v_less_than(arg,  max)
       [lambda{|args| args[arg] < max}, "must be a value less than #{max}"]
+    end
+
+    def v_one_of(arg, valid_options)
+      [lambda{|args| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}"]
     end
 
     def default_arg_info
@@ -155,6 +151,14 @@ module SonicPi
   end
 
   class DullBell < SynthInfo
+    def name
+      "Dull Bell"
+    end
+
+    def doc
+      "A simple dull dischordant bell sound."
+    end
+
     def arg_defaults
       {
         :note => 52,
@@ -169,9 +173,24 @@ module SonicPi
   end
 
   class PrettyBell < DullBell
+    def name
+      "Pretty Bell"
+    end
+
+    def doc
+      "A simple pretty bell sound."
+    end
   end
 
   class Beep < SynthInfo
+    def name
+      "Sine Wave"
+    end
+
+    def doc
+      "A simple pure sine wave."
+    end
+
     def arg_defaults
       {
         :note => 52,
@@ -186,9 +205,24 @@ module SonicPi
   end
 
   class SawBeep < Beep
+    def name
+      "Saw Wave"
+    end
+
+    def doc
+      "A simple saw wave with a low pass filter."
+    end
   end
 
   class DSaw < SynthInfo
+    def name
+      "Detuned Saw wave"
+    end
+
+    def doc
+      "A pair of detuned saw waves with a lop pass filter."
+    end
+
     def arg_defaults
       {
         :note => 52,
@@ -203,6 +237,511 @@ module SonicPi
         :cutoff_slide => 0,
         :detune => 0.1
       }
+    end
+  end
+
+  class FM < SynthInfo
+    def name
+      "Basic FM synthesis"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 1,
+        :sustain => 0,
+        :release => 1,
+        :slide => 0,
+
+        :divisor => 2,
+        :depth => 1,
+        :div_slide => 0,
+        :depth_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+        :divisor =>
+        {
+          :doc => "",
+          :validations => []
+        },
+
+        :depth =>
+        {
+          :doc => "",
+          :validations => []
+        },
+
+        :div_slide =>
+        {
+          :doc => "",
+          :validations => [v_positive(:div_slide)]
+        },
+
+        :depth_slide =>
+        {
+          :doc => "",
+          :validations => [v_positive(:depth_slide)]
+        }
+      }
+
+    end
+  end
+
+  class ModSaw
+    def name
+      "Modulated Saw Wave"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5
+      }
+    end
+  end
+
+  class ModSawS
+    def name
+      "Modulated Saw Wave Simple"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5
+      }
+    end
+  end
+
+  class ModDSaw
+    def name
+      "Modulated Detuned Saw Waves"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5,
+        :detune => 0.1
+      }
+    end
+  end
+
+  class ModDSawS
+    def name
+      "Modulated Detuned Saw Waves Simple"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5,
+        :detune => 0.1
+      }
+    end
+  end
+
+  class ModSine
+    def name
+      "Modualted Sine Wave"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5
+      }
+    end
+  end
+
+  class ModSineS
+    def name
+      "Modualted Sine Wave Simple"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5
+      }
+    end
+  end
+
+  class ModTri
+    def name
+      "Modulated Triangle Wave"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5
+      }
+    end
+  end
+
+  class ModTriS
+    def name
+      "Modulated Triangle Wave Simple"
+    end
+
+    def doc
+      ""
+    end
+
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5
+      }
+    end
+  end
+
+  class ModPulse
+    def name
+      "Modulated Pulse"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5,
+        :pulse_width => 0.5
+      }
+    end
+  end
+
+  class ModPulseS
+    def name
+      "Modulated Pulse Simple"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :mod_rate => 1,
+        :mod_range => 5,
+        :mod_width => 0.5,
+        :pulse_width => 0.5
+      }
+    end
+  end
+
+  class TB303
+    def name
+      "tb-303"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :cutoff => 80,
+        :cutoff_min => 30,
+        :res => 0.2,
+        :wave => 0,
+        :pulse_width => 0.5
+      }
+    end
+
+    def specific_arg_info
+      {
+
+        :cutoff =>
+        {
+          :doc => "",
+          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)]
+        },
+
+        :cutoff_min =>
+        {
+          :doc => "",
+          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)]
+        },
+
+        :wave =>
+        {
+          :doc => "Wave type - 0 saw, 1 pulse",
+          :validations => [v_one_of(:wave, [0, 1])]
+        },
+
+        :pulse_width =>
+        {
+          :doc => "Only valid if wave is type pulse.",
+l=          :validations => [v_positive(:pulse_width)]
+        }
+
+      }
+    end
+  end
+
+  class Supersaw
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :cutoff => 130,
+        :cutoff_slide => 0,
+        :res => 0.3
+
+      }
+    end
+  end
+
+  class SupersawS
+    def name
+      "Supersaw Simple"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0
+      }
+    end
+
+  end
+
+
+  class Prophet
+    def name
+      "The Prophet"
+    end
+
+    def doc
+      "Dark and swirly, this synth uses Pulse Width Modulation
+      (PWM) to create a timbre which continually moves around. This
+      effect is created using the pulse ugen which produces a variable
+      width square wave. We then control the width of the pulses using a
+      variety of LFOs - sin-osc and lf-tri in this case. We use a number
+      of these LFO modulated pulse ugens with varying LFO type and rate
+      (and phase in some cases to provide the LFO with a different
+      starting point. We then mix all these pulses together to create a
+      thick sound and then feed it through a resonant low pass filter
+      (rlpf).
+
+      For extra bass, one of the pulses is an octave lower (half the
+      frequency) and its LFO has a little bit of randomisation thrown
+      into its frequency component for that extra bit of variety."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :amp => 1,
+        :pan => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 2,
+        :slide => 0,
+
+        :cutoff => 110,
+        :cutoff_slide => 0,
+        :res => 0.3
+      }
+    end
+
+  end
+
+  class SynthInfo
+    @@synth_infos =
+        {
+        :dull_bell => DullBell.new,
+        :pretty_bell => PrettyBell.new,
+        :saw_beep => SawBeep.new,
+        :dsaw => DSaw.new,
+        :fm => FM.new,
+        :mod_saw => ModSaw.new,
+        :mod_saw_s => ModSawS.new,
+        :mod_dsaw => ModDSaw.new,
+        :mod_dsaw_s => ModDSawS.new,
+        :mod_sine => ModSine.new,
+        :mod_sine_s => ModSineS.new,
+        :mod_tri => ModTri.new,
+        :mod_tri_s => ModTriS.new,
+        :mod_pulse => ModPulse.new,
+        :mod_pulse_s => ModPulseS.new,
+        :tb303 => TB303.new,
+        :supersaw => Supersaw.new,
+        :supersaw_s => SupersawS.new,
+        :prophet => Prophet.new
+      }
+
+    def self.get_info(synth_name)
+      @@synth_infos[synth_name.to_sym]
     end
   end
 end
