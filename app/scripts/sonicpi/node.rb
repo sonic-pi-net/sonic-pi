@@ -31,8 +31,10 @@ module SonicPi
       @comms.add_event_handler("/n_end", killed_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
           @state_change_sem.synchronize do
-            call_on_destroyed_callbacks if @state != :destroyed
+            prev_state = @state
             @state = :destroyed
+            call_on_destroyed_callbacks if prev_state != :destroyed
+
           end
           [:remove_handlers,
             [ ["/n_go", created_event_id],
