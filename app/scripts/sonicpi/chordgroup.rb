@@ -18,11 +18,23 @@ module SonicPi
     def initialize(group)
       @sub_nodes = []
       super(group.id, group.comms)
+      @sem = Mutex.new
     end
 
     def sub_nodes=(nodes)
       raise "Sub nodes already registered!" unless @sub_nodes.empty?
       @sub_nodes = nodes
+      should_kill_group = lambda do
+        @sem.synchronize do
+          if @sub_nodes.all?{|sn| sn.destroyed?}
+            self.kill
+          end
+        end
+      end
+
+      @sub_nodes.each {|sn| sn.on_destroyed(&should_kill_group)}
+      should_kill_group.call
+      nodes
     end
 
     def nodes
