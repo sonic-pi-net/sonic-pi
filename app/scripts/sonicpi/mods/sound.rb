@@ -149,7 +149,7 @@ module SonicPi
          end
        end
 
-       def with_tempo(n)
+       def set_tempo!(n)
          @mod_sound_studio.bpm = n
        end
 
