@@ -98,8 +98,8 @@ module SonicPi
     end
 
     def ctl(*args)
-      @arg_validation_fn.call(args) if @arg_validation_fn
-      @comms.node_ctl @id, *args
+      args = @arg_validation_fn.call(args) if @arg_validation_fn
+      @comms.node_ctl @id, args
       self
     end
 

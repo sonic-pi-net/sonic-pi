@@ -84,9 +84,11 @@ module SonicPi
          # representation.
          sn = synth_name
          arg_validation_fn = lambda do |args|
+           args = munge_synth_args(args)
            info = SynthInfo.get_info(sn)
            raise "Unable to find synth info for #{sn}" unless info
            info.validate!(args)
+           args
          end
 
          arg_validation_fn.call(args_h)
@@ -308,6 +310,15 @@ module SonicPi
          job_group = old_job_groups[job_id]
          job_group.kill if job_group
 
+       end
+
+       def munge_synth_args(args)
+         args = Hash[*args] if args.is_a? Array
+         # ensure note is a MIDI note
+         n = args[:note]
+         args[:note] = note(n) if n
+
+         args
        end
 
      end
