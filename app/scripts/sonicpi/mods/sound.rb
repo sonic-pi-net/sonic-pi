@@ -186,8 +186,8 @@ module SonicPi
          @mod_sound_studio.debug = false
        end
 
-       def with_volume(vol)
-         max_vol = 20
+       def set_volume!(vol)
+         max_vol = 5
          if (vol < 0)
            @mod_sound_studio.volume = 0
          elsif (vol > max_vol)
