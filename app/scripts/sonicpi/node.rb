@@ -72,7 +72,7 @@ module SonicPi
     def on_destroyed(&block)
       @state_change_sem.synchronize do
         if @state == :destroyed
-          call_on_destroyed_callbacks
+          block.call(self)
         else
           @on_destroyed_callbacks << block
         end
