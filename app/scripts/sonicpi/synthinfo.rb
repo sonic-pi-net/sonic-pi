@@ -82,7 +82,7 @@ module SonicPi
         :amp =>
         {
           :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played.",
-          :validations => [v_positive(:note)]
+          :validations => [v_positive(:amp)]
         },
 
 
