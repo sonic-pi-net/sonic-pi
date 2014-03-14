@@ -15,8 +15,8 @@ require File.absolute_path("#{File.dirname(__FILE__)}/node")
 module SonicPi
   class SynthNode < Node
     attr_reader :name
-    def initialize(id, comms, name)
-      super(id, comms)
+    def initialize(id, comms, name, arg_validation_fn = nil)
+      super(id, comms, arg_validation_fn)
       @name = name
     end
   end

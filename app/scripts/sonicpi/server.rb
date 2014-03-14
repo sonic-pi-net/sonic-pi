@@ -143,12 +143,14 @@ module SonicPi
       @CONTROL_BUS_ALLOCATOR.allocate num_chans
     end
 
-    def trigger_synth(position, group, synth_name, *args)
+    def trigger_synth(position, group, synth_name, *args, &arg_validation_fn)
       message "Triggering synth #{synth_name} at #{position}, #{group.to_s}"
       pos_code = position_code(position)
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
-      sn = SynthNode.new(node_id.to_f, self, synth_name.to_s)
+
+
+      sn = SynthNode.new(node_id.to_f, self, synth_name.to_s, arg_validation_fn)
       normalised_args = []
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
 

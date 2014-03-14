@@ -78,15 +78,30 @@ module SonicPi
        end
 
        def trigger_synth(synth_name, args_h, group=current_job_synth_group)
+         # It feelss messed up that I need the following line, but if I
+         # don't use it, then synth_name within the lambda can be
+         # changed externally affecting the internal lexical
+         # representation.
+         sn = synth_name
+         arg_validation_fn = lambda do |args|
+           info = SynthInfo.get_info(sn)
+           raise "Unable to find synth info for #{sn}" unless info
+           info.validate!(args)
+         end
+
+         arg_validation_fn.call(args_h)
+
          synth_name = "sp/#{synth_name}"
+
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-         args = t_l_args.merge(args_h).to_a.flatten
+         combined_args = t_l_args.merge(args_h)
+         flattened_args = combined_args.to_a.flatten
          p = Promise.new
          job_synth_proms_add(job_id, p)
-         __message "playing #{synth_name} with: #{args}"
-         s = @mod_sound_studio.trigger_synth synth_name, group, *args
-         s.on_destroyed do
+         __message "playing #{synth_name} with: #{flattened_args}"
+         s = @mod_sound_studio.trigger_synth synth_name, group, *flattened_args, &arg_validation_fn
+         s.on_destroyed do |sn|
            job_synth_proms_rm(job_id, p)
            p.deliver! true
          end

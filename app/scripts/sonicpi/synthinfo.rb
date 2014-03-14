@@ -22,17 +22,23 @@ module SonicPi
     end
 
     def validate!(args)
+      args = Hash[*args] if args.is_a? Array
       info = arg_info
       args.keys.each do |a|
         a_sym = a.to_sym
-        a_info = info[a_sym]
-        validations = a_info[:validations] || []
+        validations = arg_validations(a)
         validations.each do |vali|
           raise "Value of argument #{a_sym.inspect}  must a number, got #{args[a_sym].inspect}." unless args[a_sym].is_a? Numeric
           v, m = vali
           raise "Value of argument #{a_sym.inspect} #{m}, got #{args[a_sym].inspect}." unless v.call(args)
         end
       end
+    end
+
+    def arg_validations(arg_name)
+      info = default_arg_info.merge(specific_arg_info)
+      arg_info = info[arg_name] || {}
+      arg_info[:validations] || []
     end
 
     def arg_info
@@ -296,7 +302,7 @@ module SonicPi
     end
   end
 
-  class ModSaw
+  class ModSaw < SynthInfo
     def name
       "Modulated Saw Wave"
     end
@@ -324,7 +330,7 @@ module SonicPi
     end
   end
 
-  class ModSawS
+  class ModSawS < SynthInfo
     def name
       "Modulated Saw Wave Simple"
     end
@@ -350,7 +356,7 @@ module SonicPi
     end
   end
 
-  class ModDSaw
+  class ModDSaw < SynthInfo
     def name
       "Modulated Detuned Saw Waves"
     end
@@ -379,7 +385,7 @@ module SonicPi
     end
   end
 
-  class ModDSawS
+  class ModDSawS < SynthInfo
     def name
       "Modulated Detuned Saw Waves Simple"
     end
@@ -406,7 +412,7 @@ module SonicPi
     end
   end
 
-  class ModSine
+  class ModSine < SynthInfo
     def name
       "Modualted Sine Wave"
     end
@@ -434,7 +440,7 @@ module SonicPi
     end
   end
 
-  class ModSineS
+  class ModSineS < SynthInfo
     def name
       "Modualted Sine Wave Simple"
     end
@@ -460,7 +466,7 @@ module SonicPi
     end
   end
 
-  class ModTri
+  class ModTri < SynthInfo
     def name
       "Modulated Triangle Wave"
     end
@@ -488,7 +494,7 @@ module SonicPi
     end
   end
 
-  class ModTriS
+  class ModTriS < SynthInfo
     def name
       "Modulated Triangle Wave Simple"
     end
@@ -515,7 +521,7 @@ module SonicPi
     end
   end
 
-  class ModPulse
+  class ModPulse < SynthInfo
     def name
       "Modulated Pulse"
     end
@@ -544,7 +550,7 @@ module SonicPi
     end
   end
 
-  class ModPulseS
+  class ModPulseS < SynthInfo
     def name
       "Modulated Pulse Simple"
     end
@@ -571,7 +577,7 @@ module SonicPi
     end
   end
 
-  class TB303
+  class TB303 < SynthInfo
     def name
       "tb-303"
     end
@@ -622,14 +628,14 @@ module SonicPi
         :pulse_width =>
         {
           :doc => "Only valid if wave is type pulse.",
-l=          :validations => [v_positive(:pulse_width)]
+          :validations => [v_positive(:pulse_width)]
         }
 
       }
     end
   end
 
-  class Supersaw
+  class Supersaw < SynthInfo
     def doc
       ""
     end
@@ -652,7 +658,7 @@ l=          :validations => [v_positive(:pulse_width)]
     end
   end
 
-  class SupersawS
+  class SupersawS < SynthInfo
     def name
       "Supersaw Simple"
     end
@@ -676,7 +682,7 @@ l=          :validations => [v_positive(:pulse_width)]
   end
 
 
-  class Prophet
+  class Prophet < SynthInfo
     def name
       "The Prophet"
     end
@@ -716,28 +722,60 @@ l=          :validations => [v_positive(:pulse_width)]
 
   end
 
+  class MonoPlayer < SynthInfo
+    def name
+      "Mono Sample Player"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :pan => 0,
+        :attack => 0,
+        :sustain => -1,
+        :release => 0,
+        :rate => 1,
+        :start => 0,
+        :end => 1
+      }
+    end
+
+  end
+
+  class StereoPlayer < MonoPlayer
+    def name
+      "Stereo Sample Player"
+    end
+  end
+
   class SynthInfo
     @@synth_infos =
-        {
-        :dull_bell => DullBell.new,
-        :pretty_bell => PrettyBell.new,
-        :saw_beep => SawBeep.new,
-        :dsaw => DSaw.new,
-        :fm => FM.new,
-        :mod_saw => ModSaw.new,
-        :mod_saw_s => ModSawS.new,
-        :mod_dsaw => ModDSaw.new,
-        :mod_dsaw_s => ModDSawS.new,
-        :mod_sine => ModSine.new,
-        :mod_sine_s => ModSineS.new,
-        :mod_tri => ModTri.new,
-        :mod_tri_s => ModTriS.new,
-        :mod_pulse => ModPulse.new,
-        :mod_pulse_s => ModPulseS.new,
-        :tb303 => TB303.new,
-        :supersaw => Supersaw.new,
-        :supersaw_s => SupersawS.new,
-        :prophet => Prophet.new
+      {
+      :dull_bell => DullBell.new,
+      :pretty_bell => PrettyBell.new,
+      :saw_beep => SawBeep.new,
+      :dsaw => DSaw.new,
+      :fm => FM.new,
+      :mod_saw => ModSaw.new,
+      :mod_saw_s => ModSawS.new,
+      :mod_dsaw => ModDSaw.new,
+      :mod_dsaw_s => ModDSawS.new,
+      :mod_sine => ModSine.new,
+      :mod_sine_s => ModSineS.new,
+      :mod_tri => ModTri.new,
+      :mod_tri_s => ModTriS.new,
+      :mod_pulse => ModPulse.new,
+      :mod_pulse_s => ModPulseS.new,
+      :tb303 => TB303.new,
+      :supersaw => Supersaw.new,
+      :supersaw_s => SupersawS.new,
+      :prophet => Prophet.new,
+      :mono_player => MonoPlayer.new,
+      :stereo_player => StereoPlayer.new
       }
 
     def self.get_info(synth_name)
