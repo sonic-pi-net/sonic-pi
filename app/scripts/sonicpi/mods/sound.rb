@@ -217,7 +217,7 @@ module SonicPi
          buf_info = load_sample(path)
          args_h = resolve_synth_opts_hash_or_array(args)
          args_h = {:buf => buf_info.id}.merge(args_h)
-         synth_name = (buf_info.num_chans == 1) ? "mono-player" : "stereo-player"
+         synth_name = (buf_info.num_chans == 1) ? "mono_player" : "stereo_player"
          __message "Playing sample: #{path}"
          trigger_synth synth_name, args_h
        end
