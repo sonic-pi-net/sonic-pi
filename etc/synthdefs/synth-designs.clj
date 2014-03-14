@@ -32,8 +32,6 @@
 
 ;; Main mixer
 
-
-
 (do
 
   (defsynth mixer [in-bus 0 amp 1 safe-recovery-time 3]
@@ -317,19 +315,19 @@
 
 (do
 
-  (defsynth basic-mono-player
+  (defsynth basic_mono_player
     [buf 0 amp 1 pan 0 rate 1 out-bus 0]
     (let [rate (* rate (buf-rate-scale buf))
           snd  (play-buf 1 buf rate)]
       (out out-bus (pan2 snd pan  amp))))
 
-  (defsynth basic-stereo-player
+  (defsynth basic_stereo_player
     [buf 0 amp 1 pan 0 rate 1 out-bus 0]
     (let [rate (* rate (buf-rate-scale buf))
           snd  (play-buf 2 buf rate)]
       (out out-bus (pan2 snd pan amp))))
 
-  (defsynth mono-player
+  (defsynth mono_player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
     [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
@@ -349,7 +347,7 @@
           snd         (pan2 snd pan amp)]
       (out out-bus snd)))
 
-  (defsynth stereo-player
+  (defsynth stereo_player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
     [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
@@ -369,10 +367,10 @@
           snd           (* env snd)]
       (out out-bus snd)))
 
-  ;; (save-to-pi mono-player)
-  ;; (save-to-pi stereo-player)
-  ;; (save-to-pi basic-mono-player)
-  ;; (save-to-pi basic-stereo-player)
+  ;; (save-to-pi mono_player)
+  ;; (save-to-pi stereo_player)
+  ;; (save-to-pi basic_mono_player)
+  ;; (save-to-pi basic_stereo_player)
 
   )
 
