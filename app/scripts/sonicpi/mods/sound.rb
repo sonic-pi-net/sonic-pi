@@ -178,11 +178,11 @@ module SonicPi
          cg
        end
 
-       def debug!
+       def set_debug_on!
          @mod_sound_studio.debug = true
        end
 
-       def debug_off!
+       def set_debug_off!
          @mod_sound_studio.debug = false
        end
 
