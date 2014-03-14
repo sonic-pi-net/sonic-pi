@@ -81,14 +81,16 @@ module SonicPi
         :note =>
         {
           :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3",
-          :validations => [v_positive(:note)]
+          :validations => [v_positive(:note)],
+          :modulatable => true
         },
 
 
         :amp =>
         {
           :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played.",
-          :validations => [v_positive(:amp)]
+          :validations => [v_positive(:amp)],
+          :modulatable => true
         },
 
 
@@ -96,54 +98,62 @@ module SonicPi
         {
 
           :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
-          :validations => [v_between_inclusive(:pan, -1, 1)]
+          :validations => [v_between_inclusive(:pan, -1, 1)],
+          :modulatable => true
         },
 
 
         :attack =>
         {
           :doc => "Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.",
-          :validations => [v_positive(:attack)]
+          :validations => [v_positive(:attack)],
+          :modulatable => true
         },
 
 
         :sustain =>
         {
           :doc => "Amount of time (in seconds) for sound to remain at full amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + sustain + release.",
-          :validations => [v_positive(:sustain)]
+          :validations => [v_positive(:sustain)],
+          :modulatable => true
         },
 
 
         :release =>
         {
           :doc => "Amount of time (in seconds) for sound to move from full amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + sustain + release.",
-          :validations => [v_positive(:release)]
+          :validations => [v_positive(:release)],
+          :modulatable => true
         },
 
 
         :slide =>
         {
           :doc => "Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note.",
-          :validations => [v_positive(:slide)]
+          :validations => [v_positive(:slide)],
+          :modulatable => true
         },
 
 
         :cutoff =>
         {
           :doc => "MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
-          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)]
+          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)],
+          :modulatable => true
         },
 
         :cutoff_slide =>
         {
           :doc => "Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value.",
-          :validations => [v_positive(:cutoff_slide)]
+          :validations => [v_positive(:cutoff_slide)],
+          :modulatable => true
         },
 
         :detune =>
         {
           :doc => "Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds.",
-          :validations => []
+          :validations => [],
+          :modulatable => true
         }
 
 
@@ -277,25 +287,29 @@ module SonicPi
         :divisor =>
         {
           :doc => "",
-          :validations => []
+          :validations => [],
+          :modulatable => true
         },
 
         :depth =>
         {
           :doc => "",
-          :validations => []
+          :validations => [],
+          :modulatable => true
         },
 
         :div_slide =>
         {
           :doc => "",
-          :validations => [v_positive(:div_slide)]
+          :validations => [v_positive(:div_slide)],
+          :modulatable => true
         },
 
         :depth_slide =>
         {
           :doc => "",
-          :validations => [v_positive(:depth_slide)]
+          :validations => [v_positive(:depth_slide)],
+          :modulatable => true
         }
       }
 
@@ -610,25 +624,29 @@ module SonicPi
         :cutoff =>
         {
           :doc => "",
-          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)]
+          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)],
+          :modulatable => true
         },
 
         :cutoff_min =>
         {
           :doc => "",
-          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)]
+          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)],
+          :modulatable => true
         },
 
         :wave =>
         {
           :doc => "Wave type - 0 saw, 1 pulse",
-          :validations => [v_one_of(:wave, [0, 1])]
+          :validations => [v_one_of(:wave, [0, 1])],
+          :modulatable => true
         },
 
         :pulse_width =>
         {
           :doc => "Only valid if wave is type pulse.",
-          :validations => [v_positive(:pulse_width)]
+          :validations => [v_positive(:pulse_width)],
+          :modulatable => true
         }
 
       }
@@ -741,6 +759,54 @@ module SonicPi
         :rate => 1,
         :start => 0,
         :end => 1
+      }
+    end
+
+    def specific_arg_info
+      {
+
+        :attack =>
+        {
+          :doc => "",
+          :validations => [v_positive(:attack)],
+          :modulatable => false
+        },
+
+        :sustain =>
+        {
+          :doc => "",
+          :validations => [v_positive(:attack)],
+          :modulatable => false
+        },
+
+        :release =>
+        {
+          :doc => "",
+          :validations => [[lambda{|args| v = args[:release] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+          :modulatable => false
+        },
+
+        :rate =>
+        {
+          :doc => "",
+          :validations => [],
+          :modulatable => false
+        },
+
+        :start =>
+        {
+          :doc => "",
+          :validations => [v_positive(:attack), v_between_inclusive(:start, 0, 1)],
+          :modulatable => false
+        },
+
+        :end =>
+        {
+          :doc => "",
+          :validations => [v_positive(:attack), v_between_inclusive(:start, 0, 1)],
+          :modulatable => false
+        },
+
       }
     end
 
