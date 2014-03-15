@@ -108,17 +108,21 @@ module SonicPi
 
     def group_clear(id)
       message "Clearing (nuking) group #{id}"
-      osc "/g_freeAll", id.to_f
+      ts = sched_ahead_time_for_node(id)
+      osc_bundle ts, "/g_freeAll", id.to_f
     end
 
     def group_deep_free(id)
       message "Deep freeing group #{id}"
-      osc "/g_deepFree", id.to_f
+      ts = sched_ahead_time_for_node(id)
+      osc_bundle ts, "/g_deepFree", id.to_f
     end
 
     def kill_node(id)
       message "Killing node #{id}"
-      osc "/n_free", id.to_f
+      puts "/n_free your ass #{id.to_f}"
+      ts = sched_ahead_time_for_node(id)
+      osc_bundle ts, "/n_free", id.to_f
     end
 
     def create_group(position, target)
