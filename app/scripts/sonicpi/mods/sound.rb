@@ -149,8 +149,15 @@ module SonicPi
          end
        end
 
-       def set_tempo!(n)
-         @mod_sound_studio.bpm = n
+       def with_tempo(n, &block)
+         current = @mod_sound_studio.bpm
+         if block
+           @mod_sound_studio.bpm = n
+           block.call
+           @mod_sound_studio.bpm = current
+         else
+           @mod_sound_studio.bpm = n
+         end
        end
 
        def current_tempo
