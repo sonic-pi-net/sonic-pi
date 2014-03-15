@@ -83,7 +83,7 @@ module SonicPi
       message "Clearing scsynth"
       @CURRENT_NODE_ID.reset!
       clear_schedule
-      group_clear 0
+      group_clear 0, true
     end
 
     def clear_schedule
@@ -106,22 +106,34 @@ module SonicPi
         replace: 4}[position]
     end
 
-    def group_clear(id)
+    def group_clear(id, now=false)
       message "Clearing (nuking) group #{id}"
-      ts = sched_ahead_time_for_node(id)
-      osc_bundle ts, "/g_freeAll", id.to_f
+      if now
+        osc "/g_freeAll", id.to_f
+      else
+        ts = sched_ahead_time_for_node(id)
+        osc_bundle ts, "/g_freeAll", id.to_f
+      end
     end
 
-    def group_deep_free(id)
+    def group_deep_free(id, now=false)
       message "Deep freeing group #{id}"
-      ts = sched_ahead_time_for_node(id)
-      osc_bundle ts, "/g_deepFree", id.to_f
+      if now
+        osc "/g_deepFree", id.to_f
+      else
+        ts = sched_ahead_time_for_node(id)
+        osc_bundle ts, "/g_deepFree", id.to_f
+      end
     end
 
-    def kill_node(id)
+    def kill_node(id, now=false)
       message "Killing node #{id}"
-      ts = sched_ahead_time_for_node(id)
-      osc_bundle ts, "/n_free", id.to_f
+      if now
+        osc "/n_free", id.to_f
+      else
+        ts = sched_ahead_time_for_node(id)
+        osc_bundle ts, "/n_free", id.to_f
+      end
     end
 
     def create_group(position, target)
