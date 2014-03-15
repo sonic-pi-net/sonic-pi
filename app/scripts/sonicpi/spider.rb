@@ -176,8 +176,13 @@ module SonicPi
         # Disassociate thread with job as it has now finished
         job_subthread_rm(job_id, Thread.current)
 
-        parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
-          parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(Thread.current)
+        Thread.new do
+          # wait for all subthreads to finish before removing self from
+          # the subthread tree
+          __join_subthreads(t)
+          parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
+            parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(Thread.current)
+          end
         end
       end
 
