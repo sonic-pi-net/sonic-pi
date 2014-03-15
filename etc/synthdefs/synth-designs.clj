@@ -485,7 +485,19 @@
   ;;(save-to-pi prophet)
   )
 
-(do)
+;;FX
+(do
+  (defsynth fx_reverb [mix 0.25 room 0.15 damp 0.5 in-bus 0 out-bus 0]
+    (let [[l r] (in:ar in-bus 2)
+          snd (free-verb2 l r mix room damp)]
+      (out out-bus snd)))
+
+  (defsynth fx_level [amp 1 in-bus 0 out-bus 0]
+    (out out-bus (* amp (in in-bus 2))))
+
+  ;;(save-to-pi fx_reverb)
+  ;;(save-to-pi fx_level)
+  )
 
 
 ;; Experimental

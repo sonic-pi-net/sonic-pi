@@ -95,14 +95,16 @@ module SonicPi
 
          synth_name = "sp/#{synth_name}"
 
+         current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
+         out_bus = current_bus || @mod_sound_studio.mixer_bus
+
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-         combined_args = t_l_args.merge(args_h)
-         flattened_args = combined_args.to_a.flatten
+         combined_args = t_l_args.merge(args_h).merge({"out-bus" => out_bus})
          p = Promise.new
          job_synth_proms_add(job_id, p)
-         __message "playing #{synth_name} with: #{flattened_args}"
-         s = @mod_sound_studio.trigger_synth synth_name, group, *flattened_args, &arg_validation_fn
+         __message "playing #{synth_name} with: #{combined_args.inspect}"
+         s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, &arg_validation_fn
          s.on_destroyed do |sn|
            job_synth_proms_rm(job_id, p)
            p.deliver! true
@@ -147,6 +149,30 @@ module SonicPi
          else
            Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
          end
+       end
+
+       def with_fx(fx_name, *args, &block)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         raise "with_fx must be called with a block" unless block
+         current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
+         out_bus = current_bus || @mod_sound_studio.mixer_bus
+         new_bus = @mod_sound_studio.new_fx_bus
+         fx_synth_name = "fx_#{fx_name}"
+         s = trigger_synth(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), @mod_sound_studio.fx_group)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
+         begin
+           block.call
+         rescue Exception => e
+           puts "oopsey #{e}"
+         ensure
+           s.kill
+           puts "freeing #{new_bus}"
+           new_bus.free
+           ## TODO: shouldn't kill fx synth here, rather should ask it
+           ## to wait for all subsynths sending stuff out to it to finish
+
+         end
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
        end
 
        def with_tempo(n, &block)

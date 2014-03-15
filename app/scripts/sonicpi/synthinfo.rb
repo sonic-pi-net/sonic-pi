@@ -818,6 +818,32 @@ module SonicPi
     end
   end
 
+  class FXReverb < SynthInfo
+    def name
+      "FX Reverb"
+    end
+
+    def arg_defaults
+      {
+        :mix => 0.25,
+        :room => 0.15,
+        :damp => 0.5
+      }
+    end
+  end
+
+  class FXLevel < SynthInfo
+    def name
+      "FX Level Amplifier"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1
+      }
+    end
+  end
+
   class SynthInfo
     @@synth_infos =
       {
@@ -841,7 +867,11 @@ module SonicPi
       :supersaw_s => SupersawS.new,
       :prophet => Prophet.new,
       :mono_player => MonoPlayer.new,
-      :stereo_player => StereoPlayer.new
+      :stereo_player => StereoPlayer.new,
+
+      :fx_reverb => FXReverb.new,
+      :fx_level => FXLevel.new
+
       }
 
     def self.get_info(synth_name)

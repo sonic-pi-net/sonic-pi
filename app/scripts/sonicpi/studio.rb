@@ -21,7 +21,7 @@ module SonicPi
     SYNTHS = ["beep", "fm", "pretty_bell", "dull_bell", "saw_beep"]
     SYNTH_MOD = Mutex.new
     SAMPLE_SEM = Mutex.new
-    attr_reader :synth_group, :mixer_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths
+    attr_reader :synth_group, :fx_group, :mixer_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
       @server = Server.new(hostname, port, msg_queue)
@@ -48,7 +48,8 @@ module SonicPi
       @server.clear_scsynth!
       @mixer_bus = @server.allocate_audio_bus 2
       @mixer_group = @server.create_group(:head, 0)
-      @synth_group = @server.create_group(:before, @mixer_group)
+      @fx_group = @server.create_group(:before, @mixer_group)
+      @synth_group = @server.create_group(:before, @fx_group)
     end
 
     def reset
@@ -82,13 +83,13 @@ module SonicPi
       # @msg_queue.push "Studio: #{s}"
     end
 
-    def trigger_synth(synth_name, group, *args, &arg_validation_fn)
-      @server.trigger_synth(:tail, group, synth_name, "out-bus", @mixer_bus, *args, &arg_validation_fn)
+    def trigger_synth(synth_name, group, args, &arg_validation_fn)
+      @server.trigger_synth(:tail, group, synth_name, args, &arg_validation_fn)
     end
 
     def start_mixer
       message "Starting mixer"
-      @mixer = @server.trigger_synth(:head, @mixer_group, "sp/mixer", "in-bus", @mixer_bus)
+      @mixer = @server.trigger_synth(:head, @mixer_group, "sp/mixer", {"in-bus" => @mixer_bus})
     end
 
     def volume=(vol)
@@ -116,6 +117,10 @@ module SonicPi
 
     def new_synth_group
       new_group(:tail, @synth_group)
+    end
+
+    def new_fx_bus
+      @server.allocate_audio_bus 2
     end
 
     def exit
