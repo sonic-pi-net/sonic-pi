@@ -120,7 +120,6 @@ module SonicPi
 
     def kill_node(id)
       message "Killing node #{id}"
-      puts "/n_free your ass #{id.to_f}"
       ts = sched_ahead_time_for_node(id)
       osc_bundle ts, "/n_free", id.to_f
     end
