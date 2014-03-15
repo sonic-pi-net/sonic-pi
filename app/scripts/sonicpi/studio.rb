@@ -119,6 +119,10 @@ module SonicPi
       new_group(:tail, @synth_group)
     end
 
+    def new_fx_group
+      new_group(:tail, @fx_group)
+    end
+
     def new_fx_bus
       @server.allocate_audio_bus 2
     end

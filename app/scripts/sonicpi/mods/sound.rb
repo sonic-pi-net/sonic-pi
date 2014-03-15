@@ -33,6 +33,8 @@ module SonicPi
              @JOB_SYNTH_PROMS_A = Atom.new(Hamster.hash)
              @JOB_GROUPS_A = Atom.new(Hamster.hash)
              @JOB_GROUP_MUTEX = Mutex.new
+             @JOB_FX_GROUPS_A = Atom.new(Hamster.hash)
+             @JOB_FX_GROUP_MUTEX = Mutex.new
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @mod_sound_studio.sched_ahead_time(0.5) if (os == :raspberry)
              @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
@@ -52,6 +54,7 @@ module SonicPi
                end
 
                kill_job_group(job_id)
+               kill_fx_job_group(job_id)
 
              end
 
@@ -152,27 +155,40 @@ module SonicPi
        end
 
        def with_fx(fx_name, *args, &block)
+         start_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads)
          args_h = resolve_synth_opts_hash_or_array(args)
          raise "with_fx must be called with a block" unless block
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
          out_bus = current_bus || @mod_sound_studio.mixer_bus
          new_bus = @mod_sound_studio.new_fx_bus
          fx_synth_name = "fx_#{fx_name}"
-         s = trigger_synth(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), @mod_sound_studio.fx_group)
+         puts current_fx_group
+         s = trigger_synth(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), current_fx_group)
+         puts "created: #{s}"
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
          begin
            block.call
          rescue Exception => e
            puts "oopsey #{e}"
          ensure
-           s.kill
-           puts "freeing #{new_bus}"
-           new_bus.free
+
            ## TODO: shouldn't kill fx synth here, rather should ask it
            ## to wait for all subsynths sending stuff out to it to finish
 
          end
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
+         end_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads)
+         new_subthreads = (end_subthreads - start_subthreads).to_a
+         Thread.new do
+           new_subthreads.each do |st|
+             __join_subthreads(st)
+           end
+
+           puts "killing #{s}"
+           s.kill
+           puts "freeing #{new_bus}"
+           new_bus.free
+         end
        end
 
        def with_tempo(n, &block)
@@ -300,6 +316,10 @@ module SonicPi
          Thread.current.thread_variable_get :sonic_pi_spider_job_id
        end
 
+       def current_fx_group
+         job_fx_group(current_job_id)
+       end
+
        def current_job_synth_group
          job_synth_group(current_job_id)
        end
@@ -320,6 +340,26 @@ module SonicPi
          g
        end
 
+       def job_fx_group(job_id)
+         g = @JOB_FX_GROUPS_A.deref[job_id]
+         return g if g
+
+         @JOB_FX_GROUP_MUTEX.synchronize do
+           g = @JOB_FX_GROUPS_A.deref[job_id]
+           return g if g
+           g = @mod_sound_studio.new_fx_group
+
+           @JOB_FX_GROUPS_A.swap! do |gs|
+             gs.put job_id, g
+           end
+         end
+         g
+       end
+
+       def fx_synth_proms_add(key, p)
+
+       end
+
        def job_synth_proms_add(job_id, p)
          @JOB_SYNTH_PROMS_A.swap! do |js|
            proms = js[job_id] || Hamster.set
@@ -337,12 +377,24 @@ module SonicPi
        end
 
        def kill_job_group(job_id)
+
          old_job_groups = @JOB_GROUPS_A.swap_returning_old! do |js|
            js.delete job_id
          end
          job_group = old_job_groups[job_id]
+         puts "killing job group: #{job_group}"
          job_group.kill if job_group
 
+       end
+
+       def kill_fx_job_group(job_id)
+         puts "killing job fx group: #{job_id}"
+         old_job_groups = @JOB_FX_GROUPS_A.swap_returning_old! do |js|
+           js.delete job_id
+         end
+         job_group = old_job_groups[job_id]
+         puts "killing job fx group: #{job_group}"
+         job_group.kill if job_group
        end
 
        def munge_synth_args(args)
@@ -354,6 +406,13 @@ module SonicPi
          args
        end
 
+       def __join_subthreads(t)
+         subthreads = t.thread_variable_get :sonic_pi_spider_subthreads
+         subthreads.each do |st|
+           st.join
+           __join_subthreads(st)
+         end
+       end
      end
    end
  end
