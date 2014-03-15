@@ -19,18 +19,13 @@ module SonicPi
     include Util
 
     SYNTHS = ["beep", "fm", "pretty_bell", "dull_bell", "saw_beep"]
-    PAD_SYNTHS = ["babbling", "woah", "saws"]
     SYNTH_MOD = Mutex.new
-    PAD_SEM = Mutex.new
     SAMPLE_SEM = Mutex.new
-    attr_reader :synth_group, :mixer_group, :mixer_id, :mixer_bus, :pad_synth, :current_pad_synth, :mixer, :max_concurrent_synths
+    attr_reader :synth_group, :mixer_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
       @server = Server.new(hostname, port, msg_queue)
       @server.load_synthdefs(synthdef_path)
-      # Thread local variables
-
-      Thread.current.thread_variable_set :sonic_pi_studio_current_pad_synth, nil
 
       @msg_queue = msg_queue
       @max_concurrent_synths = max_concurrent_synths
@@ -89,29 +84,6 @@ module SonicPi
 
     def trigger_synth(synth_name, group, *args, &arg_validation_fn)
       @server.trigger_synth(:tail, group, synth_name, "out-bus", @mixer_bus, *args, &arg_validation_fn)
-    end
-
-    def current_pad_synth
-      Thread.current.thread_variable_get :sonic_pi_studio_current_pad_synth
-    end
-
-    def switch_to_pad(name, *args)
-      if PAD_SYNTHS.include? name
-        PAD_SEM.synchronize do
-          current_pad_synth.kill if current_pad_synth
-          message "Switching to pad #{name} with args: #{args}"
-          Thread.current.thread_variable_set :sonic_pi_studio_current_pad_synth, trigger_sp_synth(name, *args)
-        end
-      else
-        message "Unknown pad name: #{name}"
-      end
-    end
-
-    def control_pad(*args)
-      PAD_SEM.synchronize do
-        message "Controlling pad #{@current_pad}: #{args}"
-        @current_pad_synth.ctl *args if @current_pad_synth
-      end
     end
 
     def start_mixer
