@@ -19,8 +19,8 @@ module SonicPi
     def initialize(max_bus_id, idx_offset)
       @IDX_OFFSET = idx_offset
       @MAX_BUS_ID = max_bus_id
-
-      @bus_ids_A = Atom.new(Hamster.vector)
+      tmp_ids = [false] * @MAX_BUS_ID
+      @bus_ids_A = Atom.new(Hamster.vector(*tmp_ids))
       @busses_A = Atom.new(Hamster.vector)
     end
 
@@ -28,7 +28,7 @@ module SonicPi
       idx = nil
       ids = @bus_ids_A.swap! do |bids|
         idx = find_gap(0, num_adj_busses, bids)
-        new_bus_ids = (idx...idx+num_adj_busses).reduce {|bs, i| bs.set(i, true)}
+        new_bus_ids = (idx...idx+num_adj_busses).reduce(bids) {|bs, i| bs.set(i, true)}
       end
 
       offsetted = idx + @IDX_OFFSET
@@ -57,7 +57,7 @@ module SonicPi
 
     def release!(idx, num_adj_busses)
       @bus_ids_A.swap! do |bids|
-        (idx...idx+num_adj_busses).reduce {|bs, i| bs.set(i, false)}
+        (idx...idx+num_adj_busses).reduce(bids) {|bs, i| bs.set(i, false)}
       end
     end
 
