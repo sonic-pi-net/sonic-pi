@@ -114,7 +114,7 @@ module SonicPi
       @server.create_group(position, target)
     end
 
-    def new_user_synth_group
+    def new_synth_group
       new_group(:tail, @synth_group)
     end
 

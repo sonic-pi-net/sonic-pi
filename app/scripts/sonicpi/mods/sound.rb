@@ -285,7 +285,7 @@ module SonicPi
          @JOB_GROUP_MUTEX.synchronize do
            g = @JOB_GROUPS_A.deref[job_id]
            return g if g
-           g = @mod_sound_studio.new_user_synth_group
+           g = @mod_sound_studio.new_synth_group
 
            @JOB_GROUPS_A.swap! do |gs|
              gs.put job_id, g
