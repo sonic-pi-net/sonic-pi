@@ -32,16 +32,16 @@ def synths
   end
 end
 
-in_thread do
+in_thread(:synths) do
   sleep 6
   loop{synths}
 end
 
-in_thread do
+in_thread(:drums) do
   loop{drums}
 end
 
-in_thread do
+in_thread(:snare) do
   sleep 12.5
   loop{snare}
 end
