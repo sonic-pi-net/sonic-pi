@@ -84,7 +84,7 @@ module SonicPi
     end
 
     def trigger_synth(synth_name, group, args, &arg_validation_fn)
-      @server.trigger_synth(:tail, group, synth_name, args, &arg_validation_fn)
+      @server.trigger_synth(:head, group, synth_name, args, &arg_validation_fn)
     end
 
     def start_mixer
