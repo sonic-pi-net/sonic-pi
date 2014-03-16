@@ -64,6 +64,10 @@ module SonicPi
       [lambda{|args| args[arg] >= 0}, "must be zero or greater"]
     end
 
+    def v_positive_not_zero(arg)
+      [lambda{|args| args[arg] > 0}, "must be greater than zero"]
+    end
+
     def v_between_inclusive(arg, min, max)
       [lambda{|args| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max}"]
     end
@@ -825,8 +829,8 @@ module SonicPi
 
     def arg_defaults
       {
-        :mix => 0.25,
-        :room => 0.15,
+        :mix => 0.75,
+        :room => 0.6,
         :damp => 0.5
       }
     end
@@ -840,6 +844,46 @@ module SonicPi
     def arg_defaults
       {
         :amp => 1
+      }
+    end
+  end
+
+  class FXEcho < SynthInfo
+    def name
+      "FX Echo"
+    end
+
+    def arg_defaults
+      {
+        :max_delay => 1,
+        :delay => 0.4,
+        :decay => 8,
+        :amp => 1
+      }
+    end
+
+    def specific_arg_info
+      {
+        :max_delay =>
+        {
+          :doc => "The maximum delay time in seconds.",
+          :validations => [v_positive_not_zero(:max_delay)],
+          :modulatable => false
+        },
+
+        :delay =>
+        {
+          :doc => "The time between echoes in seconds.",
+          :validations => [v_positive_not_zero(:delay)],
+          :modulatable => true
+        },
+
+        :decay =>
+        {
+          :doc => "The time it takes for the echoes to fade away in seconds.",
+          :validations => [v_positive_not_zero(:decay)],
+          :modulatable => true
+        }
       }
     end
   end
@@ -870,7 +914,8 @@ module SonicPi
       :stereo_player => StereoPlayer.new,
 
       :fx_reverb => FXReverb.new,
-      :fx_level => FXLevel.new
+      :fx_level => FXLevel.new,
+      :fx_echo => FXEcho.new
 
       }
 

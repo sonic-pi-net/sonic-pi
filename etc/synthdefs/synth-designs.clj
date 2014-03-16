@@ -487,7 +487,7 @@
 
 ;;FX
 (do
-  (defsynth fx_reverb [mix 0.25 room 0.15 damp 0.5 in-bus 0 out-bus 0]
+  (defsynth fx_reverb [mix 0.75 room 0.6 damp 0.5 in-bus 0 out-bus 0]
     (let [[l r] (in:ar in-bus 2)
           snd (free-verb2 l r mix room damp)]
       (out out-bus snd)))
@@ -495,8 +495,15 @@
   (defsynth fx_level [amp 1 in-bus 0 out-bus 0]
     (out out-bus (* amp (in in-bus 2))))
 
+  (defsynth fx_echo
+    [delay 0.4 decay 8 max_delay 1 amp 1 in-bus 0 out-bus 0]
+    (let [source (in in-bus)
+          echo (comb-n source max_delay delay decay)]
+      (out out-bus (+ echo source))))
+
   ;;(save-to-pi fx_reverb)
   ;;(save-to-pi fx_level)
+  ;;(save-to-pi fx_echo)
   )
 
 
