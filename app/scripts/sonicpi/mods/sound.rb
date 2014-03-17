@@ -279,7 +279,7 @@ module SonicPi
 
        private
 
-       def trigger_sampler(synth_name args_h, group=current_job_synth_group)
+       def trigger_sampler(synth_name, args_h, group=current_job_synth_group)
          trigger_synth(synth_name, args_h, group=current_job_synth_group)
        end
 
