@@ -412,18 +412,15 @@ module SonicPi
            js.delete job_id
          end
          job_group = old_job_groups[job_id]
-         puts "killing job group: #{job_group}"
          job_group.kill if job_group
 
        end
 
        def kill_fx_job_group(job_id)
-         puts "killing job fx group: #{job_id}"
          old_job_groups = @JOB_FX_GROUPS_A.swap_returning_old! do |js|
            js.delete job_id
          end
          job_group = old_job_groups[job_id]
-         puts "killing job fx group: #{job_group}"
          job_group.kill if job_group
        end
 
