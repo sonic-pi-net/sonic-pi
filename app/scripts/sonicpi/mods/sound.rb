@@ -80,47 +80,12 @@ module SonicPi
          end
        end
 
-       def trigger_synth(synth_name, args_h, group=current_job_synth_group)
-         # It feelss messed up that I need the following line, but if I
-         # don't use it, then synth_name within the lambda can be
-         # changed externally affecting the internal lexical
-         # representation.
-         sn = synth_name
-         arg_validation_fn = lambda do |args|
-           args = munge_synth_args(args)
-           info = SynthInfo.get_info(sn)
-           raise "Unable to find synth info for #{sn}" unless info
-           info.validate!(args)
-           args
-         end
-
-         arg_validation_fn.call(args_h)
-
-         synth_name = "sp/#{synth_name}"
-
-         current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
-         out_bus = current_bus || @mod_sound_studio.mixer_bus
-
-         job_id = current_job_id
-         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-         combined_args = t_l_args.merge(args_h).merge({"out-bus" => out_bus})
-         p = Promise.new
-         job_synth_proms_add(job_id, p)
-         __message "playing #{synth_name} with: #{combined_args.inspect}"
-         s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, &arg_validation_fn
-         s.on_destroyed do |sn|
-           job_synth_proms_rm(job_id, p)
-           p.deliver! true
-         end
-         s
-       end
-
        def play(n, *args)
          return play_chord(n, *args) if n.is_a?(Array)
          n = note(n)
          args_h = resolve_synth_opts_hash_or_array(args)
          args_h = {:note => n}.merge(args_h)
-         trigger_synth @mod_sound_studio.current_synth_name, args_h if n
+         trigger_inst @mod_sound_studio.current_synth_name, args_h if n
        end
 
        def repeat(&block)
@@ -155,14 +120,15 @@ module SonicPi
        end
 
        def with_fx(fx_name, *args, &block)
-         args_h = resolve_synth_opts_hash_or_array(args)
          raise "with_fx must be called with a block" unless block
+
+         args_h = resolve_synth_opts_hash_or_array(args)
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
          out_bus = current_bus || @mod_sound_studio.mixer_bus
          new_bus = @mod_sound_studio.new_fx_bus
          fx_synth_name = "fx_#{fx_name}"
          puts current_fx_group
-         s = trigger_synth(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), current_fx_group)
+         s = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), current_fx_group)
 
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
          start_subthreads = []
@@ -222,7 +188,7 @@ module SonicPi
          nodes = []
          notes.each do |note|
            note_args_h = {:note => note}.merge(args_h)
-           nodes << trigger_synth(@mod_sound_studio.current_synth_name, note_args_h, cg) if note
+           nodes << trigger_inst(@mod_sound_studio.current_synth_name, note_args_h, cg) if note
          end
          cg.sub_nodes = nodes
          cg
@@ -286,7 +252,7 @@ module SonicPi
          args_h = {:buf => buf_info.id}.merge(args_h)
          synth_name = (buf_info.num_chans == 1) ? "mono_player" : "stereo_player"
          __message "Playing sample: #{path}"
-         trigger_synth synth_name, args_h
+         trigger_sampler synth_name, args_h
        end
 
        def status
@@ -312,6 +278,55 @@ module SonicPi
        end
 
        private
+
+       def trigger_sampler(synth_name args_h, group=current_job_synth_group)
+         trigger_synth(synth_name, args_h, group=current_job_synth_group)
+       end
+
+       def trigger_inst(synth_name, args_h, group=current_job_synth_group)
+         trigger_synth(synth_name, args_h, group=current_job_synth_group)
+       end
+
+       def trigger_fx(synth_name, args_h, group=current_job_synth_group)
+         trigger_synth(synth_name, args_h, group=current_job_synth_group)
+       end
+
+       def trigger_synth(synth_name, args_h, group=current_job_synth_group)
+         # It feelss messed up that I need the following line, but if I
+         # don't use it, then synth_name within the lambda can be
+         # changed externally affecting the internal lexical
+         # representation.
+         sn = synth_name
+         arg_validation_fn = lambda do |args|
+           args = munge_synth_args(args)
+           info = SynthInfo.get_info(sn)
+           raise "Unable to find synth info for #{sn}" unless info
+           info.validate!(args)
+           args
+         end
+
+         arg_validation_fn.call(args_h)
+
+         synth_name = "sp/#{synth_name}"
+
+         current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
+         out_bus = current_bus || @mod_sound_studio.mixer_bus
+
+         job_id = current_job_id
+         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
+         combined_args = t_l_args.merge(args_h).merge({"out-bus" => out_bus})
+         p = Promise.new
+         job_synth_proms_add(job_id, p)
+         __message "playing #{synth_name} with: #{combined_args.inspect}"
+         s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, &arg_validation_fn
+         s.on_destroyed do |sn|
+           job_synth_proms_rm(job_id, p)
+           p.deliver! true
+         end
+         s
+       end
+
+
 
        def current_job_id
          Thread.current.thread_variable_get :sonic_pi_spider_job_id
