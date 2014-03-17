@@ -26,35 +26,27 @@ module SonicPi
     def synth_started(s)
       raise "blocking underway - no more synths should be created!" if @prom
       @mut.synchronize do
-        puts "synth started: #{s}"
         @synths << s
-        puts "synth added: #{@synths.to_a}"
       end
     end
 
     def synth_finished(s)
       @mut.synchronize do
-        puts "synth finished: #{s}"
         @synths.delete s
         if @prom && @synths.empty?
-          puts "delivered!"
           @prom.deliver! true
         end
       end
     end
 
     def block_until_finished
-      puts "blocking..."
       @mut.synchronize do
         @prom = Promise.new
-        puts "blocking with synths: #{@synths.to_a}"
         if @synths.empty?
           @prom.deliver! true
         end
       end
-      puts "actually blocking now..."
       @prom.get
-      puts "finished blocking!"
     end
   end
 end
