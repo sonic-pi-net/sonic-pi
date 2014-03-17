@@ -67,13 +67,16 @@ module SonicPi
     end
 
     def find_gap(idx, gap_size, bids)
-      raise "Unable to allocate bus" if (idx > @MAX_BUS_ID)
 
-      if valid_gap?(idx, gap_size, bids)
-        idx
-      else
-        find_gap idx+1, gap_size, bids
+      while idx < @MAX_BUS_ID
+        if valid_gap?(idx, gap_size, bids)
+          return idx
+        else
+          idx += 1
+        end
       end
+
+      raise "Unable to allocate bus"
     end
   end
 end
