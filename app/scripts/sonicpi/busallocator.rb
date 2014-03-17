@@ -15,6 +15,7 @@ require_relative "atom"
 require "hamster/vector"
 
 module SonicPi
+  class BusAllocationError < Exception ; end
   class BusAllocator
     def initialize(max_bus_id, idx_offset)
       @IDX_OFFSET = idx_offset
@@ -76,7 +77,7 @@ module SonicPi
         end
       end
 
-      raise "Unable to allocate bus"
+      raise BusAllocationError, "Unable to allocate bus"
     end
   end
 end
