@@ -372,10 +372,6 @@ module SonicPi
          g
        end
 
-       def fx_synth_proms_add(key, p)
-
-       end
-
        def job_synth_proms_add(job_id, p)
          @JOB_SYNTH_PROMS_A.swap! do |js|
            proms = js[job_id] || Hamster.set
