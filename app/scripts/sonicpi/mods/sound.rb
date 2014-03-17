@@ -313,18 +313,18 @@ module SonicPi
        private
 
        def trigger_sampler(synth_name, args_h, group=current_job_synth_group)
-         trigger_synth(synth_name, args_h, group=current_job_synth_group)
+         trigger_synth(synth_name, args_h, group)
        end
 
        def trigger_inst(synth_name, args_h, group=current_job_synth_group)
-         trigger_synth(synth_name, args_h, group=current_job_synth_group)
+         trigger_synth(synth_name, args_h, group)
        end
 
-       def trigger_fx(synth_name, args_h, group=current_job_synth_group)
-         trigger_synth(synth_name, args_h, group=current_job_synth_group)
+       def trigger_fx(synth_name, args_h, group=current_fx_group)
+         trigger_synth(synth_name, args_h, group)
        end
 
-       def trigger_synth(synth_name, args_h, group=current_job_synth_group)
+       def trigger_synth(synth_name, args_h, group)
          # It feelss messed up that I need the following line, but if I
          # don't use it, then synth_name within the lambda can be
          # changed externally affecting the internal lexical
