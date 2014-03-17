@@ -155,7 +155,6 @@ module SonicPi
        end
 
        def with_fx(fx_name, *args, &block)
-         start_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads)
          args_h = resolve_synth_opts_hash_or_array(args)
          raise "with_fx must be called with a block" unless block
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
@@ -164,29 +163,31 @@ module SonicPi
          fx_synth_name = "fx_#{fx_name}"
          puts current_fx_group
          s = trigger_synth(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), current_fx_group)
-         puts "created: #{s}"
+
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
+         start_subthreads = []
+         end_subthreads = []
+         Thread.current.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
+           start_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
+         end
          begin
            block.call
          rescue Exception => e
            puts "oopsey #{e}"
-         ensure
-
-           ## TODO: shouldn't kill fx synth here, rather should ask it
-           ## to wait for all subsynths sending stuff out to it to finish
-
          end
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
-         end_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads)
-         new_subthreads = (end_subthreads - start_subthreads).to_a
+         Thread.current.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
+           end_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
+         end
+         new_subthreads = (end_subthreads - start_subthreads)
          Thread.new do
            new_subthreads.each do |st|
-             __join_subthreads(st)
+             __join_thread_and_subthreads(st)
            end
 
-           puts "killing #{s}"
+           ## TODO:
+           ## need to wait for subsynths to finish too...
            s.kill
-           puts "freeing #{new_bus}"
            new_bus.free
          end
        end
@@ -406,11 +407,11 @@ module SonicPi
          args
        end
 
-       def __join_subthreads(t)
+       def join_thread_and_subthreads(t)
+         t.join
          subthreads = t.thread_variable_get :sonic_pi_spider_subthreads
          subthreads.each do |st|
-           st.join
-           __join_subthreads(st)
+           join_thread_and_subthreads(st)
          end
        end
      end
