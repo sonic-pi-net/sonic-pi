@@ -16,6 +16,7 @@ require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
 require_relative "../chordgroup"
+require_relative "../synthtracker"
 
 module SonicPi
    module Mods
@@ -126,6 +127,10 @@ module SonicPi
          args_h = resolve_synth_opts_hash_or_array(args)
          fx_synth_name = "fx_#{fx_name}"
 
+         ## TODO:
+         ## Do something more smart than just blindly use a magic 10s
+         kill_delay = args_h[:kill_delay] || 10
+
          ## Get this thread's out bus (defaulting to the mixer if this thread hasn't got one)
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
          out_bus = current_bus || @mod_sound_studio.mixer_bus
@@ -146,6 +151,13 @@ module SonicPi
          ## Set this thread's out bus to pipe audio into the new fx synth node
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
 
+         ## Create a synth tracker and stick it in a thread local
+         tracker = SynthTracker.new
+         current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
+         current_trackers << tracker
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, current_trackers)
+
+
          ## Run fx block
          begin
            block.call
@@ -153,6 +165,8 @@ module SonicPi
            # TODO: do something more sensible here
            puts "oopsey #{e}"
          end
+         ## Remove synth tracker
+         current_trackers.delete tracker
 
          ## Reset out bus to value prior to this with_fx block
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
@@ -169,9 +183,10 @@ module SonicPi
              __join_thread_and_subthreads(st)
            end
 
-           ## TODO:
-           ## need to wait for subsynths to finish too...
-           s.kill
+           tracker.block_until_finished
+
+           Kernel.sleep(kill_delay)
+           fx_synth.kill
            new_bus.free
          end
        end
@@ -337,14 +352,16 @@ module SonicPi
          job_synth_proms_add(job_id, p)
          __message "playing #{synth_name} with: #{combined_args.inspect}"
          s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, &arg_validation_fn
-         s.on_destroyed do |sn|
+         trackers = (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).to_a
+
+         trackers.each{|t| t.synth_started(s)}
+         s.on_destroyed do
+           trackers.each{|t| t.synth_finished(s)}
            job_synth_proms_rm(job_id, p)
            p.deliver! true
          end
          s
        end
-
-
 
        def current_job_id
          Thread.current.thread_variable_get :sonic_pi_spider_job_id
