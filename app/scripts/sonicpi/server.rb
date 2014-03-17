@@ -143,7 +143,6 @@ module SonicPi
       if (pos_code && target_id)
         message "Group created with id: #{id}"
         with_server_sync do
-          puts "creating group #{id} pos: #{pos_code}, tgt: #{target_id}"
           osc "/g_new", id.to_f, pos_code.to_f, target_id.to_f
         end
         Group.new id, self
