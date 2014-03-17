@@ -123,6 +123,14 @@ module SonicPi
        def with_fx(fx_name, *args, &block)
          raise "with_fx must be called with a block" unless block
 
+         ## Create a new bus for this fx chain
+         begin
+           new_bus = @mod_sound_studio.new_fx_bus
+         rescue BusAllocationError
+           puts "All busses allocated - unable to honour FX"
+           return block.call
+         end
+
          ## Munge args
          args_h = resolve_synth_opts_hash_or_array(args)
          fx_synth_name = "fx_#{fx_name}"
@@ -135,8 +143,6 @@ module SonicPi
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
          out_bus = current_bus || @mod_sound_studio.mixer_bus
 
-         ## Create a new bus for this fx chain
-         new_bus = @mod_sound_studio.new_fx_bus
 
          ## Trigger new fx synth piping the in and out busses correctly
          fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), current_fx_group)
