@@ -82,18 +82,18 @@ module SonicPi
       end
     end
 
-    def kill
-      @comms.kill_node @id
+    def kill(now=false)
+      @comms.kill_node @id, now
       self
     end
 
-    def pause
-      @comms.node_pause @id
+    def pause(now=false)
+      @comms.node_pause @id, now
       self
     end
 
-    def run
-      @comms.node_run @id
+    def run(now=false)
+      @comms.node_run @id, now
       self
     end
 

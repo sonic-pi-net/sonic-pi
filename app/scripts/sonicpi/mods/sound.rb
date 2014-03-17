@@ -186,7 +186,7 @@ module SonicPi
            tracker.block_until_finished
 
            Kernel.sleep(kill_delay)
-           fx_synth.kill
+           fx_synth.kill(true)
            new_bus.free
          end
        end
@@ -429,7 +429,7 @@ module SonicPi
            js.delete job_id
          end
          job_group = old_job_groups[job_id]
-         job_group.kill if job_group
+         job_group.kill(true) if job_group
 
        end
 
@@ -438,7 +438,7 @@ module SonicPi
            js.delete job_id
          end
          job_group = old_job_groups[job_id]
-         job_group.kill if job_group
+         job_group.kill(true) if job_group
        end
 
        def munge_synth_args(args)
