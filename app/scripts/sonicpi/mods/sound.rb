@@ -122,26 +122,44 @@ module SonicPi
        def with_fx(fx_name, *args, &block)
          raise "with_fx must be called with a block" unless block
 
+         ## Munge args
          args_h = resolve_synth_opts_hash_or_array(args)
+         fx_synth_name = "fx_#{fx_name}"
+
+         ## Get this thread's out bus (defaulting to the mixer if this thread hasn't got one)
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
          out_bus = current_bus || @mod_sound_studio.mixer_bus
-         new_bus = @mod_sound_studio.new_fx_bus
-         fx_synth_name = "fx_#{fx_name}"
-         puts current_fx_group
-         s = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), current_fx_group)
 
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
+         ## Create a new bus for this fx chain
+         new_bus = @mod_sound_studio.new_fx_bus
+
+         ## Trigger new fx synth piping the in and out busses correctly
+         fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), current_fx_group)
+
+         ## Get list of current subthreads
          start_subthreads = []
          end_subthreads = []
          Thread.current.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
            start_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
          end
+
+         ## Set this thread's out bus to pipe audio into the new fx synth node
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
+
+         ## Run fx block
          begin
            block.call
          rescue Exception => e
+           # TODO: do something more sensible here
            puts "oopsey #{e}"
          end
+
+         ## Reset out bus to value prior to this with_fx block
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
+
+         ## Get a list of subthreads created by this fx block and create
+         ## a new thread which will wait for them all to finish before
+         ## killing the fx synth node and free its bus
          Thread.current.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
            end_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
          end
