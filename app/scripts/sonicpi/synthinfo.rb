@@ -69,7 +69,11 @@ module SonicPi
     end
 
     def v_between_inclusive(arg, min, max)
-      [lambda{|args| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max}"]
+      [lambda{|args| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max} inclusively"]
+    end
+
+    def v_between_exclusive(arg, min, max)
+      [lambda{|args| args[arg] > min && args[arg] < max}, "must be a value between #{min} and #{max} exclusively"]
     end
 
     def v_less_than(arg,  max)
@@ -800,14 +804,14 @@ module SonicPi
         :start =>
         {
           :doc => "",
-          :validations => [v_positive(:attack), v_between_inclusive(:start, 0, 1)],
+          :validations => [v_positive(:start), v_between_inclusive(:start, 0, 1)],
           :modulatable => false
         },
 
         :end =>
         {
           :doc => "",
-          :validations => [v_positive(:attack), v_between_inclusive(:start, 0, 1)],
+          :validations => [v_positive(:end), v_between_inclusive(:end, 0, 1)],
           :modulatable => false
         },
 
@@ -888,6 +892,61 @@ module SonicPi
     end
   end
 
+  class FXSlicer < SynthInfo
+    def name
+      "FX Slicer"
+    end
+
+    def arg_defaults
+      {
+        :freq => 4,
+        :width => 0.5,
+        :phase => 0,
+        :amp_slide => 0.05,
+        :amp => 1
+      }
+    end
+
+    def specific_arg_info
+      {
+        :freq =>
+        {
+          :doc => "The frequency of the slices",
+          :validations => [v_positive_not_zero(:freq)],
+          :modulatable => false
+        },
+
+        :width =>
+        {
+          :doc => "The width of the slices - 0 - 1.",
+          :validations => [v_between_exclusive(:width, 0, 1)],
+          :modulatable => true
+        },
+
+        :phase =>
+        {
+          :doc => "Initial phase.",
+          :validations => [v_between_inclusive(:phase, 0, 1)],
+          :modulatable => false
+        },
+
+        :amp_slide =>
+        {
+          :doc => "The slide lag time for amplitude changes.",
+          :validations => [v_positive(:amp_slide)],
+          :modulatable => true
+        },
+
+        :amp =>
+        {
+          :doc => "The amplitude of the resulting effect.",
+          :validations => [v_positive(:amp)],
+          :modulatable => true
+        }
+      }
+    end
+  end
+
   class SynthInfo
     @@synth_infos =
       {
@@ -915,7 +974,8 @@ module SonicPi
 
       :fx_reverb => FXReverb.new,
       :fx_level => FXLevel.new,
-      :fx_echo => FXEcho.new
+      :fx_echo => FXEcho.new,
+      :fx_slicer => FXSlicer.new
 
       }
 

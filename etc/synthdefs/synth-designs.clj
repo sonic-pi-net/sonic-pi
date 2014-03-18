@@ -497,13 +497,22 @@
 
   (defsynth fx_echo
     [delay 0.4 decay 8 max_delay 1 amp 1 in-bus 0 out-bus 0]
-    (let [source (in in-bus)
+    (let [source (in in-bus 2)
           echo (comb-n source max_delay delay decay)]
       (out out-bus (+ echo source))))
+
+  (defsynth fx_slicer
+    [freq 4 width 0.5 phase 0 amp_slide 0.05 amp 1 in-bus 0 out-bus 0]
+    (let [source    (in in-bus 2)
+          slice-amp (lag (lf-pulse:kr freq phase width) amp_slide)
+          sliced    (* amp slice-amp source)]
+      (out out-bus sliced)))
 
   ;;(save-to-pi fx_reverb)
   ;;(save-to-pi fx_level)
   ;;(save-to-pi fx_echo)
+  ;;(save-to-pi fx_slicer)
+
   )
 
 
