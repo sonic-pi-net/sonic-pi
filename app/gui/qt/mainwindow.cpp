@@ -49,7 +49,6 @@
 #include <QFile>
 #include <QSplashScreen>
 #include <QPixmap>
-#include <QWindow>
 #include <QLabel>
 #include <QToolBox>
 #include <QSlider>
