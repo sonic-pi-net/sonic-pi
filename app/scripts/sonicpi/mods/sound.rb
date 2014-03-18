@@ -137,7 +137,7 @@ module SonicPi
 
          ## TODO:
          ## Do something more smart than just blindly use a magic 10s
-         kill_delay = args_h[:kill_delay] || 10
+         kill_delay = args_h[:kill_delay] || 1
 
          ## Get this thread's out bus (defaulting to the mixer if this thread hasn't got one)
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
@@ -162,7 +162,6 @@ module SonicPi
          current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
          current_trackers << tracker
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, current_trackers)
-
 
          ## Run fx block
          begin
