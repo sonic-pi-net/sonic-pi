@@ -70,15 +70,17 @@ module SonicPi
          @mod_sound_studio.sched_ahead_time(t)
        end
 
+       def use_synth(synth_name, &block)
+         raise "use_synth does not work with a block. Perhaps you meant with_synth" if block
+         @mod_sound_studio.current_synth_name = synth_name
+       end
+
        def with_synth(synth_name, &block)
+         raise "with_synth must be called with a block" unless block
          orig_synth = @mod_sound_studio.current_synth_name
-         if block
-           @mod_sound_studio.current_synth_name = synth_name
-           block.call
-           @mod_sound_studio.current_synth_name = orig_synth
-         else
-           @mod_sound_studio.current_synth_name = synth_name
-         end
+         @mod_sound_studio.current_synth_name = synth_name
+         block.call
+         @mod_sound_studio.current_synth_name = orig_synth
        end
 
        def play(n, *args)
@@ -95,29 +97,37 @@ module SonicPi
          end
        end
 
-       def with_merged_synth_defaults(*args, &block)
+       def use_merged_synth_defaults(*args, &block)
+         raise "use_merged_synth_defaults does not work with a block. Perhaps you meant with_merged_synth_defaults" if block
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
          args_h = resolve_synth_opts_hash_or_array(args)
          merged = (current || {}).merge(args_h)
-         if block
-           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
-           block.call
-           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current
-         else
-           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
-         end
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
+       end
+
+       def with_merged_synth_defaults(*args, &block)
+         raise "with_merged_synth_defaults must be called with a block" unless block
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         merged = (current || {}).merge(args_h)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
+         block.call
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current
+       end
+
+       def use_synth_defaults(*args, &block)
+         raise "use_synth_defaults does not work with a block. Perhaps you meant with_synth_defaults" if block
+         new = resolve_synth_opts_hash_or_array(args)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
        end
 
        def with_synth_defaults(*args, &block)
+         raise "with_synth_defaults must be called with a block" unless block
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
          new = resolve_synth_opts_hash_or_array(args)
-         if block
-           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
-           block.call
-           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current
-         else
-           Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
-         end
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
+         block.call
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current
        end
 
        def with_fx(fx_name, *args, &block)
@@ -196,15 +206,17 @@ module SonicPi
          end
        end
 
+       def use_tempo(n, &block)
+         raise "use_tempo does not work with a block. Perhaps you meant with_tempo" if block
+         @mod_sound_studio.bpm = n
+       end
+
        def with_tempo(n, &block)
+         raise "with_tempo must be called with a block. Perhaps you meant use_tempo" unless block
          current = @mod_sound_studio.bpm
-         if block
-           @mod_sound_studio.bpm = n
-           block.call
-           @mod_sound_studio.bpm = current
-         else
-           @mod_sound_studio.bpm = n
-         end
+         @mod_sound_studio.bpm = n
+         block.call
+         @mod_sound_studio.bpm = current
        end
 
        def current_tempo
