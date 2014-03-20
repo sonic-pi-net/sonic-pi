@@ -70,7 +70,7 @@ MainWindow::MainWindow(QApplication &app)
   serverProcess->start(serverProgram);
   serverProcess->waitForStarted();
 
-  QString proxyPprogram = QCoreApplication::applicationDirPath() + "/../../scripts/qt-proxy.rb";
+  QString proxyProgram = QCoreApplication::applicationDirPath() + "/../../scripts/qt-proxy.rb";
   //QString proxyProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/qt-proxy.rb";
   proxyProcess = new QProcess();
   proxyProcess->start(proxyProgram);
