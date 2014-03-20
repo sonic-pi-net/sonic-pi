@@ -316,7 +316,7 @@ void MainWindow::ensureWorkspaces()
 
 void MainWindow::onExitCleanup()
 {
-  //QString program = QCoreApplication::applicationDirPath() + "/../../scripts/shutdown.rb";
+  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/kill-server.rb";
   //QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/kill-server.rb";
   QProcess *p = new QProcess();
   p->start(program);
