@@ -338,10 +338,10 @@ module SonicPi
        end
 
        def trigger_fx(synth_name, args_h, group=current_fx_group)
-         trigger_synth(synth_name, args_h, group)
+         trigger_synth(synth_name, args_h, group, true)
        end
 
-       def trigger_synth(synth_name, args_h, group)
+       def trigger_synth(synth_name, args_h, group, now=false)
          # It feelss messed up that I need the following line, but if I
          # don't use it, then synth_name within the lambda can be
          # changed externally affecting the internal lexical
@@ -368,7 +368,7 @@ module SonicPi
          p = Promise.new
          job_synth_proms_add(job_id, p)
          __message "playing #{synth_name} with: #{combined_args.inspect}"
-         s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, &arg_validation_fn
+         s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, now, &arg_validation_fn
          trackers = (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).to_a
 
          trackers.each{|t| t.synth_started(s)}
