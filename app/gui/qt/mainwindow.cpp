@@ -63,14 +63,14 @@ MainWindow::MainWindow(QApplication &app)
 {
 
   //ensureWorkspaces();
-  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/start-server.rb";
+  QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/start-server.rb";
   //QString serverProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
 
   serverProcess = new QProcess();
   serverProcess->start(serverProgram);
   serverProcess->waitForStarted();
 
-  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/qt-proxy.rb";
+  QString proxyPprogram = QCoreApplication::applicationDirPath() + "/../../scripts/qt-proxy.rb";
   //QString proxyProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/qt-proxy.rb";
   proxyProcess = new QProcess();
   proxyProcess->start(proxyProgram);
