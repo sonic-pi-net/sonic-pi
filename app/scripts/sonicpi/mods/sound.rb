@@ -85,10 +85,14 @@ module SonicPi
 
        def play(n, *args)
          return play_chord(n, *args) if n.is_a?(Array)
-         n = note(n)
-         args_h = resolve_synth_opts_hash_or_array(args)
-         args_h = {:note => n}.merge(args_h)
-         trigger_inst @mod_sound_studio.current_synth_name, args_h if n
+
+         if n
+           n = note(n)
+           args_h = resolve_synth_opts_hash_or_array(args)
+
+           args_h = {:note => n}.merge(args_h)
+           trigger_inst @mod_sound_studio.current_synth_name, args_h
+         end
        end
 
        def repeat(&block)
@@ -232,16 +236,8 @@ module SonicPi
        end
 
        def play_chord(notes, *args)
-         args_h = resolve_synth_opts_hash_or_array(args)
-         g = @mod_sound_studio.new_group(:tail, current_job_synth_group)
-         cg = ChordGroup.new(g)
-         nodes = []
-         notes.each do |note|
-           note_args_h = {:note => note}.merge(args_h)
-           nodes << trigger_inst(@mod_sound_studio.current_synth_name, note_args_h, cg) if note
-         end
-         cg.sub_nodes = nodes
-         cg
+         synth_name = @mod_sound_studio.current_synth_name
+         trigger_chord(synth_name, notes, args)
        end
 
        def set_debug_on!
@@ -298,11 +294,8 @@ module SonicPi
 
        def sample(path, *args)
          buf_info = load_sample(path)
-         args_h = resolve_synth_opts_hash_or_array(args)
-         args_h = {:buf => buf_info.id}.merge(args_h)
-         synth_name = (buf_info.num_chans == 1) ? "mono_player" : "stereo_player"
-         __message "Playing sample: #{path}"
-         trigger_sampler synth_name, args_h
+
+         trigger_sampler path, buf_info.id, buf_info.num_chans, args
        end
 
        def status
@@ -329,19 +322,7 @@ module SonicPi
 
        private
 
-       def trigger_sampler(synth_name, args_h, group=current_job_synth_group)
-         trigger_synth(synth_name, args_h, group)
-       end
-
-       def trigger_inst(synth_name, args_h, group=current_job_synth_group)
-         trigger_synth(synth_name, args_h, group)
-       end
-
-       def trigger_fx(synth_name, args_h, group=current_fx_group)
-         trigger_synth(synth_name, args_h, group, true)
-       end
-
-       def trigger_synth(synth_name, args_h, group, now=false)
+       def mk_synth_args_validator(synth_name)
          # It feelss messed up that I need the following line, but if I
          # don't use it, then synth_name within the lambda can be
          # changed externally affecting the internal lexical
@@ -354,9 +335,61 @@ module SonicPi
            info.validate!(args)
            args
          end
+         arg_validation_fn
+       end
 
-         arg_validation_fn.call(args_h)
+       def trigger_sampler(path, buf_id, num_chans, args_a_or_h, group=current_job_synth_group)
+         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+         args_h_with_buf = {:buf => buf_id}.merge(args_h)
 
+         synth_name = (num_chans == 1) ? "mono_player" : "stereo_player"
+         validation_fn = mk_synth_args_validator(synth_name)
+         validation_fn.call(args_h_with_buf)
+
+         if args_h.empty?
+           __message "Playing sample: #{path}"
+         else
+           __message "Playing sample: #{path} with args: #{args_h}"
+         end
+
+         trigger_synth(synth_name, args_h_with_buf, group, false, validation_fn)
+       end
+
+       def trigger_inst(synth_name, args_a_or_h, group=current_job_synth_group)
+         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+
+         validation_fn = mk_synth_args_validator(synth_name)
+         validation_fn.call(args_h)
+         __message "Playing #{synth_name} with args #{args_h}"
+         trigger_synth(synth_name, args_h, group, false, validation_fn)
+       end
+
+       def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
+         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+
+         validation_fn = mk_synth_args_validator(synth_name)
+         validation_fn.call(args_h)
+
+         chord_group = @mod_sound_studio.new_group(:tail, group)
+         cg = ChordGroup.new(chord_group)
+
+         nodes = []
+         notes.each do |note|
+           note_args_h = args_h.merge({:note => note})
+           nodes << trigger_inst(synth_name, note_args_h, cg, false, validation_fn) if note
+         end
+         cg.sub_nodes = nodes
+         cg
+       end
+
+       def trigger_fx(synth_name, args_a_or_h, group=current_fx_group)
+         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+         validation_fn = mk_synth_args_validator(synth_name)
+         validation_fn.call(args_h)
+         trigger_synth(synth_name, args_h, group, true, validation_fn)
+       end
+
+       def trigger_synth(synth_name, args_h, group, now=false, arg_validation_fn)
          synth_name = "sp/#{synth_name}"
 
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
@@ -367,8 +400,10 @@ module SonicPi
          combined_args = t_l_args.merge(args_h).merge({"out-bus" => out_bus})
          p = Promise.new
          job_synth_proms_add(job_id, p)
-         __message "playing #{synth_name} with: #{combined_args.inspect}"
+
          s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, now, &arg_validation_fn
+
+
          trackers = (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).to_a
 
          trackers.each{|t| t.synth_started(s)}
