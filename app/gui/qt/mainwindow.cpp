@@ -63,14 +63,15 @@ MainWindow::MainWindow(QApplication &app)
 {
 
   //ensureWorkspaces();
-  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/start-server.rb";
+  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/start-server.rb";
+  //QString serverProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
 
-  QString serverProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
   serverProcess = new QProcess();
   serverProcess->start(serverProgram);
   serverProcess->waitForStarted();
 
-  QString proxyProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/qt-proxy.rb";
+  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/qt-proxy.rb";
+  //QString proxyProgram = "/Users/sam/Development/RPi/sonic-pi/app/scripts/qt-proxy.rb";
   proxyProcess = new QProcess();
   proxyProcess->start(proxyProgram);
   proxyProcess->waitForStarted();
@@ -305,7 +306,7 @@ MainWindow::MainWindow(QApplication &app)
 
 void MainWindow::ensureWorkspaces()
 {
-  QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/ensure-workspaces.rb";
+  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/ensure-workspaces.rb";
   QStringList arguments;
   QObject *parent;
   runProcess = new QProcess(parent);
@@ -315,8 +316,8 @@ void MainWindow::ensureWorkspaces()
 
 void MainWindow::onExitCleanup()
 {
-  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/shutdown.rb";
-  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/kill-server.rb";
+  //QString program = QCoreApplication::applicationDirPath() + "/../../scripts/shutdown.rb";
+  //QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/kill-server.rb";
   QProcess *p = new QProcess();
   p->start(program);
   proxyProcess->kill();
@@ -387,9 +388,10 @@ void MainWindow::runCode()
   //  clearOutputPanels();
 
   //  printf((QCoreApplication::applicationDirPath() + "/../../app/scripts/run-code.rb").toAscii().data());
-  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/run-code.rb";
+
   //  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/start-server.rb";
-  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/run-code.rb";
+  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/run-code.rb";
+  //QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/run-code.rb";
   runProcess = new QProcess();
   runProcess->start(program);
   runProcess->waitForStarted();
@@ -407,8 +409,8 @@ void MainWindow::stopCode()
   statusBar()->showMessage(tr("Stopping..."), 2000);
   //  killSynths();
   //  clearOutputPanels();
-  //QString program = QCoreApplication::applicationDirPath() + "/../../app/scripts/stop-code.rb";
-  QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/stop-code.rb";
+  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/stop-code.rb";
+  //QString program = "/Users/sam/Development/RPi/sonic-pi/app/scripts/stop-code.rb";
   QProcess *p = new QProcess();
   p->start(program);
   p->waitForStarted();
