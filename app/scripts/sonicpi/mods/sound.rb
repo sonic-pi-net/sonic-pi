@@ -95,6 +95,19 @@ module SonicPi
          end
        end
 
+       def play_pattern(notes, *args)
+         notes.each{|note| play(note, *args) ; sleep(@mod_sound_studio.beat_s)}
+       end
+
+       def play_pattern_timed(notes, times, *args)
+         notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx % times.size])}
+       end
+
+       def play_chord(notes, *args)
+         synth_name = @mod_sound_studio.current_synth_name
+         trigger_chord(synth_name, notes, args)
+       end
+
        def repeat(&block)
          while true
            block.call
@@ -225,19 +238,6 @@ module SonicPi
 
        def current_tempo
          @mod_sound_studio.bpm
-       end
-
-       def play_pattern(notes, *args)
-         notes.each{|note| play(note, *args) ; sleep(@mod_sound_studio.beat_s)}
-       end
-
-       def play_pattern_timed(notes, times, *args)
-         notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx % times.size])}
-       end
-
-       def play_chord(notes, *args)
-         synth_name = @mod_sound_studio.current_synth_name
-         trigger_chord(synth_name, notes, args)
        end
 
        def set_debug_on!
@@ -376,7 +376,7 @@ module SonicPi
          nodes = []
          notes.each do |note|
            note_args_h = args_h.merge({:note => note})
-           nodes << trigger_inst(synth_name, note_args_h, cg, false, validation_fn) if note
+           nodes << trigger_inst(synth_name, note_args_h, cg) if note
          end
          cg.sub_nodes = nodes
          cg
