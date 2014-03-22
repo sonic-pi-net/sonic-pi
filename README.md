@@ -12,21 +12,23 @@ officially supported interface for use with the Raspberry Pi. Secondly
 there is a HTML interface which is unsupported and currently only for
 development purposes (also supports OS X).
 
-### Official Qt Interface
+### Official Qt Interface on Raspberry Pi
 
 At this moment, the official Qt interface hasn't yet been re-integrated with 
 the latest development work.  Therefore, if you wish to play with the recent 
 developments you need to use the development HTML interface.
 
-
-The dependencies for this are:
+The dependencies for building and running this are:
 
 * supercollider
 * ruby1.9.3
 * libqscintilla2-8
+* libqscintilla2-dev
+* qt4-dev-tools
 
-You will need to compile the Qt app within `app/gui` and run one of the
-`start-group-*` scripts to start the app.
+You will need to compile the Qt app within `app/gui` and run the script
+`rp-app-bin`
+
 
 The current implementation assumes the execution context is a Raspberry
 Pi. Patches for other platforms will be happily considered.
