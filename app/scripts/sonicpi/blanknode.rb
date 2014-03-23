@@ -56,7 +56,7 @@ module SonicPi
     end
 
     def state
-      :blank
+      :destroyed
     end
 
     def to_i
