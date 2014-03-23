@@ -143,6 +143,10 @@ module SonicPi
       to_s
     end
 
+    def blank_node?
+      false
+    end
+
     private
 
     def call_on_destroyed_callbacks

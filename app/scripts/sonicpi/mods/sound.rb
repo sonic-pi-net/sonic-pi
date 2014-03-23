@@ -12,6 +12,7 @@
 #++
 require 'thread'
 require "hamster/set"
+require_relative "../blanknode"
 require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
@@ -31,6 +32,7 @@ module SonicPi
            define_method(:initialize) do |*splat, &block|
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
+             @blank_node = BlankNode.new
              @JOB_SYNTH_PROMS_A = Atom.new(Hamster.hash)
              @JOB_GROUPS_A = Atom.new(Hamster.hash)
              @JOB_GROUP_MUTEX = Mutex.new
@@ -149,13 +151,18 @@ module SonicPi
 
        def with_fx(fx_name, *args, &block)
          raise "with_fx must be called with a block" unless block
+         raise "with_fx block must only accept 0 or 1 args" unless [0, 1].include?(block.arity)
 
          ## Create a new bus for this fx chain
          begin
            new_bus = @mod_sound_studio.new_fx_bus
          rescue BusAllocationError
-           puts "All busses allocated - unable to honour FX"
-           return block.call
+           __message "All busses allocated - unable to honour FX"
+           if block.arity == 0
+             return block.call
+           else
+             return block.call(@blank_node)
+           end
          end
 
          ## Munge args
@@ -192,7 +199,11 @@ module SonicPi
 
          ## Run fx block
          begin
-           block.call
+           if block.arity == 0
+             block.call
+           else
+             block.call(fx_synth)
+           end
          rescue Exception => e
            # TODO: do something more sensible here
            puts "oopsey #{e}"
