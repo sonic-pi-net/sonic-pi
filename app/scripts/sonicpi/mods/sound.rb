@@ -322,6 +322,14 @@ module SonicPi
 
        private
 
+       def arg_h_pp(arg_h)
+         s = "{"
+         arg_h.each do |k, v|
+           s << "#{k}: #{v}, "
+         end
+         s.chomp(", ") << "}"
+       end
+
        def mk_synth_args_validator(synth_name)
          # It feelss messed up that I need the following line, but if I
          # don't use it, then synth_name within the lambda can be
@@ -349,7 +357,7 @@ module SonicPi
          if args_h.empty?
            __message "Playing sample: #{path}"
          else
-           __message "Playing sample: #{path} with args: #{args_h}"
+           __message "Playing sample: #{path} with args: #{arg_h_pp(args_h)}"
          end
 
          trigger_synth(synth_name, args_h_with_buf, group, false, validation_fn)
@@ -360,7 +368,7 @@ module SonicPi
 
          validation_fn = mk_synth_args_validator(synth_name)
          validation_fn.call(args_h)
-         __message "Playing #{synth_name} with args #{args_h}"
+         __message "Playing #{synth_name} with args: #{arg_h_pp(args_h)}"
          trigger_synth(synth_name, args_h, group, false, validation_fn)
        end
 
