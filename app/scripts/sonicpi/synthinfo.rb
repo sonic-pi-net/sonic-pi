@@ -93,6 +93,12 @@ module SonicPi
           :modulatable => true
         },
 
+        :note_slide =>
+        {
+          :doc => "Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note.",
+          :validations => [v_positive(:note_slide)],
+          :modulatable => true
+        },
 
         :amp =>
         {
@@ -101,6 +107,12 @@ module SonicPi
           :modulatable => true
         },
 
+        :amp_slide =>
+        {
+          :doc => "Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude.",
+          :validations => [v_positive(:amp_slide)],
+          :modulatable => true
+        },
 
         :pan =>
         {
@@ -110,12 +122,19 @@ module SonicPi
           :modulatable => true
         },
 
+        :pan_slide =>
+        {
+          :doc => "Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position.",
+          :validations => [v_positive(:pan_slide)],
+          :modulatable => true
+        },
+
 
         :attack =>
         {
           :doc => "Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.",
           :validations => [v_positive(:attack)],
-          :modulatable => true
+          :modulatable => false
         },
 
 
@@ -123,7 +142,7 @@ module SonicPi
         {
           :doc => "Amount of time (in seconds) for sound to remain at full amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + sustain + release.",
           :validations => [v_positive(:sustain)],
-          :modulatable => true
+          :modulatable => false
         },
 
 
@@ -131,17 +150,8 @@ module SonicPi
         {
           :doc => "Amount of time (in seconds) for sound to move from full amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + sustain + release.",
           :validations => [v_positive(:release)],
-          :modulatable => true
+          :modulatable => false
         },
-
-
-        :slide =>
-        {
-          :doc => "Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note.",
-          :validations => [v_positive(:slide)],
-          :modulatable => true
-        },
-
 
         :cutoff =>
         {
@@ -161,6 +171,13 @@ module SonicPi
         {
           :doc => "Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds.",
           :validations => [],
+          :modulatable => true
+        },
+
+        :detune_slide =>
+        {
+          :doc => "Amount of time (in seconds) for the detune value to change. A long detune_slide value means that the detune takes a long time to slide from the previous value to the new value. A detune_slide of 0 means that the detune instantly changes to the new value.",
+          :validations => [v_positive(:detune_slide)],
           :modulatable => true
         }
 
@@ -186,12 +203,14 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
-        :release => 1,
-        :slide => 0
+        :release => 1
       }
     end
   end
@@ -218,12 +237,14 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.1,
         :sustain => 0,
-        :release => 0.3,
-        :slide => 0
+        :release => 0.3
       }
     end
   end
@@ -250,16 +271,20 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
+
         :attack => 0.1,
         :sustain => 0,
         :release => 0.3,
-        :slide => 0,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :detune => 0.1
+        :detune => 0.1,
+        :detune_slide => 0
       }
     end
   end
@@ -276,16 +301,19 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
+
         :attack => 1,
         :sustain => 0,
         :release => 1,
-        :slide => 0,
 
         :divisor => 2,
+        :divisor_slide => 0,
         :depth => 1,
-        :div_slide => 0,
         :depth_slide => 0
       }
     end
@@ -299,17 +327,17 @@ module SonicPi
           :modulatable => true
         },
 
+        :divisor_slide =>
+        {
+          :doc => "",
+          :validations => [v_positive(:divisor_slide)],
+          :modulatable => true
+        },
+
         :depth =>
         {
           :doc => "",
           :validations => [],
-          :modulatable => true
-        },
-
-        :div_slide =>
-        {
-          :doc => "",
-          :validations => [v_positive(:div_slide)],
           :modulatable => true
         },
 
@@ -336,18 +364,24 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
+
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 100,
         :cutoff_slide => 0,
         :mod_rate => 1,
+        :mod_rate_slide => 0,
         :mod_range => 5,
-        :mod_width => 0.5
+        :mod_range__slide => 0,
+        :mod_width => 0.5,
+        :mod_width_slide => 0
       }
     end
   end
@@ -419,17 +453,24 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
+
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :mod_rate => 1,
+        :mod_rate_slide => 0,
         :mod_range => 5,
+        :mod_range_slide => 0,
         :mod_width => 0.5,
-        :detune => 0.1
+        :mod_width_slide => 0,
+        :detune => 0.1,
+        :detune_slide => 0
       }
     end
   end
@@ -446,18 +487,24 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :note_slide => 0,
         :pan => 0,
+        :note_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 100,
         :cutoff_slide => 0,
         :mod_rate => 1,
+        :mod_rate_slide => 0,
         :mod_range => 5,
-        :mod_width => 0.5
+        :mod_range_slide => 0,
+        :mod_width => 0.5,
+        :mod_width_slide => 0
+
       }
     end
   end
@@ -474,16 +521,22 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
         :slide => 0,
 
         :mod_rate => 1,
+        :mod_rate_slide => 0,
         :mod_range => 5,
-        :mod_width => 0.5
+        :mod_range_slide => 0,
+        :mod_width => 0.5,
+        :mod_width_slide => 0
       }
     end
   end
@@ -500,18 +553,23 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :amp_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 100,
         :cutoff_slide => 0,
         :mod_rate => 1,
+        :mod_rate_slide => 0,
         :mod_range => 5,
-        :mod_width => 0.5
+        :mod_range_slide => 0,
+        :mod_width => 0.5,
+        :mod_width_slide => 0
       }
     end
   end
@@ -529,16 +587,22 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :note_slide => 0,
         :pan => 0,
+        :note_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
         :slide => 0,
 
         :mod_rate => 1,
+        :note_slide => 0,
         :mod_range => 5,
-        :mod_width => 0.5
+        :note_slide => 0,
+        :mod_width => 0.5,
+        :note_slide => 0
       }
     end
   end
@@ -555,19 +619,25 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 100,
         :cutoff_slide => 0,
         :mod_rate => 1,
+        :mod_rate__slide => 0,
         :mod_range => 5,
+        :mod_range_slide => 0,
         :mod_width => 0.5,
-        :pulse_width => 0.5
+        :mod_width_slide => 0,
+        :pulse_width => 0.5,
+        :pulse_width_slide => 0
       }
     end
   end
@@ -584,17 +654,23 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :note_slide => 0,
         :pan => 0,
+        :note_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :mod_rate => 1,
+        :note_slide => 0,
         :mod_range => 5,
+        :note_slide => 0,
         :mod_width => 0.5,
-        :pulse_width => 0.5
+        :note_slide => 0,
+        :pulse_width => 0.5,
+        :note_slide => 0
       }
     end
   end
@@ -611,18 +687,23 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 80,
+        :cutoff_slide => 0,
         :cutoff_min => 30,
         :res => 0.2,
+        :res_slide => 0,
         :wave => 0,
-        :pulse_width => 0.5
+        :pulse_width => 0.5,
+        :pulse_width_slide => 0
       }
     end
 
@@ -655,6 +736,13 @@ module SonicPi
           :doc => "Only valid if wave is type pulse.",
           :validations => [v_positive(:pulse_width)],
           :modulatable => true
+        },
+
+        :pulse_width_slide =>
+        {
+          :doc => "Time in seconds for pulse width to change. Only valid if wave is type pulse.",
+          :validations => [v_positive(:pulse_width_slide)],
+          :modulatable => true
         }
 
       }
@@ -669,16 +757,19 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 130,
         :cutoff_slide => 0,
-        :res => 0.3
+        :res => 0.3,
+        :res_slide => 0
 
       }
     end
@@ -696,12 +787,15 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
-        :release => 2,
-        :slide => 0
+
+
       }
     end
 
@@ -733,19 +827,53 @@ module SonicPi
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 110,
         :cutoff_slide => 0,
-        :res => 0.3
+        :res => 0.3,
+        :res_slide => 0
       }
     end
 
+  end
+
+  class BasicMonoPlayer < SynthInfo
+    def name
+      "Basic Mono Sample Player - (no envelope)"
+    end
+
+    def doc
+      ""
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :rate => 1,
+        :rate_slide => 0
+      }
+    end
+  end
+
+  class BasicStereoPlayer < BasicMonoPlayer
+    def name
+      "Basic Stereo Sample Player - (no envelope)"
+    end
+
+    def doc
+      ""
+    end
   end
 
   class MonoPlayer < SynthInfo
@@ -760,7 +888,9 @@ module SonicPi
     def arg_defaults
       {
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0,
         :sustain => -1,
         :release => 0,
@@ -834,8 +964,11 @@ module SonicPi
     def arg_defaults
       {
         :mix => 0.75,
+        :mix_slide => 0,
         :room => 0.6,
-        :damp => 0.5
+        :room_slide => 0,
+        :damp => 0.5,
+        :damp_slide => 0
       }
     end
   end
@@ -847,7 +980,8 @@ module SonicPi
 
     def arg_defaults
       {
-        :amp => 1
+        :amp => 1,
+        :amp_slide => 0
       }
     end
   end
@@ -861,7 +995,9 @@ module SonicPi
       {
         :max_delay => 1,
         :delay => 0.4,
+        :delay_slide => 0,
         :decay => 8,
+        :decay_slide => 0,
         :amp => 1
       }
     end
@@ -882,10 +1018,24 @@ module SonicPi
           :modulatable => true
         },
 
+        :delay_slide =>
+        {
+          :doc => "Slide time in seconds between delay values",
+          :validations => [v_positive(:delay_slide)],
+          :modulatable => true
+        },
+
         :decay =>
         {
           :doc => "The time it takes for the echoes to fade away in seconds.",
           :validations => [v_positive_not_zero(:decay)],
+          :modulatable => true
+        },
+
+        :decay_slide =>
+        {
+          :doc => "Slide time in seconds between decay times",
+          :validations => [v_positive(:decay_slide)],
           :modulatable => true
         }
       }
@@ -899,27 +1049,43 @@ module SonicPi
 
     def arg_defaults
       {
-        :freq => 4,
+        :rate => 4,
+        :rate_slide => 0,
         :width => 0.5,
+        :width_slide => 0,
         :phase => 0,
-        :amp_slide => 0.05,
-        :amp => 1
+        :amp => 1,
+        :amp_slide => 0.05
       }
     end
 
     def specific_arg_info
       {
-        :freq =>
+        :rate =>
         {
           :doc => "The frequency of the slices",
-          :validations => [v_positive_not_zero(:freq)],
-          :modulatable => false
+          :validations => [v_positive_not_zero(:rate)],
+          :modulatable => true
+        },
+
+        :rate_slide =>
+        {
+          :doc => "Slide time in seconds between rate values",
+          :validations => [v_positive(:rate_slide)],
+          :modulatable => true
         },
 
         :width =>
         {
           :doc => "The width of the slices - 0 - 1.",
           :validations => [v_between_exclusive(:width, 0, 1)],
+          :modulatable => true
+        },
+
+        :width_slide =>
+        {
+          :doc => "Slide time in seconds between width values",
+          :validations => [v_positive(:width_slide)],
           :modulatable => true
         },
 
@@ -971,6 +1137,8 @@ module SonicPi
       :prophet => Prophet.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
+      :basic_mono_player => BasicMonoPlayer.new,
+      :basic_stereo_player => BasicStereoPlayer.new,
 
       :fx_reverb => FXReverb.new,
       :fx_level => FXLevel.new,

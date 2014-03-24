@@ -103,40 +103,102 @@
              ))))
 
 
-  (defsynth dull_bell [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 1.0 slide 0 out-bus 0]
-    (let [note (lag note slide)
+  (defsynth dull_bell [note 52
+                       note_slide 0
+                       amp 1
+                       amp_slide 0
+                       pan 0
+                       pan_slide 0
+                       attack 0.01
+                       sustain 0
+                       release 1.0
+                       out-bus 0]
+    (let [note (ramp note note_slide)
+          amp  (lag amp amp_slide)
+          pan  (ramp pan pan_slide)
           freq (midicps note)
           snd  (* amp (bell-partials freq attack sustain release dull-partials))]
       (detect-silence snd :action FREE)
       (out out-bus (pan2 snd pan))))
 
-  (defsynth pretty_bell [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 1 slide 0 out-bus 0]
-    (let [note (lag note slide)
+  (defsynth pretty_bell [note 52
+                         note_slide 0
+                         amp 1
+                         amp_slide 0
+                         pan 0
+                         pan_slide 0
+                         attack 0.01
+                         sustain 0
+                         release 1
+                         out-bus 0]
+    (let [note (ramp note note_slide)
+          amp  (lag amp amp_slide)
+          pan  (ramp pan pan_slide)
           freq (midicps note)
           snd  (* amp (bell-partials freq attack sustain release partials))]
       (detect-silence snd :action FREE)
       (out out-bus (pan2 snd pan))))
 
-  (defsynth beep [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 slide 0 out-bus 0]
-    (let [note (lag note slide)
+  (defsynth beep [note 52
+                  note_slide 0
+                  amp 1
+                  amp_slide 0
+                  pan 0
+                  pan_slide 0
+                  attack 0.1
+                  sustain 0
+                  release 0.3
+                  out-bus 0]
+    (let [note (ramp note note_slide)
+          amp  (lag amp amp_slide)
+          pan  (ramp pan pan_slide)
           freq (midicps note)]
       (out out-bus (pan2 (* (sin-osc freq)
                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
 )
                          pan))))
 
-  (defsynth saw_beep [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 slide 0 cutoff 100 cutoff_slide 0 out-bus 0]
-    (let [note        (lag note slide)
-          cutoff      (lag cutoff cutoff_slide)
+  (defsynth saw_beep [note 52
+                      note_slide 0
+                      amp 1
+                      amp_slide 0
+                      pan 0
+                      pan_slide 0
+                      attack 0.1
+                      sustain 0
+                      release 0.3
+                      cutoff 100
+                      cutoff_slide 0
+                      out-bus 0]
+    (let [note        (ramp note note_slide)
+          amp         (lag amp amp_slide)
+          pan         (ramp pan pan_slide)
+          cutoff      (ramp cutoff cutoff_slide)
           freq        (midicps note)
           cutoff-freq (midicps cutoff)]
       (out out-bus (pan2 (* (normalizer (lpf (saw freq) cutoff-freq))
                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE))
                          pan))))
 
-  (defsynth dsaw [note 52 amp 1 pan 0 attack 0.1 sustain 0 release 0.3 slide 0 cutoff 100 cutoff_slide 0 detune 0.1 out-bus 0]
-    (let [note        (lag note slide)
-          cutoff      (lag cutoff cutoff_slide)
+  (defsynth dsaw [note 52
+                  note_slide 0
+                  amp 1
+                  amp_slide 0
+                  pan 0
+                  pan_slide 0
+                  attack 0.1
+                  sustain 0
+                  release 0.3
+                  cutoff 100
+                  cutoff_slide 0
+                  detune 0.1
+                  detune_slide 0
+                  out-bus 0]
+    (let [note        (ramp note note_slide)
+          amp         (lag amp amp_slide)
+          pan         (ramp pan pan_slide)
+          detune      (ramp detune detune_slide)
+          cutoff      (ramp cutoff cutoff_slide)
           freq        (midicps note)
           cutoff-freq (midicps cutoff)
           detune-freq (midicps (+ note detune))]
@@ -145,10 +207,25 @@
 )
                          pan))))
 
-  (defsynth fm [note 52 amp 1 pan 0 attack 1 sustain 0 release 1 slide 0 divisor 2.0 depth 1.0 div_slide 0 depth_slide 0 out-bus 0]
-    (let [note      (lag note slide)
-          divisor   (lag divisor div_slide)
-          depth     (lag depth depth_slide)
+  (defsynth fm [note 52
+                note_slide 0
+                amp 1
+                amp_slide 0
+                pan 0
+                pan_slide 0
+                attack 1
+                sustain 0
+                release 1
+                divisor 2.0
+                divisor_slide 0
+                depth 1.0
+                depth_slide 0
+                out-bus 0]
+    (let [note      (ramp note note_slide)
+          amp       (lag amp amp_slide)
+          pan       (ramp pan pan_slide)
+          divisor   (ramp divisor divisor_slide)
+          depth     (ramp depth depth_slide)
           carrier   (midicps note)
           modulator (/ carrier divisor)
           env       (env-gen (env-lin attack sustain release) :level-scale amp :action FREE)]
@@ -158,9 +235,31 @@
                          pan))))
 
 
-  (defsynth mod_saw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [note           (lag note slide)
-          cutoff         (lag cutoff cutoff_slide)
+  (defsynth mod_saw [note 52
+                     note_slide 0
+                     amp 1
+                     amp_slide 0
+                     pan 0
+                     pan_slide 0
+                     attack 0.01
+                     sustain 0
+                     release 2
+                     cutoff 100
+                     cutoff_slide 0
+                     mod_rate 1
+                     mod_rate_slide 0
+                     mod_range 5
+                     mod_range_slide 0
+                     mod_width 0.5
+                     mod_width_slide 0
+                     out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          cutoff         (ramp cutoff cutoff_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -173,8 +272,28 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_saw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [note           (lag note slide)
+  (defsynth mod_saw_s [note 52
+                       note_slide 0
+                       amp 1
+                       amp_slide 0
+                       pan 0
+                       pan_slide 0
+                       attack 0.01
+                       sustain 0
+                       release 2
+                       mod_rate 1
+                       mod_rate_slide 0
+                       mod_range 5
+                       mod_range_slide 0
+                       mod_width 0.5
+                       mod_width_slide 0
+                       out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
           freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -184,9 +303,34 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_dsaw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
-    (let [note           (lag note slide)
-          cutoff         (lag cutoff cutoff_slide)
+  (defsynth mod_dsaw [note 52
+                      note_slide 0
+                      amp 1
+                      amp_slide 0
+                      pan 0
+                      pan_slide 0
+                      attack 0.01
+                      sustain 0
+                      release 2
+                      cutoff 100
+                      cutoff_slide 0
+                      mod_rate 1
+                      mod_rate_slide 0
+                      mod_range 5
+                      mod_range_slide 0
+                      mod_width 0.5
+                      mod_width_slide 0
+                      detune 0.1
+                      detune_slide 0
+                      out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          cutoff         (ramp cutoff cutoff_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
+          detune         (ramp detune detune_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod-range-freq (- (midicps (+ mod_range note))
@@ -200,8 +344,32 @@
           env            (env-gen (env-lin attack release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_dsaw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 detune 0.1 out-bus 0]
-    (let [note           (lag note slide)
+  (defsynth mod_dsaw_s [note 52
+                        note_slide 0
+                        amp 1
+                        amp_slide 0
+                        pan 0
+                        pan_slide 0
+                        attack 0.01
+                        sustain 0
+                        release 2
+                        mod_rate 1
+                        mod_rate_slide 0
+                        mod_range 5
+                        mod_range_slide 0
+                        mod_width 0.5
+                        mod_width_slide 0
+                        detune 0.1
+                        detune_slide 0
+                        out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
+          detune         (ramp detune detune_slide)
+
           freq           (midicps note)
           mod-range-freq (- (midicps (+ mod_range note))
                             freq)
@@ -212,9 +380,32 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_sine [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [note           (lag note slide)
-          cutoff         (lag cutoff cutoff_slide)
+
+  (defsynth mod_sine [note 52
+                      note_slide 0
+                      amp 1
+                      amp_slide 0
+                      pan 0
+                      pan_slide 0
+                      attack 0.01
+                      sustain 0
+                      release 2
+                      cutoff 100
+                      cutoff_slide 0
+                      mod_rate 1
+                      mod_rate_slide 0
+                      mod_range 5
+                      mod_range_slide 0
+                      mod_width 0.5
+                      mod_width_slide 0
+                      out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          cutoff         (ramp cutoff cutoff_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -227,8 +418,28 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_sine_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [note           (lag note slide)
+  (defsynth mod_sine_s [note 52
+                        note_slide 0
+                        amp 1
+                        amp_slide 0
+                        pan 0
+                        pan_slide 0
+                        attack 0.01
+                        sustain 0
+                        release 2
+                        mod_rate 1
+                        mod_rate_slide 0
+                        mod_range 5
+                        mod_range_slide 0
+                        mod_width 0.5
+                        mod_width_slide 0
+                        out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
           freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -238,9 +449,31 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_tri [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [note           (lag note slide)
-          cutoff         (lag cutoff cutoff_slide)
+  (defsynth mod_tri [note 52
+                     note_slide 0
+                     amp 1
+                     amp_slide 0
+                     pan 0
+                     pan_slide 0
+                     attack 0.01
+                     sustain 0
+                     release 2
+                     cutoff 100
+                     cutoff_slide 0
+                     mod_rate 1
+                     mod_rate_slide 0
+                     mod_range 5
+                     mod_range_slide 0
+                     mod_width 0.5
+                     mod_width_slide 0
+                     out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          cutoff         (ramp cutoff cutoff_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -253,8 +486,28 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_tri_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 out-bus 0]
-    (let [note           (lag note slide)
+  (defsynth mod_tri_s [note 52
+                       note_slide 0
+                       amp 1
+                       amp_slide 0
+                       pan 0
+                       pan_slide 0
+                       attack 0.01
+                       sustain 0
+                       release 2
+                       mod_rate 1
+                       mod_rate_slide 0
+                       mod_range 5
+                       mod_range_slide 0
+                       mod_width 0.5
+                       mod_width_slide 0
+                       out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width_slide)
           freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -264,9 +517,34 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_pulse [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 100 cutoff_slide 0 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
-    (let [note           (lag note slide)
-          cutoff         (lag cutoff cutoff_slide)
+  (defsynth mod_pulse [note 52
+                       note_slide 0
+                       amp 1
+                       amp_slide 0
+                       pan 0
+                       pan_slide 0
+                       attack 0.01
+                       sustain 0
+                       release 2
+                       cutoff 100
+                       cutoff_slide 0
+                       mod_rate 1
+                       mod_rate_slide 0
+                       mod_range 5
+                       mod_range_slide 0
+                       mod_width 0.5
+                       mod_width_slide 0
+                       pulse_width 0.5
+                       pulse_width_slide 0
+                       out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          cutoff         (ramp cutoff cutoff_slide)
+          mod_rate       (ramp mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
+          pulse_width    (ramp pulse_width pulse_width_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -279,8 +557,31 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
-  (defsynth mod_pulse_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 mod_rate 1 mod_range 5 mod_width 0.5 pulse_width 0.5 out-bus 0]
-    (let [note           (lag note slide)
+  (defsynth mod_pulse_s [note 52
+                         note_slide 0
+                         amp 1
+                         amp_slide 0
+                         pan 0
+                         pan_slide 0
+                         attack 0.01
+                         sustain 0
+                         release 2
+                         mod_rate 1
+                         mod_rate_slide 0
+                         mod_range 5
+                         mod_range_slide 0
+                         mod_width 0.5
+                         mod_width_slide 0
+                         pulse_width 0.5
+                         pulse_width_slide 0
+                         out-bus 0]
+    (let [note           (ramp note note_slide)
+          amp            (lag amp amp_slide)
+          pan            (ramp pan pan_slide)
+          mod_rate       (ramp mod_rate mod_rate_slide)
+          mod_range      (ramp mod_range mod_range_slide)
+          mod_width      (ramp mod_width mod_width_slide)
+          pulse_width    (ramp pulse_width pulse_width_slide)
           freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -291,23 +592,23 @@
       (out out-bus (pan2 (* env snd) pan amp))))
 
 
-  ;; (save-to-pi dull_bell)
-  ;; (save-to-pi pretty_bell)
-  ;; (save-to-pi beep)
-  ;; (save-to-pi saw_beep)
-  ;; (save-to-pi dsaw)
-  ;; (save-to-pi fm)
+  (save-to-pi dull_bell)
+  (save-to-pi pretty_bell)
+  (save-to-pi beep)
+  (save-to-pi saw_beep)
+  (save-to-pi dsaw)
+  (save-to-pi fm)
 
-  ;; (save-to-pi mod_saw)
-  ;; (save-to-pi mod_saw_s)
-  ;; (save-to-pi mod_dsaw)
-  ;; (save-to-pi mod_dsaw_s)
-  ;; (save-to-pi mod_sine)
-  ;; (save-to-pi mod_sine_s)
-  ;; (save-to-pi mod_tri)
-  ;; (save-to-pi mod_tri_s)
-  ;; (save-to-pi mod_pulse)
-  ;; (save-to-pi mod_pulse_s)
+  (save-to-pi mod_saw)
+  (save-to-pi mod_saw_s)
+  (save-to-pi mod_dsaw)
+  (save-to-pi mod_dsaw_s)
+  (save-to-pi mod_sine)
+  (save-to-pi mod_sine_s)
+  (save-to-pi mod_tri)
+  (save-to-pi mod_tri_s)
+  (save-to-pi mod_pulse)
+  (save-to-pi mod_pulse_s)
   )
 
 
@@ -316,22 +617,55 @@
 (do
 
   (defsynth basic_mono_player
-    [buf 0 amp 1 pan 0 rate 1 out-bus 0]
-    (let [rate (* rate (buf-rate-scale buf))
+    [buf 0
+     amp 1
+     amp_slide 0
+     pan 0
+     pan_slide 0
+     rate 1
+     rate_slide 0
+     out-bus 0]
+    (let [amp  (lag amp amp_slide)
+          pan  (ramp pan pan_slide)
+          rate (ramp rate rate_slide)
+          rate (* rate (buf-rate-scale buf))
           snd  (play-buf 1 buf rate)]
       (out out-bus (pan2 snd pan  amp))))
 
   (defsynth basic_stereo_player
-    [buf 0 amp 1 pan 0 rate 1 out-bus 0]
-    (let [rate (* rate (buf-rate-scale buf))
-          snd  (play-buf 2 buf rate)]
+    [buf 0
+     amp 1
+     amp_slide 0
+     pan 0
+     pan_slide 0
+     rate 1
+     rate_slide 0
+     out-bus 0]
+    (let [amp  (lag amp amp_slide)
+          pan  (ramp pan pan_slide)
+          rate (ramp rate rate_slide)
+          rate (* rate (buf-rate-scale buf))
+          snd  (play-buf 2 buf rate )]
       (out out-bus (pan2 snd pan amp))))
 
   (defsynth mono_player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
-    [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
-    (let [n-frames    (- (buf-frames buf) 1)
+    [buf 0
+     amp 1
+     amp_slide 0
+     pan 0
+     pan_slide 0
+     attack 0.0
+     sustain -1
+     release 0.0
+     rate 1
+     start 0
+     end 1
+     out-bus 0]
+    (let [amp         (lag amp amp_slide)
+          pan         (ramp pan pan_slide)
+          n-frames    (- (buf-frames buf) 1)
           start-pos   (* start n-frames)
           end-pos     (* end n-frames)
           n-start-pos (select:kr (not-pos? rate) [start-pos end-pos])
@@ -350,8 +684,21 @@
   (defsynth stereo_player
     "Plays a mono buffer from start pos to end pos (represented as
      values between 0 and 1). Outputs a stereo signal."
-    [buf 0 amp 1 pan 0 attack 0.0 sustain -1 release 0.0 rate 1 start 0 end 1 out-bus 0 ]
-    (let [n-frames      (- (buf-frames buf) 1)
+    [buf 0
+     amp 1
+     amp_slide 0
+     pan 0
+     pan_slide 0
+     attack 0.0
+     sustain -1
+     release 0.0
+     rate 1
+     start 0
+     end 1
+     out-bus 0]
+    (let [amp           (lag amp amp_slide)
+          pan           (ramp pan pan_slide)
+          n-frames      (- (buf-frames buf) 1)
           start-pos     (* start n-frames)
           end-pos       (* end n-frames)
           n-start-pos   (select:kr (not-pos? rate) [start-pos end-pos])
@@ -379,19 +726,29 @@
   (defsynth tb303
   "A simple clone of the sound of a Roland TB-303 bass synthesizer."
   [note     52        ; midi note value input
+   note_slide 0
    amp      1
+   amp_slide 0
    pan      0
+   pan_slide 0
    attack   0.01
    sustain  0
    release  2
-   slide    0
    cutoff   80
+   cutoff_slide 0
    cutoff_min 30
    res      0.2       ; rlpf resonance
+   res_slide 0
    wave     0         ; 0=saw, 1=pulse
    pulse_width 0.5    ; only for pulse wave
+   pulse_width_slide 0
    out-bus  0]
-  (let [note            (lag note slide)
+  (let [note            (ramp note note_slide)
+        amp             (lag amp amp_slide)
+        pan             (ramp pan pan_slide)
+        cutoff_slide    (ramp cutoff cutoff_slide)
+        res             (ramp res res_slide)
+        pulse_width     (ramp pulse_width pulse_width_slide)
         cutoff-freq     (midicps cutoff)
         cutoff-min-freq (midicps cutoff_min)
         freq            (midicps note)
@@ -402,9 +759,25 @@
         snd             (* env snd)]
     (out out-bus (pan2 snd pan amp))))
 
-  (defsynth supersaw [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 130 cutoff_slide 0 res 0.3 out-bus 0]
-    (let [note        (lag note slide)
-          cutoff      (lag cutoff cutoff_slide)
+  (defsynth supersaw [note 52
+                      note_slide 0
+                      amp 1
+                      amp_slide 0
+                      pan 0
+                      pan_slide 0
+                      attack 0.01
+                      sustain 0
+                      release 2
+                      cutoff 130
+                      cutoff_slide 0
+                      res 0.3
+                      res_slide 0
+                      out-bus 0]
+    (let [note        (ramp note note_slide)
+          amp         (lag amp amp_slide)
+          pan         (ramp pan pan_slide)
+          cutoff      (ramp cutoff cutoff_slide)
+          res         (ramp res res_slide)
           freq        (midicps note)
           cutoff-freq (midicps cutoff)
           input       (lf-saw freq)
@@ -425,22 +798,33 @@
           output      (pan2 output pan amp)]
       (out out-bus output)))
 
-  (defsynth supersaw_s [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 out-bus 0]
-    (let [note        (lag note slide)
-          freq        (midicps note)
-          input       (lf-saw freq)
-          shift1      (lf-saw 4)
-          shift2      (lf-saw 7)
-          shift3      (lf-saw 2)
-          comp1       (> input shift1)
-          comp2       (> input shift2)
-          comp3       (> input shift3)
-          output      (+ (- input comp1) (- input comp2) (- input comp3))
-          output      (- output input)
-          output      (leak-dc:ar (* output 0.333))
-          env         (env-gen (env-lin attack sustain release) :action FREE)
-          output      (* env output)
-          output      (pan2 output pan amp)]
+  (defsynth supersaw_s [note 52
+                        note_slide 0
+                        amp 1
+                        amp_slide 0
+                        pan 0
+                        pan_slide 0
+                        attack 0.01
+                        sustain 0
+                        release 2
+                        out-bus 0]
+    (let [note   (ramp note note_slide)
+          amp    (lag amp amp_slide)
+          pan    (ramp pan pan_slide)
+          freq   (midicps note)
+          input  (lf-saw freq)
+          shift1 (lf-saw 4)
+          shift2 (lf-saw 7)
+          shift3 (lf-saw 2)
+          comp1  (> input shift1)
+          comp2  (> input shift2)
+          comp3  (> input shift3)
+          output (+ (- input comp1) (- input comp2) (- input comp3))
+          output (- output input)
+          output (leak-dc:ar (* output 0.333))
+          env    (env-gen (env-lin attack sustain release) :action FREE)
+          output (* env output)
+          output (pan2 output pan amp)]
       (out out-bus output)))
 
   (defsynth prophet
@@ -460,10 +844,26 @@
    frequency) and its LFO has a little bit of randomisation thrown into
    its frequency component for that extra bit of variety."
 
-  [note 52 amp 1 pan 0 attack 0.01 sustain 0 release 2 slide 0 cutoff 110 cutoff_slide 0 res 0.3 out-bus 0 ]
+  [note 52
+   note_slide 0
+   amp 1
+   amp_slide 0
+   pan 0
+   pan_slide 0
+   attack 0.01
+   sustain 0
+   release 2
+   cutoff 110
+   cutoff_slide 0
+   res 0.3
+   res_slide 0
+   out-bus 0 ]
 
-  (let [note        (lag note slide)
-        cutoff      (lag cutoff cutoff_slide)
+  (let [note        (ramp note note_slide)
+        amp         (lag amp amp_slide)
+        pan         (ramp pan pan_slide)
+        cutoff      (ramp cutoff cutoff_slide)
+        res         (ramp res res_slide)
         freq        (midicps note)
         cutoff-freq (midicps cutoff)
         snd         (mix [(pulse freq (* 0.1 (/ (+ 1.2 (sin-osc:kr 1)) )))
@@ -487,31 +887,67 @@
 
 ;;FX
 (do
-  (defsynth fx_reverb [mix 0.75 room 0.6 damp 0.5 in-bus 0 out-bus 0]
-    (let [[l r] (in:ar in-bus 2)
-          snd (free-verb2 l r mix room damp)]
+  (defsynth fx_reverb [mix 0.75
+                       mix_slide 0
+                       room 0.6
+                       room_slide 0
+                       damp 0.5
+                       damp_slide 0
+                       in-bus 0
+                       out-bus 0]
+    (let [mix   (ramp mix mix_slide)
+          room  (ramp room room_slide)
+          damp  (ramp damp damp_slide)
+          [l r] (in:ar in-bus 2)
+          snd   (free-verb2 l r mix room damp)]
       (out out-bus snd)))
 
-  (defsynth fx_level [amp 1 in-bus 0 out-bus 0]
-    (out out-bus (* amp (in in-bus 2))))
+  (defsynth fx_level [amp 1
+                      amp_slide 0
+                      in-bus 0
+                      out-bus 0]
+    (let [amp (lag amp amp_slide )]
+         (out out-bus (* amp (in in-bus 2)))))
 
   (defsynth fx_echo
-    [delay 0.4 decay 8 max_delay 1 amp 1 in-bus 0 out-bus 0]
-    (let [source (in in-bus 2)
-          echo (comb-n source max_delay delay decay)]
+    [delay 0.4
+     delay_slide 0
+     decay 8
+     decay_slide 0
+     max_delay 1
+     amp 1
+     amp_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [delay  (ramp delay delay_slide)
+          decay  (ramp decay decay_slide)
+          amp    (lag amp amp_slide)
+          source (in in-bus 2)
+          echo   (comb-n source max_delay delay decay)]
       (out out-bus (+ echo source))))
 
   (defsynth fx_slicer
-    [freq 4 width 0.5 phase 0 amp_slide 0.05 amp 1 in-bus 0 out-bus 0]
-    (let [source    (in in-bus 2)
-          slice-amp (lag (lf-pulse:kr freq phase width) amp_slide)
+    [rate 4
+     rate_slide 0
+     width 0.5
+     width_slide 0
+     phase 0
+     amp 1
+     amp_slide 0.05
+     in-bus 0
+     out-bus 0]
+    (let [rate      (ramp rate rate_slide)
+          width     (ramp width width_slide)
+          amp       (lag amp amp_slide)
+          source    (in in-bus 2)
+          slice-amp (lag (lf-pulse:kr rate phase width) amp_slide)
           sliced    (* amp slice-amp source)]
       (out out-bus sliced)))
 
-  ;;(save-to-pi fx_reverb)
-  ;;(save-to-pi fx_level)
-  ;;(save-to-pi fx_echo)
-  ;;(save-to-pi fx_slicer)
+  (save-to-pi fx_reverb)
+  (save-to-pi fx_level)
+  (save-to-pi fx_echo)
+  (save-to-pi fx_slicer)
 
   )
 
