@@ -131,7 +131,7 @@ module SonicPi
       @server.exit
     end
 
-    def sched_ahead_time(t)
+    def sched_ahead_time
       @server.sched_ahead_time
     end
 
