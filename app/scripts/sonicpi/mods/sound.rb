@@ -39,7 +39,7 @@ module SonicPi
              @JOB_FX_GROUPS_A = Atom.new(Hamster.hash)
              @JOB_FX_GROUP_MUTEX = Mutex.new
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
-             @mod_sound_studio.sched_ahead_time(0.5) if (os == :raspberry)
+             @mod_sound_studio.sched_ahead_time = 0.5 if (os == :raspberry)
              @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
 
                job_id = payload[:id]
@@ -69,7 +69,7 @@ module SonicPi
        end
 
        def set_sched_ahead_time!(t)
-         @mod_sound_studio.sched_ahead_time(t)
+         @mod_sound_studio.sched_ahead_time = t
        end
 
        def use_debug(v, &block)

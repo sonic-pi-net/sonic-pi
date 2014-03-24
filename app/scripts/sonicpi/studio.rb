@@ -132,8 +132,11 @@ module SonicPi
     end
 
     def sched_ahead_time(t)
-      @server.sched_ahead_time = t
+      @server.sched_ahead_time
     end
 
+    def sched_ahead_time=(t)
+      @server.sched_ahead_time = t
+    end
   end
 end
