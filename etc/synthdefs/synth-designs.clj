@@ -592,23 +592,23 @@
       (out out-bus (pan2 (* env snd) pan amp))))
 
 
-  (save-to-pi dull_bell)
-  (save-to-pi pretty_bell)
-  (save-to-pi beep)
-  (save-to-pi saw_beep)
-  (save-to-pi dsaw)
-  (save-to-pi fm)
+  ;; (save-to-pi dull_bell)
+  ;; (save-to-pi pretty_bell)
+  ;; (save-to-pi beep)
+  ;; (save-to-pi saw_beep)
+  ;; (save-to-pi dsaw)
+  ;; (save-to-pi fm)
 
-  (save-to-pi mod_saw)
-  (save-to-pi mod_saw_s)
-  (save-to-pi mod_dsaw)
-  (save-to-pi mod_dsaw_s)
-  (save-to-pi mod_sine)
-  (save-to-pi mod_sine_s)
-  (save-to-pi mod_tri)
-  (save-to-pi mod_tri_s)
-  (save-to-pi mod_pulse)
-  (save-to-pi mod_pulse_s)
+  ;; (save-to-pi mod_saw)
+  ;; (save-to-pi mod_saw_s)
+  ;; (save-to-pi mod_dsaw)
+  ;; (save-to-pi mod_dsaw_s)
+  ;; (save-to-pi mod_sine)
+  ;; (save-to-pi mod_sine_s)
+  ;; (save-to-pi mod_tri)
+  ;; (save-to-pi mod_tri_s)
+  ;; (save-to-pi mod_pulse)
+  ;; (save-to-pi mod_pulse_s)
   )
 
 
@@ -944,10 +944,10 @@
           sliced    (* amp slice-amp source)]
       (out out-bus sliced)))
 
-  (save-to-pi fx_reverb)
-  (save-to-pi fx_level)
-  (save-to-pi fx_echo)
-  (save-to-pi fx_slicer)
+  ;; (save-to-pi fx_reverb)
+  ;; (save-to-pi fx_level)
+  ;; (save-to-pi fx_echo)
+  ;; (save-to-pi fx_slicer)
 
   )
 
