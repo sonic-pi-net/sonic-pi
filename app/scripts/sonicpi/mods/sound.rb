@@ -397,9 +397,9 @@ module SonicPi
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
-             __message "Playing sample: #{path}"
+             __delayed_message "Playing sample: #{path}"
            else
-             __message "Playing sample: #{path} with args: #{arg_h_pp(args_h)}"
+             __delayed_message "Playing sample: #{path} with args: #{arg_h_pp(args_h)}"
            end
          end
 
@@ -412,7 +412,7 @@ module SonicPi
          validation_fn = mk_synth_args_validator(synth_name)
          validation_fn.call(args_h)
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-           __message "Playing #{synth_name} with args: #{arg_h_pp(args_h)}"
+           __delayed_message "Playing #{synth_name} with args: #{arg_h_pp(args_h)}"
          end
          trigger_synth(synth_name, args_h, group, false, validation_fn)
        end
@@ -581,6 +581,13 @@ module SonicPi
            end
          end
          [defaults, fns]
+       end
+
+       def __delayed_message(m)
+         in_thread do
+           Kernel.sleep @mod_sound_studio.sched_ahead_time
+           __message m
+         end
        end
      end
    end
