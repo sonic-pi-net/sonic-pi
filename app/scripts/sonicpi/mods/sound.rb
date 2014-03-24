@@ -116,37 +116,54 @@ module SonicPi
          end
        end
 
+
+
        def use_merged_synth_defaults(*args, &block)
          raise "use_merged_synth_defaults does not work with a block. Perhaps you meant with_merged_synth_defaults" if block
-         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         current_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
          args_h = resolve_synth_opts_hash_or_array(args)
-         merged = (current || {}).merge(args_h)
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
+         defaults_h, fns_h = extract_synth_default_fns(args_h)
+         merged_defs = (current_defs || {}).merge(defaults_h)
+         merged_fns = (current_fns || {}).merge(fns_h)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged_defs
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, merged_fns
        end
 
        def with_merged_synth_defaults(*args, &block)
          raise "with_merged_synth_defaults must be called with a block" unless block
-         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         current_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
          args_h = resolve_synth_opts_hash_or_array(args)
-         merged = (current || {}).merge(args_h)
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged
+         defaults_h, fns_h = extract_synth_default_fns(args_h)
+         merged_defs = (current_defs || {}).merge(defaults_h)
+         merged_fns = (current_fns || {}).merge(fns_h)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged_defs
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, merged_fns
          block.call
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current_defs
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults_fns, current_fns
        end
 
        def use_synth_defaults(*args, &block)
          raise "use_synth_defaults does not work with a block. Perhaps you meant with_synth_defaults" if block
-         new = resolve_synth_opts_hash_or_array(args)
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
+         args_h = resolve_synth_opts_hash_or_array(args)
+         defaults_h, fns_h = extract_synth_default_fns(args_h)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, fns_h
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, defaults_h
        end
 
        def with_synth_defaults(*args, &block)
          raise "with_synth_defaults must be called with a block" unless block
-         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         new = resolve_synth_opts_hash_or_array(args)
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, new
+         current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         current_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         defaults_h, fns_h = extract_synth_default_fns(args_h)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, defaults_h
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, fns_h
          block.call
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current_defs
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, current_fns
        end
 
        def with_fx(fx_name, *args, &block)
@@ -416,7 +433,13 @@ module SonicPi
 
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-         combined_args = t_l_args.merge(args_h).merge({"out-bus" => out_bus})
+         t_l_fn_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns) || {}
+         resolved_tl_fn_args = {}
+         t_l_fn_args.each do |k, v|
+           resolved_tl_fn_args[k] = v.call
+         end
+
+         combined_args = resolved_tl_fn_args.merge(t_l_args).merge(args_h).merge({"out-bus" => out_bus})
          p = Promise.new
          job_synth_proms_add(job_id, p)
 
@@ -527,6 +550,20 @@ module SonicPi
          subthreads.each do |st|
            join_thread_and_subthreads(st)
          end
+       end
+
+       def extract_synth_default_fns(args_h)
+         defaults = {}
+         fns = {}
+         args_h.each do |k, v|
+           case v
+           when Proc
+             fns[k] = v
+           else
+             defaults[k] = v
+           end
+         end
+         [defaults, fns]
        end
      end
    end
