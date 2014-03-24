@@ -195,7 +195,6 @@ module SonicPi
       #todo only add subthread if name isn't registered yet
       @job_subthread_mutex.synchronize do
         return t.kill unless @job_subthreads[job_id]
-        puts @named_subthreads.inspect
         if name
           if @named_subthreads[name]
             puts "Skipping thread creation: thread with name #{name.inspect} already exists."
