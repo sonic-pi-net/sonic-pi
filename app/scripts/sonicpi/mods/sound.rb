@@ -72,6 +72,19 @@ module SonicPi
          @mod_sound_studio.sched_ahead_time(t)
        end
 
+       def use_debug(v, &block)
+         raise "use_debug does not work with a block. Perhaps you meant with_debug" if block
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, !v)
+       end
+
+       def with_debug(v, &block)
+         raise "with_debug does requires a block. Perhaps you meant use_debug" unless block
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, !v)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, current)
+       end
+
        def use_synth(synth_name, &block)
          raise "use_synth does not work with a block. Perhaps you meant with_synth" if block
          @mod_sound_studio.current_synth_name = synth_name
@@ -382,10 +395,12 @@ module SonicPi
          validation_fn = mk_synth_args_validator(synth_name)
          validation_fn.call(args_h_with_buf)
 
-         if args_h.empty?
-           __message "Playing sample: #{path}"
-         else
-           __message "Playing sample: #{path} with args: #{arg_h_pp(args_h)}"
+         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+           if args_h.empty?
+             __message "Playing sample: #{path}"
+           else
+             __message "Playing sample: #{path} with args: #{arg_h_pp(args_h)}"
+           end
          end
 
          trigger_synth(synth_name, args_h_with_buf, group, false, validation_fn)
@@ -396,7 +411,9 @@ module SonicPi
 
          validation_fn = mk_synth_args_validator(synth_name)
          validation_fn.call(args_h)
-         __message "Playing #{synth_name} with args: #{arg_h_pp(args_h)}"
+         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+           __message "Playing #{synth_name} with args: #{arg_h_pp(args_h)}"
+         end
          trigger_synth(synth_name, args_h, group, false, validation_fn)
        end
 
