@@ -113,9 +113,9 @@
                        sustain 0
                        release 1.0
                        out-bus 0]
-    (let [note (ramp note note_slide)
+    (let [note (lag note note_slide)
           amp  (lag amp amp_slide)
-          pan  (ramp pan pan_slide)
+          pan  (lag pan pan_slide)
           freq (midicps note)
           snd  (* amp (bell-partials freq attack sustain release dull-partials))]
       (detect-silence snd :action FREE)
@@ -131,9 +131,9 @@
                          sustain 0
                          release 1
                          out-bus 0]
-    (let [note (ramp note note_slide)
+    (let [note (lag note note_slide)
           amp  (lag amp amp_slide)
-          pan  (ramp pan pan_slide)
+          pan  (lag pan pan_slide)
           freq (midicps note)
           snd  (* amp (bell-partials freq attack sustain release partials))]
       (detect-silence snd :action FREE)
@@ -149,9 +149,9 @@
                   sustain 0
                   release 0.3
                   out-bus 0]
-    (let [note (ramp note note_slide)
+    (let [note (lag note note_slide)
           amp  (lag amp amp_slide)
-          pan  (ramp pan pan_slide)
+          pan  (lag pan pan_slide)
           freq (midicps note)]
       (out out-bus (pan2 (* (sin-osc freq)
                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
@@ -170,10 +170,10 @@
                       cutoff 100
                       cutoff_slide 0
                       out-bus 0]
-    (let [note        (ramp note note_slide)
+    (let [note        (lag note note_slide)
           amp         (lag amp amp_slide)
-          pan         (ramp pan pan_slide)
-          cutoff      (ramp cutoff cutoff_slide)
+          pan         (lag pan pan_slide)
+          cutoff      (lag cutoff cutoff_slide)
           freq        (midicps note)
           cutoff-freq (midicps cutoff)]
       (out out-bus (pan2 (* (normalizer (lpf (saw freq) cutoff-freq))
@@ -194,11 +194,14 @@
                   detune 0.1
                   detune_slide 0
                   out-bus 0]
-    (let [note        (ramp note note_slide)
+    (let [note        (lag note note_slide)
+          _    (poll (impulse 3) note "note")
+
+
           amp         (lag amp amp_slide)
-          pan         (ramp pan pan_slide)
-          detune      (ramp detune detune_slide)
-          cutoff      (ramp cutoff cutoff_slide)
+          pan         (lag pan pan_slide)
+          detune      (lag detune detune_slide)
+          cutoff      (lag cutoff cutoff_slide)
           freq        (midicps note)
           cutoff-freq (midicps cutoff)
           detune-freq (midicps (+ note detune))]
@@ -221,11 +224,11 @@
                 depth 1.0
                 depth_slide 0
                 out-bus 0]
-    (let [note      (ramp note note_slide)
+    (let [note      (lag note note_slide)
           amp       (lag amp amp_slide)
-          pan       (ramp pan pan_slide)
-          divisor   (ramp divisor divisor_slide)
-          depth     (ramp depth depth_slide)
+          pan       (lag pan pan_slide)
+          divisor   (lag divisor divisor_slide)
+          depth     (lag depth depth_slide)
           carrier   (midicps note)
           modulator (/ carrier divisor)
           env       (env-gen (env-lin attack sustain release) :level-scale amp :action FREE)]
@@ -253,13 +256,13 @@
                      mod_width 0.5
                      mod_width_slide 0
                      out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          cutoff         (ramp cutoff cutoff_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
+          pan            (lag pan pan_slide)
+          cutoff         (lag cutoff cutoff_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -288,12 +291,12 @@
                        mod_width 0.5
                        mod_width_slide 0
                        out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
+          pan            (lag pan pan_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
           freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -323,14 +326,14 @@
                       detune 0.1
                       detune_slide 0
                       out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          cutoff         (ramp cutoff cutoff_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
-          detune         (ramp detune detune_slide)
+          pan            (lag pan pan_slide)
+          cutoff         (lag cutoff cutoff_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
+          detune         (lag detune detune_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod-range-freq (- (midicps (+ mod_range note))
@@ -362,13 +365,13 @@
                         detune 0.1
                         detune_slide 0
                         out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
-          detune         (ramp detune detune_slide)
+          pan            (lag pan pan_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
+          detune         (lag detune detune_slide)
 
           freq           (midicps note)
           mod-range-freq (- (midicps (+ mod_range note))
@@ -399,13 +402,13 @@
                       mod_width 0.5
                       mod_width_slide 0
                       out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          cutoff         (ramp cutoff cutoff_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
+          pan            (lag pan pan_slide)
+          cutoff         (lag cutoff cutoff_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -434,12 +437,12 @@
                         mod_width 0.5
                         mod_width_slide 0
                         out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
+          pan            (lag pan pan_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
           freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -467,13 +470,13 @@
                      mod_width 0.5
                      mod_width_slide 0
                      out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          cutoff         (ramp cutoff cutoff_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
+          pan            (lag pan pan_slide)
+          cutoff         (lag cutoff cutoff_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -502,12 +505,12 @@
                        mod_width 0.5
                        mod_width_slide 0
                        out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width_slide)
+          pan            (lag pan pan_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width_slide)
           freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -537,14 +540,14 @@
                        pulse_width 0.5
                        pulse_width_slide 0
                        out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          cutoff         (ramp cutoff cutoff_slide)
-          mod_rate       (ramp mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
-          pulse_width    (ramp pulse_width pulse_width_slide)
+          pan            (lag pan pan_slide)
+          cutoff         (lag cutoff cutoff_slide)
+          mod_rate       (lag mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
+          pulse_width    (lag pulse_width pulse_width_slide)
           freq           (midicps note)
           cutoff-freq    (midicps cutoff)
           mod_range_freq (- (midicps (+ mod_range note))
@@ -575,13 +578,13 @@
                          pulse_width 0.5
                          pulse_width_slide 0
                          out-bus 0]
-    (let [note           (ramp note note_slide)
+    (let [note           (lag note note_slide)
           amp            (lag amp amp_slide)
-          pan            (ramp pan pan_slide)
-          mod_rate       (ramp mod_rate mod_rate_slide)
-          mod_range      (ramp mod_range mod_range_slide)
-          mod_width      (ramp mod_width mod_width_slide)
-          pulse_width    (ramp pulse_width pulse_width_slide)
+          pan            (lag pan pan_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
+          mod_range      (lag mod_range mod_range_slide)
+          mod_width      (lag mod_width mod_width_slide)
+          pulse_width    (lag pulse_width pulse_width_slide)
           freq           (midicps note)
           mod_range_freq (- (midicps (+ mod_range note))
                             freq)
@@ -611,7 +614,6 @@
   ;; (save-to-pi mod_pulse_s)
   )
 
-
 ;; Sample playback synths
 
 (do
@@ -626,10 +628,10 @@
      rate_slide 0
      out-bus 0]
     (let [amp  (lag amp amp_slide)
-          pan  (ramp pan pan_slide)
-          rate (ramp rate rate_slide)
+          pan  (lag pan pan_slide)
+          rate (lag rate rate_slide)
           rate (* rate (buf-rate-scale buf))
-          snd  (play-buf 1 buf rate)]
+          snd  (play-buf 1 buf rate :action FREE)]
       (out out-bus (pan2 snd pan  amp))))
 
   (defsynth basic_stereo_player
@@ -642,10 +644,10 @@
      rate_slide 0
      out-bus 0]
     (let [amp  (lag amp amp_slide)
-          pan  (ramp pan pan_slide)
-          rate (ramp rate rate_slide)
+          pan  (lag pan pan_slide)
+          rate (lag rate rate_slide)
           rate (* rate (buf-rate-scale buf))
-          snd  (play-buf 2 buf rate )]
+          snd  (play-buf 2 buf rate :action FREE)]
       (out out-bus (pan2 snd pan amp))))
 
   (defsynth mono_player
@@ -664,7 +666,7 @@
      end 1
      out-bus 0]
     (let [amp         (lag amp amp_slide)
-          pan         (ramp pan pan_slide)
+          pan         (lag pan pan_slide)
           n-frames    (- (buf-frames buf) 1)
           start-pos   (* start n-frames)
           end-pos     (* end n-frames)
@@ -697,7 +699,7 @@
      end 1
      out-bus 0]
     (let [amp           (lag amp amp_slide)
-          pan           (ramp pan pan_slide)
+          pan           (lag pan pan_slide)
           n-frames      (- (buf-frames buf) 1)
           start-pos     (* start n-frames)
           end-pos       (* end n-frames)
@@ -714,10 +716,10 @@
           snd           (* env snd)]
       (out out-bus snd)))
 
-  ;; (save-to-pi mono_player)
-  ;; (save-to-pi stereo_player)
-  ;; (save-to-pi basic_mono_player)
-  ;; (save-to-pi basic_stereo_player)
+   ;; (save-to-pi mono_player)
+   ;; (save-to-pi stereo_player)
+   ;; (save-to-pi basic_mono_player)
+   ;; (save-to-pi basic_stereo_player)
 
   )
 
@@ -743,12 +745,12 @@
    pulse_width 0.5    ; only for pulse wave
    pulse_width_slide 0
    out-bus  0]
-  (let [note            (ramp note note_slide)
+  (let [note            (lag note note_slide)
         amp             (lag amp amp_slide)
-        pan             (ramp pan pan_slide)
-        cutoff_slide    (ramp cutoff cutoff_slide)
-        res             (ramp res res_slide)
-        pulse_width     (ramp pulse_width pulse_width_slide)
+        pan             (lag pan pan_slide)
+        cutoff_slide    (lag cutoff cutoff_slide)
+        res             (lag res res_slide)
+        pulse_width     (lag pulse_width pulse_width_slide)
         cutoff-freq     (midicps cutoff)
         cutoff-min-freq (midicps cutoff_min)
         freq            (midicps note)
@@ -773,11 +775,11 @@
                       res 0.3
                       res_slide 0
                       out-bus 0]
-    (let [note        (ramp note note_slide)
+    (let [note        (lag note note_slide)
           amp         (lag amp amp_slide)
-          pan         (ramp pan pan_slide)
-          cutoff      (ramp cutoff cutoff_slide)
-          res         (ramp res res_slide)
+          pan         (lag pan pan_slide)
+          cutoff      (lag cutoff cutoff_slide)
+          res         (lag res res_slide)
           freq        (midicps note)
           cutoff-freq (midicps cutoff)
           input       (lf-saw freq)
@@ -808,9 +810,9 @@
                         sustain 0
                         release 2
                         out-bus 0]
-    (let [note   (ramp note note_slide)
+    (let [note   (lag note note_slide)
           amp    (lag amp amp_slide)
-          pan    (ramp pan pan_slide)
+          pan    (lag pan pan_slide)
           freq   (midicps note)
           input  (lf-saw freq)
           shift1 (lf-saw 4)
@@ -859,11 +861,11 @@
    res_slide 0
    out-bus 0 ]
 
-  (let [note        (ramp note note_slide)
+  (let [note        (lag note note_slide)
         amp         (lag amp amp_slide)
-        pan         (ramp pan pan_slide)
-        cutoff      (ramp cutoff cutoff_slide)
-        res         (ramp res res_slide)
+        pan         (lag pan pan_slide)
+        cutoff      (lag cutoff cutoff_slide)
+        res         (lag res res_slide)
         freq        (midicps note)
         cutoff-freq (midicps cutoff)
         snd         (mix [(pulse freq (* 0.1 (/ (+ 1.2 (sin-osc:kr 1)) )))
@@ -879,10 +881,10 @@
 
     (out out-bus snd)))
 
-  ;;(save-to-pi tb303)
-  ;;(save-to-pi supersaw)
-  ;;(save-to-pi supersaw_s)
-  ;;(save-to-pi prophet)
+  ;; (save-to-pi tb303)
+  ;; (save-to-pi supersaw)
+  ;; (save-to-pi supersaw_s)
+  ;; (save-to-pi prophet)
   )
 
 ;;FX
@@ -895,9 +897,9 @@
                        damp_slide 0
                        in-bus 0
                        out-bus 0]
-    (let [mix   (ramp mix mix_slide)
-          room  (ramp room room_slide)
-          damp  (ramp damp damp_slide)
+    (let [mix   (lag mix mix_slide)
+          room  (lag room room_slide)
+          damp  (lag damp damp_slide)
           [l r] (in:ar in-bus 2)
           snd   (free-verb2 l r mix room damp)]
       (out out-bus snd)))
@@ -919,8 +921,8 @@
      amp_slide 0
      in-bus 0
      out-bus 0]
-    (let [delay  (ramp delay delay_slide)
-          decay  (ramp decay decay_slide)
+    (let [delay  (lag delay delay_slide)
+          decay  (lag decay decay_slide)
           amp    (lag amp amp_slide)
           source (in in-bus 2)
           echo   (comb-n source max_delay delay decay)]
@@ -936,8 +938,8 @@
      amp_slide 0.05
      in-bus 0
      out-bus 0]
-    (let [rate      (ramp rate rate_slide)
-          width     (ramp width width_slide)
+    (let [rate      (lag rate rate_slide)
+          width     (lag width width_slide)
           amp       (lag amp amp_slide)
           source    (in in-bus 2)
           slice-amp (lag (lf-pulse:kr rate phase width) amp_slide)
