@@ -253,11 +253,9 @@ module SonicPi
          new_subthreads = (end_subthreads - start_subthreads)
          Thread.new do
            new_subthreads.each do |st|
-             __join_thread_and_subthreads(st)
+             join_thread_and_subthreads(st)
            end
-
            tracker.block_until_finished
-
            Kernel.sleep(kill_delay)
            fx_synth.kill(true)
            new_bus.free
