@@ -32,6 +32,7 @@ module SonicPi
            define_method(:initialize) do |*splat, &block|
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
+             @complex_sampler_args = [:attack, :sustain, :release, :start, :end]
              @blank_node = BlankNode.new
              @JOB_SYNTH_PROMS_A = Atom.new(Hamster.hash)
              @JOB_GROUPS_A = Atom.new(Hamster.hash)
@@ -41,9 +42,7 @@ module SonicPi
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @mod_sound_studio.sched_ahead_time = 0.5 if (os == :raspberry)
              @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
-
                job_id = payload[:id]
-
                (@JOB_SYNTH_PROMS_A.deref[job_id] || []).each do |csp|
                  csp.get
                end
@@ -389,7 +388,11 @@ module SonicPi
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
          args_h_with_buf = {:buf => buf_id}.merge(args_h)
 
-         synth_name = (num_chans == 1) ? "mono_player" : "stereo_player"
+         if (@complex_sampler_args - args_h.keys).size != @complex_sampler_args.size
+           synth_name = (num_chans == 1) ? "mono_player" : "stereo_player"
+         else
+           synth_name = (num_chans == 1) ? "basic_mono_player" : "basic_stereo_player"
+         end
          validation_fn = mk_synth_args_validator(synth_name)
          validation_fn.call(args_h_with_buf)
 
@@ -582,7 +585,10 @@ module SonicPi
        end
 
        def __delayed_message(m)
-         in_thread do
+         ## TODO: register this thread so that it's killed when job is
+         ## killed. Using in_thread won't work - needs to be a different
+         ## mechanism.
+         Thread.new do
            Kernel.sleep @mod_sound_studio.sched_ahead_time
            __message m
          end
