@@ -274,6 +274,21 @@ module SonicPi
          @mod_sound_studio.bpm = current
        end
 
+       def use_sample_pack(pack, &block)
+         raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
+         pack = samples_path if pack == :default
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
+       end
+
+       def with_sample_pack(pack, &block)
+         raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
+         pack = samples_path if pack == :default
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
+       end
+
        def current_tempo
          @mod_sound_studio.bpm
        end
@@ -298,21 +313,31 @@ module SonicPi
        end
 
        def resolve_sample_symbol_path(sym)
-         samples_path + "/" + sym.to_s + ".wav"
+         path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || samples_path
+         partial = path + "/" + sym.to_s
+         ["wav", "aiff", "aif", "wave"].each do |ext|
+           full = "#{partial}.#{ext}"
+           return full if File.exists?(full)
+         end
+
+         raise "No sample exists called #{path.inspect} in sample pack #{path}"
        end
 
        def load_sample(path)
-         if path.class == Symbol
+         case path
+         when Symbol
            full_path = resolve_sample_symbol_path(path)
-         end
-         if File.exists?(full_path)
-           @mod_sound_studio.load_sample(full_path)
-         else
-           if path.class == Symbol
-             raise "No sample exists called #{path.inspect}"
+           raise "No sample exists called #{path.inspect}" unless File.exists?(full_path)
+           load_sample(full_path)
+         when String
+           if File.exists?(path)
+             puts "loading full sample path: #{path}"
+             @mod_sound_studio.load_sample(path)
            else
              raise "No sample exists with path #{path}"
            end
+         else
+           raise "Unknown sample description: #{path}"
          end
        end
 
