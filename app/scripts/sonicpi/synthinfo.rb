@@ -1113,6 +1113,191 @@ module SonicPi
     end
   end
 
+
+  class FXTechno < SynthInfo
+    def name
+      "FX Techno"
+    end
+
+    def arg_defaults
+      {
+        :rate => 0.1,
+        :rate_slide => 0,
+        :cutoff_min => 880,
+        :cutoff_min_slide => 0,
+        :cutoff_max => 12000,
+        :cutoff_max_slide => 0,
+        :res => 0.2,
+        :res_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+        :rate =>
+        {
+          :doc => "The frequency of filter modulation",
+          :validations => [v_positive_not_zero(:rate)],
+          :modulatable => true
+        }
+
+      }
+    end
+  end
+
+
+  class FXCompressor < SynthInfo
+    def name
+      "FX Compressor"
+    end
+
+    def arg_defaults
+      {
+        :threshold => 0.2,
+        :threshold_slide => 0,
+        :clamp_time => 0.01,
+        :clamp_time_slide => 0,
+        :slope_above => 0.5,
+        :slope_above_slide => 0,
+        :slope_below => 1,
+        :slope_below_slide => 0,
+        :relax_time => 0.01,
+        :relax_time_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+  end
+
+
+  class FXRLPF < SynthInfo
+    def name
+      "FX Resonant Low Pass Filter"
+    end
+
+    def arg_defaults
+      {
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :res => 0.5,
+        :res_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+  end
+
+  class FXNormRLPF < FXRLPF
+    def name
+      "FX Normalised Resonant Low Pass Filter"
+    end
+  end
+
+  class FXRHPF < SynthInfo
+    def name
+      "FX Resonant High Pass Filter"
+    end
+
+    def arg_defaults
+      {
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :res => 0.5,
+        :res_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+  end
+
+  class FXNormRHPF < FXRLPF
+    def name
+      "FX Normalised Resonant High Pass Filter"
+    end
+  end
+
+  class FXLPF < SynthInfo
+    def name
+      "FX Low Pass Filter"
+    end
+
+    def arg_defaults
+      {
+        :cutoff => 100,
+        :cutoff_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+  end
+
+  class FXNormLPF < FXRLPF
+    def name
+      "FX Normalised Low Pass Filter"
+    end
+  end
+
+  class FXHPF < SynthInfo
+    def name
+      "FX High Pass Filter"
+    end
+
+    def arg_defaults
+      {
+        :cutoff => 100,
+        :cutoff_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+  end
+
+  class FXNormHPF < FXRLPF
+    def name
+      "FX Normalised High Pass Filter"
+    end
+  end
+
+  class FXNormaliser < SynthInfo
+    def name
+      "FX Normaliser"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0
+      }
+    end
+  end
+
+
+
   class SynthInfo
     @@synth_infos =
       {
@@ -1143,7 +1328,19 @@ module SonicPi
       :fx_reverb => FXReverb.new,
       :fx_level => FXLevel.new,
       :fx_echo => FXEcho.new,
-      :fx_slicer => FXSlicer.new
+      :fx_slicer => FXSlicer.new,
+      :fx_techno => FXTechno.new,
+      :fx_compressor => FXCompressor.new,
+      :fx_rlpf => FXRLPF.new,
+      :fx_norm_rlpf => FXNormRLPF.new,
+      :fx_rhpf => FXRHPF.new,
+      :fx_norm_rhpf => FXNormRHPF.new,
+      :fx_hpf => FXHPF.new,
+      :fx_norm_hpf => FXNormHPF.new,
+      :fx_lpf => FXLPF.new,
+      :fx_norm_lpf => FXNormLPF.new,
+      :fx_normaliser => FXNormaliser.new
+
 
       }
 

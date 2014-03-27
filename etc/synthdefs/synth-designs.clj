@@ -946,12 +946,164 @@
           sliced    (* amp slice-amp source)]
       (out out-bus sliced)))
 
-  ;; (save-to-pi fx_reverb)
-  ;; (save-to-pi fx_level)
-  ;; (save-to-pi fx_echo)
-  ;; (save-to-pi fx_slicer)
+; {arg sig     ; RLPF.ar(sig, SinOsc.ar(0.1).exprange(880,12000), 0.2)};
 
-  )
+   (defsynth fx_techno
+     [rate 0.1
+      rate_slide 0
+      cutoff_min 880
+      cutoff_min_slide 0
+      cutoff_max 12000
+      cutoff_max_slide 0
+      res 0.2
+      res_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [freq (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
+           src  (in in-bus 2)
+           src  (rlpf src freq res)]
+       (out out-bus src)))
+
+   (defsynth fx_compressor
+     [threshold 0.2
+      threshold_slide 0
+      clamp_time 0.01
+      clamp_time_slide 0
+      slope_above 0.5
+      slope_above_slide 0
+      slope_below 1
+      slope_below_slide 0
+      relax_time 0.01
+      relax_time_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [threshold   (lag threshold threshold_slide)
+           clamp_time  (lag clamp_time clamp_time_slide)
+           slope_above (lag slope_above slope_above_slide)
+           slope_below (lag slope_below slope_below_slide)
+           relax_time  (lag relax_time relax_time_slide)
+           src         (in in-bus 2)]
+       (out out-bus (compander src src threshold
+                               slope_below slope_above
+                               clamp_time relax_time))))
+
+   (defsynth fx_rlpf
+     [cutoff 100
+      cutoff_slide 0
+      res 0.6
+      res_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [cutoff (lag cutoff cutoff_slide)
+           cutoff (midicps cutoff)
+           res    (lag res res_slide)
+           src    (in in-bus 2)]
+       (out out-bus (rlpf src cutoff res))))
+
+   (defsynth fx_norm_rlpf
+     [cutoff 100
+      cutoff_slide 0
+      res 0.6
+      res_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [cutoff (lag cutoff cutoff_slide)
+           cutoff (midicps cutoff)
+           res    (lag res res_slide)
+           src    (in in-bus 2)]
+       (out out-bus (normalizer (rlpf src cutoff res)))))
+
+   (defsynth fx_rhpf
+     [cutoff 10
+      cutoff_slide 0
+      res 0.6
+      res_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [cutoff (lag cutoff cutoff_slide)
+           cutoff (midicps cutoff)
+           res    (lag res res_slide)
+           src    (in in-bus 2)]
+       (out out-bus (rhpf src cutoff res))))
+
+   (defsynth fx_norm_rhpf
+     [cutoff 10
+      cutoff_slide 0
+      res 0.6
+      res_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [cutoff (lag cutoff cutoff_slide)
+           cutoff (midicps cutoff)
+           res    (lag res res_slide)
+           src    (in in-bus 2)]
+       (out out-bus (normalizer (rhpf src cutoff res)))))
+
+   (defsynth fx_hpf
+     [cutoff 10
+      cutoff_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [cutoff (lag cutoff cutoff_slide)
+           cutoff (midicps cutoff)
+           src    (in in-bus 2)]
+       (out out-bus (hpf src cutoff))))
+
+   (defsynth fx_norm_hpf
+     [cutoff 10
+      cutoff_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [cutoff (lag cutoff cutoff_slide)
+           cutoff (midicps cutoff)
+           src    (in in-bus 2)]
+       (out out-bus (normalizer (hpf src cutoff)))))
+
+   (defsynth fx_lpf
+     [cutoff 100
+      cutoff_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [cutoff (lag cutoff cutoff_slide)
+           cutoff (midicps cutoff)
+           src    (in in-bus 2)]
+       (out out-bus (lpf src cutoff))))
+
+   (defsynth fx_norm_lpf
+     [cutoff 100
+      cutoff_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [cutoff (lag cutoff cutoff_slide)
+           cutoff (midicps cutoff)
+           src    (in in-bus 2)]
+       (out out-bus (normalizer (lpf src cutoff)))))
+
+   (defsynth fx_normaliser
+     [amp 1
+      amp_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [src    (in in-bus 2)]
+       (out out-bus (normalizer src amp))))
+
+   ;; (save-to-pi fx_reverb)
+   ;; (save-to-pi fx_level)
+   ;; (save-to-pi fx_echo)
+   ;; (save-to-pi fx_slicer)
+   ;; (save-to-pi fx_techno)
+   ;; (save-to-pi fx_compressor)
+   ;; (save-to-pi fx_rlpf)
+   ;; (save-to-pi fx_norm_rlpf)
+   ;; (save-to-pi fx_rhpf)
+   ;; (save-to-pi fx_norm_rhpf)
+   ;; (save-to-pi fx_hpf)
+   ;; (save-to-pi fx_norm_hpf)
+   ;; (save-to-pi fx_lpf)
+   ;; (save-to-pi fx_norm_lpf)
+   ;; (save-to-pi fx_normaliser)
+
+   )
 
 
 ;; Experimental
