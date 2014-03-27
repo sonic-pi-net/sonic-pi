@@ -182,6 +182,15 @@ module SonicPi
          raise "with_fx must be called with a block" unless block
          raise "with_fx block must only accept 0 or 1 args" unless [0, 1].include?(block.arity)
 
+         ## Teach with_fx to do nothing if fx_name is :none
+         if fx_name == :none
+           if block.arity == 0
+             return block.call
+           else
+             return block.call(@blank_node)
+           end
+         end
+
          ## Create a new bus for this fx chain
          begin
            new_bus = @mod_sound_studio.new_fx_bus
