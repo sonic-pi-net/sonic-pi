@@ -422,7 +422,7 @@ module SonicPi
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
          args_h_with_buf = {:buf => buf_id}.merge(args_h)
 
-         if (@complex_sampler_args - args_h.keys).size != @complex_sampler_args.size
+         if (args_h[:rate] && args_h[:rate] < 0) || ((@complex_sampler_args - args_h.keys).size != @complex_sampler_args.size)
            synth_name = (num_chans == 1) ? "mono_player" : "stereo_player"
          else
            synth_name = (num_chans == 1) ? "basic_mono_player" : "basic_stereo_player"
