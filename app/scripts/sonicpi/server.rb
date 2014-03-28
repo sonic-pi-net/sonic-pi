@@ -50,8 +50,8 @@ module SonicPi
       @CURRENT_BUFFER_ID = Counter.new(0)
       @CURRENT_SYNC_ID = Counter.new(0)
 
-      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new 100, 10 #TODO: remove these magic nums
-      @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 1000, 0
+      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new 128, 10 #TODO: remove these magic nums
+      @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096, 0
 
       @SERVER_THREAD = Thread.new do
         log "starting server thread"
