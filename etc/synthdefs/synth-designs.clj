@@ -965,7 +965,9 @@
        (out out-bus src)))
 
    (defsynth fx_compressor
-     [threshold 0.2
+     [amp 1
+      amp_slide 0
+      threshold 0.2
       threshold_slide 0
       clamp_time 0.01
       clamp_time_slide 0
@@ -977,12 +979,13 @@
       relax_time_slide 0
       in-bus 0
       out-bus 0]
-     (let [threshold   (lag threshold threshold_slide)
+     (let [amp         (lag amp amp_slide)
+           threshold   (lag threshold threshold_slide)
            clamp_time  (lag clamp_time clamp_time_slide)
            slope_above (lag slope_above slope_above_slide)
            slope_below (lag slope_below slope_below_slide)
            relax_time  (lag relax_time relax_time_slide)
-           src         (in in-bus 2)]
+           src         (* amp (in in-bus 2))]
        (out out-bus (compander src src threshold
                                slope_below slope_above
                                clamp_time relax_time))))

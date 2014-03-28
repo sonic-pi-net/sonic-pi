@@ -1153,6 +1153,8 @@ module SonicPi
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
         :threshold => 0.2,
         :threshold_slide => 0,
         :clamp_time => 0.01,
