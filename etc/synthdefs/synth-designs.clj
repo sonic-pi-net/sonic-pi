@@ -1096,7 +1096,7 @@
       in-bus 0
       out-bus 0]
      (let [distort (lag distort distort_slide)
-           src     (in in-bus 1)
+           src     (in in-bus 2)
            k       (/ (* 2 distort) (- 1 distort))
            snd     (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))]
        (out out-bus snd)))
