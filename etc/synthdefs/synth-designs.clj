@@ -1090,6 +1090,17 @@
      (let [src    (in in-bus 2)]
        (out out-bus (normalizer src amp))))
 
+   (defsynth fx_distortion
+     [distort 0.5
+      distort_slide 0
+      in-bus 0
+      out-bus 0]
+     (let [distort (lag distort distort_slide)
+           src     (in in-bus 1)
+           k       (/ (* 2 distort) (- 1 distort))
+           snd     (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))]
+       (out out-bus snd)))
+
    ;; (save-to-pi fx_reverb)
    ;; (save-to-pi fx_level)
    ;; (save-to-pi fx_echo)
@@ -1105,6 +1116,7 @@
    ;; (save-to-pi fx_lpf)
    ;; (save-to-pi fx_norm_lpf)
    ;; (save-to-pi fx_normaliser)
+   ;; (save-to-pi fx_distortion)
 
    )
 

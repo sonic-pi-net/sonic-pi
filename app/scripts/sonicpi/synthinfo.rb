@@ -1298,6 +1298,19 @@ module SonicPi
     end
   end
 
+  class FXDistortion < SynthInfo
+    def name
+      "FX Distortion"
+    end
+
+    def arg_defaults
+      {
+        :distort => 0.5,
+        :distort_slide => 0
+      }
+    end
+  end
+
 
 
   class SynthInfo
@@ -1341,7 +1354,8 @@ module SonicPi
       :fx_norm_hpf => FXNormHPF.new,
       :fx_lpf => FXLPF.new,
       :fx_norm_lpf => FXNormLPF.new,
-      :fx_normaliser => FXNormaliser.new
+      :fx_normaliser => FXNormaliser.new,
+      :fx_distortion => FXDistortion.new
 
 
       }
