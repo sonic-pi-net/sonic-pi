@@ -23,6 +23,7 @@ module SonicPi
       tmp_ids = [false] * @MAX_BUS_ID
       @bus_ids_A = Atom.new(Hamster.vector(*tmp_ids))
       @busses_A = Atom.new(Hamster.vector)
+      @num_busses_allocated = 0
     end
 
     def allocate(num_adj_busses)
@@ -36,6 +37,7 @@ module SonicPi
       bus = bus_class.new(offsetted, num_adj_busses, self){|id, size| release!(id-@IDX_OFFSET, size)}
 
       @busses_A.swap! {|bs| bs.add(bus)}
+      @num_busses_allocated += num_adj_busses
       bus
     end
 
@@ -46,8 +48,12 @@ module SonicPi
     def reset!
       old_busses = @busses_A.swap_returning_old! {|bs| Hamster.vector}
       old_busses.each {|b| b.free}
-
+      @num_busses_allocated = 0
       @busses_A.reset! Hamster.vector
+    end
+
+    def num_busses_allocated
+      @num_busses_allocated
     end
 
     private
@@ -60,6 +66,7 @@ module SonicPi
       @bus_ids_A.swap! do |bids|
         (idx...idx+num_adj_busses).reduce(bids) {|bs, i| bs.set(i, false)}
       end
+      @num_busses_allocated -= num_adj_busses
     end
 
     def valid_gap?(idx, gap_size, bids)

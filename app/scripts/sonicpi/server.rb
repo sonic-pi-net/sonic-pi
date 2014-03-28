@@ -295,7 +295,9 @@ module SonicPi
         :avg_cpu => args[5],
         :peak_cpu => args[6],
         :nom_samp_rate => args[7],
-        :act_samp_rate => args[8]
+        :act_samp_rate => args[8],
+        :audio_busses => @AUDIO_BUS_ALLOCATOR.num_busses_allocated,
+        :control_busses => @CONTROL_BUS_ALLOCATOR.num_busses_allocated
       }
     end
 
