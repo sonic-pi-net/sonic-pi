@@ -235,38 +235,77 @@ module SonicPi
          current_trackers << tracker
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, current_trackers)
 
-         ## Run fx block
-         begin
-           if block.arity == 0
-             block.call
-           else
-             block.call(fx_synth)
+         fxt = Thread.current
+         p = Promise.new
+         gc = lambda do |gc_completed|
+
+           ## Need to block until either the thread died (which will be
+           ## if the job was stopped whilst this fx block was being
+           ## executed or if the fx block has completed.
+           fx_completed = Promise.new
+
+           t1 = Thread.new do
+             fxt.join
+             ## Parent thread died - user must have stopped
+             fx_completed.deliver! true
            end
+
+           t2 = Thread.new do
+             p.get
+             ## FX block completed
+             fx_completed.deliver! true
+           end
+
+           ## Block!
+           fx_completed.get
+
+           ## Clean up blocking alert threads (one of them already
+           ## completed, but kill both for completeness)
+           t1.kill
+           t2.kill
+
+           ## Remove synth tracker
+           current_trackers.delete tracker
+
+           ## Reset out bus to value prior to this with_fx block
+           fxt.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
+
+           ## Get a list of subthreads created by this fx block and create
+           ## a new thread which will wait for them all to finish before
+           ## killing the fx synth node and free its bus
+           fxt.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
+             end_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
+           end
+           new_subthreads = (end_subthreads - start_subthreads)
+           Thread.new do
+             new_subthreads.each do |st|
+               join_thread_and_subthreads(st)
+             end
+             tracker.block_until_finished
+             Kernel.sleep(kill_delay)
+             fx_synth.kill(true)
+             new_bus.free
+           end
+
+           gc_completed.deliver! true
+         end
+
+
+         begin
+           gc_completed = Promise.new
+           Thread.new(gc_completed, &gc)
+           in_thread do
+             if block.arity == 0
+               block.call
+             else
+               block.call(fx_synth)
+             end
+             p.deliver! true
+           end
+           gc_completed.get
          rescue Exception => e
            # TODO: do something more sensible here
            puts "oopsey #{e}"
-         end
-         ## Remove synth tracker
-         current_trackers.delete tracker
-
-         ## Reset out bus to value prior to this with_fx block
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
-
-         ## Get a list of subthreads created by this fx block and create
-         ## a new thread which will wait for them all to finish before
-         ## killing the fx synth node and free its bus
-         Thread.current.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
-           end_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
-         end
-         new_subthreads = (end_subthreads - start_subthreads)
-         Thread.new do
-           new_subthreads.each do |st|
-             join_thread_and_subthreads(st)
-           end
-           tracker.block_until_finished
-           Kernel.sleep(kill_delay)
-           fx_synth.kill(true)
-           new_bus.free
          end
        end
 
