@@ -410,7 +410,7 @@ module SonicPi
        end
 
        def status
-         __message @mod_sound_studio.status
+         @mod_sound_studio.status
        end
 
        def note(n, o=nil)
