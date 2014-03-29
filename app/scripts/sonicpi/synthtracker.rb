@@ -24,7 +24,6 @@ module SonicPi
     end
 
     def synth_started(s)
-      raise "blocking underway - no more synths should be created!" if @prom
       @mut.synchronize do
         @synths << s
       end
@@ -34,7 +33,7 @@ module SonicPi
       @mut.synchronize do
         @synths.delete s
         if @prom && @synths.empty?
-          @prom.deliver! true
+          @prom.deliver! true, false
         end
       end
     end
@@ -43,7 +42,7 @@ module SonicPi
       @mut.synchronize do
         @prom = Promise.new
         if @synths.empty?
-          @prom.deliver! true
+          @prom.deliver! true, false
         end
       end
       @prom.get
