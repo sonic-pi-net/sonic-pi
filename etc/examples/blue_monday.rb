@@ -1,23 +1,23 @@
-def drums
+define :drums do
   6.times do
-    sample :drum_heavy_kick, :rate, 0.8
+    sample :drum_heavy_kick, rate: 0.8
     sleep 0.5
   end
 
   8.times do
-    sample :drum_heavy_kick, :rate, 0.8
+    sample :drum_heavy_kick, rate: 0.8
     sleep 0.125
   end
 end
 
-def snare
+define :snare do
   sample :drum_snare_soft
   sleep 1
 end
 
-def synths
+define :synths do
   use_synth "saw_beep"
-  use_synth_defaults :amp, 0.5, :attack, 0.01, :release, 0.75, :cutoff, 130
+  use_synth_defaults amp: 0.5, attack: 0.01, release: 0.75, cutoff: 130
   notes = [:F, :C, :D, :D, :G, :C, :D, :D]
   notes.each do |n|
     2.times do
