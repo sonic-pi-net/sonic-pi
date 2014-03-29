@@ -35,6 +35,7 @@ module SonicPi
 
     def load_sample(path)
       return @samples[path] if @samples[path]
+      message "Loading full sample path: #{path}"
       buf_info = nil
       SAMPLE_SEM.synchronize do
         return @samples[path] if @samples[path]

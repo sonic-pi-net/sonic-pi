@@ -413,7 +413,6 @@ module SonicPi
            load_sample(full_path)
          when String
            if File.exists?(path)
-             puts "loading full sample path: #{path}"
              @mod_sound_studio.load_sample(path)
            else
              raise "No sample exists with path #{path}"
