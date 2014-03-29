@@ -213,10 +213,6 @@ module SonicPi
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
            tracker = nil
 
-           ## Get this thread's out bus (defaulting to the mixer if this thread hasn't got one)
-           current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
-           out_bus = current_bus || @mod_sound_studio.mixer_bus
-
            gc = Thread.new do
              ## Need to block until either the thread died (which will be
              ## if the job was stopped whilst this fx block was being
@@ -295,7 +291,7 @@ module SonicPi
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus, "out-bus" => out_bus}), current_fx_group)
+           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus}), current_fx_group)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
