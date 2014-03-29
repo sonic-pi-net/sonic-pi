@@ -22,6 +22,7 @@ module SonicPi
       @state = :pending
       @state_change_sem = Mutex.new
       @on_destroyed_callbacks = []
+      @on_started_callbacks = []
       @arg_validation_fn = arg_validation_fn
 
       killed_event_id = @comms.event_gensym("/sonicpi/node/killed#{id}")
@@ -64,7 +65,9 @@ module SonicPi
       @comms.add_event_handler("/n_go", created_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
           @state_change_sem.synchronize do
+            prev_state = @state
             @state = :running
+            call_on_started_callbacks if prev_state == :pending
           end
         end
       end
@@ -78,6 +81,16 @@ module SonicPi
           block.call
         else
           @on_destroyed_callbacks << block
+        end
+      end
+    end
+
+    def on_started(&block)
+      @state_change_sem.synchronize do
+        if @state != :pending
+          block.call
+        else
+          @on_started_callbacks << block
         end
       end
     end
@@ -104,6 +117,7 @@ module SonicPi
     end
 
     def control(*args)
+
       ctl(*args)
     end
 
@@ -152,6 +166,11 @@ module SonicPi
     def call_on_destroyed_callbacks
       @on_destroyed_callbacks.each{|cb| cb.call}
       @on_destroyed_callbacks = []
+    end
+
+    def call_on_started_callbacks
+      @on_started_callbacks.each{|cb| cb.call}
+      @on_started_callbacks = []
     end
   end
 end
