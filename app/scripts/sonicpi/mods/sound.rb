@@ -13,6 +13,7 @@
 require 'thread'
 require "hamster/set"
 require_relative "../blanknode"
+require_relative "../chainnode"
 require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
@@ -565,19 +566,19 @@ module SonicPi
 
          s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, now, &arg_validation_fn
 
-
+         cn = ChainNode.new(s, combined_args["in-bus"], combined_args["out-bus"])
          trackers = (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).to_a
 
-         s.on_started do
-           trackers.each{|t| t.synth_started(s)}
+         cn.on_started do
+           trackers.each{|t| t.synth_started(cn)}
          end
 
-         s.on_destroyed do
-           trackers.each{|t| t.synth_finished(s)}
+         cn.on_destroyed do
+           trackers.each{|t| t.synth_finished(cn)}
            job_synth_proms_rm(job_id, p)
            p.deliver! true
          end
-         s
+         cn
        end
 
        def current_job_id
