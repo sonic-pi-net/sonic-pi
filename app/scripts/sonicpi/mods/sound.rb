@@ -14,6 +14,7 @@ require 'thread'
 require "hamster/set"
 require_relative "../blanknode"
 require_relative "../chainnode"
+require_relative "../fxnode"
 require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
@@ -263,7 +264,6 @@ module SonicPi
                tracker.block_until_finished
                Kernel.sleep(kill_delay)
                fx_synth.kill(true)
-               new_bus.free
              end
 
              gc_completed.deliver! true
@@ -543,7 +543,8 @@ module SonicPi
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
          validation_fn = mk_synth_args_validator(synth_name)
          validation_fn.call(args_h)
-         trigger_synth(synth_name, args_h, group, true, validation_fn)
+         n = trigger_synth(synth_name, args_h, group, true, validation_fn)
+         FXNode.new(n, n.in_bus, n.out_bus)
        end
 
        def trigger_synth(synth_name, args_h, group, now=false, arg_validation_fn)
