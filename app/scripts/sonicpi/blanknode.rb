@@ -19,6 +19,9 @@ module SonicPi
     def on_destroyed(&block)
     end
 
+    def on_started(&block)
+    end
+
     def kill(now=false)
       self
     end
@@ -57,6 +60,10 @@ module SonicPi
 
     def state
       :destroyed
+    end
+
+    def name
+      ""
     end
 
     def to_i
