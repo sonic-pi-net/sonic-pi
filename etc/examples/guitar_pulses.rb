@@ -10,7 +10,7 @@ in_thread do
     else
       r = 1
     end
-    sample s_name, :start, s, :end, e, :attack, 0.1, :release, 0.1, :rate, r * [1, 0.5].choose
+    sample s_name, start: s, end: e, attack: 0.1, release: 0.1, rate: r * [1, 0.5].choose
     sleep sample_duration(s_name) * size
   end
 end
@@ -26,7 +26,7 @@ in_thread do
     else
       r = 1
     end
-    sample s_name, :start, s, :end, e, :attack, 0.1, :release, 0.1, :rate, r * 0.5
+    sample s_name, start: s, end: e, attack: 0.1, release: 0.1, rate: r * 0.5
     sleep sample_duration(s_name) * n_size
   end
 end
@@ -37,6 +37,6 @@ loop do
   s_name = :guit_e_fifths
   s = 0.2 + rand(0.3)
   e = s + n_size
-  sample s_name, :start, s, :end, e, :attack, 0.1, :release, 0.1
+  sample s_name, start: s, end: e, attack: 0.1, release: 0.1
   sleep sample_duration(s_name) * n_size
 end
