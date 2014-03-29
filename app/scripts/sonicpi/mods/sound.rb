@@ -262,7 +262,7 @@ module SonicPi
                ## triggered in the threads joined above get chance to
                ## asynchronously communicate their existence to the
                ## tracker. (This happens in a Node#on_started handler)
-               Kernel.sleep 0.5
+               Kernel.sleep 0.5 + @mod_sound_studio.sched_ahead_time
                tracker.block_until_finished
                Kernel.sleep(kill_delay)
                fx_synth.kill(true)
