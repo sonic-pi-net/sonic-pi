@@ -68,13 +68,13 @@ module SonicPi
       end
     end
 
-    def deliver!(val)
+    def deliver!(val, raise_error=true)
       @push_sem.synchronize do
         if(@box.empty? && !@pushed)
           @box.push val
           @pushed = true
         else
-          raise "Promise already delivered"
+          raise "Promise already delivered" if raise_error
         end
       end
     end
