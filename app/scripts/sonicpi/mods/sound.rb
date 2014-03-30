@@ -196,6 +196,8 @@ module SonicPi
          start_subthreads = []
          end_subthreads = []
 
+         fx_synth_name = "fx_#{fx_name}"
+
          fxt = Thread.current
          p = Promise.new
          gc_completed = Promise.new
@@ -210,7 +212,7 @@ module SonicPi
            ## Do something more smart than just blindly use a magic 1s
            ## Munge args
            args_h = resolve_synth_opts_hash_or_array(args)
-           kill_delay = args_h[:kill_delay] || 1
+           kill_delay = args_h[:kill_delay] || SynthInfo.get_info(fx_synth_name).kill_delay(args_h)
 
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
            tracker = nil
@@ -287,8 +289,6 @@ module SonicPi
                return block.call(@blank_node)
              end
            end
-
-           fx_synth_name = "fx_#{fx_name}"
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly

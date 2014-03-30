@@ -58,6 +58,10 @@ module SonicPi
 
     end
 
+    def kill_delay(args_h)
+      1
+    end
+
     private
 
     def v_positive(arg)
@@ -1040,6 +1044,11 @@ module SonicPi
         }
       }
     end
+
+    def kill_delay(args_h)
+      args_h[:decay] || arg_defaults[:decay]
+    end
+
   end
 
   class FXSlicer < SynthInfo
