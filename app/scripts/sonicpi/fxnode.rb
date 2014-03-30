@@ -13,9 +13,11 @@
 module SonicPi
   class FXNode < ChainNode
 
-    def kill(now=false)
-      @in_bus.free
-      @node.kill(now)
+    def initialize(node, in_bus, out_bus)
+      super
+      @node.on_destroyed do
+        @in_bus.free
+      end
     end
 
     def to_s
