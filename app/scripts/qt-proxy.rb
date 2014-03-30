@@ -13,11 +13,11 @@
 #++
 
 require_relative "core.rb"
-require 'json'
+require 'multi_json'
 incoming = OSC::Server.new(4558)
 
 incoming.add_method("/reply") do |payload|
-  info = JSON.parse(payload.to_a[0])
+  info = MultiJson.load(payload.to_a[0])
   case info[:type]
   when :message
     puts info[:val]

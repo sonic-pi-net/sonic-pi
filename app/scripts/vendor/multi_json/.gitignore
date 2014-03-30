@@ -1,0 +1,36 @@
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+
+## PROJECT::GENERAL
+.yardoc
+coverage
+doc
+rdoc
+log
+
+## BUNDLER
+*.gem
+.bundle
+pkg
+Gemfile.lock
+
+## RBENV
+.ruby-version
+.rbenv*
+
+## RCOV
+coverage.data
+
+tmp
+
+## RUBINIUS
+*.rbc

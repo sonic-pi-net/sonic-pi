@@ -1,0 +1,19 @@
+bundler_args: --without development
+language: ruby
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+  - 2.1.1
+  - jruby-18mode
+  - jruby-19mode
+  - jruby-head
+  - rbx-2
+  - ruby-head
+matrix:
+  allow_failures:
+    - rvm: jruby-head
+    - rvm: ruby-head
+  fast_finish: true

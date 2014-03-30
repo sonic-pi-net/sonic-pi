@@ -14,8 +14,8 @@
 
 require_relative "core.rb"
 
-require 'json'
+require 'multi_json'
 
 sp = OSC::Client.new("localhost", 4557)
-payload = JSON.fast_generate({:cmd => "stop-jobs"})
+payload = MultiJson.dump({:cmd => "stop-jobs"})
 sp.send(OSC::Message.new("/json", payload))

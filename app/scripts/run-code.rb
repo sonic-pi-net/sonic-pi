@@ -14,10 +14,10 @@
 
 require_relative "core.rb"
 
-require 'json'
+require 'multi_json'
 
 sp = OSC::Client.new("localhost", 4557)
 code = File.read "/tmp/sonic-pi-current-code.rb"
-payload = JSON.fast_generate({:cmd => "run-code", :val => code})
+payload = MultiJson.dump({:cmd => "run-code", :val => code})
 
 sp.send(OSC::Message.new("/json", payload))

@@ -21,7 +21,7 @@ require_relative "sonicpi/server"
 require_relative "sonicpi/util"
 require_relative "sonicpi/rcv_dispatch"
 
-require 'json'
+require 'multi_json'
 
 include SonicPi::Util
 
@@ -40,7 +40,7 @@ rd = SonicPi::RcvDispatch.new(sp, ws_out)
 
 osc_server.add_method("/json") do |payload|
   puts "Received OSC: #{payload}"
-  decoded = JSON.parse(payload.to_a[0])
+  decoded = MultiJson.load(payload.to_a[0])
   rd.dispatch(decoded)
 end
 
@@ -57,7 +57,7 @@ out_t = Thread.new do
       if message[:type] == :exit
         continue = false
       else
-        proxy.send(OSC::Message.new("/reply", JSON.fast_generate(message)))
+        proxy.send(OSC::Message.new("/reply", MultiJson.dump(message)))
       end
     rescue Exception => e
       puts "Exception!"
