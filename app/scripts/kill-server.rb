@@ -14,8 +14,8 @@
 
 require_relative "core.rb"
 
-require 'edn'
+require 'json'
 
 sp = OSC::Client.new("localhost", 4557)
-payload = {:cmd => "exit"}.to_edn
-sp.send(OSC::Message.new("/edn", payload))
+payload = JSON.fast_generate({:cmd => "exit"})
+sp.send(OSC::Message.new("/json", payload))

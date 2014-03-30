@@ -15,8 +15,8 @@
 require_relative "core.rb"
 
 require 'rubame'
-require 'edn'
 require 'webrick'
+require 'json'
 
 require_relative "sonicpi/scsynth"
 require_relative "sonicpi/studio"
@@ -67,10 +67,10 @@ out_t = Thread.new do
 
       if debug_mode
         puts "sending:"
-        puts "#{message.to_edn}"
+        puts "#{JSON.fast_generate(message)}"
         puts "---"
       end
-      $clients.each{|c| c.send(message.to_edn)}
+      $clients.each{|c| c.send(JSON.fast_generate(message))}
     rescue Exception => e
       puts e.message
       puts e.backtrace.inspect
@@ -87,14 +87,18 @@ in_t = Thread.new do
   while true
     ws_server.run do |client|
       client.onopen do
-        client.send({:type => :message, :val => "Connection initiated..."}.to_edn)
+        client.send(JSON.fast_generate({:type => :message, :val => "Connection initiated..."}))
         $clients << client
         puts "New Websocket Client: \n#{client.frame} \n #{client.socket} \n"
 
       end
       client.onmessage do |msg|
-        puts "====> #{msg}" if debug_mode
-        $rd.dispatch EDN.read(msg)
+        begin
+          parsed = JSON.parse(msg)
+          $rd.dispatch parsed
+        rescue
+          puts "Unable to parse: #{msg}"
+        end
       end
       client.onclose do
         $clients.delete client

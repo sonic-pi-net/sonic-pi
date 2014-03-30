@@ -13,11 +13,11 @@
 #++
 
 require_relative "core.rb"
-require 'edn'
+require 'json'
 incoming = OSC::Server.new(4558)
 
 incoming.add_method("/reply") do |payload|
-  info = EDN.read(payload.to_a[0])
+  info = JSON.parse(payload.to_a[0])
   case info[:type]
   when :message
     puts info[:val]

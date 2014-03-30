@@ -51,10 +51,10 @@
   (om/component
    (apply dom/div nil
           (map (fn [m]
-                 (dom/div nil (:val m)
-                          (when (:backtrace m)
+                 (dom/div nil (get m "val")
+                          (when (get m "backtrace")
                             (dom/div nil
-                                     (dom/pre nil (:backtrace m))))))
+                                     (dom/pre nil (get m "backtrace"))))))
                (:messages data)))))
 
 (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
@@ -83,28 +83,28 @@
                         (keyword? res) res
                         :else          (str res))})))
 
-(defmulti handle-message :type)
+(defmulti handle-message #(get % "type"))
 
-(defmethod handle-message :message
+(defmethod handle-message "message"
   [msg]
   (show-msg msg))
 
-(defmethod handle-message :error
+(defmethod handle-message "error"
   [msg]
   (show-msg msg))
 
-(defmethod handle-message :debug_message
+(defmethod handle-message "debug_message"
   [msg]
   (println "debug=> " msg))
 
-(defmethod handle-message :job
+(defmethod handle-message "job"
   [msg]
   (cond
-   (= :start (:action msg))
-   (swap! app-state update-in [:jobs] conj (:jobid msg))
+   (= "start" (get msg "action"))
+   (swap! app-state update-in [:jobs] conj (get msg "jobid"))
 
-   (= :completed (:action msg))
-   (swap! app-state update-in [:jobs] disj (:jobid msg))
+   (= "completed" (get msg "action"))
+   (swap! app-state update-in [:jobs] disj (get msg "jobid" ))
 
    :else
    (js/alert (str "Unknown job action: " (:action msg)))
@@ -119,34 +119,39 @@
   []
   (set! (.-onclose ws) #(show-msg "Websocket Closed"))
   (set! (.-onmessage ws) (fn [m]
-                           (let [msg (reader/read-string (.-data m))
+                           (let [msg (js->clj (JSON/parse (.-data m)))
                                  res (handle-message msg)]
                              (reply-sync msg res))))
   (events/listen js/document (kb/keyword->event-type :keypress)
                (fn [e]
                  (let [code (.-charCode e)]
-                   (if (= 18 code)
-                     (.send ws {:cmd "run-code"
-                                :val (.getValue js/editor)})))))
+                   (cond
+                    (= 18 code)
+                    (.send ws (JSON/stringify #js{"cmd" "run-code"
+                                                  "val" (.getValue js/editor)}))
+
+                    (= 19 code)
+                    (.send ws (JSON/stringify #js{"cmd" "stop-jobs"
+                                                  "val" (.getValue js/editor)}))))))
 
 )
 
 (defn ^:export sendCode
   []
-  (.send ws {:cmd "run-code"
-             :val (.getValue js/editor)}))
+  (.send ws (JSON/stringify #js {:cmd "run-code"
+                                 :val (.getValue js/editor)})))
 
 
 (defn ^:export stopCode
   []
-  (.send ws {:cmd "stop-jobs"
-             :val (.getValue js/editor)}))
+  (.send ws (JSON/stringify #js {:cmd "stop-jobs"
+                                :val (.getValue js/editor)})))
 
 (defn ^:export reloadCode
   []
-  (.send ws {:cmd "reload"
-             :val (.getValue js/editor)}))
+  (.send ws (JSON/stringify #js {:cmd "reload"
+                                :val (.getValue js/editor)})))
 
 (defn stop-job [j-id]
-  (.send ws {:cmd "stop-job"
-             :val j-id}))
+  (.send ws (JSON/stringify #js {:cmd "stop-job"
+                                :val j-id})))

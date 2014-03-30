@@ -21,7 +21,7 @@ require_relative "sonicpi/server"
 require_relative "sonicpi/util"
 require_relative "sonicpi/rcv_dispatch"
 
-require 'edn'
+require 'json'
 
 include SonicPi::Util
 
@@ -38,9 +38,9 @@ end
 sp =  SonicPi::Spider.new "localhost", 4556, ws_out, 5
 rd = SonicPi::RcvDispatch.new(sp, ws_out)
 
-osc_server.add_method("/edn") do |payload|
+osc_server.add_method("/json") do |payload|
   puts "Received OSC: #{payload}"
-  decoded = EDN.read(payload.to_a[0])
+  decoded = JSON.parse(payload.to_a[0])
   rd.dispatch(decoded)
 end
 
@@ -57,7 +57,7 @@ out_t = Thread.new do
       if message[:type] == :exit
         continue = false
       else
-        proxy.send(OSC::Message.new("/reply", message.to_edn))
+        proxy.send(OSC::Message.new("/reply", JSON.fast_generate(message)))
       end
     rescue Exception => e
       puts "Exception!"

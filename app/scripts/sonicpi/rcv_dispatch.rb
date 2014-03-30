@@ -21,7 +21,7 @@ module SonicPi
 
     def dispatch(data)
       @t_sem.synchronize do
-        cmd = data[:cmd]
+        cmd = data["cmd"]
 
         case cmd
         when "run-code"
@@ -47,7 +47,7 @@ module SonicPi
     private
 
     def exec_sync(data)
-      @spider.__sync(data[:val], data[:result])
+      @spider.__sync(data["val"], data["result"])
     end
 
     def exec_stop
@@ -55,11 +55,11 @@ module SonicPi
     end
 
     def exec_stop_job(data)
-      @spider.__stop_job(data[:val])
+      @spider.__stop_job(data["val"])
     end
 
     def exec_cmd(data)
-      @spider.__spider_eval data[:val]
+      @spider.__spider_eval data["val"]
     end
 
     def exec_event(data)

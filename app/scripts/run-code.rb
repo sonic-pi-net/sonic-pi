@@ -14,11 +14,10 @@
 
 require_relative "core.rb"
 
-require 'edn'
+require 'json'
 
 sp = OSC::Client.new("localhost", 4557)
 code = File.read "/tmp/sonic-pi-current-code.rb"
-payload = {:cmd => "run-code",
-           :val => code}.to_edn
+payload = JSON.fast_generate({:cmd => "run-code", :val => code})
 
-sp.send(OSC::Message.new("/edn", payload))
+sp.send(OSC::Message.new("/json", payload))
