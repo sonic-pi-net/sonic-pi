@@ -308,8 +308,7 @@ void MainWindow::ensureWorkspaces()
 {
   QString program = QCoreApplication::applicationDirPath() + "/../../scripts/ensure-workspaces.rb";
   QStringList arguments;
-  QObject *parent;
-  runProcess = new QProcess(parent);
+  runProcess = new QProcess();
   runProcess->start(program, arguments);
   runProcess->waitForFinished();
 }
@@ -371,7 +370,7 @@ QString MainWindow::currentTabLabel()
 bool MainWindow::saveAs()
 {
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), QDir::homePath() + "/Desktop");
-  saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
+  return saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
 }
 
 void MainWindow::runCode()
@@ -443,11 +442,6 @@ void MainWindow::open()
 
 }
 
-bool MainWindow::save()
-{
-
-}
-
 void MainWindow::about()
 {
   infoWindow = new QMainWindow();
@@ -473,7 +467,7 @@ void MainWindow::help()
 
   about.setWindowTitle("Sonic Pi Help");
   about.setText("Sonic Pi - Making Computer Science Audible");
-  about.setInformativeText("Version 2.0\nCopyright © 2013, 2014 Sam Aaron\n\nA University of Cambridge Computer Laboratory project developed in collaboration with the Raspberry Pi Foundation");
+  about.setInformativeText("Help goes here...");
   about.setStandardButtons(QMessageBox::Ok);
   about.setDefaultButton(QMessageBox::Ok);
   about.show();

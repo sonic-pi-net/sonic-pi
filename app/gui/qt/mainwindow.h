@@ -55,7 +55,6 @@ private slots:
     void stopRunningSynths();
     QString currentTabLabel();
     void open();
-    bool save();
     bool saveAs();
     void about();
     void help();
