@@ -56,29 +56,26 @@
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
+#include <iostream>
+#include "oscpkt.hh"
+#include "udp.hh"
+#include "qtconcurrent/qtconcurrent"
 
 #include "mainwindow.h"
 
+using namespace oscpkt;
+
 MainWindow::MainWindow(QApplication &app)
 {
+QtConcurrent::run(this, &MainWindow::startOSCListener);
 
-  //ensureWorkspaces();
+//ensureWorkspaces();
   QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/start-server.rb";
-
+  std::cerr << serverProgram.toStdString() << std::endl;
   serverProcess = new QProcess();
   serverProcess->start(serverProgram);
   serverProcess->waitForStarted();
 
-  QString proxyProgram = QCoreApplication::applicationDirPath() + "/../../scripts/qt-proxy.rb";
-  proxyProcess = new QProcess();
-  proxyProcess->start(proxyProgram);
-  proxyProcess->waitForStarted();
-
-  connect(proxyProcess, SIGNAL(readyReadStandardOutput()),
-          this, SLOT(updateOutput()));
-
-  connect(proxyProcess, SIGNAL(readyReadStandardError()),
-          this, SLOT(updateError()));
 
   runProcess = NULL;
 
@@ -218,8 +215,6 @@ MainWindow::MainWindow(QApplication &app)
   api->add("with_merged_synth_defaults");
   api->add("with_synth_defaults");
 
-
-
   api->prepare();
 
   QFont font("Monospace");
@@ -305,12 +300,70 @@ void MainWindow::ensureWorkspaces()
   runProcess->waitForFinished();
 }
 
+void MainWindow::startOSCListener() {
+  std::cout << "starting OSC Server" << std::endl;
+  int PORT_NUM = 4558;
+  UdpSocket sock;
+  sock.bindTo(PORT_NUM);
+  if (!sock.isOk()) {
+  } else {
+    PacketReader pr;
+    PacketWriter pw;
+    while (sock.isOk()) {
+      if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
+        pr.init(sock.packetData(), sock.packetSize());
+        oscpkt::Message *msg;
+        while (pr.isOk() && (msg = pr.popMessage()) != 0) {
+
+          if (msg->match("/message")) {
+            std::string s;
+            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+              // Evil nasties!
+              // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(s)) );
+            } else {
+              std::cout << "Server: unhandled message: "<< std::endl;
+            }
+          }
+          else if (msg->match("/error")) {
+            std::string desc;
+            std::string backtrace;
+            if (msg->arg().popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
+              // Evil nasties!
+              // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( errorPane, "append", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(desc)) );
+
+              QMetaObject::invokeMethod( errorPane, "append", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(backtrace)) );
+            } else {
+              std::cout << "Server: unhandled error: "<< std::endl;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
 void MainWindow::onExitCleanup()
 {
-  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/kill-server.rb";
-  QProcess *p = new QProcess();
-  p->start(program);
-  proxyProcess->kill();
+  serverProcess->kill();
+
+  // UdpSocket sock;
+  // int PORT_NUM = 4557;
+  // sock.connectTo("localhost", PORT_NUM);
+  // if (!sock.isOk()) {
+  //   std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+  // } else {
+  //   Message msg("/run-code");
+  //   msg.pushStr(code);
+  //   PacketWriter pw;
+  //   pw.addMessage(msg);
+  //   sock.sendPacket(pw.packetData(), pw.packetSize());
+  // }
 }
 
 void MainWindow::loadWorkspaces()
@@ -366,16 +419,26 @@ bool MainWindow::saveAs()
 
 void MainWindow::runCode()
 {
+
   saveWorkspace( (QsciScintilla*)tabs->currentWidget());
-  saveFile("/tmp/sonic-pi-current-code.rb", (QsciScintilla*)tabs->currentWidget());
   QString emptyText = "";
   statusBar()->showMessage(tr("Running...."), 2000);
+  clearOutputPanels();
+  std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
 
+  UdpSocket sock;
+  int PORT_NUM = 4557;
+  sock.connectTo("localhost", PORT_NUM);
+  if (!sock.isOk()) {
+    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+  } else {
+    Message msg("/run-code");
+    msg.pushStr(code);
+    PacketWriter pw;
+    pw.addMessage(msg);
+    sock.sendPacket(pw.packetData(), pw.packetSize());
+  }
 
-  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/run-code.rb";
-  runProcess = new QProcess();
-  runProcess->start(program);
-  runProcess->waitForStarted();
 }
 
 void MainWindow::killSynths()
@@ -393,18 +456,6 @@ void MainWindow::stopCode()
   QProcess *p = new QProcess();
   p->start(program);
   p->waitForStarted();
-}
-
-void MainWindow::updateError()
-{
-  QByteArray output = proxyProcess->readAllStandardError();
-  errorPane->append(output);
-}
-
-void MainWindow::updateOutput()
-{
-  QByteArray output = proxyProcess->readAllStandardOutput();
-  outputPane->append(output);
 }
 
 void MainWindow::open()

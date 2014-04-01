@@ -60,15 +60,13 @@ private slots:
     void help();
     void prefs();
     void documentWasModified();
-    void updateOutput();
-    void updateError();
     void onExitCleanup();
     void zoomFontIn();
     void zoomFontOut();
 
 
 private:
-
+    void startOSCListener();
     void clearOutputPanels();
     void createActions();
     void createMenus();
@@ -80,6 +78,7 @@ private:
     bool maybeSave();
     void loadFile(const QString &fileName, QsciScintilla* &text);
     bool saveFile(const QString &fileName, QsciScintilla* text);
+    void startScript(const QString &script);
     bool saveWorkspace(QsciScintilla* text);
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
