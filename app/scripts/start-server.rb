@@ -75,7 +75,7 @@ puts "stopping all jobs..."
   begin
     sp.__stop_jobs
   rescue Exception => e
-o    puts "Received Exception when attempting to stop all jobs!"
+    puts "Received Exception when attempting to stop all jobs!"
     puts e.message
     puts e.backtrace.inspect
   end
@@ -100,7 +100,6 @@ out_t = Thread.new do
           puts "sending: /message with arg #{message[:val]}"
           proxy.send(OSC::Message.new("/message", message[:val]))
         when :error
-
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")
           puts "sending: /error #{desc}, #{trace}"
