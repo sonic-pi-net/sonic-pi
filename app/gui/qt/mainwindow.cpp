@@ -59,7 +59,9 @@
 #include <iostream>
 #include "oscpkt.hh"
 #include "udp.hh"
-#include "qtconcurrent/qtconcurrent"
+
+#include <QtConcurrentRun>
+//#include "qtconcurrent/qtconcurrent"
 
 #include "mainwindow.h"
 
@@ -306,11 +308,12 @@ void MainWindow::startOSCListener() {
   UdpSocket sock;
   sock.bindTo(PORT_NUM);
   if (!sock.isOk()) {
+    std::cout << "Unable to listen to OSC messages on port 4558" << std::endl;
   } else {
     PacketReader pr;
-    bool cont = true;
+    int conti = 1;
     PacketWriter pw;
-    while (sock.isOk() && cont) {
+    while (sock.isOk() && (conti == 1)) {
       if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
         pr.init(sock.packetData(), sock.packetSize());
         oscpkt::Message *msg;
@@ -344,7 +347,7 @@ void MainWindow::startOSCListener() {
           }
           else if (msg->match("/exited")) {
             if (msg->arg().isOkNoMoreArgs()) {
-              cont = false;
+              conti = 0;
             } else {
               std::cout << "Server: unhandled exited: "<< std::endl;
             }
@@ -352,8 +355,10 @@ void MainWindow::startOSCListener() {
         }
       }
     }
-
   }
+    std::cout << "OSC Stopped, releasing socket" << std::endl;
+    sock.close();
+
 }
 
 void MainWindow::onExitCleanup()
