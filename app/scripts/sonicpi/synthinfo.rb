@@ -1328,6 +1328,7 @@ module SonicPi
       :dull_bell => DullBell.new,
       :pretty_bell => PrettyBell.new,
       :saw_beep => SawBeep.new,
+      :beep => Beep.new,
       :dsaw => DSaw.new,
       :fm => FM.new,
       :mod_saw => ModSaw.new,
