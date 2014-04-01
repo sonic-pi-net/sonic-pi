@@ -60,10 +60,22 @@ osc_server.add_method("/run-code") do |payload|
 end
 
 osc_server.add_method("/exit") do |payload|
+puts "exiting..."
   begin
     sp.__exit
   rescue Exception => e
     puts "Received Exception when attempting to exit!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/stop-all-jobs") do |payload|
+puts "stopping all jobs..."
+  begin
+    sp.__stop_jobs
+  rescue Exception => e
+o    puts "Received Exception when attempting to stop all jobs!"
     puts e.message
     puts e.backtrace.inspect
   end
@@ -80,6 +92,7 @@ out_t = Thread.new do
       message[:ts] = Time.now.strftime("%H:%M:%S")
 
       if message[:type] == :exit
+        proxy.send(OSC::Message.new("/exited"))
         continue = false
       else
         case message[:type]

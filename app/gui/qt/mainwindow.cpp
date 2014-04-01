@@ -67,7 +67,7 @@ using namespace oscpkt;
 
 MainWindow::MainWindow(QApplication &app)
 {
-QtConcurrent::run(this, &MainWindow::startOSCListener);
+  QtConcurrent::run(this, &MainWindow::startOSCListener);
 
 //ensureWorkspaces();
   QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/start-server.rb";
@@ -308,8 +308,9 @@ void MainWindow::startOSCListener() {
   if (!sock.isOk()) {
   } else {
     PacketReader pr;
+    bool cont = true;
     PacketWriter pw;
-    while (sock.isOk()) {
+    while (sock.isOk() && cont) {
       if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
         pr.init(sock.packetData(), sock.packetSize());
         oscpkt::Message *msg;
@@ -341,6 +342,13 @@ void MainWindow::startOSCListener() {
               std::cout << "Server: unhandled error: "<< std::endl;
             }
           }
+          else if (msg->match("/exited")) {
+            if (msg->arg().isOkNoMoreArgs()) {
+              cont = false;
+            } else {
+              std::cout << "Server: unhandled exited: "<< std::endl;
+            }
+          }
         }
       }
     }
@@ -350,20 +358,20 @@ void MainWindow::startOSCListener() {
 
 void MainWindow::onExitCleanup()
 {
-  serverProcess->kill();
-
-  // UdpSocket sock;
-  // int PORT_NUM = 4557;
-  // sock.connectTo("localhost", PORT_NUM);
-  // if (!sock.isOk()) {
-  //   std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
-  // } else {
-  //   Message msg("/run-code");
-  //   msg.pushStr(code);
-  //   PacketWriter pw;
-  //   pw.addMessage(msg);
-  //   sock.sendPacket(pw.packetData(), pw.packetSize());
-  // }
+  // serverProcess->kill();
+  std::cout << "about to quit - killing server";
+  UdpSocket sock;
+  int PORT_NUM = 4557;
+  sock.connectTo("localhost", PORT_NUM);
+  std::cout << "socket obtained for killing";
+  if (!sock.isOk()) {
+    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+  } else {
+    Message msg("/exit");
+    PacketWriter pw;
+    pw.addMessage(msg);
+    sock.sendPacket(pw.packetData(), pw.packetSize());
+  }
 }
 
 void MainWindow::loadWorkspaces()
@@ -448,6 +456,7 @@ void MainWindow::killSynths()
 
 void MainWindow::stopCode()
 {
+  stopRunningSynths();
   outputPane->clear();
   errorPane->clear();
   statusBar()->showMessage(tr("Stopping..."), 2000);
@@ -533,6 +542,17 @@ void MainWindow::callInitScript()
 
 void MainWindow::stopRunningSynths()
 {
+  UdpSocket sock;
+  int PORT_NUM = 4557;
+  sock.connectTo("localhost", PORT_NUM);
+  if (!sock.isOk()) {
+    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+  } else {
+    Message msg("/stop-all-jobs");
+    PacketWriter pw;
+    pw.addMessage(msg);
+    sock.sendPacket(pw.packetData(), pw.packetSize());
+  }
 }
 
 void MainWindow::clearOutputPanels()
