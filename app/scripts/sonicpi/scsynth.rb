@@ -123,8 +123,7 @@ module SonicPi
     def boot_server_linux
       log_boot_msg
       log "Booting on Linux"
-      #ensure dbus is running (for some reason jackd needs it)
-      `eval $(dbus-launch --auto-syntax)`
+      # `eval $(dbus-launch --auto-syntax)`
       #Start Jack if not already running
       if `ps cax | grep jackd`.empty?
         #Jack not running - start a new instance and store its PID
