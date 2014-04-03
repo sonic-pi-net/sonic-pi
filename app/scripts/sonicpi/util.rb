@@ -37,6 +37,14 @@ module SonicPi
       File.absolute_path("#{root_path}/etc")
     end
 
+    def doc_path
+      File.absolute_path("#{etc_path}/doc")
+    end
+
+    def cheatsheets_path
+      File.absolute_path("#{doc_path}/cheatsheets")
+    end
+
     def log_path
       File.absolute_path("#{root_path}/log")
     end
