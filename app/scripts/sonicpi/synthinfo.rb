@@ -1343,6 +1343,119 @@ module SonicPi
 
 
   class BaseInfo
+
+    @@samples =
+      {
+      :drums => {
+        :desc => "Drum Sounds",
+        :prefix => "drum_",
+        :samples => [
+          :drum_heavy_kick,
+          :drum_tom_mid_soft,
+          :drum_tom_mid_hard,
+          :drum_tom_lo_soft,
+          :drum_tom_lo_hard,
+          :drum_tom_hi_soft,
+          :drum_tom_hi_hard,
+          :drum_splash_soft,
+          :drum_splash_hard,
+          :drum_snare_soft,
+          :drum_snare_hard,
+          :drum_cymbal_soft,
+          :drum_cymbal_hard,
+          :drum_cymbal_open,
+          :drum_cymbal_closed,
+          :drum_cymbal_pedal,
+          :drum_bass_soft,
+          :drum_bass_hard]},
+
+      :electric => {
+        :desc => "Electric Sounds",
+        :prefix => "elec_",
+        :samples => [
+          :elec_triangle,
+          :elec_snare,
+          :elec_lo_snare,
+          :elec_hi_snare,
+          :elec_mid_snare,
+          :elec_cymbal,
+          :elec_soft_kick,
+          :elec_filt_snare,
+          :elec_fuzz_tom,
+          :elec_chime,
+          :elec_bong,
+          :elec_twang,
+          :elec_wood,
+          :elec_pop,
+          :elec_beep,
+          :elec_blip,
+          :elec_blip2,
+          :elec_ping,
+          :elec_bell,
+          :elec_flip,
+          :elec_tick,
+          :elec_hollow_kick,
+          :elec_twip,
+          :elec_plip,
+          :elec_blup]},
+
+      :guitar => {
+        :desc => "Sounds featuring guitars",
+        :prefix => "guit_",
+        :samples => [
+          :guit_harmonics,
+          :guit_e_fifths,
+          :guit_e_slide]},
+
+      :misc => {
+        :desc => "Miscellaneous Sounds",
+        :prefix => "misc_",
+        :samples => [
+          :misc_burp]},
+
+      :percussive => {
+        :desc => "Percurssive Sounds",
+        :prefix => "perc_",
+        :samples => [
+          :perc_bell]},
+
+      :ambient => {
+        :desc => "Ambient Sounds",
+        :prefix => "ambi_",
+        :samples => [
+          :ambi_soft_buzz,
+          :ambi_swoosh,
+          :ambi_drone,
+          :ambi_glass_hum,
+          :ambi_glass_rub,
+          :ambi_haunted_hum,
+          :ambi_piano,
+          :ambi_lunar_land,
+          :ambi_dark_woosh,
+          :ambi_choir]},
+
+      :bass => {
+        :desc => "Bass Sounds",
+        :prefix => "bass_",
+        :samples => [
+          :bass_hit_c,
+          :bass_hard_c,
+          :bass_thick_c,
+          :bass_drop_c,
+          :bass_woodsy_c,
+          :bass_voxy_c,
+          :bass_voxy_hit_c,
+          :bass_dnb_f]},
+
+      :loops => {
+        :desc => "Sounds for Looping",
+        :prefix => "loop_",
+        :samples => [
+          :loop_industrial,
+          :loop_compus,
+          :loop_amen,
+          :loop_amen_full]}}
+
     @@synth_infos =
       {
       :dull_bell => DullBell.new,
@@ -1398,9 +1511,13 @@ module SonicPi
       @@synth_infos
     end
 
+    def self.samples
+      @@samples
+    end
+
     def self.info_doc_markdown(name, klass, key_mod=nil)
       res = "# #{name}\n\n"
-      SynthInfo.get_all.each do |k, v|
+      get_all.each do |k, v|
         next unless v.is_a? klass
         res << "## " << v.name << "\n\n"
         res << "### Key: \n"
@@ -1430,5 +1547,17 @@ module SonicPi
       info_doc_markdown("FX", FXInfo, lambda{|k| k.to_s[3..-1]})
     end
 
+    def self.samples_doc_markdown
+      res = "# Samples\n\n"
+      samples.values.each do |info|
+        res << "## #{info[:desc]}\n"
+        info[:samples].each do |s|
+          res << "* :#{s}\n"
+        end
+        res << "\n\n"
+
+      end
+      res
+    end
   end
 end
