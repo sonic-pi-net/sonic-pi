@@ -56,6 +56,7 @@ module SonicPi
         new_info[:doc] = default_info[:doc]
         new_info[:default] = default
         new_info[:constraints] = constraints
+        new_info[:modulatable] = default_info[:modulatable]
         res[arg] = new_info
       end
 

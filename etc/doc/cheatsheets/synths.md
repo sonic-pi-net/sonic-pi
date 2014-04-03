@@ -12,32 +12,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -68,32 +68,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -124,32 +124,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -180,32 +180,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -236,32 +236,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -281,22 +281,22 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :detune
     - doc: Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds. 
     - default: 0.1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :detune_slide
     - doc: Amount of time (in seconds) for the detune value to change. A long detune_slide value means that the detune takes a long time to slide from the previous value to the new value. A detune_slide of 0 means that the detune instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -312,32 +312,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -357,22 +357,22 @@
   * :divisor
     - doc:  
     - default: 2 
-    - Not Modulatable  
+    - Modulatable  
 
   * :divisor_slide
     - doc:  
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :depth
     - doc:  
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :depth_slide
     - doc:  
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -388,32 +388,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -433,12 +433,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :mod_rate
     - doc:  
@@ -484,17 +484,17 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -545,17 +545,17 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -580,12 +580,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :mod_rate
     - doc:  
@@ -605,7 +605,7 @@
   * :detune
     - doc: Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds. 
     - default: 0.1 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -621,32 +621,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -696,12 +696,12 @@
   * :detune
     - doc: Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds. 
     - default: 0.1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :detune_slide
     - doc: Amount of time (in seconds) for the detune value to change. A long detune_slide value means that the detune takes a long time to slide from the previous value to the new value. A detune_slide of 0 means that the detune instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -717,22 +717,22 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -752,12 +752,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :mod_rate
     - doc:  
@@ -803,32 +803,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -894,27 +894,27 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -934,12 +934,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :mod_rate
     - doc:  
@@ -985,22 +985,22 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -1051,32 +1051,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -1096,12 +1096,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :mod_rate
     - doc:  
@@ -1157,22 +1157,22 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -1223,32 +1223,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -1268,17 +1268,17 @@
   * :cutoff
     - doc:  
     - default: 80 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_min
     - doc:  
     - default: 30 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -1293,17 +1293,17 @@
   * :wave
     - doc: Wave type - 0 saw, 1 pulse 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pulse_width
     - doc: Only valid if wave is type pulse. 
     - default: 0.5 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pulse_width_slide
     - doc: Time in seconds for pulse width to change. Only valid if wave is type pulse. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -1319,32 +1319,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -1364,12 +1364,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 130 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -1395,32 +1395,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -1459,32 +1459,32 @@
   * :note
     - doc: Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3 
     - default: 52 
-    - Not Modulatable  
+    - Modulatable  
 
   * :note_slide
     - doc: Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release. 
@@ -1504,12 +1504,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 110 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -1535,22 +1535,22 @@
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc:  
@@ -1596,22 +1596,22 @@
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :attack
     - doc:  
@@ -1657,22 +1657,22 @@
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :rate
     - doc:  
@@ -1698,22 +1698,22 @@
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan
     - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :pan_slide
     - doc: Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :rate
     - doc:  

@@ -53,12 +53,12 @@
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -79,27 +79,27 @@
   * :delay
     - doc: The time between echoes in seconds. 
     - default: 0.4 
-    - Not Modulatable  
+    - Modulatable  
 
   * :delay_slide
     - doc: Slide time in seconds between delay values 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :decay
     - doc: The time it takes for the echoes to fade away in seconds. 
     - default: 8 
-    - Not Modulatable  
+    - Modulatable  
 
   * :decay_slide
     - doc: Slide time in seconds between decay times 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -115,22 +115,22 @@
   * :rate
     - doc: The frequency of the slices 
     - default: 4 
-    - Not Modulatable  
+    - Modulatable  
 
   * :rate_slide
     - doc: Slide time in seconds between rate values 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :width
     - doc: The width of the slices - 0 - 1. 
     - default: 0.5 
-    - Not Modulatable  
+    - Modulatable  
 
   * :width_slide
     - doc: Slide time in seconds between width values 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :phase
     - doc: Initial phase. 
@@ -140,12 +140,12 @@
   * :amp
     - doc: The amplitude of the resulting effect. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: The slide lag time for amplitude changes. 
     - default: 0.05 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -161,7 +161,7 @@
   * :rate
     - doc: The frequency of filter modulation 
     - default: 0.1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :rate_slide
     - doc:  
@@ -212,12 +212,12 @@
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :threshold
     - doc:  
@@ -283,12 +283,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -314,12 +314,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -345,12 +345,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -376,12 +376,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -407,12 +407,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -428,12 +428,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -459,12 +459,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
@@ -480,12 +480,12 @@
   * :cutoff
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. 
     - default: 100 
-    - Not Modulatable  
+    - Modulatable  
 
   * :cutoff_slide
     - doc: Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
   * :res
     - doc:  
@@ -511,12 +511,12 @@
   * :amp
     - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
     - default: 1 
-    - Not Modulatable  
+    - Modulatable  
 
   * :amp_slide
     - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
-    - Not Modulatable  
+    - Modulatable  
 
 
 
