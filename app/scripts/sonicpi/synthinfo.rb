@@ -1,10 +1,15 @@
 module SonicPi
-  class SynthInfo
+
+  class BaseInfo
     def doc
-      raise "please implement me!"
+       "Please write documentation!"
     end
 
     def arg_defaults
+      raise "please implement me!"
+    end
+
+    def name
       raise "please implement me!"
     end
 
@@ -193,6 +198,9 @@ module SonicPi
       {}
     end
 
+  end
+
+  class SynthInfo < BaseInfo
   end
 
   class DullBell < SynthInfo
@@ -754,6 +762,10 @@ module SonicPi
   end
 
   class Supersaw < SynthInfo
+    def name
+      "Supersaw"
+    end
+
     def doc
       ""
     end
@@ -849,7 +861,11 @@ module SonicPi
 
   end
 
-  class BasicMonoPlayer < SynthInfo
+  class StudioInfo < SynthInfo
+
+  end
+
+  class BasicMonoPlayer < StudioInfo
     def name
       "Basic Mono Sample Player - (no envelope)"
     end
@@ -880,7 +896,7 @@ module SonicPi
     end
   end
 
-  class MonoPlayer < SynthInfo
+  class MonoPlayer < StudioInfo
     def name
       "Mono Sample Player"
     end
@@ -960,7 +976,11 @@ module SonicPi
     end
   end
 
-  class FXReverb < SynthInfo
+  class FXInfo < BaseInfo
+
+  end
+
+  class FXReverb < FXInfo
     def name
       "FX Reverb"
     end
@@ -977,7 +997,7 @@ module SonicPi
     end
   end
 
-  class FXLevel < SynthInfo
+  class FXLevel < FXInfo
     def name
       "FX Level Amplifier"
     end
@@ -990,7 +1010,7 @@ module SonicPi
     end
   end
 
-  class FXEcho < SynthInfo
+  class FXEcho < FXInfo
     def name
       "FX Echo"
     end
@@ -1051,7 +1071,7 @@ module SonicPi
 
   end
 
-  class FXSlicer < SynthInfo
+  class FXSlicer < FXInfo
     def name
       "FX Slicer"
     end
@@ -1123,7 +1143,7 @@ module SonicPi
   end
 
 
-  class FXTechno < SynthInfo
+  class FXTechno < FXInfo
     def name
       "FX Techno"
     end
@@ -1155,7 +1175,7 @@ module SonicPi
   end
 
 
-  class FXCompressor < SynthInfo
+  class FXCompressor < FXInfo
     def name
       "FX Compressor"
     end
@@ -1186,7 +1206,7 @@ module SonicPi
   end
 
 
-  class FXRLPF < SynthInfo
+  class FXRLPF < FXInfo
     def name
       "FX Resonant Low Pass Filter"
     end
@@ -1214,7 +1234,7 @@ module SonicPi
     end
   end
 
-  class FXRHPF < SynthInfo
+  class FXRHPF < FXInfo
     def name
       "FX Resonant High Pass Filter"
     end
@@ -1242,7 +1262,7 @@ module SonicPi
     end
   end
 
-  class FXLPF < SynthInfo
+  class FXLPF < FXInfo
     def name
       "FX Low Pass Filter"
     end
@@ -1268,7 +1288,7 @@ module SonicPi
     end
   end
 
-  class FXHPF < SynthInfo
+  class FXHPF < FXInfo
     def name
       "FX High Pass Filter"
     end
@@ -1294,7 +1314,7 @@ module SonicPi
     end
   end
 
-  class FXNormaliser < SynthInfo
+  class FXNormaliser < FXInfo
     def name
       "FX Normaliser"
     end
@@ -1307,7 +1327,7 @@ module SonicPi
     end
   end
 
-  class FXDistortion < SynthInfo
+  class FXDistortion < FXInfo
     def name
       "FX Distortion"
     end
@@ -1322,7 +1342,7 @@ module SonicPi
 
 
 
-  class SynthInfo
+  class BaseInfo
     @@synth_infos =
       {
       :dull_bell => DullBell.new,
@@ -1373,5 +1393,42 @@ module SonicPi
     def self.get_info(synth_name)
       @@synth_infos[synth_name.to_sym]
     end
+
+    def self.get_all
+      @@synth_infos
+    end
+
+    def self.info_doc_markdown(name, klass, key_mod=nil)
+      res = "# #{name}\n\n"
+      SynthInfo.get_all.each do |k, v|
+        next unless v.is_a? klass
+        res << "## " << v.name << "\n\n"
+        res << "### Key: \n"
+        mk = key_mod ? key_mod.call(k) : k
+        res << "  :#{mk} \n\n"
+        res << "### Doc: \n"
+        res << "  " << v.doc << "\n\n"
+        res << "### Arguments:" "\n"
+        v.arg_info.each do |ak, av|
+          res << "  * :#{ak}\n"
+          res << "    - doc: #{av[:doc]} \n"
+          res << "    - default: #{av[:default]} \n"
+          res << "    - #{av[:modulatable] ? "Modulatable" : "Not Modulatable"}  \n\n"
+        end
+        res << "\n\n"
+
+      end
+      res
+    end
+
+
+    def self.synth_doc_markdown
+      info_doc_markdown("Synths", SynthInfo)
+    end
+
+    def self.fx_doc_markdown
+      info_doc_markdown("FX", FXInfo, lambda{|k| k.to_s[3..-1]})
+    end
+
   end
 end
