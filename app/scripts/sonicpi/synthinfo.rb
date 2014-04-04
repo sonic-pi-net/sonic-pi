@@ -446,7 +446,7 @@ module SonicPi
 
   class ModSawS < SynthInfo
     def name
-      "Modulated Saw Wave (Simple)"
+      "Simple Modulated Saw Wave"
     end
 
     def doc
@@ -535,7 +535,7 @@ module SonicPi
 
   class ModSine < SynthInfo
     def name
-      "Modualted Sine Wave"
+      "Modulated Sine Wave"
     end
 
     def doc
@@ -569,7 +569,7 @@ module SonicPi
 
   class ModSineS < SynthInfo
     def name
-      "Modualted Sine Wave Simple"
+      "Simple Modualted Sine Wave"
     end
 
     def doc
@@ -634,7 +634,7 @@ module SonicPi
 
   class ModTriS < SynthInfo
     def name
-      "Modulated Triangle Wave Simple"
+      "Simple Modulated Triangle Wave"
     end
 
     def doc
@@ -702,7 +702,7 @@ module SonicPi
 
   class ModPulseS < SynthInfo
     def name
-      "Modulated Pulse Simple"
+      "Simple Modulated Pulse"
     end
 
     def doc
@@ -1563,6 +1563,13 @@ module SonicPi
 
     def self.info_doc_markdown(name, klass, key_mod=nil)
       res = "# #{name}\n\n"
+
+      get_all.each do |k, v|
+        next unless v.is_a? klass
+        snake_case = v.name.downcase.gsub(/ /, "-")
+        res << "* [#{v.name}](##{snake_case}) \n"
+      end
+      res << "\n"
       get_all.each do |k, v|
         next unless v.is_a? klass
         res << "## " << v.name << "\n\n"

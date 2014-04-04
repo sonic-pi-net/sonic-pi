@@ -1,5 +1,30 @@
 # Synths
 
+* [Dull Bell](#dull-bell) 
+* [Pretty Bell](#pretty-bell) 
+* [Saw Wave](#saw-wave) 
+* [Sine Wave](#sine-wave) 
+* [Detuned Saw wave](#detuned-saw-wave) 
+* [Basic FM synthesis](#basic-fm-synthesis) 
+* [Modulated Saw Wave](#modulated-saw-wave) 
+* [Simple Modulated Saw Wave](#simple-modulated-saw-wave) 
+* [Modulated Detuned Saw Waves](#modulated-detuned-saw-waves) 
+* [Modulated Detuned Saw Waves Simple](#modulated-detuned-saw-waves-simple) 
+* [Modulated Sine Wave](#modulated-sine-wave) 
+* [Simple Modualted Sine Wave](#simple-modualted-sine-wave) 
+* [Modulated Triangle Wave](#modulated-triangle-wave) 
+* [Simple Modulated Triangle Wave](#simple-modulated-triangle-wave) 
+* [Modulated Pulse](#modulated-pulse) 
+* [Simple Modulated Pulse](#simple-modulated-pulse) 
+* [tb-303](#tb-303) 
+* [Supersaw](#supersaw) 
+* [Supersaw Simple](#supersaw-simple) 
+* [The Prophet](#the-prophet) 
+* [Mono Sample Player](#mono-sample-player) 
+* [Stereo Sample Player](#stereo-sample-player) 
+* [Basic Mono Sample Player - (no envelope)](#basic-mono-sample-player---(no-envelope)) 
+* [Basic Stereo Sample Player - (no envelope)](#basic-stereo-sample-player---(no-envelope)) 
+
 ## Dull Bell
 
 ### Key: 
@@ -551,7 +576,7 @@
 
 
 
-## Modulated Saw Wave (Simple)
+## Simple Modulated Saw Wave
 
 ### Key: 
   :mod_saw_s 
@@ -824,7 +849,7 @@
 
 
 
-## Modualted Sine Wave
+## Modulated Sine Wave
 
 ### Key: 
   :mod_sine 
@@ -925,7 +950,7 @@
 
 
 
-## Modualted Sine Wave Simple
+## Simple Modualted Sine Wave
 
 ### Key: 
   :mod_sine_s 
@@ -1139,7 +1164,7 @@
 
 
 
-## Modulated Triangle Wave Simple
+## Simple Modulated Triangle Wave
 
 ### Key: 
   :mod_tri_s 
@@ -1341,7 +1366,7 @@
 
 
 
-## Modulated Pulse Simple
+## Simple Modulated Pulse
 
 ### Key: 
   :mod_pulse_s 
