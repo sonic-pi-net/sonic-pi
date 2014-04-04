@@ -22,13 +22,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -87,13 +87,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -152,13 +152,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -217,13 +217,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -282,13 +282,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -355,7 +355,7 @@
   :fm 
 
 ### Doc: 
-  
+  A sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth.
 
 ### Arguments:
   * :note
@@ -371,13 +371,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -413,25 +413,25 @@
     - Not Modulatable  
 
   * :divisor
-    - doc:  
+    - doc: Modifies the frequency of the modulator oscillator relative to the carrier. Don't worry too much about what this means - just try different numbers out! 
     - default: 2 
     - constraints: none
     - Modulatable  
 
   * :divisor_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the divisor value to change. A long divisor_slide value means that the divisor takes a long time to slide from the previous value to the new value. A divisor_slide of 0 means that the divisor instantly changes to the new value. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :depth
-    - doc:  
+    - doc: Modifies the depth of the carrier wave used to modify fundamental frequency. Don't worry too much about what this means - just try different numbers out! 
     - default: 1 
     - constraints: none
     - Modulatable  
 
   * :depth_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the depth value to change. A long depth_slide value means that the depth takes a long time to slide from the previous value to the new value. A depth_slide of 0 means that the depth instantly changes to the new value. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -444,7 +444,7 @@
   :mod_saw 
 
 ### Doc: 
-  
+  A saw wave which modulates between two separate notes.
 
 ### Arguments:
   * :note
@@ -460,13 +460,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -514,22 +514,22 @@
     - Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_rate_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_rate value to change. A long mod_rate_slide value means that the mod_rate takes a long time to slide from the previous value to the new value. A mod_rate_slide of 0 means that the mod_rate instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range__slide
     - doc:  
@@ -538,20 +538,20 @@
     - Not Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
   * :mod_width_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_width value to change. A long mod_width_slide value means that the mod_width takes a long time to slide from the previous value to the new value. A mod_width_slide of 0 means that the mod_width instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
 
 
-## Modulated Saw Wave Simple
+## Modulated Saw Wave (Simple)
 
 ### Key: 
   :mod_saw_s 
@@ -567,7 +567,7 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
@@ -603,22 +603,22 @@
     - Not Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
 
 
@@ -638,7 +638,7 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
@@ -686,22 +686,22 @@
     - Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
   * :detune
     - doc: Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds. 
@@ -733,13 +733,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -775,40 +775,40 @@
     - Not Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_rate_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_rate value to change. A long mod_rate_slide value means that the mod_rate takes a long time to slide from the previous value to the new value. A mod_rate_slide of 0 means that the mod_rate instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_range value to change. A long mod_range_slide value means that the mod_range takes a long time to slide from the previous value to the new value. A mod_range_slide of 0 means that the mod_range instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
   * :mod_width_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_width value to change. A long mod_width_slide value means that the mod_width takes a long time to slide from the previous value to the new value. A mod_width_slide of 0 means that the mod_width instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :detune
     - doc: Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds. 
@@ -846,7 +846,7 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
@@ -888,40 +888,40 @@
     - Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_rate_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_rate value to change. A long mod_rate_slide value means that the mod_rate takes a long time to slide from the previous value to the new value. A mod_rate_slide of 0 means that the mod_rate instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_range value to change. A long mod_range_slide value means that the mod_range takes a long time to slide from the previous value to the new value. A mod_range_slide of 0 means that the mod_range instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
   * :mod_width_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_width value to change. A long mod_width_slide value means that the mod_width takes a long time to slide from the previous value to the new value. A mod_width_slide of 0 means that the mod_width instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
 
 
@@ -947,13 +947,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -995,40 +995,40 @@
     - Not Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_rate_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_rate value to change. A long mod_rate_slide value means that the mod_rate takes a long time to slide from the previous value to the new value. A mod_rate_slide of 0 means that the mod_rate instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_range value to change. A long mod_range_slide value means that the mod_range takes a long time to slide from the previous value to the new value. A mod_range_slide of 0 means that the mod_range instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
   * :mod_width_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_width value to change. A long mod_width_slide value means that the mod_width takes a long time to slide from the previous value to the new value. A mod_width_slide of 0 means that the mod_width instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
 
 
@@ -1054,13 +1054,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1102,40 +1102,40 @@
     - Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_rate_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_rate value to change. A long mod_rate_slide value means that the mod_rate takes a long time to slide from the previous value to the new value. A mod_rate_slide of 0 means that the mod_rate instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_range value to change. A long mod_range_slide value means that the mod_range takes a long time to slide from the previous value to the new value. A mod_range_slide of 0 means that the mod_range instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
   * :mod_width_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_width value to change. A long mod_width_slide value means that the mod_width takes a long time to slide from the previous value to the new value. A mod_width_slide of 0 means that the mod_width instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
 
 
@@ -1161,7 +1161,7 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1197,22 +1197,22 @@
     - Not Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
 
 
@@ -1238,13 +1238,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1292,10 +1292,10 @@
     - Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_rate__slide
     - doc:  
@@ -1304,28 +1304,28 @@
     - Not Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_range value to change. A long mod_range_slide value means that the mod_range takes a long time to slide from the previous value to the new value. A mod_range_slide of 0 means that the mod_range instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
   * :mod_width_slide
-    - doc:  
+    - doc: Amount of time (in seconds) for the mod_width value to change. A long mod_width_slide value means that the mod_width takes a long time to slide from the previous value to the new value. A mod_width_slide of 0 means that the mod_width instantly changes to the new value. 
     - default: 0 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :pulse_width
     - doc:  
@@ -1363,7 +1363,7 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1393,22 +1393,22 @@
     - Not Modulatable  
 
   * :mod_rate
-    - doc:  
+    - doc: Number of times per second that the note switches between the two notes. 
     - default: 1 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_range
-    - doc:  
+    - doc: The size of gap between modulation notes. A gap of 12 is one octave. 
     - default: 5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be zero or greater
+    - Modulatable  
 
   * :mod_width
-    - doc:  
+    - doc: The phase width of the modulation. Represents how even the gap between modulations is. 
     - default: 0.5 
-    - constraints: none
-    - Not Modulatable  
+    - constraints: must be a value between 0 and 1 exclusively
+    - Modulatable  
 
   * :pulse_width
     - doc:  
@@ -1440,13 +1440,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1553,13 +1553,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1642,13 +1642,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1714,13 +1714,13 @@
     - Modulatable  
 
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1791,13 +1791,13 @@
 
 ### Arguments:
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1862,13 +1862,13 @@
 
 ### Arguments:
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1933,13 +1933,13 @@
 
 ### Arguments:
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  
@@ -1980,13 +1980,13 @@
 
 ### Arguments:
   * :amp
-    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played. 
+    - doc: The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.) 
     - default: 1 
     - constraints: must be zero or greater
     - Modulatable  
 
   * :amp_slide
-    - doc: Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
+    - doc: Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude. 
     - default: 0 
     - constraints: must be zero or greater
     - Modulatable  

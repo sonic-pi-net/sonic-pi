@@ -70,6 +70,10 @@ module SonicPi
 
     private
 
+    def generic_slide_doc(k)
+      return "Amount of time (in seconds) for the #{k} value to change. A long #{k}_slide value means that the #{k} takes a long time to slide from the previous value to the new value. A #{k}_slide of 0 means that the #{k} instantly changes to the new value."
+    end
+
     def v_positive(arg)
       [lambda{|args| args[arg] >= 0}, "must be zero or greater"]
     end
@@ -112,14 +116,14 @@ module SonicPi
 
         :amp =>
         {
-          :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played.",
+          :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.)",
           :validations => [v_positive(:amp)],
           :modulatable => true
         },
 
         :amp_slide =>
         {
-          :doc => "Amount of time (in seconds) for the amp to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude.",
+          :doc => "Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude.",
           :validations => [v_positive(:amp_slide)],
           :modulatable => true
         },
@@ -186,11 +190,52 @@ module SonicPi
 
         :detune_slide =>
         {
-          :doc => "Amount of time (in seconds) for the detune value to change. A long detune_slide value means that the detune takes a long time to slide from the previous value to the new value. A detune_slide of 0 means that the detune instantly changes to the new value.",
+          :doc => generic_slide_doc(:detune),
           :validations => [v_positive(:detune_slide)],
           :modulatable => true
-        }
+        },
 
+        :mod_rate =>
+        {
+          :doc => "Number of times per second that the note switches between the two notes.",
+          :validations => [v_positive(:mod_rate)],
+          :modulatable => true
+        },
+
+        :mod_rate_slide =>
+        {
+          :doc => generic_slide_doc(:mod_rate),
+          :validations => [v_positive(:mod_rate_slide)],
+          :modulatable => true
+        },
+
+        :mod_range =>
+        {
+          :doc => "The size of gap between modulation notes. A gap of 12 is one octave.",
+          :validations => [v_positive(:mod_range)],
+          :modulatable => true
+        },
+
+        :mod_range_slide =>
+        {
+          :doc => generic_slide_doc(:mod_range),
+          :validations => [v_positive(:mod_range_slide)],
+          :modulatable => true
+        },
+
+        :mod_width =>
+        {
+          :doc => "The phase width of the modulation. Represents how even the gap between modulations is.",
+          :validations => [v_between_exclusive(:mod_width, 0, 1)],
+          :modulatable => true
+        },
+
+        :mod_width_slide =>
+        {
+          :doc => generic_slide_doc(:mod_width),
+          :validations => [v_positive(:mod_width_slide)],
+          :modulatable => true
+        }
 
       }
     end
@@ -308,7 +353,7 @@ module SonicPi
     end
 
     def doc
-      ""
+      "A sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth."
     end
 
     def arg_defaults
@@ -335,28 +380,28 @@ module SonicPi
       {
         :divisor =>
         {
-          :doc => "",
+          :doc => "Modifies the frequency of the modulator oscillator relative to the carrier. Don't worry too much about what this means - just try different numbers out!",
           :validations => [],
           :modulatable => true
         },
 
         :divisor_slide =>
         {
-          :doc => "",
+          :doc => generic_slide_doc(:divisor),
           :validations => [v_positive(:divisor_slide)],
           :modulatable => true
         },
 
         :depth =>
         {
-          :doc => "",
+          :doc => "Modifies the depth of the carrier wave used to modify fundamental frequency. Don't worry too much about what this means - just try different numbers out!",
           :validations => [],
           :modulatable => true
         },
 
         :depth_slide =>
         {
-          :doc => "",
+          :doc => generic_slide_doc(:depth),
           :validations => [v_positive(:depth_slide)],
           :modulatable => true
         }
@@ -371,7 +416,7 @@ module SonicPi
     end
 
     def doc
-      ""
+      "A saw wave which modulates between two separate notes."
     end
 
     def arg_defaults
@@ -401,7 +446,7 @@ module SonicPi
 
   class ModSawS < SynthInfo
     def name
-      "Modulated Saw Wave Simple"
+      "Modulated Saw Wave (Simple)"
     end
 
     def doc
