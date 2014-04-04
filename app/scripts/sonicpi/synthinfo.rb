@@ -1531,6 +1531,7 @@ module SonicPi
           res << "  * :#{ak}\n"
           res << "    - doc: #{av[:doc]} \n"
           res << "    - default: #{av[:default]} \n"
+          res << "    - constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}\n"
           res << "    - #{av[:modulatable] ? "Modulatable" : "Not Modulatable"}  \n\n"
         end
         res << "\n\n"
