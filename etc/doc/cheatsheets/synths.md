@@ -1,5 +1,7 @@
 # Synths
 
+* [Pretty Bell](#pretty-bell)
+
 ## Dull Bell
 
 ### Key: 
