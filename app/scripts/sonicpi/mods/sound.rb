@@ -527,9 +527,9 @@ module SonicPi
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
-             __delayed_message "Playing sample: #{path}"
+             __delayed_message "Playing sample #{path.inspect}"
            else
-             __delayed_message "Playing sample: #{path} with: #{arg_h_pp(args_h)}"
+             __delayed_message "Playing sample #{path.inspect} with: #{arg_h_pp(args_h)}"
            end
          end
 
