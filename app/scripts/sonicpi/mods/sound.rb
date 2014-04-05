@@ -424,7 +424,13 @@ module SonicPi
        end
 
        def load_samples(*paths)
-         paths.each{|p| load_sample p}
+         paths.each do |p|
+           if p.kind_of?(Array)
+             load_samples *p
+           else
+             load_sample p
+           end
+         end
        end
 
        def sample_info(path)
