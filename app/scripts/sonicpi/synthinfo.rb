@@ -1390,9 +1390,9 @@ module SonicPi
 
   class BaseInfo
 
-    @@samples =
+    @@grouped_samples =
       {
-      :drums => {
+      :drum => {
         :desc => "Drum Sounds",
         :prefix => "drum_",
         :samples => [
@@ -1415,7 +1415,7 @@ module SonicPi
           :drum_bass_soft,
           :drum_bass_hard]},
 
-      :electric => {
+      :elec => {
         :desc => "Electric Sounds",
         :prefix => "elec_",
         :samples => [
@@ -1445,7 +1445,7 @@ module SonicPi
           :elec_plip,
           :elec_blup]},
 
-      :guitar => {
+      :guit => {
         :desc => "Sounds featuring guitars",
         :prefix => "guit_",
         :samples => [
@@ -1459,13 +1459,13 @@ module SonicPi
         :samples => [
           :misc_burp]},
 
-      :percussive => {
+      :perc => {
         :desc => "Percurssive Sounds",
         :prefix => "perc_",
         :samples => [
           :perc_bell]},
 
-      :ambient => {
+      :ambi => {
         :desc => "Ambient Sounds",
         :prefix => "ambi_",
         :samples => [
@@ -1493,7 +1493,7 @@ module SonicPi
           :bass_voxy_hit_c,
           :bass_dnb_f]},
 
-      :loops => {
+      :loop => {
         :desc => "Sounds for Looping",
         :prefix => "loop_",
         :samples => [
@@ -1501,6 +1501,8 @@ module SonicPi
           :loop_compus,
           :loop_amen,
           :loop_amen_full]}}
+
+    @@all_samples = (@@grouped_samples.values.reduce([]) {|s, el| s << el[:samples]}).flatten
 
     @@synth_infos =
       {
@@ -1557,8 +1559,12 @@ module SonicPi
       @@synth_infos
     end
 
-    def self.samples
-      @@samples
+    def self.grouped_samples
+      @@grouped_samples
+    end
+
+    def self.all_samples
+      @@all_samples
     end
 
     def self.info_doc_markdown(name, klass, key_mod=nil)
@@ -1603,7 +1609,7 @@ module SonicPi
 
     def self.samples_doc_markdown
       res = "# Samples\n\n"
-      samples.values.each do |info|
+      grouped_samples.values.each do |info|
         res << "## #{info[:desc]}\n"
         info[:samples].each do |s|
           res << "* :#{s}\n"
