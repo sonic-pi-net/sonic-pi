@@ -544,7 +544,7 @@
           amp            (lag amp amp_slide)
           pan            (lag pan pan_slide)
           cutoff         (lag cutoff cutoff_slide)
-          mod_rate       (lag mod_rate_slide)
+          mod_rate       (lag mod_rate mod_rate_slide)
           mod_range      (lag mod_range mod_range_slide)
           mod_width      (lag mod_width mod_width_slide)
           pulse_width    (lag pulse_width pulse_width_slide)
