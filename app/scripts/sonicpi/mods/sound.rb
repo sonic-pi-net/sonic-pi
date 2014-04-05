@@ -461,6 +461,10 @@ module SonicPi
          Chord.new(tonic, name).to_a
        end
 
+       def control(node, *args)
+         node.control *args
+       end
+
        private
 
        def arg_h_pp(arg_h)

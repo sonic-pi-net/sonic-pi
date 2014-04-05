@@ -49,6 +49,10 @@ module SonicPi
       r + smallest
     end
 
+    def choose(list)
+      list.to_a.choose
+    end
+
     def sleep(seconds)
       last = Thread.current.thread_variable_get :sonic_pi_spider_time
       now = Time.now
