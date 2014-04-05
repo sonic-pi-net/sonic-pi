@@ -475,6 +475,18 @@ module SonicPi
          node.control *args
        end
 
+       def sample_names(group=nil)
+         if group
+           return BaseInfo.grouped_samples[group][:samples]
+         else
+           return BaseInfo.all_samples
+         end
+       end
+
+       def sample_groups
+         BaseInfo.grouped_samples.keys
+       end
+
        private
 
        def arg_h_pp(arg_h)
