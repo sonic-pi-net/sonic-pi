@@ -407,10 +407,14 @@ module SonicPi
          when Symbol
            full_path = resolve_sample_symbol_path(path)
            raise "No sample exists called #{path.inspect}" unless File.exists?(full_path)
-           load_sample(full_path)
+           info, cached = @mod_sound_studio.load_sample(full_path)
+           puts "Loaded sample :#{path}" unless cached
+           return info
          when String
            if File.exists?(path)
-             @mod_sound_studio.load_sample(path)
+             info, cached = @mod_sound_studio.load_sample(path)
+             puts "Loaded sample #{path.inspect}" unless cached
+             return info
            else
              raise "No sample exists with path #{path}"
            end

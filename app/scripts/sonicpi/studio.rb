@@ -34,7 +34,7 @@ module SonicPi
     end
 
     def load_sample(path)
-      return @samples[path] if @samples[path]
+      return [@samples[path], true] if @samples[path]
       message "Loading full sample path: #{path}"
       buf_info = nil
       SAMPLE_SEM.synchronize do
@@ -42,7 +42,7 @@ module SonicPi
         buf_info = @server.buffer_alloc_read(path)
         @samples[path] = buf_info
       end
-      buf_info
+      [buf_info, false]
     end
 
     def reset_and_setup_groups_and_busses
