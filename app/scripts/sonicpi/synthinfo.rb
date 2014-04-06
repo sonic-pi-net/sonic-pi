@@ -757,7 +757,7 @@ module SonicPi
         :cutoff => 80,
         :cutoff_slide => 0,
         :cutoff_min => 30,
-        :res => 0.2,
+        :res => 0.1,
         :res_slide => 0,
         :wave => 0,
         :pulse_width => 0.5,
@@ -1033,7 +1033,7 @@ module SonicPi
 
     def arg_defaults
       {
-        :mix => 0.75,
+        :mix => 0.4,
         :mix_slide => 0,
         :room => 0.6,
         :room_slide => 0,

@@ -744,7 +744,7 @@
      cutoff   80
      cutoff_slide 0
      cutoff_min 30
-     res      0.2                       ; rlpf resonance
+     res      0.1                       ; rlpf resonance
      res_slide 0
      wave     0                         ; 0=saw, 1=pulse
      pulse_width 0.5                    ; only for pulse wave
@@ -894,7 +894,7 @@
 
 ;;FX
 (do
-  (defsynth fx_reverb [mix 0.75
+  (defsynth fx_reverb [mix 0.4
                        mix_slide 0
                        room 0.6
                        room_slide 0
@@ -909,7 +909,7 @@
           snd   (free-verb2 l r mix room damp)]
       (out out-bus snd)))
 
-  (defsynth fx_replace_reverb [mix 0.75
+  (defsynth fx_replace_reverb [mix 0.4
                                mix_slide 0
                                room 0.6
                                room_slide 0
