@@ -48,9 +48,9 @@
           src (* amp src)]
       (replace-out out-bus src)))
 
-  ;; (save-to-pi mixer)
-  ;; (save-to-pi basic-mixer)
-  )
+  (comment
+    (save-to-pi mixer)
+    (save-to-pi basic-mixer)))
 
 
 ;; Simple Trigger synths
@@ -722,51 +722,49 @@
           snd           (balance2 snd-l snd-r pan amp)
           snd           (* env snd)]
       (out out-bus snd)))
-
-   ;; (save-to-pi mono_player)
-   ;; (save-to-pi stereo_player)
-   ;; (save-to-pi basic_mono_player)
-   ;; (save-to-pi basic_stereo_player)
-
-  )
+  (comment
+    (save-to-pi mono_player)
+    (save-to-pi stereo_player)
+    (save-to-pi basic_mono_player)
+    (save-to-pi basic_stereo_player)))
 
 (do
 
   (defsynth tb303
-  "A simple clone of the sound of a Roland TB-303 bass synthesizer."
-  [note     52        ; midi note value input
-   note_slide 0
-   amp      1
-   amp_slide 0
-   pan      0
-   pan_slide 0
-   attack   0.01
-   sustain  0
-   release  2
-   cutoff   80
-   cutoff_slide 0
-   cutoff_min 30
-   res      0.2       ; rlpf resonance
-   res_slide 0
-   wave     0         ; 0=saw, 1=pulse
-   pulse_width 0.5    ; only for pulse wave
-   pulse_width_slide 0
-   out-bus  0]
-  (let [note            (lag note note_slide)
-        amp             (lag amp amp_slide)
-        pan             (lag pan pan_slide)
-        cutoff_slide    (lag cutoff cutoff_slide)
-        res             (lag res res_slide)
-        pulse_width     (lag pulse_width pulse_width_slide)
-        cutoff-freq     (midicps cutoff)
-        cutoff-min-freq (midicps cutoff_min)
-        freq            (midicps note)
-        env             (env-gen (env-lin attack sustain release) :action FREE)
-        snd             (rlpf (select wave [(saw freq) (pulse freq pulse_width)])
-                              (+ cutoff-min-freq (* env cutoff-freq))
-                              res)
-        snd             (* env snd)]
-    (out out-bus (pan2 snd pan amp))))
+    "A simple clone of the sound of a Roland TB-303 bass synthesizer."
+    [note     52                        ; midi note value input
+     note_slide 0
+     amp      1
+     amp_slide 0
+     pan      0
+     pan_slide 0
+     attack   0.01
+     sustain  0
+     release  2
+     cutoff   80
+     cutoff_slide 0
+     cutoff_min 30
+     res      0.2                       ; rlpf resonance
+     res_slide 0
+     wave     0                         ; 0=saw, 1=pulse
+     pulse_width 0.5                    ; only for pulse wave
+     pulse_width_slide 0
+     out-bus  0]
+    (let [note            (lag note note_slide)
+          amp             (lag amp amp_slide)
+          pan             (lag pan pan_slide)
+          cutoff_slide    (lag cutoff cutoff_slide)
+          res             (lag res res_slide)
+          pulse_width     (lag pulse_width pulse_width_slide)
+          cutoff-freq     (midicps cutoff)
+          cutoff-min-freq (midicps cutoff_min)
+          freq            (midicps note)
+          env             (env-gen (env-lin attack sustain release) :action FREE)
+          snd             (rlpf (select wave [(saw freq) (pulse freq pulse_width)])
+                                (+ cutoff-min-freq (* env cutoff-freq))
+                                res)
+          snd             (* env snd)]
+      (out out-bus (pan2 snd pan amp))))
 
   (defsynth supersaw [note 52
                       note_slide 0
@@ -837,7 +835,7 @@
       (out out-bus output)))
 
   (defsynth prophet
-  "The Prophet Speaks (page 2)
+    "The Prophet Speaks (page 2)
 
    Dark and swirly, this synth uses Pulse Width Modulation (PWM) to
    create a timbre which continually moves around. This effect is
@@ -853,46 +851,46 @@
    frequency) and its LFO has a little bit of randomisation thrown into
    its frequency component for that extra bit of variety."
 
-  [note 52
-   note_slide 0
-   amp 1
-   amp_slide 0
-   pan 0
-   pan_slide 0
-   attack 0.01
-   sustain 0
-   release 2
-   cutoff 110
-   cutoff_slide 0
-   res 0.3
-   res_slide 0
-   out-bus 0 ]
+    [note 52
+     note_slide 0
+     amp 1
+     amp_slide 0
+     pan 0
+     pan_slide 0
+     attack 0.01
+     sustain 0
+     release 2
+     cutoff 110
+     cutoff_slide 0
+     res 0.3
+     res_slide 0
+     out-bus 0 ]
 
-  (let [note        (lag note note_slide)
-        amp         (lag amp amp_slide)
-        pan         (lag pan pan_slide)
-        cutoff      (lag cutoff cutoff_slide)
-        res         (lag res res_slide)
-        freq        (midicps note)
-        cutoff-freq (midicps cutoff)
-        snd         (mix [(pulse freq (* 0.1 (/ (+ 1.2 (sin-osc:kr 1)) )))
-                          (pulse freq (* 0.8 (/ (+ 1.2 (sin-osc:kr 0.3) 0.7) 2)))
-                          (pulse freq (* 0.8 (/ (+ 1.2 (lf-tri:kr 0.4 )) 2)))
-                          (pulse freq (* 0.8 (/ (+ 1.2 (lf-tri:kr 0.4 0.19)) 2)))
-                          (* 0.5 (pulse (/ freq 2) (* 0.8 (/ (+ 1.2 (lf-tri:kr (+ 2 (lf-noise2:kr 0.2))))
-                                                             2))))])
-        snd         (normalizer snd)
-        env         (env-gen (env-lin attack sustain release) :action FREE)
-        snd         (rlpf (* env snd snd) cutoff-freq res)
-        snd         (pan2 snd pan amp)]
+    (let [note        (lag note note_slide)
+          amp         (lag amp amp_slide)
+          pan         (lag pan pan_slide)
+          cutoff      (lag cutoff cutoff_slide)
+          res         (lag res res_slide)
+          freq        (midicps note)
+          cutoff-freq (midicps cutoff)
+          snd         (mix [(pulse freq (* 0.1 (/ (+ 1.2 (sin-osc:kr 1)) )))
+                            (pulse freq (* 0.8 (/ (+ 1.2 (sin-osc:kr 0.3) 0.7) 2)))
+                            (pulse freq (* 0.8 (/ (+ 1.2 (lf-tri:kr 0.4 )) 2)))
+                            (pulse freq (* 0.8 (/ (+ 1.2 (lf-tri:kr 0.4 0.19)) 2)))
+                            (* 0.5 (pulse (/ freq 2) (* 0.8 (/ (+ 1.2 (lf-tri:kr (+ 2 (lf-noise2:kr 0.2))))
+                                                               2))))])
+          snd         (normalizer snd)
+          env         (env-gen (env-lin attack sustain release) :action FREE)
+          snd         (rlpf (* env snd snd) cutoff-freq res)
+          snd         (pan2 snd pan amp)]
 
-    (out out-bus snd)))
+      (out out-bus snd)))
 
-  ;; (save-to-pi tb303)
-  ;; (save-to-pi supersaw)
-  ;; (save-to-pi supersaw_s)
-  ;; (save-to-pi prophet)
-  )
+  (comment
+    (save-to-pi tb303)
+    (save-to-pi supersaw)
+    (save-to-pi supersaw_s)
+    (save-to-pi prophet)))
 
 ;;FX
 (do
