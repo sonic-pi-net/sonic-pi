@@ -40,9 +40,16 @@
           source   (lpf source 20000)
           amp      (lag-ud amp 0 0.02)
           safe-snd (limiter source 0.99 0.001)]
-        (replace-out 0 safe-snd)))
+      (replace-out 0 safe-snd)))
+
+  (defsynth basic-mixer [out-bus 0 amp 1 amp_slide 0.5]
+    (let [amp (lag amp amp_slide)
+          src (in out-bus 2)
+          src (* amp src)]
+      (replace-out out-bus src)))
 
   ;; (save-to-pi mixer)
+  ;; (save-to-pi basic-mixer)
   )
 
 
@@ -904,12 +911,35 @@
           snd   (free-verb2 l r mix room damp)]
       (out out-bus snd)))
 
+  (defsynth fx_replace_reverb [mix 0.75
+                               mix_slide 0
+                               room 0.6
+                               room_slide 0
+                               damp 0.5
+                               damp_slide 0
+                               out-bus 0]
+    (let [mix   (lag mix mix_slide)
+          room  (lag room room_slide)
+          damp  (lag damp damp_slide)
+          [l r] (in:ar out-bus 2)
+          snd   (free-verb2 l r mix room damp)]
+      (replace-out out-bus snd)))
+
+
+
   (defsynth fx_level [amp 1
                       amp_slide 0
                       in-bus 0
                       out-bus 0]
     (let [amp (lag amp amp_slide )]
-         (out out-bus (* amp (in in-bus 2)))))
+      (out out-bus (* amp (in in-bus 2)))))
+
+  (defsynth fx_replace_level [amp 1
+                              amp_slide 0
+                              out-bus 0]
+    (let [amp (lag amp amp_slide )]
+      (replace-out out-bus (* amp (in out-bus 2)))))
+
 
   (defsynth fx_echo
     [delay 0.4
@@ -927,6 +957,22 @@
           source (in in-bus 2)
           echo   (comb-n source max_delay delay decay)]
       (out out-bus (+ echo source))))
+
+  (defsynth fx_replace_echo
+    [delay 0.4
+     delay_slide 0
+     decay 8
+     decay_slide 0
+     max_delay 1
+     amp 1
+     amp_slide 0
+     out-bus 0]
+    (let [delay  (lag delay delay_slide)
+          decay  (lag decay decay_slide)
+          amp    (lag amp amp_slide)
+          source (in out-bus 2)
+          echo   (comb-n source max_delay delay decay)]
+      (replace-out out-bus (+ echo source))))
 
   (defsynth fx_slicer
     [rate 4
@@ -946,180 +992,352 @@
           sliced    (* amp slice-amp source)]
       (out out-bus sliced)))
 
-; {arg sig     ; RLPF.ar(sig, SinOsc.ar(0.1).exprange(880,12000), 0.2)};
+  (defsynth fx_replace_slicer
+    [rate 4
+     rate_slide 0
+     width 0.5
+     width_slide 0
+     phase 0
+     amp 1
+     amp_slide 0.05
+     out-bus 0]
+    (let [rate      (lag rate rate_slide)
+          width     (lag width width_slide)
+          amp       (lag amp amp_slide)
+          source    (in out-bus 2)
+          slice-amp (lag (lf-pulse:kr rate phase width) amp_slide)
+          sliced    (* amp slice-amp source)]
+      (replace-out out-bus sliced)))
 
-   (defsynth fx_techno
-     [rate 0.1
-      rate_slide 0
-      cutoff_min 880
-      cutoff_min_slide 0
-      cutoff_max 12000
-      cutoff_max_slide 0
-      res 0.2
-      res_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [freq (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
-           src  (in in-bus 2)
-           src  (rlpf src freq res)]
-       (out out-bus src)))
+  ;; {arg sig     ; RLPF.ar(sig, SinOsc.ar(0.1).exprange(880,12000), 0.2)};
 
-   (defsynth fx_compressor
-     [amp 1
-      amp_slide 0
-      threshold 0.2
-      threshold_slide 0
-      clamp_time 0.01
-      clamp_time_slide 0
-      slope_above 0.5
-      slope_above_slide 0
-      slope_below 1
-      slope_below_slide 0
-      relax_time 0.01
-      relax_time_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [amp         (lag amp amp_slide)
-           threshold   (lag threshold threshold_slide)
-           clamp_time  (lag clamp_time clamp_time_slide)
-           slope_above (lag slope_above slope_above_slide)
-           slope_below (lag slope_below slope_below_slide)
-           relax_time  (lag relax_time relax_time_slide)
-           src         (* amp (in in-bus 2))]
-       (out out-bus (compander src src threshold
-                               slope_below slope_above
-                               clamp_time relax_time))))
+  (defsynth fx_ixi_techno
+    [rate 0.1
+     rate_slide 0
+     cutoff_min 880
+     cutoff_min_slide 0
+     cutoff_max 12000
+     cutoff_max_slide 0
+     res 0.2
+     res_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [freq (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
+          src  (in in-bus 2)
+          src  (rlpf src freq res)]
+      (out out-bus src)))
 
-   (defsynth fx_rlpf
-     [cutoff 100
-      cutoff_slide 0
-      res 0.6
-      res_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [cutoff (lag cutoff cutoff_slide)
-           cutoff (midicps cutoff)
-           res    (lag res res_slide)
-           src    (in in-bus 2)]
-       (out out-bus (rlpf src cutoff res))))
+  (defsynth fx_replace_ixi_techno
+    [rate 0.1
+     rate_slide 0
+     cutoff_min 880
+     cutoff_min_slide 0
+     cutoff_max 12000
+     cutoff_max_slide 0
+     res 0.2
+     res_slide 0
+     out-bus 0]
+    (let [freq (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
+          src  (in out-bus 2)
+          src  (rlpf src freq res)]
+      (replace-out out-bus src)))
 
-   (defsynth fx_norm_rlpf
-     [cutoff 100
-      cutoff_slide 0
-      res 0.6
-      res_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [cutoff (lag cutoff cutoff_slide)
-           cutoff (midicps cutoff)
-           res    (lag res res_slide)
-           src    (in in-bus 2)]
-       (out out-bus (normalizer (rlpf src cutoff res)))))
+  (defsynth fx_compressor
+    [amp 1
+     amp_slide 0
+     threshold 0.2
+     threshold_slide 0
+     clamp_time 0.01
+     clamp_time_slide 0
+     slope_above 0.5
+     slope_above_slide 0
+     slope_below 1
+     slope_below_slide 0
+     relax_time 0.01
+     relax_time_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [amp         (lag amp amp_slide)
+          threshold   (lag threshold threshold_slide)
+          clamp_time  (lag clamp_time clamp_time_slide)
+          slope_above (lag slope_above slope_above_slide)
+          slope_below (lag slope_below slope_below_slide)
+          relax_time  (lag relax_time relax_time_slide)
+          src         (* amp (in in-bus 2))]
+      (out out-bus (compander src src threshold
+                              slope_below slope_above
+                              clamp_time relax_time))))
 
-   (defsynth fx_rhpf
-     [cutoff 10
-      cutoff_slide 0
-      res 0.6
-      res_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [cutoff (lag cutoff cutoff_slide)
-           cutoff (midicps cutoff)
-           res    (lag res res_slide)
-           src    (in in-bus 2)]
-       (out out-bus (rhpf src cutoff res))))
+  (defsynth fx_replace_compressor
+    [amp 1
+     amp_slide 0
+     threshold 0.2
+     threshold_slide 0
+     clamp_time 0.01
+     clamp_time_slide 0
+     slope_above 0.5
+     slope_above_slide 0
+     slope_below 1
+     slope_below_slide 0
+     relax_time 0.01
+     relax_time_slide 0
+     out-bus 0]
+    (let [amp         (lag amp amp_slide)
+          threshold   (lag threshold threshold_slide)
+          clamp_time  (lag clamp_time clamp_time_slide)
+          slope_above (lag slope_above slope_above_slide)
+          slope_below (lag slope_below slope_below_slide)
+          relax_time  (lag relax_time relax_time_slide)
+          src         (* amp (in out-bus 2))]
+      (replace-out out-bus (compander src src threshold
+                                      slope_below slope_above
+                                      clamp_time relax_time))))
 
-   (defsynth fx_norm_rhpf
-     [cutoff 10
-      cutoff_slide 0
-      res 0.6
-      res_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [cutoff (lag cutoff cutoff_slide)
-           cutoff (midicps cutoff)
-           res    (lag res res_slide)
-           src    (in in-bus 2)]
-       (out out-bus (normalizer (rhpf src cutoff res)))))
+  (defsynth fx_rlpf
+    [cutoff 100
+     cutoff_slide 0
+     res 0.6
+     res_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          res    (lag res res_slide)
+          src    (in in-bus 2)]
+      (out out-bus (rlpf src cutoff res))))
 
-   (defsynth fx_hpf
-     [cutoff 10
-      cutoff_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [cutoff (lag cutoff cutoff_slide)
-           cutoff (midicps cutoff)
-           src    (in in-bus 2)]
-       (out out-bus (hpf src cutoff))))
+  (defsynth fx_replace_rlpf
+    [cutoff 100
+     cutoff_slide 0
+     res 0.6
+     res_slide 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          res    (lag res res_slide)
+          src    (in out-bus 2)]
+      (replace-out out-bus (rlpf src cutoff res))))
 
-   (defsynth fx_norm_hpf
-     [cutoff 10
-      cutoff_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [cutoff (lag cutoff cutoff_slide)
-           cutoff (midicps cutoff)
-           src    (in in-bus 2)]
-       (out out-bus (normalizer (hpf src cutoff)))))
+  (defsynth fx_norm_rlpf
+    [cutoff 100
+     cutoff_slide 0
+     res 0.6
+     res_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          res    (lag res res_slide)
+          src    (in in-bus 2)]
+      (out out-bus (normalizer (rlpf src cutoff res)))))
 
-   (defsynth fx_lpf
-     [cutoff 100
-      cutoff_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [cutoff (lag cutoff cutoff_slide)
-           cutoff (midicps cutoff)
-           src    (in in-bus 2)]
-       (out out-bus (lpf src cutoff))))
+  (defsynth fx_replace_norm_rlpf
+    [cutoff 100
+     cutoff_slide 0
+     res 0.6
+     res_slide 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          res    (lag res res_slide)
+          src    (in out-bus 2)]
+      (replace-out out-bus (normalizer (rlpf src cutoff res)))))
 
-   (defsynth fx_norm_lpf
-     [cutoff 100
-      cutoff_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [cutoff (lag cutoff cutoff_slide)
-           cutoff (midicps cutoff)
-           src    (in in-bus 2)]
-       (out out-bus (normalizer (lpf src cutoff)))))
+  (defsynth fx_rhpf
+    [cutoff 10
+     cutoff_slide 0
+     res 0.6
+     res_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          res    (lag res res_slide)
+          src    (in in-bus 2)]
+      (out out-bus (rhpf src cutoff res))))
 
-   (defsynth fx_normaliser
-     [amp 1
-      amp_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [src    (in in-bus 2)]
-       (out out-bus (normalizer src amp))))
+  (defsynth fx_replace_rhpf
+    [cutoff 10
+     cutoff_slide 0
+     res 0.6
+     res_slide 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          res    (lag res res_slide)
+          src    (in out-bus 2)]
+      (replace-out out-bus (rhpf src cutoff res))))
 
-   (defsynth fx_distortion
-     [distort 0.5
-      distort_slide 0
-      in-bus 0
-      out-bus 0]
-     (let [distort (lag distort distort_slide)
-           src     (in in-bus 2)
-           k       (/ (* 2 distort) (- 1 distort))
-           snd     (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))]
-       (out out-bus snd)))
+  (defsynth fx_norm_rhpf
+    [cutoff 10
+     cutoff_slide 0
+     res 0.6
+     res_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          res    (lag res res_slide)
+          src    (in in-bus 2)]
+      (out out-bus (normalizer (rhpf src cutoff res)))))
 
-   ;; (save-to-pi fx_reverb)
-   ;; (save-to-pi fx_level)
-   ;; (save-to-pi fx_echo)
-   ;; (save-to-pi fx_slicer)
-   ;; (save-to-pi fx_techno)
-   ;; (save-to-pi fx_compressor)
-   ;; (save-to-pi fx_rlpf)
-   ;; (save-to-pi fx_norm_rlpf)
-   ;; (save-to-pi fx_rhpf)
-   ;; (save-to-pi fx_norm_rhpf)
-   ;; (save-to-pi fx_hpf)
-   ;; (save-to-pi fx_norm_hpf)
-   ;; (save-to-pi fx_lpf)
-   ;; (save-to-pi fx_norm_lpf)
-   ;; (save-to-pi fx_normaliser)
-   ;; (save-to-pi fx_distortion)
+  (defsynth fx_replace_norm_rhpf
+    [cutoff 10
+     cutoff_slide 0
+     res 0.6
+     res_slide 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          res    (lag res res_slide)
+          src    (in out-bus 2)]
+      (replace-out out-bus (normalizer (rhpf src cutoff res)))))
 
-   )
+  (defsynth fx_hpf
+    [cutoff 10
+     cutoff_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          src    (in in-bus 2)]
+      (out out-bus (hpf src cutoff))))
 
+  (defsynth fx_replace_hpf
+    [cutoff 10
+     cutoff_slide 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          src    (in out-bus 2)]
+      (replace-out out-bus (hpf src cutoff))))
+
+  (defsynth fx_norm_hpf
+    [cutoff 10
+     cutoff_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          src    (in in-bus 2)]
+      (out out-bus (normalizer (hpf src cutoff)))))
+
+  (defsynth fx_replace_norm_hpf
+    [cutoff 10
+     cutoff_slide 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          src    (in out-bus 2)]
+      (replace-out out-bus (normalizer (hpf src cutoff)))))
+
+  (defsynth fx_lpf
+    [cutoff 100
+     cutoff_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          src    (in in-bus 2)]
+      (out out-bus (lpf src cutoff))))
+
+  (defsynth fx_replace_lpf
+    [cutoff 100
+     cutoff_slide 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          src    (in out-bus 2)]
+      (replace-out out-bus (lpf src cutoff))))
+
+  (defsynth fx_norm_lpf
+    [cutoff 100
+     cutoff_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          src    (in in-bus 2)]
+      (out out-bus (normalizer (lpf src cutoff)))))
+
+  (defsynth fx_replace_norm_lpf
+    [cutoff 100
+     cutoff_slide 0
+     out-bus 0]
+    (let [cutoff (lag cutoff cutoff_slide)
+          cutoff (midicps cutoff)
+          src    (in out-bus 2)]
+      (replace-out out-bus (normalizer (lpf src cutoff)))))
+
+  (defsynth fx_normaliser
+    [amp 1
+     amp_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [src    (in in-bus 2)]
+      (out out-bus (normalizer src amp))))
+
+  (defsynth fx_replace_normaliser
+    [amp 1
+     amp_slide 0
+     out-bus 0]
+    (let [src    (in out-bus 2)]
+      (replace-out out-bus (normalizer src amp))))
+
+  (defsynth fx_distortion
+    [distort 0.5
+     distort_slide 0
+     in-bus 0
+     out-bus 0]
+    (let [distort (lag distort distort_slide)
+          src     (in in-bus 2)
+          k       (/ (* 2 distort) (- 1 distort))
+          snd     (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))]
+      (out out-bus snd)))
+
+  (defsynth fx_replace_distortion
+    [distort 0.5
+     distort_slide 0
+     out-bus 0]
+    (let [distort (lag distort distort_slide)
+          src     (in out-bus 2)
+          k       (/ (* 2 distort) (- 1 distort))
+          snd     (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))]
+      (replace-out out-bus snd)))
+
+  (comment
+    (save-to-pi fx_reverb)
+    (save-to-pi fx_replace_reverb)
+    (save-to-pi fx_level)
+    (save-to-pi fx_replace_level)
+    (save-to-pi fx_echo)
+    (save-to-pi fx_replace_echo)
+    (save-to-pi fx_slicer)
+    (save-to-pi fx_replace_slicer)
+    (save-to-pi fx_ixi_techno)
+    (save-to-pi fx_replace_ixi_techno)
+    (save-to-pi fx_compressor)
+    (save-to-pi fx_replace_compressor)
+    (save-to-pi fx_rlpf)
+    (save-to-pi fx_replace_rlpf)
+    (save-to-pi fx_norm_rlpf)
+    (save-to-pi fx_replace_norm_rlpf)
+    (save-to-pi fx_rhpf)
+    (save-to-pi fx_replace_rhpf)
+    (save-to-pi fx_norm_rhpf)
+    (save-to-pi fx_replace_norm_rhpf)
+    (save-to-pi fx_hpf)
+    (save-to-pi fx_replace_hpf)
+    (save-to-pi fx_norm_hpf)
+    (save-to-pi fx_replace_norm_hpf)
+    (save-to-pi fx_lpf)
+    (save-to-pi fx_replace_lpf)
+    (save-to-pi fx_norm_lpf)
+    (save-to-pi fx_replace_norm_lpf)
+    (save-to-pi fx_normaliser)
+    (save-to-pi fx_replace_normaliser)
+    (save-to-pi fx_distortion)
+    (save-to-pi fx_replace_distortion)))
 
 ;; Experimental
 (comment
