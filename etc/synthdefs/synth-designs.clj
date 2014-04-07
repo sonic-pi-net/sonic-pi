@@ -42,15 +42,15 @@
           safe-snd (limiter source 0.99 0.001)]
       (replace-out 0 safe-snd)))
 
-  (defsynth basic-mixer [out-bus 0 amp 1 amp_slide 0.5]
+  (defsynth basic_mixer [in-bus 0 out-bus 0 amp 1 amp_slide 0.5]
     (let [amp (lag amp amp_slide)
-          src (in out-bus 2)
+          src (in in-bus 2)
           src (* amp src)]
-      (replace-out out-bus src)))
+      (out out-bus src)))
 
   (comment
     (save-to-pi mixer)
-    (save-to-pi basic-mixer)))
+    (save-to-pi basic_mixer)))
 
 
 ;; Simple Trigger synths
