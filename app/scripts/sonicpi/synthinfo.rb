@@ -1022,6 +1022,24 @@ module SonicPi
     end
   end
 
+  class BaseMixer < BaseInfo
+
+  end
+
+  class BasicMixer < BaseMixer
+    def name
+      "Basic Mixer"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0.2
+      }
+    end
+
+  end
+
   class FXInfo < BaseInfo
 
   end
@@ -1528,25 +1546,43 @@ module SonicPi
       :prophet => Prophet.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
+
       :basic_mono_player => BasicMonoPlayer.new,
       :basic_stereo_player => BasicStereoPlayer.new,
+      :basic_mixer => BasicMixer.new,
 
       :fx_reverb => FXReverb.new,
+      :fx_replace_reverb => FXReverb.new,
       :fx_level => FXLevel.new,
+      :fx_replace_level => FXLevel.new,
       :fx_echo => FXEcho.new,
+      :fx_replace_echo => FXEcho.new,
       :fx_slicer => FXSlicer.new,
+      :fx_replace_slicer => FXSlicer.new,
       :fx_techno => FXTechno.new,
+      :fx_replace_techno => FXTechno.new,
       :fx_compressor => FXCompressor.new,
+      :fx_replace_compressor => FXCompressor.new,
       :fx_rlpf => FXRLPF.new,
+      :fx_replace_rlpf => FXRLPF.new,
       :fx_norm_rlpf => FXNormRLPF.new,
+      :fx_replace_norm_rlpf => FXNormRLPF.new,
       :fx_rhpf => FXRHPF.new,
+      :fx_replace_rhpf => FXRHPF.new,
       :fx_norm_rhpf => FXNormRHPF.new,
+      :fx_replace_norm_rhpf => FXNormRHPF.new,
       :fx_hpf => FXHPF.new,
+      :fx_replace_hpf => FXHPF.new,
       :fx_norm_hpf => FXNormHPF.new,
+      :fx_replace_norm_hpf => FXNormHPF.new,
       :fx_lpf => FXLPF.new,
+      :fx_replace_lpf => FXLPF.new,
       :fx_norm_lpf => FXNormLPF.new,
+      :fx_replace_norm_lpf => FXNormLPF.new,
       :fx_normaliser => FXNormaliser.new,
-      :fx_distortion => FXDistortion.new
+      :fx_replace_normaliser => FXNormaliser.new,
+      :fx_distortion => FXDistortion.new,
+      :fx_replace_distortion => FXDistortion.new
 
 
       }
