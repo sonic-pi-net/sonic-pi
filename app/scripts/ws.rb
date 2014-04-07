@@ -96,8 +96,9 @@ in_t = Thread.new do
         begin
           parsed = JSON.parse(msg)
           $rd.dispatch parsed
-        rescue
+        rescue Exception => e
           puts "Unable to parse: #{msg}"
+          puts "Exception: #{e.backtrace}"
         end
       end
       client.onclose do
