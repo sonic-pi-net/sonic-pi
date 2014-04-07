@@ -168,9 +168,10 @@ module SonicPi
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
 
-      sn = SynthNode.new(node_id.to_f, self, synth_name.to_s, arg_validation_fn)
       normalised_args = []
       args.each{|k,v| normalised_args.concat([k.to_s, v.to_f])}
+      normalised_args_map = Hash[*normalised_args]
+      sn = SynthNode.new(node_id.to_f, self, synth_name.to_s, normalised_args_map, arg_validation_fn)
 
       if now
         osc "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args

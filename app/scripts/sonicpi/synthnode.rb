@@ -11,13 +11,30 @@
 # notice is included.
 #++
 require File.absolute_path("#{File.dirname(__FILE__)}/node")
+require 'active_support/core_ext/hash/indifferent_access'
 
 module SonicPi
   class SynthNode < Node
-    attr_reader :name
-    def initialize(id, comms, name, arg_validation_fn = nil)
+
+    attr_reader :name, :args
+
+    def initialize(id, comms, name, args, arg_validation_fn = nil)
       super(id, comms, arg_validation_fn)
+      @args = args.with_indifferent_access
       @name = name
+      @control_mutex = Mutex.new
+    end
+
+    def ctl(*args)
+      @control_mutex.synchronize do
+        a_h = Hash[*args]
+        @args = @args.merge(a_h)
+        super
+      end
+    end
+
+    def control(*args)
+      ctl(*args)
     end
   end
 end

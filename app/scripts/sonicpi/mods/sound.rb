@@ -15,6 +15,7 @@ require "hamster/set"
 require_relative "../blanknode"
 require_relative "../chainnode"
 require_relative "../fxnode"
+require_relative "../fxreplacenode"
 require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
@@ -39,8 +40,12 @@ module SonicPi
              @JOB_SYNTH_PROMS_A = Atom.new(Hamster.hash)
              @JOB_GROUPS_A = Atom.new(Hamster.hash)
              @JOB_GROUP_MUTEX = Mutex.new
-             @JOB_FX_GROUPS_A = Atom.new(Hamster.hash)
              @JOB_FX_GROUP_MUTEX = Mutex.new
+             @JOB_FX_GROUPS_A = Atom.new(Hamster.hash)
+             @JOB_MIXERS_A = Atom.new(Hamster.hash)
+             @JOB_MIXERS_MUTEX = Mutex.new
+             @JOB_BUSSES_A = Atom.new(Hamster.hash)
+             @JOB_BUSSES_MUTEX = Mutex.new
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @mod_sound_studio.sched_ahead_time = 0.5 if (os == :raspberry)
              @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
@@ -52,14 +57,17 @@ module SonicPi
 
              @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
                job_id = payload[:id]
+               job_t = payload[:thread]
 
                @JOB_SYNTH_PROMS_A.swap! do |ps|
                  ps.delete job_id
                end
-
-               kill_job_group(job_id)
-               kill_fx_job_group(job_id)
-
+               Thread.new do
+                 shutdown_job_mixer(job_id)
+                 kill_job_group(job_id)
+                 kill_fx_job_group(job_id)
+                 free_job_bus(job_id)
+               end
              end
 
              @events.add_handler("/exit", @events.gensym("/mods-sound-exit")) do |payload|
@@ -196,13 +204,11 @@ module SonicPi
          start_subthreads = []
          end_subthreads = []
 
-         fx_synth_name = "fx_#{fx_name}"
+         fx_synth_name = "fx_replace_#{fx_name}"
 
          fxt = Thread.current
          p = Promise.new
          gc_completed = Promise.new
-         new_bus = nil
-         current_bus = nil
 
          # These will be assigned later...
          fx_synth = BlankNode.new
@@ -278,21 +284,9 @@ module SonicPi
            ## modify the thread local to make sure new synth triggers in
            ## this thread output to this fx synth:
 
-           ## Create a new bus for this fx chain
-           begin
-             new_bus = @mod_sound_studio.new_fx_bus
-           rescue BusAllocationError
-             __message "All busses allocated - unable to honour FX"
-             if block.arity == 0
-               return block.call
-             else
-               return block.call(@blank_node)
-             end
-           end
-
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus}), current_fx_group)
+           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => current_job_bus}), current_fx_group)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
@@ -307,8 +301,6 @@ module SonicPi
              start_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
            end
 
-           ## Set this thread's out bus to pipe audio into the new fx synth node
-           Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
          end #end don't kill sync
 
          ## Now actually execute the fx block. Pass the fx synth in as a
@@ -327,8 +319,6 @@ module SonicPi
            ## Ensure that p's promise is delivered - thus kicking off
            ## the gc thread.
            p.deliver! true
-           ## Reset out bus to value prior to this with_fx block
-           fxt.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
          end
 
          # Wait for gc thread to complete. Once the gc thread has
@@ -533,7 +523,7 @@ module SonicPi
            end
          end
 
-         trigger_synth(synth_name, args_h_with_buf, group, false, validation_fn)
+         trigger_synth(synth_name, args_h_with_buf, group, validation_fn)
        end
 
        def trigger_inst(synth_name, args_a_or_h, group=current_job_synth_group)
@@ -544,7 +534,7 @@ module SonicPi
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            __delayed_message "Playing #{synth_name} with: #{arg_h_pp(args_h)}"
          end
-         trigger_synth(synth_name, args_h, group, false, validation_fn)
+         trigger_synth(synth_name, args_h, group, validation_fn)
        end
 
        def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
@@ -569,15 +559,20 @@ module SonicPi
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
          validation_fn = mk_synth_args_validator(synth_name)
          validation_fn.call(args_h)
-         n = trigger_synth(synth_name, args_h, group, true, validation_fn)
-         FXNode.new(n, n.in_bus, n.out_bus)
+         n = trigger_synth(synth_name, args_h, group, validation_fn, true)
+         FXReplaceNode.new(n)
        end
 
-       def trigger_synth(synth_name, args_h, group, now=false, arg_validation_fn)
-         synth_name = "sp/#{synth_name}"
+       def trigger_synth(synth_name, args_h, group, arg_validation_fn, now=false, out_bus=nil)
+         info = SynthInfo.get_info(synth_name)
 
-         current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
-         out_bus = current_bus || @mod_sound_studio.mixer_bus
+         defaults = info ? info.arg_defaults : {}
+
+         synth_name = "sp/#{synth_name}"
+         unless out_bus
+           current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
+           out_bus = current_bus || current_job_bus
+         end
 
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
@@ -587,25 +582,24 @@ module SonicPi
            resolved_tl_fn_args[k] = v.call
          end
 
-         combined_args = resolved_tl_fn_args.merge(t_l_args).merge(args_h).merge({"out-bus" => out_bus})
+         combined_args = defaults.merge(resolved_tl_fn_args.merge(t_l_args).merge(args_h).merge({"out-bus" => out_bus}))
          p = Promise.new
          job_synth_proms_add(job_id, p)
 
          s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, now, &arg_validation_fn
 
-         cn = ChainNode.new(s, combined_args["in-bus"], combined_args["out-bus"])
          trackers = (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).to_a
 
-         cn.on_started do
-           trackers.each{|t| t.synth_started(cn)}
+         s.on_started do
+           trackers.each{|t| t.synth_started(s)}
          end
 
-         cn.on_destroyed do
-           trackers.each{|t| t.synth_finished(cn)}
+         s.on_destroyed do
+           trackers.each{|t| t.synth_finished(s)}
            job_synth_proms_rm(job_id, p)
            p.deliver! true
          end
-         cn
+         s
        end
 
        def current_job_id
@@ -619,6 +613,71 @@ module SonicPi
        def current_job_synth_group
          job_synth_group(current_job_id)
        end
+
+       def current_job_bus
+         job_bus(current_job_id)
+       end
+
+       def job_bus(job_id)
+         b = @JOB_BUSSES_A.deref[job_id]
+         return b if b
+
+         new_bus = nil
+
+         @JOB_BUSSES_MUTEX.synchronize do
+           b = @JOB_BUSSES_A.deref[job_id]
+           return b if b
+
+
+
+           begin
+             new_bus = @mod_sound_studio.new_fx_bus
+           rescue BusAllocationError
+             raise "All busses allocated - unable to create audio bus for job"
+           end
+
+           @JOB_BUSSES_A.swap! do |gs|
+             gs.put job_id, new_bus
+           end
+         end
+         ## ensure job mixer has started
+         job_mixer(job_id)
+         return new_bus
+       end
+
+       def job_mixer(job_id)
+         m = @JOB_MIXERS_A.deref[job_id]
+         return m if m
+
+         @JOB_MIXERS_MUTEX.synchronize do
+           m = @JOB_MIXERS_A.deref[job_id]
+           return m if m
+
+
+           args_h = {
+             "in-bus" => job_bus(job_id),
+             "out-bus" => @mod_sound_studio.mixer_bus,
+           }
+
+           synth_name = :basic_mixer
+
+           validation_fn = mk_synth_args_validator(synth_name)
+           validation_fn.call(args_h)
+
+           default_args = SynthInfo.get_info(synth_name).arg_defaults
+           combined_args = default_args.merge(args_h)
+           n = @mod_sound_studio.trigger_synth "sp/#{synth_name}", job_fx_group(job_id), combined_args, true, &validation_fn
+
+           mix_n = ChainNode.new(n)
+
+           @JOB_MIXERS_A.swap! do |gs|
+             gs.put job_id, mix_n
+           end
+
+           return mix_n
+         end
+       end
+
 
        def job_synth_group(job_id)
          g = @JOB_GROUPS_A.deref[job_id]
@@ -638,6 +697,8 @@ module SonicPi
 
        def job_fx_group(job_id)
          g = @JOB_FX_GROUPS_A.deref[job_id]
+
+
          return g if g
 
          @JOB_FX_GROUP_MUTEX.synchronize do
@@ -667,6 +728,28 @@ module SonicPi
            js.put job_id, proms
          end
        end
+
+       def free_job_bus(job_id)
+         old_job_busses = @JOB_BUSSES_A.swap_returning_old! do |js|
+           js.delete job_id
+         end
+         bus = old_job_busses[job_id]
+         bus.free if bus
+       end
+
+       def shutdown_job_mixer(job_id)
+         old_job_mixers = @JOB_MIXERS_A.swap_returning_old! do |js|
+           js.delete job_id
+         end
+         mixer = old_job_mixers[job_id]
+         if mixer
+           mixer.ctl amp_slide: 0.2
+           mixer.ctl amp: 0
+           Kernel.sleep 0.2
+           mixer.kill
+         end
+       end
+
 
        def kill_job_group(job_id)
 

@@ -13,20 +13,15 @@
 require_relative "synthnodeproxy"
 
 module SonicPi
-  class ChainNode < SynthNodeProxy
-
-    attr_reader :in_bus, :out_bus
+  class FXReplaceNode < SynthNodeProxy
 
     def initialize(node)
       super(node)
-      @in_bus = node.args["in-bus"]
-      @out_bus = node.args["out-bus"]
+      @audio_bus = node.args["out-bus"]
     end
 
     def to_s
-      i = @in_bus ? @in_bus.id : nil
-      o = @out_bus? @out_bus.id : nil
-      "#<SonicPi::ChainNode @id=#{@node.id}, @in_bus=#{i.inspect}, @out_bus=#{o.inspect}>"
+      "#<SonicPi::FXReplaceNode @id=#{@node.id}, @audio_bus=#{@audio_bus.inspect}}>"
     end
 
   end

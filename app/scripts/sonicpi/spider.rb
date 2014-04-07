@@ -41,6 +41,7 @@ module SonicPi
       @sync_counter = Counter.new
       @job_counter = Counter.new
       @job_subthreads = {}
+      @job_main_threads = {}
       @named_subthreads = {}
       @job_subthread_mutex = Mutex.new
       @user_jobs = Jobs.new
@@ -145,7 +146,7 @@ module SonicPi
       id = @job_counter.next
       job = Thread.new do
         begin
-          reg_job(id)
+          reg_job(id, job)
           Thread.current.thread_variable_set :sonic_pi_spider_time, Time.now
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
@@ -159,16 +160,19 @@ module SonicPi
           @events.event("/job-join", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)
+
+          @events.event("/job-completed", {:id => id, :thread => job})
           job_subthreads_kill(id)
-          @events.event("/job-completed", {:id => id})
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
         rescue Exception => e
-          @events.event("/job-join", {:id => id})
-          @events.event("/job-completed", {:id => id})
-          job_subthreads_kill(id)
-          @user_jobs.job_completed(id)
+
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
           @msg_queue.push({type: :error, val: e.message, backtrace: e.backtrace, jobid: id  , jobinfo: info})
+          @events.event("/job-join", {:id => id})
+          @events.event("/job-completed", {:id => id, :thread => job})
+          job_subthreads_kill(id)
+          @user_jobs.job_completed(id)
+
         end
       end
 
@@ -185,9 +189,10 @@ module SonicPi
 
     private
 
-    def reg_job(job_id)
+    def reg_job(job_id, t)
       @job_subthread_mutex.synchronize do
         @job_subthreads[job_id] = Set.new
+        @job_main_threads[job_id] = t
       end
     end
 
@@ -206,7 +211,6 @@ module SonicPi
             t.thread_variable_set :sonic_pi_spider_subthread_name, name
           end
         end
-
 
         threads = @job_subthreads[job_id]
         @job_subthreads[job_id] = threads.add(t)
@@ -227,6 +231,7 @@ module SonicPi
         threads = @job_subthreads[job_id]
         @job_subthreads.delete(job_id)
         @named_subthreads.delete_if{|k,v| v == job_id}
+        @job_main_threads.delete(job_id)
         threads
       end
 
