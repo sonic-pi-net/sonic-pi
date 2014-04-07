@@ -19,8 +19,8 @@ module SonicPi
     include Singleton
     include Util
 
-    def initialize
-      @port = 4556
+    def initialize(port=4556)
+      @port = port
       @scsynth_pid = nil
       boot
     end
