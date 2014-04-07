@@ -232,6 +232,11 @@ module SonicPi
 
       return :no_threads_to_kill unless threads
 
+      ## It's safe to kill these threads outside of a mutex as now that
+      ## the job id is no longer registered with @job_subthreads, new
+      ## threads created by this job will be instantly killed by
+      ## job_subthreadd_add
+
       threads.each do |t|
         t.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
           t.kill
