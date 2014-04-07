@@ -14,6 +14,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require
    [cljs.core.async :as async :refer [>! <! put! chan]]
+   [clojure.string :as str]
    [om.core :as om :include-macros true]
    [om.dom :as dom :include-macros true]
    [goog.events :as events]
@@ -54,7 +55,8 @@
                  (dom/div nil (get m "val")
                           (when (get m "backtrace")
                             (dom/div nil
-                                     (dom/pre nil (get m "backtrace"))))))
+                                     (dom/pre nil
+                                              (str/join "\n" (get m "backtrace")))))))
                (:messages data)))))
 
 (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
