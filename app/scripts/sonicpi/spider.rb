@@ -208,7 +208,7 @@ module SonicPi
             # register this name with the corresponding job id and also
             # store it in a thread local
             @named_subthreads[name] = job_id
-            t.thread_variable_set :sonic_pi_spider_subthread_name, name
+            t.thread_variable_set :sonic_pi__not_inherited__spider_subthread_name, name
           end
         end
 
@@ -221,7 +221,7 @@ module SonicPi
       @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         threads.delete(t) if threads
-        subthread_name = t.thread_variable_get(:sonic_pi_spider_subthread_name)
+        subthread_name = t.thread_variable_get(:sonic_pi__not_inherited__spider_subthread_name)
         @named_subthreads.delete(subthread_name) if subthread_name
       end
     end

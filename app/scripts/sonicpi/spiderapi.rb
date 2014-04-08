@@ -107,11 +107,8 @@ module SonicPi
 
         # Copy thread locals across from parent thread to this new thread
         parent_t_vars.each do |k,v|
-          Thread.current.thread_variable_set(k, v)
+          Thread.current.thread_variable_set(k, v) unless k.to_s.start_with? "sonic_pi__not_inherited__"
         end
-
-        # This new thread doesn't yet have a name
-        Thread.current.thread_variable_set(:sonic_pi_spider_subthread_name, nil)
 
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
