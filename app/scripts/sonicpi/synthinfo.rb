@@ -1609,24 +1609,24 @@ module SonicPi
       get_all.each do |k, v|
         next unless v.is_a? klass
         snake_case = v.name.downcase.gsub(/ /, "-")
-        res << "* [#{v.name}](##{snake_case}) \n"
+        res << "* [#{v.name}](##{snake_case})\n"
       end
       res << "\n"
       get_all.each do |k, v|
         next unless v.is_a? klass
         res << "## " << v.name << "\n\n"
-        res << "### Key: \n"
+        res << "### Key:\n"
         mk = key_mod ? key_mod.call(k) : k
-        res << "  :#{mk} \n\n"
-        res << "### Doc: \n"
+        res << "  :#{mk}\n\n"
+        res << "### Doc:\n"
         res << "  " << v.doc << "\n\n"
         res << "### Arguments:" "\n"
         v.arg_info.each do |ak, av|
-          res << "  * :#{ak}\n"
-          res << "    - doc: #{av[:doc]} \n"
-          res << "    - default: #{av[:default]} \n"
+          res << "  * #{ak}:\n"
+          res << "    - doc: #{av[:doc] || 'write me'}\n"
+          res << "    - default: #{av[:default]}\n"
           res << "    - constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}\n"
-          res << "    - #{av[:modulatable] ? "Modulatable" : "Not Modulatable"}  \n\n"
+          res << "    - #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n\n"
         end
         res << "\n\n"
 
