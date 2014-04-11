@@ -82,12 +82,12 @@ module SonicPi
        end
 
        def use_debug(v, &block)
-         raise "use_debug does not work with a block. Perhaps you meant with_debug" if block
+         raise "use_debug does not work with a do/end block. Perhaps you meant with_debug" if block
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, !v)
        end
 
        def with_debug(v, &block)
-         raise "with_debug does requires a block. Perhaps you meant use_debug" unless block
+         raise "with_debug requires a do/end block. Perhaps you meant use_debug" unless block
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, !v)
          block.call
@@ -95,12 +95,12 @@ module SonicPi
        end
 
        def use_synth(synth_name, &block)
-         raise "use_synth does not work with a block. Perhaps you meant with_synth" if block
+         raise "use_synth does not work with a do/end block. Perhaps you meant with_synth" if block
          @mod_sound_studio.current_synth_name = synth_name
        end
 
        def with_synth(synth_name, &block)
-         raise "with_synth must be called with a block" unless block
+         raise "with_synth must be called with a do/end block. Perhaps you meant use_synth" unless block
          orig_synth = @mod_sound_studio.current_synth_name
          @mod_sound_studio.current_synth_name = synth_name
          block.call
