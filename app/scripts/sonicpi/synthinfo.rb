@@ -735,7 +735,7 @@ module SonicPi
 
   class TB303 < SynthInfo
     def name
-      "tb-303"
+      "TB-303 Emulation"
     end
 
     def doc
@@ -861,6 +861,39 @@ module SonicPi
       }
     end
 
+  end
+
+  class Zawa < SynthInfo
+    def name
+      "Zawa"
+    end
+
+    def doc
+      "Write me"
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :attack => 0.1,
+        :sustain => 0,
+        :release => 1,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :rate => 1,
+        :rate_slide => 0,
+        :depth => 1.5,
+        :depth_slide => 0
+
+      }
+
+    end
   end
 
 
@@ -1544,6 +1577,7 @@ module SonicPi
       :supersaw => Supersaw.new,
       :supersaw_s => SupersawS.new,
       :prophet => Prophet.new,
+      :zawa => Zawa.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 

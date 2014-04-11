@@ -16,11 +16,11 @@
 * [Simple Modulated Triangle Wave](#simple-modulated-triangle-wave)
 * [Modulated Pulse](#modulated-pulse)
 * [Simple Modulated Pulse](#simple-modulated-pulse)
-* [tb-303](#tb-303)
+* [TB-303 Emulation](#tb-303-emulation)
 * [Supersaw](#supersaw)
 * [Supersaw Simple](#supersaw-simple)
 * [The Prophet](#the-prophet)
-* [Woah](#woah)
+* [Zawa](#zawa)
 * [Mono Sample Player](#mono-sample-player)
 * [Stereo Sample Player](#stereo-sample-player)
 * [Basic Mono Sample Player - (no envelope)](#basic-mono-sample-player---(no-envelope))
@@ -1444,7 +1444,7 @@
 
 
 
-## tb-303
+## TB-303 Emulation
 
 ### Key:
   :tb303
@@ -1807,10 +1807,10 @@
 
 
 
-## Woah
+## Zawa
 
 ### Key:
-  :woah
+  :zawa
 
 ### Doc:
   Write me
@@ -1882,13 +1882,25 @@
     - constraints: must be zero or greater
     - May be changed whilst playing
 
-  * wob_rate:
+  * rate:
     - doc: write me
     - default: 1
     - constraints: none
     - Can not be changed once set
 
-  * wob_rate_slide:
+  * rate_slide:
+    - doc: write me
+    - default: 0
+    - constraints: none
+    - Can not be changed once set
+
+  * depth:
+    - doc: write me
+    - default: 1.5
+    - constraints: none
+    - Can not be changed once set
+
+  * depth_slide:
     - doc: write me
     - default: 0
     - constraints: none

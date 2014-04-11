@@ -105,8 +105,8 @@
                      env      (env-gen (envelope [0 1 1 0] [attack sustain (* release proportion)]) :level-scale vol)
                      overtone (* partial freq)]
                  (* env (sin-osc overtone))))
-             partials ;; current partial
-             (iterate #(/ % 2) 1.0)  ;; proportions (1.0  0.5 0.25)  etc
+             partials               ;; current partial
+             (iterate #(/ % 2) 1.0) ;; proportions (1.0  0.5 0.25)  etc
              ))))
 
 
@@ -162,8 +162,9 @@
           freq (midicps note)]
       (out out-bus (pan2 (* (sin-osc freq)
                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
-)
+                            )
                          pan))))
+
 
   (defsynth saw_beep [note 52
                       note_slide 0
@@ -214,7 +215,7 @@
           detune-freq (midicps (+ note detune))]
       (out out-bus (pan2 (* (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
-)
+                            )
                          pan))))
 
   (defsynth fm [note 52
@@ -601,25 +602,24 @@
           env            (env-gen (env-lin attack sustain release) :action FREE)]
       (out out-bus (pan2 (* env snd) pan amp))))
 
+  (comment
+    (save-to-pi dull_bell)
+    (save-to-pi pretty_bell)
+    (save-to-pi beep)
+    (save-to-pi saw_beep)
+    (save-to-pi dsaw)
+    (save-to-pi fm)
 
-  ;; (save-to-pi dull_bell)
-  ;; (save-to-pi pretty_bell)
-  ;; (save-to-pi beep)
-  ;; (save-to-pi saw_beep)
-  ;; (save-to-pi dsaw)
-  ;; (save-to-pi fm)
-
-  ;; (save-to-pi mod_saw)
-  ;; (save-to-pi mod_saw_s)
-  ;; (save-to-pi mod_dsaw)
-  ;; (save-to-pi mod_dsaw_s)
-  ;; (save-to-pi mod_sine)
-  ;; (save-to-pi mod_sine_s)
-  ;; (save-to-pi mod_tri)
-  ;; (save-to-pi mod_tri_s)
-  ;; (save-to-pi mod_pulse)
-  ;; (save-to-pi mod_pulse_s)
-  )
+    (save-to-pi mod_saw)
+    (save-to-pi mod_saw_s)
+    (save-to-pi mod_dsaw)
+    (save-to-pi mod_dsaw_s)
+    (save-to-pi mod_sine)
+    (save-to-pi mod_sine_s)
+    (save-to-pi mod_tri)
+    (save-to-pi mod_tri_s)
+    (save-to-pi mod_pulse)
+    (save-to-pi mod_pulse_s)))
 
 ;; Sample playback synths
 
@@ -722,6 +722,7 @@
           snd           (balance2 snd-l snd-r pan amp)
           snd           (* env snd)]
       (out out-bus snd)))
+
   (comment
     (save-to-pi mono_player)
     (save-to-pi stereo_player)
@@ -834,6 +835,39 @@
           output (pan2 output pan amp)]
       (out out-bus output)))
 
+  (defsynth zawa [note 52
+                  note_slide 0
+                  amp 1
+                  amp_slide 0
+                  pan 0
+                  pan_slide 0
+                  attack 0.1
+                  sustain 0
+                  release 1
+                  cutoff 100
+                  cutoff_slide 0
+                  rate 1
+                  rate_slide 0
+                  depth 1.5
+                  depth_slide 0
+                  out-bus 0]
+    (let [note     (lag note note_slide)
+          amp      (lag amp amp_slide)
+          pan      (lag pan pan_slide)
+          wob_rate (lag rate rate_slide)
+          cutoff   (lag cutoff cutoff_slide)
+          depth    (lag depth depth_slide)
+          freq     (midicps note)
+          cutoff   (midicps cutoff)
+
+          snd      (lpf (sync-saw
+                         freq
+                         (* (* freq depth) (+ 2 (sin-osc:kr wob_rate))))
+                        cutoff)]
+      (out out-bus (* snd
+                      (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)))))
+
+
   (defsynth prophet
     "The Prophet Speaks (page 2)
 
@@ -890,7 +924,9 @@
     (save-to-pi tb303)
     (save-to-pi supersaw)
     (save-to-pi supersaw_s)
-    (save-to-pi prophet)))
+    (save-to-pi prophet)
+    (save-to-pi zawa)
+        ))
 
 ;;FX
 (do
