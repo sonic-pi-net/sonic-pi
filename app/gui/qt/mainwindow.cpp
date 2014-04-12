@@ -38,7 +38,6 @@
 #include <QSettings>
 #include <QSize>
 #include <QStatusBar>
-#include <QTextStream>
 #include <QTextEdit>
 #include <QToolBar>
 #include <QProcess>
@@ -46,7 +45,6 @@
 #include <QTabWidget>
 #include <QString>
 #include <QTextStream>
-#include <QFile>
 #include <QSplashScreen>
 #include <QPixmap>
 #include <QLabel>
