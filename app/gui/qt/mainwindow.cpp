@@ -118,24 +118,6 @@ MainWindow::MainWindow(QApplication &app)
   tabs->addTab(workspace7, w7);
   tabs->addTab(workspace8, w8);
 
-  QString one = "one";
-  QString two = "two";
-  QString three = "three";
-  QString four = "four";
-  QString five = "five";
-  QString six = "six";
-  QString seven = "seven";
-  QString eight = "eight";
-
-  map.insert(w1, one);
-  map.insert(w2, two);
-  map.insert(w3, three);
-  map.insert(w4, four);
-  map.insert(w5, five);
-  map.insert(w6, six);
-  map.insert(w7, seven);
-  map.insert(w8, eight);
-
   workspace1->setMarginLineNumbers(0, true);
   workspace1->setMarginWidth(0, 30);
   workspace1->setMarginsBackgroundColor(QColor("white"));
