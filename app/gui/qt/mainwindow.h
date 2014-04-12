@@ -48,13 +48,10 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
-    void newFile();
     void runCode();
     void stopCode();
-    void callInitScript();
     void stopRunningSynths();
     QString currentTabLabel();
-    void open();
     bool saveAs();
     void about();
     void help();
@@ -69,23 +66,18 @@ private:
     void startOSCListener();
     void clearOutputPanels();
     void createActions();
-    void createMenus();
     void createToolBars();
     void createStatusBar();
     void readSettings();
     void writeSettings();
     void killSynths();
-    bool maybeSave();
     void loadFile(const QString &fileName, QsciScintilla* &text);
     bool saveFile(const QString &fileName, QsciScintilla* text);
-    void startScript(const QString &script);
     bool saveWorkspace(QsciScintilla* text);
-    void setCurrentFile(const QString &fileName);
-    QString strippedName(const QString &fullFileName);
-    void ensureWorkspaces();
     void loadWorkspaces();
     void saveWorkspaces();
     QString workspaceFilename(QsciScintilla* text);
+    //    void sendOSC((;
 
     QsciScintilla *textEdit;
     QsciScintilla *workspace1;

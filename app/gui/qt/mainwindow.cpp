@@ -71,7 +71,6 @@ MainWindow::MainWindow(QApplication &app)
 {
   QtConcurrent::run(this, &MainWindow::startOSCListener);
 
-//ensureWorkspaces();
   QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/bin/start-server.rb";
   std::cerr << serverProgram.toStdString() << std::endl;
   serverProcess = new QProcess();
@@ -280,26 +279,15 @@ MainWindow::MainWindow(QApplication &app)
   addDockWidget(Qt::RightDockWidgetArea, dockWidget);
 
   createActions();
-  createMenus();
   createToolBars();
   createStatusBar();
 
   readSettings();
 
   setWindowTitle(tr("Sonic Pi"));
-  callInitScript();
   loadWorkspaces();
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
-}
-
-void MainWindow::ensureWorkspaces()
-{
-  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/ensure-workspaces.rb";
-  QStringList arguments;
-  runProcess = new QProcess();
-  runProcess->start(program, arguments);
-  runProcess->waitForFinished();
 }
 
 void MainWindow::startOSCListener() {
@@ -361,6 +349,8 @@ void MainWindow::startOSCListener() {
 
 }
 
+
+
 void MainWindow::onExitCleanup()
 {
   // serverProcess->kill();
@@ -405,17 +395,8 @@ void MainWindow::saveWorkspaces()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (maybeSave()) {
-        writeSettings();
-        event->accept();
-    } else {
-        event->ignore();
-    }
-}
-
-void MainWindow::newFile()
-{
-
+  writeSettings();
+  event->accept();
 }
 
 QString MainWindow::currentTabLabel()
@@ -429,6 +410,8 @@ bool MainWindow::saveAs()
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), QDir::homePath() + "/Desktop");
   return saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
 }
+
+//void MainWindow::sendOSC(String
 
 void MainWindow::runCode()
 {
@@ -470,11 +453,6 @@ void MainWindow::stopCode()
   QProcess *p = new QProcess();
   p->start(program);
   p->waitForStarted();
-}
-
-void MainWindow::open()
-{
-
 }
 
 void MainWindow::about()
@@ -541,9 +519,6 @@ void MainWindow::documentWasModified()
   setWindowModified(textEdit->isModified());
 }
 
-void MainWindow::callInitScript()
-{
-}
 
 void MainWindow::stopRunningSynths()
 {
@@ -597,10 +572,6 @@ void MainWindow::createActions()
 
 }
 
-void MainWindow::createMenus()
-{
-}
-
 void MainWindow::createToolBars()
 {
   fileToolBar = addToolBar(tr("Run"));
@@ -640,11 +611,6 @@ void MainWindow::writeSettings()
     QSettings settings("uk.ac.cam.cl", "Sonic Pi");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
-}
-
-bool MainWindow::maybeSave()
-{
-  return true;
 }
 
 void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)
@@ -702,18 +668,4 @@ bool MainWindow::saveWorkspace(QsciScintilla* text)
   QString label = currentTabLabel();
   saveFile(workspaceFilename(text), text);
   return true;
-}
-
-
-void MainWindow::setCurrentFile(const QString &fileName)
-{
-    curFile = fileName;
-    textEdit->setModified(false);
-    setWindowModified(false);
-
-}
-
-QString MainWindow::strippedName(const QString &fullFileName)
-{
-    return QFileInfo(fullFileName).fileName();
 }
