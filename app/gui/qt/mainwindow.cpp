@@ -191,7 +191,10 @@ MainWindow::MainWindow(QApplication &app)
   api->add("guit_e_fifths");
   api->add("guit_e_slide");
   api->add("guit_harmonics");
-  api->add("loop_breakbeat");
+  api->add("loop_amen");
+  api->add("loop_industrial");
+  api->add("loop_compus");
+  api->add("loop_amen_full");
 
   api->add("with_synth");
   api->add("with_merged_synth_defaults");
