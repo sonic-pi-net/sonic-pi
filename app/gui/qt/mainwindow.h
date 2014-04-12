@@ -28,6 +28,8 @@
 #include <QMainWindow>
 #include <QDialog>
 #include <QLabel>
+#include "oscpkt.hh"
+#include "udp.hh"
 
 class QAction;
 class QMenu;
@@ -77,7 +79,7 @@ private:
     void loadWorkspaces();
     void saveWorkspaces();
     QString workspaceFilename(QsciScintilla* text);
-    //    void sendOSC((;
+    void sendOSC(oscpkt::Message m);
 
     QsciScintilla *textEdit;
     QsciScintilla *workspace1;

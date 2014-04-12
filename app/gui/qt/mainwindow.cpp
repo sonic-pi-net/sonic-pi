@@ -349,24 +349,10 @@ void MainWindow::startOSCListener() {
 
 }
 
-
-
 void MainWindow::onExitCleanup()
 {
-  // serverProcess->kill();
-  std::cout << "about to quit - killing server";
-  UdpSocket sock;
-  int PORT_NUM = 4557;
-  sock.connectTo("localhost", PORT_NUM);
-  std::cout << "socket obtained for killing";
-  if (!sock.isOk()) {
-    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
-  } else {
     Message msg("/exit");
-    PacketWriter pw;
-    pw.addMessage(msg);
-    sock.sendPacket(pw.packetData(), pw.packetSize());
-  }
+    sendOSC(msg);
 }
 
 void MainWindow::loadWorkspaces()
@@ -411,7 +397,20 @@ bool MainWindow::saveAs()
   return saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
 }
 
-//void MainWindow::sendOSC(String
+ void MainWindow::sendOSC(Message m)
+{
+  UdpSocket sock;
+  int PORT_NUM = 4557;
+  sock.connectTo("localhost", PORT_NUM);
+  if (!sock.isOk()) {
+    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+  } else {
+
+    PacketWriter pw;
+    pw.addMessage(m);
+    sock.sendPacket(pw.packetData(), pw.packetSize());
+  }
+}
 
 void MainWindow::runCode()
 {
@@ -422,18 +421,9 @@ void MainWindow::runCode()
   clearOutputPanels();
   std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
 
-  UdpSocket sock;
-  int PORT_NUM = 4557;
-  sock.connectTo("localhost", PORT_NUM);
-  if (!sock.isOk()) {
-    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
-  } else {
-    Message msg("/run-code");
-    msg.pushStr(code);
-    PacketWriter pw;
-    pw.addMessage(msg);
-    sock.sendPacket(pw.packetData(), pw.packetSize());
-  }
+  Message msg("/run-code");
+  msg.pushStr(code);
+  sendOSC(msg);
 
 }
 
@@ -522,17 +512,8 @@ void MainWindow::documentWasModified()
 
 void MainWindow::stopRunningSynths()
 {
-  UdpSocket sock;
-  int PORT_NUM = 4557;
-  sock.connectTo("localhost", PORT_NUM);
-  if (!sock.isOk()) {
-    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
-  } else {
-    Message msg("/stop-all-jobs");
-    PacketWriter pw;
-    pw.addMessage(msg);
-    sock.sendPacket(pw.packetData(), pw.packetSize());
-  }
+  Message msg("/stop-all-jobs");
+  sendOSC(msg);
 }
 
 void MainWindow::clearOutputPanels()
