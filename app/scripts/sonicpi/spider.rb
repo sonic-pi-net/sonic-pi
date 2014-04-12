@@ -142,7 +142,7 @@ module SonicPi
       end
     end
 
-    def __load_file(id)
+    def __load_buffer(id)
       puts "Loading file #{id}..."
       id = id.to_s
       raise "Aborting load: file name is blank" if  id.empty?

@@ -46,7 +46,6 @@ sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
 rd = SonicPi::RcvDispatch.new(sp, ws_out)
 
 osc_server.add_method("/run-code") do |payload|
-  puts "hi"
   begin
     puts "Received OSC: #{payload}"
     code = payload.to_a[0]
@@ -80,6 +79,17 @@ puts "stopping all jobs..."
   end
 end
 
+osc_server.add_method("/load-buffer") do |payload|
+  puts "loading buffer..."
+  begin
+    sp.__load_buffer(payload.to_a[0])
+  rescue Exception => e
+    puts "Received Exception when attempting to load buffer!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 Thread.new{osc_server.run}
 
 # Send stuff out from Sonic Pi back out to osc_server
@@ -88,7 +98,7 @@ out_t = Thread.new do
   while continue
     begin
       message = ws_out.pop
-      message[:ts] = Time.now.strftime("%H:%M:%S")
+      # message[:ts] = Time.now.strftime("%H:%M:%S")
 
       if message[:type] == :exit
         proxy.send(OSC::Message.new("/exited"))
@@ -103,6 +113,11 @@ out_t = Thread.new do
           trace = message[:backtrace].join("\n")
           puts "sending: /error #{desc}, #{trace}"
           proxy.send(OSC::Message.new("/error", desc, trace))
+        when :replace_buffer
+          buf_id = message[:buffer_id]
+          content = message[:val]
+          puts "replacing buffer #{buf_id}, #{content}"
+          proxy.send(OSC::Message.new("/replace_buffer", buf_id, content))
         else
 #          puts "ignoring #{message}"
         end

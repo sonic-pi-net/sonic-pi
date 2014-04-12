@@ -67,14 +67,15 @@ using namespace oscpkt;
 
 MainWindow::MainWindow(QApplication &app)
 {
+  cont_listening_for_osc = true;
+
   QtConcurrent::run(this, &MainWindow::startOSCListener);
 
   QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/bin/start-server.rb";
   std::cerr << serverProgram.toStdString() << std::endl;
   serverProcess = new QProcess();
-  serverProcess->start(serverProgram);
-  serverProcess->waitForStarted();
-
+  // serverProcess->start(serverProgram);
+  // serverProcess->waitForStarted();
 
   runProcess = NULL;
 
@@ -297,9 +298,9 @@ void MainWindow::startOSCListener() {
     std::cout << "Unable to listen to OSC messages on port 4558" << std::endl;
   } else {
     PacketReader pr;
-    int conti = 1;
     PacketWriter pw;
-    while (sock.isOk() && (conti == 1)) {
+
+    while (sock.isOk() && cont_listening_for_osc) {
       if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
         pr.init(sock.packetData(), sock.packetSize());
         oscpkt::Message *msg;
@@ -331,38 +332,44 @@ void MainWindow::startOSCListener() {
               std::cout << "Server: unhandled error: "<< std::endl;
             }
           }
+          else if (msg->match("/replace_buffer")) {
+            std::string id;
+            std::string content;
+            if (msg->arg().popStr(id).popStr(content).isOkNoMoreArgs()) {
+              QMetaObject::invokeMethod( workspace1, "setText", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(content)) );
+            } else {
+              std::cout << "Server: unhandled replace_buffer: "<< std::endl;
+            }
+          }
           else if (msg->match("/exited")) {
             if (msg->arg().isOkNoMoreArgs()) {
-              conti = 0;
+              std::cout << "server asked us to exit" << std::endl;
+              cont_listening_for_osc = false;
             } else {
               std::cout << "Server: unhandled exited: "<< std::endl;
             }
+          }
+          else {
+            std::cout << "Unknown message" << std::endl;
           }
         }
       }
     }
   }
-    std::cout << "OSC Stopped, releasing socket" << std::endl;
-    sock.close();
-
+  std::cout << "OSC Stopped, releasing socket" << std::endl;
+  sock.close();
 }
 
-void MainWindow::onExitCleanup()
-{
-    Message msg("/exit");
-    sendOSC(msg);
-}
+
 
 void MainWindow::loadWorkspaces()
 {
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi", workspace1);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/two/1.spi", workspace2);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/three/1.spi", workspace3);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/four/1.spi", workspace4);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/five/1.spi", workspace5);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/six/1.spi", workspace6);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/seven/1.spi", workspace7);
-  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/eight/1.spi", workspace8);
+  std::cout << "loading workspaces" << std::endl;;
+  Message msg("/load-buffer");
+  msg.pushStr("main");
+  sendOSC(msg);
+  //  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi", workspace1);
 }
 
 void MainWindow::saveWorkspaces()
@@ -647,4 +654,18 @@ bool MainWindow::saveWorkspace(QsciScintilla* text)
   QString label = currentTabLabel();
   saveFile(workspaceFilename(text), text);
   return true;
+}
+
+void MainWindow::onExitCleanup()
+{
+  if(serverProcess->state() == QProcess::NotRunning) {
+    std::cout << "Server process is not running, something is up..." << std::endl;
+    cont_listening_for_osc = false;
+  } else {
+    std::cout << "Asking server process to exit..." << std::endl;
+    Message msg("/exit");
+    sendOSC(msg);
+  }
+  std::cout << "Exiting..." << std::endl;
+
 }

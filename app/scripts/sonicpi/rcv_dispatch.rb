@@ -42,7 +42,7 @@ module SonicPi
           exec_exit
         when "ping"
           exec_ping(data)
-        when "load"
+        when "load-buffer"
           exec_load(data)
         else
           raise "Unknown command: #{cmd}"
@@ -87,8 +87,8 @@ module SonicPi
       @event_queue.push({type: :ack, id: data["id"]})
     end
 
-    def exec_load(data)
-      @spider.__load_file data["id"]
+    def exec_load_buffer(data)
+      @spider.__load_buffer data["id"]
     end
 
     def exec_reload

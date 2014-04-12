@@ -81,6 +81,8 @@ private:
     QString workspaceFilename(QsciScintilla* text);
     void sendOSC(oscpkt::Message m);
 
+    bool cont_listening_for_osc;
+
     QsciScintilla *textEdit;
     QsciScintilla *workspace1;
     QsciScintilla *workspace2;
