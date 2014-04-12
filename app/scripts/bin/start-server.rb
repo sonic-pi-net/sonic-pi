@@ -12,15 +12,14 @@
 # notice is included.
 #++
 
-require_relative "core.rb"
-
-require_relative "sonicpi/scsynth"
-require_relative "sonicpi/studio"
-require_relative "sonicpi/spider"
-require_relative "sonicpi/spiderapi"
-require_relative "sonicpi/server"
-require_relative "sonicpi/util"
-require_relative "sonicpi/rcv_dispatch"
+require_relative "../core.rb"
+require_relative "../sonicpi/scsynth"
+require_relative "../sonicpi/studio"
+require_relative "../sonicpi/spider"
+require_relative "../sonicpi/spiderapi"
+require_relative "../sonicpi/server"
+require_relative "../sonicpi/util"
+require_relative "../sonicpi/rcv_dispatch"
 
 require 'multi_json'
 

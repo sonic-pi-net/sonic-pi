@@ -72,7 +72,7 @@ MainWindow::MainWindow(QApplication &app)
   QtConcurrent::run(this, &MainWindow::startOSCListener);
 
 //ensureWorkspaces();
-  QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/start-server.rb";
+  QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/bin/start-server.rb";
   std::cerr << serverProgram.toStdString() << std::endl;
   serverProcess = new QProcess();
   serverProcess->start(serverProgram);

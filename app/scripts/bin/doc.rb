@@ -12,10 +12,21 @@
 # notice is included.
 #++
 
-require_relative "core.rb"
+require_relative "../core.rb"
+require_relative "../sonicpi/synthinfo"
+require_relative "../sonicpi/util"
 
-require 'multi_json'
+include SonicPi::Util
 
-sp = OSC::Client.new("localhost", 4557)
-payload = MultiJson.dump({:cmd => "exit"})
-sp.send(OSC::Message.new("/json", payload))
+
+File.open( "#{cheatsheets_path}/synths.md", 'w' ) do |f|
+ f << SonicPi::SynthInfo.synth_doc_markdown
+end
+
+File.open( "#{cheatsheets_path}/fx.md", 'w') do |f|
+ f << SonicPi::SynthInfo.fx_doc_markdown
+end
+
+File.open( "#{cheatsheets_path}/samples.md", 'w') do |f|
+ f << SonicPi::SynthInfo.samples_doc_markdown
+end

@@ -14,8 +14,8 @@
 
 $:.unshift File.expand_path("../vendor/osc-ruby/lib", __FILE__)
 require 'osc-ruby'
+require_relative '../util.rb'
 
-load(File.absolute_path("#{File.dirname(__FILE__)}/util.rb"))
 STDOUT.sync
 Thread.abort_on_exception = true
 
