@@ -11,8 +11,10 @@
 ;; notice is included.
 ;;++
 (ns defpi.onload
-  (:require [defpi.ws :refer [add-ws-handlers]]))
+  (:require [defpi.ws :refer [add-ws-handlers mk-ws]]))
 
 (set! (.-onload js/window)
       (fn []
-        (add-ws-handlers)))
+        (mk-ws)
+        (add-ws-handlers)
+        ))

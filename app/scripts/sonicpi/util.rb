@@ -11,9 +11,12 @@
 # notice is included.
 #++
 require 'cgi'
+require 'fileutils'
 
 module SonicPi
   module Util
+    @@project_path = nil
+
     def os
       case RUBY_PLATFORM
       when /.*armv6l-linux.*/
@@ -27,6 +30,24 @@ module SonicPi
       else
         raise "Unsupported platform #{RUBY_PLATFORM}"
       end
+    end
+
+    def home_dir
+      File.expand_path(Dir.home + '/.sonic-pi/')
+    end
+
+    def project_path
+      return @@project_path if @@project_path
+      ## TODO: allow user to modify this for different projects
+      path = home_dir + '/store/default/'
+      ensure_dir(path)
+      @@project_path = path
+      path
+    end
+
+    def ensure_dir(d)
+      puts "ensuring dir: #{d}"
+      FileUtils.mkdir_p d
     end
 
     def root_path

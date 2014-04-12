@@ -26,7 +26,7 @@
 
 (declare stop-job)
 
-
+(def ws (atom nil))
 (def err-cnt (atom 0))
 (def app-state (atom {:messages (rb/mk-ringbuffer 100)
                       :jobs #{}}))
@@ -59,16 +59,11 @@
                                               (str/join "\n" (get m "backtrace")))))))
                (:messages data)))))
 
-(om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
-(om/root jobs-comp app-state {:target (.getElementById js/document "app-jobs")})
-
 (def hostname
   (let [hn (.-host (.-location js/window))]
     (if (= "" hn)
       "localhost"
       (re-find #"[^\:]+" hn))))
-
-(def ws (js/WebSocket. (str "ws://" hostname  ":8001")))
 
 (defn show-msg
   [msg]
@@ -78,7 +73,7 @@
 (defn reply-sync
   [msg res]
   (when-let [id (:sync msg)]
-    (.send ws {:cmd    "sync"
+    (.send @ws {:cmd    "sync"
                :val    id
                :result (cond
                         (number? res)  res
@@ -99,6 +94,10 @@
   [msg]
   (println "debug=> " msg))
 
+(defmethod handle-message "replace_buffer"
+  [msg]
+  (.setValue js/editor (get msg "val")))
+
 (defmethod handle-message "job"
   [msg]
   (cond
@@ -117,10 +116,20 @@
   [m]
   (js/console.log "can't handle: " (:type m)))
 
+(defn replace-buffer [buf-id]
+  (.send @ws (JSON/stringify #js {:cmd    "load"
+                                  :id   (str buf-id)})))
+
 (defn add-ws-handlers
   []
-  (set! (.-onclose ws) #(show-msg "Websocket Closed"))
-  (set! (.-onmessage ws) (fn [m]
+  (set! (.-onopen @ws) (fn []
+                        (om/root message-comp app-state {:target (.getElementById js/document "app-messages")})
+
+                        (om/root jobs-comp app-state {:target (.getElementById js/document "app-jobs")})
+                        (replace-buffer "main")))
+
+  (set! (.-onclose @ws) #(show-msg "Websocket Closed"))
+  (set! (.-onmessage @ws) (fn [m]
                            (let [msg (js->clj (JSON/parse (.-data m)))
                                  res (handle-message msg)]
                              (reply-sync msg res))))
@@ -129,31 +138,36 @@
                  (let [code (.-charCode e)]
                    (cond
                     (= 18 code)
-                    (.send ws (JSON/stringify #js{"cmd" "run-code"
-                                                  "val" (.getValue js/editor)}))
+                    (.send @ws (JSON/stringify #js{"cmd" "save-and-run-buffer"
+                                                   "val" (.getValue js/editor)
+                                                   "buffer_id" "main"}))
 
                     (= 19 code)
-                    (.send ws (JSON/stringify #js{"cmd" "stop-jobs"
-                                                  "val" (.getValue js/editor)}))))))
+                    (.send @ws (JSON/stringify #js{"cmd" "stop-jobs"
+                                                   "val" (.getValue js/editor)}))))))
 
 )
 
 (defn ^:export sendCode
   []
-  (.send ws (JSON/stringify #js {:cmd "run-code"
-                                 :val (.getValue js/editor)})))
+  (.send @ws (JSON/stringify #js {:cmd "save-and-run-buffer"
+                                  :val (.getValue js/editor)
+                                  :buffer_id "main"})))
 
 
 (defn ^:export stopCode
   []
-  (.send ws (JSON/stringify #js {:cmd "stop-jobs"
+  (.send @ws (JSON/stringify #js {:cmd "stop-jobs"
                                 :val (.getValue js/editor)})))
 
 (defn ^:export reloadCode
   []
-  (.send ws (JSON/stringify #js {:cmd "reload"
+  (.send @ws (JSON/stringify #js {:cmd "reload"
                                 :val (.getValue js/editor)})))
 
 (defn stop-job [j-id]
-  (.send ws (JSON/stringify #js {:cmd "stop-job"
-                                :val j-id})))
+  (.send @ws (JSON/stringify #js {:cmd "stop-job"
+                                 :val j-id})))
+
+(defn mk-ws []
+  (reset! ws (js/WebSocket. (str "ws://" hostname  ":8001"))))

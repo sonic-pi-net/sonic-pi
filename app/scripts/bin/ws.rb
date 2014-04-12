@@ -98,7 +98,8 @@ in_t = Thread.new do
           $rd.dispatch parsed
         rescue Exception => e
           puts "Unable to parse: #{msg}"
-          puts "Exception: #{e.backtrace}"
+          puts "Reason: #{e}"
+          puts "Backtrace: #{e.backtrace}"
         end
       end
       client.onclose do

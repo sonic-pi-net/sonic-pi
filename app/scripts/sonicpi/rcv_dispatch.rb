@@ -26,6 +26,8 @@ module SonicPi
         case cmd
         when "run-code"
           exec_cmd(data)
+        when "save-and-run-buffer"
+          exec_save_and_run_buffer(data)
         when "stop-jobs"
           exec_stop
         when "stop-job"
@@ -38,6 +40,10 @@ module SonicPi
           exec_reload
         when "exit"
           exec_exit
+        when "ping"
+          exec_ping(data)
+        when "load"
+          exec_load(data)
         else
           raise "Unknown command: #{cmd}"
         end
@@ -62,12 +68,27 @@ module SonicPi
       @spider.__spider_eval data["val"]
     end
 
+    def exec_save_and_run_buffer(data)
+      buffer_content = data["val"].to_s
+      buffer_id = data["buffer_id"].to_s
+      @spider.__spider_eval buffer_content
+      @spider.__save_buffer(buffer_id, buffer_content)
+    end
+
     def exec_event(data)
       @event_queue.push data
     end
 
     def exec_exit
       @spider.__exit
+    end
+
+    def exec_ping(data)
+      @event_queue.push({type: :ack, id: data["id"]})
+    end
+
+    def exec_load(data)
+      @spider.__load_file data["id"]
     end
 
     def exec_reload

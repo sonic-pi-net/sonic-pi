@@ -142,6 +142,23 @@ module SonicPi
       end
     end
 
+    def __load_file(id)
+      puts "Loading file #{id}..."
+      id = id.to_s
+      raise "Aborting load: file name is blank" if  id.empty?
+      path = project_path + id + '.spi'
+      s = "#Hello there!"
+      if File.exists? path
+        s = IO.read(path)
+      end
+      @msg_queue.push({type: :replace_buffer, buffer_id: id, val: s})
+    end
+
+    def __save_buffer(id, content)
+      path = project_path + id + '.spi'
+      File.open(path, 'w') {|f| f.write(content) }
+    end
+
     def __spider_eval(code, info={})
       id = @job_counter.next
       job = Thread.new do
