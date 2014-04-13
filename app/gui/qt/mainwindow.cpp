@@ -330,7 +330,7 @@ void MainWindow::startOSCListener() {
               std::cout << "Server: unhandled error: "<< std::endl;
             }
           }
-          else if (msg->match("/replace_buffer")) {
+          else if (msg->match("/replace-buffer")) {
             std::string id;
             std::string content;
             if (msg->arg().popStr(id).popStr(content).isOkNoMoreArgs()) {
@@ -338,7 +338,7 @@ void MainWindow::startOSCListener() {
               QMetaObject::invokeMethod( ws, "setText", Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(content)) );
             } else {
-              std::cout << "Server: unhandled replace_buffer: "<< std::endl;
+              std::cout << "Server: unhandled replace-buffer: "<< std::endl;
             }
           }
           else if (msg->match("/exited")) {

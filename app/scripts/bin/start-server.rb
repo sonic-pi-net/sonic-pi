@@ -158,7 +158,7 @@ out_t = Thread.new do
           buf_id = message[:buffer_id]
           content = message[:val]
           puts "replacing buffer #{buf_id}, #{content}"
-          proxy.send(OSC::Message.new("/replace_buffer", buf_id, content))
+          proxy.send(OSC::Message.new("/replace-buffer", buf_id, content))
         else
 #          puts "ignoring #{message}"
         end
