@@ -154,7 +154,7 @@ out_t = Thread.new do
           trace = message[:backtrace].join("\n")
           puts "sending: /error #{desc}, #{trace}"
           proxy.send(OSC::Message.new("/error", desc, trace))
-        when :replace_buffer
+        when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val]
           puts "replacing buffer #{buf_id}, #{content}"
