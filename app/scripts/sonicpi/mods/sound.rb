@@ -204,7 +204,7 @@ module SonicPi
          start_subthreads = []
          end_subthreads = []
 
-         fx_synth_name = "fx_replace_#{fx_name}"
+         fx_synth_name = "fx_#{fx_name}"
 
          fxt = Thread.current
          p = Promise.new
@@ -212,10 +212,10 @@ module SonicPi
 
          # These will be assigned later...
          fx_synth = BlankNode.new
+         new_bus = nil
+         current_bus = nil
 
          Thread.current.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
-           ## TODO:
-           ## Do something more smart than just blindly use a magic 1s
            ## Munge args
            args_h = resolve_synth_opts_hash_or_array(args)
            kill_delay = args_h[:kill_delay] || SynthInfo.get_info(fx_synth_name).kill_delay(args_h)
@@ -284,9 +284,21 @@ module SonicPi
            ## modify the thread local to make sure new synth triggers in
            ## this thread output to this fx synth:
 
+           ## Create a new bus for this fx chain
+           begin
+             new_bus = @mod_sound_studio.new_fx_bus
+           rescue BusAllocationError
+             __message "All busses allocated - unable to honour FX"
+             if block.arity == 0
+               return block.call
+             else
+               return block.call(@blank_node)
+             end
+           end
+
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => current_job_bus}), current_fx_group)
+           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus}), current_fx_group)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
@@ -300,6 +312,9 @@ module SonicPi
            Thread.current.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
              start_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
            end
+
+           ## Set this thread's out bus to pipe audio into the new fx synth node
+           Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
 
          end #end don't kill sync
 
@@ -319,6 +334,8 @@ module SonicPi
            ## Ensure that p's promise is delivered - thus kicking off
            ## the gc thread.
            p.deliver! true
+           ## Reset out bus to value prior to this with_fx block
+           fxt.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
          end
 
          # Wait for gc thread to complete. Once the gc thread has
@@ -560,7 +577,7 @@ module SonicPi
          validation_fn = mk_synth_args_validator(synth_name)
          validation_fn.call(args_h)
          n = trigger_synth(synth_name, args_h, group, validation_fn, true)
-         FXReplaceNode.new(n)
+         FXNode.new(n, args_h["in-bus"], current_out_bus)
        end
 
        def trigger_synth(synth_name, args_h, group, arg_validation_fn, now=false, out_bus=nil)
@@ -570,8 +587,7 @@ module SonicPi
 
          synth_name = "sp/#{synth_name}"
          unless out_bus
-           current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
-           out_bus = current_bus || current_job_bus
+           out_bus = current_out_bus
          end
 
          job_id = current_job_id
@@ -614,8 +630,9 @@ module SonicPi
          job_synth_group(current_job_id)
        end
 
-       def current_job_bus
-         job_bus(current_job_id)
+       def current_out_bus
+         current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
+         current_bus || @mod_sound_studio.mixer_bus
        end
 
        def job_bus(job_id)
