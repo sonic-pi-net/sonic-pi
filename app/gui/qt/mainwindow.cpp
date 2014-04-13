@@ -224,41 +224,49 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   font.setStyleHint(QFont::Monospace);
   lexer->setDefaultFont(font);
 
+  workspace1->setText("#loading...");
   workspace1->setLexer(lexer);
   workspace1->zoomIn(13);
   workspace1->setAutoCompletionThreshold(5);
   workspace1->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
+  workspace2->setText("#loading...");
   workspace2->setLexer(lexer);
   workspace2->zoomIn(13);
   workspace2->setAutoCompletionThreshold(5);
   workspace2->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
+  workspace3->setText("#loading...");
   workspace3->setLexer(lexer);
   workspace3->zoomIn(13);
   workspace3->setAutoCompletionThreshold(5);
   workspace3->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
+  workspace4->setText("#loading...");
   workspace4->setLexer(lexer);
   workspace4->zoomIn(13);
   workspace4->setAutoCompletionThreshold(5);
   workspace4->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
+  workspace5->setText("#loading...");
   workspace5->setLexer(lexer);
   workspace5->zoomIn(13);
   workspace5->setAutoCompletionThreshold(5);
   workspace5->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
+  workspace6->setText("#loading...");
   workspace6->setLexer(lexer);
   workspace6->zoomIn(13);
   workspace6->setAutoCompletionThreshold(5);
   workspace6->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
+  workspace7->setText("#loading...");
   workspace7->setLexer(lexer);
   workspace7->zoomIn(13);
   workspace7->setAutoCompletionThreshold(5);
   workspace7->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
+  workspace8->setText("#loading...");
   workspace8->setLexer(lexer);
   workspace8->zoomIn(13);
   workspace8->setAutoCompletionThreshold(5);
