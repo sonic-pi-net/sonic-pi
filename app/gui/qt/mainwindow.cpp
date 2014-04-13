@@ -142,12 +142,27 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
 
   QsciAPIs* api = new QsciAPIs(lexer);
 
-  api->add("ambi_drone");
-  api->add("ambi_haunted_hum");
-  api->add("ambi_lunar_land");
+  // TODO: remove these from the code and make them an OSC API query
   api->add("ambi_soft_buzz");
   api->add("ambi_swoosh");
+  api->add("ambi_drone");
+  api->add("ambi_glass_hum");
+  api->add("ambi_glass_rub");
+  api->add("ambi_haunted_hum");
   api->add("ambi_piano");
+  api->add("ambi_lunar_land");
+  api->add("ambi_dark_whoosh");
+  api->add("ambi_choir");
+
+  api->add("bass_hit_c");
+  api->add("bass_hard_c");
+  api->add("bass_thick_c");
+  api->add("bass_drop_c");
+  api->add("bass_woodsy_c");
+  api->add("bass_voxy_c");
+  api->add("bass_voxy_hit_c");
+  api->add("bass_dnb_f");
+
   api->add("drum_bass_hard");
   api->add("drum_bass_soft");
   api->add("drum_cymbal_closed");
