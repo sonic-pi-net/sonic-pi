@@ -419,43 +419,43 @@ void MainWindow::saveWorkspaces()
   std::string code2 = workspace2->text().toStdString();
   Message msg2("/save-buffer");
   msg2.pushStr("workspace_two");
-  msg.pushStr(code2);
+  msg2.pushStr(code2);
   sendOSC(msg2);
 
   std::string code3 = workspace3->text().toStdString();
   Message msg3("/save-buffer");
   msg3.pushStr("workspace_three");
-  msg.pushStr(code3);
+  msg3.pushStr(code3);
   sendOSC(msg3);
 
   std::string code4 = workspace4->text().toStdString();
   Message msg4("/save-buffer");
   msg4.pushStr("workspace_four");
-  msg.pushStr(code4);
+  msg4.pushStr(code4);
   sendOSC(msg4);
 
   std::string code5 = workspace5->text().toStdString();
   Message msg5("/save-buffer");
   msg5.pushStr("workspace_five");
-  msg.pushStr(code5);
+  msg5.pushStr(code5);
   sendOSC(msg5);
 
   std::string code6 = workspace6->text().toStdString();
   Message msg6("/save-buffer");
   msg6.pushStr("workspace_six");
-  msg.pushStr(code6);
+  msg6.pushStr(code6);
   sendOSC(msg6);
 
   std::string code7 = workspace7->text().toStdString();
   Message msg7("/save-buffer");
   msg7.pushStr("workspace_seven");
-  msg.pushStr(code7);
+  msg7.pushStr(code7);
   sendOSC(msg7);
 
   std::string code8 = workspace8->text().toStdString();
   Message msg8("/save-buffer");
   msg8.pushStr("workspace_eight");
-  msg.pushStr(code8);
+  msg8.pushStr(code8);
   sendOSC(msg8);
 }
 
