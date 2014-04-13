@@ -90,6 +90,18 @@ osc_server.add_method("/load-buffer") do |payload|
   end
 end
 
+osc_server.add_method("/ping") do |payload|
+  puts "ping!"
+  begin
+    id = payload.to_a[0]
+    proxy.send(OSC::Message.new("/ack", id))
+  rescue Exception => e
+    puts "Received Exception when attempting to send ack!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 Thread.new{osc_server.run}
 
 # Send stuff out from Sonic Pi back out to osc_server

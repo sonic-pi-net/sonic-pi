@@ -28,6 +28,7 @@
 #include <QMainWindow>
 #include <QDialog>
 #include <QLabel>
+#include <QSplashScreen>
 #include "oscpkt.hh"
 #include "udp.hh"
 
@@ -44,7 +45,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QApplication &ref);
+    MainWindow(QApplication &ref, QSplashScreen &splash);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -82,6 +83,7 @@ private:
     void sendOSC(oscpkt::Message m);
 
     bool cont_listening_for_osc;
+    bool server_started;
 
     QsciScintilla *textEdit;
     QsciScintilla *workspace1;

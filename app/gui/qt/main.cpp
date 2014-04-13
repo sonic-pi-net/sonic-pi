@@ -34,12 +34,8 @@ int main(int argc, char *argv[])
     splash.show();
     //    sleep(1);
     //    QIcon icon(":images/app.icns");
-    MainWindow mainWin(app);
+    MainWindow mainWin(app, splash);
     mainWin.setUnifiedTitleAndToolBarOnMac(true);
     //    mainWin.setWindowIcon(icon);
-    mainWin.show();
-    splash.finish(&mainWin);
     return app.exec();
-    return app.exec();
-
 }

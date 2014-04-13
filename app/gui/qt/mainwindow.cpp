@@ -65,8 +65,12 @@
 
 using namespace oscpkt;
 
-MainWindow::MainWindow(QApplication &app)
+MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
 {
+
+  this->setUnifiedTitleAndToolBarOnMac(true);
+
+  server_started = false;
   cont_listening_for_osc = true;
 
   QtConcurrent::run(this, &MainWindow::startOSCListener);
@@ -195,7 +199,6 @@ MainWindow::MainWindow(QApplication &app)
   api->add("loop_industrial");
   api->add("loop_compus");
   api->add("loop_amen_full");
-
   api->add("with_synth");
   api->add("with_merged_synth_defaults");
   api->add("with_synth_defaults");
@@ -269,9 +272,20 @@ MainWindow::MainWindow(QApplication &app)
   readSettings();
 
   setWindowTitle(tr("Sonic Pi"));
-  loadWorkspaces();
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
+
+  while (!server_started && cont_listening_for_osc) {
+    sleep(0.25);
+    Message msg("/ping");
+    msg.pushStr("QtClient/1/hello");
+    sendOSC(msg);
+  }
+
+  loadWorkspaces();
+  sleep(1);
+  this->show();
+  splash.finish(this);
 }
 
 void MainWindow::startOSCListener() {
@@ -334,6 +348,13 @@ void MainWindow::startOSCListener() {
             } else {
               std::cout << "Server: unhandled exited: "<< std::endl;
             }
+          }
+          else if (msg->match("/ack")) {
+            std::string id;
+            if (msg->arg().popStr(id).isOkNoMoreArgs()) {
+              server_started = true;
+            } else
+              std::cout << "Server: unhandled ack " << std::endl;
           }
           else {
             std::cout << "Unknown message" << std::endl;
