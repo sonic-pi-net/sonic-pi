@@ -57,6 +57,35 @@ osc_server.add_method("/run-code") do |payload|
   end
 end
 
+osc_server.add_method("/save-and-run-buffer") do |payload|
+  begin
+    puts "Received save-and-run-buffer: #{payload.to_a}"
+    args = payload.to_a
+    buffer_id = args[0]
+    code = args[1]
+    sp.__spider_eval code
+    sp.__save_buffer(buffer_id, code)
+  rescue Exception => e
+    puts "Caught exception when attempting to save and run buffer!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/save-buffer") do |payload|
+  begin
+    puts "Received save-buffer: #{payload.to_a}"
+    args = payload.to_a
+    buffer_id = args[0]
+    code = args[1]
+    sp.__save_buffer(buffer_id, code)
+  rescue Exception => e
+    puts "Caught exception when attempting to save buffer!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 osc_server.add_method("/exit") do |payload|
 puts "exiting..."
   begin

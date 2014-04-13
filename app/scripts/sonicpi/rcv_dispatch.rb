@@ -43,7 +43,9 @@ module SonicPi
         when "ping"
           exec_ping(data)
         when "load-buffer"
-          exec_load(data)
+          exec_load_buffer(data)
+        when "save-buffer"
+          exec_save_buffer(data)
         else
           raise "Unknown command: #{cmd}"
         end
@@ -89,6 +91,12 @@ module SonicPi
 
     def exec_load_buffer(data)
       @spider.__load_buffer data["id"]
+    end
+
+    def exec_save_buffer(data)
+      buffer_content = data["val"].to_s
+      buffer_id = data["buffer_id"].to_s
+      @spider.__save_buffer(buffer_id, buffer_content)
     end
 
     def exec_reload

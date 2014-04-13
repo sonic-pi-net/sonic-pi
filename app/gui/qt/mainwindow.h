@@ -31,6 +31,7 @@
 #include <QSplashScreen>
 #include "oscpkt.hh"
 #include "udp.hh"
+#include <iostream>
 
 class QAction;
 class QMenu;
@@ -76,10 +77,10 @@ private:
     void killSynths();
     void loadFile(const QString &fileName, QsciScintilla* &text);
     bool saveFile(const QString &fileName, QsciScintilla* text);
-    bool saveWorkspace(QsciScintilla* text);
     void loadWorkspaces();
     void saveWorkspaces();
-    QString workspaceFilename(QsciScintilla* text);
+    std::string workspaceFilename(QsciScintilla* text);
+    QsciScintilla* filenameToWorkspace(std::string filename);
     void sendOSC(oscpkt::Message m);
 
     bool cont_listening_for_osc;

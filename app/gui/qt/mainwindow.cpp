@@ -78,8 +78,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/bin/start-server.rb";
   std::cerr << serverProgram.toStdString() << std::endl;
   serverProcess = new QProcess();
-  // serverProcess->start(serverProgram);
-  // serverProcess->waitForStarted();
+  serverProcess->start(serverProgram);
+  serverProcess->waitForStarted();
 
   runProcess = NULL;
 
@@ -276,14 +276,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
   while (!server_started && cont_listening_for_osc) {
-    sleep(0.25);
+    sleep(1);
     Message msg("/ping");
     msg.pushStr("QtClient/1/hello");
     sendOSC(msg);
   }
 
   loadWorkspaces();
-  sleep(1);
   this->show();
   splash.finish(this);
 }
@@ -335,7 +334,8 @@ void MainWindow::startOSCListener() {
             std::string id;
             std::string content;
             if (msg->arg().popStr(id).popStr(content).isOkNoMoreArgs()) {
-              QMetaObject::invokeMethod( workspace1, "setText", Qt::QueuedConnection,
+              QsciScintilla* ws = filenameToWorkspace(id);
+              QMetaObject::invokeMethod( ws, "setText", Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(content)) );
             } else {
               std::cout << "Server: unhandled replace_buffer: "<< std::endl;
@@ -372,22 +372,75 @@ void MainWindow::startOSCListener() {
 void MainWindow::loadWorkspaces()
 {
   std::cout << "loading workspaces" << std::endl;;
+
   Message msg("/load-buffer");
-  msg.pushStr("main");
+  msg.pushStr("workspace_one");
   sendOSC(msg);
-  //  loadFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi", workspace1);
+
+  Message msg2("/load-buffer");
+  msg2.pushStr("workspace_two");
+  sendOSC(msg2);
+
+  Message msg3("/load-buffer");
+  msg3.pushStr("workspace_three");
+  sendOSC(msg3);
+
+  Message msg4("/load-buffer");
+  msg4.pushStr("workspace_four");
+  sendOSC(msg4);
+
+  Message msg5("/load-buffer");
+  msg5.pushStr("workspace_five");
+  sendOSC(msg5);
+
+  Message msg6("/load-buffer");
+  msg6.pushStr("workspace_six");
+  sendOSC(msg6);
+
+  Message msg7("/load-buffer");
+  msg7.pushStr("workspace_seven");
+  sendOSC(msg7);
+
+  Message msg8("/load-buffer");
+  msg8.pushStr("workspace_eight");
+  sendOSC(msg8);
 }
 
 void MainWindow::saveWorkspaces()
 {
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi", workspace1);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/two/1.spi", workspace2);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/three/1.spi", workspace3);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/four/1.spi", workspace4);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/five/1.spi", workspace5);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/six/1.spi", workspace6);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/seven/1.spi", workspace7);
-  saveFile(QDir::homePath() + "/.sonic-pi/workspaces/"  + "/eight/1.spi", workspace8);
+  std::cout << "loading workspaces" << std::endl;;
+
+  Message msg("/save-buffer");
+  msg.pushStr("workspace_one");
+  sendOSC(msg);
+
+  Message msg2("/save-buffer");
+  msg2.pushStr("workspace_two");
+  sendOSC(msg2);
+
+  Message msg3("/save-buffer");
+  msg3.pushStr("workspace_three");
+  sendOSC(msg3);
+
+  Message msg4("/save-buffer");
+  msg4.pushStr("workspace_four");
+  sendOSC(msg4);
+
+  Message msg5("/save-buffer");
+  msg5.pushStr("workspace_five");
+  sendOSC(msg5);
+
+  Message msg6("/save-buffer");
+  msg6.pushStr("workspace_six");
+  sendOSC(msg6);
+
+  Message msg7("/save-buffer");
+  msg7.pushStr("workspace_seven");
+  sendOSC(msg7);
+
+  Message msg8("/save-buffer");
+  msg8.pushStr("workspace_eight");
+  sendOSC(msg8);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -425,17 +478,13 @@ bool MainWindow::saveAs()
 
 void MainWindow::runCode()
 {
-
-  saveWorkspace( (QsciScintilla*)tabs->currentWidget());
-  QString emptyText = "";
   statusBar()->showMessage(tr("Running...."), 2000);
-  clearOutputPanels();
   std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
-
-  Message msg("/run-code");
+  Message msg("/save-and-run-buffer");
+  std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
+  msg.pushStr(filename);
   msg.pushStr(code);
   sendOSC(msg);
-
 }
 
 void MainWindow::killSynths()
@@ -642,24 +691,30 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
     return true;
 }
 
-QString MainWindow::workspaceFilename(QsciScintilla* text)
+ std::string MainWindow::workspaceFilename(QsciScintilla* text)
 {
-  if(text == workspace1) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi";}
-  else if(text == workspace2) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/two/1.spi";}
-  else if(text == workspace3) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/three/1.spi";}
-  else if(text == workspace4) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/four/1.spi";}
-  else if(text == workspace5) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/five/1.spi";}
-  else if(text == workspace6) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/six/1.spi";}
-  else if(text == workspace7) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/seven/1.spi";}
-  else if(text == workspace8) {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/eight/1.spi";}
- else {return QDir::homePath() + "/.sonic-pi/workspaces/"  + "/one/1.spi";}
+  if(text == workspace1) {return "workspace_one";}
+  else if(text == workspace2) {return "workspace_two";}
+  else if(text == workspace3) {return "workspace_three";}
+  else if(text == workspace4) {return "workspace_four";}
+  else if(text == workspace5) {return "workspace_five";}
+  else if(text == workspace6) {return "workspace_six";}
+  else if(text == workspace7) {return "workspace_seven";}
+  else if(text == workspace8) {return "workspace_eight";}
+  else {return "default";}
 }
 
-bool MainWindow::saveWorkspace(QsciScintilla* text)
+ QsciScintilla*  MainWindow::filenameToWorkspace(std::string filename)
 {
-  QString label = currentTabLabel();
-  saveFile(workspaceFilename(text), text);
-  return true;
+  if(filename == "workspace_one") {return workspace1;}
+  else if(filename == "workspace_two") {return workspace2;}
+  else if(filename == "workspace_three") {return workspace3;}
+  else if(filename == "workspace_four") {return workspace4;}
+  else if(filename == "workspace_five") {return workspace5;}
+  else if(filename == "workspace_six") {return workspace6;}
+  else if(filename == "workspace_seven") {return workspace7;}
+  else if(filename == "workspace_eight") {return workspace8;}
+  else {return workspace1;}
 }
 
 void MainWindow::onExitCleanup()
@@ -668,6 +723,8 @@ void MainWindow::onExitCleanup()
     std::cout << "Server process is not running, something is up..." << std::endl;
     cont_listening_for_osc = false;
   } else {
+    saveWorkspaces();
+    sleep(1);
     std::cout << "Asking server process to exit..." << std::endl;
     Message msg("/exit");
     sendOSC(msg);
