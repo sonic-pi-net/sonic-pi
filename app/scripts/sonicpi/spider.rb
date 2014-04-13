@@ -151,7 +151,7 @@ module SonicPi
       if File.exists? path
         s = IO.read(path)
       end
-      @msg_queue.push({type: :replace_buffer, buffer_id: id, val: s})
+      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: s})
     end
 
     def __save_buffer(id, content)

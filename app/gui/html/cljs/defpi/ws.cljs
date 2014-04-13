@@ -94,7 +94,7 @@
   [msg]
   (println "debug=> " msg))
 
-(defmethod handle-message "replace_buffer"
+(defmethod handle-message "replace-buffer"
   [msg]
   (.setValue js/editor (get msg "val")))
 
@@ -117,7 +117,7 @@
   (js/console.log "can't handle: " (:type m)))
 
 (defn replace-buffer [buf-id]
-  (.send @ws (JSON/stringify #js {:cmd    "load"
+  (.send @ws (JSON/stringify #js {:cmd  "load-buffer"
                                   :id   (str buf-id)})))
 
 (defn add-ws-handlers
