@@ -658,7 +658,7 @@
       (out out-bus (pan2 snd pan amp))))
 
   (defsynth mono_player
-    "Plays a mono buffer from start pos to end pos (represented as
+    "Plays a mono buffer from start pos to finish pos (represented as
      values between 0 and 1). Outputs a stereo signal."
     [buf 0
      amp 1
@@ -670,17 +670,17 @@
      release 0.0
      rate 1
      start 0
-     end 1
+     finish 1
      out-bus 0]
     (let [amp         (lag amp amp_slide)
           pan         (lag pan pan_slide)
           n-frames    (- (buf-frames buf) 1)
           start-pos   (* start n-frames)
-          end-pos     (* end n-frames)
+          end-pos     (* finish n-frames)
           n-start-pos (select:kr (not-pos? rate) [start-pos end-pos])
           n-end-pos   (select:kr (not-pos? rate) [end-pos start-pos])
           rate        (abs rate)
-          play-time   (/ (* (buf-dur buf) (absdif end start))
+          play-time   (/ (* (buf-dur buf) (absdif finish start))
                          rate)
           phase       (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
           sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release)])
@@ -691,7 +691,7 @@
       (out out-bus snd)))
 
   (defsynth stereo_player
-    "Plays a mono buffer from start pos to end pos (represented as
+    "Plays a mono buffer from start pos to finish pos (represented as
      values between 0 and 1). Outputs a stereo signal."
     [buf 0
      amp 1
@@ -703,17 +703,17 @@
      release 0.0
      rate 1
      start 0
-     end 1
+     finish 1
      out-bus 0]
     (let [amp           (lag amp amp_slide)
           pan           (lag pan pan_slide)
           n-frames      (- (buf-frames buf) 1)
           start-pos     (* start n-frames)
-          end-pos       (* end n-frames)
+          end-pos       (* finish n-frames)
           n-start-pos   (select:kr (not-pos? rate) [start-pos end-pos])
           n-end-pos     (select:kr (not-pos? rate) [end-pos start-pos])
           rate          (abs rate)
-          play-time     (/ (* (buf-dur buf) (absdif end start))
+          play-time     (/ (* (buf-dur buf) (absdif finish start))
                            rate)
           phase         (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
           sustain       (select:kr (= -1 sustain) [sustain (- play-time attack release)])

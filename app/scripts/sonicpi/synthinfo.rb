@@ -995,7 +995,7 @@ module SonicPi
         :release => 0,
         :rate => 1,
         :start => 0,
-        :end => 1
+        :finish => 1
       }
     end
 
@@ -1037,10 +1037,10 @@ module SonicPi
           :modulatable => false
         },
 
-        :end =>
+        :finish =>
         {
           :doc => "",
-          :validations => [v_positive(:end), v_between_inclusive(:end, 0, 1)],
+          :validations => [v_positive(:finish), v_between_inclusive(:finish, 0, 1)],
           :modulatable => false
         },
 

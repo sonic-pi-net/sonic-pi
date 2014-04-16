@@ -1971,7 +1971,7 @@
     - constraints: must be zero or greater,must be a value between 0 and 1 inclusively
     - Can not be changed once set
 
-  * end:
+  * finish:
     - doc: 
     - default: 1
     - constraints: must be zero or greater,must be a value between 0 and 1 inclusively
@@ -2042,7 +2042,7 @@
     - constraints: must be zero or greater,must be a value between 0 and 1 inclusively
     - Can not be changed once set
 
-  * end:
+  * finish:
     - doc: 
     - default: 1
     - constraints: must be zero or greater,must be a value between 0 and 1 inclusively
