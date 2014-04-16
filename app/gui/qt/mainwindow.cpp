@@ -151,7 +151,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   api->add("ambi_haunted_hum");
   api->add("ambi_piano");
   api->add("ambi_lunar_land");
-  api->add("ambi_dark_whoosh");
+  api->add("ambi_dark_woosh");
   api->add("ambi_choir");
 
   api->add("bass_hit_c");
