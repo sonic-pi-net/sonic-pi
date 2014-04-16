@@ -253,23 +253,36 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
 void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setAutoIndent(true);
   ws->setIndentationsUseTabs(false);
+  ws->setBackspaceUnindents(true);
+  ws->setTabIndents(true);
+  ws->setMatchedBraceBackgroundColor(QColor("dark gray"));
+  ws->setMatchedBraceForegroundColor(QColor("white"));
+
   ws->setIndentationWidth(2);
   ws->setIndentationGuides(true);
+  ws->setIndentationGuidesForegroundColor(QColor("deep pink"));
   ws->setBraceMatching( QsciScintilla::SloppyBraceMatch);
-  ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
-  ws->setCaretLineBackgroundColor(QColor("black"));
-  ws->setFoldMarginColors(QColor("light gray"),QColor("light gray"));
+  //TODO: add preference toggle for these:
+  //ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
+  ws->setCaretLineVisible(true);
+  ws->setCaretLineBackgroundColor(QColor("whitesmoke"));
+  ws->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
   ws->setMarginLineNumbers(0, true);
-  ws->setMarginWidth(0, 30);
-  ws->setMarginsBackgroundColor(QColor("light gray"));
+  ws->setMarginWidth(0, "1000");
+  ws->setMarginsBackgroundColor(QColor("whitesmoke"));
   ws->setMarginsForegroundColor(QColor("dark gray"));
-  ws->setMarginsFont(QFont("Menlo",10, -1, true));
+  ws->setMarginsFont(QFont("Menlo",5, -1, true));
   ws->setUtf8(true);
   ws->setText("#loading...");
   ws->setLexer(lexer);
   ws->zoomIn(13);
   ws->setAutoCompletionThreshold(5);
   ws->setAutoCompletionSource(QsciScintilla::AcsAPIs);
+  ws->setSelectionBackgroundColor("DeepPink");
+  ws->setSelectionForegroundColor("white");
+  ws->setCaretWidth(5);
+  ws->setCaretForegroundColor("dimgrey");
+
 }
 
 void MainWindow::startOSCListener() {
