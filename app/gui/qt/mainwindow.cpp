@@ -221,7 +221,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   addDockWidget(Qt::RightDockWidgetArea, dockWidget);
 
   initWorkspace(workspace1);
-  initWorkspace(workspace2;
+  initWorkspace(workspace2);
   initWorkspace(workspace3);
   initWorkspace(workspace4);
   initWorkspace(workspace5);
