@@ -95,10 +95,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   workspace7 = new QsciScintilla;
   workspace8 = new QsciScintilla;
 
-  workspace1->setAutoIndent(true);
-  workspace1->setIndentationsUseTabs(false);
-  workspace1->setIndentationWidth(2);
-
   QString w1 = "Workspace 1";
   QString w2 = "Workspace 2";
   QString w3 = "Workspace 3";
@@ -116,21 +112,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   tabs->addTab(workspace6, w6);
   tabs->addTab(workspace7, w7);
   tabs->addTab(workspace8, w8);
-
-  workspace1->setMarginLineNumbers(0, true);
-  workspace1->setMarginWidth(0, 30);
-  workspace1->setMarginsBackgroundColor(QColor("white"));
-  workspace1->setMarginsForegroundColor(QColor("lightgray"));
-  workspace1->setMarginsFont(QFont("Menlo",10, -1, true));
-
-  workspace1->setUtf8(true);
-  workspace2->setUtf8(true);
-  workspace3->setUtf8(true);
-  workspace4->setUtf8(true);
-  workspace5->setUtf8(true);
-  workspace6->setUtf8(true);
-  workspace7->setUtf8(true);
-  workspace8->setUtf8(true);
 
   lexer = new SonicPiLexer;
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
@@ -176,6 +157,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   api->add("drum_tom_lo_soft");
   api->add("drum_tom_mid_hard");
   api->add("drum_tom_mid_soft");
+
   api->add("elec_beep");
   api->add("elec_bell");
   api->add("elec_blip");
@@ -202,14 +184,17 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   api->add("elec_twip");
   api->add("elec_wood");
   api->add("glass_hum");
+
   api->add("guit_e_fifths");
   api->add("guit_e_slide");
   api->add("guit_harmonics");
+
   api->add("loop_amen");
   api->add("loop_industrial");
   api->add("loop_compus");
   api->add("loop_amen_full");
   api->add("with_synth");
+
   api->add("with_merged_synth_defaults");
   api->add("with_synth_defaults");
 
@@ -218,54 +203,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
   lexer->setDefaultFont(font);
-
-  workspace1->setText("#loading...");
-  workspace1->setLexer(lexer);
-  workspace1->zoomIn(13);
-  workspace1->setAutoCompletionThreshold(5);
-  workspace1->setAutoCompletionSource(QsciScintilla::AcsAPIs);
-
-  workspace2->setText("#loading...");
-  workspace2->setLexer(lexer);
-  workspace2->zoomIn(13);
-  workspace2->setAutoCompletionThreshold(5);
-  workspace2->setAutoCompletionSource(QsciScintilla::AcsAPIs);
-
-  workspace3->setText("#loading...");
-  workspace3->setLexer(lexer);
-  workspace3->zoomIn(13);
-  workspace3->setAutoCompletionThreshold(5);
-  workspace3->setAutoCompletionSource(QsciScintilla::AcsAPIs);
-
-  workspace4->setText("#loading...");
-  workspace4->setLexer(lexer);
-  workspace4->zoomIn(13);
-  workspace4->setAutoCompletionThreshold(5);
-  workspace4->setAutoCompletionSource(QsciScintilla::AcsAPIs);
-
-  workspace5->setText("#loading...");
-  workspace5->setLexer(lexer);
-  workspace5->zoomIn(13);
-  workspace5->setAutoCompletionThreshold(5);
-  workspace5->setAutoCompletionSource(QsciScintilla::AcsAPIs);
-
-  workspace6->setText("#loading...");
-  workspace6->setLexer(lexer);
-  workspace6->zoomIn(13);
-  workspace6->setAutoCompletionThreshold(5);
-  workspace6->setAutoCompletionSource(QsciScintilla::AcsAPIs);
-
-  workspace7->setText("#loading...");
-  workspace7->setLexer(lexer);
-  workspace7->zoomIn(13);
-  workspace7->setAutoCompletionThreshold(5);
-  workspace7->setAutoCompletionSource(QsciScintilla::AcsAPIs);
-
-  workspace8->setText("#loading...");
-  workspace8->setLexer(lexer);
-  workspace8->zoomIn(13);
-  workspace8->setAutoCompletionThreshold(5);
-  workspace8->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
@@ -282,6 +219,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   dockWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   dockWidget->setWidget(errorPane);
   addDockWidget(Qt::RightDockWidgetArea, dockWidget);
+
+  initWorkspace(workspace1);
+  initWorkspace(workspace2;
+  initWorkspace(workspace3);
+  initWorkspace(workspace4);
+  initWorkspace(workspace5);
+  initWorkspace(workspace6);
+  initWorkspace(workspace7);
 
   createActions();
   createToolBars();
@@ -303,6 +248,28 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   loadWorkspaces();
   this->show();
   splash.finish(this);
+}
+
+void MainWindow::initWorkspace(QsciScintilla* ws) {
+  ws->setAutoIndent(true);
+  ws->setIndentationsUseTabs(false);
+  ws->setIndentationWidth(2);
+  ws->setIndentationGuides(true);
+  ws->setBraceMatching( QsciScintilla::SloppyBraceMatch);
+  ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
+  ws->setCaretLineBackgroundColor(QColor("black"));
+  ws->setFoldMarginColors(QColor("light gray"),QColor("light gray"));
+  ws->setMarginLineNumbers(0, true);
+  ws->setMarginWidth(0, 30);
+  ws->setMarginsBackgroundColor(QColor("light gray"));
+  ws->setMarginsForegroundColor(QColor("dark gray"));
+  ws->setMarginsFont(QFont("Menlo",10, -1, true));
+  ws->setUtf8(true);
+  ws->setText("#loading...");
+  ws->setLexer(lexer);
+  ws->zoomIn(13);
+  ws->setAutoCompletionThreshold(5);
+  ws->setAutoCompletionSource(QsciScintilla::AcsAPIs);
 }
 
 void MainWindow::startOSCListener() {
