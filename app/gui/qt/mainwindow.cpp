@@ -74,7 +74,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
 
   QtConcurrent::run(this, &MainWindow::startOSCListener);
 
-  QString serverProgram = QCoreApplication::applicationDirPath() + "/../../scripts/bin/start-server.rb";
+  QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../scripts/bin/start-server.rb";
   std::cerr << serverProgram.toStdString() << std::endl;
   serverProcess = new QProcess();
   serverProcess->start(serverProgram);
