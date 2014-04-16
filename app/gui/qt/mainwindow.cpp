@@ -22,7 +22,6 @@
 **
 ****************************************************************************/
 
-#include <QMap>
 #include <QAction>
 #include <QApplication>
 #include <QCloseEvent>
@@ -81,11 +80,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   serverProcess->start(serverProgram);
   serverProcess->waitForStarted();
 
-  runProcess = NULL;
-
-  QMap<QString, QString> map;
   tabs = new QTabWidget();
-
   tabs->setTabsClosable(false);
   tabs->setMovable(false);
   tabs->setTabPosition(QTabWidget::South);
