@@ -152,9 +152,9 @@
                   amp_slide 0
                   pan 0
                   pan_slide 0
-                  attack 0.1
+                  attack 0
                   sustain 0
-                  release 0.3
+                  release 0.2
                   out-bus 0]
     (let [note (lag note note_slide)
           amp  (lag amp amp_slide)

@@ -333,7 +333,7 @@
 
   * attack:
     - doc: Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.
-    - default: 0.1
+    - default: 0
     - constraints: must be zero or greater
     - Can not be changed once set
 
@@ -345,7 +345,7 @@
 
   * release:
     - doc: Amount of time (in seconds) for sound to move from full amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + sustain + release.
-    - default: 0.3
+    - default: 0.2
     - constraints: must be zero or greater
     - Can not be changed once set
 
