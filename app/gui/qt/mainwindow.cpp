@@ -227,6 +227,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   initWorkspace(workspace5);
   initWorkspace(workspace6);
   initWorkspace(workspace7);
+  initWorkspace(workspace8);
 
   createActions();
   createToolBars();
