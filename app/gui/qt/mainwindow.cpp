@@ -264,7 +264,7 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setIndentationGuidesForegroundColor(QColor("deep pink"));
   ws->setBraceMatching( QsciScintilla::SloppyBraceMatch);
   //TODO: add preference toggle for this:
-  ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
+  //ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
   ws->setCaretLineVisible(true);
   ws->setCaretLineBackgroundColor(QColor("whitesmoke"));
   ws->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
