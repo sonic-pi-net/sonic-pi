@@ -255,20 +255,20 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setIndentationsUseTabs(false);
   ws->setBackspaceUnindents(true);
   ws->setTabIndents(true);
-  ws->setMatchedBraceBackgroundColor(QColor("dark gray"));
+  ws->setMatchedBraceBackgroundColor(QColor("dimgray"));
   ws->setMatchedBraceForegroundColor(QColor("white"));
 
   ws->setIndentationWidth(2);
   ws->setIndentationGuides(true);
   ws->setIndentationGuidesForegroundColor(QColor("deep pink"));
   ws->setBraceMatching( QsciScintilla::SloppyBraceMatch);
-  //TODO: add preference toggle for these:
-  //ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
+  //TODO: add preference toggle for this:
+  ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
   ws->setCaretLineVisible(true);
   ws->setCaretLineBackgroundColor(QColor("whitesmoke"));
   ws->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
   ws->setMarginLineNumbers(0, true);
-  ws->setMarginWidth(0, "1000");
+  ws->setMarginWidth(0, "1000000");
   ws->setMarginsBackgroundColor(QColor("whitesmoke"));
   ws->setMarginsForegroundColor(QColor("dark gray"));
   ws->setMarginsFont(QFont("Menlo",5, -1, true));
@@ -281,7 +281,7 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setSelectionBackgroundColor("DeepPink");
   ws->setSelectionForegroundColor("white");
   ws->setCaretWidth(5);
-  ws->setCaretForegroundColor("dimgrey");
+  ws->setCaretForegroundColor("deep pink");
 
 }
 
@@ -569,12 +569,12 @@ void MainWindow::prefs()
 
 void MainWindow::zoomFontIn()
 {
-  outputPane->zoomIn(1);
+  ((QsciScintilla*)tabs->currentWidget())->zoomIn(1);
 }
 
 void MainWindow::zoomFontOut()
 {
-  outputPane->zoomOut(1);
+  ((QsciScintilla*)tabs->currentWidget())->zoomOut(1);
 }
 
 
