@@ -300,9 +300,9 @@ module SonicPi
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
-        :attack => 0.1,
+        :attack => 0.0,
         :sustain => 0,
-        :release => 0.3
+        :release => 0.2
       }
     end
   end
@@ -335,9 +335,9 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0,
+        :attack => 0.1,
         :sustain => 0,
-        :release => 0.2,
+        :release => 0.3,
 
         :cutoff => 100,
         :cutoff_slide => 0,
