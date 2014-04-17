@@ -94,6 +94,21 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, current)
        end
 
+       def use_arg_checks(v, &block)
+         raise "use_arg_checks does not work with a a do/end block. Perhaps you meant use_arg_checks" if block
+
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, v)
+       end
+
+       def with_arg_checks(v, &block)
+         raise "with_arg_checks requires a do/end block. Perhaps you meant use_arg_checks" unless block
+
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, v)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, current)
+       end
+
        def use_synth(synth_name, &block)
          raise "use_synth does not work with a do/end block. Perhaps you meant with_synth" if block
          @mod_sound_studio.current_synth_name = synth_name
@@ -111,7 +126,7 @@ module SonicPi
          return play_chord(n, *args) if n.is_a?(Array)
 
          if n
-           n = note(n)
+           n = note(n) unless n.is_a? Fixnum
            args_h = resolve_synth_opts_hash_or_array(args)
 
            args_h = {:note => n}.merge(args_h)
@@ -450,10 +465,10 @@ module SonicPi
          load_sample(path).duration * 1.0/args_h[:rate]
        end
 
-       def sample(path, *args)
+       def sample(path, *args_a_or_h)
          buf_info = load_sample(path)
-
-         trigger_sampler path, buf_info.id, buf_info.num_chans, args
+         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+         trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
 
        def status
@@ -520,8 +535,7 @@ module SonicPi
          arg_validation_fn
        end
 
-       def trigger_sampler(path, buf_id, num_chans, args_a_or_h, group=current_job_synth_group)
-         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+       def trigger_sampler(path, buf_id, num_chans, args_h, group=current_job_synth_group)
          args_h_with_buf = {:buf => buf_id}.merge(args_h)
 
          if (args_h[:rate] && args_h[:rate] < 0) || ((@complex_sampler_args - args_h.keys).size != @complex_sampler_args.size)
@@ -529,8 +543,11 @@ module SonicPi
          else
            synth_name = (num_chans == 1) ? "basic_mono_player" : "basic_stereo_player"
          end
-         validation_fn = mk_synth_args_validator(synth_name)
-         validation_fn.call(args_h_with_buf)
+
+         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+           validation_fn = mk_synth_args_validator(synth_name)
+           validation_fn.call(args_h_with_buf)
+         end
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
@@ -543,11 +560,13 @@ module SonicPi
          trigger_synth(synth_name, args_h_with_buf, group, validation_fn)
        end
 
-       def trigger_inst(synth_name, args_a_or_h, group=current_job_synth_group)
-         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+       def trigger_inst(synth_name, args_h, group=current_job_synth_group)
 
-         validation_fn = mk_synth_args_validator(synth_name)
-         validation_fn.call(args_h)
+         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+           validation_fn = mk_synth_args_validator(synth_name)
+           validation_fn.call(args_h)
+         end
+
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            __delayed_message "Playing #{synth_name} with: #{arg_h_pp(args_h)}"
          end
@@ -557,8 +576,10 @@ module SonicPi
        def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
 
-         validation_fn = mk_synth_args_validator(synth_name)
-         validation_fn.call(args_h)
+         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+           validation_fn = mk_synth_args_validator(synth_name)
+           validation_fn.call(args_h)
+         end
 
          chord_group = @mod_sound_studio.new_group(:tail, group)
          cg = ChordGroup.new(chord_group)
@@ -574,8 +595,12 @@ module SonicPi
 
        def trigger_fx(synth_name, args_a_or_h, group=current_fx_group)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
-         validation_fn = mk_synth_args_validator(synth_name)
-         validation_fn.call(args_h)
+
+         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+           validation_fn = mk_synth_args_validator(synth_name)
+           validation_fn.call(args_h)
+         end
+
          n = trigger_synth(synth_name, args_h, group, validation_fn, true)
          FXNode.new(n, args_h["in-bus"], current_out_bus)
        end
