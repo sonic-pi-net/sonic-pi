@@ -47,7 +47,7 @@ rd = SonicPi::RcvDispatch.new(sp, ws_out)
 
 osc_server.add_method("/run-code") do |payload|
   begin
-    puts "Received OSC: #{payload}"
+#    puts "Received OSC: #{payload}"
     code = payload.to_a[0]
     sp.__spider_eval code
   rescue Exception => e
@@ -59,7 +59,7 @@ end
 
 osc_server.add_method("/save-and-run-buffer") do |payload|
   begin
-    puts "Received save-and-run-buffer: #{payload.to_a}"
+#    puts "Received save-and-run-buffer: #{payload.to_a}"
     args = payload.to_a
     buffer_id = args[0]
     code = args[1]
@@ -74,7 +74,7 @@ end
 
 osc_server.add_method("/save-buffer") do |payload|
   begin
-    puts "Received save-buffer: #{payload.to_a}"
+#    puts "Received save-buffer: #{payload.to_a}"
     args = payload.to_a
     buffer_id = args[0]
     code = args[1]
@@ -87,7 +87,7 @@ osc_server.add_method("/save-buffer") do |payload|
 end
 
 osc_server.add_method("/exit") do |payload|
-puts "exiting..."
+#  puts "exiting..."
   begin
     sp.__exit
   rescue Exception => e
@@ -98,7 +98,7 @@ puts "exiting..."
 end
 
 osc_server.add_method("/stop-all-jobs") do |payload|
-puts "stopping all jobs..."
+#  puts "stopping all jobs..."
   begin
     sp.__stop_jobs
   rescue Exception => e
@@ -109,7 +109,7 @@ puts "stopping all jobs..."
 end
 
 osc_server.add_method("/load-buffer") do |payload|
-  puts "loading buffer..."
+#  puts "loading buffer..."
   begin
     sp.__load_buffer(payload.to_a[0])
   rescue Exception => e
@@ -120,7 +120,7 @@ osc_server.add_method("/load-buffer") do |payload|
 end
 
 osc_server.add_method("/ping") do |payload|
-  puts "ping!"
+  #  puts "ping!"
   begin
     id = payload.to_a[0]
     proxy.send(OSC::Message.new("/ack", id))
@@ -147,17 +147,17 @@ out_t = Thread.new do
       else
         case message[:type]
         when :message
-          puts "sending: /message with arg #{message[:val]}"
+#          puts "sending: /message with arg #{message[:val]}"
           proxy.send(OSC::Message.new("/message", message[:val]))
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")
-          puts "sending: /error #{desc}, #{trace}"
+#          puts "sending: /error #{desc}, #{trace}"
           proxy.send(OSC::Message.new("/error", desc, trace))
         when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val]
-          puts "replacing buffer #{buf_id}, #{content}"
+#          puts "replacing buffer #{buf_id}, #{content}"
           proxy.send(OSC::Message.new("/replace-buffer", buf_id, content))
         else
 #          puts "ignoring #{message}"
