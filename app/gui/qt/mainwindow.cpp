@@ -518,11 +518,6 @@ void MainWindow::stopCode()
   outputPane->clear();
   errorPane->clear();
   statusBar()->showMessage(tr("Stopping..."), 2000);
-
-  QString program = QCoreApplication::applicationDirPath() + "/../../scripts/stop-code.rb";
-  QProcess *p = new QProcess();
-  p->start(program);
-  p->waitForStarted();
 }
 
 void MainWindow::about()
