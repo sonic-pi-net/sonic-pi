@@ -22,6 +22,7 @@ module SonicPi
     def initialize(port=4556)
       @port = port
       @scsynth_pid = nil
+      @jack_pid = nil
       boot
     end
 
@@ -89,15 +90,13 @@ module SonicPi
     end
 
     def shutdown
-      if booted?
-        `kill -9 #{@scsynth_pid}`
-        log "Killed scsynth with PID #{@scsynth_pid}"
-        @scsynth_pid = nil
-        true
-      else
-        log "Unable to shutdown scsynth server - no pid found"
-        false
+      if @jack_pid
+        log "killing jack process"
+        `kill #{@jack_pid}`
       end
+
+      log "Sending /quit command to server"
+      OSC::Client.new("localhost", @port).send(OSC::Message.new("/quit"))
     end
 
     private
@@ -123,16 +122,15 @@ module SonicPi
     def boot_server_linux
       log_boot_msg
       log "Booting on Linux"
-      # `eval $(dbus-launch --auto-syntax)`
       #Start Jack if not already running
       if `ps cax | grep jackd`.empty?
         #Jack not running - start a new instance and store its PID
         log "Jackd not running on system. Starting..."
         system("jackd -R -p 32 -d alsa -n 3& ")
         raspberry? ? sleep(10) : sleep(3)
-        jack_pid = `ps cax | grep jackd`.split(" ").first
-        log "Jack started with pid #{jack_pid}"
-        #write_jackd_pid(jack_pid)
+        @jack_pid = `ps cax | grep jackd`.split(" ").first
+        log "Jack started with pid #{@jack_pid}"
+
       else
         log "Jackd already running. Not starting another server..."
       end

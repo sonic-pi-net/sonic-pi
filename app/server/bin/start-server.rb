@@ -32,7 +32,7 @@ osc_server = OSC::Server.new(4557)
 proxy = OSC::Client.new("localhost", 4558)
 
 at_exit do
-  sc_server.send(OSC::Message.new("/quit"))
+  scsynth.shutdown
 end
 
 
