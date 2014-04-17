@@ -86,6 +86,7 @@ private:
 
     bool cont_listening_for_osc;
     bool server_started;
+    bool osc_incoming_port_open;
 
     QsciScintilla *textEdit;
     QsciScintilla *workspace1;

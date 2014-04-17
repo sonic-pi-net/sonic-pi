@@ -71,6 +71,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
 
   server_started = false;
   cont_listening_for_osc = true;
+  osc_incoming_port_open = false;
 
   QtConcurrent::run(this, &MainWindow::startOSCListener);
 
@@ -241,9 +242,11 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
 
   while (!server_started && cont_listening_for_osc) {
     sleep(1);
-    Message msg("/ping");
-    msg.pushStr("QtClient/1/hello");
-    sendOSC(msg);
+    if(osc_incoming_port_open) {
+      Message msg("/ping");
+      msg.pushStr("QtClient/1/hello");
+      sendOSC(msg);
+    }
   }
 
   loadWorkspaces();
@@ -296,7 +299,7 @@ void MainWindow::startOSCListener() {
   } else {
     PacketReader pr;
     PacketWriter pw;
-
+    osc_incoming_port_open = true;
     while (sock.isOk() && cont_listening_for_osc) {
       if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
         pr.init(sock.packetData(), sock.packetSize());
