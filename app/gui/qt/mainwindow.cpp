@@ -207,6 +207,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
 
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
+  outputPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
   errorPane->zoomIn(1);
