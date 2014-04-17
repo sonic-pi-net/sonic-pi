@@ -29,15 +29,15 @@ int main(int argc, char *argv[])
         Q_INIT_RESOURCE(application);
 
     QApplication app(argc, argv);
+    app.setStyle("gtk");
     QPixmap pixmap(":/images/splash.png");
     QSplashScreen splash(pixmap);
     splash.show();
-    //    sleep(1);
     splash.repaint();
 
     //    QIcon icon(":images/app.icns");
     MainWindow mainWin(app, splash);
-    mainWin.setUnifiedTitleAndToolBarOnMac(true);
+
     //    mainWin.setWindowIcon(icon);
     return app.exec();
 }
