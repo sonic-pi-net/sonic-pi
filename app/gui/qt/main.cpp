@@ -33,6 +33,8 @@ int main(int argc, char *argv[])
     QSplashScreen splash(pixmap);
     splash.show();
     //    sleep(1);
+    splash.repaint();
+
     //    QIcon icon(":images/app.icns");
     MainWindow mainWin(app, splash);
     mainWin.setUnifiedTitleAndToolBarOnMac(true);
