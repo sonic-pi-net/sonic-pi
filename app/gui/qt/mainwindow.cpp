@@ -74,10 +74,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   osc_incoming_port_open = false;
 
   QtConcurrent::run(this, &MainWindow::startOSCListener);
+  serverProcess = new QProcess();
 
   QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/start-server.rb";
   std::cerr << serverProgram.toStdString() << std::endl;
-  serverProcess = new QProcess();
   serverProcess->start(serverProgram);
   serverProcess->waitForStarted();
 
@@ -295,6 +295,7 @@ void MainWindow::startOSCListener() {
   int PORT_NUM = 4558;
   UdpSocket sock;
   sock.bindTo(PORT_NUM);
+  std::cout << "Listening on port 4558" << std::endl;
   if (!sock.isOk()) {
     std::cout << "Unable to listen to OSC messages on port 4558" << std::endl;
   } else {
