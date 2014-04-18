@@ -163,7 +163,7 @@ module SonicPi
 
 
     def trigger_synth(position, group, synth_name, args, now=false, &arg_validation_fn)
-      message "Triggering synth #{synth_name} at #{position}, #{group.to_s}"
+      message "Triggering synth #{synth_name} at #{position}, #{group.to_s}" if debug_mode
       pos_code = position_code(position)
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
@@ -171,13 +171,14 @@ module SonicPi
       normalised_args = []
       args.each{|k,v| normalised_args.concat([k.to_s, v.to_f])}
       normalised_args_map = Hash[*normalised_args]
-      sn = SynthNode.new(node_id.to_f, self, synth_name.to_s, normalised_args_map, arg_validation_fn)
+      s_name = synth_name.to_s
+      sn = SynthNode.new(node_id, self, s_name, normalised_args_map, arg_validation_fn)
 
       if now
-        osc "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args
+        osc "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
       else
         ts = sched_ahead_time_for_node(sn)
-        osc_bundle ts, "/s_new", synth_name.to_s, node_id.to_f, pos_code.to_f, group_id.to_f, *normalised_args
+        osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
       end
       sn
     end
