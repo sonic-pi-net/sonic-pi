@@ -617,26 +617,33 @@ module SonicPi
 
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-         t_l_fn_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns) || {}
-         resolved_tl_fn_args = {}
-         t_l_fn_args.each do |k, v|
-           resolved_tl_fn_args[k] = v.call
+         t_l_fn_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
+
+         if t_l_fn_args
+           resolved_tl_fn_args = {}
+           t_l_fn_args.each do |k, v|
+             resolved_tl_fn_args[k] = v.call
+           end
+           combined_args = defaults.merge(resolved_tl_fn_args.merge(t_l_args).merge(args_h)).merge({"out-bus" => out_bus})
+         else
+           combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out-bus" => out_bus})
          end
 
-         combined_args = defaults.merge(resolved_tl_fn_args.merge(t_l_args).merge(args_h).merge({"out-bus" => out_bus}))
          p = Promise.new
          job_synth_proms_add(job_id, p)
 
          s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, now, &arg_validation_fn
 
-         trackers = (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).to_a
+         trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers)
 
-         s.on_started do
-           trackers.each{|t| t.synth_started(s)}
+         if trackers
+           s.on_started do
+             trackers.each{|t| t.synth_started(s)}
+           end
          end
 
          s.on_destroyed do
-           trackers.each{|t| t.synth_finished(s)}
+           trackers.each{|t| t.synth_finished(s)} if trackers
            job_synth_proms_rm(job_id, p)
            p.deliver! true
          end
