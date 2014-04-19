@@ -107,8 +107,60 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
 
   QsciAPIs* api = new QsciAPIs(lexer);
+  api->add("drum_heavy_kick");
+  api->add("drum_tom_mid_soft");
+  api->add("drum_tom_mid_hard");
+  api->add("drum_tom_lo_soft");
+  api->add("drum_tom_lo_hard");
+  api->add("drum_tom_hi_soft");
+  api->add("drum_tom_hi_hard");
+  api->add("drum_splash_soft");
+  api->add("drum_splash_hard");
+  api->add("drum_snare_soft");
+  api->add("drum_snare_hard");
+  api->add("drum_cymbal_soft");
+  api->add("drum_cymbal_hard");
+  api->add("drum_cymbal_open");
+  api->add("drum_cymbal_closed");
+  api->add("drum_cymbal_pedal");
+  api->add("drum_bass_soft");
+  api->add("drum_bass_hard");
 
-  // TODO: remove these from the code and make them an OSC API query
+  api->add("elec_triangle");
+  api->add("elec_snare");
+  api->add("elec_lo_snare");
+  api->add("elec_mid_snare");
+  api->add("elec_hi_snare");
+  api->add("elec_cymbal");
+  api->add("elec_soft_kick");
+  api->add("elec_filt_snare");
+  api->add("elec_fuzz_tom");
+  api->add("elec_chime");
+  api->add("elec_bong");
+  api->add("elec_twang");
+  api->add("elec_wood");
+  api->add("elec_pop");
+  api->add("elec_beep");
+  api->add("elec_blip");
+  api->add("elec_blip2");
+  api->add("elec_ping");
+  api->add("elec_bell");
+  api->add("elec_flip");
+  api->add("elec_tick");
+  api->add("elec_hollow_kick");
+  api->add("elec_twip");
+  api->add("elec_plip");
+  api->add("elec_blup");
+
+  api->add("guit_harmonics");
+  api->add("guit_e_fifths");
+  api->add("guit_e_slide");
+
+
+  api->add("misc_burp");
+
+  api->add("perc_bell");
+
   api->add("ambi_soft_buzz");
   api->add("ambi_swoosh");
   api->add("ambi_drone");
@@ -129,65 +181,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
   api->add("bass_voxy_hit_c");
   api->add("bass_dnb_f");
 
-  api->add("drum_bass_hard");
-  api->add("drum_bass_soft");
-  api->add("drum_cymbal_closed");
-  api->add("drum_cymbal_hard");
-  api->add("drum_cymbal_open");
-  api->add("drum_cymbal_pedal");
-  api->add("drum_cymbal_soft");
-  api->add("drum_heavy_kick");
-  api->add("drum_snare_hard");
-  api->add("drum_snare_soft");
-  api->add("drum_splash_hard");
-  api->add("drum_splash_soft");
-  api->add("drum_tom_hi_hard");
-  api->add("drum_tom_hi_soft");
-  api->add("drum_tom_lo_hard");
-  api->add("drum_tom_lo_soft");
-  api->add("drum_tom_mid_hard");
-  api->add("drum_tom_mid_soft");
-
-  api->add("elec_beep");
-  api->add("elec_bell");
-  api->add("elec_blip");
-  api->add("elec_blip2");
-  api->add("elec_blup");
-  api->add("elec_bong");
-  api->add("elec_chime");
-  api->add("elec_cymbal");
-  api->add("elec_filt_snare");
-  api->add("elec_flip");
-  api->add("elec_fuzz_tom");
-  api->add("elec_hi_snare");
-  api->add("elec_hollow_kick");
-  api->add("elec_lo_snare");
-  api->add("elec_mid_snare");
-  api->add("elec_ping");
-  api->add("elec_plip");
-  api->add("elec_pop");
-  api->add("elec_snare");
-  api->add("elec_soft_kick");
-  api->add("elec_tick");
-  api->add("elec_triangle");
-  api->add("elec_twang");
-  api->add("elec_twip");
-  api->add("elec_wood");
-  api->add("glass_hum");
-
-  api->add("guit_e_fifths");
-  api->add("guit_e_slide");
-  api->add("guit_harmonics");
-
-  api->add("loop_amen");
   api->add("loop_industrial");
   api->add("loop_compus");
+  api->add("loop_amen");
   api->add("loop_amen_full");
-  api->add("with_synth");
 
+  api->add("with_synth");
   api->add("with_merged_synth_defaults");
   api->add("with_synth_defaults");
-
   api->prepare();
 
   QFont font("Monospace");
