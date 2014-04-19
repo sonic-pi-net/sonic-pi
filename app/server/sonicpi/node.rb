@@ -111,13 +111,13 @@ module SonicPi
     end
 
     def ctl(*args)
+      args = resolve_synth_opts_hash_or_array(args)
       args = @arg_validation_fn.call(args) if @arg_validation_fn
       @comms.node_ctl @id, args
       self
     end
 
     def control(*args)
-
       ctl(*args)
     end
 
