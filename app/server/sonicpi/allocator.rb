@@ -17,7 +17,7 @@ module SonicPi
   class AllocationError < Exception ; end
   class Allocator
     attr_reader :max_id, :idx_offset
-    def initialize(max_id, idx_offset)
+    def initialize(max_id, idx_offset=0)
       @idx_offset = idx_offset
       @max_id = max_id
       tmp_ids = [false] * @max_id

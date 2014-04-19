@@ -17,7 +17,7 @@ require "hamster/vector"
 
 module SonicPi
   class BusAllocator < Allocator
-    def initialize(max_bus_id, idx_offset)
+    def initialize(max_bus_id, idx_offset=0)
       super
       @busses_A = Atom.new(Hamster.vector)
     end
