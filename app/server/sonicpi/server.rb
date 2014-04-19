@@ -240,6 +240,13 @@ module SonicPi
       buffer_info(buffer_id)
     end
 
+    def buffer_free(buf)
+      with_done_sync do
+        osc "/b_free", buf.to_i
+      end
+
+      @BUFFER_ALLOCATOR.release! buf.to_i
+    end
     def buffer_info(id)
       prom = Promise.new
       @EVENTS.add_handler("/b_info", @EVENTS.gensym("/sonicpi/server")) do |payload|
