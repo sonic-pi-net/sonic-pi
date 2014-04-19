@@ -247,6 +247,16 @@ module SonicPi
 
       @BUFFER_ALLOCATOR.release! buf.to_i
     end
+
+    def buffer_stream_open(buffer, path, size=65536, n_chans=2, extension="wav", sample_format="int16", n_frames=-1, start_frame=0, leave_open=1)
+      path = File.expand_path(path)
+      with_done_sync do
+        osc "/b_write" buffer.to_i, path, extension, sample_format, n_frames, start_frame, leave_open
+      end
+
+      BufferStream.new(self, buffer, path, size, n_chans, extension, sample_fomat, n_frames, start_frame, leave_open)
+    end
+
     def buffer_info(id)
       prom = Promise.new
       @EVENTS.add_handler("/b_info", @EVENTS.gensym("/sonicpi/server")) do |payload|
