@@ -26,6 +26,10 @@ module SonicPi
       @id
     end
 
+    def free
+      @server.buffer_free @id
+    end
+
     def to_s
       "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}>"
     end
