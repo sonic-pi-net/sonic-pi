@@ -36,7 +36,7 @@ module SonicPi
       new_id
     end
 
-    def release!(idx, num_adj_ids)
+    def release!(idx, num_adj_ids=1)
       @ids_A.swap! do |ids|
         (idx...idx+num_adj_ids).reduce(ids) {|is, i| is.set(i, false)}
       end
