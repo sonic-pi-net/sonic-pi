@@ -49,7 +49,6 @@ module SonicPi
 
       @CURRENT_NODE_ID = Counter.new(1)
       @CURRENT_SYNC_ID = Counter.new(0)
-
       @BUFFER_ALLOCATOR = Allocator.new(1024) # TODO: Another magic num to remove
       @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new 128, 10 #TODO: remove these magic nums
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
@@ -229,6 +228,14 @@ module SonicPi
       buffer_id = @BUFFER_ALLOCATOR.allocate
       with_done_sync do
         osc "/b_allocRead", buffer_id, path, start, n_frames
+      end
+      buffer_info(buffer_id)
+    end
+
+    def buffer_alloc(size, n_chans=2)
+      buffer_id = @BUFFER_ALLOCATOR.allocate
+      with_done_sync do
+        osc "/b_alloc", buffer_id, size, n_chans
       end
       buffer_info(buffer_id)
     end
