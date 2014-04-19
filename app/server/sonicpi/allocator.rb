@@ -25,7 +25,7 @@ module SonicPi
       @num_allocations = 0
     end
 
-    def allocate(num_adj_ids)
+    def allocate(num_adj_ids=1)
       idx = nil
       ids = @ids_A.swap! do |ids|
         idx = find_gap(0, num_adj_ids, ids)
