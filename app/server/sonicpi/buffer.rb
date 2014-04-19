@@ -13,7 +13,8 @@
 module SonicPi
   class Buffer
     attr_reader :id, :num_frames, :num_chans, :sample_rate, :duration
-    def initialize(id, num_frames, num_chans, sample_rate)
+    def initialize(server, id, num_frames, num_chans, sample_rate)
+      @server = server
       @id = id
       @num_frames = num_frames
       @num_chans = num_chans

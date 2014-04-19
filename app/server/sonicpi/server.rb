@@ -259,7 +259,7 @@ module SonicPi
       res = prom.get
 
       args = res.to_a
-      Buffer.new(args[0], args[1], args[2], args[3])
+      Buffer.new(self, args[0], args[1], args[2], args[3])
     end
 
     def with_done_sync(&block)
