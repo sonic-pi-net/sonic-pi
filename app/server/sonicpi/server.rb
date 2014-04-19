@@ -46,10 +46,11 @@ module SonicPi
         @EVENTS.event m.address, m.to_a
       end
 
+
       @CURRENT_NODE_ID = Counter.new(1)
-      @CURRENT_BUFFER_ID = Counter.new(0)
       @CURRENT_SYNC_ID = Counter.new(0)
 
+      @BUFFER_ALLOCATOR = Allocator.new(1024) # TODO: Another magic num to remove
       @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new 128, 10 #TODO: remove these magic nums
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
 
@@ -225,7 +226,7 @@ module SonicPi
     end
 
     def buffer_alloc_read(path, start=0, n_frames=0)
-      buffer_id = @CURRENT_BUFFER_ID.next
+      buffer_id = @BUFFER_ALLOCATOR.allocate
       with_done_sync do
         osc "/b_allocRead", buffer_id, path, start, n_frames
       end
