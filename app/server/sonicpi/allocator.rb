@@ -16,7 +16,7 @@ require "hamster/vector"
 module SonicPi
   class AllocationError < Exception ; end
   class Allocator
-    attr_reader :idx_offset, :max_id
+    attr_reader :max_id, :idx_offset
     def initialize(max_id, idx_offset)
       @idx_offset = idx_offset
       @max_id = max_id
