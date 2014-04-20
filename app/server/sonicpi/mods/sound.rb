@@ -122,6 +122,14 @@ module SonicPi
          @mod_sound_studio.current_synth_name = orig_synth
        end
 
+       def recording_start(path)
+         @mod_sound_studio.recording_start path
+       end
+
+       def recording_stop
+         @mod_sound_studio.recording_stop
+       end
+
        def play(n, *args)
          return play_chord(n, *args) if n.is_a?(Array)
 

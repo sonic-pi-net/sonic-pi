@@ -48,6 +48,10 @@
           src (* amp src)]
       (out out-bus src)))
 
+  (defsynth recorder
+    [out-buf 0 in-bus 0]
+    (disk-out out-buf (in in-bus 2)))
+
   (comment
     (save-to-pi mixer)
     (save-to-pi basic_mixer)))

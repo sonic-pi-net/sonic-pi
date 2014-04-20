@@ -20,6 +20,8 @@ module SonicPi
       @num_chans = num_chans
       @sample_rate = sample_rate
       @duration = num_frames.to_f / sample_rate.to_f
+      @state = :live
+      @mutex = Mutex.new
     end
 
     def to_i
@@ -27,7 +29,12 @@ module SonicPi
     end
 
     def free
-      @server.buffer_free @id
+      return false if @state == :killed
+      @mutex.synchronize do
+        return false if @state == :killed
+        @state = :killed
+        server.buffer_free(@id)
+      end
     end
 
     def to_s

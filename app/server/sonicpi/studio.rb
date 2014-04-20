@@ -30,6 +30,8 @@ module SonicPi
       @msg_queue = msg_queue
       @max_concurrent_synths = max_concurrent_synths
       @samples = {}
+      @recorders = {}
+      @recording_mutex = Mutex.new
       reset
     end
 
@@ -139,6 +141,29 @@ module SonicPi
 
     def sched_ahead_time=(t)
       @server.sched_ahead_time = t
+    end
+
+    def recording_start(path, bus=0)
+      return false if @recorders[bus]
+      @recording_mutex.synchronize do
+        return false if @recorders[bus]
+        bs = @server.buffer_stream_open(path)
+        s = @server.trigger_synth :head, @recording_group, "sp/recorder", {"out-buf" => bs.to_i, "in-bus" => bus}, true
+        @recorders[bus] = [bs, s]
+        true
+      end
+    end
+
+    def recording_stop(bus=0)
+      return false unless @recorders[bus]
+      @recording_mutex.synchronize do
+        return false unless @recorders[bus]
+        bs, s = @recorders[bus]
+        bs.free
+        s.kill
+        @recorders.delete bus
+        true
+      end
     end
   end
 end

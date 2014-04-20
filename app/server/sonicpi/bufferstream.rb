@@ -10,8 +10,10 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require_relative "buffer"
+
 module SonicPi
-  class BufferStream
+  class BufferStream < Buffer
     attr_reader :buffer, :path, :size, :n_chans, :extension, :sample_format, :n_frames, :start_frame, :leave_open
     def initialize(server, buffer, path, size, n_chans, extension, sample_format, n_frames, start_frame, leave_open)
       @server = server
@@ -33,8 +35,16 @@ module SonicPi
       @mutex.synchronize do
         return false if @state == :killed
         @state = :killed
-        server.buffer_free(@buffer)
+        @server.buffer_stream_close(@buffer)
       end
+    end
+
+    def free
+      close
+    end
+
+    def to_i
+      @buffer.id
     end
 
     def to_s
