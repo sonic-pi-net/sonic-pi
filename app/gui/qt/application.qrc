@@ -8,5 +8,8 @@
         <file>images/run.png</file>
         <file>images/save.png</file>
         <file>images/stop.png</file>
+        <file>images/rec.png</file>
+        <file>images/recording_a.png</file>
+        <file>images/recording_b.png</file>
     </qresource>
 </RCC>

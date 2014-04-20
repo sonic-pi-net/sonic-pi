@@ -54,9 +54,12 @@ private slots:
     void onExitCleanup();
     void zoomFontIn();
     void zoomFontOut();
+    void toggleRecording();
+    void toggleRecordingOnIcon();
 
 
 private:
+
     void initWorkspace(QsciScintilla* ws);
     void startOSCListener();
     void clearOutputPanels();
@@ -77,6 +80,9 @@ private:
     bool cont_listening_for_osc;
     bool server_started;
     bool osc_incoming_port_open;
+    bool is_recording;
+    bool show_rec_icon_a;
+    QTimer *rec_flash_timer;
 
     QsciScintilla *textEdit;
     QsciScintilla *workspace1;
@@ -106,9 +112,11 @@ private:
     QToolBar *fileToolBar;
     QToolBar *supportToolBar;
     QToolBar *editToolBar;
+    QToolBar *saveToolBar;
     QAction *runAct;
     QAction *stopAct;
     QAction *saveAct;
+    QAction *recAct;
 
     QAction *newAct;
     QAction *openAct;

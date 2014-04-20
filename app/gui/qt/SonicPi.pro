@@ -44,6 +44,9 @@ OTHER_FILES += \
     images/open.png \
     images/paste.png \
     images/save.png \
+    images/rec.png \
+    images/recording_a.png \
+    images/recording_b.png \
 
 RESOURCES += \
     application.qrc

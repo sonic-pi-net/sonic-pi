@@ -53,14 +53,18 @@
 
 using namespace oscpkt;
 
-MainWindow::MainWindow(QApplication &app, QSplashScreen &splash)
-{
+MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   this->setUnifiedTitleAndToolBarOnMac(true);
 
+  is_recording = false;
   server_started = false;
+  show_rec_icon_a = false;
   cont_listening_for_osc = true;
   osc_incoming_port_open = false;
+
+  rec_flash_timer = new QTimer(this);
+  connect(rec_flash_timer, SIGNAL(timeout()), this, SLOT(toggleRecordingOnIcon()));
 
   QtConcurrent::run(this, &MainWindow::startOSCListener);
   serverProcess = new QProcess();
@@ -616,27 +620,61 @@ void MainWindow::createActions()
   prefsAct->setStatusTip(tr("Preferences"));
   connect(prefsAct, SIGNAL(triggered()), this, SLOT(prefs()));
 
+  recAct = new QAction(QIcon(":/images/rec.png"), tr("&Start &Recording"), this);
+  recAct->setStatusTip(tr("Start Recording"));
+  connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
+
 }
 
 void MainWindow::createToolBars()
 {
   fileToolBar = addToolBar(tr("Run"));
+  fileToolBar->setIconSize(QSize(270/3, 109/3));
   fileToolBar->addAction(runAct);
   fileToolBar->addAction(stopAct);
-  fileToolBar->setIconSize(QSize(270/3, 109/3));
-  fileToolBar->addAction(saveAsAct);
 
-  QWidget *spacerWidget = new QWidget(this);
-  spacerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  spacerWidget->setVisible(true);
+  QWidget *spacerWidget1 = new QWidget(this);
+  spacerWidget1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  spacerWidget1->setVisible(true);
+
+
+  saveToolBar = addToolBar(tr("Save"));
+  saveToolBar->addWidget(spacerWidget1);
+  saveToolBar->setIconSize(QSize(270/3, 109/3));
+  saveToolBar->addAction(saveAsAct);
+  saveToolBar->addAction(recAct);
+
+  QWidget *spacerWidget2 = new QWidget(this);
+  spacerWidget2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  spacerWidget2->setVisible(true);
 
   supportToolBar = addToolBar(tr("Support"));
-  supportToolBar->addWidget(spacerWidget);
+  supportToolBar->addWidget(spacerWidget2);
   supportToolBar->addAction(infoAct);
   supportToolBar->addAction(helpAct);
   supportToolBar->setIconSize(QSize(270/3, 109/3));
   supportToolBar->addAction(prefsAct);
 }
+
+ void MainWindow::toggleRecordingOnIcon() {
+   show_rec_icon_a = !show_rec_icon_a;
+   if(show_rec_icon_a) {
+     recAct->setIcon(QIcon(":/images/recording_a.png"));
+   } else {
+     recAct->setIcon(QIcon(":/images/recording_b.png"));
+   }
+ }
+
+ void MainWindow::toggleRecording() {
+   is_recording = !is_recording;
+   if(is_recording) {
+     rec_flash_timer->start(500);
+   } else {
+     rec_flash_timer->stop();
+     recAct->setIcon(QIcon(":/images/rec.png"));
+   }
+ }
+
 
 void MainWindow::createStatusBar()
 {
