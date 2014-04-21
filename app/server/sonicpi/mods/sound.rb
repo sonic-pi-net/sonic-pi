@@ -10,6 +10,8 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require 'tmpdir'
+require 'fileutils'
 require 'thread'
 require "hamster/set"
 require_relative "../blanknode"
@@ -122,12 +124,29 @@ module SonicPi
          @mod_sound_studio.current_synth_name = orig_synth
        end
 
-       def recording_start(path)
-         @mod_sound_studio.recording_start path
+       def recording_start
+         puts "start recording"
+         tmp_dir = Dir.mktmpdir("sonic-pi")
+         @tmp_path = File.expand_path("#{tmp_dir}/#{rand(100000000)}.wav")
+         puts "tmp_path: #{@tmp_path}"
+         @mod_sound_studio.recording_start @tmp_path
        end
 
        def recording_stop
+         puts "stop recording"
          @mod_sound_studio.recording_stop
+       end
+
+       def recording_save(filename)
+         puts "save recording #{filename}"
+         Kernel.sleep 3
+         FileUtils.mv(@tmp_path, filename)
+         @tmp_path = nil
+       end
+
+       def recording_delete
+         puts "delete recording"
+         FileUtils.rm @tmp_path if @tmp_path
        end
 
        def play(n, *args)

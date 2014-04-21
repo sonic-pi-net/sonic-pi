@@ -20,6 +20,8 @@ require_relative "promise"
 require_relative "incomingevents"
 require_relative "counter"
 require_relative "buffer"
+require_relative "bufferstream"
+
 
 module SonicPi
   class Server

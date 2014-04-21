@@ -668,10 +668,25 @@ void MainWindow::createToolBars()
  void MainWindow::toggleRecording() {
    is_recording = !is_recording;
    if(is_recording) {
+     recAct->setStatusTip(tr("Stop Recording"));
      rec_flash_timer->start(500);
+     Message msg("/start-recording");
+     sendOSC(msg);
    } else {
      rec_flash_timer->stop();
+     recAct->setStatusTip(tr("Start Recording"));
      recAct->setIcon(QIcon(":/images/rec.png"));
+     Message msg("/stop-recording");
+     sendOSC(msg);
+     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), QDir::homePath() + "/Desktop/my-recording.wav");
+     if (!fileName.isEmpty()) {
+         Message msg("/save-recording");
+         msg.pushStr(fileName.toStdString());
+         sendOSC(msg);
+     } else {
+       Message msg("/delete-recording");
+       sendOSC(msg);
+     }
    }
  }
 
