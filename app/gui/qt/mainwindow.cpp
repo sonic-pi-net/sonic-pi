@@ -39,6 +39,9 @@
 #include <QToolBox>
 #include <QSlider>
 #include <QPushButton>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QRadioButton>
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
@@ -548,18 +551,44 @@ void MainWindow::prefs()
 {
 
   prefsWindow = new QMainWindow();
+  QWidget *central= new QWidget;
   QToolBox *tools = new QToolBox();
 
-  prefsWindow->setCentralWidget(tools);
-  QPushButton *but = new QPushButton();
-  tools->addItem(but, "Font Size UP");
-  connect(but, SIGNAL(clicked()), this, SLOT(zoomFontIn()));
+  QGridLayout *grid = new QGridLayout;
 
-  QPushButton *but2 = new QPushButton();
-  tools->addItem(but2, "Font Size Down");
-  connect(but2, SIGNAL(clicked()), this, SLOT(zoomFontOut()));
+  QGroupBox *volBox = new QGroupBox(tr("System Volume"));
+  volBox->setToolTip("Use this slider to the system volume of your Raspberry Pi");
+  QGroupBox *groupBox = new QGroupBox(tr("Force Audio Output"));
+  groupBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
+  QRadioButton *radio1 = new QRadioButton(tr("&Default"));
+  QRadioButton *radio2 = new QRadioButton(tr("&Headphones"));
+  QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
+  radio1->setChecked(true);
+
+  QSlider *vol = new QSlider(this);
+
+  connect(radio2, SIGNAL(clicked()), this, SLOT(zoomFontOut()));
+  connect(radio3, SIGNAL(clicked()), this, SLOT(zoomFontIn()));
+
+  QVBoxLayout *audio_box = new QVBoxLayout;
+  audio_box->addWidget(radio1);
+  audio_box->addWidget(radio2);
+  audio_box->addWidget(radio3);
+  audio_box->addStretch(1);
+  groupBox->setLayout(audio_box);
+
+  QHBoxLayout *vol_box = new QHBoxLayout;
+  vol_box->addWidget(vol);
+  volBox->setLayout(vol_box);
+
+  grid->addWidget(groupBox, 0, 0);
+  grid->addWidget(volBox, 0, 1);
+  central->setLayout(grid);
+  prefsWindow->setCentralWidget(central);
+
+  prefsWindow->setWindowTitle(tr("System Audio Preferences"));
+  prefsWindow->resize(300, 170);
   prefsWindow->show();
-
 }
 
 void MainWindow::zoomFontIn()
