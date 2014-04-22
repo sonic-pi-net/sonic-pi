@@ -28,7 +28,7 @@ QColor QsciLexerRuby::defaultColor(int style) const
     case Comment:
       //      return QColor(40, 40, 40);
       //return QColor(60, 60, 60);
-      return QColor("white");
+      return QColor("#5e5e5e");
     case POD:
         return QColor(0x00,0x40,0x00);
 
@@ -93,7 +93,7 @@ QColor QsciLexerRuby::defaultPaper(int style) const
     {
     case Comment:
       //      return QColor(94,94,94);
-      return QColor("#5e5e5e");
+      return QColor("white");
       //return QColor(202, 225, 255); // lilac
       //      return QColor(191,239,255); //nice light blue
     case Error:
