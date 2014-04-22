@@ -57,7 +57,7 @@ private slots:
     void zoomFontOut();
     void toggleRecording();
     void toggleRecordingOnIcon();
-    void changeSystemVol();
+    void changeSystemVol(int val);
     void setSystemAudioAuto();
     void setSystemAudioHeadphones();
     void setSystemAudioHDMI();

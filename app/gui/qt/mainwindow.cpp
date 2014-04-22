@@ -249,7 +249,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   loadWorkspaces();
 
   systemVol = new QSlider(this);
-  connect(systemVol, SIGNAL(sliderReleased()), this, SLOT(changeSystemVol()));
+  connect(systemVol, SIGNAL(valueChanged(int)), this, SLOT(changeSystemVol(int)));
 
   this->show();
   splash.finish(this);
@@ -550,20 +550,24 @@ void MainWindow::help()
 
 }
 
-void MainWindow::changeSystemVol() {
+void MainWindow::changeSystemVol(int val) {
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
   //do nothing, just print out what it would do on RPi
   std::ostringstream ss;
-  ss << systemVol->sliderPosition();
+  float v = (float) val;
+  float vol_float = pow(v/100.0, (float)1./3.) * 100.0;
+  ss << vol_float;
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
   std::cout << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   QProcess *p = new QProcess();
-  std::ostringstream ss;
-  ss << systemVol->sliderPosition();
+  float v = (float) val;
+  // handle the fact that the amixer percentage range isn't linear
+  float vol_float = pow(v/100.0, (float)1./3.) * 100.0;
+  ss << vol_float;
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
   p->start(prog);
 #endif
