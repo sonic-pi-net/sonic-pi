@@ -47,17 +47,19 @@
 #include <iostream>
 #include "oscpkt.hh"
 #include "udp.hh"
+
 #if defined(Q_OS_WIN)
-  //do nothing
+  #include <QtConcurrentRun>
 #elif defined(Q_OS_MAC)
-  //do nothing
+  #include "qtconcurrent/qtconcurrent"
 #else
   //assuming Raspberry Pi
   #include <cmath>
+  #include <QtConcurrentRun>
 #endif
 
-//#include <QtConcurrentRun>
-#include "qtconcurrent/qtconcurrent"
+
+
 
 #include "mainwindow.h"
 
