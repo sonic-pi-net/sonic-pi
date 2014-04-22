@@ -258,9 +258,49 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   systemVol = new QSlider(this);
   connect(systemVol, SIGNAL(valueChanged(int)), this, SLOT(changeSystemVol(int)));
-
+  initPrefsWindow();
   this->show();
   splash.finish(this);
+}
+
+void MainWindow::initPrefsWindow() {
+
+  prefsWindow = new QMainWindow();
+  QWidget *central= new QWidget;
+
+  QGridLayout *grid = new QGridLayout;
+
+  QGroupBox *volBox = new QGroupBox(tr("System Volume"));
+  volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
+  QGroupBox *groupBox = new QGroupBox(tr("Force Audio Output"));
+  groupBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
+  QRadioButton *radio1 = new QRadioButton(tr("&Default"));
+  QRadioButton *radio2 = new QRadioButton(tr("&Headphones"));
+  QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
+  radio1->setChecked(true);
+
+  connect(radio1, SIGNAL(clicked()), this, SLOT(setSystemAudioAuto()));
+  connect(radio2, SIGNAL(clicked()), this, SLOT(setSystemAudioHeadphones()));
+  connect(radio3, SIGNAL(clicked()), this, SLOT(setSystemAudioHDMI()));
+
+  QVBoxLayout *audio_box = new QVBoxLayout;
+  audio_box->addWidget(radio1);
+  audio_box->addWidget(radio2);
+  audio_box->addWidget(radio3);
+  audio_box->addStretch(1);
+  groupBox->setLayout(audio_box);
+
+  QHBoxLayout *vol_box = new QHBoxLayout;
+  vol_box->addWidget(systemVol);
+  volBox->setLayout(vol_box);
+
+  grid->addWidget(groupBox, 0, 0);
+  grid->addWidget(volBox, 0, 1);
+  central->setLayout(grid);
+  prefsWindow->setCentralWidget(central);
+
+  prefsWindow->setWindowTitle(tr("System Audio Preferences"));
+  prefsWindow->resize(300, 170);
 }
 
 void MainWindow::initWorkspace(QsciScintilla* ws) {
@@ -633,43 +673,6 @@ void MainWindow::setSystemAudioAuto(){
 
 void MainWindow::prefs()
 {
-
-  prefsWindow = new QMainWindow();
-  QWidget *central= new QWidget;
-
-  QGridLayout *grid = new QGridLayout;
-
-  QGroupBox *volBox = new QGroupBox(tr("System Volume"));
-  volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
-  QGroupBox *groupBox = new QGroupBox(tr("Force Audio Output"));
-  groupBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
-  QRadioButton *radio1 = new QRadioButton(tr("&Default"));
-  QRadioButton *radio2 = new QRadioButton(tr("&Headphones"));
-  QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
-  radio1->setChecked(true);
-
-  connect(radio1, SIGNAL(clicked()), this, SLOT(setSystemAudioAuto()));
-  connect(radio2, SIGNAL(clicked()), this, SLOT(setSystemAudioHeadphones()));
-  connect(radio3, SIGNAL(clicked()), this, SLOT(setSystemAudioHDMI()));
-
-  QVBoxLayout *audio_box = new QVBoxLayout;
-  audio_box->addWidget(radio1);
-  audio_box->addWidget(radio2);
-  audio_box->addWidget(radio3);
-  audio_box->addStretch(1);
-  groupBox->setLayout(audio_box);
-
-  QHBoxLayout *vol_box = new QHBoxLayout;
-  vol_box->addWidget(systemVol);
-  volBox->setLayout(vol_box);
-
-  grid->addWidget(groupBox, 0, 0);
-  grid->addWidget(volBox, 0, 1);
-  central->setLayout(grid);
-  prefsWindow->setCentralWidget(central);
-
-  prefsWindow->setWindowTitle(tr("System Audio Preferences"));
-  prefsWindow->resize(300, 170);
   prefsWindow->show();
 }
 

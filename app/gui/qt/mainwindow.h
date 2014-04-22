@@ -80,6 +80,7 @@ private:
     std::string workspaceFilename(QsciScintilla* text);
     QsciScintilla* filenameToWorkspace(std::string filename);
     void sendOSC(oscpkt::Message m);
+    void initPrefsWindow();
 
     bool cont_listening_for_osc;
     bool server_started;
