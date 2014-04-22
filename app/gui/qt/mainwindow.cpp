@@ -36,7 +36,6 @@
 #include <QSplashScreen>
 #include <QPixmap>
 #include <QLabel>
-#include <QToolBox>
 #include <QSlider>
 #include <QPushButton>
 #include <QGridLayout>
@@ -625,7 +624,6 @@ void MainWindow::prefs()
 
   prefsWindow = new QMainWindow();
   QWidget *central= new QWidget;
-  QToolBox *tools = new QToolBox();
 
   QGridLayout *grid = new QGridLayout;
 
