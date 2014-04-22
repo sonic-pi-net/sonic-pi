@@ -47,9 +47,17 @@
 #include <iostream>
 #include "oscpkt.hh"
 #include "udp.hh"
+#if defined(Q_OS_WIN)
+  //do nothing
+#elif defined(Q_OS_MAC)
+  //do nothing
+#else
+  //assuming Raspberry Pi
+  #include <cmath>
+#endif
 
-#include <QtConcurrentRun>
-//#include "qtconcurrent/qtconcurrent"
+//#include <QtConcurrentRun>
+#include "qtconcurrent/qtconcurrent"
 
 #include "mainwindow.h"
 
@@ -566,7 +574,7 @@ void MainWindow::changeSystemVol(int val) {
   QProcess *p = new QProcess();
   float v = (float) val;
   // handle the fact that the amixer percentage range isn't linear
-  float vol_float = pow(v/100.0, (float)1./3.) * 100.0;
+  float vol_float = std::pow(v/100.0, (float)1./3.) * 100.0;
   ss << vol_float;
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
   p->start(prog);
