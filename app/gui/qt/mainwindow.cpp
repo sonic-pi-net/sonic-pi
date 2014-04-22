@@ -10,7 +10,7 @@
 // and distribution of modified versions of this work as long as this
 // notice is included.
 //++
-
+#include <sstream>
 #include <QAction>
 #include <QApplication>
 #include <QCloseEvent>
