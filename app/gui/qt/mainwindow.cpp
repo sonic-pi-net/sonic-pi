@@ -248,6 +248,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   }
 
   loadWorkspaces();
+
+  systemVol = new QSlider(this);
+  connect(systemVol, SIGNAL(sliderReleased()), this, SLOT(changeSystemVol()));
+
   this->show();
   splash.finish(this);
 }
@@ -547,6 +551,75 @@ void MainWindow::help()
 
 }
 
+void MainWindow::changeSystemVol() {
+#if defined(Q_OS_WIN)
+  //do nothing
+#elif defined(Q_OS_MAC)
+  //do nothing, just print out what it would do on RPi
+  std::ostringstream ss;
+  ss << systemVol->sliderPosition();
+  QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
+  std::cout << prog.toStdString() << std::endl;
+#else
+  //assuming Raspberry Pi
+  QProcess *p = new QProcess();
+  std::ostringstream ss;
+  ss << systemVol->sliderPosition();
+  QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
+  p->start(prog);
+#endif
+
+}
+
+
+void MainWindow::setSystemAudioHeadphones(){
+
+#if defined(Q_OS_WIN)
+  //do nothing
+#elif defined(Q_OS_MAC)
+  //do nothing, just print out what it would do on RPi
+  QString prog = "amixer cset numid=3 1";
+  std::cout << prog.toStdString() << std::endl;
+#else
+  //assuming Raspberry Pi
+  QProcess *p = new QProcess();
+  QString prog = "amixer cset numid=3 1";
+  p->start(prog);
+#endif
+}
+
+void MainWindow::setSystemAudioHDMI(){
+
+#if defined(Q_OS_WIN)
+  //do nothing
+#elif defined(Q_OS_MAC)
+  //do nothing, just print out what it would do on RPi
+  QString prog = "amixer cset numid=3 2";
+  std::cout << prog.toStdString() << std::endl;
+#else
+  //assuming Raspberry Pi
+  QProcess *p = new QProcess();
+  QString prog = "amixer cset numid=3 2";
+  p->start(prog);
+#endif
+}
+
+void MainWindow::setSystemAudioAuto(){
+
+#if defined(Q_OS_WIN)
+  //do nothing
+#elif defined(Q_OS_MAC)
+  //do nothing, just print out what it would do on RPi
+  QString prog = "amixer cset numid=3 0";
+  std::cout << prog.toStdString() << std::endl;
+#else
+  //assuming Raspberry Pi
+  QProcess *p = new QProcess();
+  QString prog = "amixer cset numid=3 0";
+  p->start(prog);
+#endif
+}
+
 void MainWindow::prefs()
 {
 
@@ -557,7 +630,7 @@ void MainWindow::prefs()
   QGridLayout *grid = new QGridLayout;
 
   QGroupBox *volBox = new QGroupBox(tr("System Volume"));
-  volBox->setToolTip("Use this slider to the system volume of your Raspberry Pi");
+  volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
   QGroupBox *groupBox = new QGroupBox(tr("Force Audio Output"));
   groupBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
   QRadioButton *radio1 = new QRadioButton(tr("&Default"));
@@ -565,10 +638,9 @@ void MainWindow::prefs()
   QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
   radio1->setChecked(true);
 
-  QSlider *vol = new QSlider(this);
-
-  connect(radio2, SIGNAL(clicked()), this, SLOT(zoomFontOut()));
-  connect(radio3, SIGNAL(clicked()), this, SLOT(zoomFontIn()));
+  connect(radio1, SIGNAL(clicked()), this, SLOT(setSystemAudioAuto()));
+  connect(radio2, SIGNAL(clicked()), this, SLOT(setSystemAudioHeadphones()));
+  connect(radio3, SIGNAL(clicked()), this, SLOT(setSystemAudioHDMI()));
 
   QVBoxLayout *audio_box = new QVBoxLayout;
   audio_box->addWidget(radio1);
@@ -578,7 +650,7 @@ void MainWindow::prefs()
   groupBox->setLayout(audio_box);
 
   QHBoxLayout *vol_box = new QHBoxLayout;
-  vol_box->addWidget(vol);
+  vol_box->addWidget(systemVol);
   volBox->setLayout(vol_box);
 
   grid->addWidget(groupBox, 0, 0);
