@@ -607,6 +607,7 @@ void MainWindow::changeSystemVol(int val) {
   //do nothing, just print out what it would do on RPi
   float v = (float) val;
   float vol_float = pow(v/100.0, (float)1./3.) * 100.0;
+  std::ostringstream ss;
   ss << vol_float;
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
   std::cout << prog.toStdString() << std::endl;
