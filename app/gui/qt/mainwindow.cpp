@@ -605,7 +605,6 @@ void MainWindow::changeSystemVol(int val) {
   //do nothing
 #elif defined(Q_OS_MAC)
   //do nothing, just print out what it would do on RPi
-  std::ostringstream ss;
   float v = (float) val;
   float vol_float = pow(v/100.0, (float)1./3.) * 100.0;
   ss << vol_float;
@@ -617,6 +616,7 @@ void MainWindow::changeSystemVol(int val) {
   float v = (float) val;
   // handle the fact that the amixer percentage range isn't linear
   float vol_float = std::pow(v/100.0, (float)1./3.) * 100.0;
+  std::ostringstream ss;
   ss << vol_float;
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
   p->start(prog);
