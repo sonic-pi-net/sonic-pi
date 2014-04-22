@@ -30,6 +30,7 @@ class QProcess;
 class QTextEdit;
 class SonicPiLexer;
 class QString;
+class QSlider;
 
 class MainWindow : public QMainWindow
 {
@@ -56,7 +57,10 @@ private slots:
     void zoomFontOut();
     void toggleRecording();
     void toggleRecordingOnIcon();
-
+    void changeSystemVol();
+    void setSystemAudioAuto();
+    void setSystemAudioHeadphones();
+    void setSystemAudioHDMI();
 
 private:
 
@@ -137,6 +141,8 @@ private:
     QMainWindow *infoWindow;
     QMainWindow *prefsWindow;
     QLabel *imageLabel;
+
+    QSlider *systemVol;
 
 };
 
