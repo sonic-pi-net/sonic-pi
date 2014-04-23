@@ -107,6 +107,7 @@ private:
     QDockWidget *outputWidget;
     QDockWidget *errorWidget;
     QDockWidget *prefsWidget;
+    QDockWidget *docWidget;
 
 
     QTabWidget *tabs;

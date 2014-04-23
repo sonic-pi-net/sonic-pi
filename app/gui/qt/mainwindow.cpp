@@ -241,6 +241,11 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   errorWidget->setWidget(errorPane);
   addDockWidget(Qt::RightDockWidgetArea, errorWidget);
 
+  docWidget = new QDockWidget("Documentation", this);
+  docWidget->setAllowedAreas(Qt::TopDockWidgetArea);
+  docWidget->setWidget(docPane);
+  addDockWidget(Qt::TopDockWidgetArea, docWidget);
+  docWidget->hide();
 
   initWorkspace(workspace1);
   initWorkspace(workspace2);
@@ -635,16 +640,13 @@ void MainWindow::about()
 
 void MainWindow::help()
 {
-  QMessageBox about;
+  docPane->setHtml("<h1>Sonic Pi Documentation</h1> <p>This is text</p>");
 
-  about.setWindowTitle("Sonic Pi Help");
-  about.setText("Sonic Pi - Making Computer Science Audible");
-  about.setInformativeText("Help goes here...");
-  about.setStandardButtons(QMessageBox::Ok);
-  about.setDefaultButton(QMessageBox::Ok);
-  about.show();
-  about.exec();
-
+  if(docWidget->isVisible()) {
+    docWidget->hide();
+  } else {
+    docWidget->show();
+  }
 }
 
 void MainWindow::changeSystemVol(int val) {
