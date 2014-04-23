@@ -718,7 +718,11 @@ void MainWindow::setSystemAudioAuto(){
 
 void MainWindow::showPrefsPane()
 {
-  prefsWidget->show();
+  if(prefsWidget->isVisible()) {
+    prefsWidget->hide();
+  } else {
+    prefsWidget->show();
+  }
 }
 
 void MainWindow::zoomFontIn()
