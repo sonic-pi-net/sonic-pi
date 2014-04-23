@@ -1240,9 +1240,9 @@ module SonicPi
   end
 
 
-  class FXTechno < FXInfo
+  class FXIXITechno < FXInfo
     def name
-      "FX Techno"
+      "FX Techno from IXI Lang"
     end
 
     def arg_defaults
@@ -1593,8 +1593,8 @@ module SonicPi
       :fx_replace_echo => FXEcho.new,
       :fx_slicer => FXSlicer.new,
       :fx_replace_slicer => FXSlicer.new,
-      :fx_techno => FXTechno.new,
-      :fx_replace_techno => FXTechno.new,
+      :fx_ixi_techno => FXIXITechno.new,
+      :fx_replace_ixi_techno => FXIXITechno.new,
       :fx_compressor => FXCompressor.new,
       :fx_replace_compressor => FXCompressor.new,
       :fx_rlpf => FXRLPF.new,
