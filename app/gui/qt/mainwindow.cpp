@@ -591,6 +591,7 @@ bool MainWindow::saveAs()
 
 void MainWindow::runCode()
 {
+  errorPane->clear();
   statusBar()->showMessage(tr("Running...."), 2000);
   std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
