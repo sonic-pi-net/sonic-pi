@@ -46,7 +46,6 @@ module SonicPi
     end
 
     def ensure_dir(d)
-      puts "ensuring dir: #{d}"
       FileUtils.mkdir_p d
     end
 

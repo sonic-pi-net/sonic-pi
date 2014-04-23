@@ -143,7 +143,6 @@ module SonicPi
     end
 
     def __load_buffer(id)
-      puts "Loading file #{id}..."
       id = id.to_s
       raise "Aborting load: file name is blank" if  id.empty?
       path = project_path + id + '.spi'
