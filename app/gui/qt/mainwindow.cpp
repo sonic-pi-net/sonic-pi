@@ -213,6 +213,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
+  docPane = new QTextEdit;
   outputPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
@@ -375,11 +376,10 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-              QMetaObject::invokeMethod( errorPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(desc)) );
+              QMetaObject::invokeMethod( errorPane, "clear", Qt::QueuedConnection);
+              QMetaObject::invokeMethod( errorPane, "setHtml", Qt::QueuedConnection,
+                                         Q_ARG(QString, "<h3><pre>" + QString::fromStdString(desc) + "</pre></h3><pre>" + QString::fromStdString(backtrace) + "</pre>") );
 
-              QMetaObject::invokeMethod( errorPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(backtrace)) );
             } else {
               std::cout << "Server: unhandled error: "<< std::endl;
             }
