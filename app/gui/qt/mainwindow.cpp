@@ -563,7 +563,11 @@ QString MainWindow::currentTabLabel()
 bool MainWindow::saveAs()
 {
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), QDir::homePath() + "/Desktop");
-  return saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
+  if(!fileName.isEmpty()){
+    return saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
+  } else {
+    return false;
+  }
 }
 
  void MainWindow::sendOSC(Message m)
