@@ -74,7 +74,6 @@ private:
     void createStatusBar();
     void readSettings();
     void writeSettings();
-    void killSynths();
     void loadFile(const QString &fileName, QsciScintilla* &text);
     bool saveFile(const QString &fileName, QsciScintilla* text);
     void loadWorkspaces();
@@ -109,32 +108,25 @@ private:
     QDockWidget *prefsWidget;
 
 
-    // remove:
-    QString curFile;
-    QString groupName;
-
     QTabWidget *tabs;
 
-    QProcess *runProcess;
     QProcess *serverProcess;
-    QProcess *proxyProcess;
 
     SonicPiLexer *lexer;
+
     QMenu *fileMenu;
     QMenu *editMenu;
     QMenu *helpMenu;
+
     QToolBar *fileToolBar;
     QToolBar *supportToolBar;
     QToolBar *editToolBar;
     QToolBar *saveToolBar;
+
     QAction *runAct;
     QAction *stopAct;
     QAction *saveAct;
     QAction *recAct;
-
-    QAction *newAct;
-    QAction *openAct;
-
     QAction *infoAct;
     QAction *prefsAct;
     QAction *helpAct;
@@ -151,7 +143,6 @@ private:
     QMainWindow *infoWindow;
     QMainWindow *docWindow;
     QLabel *imageLabel;
-
     QSlider *systemVol;
 
 };

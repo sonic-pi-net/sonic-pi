@@ -592,10 +592,6 @@ void MainWindow::runCode()
   sendOSC(msg);
 }
 
-void MainWindow::killSynths()
-{
-  stopRunningSynths();
-}
 
 void MainWindow::stopCode()
 {
