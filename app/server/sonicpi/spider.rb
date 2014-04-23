@@ -156,6 +156,7 @@ module SonicPi
 
     def __save_buffer(id, content)
       path = project_path + id + '.spi'
+      content = filter_for_save(content)
       File.open(path, 'w') {|f| f.write(content) }
     end
 
@@ -278,6 +279,10 @@ module SonicPi
         raise "Parent thread died!" unless parent_t.alive?
         wait_for_parent_thread!(parent_t, prom)
       end
+    end
+
+    def filter_for_save(s)
+      s.split(/\r?\n/).reject{|l| l.include? "#__nosave__"}.join("\n")
     end
   end
 end

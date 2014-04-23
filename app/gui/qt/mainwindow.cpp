@@ -324,8 +324,8 @@ void MainWindow::initPrefsWindow() {
   showBox->setLayout(info_box_layout);
 
   QGroupBox *debug_box = new QGroupBox("Debug Options");
-  QCheckBox *print_output = new QCheckBox("Print output");
-  QCheckBox *check_args = new QCheckBox("Check synth args");
+  print_output = new QCheckBox("Print output");
+  check_args = new QCheckBox("Check synth args");
   print_output->setChecked(true);
   check_args->setChecked(true);
 
@@ -592,6 +592,13 @@ void MainWindow::runCode()
   Message msg("/save-and-run-buffer");
   std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
+  if(!print_output->isChecked()) {
+    code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+  if(!check_args->isChecked()) {
+    code = "use_arg_checks false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+
   msg.pushStr(code);
   sendOSC(msg);
 }

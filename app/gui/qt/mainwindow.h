@@ -19,6 +19,7 @@
 #include <QDialog>
 #include <QLabel>
 #include <QSplashScreen>
+#include <QCheckBox>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -136,6 +137,9 @@ private:
     QAction *cutAct;
     QAction *copyAct;
     QAction *pasteAct;
+
+    QCheckBox *print_output;
+    QCheckBox *check_args;
 
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
