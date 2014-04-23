@@ -215,7 +215,11 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
   docPane = new QTextEdit;
+  outputPane->setReadOnly(true);
+  errorPane->setReadOnly(true);
+  docPane->setReadOnly(true);
   outputPane->document()->setMaximumBlockCount(1000);
+  errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
   errorPane->zoomIn(1);
