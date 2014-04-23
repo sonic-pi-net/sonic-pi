@@ -203,9 +203,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   api->add("loop_amen");
   api->add("loop_amen_full");
 
+  api->add("with_fx");
   api->add("with_synth");
+  api->add("with_debug");
+  api->add("with_arg_checks");
   api->add("with_merged_synth_defaults");
   api->add("with_synth_defaults");
+  api->add("with_sample_pack");
   api->prepare();
 
   QFont font("Monospace");
