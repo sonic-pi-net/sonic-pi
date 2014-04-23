@@ -50,7 +50,6 @@ private slots:
     bool saveAs();
     void about();
     void help();
-    void prefs();
     void documentWasModified();
     void onExitCleanup();
     void zoomFontIn();
@@ -61,6 +60,9 @@ private slots:
     void setSystemAudioAuto();
     void setSystemAudioHeadphones();
     void setSystemAudioHDMI();
+    void showOutputPane();
+    void showErrorPane();
+    void showPrefsPane();
 
 private:
 
@@ -100,7 +102,14 @@ private:
     QsciScintilla *workspace8;
     QTextEdit *outputPane;
     QTextEdit *errorPane;
+    QTextEdit *docPane;
+    QWidget *prefsCentral;
+    QDockWidget *outputWidget;
+    QDockWidget *errorWidget;
+    QDockWidget *prefsWidget;
 
+
+    // remove:
     QString curFile;
     QString groupName;
 
@@ -140,7 +149,7 @@ private:
     QMap<QString, QString> *map;
 
     QMainWindow *infoWindow;
-    QMainWindow *prefsWindow;
+    QMainWindow *docWindow;
     QLabel *imageLabel;
 
     QSlider *systemVol;

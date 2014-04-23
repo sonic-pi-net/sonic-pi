@@ -41,6 +41,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QRadioButton>
+#include <QCheckBox>
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
@@ -219,15 +220,23 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   outputPane->zoomIn(1);
   errorPane->zoomIn(1);
 
-  QDockWidget *outputWidget = new QDockWidget(tr("Output"), this);
+  prefsWidget = new QDockWidget(tr("Preferences"), this);
+  prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+  prefsCentral = new QWidget;
+  prefsWidget->setWidget(prefsCentral);
+  addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
+  prefsWidget->hide();
+
+  outputWidget = new QDockWidget(tr("Output"), this);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
 
-  QDockWidget *dockWidget = new QDockWidget(tr("Errors"), this);
-  dockWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-  dockWidget->setWidget(errorPane);
-  addDockWidget(Qt::RightDockWidgetArea, dockWidget);
+  errorWidget = new QDockWidget(tr("Errors"), this);
+  errorWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+  errorWidget->setWidget(errorPane);
+  addDockWidget(Qt::RightDockWidgetArea, errorWidget);
+
 
   initWorkspace(workspace1);
   initWorkspace(workspace2);
@@ -266,10 +275,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   splash.finish(this);
 }
 
-void MainWindow::initPrefsWindow() {
+void MainWindow::showOutputPane() {
+  outputWidget->show();
+}
 
-  prefsWindow = new QMainWindow();
-  QWidget *central= new QWidget;
+void MainWindow::showErrorPane() {
+  errorWidget->show();
+}
+
+void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
@@ -297,13 +311,34 @@ void MainWindow::initPrefsWindow() {
   vol_box->addWidget(systemVol);
   volBox->setLayout(vol_box);
 
+  QGroupBox *showBox = new QGroupBox("Show Panes");
+  QPushButton *show_output = new QPushButton("Show Output Pane");
+  QPushButton *show_error = new QPushButton("Show Error Pane");
+
+  connect(show_output, SIGNAL(clicked()), this, SLOT(showOutputPane()));
+  connect(show_error, SIGNAL(clicked()), this, SLOT(showErrorPane()));
+
+  QVBoxLayout *info_box_layout = new QVBoxLayout;
+  info_box_layout->addWidget(show_output);
+  info_box_layout->addWidget(show_error);
+  showBox->setLayout(info_box_layout);
+
+  QGroupBox *debug_box = new QGroupBox("Debug Options");
+  QCheckBox *print_output = new QCheckBox("Print output");
+  QCheckBox *check_args = new QCheckBox("Check synth args");
+  print_output->setChecked(true);
+  check_args->setChecked(true);
+
+  QVBoxLayout *debug_box_layout = new QVBoxLayout;
+  debug_box_layout->addWidget(print_output);
+  debug_box_layout->addWidget(check_args);
+  debug_box->setLayout(debug_box_layout);
+
   grid->addWidget(groupBox, 0, 0);
   grid->addWidget(volBox, 0, 1);
-  central->setLayout(grid);
-  prefsWindow->setCentralWidget(central);
-
-  prefsWindow->setWindowTitle(tr("System Audio Preferences"));
-  prefsWindow->resize(300, 170);
+  grid->addWidget(showBox, 1, 0);
+  grid->addWidget(debug_box, 1, 1);
+  prefsCentral->setLayout(grid);
 }
 
 void MainWindow::initWorkspace(QsciScintilla* ws) {
@@ -674,9 +709,9 @@ void MainWindow::setSystemAudioAuto(){
 #endif
 }
 
-void MainWindow::prefs()
+void MainWindow::showPrefsPane()
 {
-  prefsWindow->show();
+  prefsWidget->show();
 }
 
 void MainWindow::zoomFontIn()
@@ -735,7 +770,7 @@ void MainWindow::createActions()
 
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("&Prefs"), this);
   prefsAct->setStatusTip(tr("Preferences"));
-  connect(prefsAct, SIGNAL(triggered()), this, SLOT(prefs()));
+  connect(prefsAct, SIGNAL(triggered()), this, SLOT(showPrefsPane()));
 
   recAct = new QAction(QIcon(":/images/rec.png"), tr("&Start &Recording"), this);
   recAct->setStatusTip(tr("Start Recording"));
