@@ -105,7 +105,7 @@ module SonicPi
 
       # Create the new thread
       t = Thread.new do
-
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_subthread)
         # Copy thread locals across from parent thread to this new thread
         parent_t_vars.each do |k,v|
           Thread.current.thread_variable_set(k, v) unless k.to_s.start_with? "sonic_pi__not_inherited__"
@@ -142,6 +142,7 @@ module SonicPi
         job_subthread_rm(job_id, Thread.current)
 
         Thread.new do
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
           Thread.current.priority = -1
           # wait for all subthreads to finish before removing self from
           # the subthread tree

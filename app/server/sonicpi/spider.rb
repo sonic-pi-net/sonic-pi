@@ -50,6 +50,7 @@ module SonicPi
       @user_methods = user_methods
 
       @event_t = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :event_loop)
         loop do
           event = @event_queue.pop
           __handle_event event
@@ -165,9 +166,11 @@ module SonicPi
     def __spider_eval(code, info={})
       id = @job_counter.next
       job = Thread.new do
+
         Thread.current.priority = 1
         begin
           reg_job(id, job)
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, :job)
           Thread.current.thread_variable_set :sonic_pi_spider_time, Time.now
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info

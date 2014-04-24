@@ -65,6 +65,7 @@ module SonicPi
                  ps.delete job_id
                end
                Thread.new do
+                 Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_completed)
                  Thread.current.priority = -1
                  shutdown_job_mixer(job_id)
                  kill_job_group(job_id)
@@ -267,6 +268,7 @@ module SonicPi
            tracker = nil
 
            gc = Thread.new do
+             Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc)
              Thread.current.priority = -1
              ## Need to block until either the thread died (which will be
              ## if the job was stopped whilst this fx block was being
@@ -274,6 +276,7 @@ module SonicPi
              fx_completed = Promise.new
 
              t1 = Thread.new do
+               Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_parent_join)
                Thread.current.priority = -1
                fxt.join
                ## Parent thread died - user must have stopped
@@ -281,6 +284,7 @@ module SonicPi
              end
 
              t2 = Thread.new do
+               Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_fx_block_join)
                Thread.current.priority = -1
                p.get
                ## FX block completed
@@ -307,6 +311,7 @@ module SonicPi
              new_subthreads = (end_subthreads - start_subthreads)
 
              Thread.new do
+               Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
                Thread.current.priority = -1
                new_subthreads.each do |st|
                  join_thread_and_subthreads(st)
@@ -891,6 +896,7 @@ module SonicPi
          ## killed. Using in_thread won't work - needs to be a different
          ## mechanism.
          Thread.new do
+           Thread.current.thread_variable_set(:sonic_pi_thread_group, :delayed_message)
            Thread.current.priority = -1
            Kernel.sleep @mod_sound_studio.sched_ahead_time
            __message m
