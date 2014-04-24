@@ -65,6 +65,7 @@ module SonicPi
                  ps.delete job_id
                end
                Thread.new do
+                 Thread.current.priority = -1
                  shutdown_job_mixer(job_id)
                  kill_job_group(job_id)
                  kill_fx_job_group(job_id)
@@ -266,18 +267,21 @@ module SonicPi
            tracker = nil
 
            gc = Thread.new do
+             Thread.current.priority = -1
              ## Need to block until either the thread died (which will be
              ## if the job was stopped whilst this fx block was being
              ## executed or if the fx block has completed.
              fx_completed = Promise.new
 
              t1 = Thread.new do
+               Thread.current.priority = -1
                fxt.join
                ## Parent thread died - user must have stopped
                fx_completed.deliver! true
              end
 
              t2 = Thread.new do
+               Thread.current.priority = -1
                p.get
                ## FX block completed
                fx_completed.deliver! true
@@ -303,6 +307,7 @@ module SonicPi
              new_subthreads = (end_subthreads - start_subthreads)
 
              Thread.new do
+               Thread.current.priority = -1
                new_subthreads.each do |st|
                  join_thread_and_subthreads(st)
                end
@@ -881,6 +886,7 @@ module SonicPi
          ## killed. Using in_thread won't work - needs to be a different
          ## mechanism.
          Thread.new do
+           Thread.current.priority = -1
            Kernel.sleep @mod_sound_studio.sched_ahead_time
            __message m
          end

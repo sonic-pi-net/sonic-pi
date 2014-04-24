@@ -162,6 +162,7 @@ module SonicPi
     def __spider_eval(code, info={})
       id = @job_counter.next
       job = Thread.new do
+        Thread.current.priority = 1
         begin
           reg_job(id, job)
           Thread.current.thread_variable_set :sonic_pi_spider_time, Time.now

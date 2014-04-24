@@ -62,7 +62,6 @@ module SonicPi
         Thread.current.priority = 2
         __message "Can't keep up..."
       else
-        Thread.current.priority = 1
         Kernel.sleep new_t - now
       end
 
@@ -143,6 +142,7 @@ module SonicPi
         job_subthread_rm(job_id, Thread.current)
 
         Thread.new do
+          Thread.current.priority = -1
           # wait for all subthreads to finish before removing self from
           # the subthread tree
           __join_subthreads(t)
