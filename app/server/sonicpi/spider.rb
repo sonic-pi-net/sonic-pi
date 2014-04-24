@@ -68,9 +68,12 @@ module SonicPi
     ## Not officially part of the API
     ## Probably should be moved somewhere else
 
-    def __no_kill_block(&block)
-      Thread.current.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+    def __no_kill_block(t = Thread.current, &block)
+      return block.call if t.thread_variable_get(:sonic_pi__not_inherited__spider_in_no_kill_block)
+      t.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+        t.thread_variable_set(:sonic_pi__not_inherited__spider_in_no_kill_block, true)
         block.call
+        t.thread_variable_set(:sonic_pi__not_inherited__spider_in_no_kill_block, false)
       end
     end
 
@@ -261,7 +264,7 @@ module SonicPi
       ## job_subthreadd_add
 
       threads.each do |t|
-        t.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+        __no_kill_block t do
           t.kill
         end
       end

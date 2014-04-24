@@ -258,7 +258,7 @@ module SonicPi
          new_bus = nil
          current_bus = nil
 
-         Thread.current.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
+         __no_kill_block do
            ## Munge args
            args_h = resolve_synth_opts_hash_or_array(args)
            kill_delay = args_h[:kill_delay] || SynthInfo.get_info(fx_synth_name).kill_delay(args_h)
@@ -661,25 +661,30 @@ module SonicPi
            combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out-bus" => out_bus})
          end
 
-         p = Promise.new
-         job_synth_proms_add(job_id, p)
+         __no_kill_block do
 
-         s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, now, &arg_validation_fn
+           p = Promise.new
+           job_synth_proms_add(job_id, p)
 
-         trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers)
+           s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, now, &arg_validation_fn
 
-         if trackers
-           s.on_started do
-             trackers.each{|t| t.synth_started(s)}
+           trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers)
+
+           if trackers
+             s.on_started do
+               trackers.each{|t| t.synth_started(s)}
+             end
            end
+
+           s.on_destroyed do
+             trackers.each{|t| t.synth_finished(s)} if trackers
+             job_synth_proms_rm(job_id, p)
+             p.deliver! true
+           end
+
+           s
          end
 
-         s.on_destroyed do
-           trackers.each{|t| t.synth_finished(s)} if trackers
-           job_synth_proms_rm(job_id, p)
-           p.deliver! true
-         end
-         s
        end
 
        def current_job_id
