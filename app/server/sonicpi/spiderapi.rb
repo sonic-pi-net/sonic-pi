@@ -59,8 +59,10 @@ module SonicPi
 
       new_t = last + seconds
       if now > new_t
+        Thread.current.priority = 2
         __message "Can't keep up..."
       else
+        Thread.current.priority = 1
         Kernel.sleep new_t - now
       end
 
