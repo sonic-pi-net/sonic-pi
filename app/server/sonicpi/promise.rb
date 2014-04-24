@@ -33,6 +33,8 @@ module SonicPi
       @val_sem.synchronize do
         return @value if @delivered
         begin
+          #use non-blocking Queue#pop which raises an exception if value
+          #isn't available:
           val = @box.pop(true)
           @value = val
           @delivered = true
