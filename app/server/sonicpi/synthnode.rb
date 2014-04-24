@@ -36,5 +36,9 @@ module SonicPi
     def control(*args)
       ctl(*args)
     end
+
+    def to_s
+      "#<SonicPi::SynthNode @id=#{@id}, @name=#{@name}>"
+    end
   end
 end
