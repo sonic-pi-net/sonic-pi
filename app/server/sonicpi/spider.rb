@@ -73,8 +73,9 @@ module SonicPi
       return block.call if t.thread_variable_get(:sonic_pi__not_inherited__spider_in_no_kill_block)
       t.thread_variable_get(:sonic_pi_spider_no_kill_mutex).synchronize do
         t.thread_variable_set(:sonic_pi__not_inherited__spider_in_no_kill_block, true)
-        block.call
+        r = block.call
         t.thread_variable_set(:sonic_pi__not_inherited__spider_in_no_kill_block, false)
+        r
       end
     end
 
