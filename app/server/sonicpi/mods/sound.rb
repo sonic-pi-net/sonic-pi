@@ -267,6 +267,25 @@ module SonicPi
 
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
 
+           ## We're still in a no_kill sync block, so the user can't
+           ## kill us yet. Now that the gc thread is waiting for the fx
+           ## block to either complete (or be killed) we can now set up
+           ## the synth trackers, create the fx synth and busses and
+           ## modify the thread local to make sure new synth triggers in
+           ## this thread output to this fx synth:
+
+           ## Create a new bus for this fx chain
+           begin
+             new_bus = @mod_sound_studio.new_fx_bus
+           rescue AllocationError
+             __message "All busses allocated - unable to honour FX"
+             if block.arity == 0
+               return block.call
+             else
+               return block.call(@blank_node)
+             end
+           end
+
            gc = Thread.new do
              Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc)
              Thread.current.priority = -1
@@ -328,25 +347,6 @@ module SonicPi
 
              gc_completed.deliver! true
            end ## end gc collection thread definition
-
-           ## We're still in a no_kill sync block, so the user can't
-           ## kill us yet. Now that the gc thread is waiting for the fx
-           ## block to either complete (or be killed) we can now set up
-           ## the synth trackers, create the fx synth and busses and
-           ## modify the thread local to make sure new synth triggers in
-           ## this thread output to this fx synth:
-
-           ## Create a new bus for this fx chain
-           begin
-             new_bus = @mod_sound_studio.new_fx_bus
-           rescue AllocationError
-             __message "All busses allocated - unable to honour FX"
-             if block.arity == 0
-               return block.call
-             else
-               return block.call(@blank_node)
-             end
-           end
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
