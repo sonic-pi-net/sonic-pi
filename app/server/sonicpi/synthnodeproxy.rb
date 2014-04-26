@@ -89,6 +89,10 @@ module SonicPi
       "#<SonicPi::NodeProxy @id=#{@node.id}>"
     end
 
+    def id
+      @node.id
+    end
+
     def inspect
       to_s
     end
