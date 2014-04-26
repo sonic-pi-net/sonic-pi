@@ -258,6 +258,7 @@ module SonicPi
          fx_synth = BlankNode.new
          new_bus = nil
          current_bus = nil
+         tracker = nil
 
          __no_kill_block do
            ## Munge args
@@ -265,7 +266,6 @@ module SonicPi
            kill_delay = args_h[:kill_delay] || SynthInfo.get_info(fx_synth_name).kill_delay(args_h)
 
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
-           tracker = nil
 
            gc = Thread.new do
              Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc)
@@ -354,8 +354,6 @@ module SonicPi
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
-           current_trackers << tracker
-           Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, current_trackers)
 
            ## Get list of current subthreads. We'll need this later to
            ## determine which threads were created as a result of the fx
@@ -370,25 +368,41 @@ module SonicPi
 
          end #end don't kill sync
 
+
+
          ## Now actually execute the fx block. Pass the fx synth in as a
          ## parameter if the block was defined with a param.
-         begin
-           if block.arity == 0
-             block.call
-           else
-             block.call(fx_synth)
+
+         t = in_thread do
+           new_trackers = [tracker]
+           (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).each do |tr|
+             new_trackers << tr
            end
-         rescue
-           ## Oopsey - there was an error in the user's block. Re-raise
-           ## exception, but only after ensure block has executed.
-           raise
-         ensure
-           ## Ensure that p's promise is delivered - thus kicking off
-           ## the gc thread.
-           p.deliver! true
-           ## Reset out bus to value prior to this with_fx block
-           fxt.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
+           Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, new_trackers)
+
+           begin
+             if block.arity == 0
+               block.call
+             else
+               block.call(fx_synth)
+             end
+           rescue
+             ## Oopsey - there was an error in the user's block. Re-raise
+             ## exception, but only after ensure block has executed.
+             raise
+           ensure
+             ## Ensure that p's promise is delivered - thus kicking off
+             ## the gc thread.
+             p.deliver! true
+             ## Reset out bus to value prior to this with_fx block
+             fxt.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
+           end
          end
+
+         # Join thread used to execute block. Then transfer virtual
+         # timestamp back to this thread.
+         t.join
+         Thread.current.thread_variable_set(:sonic_pi_spider_time, t.thread_variable_get(:sonic_pi_spider_time))
 
          # Wait for gc thread to complete. Once the gc thread has
          # completed, the tracker has been successfully removed, and all
