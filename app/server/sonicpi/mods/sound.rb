@@ -339,7 +339,7 @@ module SonicPi
            ## Create a new bus for this fx chain
            begin
              new_bus = @mod_sound_studio.new_fx_bus
-           rescue BusAllocationError
+           rescue AllocationError
              __message "All busses allocated - unable to honour FX"
              if block.arity == 0
                return block.call
@@ -733,11 +733,9 @@ module SonicPi
            b = @JOB_BUSSES_A.deref[job_id]
            return b if b
 
-
-
            begin
              new_bus = @mod_sound_studio.new_fx_bus
-           rescue BusAllocationError
+           rescue AllocationError
              raise "All busses allocated - unable to create audio bus for job"
            end
 
