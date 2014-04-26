@@ -113,6 +113,21 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, current)
        end
 
+       def use_transpose(shift, &block)
+         raise "use_transpose does not work with a do/end block. Perhaps you meant with_transpose" if block
+         raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Fixnum)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, shift)
+       end
+
+       def with_transpose(shift, &block)
+         raise "with_transpose requires a do/end block. Perhaps you meant use_transpose" unless block
+         raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Fixnum)
+         curr = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, shift)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, curr)
+       end
+
        def use_synth(synth_name, &block)
          raise "use_synth does not work with a do/end block. Perhaps you meant with_synth" if block
          @mod_sound_studio.current_synth_name = synth_name
@@ -157,8 +172,9 @@ module SonicPi
          if n
            n = note(n) unless n.is_a? Fixnum
            args_h = resolve_synth_opts_hash_or_array(args)
-
-           args_h = {:note => n}.merge(args_h)
+           shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
+           shifted_n = n + shift
+           args_h = {:note => shifted_n}.merge(args_h)
            trigger_inst @mod_sound_studio.current_synth_name, args_h
          end
        end
@@ -172,8 +188,10 @@ module SonicPi
        end
 
        def play_chord(notes, *args)
+         shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
+         shifted_notes = notes.map{|n| n + shift}
          synth_name = @mod_sound_studio.current_synth_name
-         trigger_chord(synth_name, notes, args)
+         trigger_chord(synth_name, shifted_notes, args)
        end
 
        def repeat(&block)
@@ -181,8 +199,6 @@ module SonicPi
            block.call
          end
        end
-
-
 
        def use_merged_synth_defaults(*args, &block)
          raise "use_merged_synth_defaults does not work with a block. Perhaps you meant with_merged_synth_defaults" if block
@@ -625,8 +641,10 @@ module SonicPi
 
          nodes = []
          notes.each do |note|
-           note_args_h = args_h.merge({:note => note})
-           nodes << trigger_inst(synth_name, note_args_h, cg) if note
+           if note
+             note_args_h = args_h.merge({:note => note})
+             nodes << trigger_inst(synth_name, note_args_h, cg)
+           end
          end
          cg.sub_nodes = nodes
          cg
