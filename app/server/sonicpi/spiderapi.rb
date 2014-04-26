@@ -53,11 +53,27 @@ module SonicPi
       list.to_a.choose
     end
 
+    def use_bpm(bpm, &block)
+      raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
+      sleep_mul = 60.0 / bpm
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
+    end
+
+    def with_bpm(bpm, &block)
+      raise "with_bpm must be called with a block. Perhaps you meant use_bpm" unless block
+      current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      sleep_mul = 60.0 / bpm
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
+      block.call
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
+    end
+
     def sleep(seconds)
+      sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       last = Thread.current.thread_variable_get :sonic_pi_spider_time
       now = Time.now
 
-      new_t = last + seconds
+      new_t = last + sleep_time
       if now > new_t
         Thread.current.priority = 2
         __message "Can't keep up..."

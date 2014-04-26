@@ -61,15 +61,6 @@ module SonicPi
       start_mixer
     end
 
-    def bpm
-      Thread.current.thread_variable_get(:sonic_pi_studio_bpm) ||
-      Thread.current.thread_variable_set(:sonic_pi_studio_bpm, 60)
-    end
-
-    def bpm=(new_bpm)
-      Thread.current.thread_variable_set(:sonic_pi_studio_bpm, new_bpm)
-    end
-
     def current_synth_name
       Thread.current.thread_variable_get(:sonic_pi_studio_current_synth_name) ||
       Thread.current.thread_variable_set(:sonic_pi_studio_current_synth_name, "beep")
@@ -77,10 +68,6 @@ module SonicPi
 
     def current_synth_name=(name)
       Thread.current.thread_variable_set(:sonic_pi_studio_current_synth_name, name)
-    end
-
-    def beat_s
-      60.0 / bpm
     end
 
     def message(s)

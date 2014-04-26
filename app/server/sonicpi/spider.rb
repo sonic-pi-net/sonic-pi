@@ -172,6 +172,7 @@ module SonicPi
         begin
           reg_job(id, job)
           Thread.current.thread_variable_set(:sonic_pi_thread_group, :job)
+          Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, 1)
           Thread.current.thread_variable_set :sonic_pi_spider_time, Time.now
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info

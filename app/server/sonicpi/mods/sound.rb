@@ -164,7 +164,7 @@ module SonicPi
        end
 
        def play_pattern(notes, *args)
-         notes.each{|note| play(note, *args) ; sleep(@mod_sound_studio.beat_s)}
+         notes.each{|note| play(note, *args) ; sleep 1 }
        end
 
        def play_pattern_timed(notes, times, *args)
@@ -413,18 +413,6 @@ module SonicPi
          gc_completed.get
        end
 
-       def use_tempo(n, &block)
-         raise "use_tempo does not work with a block. Perhaps you meant with_tempo" if block
-         @mod_sound_studio.bpm = n
-       end
-
-       def with_tempo(n, &block)
-         raise "with_tempo must be called with a block. Perhaps you meant use_tempo" unless block
-         current = @mod_sound_studio.bpm
-         @mod_sound_studio.bpm = n
-         block.call
-         @mod_sound_studio.bpm = current
-       end
 
        def use_sample_pack(pack, &block)
          raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
@@ -441,8 +429,8 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
        end
 
-       def current_tempo
-         @mod_sound_studio.bpm
+       def current_bpm
+         60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
        end
 
        def set_debug_on!
