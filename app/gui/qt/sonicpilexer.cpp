@@ -153,25 +153,12 @@ QFont QsciLexerRuby::defaultFont(int style) const
     case SingleQuotedString:
     case PercentStringq:
     case PercentStringQ:
-#if defined(Q_OS_WIN)
-        f = QFont("Courier New",10);
-#elif defined(Q_OS_MAC)
-        f = QFont("Menlo", 10);
-#else
-        f = QFont("Bitstream Vera Sans Mono",10);
-#endif
-        break;
-
     case Keyword:
     case ClassName:
     case FunctionMethodName:
     case Operator:
     case ModuleName:
     case DemotedKeyword:
-        f = QsciLexer::defaultFont(style);
-        f.setBold(false);
-        break;
-
     default:
 #if defined(Q_OS_WIN)
         f = QFont("Courier New",10);
