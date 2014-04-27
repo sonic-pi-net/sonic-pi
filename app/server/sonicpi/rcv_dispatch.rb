@@ -10,6 +10,8 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require 'active_support/core_ext/hash/indifferent_access'
+
 module SonicPi
   class RcvDispatch
     def initialize(spider, out_queue)
@@ -20,6 +22,7 @@ module SonicPi
     end
 
     def dispatch(data)
+      data = data.with_indifferent_access
       @t_sem.synchronize do
         cmd = data["cmd"]
 
