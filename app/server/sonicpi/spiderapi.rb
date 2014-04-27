@@ -13,52 +13,131 @@
 
 module SonicPi
   module SpiderAPI
+
+    class << self
+      include SonicPi::Util
+
+      @@docs = {}
+
+      def doc(*info)
+        args_h = resolve_synth_opts_hash_or_array(info)
+        @@docs[args_h[:name]] = args_h
+      end
+    end
+
+    doc name:           :define,
+        doc:            "Define a function",
+        args:           [[:name, :symbol]],
+        opts:          nil,
+        accepts_block: true,
+        examples:       []
     def define(name, &block)
       raise "define must be called with a code block" unless block
-
       @user_methods.send(:define_method, name, &block)
     end
 
+    doc name:           :on_keypress,
+        doc:            "",
+        args:           [],
+        opts:           nil,
+        accepts_block:  true,
+        examples:       [],
+        hide:           true
     def on_keypress(&block)
       @keypress_handlers[:foo] = block
     end
 
+    doc name:          :print,
+        doc:           "",
+        args:          [[:output, :string]],
+        opts:          nil,
+        accepts_block: false,
+        examples:      []
     def print(output)
       __message output
     end
 
+    doc name:           :puts,
+        doc:            "",
+        args:           [[:output, :string]],
+        opts:           nil,
+        accepts_block:  false,
+        examples:       []
     def puts(output)
       __message output
     end
 
-    def rand(limit=1.0)
-      @random_generator.rand(limit)
-    end
+    doc name:           :rand,
+        doc:            "",
+        args:           [],
+        opts:           {:min => 0.0, :max => 1.0},
+        accepts_block:  false,
+        examples:       []
+    def rand(*opts)
+      args_h = resolve_synth_opts_hash_or_array(opts)
+      min = args_h[:min] || 0.0
+      max = args_h[:min] || 1.0
 
-    def rrand(limit=1.0, limit2=0)
-      range = (limit - limit2).abs
+      range = (min - max).abs
       r = @random_generator.rand(range.to_f)
-      smallest = [limit, limit2].min
+      smallest = [min, max].min
       r + smallest
     end
 
-    def rrand_i(limit=1.0, limit2=0)
+    doc name:           :rrand,
+        args:           [[:min, :number], [:max, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "",
+        examples:      []
+    def rrand(min, max)
+      range = (min - max).abs
+      r = @random_generator.rand(range.to_f)
+      smallest = [min, max].min
+      r + smallest
+    end
+
+    doc name:           :rrand_i,
+        args:           [[:min, :number], [:max, :number]],
+        opts:           nil,
+        accepts_block: false,
+        doc:            "",
+        examples:       []
+    def rrand_i(min, max)
       range = (limit - limit2).abs
       r = @random_generator.rand(range.to_i + 1)
       smallest = [limit, limit2].min
       r + smallest
     end
 
+    doc name:           :choose,
+        args:           [[:list, :array]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "",
+        examples:       []
     def choose(list)
       list.to_a.choose
     end
 
+    doc name:           :use_bpm,
+        doc:            "",
+        args:           [[:bpm, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        examples:       []
     def use_bpm(bpm, &block)
       raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
       sleep_mul = 60.0 / bpm
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
     end
 
+    doc name:           :with_bpm,
+        doc:            "",
+        args:           [],
+        opts:           nil,
+        accepts_block:  true,
+        examples:       []
     def with_bpm(bpm, &block)
       raise "with_bpm must be called with a block. Perhaps you meant use_bpm" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
@@ -68,6 +147,12 @@ module SonicPi
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
     end
 
+    doc name:           :sleep,
+        doc:            "",
+        args:           [[:seconds, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        examples:       []
     def sleep(seconds)
       sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       last = Thread.current.thread_variable_get :sonic_pi_spider_time
@@ -87,13 +172,26 @@ module SonicPi
       Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
     end
 
-    def sync(sync_id, val = nil)
+    doc name:           :sync,
+        doc:            "",
+        args:           [[:sync_id, :symbol]],
+        opts:           {:message => nil},
+        accepts_block:  false,
+        examples:       []
+    def sync(sync_id, *opts)
+      args_h = resolve_synth_opts_hash_or_array(opts)
       __no_kill_block do
         Kernel.sleep @sync_real_sleep_time
-        @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => val})
+        @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => args_h[:message]})
       end
     end
 
+    doc name:           :wait,
+        doc:            "",
+        args:           [[:sync_id, :symbol]],
+        opts:           nil,
+        accepts_block:  false,
+        examples:       []
     def wait(sync_id)
       p = Promise.new
       @events.oneshot_handler("/spider_thread_sync/" + sync_id.to_s) do |payload|
@@ -106,7 +204,16 @@ module SonicPi
       val
     end
 
-    def in_thread(name=nil, &block)
+    doc name:           :in_thread,
+        doc:            "",
+        args:           [],
+        opts:           {:name => nil},
+        accepts_block:  true,
+        examples:       []
+    def in_thread(*opts, &block)
+      args_h = resolve_synth_opts_hash_or_array(opts)
+      name = args_h[:name]
+
       parent_t = Thread.current
 
       # Get copy of thread locals whilst we're sure they're not being modified
