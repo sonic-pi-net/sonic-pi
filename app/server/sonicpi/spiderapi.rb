@@ -271,7 +271,7 @@ module SonicPi
           # the subthread tree
           __join_subthreads(t)
           parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
-            parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(Thread.current)
+            parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(t)
           end
         end
       end
