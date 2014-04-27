@@ -98,6 +98,16 @@ def test_multi_threads
                 :val => "loop do ; in_thread do ; play 60 ; sleep 3 ; end ; sleep 0.025 ; end"})
 end
 
+def test_multi_similarly_named_threads
+  $rd.dispatch({:cmd => "run-code",
+                :val => "loop do ; in_thread(name: :foo) do ; play 60 ; sleep 3 ; end ; sleep 0.025 ; end"})
+end
+
+def test_multi_differently_named_threads
+  $rd.dispatch({:cmd => "run-code",
+                :val => "loop do ; in_thread(name: rand) do ; play 60 ; sleep 3 ; end ; sleep 0.025 ; end"})
+end
+
 def test_multi_inner_threads
   $rd.dispatch({:cmd => "run-code",
                 :val => "loop do ; in_thread do ; in_thread do ; play 60 ; end ; end ; sleep 0.025 ; end"})
@@ -141,6 +151,8 @@ end
 #test_multi_osc
 #test_multi_play
 #test_multi_threads
+#test_multi_similarly_named_threads
+#test_multi_differently_named_threads
 #test_multi_inner_threads
 #test_multi_jobs
 #test_exception_throwing
