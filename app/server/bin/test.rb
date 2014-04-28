@@ -121,6 +121,11 @@ def test_multi_jobs
   end
 end
 
+def test_multi_with_fx
+  $rd.dispatch({:cmd => "run-code",
+                :val => "loop do ; with_fx :slicer do ; play 60 ; sleep 0.025 ; end ; end"})
+end
+
 def test_exception_throwing
   loop do
     $rd.dispatch({:cmd => "run-code",
@@ -155,9 +160,11 @@ end
 #test_multi_differently_named_threads
 #test_multi_inner_threads
 #test_multi_jobs
+test_multi_with_fx
 #test_exception_throwing
 #test_exception_throwing_within_subthread
 #test_all_jobs_stopping
+
 
 
 out_t.join
