@@ -14,6 +14,7 @@
 #include <QApplication>
 #include <QSplashScreen>
 #include <QPixmap>
+#include <QBitmap>
 
 #include "mainwindow.h"
 int main(int argc, char *argv[])
