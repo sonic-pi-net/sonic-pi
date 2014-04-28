@@ -229,11 +229,18 @@ module SonicPi
     def job_subthread_add(job_id, t, name=nil)
       #todo only add subthread if name isn't registered yet
       @job_subthread_mutex.synchronize do
-        return t.kill unless @job_subthreads[job_id]
+        unless @job_subthreads[job_id]
+          t.kill
+          job_subthread_rm_unmutexed(job_id, t)
+          return false
+        end
+
         if name
           if @named_subthreads[name]
             puts "Skipping thread creation: thread with name #{name.inspect} already exists."
-            return t.kill
+            t.kill
+            job_subthread_rm_unmutexed(job_id, t)
+            return false
           else
             # register this name with the corresponding job id and also
             # store it in a thread local
@@ -247,12 +254,16 @@ module SonicPi
       end
     end
 
+    def job_subthread_rm_unmutexed(job_id, t)
+      threads = @job_subthreads[job_id]
+      threads.delete(t) if threads
+      subthread_name = t.thread_variable_get(:sonic_pi__not_inherited__spider_subthread_name)
+      @named_subthreads.delete(subthread_name) if subthread_name
+    end
+
     def job_subthread_rm(job_id, t)
       @job_subthread_mutex.synchronize do
-        threads = @job_subthreads[job_id]
-        threads.delete(t) if threads
-        subthread_name = t.thread_variable_get(:sonic_pi__not_inherited__spider_subthread_name)
-        @named_subthreads.delete(subthread_name) if subthread_name
+        job_subthread_rm_unmutexed(job_id, t)
       end
     end
 

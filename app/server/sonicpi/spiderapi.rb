@@ -228,6 +228,19 @@ module SonicPi
 
       # Create the new thread
       t = Thread.new do
+
+        Thread.new do
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
+          Thread.current.priority = -1
+          # wait for all subthreads to finish before removing self from
+          # the subthread tree
+          t.join
+          __join_subthreads(t)
+          parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
+            parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(t)
+          end
+        end
+
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_subthread)
         # Copy thread locals across from parent thread to this new thread
         parent_t_vars.each do |k,v|
@@ -263,17 +276,6 @@ module SonicPi
 
         # Disassociate thread with job as it has now finished
         job_subthread_rm(job_id, Thread.current)
-
-        Thread.new do
-          Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
-          Thread.current.priority = -1
-          # wait for all subthreads to finish before removing self from
-          # the subthread tree
-          __join_subthreads(t)
-          parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
-            parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(t)
-          end
-        end
       end
 
       # Whilst we know that the new thread is waiting on the promise to
