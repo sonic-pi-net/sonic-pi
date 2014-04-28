@@ -82,10 +82,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QtConcurrent::run(this, &MainWindow::startOSCListener);
   serverProcess = new QProcess();
 
-  // QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/start-server.rb";
-  // std::cerr << serverProgram.toStdString() << std::endl;
-  // serverProcess->start(serverProgram);
-  // serverProcess->waitForStarted();
+  QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/start-server.rb";
+  std::cerr << serverProgram.toStdString() << std::endl;
+  serverProcess->start(serverProgram);
+  serverProcess->waitForStarted();
 
   tabs = new QTabWidget();
   tabs->setTabsClosable(false);
