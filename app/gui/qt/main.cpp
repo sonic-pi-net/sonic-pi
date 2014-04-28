@@ -15,7 +15,6 @@
 #include <QSplashScreen>
 #include <QPixmap>
 #include <QBitmap>
-#include "csplashscreen.h"
 
 #include "mainwindow.h"
 int main(int argc, char *argv[])
@@ -24,11 +23,11 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     app.setStyle("gtk");
-
-
     QPixmap pixmap(":/images/splash.png");
-    CSplashScreen* splash = new CSplashScreen(pixmap);
-    splash->show();
+    QSplashScreen splash(pixmap);
+    splash.setMask(pixmap.mask());
+    splash.show();
+    splash.repaint();
 
     //    QIcon icon(":images/app.icns");
     MainWindow mainWin(app, splash);

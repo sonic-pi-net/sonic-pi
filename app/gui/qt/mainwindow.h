@@ -23,7 +23,6 @@
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
-#include "csplashscreen.h"
 
 class QAction;
 class QMenu;
@@ -39,7 +38,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QApplication &ref, CSplashScreen* splash);
+    MainWindow(QApplication &ref, QSplashScreen &splash);
 
 protected:
     void closeEvent(QCloseEvent *event);

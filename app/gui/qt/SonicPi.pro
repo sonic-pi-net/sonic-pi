@@ -24,13 +24,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = SonicPi
 TEMPLATE = app
 
-SOURCES += csplashscreen.cpp \
-           main.cpp\
+SOURCES += main.cpp\
            mainwindow.cpp \
            sonicpilexer.cpp
 
 HEADERS  += mainwindow.h \
-            csplashscreen.h \
             oscpkt.hh \
             udp.hh \
             sonicpilexer.h
