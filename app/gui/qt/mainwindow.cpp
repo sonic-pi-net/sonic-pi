@@ -66,7 +66,7 @@
 
 using namespace oscpkt;
 
-MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
+MainWindow::MainWindow(QApplication &app, CSplashScreen* splash) {
 
   this->setUnifiedTitleAndToolBarOnMac(true);
 
@@ -285,7 +285,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(systemVol, SIGNAL(valueChanged(int)), this, SLOT(changeSystemVol(int)));
   initPrefsWindow();
   this->show();
-  splash.finish(this);
+  delete splash;
 }
 
 void MainWindow::showOutputPane() {

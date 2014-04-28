@@ -24,25 +24,24 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = SonicPi
 TEMPLATE = app
 
-
-SOURCES += main.cpp\
+SOURCES += csplashscreen.cpp \
+           main.cpp\
            mainwindow.cpp \
            sonicpilexer.cpp
 
 HEADERS  += mainwindow.h \
-    sonicpilexer.h
+            csplashscreen.h \
+            oscpkt.hh \
+            udp.hh \
+            sonicpilexer.h
 
 LIBS += -l qscintilla2
-
 
 
 OTHER_FILES += \
     images/copy.png \
     images/cut.png \
-    images/foo.png \
     images/new.png \
-    images/open.png \
-    images/paste.png \
     images/save.png \
     images/rec.png \
     images/recording_a.png \
