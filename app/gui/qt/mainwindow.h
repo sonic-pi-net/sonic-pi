@@ -38,7 +38,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QApplication &ref, QLabel* splash);
+    MainWindow(QApplication &ref, QSplashScreen &splash);
 
 protected:
     void closeEvent(QCloseEvent *event);

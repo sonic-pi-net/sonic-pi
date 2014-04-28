@@ -66,7 +66,7 @@
 
 using namespace oscpkt;
 
-MainWindow::MainWindow(QApplication &app, QLabel* splash) {
+MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   this->setUnifiedTitleAndToolBarOnMac(true);
 
@@ -82,10 +82,10 @@ MainWindow::MainWindow(QApplication &app, QLabel* splash) {
   QtConcurrent::run(this, &MainWindow::startOSCListener);
   serverProcess = new QProcess();
 
-  QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/start-server.rb";
-  std::cerr << serverProgram.toStdString() << std::endl;
-  serverProcess->start(serverProgram);
-  serverProcess->waitForStarted();
+  // QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/start-server.rb";
+  // std::cerr << serverProgram.toStdString() << std::endl;
+  // serverProcess->start(serverProgram);
+  // serverProcess->waitForStarted();
 
   tabs = new QTabWidget();
   tabs->setTabsClosable(false);
@@ -285,7 +285,7 @@ MainWindow::MainWindow(QApplication &app, QLabel* splash) {
   connect(systemVol, SIGNAL(valueChanged(int)), this, SLOT(changeSystemVol(int)));
   initPrefsWindow();
   this->show();
-  splash->close();
+  splash.finish(this);
 }
 
 void MainWindow::showOutputPane() {
@@ -802,25 +802,26 @@ void MainWindow::createActions()
 
 void MainWindow::createToolBars()
 {
-  fileToolBar = addToolBar(tr("Run"));
-  fileToolBar->setIconSize(QSize(270/3, 109/3));
-  fileToolBar->addAction(runAct);
-  fileToolBar->addAction(stopAct);
 
   QWidget *spacerWidget1 = new QWidget(this);
   spacerWidget1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   spacerWidget1->setVisible(true);
 
+  QWidget *spacerWidget2 = new QWidget(this);
+  spacerWidget2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  spacerWidget2->setVisible(true);
+
+  fileToolBar = addToolBar(tr("Run"));
+  fileToolBar->setIconSize(QSize(270/3, 109/3));
+  fileToolBar->addAction(runAct);
+  fileToolBar->addAction(stopAct);
+  fileToolBar->addWidget(spacerWidget1);
 
   saveToolBar = addToolBar(tr("Save"));
   saveToolBar->addWidget(spacerWidget1);
   saveToolBar->setIconSize(QSize(270/3, 109/3));
   saveToolBar->addAction(saveAsAct);
   saveToolBar->addAction(recAct);
-
-  QWidget *spacerWidget2 = new QWidget(this);
-  spacerWidget2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  spacerWidget2->setVisible(true);
 
   supportToolBar = addToolBar(tr("Support"));
   supportToolBar->addWidget(spacerWidget2);

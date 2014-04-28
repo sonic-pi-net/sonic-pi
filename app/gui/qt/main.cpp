@@ -22,14 +22,13 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     app.setStyle("gtk");
-    QPixmap aPixmap(":/images/splash.png");
-    QLabel* aWidget = new QLabel(0, Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
-    aWidget->setAttribute(Qt::WA_TranslucentBackground);
-    aWidget->setPixmap(aPixmap);
-    aWidget->show();
+    QPixmap pixmap(":/images/splash.png");
+    QSplashScreen splash(pixmap);
+    splash.setMask(pixmap.mask());
+    splash.show();
 
     //    QIcon icon(":images/app.icns");
-    MainWindow mainWin(app, aWidget);
+    MainWindow mainWin(app, splash);
 
     //    mainWin.setWindowIcon(icon);
     return app.exec();
