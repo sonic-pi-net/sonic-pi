@@ -64,6 +64,7 @@ private slots:
     void showOutputPane();
     void showErrorPane();
     void showPrefsPane();
+    void updateDocPane(const QString &content);
 
 private:
 
@@ -83,6 +84,7 @@ private:
     QsciScintilla* filenameToWorkspace(std::string filename);
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
+    void initDocsWindow();
 
     bool cont_listening_for_osc;
     bool server_started;
@@ -102,13 +104,17 @@ private:
     QsciScintilla *workspace8;
     QTextEdit *outputPane;
     QTextEdit *errorPane;
-    QTextEdit *docPane;
     QWidget *prefsCentral;
+    QTabWidget *docsCentral;
     QDockWidget *outputWidget;
     QDockWidget *errorWidget;
     QDockWidget *prefsWidget;
     QDockWidget *docWidget;
-
+    QTextEdit *langDocPane;
+    QTextEdit *synthsDocPane;
+    QTextEdit *fxDocPane;
+    QTextEdit *samplesDocPane;
+    QTextEdit *examplesDocPane;
 
     QTabWidget *tabs;
 

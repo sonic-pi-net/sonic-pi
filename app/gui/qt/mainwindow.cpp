@@ -42,6 +42,7 @@
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QCheckBox>
+#include <QScrollArea>
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
@@ -58,8 +59,6 @@
   #include <cmath>
   #include <QtConcurrentRun>
 #endif
-
-
 
 
 #include "mainwindow.h"
@@ -218,10 +217,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
-  docPane = new QTextEdit;
+
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
-  docPane->setReadOnly(true);
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
@@ -245,9 +243,26 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   errorWidget->setWidget(errorPane);
   addDockWidget(Qt::RightDockWidgetArea, errorWidget);
 
+
+  docsCentral = new QTabWidget;
+  docsCentral->setTabsClosable(false);
+  docsCentral->setMovable(false);
+  docsCentral->setTabPosition(QTabWidget::West);
   docWidget = new QDockWidget("Documentation", this);
   docWidget->setAllowedAreas(Qt::TopDockWidgetArea);
-  docWidget->setWidget(docPane);
+  docWidget->setWidget(docsCentral);
+
+  langDocPane = new QTextEdit;
+  langDocPane->setReadOnly(true);
+  synthsDocPane = new QTextEdit;
+  synthsDocPane->setReadOnly(true);
+  fxDocPane = new QTextEdit;
+  fxDocPane->setReadOnly(true);
+  samplesDocPane = new QTextEdit;
+  samplesDocPane->setReadOnly(true);
+  examplesDocPane = new QTextEdit;
+  examplesDocPane->setReadOnly(true);
+
   addDockWidget(Qt::TopDockWidgetArea, docWidget);
   docWidget->hide();
 
@@ -284,6 +299,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   systemVol = new QSlider(this);
   connect(systemVol, SIGNAL(valueChanged(int)), this, SLOT(changeSystemVol(int)));
   initPrefsWindow();
+  initDocsWindow();
   this->show();
   splash.finish(this);
 }
@@ -295,6 +311,7 @@ void MainWindow::showOutputPane() {
 void MainWindow::showErrorPane() {
   errorWidget->show();
 }
+
 
 void MainWindow::initPrefsWindow() {
 
@@ -644,8 +661,6 @@ void MainWindow::about()
 
 void MainWindow::help()
 {
-  docPane->setHtml("<h1>Sonic Pi Documentation</h1> <p>This is text</p>");
-
   if(docWidget->isVisible()) {
     docWidget->hide();
   } else {
@@ -963,5 +978,89 @@ void MainWindow::onExitCleanup()
     sendOSC(msg);
   }
   std::cout << "Exiting..." << std::endl;
+
+}
+void MainWindow::updateDocPane(const QString &content) {
+  std::cout << "update pane" << content.toStdString() << std::endl;
+  langDocPane->setHtml(content);
+  synthsDocPane->setHtml(content);
+  fxDocPane->setHtml(content);
+  samplesDocPane->setHtml(content);
+  examplesDocPane->setHtml(content);
+}
+
+void MainWindow::initDocsWindow() {
+  QSignalMapper* signalMapper = new QSignalMapper (this) ;
+  connect (signalMapper, SIGNAL(mapped(const QString)), this, SLOT(updateDocPane(const QString))) ;
+
+  // Lang info
+  QVBoxLayout *langNavLayout = new QVBoxLayout;
+
+  QString foo = "This is some docs";
+  QPushButton *a = new QPushButton("this is a long name");
+  connect(a, SIGNAL(clicked()), signalMapper, SLOT(map()));
+  signalMapper->setMapping(a, foo);
+  langNavLayout->addWidget(a);
+
+  QString bar = "This is some docs 2";
+  QPushButton *b = new QPushButton("this is a long name");
+  connect(b, SIGNAL(clicked()), signalMapper, SLOT(map()));
+  signalMapper->setMapping(b, bar);
+  langNavLayout->addWidget(b);
+
+  QString baz = "This is some docs 3";
+  QPushButton *c = new QPushButton("this is a long name");
+  connect(c, SIGNAL(clicked()), signalMapper, SLOT(map()));
+  signalMapper->setMapping(c, baz);
+  langNavLayout->addWidget(c);
+
+  QGroupBox *langNavBox = new QGroupBox;
+  langNavBox->setLayout(langNavLayout);
+
+  QScrollArea *langScroller = new QScrollArea;
+  langScroller->setWidget(langNavBox);
+
+  QBoxLayout *langLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+  langLayout->addWidget(langScroller);
+  langLayout->addWidget(langDocPane);
+  langLayout->setStretch(1, 1);
+  QWidget *langWidget = new QWidget;
+  langWidget->setLayout(langLayout);
+  docsCentral->addTab(langWidget, "Language");
+
+
+  // Lang unfo
+  QVBoxLayout *synthsNavLayout = new QVBoxLayout;
+  QString sfoo = "This is some docs for synths";
+  QPushButton *sa = new QPushButton("this is a long sname");
+  connect(sa, SIGNAL(clicked()), signalMapper, SLOT(map()));
+  signalMapper->setMapping(sa, sfoo);
+  synthsNavLayout->addWidget(sa);
+
+  QString sbar = "This is some docs for synths 2";
+  QPushButton *sb = new QPushButton("this is a long sname");
+  connect(sb, SIGNAL(clicked()), signalMapper, SLOT(map()));
+  signalMapper->setMapping(sb, sbar);
+  synthsNavLayout->addWidget(sb);
+
+  QString sbaz = "This is some docs for synths3";
+  QPushButton *sc = new QPushButton("this is a long sname");
+  connect(sc, SIGNAL(clicked()), signalMapper, SLOT(map()));
+  signalMapper->setMapping(sc, sbaz);
+  synthsNavLayout->addWidget(sc);
+
+  QGroupBox *synthsNavBox = new QGroupBox;
+  synthsNavBox->setLayout(synthsNavLayout);
+
+  QScrollArea *synthsScroller = new QScrollArea;
+  synthsScroller->setWidget(synthsNavBox);
+
+  QBoxLayout *synthsLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+  synthsLayout->addWidget(synthsScroller);
+  synthsLayout->addWidget(synthsDocPane);
+  synthsLayout->setStretch(1, 1);
+  QWidget *synthsWidget = new QWidget;
+  synthsWidget->setLayout(synthsLayout);
+  docsCentral->addTab(synthsWidget, "Synths");
 
 }
