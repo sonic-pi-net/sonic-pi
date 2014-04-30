@@ -249,7 +249,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   docsCentral->setMovable(false);
   docsCentral->setTabPosition(QTabWidget::West);
   docWidget = new QDockWidget("Documentation", this);
-  docWidget->setAllowedAreas(Qt::TopDockWidgetArea);
+  docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
   docWidget->setWidget(docsCentral);
 
   langDocPane = new QTextEdit;
@@ -263,7 +263,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   examplesDocPane = new QTextEdit;
   examplesDocPane->setReadOnly(true);
 
-  addDockWidget(Qt::TopDockWidgetArea, docWidget);
+  addDockWidget(Qt::BottomDockWidgetArea, docWidget);
   docWidget->hide();
 
   initWorkspace(workspace1);
