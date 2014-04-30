@@ -93,6 +93,10 @@ module SonicPi
       File.absolute_path("#{app_path}/gui/qt")
     end
 
+    def examples_path
+      File.absolute_path("#{etc_path}/examples")
+    end
+
     def log(message)
       File.open("#{log_path}/sonicpi.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")}
     end
