@@ -59,23 +59,6 @@ module SonicPi
       __message output
     end
 
-    doc name:           :rand,
-        doc:            "",
-        args:           [],
-        opts:           {:min => 0.0, :max => 1.0},
-        accepts_block:  false,
-        examples:       []
-    def rand(*opts)
-      args_h = resolve_synth_opts_hash_or_array(opts)
-      min = args_h[:min] || 0.0
-      max = args_h[:min] || 1.0
-
-      range = (min - max).abs
-      r = @random_generator.rand(range.to_f)
-      smallest = [min, max].min
-      r + smallest
-    end
-
     doc name:           :rrand,
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
