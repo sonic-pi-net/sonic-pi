@@ -755,19 +755,19 @@ module SonicPi
            examples:      []
        def note(n, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
-         octave = args_h[:octave] || 4
+         octave = args_h[:octave]
          Note.resolve_midi_note(n, octave)
        end
 
        doc name:          :note_info,
-           doc:           "add docs",
+           doc:           "add docs - :octave opt is overridden if oct specified in symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
            examples:      []
        def note_info(n, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
-         octave = args_h[:octave] || 4
+         octave = args_h[:octave]
          Note.new(n, octave)
        end
 
@@ -804,20 +804,24 @@ module SonicPi
          node.control *args
        end
 
-       doc name:          :control,
+       doc name:          :sample_names,
            doc:           "add docs",
-           args:          [[:node, :synth_node]],
-           opts:          {:group => :all},
+           args:          [[:group, :symbol]],
+           opts:          nil,
            accepts_block: false,
            examples:      []
-       def sample_names(*args)
-         args_h = resolve_synth_opts_hash_or_array(args)
-         group = args_h[:group]
-         if group && (group != :all)
-           return BaseInfo.grouped_samples[group][:samples]
-         else
-           return BaseInfo.all_samples
-         end
+       def sample_names(group)
+         BaseInfo.grouped_samples[group][:samples]
+       end
+
+       doc name:          :all_sample_names,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
+       def all_sample_names
+         BaseInfo.all_samples
        end
 
        doc name:          :sample_groups,
