@@ -20,6 +20,7 @@
 #include <QLabel>
 #include <QSplashScreen>
 #include <QCheckBox>
+#include <QListWidgetItem>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -64,7 +65,7 @@ private slots:
     void showOutputPane();
     void showErrorPane();
     void showPrefsPane();
-    void updateDocPane(const QString &content);
+    void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
 
 private:
 

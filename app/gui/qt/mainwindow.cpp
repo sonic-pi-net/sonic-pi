@@ -980,7 +980,8 @@ void MainWindow::onExitCleanup()
   std::cout << "Exiting..." << std::endl;
 
 }
-void MainWindow::updateDocPane(const QString &content) {
+void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
+  QString content = cur->data(32).toString();
   std::cout << "update pane" << content.toStdString() << std::endl;
   langDocPane->setHtml(content);
   synthsDocPane->setHtml(content);
@@ -989,36 +990,29 @@ void MainWindow::updateDocPane(const QString &content) {
   examplesDocPane->setHtml(content);
 }
 
+// AUTO-GENERATED-DOCS
+// Do not manually add any code below this comment
+// Otherwise it may be removed
+
 void MainWindow::initDocsWindow() {
-  QSignalMapper* signalMapper = new QSignalMapper (this) ;
-  connect (signalMapper, SIGNAL(mapped(const QString)), this, SLOT(updateDocPane(const QString))) ;
-
   // Lang info
-  QVBoxLayout *langNavLayout = new QVBoxLayout;
 
-  QString foo = "This is some docs";
-  QPushButton *a = new QPushButton("this is a long name");
-  connect(a, SIGNAL(clicked()), signalMapper, SLOT(map()));
-  signalMapper->setMapping(a, foo);
-  langNavLayout->addWidget(a);
+  QListWidget *langScroller = new QListWidget;
 
-  QString bar = "This is some docs 2";
-  QPushButton *b = new QPushButton("this is a long name");
-  connect(b, SIGNAL(clicked()), signalMapper, SLOT(map()));
-  signalMapper->setMapping(b, bar);
-  langNavLayout->addWidget(b);
+  QListWidgetItem *a = new QListWidgetItem("this is a long name widget");
+  a->setData(32, QVariant("<h1>It Works!</h1>"));
+  langScroller->addItem(a);
 
-  QString baz = "This is some docs 3";
-  QPushButton *c = new QPushButton("this is a long name");
-  connect(c, SIGNAL(clicked()), signalMapper, SLOT(map()));
-  signalMapper->setMapping(c, baz);
-  langNavLayout->addWidget(c);
 
-  QGroupBox *langNavBox = new QGroupBox;
-  langNavBox->setLayout(langNavLayout);
+  QListWidgetItem *b = new QListWidgetItem("this is a long name widget 2");
+  b->setData(32, QVariant("<h1>It Still Works!</h1>"));
+  langScroller->addItem(b);
 
-  QScrollArea *langScroller = new QScrollArea;
-  langScroller->setWidget(langNavBox);
+  QListWidgetItem *c = new QListWidgetItem("foobar baz");
+  c->setData(32, QVariant("<h1>It Actually Still Works!</h1>"));
+  langScroller->addItem(c);
+
+  connect(langScroller, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
 
   QBoxLayout *langLayout = new QBoxLayout(QBoxLayout::LeftToRight);
   langLayout->addWidget(langScroller);
@@ -1028,32 +1022,22 @@ void MainWindow::initDocsWindow() {
   langWidget->setLayout(langLayout);
   docsCentral->addTab(langWidget, "Language");
 
+  QListWidget *synthsScroller = new QListWidget;
 
-  // Lang unfo
-  QVBoxLayout *synthsNavLayout = new QVBoxLayout;
-  QString sfoo = "This is some docs for synths";
-  QPushButton *sa = new QPushButton("this is a long sname");
-  connect(sa, SIGNAL(clicked()), signalMapper, SLOT(map()));
-  signalMapper->setMapping(sa, sfoo);
-  synthsNavLayout->addWidget(sa);
+  QListWidgetItem *a2 = new QListWidgetItem("this is a long name widget");
+  a2->setData(32, QVariant("<h1>It Works!</h1>"));
+  synthsScroller->addItem(a2);
 
-  QString sbar = "This is some docs for synths 2";
-  QPushButton *sb = new QPushButton("this is a long sname");
-  connect(sb, SIGNAL(clicked()), signalMapper, SLOT(map()));
-  signalMapper->setMapping(sb, sbar);
-  synthsNavLayout->addWidget(sb);
 
-  QString sbaz = "This is some docs for synths3";
-  QPushButton *sc = new QPushButton("this is a long sname");
-  connect(sc, SIGNAL(clicked()), signalMapper, SLOT(map()));
-  signalMapper->setMapping(sc, sbaz);
-  synthsNavLayout->addWidget(sc);
+  QListWidgetItem *b2 = new QListWidgetItem("sthis is a long name widget 2");
+  b2->setData(32, QVariant("<h1>Synths B</h1>"));
+  synthsScroller->addItem(b);
 
-  QGroupBox *synthsNavBox = new QGroupBox;
-  synthsNavBox->setLayout(synthsNavLayout);
+  QListWidgetItem *c2 = new QListWidgetItem("sfoobar baz");
+  c2->setData(32, QVariant("<h1>Synths C</h1>"));
+  synthsScroller->addItem(c2);
 
-  QScrollArea *synthsScroller = new QScrollArea;
-  synthsScroller->setWidget(synthsNavBox);
+  connect(synthsScroller, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
 
   QBoxLayout *synthsLayout = new QBoxLayout(QBoxLayout::LeftToRight);
   synthsLayout->addWidget(synthsScroller);
