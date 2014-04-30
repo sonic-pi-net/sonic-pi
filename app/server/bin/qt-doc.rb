@@ -15,6 +15,8 @@
 require_relative "../core.rb"
 require_relative "../sonicpi/synthinfo"
 require_relative "../sonicpi/util"
+require_relative "../sonicpi/spiderapi"
+require_relative "../sonicpi/mods/sound"
 
 include SonicPi::Util
 
@@ -58,7 +60,9 @@ make_tab = lambda do |name, doc_items|
   docs
 end
 
-make_tab.call("lang", {:foo => "this is foo", :bar => "this is bar"})
+
+
+make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map))
 make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map)
 make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)

@@ -10,20 +10,12 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require_relative 'docsystem'
 
 module SonicPi
   module SpiderAPI
 
-    class << self
-      include SonicPi::Util
-
-      @@docs = {}
-
-      def doc(*info)
-        args_h = resolve_synth_opts_hash_or_array(info)
-        @@docs[args_h[:name]] = args_h
-      end
-    end
+    include SonicPi::DocSystem
 
     doc name:           :define,
         doc:            "Define a function",

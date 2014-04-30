@@ -23,12 +23,14 @@ require_relative "../scale"
 require_relative "../chord"
 require_relative "../chordgroup"
 require_relative "../synthtracker"
+require_relative "../docsystem"
 
 module SonicPi
    module Mods
      module Sound
 
        include SonicPi::Util
+       include SonicPi::DocSystem
 
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
@@ -81,6 +83,12 @@ module SonicPi
          end
        end
 
+       doc name:           :set_sched_ahead_time!,
+           doc:            "yo yo yo",
+           args:           [[:name, :symbol]],
+           opts:          nil,
+           accepts_block: true,
+           examples:       []
        def set_sched_ahead_time!(t)
          @mod_sound_studio.sched_ahead_time = t
        end
