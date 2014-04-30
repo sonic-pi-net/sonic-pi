@@ -81,8 +81,16 @@ module SonicPi
       File.absolute_path("#{etc_path}/samples")
     end
 
+    def app_path
+      File.absolute_path("#{root_path}/app")
+    end
+
     def html_public_path
-      File.absolute_path("#{root_path}/app/gui/html")
+      File.absolute_path("#{app_path}/gui/html")
+    end
+
+    def qt_gui_path
+      File.absolute_path("#{app_path}/gui/qt")
     end
 
     def log(message)

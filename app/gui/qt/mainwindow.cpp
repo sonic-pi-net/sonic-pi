@@ -992,59 +992,49 @@ void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
 
 // AUTO-GENERATED-DOCS
 // Do not manually add any code below this comment
-// Otherwise it may be removed
+// otherwise it may be removed
 
 void MainWindow::initDocsWindow() {
-  // Lang info
+// lang info
 
-  QListWidget *langScroller = new QListWidget;
+QListWidget *langNameList = new QListWidget;
+langNameList->setSortingEnabled(true);
+connect(langNameList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
+QBoxLayout *langLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+langLayout->addWidget(langNameList);
+langLayout->addWidget(langDocPane);
+langLayout->setStretch(1, 1);
+QWidget *langTabWidget = new QWidget;
+langTabWidget->setLayout(langLayout);
+docsCentral->addTab(langTabWidget, "Language");
 
-  QListWidgetItem *a = new QListWidgetItem("this is a long name widget");
-  a->setData(32, QVariant("<h1>It Works!</h1>"));
-  langScroller->addItem(a);
+QListWidgetItem *lang_item_1 = new QListWidgetItem("foo");
+lang_item_1->setData(32, QVariant("this is foo"));
+langNameList->addItem(lang_item_1);
 
+QListWidgetItem *lang_item_2 = new QListWidgetItem("bar");
+lang_item_2->setData(32, QVariant("this is bar"));
+langNameList->addItem(lang_item_2);
 
-  QListWidgetItem *b = new QListWidgetItem("this is a long name widget 2");
-  b->setData(32, QVariant("<h1>It Still Works!</h1>"));
-  langScroller->addItem(b);
+// synths info
 
-  QListWidgetItem *c = new QListWidgetItem("foobar baz");
-  c->setData(32, QVariant("<h1>It Actually Still Works!</h1>"));
-  langScroller->addItem(c);
+QListWidget *synthsNameList = new QListWidget;
+synthsNameList->setSortingEnabled(true);
+connect(synthsNameList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
+QBoxLayout *synthsLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+synthsLayout->addWidget(synthsNameList);
+synthsLayout->addWidget(synthsDocPane);
+synthsLayout->setStretch(1, 1);
+QWidget *synthsTabWidget = new QWidget;
+synthsTabWidget->setLayout(synthsLayout);
+docsCentral->addTab(synthsTabWidget, "Language");
 
-  connect(langScroller, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
+QListWidgetItem *synths_item_3 = new QListWidgetItem("synth_a");
+synths_item_3->setData(32, QVariant("this is synth a"));
+synthsNameList->addItem(synths_item_3);
 
-  QBoxLayout *langLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-  langLayout->addWidget(langScroller);
-  langLayout->addWidget(langDocPane);
-  langLayout->setStretch(1, 1);
-  QWidget *langWidget = new QWidget;
-  langWidget->setLayout(langLayout);
-  docsCentral->addTab(langWidget, "Language");
-
-  QListWidget *synthsScroller = new QListWidget;
-
-  QListWidgetItem *a2 = new QListWidgetItem("this is a long name widget");
-  a2->setData(32, QVariant("<h1>It Works!</h1>"));
-  synthsScroller->addItem(a2);
-
-
-  QListWidgetItem *b2 = new QListWidgetItem("sthis is a long name widget 2");
-  b2->setData(32, QVariant("<h1>Synths B</h1>"));
-  synthsScroller->addItem(b);
-
-  QListWidgetItem *c2 = new QListWidgetItem("sfoobar baz");
-  c2->setData(32, QVariant("<h1>Synths C</h1>"));
-  synthsScroller->addItem(c2);
-
-  connect(synthsScroller, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
-
-  QBoxLayout *synthsLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-  synthsLayout->addWidget(synthsScroller);
-  synthsLayout->addWidget(synthsDocPane);
-  synthsLayout->setStretch(1, 1);
-  QWidget *synthsWidget = new QWidget;
-  synthsWidget->setLayout(synthsLayout);
-  docsCentral->addTab(synthsWidget, "Synths");
+QListWidgetItem *synths_item_4 = new QListWidgetItem("synth_b");
+synths_item_4->setData(32, QVariant("this is synth_b"));
+synthsNameList->addItem(synths_item_4);
 
 }
