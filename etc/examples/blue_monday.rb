@@ -16,7 +16,7 @@ define :snare do
 end
 
 define :synths do
-  use_synth "saw_beep"
+  use_synth :saw_beep
   use_synth_defaults amp: 0.5, attack: 0.01, release: 0.75, cutoff: 130
   notes = [:F, :C, :D, :D, :G, :C, :D, :D]
   notes.each do |n|
