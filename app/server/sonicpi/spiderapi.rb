@@ -96,9 +96,9 @@ module SonicPi
         doc:            "",
         examples:       []
     def rrand_i(min, max)
-      range = (limit - limit2).abs
+      range = (min - max).abs
       r = @random_generator.rand(range.to_i + 1)
-      smallest = [limit, limit2].min
+      smallest = [min, max].min
       r + smallest
     end
 
