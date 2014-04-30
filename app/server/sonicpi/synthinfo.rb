@@ -437,7 +437,7 @@ module SonicPi
         :mod_rate => 1,
         :mod_rate_slide => 0,
         :mod_range => 5,
-        :mod_range__slide => 0,
+        :mod_range_slide => 0,
         :mod_width => 0.5,
         :mod_width_slide => 0
       }
@@ -689,7 +689,7 @@ module SonicPi
         :cutoff => 100,
         :cutoff_slide => 0,
         :mod_rate => 1,
-        :mod_rate__slide => 0,
+        :mod_rate_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
