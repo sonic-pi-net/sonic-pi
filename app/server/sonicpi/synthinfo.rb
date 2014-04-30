@@ -1624,6 +1624,44 @@ end
       @@all_samples
     end
 
+    def self.info_doc_html_map(klass)
+      key_mod = nil
+      res = {}
+      get_all.each do |k, v|
+        next unless v.is_a? klass
+        doc = ""
+        doc << "<h2> " << v.name << "</h2>"
+        doc << "<h2><pre>use_synth"
+        mk = key_mod ? key_mod.call(k) : k
+        doc << " :#{mk}</pre></h2>"
+
+        doc << "<h4><pre>{"
+        arglist = []
+        v.arg_info.each do |ak, av|
+          arglist << "#{ak}: #{av[:default]}"
+        end
+        doc << arglist.join(", ")
+        doc << "}</pre></h4>"
+
+        doc << "<h3>"
+        doc << "  " << v.doc << "</h3>"
+
+        doc << "<h3>Argument Documentation:</h3>"
+        doc << "<ul>"
+
+        v.arg_info.each do |ak, av|
+          doc << "  <li> #{ak}:<ul>"
+          doc << "    <li> doc: #{av[:doc] || 'write me'}</li>"
+          doc << "    <li> default: #{av[:default]}</li>"
+          doc << "    <li> constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}</li>"
+          doc << "    <li>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</li></ul>"
+        end
+        doc << "</li></ul>"
+        res[v.name] = doc
+      end
+      res
+    end
+
     def self.info_doc_markdown(name, klass, key_mod=nil)
       res = "# #{name}\n\n"
 
@@ -1655,6 +1693,9 @@ end
       res
     end
 
+    def self.synth_doc_html_map
+      info_doc_html_map(SynthInfo)
+    end
 
     def self.synth_doc_markdown
       info_doc_markdown("Synths", SynthInfo)

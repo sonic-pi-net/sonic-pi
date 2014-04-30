@@ -42,7 +42,7 @@ make_tab = lambda do |name, doc_items|
   docs << "#{layout}->setStretch(1, 1);\n"
   docs << "QWidget *#{tab_widget} = new QWidget;\n"
   docs << "#{tab_widget}->setLayout(#{layout});\n"
-  docs << "docsCentral->addTab(#{tab_widget}, \"Language\");\n"
+  docs << "docsCentral->addTab(#{tab_widget}, \"#{name.capitalize}\");\n"
   docs << "\n"
 
   doc_items.each do |n, doc|
@@ -59,7 +59,7 @@ make_tab = lambda do |name, doc_items|
 end
 
 make_tab.call("lang", {:foo => "this is foo", :bar => "this is bar"})
-make_tab.call("synths", {:synth_a => "this is synth a", :synth_b => "this is synth_b"})
+make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map)
 
 # update mainwindow.cpp
 cpp = "#{qt_gui_path}/mainwindow.cpp"
