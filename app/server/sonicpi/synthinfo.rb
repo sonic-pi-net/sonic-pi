@@ -1631,10 +1631,13 @@ end
         next unless v.is_a? klass
         doc = ""
         doc << "<h2> " << v.name << "</h2>"
-        doc << "<h2><pre>use_synth"
-        mk = key_mod ? key_mod.call(k) : k
-        doc << " :#{mk}</pre></h2>"
-
+        if klass == SynthInfo
+          doc << "<h2><pre>use_synth"
+          doc << " :#{k}</pre></h2>"
+        else
+          doc << "<h2><pre>with_fx"
+          doc << " :#{k.to_s[11..-1]}</pre></h2>"
+        end
         doc << "<h4><pre>{"
         arglist = []
         v.arg_info.each do |ak, av|
@@ -1646,14 +1649,14 @@ end
         doc << "<h3>"
         doc << "  " << v.doc << "</h3>"
 
-        doc << "<h3>Argument Documentation:</h3>"
+        doc << "<h3>Arguments</h3>"
         doc << "<ul>"
 
         v.arg_info.each do |ak, av|
-          doc << "  <li> #{ak}:<ul>"
-          doc << "    <li> doc: #{av[:doc] || 'write me'}</li>"
-          doc << "    <li> default: #{av[:default]}</li>"
-          doc << "    <li> constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}</li>"
+          doc << "  <li><h4><pre> #{ak}:</pre></h4><ul>"
+          doc << "    <li> #{av[:doc] || 'write me'}</li>"
+          doc << "    <li> Default: #{av[:default]}</li>"
+          doc << "    <li> #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}</li>"
           doc << "    <li>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</li></ul>"
         end
         doc << "</li></ul>"
@@ -1697,12 +1700,27 @@ end
       info_doc_html_map(SynthInfo)
     end
 
+    def self.fx_doc_html_map
+      info_doc_html_map(FXInfo)
+    end
+
     def self.synth_doc_markdown
       info_doc_markdown("Synths", SynthInfo)
     end
 
     def self.fx_doc_markdown
       info_doc_markdown("FX", FXInfo, lambda{|k| k.to_s[3..-1]})
+    end
+
+    def self.samples_doc_html_map
+      res = {}
+      grouped_samples.each do |k, v|
+        html = "<h2>#{v[:desc]}</h2><h2><pre>:#{v[:prefix]}</pre></h2><ul>"
+        v[:samples].each {|s| html << "<li><pre>:#{s}</pre></li>"}
+        html << "</ul>"
+        res[v[:desc]] = html
+      end
+      res
     end
 
     def self.samples_doc_markdown

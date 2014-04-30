@@ -60,6 +60,8 @@ end
 
 make_tab.call("lang", {:foo => "this is foo", :bar => "this is bar"})
 make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map)
+make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map)
+make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
 
 # update mainwindow.cpp
 cpp = "#{qt_gui_path}/mainwindow.cpp"
