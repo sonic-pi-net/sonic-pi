@@ -10,6 +10,8 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require_relative "node"
+
 module SonicPi
   class BlankNode < Node
 
