@@ -1244,7 +1244,7 @@ langTabWidget->setLayout(langLayout);
 docsCentral->addTab(langTabWidget, "Lang");
 
 QListWidgetItem *lang_item_50 = new QListWidgetItem("define");
-lang_item_50->setData(32, QVariant("<h2><pre>define<pre></h2><h2><pre>[name (symbol)]</pre></h2><h3>Define a function</h3>"));
+lang_item_50->setData(32, QVariant("<h2>Define a new function</h2><h2><pre>define<pre></h2><h2><pre>[name (symbol)]</pre></h2><h3>Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.</h3><h3>Example 1</h3><pre><br/># Define a new function called foo<br/>define :foo do<br/>  play 50<br/>  sleep 1<br/>end<br/><br/># Call foo on its own<br/>foo<br/><br/># You can use foo anywhere you would use normal code.<br/># For example, in a block:<br/>3.times do<br/>  foo<br/>end</pre>"));
 langNameList->addItem(lang_item_50);
 
 QListWidgetItem *lang_item_51 = new QListWidgetItem("print");

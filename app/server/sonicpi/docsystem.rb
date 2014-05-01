@@ -30,6 +30,7 @@ module SonicPi
           @@docs.each do |k, v|
             unless(v[:hide])
               html = ""
+              html << "<h2>#{v[:summary]}</h2>" if v[:summary]
               html << "<h2><pre>#{v[:name]}<pre></h2>"
               req_args = []
               v[:args].each do |arg|
@@ -38,6 +39,10 @@ module SonicPi
               end
               html << "<h2><pre>[#{req_args.join(', ')}]</pre></h2>"
               html << "<h3>#{v[:doc]}</h3>"
+              v[:examples].each_with_index do |e, idx|
+                html << "<h3>Example #{idx + 1}</h3>"
+                html << "<pre>#{e.split("\n").join('<br/>')}</pre>"
+              end
               res[k.to_s] = html
             end
           end

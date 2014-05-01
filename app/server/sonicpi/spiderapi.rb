@@ -18,11 +18,26 @@ module SonicPi
     include SonicPi::DocSystem
 
     doc name:           :define,
-        doc:            "Define a function",
+        summary:        "Define a new function",
+        doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
         args:           [[:name, :symbol]],
         opts:          nil,
         accepts_block: true,
-        examples:       []
+        examples:       ["
+# Define a new function called foo
+define :foo do
+  play 50
+  sleep 1
+end
+
+# Call foo on its own
+foo
+
+# You can use foo anywhere you would use normal code.
+# For example, in a block:
+3.times do
+  foo
+end",]
     def define(name, &block)
       raise "define must be called with a code block" unless block
       @user_methods.send(:define_method, name, &block)
