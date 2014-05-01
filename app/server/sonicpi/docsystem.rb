@@ -11,6 +11,8 @@
 # notice is included.
 #++
 
+require 'cgi'
+
 module SonicPi
   module DocSystem
 
@@ -41,7 +43,8 @@ module SonicPi
               html << "<h3>#{v[:doc]}</h3>"
               v[:examples].each_with_index do |e, idx|
                 html << "<h3>Example #{idx + 1}</h3>"
-                html << "<pre>#{e.split("\n").join('<br/>')}</pre>"
+                lines = e.split("\n").map{|l| CGI.escapeHTML(l)}
+                html << "<pre>#{lines.join('<br/>')}</pre>"
               end
               res[k.to_s] = html
             end
