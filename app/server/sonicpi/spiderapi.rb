@@ -19,10 +19,10 @@ module SonicPi
 
     doc name:           :define,
         summary:        "Define a new function",
-        doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
         args:           [[:name, :symbol]],
         opts:          nil,
         accepts_block: true,
+        doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
         examples:       ["
 # Define a new function called foo
 define :foo do
@@ -55,11 +55,17 @@ end",]
     end
 
     doc name:          :print,
-        doc:           "",
+        summary:       "Display a message in the output pane",
         args:          [[:output, :string]],
         opts:          nil,
         accepts_block: false,
-        examples:      []
+        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging.",
+        examples:      [
+"print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
+"print 5               #=> will print the number 5 to the output pane",
+"print foo             #=> will print the contents of foo to the output pane"]
+
+
     def print(output)
       __message output
     end

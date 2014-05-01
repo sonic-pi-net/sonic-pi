@@ -1248,7 +1248,7 @@ lang_item_50->setData(32, QVariant("<h2>Define a new function</h2><h2><pre>defin
 langNameList->addItem(lang_item_50);
 
 QListWidgetItem *lang_item_51 = new QListWidgetItem("print");
-lang_item_51->setData(32, QVariant("<h2><pre>print<pre></h2><h2><pre>[output (string)]</pre></h2><h3></h3>"));
+lang_item_51->setData(32, QVariant("<h2>Display a message in the output pane</h2><h2><pre>print<pre></h2><h2><pre>[output (string)]</pre></h2><h3>Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging.</h3><h3>Example 1</h3><pre>print &quot;hello there&quot;   #=&gt; will print the string &quot;hello there&quot; to the output pane</pre><h3>Example 2</h3><pre>print 5               #=&gt; will print the number 5 to the output pane</pre><h3>Example 3</h3><pre>print foo             #=&gt; will print the contents of foo to the output pane</pre>"));
 langNameList->addItem(lang_item_51);
 
 QListWidgetItem *lang_item_52 = new QListWidgetItem("puts");
