@@ -202,28 +202,39 @@ module SonicPi
       ts
     end
 
-    def node_ctl(node, args)
+    def node_ctl(node, args, now=false)
       message "controlling node: #{node} with args: #{args}"
       args = args.to_a.flatten if args.is_a? Hash
 
       normalised_args = []
+
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
-
-      ts = sched_ahead_time_for_node(node)
-      osc_bundle ts, "/n_set", node.to_f, *normalised_args
+      if now
+        osc "/n_set", node.to_f, *normalised_args
+      else
+        ts = sched_ahead_time_for_node(node)
+        osc_bundle ts, "/n_set", node.to_f, *normalised_args
+      end
     end
 
-    def node_pause(node)
+    def node_pause(node, now=false)
       message "pausing node: #{node}"
-      ts = sched_ahead_time_for_node(node)
-      osc_bundle ts, "/n_run", node.to_i, 0
+      if now
+        osc "/n_run", node.to_i, 0
+      else
+        ts = sched_ahead_time_for_node(node)
+        osc_bundle ts, "/n_run", node.to_i, 0
+      end
     end
 
-    def node_run(node)
-      puts "node run #{node}"
+    def node_run(node, now=false)
       message "running node: #{node}"
-      ts = sched_ahead_time_for_node(node)
-      osc_bundle ts, "/n_run", node.to_i, 1
+      if now
+        osc "/n_run", node.to_i, 1
+      else
+        ts = sched_ahead_time_for_node(node)
+        osc_bundle ts, "/n_run", node.to_i, 1
+      end
     end
 
     def buffer_alloc_read(path, start=0, n_frames=0)
