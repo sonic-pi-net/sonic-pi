@@ -19,7 +19,7 @@ module SonicPi
 
     def os
       case RUBY_PLATFORM
-      when /.*armv6l-linux.*/
+      when /.*arm.*-linux.*/
         :raspberry
       when /.*linux.*/
         :linux
