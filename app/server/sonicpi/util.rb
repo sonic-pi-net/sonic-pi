@@ -32,6 +32,14 @@ module SonicPi
       end
     end
 
+    def default_sched_ahead_time
+      if (os == :raspberry)
+        0.6
+      else
+        0.1
+      end
+    end
+
     def home_dir
       File.expand_path(Dir.home + '/.sonic-pi/')
     end
