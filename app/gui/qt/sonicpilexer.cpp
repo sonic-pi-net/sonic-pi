@@ -16,6 +16,14 @@
 #include <qfont.h>
 
 
+#if defined(Q_OS_WIN)
+static char default_font[] = "Courier New";
+#elif defined(Q_OS_MAC)
+static char default_font[] = "Menlo";
+#else
+static char default_font[] = "Bitstream Vera Sans Mono";
+#endif
+
 // Returns the foreground colour of the text for a style.
 QColor QsciLexerRuby::defaultColor(int style) const
 {
@@ -139,14 +147,8 @@ QFont QsciLexerRuby::defaultFont(int style) const
     switch (style)
     {
     case Comment:
-#if defined(Q_OS_WIN)
-      f = QFont("Courier New",10, -1, true);
-#elif defined(Q_OS_MAC)
-        f = QFont("Menlo", 10, -1, true);
-#else
-        f = QFont("Bitstream Vera Sans Mono",10, -1, true);
-#endif
-        break;
+      f = QFont(default_font, 10, -1, true);
+	  break;
 
     case POD:
     case DoubleQuotedString:
@@ -160,13 +162,7 @@ QFont QsciLexerRuby::defaultFont(int style) const
     case ModuleName:
     case DemotedKeyword:
     default:
-#if defined(Q_OS_WIN)
-        f = QFont("Courier New",10);
-#elif defined(Q_OS_MAC)
-        f = QFont("Menlo", 10);
-#else
-        f = QFont("Bitstream Vera Sans Mono",10);
-#endif
+        f = QFont(default_font, 10);		
     }
 
     return f;
