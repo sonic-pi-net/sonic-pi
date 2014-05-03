@@ -30,13 +30,11 @@ module SonicPi
     attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time
 
     def initialize(hostname, port, msg_queue)
-      @sched_ahead_time = 0.1
       @OSC_SEM = Mutex.new
       @HOSTNAME = hostname
-
+      @sched_ahead_time = default_sched_ahead_time
       @MSG_QUEUE = msg_queue
       @control_delta = 0.005
-
 
       @PORT = port
       @CLIENT = OSC::Server.new(4800)
