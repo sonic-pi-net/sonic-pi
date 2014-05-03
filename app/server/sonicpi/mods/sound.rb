@@ -68,7 +68,7 @@ module SonicPi
                end
                Thread.new do
                  Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_completed)
-                 Thread.current.priority = -1
+                 Thread.current.priority = -10
                  shutdown_job_mixer(job_id)
                  kill_job_group(job_id)
                  kill_fx_job_group(job_id)
@@ -445,7 +445,7 @@ module SonicPi
 
            gc = Thread.new do
              Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc)
-             Thread.current.priority = -1
+             Thread.current.priority = -10
              ## Need to block until either the thread died (which will be
              ## if the job was stopped whilst this fx block was being
              ## executed or if the fx block has completed.
@@ -453,7 +453,7 @@ module SonicPi
 
              t1 = Thread.new do
                Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_parent_join)
-               Thread.current.priority = -1
+               Thread.current.priority = -10
                fxt.join
                ## Parent thread died - user must have stopped
                fx_completed.deliver! true
@@ -461,7 +461,7 @@ module SonicPi
 
              t2 = Thread.new do
                Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_fx_block_join)
-               Thread.current.priority = -1
+               Thread.current.priority = -10
                p.get
                ## FX block completed
                fx_completed.deliver! true
@@ -488,7 +488,7 @@ module SonicPi
 
              Thread.new do
                Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
-               Thread.current.priority = -1
+               Thread.current.priority = -10
                new_subthreads.each do |st|
                  join_thread_and_subthreads(st)
                end

@@ -57,7 +57,7 @@ module SonicPi
 
       @SERVER_THREAD = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :server_thread)
-        Thread.current.priority = -1
+        Thread.current.priority = -10
         log "starting server thread"
         @CLIENT.run
       end

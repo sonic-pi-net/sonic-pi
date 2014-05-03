@@ -156,7 +156,7 @@ end",]
 
       new_t = last + sleep_time
       if now > new_t
-        Thread.current.priority = 2
+        Thread.current.priority = 20
         __message "Can't keep up..."
       else
         Kernel.sleep new_t - now
@@ -224,6 +224,7 @@ end",]
 
       # Create the new thread
       t = Thread.new do
+        Thread.current.priority = 10
 
         Thread.new do
           Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
