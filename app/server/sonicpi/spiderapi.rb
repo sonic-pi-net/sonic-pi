@@ -228,7 +228,7 @@ end",]
 
         Thread.new do
           Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
-          Thread.current.priority = -1
+          Thread.current.priority = -10
           # wait for all subthreads to finish before removing self from
           # the subthread tree
           t.join
