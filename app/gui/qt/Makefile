@@ -195,12 +195,7 @@ compiler_rcc_make_all: qrc_application.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_application.cpp
 qrc_application.cpp: application.qrc \
-		images/new.png \
-		images/copy.png \
-		images/cut.png \
-		images/save.png \
-		images/paste.png \
-		images/open.png
+		images/save.png
 	/usr/bin/rcc -name application application.qrc -o qrc_application.cpp
 
 compiler_image_collection_make_all: qmake_image_collection.cpp
