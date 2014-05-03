@@ -56,6 +56,8 @@ module SonicPi
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
 
       @SERVER_THREAD = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :server_thread)
+        Thread.current.priority = -1
         log "starting server thread"
         @CLIENT.run
       end
