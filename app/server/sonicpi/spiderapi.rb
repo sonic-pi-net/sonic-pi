@@ -43,44 +43,52 @@ end",]
       @user_methods.send(:define_method, name, &block)
     end
 
+
     doc name:           :on_keypress,
-        doc:            "",
+        summary:        "",
         args:           [],
         opts:           nil,
         accepts_block:  true,
+        doc:            "",
         examples:       [],
         hide:           true
     def on_keypress(&block)
       @keypress_handlers[:foo] = block
     end
 
+
     doc name:          :print,
         summary:       "Display a message in the output pane",
         args:          [[:output, :string]],
         opts:          nil,
         accepts_block: false,
-        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging.",
+        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for puts.",
         examples:      [
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
 "print foo             #=> will print the contents of foo to the output pane"]
-
-
     def print(output)
       __message output
     end
 
+
     doc name:           :puts,
-        doc:            "",
+        summary:       "Display a message in the output pane",
         args:           [[:output, :string]],
         opts:           nil,
         accepts_block:  false,
-        examples:       []
+        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for print.",
+        examples:      [
+"print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
+"print 5               #=> will print the number 5 to the output pane",
+"print foo             #=> will print the contents of foo to the output pane"]
     def puts(output)
       __message output
     end
 
+
     doc name:           :rrand,
+        summary:        "",
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block:  false,
