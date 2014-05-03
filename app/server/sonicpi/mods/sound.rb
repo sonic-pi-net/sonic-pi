@@ -583,7 +583,7 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
        end
 
-       doc name:          :use_sample_pack,
+       doc name:          :with_sample_pack,
            doc:           "add docs",
            args:          [[:pack_path, :string]],
            opts:          nil,
