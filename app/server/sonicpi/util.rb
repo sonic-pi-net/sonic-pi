@@ -16,6 +16,7 @@ require 'fileutils'
 module SonicPi
   module Util
     @@project_path = nil
+    @@log_path = nil
 
     def os
       case RUBY_PLATFORM
@@ -53,6 +54,14 @@ module SonicPi
       path
     end
 
+    def log_path
+      return @@log_path if @@log_path
+      path = home_dir + '/log/'
+      ensure_dir(path)
+      @@log_path = path
+      path
+    end
+
     def ensure_dir(d)
       FileUtils.mkdir_p d
     end
@@ -71,10 +80,6 @@ module SonicPi
 
     def cheatsheets_path
       File.absolute_path("#{doc_path}/cheatsheets")
-    end
-
-    def log_path
-      File.absolute_path("#{root_path}/log")
     end
 
     def tmp_path
@@ -106,7 +111,7 @@ module SonicPi
     end
 
     def log(message)
-      File.open("#{log_path}/sonicpi.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")}
+      File.open("#{log_path}/sonicpi.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")} if debug_mode
     end
 
     def debug_mode
