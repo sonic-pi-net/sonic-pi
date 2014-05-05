@@ -2,6 +2,6 @@
 
 set -eu
 
-cd $(dirname $0)/../app/gui/qt
+cd $(dirname $0)
 qmake -o Makefile application.pro
 make

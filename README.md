@@ -60,7 +60,7 @@ security features have been added.
 
 To build and run:
 
-* Run `bin/boostrap-qt' from the top level of the repository
+* Run `app/gui/qt/boostrap-qt'
 * Start the GUI: `app/gui/qt/application'
 
 ## Acknowledgements
