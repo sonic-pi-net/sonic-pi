@@ -56,6 +56,13 @@ security features have been added.
 * Start the server: `cd app/scripts`, `ruby ws.rb`
 * Open a browser and go to `http://localhost:8000`
 
+### Native (QT) interface
+
+To build and run:
+
+* Run `bin/boostrap-qt' from the top level of the repository
+* Start the GUI: `app/gui/qt/application'
+
 ## Acknowledgements
 
 Sonic Pi has been developed within the Computer Laboratory at the University of Cambridge in collaboration with the Raspberry Pi Foundation.
