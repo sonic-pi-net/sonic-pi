@@ -437,7 +437,7 @@ module SonicPi
         :mod_rate => 1,
         :mod_rate_slide => 0,
         :mod_range => 5,
-        :mod_range__slide => 0,
+        :mod_range_slide => 0,
         :mod_width => 0.5,
         :mod_width_slide => 0
       }
@@ -689,7 +689,7 @@ module SonicPi
         :cutoff => 100,
         :cutoff_slide => 0,
         :mod_rate => 1,
-        :mod_rate__slide => 0,
+        :mod_rate_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
@@ -903,21 +903,8 @@ module SonicPi
     end
 
     def doc
-      "Dark and swirly, this synth uses Pulse Width Modulation
-      (PWM) to create a timbre which continually moves around. This
-      effect is created using the pulse ugen which produces a variable
-      width square wave. We then control the width of the pulses using a
-      variety of LFOs - sin-osc and lf-tri in this case. We use a number
-      of these LFO modulated pulse ugens with varying LFO type and rate
-      (and phase in some cases to provide the LFO with a different
-      starting point. We then mix all these pulses together to create a
-      thick sound and then feed it through a resonant low pass filter
-      (rlpf).
-
-      For extra bass, one of the pulses is an octave lower (half the
-      frequency) and its LFO has a little bit of randomisation thrown
-      into its frequency component for that extra bit of variety."
-    end
+      "Dark and swirly, this synth uses Pulse Width Modulation (PWM) to create a timbre which continually moves around. This effect is created using the pulse ugen which produces a variable width square wave. We then control the width of the pulses using a variety of LFOs - sin-osc and lf-tri in this case. We use a number of these LFO modulated pulse ugens with varying LFO type and rate (and phase in some cases to provide the LFO with a different starting point. We then mix all these pulses together to create a thick sound and then feed it through a resonant low pass filter (rlpf). For extra bass, one of the pulses is an octave lower (half the frequency) and its LFO has a little bit of randomisation thrown into its frequency component for that extra bit of variety."
+end
 
     def arg_defaults
       {
@@ -1637,6 +1624,47 @@ module SonicPi
       @@all_samples
     end
 
+    def self.info_doc_html_map(klass)
+      key_mod = nil
+      res = {}
+      get_all.each do |k, v|
+        next unless v.is_a? klass
+        doc = ""
+        doc << "<h2> " << v.name << "</h2>"
+        if klass == SynthInfo
+          doc << "<h2><pre>use_synth"
+          doc << " :#{k}</pre></h2>"
+        else
+          doc << "<h2><pre>with_fx"
+          doc << " :#{k.to_s[11..-1]}</pre></h2>"
+        end
+        doc << "<h4><pre>{"
+        arglist = []
+        v.arg_info.each do |ak, av|
+          arglist << "#{ak}: #{av[:default]}"
+        end
+        doc << arglist.join(", ")
+        doc << "}</pre></h4>"
+
+        doc << "<h3>"
+        doc << "  " << v.doc << "</h3>"
+
+        doc << "<h3>Arguments</h3>"
+        doc << "<ul>"
+
+        v.arg_info.each do |ak, av|
+          doc << "  <li><h4><pre> #{ak}:</pre></h4><ul>"
+          doc << "    <li> #{av[:doc] || 'write me'}</li>"
+          doc << "    <li> Default: #{av[:default]}</li>"
+          doc << "    <li> #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}</li>"
+          doc << "    <li>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</li></ul>"
+        end
+        doc << "</li></ul>"
+        res[v.name] = doc
+      end
+      res
+    end
+
     def self.info_doc_markdown(name, klass, key_mod=nil)
       res = "# #{name}\n\n"
 
@@ -1668,6 +1696,13 @@ module SonicPi
       res
     end
 
+    def self.synth_doc_html_map
+      info_doc_html_map(SynthInfo)
+    end
+
+    def self.fx_doc_html_map
+      info_doc_html_map(FXInfo)
+    end
 
     def self.synth_doc_markdown
       info_doc_markdown("Synths", SynthInfo)
@@ -1675,6 +1710,17 @@ module SonicPi
 
     def self.fx_doc_markdown
       info_doc_markdown("FX", FXInfo, lambda{|k| k.to_s[3..-1]})
+    end
+
+    def self.samples_doc_html_map
+      res = {}
+      grouped_samples.each do |k, v|
+        html = "<h2>#{v[:desc]}</h2><h2><pre>:#{v[:prefix]}</pre></h2><ul>"
+        v[:samples].each {|s| html << "<li><pre>:#{s}</pre></li>"}
+        html << "</ul>"
+        res[v[:desc]] = html
+      end
+      res
     end
 
     def self.samples_doc_markdown

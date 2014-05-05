@@ -23,12 +23,14 @@ require_relative "../scale"
 require_relative "../chord"
 require_relative "../chordgroup"
 require_relative "../synthtracker"
+require_relative "../docsystem"
 
 module SonicPi
    module Mods
      module Sound
 
        include SonicPi::Util
+       include SonicPi::DocSystem
 
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
@@ -66,7 +68,7 @@ module SonicPi
                end
                Thread.new do
                  Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_completed)
-                 Thread.current.priority = -1
+                 Thread.current.priority = -10
                  shutdown_job_mixer(job_id)
                  kill_job_group(job_id)
                  kill_fx_job_group(job_id)
@@ -81,15 +83,33 @@ module SonicPi
          end
        end
 
+       doc name:          :set_sched_ahead_time!,
+           doc:           "add docs",
+           args:          [[:time, :number]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def set_sched_ahead_time!(t)
          @mod_sound_studio.sched_ahead_time = t
        end
 
+       doc name:          :use_debug,
+           doc:           "add docs",
+           args:          [[:true_or_false, :boolean]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def use_debug(v, &block)
          raise "use_debug does not work with a do/end block. Perhaps you meant with_debug" if block
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, !v)
        end
 
+       doc name:          :with_debug,
+           doc:           "add docs",
+           args:          [[:true_or_false, :boolean]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      []
        def with_debug(v, &block)
          raise "with_debug requires a do/end block. Perhaps you meant use_debug" unless block
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
@@ -98,12 +118,24 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, current)
        end
 
+       doc name:          :use_arg_checks,
+           doc:           "add docs",
+           args:          [[:true_or_false, :boolean]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def use_arg_checks(v, &block)
          raise "use_arg_checks does not work with a a do/end block. Perhaps you meant use_arg_checks" if block
 
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, v)
        end
 
+       doc name:          :with_arg_checks,
+           doc:           "add docs",
+           args:          [[:true_or_false, :boolean]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      []
        def with_arg_checks(v, &block)
          raise "with_arg_checks requires a do/end block. Perhaps you meant use_arg_checks" unless block
 
@@ -113,12 +145,24 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, current)
        end
 
+       doc name:          :use_transpose,
+           doc:           "add docs",
+           args:          [[:note_shift, :number]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def use_transpose(shift, &block)
          raise "use_transpose does not work with a do/end block. Perhaps you meant with_transpose" if block
          raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Fixnum)
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, shift)
        end
 
+       doc name:          :with_transpose,
+           doc:           "add docs",
+           args:          [[:note_shift, :number]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      []
        def with_transpose(shift, &block)
          raise "with_transpose requires a do/end block. Perhaps you meant use_transpose" unless block
          raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Fixnum)
@@ -128,11 +172,23 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, curr)
        end
 
+       doc name:          :use_synth,
+           doc:           "add docs",
+           args:          [[:synth_name, :symbol]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def use_synth(synth_name, &block)
          raise "use_synth does not work with a do/end block. Perhaps you meant with_synth" if block
          @mod_sound_studio.current_synth_name = synth_name
        end
 
+       doc name:          :with_synth,
+           doc:           "add docs",
+           args:          [[:synth_name, :symbol]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      []
        def with_synth(synth_name, &block)
          raise "with_synth must be called with a do/end block. Perhaps you meant use_synth" unless block
          orig_synth = @mod_sound_studio.current_synth_name
@@ -141,6 +197,12 @@ module SonicPi
          @mod_sound_studio.current_synth_name = orig_synth
        end
 
+       doc name:          :recording_start,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def recording_start
          puts "start recording"
          tmp_dir = Dir.mktmpdir("sonic-pi")
@@ -149,11 +211,23 @@ module SonicPi
          @mod_sound_studio.recording_start @tmp_path
        end
 
+       doc name:          :recording_stop,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def recording_stop
          puts "stop recording"
          @mod_sound_studio.recording_stop
        end
 
+       doc name:          :recording_save,
+           doc:           "add docs",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def recording_save(filename)
          puts "save recording #{filename}"
          Kernel.sleep 3
@@ -161,11 +235,24 @@ module SonicPi
          @tmp_path = nil
        end
 
+       doc name:          :recording_delete,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def recording_delete
          puts "delete recording"
          FileUtils.rm @tmp_path if @tmp_path
        end
 
+
+       doc name:          :play,
+           doc:           "add docs",
+           args:          [[:note, :symbol_or_number]],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
        def play(n, *args)
          return play_chord(n, *args) if n.is_a?(Array)
 
@@ -179,14 +266,32 @@ module SonicPi
          end
        end
 
+       doc name:          :play_pattern,
+           doc:           "add docs",
+           args:          [[:notes, :list]],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
        def play_pattern(notes, *args)
          notes.each{|note| play(note, *args) ; sleep 1 }
        end
 
+       doc name:          :play_pattern_timed,
+           doc:           "add docs",
+           args:          [[:notes, :list], [:times, :list]],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
        def play_pattern_timed(notes, times, *args)
          notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx % times.size])}
        end
 
+       doc name:          :play_chord,
+           doc:           "add docs",
+           args:          [[:notes, :list]],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
        def play_chord(notes, *args)
          shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
          shifted_notes = notes.map{|n| n + shift}
@@ -194,12 +299,24 @@ module SonicPi
          trigger_chord(synth_name, shifted_notes, args)
        end
 
+       doc name:          :repeat,
+           doc:           "add docs",
+           args:          [[:notes, :list]],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
        def repeat(&block)
          while true
            block.call
          end
        end
 
+       doc name:          :use_merged_synth_defaults,
+           doc:           "add docs",
+           args:          [],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
        def use_merged_synth_defaults(*args, &block)
          raise "use_merged_synth_defaults does not work with a block. Perhaps you meant with_merged_synth_defaults" if block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
@@ -212,6 +329,12 @@ module SonicPi
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, merged_fns
        end
 
+       doc name:          :with_merged_synth_defaults,
+           doc:           "add docs",
+           args:          [],
+           opts:          {},
+           accepts_block: true,
+           examples:      []
        def with_merged_synth_defaults(*args, &block)
          raise "with_merged_synth_defaults must be called with a block" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
@@ -227,6 +350,12 @@ module SonicPi
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults_fns, current_fns
        end
 
+       doc name:          :use_synth_defaults,
+           doc:           "add docs",
+           args:          [],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
        def use_synth_defaults(*args, &block)
          raise "use_synth_defaults does not work with a block. Perhaps you meant with_synth_defaults" if block
          args_h = resolve_synth_opts_hash_or_array(args)
@@ -235,6 +364,12 @@ module SonicPi
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, defaults_h
        end
 
+       doc name:          :with_synth_defaults,
+           doc:           "add docs",
+           args:          [],
+           opts:          {},
+           accepts_block: true,
+           examples:      []
        def with_synth_defaults(*args, &block)
          raise "with_synth_defaults must be called with a block" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
@@ -248,6 +383,12 @@ module SonicPi
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, current_fns
        end
 
+       doc name:          :with_fx,
+           doc:           "add docs",
+           args:          [[:fx_name, :symbol]],
+           opts:          {},
+           accepts_block: true,
+           examples:      []
        def with_fx(fx_name, *args, &block)
          raise "with_fx must be called with a block" unless block
          raise "with_fx block must only accept 0 or 1 args" unless [0, 1].include?(block.arity)
@@ -304,7 +445,7 @@ module SonicPi
 
            gc = Thread.new do
              Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc)
-             Thread.current.priority = -1
+             Thread.current.priority = -10
              ## Need to block until either the thread died (which will be
              ## if the job was stopped whilst this fx block was being
              ## executed or if the fx block has completed.
@@ -312,7 +453,7 @@ module SonicPi
 
              t1 = Thread.new do
                Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_parent_join)
-               Thread.current.priority = -1
+               Thread.current.priority = -10
                fxt.join
                ## Parent thread died - user must have stopped
                fx_completed.deliver! true
@@ -320,7 +461,7 @@ module SonicPi
 
              t2 = Thread.new do
                Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_fx_block_join)
-               Thread.current.priority = -1
+               Thread.current.priority = -10
                p.get
                ## FX block completed
                fx_completed.deliver! true
@@ -347,7 +488,7 @@ module SonicPi
 
              Thread.new do
                Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
-               Thread.current.priority = -1
+               Thread.current.priority = -10
                new_subthreads.each do |st|
                  join_thread_and_subthreads(st)
                end
@@ -430,12 +571,24 @@ module SonicPi
        end
 
 
+       doc name:          :use_sample_pack,
+           doc:           "add docs",
+           args:          [[:pack_path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def use_sample_pack(pack, &block)
          raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
          pack = samples_path if pack == :default
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
        end
 
+       doc name:          :with_sample_pack,
+           doc:           "add docs",
+           args:          [[:pack_path, :string]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      []
        def with_sample_pack(pack, &block)
          raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
          pack = samples_path if pack == :default
@@ -445,18 +598,44 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
        end
 
+       doc name:          :current_bpm,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def current_bpm
          60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
        end
 
+       doc name:          :set_debug_on!,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      [],
+           hide:          true
        def set_debug_on!
          @mod_sound_studio.debug = true
        end
 
+       doc name:          :set_debug_off!,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      [],
+           hide:          true
        def set_debug_off!
          @mod_sound_studio.debug = false
        end
 
+       doc name:          :set_volume!,
+           doc:           "add docs",
+           args:          [[:vol, :number]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def set_volume!(vol)
          max_vol = 5
          if (vol < 0)
@@ -467,6 +646,7 @@ module SonicPi
            @mod_sound_studio.volume = vol
          end
        end
+
 
        def resolve_sample_symbol_path(sym)
          path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || samples_path
@@ -479,6 +659,12 @@ module SonicPi
          raise "No sample exists called #{path.inspect} in sample pack #{path}"
        end
 
+       doc name:          :load_sample,
+           doc:           "add docs",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def load_sample(path)
          case path
          when Symbol
@@ -500,6 +686,12 @@ module SonicPi
          end
        end
 
+       doc name:          :load_samples,
+           doc:           "add docs",
+           args:          [[:paths, :list]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def load_samples(*paths)
          paths.each do |p|
            if p.kind_of?(Array)
@@ -510,56 +702,134 @@ module SonicPi
          end
        end
 
+       doc name:          :sample_info,
+           doc:           "add docs",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def sample_info(path)
          load_sample(path)
        end
 
+       doc name:          :sample_duration,
+           doc:           "add docs",
+           args:          [[:path, :string]],
+           opts:          {:rate => 1},
+           accepts_block: false,
+           examples:      []
        def sample_duration(path, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
          args_h = {:rate => 1}.merge(args_h)
          load_sample(path).duration * 1.0/args_h[:rate]
        end
 
+
+       doc name:          :sample,
+           doc:           "add docs",
+           args:          [[:name_or_path, :symbol_or_string]],
+           opts:          {:rate => 1},
+           accepts_block: false,
+           examples:      []
        def sample(path, *args_a_or_h)
          buf_info = load_sample(path)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
 
+       doc name:          :status,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def status
          @mod_sound_studio.status
        end
 
-       def note(n, o=nil)
-         Note.resolve_midi_note(n, o)
+       doc name:          :note,
+           doc:           "add docs",
+           args:          [[:note, :symbol_or_number]],
+           opts:          {:octave => 4},
+           accepts_block: false,
+           examples:      []
+       def note(n, *args)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         octave = args_h[:octave]
+         Note.resolve_midi_note(n, octave)
        end
 
-       def note_info(n, o=nil)
-         Note.new(n, o)
+       doc name:          :note_info,
+           doc:           "add docs - :octave opt is overridden if oct specified in symbol i.e. :c3",
+           args:          [[:note, :symbol_or_number]],
+           opts:          {:octave => 4},
+           accepts_block: false,
+           examples:      []
+       def note_info(n, *args)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         octave = args_h[:octave]
+         Note.new(n, octave)
        end
 
+       doc name:          :scale,
+           doc:           "add docs",
+           args:          [[:tonic, :symbol], [:name, :symbol]],
+           opts:          {:num_octaves => 1},
+           accepts_block: false,
+           examples:      []
        def scale(tonic, name, *opts)
          opts = resolve_synth_opts_hash_or_array(opts)
          opts = {:num_octaves => 1}.merge(opts)
          Scale.new(tonic, name,  opts[:num_octaves]).to_a
        end
 
+       doc name:          :chord,
+           doc:           "add docs",
+           args:          [[:tonic, :symbol], [:name, :symbol]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def chord(tonic, name)
          Chord.new(tonic, name).to_a
        end
 
+
+       doc name:          :control,
+           doc:           "add docs",
+           args:          [[:node, :synth_node]],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
        def control(node, *args)
          node.control *args
        end
 
-       def sample_names(group=nil)
-         if group
-           return BaseInfo.grouped_samples[group][:samples]
-         else
-           return BaseInfo.all_samples
-         end
+       doc name:          :sample_names,
+           doc:           "add docs",
+           args:          [[:group, :symbol]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
+       def sample_names(group)
+         BaseInfo.grouped_samples[group][:samples]
        end
 
+       doc name:          :all_sample_names,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
+       def all_sample_names
+         BaseInfo.all_samples
+       end
+
+       doc name:          :sample_groups,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def sample_groups
          BaseInfo.grouped_samples.keys
        end

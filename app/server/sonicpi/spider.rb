@@ -168,7 +168,7 @@ module SonicPi
       id = @job_counter.next
       job = Thread.new do
 
-        Thread.current.priority = 1
+        Thread.current.priority = 10
         begin
           reg_job(id, job)
           Thread.current.thread_variable_set(:sonic_pi_thread_group, :job)

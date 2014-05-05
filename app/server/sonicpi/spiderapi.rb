@@ -10,81 +10,85 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require_relative 'docsystem'
 
 module SonicPi
   module SpiderAPI
 
-    class << self
-      include SonicPi::Util
-
-      @@docs = {}
-
-      def doc(*info)
-        args_h = resolve_synth_opts_hash_or_array(info)
-        @@docs[args_h[:name]] = args_h
-      end
-    end
+    include SonicPi::DocSystem
 
     doc name:           :define,
-        doc:            "Define a function",
+        summary:        "Define a new function",
         args:           [[:name, :symbol]],
         opts:          nil,
         accepts_block: true,
-        examples:       []
+        doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
+        examples:       ["
+# Define a new function called foo
+define :foo do
+  play 50
+  sleep 1
+end
+
+# Call foo on its own
+foo
+
+# You can use foo anywhere you would use normal code.
+# For example, in a block:
+3.times do
+  foo
+end",]
     def define(name, &block)
       raise "define must be called with a code block" unless block
       @user_methods.send(:define_method, name, &block)
     end
 
+
     doc name:           :on_keypress,
-        doc:            "",
+        summary:        "",
         args:           [],
         opts:           nil,
         accepts_block:  true,
+        doc:            "",
         examples:       [],
         hide:           true
     def on_keypress(&block)
       @keypress_handlers[:foo] = block
     end
 
+
     doc name:          :print,
-        doc:           "",
+        summary:       "Display a message in the output pane",
         args:          [[:output, :string]],
         opts:          nil,
         accepts_block: false,
-        examples:      []
+        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for puts.",
+        examples:      [
+"print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
+"print 5               #=> will print the number 5 to the output pane",
+"print foo             #=> will print the contents of foo to the output pane"]
     def print(output)
       __message output
     end
 
+
     doc name:           :puts,
-        doc:            "",
+        summary:       "Display a message in the output pane",
         args:           [[:output, :string]],
         opts:           nil,
         accepts_block:  false,
-        examples:       []
+        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for print.",
+        examples:      [
+"print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
+"print 5               #=> will print the number 5 to the output pane",
+"print foo             #=> will print the contents of foo to the output pane"]
     def puts(output)
       __message output
     end
 
-    doc name:           :rand,
-        doc:            "",
-        args:           [],
-        opts:           {:min => 0.0, :max => 1.0},
-        accepts_block:  false,
-        examples:       []
-    def rand(*opts)
-      args_h = resolve_synth_opts_hash_or_array(opts)
-      min = args_h[:min] || 0.0
-      max = args_h[:min] || 1.0
-
-      range = (min - max).abs
-      r = @random_generator.rand(range.to_f)
-      smallest = [min, max].min
-      r + smallest
-    end
 
     doc name:           :rrand,
+        summary:        "",
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block:  false,
@@ -104,9 +108,9 @@ module SonicPi
         doc:            "",
         examples:       []
     def rrand_i(min, max)
-      range = (limit - limit2).abs
+      range = (min - max).abs
       r = @random_generator.rand(range.to_i + 1)
-      smallest = [limit, limit2].min
+      smallest = [min, max].min
       r + smallest
     end
 
@@ -160,7 +164,7 @@ module SonicPi
 
       new_t = last + sleep_time
       if now > new_t
-        Thread.current.priority = 2
+        Thread.current.priority = 20
         __message "Can't keep up..."
       else
         Kernel.sleep new_t - now
@@ -228,10 +232,11 @@ module SonicPi
 
       # Create the new thread
       t = Thread.new do
+        Thread.current.priority = 10
 
         Thread.new do
           Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
-          Thread.current.priority = -1
+          Thread.current.priority = -10
           # wait for all subthreads to finish before removing self from
           # the subthread tree
           t.join

@@ -1,3 +1,5 @@
+load_sample :drum_heavy_kick
+
 define :drums do
   sample :drum_heavy_kick, rate: 0.75
   sleep 0.5
@@ -14,5 +16,5 @@ define :synths do
   sleep 0.25
 end
 
-in_thread(:drums){loop{drums}}
-in_thread(:synths){loop{synths}}
+in_thread(name: :drums){loop{drums}}
+in_thread(name: :synths){loop{synths}}

@@ -13,5 +13,5 @@ define :bass do
   sleep sd / 4
 end
 
-in_thread(:loopr){loop{loopr}}
-in_thread(:bass){loop{bass}}
+in_thread(name: :t1){loop{loopr}}
+in_thread(name: :t2){loop{bass}}

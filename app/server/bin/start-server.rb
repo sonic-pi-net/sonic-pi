@@ -19,7 +19,6 @@ require_relative "../sonicpi/spider"
 require_relative "../sonicpi/spiderapi"
 require_relative "../sonicpi/server"
 require_relative "../sonicpi/util"
-require_relative "../sonicpi/rcv_dispatch"
 
 require 'multi_json'
 
@@ -41,7 +40,6 @@ klass = Object.const_set name, Class.new(SonicPi::Spider)
 klass.send(:include, user_methods)
 klass.send(:include, SonicPi::SpiderAPI)
 sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
-rd = SonicPi::RcvDispatch.new(sp, ws_out)
 
 osc_server.add_method("/run-code") do |payload|
   begin

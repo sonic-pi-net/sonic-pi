@@ -11,21 +11,25 @@
 # notice is included.
 #++
 require 'thread'
-require_relative 'atom'
 
 module SonicPi
   class Counter
     def initialize(init_val=0)
-      @INIT_VAL = init_val
-      @current_val_A = Atom.new(init_val)
+      @init_val = init_val
+      @val = init_val
+      @mut = Mutex.new
     end
 
     def next
-      @current_val_A.swap!{|el| el + 1}
+      @mut.synchronize do
+        @val += 1
+      end
     end
 
     def reset!
-      @current_val_A.reset! @INIT_VAL
+      @mut.synchronize do
+        @val = @init_val
+      end
     end
   end
 end

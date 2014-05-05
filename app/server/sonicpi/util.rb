@@ -16,10 +16,11 @@ require 'fileutils'
 module SonicPi
   module Util
     @@project_path = nil
+    @@log_path = nil
 
     def os
       case RUBY_PLATFORM
-      when /.*armv6l-linux.*/
+      when /.*arm.*-linux.*/
         :raspberry
       when /.*linux.*/
         :linux
@@ -29,6 +30,14 @@ module SonicPi
         :windows
       else
         raise "Unsupported platform #{RUBY_PLATFORM}"
+      end
+    end
+
+    def default_sched_ahead_time
+      if (os == :raspberry)
+        0.6
+      else
+        0.1
       end
     end
 
@@ -42,6 +51,14 @@ module SonicPi
       path = home_dir + '/store/default/'
       ensure_dir(path)
       @@project_path = path
+      path
+    end
+
+    def log_path
+      return @@log_path if @@log_path
+      path = home_dir + '/log/'
+      ensure_dir(path)
+      @@log_path = path
       path
     end
 
@@ -65,10 +82,6 @@ module SonicPi
       File.absolute_path("#{doc_path}/cheatsheets")
     end
 
-    def log_path
-      File.absolute_path("#{root_path}/log")
-    end
-
     def tmp_path
       File.absolute_path("#{root_path}/tmp")
     end
@@ -81,12 +94,24 @@ module SonicPi
       File.absolute_path("#{etc_path}/samples")
     end
 
+    def app_path
+      File.absolute_path("#{root_path}/app")
+    end
+
     def html_public_path
-      File.absolute_path("#{root_path}/app/gui/html")
+      File.absolute_path("#{app_path}/gui/html")
+    end
+
+    def qt_gui_path
+      File.absolute_path("#{app_path}/gui/qt")
+    end
+
+    def examples_path
+      File.absolute_path("#{etc_path}/examples")
     end
 
     def log(message)
-      File.open("#{log_path}/sonicpi.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")}
+      File.open("#{log_path}/sonicpi.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")} if debug_mode
     end
 
     def debug_mode

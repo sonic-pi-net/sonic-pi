@@ -53,8 +53,15 @@ security features have been added.
 * Unzip the tar ball somewhere useful
 * Install JDK 1.6+ and Leiningen (to compile ClojureScript -> Javascript, not for running the app)
 * Compile the `cljs` source: `cd app/gui/html`, `lein cljsbuild once`
-* Start the server: `cd app/scripts`, `ruby ws.rb`
+* Start the server: `cd app/server/bin`, `ruby ws.rb`
 * Open a browser and go to `http://localhost:8000`
+
+### Native (QT) interface
+
+To build and run:
+
+* Run `app/gui/qt/boostrap-qt'
+* Start the GUI: `app/gui/qt/application'
 
 ## Acknowledgements
 
