@@ -33,6 +33,12 @@ app/gui/html/target
 app/gui/html/js/cljs-main.js
 
 
+# QT makefile
+# --------
+
+app/gui/qt/Makefile
+
+
 # Detritus
 # ---------
 
