@@ -86,6 +86,7 @@ private:
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
+    void setHelpText(QListWidgetItem *item, const QString filename);
 
     bool cont_listening_for_osc;
     bool server_started;
