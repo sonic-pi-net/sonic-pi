@@ -181,7 +181,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
-          @events.event("/job-start", {:id => id})
+          @events.event("/job-start", {:id => id, :thread => job})
           eval(code)
           __join_subthreads(Thread.current)
           @events.event("/job-join", {:id => id})

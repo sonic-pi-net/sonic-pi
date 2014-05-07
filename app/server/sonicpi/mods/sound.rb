@@ -67,6 +67,9 @@ module SonicPi
                  @job_proms_joiners[job_id] = joiner
                end
 
+               t = payload[:thread]
+               g = job_synth_group(current_job_id)
+               t.thread_variable_set(:sonic_pi_mod_sound_synth_job_group, g)
 
              end
              @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
@@ -858,7 +861,6 @@ module SonicPi
          BaseInfo.grouped_samples.keys
        end
 
-       private
 
        def arg_h_pp(arg_h)
          s = "{"
@@ -1015,7 +1017,7 @@ module SonicPi
        end
 
        def current_job_synth_group
-         job_synth_group(current_job_id)
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_job_group)
        end
 
        def current_out_bus
