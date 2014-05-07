@@ -40,8 +40,13 @@ module SonicPi
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
              @complex_sampler_args = [:attack, :sustain, :release, :start, :end]
+
              @blank_node = BlankNode.new
-             @JOB_SYNTH_PROMS_A = Atom.new(Hamster.hash)
+             @job_proms_queues = {}
+             @job_proms_queues_mut = Mutex.new
+
+             @job_proms_joiners = {}
+
              @JOB_GROUPS_A = Atom.new(Hamster.hash)
              @JOB_GROUP_MUTEX = Mutex.new
              @JOB_FX_GROUP_MUTEX = Mutex.new
@@ -52,10 +57,31 @@ module SonicPi
              @JOB_BUSSES_MUTEX = Mutex.new
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @mod_sound_studio.sched_ahead_time = 0.5 if (os == :raspberry)
-             @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
+
+             @events.add_handler("/job-start", @events.gensym("/mods-sound-job-start")) do |payload|
                job_id = payload[:id]
-               (@JOB_SYNTH_PROMS_A.deref[job_id] || []).each do |csp|
-                 csp.get
+
+               @job_proms_queues_mut.synchronize do
+                 @job_proms_queues[job_id] = Queue.new
+                 joiner = job_proms_joiner(job_id)
+                 @job_proms_joiners[job_id] = joiner
+               end
+
+
+             end
+             @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
+
+               ## At this point we can be assured that no more threads
+               ## are running for this particular job. We therefore
+               ## don't have to worry about concurrency issues.
+               job_id = payload[:id]
+
+
+               joiner = @job_proms_joiners[job_id]
+               @job_proms_queues[job_id] << :job_finished
+               joiner.get
+               @job_proms_queues_mut.synchronize do
+                 @job_proms_joiners.delete job_id
                end
              end
 
@@ -63,9 +89,6 @@ module SonicPi
                job_id = payload[:id]
                job_t = payload[:thread]
 
-               @JOB_SYNTH_PROMS_A.swap! do |ps|
-                 ps.delete job_id
-               end
                Thread.new do
                  Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_completed)
                  Thread.current.priority = -10
@@ -74,6 +97,7 @@ module SonicPi
                  kill_fx_job_group(job_id)
                  free_job_bus(job_id)
                end
+
              end
 
              @events.add_handler("/exit", @events.gensym("/mods-sound-exit")) do |payload|
@@ -1093,19 +1117,13 @@ module SonicPi
        end
 
        def job_synth_proms_add(job_id, p)
-         @JOB_SYNTH_PROMS_A.swap! do |js|
-           proms = js[job_id] || Hamster.set
-           proms = proms.add p
-           js.put job_id, proms
-         end
+         q = @job_proms_queues[job_id]
+         q << [:started, p]
        end
 
        def job_synth_proms_rm(job_id, p)
-         @JOB_SYNTH_PROMS_A.swap! do |js|
-           proms = js[job_id] || Hamster.set
-           proms = proms.delete p
-           js.put job_id, proms
-         end
+         q = @job_proms_queues[job_id]
+         q << [:completed, p]
        end
 
        def free_job_bus(job_id)
@@ -1189,6 +1207,41 @@ module SonicPi
            Kernel.sleep @mod_sound_studio.sched_ahead_time
            __message m
          end
+       end
+
+       def job_proms_joiner(job_id)
+         all_proms_joined = Promise.new
+         prom_queue = @job_proms_queues[job_id]
+
+         raise "whoops, no prom_queue!" unless prom_queue
+
+         Thread.new do
+           Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_prom_joiner)
+           Thread.current.priority = -10
+
+           proms = []
+
+           # Pull messages from queue and either add to proms array or
+           # remove depending on whether the synth started or completed.
+           while (p = prom_queue.pop) != :job_finished
+             action, prom = *p
+             if action == :started
+               proms << prom
+             else
+               proms.delete prom
+             end
+           end
+
+           proms.each do |p|
+             p.get
+           end
+           @job_proms_queues_mut.synchronize do
+             @job_proms_queues.delete job_id
+           end
+           all_proms_joined.deliver!(true)
+         end
+
+         return all_proms_joined
        end
      end
    end
