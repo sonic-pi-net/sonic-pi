@@ -71,6 +71,9 @@ module SonicPi
                g = job_synth_group(current_job_id)
                t.thread_variable_set(:sonic_pi_mod_sound_synth_job_group, g)
 
+               fx_g = job_fx_group(job_id)
+               t.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_g)
+
              end
              @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
 
@@ -1013,7 +1016,7 @@ module SonicPi
        end
 
        def current_fx_group
-         job_fx_group(current_job_id)
+         Thread.current.thread_variable_get :sonic_pi_mod_sound_fx_group
        end
 
        def current_job_synth_group
