@@ -113,33 +113,36 @@ module SonicPi
          end
        end
 
-       doc name:          :set_sched_ahead_time!,
-           doc:           "add docs",
-           args:          [[:time, :number]],
-           opts:          nil,
-           accepts_block: false,
-           examples:      []
+
+
+
        def set_sched_ahead_time!(t)
          @mod_sound_studio.sched_ahead_time = t
        end
-
-       doc name:          :use_debug,
-           doc:           "add docs",
-           args:          [[:true_or_false, :boolean]],
+       doc name:          :set_sched_ahead_time!,
+           doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms.",
+           args:          [[:time, :number]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["set_sched_ahead_time! 1"]
+
+
+
+
        def use_debug(v, &block)
          raise "use_debug does not work with a do/end block. Perhaps you meant with_debug" if block
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, !v)
        end
-
-       doc name:          :with_debug,
-           doc:           "add docs",
+       doc name:          :use_debug,
+           doc:           "Enable or disable messages created on synth triggers. If this is set to false, the synths will be silent until debug is turned back on. Silencing debug messages can reduce output noise and also increase performance on slower platforms.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
-           accepts_block: true,
-           examples:      []
+           accepts_block: false,
+           examples:      ["use_debug true # Turn on debug messages", "use_debug false # Disable debug messages"]
+
+
+
+
        def with_debug(v, &block)
          raise "with_debug requires a do/end block. Perhaps you meant use_debug" unless block
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
@@ -147,25 +150,48 @@ module SonicPi
          block.call
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, current)
        end
-
-       doc name:          :use_arg_checks,
-           doc:           "add docs",
+       doc name:          :with_debug,
+           doc:           "Similar to use_debug except only applies to code within supplied do/end block. Previous debug value is restored after block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
-           accepts_block: false,
-           examples:      []
+           accepts_block: true,
+           examples:      ["
+# Turn on debugging:
+use_debug true
+
+play 80 # Debug message is sent
+
+with_debug false do
+  #Debug is now disabled
+  play 50 # Debug message is not sent
+  sleep 1
+  play 72 # Debug message is not sent
+end
+
+# Debug is re-enabled
+play 90 # Debug message is sent
+
+"]
+
+
+
+
        def use_arg_checks(v, &block)
          raise "use_arg_checks does not work with a a do/end block. Perhaps you meant use_arg_checks" if block
 
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, v)
        end
-
-       doc name:          :with_arg_checks,
-           doc:           "add docs",
+       doc name:          :use_arg_checks,
+           doc:           "When triggering synths, each argument is checked to see if it is sensible. This setting allows you to explicitly enable and disable the checking mechanism.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
-           accepts_block: true,
-           examples:      []
+           accepts_block: false,
+           examples:      ["
+"]
+
+
+
+
        def with_arg_checks(v, &block)
          raise "with_arg_checks requires a do/end block. Perhaps you meant use_arg_checks" unless block
 
@@ -174,25 +200,58 @@ module SonicPi
          block.call
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, current)
        end
-
-       doc name:          :use_transpose,
-           doc:           "add docs",
-           args:          [[:note_shift, :number]],
+       doc name:          :with_arg_checks,
+           doc:           "Similar to use_arg_checks except only applies to code within supplied do/end block. Previous arg check value is restored after block.",
+           args:          [[:true_or_false, :boolean]],
            opts:          nil,
-           accepts_block: false,
-           examples:      []
+           accepts_block: true,
+           examples:      ["
+# Turn on arg checking:
+use_arg_checks true
+
+play 80, cutoff: 100 # Args are checked
+
+with_arg_checks false do
+  #Arg checking is now disabled
+  play 50, release: 3 # Args are not checked
+  sleep 1
+  play 72             # Arg is not checked
+end
+
+# Arg checking is re-enabled
+play 90 # Args are checked
+
+"]
+
+
+
+
        def use_transpose(shift, &block)
          raise "use_transpose does not work with a do/end block. Perhaps you meant with_transpose" if block
          raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Fixnum)
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, shift)
        end
-
-       doc name:          :with_transpose,
-           doc:           "add docs",
+       doc name:          :use_transpose,
+           doc:           "Transposes your music by shifting all notes played by the specified amount. To shift up by a semitone use a transpose of 1. To shift down use negative numbers.",
            args:          [[:note_shift, :number]],
            opts:          nil,
-           accepts_block: true,
-           examples:      []
+           accepts_block: false,
+           examples:      ["
+play 50 # Plays note 50
+use_transpose 1
+play 50 # Plays note 51",
+
+"
+# You may change the transposition multiple times:
+play 62 # Plays note 62
+use_transpose -12
+play 62 # Plays note 50
+use_transpose 3
+play 62 # Plays note 65"]
+
+
+
+
        def with_transpose(shift, &block)
          raise "with_transpose requires a do/end block. Perhaps you meant use_transpose" unless block
          raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Fixnum)
@@ -201,17 +260,42 @@ module SonicPi
          block.call
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, curr)
        end
+       doc name:          :with_transpose,
+           doc:           "Similar to use_transpose except only applies to code within supplied do/end block. Previous transpose value is restored after block.",
+           args:          [[:note_shift, :number]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      ["
+use_transpose 3
+play 62 # Plays note 65
 
+with_transpose 12 do
+  play 50 # Plays note 62
+  sleep 1
+  play 72 # Plays note 84
+end
+
+# Original transpose value is restored
+play 80 # Plays note 83
+
+"]
+
+
+
+
+       def use_synth(synth_name, &block)
+         raise "use_synth does not work with a do/end block. Perhaps you meant with_synth" if block
+         @mod_sound_studio.current_synth_name = synth_name
+       end
        doc name:          :use_synth,
            doc:           "add docs",
            args:          [[:synth_name, :symbol]],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def use_synth(synth_name, &block)
-         raise "use_synth does not work with a do/end block. Perhaps you meant with_synth" if block
-         @mod_sound_studio.current_synth_name = synth_name
-       end
+
+
+
 
        doc name:          :with_synth,
            doc:           "add docs",
