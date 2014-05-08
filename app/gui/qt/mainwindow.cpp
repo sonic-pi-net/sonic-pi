@@ -997,7 +997,6 @@ void MainWindow::onExitCleanup()
 }
 void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
   QString content = cur->data(32).toString();
-  std::cout << "update pane" << content.toStdString() << std::endl;
   langDocPane->setHtml(content);
   synthsDocPane->setHtml(content);
   fxDocPane->setHtml(content);
