@@ -73,7 +73,7 @@ private:
     void startOSCListener();
     void clearOutputPanels();
     void createActions();
-    void createToolBars();
+    void createToolBar();
     void createStatusBar();
     void readSettings();
     void writeSettings();
@@ -128,11 +128,7 @@ private:
     QMenu *editMenu;
     QMenu *helpMenu;
 
-    QToolBar *fileToolBar;
-    QToolBar *supportToolBar;
-    QToolBar *editToolBar;
-    QToolBar *saveToolBar;
-    QToolBar *textSizeToolBar;
+    QToolBar *toolBar;
 
     QAction *runAct;
     QAction *stopAct;

@@ -276,7 +276,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   initWorkspace(workspace8);
 
   createActions();
-  createToolBars();
+  createToolBar();
   createStatusBar();
 
   readSettings();
@@ -824,40 +824,28 @@ void MainWindow::createActions()
 
 }
 
-void MainWindow::createToolBars()
+void MainWindow::createToolBar()
 {
 
   QWidget *spacer = new QWidget();
-  spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
-  spacer->setVisible(true);
+  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-  QWidget *spacer2 = new QWidget();
-  spacer2->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
-  spacer2->setVisible(true);
+  toolBar = addToolBar(tr("Tools"));
 
-  fileToolBar = addToolBar(tr("Run"));
-  saveToolBar = addToolBar(tr("Save"));
-  textSizeToolBar = addToolBar(tr("Text Size"));
-  supportToolBar = addToolBar(tr("Support"));
+  toolBar->setIconSize(QSize(270/3, 111/3));
+  toolBar->addAction(runAct);
+  toolBar->addAction(stopAct);
 
-  fileToolBar->setIconSize(QSize(270/3, 111/3));
-  fileToolBar->addAction(runAct);
-  fileToolBar->addAction(stopAct);
+  toolBar->addAction(saveAsAct);
+  toolBar->addAction(recAct);
+  toolBar->addWidget(spacer);
 
-  saveToolBar->setIconSize(QSize(270/3, 111/3));
-  saveToolBar->addAction(saveAsAct);
-  saveToolBar->addAction(recAct);
-  saveToolBar->addWidget(spacer);
+  toolBar->addAction(textIncAct);
+  toolBar->addAction(textDecAct);
 
-  textSizeToolBar->addWidget(spacer2);
-  textSizeToolBar->setIconSize(QSize(270/3, 111/3));
-  textSizeToolBar->addAction(textIncAct);
-  textSizeToolBar->addAction(textDecAct);
-
-  supportToolBar->setIconSize(QSize(270/3, 111/3));
-  supportToolBar->addAction(infoAct);
-  supportToolBar->addAction(helpAct);
-  supportToolBar->addAction(prefsAct);
+  toolBar->addAction(infoAct);
+  toolBar->addAction(helpAct);
+  toolBar->addAction(prefsAct);
 
 }
 
