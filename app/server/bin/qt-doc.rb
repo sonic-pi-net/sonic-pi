@@ -70,10 +70,15 @@ Dir["#{examples_path}/*.rb"].each do |path|
   example_html_map[name] = html
 end
 
+ruby_html_map = {
+  "n.times" => "Loop n times",
+  "loop" => "Loop forever",
+}
+
 make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map)
 make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
-make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map))
+make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map))
 make_tab.call("examples", example_html_map)
 
 # update mainwindow.cpp
