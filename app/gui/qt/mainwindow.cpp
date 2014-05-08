@@ -828,11 +828,11 @@ void MainWindow::createToolBars()
 {
 
   QWidget *spacer = new QWidget();
-  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
   spacer->setVisible(true);
 
   QWidget *spacer2 = new QWidget();
-  spacer2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  spacer2->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
   spacer2->setVisible(true);
 
   fileToolBar = addToolBar(tr("Run"));
