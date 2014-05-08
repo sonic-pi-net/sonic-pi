@@ -840,22 +840,21 @@ void MainWindow::createToolBars()
   textSizeToolBar = addToolBar(tr("Text Size"));
   supportToolBar = addToolBar(tr("Support"));
 
-  fileToolBar->setIconSize(QSize(270/3, 109/3));
+  fileToolBar->setIconSize(QSize(270/3, 111/3));
   fileToolBar->addAction(runAct);
   fileToolBar->addAction(stopAct);
 
-  saveToolBar->setIconSize(QSize(270/3, 109/3));
+  saveToolBar->setIconSize(QSize(270/3, 111/3));
   saveToolBar->addAction(saveAsAct);
   saveToolBar->addAction(recAct);
   saveToolBar->addWidget(spacer);
 
   textSizeToolBar->addWidget(spacer2);
-  textSizeToolBar->setIconSize(QSize(270/3, 109/3));
+  textSizeToolBar->setIconSize(QSize(270/3, 111/3));
   textSizeToolBar->addAction(textIncAct);
   textSizeToolBar->addAction(textDecAct);
 
-
-  supportToolBar->setIconSize(QSize(270/3, 109/3));
+  supportToolBar->setIconSize(QSize(270/3, 111/3));
   supportToolBar->addAction(infoAct);
   supportToolBar->addAction(helpAct);
   supportToolBar->addAction(prefsAct);
