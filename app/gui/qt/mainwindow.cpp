@@ -785,16 +785,16 @@ void MainWindow::createActions()
 
   runAct = new QAction(QIcon(":/images/run.png"), tr("&Run"), this);
   runAct->setShortcut(tr("Ctrl+R"));
-  runAct->setStatusTip(tr("Run code"));
+  runAct->setStatusTip(tr("Run the code in the current workspace"));
   connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
   stopAct = new QAction(QIcon(":/images/stop.png"), tr("&Stop"), this);
   stopAct->setShortcut(tr("Ctrl+Q"));
-  stopAct->setStatusTip(tr("Stop code"));
+  stopAct->setStatusTip(tr("Stop all running code"));
   connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
 
   saveAsAct = new QAction(QIcon(":/images/save.png"), tr("&Save &As..."), this);
-  saveAsAct->setStatusTip(tr("Save the document under a new name"));
+  saveAsAct->setStatusTip(tr("Save the current workspace under a new name"));
   connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
   infoAct = new QAction(QIcon(":/images/info.png"), tr("&Info"), this);
@@ -802,11 +802,11 @@ void MainWindow::createActions()
   connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
   helpAct = new QAction(QIcon(":/images/help.png"), tr("&Help"), this);
-  helpAct->setStatusTip(tr("Get help"));
+  helpAct->setStatusTip(tr("Toggle help pane"));
   connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("&Prefs"), this);
-  prefsAct->setStatusTip(tr("Preferences"));
+  prefsAct->setStatusTip(tr("Toggle preferences pane"));
   connect(prefsAct, SIGNAL(triggered()), this, SLOT(showPrefsPane()));
 
   recAct = new QAction(QIcon(":/images/rec.png"), tr("&Start &Recording"), this);
