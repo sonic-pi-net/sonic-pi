@@ -32,6 +32,7 @@ proxy = OSC::Client.new("localhost", 4558)
 
 at_exit do
   scsynth.shutdown
+  proxy.send(OSC::Message.new("/exited"))
 end
 
 user_methods = Module.new
