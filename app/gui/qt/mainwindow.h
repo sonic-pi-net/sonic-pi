@@ -132,6 +132,7 @@ private:
     QToolBar *supportToolBar;
     QToolBar *editToolBar;
     QToolBar *saveToolBar;
+    QToolBar *textSizeToolBar;
 
     QAction *runAct;
     QAction *stopAct;
@@ -140,6 +141,8 @@ private:
     QAction *infoAct;
     QAction *prefsAct;
     QAction *helpAct;
+    QAction *textIncAct;
+    QAction *textDecAct;
 
     QAction *saveAsAct;
     QAction *exitAct;

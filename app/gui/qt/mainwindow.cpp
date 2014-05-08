@@ -813,37 +813,53 @@ void MainWindow::createActions()
   recAct->setStatusTip(tr("Start Recording"));
   connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
+  textIncAct = new QAction(QIcon(":/images/text-inc.png"), tr("&Increase &Text &Size"), this);
+  textIncAct->setStatusTip(tr("Make text bigger"));
+  connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
+
+  textDecAct = new QAction(QIcon(":/images/text-dec.png"), tr("&Decrease &Text &Size"), this);
+  textDecAct->setStatusTip(tr("Make text smaller"));
+  connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
+
+
 }
 
 void MainWindow::createToolBars()
 {
 
-  QWidget *spacerWidget1 = new QWidget(this);
-  spacerWidget1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  spacerWidget1->setVisible(true);
+  QWidget *spacer = new QWidget();
+  spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  spacer->setVisible(true);
 
-  QWidget *spacerWidget2 = new QWidget(this);
-  spacerWidget2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  spacerWidget2->setVisible(true);
+  QWidget *spacer2 = new QWidget();
+  spacer2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  spacer2->setVisible(true);
 
   fileToolBar = addToolBar(tr("Run"));
+  saveToolBar = addToolBar(tr("Save"));
+  textSizeToolBar = addToolBar(tr("Text Size"));
+  supportToolBar = addToolBar(tr("Support"));
+
   fileToolBar->setIconSize(QSize(270/3, 109/3));
   fileToolBar->addAction(runAct);
   fileToolBar->addAction(stopAct);
-  fileToolBar->addWidget(spacerWidget1);
 
-  saveToolBar = addToolBar(tr("Save"));
-  saveToolBar->addWidget(spacerWidget1);
   saveToolBar->setIconSize(QSize(270/3, 109/3));
   saveToolBar->addAction(saveAsAct);
   saveToolBar->addAction(recAct);
+  saveToolBar->addWidget(spacer);
 
-  supportToolBar = addToolBar(tr("Support"));
-  supportToolBar->addWidget(spacerWidget2);
+  textSizeToolBar->addWidget(spacer2);
+  textSizeToolBar->setIconSize(QSize(270/3, 109/3));
+  textSizeToolBar->addAction(textIncAct);
+  textSizeToolBar->addAction(textDecAct);
+
+
+  supportToolBar->setIconSize(QSize(270/3, 109/3));
   supportToolBar->addAction(infoAct);
   supportToolBar->addAction(helpAct);
-  supportToolBar->setIconSize(QSize(270/3, 109/3));
   supportToolBar->addAction(prefsAct);
+
 }
 
  void MainWindow::toggleRecordingOnIcon() {
