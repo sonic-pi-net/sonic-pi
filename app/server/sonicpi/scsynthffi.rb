@@ -245,14 +245,11 @@ class WorldOptions < FFI::Struct
 end
 
 
-
-
-
 module SCSynthFFI
   extend FFI::Library
-  ffi_lib 'native/libscsynth.dylib'
+  ffi_lib '/Users/sam/Development/RPi/sonic-pi/app/server/native/macosx/libscsynth.dylib'
   callback :reply_callback, [:pointer, :pointer, :int], :void
-  attach_function :World_New, [ WorldOptions.ptr ], World.ptr
+  attach_function :World_New, [WorldOptions.ptr ], World.ptr
   @blocking = true
   attach_function :World_WaitForQuit, [World.ptr], :void
   attach_function :World_SendPacket, [World.ptr, :int, :pointer, :reply_callback], :int
@@ -262,9 +259,19 @@ end
 
 class SCSynthNative
 
-
-  @@cb = FFI::Function.new( :void, [:pointer, :pointer, :int],  :blocking => true) do | a, b, c |
-#    puts "heyyyy #{a}, #{b}, #{c}"
+  #typedef void (*ReplyFunc)(struct ReplyAddress *inReplyAddr, char* inBuf, int inSize);
+  @@cb = FFI::Function.new( :void, [:pointer, :pointer, :int]) do | a, b, c |
+    begin
+      s = b.read_bytes(c)
+      p = OSC::OSCPacket.new(s)
+      info = {
+        :msg => p.get_string,
+        :args => p.get_arguments}
+      puts info
+    rescue Exception => e
+      #puts "Exeption in FFI function:"
+      #puts e.backtrace
+    end
   end
 
   def initialize(opts={})
@@ -276,7 +283,6 @@ class SCSynthNative
       SCSynthFFI.World_WaitForQuit(@world_p)
     end
     puts "world started"
-
   end
 
   def wait_for_quit
@@ -288,17 +294,16 @@ class SCSynthNative
     s = m.size
     memBuf = FFI::MemoryPointer.new(:char, s)
     memBuf.put_bytes(0, m)
+
     SCSynthFFI.World_SendPacket(@world_p, s, memBuf, @@cb)
   end
-
 end
 
 s = SCSynthNative.new
 s.send("/dumpOSC", 1)
+s.send("/notify",1)
 s.send("d_loadDir", "/Users/sam/Development/RPi/sonic-pi/etc/synthdefs")
 sleep 2
-s.send("/notify",1)
-s.send("/clearSched",1)
 s.send("/s_new", "sp/beep", 1, 0, 0)
 sleep 3
 s.send("/status")
