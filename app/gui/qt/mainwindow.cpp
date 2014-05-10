@@ -992,20 +992,6 @@ void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
   examplesDocPane->setHtml(content);
 }
 
-/* For future use in auto-generation; usage:
-
-   create HTML file for help item, e.g., help/synths_item_1.html
-
-   add entry to application.qrc: <file>help/synths_item_1.html</file>
-   beneath image-related entries
-
-   instead of generating C++ code thus:
-   synths_item_1->setData(32, Variant("vast HTML string");
-
-   do
-   setHelpText(synths_item_1, QString(":/help/synths_item_1.html"));
-
-*/
 void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
   QFile file(filename);
 
