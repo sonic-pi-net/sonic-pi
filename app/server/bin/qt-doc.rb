@@ -94,7 +94,7 @@ make_tab.call("examples", example_html_map)
 if options[:output_name] then
    cpp = options[:output_name]
 else
-   cpp = "#{qt_gui_path}/mainwindow.cpp"
+   cpp = "#{qt_gui_path}/ruby_help.h"
 end
 
 content = File.readlines(cpp)
