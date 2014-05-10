@@ -11,7 +11,9 @@ SOURCES       = main.cpp \
                 mainwindow.cpp \
                 sonicpilexer.cpp
 
-RESOURCES     = application.qrc
+RESOURCES     = application.qrc \
+                help_files.qrc
+
 LIBS         += -lqscintilla2
 
 ICON = images/app.icns
