@@ -89,10 +89,6 @@ module SonicPi
       @server.node_ctl @mixer_group, "amp", vol
     end
 
-    def pan=(pan)
-      @server.node_ctl @mixer_group, "pan", pan
-    end
-
     def status
       @server.status
     end
