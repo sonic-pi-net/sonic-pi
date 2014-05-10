@@ -260,8 +260,7 @@ module SonicPi
     ffi_lib '/Users/sam/Development/RPi/sonic-pi/app/server/native/macosx/libscsynth.dylib'
     callback :reply_callback, [:pointer, :pointer, :int], :void
     attach_function :World_New, [WorldOptions.ptr ], World.ptr
-    @blocking = true
-    attach_function :World_WaitForQuit, [World.ptr], :void
+    attach_function :World_WaitForQuit, [World.ptr], :void, :blocking => true
     attach_function :World_SendPacket, [World.ptr, :int, :pointer, :reply_callback], :int
     attach_function :World_Cleanup, [World.ptr], :void
     attach_function :World_OpenUDP, [World.ptr, :int], :int
