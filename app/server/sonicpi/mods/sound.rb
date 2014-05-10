@@ -134,7 +134,7 @@ module SonicPi
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, !v)
        end
        doc name:          :use_debug,
-           doc:           "Enable or disable messages created on synth triggers. If this is set to false, the synths will be silent until debug is turned back on. Silencing debug messages can reduce output noise and also increase performance on slower platforms.",
+           doc:           "Enable or disable messages created on synth triggers. If this is set to false, the synths will be silent until debug is turned back on. Silencing debug messages can reduce output noise and also increase performance on slower platforms. See with_debug for setting the debug value only for a specific do/end block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
            accepts_block: false,
@@ -179,15 +179,17 @@ play 90 # Debug message is sent
        def use_arg_checks(v, &block)
          raise "use_arg_checks does not work with a a do/end block. Perhaps you meant use_arg_checks" if block
 
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, v)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, !!v)
        end
        doc name:          :use_arg_checks,
-           doc:           "When triggering synths, each argument is checked to see if it is sensible. This setting allows you to explicitly enable and disable the checking mechanism.",
+           doc:           "When triggering synths, each argument is checked to see if it is sensible. When argument checking is enabled and an argument isn't sensible, you'll see an error in the debug pane. This setting allows you to explicitly enable and disable the checking mechanism. See with_arg_checks for enabling/sisabling argument checking only for a specific do/end block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-"]
+play 50, release: 5 # Args are checked
+use_arg_checks false
+play 50, release: 5 # Args are not checked"]
 
 
 
@@ -232,7 +234,7 @@ play 90 # Args are checked
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, shift)
        end
        doc name:          :use_transpose,
-           doc:           "Transposes your music by shifting all notes played by the specified amount. To shift up by a semitone use a transpose of 1. To shift down use negative numbers.",
+           doc:           "Transposes your music by shifting all notes played by the specified amount. To shift up by a semitone use a transpose of 1. To shift down use negative numbers. See with_transpose for setting the transpose value only for a specific do/end block.",
            args:          [[:note_shift, :number]],
            opts:          nil,
            accepts_block: false,
@@ -288,21 +290,18 @@ play 80 # Plays note 83
          @mod_sound_studio.current_synth_name = synth_name
        end
        doc name:          :use_synth,
-           doc:           "add docs",
+           doc:           "Switch the current synth to synth_name. Affects all further calls to play. See with_synth for changing the current synth only for a specific do/end block.",
            args:          [[:synth_name, :symbol]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+play 50 # Plays with default synth
+use_synth :mod_sine
+play 50 # Plays with mod_sine synth"]
 
 
 
 
-       doc name:          :with_synth,
-           doc:           "add docs",
-           args:          [[:synth_name, :symbol]],
-           opts:          nil,
-           accepts_block: true,
-           examples:      []
        def with_synth(synth_name, &block)
          raise "with_synth must be called with a do/end block. Perhaps you meant use_synth" unless block
          orig_synth = @mod_sound_studio.current_synth_name
@@ -310,13 +309,27 @@ play 80 # Plays note 83
          block.call
          @mod_sound_studio.current_synth_name = orig_synth
        end
-
-       doc name:          :recording_start,
-           doc:           "add docs",
-           args:          [],
+       doc name:          :with_synth,
+           doc:           "Switch the current synth to synth_name but only for the duration of the do/end block. After the do/end block has completed, the previous synth is restored.",
+           args:          [[:synth_name, :symbol]],
            opts:          nil,
-           accepts_block: false,
-           examples:      []
+           accepts_block: true,
+           examples:      ["
+play 50 # Plays with default synth
+use_synth :mod_sine
+play 50 # Plays with mod_sine synth
+
+with_synth :saw_beep do
+  play 50 # Plays with saw_beep synth
+end
+
+# Previous synth is restored
+play 50 # Plays with mod_sine synth
+"]
+
+
+
+
        def recording_start
          puts "start recording"
          tmp_dir = Dir.mktmpdir("sonic-pi")
@@ -324,49 +337,64 @@ play 80 # Plays note 83
          puts "tmp_path: #{@tmp_path}"
          @mod_sound_studio.recording_start @tmp_path
        end
+       doc name:          :recording_start,
+           doc:           "add docs",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      [],
+           hide:          true
 
+
+
+
+       def recording_stop
+         puts "stop recording"
+         @mod_sound_studio.recording_stop
+       end
        doc name:          :recording_stop,
            doc:           "add docs",
            args:          [],
            opts:          nil,
            accepts_block: false,
-           examples:      []
-       def recording_stop
-         puts "stop recording"
-         @mod_sound_studio.recording_stop
-       end
+           examples:      [],
+           hide:          true
 
-       doc name:          :recording_save,
-           doc:           "add docs",
-           args:          [[:path, :string]],
-           opts:          nil,
-           accepts_block: false,
-           examples:      []
+
+
+
        def recording_save(filename)
          puts "save recording #{filename}"
          Kernel.sleep 3
          FileUtils.mv(@tmp_path, filename)
          @tmp_path = nil
        end
+       doc name:          :recording_save,
+           doc:           "add docs",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      [],
+           hide:          true
 
+
+
+
+       def recording_delete
+         puts "delete recording"
+         FileUtils.rm @tmp_path if @tmp_path
+       end
        doc name:          :recording_delete,
            doc:           "add docs",
            args:          [],
            opts:          nil,
            accepts_block: false,
-           examples:      []
-       def recording_delete
-         puts "delete recording"
-         FileUtils.rm @tmp_path if @tmp_path
-       end
+           examples:      [],
+           hide:          true
 
 
-       doc name:          :play,
-           doc:           "add docs",
-           args:          [[:note, :symbol_or_number]],
-           opts:          {},
-           accepts_block: false,
-           examples:      []
+
+
        def play(n, *args)
          return play_chord(n, *args) if n.is_a?(Array)
 
@@ -379,6 +407,14 @@ play 80 # Plays note 83
            trigger_inst @mod_sound_studio.current_synth_name, args_h
          end
        end
+       doc name:          :play,
+           doc:           "Play note with current synth.",
+           args:          [[:note, :symbol_or_number]],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
+
+
 
        doc name:          :play_pattern,
            doc:           "add docs",
@@ -712,15 +748,73 @@ play 80 # Plays note 83
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
        end
 
-       doc name:          :current_bpm,
-           doc:           "add docs",
-           args:          [],
-           opts:          nil,
-           accepts_block: false,
-           examples:      []
+
        def current_bpm
          60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
        end
+       doc name:          :current_bpm,
+           doc:           "Returns the current bpm value.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_bpm # Print out the current bpm"]
+
+
+
+
+       def current_synth
+         @mod_sound_studio.current_synth_name
+       end
+       doc name:          :current_synth,
+           doc:           "Returns the current synth name.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_synth # Print out the current synth name"]
+
+
+
+
+       def current_transpose
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+       end
+       doc name:          :current_transpose,
+           doc:           "Returns the current transpose value.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_transpose # Print out the current transpose value"]
+
+
+
+       def current_debug
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+       end
+       doc name:          :current_debug,
+           doc:           "Returns the current debug setting (true or false).",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_debug # Print out the current debug setting"]
+
+
+
+       def current_arg_checks
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+       end
+       doc name:          :current_arg_checks,
+           doc:           "Returns the current arg checking setting (true or false).",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_arg_checks # Print out the current arg check setting"]
+
+
 
        doc name:          :set_debug_on!,
            doc:           "add docs",

@@ -25,13 +25,10 @@ require 'multi_json'
 include SonicPi::Util
 
 ws_out = Queue.new
-scsynth = SonicPi::SCSynth.instance
-sc_server = OSC::Client.new("localhost", 4556)
 osc_server = OSC::Server.new(4557)
 proxy = OSC::Client.new("localhost", 4558)
 
 at_exit do
-  scsynth.shutdown
   proxy.send(OSC::Message.new("/exited"))
 end
 

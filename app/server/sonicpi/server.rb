@@ -21,6 +21,8 @@ require_relative "incomingevents"
 require_relative "counter"
 require_relative "buffer"
 require_relative "bufferstream"
+require_relative "scsynthexternal"
+#require_relative "scsynthnative"
 
 
 module SonicPi
@@ -37,14 +39,19 @@ module SonicPi
       @control_delta = 0.005
 
       @PORT = port
-      @CLIENT = OSC::Server.new(4800)
+
       @EVENTS = IncomingEvents.new
 
+      @scsynth = SCSynthExternal.new do |m, args|
+        @EVENTS.event m, args
+      end
+
+      at_exit do
+        puts "Exiting - shutting down scsynth server..."
+        @scsynth.shutdown
+      end
 
       # Push all incoming OSC messages to the event system
-      @CLIENT.add_method '*' do |m|
-        @EVENTS.event m.address, m.to_a
-      end
 
 
       @CURRENT_NODE_ID = Counter.new(1)
@@ -52,13 +59,6 @@ module SonicPi
       @BUFFER_ALLOCATOR = Allocator.new(1024) # TODO: Another magic num to remove
       @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new 128, 10 #TODO: remove these magic nums
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
-
-      @SERVER_THREAD = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :server_thread)
-        Thread.current.priority = -10
-        log "starting server thread"
-        @CLIENT.run
-      end
 
       message "Initialising comms... #{msg_queue}"
       clear_scsynth!
@@ -184,7 +184,6 @@ module SonicPi
       end
       sn
     end
-
 
     def sched_ahead_time_for_node(node)
       node_id = node.to_i
@@ -351,13 +350,13 @@ module SonicPi
 
     def osc(*args)
       message "--> osc: #{args}"
-      @CLIENT.send(OSC::Message.new(*args), @HOSTNAME, @PORT)
+      @scsynth.send(*args)
     end
 
     def osc_bundle(ts, *args)
-      m = OSC::Message.new(*args)
-      b = OSC::Bundle.new(ts, m)
-      @CLIENT.send(b, @HOSTNAME, @PORT)
+      message "--> osc at #{ts}, #{args}"
+#      @scsynth.send_at(ts, *args)
+      @scsynth.send(*args)
     end
 
     def add_event_handler(handle, key, &block)
@@ -378,7 +377,6 @@ module SonicPi
 
     def exit
       osc "/quit"
-      @SERVER_THREAD.kill
     end
 
   end
