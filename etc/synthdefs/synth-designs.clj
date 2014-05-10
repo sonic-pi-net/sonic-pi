@@ -654,12 +654,13 @@
      rate 1
      rate_slide 0
      out-bus 0]
-    (let [amp  (lag amp amp_slide)
-          pan  (lag pan pan_slide)
-          rate (lag rate rate_slide)
-          rate (* rate (buf-rate-scale buf))
-          snd  (play-buf 2 buf rate :action FREE)]
-      (out out-bus (pan2 snd pan amp))))
+    (let [amp           (lag amp amp_slide)
+          pan           (lag pan pan_slide)
+          rate          (lag rate rate_slide)
+          rate          (* rate (buf-rate-scale buf))
+          [snd-l snd-r] (play-buf 2 buf rate :action FREE)
+          snd           (balance2 snd-l snd-r pan amp)]
+      (out out-bus snd)))
 
   (defsynth mono_player
     "Plays a mono buffer from start pos to finish pos (represented as
