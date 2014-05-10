@@ -1,7 +1,10 @@
 #!/bin/bash
 
-set -eu
+set -eux
 
 cd $(dirname $0)
+
+../../server/bin/qt-doc.rb -o ruby_help.h
 qmake -o Makefile application.pro
+set +x
 make

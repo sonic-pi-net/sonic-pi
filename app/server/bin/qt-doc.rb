@@ -13,6 +13,7 @@
 #++
 
 require 'cgi'
+require 'optparse'
 
 require_relative "../core.rb"
 require_relative "../sonicpi/synthinfo"
@@ -24,6 +25,14 @@ include SonicPi::Util
 
 docs = []
 count = 0
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: qt-doc.rb [options]"
+
+  opts.on('-o', '--output NAME', 'Output filename') { |v| options[:output_name] = v }
+
+end.parse!
 
 # valid names: lang, synths, fx, samples, examples
 make_tab = lambda do |name, doc_items|
@@ -82,7 +91,12 @@ make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Soun
 make_tab.call("examples", example_html_map)
 
 # update mainwindow.cpp
-cpp = "#{qt_gui_path}/mainwindow.cpp"
+if options[:output_name] then
+   cpp = options[:output_name]
+else
+   cpp = "#{qt_gui_path}/ruby_help.h"
+end
+
 content = File.readlines(cpp)
 new_content = content.take_while { |line| !line.start_with?("// AUTO-GENERATED-DOCS")}
 new_content << "// AUTO-GENERATED-DOCS\n"
