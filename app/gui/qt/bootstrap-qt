@@ -4,6 +4,6 @@ set -eu
 
 cd $(dirname $0)
 
-../../server/bin/qt-doc.rb
+../../server/bin/qt-doc.rb -o mainwindow.cpp
 qmake -o Makefile application.pro
 make
