@@ -62,12 +62,13 @@ make_tab = lambda do |name, doc_items|
   doc_items.each do |n, doc|
 
     item_var = "#{name}_item_#{count+=1}"
+    filename = "help/#{item_var}.html"
+
     docs << "QListWidgetItem *#{item_var} = new QListWidgetItem(\"#{n}\");\n"
-    docs << "#{item_var}->setData(32, QVariant(\"#{doc}\"));\n"
+    docs << "setHelpText(#{item_var}, QString(\":/#{filename}\"));"
     docs << "#{list_widget}->addItem(#{item_var});\n"
     docs << "\n"
 
-    filename = "help/#{item_var}.html"
     filenames << "    <file>#{filename}</file>\n"
 
     File.open("#{qt_gui_path}/#{filename}", 'w') do |f|
