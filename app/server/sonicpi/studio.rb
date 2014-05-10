@@ -84,7 +84,6 @@ module SonicPi
     end
 
     def volume=(vol)
-      vol = [vol, 3].min
       message "Setting main volume to #{vol}"
       @server.node_ctl @mixer, "amp", vol
     end
