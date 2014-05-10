@@ -179,7 +179,7 @@ play 90 # Debug message is sent
        def use_arg_checks(v, &block)
          raise "use_arg_checks does not work with a a do/end block. Perhaps you meant use_arg_checks" if block
 
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, v)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, !!v)
        end
        doc name:          :use_arg_checks,
            doc:           "When triggering synths, each argument is checked to see if it is sensible. When argument checking is enabled and an argument isn't sensible, you'll see an error in the debug pane. This setting allows you to explicitly enable and disable the checking mechanism. See with_arg_checks for enabling/sisabling argument checking only for a specific do/end block.",
