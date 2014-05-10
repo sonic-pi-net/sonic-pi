@@ -1349,148 +1349,132 @@ lang_item_68->setData(32, QVariant("<h2><pre>with_transpose<pre></h2><h2><pre>[n
 langNameList->addItem(lang_item_68);
 
 QListWidgetItem *lang_item_69 = new QListWidgetItem("use_synth");
-lang_item_69->setData(32, QVariant("<h2><pre>use_synth<pre></h2><h2><pre>[synth_name (symbol)]</pre></h2><h3>add docs</h3>"));
+lang_item_69->setData(32, QVariant("<h2><pre>use_synth<pre></h2><h2><pre>[synth_name (symbol)]</pre></h2><h3>Switch the current synth to synth_name. Affects all further calls to play.</h3><h3>Example 1</h3><pre><br/>play 50 # Plays with default synth<br/>use_synth :mod_sine<br/>play 50 # Plays with mod_sine synth</pre>"));
 langNameList->addItem(lang_item_69);
 
 QListWidgetItem *lang_item_70 = new QListWidgetItem("with_synth");
-lang_item_70->setData(32, QVariant("<h2><pre>with_synth<pre></h2><h2><pre>[synth_name (symbol)]</pre></h2><h3>add docs</h3>"));
+lang_item_70->setData(32, QVariant("<h2><pre>with_synth<pre></h2><h2><pre>[synth_name (symbol)]</pre></h2><h3>Switch the current synth to synth_name but only for the duration of the do/end block. After the do/end block has completed, the previous synth is restored.</h3><h3>Example 1</h3><pre><br/>play 50 # Plays with default synth<br/>use_synth :mod_sine<br/>play 50 # Plays with mod_sine synth<br/><br/>with_synth :saw_beep do<br/>  play 50 # Plays with saw_beep synth<br/>end<br/><br/># Previous synth is restored<br/>play 50 # Plays with mod_sine synth</pre>"));
 langNameList->addItem(lang_item_70);
 
-QListWidgetItem *lang_item_71 = new QListWidgetItem("recording_start");
-lang_item_71->setData(32, QVariant("<h2><pre>recording_start<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_71 = new QListWidgetItem("play");
+lang_item_71->setData(32, QVariant("<h2><pre>play<pre></h2><h2><pre>[note (symbol_or_number)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_71);
 
-QListWidgetItem *lang_item_72 = new QListWidgetItem("recording_stop");
-lang_item_72->setData(32, QVariant("<h2><pre>recording_stop<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_72 = new QListWidgetItem("play_pattern");
+lang_item_72->setData(32, QVariant("<h2><pre>play_pattern<pre></h2><h2><pre>[notes (list)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_72);
 
-QListWidgetItem *lang_item_73 = new QListWidgetItem("recording_save");
-lang_item_73->setData(32, QVariant("<h2><pre>recording_save<pre></h2><h2><pre>[path (string)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_73 = new QListWidgetItem("play_pattern_timed");
+lang_item_73->setData(32, QVariant("<h2><pre>play_pattern_timed<pre></h2><h2><pre>[notes (list), times (list)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_73);
 
-QListWidgetItem *lang_item_74 = new QListWidgetItem("recording_delete");
-lang_item_74->setData(32, QVariant("<h2><pre>recording_delete<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_74 = new QListWidgetItem("play_chord");
+lang_item_74->setData(32, QVariant("<h2><pre>play_chord<pre></h2><h2><pre>[notes (list)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_74);
 
-QListWidgetItem *lang_item_75 = new QListWidgetItem("play");
-lang_item_75->setData(32, QVariant("<h2><pre>play<pre></h2><h2><pre>[note (symbol_or_number)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_75 = new QListWidgetItem("repeat");
+lang_item_75->setData(32, QVariant("<h2><pre>repeat<pre></h2><h2><pre>[notes (list)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_75);
 
-QListWidgetItem *lang_item_76 = new QListWidgetItem("play_pattern");
-lang_item_76->setData(32, QVariant("<h2><pre>play_pattern<pre></h2><h2><pre>[notes (list)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_76 = new QListWidgetItem("use_merged_synth_defaults");
+lang_item_76->setData(32, QVariant("<h2><pre>use_merged_synth_defaults<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_76);
 
-QListWidgetItem *lang_item_77 = new QListWidgetItem("play_pattern_timed");
-lang_item_77->setData(32, QVariant("<h2><pre>play_pattern_timed<pre></h2><h2><pre>[notes (list), times (list)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_77 = new QListWidgetItem("with_merged_synth_defaults");
+lang_item_77->setData(32, QVariant("<h2><pre>with_merged_synth_defaults<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_77);
 
-QListWidgetItem *lang_item_78 = new QListWidgetItem("play_chord");
-lang_item_78->setData(32, QVariant("<h2><pre>play_chord<pre></h2><h2><pre>[notes (list)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_78 = new QListWidgetItem("use_synth_defaults");
+lang_item_78->setData(32, QVariant("<h2><pre>use_synth_defaults<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_78);
 
-QListWidgetItem *lang_item_79 = new QListWidgetItem("repeat");
-lang_item_79->setData(32, QVariant("<h2><pre>repeat<pre></h2><h2><pre>[notes (list)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_79 = new QListWidgetItem("with_synth_defaults");
+lang_item_79->setData(32, QVariant("<h2><pre>with_synth_defaults<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_79);
 
-QListWidgetItem *lang_item_80 = new QListWidgetItem("use_merged_synth_defaults");
-lang_item_80->setData(32, QVariant("<h2><pre>use_merged_synth_defaults<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_80 = new QListWidgetItem("with_fx");
+lang_item_80->setData(32, QVariant("<h2><pre>with_fx<pre></h2><h2><pre>[fx_name (symbol)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_80);
 
-QListWidgetItem *lang_item_81 = new QListWidgetItem("with_merged_synth_defaults");
-lang_item_81->setData(32, QVariant("<h2><pre>with_merged_synth_defaults<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_81 = new QListWidgetItem("use_sample_pack");
+lang_item_81->setData(32, QVariant("<h2><pre>use_sample_pack<pre></h2><h2><pre>[pack_path (string)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_81);
 
-QListWidgetItem *lang_item_82 = new QListWidgetItem("use_synth_defaults");
-lang_item_82->setData(32, QVariant("<h2><pre>use_synth_defaults<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_82 = new QListWidgetItem("with_sample_pack");
+lang_item_82->setData(32, QVariant("<h2><pre>with_sample_pack<pre></h2><h2><pre>[pack_path (string)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_82);
 
-QListWidgetItem *lang_item_83 = new QListWidgetItem("with_synth_defaults");
-lang_item_83->setData(32, QVariant("<h2><pre>with_synth_defaults<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_83 = new QListWidgetItem("current_bpm");
+lang_item_83->setData(32, QVariant("<h2><pre>current_bpm<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_83);
 
-QListWidgetItem *lang_item_84 = new QListWidgetItem("with_fx");
-lang_item_84->setData(32, QVariant("<h2><pre>with_fx<pre></h2><h2><pre>[fx_name (symbol)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_84 = new QListWidgetItem("set_volume!");
+lang_item_84->setData(32, QVariant("<h2><pre>set_volume!<pre></h2><h2><pre>[vol (number)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_84);
 
-QListWidgetItem *lang_item_85 = new QListWidgetItem("use_sample_pack");
-lang_item_85->setData(32, QVariant("<h2><pre>use_sample_pack<pre></h2><h2><pre>[pack_path (string)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_85 = new QListWidgetItem("load_sample");
+lang_item_85->setData(32, QVariant("<h2><pre>load_sample<pre></h2><h2><pre>[path (string)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_85);
 
-QListWidgetItem *lang_item_86 = new QListWidgetItem("with_sample_pack");
-lang_item_86->setData(32, QVariant("<h2><pre>with_sample_pack<pre></h2><h2><pre>[pack_path (string)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_86 = new QListWidgetItem("load_samples");
+lang_item_86->setData(32, QVariant("<h2><pre>load_samples<pre></h2><h2><pre>[paths (list)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_86);
 
-QListWidgetItem *lang_item_87 = new QListWidgetItem("current_bpm");
-lang_item_87->setData(32, QVariant("<h2><pre>current_bpm<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_87 = new QListWidgetItem("sample_info");
+lang_item_87->setData(32, QVariant("<h2><pre>sample_info<pre></h2><h2><pre>[path (string)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_87);
 
-QListWidgetItem *lang_item_88 = new QListWidgetItem("set_volume!");
-lang_item_88->setData(32, QVariant("<h2><pre>set_volume!<pre></h2><h2><pre>[vol (number)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_88 = new QListWidgetItem("sample_duration");
+lang_item_88->setData(32, QVariant("<h2><pre>sample_duration<pre></h2><h2><pre>[path (string)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_88);
 
-QListWidgetItem *lang_item_89 = new QListWidgetItem("load_sample");
-lang_item_89->setData(32, QVariant("<h2><pre>load_sample<pre></h2><h2><pre>[path (string)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_89 = new QListWidgetItem("sample");
+lang_item_89->setData(32, QVariant("<h2><pre>sample<pre></h2><h2><pre>[name_or_path (symbol_or_string)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_89);
 
-QListWidgetItem *lang_item_90 = new QListWidgetItem("load_samples");
-lang_item_90->setData(32, QVariant("<h2><pre>load_samples<pre></h2><h2><pre>[paths (list)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_90 = new QListWidgetItem("status");
+lang_item_90->setData(32, QVariant("<h2><pre>status<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_90);
 
-QListWidgetItem *lang_item_91 = new QListWidgetItem("sample_info");
-lang_item_91->setData(32, QVariant("<h2><pre>sample_info<pre></h2><h2><pre>[path (string)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_91 = new QListWidgetItem("note");
+lang_item_91->setData(32, QVariant("<h2><pre>note<pre></h2><h2><pre>[note (symbol_or_number)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_91);
 
-QListWidgetItem *lang_item_92 = new QListWidgetItem("sample_duration");
-lang_item_92->setData(32, QVariant("<h2><pre>sample_duration<pre></h2><h2><pre>[path (string)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_92 = new QListWidgetItem("note_info");
+lang_item_92->setData(32, QVariant("<h2><pre>note_info<pre></h2><h2><pre>[note (symbol_or_number)]</pre></h2><h3>add docs - :octave opt is overridden if oct specified in symbol i.e. :c3</h3>"));
 langNameList->addItem(lang_item_92);
 
-QListWidgetItem *lang_item_93 = new QListWidgetItem("sample");
-lang_item_93->setData(32, QVariant("<h2><pre>sample<pre></h2><h2><pre>[name_or_path (symbol_or_string)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_93 = new QListWidgetItem("scale");
+lang_item_93->setData(32, QVariant("<h2><pre>scale<pre></h2><h2><pre>[tonic (symbol), name (symbol)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_93);
 
-QListWidgetItem *lang_item_94 = new QListWidgetItem("status");
-lang_item_94->setData(32, QVariant("<h2><pre>status<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_94 = new QListWidgetItem("chord");
+lang_item_94->setData(32, QVariant("<h2><pre>chord<pre></h2><h2><pre>[tonic (symbol), name (symbol)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_94);
 
-QListWidgetItem *lang_item_95 = new QListWidgetItem("note");
-lang_item_95->setData(32, QVariant("<h2><pre>note<pre></h2><h2><pre>[note (symbol_or_number)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_95 = new QListWidgetItem("control");
+lang_item_95->setData(32, QVariant("<h2><pre>control<pre></h2><h2><pre>[node (synth_node)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_95);
 
-QListWidgetItem *lang_item_96 = new QListWidgetItem("note_info");
-lang_item_96->setData(32, QVariant("<h2><pre>note_info<pre></h2><h2><pre>[note (symbol_or_number)]</pre></h2><h3>add docs - :octave opt is overridden if oct specified in symbol i.e. :c3</h3>"));
+QListWidgetItem *lang_item_96 = new QListWidgetItem("sample_names");
+lang_item_96->setData(32, QVariant("<h2><pre>sample_names<pre></h2><h2><pre>[group (symbol)]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_96);
 
-QListWidgetItem *lang_item_97 = new QListWidgetItem("scale");
-lang_item_97->setData(32, QVariant("<h2><pre>scale<pre></h2><h2><pre>[tonic (symbol), name (symbol)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_97 = new QListWidgetItem("all_sample_names");
+lang_item_97->setData(32, QVariant("<h2><pre>all_sample_names<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_97);
 
-QListWidgetItem *lang_item_98 = new QListWidgetItem("chord");
-lang_item_98->setData(32, QVariant("<h2><pre>chord<pre></h2><h2><pre>[tonic (symbol), name (symbol)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_98 = new QListWidgetItem("sample_groups");
+lang_item_98->setData(32, QVariant("<h2><pre>sample_groups<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
 langNameList->addItem(lang_item_98);
 
-QListWidgetItem *lang_item_99 = new QListWidgetItem("control");
-lang_item_99->setData(32, QVariant("<h2><pre>control<pre></h2><h2><pre>[node (synth_node)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_99 = new QListWidgetItem("n.times");
+lang_item_99->setData(32, QVariant("Loop n times"));
 langNameList->addItem(lang_item_99);
 
-QListWidgetItem *lang_item_100 = new QListWidgetItem("sample_names");
-lang_item_100->setData(32, QVariant("<h2><pre>sample_names<pre></h2><h2><pre>[group (symbol)]</pre></h2><h3>add docs</h3>"));
+QListWidgetItem *lang_item_100 = new QListWidgetItem("loop");
+lang_item_100->setData(32, QVariant("Loop forever"));
 langNameList->addItem(lang_item_100);
-
-QListWidgetItem *lang_item_101 = new QListWidgetItem("all_sample_names");
-lang_item_101->setData(32, QVariant("<h2><pre>all_sample_names<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
-langNameList->addItem(lang_item_101);
-
-QListWidgetItem *lang_item_102 = new QListWidgetItem("sample_groups");
-lang_item_102->setData(32, QVariant("<h2><pre>sample_groups<pre></h2><h2><pre>[]</pre></h2><h3>add docs</h3>"));
-langNameList->addItem(lang_item_102);
-
-QListWidgetItem *lang_item_103 = new QListWidgetItem("n.times");
-lang_item_103->setData(32, QVariant("Loop n times"));
-langNameList->addItem(lang_item_103);
-
-QListWidgetItem *lang_item_104 = new QListWidgetItem("loop");
-lang_item_104->setData(32, QVariant("Loop forever"));
-langNameList->addItem(lang_item_104);
 
 // examples info
 
@@ -1505,52 +1489,48 @@ QWidget *examplesTabWidget = new QWidget;
 examplesTabWidget->setLayout(examplesLayout);
 docsCentral->addTab(examplesTabWidget, "Examples");
 
-QListWidgetItem *examples_item_105 = new QListWidgetItem("ambient");
-examples_item_105->setData(32, QVariant("<pre>load_samples(sample_names :ambi)<br/><br/>with_fx :reverb, mix: 0.3 do<br/>  loop do<br/>    s_name = choose sample_names :ambi<br/>    s_time = rrand_i 1, 2<br/>    s = sample s_name, rate: choose([0.5, 1]), pan: rrand(-1, 1), pan_slide: s_time<br/>    control s, pan: rrand(-1, 1)<br/>    sleep s_time<br/>  end<br/>end </pre>"));
+QListWidgetItem *examples_item_101 = new QListWidgetItem("ambient");
+examples_item_101->setData(32, QVariant("<pre>load_samples(sample_names :ambi)<br/><br/>with_fx :reverb, mix: 0.3 do<br/>  loop do<br/>    s_name = choose sample_names :ambi<br/>    s_time = rrand_i 1, 2<br/>    s = sample s_name, rate: choose([0.5, 1]), pan: rrand(-1, 1), pan_slide: s_time<br/>    control s, pan: rrand(-1, 1)<br/>    sleep s_time<br/>  end<br/>end </pre>"));
+examplesNameList->addItem(examples_item_101);
+
+QListWidgetItem *examples_item_102 = new QListWidgetItem("compus_beats");
+examples_item_102->setData(32, QVariant("<pre>sd = sample_duration :loop_compus<br/><br/>define :loopr do<br/>  sample :loop_compus, rate: [0.5, 1, 1, 1, 1, 2].choose if rand &lt; 0.9<br/>  sleep sd<br/>end<br/><br/>define :bass do<br/>  sample :bass_voxy_c, amp: rrand(0.1, 0.2), rate: [0.5, 0.5, 1, 1,2,4].choose if rand &lt; 0.25<br/>  use_synth :mod_pulse<br/>  play :C1, mod_range: 12, amp: rrand(0.5, 1), mod_rate: [8, 16, 32].choose / sd, release: 1, cutoff: rrand(50, 90)<br/>  play :C2, mod_range: [24, 36, 34].choose, amp: 0.35, mod_rate: 16 / sd, release: 2, cutoff: 60, pulse_width: rand<br/>  sleep sd / 4<br/>end<br/><br/>in_thread(name: :t1){loop{loopr}}<br/>in_thread(name: :t2){loop{bass}} </pre>"));
+examplesNameList->addItem(examples_item_102);
+
+QListWidgetItem *examples_item_103 = new QListWidgetItem("driving_pulse");
+examples_item_103->setData(32, QVariant("<pre>load_sample :drum_heavy_kick<br/><br/>define :drums do<br/>  sample :drum_heavy_kick, rate: 0.75<br/>  sleep 0.5<br/>  sample :drum_heavy_kick<br/>  sleep 0.5<br/>end<br/><br/>define :synths do<br/>  use_synth :mod_pulse<br/>  use_synth_defaults amp: 1, mod_range: 15, attack: 0.03, release: 0.6, cutoff: 80, pulse_width: 0.2, mod_rate: 4<br/>  play 30<br/>  sleep 0.25<br/>  play 38<br/>  sleep 0.25<br/>end<br/><br/>in_thread(name: :drums){loop{drums}}<br/>in_thread(name: :synths){loop{synths}} </pre>"));
+examplesNameList->addItem(examples_item_103);
+
+QListWidgetItem *examples_item_104 = new QListWidgetItem("echo_drama");
+examples_item_104->setData(32, QVariant("<pre>use_synth :tb303<br/><br/>rate = 0.7<br/>rate_mul = 1.0 / rate<br/><br/>with_fx(:echo, delay: 0.5 * rate_mul, decay: 4) do<br/>  loop do<br/>    play chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose, cutoff: rrand(40, 100), amp: 0.5, attack: 0, release: 2<br/>    sleep [0.25, 0.5, 0.5, 0.5, 1, 1].choose * rate_mul<br/>  end<br/>end </pre>"));
+examplesNameList->addItem(examples_item_104);
+
+QListWidgetItem *examples_item_105 = new QListWidgetItem("filtered_dnb");
+examples_item_105->setData(32, QVariant("<pre>with_fx(:rlpf, cutoff: 10, cutoff_slide: 20) do |c|<br/>  loop do<br/>    sample :bass_dnb_f, amp: 5<br/>    sample :loop_amen, amp: 5<br/>    sleep sample_duration :loop_amen<br/>    c.ctl cutoff: rrand(40, 120), cutoff_slide: rrand(1, 20)<br/>  end<br/>end </pre>"));
 examplesNameList->addItem(examples_item_105);
 
-QListWidgetItem *examples_item_106 = new QListWidgetItem("blue_monday");
-examples_item_106->setData(32, QVariant("<pre>load_samples [:drum_heavy_kick, :drum_snare_soft]<br/><br/>define :drums do<br/>  6.times do<br/>    sample :drum_heavy_kick, rate: 0.8<br/>    sleep 0.5<br/>  end<br/><br/>  8.times do<br/>    sample :drum_heavy_kick, rate: 0.8<br/>    sleep 0.125<br/>  end<br/>end<br/><br/>define :snare do<br/>  sample :drum_snare_soft<br/>  sleep 1<br/>end<br/><br/>define :synths do<br/>  use_synth :saw_beep<br/>  use_synth_defaults amp: 0.5, attack: 0.01, release: 0.75, cutoff: 90<br/>  notes = [:F, :C, :D, :D, :G, :C, :D, :D]<br/>  notes.each do |n|<br/>    2.times do<br/>      play note(n, octave: 1)<br/>      play note(n, octave: 2)<br/>      sleep 0.25<br/><br/>      play note(n, octave: 2)<br/>      play note(n, octave: 3)<br/>      sleep 0.25<br/>    end<br/>  end<br/>end<br/><br/>in_thread(name: :synths) do<br/>  sleep 6<br/>  loop{synths}<br/>end<br/><br/>in_thread(name: :drums) do<br/>  loop{drums}<br/>end<br/><br/>in_thread(name: :snare) do<br/>  sleep 12.5<br/>  loop{snare}<br/>end </pre>"));
+QListWidgetItem *examples_item_106 = new QListWidgetItem("fm_noise");
+examples_item_106->setData(32, QVariant("<pre>use_synth :fm<br/><br/>loop do<br/>  p = play chord(:Eb3, :minor).choose - [0, 12, -12].choose, divisor: 0.01, div_slide: rrand(0, 100), depth: rrand(0.001, 2), attack: 0.01, release: rrand(0, 5), amp: 0.5<br/>  p.control divisor: rrand(0.001, 50)<br/>  sleep [0.5, 1, 2].choose<br/>end </pre>"));
 examplesNameList->addItem(examples_item_106);
 
-QListWidgetItem *examples_item_107 = new QListWidgetItem("compus_beats");
-examples_item_107->setData(32, QVariant("<pre>sd = sample_duration :loop_compus<br/><br/>define :loopr do<br/>  sample :loop_compus, rate: [0.5, 1, 1, 1, 1, 2].choose if rand &lt; 0.9<br/>  sleep sd<br/>end<br/><br/>define :bass do<br/>  sample :bass_voxy_c, amp: rrand(0.1, 0.2), rate: [0.5, 0.5, 1, 1,2,4].choose if rand &lt; 0.25<br/>  use_synth :mod_pulse<br/>  play :C1, mod_range: 12, amp: rrand(0.5, 1), mod_rate: [8, 16, 32].choose / sd, release: 1, cutoff: rrand(50, 90)<br/>  play :C2, mod_range: [24, 36, 34].choose, amp: 0.35, mod_rate: 16 / sd, release: 2, cutoff: 60, pulse_width: rand<br/>  sleep sd / 4<br/>end<br/><br/>in_thread(name: :t1){loop{loopr}}<br/>in_thread(name: :t2){loop{bass}} </pre>"));
+QListWidgetItem *examples_item_107 = new QListWidgetItem("guitar_pulses");
+examples_item_107->setData(32, QVariant("<pre>size = 0.5<br/><br/>in_thread do<br/>  loop do<br/>    s_name = :guit_e_slide<br/>    s = rand(1 - size)<br/>    e = s + size<br/>    if rand &lt; 0.25<br/>      r = -1<br/>    else<br/>      r = 1<br/>    end<br/>    sample s_name, start: s, finish: e, attack: 0.1, release: 0.1, rate: r * [1, 0.5].choose<br/>    sleep sample_duration(s_name) * size<br/>  end<br/>end<br/><br/>in_thread do<br/>  loop do<br/>    n_size = size / 0.5<br/>    s_name = :guit_harmonics<br/>    s = rand(1 - n_size)<br/>    e = s + n_size<br/>    if rand &lt; 0.25<br/>      r = -1<br/>    else<br/>      r = 1<br/>    end<br/>    sample s_name, start: s, finish: e, attack: 0.1, release: 0.1, rate: r * 0.5<br/>    sleep sample_duration(s_name) * n_size<br/>  end<br/>end<br/><br/><br/>loop do<br/>  n_size = size / 8<br/>  s_name = :guit_e_fifths<br/>  s = 0.2 + rand(0.3)<br/>  e = s + n_size<br/>  sample s_name, start: s, finish: e, attack: 0.1, release: 0.1<br/>  sleep sample_duration(s_name) * n_size<br/>end </pre>"));
 examplesNameList->addItem(examples_item_107);
 
-QListWidgetItem *examples_item_108 = new QListWidgetItem("driving_pulse");
-examples_item_108->setData(32, QVariant("<pre>load_sample :drum_heavy_kick<br/><br/>define :drums do<br/>  sample :drum_heavy_kick, rate: 0.75<br/>  sleep 0.5<br/>  sample :drum_heavy_kick<br/>  sleep 0.5<br/>end<br/><br/>define :synths do<br/>  use_synth :mod_pulse<br/>  use_synth_defaults amp: 1, mod_range: 15, attack: 0.03, release: 0.6, cutoff: 80, pulse_width: 0.2, mod_rate: 4<br/>  play 30<br/>  sleep 0.25<br/>  play 38<br/>  sleep 0.25<br/>end<br/><br/>in_thread(name: :drums){loop{drums}}<br/>in_thread(name: :synths){loop{synths}} </pre>"));
+QListWidgetItem *examples_item_108 = new QListWidgetItem("haunted_bells");
+examples_item_108->setData(32, QVariant("<pre>loop do<br/>  sample :perc_bell, rate: (rrand 0.125, 1.5)<br/>  sleep rrand(0, 2)<br/>end </pre>"));
 examplesNameList->addItem(examples_item_108);
 
-QListWidgetItem *examples_item_109 = new QListWidgetItem("echo_drama");
-examples_item_109->setData(32, QVariant("<pre>use_synth :tb303<br/><br/>rate = 0.7<br/>rate_mul = 1.0 / rate<br/><br/>with_fx(:echo, delay: 0.5 * rate_mul, decay: 4) do<br/>  loop do<br/>    play chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose, cutoff: rrand(40, 100), amp: 0.5, attack: 0, release: 2<br/>    sleep [0.25, 0.5, 0.5, 0.5, 1, 1].choose * rate_mul<br/>  end<br/>end </pre>"));
+QListWidgetItem *examples_item_109 = new QListWidgetItem("idm_breakbeat");
+examples_item_109->setData(32, QVariant("<pre>define :play_bb do |n|<br/>  sample :drum_heavy_kick<br/>  sample :ambi_drone, rate: [0.25, 0.5, 0.125, 1].choose, amp: 0.25 if rand &lt; 0.125<br/>  sample :ambi_lunar_land, rate: [0.5, 0.125, 1, -1, -0.5].choose, amp: 0.25 if rand &lt; 0.125<br/>  sample :loop_amen, attack: 0, release: 0.05, start: 1 - (1.0 / n), rate: [1,1,1,1,1,1,-1].choose<br/>  sleep sample_duration(:loop_amen) / n<br/>end<br/><br/><br/>loop {play_bb([1,2,4,8,16].choose)} </pre>"));
 examplesNameList->addItem(examples_item_109);
 
-QListWidgetItem *examples_item_110 = new QListWidgetItem("filtered_dnb");
-examples_item_110->setData(32, QVariant("<pre>with_fx(:rlpf, cutoff: 10, cutoff_slide: 20) do |c|<br/>  loop do<br/>    sample :bass_dnb_f, amp: 5<br/>    sample :loop_amen, amp: 5<br/>    sleep sample_duration :loop_amen<br/>    c.ctl cutoff: rrand(40, 120), cutoff_slide: rrand(1, 20)<br/>  end<br/>end </pre>"));
+QListWidgetItem *examples_item_110 = new QListWidgetItem("jungle");
+examples_item_110->setData(32, QVariant("<pre>with_fx :lpf, cutoff: 90 do<br/>  with_fx :reverb, mix: 0.5 do<br/>    with_fx :compressor, amp: 40 do<br/>      with_fx :distortion, distort: 0.4 do<br/>        loop do<br/>          sample :loop_amen, rate: 1.35<br/>          sleep sample_duration :loop_amen, rate: 1.35<br/>        end<br/>      end<br/>    end<br/>  end<br/>end </pre>"));
 examplesNameList->addItem(examples_item_110);
 
-QListWidgetItem *examples_item_111 = new QListWidgetItem("fm_noise");
-examples_item_111->setData(32, QVariant("<pre>use_synth :fm<br/><br/>loop do<br/>  p = play chord(:Eb3, :minor).choose - [0, 12, -12].choose, divisor: 0.01, div_slide: rrand(0, 100), depth: rrand(0.001, 2), attack: 0.01, release: rrand(0, 5), amp: 0.5<br/>  p.control divisor: rrand(0.001, 50)<br/>  sleep [0.5, 1, 2].choose<br/>end </pre>"));
+QListWidgetItem *examples_item_111 = new QListWidgetItem("tron_bike");
+examples_item_111->setData(32, QVariant("<pre>loop do<br/>  with_synth :dsaw do<br/>    with_fx(:slicer, freq: [4,8].choose) do<br/>      with_fx(:reverb, room: 0.5, mix: 0.3) do<br/>        n1 = chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose<br/>        n2 = chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose<br/><br/>        p = play n1, amp: 2, release: 8, note_slide: 4, cutoff: 30, cutoff_slide: 4, detune: rrand(0, 0.2)<br/>        p.control note: n2, cutoff: rrand(80, 120)<br/>      end<br/>    end<br/>  end<br/><br/>  sleep 8<br/>end </pre>"));
 examplesNameList->addItem(examples_item_111);
-
-QListWidgetItem *examples_item_112 = new QListWidgetItem("guitar_pulses");
-examples_item_112->setData(32, QVariant("<pre>size = 0.5<br/><br/>in_thread do<br/>  loop do<br/>    s_name = :guit_e_slide<br/>    s = rand(1 - size)<br/>    e = s + size<br/>    if rand &lt; 0.25<br/>      r = -1<br/>    else<br/>      r = 1<br/>    end<br/>    sample s_name, start: s, finish: e, attack: 0.1, release: 0.1, rate: r * [1, 0.5].choose<br/>    sleep sample_duration(s_name) * size<br/>  end<br/>end<br/><br/>in_thread do<br/>  loop do<br/>    n_size = size / 0.5<br/>    s_name = :guit_harmonics<br/>    s = rand(1 - n_size)<br/>    e = s + n_size<br/>    if rand &lt; 0.25<br/>      r = -1<br/>    else<br/>      r = 1<br/>    end<br/>    sample s_name, start: s, finish: e, attack: 0.1, release: 0.1, rate: r * 0.5<br/>    sleep sample_duration(s_name) * n_size<br/>  end<br/>end<br/><br/><br/>loop do<br/>  n_size = size / 8<br/>  s_name = :guit_e_fifths<br/>  s = 0.2 + rand(0.3)<br/>  e = s + n_size<br/>  sample s_name, start: s, finish: e, attack: 0.1, release: 0.1<br/>  sleep sample_duration(s_name) * n_size<br/>end </pre>"));
-examplesNameList->addItem(examples_item_112);
-
-QListWidgetItem *examples_item_113 = new QListWidgetItem("haunted_bells");
-examples_item_113->setData(32, QVariant("<pre>loop do<br/>  sample :perc_bell, rate: (rrand 0.125, 1.5)<br/>  sleep rrand(0, 2)<br/>end </pre>"));
-examplesNameList->addItem(examples_item_113);
-
-QListWidgetItem *examples_item_114 = new QListWidgetItem("idm_breakbeat");
-examples_item_114->setData(32, QVariant("<pre>define :play_bb do |n|<br/>  sample :drum_heavy_kick<br/>  sample :ambi_drone, rate: [0.25, 0.5, 0.125, 1].choose, amp: 0.25 if rand &lt; 0.125<br/>  sample :ambi_lunar_land, rate: [0.5, 0.125, 1, -1, -0.5].choose, amp: 0.25 if rand &lt; 0.125<br/>  sample :loop_amen, attack: 0, release: 0.05, start: 1 - (1.0 / n), rate: [1,1,1,1,1,1,-1].choose<br/>  sleep sample_duration(:loop_amen) / n<br/>end<br/><br/><br/>loop {play_bb([1,2,4,8,16].choose)} </pre>"));
-examplesNameList->addItem(examples_item_114);
-
-QListWidgetItem *examples_item_115 = new QListWidgetItem("jungle");
-examples_item_115->setData(32, QVariant("<pre>with_fx :lpf, cutoff: 90 do<br/>  with_fx :reverb, mix: 0.5 do<br/>    with_fx :compressor, amp: 40 do<br/>      with_fx :distortion, distort: 0.4 do<br/>        loop do<br/>          sample :loop_amen, rate: 1.35<br/>          sleep sample_duration :loop_amen, rate: 1.35<br/>        end<br/>      end<br/>    end<br/>  end<br/>end </pre>"));
-examplesNameList->addItem(examples_item_115);
-
-QListWidgetItem *examples_item_116 = new QListWidgetItem("tron_bike");
-examples_item_116->setData(32, QVariant("<pre>loop do<br/>  with_synth :dsaw do<br/>    with_fx(:slicer, freq: [4,8].choose) do<br/>      with_fx(:reverb, room: 0.5, mix: 0.3) do<br/>        n1 = chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose<br/>        n2 = chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose<br/><br/>        p = play n1, amp: 2, release: 8, note_slide: 4, cutoff: 30, cutoff_slide: 4, detune: rrand(0, 0.2)<br/>        p.control note: n2, cutoff: rrand(80, 120)<br/>      end<br/>    end<br/>  end<br/><br/>  sleep 8<br/>end </pre>"));
-examplesNameList->addItem(examples_item_116);
 
 }
