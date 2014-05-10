@@ -24,6 +24,7 @@ require_relative "../sonicpi/mods/sound"
 include SonicPi::Util
 
 docs = []
+filenames = []
 count = 0
 
 options = {}
@@ -61,10 +62,18 @@ make_tab = lambda do |name, doc_items|
   doc_items.each do |n, doc|
 
     item_var = "#{name}_item_#{count+=1}"
+    filename = "help/#{item_var}.html"
+
     docs << "QListWidgetItem *#{item_var} = new QListWidgetItem(\"#{n}\");\n"
-    docs << "#{item_var}->setData(32, QVariant(\"#{doc}\"));\n"
+    docs << "setHelpText(#{item_var}, QString(\":/#{filename}\"));"
     docs << "#{list_widget}->addItem(#{item_var});\n"
     docs << "\n"
+
+    filenames << "    <file>#{filename}</file>\n"
+
+    File.open("#{qt_gui_path}/#{filename}", 'w') do |f|
+      f << "#{doc}"
+    end 
 
   end
 
@@ -109,4 +118,10 @@ new_content << "}\n"
 
 File.open(cpp, 'w') do |f|
   f << new_content.join
+end
+
+File.open("#{qt_gui_path}/help_files.qrc", 'w') do |f|
+  f << "<RCC>\n  <qresource prefix=\"/\">\n"
+  f << filenames.join
+  f << "  </qresource>\n</RCC>\n"
 end
