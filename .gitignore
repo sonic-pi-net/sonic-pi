@@ -45,3 +45,5 @@ app/gui/qt/Makefile
 *.DS_Store
 *.log
 \.#*
+.lein-plugins
+
