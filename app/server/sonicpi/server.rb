@@ -45,7 +45,7 @@ module SonicPi
       @scsynth = SCSynthExternal.new do |m, args|
         @EVENTS.event m, args
       end
-      osc "/dumpOSC", 1
+
       at_exit do
         puts "Exiting - shutting down scsynth server..."
         @scsynth.shutdown
