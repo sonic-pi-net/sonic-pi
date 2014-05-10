@@ -758,7 +758,7 @@ play 50 # Plays with mod_sine synth
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts current_bpm # Print out the current bpm",
+puts current_bpm # Print out the current bpm"]
 
 
 
@@ -772,7 +772,7 @@ puts current_bpm # Print out the current bpm",
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts current_synth # Print out the current synth name",
+puts current_synth # Print out the current synth name"]
 
 
 
@@ -786,7 +786,7 @@ puts current_synth # Print out the current synth name",
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts current_transpose # Print out the current transpose value",
+puts current_transpose # Print out the current transpose value"]
 
 
 
@@ -799,7 +799,7 @@ puts current_transpose # Print out the current transpose value",
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts current_debug # Print out the current debug setting",
+puts current_debug # Print out the current debug setting"]
 
 
 
@@ -812,7 +812,7 @@ puts current_debug # Print out the current debug setting",
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts current_arg_checks # Print out the current arg check setting",
+puts current_arg_checks # Print out the current arg check setting"]
 
 
 
