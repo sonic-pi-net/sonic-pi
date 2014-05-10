@@ -29,11 +29,11 @@ require_relative "../sonicpi/rcv_dispatch"
 include SonicPi::Util
 
 ws_out = Queue.new
-$web_server = nil
+web_server = nil
 
 at_exit do
   puts "Exiting - shutting down web server..."
-  $web_server.shutdown if $web_server
+  web_server.shutdown if web_server
 end
 
 puts "starting server stuff"
@@ -49,7 +49,6 @@ $sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
 puts "finished starting sp"
 $rd = SonicPi::RcvDispatch.new($sp, ws_out)
 $clients = []
-
 
 
 # Send stuff out from Sonic Pi jobs out to GUI
@@ -108,9 +107,11 @@ in_t = Thread.new do
 end
 
 # $web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "0.0.0.0" , :DocumentRoot => html_public_path
-$web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "localhost" , :DocumentRoot => html_public_path
+web_server = WEBrick::HTTPServer.new :Port => 8000, :BindAddress => "localhost" , :DocumentRoot => html_public_path
 
 web_t = Thread.new { $web_server.start}
+
+
 
 out_t.join
 in_t.join
