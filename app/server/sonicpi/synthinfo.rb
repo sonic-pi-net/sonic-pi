@@ -1498,7 +1498,7 @@ end
           :misc_burp]},
 
       :perc => {
-        :desc => "Percurssive Sounds",
+        :desc => "Percussive Sounds",
         :prefix => "perc_",
         :samples => [
           :perc_bell]},
