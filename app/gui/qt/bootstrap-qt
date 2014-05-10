@@ -3,5 +3,7 @@
 set -eu
 
 cd $(dirname $0)
+
+../../server/bin/qt-doc.rb
 qmake -o Makefile application.pro
 make
