@@ -22,7 +22,7 @@ require_relative "counter"
 require_relative "buffer"
 require_relative "bufferstream"
 require_relative "scsynthexternal"
-require_relative "scsynthnative"
+#require_relative "scsynthnative"
 
 
 module SonicPi
