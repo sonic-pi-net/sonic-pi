@@ -748,15 +748,73 @@ play 50 # Plays with mod_sine synth
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
        end
 
-       doc name:          :current_bpm,
-           doc:           "add docs",
-           args:          [],
-           opts:          nil,
-           accepts_block: false,
-           examples:      []
+
        def current_bpm
          60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
        end
+       doc name:          :current_bpm,
+           doc:           "Returns the current bpm value.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_bpm # Print out the current bpm",
+
+
+
+
+       def current_synth
+         @mod_sound_studio.current_synth_name
+       end
+       doc name:          :current_synth,
+           doc:           "Returns the current synth name.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_synth # Print out the current synth name",
+
+
+
+
+       def current_transpose
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+       end
+       doc name:          :current_transpose,
+           doc:           "Returns the current transpose value.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_transpose # Print out the current transpose value",
+
+
+
+       def current_debug
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+       end
+       doc name:          :current_debug,
+           doc:           "Returns the current debug setting (true or false).",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_debug # Print out the current debug setting",
+
+
+
+       def current_arg_checks
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+       end
+       doc name:          :current_arg_checks,
+           doc:           "Returns the current arg checking setting (true or false).",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_arg_checks # Print out the current arg check setting",
+
+
 
        doc name:          :set_debug_on!,
            doc:           "add docs",
