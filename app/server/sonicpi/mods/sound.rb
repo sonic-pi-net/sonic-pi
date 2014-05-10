@@ -408,11 +408,24 @@ play 50 # Plays with mod_sine synth
          end
        end
        doc name:          :play,
-           doc:           "Play note with current synth.",
+           doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with attack, sustain and release phases. These phases are triggered in order, so the duration of the sound is attack + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
+
+Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
            args:          [[:note, :symbol_or_number]],
-           opts:          {},
+           opts:          {amp:       {default: 1, doc: "The amplitude of the note"},
+                           amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
+                           pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
+                           pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
+                           attack: {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
+                           sustain: {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
+                           release: {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+play 50 # Plays note 50 on the current synth",
+
+"play 50, attack: 1 # Plays note 50 with a fade-in time of 1s",
+
+"play 62, pan: -1, release: 3 # Play note 62 in the left ear with a fade-out time of 3s." ]
 
 
 
@@ -816,6 +829,10 @@ puts current_arg_checks # Print out the current arg check setting"]
 
 
 
+
+       def set_debug_on!
+         @mod_sound_studio.debug = true
+       end
        doc name:          :set_debug_on!,
            doc:           "add docs",
            args:          [],
@@ -823,10 +840,13 @@ puts current_arg_checks # Print out the current arg check setting"]
            accepts_block: false,
            examples:      [],
            hide:          true
-       def set_debug_on!
-         @mod_sound_studio.debug = true
-       end
 
+
+
+
+       def set_debug_off!
+         @mod_sound_studio.debug = false
+       end
        doc name:          :set_debug_off!,
            doc:           "add docs",
            args:          [],
@@ -834,16 +854,10 @@ puts current_arg_checks # Print out the current arg check setting"]
            accepts_block: false,
            examples:      [],
            hide:          true
-       def set_debug_off!
-         @mod_sound_studio.debug = false
-       end
 
-       doc name:          :set_volume!,
-           doc:           "add docs",
-           args:          [[:vol, :number]],
-           opts:          nil,
-           accepts_block: false,
-           examples:      []
+
+
+
        def set_volume!(vol)
          max_vol = 5
          if (vol < 0)
@@ -854,18 +868,19 @@ puts current_arg_checks # Print out the current arg check setting"]
            @mod_sound_studio.volume = vol
          end
        end
+       doc name:          :set_volume!,
+           doc:           "Set the main system volum to vol. Accepts a value between 0 and 5 inclusive. Vols greater or smaller than the allowed values are trimmed to keep them within range. Default is 1.",
+           args:          [[:vol, :number]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+set_volume! 2 # Set the main system volume to 2",
 
+"set_volume! -1 # Out of range, so sets main system volume to 0",
 
-       def resolve_sample_symbol_path(sym)
-         path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || samples_path
-         partial = path + "/" + sym.to_s
-         ["wav", "aiff", "aif", "wave"].each do |ext|
-           full = "#{partial}.#{ext}"
-           return full if File.exists?(full)
-         end
+"set_volume! 7 # Out of range, so sets main system volume to 5"
+]
 
-         raise "No sample exists called #{path.inspect} in sample pack #{path}"
-       end
 
        doc name:          :load_sample,
            doc:           "add docs",
@@ -1042,6 +1057,18 @@ puts current_arg_checks # Print out the current arg check setting"]
          BaseInfo.grouped_samples.keys
        end
 
+       private
+
+       def resolve_sample_symbol_path(sym)
+         path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || samples_path
+         partial = path + "/" + sym.to_s
+         ["wav", "aiff", "aif", "wave"].each do |ext|
+           full = "#{partial}.#{ext}"
+           return full if File.exists?(full)
+         end
+
+         raise "No sample exists called #{path.inspect} in sample pack #{path}"
+       end
 
        def arg_h_pp(arg_h)
          s = "{"
