@@ -1071,7 +1071,7 @@ end
 
   class FXReverb < FXInfo
     def name
-      "FX Reverb"
+      "Reverb"
     end
 
     def arg_defaults
@@ -1088,7 +1088,7 @@ end
 
   class FXLevel < FXInfo
     def name
-      "FX Level Amplifier"
+      "Level Amplifier"
     end
 
     def arg_defaults
@@ -1101,7 +1101,7 @@ end
 
   class FXEcho < FXInfo
     def name
-      "FX Echo"
+      "Echo"
     end
 
     def arg_defaults
@@ -1162,7 +1162,7 @@ end
 
   class FXSlicer < FXInfo
     def name
-      "FX Slicer"
+      "Slicer"
     end
 
     def arg_defaults
@@ -1234,7 +1234,7 @@ end
 
   class FXIXITechno < FXInfo
     def name
-      "FX Techno from IXI Lang"
+      "Techno from IXI Lang"
     end
 
     def arg_defaults
@@ -1266,7 +1266,7 @@ end
 
   class FXCompressor < FXInfo
     def name
-      "FX Compressor"
+      "Compressor"
     end
 
     def arg_defaults
@@ -1297,7 +1297,7 @@ end
 
   class FXRLPF < FXInfo
     def name
-      "FX Resonant Low Pass Filter"
+      "Resonant Low Pass Filter"
     end
 
     def arg_defaults
@@ -1319,13 +1319,13 @@ end
 
   class FXNormRLPF < FXRLPF
     def name
-      "FX Normalised Resonant Low Pass Filter"
+      "Normalised Resonant Low Pass Filter"
     end
   end
 
   class FXRHPF < FXInfo
     def name
-      "FX Resonant High Pass Filter"
+      "Resonant High Pass Filter"
     end
 
     def arg_defaults
@@ -1347,13 +1347,13 @@ end
 
   class FXNormRHPF < FXRLPF
     def name
-      "FX Normalised Resonant High Pass Filter"
+      "Normalised Resonant High Pass Filter"
     end
   end
 
   class FXLPF < FXInfo
     def name
-      "FX Low Pass Filter"
+      "Low Pass Filter"
     end
 
     def arg_defaults
@@ -1373,13 +1373,13 @@ end
 
   class FXNormLPF < FXRLPF
     def name
-      "FX Normalised Low Pass Filter"
+      "Normalised Low Pass Filter"
     end
   end
 
   class FXHPF < FXInfo
     def name
-      "FX High Pass Filter"
+      "High Pass Filter"
     end
 
     def arg_defaults
@@ -1399,13 +1399,13 @@ end
 
   class FXNormHPF < FXRLPF
     def name
-      "FX Normalised High Pass Filter"
+      "Normalised High Pass Filter"
     end
   end
 
   class FXNormaliser < FXInfo
     def name
-      "FX Normaliser"
+      "Normaliser"
     end
 
     def arg_defaults
@@ -1418,7 +1418,7 @@ end
 
   class FXDistortion < FXInfo
     def name
-      "FX Distortion"
+      "Distortion"
     end
 
     def arg_defaults
