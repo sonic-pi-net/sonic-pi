@@ -864,8 +864,8 @@ void MainWindow::addHelpPage(QListWidget *nameList,
 QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
 	QListWidget *nameList = new QListWidget;
 	nameList->setSortingEnabled(true);
-	connect(nameList, 
-			SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), 
+	connect(nameList,
+			SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
 			this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
 	QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
 	layout->addWidget(nameList);
