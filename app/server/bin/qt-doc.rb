@@ -43,20 +43,20 @@ make_tab = lambda do |name, doc_items|
   tab_widget = "#{name}TabWidget"
   help_pages = "#{name}HelpPages"
 
-  docs << "// #{name} info\n"
+  docs << "  // #{name} info\n"
   docs << "\n"
 
-  docs << "QListWidget *#{list_widget} = "
+  docs << "  QListWidget *#{list_widget} = "
   docs << "createHelpTab(#{name}DocPane, \"#{name.capitalize}\");\n"
   docs << "\n"
-  docs << "\nstruct help_page #{help_pages}[] = {\n"
+  docs << "\n  struct help_page #{help_pages}[] = {\n"
 
   doc_items.each do |n, doc|
 
     item_var = "#{name}_item_#{count+=1}"
     filename = "help/#{item_var}.html"
 
-    docs << "  { \"#{n}\", \":/#{filename}\" },\n"
+    docs << "    { \"#{n}\", \":/#{filename}\" },\n"
 
     filenames << "    <file>#{filename}</file>\n"
 
@@ -66,9 +66,9 @@ make_tab = lambda do |name, doc_items|
 
   end
 
-  docs << "};\n\n"
-  docs << "helpPagesCount = sizeof(#{help_pages}) / sizeof(struct help_page);\n"
-  docs << "addHelpPage(#{list_widget}, #{help_pages}, helpPagesCount);\n\n"
+  docs << "  };\n\n"
+  docs << "  helpPagesCount = sizeof(#{help_pages}) / sizeof(struct help_page);\n"
+  docs << "  addHelpPage(#{list_widget}, #{help_pages}, helpPagesCount);\n\n"
 
   docs
 end
