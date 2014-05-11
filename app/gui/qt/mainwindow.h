@@ -76,6 +76,8 @@ private slots:
 private:
 
     void initWorkspace(QsciScintilla* ws);
+	void initWorkspaces();
+	void createWorkspaces();
     void startOSCListener();
     void clearOutputPanels();
     void createActions();
