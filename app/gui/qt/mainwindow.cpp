@@ -856,6 +856,7 @@ void MainWindow::addHelpPage(QListWidget *nameList,
   for(i = 0; i < len; i++) {
     QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
     setHelpText(item, QString(helpPages[i].filename));
+    item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
   }
 }
