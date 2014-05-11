@@ -32,6 +32,7 @@
 #include <QFont>
 #include <QTabWidget>
 #include <QString>
+#include <QStringList>
 #include <QTextStream>
 #include <QSplashScreen>
 #include <QPixmap>
@@ -123,94 +124,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
 
   QsciAPIs* api = new QsciAPIs(lexer);
-  api->add("drum_heavy_kick");
-  api->add("drum_tom_mid_soft");
-  api->add("drum_tom_mid_hard");
-  api->add("drum_tom_lo_soft");
-  api->add("drum_tom_lo_hard");
-  api->add("drum_tom_hi_soft");
-  api->add("drum_tom_hi_hard");
-  api->add("drum_splash_soft");
-  api->add("drum_splash_hard");
-  api->add("drum_snare_soft");
-  api->add("drum_snare_hard");
-  api->add("drum_cymbal_soft");
-  api->add("drum_cymbal_hard");
-  api->add("drum_cymbal_open");
-  api->add("drum_cymbal_closed");
-  api->add("drum_cymbal_pedal");
-  api->add("drum_bass_soft");
-  api->add("drum_bass_hard");
+  QStringList api_names;
 
-  api->add("elec_triangle");
-  api->add("elec_snare");
-  api->add("elec_lo_snare");
-  api->add("elec_mid_snare");
-  api->add("elec_hi_snare");
-  api->add("elec_cymbal");
-  api->add("elec_soft_kick");
-  api->add("elec_filt_snare");
-  api->add("elec_fuzz_tom");
-  api->add("elec_chime");
-  api->add("elec_bong");
-  api->add("elec_twang");
-  api->add("elec_wood");
-  api->add("elec_pop");
-  api->add("elec_beep");
-  api->add("elec_blip");
-  api->add("elec_blip2");
-  api->add("elec_ping");
-  api->add("elec_bell");
-  api->add("elec_flip");
-  api->add("elec_tick");
-  api->add("elec_hollow_kick");
-  api->add("elec_twip");
-  api->add("elec_plip");
-  api->add("elec_blup");
+  // yes, really
+  #include "api_list.h"
 
-  api->add("guit_harmonics");
-  api->add("guit_e_fifths");
-  api->add("guit_e_slide");
-
-
-  api->add("misc_burp");
-
-  api->add("perc_bell");
-
-  api->add("ambi_soft_buzz");
-  api->add("ambi_swoosh");
-  api->add("ambi_drone");
-  api->add("ambi_glass_hum");
-  api->add("ambi_glass_rub");
-  api->add("ambi_haunted_hum");
-  api->add("ambi_piano");
-  api->add("ambi_lunar_land");
-  api->add("ambi_dark_woosh");
-  api->add("ambi_choir");
-
-  api->add("bass_hit_c");
-  api->add("bass_hard_c");
-  api->add("bass_thick_c");
-  api->add("bass_drop_c");
-  api->add("bass_woodsy_c");
-  api->add("bass_voxy_c");
-  api->add("bass_voxy_hit_c");
-  api->add("bass_dnb_f");
-
-  api->add("loop_industrial");
-  api->add("loop_compus");
-  api->add("loop_amen");
-  api->add("loop_amen_full");
-
-  api->add("with_fx");
-  api->add("with_synth");
-  api->add("with_debug");
-  api->add("with_arg_checks");
-  api->add("with_merged_synth_defaults");
-  api->add("with_synth_defaults");
-  api->add("with_sample_pack");
+  for (int api_iter = 0; api_iter < api_names.size(); ++api_iter) {
+	  api->add(api_names.at(api_iter));
+  }
   api->prepare();
-
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
   lexer->setDefaultFont(font);
