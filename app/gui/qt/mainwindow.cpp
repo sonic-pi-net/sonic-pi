@@ -93,32 +93,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   tabs->setTabPosition(QTabWidget::South);
   setCentralWidget(tabs);
 
-  workspace1 = new QsciScintilla;
-  workspace2 = new QsciScintilla;
-  workspace3 = new QsciScintilla;
-  workspace4 = new QsciScintilla;
-  workspace5 = new QsciScintilla;
-  workspace6 = new QsciScintilla;
-  workspace7 = new QsciScintilla;
-  workspace8 = new QsciScintilla;
+  for(int ws = 0; ws < workspace_max; ws++) {
+	  std::string s;
 
-  QString w1 = "Workspace 1";
-  QString w2 = "Workspace 2";
-  QString w3 = "Workspace 3";
-  QString w4 = "Workspace 4";
-  QString w5 = "Workspace 5";
-  QString w6 = "Workspace 6";
-  QString w7 = "Workspace 7";
-  QString w8 = "Workspace 8";
-
-  tabs->addTab(workspace1, w1);
-  tabs->addTab(workspace2, w2);
-  tabs->addTab(workspace3, w3);
-  tabs->addTab(workspace4, w4);
-  tabs->addTab(workspace5, w5);
-  tabs->addTab(workspace6, w6);
-  tabs->addTab(workspace7, w7);
-  tabs->addTab(workspace8, w8);
+	  workspaces[ws] = new QsciScintilla;
+	  QString w = QString("Workspace %1").arg(QString::number(ws + 1));
+	  tabs->addTab(workspaces[ws], w);
+  }
 
   lexer = new SonicPiLexer;
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
@@ -188,14 +169,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
   docWidget->hide();
 
-  initWorkspace(workspace1);
-  initWorkspace(workspace2);
-  initWorkspace(workspace3);
-  initWorkspace(workspace4);
-  initWorkspace(workspace5);
-  initWorkspace(workspace6);
-  initWorkspace(workspace7);
-  initWorkspace(workspace8);
+  for(int ws = 0; ws < workspace_max; ws++) {
+	  initWorkspace(workspaces[ws]);
+  }
 
   createActions();
   createToolBar();
@@ -408,96 +384,44 @@ void MainWindow::startOSCListener() {
   sock.close();
 }
 
-
+std::string MainWindow::number_name(int i) {
+	switch(i) {
+	case 1: return "one";
+	case 2: return "two";
+	case 3: return "three";
+	case 4: return "four";
+	case 5: return "five";
+	case 6: return "six";
+	case 7: return "seven";
+	case 8: return "eight";
+	default: assert(false);
+	}
+}
 
 void MainWindow::loadWorkspaces()
 {
   std::cout << "loading workspaces" << std::endl;;
 
-  Message msg("/load-buffer");
-  msg.pushStr("workspace_one");
-  sendOSC(msg);
-
-  Message msg2("/load-buffer");
-  msg2.pushStr("workspace_two");
-  sendOSC(msg2);
-
-  Message msg3("/load-buffer");
-  msg3.pushStr("workspace_three");
-  sendOSC(msg3);
-
-  Message msg4("/load-buffer");
-  msg4.pushStr("workspace_four");
-  sendOSC(msg4);
-
-  Message msg5("/load-buffer");
-  msg5.pushStr("workspace_five");
-  sendOSC(msg5);
-
-  Message msg6("/load-buffer");
-  msg6.pushStr("workspace_six");
-  sendOSC(msg6);
-
-  Message msg7("/load-buffer");
-  msg7.pushStr("workspace_seven");
-  sendOSC(msg7);
-
-  Message msg8("/load-buffer");
-  msg8.pushStr("workspace_eight");
-  sendOSC(msg8);
+  for(int i = 0; i < workspace_max; i++) {
+	  Message msg("/load-buffer");
+	  std::string s = "workspace_" + number_name(i + 1);
+	  msg.pushStr(s);
+	  sendOSC(msg);
+  }
 }
 
 void MainWindow::saveWorkspaces()
 {
   std::cout << "saving workspaces" << std::endl;;
 
-  std::string code = workspace1->text().toStdString();
-  Message msg("/save-buffer");
-  msg.pushStr("workspace_one");
-  msg.pushStr(code);
-  sendOSC(msg);
-
-  std::string code2 = workspace2->text().toStdString();
-  Message msg2("/save-buffer");
-  msg2.pushStr("workspace_two");
-  msg2.pushStr(code2);
-  sendOSC(msg2);
-
-  std::string code3 = workspace3->text().toStdString();
-  Message msg3("/save-buffer");
-  msg3.pushStr("workspace_three");
-  msg3.pushStr(code3);
-  sendOSC(msg3);
-
-  std::string code4 = workspace4->text().toStdString();
-  Message msg4("/save-buffer");
-  msg4.pushStr("workspace_four");
-  msg4.pushStr(code4);
-  sendOSC(msg4);
-
-  std::string code5 = workspace5->text().toStdString();
-  Message msg5("/save-buffer");
-  msg5.pushStr("workspace_five");
-  msg5.pushStr(code5);
-  sendOSC(msg5);
-
-  std::string code6 = workspace6->text().toStdString();
-  Message msg6("/save-buffer");
-  msg6.pushStr("workspace_six");
-  msg6.pushStr(code6);
-  sendOSC(msg6);
-
-  std::string code7 = workspace7->text().toStdString();
-  Message msg7("/save-buffer");
-  msg7.pushStr("workspace_seven");
-  msg7.pushStr(code7);
-  sendOSC(msg7);
-
-  std::string code8 = workspace8->text().toStdString();
-  Message msg8("/save-buffer");
-  msg8.pushStr("workspace_eight");
-  msg8.pushStr(code8);
-  sendOSC(msg8);
+  for(int i = 0; i < workspace_max; i++) {
+	  std::string code = workspaces[i]->text().toStdString();
+	  Message msg("/save-buffer");
+	  std::string s = "workspace_" + number_name(i + 1);
+	  msg.pushStr(s);
+	  msg.pushStr(code);
+	  sendOSC(msg);
+  }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -866,28 +790,25 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
 
  std::string MainWindow::workspaceFilename(QsciScintilla* text)
 {
-  if(text == workspace1) {return "workspace_one";}
-  else if(text == workspace2) {return "workspace_two";}
-  else if(text == workspace3) {return "workspace_three";}
-  else if(text == workspace4) {return "workspace_four";}
-  else if(text == workspace5) {return "workspace_five";}
-  else if(text == workspace6) {return "workspace_six";}
-  else if(text == workspace7) {return "workspace_seven";}
-  else if(text == workspace8) {return "workspace_eight";}
-  else {return "default";}
+	for(int i = 0; i < workspace_max; i++) {
+		if(text == workspaces[i]) {
+			std::string s = "workspace_" + number_name(i + 1);
+		}
+	}
+	return "default";
 }
 
  QsciScintilla*  MainWindow::filenameToWorkspace(std::string filename)
 {
-  if(filename == "workspace_one") {return workspace1;}
-  else if(filename == "workspace_two") {return workspace2;}
-  else if(filename == "workspace_three") {return workspace3;}
-  else if(filename == "workspace_four") {return workspace4;}
-  else if(filename == "workspace_five") {return workspace5;}
-  else if(filename == "workspace_six") {return workspace6;}
-  else if(filename == "workspace_seven") {return workspace7;}
-  else if(filename == "workspace_eight") {return workspace8;}
-  else {return workspace1;}
+	std::string s;
+
+	for(int i = 0; i < workspace_max; i++) {
+		s = "workspace_" + number_name(i + 1);
+		if(filename == s) {
+			return workspaces[i];
+		}
+	}
+	return workspaces[0];
 }
 
 void MainWindow::onExitCleanup()
