@@ -1005,4 +1005,15 @@ void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
   item->setData(32, QVariant(s));
 }
 
+void MainWindow::addHelpPage(QListWidget *nameList,
+                             struct help_page *helpPages, int len) {
+  int i;
+
+  for(i = 0; i < len; i++) {
+    QListWidgetItem *synths_item_1 = new QListWidgetItem(helpPages[i].title);
+    setHelpText(synths_item_1, QString(helpPages[i].filename));
+    nameList->addItem(synths_item_1);
+  }
+}
+
 #include "ruby_help.h"
