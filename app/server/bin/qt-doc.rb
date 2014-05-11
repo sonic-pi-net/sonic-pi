@@ -62,7 +62,7 @@ make_tab = lambda do |name, doc_items|
 
     File.open("#{qt_gui_path}/#{filename}", 'w') do |f|
       f << "#{doc}"
-    end 
+    end
 
   end
 
@@ -77,7 +77,7 @@ example_html_map = {}
 Dir["#{examples_path}/*.rb"].each do |path|
   name = File.basename(path, ".rb")
   lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
-  html = "<pre>#{lines.join('<br/>')} </pre>"
+  html = "<pre>\n\n#{lines.join("\n")}\n\n</pre>\n"
   example_html_map[name] = html
 end
 

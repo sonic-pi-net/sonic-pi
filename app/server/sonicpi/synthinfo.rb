@@ -1630,13 +1630,13 @@ end
       get_all.each do |k, v|
         next unless v.is_a? klass
         doc = ""
-        doc << "<h2> " << v.name << "</h2>"
+        doc << "<h2> " << v.name << "</h2>\n"
         if klass == SynthInfo
           doc << "<h2><pre>use_synth"
-          doc << " :#{k}</pre></h2>"
+          doc << " :#{k}</pre></h2>\n"
         else
           doc << "<h2><pre>with_fx"
-          doc << " :#{k.to_s[11..-1]}</pre></h2>"
+          doc << " :#{k.to_s[11..-1]}</pre></h2>\n"
         end
         doc << "<h4><pre>{"
         arglist = []
@@ -1644,22 +1644,26 @@ end
           arglist << "#{ak}: #{av[:default]}"
         end
         doc << arglist.join(", ")
-        doc << "}</pre></h4>"
+        doc << "}</pre></h4>\n"
 
         doc << "<h3>"
-        doc << "  " << v.doc << "</h3>"
+        doc << "  " << v.doc << "</h3>\n"
 
-        doc << "<h3>Arguments</h3>"
-        doc << "<ul>"
+        doc << "<h3>Arguments</h3>\n"
+        doc << "<ul>\n"
 
         v.arg_info.each do |ak, av|
-          doc << "  <li><h4><pre> #{ak}:</pre></h4><ul>"
-          doc << "    <li> #{av[:doc] || 'write me'}</li>"
-          doc << "    <li> Default: #{av[:default]}</li>"
-          doc << "    <li> #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}</li>"
-          doc << "    <li>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</li></ul>"
+          doc << "  <li>\n">
+          doc << "    <h4><pre> #{ak}:</pre></h4>\n"
+          doc << "      <ul>\n"
+          doc << "        <li> #{av[:doc] || 'write me'}</li>\n"
+          doc << "        <li> Default: #{av[:default]}</li>\n"
+          doc << "        <li> #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}</li>\n"
+          doc << "        <li>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</li>\n"
+          doc << "     </ul>\n"
         end
-        doc << "</li></ul>"
+        doc << "  </li>\n"
+        doc << "</ul>\n"
         res[v.name] = doc
       end
       res
@@ -1715,9 +1719,11 @@ end
     def self.samples_doc_html_map
       res = {}
       grouped_samples.each do |k, v|
-        html = "<h2>#{v[:desc]}</h2><h2><pre>:#{v[:prefix]}</pre></h2><ul>"
-        v[:samples].each {|s| html << "<li><pre>:#{s}</pre></li>"}
-        html << "</ul>"
+        html = "<h2>#{v[:desc]}</h2>\n"
+        html << "<h2><pre>:#{v[:prefix]}</pre></h2>\n"
+        html << "<ul>\n"
+        v[:samples].each {|s| html << "  <li><pre>:#{s}</pre></li>\n"}
+        html << "</ul>\n"
         res[v[:desc]] = html
       end
       res
