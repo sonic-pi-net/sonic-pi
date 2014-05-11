@@ -7,9 +7,11 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 HEADERS       = mainwindow.h \
                 sonicpilexer.h \
                 ruby_help.h \
-                api_list.h
+                api_list.h \
+                workspace.h
 
 SOURCES       = main.cpp \
+                workspace.cpp \
                 mainwindow.cpp \
                 sonicpilexer.cpp
 
