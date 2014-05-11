@@ -60,8 +60,8 @@ security features have been added.
 
 To build and run:
 
-* Run `app/gui/qt/boostrap-qt'
-* Start the GUI: `app/gui/qt/application'
+* Run `app/gui/qt/boostrap-qt`
+* Start the GUI: `app/gui/qt/application`
 
 ## Acknowledgements
 
