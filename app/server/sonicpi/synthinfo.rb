@@ -1638,16 +1638,26 @@ end
           doc << "<h2><pre><font color=\"#3C3C3C\">with_fx"
           doc << " <font color=\"DeepPink\">:#{k.to_s[11..-1]}</font> <font color=\"DarkOrange\">do</font><br/>  play <font color=\"DodgerBlue\">50</font><br/><font color=\"DarkOrange\">end</font></pre></font></h2>\n"
         end
-        # doc << "<h4><pre>{"
-        # arglist = []
-        # v.arg_info.each do |ak, av|
-        #   arglist << "#{ak}: #{av[:default]}"
-        # end
-        # doc << arglist.join(", ")
-        # doc << "}</pre></h4>\n"
 
-        doc << "<h3>"
-        doc << "  " << v.doc << "</h3>\n"
+        cnt = 0
+        doc << "<table cellpadding=\"2\">\n <tr>"
+        arglist = ""
+        v.arg_info.each do |ak, av|
+          arglist << "</tr><tr>" if cnt%6 == 0
+          bg_colour = cnt.even? ? "#5e5e5e" : "#E8E8E8"
+          fnt_colour = cnt.even? ? "white" : "#5e5e5e"
+          cnt += 1
+          arglist << "<td bgcolor=\"#{bg_colour}\"><pre><h4><font color=\"#{fnt_colour}\">#{ak}: </font></h4</pre></td><td bgcolor=\"#{bg_colour}\"><pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre></td>"
+        end
+        arglist << "</tr></table>"
+        doc << arglist
+
+
+
+
+
+        doc << "<h4>"
+        doc << "  " << v.doc << "</h4>\n"
 
         doc << "<table cellpadding=\"10\">\n"
         doc << "<tr><th></th><th></th></tr>\n"
