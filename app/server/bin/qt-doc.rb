@@ -41,6 +41,7 @@ make_tab = lambda do |name, doc_items|
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
   tab_widget = "#{name}TabWidget"
+  help_pages = "#{name}HelpPages"
 
   docs << "// #{name} info\n"
   docs << "\n"
@@ -58,16 +59,14 @@ make_tab = lambda do |name, doc_items|
   docs << "#{tab_widget}->setLayout(#{layout});\n"
   docs << "docsCentral->addTab(#{tab_widget}, \"#{name.capitalize}\");\n"
   docs << "\n"
+  docs << "\nstruct help_page #{help_pages}[] = {\n"
 
   doc_items.each do |n, doc|
 
     item_var = "#{name}_item_#{count+=1}"
     filename = "help/#{item_var}.html"
 
-    docs << "QListWidgetItem *#{item_var} = new QListWidgetItem(\"#{n}\");\n"
-    docs << "setHelpText(#{item_var}, QString(\":/#{filename}\"));"
-    docs << "#{list_widget}->addItem(#{item_var});\n"
-    docs << "\n"
+    docs << "  { \"#{n}\", \":/#{filename}\" },\n"
 
     filenames << "    <file>#{filename}</file>\n"
 
@@ -76,6 +75,10 @@ make_tab = lambda do |name, doc_items|
     end 
 
   end
+
+  docs << "};\n\n"
+  docs << "helpPagesCount = sizeof(#{help_pages}) / sizeof(struct help_page);\n"
+  docs << "addHelpPage(#{list_widget}, #{help_pages}, helpPagesCount);\n\n"
 
   docs
 end
@@ -112,7 +115,7 @@ new_content << "// AUTO-GENERATED-DOCS\n"
 new_content << "// Do not manually add any code below this comment\n"
 new_content << "// otherwise it may be removed\n"
 new_content << "\n"
-new_content << "void MainWindow::initDocsWindow() {\n"
+new_content << "void MainWindow::initDocsWindow() {\n  int helpPagesCount;\n"
 new_content += docs
 new_content << "}\n"
 
