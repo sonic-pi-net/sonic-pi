@@ -49,4 +49,4 @@ app/gui/qt/Makefile
 *.log
 \.#*
 .lein-plugins
-
+*~
