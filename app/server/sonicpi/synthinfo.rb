@@ -1630,40 +1630,43 @@ end
       get_all.each do |k, v|
         next unless v.is_a? klass
         doc = ""
-        doc << "<h2> " << v.name << "</h2>\n"
+        doc << "<h2>" << v.name << "</h2>\n"
         if klass == SynthInfo
-          doc << "<h2><pre>use_synth"
-          doc << " :#{k}</pre></h2>\n"
+          doc << "<h2><font color=\"#3C3C3C\"><pre>use_synth"
+          doc << " <font color=\"DeepPink\">:#{k}</font></pre></h2>\n"
         else
-          doc << "<h2><pre>with_fx"
-          doc << " :#{k.to_s[11..-1]}</pre></h2>\n"
+          doc << "<h2><pre><font color=\"#3C3C3C\">with_fx"
+          doc << " <font color=\"DeepPink\">:#{k.to_s[11..-1]}</font> <font color=\"DarkOrange\">do</font><br/>  play <font color=\"DodgerBlue\">50</font><br/><font color=\"DarkOrange\">end</font></pre></font></h2>\n"
         end
-        doc << "<h4><pre>{"
-        arglist = []
-        v.arg_info.each do |ak, av|
-          arglist << "#{ak}: #{av[:default]}"
-        end
-        doc << arglist.join(", ")
-        doc << "}</pre></h4>\n"
+        # doc << "<h4><pre>{"
+        # arglist = []
+        # v.arg_info.each do |ak, av|
+        #   arglist << "#{ak}: #{av[:default]}"
+        # end
+        # doc << arglist.join(", ")
+        # doc << "}</pre></h4>\n"
 
         doc << "<h3>"
         doc << "  " << v.doc << "</h3>\n"
 
-        doc << "<h3>Arguments</h3>\n"
-        doc << "<ul>\n"
+        doc << "<table cellpadding=\"10\">\n"
+        doc << "<tr><th></th><th></th></tr>\n"
 
+        cnt = 0
         v.arg_info.each do |ak, av|
-          doc << "  <li>\n">
-          doc << "    <h4><pre> #{ak}:</pre></h4>\n"
-          doc << "      <ul>\n"
-          doc << "        <li> #{av[:doc] || 'write me'}</li>\n"
-          doc << "        <li> Default: #{av[:default]}</li>\n"
-          doc << "        <li> #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}</li>\n"
-          doc << "        <li>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</li>\n"
-          doc << "     </ul>\n"
+          cnt += 1
+          background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
+          key_bg_colour = cnt.even? ? "#FFF0F5" : "#FFE4E1"
+          doc << "  <tr bgcolor=\"#{background_colour}\">\n">
+          doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
+          doc << "      <td>\n"
+          doc << "        <h4>#{av[:doc] || 'write me'}</h4>\n"
+          doc << "        <p>Default: #{av[:default]}<br/>\n"
+          doc << "        #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
+          doc << "        #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</p>\n"
+          doc << "     </td></tr>\n"
         end
-        doc << "  </li>\n"
-        doc << "</ul>\n"
+        doc << "  </table>\n"
         res[v.name] = doc
       end
       res
