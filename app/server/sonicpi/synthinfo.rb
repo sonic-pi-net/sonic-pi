@@ -569,7 +569,7 @@ module SonicPi
 
   class ModSineS < SynthInfo
     def name
-      "Simple Modualted Sine Wave"
+      "Simple Modulated Sine Wave"
     end
 
     def doc
