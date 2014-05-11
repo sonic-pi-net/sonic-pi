@@ -95,6 +95,7 @@ private:
     void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
+	QListWidget *createHelpTab(QTextEdit *docPane, QString name);
 
     bool cont_listening_for_osc;
     bool server_started;

@@ -46,18 +46,8 @@ make_tab = lambda do |name, doc_items|
   docs << "// #{name} info\n"
   docs << "\n"
 
-  docs << "QListWidget *#{list_widget} = new QListWidget;\n"
-  docs << "#{list_widget}->setSortingEnabled(true);\n"
-
-  docs << "connect(#{list_widget}, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));\n"
-
-  docs << "QBoxLayout *#{layout} = new QBoxLayout(QBoxLayout::LeftToRight);\n"
-  docs << "#{layout}->addWidget(#{list_widget});\n"
-  docs << "#{layout}->addWidget(#{name}DocPane);\n"
-  docs << "#{layout}->setStretch(1, 1);\n"
-  docs << "QWidget *#{tab_widget} = new QWidget;\n"
-  docs << "#{tab_widget}->setLayout(#{layout});\n"
-  docs << "docsCentral->addTab(#{tab_widget}, \"#{name.capitalize}\");\n"
+  docs << "QListWidget *#{list_widget} = "
+  docs << "createHelpTab(#{name}DocPane, \"#{name.capitalize}\");\n"
   docs << "\n"
   docs << "\nstruct help_page #{help_pages}[] = {\n"
 

@@ -1016,4 +1016,20 @@ void MainWindow::addHelpPage(QListWidget *nameList,
   }
 }
 
+QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
+	QListWidget *nameList = new QListWidget;
+	nameList->setSortingEnabled(true);
+	connect(nameList, 
+			SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), 
+			this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
+	QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
+	layout->addWidget(nameList);
+	layout->addWidget(docPane);
+	layout->setStretch(1, 1);
+	QWidget *tabWidget = new QWidget;
+	tabWidget->setLayout(layout);
+	docsCentral->addTab(tabWidget, name);
+	return nameList;
+}
+
 #include "ruby_help.h"
