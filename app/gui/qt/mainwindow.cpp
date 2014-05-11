@@ -1010,9 +1010,9 @@ void MainWindow::addHelpPage(QListWidget *nameList,
   int i;
 
   for(i = 0; i < len; i++) {
-    QListWidgetItem *synths_item_1 = new QListWidgetItem(helpPages[i].title);
-    setHelpText(synths_item_1, QString(helpPages[i].filename));
-    nameList->addItem(synths_item_1);
+    QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
+    setHelpText(item, QString(helpPages[i].filename));
+    nameList->addItem(item);
   }
 }
 
