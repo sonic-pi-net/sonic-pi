@@ -1005,4 +1005,31 @@ void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
   item->setData(32, QVariant(s));
 }
 
+void MainWindow::addHelpPage(QListWidget *nameList,
+                             struct help_page *helpPages, int len) {
+  int i;
+
+  for(i = 0; i < len; i++) {
+    QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
+    setHelpText(item, QString(helpPages[i].filename));
+    nameList->addItem(item);
+  }
+}
+
+QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
+	QListWidget *nameList = new QListWidget;
+	nameList->setSortingEnabled(true);
+	connect(nameList, 
+			SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), 
+			this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
+	QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
+	layout->addWidget(nameList);
+	layout->addWidget(docPane);
+	layout->setStretch(1, 1);
+	QWidget *tabWidget = new QWidget;
+	tabWidget->setLayout(layout);
+	docsCentral->addTab(tabWidget, name);
+	return nameList;
+}
+
 #include "ruby_help.h"

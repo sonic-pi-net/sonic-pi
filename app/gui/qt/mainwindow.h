@@ -21,6 +21,7 @@
 #include <QSplashScreen>
 #include <QCheckBox>
 #include <QListWidgetItem>
+#include <QListWidget>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -33,6 +34,11 @@ class QTextEdit;
 class SonicPiLexer;
 class QString;
 class QSlider;
+
+struct help_page {
+    QString title;
+    QString filename;
+};
 
 class MainWindow : public QMainWindow
 {
@@ -87,6 +93,9 @@ private:
     void initPrefsWindow();
     void initDocsWindow();
     void setHelpText(QListWidgetItem *item, const QString filename);
+    void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
+                     int len);
+	QListWidget *createHelpTab(QTextEdit *docPane, QString name);
 
     bool cont_listening_for_osc;
     bool server_started;
