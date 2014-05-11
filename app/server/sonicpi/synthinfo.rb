@@ -1632,10 +1632,11 @@ end
     def self.info_doc_html_map(klass)
       key_mod = nil
       res = {}
+      hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
       get_all.each do |k, v|
         next unless v.is_a? klass
         doc = ""
-        doc << "<h2>" << v.name << "</h2>\n"
+        doc << "<font size=\"7\", #{hv_face}>" << v.name << "</font>\n"
         if klass == SynthInfo
           doc << "<h2><font color=\"#3C3C3C\"><pre>use_synth"
           doc << " <font color=\"DeepPink\">:#{k}</font></pre></h2>\n"
@@ -1652,17 +1653,14 @@ end
           bg_colour = cnt.even? ? "#5e5e5e" : "#E8E8E8"
           fnt_colour = cnt.even? ? "white" : "#5e5e5e"
           cnt += 1
-          arglist << "<td bgcolor=\"#{bg_colour}\"><pre><h4><font color=\"#{fnt_colour}\">#{ak}: </font></h4</pre></td><td bgcolor=\"#{bg_colour}\"><pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre></td>"
+          arglist << "<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{ak}: </font></h4</pre>\n</td>\n<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre>\n</td>\n"
         end
-        arglist << "</tr></table>"
+        arglist << "</tr></table>\n"
         doc << arglist
 
 
-
-
-
-        doc << "<h4>"
-        doc << "  " << v.doc << "</h4>\n"
+        doc << "<p><font size=\"5\", #{hv_face}>"
+        doc << "  " << v.doc << "</font></p>\n"
 
         doc << "<table cellpadding=\"10\">\n"
         doc << "<tr><th></th><th></th></tr>\n"
@@ -1675,11 +1673,14 @@ end
           doc << "  <tr bgcolor=\"#{background_colour}\">\n">
           doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
           doc << "      <td>\n"
-          doc << "        <h4>#{av[:doc] || 'write me'}</h4>\n"
-          doc << "        <p>Default: #{av[:default]}<br/>\n"
-          doc << "        #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
-          doc << "        #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</p>\n"
-          doc << "     </td></tr>\n"
+          doc << "        <font size=\"4\", #{hv_face}>\n"
+          doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
+          doc << "          <font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
+          doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
+          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
+          doc << "       </font>\n"
+          doc << "     </td>\n"
+          doc << " </tr>\n"
         end
         doc << "  </table>\n"
         res[v.name] = doc
