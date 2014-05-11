@@ -483,18 +483,23 @@ module SonicPi
       {
         :note => 52,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 100,
         :cutoff_slide => 0,
         :mod_rate => 1,
+        :mod_rate_slide => 0,
         :mod_range => 5,
+        :mod_range_slide => 0,
         :mod_width => 0.5,
-        :detune => 0.1
+        :mod_width_slide => 0,
+        :detune => 0.1,
+        :detune_slide => 0
       }
     end
   end
@@ -933,7 +938,7 @@ end
 
   class BasicMonoPlayer < StudioInfo
     def name
-      "Basic Mono Sample Player - (no envelope)"
+      "Basic Mono Sample Player (no env)"
     end
 
     def doc
@@ -954,7 +959,7 @@ end
 
   class BasicStereoPlayer < BasicMonoPlayer
     def name
-      "Basic Stereo Sample Player - (no envelope)"
+      "Basic Stereo Sample Player (no env)"
     end
 
     def doc
