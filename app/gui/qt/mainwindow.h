@@ -98,14 +98,6 @@ private:
 
     QsciScintilla *textEdit;
 	static const int workspace_max = 8;
-	//    QsciScintilla *workspace1;
-    QsciScintilla *workspace2;
-    QsciScintilla *workspace3;
-    QsciScintilla *workspace4;
-    QsciScintilla *workspace5;
-    QsciScintilla *workspace6;
-    QsciScintilla *workspace7;
-    QsciScintilla *workspace8;
 	QsciScintilla *workspaces[workspace_max];
     QTextEdit *outputPane;
     QTextEdit *errorPane;
