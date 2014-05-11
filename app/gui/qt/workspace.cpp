@@ -12,3 +12,33 @@
 //++
 
 #include "workspace.h"
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+Workspace::Workspace() {
+	instances.push_back(this);
+}
+
+Workspace::~Workspace() { 
+	for (std::vector<Workspace const *>::iterator it=Workspace::instances.begin(); 
+		 it!=Workspace::instances.end(); ++it) {
+		if(this == *it) {
+			instances.erase(it);
+			return;
+		}
+	}
+	cerr << "destructing unknown instance: " << this << endl;
+}
+
+void Workspace::enumerate(void) {
+	for (std::vector<Workspace const *>::iterator it=Workspace::instances.begin(); 
+		 it!=Workspace::instances.end(); ++it) {
+		std::cout << *it << endl;
+	}
+}
+
+
+std::vector<Workspace const *> Workspace::instances;

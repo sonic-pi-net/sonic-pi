@@ -14,10 +14,17 @@
 #ifndef WORKSPACE_H
 #define WORKSPACE_H
 
+#include <vector>
+
 class Workspace
 {
+	static std::vector<Workspace const *> instances;
 
-
+ public:
+	Workspace();
+	~Workspace();
+	static void enumerate(void);
+	Workspace(Workspace const &);
 };
 
 #endif
