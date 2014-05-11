@@ -81,6 +81,7 @@ private:
     bool saveFile(const QString &fileName, QsciScintilla* text);
     void loadWorkspaces();
     void saveWorkspaces();
+	std::string number_name(int);
     std::string workspaceFilename(QsciScintilla* text);
     QsciScintilla* filenameToWorkspace(std::string filename);
     void sendOSC(oscpkt::Message m);
@@ -96,7 +97,8 @@ private:
     QTimer *rec_flash_timer;
 
     QsciScintilla *textEdit;
-    QsciScintilla *workspace1;
+	static const int workspace_max = 8;
+	//    QsciScintilla *workspace1;
     QsciScintilla *workspace2;
     QsciScintilla *workspace3;
     QsciScintilla *workspace4;
@@ -104,6 +106,7 @@ private:
     QsciScintilla *workspace6;
     QsciScintilla *workspace7;
     QsciScintilla *workspace8;
+	QsciScintilla *workspaces[workspace_max];
     QTextEdit *outputPane;
     QTextEdit *errorPane;
     QWidget *prefsCentral;
