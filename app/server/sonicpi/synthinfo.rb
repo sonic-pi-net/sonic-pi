@@ -323,7 +323,7 @@ module SonicPi
     end
 
     def doc
-      "A pair of detuned saw waves with a lop pass filter."
+      "A pair of detuned saw waves with a low pass filter."
     end
 
     def arg_defaults
