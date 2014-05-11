@@ -826,13 +826,14 @@ void MainWindow::onExitCleanup()
   std::cout << "Exiting..." << std::endl;
 
 }
-void MainWindow::updateDocPane(QListWidgetItem *cur) {
+void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
   QString content = cur->data(32).toString();
   langDocPane->setHtml(content);
   synthsDocPane->setHtml(content);
   fxDocPane->setHtml(content);
   samplesDocPane->setHtml(content);
   examplesDocPane->setHtml(content);
+  (void) prev; /* unused, but needed for type signature */
 }
 
 void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
