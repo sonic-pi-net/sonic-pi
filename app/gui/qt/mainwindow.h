@@ -71,7 +71,7 @@ private slots:
     void showOutputPane();
     void showErrorPane();
     void showPrefsPane();
-    void updateDocPane(QListWidgetItem *cur);
+    void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
 
 private:
 
