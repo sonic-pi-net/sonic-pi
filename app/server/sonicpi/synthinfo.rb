@@ -323,7 +323,7 @@ module SonicPi
     end
 
     def doc
-      "A pair of detuned saw waves with a lop pass filter."
+      "A pair of detuned saw waves with a low pass filter."
     end
 
     def arg_defaults
@@ -483,18 +483,23 @@ module SonicPi
       {
         :note => 52,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
         :attack => 0.01,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
 
         :cutoff => 100,
         :cutoff_slide => 0,
         :mod_rate => 1,
+        :mod_rate_slide => 0,
         :mod_range => 5,
+        :mod_range_slide => 0,
         :mod_width => 0.5,
-        :detune => 0.1
+        :mod_width_slide => 0,
+        :detune => 0.1,
+        :detune_slide => 0
       }
     end
   end
@@ -569,7 +574,7 @@ module SonicPi
 
   class ModSineS < SynthInfo
     def name
-      "Simple Modualted Sine Wave"
+      "Simple Modulated Sine Wave"
     end
 
     def doc
@@ -933,7 +938,7 @@ end
 
   class BasicMonoPlayer < StudioInfo
     def name
-      "Basic Mono Sample Player - (no envelope)"
+      "Basic Mono Sample Player (no env)"
     end
 
     def doc
@@ -954,7 +959,7 @@ end
 
   class BasicStereoPlayer < BasicMonoPlayer
     def name
-      "Basic Stereo Sample Player - (no envelope)"
+      "Basic Stereo Sample Player (no env)"
     end
 
     def doc
@@ -1066,7 +1071,7 @@ end
 
   class FXReverb < FXInfo
     def name
-      "FX Reverb"
+      "Reverb"
     end
 
     def arg_defaults
@@ -1083,7 +1088,7 @@ end
 
   class FXLevel < FXInfo
     def name
-      "FX Level Amplifier"
+      "Level Amplifier"
     end
 
     def arg_defaults
@@ -1096,7 +1101,7 @@ end
 
   class FXEcho < FXInfo
     def name
-      "FX Echo"
+      "Echo"
     end
 
     def arg_defaults
@@ -1157,7 +1162,7 @@ end
 
   class FXSlicer < FXInfo
     def name
-      "FX Slicer"
+      "Slicer"
     end
 
     def arg_defaults
@@ -1229,7 +1234,7 @@ end
 
   class FXIXITechno < FXInfo
     def name
-      "FX Techno from IXI Lang"
+      "Techno from IXI Lang"
     end
 
     def arg_defaults
@@ -1261,7 +1266,7 @@ end
 
   class FXCompressor < FXInfo
     def name
-      "FX Compressor"
+      "Compressor"
     end
 
     def arg_defaults
@@ -1292,7 +1297,7 @@ end
 
   class FXRLPF < FXInfo
     def name
-      "FX Resonant Low Pass Filter"
+      "Resonant Low Pass Filter"
     end
 
     def arg_defaults
@@ -1314,13 +1319,13 @@ end
 
   class FXNormRLPF < FXRLPF
     def name
-      "FX Normalised Resonant Low Pass Filter"
+      "Normalised Resonant Low Pass Filter"
     end
   end
 
   class FXRHPF < FXInfo
     def name
-      "FX Resonant High Pass Filter"
+      "Resonant High Pass Filter"
     end
 
     def arg_defaults
@@ -1342,13 +1347,13 @@ end
 
   class FXNormRHPF < FXRLPF
     def name
-      "FX Normalised Resonant High Pass Filter"
+      "Normalised Resonant High Pass Filter"
     end
   end
 
   class FXLPF < FXInfo
     def name
-      "FX Low Pass Filter"
+      "Low Pass Filter"
     end
 
     def arg_defaults
@@ -1368,13 +1373,13 @@ end
 
   class FXNormLPF < FXRLPF
     def name
-      "FX Normalised Low Pass Filter"
+      "Normalised Low Pass Filter"
     end
   end
 
   class FXHPF < FXInfo
     def name
-      "FX High Pass Filter"
+      "High Pass Filter"
     end
 
     def arg_defaults
@@ -1394,13 +1399,13 @@ end
 
   class FXNormHPF < FXRLPF
     def name
-      "FX Normalised High Pass Filter"
+      "Normalised High Pass Filter"
     end
   end
 
   class FXNormaliser < FXInfo
     def name
-      "FX Normaliser"
+      "Normaliser"
     end
 
     def arg_defaults
@@ -1413,7 +1418,7 @@ end
 
   class FXDistortion < FXInfo
     def name
-      "FX Distortion"
+      "Distortion"
     end
 
     def arg_defaults
@@ -1627,39 +1632,57 @@ end
     def self.info_doc_html_map(klass)
       key_mod = nil
       res = {}
+      hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
       get_all.each do |k, v|
         next unless v.is_a? klass
         doc = ""
-        doc << "<h2> " << v.name << "</h2>"
+        doc << "<font size=\"7\", #{hv_face}>" << v.name << "</font>\n"
         if klass == SynthInfo
-          doc << "<h2><pre>use_synth"
-          doc << " :#{k}</pre></h2>"
+          doc << "<h2><font color=\"#3C3C3C\"><pre>use_synth"
+          doc << " <font color=\"DeepPink\">:#{k}</font></pre></h2>\n"
         else
-          doc << "<h2><pre>with_fx"
-          doc << " :#{k.to_s[11..-1]}</pre></h2>"
+          doc << "<h2><pre><font color=\"#3C3C3C\">with_fx"
+          doc << " <font color=\"DeepPink\">:#{k.to_s[11..-1]}</font> <font color=\"DarkOrange\">do</font><br/>  play <font color=\"DodgerBlue\">50</font><br/><font color=\"DarkOrange\">end</font></pre></font></h2>\n"
         end
-        doc << "<h4><pre>{"
-        arglist = []
+
+        cnt = 0
+        doc << "<table cellpadding=\"2\">\n <tr>"
+        arglist = ""
         v.arg_info.each do |ak, av|
-          arglist << "#{ak}: #{av[:default]}"
+          arglist << "</tr><tr>" if cnt%6 == 0
+          bg_colour = cnt.even? ? "#5e5e5e" : "#E8E8E8"
+          fnt_colour = cnt.even? ? "white" : "#5e5e5e"
+          cnt += 1
+          arglist << "<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{ak}: </font></h4</pre>\n</td>\n<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre>\n</td>\n"
         end
-        doc << arglist.join(", ")
-        doc << "}</pre></h4>"
+        arglist << "</tr></table>\n"
+        doc << arglist
 
-        doc << "<h3>"
-        doc << "  " << v.doc << "</h3>"
 
-        doc << "<h3>Arguments</h3>"
-        doc << "<ul>"
+        doc << "<p><font size=\"5\", #{hv_face}>"
+        doc << "  " << v.doc << "</font></p>\n"
 
+        doc << "<table cellpadding=\"10\">\n"
+        doc << "<tr><th></th><th></th></tr>\n"
+
+        cnt = 0
         v.arg_info.each do |ak, av|
-          doc << "  <li><h4><pre> #{ak}:</pre></h4><ul>"
-          doc << "    <li> #{av[:doc] || 'write me'}</li>"
-          doc << "    <li> Default: #{av[:default]}</li>"
-          doc << "    <li> #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}</li>"
-          doc << "    <li>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}</li></ul>"
+          cnt += 1
+          background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
+          key_bg_colour = cnt.even? ? "#FFF0F5" : "#FFE4E1"
+          doc << "  <tr bgcolor=\"#{background_colour}\">\n">
+          doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
+          doc << "      <td>\n"
+          doc << "        <font size=\"4\", #{hv_face}>\n"
+          doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
+          doc << "          <font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
+          doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
+          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
+          doc << "       </font>\n"
+          doc << "     </td>\n"
+          doc << " </tr>\n"
         end
-        doc << "</li></ul>"
+        doc << "  </table>\n"
         res[v.name] = doc
       end
       res
@@ -1715,9 +1738,11 @@ end
     def self.samples_doc_html_map
       res = {}
       grouped_samples.each do |k, v|
-        html = "<h2>#{v[:desc]}</h2><h2><pre>:#{v[:prefix]}</pre></h2><ul>"
-        v[:samples].each {|s| html << "<li><pre>:#{s}</pre></li>"}
-        html << "</ul>"
+        html = "<h2>#{v[:desc]}</h2>\n"
+        html << "<h2><pre>:#{v[:prefix]}</pre></h2>\n"
+        html << "<ul>\n"
+        v[:samples].each {|s| html << "  <li><pre>:#{s}</pre></li>\n"}
+        html << "</ul>\n"
         res[v[:desc]] = html
       end
       res
