@@ -983,7 +983,7 @@ void MainWindow::onExitCleanup()
   std::cout << "Exiting..." << std::endl;
 
 }
-void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
+void MainWindow::updateDocPane(QListWidgetItem *cur) {
   QString content = cur->data(32).toString();
   langDocPane->setHtml(content);
   synthsDocPane->setHtml(content);
