@@ -355,8 +355,7 @@ module SonicPi
 
     def osc_bundle(ts, *args)
       message "--> osc at #{ts}, #{args}"
-#      @scsynth.send_at(ts, *args)
-      @scsynth.send(*args)
+      @scsynth.send_at(ts, *args)
     end
 
     def add_event_handler(handle, key, &block)
