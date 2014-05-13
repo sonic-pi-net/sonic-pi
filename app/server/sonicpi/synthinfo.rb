@@ -169,7 +169,7 @@ module SonicPi
 
         :cutoff =>
         {
-          :doc => "MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
+          :doc => "MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
           :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)],
           :modulatable => true
         },
