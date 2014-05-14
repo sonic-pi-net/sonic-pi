@@ -396,6 +396,7 @@ play 50 # Plays with mod_sine synth
 
 
        def play(n, *args)
+         ensure_good_timing!
          return play_chord(n, *args) if n.is_a?(Array)
 
          if n
@@ -955,6 +956,7 @@ set_volume! 2 # Set the main system volume to 2",
            accepts_block: false,
            examples:      []
        def sample(path, *args_a_or_h)
+         ensure_good_timing!
          buf_info = load_sample(path)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
@@ -1024,6 +1026,7 @@ set_volume! 2 # Set the main system volume to 2",
            accepts_block: false,
            examples:      []
        def control(node, *args)
+         ensure_good_timing!
          node.control *args
        end
 
@@ -1453,6 +1456,20 @@ set_volume! 2 # Set the main system volume to 2",
 
          return all_proms_joined
        end
+
+       def ensure_good_timing!
+         vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+         sat = @mod_sound_studio.sched_ahead_time
+         now = Time.now
+         if now - (3 * sat) > vt
+           raise "Timing Exception: thread got too far behind time."
+         elsif (now - sat) > vt
+           # Hard warning, system is too far behind, expect timing issues.
+           Thread.current.priority = 20
+           __message "Timing error: can't keep up..."
+         end
+       end
+
      end
    end
  end
