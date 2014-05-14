@@ -1459,7 +1459,7 @@ set_volume! 2 # Set the main system volume to 2",
 
        def ensure_good_timing!
          vt = Thread.current.thread_variable_get :sonic_pi_spider_time
-         sat = @mod_sound_studio.sched_ahead_time
+         sat = @mod_sound_studio.sched_ahead_time + 0.1
          now = Time.now
          if now - (3 * sat) > vt
            raise "Timing Exception: thread got too far behind time."
