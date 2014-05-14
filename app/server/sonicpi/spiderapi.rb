@@ -158,19 +158,33 @@ end",]
         accepts_block:  false,
         examples:       []
     def sleep(seconds)
+      # Calculate the amount of time to sleep (take into account current bpm setting)
       sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-      last = Thread.current.thread_variable_get :sonic_pi_spider_time
+
+      # Grab the current virtual time
+      last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+
+      # Grab the real time
       now = Time.now
 
-      new_t = last + sleep_time
-      if now > new_t
+      # Calculate the new virtual time
+      new_vt = last_vt + sleep_time
+      sat = @mod_sound_studio.sched_ahead_time
+      if now - (3 * sat) > new_vt
+        raise "Timing Exception: thread got too far behind time"
+      elsif (now - sat) > new_vt # TODO: remove this, api shouldn't need to know about sound module
+        # Hard warning, system is too far behind, expect timing issues.
         Thread.current.priority = 20
-        __message "Can't keep up..."
+        __message "Timing error: can't keep up..."
+      elsif now > new_vt
+        # Soft warning, system should work correctly, but is currently behind
+        Thread.current.priority = 20
+        __message "Timing warning: running slightly behind..."
       else
-        Kernel.sleep new_t - now
+        Kernel.sleep new_vt - now
       end
 
-      Thread.current.thread_variable_set :sonic_pi_spider_time, new_t
+      Thread.current.thread_variable_set :sonic_pi_spider_time, new_vt
 
       ## reset control deltas now that time has advanced
       Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
