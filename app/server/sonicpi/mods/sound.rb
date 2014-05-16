@@ -671,7 +671,7 @@ play 50 # Plays note 50 on the current synth",
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus}), current_fx_group)
+           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), current_fx_group)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
@@ -1166,7 +1166,7 @@ set_volume! 2 # Set the main system volume to 2",
          end
 
          n = trigger_synth(synth_name, args_h, group, validation_fn, true)
-         FXNode.new(n, args_h["in-bus"], current_out_bus)
+         FXNode.new(n, args_h["in_bus"], current_out_bus)
        end
 
        def trigger_synth(synth_name, args_h, group, arg_validation_fn, now=false, out_bus=nil)
@@ -1188,9 +1188,9 @@ set_volume! 2 # Set the main system volume to 2",
            t_l_fn_args.each do |k, v|
              resolved_tl_fn_args[k] = v.call
            end
-           combined_args = defaults.merge(resolved_tl_fn_args.merge(t_l_args).merge(args_h)).merge({"out-bus" => out_bus})
+           combined_args = defaults.merge(resolved_tl_fn_args.merge(t_l_args).merge(args_h)).merge({"out_bus" => out_bus})
          else
-           combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out-bus" => out_bus})
+           combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out_bus" => out_bus})
          end
 
          __no_kill_block do
@@ -1271,8 +1271,8 @@ set_volume! 2 # Set the main system volume to 2",
 
 
            args_h = {
-             "in-bus" => job_bus(job_id),
-             "out-bus" => @mod_sound_studio.mixer_bus,
+             "in_bus" => job_bus(job_id),
+             "out_bus" => @mod_sound_studio.mixer_bus,
            }
 
            synth_name = :basic_mixer

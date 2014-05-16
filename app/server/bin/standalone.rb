@@ -70,7 +70,7 @@ def start_synth(name, id=$synth_id, group=$synth_g, out_bus=$mixer_b, in_bus=0, 
   reset_mouse_pos
   stop_synth
   sc_osc("/n_set", $mixer_g, "amp", $system_vol)
-  sc_osc("/s_new", name, id, 0, group, "out-bus", out_bus, "in-bus", in_bus, *rest)
+  sc_osc("/s_new", name, id, 0, group, "out_bus", out_bus, "in_bus", in_bus, *rest)
   $synth_id
 end
 
