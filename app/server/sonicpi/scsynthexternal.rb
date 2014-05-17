@@ -23,9 +23,7 @@ module SonicPi
       @scsynth_pid = nil
       @jack_pid = nil
 
-      boot
-
-      @client = OSC::Server.new(4800)
+      @client = OSC::Server.new(0)
 
       @client.add_method '*' do |m|
         callback.call(m.address, m.to_a)
@@ -37,6 +35,9 @@ module SonicPi
         log "starting server thread"
         @client.run
       end
+
+      boot
+
     end
 
     def send(*args)
