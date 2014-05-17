@@ -1060,6 +1060,12 @@ set_volume! 2 # Set the main system volume to 2",
          BaseInfo.grouped_samples.keys
        end
 
+       def load_synthdefs(path)
+         raise "No directory exists called #{path.inspect} " unless File.exists? path
+
+         @mod_sound_studio.load_synthdefs(path)
+       end
+
        private
 
        def resolve_sample_symbol_path(sym)
