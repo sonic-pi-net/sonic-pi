@@ -77,8 +77,9 @@ module SonicPi
 
     def load_synthdefs(path)
       message "Loading synthdefs from path: #{path}"
-      osc "/d_loadDir", path.to_s
-      sleep 2 ## TODO: replace me with a blocking wait (for a callback)
+      with_server_sync do
+        osc "/d_loadDir", path.to_s
+      end
     end
 
     def clear_scsynth!
