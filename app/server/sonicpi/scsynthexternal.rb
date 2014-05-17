@@ -206,6 +206,7 @@ module SonicPi
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
 
+      # TODO: is this sleep necessary?
       sleep 3 if raspberry?
     end
   end
