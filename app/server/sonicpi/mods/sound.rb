@@ -1060,6 +1060,12 @@ set_volume! 2 # Set the main system volume to 2",
          BaseInfo.grouped_samples.keys
        end
 
+       doc name:          :load_synthdefs,
+           doc:           "add docs",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
        def load_synthdefs(path)
          raise "No directory exists called #{path.inspect} " unless File.exists? path
 
