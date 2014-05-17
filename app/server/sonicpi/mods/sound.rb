@@ -1274,7 +1274,7 @@ set_volume! 2 # Set the main system volume to 2",
              "out_bus" => @mod_sound_studio.mixer_bus,
            }
 
-           synth_name = :basic_mixer
+           synth_name = "sp/basic_mixer"
 
            validation_fn = mk_synth_args_validator(synth_name)
            validation_fn.call(args_h)

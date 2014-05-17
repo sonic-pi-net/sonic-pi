@@ -35,28 +35,28 @@
 ;; Main mixer
 
 (do
-  (without-namespace-in-synthdef
-   (defsynth mixer [in_bus 0 amp 1 safe-recovery-time 3]
-     (let [source   (in in_bus 2)
-           source   (* amp source)
-           source   (lpf source 20000)
-           amp      (lag-ud amp 0 0.02)
-           safe-snd (limiter source 0.99 0.001)]
-       (replace-out 0 safe-snd)))
+  (defsynth mixer [in_bus 0 amp 1 safe-recovery-time 3]
+    (let [source   (in in_bus 2)
+          source   (* amp source)
+          source   (lpf source 20000)
+          amp      (lag-ud amp 0 0.02)
+          safe-snd (limiter source 0.99 0.001)]
+      (replace-out 0 safe-snd)))
 
-   (defsynth basic_mixer [in_bus 0 out_bus 0 amp 1 amp_slide 0.5]
-     (let [amp (lag amp amp_slide)
-           src (in in_bus 2)
-           src (* amp src)]
-       (out out_bus src)))
+  (defsynth basic_mixer [in_bus 0 out_bus 0 amp 1 amp_slide 0.5]
+    (let [amp (lag amp amp_slide)
+          src (in in_bus 2)
+          src (* amp src)]
+      (out out_bus src)))
 
-   (defsynth recorder
-     [out-buf 0 in_bus 0]
-     (disk-out out-buf (in in_bus 2))))
+  (defsynth recorder
+    [out-buf 0 in_bus 0]
+    (disk-out out-buf (in in_bus 2)))
 
   (comment
     (save-to-pi mixer)
-    (save-to-pi basic_mixer)))
+    (save-to-pi basic_mixer)
+    (save-to-pi recorder)))
 
 
 ;; Simple Trigger synths
