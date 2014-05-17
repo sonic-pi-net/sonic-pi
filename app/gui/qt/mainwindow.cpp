@@ -123,6 +123,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
+  outputPane->setLineWrapMode(QTextEdit::NoWrap);
+#if defined(Q_OS_WIN)
+  outputPane->setFontFamily("Courier New");
+#elif defined(Q_OS_MAC)
+  outputPane->setFontFamily("Menlo");
+#else
+  outputPane->setFontFamily("Bitstream Vera Sans Mono");
+#endif
+
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
