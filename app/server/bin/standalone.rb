@@ -102,13 +102,13 @@ end
 def key_number(n)
   $trigger_synth = nil
   case n
-  when 1; start_synth("sp/saws")
-  when 2; start_synth("sp/saws")
-  when 3; start_synth("sp/fm") && $trigger_synth = "sp/fm"
-  when 4; start_synth("sp/woah")
-  when 5; start_synth("sp/arpeg-click")
-  when 6; start_synth("sp/pretty_bell") && $trigger_synth = "sp/pretty_bell"
-  when 7; start_synth("sp/ull_bell") && $trigger_synth = "sp/dull_bell"
+  when 1; start_synth("saws")
+  when 2; start_synth("saws")
+  when 3; start_synth("fm") && $trigger_synth = "fm"
+  when 4; start_synth("woah")
+  when 5; start_synth("arpeg-click")
+  when 6; start_synth("pretty_bell") && $trigger_synth = "pretty_bell"
+  when 7; start_synth("dull_bell") && $trigger_synth = "dull_bell"
   when 0; stop_synth
   end
 end

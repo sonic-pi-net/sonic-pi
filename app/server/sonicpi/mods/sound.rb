@@ -1174,7 +1174,6 @@ set_volume! 2 # Set the main system volume to 2",
 
          defaults = info ? info.arg_defaults : {}
 
-         synth_name = "sp/#{synth_name}"
          unless out_bus
            out_bus = current_out_bus
          end
@@ -1282,7 +1281,7 @@ set_volume! 2 # Set the main system volume to 2",
 
            default_args = SynthInfo.get_info(synth_name).arg_defaults
            combined_args = default_args.merge(args_h)
-           n = @mod_sound_studio.trigger_synth "sp/#{synth_name}", job_fx_group(job_id), combined_args, true, &validation_fn
+           n = @mod_sound_studio.trigger_synth synth_name, job_fx_group(job_id), combined_args, true, &validation_fn
 
            mix_n = ChainNode.new(n)
 
