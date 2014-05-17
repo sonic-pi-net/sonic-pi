@@ -127,9 +127,8 @@ module SonicPi
       end
     end
 
-    def boot_server_osx
-      log_boot_msg
-      log "Booting on OS X"
+    def boot_and_wait(&boot_block)
+
       p = Promise.new
       connected = false
 
@@ -151,7 +150,7 @@ module SonicPi
       end
 
       log "Starting the SuperCollider server..."
-      system("#{scsynth_path} -u #{@port} -m 131072 &")
+      yield
 
       begin
         p.get_with_timeout(10, 0.2)
@@ -164,14 +163,24 @@ module SonicPi
       end
 
       raise "Unable to connect to scsynth" unless connected
+
+    end
+
+    def boot_server_osx
+      log_boot_msg
+      log "Booting on OS X"
+      boot_and_wait do
+        system("#{scsynth_path} -u #{@port} -m 131072 &")
+      end
     end
 
 
     def boot_server_windows
       log_boot_msg
       log "Booting on Windows"
-      Thread.new {system scsynth_path, "-u", @port.to_s}
-      sleep 5
+      boot_and_wait do
+        system scsynth_path, "-u", @port.to_s
+      end
     end
 
     def boot_server_linux
@@ -190,13 +199,10 @@ module SonicPi
         log "Jackd already running. Not starting another server..."
       end
 
-      #Start new instance of SuperCollider server and store its PID.
-      existing_scsynth_pids = `ps cax | grep scsynth`.split("\n").map{|l| l.split(" ").first}
-      log "Starting the SuperCollider server..."
-      system("scsynth -u #{@port} -m 131072 &")
-      raspberry? ? sleep(10) : sleep(3)
-      updated_scsynth_pids = `ps cax | grep scsynth`.split("\n").map{|l| l.split(" ").first}
-      @scsynth_pid = (updated_scsynth_pids - existing_scsynth_pids).first
+      boot_and_wait do
+        system("scsynth -u #{@port} -m 131072 &")
+      end
+
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
 
