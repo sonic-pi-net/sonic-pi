@@ -1126,9 +1126,9 @@ set_volume! 2 # Set the main system volume to 2",
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
-             __delayed_message "Playing sample #{path.inspect}"
+             __delayed_message "sample #{path.inspect}"
            else
-             __delayed_message "Playing sample #{path.inspect} with: #{arg_h_pp(args_h)}"
+             __delayed_message "sample #{path.inspect}, #{arg_h_pp(args_h)}"
            end
          end
 
@@ -1143,7 +1143,7 @@ set_volume! 2 # Set the main system volume to 2",
          end
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-           __delayed_message "Playing #{synth_name} with: #{arg_h_pp(args_h)}"
+           __delayed_message "play #{synth_name.inspect}, #{arg_h_pp(args_h)}"
          end
          trigger_synth(synth_name, args_h, group, validation_fn)
        end
