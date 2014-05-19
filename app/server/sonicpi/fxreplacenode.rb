@@ -17,7 +17,7 @@ module SonicPi
 
     def initialize(node)
       super(node)
-      @audio_bus = node.args["out-bus"]
+      @audio_bus = node.args["out_bus"]
     end
 
     def to_s

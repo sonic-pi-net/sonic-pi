@@ -70,7 +70,7 @@ def start_synth(name, id=$synth_id, group=$synth_g, out_bus=$mixer_b, in_bus=0, 
   reset_mouse_pos
   stop_synth
   sc_osc("/n_set", $mixer_g, "amp", $system_vol)
-  sc_osc("/s_new", name, id, 0, group, "out-bus", out_bus, "in-bus", in_bus, *rest)
+  sc_osc("/s_new", name, id, 0, group, "out_bus", out_bus, "in_bus", in_bus, *rest)
   $synth_id
 end
 
@@ -102,13 +102,13 @@ end
 def key_number(n)
   $trigger_synth = nil
   case n
-  when 1; start_synth("sp/saws")
-  when 2; start_synth("sp/saws")
-  when 3; start_synth("sp/fm") && $trigger_synth = "sp/fm"
-  when 4; start_synth("sp/woah")
-  when 5; start_synth("sp/arpeg-click")
-  when 6; start_synth("sp/pretty_bell") && $trigger_synth = "sp/pretty_bell"
-  when 7; start_synth("sp/ull_bell") && $trigger_synth = "sp/dull_bell"
+  when 1; start_synth("saws")
+  when 2; start_synth("saws")
+  when 3; start_synth("fm") && $trigger_synth = "fm"
+  when 4; start_synth("woah")
+  when 5; start_synth("arpeg-click")
+  when 6; start_synth("pretty_bell") && $trigger_synth = "pretty_bell"
+  when 7; start_synth("dull_bell") && $trigger_synth = "dull_bell"
   when 0; stop_synth
   end
 end

@@ -365,6 +365,7 @@ play 50 # Plays with mod_sine synth
 
        def recording_save(filename)
          puts "save recording #{filename}"
+         #TODO: is this sleep necessary?
          Kernel.sleep 3
          FileUtils.mv(@tmp_path, filename)
          @tmp_path = nil
@@ -396,6 +397,7 @@ play 50 # Plays with mod_sine synth
 
 
        def play(n, *args)
+         ensure_good_timing!
          return play_chord(n, *args) if n.is_a?(Array)
 
          if n
@@ -670,7 +672,7 @@ play 50 # Plays note 50 on the current synth",
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in-bus" => new_bus}), current_fx_group)
+           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), current_fx_group)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
@@ -955,6 +957,7 @@ set_volume! 2 # Set the main system volume to 2",
            accepts_block: false,
            examples:      []
        def sample(path, *args_a_or_h)
+         ensure_good_timing!
          buf_info = load_sample(path)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
@@ -1024,6 +1027,7 @@ set_volume! 2 # Set the main system volume to 2",
            accepts_block: false,
            examples:      []
        def control(node, *args)
+         ensure_good_timing!
          node.control *args
        end
 
@@ -1055,6 +1059,18 @@ set_volume! 2 # Set the main system volume to 2",
            examples:      []
        def sample_groups
          BaseInfo.grouped_samples.keys
+       end
+
+       doc name:          :load_synthdefs,
+           doc:           "add docs",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
+       def load_synthdefs(path)
+         raise "No directory exists called #{path.inspect} " unless File.exists? path
+
+         @mod_sound_studio.load_synthdefs(path)
        end
 
        private
@@ -1163,7 +1179,7 @@ set_volume! 2 # Set the main system volume to 2",
          end
 
          n = trigger_synth(synth_name, args_h, group, validation_fn, true)
-         FXNode.new(n, args_h["in-bus"], current_out_bus)
+         FXNode.new(n, args_h["in_bus"], current_out_bus)
        end
 
        def trigger_synth(synth_name, args_h, group, arg_validation_fn, now=false, out_bus=nil)
@@ -1171,7 +1187,6 @@ set_volume! 2 # Set the main system volume to 2",
 
          defaults = info ? info.arg_defaults : {}
 
-         synth_name = "sp/#{synth_name}"
          unless out_bus
            out_bus = current_out_bus
          end
@@ -1185,9 +1200,9 @@ set_volume! 2 # Set the main system volume to 2",
            t_l_fn_args.each do |k, v|
              resolved_tl_fn_args[k] = v.call
            end
-           combined_args = defaults.merge(resolved_tl_fn_args.merge(t_l_args).merge(args_h)).merge({"out-bus" => out_bus})
+           combined_args = defaults.merge(resolved_tl_fn_args.merge(t_l_args).merge(args_h)).merge({"out_bus" => out_bus})
          else
-           combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out-bus" => out_bus})
+           combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out_bus" => out_bus})
          end
 
          __no_kill_block do
@@ -1268,18 +1283,18 @@ set_volume! 2 # Set the main system volume to 2",
 
 
            args_h = {
-             "in-bus" => job_bus(job_id),
-             "out-bus" => @mod_sound_studio.mixer_bus,
+             "in_bus" => job_bus(job_id),
+             "out_bus" => @mod_sound_studio.mixer_bus,
            }
 
-           synth_name = :basic_mixer
+           synth_name = "sp/basic_mixer"
 
            validation_fn = mk_synth_args_validator(synth_name)
            validation_fn.call(args_h)
 
            default_args = SynthInfo.get_info(synth_name).arg_defaults
            combined_args = default_args.merge(args_h)
-           n = @mod_sound_studio.trigger_synth "sp/#{synth_name}", job_fx_group(job_id), combined_args, true, &validation_fn
+           n = @mod_sound_studio.trigger_synth synth_name, job_fx_group(job_id), combined_args, true, &validation_fn
 
            mix_n = ChainNode.new(n)
 
@@ -1453,6 +1468,20 @@ set_volume! 2 # Set the main system volume to 2",
 
          return all_proms_joined
        end
+
+       def ensure_good_timing!
+         vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+         sat = @mod_sound_studio.sched_ahead_time + 0.1
+         now = Time.now
+         if now - (3 * sat) > vt
+           raise "Timing Exception: thread got too far behind time."
+         elsif (now - sat) > vt
+           # Hard warning, system is too far behind, expect timing issues.
+           Thread.current.priority = 20
+           __message "Timing error: can't keep up..."
+         end
+       end
+
      end
    end
  end

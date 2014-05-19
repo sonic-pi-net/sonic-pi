@@ -133,6 +133,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
+  outputPane->setLineWrapMode(QTextEdit::NoWrap);
+#if defined(Q_OS_WIN)
+  outputPane->setFontFamily("Courier New");
+#elif defined(Q_OS_MAC)
+  outputPane->setFontFamily("Menlo");
+#else
+  outputPane->setFontFamily("Bitstream Vera Sans Mono");
+#endif
+
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
@@ -640,39 +649,48 @@ void MainWindow::createActions()
   runAct = new QAction(QIcon(":/images/run.png"), tr("&Run"), this);
   runAct->setShortcut(tr("Ctrl+R"));
   runAct->setStatusTip(tr("Run the code in the current workspace"));
+  runAct->setToolTip(tr("Run the code in the current workspace (Ctrl-R)"));
   connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
   stopAct = new QAction(QIcon(":/images/stop.png"), tr("&Stop"), this);
   stopAct->setShortcut(tr("Ctrl+Q"));
   stopAct->setStatusTip(tr("Stop all running code"));
+  stopAct->setToolTip(tr("Stop all running code (Ctrl-Q)"));
   connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
 
   saveAsAct = new QAction(QIcon(":/images/save.png"), tr("&Save &As..."), this);
   saveAsAct->setStatusTip(tr("Save the current workspace under a new name"));
+  saveAsAct->setToolTip(tr("Save the current workspace under a new name"));
   connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
   infoAct = new QAction(QIcon(":/images/info.png"), tr("&Info"), this);
   infoAct->setStatusTip(tr("See information about Sonic Pi"));
+  infoAct->setToolTip(tr("See information about Sonic Pi"));
   connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
   helpAct = new QAction(QIcon(":/images/help.png"), tr("&Help"), this);
   helpAct->setStatusTip(tr("Toggle help pane"));
+  helpAct->setToolTip(tr("Toggle help pane"));
   connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("&Prefs"), this);
   prefsAct->setStatusTip(tr("Toggle preferences pane"));
+  prefsAct->setToolTip(tr("Toggle preferences pane"));
   connect(prefsAct, SIGNAL(triggered()), this, SLOT(showPrefsPane()));
 
   recAct = new QAction(QIcon(":/images/rec.png"), tr("&Start &Recording"), this);
   recAct->setStatusTip(tr("Start Recording"));
+  recAct->setToolTip(tr("Start Recording"));
   connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
   textIncAct = new QAction(QIcon(":/images/text-inc.png"), tr("&Increase &Text &Size"), this);
   textIncAct->setStatusTip(tr("Make text bigger"));
+  textIncAct->setToolTip(tr("Make text bigger"));
   connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
 
   textDecAct = new QAction(QIcon(":/images/text-dec.png"), tr("&Decrease &Text &Size"), this);
   textDecAct->setStatusTip(tr("Make text smaller"));
+  textDecAct->setToolTip(tr("Make text smaller"));
   connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
 
 
@@ -716,12 +734,14 @@ void MainWindow::createToolBar()
    is_recording = !is_recording;
    if(is_recording) {
      recAct->setStatusTip(tr("Stop Recording"));
+     recAct->setToolTip(tr("Stop Recording"));
      rec_flash_timer->start(500);
      Message msg("/start-recording");
      sendOSC(msg);
    } else {
      rec_flash_timer->stop();
      recAct->setStatusTip(tr("Start Recording"));
+     recAct->setToolTip(tr("Start Recording"));
      recAct->setIcon(QIcon(":/images/rec.png"));
      Message msg("/stop-recording");
      sendOSC(msg);
@@ -864,6 +884,7 @@ void MainWindow::addHelpPage(QListWidget *nameList,
   for(i = 0; i < len; i++) {
     QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
     setHelpText(item, QString(helpPages[i].filename));
+    item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
   }
 }
@@ -871,8 +892,8 @@ void MainWindow::addHelpPage(QListWidget *nameList,
 QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
 	QListWidget *nameList = new QListWidget;
 	nameList->setSortingEnabled(true);
-	connect(nameList, 
-			SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), 
+	connect(nameList,
+			SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
 			this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
 	QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
 	layout->addWidget(nameList);

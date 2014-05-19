@@ -35,7 +35,7 @@ module SonicPi
 
     def default_sched_ahead_time
       if (os == :raspberry)
-        0.6
+        1
       else
         0.1
       end
