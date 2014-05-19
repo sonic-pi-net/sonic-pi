@@ -50,3 +50,7 @@ app/gui/qt/Makefile
 \.#*
 .lein-plugins
 *~
+
+## Rugged
+
+app/server/vendor/rugged/ext/rugged/Makefile
