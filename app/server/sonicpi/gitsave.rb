@@ -28,7 +28,8 @@ module SonicPi
     def save!(filename, content)
       puts "saving: #{filename}"
       oid = @repo.write(content, :blob)
-      index = Rugged::Index.new
+      index = @repo.index
+      index.reload
       index.add(:path => filename, :oid => oid, :mode => 0100644)
 
       options = {}
