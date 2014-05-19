@@ -22,6 +22,7 @@ require_relative "mods/spmidi"
 require_relative "mods/sound"
 #require_relative "mods/feeds"
 #require_relative "mods/globalkeys"
+require_relative "gitsave"
 
 require 'thread'
 require 'fileutils'
@@ -48,6 +49,8 @@ module SonicPi
       @random_generator = Random.new(0)
       @sync_real_sleep_time = 0.05
       @user_methods = user_methods
+
+      @gitsave = GitSave.new(project_path)
 
       @event_t = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :event_loop)
@@ -159,9 +162,11 @@ module SonicPi
     end
 
     def __save_buffer(id, content)
-      path = project_path + id + '.spi'
+      filename = id + '.spi'
+      path = project_path + "/" + filename
       content = filter_for_save(content)
-      File.open(path, 'w') {|f| f.write(content) }
+      #File.open(path, 'w') {|f| f.write(content) }
+      @gitsave.save!(filename, content)
     end
 
     def __spider_eval(code, info={})
