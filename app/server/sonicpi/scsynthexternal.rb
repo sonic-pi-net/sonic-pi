@@ -187,13 +187,13 @@ module SonicPi
       log_boot_msg
       log "Booting on Linux"
       #Start Jack if not already running
-      unless `jackd_wait -c`.match /not.*/
+      unless `jack_wait -c`.match /not.*/
         #Jack not running - start a new instance
         log "Jackd not running on system. Starting..."
         system("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
 
         # Wait for Jackd to start
-        while `jackd_wait -c`.match /not.*/
+        while `jack_wait -c`.match /not.*/
           sleep 0.5
         end
 
