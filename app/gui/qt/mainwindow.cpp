@@ -812,7 +812,7 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
 {
 	for(int i = 0; i < workspace_max; i++) {
 		if(text == workspaces[i]) {
-			std::string s = "workspace_" + number_name(i + 1);
+                  return "workspace_" + number_name(i + 1);
 		}
 	}
 	return "default";
