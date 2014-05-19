@@ -1,0 +1,10 @@
+libdir=@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@
+includedir=@CMAKE_INSTALL_PREFIX@/@INCLUDE_INSTALL_DIR@
+
+Name: libgit2
+Description: The git library, take 2
+Version: @LIBGIT2_VERSION_STRING@
+Requires.private: @LIBGIT2_PC_REQUIRES@
+Libs.private: @LIBGIT2_PC_LIBS@
+Libs: -L${libdir} -lgit2
+Cflags: -I${includedir}

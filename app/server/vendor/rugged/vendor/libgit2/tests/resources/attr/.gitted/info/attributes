@@ -1,0 +1,4 @@
+* repoattr
+a*	foo !bar -baz
+sub/*.txt reposub
+sub/sub/*.txt reposubsub

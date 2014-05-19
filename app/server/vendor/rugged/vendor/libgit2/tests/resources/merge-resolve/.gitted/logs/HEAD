@@ -1,0 +1,236 @@
+0000000000000000000000000000000000000000 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1351563869 -0500	commit (initial): initial
+c607fc30883e335def28cd686b51f6cfa02b06ec c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1351563886 -0500	checkout: moving from master to branch
+c607fc30883e335def28cd686b51f6cfa02b06ec 7cb63eed597130ba4abb87b3e544b85021905520 Edward Thomson <ethomson@edwardthomson.com> 1351563965 -0500	commit: branch
+7cb63eed597130ba4abb87b3e544b85021905520 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1351563968 -0500	checkout: moving from branch to master
+c607fc30883e335def28cd686b51f6cfa02b06ec 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351564033 -0500	commit: master
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351605785 -0500	checkout: moving from master to ff_branch
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 33d500f588fbbe65901d82b4e6b008e549064be0 Edward Thomson <ethomson@edwardthomson.com> 1351605830 -0500	commit: fastforward
+33d500f588fbbe65901d82b4e6b008e549064be0 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351605889 -0500	checkout: moving from ff_branch to master
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351874933 -0500	checkout: moving from master to octo1
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 16f825815cfd20a07a75c71554e82d8eede0b061 Edward Thomson <ethomson@edwardthomson.com> 1351874954 -0500	commit: octo1
+16f825815cfd20a07a75c71554e82d8eede0b061 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351874957 -0500	checkout: moving from octo1 to master
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351874960 -0500	checkout: moving from master to octo2
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 158dc7bedb202f5b26502bf3574faa7f4238d56c Edward Thomson <ethomson@edwardthomson.com> 1351874974 -0500	commit: octo2
+158dc7bedb202f5b26502bf3574faa7f4238d56c 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351874976 -0500	checkout: moving from octo2 to master
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351874980 -0500	checkout: moving from master to octo3
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 50ce7d7d01217679e26c55939eef119e0c93e272 Edward Thomson <ethomson@edwardthomson.com> 1351874998 -0500	commit: octo3
+50ce7d7d01217679e26c55939eef119e0c93e272 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351875006 -0500	checkout: moving from octo3 to master
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351875010 -0500	checkout: moving from master to octo4
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 54269b3f6ec3d7d4ede24dd350dd5d605495c3ae Edward Thomson <ethomson@edwardthomson.com> 1351875023 -0500	commit: octo4
+54269b3f6ec3d7d4ede24dd350dd5d605495c3ae 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351875031 -0500	checkout: moving from octo4 to master
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351875031 -0500	checkout: moving from master to octo5
+977c696519c5a3004c5f1d15d60c89dbeb8f235f e4f618a2c3ed0669308735727df5ebf2447f022f Edward Thomson <ethomson@edwardthomson.com> 1351875041 -0500	commit: octo5
+e4f618a2c3ed0669308735727df5ebf2447f022f 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351875046 -0500	checkout: moving from octo5 to master
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351875046 -0500	checkout: moving from master to octo6
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 4ca408a8c88655f7586a1b580be6fad138121e98 Edward Thomson <ethomson@edwardthomson.com> 1351875057 -0500	commit: octo5
+4ca408a8c88655f7586a1b580be6fad138121e98 b6f610aef53bd343e6c96227de874c66f00ee8e8 Edward Thomson <ethomson@edwardthomson.com> 1351875065 -0500	commit (amend): octo6
+b6f610aef53bd343e6c96227de874c66f00ee8e8 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351875071 -0500	checkout: moving from octo6 to master
+977c696519c5a3004c5f1d15d60c89dbeb8f235f 4e0d9401aee78eb345a8685a859d37c8c3c0bbed Edward Thomson <ethomson@edwardthomson.com> 1351875091 -0500	merge octo1 octo2 octo3 octo4: Merge made by the 'octopus' strategy.
+4e0d9401aee78eb345a8685a859d37c8c3c0bbed 54269b3f6ec3d7d4ede24dd350dd5d605495c3ae Edward Thomson <ethomson@edwardthomson.com> 1351875108 -0500	reset: moving to 54269b3f6ec3d7d4ede24dd350dd5d605495c3ae
+54269b3f6ec3d7d4ede24dd350dd5d605495c3ae 977c696519c5a3004c5f1d15d60c89dbeb8f235f Edward Thomson <ethomson@edwardthomson.com> 1351875584 -0500	reset: moving to 977c696519c5a3004c5f1d15d60c89dbeb8f235f
+bd593285fc7fe4ca18ccdbabf027f5d689101452 33d500f588fbbe65901d82b4e6b008e549064be0 Edward Thomson <ethomson@edwardthomson.com> 1351990193 -0500	checkout: moving from master to ff_branch
+33d500f588fbbe65901d82b4e6b008e549064be0 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1351990202 -0500	reset: moving to c607fc30883e335def28cd686b51f6cfa02b06ec
+c607fc30883e335def28cd686b51f6cfa02b06ec bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1351990205 -0500	merge master: Fast-forward
+bd593285fc7fe4ca18ccdbabf027f5d689101452 fd89f8cffb663ac89095a0f9764902e93ceaca6a Edward Thomson <ethomson@edwardthomson.com> 1351990229 -0500	commit: fastforward
+fd89f8cffb663ac89095a0f9764902e93ceaca6a bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1351990233 -0500	checkout: moving from ff_branch to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352091703 -0600	checkout: moving from master to trivial-2alt
+c607fc30883e335def28cd686b51f6cfa02b06ec c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352092411 -0600	checkout: moving from trivial-2alt to trivial-2alt-branch
+c607fc30883e335def28cd686b51f6cfa02b06ec c9174cef549ec94ecbc43ef03cdc775b4950becb Edward Thomson <ethomson@edwardthomson.com> 1352092434 -0600	commit: 2alt-branch
+c9174cef549ec94ecbc43ef03cdc775b4950becb c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352092440 -0600	checkout: moving from trivial-2alt-branch to trivial-2alt
+c607fc30883e335def28cd686b51f6cfa02b06ec 566ab53c220a2eafc1212af1a024513230280ab9 Edward Thomson <ethomson@edwardthomson.com> 1352092452 -0600	commit: 2alt
+bd593285fc7fe4ca18ccdbabf027f5d689101452 566ab53c220a2eafc1212af1a024513230280ab9 Edward Thomson <ethomson@edwardthomson.com> 1352094476 -0600	checkout: moving from master to trivial-3alt
+566ab53c220a2eafc1212af1a024513230280ab9 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352094547 -0600	reset: moving to c607fc30883e335def28cd686b51f6cfa02b06ec
+c607fc30883e335def28cd686b51f6cfa02b06ec 5459c89aa0026d543ce8343bd89871bce543f9c2 Edward Thomson <ethomson@edwardthomson.com> 1352094580 -0600	commit: 3alt
+5459c89aa0026d543ce8343bd89871bce543f9c2 4c9fac0707f8d4195037ae5a681aa48626491541 Edward Thomson <ethomson@edwardthomson.com> 1352094610 -0600	commit: 3alt-branch
+4c9fac0707f8d4195037ae5a681aa48626491541 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352094620 -0600	checkout: moving from trivial-3alt to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 566ab53c220a2eafc1212af1a024513230280ab9 Edward Thomson <ethomson@edwardthomson.com> 1352094752 -0600	checkout: moving from master to trivial-4
+566ab53c220a2eafc1212af1a024513230280ab9 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352094764 -0600	reset: moving to c607fc30883e335def28cd686b51f6cfa02b06ec
+c607fc30883e335def28cd686b51f6cfa02b06ec cc3e3009134cb88014129fc8858d1101359e5e2f Edward Thomson <ethomson@edwardthomson.com> 1352094815 -0600	commit: trivial-4
+cc3e3009134cb88014129fc8858d1101359e5e2f c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352094843 -0600	checkout: moving from trivial-4 to trivial-4-branch
+c607fc30883e335def28cd686b51f6cfa02b06ec 183310e30fb1499af8c619108ffea4d300b5e778 Edward Thomson <ethomson@edwardthomson.com> 1352094856 -0600	commit: trivial-4-branch
+183310e30fb1499af8c619108ffea4d300b5e778 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352094860 -0600	checkout: moving from trivial-4-branch to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 cc3e3009134cb88014129fc8858d1101359e5e2f Edward Thomson <ethomson@edwardthomson.com> 1352096588 -0600	checkout: moving from master to trivial-4
+cc3e3009134cb88014129fc8858d1101359e5e2f c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352096612 -0600	checkout: moving from trivial-4 to trivial-5alt-1
+c607fc30883e335def28cd686b51f6cfa02b06ec 4fe93c0ec83eb6305cbace3dace88ecee1b63cb6 Edward Thomson <ethomson@edwardthomson.com> 1352096643 -0600	commit: 5alt-1
+4fe93c0ec83eb6305cbace3dace88ecee1b63cb6 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352096661 -0600	checkout: moving from trivial-5alt-1 to trivial-5alt-1-branch
+c607fc30883e335def28cd686b51f6cfa02b06ec 4fe93c0ec83eb6305cbace3dace88ecee1b63cb6 Edward Thomson <ethomson@edwardthomson.com> 1352096671 -0600	checkout: moving from trivial-5alt-1-branch to trivial-5alt-1
+4fe93c0ec83eb6305cbace3dace88ecee1b63cb6 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352096678 -0600	checkout: moving from trivial-5alt-1 to trivial-5alt-1-branch
+c607fc30883e335def28cd686b51f6cfa02b06ec 478172cb2f5ff9b514bc9d04d3bd5ef5840cb3b2 Edward Thomson <ethomson@edwardthomson.com> 1352096689 -0600	commit: 5alt-1-branch
+478172cb2f5ff9b514bc9d04d3bd5ef5840cb3b2 4fe93c0ec83eb6305cbace3dace88ecee1b63cb6 Edward Thomson <ethomson@edwardthomson.com> 1352096701 -0600	checkout: moving from trivial-5alt-1-branch to trivial-5alt-1
+4fe93c0ec83eb6305cbace3dace88ecee1b63cb6 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352096715 -0600	checkout: moving from trivial-5alt-1 to trivial-5alt-2
+c607fc30883e335def28cd686b51f6cfa02b06ec ebc09d0137cfb0c26697aed0109fb943ad906f3f Edward Thomson <ethomson@edwardthomson.com> 1352096764 -0600	commit: existing file
+ebc09d0137cfb0c26697aed0109fb943ad906f3f 3b47b031b3e55ae11e14a05260b1c3ffd6838d55 Edward Thomson <ethomson@edwardthomson.com> 1352096815 -0600	commit: 5alt-2
+3b47b031b3e55ae11e14a05260b1c3ffd6838d55 ebc09d0137cfb0c26697aed0109fb943ad906f3f Edward Thomson <ethomson@edwardthomson.com> 1352096840 -0600	checkout: moving from trivial-5alt-2 to trivial-5alt-2-branch
+ebc09d0137cfb0c26697aed0109fb943ad906f3f f48097eb340dc5a7cae55aabcf1faf4548aa821f Edward Thomson <ethomson@edwardthomson.com> 1352096855 -0600	commit: 5alt-2-branch
+f48097eb340dc5a7cae55aabcf1faf4548aa821f bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352096858 -0600	checkout: moving from trivial-5alt-2-branch to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352097377 -0600	checkout: moving from master to trivial-6
+c607fc30883e335def28cd686b51f6cfa02b06ec f7c332bd4d4d4b777366cae4d24d1687477576bf Edward Thomson <ethomson@edwardthomson.com> 1352097389 -0600	commit: 6
+f7c332bd4d4d4b777366cae4d24d1687477576bf 99b4f7e4f24470fa06b980bc21f1095c2a9425c0 Edward Thomson <ethomson@edwardthomson.com> 1352097404 -0600	commit: trivial-6
+99b4f7e4f24470fa06b980bc21f1095c2a9425c0 f7c332bd4d4d4b777366cae4d24d1687477576bf Edward Thomson <ethomson@edwardthomson.com> 1352097420 -0600	checkout: moving from trivial-6 to trivial-6-branch
+f7c332bd4d4d4b777366cae4d24d1687477576bf a43150a738849c59376cf30bb2a68348a83c8f48 Edward Thomson <ethomson@edwardthomson.com> 1352097431 -0600	commit: 6-branch
+a43150a738849c59376cf30bb2a68348a83c8f48 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352097442 -0600	checkout: moving from trivial-6-branch to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 99b4f7e4f24470fa06b980bc21f1095c2a9425c0 Edward Thomson <ethomson@edwardthomson.com> 1352098040 -0600	checkout: moving from master to trivial-6
+99b4f7e4f24470fa06b980bc21f1095c2a9425c0 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352098057 -0600	checkout: moving from trivial-6 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 cc3e3009134cb88014129fc8858d1101359e5e2f Edward Thomson <ethomson@edwardthomson.com> 1352098792 -0600	checkout: moving from master to trivial-4
+cc3e3009134cb88014129fc8858d1101359e5e2f c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352098818 -0600	checkout: moving from trivial-4 to trivial-8
+c607fc30883e335def28cd686b51f6cfa02b06ec 75a811bf6bc57694adb3fe604786f3a4efd1cd1b Edward Thomson <ethomson@edwardthomson.com> 1352098884 -0600	commit: trivial-8
+75a811bf6bc57694adb3fe604786f3a4efd1cd1b 75a811bf6bc57694adb3fe604786f3a4efd1cd1b Edward Thomson <ethomson@edwardthomson.com> 1352098947 -0600	checkout: moving from trivial-8 to trivial-8-branch
+75a811bf6bc57694adb3fe604786f3a4efd1cd1b 52d8bc572af2b6d4ee0d5e62ed5d1fbad92210a9 Edward Thomson <ethomson@edwardthomson.com> 1352098979 -0600	commit: trivial-8-branch
+52d8bc572af2b6d4ee0d5e62ed5d1fbad92210a9 75a811bf6bc57694adb3fe604786f3a4efd1cd1b Edward Thomson <ethomson@edwardthomson.com> 1352098982 -0600	checkout: moving from trivial-8-branch to trivial-8
+75a811bf6bc57694adb3fe604786f3a4efd1cd1b 3575826c96a975031d2c14368529cc5c4353a8fd Edward Thomson <ethomson@edwardthomson.com> 1352099000 -0600	commit: trivial-8
+3575826c96a975031d2c14368529cc5c4353a8fd bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352099008 -0600	checkout: moving from trivial-8 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352099776 -0600	checkout: moving from master to trivial-7
+c607fc30883e335def28cd686b51f6cfa02b06ec 092ce8682d7f3a2a3a769a6daca58950168ba5c4 Edward Thomson <ethomson@edwardthomson.com> 1352099790 -0600	commit: trivial-7
+092ce8682d7f3a2a3a769a6daca58950168ba5c4 092ce8682d7f3a2a3a769a6daca58950168ba5c4 Edward Thomson <ethomson@edwardthomson.com> 1352099799 -0600	checkout: moving from trivial-7 to trivial-7-branch
+092ce8682d7f3a2a3a769a6daca58950168ba5c4 73cbfdc4fe843169e5b2af8dcad03cbf3acf306c Edward Thomson <ethomson@edwardthomson.com> 1352099812 -0600	commit: trivial-7-branch
+73cbfdc4fe843169e5b2af8dcad03cbf3acf306c 092ce8682d7f3a2a3a769a6daca58950168ba5c4 Edward Thomson <ethomson@edwardthomson.com> 1352099815 -0600	checkout: moving from trivial-7-branch to trivial-7
+092ce8682d7f3a2a3a769a6daca58950168ba5c4 73cbfdc4fe843169e5b2af8dcad03cbf3acf306c Edward Thomson <ethomson@edwardthomson.com> 1352099838 -0600	checkout: moving from trivial-7 to trivial-7-branch
+73cbfdc4fe843169e5b2af8dcad03cbf3acf306c 092ce8682d7f3a2a3a769a6daca58950168ba5c4 Edward Thomson <ethomson@edwardthomson.com> 1352099874 -0600	reset: moving to 092ce8682d7f3a2a3a769a6daca58950168ba5c4
+092ce8682d7f3a2a3a769a6daca58950168ba5c4 009b9cab6fdac02915a88ecd078b7a792ed802d8 Edward Thomson <ethomson@edwardthomson.com> 1352099921 -0600	commit: removed in 7
+009b9cab6fdac02915a88ecd078b7a792ed802d8 5195a1b480f66691b667f10a9e41e70115a78351 Edward Thomson <ethomson@edwardthomson.com> 1352099927 -0600	commit (amend): trivial-7-branch
+5195a1b480f66691b667f10a9e41e70115a78351 092ce8682d7f3a2a3a769a6daca58950168ba5c4 Edward Thomson <ethomson@edwardthomson.com> 1352099937 -0600	checkout: moving from trivial-7-branch to trivial-7
+092ce8682d7f3a2a3a769a6daca58950168ba5c4 d874671ef5b20184836cb983bb273e5280384d0b Edward Thomson <ethomson@edwardthomson.com> 1352099947 -0600	commit: trivial-7
+d874671ef5b20184836cb983bb273e5280384d0b bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352099949 -0600	checkout: moving from trivial-7 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352100174 -0600	checkout: moving from master to trivial-10
+c607fc30883e335def28cd686b51f6cfa02b06ec 53825f41ac8d640612f9423a2f03a69f3d96809a Edward Thomson <ethomson@edwardthomson.com> 1352100193 -0600	commit: trivial-10
+53825f41ac8d640612f9423a2f03a69f3d96809a 53825f41ac8d640612f9423a2f03a69f3d96809a Edward Thomson <ethomson@edwardthomson.com> 1352100200 -0600	checkout: moving from trivial-10 to trivial-10-branch
+53825f41ac8d640612f9423a2f03a69f3d96809a 11f4f3c08b737f5fd896cbefa1425ee63b21b2fa Edward Thomson <ethomson@edwardthomson.com> 1352100211 -0600	commit: trivial-10-branch
+11f4f3c08b737f5fd896cbefa1425ee63b21b2fa 53825f41ac8d640612f9423a2f03a69f3d96809a Edward Thomson <ethomson@edwardthomson.com> 1352100214 -0600	checkout: moving from trivial-10-branch to trivial-10
+53825f41ac8d640612f9423a2f03a69f3d96809a 0ec5f433959cd46177f745903353efb5be08d151 Edward Thomson <ethomson@edwardthomson.com> 1352100223 -0600	commit: trivial-10
+0ec5f433959cd46177f745903353efb5be08d151 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352100225 -0600	checkout: moving from trivial-10 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352100270 -0600	checkout: moving from master to trivial-9
+c607fc30883e335def28cd686b51f6cfa02b06ec f0053b8060bb3f0be5cbcc3147a07ece26bf097e Edward Thomson <ethomson@edwardthomson.com> 1352100304 -0600	commit: trivial-9
+f0053b8060bb3f0be5cbcc3147a07ece26bf097e f0053b8060bb3f0be5cbcc3147a07ece26bf097e Edward Thomson <ethomson@edwardthomson.com> 1352100310 -0600	checkout: moving from trivial-9 to trivial-9-branch
+f0053b8060bb3f0be5cbcc3147a07ece26bf097e 13d1be4ea52a6ced1d7a1d832f0ee3c399348e5e Edward Thomson <ethomson@edwardthomson.com> 1352100317 -0600	commit: trivial-9-branch
+13d1be4ea52a6ced1d7a1d832f0ee3c399348e5e f0053b8060bb3f0be5cbcc3147a07ece26bf097e Edward Thomson <ethomson@edwardthomson.com> 1352100319 -0600	checkout: moving from trivial-9-branch to trivial-9
+f0053b8060bb3f0be5cbcc3147a07ece26bf097e c35dee9bcc0e989f3b0c40f68372a9a51b6c4e6a Edward Thomson <ethomson@edwardthomson.com> 1352100333 -0600	commit: trivial-9
+c35dee9bcc0e989f3b0c40f68372a9a51b6c4e6a bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352100335 -0600	checkout: moving from trivial-9 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352100576 -0600	checkout: moving from master to trivial-13
+c607fc30883e335def28cd686b51f6cfa02b06ec 8f4433f8593ddd65b7dd43dd4564d841f4d9c8aa Edward Thomson <ethomson@edwardthomson.com> 1352100589 -0600	commit: trivial-13
+8f4433f8593ddd65b7dd43dd4564d841f4d9c8aa 8f4433f8593ddd65b7dd43dd4564d841f4d9c8aa Edward Thomson <ethomson@edwardthomson.com> 1352100604 -0600	checkout: moving from trivial-13 to trivial-13-branch
+8f4433f8593ddd65b7dd43dd4564d841f4d9c8aa 05f3c1a2a56ca95c3d2ef28dc9ddf32b5cd6c91c Edward Thomson <ethomson@edwardthomson.com> 1352100610 -0600	commit: trivial-13-branch
+05f3c1a2a56ca95c3d2ef28dc9ddf32b5cd6c91c 8f4433f8593ddd65b7dd43dd4564d841f4d9c8aa Edward Thomson <ethomson@edwardthomson.com> 1352100612 -0600	checkout: moving from trivial-13-branch to trivial-13
+8f4433f8593ddd65b7dd43dd4564d841f4d9c8aa a3fabece9eb8748da810e1e08266fef9b7136ad4 Edward Thomson <ethomson@edwardthomson.com> 1352100625 -0600	commit: trivial-13
+a3fabece9eb8748da810e1e08266fef9b7136ad4 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352100627 -0600	checkout: moving from trivial-13 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352100936 -0600	checkout: moving from master to trivial-11
+c607fc30883e335def28cd686b51f6cfa02b06ec 35632e43612c06a3ea924bfbacd48333da874c29 Edward Thomson <ethomson@edwardthomson.com> 1352100958 -0600	commit: trivial-11
+35632e43612c06a3ea924bfbacd48333da874c29 35632e43612c06a3ea924bfbacd48333da874c29 Edward Thomson <ethomson@edwardthomson.com> 1352100964 -0600	checkout: moving from trivial-11 to trivial-11-branch
+35632e43612c06a3ea924bfbacd48333da874c29 6718a45909532d1fcf5600d0877f7fe7e78f0b86 Edward Thomson <ethomson@edwardthomson.com> 1352100978 -0600	commit: trivial-11-branch
+6718a45909532d1fcf5600d0877f7fe7e78f0b86 35632e43612c06a3ea924bfbacd48333da874c29 Edward Thomson <ethomson@edwardthomson.com> 1352100981 -0600	checkout: moving from trivial-11-branch to trivial-11
+35632e43612c06a3ea924bfbacd48333da874c29 3168dca1a561889b045a6441909f4c56145e666d Edward Thomson <ethomson@edwardthomson.com> 1352100992 -0600	commit: trivial-11
+3168dca1a561889b045a6441909f4c56145e666d bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352100996 -0600	checkout: moving from trivial-11 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1352101098 -0600	checkout: moving from master to trivial-14
+c607fc30883e335def28cd686b51f6cfa02b06ec 596803b523203a4851c824c07366906f8353f4ad Edward Thomson <ethomson@edwardthomson.com> 1352101113 -0600	commit: trivial-14
+596803b523203a4851c824c07366906f8353f4ad 596803b523203a4851c824c07366906f8353f4ad Edward Thomson <ethomson@edwardthomson.com> 1352101117 -0600	checkout: moving from trivial-14 to trivial-14-branch
+596803b523203a4851c824c07366906f8353f4ad 8187117062b750eed4f93fd7e899f17b52ce554d Edward Thomson <ethomson@edwardthomson.com> 1352101132 -0600	commit: trivial-14-branch
+8187117062b750eed4f93fd7e899f17b52ce554d 596803b523203a4851c824c07366906f8353f4ad Edward Thomson <ethomson@edwardthomson.com> 1352101135 -0600	checkout: moving from trivial-14-branch to trivial-14
+596803b523203a4851c824c07366906f8353f4ad 7e2d058d5fedf8329db44db4fac610d6b1a89159 Edward Thomson <ethomson@edwardthomson.com> 1352101141 -0600	commit: trivial-14
+7e2d058d5fedf8329db44db4fac610d6b1a89159 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1352101145 -0600	checkout: moving from trivial-14 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1353177749 -0600	checkout: moving from master to renames1
+c607fc30883e335def28cd686b51f6cfa02b06ec 412b32fb66137366147f1801ecc962452757d48a Edward Thomson <ethomson@edwardthomson.com> 1353177886 -0600	commit: renames
+412b32fb66137366147f1801ecc962452757d48a bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1353794607 -0600	checkout: moving from renames1 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1353794647 -0600	checkout: moving from master to renames2
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c607fc30883e335def28cd686b51f6cfa02b06ec Edward Thomson <ethomson@edwardthomson.com> 1353794677 -0600	reset: moving to c607fc30883e335def28cd686b51f6cfa02b06ec
+c607fc30883e335def28cd686b51f6cfa02b06ec ab40af3cb8a3ed2e2843e96d9aa7871336b94573 Edward Thomson <ethomson@edwardthomson.com> 1353794852 -0600	commit: renames2
+ab40af3cb8a3ed2e2843e96d9aa7871336b94573 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1353794883 -0600	checkout: moving from renames2 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1354574697 -0600	checkout: moving from master to df_side1
+bd593285fc7fe4ca18ccdbabf027f5d689101452 d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1354574962 -0600	commit: df_ancestor
+d4207f77243500bec335ab477f9227fcdb1e271a c94b27e41064c521120627e07e2035cca1d24ffa Edward Thomson <ethomson@edwardthomson.com> 1354575027 -0600	commit: df_side1
+c94b27e41064c521120627e07e2035cca1d24ffa d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1354575070 -0600	checkout: moving from df_side1 to df_side2
+d4207f77243500bec335ab477f9227fcdb1e271a f8958bdf4d365a84a9a178b1f5f35ff1dacbd884 Edward Thomson <ethomson@edwardthomson.com> 1354575206 -0600	commit: df_side2
+f8958bdf4d365a84a9a178b1f5f35ff1dacbd884 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1354575381 -0600	checkout: moving from df_side2 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 c94b27e41064c521120627e07e2035cca1d24ffa Edward Thomson <ethomson@edwardthomson.com> 1355017614 -0600	checkout: moving from master to df_side1
+c94b27e41064c521120627e07e2035cca1d24ffa a90bc3fb6f15181972a2959a921429efbd81a473 Edward Thomson <ethomson@edwardthomson.com> 1355017650 -0600	commit: df_added
+a90bc3fb6f15181972a2959a921429efbd81a473 c94b27e41064c521120627e07e2035cca1d24ffa Edward Thomson <ethomson@edwardthomson.com> 1355017673 -0600	checkout: moving from df_side1 to c94b27e
+c94b27e41064c521120627e07e2035cca1d24ffa d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1355017673 -0600	rebase -i (squash): updating HEAD
+d4207f77243500bec335ab477f9227fcdb1e271a 005b6fcc8fec71d2550bef8462d169b3c26aa14b Edward Thomson <ethomson@edwardthomson.com> 1355017673 -0600	rebase -i (squash): df_side1
+005b6fcc8fec71d2550bef8462d169b3c26aa14b 005b6fcc8fec71d2550bef8462d169b3c26aa14b Edward Thomson <ethomson@edwardthomson.com> 1355017676 -0600	rebase -i (finish): returning to refs/heads/df_side1
+005b6fcc8fec71d2550bef8462d169b3c26aa14b f8958bdf4d365a84a9a178b1f5f35ff1dacbd884 Edward Thomson <ethomson@edwardthomson.com> 1355017715 -0600	reset: moving to df_side2
+f8958bdf4d365a84a9a178b1f5f35ff1dacbd884 8c749d9968d4b10dcfb06c9f97d0e5d92d337071 Edward Thomson <ethomson@edwardthomson.com> 1355017744 -0600	commit: df_added
+8c749d9968d4b10dcfb06c9f97d0e5d92d337071 f8958bdf4d365a84a9a178b1f5f35ff1dacbd884 Edward Thomson <ethomson@edwardthomson.com> 1355017754 -0600	checkout: moving from df_side1 to f8958bd
+f8958bdf4d365a84a9a178b1f5f35ff1dacbd884 d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1355017754 -0600	rebase -i (squash): updating HEAD
+d4207f77243500bec335ab477f9227fcdb1e271a 0204a84f822acbf6386b36d33f1f6bc68bbbf858 Edward Thomson <ethomson@edwardthomson.com> 1355017754 -0600	rebase -i (squash): df_side2
+0204a84f822acbf6386b36d33f1f6bc68bbbf858 0204a84f822acbf6386b36d33f1f6bc68bbbf858 Edward Thomson <ethomson@edwardthomson.com> 1355017756 -0600	rebase -i (finish): returning to refs/heads/df_side1
+0204a84f822acbf6386b36d33f1f6bc68bbbf858 005b6fcc8fec71d2550bef8462d169b3c26aa14b Edward Thomson <ethomson@edwardthomson.com> 1355017793 -0600	reset: moving to 005b6fcc8fec71d2550bef8462d169b3c26aa14b
+005b6fcc8fec71d2550bef8462d169b3c26aa14b 0204a84f822acbf6386b36d33f1f6bc68bbbf858 Edward Thomson <ethomson@edwardthomson.com> 1355017826 -0600	reset: moving to 0204a84
+0204a84f822acbf6386b36d33f1f6bc68bbbf858 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1355017847 -0600	checkout: moving from df_side1 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 0204a84f822acbf6386b36d33f1f6bc68bbbf858 Edward Thomson <ethomson@edwardthomson.com> 1355168677 -0600	checkout: moving from master to df_side1
+005b6fcc8fec71d2550bef8462d169b3c26aa14b 005b6fcc8fec71d2550bef8462d169b3c26aa14b Edward Thomson <ethomson@edwardthomson.com> 1355168829 -0600	checkout: moving from df_side1 to df_side1
+005b6fcc8fec71d2550bef8462d169b3c26aa14b 005b6fcc8fec71d2550bef8462d169b3c26aa14b Edward Thomson <ethomson@edwardthomson.com> 1355168838 -0600	checkout: moving from df_side1 to df_side1
+005b6fcc8fec71d2550bef8462d169b3c26aa14b e8107f24196736b870a318a0e28f048e29f6feff Edward Thomson <ethomson@edwardthomson.com> 1355169065 -0600	commit: df_side1
+e8107f24196736b870a318a0e28f048e29f6feff 005b6fcc8fec71d2550bef8462d169b3c26aa14b Edward Thomson <ethomson@edwardthomson.com> 1355169081 -0600	checkout: moving from df_side1 to 005b6fc
+005b6fcc8fec71d2550bef8462d169b3c26aa14b d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1355169081 -0600	rebase -i (squash): updating HEAD
+d4207f77243500bec335ab477f9227fcdb1e271a 80a8fbb3abb1ba423d554e9630b8fc2e5698f86b Edward Thomson <ethomson@edwardthomson.com> 1355169081 -0600	rebase -i (squash): df_side1
+80a8fbb3abb1ba423d554e9630b8fc2e5698f86b 80a8fbb3abb1ba423d554e9630b8fc2e5698f86b Edward Thomson <ethomson@edwardthomson.com> 1355169084 -0600	rebase -i (finish): returning to refs/heads/df_side1
+80a8fbb3abb1ba423d554e9630b8fc2e5698f86b 0204a84f822acbf6386b36d33f1f6bc68bbbf858 Edward Thomson <ethomson@edwardthomson.com> 1355169141 -0600	checkout: moving from df_side1 to df_side2
+0204a84f822acbf6386b36d33f1f6bc68bbbf858 944f5dd1a867cab4c2bbcb896493435cae1dcc1a Edward Thomson <ethomson@edwardthomson.com> 1355169174 -0600	commit: both
+944f5dd1a867cab4c2bbcb896493435cae1dcc1a 0204a84f822acbf6386b36d33f1f6bc68bbbf858 Edward Thomson <ethomson@edwardthomson.com> 1355169182 -0600	checkout: moving from df_side2 to 0204a84
+0204a84f822acbf6386b36d33f1f6bc68bbbf858 d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1355169182 -0600	rebase -i (squash): updating HEAD
+d4207f77243500bec335ab477f9227fcdb1e271a 57079a46233ae2b6df62e9ade71c4948512abefb Edward Thomson <ethomson@edwardthomson.com> 1355169182 -0600	rebase -i (squash): df_side2
+57079a46233ae2b6df62e9ade71c4948512abefb 57079a46233ae2b6df62e9ade71c4948512abefb Edward Thomson <ethomson@edwardthomson.com> 1355169185 -0600	rebase -i (finish): returning to refs/heads/df_side2
+57079a46233ae2b6df62e9ade71c4948512abefb 80a8fbb3abb1ba423d554e9630b8fc2e5698f86b Edward Thomson <ethomson@edwardthomson.com> 1355169241 -0600	checkout: moving from df_side2 to df_side1
+80a8fbb3abb1ba423d554e9630b8fc2e5698f86b e65a9bb2af9f4c2d1c375dd0f8f8a46cf9c68812 Edward Thomson <ethomson@edwardthomson.com> 1355169419 -0600	commit: side1
+e65a9bb2af9f4c2d1c375dd0f8f8a46cf9c68812 80a8fbb3abb1ba423d554e9630b8fc2e5698f86b Edward Thomson <ethomson@edwardthomson.com> 1355169431 -0600	checkout: moving from df_side1 to 80a8fbb
+80a8fbb3abb1ba423d554e9630b8fc2e5698f86b d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1355169431 -0600	rebase -i (squash): updating HEAD
+d4207f77243500bec335ab477f9227fcdb1e271a 5dc1018e90b19654bee986b7a0c268804d39659d Edward Thomson <ethomson@edwardthomson.com> 1355169431 -0600	rebase -i (squash): df_side1
+5dc1018e90b19654bee986b7a0c268804d39659d 5dc1018e90b19654bee986b7a0c268804d39659d Edward Thomson <ethomson@edwardthomson.com> 1355169435 -0600	rebase -i (finish): returning to refs/heads/df_side1
+5dc1018e90b19654bee986b7a0c268804d39659d 57079a46233ae2b6df62e9ade71c4948512abefb Edward Thomson <ethomson@edwardthomson.com> 1355169439 -0600	checkout: moving from df_side1 to df_side2
+57079a46233ae2b6df62e9ade71c4948512abefb 58e853f66699fd02629fd50bde08082bc005933a Edward Thomson <ethomson@edwardthomson.com> 1355169460 -0600	commit: side2
+58e853f66699fd02629fd50bde08082bc005933a 57079a46233ae2b6df62e9ade71c4948512abefb Edward Thomson <ethomson@edwardthomson.com> 1355169469 -0600	checkout: moving from df_side2 to 57079a4
+57079a46233ae2b6df62e9ade71c4948512abefb d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1355169469 -0600	rebase -i (squash): updating HEAD
+d4207f77243500bec335ab477f9227fcdb1e271a fada9356aa3f74622327a3038ae9c6f92e1c5c1d Edward Thomson <ethomson@edwardthomson.com> 1355169469 -0600	rebase -i (squash): df_side2
+fada9356aa3f74622327a3038ae9c6f92e1c5c1d fada9356aa3f74622327a3038ae9c6f92e1c5c1d Edward Thomson <ethomson@edwardthomson.com> 1355169471 -0600	rebase -i (finish): returning to refs/heads/df_side2
+fada9356aa3f74622327a3038ae9c6f92e1c5c1d 5dc1018e90b19654bee986b7a0c268804d39659d Edward Thomson <ethomson@edwardthomson.com> 1355169494 -0600	checkout: moving from df_side2 to df_side1
+5dc1018e90b19654bee986b7a0c268804d39659d d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1355169663 -0600	checkout: moving from df_side1 to d4207f77243500bec335ab477f9227fcdb1e271a
+d4207f77243500bec335ab477f9227fcdb1e271a 849619b03ae540acee4d1edec96b86993da6b497 Edward Thomson <ethomson@edwardthomson.com> 1355169683 -0600	commit: both_dirs
+849619b03ae540acee4d1edec96b86993da6b497 d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1355169691 -0600	checkout: moving from 849619b03ae540acee4d1edec96b86993da6b497 to d4207f7
+d4207f77243500bec335ab477f9227fcdb1e271a bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1355169691 -0600	rebase -i (squash): updating HEAD
+bd593285fc7fe4ca18ccdbabf027f5d689101452 a765fb87eb2f7a1920b73b2d5a057f8f8476a42b Edward Thomson <ethomson@edwardthomson.com> 1355169691 -0600	rebase -i (squash): df_ancestor
+a765fb87eb2f7a1920b73b2d5a057f8f8476a42b 5dc1018e90b19654bee986b7a0c268804d39659d Edward Thomson <ethomson@edwardthomson.com> 1355169706 -0600	checkout: moving from a765fb87eb2f7a1920b73b2d5a057f8f8476a42b to df_side1
+5dc1018e90b19654bee986b7a0c268804d39659d a765fb87eb2f7a1920b73b2d5a057f8f8476a42b Edward Thomson <ethomson@edwardthomson.com> 1355169715 -0600	checkout: moving from df_side1 to a765fb87eb2f7a1920b73b2d5a057f8f8476a42b^0
+a765fb87eb2f7a1920b73b2d5a057f8f8476a42b bc744705e1d8a019993cf88f62bc4020f1b80919 Edward Thomson <ethomson@edwardthomson.com> 1355169801 -0600	commit: df_side1
+bc744705e1d8a019993cf88f62bc4020f1b80919 bc744705e1d8a019993cf88f62bc4020f1b80919 Edward Thomson <ethomson@edwardthomson.com> 1355169822 -0600	checkout: moving from bc744705e1d8a019993cf88f62bc4020f1b80919 to df_side1
+bc744705e1d8a019993cf88f62bc4020f1b80919 fada9356aa3f74622327a3038ae9c6f92e1c5c1d Edward Thomson <ethomson@edwardthomson.com> 1355169826 -0600	checkout: moving from df_side1 to df_side2
+fada9356aa3f74622327a3038ae9c6f92e1c5c1d a765fb87eb2f7a1920b73b2d5a057f8f8476a42b Edward Thomson <ethomson@edwardthomson.com> 1355169866 -0600	checkout: moving from df_side2 to a765fb87eb2f7a1920b73b2d5a057f8f8476a42b^0
+a765fb87eb2f7a1920b73b2d5a057f8f8476a42b 95646149ab6b6ba6edc83cff678582538b457b2b Edward Thomson <ethomson@edwardthomson.com> 1355169897 -0600	rebase: df_side2
+95646149ab6b6ba6edc83cff678582538b457b2b 95646149ab6b6ba6edc83cff678582538b457b2b Edward Thomson <ethomson@edwardthomson.com> 1355169897 -0600	rebase finished: returning to refs/heads/df_side2
+95646149ab6b6ba6edc83cff678582538b457b2b bc744705e1d8a019993cf88f62bc4020f1b80919 Edward Thomson <ethomson@edwardthomson.com> 1355169949 -0600	checkout: moving from df_side2 to df_side1
+bc744705e1d8a019993cf88f62bc4020f1b80919 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1355170046 -0600	checkout: moving from df_side1 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1355181639 -0600	checkout: moving from master to df_ancestor
+bd593285fc7fe4ca18ccdbabf027f5d689101452 2da538570bc1e5b2c3e855bf702f35248ad0735f Edward Thomson <ethomson@edwardthomson.com> 1355181673 -0600	commit: df_ancestor
+2da538570bc1e5b2c3e855bf702f35248ad0735f a7dbfcbfc1a60709cb80b5ca24539008456531d0 Edward Thomson <ethomson@edwardthomson.com> 1355181715 -0600	commit: df_side1
+a7dbfcbfc1a60709cb80b5ca24539008456531d0 a7dbfcbfc1a60709cb80b5ca24539008456531d0 Edward Thomson <ethomson@edwardthomson.com> 1355181743 -0600	checkout: moving from df_ancestor to df_ancestor
+a7dbfcbfc1a60709cb80b5ca24539008456531d0 9a301fbe6fada7dcb74fcd7c20269b5c743459a7 Edward Thomson <ethomson@edwardthomson.com> 1355181775 -0600	commit: df_side2
+9a301fbe6fada7dcb74fcd7c20269b5c743459a7 a7dbfcbfc1a60709cb80b5ca24539008456531d0 Edward Thomson <ethomson@edwardthomson.com> 1355181793 -0600	checkout: moving from df_ancestor to df_side1
+a7dbfcbfc1a60709cb80b5ca24539008456531d0 9a301fbe6fada7dcb74fcd7c20269b5c743459a7 Edward Thomson <ethomson@edwardthomson.com> 1355181797 -0600	checkout: moving from df_side1 to df_side2
+9a301fbe6fada7dcb74fcd7c20269b5c743459a7 9a301fbe6fada7dcb74fcd7c20269b5c743459a7 Edward Thomson <ethomson@edwardthomson.com> 1355182062 -0600	checkout: moving from df_side2 to df_ancestor
+9a301fbe6fada7dcb74fcd7c20269b5c743459a7 2da538570bc1e5b2c3e855bf702f35248ad0735f Edward Thomson <ethomson@edwardthomson.com> 1355182067 -0600	reset: moving to 2da538570bc1e5b2c3e855bf702f35248ad0735f
+2da538570bc1e5b2c3e855bf702f35248ad0735f 2da538570bc1e5b2c3e855bf702f35248ad0735f Edward Thomson <ethomson@edwardthomson.com> 1355182087 -0600	checkout: moving from df_ancestor to df_side2
+2da538570bc1e5b2c3e855bf702f35248ad0735f fc90237dc4891fa6c69827fc465632225e391618 Edward Thomson <ethomson@edwardthomson.com> 1355182104 -0600	commit: df_side2
+fc90237dc4891fa6c69827fc465632225e391618 a7dbfcbfc1a60709cb80b5ca24539008456531d0 Edward Thomson <ethomson@edwardthomson.com> 1355182111 -0600	checkout: moving from df_side2 to df_side1
+a7dbfcbfc1a60709cb80b5ca24539008456531d0 fc90237dc4891fa6c69827fc465632225e391618 Edward Thomson <ethomson@edwardthomson.com> 1355182115 -0600	checkout: moving from df_side1 to df_side2
+fc90237dc4891fa6c69827fc465632225e391618 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1355182122 -0600	checkout: moving from df_side2 to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 d6cf6c7741b3316826af1314042550c97ded1d50 Edward Thomson <ethomson@edwardthomson.com> 1358997543 -0600	checkout: moving from master to unrelated
+d6cf6c7741b3316826af1314042550c97ded1d50 55b4e4687e7a0d9ca367016ed930f385d4022e6f Edward Thomson <ethomson@edwardthomson.com> 1358997664 -0600	commit: conflicting changes
+55b4e4687e7a0d9ca367016ed930f385d4022e6f bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1358997675 -0600	checkout: moving from unrelated to master
+bd593285fc7fe4ca18ccdbabf027f5d689101452 88e185910a15cd13bdf44854ad037f4842b03b29 Edward Thomson <ethomson@microsoft.com> 1365714471 -0500	checkout: moving from master to rename_conflict_ours
+88e185910a15cd13bdf44854ad037f4842b03b29 bef6e37b3ee632ba74159168836f382fed21d77d Edward Thomson <ethomson@microsoft.com> 1365714516 -0500	checkout: moving from rename_conflict_ours to bef6e37b3ee632ba74159168836f382fed21d77d
+bef6e37b3ee632ba74159168836f382fed21d77d 01f149e1b8f84bd8896aaff6d6b22af88459ded0 Edward Thomson <ethomson@microsoft.com> 1365714831 -0500	commit: rename ancestor
+0000000000000000000000000000000000000000 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365714958 -0500	commit (initial): rename conflict ancestor
+2392a2dacc9efb562b8635d6579fb458751c7c5b 88e185910a15cd13bdf44854ad037f4842b03b29 Edward Thomson <ethomson@microsoft.com> 1365714980 -0500	checkout: moving from rename_conflict_ancestor to rename_conflict_ours
+88e185910a15cd13bdf44854ad037f4842b03b29 7c2c5228c9e90170d4a35e6558e47163daf092e5 Edward Thomson <ethomson@microsoft.com> 1365715250 -0500	commit: rename conflict ours
+7c2c5228c9e90170d4a35e6558e47163daf092e5 2f4024ce528d36d8670c289cce5a7963e625bb0c Edward Thomson <ethomson@microsoft.com> 1365715274 -0500	checkout: moving from rename_conflict_ours to rename_conflict_theirs
+2f4024ce528d36d8670c289cce5a7963e625bb0c 56a638b76b75e068590ac999c2f8621e7f3e264c Edward Thomson <ethomson@microsoft.com> 1365715362 -0500	commit: rename conflict theirs
+56a638b76b75e068590ac999c2f8621e7f3e264c 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715368 -0500	checkout: moving from rename_conflict_theirs to rename_conflict_ancestor
+2392a2dacc9efb562b8635d6579fb458751c7c5b 56a638b76b75e068590ac999c2f8621e7f3e264c Edward Thomson <ethomson@microsoft.com> 1365715371 -0500	checkout: moving from rename_conflict_ancestor to rename_conflict_theirs
+56a638b76b75e068590ac999c2f8621e7f3e264c 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715404 -0500	checkout: moving from rename_conflict_theirs to rename_conflict_ancestor
+2392a2dacc9efb562b8635d6579fb458751c7c5b 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715438 -0500	checkout: moving from rename_conflict_ancestor to rename_conflict_ours
+2392a2dacc9efb562b8635d6579fb458751c7c5b 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715480 -0500	checkout: moving from rename_conflict_ours to rename_conflict_ancestor
+2392a2dacc9efb562b8635d6579fb458751c7c5b 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715486 -0500	checkout: moving from rename_conflict_ancestor to rename_conflict_ours
+2392a2dacc9efb562b8635d6579fb458751c7c5b f3293571dcd708b6a3faf03818cd2844d000e198 Edward Thomson <ethomson@microsoft.com> 1365715538 -0500	commit: rename conflict ours
+f3293571dcd708b6a3faf03818cd2844d000e198 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715546 -0500	checkout: moving from rename_conflict_ours to rename_conflict_ancestor
+2392a2dacc9efb562b8635d6579fb458751c7c5b 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715550 -0500	checkout: moving from rename_conflict_ancestor to rename_conflict_thiers
+2392a2dacc9efb562b8635d6579fb458751c7c5b 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715554 -0500	checkout: moving from rename_conflict_thiers to rename_conflict_ancestor
+2392a2dacc9efb562b8635d6579fb458751c7c5b 2392a2dacc9efb562b8635d6579fb458751c7c5b Edward Thomson <ethomson@microsoft.com> 1365715557 -0500	checkout: moving from rename_conflict_ancestor to rename_conflict_theirs
+2392a2dacc9efb562b8635d6579fb458751c7c5b a802e06f1782a9645b9851bc7202cee74a8a4972 Edward Thomson <ethomson@microsoft.com> 1365715572 -0500	commit: rename conflict theirs
+a802e06f1782a9645b9851bc7202cee74a8a4972 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@microsoft.com> 1365715620 -0500	checkout: moving from rename_conflict_theirs to master

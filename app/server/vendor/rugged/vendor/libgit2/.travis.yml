@@ -1,0 +1,59 @@
+# Travis-CI Build for libgit2
+# see travis-ci.org for details
+
+language: c
+
+compiler:
+  - gcc
+  - clang
+
+# Settings to try
+env:
+ global:
+  - secure: "YnhS+8n6B+uoyaYfaJ3Lei7cSJqHDPiKJCKFIF2c87YDfmCvAJke8QtE7IzjYDs7UFkTCM4ox+ph2bERUrxZbSCyEkHdjIZpKuMJfYWja/jgMqTMxdyOH9y8JLFbZsSXDIXDwqBlC6vVyl1fP90M35wuWcNTs6tctfVWVofEFbs="
+ matrix:
+  - OPTIONS="-DTHREADSAFE=ON -DCMAKE_BUILD_TYPE=Release"
+  - OPTIONS="-DBUILD_CLAR=ON -DBUILD_EXAMPLES=ON"
+
+matrix:
+ fast_finish: true
+ include:
+   - compiler: i586-mingw32msvc-gcc
+     env: OPTIONS="-DBUILD_CLAR=OFF -DWIN32=ON -DMINGW=ON -DUSE_SSH=OFF"
+   - compiler: gcc
+     env: COVERITY=1
+ allow_failures:
+   - env: COVERITY=1
+
+install:
+ - sudo apt-get -qq update
+ - sudo apt-get -qq install cmake libssh2-1-dev openssh-client openssh-server
+
+# Run the Build script and tests
+script:
+ - script/cibuild.sh
+
+# Run Tests
+after_success:
+ - sudo apt-get -qq install valgrind
+ - valgrind --leak-check=full --show-reachable=yes --suppressions=./libgit2_clar.supp _build/libgit2_clar -ionline
+
+# Only watch the development branch
+branches:
+ only:
+   - development
+
+# Notify development list when needed
+notifications:
+ irc:
+  channels:
+    - irc.freenode.net#libgit2
+  on_success: change
+  on_failure: always
+  use_notice: true
+  skip_join: true
+ campfire:
+  on_success: always
+  on_failure: always
+  rooms:
+   - secure: "sH0dpPWMirbEe7AvLddZ2yOp8rzHalGmv0bYL/LIhVw3JDI589HCYckeLMSB\n3e/FeXw4bn0EqXWEXijVa4ijbilVY6d8oprdqMdWHEodng4KvY5vID3iZSGT\nxylhahO1XHmRynKQLOAvxlc93IlpVW38vQfby8giIY1nkpspb2w="
