@@ -187,13 +187,15 @@ module SonicPi
       log_boot_msg
       log "Booting on Linux"
       #Start Jack if not already running
-      if `ps cax | grep jackd`.empty?
-        #Jack not running - start a new instance and store its PID
+      unless `jackd_wait -c`.match /not.*/
+        #Jack not running - start a new instance
         log "Jackd not running on system. Starting..."
-        system("jackd -R -p 32 -d alsa -n 3& ")
-        raspberry? ? sleep(10) : sleep(3)
-        @jack_pid = `ps cax | grep jackd`.split(" ").first
-        log "Jack started with pid #{@jack_pid}"
+        system("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+
+        # Wait for Jackd to start
+        while `jackd_wait -c`.match /not.*/
+          sleep 0.5
+        end
 
       else
         log "Jackd already running. Not starting another server..."
