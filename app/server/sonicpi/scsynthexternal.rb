@@ -10,7 +10,6 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require 'singleton'
 require_relative "util"
 require_relative "promise"
 
