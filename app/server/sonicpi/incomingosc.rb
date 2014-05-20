@@ -90,4 +90,3 @@ module SonicPi
 
   end
 end
-q!
