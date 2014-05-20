@@ -82,7 +82,7 @@ module SonicPi
       b
     end
 
-    def get_double64
+    def get_double64(p)
       f = p.getn(8).unpack('G')[0]
       p.skip_padding
       f
