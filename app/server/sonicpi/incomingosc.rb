@@ -48,6 +48,8 @@ module SonicPi
                     get_float32(p)
                   when "s"
                     get_string(p)
+                  when "d"
+                    get_double64(p)
                   when "b"
                     get_blob(p)
                   else
@@ -80,5 +82,12 @@ module SonicPi
       b
     end
 
+    def get_double64
+      f = p.getn(8).unpack('G')[0]
+      p.skip_padding
+      f
+    end
+
   end
 end
+q!
