@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Create a test repo which we can use for the online tests
+mkdir $HOME/_temp
+git init --bare $HOME/_temp/test.git
+git daemon --listen=localhost --export-all --enable=receive-pack --base-path=$HOME/_temp $HOME/_temp 2>/dev/null &
+
+sudo start ssh
+
+ssh-keygen -t rsa -f ~/.ssh/rugged_test_rsa -N "" -q
+cat ~/.ssh/rugged_test_rsa.pub >>~/.ssh/authorized_keys
+ssh-keyscan -t rsa localhost >>~/.ssh/known_hosts
+
+export GITTEST_REMOTE_GIT_URL="git://localhost/test.git"
+export GITTEST_REMOTE_SSH_URL="ssh://localhost/$HOME/_temp/test.git"
+export GITTEST_REMOTE_SSH_USER=$USER
+export GITTEST_REMOTE_SSH_KEY="$HOME/.ssh/rugged_test_rsa"
+export GITTEST_REMOTE_SSH_PUBKEY="$HOME/.ssh/rugged_test_rsa.pub"
+export GITTEST_REMOTE_SSH_PASSPHRASE=""
+export GITTEST_REMOTE_REPO_PATH="$HOME/_temp/test.git"
+
+eval $(ssh-agent)
+ssh-add $GITTEST_REMOTE_SSH_KEY
+
+# We need the config so the tests don't fail
+git config --global user.name 'The rugged tests are fragile'
+bundle exec rake || exit $?

@@ -163,6 +163,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   errorWidget = new QDockWidget(tr("Errors"), this);
   errorWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   errorWidget->setWidget(errorPane);
+  errorWidget->hide();
   addDockWidget(Qt::RightDockWidgetArea, errorWidget);
 
 
@@ -344,10 +345,37 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popStr(s).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("60 60 60")));
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(s)) );
             } else {
               std::cout << "Server: unhandled message: "<< std::endl;
+            }
+          }
+          else if (msg->match("/user_message")) {
+            std::string s;
+            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+              // Evil nasties!
+              // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DodgerBlue")));
+
+              QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(s)) );
+            } else {
+              std::cout << "Server: unhandled user message: "<< std::endl;
+            }
+          }
+          else if (msg->match("/warning")) {
+            std::string s;
+            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+              // Evil nasties!
+              // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DarkOrange")));
+
+              QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(s)) );
+            } else {
+              std::cout << "Server: unhandled user message: "<< std::endl;
             }
           }
           else if (msg->match("/error")) {
@@ -356,6 +384,7 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( errorWidget, "show", Qt::QueuedConnection);
               QMetaObject::invokeMethod( errorPane, "clear", Qt::QueuedConnection);
               QMetaObject::invokeMethod( errorPane, "setHtml", Qt::QueuedConnection,
                                          Q_ARG(QString, "<h3><pre>" + QString::fromStdString(desc) + "</pre></h3><pre>" + QString::fromStdString(backtrace) + "</pre>") );
@@ -481,6 +510,7 @@ bool MainWindow::saveAs()
 void MainWindow::runCode()
 {
   errorPane->clear();
+  errorWidget->hide();
   statusBar()->showMessage(tr("Running...."), 2000);
   std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
@@ -502,7 +532,6 @@ void MainWindow::stopCode()
 {
   stopRunningSynths();
   outputPane->clear();
-  errorPane->clear();
   statusBar()->showMessage(tr("Stopping..."), 2000);
 }
 
@@ -820,7 +849,7 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
 {
 	for(int i = 0; i < workspace_max; i++) {
 		if(text == workspaces[i]) {
-			std::string s = "workspace_" + number_name(i + 1);
+                  return "workspace_" + number_name(i + 1);
 		}
 	}
 	return "default";

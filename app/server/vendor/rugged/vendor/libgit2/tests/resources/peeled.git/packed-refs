@@ -1,0 +1,6 @@
+# pack-refs with: peeled fully-peeled 
+c2596aa0151888587ec5c0187f261e63412d9e11 refs/foo/tag-outside-tags
+^0df1a5865c8abfc09f1f2182e6a31be550e99f07
+0df1a5865c8abfc09f1f2182e6a31be550e99f07 refs/heads/master
+c2596aa0151888587ec5c0187f261e63412d9e11 refs/tags/tag-inside-tags
+^0df1a5865c8abfc09f1f2182e6a31be550e99f07

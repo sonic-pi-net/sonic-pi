@@ -184,6 +184,10 @@ out_t = Thread.new do
         when :message
 #          puts "sending: /message with arg #{message[:val]}"
           proxy.send(OSC::Message.new("/message", message[:val]))
+        when :user_message
+          proxy.send(OSC::Message.new("/user_message", message[:val]))
+        when :warning
+          proxy.send(OSC::Message.new("/warning", message[:val]))
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")

@@ -1,0 +1,5 @@
+[remote "ab"]
+    url = git://github.com/libgit2/libgit2
+    url = git://git.example.com/libgit2
+
+

@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -ex
+
+# change into root dir and setup path
+cd $(dirname "$0")/..
+PATH="$(pwd)/bin:$(pwd)/script:/usr/share/rbenv/shims:$PATH"
+
+export RBENV_VERSION="2.0.0-github"
+export CI_BUILD=1
+
+# Write commit we're building at
+git log -n 1 || true
+echo
+
+git submodule update --init
+
+(
+    cd vendor/libgit2
+    git fetch origin
+    git reset -q --hard origin/development
+    make -f Makefile.embed clean
+)
+
+bundle install --path vendor/gems --binstubs
+bundle exec rake clean
+bundle exec rake compile
+bundle exec rake test

@@ -10,7 +10,6 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require 'singleton'
 require_relative "util"
 require_relative "promise"
 
@@ -187,14 +186,16 @@ module SonicPi
       log_boot_msg
       log "Booting on Linux"
       #Start Jack if not already running
-      if `ps cax | grep jackd`.empty?
-        #Jack not running - start a new instance and store its PID
+      if `jack_wait -c`.match /not.*/
+        #Jack not running - start a new instance
         log "Jackd not running on system. Starting..."
-        system("jackd -R -p 32 -d alsa -n 3& ")
-        raspberry? ? sleep(10) : sleep(3)
-        @jack_pid = `ps cax | grep jackd`.split(" ").first
-        log "Jack started with pid #{@jack_pid}"
+        system("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
 
+        # Wait for Jackd to start
+        while `jack_wait -c`.match /not.*/
+          sleep 0.5
+        end
+        @jack_pid = `ps cax | grep jackd`.split(" ").first
       else
         log "Jackd already running. Not starting another server..."
       end

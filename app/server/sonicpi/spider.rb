@@ -22,6 +22,7 @@ require_relative "mods/spmidi"
 require_relative "mods/sound"
 #require_relative "mods/feeds"
 #require_relative "mods/globalkeys"
+require_relative "gitsave"
 
 require 'thread'
 require 'fileutils'
@@ -36,7 +37,6 @@ module SonicPi
       @msg_queue = msg_queue
       @event_queue = Queue.new
       @keypress_handlers = {}
-      __message "Starting..."
       @events = IncomingEvents.new
       @sync_counter = Counter.new
       @job_counter = Counter.new
@@ -49,6 +49,8 @@ module SonicPi
       @sync_real_sleep_time = 0.05
       @user_methods = user_methods
 
+      @gitsave = GitSave.new(project_path)
+
       @event_t = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :event_loop)
         loop do
@@ -56,6 +58,7 @@ module SonicPi
           __handle_event event
         end
       end
+      __message "Ready..."
     end
 
     #These includes must happen after the initialize method
@@ -78,6 +81,15 @@ module SonicPi
         r
       end
     end
+
+    def __user_message(s)
+      @msg_queue.push({:type => :user_message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
+    end
+
+    def __warning(s)
+      @msg_queue.push({:type => :warning, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
+    end
+
 
     def __message(s)
       @msg_queue.push({:type => :message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
@@ -159,9 +171,11 @@ module SonicPi
     end
 
     def __save_buffer(id, content)
-      path = project_path + id + '.spi'
+      filename = id + '.spi'
+      path = project_path + "/" + filename
       content = filter_for_save(content)
-      File.open(path, 'w') {|f| f.write(content) }
+      #File.open(path, 'w') {|f| f.write(content) }
+      @gitsave.save!(filename, content)
     end
 
     def __spider_eval(code, info={})

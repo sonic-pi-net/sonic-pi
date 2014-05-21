@@ -1,0 +1,19 @@
+# Travis-CI Build for rugged
+# see travis-ci.org for details
+
+language: ruby
+
+# Ruby versions to test against
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+  - ruby-head
+  - rbx
+
+install:
+  - bundle install --deployment
+  - sudo apt-get -qq update
+  - sudo apt-get -qq install cmake libssh2-1-dev openssh-client openssh-server
+
+script: script/travisbuild

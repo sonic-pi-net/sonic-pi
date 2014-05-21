@@ -12,10 +12,9 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
-
+require_relative "incomingosc"
 require 'osc-ruby'
 require 'ffi'
-
 
 module SonicPi
   module SCSynthFFI
@@ -266,6 +265,8 @@ module SonicPi
     attach_function :World_OpenUDP, [World.ptr, :int], :int
   end
 
+
+
   class SCSynthNative
 
     #typedef void (*ReplyFunc)(struct ReplyAddress *inReplyAddr, char* inBuf, int inSize);
@@ -276,11 +277,12 @@ module SonicPi
       @cb = FFI::Function.new( :void, [:pointer, :pointer, :int]) do | a, b, c |
         begin
           s = b.read_bytes(c)
-          p = OSC::OSCPacket.new(s)
-          callback.call(p.get_string, p.get_arguments)
+          m = IncomingOSC.new(s)
+          callback.call(m.address, m.args)
         rescue Exception => e
-          #puts "Exeption in FFI function:"
-          #puts e.backtrace
+          puts "Exeption in FFI function:"
+          puts e.message
+          puts e.backtrace
         end
       end
 

@@ -1,0 +1,5 @@
+[core]
+	int32global = -1
+	int64global = -2
+	boolglobal = false
+	stringglobal = don't find me!

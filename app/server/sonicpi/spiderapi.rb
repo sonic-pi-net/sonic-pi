@@ -68,7 +68,7 @@ end",]
 "print 5               #=> will print the number 5 to the output pane",
 "print foo             #=> will print the contents of foo to the output pane"]
     def print(output)
-      __message output
+      __user_message output
     end
 
 
@@ -83,7 +83,7 @@ end",]
 "print 5               #=> will print the number 5 to the output pane",
 "print foo             #=> will print the contents of foo to the output pane"]
     def puts(output)
-      __message output
+      __user_message output
     end
 
 
@@ -175,11 +175,11 @@ end",]
       elsif (now - sat) > new_vt # TODO: remove this, api shouldn't need to know about sound module
         # Hard warning, system is too far behind, expect timing issues.
         Thread.current.priority = 20
-        __message "Timing error: can't keep up..."
+        __warning "Timing error: can't keep up..."
       elsif now > new_vt
         # Soft warning, system should work correctly, but is currently behind
         Thread.current.priority = 20
-        __message "Timing warning: running slightly behind..."
+        __warning "Timing warning: running slightly behind..."
       else
         Kernel.sleep new_vt - now
       end
