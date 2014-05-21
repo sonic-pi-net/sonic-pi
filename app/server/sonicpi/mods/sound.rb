@@ -331,10 +331,10 @@ play 50 # Plays with mod_sine synth
 
 
        def recording_start
-         puts "start recording"
+         __message "start recording"
          tmp_dir = Dir.mktmpdir("sonic-pi")
          @tmp_path = File.expand_path("#{tmp_dir}/#{rand(100000000)}.wav")
-         puts "tmp_path: #{@tmp_path}"
+         __message "tmp_path: #{@tmp_path}"
          @mod_sound_studio.recording_start @tmp_path
        end
        doc name:          :recording_start,
@@ -349,7 +349,7 @@ play 50 # Plays with mod_sine synth
 
 
        def recording_stop
-         puts "stop recording"
+         __message "stop recording"
          @mod_sound_studio.recording_stop
        end
        doc name:          :recording_stop,
@@ -364,7 +364,7 @@ play 50 # Plays with mod_sine synth
 
 
        def recording_save(filename)
-         puts "save recording #{filename}"
+         __message "save recording #{filename}"
          #TODO: is this sleep necessary?
          Kernel.sleep 3
          FileUtils.mv(@tmp_path, filename)
@@ -382,7 +382,7 @@ play 50 # Plays with mod_sine synth
 
 
        def recording_delete
-         puts "delete recording"
+         __message "delete recording"
          FileUtils.rm @tmp_path if @tmp_path
        end
        doc name:          :recording_delete,
@@ -896,12 +896,12 @@ set_volume! 2 # Set the main system volume to 2",
            full_path = resolve_sample_symbol_path(path)
            raise "No sample exists called #{path.inspect}" unless File.exists?(full_path)
            info, cached = @mod_sound_studio.load_sample(full_path)
-           puts "Loaded sample :#{path}" unless cached
+           __message "Loaded sample :#{path}" unless cached
            return info
          when String
            if File.exists?(path)
              info, cached = @mod_sound_studio.load_sample(path)
-             puts "Loaded sample #{path.inspect}" unless cached
+             __message "Loaded sample #{path.inspect}" unless cached
              return info
            else
              raise "No sample exists with path #{path}"
@@ -1478,7 +1478,7 @@ set_volume! 2 # Set the main system volume to 2",
          elsif (now - sat) > vt
            # Hard warning, system is too far behind, expect timing issues.
            Thread.current.priority = 20
-           __message "Timing error: can't keep up..."
+           __warning "Timing error: can't keep up..."
          end
        end
 

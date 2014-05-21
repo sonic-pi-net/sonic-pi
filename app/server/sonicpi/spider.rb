@@ -82,6 +82,15 @@ module SonicPi
       end
     end
 
+    def __user_message(s)
+      @msg_queue.push({:type => :user_message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
+    end
+
+    def __warning(s)
+      @msg_queue.push({:type => :warning, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
+    end
+
+
     def __message(s)
       @msg_queue.push({:type => :message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
     end

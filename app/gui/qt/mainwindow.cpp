@@ -336,10 +336,37 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popStr(s).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("60 60 60")));
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(s)) );
             } else {
               std::cout << "Server: unhandled message: "<< std::endl;
+            }
+          }
+          else if (msg->match("/user_message")) {
+            std::string s;
+            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+              // Evil nasties!
+              // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DodgerBlue")));
+
+              QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(s)) );
+            } else {
+              std::cout << "Server: unhandled user message: "<< std::endl;
+            }
+          }
+          else if (msg->match("/warning")) {
+            std::string s;
+            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+              // Evil nasties!
+              // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DarkOrange")));
+
+              QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(s)) );
+            } else {
+              std::cout << "Server: unhandled user message: "<< std::endl;
             }
           }
           else if (msg->match("/error")) {
