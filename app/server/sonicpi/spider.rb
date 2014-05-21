@@ -174,7 +174,7 @@ module SonicPi
       filename = id + '.spi'
       path = project_path + "/" + filename
       content = filter_for_save(content)
-      #File.open(path, 'w') {|f| f.write(content) }
+      File.open(path, 'w') {|f| f.write(content) }
       @gitsave.save!(filename, content)
     end
 
