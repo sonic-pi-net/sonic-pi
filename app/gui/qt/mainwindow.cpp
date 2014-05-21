@@ -153,6 +153,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   errorWidget = new QDockWidget(tr("Errors"), this);
   errorWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   errorWidget->setWidget(errorPane);
+  errorWidget->hide();
   addDockWidget(Qt::RightDockWidgetArea, errorWidget);
 
 
@@ -375,6 +376,7 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+              QMetaObject::invokeMethod( errorWidget, "show", Qt::QueuedConnection);
               QMetaObject::invokeMethod( errorPane, "clear", Qt::QueuedConnection);
               QMetaObject::invokeMethod( errorPane, "setHtml", Qt::QueuedConnection,
                                          Q_ARG(QString, "<h3><pre>" + QString::fromStdString(desc) + "</pre></h3><pre>" + QString::fromStdString(backtrace) + "</pre>") );
@@ -500,6 +502,7 @@ bool MainWindow::saveAs()
 void MainWindow::runCode()
 {
   errorPane->clear();
+  errorWidget->hide();
   statusBar()->showMessage(tr("Running...."), 2000);
   std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
@@ -521,7 +524,6 @@ void MainWindow::stopCode()
 {
   stopRunningSynths();
   outputPane->clear();
-  errorPane->clear();
   statusBar()->showMessage(tr("Stopping..."), 2000);
 }
 
