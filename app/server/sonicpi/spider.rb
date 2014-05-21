@@ -37,7 +37,6 @@ module SonicPi
       @msg_queue = msg_queue
       @event_queue = Queue.new
       @keypress_handlers = {}
-      __message "Starting..."
       @events = IncomingEvents.new
       @sync_counter = Counter.new
       @job_counter = Counter.new
@@ -59,6 +58,7 @@ module SonicPi
           __handle_event event
         end
       end
+      __message "Ready..."
     end
 
     #These includes must happen after the initialize method
