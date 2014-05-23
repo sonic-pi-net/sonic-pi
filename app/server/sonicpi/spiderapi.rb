@@ -44,6 +44,10 @@ end",]
     end
 
 
+
+    def on_keypress(&block)
+      @keypress_handlers[:foo] = block
+    end
     doc name:           :on_keypress,
         summary:        "",
         args:           [],
@@ -52,11 +56,13 @@ end",]
         doc:            "",
         examples:       [],
         hide:           true
-    def on_keypress(&block)
-      @keypress_handlers[:foo] = block
+
+
+
+
+    def print(output)
+      __user_message output
     end
-
-
     doc name:          :print,
         summary:       "Display a message in the output pane",
         args:          [[:output, :string]],
@@ -67,11 +73,13 @@ end",]
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
 "print foo             #=> will print the contents of foo to the output pane"]
-    def print(output)
+
+
+
+
+    def puts(output)
       __user_message output
     end
-
-
     doc name:           :puts,
         summary:       "Display a message in the output pane",
         args:           [[:output, :string]],
@@ -82,11 +90,16 @@ end",]
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
 "print foo             #=> will print the contents of foo to the output pane"]
-    def puts(output)
-      __user_message output
+
+
+
+
+    def rrand(min, max)
+      range = (min - max).abs
+      r = @random_generator.rand(range.to_f)
+      smallest = [min, max].min
+      r + smallest
     end
-
-
     doc name:           :rrand,
         summary:        "",
         args:           [[:min, :number], [:max, :number]],
@@ -94,54 +107,54 @@ end",]
         accepts_block:  false,
         doc:            "",
         examples:      []
-    def rrand(min, max)
-      range = (min - max).abs
-      r = @random_generator.rand(range.to_f)
-      smallest = [min, max].min
-      r + smallest
-    end
 
-    doc name:           :rrand_i,
-        args:           [[:min, :number], [:max, :number]],
-        opts:           nil,
-        accepts_block: false,
-        doc:            "",
-        examples:       []
+
+
+
     def rrand_i(min, max)
       range = (min - max).abs
       r = @random_generator.rand(range.to_i + 1)
       smallest = [min, max].min
       r + smallest
     end
+    doc name:           :rrand_i,
+        args:           [[:min, :number], [:max, :number]],
+        opts:           nil,
+        accepts_block: false,
+        doc:            "",
+        examples:       []
 
+
+
+
+    def choose(list)
+      list.to_a.choose
+    end
     doc name:           :choose,
         args:           [[:list, :array]],
         opts:           nil,
         accepts_block:  false,
         doc:            "",
         examples:       []
-    def choose(list)
-      list.to_a.choose
-    end
 
+
+
+
+    def use_bpm(bpm, &block)
+      raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
+      sleep_mul = 60.0 / bpm
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
+    end
     doc name:           :use_bpm,
         doc:            "",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  false,
         examples:       []
-    def use_bpm(bpm, &block)
-      raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
-      sleep_mul = 60.0 / bpm
-      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
-    end
 
-    doc name:           :with_bpm,
-        doc:            "",
-        args:           [],
-        opts:           nil,
-        accepts_block:  true,
-        examples:       []
+
+
+
     def with_bpm(bpm, &block)
       raise "with_bpm must be called with a block. Perhaps you meant use_bpm" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
@@ -150,6 +163,12 @@ end",]
       block.call
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
     end
+    doc name:           :with_bpm,
+        doc:            "",
+        args:           [],
+        opts:           nil,
+        accepts_block:  true,
+        examples:       []
 
     def current_bpm
       60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
@@ -162,12 +181,9 @@ end",]
         examples:      ["
 puts current_bpm # Print out the current bpm"]
 
-    doc name:           :sleep,
-        doc:            "",
-        args:           [[:seconds, :number]],
-        opts:           nil,
-        accepts_block:  false,
-        examples:       []
+
+
+
     def sleep(seconds)
       # Calculate the amount of time to sleep (take into account current bpm setting)
       sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
@@ -201,13 +217,16 @@ puts current_bpm # Print out the current bpm"]
       ## reset control deltas now that time has advanced
       Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
     end
-
-    doc name:           :sync,
+    doc name:           :sleep,
         doc:            "",
-        args:           [[:sync_id, :symbol]],
-        opts:           {:message => nil},
+        args:           [[:seconds, :number]],
+        opts:           nil,
         accepts_block:  false,
         examples:       []
+
+
+
+
     def sync(sync_id, *opts)
       args_h = resolve_synth_opts_hash_or_array(opts)
       __no_kill_block do
@@ -215,13 +234,16 @@ puts current_bpm # Print out the current bpm"]
         @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => args_h[:message]})
       end
     end
-
-    doc name:           :wait,
+    doc name:           :sync,
         doc:            "",
         args:           [[:sync_id, :symbol]],
-        opts:           nil,
+        opts:           {:message => nil},
         accepts_block:  false,
         examples:       []
+
+
+
+
     def wait(sync_id)
       p = Promise.new
       @events.oneshot_handler("/spider_thread_sync/" + sync_id.to_s) do |payload|
@@ -233,13 +255,16 @@ puts current_bpm # Print out the current bpm"]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
       val
     end
-
-    doc name:           :in_thread,
+    doc name:           :wait,
         doc:            "",
-        args:           [],
-        opts:           {:name => nil},
-        accepts_block:  true,
+        args:           [[:sync_id, :symbol]],
+        opts:           nil,
+        accepts_block:  false,
         examples:       []
+
+
+
+
     def in_thread(*opts, &block)
       args_h = resolve_synth_opts_hash_or_array(opts)
       name = args_h[:name]
@@ -302,10 +327,10 @@ puts current_bpm # Print out the current bpm"]
         begin
           block.call
         rescue Exception => e
-          if name.empty?
-            __error "Thread died: #{e.inspect}", e
-          else
+          if name
             __error "Thread #{name} died: #{e.inspect}", e
+          else
+            __error "Thread died: #{e.inspect}", e
           end
         end
 
@@ -331,5 +356,11 @@ puts current_bpm # Print out the current bpm"]
       # Return subthread
       t
     end
+    doc name:           :in_thread,
+        doc:            "",
+        args:           [],
+        opts:           {:name => nil},
+        accepts_block:  true,
+        examples:       []
   end
 end
