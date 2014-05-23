@@ -113,7 +113,6 @@ private:
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
     QDockWidget *outputWidget;
-    QDockWidget *errorWidget;
     QDockWidget *prefsWidget;
     QDockWidget *docWidget;
     QTextEdit *langDocPane;
