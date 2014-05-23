@@ -12,6 +12,8 @@
 # notice is included.
 #++
 
+require 'cgi'
+
 require_relative "../core.rb"
 require_relative "../sonicpi/scsynth"
 require_relative "../sonicpi/studio"
@@ -191,7 +193,10 @@ out_t = Thread.new do
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")
-#          puts "sending: /error #{desc}, #{trace}"
+          # TODO: Move this escaping to the Qt Client
+          desc = CGI.escapeHTML(desc)
+          trace = CGI.escapeHTML(trace)
+          # puts "sending: /error #{desc}, #{trace}"
           proxy.send(OSC::Message.new("/error", desc, trace))
         when "replace-buffer"
           buf_id = message[:buffer_id]
