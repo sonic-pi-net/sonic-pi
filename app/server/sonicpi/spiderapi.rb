@@ -169,10 +169,11 @@ end",]
 
       # Calculate the new virtual time
       new_vt = last_vt + sleep_time
-      sat = @mod_sound_studio.sched_ahead_time + 0.1
-      if now - (3 * sat) > new_vt
+      # TODO: remove this, api shouldn't need to know about sound module
+      sat = @mod_sound_studio.sched_ahead_time
+      if now - (sat + 0.5) > new_vt
         raise "Timing Exception: thread got too far behind time"
-      elsif (now - sat) > new_vt # TODO: remove this, api shouldn't need to know about sound module
+      elsif (now - sat) > new_vt
         # Hard warning, system is too far behind, expect timing issues.
         Thread.current.priority = 20
         __warning "Timing error: can't keep up..."
