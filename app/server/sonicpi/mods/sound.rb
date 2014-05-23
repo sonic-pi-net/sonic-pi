@@ -764,20 +764,6 @@ play 50 # Plays note 50 on the current synth",
        end
 
 
-       def current_bpm
-         60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
-       end
-       doc name:          :current_bpm,
-           doc:           "Returns the current bpm value.",
-           args:          [],
-           opts:          nil,
-           accepts_block: false,
-           examples:      ["
-puts current_bpm # Print out the current bpm"]
-
-
-
-
        def current_synth
          @mod_sound_studio.current_synth_name
        end

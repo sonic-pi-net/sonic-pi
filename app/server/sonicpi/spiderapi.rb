@@ -151,6 +151,17 @@ end",]
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
     end
 
+    def current_bpm
+      60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
+    end
+    doc name:          :current_bpm,
+        doc:           "Returns the current bpm value.",
+        args:          [],
+        opts:          nil,
+        accepts_block: false,
+        examples:      ["
+puts current_bpm # Print out the current bpm"]
+
     doc name:           :sleep,
         doc:            "",
         args:           [[:seconds, :number]],
