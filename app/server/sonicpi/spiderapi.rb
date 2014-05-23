@@ -291,7 +291,11 @@ end",]
         begin
           block.call
         rescue Exception => e
-          __error "Thread #{name} died: #{e.inspect}", e
+          if name.empty?
+            __error "Thread died: #{e.inspect}", e
+          else
+            __error "Thread #{name} died: #{e.inspect}", e
+          end
         end
 
         # Disassociate thread with job as it has now finished
