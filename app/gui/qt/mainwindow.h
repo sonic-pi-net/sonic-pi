@@ -106,8 +106,8 @@ private:
     QTimer *rec_flash_timer;
 
     QsciScintilla *textEdit;
-	static const int workspace_max = 8;
-	QsciScintilla *workspaces[workspace_max];
+    static const int workspace_max = 8;
+    QsciScintilla *workspaces[workspace_max];
     QTextEdit *outputPane;
     QTextEdit *errorPane;
     QWidget *prefsCentral;
