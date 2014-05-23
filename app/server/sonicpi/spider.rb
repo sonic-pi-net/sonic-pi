@@ -58,7 +58,7 @@ module SonicPi
           __handle_event event
         end
       end
-      __message "Ready..."
+      __message "RC5-dev Ready..."
     end
 
     #These includes must happen after the initialize method
