@@ -79,7 +79,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   rec_flash_timer = new QTimer(this);
   connect(rec_flash_timer, SIGNAL(timeout()), this, SLOT(toggleRecordingOnIcon()));
 
-  QtConcurrent::run(this, &MainWindow::startOSCListener);
+  osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
   serverProcess = new QProcess();
 
   QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/start-server.rb";
@@ -877,6 +877,7 @@ void MainWindow::onExitCleanup()
     Message msg("/exit");
     sendOSC(msg);
   }
+  osc_thread.waitForFinished();
   std::cout << "Exiting..." << std::endl;
 
 }

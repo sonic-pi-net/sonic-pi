@@ -22,6 +22,7 @@
 #include <QCheckBox>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QFuture>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -96,7 +97,9 @@ private:
     void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
-	QListWidget *createHelpTab(QTextEdit *docPane, QString name);
+    QListWidget *createHelpTab(QTextEdit *docPane, QString name);
+
+    QFuture<void> osc_thread;
 
     bool cont_listening_for_osc;
     bool server_started;
