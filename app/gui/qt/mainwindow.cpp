@@ -138,6 +138,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   outputPane->zoomIn(1);
   errorPane->zoomIn(1);
+  errorPane->setMaximumHeight(100);
 
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
