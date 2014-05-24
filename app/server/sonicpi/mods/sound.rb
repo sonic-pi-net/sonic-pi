@@ -579,7 +579,7 @@ play 50 # Plays note 50 on the current synth",
          # These will be assigned later...
          fx_synth = BlankNode.new
          new_bus = nil
-         current_bus = nil
+         current_bus = current_out_bus
          tracker = nil
 
          __no_kill_block do
