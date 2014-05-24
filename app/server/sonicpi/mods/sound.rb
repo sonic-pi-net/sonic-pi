@@ -1113,9 +1113,9 @@ set_volume! 2 # Set the main system volume to 2",
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
-             __delayed_message "sample #{path.inspect}"
+             __delayed{__message "sample #{path.inspect}"}
            else
-             __delayed_message "sample #{path.inspect}, #{arg_h_pp(args_h)}"
+             __delayed{__message "sample #{path.inspect}, #{arg_h_pp(args_h)}"}
            end
          end
 
@@ -1130,7 +1130,7 @@ set_volume! 2 # Set the main system volume to 2",
          end
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-           __delayed_message "synth #{synth_name.to_sym.inspect}, #{arg_h_pp(args_h)}"
+           __delayed{__message "synth #{synth_name.to_sym.inspect}, #{arg_h_pp(args_h)}"}
          end
          trigger_synth(synth_name, args_h, group, validation_fn)
        end
@@ -1407,18 +1407,6 @@ set_volume! 2 # Set the main system volume to 2",
            end
          end
          [defaults, fns]
-       end
-
-       def __delayed_message(m)
-         ## TODO: register this thread so that it's killed when job is
-         ## killed. Using in_thread won't work - needs to be a different
-         ## mechanism.
-         Thread.new do
-           Thread.current.thread_variable_set(:sonic_pi_thread_group, :delayed_message)
-           Thread.current.priority = -1
-           Kernel.sleep @mod_sound_studio.sched_ahead_time
-           __message m
-         end
        end
 
        def job_proms_joiner(job_id)

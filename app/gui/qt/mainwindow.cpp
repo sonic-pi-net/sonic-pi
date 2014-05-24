@@ -339,46 +339,61 @@ void MainWindow::startOSCListener() {
 
           if (msg->match("/message")) {
             std::string s;
-            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+            int job_id;
+            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
+
+              std::ostringstream convert;
+              convert << job_id << " " << s;
+
+
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("60 60 60")));
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(s)) );
+                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
             } else {
               std::cout << "Server: unhandled message: "<< std::endl;
             }
           }
           else if (msg->match("/user_message")) {
+            int job_id;
             std::string s;
-            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
+
+              std::ostringstream convert;
+              convert << job_id << " " << s;
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DodgerBlue")));
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(s)) );
+                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
             } else {
               std::cout << "Server: unhandled user message: "<< std::endl;
             }
           }
           else if (msg->match("/warning")) {
             std::string s;
-            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+            int job_id;
+            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
+              std::ostringstream convert;
+              convert << job_id << " " << s;
+
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DarkOrange")));
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(s)) );
+                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
             } else {
               std::cout << "Server: unhandled user message: "<< std::endl;
             }
           }
           else if (msg->match("/error")) {
+            int job_id;
             std::string desc;
             std::string backtrace;
-            if (msg->arg().popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
+            if (msg->arg().popInt32(job_id).popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( errorPane, "show", Qt::QueuedConnection);

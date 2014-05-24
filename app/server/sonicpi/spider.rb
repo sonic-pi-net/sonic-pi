@@ -95,6 +95,18 @@ module SonicPi
       @msg_queue.push({:type => :message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
     end
 
+    def __delayed(&block)
+      job_id = __current_job_id
+      job_info = __current_job_info
+      Thread.new do
+        #TODO: remove knowledge of @mod_sound_studio.
+        Thread.current.thread_variable_set :sonic_pi_spider_job_id, job_id
+        Thread.current.thread_variable_set :sonic_pi_spider_job_info, job_info
+        Kernel.sleep @mod_sound_studio.sched_ahead_time
+        block.call
+      end
+    end
+
     def __error(s, e)
       @msg_queue.push({:type => :error, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info, :backtrace => e.backtrace})
     end
@@ -241,31 +253,38 @@ module SonicPi
       end
     end
 
-    def job_subthread_add(job_id, t, name=nil)
+    def job_subthread_add_unmutexed(job_id, t, name=nil)
       #todo only add subthread if name isn't registered yet
-      @job_subthread_mutex.synchronize do
-        unless @job_subthreads[job_id]
+      unless @job_subthreads[job_id]
+        t.kill
+        job_subthread_rm_unmutexed(job_id, t)
+        return false
+      end
+
+      if name
+        if @named_subthreads[name]
+          #Don't delay following message, as this method is used for worker thread impl.
+          __message "Skipping thread creation: thread with name #{name.inspect} already exists."
           t.kill
           job_subthread_rm_unmutexed(job_id, t)
           return false
+        else
+          # register this name with the corresponding job id and also
+          # store it in a thread local
+          @named_subthreads[name] = job_id
+          t.thread_variable_set :sonic_pi__not_inherited__spider_subthread_name, name
         end
+      end
 
-        if name
-          if @named_subthreads[name]
-            puts "Skipping thread creation: thread with name #{name.inspect} already exists."
-            t.kill
-            job_subthread_rm_unmutexed(job_id, t)
-            return false
-          else
-            # register this name with the corresponding job id and also
-            # store it in a thread local
-            @named_subthreads[name] = job_id
-            t.thread_variable_set :sonic_pi__not_inherited__spider_subthread_name, name
-          end
-        end
+      threads = @job_subthreads[job_id]
+      @job_subthreads[job_id] = threads.add(t)
+    end
 
-        threads = @job_subthreads[job_id]
-        @job_subthreads[job_id] = threads.add(t)
+
+    def job_subthread_add(job_id, t, name=nil)
+      #todo only add subthread if name isn't registered yet
+      @job_subthread_mutex.synchronize do
+        job_subthread_add_unmutexed(job_id, t, name)
       end
     end
 

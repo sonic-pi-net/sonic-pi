@@ -61,7 +61,7 @@ end",]
 
 
     def print(output)
-      __user_message output
+     __delayed{__user_message output}
     end
     doc name:          :print,
         summary:       "Display a message in the output pane",
@@ -78,7 +78,7 @@ end",]
 
 
     def puts(output)
-      __user_message output
+      __delayed{__user_message output}
     end
     doc name:           :puts,
         summary:       "Display a message in the output pane",
@@ -203,11 +203,11 @@ puts current_bpm # Print out the current bpm"]
       elsif (now - sat) > new_vt
         # Hard warning, system is too far behind, expect timing issues.
         Thread.current.priority = 20
-        __warning "Timing error: can't keep up..."
+        __delayed {__warning "Timing error: can't keep up..."}
       elsif now > new_vt
         # Soft warning, system should work correctly, but is currently behind
         Thread.current.priority = 20
-        __warning "Timing warning: running slightly behind..."
+        __delayed { __warning "Timing warning: running slightly behind..."}
       else
         Kernel.sleep new_vt - now
       end

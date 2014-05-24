@@ -184,12 +184,12 @@ out_t = Thread.new do
       else
         case message[:type]
         when :message
-#          puts "sending: /message with arg #{message[:val]}"
-          proxy.send(OSC::Message.new("/message", message[:val]))
+#          puts "sending: /message with #{message[:jobid]}, arg #{message[:val]}, #{message.inspect}"
+          proxy.send(OSC::Message.new("/message", message[:jobid], message[:val]))
         when :user_message
-          proxy.send(OSC::Message.new("/user_message", message[:val]))
+          proxy.send(OSC::Message.new("/user_message", message[:jobid], message[:val]))
         when :warning
-          proxy.send(OSC::Message.new("/warning", message[:val]))
+          proxy.send(OSC::Message.new("/warning", message[:jobid], message[:val]))
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")
@@ -197,7 +197,7 @@ out_t = Thread.new do
           desc = CGI.escapeHTML(desc)
           trace = CGI.escapeHTML(trace)
           # puts "sending: /error #{desc}, #{trace}"
-          proxy.send(OSC::Message.new("/error", desc, trace))
+          proxy.send(OSC::Message.new("/error", message[:jobid], desc, trace))
         when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val]
