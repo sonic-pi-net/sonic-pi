@@ -98,6 +98,7 @@ module SonicPi
     def __delayed(&block)
       job_id = __current_job_id
       job_info = __current_job_info
+      raise "Can only use __delayed in a job thread" unless job_id
       Thread.new do
         #TODO: remove knowledge of @mod_sound_studio.
         Thread.current.thread_variable_set :sonic_pi_spider_job_id, job_id
