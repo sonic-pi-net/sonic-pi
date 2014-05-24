@@ -343,7 +343,7 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
 
               std::ostringstream convert;
-              convert << job_id << " " << s;
+              convert << "[" << job_id << "] " << s;
 
 
               // Evil nasties!
@@ -361,7 +361,7 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
 
               std::ostringstream convert;
-              convert << job_id << " " << s;
+              convert << "[" << job_id << "] " << s;
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DodgerBlue")));
@@ -377,7 +377,7 @@ void MainWindow::startOSCListener() {
             int job_id;
             if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
               std::ostringstream convert;
-              convert << job_id << " " << s;
+              convert << "[" << job_id << "] " << s;
 
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
