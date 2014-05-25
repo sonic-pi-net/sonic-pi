@@ -142,6 +142,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+  prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
   prefsCentral = new QWidget;
   prefsWidget->setWidget(prefsCentral);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
