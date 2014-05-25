@@ -69,8 +69,6 @@ private slots:
     void setSystemAudioAuto();
     void setSystemAudioHeadphones();
     void setSystemAudioHDMI();
-    void showOutputPane();
-    void showErrorPane();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
 

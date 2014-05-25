@@ -218,12 +218,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   splash.finish(this);
 }
 
-void MainWindow::showOutputPane() {
-  outputWidget->show();
-}
 
-void MainWindow::showErrorPane() {
-   errorPane->show();
 }
 
 
@@ -233,8 +228,8 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *volBox = new QGroupBox(tr("System Volume"));
   volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
-  QGroupBox *groupBox = new QGroupBox(tr("Force Audio Output"));
-  groupBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
+  QGroupBox *audioOutputBox = new QGroupBox(tr("Force Audio Output"));
+  audioOutputBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
   QRadioButton *radio1 = new QRadioButton(tr("&Default"));
   QRadioButton *radio2 = new QRadioButton(tr("&Headphones"));
   QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
@@ -249,23 +244,11 @@ void MainWindow::initPrefsWindow() {
   audio_box->addWidget(radio2);
   audio_box->addWidget(radio3);
   audio_box->addStretch(1);
-  groupBox->setLayout(audio_box);
+  audioOutputBox->setLayout(audio_box);
 
   QHBoxLayout *vol_box = new QHBoxLayout;
   vol_box->addWidget(systemVol);
   volBox->setLayout(vol_box);
-
-  QGroupBox *showBox = new QGroupBox("Show Panes");
-  QPushButton *show_output = new QPushButton("Show Output Pane");
-  QPushButton *show_error = new QPushButton("Show Error Pane");
-
-  connect(show_output, SIGNAL(clicked()), this, SLOT(showOutputPane()));
-  connect(show_error, SIGNAL(clicked()), this, SLOT(showErrorPane()));
-
-  QVBoxLayout *info_box_layout = new QVBoxLayout;
-  info_box_layout->addWidget(show_output);
-  info_box_layout->addWidget(show_error);
-  showBox->setLayout(info_box_layout);
 
   QGroupBox *debug_box = new QGroupBox("Debug Options");
   print_output = new QCheckBox("Print output");
@@ -278,9 +261,10 @@ void MainWindow::initPrefsWindow() {
   debug_box_layout->addWidget(check_args);
   debug_box->setLayout(debug_box_layout);
 
-  grid->addWidget(groupBox, 0, 0);
+#if defined(Q_OS_LINUX)
+  grid->addWidget(audioOutputBox, 0, 0);
   grid->addWidget(volBox, 0, 1);
-  grid->addWidget(showBox, 1, 0);
+#endif
   grid->addWidget(debug_box, 1, 1);
   prefsCentral->setLayout(grid);
 }
