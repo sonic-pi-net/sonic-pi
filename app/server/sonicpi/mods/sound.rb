@@ -696,6 +696,8 @@ play 50 # Plays note 50 on the current synth",
          ## parameter if the block was defined with a param.
 
          t = in_thread do
+           t.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
+
            new_trackers = [tracker]
            (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).each do |tr|
              new_trackers << tr

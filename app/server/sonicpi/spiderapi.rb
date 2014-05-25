@@ -185,14 +185,35 @@ puts current_bpm # Print out the current bpm"]
 
 
     def sleep(seconds)
-      # Calculate the amount of time to sleep (take into account current bpm setting)
-      sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-
       # Grab the current virtual time
       last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
 
       # Grab the real time
       now = Time.now
+
+      # Calculate the amount of time to sleep to sync us up with the
+      # sched_ahead_time
+
+      sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
+      sleep_time = sched_ahead_sync_t - now
+      Kernel.sleep(sleep_time) if sleep_time > 0
+
+      #We're now in sync with the sched_ahead time
+      delayed_blocks = Thread.current.thread_variable_get :sonic_pi_spider_delayed_blocks
+      unless delayed_blocks.empty?
+        job_id = __current_job_id
+        Thread.new do
+          Thread.current.thread_variable_set :sonic_pi_spider_job_id, job_id
+          delayed_blocks.each {|b| b.call}
+        end
+        Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
+      end
+
+      # now get on with syncing the rest of the sleep time
+      now = Time.now
+
+      # Calculate the amount of time to sleep (take into account current bpm setting)
+      sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
 
       # Calculate the new virtual time
       new_vt = last_vt + sleep_time
@@ -303,6 +324,7 @@ puts current_bpm # Print out the current bpm"]
           Thread.current.thread_variable_set(k, v) unless k.to_s.start_with? "sonic_pi__not_inherited__"
         end
 
+        Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
         Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new

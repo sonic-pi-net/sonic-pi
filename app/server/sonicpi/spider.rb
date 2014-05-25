@@ -96,16 +96,9 @@ module SonicPi
     end
 
     def __delayed(&block)
-      job_id = __current_job_id
-      job_info = __current_job_info
-      raise "Can only use __delayed in a job thread" unless job_id
-      Thread.new do
-        #TODO: remove knowledge of @mod_sound_studio.
-        Thread.current.thread_variable_set :sonic_pi_spider_job_id, job_id
-        Thread.current.thread_variable_set :sonic_pi_spider_job_info, job_info
-        Kernel.sleep @mod_sound_studio.sched_ahead_time
-        block.call
-      end
+      raise "Can only use __delayed in a job thread" unless __current_job_id
+      delayed_blocks = Thread.current.thread_variable_get :sonic_pi_spider_delayed_blocks
+      delayed_blocks << block
     end
 
     def __error(s, e)
@@ -207,9 +200,10 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
           Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
+          Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @events.event("/job-start", {:id => id, :thread => job})
-          eval(code)
+          eval(code + "\nsleep 0")
           __join_subthreads(Thread.current)
           @events.event("/job-join", {:id => id})
           # wait until all synths are dead
