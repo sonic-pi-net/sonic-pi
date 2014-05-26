@@ -694,7 +694,6 @@ play 50 # Plays note 50 on the current synth",
 
          ## Now actually execute the fx block. Pass the fx synth in as a
          ## parameter if the block was defined with a param.
-
          t = in_thread do
            t.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
 
@@ -726,6 +725,7 @@ play 50 # Plays note 50 on the current synth",
          # Join thread used to execute block. Then transfer virtual
          # timestamp back to this thread.
          t.join
+         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
          Thread.current.thread_variable_set(:sonic_pi_spider_time, t.thread_variable_get(:sonic_pi_spider_time))
 
          # Wait for gc thread to complete. Once the gc thread has
