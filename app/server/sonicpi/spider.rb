@@ -211,10 +211,10 @@ module SonicPi
     end
 
     def __stop_job(j)
-      __info "Stopping job #{j}"
       job_subthreads_kill(j)
       @user_jobs.kill_job j
       @events.event("/job-completed", {:id => j})
+      __info "Stopped job #{j}"
       @msg_queue.push({type: :job, jobid: j, action: :completed})
     end
 
