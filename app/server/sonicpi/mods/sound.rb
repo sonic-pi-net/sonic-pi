@@ -1089,7 +1089,8 @@ set_volume! 2 # Set the main system volume to 2",
        def arg_h_pp(arg_h)
          s = "{"
          arg_h.each do |k, v|
-           s << "#{k}: #{v}, "
+           rounded = v.is_a?(Float) ? v.round(4) : v
+           s << "#{k}: #{rounded}, "
          end
          s.chomp(", ") << "}"
        end
