@@ -183,13 +183,10 @@ out_t = Thread.new do
         continue = false
       else
         case message[:type]
-        when :message
-#          puts "sending: /message with #{message[:jobid]}, arg #{message[:val]}, #{message.inspect}"
-          proxy.send(OSC::Message.new("/message", message[:jobid], message[:val]))
-        when :user_message
-          proxy.send(OSC::Message.new("/user_message", message[:jobid], message[:val]))
-        when :warning
-          proxy.send(OSC::Message.new("/warning", message[:jobid], message[:val]))
+        when :multi_message
+          proxy.send(OSC::Message.new("/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten))
+        when :info
+          proxy.send(OSC::Message.new("/info", message[:val]))
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")

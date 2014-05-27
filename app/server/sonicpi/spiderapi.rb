@@ -61,7 +61,7 @@ end",]
 
 
     def print(output)
-     __delayed{__user_message output}
+     __delayed_user_message output
     end
     doc name:          :print,
         summary:       "Display a message in the output pane",
@@ -78,7 +78,7 @@ end",]
 
 
     def puts(output)
-      __delayed{__user_message output}
+      __delayed_user_message output
     end
     doc name:           :puts,
         summary:       "Display a message in the output pane",
@@ -187,54 +187,31 @@ puts current_bpm # Print out the current bpm"]
     def sleep(seconds)
       # Grab the current virtual time
       last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
-
-      # Grab the real time
-      now = Time.now
-
-      # Calculate the amount of time to sleep to sync us up with the
-      # sched_ahead_time
-
-      sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
-      sleep_time = sched_ahead_sync_t - now
-      Kernel.sleep(sleep_time) if sleep_time > 0
-
-      #We're now in sync with the sched_ahead time
-      delayed_blocks = Thread.current.thread_variable_get :sonic_pi_spider_delayed_blocks
-      unless delayed_blocks.empty?
-        job_id = __current_job_id
-        Thread.new do
-          Thread.current.thread_variable_set :sonic_pi_spider_job_id, job_id
-          delayed_blocks.each {|b| b.call}
-        end
-        Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
-      end
-
+      __schedule_delayed_blocks_and_messages!
       # now get on with syncing the rest of the sleep time
-      now = Time.now
-
       # Calculate the amount of time to sleep (take into account current bpm setting)
       sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-
       # Calculate the new virtual time
       new_vt = last_vt + sleep_time
+
       # TODO: remove this, api shouldn't need to know about sound module
       sat = @mod_sound_studio.sched_ahead_time
+      now = Time.now
       if now - (sat + 0.5) > new_vt
         raise "Timing Exception: thread got too far behind time"
       elsif (now - sat) > new_vt
         # Hard warning, system is too far behind, expect timing issues.
         Thread.current.priority = 20
-        __delayed {__warning "Timing error: can't keep up..."}
+        __delayed_serious_warning "Timing error: can't keep up..."
       elsif now > new_vt
         # Soft warning, system should work correctly, but is currently behind
         Thread.current.priority = 20
-        __delayed { __warning "Timing warning: running slightly behind..."}
+        __delayed_warning "Timing warning: running slightly behind..."
       else
         Kernel.sleep new_vt - now
       end
 
       Thread.current.thread_variable_set :sonic_pi_spider_time, new_vt
-
       ## reset control deltas now that time has advanced
       Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
     end
@@ -324,7 +301,11 @@ puts current_bpm # Print out the current bpm"]
           Thread.current.thread_variable_set(k, v) unless k.to_s.start_with? "sonic_pi__not_inherited__"
         end
 
+
+        Thread.current.thread_variable_set :sonic_pi_spider_users_thread_name, name if name
+
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
+        Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
         Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
@@ -348,6 +329,9 @@ puts current_bpm # Print out the current bpm"]
         # Actually run the thread code specified by the user!
         begin
           block.call
+          # ensure delayed jobs and messages are honoured for this
+          # thread:
+          __schedule_delayed_blocks_and_messages!
         rescue Exception => e
           if name
             __error "Thread #{name} died: #{e.inspect}", e
