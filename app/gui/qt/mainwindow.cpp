@@ -107,19 +107,17 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   tabs->setTabsClosable(false);
   tabs->setMovable(false);
   tabs->setTabPosition(QTabWidget::South);
-  setCentralWidget(tabs);
 
   createWorkspaces();
 
   lexer = new SonicPiLexer;
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
 
+  // Autocompletion stuff
   QsciAPIs* api = new QsciAPIs(lexer);
   QStringList api_names;
-
   // yes, really
   #include "api_list.h"
-
   for (int api_iter = 0; api_iter < api_names.size(); ++api_iter) {
 	  api->add(api_names.at(api_iter));
   }
@@ -128,6 +126,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   font.setStyleHint(QFont::Monospace);
   lexer->setDefaultFont(font);
 
+
+  // Setup output and error panes
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
 
@@ -156,16 +156,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   prefsWidget->hide();
 
   outputWidget = new QDockWidget(tr("Output"), this);
+  outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
-
-  errorWidget = new QDockWidget(tr("Errors"), this);
-  errorWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-  errorWidget->setWidget(errorPane);
-  errorWidget->hide();
-  addDockWidget(Qt::RightDockWidgetArea, errorWidget);
-
 
   docsCentral = new QTabWidget;
   docsCentral->setTabsClosable(false);
@@ -188,6 +182,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
   docWidget->hide();
+
+  QVBoxLayout *mainWidgetLayout = new QVBoxLayout;
+  mainWidgetLayout->addWidget(tabs);
+  mainWidgetLayout->addWidget(errorPane);
+  QWidget *mainWidget = new QWidget;
+  errorPane->hide();
+  mainWidget->setLayout(mainWidgetLayout);
+  setCentralWidget(mainWidget);
 
   initWorkspaces();
 
@@ -225,7 +227,7 @@ void MainWindow::showOutputPane() {
 }
 
 void MainWindow::showErrorPane() {
-  errorWidget->show();
+   errorPane->show();
 }
 
 
@@ -384,7 +386,7 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-              QMetaObject::invokeMethod( errorWidget, "show", Qt::QueuedConnection);
+              QMetaObject::invokeMethod( errorPane, "show", Qt::QueuedConnection);
               QMetaObject::invokeMethod( errorPane, "clear", Qt::QueuedConnection);
               QMetaObject::invokeMethod( errorPane, "setHtml", Qt::QueuedConnection,
                                          Q_ARG(QString, "<h3><pre>" + QString::fromStdString(desc) + "</pre></h3><pre>" + QString::fromStdString(backtrace) + "</pre>") );
@@ -510,7 +512,7 @@ bool MainWindow::saveAs()
 void MainWindow::runCode()
 {
   errorPane->clear();
-  errorWidget->hide();
+  errorPane->hide();
   statusBar()->showMessage(tr("Running...."), 2000);
   std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
