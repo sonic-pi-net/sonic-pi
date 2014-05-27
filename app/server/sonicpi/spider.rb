@@ -27,6 +27,8 @@ require_relative "gitsave"
 require 'thread'
 require 'fileutils'
 require 'set'
+require 'ruby-beautify'
+
 
 module SonicPi
   class Spider
@@ -242,6 +244,12 @@ module SonicPi
         s = IO.read(path)
       end
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: s})
+    end
+
+    def __beautify_buffer(id, buf)
+      id = id.to_s
+      beautiful = RBeautify.beautify_string :ruby, buf
+      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful})
     end
 
     def __save_buffer(id, content)

@@ -115,6 +115,20 @@ osc_server.add_method("/load-buffer") do |payload|
   end
 end
 
+osc_server.add_method("/beautify-buffer") do |payload|
+#  puts "beautifying buffer..."
+  begin
+    args = payload.to_a
+    id = args[0]
+    buf = args[1]
+    sp.__beautify_buffer(id, buf)
+  rescue Exception => e
+    puts "Received Exception when attempting to load buffer!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 osc_server.add_method("/ping") do |payload|
   #  puts "ping!"
   begin

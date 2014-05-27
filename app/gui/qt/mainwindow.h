@@ -54,6 +54,7 @@ protected:
 private slots:
     void runCode();
     void stopCode();
+    void beautifyCode();
     void stopRunningSynths();
     QString currentTabLabel();
     bool saveAs();

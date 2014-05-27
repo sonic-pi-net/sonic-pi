@@ -414,9 +414,8 @@ void MainWindow::startOSCListener() {
             std::string id;
             std::string content;
             if (msg->arg().popStr(id).popStr(content).isOkNoMoreArgs()) {
-              QsciScintilla* ws = filenameToWorkspace(id);
-              QMetaObject::invokeMethod( ws, "setText", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(content)) );
+
+              QMetaObject::invokeMethod( this, "replaceBuffer", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)));
             } else {
               std::cout << "Server: unhandled replace-buffer: "<< std::endl;
             }
@@ -445,6 +444,31 @@ void MainWindow::startOSCListener() {
   }
   std::cout << "OSC Stopped, releasing socket" << std::endl;
   sock.close();
+}
+
+void MainWindow::replaceBuffer(QString id, QString content) {
+  QsciScintilla* ws = filenameToWorkspace(id.toStdString());
+  int line;
+  int index;
+  QString line_content;
+  int line_length;
+  int new_line_length;
+  ws->getCursorPosition(&line, &index);
+  line_content = ws->text(line);
+  line_length = line_content.length();
+  ws->selectAll();
+  ws->replaceSelectedText(content);
+  if(ws->lineLength(line) == -1) {
+    // new text is clearly different from old, just put cursor at start
+    // of buffer
+    ws->setCursorPosition(0, 0);
+  }
+  else {
+    line_content = ws->text(line);
+    new_line_length = line_content.length();
+    int diff = new_line_length - line_length;
+    ws->setCursorPosition(line, index + diff);
+  }
 }
 
 std::string MainWindow::number_name(int i) {
@@ -540,6 +564,17 @@ void MainWindow::runCode()
     code = "use_arg_checks false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
+  msg.pushStr(code);
+  sendOSC(msg);
+}
+
+void MainWindow::beautifyCode()
+{
+  statusBar()->showMessage(tr("Beautifying...."), 2000);
+  std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
+  Message msg("/beautify-buffer");
+  std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
+  msg.pushStr(filename);
   msg.pushStr(code);
   sendOSC(msg);
 }
@@ -739,7 +774,10 @@ void MainWindow::createActions()
   textDecAct->setToolTip(tr("Make text smaller"));
   connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
 
-
+  QAction *beautifyAct = new QAction(this);
+  beautifyAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+  connect(beautifyAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
+  addAction(beautifyAct);
 }
 
 void MainWindow::createToolBar()
