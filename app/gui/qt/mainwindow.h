@@ -22,6 +22,7 @@
 #include <QCheckBox>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QFuture>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -68,8 +69,6 @@ private slots:
     void setSystemAudioAuto();
     void setSystemAudioHeadphones();
     void setSystemAudioHDMI();
-    void showOutputPane();
-    void showErrorPane();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
 
@@ -98,7 +97,9 @@ private:
     void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
-	QListWidget *createHelpTab(QTextEdit *docPane, QString name);
+    QListWidget *createHelpTab(QTextEdit *docPane, QString name);
+
+    QFuture<void> osc_thread;
 
     bool cont_listening_for_osc;
     bool server_started;
@@ -108,8 +109,8 @@ private:
     QTimer *rec_flash_timer;
 
     QsciScintilla *textEdit;
-	static const int workspace_max = 8;
-	QsciScintilla *workspaces[workspace_max];
+    static const int workspace_max = 8;
+    QsciScintilla *workspaces[workspace_max];
     QTextEdit *outputPane;
     QTextEdit *errorPane;
     QWidget *prefsCentral;

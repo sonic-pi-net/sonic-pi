@@ -44,6 +44,10 @@ end",]
     end
 
 
+
+    def on_keypress(&block)
+      @keypress_handlers[:foo] = block
+    end
     doc name:           :on_keypress,
         summary:        "",
         args:           [],
@@ -52,11 +56,13 @@ end",]
         doc:            "",
         examples:       [],
         hide:           true
-    def on_keypress(&block)
-      @keypress_handlers[:foo] = block
+
+
+
+
+    def print(output)
+     __delayed{__user_message output}
     end
-
-
     doc name:          :print,
         summary:       "Display a message in the output pane",
         args:          [[:output, :string]],
@@ -67,11 +73,13 @@ end",]
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
 "print foo             #=> will print the contents of foo to the output pane"]
-    def print(output)
-      __user_message output
+
+
+
+
+    def puts(output)
+      __delayed{__user_message output}
     end
-
-
     doc name:           :puts,
         summary:       "Display a message in the output pane",
         args:           [[:output, :string]],
@@ -82,11 +90,16 @@ end",]
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
 "print foo             #=> will print the contents of foo to the output pane"]
-    def puts(output)
-      __user_message output
+
+
+
+
+    def rrand(min, max)
+      range = (min - max).abs
+      r = @random_generator.rand(range.to_f)
+      smallest = [min, max].min
+      r + smallest
     end
-
-
     doc name:           :rrand,
         summary:        "",
         args:           [[:min, :number], [:max, :number]],
@@ -94,54 +107,54 @@ end",]
         accepts_block:  false,
         doc:            "",
         examples:      []
-    def rrand(min, max)
-      range = (min - max).abs
-      r = @random_generator.rand(range.to_f)
-      smallest = [min, max].min
-      r + smallest
-    end
 
-    doc name:           :rrand_i,
-        args:           [[:min, :number], [:max, :number]],
-        opts:           nil,
-        accepts_block: false,
-        doc:            "",
-        examples:       []
+
+
+
     def rrand_i(min, max)
       range = (min - max).abs
       r = @random_generator.rand(range.to_i + 1)
       smallest = [min, max].min
       r + smallest
     end
+    doc name:           :rrand_i,
+        args:           [[:min, :number], [:max, :number]],
+        opts:           nil,
+        accepts_block: false,
+        doc:            "",
+        examples:       []
 
+
+
+
+    def choose(list)
+      list.to_a.choose
+    end
     doc name:           :choose,
         args:           [[:list, :array]],
         opts:           nil,
         accepts_block:  false,
         doc:            "",
         examples:       []
-    def choose(list)
-      list.to_a.choose
-    end
 
+
+
+
+    def use_bpm(bpm, &block)
+      raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
+      sleep_mul = 60.0 / bpm
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
+    end
     doc name:           :use_bpm,
         doc:            "",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  false,
         examples:       []
-    def use_bpm(bpm, &block)
-      raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
-      sleep_mul = 60.0 / bpm
-      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
-    end
 
-    doc name:           :with_bpm,
-        doc:            "",
-        args:           [],
-        opts:           nil,
-        accepts_block:  true,
-        examples:       []
+
+
+
     def with_bpm(bpm, &block)
       raise "with_bpm must be called with a block. Perhaps you meant use_bpm" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
@@ -150,36 +163,72 @@ end",]
       block.call
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
     end
-
-    doc name:           :sleep,
+    doc name:           :with_bpm,
         doc:            "",
-        args:           [[:seconds, :number]],
+        args:           [],
         opts:           nil,
-        accepts_block:  false,
+        accepts_block:  true,
         examples:       []
-    def sleep(seconds)
-      # Calculate the amount of time to sleep (take into account current bpm setting)
-      sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
 
+    def current_bpm
+      60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
+    end
+    doc name:          :current_bpm,
+        doc:           "Returns the current bpm value.",
+        args:          [],
+        opts:          nil,
+        accepts_block: false,
+        examples:      ["
+puts current_bpm # Print out the current bpm"]
+
+
+
+
+    def sleep(seconds)
       # Grab the current virtual time
       last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
 
       # Grab the real time
       now = Time.now
 
+      # Calculate the amount of time to sleep to sync us up with the
+      # sched_ahead_time
+
+      sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
+      sleep_time = sched_ahead_sync_t - now
+      Kernel.sleep(sleep_time) if sleep_time > 0
+
+      #We're now in sync with the sched_ahead time
+      delayed_blocks = Thread.current.thread_variable_get :sonic_pi_spider_delayed_blocks
+      unless delayed_blocks.empty?
+        job_id = __current_job_id
+        Thread.new do
+          Thread.current.thread_variable_set :sonic_pi_spider_job_id, job_id
+          delayed_blocks.each {|b| b.call}
+        end
+        Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
+      end
+
+      # now get on with syncing the rest of the sleep time
+      now = Time.now
+
+      # Calculate the amount of time to sleep (take into account current bpm setting)
+      sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+
       # Calculate the new virtual time
       new_vt = last_vt + sleep_time
-      sat = @mod_sound_studio.sched_ahead_time + 0.1
-      if now - (3 * sat) > new_vt
+      # TODO: remove this, api shouldn't need to know about sound module
+      sat = @mod_sound_studio.sched_ahead_time
+      if now - (sat + 0.5) > new_vt
         raise "Timing Exception: thread got too far behind time"
-      elsif (now - sat) > new_vt # TODO: remove this, api shouldn't need to know about sound module
+      elsif (now - sat) > new_vt
         # Hard warning, system is too far behind, expect timing issues.
         Thread.current.priority = 20
-        __warning "Timing error: can't keep up..."
+        __delayed {__warning "Timing error: can't keep up..."}
       elsif now > new_vt
         # Soft warning, system should work correctly, but is currently behind
         Thread.current.priority = 20
-        __warning "Timing warning: running slightly behind..."
+        __delayed { __warning "Timing warning: running slightly behind..."}
       else
         Kernel.sleep new_vt - now
       end
@@ -189,13 +238,16 @@ end",]
       ## reset control deltas now that time has advanced
       Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
     end
-
-    doc name:           :sync,
+    doc name:           :sleep,
         doc:            "",
-        args:           [[:sync_id, :symbol]],
-        opts:           {:message => nil},
+        args:           [[:seconds, :number]],
+        opts:           nil,
         accepts_block:  false,
         examples:       []
+
+
+
+
     def sync(sync_id, *opts)
       args_h = resolve_synth_opts_hash_or_array(opts)
       __no_kill_block do
@@ -203,13 +255,16 @@ end",]
         @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => args_h[:message]})
       end
     end
-
-    doc name:           :wait,
+    doc name:           :sync,
         doc:            "",
         args:           [[:sync_id, :symbol]],
-        opts:           nil,
+        opts:           {:message => nil},
         accepts_block:  false,
         examples:       []
+
+
+
+
     def wait(sync_id)
       p = Promise.new
       @events.oneshot_handler("/spider_thread_sync/" + sync_id.to_s) do |payload|
@@ -221,13 +276,16 @@ end",]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
       val
     end
-
-    doc name:           :in_thread,
+    doc name:           :wait,
         doc:            "",
-        args:           [],
-        opts:           {:name => nil},
-        accepts_block:  true,
+        args:           [[:sync_id, :symbol]],
+        opts:           nil,
+        accepts_block:  false,
         examples:       []
+
+
+
+
     def in_thread(*opts, &block)
       args_h = resolve_synth_opts_hash_or_array(opts)
       name = args_h[:name]
@@ -266,6 +324,7 @@ end",]
           Thread.current.thread_variable_set(k, v) unless k.to_s.start_with? "sonic_pi__not_inherited__"
         end
 
+        Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
         Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
@@ -290,7 +349,11 @@ end",]
         begin
           block.call
         rescue Exception => e
-          __error "Thread #{name} died: #{e.inspect}", e
+          if name
+            __error "Thread #{name} died: #{e.inspect}", e
+          else
+            __error "Thread died: #{e.inspect}", e
+          end
         end
 
         # Disassociate thread with job as it has now finished
@@ -315,5 +378,11 @@ end",]
       # Return subthread
       t
     end
+    doc name:           :in_thread,
+        doc:            "",
+        args:           [],
+        opts:           {:name => nil},
+        accepts_block:  true,
+        examples:       []
   end
 end

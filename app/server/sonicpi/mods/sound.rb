@@ -579,7 +579,7 @@ play 50 # Plays note 50 on the current synth",
          # These will be assigned later...
          fx_synth = BlankNode.new
          new_bus = nil
-         current_bus = nil
+         current_bus = current_out_bus
          tracker = nil
 
          __no_kill_block do
@@ -694,8 +694,9 @@ play 50 # Plays note 50 on the current synth",
 
          ## Now actually execute the fx block. Pass the fx synth in as a
          ## parameter if the block was defined with a param.
-
          t = in_thread do
+           t.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
+
            new_trackers = [tracker]
            (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).each do |tr|
              new_trackers << tr
@@ -724,6 +725,7 @@ play 50 # Plays note 50 on the current synth",
          # Join thread used to execute block. Then transfer virtual
          # timestamp back to this thread.
          t.join
+         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
          Thread.current.thread_variable_set(:sonic_pi_spider_time, t.thread_variable_get(:sonic_pi_spider_time))
 
          # Wait for gc thread to complete. Once the gc thread has
@@ -762,20 +764,6 @@ play 50 # Plays note 50 on the current synth",
          block.call
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
        end
-
-
-       def current_bpm
-         60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
-       end
-       doc name:          :current_bpm,
-           doc:           "Returns the current bpm value.",
-           args:          [],
-           opts:          nil,
-           accepts_block: false,
-           examples:      ["
-puts current_bpm # Print out the current bpm"]
-
-
 
 
        def current_synth
@@ -1127,9 +1115,9 @@ set_volume! 2 # Set the main system volume to 2",
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
-             __delayed_message "sample #{path.inspect}"
+             __delayed{__message "sample #{path.inspect}"}
            else
-             __delayed_message "sample #{path.inspect}, #{arg_h_pp(args_h)}"
+             __delayed{__message "sample #{path.inspect}, #{arg_h_pp(args_h)}"}
            end
          end
 
@@ -1144,7 +1132,7 @@ set_volume! 2 # Set the main system volume to 2",
          end
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-           __delayed_message "synth #{synth_name.to_sym.inspect}, #{arg_h_pp(args_h)}"
+           __delayed{__message "synth #{synth_name.to_sym.inspect}, #{arg_h_pp(args_h)}"}
          end
          trigger_synth(synth_name, args_h, group, validation_fn)
        end
@@ -1421,18 +1409,6 @@ set_volume! 2 # Set the main system volume to 2",
            end
          end
          [defaults, fns]
-       end
-
-       def __delayed_message(m)
-         ## TODO: register this thread so that it's killed when job is
-         ## killed. Using in_thread won't work - needs to be a different
-         ## mechanism.
-         Thread.new do
-           Thread.current.thread_variable_set(:sonic_pi_thread_group, :delayed_message)
-           Thread.current.priority = -1
-           Kernel.sleep @mod_sound_studio.sched_ahead_time
-           __message m
-         end
        end
 
        def job_proms_joiner(job_id)

@@ -95,10 +95,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   rec_flash_timer = new QTimer(this);
   connect(rec_flash_timer, SIGNAL(timeout()), this, SLOT(toggleRecordingOnIcon()));
 
-  QtConcurrent::run(this, &MainWindow::startOSCListener);
+  osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
   serverProcess = new QProcess();
 
-  QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/start-server.rb";
+  QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
   std::cerr << serverProgram.toStdString() << std::endl;
   serverProcess->start(serverProgram);
   serverProcess->waitForStarted();
@@ -147,9 +147,11 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   outputPane->zoomIn(1);
   errorPane->zoomIn(1);
+  errorPane->setMaximumHeight(100);
 
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+  prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
   prefsCentral = new QWidget;
   prefsWidget->setWidget(prefsCentral);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
@@ -222,12 +224,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   splash.finish(this);
 }
 
-void MainWindow::showOutputPane() {
-  outputWidget->show();
-}
 
-void MainWindow::showErrorPane() {
-   errorPane->show();
 }
 
 
@@ -237,8 +234,8 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *volBox = new QGroupBox(tr("System Volume"));
   volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
-  QGroupBox *groupBox = new QGroupBox(tr("Force Audio Output"));
-  groupBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
+  QGroupBox *audioOutputBox = new QGroupBox(tr("Force Audio Output"));
+  audioOutputBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
   QRadioButton *radio1 = new QRadioButton(tr("&Default"));
   QRadioButton *radio2 = new QRadioButton(tr("&Headphones"));
   QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
@@ -253,23 +250,11 @@ void MainWindow::initPrefsWindow() {
   audio_box->addWidget(radio2);
   audio_box->addWidget(radio3);
   audio_box->addStretch(1);
-  groupBox->setLayout(audio_box);
+  audioOutputBox->setLayout(audio_box);
 
   QHBoxLayout *vol_box = new QHBoxLayout;
   vol_box->addWidget(systemVol);
   volBox->setLayout(vol_box);
-
-  QGroupBox *showBox = new QGroupBox("Show Panes");
-  QPushButton *show_output = new QPushButton("Show Output Pane");
-  QPushButton *show_error = new QPushButton("Show Error Pane");
-
-  connect(show_output, SIGNAL(clicked()), this, SLOT(showOutputPane()));
-  connect(show_error, SIGNAL(clicked()), this, SLOT(showErrorPane()));
-
-  QVBoxLayout *info_box_layout = new QVBoxLayout;
-  info_box_layout->addWidget(show_output);
-  info_box_layout->addWidget(show_error);
-  showBox->setLayout(info_box_layout);
 
   QGroupBox *debug_box = new QGroupBox("Debug Options");
   print_output = new QCheckBox("Print output");
@@ -282,9 +267,10 @@ void MainWindow::initPrefsWindow() {
   debug_box_layout->addWidget(check_args);
   debug_box->setLayout(debug_box_layout);
 
-  grid->addWidget(groupBox, 0, 0);
+#if defined(Q_OS_LINUX)
+  grid->addWidget(audioOutputBox, 0, 0);
   grid->addWidget(volBox, 0, 1);
-  grid->addWidget(showBox, 1, 0);
+#endif
   grid->addWidget(debug_box, 1, 1);
   prefsCentral->setLayout(grid);
 }
@@ -344,52 +330,67 @@ void MainWindow::startOSCListener() {
 
           if (msg->match("/message")) {
             std::string s;
-            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+            int job_id;
+            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
+
+              std::ostringstream convert;
+              convert << "[" << job_id << "] " << s;
+
+
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("60 60 60")));
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(s)) );
+                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
             } else {
               std::cout << "Server: unhandled message: "<< std::endl;
             }
           }
           else if (msg->match("/user_message")) {
+            int job_id;
             std::string s;
-            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
+
+              std::ostringstream convert;
+              convert << "[" << job_id << "] " << s;
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DodgerBlue")));
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(s)) );
+                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
             } else {
               std::cout << "Server: unhandled user message: "<< std::endl;
             }
           }
           else if (msg->match("/warning")) {
             std::string s;
-            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+            int job_id;
+            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
+              std::ostringstream convert;
+              convert << "[" << job_id << "] " << s;
+
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DarkOrange")));
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(s)) );
+                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
             } else {
               std::cout << "Server: unhandled user message: "<< std::endl;
             }
           }
           else if (msg->match("/error")) {
+            int job_id;
             std::string desc;
             std::string backtrace;
-            if (msg->arg().popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
+            if (msg->arg().popInt32(job_id).popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
               QMetaObject::invokeMethod( errorPane, "show", Qt::QueuedConnection);
               QMetaObject::invokeMethod( errorPane, "clear", Qt::QueuedConnection);
               QMetaObject::invokeMethod( errorPane, "setHtml", Qt::QueuedConnection,
-                                         Q_ARG(QString, "<h3><pre>" + QString::fromStdString(desc) + "</pre></h3><pre>" + QString::fromStdString(backtrace) + "</pre>") );
+                                         Q_ARG(QString, "<table width=\"100%\"> cellpadding=\"2\"><tr><td bgcolor=\"#FFE4E1\"><h3><font color=\"black\"><pre>Error: " + QString::fromStdString(desc) + "</pre></font></h3></td></tr><tr><td bgcolor=\"#E8E8E8\"><h4><font color=\"#5e5e5e\", background-color=\"black\"><pre>" + QString::fromStdString(backtrace) + "</pre></font></h4></td></tr></table>") );
 
             } else {
               std::cout << "Server: unhandled error: "<< std::endl;
@@ -882,6 +883,7 @@ void MainWindow::onExitCleanup()
     Message msg("/exit");
     sendOSC(msg);
   }
+  osc_thread.waitForFinished();
   std::cout << "Exiting..." << std::endl;
 
 }
