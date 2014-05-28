@@ -295,7 +295,7 @@ module SonicPi
           @user_jobs.job_completed(id)
 
           @events.event("/job-completed", {:id => id, :thread => job})
-          job_subthreads_kill(id)
+          deregister_job_and_return_subthreads(id)
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
         rescue Exception => e
 
@@ -384,7 +384,7 @@ module SonicPi
       end
     end
 
-    def job_subthreads_kill(job_id)
+    def deregister_job_and_return_subthreads(job_id)
       threads = @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         @job_subthreads.delete(job_id)
@@ -392,6 +392,10 @@ module SonicPi
         @job_main_threads.delete(job_id)
         threads
       end
+    end
+
+    def job_subthreads_kill(job_id)
+      threads = deregister_job_and_return_subthreads(job_id)
 
       return :no_threads_to_kill unless threads
 
