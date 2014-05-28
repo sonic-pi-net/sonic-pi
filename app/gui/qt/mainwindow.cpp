@@ -338,7 +338,7 @@ void MainWindow::startOSCListener() {
             ar.popStr(runtime);
             ar.popInt32(msg_count);
             QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-            ss << "[Run " << job_id;
+            ss << "\n[Run " << job_id;
             ss << ", Time " << runtime;
             if(!thread_name.empty()) {
               ss << ", Thread :" << thread_name;
