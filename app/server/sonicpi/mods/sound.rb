@@ -565,11 +565,13 @@ play 50 # Plays note 50 on the current synth",
              return block.call(@blank_node)
            end
          end
+         fx_synth_name = "fx_#{fx_name}"
+
+         info = SynthInfo.get_info(fx_synth_name)
+         raise "Unknown fx #{fx_name.inspect}" unless info
 
          start_subthreads = []
          end_subthreads = []
-
-         fx_synth_name = "fx_#{fx_name}"
 
          fxt = Thread.current
          p = Promise.new
@@ -584,7 +586,7 @@ play 50 # Plays note 50 on the current synth",
          __no_kill_block do
            ## Munge args
            args_h = resolve_synth_opts_hash_or_array(args)
-           kill_delay = args_h[:kill_delay] || SynthInfo.get_info(fx_synth_name).kill_delay(args_h)
+           kill_delay = args_h[:kill_delay] || info.kill_delay(args_h)
 
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
 
