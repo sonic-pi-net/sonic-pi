@@ -143,6 +143,7 @@ module SonicPi
 
           delayed_blocks.each {|b| b.call}
           __multi_message(delayed_messages)
+          job_subthread_rm(__current_job_id, t)
         end
 
         @job_subthread_mutex.synchronize do
@@ -288,7 +289,8 @@ module SonicPi
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @events.event("/job-start", {:id => id, :thread => job})
           @run_start_time = now if num_running_jobs == 1
-          eval(code + "\nsleep 0")
+          eval(code)
+          __schedule_delayed_blocks_and_messages!
           __join_subthreads(Thread.current)
           @events.event("/job-join", {:id => id})
           # wait until all synths are dead
