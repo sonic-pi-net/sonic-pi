@@ -22,6 +22,7 @@
 #include <QCheckBox>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QProcess>
 #include <QFuture>
 #include "oscpkt.hh"
 #include "udp.hh"
@@ -72,6 +73,9 @@ private slots:
     void setSystemAudioHDMI();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
+    void serverError(QProcess::ProcessError error);
+    void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void replaceBuffer(QString id, QString content);
 
 private:
 

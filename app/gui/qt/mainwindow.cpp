@@ -61,7 +61,6 @@
   #include <QtConcurrentRun>
 #endif
 
-
 #include "mainwindow.h"
 
 using namespace oscpkt;
@@ -82,10 +81,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
   serverProcess = new QProcess();
 
-  QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
-  std::cerr << serverProgram.toStdString() << std::endl;
-  serverProcess->start(serverProgram);
-  serverProcess->waitForStarted();
+  connect(serverProcess, SIGNAL( error(QProcess::ProcessError) ), this, SLOT( serverError(QProcess::ProcessError)));
+  connect(serverProcess, SIGNAL( finished(int, QProcess::ExitStatus) ), this, SLOT( serverFinished(int, QProcess::ExitStatus)));
+
+  // serverProcess->setArguments(QStringList() << QCoreApplication::applicationDirPath() << "/../../server/bin/sonic-pi-server.rb");
+
+  // serverProcess->start("ruby");
+  // serverProcess->waitForStarted();
+
+  std::cerr << "started..." << serverProcess->state() << std::endl;
 
   tabs = new QTabWidget();
   tabs->setTabsClosable(false);
@@ -102,7 +106,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   lexer = new SonicPiLexer;
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
-
 
   // Autocompletion stuff
   QsciAPIs* api = new QsciAPIs(lexer);
@@ -218,9 +221,16 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   splash.finish(this);
 }
 
-
+void MainWindow::serverError(QProcess::ProcessError error) {
+  cont_listening_for_osc = false;
+  std::cout << "SERVER ERROR" << error <<std::endl;
+  std::cout << serverProcess->readAllStandardError().data() << std::endl;
+  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
+void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
+  std::cout << "SERVER Finished: " << exitCode << std::endl;
+}
 
 void MainWindow::initPrefsWindow() {
 
