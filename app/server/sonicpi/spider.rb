@@ -272,6 +272,7 @@ module SonicPi
           Thread.current.thread_variable_set(:sonic_pi_thread_group, :job)
           Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, 1)
           Thread.current.thread_variable_set :sonic_pi_spider_time, now
+          Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
