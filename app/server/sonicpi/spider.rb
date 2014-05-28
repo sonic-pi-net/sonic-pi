@@ -90,7 +90,7 @@ module SonicPi
     end
 
     def __multi_message(m)
-      @msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_run_time, :thread_name => __current_thread_name})
+      @msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time, :thread_name => __current_thread_name})
     end
 
     def __delayed(&block)
@@ -169,6 +169,10 @@ module SonicPi
 
     def __current_run_time
       Thread.current.thread_variable_get(:sonic_pi_spider_time) - @run_start_time
+    end
+
+    def __current_local_run_time
+      Thread.current.thread_variable_get(:sonic_pi_spider_time) - Thread.current.thread_variable_get(:sonic_pi_spider_start_time)
     end
 
     def __current_thread_name
