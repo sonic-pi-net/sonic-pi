@@ -153,6 +153,7 @@ private:
 
     QCheckBox *print_output;
     QCheckBox *check_args;
+    QCheckBox *clear_output_on_run;
 
     QAction *aboutQtAct;
     QMap<QString, QString> *map;

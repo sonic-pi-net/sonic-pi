@@ -253,12 +253,15 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *debug_box = new QGroupBox("Debug Options");
   print_output = new QCheckBox("Print output");
   check_args = new QCheckBox("Check synth args");
+  clear_output_on_run = new QCheckBox("Clear output on run");
   print_output->setChecked(true);
   check_args->setChecked(true);
+  clear_output_on_run->setChecked(true);
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(check_args);
+  debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
 #if defined(Q_OS_LINUX)
@@ -563,6 +566,9 @@ void MainWindow::runCode()
   if(!check_args->isChecked()) {
     code = "use_arg_checks false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
+  if(clear_output_on_run->isChecked()){
+    outputPane->clear();
+  }
 
   msg.pushStr(code);
   sendOSC(msg);
@@ -583,7 +589,6 @@ void MainWindow::beautifyCode()
 void MainWindow::stopCode()
 {
   stopRunningSynths();
-  outputPane->clear();
   statusBar()->showMessage(tr("Stopping..."), 2000);
 }
 
