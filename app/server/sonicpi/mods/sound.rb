@@ -118,6 +118,7 @@ module SonicPi
 
        def set_sched_ahead_time!(t)
          @mod_sound_studio.sched_ahead_time = t
+         __info "Schedule ahead time set to #{t}"
        end
        doc name:          :set_sched_ahead_time!,
            doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms.",
@@ -853,13 +854,15 @@ puts current_arg_checks # Print out the current arg check setting"]
 
        def set_volume!(vol)
          max_vol = 5
-         if (vol < 0)
-           @mod_sound_studio.volume = 0
-         elsif (vol > max_vol)
-           @mod_sound_studio.volume = max_vol
+         if (vol > max_vol)
+           new_vol = max_vol
+         elsif (vol < 0)
+           new_vol = 0
          else
-           @mod_sound_studio.volume = vol
+           new_vol = vol
          end
+         @mod_sound_studio.volume = new_vol
+         __info "Volume set to: #{new_vol}"
        end
        doc name:          :set_volume!,
            doc:           "Set the main system volum to vol. Accepts a value between 0 and 5 inclusive. Vols greater or smaller than the allowed values are trimmed to keep them within range. Default is 1.",
@@ -1060,8 +1063,8 @@ set_volume! 2 # Set the main system volume to 2",
            examples:      []
        def load_synthdefs(path)
          raise "No directory exists called #{path.inspect} " unless File.exists? path
-
          @mod_sound_studio.load_synthdefs(path)
+         __info "Loaded synthdefs in path #{path}"
        end
 
        private
