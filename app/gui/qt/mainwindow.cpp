@@ -351,7 +351,7 @@ void MainWindow::startOSCListener() {
             ar.popStr(runtime);
             ar.popInt32(msg_count);
             QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-            ss << "\n[Run " << job_id;
+            ss << "[Run " << job_id;
             ss << ", Time " << runtime;
             if(!thread_name.empty()) {
               ss << ", Thread :" << thread_name;
@@ -385,7 +385,7 @@ void MainWindow::startOSCListener() {
                 }
 
               if(i == (msg_count - 1)) {
-                ss << " └─ " << s;
+                ss << " └─ " << s << "\n";
               } else {
                 ss << " ├─ " << s;
               }
@@ -402,7 +402,7 @@ void MainWindow::startOSCListener() {
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString("==> " + s)) );
+                                         Q_ARG(QString, QString::fromStdString("==> " + s + "\n")) );
             } else {
               std::cout << "Server: unhandled info message: "<< std::endl;
             }
