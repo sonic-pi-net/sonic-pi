@@ -1122,11 +1122,16 @@ set_volume! 2 # Set the main system volume to 2",
 
        def stop(node)
          ensure_good_timing!
+         alive = node.live?
          node.kill
-         __delayed_message "stopping Node #{node.id}"
+         if alive
+           __delayed_message "stopping sound #{node.id}"
+         else
+           __delayed_message "not stopping sound #{node.id} (already stopped)"
+         end
        end
        doc name:          :stop,
-           doc:           "Stop a running synth sound or sample. In order to stop a synth, you need to have stored a reference to it in a variable.",
+           doc:           "Stop a running synth sound or sample. In order to stop a sound, you need to have stored a reference to it in a variable.",
            args:          [[:node, :synth_node]],
            opts:          {},
            accepts_block: false,
