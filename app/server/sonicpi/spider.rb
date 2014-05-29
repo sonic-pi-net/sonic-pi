@@ -299,6 +299,7 @@ module SonicPi
           @user_jobs.job_completed(id)
 
           @events.event("/job-completed", {:id => id, :thread => job})
+          __info "Finished run #{id}"
           deregister_job_and_return_subthreads(id)
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
         rescue Exception => e
