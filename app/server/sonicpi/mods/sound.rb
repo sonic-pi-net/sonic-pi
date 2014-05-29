@@ -365,8 +365,6 @@ play 50 # Plays with mod_sine synth
 
        def recording_save(filename)
          __info "Saving recording to #{filename}"
-         #TODO: is this sleep necessary?
-         Kernel.sleep 3
          FileUtils.mv(@tmp_path, filename)
          @tmp_path = nil
        end
