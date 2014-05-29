@@ -555,17 +555,6 @@ play 47, amp: 0.5",
 "play_chord chord(:e3, :minor)"]
 
 
-       def repeat(&block)
-         while true
-           block.call
-         end
-       end
-       doc name:          :repeat,
-           doc:           "add docs",
-           args:          [[:notes, :list]],
-           opts:          {},
-           accepts_block: false,
-           examples:      []
 
 
        def use_merged_synth_defaults(*args, &block)
