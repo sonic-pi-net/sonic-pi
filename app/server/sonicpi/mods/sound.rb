@@ -338,7 +338,7 @@ play 50 # Plays with mod_sine synth
          @mod_sound_studio.recording_start @tmp_path
        end
        doc name:          :recording_start,
-           doc:           "add docs",
+           doc:           "Start recording all sound to a wav file stored in a temporary directory.",
            args:          [],
            opts:          nil,
            accepts_block: false,
@@ -353,7 +353,7 @@ play 50 # Plays with mod_sine synth
          @mod_sound_studio.recording_stop
        end
        doc name:          :recording_stop,
-           doc:           "add docs",
+           doc:           "Stop current recording.",
            args:          [],
            opts:          nil,
            accepts_block: false,
@@ -369,7 +369,7 @@ play 50 # Plays with mod_sine synth
          @tmp_path = nil
        end
        doc name:          :recording_save,
-           doc:           "add docs",
+           doc:           "Save previous recording to the specified location",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
@@ -429,57 +429,56 @@ play 50 # Plays note 50 on the current synth",
 
 
 
+
+       def play_pattern(notes, *args)
+         notes.each{|note| play(note, *args) ; sleep 1 }
+       end
        doc name:          :play_pattern,
            doc:           "add docs",
            args:          [[:notes, :list]],
            opts:          {},
            accepts_block: false,
            examples:      []
-       def play_pattern(notes, *args)
-         notes.each{|note| play(note, *args) ; sleep 1 }
-       end
 
+
+       def play_pattern_timed(notes, times, *args)
+         notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx % times.size])}
+       end
        doc name:          :play_pattern_timed,
            doc:           "add docs",
            args:          [[:notes, :list], [:times, :list]],
            opts:          {},
            accepts_block: false,
            examples:      []
-       def play_pattern_timed(notes, times, *args)
-         notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx % times.size])}
-       end
 
-       doc name:          :play_chord,
-           doc:           "add docs",
-           args:          [[:notes, :list]],
-           opts:          {},
-           accepts_block: false,
-           examples:      []
+
        def play_chord(notes, *args)
          shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
          shifted_notes = notes.map{|n| n + shift}
          synth_name = @mod_sound_studio.current_synth_name
          trigger_chord(synth_name, shifted_notes, args)
        end
+       doc name:          :play_chord,
+           doc:           "add docs",
+           args:          [[:notes, :list]],
+           opts:          {},
+           accepts_block: false,
+           examples:      []
 
+
+       def repeat(&block)
+         while true
+           block.call
+         end
+       end
        doc name:          :repeat,
            doc:           "add docs",
            args:          [[:notes, :list]],
            opts:          {},
            accepts_block: false,
            examples:      []
-       def repeat(&block)
-         while true
-           block.call
-         end
-       end
 
-       doc name:          :use_merged_synth_defaults,
-           doc:           "add docs",
-           args:          [],
-           opts:          {},
-           accepts_block: false,
-           examples:      []
+
        def use_merged_synth_defaults(*args, &block)
          raise "use_merged_synth_defaults does not work with a block. Perhaps you meant with_merged_synth_defaults" if block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
@@ -491,13 +490,16 @@ play 50 # Plays note 50 on the current synth",
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged_defs
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, merged_fns
        end
-
-       doc name:          :with_merged_synth_defaults,
+       doc name:          :use_merged_synth_defaults,
            doc:           "add docs",
            args:          [],
            opts:          {},
-           accepts_block: true,
+           accepts_block: false,
            examples:      []
+
+
+
+
        def with_merged_synth_defaults(*args, &block)
          raise "with_merged_synth_defaults must be called with a block" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
@@ -512,13 +514,16 @@ play 50 # Plays note 50 on the current synth",
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current_defs
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults_fns, current_fns
        end
-
-       doc name:          :use_synth_defaults,
+       doc name:          :with_merged_synth_defaults,
            doc:           "add docs",
            args:          [],
            opts:          {},
-           accepts_block: false,
+           accepts_block: true,
            examples:      []
+
+
+
+
        def use_synth_defaults(*args, &block)
          raise "use_synth_defaults does not work with a block. Perhaps you meant with_synth_defaults" if block
          args_h = resolve_synth_opts_hash_or_array(args)
@@ -526,13 +531,16 @@ play 50 # Plays note 50 on the current synth",
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, fns_h
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, defaults_h
        end
-
-       doc name:          :with_synth_defaults,
+       doc name:          :use_synth_defaults,
            doc:           "add docs",
            args:          [],
            opts:          {},
-           accepts_block: true,
+           accepts_block: false,
            examples:      []
+
+
+
+
        def with_synth_defaults(*args, &block)
          raise "with_synth_defaults must be called with a block" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
@@ -545,13 +553,16 @@ play 50 # Plays note 50 on the current synth",
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current_defs
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, current_fns
        end
-
-       doc name:          :with_fx,
+       doc name:          :with_synth_defaults,
            doc:           "add docs",
-           args:          [[:fx_name, :symbol]],
+           args:          [],
            opts:          {},
            accepts_block: true,
            examples:      []
+
+
+
+
        def with_fx(fx_name, *args, &block)
          raise "with_fx must be called with a block" unless block
          raise "with_fx block must only accept 0 or 1 args" unless [0, 1].include?(block.arity)
@@ -738,26 +749,31 @@ play 50 # Plays note 50 on the current synth",
          # background...
          gc_completed.get
        end
+       doc name:          :with_fx,
+           doc:           "add docs",
+           args:          [[:fx_name, :symbol]],
+           opts:          {},
+           accepts_block: true,
+           examples:      []
 
 
+
+
+       def use_sample_pack(pack, &block)
+         raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
+         pack = samples_path if pack == :default
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
+       end
        doc name:          :use_sample_pack,
            doc:           "add docs",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def use_sample_pack(pack, &block)
-         raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
-         pack = samples_path if pack == :default
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
-       end
 
-       doc name:          :with_sample_pack,
-           doc:           "add docs",
-           args:          [[:pack_path, :string]],
-           opts:          nil,
-           accepts_block: true,
-           examples:      []
+
+
+
        def with_sample_pack(pack, &block)
          raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
          pack = samples_path if pack == :default
@@ -766,6 +782,14 @@ play 50 # Plays note 50 on the current synth",
          block.call
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
        end
+       doc name:          :with_sample_pack,
+           doc:           "add docs",
+           args:          [[:pack_path, :string]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      []
+
+
 
 
        def current_synth
@@ -778,6 +802,68 @@ play 50 # Plays note 50 on the current synth",
            accepts_block: false,
            examples:      ["
 puts current_synth # Print out the current synth name"]
+
+
+
+       def current_sample_pack
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
+       end
+       doc name:          :current_sample_pack,
+           doc:           "Returns the current sample pack.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_sample_pack # Print out the current sample pack"]
+
+
+
+
+       def current_synth_defaults
+         defaults = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
+         default_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
+         defaults.merge(default_fns)
+       end
+       doc name:          :current_synth_defaults,
+           doc:           "Returns the current synth defaults. This is a map of synth arg names to either values or functions.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+use_synth_defaults amp: 0.5, cutoff: 80
+play 50 # Plays note 50 with amp 0.5 and cutoff 80
+puts current_synth_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
+
+
+
+
+       def current_sched_ahead_time
+         @mod_sound_studio.sched_ahead_time
+       end
+       doc name:          :current_sched_ahead_time,
+           doc:           "Returns the current schedule ahead time.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+set_sched_ahead_time! 0.5
+puts current_sched_ahead_time # Prints 0.5"]
+
+
+
+
+       def current_volume
+         @mod_sound_studio.volume
+       end
+       doc name:          :current_volume,
+           doc:           "Returns the current volume.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_volume # Print out the current volume",
+"set_volume! 2
+puts current_volume #=> 2"]
 
 
 
@@ -795,6 +881,7 @@ puts current_transpose # Print out the current transpose value"]
 
 
 
+
        def current_debug
          Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
        end
@@ -808,6 +895,7 @@ puts current_debug # Print out the current debug setting"]
 
 
 
+
        def current_arg_checks
          Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
        end
@@ -818,34 +906,6 @@ puts current_debug # Print out the current debug setting"]
            accepts_block: false,
            examples:      ["
 puts current_arg_checks # Print out the current arg check setting"]
-
-
-
-
-       def set_debug_on!
-         @mod_sound_studio.debug = true
-       end
-       doc name:          :set_debug_on!,
-           doc:           "add docs",
-           args:          [],
-           opts:          nil,
-           accepts_block: false,
-           examples:      [],
-           hide:          true
-
-
-
-
-       def set_debug_off!
-         @mod_sound_studio.debug = false
-       end
-       doc name:          :set_debug_off!,
-           doc:           "add docs",
-           args:          [],
-           opts:          nil,
-           accepts_block: false,
-           examples:      [],
-           hide:          true
 
 
 
@@ -876,12 +936,8 @@ set_volume! 2 # Set the main system volume to 2",
 ]
 
 
-       doc name:          :load_sample,
-           doc:           "add docs",
-           args:          [[:path, :string]],
-           opts:          nil,
-           accepts_block: false,
-           examples:      []
+
+
        def load_sample(path)
          case path
          when Symbol
@@ -902,13 +958,16 @@ set_volume! 2 # Set the main system volume to 2",
            raise "Unknown sample description: #{path}"
          end
        end
-
-       doc name:          :load_samples,
+       doc name:          :load_sample,
            doc:           "add docs",
-           args:          [[:paths, :list]],
+           args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
            examples:      []
+
+
+
+
        def load_samples(*paths)
          paths.each do |p|
            if p.kind_of?(Array)
@@ -918,152 +977,197 @@ set_volume! 2 # Set the main system volume to 2",
            end
          end
        end
+       doc name:          :load_samples,
+           doc:           "add docs",
+           args:          [[:paths, :list]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
 
+
+
+
+       def sample_info(path)
+         load_sample(path)
+       end
        doc name:          :sample_info,
            doc:           "add docs",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def sample_info(path)
-         load_sample(path)
-       end
 
+
+
+
+       def sample_duration(path, *args)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         args_h = {:rate => 1}.merge(args_h)
+         load_sample(path).duration * 1.0/args_h[:rate]
+       end
        doc name:          :sample_duration,
            doc:           "add docs",
            args:          [[:path, :string]],
            opts:          {:rate => 1},
            accepts_block: false,
            examples:      []
-       def sample_duration(path, *args)
-         args_h = resolve_synth_opts_hash_or_array(args)
-         args_h = {:rate => 1}.merge(args_h)
-         load_sample(path).duration * 1.0/args_h[:rate]
-       end
 
 
-       doc name:          :sample,
-           doc:           "add docs",
-           args:          [[:name_or_path, :symbol_or_string]],
-           opts:          {:rate => 1},
-           accepts_block: false,
-           examples:      []
+
+
        def sample(path, *args_a_or_h)
          ensure_good_timing!
          buf_info = load_sample(path)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
+       doc name:          :sample,
+           doc:           "add docs",
+           args:          [[:name_or_path, :symbol_or_string]],
+           opts:          {:rate => 1},
+           accepts_block: false,
+           examples:      []
 
+
+
+
+       def status
+         @mod_sound_studio.status
+       end
        doc name:          :status,
            doc:           "add docs",
            args:          [],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def status
-         @mod_sound_studio.status
-       end
 
+
+
+
+       def note(n, *args)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         octave = args_h[:octave]
+         Note.resolve_midi_note(n, octave)
+       end
        doc name:          :note,
            doc:           "add docs",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
            examples:      []
-       def note(n, *args)
+
+
+
+
+       def note_info(n, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
          octave = args_h[:octave]
-         Note.resolve_midi_note(n, octave)
+         Note.new(n, octave)
        end
-
        doc name:          :note_info,
            doc:           "add docs - :octave opt is overridden if oct specified in symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
            examples:      []
-       def note_info(n, *args)
-         args_h = resolve_synth_opts_hash_or_array(args)
-         octave = args_h[:octave]
-         Note.new(n, octave)
-       end
 
+
+
+
+       def scale(tonic, name, *opts)
+         opts = resolve_synth_opts_hash_or_array(opts)
+         opts = {:num_octaves => 1}.merge(opts)
+         Scale.new(tonic, name,  opts[:num_octaves]).to_a
+       end
        doc name:          :scale,
            doc:           "add docs",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          {:num_octaves => 1},
            accepts_block: false,
            examples:      []
-       def scale(tonic, name, *opts)
-         opts = resolve_synth_opts_hash_or_array(opts)
-         opts = {:num_octaves => 1}.merge(opts)
-         Scale.new(tonic, name,  opts[:num_octaves]).to_a
-       end
 
+
+
+
+       def chord(tonic, name)
+         Chord.new(tonic, name).to_a
+       end
        doc name:          :chord,
            doc:           "add docs",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def chord(tonic, name)
-         Chord.new(tonic, name).to_a
+
+
+
+
+       def control(node, *args)
+         ensure_good_timing!
+         args_h = resolve_synth_opts_hash_or_array(args)
+         node.control args_h
+         __delayed_message "control Node #{node.id}, #{arg_h_pp(args_h)}"
        end
-
-
        doc name:          :control,
            doc:           "add docs",
            args:          [[:node, :synth_node]],
            opts:          {},
            accepts_block: false,
            examples:      []
-       def control(node, *args)
-         ensure_good_timing!
-         node.control *args
-       end
 
+
+
+
+       def sample_names(group)
+         BaseInfo.grouped_samples[group][:samples]
+       end
        doc name:          :sample_names,
            doc:           "add docs",
            args:          [[:group, :symbol]],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def sample_names(group)
-         BaseInfo.grouped_samples[group][:samples]
-       end
 
+
+
+
+       def all_sample_names
+         BaseInfo.all_samples
+       end
        doc name:          :all_sample_names,
            doc:           "add docs",
            args:          [],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def all_sample_names
-         BaseInfo.all_samples
-       end
 
+
+
+
+       def sample_groups
+         BaseInfo.grouped_samples.keys
+       end
        doc name:          :sample_groups,
            doc:           "add docs",
            args:          [],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def sample_groups
-         BaseInfo.grouped_samples.keys
-       end
 
+
+
+
+       def load_synthdefs(path)
+         raise "No directory exists called #{path.inspect} " unless File.exists? path
+         @mod_sound_studio.load_synthdefs(path)
+         __info "Loaded synthdefs in path #{path}"
+       end
        doc name:          :load_synthdefs,
            doc:           "add docs",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
            examples:      []
-       def load_synthdefs(path)
-         raise "No directory exists called #{path.inspect} " unless File.exists? path
-         @mod_sound_studio.load_synthdefs(path)
-         __info "Loaded synthdefs in path #{path}"
-       end
 
        private
 
