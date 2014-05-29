@@ -569,11 +569,27 @@ play 47, amp: 0.5",
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, merged_fns
        end
        doc name:          :use_merged_synth_defaults,
-           doc:           "add docs",
+           doc:           "Specify synth arg values to be used by any following call to play. Merges the specified values with any previous defaults, rather than replacing them.",
            args:          [],
            opts:          {},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+play 50 #=> Plays note 50
+
+use_merged_synth_defaults amp: 0.5
+play 50 #=> Plays note 50 with amp 0.5
+
+use_merged_synth_defaults cutoff: 80
+play 50 #=> Plays note 50 with amp 0.5 and cutoff 80
+
+use_merged_synth_defaults amp: 0.7
+play 50 #=> Plays note 50 with amp 0.7 and cutoff 80
+",
+
+"use_synth_defaults amp: 0.5, cutoff: 80, pan: -1
+use_merged_synth_defaults amp: 0.7
+play 50 #=> Plays note 50 with amp 0.8, cutoff 80 and pan -1"]
+
 
 
 
@@ -593,11 +609,26 @@ play 47, amp: 0.5",
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults_fns, current_fns
        end
        doc name:          :with_merged_synth_defaults,
-           doc:           "add docs",
+           doc:           "Specify synth arg values to be used by any following call to play within the specified do/end block. Merges the specified values with any previous defaults, rather than replacing them. After the do/end block has completed, previous defaults(if any) are restored. ",
            args:          [],
            opts:          {},
            accepts_block: true,
-           examples:      []
+           examples:      ["
+with_merged_synth_defaults amp: 0.5, pan: 1 do
+  play 50 # => plays note 50 with amp 0.5 and pan 1
+end",
+
+"play 50 #=> plays note 50
+with_merged_synth_defaults amp: 0.5 do
+  play 50 #=> plays note 50 with amp 0.5
+
+  with_merged_synth_defaults pan: -1 do
+    with_merged_synth_defaults amp: 0.7 do
+      play 50 #=> plays note 50 with amp 0.7 and pan -1
+    end
+  end
+  play 50 #=> plays note 50 with amp 0.5
+end"]
 
 
 
