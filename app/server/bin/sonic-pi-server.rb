@@ -115,6 +115,20 @@ osc_server.add_method("/load-buffer") do |payload|
   end
 end
 
+osc_server.add_method("/beautify-buffer") do |payload|
+#  puts "beautifying buffer..."
+  begin
+    args = payload.to_a
+    id = args[0]
+    buf = args[1]
+    sp.__beautify_buffer(id, buf)
+  rescue Exception => e
+    puts "Received Exception when attempting to load buffer!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 osc_server.add_method("/ping") do |payload|
   #  puts "ping!"
   begin
@@ -183,13 +197,10 @@ out_t = Thread.new do
         continue = false
       else
         case message[:type]
-        when :message
-#          puts "sending: /message with #{message[:jobid]}, arg #{message[:val]}, #{message.inspect}"
-          proxy.send(OSC::Message.new("/message", message[:jobid], message[:val]))
-        when :user_message
-          proxy.send(OSC::Message.new("/user_message", message[:jobid], message[:val]))
-        when :warning
-          proxy.send(OSC::Message.new("/warning", message[:jobid], message[:val]))
+        when :multi_message
+          proxy.send(OSC::Message.new("/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten))
+        when :info
+          proxy.send(OSC::Message.new("/info", message[:val]))
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")

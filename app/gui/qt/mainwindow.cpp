@@ -61,7 +61,6 @@
   #include <QtConcurrentRun>
 #endif
 
-
 #include "mainwindow.h"
 
 using namespace oscpkt;
@@ -98,10 +97,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
   serverProcess = new QProcess();
 
-  QString serverProgram = "ruby " + QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
-  std::cerr << serverProgram.toStdString() << std::endl;
-  serverProcess->start(serverProgram);
-  serverProcess->waitForStarted();
+  connect(serverProcess, SIGNAL( error(QProcess::ProcessError) ), this, SLOT( serverError(QProcess::ProcessError)));
+  connect(serverProcess, SIGNAL( finished(int, QProcess::ExitStatus) ), this, SLOT( serverFinished(int, QProcess::ExitStatus)));
+
+  // serverProcess->setArguments(QStringList() << QCoreApplication::applicationDirPath() << "/../../server/bin/sonic-pi-server.rb");
+
+  // serverProcess->start("ruby");
+  // serverProcess->waitForStarted();
+
+  std::cerr << "started..." << serverProcess->state() << std::endl;
 
   tabs = new QTabWidget();
   tabs->setTabsClosable(false);
@@ -224,9 +228,16 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   splash.finish(this);
 }
 
-
+void MainWindow::serverError(QProcess::ProcessError error) {
+  cont_listening_for_osc = false;
+  std::cout << "SERVER ERROR" << error <<std::endl;
+  std::cout << serverProcess->readAllStandardError().data() << std::endl;
+  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
+void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
+  std::cout << "SERVER Finished: " << exitCode << std::endl;
+}
 
 void MainWindow::initPrefsWindow() {
 
@@ -259,12 +270,15 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *debug_box = new QGroupBox("Debug Options");
   print_output = new QCheckBox("Print output");
   check_args = new QCheckBox("Check synth args");
+  clear_output_on_run = new QCheckBox("Clear output on run");
   print_output->setChecked(true);
   check_args->setChecked(true);
+  clear_output_on_run->setChecked(true);
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(check_args);
+  debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
 #if defined(Q_OS_LINUX)
@@ -328,56 +342,76 @@ void MainWindow::startOSCListener() {
         oscpkt::Message *msg;
         while (pr.isOk() && (msg = pr.popMessage()) != 0) {
 
-          if (msg->match("/message")) {
-            std::string s;
+
+          if (msg->match("/multi_message")){
+            int msg_count;
+            int msg_type;
             int job_id;
-            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
+            std::string thread_name;
+            std::string runtime;
+            std::string s;
+            std::ostringstream ss;
 
-              std::ostringstream convert;
-              convert << "[" << job_id << "] " << s;
-
-
-              // Evil nasties!
-              // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("60 60 60")));
-              QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
-            } else {
-              std::cout << "Server: unhandled message: "<< std::endl;
+            Message::ArgReader ar = msg->arg();
+            ar.popInt32(job_id);
+            ar.popStr(thread_name);
+            ar.popStr(runtime);
+            ar.popInt32(msg_count);
+            QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
+            ss << "\n[Run " << job_id;
+            ss << ", Time " << runtime;
+            if(!thread_name.empty()) {
+              ss << ", Thread :" << thread_name;
             }
-          }
-          else if (msg->match("/user_message")) {
-            int job_id;
-            std::string s;
-            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
+            ss << "]";
+            QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+                                       Q_ARG(QString, QString::fromStdString(ss.str())) );
 
-              std::ostringstream convert;
-              convert << "[" << job_id << "] " << s;
-              // Evil nasties!
-              // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DodgerBlue")));
+            for(int i = 0 ; i < msg_count ; i++) {
+              ss.str("");
+              ss.clear();
+              ar.popInt32(msg_type);
+              ar.popStr(s);
+
+
+
+              switch(msg_type)
+                {
+                case 0:
+                  QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
+                  break;
+                case 1:
+                  QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
+                  break;
+                case 2:
+                  QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
+                  break;
+                default:
+                  QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("red")));
+
+                }
+
+              if(i == (msg_count - 1)) {
+                ss << " └─ " << s;
+              } else {
+                ss << " ├─ " << s;
+              }
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
-            } else {
-              std::cout << "Server: unhandled user message: "<< std::endl;
-            }
+                                         Q_ARG(QString, QString::fromStdString(ss.str())) );
+              }
           }
-          else if (msg->match("/warning")) {
+          else if (msg->match("/info")) {
             std::string s;
-            int job_id;
-            if (msg->arg().popInt32(job_id).popStr(s).isOkNoMoreArgs()) {
-              std::ostringstream convert;
-              convert << "[" << job_id << "] " << s;
-
+            if (msg->arg().popStr(s).isOkNoMoreArgs()) {
               // Evil nasties!
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("DarkOrange")));
+              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(convert.str())) );
+                                         Q_ARG(QString, QString::fromStdString("==> " + s)) );
             } else {
-              std::cout << "Server: unhandled user message: "<< std::endl;
+              std::cout << "Server: unhandled info message: "<< std::endl;
             }
           }
           else if (msg->match("/error")) {
@@ -400,9 +434,8 @@ void MainWindow::startOSCListener() {
             std::string id;
             std::string content;
             if (msg->arg().popStr(id).popStr(content).isOkNoMoreArgs()) {
-              QsciScintilla* ws = filenameToWorkspace(id);
-              QMetaObject::invokeMethod( ws, "setText", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString(content)) );
+
+              QMetaObject::invokeMethod( this, "replaceBuffer", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)));
             } else {
               std::cout << "Server: unhandled replace-buffer: "<< std::endl;
             }
@@ -431,6 +464,31 @@ void MainWindow::startOSCListener() {
   }
   std::cout << "OSC Stopped, releasing socket" << std::endl;
   sock.close();
+}
+
+void MainWindow::replaceBuffer(QString id, QString content) {
+  QsciScintilla* ws = filenameToWorkspace(id.toStdString());
+  int line;
+  int index;
+  QString line_content;
+  int line_length;
+  int new_line_length;
+  ws->getCursorPosition(&line, &index);
+  line_content = ws->text(line);
+  line_length = line_content.length();
+  ws->selectAll();
+  ws->replaceSelectedText(content);
+  if(ws->lineLength(line) == -1) {
+    // new text is clearly different from old, just put cursor at start
+    // of buffer
+    ws->setCursorPosition(0, 0);
+  }
+  else {
+    line_content = ws->text(line);
+    new_line_length = line_content.length();
+    int diff = new_line_length - line_length;
+    ws->setCursorPosition(line, index + diff);
+  }
 }
 
 std::string MainWindow::number_name(int i) {
@@ -525,7 +583,21 @@ void MainWindow::runCode()
   if(!check_args->isChecked()) {
     code = "use_arg_checks false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
+  if(clear_output_on_run->isChecked()){
+    outputPane->clear();
+  }
 
+  msg.pushStr(code);
+  sendOSC(msg);
+}
+
+void MainWindow::beautifyCode()
+{
+  statusBar()->showMessage(tr("Beautifying...."), 2000);
+  std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
+  Message msg("/beautify-buffer");
+  std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
+  msg.pushStr(filename);
   msg.pushStr(code);
   sendOSC(msg);
 }
@@ -534,7 +606,6 @@ void MainWindow::runCode()
 void MainWindow::stopCode()
 {
   stopRunningSynths();
-  outputPane->clear();
   statusBar()->showMessage(tr("Stopping..."), 2000);
 }
 
@@ -725,7 +796,10 @@ void MainWindow::createActions()
   textDecAct->setToolTip(tr("Make text smaller"));
   connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
 
-
+  QAction *beautifyAct = new QAction(this);
+  beautifyAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+  connect(beautifyAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
+  addAction(beautifyAct);
 }
 
 void MainWindow::createToolBar()

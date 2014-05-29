@@ -27,6 +27,8 @@ require_relative "gitsave"
 require 'thread'
 require 'fileutils'
 require 'set'
+require 'ruby-beautify'
+
 
 module SonicPi
   class Spider
@@ -48,6 +50,7 @@ module SonicPi
       @random_generator = Random.new(0)
       @sync_real_sleep_time = 0.05
       @user_methods = user_methods
+      @run_start_time = 0
 
       @gitsave = GitSave.new(project_path)
 
@@ -58,7 +61,7 @@ module SonicPi
           __handle_event event
         end
       end
-      __message "RC5-dev Ready..."
+      __info "RC5-dev Ready..."
     end
 
     #These includes must happen after the initialize method
@@ -82,17 +85,12 @@ module SonicPi
       end
     end
 
-    def __user_message(s)
-      @msg_queue.push({:type => :user_message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
+    def __info(s)
+      @msg_queue.push({:type => :info, :val => s.to_s})
     end
 
-    def __warning(s)
-      @msg_queue.push({:type => :warning, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
-    end
-
-
-    def __message(s)
-      @msg_queue.push({:type => :message, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info})
+    def __multi_message(m)
+      @msg_queue.push({:type => :multi_message, :val => m, :jobid => __current_job_id, :jobinfo => __current_job_info, :runtime => __current_local_run_time.round(4), :thread_name => __current_thread_name})
     end
 
     def __delayed(&block)
@@ -101,8 +99,85 @@ module SonicPi
       delayed_blocks << block
     end
 
+    def __delayed_message(s)
+      __enqueue_multi_message(0, s)
+    end
+
+    def __delayed_user_message(s)
+      s = s.inspect unless s.is_a? String
+      __enqueue_multi_message(1, s)
+    end
+
+    def __delayed_serious_warning(s)
+      __enqueue_multi_message(3, s)
+    end
+
+    def __delayed_warning(s)
+      __enqueue_multi_message(2, s)
+    end
+
+    def __schedule_delayed_blocks_and_messages!
+      delayed_blocks = Thread.current.thread_variable_get :sonic_pi_spider_delayed_blocks
+      delayed_messages = Thread.current.thread_variable_get :sonic_pi_spider_delayed_messages
+      unless(delayed_blocks.empty? && delayed_messages.empty?)
+        last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+        parent_t = Thread.current
+        parent_t_vars = {}
+        parent_t.thread_variables.each do |v|
+          parent_t_vars[v] = parent_t.thread_variable_get(v)
+        end
+        p = Promise.new
+
+        pause_then_run_blocks_and_msgs = lambda do
+          parent_t_vars.each do |k,v|
+            Thread.current.thread_variable_set(k, v)
+          end
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, :execute_delayed_blocks_and_messages)
+          p.get
+          # Calculate the amount of time to sleep to sync us up with the
+          # sched_ahead_time
+          sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
+          sleep_time = sched_ahead_sync_t - Time.now
+          Kernel.sleep(sleep_time) if sleep_time > 0
+          #We're now in sync with the sched_ahead time
+
+          delayed_blocks.each {|b| b.call}
+          __multi_message(delayed_messages)
+          job_subthread_rm(__current_job_id, t)
+        end
+
+        @job_subthread_mutex.synchronize do
+          t = Thread.new &pause_then_run_blocks_and_msgs
+          job_subthread_add_unmutexed(__current_job_id, t)
+        end
+        p.deliver! true
+
+        Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
+        Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
+      end
+
+    end
+
+    def __enqueue_multi_message(m_type, m)
+      raise "Can only use __enqueue_multi_message in a job thread" unless __current_job_id
+      delayed_messages = Thread.current.thread_variable_get :sonic_pi_spider_delayed_messages
+      delayed_messages << [m_type, m]
+    end
+
     def __error(s, e)
       @msg_queue.push({:type => :error, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info, :backtrace => e.backtrace})
+    end
+
+    def __current_run_time
+      Thread.current.thread_variable_get(:sonic_pi_spider_time) - @run_start_time
+    end
+
+    def __current_local_run_time
+      Thread.current.thread_variable_get(:sonic_pi_spider_time) - Thread.current.thread_variable_get(:sonic_pi_spider_start_time)
+    end
+
+    def __current_thread_name
+      Thread.current.thread_variable_get :sonic_pi_spider_users_thread_name || ""
     end
 
     def __current_job_id
@@ -143,15 +218,15 @@ module SonicPi
     end
 
     def __stop_job(j)
-      __message "Stopping job #{j}"
       job_subthreads_kill(j)
       @user_jobs.kill_job j
       @events.event("/job-completed", {:id => j})
+      __info "Stopped run #{j}"
       @msg_queue.push({type: :job, jobid: j, action: :completed})
     end
 
     def __stop_jobs
-      __message "Stopping all jobs."
+      __info "Stopping all running code."
       @user_jobs.each_id do |id|
         __stop_job id
       end
@@ -176,6 +251,12 @@ module SonicPi
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: s})
     end
 
+    def __beautify_buffer(id, buf)
+      id = id.to_s
+      beautiful = RBeautify.beautify_string :ruby, buf
+      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful})
+    end
+
     def __save_buffer(id, content)
       filename = id + '.spi'
       path = project_path + "/" + filename
@@ -190,10 +271,11 @@ module SonicPi
 
         Thread.current.priority = 10
         begin
-          reg_job(id, job)
+          num_running_jobs = reg_job(id, job)
+
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, :job)
           Thread.current.thread_variable_set(:sonic_pi_thread_group, :job)
           Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, 1)
-          Thread.current.thread_variable_set :sonic_pi_spider_time, Time.now
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
@@ -201,16 +283,22 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
+          Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @events.event("/job-start", {:id => id, :thread => job})
-          eval(code + "\nsleep 0")
+          now = Time.now
+          Thread.current.thread_variable_set :sonic_pi_spider_time, now
+          Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
+          @run_start_time = now if num_running_jobs == 1
+          eval(code)
+          __schedule_delayed_blocks_and_messages!
           __join_subthreads(Thread.current)
           @events.event("/job-join", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)
 
           @events.event("/job-completed", {:id => id, :thread => job})
-          job_subthreads_kill(id)
+          deregister_job_and_return_subthreads(id)
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
         rescue Exception => e
 
@@ -236,16 +324,19 @@ module SonicPi
     end
 
     def __describe_threads
-      __message Thread.list.map{|t| t.thread_variable_get(:sonic_pi_thread_group)}
+      __info Thread.list.map{|t| t.thread_variable_get(:sonic_pi_thread_group)}
     end
 
     private
 
     def reg_job(job_id, t)
+      num_current_jobs = 0
       @job_subthread_mutex.synchronize do
         @job_subthreads[job_id] = Set.new
         @job_main_threads[job_id] = t
+        num_current_jobs = @job_main_threads.keys.size
       end
+      num_current_jobs
     end
 
     def job_subthread_add_unmutexed(job_id, t, name=nil)
@@ -259,7 +350,7 @@ module SonicPi
       if name
         if @named_subthreads[name]
           #Don't delay following message, as this method is used for worker thread impl.
-          __message "Skipping thread creation: thread with name #{name.inspect} already exists."
+          __info "Skipping thread creation: thread with name #{name.inspect} already exists."
           t.kill
           job_subthread_rm_unmutexed(job_id, t)
           return false
@@ -296,7 +387,7 @@ module SonicPi
       end
     end
 
-    def job_subthreads_kill(job_id)
+    def deregister_job_and_return_subthreads(job_id)
       threads = @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         @job_subthreads.delete(job_id)
@@ -304,6 +395,10 @@ module SonicPi
         @job_main_threads.delete(job_id)
         threads
       end
+    end
+
+    def job_subthreads_kill(job_id)
+      threads = deregister_job_and_return_subthreads(job_id)
 
       return :no_threads_to_kill unless threads
 

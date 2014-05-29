@@ -22,6 +22,7 @@
 #include <QCheckBox>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QProcess>
 #include <QFuture>
 #include "oscpkt.hh"
 #include "udp.hh"
@@ -54,6 +55,7 @@ protected:
 private slots:
     void runCode();
     void stopCode();
+    void beautifyCode();
     void stopRunningSynths();
     QString currentTabLabel();
     bool saveAs();
@@ -71,6 +73,9 @@ private slots:
     void setSystemAudioHDMI();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
+    void serverError(QProcess::ProcessError error);
+    void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void replaceBuffer(QString id, QString content);
 
 private:
 
@@ -154,6 +159,7 @@ private:
 
     QCheckBox *print_output;
     QCheckBox *check_args;
+    QCheckBox *clear_output_on_run;
 
     QAction *aboutQtAct;
     QMap<QString, QString> *map;

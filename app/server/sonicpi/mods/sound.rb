@@ -331,10 +331,9 @@ play 50 # Plays with mod_sine synth
 
 
        def recording_start
-         __message "start recording"
+         __info "Start recording"
          tmp_dir = Dir.mktmpdir("sonic-pi")
          @tmp_path = File.expand_path("#{tmp_dir}/#{rand(100000000)}.wav")
-         __message "tmp_path: #{@tmp_path}"
          @mod_sound_studio.recording_start @tmp_path
        end
        doc name:          :recording_start,
@@ -349,7 +348,7 @@ play 50 # Plays with mod_sine synth
 
 
        def recording_stop
-         __message "stop recording"
+         __info "Stop recording"
          @mod_sound_studio.recording_stop
        end
        doc name:          :recording_stop,
@@ -364,7 +363,7 @@ play 50 # Plays with mod_sine synth
 
 
        def recording_save(filename)
-         __message "save recording #{filename}"
+         __info "Saving recording to #{filename}"
          #TODO: is this sleep necessary?
          Kernel.sleep 3
          FileUtils.mv(@tmp_path, filename)
@@ -382,7 +381,7 @@ play 50 # Plays with mod_sine synth
 
 
        def recording_delete
-         __message "delete recording"
+         __info "Deleting recording..."
          FileUtils.rm @tmp_path if @tmp_path
        end
        doc name:          :recording_delete,
@@ -566,11 +565,13 @@ play 50 # Plays note 50 on the current synth",
              return block.call(@blank_node)
            end
          end
+         fx_synth_name = "fx_#{fx_name}"
+
+         info = SynthInfo.get_info(fx_synth_name)
+         raise "Unknown fx #{fx_name.inspect}" unless info
 
          start_subthreads = []
          end_subthreads = []
-
-         fx_synth_name = "fx_#{fx_name}"
 
          fxt = Thread.current
          p = Promise.new
@@ -585,7 +586,7 @@ play 50 # Plays note 50 on the current synth",
          __no_kill_block do
            ## Munge args
            args_h = resolve_synth_opts_hash_or_array(args)
-           kill_delay = args_h[:kill_delay] || SynthInfo.get_info(fx_synth_name).kill_delay(args_h)
+           kill_delay = args_h[:kill_delay] || info.kill_delay(args_h)
 
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
 
@@ -600,7 +601,7 @@ play 50 # Plays note 50 on the current synth",
            begin
              new_bus = @mod_sound_studio.new_fx_bus
            rescue AllocationError
-             __message "All busses allocated - unable to honour FX"
+             __delayed_serious_warning "All busses allocated - unable to honour FX"
              if block.arity == 0
                return block.call
              else
@@ -696,6 +697,7 @@ play 50 # Plays note 50 on the current synth",
          ## parameter if the block was defined with a param.
          t = in_thread do
            t.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
+           t.thread_variable_set(:sonic_pi_spider_delayed_messages, fxt.thread_variable_get(:sonic_pi_spider_delayed_messages))
 
            new_trackers = [tracker]
            (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).each do |tr|
@@ -726,6 +728,7 @@ play 50 # Plays note 50 on the current synth",
          # timestamp back to this thread.
          t.join
          Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
+         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, t.thread_variable_get(:sonic_pi_spider_delayed_messages))
          Thread.current.thread_variable_set(:sonic_pi_spider_time, t.thread_variable_get(:sonic_pi_spider_time))
 
          # Wait for gc thread to complete. Once the gc thread has
@@ -884,12 +887,12 @@ set_volume! 2 # Set the main system volume to 2",
            full_path = resolve_sample_symbol_path(path)
            raise "No sample exists called #{path.inspect}" unless File.exists?(full_path)
            info, cached = @mod_sound_studio.load_sample(full_path)
-           __message "Loaded sample :#{path}" unless cached
+           __delayed_message "Loaded sample :#{path}" unless cached
            return info
          when String
            if File.exists?(path)
              info, cached = @mod_sound_studio.load_sample(path)
-             __message "Loaded sample #{path.inspect}" unless cached
+             __delayed_message "Loaded sample #{path.inspect}" unless cached
              return info
            else
              raise "No sample exists with path #{path}"
@@ -1115,9 +1118,9 @@ set_volume! 2 # Set the main system volume to 2",
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
-             __delayed{__message "sample #{path.inspect}"}
+             __delayed_message "sample #{path.inspect}"
            else
-             __delayed{__message "sample #{path.inspect}, #{arg_h_pp(args_h)}"}
+             __delayed_message "sample #{path.inspect}, #{arg_h_pp(args_h)}"
            end
          end
 
@@ -1132,7 +1135,7 @@ set_volume! 2 # Set the main system volume to 2",
          end
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-           __delayed{__message "synth #{synth_name.to_sym.inspect}, #{arg_h_pp(args_h)}"}
+           __delayed_message "synth #{synth_name.to_sym.inspect}, #{arg_h_pp(args_h)}"
          end
          trigger_synth(synth_name, args_h, group, validation_fn)
        end
@@ -1455,7 +1458,7 @@ set_volume! 2 # Set the main system volume to 2",
          elsif (now - sat) > vt
            # Hard warning, system is too far behind, expect timing issues.
            Thread.current.priority = 20
-           __warning "Timing error: can't keep up..."
+           __delayed_serious_warning "Timing error: can't keep up..."
          end
        end
 

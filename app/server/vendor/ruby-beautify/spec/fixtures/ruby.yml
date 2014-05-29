@@ -1,0 +1,408 @@
+- name: indent if else end statement
+  input: |
+    if foo
+    bar = 1
+    elsif foo2
+    bar = 2
+    else
+    bar = 3
+    end
+  output: |
+    if foo
+      bar = 1
+    elsif foo2
+      bar = 2
+    else
+      bar = 3
+    end
+
+- name: handle case where if begins and ends on same line
+  input: |
+    foo do
+    if a then b = 1 else b = 2 end
+    end
+  output: |
+    foo do
+      if a then b = 1 else b = 2 end
+    end
+
+- name: indent not double indent case/when statement
+  input: |
+    case foo
+    when 1
+    bar = 'some string'
+    when 2
+    bar = 'some other string'
+    when 3 then bar = '3'
+    else
+    bar = '4'
+    end
+  output: |
+    case foo
+    when 1
+      bar = 'some string'
+    when 2
+      bar = 'some other string'
+    when 3 then bar = '3'
+    else
+      bar = '4'
+    end
+
+- name: indent while statement
+  input: |
+    def foo
+    bar = 1
+    while bar < 3
+    puts bar
+    bar = bar.next
+    end
+    end
+  output: |
+    def foo
+      bar = 1
+      while bar < 3
+        puts bar
+        bar = bar.next
+      end
+    end
+
+- name: ignore code after end of line comment
+  input: |
+    def method_containing_end_of_line_comment
+    a = b # Comment containing do
+    end
+  output: |
+    def method_containing_end_of_line_comment
+      a = b # Comment containing do
+    end
+
+- name :not indent multineline comment:
+  input: |
+    =begin
+    Comment
+    =end
+    foo
+
+- name: indent lines after first of multiline code
+  input: |
+    def method_with_multiline_method_call
+    multiline_method_call \
+    first_arg,
+    second_arg,
+    third_arg
+    end
+  output: |
+    def method_with_multiline_method_call
+      multiline_method_call \
+        first_arg,
+        second_arg,
+        third_arg
+    end
+
+- name: indent method call with bracketed multiline arguments
+  input: |
+    def method_with_multiline_method_call
+    multiline_method_call(foo,
+    bar,
+    foobar)
+    end
+  output: |
+    def method_with_multiline_method_call
+      multiline_method_call(foo,
+                            bar,
+                            foobar)
+    end
+
+- name: indent method call with bracketed multiline arguments_even_if_not_first_block_on_line
+  input: |
+    if (foo = bar(first_arg,
+    second_arg))
+    do_something
+    end
+  output: |
+    if (foo = bar(first_arg,
+                  second_arg))
+      do_something
+    end
+
+- name: indent method call with multiline arguments (implicit brackets)
+  input: |
+    def method_with_multiline_method_call
+    multiline_method_call first_arg,
+    second_arg,
+    # Comment in the middle of all this
+    third_arg
+    
+    another_method_call
+    end
+  output: |
+    def method_with_multiline_method_call
+      multiline_method_call first_arg,
+        second_arg,
+        # Comment in the middle of all this
+        third_arg
+    
+      another_method_call
+    end
+
+- name: should indent multiline method call chains
+  input: |
+    def method_with_multiline_method_call_chain
+    multiline_method_call.
+    foo.
+    bar
+    
+    another_method_call
+    end
+  output: |
+    def method_with_multiline_method_call_chain
+      multiline_method_call.
+        foo.
+        bar
+    
+      another_method_call
+    end
+
+- name: handle multiline code with escaped quotes in strings
+  input: |
+    def method_containing_multiline_code_with_strings
+    a = "foo #{method}" +
+    "bar"
+    end
+  output: |
+    def method_containing_multiline_code_with_strings
+      a = "foo #{method}" +
+        "bar"
+    end
+
+- name: not change the indentation of multiline strings
+  input: |
+    def method_containing_long_string
+    a = "
+          Some text across multiple lines
+          And another line
+          "
+    b = 5
+    end
+  output: |
+    def method_containing_long_string
+      a = "
+          Some text across multiple lines
+          And another line
+          "
+      b = 5
+    end
+
+- name: not treat divison as start of regex
+  input: |
+    def foo
+    a = 1/2
+    b = :foo
+    end
+  output: |
+    def foo
+      a = 1/2
+      b = :foo
+    end
+
+- name: not indent multiline string even if it uses non quote delimiter
+  pending: implementation of block matcher for non quote delimited strings
+  input: |
+    foo = <<TEXT
+          some string
+          and more string
+    TEXT
+
+- name: recognize when two blocks end on the same line
+  input: |
+    class Foo
+    def foobar
+    if a = 3
+    return 5
+    end; end
+    end
+  output: |
+    class Foo
+      def foobar
+        if a = 3
+          return 5
+      end; end
+    end
+
+- name: indent multiline array definition
+  input: |
+    class Foo
+    @@bar = [1, 2,
+    3, 4]
+    end
+  output: |
+    class Foo
+      @@bar = [1, 2,
+               3, 4]
+    end
+
+- name: indent multiline array definition (all on separate lines)
+  input: |
+    class Foo
+    @@bar = [
+    1,
+    2,
+    3,
+    4
+    ]
+    end
+  output: |
+    class Foo
+      @@bar = [
+        1,
+        2,
+        3,
+        4
+      ]
+    end
+
+- name: indent multiline hash definition
+  input: |
+    class Foo
+    @@bar = { :foo => 1, :bar => 2
+    :c => 3, :d => 4 }
+    end
+  output: |
+    class Foo
+      @@bar = { :foo => 1, :bar => 2
+                :c => 3, :d => 4 }
+    end
+
+- name: indent multiline block delimited with curly brackets
+  input: |
+    foo = bar.collect { |paragraph|
+    paragraph.strip
+    }.join("\n")
+  output: |
+    foo = bar.collect { |paragraph|
+      paragraph.strip
+    }.join("\n")
+
+- name: indent method call with bracketed multiline arguments including continuing statements
+  pending: Implementation of support for continuing statements in bracketed multline arguments
+  input: |
+    def foo
+    bar(first_arg,
+    second_part_a +
+    second_part_b,
+    third_arg)
+    end
+  output: |
+    def foo
+      bar(first_arg,
+          second_part_a +
+            second_part_b,
+          third_arg)
+    end
+
+- name: indent continuing lines ending in = and +
+  input: |
+    def foo
+    @bar ||=
+    1 +
+    2
+    end
+  output: |
+    def foo
+      @bar ||=
+        1 +
+        2
+    end
+
+- name: indent block within implicit brackets
+  pending: Implementation of support for this feature
+  input: |
+    def foo
+    bar first_arg,
+    second_arg,
+    [
+    1,
+    2,
+    3
+    ],
+    last_arg
+    end
+  output: |
+    def foo
+      bar first_arg,
+        second_arg,
+        [
+          1,
+          2,
+          3
+        ],
+        last_arg
+    end
+
+- name: "should not treat ':', '_' or '.' as word boundaries before keywords"
+  input: |
+    case params[:do]
+    when "update_if"
+    update_if.if
+    when "update_do"
+    update_do.do
+    end
+  output: |
+    case params[:do]
+    when "update_if"
+      update_if.if
+    when "update_do"
+      update_do.do
+    end
+
+- name: should recognize interpolation and not match other content within double quotes
+  input: |
+    def foo
+     return "Foo#{" (#{bar})"}"
+    end
+  output: |
+    def foo
+      return "Foo#{" (#{bar})"}"
+    end
+
+- name: should not non interpolated content within regexes and strings and backticks
+  input: |
+    def foo
+    @foo = [
+    /" if bar/,
+    `ls if`,
+    "if fun =",
+    'else'
+    ]
+    end
+  output: |
+    def foo
+      @foo = [
+        /" if bar/,
+        `ls if`,
+        "if fun =",
+        'else'
+      ]
+    end
+
+- name: should handle one liners that include an end statement correctly
+  input: |
+    def foo; puts 'foo' end
+    def bar; puts 'bar' end
+  output: |
+    def foo; puts 'foo' end
+    def bar; puts 'bar' end
+
+- name: should handle if and unless statements that are terminated implicitly
+  input: |
+    def foo
+    bar = (1 + 2) if foobar
+    baz unless foobaz
+    Boo.new(:boo) rescue raise('Houston we have a problem')
+    end
+  output: |
+    def foo
+      bar = (1 + 2) if foobar
+      baz unless foobaz
+      Boo.new(:boo) rescue raise('Houston we have a problem')
+    end
