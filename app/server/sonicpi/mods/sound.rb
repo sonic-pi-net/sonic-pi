@@ -32,6 +32,14 @@ module SonicPi
        include SonicPi::Util
        include SonicPi::DocSystem
 
+       DEFAULT_PLAY_OPTS = {amp:       {default: 1, doc: "The amplitude of the note"},
+                           amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
+                           pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
+                           pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
+                           attack: {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
+                           sustain: {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
+                           release: {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
+
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
 
@@ -412,13 +420,7 @@ play 50 # Plays with mod_sine synth
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
            args:          [[:note, :symbol_or_number]],
-           opts:          {amp:       {default: 1, doc: "The amplitude of the note"},
-                           amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
-                           pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
-                           pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
-                           attack: {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
-                           sustain: {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
-                           release: {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}},
+           opts:          DEFAULT_PLAY_OPTS,
            accepts_block: false,
            examples:      ["
 play 50 # Plays note 50 on the current synth",
@@ -434,20 +436,36 @@ play 50 # Plays note 50 on the current synth",
          notes.each{|note| play(note, *args) ; sleep 1 }
        end
        doc name:          :play_pattern,
-           doc:           "add docs",
+           doc:           "Play list of notes with the current synth one after another with a sleep of 1
+
+Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
            args:          [[:notes, :list]],
            opts:          {},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+play_pattern [40, 41, 42] # Same as:
+                          #   play 40
+                          #   sleep 1
+                          #   play 41
+                          #   sleep 1
+                          #   play 42
+",
+"# You can use keyword notes:
+play_pattern [:d3, :c1, :Eb5]",
+
+"# Supports the same arguments as play:
+play_pattern [:d3, :c1, :Eb5], amp: 0.5, cutoff: 90"]
+
+
 
 
        def play_pattern_timed(notes, times, *args)
          notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx % times.size])}
        end
        doc name:          :play_pattern_timed,
-           doc:           "add docs",
+           doc:           "Play list of notes one after another with specified times",
            args:          [[:notes, :list], [:times, :list]],
-           opts:          {},
+           opts:          DEFAULT_PLAY_OPTS,
            accepts_block: false,
            examples:      []
 
@@ -461,7 +479,7 @@ play 50 # Plays note 50 on the current synth",
        doc name:          :play_chord,
            doc:           "add docs",
            args:          [[:notes, :list]],
-           opts:          {},
+           opts:          DEFAULT_PLAY_OPTS,
            accepts_block: false,
            examples:      []
 
