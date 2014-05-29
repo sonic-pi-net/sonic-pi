@@ -1105,6 +1105,8 @@ set_volume! 2 # Set the main system volume to 2",
        def control(node, *args)
          ensure_good_timing!
          args_h = resolve_synth_opts_hash_or_array(args)
+         n = args_h[:note]
+         args_h[:note] = note(n) if n
          node.control args_h
          __delayed_message "control Node #{node.id}, #{arg_h_pp(args_h)}"
        end
