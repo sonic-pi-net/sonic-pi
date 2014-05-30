@@ -28,24 +28,55 @@ module SonicPi
         end
 
         def docs_html_map
+          hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
           res = {}
+
+          extract_comments = lambda do |s|
+            code = ""
+            comments = ""
+            s.each_line do |l|
+              m = l.match /(.*?)(#.*)/
+              if m
+
+                code << m[1] << "\n"
+                comments << m[2] << "\n"
+              else
+                code << l
+                comments << " \n"
+              end
+            end
+            [code, comments]
+          end
+
           @@docs.each do |k, v|
             unless(v[:hide])
               html = ""
-              html << "<h2>#{v[:summary]}</h2>\n" if v[:summary]
-              html << "<h2><pre>#{v[:name]}<pre></h2>\n"
+              html << "<font size=\"7\", #{hv_face}>" << (v[:summary] || v[:name]).to_s.capitalize << "</font>\n"
+              html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
               req_args = []
               v[:args].each do |arg|
                 n, t = *arg
-                req_args << "#{n} (#{t})"
+                req_args << "#{n} <font color=\"deeppink\">(#{t})</font>"
               end
               html << "<h2><pre>[#{req_args.join(', ')}]</pre></h2>\n"
-              html << "<h3>#{v[:doc]}</h3>\n"
+              html << "<p><font size=\"4\", #{hv_face}>\n"
+              html << v[:doc] << "\n</h3>\n"
+
+              html << "<table cellpadding=\"2\">\n"
+              html << " <tr>\n   <th></th><th></th><th></th>\n </tr>\n"
+
               v[:examples].each_with_index do |e, idx|
-                html << "<h3>Example #{idx + 1}</h3>\n"
-                lines = e.split("\n").map{|l| CGI.escapeHTML(l)}
-                html << "<pre>\n\n#{lines.join('<br/>')}\n\n</pre>\n"
+
+                background_colour = idx.even? ? "#F8F8F8" : "#E8E8E8"
+                key_bg_colour = idx.even? ? "#FFF0F5" : "#FFE4E1"
+                html << " <tr bgcolor=\"#{background_colour}\">\n"
+                html << "  <td bgcolor=\"#{key_bg_colour}\"><h3><pre>Example #{idx} </pre></h3></td>\n"
+                lines = "\n" << e.strip.split("\n").map{|l| CGI.escapeHTML(l)}.join("\n")
+                code, comments = *extract_comments.call(lines)
+                html << "   <td><pre>\n#{code << "\n\n\n"}</pre></td>\n"
+                html << "   <td><pre>\n#{comments << "\n\n\n"}</pre></td></tr>\n"
               end
+              html << "</table>"
               res[k.to_s] = html
             end
           end
@@ -56,6 +87,8 @@ module SonicPi
           args_h = resolve_synth_opts_hash_or_array(info)
           @@docs[args_h[:name]] = args_h
         end
+
+
       end
     end
   end
