@@ -239,7 +239,7 @@ play 90 # Args are checked
 
        def use_transpose(shift, &block)
          raise "use_transpose does not work with a do/end block. Perhaps you meant with_transpose" if block
-         raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Fixnum)
+         raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, shift)
        end
        doc name:          :use_transpose,
@@ -265,7 +265,7 @@ play 62 # Plays note 65"]
 
        def with_transpose(shift, &block)
          raise "with_transpose requires a do/end block. Perhaps you meant use_transpose" unless block
-         raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Fixnum)
+         raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
          curr = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, shift)
          block.call
