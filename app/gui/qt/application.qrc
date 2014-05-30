@@ -13,5 +13,8 @@
         <file>images/recording_b.png</file>
         <file>images/text-dec.png</file>
         <file>images/text-inc.png</file>
+        <file>images/align.png</file>
+        <file>images/size_down.png</file>
+        <file>images/size_up.png</file>
     </qresource>
 </RCC>

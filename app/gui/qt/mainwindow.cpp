@@ -86,7 +86,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   std::string prg_path = "ruby " + QCoreApplication::applicationDirPath().toStdString() + "/../../server/bin/sonic-pi-server.rb";
 
-
   std::cout << prg_path << std::endl;
 
   serverProcess->start(QString::fromStdString(prg_path));
@@ -786,20 +785,25 @@ void MainWindow::createActions()
   recAct->setToolTip(tr("Start Recording"));
   connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
-  textIncAct = new QAction(QIcon(":/images/text-inc.png"), tr("&Increase &Text &Size"), this);
+  QAction *beautifyAct = new QAction(this);
+
+  textAlignAct = new QAction(QIcon(":/images/align.png"), tr("&Auto &Align &Text"), this);
+  textAlignAct->setStatusTip(tr("Auto-align text"));
+  textAlignAct->setToolTip(tr("Auto-align text (Ctrl-M)"));
+  textAlignAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+  connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
+
+  textIncAct = new QAction(QIcon(":/images/size_up.png"), tr("&Increase &Text &Size"), this);
   textIncAct->setStatusTip(tr("Make text bigger"));
   textIncAct->setToolTip(tr("Make text bigger"));
   connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
 
-  textDecAct = new QAction(QIcon(":/images/text-dec.png"), tr("&Decrease &Text &Size"), this);
+  textDecAct = new QAction(QIcon(":/images/size_down.png"), tr("&Decrease &Text &Size"), this);
   textDecAct->setStatusTip(tr("Make text smaller"));
   textDecAct->setToolTip(tr("Make text smaller"));
   connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
 
-  QAction *beautifyAct = new QAction(this);
-  beautifyAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
-  connect(beautifyAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
-  addAction(beautifyAct);
+
 }
 
 void MainWindow::createToolBar()
@@ -818,8 +822,9 @@ void MainWindow::createToolBar()
   toolBar->addAction(recAct);
   toolBar->addWidget(spacer);
 
-  toolBar->addAction(textIncAct);
   toolBar->addAction(textDecAct);
+  toolBar->addAction(textIncAct);
+  toolBar->addAction(textAlignAct);
 
   toolBar->addAction(infoAct);
   toolBar->addAction(helpAct);
