@@ -325,15 +325,16 @@ play 50 # Plays with mod_sine synth"]
            accepts_block: true,
            examples:      ["
 play 50 # Plays with default synth
-use_synth :mod_sine
-play 50 # Plays with mod_sine synth
-
+sleep 2
+use_synth :supersaw
+play 50 # Plays with supersaw synth
+sleep 2
 with_synth :saw_beep do
   play 50 # Plays with saw_beep synth
 end
-
+sleep 2
 # Previous synth is restored
-play 50 # Plays with mod_sine synth
+play 50 # Plays with supersaw synth
 "]
 
 
@@ -450,11 +451,9 @@ play_pattern [40, 41, 42] # Same as:
                           #   sleep 1
                           #   play 42
 ",
-"# You can use keyword notes:
-play_pattern [:d3, :c1, :Eb5]",
+"play_pattern [:d3, :c1, :Eb5] # You can use keyword notes",
 
-"# Supports the same arguments as play:
-play_pattern [:d3, :c1, :Eb5], amp: 0.5, cutoff: 90"]
+"play_pattern [:d3, :c1, :Eb5], amp: 0.5, cutoff: 90 # Supports the same arguments as play:"]
 
 
 
