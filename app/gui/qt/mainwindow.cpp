@@ -222,6 +222,18 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   initDocsWindow();
   this->show();
   splash.finish(this);
+
+  infoWindow = new QMainWindow();
+  imageLabel = new QLabel(this);
+  QPixmap image(":/images/splash.png");
+
+  imageLabel->setPixmap(image);
+  infoWindow->setCentralWidget(imageLabel);
+  infoWindow->setMinimumHeight(image.height());
+  infoWindow->setMaximumHeight(image.height());
+  infoWindow->setMinimumWidth(image.width());
+  infoWindow->setMaximumWidth(image.width());
+
 }
 
 void MainWindow::serverError(QProcess::ProcessError error) {
@@ -610,16 +622,7 @@ void MainWindow::stopCode()
 
 void MainWindow::about()
 {
-  infoWindow = new QMainWindow();
-  imageLabel = new QLabel(this);
-  QPixmap image(":/images/splash.png");
-
-  imageLabel->setPixmap(image);
-  infoWindow->setCentralWidget(imageLabel);
-  infoWindow->setMinimumHeight(image.height());
-  infoWindow->setMaximumHeight(image.height());
-  infoWindow->setMinimumWidth(image.width());
-  infoWindow->setMaximumWidth(image.width());
+  infoWindow->raise();
   infoWindow->show();
 }
 
