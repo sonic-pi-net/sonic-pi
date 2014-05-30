@@ -84,10 +84,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(serverProcess, SIGNAL( error(QProcess::ProcessError) ), this, SLOT( serverError(QProcess::ProcessError)));
   connect(serverProcess, SIGNAL( finished(int, QProcess::ExitStatus) ), this, SLOT( serverFinished(int, QProcess::ExitStatus)));
 
-  // serverProcess->setArguments(QStringList() << QCoreApplication::applicationDirPath() << "/../../server/bin/sonic-pi-server.rb");
+  std::string prg_path = "ruby " + QCoreApplication::applicationDirPath().toStdString() + "/../../server/bin/sonic-pi-server.rb";
 
-  // serverProcess->start("ruby");
-  // serverProcess->waitForStarted();
+
+  std::cout << prg_path << std::endl;
+
+  serverProcess->start(QString::fromStdString(prg_path));
+  serverProcess->waitForStarted();
 
   std::cerr << "started..." << serverProcess->state() << std::endl;
 
@@ -204,6 +207,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   while (!server_started && cont_listening_for_osc) {
     sleep(1);
+    std::cout << "Waiting for server..." << std::endl;
     if(osc_incoming_port_open) {
       Message msg("/ping");
       msg.pushStr("QtClient/1/hello");
@@ -230,6 +234,8 @@ void MainWindow::serverError(QProcess::ProcessError error) {
 
 void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
   std::cout << "SERVER Finished: " << exitCode << std::endl;
+  std::cout << serverProcess->readAllStandardError().data() << std::endl;
+  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
 void MainWindow::initPrefsWindow() {
@@ -330,6 +336,7 @@ void MainWindow::startOSCListener() {
     PacketWriter pw;
     osc_incoming_port_open = true;
     while (sock.isOk() && cont_listening_for_osc) {
+
       if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
         pr.init(sock.packetData(), sock.packetSize());
         oscpkt::Message *msg;
