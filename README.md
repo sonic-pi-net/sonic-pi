@@ -34,6 +34,40 @@ You will need to compile the Qt app within `app/gui` and run the script
 The current implementation assumes the execution context is a Raspberry
 Pi. Patches for other platforms will be happily considered.
 
+### Running the Qt interface on OSX
+
+This assumes version 10.8.5 - other versions may work too.
+This assumes you have Ruby 1.9.3 installed and working. There are too many variants to cover the install process - if you're completely stuck check [https://www.ruby-lang.org/en/installation/](https://www.ruby-lang.org/en/installation/)
+Also, you'll need to have downloaded [SuperCollider](http://supercollider.sourceforge.net/) to your `/Applications/` folder.
+
+Install the following dependencies using brew:
+  * `brew install qt --development && brew linkapps`
+  * `brew install qscintilla2`
+
+You'll also need to compile some things for your environment. Run the following from the root of this project:
+
+```bash
+./app/server/bin/compile-extensions.rb
+```
+
+You're now ready to compile the Qt gui! To compile the qt app, from the root of the project run
+
+```bash
+./app/gui/qt/bootstrap-qt
+```
+
+Before starting the Qt gui, you need to have a server running otherwise the app will hang on the splash screen. Again from the root of this project run:
+
+```bash
+./app/server/bin/start-server.rb
+```
+
+Now you can run the app:
+
+```bash
+open app/gui/qt/application.app
+```
+
 ### Development HTML Interface
 
 The dependencies for this are:

@@ -10,6 +10,7 @@
 // and distribution of modified versions of this work as long as this
 // notice is included.
 //++
+#include <math.h>
 #include <sstream>
 #include <QAction>
 #include <QApplication>
@@ -54,7 +55,7 @@
 #if defined(Q_OS_WIN)
   #include <QtConcurrentRun>
 #elif defined(Q_OS_MAC)
-  #include "qtconcurrent/qtconcurrent"
+  #include <QtConcurrentRun>
 #else
   //assuming Raspberry Pi
   #include <cmath>
