@@ -171,7 +171,7 @@ end",]
         examples:       []
 
     def current_bpm
-      60.0 / Thread.current.thread_variable_get(:sonic_pi_sleep_mul)
+      60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
     end
     doc name:          :current_bpm,
         doc:           "Returns the current bpm value.",
