@@ -128,6 +128,9 @@ module SonicPi
         p = Promise.new
 
         pause_then_run_blocks_and_msgs = lambda do
+          # Give new thread a new subthread mutex
+          Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
+          Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
           parent_t_vars.each do |k,v|
             Thread.current.thread_variable_set(k, v)
           end
@@ -171,6 +174,8 @@ module SonicPi
           Thread.current.thread_variable_set(:sonic_pi_spider_time, last_vt)
           Thread.current.thread_variable_set(:sonic_pi_spider_start_time, parent_t.thread_variable_get(:sonic_pi_spider_start_time))
           Thread.current.thread_variable_set(:sonic_pi_spider_users_thread_name, parent_t.thread_variable_get(:sonic_pi_spider_users_thread_name))
+          Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
+          Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
 
 
           # Calculate the amount of time to sleep to sync us up with the
