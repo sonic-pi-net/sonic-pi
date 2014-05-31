@@ -4,13 +4,14 @@ Sonic Pi is an open source programming environment designed to explore and teach
 
 * Info: http://www.cl.cam.ac.uk/projects/raspberrypi/sonicpi/
 * Source: https://github.com/samaaron/sonic-pi
+* Education: http://www.raspberrypi.org/learning/sonic-pi-lessons/
 
 ## Interfaces
 
 There are currently two interfaces, firstly the Qt interface, which is the
 officially supported interface for use with the Raspberry Pi. Secondly
 there is a HTML interface which is unsupported and currently only for
-development purposes (also supports OS X).
+development purposes.
 
 ### Official Qt Interface on Raspberry Pi
 
@@ -20,20 +21,73 @@ developments you need to use the development HTML interface.
 
 The dependencies for building and running this are:
 
-* supercollider
-* ruby1.9.3
-* libqscintilla2-8
-* libqscintilla2-dev
-* qt4-dev-tools
+* `supercollider`
+* `ruby1.9.3`
+* `libqscintilla2-8`
+* `libqscintilla2-dev`
+* `qt4-dev-tools`
+* `cmake`
 
 You will need to compile the Qt app within `app/gui` and run the script
 `rp-app-bin`
 
-
 The current implementation assumes the execution context is a Raspberry
 Pi. Patches for other platforms will be happily considered.
 
-### Development HTML Interface
+### Compiling the Qt interface on OSX
+
+The dependencies for building and running this are:
+
+* SuperCollider installed in `/Applications` - http://supercollider.sourceforge.net/
+* Ruby 1.9.3+ - https://www.ruby-lang.org
+* Qt and QScintilla2 (see below)
+
+To install Qt and QScintilla2 using brew (http://brew.sh):
+  * `brew install qt --development && brew linkapps`
+  * `brew install qscintilla2`
+
+You'll also need to compile native extensions things for your environment. Run the following from the root of this project:
+
+```bash
+./app/server/bin/compile-extensions.rb
+```
+
+You're now ready to compile the Qt gui! To compile the qt app, from the root of the project run
+
+```bash
+./app/gui/qt/bootstrap-qt
+```
+
+Now you can run the app:
+
+```bash
+open app/gui/qt/application.app
+```
+
+### Compiling the Qt interface on generic Linux:
+
+Debian package dependency names:
+
+* `supercollider`
+* `ruby1.9.3`
+* `libqscintilla2-8`
+* `libqscintilla2-dev`
+* `qt4-dev-tools`
+* `cmake` (for some configurations, e.g., 32bit x86)
+
+To build and run:
+
+* Run `app/gui/qt/boostrap-qt`
+* Start the GUI: `app/gui/qt/application`
+
+If the app hangs on the splash screen, you may need to compile your own
+native support for the git persistence layer. This can be done by
+
+* Run `app/server/bin/compile-extensions.rb`
+
+### Unsupported development HTML Interface
+
+Note: This interface isn't always kept up to date with MASTER on Github.
 
 The dependencies for this are:
 
@@ -56,13 +110,7 @@ security features have been added.
 * Start the server: `cd app/server/bin`, `ruby ws.rb`
 * Open a browser and go to `http://localhost:8000`
 
-### Native (QT) interface
-
-To build and run:
-
-* Run `app/gui/qt/boostrap-qt`
-* Start the GUI: `app/gui/qt/application`
 
 ## Acknowledgements
 
-Sonic Pi has been developed within the Computer Laboratory at the University of Cambridge in collaboration with the Raspberry Pi Foundation.
+Sonic Pi has been developed within the Computer Laboratory at the University of Cambridge with kind support from the Raspberry Pi Foundation and the Broadcom Foundation.

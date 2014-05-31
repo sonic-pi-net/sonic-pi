@@ -146,10 +146,10 @@ module SonicPi
         @recorders.delete bus
         true
       end
+    end
 
-      def load_synthdefs(path)
-        @server.load_synthdefs(path)
-      end
+    def load_synthdefs(path)
+      @server.load_synthdefs(path)
     end
   end
 end

@@ -12,7 +12,7 @@
 # notice is included.
 #++
 
-$:.unshift File.expand_path("../vendor/osc-ruby/lib", __FILE__)
+$:.unshift File.expand_path("../../vendor/osc-ruby/lib", __FILE__)
 require 'osc-ruby'
 require_relative '../util.rb'
 
