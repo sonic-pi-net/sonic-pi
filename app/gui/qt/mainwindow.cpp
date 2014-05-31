@@ -789,8 +789,6 @@ void MainWindow::createActions()
   recAct->setToolTip(tr("Start Recording"));
   connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
-  QAction *beautifyAct = new QAction(this);
-
   textAlignAct = new QAction(QIcon(":/images/align.png"), tr("&Auto &Align &Text"), this);
   textAlignAct->setStatusTip(tr("Auto-align text"));
   textAlignAct->setToolTip(tr("Auto-align text (Ctrl-M)"));
