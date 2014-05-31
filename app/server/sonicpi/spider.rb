@@ -116,10 +116,9 @@ module SonicPi
       __enqueue_multi_message(2, s)
     end
 
-    def __schedule_delayed_blocks_and_messages!
+    def __schedule_delayed_blocks
       delayed_blocks = Thread.current.thread_variable_get :sonic_pi_spider_delayed_blocks
-      delayed_messages = Thread.current.thread_variable_get :sonic_pi_spider_delayed_messages
-      unless(delayed_blocks.empty? && delayed_messages.empty?)
+      unless(delayed_blocks.empty?)
         last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
         parent_t = Thread.current
         parent_t_vars = {}
@@ -132,7 +131,7 @@ module SonicPi
           parent_t_vars.each do |k,v|
             Thread.current.thread_variable_set(k, v)
           end
-          Thread.current.thread_variable_set(:sonic_pi_thread_group, :execute_delayed_blocks_and_messages)
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, :execute_delayed_blocks)
           p.get
           # Calculate the amount of time to sleep to sync us up with the
           # sched_ahead_time
@@ -142,7 +141,6 @@ module SonicPi
           #We're now in sync with the sched_ahead time
 
           delayed_blocks.each {|b| b.call}
-          __multi_message(delayed_messages)
           job_subthread_rm(__current_job_id, t)
         end
 
@@ -153,9 +151,47 @@ module SonicPi
         p.deliver! true
 
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
+      end
+    end
+
+    def __schedule_messages
+      delayed_messages = Thread.current.thread_variable_get :sonic_pi_spider_delayed_messages
+      unless(delayed_messages.empty?)
+        last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+        parent_t = Thread.current
+        job_id = parent_t.thread_variable_get(:sonic_pi_spider_job_id)
+
+        t = Thread.new do
+
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, :send_delayed_messages)
+          Thread.current.priority = -10
+          #only copy the necessary thread locals from parent
+          Thread.current.thread_variable_set(:sonic_pi_spider_job_id, job_id)
+          Thread.current.thread_variable_set(:sonic_pi_spider_job_info, parent_t.thread_variable_get(:sonic_pi_spider_job_info))
+          Thread.current.thread_variable_set(:sonic_pi_spider_time, last_vt)
+          Thread.current.thread_variable_set(:sonic_pi_spider_start_time, parent_t.thread_variable_get(:sonic_pi_spider_start_time))
+          Thread.current.thread_variable_set(:sonic_pi_spider_users_thread_name, parent_t.thread_variable_get(:sonic_pi_spider_users_thread_name))
+
+
+          # Calculate the amount of time to sleep to sync us up with the
+          # sched_ahead_time
+          sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
+          sleep_time = sched_ahead_sync_t - Time.now
+          Kernel.sleep(sleep_time) if sleep_time > 0
+          #We're now in sync with the sched_ahead time
+          __multi_message(delayed_messages)
+          job_subthread_rm(job_id, t)
+        end
+
+        job_subthread_add(job_id, t)
+
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
       end
+    end
 
+    def __schedule_delayed_blocks_and_messages!
+      __schedule_delayed_blocks
+      __schedule_messages
     end
 
     def __enqueue_multi_message(m_type, m)
