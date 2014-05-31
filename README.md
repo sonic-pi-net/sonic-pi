@@ -4,6 +4,7 @@ Sonic Pi is an open source programming environment designed to explore and teach
 
 * Info: http://www.cl.cam.ac.uk/projects/raspberrypi/sonicpi/
 * Source: https://github.com/samaaron/sonic-pi
+* Education: http://www.raspberrypi.org/learning/sonic-pi-lessons/
 
 ## Interfaces
 
@@ -25,7 +26,7 @@ The dependencies for building and running this are:
 * `libqscintilla2-8`
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
-* `cmake` (for some configurations, e.g., 32bit x86)
+* `cmake`
 
 You will need to compile the Qt app within `app/gui` and run the script
 `rp-app-bin`
@@ -108,7 +109,6 @@ security features have been added.
 * Compile the `cljs` source: `cd app/gui/html`, `lein cljsbuild once`
 * Start the server: `cd app/server/bin`, `ruby ws.rb`
 * Open a browser and go to `http://localhost:8000`
-
 
 
 ## Acknowledgements
