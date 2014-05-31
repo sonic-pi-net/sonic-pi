@@ -100,10 +100,12 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(serverProcess, SIGNAL( error(QProcess::ProcessError) ), this, SLOT( serverError(QProcess::ProcessError)));
   connect(serverProcess, SIGNAL( finished(int, QProcess::ExitStatus) ), this, SLOT( serverFinished(int, QProcess::ExitStatus)));
 
-  // serverProcess->setArguments(QStringList() << QCoreApplication::applicationDirPath() << "/../../server/bin/sonic-pi-server.rb");
+  std::string prg_path = "ruby " + QCoreApplication::applicationDirPath().toStdString() + "/../../server/bin/sonic-pi-server.rb";
 
-  // serverProcess->start("ruby");
-  // serverProcess->waitForStarted();
+  std::cout << prg_path << std::endl;
+
+  serverProcess->start(QString::fromStdString(prg_path));
+  serverProcess->waitForStarted();
 
   std::cerr << "started..." << serverProcess->state() << std::endl;
 
@@ -211,6 +213,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   while (!server_started && cont_listening_for_osc) {
     sleep(1);
+    std::cout << "Waiting for server..." << std::endl;
     if(osc_incoming_port_open) {
       Message msg("/ping");
       msg.pushStr("QtClient/1/hello");
@@ -226,6 +229,18 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   initDocsWindow();
   this->show();
   splash.finish(this);
+
+  infoWindow = new QMainWindow();
+  imageLabel = new QLabel(this);
+  QPixmap image(":/images/splash.png");
+
+  imageLabel->setPixmap(image);
+  infoWindow->setCentralWidget(imageLabel);
+  infoWindow->setMinimumHeight(image.height());
+  infoWindow->setMaximumHeight(image.height());
+  infoWindow->setMinimumWidth(image.width());
+  infoWindow->setMaximumWidth(image.width());
+
 }
 
 void MainWindow::serverError(QProcess::ProcessError error) {
@@ -237,6 +252,8 @@ void MainWindow::serverError(QProcess::ProcessError error) {
 
 void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
   std::cout << "SERVER Finished: " << exitCode << std::endl;
+  std::cout << serverProcess->readAllStandardError().data() << std::endl;
+  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
 void MainWindow::initPrefsWindow() {
@@ -337,6 +354,7 @@ void MainWindow::startOSCListener() {
     PacketWriter pw;
     osc_incoming_port_open = true;
     while (sock.isOk() && cont_listening_for_osc) {
+
       if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
         pr.init(sock.packetData(), sock.packetSize());
         oscpkt::Message *msg;
@@ -358,7 +376,7 @@ void MainWindow::startOSCListener() {
             ar.popStr(runtime);
             ar.popInt32(msg_count);
             QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-            ss << "\n[Run " << job_id;
+            ss << "[Run " << job_id;
             ss << ", Time " << runtime;
             if(!thread_name.empty()) {
               ss << ", Thread :" << thread_name;
@@ -392,7 +410,7 @@ void MainWindow::startOSCListener() {
                 }
 
               if(i == (msg_count - 1)) {
-                ss << " └─ " << s;
+                ss << " └─ " << s << "\n";
               } else {
                 ss << " ├─ " << s;
               }
@@ -409,7 +427,7 @@ void MainWindow::startOSCListener() {
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                         Q_ARG(QString, QString::fromStdString("==> " + s)) );
+                                         Q_ARG(QString, QString::fromStdString("==> " + s + "\n")) );
             } else {
               std::cout << "Server: unhandled info message: "<< std::endl;
             }
@@ -611,16 +629,7 @@ void MainWindow::stopCode()
 
 void MainWindow::about()
 {
-  infoWindow = new QMainWindow();
-  imageLabel = new QLabel(this);
-  QPixmap image(":/images/splash.png");
-
-  imageLabel->setPixmap(image);
-  infoWindow->setCentralWidget(imageLabel);
-  infoWindow->setMinimumHeight(image.height());
-  infoWindow->setMaximumHeight(image.height());
-  infoWindow->setMinimumWidth(image.width());
-  infoWindow->setMaximumWidth(image.width());
+  infoWindow->raise();
   infoWindow->show();
 }
 
@@ -786,20 +795,25 @@ void MainWindow::createActions()
   recAct->setToolTip(tr("Start Recording"));
   connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
-  textIncAct = new QAction(QIcon(":/images/text-inc.png"), tr("&Increase &Text &Size"), this);
+  QAction *beautifyAct = new QAction(this);
+
+  textAlignAct = new QAction(QIcon(":/images/align.png"), tr("&Auto &Align &Text"), this);
+  textAlignAct->setStatusTip(tr("Auto-align text"));
+  textAlignAct->setToolTip(tr("Auto-align text (Ctrl-M)"));
+  textAlignAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+  connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
+
+  textIncAct = new QAction(QIcon(":/images/size_up.png"), tr("&Increase &Text &Size"), this);
   textIncAct->setStatusTip(tr("Make text bigger"));
   textIncAct->setToolTip(tr("Make text bigger"));
   connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
 
-  textDecAct = new QAction(QIcon(":/images/text-dec.png"), tr("&Decrease &Text &Size"), this);
+  textDecAct = new QAction(QIcon(":/images/size_down.png"), tr("&Decrease &Text &Size"), this);
   textDecAct->setStatusTip(tr("Make text smaller"));
   textDecAct->setToolTip(tr("Make text smaller"));
   connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
 
-  QAction *beautifyAct = new QAction(this);
-  beautifyAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
-  connect(beautifyAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
-  addAction(beautifyAct);
+
 }
 
 void MainWindow::createToolBar()
@@ -818,8 +832,9 @@ void MainWindow::createToolBar()
   toolBar->addAction(recAct);
   toolBar->addWidget(spacer);
 
-  toolBar->addAction(textIncAct);
   toolBar->addAction(textDecAct);
+  toolBar->addAction(textIncAct);
+  toolBar->addAction(textAlignAct);
 
   toolBar->addAction(infoAct);
   toolBar->addAction(helpAct);

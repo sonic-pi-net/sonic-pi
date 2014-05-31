@@ -290,13 +290,13 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
           @run_start_time = now if num_running_jobs == 1
+          __info "Starting run #{id}"
           eval(code)
           __schedule_delayed_blocks_and_messages!
           __join_subthreads(Thread.current)
           @events.event("/job-join", {:id => id})
           # wait until all synths are dead
           @user_jobs.job_completed(id)
-
           @events.event("/job-completed", {:id => id, :thread => job})
           deregister_job_and_return_subthreads(id)
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})

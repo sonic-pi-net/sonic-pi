@@ -6,7 +6,7 @@ loop do
         n2 = chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose
 
         p = play n1, amp: 2, release: 8, note_slide: 4, cutoff: 30, cutoff_slide: 4, detune: rrand(0, 0.2)
-        p.control note: n2, cutoff: rrand(80, 120)
+        control p, note: n2, cutoff: rrand(80, 120)
       end
     end
   end

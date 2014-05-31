@@ -148,6 +148,7 @@ private:
     QAction *infoAct;
     QAction *prefsAct;
     QAction *helpAct;
+    QAction *textAlignAct;
     QAction *textIncAct;
     QAction *textDecAct;
 

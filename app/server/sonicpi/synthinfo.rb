@@ -1670,7 +1670,7 @@ end
           cnt += 1
           background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
           key_bg_colour = cnt.even? ? "#FFF0F5" : "#FFE4E1"
-          doc << "  <tr bgcolor=\"#{background_colour}\">\n">
+          doc << "  <tr bgcolor=\"#{background_colour}\">\n"
           doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
           doc << "      <td>\n"
           doc << "        <font size=\"4\", #{hv_face}>\n"
