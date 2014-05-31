@@ -20,16 +20,15 @@ developments you need to use the development HTML interface.
 
 The dependencies for building and running this are:
 
-* supercollider
-* ruby1.9.3
-* libqscintilla2-8
-* libqscintilla2-dev
-* qt4-dev-tools
-* cmake (for some configurations, e.g., 32bit x86)
+* `supercollider`
+* `ruby1.9.3`
+* `libqscintilla2-8`
+* `libqscintilla2-dev`
+* `qt4-dev-tools`
+* `cmake` (for some configurations, e.g., 32bit x86)
 
 You will need to compile the Qt app within `app/gui` and run the script
 `rp-app-bin`
-
 
 The current implementation assumes the execution context is a Raspberry
 Pi. Patches for other platforms will be happily considered.
@@ -64,7 +63,16 @@ Now you can run the app:
 open app/gui/qt/application.app
 ```
 
-### Compiling the Qt in terface on generic Linux:
+### Compiling the Qt interface on generic Linux:
+
+Debian package dependency names:
+
+* `supercollider`
+* `ruby1.9.3`
+* `libqscintilla2-8`
+* `libqscintilla2-dev`
+* `qt4-dev-tools`
+* `cmake` (for some configurations, e.g., 32bit x86)
 
 To build and run:
 
@@ -105,4 +113,4 @@ security features have been added.
 
 ## Acknowledgements
 
-Sonic Pi has been developed within the Computer Laboratory at the University of Cambridge in collaboration with the Raspberry Pi Foundation.
+Sonic Pi has been developed within the Computer Laboratory at the University of Cambridge with kind support from the Raspberry Pi Foundation and the Broadcom Foundation.
