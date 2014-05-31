@@ -25,6 +25,7 @@ The dependencies for building and running this are:
 * libqscintilla2-8
 * libqscintilla2-dev
 * qt4-dev-tools
+* cmake (for some configurations, e.g., 32bit x86)
 
 You will need to compile the Qt app within `app/gui` and run the script
 `rp-app-bin`
@@ -62,6 +63,11 @@ To build and run:
 
 * Run `app/gui/qt/boostrap-qt`
 * Start the GUI: `app/gui/qt/application`
+
+If the app hangs on the splash screen, you may need to compile your own
+native support for the git persistence layer. This can be done by
+
+* Run `app/server/bin/compile-extensions.rb`
 
 ## Acknowledgements
 
