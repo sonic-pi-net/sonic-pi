@@ -740,7 +740,7 @@ end"]
                Thread.current.priority = -10
                fxt.join
                ## Parent thread died - user must have stopped
-               fx_completed.deliver! true
+               fx_completed.deliver! :thread_joined, false
              end
 
              t2 = Thread.new do
@@ -748,7 +748,7 @@ end"]
                Thread.current.priority = -10
                p.get
                ## FX block completed
-               fx_completed.deliver! true
+               fx_completed.deliver! :fx_block_completed, false
              end
 
              ## Block!
