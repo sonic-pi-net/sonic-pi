@@ -72,11 +72,12 @@ module SonicPi
 
     def deliver!(val, raise_error=true)
       @push_sem.synchronize do
-        if(@box.empty? && !@pushed)
+        if @pushed
+          raise "Promise already delivered. You tried, to deliver #{val.inspect}, however already have: #{@incoming_val_for_error.inspect}" if raise_error
+        else
+          @incoming_val_for_error = val
           @box.push val
           @pushed = true
-        else
-          raise "Promise already delivered" if raise_error
         end
       end
     end
