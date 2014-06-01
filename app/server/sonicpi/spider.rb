@@ -365,7 +365,7 @@ module SonicPi
     end
 
     def __describe_threads
-      __info Thread.list.map{|t| t.thread_variable_get(:sonic_pi_thread_group)}
+      __info "n-threads: #{Thread.list.size}, names: #{Thread.list.map{|t| t.thread_variable_get(:sonic_pi_thread_group)}}"
     end
 
     private
