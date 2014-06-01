@@ -313,9 +313,7 @@ module SonicPi
         Thread.current.priority = 10
         begin
           num_running_jobs = reg_job(id, job)
-
-          Thread.current.thread_variable_set(:sonic_pi_thread_group, :job)
-          Thread.current.thread_variable_set(:sonic_pi_thread_group, :job)
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, "job-#{id}")
           Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, 1)
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
@@ -334,27 +332,30 @@ module SonicPi
           __info "Starting run #{id}"
           eval(code)
           __schedule_delayed_blocks_and_messages!
-          __join_subthreads(Thread.current)
-          @events.event("/job-join", {:id => id})
-          # wait until all synths are dead
-          @user_jobs.job_completed(id)
-          @events.event("/job-completed", {:id => id, :thread => job})
-          deregister_job_and_return_subthreads(id)
-          @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
         rescue Exception => e
-
           @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
           @msg_queue.push({type: :error, val: e.message, backtrace: e.backtrace, jobid: id  , jobinfo: info})
           @events.event("/job-join", {:id => id})
           @events.event("/job-completed", {:id => id, :thread => job})
           job_subthreads_kill(id)
           @user_jobs.job_completed(id)
-
         end
       end
 
       @user_jobs.add_job(id, job, info)
 
+      Thread.new do
+        Thread.current.priority = -10
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, "job-#{id}-GC")
+        job.join
+        __join_subthreads(job)
+        @events.event("/job-join", {:id => id})
+        # wait until all synths are dead
+        @user_jobs.job_completed(id)
+        @events.event("/job-completed", {:id => id, :thread => job})
+        deregister_job_and_return_subthreads(id)
+        @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+      end
     end
 
     def __exit
