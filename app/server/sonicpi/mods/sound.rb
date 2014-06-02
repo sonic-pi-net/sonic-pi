@@ -1665,7 +1665,7 @@ stop bar"]
          raise "whoops, no prom_queue!" unless prom_queue
 
          Thread.new do
-           Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_prom_joiner)
+           Thread.current.thread_variable_set(:sonic_pi_thread_group, "job_#{job_id}_prom_joiner")
            Thread.current.priority = -10
 
            proms = []
