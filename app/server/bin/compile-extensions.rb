@@ -14,7 +14,20 @@
 
 require 'fileutils'
 
-native_dir = File.dirname(__FILE__) + '/../rb-native/' + RUBY_PLATFORM + '/' + RUBY_VERSION
+os = case RUBY_PLATFORM
+     when /.*arm.*-linux.*/
+       :raspberry
+     when /.*linux.*/
+       :linux
+     when /.*darwin.*/
+       :osx
+     when /.*mingw.*/
+       :windows
+     else
+       RUBY_PLATFORM
+     end
+
+native_dir = File.dirname(__FILE__) + '/../rb-native/' + os + '/' + RUBY_VERSION
 puts "creating #{native_dir}"
 FileUtils.mkdir_p native_dir
 rugged_dir = File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged')

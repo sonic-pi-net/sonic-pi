@@ -2,10 +2,26 @@ begin
   RUBY_VERSION =~ /(\d+.\d+)/
   require "rugged/#{$1}/rugged"
 rescue LoadError
-  #require "rugged/rugged"
+  # Start modifications
+  #
+  # Original code:
+  # require "rugged/rugged"
 
-  # For Sonic Pi multi-platform compatibility:
-  require_relative "../../../rb-native/#{RUBY_PLATFORM}/#{RUBY_VERSION}/rugged"
+  # Modifications made for Sonic Pi multi-platform compatibility:
+  os = case RUBY_PLATFORM
+       when /.*arm.*-linux.*/
+         :raspberry
+       when /.*linux.*/
+         :linux
+       when /.*darwin.*/
+         :osx
+       when /.*mingw.*/
+         :windows
+       else
+         RUBY_PLATFORM
+       end
+  require_relative "../../../rb-native/#{os}/#{RUBY_VERSION}/rugged"
+  # End modifications
 end
 require 'rugged/index'
 require 'rugged/object'
