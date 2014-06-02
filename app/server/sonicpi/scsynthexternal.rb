@@ -104,11 +104,13 @@ module SonicPi
     end
 
     def osx_scsynth_path
-      potential_paths = ["/Applications/SuperCollider/scsynth",
+      potential_paths = [
+        "#{native_path}/scsynth",
+        "/Applications/SuperCollider/scsynth",
         "/Applications/SuperCollider.app/Contents/Resources/scsynth",
         "/Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth"]
       path = potential_paths.find {|path| File.exists? path }
-      raise "Unable to find SuperCollider. Is it installed?" unless path
+      raise "Unable to find SuperCollider. Is it installed? I looked here: #{potential_paths.inspect}" unless path
       path
     end
 
