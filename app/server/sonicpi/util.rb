@@ -110,6 +110,14 @@ module SonicPi
       File.absolute_path("#{etc_path}/examples")
     end
 
+    def server_path
+      File.absolute_path("#{app_path}/server")
+    end
+
+    def native_path
+      File.absolute_path("#{server_path}/native/#{os}")
+    end
+
     def log(message)
       File.open("#{log_path}/sonicpi.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")} if debug_mode
     end
