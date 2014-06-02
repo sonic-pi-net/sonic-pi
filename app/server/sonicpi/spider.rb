@@ -259,8 +259,11 @@ module SonicPi
     end
 
     def __stop_job(j)
+      #__info "Stopping run #{j}"
       job_subthreads_kill(j)
+      #__info "Killed subthreads for run #{j}"
       @user_jobs.kill_job j
+      #__info "Killed job for run #{j}"
       @events.event("/job-completed", {:id => j})
       __info "Stopped run #{j}"
       @msg_queue.push({type: :job, jobid: j, action: :completed})
@@ -333,12 +336,10 @@ module SonicPi
           eval(code)
           __schedule_delayed_blocks_and_messages!
         rescue Exception => e
-          @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-          @msg_queue.push({type: :error, val: e.message, backtrace: e.backtrace, jobid: id  , jobinfo: info})
-          @events.event("/job-join", {:id => id})
-          @events.event("/job-completed", {:id => id, :thread => job})
-          job_subthreads_kill(id)
-          @user_jobs.job_completed(id)
+          __no_kill_block do
+            @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+            @msg_queue.push({type: :error, val: e.message, backtrace: e.backtrace, jobid: id  , jobinfo: info})
+          end
         end
       end
 
@@ -441,7 +442,6 @@ module SonicPi
 
     def job_subthreads_kill(job_id)
       threads = deregister_job_and_return_subthreads(job_id)
-
       return :no_threads_to_kill unless threads
 
       ## It's safe to kill these threads outside of a mutex as now that
