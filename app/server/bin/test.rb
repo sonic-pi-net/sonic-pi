@@ -126,6 +126,16 @@ def test_multi_with_fx
                 :val => "loop do ; with_fx :slicer do ; play 60 ; sleep 0.025 ; end ; end"})
 end
 
+def test_stopping_within_fx_block
+  loop do
+    $rd.dispatch({:cmd => "run-code",
+                  :val => "with_fx do ; loop do ; play 60 ; sleep 5 ; end ; end"})
+    sleep 1
+    $rd.dispatch({:cmd => "stop-jobs"})
+    sleep 1
+  end
+end
+
 def test_exception_throwing
   loop do
     $rd.dispatch({:cmd => "run-code",
