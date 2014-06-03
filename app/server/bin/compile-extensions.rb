@@ -27,17 +27,25 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-native_dir = File.dirname(__FILE__) + '/../rb-native/' + os + '/' + RUBY_VERSION
+native_dir = File.dirname(__FILE__) + '/../rb-native/' + os.to_s + '/' + RUBY_VERSION
 puts "creating #{native_dir}"
 FileUtils.mkdir_p native_dir
-rugged_dir = File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged')
 
-Dir.chdir(rugged_dir) do
-  `ruby #{rugged_dir}/extconf.rb`
-  `make clean`
-  `make`
-end
+native_ext_dirs = [
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c')]
 
-Dir[rugged_dir + '/*.{so,bundle}'].each do |f|
-  FileUtils.cp f, native_dir
+
+native_ext_dirs.each do |ext_dir|
+    puts "Compiling native extension in #{ext_dir}"
+    Dir.chdir(ext_dir) do
+      `ruby extconf.rb`
+      `make clean`
+      `make`
+    end
+
+    Dir[ext_dir + '/*.{so,bundle}'].each do |f|
+      FileUtils.cp f, native_dir
+    end
+
 end

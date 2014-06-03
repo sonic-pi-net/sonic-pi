@@ -1,0 +1,16 @@
+doc/
+.yardoc
+*.orig
+nbproject/private
+pkg
+*.orig
+*.rej
+*.patch
+*.diff
+build
+*.so
+*.[oa]
+core
+lib/ffi/types.conf
+lib/ffi_c.bundle
+lib/ffi_c.so
