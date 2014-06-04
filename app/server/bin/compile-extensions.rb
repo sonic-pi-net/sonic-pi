@@ -44,8 +44,21 @@ native_ext_dirs.each do |ext_dir|
       `make`
     end
 
-    Dir[ext_dir + '/*.{so,bundle}'].each do |f|
-      FileUtils.cp f, native_dir
-    end
+libs = []
+  case os
+  when :raspberry
+    libs = Dir[ext_dir + '/*.{so}']
+  when :linux
+    libs = Dir[ext_dir + '/*.{so}']
+  when :osx
+    libs = Dir[ext_dir + '/*.{bundle}']
+  when :windows
+    libs = Dir[ext_dir + '/*.{dll}']
+  end
+
+  libs.each do |f|
+    puts "Copying #{f}  to #{native_dir}"
+    FileUtils.cp f, native_dir
+  end
 
 end
