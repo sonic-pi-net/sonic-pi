@@ -608,8 +608,14 @@ void MainWindow::runCode()
   if(!print_output->isChecked()) {
     code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
+  else{
+    code = "use_debug true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
   if(!check_args->isChecked()) {
     code = "use_arg_checks false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+  else {
+    code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
   if(clear_output_on_run->isChecked()){
     outputPane->clear();
