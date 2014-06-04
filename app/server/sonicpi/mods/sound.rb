@@ -1697,13 +1697,7 @@ stop bar"]
          vt = Thread.current.thread_variable_get :sonic_pi_spider_time
          sat = @mod_sound_studio.sched_ahead_time + 0.1
          now = Time.now
-         if now - (3 * sat) > vt
-           raise "Timing Exception: thread got too far behind time."
-         elsif (now - sat) > vt
-           # Hard warning, system is too far behind, expect timing issues.
-           Thread.current.priority = 20
-           __delayed_serious_warning "Timing error: can't keep up..."
-         end
+         raise "Timing Exception: thread got too far behind time." if (now - (2 * sat)) > vt
        end
 
      end
