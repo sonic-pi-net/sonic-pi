@@ -403,11 +403,27 @@ void MainWindow::startOSCListener() {
 
                 }
 
+#if defined(Q_OS_WIN)
               if(i == (msg_count - 1)) {
                 ss << " └─ " << s << "\n";
               } else {
                 ss << " ├─ " << s;
               }
+#elif defined(Q_OS_MAC)
+              if(i == (msg_count - 1)) {
+                ss << " └─ " << s << "\n";
+              } else {
+                ss << " ├─ " << s;
+              }
+#else
+  //assuming Raspberry Pi
+              if(i == (msg_count - 1)) {
+                ss << " +- " << s << "\n";
+              } else {
+                ss << " |- " << s;
+              }
+#endif
+
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(ss.str())) );
