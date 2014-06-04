@@ -127,27 +127,26 @@ module SonicPi
     end
 
     def resolve_synth_opts_hash_or_array(opts)
-      opts = case opts
-             when Hash
-               opts
-             when Array
-               case opts.size
-               when 1
-                 case opts[0]
-                 when Hash
-                   opts[0]
-                 else
-                   raise "Invalid options. Options should either be an even list of key value pairs or a single Hash. Got #{opts.inspect}"
-                 end
-               when 0
-                 {}
-               else
-                 raise "Number of items in options should be even - got #{opts.size}: #{opts}" if opts.size.odd?
-                 Hash[*opts]
-               end
-             else
-               raise "Invalid options. Options should either be an even list of key value pairs or a single Hash. Got #{opts.inspect}"
-             end
+      case opts
+      when Hash
+        return opts
+      when Array
+        s = opts.size
+        return Hash[*opts] if s.even? && s > 1
+        case s
+        when 1
+          case opts[0]
+          when Hash
+            return opts[0]
+          else
+            raise "Invalid options. Options should either be an even list of key value pairs or a single Hash. Got #{opts.inspect}"
+          end
+        when 0
+          return {}
+        end
+      else
+        raise "Invalid options. Options should either be an even list of key value pairs or a single Hash. Got #{opts.inspect}"
+      end
     end
   end
 end
