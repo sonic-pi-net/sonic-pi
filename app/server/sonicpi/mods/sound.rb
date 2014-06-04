@@ -1197,7 +1197,7 @@ set_volume! 2 # Set the main system volume to 2",
 
 
 
-       def chord(tonic, name)
+       def chord(tonic, name=:major)
          Chord.new(tonic, name).to_a
        end
        doc name:          :chord,
