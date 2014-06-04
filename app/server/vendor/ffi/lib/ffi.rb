@@ -29,7 +29,7 @@ if !defined?(RUBY_ENGINE) || RUBY_ENGINE == 'ruby' || RUBY_ENGINE == 'rbx'
        else
          RUBY_PLATFORM
        end
-  require_relative "../../../rb-native/#{os}/#{RUBY_VERSION}/ffi_c"
+  require_relative "../../../rb-native/#{os}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}/ffi_c"
 
   end
 

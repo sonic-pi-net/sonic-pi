@@ -27,7 +27,7 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-native_dir = File.dirname(__FILE__) + '/../rb-native/' + os.to_s + '/' + RUBY_VERSION
+native_dir = File.dirname(__FILE__) + '/../rb-native/' + os.to_s + '/' + "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}"
 puts "creating #{native_dir}"
 FileUtils.mkdir_p native_dir
 

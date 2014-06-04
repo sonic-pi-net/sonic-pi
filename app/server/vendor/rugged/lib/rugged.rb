@@ -20,7 +20,7 @@ rescue LoadError
        else
          RUBY_PLATFORM
        end
-  require_relative "../../../rb-native/#{os}/#{RUBY_VERSION}/rugged"
+  require_relative "../../../rb-native/#{os}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}/rugged"
   # End modifications
 end
 require 'rugged/index'
