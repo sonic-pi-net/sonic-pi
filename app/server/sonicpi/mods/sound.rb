@@ -1155,9 +1155,14 @@ set_volume! 2 # Set the main system volume to 2",
 
 
        def note(n, *args)
+         Note.resolve_midi_note_without_octave(n) if args.empty?
          args_h = resolve_synth_opts_hash_or_array(args)
          octave = args_h[:octave]
-         Note.resolve_midi_note(n, octave)
+         if octave
+           Note.resolve_midi_note(n, octave)
+         else
+           Note.resolve_midi_note_without_octave(n)
+         end
        end
        doc name:          :note,
            doc:           "add docs",
