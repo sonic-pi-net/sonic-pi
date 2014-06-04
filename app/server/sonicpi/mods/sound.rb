@@ -410,9 +410,10 @@ play 50 # Plays with supersaw synth
          if n
            n = note(n) unless n.is_a? Fixnum
            args_h = resolve_synth_opts_hash_or_array(args)
-           shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
-           shifted_n = n + shift
-           args_h = {:note => shifted_n}.merge(args_h)
+           if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+             n = n + shift
+           end
+           args_h[:note] = n unless args_h[:note]
            trigger_inst @mod_sound_studio.current_synth_name, args_h
          end
        end
