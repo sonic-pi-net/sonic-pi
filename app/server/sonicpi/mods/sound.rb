@@ -404,8 +404,8 @@ play 50 # Plays with supersaw synth
 
 
        def play(n, *args)
-         ensure_good_timing!
          return play_chord(n, *args) if n.is_a?(Array)
+         ensure_good_timing!
 
          if n
            n = note(n) unless n.is_a? Fixnum
@@ -522,6 +522,7 @@ play 44"]
 
 
        def play_chord(notes, *args)
+         ensure_good_timing!
          shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
          shifted_notes = notes.map{|n| n + shift}
          synth_name = @mod_sound_studio.current_synth_name
