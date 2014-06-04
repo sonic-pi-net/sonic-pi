@@ -221,7 +221,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(systemVol, SIGNAL(valueChanged(int)), this, SLOT(changeSystemVol(int)));
   initPrefsWindow();
   initDocsWindow();
-  this->show();
+  this->showMaximized();
   splash.finish(this);
 
   infoWindow = new QMainWindow();
