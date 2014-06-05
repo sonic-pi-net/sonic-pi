@@ -190,7 +190,6 @@ module SonicPi
         osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
       end
       sn
-
     end
 
     def sched_ahead_time_for_node(node)
@@ -210,12 +209,14 @@ module SonicPi
     end
 
     def node_ctl(node, args, now=false)
-      args = resolve_synth_opts_hash_or_array(args)
-      message "controlling node: #{node} with args: #{args}"
-      args = args.to_a.flatten if args.is_a? Hash
-      normalised_args = []
+      args_h = resolve_synth_opts_hash_or_array(args)
+      message "controlling node: #{node} with args: #{args}" if debug_mode
 
-      args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
+      normalised_args = []
+      args_h.each do |k,v|
+        normalised_args << k.to_s << v.to_f
+      end
+
       if now
         osc "/n_set", node.to_f, *normalised_args
       else
