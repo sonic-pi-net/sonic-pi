@@ -67,6 +67,7 @@ module SonicPi
              @mod_sound_studio.sched_ahead_time = 0.5 if (os == :raspberry)
 
              @events.add_handler("/job-start", @events.gensym("/mods-sound-job-start")) do |payload|
+
                job_id = payload[:id]
 
                @job_proms_queues_mut.synchronize do
@@ -76,20 +77,19 @@ module SonicPi
                end
 
                t = payload[:thread]
-               g = job_synth_group(current_job_id)
+               g = job_synth_group(job_id)
                t.thread_variable_set(:sonic_pi_mod_sound_synth_job_group, g)
 
                fx_g = job_fx_group(job_id)
                t.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_g)
-
              end
+
              @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
 
                ## At this point we can be assured that no more threads
                ## are running for this particular job. We therefore
                ## don't have to worry about concurrency issues.
                job_id = payload[:id]
-
 
                joiner = @job_proms_joiners[job_id]
                @job_proms_queues[job_id] << :job_finished
