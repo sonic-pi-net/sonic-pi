@@ -636,6 +636,13 @@ void MainWindow::beautifyCode()
   sendOSC(msg);
 }
 
+void MainWindow::reloadServerCode()
+{
+  statusBar()->showMessage(tr("reloading...."), 2000);
+  Message msg("/reload");
+  sendOSC(msg);
+}
+
 
 void MainWindow::stopCode()
 {
@@ -827,7 +834,10 @@ void MainWindow::createActions()
   textDecAct->setToolTip(tr("Make text smaller"));
   connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
 
-
+  QAction *reloadAct = new QAction(this);
+  reloadAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_U));
+  connect(reloadAct, SIGNAL(triggered()), this, SLOT(reloadServerCode()));
+  addAction(reloadAct);
 }
 
 void MainWindow::createToolBar()

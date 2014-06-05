@@ -185,6 +185,20 @@ osc_server.add_method("/save-recording") do |payload|
   end
 end
 
+osc_server.add_method("/reload") do |payload|
+  begin
+    dir = File.dirname("#{File.absolute_path(__FILE__)}")
+    Dir["#{dir}/../sonicpi/**/*.rb"].each do |d|
+      load d
+    end
+    puts "reloaded"
+  rescue Exception => e
+    puts "Received Exception when attempting to reload files"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 Thread.new{osc_server.run}
 
 # Send stuff out from Sonic Pi back out to osc_server

@@ -56,6 +56,7 @@ private slots:
     void runCode();
     void stopCode();
     void beautifyCode();
+    void reloadServerCode();
     void stopRunningSynths();
     QString currentTabLabel();
     bool saveAs();
@@ -91,7 +92,7 @@ private:
     bool saveFile(const QString &fileName, QsciScintilla* text);
     void loadWorkspaces();
     void saveWorkspaces();
-	std::string number_name(int);
+    std::string number_name(int);
     std::string workspaceFilename(QsciScintilla* text);
     QsciScintilla* filenameToWorkspace(std::string filename);
     void sendOSC(oscpkt::Message m);
