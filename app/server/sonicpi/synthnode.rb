@@ -27,7 +27,7 @@ module SonicPi
 
     def ctl(*args)
       @control_mutex.synchronize do
-        a_h = Hash[*args]
+        a_h = resolve_synth_opts_hash_or_array(args)
         @args = @args.merge(a_h)
         super
       end
