@@ -255,7 +255,7 @@ module SonicPi
     end
 
     def __sync(id, res)
-      @events.event("/sync", {:id => id, :result => res})
+      @events.sync_event("/sync", {:id => id, :result => res})
     end
 
     def __stop_job(j)
@@ -264,7 +264,7 @@ module SonicPi
       #__info "Killed subthreads for run #{j}"
       @user_jobs.kill_job j
       #__info "Killed job for run #{j}"
-      @events.event("/job-completed", {:id => j})
+      @events.sync_event("/job-completed", {:id => j})
       __info "Stopped run #{j}"
       @msg_queue.push({type: :job, jobid: j, action: :completed})
     end
@@ -327,7 +327,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
-          @events.event("/job-start", {:id => id, :thread => job})
+          @events.sync_event("/job-start", {:id => id, :thread => job})
           now = Time.now
           Thread.current.thread_variable_set :sonic_pi_spider_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
@@ -350,10 +350,10 @@ module SonicPi
         Thread.current.thread_variable_set(:sonic_pi_thread_group, "job-#{id}-GC")
         job.join
         __join_subthreads(job)
-        @events.event("/job-join", {:id => id})
+        @events.sync_event("/job-join", {:id => id})
         # wait until all synths are dead
         @user_jobs.job_completed(id)
-        @events.event("/job-completed", {:id => id, :thread => job})
+        @events.sync_event("/job-completed", {:id => id, :thread => job})
         deregister_job_and_return_subthreads(id)
         @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
       end

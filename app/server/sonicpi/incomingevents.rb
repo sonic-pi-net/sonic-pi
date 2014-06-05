@@ -10,45 +10,41 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require "hamster/hash"
-require_relative "util"
-require_relative "atom"
 
+require_relative "util"
+require_relative "counter"
+require_relative "promise"
 
 module SonicPi
   class IncomingEvents
-
     def initialize
-      @current_gensym_id_A = Atom.new(0)
-      @handlers_A = Atom.new(Hamster.hash)
-    end
-
-    def gensym(s)
-      id = @current_gensym_id_A.swap!{|el| el + 1}
-      "#{s}-#{id}"
-    end
-
-    def event(handle, payload)
-      handlers = @handlers_A.deref
-      hs = handlers[handle] || {}
-
-      hs.each do |key, fn|
-        res = fn.call payload
-        if(res == :remove_handler)
-          rm_handler(handle, key)
-        elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
-          res[1].each do |h_info|
-            rm_handler(h_info[0], h_info[1])
-          end
+      @event_queue = Queue.new
+      @handlers = {}
+      @continue = true
+      @handler_thread = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :event_handler)
+        while @continue do
+          consume_event
         end
       end
     end
 
+    def gensym(s)
+      "#{s}-#{rand}"
+    end
+
+    def sync_event(handle, payload)
+      prom = Promise.new
+      @event_queue << [:sync_event, [handle, payload, prom]]
+      prom.get
+    end
+
+    def event(handle, payload)
+      @event_queue << [:event, [handle, payload]]
+    end
+
     def add_handler(handle, key, &block)
-      @handlers_A.swap! do |hs|
-        handlers = hs[handle] || Hamster.hash
-        hs.put(handle, handlers.put(key, block))
-      end
+      @event_queue << [:add, [handle, key, block]]
     end
 
     def oneshot_handler(handle, &block)
@@ -59,9 +55,75 @@ module SonicPi
     end
 
     def rm_handler(handle, key)
-      @handlers_A.swap! do |hs|
-        handlers = hs[handle] || Hamster.hash
-        hs.put(handle, handlers.delete(key))
+      @event_queue << [:rm, [handle, key]]
+    end
+
+    def shutdown
+      @event_queue << [:quit, []]
+    end
+
+
+    def to_s
+      "Incoming events: #{@handlers.inspect}, #{@event_queue.inspect}"
+    end
+
+    private
+
+    def q_insert_handler(handle, key, block)
+      if keyed_handlers = @handlers[handle]
+        keyed_handlers[key] = block
+      else
+        @handlers[handle] = {key => block}
+      end
+    end
+
+    def q_handle_sync_event(handle, payload, prom)
+      q_handle_event(handle, payload)
+      prom.deliver! :incoming_events_sync
+    end
+
+    def q_handle_event(handle, payload)
+      if hs = @handlers[handle]
+        hs.each do |key, fn|
+          begin
+            res = fn.call payload
+            if(res == :remove_handler)
+              hs.delete(key)
+            elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
+              res[1].each do |h_info|
+                q_rm_handler(h_info[0], h_info[1])
+              end
+            end
+          rescue Exception => e
+            Kernel.puts e.message
+            e.backtrace.each do |b|
+              Kernel.puts b
+            end
+          end
+        end
+      end
+    end
+
+    def q_rm_handler(handle, key)
+      if keyed_hs = @handlers[handle]
+        keyed_hs.delete key
+        @handlers.delete(handle) if keyed_hs.empty?
+      end
+    end
+
+    def consume_event
+      action, content = @event_queue.pop
+      case action
+      when :event
+        q_handle_event(*content)
+      when :sync_event
+        q_handle_sync_event(*content)
+      when :add
+        q_insert_handler(*content)
+      when :rm
+        q_rm_handler(*content)
+      when :quit
+        @continue = false
       end
     end
   end
