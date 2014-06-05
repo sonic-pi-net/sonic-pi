@@ -190,6 +190,7 @@ module SonicPi
         osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
       end
       sn
+
     end
 
     def sched_ahead_time_for_node(node)
@@ -317,7 +318,7 @@ module SonicPi
       prom = Promise.new
       @EVENTS.add_handler("/synced", @EVENTS.gensym("/sonicpi/server")) do |payload|
         if (id == payload.to_a[0])
-          prom.deliver!  true
+          prom.deliver!  :sonic_pi_server_sync_notification
           :remove_handler
         end
       end
