@@ -407,7 +407,7 @@ play 50 # Plays with supersaw synth
          ensure_good_timing!
 
          if n
-           n = note(n) unless n.is_a? Fixnum
+           n = note(n) unless n.is_a? Numeric
            args_h = resolve_synth_opts_hash_or_array(args)
            if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
              n += shift
