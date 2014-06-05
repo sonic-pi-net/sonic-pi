@@ -18,5 +18,9 @@ module SonicPi
     def bus_class
       AudioBus
     end
+
+    def to_s
+      "<#SonicPi::AudioBusAllocator>"
+    end
   end
 end

@@ -18,5 +18,9 @@ module SonicPi
     def bus_class
       ControlBus
     end
+
+    def to_s
+      "<#SonicPi::ControlBusAllocator>"
+    end
   end
 end

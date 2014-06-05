@@ -45,6 +45,10 @@ module SonicPi
       num_allocations
     end
 
+    def to_s
+      "<#SonicPi::BusAllocator>"
+    end
+
     private
 
     def bus_class
