@@ -44,23 +44,29 @@ module SonicPi
 
     DEFAULT_OCTAVE = 4
 
+    MIDI_NOTE_RE = /([a-gA-G][sSbBfF]?)([-]?[0-9]*)/
+
     attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
+    @@notes_cache = {}
+
+    def self.resolve_midi_note_without_octave(n)
+      return @@notes_cache[n] if @@notes_cache[n]
+      return n if n.is_a? Fixnum
+      note = case n
+             when Symbol, String
+               self.new(n).midi_note
+             when NilClass
+               nil
+             end
+      @@notes_cache[n] = note
+      note
+    end
+
     def self.resolve_midi_note(n, o=nil)
-      case n
-      when String
-        self.new(n, o).midi_note
-      when NilClass
-        nil
-      when Integer
-        n
-      when Float
-        n
-      when Symbol
-        resolve_midi_note(n.to_s, o)
-      when Array
-        resolve_midi_note(n[0], n[1])
-      end
+      n = resolve_midi_note_without_octave(n)
+      o = o.to_i * 12
+      n + o
     end
 
     def self.resolve_note_name(n, o=nil)
@@ -70,17 +76,20 @@ module SonicPi
     end
 
     def initialize(n, o=nil)
-
       n = n.to_s
-      midi_note_re = /([a-gA-G][sSbBfF]?)([-]?[-0-9]*)/
-      m = midi_note_re.match n
+
+      m = MIDI_NOTE_RE.match n
 
       raise "Invalid note: #{n}" unless m
       @pitch_class = m[1].capitalize
 
-      str_oct = m[2].empty? ? DEFAULT_OCTAVE : m[2].to_i
-      @octave = o ? o.to_i : str_oct
-      @interval = NOTES_TO_INTERVALS[@pitch_class.downcase.to_sym]
+      if o
+        @octave = o.to_i
+      else
+        @octave = m[2].empty? ? DEFAULT_OCTAVE : m[2].to_i
+      end
+
+      @interval = NOTES_TO_INTERVALS[m[1].downcase.to_sym]
 
       raise "Invalid note: #{n}" unless @interval
 
