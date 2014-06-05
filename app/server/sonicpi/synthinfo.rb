@@ -39,7 +39,7 @@ module SonicPi
 
       args_h.each do |k, v|
         k_sym = k.to_sym
-        raise "Value of argument #{k_sym.inspect}  must a number, got #{v.inspect}." unless v.is_a? Numeric
+#        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
 
         arg_validations(k_sym).each do |v_fn, msg|
           raise "Value of argument #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
