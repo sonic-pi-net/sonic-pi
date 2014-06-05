@@ -1205,7 +1205,12 @@ set_volume! 2 # Set the main system volume to 2",
 
 
        def chord(tonic, name=:major)
-         Chord.new(tonic, name).to_a
+         if tonic.is_a? Array
+           raise "Array passed as parameter to chord needs two elements i.e. chord([:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
+           Chord.new(tonic[0], tonic[1]).to_a
+         else
+           Chord.new(tonic, name).to_a
+         end
        end
        doc name:          :chord,
            doc:           "add docs",
