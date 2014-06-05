@@ -172,10 +172,13 @@ module SonicPi
       node_id = @CURRENT_NODE_ID.next
 
       normalised_args = []
+      normalised_args_map = {}
       args_h.each do |k,v|
-        normalised_args << k.to_s << v.to_f
+        ks = k.to_s
+        vf = v.to_f
+        normalised_args << ks << vf
+        normalised_args_map[ks] = vf
       end
-      normalised_args_map = Hash[*normalised_args]
 
       s_name = synth_name.to_s
       sn = SynthNode.new(node_id, self, s_name, normalised_args_map, info)
