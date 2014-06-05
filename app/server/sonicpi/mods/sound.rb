@@ -1337,22 +1337,6 @@ stop bar"]
          s.chomp(", ") << "}"
        end
 
-       def mk_synth_args_validator(synth_name)
-         # It feelss messed up that I need the following line, but if I
-         # don't use it, then synth_name within the lambda can be
-         # changed externally affecting the internal lexical
-         # representation.
-         sn = synth_name
-         arg_validation_fn = lambda do |args|
-           args = munge_synth_args(args)
-           info = SynthInfo.get_info(sn)
-           raise "Unable to find synth info for #{sn}" unless info
-           info.validate!(args)
-           args
-         end
-         arg_validation_fn
-       end
-
        def trigger_sampler(path, buf_id, num_chans, args_h, group=current_job_synth_group)
          args_h_with_buf = {:buf => buf_id}.merge(args_h)
 
@@ -1361,11 +1345,10 @@ stop bar"]
          else
            synth_name = (num_chans == 1) ? "basic_mono_player" : "basic_stereo_player"
          end
+         sn = synth_name.to_sym
+         info = SynthInfo.get_info(sn)
 
-         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-           validation_fn = mk_synth_args_validator(synth_name)
-           validation_fn.call(args_h_with_buf)
-         end
+         validate_if_necessary! info, args_h_with_buf
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
@@ -1375,29 +1358,24 @@ stop bar"]
            end
          end
 
-         trigger_synth(synth_name, args_h_with_buf, group, validation_fn)
+         trigger_synth(synth_name, args_h_with_buf, group, info)
        end
 
        def trigger_inst(synth_name, args_h, group=current_job_synth_group)
+         sn = synth_name.to_sym
+         info = SynthInfo.get_info(sn)
 
-         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-           validation_fn = mk_synth_args_validator(synth_name)
-           validation_fn.call(args_h)
-         end
+         validate_if_necessary!(info, args_h)
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-           __delayed_message "synth #{synth_name.to_sym.inspect}, #{arg_h_pp(args_h)}"
+           __delayed_message "synth #{sn.inspect}, #{arg_h_pp(args_h)}"
          end
-         trigger_synth(synth_name, args_h, group, validation_fn)
+
+         trigger_synth(synth_name, args_h, group, info)
        end
 
        def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
-
-         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-           validation_fn = mk_synth_args_validator(synth_name)
-           validation_fn.call(args_h)
-         end
 
          chord_group = @mod_sound_studio.new_group(:tail, group)
          cg = ChordGroup.new(chord_group)
@@ -1405,8 +1383,8 @@ stop bar"]
          nodes = []
          notes.each do |note|
            if note
-             note_args_h = args_h.merge({:note => note})
-             nodes << trigger_inst(synth_name, note_args_h, cg)
+             args_h[:note] = note
+             nodes << trigger_inst(synth_name, args_h, cg)
            end
          end
          cg.sub_nodes = nodes
@@ -1415,18 +1393,16 @@ stop bar"]
 
        def trigger_fx(synth_name, args_a_or_h, group=current_fx_group)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+         sn = synth_name.to_sym
+         info = SynthInfo.get_info(sn)
 
-         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-           validation_fn = mk_synth_args_validator(synth_name)
-           validation_fn.call(args_h)
-         end
+         validate_if_necessary!(info, args_h)
 
-         n = trigger_synth(synth_name, args_h, group, validation_fn, true)
+         n = trigger_synth(synth_name, args_h, group, info, true)
          FXNode.new(n, args_h["in_bus"], current_out_bus)
        end
 
-       def trigger_synth(synth_name, args_h, group, arg_validation_fn, now=false, out_bus=nil)
-         info = SynthInfo.get_info(synth_name)
+       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil)
 
          defaults = info ? info.arg_defaults : {}
 
@@ -1453,7 +1429,7 @@ stop bar"]
            p = Promise.new
            job_synth_proms_add(job_id, p)
 
-           s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, now, &arg_validation_fn
+           s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, now
 
            trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers)
 
@@ -1615,7 +1591,6 @@ stop bar"]
          end
        end
 
-
        def kill_job_group(job_id)
 
          old_job_groups = @JOB_GROUPS_A.swap_returning_old! do |js|
@@ -1632,15 +1607,6 @@ stop bar"]
          end
          job_group = old_job_groups[job_id]
          job_group.kill(true) if job_group
-       end
-
-       def munge_synth_args(args)
-         args = Hash[*args] if args.is_a? Array
-         # ensure note is a MIDI note
-         n = args[:note]
-         args[:note] = note(n) if n
-
-         args
        end
 
        def join_thread_and_subthreads(t)
@@ -1698,6 +1664,15 @@ stop bar"]
          end
 
          return all_proms_joined
+       end
+
+       def validate_if_necessary!(info, args_h)
+         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+           info.should_validate = true
+           info.validate!(args_h)
+         else
+           info.should_validate = false
+         end
        end
 
        def ensure_good_timing!

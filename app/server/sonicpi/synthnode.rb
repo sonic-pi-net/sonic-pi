@@ -10,7 +10,7 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require File.absolute_path("#{File.dirname(__FILE__)}/node")
+require_relative "node"
 require 'active_support/core_ext/hash/indifferent_access'
 
 module SonicPi
@@ -18,8 +18,8 @@ module SonicPi
 
     attr_reader :name, :args
 
-    def initialize(id, comms, name, args, arg_validation_fn = nil)
-      super(id, comms, arg_validation_fn)
+    def initialize(id, comms, name, args, info = nil)
+      super(id, comms, info)
       @args = args.with_indifferent_access
       @name = name
       @control_mutex = Mutex.new

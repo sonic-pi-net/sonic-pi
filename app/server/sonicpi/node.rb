@@ -16,14 +16,14 @@ module SonicPi
 
     NODE_HANDLER_SEM = Mutex.new
 
-    def initialize(id, comms, arg_validation_fn = nil)
+    def initialize(id, comms, info=nil)
       @id = id
       @comms = comms
       @state = :pending
       @state_change_sem = Mutex.new
       @on_destroyed_callbacks = []
       @on_started_callbacks = []
-      @arg_validation_fn = arg_validation_fn
+      @info = info
 
       killed_event_id = @comms.event_gensym("/sonicpi/node/killed#{id}")
       paused_event_id = @comms.event_gensym("/sonicpi/node/paused#{id}")
@@ -111,8 +111,8 @@ module SonicPi
     end
 
     def ctl(*args)
-      args = resolve_synth_opts_hash_or_array(args)
-      args = @arg_validation_fn.call(args) if @arg_validation_fn
+      args_h = resolve_synth_opts_hash_or_array(args)
+      @info.validate!(args_h) if @info
       @comms.node_ctl @id, args
       self
     end

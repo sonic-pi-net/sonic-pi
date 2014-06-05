@@ -1,6 +1,13 @@
 module SonicPi
 
   class BaseInfo
+    attr_accessor :should_validate
+
+    def initialize
+      @should_validate = true
+      @info = default_arg_info.merge(specific_arg_info)
+    end
+
     def doc
        "Please write documentation!"
     end
@@ -26,31 +33,29 @@ module SonicPi
       arg_defaults[arg_name.to_sym]
     end
 
-    def validate!(args)
-      args = Hash[*args] if args.is_a? Array
-      info = arg_info
-      args.keys.each do |a|
-        a_sym = a.to_sym
-        validations = arg_validations(a)
-        validations.each do |vali|
-          raise "Value of argument #{a_sym.inspect}  must a number, got #{args[a_sym].inspect}." unless args[a_sym].is_a? Numeric
-          v, m = vali
-          raise "Value of argument #{a_sym.inspect} #{m}, got #{args[a_sym].inspect}." unless v.call(args)
+    def validate!(*args)
+      return true unless @should_validate
+      args_h = resolve_synth_opts_hash_or_array(args)
+
+      args_h.each do |k, v|
+        k_sym = k.to_sym
+        raise "Value of argument #{k_sym.inspect}  must a number, got #{v.inspect}." unless v.is_a? Numeric
+
+        arg_validations(k_sym).each do |v_fn, msg|
+          raise "Value of argument #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
         end
       end
     end
 
     def arg_validations(arg_name)
-      info = default_arg_info.merge(specific_arg_info)
-      arg_info = info[arg_name] || {}
-      arg_info[:validations] || []
+      arg_information = @info[arg_name] || {}
+      arg_information[:validations] || []
     end
 
     def arg_info
-      info = default_arg_info.merge(specific_arg_info)
       res = {}
       arg_defaults.each do |arg, default|
-        default_info = info[arg] || {}
+        default_info = @info[arg] || {}
         constraints = (default_info[:validations] || []).map{|el| el[1]}
         new_info = {}
         new_info[:doc] = default_info[:doc]
