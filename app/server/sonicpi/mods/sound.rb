@@ -101,10 +101,9 @@ module SonicPi
 
              @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
                job_id = payload[:id]
-               job_t = payload[:thread]
-
                Thread.new do
-                 Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_completed)
+
+                 Thread.current.thread_variable_set(:sonic_pi_thread_group, "job_completed-#{job_id}")
                  Thread.current.priority = -10
                  shutdown_job_mixer(job_id)
                  kill_job_group(job_id)
