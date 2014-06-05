@@ -206,9 +206,9 @@ module SonicPi
     end
 
     def node_ctl(node, args, now=false)
+      args = resolve_synth_opts_hash_or_array(args)
       message "controlling node: #{node} with args: #{args}"
       args = args.to_a.flatten if args.is_a? Hash
-
       normalised_args = []
 
       args.each_slice(2){|el| normalised_args.concat([el.first.to_s, el[1].to_f])}
