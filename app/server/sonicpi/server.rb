@@ -183,11 +183,14 @@ module SonicPi
       s_name = synth_name.to_s
       sn = SynthNode.new(node_id, self, s_name, normalised_args_map, info)
 
-      Thread.new do
-        if now
+
+      if now
+        Thread.new do
           osc "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
-        else
-          ts = sched_ahead_time_for_node(sn)
+        end
+      else
+        ts = sched_ahead_time_for_node(sn)
+        Thread.new do
           osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
         end
       end
