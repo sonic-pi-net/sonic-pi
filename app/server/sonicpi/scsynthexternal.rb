@@ -22,6 +22,7 @@ module SonicPi
       @port = opts[:sc_port] || 4556
       @scsynth_pid = nil
       @jack_pid = nil
+      @out_queue = SizedQueue.new(20)
 
       @client = OSC::Server.new(0)
 
@@ -29,25 +30,38 @@ module SonicPi
         callback.call(m.address, m.to_a)
       end
 
-      @osc_thread = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :server_thread)
+      @osc_in_thread = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_in)
         Thread.current.priority = -10
         log "starting server thread"
         @client.run
       end
 
-      boot
+      @osc_out_thread = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_out)
+        loop do
+          out_job = @out_queue.pop
+          if out_job.first == :send
+            @client.send(OSC::Message.new(*out_job[1]), @hostname, @port)
+          else
+            ts = out_job[1]
+            args = out_job[2]
+            m = OSC::Message.new(*args)
+            b = OSC::Bundle.new(ts, m)
+            @client.send(b, @hostname, @port)
+          end
+        end
+      end
 
+      boot
     end
 
     def send(*args)
-      @client.send(OSC::Message.new(*args), @hostname, @port)
+      @out_queue << [:send, args]
     end
 
     def send_at(ts, *args)
-      m = OSC::Message.new(*args)
-      b = OSC::Bundle.new(ts, m)
-      @client.send(b, @hostname, @port)
+      @out_queue << [:send_at, ts, args]
     end
 
     def reboot
@@ -67,7 +81,8 @@ module SonicPi
 
       log "Sending /quit command to server"
       send "/quit"
-      @osc_thread.kill
+      @osc_in_thread.kill
+      @osc_out_thread.kill
     end
 
     private

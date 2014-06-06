@@ -185,14 +185,10 @@ module SonicPi
 
 
       if now
-        Thread.new do
-          osc "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
-        end
+        osc "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
       else
         ts = sched_ahead_time_for_node(sn)
-        Thread.new do
-          osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
-        end
+        osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
       end
       sn
     end
