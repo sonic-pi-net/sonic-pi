@@ -64,9 +64,10 @@ module SonicPi
     end
 
     def self.resolve_midi_note(n, o=nil)
-      n = resolve_midi_note_without_octave(n)
+      n = NOTES_TO_INTERVALS[n.to_sym]
+      raise "Invalid note without octave #{n.inspect}, expected something of the form :c, :Bb, Fs" unless n
       o = o.to_i * 12
-      n + o
+      n + o + 12
     end
 
     def self.resolve_note_name(n, o=nil)
