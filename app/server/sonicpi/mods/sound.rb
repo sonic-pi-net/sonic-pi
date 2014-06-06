@@ -523,8 +523,12 @@ play 44"]
 
        def play_chord(notes, *args)
          ensure_good_timing!
+
          shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
-         shifted_notes = notes.map{|n| n + shift}
+         shifted_notes = notes.map do |n|
+           n = note(n) unless n.is_a? Numeric
+           n + shift
+         end
          synth_name = @mod_sound_studio.current_synth_name
          trigger_chord(synth_name, shifted_notes, args)
        end
