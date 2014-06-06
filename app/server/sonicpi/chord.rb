@@ -90,7 +90,7 @@ module SonicPi
       intervals = CHORD[name]
       raise "Unknown chord name: #{name.inspect}" unless intervals
 
-      tonic = Note.resolve_midi_note(tonic)
+      tonic = Note.resolve_midi_note_without_octave(tonic)
       res = []
       intervals.each do |i|
         res << tonic + i
