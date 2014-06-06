@@ -160,11 +160,13 @@ module SonicPi
 
       t2 = Thread.new do
         loop do
-          boot_s.send(OSC::Message.new("/status"), @hostname, @port)
+          begin
+            boot_s.send(OSC::Message.new("/status"), @hostname, @port)
+          rescue Exception => e
+          end
           sleep 0.25
         end
       end
-
       log "Starting the SuperCollider server..."
       yield
 
