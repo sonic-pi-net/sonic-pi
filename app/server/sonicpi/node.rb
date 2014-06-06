@@ -24,11 +24,11 @@ module SonicPi
       @on_destroyed_callbacks = []
       @on_started_callbacks = []
       @info = info
-
-      killed_event_id = @comms.event_gensym("/sonicpi/node/killed#{id}")
-      paused_event_id = @comms.event_gensym("/sonicpi/node/paused#{id}")
-      started_event_id = @comms.event_gensym("/sonicpi/node/started#{id}")
-      created_event_id = @comms.event_gensym("/sonicpi/node/created#{id}")
+      r = rand.to_s
+      killed_event_id  = "/sonicpi/node/killed#{id}-#{r}"
+      paused_event_id  = "/sonicpi/node/paused#{id}-#{r}"
+      started_event_id = "/sonicpi/node/started#{id}-#{r}"
+      created_event_id = "/sonicpi/node/created#{id}-#{r}"
 
       @comms.add_event_handler("/n_end", killed_event_id) do |payload|
         if(id.to_i == payload[0].to_i)
