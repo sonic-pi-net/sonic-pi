@@ -19,13 +19,11 @@ module SonicPi
   class IncomingEvents
 
     def initialize
-      @current_gensym_id_A = Atom.new(0)
       @handlers_A = Atom.new(Hamster.hash)
     end
 
     def gensym(s)
-      id = @current_gensym_id_A.swap!{|el| el + 1}
-      "#{s}-#{id}"
+      "#{s}-#{rand}"
     end
 
     def event(handle, payload)
