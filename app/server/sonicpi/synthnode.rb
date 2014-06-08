@@ -18,8 +18,9 @@ module SonicPi
 
     attr_reader :name, :args
 
-    def initialize(id, comms, name, args, info = nil)
+    def initialize(id, group, comms, name, args, info = nil)
       super(id, comms, info)
+      @group = group
       @args = args.with_indifferent_access
       @name = name
       @control_mutex = Mutex.new

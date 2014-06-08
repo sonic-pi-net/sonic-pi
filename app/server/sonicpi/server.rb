@@ -181,8 +181,8 @@ module SonicPi
       end
 
       s_name = synth_name.to_s
-      sn = SynthNode.new(node_id, self, s_name, normalised_args_map, info)
-
+      sn = SynthNode.new(node_id, group, self, s_name, normalised_args_map, info)
+      Kernel.sleep 0.1
 
       if now
         osc "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
