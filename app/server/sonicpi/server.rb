@@ -43,23 +43,7 @@ module SonicPi
       @EVENTS = IncomingEvents.new
 
       @scsynth = SCSynthExternal.new do |m, args|
-
-        case m
-        when "/n_end"
-          id = args[0].to_i
-          @EVENTS.async_event "/n_end/#{id}", args
-        when "/n_off"
-          id = args[0].to_i
-          @EVENTS.async_event "/n_off/#{id}", args
-        when "/n_on"
-          id = args[0].to_i
-          @EVENTS.async_event "/n_on/#{id}", args
-        when "/n_go"
-          id = args[0].to_i
-          @EVENTS.async_event "/n_go/#{id}", args
-        else
-          @EVENTS.async_event m, args
-        end
+        @EVENTS.event m, args
       end
 
       at_exit do
@@ -160,10 +144,10 @@ module SonicPi
       pos_code = position_code(position)
       id = @CURRENT_NODE_ID.next
       if (pos_code && target_id)
+        message "Group created with id: #{id}"
         with_server_sync do
           osc "/g_new", id.to_f, pos_code.to_f, target_id.to_f
         end
-        message "Group created with id: #{id}"
         Group.new id, self
       else
         message "Unable to create a node with position: #{position} and target #{target}"
@@ -198,12 +182,7 @@ module SonicPi
 
       s_name = synth_name.to_s
       sn = SynthNode.new(node_id, group, self, s_name, normalised_args_map, info)
-
-      group.subnode_add(sn)
-
-      sn.on_destroyed do
-        group.subnode_rm(sn)
-      end
+      Kernel.sleep 0.1
 
       if now
         osc "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
@@ -380,21 +359,17 @@ module SonicPi
     end
 
     def osc(*args)
-#      Kernel.puts "--> osc: #{args}"
+      message "--> osc: #{args}"
       @scsynth.send(*args)
     end
 
     def osc_bundle(ts, *args)
-#      Kernel.puts "--> osc at #{ts}, #{args}"
+      message "--> osc at #{ts}, #{args}"
       @scsynth.send_at(ts, *args)
     end
 
     def add_event_handler(handle, key, &block)
       @EVENTS.add_handler(handle, key, &block)
-    end
-
-    def async_add_event_handler(handle, key, &block)
-      @EVENTS.async_add_handler(handle, key, &block)
     end
 
     def add_event_oneshot_handler(handle, &block)
@@ -407,14 +382,6 @@ module SonicPi
 
     def event_gensym(s)
       @EVENTS.gensym(s)
-    end
-
-    def event(handle, payload)
-      @EVENTS.event handle, payload
-    end
-
-    def async_event(handle, payload)
-      @EVENTS.async_event handle, payload
     end
 
     def exit

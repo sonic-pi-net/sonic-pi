@@ -23,7 +23,6 @@ require_relative "mods/sound"
 #require_relative "mods/feeds"
 #require_relative "mods/globalkeys"
 require_relative "gitsave"
-require_relative "lifecyclehooks"
 
 require 'thread'
 require 'fileutils'
@@ -37,7 +36,6 @@ module SonicPi
     attr_reader :event_queue
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
-      @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
       @event_queue = Queue.new
       @keypress_handlers = {}
@@ -187,7 +185,7 @@ module SonicPi
           Kernel.sleep(sleep_time) if sleep_time > 0
           #We're now in sync with the sched_ahead time
           __multi_message(delayed_messages)
-          job_subthread_rm(job_id, Thread.current)
+          job_subthread_rm(job_id, t)
         end
 
         job_subthread_add(job_id, t)
@@ -261,12 +259,14 @@ module SonicPi
     end
 
     def __stop_job(j)
+      #__info "Stopping run #{j}"
       job_subthreads_kill(j)
+      #__info "Killed subthreads for run #{j}"
       @user_jobs.kill_job j
-      @life_hooks.killed(j)
-      @life_hooks.exit(j)
+      #__info "Killed job for run #{j}"
+      @events.event("/job-completed", {:id => j})
       __info "Stopped run #{j}"
-      @msg_queue.push({type: :job, jobid: j, action: :killed})
+      @msg_queue.push({type: :job, jobid: j, action: :completed})
     end
 
     def __stop_jobs
@@ -311,14 +311,13 @@ module SonicPi
 
     def __spider_eval(code, info={})
       id = @job_counter.next
-      local_events = IncomingEvents.new
       job = Thread.new do
+
         Thread.current.priority = 10
         begin
-          num_running_jobs = reg_job(id, Thread.current)
-          Thread.current.thread_variable_set :sonic_pi_job_events, local_events
-          Thread.current.thread_variable_set :sonic_pi_thread_group, "job-#{id}"
-          Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1
+          num_running_jobs = reg_job(id, job)
+          Thread.current.thread_variable_set(:sonic_pi_thread_group, "job-#{id}")
+          Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, 1)
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
@@ -328,7 +327,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
-          @life_hooks.init(id, {:thread => Thread.current})
+          @events.event("/job-start", {:id => id, :thread => job})
           now = Time.now
           Thread.current.thread_variable_set :sonic_pi_spider_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
@@ -351,11 +350,11 @@ module SonicPi
         Thread.current.thread_variable_set(:sonic_pi_thread_group, "job-#{id}-GC")
         job.join
         __join_subthreads(job)
+        @events.event("/job-join", {:id => id})
         # wait until all synths are dead
-        @life_hooks.completed(id)
-        @life_hooks.exit(id)
-        deregister_job_and_return_subthreads(id)
         @user_jobs.job_completed(id)
+        @events.event("/job-completed", {:id => id, :thread => job})
+        deregister_job_and_return_subthreads(id)
         @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
       end
     end
@@ -364,7 +363,6 @@ module SonicPi
       __stop_jobs
       @msg_queue.push({:type => :exit, :jobid => __current_job_id, :jobinfo => __current_job_info})
       @event_t.kill
-
 
     end
 
