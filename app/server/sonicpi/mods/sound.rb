@@ -66,9 +66,7 @@ module SonicPi
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
              @mod_sound_studio.sched_ahead_time = 0.5 if (os == :raspberry)
 
-             @events.add_handler("/job-start", @events.gensym("/mods-sound-job-start")) do |payload|
-
-               job_id = payload[:id]
+             @life_hooks.on_init do |job_id, payload|
 
                @job_proms_queues_mut.synchronize do
                  @job_proms_queues[job_id] = Queue.new
@@ -84,26 +82,32 @@ module SonicPi
                t.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_g)
              end
 
-             @events.add_handler("/job-join", @events.gensym("/mods-sound-job-join")) do |payload|
+
+             @life_hooks.on_killed do |job_id, payload|
+               q = @job_proms_queues[job_id]
+               q << :job_finished if q
+             end
+
+             @life_hooks.on_completed do |job_id, payload|
 
                ## At this point we can be assured that no more threads
                ## are running for this particular job. We therefore
                ## don't have to worry about concurrency issues.
-               job_id = payload[:id]
-
                joiner = @job_proms_joiners[job_id]
-               @job_proms_queues[job_id] << :job_finished
-               joiner.get
-               @job_proms_queues_mut.synchronize do
-                 @job_proms_joiners.delete job_id
+               if joiner
+
+                 @job_proms_queues[job_id] << :job_finished
+                 joiner.get
+                 @job_proms_queues_mut.synchronize do
+                   @job_proms_joiners.delete job_id
+                 end
                end
              end
 
-             @events.add_handler("/job-completed", @events.gensym("/mods-sound-job-completed")) do |payload|
-               job_id = payload[:id]
+             @life_hooks.on_exit do |job_id, payload|
                Thread.new do
 
-                 Thread.current.thread_variable_set(:sonic_pi_thread_group, "job_completed-#{job_id}")
+                 Thread.current.thread_variable_set(:sonic_pi_thread_group, "job_remover-#{job_id}")
                  Thread.current.priority = -10
                  shutdown_job_mixer(job_id)
                  kill_job_group(job_id)
@@ -733,6 +737,7 @@ end"]
            end
 
            gc = Thread.new do
+
              Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc)
              Thread.current.priority = -10
              ## Need to block until either the thread died (which will be
@@ -818,9 +823,9 @@ end"]
 
          ## Now actually execute the fx block. Pass the fx synth in as a
          ## parameter if the block was defined with a param.
-         t = in_thread do
-           t.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
-           t.thread_variable_set(:sonic_pi_spider_delayed_messages, fxt.thread_variable_get(:sonic_pi_spider_delayed_messages))
+         fx_execute_t = in_thread do
+           Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
+           Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fxt.thread_variable_get(:sonic_pi_spider_delayed_messages))
 
            new_trackers = [tracker]
            (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).each do |tr|
@@ -849,10 +854,10 @@ end"]
 
          # Join thread used to execute block. Then transfer virtual
          # timestamp back to this thread.
-         t.join
-         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
-         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, t.thread_variable_get(:sonic_pi_spider_delayed_messages))
-         Thread.current.thread_variable_set(:sonic_pi_spider_time, t.thread_variable_get(:sonic_pi_spider_time))
+         fx_execute_t.join
+         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
+         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_messages))
+         Thread.current.thread_variable_set(:sonic_pi_spider_time, fx_execute_t.thread_variable_get(:sonic_pi_spider_time))
 
          # Wait for gc thread to complete. Once the gc thread has
          # completed, the tracker has been successfully removed, and all
