@@ -40,25 +40,25 @@ module SonicPi
 
       @PORT = port
 
-      @EVENTS = IncomingEvents.new
+      @osc_events = IncomingEvents.new
 
       @scsynth = SCSynthExternal.new do |m, args|
 
         case m
         when "/n_end"
           id = args[0].to_i
-          @EVENTS.async_event "/n_end/#{id}", args
+          @osc_events.async_event "/n_end/#{id}", args
         when "/n_off"
           id = args[0].to_i
-          @EVENTS.async_event "/n_off/#{id}", args
+          @osc_events.async_event "/n_off/#{id}", args
         when "/n_on"
           id = args[0].to_i
-          @EVENTS.async_event "/n_on/#{id}", args
+          @osc_events.async_event "/n_on/#{id}", args
         when "/n_go"
           id = args[0].to_i
-          @EVENTS.async_event "/n_go/#{id}", args
+          @osc_events.async_event "/n_go/#{id}", args
         else
-          @EVENTS.async_event m, args
+          @osc_events.async_event m, args
         end
       end
 
@@ -309,7 +309,7 @@ module SonicPi
 
     def buffer_info(id)
       prom = Promise.new
-      @EVENTS.add_handler("/b_info", @EVENTS.gensym("/sonicpi/server")) do |payload|
+      @osc_events.add_handler("/b_info", @osc_events.gensym("/sonicpi/server")) do |payload|
         if (id == payload.to_a[0])
           prom.deliver!  payload
           :remove_handler
@@ -325,7 +325,7 @@ module SonicPi
     def with_done_sync(&block)
       with_server_sync do
         prom = Promise.new
-        @EVENTS.add_handler("/done", @EVENTS.gensym("/sonicpi/server")) do |pl|
+        @osc_events.add_handler("/done", @osc_events.gensym("/sonicpi/server")) do |pl|
           prom.deliver! true
           :remove_handler
         end
@@ -338,7 +338,7 @@ module SonicPi
     def with_server_sync(&block)
       id = @CURRENT_SYNC_ID.next
       prom = Promise.new
-      @EVENTS.add_handler("/synced", @EVENTS.gensym("/sonicpi/server")) do |payload|
+      @osc_events.add_handler("/synced", @osc_events.gensym("/sonicpi/server")) do |payload|
         if (id == payload.to_a[0])
           prom.deliver!  :sonic_pi_server_sync_notification
           :remove_handler
@@ -354,7 +354,7 @@ module SonicPi
       prom = Promise.new
       res = nil
 
-      @EVENTS.oneshot_handler("/status.reply") do |pl|
+      @osc_events.oneshot_handler("/status.reply") do |pl|
         prom.deliver! pl
       end
 
@@ -389,35 +389,35 @@ module SonicPi
     end
 
     def async_add_event_handlers(*args)
-      @EVENTS.async_add_handlers(*args)
+      @osc_events.async_add_handlers(*args)
     end
 
     def add_event_handler(handle, key, &block)
-      @EVENTS.add_handler(handle, key, &block)
+      @osc_events.add_handler(handle, key, &block)
     end
 
     def async_add_event_handler(handle, key, &block)
-      @EVENTS.async_add_handler(handle, key, &block)
+      @osc_events.async_add_handler(handle, key, &block)
     end
 
     def add_event_oneshot_handler(handle, &block)
-      @EVENTS.oneshot_handler(handle, &block)
+      @osc_events.oneshot_handler(handle, &block)
     end
 
     def rm_event_handler(handle, key)
-      @EVENTS.rm_handler(handle, key)
+      @osc_events.rm_handler(handle, key)
     end
 
     def event_gensym(s)
-      @EVENTS.gensym(s)
+      @osc_events.gensym(s)
     end
 
     def event(handle, payload)
-      @EVENTS.event handle, payload
+      @osc_events.event handle, payload
     end
 
     def async_event(handle, payload)
-      @EVENTS.async_event handle, payload
+      @osc_events.async_event handle, payload
     end
 
     def exit
