@@ -345,8 +345,8 @@ module SonicPi
           :remove_handler
         end
       end
-      osc "/sync", id.to_f
       res = block.yield
+      osc "/sync", id.to_f
       prom.get
       res
     end
