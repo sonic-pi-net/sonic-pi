@@ -281,15 +281,16 @@ puts current_bpm # Print out the current bpm"]
 
       # Create the new thread
       t = Thread.new do
-        Thread.current.priority = 10
+        main_t = Thread.current
+        main_t.priority = 10
 
         Thread.new do
           Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
           Thread.current.priority = -10
           # wait for all subthreads to finish before removing self from
           # the subthread tree
-          Thread.current.join
-          __join_subthreads(Thread.current)
+          main_t.join
+          __join_subthreads(main_t)
           parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
             parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(Thread.current)
           end
