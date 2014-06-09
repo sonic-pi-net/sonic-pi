@@ -1052,7 +1052,7 @@ end
     end
   end
 
-  class BaseMixer < BaseInfo
+  class BaseMixer < StudioInfo
 
   end
 
@@ -1640,6 +1640,7 @@ end
       hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
       get_all.each do |k, v|
         next unless v.is_a? klass
+        next if v.is_a? StudioInfo
         doc = ""
         doc << "<font size=\"7\", #{hv_face}>" << v.name << "</font>\n"
         if klass == SynthInfo
