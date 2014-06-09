@@ -160,11 +160,10 @@ module SonicPi
       pos_code = position_code(position)
       id = @CURRENT_NODE_ID.next
       if (pos_code && target_id)
-        with_server_sync do
-          osc "/g_new", id.to_f, pos_code.to_f, target_id.to_f
-        end
+        g = Group.new id, self
+        osc "/g_new", id.to_f, pos_code.to_f, target_id.to_f
         message "Group created with id: #{id}"
-        Group.new id, self
+        g.wait_until_started
       else
         message "Unable to create a node with position: #{position} and target #{target}"
         nil
