@@ -57,6 +57,25 @@ module SonicPi
       end
     end
 
+    def wait_until_started
+      prom = nil
+      @state_change_sem.synchronize do
+        if @state != :pending
+          return true
+        else
+          prom = Promise.new
+          cb = lambda do
+            prom.deliver! :stop_waiting_for_node
+          end
+          @on_started_callbacks << cb
+        end
+      end
+      Kernel.puts "blocking for node prom #{@id}"
+      prom.get
+      Kernel.puts "blocked for node prom #{@id}"
+      self
+    end
+
     def kill(now=false)
       @comms.kill_node @id, now
       self
