@@ -389,6 +389,10 @@ module SonicPi
       @scsynth.send_at(ts, *args)
     end
 
+    def async_add_event_handlers(*args)
+      @EVENTS.async_add_handlers(*args)
+    end
+
     def add_event_handler(handle, key, &block)
       @EVENTS.add_handler(handle, key, &block)
     end

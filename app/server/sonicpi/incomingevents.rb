@@ -49,6 +49,10 @@ module SonicPi
       prom.get
     end
 
+    def async_add_handlers(*args)
+      @event_queue << [:add_multiple, args]
+    end
+
     def async_add_handler(handle, key, &block)
       @event_queue << [:async_add, [handle, key, block]]
     end
@@ -133,6 +137,10 @@ module SonicPi
     def consume_event
       action, content = @event_queue.pop
       case action
+      when :async_add_multiple
+        content.each do |c|
+          q_insert_handler(*c)
+        end
       when :async_event
         q_handle_event(*content)
       when :async_add

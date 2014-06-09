@@ -14,8 +14,6 @@ module SonicPi
   class Node
     attr_reader :id, :comms
 
-    NODE_HANDLER_SEM = Mutex.new
-
     def initialize(id, comms, info=nil)
       @id = id
       @comms = comms
@@ -25,50 +23,17 @@ module SonicPi
       @on_started_callbacks = []
       @info = info
       r = rand.to_s
-      killed_event_id  = "/sonicpi/node/killed#{id}-#{r}"
-      paused_event_id  = "/sonicpi/node/paused#{id}-#{r}"
-      started_event_id = "/sonicpi/node/started#{id}-#{r}"
-      created_event_id = "/sonicpi/node/created#{id}-#{r}"
+      @killed_event_key  = "/sonicpi/node/killed#{id}-#{r}"
+      @paused_event_key  = "/sonicpi/node/paused#{id}-#{r}"
+      @started_event_key = "/sonicpi/node/started#{id}-#{r}"
+      @created_event_key = "/sonicpi/node/created#{id}-#{r}"
 
-
-      @comms.async_add_event_handler("/n_end/#{id}", killed_event_id) do |payload|
-        #It's possible that this message comes into the event system
-        #twice - once from the server and once from the containing group
-        #emulating the server. However, by removing handlers on
-        #completion, this won't cause any issues.
-        @state_change_sem.synchronize do
-          prev_state = @state
-          @state = :destroyed
-          call_on_destroyed_callbacks if prev_state != :destroyed
-        end
-        [:remove_handlers,
-          [ ["/n_go", created_event_id],
-            ["/n_off", paused_event_id],
-            ["/n_on", started_event_id],
-            ["/n_end", killed_event_id]]]
-
-      end
-
-      @comms.async_add_event_handler("/n_off/#{id}", paused_event_id) do |payload|
-        @state_change_sem.synchronize do
-          @state = :paused
-        end
-      end
-
-      @comms.async_add_event_handler("/n_on/#{id}", started_event_id) do |payload|
-        @state_change_sem.synchronize do
-          @state = :running
-        end
-      end
-
-      @comms.async_add_event_handler("/n_go/#{id}", created_event_id) do |payload|
-        @state_change_sem.synchronize do
-          prev_state = @state
-          @state = :running
-          call_on_started_callbacks if prev_state == :pending
-        end
-      end
+      @comms.async_add_event_handlers([ ["/n_end/#{id}", @killed_event_key,  method(:handle_n_end)],
+                                        ["/n_on/#{id}",  @started_event_key, method(:handle_n_on)],
+                                        ["/n_go/#{id}",  @created_event_key, method(:handle_n_go)],
+                                        ["/n_off/#{id}", @paused_event_key, method(:handle_n_off)]])
     end
+
 
     # block will be called when the node is destroyed or immediately if
     # node is already destroyed. Possibly executed on a separate thread.
@@ -182,6 +147,40 @@ module SonicPi
           Kernel.puts b
         end
       end
+    end
+
+    def handle_n_off(arg)
+      @state_change_sem.synchronize do
+        @state = :paused
+      end
+    end
+
+    def handle_n_on(arg)
+      @state_change_sem.synchronize do
+        @state = :running
+      end
+    end
+
+    def handle_n_go(arg)
+      @state_change_sem.synchronize do
+        prev_state = @state
+        @state = :running
+        call_on_started_callbacks if prev_state == :pending
+      end
+    end
+
+    def handle_n_end(arg)
+        @state_change_sem.synchronize do
+          prev_state = @state
+          @state = :destroyed
+          call_on_destroyed_callbacks if prev_state != :destroyed
+        end
+        [:remove_handlers,
+          [ ["/n_go/#{@id}",  @created_event_key],
+            ["/n_off/#{@id}", @paused_event_key],
+            ["/n_on/#{@id}",  @started_event_key],
+            ["/n_end/#{@id}", @killed_event_key]]]
+
     end
   end
 end
