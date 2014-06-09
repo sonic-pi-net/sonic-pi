@@ -209,9 +209,6 @@
                    detune_slide 0
                    out_bus 0]
      (let [note        (lag note note_slide)
-           _    (poll (impulse 3) note "note")
-
-
            amp         (lag amp amp_slide)
            pan         (lag pan pan_slide)
            detune      (lag detune detune_slide)
