@@ -1236,7 +1236,10 @@ set_volume! 2 # Set the main system volume to 2",
          n = args_h[:note]
          args_h[:note] = note(n) if n
          node.control args_h
-         __delayed_message "control Node #{node.id}, #{arg_h_pp(args_h)}"
+         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+           __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}"
+         end
+
        end
        doc name:          :control,
            doc:           "add docs",
