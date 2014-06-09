@@ -1464,11 +1464,23 @@ stop bar"]
        end
 
        def current_fx_group
-         Thread.current.thread_variable_get :sonic_pi_mod_sound_fx_group || job_fx_group(current_job_id)
+         if g = Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_group)
+           return g
+         else
+           g = job_fx_group(current_job_id)
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_fx_group, g
+           return g
+         end
        end
 
        def current_job_synth_group
-         Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_job_group) || job_synth_group(current_job_id)
+         if g = Thread.current.thread_variable_get(:sonic_pi_mod_sound_job_group)
+           return g
+         else
+           g = job_synth_group(current_job_id)
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_job_group, g
+           return g
+         end
        end
 
        def current_out_bus
