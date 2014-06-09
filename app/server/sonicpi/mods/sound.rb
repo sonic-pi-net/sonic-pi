@@ -73,13 +73,6 @@ module SonicPi
                  joiner = job_proms_joiner(job_id)
                  @job_proms_joiners[job_id] = joiner
                end
-
-               t = payload[:thread]
-               g = job_synth_group(job_id)
-               t.thread_variable_set(:sonic_pi_mod_sound_synth_job_group, g)
-
-               fx_g = job_fx_group(job_id)
-               t.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_g)
              end
 
 
@@ -1471,11 +1464,11 @@ stop bar"]
        end
 
        def current_fx_group
-         Thread.current.thread_variable_get :sonic_pi_mod_sound_fx_group
+         Thread.current.thread_variable_get :sonic_pi_mod_sound_fx_group || job_fx_group(current_job_id)
        end
 
        def current_job_synth_group
-         Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_job_group)
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_job_group) || job_synth_group(current_job_id)
        end
 
        def current_out_bus
