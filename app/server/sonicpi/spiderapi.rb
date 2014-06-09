@@ -292,7 +292,7 @@ puts current_bpm # Print out the current bpm"]
           main_t.join
           __join_subthreads(main_t)
           parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
-            parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(Thread.current)
+            parent_t.thread_variable_get(:sonic_pi_spider_subthreads).delete(main_t)
           end
         end
 
@@ -354,7 +354,7 @@ puts current_bpm # Print out the current bpm"]
 
       parent_t.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
         subthreads = parent_t.thread_variable_get :sonic_pi_spider_subthreads
-        subthreads.add(Thread.current)
+        subthreads.add(t)
       end
 
       # Allow the subthread to continue running
