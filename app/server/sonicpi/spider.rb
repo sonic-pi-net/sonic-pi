@@ -311,12 +311,10 @@ module SonicPi
 
     def __spider_eval(code, info={})
       id = @job_counter.next
-      local_events = IncomingEvents.new
       job = Thread.new do
         Thread.current.priority = 10
         begin
           num_running_jobs = reg_job(id, Thread.current)
-          Thread.current.thread_variable_set :sonic_pi_job_events, local_events
           Thread.current.thread_variable_set :sonic_pi_thread_group, "job-#{id}"
           Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
