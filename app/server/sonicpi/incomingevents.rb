@@ -50,7 +50,7 @@ module SonicPi
     end
 
     def async_add_handlers(*args)
-      @event_queue << [:add_multiple, args]
+      @event_queue << [:async_add_multiple, args]
     end
 
     def async_add_handler(handle, key, &block)

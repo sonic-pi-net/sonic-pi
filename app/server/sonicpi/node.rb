@@ -28,10 +28,10 @@ module SonicPi
       @started_event_key = "/sonicpi/node/started#{id}-#{r}"
       @created_event_key = "/sonicpi/node/created#{id}-#{r}"
 
-      @comms.async_add_event_handlers([ ["/n_end/#{id}", @killed_event_key,  method(:handle_n_end)],
-                                        ["/n_on/#{id}",  @started_event_key, method(:handle_n_on)],
-                                        ["/n_go/#{id}",  @created_event_key, method(:handle_n_go)],
-                                        ["/n_off/#{id}", @paused_event_key, method(:handle_n_off)]])
+      @comms.async_add_event_handlers(["/n_end/#{id}", @killed_event_key,  method(:handle_n_end)],
+                                      ["/n_on/#{id}",  @started_event_key, method(:handle_n_on)],
+                                      ["/n_go/#{id}",  @created_event_key, method(:handle_n_go)],
+                                      ["/n_off/#{id}", @paused_event_key, method(:handle_n_off)])
     end
 
 
