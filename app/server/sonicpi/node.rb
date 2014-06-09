@@ -61,7 +61,7 @@ module SonicPi
         end
       end
 
-      @comms.add_event_handler("/n_go/#{id}", created_event_id) do |payload|
+      @comms.async_add_event_handler("/n_go/#{id}", created_event_id) do |payload|
         @state_change_sem.synchronize do
           prev_state = @state
           @state = :running
