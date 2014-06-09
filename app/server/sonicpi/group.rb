@@ -17,6 +17,48 @@ module SonicPi
 
     def initialize(id, comms)
       super(id, comms)
+      @nodes = {}
+      @pending_nodes = {}
+      @pending_nodes_mut = Mutex.new
+      @nodes_mut = Mutex.new
+
+
+      @on_destroyed_callbacks << lambda do
+        @pending_nodes.values.each do |pn|
+          # These nodes have been triggered from Sonic Pi, but the
+          # containing group must have been killed on the server before
+          # the messages managed to get out. Emulate the server's node
+          # end OSC message.
+
+          # It's therefore possible that multiple of these messages
+          # could be sent - however, this won't cause any issues as the
+          # node won't run on_destroyed handlers multiple times and the
+          # default /n_end handlers remove themselves.
+          @comms.async_event "/n_end/#{pn.id}", {}
+        end
+      end
+    end
+
+    def subnode_add(n)
+      @nodes_mut.synchronize do
+        @nodes[n.id] = n
+      end
+
+      @pending_nodes_mut.synchronize do
+        @pending_nodes[n.id] = n
+      end
+
+      n.on_started do
+        @pending_nodes_mut.synchronize do
+          @pending_nodes.delete(n.id)
+        end
+      end
+    end
+
+    def subnode_rm(n)
+      @nodes_mut.synchronize do
+        @nodes.delete n.id
+      end
     end
 
     def clear

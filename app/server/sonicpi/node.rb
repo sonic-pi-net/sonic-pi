@@ -30,45 +30,42 @@ module SonicPi
       started_event_id = "/sonicpi/node/started#{id}-#{r}"
       created_event_id = "/sonicpi/node/created#{id}-#{r}"
 
-      @comms.add_event_handler("/n_end", killed_event_id) do |payload|
-        if(id.to_i == payload[0].to_i)
-          @state_change_sem.synchronize do
-            prev_state = @state
-            @state = :destroyed
-            call_on_destroyed_callbacks if prev_state != :destroyed
 
-          end
-          [:remove_handlers,
-            [ ["/n_go", created_event_id],
-              ["/n_off", paused_event_id],
-              ["/n_on", started_event_id],
-              ["/n_end", killed_event_id]]]
+      @comms.async_add_event_handler("/n_end/#{id}", killed_event_id) do |payload|
+        #It's possible that this message comes into the event system
+        #twice - once from the server and once from the containing group
+        #emulating the server. However, by removing handlers on
+        #completion, this won't cause any issues.
+        @state_change_sem.synchronize do
+          prev_state = @state
+          @state = :destroyed
+          call_on_destroyed_callbacks if prev_state != :destroyed
+        end
+        [:remove_handlers,
+          [ ["/n_go", created_event_id],
+            ["/n_off", paused_event_id],
+            ["/n_on", started_event_id],
+            ["/n_end", killed_event_id]]]
+
+      end
+
+      @comms.async_add_event_handler("/n_off/#{id}", paused_event_id) do |payload|
+        @state_change_sem.synchronize do
+          @state = :paused
         end
       end
 
-      @comms.add_event_handler("/n_off", paused_event_id) do |payload|
-        if(id.to_i == payload[0].to_i)
-          @state_change_sem.synchronize do
-            @state = :paused
-          end
+      @comms.async_add_event_handler("/n_on/#{id}", started_event_id) do |payload|
+        @state_change_sem.synchronize do
+          @state = :running
         end
       end
 
-      @comms.add_event_handler("/n_on", started_event_id) do |payload|
-        if(id.to_i == payload[0].to_i)
-          @state_change_sem.synchronize do
-            @state = :running
-          end
-        end
-      end
-
-      @comms.add_event_handler("/n_go", created_event_id) do |payload|
-        if(id.to_i == payload[0].to_i)
-          @state_change_sem.synchronize do
-            prev_state = @state
-            @state = :running
-            call_on_started_callbacks if prev_state == :pending
-          end
+      @comms.add_event_handler("/n_go/#{id}", created_event_id) do |payload|
+        @state_change_sem.synchronize do
+          prev_state = @state
+          @state = :running
+          call_on_started_callbacks if prev_state == :pending
         end
       end
     end
@@ -164,13 +161,27 @@ module SonicPi
     private
 
     def call_on_destroyed_callbacks
-      @on_destroyed_callbacks.each{|cb| cb.call}
-      @on_destroyed_callbacks = []
+      begin
+        @on_destroyed_callbacks.each{|cb| cb.call}
+        @on_destroyed_callbacks = []
+      rescue Exception => e
+        Kernel.puts "Exception in on destroyed callbacks: #{e.message}"
+        e.backtrace.each do |b|
+          Kernel.puts b
+        end
+      end
     end
 
     def call_on_started_callbacks
-      @on_started_callbacks.each{|cb| cb.call}
-      @on_started_callbacks = []
+      begin
+        @on_started_callbacks.each{|cb| cb.call}
+        @on_started_callbacks = []
+      rescue Exception => e
+        Kernel.puts "Exception in on started callbacks: #{e.message}"
+        e.backtrace.each do |b|
+          Kernel.puts b
+        end
+      end
     end
   end
 end

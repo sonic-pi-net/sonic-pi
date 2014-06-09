@@ -80,7 +80,7 @@ module SonicPi
       end
 
       log "Sending /quit command to server"
-      send "/quit"
+      @client.send(OSC::Message.new("/quit"), @hostname, @port)
       @osc_in_thread.kill
       @osc_out_thread.kill
     end
