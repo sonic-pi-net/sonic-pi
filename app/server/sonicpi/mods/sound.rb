@@ -14,6 +14,7 @@ require 'tmpdir'
 require 'fileutils'
 require 'thread'
 require "hamster/set"
+require "hamster/hash"
 require_relative "../blanknode"
 require_relative "../chainnode"
 require_relative "../fxnode"
@@ -883,6 +884,37 @@ end"]
            examples:      []
 
 
+       def use_sample_pack_as(pack, name, &block)
+         raise "use_sample_pack_as does not work with a block. Perhaps you meant with_sample_pack" if block
+         aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases) || Hamster.hash
+         new_aliases = aliases.put name.to_s, pack
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
+       end
+       doc name:          :use_sample_pack_as,
+           doc:           "add docs",
+           args:          [[:pack_path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
+
+
+       def with_sample_pack_as(pack, name, &block)
+         raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack" if block
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
+         aliases = current || Hamster.hash
+         new_aliases = aliases.put name.to_s, pack
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, current)
+       end
+       doc name:          :with_sample_pack_as,
+           doc:           "add docs",
+           args:          [[:pack_path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      []
+
+
 
 
        def with_sample_pack(pack, &block)
@@ -1327,14 +1359,24 @@ stop bar"]
        private
 
        def resolve_sample_symbol_path(sym)
-         path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || samples_path
-         partial = path + "/" + sym.to_s
+         if ((aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)) &&
+
+             (m       = sym.to_s.match /(.+?)_(.+)/) &&
+             (p       = aliases[m[1]]))
+           path = p
+           sym = m[2]
+           partial = "#{p}/#{sym}"
+         else
+           path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || samples_path
+           partial = path + "/" + sym.to_s
+         end
+
          ["wav", "aiff", "aif", "wave"].each do |ext|
            full = "#{partial}.#{ext}"
            return full if File.exists?(full)
          end
 
-         raise "No sample exists called #{path.inspect} in sample pack #{path}"
+         raise "No sample exists called :#{sym} in sample pack #{path}"
        end
 
        def arg_h_pp(arg_h)
