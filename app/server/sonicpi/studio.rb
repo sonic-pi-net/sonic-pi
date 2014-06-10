@@ -80,7 +80,7 @@ module SonicPi
 
     def start_mixer
       message "Starting mixer"
-      @mixer = @server.trigger_synth(:head, @mixer_group, "sp/mixer", {"in_bus" => @mixer_bus})
+      @mixer = @server.trigger_synth(:head, @mixer_group, "sonic-pi-mixer", {"in_bus" => @mixer_bus})
     end
 
     def volume=(vol)
@@ -130,7 +130,7 @@ module SonicPi
       @recording_mutex.synchronize do
         return false if @recorders[bus]
         bs = @server.buffer_stream_open(path)
-        s = @server.trigger_synth :head, @recording_group, "sp/recorder", {"out-buf" => bs.to_i, "in_bus" => bus}, true
+        s = @server.trigger_synth :head, @recording_group, "sonic-pi-recorder", {"out-buf" => bs.to_i, "in_bus" => bus}, true
         @recorders[bus] = [bs, s]
         true
       end

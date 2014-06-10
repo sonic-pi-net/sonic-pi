@@ -689,6 +689,7 @@ end"]
 
          info = SynthInfo.get_info(fx_synth_name)
          raise "Unknown fx #{fx_name.inspect}" unless info
+         fx_synth_name = info.scsynth_name
 
          start_subthreads = []
          end_subthreads = []
@@ -1414,6 +1415,7 @@ stop bar"]
        def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil)
 
          defaults = info ? info.arg_defaults : {}
+         synth_name = info ? info.scsynth_name : synth_name
 
          unless out_bus
            out_bus = current_out_bus
@@ -1527,7 +1529,7 @@ stop bar"]
              "out_bus" => @mod_sound_studio.mixer_bus,
            }
 
-           synth_name = "sp/basic_mixer"
+           synth_name = "sonic-pi-basic_mixer"
 
            validation_fn = mk_synth_args_validator(synth_name)
            validation_fn.call(args_h)

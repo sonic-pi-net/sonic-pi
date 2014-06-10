@@ -2,8 +2,10 @@ module SonicPi
 
   class BaseInfo
     attr_accessor :should_validate
+    attr_reader :scsynth_name
 
     def initialize
+      @scsynth_name = "#{prefix}#{synth_name}"
       @should_validate = true
       @info = default_arg_info.merge(specific_arg_info)
     end
@@ -18,6 +20,14 @@ module SonicPi
 
     def name
       raise "please implement me!"
+    end
+
+    def prefix
+      ""
+    end
+
+    def synth_name
+      raise "Please implement me for #{self.class}!"
     end
 
     def args
@@ -252,11 +262,22 @@ module SonicPi
   end
 
   class SynthInfo < BaseInfo
+
   end
 
-  class DullBell < SynthInfo
+  class SonicPiSynth < SynthInfo
+    def prefix
+      "sonic-pi-"
+    end
+  end
+
+  class DullBell < SonicPiSynth
     def name
       "Dull Bell"
+    end
+
+    def synth_name
+      "dull_bell"
     end
 
     def doc
@@ -283,14 +304,22 @@ module SonicPi
       "Pretty Bell"
     end
 
+    def synth_name
+      "pretty_bell"
+    end
+
     def doc
       "A simple pretty bell sound."
     end
   end
 
-  class Beep < SynthInfo
+  class Beep < SonicPiSynth
     def name
       "Sine Wave"
+    end
+
+    def synth_name
+      "beep"
     end
 
     def doc
@@ -307,14 +336,18 @@ module SonicPi
         :pan_slide => 0,
         :attack => 0.0,
         :sustain => 0,
-        :release => 0.2
+        :release => 0.3
       }
     end
   end
 
-  class SawBeep < Beep
+  class Saw < Beep
     def name
       "Saw Wave"
+    end
+
+    def synth_name
+      "saw"
     end
 
     def doc
@@ -322,9 +355,120 @@ module SonicPi
     end
   end
 
-  class DSaw < SynthInfo
+
+  class SawS < Beep
+    def name
+      "Saw Wave Simple"
+    end
+
+    def synth_name
+      "saw_s"
+    end
+
+    def doc
+      "A simple saw wave"
+    end
+  end
+
+  class Pulse < SonicPiSynth
+    def name
+      "Pulse Wave"
+    end
+
+    def synth_name
+      "pulse"
+    end
+
+    def doc
+      "A simple pulse wave with a low pass filter."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 0.3,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :pulse_width => 0.5,
+        :pulse_width_slide => 0
+      }
+    end
+  end
+
+  class PulseS < SonicPiSynth
+    def name
+      "Pulse Wave Simple"
+    end
+
+    def synth_name
+      "pulse_s"
+    end
+
+    def doc
+      "A simple pulse wave."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :attack => 0.01,
+        :sustain => 0,
+        :release => 0.3,
+
+        :pulse_width => 0.5,
+        :pulse_width_slide => 0
+      }
+    end
+  end
+
+  class Tri < Pulse
+    def name
+      "Triangle Wave"
+    end
+
+    def synth_name
+      "tri"
+    end
+
+    def doc
+      "A simple triangle wave with a low pass filter."
+    end
+  end
+
+  class TriS < Beep
+    def name
+      "Triangle Wave Simple"
+    end
+
+    def synth_name
+      "tri_s"
+    end
+
+    def doc
+      "A simple triangle wave."
+    end
+  end
+
+  class DSaw < SonicPiSynth
     def name
       "Detuned Saw wave"
+    end
+
+    def synth_name
+      "dsaw"
     end
 
     def doc
@@ -352,9 +496,45 @@ module SonicPi
     end
   end
 
-  class FM < SynthInfo
+  class DSawS < SonicPiSynth
+    def name
+      "Detuned Saw Wave Simple"
+    end
+
+    def synth_name
+      "dsaw_s"
+    end
+
+    def doc
+      "A pair of detuned saw waves."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :pan => 0,
+        :pan_slide => 0,
+
+        :attack => 0.1,
+        :sustain => 0,
+        :release => 0.3,
+
+        :detune => 0.1,
+        :detune_slide => 0
+      }
+    end
+  end
+
+  class FM < SonicPiSynth
     def name
       "Basic FM synthesis"
+    end
+
+    def synth_name
+      "fm"
     end
 
     def doc
@@ -415,9 +595,34 @@ module SonicPi
     end
   end
 
-  class ModSaw < SynthInfo
+  class ModFM < FM
+
+    def name
+      "Basic FM synthesis with frequency modulation"
+    end
+
+    def synth_name
+      "mod_fm"
+    end
+
+    def arg_defaults
+      super.merge({
+                    :mod_rate => 1,
+                    :mod_range => 5,
+                    :mod_width => 0.5
+                  })
+    end
+
+
+end
+
+  class ModSaw < SonicPiSynth
     def name
       "Modulated Saw Wave"
+    end
+
+    def synth_name
+      "mod_saw"
     end
 
     def doc
@@ -449,9 +654,13 @@ module SonicPi
     end
   end
 
-  class ModSawS < SynthInfo
+  class ModSawS < SonicPiSynth
     def name
       "Simple Modulated Saw Wave"
+    end
+
+    def synth_name
+      "mod_saw_s"
     end
 
     def doc
@@ -475,9 +684,13 @@ module SonicPi
     end
   end
 
-  class ModDSaw < SynthInfo
+  class ModDSaw < SonicPiSynth
     def name
       "Modulated Detuned Saw Waves"
+    end
+
+    def synth_name
+      "mod_dsaw"
     end
 
     def doc
@@ -509,9 +722,13 @@ module SonicPi
     end
   end
 
-  class ModDSawS < SynthInfo
+  class ModDSawS < SonicPiSynth
     def name
       "Modulated Detuned Saw Waves Simple"
+    end
+
+    def synth_name
+      "mod_dsaw_s"
     end
 
     def doc
@@ -543,9 +760,13 @@ module SonicPi
     end
   end
 
-  class ModSine < SynthInfo
+  class ModSine < SonicPiSynth
     def name
       "Modulated Sine Wave"
+    end
+
+    def synth_name
+      "mod_sine"
     end
 
     def doc
@@ -577,9 +798,13 @@ module SonicPi
     end
   end
 
-  class ModSineS < SynthInfo
+  class ModSineS < SonicPiSynth
     def name
       "Simple Modulated Sine Wave"
+    end
+
+    def synth_name
+      "mod_sine_s"
     end
 
     def doc
@@ -609,9 +834,13 @@ module SonicPi
     end
   end
 
-  class ModTri < SynthInfo
+  class ModTri < SonicPiSynth
     def name
       "Modulated Triangle Wave"
+    end
+
+    def synth_name
+      "mod_tri"
     end
 
     def doc
@@ -642,9 +871,13 @@ module SonicPi
     end
   end
 
-  class ModTriS < SynthInfo
+  class ModTriS < SonicPiSynth
     def name
       "Simple Modulated Triangle Wave"
+    end
+
+    def synth_name
+      "mod_tri_s"
     end
 
     def doc
@@ -675,9 +908,13 @@ module SonicPi
     end
   end
 
-  class ModPulse < SynthInfo
+  class ModPulse < SonicPiSynth
     def name
       "Modulated Pulse"
+    end
+
+    def synth_name
+      "mod_pulse"
     end
 
     def doc
@@ -710,9 +947,13 @@ module SonicPi
     end
   end
 
-  class ModPulseS < SynthInfo
+  class ModPulseS < SonicPiSynth
     def name
       "Simple Modulated Pulse"
+    end
+
+    def synth_name
+      "mod_pulse_s"
     end
 
     def doc
@@ -743,9 +984,13 @@ module SonicPi
     end
   end
 
-  class TB303 < SynthInfo
+  class TB303 < SonicPiSynth
     def name
       "TB-303 Emulation"
+    end
+
+    def synth_name
+      "tb303"
     end
 
     def doc
@@ -817,9 +1062,13 @@ module SonicPi
     end
   end
 
-  class Supersaw < SynthInfo
+  class Supersaw < SonicPiSynth
     def name
       "Supersaw"
+    end
+
+    def synth_name
+      "supersaw"
     end
 
     def doc
@@ -847,9 +1096,13 @@ module SonicPi
     end
   end
 
-  class SupersawS < SynthInfo
+  class SupersawS < SonicPiSynth
     def name
       "Supersaw Simple"
+    end
+
+    def synth_name
+      "supersaw_s"
     end
 
     def doc
@@ -873,9 +1126,13 @@ module SonicPi
 
   end
 
-  class Zawa < SynthInfo
+  class Zawa < SonicPiSynth
     def name
       "Zawa"
+    end
+
+    def synth_name
+      "zawa"
     end
 
     def doc
@@ -907,9 +1164,13 @@ module SonicPi
   end
 
 
-  class Prophet < SynthInfo
+  class Prophet < SonicPiSynth
     def name
       "The Prophet"
+    end
+
+    def synth_name
+      "prophet"
     end
 
     def doc
@@ -937,13 +1198,17 @@ end
 
   end
 
-  class StudioInfo < SynthInfo
+  class StudioInfo < SonicPiSynth
 
   end
 
   class BasicMonoPlayer < StudioInfo
     def name
       "Basic Mono Sample Player (no env)"
+    end
+
+    def synth_name
+      "basic_mono_player"
     end
 
     def doc
@@ -967,6 +1232,10 @@ end
       "Basic Stereo Sample Player (no env)"
     end
 
+    def synth_name
+      "basic_stereo_player"
+    end
+
     def doc
       ""
     end
@@ -975,6 +1244,10 @@ end
   class MonoPlayer < StudioInfo
     def name
       "Mono Sample Player"
+    end
+
+    def synth_name
+      "mono_player"
     end
 
     def doc
@@ -1050,6 +1323,10 @@ end
     def name
       "Stereo Sample Player"
     end
+
+    def synth_name
+      "stereo_player"
+    end
   end
 
   class BaseMixer < StudioInfo
@@ -1059,6 +1336,10 @@ end
   class BasicMixer < BaseMixer
     def name
       "Basic Mixer"
+    end
+
+    def synth_name
+      "basic_mixer"
     end
 
     def arg_defaults
@@ -1079,6 +1360,10 @@ end
       "Reverb"
     end
 
+    def synth_name
+      "fx_reverb"
+    end
+
     def arg_defaults
       {
         :mix => 0.4,
@@ -1096,6 +1381,10 @@ end
       "Level Amplifier"
     end
 
+    def synth_name
+      "fx_level"
+    end
+
     def arg_defaults
       {
         :amp => 1,
@@ -1107,6 +1396,10 @@ end
   class FXEcho < FXInfo
     def name
       "Echo"
+    end
+
+    def synth_name
+      "fx_echo"
     end
 
     def arg_defaults
@@ -1168,6 +1461,10 @@ end
   class FXSlicer < FXInfo
     def name
       "Slicer"
+    end
+
+    def synth_name
+      "fx_slicer"
     end
 
     def arg_defaults
@@ -1242,6 +1539,10 @@ end
       "Techno from IXI Lang"
     end
 
+    def synth_name
+      "fx_ixi_techno"
+    end
+
     def arg_defaults
       {
         :rate => 0.1,
@@ -1272,6 +1573,10 @@ end
   class FXCompressor < FXInfo
     def name
       "Compressor"
+    end
+
+    def synth_name
+      "fx_compressor"
     end
 
     def arg_defaults
@@ -1305,6 +1610,10 @@ end
       "Resonant Low Pass Filter"
     end
 
+    def synth_name
+      "fx_rlpf"
+    end
+
     def arg_defaults
       {
         :cutoff => 100,
@@ -1326,11 +1635,19 @@ end
     def name
       "Normalised Resonant Low Pass Filter"
     end
+
+    def synth_name
+      "fx_norm_rlpf"
+    end
   end
 
   class FXRHPF < FXInfo
     def name
       "Resonant High Pass Filter"
+    end
+
+    def synth_name
+      "fx_rhpf"
     end
 
     def arg_defaults
@@ -1354,11 +1671,19 @@ end
     def name
       "Normalised Resonant High Pass Filter"
     end
+
+    def synth_name
+      "fx_norm_rhpf"
+    end
   end
 
   class FXLPF < FXInfo
     def name
       "Low Pass Filter"
+    end
+
+    def synth_name
+      "fx_lpf"
     end
 
     def arg_defaults
@@ -1380,11 +1705,19 @@ end
     def name
       "Normalised Low Pass Filter"
     end
+
+    def synth_name
+      "fx_norm_lpf"
+    end
   end
 
   class FXHPF < FXInfo
     def name
       "High Pass Filter"
+    end
+
+    def synth_name
+      "fx_hpf"
     end
 
     def arg_defaults
@@ -1406,11 +1739,19 @@ end
     def name
       "Normalised High Pass Filter"
     end
+
+    def synth_name
+      "fx_norm_hpf"
+    end
   end
 
   class FXNormaliser < FXInfo
     def name
       "Normaliser"
+    end
+
+    def synth_name
+      "fx_normaliser"
     end
 
     def arg_defaults
@@ -1424,6 +1765,10 @@ end
   class FXDistortion < FXInfo
     def name
       "Distortion"
+    end
+
+    def synth_name
+      "fx_distortion"
     end
 
     def arg_defaults
@@ -1556,10 +1901,17 @@ end
       {
       :dull_bell => DullBell.new,
       :pretty_bell => PrettyBell.new,
-      :saw_beep => SawBeep.new,
       :beep => Beep.new,
+      :saw => Saw.new,
+      :saw_s => SawS.new,
+      :pulse => Pulse.new,
+      :pulse_s => PulseS.new,
+      :tri => Tri.new,
+      :tri_s => TriS.new,
       :dsaw => DSaw.new,
+      :dsaw_s => DSawS.new,
       :fm => FM.new,
+      :mod_fm => ModFM.new,
       :mod_saw => ModSaw.new,
       :mod_saw_s => ModSawS.new,
       :mod_dsaw => ModDSaw.new,
@@ -1638,17 +1990,32 @@ end
       key_mod = nil
       res = {}
       hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
+
+      max_len =  0
+      get_all.each do |k, v|
+        next unless v.is_a? klass
+        next if v.is_a? StudioInfo
+        if klass == SynthInfo
+          max_len = k.to_s.size if k.to_s.size > max_len
+        else
+          max_len = (k.to_s.size - 3) if (k.to_s.size - 3) > max_len
+        end
+      end
+
       get_all.each do |k, v|
         next unless v.is_a? klass
         next if v.is_a? StudioInfo
         doc = ""
         doc << "<font size=\"7\", #{hv_face}>" << v.name << "</font>\n"
         if klass == SynthInfo
+          safe_k = k
           doc << "<h2><font color=\"#3C3C3C\"><pre>use_synth"
-          doc << " <font color=\"DeepPink\">:#{k}</font></pre></h2>\n"
+          doc << " <font color=\"DeepPink\">:#{safe_k}</font></pre></h2>\n"
+
         else
+          safe_k = k.to_s[3..-1]
           doc << "<h2><pre><font color=\"#3C3C3C\">with_fx"
-          doc << " <font color=\"DeepPink\">:#{k.to_s[11..-1]}</font> <font color=\"DarkOrange\">do</font><br/>  play <font color=\"DodgerBlue\">50</font><br/><font color=\"DarkOrange\">end</font></pre></font></h2>\n"
+          doc << " <font color=\"DeepPink\">:#{safe_k}</font> <font color=\"DarkOrange\">do</font><br/>  play <font color=\"DodgerBlue\">50</font><br/><font color=\"DarkOrange\">end</font></pre></font></h2>\n"
         end
 
         cnt = 0
@@ -1689,7 +2056,7 @@ end
           doc << " </tr>\n"
         end
         doc << "  </table>\n"
-        res[v.name] = doc
+        res["#{safe_k}"] = doc
       end
       res
     end
