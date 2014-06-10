@@ -85,11 +85,24 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(serverProcess, SIGNAL( error(QProcess::ProcessError) ), this, SLOT( serverError(QProcess::ProcessError)));
   connect(serverProcess, SIGNAL( finished(int, QProcess::ExitStatus) ), this, SLOT( serverFinished(int, QProcess::ExitStatus)));
 
-  std::string prg_path = "ruby " + QCoreApplication::applicationDirPath().toStdString() + "/../../server/bin/sonic-pi-server.rb";
+#if defined(Q_OS_WIN)
+  QString prg_path = "..\\..\\server\\native\\osx\\ruby\\bin\\ruby";
+#elif defined(Q_OS_MAC)
+  QString prg_path = "../../server/native/osx/ruby/bin/ruby";
+#else
+  //assuming Raspberry Pi
+  QString prg_path = "ruby";
+#endif
 
-  std::cout << prg_path << std::endl;
+  QString prg_arg = "../../server/bin/sonic-pi-server.rb";
+  prg_arg = QDir::toNativeSeparators(prg_arg);
 
-  serverProcess->start(QString::fromStdString(prg_path));
+  QStringList args;
+  args << prg_arg;
+
+  std::cout << prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
+
+  serverProcess->start(prg_path, args);
   serverProcess->waitForStarted();
 
   std::cerr << "started..." << serverProcess->state() << std::endl;
