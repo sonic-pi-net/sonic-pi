@@ -689,7 +689,6 @@ end"]
 
          info = SynthInfo.get_info(fx_synth_name)
          raise "Unknown fx #{fx_name.inspect}" unless info
-         fx_synth_name = info.scsynth_name
 
          start_subthreads = []
          end_subthreads = []
