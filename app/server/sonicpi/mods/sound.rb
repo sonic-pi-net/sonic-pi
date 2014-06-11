@@ -1159,11 +1159,16 @@ set_volume! 2 # Set the main system volume to 2",
          end
        end
        doc name:          :load_sample,
-           doc:           "add docs",
+           doc:           "Given a path to a wav|wave|aif|aiff file, this loads the file and makes it available as a sample. See also the use_sample_pack and with_sample_pack methods",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+load_sample '/home/yourname/path/to/sample/dir/foo.wav'
+ 
+# foo.wav is now loaded and ready to play as a sample
+sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
+"]
 
 
 
@@ -1178,11 +1183,18 @@ set_volume! 2 # Set the main system volume to 2",
          end
        end
        doc name:          :load_samples,
-           doc:           "add docs",
+           doc:           "Given an array of paths to wav|wave|aif|aiff files, this loads them and makes them all available as samples. See also the use_sample_pack and with_sample_pack methods",
            args:          [[:paths, :list]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+load_samples ['/home/yourname/path/to/sample/dir/foo.wav',
+              '/home/yourname/path/to/sample/dir/bar.wav']
+ 
+# foo.wav and bar.wav are both loaded and ready to play as samples
+sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
+sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
+"]
 
 
 
