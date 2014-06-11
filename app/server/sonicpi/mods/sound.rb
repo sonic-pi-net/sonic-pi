@@ -662,7 +662,7 @@ end"]
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, defaults_h
        end
        doc name:          :use_synth_defaults,
-           doc:           "add docs",
+           doc:           "Specify new default values to be used by all subsequent synth sriggers. ",
            args:          [],
            opts:          {},
            accepts_block: false,
