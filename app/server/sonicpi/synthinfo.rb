@@ -1352,7 +1352,9 @@ end
   end
 
   class FXInfo < BaseInfo
-
+    def prefix
+      "sonic-pi-"
+    end
   end
 
   class FXReverb < FXInfo
