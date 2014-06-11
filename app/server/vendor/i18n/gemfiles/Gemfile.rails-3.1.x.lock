@@ -1,0 +1,30 @@
+PATH
+  remote: ..
+  specs:
+    i18n (0.6.10)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (3.1.12)
+      multi_json (~> 1.0)
+    ffi (1.9.3)
+    metaclass (0.0.4)
+    mocha (1.0.0)
+      metaclass (~> 0.0.1)
+    multi_json (1.10.0)
+    rake (10.3.1)
+    rufus-tokyo (1.0.7)
+    test_declarative (0.0.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport (~> 3.1.0)
+  ffi
+  i18n!
+  mocha
+  rake
+  rufus-tokyo
+  test_declarative

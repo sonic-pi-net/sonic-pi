@@ -1,0 +1,8 @@
+.DS_Store
+test/rails/fixtures
+nbproject/
+vendor/**/*
+*.swp
+pkg
+.bundle
+.rvmrc

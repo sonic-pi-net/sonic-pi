@@ -1,0 +1,43 @@
+before_install: "sudo apt-get install ruby-tokyocabinet -y"
+
+rvm:
+  - 1.8.7
+  - 1.9.3
+  - 2.0.0
+  - 2.1
+  - ree
+  - rbx
+  - jruby
+
+gemfile:
+  - Gemfile
+  - gemfiles/Gemfile.rails-2.3.x
+  - gemfiles/Gemfile.rails-3.0.x
+  - gemfiles/Gemfile.rails-3.1.x
+  - gemfiles/Gemfile.rails-3.2.x
+  - gemfiles/Gemfile.rails-4.0.x
+  - gemfiles/Gemfile.rails-4.1.x
+
+matrix:
+  allow_failures:
+    - rvm: ree
+    - rvm: rbx
+    - rvm: jruby
+  exclude:
+    - gemfile: gemfiles/Gemfile.rails-2.3.x
+      rvm: 2.0.0
+    - gemfile: gemfiles/Gemfile.rails-2.3.x
+      rvm: 2.1
+    - gemfile: gemfiles/Gemfile.rails-2.3.x
+      rvm: rbx
+    - gemfile: gemfiles/Gemfile.rails-2.3.x
+      rvm: jruby
+    - gemfile: gemfiles/Gemfile.rails-4.0.x
+      rvm: 1.8.7
+    - gemfile: gemfiles/Gemfile.rails-4.0.x
+      rvm: ree
+    - gemfile: gemfiles/Gemfile.rails-4.1.x
+      rvm: 1.8.7
+    - gemfile: gemfiles/Gemfile.rails-4.1.x
+      rvm: ree
+  fast_finish: true
