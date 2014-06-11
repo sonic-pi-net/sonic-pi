@@ -1309,11 +1309,26 @@ control(s, rate: 1)"]
          @mod_sound_studio.status
        end
        doc name:          :status,
-           doc:           "add docs",
+           doc:           "This returns a Hash of information about the current environment. Mostly used for debugging purposes.",
            args:          [],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+puts status
+# Returns something like
+# {
+#   :ugens=>10, 
+#   :synths=>1, 
+#   :groups=>7, 
+#   :sdefs=>61, 
+#   :avg_cpu=>0.20156468451023102, 
+#   :peak_cpu=>0.36655542254447937, 
+#   :nom_samp_rate=>44100.0, 
+#   :act_samp_rate=>44099.9998411752, 
+#   :audio_busses=>2, 
+#   :control_busses=>0
+# }
+"]
 
 
 
@@ -1329,11 +1344,25 @@ control(s, rate: 1)"]
          end
        end
        doc name:          :note,
-           doc:           "add docs",
+           doc:           "Takes a midi note, a symbol (e.g. :C ) or a string (e.g. 'C' ) and resolves it to a midi note. You can also pass an optional :octave parameter to get the midi note for a given octave. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+# These all return 60 which is the midi number for middle C (octave 4)
+puts note(60)                           
+puts note(:C)                           
+puts note(:C4)                           
+puts note('C')                           
+",
+"# returns 60 - octave param has no effect if we pass in a number
+puts note(60, octave: 2) 
+
+# These all return 36 which is the midi number for C2 (two octaves below middle C)
+puts note(:C, octave: 2)                           
+puts note(:C4, octave: 2) # note the octave param overrides any octaves specified in a symbol
+puts note('C', octave: 2)                           
+"]
 
 
 
@@ -1344,11 +1373,13 @@ control(s, rate: 1)"]
          Note.new(n, octave)
        end
        doc name:          :note_info,
-           doc:           "add docs - :octave opt is overridden if oct specified in symbol i.e. :c3",
+           doc:           "Returns an instance of SonicPi::Note so this probably isn't the method you were looking for. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
-           examples:      []
+           examples:      [%Q{
+puts note_info(:C, octave: 2)
+# returns #<SonicPi::Note:0x0000010206bf78 @pitch_class="C", @octave=2, @interval=0, @midi_note=36, @midi_string="C0">}]
 
 
 
