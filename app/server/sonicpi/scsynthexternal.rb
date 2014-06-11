@@ -188,7 +188,7 @@ module SonicPi
       log_boot_msg
       log "Booting on OS X"
       boot_and_wait do
-        system("#{scsynth_path} -u #{@port} -m 131072 &")
+        system("'#{scsynth_path}' -u #{@port} -m 131072 &")
       end
     end
 
