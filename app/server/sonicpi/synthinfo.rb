@@ -2114,13 +2114,55 @@ end
     end
 
     def self.samples_doc_html_map
+      hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
       res = {}
+
       grouped_samples.each do |k, v|
-        html = "<h2>#{v[:desc]}</h2>\n"
-        html << "<h2><pre>:#{v[:prefix]}</pre></h2>\n"
-        html << "<ul>\n"
-        v[:samples].each {|s| html << "  <li><pre>:#{s}</pre></li>\n"}
-        html << "</ul>\n"
+      cnt = 0
+        cnt = 0
+        html = ""
+        html << "<font size=\"7\", #{hv_face}>" << v[:desc] << "</font>\n"
+        html << "<table cellpadding=\"2\">\n <tr>"
+        arglist = ""
+        StereoPlayer.new.arg_info.each do |ak, av|
+          arglist << "</tr><tr>" if cnt%6 == 0
+          bg_colour = cnt.even? ? "#5e5e5e" : "#E8E8E8"
+          fnt_colour = cnt.even? ? "white" : "#5e5e5e"
+          cnt += 1
+          arglist << "<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{ak}: </font></h4</pre>\n</td>\n<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre>\n</td>\n"
+        end
+        arglist << "</tr></table>\n"
+        html << arglist
+
+        html << "<table cellpadding=\"2\">\n <tr>"
+
+        v[:samples].each do |s|
+          html << "  <tr><td bgcolor=\"white\"><h2><pre><font color=\"#3C3C3C\"> sample</font> <font color=\"DeepPink\">:#{s}<font></pre></h2></td></tr>\n"
+        end
+        html << "</table>\n"
+        doc = ""
+        doc << "<table cellpadding=\"10\">\n"
+        doc << "<tr><th></th><th></th></tr>\n"
+
+        cnt = 0
+        StereoPlayer.new.arg_info.each do |ak, av|
+          cnt += 1
+          background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
+          key_bg_colour = cnt.even? ? "#FFF0F5" : "#FFE4E1"
+          doc << "  <tr bgcolor=\"#{background_colour}\">\n"
+          doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
+          doc << "      <td>\n"
+          doc << "        <font size=\"4\", #{hv_face}>\n"
+          doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
+          doc << "          <font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
+          doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
+          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
+          doc << "       </font>\n"
+          doc << "     </td>\n"
+          doc << " </tr>\n"
+        end
+        doc << "  </table>\n"
+        html << doc
         res[v[:desc]] = html
       end
       res
