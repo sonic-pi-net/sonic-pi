@@ -124,7 +124,7 @@ module SonicPi
        end
        doc name:          :midi_to_hz,
            doc:           "Convert a midi note to hz",
-           args:          [[:time, :number]],
+           args:          [[:note, :symbol_or_number]],
            opts:          nil,
            accepts_block: false,
            examples:      ["midi_to_hz(60) #=> 261.6256"]
@@ -132,9 +132,9 @@ module SonicPi
        def hz_to_midi(freq)
          (12 * (Math.log(freq * 0.0022727272727) / Math.log(2))) + 69
        end
-       doc name:          :set_sched_ahead_time!,
+       doc name:          :hz_to_midi,
            doc:           "Convert a frequency in hz to a midi note. Note that the result isn't an integer and there is a potential for some very minor rounding errors.",
-           args:          [[:time, :number]],
+           args:          [[:freq, :number]],
            opts:          nil,
            accepts_block: false,
            examples:      ["hz_to_midi(261.63) #=> 60.0003"]
@@ -409,7 +409,7 @@ play 50 # Plays with supersaw synth
          FileUtils.rm @tmp_path if @tmp_path
        end
        doc name:          :recording_delete,
-           doc:           "add docs",
+           doc:           "After using recording_start and recording_stop, a temporary file is created until you decide to use recording_save. If you've decided you don't want to save it you can use this method to delete the temporary file straight away, otherwise the operating system will take care of it later.",
            args:          [],
            opts:          nil,
            accepts_block: false,
