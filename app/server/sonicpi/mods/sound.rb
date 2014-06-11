@@ -1203,11 +1203,11 @@ sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
          load_sample(path)
        end
        doc name:          :sample_info,
-           doc:           "add docs",
+           doc:           "Alias for the load_sample method",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["see load_sample"]
 
 
 
@@ -1218,11 +1218,25 @@ sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
          load_sample(path).duration * 1.0/args_h[:rate]
        end
        doc name:          :sample_duration,
-           doc:           "add docs",
+           doc:           "Given the name of a loaded sample, or a path to a wav|wave|aif|aiff file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples",
            args:          [[:path, :string]],
            opts:          {:rate => 1},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+loop do
+  # Using sample_duration here means the loop plays back without any gaps or breaks
+  sample :loop_amen
+  sleep sample_duration(:loop_amen)
+end",
+"loop do
+  # You can also use rate if you want to keep a seamless loop whilst adjusting the speed
+  sample :loop_amen, rate: 0.75
+  sleep sample_duration(:loop_amen, rate: 0.75)
+end",
+"# Try not to use negative numbers for the rate parameter as it won't work
+sample :loop_amen, rate: -1
+sleep sample_duration(:loop_amen, rate: -1) # This throws an error - use 1 instead
+"]
 
 
 
@@ -1234,11 +1248,59 @@ sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
        doc name:          :sample,
-           doc:           "add docs",
+           doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples already (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack method for details on loading a whole folder of your own sample files.",
            args:          [[:name_or_path, :symbol_or_string]],
            opts:          {:rate => 1},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+sample :perc_bell # plays one of Sonic Pi's built in samples",
+"sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|aif|aiff file from your local filesystem",
+"# Lets play with the rate parameter
+# play one of the included samples
+sample :loop_amen
+sleep sample_duration(:loop_amen) # this sleeps for exactly the length of the sample
+
+# Setting a rate of 0.5 will cause the sample to
+#   a) play half as fast
+#   b) play an octave down in pitch
+#
+# Listen:
+sample :loop_amen, rate: 0.5
+sleep sample_duration(:loop_amen, rate: 0.5)
+
+# Setting a really low number means the sample takes
+# a very long time to finish! Also it sounds very 
+# different to the original sound
+sample :loop_amen, rate: 0.05
+sleep sample_duration(:loop_amen, rate: 0.05)",
+"# Setting a really negative number can be lots of fun
+# It plays the sample backwards!
+sample :loop_amen, rate: -1
+sleep sample_duration(:loop_amen, rate: 1) # there's no need to give sample_duration a negative number though
+
+# Using a rate of -0.5 is just like using the positive 0.5 (lower in pitch and slower) except backwards
+sample :loop_amen, rate: -0.5
+sleep sample_duration(:loop_amen, rate: 0.5) # there's no need to give sample_duration a negative number though",
+"# BE CAREFUL
+# Don't set the rate to 0 though because it will get stuck 
+# and won't make any sound at all! 
+# We can see that the following would take Infinity seconds to finish
+puts sample_duration(:loop_amen, rate: 0)",
+"# Just like the play method, we can assign our sample player
+# to a variable and control the rate parameter whilst it's playing.
+#
+# The following example sounds a bit like a vinyl speeding up
+s = sample :loop_amen_full, rate: 0.05
+sleep 1
+control(s, rate: 0.2)
+sleep 1
+control(s, rate: 0.4)
+sleep 1
+control(s, rate: 0.6)
+sleep 1
+control(s, rate: 0.8)
+sleep 1
+control(s, rate: 1)"]
 
 
 
