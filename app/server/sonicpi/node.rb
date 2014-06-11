@@ -70,9 +70,7 @@ module SonicPi
           @on_started_callbacks << cb
         end
       end
-      Kernel.puts "blocking for node prom #{@id}"
       prom.get
-      Kernel.puts "blocked for node prom #{@id}"
       self
     end
 
