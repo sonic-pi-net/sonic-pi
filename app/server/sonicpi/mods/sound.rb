@@ -1390,11 +1390,90 @@ puts note_info(:C, octave: 2)
          Scale.new(tonic, name,  opts[:num_octaves]).to_a
        end
        doc name:          :scale,
-           doc:           "add docs",
+           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional :num_octaves parameter - 1 octave is the default"
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          {:num_octaves => 1},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+puts scale(:C, :major) # returns an Array [60, 62, 64, 65, 67, 69, 71, 72]",
+"# anywhere you can use an Array of notes, you can use the scale method
+play_pattern scale(:C, :major)",
+"# you can use the :num_octaves parameter to get more notes
+play_pattern(:C, :major, num_octaves: 2)",
+"# There are lots of scale types to choose from!
+use_bpm 300 # otherwise playing all these will take ages...
+play_pattern scale(:C, :diatonic)
+play_pattern scale(:C, :ionian)
+play_pattern scale(:C, :major)
+play_pattern scale(:C, :dorian)
+play_pattern scale(:C, :phrygian)
+play_pattern scale(:C, :lydian)
+play_pattern scale(:C, :mixolydian)
+play_pattern scale(:C, :aeolian)
+play_pattern scale(:C, :minor)
+play_pattern scale(:C, :locrian)
+play_pattern scale(:C, :hex_major6)
+play_pattern scale(:C, :hex_dorian)
+play_pattern scale(:C, :hex_phrygian)
+play_pattern scale(:C, :hex_major7)
+play_pattern scale(:C, :hex_sus)
+play_pattern scale(:C, :hex_aeolian)
+play_pattern scale(:C, :minor_pentatonic)
+play_pattern scale(:C, :yu)
+play_pattern scale(:C, :major_pentatonic)
+play_pattern scale(:C, :gong)
+play_pattern scale(:C, :egyptian)
+play_pattern scale(:C, :shang)
+play_pattern scale(:C, :jiao)
+play_pattern scale(:C, :zhi)
+play_pattern scale(:C, :ritusen)
+play_pattern scale(:C, :whole_tone)
+play_pattern scale(:C, :whole)
+play_pattern scale(:C, :chromatic)
+play_pattern scale(:C, :harmonic_minor)
+play_pattern scale(:C, :melodic_minor_asc)
+play_pattern scale(:C, :hungarian_minor)
+play_pattern scale(:C, :octatonic)
+play_pattern scale(:C, :messiaen1)
+play_pattern scale(:C, :messiaen2)
+play_pattern scale(:C, :messiaen3)
+play_pattern scale(:C, :messiaen4)
+play_pattern scale(:C, :messiaen5)
+play_pattern scale(:C, :messiaen6)
+play_pattern scale(:C, :messiaen7)
+play_pattern scale(:C, :super_locrian)
+play_pattern scale(:C, :hirajoshi)
+play_pattern scale(:C, :kumoi)
+play_pattern scale(:C, :neapolitan_major)
+play_pattern scale(:C, :bartok)
+play_pattern scale(:C, :bhairav)
+play_pattern scale(:C, :locrian_major)
+play_pattern scale(:C, :ahirbhairav)
+play_pattern scale(:C, :enigmatic)
+play_pattern scale(:C, :neapolitan_minor)
+play_pattern scale(:C, :pelog)
+play_pattern scale(:C, :augmented2)
+play_pattern scale(:C, :scriabin)
+play_pattern scale(:C, :harmonic_major)
+play_pattern scale(:C, :melodic_minor_desc)
+play_pattern scale(:C, :romanian_minor)
+play_pattern scale(:C, :hindu)
+play_pattern scale(:C, :iwato)
+play_pattern scale(:C, :melodic_minor)
+play_pattern scale(:C, :diminished2)
+play_pattern scale(:C, :marva)
+play_pattern scale(:C, :melodic_major)
+play_pattern scale(:C, :indian)
+play_pattern scale(:C, :spanish)
+play_pattern scale(:C, :prometheus)
+play_pattern scale(:C, :diminished)
+play_pattern scale(:C, :todi)
+play_pattern scale(:C, :leading_whole)
+play_pattern scale(:C, :augmented)
+play_pattern scale(:C, :purvi)
+play_pattern scale(:C, :chinese)
+play_pattern scale(:C, :lydian_minor)
+"]
 
 
 
