@@ -1487,11 +1487,135 @@ play_pattern scale(:C, :lydian_minor)
          end
        end
        doc name:          :chord,
-           doc:           "add docs",
+           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a chord type",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+puts chord(:e, :minor) # returns an Array of midi notes - [64, 67, 71]
+",
+"# Play all the notes together
+play chord(:e, :minor)",
+"# looping over arpeggios can sound good
+# Here we use the Ruby Array's 'choose' method to pick a random note from the chord 
+loop do
+  play chord(:e, :minor).choose
+  sleep 0.2
+end",
+"# There are lots of chord types to choose from!
+# Watch out though - Ruby has rules about what makes a
+# valid symbol. Valid symbols can't start with a number,
+# and can't contain some special characters.
+# To make a symbol with these characters you can put a : in front of any string to make a symbol in Ruby
+# You can always use a string if you aren't sure
+use_bpm 150 # this is just to get through all the chords more quickly
+play chord(:C, '1')
+sleep 1
+play chord(:C, '5')
+sleep 1
+play chord(:C, :'+5')
+sleep 1
+play chord(:C, :'m+5')
+sleep 1
+play chord(:C, :sus2)
+sleep 1
+play chord(:C, :sus4)
+sleep 1
+play chord(:C, :'6')
+sleep 1
+play chord(:C, :m6)
+sleep 1
+play chord(:C, :'7sus2')
+sleep 1
+play chord(:C, :'7sus4')
+sleep 1
+play chord(:C, :'7-5')
+sleep 1
+play chord(:C, :'m7-5')
+sleep 1
+play chord(:C, :'7+5')
+sleep 1
+play chord(:C, :'m7+5')
+sleep 1
+play chord(:C, :'9')
+sleep 1
+play chord(:C, :m9)
+sleep 1
+play chord(:C, :'m7+9')
+sleep 1
+play chord(:C, :maj9)
+sleep 1
+play chord(:C, :'9sus4')
+sleep 1
+play chord(:C, :'6*9')
+sleep 1
+play chord(:C, :'m6*9')
+sleep 1
+play chord(:C, :'7-9')
+sleep 1
+play chord(:C, :'m7-9')
+sleep 1
+play chord(:C, :'7-10')
+sleep 1
+play chord(:C, :'9+5')
+sleep 1
+play chord(:C, :'m9+5')
+sleep 1
+play chord(:C, :'7+5-9')
+sleep 1
+play chord(:C, :'m7+5-9')
+sleep 1
+play chord(:C, :'11')
+sleep 1
+play chord(:C, :m11)
+sleep 1
+play chord(:C, :maj11)
+sleep 1
+play chord(:C, :'11+')
+sleep 1
+play chord(:C, :'m11+')
+sleep 1
+play chord(:C, :'13')
+sleep 1
+play chord(:C, :m13)
+sleep 1
+play chord(:C, :major)
+sleep 1
+play chord(:C, :M)
+sleep 1
+play chord(:C, :minor)
+sleep 1
+play chord(:C, :m)
+sleep 1
+play chord(:C, :major7)
+sleep 1
+play chord(:C, :dom7)
+sleep 1
+play chord(:C, :'7')
+sleep 1
+play chord(:C, :M7)
+sleep 1
+play chord(:C, :minor7)
+sleep 1
+play chord(:C, :m7)
+sleep 1
+play chord(:C, :augmented)
+sleep 1
+play chord(:C, :a)
+sleep 1
+play chord(:C, :diminished)
+sleep 1
+play chord(:C, :dim)
+sleep 1
+play chord(:C, :i)
+sleep 1
+play chord(:C, :diminished7)
+sleep 1
+play chord(:C, :dim7)
+sleep 1
+play chord(:C, :i7)
+sleep 1
+"]
 
 
 
