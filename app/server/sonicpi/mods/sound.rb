@@ -949,6 +949,26 @@ sample :my_guitars_bass    #=> plays '/home/yourname/my/cool/samples/guitar/bass
 sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'"]
 
 
+       def with_sample_pack(pack, &block)
+         raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
+         pack = samples_path if pack == :default
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
+       end
+       doc name:          :with_sample_pack,
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples inside the given block. Please consider using with_sample_pack_as as that will help prevent problems with files of the same name.",
+           args:          [[:pack_path, :string]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      ["
+with_sample_pack '/path/to/sample/dir' do
+  sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff} 
+end"]
+
+
+
        def with_sample_pack_as(pack, name, &block)
          raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack" if block
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
@@ -959,29 +979,15 @@ sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, current)
        end
        doc name:          :with_sample_pack_as,
-           doc:           "add docs",
+           doc:           "Similar to with_sample_pack except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
-
-
-
-
-       def with_sample_pack(pack, &block)
-         raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
-         pack = samples_path if pack == :default
-         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
-         block.call
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
-       end
-       doc name:          :with_sample_pack,
-           doc:           "add docs",
-           args:          [[:pack_path, :string]],
-           opts:          nil,
-           accepts_block: true,
-           examples:      []
+           examples:      ["
+with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
+  # The foo sample is now available, with a prefix of 'my_samples'
+  sample :my_samples_foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff} 
+end"]
 
 
 
