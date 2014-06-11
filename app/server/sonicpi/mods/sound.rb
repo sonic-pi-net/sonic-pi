@@ -881,11 +881,33 @@ end"]
          gc_completed.get
        end
        doc name:          :with_fx,
-           doc:           "add docs",
+           doc:           "This applies the named effect (FX) to everything within a given block (e.g. between do ... end). Most effects also take a hash of parameters - see the documentation for an effect for details. If you give the block a single argument, that becomes a reference to the current effect and can be used to control its parameters inside the block (see examples)",
            args:          [[:fx_name, :symbol]],
            opts:          {},
            accepts_block: true,
-           examples:      []
+           examples:      ["
+with_fx :distortion do
+  play 50 # => plays note 50 with distortion
+  sleep 1
+  sample :loop_amen # => plays the loop_amen sample with distortion too
+end",
+
+"
+with_fx :reverb, mix: 0.1 do |fx|
+  # here we set the reverb level quite low to start with (0.1)
+  # and we can change it later by using the 'fx' reference we've set up
+
+  play 60 # plays note 50 with a little bit of reverb
+  sleep 2
+
+  control(fx, mix: 0.5) # change the parameters of the effect to add more reverb
+  play 60 # again note 60 but with more reverb
+  sleep 2
+
+  control(fx, mix: 1) # change the parameters of the effect to add more reverb
+  play 60 # plays note 60 with loads of reverb
+  sleep 2
+end"]
 
 
 
