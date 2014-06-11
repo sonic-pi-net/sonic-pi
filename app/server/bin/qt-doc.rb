@@ -14,6 +14,7 @@
 
 require 'cgi'
 require 'optparse'
+require 'fileutils'
 
 require_relative "../core.rb"
 require_relative "../sonicpi/synthinfo"
@@ -21,7 +22,12 @@ require_relative "../sonicpi/util"
 require_relative "../sonicpi/spiderapi"
 require_relative "../sonicpi/mods/sound"
 
+require 'active_support/inflector'
+
 include SonicPi::Util
+
+FileUtils::rm_rf "#{qt_gui_path}/help/"
+FileUtils::mkdir "#{qt_gui_path}/help/"
 
 docs = []
 filenames = []
@@ -74,11 +80,14 @@ make_tab = lambda do |name, doc_items|
 end
 
 example_html_map = {}
-Dir["#{examples_path}/*.rb"].each do |path|
-  name = File.basename(path, ".rb")
-  lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
-  html = "<pre>\n\n#{lines.join("\n")}\n\n</pre>\n"
-  example_html_map[name] = html
+example_dirs = ["apprentice", "illusionist", "magician", "sorcerer", "wizard"]
+example_dirs.each do |ex_dir|
+  Dir["#{examples_path}/#{ex_dir}/*.rb"].each do |path|
+    name = "[#{ex_dir}] #{File.basename(path, ".rb")}"
+    lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
+    html = "<pre>\n\n#{lines.join("\n")}\n\n</pre>\n"
+    example_html_map[ActiveSupport::Inflector.titleize(name)] = html
+  end
 end
 
 ruby_html_map = {
@@ -86,9 +95,27 @@ ruby_html_map = {
   "loop" => "Loop forever",
 }
 
+fx_doc = SonicPi::SynthInfo.fx_doc_html_map
+fx_doc_titlized = {}
+fx_doc.each do |k, v|
+  k = ActiveSupport::Inflector.titleize(k)
+  k.gsub!(/Hpf/, 'HPF')
+  k.gsub!(/Lpf/, 'LPF')
+  k.gsub!(/Rhpf/, 'RHPF')
+  k.gsub!(/Rlpf/, 'RLPF')
+  fx_doc_titlized[k] = v
+end
+
+synths_doc = SonicPi::SynthInfo.synth_doc_html_map
+synths_doc_titleized = {}
+synths_doc.each do |k, v|
+  k = ActiveSupport::Inflector.titleize(k)
+  synths_doc_titleized[k] = v
+end
+
 make_tab.call("examples", example_html_map)
-make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map)
-make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map)
+make_tab.call("synths", synths_doc_titleized)
+make_tab.call("fx", fx_doc_titlized)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
 make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map))
 

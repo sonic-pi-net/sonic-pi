@@ -1994,6 +1994,7 @@ end
       max_len =  0
       get_all.each do |k, v|
         next unless v.is_a? klass
+        next if (klass == FXInfo) && (k.to_s.include? 'replace_')
         next if v.is_a? StudioInfo
         if klass == SynthInfo
           max_len = k.to_s.size if k.to_s.size > max_len
@@ -2004,6 +2005,8 @@ end
 
       get_all.each do |k, v|
         next unless v.is_a? klass
+        next if (klass == FXInfo) && (k.to_s.include? 'replace_')
+
         next if v.is_a? StudioInfo
         doc = ""
         doc << "<font size=\"7\", #{hv_face}>" << v.name << "</font>\n"
