@@ -918,11 +918,13 @@ end"]
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
        end
        doc name:          :use_sample_pack,
-           doc:           "add docs",
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples. Please consider using use_sample_pack_as as that will help prevent problems with files of the same name.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+use_sample_pack '/home/yourname/path/to/sample/dir'
+sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}"]
 
 
        def use_sample_pack_as(pack, name, &block)
@@ -932,11 +934,19 @@ end"]
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
        end
        doc name:          :use_sample_pack_as,
-           doc:           "add docs",
+           doc:           "Similar to use_sample_pack except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+# lets say you have two folders of your own sample files,
+# and they both contain a file named 'bass.wav'
+use_sample_pack_as '/home/yourname/my/cool/samples/guitar', :my_guitars
+use_sample_pack_as '/home/yourname/my/cool/samples/drums', :my_drums
+       
+# You can now play both the 'bass.wav' samples, as they've had the symbol stuck on the front
+sample :my_guitars_bass    #=> plays '/home/yourname/my/cool/samples/guitar/bass.wav'
+sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'"]
 
 
        def with_sample_pack_as(pack, name, &block)
