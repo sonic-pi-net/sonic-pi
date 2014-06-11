@@ -17,6 +17,55 @@ module SonicPi
 
     include SonicPi::DocSystem
 
+    def defonce(name, override=false, &block)
+      raise "defonce must be called with a code block" unless block
+      if override || !(@user_methods.method_defined? name)
+        val = block.yield
+        val_block = lambda{val}
+        @user_methods.send(:define_method, name, &val_block)
+      else
+        __info "Not re-defining #{name}"
+      end
+    end
+    doc name:           :defonce,
+        summary:        "Define a named value only once",
+        args:           [[:name, :symbol]],
+        opts:          nil,
+        accepts_block: true,
+        doc:            "Allows you assign the result of some code to a name with the property that the code will only execute once therefore stoping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run.",
+        examples:       ["
+
+defonce :foo do  # Define a new function called foo
+  sleep 1        # Sleep for a second in the function definition
+  puts \"hello\" # Print hello
+  10             # Return a value of 10
+end
+
+# Call foo on its own
+puts foo # The run sleeps for a second and prints \"hello\" before returning 10
+
+# Try it again:
+puts foo # This time the run doesn't sleep or print anything out. However,  10 is still returned.
+
+
+
+defonce :foo do # Try redefining foo
+  puts \"you can't redefine me\"
+  15
+end
+
+puts foo # We still don't see any printing or sleeping, and the result is still 10
+
+# You can use foo anywhere you would use normal code.
+# For example, in a block:
+3.times do
+  play foo  # play 10
+end",]
+
+    def define(name, &block)
+      raise "define must be called with a code block" unless block
+      @user_methods.send(:define_method, name, &block)
+    end
     doc name:           :define,
         summary:        "Define a new function",
         args:           [[:name, :symbol]],
@@ -38,10 +87,6 @@ foo
 3.times do
   foo
 end",]
-    def define(name, &block)
-      raise "define must be called with a code block" unless block
-      @user_methods.send(:define_method, name, &block)
-    end
 
 
 
