@@ -118,7 +118,26 @@ module SonicPi
          end
        end
 
+       def midi_to_hz(n)
+         n = note(n) unless n.is_a? Numeric
+         440.0 * (2 ** ((n - 69) / 12.0))
+       end
+       doc name:          :midi_to_hz,
+           doc:           "Convert a midi note to hz",
+           args:          [[:time, :number]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["midi_to_hz(60) #=> 261.6256"]
 
+       def hz_to_midi(freq)
+         (12 * (Math.log(freq * 0.0022727272727) / Math.log(2))) + 69
+       end
+       doc name:          :set_sched_ahead_time!,
+           doc:           "Convert a frequency in hz to a midi note. Note that the result isn't an integer and there is a potential for some very minor rounding errors.",
+           args:          [[:time, :number]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["hz_to_midi(261.63) #=> 60.0003"]
 
 
        def set_sched_ahead_time!(t)
