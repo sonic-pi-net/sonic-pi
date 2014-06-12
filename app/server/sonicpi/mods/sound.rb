@@ -124,7 +124,7 @@ module SonicPi
        end
        doc name:          :midi_to_hz,
            doc:           "Convert a midi note to hz",
-           args:          [[:time, :number]],
+           args:          [[:note, :symbol_or_number]],
            opts:          nil,
            accepts_block: false,
            examples:      ["midi_to_hz(60) #=> 261.6256"]
@@ -132,9 +132,9 @@ module SonicPi
        def hz_to_midi(freq)
          (12 * (Math.log(freq * 0.0022727272727) / Math.log(2))) + 69
        end
-       doc name:          :set_sched_ahead_time!,
+       doc name:          :hz_to_midi,
            doc:           "Convert a frequency in hz to a midi note. Note that the result isn't an integer and there is a potential for some very minor rounding errors.",
-           args:          [[:time, :number]],
+           args:          [[:freq, :number]],
            opts:          nil,
            accepts_block: false,
            examples:      ["hz_to_midi(261.63) #=> 60.0003"]
@@ -409,7 +409,7 @@ play 50 # Plays with supersaw synth
          FileUtils.rm @tmp_path if @tmp_path
        end
        doc name:          :recording_delete,
-           doc:           "add docs",
+           doc:           "After using recording_start and recording_stop, a temporary file is created until you decide to use recording_save. If you've decided you don't want to save it you can use this method to delete the temporary file straight away, otherwise the operating system will take care of it later.",
            args:          [],
            opts:          nil,
            accepts_block: false,
@@ -881,11 +881,33 @@ end"]
          gc_completed.get
        end
        doc name:          :with_fx,
-           doc:           "add docs",
+           doc:           "This applies the named effect (FX) to everything within a given block (e.g. between do ... end). Most effects also take a hash of parameters - see the documentation for an effect for details. If you give the block a single argument, that becomes a reference to the current effect and can be used to control its parameters inside the block (see examples)",
            args:          [[:fx_name, :symbol]],
            opts:          {},
            accepts_block: true,
-           examples:      []
+           examples:      ["
+with_fx :distortion do
+  play 50 # => plays note 50 with distortion
+  sleep 1
+  sample :loop_amen # => plays the loop_amen sample with distortion too
+end",
+
+"
+with_fx :reverb, mix: 0.1 do |fx|
+  # here we set the reverb level quite low to start with (0.1)
+  # and we can change it later by using the 'fx' reference we've set up
+
+  play 60 # plays note 50 with a little bit of reverb
+  sleep 2
+
+  control(fx, mix: 0.5) # change the parameters of the effect to add more reverb
+  play 60 # again note 60 but with more reverb
+  sleep 2
+
+  control(fx, mix: 1) # change the parameters of the effect to add more reverb
+  play 60 # plays note 60 with loads of reverb
+  sleep 2
+end"]
 
 
 
@@ -896,11 +918,13 @@ end"]
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
        end
        doc name:          :use_sample_pack,
-           doc:           "add docs",
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples. Please consider using use_sample_pack_as as that will help prevent problems with files of the same name.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+use_sample_pack '/home/yourname/path/to/sample/dir'
+sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}"]
 
 
        def use_sample_pack_as(pack, name, &block)
@@ -910,11 +934,39 @@ end"]
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
        end
        doc name:          :use_sample_pack_as,
-           doc:           "add docs",
+           doc:           "Similar to use_sample_pack except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+# lets say you have two folders of your own sample files,
+# and they both contain a file named 'bass.wav'
+use_sample_pack_as '/home/yourname/my/cool/samples/guitar', :my_guitars
+use_sample_pack_as '/home/yourname/my/cool/samples/drums', :my_drums
+       
+# You can now play both the 'bass.wav' samples, as they've had the symbol stuck on the front
+sample :my_guitars_bass    #=> plays '/home/yourname/my/cool/samples/guitar/bass.wav'
+sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'"]
+
+
+       def with_sample_pack(pack, &block)
+         raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
+         pack = samples_path if pack == :default
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
+       end
+       doc name:          :with_sample_pack,
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples inside the given block. Please consider using with_sample_pack_as as that will help prevent problems with files of the same name.",
+           args:          [[:pack_path, :string]],
+           opts:          nil,
+           accepts_block: true,
+           examples:      ["
+with_sample_pack '/path/to/sample/dir' do
+  sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff} 
+end"]
+
 
 
        def with_sample_pack_as(pack, name, &block)
@@ -927,29 +979,15 @@ end"]
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, current)
        end
        doc name:          :with_sample_pack_as,
-           doc:           "add docs",
+           doc:           "Similar to with_sample_pack except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
-
-
-
-
-       def with_sample_pack(pack, &block)
-         raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
-         pack = samples_path if pack == :default
-         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
-         block.call
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
-       end
-       doc name:          :with_sample_pack,
-           doc:           "add docs",
-           args:          [[:pack_path, :string]],
-           opts:          nil,
-           accepts_block: true,
-           examples:      []
+           examples:      ["
+with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
+  # The foo sample is now available, with a prefix of 'my_samples'
+  sample :my_samples_foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff} 
+end"]
 
 
 
@@ -1121,11 +1159,16 @@ set_volume! 2 # Set the main system volume to 2",
          end
        end
        doc name:          :load_sample,
-           doc:           "add docs",
+           doc:           "Given a path to a wav|wave|aif|aiff file, this loads the file and makes it available as a sample. See also the use_sample_pack and with_sample_pack methods",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+load_sample '/home/yourname/path/to/sample/dir/foo.wav'
+ 
+# foo.wav is now loaded and ready to play as a sample
+sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
+"]
 
 
 
@@ -1140,11 +1183,18 @@ set_volume! 2 # Set the main system volume to 2",
          end
        end
        doc name:          :load_samples,
-           doc:           "add docs",
+           doc:           "Given an array of paths to wav|wave|aif|aiff files, this loads them and makes them all available as samples. See also the use_sample_pack and with_sample_pack methods",
            args:          [[:paths, :list]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+load_samples ['/home/yourname/path/to/sample/dir/foo.wav',
+              '/home/yourname/path/to/sample/dir/bar.wav']
+ 
+# foo.wav and bar.wav are both loaded and ready to play as samples
+sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
+sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
+"]
 
 
 
@@ -1153,11 +1203,11 @@ set_volume! 2 # Set the main system volume to 2",
          load_sample(path)
        end
        doc name:          :sample_info,
-           doc:           "add docs",
+           doc:           "Alias for the load_sample method",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["see load_sample"]
 
 
 
@@ -1168,11 +1218,25 @@ set_volume! 2 # Set the main system volume to 2",
          load_sample(path).duration * 1.0/args_h[:rate]
        end
        doc name:          :sample_duration,
-           doc:           "add docs",
+           doc:           "Given the name of a loaded sample, or a path to a wav|wave|aif|aiff file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples",
            args:          [[:path, :string]],
            opts:          {:rate => 1},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+loop do
+  # Using sample_duration here means the loop plays back without any gaps or breaks
+  sample :loop_amen
+  sleep sample_duration(:loop_amen)
+end",
+"loop do
+  # You can also use rate if you want to keep a seamless loop whilst adjusting the speed
+  sample :loop_amen, rate: 0.75
+  sleep sample_duration(:loop_amen, rate: 0.75)
+end",
+"# Try not to use negative numbers for the rate parameter as it won't work
+sample :loop_amen, rate: -1
+sleep sample_duration(:loop_amen, rate: -1) # This throws an error - use 1 instead
+"]
 
 
 
@@ -1184,11 +1248,65 @@ set_volume! 2 # Set the main system volume to 2",
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
        doc name:          :sample,
-           doc:           "add docs",
+           doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack method for details on loading a whole folder of your own sample files.",
            args:          [[:name_or_path, :symbol_or_string]],
-           opts:          {:rate => 1},
+           opts:          {:rate => 1, :attack => 0, :release => 0.0, :start => 0, :finish => 1, :pan => 0, :pan_slide => 0, :amp => 1, :amp_slide => 0},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+sample :perc_bell # plays one of Sonic Pi's built in samples",
+"sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|aif|aiff file from your local filesystem",
+"# Lets play with the rate parameter
+# play one of the included samples
+sample :loop_amen
+sleep sample_duration(:loop_amen) # this sleeps for exactly the length of the sample
+
+# Setting a rate of 0.5 will cause the sample to
+#   a) play half as fast
+#   b) play an octave down in pitch
+#
+# Listen:
+sample :loop_amen, rate: 0.5
+sleep sample_duration(:loop_amen, rate: 0.5)
+
+# Setting a really low number means the sample takes
+# a very long time to finish! Also it sounds very 
+# different to the original sound
+sample :loop_amen, rate: 0.05
+sleep sample_duration(:loop_amen, rate: 0.05)",
+"# Setting a really negative number can be lots of fun
+# It plays the sample backwards!
+sample :loop_amen, rate: -1
+sleep sample_duration(:loop_amen, rate: 1) # there's no need to give sample_duration a negative number though
+
+# Using a rate of -0.5 is just like using the positive 0.5 (lower in pitch and slower) except backwards
+sample :loop_amen, rate: -0.5
+sleep sample_duration(:loop_amen, rate: 0.5) # there's no need to give sample_duration a negative number though",
+"# BE CAREFUL
+# Don't set the rate to 0 though because it will get stuck 
+# and won't make any sound at all! 
+# We can see that the following would take Infinity seconds to finish
+puts sample_duration(:loop_amen, rate: 0)",
+"# Just like the play method, we can assign our sample player
+# to a variable and control the rate parameter whilst it's playing.
+#
+# The following example sounds a bit like a vinyl speeding up
+s = sample :loop_amen_full, rate: 0.05
+sleep 1
+control(s, rate: 0.2)
+sleep 1
+control(s, rate: 0.4)
+sleep 1
+control(s, rate: 0.6)
+sleep 1
+control(s, rate: 0.8)
+sleep 1
+control(s, rate: 1)",
+"# Using the :start and :finish parameters you can play a section of the sample.
+# The default start is 0 and the default finish is 1
+sample :loop_amen, start: 0.5, finish: 1 # play the last half of a sample",
+"# You can also play part of any sample backwards by using a start value that's higher than
+# the finish
+sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards"]
 
 
 
@@ -1197,11 +1315,26 @@ set_volume! 2 # Set the main system volume to 2",
          @mod_sound_studio.status
        end
        doc name:          :status,
-           doc:           "add docs",
+           doc:           "This returns a Hash of information about the current environment. Mostly used for debugging purposes.",
            args:          [],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+puts status
+# Returns something like
+# {
+#   :ugens=>10, 
+#   :synths=>1, 
+#   :groups=>7, 
+#   :sdefs=>61, 
+#   :avg_cpu=>0.20156468451023102, 
+#   :peak_cpu=>0.36655542254447937, 
+#   :nom_samp_rate=>44100.0, 
+#   :act_samp_rate=>44099.9998411752, 
+#   :audio_busses=>2, 
+#   :control_busses=>0
+# }
+"]
 
 
 
@@ -1217,11 +1350,25 @@ set_volume! 2 # Set the main system volume to 2",
          end
        end
        doc name:          :note,
-           doc:           "add docs",
+           doc:           "Takes a midi note, a symbol (e.g. :C ) or a string (e.g. 'C' ) and resolves it to a midi note. You can also pass an optional :octave parameter to get the midi note for a given octave. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+# These all return 60 which is the midi number for middle C (octave 4)
+puts note(60)                           
+puts note(:C)                           
+puts note(:C4)                           
+puts note('C')                           
+",
+"# returns 60 - octave param has no effect if we pass in a number
+puts note(60, octave: 2) 
+
+# These all return 36 which is the midi number for C2 (two octaves below middle C)
+puts note(:C, octave: 2)                           
+puts note(:C4, octave: 2) # note the octave param overrides any octaves specified in a symbol
+puts note('C', octave: 2)                           
+"]
 
 
 
@@ -1232,11 +1379,13 @@ set_volume! 2 # Set the main system volume to 2",
          Note.new(n, octave)
        end
        doc name:          :note_info,
-           doc:           "add docs - :octave opt is overridden if oct specified in symbol i.e. :c3",
+           doc:           "Returns an instance of SonicPi::Note so this probably isn't the method you were looking for. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
-           examples:      []
+           examples:      [%Q{
+puts note_info(:C, octave: 2)
+# returns #<SonicPi::Note:0x0000010206bf78 @pitch_class="C", @octave=2, @interval=0, @midi_note=36, @midi_string="C0">}]
 
 
 
@@ -1247,11 +1396,90 @@ set_volume! 2 # Set the main system volume to 2",
          Scale.new(tonic, name,  opts[:num_octaves]).to_a
        end
        doc name:          :scale,
-           doc:           "add docs",
+           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional :num_octaves parameter - 1 octave is the default"
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          {:num_octaves => 1},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+puts scale(:C, :major) # returns an Array [60, 62, 64, 65, 67, 69, 71, 72]",
+"# anywhere you can use an Array of notes, you can use the scale method
+play_pattern scale(:C, :major)",
+"# you can use the :num_octaves parameter to get more notes
+play_pattern(:C, :major, num_octaves: 2)",
+"# There are lots of scale types to choose from!
+use_bpm 300 # otherwise playing all these will take ages...
+play_pattern scale(:C, :diatonic)
+play_pattern scale(:C, :ionian)
+play_pattern scale(:C, :major)
+play_pattern scale(:C, :dorian)
+play_pattern scale(:C, :phrygian)
+play_pattern scale(:C, :lydian)
+play_pattern scale(:C, :mixolydian)
+play_pattern scale(:C, :aeolian)
+play_pattern scale(:C, :minor)
+play_pattern scale(:C, :locrian)
+play_pattern scale(:C, :hex_major6)
+play_pattern scale(:C, :hex_dorian)
+play_pattern scale(:C, :hex_phrygian)
+play_pattern scale(:C, :hex_major7)
+play_pattern scale(:C, :hex_sus)
+play_pattern scale(:C, :hex_aeolian)
+play_pattern scale(:C, :minor_pentatonic)
+play_pattern scale(:C, :yu)
+play_pattern scale(:C, :major_pentatonic)
+play_pattern scale(:C, :gong)
+play_pattern scale(:C, :egyptian)
+play_pattern scale(:C, :shang)
+play_pattern scale(:C, :jiao)
+play_pattern scale(:C, :zhi)
+play_pattern scale(:C, :ritusen)
+play_pattern scale(:C, :whole_tone)
+play_pattern scale(:C, :whole)
+play_pattern scale(:C, :chromatic)
+play_pattern scale(:C, :harmonic_minor)
+play_pattern scale(:C, :melodic_minor_asc)
+play_pattern scale(:C, :hungarian_minor)
+play_pattern scale(:C, :octatonic)
+play_pattern scale(:C, :messiaen1)
+play_pattern scale(:C, :messiaen2)
+play_pattern scale(:C, :messiaen3)
+play_pattern scale(:C, :messiaen4)
+play_pattern scale(:C, :messiaen5)
+play_pattern scale(:C, :messiaen6)
+play_pattern scale(:C, :messiaen7)
+play_pattern scale(:C, :super_locrian)
+play_pattern scale(:C, :hirajoshi)
+play_pattern scale(:C, :kumoi)
+play_pattern scale(:C, :neapolitan_major)
+play_pattern scale(:C, :bartok)
+play_pattern scale(:C, :bhairav)
+play_pattern scale(:C, :locrian_major)
+play_pattern scale(:C, :ahirbhairav)
+play_pattern scale(:C, :enigmatic)
+play_pattern scale(:C, :neapolitan_minor)
+play_pattern scale(:C, :pelog)
+play_pattern scale(:C, :augmented2)
+play_pattern scale(:C, :scriabin)
+play_pattern scale(:C, :harmonic_major)
+play_pattern scale(:C, :melodic_minor_desc)
+play_pattern scale(:C, :romanian_minor)
+play_pattern scale(:C, :hindu)
+play_pattern scale(:C, :iwato)
+play_pattern scale(:C, :melodic_minor)
+play_pattern scale(:C, :diminished2)
+play_pattern scale(:C, :marva)
+play_pattern scale(:C, :melodic_major)
+play_pattern scale(:C, :indian)
+play_pattern scale(:C, :spanish)
+play_pattern scale(:C, :prometheus)
+play_pattern scale(:C, :diminished)
+play_pattern scale(:C, :todi)
+play_pattern scale(:C, :leading_whole)
+play_pattern scale(:C, :augmented)
+play_pattern scale(:C, :purvi)
+play_pattern scale(:C, :chinese)
+play_pattern scale(:C, :lydian_minor)
+"]
 
 
 
@@ -1265,11 +1493,135 @@ set_volume! 2 # Set the main system volume to 2",
          end
        end
        doc name:          :chord,
-           doc:           "add docs",
+           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a chord type",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["
+puts chord(:e, :minor) # returns an Array of midi notes - [64, 67, 71]
+",
+"# Play all the notes together
+play chord(:e, :minor)",
+"# looping over arpeggios can sound good
+# Here we use the Ruby Array's 'choose' method to pick a random note from the chord 
+loop do
+  play chord(:e, :minor).choose
+  sleep 0.2
+end",
+"# There are lots of chord types to choose from!
+# Watch out though - Ruby has rules about what makes a
+# valid symbol. Valid symbols can't start with a number,
+# and can't contain some special characters.
+# To make a symbol with these characters you can put a : in front of any string to make a symbol in Ruby
+# You can always use a string if you aren't sure
+use_bpm 150 # this is just to get through all the chords more quickly
+play chord(:C, '1')
+sleep 1
+play chord(:C, '5')
+sleep 1
+play chord(:C, :'+5')
+sleep 1
+play chord(:C, :'m+5')
+sleep 1
+play chord(:C, :sus2)
+sleep 1
+play chord(:C, :sus4)
+sleep 1
+play chord(:C, :'6')
+sleep 1
+play chord(:C, :m6)
+sleep 1
+play chord(:C, :'7sus2')
+sleep 1
+play chord(:C, :'7sus4')
+sleep 1
+play chord(:C, :'7-5')
+sleep 1
+play chord(:C, :'m7-5')
+sleep 1
+play chord(:C, :'7+5')
+sleep 1
+play chord(:C, :'m7+5')
+sleep 1
+play chord(:C, :'9')
+sleep 1
+play chord(:C, :m9)
+sleep 1
+play chord(:C, :'m7+9')
+sleep 1
+play chord(:C, :maj9)
+sleep 1
+play chord(:C, :'9sus4')
+sleep 1
+play chord(:C, :'6*9')
+sleep 1
+play chord(:C, :'m6*9')
+sleep 1
+play chord(:C, :'7-9')
+sleep 1
+play chord(:C, :'m7-9')
+sleep 1
+play chord(:C, :'7-10')
+sleep 1
+play chord(:C, :'9+5')
+sleep 1
+play chord(:C, :'m9+5')
+sleep 1
+play chord(:C, :'7+5-9')
+sleep 1
+play chord(:C, :'m7+5-9')
+sleep 1
+play chord(:C, :'11')
+sleep 1
+play chord(:C, :m11)
+sleep 1
+play chord(:C, :maj11)
+sleep 1
+play chord(:C, :'11+')
+sleep 1
+play chord(:C, :'m11+')
+sleep 1
+play chord(:C, :'13')
+sleep 1
+play chord(:C, :m13)
+sleep 1
+play chord(:C, :major)
+sleep 1
+play chord(:C, :M)
+sleep 1
+play chord(:C, :minor)
+sleep 1
+play chord(:C, :m)
+sleep 1
+play chord(:C, :major7)
+sleep 1
+play chord(:C, :dom7)
+sleep 1
+play chord(:C, :'7')
+sleep 1
+play chord(:C, :M7)
+sleep 1
+play chord(:C, :minor7)
+sleep 1
+play chord(:C, :m7)
+sleep 1
+play chord(:C, :augmented)
+sleep 1
+play chord(:C, :a)
+sleep 1
+play chord(:C, :diminished)
+sleep 1
+play chord(:C, :dim)
+sleep 1
+play chord(:C, :i)
+sleep 1
+play chord(:C, :diminished7)
+sleep 1
+play chord(:C, :dim7)
+sleep 1
+play chord(:C, :i7)
+sleep 1
+"]
 
 
 
