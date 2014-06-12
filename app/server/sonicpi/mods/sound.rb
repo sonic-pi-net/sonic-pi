@@ -1248,9 +1248,9 @@ sleep sample_duration(:loop_amen, rate: -1) # This throws an error - use 1 inste
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
        doc name:          :sample,
-           doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples already (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack method for details on loading a whole folder of your own sample files.",
+           doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack method for details on loading a whole folder of your own sample files.",
            args:          [[:name_or_path, :symbol_or_string]],
-           opts:          {:rate => 1},
+           opts:          {:rate => 1, :attack => 0, :release => 0.0, :start => 0, :finish => 1, :pan => 0, :pan_slide => 0, :amp => 1, :amp_slide => 0},
            accepts_block: false,
            examples:      ["
 sample :perc_bell # plays one of Sonic Pi's built in samples",
@@ -1300,7 +1300,13 @@ control(s, rate: 0.6)
 sleep 1
 control(s, rate: 0.8)
 sleep 1
-control(s, rate: 1)"]
+control(s, rate: 1)",
+"# Using the :start and :finish parameters you can play a section of the sample.
+# The default start is 0 and the default finish is 1
+sample :loop_amen, start: 0.5, finish: 1 # play the last half of a sample",
+"# You can also play part of any sample backwards by using a start value that's higher than
+# the finish
+sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards"]
 
 
 
