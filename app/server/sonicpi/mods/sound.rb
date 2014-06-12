@@ -881,18 +881,30 @@ end"]
          gc_completed.get
        end
        doc name:          :with_fx,
-           doc:           "This applies the named effect (FX) to everything within a given block (e.g. between do ... end). Most effects also take a hash of parameters - see the documentation for an effect for details. If you give the block a single argument, that becomes a reference to the current effect and can be used to control its parameters inside the block (see examples)",
+           doc:           "This applies the named effect (FX) to everything within a given block (e.g. between do ... end). All effects take extra parameters to modify their behaviour. See the documentation for an effect for details.
+
+For advanced control, it is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
            args:          [[:fx_name, :symbol]],
            opts:          {},
            accepts_block: true,
            examples:      ["
-with_fx :distortion do
+# Basic usage
+with_fx :distortion do # Use the distortion effect with default parameters
   play 50 # => plays note 50 with distortion
   sleep 1
   sample :loop_amen # => plays the loop_amen sample with distortion too
 end",
 
+
+"# Specify effect parameters
+with_fx :level, amp: 0.3 do # Use the level effect with the amp parameter set to 0.3
+  play 50
+  sleep 1
+  sample :loop_amen
+end",
+
 "
+# Controlling the effect parameters within the block
 with_fx :reverb, mix: 0.1 do |fx|
   # here we set the reverb level quite low to start with (0.1)
   # and we can change it later by using the 'fx' reference we've set up
@@ -900,11 +912,11 @@ with_fx :reverb, mix: 0.1 do |fx|
   play 60 # plays note 50 with a little bit of reverb
   sleep 2
 
-  control(fx, mix: 0.5) # change the parameters of the effect to add more reverb
+  control fx, mix: 0.5 # change the parameters of the effect to add more reverb
   play 60 # again note 60 but with more reverb
   sleep 2
 
-  control(fx, mix: 1) # change the parameters of the effect to add more reverb
+  control fx, mix: 1 # change the parameters of the effect to add more reverb
   play 60 # plays note 60 with loads of reverb
   sleep 2
 end"]
@@ -918,7 +930,7 @@ end"]
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
        end
        doc name:          :use_sample_pack,
-           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples. Please consider using use_sample_pack_as as that will help prevent problems with files of the same name.",
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples. Consider using use_sample_pack_as when using multiple sample packs."
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
@@ -943,7 +955,7 @@ sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
 # and they both contain a file named 'bass.wav'
 use_sample_pack_as '/home/yourname/my/cool/samples/guitar', :my_guitars
 use_sample_pack_as '/home/yourname/my/cool/samples/drums', :my_drums
-       
+
 # You can now play both the 'bass.wav' samples, as they've had the symbol stuck on the front
 sample :my_guitars_bass    #=> plays '/home/yourname/my/cool/samples/guitar/bass.wav'
 sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'"]
@@ -958,13 +970,13 @@ sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
        end
        doc name:          :with_sample_pack,
-           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples inside the given block. Please consider using with_sample_pack_as as that will help prevent problems with files of the same name.",
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples inside the given block. Consider using with_sample_pack_as when using multiple sample packs."
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: true,
            examples:      ["
 with_sample_pack '/path/to/sample/dir' do
-  sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff} 
+  sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff}
 end"]
 
 
@@ -986,7 +998,7 @@ end"]
            examples:      ["
 with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
   # The foo sample is now available, with a prefix of 'my_samples'
-  sample :my_samples_foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff} 
+  sample :my_samples_foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
 end"]
 
 
@@ -1179,7 +1191,7 @@ set_volume! 2 # Set the main system volume to 2",
            accepts_block: false,
            examples:      ["
 load_sample '/home/yourname/path/to/sample/dir/foo.wav'
- 
+
 # foo.wav is now loaded and ready to play as a sample
 sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
 "]
@@ -1204,7 +1216,7 @@ sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
            examples:      ["
 load_samples ['/home/yourname/path/to/sample/dir/foo.wav',
               '/home/yourname/path/to/sample/dir/bar.wav']
- 
+
 # foo.wav and bar.wav are both loaded and ready to play as samples
 sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
 sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
@@ -1275,7 +1287,7 @@ sleep sample_duration(:loop_amen, rate: -1) # This throws an error - use 1 inste
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
        doc name:          :sample,
-           doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack method for details on loading a whole folder of your own sample files.",
+           doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack and use_sample_pack_as methods for details on loading a whole folder of your own sample files.",
            args:          [[:name_or_path, :symbol_or_string]],
            opts:          {:rate => 1, :attack => 0, :release => 0.0, :start => 0, :finish => 1, :pan => 0, :pan_slide => 0, :amp => 1, :amp_slide => 0},
            accepts_block: false,
@@ -1296,7 +1308,7 @@ sample :loop_amen, rate: 0.5
 sleep sample_duration(:loop_amen, rate: 0.5)
 
 # Setting a really low number means the sample takes
-# a very long time to finish! Also it sounds very 
+# a very long time to finish! Also it sounds very
 # different to the original sound
 sample :loop_amen, rate: 0.05
 sleep sample_duration(:loop_amen, rate: 0.05)",
@@ -1309,8 +1321,8 @@ sleep sample_duration(:loop_amen, rate: 1) # there's no need to give sample_dura
 sample :loop_amen, rate: -0.5
 sleep sample_duration(:loop_amen, rate: 0.5) # there's no need to give sample_duration a negative number though",
 "# BE CAREFUL
-# Don't set the rate to 0 though because it will get stuck 
-# and won't make any sound at all! 
+# Don't set the rate to 0 though because it will get stuck
+# and won't make any sound at all!
 # We can see that the following would take Infinity seconds to finish
 puts sample_duration(:loop_amen, rate: 0)",
 "# Just like the play method, we can assign our sample player
@@ -1348,17 +1360,17 @@ sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards"]
            accepts_block: false,
            examples:      ["
 puts status
-# Returns something like
+# Returns something similar to:
 # {
-#   :ugens=>10, 
-#   :synths=>1, 
-#   :groups=>7, 
-#   :sdefs=>61, 
-#   :avg_cpu=>0.20156468451023102, 
-#   :peak_cpu=>0.36655542254447937, 
-#   :nom_samp_rate=>44100.0, 
-#   :act_samp_rate=>44099.9998411752, 
-#   :audio_busses=>2, 
+#   :ugens=>10,
+#   :synths=>1,
+#   :groups=>7,
+#   :sdefs=>61,
+#   :avg_cpu=>0.20156468451023102,
+#   :peak_cpu=>0.36655542254447937,
+#   :nom_samp_rate=>44100.0,
+#   :act_samp_rate=>44099.9998411752,
+#   :audio_busses=>2,
 #   :control_busses=>0
 # }
 "]
@@ -1383,18 +1395,18 @@ puts status
            accepts_block: false,
            examples:      ["
 # These all return 60 which is the midi number for middle C (octave 4)
-puts note(60)                           
-puts note(:C)                           
-puts note(:C4)                           
-puts note('C')                           
+puts note(60)
+puts note(:C)
+puts note(:C4)
+puts note('C')
 ",
 "# returns 60 - octave param has no effect if we pass in a number
-puts note(60, octave: 2) 
+puts note(60, octave: 2)
 
 # These all return 36 which is the midi number for C2 (two octaves below middle C)
-puts note(:C, octave: 2)                           
+puts note(:C, octave: 2)
 puts note(:C4, octave: 2) # note the octave param overrides any octaves specified in a symbol
-puts note('C', octave: 2)                           
+puts note('C', octave: 2)
 "]
 
 
@@ -1530,7 +1542,7 @@ puts chord(:e, :minor) # returns an Array of midi notes - [64, 67, 71]
 "# Play all the notes together
 play chord(:e, :minor)",
 "# looping over arpeggios can sound good
-# Here we use the Ruby Array's 'choose' method to pick a random note from the chord 
+# Here we use the Ruby Array's 'choose' method to pick a random note from the chord
 loop do
   play chord(:e, :minor).choose
   sleep 0.2
