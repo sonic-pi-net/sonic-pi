@@ -1019,6 +1019,20 @@ puts current_sample_pack # Print out the current sample pack"]
 
 
 
+       def current_sample_pack_aliases
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
+       end
+       doc name:          :current_sample_pack_aliases,
+           doc:           "Returns a map containing the current sample pack aliases.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+puts current_sample_pack_aliases # Print out the current sample pack aliases"]
+
+
+
+
        def current_synth_defaults
          defaults = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
          default_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
