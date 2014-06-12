@@ -1217,7 +1217,20 @@ sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
          load_sample(path)
        end
        doc name:          :sample_info,
-           doc:           "Alias for the load_sample method",
+           doc:           "Alias for the load_sample method. Loads sample if necessary and returns sample information.",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["see load_sample"]
+
+
+
+
+       def sample_buffer(path)
+         load_sample(path)
+       end
+       doc name:          :sample_buffer,
+           doc:           "Alias for the load_sample method. Loads sample if necessary and returns buffer information.",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
