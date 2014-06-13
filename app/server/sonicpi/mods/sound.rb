@@ -930,13 +930,15 @@ end"]
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
        end
        doc name:          :use_sample_pack,
-           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples. Consider using use_sample_pack_as when using multiple sample packs."
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples. Consider using use_sample_pack_as when using multiple sample packs.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
 use_sample_pack '/home/yourname/path/to/sample/dir'
 sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}"]
+
+
 
 
        def use_sample_pack_as(pack, name, &block)
@@ -970,7 +972,7 @@ sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
        end
        doc name:          :with_sample_pack,
-           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples inside the given block. Consider using with_sample_pack_as when using multiple sample packs."
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples inside the given block. Consider using with_sample_pack_as when using multiple sample packs.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: true,
@@ -1435,7 +1437,7 @@ puts note_info(:C, octave: 2)
          Scale.new(tonic, name,  opts[:num_octaves]).to_a
        end
        doc name:          :scale,
-           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional :num_octaves parameter - 1 octave is the default"
+           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional :num_octaves parameter - 1 octave is the default",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          {:num_octaves => 1},
            accepts_block: false,
