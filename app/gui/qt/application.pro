@@ -1,7 +1,7 @@
 CONFIG       += release
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets
+    QT += widgets concurrent
 }
 
 HEADERS       = mainwindow.h \
