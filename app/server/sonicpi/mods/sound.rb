@@ -1255,8 +1255,8 @@ sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
 
        def sample_duration(path, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
-         args_h = {:rate => 1}.merge(args_h)
-         load_sample(path).duration * 1.0/args_h[:rate]
+         args_h[:rate] = 1 unless args_h[:rate]
+         load_sample(path).duration * 1.0/(args_h[:rate].abs)
        end
        doc name:          :sample_duration,
            doc:           "Given the name of a loaded sample, or a path to a wav|wave|aif|aiff file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples",
