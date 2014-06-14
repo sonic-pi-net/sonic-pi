@@ -429,7 +429,7 @@ play 50 # Plays with supersaw synth
            if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
              n += shift
            end
-           args_h[:note] = n unless args_h[:note]
+           args_h[:note] = n
            trigger_inst @mod_sound_studio.current_synth_name, args_h
          end
        end
