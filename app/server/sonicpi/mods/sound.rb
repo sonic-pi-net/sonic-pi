@@ -662,11 +662,21 @@ end"]
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, defaults_h
        end
        doc name:          :use_synth_defaults,
-           doc:           "Specify new default values to be used by all subsequent synth sriggers. ",
+           doc:           "Specify new default values to be used by all subsequent calls to play. Will remove and override any previous defaults.",
            args:          [],
            opts:          {},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+play 50 # plays note 50 with default arguments
+
+use_synth_defaults amp: 0.5, cutoff: 70
+
+play 50 # plays note 50 with an amp of 0.5, cutoff of 70 and defaults for rest of args
+
+use_synth_defaults cutoff: 90
+
+play 50 # plays note 50 with a cutoff of 70 and defaults for rest of args - note that amp is no longer 0.5
+"]
 
 
 
@@ -684,11 +694,23 @@ end"]
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, current_fns
        end
        doc name:          :with_synth_defaults,
-           doc:           "add docs",
+           doc:           "Specify new default values to be used by all calls tp play within the do/end block. After the do/end block has completed the previous synth defaults (if any) are restored.",
            args:          [],
            opts:          {},
            accepts_block: true,
-           examples:      []
+           examples:      ["
+play 50 # plays note 50 with default arguments
+
+use_synth_defaults amp: 0.5, pan: -1
+
+play 50 # plays note 50 with an amp of 0.5, pan of -1 and defaults for rest of args
+
+with_synth_defaults amp: 0.6, cutoff: 80
+  play 50 # plays note 50 with an amp of 0.5, cutoff of 80 and defaults for rest of args (including pan)
+end
+
+play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of args
+"]
 
 
 
@@ -881,7 +903,7 @@ end"]
          gc_completed.get
        end
        doc name:          :with_fx,
-           doc:           "This applies the named effect (FX) to everything within a given block (e.g. between do ... end). All effects take extra parameters to modify their behaviour. See the documentation for an effect for details.
+           doc:           "This applies the named effect (FX) to everything within a given do/end block. Effects may take extra parameters to modify their behaviour. See FX help for parameter details.
 
 For advanced control, it is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
            args:          [[:fx_name, :symbol]],
@@ -1679,11 +1701,16 @@ sleep 1
 
        end
        doc name:          :control,
-           doc:           "add docs",
+           doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for parameter details.",
            args:          [[:node, :synth_node]],
            opts:          {},
            accepts_block: false,
-           examples:      []
+           examples:      ["
+my_node = play 50, release: 5, cutoff: 60 # play note 50 with release of 5 and cutoff of 60. Assign return value to variable my_node
+sleep 1 # Sleep for a second
+control my_node, cutoff: 70 # Now modify cutoff from 60 to 70, sound is still playing
+sleep 1 # Sleep for another second
+control my_node, cutoff: 90 # Now modify cutoff from 79 to 90, sound is still playing"]
 
 
 
