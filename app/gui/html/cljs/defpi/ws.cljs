@@ -70,6 +70,11 @@
   (swap! app-state update-in [:messages] rb/add msg)
   )
 
+(defn show-multi-msg
+  [msg]
+  (swap! app-state update-in [:messages] rb/add msg)
+  )
+
 (defn reply-sync
   [msg res]
   (when-let [id (:sync msg)]
@@ -85,6 +90,10 @@
 (defmethod handle-message "message"
   [msg]
   (show-msg msg))
+
+(defmethod handle-message "multimessage"
+  [msgs]
+  (show-multi-msg msgs))
 
 (defmethod handle-message "error"
   [msg]
