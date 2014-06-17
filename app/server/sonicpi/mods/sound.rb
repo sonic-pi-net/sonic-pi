@@ -1789,7 +1789,7 @@ stop bar"]
          __info "Loaded synthdefs in path #{path}"
        end
        doc name:          :load_synthdefs,
-           doc:           "add docs",
+           doc:           "Load all synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi. if you wish your synth to seemlessly integrate with the Sonic ",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
