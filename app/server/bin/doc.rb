@@ -13,8 +13,8 @@
 #++
 
 require_relative "../core.rb"
-require_relative "../sonicpi/synthinfo"
-require_relative "../sonicpi/util"
+require_relative "../sonicpi/lib/sonicpi/synthinfo"
+require_relative "../sonicpi/lib/sonicpi/util"
 
 include SonicPi::Util
 

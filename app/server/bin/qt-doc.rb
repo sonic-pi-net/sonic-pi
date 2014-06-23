@@ -17,10 +17,10 @@ require 'optparse'
 require 'fileutils'
 
 require_relative "../core.rb"
-require_relative "../sonicpi/synthinfo"
-require_relative "../sonicpi/util"
-require_relative "../sonicpi/spiderapi"
-require_relative "../sonicpi/mods/sound"
+require_relative "../sonicpi/lib/sonicpi/synthinfo"
+require_relative "../sonicpi/lib/sonicpi/util"
+require_relative "../sonicpi/lib/sonicpi/spiderapi"
+require_relative "../sonicpi/lib/sonicpi/mods/sound"
 
 require 'active_support/inflector'
 
