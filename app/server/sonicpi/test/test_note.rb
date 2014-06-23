@@ -18,7 +18,11 @@ module SonicPi
 class NoteTester < Test::Unit::TestCase
 
   def test_resolution
+    assert_equal(60, Note.resolve_midi_note(60))
     assert_equal(60, Note.resolve_midi_note(:C, 4))
+    assert_equal(60, Note.resolve_midi_note(:C4))
+    assert_equal(60, Note.resolve_midi_note(:C4, 4))
+    assert_equal(60, Note.resolve_midi_note(:C6, 4))
   end
 
 end
