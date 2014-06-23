@@ -67,7 +67,7 @@ module SonicPi
 
     def self.resolve_midi_note_without_octave(n)
       return @@notes_cache[n] if @@notes_cache[n]
-      return n if n.is_a? Fixnum
+      return n if n.is_a? Numeric
       note = case n
              when Symbol, String
                self.new(n).midi_note
