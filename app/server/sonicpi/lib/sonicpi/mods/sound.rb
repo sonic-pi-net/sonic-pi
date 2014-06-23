@@ -1403,7 +1403,7 @@ puts status
 
 
        def note(n, *args)
-         Note.resolve_midi_note_without_octave(n) if args.empty?
+         return Note.resolve_midi_note_without_octave(n) if args.empty?
          args_h = resolve_synth_opts_hash_or_array(args)
          octave = args_h[:octave]
          if octave
