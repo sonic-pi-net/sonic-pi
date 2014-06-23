@@ -1,0 +1,6 @@
+language: ruby
+rvm:
+  - "1.9.3"
+  - "2.1.2"
+# uncomment this line if your project needs to run something other than `rake`:
+script: cd app/server/sonicpi && rake test
