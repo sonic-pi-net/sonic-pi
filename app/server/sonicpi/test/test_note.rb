@@ -119,5 +119,13 @@ module SonicPi
       assert_equal(6, n.interval)
       assert_equal(102, n.midi_note)
     end
+
+    def test_init_error_sam
+      assert_raise Note::InvalidNoteError do
+        Note.new(:sam)
+      end
+    end
   end
+
+
 end

@@ -13,6 +13,8 @@
 module SonicPi
   class Note
 
+    class InvalidNoteError < ArgumentError ; end ;
+
     NOTES_TO_INTERVALS =
       {c:  0,  C:  0,
        cs: 1,  CS: 1, cS: 1, Cs: 1,
@@ -59,7 +61,7 @@ module SonicPi
 
     DEFAULT_OCTAVE = 4
 
-    MIDI_NOTE_RE = /(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)/
+    MIDI_NOTE_RE = /\A(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)\Z/
 
     attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
@@ -97,7 +99,7 @@ module SonicPi
 
       m = MIDI_NOTE_RE.match n
 
-      raise "Invalid note: #{n}" unless m
+      raise InvalidNoteError, "Invalid note: #{n}" unless m
       @pitch_class = "#{m[2].capitalize}#{unify_sharp_flat_modifier(m[3])}".to_sym
 
       if o
