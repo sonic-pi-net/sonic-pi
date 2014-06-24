@@ -59,7 +59,7 @@ module SonicPi
 
     DEFAULT_OCTAVE = 4
 
-    MIDI_NOTE_RE = /([a-gA-G][sSbBfF]?)([-]?[0-9]*)/
+    MIDI_NOTE_RE = /(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)/
 
     attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
@@ -98,12 +98,12 @@ module SonicPi
       m = MIDI_NOTE_RE.match n
 
       raise "Invalid note: #{n}" unless m
-      @pitch_class = m[1].capitalize
+      @pitch_class = "#{m[2].capitalize}#{unify_sharp_flat_modifier(m[3])}".to_sym
 
       if o
         @octave = o.to_i
       else
-        @octave = m[2].empty? ? DEFAULT_OCTAVE : m[2].to_i
+        @octave = m[4].empty? ? DEFAULT_OCTAVE : m[4].to_i
       end
 
       @interval = NOTES_TO_INTERVALS[m[1].downcase.to_sym]
@@ -116,6 +116,14 @@ module SonicPi
 
     def to_s
       @midi_string
+    end
+
+    private
+
+    def unify_sharp_flat_modifier(mod)
+      m = mod.downcase
+      return "b" if m == "f"
+      m
     end
   end
 end

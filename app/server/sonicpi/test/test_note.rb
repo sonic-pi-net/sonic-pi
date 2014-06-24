@@ -54,5 +54,63 @@ class NoteTester < Test::Unit::TestCase
     assert_equal(60, Note.resolve_midi_note("C6", 4))
   end
 
+  def test_resolution_of_name
+    assert_equal(:C, Note.resolve_note_name(60))
+    assert_equal(:C, Note.resolve_note_name(:C4))
+    assert_equal(:C, Note.resolve_note_name(:C))
+    assert_equal(:C, Note.resolve_note_name(:C, 4))
+    assert_equal(:C, Note.resolve_note_name(:C4, 4))
+  end
+
+  def test_init_c4
+    n = Note.new(:C4)
+    assert_equal(4, n.octave)
+    assert_equal(:C, n.pitch_class)
+    assert_equal(0, n.interval)
+    assert_equal(60, n.midi_note)
+  end
+
+  def test_init_c_4
+    n = Note.new(:C, 4)
+    assert_equal(4, n.octave)
+    assert_equal(:C, n.pitch_class)
+    assert_equal(0, n.interval)
+    assert_equal(60, n.midi_note)
+  end
+
+  def test_init_Eb3
+    n = Note.new(:Eb3)
+    assert_equal(3, n.octave)
+    assert_equal(:Eb, n.pitch_class)
+    assert_equal(3, n.interval)
+    assert_equal(51, n.midi_note)
+  end
+
+  def test_init_EB3
+    n = Note.new(:EB3)
+    assert_equal(3, n.octave)
+    assert_equal(:Eb, n.pitch_class)
+    assert_equal(3, n.interval)
+    assert_equal(51, n.midi_note)
+  end
+
+  def test_init_EF3
+    n = Note.new(:EF3)
+    assert_equal(3, n.octave)
+    assert_equal(:Eb, n.pitch_class)
+    assert_equal(3, n.interval)
+    assert_equal(51, n.midi_note)
+  end
+
+  def test_init_Fs_7
+    n = Note.new(:Fs, 7)
+    assert_equal(7, n.octave)
+    assert_equal(:Fs, n.pitch_class)
+    assert_equal(6, n.interval)
+    assert_equal(102, n.midi_note)
+  end
+
+
+
 end
 end
