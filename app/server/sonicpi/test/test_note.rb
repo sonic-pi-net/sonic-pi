@@ -125,6 +125,18 @@ module SonicPi
         Note.new(:sam)
       end
     end
+
+    def test_init_error_KF_4
+      assert_raise Note::InvalidNoteError do
+        Note.new(:KF, 4)
+      end
+    end
+
+    def test_init_error_Ebb2
+      assert_raise Note::InvalidNoteError do
+        Note.new(:Ebb2)
+      end
+    end
   end
 
 
