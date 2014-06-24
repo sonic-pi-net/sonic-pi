@@ -134,7 +134,21 @@ module SonicPi
 
     def test_init_error_Ebb2
       assert_raise Note::InvalidNoteError do
-        Note.new(:Ebb2)
+        Note.new(:Ebb2!)
+      end
+    end
+
+    def test_init_invalid_octave
+      assert_raise Note::InvalidOctaveError do
+        Note.new(:Eb, :foo)
+      end
+
+      assert_raise Note::InvalidOctaveError do
+        Note.new(:Eb, 3.5)
+      end
+
+      assert_raise Note::InvalidOctaveError do
+        Note.new(:Eb, 3.0)
       end
     end
   end

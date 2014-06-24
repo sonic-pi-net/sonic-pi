@@ -14,6 +14,7 @@ module SonicPi
   class Note
 
     class InvalidNoteError < ArgumentError ; end ;
+    class InvalidOctaveError < ArgumentError ; end ;
 
     NOTES_TO_INTERVALS =
       {c:  0,  C:  0,
@@ -83,6 +84,7 @@ module SonicPi
     def self.resolve_midi_note(n, o=nil)
       return resolve_midi_note_without_octave(n) unless o
       n = resolve_midi_note_without_octave(n)
+      raise InvalidOctaveError, "Invalid octave: #{o.inspect}, expecting a number" unless o.is_a? Numeric
       n = n % 12
       o = o.to_i * 12
       n + o + 12
@@ -103,6 +105,7 @@ module SonicPi
       @pitch_class = "#{m[2].capitalize}#{unify_sharp_flat_modifier(m[3])}".to_sym
 
       if o
+        raise InvalidOctaveError, "Invalid octave: #{o.inspect}, expecting a whole number such as 3 or 4!" unless o.is_a? Integer
         @octave = o.to_i
       else
         @octave = m[4].empty? ? DEFAULT_OCTAVE : m[4].to_i
