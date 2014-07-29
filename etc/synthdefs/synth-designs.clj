@@ -1045,9 +1045,11 @@
           snd      (lpf (sync-saw
                          freq
                          (* (* freq depth) (+ 2 (sin-osc:kr wob_rate))))
-                        cutoff)]
-      (out out_bus (* snd
-                      (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)))))
+                        cutoff)
+          output   (* snd
+                      (env-gen (envelope [0 1 1 0] [attack sustain release]) :action FREE))
+          output   (pan2 output pan amp)]
+      (out out_bus output)))
 
 
   (defsynth sonic-pi-prophet
@@ -1230,17 +1232,22 @@
   (defsynth sonic-pi-fx_ixi_techno
     [rate 0.1
      rate_slide 0
-     cutoff_min 880
+     cutoff_min 60
      cutoff_min_slide 0
-     cutoff_max 12000
+     cutoff_max 120
      cutoff_max_slide 0
      res 0.2
      res_slide 0
      in_bus 0
      out_bus 0]
-    (let [freq (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
-          src  (in in_bus 2)
-          src  (rlpf src freq res)]
+    (let [cutoff_min (lag cutoff_min cutoff_min_slide)
+          cutoff_max (lag cutoff_max cutoff_min_slide)
+          res        (lag res res_slide)
+          cutoff_min (midicps cutoff_min)
+          cutoff_max (midicps cutoff_max)
+          freq       (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
+          src        (in in_bus 2)
+          src        (rlpf src freq res)]
       (out out_bus src)))
 
   (defsynth sonic-pi-fx_replace_ixi_techno
@@ -1253,9 +1260,14 @@
      res 0.2
      res_slide 0
      out_bus 0]
-    (let [freq (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
-          src  (in out_bus 2)
-          src  (rlpf src freq res)]
+    (let [cutoff_min (lag cutoff_min cutoff_min_slide)
+          cutoff_max (lag cutoff_max cutoff_min_slide)
+          res        (lag res res_slide)
+          cutoff_min (midicps cutoff_min)
+          cutoff_max (midicps cutoff_max)
+          freq       (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
+          src        (in out_bus 2)
+          src        (rlpf src freq res)]
       (replace-out out_bus src)))
 
   (defsynth sonic-pi-fx_compressor
