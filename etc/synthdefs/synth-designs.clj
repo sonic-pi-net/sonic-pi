@@ -526,7 +526,7 @@
            snd            (mix (saw [freq detune-freq]))
            snd            (lpf snd cutoff-freq)
            snd            (normalizer snd)
-           env            (env-gen (env-lin attack release) :action FREE)]
+           env            (env-gen (env-lin attack sustain release) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_dsaw_s [note 52
