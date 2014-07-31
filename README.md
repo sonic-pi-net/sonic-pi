@@ -38,38 +38,12 @@ Pi. Patches for other platforms will be happily considered.
 
 ### Compiling the Qt interface on OSX
 
-The dependencies for building and running this are:
-
-* SuperCollider installed in `/Applications` - http://supercollider.sourceforge.net/
-* Ruby 1.9.3+ - https://www.ruby-lang.org
-* Qt and QScintilla2 (see below)
-
-To install Qt and QScintilla2 using brew (http://brew.sh):
-  * `brew install qt --development && brew linkapps`
-  * `brew install qscintilla2`
-
-You'll also need to compile native extensions things for your environment. Run the following from the root of this project:
-
-```bash
-./app/server/bin/compile-extensions.rb
-```
-
-You're now ready to compile the Qt gui! To compile the qt app, from the root of the project run
-
-```bash
-./app/gui/qt/bootstrap-qt
-```
-
-Now you can run the app:
-
-```bash
-open app/gui/qt/application.app
-```
+To be completed...
 
 ### Compiling the Qt interface on generic Linux:
 
 Debian package dependency names:
-
+  
 * `supercollider`
 * `ruby1.9.3`
 * `libqscintilla2-8`
