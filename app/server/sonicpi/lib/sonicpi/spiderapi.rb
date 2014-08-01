@@ -103,6 +103,20 @@ end",]
         hide:           true
 
 
+    def comment(*args, &block)
+      #do nothing!
+    end
+    doc name:           :comment,
+        summary:        "Block level commenting",
+        args:           [],
+        opts:           nil,
+        accepts_block:  true,
+        doc:            "Does not evaluate any of the code within the block. However, any args passed before the block *will* be evaluated.",
+        examples:       ["comment do # starting a block level comment:
+  play 50 # not played
+  sleep 1 # no sleep happens
+  play 62 @ not played
+end"]
 
 
     def print(output)
