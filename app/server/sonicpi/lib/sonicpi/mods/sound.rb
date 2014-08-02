@@ -2179,12 +2179,10 @@ stop bar"]
        end
 
        def ensure_good_timing!
-         vt = Thread.current.thread_variable_get :sonic_pi_spider_time
-         sat = @mod_sound_studio.sched_ahead_time + 0.1
-         now = Time.now
-         raise "Timing Exception: thread got too far behind time." if (now - (sat + 1)) > vt
+         vt  = Thread.current.thread_variable_get :sonic_pi_spider_time
+         sat = @mod_sound_studio.sched_ahead_time + 1.1
+         raise "Timing Exception: thread got too far behind time." if (Time.now - sat) > vt
        end
-
      end
    end
  end
