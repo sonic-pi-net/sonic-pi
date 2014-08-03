@@ -66,6 +66,22 @@
 
 using namespace oscpkt;
 
+void MainWindow::createWorkspaces(void) {
+  for(int ws = 0; ws < workspace_max; ws++) {
+	  std::string s;
+
+	  workspaces[ws] = new QsciScintilla;
+	  QString w = QString("Workspace %1").arg(QString::number(ws + 1));
+	  tabs->addTab(workspaces[ws], w);
+  }
+}
+
+void MainWindow::initWorkspaces(void) {
+  for(int ws = 0; ws < workspace_max; ws++) {
+	  initWorkspace(workspaces[ws]);
+  }
+}
+
 MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   this->setUnifiedTitleAndToolBarOnMac(true);
@@ -111,14 +127,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   tabs->setTabsClosable(false);
   tabs->setMovable(false);
   tabs->setTabPosition(QTabWidget::South);
-  // create workspaces and add them to the tabs
-  for(int ws = 0; ws < workspace_max; ws++) {
-	  std::string s;
 
-	  workspaces[ws] = new QsciScintilla;
-	  QString w = QString("Workspace %1").arg(QString::number(ws + 1));
-	  tabs->addTab(workspaces[ws], w);
-  }
+  createWorkspaces();
 
   lexer = new SonicPiLexer;
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
@@ -203,10 +213,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   mainWidget->setLayout(mainWidgetLayout);
   setCentralWidget(mainWidget);
 
-  // initialise workspaces
-  for(int ws = 0; ws < workspace_max; ws++) {
-	  initWorkspace(workspaces[ws]);
-  }
+  initWorkspaces();
 
   createActions();
   createToolBar();
