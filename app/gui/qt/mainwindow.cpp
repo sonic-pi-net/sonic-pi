@@ -10,8 +10,13 @@
 // and distribution of modified versions of this work as long as this
 // notice is included.
 //++
+
+// Standard stuff
+#include <iostream>
 #include <math.h>
 #include <sstream>
+
+// Qt stuff
 #include <QAction>
 #include <QApplication>
 #include <QCloseEvent>
@@ -45,13 +50,17 @@
 #include <QRadioButton>
 #include <QCheckBox>
 #include <QScrollArea>
+
+// QScintilla stuff
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include <sonicpilexer.h>
-#include <iostream>
+
+// OSC stuff
 #include "oscpkt.hh"
 #include "udp.hh"
 
+// OS specific stuff
 #if defined(Q_OS_WIN)
   #include <QtConcurrentRun>
 #elif defined(Q_OS_MAC)
