@@ -16,6 +16,10 @@
 # Project created by QtCreator 2014-02-28T14:51:06
 #
 #-------------------------------------------------
+LIBS += -L$$PWD/../../../../../../Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5/ -lqscintilla2
+
+INCLUDEPATH += $$PWD/../../../../../../Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
+DEPENDPATH += $$PWD/../../../../../../Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
 
 QT       += core gui
 
@@ -24,7 +28,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = SonicPi
 TEMPLATE = app
 
-SOURCES += main.cpp\
+SOURCES += main.cpp \
            mainwindow.cpp \
            sonicpilexer.cpp
 
@@ -32,9 +36,6 @@ HEADERS  += mainwindow.h \
             oscpkt.hh \
             udp.hh \
             sonicpilexer.h
-
-LIBS += -l qscintilla2
-
 
 OTHER_FILES += \
     images/copy.png \
@@ -46,6 +47,8 @@ OTHER_FILES += \
     images/recording_b.png \
 
 RESOURCES += \
-    application.qrc
+    SonicPi.qrc \
+    help_files.qrc
 
 ICON = images/app.icns
+
