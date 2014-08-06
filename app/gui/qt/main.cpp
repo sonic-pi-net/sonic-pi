@@ -19,10 +19,16 @@
 #include "mainwindow.h"
 int main(int argc, char *argv[])
 {
-        Q_INIT_RESOURCE(application);
+    // Q_INIT_RESOURCE(application);
 
-    QApplication app(argc, argv);
+     QApplication app(argc, argv);
+    app.setApplicationName("Sonic Pi");
     app.setStyle("gtk");
+
+#ifdef Q_OS_MAC
+    app.setAttribute( Qt::AA_UseHighDpiPixmaps );
+#endif
+
     QPixmap pixmap(":/images/splash.png");
     QSplashScreen splash(pixmap);
     splash.setMask(pixmap.mask());
@@ -32,6 +38,6 @@ int main(int argc, char *argv[])
     //    QIcon icon(":images/app.icns");
     MainWindow mainWin(app, splash);
 
-    //    mainWin.setWindowIcon(icon);
+    //mainWin.setWindowIcon(icon);
     return app.exec();
 }
