@@ -67,7 +67,7 @@ module SonicPi
     end
 
     def root_path
-      File.absolute_path("#{File.dirname(__FILE__)}/../../../")
+      File.absolute_path("#{Dir.getwd}/../../../")
     end
 
     def etc_path
