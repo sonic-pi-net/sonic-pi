@@ -161,11 +161,17 @@ module SonicPi
 
         :attack =>
         {
-          :doc => "Amount of time (in seconds) for sound to reach full amplitude. A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.",
+          :doc => "Amount of time (in seconds) for sound to reach full amplitude (attack_leve). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.",
           :validations => [v_positive(:attack)],
           :modulatable => false
         },
 
+        :decay =>
+        {
+          :doc => "Amount of time (in seconds) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).",
+          :validations => [v_positive(:decay)],
+          :modulatable => false
+        },
 
         :sustain =>
         {
@@ -174,11 +180,24 @@ module SonicPi
           :modulatable => false
         },
 
-
         :release =>
         {
           :doc => "Amount of time (in seconds) for sound to move from full amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + sustain + release.",
           :validations => [v_positive(:release)],
+          :modulatable => false
+        },
+
+        :attack_level =>
+        {
+          :doc => "Amplitude level reached after attack phase and immediately before decay phase",
+          :validations => [v_positive(:attack_level)],
+          :modulatable => false
+        },
+
+        :sustain_level =>
+        {
+          :doc => "Amplitude level reached after decay phase and immediately before release phase.",
+          :validations => [v_positive(:sustain_level)],
           :modulatable => false
         },
 
@@ -210,17 +229,17 @@ module SonicPi
           :modulatable => true
         },
 
-        :mod_rate =>
+        :mod_phase =>
         {
-          :doc => "Number of times per second that the note switches between the two notes.",
-          :validations => [v_positive(:mod_rate)],
+          :doc => "Phase duration in seconds of oscillations between the two notes. Time it takes to switch betwen the notes.",
+          :validations => [v_positive_not_zero(:mod_phase)],
           :modulatable => true
         },
 
-        :mod_rate_slide =>
+        :mod_phase_slide =>
         {
-          :doc => generic_slide_doc(:mod_rate),
-          :validations => [v_positive(:mod_rate_slide)],
+          :doc => generic_slide_doc(:mod_phase),
+          :validations => [v_positive(:mod_phase_slide)],
           :modulatable => true
         },
 
@@ -292,9 +311,13 @@ module SonicPi
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
-        :release => 1
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1
       }
     end
   end
@@ -334,9 +357,13 @@ module SonicPi
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.0,
+        :decay => 0,
         :sustain => 0,
-        :release => 0.3
+        :release => 0.3,
+        :attack_level => 1,
+        :sustain_level => 1
       }
     end
   end
@@ -391,9 +418,13 @@ module SonicPi
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 0.3,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
@@ -424,9 +455,13 @@ module SonicPi
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 0.3,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :pulse_width => 0.5,
         :pulse_width_slide => 0
@@ -485,8 +520,11 @@ module SonicPi
         :pan_slide => 0,
 
         :attack => 0.1,
+        :decay => 0,
         :sustain => 0,
         :release => 0.3,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
@@ -519,8 +557,11 @@ module SonicPi
         :pan_slide => 0,
 
         :attack => 0.1,
+        :decay => 0,
         :sustain => 0,
         :release => 0.3,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :detune => 0.1,
         :detune_slide => 0
@@ -551,8 +592,11 @@ module SonicPi
         :pan_slide => 0,
 
         :attack => 1,
+        :decay => 0,
         :sustain => 0,
         :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :divisor => 2,
         :divisor_slide => 0,
@@ -607,7 +651,7 @@ module SonicPi
 
     def arg_defaults
       super.merge({
-                    :mod_rate => 1,
+                    :mod_phase => 1,
                     :mod_range => 5,
                     :mod_width => 0.5
                   })
@@ -639,13 +683,16 @@ end
         :pan_slide => 0,
 
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_rate => 1,
-        :mod_rate_slide => 0,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
@@ -670,16 +717,25 @@ end
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
+        :amp_slide => 0,
         :pan => 0,
+        :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
+        :attack_level => 1,
+        :sustain_level => 1,
 
-        :mod_rate => 1,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
-        :mod_width => 0.5
+        :mod_range_slide => 0,
+        :mod_width => 0.5,
+        :mod_width_slide => 0,
       }
     end
   end
@@ -700,18 +756,24 @@ end
     def arg_defaults
       {
         :note => 52,
+        :note_slide => 0,
         :amp => 1,
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_rate => 1,
-        :mod_rate_slide => 0,
+        :mod_phase => 1,
+
+        :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
@@ -745,11 +807,14 @@ end
         :pan_slide => 0,
 
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
-        :mod_rate => 1,
-        :mod_rate_slide => 0,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
@@ -778,17 +843,21 @@ end
         :note => 52,
         :note_slide => 0,
         :amp => 1,
-        :note_slide => 0,
+        :amp_slide => 0,
         :pan => 0,
-        :note_slide => 0,
+        :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_rate => 1,
-        :mod_rate_slide => 0,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
@@ -819,13 +888,16 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
+        :attack_level => 1,
+        :sustain_level => 1,
 
-        :mod_rate => 1,
-        :mod_rate_slide => 0,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
@@ -854,15 +926,19 @@ end
         :amp => 1,
         :amp_slide => 0,
         :pan => 0,
-        :amp_slide => 0,
+        :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_rate => 1,
-        :mod_rate_slide => 0,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
@@ -890,20 +966,23 @@ end
         :note => 52,
         :note_slide => 0,
         :amp => 1,
-        :note_slide => 0,
+        :amp_slide => 0,
         :pan => 0,
-        :note_slide => 0,
+        :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
-        :slide => 0,
+        :attack_level => 1,
+        :sustain_level => 1,
 
-        :mod_rate => 1,
-        :note_slide => 0,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
-        :note_slide => 0,
+        :mod_range_slide => 0,
         :mod_width => 0.5,
-        :note_slide => 0
+        :mod_width_slide => 0
       }
     end
   end
@@ -929,14 +1008,18 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_rate => 1,
-        :mod_rate_slide => 0,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
@@ -965,21 +1048,25 @@ end
         :note => 52,
         :note_slide => 0,
         :amp => 1,
-        :note_slide => 0,
+        :amp_slide => 0,
         :pan => 0,
-        :note_slide => 0,
+        :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
-        :mod_rate => 1,
-        :note_slide => 0,
+        :mod_phase => 1,
+        :mod_phase_slide => 0,
         :mod_range => 5,
-        :note_slide => 0,
+        :mod_range_slide => 0,
         :mod_width => 0.5,
-        :note_slide => 0,
+        :mod_width_slide => 0,
         :pulse_width => 0.5,
-        :note_slide => 0
+        :pulse_width_slide => 0
       }
     end
   end
@@ -1005,9 +1092,13 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 80,
         :cutoff_slide => 0,
@@ -1083,9 +1174,13 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 130,
         :cutoff_slide => 0,
@@ -1117,10 +1212,13 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
-
-
+        :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1
       }
     end
 
@@ -1147,14 +1245,18 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.1,
+        :decay => 0,
         :sustain => 0,
         :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :rate => 1,
-        :rate_slide => 0,
+        :phase => 1,
+        :phase_slide => 0,
         :depth => 1.5,
         :depth_slide => 0
 
@@ -1185,9 +1287,13 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0.01,
+        :decay => 0,
         :sustain => 0,
         :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :cutoff => 110,
         :cutoff_slide => 0,
@@ -1260,9 +1366,11 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
+
         :attack => 0,
         :sustain => -1,
         :release => 0,
+
         :rate => 1,
         :start => 0,
         :finish => 1
@@ -1406,35 +1514,36 @@ end
 
     def arg_defaults
       {
-        :max_delay => 1,
-        :delay => 0.4,
-        :delay_slide => 0,
+        :phase => 0.25,
+        :phase_slide => 0,
         :decay => 8,
         :decay_slide => 0,
-        :amp => 1
+        :max_phase => 2,
+        :amp => 1,
+        :amp_slide => 0
       }
     end
 
     def specific_arg_info
       {
-        :max_delay =>
+        :max_phase =>
         {
-          :doc => "The maximum delay time in seconds.",
-          :validations => [v_positive_not_zero(:max_delay)],
+          :doc => "The maximum phase duration in seconds.",
+          :validations => [v_positive_not_zero(:max_phase)],
           :modulatable => false
         },
 
-        :delay =>
+        :phase =>
         {
           :doc => "The time between echoes in seconds.",
-          :validations => [v_positive_not_zero(:delay)],
+          :validations => [v_positive_not_zero(:phase)],
           :modulatable => true
         },
 
-        :delay_slide =>
+        :phase_slide =>
         {
-          :doc => "Slide time in seconds between delay values",
-          :validations => [v_positive(:delay_slide)],
+          :doc => "Slide time in seconds between phase values",
+          :validations => [v_positive(:phase_slide)],
           :modulatable => true
         },
 
@@ -1471,11 +1580,11 @@ end
 
     def arg_defaults
       {
-        :rate => 4,
-        :rate_slide => 0,
+        :phase => 0.25,
+        :phase_slide => 0,
         :width => 0.5,
         :width_slide => 0,
-        :phase => 0,
+        :phase_offset => 0,
         :amp => 1,
         :amp_slide => 0.05
       }
@@ -1483,17 +1592,17 @@ end
 
     def specific_arg_info
       {
-        :rate =>
+        :phase =>
         {
-          :doc => "The frequency of the slices",
-          :validations => [v_positive_not_zero(:rate)],
+          :doc => "The phase duration (in seconds) of the slices",
+          :validations => [v_positive_not_zero(:phase)],
           :modulatable => true
         },
 
-        :rate_slide =>
+        :phase_slide =>
         {
-          :doc => "Slide time in seconds between rate values",
-          :validations => [v_positive(:rate_slide)],
+          :doc => "Slide time in seconds between phase values",
+          :validations => [v_positive(:phase_slide)],
           :modulatable => true
         },
 
@@ -1511,10 +1620,10 @@ end
           :modulatable => true
         },
 
-        :phase =>
+        :phase_offset=>
         {
-          :doc => "Initial phase.",
-          :validations => [v_between_inclusive(:phase, 0, 1)],
+          :doc => "Initial phase offset.",
+          :validations => [v_between_inclusive(:phase_offset, 0, 1)],
           :modulatable => false
         },
 
@@ -1547,8 +1656,8 @@ end
 
     def arg_defaults
       {
-        :rate => 0.1,
-        :rate_slide => 0,
+        :phase => 0.1,
+        :phase_slide => 0,
         :cutoff_min => 880,
         :cutoff_min_slide => 0,
         :cutoff_max => 12000,
@@ -1560,10 +1669,10 @@ end
 
     def specific_arg_info
       {
-        :rate =>
+        :phase =>
         {
-          :doc => "The frequency of filter modulation",
-          :validations => [v_positive_not_zero(:rate)],
+          :doc => "The phase duration (in seconds) for filter modulation cycles",
+          :validations => [v_positive_not_zero(:phase)],
           :modulatable => true
         }
 
