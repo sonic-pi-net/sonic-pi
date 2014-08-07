@@ -1486,6 +1486,44 @@ end
     end
   end
 
+  class FXBitcrusher < FXInfo
+    def name
+      "Bitcrusher"
+    end
+
+    def synth_name
+      "fx_bitcrusher"
+    end
+
+    def arg_defaults
+      {
+        :sample_rate => 44100,
+        :sample_rate_slide => 0,
+        :bits => 24,
+        :bits_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+        :sample_rate =>
+        {
+          :doc => "The sample rate the audio will be resampled at.",
+          :validations => [v_positive_not_zero(:sample_rate)],
+          :modulatable => true
+        },
+
+        :bits =>
+        {
+          :doc => "The bit depth of the resampled audio.",
+          :validations => [v_positive_not_zero(:bits)],
+          :modulatable => true
+        }
+      }
+    end
+
+  end
+
   class FXLevel < FXInfo
     def name
       "Level Amplifier"
@@ -1656,11 +1694,11 @@ end
 
     def arg_defaults
       {
-        :phase => 0.1,
+        :phase => 4,
         :phase_slide => 0,
-        :cutoff_min => 880,
+        :cutoff_min => 60,
         :cutoff_min_slide => 0,
-        :cutoff_max => 12000,
+        :cutoff_max => 120,
         :cutoff_max_slide => 0,
         :res => 0.2,
         :res_slide => 0
@@ -2045,6 +2083,7 @@ end
       :basic_stereo_player => BasicStereoPlayer.new,
       :basic_mixer => BasicMixer.new,
 
+      :fx_bitcrusher => FXBitcrusher.new,
       :fx_reverb => FXReverb.new,
       :fx_replace_reverb => FXReverb.new,
       :fx_level => FXLevel.new,

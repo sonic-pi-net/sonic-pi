@@ -1215,6 +1215,30 @@
 
 ;;FX
 (without-namespace-in-synthdef
+ (defsynth sonic-pi-fx_bitcrusher [sample_rate 44100
+                                   sample_rate_slide 0
+                                   bits 24
+                                   bits_slide 0
+                                   in_bus 0
+                                   out_bus 0]
+   (let [sample_rate (lag sample_rate sample_rate_slide)
+         bits        (lag bits bits_slide)
+         snd         (in in_bus 2)
+         snd         (decimator snd sample_rate bits)]
+     (out out_bus (+ snd))))
+
+ (defsynth sonic-pi-fx_replace_bitcrusher [sample_rate 44100
+                                           sample_rate_slide 0
+                                           bits 24
+                                           bits_slide 0
+                                           in_bus 0
+                                           out_bus 0]
+   (let [sample_rate (lag sample_rate sample_rate_slide)
+         bits        (lag bits bits_slide)
+         snd         (in in_bus 2)
+         snd         (decimator snd sample_rate bits)]
+     (replace-out out_bus snd)))
+
   (defsynth sonic-pi-fx_reverb [mix 0.4
                        mix_slide 0
                        room 0.6
@@ -1333,7 +1357,7 @@
   ;; {arg sig     ; RLPF.ar(sig, SinOsc.ar(0.1).exprange(880,12000), 0.2)};
 
   (defsynth sonic-pi-fx_ixi_techno
-    [phase 0.1
+    [phase 4
      phase_slide 0
      cutoff_min 60
      cutoff_min_slide 0
@@ -1346,21 +1370,21 @@
     (let [phase      (lag phase phase_slide)
           rate       (/ 1 phase)
           cutoff_min (lag cutoff_min cutoff_min_slide)
-          cutoff_max (lag cutoff_max cutoff_min_slide)
+          cutoff_max (lag cutoff_max cutoff_max_slide)
           res        (lag res res_slide)
           cutoff_min (midicps cutoff_min)
           cutoff_max (midicps cutoff_max)
-          freq       (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
+          freq       (lin-exp (sin-osc:kr rate) -1 1 cutoff_min cutoff_max)
           src        (in in_bus 2)
           src        (rlpf src freq res)]
       (out out_bus src)))
 
   (defsynth sonic-pi-fx_replace_ixi_techno
-    [phase 0.1
+    [phase 4
      phase_slide 0
-     cutoff_min 880
+     cutoff_min 60
      cutoff_min_slide 0
-     cutoff_max 12000
+     cutoff_max 120
      cutoff_max_slide 0
      res 0.2
      res_slide 0
@@ -1368,11 +1392,11 @@
     (let [phase      (lag phase phase_slide)
           rate       (/ 1 phase)
           cutoff_min (lag cutoff_min cutoff_min_slide)
-          cutoff_max (lag cutoff_max cutoff_min_slide)
+          cutoff_max (lag cutoff_max cutoff_max_slide)
           res        (lag res res_slide)
           cutoff_min (midicps cutoff_min)
           cutoff_max (midicps cutoff_max)
-          freq       (lin-exp (sin-osc rate) -1 1 cutoff_min cutoff_max)
+          freq       (lin-exp (sin-osc:kr rate) -1 1 cutoff_min cutoff_max)
           src        (in out_bus 2)
           src        (rlpf src freq res)]
       (replace-out out_bus src)))
@@ -1640,7 +1664,9 @@
           snd     (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))]
       (replace-out out_bus snd)))
 
-  (comment
+  (do
+    (save-to-pi sonic-pi-fx_bitcrusher)
+    (save-to-pi sonic-pi-fx_replace_bitcrusher)
     (save-to-pi sonic-pi-fx_reverb)
     (save-to-pi sonic-pi-fx_replace_reverb)
     (save-to-pi sonic-pi-fx_level)
