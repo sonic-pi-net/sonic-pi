@@ -66,11 +66,11 @@
   (def dull-partials
     [
      0.56
-     ;;   1.19
+     1.19
      ;;   1.71
      ;;   2.74
      3
-     ;;   3.76
+        3.76
      ])
 
   ;; http://www.soundonsound.com/sos/Aug02/articles/synthsecrets0802.asp
@@ -82,7 +82,7 @@
      ;;   3
      ;;   4.2
      ;;   5.4
-     ;;   6.8
+        6.8
      ])
 
   ;; we make a bell by combining a set of sine waves at the given
@@ -96,9 +96,12 @@
     "Bell partial generator"
     [freq     {:default 440 :doc "The fundamental frequency for the partials"}
      attack   {:default 0.01}
+     decay    {:default 0}
      sustain  {:default 0}
      release  {:default 1.0 :doc "Duration multiplier. Length of longest partial will
                             be dur seconds"}
+     attack-level {:default 1}
+     sustain-level {:default 1}
      partials {:default [0.5 1 2 4] :doc "sequence of frequencies which are
                                         multiples of freq"}]
     "Generates a series of progressively shorter and quieter enveloped sine waves
@@ -108,8 +111,8 @@
      (apply +
             (map
              (fn [partial proportion]
-               (let [vol      (/ proportion 2)
-                     env      (env-gen (envelope [0 1 1 0] [attack sustain (* release proportion)]) :level-scale vol)
+               (let [amp      (/ proportion 2)
+                     env      (env-gen (envelope [0 attack-level sustain-level sustain-level 0] [attack (* decay proportion) (* sustain proportion) (* release proportion)]) :level-scale amp)
                      overtone (* partial freq)]
                  (* env (sin-osc overtone))))
              partials               ;; current partial
@@ -124,14 +127,17 @@
                                  pan 0
                                  pan_slide 0
                                  attack 0.01
+                                 decay 0
                                  sustain 0
                                  release 1.0
+                                 attack_level 1
+                                 sustain_level 1
                                  out_bus 0]
      (let [note (lag note note_slide)
            amp  (lag amp amp_slide)
            pan  (lag pan pan_slide)
            freq (midicps note)
-           snd  (* amp (bell-partials freq attack sustain release dull-partials))]
+           snd  (* amp (bell-partials freq attack decay sustain release attack_level sustain_level dull-partials))]
        (detect-silence snd :action FREE)
        (out out_bus (pan2 snd pan))))
 
@@ -142,14 +148,17 @@
                                    pan 0
                                    pan_slide 0
                                    attack 0.01
+                                   decay 0
                                    sustain 0
-                                   release 1
+                                   release 1.3
+                                   attack_level 1
+                                   sustain_level 1
                                    out_bus 0]
      (let [note (lag note note_slide)
            amp  (lag amp amp_slide)
            pan  (lag pan pan_slide)
            freq (midicps note)
-           snd  (* amp (bell-partials freq attack sustain release partials))]
+           snd  (* amp (bell-partials freq attack decay sustain release attack_level sustain_level partials))]
        (detect-silence snd :action FREE)
        (out out_bus (pan2 snd pan))))
 
@@ -160,17 +169,19 @@
                             pan 0
                             pan_slide 0
                             attack 0
+                            decay 0
                             sustain 0
                             release 0.2
+                            attack_level 1
+                            sustain_level 1
                             out_bus 0]
      (let [note (lag note note_slide)
            amp  (lag amp amp_slide)
            pan  (lag pan pan_slide)
-           freq (midicps note)]
-       (out out_bus (pan2 (* (sin-osc freq)
-                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
-                             )
-                          pan))))
+           freq (midicps note)
+           snd  (sin-osc freq)
+           env  (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+       (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-pulse [note 52
                              note_slide 0
@@ -179,24 +190,27 @@
                              pan 0
                              pan_slide 0
                              attack 0.01
+                             decay 0
                              sustain 0
                              release 2
+                             attack_level 1
+                             sustain_level 1
                              cutoff 100
                              cutoff_slide 0
                              pulse_width 0.5
                              pulse_width_slide 0
                              out_bus 0]
-     (let [note           (lag note note_slide)
-           amp            (lag amp amp_slide)
-           pan            (lag pan pan_slide)
-           cutoff         (lag cutoff cutoff_slide)
-           pulse_width    (lag pulse_width pulse_width_slide)
-           freq           (midicps note)
-           cutoff-freq    (midicps cutoff)
-           snd            (pulse freq pulse_width)
-           snd            (lpf snd cutoff-freq)
-           snd            (normalizer snd)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+     (let [note        (lag note note_slide)
+           amp         (lag amp amp_slide)
+           pan         (lag pan pan_slide)
+           cutoff      (lag cutoff cutoff_slide)
+           pulse_width (lag pulse_width pulse_width_slide)
+           freq        (midicps note)
+           cutoff-freq (midicps cutoff)
+           snd         (pulse freq pulse_width)
+           snd         (lpf snd cutoff-freq)
+           snd         (normalizer snd)
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-pulse_s [note 52
@@ -206,18 +220,21 @@
                                pan 0
                                pan_slide 0
                                attack 0.01
+                               decay 0
                                sustain 0
                                release 2
+                               attack_level 1
+                               sustain_level 1
                                pulse_width 0.5
                                pulse_width_slide 0
                                out_bus 0]
-     (let [note           (lag note note_slide)
-           amp            (lag amp amp_slide)
-           pan            (lag pan pan_slide)
-           pulse_width    (lag pulse_width pulse_width_slide)
-           freq           (midicps note)
-           snd            (pulse freq pulse_width)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+     (let [note        (lag note note_slide)
+           amp         (lag amp amp_slide)
+           pan         (lag pan pan_slide)
+           pulse_width (lag pulse_width pulse_width_slide)
+           freq        (midicps note)
+           snd         (pulse freq pulse_width)
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
 
@@ -228,8 +245,11 @@
                            pan 0
                            pan_slide 0
                            attack 0.1
+                           decay 0
                            sustain 0
                            release 0.3
+                           attack_level 1
+                           sustain_level 1
                            cutoff 100
                            cutoff_slide 0
                            out_bus 0]
@@ -238,10 +258,10 @@
            pan         (lag pan pan_slide)
            cutoff      (lag cutoff cutoff_slide)
            freq        (midicps note)
-           cutoff-freq (midicps cutoff)]
-       (out out_bus (pan2 (* (normalizer (lpf (saw freq) cutoff-freq))
-                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE))
-                          pan))))
+           cutoff-freq (midicps cutoff)
+           snd         (normalizer (lpf (saw freq) cutoff-freq))
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+       (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-saw_s [note 52
                              note_slide 0
@@ -250,16 +270,19 @@
                              pan 0
                              pan_slide 0
                              attack 0.1
+                             decay 0
                              sustain 0
                              release 0.3
+                             attack_level 1
+                             sustain_level 1
                              out_bus 0]
-     (let [note        (lag note note_slide)
-           amp         (lag amp amp_slide)
-           pan         (lag pan pan_slide)
-           freq        (midicps note)]
-       (out out_bus (pan2 (* (saw freq)
-                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE))
-                          pan))))
+     (let [note (lag note note_slide)
+           amp  (lag amp amp_slide)
+           pan  (lag pan pan_slide)
+           freq (midicps note)
+           snd  (saw freq)
+           env  (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+       (out out_bus (pan2 (* snd env) pan amp))))
 
    (defsynth sonic-pi-tri [note 52
                            note_slide 0
@@ -268,8 +291,11 @@
                            pan 0
                            pan_slide 0
                            attack 0.1
+                           decay 0
                            sustain 0
                            release 0.3
+                           attack_level 1
+                           sustain_level 1
                            cutoff 100
                            cutoff_slide 0
                            out_bus 0]
@@ -278,10 +304,10 @@
            pan         (lag pan pan_slide)
            cutoff      (lag cutoff cutoff_slide)
            freq        (midicps note)
-           cutoff-freq (midicps cutoff)]
-       (out out_bus (pan2 (* (normalizer (lpf (lf-tri freq) cutoff-freq))
-                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE))
-                          pan))))
+           cutoff-freq (midicps cutoff)
+           snd         (normalizer (lpf (lf-tri freq) cutoff-freq))
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+       (out out_bus (pan2 (* snd env) pan amp))))
 
    (defsynth sonic-pi-tri_s [note 52
                              note_slide 0
@@ -290,16 +316,19 @@
                              pan 0
                              pan_slide 0
                              attack 0.1
+                             decay 0
                              sustain 0
                              release 0.3
+                             attack_level 1
+                             sustain_level 1
                              out_bus 0]
-     (let [note        (lag note note_slide)
-           amp         (lag amp amp_slide)
-           pan         (lag pan pan_slide)
-           freq        (midicps note)]
-       (out out_bus (pan2 (* (lf-tri freq)
-                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE))
-                          pan))))
+     (let [note (lag note note_slide)
+           amp  (lag amp amp_slide)
+           pan  (lag pan pan_slide)
+           freq (midicps note)
+           snd  (lf-tri freq)
+           env  (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+       (out out_bus (pan2 (* snd env) pan amp))))
 
    (defsynth sonic-pi-dsaw [note 52
                             note_slide 0
@@ -308,8 +337,11 @@
                             pan 0
                             pan_slide 0
                             attack 0.1
+                            decay 0
                             sustain 0
                             release 0.3
+                            attack_level 1
+                            sustain_level 1
                             cutoff 100
                             cutoff_slide 0
                             detune 0.1
@@ -322,11 +354,10 @@
            cutoff      (lag cutoff cutoff_slide)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
-           detune-freq (midicps (+ note detune))]
-       (out out_bus (pan2 (* (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
-                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
-                             )
-                          pan))))
+           detune-freq (midicps (+ note detune))
+           snd         (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+       (out out_bus (pan2 (* snd env) pan amp))))
 
    (defsynth sonic-pi-dsaw_s [note 52
                               note_slide 0
@@ -335,8 +366,11 @@
                               pan 0
                               pan_slide 0
                               attack 0.1
+                              decay 0
                               sustain 0
                               release 0.3
+                              attack_level 1
+                              sustain_level 1
                               detune 0.1
                               detune_slide 0
                               out_bus 0]
@@ -345,11 +379,10 @@
            pan         (lag pan pan_slide)
            detune      (lag detune detune_slide)
            freq        (midicps note)
-           detune-freq (midicps (+ note detune))]
-       (out out_bus (pan2 (* (mix (saw [freq detune-freq]))
-                             (env-gen (envelope [0 1 1 0] [attack sustain release]) :level-scale amp :action FREE)
-                             )
-                          pan))))
+           detune-freq (midicps (+ note detune))
+           snd         (mix (saw [freq detune-freq]))
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+       (out out_bus (pan2 (* snd env) pan amp))))
 
    (defsynth sonic-pi-fm [note 52
                           note_slide 0
@@ -358,8 +391,11 @@
                           pan 0
                           pan_slide 0
                           attack 1
+                          decay 0
                           sustain 0
                           release 1
+                          attack_level 1
+                          sustain_level 1
                           divisor 2.0
                           divisor_slide 0
                           depth 1.0
@@ -372,11 +408,12 @@
            depth     (lag depth depth_slide)
            carrier   (midicps note)
            modulator (/ carrier divisor)
-           env       (env-gen (env-lin attack sustain release) :level-scale amp :action FREE)]
+           env       (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env
                              (sin-osc (+ carrier
-                                         (* env  (* carrier depth) (sin-osc modulator)))))
-                          pan))))
+                                         (* env (* carrier depth) (sin-osc modulator)))))
+                          pan amp))))
+
 
    (defsynth sonic-pi-mod_fm [note 52
                               note_slide 0
@@ -385,10 +422,13 @@
                               pan 0
                               pan_slide 0
                               attack 1
+                              decay 0
                               sustain 0
                               release 1
-                              mod_rate 1
-                              mod_rate_slide 0
+                              attack_level 1
+                              sustain_level 1
+                              mod_phase 1
+                              mod_phase_slide 0
                               mod_range 5
                               mod_range_slide 0
                               mod_width 0.5
@@ -401,7 +441,8 @@
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            freq           (midicps note)
@@ -413,11 +454,11 @@
            depth          (lag depth depth_slide)
            carrier        freq
            modulator      (/ carrier divisor)
-           env            (env-gen (env-lin attack sustain release) :level-scale amp :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env
                              (sin-osc (+ carrier
                                          (* env  (* carrier depth) (sin-osc modulator)))))
-                          pan))))
+                          pan amp))))
 
 
    (defsynth sonic-pi-mod_saw [note 52
@@ -427,12 +468,15 @@
                                pan 0
                                pan_slide 0
                                attack 0.01
+                               decay 0
                                sustain 0
                                release 2
+                               attack_level 1
+                               sustain_level 1
                                cutoff 100
                                cutoff_slide 0
-                               mod_rate 1
-                               mod_rate_slide 0
+                               mod_phase 1
+                               mod_phase_slide 0
                                mod_range 5
                                mod_range_slide 0
                                mod_width 0.5
@@ -442,7 +486,8 @@
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
            cutoff         (lag cutoff cutoff_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            freq           (midicps note)
@@ -454,7 +499,7 @@
            snd            (saw freq)
            snd            (lpf snd cutoff-freq)
            snd            (normalizer snd)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_saw_s [note 52
@@ -464,10 +509,13 @@
                                  pan 0
                                  pan_slide 0
                                  attack 0.01
+                                 decay 0
                                  sustain 0
                                  release 2
-                                 mod_rate 1
-                                 mod_rate_slide 0
+                                 attack_level 1
+                                 sustain_level 1
+                                 mod_phase 1
+                                 mod_phase_slide 0
                                  mod_range 5
                                  mod_range_slide 0
                                  mod_width 0.5
@@ -476,7 +524,8 @@
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            freq           (midicps note)
@@ -485,7 +534,7 @@
            freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
            freq           (+ freq freq-mod)
            snd            (saw freq)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_dsaw [note 52
@@ -495,12 +544,15 @@
                                 pan 0
                                 pan_slide 0
                                 attack 0.01
+                                decay 0
                                 sustain 0
                                 release 2
+                                attack_level 1
+                                sustain_level 1
                                 cutoff 100
                                 cutoff_slide 0
-                                mod_rate 1
-                                mod_rate_slide 0
+                                mod_phase 1
+                                mod_phase_slide 0
                                 mod_range 5
                                 mod_range_slide 0
                                 mod_width 0.5
@@ -512,7 +564,8 @@
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
            cutoff         (lag cutoff cutoff_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            detune         (lag detune detune_slide)
@@ -526,7 +579,7 @@
            snd            (mix (saw [freq detune-freq]))
            snd            (lpf snd cutoff-freq)
            snd            (normalizer snd)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_dsaw_s [note 52
@@ -536,10 +589,13 @@
                                   pan 0
                                   pan_slide 0
                                   attack 0.01
+                                  decay 0
                                   sustain 0
                                   release 2
-                                  mod_rate 1
-                                  mod_rate_slide 0
+                                  attack_level 1
+                                  sustain_level 1
+                                  mod_phase 1
+                                  mod_phase_slide 0
                                   mod_range 5
                                   mod_range_slide 0
                                   mod_width 0.5
@@ -550,7 +606,8 @@
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            detune         (lag detune detune_slide)
@@ -562,7 +619,7 @@
            freq-mod       (* mod-range-freq (lf-pulse mod_rate 0.5 mod_width))
            freq           (+ freq freq-mod)
            snd            (mix (saw [freq detune-freq]))
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
 
@@ -573,12 +630,15 @@
                                 pan 0
                                 pan_slide 0
                                 attack 0.01
+                                decay 0
                                 sustain 0
                                 release 2
+                                attack_level 1
+                                sustain_level 1
                                 cutoff 100
                                 cutoff_slide 0
-                                mod_rate 1
-                                mod_rate_slide 0
+                                mod_phase 1
+                                mod_phase_slide 0
                                 mod_range 5
                                 mod_range_slide 0
                                 mod_width 0.5
@@ -588,7 +648,8 @@
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
            cutoff         (lag cutoff cutoff_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            freq           (midicps note)
@@ -600,7 +661,7 @@
            snd            (sin-osc freq)
            snd            (lpf snd cutoff-freq)
            snd            (normalizer snd)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_sine_s [note 52
@@ -610,10 +671,13 @@
                                   pan 0
                                   pan_slide 0
                                   attack 0.01
+                                  decay 0
                                   sustain 0
                                   release 2
-                                  mod_rate 1
-                                  mod_rate_slide 0
+                                  attack_level 1
+                                  sustain_level 1
+                                  mod_phase 1
+                                  mod_phase_slide 0
                                   mod_range 5
                                   mod_range_slide 0
                                   mod_width 0.5
@@ -622,7 +686,8 @@
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            freq           (midicps note)
@@ -631,7 +696,7 @@
            freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
            freq           (+ freq freq-mod)
            snd            (sin-osc freq)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_tri [note 52
@@ -641,12 +706,15 @@
                                pan 0
                                pan_slide 0
                                attack 0.01
+                               decay 0
                                sustain 0
                                release 2
+                               attack_level 1
+                               sustain_level 1
                                cutoff 100
                                cutoff_slide 0
-                               mod_rate 1
-                               mod_rate_slide 0
+                               mod_phase 1
+                               mod_phase_slide 0
                                mod_range 5
                                mod_range_slide 0
                                mod_width 0.5
@@ -656,7 +724,8 @@
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
            cutoff         (lag cutoff cutoff_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            freq           (midicps note)
@@ -668,7 +737,7 @@
            snd            (lf-tri freq)
            snd            (lpf snd cutoff-freq)
            snd            (normalizer snd)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_tri_s [note 52
@@ -678,10 +747,13 @@
                                  pan 0
                                  pan_slide 0
                                  attack 0.01
+                                 decay 0
                                  sustain 0
                                  release 2
-                                 mod_rate 1
-                                 mod_rate_slide 0
+                                 attack_level 1
+                                 sustain_level 1
+                                 mod_phase 1
+                                 mod_phase_slide 0
                                  mod_range 5
                                  mod_range_slide 0
                                  mod_width 0.5
@@ -690,7 +762,8 @@
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width_slide)
            freq           (midicps note)
@@ -699,7 +772,7 @@
            freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
            freq           (+ freq freq-mod)
            snd            (lf-tri freq)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_pulse [note 52
@@ -709,12 +782,15 @@
                                  pan 0
                                  pan_slide 0
                                  attack 0.01
+                                 decay 0
                                  sustain 0
                                  release 2
+                                 attack_level 1
+                                 sustain_level 1
                                  cutoff 100
                                  cutoff_slide 0
-                                 mod_rate 1
-                                 mod_rate_slide 0
+                                 mod_phase 1
+                                 mod_phase_slide 0
                                  mod_range 5
                                  mod_range_slide 0
                                  mod_width 0.5
@@ -726,7 +802,8 @@
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
            cutoff         (lag cutoff cutoff_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            pulse_width    (lag pulse_width pulse_width_slide)
@@ -739,7 +816,7 @@
            snd            (pulse freq pulse_width)
            snd            (lpf snd cutoff-freq)
            snd            (normalizer snd)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
    (defsynth sonic-pi-mod_pulse_s [note 52
@@ -749,10 +826,13 @@
                                    pan 0
                                    pan_slide 0
                                    attack 0.01
+                                   decay 0
                                    sustain 0
                                    release 2
-                                   mod_rate 1
-                                   mod_rate_slide 0
+                                   attack_level 1
+                                   sustain_level 1
+                                   mod_phase 1
+                                   mod_phase_slide 0
                                    mod_range 5
                                    mod_range_slide 0
                                    mod_width 0.5
@@ -763,7 +843,8 @@
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
            pan            (lag pan pan_slide)
-           mod_rate       (lag mod_rate mod_rate_slide)
+           mod_phase      (lag mod_phase mod_phase_slide)
+           mod_rate       (/ 1 mod_phase)
            mod_range      (lag mod_range mod_range_slide)
            mod_width      (lag mod_width mod_width_slide)
            pulse_width    (lag pulse_width pulse_width_slide)
@@ -773,7 +854,7 @@
            freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
            freq           (+ freq freq-mod)
            snd            (pulse freq pulse_width)
-           env            (env-gen (env-lin attack sustain release) :action FREE)]
+           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp)))))
 
   (comment
@@ -923,13 +1004,16 @@
      pan_slide 0
      attack   0.01
      sustain  0
+     decay 0
      release  2
+     attack_level 1
+     sustain_level 1
      cutoff   80
      cutoff_slide 0
      cutoff_min 30
      res      0.1                       ; rlpf resonance
      res_slide 0
-     wave     0                         ; 0=saw, 1=pulse
+     wave     0                         ; 0=saw, 1=pulse, 2=tri
      pulse_width 0.5                    ; only for pulse wave
      pulse_width_slide 0
      out_bus  0]
@@ -942,27 +1026,33 @@
           cutoff-freq     (midicps cutoff)
           cutoff-min-freq (midicps cutoff_min)
           freq            (midicps note)
-          env             (env-gen (env-lin attack sustain release) :action FREE)
-          snd             (rlpf (select wave [(saw freq) (pulse freq pulse_width)])
+          env             (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
+
+          snd             (rlpf (select wave [(saw freq) (pulse freq pulse_width) (lf-tri freq)])
                                 (+ cutoff-min-freq (* env cutoff-freq))
                                 res)
           snd             (* env snd)]
       (out out_bus (pan2 snd pan amp))))
 
+
+
   (defsynth sonic-pi-supersaw [note 52
-                      note_slide 0
-                      amp 1
-                      amp_slide 0
-                      pan 0
-                      pan_slide 0
-                      attack 0.01
-                      sustain 0
-                      release 2
-                      cutoff 130
-                      cutoff_slide 0
-                      res 0.3
-                      res_slide 0
-                      out_bus 0]
+                               note_slide 0
+                               amp 1
+                               amp_slide 0
+                               pan 0
+                               pan_slide 0
+                               attack 0.01
+                               decay 0
+                               sustain 0
+                               release 2
+                               attack_level 1
+                               sustain_level 1
+                               cutoff 130
+                               cutoff_slide 0
+                               res 0.3
+                               res_slide 0
+                               out_bus 0]
     (let [note        (lag note note_slide)
           amp         (lag amp amp_slide)
           pan         (lag pan pan_slide)
@@ -983,21 +1073,24 @@
           output      (- output input)
           output      (leak-dc:ar (* output 0.25))
           output      (normalizer (rlpf output cutoff-freq res))
-          env         (env-gen (env-lin attack sustain release) :action FREE)
+          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
           output      (* env output)
           output      (pan2 output pan amp)]
       (out out_bus output)))
 
   (defsynth sonic-pi-supersaw_s [note 52
-                        note_slide 0
-                        amp 1
-                        amp_slide 0
-                        pan 0
-                        pan_slide 0
-                        attack 0.01
-                        sustain 0
-                        release 2
-                        out_bus 0]
+                                 note_slide 0
+                                 amp 1
+                                 amp_slide 0
+                                 pan 0
+                                 pan_slide 0
+                                 attack 0.01
+                                 decay 0
+                                 sustain 0
+                                 release 2
+                                 attack_level 1
+                                 sustain_level 1
+                                 out_bus 0]
     (let [note   (lag note note_slide)
           amp    (lag amp amp_slide)
           pan    (lag pan pan_slide)
@@ -1012,31 +1105,35 @@
           output (+ (- input comp1) (- input comp2) (- input comp3))
           output (- output input)
           output (leak-dc:ar (* output 0.333))
-          env    (env-gen (env-lin attack sustain release) :action FREE)
+          env    (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
           output (* env output)
           output (pan2 output pan amp)]
       (out out_bus output)))
 
   (defsynth sonic-pi-zawa [note 52
-                  note_slide 0
-                  amp 1
-                  amp_slide 0
-                  pan 0
-                  pan_slide 0
-                  attack 0.1
-                  sustain 0
-                  release 1
-                  cutoff 100
-                  cutoff_slide 0
-                  rate 1
-                  rate_slide 0
-                  depth 1.5
-                  depth_slide 0
-                  out_bus 0]
+                           note_slide 0
+                           amp 1
+                           amp_slide 0
+                           pan 0
+                           pan_slide 0
+                           attack 0.1
+                           decay 0
+                           sustain 0
+                           release 1
+                           attack_level 1
+                           sustain_level 1
+                           cutoff 100
+                           cutoff_slide 0
+                           phase 1
+                           phase_slide 0
+                           depth 1.5
+                           depth_slide 0
+                           out_bus 0]
     (let [note     (lag note note_slide)
           amp      (lag amp amp_slide)
           pan      (lag pan pan_slide)
-          wob_rate (lag rate rate_slide)
+          phase    (lag phase phase_slide)
+          wob_rate (/ 1 phase)
           cutoff   (lag cutoff cutoff_slide)
           depth    (lag depth depth_slide)
           freq     (midicps note)
@@ -1046,8 +1143,8 @@
                          freq
                          (* (* freq depth) (+ 2 (sin-osc:kr wob_rate))))
                         cutoff)
-          output   (* snd
-                      (env-gen (envelope [0 1 1 0] [attack sustain release]) :action FREE))
+          env      (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
+          output   (* env snd)
           output   (pan2 output pan amp)]
       (out out_bus output)))
 
@@ -1076,8 +1173,11 @@
      pan 0
      pan_slide 0
      attack 0.01
+     decay 0
      sustain 0
      release 2
+     attack_level 1
+     sustain_level 1
      cutoff 110
      cutoff_slide 0
      res 0.3
@@ -1098,7 +1198,8 @@
                             (* 0.5 (pulse (/ freq 2) (* 0.8 (/ (+ 1.2 (lf-tri:kr (+ 2 (lf-noise2:kr 0.2))))
                                                                2))))])
           snd         (normalizer snd)
-          env         (env-gen (env-lin attack sustain release) :action FREE)
+          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
+
           snd         (rlpf (* env snd snd) cutoff-freq res)
           snd         (pan2 snd pan amp)]
 
@@ -1160,78 +1261,80 @@
 
 
   (defsynth sonic-pi-fx_echo
-    [delay 0.4
-     delay_slide 0
+    [phase 0.25
+     phase_slide 0
      decay 8
      decay_slide 0
-     max_delay 1
+     max_phase 2
      amp 1
      amp_slide 0
      in_bus 0
      out_bus 0]
-    (let [delay  (lag delay delay_slide)
+    (let [phase  (lag phase phase_slide)
           decay  (lag decay decay_slide)
           amp    (lag amp amp_slide)
           source (in in_bus 2)
-          echo   (comb-n source max_delay delay decay)]
+          echo   (comb-n source max_phase phase decay)]
       (out out_bus (+ echo source))))
 
   (defsynth sonic-pi-fx_replace_echo
-    [delay 0.4
-     delay_slide 0
+    [phase 0.25
+     phase_slide 0
      decay 8
      decay_slide 0
-     max_delay 1
+     max_phase 2
      amp 1
      amp_slide 0
      out_bus 0]
-    (let [delay  (lag delay delay_slide)
+    (let [phase  (lag phase phase_slide)
           decay  (lag decay decay_slide)
           amp    (lag amp amp_slide)
           source (in out_bus 2)
-          echo   (comb-n source max_delay delay decay)]
+          echo   (comb-n source max_phase phase decay)]
       (replace-out out_bus (+ echo source))))
 
   (defsynth sonic-pi-fx_slicer
-    [rate 4
-     rate_slide 0
+    [phase 0.25
+     phase_slide 0
      width 0.5
      width_slide 0
-     phase 0
+     phase_offset 0
      amp 1
      amp_slide 0.05
      in_bus 0
      out_bus 0]
-    (let [rate      (lag rate rate_slide)
+    (let [phase     (lag phase phase_slide)
+          rate      (/ 1 phase)
           width     (lag width width_slide)
           amp       (lag amp amp_slide)
           source    (in in_bus 2)
-          slice-amp (lag (lf-pulse:kr rate phase width) amp_slide)
+          slice-amp (lag (lf-pulse:kr phase phase_offset width) amp_slide)
           sliced    (* amp slice-amp source)]
       (out out_bus sliced)))
 
   (defsynth sonic-pi-fx_replace_slicer
-    [rate 4
-     rate_slide 0
+    [phase 0.25
+     phase_slide 0
      width 0.5
      width_slide 0
-     phase 0
+     phase_offset 0
      amp 1
      amp_slide 0.05
      out_bus 0]
-    (let [rate      (lag rate rate_slide)
+    (let [phase     (lag phase phase_slide)
+          rate      (/ 1 phase)
           width     (lag width width_slide)
           amp       (lag amp amp_slide)
           source    (in out_bus 2)
-          slice-amp (lag (lf-pulse:kr rate phase width) amp_slide)
+          slice-amp (lag (lf-pulse:kr phase phase_offset width) amp_slide)
           sliced    (* amp slice-amp source)]
       (replace-out out_bus sliced)))
 
   ;; {arg sig     ; RLPF.ar(sig, SinOsc.ar(0.1).exprange(880,12000), 0.2)};
 
   (defsynth sonic-pi-fx_ixi_techno
-    [rate 0.1
-     rate_slide 0
+    [phase 0.1
+     phase_slide 0
      cutoff_min 60
      cutoff_min_slide 0
      cutoff_max 120
@@ -1240,7 +1343,9 @@
      res_slide 0
      in_bus 0
      out_bus 0]
-    (let [cutoff_min (lag cutoff_min cutoff_min_slide)
+    (let [phase      (lag phase phase_slide)
+          rate       (/ 1 phase)
+          cutoff_min (lag cutoff_min cutoff_min_slide)
           cutoff_max (lag cutoff_max cutoff_min_slide)
           res        (lag res res_slide)
           cutoff_min (midicps cutoff_min)
@@ -1251,8 +1356,8 @@
       (out out_bus src)))
 
   (defsynth sonic-pi-fx_replace_ixi_techno
-    [rate 0.1
-     rate_slide 0
+    [phase 0.1
+     phase_slide 0
      cutoff_min 880
      cutoff_min_slide 0
      cutoff_max 12000
@@ -1260,7 +1365,9 @@
      res 0.2
      res_slide 0
      out_bus 0]
-    (let [cutoff_min (lag cutoff_min cutoff_min_slide)
+    (let [phase      (lag phase phase_slide)
+          rate       (/ 1 phase)
+          cutoff_min (lag cutoff_min cutoff_min_slide)
           cutoff_max (lag cutoff_max cutoff_min_slide)
           res        (lag res res_slide)
           cutoff_min (midicps cutoff_min)
