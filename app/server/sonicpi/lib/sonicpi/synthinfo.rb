@@ -10,6 +10,13 @@ module SonicPi
       @info = default_arg_info.merge(specific_arg_info)
     end
 
+    def rrand(min, max)
+      range = (min - max).abs
+      r = rand(range.to_f)
+      smallest = [min, max].min
+      r + smallest
+    end
+
     def doc
        "Please write documentation!"
     end
@@ -459,7 +466,7 @@ module SonicPi
         :attack_level => 1,
         :sustain_level => 1,
 
-        :cutoff => 100,
+        :cutoff => lambda{rrand(95, 105)},
         :cutoff_slide => 0,
         :pulse_width => 0.5,
         :pulse_width_slide => 0

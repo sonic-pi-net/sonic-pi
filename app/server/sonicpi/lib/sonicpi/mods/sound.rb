@@ -482,6 +482,7 @@ play 50 # Plays with supersaw synth
 
          if args_h.has_key? :note
            n = args_h[:note]
+           n = n.call if n.is_a? Proc
            n = note(n) unless n.is_a? Numeric
            if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
              n += shift
@@ -507,6 +508,7 @@ synth :fm, note: 60, amp: 0.5"]
          ensure_good_timing!
 
          if n
+           n = n.call if n.is_a? Proc
            n = note(n) unless n.is_a? Numeric
            args_h = resolve_synth_opts_hash_or_array(args)
            if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
@@ -664,13 +666,9 @@ play 47, amp: 0.5",
        def use_merged_synth_defaults(*args, &block)
          raise "use_merged_synth_defaults does not work with a block. Perhaps you meant with_merged_synth_defaults" if block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         current_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
          args_h = resolve_synth_opts_hash_or_array(args)
-         defaults_h, fns_h = extract_synth_default_fns(args_h)
-         merged_defs = (current_defs || {}).merge(defaults_h)
-         merged_fns = (current_fns || {}).merge(fns_h)
+         merged_defs = (current_defs || {}).merge(args_h)
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged_defs
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, merged_fns
        end
        doc name:          :use_merged_synth_defaults,
            doc:           "Specify synth arg values to be used by any following call to play. Merges the specified values with any previous defaults, rather than replacing them.",
@@ -701,16 +699,12 @@ play 50 #=> Plays note 50 with amp 0.8, cutoff 80 and pan -1"]
        def with_merged_synth_defaults(*args, &block)
          raise "with_merged_synth_defaults must be called with a block" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         current_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
+
          args_h = resolve_synth_opts_hash_or_array(args)
-         defaults_h, fns_h = extract_synth_default_fns(args_h)
-         merged_defs = (current_defs || {}).merge(defaults_h)
-         merged_fns = (current_fns || {}).merge(fns_h)
+         merged_defs = (current_defs || {}).merge(args_h)
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged_defs
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, merged_fns
          block.call
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current_defs
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults_fns, current_fns
        end
        doc name:          :with_merged_synth_defaults,
            doc:           "Specify synth arg values to be used by any following call to play within the specified do/end block. Merges the specified values with any previous defaults, rather than replacing them. After the do/end block has completed, previous defaults(if any) are restored. ",
@@ -740,9 +734,7 @@ end"]
        def use_synth_defaults(*args, &block)
          raise "use_synth_defaults does not work with a block. Perhaps you meant with_synth_defaults" if block
          args_h = resolve_synth_opts_hash_or_array(args)
-         defaults_h, fns_h = extract_synth_default_fns(args_h)
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, fns_h
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, defaults_h
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, args_h
        end
        doc name:          :use_synth_defaults,
            doc:           "Specify new default values to be used by all subsequent calls to play. Will remove and override any previous defaults.",
@@ -767,17 +759,14 @@ play 50 # plays note 50 with a cutoff of 70 and defaults for rest of args - note
        def with_synth_defaults(*args, &block)
          raise "with_synth_defaults must be called with a block" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         current_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
+
          args_h = resolve_synth_opts_hash_or_array(args)
-         defaults_h, fns_h = extract_synth_default_fns(args_h)
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, defaults_h
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, fns_h
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, args_h
          block.call
          Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current_defs
-         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_default_fns, current_fns
        end
        doc name:          :with_synth_defaults,
-           doc:           "Specify new default values to be used by all calls tp play within the do/end block. After the do/end block has completed the previous synth defaults (if any) are restored.",
+           doc:           "Specify new default values to be used by all calls to play within the do/end block. After the do/end block has completed the previous synth defaults (if any) are restored.",
            args:          [],
            opts:          {},
            accepts_block: true,
@@ -1153,9 +1142,7 @@ puts current_sample_pack_aliases # Print out the current sample pack aliases"]
 
 
        def current_synth_defaults
-         defaults = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-         default_fns = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
-         defaults.merge(default_fns)
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
        end
        doc name:          :current_synth_defaults,
            doc:           "Returns the current synth defaults. This is a map of synth arg names to either values or functions.",
@@ -1934,8 +1921,6 @@ stop bar"]
          sn = synth_name.to_sym
          info = SynthInfo.get_info(sn)
 
-         validate_if_necessary! info, args_h_with_buf
-
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
              __delayed_message "sample #{path.inspect}"
@@ -1950,8 +1935,6 @@ stop bar"]
        def trigger_inst(synth_name, args_h, group=current_job_synth_group)
          sn = synth_name.to_sym
          info = SynthInfo.get_info(sn)
-
-         validate_if_necessary!(info, args_h)
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            __delayed_message "synth #{sn.inspect}, #{arg_h_pp(args_h)}"
@@ -1982,8 +1965,6 @@ stop bar"]
          sn = synth_name.to_sym
          info = SynthInfo.get_info(sn)
 
-         validate_if_necessary!(info, args_h)
-
          n = trigger_synth(synth_name, args_h, group, info, true)
          FXNode.new(n, args_h["in_bus"], current_out_bus)
        end
@@ -1997,23 +1978,17 @@ stop bar"]
            out_bus = current_out_bus
          end
 
-
-         job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-         t_l_fn_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
 
-         if t_l_fn_args
-           resolved_tl_fn_args = {}
-           t_l_fn_args.each do |k, v|
-             resolved_tl_fn_args[k] = v.call
-           end
-           combined_args = defaults.merge(resolved_tl_fn_args.merge(t_l_args).merge(args_h)).merge({"out_bus" => out_bus})
-         else
-           combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out_bus" => out_bus})
-         end
+         combined_args = defaults.merge(t_l_args.merge(args_h))
+         combined_args = call_synth_default_fns(combined_args)
+         combined_args["out_bus"] = out_bus
+
+         validate_if_necessary! info, combined_args
 
          combined_args = scale_time_args_to_bpm(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
+         job_id = current_job_id
          __no_kill_block do
 
            p = Promise.new
@@ -2219,18 +2194,10 @@ stop bar"]
          end
        end
 
-       def extract_synth_default_fns(args_h)
-         defaults = {}
-         fns = {}
+       def call_synth_default_fns(args_h)
          args_h.each do |k, v|
-           case v
-           when Proc
-             fns[k] = v
-           else
-             defaults[k] = v
-           end
+           args_h[k] = v.call if v.is_a? Proc
          end
-         [defaults, fns]
        end
 
        def job_proms_joiner(job_id)
