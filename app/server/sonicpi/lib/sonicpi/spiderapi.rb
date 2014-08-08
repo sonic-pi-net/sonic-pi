@@ -229,6 +229,9 @@ end"]
         accepts_block:  true,
         examples:       []
 
+
+
+
     def current_bpm
       60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
     end
@@ -239,6 +242,9 @@ end"]
         accepts_block: false,
         examples:      ["
 puts current_bpm # Print out the current bpm"]
+
+
+
 
     def rt(t)
       t / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
