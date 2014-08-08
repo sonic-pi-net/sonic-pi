@@ -63,7 +63,7 @@ module SonicPi
           __handle_event event
         end
       end
-      __info "RC5-dev Ready..."
+      __info "RC12-dev Ready..."
     end
 
     #These includes must happen after the initialize method
