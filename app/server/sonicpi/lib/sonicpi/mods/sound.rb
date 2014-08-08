@@ -476,6 +476,32 @@ play 50 # Plays with supersaw synth
 
 
 
+       def synth(synth_name, *args)
+         ensure_good_timing!
+         args_h = resolve_synth_opts_hash_or_array(args)
+
+         if args_h.has_key? :note
+           n = args_h[:note]
+           n = note(n) unless n.is_a? Numeric
+           if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+             n += shift
+           end
+           args_h[:note] = n
+         end
+
+         trigger_inst synth_name, args_h
+       end
+       doc name: :synth,
+           doc: "Trigger specified synth with given arguments.",
+           args:  [[:synth_name, :symbol]],
+           opts:  {},
+           accepts_block: false,
+           examples: ["
+synth :fm, note: 60, amp: 0.5"]
+
+
+
+
        def play(n, *args)
          return play_chord(n, *args) if n.is_a?(Array)
          ensure_good_timing!
