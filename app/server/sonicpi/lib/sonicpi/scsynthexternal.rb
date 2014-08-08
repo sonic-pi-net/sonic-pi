@@ -167,6 +167,7 @@ module SonicPi
           sleep 0.25
         end
       end
+
       log "Starting the SuperCollider server..."
       yield
 
@@ -187,8 +188,32 @@ module SonicPi
     def boot_server_osx
       log_boot_msg
       log "Booting on OS X"
+      begin
+        # NB OSX 10.6 system_profiler doesn't contain the necessary info for this command - will return 0
+        osx_audio_settings = `system_profiler SPAudioDataType`.split("\n\n")
+        osx_default_input = osx_audio_settings.select {|x| x[/Default Input Device: Yes/] }.first.to_s
+        osx_default_output = osx_audio_settings.select {|x| x[/Default Output Device: Yes/] }.first.to_s
+        osx_input_sample_rate = osx_default_input.match(/Current SampleRate: (\d+)/).captures.first
+        osx_output_sample_rate = osx_default_output.match(/Current SampleRate: (\d+)/).captures.first
+
+        if osx_output_sample_rate != 44100
+          log "NOTICE: Non-standard sample rate detected. Booting SuperCollider with sample rate of #{osx_output_sample_rate} Hz"
+        end
+
+        if osx_input_sample_rate != osx_output_sample_rate
+          # Let SuperCollider fix the sample rate using this one weird tip...
+          # Send a command to start the server and let it fail with the 'input and output sample rates do not match' error
+          # On the next boot it will have reset the sample rates and will start properly
+          log "WARNING: input and output sample rates do not match. Trying to start SuperCollider again. See the following message:"
+          sc_boot_msg = `'#{scsynth_path}' -u #{@port} -m 131072 -S #{osx_output_sample_rate} &`
+          log sc_boot_msg
+        end
+      rescue
+        log "WARNING: Sample rate could not be detected automatically. Please use the 'Audio MIDI Setup' to set the sample rate to 44100.0 Hz, otherwise SonicPi might not be able to start"
+      end
+
       boot_and_wait do
-        system("'#{scsynth_path}' -u #{@port} -m 131072 &")
+        raise unless system("'#{scsynth_path}' -u #{@port} -m 131072 &")
       end
     end
 
