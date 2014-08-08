@@ -1797,6 +1797,19 @@ stop bar"]
 
        private
 
+       def scale_time_args_to_bpm(args_h, info)
+         # some of the args in args_h need to be scaled to match the
+         # current bpm. Check in info to see if that's necessary and if
+         # so, scale them.
+         info.bpm_scale_args.each do |arg_name|
+           if args_h.has_key? arg_name
+             args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+           end
+
+         end
+         args_h
+       end
+
        def resolve_sample_symbol_path(sym)
          if ((aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)) &&
 
@@ -1901,6 +1914,8 @@ stop bar"]
            out_bus = current_out_bus
          end
 
+
+
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          t_l_fn_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
@@ -1914,6 +1929,8 @@ stop bar"]
          else
            combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out_bus" => out_bus})
          end
+
+         combined_args = scale_time_args_to_bpm(combined_args, info)
 
          __no_kill_block do
 
