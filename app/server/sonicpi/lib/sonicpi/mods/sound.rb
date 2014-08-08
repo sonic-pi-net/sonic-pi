@@ -118,6 +118,63 @@ module SonicPi
          end
        end
 
+    def use_arg_bpm_scaling(bool, &block)
+      raise "use_arg_bpm_scaling does not work with a block. Perhaps you meant with_arg_bpm_scaling" if block
+      Thread.current.thread_variable_set(:sonic_pi_spider_arg_bpm_scaling, bool)
+    end
+    doc name:           :use_arg_bpm_scaling,
+        doc:            "Turn synth argument bpm scaling on or off for the current thread. This is on by default. Note, using rt for args will result in incorrect times when used after turning arg bpm scaling off.",
+        args:           [[:bool, :boolean]],
+        opts:           nil,
+        accepts_block:  false,
+        examples:       ["
+use_bpm 120
+play 50, release: 2 # release is actually 1 due to bpm scaling
+sleep 2             # actually sleeps for 1 second
+use_arg_bpm_scaling false
+play 50, release: 2 # release is now 2
+sleep 2             # still sleeps for 1 second",
+
+"                       # Interaction with rt
+use_bpm 120
+play 50, release: rt(2) # release is 2 seconds
+sleep rt(2)             # sleeps for 2 seconds
+use_arg_bpm_scaling false
+play 50, release: rt(2) # ** Warning: release is NOT 2 seconds! **
+sleep rt(2)             # still sleeps for 2 seconds"]
+
+
+    def with_arg_bpm_scaling(bool, &block)
+      raise "with_arg_bpm_scaling must be called with a block. Perhaps you meant use_arg_bpm_scaling" unless block
+      current_scaling = Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+
+      Thread.current.thread_variable_set(:sonic_pi_spider_arg_bpm_scaling, bool)
+      block.call
+      Thread.current.thread_variable_set(:sonic_pi_spider_arg_bpm_scaling, current_scaling)
+    end
+    doc name:           :with_arg_bpm_scaling,
+        doc:            "Turn synth argument bpm scaling on or off for the supplied block. Note, using rt for args will result in incorrect times when used within this block.",
+        args:           [],
+        opts:           nil,
+        accepts_block:  true,
+        examples:       ["use_bpm 120
+play 50, release: 2 # release is actually 1 due to bpm scaling
+with_arg_bpm_scaling false do
+  play 50, release: 2 # release is now 2
+end",
+
+"                         # Interaction with rt
+use_bpm 120
+play 50, release: rt(2)   # release is 2 seconds
+sleep rt(2)               # sleeps for 2 seconds
+with_arg_bpm_scaling false do
+  play 50, release: rt(2) # ** Warning: release is NOT 2 seconds! **
+  sleep rt(2)             # still sleeps for 2 seconds
+end"]
+
+
+
+
        def midi_to_hz(n)
          n = note(n) unless n.is_a? Numeric
          440.0 * (2 ** ((n - 69) / 12.0))
@@ -1915,7 +1972,6 @@ stop bar"]
          end
 
 
-
          job_id = current_job_id
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
          t_l_fn_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_default_fns)
@@ -1930,7 +1986,7 @@ stop bar"]
            combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out_bus" => out_bus})
          end
 
-         combined_args = scale_time_args_to_bpm(combined_args, info)
+         combined_args = scale_time_args_to_bpm(combined_args, info) if Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
          __no_kill_block do
 
