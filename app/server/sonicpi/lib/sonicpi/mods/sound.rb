@@ -2012,7 +2012,7 @@ stop bar"]
            combined_args = defaults.merge(t_l_args.merge(args_h)).merge({"out_bus" => out_bus})
          end
 
-         combined_args = scale_time_args_to_bpm(combined_args, info) if Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+         combined_args = scale_time_args_to_bpm(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
          __no_kill_block do
 
@@ -2269,11 +2269,13 @@ stop bar"]
        end
 
        def validate_if_necessary!(info, args_h)
-         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-           info.should_validate = true
-           info.validate!(args_h)
-         else
-           info.should_validate = false
+         if info
+           if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+             info.should_validate = true
+             info.validate!(args_h)
+           else
+             info.should_validate = false
+           end
          end
        end
 
