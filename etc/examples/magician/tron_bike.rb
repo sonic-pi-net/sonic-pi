@@ -1,6 +1,6 @@
 loop do
   with_synth :dsaw do
-    with_fx(:slicer, freq: [4,8].choose) do
+    with_fx(:slicer, phase: [0.25,0.125].choose) do
       with_fx(:reverb, room: 0.5, mix: 0.3) do
         n1 = chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose
         n2 = chord([:b1, :b2, :e1, :e2, :b3, :e3].choose, :minor).choose
