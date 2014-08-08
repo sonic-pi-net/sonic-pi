@@ -240,7 +240,21 @@ end"]
         examples:      ["
 puts current_bpm # Print out the current bpm"]
 
-
+    def rt(t)
+      t / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+    end
+    doc name:          :rt,
+        doc:           "Real time representation. Returns the amount of beats for the value in real-time seconds. Useful for bypassing any bpm scaling",
+        args:          [[:seconds, :number]],
+        opts:          nil,
+        accepts_block: false,
+        examples:      ["
+use_bpm 120  # modifies all time to be half
+play 50
+sleep 1      # actually sleeps for half of a second
+play 62
+sleep rt(1)  # bypasses bpm scaling and sleeps for a second
+play 72"]
 
 
     def sleep(seconds)
