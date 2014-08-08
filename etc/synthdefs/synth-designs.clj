@@ -1332,7 +1332,7 @@
           width     (lag width width_slide)
           amp       (lag amp amp_slide)
           source    (in in_bus 2)
-          slice-amp (lag (lf-pulse:kr phase phase_offset width) amp_slide)
+          slice-amp (lag (lf-pulse:kr rate phase_offset width) amp_slide)
           sliced    (* amp slice-amp source)]
       (out out_bus sliced)))
 
@@ -1350,7 +1350,7 @@
           width     (lag width width_slide)
           amp       (lag amp amp_slide)
           source    (in out_bus 2)
-          slice-amp (lag (lf-pulse:kr phase phase_offset width) amp_slide)
+          slice-amp (lag (lf-pulse:kr rate phase_offset width) amp_slide)
           sliced    (* amp slice-amp source)]
       (replace-out out_bus sliced)))
 
@@ -1664,7 +1664,7 @@
           snd     (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))]
       (replace-out out_bus snd)))
 
-  (do
+  (comment
     (save-to-pi sonic-pi-fx_bitcrusher)
     (save-to-pi sonic-pi-fx_replace_bitcrusher)
     (save-to-pi sonic-pi-fx_reverb)
