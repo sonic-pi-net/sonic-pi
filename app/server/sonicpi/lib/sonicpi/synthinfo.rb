@@ -259,6 +259,13 @@ module SonicPi
           :bpm_scale => true
         },
 
+        :mod_phase_offset =>
+        {
+          :doc => "Intial modulation phase offset (a value between 0 and 1).",
+          :validations => [v_between_inclusive(:mod_phase_offset, 0, 1)],
+          :modulatable => false
+        },
+
         :mod_phase_slide =>
         {
           :doc => generic_slide_doc(:mod_phase),
@@ -724,7 +731,8 @@ end
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
-        :mod_width_slide => 0
+        :mod_width_slide => 0,
+        :mod_phase_offset => 0.5
       }
     end
   end
@@ -764,6 +772,7 @@ end
         :mod_range_slide => 0,
         :mod_width => 0.5,
         :mod_width_slide => 0,
+        :mod_phase_offset => 0.5
       }
     end
   end
@@ -806,6 +815,7 @@ end
         :mod_range_slide => 0,
         :mod_width => 0.5,
         :mod_width_slide => 0,
+        :mod_phase_offset => 0.5,
         :detune => 0.1,
         :detune_slide => 0
       }
@@ -847,6 +857,7 @@ end
         :mod_range_slide => 0,
         :mod_width => 0.5,
         :mod_width_slide => 0,
+        :mod_phase_offset => 0.5,
         :detune => 0.1,
         :detune_slide => 0
       }
@@ -889,7 +900,8 @@ end
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
-        :mod_width_slide => 0
+        :mod_width_slide => 0,
+        :mod_phase_offset => 0.5
 
       }
     end
@@ -929,7 +941,8 @@ end
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
-        :mod_width_slide => 0
+        :mod_width_slide => 0,
+        :mod_phase_offset => 0.5
       }
     end
   end
@@ -970,7 +983,8 @@ end
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
-        :mod_width_slide => 0
+        :mod_width_slide => 0,
+        :mod_phase_offset => 0.5
       }
     end
   end
@@ -1010,7 +1024,8 @@ end
         :mod_range => 5,
         :mod_range_slide => 0,
         :mod_width => 0.5,
-        :mod_width_slide => 0
+        :mod_width_slide => 0,
+        :mod_phase_offset => 0.5
       }
     end
   end

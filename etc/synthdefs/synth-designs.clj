@@ -433,6 +433,7 @@
                               mod_range_slide 0
                               mod_width 0.5
                               mod_width_slide 0
+                              mod_phase_offset 0.5
                               divisor 2.0
                               divisor_slide 0
                               depth 1.0
@@ -448,7 +449,7 @@
            freq           (midicps note)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            divisor        (lag divisor divisor_slide)
            depth          (lag depth depth_slide)
@@ -481,6 +482,7 @@
                                mod_range_slide 0
                                mod_width 0.5
                                mod_width_slide 0
+                               mod_phase_offset 0.5
                                out_bus 0]
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
@@ -494,7 +496,7 @@
            cutoff-freq    (midicps cutoff)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (saw freq)
            snd            (lpf snd cutoff-freq)
@@ -520,6 +522,7 @@
                                  mod_range_slide 0
                                  mod_width 0.5
                                  mod_width_slide 0
+                                 mod_phase_offset 0.5
                                  out_bus 0]
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
@@ -531,7 +534,7 @@
            freq           (midicps note)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (saw freq)
            env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
@@ -557,6 +560,7 @@
                                 mod_range_slide 0
                                 mod_width 0.5
                                 mod_width_slide 0
+                                mod_phase_offset 0.5
                                 detune 0.1
                                 detune_slide 0
                                 out_bus 0]
@@ -574,7 +578,7 @@
            mod-range-freq (- (midicps (+ mod_range note))
                              freq)
            detune-freq    (midicps (+ note detune))
-           freq-mod       (* mod-range-freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod-range-freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (mix (saw [freq detune-freq]))
            snd            (lpf snd cutoff-freq)
@@ -600,6 +604,7 @@
                                   mod_range_slide 0
                                   mod_width 0.5
                                   mod_width_slide 0
+                                  mod_phase_offset 0.5
                                   detune 0.1
                                   detune_slide 0
                                   out_bus 0]
@@ -616,7 +621,7 @@
            mod-range-freq (- (midicps (+ mod_range note))
                              freq)
            detune-freq    (midicps (+ note detune))
-           freq-mod       (* mod-range-freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod-range-freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (mix (saw [freq detune-freq]))
            env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
@@ -643,6 +648,7 @@
                                 mod_range_slide 0
                                 mod_width 0.5
                                 mod_width_slide 0
+                                mod_phase_offset 0.5
                                 out_bus 0]
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
@@ -656,7 +662,7 @@
            cutoff-freq    (midicps cutoff)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (sin-osc freq)
            snd            (lpf snd cutoff-freq)
@@ -682,6 +688,7 @@
                                   mod_range_slide 0
                                   mod_width 0.5
                                   mod_width_slide 0
+                                  mod_phase_offset 0.5
                                   out_bus 0]
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
@@ -693,7 +700,7 @@
            freq           (midicps note)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (sin-osc freq)
            env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
@@ -719,6 +726,7 @@
                                mod_range_slide 0
                                mod_width 0.5
                                mod_width_slide 0
+                               mod_phase_offset 0.5
                                out_bus 0]
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
@@ -732,7 +740,7 @@
            cutoff-freq    (midicps cutoff)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (lf-tri freq)
            snd            (lpf snd cutoff-freq)
@@ -758,6 +766,7 @@
                                  mod_range_slide 0
                                  mod_width 0.5
                                  mod_width_slide 0
+                                 mod_phase_offset 0.5
                                  out_bus 0]
      (let [note           (lag note note_slide)
            amp            (lag amp amp_slide)
@@ -769,7 +778,7 @@
            freq           (midicps note)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (lf-tri freq)
            env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
@@ -795,6 +804,7 @@
                                  mod_range_slide 0
                                  mod_width 0.5
                                  mod_width_slide 0
+                                 mod_phase_offset 0.5
                                  pulse_width 0.5
                                  pulse_width_slide 0
                                  out_bus 0]
@@ -811,7 +821,7 @@
            cutoff-freq    (midicps cutoff)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (pulse freq pulse_width)
            snd            (lpf snd cutoff-freq)
@@ -837,6 +847,7 @@
                                    mod_range_slide 0
                                    mod_width 0.5
                                    mod_width_slide 0
+                                   mod_phase_offset 0.5
                                    pulse_width 0.5
                                    pulse_width_slide 0
                                    out_bus 0]
@@ -851,7 +862,7 @@
            freq           (midicps note)
            mod_range_freq (- (midicps (+ mod_range note))
                              freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate 0.5 mod_width))
+           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
            freq           (+ freq freq-mod)
            snd            (pulse freq pulse_width)
            env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
