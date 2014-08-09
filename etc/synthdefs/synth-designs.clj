@@ -1226,144 +1226,206 @@
 
 ;;FX
 (without-namespace-in-synthdef
- (defsynth sonic-pi-fx_bitcrusher [sample_rate 44100
-                                   sample_rate_slide 0
-                                   bits 24
-                                   bits_slide 0
-                                   in_bus 0
-                                   out_bus 0]
-   (let [sample_rate (lag sample_rate sample_rate_slide)
-         bits        (lag bits bits_slide)
-         snd         (in in_bus 2)
-         snd         (decimator snd sample_rate bits)]
-     (out out_bus (+ snd))))
+ (defsynth sonic-pi-fx_bitcrusher
+   [amp 1
+    amp_slide 0
+    mix 1
+    mix_slide 0
+    sample_rate 10000
+    sample_rate_slide 0
+    bits 8
+    bits_slide 0
+    in_bus 0
+    out_bus 0]
+   (let [amp           (lag amp amp_slide)
+         mix           (lag mix mix_slide)
+         sample_rate   (lag sample_rate sample_rate_slide)
+         bits          (lag bits bits_slide)
+         [in-l in-r]   (in in_bus 2)
+         [new-l new-r] (decimator [in-l in-r] sample_rate bits)
+         fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+         fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+     (out out_bus [fin-l fin-r])))
 
- (defsynth sonic-pi-fx_replace_bitcrusher [sample_rate 44100
-                                           sample_rate_slide 0
-                                           bits 24
-                                           bits_slide 0
-                                           in_bus 0
-                                           out_bus 0]
-   (let [sample_rate (lag sample_rate sample_rate_slide)
-         bits        (lag bits bits_slide)
-         snd         (in in_bus 2)
-         snd         (decimator snd sample_rate bits)]
-     (replace-out out_bus snd)))
 
-  (defsynth sonic-pi-fx_reverb [mix 0.4
-                       mix_slide 0
-                       room 0.6
-                       room_slide 0
-                       damp 0.5
-                       damp_slide 0
-                       in_bus 0
-                       out_bus 0]
-    (let [mix   (lag mix mix_slide)
-          room  (lag room room_slide)
-          damp  (lag damp damp_slide)
-          [l r] (in:ar in_bus 2)
-          snd   (free-verb2 l r mix room damp)]
+ (defsynth sonic-pi-fx_replace_bitcrusher
+   [amp 1
+    amp_slide 0
+    mix 1
+    mix_slide 0
+    sample_rate 10000
+    sample_rate_slide 0
+    bits 8
+    bits_slide 0
+    out_bus 0]
+   (let [amp           (lag amp amp_slide)
+         mix           (lag mix mix_slide)
+         sample_rate   (lag sample_rate sample_rate_slide)
+         bits          (lag bits bits_slide)
+         [in-l in-r]   (in:ar out_bus 2)
+         [new-l new-r] (decimator [in-l in-r] sample_rate bits)
+         fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+         fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+     (replace-out out_bus [fin-l fin-r])))
+
+
+ (defsynth sonic-pi-fx_reverb
+   [amp 1
+    amp_slide 0
+    mix 0.4
+    mix_slide 0
+    room 0.6
+    room_slide 0
+    damp 0.5
+    damp_slide 0
+    in_bus 0
+    out_bus 0]
+   (let [amp   (lag amp amp_slide)
+         mix   (lag mix mix_slide)
+         room  (lag room room_slide)
+         damp  (lag damp damp_slide)
+         [l r] (in:ar in_bus 2)
+         snd   (* amp (free-verb2 l r mix room damp))]
       (out out_bus snd)))
 
-  (defsynth sonic-pi-fx_replace_reverb [mix 0.4
-                               mix_slide 0
-                               room 0.6
-                               room_slide 0
-                               damp 0.5
-                               damp_slide 0
-                               out_bus 0]
-    (let [mix   (lag mix mix_slide)
-          room  (lag room room_slide)
-          damp  (lag damp damp_slide)
-          [l r] (in:ar out_bus 2)
-          snd   (free-verb2 l r mix room damp)]
+
+ (defsynth sonic-pi-fx_replace_reverb
+   [amp 1
+    amp_slide 0
+    mix 0.4
+    mix_slide 0
+    room 0.6
+    room_slide 0
+    damp 0.5
+    damp_slide 0
+    out_bus 0]
+   (let [amp   (lag amp amp_slide)
+         mix   (lag mix mix_slide)
+         room  (lag room room_slide)
+         damp  (lag damp damp_slide)
+         [l r] (in:ar out_bus 2)
+         snd   (* amp (free-verb2 l r mix room damp))]
       (replace-out out_bus snd)))
 
 
-
-  (defsynth sonic-pi-fx_level [amp 1
-                      amp_slide 0
-                      in_bus 0
-                      out_bus 0]
-    (let [amp (lag amp amp_slide )]
+ (defsynth sonic-pi-fx_level
+   [amp 1
+    amp_slide 0
+    in_bus 0
+    out_bus 0]
+    (let [amp (lag amp amp_slide)]
       (out out_bus (* amp (in in_bus 2)))))
 
-  (defsynth sonic-pi-fx_replace_level [amp 1
-                              amp_slide 0
-                              out_bus 0]
+
+ (defsynth sonic-pi-fx_replace_level
+   [amp 1
+    amp_slide 0
+    out_bus 0]
     (let [amp (lag amp amp_slide )]
       (replace-out out_bus (* amp (in out_bus 2)))))
 
 
-  (defsynth sonic-pi-fx_echo
-    [phase 0.25
-     phase_slide 0
-     decay 8
-     decay_slide 0
-     max_phase 2
-     amp 1
-     amp_slide 0
-     in_bus 0
-     out_bus 0]
-    (let [phase  (lag phase phase_slide)
-          decay  (lag decay decay_slide)
-          amp    (lag amp amp_slide)
-          source (in in_bus 2)
-          echo   (comb-n source max_phase phase decay)]
-      (out out_bus (+ echo source))))
+ (defsynth sonic-pi-fx_echo
+   [amp 1
+    amp_slide 0
+    mix 1
+    mix_slide 0
+    phase 0.25
+    phase_slide 0
+    decay 8
+    decay_slide 0
+    max_phase 2
+    amp 1
+    amp_slide 0
+    in_bus 0
+    out_bus 0]
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          phase         (lag phase phase_slide)
+          decay         (lag decay decay_slide)
+          amp           (lag amp amp_slide)
 
-  (defsynth sonic-pi-fx_replace_echo
-    [phase 0.25
-     phase_slide 0
-     decay 8
-     decay_slide 0
-     max_phase 2
-     amp 1
-     amp_slide 0
-     out_bus 0]
-    (let [phase  (lag phase phase_slide)
-          decay  (lag decay decay_slide)
-          amp    (lag amp amp_slide)
-          source (in out_bus 2)
-          echo   (comb-n source max_phase phase decay)]
-      (replace-out out_bus (+ echo source))))
+          [in-l in-r]   (in in_bus 2)
+          [new-l new-r] (+ [in-l in-r] (comb-n [in-l in-r] max_phase phase decay))
+          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+      (out out_bus [fin-l fin-r])))
+
+ (defsynth sonic-pi-fx_replace_echo
+   [amp 1
+    amp_slide 0
+    mix 1
+    mix_slide 0
+    phase 0.25
+    phase_slide 0
+    decay 8
+    decay_slide 0
+    max_phase 2
+    amp 1
+    amp_slide 0
+    out_bus 0]
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          phase         (lag phase phase_slide)
+          decay         (lag decay decay_slide)
+          amp           (lag amp amp_slide)
+
+          [in-l in-r]   (in out_bus 2)
+          [new-l new-r] (+ [in-l in-r] (comb-n [in-l in-r] max_phase phase decay))
+          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+      (replace-out out_bus [fin-l fin-r])))
+
 
   (defsynth sonic-pi-fx_slicer
-    [phase 0.25
+    [amp 1
+     amp_slide 0
+     mix 1
+     mix_slide 0
+     phase 0.25
      phase_slide 0
      width 0.5
      width_slide 0
      phase_offset 0
-     amp 1
-     amp_slide 0.05
      in_bus 0
      out_bus 0]
-    (let [phase     (lag phase phase_slide)
-          rate      (/ 1 phase)
-          width     (lag width width_slide)
-          amp       (lag amp amp_slide)
-          source    (in in_bus 2)
-          slice-amp (lag (lf-pulse:kr rate phase_offset width) amp_slide)
-          sliced    (* amp slice-amp source)]
-      (out out_bus sliced)))
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          phase         (lag phase phase_slide)
+          rate          (/ 1 phase)
+          width         (lag width width_slide)
+          slice-amp     (lf-pulse:kr rate phase_offset width)
 
-  (defsynth sonic-pi-fx_replace_slicer
-    [phase 0.25
+          [in-l in-r]   (in in_bus 2)
+          [new-l new-r] (* slice-amp [in-l in-r])
+          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+      (out out_bus [fin-l fin-r])))
+
+
+    (defsynth sonic-pi-fx_replace_slicer
+    [amp 1
+     amp_slide 0
+     mix 1
+     mix_slide 0
+     phase 0.25
      phase_slide 0
      width 0.5
      width_slide 0
      phase_offset 0
-     amp 1
-     amp_slide 0.05
      out_bus 0]
-    (let [phase     (lag phase phase_slide)
-          rate      (/ 1 phase)
-          width     (lag width width_slide)
-          amp       (lag amp amp_slide)
-          source    (in out_bus 2)
-          slice-amp (lag (lf-pulse:kr rate phase_offset width) amp_slide)
-          sliced    (* amp slice-amp source)]
-      (replace-out out_bus sliced)))
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          phase         (lag phase phase_slide)
+          rate          (/ 1 phase)
+          width         (lag width width_slide)
+          slice-amp     (lf-pulse:kr rate phase_offset width)
+
+          [in-l in-r]   (in out_bus 2)
+          [new-l new-r] (* slice-amp [in-l in-r])
+          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+      (replace-out out_bus [fin-l fin-r])))
 
   ;; {arg sig     ; RLPF.ar(sig, SinOsc.ar(0.1).exprange(880,12000), 0.2)};
 
