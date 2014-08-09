@@ -263,8 +263,8 @@ end"]
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
     end
     doc name:           :with_bpm,
-      doc:            "Sets the tempo in bpm (beats per minute) for everything in a given block. See also use_bpm",
-        args:           [],
+        doc:            "Sets the tempo in bpm (beats per minute) for everything in a given block. See also use_bpm",
+        args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  true,
         examples:       [
@@ -549,10 +549,29 @@ sleep 2"]
       t
     end
     doc name:           :in_thread,
-        doc:            "",
+        doc:            "Execute a given block (between do ... end) in a new thread. Use for playing multiple 'parts' at once.",
         args:           [],
         opts:           {:name => nil},
         accepts_block:  true,
-        examples:       []
+        examples:       [
+"# In thread is very useful in SonicPi for letting multiple parts play without inteferring with each other
+# Any sleep or global settings like use_bpm can safely be used inside a thread without affecting the rest of the code.
+# That means you can setup different threads for, say, drums and melody
+in_thread(name: :drums) do # the (name: ...) here is optional
+  use_bpm 120
+  loop do
+    sample :drum_bass_hard
+    sleep 1
+  end
+end
+
+# The loop above only happens inside the thread, which means the code can carry on executing
+in_thread(name: :tune) do
+  use_bpm 240
+  loop do
+    play chord(:a, :minor).choose
+    sleep 1
+  end
+end"]
   end
 end
