@@ -160,12 +160,22 @@ end"]
       r + smallest
     end
     doc name:           :rrand,
-        summary:        "",
+        summary:        "Generate a random float between two numbers",
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "",
-        examples:      []
+        doc:            "Given two numbers, this produces a float between the min and max you supplied. It needs an argument for both min and max in order to work. For random integers, see rrand_i",
+        examples:      [
+"print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
+"print rrand(0, 10).to_i #=> See also rrand_i(0, 10). Using Ruby's to_i method you can make sure it produces random integers. This will give you numbers like 8 instead of 8.917730007820797",
+"play rrand(60, 72).to_i #=> Will play a random midi note between C4 (60) and C5 (72)",
+"# To assign a random number to a variable (sometimes good to make your code more readable) you can use an advanced feature of Ruby called a lambda.
+# You just need to add .call to the variable when you want to use it
+my_random_note = -> { rrand(60, 72).to_i }
+loop do
+  play my_random_note.call
+  sleep 1
+end"]
 
 
 
@@ -180,8 +190,17 @@ end"]
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block: false,
-        doc:            "",
-        examples:       []
+        doc:            "Given two numbers, this produces a float between the min and max you supplied. It needs an argument for both min and max in order to work. For random floats, see rrand",
+        examples:      [
+"print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4) to the output pane",
+"play rrand_i(60, 72) #=> Will play a random midi note between C4 (60) and C5 (72)",
+"# To assign a random number to a variable (sometimes good to make your code more readable) you can use an advanced feature of Ruby called a lambda.
+# You just need to add .call to the variable when you want to use it
+my_random_note = -> { rrand_i(60, 72) }
+loop do
+  play my_random_note.call
+  sleep 1
+end"]
 
 
 
@@ -193,8 +212,14 @@ end"]
         args:           [[:list, :array]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "",
-        examples:       []
+        doc:            "Choose an element at random from a list (array).",
+        examples:       [
+"loop do
+  play [60, 64, 67].choose #=> plays one of 60, 64 or 67 at random
+  sleep 1
+  play chord(:c, :major).choose #=> works on chords and scales too
+  sleep 1
+end"]
 
 
 
@@ -205,11 +230,26 @@ end"]
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
     end
     doc name:           :use_bpm,
-        doc:            "",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. See also with_bpm",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  false,
-        examples:       []
+        examples:       [
+"# default tempo is 60 bpm
+4.times do
+  sample :drum_bass_hard
+  sleep 1
+end
+
+sleep 5
+
+# use_bpm will affect everything following it
+# Hear how it gets faster?
+use_bpm 140
+4.times do
+  sample :drum_bass_hard
+  sleep 1
+end"]
 
 
 
@@ -223,11 +263,35 @@ end"]
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
     end
     doc name:           :with_bpm,
-        doc:            "",
+      doc:            "Sets the tempo in bpm (beats per minute) for everything in a given block. See also use_bpm",
         args:           [],
         opts:           nil,
         accepts_block:  true,
-        examples:       []
+        examples:       [
+"# default tempo is 60 bpm
+4.times do
+  sample :drum_bass_hard
+  sleep 1
+end
+
+sleep 5
+
+# with_bpm sets a tempo for everything between do ... end (a block)
+# Hear how it gets faster?
+with_bpm 140 do
+  4.times do
+    sample :drum_bass_hard
+    sleep 1
+  end
+end
+
+sleep 5
+
+# bpm goes back to normal
+4.times do
+  sample :drum_bass_hard
+  sleep 1
+end"]
 
 
 
@@ -295,11 +359,53 @@ play 72"]
       Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
     end
     doc name:           :sleep,
-        doc:            "",
+        doc:            "Wait for a number of seconds before triggering the next command. Seconds are scaled to the current bpm setting.",
         args:           [[:seconds, :number]],
         opts:           nil,
         accepts_block:  false,
-        examples:       []
+        examples:       [
+"# If SonicPi didn't have sleep all the sounds would happen at once!
+# Every other command (play, sample etc.) will try to run as fast as possible and move on to the next command.
+# Because we're making music, we need to tell SonicPi to wait for a sound or a note to finish before moving on.
+# We do this by using sleep with an argument for how many seconds to wait
+play 60
+sleep 1
+play 60
+sleep 1
+play 67
+sleep 1
+play 67
+sleep 1
+play 69
+sleep 0.5
+play 71
+sleep 0.5
+play 72
+sleep 0.5
+play 69
+sleep 0.5
+play 67
+sleep 2",
+"# When we change the current tempo with the use_bpm command the 'seconds' are changed to fit the music to the new tempo
+use_bpm 130
+play 60
+sleep 1
+play 60
+sleep 1
+play 67
+sleep 1
+play 67
+sleep 1
+play 69
+sleep 0.5
+play 71
+sleep 0.5
+play 72
+sleep 0.5
+play 69
+sleep 0.5
+play 67
+sleep 2"]
 
 
 
