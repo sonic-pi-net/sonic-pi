@@ -18,7 +18,19 @@ module SonicPi
   class NoteTester < Test::Unit::TestCase
 
     def test_tonic_capitalisation_should_make_no_difference
-      assert_equal(Scale.new(:fs,:major,2), Scale.new(:Fs, :major, 2), Scale.new(:FS, :major, 2))
+      assert_equal(Scale.new(:fs,:major,2), Scale.new(:Fs, :major, 2))
+    end
+
+    def test_tonic_capitalisation_should_make_no_difference_cont
+      assert_equal(Scale.new(:fs,:major,2), Scale.new(:fS, :major, 2))
+    end
+
+    def test_tonic_capitalisation_should_make_no_difference_with_octave
+      assert_equal(Scale.new(:Eb3,:major,2), Scale.new(:eb3, :major, 2), Scale.new(:EB3, :major, 2))
+    end
+
+    def test_tonic_default_octave_is_4
+      assert_equal(Scale.new(:fs4,:major,2), Scale.new(:Fs, :major, 2))
     end
   end
 end
