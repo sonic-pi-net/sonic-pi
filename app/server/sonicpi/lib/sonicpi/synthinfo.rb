@@ -135,6 +135,20 @@ module SonicPi
 
     def default_arg_info
       {
+        :mix =>
+        {
+          :doc => "The amount (percentage) of FX present in the resulting sound represented as a value between 0 and 1. For example, a mix of 0 means that only the original sound is heard, a mix of 1 means that only the FX is heard (typically the default) and a mix of 0.5 means that half the original and half of the FX is heard. ",
+          :validations => [v_between_inclusive(:mix, 0, 1)],
+          :modulatable => true
+        },
+
+        :mix_slide =>
+        {
+          :doc => "Amount of time (in seconds) for the mix value to change. A long slide value means that the mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the mix instantly changes to the new value.",
+          :validations => [v_between_inclusive(:mix_slide, 0, 1)],
+          :modulatable => true
+        },
+
         :note =>
         {
           :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3",
@@ -1527,8 +1541,11 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
         :mix => 0.4,
         :mix_slide => 0,
+
         :room => 0.6,
         :room_slide => 0,
         :damp => 0.5,
@@ -1548,9 +1565,13 @@ end
 
     def arg_defaults
       {
-        :sample_rate => 44100,
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :sample_rate => 10000,
         :sample_rate_slide => 0,
-        :bits => 24,
+        :bits => 8,
         :bits_slide => 0
       }
     end
@@ -1603,6 +1624,10 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
         :phase => 0.25,
         :phase_slide => 0,
         :decay => 8,
@@ -1674,6 +1699,10 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
         :phase => 0.25,
         :phase_slide => 0,
         :width => 0.5,
@@ -1754,6 +1783,10 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
         :phase => 4,
         :phase_slide => 0,
         :cutoff_min => 60,
@@ -1793,6 +1826,10 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :threshold => 0.2,
         :threshold_slide => 0,
         :clamp_time => 0.01,
@@ -1808,8 +1845,20 @@ end
 
     def specific_arg_info
       {
+        :pre_amp =>
+        {
+          :doc => "Amplication applied to the signal before it is compressed.",
+          :validations => [v_positive(:pre_amp)],
+          :modulatable => true
+        },
 
-
+        :pre_amp_slide =>
+        {
+          :doc => "Slide time in seconds between pre_amp values",
+          :validations => [v_positive(:pre_amp_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        }
       }
     end
   end
@@ -1826,6 +1875,10 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
         :cutoff => 100,
         :cutoff_slide => 0,
         :res => 0.5,
@@ -1862,6 +1915,10 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
         :cutoff => 100,
         :cutoff_slide => 0,
         :res => 0.5,
@@ -1898,6 +1955,10 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
         :cutoff => 100,
         :cutoff_slide => 0
       }
@@ -1911,7 +1972,7 @@ end
     end
   end
 
-  class FXNormLPF < FXRLPF
+  class FXNormLPF < FXLPF
     def name
       "Normalised Low Pass Filter"
     end
@@ -1932,6 +1993,10 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
         :cutoff => 100,
         :cutoff_slide => 0
       }
@@ -1967,6 +2032,10 @@ end
     def arg_defaults
       {
         :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :amp => 1,
         :amp_slide => 0
       }
     end
@@ -1983,6 +2052,10 @@ end
 
     def arg_defaults
       {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
         :distort => 0.5,
         :distort_slide => 0
       }
