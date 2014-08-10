@@ -17,9 +17,10 @@ module SonicPi
 
     include SonicPi::DocSystem
 
-    def defonce(name, override=false, &block)
+    def defonce(name, *opts, &block)
       raise "defonce must be called with a code block" unless block
-      if override || !(@user_methods.method_defined? name)
+      args_h = resolve_synth_opts_hash_or_array(opts)
+      if args_h[:override] || !(@user_methods.method_defined? name)
         val = block.yield
         val_block = lambda{val}
         @user_methods.send(:define_method, name, &val_block)
@@ -30,9 +31,9 @@ module SonicPi
     doc name:           :defonce,
         summary:        "Define a named value only once",
         args:           [[:name, :symbol]],
-        opts:          nil,
+        opts:           {:override => false},
         accepts_block: true,
-        doc:            "Allows you assign the result of some code to a name with the property that the code will only execute once therefore stoping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run.",
+        doc:            "Allows you assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
         examples:       ["
 
 defonce :foo do  # Define a new function called foo
@@ -60,7 +61,29 @@ puts foo # We still don't see any printing or sleeping, and the result is still 
 # For example, in a block:
 3.times do
   play foo  # play 10
-end",]
+end",
+
+"
+defonce :bar do
+  50
+end
+
+play bar # plays 50
+
+defonce :bar do # This redefinition doesn't work due to the behaviour of defonce
+  70
+end
+
+play bar # Still plays 50
+
+defonce :bar, override: true do  # Force definition to take place with override option
+  80
+end
+
+play bar # plays 80"]
+
+
+
 
     def define(name, &block)
       raise "define must be called with a code block" unless block
@@ -90,6 +113,7 @@ end",]
 
 
 
+
     def on_keypress(&block)
       @keypress_handlers[:foo] = block
     end
@@ -103,6 +127,8 @@ end",]
         hide:           true
 
 
+
+
     def comment(*args, &block)
       #do nothing!
     end
@@ -111,12 +137,14 @@ end",]
         args:           [],
         opts:           nil,
         accepts_block:  true,
-        doc:            "Does not evaluate any of the code within the block. However, any args passed before the block *will* be evaluated.",
+        doc:            "Does not evaluate any of the code within the block. However, any optional args passed before the block *will* be evaluated although they will be ignored.",
         examples:       ["comment do # starting a block level comment:
   play 50 # not played
   sleep 1 # no sleep happens
   play 62 @ not played
 end"]
+
+
 
 
     def print(output)
@@ -164,17 +192,14 @@ end"]
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given two numbers, this produces a float between the min and max you supplied. It needs an argument for both min and max in order to work. For random integers, see rrand_i",
+        doc:            "Given two numbers, this produces a float between the supplied min and max values. Both min and max need to be supplied. For random integers, see rrand_i",
         examples:      [
-"print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
-"print rrand(0, 10).to_i #=> See also rrand_i(0, 10). Using Ruby's to_i method you can make sure it produces random integers. This will give you numbers like 8 instead of 8.917730007820797",
-"play rrand(60, 72).to_i #=> Will play a random midi note between C4 (60) and C5 (72)",
-"# To assign a random number to a variable (sometimes good to make your code more readable) you can use an advanced feature of Ruby called a lambda.
-# You just need to add .call to the variable when you want to use it
-my_random_note = -> { rrand(60, 72).to_i }
+"
+print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
+"
 loop do
-  play my_random_note.call
-  sleep 1
+  play rrand(60, 72) #=> Will play a random non-integer midi note between C4 (60) and C5 (72) such as 67.3453 or 71.2393
+  sleep 0.125
 end"]
 
 
@@ -190,16 +215,14 @@ end"]
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block: false,
-        doc:            "Given two numbers, this produces a float between the min and max you supplied. It needs an argument for both min and max in order to work. For random floats, see rrand",
+        doc:            "Given two numbers, this produces a whole number between the min and max you supplied. Both min and max need to be supplied. For random floats, see rrand",
         examples:      [
-"print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4) to the output pane",
-"play rrand_i(60, 72) #=> Will play a random midi note between C4 (60) and C5 (72)",
-"# To assign a random number to a variable (sometimes good to make your code more readable) you can use an advanced feature of Ruby called a lambda.
-# You just need to add .call to the variable when you want to use it
-my_random_note = -> { rrand_i(60, 72) }
+"
+print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4) to the output pane",
+"
 loop do
-  play my_random_note.call
-  sleep 1
+  play rrand_i(60, 72) #=> Will play a random midi note between C4 (60) and C5 (72)
+  sleep 0.125
 end"]
 
 
@@ -215,9 +238,9 @@ end"]
         doc:            "Choose an element at random from a list (array).",
         examples:       [
 "loop do
-  play [60, 64, 67].choose #=> plays one of 60, 64 or 67 at random
+  play choose([60, 64, 67]) #=> plays one of 60, 64 or 67 at random
   sleep 1
-  play chord(:c, :major).choose #=> works on chords and scales too
+  play chord(:c, :major).choose #=> You can also call .choose on the list
   sleep 1
 end"]
 
@@ -230,26 +253,36 @@ end"]
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
     end
     doc name:           :use_bpm,
-        doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. See also with_bpm",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. Affects all subsequent calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. If you wish to bypass scaling in calls to sleep, see the fn rt. Also, if you wish to bypass time scaling in synth args see use_arg_bpm_scaling. See also with_bpm for a block scoped version of use_bpm.",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  false,
         examples:       [
 "# default tempo is 60 bpm
 4.times do
-  sample :drum_bass_hard
-  sleep 1
+  play 50, attack: 0.5, release: 0.25 # attack is 0.5s and release is 0.25s
+  sleep 1 # sleep for 1 second
 end
 
-sleep 5
+sleep 2  # sleep for 2 seconds
 
-# use_bpm will affect everything following it
-# Hear how it gets faster?
-use_bpm 140
+# Let's make it go faster...
+use_bpm 120  # double the bpm
 4.times do
-  sample :drum_bass_hard
-  sleep 1
-end"]
+  play 62, attack: 0.5, release: 0.25 # attack is scaled to 0.25s and release is now 0.125s
+  sleep 1 # actually sleeps for 0.5 seconds
+end
+
+sleep 2 # sleep for 1 second
+
+# Let's make it go even faster...
+use_bpm 240  #  bpm is 4x original speed!
+8.times do
+  play 62, attack: 0.5, release: 0.125 # attack is scaled to 0.25s and release is now 0.0625s
+  sleep 1 # actually sleeps for 0.25 seconds
+end
+
+"]
 
 
 
@@ -263,7 +296,7 @@ end"]
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
     end
     doc name:           :with_bpm,
-        doc:            "Sets the tempo in bpm (beats per minute) for everything in a given block. See also use_bpm",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also use_bpm",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  true,
@@ -271,17 +304,17 @@ end"]
 "# default tempo is 60 bpm
 4.times do
   sample :drum_bass_hard
-  sleep 1
+  sleep 1 # sleeps for 1 second
 end
 
-sleep 5
+sleep 5 # sleeps for 5 seconds
 
 # with_bpm sets a tempo for everything between do ... end (a block)
 # Hear how it gets faster?
-with_bpm 140 do
+with_bpm 120 do  # set bpm to be twice as fast
   4.times do
     sample :drum_bass_hard
-    sleep 1
+    sleep 1 # now sleeps for 0.5 seconds
   end
 end
 
@@ -290,7 +323,7 @@ sleep 5
 # bpm goes back to normal
 4.times do
   sample :drum_bass_hard
-  sleep 1
+  sleep 1 # sleeps for 1 second
 end"]
 
 
@@ -325,6 +358,8 @@ sleep 1      # actually sleeps for half of a second
 play 62
 sleep rt(1)  # bypasses bpm scaling and sleeps for a second
 play 72"]
+
+
 
 
     def sleep(seconds)
@@ -364,65 +399,110 @@ play 72"]
         opts:           nil,
         accepts_block:  false,
         examples:       [
-"# If SonicPi didn't have sleep all the sounds would happen at once!
-# Every other command (play, sample etc.) will try to run as fast as possible and move on to the next command.
-# Because we're making music, we need to tell SonicPi to wait for a sound or a note to finish before moving on.
-# We do this by using sleep with an argument for how many seconds to wait
-play 60
-sleep 1
-play 60
-sleep 1
-play 67
-sleep 1
-play 67
-sleep 1
-play 69
+"# Without calls to sleep, all sounds would happen at once:
+
+play 50  # This is actually a chord with all notes played simultaneously
+play 55
+play 62
+
+sleep 1  # Create a gap, to allow a moment's pause for reflection...
+
+play 50  # Let's try the chord again, but this time with sleeps:
+sleep 0.5 # With the sleeps, we turn a chord into an arpegio
+play 55
 sleep 0.5
-play 71
-sleep 0.5
-play 72
-sleep 0.5
-play 69
-sleep 0.5
-play 67
-sleep 2",
-"# When we change the current tempo with the use_bpm command the 'seconds' are changed to fit the music to the new tempo
-use_bpm 130
-play 60
+play 62",
+
+"
+# The amount of time sleep pauses for is scaled to match the current bpm. The default bpm is 60. Let's double it:
+
+use_bpm 120
+play 50
+sleep 1 # This actually sleeps for 0.5 seconds as we're now at double speed
+play 55
 sleep 1
-play 60
+play 62
+
+# Let's go down to half speed:
+
+use_bpm 30
+play 50
+sleep 1 # This now sleeps for 2 seconds as we're now at half speed.
+play 55
 sleep 1
-play 67
-sleep 1
-play 67
-sleep 1
-play 69
-sleep 0.5
-play 71
-sleep 0.5
-play 72
-sleep 0.5
-play 69
-sleep 0.5
-play 67
-sleep 2"]
+play 62
+"]
 
 
 
 
-    def sync(sync_id, *opts)
-      args_h = resolve_synth_opts_hash_or_array(opts)
+    def sync(sync_id)
       __no_kill_block do
         Kernel.sleep @sync_real_sleep_time
-        @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time), :val => args_h[:message]})
+        @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time)})
       end
     end
     doc name:           :sync,
-        doc:            "",
+        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the wait fn.",
         args:           [[:sync_id, :symbol]],
         opts:           {:message => nil},
         accepts_block:  false,
-        examples:       []
+        examples:       ["
+in_thread do
+  wait :foo # this parks the current thread waiting for a foo sync message to be received.
+  sample :ambi_lunar_land
+end
+
+sleep 5
+
+sync :foo # We send a sync message from the main thread.
+          # This then unblocks the thread above and we then hear the sample",
+
+"
+in_thread do   # Start a metronome thread
+  loop do      # Loop forever:
+    sync :tick # sending tick heartbeat messages
+    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+  end
+end
+
+# We can now play sounds using the metronome.
+loop do                    # In the main thread, just loop
+  wait :tick               # waiting for :tick sync messages
+  sample :drum_heavy_kick  # after which play the drum kick sample
+end",
+
+"
+in_thread do   # Start a metronome thread
+  loop do      # Loop forever:
+    sync [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
+    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+  end
+end
+
+# We can now play sounds using the metronome:
+
+in_thread do
+  loop do                    # In the main thread, just loop
+    wait :foo               # waiting for :foo sync messages
+    sample :elec_beep  # after which play the elec beep sample
+  end
+end
+
+in_thread do
+  loop do                    # In the main thread, just loop
+    wait :bar               # waiting for :bar sync messages
+    sample :elec_flip  # after which play the elec flip sample
+  end
+end
+
+in_thread do
+  loop do                    # In the main thread, just loop
+    wait :baz               # waiting for :baz sync messages
+    sample :elec_blup  # after which play the elec blup sample
+  end
+end"
+]
 
 
 
@@ -434,16 +514,69 @@ sleep 2"]
       end
       payload = p.get
       time = payload[:time]
-      val = payload[:val]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
       val
     end
     doc name:           :wait,
-        doc:            "",
+        doc:            "Pause/block the current thread until a sync heartbeat with a matching sync_id is received. When a matching sync message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the sync heartbeat. The current thread is therefore temporally synced to the sync thread.",
         args:           [[:sync_id, :symbol]],
         opts:           nil,
         accepts_block:  false,
-        examples:       []
+        examples:       ["
+in_thread do
+  wait :foo # this parks the current thread waiting for a foo sync message to be received.
+  sample :ambi_lunar_land
+end
+
+sleep 5
+
+sync :foo # We send a sync message from the main thread.
+          # This then unblocks the thread above and we then hear the sample",
+
+"
+in_thread do   # Start a metronome thread
+  loop do      # Loop forever:
+    sync :tick # sending tick heartbeat messages
+    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+  end
+end
+
+# We can now play sounds using the metronome.
+loop do                    # In the main thread, just loop
+  wait :tick               # waiting for :tick sync messages
+  sample :drum_heavy_kick  # after which play the drum kick sample
+end",
+
+"
+in_thread do   # Start a metronome thread
+  loop do      # Loop forever:
+    sync [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
+    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+  end
+end
+
+# We can now play sounds using the metronome:
+
+in_thread do
+  loop do                    # In the main thread, just loop
+    wait :foo               # waiting for :foo sync messages
+    sample :elec_beep  # after which play the elec beep sample
+  end
+end
+
+in_thread do
+  loop do                    # In the main thread, just loop
+    wait :bar               # waiting for :bar sync messages
+    sample :elec_flip  # after which play the elec flip sample
+  end
+end
+
+in_thread do
+  loop do                    # In the main thread, just loop
+    wait :baz               # waiting for :baz sync messages
+    sample :elec_blup  # after which play the elec blup sample
+  end
+end"]
 
 
 
@@ -549,29 +682,96 @@ sleep 2"]
       t
     end
     doc name:           :in_thread,
-        doc:            "Execute a given block (between do ... end) in a new thread. Use for playing multiple 'parts' at once.",
+        doc:            "Execute a given block (between do ... end) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the name: optional arg. Named threads will print their name in the logging pane when they print their activity. Finally, if you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.",
         args:           [],
         opts:           {:name => nil},
         accepts_block:  true,
         examples:       [
-"# In thread is very useful in SonicPi for letting multiple parts play without inteferring with each other
-# Any sleep or global settings like use_bpm can safely be used inside a thread without affecting the rest of the code.
-# That means you can setup different threads for, say, drums and melody
-in_thread(name: :drums) do # the (name: ...) here is optional
-  use_bpm 120
+"
+loop do      # If you write two loops one after another like this,
+  play 50    # then only the first loop will execute as the loop acts
+  sleep 1    # like a trap not letting the flow of control out
+end
+
+loop do      # This code is never executed.
+  play 55
+  sleep 0.5
+end ",
+
+"
+
+# In order to play two loops at the same time, the first loops need to be in a thread:
+
+# By wrapping out loop in an in_thread block, we split the
+# control flow into two parts. One flows into the loop (a) and
+# the other part flows immediately after the in_thread block (b).
+# both parts of the control flow execute at exactly the same time.
+
+in_thread do
+  # (a)
+  loop do
+    # (a)
+    play 50
+    sleep 1
+  end
+end
+
+# (b)
+
+loop do      # This loop is executed thanks to the thread above
+  play 55
+  sleep 0.5
+end",
+
+"
+use_bpm 120  # Set the bpm to be double rate
+use_synth :dsaw  # Set the current synth to be :dsaw
+
+in_thread do     # Create a new thread
+  play 50        # Play note 50 at time 0
+  use_synth :fm  # Switch to fm synth (only affects this thread)
+  sleep 1        # sleep for 0.5 seconds (as we're double rate)
+  play 38        # Play note 50 at time 0.5
+end
+
+play 62          # Play note 62 at time 0 (with dsaw synth)
+sleep 2          # sleep 1s
+play 67          # Play note 67 at time 1s (also with dsaw synth)
+",
+
+"
+in_thread(name: :foo) do # Here we've created a named thread
   loop do
     sample :drum_bass_hard
     sleep 1
   end
 end
 
-# The loop above only happens inside the thread, which means the code can carry on executing
-in_thread(name: :tune) do
-  use_bpm 240
-  loop do
-    play chord(:a, :minor).choose
-    sleep 1
+in_thread(name: :foo) do # This thread isn't created as the name is
+  loop do                # the same as the previous thread which is
+    sample :elec_chime   # still executing.
+    sleep 0.5
   end
-end"]
+end",
+
+"
+ # Named threads work well with functions for live coding:
+define :foo do  # Create a function foo
+  play 50       # which does something simple
+  sleep 1       # and sleeps for some time
+end
+
+in_thread(name: :main) do  # Create a named thread
+  loop do                  # which loops forever
+    foo                    # calling our function
+  end
+end
+
+# We our now free to modify the contents of :foo and re-run the entire buffer.
+# We'll hear the affect immediately without having to stop and re-start the code.
+# This is because our fn has been redefined, (which our thread will pick up) and
+# due to the thread being named, the second re-run will not create a new similarly
+# named thread. This is a nice pattern for live coding.
+"]
   end
 end
