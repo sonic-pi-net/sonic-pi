@@ -323,6 +323,36 @@ module SonicPi
           :validations => [v_positive(:mod_width_slide)],
           :modulatable => true,
           :bpm_scale => true
+        },
+
+        :res =>
+        {
+          :doc => "Filter resonance. Smaller values produce more resonance.",
+          :validations => [v_positive_not_zero(:res)],
+          :modulatable => true
+        },
+
+        :res_slide =>
+        {
+          :doc => generic_slide_doc(:res),
+          :validations => [v_positive(:res_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :pulse_width =>
+        {
+          :doc => "Only valid if wave is type pulse.",
+          :validations => [v_positive(:pulse_width)],
+          :modulatable => true
+        },
+
+        :pulse_width_slide =>
+        {
+          :doc => "Time in seconds for pulse width to change.",
+          :validations => [v_positive(:pulse_width_slide)],
+          :modulatable => true,
+          :bpm_scale => true
         }
 
       }
@@ -1188,14 +1218,14 @@ end
         :cutoff_min =>
         {
           :doc => "",
-          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)],
+          :validations => [v_positive(:cutoff), v_less_than(:cutoff_min, 130)],
           :modulatable => true
         },
 
         :wave =>
         {
-          :doc => "Wave type - 0 saw, 1 pulse",
-          :validations => [v_one_of(:wave, [0, 1])],
+          :doc => "Wave type - 0 saw, 1 pulse, 2 triangle",
+          :validations => [v_one_of(:wave, [0, 1, 2])],
           :modulatable => true
         },
 
@@ -1771,6 +1801,104 @@ end
     end
   end
 
+  class FXWobble < FXInfo
+    def name
+      "Wobble"
+    end
+
+    def synth_name
+      "fx_wobble"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :phase => 0.5,
+        :phase_slide => 0,
+        :cutoff_min => 60,
+        :cutoff_min_slide => 0,
+        :cutoff_max => 120,
+        :cutoff_max_slide => 0,
+        :res => 0.2,
+        :res_slide => 0,
+        :phase_offset => 0,
+        :wave => 0,
+        :pulse_width => 0.5,
+        :pulse_width_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+
+        :cutoff_min =>
+        {
+          :doc => "",
+          :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
+          :modulatable => true
+        },
+
+        :cutoff_min_slide =>
+        {
+          :doc => "",
+          :validations => [v_positive(:cutoff_min_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :cutoff_max =>
+        {
+          :doc => "",
+          :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
+          :modulatable => true
+        },
+
+        :cutoff_max_slide =>
+        {
+          :doc => "",
+          :validations => [v_positive(:cutoff_max_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :phase =>
+        {
+          :doc => "The phase duration (in seconds) for filter modulation cycles",
+          :validations => [v_positive_not_zero(:phase)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :pulse_width =>
+        {
+          :doc => "Only valid if wave is type pulse.",
+          :validations => [v_positive(:pulse_width)],
+          :modulatable => true
+        },
+
+        :pulse_width_slide =>
+        {
+          :doc => "Time in seconds for pulse width to change. Only valid if wave is type pulse.",
+          :validations => [v_positive(:pulse_width_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :wave =>
+        {
+          :doc => "Wave shape of wobble. Use 0 for saw wave, 1 for pulse, 2 for triangle wave and 3 for a sine wave.",
+          :validations => [v_one_of(:wave, [0, 1, 2, 3])],
+          :modulatable => true
+        }
+
+      }
+    end
+  end
+
+
 
   class FXIXITechno < FXInfo
     def name
@@ -2226,6 +2354,8 @@ end
       :fx_replace_echo => FXEcho.new,
       :fx_slicer => FXSlicer.new,
       :fx_replace_slicer => FXSlicer.new,
+      :fx_wobble => FXWobble.new,
+      :fx_relace_wobble => FXWobble.new,
       :fx_ixi_techno => FXIXITechno.new,
       :fx_replace_ixi_techno => FXIXITechno.new,
       :fx_compressor => FXCompressor.new,
