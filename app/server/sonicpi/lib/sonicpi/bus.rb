@@ -49,5 +49,9 @@ module SonicPi
     def to_s
       "#<SonicPi::Bus @id=#{@id}, @size=#{@size}>"
     end
+
+    def inspect
+      to_s
+    end
   end
 end

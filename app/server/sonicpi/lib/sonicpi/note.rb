@@ -115,11 +115,15 @@ module SonicPi
       raise InvalidNoteError, "Invalid note: #{n}" unless @interval
 
       @midi_note = (@octave * 12) + @interval + 12
-      @midi_string = "#{@pitch_class.capitalize}#{@interval}"
+      @midi_string = "#{@pitch_class.capitalize}#{@octave}"
     end
 
     def to_s
-      @midi_string
+      "#<SonicPi::Note :#{@midi_string}>"
+    end
+
+    def inspect
+      to_s
     end
 
     private

@@ -78,6 +78,10 @@ module SonicPi
       "Incoming events: #{@handlers.inspect}, #{@event_queue.inspect}"
     end
 
+    def inspect
+      to_s
+    end
+
     private
 
     def q_sync_insert_handler(handle, key, block, prom)

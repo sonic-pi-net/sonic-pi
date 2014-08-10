@@ -41,5 +41,9 @@ module SonicPi
       "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}>"
     end
 
+    def inspect
+      to_s
+    end
+
   end
 end

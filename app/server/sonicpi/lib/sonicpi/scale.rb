@@ -120,6 +120,10 @@ module SonicPi
       "#<SonicPi::Scale :#{Note.resolve_note_name(@tonic)} :#{@name} #{@notes}>"
     end
 
+    def inspect
+      to_s
+    end
+
     def to_a
       @notes
     end

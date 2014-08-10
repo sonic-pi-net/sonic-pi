@@ -54,6 +54,14 @@ module SonicPi
       @num_allocations
     end
 
+    def to_s
+      "<#SonicPi::Allocator>"
+    end
+
+    def inspect
+      to_s
+    end
+
     private
 
     def valid_gap?(idx, gap_size, ids)
