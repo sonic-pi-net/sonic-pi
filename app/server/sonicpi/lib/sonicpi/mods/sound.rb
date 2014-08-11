@@ -144,6 +144,8 @@ play 50, release: rt(2) # ** Warning: release is NOT 2 seconds! **
 sleep rt(2)             # still sleeps for 2 seconds"]
 
 
+
+
     def with_arg_bpm_scaling(bool, &block)
       raise "with_arg_bpm_scaling must be called with a block. Perhaps you meant use_arg_bpm_scaling" unless block
       current_scaling = Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
@@ -185,6 +187,9 @@ end"]
            opts:          nil,
            accepts_block: false,
            examples:      ["midi_to_hz(60) #=> 261.6256"]
+
+
+
 
        def hz_to_midi(freq)
          (12 * (Math.log(freq * 0.0022727272727) / Math.log(2))) + 69
@@ -1617,7 +1622,7 @@ play_pattern scale(:C, :lydian_minor)
 
 
 
-       def chord(tonic, name=:major)
+       def chord(tonic, name=:major, *opts)
          if tonic.is_a? Array
            raise "Array passed as parameter to chord needs two elements i.e. chord([:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
            Chord.new(tonic[0], tonic[1]).to_a
