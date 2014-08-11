@@ -239,8 +239,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   loadWorkspaces();
 
-  systemVol = new QSlider(this);
-  connect(systemVol, SIGNAL(valueChanged(int)), this, SLOT(changeSystemVol(int)));
+  raspberryPiSystemVol = new QSlider(this);
+  connect(raspberryPiSystemVol, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
   initPrefsWindow();
   initDocsWindow();
   this->showMaximized();
@@ -276,7 +276,7 @@ void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
-  QGroupBox *volBox = new QGroupBox(tr("System Volume"));
+  QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi Settings"));
   volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
   QGroupBox *audioOutputBox = new QGroupBox(tr("Force Audio Output"));
   audioOutputBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
@@ -285,9 +285,9 @@ void MainWindow::initPrefsWindow() {
   QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
   radio1->setChecked(true);
 
-  connect(radio1, SIGNAL(clicked()), this, SLOT(setSystemAudioAuto()));
-  connect(radio2, SIGNAL(clicked()), this, SLOT(setSystemAudioHeadphones()));
-  connect(radio3, SIGNAL(clicked()), this, SLOT(setSystemAudioHDMI()));
+  connect(radio1, SIGNAL(clicked()), this, SLOT(setRPSystemAudioAuto()));
+  connect(radio2, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHeadphones()));
+  connect(radio3, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHDMI()));
 
   QVBoxLayout *audio_box = new QVBoxLayout;
   audio_box->addWidget(radio1);
@@ -297,7 +297,7 @@ void MainWindow::initPrefsWindow() {
   audioOutputBox->setLayout(audio_box);
 
   QHBoxLayout *vol_box = new QHBoxLayout;
-  vol_box->addWidget(systemVol);
+  vol_box->addWidget(raspberryPiSystemVol);
   volBox->setLayout(vol_box);
 
   QGroupBox *debug_box = new QGroupBox("Debug Options");
@@ -688,7 +688,7 @@ void MainWindow::help()
   }
 }
 
-void MainWindow::changeSystemVol(int val) {
+void MainWindow::changeRPSystemVol(int val) {
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
@@ -714,7 +714,7 @@ void MainWindow::changeSystemVol(int val) {
 }
 
 
-void MainWindow::setSystemAudioHeadphones(){
+void MainWindow::setRPSystemAudioHeadphones(){
 
 #if defined(Q_OS_WIN)
   //do nothing
@@ -730,7 +730,7 @@ void MainWindow::setSystemAudioHeadphones(){
 #endif
 }
 
-void MainWindow::setSystemAudioHDMI(){
+void MainWindow::setRPSystemAudioHDMI(){
 
 #if defined(Q_OS_WIN)
   //do nothing
@@ -746,7 +746,7 @@ void MainWindow::setSystemAudioHDMI(){
 #endif
 }
 
-void MainWindow::setSystemAudioAuto(){
+void MainWindow::setRPSystemAudioAuto(){
 
 #if defined(Q_OS_WIN)
   //do nothing

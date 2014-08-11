@@ -68,10 +68,10 @@ private slots:
     void zoomFontOut();
     void toggleRecording();
     void toggleRecordingOnIcon();
-    void changeSystemVol(int val);
-    void setSystemAudioAuto();
-    void setSystemAudioHeadphones();
-    void setSystemAudioHDMI();
+    void changeRPSystemVol(int val);
+    void setRPSystemAudioAuto();
+    void setRPSystemAudioHeadphones();
+    void setRPSystemAudioHDMI();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
     void serverError(QProcess::ProcessError error);
@@ -167,7 +167,7 @@ private:
     QMainWindow *infoWindow;
     QMainWindow *docWindow;
     QLabel *imageLabel;
-    QSlider *systemVol;
+    QSlider *raspberryPiSystemVol;
 
 };
 
