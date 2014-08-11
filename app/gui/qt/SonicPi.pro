@@ -16,16 +16,12 @@
 # Project created by QtCreator 2014-02-28T14:51:06
 #
 #-------------------------------------------------
-LIBS += -L$$PWD/../../../../../../Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5/ -lqscintilla2
-
-INCLUDEPATH += $$PWD/../../../../../../Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
-DEPENDPATH += $$PWD/../../../../../../Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
 
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = SonicPi
+TARGET = 'Sonic-Pi'
 TEMPLATE = app
 
 SOURCES += main.cpp \
@@ -51,4 +47,3 @@ RESOURCES += \
     help_files.qrc
 
 ICON = images/app.icns
-
