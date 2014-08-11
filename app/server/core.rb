@@ -32,6 +32,36 @@ module OSC
     def send(msg, address, port)
       @socket.send msg.encode, 0, address, port
     end
+
+    def safe_detector
+      loop do
+        osc_data, network = @socket.recvfrom( 16384 )
+        begin
+          ip_info = Array.new
+          ip_info << network[1]
+          ip_info.concat(network[2].split('.'))
+          OSCPacket.messages_from_network( osc_data, ip_info ).each do |message|
+            @queue.push(message)
+          end
+        rescue Exception => e
+          Kernel.puts e.message
+          Kernel.puts e.backtrace.inspect
+        end
+      end
+    end
+
+    def safe_run
+      Thread.fork do
+        begin
+          dispatcher
+        rescue Exception => e
+          Kernel.puts e.message
+          Kernel.puts e.backtrace.inspect
+        end
+      end
+
+      safe_detector
+    end
   end
 
   class OSCDouble64 < OSCArgument
@@ -39,16 +69,63 @@ module OSC
     def encode() [@val].pack('G').force_encoding("BINARY") end
   end
 
+  class OSCInt64 < OSCArgument
+    def tag() 'h' end
+    def encode() [@val].pack('q>').force_encoding("BINARY") end
+  end
+
   class OSCPacket
+
+    def self.messages_from_network( string, ip_info=nil )
+      messages = []
+      osc = new( string )
+
+      if osc.bundle?
+        osc.get_string #=> bundle
+        time = osc.get_timestamp
+
+        osc.get_bundle_messages.each do | message |
+          begin
+            msg = decode_simple_message( time, OSCPacket.new( message ) )
+            if ip_info
+              # Append info for the ip address
+              msg.ip_port = ip_info.shift
+              msg.ip_address = ip_info.join(".")
+            end
+            messages << msg
+          rescue Exception => e
+            Kernel.puts e.message
+            Kernel.puts e.backtrace.inspect
+          end
+        end
+
+      else
+        begin
+          msg = decode_simple_message( time, osc )
+          if ip_info
+            # Append info for the ip address
+            msg.ip_port = ip_info.shift
+            msg.ip_address = ip_info.join(".")
+          end
+          messages << msg
+        rescue Exception => e
+          Kernel.puts e.message
+          Kernel.puts e.backtrace.inspect
+        end
+      end
+      return messages
+    end
 
     def initialize( string )
       @packet = NetworkPacket.new( string )
 
-      @types = { "i" => lambda{  OSCInt32.new(   get_int32 ) },
-        "f" => lambda{  OSCFloat32.new( get_float32 ) },
-        "s" => lambda{  OSCString.new(  get_string ) },
-        "b" => lambda{  OSCBlob.new(    get_blob )},
-        "d" => lambda{  OSCDouble64.new(   get_double64 )}
+      @types = {
+        "i" => lambda{OSCInt32.new(    get_int32   )},
+        "f" => lambda{OSCFloat32.new(  get_float32 )},
+        "s" => lambda{OSCString.new(   get_string  )},
+        "b" => lambda{OSCBlob.new(     get_blob    )},
+        "d" => lambda{OSCDouble64.new( get_double64)},
+        "h" => lambda{OSCInt64.new(    get_int64   )}
       }
     end
 
@@ -69,6 +146,12 @@ module OSC
 
     def get_double64
       f = @packet.getn(8).unpack('G')[0]
+      @packet.skip_padding
+      f
+    end
+
+    def get_int64
+      f = @packet.getn(8).unpack('q>')[0]
       @packet.skip_padding
       f
     end
