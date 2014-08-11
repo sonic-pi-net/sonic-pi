@@ -75,7 +75,7 @@
 
 using namespace oscpkt;
 
-MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
+MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
 
   this->setUnifiedTitleAndToolBarOnMac(true);
 
@@ -243,20 +243,30 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(raspberryPiSystemVol, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
   initPrefsWindow();
   initDocsWindow();
-  this->showMaximized();
-  splash.finish(this);
 
   infoWindow = new QMainWindow();
   imageLabel = new QLabel(this);
-  QPixmap image(":/images/splash.png");
 
+#ifdef Q_OS_MAC
+  QPixmap image(":/images/splash@2x.png");
+  imageLabel->setPixmap(image);
+  infoWindow->setCentralWidget(imageLabel);
+  infoWindow->setMinimumHeight(image.height()/2);
+  infoWindow->setMaximumHeight(image.height()/2);
+  infoWindow->setMinimumWidth(image.width()/2);
+  infoWindow->setMaximumWidth(image.width()/2);
+#else
+  QPixmap image(":/images/splash@2x.png");
   imageLabel->setPixmap(image);
   infoWindow->setCentralWidget(imageLabel);
   infoWindow->setMinimumHeight(image.height());
   infoWindow->setMaximumHeight(image.height());
   infoWindow->setMinimumWidth(image.width());
   infoWindow->setMaximumWidth(image.width());
+#endif
 
+  this->showNormal();
+  splash->close();
 }
 
 void MainWindow::serverError(QProcess::ProcessError error) {
