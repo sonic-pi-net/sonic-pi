@@ -33,13 +33,13 @@ module SonicPi
        include SonicPi::Util
        include SonicPi::DocSystem
 
-       DEFAULT_PLAY_OPTS = {amp:       {default: 1, doc: "The amplitude of the note"},
+       DEFAULT_PLAY_OPTS = {amp:      {default: 1, doc: "The amplitude of the note"},
                            amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
                            pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
                            pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
-                           attack: {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
-                           sustain: {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
-                           release: {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
+                           attack:    {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
+                           sustain:   {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
+                           release:   {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
 
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
@@ -207,11 +207,11 @@ end"]
          __info "Schedule ahead time set to #{t}"
        end
        doc name:          :set_sched_ahead_time!,
-           doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms.",
+           doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding.",
            args:          [[:time, :number]],
            opts:          nil,
            accepts_block: false,
-           examples:      ["set_sched_ahead_time! 1"]
+           examples:      ["set_sched_ahead_time! 1 # Code will now run approximately 1 second ahead of audio."]
 
 
 
@@ -498,12 +498,16 @@ play 50 # Plays with supersaw synth
          trigger_inst synth_name, args_h
        end
        doc name: :synth,
-           doc: "Trigger specified synth with given arguments.",
+           doc: "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults. ",
            args:  [[:synth_name, :symbol]],
            opts:  {},
            accepts_block: false,
            examples: ["
-synth :fm, note: 60, amp: 0.5"]
+synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an aplitude of 0.5",
+
+"
+use_synth_defaults release: 5
+synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
 
 
@@ -1062,6 +1066,8 @@ sample :my_guitars_bass    #=> plays '/home/yourname/my/cool/samples/guitar/bass
 sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'"]
 
 
+
+
        def with_sample_pack(pack, &block)
          raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
          pack = samples_path if pack == :default
@@ -1079,6 +1085,7 @@ sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'
 with_sample_pack '/path/to/sample/dir' do
   sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff}
 end"]
+
 
 
 
@@ -1517,7 +1524,7 @@ puts note('C', octave: 2)
          Note.new(n, octave)
        end
        doc name:          :note_info,
-           doc:           "Returns an instance of SonicPi::Note so this probably isn't the method you were looking for. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
+           doc:           "Returns an instance of SonicPi::Note. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
@@ -1869,6 +1876,9 @@ stop bar"]
            opts:          nil,
            accepts_block: false,
            examples:      []
+
+
+
 
        private
 
