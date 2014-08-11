@@ -24,6 +24,7 @@ require_relative "mods/sound"
 #require_relative "mods/globalkeys"
 require_relative "gitsave"
 require_relative "lifecyclehooks"
+require_relative "oscval"
 
 require 'thread'
 require 'fileutils'
