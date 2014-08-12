@@ -1796,6 +1796,13 @@ end
           :doc => "The amplitude of the resulting effect.",
           :validations => [v_positive(:amp)],
           :modulatable => true
+        },
+
+        :wave =>
+        {
+          :doc => "Control waveform used to modulate the amplitude. 0=saw, 1=pulse, 2=tri, 3=sine",
+          :validations => [v_one_of(:wave, [0, 1, 2, 3])],
+          :modulatable => true
         }
       }
     end
