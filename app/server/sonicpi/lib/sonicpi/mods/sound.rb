@@ -1255,7 +1255,7 @@ puts current_arg_checks # Print out the current arg check setting"]
          __info "Volume set to: #{new_vol}"
        end
        doc name:          :set_volume!,
-           doc:           "Set the main system volum to vol. Accepts a value between 0 and 5 inclusive. Vols greater or smaller than the allowed values are trimmed to keep them within range. Default is 1.",
+           doc:           "Set the main system volume to vol. Accepts a value between 0 and 5 inclusive. Vols greater or smaller than the allowed values are trimmed to keep them within range. Default is 1.",
            args:          [[:vol, :number]],
            opts:          nil,
            accepts_block: false,
@@ -1291,16 +1291,13 @@ set_volume! 2 # Set the main system volume to 2",
          end
        end
        doc name:          :load_sample,
-           doc:           "Given a path to a wav|wave|aif|aiff file, this loads the file and makes it available as a sample. See also the use_sample_pack and with_sample_pack methods",
+           doc:           "Given a path to a wav|wave|aif|aiff file, this loads the file and makes it available as a sample. See load_samples for loading multiple samples in one go.",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-load_sample '/home/yourname/path/to/sample/dir/foo.wav'
-
-# foo.wav is now loaded and ready to play as a sample
-sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
-"]
+load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
+sample :elec_blip # No delay takes place when attempting to trigger it"]
 
 
 
@@ -1315,18 +1312,25 @@ sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
          end
        end
        doc name:          :load_samples,
-           doc:           "Given an array of paths to wav|wave|aif|aiff files, this loads them and makes them all available as samples. See also the use_sample_pack and with_sample_pack methods",
+           doc:           "Given an array of paths to wav|wave|aif|aiff files, loads them all into memory so that they may be played with via sample with no delay. See load_sample.",
            args:          [[:paths, :list]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-load_samples ['/home/yourname/path/to/sample/dir/foo.wav',
-              '/home/yourname/path/to/sample/dir/bar.wav']
+sample :ambi_choir # This has to first load the sample before it can play it which may
+                   # cause unwanted delay.
 
-# foo.wav and bar.wav are both loaded and ready to play as samples
-sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.wav
-sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
-"]
+load_samples [:elec_plip, :elec_blip] # Let's load some samples in advance of using them
+sample :elec_plip                     # When we play :elec_plip, there is no extra delay
+                                      # as it has already been loaded.",
+
+"
+load_samples :elec_plip, :elec_blip # You may omit the square brackets, and
+                                    # simply list all samples you wish to load
+sample :elec_blip                   # Before playing them.",
+"
+load_samples [\"/home/pi/samples/foo.wav\"] # You may also load full paths to samples.
+sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more loading."]
 
 
 
@@ -1363,25 +1367,26 @@ sample :bar  #=> plays /home/yourname/path/to/sample/dir/bar.wav
          load_sample(path).duration * 1.0/(args_h[:rate].abs)
        end
        doc name:          :sample_duration,
-           doc:           "Given the name of a loaded sample, or a path to a wav|wave|aif|aiff file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples",
+           doc:           "Given the name of a loaded sample, or a path to a wav|wave|aif|aiff file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate.",
            args:          [[:path, :string]],
            opts:          {:rate => 1},
            accepts_block: false,
            examples:      ["
-loop do
-  # Using sample_duration here means the loop plays back without any gaps or breaks
-  sample :loop_amen
-  sleep sample_duration(:loop_amen)
+loop do   # Using sample_duration here means the loop plays back without any gaps or breaks
+  sample :loop_amen # Play amen break
+  sleep sample_duration(:loop_amen) # sleep for duration of amen break
 end",
-"loop do
-  # You can also use rate if you want to keep a seamless loop whilst adjusting the speed
+
+"loop do  # You can also use rate if you want to keep a seamless loop whilst adjusting the speed
   sample :loop_amen, rate: 0.75
   sleep sample_duration(:loop_amen, rate: 0.75)
 end",
-"# Try not to use negative numbers for the rate parameter as it won't work
-sample :loop_amen, rate: -1
-sleep sample_duration(:loop_amen, rate: -1) # This throws an error - use 1 instead
-"]
+
+"
+loop do
+  sample :loop_amen, rate: -1 # Works for negative rates too
+  sleep sample_duration :loop_amen, rate: -1
+end "]
 
 
 
