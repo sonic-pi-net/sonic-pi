@@ -1827,7 +1827,8 @@ end
         :phase_offset => 0,
         :wave => 0,
         :pulse_width => 0.5,
-        :pulse_width_slide => 0
+        :pulse_width_slide => 0,
+        :filter => 0
       }
     end
 
@@ -1892,8 +1893,14 @@ end
           :doc => "Wave shape of wobble. Use 0 for saw wave, 1 for pulse, 2 for triangle wave and 3 for a sine wave.",
           :validations => [v_one_of(:wave, [0, 1, 2, 3])],
           :modulatable => true
-        }
+        },
 
+        :filter =>
+        {
+          :doc => "Filter used for woblle. Use 0 for a resonant low pass filter or 1 for a rsonant high pass filter",
+          :validations => [v_one_of(:filter, [0, 1])],
+          :modulatable => true
+        }
       }
     end
   end
