@@ -1421,9 +1421,10 @@ sleep sample_duration(:loop_amen, rate: 0.05)",
 "# Setting a really negative number can be lots of fun
 # It plays the sample backwards!
 sample :loop_amen, rate: -1
-sleep sample_duration(:loop_amen, rate: 1) # there's no need to give sample_duration a negative number though
+sleep sample_duration(:loop_amen, rate: 1)  # there's no need to give sample_duration a negative number though
 
-# Using a rate of -0.5 is just like using the positive 0.5 (lower in pitch and slower) except backwards
+                                             # Using a rate of -0.5 is just like using the positive 0.5
+                                             # (lower in pitch and slower) except backwards
 sample :loop_amen, rate: -0.5
 sleep sample_duration(:loop_amen, rate: 0.5) # there's no need to give sample_duration a negative number though",
 "# BE CAREFUL
@@ -1446,11 +1447,13 @@ sleep 1
 control(s, rate: 0.8)
 sleep 1
 control(s, rate: 1)",
-"# Using the :start and :finish parameters you can play a section of the sample.
+"
+# Using the :start and :finish parameters you can play a section of the sample.
 # The default start is 0 and the default finish is 1
 sample :loop_amen, start: 0.5, finish: 1 # play the last half of a sample",
-"# You can also play part of any sample backwards by using a start value that's higher than
-# the finish
+"
+# You can also play part of any sample backwards by using a start value that's
+# higher than the finish
 sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards"]
 
 
