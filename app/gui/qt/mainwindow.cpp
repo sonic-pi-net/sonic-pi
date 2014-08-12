@@ -62,9 +62,9 @@
 
 // OS specific stuff
 #if defined(Q_OS_WIN)
-  #include <QtConcurrentRun>
+  #include <QtConcurrent/QtConcurrentRun>
 #elif defined(Q_OS_MAC)
-  #include <QtConcurrentRun>
+  #include <QtConcurrent/QtConcurrentRun>
 #else
   //assuming Raspberry Pi
   #include <cmath>
