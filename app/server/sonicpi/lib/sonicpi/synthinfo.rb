@@ -29,6 +29,10 @@ module SonicPi
       raise "please implement me!"
     end
 
+    def category
+      raise "please implement me!"
+    end
+
     def prefix
       ""
     end
@@ -365,13 +369,16 @@ module SonicPi
   end
 
   class SynthInfo < BaseInfo
+    def category
+      :general
+    end
 
-  end
-
-  class SonicPiSynth < SynthInfo
     def prefix
       "sonic-pi-"
     end
+  end
+
+  class SonicPiSynth < SynthInfo
   end
 
   class DullBell < SonicPiSynth
@@ -416,7 +423,7 @@ module SonicPi
     end
 
     def doc
-      "A simple pretty bell sound."
+      "A pretty bell sound. Works well with short attacks and long delays."
     end
   end
 
@@ -462,7 +469,7 @@ module SonicPi
     end
 
     def doc
-      "A simple saw wave with a low pass filter."
+      "A saw wave with a low pass filter. Great for using with FX such as the built in low pass filter (available via the cutoff arg) due to the complexity and thickness of the sound."
     end
   end
 
@@ -477,7 +484,7 @@ module SonicPi
     end
 
     def doc
-      "A simple saw wave"
+      "A rase saw wave without a low pass filter. Great for using with FX due to the complexity and thickness of the sound."
     end
   end
 
@@ -491,7 +498,7 @@ module SonicPi
     end
 
     def doc
-      "A simple pulse wave with a low pass filter."
+      "A simple pulse wave with a low pass filter. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1."
     end
 
     def arg_defaults
@@ -528,7 +535,7 @@ module SonicPi
     end
 
     def doc
-      "A simple pulse wave."
+      "A simple pulse wave. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1."
     end
 
     def arg_defaults
@@ -591,7 +598,7 @@ module SonicPi
     end
 
     def doc
-      "A pair of detuned saw waves with a low pass filter."
+      "A pair of detuned saw waves passed through a low pass filter. Two saw waves with slightly different frequencies generates a nice thick sound which is the basis for a lot of famous synth sounds. Thicken the sound by increasing the detune value, or create an octave-playing synth by choosing a detune of 12 (12 MIDI notes is an octave)."
     end
 
     def arg_defaults
@@ -628,7 +635,7 @@ module SonicPi
     end
 
     def doc
-      "A pair of detuned saw waves."
+      "A pair of detuned saw waves. Two saw waves with slightly different frequencies generates a nice thick sound which is the basis for a lot of famous synth sounds. Thicken the sound by increasing the detune value, or create an octave-playing synth by choosing a detune of 12 (12 MIDI notes is an octave)."
     end
 
     def arg_defaults
@@ -663,7 +670,7 @@ module SonicPi
     end
 
     def doc
-      "A sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth."
+      "A sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth. Useful for generated a wide range of sounds by playing with the divisor and depth params. Great for deep powerful bass and crazy 70s sci-fi sounds."
     end
 
     def arg_defaults
@@ -728,11 +735,15 @@ module SonicPi
   class ModFM < FM
 
     def name
-      "Basic FM synthesis with frequency modulation"
+      "Basic FM synthesis with frequency modulation."
     end
 
     def synth_name
       "mod_fm"
+    end
+
+    def doc
+      "The FM synth modulating between two notes - the duration of the modulation can be modified using the mod_phase arg, the range (number of notes jumped between) by the mod_range arg and the width of the jumps by the mod_width param. The FM synth is sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth. Useful for generated a wide range of sounds by playing with the divisor and depth params. Great for deep powerful bass and crazy 70s sci-fi sounds."
     end
 
     def arg_defaults
@@ -756,7 +767,7 @@ end
     end
 
     def doc
-      "A saw wave which modulates between two separate notes."
+      "A saw wave passed through a lowhich modulates between two separate notes."
     end
 
     def arg_defaults
@@ -1727,6 +1738,10 @@ end
       "fx_slicer"
     end
 
+    def doc
+      ""
+    end
+
     def arg_defaults
       {
         :amp => 1,
@@ -1817,6 +1832,10 @@ end
       "fx_wobble"
     end
 
+    def doc
+      "Versatile wobble FX. Will repeatedly modulate a range of filters (rlpf, rhpf) between two cutoff values using a range of control wave forms (saw, pulse, tri, sine). You may alter the phase duration of the wobble, and the resonance of the filter. Combines well with the dsaw synth for crazy dub wobbles."
+    end
+
     def arg_defaults
       {
         :amp => 1,
@@ -1844,14 +1863,14 @@ end
 
         :cutoff_min =>
         {
-          :doc => "",
+          :doc => "Minimum (MIDI) note filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
           :modulatable => true
         },
 
         :cutoff_min_slide =>
         {
-          :doc => "",
+          :doc => generic_slide_doc(:cutoff_min),
           :validations => [v_positive(:cutoff_min_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -1859,14 +1878,14 @@ end
 
         :cutoff_max =>
         {
-          :doc => "",
+          :doc => "Maximum (MIDI) note filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
           :modulatable => true
         },
 
         :cutoff_max_slide =>
         {
-          :doc => "",
+          :doc => generic_slide_doc(:cutoff_max),
           :validations => [v_positive(:cutoff_max_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -1904,7 +1923,7 @@ end
 
         :filter =>
         {
-          :doc => "Filter used for woblle. Use 0 for a resonant low pass filter or 1 for a rsonant high pass filter",
+          :doc => "Filter used for wobble effect. Use 0 for a resonant low pass filter or 1 for a rsonant high pass filter",
           :validations => [v_one_of(:filter, [0, 1])],
           :modulatable => true
         }
