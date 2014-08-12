@@ -1739,7 +1739,7 @@ end
     end
 
     def doc
-      ""
+      "Modulates the amplitude of the input signal with a specific control wave and phase duration. With the default pulse wave, slices the signal in and out, with the triangle wave, fades the signal in and out and with the saw wave, phases the signal in and then dramatically out. Control wave may be inverted with the arg invert_wave for more variety."
     end
 
     def arg_defaults
@@ -1750,11 +1750,11 @@ end
         :mix_slide => 0,
         :phase => 0.25,
         :phase_slide => 0,
-        :width => 0.5,
-        :width_slide => 0,
+        :pulse_width => 0.5,
+        :pulse_width_slide => 0,
         :phase_offset => 0,
-        :amp => 1,
-        :amp_slide => 0.05
+        :wave => 1,
+        :invert_wave => 0
       }
     end
 
@@ -1818,7 +1818,15 @@ end
           :doc => "Control waveform used to modulate the amplitude. 0=saw, 1=pulse, 2=tri, 3=sine",
           :validations => [v_one_of(:wave, [0, 1, 2, 3])],
           :modulatable => true
+        },
+
+        :invert_wave =>
+        {
+          :doc => "Invert control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
+          :validations => [v_one_of(:invert_wave, [0, 1])],
+          :modulatable => true
         }
+
       }
     end
   end

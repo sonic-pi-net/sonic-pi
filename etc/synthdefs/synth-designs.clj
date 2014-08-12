@@ -1390,6 +1390,7 @@
      pulse_width_slide 0
      phase_offset 0
      wave 1                   ;;0=saw, 1=pulse, 2=tri, 3=sine
+     invert_wave 0            ;;0=normal wave, 1=inverted wave
      in_bus 0
      out_bus 0]
     (let [amp                 (lag amp amp_slide)
@@ -1398,17 +1399,19 @@
           rate                (/ 1 phase)
           pulse_width         (lag pulse_width pulse_width_slide)
           double_phase_offset (* 2 phase_offset)
-          slice-amp           (select:kr wave [(/ (+ 1 (lf-saw:kr rate double_phase_offset)) 2)
-                                               (lf-pulse:kr rate phase_offset pulse_width)
-                                               (/ (+ 1 (lf-tri:kr rate double_phase_offset)) 2)
-                                               (/ (+ 1 (sin-osc:kr rate (* phase_offset (* Math/PI 2)))) 2)])
-
-
+          slice-amp           (select:kr wave [(lf-saw:kr rate double_phase_offset)
+                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
+                                               (lf-tri:kr rate double_phase_offset)
+                                               (sin-osc:kr rate (* phase_offset (* Math/PI 2)))])
+          amp-mul             (- (* 2 (> invert_wave 0)) 1)
+          slice-amp           (* slice-amp amp-mul)
+          slice-amp           (/ (+ 1 slice-amp) 2)
           [in-l in-r]         (in in_bus 2)
           [new-l new-r]       (* slice-amp [in-l in-r])
           fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (out out_bus [fin-l fin-r])))
+
 
   (defsynth sonic-pi-fx_replace_slicer
     [amp 1
@@ -1421,6 +1424,7 @@
      pulse_width_slide 0
      phase_offset 0
      wave 1                   ;;0=saw, 1=pulse, 2=tri, 3=sine
+     invert_wave 0            ;;0=normal wave, 1=inverted wave
      out_bus 0]
     (let [amp                 (lag amp amp_slide)
           mix                 (lag mix mix_slide)
@@ -1428,18 +1432,18 @@
           rate                (/ 1 phase)
           pulse_width         (lag pulse_width pulse_width_slide)
           double_phase_offset (* 2 phase_offset)
-          slice-amp           (select:kr wave [(/ (+ 1 (lf-saw:kr rate double_phase_offset)) 2)
-                                               (lf-pulse:kr rate phase_offset pulse_width)
-                                               (/ (+ 1 (lf-tri:kr rate double_phase_offset)) 2)
-                                               (/ (+ 1 (sin-osc:kr rate (* phase_offset (* Math/PI 2)))) 2)])
-
-
+          slice-amp           (select:kr wave [(lf-saw:kr rate double_phase_offset)
+                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
+                                               (lf-tri:kr rate double_phase_offset)
+                                               (sin-osc:kr rate (* phase_offset (* Math/PI 2)))])
+          amp-mul             (- (* 2 (> invert_wave 0)) 1)
+          slice-amp           (* slice-amp amp-mul)
+          slice-amp           (/ (+ 1 slice-amp) 2)
           [in-l in-r]         (in out_bus 2)
           [new-l new-r]       (* slice-amp [in-l in-r])
           fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (replace-out out_bus [fin-l fin-r])))
-
 
   (defsynth sonic-pi-fx_wobble
     [amp 1
@@ -1456,7 +1460,7 @@
      res_slide 0
      phase_offset 0.5
      wave 0                             ;0=saw, 1=pulse, 2=tri, 3=sin
-     invert_wave 0                      ;0=normal wave, 1-inverted wave
+     invert_wave 0                      ;0=normal wave, 1=inverted wave
      pulse_width 0.5                    ; only for pulse wave
      pulse_width_slide 0                ; only for pulse wave
      filter 0                           ;0=rlpf, 1=rhpf
@@ -1507,7 +1511,7 @@
      res_slide 0
      phase_offset 0.5
      wave 0                             ;0=saw, 1=pulse, 2=tri, 3=sin
-     invert_wave 0                      ;0=normal wave, 1-inverted wave
+     invert_wave 0                      ;0=normal wave, 1=inverted wave
      pulse_width 0.5                    ; only for pulse wave
      pulse_width_slide 0                ; only for pulse wave
      filter 0                           ;0=rlpf, 1=rhpf
