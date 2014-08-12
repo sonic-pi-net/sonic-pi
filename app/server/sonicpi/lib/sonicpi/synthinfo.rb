@@ -1581,7 +1581,7 @@ end
     end
 
     def doc
-      "Make incoming signal sound more spacious or distant as if it were played in a large room or cave. Incoming signal may also be dampened by reducing the ampitude of the higher frequencies."
+      "Make the incoming signal sound more spacious or distant as if it were played in a large room or cave. Signal may also be dampened by reducing the ampitude of the higher frequencies."
     end
 
     def arg_defaults
