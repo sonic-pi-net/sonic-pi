@@ -1580,6 +1580,10 @@ end
       "fx_reverb"
     end
 
+    def doc
+      "Make incoming signal sound more spacious or distant as if it were played in a large room or cave. Incoming signal may also be dampened by reducing the ampitude of the higher frequencies."
+    end
+
     def arg_defaults
       {
         :amp => 1,
@@ -1593,6 +1597,42 @@ end
         :damp_slide => 0
       }
     end
+
+    def specific_arg_info
+      {
+        :room =>
+        {
+          :doc => "The room size - a value between 0 (no reverb) and 1 (maximum reverb).",
+          :validations => [v_between_inclusive(:room, 0, 1)],
+          :modulatable => true
+        },
+
+        :damp =>
+        {
+          :doc => "High frequency dampening - a value between 0 (no dampening) and 1 (maximum dampening)",
+          :validations => [v_between_inclusive(:damp, 0, 1)],
+          :modulatable => true
+        },
+
+        :room_slide =>
+        {
+          :doc => generic_slide_doc(:room),
+          :validations => [v_positive(:room_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :damp_slide =>
+        {
+          :doc => generic_slide_doc(:damp),
+          :validations => [v_positive(:damp_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        }
+      }
+    end
+
+
   end
 
   class FXBitcrusher < FXInfo
@@ -1602,6 +1642,10 @@ end
 
     def synth_name
       "fx_bitcrusher"
+    end
+
+    def doc
+      "Creates lo-fi output by decimating and deconstructing the incoming audio by lowering both the sample rate and bit depth. The default sample rate for CD audio is 44100, so use values less than that for lo-fi sound. Similarly, the default bit depth for CD audio is 16, so use values less than that for that crunchy chip-tune sound full of artefacts and bitty distortion."
     end
 
     def arg_defaults
@@ -1631,6 +1675,22 @@ end
           :doc => "The bit depth of the resampled audio.",
           :validations => [v_positive_not_zero(:bits)],
           :modulatable => true
+        },
+
+        :sample_rate_slide =>
+        {
+          :doc => generic_slide_doc(:sample_rate),
+          :validations => [v_positive(:sample_rate_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :bits_slide =>
+        {
+          :doc => generic_slide_doc(:bits),
+          :validations => [v_positive(:bits_slide)],
+          :modulatable => true,
+          :bpm_scale => true
         }
       }
     end
@@ -1644,6 +1704,10 @@ end
 
     def synth_name
       "fx_level"
+    end
+
+    def doc
+      "Amplitude modifier. All FX have their own amp built in, so it may be the case that you don't specifically need an isolated amp FX. However, it is useful to be able to control the overall amplitude of a number of running synths. All sounds created in the FX block will have their amplitudes multipled by the amp level of this FX. For example, use an amp of 0 to silence all internal synths."
     end
 
     def arg_defaults
@@ -1661,6 +1725,10 @@ end
 
     def synth_name
       "fx_echo"
+    end
+
+    def doc
+      "Standard echo with variable phase duration (time between echoes) and decay (length of echo fade out). If you wish to have a phase duration longer than 2s, you need to specifiy the longest phase duration you'd like with the arg max_phase. Be warned, echo FX with very long phases can consume a lot of memory and take longer to initialise."
     end
 
     def arg_defaults
