@@ -228,6 +228,38 @@ end"]
 
 
 
+    def rand(max=1)
+      @random_generator.rand(max.to_f)
+    end
+    doc name:           :rand,
+        summary:        "Generate a random float below a value",
+        args:           [[:max, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Given a max number, produces a float between 0 and the supplied max value. With no args, returns a random value between 0 and 1.",
+        examples:      [
+"
+print rand(0.5) #=> will print a number like 0.397730007820797 to the output pane"]
+
+
+
+
+    def rand_i(max=2)
+      @random_generator.rand(max.to_i).to_f
+    end
+    doc name:           :rand_i,
+        summary:        "Generate a random whole number float below a value",
+        args:           [[:max, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Given a max number, produces a whole numberfloat between 0 and the supplied max value. With no args returns either 0.0 or 1.0",
+        examples:      [
+"
+print rand_i(10) #=> will print a number like 7.0 to the output pane"]
+
+
+
+
     def choose(list)
       list.to_a.choose
     end
