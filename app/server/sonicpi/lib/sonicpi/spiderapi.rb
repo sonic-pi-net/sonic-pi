@@ -209,7 +209,7 @@ end"]
       range = (min - max).abs
       r = @random_generator.rand(range.to_i + 1)
       smallest = [min, max].min
-      r + smallest
+      (r + smallest).to_f
     end
     doc name:           :rrand_i,
         args:           [[:min, :number], [:max, :number]],
@@ -218,7 +218,7 @@ end"]
         doc:            "Given two numbers, this produces a whole number between the min and max you supplied. Both min and max need to be supplied. For random floats, see rrand",
         examples:      [
 "
-print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4) to the output pane",
+print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4.0) to the output pane",
 "
 loop do
   play rrand_i(60, 72) #=> Will play a random midi note between C4 (60) and C5 (72)
