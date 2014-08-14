@@ -2254,4 +2254,40 @@
 
     (save-to-pi sonic-pi-saws) )
 
-  (mod_dsaw 52))
+  (mod_dsaw 52)
+
+      (def s (freesound 18765))
+
+
+
+
+
+    (defsynth sonic-pi-stereo_warp_sample [buf 0
+                                           amp 1
+                                           amp_slide 0
+                                           pan 0
+                                           pan_slide 0
+                                           start 0
+                                           finish 1
+                                           rate 1
+                                           rate_slide 0
+                                           window_size 0.1
+                                           overlaps 8
+                                           out_bus 0]
+      (let [amp           (lag amp amp_slide)
+            pan           (lag pan pan_slide)
+            rate          (lag rate rate_slide)
+            play-time     (* (buf-dur buf) (absdif finish start))
+            snd           (warp1:ar 2 buf (line start finish play-time) rate window_size overlaps 0 4)
+            [snd-l snd-r] snd
+            snd           (balance2 snd-l snd-r pan amp)
+]
+        (out out_bus snd)) )
+
+   (def t (sonic-pi-warp_sample s :rate -1 :window_size 0.001))
+
+   (kill t)
+
+
+
+  )
