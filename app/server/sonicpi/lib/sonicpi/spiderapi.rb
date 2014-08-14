@@ -23,7 +23,7 @@ module SonicPi
       if args_h[:override] || !(@user_methods.method_defined? name)
         val = block.yield
         val_block = lambda{val}
-        @user_methods.send(:define_method, name, &val_block)
+        define(name, &val_block)
       else
         __info "Not re-defining #{name}"
       end
