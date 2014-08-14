@@ -1398,7 +1398,7 @@ end "]
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
        doc name:          :sample,
-           doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack and use_sample_pack_as methods for details on loading a whole folder of your own sample files.",
+           doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack and use_sample_pack_as methods for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider load_sample and load_samples.",
            args:          [[:name_or_path, :symbol_or_string]],
            opts:          {:rate => 1, :attack => 0, :release => 0.0, :start => 0, :finish => 1, :pan => 0, :pan_slide => 0, :amp => 1, :amp_slide => 0},
            accepts_block: false,
@@ -1468,25 +1468,24 @@ sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards"]
          @mod_sound_studio.status
        end
        doc name:          :status,
-           doc:           "This returns a Hash of information about the current environment. Mostly used for debugging purposes.",
+           doc:           "This returns a Hash of information about the synthesis environment. Mostly used for debugging purposes.",
            args:          [],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts status
-# Returns something similar to:
-# {
-#   :ugens=>10,
-#   :synths=>1,
-#   :groups=>7,
-#   :sdefs=>61,
-#   :avg_cpu=>0.20156468451023102,
-#   :peak_cpu=>0.36655542254447937,
-#   :nom_samp_rate=>44100.0,
-#   :act_samp_rate=>44099.9998411752,
-#   :audio_busses=>2,
-#   :control_busses=>0
-# }
+puts status # Returns something similar to:
+            # {
+            #   :ugens=>10,
+            #   :synths=>1,
+            #   :groups=>7,
+            #   :sdefs=>61,
+            #   :avg_cpu=>0.20156468451023102,
+            #   :peak_cpu=>0.36655542254447937,
+            #   :nom_samp_rate=>44100.0,
+            #   :act_samp_rate=>44099.9998411752,
+            #   :audio_busses=>2,
+            #   :control_busses=>0
+            # }
 "]
 
 
@@ -1549,7 +1548,7 @@ puts note_info(:C, octave: 2)
          Scale.new(tonic, name,  opts[:num_octaves]).to_a
        end
        doc name:          :scale,
-           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional :num_octaves parameter - 1 octave is the default",
+           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional :num_octaves parameter (1 octave is the default)",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          {:num_octaves => 1},
            accepts_block: false,
