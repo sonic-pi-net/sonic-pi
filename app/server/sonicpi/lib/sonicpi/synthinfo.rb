@@ -1410,7 +1410,30 @@ end
 
   end
 
+
+
   class StudioInfo < SonicPiSynth
+
+  end
+
+  class SoundIn < StudioInfo
+    def name
+      "Sound In"
+    end
+
+    def synth_name
+      "sound_in"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :input => 0
+      }
+    end
 
   end
 
@@ -2449,6 +2472,8 @@ end
       :zawa => Zawa.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
+
+      :sound_in => SoundIn.new,
 
       :basic_mono_player => BasicMonoPlayer.new,
       :basic_stereo_player => BasicStereoPlayer.new,

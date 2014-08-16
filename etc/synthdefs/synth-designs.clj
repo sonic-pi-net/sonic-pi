@@ -52,9 +52,21 @@
 
    (defsynth sonic-pi-recorder
      [out-buf 0 in_bus 0]
-     (disk-out out-buf (in in_bus 2))))
+     (disk-out out-buf (in in_bus 2)))
+
+
+   (defsynth sonic-pi-sound_in [amp 1
+                                amp_slide 0
+                                pan 0
+                                pan_slide 0
+                                input 0
+                                out_bus 0]
+    (let [snd (sound-in 0)]
+      (out out_bus (pan2 snd pan amp)))))
+
 
   (comment
+    (save-to-pi sonic-pi-sound_in)
     (save-to-pi sonic-pi-mixer)
     (save-to-pi sonic-pi-basic_mixer)
     (save-to-pi sonic-pi-recorder)))
