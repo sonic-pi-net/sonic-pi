@@ -22,15 +22,15 @@ module SonicPi
     end
 
     def arg_defaults
-      raise "please implement me!"
+      raise "please implement arg_defaults for #{self.class}"
     end
 
     def name
-      raise "please implement me!"
+      raise "please implement name for synth info: #{self.class}"
     end
 
     def category
-      raise "please implement me!"
+      raise "please implement category for synth info: #{self.class}"
     end
 
     def prefix
@@ -38,7 +38,7 @@ module SonicPi
     end
 
     def synth_name
-      raise "Please implement me for #{self.class}!"
+      raise "Please implement synth_name for #{self.class}"
     end
 
     def args
