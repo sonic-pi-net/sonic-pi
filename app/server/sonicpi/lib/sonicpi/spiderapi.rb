@@ -466,48 +466,51 @@ play 62
 "]
 
 
+    def wait(time)
+      sleep(time)
+    end
 
 
-    def sync(sync_id)
+    def cue(cue_id)
       __no_kill_block do
         Kernel.sleep @sync_real_sleep_time
-        @events.event("/spider_thread_sync/" + sync_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time)})
+        @events.event("/spider_thread_sync/" + cue_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time)})
       end
     end
-    doc name:           :sync,
+    doc name:           :cue,
         doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the wait fn.",
-        args:           [[:sync_id, :symbol]],
+        args:           [[:cue_id, :symbol]],
         opts:           {:message => nil},
         accepts_block:  false,
         examples:       ["
 in_thread do
-  wait :foo # this parks the current thread waiting for a foo sync message to be received.
+  cue :foo # this parks the current thread waiting for a foo cue message to be received.
   sample :ambi_lunar_land
 end
 
 sleep 5
 
-sync :foo # We send a sync message from the main thread.
+cue :foo # We send a cue message from the main thread.
           # This then unblocks the thread above and we then hear the sample",
 
 "
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
-    sync :tick # sending tick heartbeat messages
+    cue :tick # sending tick heartbeat messages
     sleep 0.5  # and sleeping for 0.5 seconds between ticks
   end
 end
 
 # We can now play sounds using the metronome.
 loop do                    # In the main thread, just loop
-  wait :tick               # waiting for :tick sync messages
+  cue :tick               # waiting for :tick cue messages
   sample :drum_heavy_kick  # after which play the drum kick sample
 end",
 
 "
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
-    sync [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
+    cue [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
     sleep 0.5  # and sleeping for 0.5 seconds between ticks
   end
 end
@@ -516,21 +519,21 @@ end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    wait :foo               # waiting for :foo sync messages
+    cue :foo               # waiting for :foo cue messages
     sample :elec_beep  # after which play the elec beep sample
   end
 end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    wait :bar               # waiting for :bar sync messages
+    cue :bar               # waiting for :bar cue messages
     sample :elec_flip  # after which play the elec flip sample
   end
 end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    wait :baz               # waiting for :baz sync messages
+    cue :baz               # waiting for :baz cue messages
     sample :elec_blup  # after which play the elec blup sample
   end
 end"
@@ -539,50 +542,50 @@ end"
 
 
 
-    def wait(sync_id)
+    def sync(cue_id)
       p = Promise.new
-      @events.oneshot_handler("/spider_thread_sync/" + sync_id.to_s) do |payload|
+      @events.oneshot_handler("/spider_thread_sync/" + cue_id.to_s) do |payload|
         p.deliver! payload
       end
       payload = p.get
       time = payload[:time]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
-      val
+      cue_id
     end
-    doc name:           :wait,
-        doc:            "Pause/block the current thread until a sync heartbeat with a matching sync_id is received. When a matching sync message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the sync heartbeat. The current thread is therefore temporally synced to the sync thread.",
-        args:           [[:sync_id, :symbol]],
+    doc name:           :sync,
+        doc:            "Pause/block the current thread until a cue heartbeat with a matching cue_id is received. When a matching cue message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the cue heartbeat. The current thread is therefore synced to the cue thread.",
+        args:           [[:cue_id, :symbol]],
         opts:           nil,
         accepts_block:  false,
         examples:       ["
 in_thread do
-  wait :foo # this parks the current thread waiting for a foo sync message to be received.
+  sync :foo # this parks the current thread waiting for a foo sync message to be received.
   sample :ambi_lunar_land
 end
 
 sleep 5
 
-sync :foo # We send a sync message from the main thread.
+cue :foo # We send a sync message from the main thread.
           # This then unblocks the thread above and we then hear the sample",
 
 "
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
-    sync :tick # sending tick heartbeat messages
+    cue :tick # sending tick heartbeat messages
     sleep 0.5  # and sleeping for 0.5 seconds between ticks
   end
 end
 
 # We can now play sounds using the metronome.
 loop do                    # In the main thread, just loop
-  wait :tick               # waiting for :tick sync messages
+  sync :tick               # waiting for :tick sync messages
   sample :drum_heavy_kick  # after which play the drum kick sample
 end",
 
 "
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
-    sync [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
+    cue [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
     sleep 0.5  # and sleeping for 0.5 seconds between ticks
   end
 end
@@ -591,21 +594,21 @@ end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    wait :foo               # waiting for :foo sync messages
+    sync :foo               # waiting for :foo sync messages
     sample :elec_beep  # after which play the elec beep sample
   end
 end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    wait :bar               # waiting for :bar sync messages
+    sync :bar               # waiting for :bar sync messages
     sample :elec_flip  # after which play the elec flip sample
   end
 end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    wait :baz               # waiting for :baz sync messages
+    sync :baz               # waiting for :baz sync messages
     sample :elec_blup  # after which play the elec blup sample
   end
 end"]
