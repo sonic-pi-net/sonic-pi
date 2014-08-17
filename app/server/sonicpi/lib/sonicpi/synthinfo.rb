@@ -2324,6 +2324,27 @@ end
 
 
 
+  class FXPan < FXInfo
+    def name
+      "Pan"
+    end
+
+    def synth_name
+      "fx_pan"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :pan => 0,
+        :pan_slide => 0
+      }
+    end
+  end
+
   class BaseInfo
 
     @@grouped_samples =
@@ -2513,8 +2534,9 @@ end
       :fx_normaliser => FXNormaliser.new,
       :fx_replace_normaliser => FXNormaliser.new,
       :fx_distortion => FXDistortion.new,
-      :fx_replace_distortion => FXDistortion.new
-
+      :fx_replace_distortion => FXDistortion.new,
+      :fx_pan => FXPan.new,
+      :fx_replace_pan => FXPan.new
 
       }
 

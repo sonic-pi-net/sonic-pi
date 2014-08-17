@@ -2128,14 +2128,50 @@
      distort 0.5
      distort_slide 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          distort       (lag distort distort_slide)
+    (let [amp           (lag:kr amp amp_slide)
+          mix           (lag:kr mix mix_slide)
+          distort       (lag:kr distort distort_slide)
           k             (/ (* 2 distort) (- 1 distort))
 
           src           (in out_bus 2)
           [new-l new-r] (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))
           [in-l in-r]   src
+          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+      (replace-out out_bus [fin-l fin-r])))
+
+
+  (defsynth sonic-pi-fx_pan
+    [amp 1
+     amp_slide 0
+     mix 1
+     mix_slide 0
+     pan 0
+     pan_slide 0
+     in_bus 0
+     out_bus 0]
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pan           (lag pan pan_slide)
+          [in-l in-r]   (in in_bus 2)
+          [new-l new-r] (balance2 in-l in-r pan amp)
+          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+      (out out_bus [fin-l fin-r])))
+
+  (defsynth sonic-pi-fx_replace_pan
+    [amp 1
+     amp_slide 0
+     mix 1
+     mix_slide 0
+     pan 0
+     pan_slide 0
+     out_bus 0]
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pan           (lag pan pan_slide)
+          [in-l in-r]   (in out_bus 2)
+          [new-l new-r] (balance2 in-l in-r pan amp)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (replace-out out_bus [fin-l fin-r])))
@@ -2176,7 +2212,9 @@
     (save-to-pi sonic-pi-fx_normaliser)
     (save-to-pi sonic-pi-fx_replace_normaliser)
     (save-to-pi sonic-pi-fx_distortion)
-    (save-to-pi sonic-pi-fx_replace_distortion)))
+    (save-to-pi sonic-pi-fx_replace_distortion)
+    (save-to-pi sonic-pi-fx_pan)
+    (save-to-pi sonic-pi-fx_replace_pan)))
 
 ;; Experimental
 (comment
