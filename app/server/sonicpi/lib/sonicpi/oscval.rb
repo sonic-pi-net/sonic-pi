@@ -18,14 +18,18 @@ module SonicPi
       server = OSC::Server.new(port)
       @vals = {}
       server.add_method '*' do |m|
-        @vals[m.address] = m.to_a.first || 0
+        @vals[m.address] = m.to_a || []
       end
 
       @server_thread = Thread.new{server.run}
     end
 
     def read(path)
-      @vals[path] || 0
+      (@vals[path] || []).first || 0
+    end
+
+    def read_all(path)
+      @vals[path] || []
     end
 
   end
