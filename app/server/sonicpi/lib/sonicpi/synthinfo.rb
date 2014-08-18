@@ -149,7 +149,7 @@ module SonicPi
         :mix_slide =>
         {
           :doc => "Amount of time (in seconds) for the mix value to change. A long slide value means that the mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the mix instantly changes to the new value.",
-          :validations => [v_between_inclusive(:mix_slide, 0, 1)],
+          :validations => [v_positive(:mix_slide)],
           :modulatable => true
         },
 
@@ -249,7 +249,7 @@ module SonicPi
         :cutoff =>
         {
           :doc => "MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
-          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)],
+          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 131)],
           :modulatable => true
         },
 
@@ -347,7 +347,7 @@ module SonicPi
         :pulse_width =>
         {
           :doc => "Only valid if wave is type pulse.",
-          :validations => [v_positive(:pulse_width)],
+          :validations => [v_between_exclusive(:pulse_width, 0, 1)],
           :modulatable => true
         },
 
@@ -1533,21 +1533,21 @@ end
         :rate =>
         {
           :doc => "",
-          :validations => [],
+          :validations => [v_positive_not_zero(:rate)],
           :modulatable => false
         },
 
         :start =>
         {
           :doc => "",
-          :validations => [v_positive(:start), v_between_inclusive(:start, 0, 1)],
+          :validations => [v_between_inclusive(:start, 0, 1)],
           :modulatable => false
         },
 
         :finish =>
         {
           :doc => "",
-          :validations => [v_positive(:finish), v_between_inclusive(:finish, 0, 1)],
+          :validations => [v_between_inclusive(:finish, 0, 1)],
           :modulatable => false
         },
 
