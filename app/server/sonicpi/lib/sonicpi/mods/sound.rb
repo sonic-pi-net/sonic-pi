@@ -2258,13 +2258,9 @@ stop bar"]
        end
 
        def validate_if_necessary!(info, args_h)
-         if info
-           if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-             info.should_validate = true
-             info.validate!(args_h)
-           else
-             info.should_validate = false
-           end
+         if info &&
+            Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+           info.validate!(args_h)
          end
        end
 

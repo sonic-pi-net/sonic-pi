@@ -1,12 +1,10 @@
 module SonicPi
 
   class BaseInfo
-    attr_accessor :should_validate
     attr_reader :scsynth_name, :info
 
     def initialize
       @scsynth_name = "#{prefix}#{synth_name}"
-      @should_validate = true
       @info = default_arg_info.merge(specific_arg_info)
     end
 
@@ -55,7 +53,6 @@ module SonicPi
     end
 
     def validate!(*args)
-      return true unless @should_validate
       args_h = resolve_synth_opts_hash_or_array(args)
 
       args_h.each do |k, v|
