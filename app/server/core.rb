@@ -26,6 +26,12 @@ end
 #and other improvements
 require 'osc-ruby'
 
+class Float
+  def times(&block)
+    self.to_i.times(&block)
+  end
+end
+
 module OSC
 
   class Server
