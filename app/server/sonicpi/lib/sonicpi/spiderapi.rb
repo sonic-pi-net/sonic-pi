@@ -137,11 +137,29 @@ end",]
         args:           [],
         opts:           nil,
         accepts_block:  true,
-        doc:            "Does not evaluate any of the code within the block. However, any optional args passed before the block *will* be evaluated although they will be ignored.",
+        doc:            "Does not evaluate any of the code within the block. However, any optional args passed before the block *will* be evaluated although they will be ignored. See uncomment for switching commenting off without having to remove the comment form.",
         examples:       ["comment do # starting a block level comment:
   play 50 # not played
   sleep 1 # no sleep happens
-  play 62 @ not played
+  play 62 # not played
+end"]
+
+
+
+
+    def uncomment(*args, &block)
+      block.call
+    end
+    doc name:           :uncomment,
+        summary:        "Block level comment ingoring",
+        args:           [],
+        opts:           nil,
+        accepts_block:  true,
+        doc:            "Evaluates all of the code within the block. Use to reverse the effect of the comment without having to explicitly remove it.",
+        examples:       ["uncomment do # starting a block level comment:
+  play 50 # played
+  sleep 1 # sleep happens
+  play 62 # played
 end"]
 
 
