@@ -2063,6 +2063,51 @@ end
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
           :bpm_scale => true
+        },
+
+        :phase_slide =>
+        {
+          :doc => generic_slide_doc(:phase),
+          :validations => [v_positive(:phase_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :cutoff_min =>
+        {
+          :doc => "Minimum (MIDI) note filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
+          :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
+          :modulatable => true
+        },
+
+        :cutoff_min_slide =>
+        {
+          :doc => generic_slide_doc(:cutoff_min),
+          :validations => [v_positive(:cutoff_min_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :cutoff_max =>
+        {
+          :doc => "Maximum (MIDI) note filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
+          :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
+          :modulatable => true
+        },
+
+        :cutoff_max_slide =>
+        {
+          :doc => generic_slide_doc(:cutoff_max),
+          :validations => [v_positive(:cutoff_max_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :filter =>
+        {
+          :doc => "Filter used for wobble effect. Use 0 for a resonant low pass filter or 1 for a rsonant high pass filter",
+          :validations => [v_one_of(:filter, [0, 1])],
+          :modulatable => true
         }
 
       }
