@@ -91,8 +91,8 @@ example_dirs.each do |ex_dir|
 end
 
 ruby_html_map = {
-  "n.times" => "Loop n times",
-  "loop" => "Loop forever",
+#  "n.times" => "Loop n times",
+#  "loop" => "Loop forever",
 }
 
 fx_doc = SonicPi::SynthInfo.fx_doc_html_map
@@ -118,6 +118,7 @@ make_tab.call("synths", synths_doc_titleized)
 make_tab.call("fx", fx_doc_titlized)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
 make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map))
+make_tab.call("tutorial", {"01. Getting Started" => "<h1>Getting started</h1>"})
 
 
 # update mainwindow.cpp

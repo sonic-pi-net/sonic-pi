@@ -190,6 +190,8 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
   docWidget->setWidget(docsCentral);
 
+  tutorialDocPane = new QTextEdit;
+  tutorialDocPane->setReadOnly(true);
   langDocPane = new QTextEdit;
   langDocPane->setReadOnly(true);
   synthsDocPane = new QTextEdit;
@@ -1032,8 +1034,10 @@ void MainWindow::onExitCleanup()
   std::cout << "Exiting..." << std::endl;
 
 }
+
 void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
   QString content = cur->data(32).toString();
+  tutorialDocPane->setHtml(content);
   langDocPane->setHtml(content);
   synthsDocPane->setHtml(content);
   fxDocPane->setHtml(content);
