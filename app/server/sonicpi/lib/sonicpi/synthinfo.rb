@@ -134,6 +134,10 @@ module SonicPi
       [lambda{|args| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}"]
     end
 
+    def v_not_zero(arg)
+      [lambda{|args| args[arg] != 0}, "must not be zero"]
+    end
+
     def default_arg_info
       {
         :mix =>
@@ -1453,7 +1457,7 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
-        :rate => 1,
+        :rateu => 1,
         :rate_slide => 0
       }
     end
@@ -1530,7 +1534,7 @@ end
         :rate =>
         {
           :doc => "",
-          :validations => [v_positive_not_zero(:rate)],
+          :validations => [v_not_zero(:rate)],
           :modulatable => false
         },
 
