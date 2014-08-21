@@ -74,7 +74,6 @@ private slots:
     void setRPSystemAudioHDMI();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
-    void updateDocPane1(QListWidgetItem *cur);
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void replaceBuffer(QString id, QString content);
