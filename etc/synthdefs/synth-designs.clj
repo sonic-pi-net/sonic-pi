@@ -1238,7 +1238,7 @@
     (save-to-pi sonic-pi-supersaw_s)
     (save-to-pi sonic-pi-prophet)
     (save-to-pi sonic-pi-zawa)
-        ))
+    ))
 
 ;;FX
 (without-namespace-in-synthdef
@@ -1366,6 +1366,7 @@
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (out out_bus [fin-l fin-r])))
 
+
  (defsynth sonic-pi-fx_replace_echo
    [amp 1
     amp_slide 0
@@ -1398,6 +1399,10 @@
      mix_slide 0
      phase 0.25
      phase_slide 0
+     amp_min 0
+     amp_min_slide 0
+     amp_max 1
+     amp_max_slide 0
      pulse_width 0.5
      pulse_width_slide 0
      phase_offset 0
@@ -1408,6 +1413,8 @@
     (let [amp                 (lag amp amp_slide)
           mix                 (lag mix mix_slide)
           phase               (lag phase phase_slide)
+          amp_min             (lag amp_min amp_min_slide)
+          amp_max             (lag amp_max amp_max_slide)
           rate                (/ 1 phase)
           pulse_width         (lag pulse_width pulse_width_slide)
           double_phase_offset (* 2 phase_offset)
@@ -1418,6 +1425,7 @@
           amp-mul             (- (* 2 (> invert_wave 0)) 1)
           slice-amp           (* slice-amp amp-mul)
           slice-amp           (/ (+ 1 slice-amp) 2)
+          slice-amp           (lin-lin slice-amp 0 1 amp_min amp_max)
           [in-l in-r]         (in in_bus 2)
           [new-l new-r]       (* slice-amp [in-l in-r])
           fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -1432,6 +1440,10 @@
      mix_slide 0
      phase 0.25
      phase_slide 0
+     amp_min 0
+     amp_min_slide 0
+     amp_max 1
+     amp_max_slide 0
      pulse_width 0.5
      pulse_width_slide 0
      phase_offset 0
@@ -1441,6 +1453,8 @@
     (let [amp                 (lag amp amp_slide)
           mix                 (lag mix mix_slide)
           phase               (lag phase phase_slide)
+          amp_min             (lag amp_min amp_min_slide)
+          amp_max             (lag amp_max amp_max_slide)
           rate                (/ 1 phase)
           pulse_width         (lag pulse_width pulse_width_slide)
           double_phase_offset (* 2 phase_offset)
@@ -1451,11 +1465,13 @@
           amp-mul             (- (* 2 (> invert_wave 0)) 1)
           slice-amp           (* slice-amp amp-mul)
           slice-amp           (/ (+ 1 slice-amp) 2)
+          slice-amp           (lin-lin slice-amp 0 1 amp_min amp_max)
           [in-l in-r]         (in out_bus 2)
           [new-l new-r]       (* slice-amp [in-l in-r])
           fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (replace-out out_bus [fin-l fin-r])))
+
 
   (defsynth sonic-pi-fx_wobble
     [amp 1

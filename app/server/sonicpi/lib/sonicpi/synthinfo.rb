@@ -1842,6 +1842,10 @@ end
         :mix_slide => 0,
         :phase => 0.25,
         :phase_slide => 0,
+        :amp_min => 0,
+        :amp_min_slide => 0,
+        :amp_max => 1,
+        :amp_max_slide => 0,
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
         :phase_offset => 0,
@@ -1917,6 +1921,36 @@ end
           :doc => "Invert control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
           :validations => [v_one_of(:invert_wave, [0, 1])],
           :modulatable => true
+        },
+
+        :amp_min =>
+        {
+          :doc => "Minimum amplitude of the slicer",
+          :validations => [v_positive(:amp_min)],
+          :modulatable => true
+        },
+
+        :amp_min_slide =>
+        {
+          :doc => generic_slide_doc(:amp_min),
+          :validations => [v_positive(:amp_min_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :amp_max =>
+        {
+          :doc => "Maximum amplitude of the slicer",
+          :validations => [v_positive(:amp_max)],
+          :modulatable => true
+        },
+
+        :amp_max_slide =>
+        {
+          :doc => generic_slide_doc(:amp_max),
+          :validations => [v_positive(:amp_max_slide)],
+          :modulatable => true,
+          :bpm_scale => true
         }
 
       }
