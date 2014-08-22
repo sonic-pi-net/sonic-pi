@@ -247,26 +247,10 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
   initDocsWindow();
 
   infoWindow = new QMainWindow();
-  imageLabel = new QLabel(this);
-
-#ifdef Q_OS_MAC
-  QPixmap image(":/images/splash@2x.png");
-  imageLabel->setPixmap(image);
-  infoWindow->setCentralWidget(imageLabel);
-  infoWindow->setMinimumHeight(image.height()/2);
-  infoWindow->setMaximumHeight(image.height()/2);
-  infoWindow->setMinimumWidth(image.width()/2);
-  infoWindow->setMaximumWidth(image.width()/2);
-#else
-  QPixmap image(":/images/splash@2x.png");
-  imageLabel->setPixmap(image);
-  infoWindow->setCentralWidget(imageLabel);
-  infoWindow->setMinimumHeight(image.height());
-  infoWindow->setMaximumHeight(image.height());
-  infoWindow->setMinimumWidth(image.width());
-  infoWindow->setMaximumWidth(image.width());
-#endif
-
+  QTextEdit* infoPane = new QTextEdit;
+  infoPane->setReadOnly(true);
+  infoPane->setHtml("<h1>Sonic Pi Credits</h1>");
+  infoWindow->setCentralWidget(infoPane);
   this->showNormal();
   splash->close();
 }
