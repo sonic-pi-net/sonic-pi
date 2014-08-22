@@ -2556,7 +2556,7 @@ end
       :fx_slicer => FXSlicer.new,
       :fx_replace_slicer => FXSlicer.new,
       :fx_wobble => FXWobble.new,
-      :fx_relace_wobble => FXWobble.new,
+      :fx_replace_wobble => FXWobble.new,
       :fx_ixi_techno => FXIXITechno.new,
       :fx_replace_ixi_techno => FXIXITechno.new,
       :fx_compressor => FXCompressor.new,
