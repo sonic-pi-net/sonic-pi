@@ -1411,7 +1411,62 @@ end
 
   end
 
+ class Pitchless < SonicPiSynth
+ end
 
+  class Noise < Pitchless
+    def name
+      "Noise"
+    end
+
+    def synth_name
+      "noise"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :pan => 0,
+        :pan_slide => 0,
+
+        :attack => 0.01,
+        :decay => 0,
+        :sustain => 0,
+        :release => 2,
+        :attack_level => 1,
+        :sustain_level => 1,
+
+        :cutoff => 110,
+        :cutoff_slide => 0,
+        :res => 1,
+        :res_slide => 0
+      }
+    end
+
+  end
+
+  class BNoise < Noise
+    def name
+      "Brown Noise"
+    end
+
+    def synth_name
+      "bnoise"
+    end
+
+  end
+
+  class PNoise < Noise
+    def name
+      "Pink Noise"
+    end
+
+    def synth_name
+      "pnoise"
+    end
+
+  end
 
   class StudioInfo < SonicPiSynth
 
@@ -1437,6 +1492,9 @@ end
     end
 
   end
+
+
+
 
   class BasicMonoPlayer < StudioInfo
     def name
@@ -2575,6 +2633,9 @@ end
       :stereo_player => StereoPlayer.new,
 
       :sound_in => SoundIn.new,
+      :noise => Noise.new,
+      :pnoise => PNoise.new,
+      :bnoise => BNoise.new,
 
       :basic_mono_player => BasicMonoPlayer.new,
       :basic_stereo_player => BasicStereoPlayer.new,
