@@ -249,7 +249,12 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
   infoWindow = new QMainWindow();
   QTextEdit* infoPane = new QTextEdit;
   infoPane->setReadOnly(true);
-  infoPane->setHtml("<h1>Sonic Pi Credits</h1>");
+  infoPane->setFixedSize(550, 700);
+  QString html;
+
+
+
+  infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center>");
   infoWindow->setCentralWidget(infoPane);
   this->showNormal();
   splash->close();
