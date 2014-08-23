@@ -24,8 +24,8 @@ module SonicPi
       @server_thread = Thread.new{server.run}
     end
 
-    def read(path)
-      (@vals[path] || []).first || 0
+    def read(path, idx=0)
+      (@vals[path] || [])[idx] || 0
     end
 
     def read_all(path)
