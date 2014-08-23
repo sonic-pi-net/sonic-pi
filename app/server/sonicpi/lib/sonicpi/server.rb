@@ -221,12 +221,10 @@ module SonicPi
         thread_local_deltas = Thread.current.thread_variable_get(:sonic_pi_control_deltas)
         d = thread_local_deltas[node_id] ||= 0
         thread_local_deltas[node_id] += @control_delta
-        ts = thread_local_time + d + @sched_ahead_time
+        thread_local_time + d + @sched_ahead_time
       else
-        ts = Time.now + @sched_ahead_time
+        Time.now + @sched_ahead_time
       end
-
-      ts
     end
 
     def node_ctl(node, args, now=false)
