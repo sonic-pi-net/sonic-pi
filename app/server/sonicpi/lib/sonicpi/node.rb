@@ -94,7 +94,7 @@ module SonicPi
       if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
         @info.validate!(args_h) if @info
       end
-      @comms.node_ctl @id, args
+      @comms.node_ctl @id, args_h
       self
     end
 
