@@ -237,10 +237,10 @@ module SonicPi
       end
 
       if now
-        osc "/n_set", node.to_f, *normalised_args
+        osc "/n_set", node.to_i, *normalised_args
       else
         ts = sched_ahead_time_for_node(node)
-        osc_bundle ts, "/n_set", node.to_f, *normalised_args
+        osc_bundle ts, "/n_set", node.to_i, *normalised_args
       end
     end
 
