@@ -443,31 +443,42 @@
                               mod_phase_slide 0
                               mod_range 5
                               mod_range_slide 0
-                              mod_width 0.5
-                              mod_width_slide 0
-                              mod_phase_offset 0.5
+                              mod_pulse_width 0.5
+                              mod_pulse_width_slide 0
+                              mod_phase_offset 0
+                              mod_wave 1
+                              mod_invert_wave 0
                               divisor 2.0
                               divisor_slide 0
                               depth 1.0
                               depth_slide 0
                               out_bus 0]
-     (let [note           (lag note note_slide)
-           amp            (lag amp amp_slide)
-           pan            (lag pan pan_slide)
-           mod_phase      (lag mod_phase mod_phase_slide)
-           mod_rate       (/ 1 mod_phase)
-           mod_range      (lag mod_range mod_range_slide)
-           mod_width      (lag mod_width mod_width_slide)
-           freq           (midicps note)
-           mod_range_freq (- (midicps (+ mod_range note))
-                             freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
-           freq           (+ freq freq-mod)
-           divisor        (lag divisor divisor_slide)
-           depth          (lag depth depth_slide)
-           carrier        freq
-           modulator      (/ carrier divisor)
-           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+     (let [note                    (lag note note_slide)
+           amp                     (lag amp amp_slide)
+           pan                     (lag pan pan_slide)
+           mod_phase               (lag mod_phase mod_phase_slide)
+           mod_rate                (/ 1 mod_phase)
+           mod_range               (lag mod_range mod_range_slide)
+           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+
+           min_note                note
+           max_note                (+ mod_range note)
+
+           mod_double_phase_offset (* 2 mod_phase_offset)
+           ctl-wave                (select:kr mod_wave [(lf-saw:kr mod_rate (+ mod_double_phase_offset 1))
+                                                        (- (* 2 (lf-pulse:kr mod_rate (+ 0.5 mod_phase_offset) mod_pulse_width)) 1)
+                                                        (lf-tri:kr mod_rate (- mod_double_phase_offset 1))
+                                                        (sin-osc:kr mod_rate (* (- mod_phase_offset 0.25) (* Math/PI 2)))])
+
+           ctl-wave-mul            (* -1 (- (* 2 (> mod_invert_wave 0)) 1))
+           ctl-wave                (* ctl-wave ctl-wave-mul)
+           note                    (lin-lin ctl-wave -1 1 min_note max_note)
+           freq                    (midicps note)
+           divisor                 (lag divisor divisor_slide)
+           depth                   (lag depth depth_slide)
+           carrier                 freq
+           modulator               (/ carrier divisor)
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env
                              (sin-osc (+ carrier
                                          (* env  (* carrier depth) (sin-osc modulator)))))
@@ -1573,10 +1584,9 @@
                                                (- (* 2 (lf-pulse:kr rate (+ 0.5 phase_offset) pulse_width)) 1)
                                                (lf-tri:kr rate (- double_phase_offset 1))
                                                (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2)))])
-          amp-mul             (- (* 2 (> invert_wave 0)) 1)
+          amp-mul             (* -1 (- (* 2 (> invert_wave 0)) 1))
           slice-amp           (* ctl-wave amp-mul)
-          slice-amp           (/ (+ 1 slice-amp) 2)
-          slice-amp           (lin-lin slice-amp 0 1 amp_min amp_max)
+          slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
           [in-l in-r]         (in in_bus 2)
           [new-l new-r]       (* slice-amp [in-l in-r])
           fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -1613,10 +1623,9 @@
                                                (- (* 2 (lf-pulse:kr rate (+ 0.5 phase_offset) pulse_width)) 1)
                                                (lf-tri:kr rate (- double_phase_offset 1))
                                                (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2)))])
-          amp-mul             (- (* 2 (> invert_wave 0)) 1)
+          amp-mul             (* -1 (- (* 2 (> invert_wave 0)) 1))
           slice-amp           (* ctl-wave amp-mul)
-          slice-amp           (/ (+ 1 slice-amp) 2)
-          slice-amp           (lin-lin slice-amp 0 1 amp_min amp_max)
+          slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
           [in-l in-r]         (in out_bus 2)
           [new-l new-r]       (* slice-amp [in-l in-r])
           fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -1660,7 +1669,7 @@
                                                (- (* 2 (lf-pulse:kr rate (+ 0.5 phase_offset) pulse_width)) 1)
                                                (lf-tri:kr rate (- double_phase_offset 1))
                                                (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2)))])
-          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+          ctl-wave-mul        (* -1 (- (* 2 (> invert_wave 0)) 1))
 
           cutoff-freq         (lin-exp:kr (* ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
 
@@ -1710,7 +1719,7 @@
                                                (- (* 2 (lf-pulse:kr rate (+ 0.5 phase_offset) pulse_width)) 1)
                                                (lf-tri:kr rate (- double_phase_offset 1))
                                                (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2)))])
-          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+          ctl-wave-mul        (* -1 (- (* 2 (> invert_wave 0)) 1))
 
           cutoff-freq         (lin-exp:kr (* ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
 
