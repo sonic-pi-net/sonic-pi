@@ -1,5 +1,5 @@
 define :foo do
-  wait :tick
+  sync :tick
   with_fx :echo do
     with_fx :lpf, cutoff: 100 do
       sample :ambi_choir, rate: 1 * [0.125, 0.25, 0.5, 1].choose
@@ -32,6 +32,6 @@ in_thread do
 end
 
 loop do
-  sync :tick
+  cue :tick
   sleep 1
 end
