@@ -1732,6 +1732,7 @@
      mix_slide 0
      phase 4
      phase_slide 0
+     phase_offset 0
      cutoff_min 60
      cutoff_min_slide 0
      cutoff_max 120
@@ -1749,7 +1750,7 @@
           res           (lag res res_slide)
           cutoff_min    (midicps cutoff_min)
           cutoff_max    (midicps cutoff_max)
-          freq          (lin-exp (sin-osc:kr rate) -1 1 cutoff_min cutoff_max)
+          freq          (lin-exp (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2))) -1 1 cutoff_min cutoff_max)
 
           [in-l in-r]   (in in_bus 2)
           [new-l new-r] (rlpf [in-l in-r] freq res)
@@ -1765,6 +1766,7 @@
      mix_slide 0
      phase 4
      phase_slide 0
+     phase_offset 0
      cutoff_min 60
      cutoff_min_slide 0
      cutoff_max 120
@@ -1781,7 +1783,7 @@
           res           (lag res res_slide)
           cutoff_min    (midicps cutoff_min)
           cutoff_max    (midicps cutoff_max)
-          freq          (lin-exp (sin-osc:kr rate) -1 1 cutoff_min cutoff_max)
+          freq          (lin-exp (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2))) -1 1 cutoff_min cutoff_max)
 
           [in-l in-r]   (in out_bus 2)
           [new-l new-r] (rlpf [in-l in-r] freq res)
