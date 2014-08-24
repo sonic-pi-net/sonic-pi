@@ -1130,11 +1130,40 @@
 
      (out out_bus (pan2 snd pan amp))))
 
+
+  (defsynth sonic-pi-cnoise
+   [amp 1
+    amp_slide 0
+    pan 0
+    pan_slide 0
+    attack 0
+    sustain 0
+    decay 0
+    release 2
+    attack_level 1
+    sustain_level 1
+    cutoff 120
+    cutoff_slide 0
+    res 0.1
+    res_slide 0
+    out_bus 0]
+   (let [amp         (lag amp amp_slide)
+         pan         (lag pan pan_slide)
+         cutoff      (lag cutoff cutoff_slide)
+         res         (lag res res_slide)
+         cutoff-freq (midicps cutoff)
+         snd         (rlpf (clip-noise) cutoff-freq res)
+         env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :action FREE)
+         snd         (* snd env)]
+
+     (out out_bus (pan2 snd pan amp))))
+
  (comment
     (save-to-pi sonic-pi-noise)
     (save-to-pi sonic-pi-pnoise)
     (save-to-pi sonic-pi-bnoise)
     (save-to-pi sonic-pi-gnoise)
+    (save-to-pi sonic-pi-cnoise)
     )
  )
 

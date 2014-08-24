@@ -1476,6 +1476,20 @@ end
       "pnoise"
     end
 
+
+  class CNoise < Noise
+    def name
+      "Clip Noise"
+    end
+
+    def synth_name
+      "cnoise"
+    end
+
+    def doc
+      "Generates noise whose values are either -1 or 1. This produces the maximum energy for the least peak to peak amplitude. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
+    end
+
   end
 
   class StudioInfo < SonicPiSynth
@@ -2647,6 +2661,7 @@ end
       :pnoise => PNoise.new,
       :bnoise => BNoise.new,
       :gnoise => GNoise.new,
+      :cnoise => CNoise.new,
 
       :basic_mono_player => BasicMonoPlayer.new,
       :basic_stereo_player => BasicStereoPlayer.new,
