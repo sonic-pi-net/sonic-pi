@@ -438,7 +438,7 @@ module SonicPi
     end
 
     def doc
-      "A simple pure sine wave."
+      "A simple pure sine wave. The sine wave is the simplest, purest sound there is and is the fundamental building block of all noise. The mathematician Fourier demonstrated that any sound could be built out of a number of sine waves (the more complex the sound, the more sine waves needed). Have a play combining a number of sine waves to design your own sounds!"
     end
 
     def arg_defaults
@@ -751,7 +751,9 @@ module SonicPi
       super.merge({
                     :mod_phase => 1,
                     :mod_range => 5,
-                    :mod_width => 0.5
+                    :mod_pulse_width => 0.5,
+                    :mod_phase_offset => 0,
+                    :mod_invert_wave => 0
                   })
     end
 
@@ -850,7 +852,7 @@ end
     end
 
     def doc
-      ""
+      "A pair of detuned saw waves (see the dsaw synth) which are modulated between two fixed notes at a given rate."
     end
 
     def arg_defaults
@@ -1423,6 +1425,10 @@ end
       "noise"
     end
 
+    def doc
+      "Noise that contains equal amounts of energy at every frequency - comparable to radio static. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
+    end
+
     def arg_defaults
       {
         :amp => 1,
@@ -1454,6 +1460,10 @@ end
     def synth_name
       "gnoise"
     end
+
+    def doc
+      "Generates noise which results from flipping random bits in a word.  The spectrum is emphasized towards lower frequencies. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
+    end
   end
 
   class BNoise < Noise
@@ -1463,6 +1473,10 @@ end
 
     def synth_name
       "bnoise"
+    end
+
+    def doc
+      "Noise whose spectrum falls off in power by 6 dB per octave. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
     end
 
   end
@@ -1476,6 +1490,11 @@ end
       "pnoise"
     end
 
+    def doc
+      "Noise whose spectrum falls off in power by 3 dB per octave. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
+    end
+
+  end
 
   class CNoise < Noise
     def name
@@ -2049,7 +2068,7 @@ end
     end
 
     def doc
-      "Versatile wobble FX. Will repeatedly modulate a range of filters (rlpf, rhpf) between two cutoff values using a range of control wave forms (saw, pulse, tri, sine). You may alter the phase duration of the wobble, and the resonance of the filter. Combines well with the dsaw synth for crazy dub wobbles."
+      "Versatile wobble FX. Will repeatedly modulate a range of filters (rlpf, rhpf) between two cutoff values using a range of control wave forms (saw, pulse, tri, sine). You may alter the phase duration of the wobble, and the resonance of the filter. Combines well with the dsaw synth for crazy dub wobbles. Cutoff value is at cutoff_min at the start of phase"
     end
 
     def arg_defaults
@@ -2166,6 +2185,7 @@ end
         :mix_slide => 0,
         :phase => 4,
         :phase_slide => 0,
+        :phase_offset => 0,
         :cutoff_min => 60,
         :cutoff_min_slide => 0,
         :cutoff_max => 120,
@@ -2191,6 +2211,13 @@ end
           :validations => [v_positive(:phase_slide)],
           :modulatable => true,
           :bpm_scale => true
+        },
+
+        :mod_phase_offset =>
+        {
+          :doc => "Intial modulation phase offset (a value between 0 and 1).",
+          :validations => [v_between_inclusive(:mod_phase_offset, 0, 1)],
+          :modulatable => false
         },
 
         :cutoff_min =>
