@@ -1655,6 +1655,7 @@
           res                 (lag res res_slide)
           cutoff_min          (midicps cutoff_min)
           cutoff_max          (midicps cutoff_max)
+          phase_offset        (+ phase_offset 0.5)
           double_phase_offset (* 2 phase_offset)
           ctl-wave            (select:kr wave [(lf-saw:kr rate double_phase_offset)
                                                (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
