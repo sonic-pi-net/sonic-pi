@@ -1446,6 +1446,16 @@ end
 
   end
 
+  class GNoise < Noise
+    def name
+      "Grey Noise"
+    end
+
+    def synth_name
+      "gnoise"
+    end
+  end
+
   class BNoise < Noise
     def name
       "Brown Noise"
@@ -2636,6 +2646,7 @@ end
       :noise => Noise.new,
       :pnoise => PNoise.new,
       :bnoise => BNoise.new,
+      :gnoise => GNoise.new,
 
       :basic_mono_player => BasicMonoPlayer.new,
       :basic_stereo_player => BasicStereoPlayer.new,
