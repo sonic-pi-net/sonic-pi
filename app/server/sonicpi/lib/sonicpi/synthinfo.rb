@@ -475,20 +475,6 @@ module SonicPi
   end
 
 
-  class SawS < Beep
-    def name
-      "Saw Wave Simple"
-    end
-
-    def synth_name
-      "saw_s"
-    end
-
-    def doc
-      "A rase saw wave without a low pass filter. Great for using with FX due to the complexity and thickness of the sound."
-    end
-  end
-
   class Pulse < SonicPiSynth
     def name
       "Pulse Wave"
@@ -526,41 +512,6 @@ module SonicPi
     end
   end
 
-  class PulseS < SonicPiSynth
-    def name
-      "Pulse Wave Simple"
-    end
-
-    def synth_name
-      "pulse_s"
-    end
-
-    def doc
-      "A simple pulse wave. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1."
-    end
-
-    def arg_defaults
-      {
-        :note => 52,
-        :note_slide => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :pan => 0,
-        :pan_slide => 0,
-
-        :attack => 0.01,
-        :decay => 0,
-        :sustain => 0,
-        :release => 0.3,
-        :attack_level => 1,
-        :sustain_level => 1,
-
-        :pulse_width => 0.5,
-        :pulse_width_slide => 0
-      }
-    end
-  end
-
   class Tri < Pulse
     def name
       "Triangle Wave"
@@ -572,20 +523,6 @@ module SonicPi
 
     def doc
       "A simple triangle wave with a low pass filter."
-    end
-  end
-
-  class TriS < Beep
-    def name
-      "Triangle Wave Simple"
-    end
-
-    def synth_name
-      "tri_s"
-    end
-
-    def doc
-      "A simple triangle wave."
     end
   end
 
@@ -626,40 +563,6 @@ module SonicPi
     end
   end
 
-  class DSawS < SonicPiSynth
-    def name
-      "Detuned Saw Wave Simple"
-    end
-
-    def synth_name
-      "dsaw_s"
-    end
-
-    def doc
-      "A pair of detuned saw waves. Two saw waves with slightly different frequencies generates a nice thick sound which is the basis for a lot of famous synth sounds. Thicken the sound by increasing the detune value, or create an octave-playing synth by choosing a detune of 12 (12 MIDI notes is an octave)."
-    end
-
-    def arg_defaults
-      {
-        :note => 52,
-        :note_slide => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :pan => 0,
-        :pan_slide => 0,
-
-        :attack => 0.1,
-        :decay => 0,
-        :sustain => 0,
-        :release => 0.3,
-        :attack_level => 1,
-        :sustain_level => 1,
-
-        :detune => 0.1,
-        :detune_slide => 0
-      }
-    end
-  end
 
   class FM < SonicPiSynth
     def name
@@ -802,42 +705,6 @@ end
     end
   end
 
-  class ModSawS < SonicPiSynth
-    def name
-      "Simple Modulated Saw Wave"
-    end
-
-    def synth_name
-      "mod_saw_s"
-    end
-
-    def doc
-      ""
-    end
-
-    def arg_defaults
-      {
-        :note => 52,
-        :note_slide => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :pan => 0,
-        :pan_slide => 0,
-
-        :attack => 0.01,
-        :decay => 0,
-        :sustain => 0,
-        :release => 2,
-        :attack_level => 1,
-        :sustain_level => 1,
-
-        :mod_phase => 1,
-        :mod_phase_slide => 0,
-        :mod_range => 5,
-        :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :mod_phase_offset => 0.5
       }
     end
   end
@@ -887,47 +754,6 @@ end
     end
   end
 
-  class ModDSawS < SonicPiSynth
-    def name
-      "Modulated Detuned Saw Waves Simple"
-    end
-
-    def synth_name
-      "mod_dsaw_s"
-    end
-
-    def doc
-      ""
-    end
-
-    def arg_defaults
-      {
-        :note => 52,
-        :note_slide => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :pan => 0,
-        :pan_slide => 0,
-
-        :attack => 0.01,
-        :decay => 0,
-        :sustain => 0,
-        :release => 2,
-        :attack_level => 1,
-        :sustain_level => 1,
-
-        :mod_phase => 1,
-        :mod_phase_slide => 0,
-        :mod_range => 5,
-        :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :mod_phase_offset => 0.5,
-        :detune => 0.1,
-        :detune_slide => 0
-      }
-    end
-  end
 
   class ModSine < SonicPiSynth
     def name
@@ -968,46 +794,6 @@ end
         :mod_width_slide => 0,
         :mod_phase_offset => 0.5
 
-      }
-    end
-  end
-
-  class ModSineS < SonicPiSynth
-    def name
-      "Simple Modulated Sine Wave"
-    end
-
-    def synth_name
-      "mod_sine_s"
-    end
-
-    def doc
-      ""
-    end
-
-    def arg_defaults
-      {
-        :note => 52,
-        :note_slide => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :pan => 0,
-        :pan_slide => 0,
-
-        :attack => 0.01,
-        :decay => 0,
-        :sustain => 0,
-        :release => 2,
-        :attack_level => 1,
-        :sustain_level => 1,
-
-        :mod_phase => 1,
-        :mod_phase_slide => 0,
-        :mod_range => 5,
-        :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :mod_phase_offset => 0.5
       }
     end
   end
@@ -1054,46 +840,6 @@ end
     end
   end
 
-  class ModTriS < SonicPiSynth
-    def name
-      "Simple Modulated Triangle Wave"
-    end
-
-    def synth_name
-      "mod_tri_s"
-    end
-
-    def doc
-      ""
-    end
-
-
-    def arg_defaults
-      {
-        :note => 52,
-        :note_slide => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :pan => 0,
-        :pan_slide => 0,
-
-        :attack => 0.01,
-        :decay => 0,
-        :sustain => 0,
-        :release => 2,
-        :attack_level => 1,
-        :sustain_level => 1,
-
-        :mod_phase => 1,
-        :mod_phase_slide => 0,
-        :mod_range => 5,
-        :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :mod_phase_offset => 0.5
-      }
-    end
-  end
 
   class ModPulse < SonicPiSynth
     def name
@@ -1138,46 +884,6 @@ end
     end
   end
 
-  class ModPulseS < SonicPiSynth
-    def name
-      "Simple Modulated Pulse"
-    end
-
-    def synth_name
-      "mod_pulse_s"
-    end
-
-    def doc
-      ""
-    end
-
-    def arg_defaults
-      {
-        :note => 52,
-        :note_slide => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :pan => 0,
-        :pan_slide => 0,
-
-        :attack => 0.01,
-        :decay => 0,
-        :sustain => 0,
-        :release => 2,
-        :attack_level => 1,
-        :sustain_level => 1,
-
-        :mod_phase => 1,
-        :mod_phase_slide => 0,
-        :mod_range => 5,
-        :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :pulse_width => 0.5,
-        :pulse_width_slide => 0
-      }
-    end
-  end
 
   class TB303 < SonicPiSynth
     def name
@@ -1300,38 +1006,6 @@ end
     end
   end
 
-  class SupersawS < SonicPiSynth
-    def name
-      "Supersaw Simple"
-    end
-
-    def synth_name
-      "supersaw_s"
-    end
-
-    def doc
-      ""
-    end
-
-    def arg_defaults
-      {
-        :note => 52,
-        :note_slide => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :pan => 0,
-        :pan_slide => 0,
-
-        :attack => 0.01,
-        :decay => 0,
-        :sustain => 0,
-        :release => 2,
-        :attack_level => 1,
-        :sustain_level => 1
-      }
-    end
-
-  end
 
   class Zawa < SonicPiSynth
     def name
@@ -2656,28 +2330,18 @@ end
       :pretty_bell => PrettyBell.new,
       :beep => Beep.new,
       :saw => Saw.new,
-      :saw_s => SawS.new,
       :pulse => Pulse.new,
-      :pulse_s => PulseS.new,
       :tri => Tri.new,
-      :tri_s => TriS.new,
       :dsaw => DSaw.new,
-      :dsaw_s => DSawS.new,
       :fm => FM.new,
       :mod_fm => ModFM.new,
       :mod_saw => ModSaw.new,
-      :mod_saw_s => ModSawS.new,
       :mod_dsaw => ModDSaw.new,
-      :mod_dsaw_s => ModDSawS.new,
       :mod_sine => ModSine.new,
-      :mod_sine_s => ModSineS.new,
       :mod_tri => ModTri.new,
-      :mod_tri_s => ModTriS.new,
       :mod_pulse => ModPulse.new,
-      :mod_pulse_s => ModPulseS.new,
       :tb303 => TB303.new,
       :supersaw => Supersaw.new,
-      :supersaw_s => SupersawS.new,
       :prophet => Prophet.new,
       :zawa => Zawa.new,
       :mono_player => MonoPlayer.new,
