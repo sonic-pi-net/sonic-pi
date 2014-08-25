@@ -1333,12 +1333,15 @@
           rate                (/ 1 phase)
           pulse_width         (lag pulse_width pulse_width_slide)
           double_phase_offset (* 2 phase_offset)
-          ctl-wave            (select:kr wave [(lf-saw:kr rate (+ double_phase_offset 1))
-                                               (- (* 2 (lf-pulse:kr rate (+ 0.5 phase_offset) pulse_width)) 1)
-                                               (lf-tri:kr rate (- double_phase_offset 1))
-                                               (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2)))])
-          amp-mul             (* -1 (- (* 2 (> invert_wave 0)) 1))
-          slice-amp           (* ctl-wave amp-mul)
+
+          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
+                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
+                                               (lf-tri:kr rate (+ double_phase_offset 1))
+                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
+
+          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+
+          slice-amp           (* ctl-wave ctl-wave-mul)
           slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
           [in-l in-r]         (in in_bus 2)
           [new-l new-r]       (* slice-amp [in-l in-r])
@@ -1372,12 +1375,15 @@
           rate                (/ 1 phase)
           pulse_width         (lag pulse_width pulse_width_slide)
           double_phase_offset (* 2 phase_offset)
-          ctl-wave            (select:kr wave [(lf-saw:kr rate (+ double_phase_offset 1))
-                                               (- (* 2 (lf-pulse:kr rate (+ 0.5 phase_offset) pulse_width)) 1)
-                                               (lf-tri:kr rate (- double_phase_offset 1))
-                                               (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2)))])
-          amp-mul             (* -1 (- (* 2 (> invert_wave 0)) 1))
-          slice-amp           (* ctl-wave amp-mul)
+
+          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
+                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
+                                               (lf-tri:kr rate (+ double_phase_offset 1))
+                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
+
+          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+
+          slice-amp           (* ctl-wave ctl-wave-mul)
           slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
           [in-l in-r]         (in out_bus 2)
           [new-l new-r]       (* slice-amp [in-l in-r])
@@ -1418,11 +1424,13 @@
           cutoff_min          (midicps cutoff_min)
           cutoff_max          (midicps cutoff_max)
           double_phase_offset (* 2 phase_offset)
-          ctl-wave            (select:kr wave [(lf-saw:kr rate (+ double_phase_offset 1))
-                                               (- (* 2 (lf-pulse:kr rate (+ 0.5 phase_offset) pulse_width)) 1)
-                                               (lf-tri:kr rate (- double_phase_offset 1))
-                                               (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2)))])
-          ctl-wave-mul        (* -1 (- (* 2 (> invert_wave 0)) 1))
+
+          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
+                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
+                                               (lf-tri:kr rate (+ double_phase_offset 1))
+                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
+
+          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
 
           cutoff-freq         (lin-exp:kr (* ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
 
@@ -1468,11 +1476,12 @@
           cutoff_min          (midicps cutoff_min)
           cutoff_max          (midicps cutoff_max)
           double_phase_offset (* 2 phase_offset)
-          ctl-wave            (select:kr wave [(lf-saw:kr rate (+ double_phase_offset 1))
-                                               (- (* 2 (lf-pulse:kr rate (+ 0.5 phase_offset) pulse_width)) 1)
-                                               (lf-tri:kr rate (- double_phase_offset 1))
-                                               (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2)))])
-          ctl-wave-mul        (* -1 (- (* 2 (> invert_wave 0)) 1))
+          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
+                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
+                                               (lf-tri:kr rate (+ double_phase_offset 1))
+                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
+
+          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
 
           cutoff-freq         (lin-exp:kr (* ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
 
