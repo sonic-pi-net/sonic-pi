@@ -287,7 +287,7 @@ module SonicPi
 
         :mod_phase_offset =>
         {
-          :doc => "Intial modulation phase offset (a value between 0 and 1).",
+          :doc => "Initial modulation phase offset (a value between 0 and 1).",
           :validations => [v_between_inclusive(:mod_phase_offset, 0, 1)],
           :modulatable => false
         },
@@ -315,21 +315,6 @@ module SonicPi
           :bpm_scale => true
         },
 
-        :mod_width =>
-        {
-          :doc => "The phase width of the modulation. Represents how even the gap between modulations is.",
-          :validations => [v_between_exclusive(:mod_width, 0, 1)],
-          :modulatable => true
-        },
-
-        :mod_width_slide =>
-        {
-          :doc => generic_slide_doc(:mod_width),
-          :validations => [v_positive(:mod_width_slide)],
-          :modulatable => true,
-          :bpm_scale => true
-        },
-
         :res =>
         {
           :doc => "Filter resonance. Smaller values produce more resonance.",
@@ -347,7 +332,7 @@ module SonicPi
 
         :pulse_width =>
         {
-          :doc => "Only valid if wave is type pulse.",
+          :doc => "The width of the pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.",
           :validations => [v_between_exclusive(:pulse_width, 0, 1)],
           :modulatable => true
         },
@@ -358,6 +343,35 @@ module SonicPi
           :validations => [v_positive(:pulse_width_slide)],
           :modulatable => true,
           :bpm_scale => true
+        },
+
+        :mod_pulse_width =>
+        {
+          :doc => "The width of the modualted pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.",
+          :validations => [v_between_exclusive(:mod_pulse_width, 0, 1)],
+          :modulatable => true
+        },
+
+        :mod_pulse_width_slide =>
+        {
+          :doc => "Time in seconds for modulated pulse width to change.",
+          :validations => [v_positive(:mod_pulse_width_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :mod_wave =>
+        {
+          :doc => "Wave shape of mod wave. 0=saw wave, 1=pulse, 2=triangle wave and 3=sine wave.",
+          :validations => [v_one_of(:mod_wave, [0, 1, 2, 3])],
+          :modulatable => true
+        },
+
+        :mod_invert_wave =>
+        {
+          :doc => "Invert mod waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
+          :validations => [v_one_of(:mod_invert_wave, [0, 1])],
+          :modulatable => true
         }
 
       }
@@ -656,7 +670,8 @@ module SonicPi
                     :mod_range => 5,
                     :mod_pulse_width => 0.5,
                     :mod_phase_offset => 0,
-                    :mod_invert_wave => 0
+                    :mod_invert_wave => 0,
+                    :mod_wave => 0
                   })
     end
 
@@ -698,12 +713,11 @@ end
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :mod_phase_offset => 0.5
-      }
-    end
-  end
+        :mod_pulse_width => 0.5,
+        :mod_pulse_width_slide => 0,
+        :mod_phase_offset => 0,
+        :mod_invert_wave => 0,
+        :mod_wave => 0
 
       }
     end
@@ -745,9 +759,11 @@ end
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :mod_phase_offset => 0.5,
+        :mod_pulse_width => 0.5,
+        :mod_pulse_width_slide => 0,
+        :mod_phase_offset => 0,
+        :mod_invert_wave => 0,
+        :mod_wave => 0,
         :detune => 0.1,
         :detune_slide => 0
       }
@@ -790,9 +806,11 @@ end
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :mod_phase_offset => 0.5
+        :mod_pulse_width => 0.5,
+        :mod_pulse_width_slide => 0,
+        :mod_phase_offset => 0,
+        :mod_invert_wave => 0,
+        :mod_wave => 0
 
       }
     end
@@ -833,9 +851,11 @@ end
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
-        :mod_phase_offset => 0.5
+        :mod_pulse_width => 0.5,
+        :mod_pulse_width_slide => 0,
+        :mod_phase_offset => 0,
+        :mod_invert_wave => 0,
+        :mod_wave => 0
       }
     end
   end
@@ -876,8 +896,11 @@ end
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
-        :mod_width => 0.5,
-        :mod_width_slide => 0,
+        :mod_pulse_width => 0.5,
+        :mod_pulse_width_slide => 0,
+        :mod_phase_offset => 0,
+        :mod_invert_wave => 0,
+        :mod_wave => 0,
         :pulse_width => 0.5,
         :pulse_width_slide => 0
       }
@@ -1889,7 +1912,7 @@ end
 
         :mod_phase_offset =>
         {
-          :doc => "Intial modulation phase offset (a value between 0 and 1).",
+          :doc => "Initial modulation phase offset (a value between 0 and 1).",
           :validations => [v_between_inclusive(:mod_phase_offset, 0, 1)],
           :modulatable => false
         },

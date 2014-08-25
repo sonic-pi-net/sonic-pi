@@ -428,6 +428,7 @@
            mod_phase               (lag mod_phase mod_phase_slide)
            mod_rate                (/ 1 mod_phase)
            mod_range               (lag mod_range mod_range_slide)
+
            mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
 
            min_note                note
@@ -470,32 +471,45 @@
                                 mod_phase_slide 0
                                 mod_range 5
                                 mod_range_slide 0
-                                mod_width 0.5
-                                mod_width_slide 0
-                                mod_phase_offset 0.5
+                                mod_pulse_width 0.5
+                                mod_pulse_width_slide 0
+                                mod_phase_offset 0
+                                mod_wave 0
+                                mod_invert_wave 0
                                 detune 0.1
                                 detune_slide 0
                                 out_bus 0]
-     (let [note           (lag note note_slide)
-           amp            (lag amp amp_slide)
-           pan            (lag pan pan_slide)
-           cutoff         (lag cutoff cutoff_slide)
-           mod_phase      (lag mod_phase mod_phase_slide)
-           mod_rate       (/ 1 mod_phase)
-           mod_range      (lag mod_range mod_range_slide)
-           mod_width      (lag mod_width mod_width_slide)
-           detune         (lag detune detune_slide)
-           freq           (midicps note)
-           cutoff-freq    (midicps cutoff)
-           mod-range-freq (- (midicps (+ mod_range note))
-                             freq)
-           detune-freq    (midicps (+ note detune))
-           freq-mod       (* mod-range-freq (lf-pulse mod_rate mod_phase_offset mod_width))
-           freq           (+ freq freq-mod)
-           snd            (mix (saw [freq detune-freq]))
-           snd            (lpf snd cutoff-freq)
-           snd            (normalizer snd)
-           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+     (let [note                    (lag note note_slide)
+           amp                     (lag amp amp_slide)
+           pan                     (lag pan pan_slide)
+           detune                  (lag detune detune_slide)
+           cutoff                  (lag cutoff cutoff_slide)
+           mod_phase               (lag mod_phase mod_phase_slide)
+
+           mod_rate                (/ 1 mod_phase)
+           mod_range               (lag mod_range mod_range_slide)
+
+           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+
+           min_note                note
+           max_note                (+ mod_range note)
+
+           mod_double_phase_offset (* 2 mod_phase_offset)
+           ctl-wave                (select:kr mod_wave [(* -1 (lf-saw:kr mod_rate (+ mod_double_phase_offset 1)))
+                                                        (- (* 2 (lf-pulse:kr mod_rate mod_phase_offset mod_pulse_width)) 1)
+                                                        (lf-tri:kr mod_rate (+ mod_double_phase_offset 1))
+                                                        (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
+
+           ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
+           ctl-wave                (* ctl-wave ctl-wave-mul)
+           mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
+           freq                    (midicps mod-note)
+           cutoff-freq             (midicps cutoff)
+           detune-freq             (midicps (+ mod-note detune))
+           snd                     (mix (saw [freq detune-freq]))
+           snd                     (lpf snd cutoff-freq)
+           snd                     (normalizer snd)
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
 
@@ -517,28 +531,41 @@
                                 mod_phase_slide 0
                                 mod_range 5
                                 mod_range_slide 0
-                                mod_width 0.5
-                                mod_width_slide 0
-                                mod_phase_offset 0.5
+                                mod_pulse_width 0.5
+                                mod_pulse_width_slide 0
+                                mod_phase_offset 0
+                                mod_wave 0
+                                mod_invert_wave 0
                                 out_bus 0]
-     (let [note           (lag note note_slide)
-           amp            (lag amp amp_slide)
-           pan            (lag pan pan_slide)
-           cutoff         (lag cutoff cutoff_slide)
-           mod_phase      (lag mod_phase mod_phase_slide)
-           mod_rate       (/ 1 mod_phase)
-           mod_range      (lag mod_range mod_range_slide)
-           mod_width      (lag mod_width mod_width_slide)
-           freq           (midicps note)
-           cutoff-freq    (midicps cutoff)
-           mod_range_freq (- (midicps (+ mod_range note))
-                             freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
-           freq           (+ freq freq-mod)
-           snd            (sin-osc freq)
-           snd            (lpf snd cutoff-freq)
-           snd            (normalizer snd)
-           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+     (let [note                    (lag note note_slide)
+           amp                     (lag amp amp_slide)
+           pan                     (lag pan pan_slide)
+           cutoff                  (lag cutoff cutoff_slide)
+           cutoff-freq             (midicps cutoff)
+           mod_phase               (lag mod_phase mod_phase_slide)
+           mod_rate                (/ 1 mod_phase)
+           mod_range               (lag mod_range mod_range_slide)
+
+           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+
+           min_note                note
+           max_note                (+ mod_range note)
+
+           mod_double_phase_offset (* 2 mod_phase_offset)
+           ctl-wave                (select:kr mod_wave [(* -1 (lf-saw:kr mod_rate (+ mod_double_phase_offset 1)))
+                                                        (- (* 2 (lf-pulse:kr mod_rate mod_phase_offset mod_pulse_width)) 1)
+                                                        (lf-tri:kr mod_rate (+ mod_double_phase_offset 1))
+                                                        (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
+
+           ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
+           ctl-wave                (* ctl-wave ctl-wave-mul)
+           mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
+           freq                    (midicps mod-note)
+
+           snd                     (sin-osc freq)
+           snd                     (lpf snd cutoff-freq)
+           snd                     (normalizer snd)
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
 
@@ -560,28 +587,42 @@
                                mod_phase_slide 0
                                mod_range 5
                                mod_range_slide 0
-                               mod_width 0.5
-                               mod_width_slide 0
-                               mod_phase_offset 0.5
+                               mod_pulse_width 0.5
+                               mod_pulse_width_slide 0
+                               mod_phase_offset 0
+                               mod_wave 0
+                               mod_invert_wave 0
                                out_bus 0]
-     (let [note           (lag note note_slide)
-           amp            (lag amp amp_slide)
-           pan            (lag pan pan_slide)
-           cutoff         (lag cutoff cutoff_slide)
-           mod_phase      (lag mod_phase mod_phase_slide)
-           mod_rate       (/ 1 mod_phase)
-           mod_range      (lag mod_range mod_range_slide)
-           mod_width      (lag mod_width mod_width_slide)
-           freq           (midicps note)
-           cutoff-freq    (midicps cutoff)
-           mod_range_freq (- (midicps (+ mod_range note))
-                             freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
-           freq           (+ freq freq-mod)
-           snd            (lf-tri freq)
-           snd            (lpf snd cutoff-freq)
-           snd            (normalizer snd)
-           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+     (let [note                    (lag note note_slide)
+           amp                     (lag amp amp_slide)
+           pan                     (lag pan pan_slide)
+           cutoff                  (lag cutoff cutoff_slide)
+
+           mod_phase               (lag mod_phase mod_phase_slide)
+           mod_rate                (/ 1 mod_phase)
+           mod_range               (lag mod_range mod_range_slide)
+
+           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+
+           min_note                note
+           max_note                (+ mod_range note)
+
+           mod_double_phase_offset (* 2 mod_phase_offset)
+           ctl-wave                (select:kr mod_wave [(* -1 (lf-saw:kr mod_rate (+ mod_double_phase_offset 1)))
+                                                        (- (* 2 (lf-pulse:kr mod_rate mod_phase_offset mod_pulse_width)) 1)
+                                                        (lf-tri:kr mod_rate (+ mod_double_phase_offset 1))
+                                                        (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
+
+           ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
+           ctl-wave                (* ctl-wave ctl-wave-mul)
+           mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
+           freq                    (midicps mod-note)
+           cutoff-freq             (midicps cutoff)
+
+           snd                     (lf-tri freq)
+           snd                     (lpf snd cutoff-freq)
+           snd                     (normalizer snd)
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
 
@@ -603,31 +644,43 @@
                                  mod_phase_slide 0
                                  mod_range 5
                                  mod_range_slide 0
-                                 mod_width 0.5
-                                 mod_width_slide 0
-                                 mod_phase_offset 0.5
+                                 mod_pulse_width 0.5
+                                 mod_pulse_width_slide 0
+                                 mod_phase_offset 0
+                                 mod_wave 0
+                                 mod_invert_wave 0
                                  pulse_width 0.5
                                  pulse_width_slide 0
                                  out_bus 0]
-     (let [note           (lag note note_slide)
-           amp            (lag amp amp_slide)
-           pan            (lag pan pan_slide)
-           cutoff         (lag cutoff cutoff_slide)
-           mod_phase      (lag mod_phase mod_phase_slide)
-           mod_rate       (/ 1 mod_phase)
-           mod_range      (lag mod_range mod_range_slide)
-           mod_width      (lag mod_width mod_width_slide)
-           pulse_width    (lag pulse_width pulse_width_slide)
-           freq           (midicps note)
-           cutoff-freq    (midicps cutoff)
-           mod_range_freq (- (midicps (+ mod_range note))
-                             freq)
-           freq-mod       (* mod_range_freq (lf-pulse mod_rate mod_phase_offset mod_width))
-           freq           (+ freq freq-mod)
-           snd            (pulse freq pulse_width)
-           snd            (lpf snd cutoff-freq)
-           snd            (normalizer snd)
-           env            (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
+     (let [note                    (lag note note_slide)
+           amp                     (lag amp amp_slide)
+           pan                     (lag pan pan_slide)
+           cutoff                  (lag cutoff cutoff_slide)
+           mod_phase               (lag mod_phase mod_phase_slide)
+           mod_rate                (/ 1 mod_phase)
+           mod_range               (lag mod_range mod_range_slide)
+           pulse_width             (lag pulse_width pulse_width_slide)
+           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+
+           min_note                note
+           max_note                (+ mod_range note)
+
+           mod_double_phase_offset (* 2 mod_phase_offset)
+           ctl-wave                (select:kr mod_wave [(* -1 (lf-saw:kr mod_rate (+ mod_double_phase_offset 1)))
+                                                        (- (* 2 (lf-pulse:kr mod_rate mod_phase_offset mod_pulse_width)) 1)
+                                                        (lf-tri:kr mod_rate (+ mod_double_phase_offset 1))
+                                                        (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
+
+           ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
+           ctl-wave                (* ctl-wave ctl-wave-mul)
+           mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
+           freq                    (midicps mod-note)
+           cutoff-freq             (midicps cutoff)
+
+           snd                     (pulse freq pulse_width)
+           snd                     (lpf snd cutoff-freq)
+           snd                     (normalizer snd)
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp))))
 
 )
@@ -640,10 +693,9 @@
     (save-to-pi sonic-pi-tri)
     (save-to-pi sonic-pi-pulse)
     (save-to-pi sonic-pi-dsaw)
-
     (save-to-pi sonic-pi-fm)
-    (save-to-pi sonic-pi-mod_fm)
 
+    (save-to-pi sonic-pi-mod_fm)
     (save-to-pi sonic-pi-mod_saw)
     (save-to-pi sonic-pi-mod_dsaw)
     (save-to-pi sonic-pi-mod_sine)
