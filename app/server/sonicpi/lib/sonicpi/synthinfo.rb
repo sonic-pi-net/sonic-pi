@@ -918,7 +918,7 @@ module SonicPi
     end
 
     def doc
-      "Emulation of the classic Roland TB-303 Bass Line synthesiser. Overdrive the res (i.e. use very small values) for that classic late 80s acid sound."
+      "Emulation of the classic Roland TB-303 Bass Line synthesiser. Overdrive the res (i.e. use very small values) for that classic late 80s acid sound. "
     end
 
     def arg_defaults
@@ -1473,6 +1473,24 @@ end
     def prefix
       "sonic-pi-"
     end
+
+    def default_arg_info
+      super.merge({
+                    :pre_amp =>
+                    {
+                      :doc => "Amplification applied to the input signal immediately before it is passed to the FX.",
+                      :validations => [v_positive(:pre_amp)],
+                      :modulatable => true
+                    },
+
+                    :pre_amp_slide =>
+                    {
+                      :doc => generic_slide_doc(:pre_amp),
+                      :validations => [v_positive(:pre_amp)],
+                      :modulatable => true
+                    }
+                  })
+    end
   end
 
   class FXReverb < FXInfo
@@ -1494,6 +1512,8 @@ end
         :amp_slide => 0,
         :mix => 0.4,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
 
         :room => 0.6,
         :room_slide => 0,
@@ -1501,6 +1521,7 @@ end
         :damp_slide => 0
       }
     end
+
 
     def specific_arg_info
       {
@@ -1558,6 +1579,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :sample_rate => 10000,
         :sample_rate_slide => 0,
         :bits => 8,
@@ -1641,6 +1664,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :phase => 0.25,
         :phase_slide => 0,
         :decay => 8,
@@ -1720,6 +1745,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :phase => 0.25,
         :phase_slide => 0,
         :amp_min => 0,
@@ -1856,6 +1883,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :phase => 0.5,
         :phase_slide => 0,
         :cutoff_min => 60,
@@ -1962,6 +1991,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :phase => 4,
         :phase_slide => 0,
         :phase_offset => 0,
@@ -2050,12 +2081,15 @@ end
       "fx_compressor"
     end
 
+    def doc
+      "Compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quite. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the arguments to both expand and compress the signal."
+    end
+
     def arg_defaults
       {
         :amp => 1,
         :amp_slide => 0,
         :mix => 1,
-        :mix_slide => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
         :threshold => 0.2,
@@ -2073,17 +2107,79 @@ end
 
     def specific_arg_info
       {
-        :pre_amp =>
+
+        :threshold =>
         {
-          :doc => "Amplication applied to the signal before it is compressed.",
-          :validations => [v_positive(:pre_amp)],
+          :doc => "threshold value determining the break point between slope_below and slope_above. ",
+          :validations => [v_positive(:threshold)],
           :modulatable => true
         },
 
-        :pre_amp_slide =>
+        :threshold_slide =>
         {
-          :doc => "Slide time in seconds between pre_amp values",
-          :validations => [v_positive(:pre_amp_slide)],
+          :doc => generic_slide_doc(:threshold),
+          :validations => [v_positive(:threshold_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :slope_below =>
+        {
+          :doc => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal.",
+          :validations => [],
+          :modulatable => true
+        },
+
+        :slope_below_slide =>
+        {
+          :doc => generic_slide_doc(:slope_below),
+          :validations => [v_positive(:slope_below_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :slope_above =>
+        {
+          :doc => "Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal.",
+
+          :validations => [],
+          :modulatable => true
+        },
+
+        :slope_above_slide =>
+        {
+          :doc => generic_slide_doc(:slope_above),
+          :validations => [v_positive(:slope_above_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :clamp_time =>
+        {
+          :doc => "Time taken for the amplitude adjustments to kick in fully (in seconds). This is usually pretty small (not much more than 10 milliseconds). Also known as the time of the attack phase",
+          :validations => [v_positive(:clamp_time)],
+          :modulatable => true
+        },
+
+        :clamp_time_slide =>
+        {
+          :doc => generic_slide_doc(:clamp_time),
+          :validations => [v_positive(:clamp_time_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :relax_time =>
+        {
+          :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artifacts. Also known as the time of the release phase.",
+          :validations => [v_positive(:clamp_time)],
+          :modulatable => true
+        },
+
+        :relax_time_slide =>
+        {
+          :doc => generic_slide_doc(:relax_time),
+          :validations => [v_positive(:relax_time_slide)],
           :modulatable => true,
           :bpm_scale => true
         }
@@ -2107,6 +2203,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :cutoff => 100,
         :cutoff_slide => 0,
         :res => 0.5,
@@ -2147,6 +2245,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :cutoff => 100,
         :cutoff_slide => 0,
         :res => 0.5,
@@ -2187,6 +2287,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :cutoff => 100,
         :cutoff_slide => 0
       }
@@ -2225,6 +2327,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :cutoff => 100,
         :cutoff_slide => 0
       }
@@ -2263,6 +2367,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :amp => 1,
         :amp_slide => 0
       }
@@ -2278,16 +2384,33 @@ end
       "fx_distortion"
     end
 
+    def doc
+      "Distorts the signal reducing clarity in favour of raw crunchy noise."
+    end
+
     def arg_defaults
       {
         :amp => 1,
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :distort => 0.5,
         :distort_slide => 0
       }
     end
+
+    def specific_arg_info
+      {
+        :pre_amp =>
+        {
+          :doc => "Amplification applied to the signal before it is compressed.",
+          :validations => [v_positive(:pre_amp)],
+          :modulatable => true
+        }
+      }
+      end
   end
 
 
@@ -2307,6 +2430,8 @@ end
         :amp_slide => 0,
         :mix => 1,
         :mix_slide => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
         :pan => 0,
         :pan_slide => 0
       }

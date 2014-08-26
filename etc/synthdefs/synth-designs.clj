@@ -1183,6 +1183,8 @@
     amp_slide 0
     mix 1
     mix_slide 0
+    pre_amp 1
+    pre_amp_slide 0
     sample_rate 10000
     sample_rate_slide 0
     bits 8
@@ -1191,9 +1193,10 @@
     out_bus 0]
    (let [amp           (lag amp amp_slide)
          mix           (lag mix mix_slide)
+         pre_amp       (lag pre_amp pre_amp_slide)
          sample_rate   (lag sample_rate sample_rate_slide)
          bits          (lag bits bits_slide)
-         [in-l in-r]   (in in_bus 2)
+         [in-l in-r]   (* pre_amp (in in_bus 2))
          [new-l new-r] (decimator [in-l in-r] sample_rate bits)
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1205,6 +1208,8 @@
     amp_slide 0
     mix 1
     mix_slide 0
+    pre_amp 1
+    pre_amp_slide 0
     sample_rate 10000
     sample_rate_slide 0
     bits 8
@@ -1212,9 +1217,10 @@
     out_bus 0]
    (let [amp           (lag amp amp_slide)
          mix           (lag mix mix_slide)
+         pre_amp       (lag pre_amp pre_amp_slide)
          sample_rate   (lag sample_rate sample_rate_slide)
          bits          (lag bits bits_slide)
-         [in-l in-r]   (in:ar out_bus 2)
+         [in-l in-r]   (* pre_amp (in:ar out_bus 2))
          [new-l new-r] (decimator [in-l in-r] sample_rate bits)
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1226,18 +1232,21 @@
     amp_slide 0
     mix 0.4
     mix_slide 0
+    pre_amp 1
+    pre_amp_slide 0
     room 0.6
     room_slide 0
     damp 0.5
     damp_slide 0
     in_bus 0
     out_bus 0]
-   (let [amp   (lag amp amp_slide)
-         mix   (lag mix mix_slide)
-         room  (lag room room_slide)
-         damp  (lag damp damp_slide)
-         [l r] (in:ar in_bus 2)
-         snd   (* amp (free-verb2 l r mix room damp))]
+   (let [amp     (lag amp amp_slide)
+         mix     (lag mix mix_slide)
+         pre_amp (lag pre_amp pre_amp_slide)
+         room    (lag room room_slide)
+         damp    (lag damp damp_slide)
+         [l r]   (* pre_amp (in:ar in_bus 2))
+         snd     (* amp (free-verb2 l r mix room damp))]
       (out out_bus snd)))
 
 
@@ -1246,17 +1255,20 @@
     amp_slide 0
     mix 0.4
     mix_slide 0
+    pre_amp 1
+    pre_amp_slide 0
     room 0.6
     room_slide 0
     damp 0.5
     damp_slide 0
     out_bus 0]
-   (let [amp   (lag amp amp_slide)
-         mix   (lag mix mix_slide)
-         room  (lag room room_slide)
-         damp  (lag damp damp_slide)
-         [l r] (in:ar out_bus 2)
-         snd   (* amp (free-verb2 l r mix room damp))]
+   (let [amp     (lag amp amp_slide)
+         mix     (lag mix mix_slide)
+         pre_amp (lag pre_amp pre_amp_slide)
+         room    (lag room room_slide)
+         damp    (lag damp damp_slide)
+         [l r]   (* pre_amp (in:ar out_bus 2))
+         snd     (* amp (free-verb2 l r mix room damp))]
       (replace-out out_bus snd)))
 
 
@@ -1282,6 +1294,8 @@
     amp_slide 0
     mix 1
     mix_slide 0
+    pre_amp 1
+    pre_amp_slide 0
     phase 0.25
     phase_slide 0
     decay 8
@@ -1293,10 +1307,11 @@
     out_bus 0]
    (let [amp           (lag amp amp_slide)
          mix           (lag mix mix_slide)
+         pre_amp       (lag pre_amp pre_amp_slide)
          phase         (lag phase phase_slide)
          decay         (lag decay decay_slide)
 
-         [in-l in-r]   (in in_bus 2)
+         [in-l in-r]   (* pre_amp (in in_bus 2))
          [new-l new-r] (+ [in-l in-r] (comb-n [in-l in-r] max_phase phase decay))
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1308,6 +1323,8 @@
     amp_slide 0
     mix 1
     mix_slide 0
+    pre_amp 1
+    pre_amp_slide 0
     phase 0.25
     phase_slide 0
     decay 8
@@ -1318,10 +1335,11 @@
     out_bus 0]
    (let [amp           (lag amp amp_slide)
          mix           (lag mix mix_slide)
+         pre_amp       (lag pre_amp pre_amp_slide)
          phase         (lag phase phase_slide)
          decay         (lag decay decay_slide)
 
-         [in-l in-r]   (in out_bus 2)
+         [in-l in-r]   (* pre_amp (in out_bus 2))
          [new-l new-r] (+ [in-l in-r] (comb-n [in-l in-r] max_phase phase decay))
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1333,6 +1351,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      phase 0.25
      phase_slide 0
      amp_min 0
@@ -1348,6 +1368,7 @@
      out_bus 0]
     (let [amp                 (lag amp amp_slide)
           mix                 (lag mix mix_slide)
+          pre_amp             (lag pre_amp pre_amp_slide)
           phase               (lag phase phase_slide)
           amp_min             (lag amp_min amp_min_slide)
           amp_max             (lag amp_max amp_max_slide)
@@ -1364,7 +1385,7 @@
 
           slice-amp           (* ctl-wave ctl-wave-mul)
           slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
-          [in-l in-r]         (in in_bus 2)
+          [in-l in-r]         (* pre_amp (in in_bus 2))
           [new-l new-r]       (* slice-amp [in-l in-r])
           fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1376,6 +1397,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      phase 0.25
      phase_slide 0
      amp_min 0
@@ -1390,6 +1413,7 @@
      out_bus 0]
     (let [amp                 (lag amp amp_slide)
           mix                 (lag mix mix_slide)
+          pre_amp             (lag pre_amp pre_amp_slide)
           phase               (lag phase phase_slide)
           amp_min             (lag amp_min amp_min_slide)
           amp_max             (lag amp_max amp_max_slide)
@@ -1406,7 +1430,7 @@
 
           slice-amp           (* ctl-wave ctl-wave-mul)
           slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
-          [in-l in-r]         (in out_bus 2)
+          [in-l in-r]         (* pre_amp (in out_bus 2))
           [new-l new-r]       (* slice-amp [in-l in-r])
           fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1418,6 +1442,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      phase 0.5
      phase_slide 0
      cutoff_min 60
@@ -1436,6 +1462,7 @@
      out_bus 0]
     (let [amp                 (lag amp amp_slide)
           mix                 (lag mix mix_slide)
+          pre_amp             (lag pre_amp pre_amp_slide)
           phase               (lag phase phase_slide)
           rate                (/ 1 phase)
           cutoff_min          (lag cutoff_min cutoff_min_slide)
@@ -1455,7 +1482,7 @@
 
           cutoff-freq         (lin-exp:kr (* ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
 
-          [in-l in-r]         (in in_bus 2)
+          [in-l in-r]         (* pre_amp (in in_bus 2))
 
           new-l               (select:ar filter [(rlpf in-l cutoff-freq res)
                                                  (rhpf in-l cutoff-freq res)])
@@ -1471,6 +1498,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      phase 0.5
      phase_slide 0
      cutoff_min 60
@@ -1488,6 +1517,7 @@
      out_bus 0]
     (let [amp                 (lag amp amp_slide)
           mix                 (lag mix mix_slide)
+          pre_amp             (lag pre_amp pre_amp_slide)
           phase               (lag phase phase_slide)
           rate                (/ 1 phase)
           cutoff_min          (lag cutoff_min cutoff_min_slide)
@@ -1506,7 +1536,7 @@
 
           cutoff-freq         (lin-exp:kr (* ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
 
-          [in-l in-r]         (in out_bus 2)
+          [in-l in-r]         (* pre_amp (in out_bus 2))
 
           new-l               (select:ar filter [(rlpf in-l cutoff-freq res)
                                                  (rhpf in-l cutoff-freq res)])
@@ -1522,6 +1552,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      phase 4
      phase_slide 0
      phase_offset 0
@@ -1535,6 +1567,7 @@
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           phase         (lag phase phase_slide)
           rate          (/ 1 phase)
           cutoff_min    (lag cutoff_min cutoff_min_slide)
@@ -1544,7 +1577,7 @@
           cutoff_max    (midicps cutoff_max)
           freq          (lin-exp (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2))) -1 1 cutoff_min cutoff_max)
 
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (rlpf [in-l in-r] freq res)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1556,6 +1589,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      phase 4
      phase_slide 0
      phase_offset 0
@@ -1568,6 +1603,7 @@
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           phase         (lag phase phase_slide)
           rate          (/ 1 phase)
           cutoff_min    (lag cutoff_min cutoff_min_slide)
@@ -1577,7 +1613,7 @@
           cutoff_max    (midicps cutoff_max)
           freq          (lin-exp (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2))) -1 1 cutoff_min cutoff_max)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (rlpf [in-l in-r] freq res)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1603,27 +1639,25 @@
      relax_time_slide 0
      in_bus 0
      out_bus 0]
-    (let [amp               (lag amp amp_slide)
-          mix               (lag mix mix_slide)
-          pre_amp           (lag pre_amp pre_amp_slide)
-          threshold         (lag threshold threshold_slide)
-          clamp_time        (lag clamp_time clamp_time_slide)
-          slope_above       (lag slope_above slope_above_slide)
-          slope_below       (lag slope_below slope_below_slide)
-          relax_time        (lag relax_time relax_time_slide)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          threshold     (lag threshold threshold_slide)
+          clamp_time    (lag clamp_time clamp_time_slide)
+          slope_above   (lag slope_above slope_above_slide)
+          slope_below   (lag slope_below slope_below_slide)
+          relax_time    (lag relax_time relax_time_slide)
 
-          src               (in in_bus 2)
-          [in-l in-r]       src
+          src           (* pre_amp (in in_bus 2))
+          [in-l in-r]   src
 
-          pre-amped-src     (* pre_amp src)
-          [pa-in-l pa-in-r] pre-amped-src
-          control-sig       (/ (+ pa-in-l pa-in-r) 2)
+          control-sig   (/ (+ in-l in-r) 2)
 
-          [new-l new-r]     (compander pre-amped-src control-sig threshold
-                                       slope_below slope_above
-                                       clamp_time relax_time)
-          fin-l             (x-fade2 in-l new-l (- (* mix 2) 1) amp)
-          fin-r             (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+          [new-l new-r] (compander src control-sig threshold
+                                   slope_below slope_above
+                                   clamp_time relax_time)
+          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (out out_bus [fin-l fin-r])))
 
 
@@ -1645,27 +1679,25 @@
      relax_time 0.01
      relax_time_slide 0
      out_bus 0]
-    (let [amp               (lag amp amp_slide)
-          mix               (lag mix mix_slide)
-          pre_amp           (lag pre_amp pre_amp_slide)
-          threshold         (lag threshold threshold_slide)
-          clamp_time        (lag clamp_time clamp_time_slide)
-          slope_above       (lag slope_above slope_above_slide)
-          slope_below       (lag slope_below slope_below_slide)
-          relax_time        (lag relax_time relax_time_slide)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          threshold     (lag threshold threshold_slide)
+          clamp_time    (lag clamp_time clamp_time_slide)
+          slope_above   (lag slope_above slope_above_slide)
+          slope_below   (lag slope_below slope_below_slide)
+          relax_time    (lag relax_time relax_time_slide)
 
-          src               (in out_bus 2)
-          [in-l in-r]       src
-          pre-amped-src     (* pre_amp src)
-          [pa-in-l pa-in-r] pre-amped-src
-          control-sig       (/ (+ pa-in-l pa-in-r) 2)
-          control-sig       (/ (+ pa-in-l pa-in-r) 2)
+          src           (* pre_amp (in out_bus 2))
+          [in-l in-r]   src
 
-          [new-l new-r]     (compander pre-amped-src control-sig threshold
-                                       slope_below slope_above
-                                       clamp_time relax_time)
-          fin-l             (x-fade2 in-l new-l (- (* mix 2) 1) amp)
-          fin-r             (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+          control-sig   (/ (+ in-l in-r) 2)
+
+          [new-l new-r] (compander src control-sig threshold
+                                   slope_below slope_above
+                                   clamp_time relax_time)
+          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (replace-out out_bus [fin-l fin-r])))
 
 
@@ -1674,6 +1706,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 100
      cutoff_slide 0
      res 0.6
@@ -1682,11 +1716,12 @@
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
           res           (lag res res_slide)
 
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (rlpf [in-l in-r] cutoff res)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1698,6 +1733,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 100
      cutoff_slide 0
      res 0.6
@@ -1705,11 +1742,12 @@
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
           res           (lag res res_slide)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (rlpf [in-l in-r] cutoff res)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1721,19 +1759,22 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 100
      cutoff_slide 0
      res 0.6
      res_slide 0
      in_bus 0
      out_bus 0]
-    (let [amp    (lag amp amp_slide)
-          mix    (lag mix mix_slide)
-          cutoff (lag cutoff cutoff_slide)
-          cutoff (midicps cutoff)
-          res    (lag res res_slide)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          cutoff        (lag cutoff cutoff_slide)
+          cutoff        (midicps cutoff)
+          res           (lag res res_slide)
 
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (normalizer (rlpf [in-l in-r] cutoff res))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1745,18 +1786,21 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 100
      cutoff_slide 0
      res 0.6
      res_slide 0
      out_bus 0]
-    (let [amp    (lag amp amp_slide)
-          mix    (lag mix mix_slide)
-          cutoff (lag cutoff cutoff_slide)
-          cutoff (midicps cutoff)
-          res    (lag res res_slide)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          cutoff        (lag cutoff cutoff_slide)
+          cutoff        (midicps cutoff)
+          res           (lag res res_slide)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (normalizer (rlpf [in-l in-r] cutoff res))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1768,6 +1812,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 10
      cutoff_slide 0
      res 0.6
@@ -1776,10 +1822,11 @@
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
           res           (lag res res_slide)
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (rhpf [in-l in-r] cutoff res)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1791,6 +1838,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 10
      cutoff_slide 0
      res 0.6
@@ -1798,10 +1847,11 @@
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
           res           (lag res res_slide)
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (rhpf [in-l in-r] cutoff res)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1813,6 +1863,8 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 10
      cutoff_slide 0
      res 0.6
@@ -1821,10 +1873,11 @@
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
           res           (lag res res_slide)
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (normalizer (rhpf [in-l in-r] cutoff res))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1836,18 +1889,21 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 10
      cutoff_slide 0
      res 0.6
      res_slide 0
      out_bus 0]
-    (let [amp    (lag amp amp_slide)
-          mix    (lag mix mix_slide)
-          cutoff (lag cutoff cutoff_slide)
-          cutoff (midicps cutoff)
-          res    (lag res res_slide)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          cutoff        (lag cutoff cutoff_slide)
+          cutoff        (midicps cutoff)
+          res           (lag res res_slide)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (normalizer (rhpf [in-l in-r] cutoff res))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1859,16 +1915,19 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 10
      cutoff_slide 0
      in_bus 0
      out_bus 0]
-    (let [amp    (lag amp amp_slide)
-          mix    (lag mix mix_slide)
-          cutoff (lag cutoff cutoff_slide)
-          cutoff (midicps cutoff)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          cutoff        (lag cutoff cutoff_slide)
+          cutoff        (midicps cutoff)
 
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (hpf [in-l in-r] cutoff)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1880,15 +1939,18 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 10
      cutoff_slide 0
      out_bus 0]
-    (let [amp    (lag amp amp_slide)
-          mix    (lag mix mix_slide)
-          cutoff (lag cutoff cutoff_slide)
-          cutoff (midicps cutoff)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          cutoff        (lag cutoff cutoff_slide)
+          cutoff        (midicps cutoff)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (hpf [in-l in-r] cutoff)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1900,16 +1962,19 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 10
      cutoff_slide 0
      in_bus 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
 
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (normalizer (hpf [in-l in-r] cutoff))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1921,15 +1986,18 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 10
      cutoff_slide 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (normalizer (hpf [in-l in-r] cutoff))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1941,16 +2009,19 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 100
      cutoff_slide 0
      in_bus 0
      out_bus 0]
-    (let [amp    (lag amp amp_slide)
-          mix    (lag mix mix_slide)
-          cutoff (lag cutoff cutoff_slide)
-          cutoff (midicps cutoff)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          cutoff        (lag cutoff cutoff_slide)
+          cutoff        (midicps cutoff)
 
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (lpf [in-l in-r] cutoff)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1962,15 +2033,18 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 100
      cutoff_slide 0
      out_bus 0]
-    (let [amp    (lag amp amp_slide)
-          mix    (lag mix mix_slide)
-          cutoff (lag cutoff cutoff_slide)
-          cutoff (midicps cutoff)
+    (let [amp           (lag amp amp_slide)
+          mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
+          cutoff        (lag cutoff cutoff_slide)
+          cutoff        (midicps cutoff)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (lpf [in-l in-r] cutoff)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -1982,16 +2056,19 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 100
      cutoff_slide 0
      in_bus 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
 
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (normalizer (lpf [in-l in-r] cutoff))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -2003,20 +2080,22 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      cutoff 100
      cutoff_slide 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           cutoff        (lag cutoff cutoff_slide)
           cutoff        (midicps cutoff)
-          src           (in out_bus 2)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (normalizer (lpf [in-l in-r] cutoff))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
-      (replace-out out_bus (normalizer (lpf src cutoff)))))
+      (replace-out out_bus [fin-l fin-r])))
 
 
   (defsynth sonic-pi-fx_normaliser
@@ -2024,15 +2103,18 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      level 1
      level_slide 0
      in_bus 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           level         (lag level level_slide)
 
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (normalizer [in-l in-r] level)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -2044,14 +2126,17 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      level 1
      level_slide 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           level         (lag level level_slide)
 
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (normalizer [in-l in-r] level)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -2063,16 +2148,19 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      distort 0.5
      distort_slide 0
      in_bus 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           distort       (lag distort distort_slide)
           k             (/ (* 2 distort) (- 1 distort))
 
-          src           (in in_bus 2)
+          src           (* pre_amp (in in_bus 2))
           [new-l new-r] (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))
           [in-l in-r]   src
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -2086,15 +2174,18 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      distort 0.5
      distort_slide 0
      out_bus 0]
     (let [amp           (lag:kr amp amp_slide)
           mix           (lag:kr mix mix_slide)
+          pre_amp       (lag:kr pre_amp pre_amp_slide)
           distort       (lag:kr distort distort_slide)
           k             (/ (* 2 distort) (- 1 distort))
 
-          src           (in out_bus 2)
+          src           (* pre_amp (in out_bus 2))
           [new-l new-r] (/ (* src (+ 1 k)) (+ 1 (* k (abs src))))
           [in-l in-r]   src
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -2107,14 +2198,17 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      pan 0
      pan_slide 0
      in_bus 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           pan           (lag pan pan_slide)
-          [in-l in-r]   (in in_bus 2)
+          [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (balance2 in-l in-r pan amp)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
@@ -2125,13 +2219,16 @@
      amp_slide 0
      mix 1
      mix_slide 0
+     pre_amp 1
+     pre_amp_slide 0
      pan 0
      pan_slide 0
      out_bus 0]
     (let [amp           (lag amp amp_slide)
           mix           (lag mix mix_slide)
+          pre_amp       (lag pre_amp pre_amp_slide)
           pan           (lag pan pan_slide)
-          [in-l in-r]   (in out_bus 2)
+          [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (balance2 in-l in-r pan amp)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
