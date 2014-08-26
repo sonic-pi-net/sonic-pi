@@ -130,6 +130,14 @@ module SonicPi
       [lambda{|args| args[arg] < max}, "must be a value less than #{max}"]
     end
 
+    def v_greater_than(arg,  min)
+      [lambda{|args| args[arg] > min}, "must be a value greater than #{min}"]
+    end
+
+    def v_greater_than_oet(arg,  min)
+      [lambda{|args| args[arg] >= min}, "must be a value greater than or equal to #{min}"]
+    end
+
     def v_one_of(arg, valid_options)
       [lambda{|args| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}"]
     end
@@ -1480,7 +1488,8 @@ end
                     {
                       :doc => "Amplification applied to the input signal immediately before it is passed to the FX.",
                       :validations => [v_positive(:pre_amp)],
-                      :modulatable => true
+                      :modulatable => true,
+                      :bpm_scale => true
                     },
 
                     :pre_amp_slide =>
@@ -1488,7 +1497,14 @@ end
                       :doc => generic_slide_doc(:pre_amp),
                       :validations => [v_positive(:pre_amp)],
                       :modulatable => true
-                    }
+                    },
+
+                    :phase_offset =>
+                    {
+                      :doc => "Initial modulation phase offset (a value between 0 and 1).",
+                      :validations => [v_between_inclusive(:mod_phase_offset, 0, 1)],
+                      :modulatable => false
+                    },
                   })
     end
   end
@@ -2403,11 +2419,19 @@ end
 
     def specific_arg_info
       {
-        :pre_amp =>
+        :distort =>
         {
-          :doc => "Amplification applied to the signal before it is compressed.",
-          :validations => [v_positive(:pre_amp)],
+          :doc => "Amount of distortion to be applied (as a value between 0 ad 1)",
+          :validations => [v_greater_than_oet(:distort, 0), v_less_than(:distort, 1)],
           :modulatable => true
+        },
+
+        :distort_slide =>
+        {
+          :doc => generic_slide_doc(:distort),
+          :validations => [v_positive(:distort_slide)],
+          :modulatable => true,
+          :bpm_scale => true
         }
       }
       end
