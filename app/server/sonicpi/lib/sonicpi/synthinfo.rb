@@ -918,7 +918,7 @@ module SonicPi
     end
 
     def doc
-      ""
+      "Emulation of the classic Roland TB-303 Bass Line synthesiser. Overdrive the res (i.e. use very small values) for that classic late 80s acid sound."
     end
 
     def arg_defaults
@@ -1040,7 +1040,7 @@ module SonicPi
     end
 
     def doc
-      "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths). "
+     "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths). "
     end
 
     def arg_defaults
