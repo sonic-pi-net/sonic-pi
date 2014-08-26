@@ -688,7 +688,7 @@ module SonicPi
     end
 
     def doc
-      "A saw wave passed through a lowhich modulates between two separate notes."
+      "A saw wave passed through a low pass filter which modulates between two separate notes via a variety of control waves."
     end
 
     def arg_defaults
@@ -781,7 +781,7 @@ module SonicPi
     end
 
     def doc
-      ""
+      "A sine wave passed through a low pass filter which modulates between two separate notes via a variety of control waves."
     end
 
     def arg_defaults
@@ -826,7 +826,7 @@ module SonicPi
     end
 
     def doc
-      ""
+      "A triangle wave passed through a low pass filter which modulates between two separate notes via a variety of control waves."
     end
 
     def arg_defaults
@@ -871,7 +871,7 @@ module SonicPi
     end
 
     def doc
-      ""
+      "A pulse wave with a low pass filter modulating between two notes via a variety of control waves (see mod_wave: arg). The pulse wave defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1."
     end
 
     def arg_defaults
@@ -1001,7 +1001,7 @@ module SonicPi
     end
 
     def doc
-      ""
+      "Thick swirly saw waves sparkling and moving about to create a rich trancy sound."
     end
 
     def arg_defaults
@@ -1040,7 +1040,7 @@ module SonicPi
     end
 
     def doc
-      "Write me"
+      "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths). "
     end
 
     def arg_defaults
@@ -1061,13 +1061,95 @@ module SonicPi
 
         :cutoff => 100,
         :cutoff_slide => 0,
+        :res => 0.1,
+        :res_slide => 0,
+
         :phase => 1,
         :phase_slide => 0,
-        :depth => 1.5,
-        :depth_slide => 0
+        :phase_offset => 0,
+
+        :wave => 3,
+        :invert_wave => 1,
+        :range => 24,
+        :range_slide => 0,
+        :disable_wave => 0,
+        :pulse_width => 0.5,
+        :pulse_width_slide => 0
 
       }
+    end
 
+    def specific_arg_info
+      {
+        :phase =>
+        {
+          :doc => "Phase duration in seconds of timbre modulation.",
+          :validations => [v_positive_not_zero(:phase)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+
+        :phase_slide =>
+        {
+          :doc => generic_slide_doc(:phase),
+          :validations => [v_positive(:phase_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :depth_slide =>
+        {
+          :doc => generic_slide_doc(:depth),
+          :validations => [v_positive(:depth_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :phase_offset =>
+        {
+          :doc => "Initial phase offset of the sync wave (a value between 0 and 1).",
+          :validations => [v_between_inclusive(:phase_offset, 0, 1)],
+          :modulatable => false
+        },
+
+        :range =>
+        {
+          :doc => "range of the assocatied sync saw in MIDI notes from the main note. Modifies timbre.",
+          :validations => [v_between_inclusive(:phase_offset, 0, 90)],
+          :modulatable => true
+        },
+
+        :range_slide =>
+        {
+          :doc => generic_slide_doc(:range),
+          :validations => [v_positive(:range_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+
+        :wave =>
+        {
+          :doc => "Wave shape controlling freq sync saw wave. 0=saw wave, 1=pulse, 2=triangle wave and 3=sine wave.",
+          :validations => [v_one_of(:wave, [0, 1, 2, 3])],
+          :modulatable => true
+        },
+
+        :invert_wave =>
+        {
+          :doc => "Invert sync freq control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
+          :validations => [v_one_of(:invert_wave, [0, 1])],
+          :modulatable => true
+        },
+
+        :disable_wave =>
+        {
+          :doc => "Enable and disable sync control wave (setting to 1 will stop timbre movement).",
+          :validations => [v_one_of(:disable_wave, [0, 1])],
+          :modulatable => true
+        }
+      }
     end
   end
 

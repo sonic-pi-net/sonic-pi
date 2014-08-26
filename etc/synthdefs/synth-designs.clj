@@ -1067,28 +1067,49 @@
                            sustain_level 1
                            cutoff 100
                            cutoff_slide 0
+                           res 0.1
+                           res_slide 0
                            phase 1
                            phase_slide 0
-                           depth 1.5
-                           depth_slide 0
+                           phase_offset 0
+                           wave 0
+                           disable_wave 0
+                           invert_wave 0
+                           pulse_width 0.5
+                           pulse_width_slide 0
+                           range 1
+                           range_slide 0
                            out_bus 0]
-    (let [note     (lag note note_slide)
-          amp      (lag amp amp_slide)
-          pan      (lag pan pan_slide)
-          phase    (lag phase phase_slide)
-          wob_rate (/ 1 phase)
-          cutoff   (lag cutoff cutoff_slide)
-          depth    (lag depth depth_slide)
-          freq     (midicps note)
-          cutoff   (midicps cutoff)
+    (let [note                (lag note note_slide)
+          amp                 (lag amp amp_slide)
+          pan                 (lag pan pan_slide)
+          phase               (lag phase phase_slide)
+          pulse_width         (lag pulse_width pulse_width_slide)
+          range               (lag range range_slide)
+          wob_rate            (/ 1 phase)
+          cutoff              (lag cutoff cutoff_slide)
+          freq                (midicps note)
+          cutoff              (midicps cutoff)
+          double_phase_offset (* 2 phase_offset)
+          rate                (/ 1 phase)
+          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
+                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
+                                               (lf-tri:kr rate (+ double_phase_offset 1))
+                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-          snd      (lpf (sync-saw
-                         freq
-                         (* (* freq depth) (+ 2 (sin-osc:kr wob_rate))))
-                        cutoff)
-          env      (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
-          output   (* env snd)
-          output   (pan2 output pan amp)]
+          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+          ctl-wave            (* ctl-wave ctl-wave-mul)
+
+          saw-freq            (select:kr disable_wave [(midicps (lin-lin ctl-wave -1 1 note (+ note range)))
+                                                       (midicps (+ note range))])
+          snd                 (rlpf (sync-saw
+                                     freq
+                                     saw-freq)
+                                    cutoff
+                                    res)
+          env                 (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
+          output              (* env snd)
+          output              (pan2 output pan amp)]
       (out out_bus output)))
 
 
