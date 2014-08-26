@@ -671,12 +671,12 @@ module SonicPi
                     :mod_pulse_width => 0.5,
                     :mod_phase_offset => 0,
                     :mod_invert_wave => 0,
-                    :mod_wave => 0
+                    :mod_wave => 1
                   })
     end
 
 
-end
+  end
 
   class ModSaw < SonicPiSynth
     def name
@@ -717,7 +717,7 @@ end
         :mod_pulse_width_slide => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
-        :mod_wave => 0
+        :mod_wave => 1
 
       }
     end
@@ -763,7 +763,7 @@ end
         :mod_pulse_width_slide => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
-        :mod_wave => 0,
+        :mod_wave => 1,
         :detune => 0.1,
         :detune_slide => 0
       }
@@ -810,7 +810,7 @@ end
         :mod_pulse_width_slide => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
-        :mod_wave => 0
+        :mod_wave => 1
 
       }
     end
@@ -855,7 +855,7 @@ end
         :mod_pulse_width_slide => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
-        :mod_wave => 0
+        :mod_wave => 1
       }
     end
   end
@@ -900,7 +900,7 @@ end
         :mod_pulse_width_slide => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
-        :mod_wave => 0,
+        :mod_wave => 1,
         :pulse_width => 0.5,
         :pulse_width_slide => 0
       }
