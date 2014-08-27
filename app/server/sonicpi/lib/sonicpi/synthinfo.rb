@@ -2242,7 +2242,7 @@ end
     end
 
     def synth_name
-      "fx_norm_rlpf"
+      "fx_nrlpf"
     end
   end
 
@@ -2284,7 +2284,7 @@ end
     end
 
     def synth_name
-      "fx_norm_rhpf"
+      "fx_nrhpf"
     end
   end
 
@@ -2295,6 +2295,10 @@ end
 
     def synth_name
       "fx_lpf"
+    end
+
+    def doc
+      "Dampens the parts of the signal that are above than the cutoff point(typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typicaly the bass/mid of the sound). Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
     end
 
     def arg_defaults
@@ -2320,11 +2324,15 @@ end
 
   class FXNormLPF < FXLPF
     def name
-      "Normalised Low Pass Filter"
+      "Normalised Low Pass Filter."
     end
 
     def synth_name
-      "fx_norm_lpf"
+      "fx_nlpf"
+    end
+
+    def doc
+      "A low pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard low pass filter and then normalised to ensure the amplitude of the final output is normalised to ensure energy level of output signal is constant. A low pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for lpf."
     end
   end
 
@@ -2335,6 +2343,10 @@ end
 
     def synth_name
       "fx_hpf"
+    end
+
+    def doc
+      "Dampens the parts of the signal that are lower than the cutoff point (typicaly the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy. "
     end
 
     def arg_defaults
@@ -2349,13 +2361,6 @@ end
         :cutoff_slide => 0
       }
     end
-
-    def specific_arg_info
-      {
-
-
-      }
-    end
   end
 
   class FXNormHPF < FXRLPF
@@ -2364,8 +2369,12 @@ end
     end
 
     def synth_name
-      "fx_norm_hpf"
+      "fx_nhpf"
     end
+
+def doc
+      "A high pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard high pass filter and then normalised to ensure the amplitude of the final output is normalised to ensure energy level of output signal is constant. A high pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for hpf."
+end
   end
 
   class FXNormaliser < FXInfo
@@ -2629,20 +2638,20 @@ end
       :fx_replace_compressor => FXCompressor.new,
       :fx_rlpf => FXRLPF.new,
       :fx_replace_rlpf => FXRLPF.new,
-      :fx_norm_rlpf => FXNormRLPF.new,
-      :fx_replace_norm_rlpf => FXNormRLPF.new,
+      :fx_nrlpf => FXNormRLPF.new,
+      :fx_replace_nrlpf => FXNormRLPF.new,
       :fx_rhpf => FXRHPF.new,
       :fx_replace_rhpf => FXRHPF.new,
-      :fx_norm_rhpf => FXNormRHPF.new,
-      :fx_replace_norm_rhpf => FXNormRHPF.new,
+      :fx_nrhpf => FXNormRHPF.new,
+      :fx_replace_nrhpf => FXNormRHPF.new,
       :fx_hpf => FXHPF.new,
       :fx_replace_hpf => FXHPF.new,
-      :fx_norm_hpf => FXNormHPF.new,
-      :fx_replace_norm_hpf => FXNormHPF.new,
+      :fx_nhpf => FXNormHPF.new,
+      :fx_replace_nhpf => FXNormHPF.new,
       :fx_lpf => FXLPF.new,
       :fx_replace_lpf => FXLPF.new,
-      :fx_norm_lpf => FXNormLPF.new,
-      :fx_replace_norm_lpf => FXNormLPF.new,
+      :fx_nlpf => FXNormLPF.new,
+      :fx_replace_nlpf => FXNormLPF.new,
       :fx_normaliser => FXNormaliser.new,
       :fx_replace_normaliser => FXNormaliser.new,
       :fx_distortion => FXDistortion.new,

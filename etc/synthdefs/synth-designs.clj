@@ -1754,7 +1754,7 @@
       (replace-out out_bus [fin-l fin-r])))
 
 
-  (defsynth sonic-pi-fx_norm_rlpf
+  (defsynth sonic-pi-fx_nrlpf
     [amp 1
      amp_slide 0
      mix 1
@@ -1781,7 +1781,7 @@
       (out out_bus [fin-l fin-r])))
 
 
-  (defsynth sonic-pi-fx_replace_norm_rlpf
+  (defsynth sonic-pi-fx_replace_nrlpf
     [amp 1
      amp_slide 0
      mix 1
@@ -1858,7 +1858,7 @@
       (replace-out out_bus [fin-l fin-r])))
 
 
-  (defsynth sonic-pi-fx_norm_rhpf
+  (defsynth sonic-pi-fx_nrhpf
     [amp 1
      amp_slide 0
      mix 1
@@ -1884,7 +1884,7 @@
       (out out_bus [fin-l fin-r])))
 
 
-  (defsynth sonic-pi-fx_replace_norm_rhpf
+  (defsynth sonic-pi-fx_replace_nrhpf
     [amp 1
      amp_slide 0
      mix 1
@@ -1957,7 +1957,7 @@
       (replace-out out_bus [fin-l fin-r])))
 
 
-  (defsynth sonic-pi-fx_norm_hpf
+  (defsynth sonic-pi-fx_nhpf
     [amp 1
      amp_slide 0
      mix 1
@@ -1981,7 +1981,7 @@
       (out out_bus [fin-l fin-r])))
 
 
-  (defsynth sonic-pi-fx_replace_norm_hpf
+  (defsynth sonic-pi-fx_replace_nhpf
     [amp 1
      amp_slide 0
      mix 1
@@ -2051,7 +2051,7 @@
       (replace-out out_bus [fin-l fin-r])))
 
 
-  (defsynth sonic-pi-fx_norm_lpf
+  (defsynth sonic-pi-fx_nlpf
     [amp 1
      amp_slide 0
      mix 1
@@ -2075,7 +2075,7 @@
       (out out_bus [fin-l fin-r])))
 
 
-  (defsynth sonic-pi-fx_replace_norm_lpf
+  (defsynth sonic-pi-fx_replace_nlpf
     [amp 1
      amp_slide 0
      mix 1
@@ -2253,20 +2253,20 @@
     (save-to-pi sonic-pi-fx_replace_compressor)
     (save-to-pi sonic-pi-fx_rlpf)
     (save-to-pi sonic-pi-fx_replace_rlpf)
-    (save-to-pi sonic-pi-fx_norm_rlpf)
-    (save-to-pi sonic-pi-fx_replace_norm_rlpf)
+    (save-to-pi sonic-pi-fx_nrlpf)
+    (save-to-pi sonic-pi-fx_replace_nrlpf)
     (save-to-pi sonic-pi-fx_rhpf)
     (save-to-pi sonic-pi-fx_replace_rhpf)
-    (save-to-pi sonic-pi-fx_norm_rhpf)
-    (save-to-pi sonic-pi-fx_replace_norm_rhpf)
+    (save-to-pi sonic-pi-fx_nrhpf)
+    (save-to-pi sonic-pi-fx_replace_nrhpf)
     (save-to-pi sonic-pi-fx_hpf)
     (save-to-pi sonic-pi-fx_replace_hpf)
-    (save-to-pi sonic-pi-fx_norm_hpf)
-    (save-to-pi sonic-pi-fx_replace_norm_hpf)
+    (save-to-pi sonic-pi-fx_nhpf)
+    (save-to-pi sonic-pi-fx_replace_nhpf)
     (save-to-pi sonic-pi-fx_lpf)
     (save-to-pi sonic-pi-fx_replace_lpf)
-    (save-to-pi sonic-pi-fx_norm_lpf)
-    (save-to-pi sonic-pi-fx_replace_norm_lpf)
+    (save-to-pi sonic-pi-fx_nlpf)
+    (save-to-pi sonic-pi-fx_replace_nlpf)
     (save-to-pi sonic-pi-fx_normaliser)
     (save-to-pi sonic-pi-fx_replace_normaliser)
     (save-to-pi sonic-pi-fx_distortion)
