@@ -1502,7 +1502,7 @@ end
                     :phase_offset =>
                     {
                       :doc => "Initial modulation phase offset (a value between 0 and 1).",
-                      :validations => [v_between_inclusive(:mod_phase_offset, 0, 1)],
+                      :validations => [v_between_inclusive(:phase_offset, 0, 1)],
                       :modulatable => false
                     },
                   })
@@ -2039,10 +2039,10 @@ end
           :bpm_scale => true
         },
 
-        :mod_phase_offset =>
-        {
+        :phase_offset =>
+           {
           :doc => "Initial modulation phase offset (a value between 0 and 1).",
-          :validations => [v_between_inclusive(:mod_phase_offset, 0, 1)],
+          :validations => [v_between_inclusive(:phase_offset, 0, 1)],
           :modulatable => false
         },
 
