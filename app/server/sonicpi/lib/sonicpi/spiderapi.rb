@@ -228,7 +228,7 @@ dice 3 # will return a number between 1 and 3 inclusively"]
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given two numbers, this produces a float between the supplied min and max values. Both min and max need to be supplied. For random integers, see rrand_i",
+        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see rrand_i",
         examples:      [
 "
 print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
@@ -252,10 +252,10 @@ end"]
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block: false,
-        doc:            "Given two numbers, this produces a whole number between the min and max you supplied. Both min and max need to be supplied. For random floats, see rrand",
+        doc:            "Given two numbers, this produces a whole number between the min and max you supplied inclusively. Both min and max need to be supplied. For random floats, see rrand",
         examples:      [
 "
-print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4.0) to the output pane",
+print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4.0, 0.0 or 10.0) to the output pane",
 "
 loop do
   play rrand_i(60, 72) #=> Will play a random midi note between C4 (60) and C5 (72)
