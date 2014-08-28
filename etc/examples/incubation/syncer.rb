@@ -1,5 +1,3 @@
-use_synth "mod_saw"
-
 in_thread do
   loop do
     cue :tick
@@ -15,8 +13,9 @@ in_thread do
 end
 
 in_thread do
+  use_synth :mod_saw
   loop do
     sync :tick
-    play chord(:e1, :minor).choose, mod_rate: [1, 2, 4, 8].choose, cutoff: rrand(80, 110)
+    play chord(:e1, :minor).choose, mod_phase: [1, 0.5, 0.25, 0.125].choose, cutoff: rrand(80, 110)
   end
 end
