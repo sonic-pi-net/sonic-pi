@@ -197,6 +197,23 @@ end"]
 "print foo             #=> will print the contents of foo to the output pane"]
 
 
+    def dice(num_sides=6)
+      rrand_i(1, num_sides)
+    end
+    doc name:           :dice,
+        summary:        "Random dice throw",
+        args:           [[:num_sides, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Throws a dice with the specified num_sides (defaults to 6) and returns the score as a number between 1 and num_sides.",
+        examples:      [
+"
+dice # will return a number between 1 and 6 inclusively
+     # (with an even probaility distribution).",
+"
+dice 3 # will return a number between 1 and 3 inclusively"]
+
+
 
 
     def rrand(min, max)
