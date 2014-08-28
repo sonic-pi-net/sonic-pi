@@ -21,7 +21,7 @@
 int main(int argc, char *argv[])
 {
 
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC)
 
   QApplication app(argc, argv);
   app.setApplicationName("Sonic Pi");

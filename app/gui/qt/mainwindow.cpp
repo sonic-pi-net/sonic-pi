@@ -261,7 +261,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   infoWindow->setCentralWidget(infoPane);
   this->showNormal();
 
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC)
   splash->close();
 #else
   splash.finish(this);
