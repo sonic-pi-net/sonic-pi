@@ -260,7 +260,12 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center>");
   infoWindow->setCentralWidget(infoPane);
   this->showNormal();
+
+#ifdef Q_OS_MAC
   splash->close();
+#else
+  splash.finish(this);
+#endif
 }
 
 void MainWindow::serverError(QProcess::ProcessError error) {
