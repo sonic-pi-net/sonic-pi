@@ -94,9 +94,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
   serverProcess = new QProcess();
 
-  connect(serverProcess, SIGNAL( error(QProcess::ProcessError) ), this, SLOT( serverError(QProcess::ProcessError)));
-  connect(serverProcess, SIGNAL( finished(int, QProcess::ExitStatus) ), this, SLOT( serverFinished(int, QProcess::ExitStatus)));
-
 #if defined(Q_OS_WIN)
   QString prg_path = QCoreApplication::applicationDirPath() + "\\..\\..\\server\\native\\osx\\ruby\\bin\\ruby";
 #elif defined(Q_OS_MAC)
@@ -113,7 +110,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   args << prg_arg;
 
   std::cout << prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
-
+  serverProcess->setStandardErrorFile("/tmp/sonic-pi-error");
+  serverProcess->setStandardOutputFile("/tmp/sonic-pi-output");
   serverProcess->start(prg_path, args);
   serverProcess->waitForStarted();
 
