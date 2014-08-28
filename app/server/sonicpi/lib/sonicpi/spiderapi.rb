@@ -582,6 +582,7 @@ end"
 
 
     def sync(cue_id)
+      __schedule_delayed_blocks_and_messages!
       p = Promise.new
       @events.oneshot_handler("/spider_thread_sync/" + cue_id.to_s) do |payload|
         p.deliver! payload
