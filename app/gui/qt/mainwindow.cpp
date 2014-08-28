@@ -98,15 +98,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(serverProcess, SIGNAL( finished(int, QProcess::ExitStatus) ), this, SLOT( serverFinished(int, QProcess::ExitStatus)));
 
 #if defined(Q_OS_WIN)
-  QString prg_path = "..\\..\\server\\native\\osx\\ruby\\bin\\ruby";
+  QString prg_path = QCoreApplication::applicationDirPath() + "\\..\\..\\server\\native\\osx\\ruby\\bin\\ruby";
 #elif defined(Q_OS_MAC)
-  QString prg_path = "../../server/native/osx/ruby/bin/ruby";
+  QString prg_path = QCoreApplication::applicationDirPath() + "/../../server/native/osx/ruby/bin/ruby";
 #else
   //assuming Raspberry Pi
   QString prg_path = "ruby";
 #endif
 
-  QString prg_arg = "../../server/bin/sonic-pi-server.rb";
+  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
   prg_arg = QDir::toNativeSeparators(prg_arg);
 
   QStringList args;
