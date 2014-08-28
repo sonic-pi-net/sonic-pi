@@ -222,7 +222,8 @@ end
 
 class Array
   def choose
-    self.sample
+    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+    self[rgen.rand(self.size)]
   end
 end
 
