@@ -2001,6 +2001,10 @@ end
       "fx_ixi_techno"
     end
 
+    def doc
+      "Moving resonant low pass filter between min and max cutoffs. Great for sweeping effects across long synths or samples."
+    end
+
     def arg_defaults
       {
         :amp => 1,
