@@ -47,3 +47,4 @@ RESOURCES += \
     help_files.qrc
 
 ICON = images/app.icns
+LIBS         += -lqscintilla2
