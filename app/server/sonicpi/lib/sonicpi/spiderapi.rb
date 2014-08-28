@@ -201,7 +201,8 @@ end"]
 
     def rrand(min, max)
       range = (min - max).abs
-      r = @random_generator.rand(range.to_f)
+      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+      r = rgen.rand(range.to_f)
       smallest = [min, max].min
       r + smallest
     end
@@ -225,7 +226,8 @@ end"]
 
     def rrand_i(min, max)
       range = (min - max).abs
-      r = @random_generator.rand(range.to_i + 1)
+      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+      r = rgen.rand(range.to_i + 1)
       smallest = [min, max].min
       (r + smallest).to_f
     end
@@ -247,7 +249,8 @@ end"]
 
 
     def rand(max=1)
-      @random_generator.rand(max.to_f)
+      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+      rgen.rand(max.to_f)
     end
     doc name:           :rand,
         summary:        "Generate a random float below a value",
@@ -263,7 +266,8 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
 
 
     def rand_i(max=2)
-      @random_generator.rand(max.to_i).to_f
+      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+      rgen.rand(max.to_i).to_f
     end
     doc name:           :rand_i,
         summary:        "Generate a random whole number float below a value",

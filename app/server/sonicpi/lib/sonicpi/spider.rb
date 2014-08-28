@@ -327,6 +327,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
+          Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(0)
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
           now = Time.now
