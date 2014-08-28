@@ -2214,6 +2214,7 @@
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (out out_bus [fin-l fin-r])))
 
+
   (defsynth sonic-pi-fx_replace_pan
     [amp 1
      amp_slide 0
