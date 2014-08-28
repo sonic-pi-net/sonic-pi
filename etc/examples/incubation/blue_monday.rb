@@ -18,19 +18,13 @@ define :snare do
 end
 
 define :synths do
-  use_synth :saw_beep
-  use_synth_defaults amp: 0.5, attack: 0.01, release: 0.75, cutoff: 90
+  use_synth :mod_saw
+  use_synth_defaults amp: 0.5, attack: 0, sustain: 1, release: 0.25, cutoff: 90, mod_range: 12, mod_phase: 0.5
   notes = [:F, :C, :D, :D, :G, :C, :D, :D]
   notes.each do |n|
-    2.times do
-      play note(n, octave: 1)
-      play note(n, octave: 2)
-      sleep 0.25
-
-      play note(n, octave: 2)
-      play note(n, octave: 3)
-      sleep 0.25
-    end
+    play note(n, octave: 1)
+    play note(n, octave: 2)
+    sleep 1
   end
 end
 
