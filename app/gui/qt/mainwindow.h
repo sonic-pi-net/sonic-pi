@@ -47,8 +47,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+#ifdef Q_OS_MAC
     MainWindow(QApplication &ref, QMainWindow* splash);
-
+#else
+    MainWindow(QApplication &ref, QSplashScreen &splash);
+#endif
 protected:
     void closeEvent(QCloseEvent *event);
 

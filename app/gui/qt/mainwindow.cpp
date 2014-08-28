@@ -75,8 +75,11 @@
 
 using namespace oscpkt;
 
+#ifdef Q_OS_MAC
 MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
-
+#else
+MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
+#endif
   this->setUnifiedTitleAndToolBarOnMac(true);
 
   is_recording = false;

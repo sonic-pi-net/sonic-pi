@@ -20,22 +20,16 @@
 #include "mainwindow.h"
 int main(int argc, char *argv[])
 {
-  // Q_INIT_RESOURCE(application);
+
+#ifdef Q_OS_MAC
 
   QApplication app(argc, argv);
   app.setApplicationName("Sonic Pi");
   app.setStyle("gtk");
-
-#ifdef Q_OS_MAC
   app.setAttribute( Qt::AA_UseHighDpiPixmaps );
-#endif
-
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
-
   splashWindow->setAttribute( Qt::WA_TranslucentBackground);
-
-#ifdef Q_OS_MAC
   QPixmap image(":/images/splash@2x.png");
   imageLabel->setPixmap(image);
   splashWindow->setCentralWidget(imageLabel);
@@ -43,22 +37,29 @@ int main(int argc, char *argv[])
   splashWindow->setMaximumHeight(image.height()/2);
   splashWindow->setMinimumWidth(image.width()/2);
   splashWindow->setMaximumWidth(image.width()/2);
-  MainWindow mainWin(app, splashWindow);
-  sleep(3);
-#else
-  QPixmap image(":/images/splash.png");
-  imageLabel->setPixmap(image);
-  splashWindow->setCentralWidget(imageLabel);
-  splashWindow->setMinimumHeight(image.height());
-  splashWindow->setMaximumHeight(image.height());
-  splashWindow->setMinimumWidth(image.width());
-  splashWindow->setMaximumWidth(image.width());
-  QIcon icon(":images/app.icns");
-  MainWindow mainWin(app, splashWindow);
-  mainWin.setWindowIcon(icon);
-#endif
 
   splashWindow->raise();
   splashWindow->show();
+
+  sleep(3);
+  MainWindow mainWin(app, splashWindow);
   return app.exec();
+
+#else
+
+  Q_INIT_RESOURCE(SonicPi);
+  QApplication app(argc, argv);
+  app.setApplicationName("Sonic Pi");
+  app.setStyle("gtk");
+  QPixmap pixmap(":/images/splash.png");
+  QSplashScreen splash(pixmap);
+  splash.setMask(pixmap.mask());
+  splash.show();
+  splash.repaint();
+  MainWindow mainWin(app, splash);
+  return app.exec();
+
+#endif
+
+
 }
