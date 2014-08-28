@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
   splashWindow->setMaximumHeight(image.height()/2);
   splashWindow->setMinimumWidth(image.width()/2);
   splashWindow->setMaximumWidth(image.width()/2);
+  MainWindow mainWin(app, splashWindow);
   sleep(3);
 #else
   QPixmap image(":/images/splash.png");
@@ -53,11 +54,11 @@ int main(int argc, char *argv[])
   splashWindow->setMinimumWidth(image.width());
   splashWindow->setMaximumWidth(image.width());
   QIcon icon(":images/app.icns");
+  MainWindow mainWin(app, splashWindow);
   mainWin.setWindowIcon(icon);
 #endif
 
   splashWindow->raise();
   splashWindow->show();
-  MainWindow mainWin(app, splashWindow);
   return app.exec();
 }
