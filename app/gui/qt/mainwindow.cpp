@@ -681,8 +681,12 @@ void MainWindow::stopCode()
 
 void MainWindow::about()
 {
-  infoWindow->raise();
-  infoWindow->show();
+  if(infoWindow->isVisible()) {
+    infoWindow->hide();
+  } else {
+    infoWindow->raise();
+    infoWindow->show();
+  }
 }
 
 
