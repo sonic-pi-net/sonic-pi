@@ -211,7 +211,7 @@ module SonicPi
 
         :attack =>
         {
-          :doc => "Amount of time (in seconds) for sound to reach full amplitude (attack_leve). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.",
+          :doc => "Amount of time (in seconds) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.",
           :validations => [v_positive(:attack)],
           :modulatable => false,
           :bpm_scale => true
