@@ -7,9 +7,15 @@ with_fx :reverb do
       loop do
 
         n = [:e2, :e2, :a3].choose
+
         with_synth :dsaw do
           with_transpose -12 do
-            play n, attack: 0.4, release: 0.8, detune: rrand(0, 0.1)
+            in_thread do
+              2.times do
+                play n, attack: 0.6, release: 0.8, detune: rrand(0, 0.1), cutoff: rrand(80, 120)
+                sleep 3
+              end
+            end
           end
         end
 
