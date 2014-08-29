@@ -21,7 +21,7 @@
 * Build project - should see app dir structure in /path/to/app
 * Copy all dylibs to new app dir: 
   - cp /path/to/qscintilla/Qt4Qt5/*.dylib /path/to/app/Sonic-Pi.app/Contents/MacOS/
-* Copy this as a Info.plist into the root of Sonic-Pi.app:
+* Copy this as a Info.plist into the Content dir within Sonic-Pi.app:
   
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
