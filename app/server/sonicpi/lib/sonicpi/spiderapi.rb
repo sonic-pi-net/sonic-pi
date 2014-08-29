@@ -571,6 +571,12 @@ play 62
     def wait(time)
       sleep(time)
     end
+    doc name:           :wait,
+        doc:            "Synonym for sleep"
+        args:           [[:seconds, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        examples:       []
 
 
     def cue(cue_id)
