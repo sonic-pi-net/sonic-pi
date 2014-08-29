@@ -315,6 +315,50 @@ print rand_i(10) #=> will print a number like 7.0 to the output pane"]
   sleep 1
 end"]
 
+    def use_random_seed(seed, &block)
+      raise "use_random_seed does not work with a block. Perhaps you meant with_random_seed" if block
+      Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
+    end
+    doc name:          :use_random_seed,
+        doc:            "Resets the random number generator to the specified seed. All subsequently generated random numbers will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced",
+        args:          [[:seed, :number]],
+        opts:          nil,
+        accepts_block: false,
+        examples:      ["
+use_random_seed 1 # reset random seed to 1
+puts rand # => 0.417022004702574
+use_random_seed 1 # reset random seed back to 1
+puts rand  #=> 0.417022004702574
+"]
+
+
+
+
+    def with_random_seed(seed, &block)
+      raise "with_random_seed requires a block. Perhaps you meant use_random_seed" unless block
+      current_rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+      Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
+      block.call
+      Thread.current.thread_variable_set :sonic_pi_spider_random_generator, current_rgen
+    end
+    doc name:          :with_random_seed,
+        doc:            "Resets the random number generator to the specified seed for the specified code block. All generated random numbers within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded.",
+        args:          [[:seed, :number]],
+        opts:          nil,
+        accepts_block: true,
+        examples:      ["
+use_random_seed 1 # reset random seed to 1
+puts rand # => 0.417022004702574
+puts rand  #=> 0.7203244934421581
+use_random_seed 1 # reset it back to 1
+puts rand # => 0.417022004702574
+with_random_seed 1 do # reset seed back to 1 just for this block
+  puts rand # => 0.417022004702574
+  puts rand #=> 0.7203244934421581
+end
+puts rand # => 0.7203244934421581
+          # notice how the original generator is restored"]
+
 
 
 
