@@ -586,7 +586,7 @@ play 62
       end
     end
     doc name:           :cue,
-        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the wait fn.",
+        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the sync fn.",
         args:           [[:cue_id, :symbol]],
         opts:           {:message => nil},
         accepts_block:  false,
