@@ -215,6 +215,25 @@ dice 3 # will return a number between 1 and 3 inclusively"]
 
 
 
+    def one_in(num)
+      rrand_i(1, num_sides) == 1
+    end
+    doc name:           :one_in,
+        summary:        "Random ",
+        args:           [[:num, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Returns true or false with a specified probability - it will return true every one in num times where num is the param you specify"
+        examples:      [
+"
+one_in 2 # will return true with a probablility of 1/2, false with probability 1/2",
+"
+one_in 3 # will return true with a probability of 1/3, false with a probability of 2/3",
+"
+one_in 100 # will return true with a probability of 1/100, false with a probability of 99/100"]
+
+
+
 
     def rrand(min, max)
       range = (min - max).abs
