@@ -567,7 +567,7 @@ play 62
         accepts_block:  false,
         examples:       ["
 in_thread do
-  cue :foo # this parks the current thread waiting for a foo cue message to be received.
+  sync :foo # this parks the current thread waiting for a foo cue message to be received.
   sample :ambi_lunar_land
 end
 
@@ -586,7 +586,7 @@ end
 
 # We can now play sounds using the metronome.
 loop do                    # In the main thread, just loop
-  cue :tick               # waiting for :tick cue messages
+  sync :tick               # waiting for :tick cue messages
   sample :drum_heavy_kick  # after which play the drum kick sample
 end",
 
@@ -602,21 +602,21 @@ end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    cue :foo               # waiting for :foo cue messages
+    sync :foo               # waiting for :foo cue messages
     sample :elec_beep  # after which play the elec beep sample
   end
 end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    cue :bar               # waiting for :bar cue messages
+    sync :bar               # waiting for :bar cue messages
     sample :elec_flip  # after which play the elec flip sample
   end
 end
 
 in_thread do
   loop do                    # In the main thread, just loop
-    cue :baz               # waiting for :baz cue messages
+    sync :baz               # waiting for :baz cue messages
     sample :elec_blup  # after which play the elec blup sample
   end
 end"
