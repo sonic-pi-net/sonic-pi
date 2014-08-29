@@ -250,12 +250,12 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   infoWindow = new QMainWindow();
   QTextEdit* infoPane = new QTextEdit;
   infoPane->setReadOnly(true);
-  infoPane->setFixedSize(550, 700);
+  infoPane->setFixedSize(550, 600);
   QString html;
 
 
 
-  infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center>");
+  infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\">Designed and developed by Sam Aaron<br/>in Cambridge, England</font><pre><font size=\"4\">For the latest updates follow<br/><font color=\"DeepPink\">@sonic_pi</font></font></pre><br /><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font></pre><pre>code_as <font color=\"DeepPink\">:art</font></pre></h2></center>");
   infoWindow->setCentralWidget(infoPane);
   this->showNormal();
 
