@@ -223,7 +223,7 @@ dice 3 # will return a number between 1 and 3 inclusively"]
         args:           [[:num, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Returns true or false with a specified probability - it will return true every one in num times where num is the param you specify"
+        doc:            "Returns true or false with a specified probability - it will return true every one in num times where num is the param you specify",
         examples:      [
 "
 one_in 2 # will return true with a probablility of 1/2, false with probability 1/2",
@@ -572,7 +572,7 @@ play 62
       sleep(time)
     end
     doc name:           :wait,
-        doc:            "Synonym for sleep"
+        doc:            "Synonym for sleep",
         args:           [[:seconds, :number]],
         opts:           nil,
         accepts_block:  false,
