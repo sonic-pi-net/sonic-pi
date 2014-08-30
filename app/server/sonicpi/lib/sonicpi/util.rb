@@ -82,6 +82,10 @@ module SonicPi
       File.absolute_path("#{doc_path}/cheatsheets")
     end
 
+    def tutorial_path
+      File.absolute_path("#{doc_path}/tutorial")
+    end
+
     def tmp_path
       File.absolute_path("#{root_path}/tmp")
     end

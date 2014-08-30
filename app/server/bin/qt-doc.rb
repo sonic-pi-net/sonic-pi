@@ -113,7 +113,15 @@ synths_doc.each do |k, v|
   synths_doc_titleized[k] = v
 end
 
-make_tab.call("tutorial", {"01. Getting Started" => "<h1>Getting started</h1>"})
+
+tutorial_html_map = {}
+Dir["#{tutorial_path}/*.html"].each do |path|
+  contents = IO.read(path)
+  tutorial_html_map[File.basename(path, ".html").gsub!(/-/, ' ')] = contents
+end
+
+
+make_tab.call("tutorial", tutorial_html_map)
 make_tab.call("examples", example_html_map)
 make_tab.call("synths", synths_doc_titleized)
 make_tab.call("fx", fx_doc_titlized)
