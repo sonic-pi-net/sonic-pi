@@ -794,7 +794,9 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 "]
 
 
-
+       def use_fx(*args, &block)
+         raise "use_fx isn't supported in this version of Sonic Pi. Perhaps you meant with_fx"
+       end
 
        def with_fx(fx_name, *args, &block)
          raise "with_fx must be called with a block" unless block
