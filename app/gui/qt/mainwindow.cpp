@@ -187,7 +187,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   docsCentral->setTabsClosable(false);
   docsCentral->setMovable(false);
   docsCentral->setTabPosition(QTabWidget::West);
-  docWidget = new QDockWidget("Documentation", this);
+  docWidget = new QDockWidget("Help", this);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
   docWidget->setWidget(docsCentral);
 
