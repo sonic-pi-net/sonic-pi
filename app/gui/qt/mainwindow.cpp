@@ -255,7 +255,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
 
 
-  infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\">Designed and developed by Sam Aaron<br/>in Cambridge, England</font></pre><pre><font size=\"4\">For the latest updates follow<br/><font color=\"DeepPink\">@sonic_pi</font></font></pre><br /><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font></pre><pre>code_as <font color=\"DeepPink\">:art</font></pre></h2><br/><pre><font size=\"4\">v2.0</font></pre><br/></center>");
+  infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\">Designed and developed by Sam Aaron<br>in Cambridge, England<br><br><font color=\"DeepPink\">http://sonic-pi.net</font><br><br>For the latest updates follow<br><font color=\"DeepPink\">@sonic_pi<br></font></font></pre><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></h2><pre><font size=\"4\"><br>v2.0</font></pre></center>");
   infoWindow->setCentralWidget(infoPane);
   this->showNormal();
 
