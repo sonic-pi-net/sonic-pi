@@ -272,7 +272,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
 
 
-    startupPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\"><font color=\"DeepPink\">Welcome!</font><br><br>This is Sonic Pi<br>the live coding music environment<br><br>To get started please follow the tutorial<br> in the help system below<br>(which you can open by pressing the Help button)<br>Remember...<br>with live coding<br>there are no mistakes<br>only possibilities<font color=\"DeepPink\"><br><br>Have fun and share your code<br>for others to jam with</font></font></center>");
+    startupPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\"><font color=\"DeepPink\">Welcome!</font><br><br>This is Sonic Pi<br>the live coding music environment<br><br>To get started please follow the tutorial<br> in the help system below<br>(which you can always access via the Help button)<br><br>Remember...<br>with live coding<br>there are no mistakes<br>only possibilities<font color=\"DeepPink\"><br><br>Have fun and share your code<br>for others to jam with</font></font></center>");
     docWidget->show();
     startupPane->show();
   }
