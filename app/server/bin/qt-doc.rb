@@ -113,12 +113,13 @@ synths_doc.each do |k, v|
   synths_doc_titleized[k] = v
 end
 
+make_tab.call("tutorial", {"01. Getting Started" => "<h1>Getting started</h1>"})
 make_tab.call("examples", example_html_map)
 make_tab.call("synths", synths_doc_titleized)
 make_tab.call("fx", fx_doc_titlized)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
 make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map))
-make_tab.call("tutorial", {"01. Getting Started" => "<h1>Getting started</h1>"})
+
 
 
 # update mainwindow.cpp

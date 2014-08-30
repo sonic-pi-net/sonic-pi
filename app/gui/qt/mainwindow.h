@@ -168,8 +168,8 @@ private:
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 
-    QMainWindow *infoWindow;
-    QMainWindow *docWindow;
+    QTextEdit *infoPane;
+    QTextEdit *startupPane;
     QLabel *imageLabel;
     QSlider *raspberryPiSystemVol;
 

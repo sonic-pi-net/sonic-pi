@@ -247,16 +247,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   initPrefsWindow();
   initDocsWindow();
 
-  infoWindow = new QMainWindow();
-  QTextEdit* infoPane = new QTextEdit;
+  infoPane = new QTextEdit;
   infoPane->setReadOnly(true);
   infoPane->setFixedSize(550, 650);
   QString html;
 
 
-
   infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\">Designed and developed by Sam Aaron<br>in Cambridge, England<br><br><font color=\"DeepPink\">http://sonic-pi.net</font><br><br>For the latest updates follow<br><font color=\"DeepPink\">@sonic_pi<br></font></font></pre><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></h2><pre><font size=\"4\"><br>v2.0</font></pre></center>");
-  infoWindow->setCentralWidget(infoPane);
   this->showNormal();
 
 #if defined(Q_OS_MAC)
@@ -264,6 +261,21 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 #else
   splash.finish(this);
 #endif
+
+    QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+
+  if(settings.value("first_time", 1).toInt() == 1) {
+    QTextEdit* startupPane = new QTextEdit;
+    startupPane->setReadOnly(true);
+    startupPane->setFixedSize(550, 700);
+    QString html;
+
+
+
+    startupPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\"><font color=\"DeepPink\">Welcome!</font><br><br>This is Sonic Pi<br>the live coding music environment<br><br>To get started please follow the tutorial<br> in the help system below<br>(which you can open by pressing the Help button)<br>Remember...<br>with live coding<br>there are no mistakes<br>only possibilities<font color=\"DeepPink\"><br><br>Have fun and share your code<br>for others to jam with</font></font></center>");
+    docWidget->show();
+    startupPane->show();
+  }
 }
 
 void MainWindow::serverError(QProcess::ProcessError error) {
@@ -681,11 +693,11 @@ void MainWindow::stopCode()
 
 void MainWindow::about()
 {
-  if(infoWindow->isVisible()) {
-    infoWindow->hide();
+  if(infoPane->isVisible()) {
+    infoPane->hide();
   } else {
-    infoWindow->raise();
-    infoWindow->show();
+    infoPane->raise();
+    infoPane->show();
   }
 }
 
@@ -955,6 +967,7 @@ void MainWindow::writeSettings()
     QSettings settings("uk.ac.cam.cl", "Sonic Pi");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
+    settings.setValue("first_time", 0);
 }
 
 void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)
