@@ -95,7 +95,7 @@ module SonicPi
 
       case os
       when :raspberry
-        boot_server_linux
+        boot_server_raspberry_pi
       when :linux
         boot_server_linux
       when :osx
@@ -226,6 +226,30 @@ module SonicPi
       end
     end
 
+    def boot_server_raspberry_pi
+      log_boot_msg
+      log "Booting on Raspberry Pi"
+      `killall jackd`
+      `killall scsynth`
+      system("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+
+      # Wait for Jackd to start
+      while `jack_wait -c`.match /not.*/
+        sleep 0.25
+      end
+
+      @jack_pid = `ps cax | grep jackd`.split(" ").first
+
+      boot_and_wait do
+        system("scsynth -u #{@port} -m 131072 &")
+      end
+
+      `jack_connect SuperCollider:out_1 system:playback_1`
+      `jack_connect SuperCollider:out_2 system:playback_2`
+
+      sleep 3
+    end
+
     def boot_server_linux
       log_boot_msg
       log "Booting on Linux"
@@ -237,7 +261,7 @@ module SonicPi
 
         # Wait for Jackd to start
         while `jack_wait -c`.match /not.*/
-          sleep 0.5
+          sleep 0.25
         end
         @jack_pid = `ps cax | grep jackd`.split(" ").first
       else
@@ -250,9 +274,6 @@ module SonicPi
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
-
-      # TODO: is this sleep necessary?
-      sleep 3 if raspberry?
     end
   end
 end
