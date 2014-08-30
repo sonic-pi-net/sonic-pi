@@ -37,7 +37,7 @@ module SonicPi
       if (os == :raspberry)
         1
       else
-        0.1
+        0.2
       end
     end
 

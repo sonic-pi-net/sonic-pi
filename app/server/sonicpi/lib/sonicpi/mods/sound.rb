@@ -66,7 +66,6 @@ module SonicPi
              @JOB_BUSSES_A = Atom.new(Hamster.hash)
              @JOB_BUSSES_MUTEX = Mutex.new
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
-             @mod_sound_studio.sched_ahead_time = 0.5 if (os == :raspberry)
 
              @life_hooks.on_init do |job_id, payload|
 
