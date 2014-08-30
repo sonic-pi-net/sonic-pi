@@ -47,8 +47,9 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         val = block.yield
         val_block = lambda{val}
         define(name, &val_block)
+        __info "Evaluating defonce #{name}"
       else
-        __info "Not re-defining #{name}"
+        __info "Not re-evaluating defonce #{name}"
       end
     end
     doc name:           :defonce,
@@ -111,6 +112,7 @@ play bar # plays 80"]
 
     def define(name, &block)
       raise "define must be called with a code block" unless block
+      __info "Defining #{name}"
       @user_methods.send(:define_method, name, &block)
     end
     doc name:           :define,
