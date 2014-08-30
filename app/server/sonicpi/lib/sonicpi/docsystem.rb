@@ -60,7 +60,9 @@ module SonicPi
               end
               html << "<h2><pre>[#{req_args.join(', ')}]</pre></h2>\n"
               html << "<p><font size=\"4\", #{hv_face}>\n"
-              html << v[:doc] << "\n</h3>\n"
+              html << v[:doc] << "\n</p>\n"
+              html << "<p><font size=\"3\", #{hv_face}>\n"
+              html << "Introduced in v" << v[:introduced].to_s << "\n</p>\n"
 
               html << "<table cellpadding=\"2\">\n"
               html << " <tr>\n   <th></th><th></th><th></th>\n </tr>\n"

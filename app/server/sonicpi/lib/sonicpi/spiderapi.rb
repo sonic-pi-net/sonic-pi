@@ -11,6 +11,7 @@
 # notice is included.
 #++
 require_relative 'docsystem'
+require_relative "version"
 
 module SonicPi
   module SpiderAPI
@@ -21,13 +22,14 @@ module SonicPi
       @version
     end
     doc name:           :version,
+        introduced:     Version.new(2,0,0),
         summary:        "Get current version information",
         args:           [],
         opts:           nil,
         accepts_block: false,
         doc: "Return information representing the current version of Sonic Pi. This information may be further inspected with version.major, version.minor, version.patch and version.dev",
         examples: ["
-puts version # => Prints out the current version such as 2.0.0",
+puts version # => Prints out the current version such as 2,0,0",
 "
 puts version.major # => Prints out the major version number such as 2",
 "
@@ -50,6 +52,7 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
       end
     end
     doc name:           :defonce,
+        introduced:     Version.new(2,0,0),
         summary:        "Define a named value only once",
         args:           [[:name, :symbol]],
         opts:           {:override => false},
@@ -111,6 +114,7 @@ play bar # plays 80"]
       @user_methods.send(:define_method, name, &block)
     end
     doc name:           :define,
+        introduced:     Version.new(2,0,0),
         summary:        "Define a new function",
         args:           [[:name, :symbol]],
         opts:          nil,
@@ -154,6 +158,7 @@ end",]
       #do nothing!
     end
     doc name:           :comment,
+        introduced:     Version.new(2,0,0),
         summary:        "Block level commenting",
         args:           [],
         opts:           nil,
@@ -172,6 +177,7 @@ end"]
       block.call
     end
     doc name:           :uncomment,
+        introduced:     Version.new(2,0,0),
         summary:        "Block level comment ingoring",
         args:           [],
         opts:           nil,
@@ -190,6 +196,7 @@ end"]
      __delayed_user_message output
     end
     doc name:          :print,
+        introduced:     Version.new(2,0,0),
         summary:       "Display a message in the output pane",
         args:          [[:output, :string]],
         opts:          nil,
@@ -207,6 +214,7 @@ end"]
       __delayed_user_message output
     end
     doc name:           :puts,
+        introduced:     Version.new(2,0,0),
         summary:       "Display a message in the output pane",
         args:           [[:output, :string]],
         opts:           nil,
@@ -224,6 +232,7 @@ end"]
       rrand_i(1, num_sides)
     end
     doc name:           :dice,
+        introduced:     Version.new(2,0,0),
         summary:        "Random dice throw",
         args:           [[:num_sides, :number]],
         opts:           nil,
@@ -242,7 +251,8 @@ dice 3 # will return a number between 1 and 3 inclusively"]
       rrand_i(1, num_sides) == 1
     end
     doc name:           :one_in,
-        summary:        "Random ",
+        introduced:     Version.new(2,0,0),
+        summary:        "Random true value with specified probability",
         args:           [[:num, :number]],
         opts:           nil,
         accepts_block:  false,
@@ -266,6 +276,7 @@ one_in 100 # will return true with a probability of 1/100, false with a probabil
       r + smallest
     end
     doc name:           :rrand,
+        introduced:     Version.new(2,0,0),
         summary:        "Generate a random float between two numbers",
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
@@ -291,6 +302,8 @@ end"]
       (r + smallest).to_f
     end
     doc name:           :rrand_i,
+        introduced:     Version.new(2,0,0),
+        summary:        "Generate a random whole number between two points inclusively",
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block: false,
@@ -312,6 +325,7 @@ end"]
       rgen.rand(max.to_f)
     end
     doc name:           :rand,
+        introduced:     Version.new(2,0,0),
         summary:        "Generate a random float below a value",
         args:           [[:max, :number]],
         opts:           nil,
@@ -329,6 +343,7 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
       rgen.rand(max.to_i).to_f
     end
     doc name:           :rand_i,
+        introduced:     Version.new(2,0,0),
         summary:        "Generate a random whole number float below a value",
         args:           [[:max, :number]],
         opts:           nil,
@@ -345,6 +360,8 @@ print rand_i(10) #=> will print a number like 7.0 to the output pane"]
       list.to_a.choose
     end
     doc name:           :choose,
+        introduced:     Version.new(2,0,0),
+        summary:        "Random list selection",
         args:           [[:list, :array]],
         opts:           nil,
         accepts_block:  false,
@@ -357,11 +374,16 @@ print rand_i(10) #=> will print a number like 7.0 to the output pane"]
   sleep 1
 end"]
 
+
+
+
     def use_random_seed(seed, &block)
       raise "use_random_seed does not work with a block. Perhaps you meant with_random_seed" if block
       Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
     end
     doc name:          :use_random_seed,
+        introduced:     Version.new(2,0,0),
+        summmary: "",
         doc:            "Resets the random number generator to the specified seed. All subsequently generated random numbers will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced",
         args:          [[:seed, :number]],
         opts:          nil,
@@ -384,6 +406,8 @@ puts rand  #=> 0.417022004702574
       Thread.current.thread_variable_set :sonic_pi_spider_random_generator, current_rgen
     end
     doc name:          :with_random_seed,
+        introduced:     Version.new(2,0,0),
+        summary:       "Specify random seed for code block",
         doc:            "Resets the random number generator to the specified seed for the specified code block. All generated random numbers within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded.",
         args:          [[:seed, :number]],
         opts:          nil,
@@ -410,6 +434,8 @@ puts rand # => 0.7203244934421581
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
     end
     doc name:           :use_bpm,
+        introduced:     Version.new(2,0,0),
+        summary:        "Set the tempo",
         doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. Affects all subsequent calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. If you wish to bypass scaling in calls to sleep, see the fn rt. Also, if you wish to bypass time scaling in synth args see use_arg_bpm_scaling. See also with_bpm for a block scoped version of use_bpm.",
         args:           [[:bpm, :number]],
         opts:           nil,
@@ -453,6 +479,8 @@ end
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
     end
     doc name:           :with_bpm,
+        introduced:     Version.new(2,0,0),
+        summary:        "Set the tempo for the code block",
         doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also use_bpm",
         args:           [[:bpm, :number]],
         opts:           nil,
@@ -490,7 +518,9 @@ end"]
       60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
     end
     doc name:          :current_bpm,
-        doc:           "Returns the current bpm value.",
+        introduced:    Version.new(2,0,0),
+        summary:       "Get current tempo",
+        doc:           "Returns the current tempo as a bpm value.",
         args:          [],
         opts:          nil,
         accepts_block: false,
@@ -504,6 +534,8 @@ puts current_bpm # Print out the current bpm"]
       t / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
     end
     doc name:          :rt,
+        introduced:    Version.new(2,0,0),
+        summary:       "Real time conversion",
         doc:           "Real time representation. Returns the amount of beats for the value in real-time seconds. Useful for bypassing any bpm scaling",
         args:          [[:seconds, :number]],
         opts:          nil,
@@ -551,6 +583,8 @@ play 72"]
       Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
     end
     doc name:           :sleep,
+        introduced:     Version.new(2,0,0),
+        summary:        "Wait for duration",
         doc:            "Wait for a number of seconds before triggering the next command. Seconds are scaled to the current bpm setting.",
         args:           [[:seconds, :number]],
         opts:           nil,
@@ -595,20 +629,27 @@ play 62
       sleep(time)
     end
     doc name:           :wait,
-        doc:            "Synonym for sleep",
+        introduced:     Version.new(2,0,0),
+        summary:        "Wait for duration",
+        doc:            "Synonym for sleep - see sleep",
         args:           [[:seconds, :number]],
         opts:           nil,
         accepts_block:  false,
         examples:       []
 
 
+
+
     def cue(cue_id)
       __no_kill_block do
         Kernel.sleep @sync_real_sleep_time
         @events.event("/spider_thread_sync/" + cue_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time)})
+        __delayed_message "cue #{cue_id.to_sym.inspect}"
       end
     end
     doc name:           :cue,
+        introduced:     Version.new(2,0,0),
+        summary:        "Cue other threads",
         doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the sync fn.",
         args:           [[:cue_id, :symbol]],
         opts:           {:message => nil},
@@ -685,6 +726,8 @@ end"
       cue_id
     end
     doc name:           :sync,
+        introduced:     Version.new(2,0,0),
+        summary:        "Sync with other threads",
         doc:            "Pause/block the current thread until a cue heartbeat with a matching cue_id is received. When a matching cue message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the cue heartbeat. The current thread is therefore synced to the cue thread.",
         args:           [[:cue_id, :symbol]],
         opts:           nil,
@@ -852,6 +895,8 @@ end"]
       t
     end
     doc name:           :in_thread,
+        introduced:     Version.new(2,0,0),
+        summary:        "Run code block at the same time",
         doc:            "Execute a given block (between do ... end) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the name: optional arg. Named threads will print their name in the logging pane when they print their activity. Finally, if you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.",
         args:           [],
         opts:           {:name => nil},
