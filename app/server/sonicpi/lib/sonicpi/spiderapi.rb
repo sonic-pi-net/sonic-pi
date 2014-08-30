@@ -17,6 +17,27 @@ module SonicPi
 
     include SonicPi::DocSystem
 
+    def version
+      @version
+    end
+    doc name:           :version,
+        summary:        "Get current version information",
+        args:           [],
+        opts:           nil,
+        accepts_block: false,
+        doc: "Return information representing the current version of Sonic Pi. This information may be further inspected with version.major, version.minor, version.patch and version.dev",
+        examples: ["
+puts version # => Prints out the current version such as 2.0.0",
+"
+puts version.major # => Prints out the major version number such as 2",
+"
+puts version.minor # => Prints out the minor version number such as 0",
+"
+puts version.patch # => Prints out the patch level for this version such as 0"]
+
+
+
+
     def defonce(name, *opts, &block)
       raise "defonce must be called with a code block" unless block
       args_h = resolve_synth_opts_hash_or_array(opts)
@@ -195,6 +216,8 @@ end"]
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
 "print foo             #=> will print the contents of foo to the output pane"]
+
+
 
 
     def dice(num_sides=6)

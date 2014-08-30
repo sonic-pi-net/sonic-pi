@@ -24,6 +24,7 @@ require_relative "mods/sound"
 #require_relative "mods/globalkeys"
 require_relative "gitsave"
 require_relative "lifecyclehooks"
+require_relative "version"
 require_relative "oscval"
 
 require 'thread'
@@ -38,6 +39,9 @@ module SonicPi
     attr_reader :event_queue
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
+
+      @version = Version.new(2, 0, 0, "RC13")
+
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
       @event_queue = Queue.new
