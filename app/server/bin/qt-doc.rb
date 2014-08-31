@@ -125,12 +125,15 @@ Dir["#{tutorial_path}/*.md"].each do |path|
   contents.gsub!(/\`\`\`\`*/, '~~~~')
 
   contents_html = Kramdown::Document.new(contents).to_html
-  contents_html.gsub!(/<h1.*?>/, '<p style="font-size:30px; color:deeppink;">')
-  contents_html.gsub!(/<\/h1>/, '</p>')
-  contents_html.gsub!(/<p>/, '<p style="font-size:20px;">')
-  contents_html.gsub!(/<ol>/, '<ol style="font-size:20px;">')
-  contents_html.gsub!(/<ul>/, '<ul style="font-size:20px;">')
-  contents_html.gsub!(/<code>/, '<code style="font-size:20px; color:white; background-color:#5e5e5e;">')
+  contents_html.gsub!(/<h1.*?>/, '<p> <span style="font-size:25px; color:white;background-color:deeppink;">')
+  contents_html.gsub!(/<h2.*?>/, '<br><p><span style="font-size:20px; color:white; background-color:dodgerblue;">')
+  contents_html.gsub!(/<\/h1>/, '</span></p>')
+  contents_html.gsub!(/<\/h2>/, '</span></p>')
+  contents_html.gsub!(/<p>/, '<p style="font-size:15px;color:#5e5e5e;">')
+  contents_html.gsub!(/<ol>/, '<ol style="font-size:15px;color:#5e5e5e;">')
+  contents_html.gsub!(/<ul>/, '<ul style="font-size:15px;color:#5e5e5e;">')
+
+  contents_html.gsub!(/<code>/, '<code style="font-size:15px; color:#5e5e5e; background-color:#E8E8E8;">')
   contents_html = "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + contents_html + "</font>"
   tutorial_html_map[File.basename(path, ".md").gsub!(/-/, ' ')] = contents_html
 end
