@@ -18,5 +18,6 @@
         <file>images/splash@2x.png</file>
         <file>images/splash.png</file>
         <file>images/logo.png</file>
+        <file>images/tutorial/sample.png</file>
     </qresource>
 </RCC>
