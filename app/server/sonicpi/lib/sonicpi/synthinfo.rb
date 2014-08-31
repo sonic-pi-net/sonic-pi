@@ -426,7 +426,7 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
         :release => 1,
@@ -472,10 +472,10 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.0,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 0.3,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1
       }
@@ -519,10 +519,10 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 0.3,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
@@ -570,10 +570,10 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.1,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 0.3,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
@@ -608,7 +608,7 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 1,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
         :release => 1,
@@ -674,7 +674,7 @@ module SonicPi
 
     def arg_defaults
       super.merge({
-                    :mod_phase => 1,
+                    :mod_phase => 0.25,
                     :mod_range => 5,
                     :mod_pulse_width => 0.5,
                     :mod_phase_offset => 0,
@@ -708,16 +708,16 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_phase => 1,
+        :mod_phase => 0.25,
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
@@ -753,16 +753,16 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_phase => 1,
+        :mod_phase => 0.25,
 
         :mod_phase_slide => 0,
         :mod_range => 5,
@@ -801,16 +801,16 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_phase => 1,
+        :mod_phase => 0.25,
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
@@ -846,16 +846,16 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_phase => 1,
+        :mod_phase => 0.25,
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
@@ -891,16 +891,16 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
         :cutoff => 100,
         :cutoff_slide => 0,
-        :mod_phase => 1,
+        :mod_phase => 0.25,
         :mod_phase_slide => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
@@ -938,10 +938,10 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
@@ -1021,10 +1021,10 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
@@ -1060,7 +1060,7 @@ module SonicPi
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.1,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
         :release => 1,
@@ -1184,10 +1184,10 @@ end
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
@@ -1223,10 +1223,10 @@ end
         :pan => 0,
         :pan_slide => 0,
 
-        :attack => 0.01,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 2,
+        :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
 
