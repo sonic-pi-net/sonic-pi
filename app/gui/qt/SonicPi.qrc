@@ -19,5 +19,11 @@
         <file>images/splash.png</file>
         <file>images/logo.png</file>
         <file>images/tutorial/sample.png</file>
+        <file>images/tutorial/env-attack-release.png</file>
+        <file>images/tutorial/env-attack-decay-sustain-release.png</file>
+        <file>images/tutorial/env-attack-sustain-release.png</file>
+        <file>images/tutorial/env-long-attack-short-release.png</file>
+        <file>images/tutorial/env-release.png</file>
+        <file>images/tutorial/env-short-attack-short-release.png</file>
     </qresource>
 </RCC>
