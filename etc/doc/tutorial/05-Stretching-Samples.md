@@ -59,7 +59,7 @@ Compressing a spring increases its density (the number of coils per cm) - this i
 
 ## The Maths Behind Sample Rate
 
-*This section is provided for those that are interested in the details. Please feel free to skip it...*
+(This section is provided for those that are interested in the details. Please feel free to skip it...)
 
 As we saw above, a sample is represented by a big long list of numbers representing where the speaker should be through time. We can take this list of numbers and use it to draw a graph which would look similar to this:
 
@@ -69,10 +69,10 @@ You might have seen pictures like this before. It's called the *waveform* of a s
 
 The duration of the sample is affected by the play back rate: 
 
-* *Doubling the playback rate halves the play back time*
-* *Halving the playback rate doubles the play back time*
-* *Using a playback rate of one fourth quadruples the playback time*
-* *Using a playback rate of 1/10 makes playback last 10 times longer*
+* Doubling the playback rate halves the play back time,
+* Halving the playback rate doubles the play back time,
+* Using a playback rate of one fourth quadruples the playback time,
+* Using a playback rate of 1/10 makes playback last 10 times longer.
 
 We can represent this with the formula:
 
