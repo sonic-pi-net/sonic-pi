@@ -4,7 +4,7 @@ Now we can play a variety of synths and samples to create some music it's time t
 
 ## Sample Representation
 
-Samples are pre-recorded sounds stored as numbers which represent how to move the speaker cone to reproduce the sound. The speaker cone can move in and out, and so the numbers just need to represent how far in and out the cone needs to be for each moment in time. To be able to faithfully reproduce a recorded sound the sample typically needs to store 44100 numbers per second! Sonic Pi takes this list of numbers and feeds them at the right speed to move your computer's speaker in and out in just the right way to reproduce the sound. However, it's also fun to change the speed the numbers are fed to the speaker to change the sound.
+Samples are pre-recorded sounds stored as numbers which represent how to move the speaker cone to reproduce the sound. The speaker cone can move in and out, and so the numbers just need to represent how far in and out the cone needs to be for each moment in time. To be able to faithfully reproduce a recorded sound the sample typically needs to store many thousands of numbers per second! Sonic Pi takes this list of numbers and feeds them at the right speed to move your computer's speaker in and out in just the right way to reproduce the sound. However, it's also fun to change the speed the numbers are fed to the speaker to change the sound.
 
 ## Changing Rate
 

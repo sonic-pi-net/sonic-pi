@@ -28,7 +28,7 @@ sleep 1
 play 36
 ```
 
-Notice how Sonic Pi doesn't wait for a sound to finish before starting the next sound. The `sleep` command only describes the separation of the *triggering* of the sounds. This allows you to easily layer sounds together creating interesting overlap effects.
+Notice how Sonic Pi doesn't wait for a sound to finish before starting the next sound. The `sleep` command only describes the separation of the *triggering* of the sounds. This allows you to easily layer sounds together creating interesting overlap effects. We'll take a look later about how to control the *duration* of sounds.
 
 
 ## Discovering Samples

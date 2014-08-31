@@ -4,7 +4,7 @@ So far we've had quite a lot of fun making beeps and playing samples. However, y
 
 ## Synths
 
-Sonic Pi has a range of instruments it calls synths. *Synth is short for synthesiser* which is a fancy name for something that can generate crazy sounds. Sonic Pi's synths are very powerful and expressive as we'll see in later sections in this tutorial. First, let's learn how to choose which synth to use.
+Sonic Pi has a range of instruments it calls synths which is *short for synthesisers*. Wheras samples represent pre-recorded sounds, synths are capable of generating new sounds depending on how you control them (which we'll explore later in this tutorial). Sonic Pi's synths are very powerful and expressive and you'll have a lot of fun playing with them. First, let's learn how to select the current synth to use.
 
 ## Buzzy saws and prophets
 
@@ -70,3 +70,5 @@ To see which synths Sonic Pi has for you to play with take a look at the Synths 
 * `:pulse`
 
 Now play around with *switching synths during your music*. Have fun combining synths to make new sounds as well as using different synths for different sections of your music.
+
+
