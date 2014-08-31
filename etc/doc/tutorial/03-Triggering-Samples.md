@@ -35,7 +35,7 @@ Notice how Sonic Pi doesn't wait for a sound to finish before starting the next 
 
 There are two ways to discover the range of samples provided in Sonic Pi. First, you can use this help system. Click on Samples in the far left vertical menu, choose your category and then you'll see a list of available sounds.
 
-Alternatively you can use the autocompletion system. Simply type the start of a sample group such as: `sample :ambi_` and you'll see a dropdown of sample names appear for you to select. Try the following category prefixes: 
+Alternatively you can use the *autocompletion system*. Simply type the start of a sample group such as: `sample :ambi_` and you'll see a dropdown of sample names appear for you to select. Try the following category prefixes: 
 
 * `:ambi_` 
 * `:bass_`

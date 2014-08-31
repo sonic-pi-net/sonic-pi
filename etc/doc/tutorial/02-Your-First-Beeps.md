@@ -10,7 +10,7 @@ This is where it all starts. Go ahead, copy and paste it into the code window at
 
 ## Beep!
 
-Intense. Press it again. And again. And again...
+Intense. Press it again. And again. *And again...*
 
 Woah, crazy, I'm sure you could keep doing that all day. But wait, before you lose yourself in an infinite stream of beeps, try changing the number:
 
@@ -27,7 +27,7 @@ play 47
 
 So, lower numbers make lower pitched beeps and higher numbers make higher pitched beeps. Just like on a piano, the keys at the lower part of the piano (the left hand side) play lower notes and the keys on the higher part of the piano (the right hand side) play higher notes. In fact, the numbers actually relate to notes on the piano. `play 47` actually means play the 47th note on the piano. Which means that `play 48` is one note up (the next note to the right). It just so happens that the 4th octave C is number 60. Go ahead and play it: `play 60`.
 
-Don't worry if this means nothing to you - it didn't to me when I first started. All that matters right now is that you know that low numbers make lower beeps and high numbers make higher beeps. 
+*Don't worry* if this means nothing to you - it didn't to me when I first started. All that matters right now is that you know that *low numbers make lower beeps* and *high numbers make higher beeps*. 
 
 ## Chords
 
@@ -53,7 +53,7 @@ sleep 1
 play 59
 ```
 
-How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it means the duration of the sleep. It actually means sleep for one beat, but for now we can think about it as sleeping for 1 second. So, what if we wanted to make our arpeggio a little faster? Well, we need to use shorter sleep values. What about a half i.e. `0.5`:
+How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it means the *duration of the sleep*. It actually means sleep for one beat, but for now we can think about it as sleeping for 1 second. So, what if we wanted to make our arpeggio a little faster? Well, we need to use shorter sleep values. What about a half i.e. `0.5`:
 
 ```
 play 52
@@ -70,7 +70,7 @@ One thing to try is in-between notes such as `play 52.3` and `play 52.63`. There
 
 ## Traditional Note Names
 
-For those of you that already know some musical notation (don't worry if you don't - you don't need it to have fun) you might want to write a melody using note names such as C and F# rather than numbers. Don't worry, Sonic Pi has you covered. You can do the following:
+For those of you that already know some musical notation (don't worry if you don't - you don't need it to have fun) you might want to write a melody using note names such as C and F# rather than numbers. Sonic Pi has you covered. You can do the following:
 
 ```
 play :C
@@ -92,7 +92,7 @@ play :E4
 
 If you want to make a note sharp, add an `s` after the note name such as `play :Fs3` and if you want to make a note flat, add a `b` such as `play :oEb3`.
 
-Now go crazy and have fun making your own tunes.
+Now go *crazy* and have fun making your own tunes.
 
 
 

@@ -130,10 +130,11 @@ Dir["#{tutorial_path}/*.md"].each do |path|
   contents_html.gsub!(/<\/h1>/, '</span></p>')
   contents_html.gsub!(/<\/h2>/, '</span></p>')
   contents_html.gsub!(/<p>/, '<p style="font-size:15px;color:#5e5e5e;">')
+  contents_html.gsub!(/<em>/, '<em style="font-size:15px;color:darkorange;">')
   contents_html.gsub!(/<ol>/, '<ol style="font-size:15px;color:#5e5e5e;">')
   contents_html.gsub!(/<ul>/, '<ul style="font-size:15px;color:#5e5e5e;">')
 
-  contents_html.gsub!(/<code>/, '<code style="font-size:15px; color:#5e5e5e; background-color:#E8E8E8;">')
+  contents_html.gsub!(/<code>/, '<code style="font-size:15px; color:deeppink; background-color:white">')
   contents_html = "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + contents_html + "</font>"
   tutorial_html_map[File.basename(path, ".md").gsub!(/-/, ' ')] = contents_html
 end
