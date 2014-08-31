@@ -1,0 +1,10 @@
+---
+title: Options
+---
+## Available Options
+
+The behaviour of kramdown can be adjusted via the available options. Below is a list of all
+currently available options. Have a look at the documentation of a converter or parser to see
+directly which options they support!
+
+{options: {items: all}}

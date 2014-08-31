@@ -22,6 +22,7 @@ require_relative "../sonicpi/lib/sonicpi/util"
 require_relative "../sonicpi/lib/sonicpi/spiderapi"
 require_relative "../sonicpi/lib/sonicpi/mods/sound"
 
+require 'kramdown'
 require 'active_support/inflector'
 
 include SonicPi::Util
@@ -115,10 +116,26 @@ end
 
 
 tutorial_html_map = {}
-Dir["#{tutorial_path}/*.html"].each do |path|
+Dir["#{tutorial_path}/*.md"].each do |path|
+
   contents = IO.read(path)
-  tutorial_html_map[File.basename(path, ".html").gsub!(/-/, ' ')] = contents
+
+  # Github markdown syntax uses ```` to mark code blocks
+  # Kramdown uses ~~~~
+  contents.gsub!(/\`\`\`\`*/, '~~~~')
+
+  contents_html = Kramdown::Document.new(contents).to_html
+  contents_html.gsub!(/<h1.*?>/, '<p style="font-size:30px; color:deeppink;">')
+  contents_html.gsub!(/<\/h1>/, '</p>')
+  contents_html.gsub!(/<p>/, '<p style="font-size:20px;">')
+  contents_html.gsub!(/<ol>/, '<ol style="font-size:20px;">')
+  contents_html.gsub!(/<ul>/, '<ul style="font-size:20px;">')
+  contents_html.gsub!(/<code>/, '<code style="font-size:20px; color:white; background-color:#5e5e5e;">')
+  contents_html = "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + contents_html + "</font>"
+  tutorial_html_map[File.basename(path, ".md").gsub!(/-/, ' ')] = contents_html
 end
+
+
 
 
 make_tab.call("tutorial", tutorial_html_map)

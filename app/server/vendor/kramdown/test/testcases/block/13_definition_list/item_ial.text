@@ -1,0 +1,8 @@
+item
+:   {:.cls} definition
+    continued
+: another {:.cls}
+: {:.class}
+        code
+: {:.cls} IAL at last
+      no code bc of text
