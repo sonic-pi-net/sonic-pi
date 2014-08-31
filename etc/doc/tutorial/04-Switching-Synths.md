@@ -1,4 +1,4 @@
-# Changing Synths
+# Switching Synths
 
 So far we've had quite a lot of fun making beeps and playing samples. However, you're probably starting to get bored of the basic beep noise. Is that all Sonic Pi has to offer? Isn't there more to live coding life than beeps? Yes there is, and in this section we'll explore the exciting range of sounds that Sonic Pi has to offer.
 
