@@ -193,16 +193,28 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   tutorialDocPane = new QTextEdit;
   tutorialDocPane->setReadOnly(true);
+  QString style = "QTextEdit { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
+  tutorialDocPane->setStyleSheet(style);
+
   langDocPane = new QTextEdit;
   langDocPane->setReadOnly(true);
+  langDocPane->setStyleSheet(style);
+
   synthsDocPane = new QTextEdit;
   synthsDocPane->setReadOnly(true);
+  synthsDocPane->setStyleSheet(style);
+
   fxDocPane = new QTextEdit;
   fxDocPane->setReadOnly(true);
+  fxDocPane->setStyleSheet(style);
+
   samplesDocPane = new QTextEdit;
   samplesDocPane->setReadOnly(true);
+  samplesDocPane->setStyleSheet(style);
+
   examplesDocPane = new QTextEdit;
   examplesDocPane->setReadOnly(true);
+  examplesDocPane->setStyleSheet(style);
 
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
   docWidget->hide();
