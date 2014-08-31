@@ -195,6 +195,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   tutorialDocPane->setReadOnly(true);
   QString style = "QTextEdit { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
   tutorialDocPane->setStyleSheet(style);
+  tutorialDocPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center>");
 
   langDocPane = new QTextEdit;
   langDocPane->setReadOnly(true);
