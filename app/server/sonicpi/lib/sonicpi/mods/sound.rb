@@ -1658,12 +1658,12 @@ puts note_info(:C, octave: 2)
            opts:          {:num_octaves => 1},
            accepts_block: false,
            examples:      ["
-puts scale(:C, :major) # returns an Array [60, 62, 64, 65, 67, 69, 71, 72]",
-"# anywhere you can use an Array of notes, you can use the scale method
+puts scale(:C, :major) # returns the list [60, 62, 64, 65, 67, 69, 71, 72]",
+"# anywhere you can use a list of notes, you can use the scale method
 play_pattern scale(:C, :major)",
 "# you can use the :num_octaves parameter to get more notes
 play_pattern(:C, :major, num_octaves: 2)",
-"# There are lots of scale types to choose from!
+"# There are lots of scale types to choose from.
 use_bpm 300 # otherwise playing all these will take ages...
 play_pattern scale(:C, :diatonic)
 play_pattern scale(:C, :ionian)
@@ -1743,7 +1743,7 @@ play_pattern scale(:C, :lydian_minor)
 
        def chord(tonic, name=:major, *opts)
          if tonic.is_a? Array
-           raise "Array passed as parameter to chord needs two elements i.e. chord([:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
+           raise "List passed as parameter to chord needs two elements i.e. chord([:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
            Chord.new(tonic[0], tonic[1]).to_a
          else
            Chord.new(tonic, name).to_a
@@ -1752,95 +1752,91 @@ play_pattern scale(:C, :lydian_minor)
        doc name:          :chord,
            introduced:    Version.new(2,0,0),
            summary:       "",
-           doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a chord type",
+           doc:           "A helper method that returns a list of midi note numbers when given a tonic note and a chord type",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts chord(:e, :minor) # returns an Array of midi notes - [64, 67, 71]
+puts chord(:e, :minor) # returns a list of midi notes - [64, 67, 71]
 ",
 "# Play all the notes together
 play chord(:e, :minor)",
 "# looping over arpeggios can sound good
-# Here we use the Ruby Array's 'choose' method to pick a random note from the chord
+# Here we use choose to pick a random note from the chord
 loop do
   play chord(:e, :minor).choose
   sleep 0.2
 end",
 "# There are lots of chord types to choose from!
-# Watch out though - Ruby has rules about what makes a
-# valid symbol. Valid symbols can't start with a number,
-# and can't contain some special characters.
-# To make a symbol with these characters you can put a : in front of any string to make a symbol in Ruby
-# You can always use a string if you aren't sure
+ # Notice that the more exotic ones have to be surrounded by ' quotes
 use_bpm 150 # this is just to get through all the chords more quickly
 play chord(:C, '1')
 sleep 1
 play chord(:C, '5')
 sleep 1
-play chord(:C, :'+5')
+play chord(:C, '+5')
 sleep 1
-play chord(:C, :'m+5')
+play chord(:C, 'm+5')
 sleep 1
 play chord(:C, :sus2)
 sleep 1
 play chord(:C, :sus4)
 sleep 1
-play chord(:C, :'6')
+play chord(:C, '6')
 sleep 1
 play chord(:C, :m6)
 sleep 1
-play chord(:C, :'7sus2')
+play chord(:C, '7sus2')
 sleep 1
-play chord(:C, :'7sus4')
+play chord(:C, '7sus4')
 sleep 1
-play chord(:C, :'7-5')
+play chord(:C, '7-5')
 sleep 1
-play chord(:C, :'m7-5')
+play chord(:C, 'm7-5')
 sleep 1
-play chord(:C, :'7+5')
+play chord(:C, '7+5')
 sleep 1
-play chord(:C, :'m7+5')
+play chord(:C, 'm7+5')
 sleep 1
-play chord(:C, :'9')
+play chord(:C, '9')
 sleep 1
 play chord(:C, :m9)
 sleep 1
-play chord(:C, :'m7+9')
+play chord(:C, 'm7+9')
 sleep 1
 play chord(:C, :maj9)
 sleep 1
-play chord(:C, :'9sus4')
+play chord(:C, '9sus4')
 sleep 1
-play chord(:C, :'6*9')
+play chord(:C, '6*9')
 sleep 1
-play chord(:C, :'m6*9')
+play chord(:C, 'm6*9')
 sleep 1
-play chord(:C, :'7-9')
+play chord(:C, '7-9')
 sleep 1
-play chord(:C, :'m7-9')
+play chord(:C, 'm7-9')
 sleep 1
-play chord(:C, :'7-10')
+play chord(:C, '7-10')
 sleep 1
-play chord(:C, :'9+5')
+play chord(:C, '9+5')
 sleep 1
-play chord(:C, :'m9+5')
+play chord(:C, 'm9+5')
 sleep 1
-play chord(:C, :'7+5-9')
+play chord(:C, '7+5-9')
 sleep 1
-play chord(:C, :'m7+5-9')
+play chord(:C, 'm7+5-9')
 sleep 1
-play chord(:C, :'11')
+play chord(:C, '11')
 sleep 1
 play chord(:C, :m11)
 sleep 1
 play chord(:C, :maj11)
 sleep 1
-play chord(:C, :'11+')
+play chord(:C, '11+')
 sleep 1
-play chord(:C, :'m11+')
+play chord(:C, 'm11+')
 sleep 1
-play chord(:C, :'13')
+play chord(:C, '13')
 sleep 1
 play chord(:C, :m13)
 sleep 1
@@ -1856,7 +1852,7 @@ play chord(:C, :major7)
 sleep 1
 play chord(:C, :dom7)
 sleep 1
-play chord(:C, :'7')
+play chord(:C, '7')
 sleep 1
 play chord(:C, :M7)
 sleep 1
