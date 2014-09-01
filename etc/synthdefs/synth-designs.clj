@@ -749,8 +749,11 @@
      pan 0
      pan_slide 0
      attack 0.0
+     decay 0
      sustain -1
      release 0.0
+     attack_level 1
+     sustain_level 1
      rate 1
      start 0
      finish 1
@@ -766,8 +769,8 @@
           play-time   (/ (* (buf-dur buf) (absdif finish start))
                          rate)
           phase       (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
-          sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release)])
-          env         (env-gen (envelope [0 1 1 0] [attack sustain release]) :action FREE)
+          sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
+          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
           snd         (buf-rd 1 buf phase)
           snd         (* env snd)
           snd         (pan2 snd pan amp)]
@@ -782,8 +785,11 @@
      pan 0
      pan_slide 0
      attack 0.0
+     decay 0
      sustain -1
      release 0.0
+     attack_level 1
+     sustain_level 1
      rate 1
      start 0
      finish 1
@@ -799,8 +805,9 @@
           play-time     (/ (* (buf-dur buf) (absdif finish start))
                            rate)
           phase         (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
-          sustain       (select:kr (= -1 sustain) [sustain (- play-time attack release)])
-          env           (env-gen (envelope [0 1 1 0] [attack sustain release]) :action FREE)
+          sustain       (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
+          env           (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level) :action FREE)
+
           [snd-l snd-r] (buf-rd 2 buf phase)
           snd           (balance2 snd-l snd-r pan amp)
           snd           (* env snd)]

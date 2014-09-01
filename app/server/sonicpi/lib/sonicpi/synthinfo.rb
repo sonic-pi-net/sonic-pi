@@ -1345,7 +1345,7 @@ end
         :amp_slide => 0,
         :pan => 0,
         :pan_slide => 0,
-        :rateu => 1,
+        :rate => 1,
         :rate_slide => 0
       }
     end
@@ -1386,8 +1386,12 @@ end
         :pan_slide => 0,
 
         :attack => 0,
+        :decay => 0,
         :sustain => -1,
         :release => 0,
+
+        :attack_level => 1,
+        :sustain_level => 1,
 
         :rate => 1,
         :start => 0,
