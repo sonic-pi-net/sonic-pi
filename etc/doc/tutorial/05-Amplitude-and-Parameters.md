@@ -37,11 +37,11 @@ If you accidentally use the same parameter twice with different values, the last
 play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2
 ```
 
-Many things in Sonic Pi accept parameters, so just spend a little time learning how to use them and you'll be set! Let's play with our first parameter: amplitude
+Many things in Sonic Pi accept parameters, so just spend a little time learning how to use them and you'll be set! Let's play with our first parameter: `amp:`.
 
 ## Amplitude
 
-Amplitude is a computer representation of the loudness of a sound. A *high amplitude produces a loud sound* and a *low amplitude produces a quiet sound*. Just as Sonic Pi uses numbers to represent time and notes, it uses numbers to represent amplitude. An amplitude of 0 is silent (you'll hear nothing) whereas an amplitude of 1 is normal volume. You can even crank up the amplitude higher to 2, 10, 100. However, you should note that when the overall amplitude of all the sounds gets too high, Sonic Pi uses what's called a compressor to squash them all to make sure the overall sound isn't too loud. This can often make the sound muddy and strange. So try to keep use low amplitudes i.e. in the range 0 to 0.5 to avoid compression.
+Amplitude is a computer representation of the loudness of a sound. A *high amplitude produces a loud sound* and a *low amplitude produces a quiet sound*. Just as Sonic Pi uses numbers to represent time and notes, it uses numbers to represent amplitude. An amplitude of 0 is silent (you'll hear nothing) whereas an amplitude of 1 is normal volume. You can even crank up the amplitude higher to 2, 10, 100. However, you should note that when the overall amplitude of all the sounds gets too high, Sonic Pi uses what's called a compressor to squash them all to make sure things aren't too loud for your ears. This can often make the sound muddy and strange. So try to use low amplitudes i.e. in the range 0 to 0.5 to avoid compression.
 
 
 
@@ -77,13 +77,14 @@ sleep 0.25
 play 57, amp: 0.4
 sleep 0.25
 play 62, amp: 1
+```
 
 ## Amping samples
 
 You can also change the amplitude of samples with the same approach:
 
 ```
-samle :ambi_lunar_land, amp: 0.5
+sample :ambi_lunar_land, amp: 0.5
 ```
 
 Now, go and have fun changing the amplitude of your sounds!
