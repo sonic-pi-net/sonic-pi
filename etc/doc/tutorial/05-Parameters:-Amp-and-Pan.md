@@ -85,7 +85,7 @@ You can also change the amplitude of samples with the same approach:
 
 ```
 sample :ambi_lunar_land, amp: 0.5
-
+```
 
 ## Panning
 
