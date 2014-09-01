@@ -2,7 +2,7 @@
 
 A great way to add some interest into your music is using some random numbers. Sonic Pi has some great functionality for adding randomness to your music, but before we start we need to learn a shocking truth: in Sonic Pi *random is not truly random*. What on earth does this mean? Well, let's see. 
 
-# Repeatability
+## Repeatability
 
 A really useful random function is `rrand` which will give you a random value between two numbers - a *min* and a *max*. (`rrand` is short for ranged random). Let's try playing a random note:
 
@@ -12,7 +12,7 @@ play rrand(50, 100)
 
 Ooh, it played a random note. It played note `77.4407`. A nice random note between 50 and 100. Woah, wait, did I just predict the exact random note you got too? Something fishy is going on here. Try running the code again. What? It chose `77.4407` again? That can't be random!
 
-The answer is that it is not truly random, it's pseudo-random. Sonic Pi will give you random-like numbers in a repeatable manner. This is very useful for ensuring that the music you create on your machine sound identical on everybody else's machine - even if you use some randomness in your composition. 
+The answer is that it is not truly random, it's pseudo-random. Sonic Pi will give you random-like numbers in a repeatable manner. This is very useful for ensuring that the music you create on your machine sounds identical on everybody else's machine - even if you use some randomness in your composition. 
 
 Of course, in a given piece of music, if it 'randomly' chose `77.4407` every time, then it wouldn't be very interesting. However, it doesn't. Try the following:
 
