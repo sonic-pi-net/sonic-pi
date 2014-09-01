@@ -1710,7 +1710,7 @@ end
         :pre_amp_slide => 0,
         :phase => 0.25,
         :phase_slide => 0,
-        :decay => 8,
+        :decay => 2,
         :decay_slide => 0,
         :max_phase => 2,
         :amp => 1,
