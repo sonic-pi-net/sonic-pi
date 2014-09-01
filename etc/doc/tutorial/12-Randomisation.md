@@ -23,7 +23,7 @@ loop do
 end 
 ```
 
-Yes! It finally sounds random. Within a given *run* subsequent calls to random functions will return random values. However, the net run will produce exactly the same random values and sound exactly the same. It's as if all Sonic Pi code went back in time to exactly the same point every time the run button was pressed. It's the Groundhog Day of music!
+Yes! It finally sounds random. Within a given *run* subsequent calls to random functions will return random values. However, the next run will produce exactly the same random values and sound exactly the same. It's as if all Sonic Pi code went back in time to exactly the same point every time the run button was pressed. It's the Groundhog Day of music!
 
 ## Haunted Bells
 
@@ -121,6 +121,7 @@ loop do
   sleep 0.25
 end
 ```
+
 ## rand_i
 
 Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will return a whole number between 0 and the max value you specify.
