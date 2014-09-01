@@ -250,7 +250,7 @@ dice 3 # will return a number between 1 and 3 inclusively"]
 
 
     def one_in(num)
-      rrand_i(1, num_sides) == 1
+      rrand_i(1, num) == 1
     end
     doc name:           :one_in,
         introduced:     Version.new(2,0,0),
