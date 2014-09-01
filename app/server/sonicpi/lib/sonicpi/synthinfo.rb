@@ -255,6 +255,13 @@ module SonicPi
           :modulatable => false
         },
 
+        :env_curve =>
+        {
+          :doc => "Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
+          :validations => [v_one_of(:env_curve, [1, 2, 3, 4, 6, 7])],
+          :modulatable => false
+        },
+
         :cutoff =>
         {
           :doc => "MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
@@ -431,7 +438,8 @@ module SonicPi
         :sustain => 0,
         :release => 1,
         :attack_level => 1,
-        :sustain_level => 1
+        :sustain_level => 1,
+        :env_curve => 2
       }
     end
   end
@@ -477,7 +485,8 @@ module SonicPi
         :sustain => 0,
         :release => 1,
         :attack_level => 1,
-        :sustain_level => 1
+        :sustain_level => 1,
+        :env_curve => 2
       }
     end
   end
@@ -525,6 +534,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => lambda{rrand(95, 105)},
         :cutoff_slide => 0,
@@ -576,6 +586,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 100,
         :cutoff_slide => 0,
@@ -614,6 +625,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :divisor => 2,
         :divisor_slide => 0,
@@ -714,6 +726,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 100,
         :cutoff_slide => 0,
@@ -759,6 +772,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 100,
         :cutoff_slide => 0,
@@ -807,6 +821,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 100,
         :cutoff_slide => 0,
@@ -852,6 +867,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 100,
         :cutoff_slide => 0,
@@ -897,6 +913,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 100,
         :cutoff_slide => 0,
@@ -944,6 +961,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 80,
         :cutoff_slide => 0,
@@ -1027,6 +1045,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 130,
         :cutoff_slide => 0,
@@ -1190,6 +1209,7 @@ end
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 110,
         :cutoff_slide => 0,
@@ -1229,6 +1249,7 @@ end
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :cutoff => 110,
         :cutoff_slide => 0,
@@ -1392,6 +1413,7 @@ end
 
         :attack_level => 1,
         :sustain_level => 1,
+        :env_curve => 2,
 
         :rate => 1,
         :start => 0,
