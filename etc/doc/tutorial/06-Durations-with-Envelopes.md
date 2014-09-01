@@ -2,7 +2,7 @@
 
 As we introduced in an ealier section, we can use the `sleep` command to control when to trigger our sounds. However, we haven't yet been able to control the duration of our sounds (except in the case of samples where we can stretch and compress them).
 
-In order to give us a simple, yet powerful, means of controlling the duration of our sounds, Sonic Pi provides the notion of an ADSR amplitude envelope (we'll cover what ADSR means later in this section). An amplitude envelope offers two useful aspects of control:
+In order to give us a simple, yet powerful, means of *controlling the duration* of our sounds, Sonic Pi provides the notion of an *ADSR amplitude envelope* (we'll cover what ADSR means later in this section). An amplitude envelope offers two useful aspects of control:
 
 * control over the duration of a sound
 * control over the amplitude of a sound
@@ -21,13 +21,13 @@ We can make the synth sound for a very short amount of time by using a very smal
 play 60, release: 0.2
 ```
 
-So what is release time? It's the time it takes for the sound to go from full amplitude (typically a value of 1) to zero amplitude. This is called the release phase and it's a linear transition (i.e. a straight line). The following diagram illustrates this transition:
+So what is release time? It's the time it takes for the sound to go from full amplitude (typically a value of 1) to zero amplitude. This is called the *release phase* and it's a linear transition (i.e. a straight line). The following diagram illustrates this transition:
 
 ![release envelope](:/images/tutorial/env-release.png)
 
 This diagram shows that the sound starts at full amplitude, and then moves in a straight line to zero amplitude taking the amount of time specified by `release:`.
 
-You can therefore change the duration of your sound by changing the release time. Have a play adding release times to your music. Longer release times produce longer synth fade outs.
+You can therefore change the duration of your sound by changing the release time. Have a play adding release times to your music. *Longer release times produce longer synth fade outs.*
 
 ## Attack Time
 
@@ -80,7 +80,7 @@ The sustain time is useful for important sounds you which to hold full presence 
 
 ## Decay Time
 
-Finally, for the moments where you need an extra level of control, you can also specify a decay time. This is a phase of the envelope the fits between the attack and sustain phases and specifies a time where the amplitude will drop from the `attack_level` to the `sustain_level`. By default, the `decay` argument is 0 and both the attack and sustain levels are 1 so you'll need to specify them for the decay time to have any affect:
+Finally, for the moments where you need an extra level of control, you can also specify a decay time. This is a phase of the envelope the fits between the attack and sustain phases and specifies a time where the amplitude will drop from the `attack_level` to the `sustain_level`. By default, the decay argument is 0 and both the attack and sustain levels are 1 so you'll need to specify them for the decay time to have any effect:
 
 ```
 play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain: 1, release: 0.5
@@ -88,12 +88,19 @@ play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain: 
 
 ![ADSR envelope](:/images/tutorial/env-attack-decay-sustain-release.png)
 
-## Duration
+## ADSR Envelopes
 
-It's important to note that the duration of a sound is the summation of the `attack`, `decay`, `sustain` and `release` phases. Therefore the following sound will have a duration of 0.5 + 1 + 2 + 0.5 = 4 seconds:
+So to summarise, Sonic Pi's ADSR envelopes have the following phases:
+
+1. *attack* - time from 0 amplitude to the `attack_level`,
+2. *decay* - take to move amplitude from `attack_level` to `sustain_level`,
+3. *sustain* - time to keep the amplitude at `sustain_level`,
+4. *release* - time to move amplitude from `sustain_level` to 0
+
+It's important to note that the duration of a sound is the summation the times of each of these phases. Therefore the following sound will have a duration of 0.5 + 1 + 2 + 0.5 = 4 seconds:
 
 ```
-play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: 2, release: 0.5
+play 60, attack: 0.5, decay: 1, sustain_level: 0.4, sustain: 2, release: 0.5
 ```
 
 Now go and have a play adding envelopes to your sounds
