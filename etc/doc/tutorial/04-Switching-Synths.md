@@ -4,7 +4,7 @@ So far we've had quite a lot of fun making beeps and playing samples. However, y
 
 ## Synths
 
-Sonic Pi has a range of instruments it calls synths which is *short for synthesisers*. Wheras samples represent pre-recorded sounds, synths are capable of generating new sounds depending on how you control them (which we'll explore later in this tutorial). Sonic Pi's synths are very powerful and expressive and you'll have a lot of fun playing with them. First, let's learn how to select the current synth to use.
+Sonic Pi has a range of instruments it calls synths which is *short for synthesisers*. Whereas samples represent pre-recorded sounds, synths are capable of generating new sounds depending on how you control them (which we'll explore later in this tutorial). Sonic Pi's synths are very powerful and expressive and you'll have a lot of fun playing with them. First, let's learn how to select the current synth to use.
 
 ## Buzzy saws and prophets
 

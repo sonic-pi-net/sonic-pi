@@ -90,7 +90,7 @@ sleep 0.5
 play :E4
 ```
 
-If you want to make a note sharp, add an `s` after the note name such as `play :Fs3` and if you want to make a note flat, add a `b` such as `play :oEb3`.
+If you want to make a note sharp, add an `s` after the note name such as `play :Fs3` and if you want to make a note flat, add a `b` such as `play :Eb3`.
 
 Now go *crazy* and have fun making your own tunes.
 

@@ -5,9 +5,9 @@ As well as allowing you to control which note to play or which sample to trigger
 
 ## Parameters
 
-Sonic Pi supports the notion of parameters for its synths and samples. Paramters are controls you pass to `play` or `sample` which modify and control aspects of the sound you hear. Each synth has its own set of parameters for finely tuning its sound. However there are common sets of paramters shared by many sounds such as `amp:` and envelop parameters (covered in another section).
+Sonic Pi supports the notion of parameters for its synths and samples. Parameters are controls you pass to `play` or `sample` which modify and control aspects of the sound you hear. Each synth has its own set of parameters for finely tuning its sound. However there are common sets of parameters shared by many sounds such as `amp:` and envelop parameters (covered in another section).
 
-Parameters have to major parts, their name (the name of the control) and their value (the value you want to set the control at). For example, you might have a paramter called `cheese:` and want to set it with a value of `1`.
+Parameters have to major parts, their name (the name of the control) and their value (the value you want to set the control at). For example, you might have a parameter called `cheese:` and want to set it with a value of `1`.
 
 Parameters are passed to calls to `play` and `sample` by using a comma `,` and then the name of the param such as `amp:` (don't forget the colon `:`) and then a space and the value of the parameter. For example:
 

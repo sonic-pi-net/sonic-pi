@@ -34,13 +34,13 @@ To explore this, let's consider our Amen break in more detail. If we ask Sonic P
 print sample_duration :loop_amen
 ```
 
-It will print out `1.753310657596372` which is the length of the sample in seconds. Let's just round that to `1.75` for convenience. Now, if we set the release to `0.75` something suprising will happen:
+It will print out `1.753310657596372` which is the length of the sample in seconds. Let's just round that to `1.75` for convenience. Now, if we set the release to `0.75` something surprising will happen:
 
 ```
 sample :loop_amen, release: 0.75
 ```
 
-It will play the first second of the sample at full amplitude before then fading out over a period of 0.75 seconds. This is the auto sustin in action. By default, the release always works from the end of the sample. If our sample was 10.75 seconds long, it would play the first 10 seconds at full amplitude before fading out over 0.75s.
+It will play the first second of the sample at full amplitude before then fading out over a period of 0.75 seconds. This is the auto sustain in action. By default, the release always works from the end of the sample. If our sample was 10.75 seconds long, it would play the first 10 seconds at full amplitude before fading out over 0.75s.
 
 Remember by default, `release:` fades out at the end of a sample.
 
@@ -62,14 +62,14 @@ We can easily get back to our normal synth ADSR behaviour by manually setting `s
 sample :loop_amen, sustain: 0, release: 0.75
 ```
 
-Now, our sample only plays for 0.75 seconds in total. With the default for `attack:` and `decay:` at 0, the sample jumps straight to full amplitude, sustains there for 0s then releases back down to 0 amplitude over the release perious - 0.75s.
+Now, our sample only plays for 0.75 seconds in total. With the default for `attack:` and `decay:` at 0, the sample jumps straight to full amplitude, sustains there for 0s then releases back down to 0 amplitude over the release period - 0.75s.
 
 # Percussive cymbals
 
 We can use this behaviour to good effect to turn longer sounding samples into shorter more percussive versions. Consider the sample `:drum_cymbal_open`:
 
 ```
-sample :drum_cybal_open
+sample :drum_cymbal_open
 ```
 
 You can hear the cymbal sound ringing out over a period of time. However, we can use our envelope to make it more percussive:
@@ -78,7 +78,7 @@ You can hear the cymbal sound ringing out over a period of time. However, we can
 sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1
 ```
 
-You can then emulate hitting the cymbal and then dampening it by increasing the sustain perioud:
+You can then emulate hitting the cymbal and then dampening it by increasing the sustain period:
 
 ```
 sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1

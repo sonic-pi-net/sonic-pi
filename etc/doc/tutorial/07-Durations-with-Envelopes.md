@@ -1,6 +1,6 @@
-# Durations with Envelopes
+# Duration with Envelopes
 
-As we introduced in an ealier section, we can use the `sleep` command to control when to trigger our sounds. However, we haven't yet been able to control the duration of our sounds (except in the case of samples where we can stretch and compress them).
+As we introduced in an earlier section, we can use the `sleep` command to control when to trigger our sounds. However, we haven't yet been able to control the duration of our sounds (except in the case of samples where we can stretch and compress them).
 
 In order to give us a simple, yet powerful, means of *controlling the duration* of our sounds, Sonic Pi provides the notion of an *ADSR amplitude envelope* (we'll cover what ADSR means later in this section). An amplitude envelope offers two useful aspects of control:
 
@@ -49,7 +49,7 @@ sleep 3
 play 65, attack: 0.5
 ```
 
-You may use multple arguments at the same time. For example for a short attack and a long release try:
+You may use multiple arguments at the same time. For example for a short attack and a long release try:
 
 ```
 play 60, attack: 0.7, release: 4
@@ -114,3 +114,4 @@ play 60, attack: 0.5, decay: 1, sustain_level: 0.4, sustain: 2, release: 0.5
 ```
 
 Now go and have a play adding envelopes to your sounds
+
