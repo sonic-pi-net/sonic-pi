@@ -26,7 +26,11 @@ do
 end
 ```
 
-However, this isn't yet complete and won't work (try it and you'll get an error) as we haven't told Sonic Pi what we want to do with this *do/end block*. We tell Sonic Pi this by writing some special code before the `do`. For example, if we want to use revery we write `with_fx :reverb` like this:
+However, this isn't yet complete and won't work (try it and you'll get an error) as we haven't told Sonic Pi what we want to do with this *do/end block*. We tell Sonic Pi this by writing some special code before the `do`. For example, let's look at adding some reverb.
+
+## Reverb
+
+If we want to use reverb we write `with_fx :reverb` like this:
 
 ```
 with_fx :reverb do
