@@ -1,4 +1,4 @@
-# Amplitude and Parameters
+# Parameters: Amp and Pan
 
 As well as allowing you to control which note to play or which sample to trigger, Sonic Pi provides a whole range of parameters to craft and control the sounds. We'll be covering many of these in this tutorial and there's extensive documentation for each in the help system. However, for now we'll cover introduce of the most useful: *amplitude*.  First, let's look at what parameters actually are.
 
@@ -85,6 +85,41 @@ You can also change the amplitude of samples with the same approach:
 
 ```
 sample :ambi_lunar_land, amp: 0.5
+
+
+## Panning
+
+Another fun parameter to use is `pan:` which controls the panning of a sound in stereo. Panning a sound to the left means that you hear it out of the left speaker, and panning it to the right means you hear it out of your right speaker. For our values, we use a -1 to represent fully left, 0 to represent center and 1 to represent fully right in the stereo field. Of course, we're free to use any value between -1 and 1 to control the exact positioning of our sound.
+
+Let's play a beep out of the left speaker:
+
+```
+play 60, pan: -1
 ```
 
-Now, go and have fun changing the amplitude of your sounds!
+Now, let's play it out of the right speaker:
+
+```
+play 60, pan: 1
+```
+
+Finally let's play it back out of the center of both (the default position):
+
+```
+play 60, pan: 0
+```
+
+## Panning samples
+
+We're also able to use the `pan:` parameter on samples. For example, here's how we'd play the amen break in the left ear and then half way through play it again through the right ear:
+
+```
+sample :loop_amen, pan: -1
+sleep 0.877
+sample :loop_amen, pan: 1
+```
+
+Note that 0.877 is half the duration of the `:loop_amen` sample in seconds.
+
+
+Now, go and have fun changing the amplitude and panning of your sounds!
