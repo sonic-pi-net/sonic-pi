@@ -84,9 +84,15 @@ example_html_map = {}
 example_dirs = ["apprentice", "illusionist", "magician", "sorcerer", "wizard"]
 example_dirs.each do |ex_dir|
   Dir["#{examples_path}/#{ex_dir}/*.rb"].each do |path|
-    name = "[#{ex_dir}] #{File.basename(path, ".rb")}"
+    bname = File.basename(path, ".rb")
+    name = "[#{ex_dir}] #{bname}"
     lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
-    html = "<pre>\n\n#{lines.join("\n")}\n\n</pre>\n"
+    html = '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
+    html << "# #{ActiveSupport::Inflector.titleize(bname)}"
+    html << '</span></p>'
+    html << "<pre style=\"font-size:18px;color:dodgerblue;\">\n\n"
+
+    html << "#{lines.join("\n")}\n\n</pre>\n"
     example_html_map[ActiveSupport::Inflector.titleize(name)] = html
   end
 end
