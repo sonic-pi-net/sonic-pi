@@ -619,7 +619,7 @@ play_pattern [40, 41, 42] # Same as:
        end
        doc name:          :play_pattern_timed,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Play pattern of notes with specific times",
            doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers or symbols such as :E4 - identical to the first parameter of the play function. The times should be a list of times between the notes in seconds.
 
 If the list of times is smaller than the number of gaps between notes, the list is repeated again. If the list of times is longer than the number of gaps between notes, then some of the times are ignored. See examples for more detail.
@@ -730,7 +730,7 @@ play 47, amp: 0.5",
        end
        doc name:          :use_merged_synth_defaults,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Merge synth defaults",
            doc:           "Specify synth arg values to be used by any following call to play. Merges the specified values with any previous defaults, rather than replacing them.",
            args:          [],
            opts:          {},
@@ -768,7 +768,7 @@ play 50 #=> Plays note 50 with amp 0.8, cutoff 80 and pan -1"]
        end
        doc name:          :with_merged_synth_defaults,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Block-level merge synth defaults ",
            doc:           "Specify synth arg values to be used by any following call to play within the specified do/end block. Merges the specified values with any previous defaults, rather than replacing them. After the do/end block has completed, previous defaults(if any) are restored. ",
            args:          [],
            opts:          {},
@@ -800,7 +800,7 @@ end"]
        end
        doc name:          :use_synth_defaults,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Use new synth defaults",
            doc:           "Specify new default values to be used by all subsequent calls to play. Will remove and override any previous defaults.",
            args:          [],
            opts:          {},
@@ -831,7 +831,7 @@ play 50 # plays note 50 with a cutoff of 70 and defaults for rest of args - note
        end
        doc name:          :with_synth_defaults,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Block-level use new synth defaults",
            doc:           "Specify new default values to be used by all calls to play within the do/end block. After the do/end block has completed the previous synth defaults (if any) are restored.",
            args:          [],
            opts:          {},
@@ -1095,7 +1095,7 @@ end"]
        end
        doc name:          :use_sample_pack,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Use sample pack",
            doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples. Consider using use_sample_pack_as when using multiple sample packs.",
            args:          [[:pack_path, :string]],
            opts:          nil,
@@ -1115,7 +1115,7 @@ sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
        end
        doc name:          :use_sample_pack_as,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Use sample pack alias",
            doc:           "Similar to use_sample_pack except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
            args:          [[:pack_path, :string]],
            opts:          nil,
@@ -1143,7 +1143,7 @@ sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'
        end
        doc name:          :with_sample_pack,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Block-level use sample pack",
            doc:           "Given a path to a folder of samples on your filesystem, this method makes any wav|wave|aif|aiff files in that folder available as samples inside the given block. Consider using with_sample_pack_as when using multiple sample packs.",
            args:          [[:pack_path, :string]],
            opts:          nil,
@@ -1167,7 +1167,7 @@ end"]
        end
        doc name:          :with_sample_pack_as,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Block-level use sample pack alias",
            doc:           "Similar to with_sample_pack except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
            args:          [[:pack_path, :string]],
            opts:          nil,
@@ -1186,7 +1186,7 @@ end"]
        end
        doc name:          :current_synth,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current synth",
            doc:           "Returns the current synth name.",
            args:          [],
            opts:          nil,
@@ -1201,7 +1201,7 @@ puts current_synth # Print out the current synth name"]
        end
        doc name:          :current_sample_pack,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current sample pack",
            doc:           "Returns the current sample pack.",
            args:          [],
            opts:          nil,
@@ -1217,7 +1217,7 @@ puts current_sample_pack # Print out the current sample pack"]
        end
        doc name:          :current_sample_pack_aliases,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current sample pack aliases",
            doc:           "Returns a map containing the current sample pack aliases.",
            args:          [],
            opts:          nil,
@@ -1233,7 +1233,7 @@ puts current_sample_pack_aliases # Print out the current sample pack aliases"]
        end
        doc name:          :current_synth_defaults,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current synth defaults",
            doc:           "Returns the current synth defaults. This is a map of synth arg names to either values or functions.",
            args:          [],
            opts:          nil,
@@ -1251,7 +1251,7 @@ puts current_synth_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
        end
        doc name:          :current_sched_ahead_time,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current sched ahead time",
            doc:           "Returns the current schedule ahead time.",
            args:          [],
            opts:          nil,
@@ -1268,7 +1268,7 @@ puts current_sched_ahead_time # Prints 0.5"]
        end
        doc name:          :current_volume,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current volume",
            doc:           "Returns the current volume.",
            args:          [],
            opts:          nil,
@@ -1286,7 +1286,7 @@ puts current_volume #=> 2"]
        end
        doc name:          :current_transpose,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current transposition",
            doc:           "Returns the current transpose value.",
            args:          [],
            opts:          nil,
@@ -1302,7 +1302,7 @@ puts current_transpose # Print out the current transpose value"]
        end
        doc name:          :current_debug,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current debug status",
            doc:           "Returns the current debug setting (true or false).",
            args:          [],
            opts:          nil,
@@ -1318,7 +1318,7 @@ puts current_debug # Print out the current debug setting"]
        end
        doc name:          :current_arg_checks,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get current arg checking status",
            doc:           "Returns the current arg checking setting (true or false).",
            args:          [],
            opts:          nil,
@@ -1343,7 +1343,7 @@ puts current_arg_checks # Print out the current arg check setting"]
        end
        doc name:          :set_volume!,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Set Volume globally",
            doc:           "Set the main system volume to vol. Accepts a value between 0 and 5 inclusive. Vols greater or smaller than the allowed values are trimmed to keep them within range. Default is 1.",
            args:          [[:vol, :number]],
            opts:          nil,
@@ -1381,7 +1381,7 @@ set_volume! 2 # Set the main system volume to 2",
        end
        doc name:          :load_sample,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Pre-load sample",
            doc:           "Given a path to a wav|wave|aif|aiff file, this loads the file and makes it available as a sample. See load_samples for loading multiple samples in one go.",
            args:          [[:path, :string]],
            opts:          nil,
@@ -1404,7 +1404,7 @@ sample :elec_blip # No delay takes place when attempting to trigger it"]
        end
        doc name:          :load_samples,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Pre-load samples",
            doc:           "Given an array of paths to wav|wave|aif|aiff files, loads them all into memory so that they may be played with via sample with no delay. See load_sample.",
            args:          [[:paths, :list]],
            opts:          nil,
@@ -1433,7 +1433,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
        end
        doc name:          :sample_info,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get sample information",
            doc:           "Alias for the load_sample method. Loads sample if necessary and returns sample information.",
            args:          [[:path, :string]],
            opts:          nil,
@@ -1448,7 +1448,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
        end
        doc name:          :sample_buffer,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get sample data",
            doc:           "Alias for the load_sample method. Loads sample if necessary and returns buffer information.",
            args:          [[:path, :string]],
            opts:          nil,
@@ -1465,7 +1465,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
        end
        doc name:          :sample_duration,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get sample duration in seconds",
            doc:           "Given the name of a loaded sample, or a path to a wav|wave|aif|aiff file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate.",
            args:          [[:path, :string]],
            opts:          {:rate => 1},
@@ -1498,7 +1498,7 @@ end "]
        end
        doc name:          :sample,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Trigger sample",
            doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play wav|wave|aif|aiff files from anywhere on your computer too. The 'rate' parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the use_sample_pack and use_sample_pack_as methods for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider load_sample and load_samples.",
            args:          [[:name_or_path, :symbol_or_string]],
            opts:          {:rate => 1, :attack => 0, :release => 0.0, :start => 0, :finish => 1, :pan => 0, :pan_slide => 0, :amp => 1, :amp_slide => 0},
@@ -1570,7 +1570,7 @@ sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards"]
        end
        doc name:          :status,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get server status",
            doc:           "This returns a Hash of information about the synthesis environment. Mostly used for debugging purposes.",
            args:          [],
            opts:          nil,
@@ -1606,7 +1606,7 @@ puts status # Returns something similar to:
        end
        doc name:          :note,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Describe note",
            doc:           "Takes a midi note, a symbol (e.g. :C ) or a string (e.g. 'C' ) and resolves it to a midi note. You can also pass an optional :octave parameter to get the midi note for a given octave. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
@@ -1637,7 +1637,7 @@ puts note('C', octave: 2)
        end
        doc name:          :note_info,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get note info",
            doc:           "Returns an instance of SonicPi::Note. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
@@ -1656,7 +1656,7 @@ puts note_info(:C, octave: 2)
        end
        doc name:          :scale,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Create scale",
            doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional :num_octaves parameter (1 octave is the default)",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          {:num_octaves => 1},
@@ -1755,7 +1755,7 @@ play_pattern scale(:C, :lydian_minor)
        end
        doc name:          :chord,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Create chord",
            doc:           "A helper method that returns a list of midi note numbers when given a tonic note and a chord type",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            opts:          nil,
@@ -1898,7 +1898,7 @@ sleep 1
        end
        doc name:          :control,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Control running synth",
            doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for parameter details.",
            args:          [[:node, :synth_node]],
            opts:          {},
@@ -1925,7 +1925,7 @@ control my_node, cutoff: 90 # Now modify cutoff from 79 to 90, sound is still pl
        end
        doc name:          :stop,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Stop synth",
            doc:           "Stop a running synth sound or sample. In order to stop a sound, you need to have stored a reference to it in a variable.",
            args:          [[:node, :synth_node]],
            opts:          {},
@@ -1949,7 +1949,7 @@ stop bar"]
        end
        doc name:          :sample_names,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get sample names",
            doc:           "Return a list of sample names for the specified group",
            args:          [[:group, :symbol]],
            opts:          nil,
@@ -1964,7 +1964,7 @@ stop bar"]
        end
        doc name:          :all_sample_names,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get all sample names",
            doc:           "Return a list of all the sample names available",
            args:          [],
            opts:          nil,
@@ -1979,7 +1979,7 @@ stop bar"]
        end
        doc name:          :sample_groups,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Get all sample groups",
            doc:           "Return a list of all the sample groups available",
            args:          [],
            opts:          nil,
@@ -1996,7 +1996,7 @@ stop bar"]
        end
        doc name:          :load_synthdefs,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Load external synthdefs",
            doc:           "Load all synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi. if you wish your synth to seemlessly integrate with the Sonic ",
            args:          [[:path, :string]],
            opts:          nil,
