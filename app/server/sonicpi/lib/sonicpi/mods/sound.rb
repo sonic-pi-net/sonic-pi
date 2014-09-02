@@ -49,7 +49,7 @@ module SonicPi
            define_method(:initialize) do |*splat, &block|
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
-             @complex_sampler_args = [:attack, :sustain, :release, :start, :end]
+             @complex_sampler_args = [:attack, :decay, :sustain, :release, :start, :finish, :env_curve, :attack_level, :sustain_level]
 
              @blank_node = BlankNode.new
              @job_proms_queues = {}
