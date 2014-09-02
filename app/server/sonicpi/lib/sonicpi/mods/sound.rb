@@ -161,7 +161,7 @@ sleep rt(2)             # still sleeps for 2 seconds"]
     end
     doc name:           :with_arg_bpm_scaling,
         introduced:     Version.new(2,0,0),
-        summary:        "",
+        summary:        "Block level enable and diable BPM scaling",
         doc:            "Turn synth argument bpm scaling on or off for the supplied block. Note, using rt for args will result in incorrect times when used within this block.",
         args:           [],
         opts:           nil,
@@ -235,7 +235,7 @@ end"]
        end
        doc name:          :use_debug,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Enable and disable debug",
            doc:           "Enable or disable messages created on synth triggers. If this is set to false, the synths will be silent until debug is turned back on. Silencing debug messages can reduce output noise and also increase performance on slower platforms. See with_debug for setting the debug value only for a specific do/end block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
@@ -254,7 +254,7 @@ end"]
        end
        doc name:          :with_debug,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Block level enable and disable debug",
            doc:           "Similar to use_debug except only applies to code within supplied do/end block. Previous debug value is restored after block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
@@ -287,7 +287,7 @@ play 90 # Debug message is sent
        end
        doc name:          :use_arg_checks,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Enable and disable arg checks",
            doc:           "When triggering synths, each argument is checked to see if it is sensible. When argument checking is enabled and an argument isn't sensible, you'll see an error in the debug pane. This setting allows you to explicitly enable and disable the checking mechanism. See with_arg_checks for enabling/sisabling argument checking only for a specific do/end block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
@@ -310,7 +310,7 @@ play 50, release: 5 # Args are not checked"]
        end
        doc name:          :with_arg_checks,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Block level enable and disable arg checks",
            doc:           "Similar to use_arg_checks except only applies to code within supplied do/end block. Previous arg check value is restored after block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
@@ -343,7 +343,7 @@ play 90 # Args are checked
        end
        doc name:          :use_transpose,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Note transposition",
            doc:           "Transposes your music by shifting all notes played by the specified amount. To shift up by a semitone use a transpose of 1. To shift down use negative numbers. See with_transpose for setting the transpose value only for a specific do/end block.",
            args:          [[:note_shift, :number]],
            opts:          nil,
@@ -374,7 +374,7 @@ play 62 # Plays note 65"]
        end
        doc name:          :with_transpose,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Block level note transposition",
            doc:           "Similar to use_transpose except only applies to code within supplied do/end block. Previous transpose value is restored after block.",
            args:          [[:note_shift, :number]],
            opts:          nil,
@@ -403,7 +403,7 @@ play 80 # Plays note 83
        end
        doc name:          :use_synth,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Switch current synth",
            doc:           "Switch the current synth to synth_name. Affects all further calls to play. See with_synth for changing the current synth only for a specific do/end block.",
            args:          [[:synth_name, :symbol]],
            opts:          nil,
@@ -425,7 +425,7 @@ play 50 # Plays with mod_sine synth"]
        end
        doc name:          :with_synth,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Block level synth switching",
            doc:           "Switch the current synth to synth_name but only for the duration of the do/end block. After the do/end block has completed, the previous synth is restored.",
            args:          [[:synth_name, :symbol]],
            opts:          nil,
@@ -455,7 +455,7 @@ play 50 # Plays with supersaw synth
        end
        doc name:          :recording_start,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Start recording",
            doc:           "Start recording all sound to a wav file stored in a temporary directory.",
            args:          [],
            opts:          nil,
@@ -472,7 +472,7 @@ play 50 # Plays with supersaw synth
        end
        doc name:          :recording_stop,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Stop recording",
            doc:           "Stop current recording.",
            args:          [],
            opts:          nil,
@@ -490,7 +490,7 @@ play 50 # Plays with supersaw synth
        end
        doc name:          :recording_save,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Save recording",
            doc:           "Save previous recording to the specified location",
            args:          [[:path, :string]],
            opts:          nil,
@@ -534,7 +534,7 @@ play 50 # Plays with supersaw synth
        end
        doc name: :synth,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Trigger specific synth",
            doc: "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults. ",
            args:  [[:synth_name, :symbol]],
            opts:  {},
@@ -566,7 +566,7 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
        end
        doc name:          :play,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Play current synth",
            doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with attack, sustain and release phases. These phases are triggered in order, so the duration of the sound is attack + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
@@ -588,7 +588,7 @@ play 50 # Plays note 50 on the current synth",
        end
        doc name:          :play_pattern,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Play pattern of notes",
            doc:           "Play list of notes with the current synth one after another with a sleep of 1
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
@@ -692,7 +692,7 @@ play 44"]
        end
        doc name:          :play_chord,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Play notes simultaneously",
            doc:           "Play a list of notes at the same time.
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
@@ -1044,7 +1044,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
        end
        doc name:          :with_fx,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Use Studio FX",
            doc:           "This applies the named effect (FX) to everything within a given do/end block. Effects may take extra parameters to modify their behaviour. See FX help for parameter details.
 
 For advanced control, it is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
