@@ -219,7 +219,7 @@ end"]
        end
        doc name:          :set_sched_ahead_time!,
            introduced:    Version.new(2,0,0),
-           summary:       "",
+           summary:       "Set sched ahead time globally",
            doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding.",
            args:          [[:time, :number]],
            opts:          nil,
