@@ -2730,7 +2730,8 @@ end
 
         next if v.is_a? StudioInfo
         doc = ""
-        doc << "<font size=\"7\", #{hv_face}>" << v.name << "</font>\n"
+        doc << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
+        doc << "<font #{hv_face}>" << v.name << "</font></span></p>\n"
         if klass == SynthInfo
           safe_k = k
           doc << "<h2><font color=\"#3C3C3C\"><pre>use_synth"
@@ -2840,7 +2841,8 @@ end
       cnt = 0
         cnt = 0
         html = ""
-        html << "<font size=\"7\", #{hv_face}>" << v[:desc] << "</font>\n"
+        html << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
+        html << "<font #{hv_face}>" << v[:desc] << "</font></span></p>\n"
         html << "<table cellpadding=\"2\">\n <tr>"
         arglist = ""
         StereoPlayer.new.arg_info.each do |ak, av|

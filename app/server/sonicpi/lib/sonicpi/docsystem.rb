@@ -51,7 +51,8 @@ module SonicPi
           @@docs.each do |k, v|
             unless(v[:hide])
               html = ""
-              html << "<font size=\"7\", #{hv_face}>" << (v[:summary] || v[:name]).to_s.capitalize << "</font>\n"
+              html << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
+              html << "<font #{hv_face}>" << (v[:summary] || v[:name]).to_s.capitalize << "</font></span></p>\n"
               html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
               req_args = []
               v[:args].each do |arg|
