@@ -161,7 +161,7 @@ sleep rt(2)             # still sleeps for 2 seconds"]
     end
     doc name:           :with_arg_bpm_scaling,
         introduced:     Version.new(2,0,0),
-        summary:        "Block level enable and disable BPM scaling",
+        summary:        "Block-level enable and disable BPM scaling",
         doc:            "Turn synth argument bpm scaling on or off for the supplied block. Note, using rt for args will result in incorrect times when used within this block.",
         args:           [],
         opts:           nil,
@@ -254,7 +254,7 @@ end"]
        end
        doc name:          :with_debug,
            introduced:    Version.new(2,0,0),
-           summary:       "Block level enable and disable debug",
+           summary:       "Block-level enable and disable debug",
            doc:           "Similar to use_debug except only applies to code within supplied do/end block. Previous debug value is restored after block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
@@ -310,7 +310,7 @@ play 50, release: 5 # Args are not checked"]
        end
        doc name:          :with_arg_checks,
            introduced:    Version.new(2,0,0),
-           summary:       "Block level enable and disable arg checks",
+           summary:       "Block-level enable and disable arg checks",
            doc:           "Similar to use_arg_checks except only applies to code within supplied do/end block. Previous arg check value is restored after block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
@@ -374,7 +374,7 @@ play 62 # Plays note 65"]
        end
        doc name:          :with_transpose,
            introduced:    Version.new(2,0,0),
-           summary:       "Block level note transposition",
+           summary:       "Block-level note transposition",
            doc:           "Similar to use_transpose except only applies to code within supplied do/end block. Previous transpose value is restored after block.",
            args:          [[:note_shift, :number]],
            opts:          nil,
@@ -425,7 +425,7 @@ play 50 # Plays with mod_sine synth"]
        end
        doc name:          :with_synth,
            introduced:    Version.new(2,0,0),
-           summary:       "Block level synth switching",
+           summary:       "Block-level synth switching",
            doc:           "Switch the current synth to synth_name but only for the duration of the do/end block. After the do/end block has completed, the previous synth is restored.",
            args:          [[:synth_name, :symbol]],
            opts:          nil,
