@@ -40,7 +40,7 @@ module SonicPi
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
 
-      @version = Version.new(2, 0, 0, "RC13")
+      @version = Version.new(2, 0, 0)
 
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -68,7 +68,7 @@ module SonicPi
           __handle_event event
         end
       end
-      __info "RC12-dev Ready..."
+      __info "#{@version} Ready..."
     end
 
     #These includes must happen after the initialize method
