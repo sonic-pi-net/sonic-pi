@@ -127,7 +127,7 @@ module SonicPi
     end
     doc name:           :use_arg_bpm_scaling,
         introduced:     Version.new(2,0,0),
-        summary:        "eggs and things",
+        summary:        "Enable and disable BPM scaling",
         doc:            "Turn synth argument bpm scaling on or off for the current thread. This is on by default. Note, using rt for args will result in incorrect times when used after turning arg bpm scaling off.",
         args:           [[:bool, :boolean]],
         opts:           nil,
