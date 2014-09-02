@@ -161,7 +161,7 @@ sleep rt(2)             # still sleeps for 2 seconds"]
     end
     doc name:           :with_arg_bpm_scaling,
         introduced:     Version.new(2,0,0),
-        summary:        "Block level enable and diable BPM scaling",
+        summary:        "Block level enable and disable BPM scaling",
         doc:            "Turn synth argument bpm scaling on or off for the supplied block. Note, using rt for args will result in incorrect times when used within this block.",
         args:           [],
         opts:           nil,
