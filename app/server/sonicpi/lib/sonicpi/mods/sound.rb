@@ -1663,11 +1663,11 @@ puts note_info(:C, octave: 2)
            accepts_block: false,
            examples:      ["
 puts scale(:C, :major) # returns the list [60, 62, 64, 65, 67, 69, 71, 72]",
-"# anywhere you can use a list of notes, you can use the scale method
+"# anywhere you can use a list of notes, you can also use scale
 play_pattern scale(:C, :major)",
 "# you can use the :num_octaves parameter to get more notes
 play_pattern(:C, :major, num_octaves: 2)",
-"# There are lots of scale types to choose from.
+"# Sonic Pi supports a large range of scales.
 use_bpm 300 # otherwise playing all these will take ages...
 play_pattern scale(:C, :diatonic)
 play_pattern scale(:C, :ionian)
@@ -1771,7 +1771,7 @@ loop do
   play chord(:e, :minor).choose
   sleep 0.2
 end",
-"# There are lots of chord types to choose from!
+"# Sonic Pi supports a large range of chords
  # Notice that the more exotic ones have to be surrounded by ' quotes
 use_bpm 150 # this is just to get through all the chords more quickly
 play chord(:C, '1')
