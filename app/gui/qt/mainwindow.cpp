@@ -177,7 +177,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
   prefsWidget->hide();
 
-  outputWidget = new QDockWidget(tr("Output"), this);
+  outputWidget = new QDockWidget(tr("Log"), this);
   outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
