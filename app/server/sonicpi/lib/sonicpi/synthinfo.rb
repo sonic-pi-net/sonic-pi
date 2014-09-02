@@ -2651,7 +2651,7 @@ end
       :basic_stereo_player => BasicStereoPlayer.new,
       :basic_mixer => BasicMixer.new,
 
-      :fx_bitcrusher => FXBitcrusher.new,
+#      :fx_bitcrusher => FXBitcrusher.new,
       :fx_reverb => FXReverb.new,
       :fx_replace_reverb => FXReverb.new,
       :fx_level => FXLevel.new,
