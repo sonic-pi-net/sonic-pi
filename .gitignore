@@ -57,6 +57,7 @@ app/gui/qt/Makefile
 app/server/native/
 app/server/vendor/ffi/ext/
 
+app/server/rb-native/
 
 ## Rugged
 
