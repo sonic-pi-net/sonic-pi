@@ -40,7 +40,7 @@ module SonicPi
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
 
-      @version = Version.new(2, 0, 0)
+      @version = Version.new(2, 0, 1, "dev")
 
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
