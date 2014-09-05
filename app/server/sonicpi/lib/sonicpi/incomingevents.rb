@@ -18,7 +18,7 @@ require_relative "promise"
 module SonicPi
   class IncomingEvents
     def initialize
-      @event_queue = SizedQueue.new(100)
+      @event_queue = Queue.new
       @handlers = {}
       @continue = true
       @handler_thread = Thread.new do
