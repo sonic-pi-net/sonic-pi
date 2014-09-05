@@ -287,6 +287,7 @@ module SonicPi
       end
 
       @wait_thread = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_native_server)
         SCSynthFFI.World_WaitForQuit(@world_p)
       end
 

@@ -155,7 +155,10 @@ module SonicPi
         end
 
         @job_subthread_mutex.synchronize do
-          t = Thread.new &pause_then_run_blocks_and_msgs
+          t = Thread.new do
+            Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_booter)
+            pause_then_run_blocks_and_msgs.call
+          end
           job_subthread_add_unmutexed(__current_job_id, t)
         end
         p.deliver! true

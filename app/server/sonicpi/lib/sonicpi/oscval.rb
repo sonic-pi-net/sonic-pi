@@ -21,7 +21,10 @@ module SonicPi
         @vals[m.address] = m.to_a || []
       end
 
-      @server_thread = Thread.new{server.run}
+      @server_thread = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :osc_val_server)
+        server.run
+      end
     end
 
     def read(path, idx=0)
