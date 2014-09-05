@@ -1,0 +1,66 @@
+#!/bin/bash
+
+#--
+# This file is part of Sonic Pi: http://sonic-pi.net
+# Full project source: https://github.com/samaaron/sonic-pi
+# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+#
+# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# All rights reserved.
+#
+# Permission is granted for use, copying, modification, distribution,
+# and distribution of modified versions of this work as long as this
+# notice is included.
+#++
+
+## Modify these to point to your system
+QSCINTILLA=/Users/sam/Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
+QTBIN=/Users/sam/Development/Qt/5.3/clang_64/bin
+LIBQS=libqscintilla2.11.2.0.dylib
+LIBQS_LINK=libqscintilla2.11.dylib
+
+QMAKE=$QTBIN/qmake
+MACDEPLOYQT=$QTBIN/macdeployqt
+LIBQS_PATH=$QSCINTILLA/$LIBQS
+
+SP='Sonic-Pi.app'
+
+set -eux
+cd $(dirname $0)
+
+# Create empty build dir
+rm -rf build
+mkdir build
+
+# Generate automated docs
+cp -f ruby_help.tmpl ruby_help.h
+../../server/bin/qt-doc.rb -o ruby_help.h
+
+# Build app
+$QMAKE -o Makefile SonicPi.pro
+make
+
+# Move to build
+mv $SP build
+cd build
+
+# pull in QScintilla to app
+cp $LIBQS_PATH $SP/Contents/MacOS/
+
+# Make stand-alone Qt Mac App
+# Pulls in Qt internally and
+# futzes with shared lib paths
+$MACDEPLOYQT $SP
+
+# Put qscintilla dylib in Frameworks dir and symlink
+cd $SP/Contents/Frameworks
+mv ../MacOS/$LIBQS .
+ln -s $LIBQS $LIBQS_LINK
+
+# symlink server
+# For final release, these need to be mv'd
+# rather than symlinked
+cd ../../
+ln -s ../../../../../app .
+ln -s ../../../../../etc .
+ln -s ../../../../../app/server .
