@@ -450,7 +450,7 @@ play 50 # Plays with supersaw synth
        def recording_start
          __info "Start recording"
          tmp_dir = Dir.mktmpdir("sonic-pi")
-         @tmp_path = File.expand_path("#{tmp_dir}/#{rand(100000000)}.wav")
+         @tmp_path = File.expand_path("#{tmp_dir}/#{Random.rand(100000000)}.wav")
          @mod_sound_studio.recording_start @tmp_path
        end
        doc name:          :recording_start,
