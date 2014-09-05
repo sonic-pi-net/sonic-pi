@@ -399,7 +399,7 @@ play 80 # Plays note 83
 
        def use_synth(synth_name, &block)
          raise "use_synth does not work with a do/end block. Perhaps you meant with_synth" if block
-         @mod_sound_studio.current_synth_name = synth_name
+         set_current_synth synth_name
        end
        doc name:          :use_synth,
            introduced:    Version.new(2,0,0),
@@ -418,10 +418,10 @@ play 50 # Plays with mod_sine synth"]
 
        def with_synth(synth_name, &block)
          raise "with_synth must be called with a do/end block. Perhaps you meant use_synth" unless block
-         orig_synth = @mod_sound_studio.current_synth_name
-         @mod_sound_studio.current_synth_name = synth_name
+         orig_synth = current_synth_name
+         set_current_synth synth_name
          block.call
-         @mod_sound_studio.current_synth_name = orig_synth
+         set_current_synth orig_synth
        end
        doc name:          :with_synth,
            introduced:    Version.new(2,0,0),
@@ -561,7 +561,7 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
              n += shift
            end
            args_h[:note] = n
-           trigger_inst @mod_sound_studio.current_synth_name, args_h
+           trigger_inst current_synth_name, args_h
          end
        end
        doc name:          :play,
@@ -687,7 +687,7 @@ play 44"]
            n = note(n) unless n.is_a? Numeric
            n + shift
          end
-         synth_name = @mod_sound_studio.current_synth_name
+         synth_name = current_synth_name
          trigger_chord(synth_name, shifted_notes, args)
        end
        doc name:          :play_chord,
@@ -1182,7 +1182,7 @@ end"]
 
 
        def current_synth
-         @mod_sound_studio.current_synth_name
+         current_synth_name
        end
        doc name:          :current_synth,
            introduced:    Version.new(2,0,0),
@@ -2387,6 +2387,15 @@ stop bar"]
          vt  = Thread.current.thread_variable_get :sonic_pi_spider_time
          sat = @mod_sound_studio.sched_ahead_time + 1.1
          raise "Timing Exception: thread got too far behind time." if (Time.now - sat) > vt
+       end
+
+       def current_synth_name
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_current_synth_name) ||
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_current_synth_name, "beep")
+       end
+
+       def set_current_synth(name)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_current_synth_name, name)
        end
      end
    end
