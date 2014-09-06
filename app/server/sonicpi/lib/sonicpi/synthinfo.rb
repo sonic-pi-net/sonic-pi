@@ -2402,9 +2402,9 @@ end
       "fx_nhpf"
     end
 
-def doc
+    def doc
       "A high pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard high pass filter and then normalised to ensure the amplitude of the final output is constant. A high pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for hpf."
-end
+    end
   end
 
   class FXNormaliser < FXInfo
