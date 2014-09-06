@@ -39,6 +39,17 @@ module OSC
       @socket.send msg.encode, 0, address, port
     end
 
+    def initialize(port, open=false)
+      @socket = UDPSocket.new
+      if open
+        @socket.bind('', port )
+      else
+        @socket.bind('localhost', port )
+      end
+      @matchers = []
+      @queue = Queue.new
+    end
+
     def safe_detector
       loop do
         osc_data, network = @socket.recvfrom( 16384 )
