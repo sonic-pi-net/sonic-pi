@@ -3007,7 +3007,7 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
         doc << "<span style=\"color:white;background-color:darkorange;\">"
         doc << "Introduced in v" << v.introduced.to_s << "\n</span></p>\n"
 
-        doc << "<table cellpadding=\"10\">\n"
+        doc << "<table cellpadding=\"8\">\n"
         doc << "<tr><th></th><th></th></tr>\n"
 
         cnt = 0
@@ -3020,10 +3020,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
           doc << "      <td>\n"
           doc << "        <font size=\"4\", #{hv_face}>\n"
           doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
-          doc << "          <font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
+          doc << "          <em><font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
           doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
           doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
-          doc << "       </font>\n"
+          doc << "       </font></em>\n"
           doc << "     </td>\n"
           doc << " </tr>\n"
         end

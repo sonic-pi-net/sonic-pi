@@ -67,7 +67,7 @@ module SonicPi
               html << "<span style=\"color:white;background-color:darkorange;\">"
               html << "Introduced in v" << v[:introduced].to_s << "\n</span></p>\n"
 
-              html << "<table cellpadding=\"2\">\n"
+              html << "<table cellpadding=\"8\">\n"
               html << " <tr>\n   <th></th><th></th><th></th>\n </tr>\n"
 
               v[:examples].each_with_index do |e, idx|
