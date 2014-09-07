@@ -852,7 +852,7 @@ void MainWindow::createActions()
   connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
   stopAct = new QAction(QIcon(":/images/stop.png"), tr("&Stop"), this);
-  stopAct->setShortcut(tr("Ctrl+Q"));
+  stopAct->setShortcut(tr("Ctrl+S"));
   stopAct->setStatusTip(tr("Stop all running code"));
   stopAct->setToolTip(tr("Stop all running code (Ctrl-Q)"));
   connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
@@ -868,6 +868,7 @@ void MainWindow::createActions()
   connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
   helpAct = new QAction(QIcon(":/images/help.png"), tr("&Help"), this);
+  helpAct->setShortcut(tr("Ctrl+I"));
   helpAct->setStatusTip(tr("Toggle help pane"));
   helpAct->setToolTip(tr("Toggle help pane"));
   connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
