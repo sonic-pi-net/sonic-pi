@@ -36,7 +36,7 @@ module SonicPi
             code = ""
             comments = ""
             s.each_line do |l|
-              m = l.match /(.*?)([^&]#.*)/
+              m = l.match /(.*?)[^&]?(#.*)/
               if m
 
                 code << m[1] << "\n"
