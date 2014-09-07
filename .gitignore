@@ -23,7 +23,9 @@ app/gui/qt/ruby_help.h
 app/gui/qt/help/*.html
 app/gui/qt/help_files.qrc
 app/gui/qt/qrc_help_files.cpp
-
+app/gui/qt/Sonic-Pi.app
+app/gui/qt/Sonic Pi.app
+app/gui/qt/build
 
 # HTML GUI
 # --------
