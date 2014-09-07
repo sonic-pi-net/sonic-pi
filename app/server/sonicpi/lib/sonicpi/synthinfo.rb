@@ -332,7 +332,7 @@ module SonicPi
 
         :res =>
         {
-          :doc => "Filter resonance. Smaller values produce more resonance.",
+          :doc => "Filter resonance. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
           :validations => [v_positive_not_zero(:res)],
           :modulatable => true
         },
@@ -2264,6 +2264,12 @@ end
 
       }
     end
+
+    def doc
+      "Dampens the parts of the signal that are above than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typicaly the bass/mid of the sound). behaviour, The resonant part of the resonant low pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res param with a lower res resulting in greater resonance. High amounts of resonance (rq ~0) can create a whistling sound around the cutoff frequency.
+
+Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
+    end
   end
 
   class FXNormRLPF < FXRLPF
@@ -2316,6 +2322,8 @@ end
     def synth_name
       "fx_nrhpf"
     end
+
+      "A resonant high pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard high pass filter and then normalised to ensure the amplitude of the final output is constant. A high pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for hpf."
   end
 
   class FXLPF < FXInfo
@@ -2416,6 +2424,10 @@ end
       "fx_normaliser"
     end
 
+    def doc
+      "Raise or lower amplitude of sound to a specified level. Evens out the amplitude of incoming sound across the frequency spectrum by flattening all dynamics."
+    end
+
     def arg_defaults
       {
         :amp => 1,
@@ -2424,8 +2436,29 @@ end
         :mix_slide => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :level => 1,
+        :level_slide => 0,
         :amp => 1,
         :amp_slide => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+        :level =>
+        {
+          :doc => "The peak output amplitude level to which to normalise the in",
+          :validations => [v_greater_than_oet(:level, 0)],
+          :modulatable => true
+        },
+
+        :level_slide =>
+        {
+          :doc => generic_slide_doc(:level),
+          :validations => [v_positive(:level_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        }
       }
     end
   end
