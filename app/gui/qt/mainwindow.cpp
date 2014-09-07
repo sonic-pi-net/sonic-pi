@@ -845,59 +845,111 @@ void MainWindow::clearOutputPanels()
 void MainWindow::createActions()
 {
 
+  // Run
   runAct = new QAction(QIcon(":/images/run.png"), tr("&Run"), this);
-  runAct->setShortcut(tr("Ctrl+R"));
+#ifdef Q_OS_MAC
+  runAct->setShortcut(tr("ctrl+R"));
+  runAct->setToolTip(tr("Run the code in the current workspace (⌘R)"));
+#else
+  runAct->setShortcut(tr("alt+R"));
+  runAct->setToolTip(tr("Run the code in the current workspace (alt-R)"));
+#endif
   runAct->setStatusTip(tr("Run the code in the current workspace"));
-  runAct->setToolTip(tr("Run the code in the current workspace (Ctrl-R)"));
   connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
+  // Stop
   stopAct = new QAction(QIcon(":/images/stop.png"), tr("&Stop"), this);
-  stopAct->setShortcut(tr("Ctrl+S"));
+#ifdef Q_OS_MAC
+  stopAct->setShortcut(tr("ctrl+S"));
+  stopAct->setToolTip(tr("Stop all running code (⌘S)"));
+#else
+  stopAct->setShortcut(tr("alt+S"));
+  stopAct->setToolTip(tr("Stop all running code (alt-S)"));
+#endif
   stopAct->setStatusTip(tr("Stop all running code"));
-  stopAct->setToolTip(tr("Stop all running code (Ctrl-Q)"));
   connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
 
+  // Save
   saveAsAct = new QAction(QIcon(":/images/save.png"), tr("&Save &As..."), this);
-  saveAsAct->setStatusTip(tr("Save the current workspace under a new name"));
-  saveAsAct->setToolTip(tr("Save the current workspace under a new name"));
+  saveAsAct->setToolTip(tr("Export current workspace"));
+  saveAsAct->setStatusTip(tr("Export current workspace"));
   connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
+  // Info
   infoAct = new QAction(QIcon(":/images/info.png"), tr("&Info"), this);
-  infoAct->setStatusTip(tr("See information about Sonic Pi"));
   infoAct->setToolTip(tr("See information about Sonic Pi"));
+  infoAct->setStatusTip(tr("See information about Sonic Pi"));
   connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
+  // Help
   helpAct = new QAction(QIcon(":/images/help.png"), tr("&Help"), this);
-  helpAct->setShortcut(tr("Ctrl+I"));
+#ifdef Q_OS_MAC
+  helpAct->setShortcut(tr("ctrl+I"));
+  helpAct->setToolTip(tr("Toggle help pane (⌘I)"));
+#else
+  helpAct->setShortcut(tr("alt+I"));
+  helpAct->setToolTip(tr("Toggle help pane (alt-I)"));
+#endif
   helpAct->setStatusTip(tr("Toggle help pane"));
-  helpAct->setToolTip(tr("Toggle help pane"));
   connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
+  // Preferences
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("&Prefs"), this);
-  prefsAct->setStatusTip(tr("Toggle preferences pane"));
   prefsAct->setToolTip(tr("Toggle preferences pane"));
+  prefsAct->setStatusTip(tr("Toggle preferences pane"));
   connect(prefsAct, SIGNAL(triggered()), this, SLOT(showPrefsPane()));
 
+  // Record
   recAct = new QAction(QIcon(":/images/rec.png"), tr("&Start &Recording"), this);
-  recAct->setStatusTip(tr("Start Recording"));
   recAct->setToolTip(tr("Start Recording"));
+  recAct->setStatusTip(tr("Start Recording"));
   connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
+  // Align
   textAlignAct = new QAction(QIcon(":/images/align.png"), tr("&Auto &Align &Text"), this);
+#ifdef Q_OS_MAC
+  textAlignAct->setShortcut(tr("ctrl+M"));
+  textAlignAct->setToolTip(tr("Auto-align text (⌘M)"));
+#else
+  textAlignAct->setShortcut(tr("alt+M"));
+  textAlignAct->setToolTip(tr("Auto-align text (alt-M)"));
+#endif
   textAlignAct->setStatusTip(tr("Auto-align text"));
-  textAlignAct->setToolTip(tr("Auto-align text (Ctrl-M)"));
-  textAlignAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
   connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
 
-  textIncAct = new QAction(QIcon(":/images/size_up.png"), tr("&Increase &Text &Size"), this);
-  textIncAct->setStatusTip(tr("Make text bigger"));
-  textIncAct->setToolTip(tr("Make text bigger"));
-  connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
+  // Font Size Increase
+  textIncAct1 = new QAction(QIcon(":/images/size_up.png"), tr("&Increase &Text &Size"), this);
+  textIncAct2 = new QAction(this);
+  textIncAct1->setStatusTip(tr("Make text bigger"));
+#ifdef Q_OS_MAC
+  textIncAct1->setShortcut(tr("ctrl++"));
+  textIncAct2->setShortcut(tr("ctrl+="));
+  textIncAct1->setToolTip(tr("Make text bigger (⌘+)"));
+#else
+  textIncAct1->setShortcut(tr("alt++"));
+  textIncAct2->setShortcut(tr("alt+="));
+  textIncAct1->setToolTip(tr("Make text bigger (alt+)"));
+#endif
+  textIncAct1->setStatusTip(tr("Make text bigger (alt+)"));
+  connect(textIncAct1, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
+  connect(textIncAct2, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
 
-  textDecAct = new QAction(QIcon(":/images/size_down.png"), tr("&Decrease &Text &Size"), this);
-  textDecAct->setStatusTip(tr("Make text smaller"));
-  textDecAct->setToolTip(tr("Make text smaller"));
-  connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
+  // Font Size Decrease
+  textDecAct1 = new QAction(QIcon(":/images/size_down.png"), tr("&Decrease &Text &Size"), this);
+  textDecAct2 = new QAction(this);
+#ifdef Q_OS_MAC
+  textDecAct1->setShortcut(tr("ctrl+-"));
+  textDecAct2->setShortcut(tr("ctrl+_"));
+  textDecAct1->setToolTip(tr("Make text smaller (⌘-)"));
+#else
+  textDecAct1->setShortcut(tr("alt+-"));
+  textDecAct2->setShortcut(tr("alt+_"));
+  textDecAct1->setToolTip(tr("Make text smaller (alt-)"));
+#endif
+  textDecAct1->setStatusTip(tr("Make text smaller (alt-)"));
+  connect(textDecAct1, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
+  connect(textDecAct2, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
+  addAction(textDecAct2);
 
   QAction *reloadAct = new QAction(this);
   reloadAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_U));
@@ -921,8 +973,10 @@ void MainWindow::createToolBar()
   toolBar->addAction(recAct);
   toolBar->addWidget(spacer);
 
-  toolBar->addAction(textDecAct);
-  toolBar->addAction(textIncAct);
+  toolBar->addAction(textDecAct2);
+  toolBar->addAction(textIncAct2);
+  toolBar->addAction(textDecAct1);
+  toolBar->addAction(textIncAct1);
   toolBar->addAction(textAlignAct);
 
   toolBar->addAction(infoAct);

@@ -152,8 +152,10 @@ private:
     QAction *prefsAct;
     QAction *helpAct;
     QAction *textAlignAct;
-    QAction *textIncAct;
-    QAction *textDecAct;
+    QAction *textIncAct1;
+    QAction *textIncAct2;
+    QAction *textDecAct1;
+    QAction *textDecAct2;
 
     QAction *saveAsAct;
     QAction *exitAct;
