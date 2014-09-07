@@ -265,8 +265,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   infoPane->setFixedSize(550, 650);
   QString html;
 
-
   infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\">Designed and developed by Sam Aaron<br>in Cambridge, England<br><br><font color=\"DeepPink\">http://sonic-pi.net</font><br><br>For the latest updates follow<br><font color=\"DeepPink\">@sonic_pi<br></font></font></pre><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></h2><pre><font size=\"4\"><br>v2.0</font></pre></center>");
+
+  infoPane->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
+
+  QAction *closeInfoAct = new QAction(this);
+  closeInfoAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
+  connect(closeInfoAct, SIGNAL(triggered()), this, SLOT(about()));
+  infoPane->addAction(closeInfoAct);
   this->showNormal();
 
 #if defined(Q_OS_MAC)
