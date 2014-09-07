@@ -25,7 +25,8 @@ require_relative "mods/sound"
 require_relative "gitsave"
 require_relative "lifecyclehooks"
 require_relative "version"
-require_relative "oscval"
+#require_relative "oscval"
+require_relative "oscevent"
 
 require 'thread'
 require 'fileutils'
@@ -300,7 +301,13 @@ module SonicPi
       if File.exists? path
         s = IO.read(path)
       end
-      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: s})
+      __replace_buffer(id, s)
+    end
+
+    def __replace_buffer(id, content)
+      id = id.to_s
+      content = content.to_s
+      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: content})
     end
 
     def __beautify_buffer(id, buf)
