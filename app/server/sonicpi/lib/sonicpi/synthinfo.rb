@@ -3000,8 +3000,12 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
         doc << arglist
 
 
-        doc << "<p><font size=\"5\", #{hv_face}>"
+        doc << "<p><font size=\"4\", #{hv_face}>"
         doc << "  " << v.doc << "</font></p>\n"
+
+        doc << "<p><font size=\"3\", #{hv_face}>\n"
+        doc << "<span style=\"color:white;background-color:darkorange;\">"
+        doc << "Introduced in v" << v.introduced.to_s << "\n</span></p>\n"
 
         doc << "<table cellpadding=\"10\">\n"
         doc << "<tr><th></th><th></th></tr>\n"
@@ -3010,7 +3014,7 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
         v.arg_info.each do |ak, av|
           cnt += 1
           background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
-          key_bg_colour = cnt.even? ? "#FFF0F5" : "#FFE4E1"
+          key_bg_colour = cnt.even? ? "#E6F0FF" : "#B2D1FF"
           doc << "  <tr bgcolor=\"#{background_colour}\">\n"
           doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
           doc << "      <td>\n"
@@ -3112,7 +3116,7 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
         StereoPlayer.new.arg_info.each do |ak, av|
           cnt += 1
           background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
-          key_bg_colour = cnt.even? ? "#FFF0F5" : "#FFE4E1"
+          key_bg_colour = cnt.even? ? "#E6F0FF" : "#B2D1FF"
           doc << "  <tr bgcolor=\"#{background_colour}\">\n"
           doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
           doc << "      <td>\n"
