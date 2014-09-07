@@ -2447,11 +2447,11 @@
             [snd-l snd-r] snd
             snd           (balance2 snd-l snd-r pan amp)
 ]
-        (out out_bus snd)) )
+        (out out_bus snd)))
 
-   (def t (sonic-pi-warp_sample s :rate -1 :window_size 0.001))
 
-   (kill t)
+
+
 
 
 
