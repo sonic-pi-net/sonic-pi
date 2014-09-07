@@ -28,7 +28,11 @@ module SonicPi
       if @dev
         "#{@major}.#{@minor}.#{@patch}-#{@dev}"
       else
-        "#{@major}.#{@minor}.#{@patch}"
+        if @patch == 0
+          "#{@major}.#{@minor}"
+        else
+          "#{@major}.#{@minor}.#{@patch}"
+        end
       end
     end
 
