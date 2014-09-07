@@ -10,7 +10,7 @@ The dependencies for building and running this are:
 * `cmake`
 
 You will need to compile the Qt app within `app/gui` via
-`app/gui/qt/boostrap-qt` and run the script `rp-app-bin`
+`app/gui/qt/rp-build-app` and run the script `rp-app-bin`
 
 The current implementation assumes the execution context is a Raspberry
 Pi. Patches for other platforms will be happily considered.
