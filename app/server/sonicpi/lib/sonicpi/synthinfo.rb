@@ -1,3 +1,17 @@
+#--
+# This file is part of Sonic Pi: http://sonic-pi.net
+# Full project source: https://github.com/samaaron/sonic-pi
+# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+#
+# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# All rights reserved.
+#
+# Permission is granted for use, copying, modification, distribution,
+# and distribution of modified versions of this work as long as this
+# notice is included.
+#++
+require_relative "version"
+
 module SonicPi
 
   class BaseInfo
@@ -37,6 +51,10 @@ module SonicPi
 
     def synth_name
       raise "Please implement synth_name for #{self.class}"
+    end
+
+    def introduced
+      raise "please implement introduced version for synth info: #{self.class}"
     end
 
     def args
@@ -416,6 +434,10 @@ module SonicPi
       "Dull Bell"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "dull_bell"
     end
@@ -449,6 +471,10 @@ module SonicPi
       "Pretty Bell"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "pretty_bell"
     end
@@ -461,6 +487,10 @@ module SonicPi
   class Beep < SonicPiSynth
     def name
       "Sine Wave"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -496,6 +526,10 @@ module SonicPi
       "Saw Wave"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "saw"
     end
@@ -509,6 +543,10 @@ module SonicPi
   class Pulse < SonicPiSynth
     def name
       "Pulse Wave"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -549,6 +587,10 @@ module SonicPi
       "Triangle Wave"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "tri"
     end
@@ -561,6 +603,10 @@ module SonicPi
   class DSaw < SonicPiSynth
     def name
       "Detuned Saw wave"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -600,6 +646,10 @@ module SonicPi
   class FM < SonicPiSynth
     def name
       "Basic FM synthesis"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -676,6 +726,10 @@ module SonicPi
       "Basic FM synthesis with frequency modulation."
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "mod_fm"
     end
@@ -701,6 +755,10 @@ module SonicPi
   class ModSaw < SonicPiSynth
     def name
       "Modulated Saw Wave"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -747,6 +805,10 @@ module SonicPi
   class ModDSaw < SonicPiSynth
     def name
       "Modulated Detuned Saw Waves"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -798,6 +860,10 @@ module SonicPi
       "Modulated Sine Wave"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "mod_sine"
     end
@@ -842,6 +908,10 @@ module SonicPi
   class ModTri < SonicPiSynth
     def name
       "Modulated Triangle Wave"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -890,6 +960,10 @@ module SonicPi
       "Modulated Pulse"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "mod_pulse"
     end
@@ -936,6 +1010,10 @@ module SonicPi
   class TB303 < SonicPiSynth
     def name
       "TB-303 Emulation"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1022,6 +1100,10 @@ module SonicPi
       "Supersaw"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "supersaw"
     end
@@ -1060,6 +1142,10 @@ module SonicPi
   class Zawa < SonicPiSynth
     def name
       "Zawa"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1186,6 +1272,10 @@ module SonicPi
       "The Prophet"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "prophet"
     end
@@ -1228,6 +1318,10 @@ end
       "Noise"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "noise"
     end
@@ -1265,6 +1359,10 @@ end
       "Grey Noise"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "gnoise"
     end
@@ -1277,6 +1375,10 @@ end
   class BNoise < Noise
     def name
       "Brown Noise"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1294,6 +1396,10 @@ end
       "Pink Noise"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "pnoise"
     end
@@ -1307,6 +1413,10 @@ end
   class CNoise < Noise
     def name
       "Clip Noise"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1326,6 +1436,10 @@ end
   class SoundIn < StudioInfo
     def name
       "Sound In"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1350,6 +1464,10 @@ end
   class BasicMonoPlayer < StudioInfo
     def name
       "Basic Mono Sample Player (no env)"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1377,6 +1495,10 @@ end
       "Basic Stereo Sample Player (no env)"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "basic_stereo_player"
     end
@@ -1389,6 +1511,10 @@ end
   class MonoPlayer < StudioInfo
     def name
       "Mono Sample Player"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1476,6 +1602,10 @@ end
       "Stereo Sample Player"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "stereo_player"
     end
@@ -1488,6 +1618,10 @@ end
   class BasicMixer < BaseMixer
     def name
       "Basic Mixer"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1538,6 +1672,10 @@ end
   class FXReverb < FXInfo
     def name
       "Reverb"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1607,6 +1745,10 @@ end
       "Bitcrusher"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_bitcrusher"
     end
@@ -1671,6 +1813,10 @@ end
       "Level Amplifier"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_level"
     end
@@ -1690,6 +1836,10 @@ end
   class FXEcho < FXInfo
     def name
       "Echo"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1771,6 +1921,10 @@ end
   class FXSlicer < FXInfo
     def name
       "Slicer"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -1911,6 +2065,10 @@ end
       "Wobble"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_wobble"
     end
@@ -2023,6 +2181,10 @@ end
       "Techno from IXI Lang"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_ixi_techno"
     end
@@ -2121,6 +2283,10 @@ end
   class FXCompressor < FXInfo
     def name
       "Compressor"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -2239,6 +2405,10 @@ end
       "Resonant Low Pass Filter"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_rlpf"
     end
@@ -2277,6 +2447,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
       "Normalised Resonant Low Pass Filter"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_nrlpf"
     end
@@ -2285,6 +2459,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
   class FXRHPF < FXInfo
     def name
       "Resonant High Pass Filter"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -2319,6 +2497,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
       "Normalised Resonant High Pass Filter"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_nrhpf"
     end
@@ -2329,6 +2511,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
   class FXLPF < FXInfo
     def name
       "Low Pass Filter"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -2365,6 +2551,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
       "Normalised Low Pass Filter."
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_nlpf"
     end
@@ -2377,6 +2567,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
   class FXHPF < FXInfo
     def name
       "High Pass Filter"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -2406,6 +2600,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
       "Normalised High Pass Filter"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_nhpf"
     end
@@ -2418,6 +2616,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
   class FXNormaliser < FXInfo
     def name
       "Normaliser"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
@@ -2468,6 +2670,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
       "Distortion"
     end
 
+    def introduced
+      Version.new(2,0,0)
+    end
+
     def synth_name
       "fx_distortion"
     end
@@ -2514,6 +2720,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
   class FXPan < FXInfo
     def name
       "Pan"
+    end
+
+    def introduced
+      Version.new(2,0,0)
     end
 
     def synth_name
