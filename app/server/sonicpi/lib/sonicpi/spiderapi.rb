@@ -653,8 +653,8 @@ payload = {
           :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
           :run => current_job_id
          }
-        @events.event("/spider_thread_sync/" + cue_id.to_s, payload)
         __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+        @events.event("/spider_thread_sync/" + cue_id.to_s, payload)
       end
     end
     doc name:           :cue,
