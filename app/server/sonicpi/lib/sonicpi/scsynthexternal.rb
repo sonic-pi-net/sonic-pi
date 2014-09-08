@@ -174,7 +174,7 @@ module SonicPi
       yield
 
       begin
-        p.get_with_timeout(10, 0.2)
+        p.get(10)
       rescue Exception => e
         boot_s.send(OSC::Message.new("/quit"), @hostname, @port)
       ensure

@@ -480,7 +480,7 @@ module SonicPi
     # so we abort running this thread.
     def wait_for_parent_thread!(parent_t, prom)
       begin
-        prom.get_with_timeout(10, 0.1)
+        prom.get(10)
       rescue
         raise "Parent thread died!" unless parent_t.alive?
         wait_for_parent_thread!(parent_t, prom)

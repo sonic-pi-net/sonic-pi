@@ -16,68 +16,34 @@ module SonicPi
   class Promise
 
     def initialize
-      @val_sem = Mutex.new
-      @push_sem = Mutex.new
-      @box = Queue.new
+      @prom_sem = Mutex.new
       @value = nil
       @delivered = false
-      @pushed = false
+      @received = ConditionVariable.new
     end
 
-    def get_with_timeout(timeout, resolution)
-      raise "Promise timeout resolution must be positive" if resolution <= 0
-      raise "Promise timeout must be positive" if timeout <= 0
+    def get(timeout=nil)
       return @value if @delivered
-      value_obtained = false
-      val = nil
-      @val_sem.synchronize do
+      @prom_sem.synchronize do
         return @value if @delivered
-        begin
-          #use non-blocking Queue#pop which raises an exception if value
-          #isn't available:
-          val = @box.pop(true)
-          @value = val
-          @delivered = true
-          value_obtained = true
-        rescue
-          # no value in box
-          val = nil
-          value_obtained = false
-        end
-      end
-
-      if value_obtained
-        return val
-      else
-        new_time = timeout - resolution
-        if new_time > 0
-          sleep resolution
-          get_with_timeout(timeout - resolution, resolution)
+        @received.wait(@prom_sem, timeout)
+        if @delivered
+          return @value
         else
-          raise "Timeout attempting to get value from promise #{self}"
+          raise "Promise timeout"
         end
-      end
-    end
-
-    def get()
-      return @value if @delivered
-      @val_sem.synchronize do
-        return @value if @delivered
-        val = @box.pop
-        @value = val
-        @delivered = true
-        val
       end
     end
 
     def deliver!(val, raise_error=true)
-      @push_sem.synchronize do
-        if @pushed
-          raise "Promise already delivered. You tried, to deliver #{val.inspect}, however already have: #{@incoming_val_for_error.inspect}" if raise_error
+      @prom_sem.synchronize do
+        if @delivered
+          raise "Promise already delivered. You tried, to deliver #{val.inspect}, however already have: #{@value.inspect}" if raise_error
         else
-          @incoming_val_for_error = val
-          @box.push val
-          @pushed = true
+          @value = val
+          @delivered = true
+          @received.signal
+          val
         end
       end
     end
