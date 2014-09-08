@@ -645,7 +645,11 @@ play 62
     def cue(cue_id)
       __no_kill_block do
         Kernel.sleep @sync_real_sleep_time
-        @events.event("/spider_thread_sync/" + cue_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time)})
+payload = {
+          :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
+          :run => current_job_id
+         }
+        @events.event("/spider_thread_sync/" + cue_id.to_s, payload)
         __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
       end
     end
@@ -725,8 +729,9 @@ end"
       end
       payload = p.get
       time = payload[:time]
+      run_id = payload[:run]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
-      __delayed_highlight2_message "synced #{cue_id.to_sym.inspect}"
+      __delayed_highlight2_message "synced #{cue_id.to_sym.inspect} (Run #{run_id})"
       cue_id
     end
     doc name:           :sync,
