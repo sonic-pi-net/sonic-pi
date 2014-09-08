@@ -504,34 +504,19 @@ void MainWindow::startOSCListener() {
                   QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));
                 }
 
-#if defined(Q_OS_WIN)
-              if(i == (msg_count - 1)) {
-                ss << s << "\n";
-              } else {
-                ss << s;
-              }
-#elif defined(Q_OS_MAC)
-              if(i == (msg_count - 1)) {
-                ss << s << "\n";
-              } else {
-                ss << s;
-              }
-#else
-  //assuming Raspberry Pi
-              if(i == (msg_count - 1)) {
-                ss << s << "\n";
-              } else {
-                ss << s;
-              }
-#endif
-
+              ss << s;
 
               QMetaObject::invokeMethod( outputPane, "insertPlainText", Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(ss.str())) );
 
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
               QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
+
+
+
               }
+            QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+                                       Q_ARG(QString,  QString::fromStdString(" ")) );
           }
           else if (msg->match("/info")) {
             std::string s;
