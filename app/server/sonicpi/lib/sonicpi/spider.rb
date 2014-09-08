@@ -286,12 +286,11 @@ module SonicPi
       @user_jobs.kill_job j
       @life_hooks.killed(j)
       @life_hooks.exit(j)
-      __info "Stopped run #{j}"
       @msg_queue.push({type: :job, jobid: j, action: :killed})
     end
 
     def __stop_jobs
-      __info "Stopping all running code."
+      __info "Stopping all runs..."
       @user_jobs.each_id do |id|
         __stop_job id
       end
@@ -367,10 +366,10 @@ module SonicPi
           __no_kill_block do
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
             @msg_queue.push({type: :error, val: e.message, backtrace: e.backtrace, jobid: id  , jobinfo: info})
+
           end
         end
       end
-
       @user_jobs.add_job(id, job, info)
 
       Thread.new do
@@ -378,9 +377,14 @@ module SonicPi
         Thread.current.thread_variable_set(:sonic_pi_thread_group, "job-#{id}-GC")
         job.join
         __join_subthreads(job)
+
+
         # wait until all synths are dead
+
         @life_hooks.completed(id)
+
         @life_hooks.exit(id)
+        __info "Completed run #{id}"
         deregister_job_and_return_subthreads(id)
         @user_jobs.job_completed(id)
         @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
