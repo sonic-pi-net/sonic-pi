@@ -15,7 +15,7 @@ require 'osc-ruby'
 module SonicPi
   class OSCVal
     def initialize(port)
-      server = OSC::Server.new(port)
+      server = OSC::Server.new(port, true)
       @vals = {}
       server.add_method '*' do |m|
         @vals[m.address] = m.to_a || []
