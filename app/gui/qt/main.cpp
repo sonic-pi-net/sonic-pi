@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
   splashWindow->raise();
   splashWindow->show();
 
-  sleep(3);
   MainWindow mainWin(app, splashWindow);
   return app.exec();
 
