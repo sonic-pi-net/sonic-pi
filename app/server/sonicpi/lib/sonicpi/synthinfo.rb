@@ -2461,6 +2461,12 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
       "Resonant High Pass Filter"
     end
 
+    def doc
+      "Dampens the parts of the signal that are lower than the cutoff point (typicaly the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). The resonant part of the resonant low pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res param with a lower res resulting in greater resonance. High amounts of resonance (rq ~0) can create a whistling sound around the cutoff frequency.
+
+Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy. "
+    end
+
     def introduced
       Version.new(2,0,0)
     end
@@ -2728,6 +2734,10 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
 
     def synth_name
       "fx_pan"
+    end
+
+    def doc
+      "Specify where in the stereo field the sound should be heard. A value of -1 for pan will put the sound in the left speaker, a value of 1 will put the sound in the right speaker and values in between will shift the sound accordingly."
     end
 
     def arg_defaults
