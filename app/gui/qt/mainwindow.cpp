@@ -445,7 +445,34 @@ void MainWindow::startOSCListener() {
               ar.popInt32(msg_type);
               ar.popStr(s);
 
+#if defined(Q_OS_WIN)
+              if(i == (msg_count - 1)) {
+                ss << " └─ ";
+              } else {
+                ss << " ├─ ";
+              }
+#elif defined(Q_OS_MAC)
+              if(i == (msg_count - 1)) {
+                ss << " └─ ";
+              } else {
+                ss << " ├─ ";
+              }
+#else
+  //assuming Raspberry Pi
+              if(i == (msg_count - 1)) {
+                ss << " +- ";
+              } else {
+                ss << " |- ";
+              }
+#endif
 
+
+              QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+                                         Q_ARG(QString, QString::fromStdString(ss.str())) );
+
+
+              ss.str("");
+              ss.clear();
 
               switch(msg_type)
                 {
@@ -458,35 +485,52 @@ void MainWindow::startOSCListener() {
                 case 2:
                   QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
                   break;
-                default:
+                case 3:
                   QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("red")));
-
+                  break;
+                case 4:
+                  QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
+                  QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
+                  break;
+                case 5:
+                  QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
+                  QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
+                  break;
+                case 6:
+                  QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
+                  QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
+                  break;
+                default:
+                  QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));
                 }
 
 #if defined(Q_OS_WIN)
               if(i == (msg_count - 1)) {
-                ss << " └─ " << s << "\n";
+                ss << s << "\n";
               } else {
-                ss << " ├─ " << s;
+                ss << s;
               }
 #elif defined(Q_OS_MAC)
               if(i == (msg_count - 1)) {
-                ss << " └─ " << s << "\n";
+                ss << s << "\n";
               } else {
-                ss << " ├─ " << s;
+                ss << s;
               }
 #else
   //assuming Raspberry Pi
               if(i == (msg_count - 1)) {
-                ss << " +- " << s << "\n";
+                ss << s << "\n";
               } else {
-                ss << " |- " << s;
+                ss << s;
               }
 #endif
 
 
-              QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
+              QMetaObject::invokeMethod( outputPane, "insertPlainText", Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString(ss.str())) );
+
+              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
+              QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
               }
           }
           else if (msg->match("/info")) {

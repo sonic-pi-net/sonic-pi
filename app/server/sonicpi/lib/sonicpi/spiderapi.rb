@@ -646,7 +646,7 @@ play 62
       __no_kill_block do
         Kernel.sleep @sync_real_sleep_time
         @events.event("/spider_thread_sync/" + cue_id.to_s, {:time => Thread.current.thread_variable_get(:sonic_pi_spider_time)})
-        __delayed_message "cue #{cue_id.to_sym.inspect}"
+        __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
       end
     end
     doc name:           :cue,
@@ -717,6 +717,7 @@ end"
 
 
     def sync(cue_id)
+      __delayed_highlight3_message "sync #{cue_id.to_sym.inspect}"
       __schedule_delayed_blocks_and_messages!
       p = Promise.new
       @events.oneshot_handler("/spider_thread_sync/" + cue_id.to_s) do |payload|
@@ -725,6 +726,7 @@ end"
       payload = p.get
       time = payload[:time]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
+      __delayed_highlight2_message "synced #{cue_id.to_sym.inspect}"
       cue_id
     end
     doc name:           :sync,

@@ -111,6 +111,18 @@ module SonicPi
       __enqueue_multi_message(0, s)
     end
 
+    def __delayed_highlight_message(s)
+      __enqueue_multi_message(4, s)
+    end
+
+    def __delayed_highlight2_message(s)
+      __enqueue_multi_message(5, s)
+    end
+
+    def __delayed_highlight3_message(s)
+      __enqueue_multi_message(6, s)
+    end
+
     def __delayed_user_message(s)
       s = s.inspect unless s.is_a? String
       __enqueue_multi_message(1, s)
