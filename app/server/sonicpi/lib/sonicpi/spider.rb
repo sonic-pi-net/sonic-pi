@@ -426,7 +426,8 @@ module SonicPi
       if name
         if @named_subthreads[name]
           #Don't delay following message, as this method is used for worker thread impl.
-          __info "Skipping thread creation: thread with name #{name.inspect} already exists."
+          __info "Thread #{name.inspect} exists: skipping creation"
+
           t.kill
           job_subthread_rm_unmutexed(job_id, t)
           return false

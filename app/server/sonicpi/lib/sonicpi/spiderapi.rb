@@ -112,8 +112,12 @@ play bar # plays 80"]
 
     def define(name, &block)
       raise "define must be called with a code block" unless block
-      __info "Defining #{name}"
       @user_methods.send(:define_method, name, &block)
+      if @user_methods.method_defined? name
+        __info "Redefining #{name}"
+      else
+        __info "Defining #{name}"
+      end
     end
     doc name:           :define,
         introduced:     Version.new(2,0,0),
