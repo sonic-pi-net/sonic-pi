@@ -692,9 +692,14 @@ bool MainWindow::saveAs()
 
 void MainWindow::runCode()
 {
+
+
+  QsciScintilla *ws = ((QsciScintilla*)tabs->currentWidget());
+  ws->getCursorPosition(&currentLine, &currentIndex);
+  ws->selectAll(true);
   errorPane->clear();
   errorPane->hide();
-  statusBar()->showMessage(tr("Running...."), 2000);
+  statusBar()->showMessage(tr("Running Code...."), 1000);
   std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
   std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
@@ -717,10 +722,20 @@ void MainWindow::runCode()
 
   msg.pushStr(code);
   sendOSC(msg);
+
+  QTimer::singleShot(200, this, SLOT(unhighlightCode()));
+
+
 }
 
-void MainWindow::beautifyCode()
-{
+ void MainWindow::unhighlightCode()
+ {
+  ((QsciScintilla*)tabs->currentWidget())->selectAll(false);
+  ((QsciScintilla*)tabs->currentWidget())->setCursorPosition(currentLine, currentIndex);
+ }
+
+ void MainWindow::beautifyCode()
+ {
   statusBar()->showMessage(tr("Beautifying...."), 2000);
   std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/beautify-buffer");

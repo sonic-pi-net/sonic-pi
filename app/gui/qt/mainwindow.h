@@ -56,6 +56,8 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
+
+    void unhighlightCode();
     void runCode();
     void stopCode();
     void beautifyCode();
@@ -175,6 +177,8 @@ private:
     QLabel *imageLabel;
     QSlider *raspberryPiSystemVol;
 
+    int currentLine;
+    int currentIndex;
 };
 
 #endif
