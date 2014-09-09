@@ -302,6 +302,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QTextStream st(&file);
   s.append(st.readAll());
   QTextEdit *historyT = new QTextEdit;
+  historyT->setReadOnly(true);
   historyT->setHtml(s);
 
   //Contributors
@@ -312,6 +313,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QTextStream st2(&file2);
   s2.append(st2.readAll());
   QTextEdit *contributorsT = new QTextEdit;
+  contributorsT->setReadOnly(true);
   contributorsT->setHtml(s2);
 
   //Community
@@ -322,6 +324,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QTextStream st3(&file3);
   s3.append(st3.readAll());
   QTextEdit *communityT = new QTextEdit;
+  communityT->setReadOnly(true);
   communityT->setHtml(s3);
 
 
