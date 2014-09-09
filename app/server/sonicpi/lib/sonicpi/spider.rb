@@ -384,9 +384,11 @@ module SonicPi
         @life_hooks.completed(id)
 
         @life_hooks.exit(id)
-        __info "Completed run #{id}"
+
         deregister_job_and_return_subthreads(id)
         @user_jobs.job_completed(id)
+        Kernel.sleep @mod_sound_studio.sched_ahead_time
+        __info "Completed run #{id}"
         @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
       end
     end
