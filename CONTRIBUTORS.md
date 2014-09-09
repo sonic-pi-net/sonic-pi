@@ -1,6 +1,8 @@
 # Contributors
 
-This project was conceived, designed and implemented by Sam Aaron. However, it wouldn't have been possible without the wonderful support from the following people and organisations:
+This project was conceived, designed and implemented by Sam Aaron. 
+
+However, it wouldn't have been possible without the wonderful support from the following people and organisations:
 
 ## Developers
 
