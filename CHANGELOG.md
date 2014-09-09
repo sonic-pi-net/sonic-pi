@@ -1,11 +1,11 @@
 # History
 
 ## Version 2.0.1
-*To be released..*
+*Tuesday 9th September, 2014*
 
 * Fix recording functionality
 * Improve documentation content and layout
-* Close off OSC server from external clients (for extra security)
+* Close off OSC server from external clients
 * Add History, Contributors and Community pages to info window
 * Improve startup speed on OS X
 * Re-work and add to shortcuts for key actions:
@@ -13,6 +13,7 @@
   - on OS X they are all `cmd-*` prefixed
 * Improve highlighting of log messages (`cue`/`sync` messages are more clearly highlighted)
 * Log now communicates when a run has completed executing
+* Fix bug encountered when stopping threads in super fast loops (stopped comms with server)
 
 ## Version 2.0
 *Tuesday 2nd September, 2014*
