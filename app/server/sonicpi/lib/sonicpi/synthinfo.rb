@@ -1368,7 +1368,7 @@ end
     end
 
     def doc
-      "Generates noise which results from flipping random bits in a word.  The spectrum is emphasized towards lower frequencies. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
+      "Generates noise which results from flipping random bits in a word.  The spectrum is emphasised towards lower frequencies. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
     end
   end
 
