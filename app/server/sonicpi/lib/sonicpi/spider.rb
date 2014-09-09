@@ -26,7 +26,7 @@ require_relative "gitsave"
 require_relative "lifecyclehooks"
 require_relative "version"
 #require_relative "oscval"
-require_relative "oscevent"
+#require_relative "oscevent"
 
 require 'thread'
 require 'fileutils'
