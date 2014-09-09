@@ -1,6 +1,6 @@
 # Contributors
 
-This project was conceived, designed and implemented by Sam Aaron. 
+Sonic Pi was conceived, designed and implemented by Sam Aaron. 
 
 However, it wouldn't have been possible without the wonderful support from the following people and organisations:
 
@@ -28,7 +28,7 @@ Thanks also to the following people for their generous support (both technical a
 
 ## Organisations
 
-The following organisations have kindly contributed to the project:
+The following organisations have kindly contributed to Sonic Pi:
 
 * The Raspberry Pi Foundation
 * The Broadcom Foundation
