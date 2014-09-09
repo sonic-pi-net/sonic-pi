@@ -1,6 +1,6 @@
 # Community
 
-Sonic Pi is more than just software. It's a whole community of people sharing ideas, helping  and inspiring each other. On behalf of the community, we welcome you.
+Sonic Pi is more than just software. It's a whole community of people sharing ideas, helping  and inspiring each other. Welcome.
 
 You can find other members at the following locations:
 
