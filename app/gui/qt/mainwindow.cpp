@@ -775,7 +775,7 @@ void MainWindow::runCode()
   msg.pushStr(code);
   sendOSC(msg);
 
-  QTimer::singleShot(200, this, SLOT(unhighlightCode()));
+  QTimer::singleShot(500, this, SLOT(unhighlightCode()));
 
 
 }
