@@ -24,3 +24,7 @@ For bite-sized chunks of the latest Sonic Pi news and information.
 
 For those Facebook users out there.
 
+## GitHub
+*http://github.com/samaaron/sonic-pi*
+
+For developers interested in the full source code. The issue tracker is also hosted here.
