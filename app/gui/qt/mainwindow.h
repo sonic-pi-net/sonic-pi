@@ -173,6 +173,7 @@ private:
     QMap<QString, QString> *map;
 
     QTextEdit *infoPane;
+    QWidget *infoWidg;
     QTextEdit *startupPane;
     QLabel *imageLabel;
     QSlider *raspberryPiSystemVol;

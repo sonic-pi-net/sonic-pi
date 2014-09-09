@@ -44,7 +44,8 @@ OTHER_FILES += \
 
 RESOURCES += \
     SonicPi.qrc \
-    help_files.qrc
+    help_files.qrc  \
+    info_files.qrc
 
 ICON = images/app.icns
 LIBS         += -lqscintilla2

@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/">
+    <file>info/CHANGELOG.html</file>
+    <file>info/COMMUNITY.html</file>
+    <file>info/CONTRIBUTORS.html</file>
+  </qresource>
+</RCC>

@@ -25,10 +25,35 @@ require_relative "../sonicpi/lib/sonicpi/mods/sound"
 require 'kramdown'
 require 'active_support/inflector'
 
+
+class MarkdownCoverter
+  def self.convert(contents)
+    # Github markdown syntax uses ```` to mark code blocks
+    # Kramdown uses ~~~~
+    contents.gsub!(/\`\`\`\`*/, '~~~~')
+
+    contents_html = Kramdown::Document.new(contents).to_html
+    contents_html.gsub!(/<h1.*?>/, '<p> <span style="font-size:25px; color:white;background-color:deeppink;">')
+    contents_html.gsub!(/<h2.*?>/, '<br><p><span style="font-size:20px; color:white; background-color:dodgerblue;">')
+    contents_html.gsub!(/<\/h1>/, '</span></p>')
+    contents_html.gsub!(/<\/h2>/, '</span></p>')
+    contents_html.gsub!(/<p>/, '<p style="font-size:15px;color:#5e5e5e;">')
+    contents_html.gsub!(/<em>/, '<em style="font-size:15px;color:darkorange;">')
+    contents_html.gsub!(/<ol>/, '<ol style="font-size:15px;color:#5e5e5e;">')
+    contents_html.gsub!(/<ul>/, '<ul style="font-size:15px;color:#5e5e5e;">')
+
+    contents_html.gsub!(/<code>/, '<code style="font-size:15px; color:deeppink; background-color:white">')
+    contents_html = "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + contents_html + "</font>"
+  end
+end
+
 include SonicPi::Util
 
 FileUtils::rm_rf "#{qt_gui_path}/help/"
 FileUtils::mkdir "#{qt_gui_path}/help/"
+
+FileUtils::rm_rf "#{qt_gui_path}/info/"
+FileUtils::mkdir "#{qt_gui_path}/info/"
 
 docs = []
 filenames = []
@@ -123,26 +148,9 @@ end
 
 tutorial_html_map = {}
 Dir["#{tutorial_path}/*.md"].each do |path|
-
   contents = IO.read(path)
-
-  # Github markdown syntax uses ```` to mark code blocks
-  # Kramdown uses ~~~~
-  contents.gsub!(/\`\`\`\`*/, '~~~~')
-
-  contents_html = Kramdown::Document.new(contents).to_html
-  contents_html.gsub!(/<h1.*?>/, '<p> <span style="font-size:25px; color:white;background-color:deeppink;">')
-  contents_html.gsub!(/<h2.*?>/, '<br><p><span style="font-size:20px; color:white; background-color:dodgerblue;">')
-  contents_html.gsub!(/<\/h1>/, '</span></p>')
-  contents_html.gsub!(/<\/h2>/, '</span></p>')
-  contents_html.gsub!(/<p>/, '<p style="font-size:15px;color:#5e5e5e;">')
-  contents_html.gsub!(/<em>/, '<em style="font-size:15px;color:darkorange;">')
-  contents_html.gsub!(/<ol>/, '<ol style="font-size:15px;color:#5e5e5e;">')
-  contents_html.gsub!(/<ul>/, '<ul style="font-size:15px;color:#5e5e5e;">')
-
-  contents_html.gsub!(/<code>/, '<code style="font-size:15px; color:deeppink; background-color:white">')
-  contents_html = "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + contents_html + "</font>"
-  tutorial_html_map[File.basename(path, ".md").gsub!(/-/, ' ')] = contents_html
+  html = MarkdownCoverter.convert contents
+  tutorial_html_map[File.basename(path, ".md").gsub!(/-/, ' ')] = html
 end
 
 
@@ -182,4 +190,25 @@ File.open("#{qt_gui_path}/help_files.qrc", 'w') do |f|
   f << "<RCC>\n  <qresource prefix=\"/\">\n"
   f << filenames.join
   f << "  </qresource>\n</RCC>\n"
+end
+
+
+###
+# Generate info pages
+###
+
+info_sources = ["CHANGELOG", "CONTRIBUTORS", "COMMUNITY"]
+outputdir = "#{qt_gui_path}/info"
+
+info_sources.each do |src|
+
+  input_path = "#{root_path}/#{src}.md"
+
+  html = MarkdownCoverter.convert(IO.read(input_path))
+  output_path = "#{outputdir}/#{src}.html"
+
+  File.open(output_path, 'w') do |f|
+    f << html
+  end
+
 end

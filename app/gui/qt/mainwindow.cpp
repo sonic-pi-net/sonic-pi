@@ -260,6 +260,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   initPrefsWindow();
   initDocsWindow();
 
+
   infoPane = new QTextEdit;
   infoPane->setReadOnly(true);
   infoPane->setFixedSize(550, 650);
@@ -267,13 +268,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\">Designed and developed by Sam Aaron<br>in Cambridge, England<br><br><font color=\"DeepPink\">http://sonic-pi.net</font><br><br>For the latest updates follow<br><font color=\"DeepPink\">@sonic_pi<br></font></font></pre><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></h2><pre><font size=\"4\"><br>v2.0.1-dev</font></pre></center>");
 
-  infoPane->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
-
-  QAction *closeInfoAct = new QAction(this);
-  closeInfoAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
-  connect(closeInfoAct, SIGNAL(triggered()), this, SLOT(about()));
-  infoPane->addAction(closeInfoAct);
-  this->showNormal();
 
 #if defined(Q_OS_MAC)
   splash->close();
@@ -295,6 +289,64 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
     docWidget->show();
     startupPane->show();
   }
+
+  // Main widget for info
+  infoWidg = new QWidget;
+
+
+  // Changelog
+  QFile file(":/info/CHANGELOG.html");
+  if(!file.open(QFile::ReadOnly | QFile::Text)) {
+  }
+  QString s;
+  QTextStream st(&file);
+  s.append(st.readAll());
+  QTextEdit *historyT = new QTextEdit;
+  historyT->setHtml(s);
+
+  //Contributors
+  QFile file2(":/info/CONTRIBUTORS.html");
+  if(!file2.open(QFile::ReadOnly | QFile::Text)) {
+  }
+  QString s2;
+  QTextStream st2(&file2);
+  s2.append(st2.readAll());
+  QTextEdit *contributorsT = new QTextEdit;
+  contributorsT->setHtml(s2);
+
+  //Community
+  QFile file3(":/info/COMMUNITY.html");
+  if(!file3.open(QFile::ReadOnly | QFile::Text)) {
+  }
+  QString s3;
+  QTextStream st3(&file3);
+  s3.append(st3.readAll());
+  QTextEdit *communityT = new QTextEdit;
+  communityT->setHtml(s3);
+
+
+  // Tabs
+  QTabWidget *infoTabs = new QTabWidget(this);
+  infoTabs->addTab(infoPane, "About");
+  infoTabs->addTab(historyT, "History");
+  infoTabs->addTab(contributorsT, "Contributors");
+  infoTabs->addTab(communityT, "Community");
+  infoTabs->setTabPosition(QTabWidget::South);
+
+  QBoxLayout *infoLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+  infoLayout->addWidget(infoTabs);
+
+  infoWidg->setLayout(infoLayout);
+
+  infoWidg->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
+
+  QAction *closeInfoAct = new QAction(this);
+  closeInfoAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
+  connect(closeInfoAct, SIGNAL(triggered()), this, SLOT(about()));
+  infoWidg->addAction(closeInfoAct);
+  this->showNormal();
+
+
 }
 
 void MainWindow::serverError(QProcess::ProcessError error) {
@@ -761,11 +813,11 @@ void MainWindow::stopCode()
 
 void MainWindow::about()
 {
-  if(infoPane->isVisible()) {
-    infoPane->hide();
+  if(infoWidg->isVisible()) {
+    infoWidg->hide();
   } else {
-    infoPane->raise();
-    infoPane->show();
+    infoWidg->raise();
+    infoWidg->show();
   }
 }
 
