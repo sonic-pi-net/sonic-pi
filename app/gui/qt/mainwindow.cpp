@@ -195,7 +195,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   tutorialDocPane->setReadOnly(true);
   QString style = "QTextEdit { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
   tutorialDocPane->setStyleSheet(style);
-  tutorialDocPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center>");
+  tutorialDocPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
 
   langDocPane = new QTextEdit;
   langDocPane->setReadOnly(true);
@@ -285,7 +285,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
 
 
-    startupPane->setHtml("<center><img src=\":/images/logo.png\" height=\"335\" width=\"365\"></center><center><pre><font size=\"4\"><font color=\"DeepPink\">Welcome!</font><br><br>This is Sonic Pi<br>the live coding music environment<br><br>To get started please follow the tutorial<br> in the help system below<br>(which you can always access via the Help button)<br><br>Remember...<br>with live coding<br>there are no mistakes<br>only opportunities<font color=\"DeepPink\"><br><br>Have fun and share your code<br>for others to jam with</font></font></center>");
+    startupPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center><center><pre><font size=\"4\"><font color=\"DeepPink\">Welcome!</font><br><br>This is Sonic Pi<br>the live coding music environment<br><br>To get started please follow the tutorial<br> in the help system below<br>(which you can always access via the Help button)<br><br>Remember...<br>with live coding<br>there are no mistakes<br>only opportunities<font color=\"DeepPink\"><br><br>Have fun and share your code<br>for others to jam with</font></font></center>");
     docWidget->show();
     startupPane->show();
   }
