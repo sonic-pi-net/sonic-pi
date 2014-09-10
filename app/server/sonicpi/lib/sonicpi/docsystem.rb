@@ -39,10 +39,10 @@ module SonicPi
               m = l.match /(.*?)[^&]?(#.*)/
               if m
 
-                code << m[1] << "\n"
-                comments << m[2] << "\n"
+                code << CGI.escapeHTML(m[1]) << "\n"
+                comments << CGI.escapeHTML(m[2]) << "\n"
               else
-                code << l
+                code << CGI.escapeHTML(l)
                 comments << " \n"
               end
             end
@@ -77,8 +77,9 @@ module SonicPi
 
                 html << " <tr bgcolor=\"#{background_colour}\">\n"
                 html << "  <td bgcolor=\"#{key_bg_colour}\"><h3><pre>Example #{idx} </pre></h3></td>\n"
-                lines = "\n" << e.strip.split("\n").map{|l| CGI.escapeHTML(l)}.join("\n")
-                code, comments = *extract_comments.call(lines)
+
+                code, comments = *extract_comments.call(e.strip)
+
                 html << "   <td><pre>\n#{code << "\n\n\n"}</pre></td>\n"
                 html << "   <td><pre>\n#{comments << "\n\n\n"}</pre></td></tr>\n"
               end
