@@ -58,7 +58,7 @@ end
 
 ## Cue Names  
 
-You are free to use whatever name you'd like for your `cue` messages - not much `:tick`. You just need to ensure that any other threads are `sync`ing on the correct name - otherwise they'll be waiting for every (or at least until you press the stop button).
+You are free to use whatever name you'd like for your `cue` messages - not just `:tick`. You just need to ensure that any other threads are `sync`ing on the correct name - otherwise they'll be waiting for ever (or at least until you press the stop button).
 
 Let's play with a few `cue` names:
 
