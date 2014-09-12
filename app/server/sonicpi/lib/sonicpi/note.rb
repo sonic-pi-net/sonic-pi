@@ -77,14 +77,18 @@ module SonicPi
 
     @@notes_cache = {}
 
-    def self.resolve_degree(degree, scale, root)
+    def self.resolve_degree(degree, tonic, scale)
       if !(DEGREE.keys + DEGREE.values).member?(degree)
         raise InvalidDegreeError, "Invalid degree #{degree.inspect}, expecting #{DEGREE.keys.join ','} or 1-7"
       end
+
       intervals = Scale::SCALE[scale]
-      index = degree.is_a?(Numeric) ? degree-1 : DEGREE[degree]-1
-      intervals = intervals.cycle.take(index)
-      resolve_midi_note(root) + intervals.reduce(0,:+)
+
+      raise Scale::InvalidScaleError, "Unknown scale name: #{scale.inspect}" unless intervals
+
+      no_intervals = degree.is_a?(Numeric) ? degree-1 : DEGREE[degree]-1
+      intervals = intervals.cycle.take(no_intervals)
+      resolve_midi_note(tonic) + intervals.reduce(0,:+)
     end
 
     def self.resolve_midi_note_without_octave(n)

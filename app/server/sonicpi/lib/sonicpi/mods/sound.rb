@@ -1650,18 +1650,18 @@ puts note_info(:C, octave: 2)
 
 
 
-       def degree(degree, scale, root)
-         Note.resolve_degree(degree, scale, root)
+       def degree(degree, tonic, scale)
+         Note.resolve_degree(degree, tonic, scale)
        end
        doc name:           :degree,
-       introduced:         Version.new(2,0,0),
+       introduced:         Version.new(2,1,0),
        summary:            "Convert a degree into a note",
-       doc:                "For a given scale and root note it takes a symbol :i,:ii,:iii,:iv,:v :vi, :vii or a number 1-7 and resolves it to a midi note.",
-       args:               [[:degree, :symbol_or_number], [:scale, :symbol], [:root, :symbol]],
+       doc:                "For a given scale and tonic it takes a symbol :i,:ii,:iii,:iv,:v :vi, :vii or a number 1-7 and resolves it to a midi note.",
+       args:               [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol]],
        accepts_block:      false,
        example:            [%Q{
-play degree(:ii, :major, :D3)
-play degree(2, :minor, :C3)
+play degree(:ii, :D3, :major)
+play degree(2, :C3, :minor)
 }]
 
 
