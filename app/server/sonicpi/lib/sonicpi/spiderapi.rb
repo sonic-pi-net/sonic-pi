@@ -18,6 +18,18 @@ module SonicPi
 
     include SonicPi::DocSystem
 
+    def live_loop(name, &block)
+      raise "performer must be called with a code block" unless block
+
+      define(name, &block)
+
+      in_thread(name: name) do
+        loop do
+          send(name)
+        end
+      end
+    end
+
     def version
       @version
     end
