@@ -644,7 +644,11 @@ play 62
 
 
     def wait(time)
-      sleep(time)
+      if time.is_a? Symbol
+        sync(time)
+      else
+        sleep(time)
+      end
     end
     doc name:           :wait,
         introduced:     Version.new(2,0,0),
