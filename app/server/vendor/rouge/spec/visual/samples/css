@@ -1,0 +1,56 @@
+body {
+    font-size: 12pt;
+    background   : #fff url(temp.png) top left no-repeat;
+}
+
+* html body {
+    font-size: 14pt;
+}
+
+#nav .new {
+    display: block;
+}
+
+ul#nav li.new {
+    font-weight: bold;
+}
+
+:link {
+    color: #f00;
+}
+
+:link:hover {
+    color: #0f0;
+}
+
+#thing {
+  font: normal 400 12px/35px Helvetica, Arial, sans-serif;
+}
+
+@media screen {
+  body {
+    background: #ccc;
+  }
+}
+
+@namespace "http://www.w3.org/1999/xhtml";
+
+@import url("mystyle.css");
+
+@charset "ISO-8859-1";
+
+@font-face { font-family: "Example Font"; src: url("http://www.example.com/fonts/example"); }
+
+@media screen { body { font-size: 16px } } @media print { body { font-size: 12pt } }
+
+
+@page { body { margin: 1in 1.5in; } }
+
+@page linke-seite:left { body { margin:20mm; margin-right:25mm; } }
+
+@-moz-document url-prefix(http://pygments.org) {  a {font-style: normal !important;} }
+
+#foo {
+  unrecognized-prop: 1;
+  -moz-prefixed-prop: 2;
+}

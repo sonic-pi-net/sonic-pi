@@ -1,0 +1,139 @@
+#import "Somefile.h"
+
+@implementation ABC
+
+- (id) a: (A)a
+       b: (B)b
+       c: (C)c... {
+
+  // ternary expressions and message passing
+  a = b ? c : d;
+  [a b: c ? d : e];
+  a ? [b c: d] + e : f;
+  [a b];
+  [[a b: c] d];
+  label:
+  [a b:c
+     d:e];
+  other_label:
+  return 1;
+
+  YES @YES NO @NO nil true @true false @false;
+}
+
+@end
+
+@implementation ABC
+
+- (void)xyz;
+
+@end
+
+NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+    @"quattuor", @"four", @"quinque", @"five", @"sex", @"six", nil];
+
+
+NSString *key;
+for (key in dictionary) {
+    NSLog(@"English: %@, Latin: %@", key, [dictionary valueForKey:key]);
+}
+
+// MyClass.h
+@import Foundation;
+
+@interface MyClass : NSObject
+{
+    NSString *value;
+    NSTextField *textField;
+@private
+    NSDate *lastModifiedDate;
+}
+@property(copy, readwrite) NSString *value;
+@property(retain) IBOutlet NSTextField *textField;
+@end
+
+// To look up: are these comma-delimited?
+// interface definition for a category
+@interface Foo (Bar, Baz, Zot) {
+}
+
+// MyClass.m
+// Class extension to declare private property
+@interface MyClass ()
+@property(retain) NSDate *lastModifiedDate;
+@end
+
+@implementation MyClass
+@synthesize value;
+@synthesize textField;
+@synthesize lastModifiedDate;
+// implementation continues
+@end
+
+@class myProtocols;
+@protocol myProtocol1 <NSObject>
+// list of methods and properties
+  doStuff:(float) myValue;
+@end
+@protocol myProtocol2 <NSObject>
+// list of methods and properties
+   doOtherStuff:(float) myValue2 andText:(NSString *)myText andType:(NSString *)myType;
+@end
+@interface  myProtocols:NSObject
+{
+   __unsafe_unretained id <myProtocol1> _myDelegate1;
+    __unsafe_unretained id <myProtocol2> _myDelegate2;
+}
+@property (nonatomic, assign) id <myProtocol1> myDelegate1;
+@property (nonatomic, assign) id <myProtocol2> myDelegate2;
+@end
+
+#import myProtocols.h
+@implementation myProtocols
+@synthesize myDelegate1 = _myDelegate1
+@synthesize myDelegate2 = _myDelegate2
+if ([_myDelegate1 respondsToSelector:@selector(doStuff:)])
+   [_myDelegate1 doStuff:3.5];
+if ([_myDelegate2 respondsToSelector:@selector(doOtherStuff:andText:andType:)])
+   [_myDelegate2 doOtherStuff:4.5 andText:@"YES MAN" andType:@"YES BRO"];
+@end
+
+#import "myProtocols.h"
+@interface classA: UIViewController <myProtocol1>
+@property(strong, nonatomic) myProtocols *myProtoVC;
+@end
+
+#import "classA.h"
+@interface classA ()
+@end
+@implementation classA
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    _myProtoVC = [[myProtocols alloc] init];
+    _myProtoVC.myDelegate1 = self;
+}
+-(void) doStuff:(float) myValue
+{
+  NSLog(@" YES VALUE IS %f",myValue);
+}
+
+#import "myProtocols.h"
+@interface classB: UIViewController <myProtocol2>
+@property(strong, nonatomic) myProtocols *myProtoVC;
+@end
+
+#import "classB.h"
+@interface classB ()
+@end
+@implementation classB
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    _myProtoVC = [[myProtocols alloc] init];
+    _myProtoVC.myDelegate2 = self;
+}
+-(void) doOtherStuff:(float) myValue2 andText:(NSString *)myText andType:(NSString *)myType; 
+{
+  NSLog(@" YES VALUE IS %f and text %@ and type %@",myValue2,myText,myType);
+}end

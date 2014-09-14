@@ -1,0 +1,12 @@
+@interface Person : NSObject {
+  @public
+  NSString *name;
+  @private
+  int age;
+}
+
+@property(copy) NSString *name;
+@property(readonly) int age;
+
+-(id)initWithAge:(int)age;
+@end

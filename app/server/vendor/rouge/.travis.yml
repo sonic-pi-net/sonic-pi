@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - "1.9.3"
+  - "2.0"
+  - "2.1"
+  # - jruby-19mode # JRuby in 1.9 mode
+  # - rbx-2.1.1
+bundler_args: --without development
+before_install: gem update bundler

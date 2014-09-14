@@ -1,0 +1,60 @@
+int quote_delims = 100'000'000
+int float_delims = 100.00'00
+int hex_delims = 0xFF'Fa12
+
+/* foo */ #if 0
+ this is commented
+#endif
+
+/* it shouldn't hang */	/* trying to lex this */
+/*{"ahg/awn/xan?",	HB_TAG('A','G','W',' ')},*/	/* Agaw */
+/*{"gsw?/gsw-FR?",	HB_TAG('A','L','S',' ')},*/	/* Alsatian */
+/*{"krc",	HB_TAG('B','A','L',' ')},*/	/* Balkar */
+/*{"??",	HB_TAG('B','C','R',' ')},*/	/* Bible Cree */
+/*{"sgw?",	HB_TAG('C','H','G',' ')},*/	/* Chaha Gurage */
+/*{"acf/gcf?",	HB_TAG('F','A','N',' ')},*/	/* French Antillean */
+/*{"vls/nl-be",	HB_TAG('F','L','E',' ')},*/	/* Flemish */
+/*{"enf?/yrk?",	HB_TAG('F','N','E',' ')},*/	/* Forest Nenets */
+/*{"fuf?",	HB_TAG('F','T','A',' ')},*/	/* Futa */
+/*{"ar-Syrc?",	HB_TAG('G','A','R',' ')},*/	/* Garshuni */
+/*{"cfm/rnl?",	HB_TAG('H','A','L',' ')},*/	/* Halam */
+/*{"ga-Latg?/Latg?",	HB_TAG('I','R','T',' ')},*/	/* Irish Traditional */
+/*{"krc",	HB_TAG('K','A','R',' ')},*/	/* Karachay */
+/*{"alw?/ktb?",	HB_TAG('K','E','B',' ')},*/	/* Kebena */
+/*{"Geok",	HB_TAG('K','G','E',' ')},*/	/* Khutsuri Georgian */
+/*{"kca",	HB_TAG('K','H','K',' ')},*/	/* Khanty-Kazim */
+/*{"kca",	HB_TAG('K','H','S',' ')},*/	/* Khanty-Shurishkar */
+
+#define foo bar
+#define baz zot
+
+class Highlighter : public QSyntaxHighlighter
+{
+   class InnerClass {}
+
+   Q_OBJECT
+
+public:
+   Highlighter(QTextDocument *parent = 0);
+
+protected:
+   void highlightBlock(const QString &text);
+
+private:
+   struct HighlightingRule
+   {
+       QRegExp pattern;
+       QTextCharFormat format;
+   };
+   QVector<HighlightingRule> highlightingRules;
+
+   QRegExp commentStartExpression;
+   QRegExp commentEndExpression;
+
+   QTextCharFormat keywordFormat;
+   QTextCharFormat classFormat;
+   QTextCharFormat singleLineCommentFormat;
+   QTextCharFormat multiLineCommentFormat;
+   QTextCharFormat quotationFormat;
+   QTextCharFormat functionFormat;
+};

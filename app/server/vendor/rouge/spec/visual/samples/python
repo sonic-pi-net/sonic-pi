@@ -1,0 +1,96 @@
+def lex(code, lexer):
+    """
+    Lex ``code`` with ``lexer`` and return an iterable of tokens.
+    """
+    try:
+        return lexer.get_tokens(code)
+    except TypeError, err:
+        if isinstance(err.args[0], str) and \
+           'unbound method get_tokens' in err.args[0]:
+            raise TypeError('lex() argument must be a lexer instance, '
+                            'not a class')
+        raise
+
+# quotes in strings
+def foo():
+    "it's working"
+
+def foo():
+    'he said "hi"'
+
+def foo():
+    """it's working"""
+    """he said "hi" """
+
+def foo():
+    '''he said "hi"'''
+    '''it's working'''
+
+# unicode docstrings
+def foo():
+    ur"""unicode-raw"""
+
+def bar():
+    u"""unicode"""
+
+def baz():
+    r'raw'
+
+def zap():
+    """docstring"""
+
+# line continuations
+apple.filter(x, y)
+apple.\
+    filter(x, y)
+
+1 \
+    . \
+    __str__
+
+from os import path
+from \
+        os \
+        import \
+        path
+
+import os.path as something
+
+import \
+        os.path \
+        as \
+        something
+
+class \
+ Spam:
+    pass
+
+class Spam: pass
+
+class Spam(object):
+    pass
+
+class \
+ Spam \
+  (
+   object
+ ) \
+ :
+ pass
+
+
+def \
+ spam \
+  ( \
+  ) \
+  : \
+  pass
+
+def the_word_strand():
+    a = b.strip()
+    a = strand
+    b = band
+    c = strand
+    b = error
+    c = stror
+    c = string

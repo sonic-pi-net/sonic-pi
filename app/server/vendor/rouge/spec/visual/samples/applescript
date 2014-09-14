@@ -1,0 +1,58 @@
+-- Multi-word commands
+do shell script "date"
+display dialog "Does this work?"
+
+-- Some special kind of syntax for builtins
+«NoIdea»
+
+-- Multi-word constant
+set text item delimiters to "|"
+
+-- Types and properties
+tell application "iTunes" to get current selection
+get character 5 from "abcdefghij"
+
+-- Multi-word keyword (greater than)
+if 5 is greater than 4 then
+  set thing to 6
+end if
+
+-- "return" as a constant
+set a to return & "abc" & return & "def" & linefeed & "ghi"
+
+-- "return" as a command
+return a
+
+-- "return" as a command and constant
+if 4 is less than 5 then
+  return thing & return & a
+end if
+
+-- "return" inside string is properly identified
+set c to "abc is not a
+  return to def"
+
+-- Multi-line string escaping
+set b to "abc" & ¬
+  return & "def"
+
+-- Application dictionaries can redefine words
+tell application "BBEdit" to set show tab stops to true
+
+tell application "System Events"
+    tell network preferences
+        tell current location
+            set aPPPoEService to a reference to (first service whose kind is 10)
+            if exists aPPPoEService then
+                connect aPPPoEService
+            end if
+        end tell
+    end tell
+end tell
+
+set jp to "日本語"
+
+set ru to "Русский"
+
+jp & " and " & ru -- returns "日本語 and Русский"
+

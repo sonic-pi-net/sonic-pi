@@ -1,0 +1,9 @@
+# it's a gem, ignore the lockfile
+Gemfile.lock
+
+# build artifacts
+*.gem
+
+# docs
+/.yardoc
+/doc

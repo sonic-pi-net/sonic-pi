@@ -1,0 +1,21 @@
+<style type="text/css">
+  body {
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+  }
+  div {
+    break-inside: avoid-column;
+    -webkit-column-break-inside: avoid;
+    }
+</style>
+
+<h1>Lexers supported by Rouge v<%= Rouge.version %></h1>
+
+<% @samples.each do |sample| %>
+<div>
+<h2><a href="/<%= sample.tag %>"><%= sample.tag %></a></h2>
+<%= Rouge.highlight(sample.demo, sample, @formatter) %>
+<br />
+</div>
+<% end %>

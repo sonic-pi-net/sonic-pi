@@ -1,0 +1,12 @@
+node /www\.example\.com/ {
+  include foo::bar
+
+  file {"foo.txt":
+    require +> Thing::Package["bar-package"],
+    contents => case $::operatingsystem {
+      /Linux/: $linux_contents,
+      /Windows/: $windows_module::windows_contents,
+      default: undef
+    }
+  }
+}

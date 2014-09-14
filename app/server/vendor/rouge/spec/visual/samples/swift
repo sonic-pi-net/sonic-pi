@@ -1,0 +1,241 @@
+import Foundation
+
+func sayHello(person:String) -> String {
+    return "Hello, \(capitalize(word:person)). \"How're are you doin\'?\""
+}
+
+func capitalize(#word:String) -> String {
+    //TODO: test this
+    return word.capitalizedString
+}
+
+sayHello("Toto")
+
+var pi = 3.1415
+
+func halfOpenRangeLength(start:Int, end:Int) -> Int {
+    return end - start
+}
+
+halfOpenRangeLength(3, 8)
+
+func count(string:String) -> (vowels:Int, consonants:Int, others:Int) {
+    var vowels = 0, consonants = 0, emoji = 0, whitespace = 0, others = 0
+
+    for character in string {
+
+        switch String(character).lowercaseString {
+        case "a","o","i","u","e":
+            ++vowels
+        case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+            ++consonants
+        //TODO: Add more emoji
+        case "\u{1F604}":
+            ++emoji
+        case "\n", "\r", "\t", "\0", "\u{A0}", "\u{205F}":
+            ++whitespace
+        default:
+            ++others
+        }
+    }
+
+    return (vowels,consonants,others)
+}
+
+count(sayHello("John"))
+
+// Unicode and Emoji support
+let 😄face = "Happy Face"
+let ქართულადაც = "This is Georgian"
+let こんにちは = "...and Japanese"
+let 𓂀 = "and hieroglyphs"
+
+
+func join(#firstString:String,#secondString:String,joiner:String = " & ") -> String {
+    return "\(firstString)\(joiner)\(secondString)"
+}
+
+join(firstString: "Toto", secondString: "Someone Other", joiner: " + ")
+
+func alignedRight(inout #string:String, count:Int, pad:Character) -> String {
+    let amountToPad = count - countElements(string)
+
+    for _ in 1...amountToPad {
+        string = pad + string
+    }
+
+    return string;
+}
+
+/* This is a multiline comment
+/*
+This part is nested into the parent comment
+*/
+Trailing part of parent comment
+*/
+
+let thisIsNotAComment = true
+
+/* Singleline Comment */
+
+var textToAlign = "Toto"
+alignedRight(string: &textToAlign, 10, "-")
+textToAlign
+
+//MARK: Function Types
+func addToInts(a:Int,b:Int) -> Int {
+    return a + b
+}
+
+let addNumbers: (Int,Int)->(Int) = addToInts;
+addNumbers(3,2)
+
+func printMathProblem(mathFunction:(Int,Int)->Int,a:Int,b:Int)->String {
+    return "Result " + String(mathFunction(a,b))
+}
+printMathProblem(addNumbers, 5, 10)
+
+// Function return types + Nested Functions
+func chooseSteperFunction(backward:Bool) -> (Int) -> Int {
+    func stepForward(input:Int)->Int {
+        return input + 1
+    }
+
+    func stepBackward(input:Int)->Int {
+        return input + 1
+    }
+
+    return backward ? stepBackward : stepForward
+}
+let currentValue = 5
+chooseSteperFunction(currentValue > 0)(currentValue)
+
+// Closures
+func comparator(s1:String,s2:String)->Bool {
+    return s2 > s1
+}
+let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+let revised = sorted(names, comparator)
+
+let revised2 = sorted(names, {
+    (s1:String,s2:String)->Bool in
+        return s2 > s1
+    })
+
+let revised3 = sorted(names, { s1, s2 in s1 > s2 })
+revised3
+
+let revised4 = sorted(names) { $0 > $1 } // This is also a trailing closure
+revised4
+
+let revised5 = sorted(names, >)
+
+// Long closures
+let digitNames = [
+    0: "Zero", 1: "One", 2: "Two",   3: "Three", 4: "Four",
+    5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine"
+]
+let numbers = [16, 58, 510]
+
+let strings = numbers.map {
+    (var number) -> String in
+    var output = ""
+    while number > 0 {
+        output = digitNames[number % 10]! + output
+        number /= 10
+    }
+    return output
+}
+strings
+
+// Closure Value Capturing
+func makeIncrementor(firstNumber number:Int) -> () -> Int
+{
+    var runningTotal = 0
+    func incrementor()->Int {
+        runningTotal += number
+        return runningTotal
+    }
+    return incrementor
+}
+
+let incrementor = makeIncrementor(firstNumber: 4)
+incrementor()
+
+// @autoclosure
+func simpleAssert(condition: @autoclosure () -> Bool, message: String = "Assertion failed") {
+    if !condition() {
+        println(message)
+    }
+}
+
+// optional function call
+
+let maybeFunction: (() -> ())? = nil
+maybeFunction?()
+maybeFunction!()
+
+//MARK: Classes
+public class Person : NSObject {
+    let firstName: String
+
+    private var lastName: String
+
+    private(set) var age: Int {
+    didSet {
+        println("Happy Birthday")
+    }
+    }
+
+    internal(set) var doubleAge = 0.0
+    unowned(safe) var safeUnowned = nil
+    unowned(unsafe) var unsafeUnowned = nil
+
+    lazy var phoneNumbers = [String]()
+    @NSCopying var modificationDate: NSDate = NSDate()
+
+    required public init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+        super.init()
+    }
+
+    internal var isAdmin: Bool { return false }
+
+    final func doSomething() {
+        //TODO: Do something
+    }
+
+    dynamic func somethingDynamic() { }
+}
+
+@objc(MYCustomView) class CustomView: NSView, SomeProtocol , OtherProtocol {
+    @IBOutlet var button: AnyObject!
+
+    @IBAction func doSomething(sender: AnyObject) {
+        //TODO: Do something
+    }
+}
+
+//MARK: Protocols
+@objc protocol Random {
+    func random() -> Self
+    optional func seed(seed: Int)
+}
+
+extension SomeClass {
+
+}
+
+struct Stack<T, U>: Equatable {
+    var items = [T]()
+}
+
+typealias Speed = Double
+
+enum State: Equatable {
+    case Stopped, Paused
+    case Running(Speed)
+}
+
+@availability(OSX, introduced=10.10) func localizedCaseInsensitiveContainsString(aString: String) -> Bool

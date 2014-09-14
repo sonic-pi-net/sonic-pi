@@ -1,0 +1,376 @@
+fn f() {
+    let a = ~"hello";
+    let b: &str = a;
+    io::println(b);
+}
+
+fn g() {
+    let c = ~"world";
+    let d: &str;
+    d = c;
+    io::println(d);
+}
+
+fn main() {
+    f();
+    g();
+}
+
+debug!("test %?", a.b);
+debug!("test %u", a.c);
+debug!("test %i", a.d);
+debug!("test %c", a.e);
+debug!("test %f", a.f);
+debug!("test %b", a.g);
+
+trait iterable<A> {
+    fn iterate(blk: fn(x: &A) -> bool);
+}
+
+impl<A> &[A]: iterable<A> {
+    fn iterate(f: fn(x: &A) -> bool) {
+        for vec::each(self) |e| {
+            if !f(e) { break; }
+        }
+    }
+}
+
+impl<A> ~[A]: iterable<A> {
+    fn iterate(f: fn(x: &A) -> bool) {
+        for vec::each(self) |e| {
+            if !f(e) { break; }
+        }
+    }
+}
+
+fn length<A, T: iterable<A>>(x: T) -> uint {
+    let mut len = 0;
+    for x.iterate() |_y| { len += 1 }
+    return len;
+}
+
+fn main() {
+    let x = ~[0,1,2,3];
+    // Call a method
+    for x.iterate() |y| { assert x[*y] == *y; }
+    // Call a parameterized function
+    assert length(x) == vec::len(x);
+    // Call a parameterized function, with type arguments that require
+    // a borrow
+    assert length::<int, &[int]>(x) == vec::len(x);
+
+    // Now try it with a type that *needs* to be borrowed
+    let z = [0,1,2,3];
+    // Call a method
+    for z.iterate() |y| { assert z[*y] == *y; }
+    // Call a parameterized function
+    assert length::<int, &[int]>(z) == vec::len(z);
+}
+
+
+#[attr1 = "val"];
+#[attr2 = "val"];
+#[attr3];
+#[attr4(attr5)];
+
+// Special linkage attributes for the crate
+#[link(name = "std",
+       vers = "0.1",
+       uuid = "122bed0b-c19b-4b82-b0b7-7ae8aead7297",
+       url = "http://rust-lang.org/src/std")];
+
+// These are are attributes of the following mod
+#[attr1 = "val"]
+#[attr2 = "val"]
+mod test_first_item_in_file_mod {
+    #[legacy_exports]; }
+
+mod test_single_attr_outer {
+    #[legacy_exports];
+
+    #[attr = "val"]
+    const x: int = 10;
+
+    #[attr = "val"]
+    fn f() { }
+
+    #[attr = "val"]
+    mod mod1 {
+        #[legacy_exports]; }
+
+    #[attr = "val"]
+    #[abi = "cdecl"]
+    extern mod rustrt {
+        #[legacy_exports]; }
+}
+
+mod test_multi_attr_outer {
+    #[legacy_exports];
+
+    #[attr1 = "val"]
+    #[attr2 = "val"]
+    const x: int = 10;
+
+    #[attr1 = "val"]
+    #[attr2 = "val"]
+    fn f() { }
+
+    #[attr1 = "val"]
+    #[attr2 = "val"]
+    mod mod1 {
+        #[legacy_exports]; }
+
+    #[attr1 = "val"]
+    #[attr2 = "val"]
+    #[abi = "cdecl"]
+    extern mod rustrt {
+        #[legacy_exports]; }
+
+    #[attr1 = "val"]
+    #[attr2 = "val"]
+    type t = {x: int};
+}
+
+mod test_stmt_single_attr_outer {
+    #[legacy_exports];
+
+    fn f() {
+
+        #[attr = "val"]
+        const x: int = 10;
+
+        #[attr = "val"]
+        fn f() { }
+
+        #[attr = "val"]
+        mod mod1 {
+            #[legacy_exports];
+        }
+
+        #[attr = "val"]
+        #[abi = "cdecl"]
+        extern mod rustrt {
+            #[legacy_exports];
+        }
+    }
+}
+
+mod test_stmt_multi_attr_outer {
+    #[legacy_exports];
+
+    fn f() {
+
+        #[attr1 = "val"]
+        #[attr2 = "val"]
+        const x: int = 10;
+
+        #[attr1 = "val"]
+        #[attr2 = "val"]
+        fn f() { }
+
+        /* FIXME: Issue #493
+        #[attr1 = "val"]
+        #[attr2 = "val"]
+        mod mod1 {
+            #[legacy_exports];
+        }
+
+        #[attr1 = "val"]
+        #[attr2 = "val"]
+        #[abi = "cdecl"]
+        extern mod rustrt {
+            #[legacy_exports];
+        }
+        */
+    }
+}
+
+mod test_attr_inner {
+    #[legacy_exports];
+
+    mod m {
+        #[legacy_exports];
+        // This is an attribute of mod m
+        #[attr = "val"];
+    }
+}
+
+mod test_attr_inner_then_outer {
+    #[legacy_exports];
+
+    mod m {
+        #[legacy_exports];
+        // This is an attribute of mod m
+        #[attr = "val"];
+        // This is an attribute of fn f
+        #[attr = "val"]
+        fn f() { }
+    }
+}
+
+mod test_attr_inner_then_outer_multi {
+    #[legacy_exports];
+    mod m {
+        #[legacy_exports];
+        // This is an attribute of mod m
+        #[attr1 = "val"];
+        #[attr2 = "val"];
+        // This is an attribute of fn f
+        #[attr1 = "val"]
+        #[attr2 = "val"]
+        fn f() { }
+    }
+}
+
+mod test_distinguish_syntax_ext {
+    #[legacy_exports];
+
+    extern mod std;
+
+    fn f() {
+        fmt!("test%s", ~"s");
+        #[attr = "val"]
+        fn g() { }
+    }
+}
+
+mod test_other_forms {
+    #[legacy_exports];
+    #[attr]
+    #[attr(word)]
+    #[attr(attr(word))]
+    #[attr(key1 = "val", key2 = "val", attr)]
+    fn f() { }
+}
+
+mod test_foreign_items {
+    #[legacy_exports];
+    #[abi = "cdecl"]
+    extern mod rustrt {
+        #[legacy_exports];
+        #[attr];
+
+        #[attr]
+        fn get_task_id() -> libc::intptr_t;
+    }
+}
+
+mod test_literals {
+    #[legacy_exports];
+    #[str = "s"];
+    #[char = 'c'];
+    #[int = 100];
+    #[uint = 100u];
+    #[mach_int = 100u32];
+    #[float = 1.0];
+    #[mach_float = 1.0f32];
+    #[nil = ()];
+    #[bool = true];
+    mod m {
+        #[legacy_exports]; }
+}
+
+fn test_fn_inner() {
+    #[inner_fn_attr];
+}
+
+fn main() { }
+
+//
+// Local Variables:
+// mode: rust
+// fill-column: 78;
+// indent-tabs-mode: nil
+// c-basic-offset: 4
+// buffer-file-coding-system: utf-8-unix
+// End:
+//
+
+/*
+
+This is an HTML parser written as a macro. It's all CPS, and we have
+to carry around a bunch of state. The arguments to macros all look like this:
+
+{ tag_stack* # expr* # tokens }
+
+The stack keeps track of where we are in the tree. The expr is a list
+of children of the current node. The tokens are everything that's
+left.
+
+*/
+
+macro_rules! html (
+    ( $($body:tt)* ) => (
+        parse_node!( []; []; $($body)* )
+    )
+)
+
+macro_rules! parse_node (
+    (
+        [:$head:ident ($(:$head_nodes:expr),*)
+         $(:$tags:ident ($(:$tag_nodes:expr),*))*];
+        [$(:$nodes:expr),*];
+        </$tag:ident> $($rest:tt)*
+    ) => (
+        parse_node!(
+            [$(: $tags ($(:$tag_nodes),*))*];
+            [$(:$head_nodes,)* :tag(stringify!($head).to_owned(),
+                                    ~[$($nodes),*])];
+            $($rest)*
+        )
+    );
+
+    (
+        [$(:$tags:ident ($(:$tag_nodes:expr),*) )*];
+        [$(:$nodes:expr),*];
+        <$tag:ident> $($rest:tt)*
+    ) => (
+        parse_node!(
+            [:$tag ($(:$nodes)*) $(: $tags ($(:$tag_nodes),*) )*];
+            [];
+            $($rest)*
+        )
+    );
+
+    (
+        [$(:$tags:ident ($(:$tag_nodes:expr),*) )*];
+        [$(:$nodes:expr),*];
+        . $($rest:tt)*
+    ) => (
+        parse_node!(
+            [$(: $tags ($(:$tag_nodes),*))*];
+            [$(:$nodes,)* :text(~".")];
+            $($rest)*
+        )
+    );
+
+    (
+        [$(:$tags:ident ($(:$tag_nodes:expr),*) )*];
+        [$(:$nodes:expr),*];
+        $word:ident $($rest:tt)*
+    ) => (
+        parse_node!(
+            [$(: $tags ($(:$tag_nodes),*))*];
+            [$(:$nodes,)* :text(stringify!($word).to_owned())];
+            $($rest)*
+        )
+    );
+
+    ( []; [:$e:expr]; ) => ( $e );
+)
+
+fn main() {
+    let page = html! (
+        <html>
+            <head><title>This is the title.</title></head>
+            <body>
+            <p>This is some text</p>
+            </body>
+        </html>
+    );
+}
+
+enum HTMLFragment {
+    tag(~str, ~[HTMLFragment]),
+    text(~str),
+}

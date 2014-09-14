@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+    function initCodeBlock(id); {
+        var el = document.getElementById(id);
+    }
+</script>
+<style>
+.syntax { border: 1px solid #d0d0d0; background-color: #f0f0f0;
+          margin-left: 10px; margin-right: 10px; }
+
+.syntaxheader { margin-top: 15px; margin-bottom: 0px;
+                text-align: right; font-size: 11px;
+                border-bottom: 0; padding: 3px; }
+
+.linenos { float: left; display: block; }
+.linenos pre { padding-right: 7px; padding-left: 7px;
+               color: #666; }
+
+pre.syntax { padding: 5px; margin-top: 0px; }
+
+.syntax .cm { color: #60a0b0; font-style: italic; }              /* comments */
+.syntax .cm-proc { color: #007020; font-style: normal; }          /* preproc */
+.syntax .kw { color: #007020; font-weight: bold; }               /* keywords */
+.syntax .kw-pseudo { font-weight: normal; }               /* pseudo keywords */
+.syntax .op { color: #666666; }                                 /* operators */
+.syntax .op-word { color: #007020; font-weight: bold; }    /* word operators */
+.syntax .bn { color: #007020; }                                  /* builtins */
+.syntax .fun { color: #06287e; }                                /* func name */
+.syntax .cls { color: #0e84b5; font-weight: bold; }           /* class names */
+.syntax .exc { color: #007020; }                               /* exceptions */
+.syntax .var { color: #bb60d5; }                                /* variables */
+.syntax .const { color: #60add5; }                              /* constants */
+.syntax .entity { color: #d55537; font-weight: bold; }           /* entities */
+.syntax .attr { color: #4070a0; }                              /* attributes */
+.syntax .tag { color: #062873; font-weight: bold; }             /* tag names */
+.syntax .deco { color: #555555; font-weight: bold; }           /* decorators */
+.syntax .st { color: #4070a0; }                                   /* strings */
+.syntax .st-int { color: #70a0d0; font-style: italic; }  /* interpolated str */
+.syntax .st-esc { color: #4070a0; font-weight: bold; }        /* escaped str */
+.syntax .st-re { color: #235388; }                           /* regular expr */
+.syntax .st-sym { color: #517918; }                               /* symbols */
+.syntax .st-oth { color: #c65d09; }                         /* other strings */
+.syntax .nb { color: #40a070; }                                   /* numbers */
+
+.syntax .gen-hd { font-weight: bold; color: blue; }              /* headings */
+.syntax .gen-sh { font-weight: bold; color: purple; }         /* subheadings */
+.syntax .gen-del { color: red; }                             /* deleted text */
+.syntax .gen-ins { color: green; }                          /* inserted text */
+.syntax .gen-em { font-style: italic; }                   /* emphasized text */
+.syntax .gen-sr { font-weight: bold; }                  /* strong emph. text */
+
+.syntax .err { border: 1px solid red; }                     /* parser errors */
+</style>
+</head>
+<body>
+<pre id="code-block" class="syntax"><span class="cm"># -*- coding: utf-8 -*-</span>
+<span class="st st-db">&quot;&quot;&quot;</span><span class="st">
+    pocoo.pkg.core.acl
+    ~~~~~~~~~~~~~~~~~~
+
+    Pocoo ACL System.
+
+</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+<span class="kw">from </span><span class="cls">pocoo.db</span><span class="kw"> import</span> <span class="name">meta</span>
+
+<span class="kw">from </span><span class="cls">pocoo.pkg.core.forum</span><span class="kw"> import</span> <span class="name">Site</span>, <span class="name">Forum</span>, <span class="name">Thread</span>
+<span class="kw">from </span><span class="cls">pocoo.pkg.core.user</span><span class="kw"> import</span> <span class="name">User</span>, <span class="name">Group</span>
+
+<span class="kw">from </span><span class="cls">pocoo.pkg.core.db</span><span class="kw"> import</span> <span class="name">users</span>, <span class="name">groups</span>, <span class="name">group_members</span>, <span class="name">privileges</span>, \
+     <span class="name">forums</span>, <span class="name">posts</span>, <span class="name">acl_mapping</span>, <span class="name">acl_subjects</span>, <span class="name">acl_objects</span>
+
+
+<span class="kw">class </span><span class="cls">AclManager</span>(<span class="bn">object</span>):
+    <span class="st st-db">&quot;&quot;&quot;</span><span class="st">
+    Manager object to manage ALCs.
+    </span><span class="st st-db">&quot;&quot;&quot;</span>
+    <span class="name">STRONG_NO</span> <span class="op">=</span> <span class="op">-</span><span class="nb nb-int">1</span>
+
+    <span class="name">WEAK_NO</span> <span class="op">=</span> <span class="nb nb-int">0</span>
+    <span class="name">WEAK_YES</span> <span class="op">=</span> <span class="nb nb-int">1</span>
+    <span class="name">STRONG_YES</span> <span class="op">=</span> <span class="nb nb-int">2</span>
+
+    <span class="kw">def </span><span class="fun">__init__</span>(<span class="bn bn-pseudo">self</span>, <span class="name">ctx</span>, <span class="name">subject</span>):
+        <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span> <span class="op">=</span> <span class="name">ctx</span>
+
+        <span class="bn bn-pseudo">self</span>.<span class="name">subject</span> <span class="op">=</span> <span class="name">subject</span>
+        <span class="kw">if</span> <span class="bn">isinstance</span>(<span class="name">subject</span>, <span class="name">User</span>):
+            <span class="bn bn-pseudo">self</span>.<span class="name">_type</span> <span class="op">=</span> <span class="st st-sg">&#39;</span><span class="st">user</span><span class="st st-sg">&#39;</span>
+
+        <span class="kw">elif</span> <span class="bn">isinstance</span>(<span class="name">subject</span>, <span class="name">Group</span>):
+            <span class="bn bn-pseudo">self</span>.<span class="name">_type</span> <span class="op">=</span> <span class="st st-sg">&#39;</span><span class="st">group</span><span class="st st-sg">&#39;</span>
+
+        <span class="kw">else</span>:
+            <span class="kw">raise</span> <span class="exc">ValueError</span>(<span class="st st-sg">&#39;</span><span class="st">neither user or group specified</span><span class="st st-sg">&#39;</span>)
+
+    <span class="kw">def </span><span class="fun">allow</span>(<span class="bn bn-pseudo">self</span>, <span class="name">privilege</span>, <span class="name">obj</span>, <span class="name">force</span><span class="op">=</span><span class="bn bn-pseudo">False</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Allows the subject privilege on obj.</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+        <span class="kw">return</span> <span class="bn bn-pseudo">self</span>.<span class="name">_set</span>(<span class="name">privilege</span>, <span class="name">obj</span>, <span class="nb nb-int">1</span> <span class="op">+</span> <span class="bn">bool</span>(<span class="name">force</span>))
+
+    <span class="kw">def </span><span class="fun">default</span>(<span class="bn bn-pseudo">self</span>, <span class="name">privilege</span>, <span class="name">obj</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Sets the state for privilege on obj back to weak yes.</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+        <span class="kw">return</span> <span class="bn bn-pseudo">self</span>.<span class="name">_set</span>(<span class="name">privilege</span>, <span class="name">obj</span>, <span class="nb nb-int">0</span>)
+
+    <span class="kw">def </span><span class="fun">deny</span>(<span class="bn bn-pseudo">self</span>, <span class="name">privilege</span>, <span class="name">obj</span>, <span class="name">force</span><span class="op">=</span><span class="bn bn-pseudo">False</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Denies the subject privilege on obj.</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+        <span class="kw">return</span> <span class="bn bn-pseudo">self</span>.<span class="name">_set</span>(<span class="name">privilege</span>, <span class="name">obj</span>, <span class="op">-</span><span class="nb nb-int">1</span> <span class="op">-</span> <span class="bn">bool</span>(<span class="name">force</span>))
+
+    <span class="kw">def </span><span class="fun">can_access</span>(<span class="bn bn-pseudo">self</span>, <span class="name">privilege</span>, <span class="name">obj</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Checks if the current subject with the required privilege
+        somehow. Either directly or when the subject is a user and
+        one of its groups can access it.</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+        <span class="cm">#XXX: maybe this could be one big query instead of 4</span>
+        <span class="cm">#XXX: this currently does not work correctly, therefore return True</span>
+        <span class="kw">return</span> <span class="bn bn-pseudo">True</span>
+
+        <span class="kw">if</span> <span class="op op-word">not</span> <span class="bn">isinstance</span>(<span class="name">obj</span>, (<span class="name">Forum</span>, <span class="name">Thread</span>, <span class="name">Site</span>.<span class="name">__class__</span>)):
+            <span class="kw">raise</span> <span class="exc">TypeError</span>(<span class="st st-sg">&#39;</span><span class="st">obj must be a forum, thread or site</span><span class="st st-sg">&#39;</span>)
+        <span class="name">privilege</span> <span class="op">=</span> <span class="name">privilege</span>.<span class="name">upper</span>()
+        <span class="name">s</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">_get_subject_join</span>().<span class="name">alias</span>(<span class="st st-sg">&#39;</span><span class="st">s</span><span class="st st-sg">&#39;</span>).<span class="name">c</span>
+
+        <span class="kw">def </span><span class="fun">do_check</span>(<span class="name">obj</span>, <span class="name">tendency</span>):
+            <span class="name">db</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span>.<span class="name">engine</span>
+
+            <span class="name">o</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">_get_object_join</span>(<span class="name">obj</span>).<span class="name">alias</span>(<span class="st st-sg">&#39;</span><span class="st">o</span><span class="st st-sg">&#39;</span>).<span class="name">c</span>
+
+            <span class="cm"># self check</span>
+            <span class="name">r</span> <span class="op">=</span> <span class="name">db</span>.<span class="name">execute</span>(<span class="name">meta</span>.<span class="name">select</span>([<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">state</span>],
+                (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">priv_id</span> <span class="op">==</span> <span class="name">privileges</span>.<span class="name">c</span>.<span class="name">priv_id</span>) <span class="op">&amp;</span>
+
+                (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">subject_id</span> <span class="op">==</span> <span class="name">s</span>.<span class="name">subject_id</span>) <span class="op">&amp;</span>
+                (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">object_id</span> <span class="op">==</span> <span class="name">o</span>.<span class="name">object_id</span>) <span class="op">&amp;</span>
+
+                (<span class="name">privileges</span>.<span class="name">c</span>.<span class="name">name</span> <span class="op">==</span> <span class="name">privilege</span>)
+            ))
+            <span class="name">row</span> <span class="op">=</span> <span class="name">r</span>.<span class="name">fetchone</span>()
+            <span class="kw">if</span> <span class="name">row</span> <span class="op op-word">is</span> <span class="op op-word">not</span> <span class="bn bn-pseudo">None</span>:
+                <span class="kw">if</span> <span class="name">row</span>[<span class="st st-sg">&#39;</span><span class="st">state</span><span class="st st-sg">&#39;</span>] <span class="op op-word">in</span> (<span class="bn bn-pseudo">self</span>.<span class="name">STRONG_NO</span>, <span class="bn bn-pseudo">self</span>.<span class="name">STRONG_YES</span>):
+                    <span class="kw">return</span> <span class="name">row</span>[<span class="st st-sg">&#39;</span><span class="st">state</span><span class="st st-sg">&#39;</span>] <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">STRONG_YES</span>
+
+                <span class="name">tendency</span> <span class="op">=</span> <span class="name">row</span>[<span class="st st-sg">&#39;</span><span class="st">state</span><span class="st st-sg">&#39;</span>]
+
+            <span class="cm"># if the controlled subject is a user check all groups</span>
+            <span class="kw">if</span> <span class="bn">isinstance</span>(<span class="bn bn-pseudo">self</span>.<span class="name">subject</span>, <span class="name">User</span>):
+                <span class="name">r</span> <span class="op">=</span> <span class="name">db</span>.<span class="name">execute</span>(<span class="name">meta</span>.<span class="name">select</span>([<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">state</span>],
+                    (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">object_id</span> <span class="op">==</span> <span class="name">o</span>.<span class="name">object_id</span>) <span class="op">&amp;</span>
+
+                    (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">subject_id</span> <span class="op">==</span> <span class="name">groups</span>.<span class="name">c</span>.<span class="name">subject_id</span>) <span class="op">&amp;</span>
+
+                    (<span class="name">groups</span>.<span class="name">c</span>.<span class="name">group_id</span> <span class="op">==</span> <span class="name">group_members</span>.<span class="name">c</span>.<span class="name">group_id</span>) <span class="op">&amp;</span>
+
+                    (<span class="name">group_members</span>.<span class="name">c</span>.<span class="name">user_id</span> <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">user_id</span>)
+                ))
+                <span class="kw">while</span> <span class="bn bn-pseudo">True</span>:
+                    <span class="name">row</span> <span class="op">=</span> <span class="name">r</span>.<span class="name">fetchone</span>()
+                    <span class="kw">if</span> <span class="name">row</span> <span class="op op-word">is</span> <span class="bn bn-pseudo">None</span>:
+                        <span class="kw">break</span>
+
+                    <span class="name">state</span> <span class="op">=</span> <span class="name">row</span>[<span class="nb nb-int">0</span>]
+                    <span class="kw">if</span> <span class="name">state</span> <span class="op op-word">in</span> (<span class="bn bn-pseudo">self</span>.<span class="name">STRONG_YES</span>, <span class="bn bn-pseudo">self</span>.<span class="name">STRONG_NO</span>):
+                        <span class="kw">return</span> <span class="name">state</span> <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">STRONG_YES</span>
+
+                    <span class="kw">if</span> <span class="name">tendency</span> <span class="op op-word">is</span> <span class="bn bn-pseudo">None</span>:
+                        <span class="name">tendency</span> <span class="op">=</span> <span class="name">state</span>
+                    <span class="kw">elif</span> <span class="name">tendency</span> <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">WEAK_NO</span> <span class="op op-word">and</span> <span class="name">state</span> <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">WEAK_YES</span>:
+                        <span class="name">tendency</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">WEAK_YES</span>
+
+            <span class="cm"># check related objects</span>
+            <span class="kw">if</span> <span class="bn">isinstance</span>(<span class="name">obj</span>, <span class="name">Thread</span>):
+                <span class="kw">return</span> <span class="name">do_check</span>(<span class="name">obj</span>.<span class="name">forum</span>, <span class="name">tendency</span>)
+            <span class="kw">elif</span> <span class="bn">isinstance</span>(<span class="name">obj</span>, <span class="name">Forum</span>):
+                <span class="kw">return</span> <span class="name">do_check</span>(<span class="name">Site</span>, <span class="name">tendency</span>)
+            <span class="kw">else</span>:
+                <span class="kw">return</span> <span class="name">tendency</span>
+
+        <span class="kw">return</span> <span class="name">do_check</span>(<span class="name">obj</span>, <span class="bn bn-pseudo">None</span>) <span class="op op-word">in</span> (<span class="bn bn-pseudo">self</span>.<span class="name">WEAK_YES</span>, <span class="bn bn-pseudo">self</span>.<span class="name">STRONG_YES</span>)
+
+    <span class="kw">def </span><span class="fun">_set</span>(<span class="bn bn-pseudo">self</span>, <span class="name">privilege</span>, <span class="name">obj</span>, <span class="name">state</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Helper functions for settings privileges.</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+        <span class="name">privilege</span> <span class="op">=</span> <span class="name">privilege</span>.<span class="name">upper</span>()
+        <span class="kw">if</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">subject_id</span> <span class="op op-word">is</span> <span class="bn bn-pseudo">None</span>:
+            <span class="bn bn-pseudo">self</span>.<span class="name">_bootstrap</span>()
+        <span class="kw">if</span> <span class="name">obj</span>.<span class="name">object_id</span> <span class="op op-word">is</span> <span class="bn bn-pseudo">None</span>:
+            <span class="bn bn-pseudo">self</span>.<span class="name">_bootstrap_object</span>(<span class="name">obj</span>)
+        <span class="cm"># special state &quot;0&quot; which means delete</span>
+
+        <span class="kw">if</span> <span class="op op-word">not</span> <span class="name">state</span>:
+            <span class="name">p</span> <span class="op">=</span> <span class="name">meta</span>.<span class="name">select</span>([<span class="name">privileges</span>.<span class="name">c</span>.<span class="name">priv_id</span>], <span class="name">privileges</span>.<span class="name">c</span>.<span class="name">name</span> <span class="op">==</span> <span class="name">privilege</span>)
+            <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span>.<span class="name">engine</span>.<span class="name">execute</span>(<span class="name">acl_mapping</span>.<span class="name">delete</span>(
+                (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">priv_id</span> <span class="op">==</span> <span class="name">p</span>.<span class="name">c</span>.<span class="name">priv_id</span>) <span class="op">&amp;</span>
+
+                (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">subject_id</span> <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">subject_id</span>) <span class="op">&amp;</span>
+
+                (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">object_id</span> <span class="op">==</span> <span class="name">obj</span>.<span class="name">object_id</span>)
+            ))
+            <span class="kw">return</span>
+        <span class="cm"># touch privilege and check existing mapping</span>
+
+        <span class="name">priv_id</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">_fetch_privilege</span>(<span class="name">privilege</span>)
+        <span class="name">r</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span>.<span class="name">engine</span>.<span class="name">execute</span>(<span class="name">meta</span>.<span class="name">select</span>([<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">state</span>],
+            (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">priv_id</span> <span class="op">==</span> <span class="name">priv_id</span>) <span class="op">&amp;</span>
+
+            (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">subject_id</span> <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">subject_id</span>) <span class="op">&amp;</span>
+
+            (<span class="name">acl_mapping</span>.<span class="name">c</span>.<span class="name">object_id</span> <span class="op">==</span> <span class="name">obj</span>.<span class="name">object_id</span>)
+        ))
+        <span class="name">row</span> <span class="op">=</span> <span class="name">r</span>.<span class="name">fetchone</span>()
+        <span class="kw">if</span> <span class="name">row</span> <span class="op op-word">is</span> <span class="op op-word">not</span> <span class="bn bn-pseudo">None</span>:
+            <span class="cm"># this rule exists already</span>
+
+            <span class="kw">if</span> <span class="name">row</span>[<span class="st st-sg">&#39;</span><span class="st">state</span><span class="st st-sg">&#39;</span>] <span class="op">==</span> <span class="name">state</span>:
+                <span class="kw">return</span>
+            <span class="cm"># goddamn, same rule - different state, delete old first</span>
+            <span class="bn bn-pseudo">self</span>.<span class="name">_set</span>(<span class="name">privilege</span>, <span class="name">obj</span>, <span class="nb nb-int">0</span>)
+        <span class="cm"># insert new rule</span>
+
+        <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span>.<span class="name">engine</span>.<span class="name">execute</span>(<span class="name">acl_mapping</span>.<span class="name">insert</span>(),
+            <span class="name">priv_id</span> <span class="op">=</span> <span class="name">priv_id</span>,
+            <span class="name">subject_id</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">subject_id</span>,
+            <span class="name">object_id</span> <span class="op">=</span> <span class="name">obj</span>.<span class="name">object_id</span>,
+            <span class="name">state</span> <span class="op">=</span> <span class="name">state</span>
+
+        )
+
+    <span class="kw">def </span><span class="fun">_bootstrap</span>(<span class="bn bn-pseudo">self</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">This method is automatically called when subject_id is
+        None and an subject_id is required.</span><span class="st st-db">&quot;&quot;&quot;</span>
+        <span class="name">r</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span>.<span class="name">engine</span>.<span class="name">execute</span>(<span class="name">acl_subjects</span>.<span class="name">insert</span>(),
+            <span class="name">subject_type</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">_type</span>
+
+        )
+        <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">subject_id</span> <span class="op">=</span> <span class="name">r</span>.<span class="name">last_inserted_ids</span>()[<span class="nb nb-int">0</span>]
+        <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">save</span>()
+
+    <span class="kw">def </span><span class="fun">_bootstrap_object</span>(<span class="bn bn-pseudo">self</span>, <span class="name">obj</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Like _bootstrap but works for objects.</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+        <span class="name">objtype</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">_get_object_type</span>(<span class="name">obj</span>)
+        <span class="name">r</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span>.<span class="name">engine</span>.<span class="name">execute</span>(<span class="name">acl_objects</span>.<span class="name">insert</span>(),
+            <span class="name">object_type</span> <span class="op">=</span> <span class="name">objtype</span>
+
+        )
+        <span class="name">obj</span>.<span class="name">object_id</span> <span class="op">=</span> <span class="name">r</span>.<span class="name">last_inserted_ids</span>()[<span class="nb nb-int">0</span>]
+        <span class="name">obj</span>.<span class="name">save</span>()
+
+    <span class="kw">def </span><span class="fun">_get_object_type</span>(<span class="bn bn-pseudo">self</span>, <span class="name">obj</span>):
+        <span class="kw">if</span> <span class="bn">isinstance</span>(<span class="name">obj</span>, <span class="name">Forum</span>):
+            <span class="kw">return</span> <span class="st st-sg">&#39;</span><span class="st">forum</span><span class="st st-sg">&#39;</span>
+
+        <span class="kw">elif</span> <span class="bn">isinstance</span>(<span class="name">obj</span>, <span class="name">Thread</span>):
+            <span class="kw">return</span> <span class="st st-sg">&#39;</span><span class="st">thread</span><span class="st st-sg">&#39;</span>
+        <span class="kw">elif</span> <span class="name">obj</span> <span class="op op-word">is</span> <span class="name">Site</span>:
+            <span class="kw">return</span> <span class="st st-sg">&#39;</span><span class="st">site</span><span class="st st-sg">&#39;</span>
+
+        <span class="kw">raise</span> <span class="exc">TypeError</span>(<span class="st st-sg">&#39;</span><span class="st">obj isn</span><span class="st st-esc">\&#39;</span><span class="st">t a forum or thread</span><span class="st st-sg">&#39;</span>)
+
+    <span class="kw">def </span><span class="fun">_get_object_join</span>(<span class="bn bn-pseudo">self</span>, <span class="name">obj</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Returns a subjoin for the object id.</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+        <span class="name">t</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">_get_object_type</span>(<span class="name">obj</span>)
+        <span class="kw">if</span> <span class="name">t</span> <span class="op">==</span> <span class="st st-sg">&#39;</span><span class="st">forum</span><span class="st st-sg">&#39;</span>:
+            <span class="kw">return</span> <span class="name">meta</span>.<span class="name">select</span>([<span class="name">forums</span>.<span class="name">c</span>.<span class="name">object_id</span>],
+                <span class="name">forums</span>.<span class="name">c</span>.<span class="name">forum_id</span> <span class="op">==</span> <span class="name">obj</span>.<span class="name">forum_id</span>
+
+            )
+        <span class="kw">elif</span> <span class="name">t</span> <span class="op">==</span> <span class="st st-sg">&#39;</span><span class="st">thread</span><span class="st st-sg">&#39;</span>:
+            <span class="kw">return</span> <span class="name">meta</span>.<span class="name">select</span>([<span class="name">posts</span>.<span class="name">c</span>.<span class="name">object_id</span>],
+                <span class="name">posts</span>.<span class="name">c</span>.<span class="name">post_id</span> <span class="op">==</span> <span class="name">obj</span>.<span class="name">post_id</span>
+
+            )
+        <span class="kw">else</span>:
+            <span class="cm"># XXX: it works ^^</span>
+            <span class="cm"># i really want something like meta.select(&#39;0 as group_id&#39;)</span>
+            <span class="kw">class </span><span class="cls">Fake</span>(<span class="bn">object</span>):
+                <span class="kw">def </span><span class="fun">alias</span>(<span class="bn bn-pseudo">self</span>, <span class="name">n</span>):
+                    <span class="kw">class </span><span class="cls">_C</span>(<span class="bn">object</span>):
+                        <span class="kw">class </span><span class="cls">c</span>(<span class="bn">object</span>):
+                            <span class="name">object_id</span> <span class="op">=</span> <span class="nb nb-int">0</span>
+
+                    <span class="kw">return</span> <span class="name">_C</span>
+            <span class="kw">return</span> <span class="name">Fake</span>()
+
+    <span class="kw">def </span><span class="fun">_get_subject_join</span>(<span class="bn bn-pseudo">self</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Returns a subjoin for the subject id.</span><span class="st st-db">&quot;&quot;&quot;</span>
+
+        <span class="kw">if</span> <span class="bn bn-pseudo">self</span>.<span class="name">_type</span> <span class="op">==</span> <span class="st st-sg">&#39;</span><span class="st">user</span><span class="st st-sg">&#39;</span>:
+            <span class="kw">return</span> <span class="name">meta</span>.<span class="name">select</span>([<span class="name">users</span>.<span class="name">c</span>.<span class="name">subject_id</span>],
+                <span class="name">users</span>.<span class="name">c</span>.<span class="name">user_id</span> <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">user_id</span>
+
+            )
+        <span class="kw">return</span> <span class="name">meta</span>.<span class="name">select</span>([<span class="name">groups</span>.<span class="name">c</span>.<span class="name">subject_id</span>],
+            <span class="name">groups</span>.<span class="name">c</span>.<span class="name">group_id</span> <span class="op">==</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">group_id</span>
+
+        )
+
+    <span class="kw">def </span><span class="fun">_fetch_privilege</span>(<span class="bn bn-pseudo">self</span>, <span class="name">name</span>):
+        <span class="st st-db">&quot;&quot;&quot;</span><span class="st">Returns the priv_id for the given privilege. If it
+        doesn</span><span class="st st-esc">\&#39;</span><span class="st">t exist by now the system will create a new
+        privilege.</span><span class="st st-db">&quot;&quot;&quot;</span>
+        <span class="name">r</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span>.<span class="name">engine</span>.<span class="name">execute</span>(<span class="name">meta</span>.<span class="name">select</span>([<span class="name">privileges</span>.<span class="name">c</span>.<span class="name">priv_id</span>],
+            <span class="name">privileges</span>.<span class="name">c</span>.<span class="name">name</span> <span class="op">==</span> <span class="name">name</span>
+
+        ))
+        <span class="name">row</span> <span class="op">=</span> <span class="name">r</span>.<span class="name">fetchone</span>()
+        <span class="kw">if</span> <span class="name">row</span> <span class="op op-word">is</span> <span class="op op-word">not</span> <span class="bn bn-pseudo">None</span>:
+            <span class="kw">return</span> <span class="name">row</span>[<span class="nb nb-int">0</span>]
+        <span class="name">r</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">ctx</span>.<span class="name">engine</span>.<span class="name">execute</span>(<span class="name">privileges</span>.<span class="name">insert</span>(),
+            <span class="name">name</span> <span class="op">=</span> <span class="name">name</span>
+
+        )
+        <span class="kw">return</span> <span class="name">r</span>.<span class="name">last_inserted_ids</span>()[<span class="nb nb-int">0</span>]
+
+    <span class="kw">def </span><span class="fun">__repr__</span>(<span class="bn bn-pseudo">self</span>):
+        <span class="kw">if</span> <span class="bn bn-pseudo">self</span>.<span class="name">_type</span> <span class="op">==</span> <span class="st st-sg">&#39;</span><span class="st">user</span><span class="st st-sg">&#39;</span>:
+            <span class="name">id_</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">user_id</span>
+
+        <span class="kw">else</span>:
+            <span class="name">id_</span> <span class="op">=</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">group_id</span>
+        <span class="kw">if</span> <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">subject_id</span> <span class="op op-word">is</span> <span class="bn bn-pseudo">None</span>:
+            <span class="kw">return</span> <span class="st st-sg">&#39;</span><span class="st">&lt;</span><span class="st st-int">%s</span><span class="st"> </span><span class="st st-int">%s</span><span class="st">:</span><span class="st st-int">%d</span><span class="st"> inactive&gt;</span><span class="st st-sg">&#39;</span> <span class="op">%</span> (
+                <span class="bn bn-pseudo">self</span>.<span class="name">__class__</span>.<span class="name">__name__</span>,
+                <span class="bn bn-pseudo">self</span>.<span class="name">_type</span>,
+                <span class="name">id_</span>
+
+            )
+        <span class="kw">return</span> <span class="st st-sg">&#39;</span><span class="st">&lt;</span><span class="st st-int">%s</span><span class="st"> </span><span class="st st-int">%s</span><span class="st">:</span><span class="st st-int">%d</span><span class="st"> active as </span><span class="st st-int">%d</span><span class="st">&gt;</span><span class="st st-sg">&#39;</span> <span class="op">%</span> (
+            <span class="bn bn-pseudo">self</span>.<span class="name">__class__</span>.<span class="name">__name__</span>,
+            <span class="bn bn-pseudo">self</span>.<span class="name">_type</span>,
+            <span class="name">id_</span>,
+            <span class="bn bn-pseudo">self</span>.<span class="name">subject</span>.<span class="name">subject_id</span>
+
+        )
+

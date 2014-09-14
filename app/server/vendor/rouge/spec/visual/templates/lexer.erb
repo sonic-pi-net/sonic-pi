@@ -1,0 +1,21 @@
+<style type="text/css">
+  .legend {
+    width: 200px;
+    margin-right: 30px;
+    float: right;
+  }
+</style>
+
+<section class="legend">
+  <h2>Legend</h2>
+  <pre class="highlight"><%
+    Rouge::Token.each_token do |token|
+      %><span class="<%= token.shortname %>"><%= token.qualname %></span>
+<%      end
+  %></pre>
+</section>
+<h2>Highlighted</h2>
+<%= @highlighted %>
+
+<h2>Raw</h2>
+<pre><%= CGI.escape_html(@sample) %></pre>

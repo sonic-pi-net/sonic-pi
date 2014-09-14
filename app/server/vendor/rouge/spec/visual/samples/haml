@@ -1,0 +1,103 @@
+-# standard.haml
+!!!
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en-US", "lang" => "en-US"}
+  %head
+    %title Hampton Catlin Is Totally Awesome
+    %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}
+  %body
+    / You're In my house now!
+    .header
+      Yes, ladies and gentileman. He is just that egotistical.
+      Fantastic! This should be multi-line output
+      With <b id="awesome">HTML in it!</b>
+      = 1 + 9 + 8 + 2 #numbers should work and this should be ignored
+    #body= " Quotes should be loved! Just like people!"
+    - 120.times do |number|
+      = number
+    Wow.|
+    %p{:code => 1 + 2}
+      = "Holy cow        " + |
+        "multiline       " + |      
+        "tags!           " + |
+        "A pipe (|) even!"   |
+      = [1, 2, 3].collect { |n| "PipesIgnored|" }.join
+      = [1, 2, 3].collect { |n|     |
+          n.to_s                    |
+        }.join("|")                 |
+    - bar = 17
+    %div.silent{:foo => bar}
+      - foo = String.new
+      - foo << "this"
+      - foo << " shouldn't"
+      - foo << " evaluate"
+      = foo + " but now it should!"
+      -# Woah crap a comment!
+
+    -# That was a line that shouldn't close everything.
+    %ul.really.cool
+      - ('a'..'f').each do |a|
+        %li= a
+    #combo.of_divs_with_underscore= @should_eval = "with this text"
+    = "foo".each_line do |line|
+      - nil
+
+-# tag_parsing.haml
+%div.tags
+  %foo 1
+  %FOO 2
+  %fooBAR 3
+  %fooBar 4
+  %foo_bar 5
+  %foo-bar 6
+  %foo:bar 7
+  %foo.bar 8
+  %fooBAr_baz:boom_bar 9
+  %foo13 #{quuz { zot }.map(&:zombo)}
+  %foo2u 11
+%div.classes
+  %p.foo.bar#baz#boom
+  .fooBar a
+  .foo-bar b
+  .foo_bar c
+  .FOOBAR d
+  .foo16 e
+  .123 f
+  .foo2u g
+
+-# filters
+%pre
+  :preserve
+
+                                                     ___
+                                                  ,o88888
+                                               ,o8888888'
+                         ,:o:o:oooo.        ,8O88Pd8888"
+                     ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
+                   ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
+                  , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"
+                 , ..:.::o:ooOoOO8O888O8O,COCOO"
+                , . ..:.::o:ooOoOOOO8OOOOCOCO"
+                 . ..:.::o:ooOoOoOO8O8OCCCC"o
+                    . ..:.::o:ooooOoCoCCC"o:o
+                    . ..:.::o:o:,cooooCo"oo:o:
+                 `   . . ..:.:cocoooo"'o:o:::'
+                 .`   . ..::ccccoc"'o:o:o:::'
+                :.:.    ,c:cccc"':.:.:.:.:.'
+              ..:.:"'`::::c:"'..:.:.:.:.:.'  http://www.chris.com/ASCII/
+            ...:.'.:.::::"'    . . . . .'
+           .. . ....:."' `   .  . . ''
+         . . . ...."'
+         .. . ."'     -hrr-
+        .
+
+  :javascript
+    var a = { foo: 1 };
+
+  :css
+    .foo { font-weight: bold; }
+
+  :ruby
+    puts "Hello, World!"
+
+  :erb
+    <p><%= @foo %></p>
