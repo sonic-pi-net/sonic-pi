@@ -25,6 +25,7 @@ module SonicPi
 
       in_thread(name: name) do
         loop do
+          cue name
           send(name)
         end
       end
