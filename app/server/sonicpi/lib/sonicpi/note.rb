@@ -15,6 +15,7 @@ module SonicPi
 
     class InvalidNoteError < ArgumentError ; end ;
     class InvalidOctaveError < ArgumentError ; end ;
+    class InvalidDegreeError < ArgumentError; end ;
 
     NOTES_TO_INTERVALS =
       {c:  0,  C:  0,
@@ -60,6 +61,14 @@ module SonicPi
       10 => :Bb,
       11 => :B}
 
+    DEGREE = {:i   => 1,
+              :ii  => 2,
+              :iii => 3,
+              :iv  => 4,
+              :v   => 5,
+              :vi  => 6,
+              :vii => 7}
+
     DEFAULT_OCTAVE = 4
 
     MIDI_NOTE_RE = /\A(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)\Z/
@@ -67,6 +76,20 @@ module SonicPi
     attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
     @@notes_cache = {}
+
+    def self.resolve_degree(degree, tonic, scale)
+      if !(DEGREE.keys + DEGREE.values).member?(degree)
+        raise InvalidDegreeError, "Invalid degree #{degree.inspect}, expecting #{DEGREE.keys.join ','} or 1-7"
+      end
+
+      intervals = Scale::SCALE[scale]
+
+      raise Scale::InvalidScaleError, "Unknown scale name: #{scale.inspect}" unless intervals
+
+      no_intervals = degree.is_a?(Numeric) ? degree-1 : DEGREE[degree]-1
+      intervals = intervals.cycle.take(no_intervals)
+      resolve_midi_note(tonic) + intervals.reduce(0,:+)
+    end
 
     def self.resolve_midi_note_without_octave(n)
       return @@notes_cache[n] if @@notes_cache[n]

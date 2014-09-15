@@ -15,6 +15,8 @@ module SonicPi
   class Scale
     # Ported from Overtone: https://github.com/overtone/overtone/blob/master/src/overtone/music/pitch.clj
 
+    class InvalidScaleError < ArgumentError; end ;
+
     include Enumerable
     include Comparable
 
@@ -101,7 +103,7 @@ module SonicPi
     def initialize(tonic, name, num_octaves=1)
       name = name.to_sym
       intervals = SCALE[name]
-      raise "Unknown scale name: #{name.inspect}" unless intervals
+      raise InvalidScaleError, "Unknown scale name: #{name.inspect}" unless intervals
       intervals = intervals * num_octaves
       current = Note.resolve_midi_note(tonic)
       res = [current]
