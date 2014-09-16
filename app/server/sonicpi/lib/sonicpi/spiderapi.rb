@@ -19,7 +19,7 @@ module SonicPi
     include SonicPi::DocSystem
 
     def live_loop(name, &block)
-      raise "performer must be called with a code block" unless block
+      raise "live_loop must be called with a code block" unless block
 
       define(name, &block)
 
