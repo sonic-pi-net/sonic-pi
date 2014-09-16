@@ -64,8 +64,6 @@ module SonicPi
 
     MIDI_NOTE_RE = /\A(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)\Z/
 
-    attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
-
     @@notes_cache = {}
 
     def self.resolve_midi_note_without_octave(n)
@@ -95,6 +93,8 @@ module SonicPi
       note = note % 12
       INTERVALS_TO_NOTES[note]
     end
+
+    attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
     def initialize(n, o=nil)
       n = n.to_s
