@@ -16,6 +16,7 @@ module SonicPi
     # Ported from Overtone: https://github.com/overtone/overtone/blob/master/src/overtone/music/pitch.clj
 
     class InvalidScaleError < ArgumentError; end ;
+    class InvalidDegreeError < ArgumentError; end ;
 
     include Enumerable
     include Comparable
@@ -96,6 +97,37 @@ module SonicPi
            purvi:              [1, 3, 2, 1, 1, 3, 1],
            chinese:            [4, 2, 1, 4, 1],
            lydian_minor:       [2, 2, 2, 1, 1, 2, 2]}}.call
+
+    # Zero indexed for CS compatibility
+    DEGREES = {:i    => 0,
+               :ii   => 1,
+               :iii  => 2,
+               :iv   => 3,
+               :v    => 4,
+               :vi   => 5,
+               :vii  => 6,
+               :viii => 7,
+               :ix   => 8,
+               :x    => 9,
+               :xi   => 10,
+               :xii  => 11}
+
+    def self.resolve_degree_index(degree)
+      if idx = DEGREES[degree]
+        return idx
+      elsif degree.is_a? Numeric
+        return degree - 1
+      else
+        raise InvalidDegreeError, "Invalid scale degree #{degree.inspect}, expecting #{DEGREES.keys.join ','} or a number"
+      end
+    end
+
+
+    def self.resolve_degree(degree, tonic, scale)
+      scale = Scale.new(tonic, scale)
+      index = resolve_degree_index(degree)
+      scale.notes[index]
+    end
 
 
     attr_reader :name, :tonic, :num_octaves, :notes
