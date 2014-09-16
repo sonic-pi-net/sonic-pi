@@ -597,8 +597,12 @@ play 72"]
       return if seconds == 0
       # Grab the current virtual time
       last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+
+      # Schedule messages
       __schedule_delayed_blocks_and_messages!
-      # now get on with syncing the rest of the sleep time
+
+      # Now get on with syncing the rest of the sleep time...
+
       # Calculate the amount of time to sleep (take into account current bpm setting)
       sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       # Calculate the new virtual time
