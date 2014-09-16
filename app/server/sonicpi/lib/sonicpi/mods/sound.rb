@@ -1651,7 +1651,7 @@ puts note_info(:C, octave: 2)
 
 
        def degree(degree, tonic, scale)
-         Note.resolve_degree(degree, tonic, scale)
+         Scale.resolve_degree(degree, tonic, scale)
        end
        doc name:           :degree,
        introduced:         Version.new(2,1,0),
