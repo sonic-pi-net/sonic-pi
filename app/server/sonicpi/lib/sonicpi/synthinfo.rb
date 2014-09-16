@@ -1631,7 +1631,7 @@ end
     def arg_defaults
       {
         :amp => 1,
-        :amp_slide => 0.2
+        :amp_slide => 0.1
       }
     end
 

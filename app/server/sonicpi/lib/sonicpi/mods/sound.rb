@@ -2128,6 +2128,8 @@ stop bar"]
          info = SynthInfo.get_info(sn)
 
          n = trigger_synth(synth_name, args_h, group, info, true)
+
+         info = SynthInfo.get_info(sn)
          FXNode.new(n, args_h["in_bus"], current_out_bus)
        end
 
@@ -2203,7 +2205,11 @@ stop bar"]
 
        def current_out_bus
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
-         current_bus || @mod_sound_studio.mixer_bus
+         current_bus || current_job_bus
+       end
+
+       def current_job_bus
+         job_bus(current_job_id)
        end
 
        def job_bus(job_id)
@@ -2239,20 +2245,25 @@ stop bar"]
            m = @JOB_MIXERS_A.deref[job_id]
            return m if m
 
-
            args_h = {
              "in_bus" => job_bus(job_id),
-             "out_bus" => @mod_sound_studio.mixer_bus,
+             "amp" => 0.3
            }
 
-           synth_name = "sonic-pi-basic_mixer"
+           sn = "basic_mixer"
+           info = SynthInfo.get_info(sn)
+           defaults = info.arg_defaults
+           synth_name = info ? info.scsynth_name : synth_name
 
-           validation_fn = mk_synth_args_validator(synth_name)
-           validation_fn.call(args_h)
+           combined_args = defaults.merge(args_h)
+           combined_args = call_synth_default_fns(combined_args)
+           combined_args["out_bus"] = @mod_sound_studio.mixer_bus
 
-           default_args = SynthInfo.get_info(synth_name).arg_defaults
-           combined_args = default_args.merge(args_h)
-           n = @mod_sound_studio.trigger_synth synth_name, job_fx_group(job_id), combined_args, true, &validation_fn
+           validate_if_necessary! info, combined_args
+
+           group = @mod_sound_studio.mixer_group
+
+           n = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, true
 
            mix_n = ChainNode.new(n)
 
@@ -2323,11 +2334,11 @@ stop bar"]
          end
          mixer = old_job_mixers[job_id]
          if mixer
-           mixer.ctl amp_slide: 0.2
            mixer.ctl amp: 0
-           Kernel.sleep 0.2
+           Kernel.sleep 0.5
            mixer.kill
          end
+
        end
 
        def kill_job_group(job_id)
