@@ -2015,7 +2015,7 @@ stop bar"]
        doc name:          :load_synthdefs,
            introduced:    Version.new(2,0,0),
            summary:       "Load external synthdefs",
-           doc:           "Load all synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi. if you wish your synth to seemlessly integrate with the Sonic ",
+           doc:           "Load all synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi. If you wish your synth to seemlessly integrate with Sonic Pi's FX system you need to ensure your synth outputs a stereo signal to an audio bus with an index specified by a synth arg named out_bus.",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
