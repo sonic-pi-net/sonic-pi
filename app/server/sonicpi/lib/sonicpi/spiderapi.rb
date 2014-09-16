@@ -31,6 +31,29 @@ module SonicPi
       end
     end
 
+
+
+    def after(times, &block)
+      raise "after must be called with a code block" unless block
+
+      times.each_with_index do |t, idx|
+        in_thread do
+          sleep t
+          case block.arity
+          when 0
+            block.call
+          when 1
+            block.call(t)
+          when 2
+            block.call(t, idx)
+          end
+        end
+      end
+    end
+
+
+
+
     def version
       @version
     end
