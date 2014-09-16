@@ -62,34 +62,6 @@ module SonicPi
       assert_equal(:C, Note.resolve_note_name(:C4, 4))
     end
 
-    def test_resolution_of_degree
-      assert_equal(57, Note.resolve_degree(:i, :A3, :minor))
-      assert_equal(60, Note.resolve_degree(:iii, :A3, :minor))
-      assert_equal(61, Note.resolve_degree(:iii, :A3, :major))
-
-      assert_equal(57, Note.resolve_degree(1, :A3, :minor))
-      assert_equal(60, Note.resolve_degree(3, :A3, :minor))
-      assert_equal(61, Note.resolve_degree(3, :A3, :major))
-    end
-
-    def test_degree_invalid
-      assert_raise Note::InvalidDegreeError do
-        Note.resolve_degree(:joe, :A3, :major)
-      end
-    end
-
-    def test_degree_invalid_scale
-      assert_raise Scale::InvalidScaleError do
-        Note.resolve_degree(:i, :A3, :wooble)
-      end
-    end
-
-    def test_degree_invalid_tonic
-      assert_raise Note::InvalidNoteError do
-        Note.resolve_degree(:i, :blah, :minor)
-      end
-    end
-
     def test_init_c4
       n = Note.new(:C4)
       assert_equal(4, n.octave)
@@ -179,6 +151,7 @@ module SonicPi
         Note.new(:Eb, 3.0)
       end
     end
+
   end
 
 
