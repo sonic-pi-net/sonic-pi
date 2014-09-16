@@ -24,8 +24,8 @@ module SonicPi
     end
 
     def to_s
-      i = @in_bus ? @in_bus.id : nil
-      o = @out_bus? @out_bus.id : nil
+      i = @in_bus ? @in_bus : nil
+      o = @out_bus? @out_bus : nil
       "#<SonicPi::ChainNode @id=#{@node.id}, @in_bus=#{i.inspect}, @out_bus=#{o.inspect}>"
     end
 
