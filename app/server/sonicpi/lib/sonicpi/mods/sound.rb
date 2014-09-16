@@ -550,26 +550,28 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
 
        def play(n, *args)
-         return play_chord(n, *args) if n.is_a?(Array)
          ensure_good_timing!
+         return play_chord(n, *args) if n.is_a?(Array)
+         return nil if (n.nil? || n == :r || n == :rest)
 
-         if n
-           n = n.call if n.is_a? Proc
-           n = note(n) unless n.is_a? Numeric
-           args_h = resolve_synth_opts_hash_or_array(args)
-           if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
-             n += shift
-           end
-           args_h[:note] = n
-           trigger_inst current_synth_name, args_h
+         n = n.call if n.is_a? Proc
+         n = note(n) unless n.is_a? Numeric
+         args_h = resolve_synth_opts_hash_or_array(args)
+         if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+           n += shift
          end
+         args_h[:note] = n
+         trigger_inst current_synth_name, args_h
        end
        doc name:          :play,
            introduced:    Version.new(2,0,0),
            summary:       "Play current synth",
            doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with attack, sustain and release phases. These phases are triggered in order, so the duration of the sound is attack + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
 
-Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
+Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.
+
+If note is nil, :r or :rest, play is ignored and treated as a rest.
+",
            args:          [[:note, :symbol_or_number]],
            opts:          DEFAULT_PLAY_OPTS,
            accepts_block: false,
@@ -1595,6 +1597,7 @@ puts status # Returns something similar to:
 
 
        def note(n, *args)
+         return nil if (n.nil? || n == :r || n == :rest)
          return Note.resolve_midi_note_without_octave(n) if args.empty?
          args_h = resolve_synth_opts_hash_or_array(args)
          octave = args_h[:octave]
@@ -1607,7 +1610,7 @@ puts status # Returns something similar to:
        doc name:          :note,
            introduced:    Version.new(2,0,0),
            summary:       "Describe note",
-           doc:           "Takes a midi note, a symbol (e.g. :C ) or a string (e.g. 'C' ) and resolves it to a midi note. You can also pass an optional :octave parameter to get the midi note for a given octave. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
+           doc:           "Takes a midi note, a symbol (e.g. :C ) or a string (e.g. 'C' ) and resolves it to a midi note. You can also pass an optional :octave parameter to get the midi note for a given octave. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3. If the note is nil, :r or :rest, then nil is returned (nil represents a rest)",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
