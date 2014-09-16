@@ -594,6 +594,7 @@ play 72"]
 
 
     def sleep(seconds)
+      return if seconds == 0
       # Grab the current virtual time
       last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
       __schedule_delayed_blocks_and_messages!
