@@ -1659,7 +1659,7 @@ puts note_info(:C, octave: 2)
        doc:                "For a given scale and tonic it takes a symbol :i,:ii,:iii,:iv,:v :vi, :vii or a number 1-7 and resolves it to a midi note.",
        args:               [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol]],
        accepts_block:      false,
-       example:            [%Q{
+       examples:           [%Q{
 play degree(:ii, :D3, :major)
 play degree(2, :C3, :minor)
 }]
