@@ -12,6 +12,7 @@
 #++
 
 require 'cgi'
+require_relative 'util'
 
 module SonicPi
   module DocSystem

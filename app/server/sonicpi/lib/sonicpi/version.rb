@@ -10,6 +10,7 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+$:.unshift File.expand_path("../../../../vendor/osc-ruby/lib", __FILE__)
 require 'osc-ruby'
 
 module SonicPi

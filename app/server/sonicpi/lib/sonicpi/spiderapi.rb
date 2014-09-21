@@ -311,6 +311,7 @@ one_in 100 # will return true with a probability of 1/100, false with a probabil
 
 
     def rrand(min, max)
+      return min if min == max
       range = (min - max).abs
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
       r = rgen.rand(range.to_f)
@@ -337,6 +338,7 @@ end"]
 
 
     def rrand_i(min, max)
+      return min if min == max
       range = (min - max).abs
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
       r = rgen.rand(range.to_i + 1)
