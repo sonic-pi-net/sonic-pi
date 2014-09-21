@@ -40,15 +40,15 @@ Debian package dependency names:
   
 * `supercollider`
 * `ruby1.9.3`
-* `libqscintilla2-8`
+* `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqscintilla2-l10n`)
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
 * `cmake` (for some configurations, e.g., 32bit x86)
 
 To build and run:
 
-* Run `app/gui/qt/boostrap-qt`
-* Start the GUI: `app/gui/qt/application`
+* Run `app/gui/qt/rp-build-app`
+* Start the GUI: `app/gui/qt/Sonic-Pi`
 
 If the app hangs on the splash screen, you may need to compile your own
 native support for the git persistence layer. This can be done by

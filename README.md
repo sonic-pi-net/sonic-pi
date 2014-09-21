@@ -8,7 +8,7 @@ sounds. Sonic Pi comes with an associated scheme of work which
 emphasises the importance of creativity in the learning process and
 gives users the control to turn their sonic ideas into reality.
 
-* Info: http://www.cl.cam.ac.uk/projects/raspberrypi/sonicpi/
+* Info: http://sonic-pi.net
 * Source: https://github.com/samaaron/sonic-pi
 * Education: http://www.raspberrypi.org/learning/sonic-pi-lessons/
 
