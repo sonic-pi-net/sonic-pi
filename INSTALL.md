@@ -39,7 +39,7 @@ Pi. Patches for other platforms will be happily considered.
 Debian package dependency names:
   
 * `supercollider`
-* `ruby1.9.3`
+* `ruby1.9.3` (Ruby 2+ is preferred)
 * `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqscintilla2-l10n`)
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
@@ -63,15 +63,9 @@ Note: This interface isn't always kept up to date with MASTER on Github.
 The dependencies for this are:
 
 * SuperCollider
-* Ruby 1.9.3
+* Ruby 1.9.3+
 
 If you wish to play with the (development) HTML interface on OS X:
-
-**BE WARNED** Running the development server may open your machine to
-external exploits as Ruby code is currently evaluated on the server
-directly. Do not use this development interface on an open network until
-security features have been added.
-
 
 * Install SuperCollider manually (the Mac OS X app): http://supercollider.sourceforge.net
 * Download a tar ball of the latest version of Sonic Pi: https://github.com/samaaron/sonic-pi/
