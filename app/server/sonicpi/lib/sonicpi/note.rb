@@ -112,8 +112,8 @@ module SonicPi
       end
 
       @interval = NOTES_TO_INTERVALS[m[1].downcase.to_sym]
-      raise InvalidNoteError, "Invalid note: #{n}" unless @interval
 
+      raise InvalidNoteError, "Invalid note: #{n}" unless @interval
       @midi_note = (@octave * 12) + @interval + 12
       @midi_string = "#{@pitch_class.capitalize}#{@octave}"
     end
