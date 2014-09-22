@@ -1055,20 +1055,6 @@ module SonicPi
     def specific_arg_info
       {
 
-        :cutoff =>
-        {
-          :doc => "",
-          :validations => [v_positive(:cutoff), v_less_than(:cutoff, 130)],
-          :modulatable => true
-        },
-
-        :cutoff_min =>
-        {
-          :doc => "",
-          :validations => [v_positive(:cutoff), v_less_than(:cutoff_min, 130)],
-          :modulatable => true
-        },
-
         :wave =>
         {
           :doc => "Wave type - 0 saw, 1 pulse, 2 triangle",
