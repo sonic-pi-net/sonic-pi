@@ -53,6 +53,7 @@ To build and run:
 If the app hangs on the splash screen, you may need to compile your own
 native support for the git persistence layer. This can be done by
 
+* Install the `ruby-dev` package.
 * Run `app/server/bin/compile-extensions.rb`
 
 ### Unsupported development HTML Interface
