@@ -17,7 +17,9 @@ module SonicPi
     class InvalidOctaveError < ArgumentError ; end ;
 
     NOTES_TO_INTERVALS =
-      {c:  0,  C:  0,
+      {cf: -1, CF: -1, Cf: -1, cF: -1,
+       cb: -1, CB: -1, Cb: -1, cB: -1,
+       c:  0,  C:  0,
        cs: 1,  CS: 1, cS: 1, Cs: 1,
        df: 1,  DF: 1, Df: 1, dF: 1,
        db: 1,  DB: 1, Db: 1, dB: 1,
@@ -42,8 +44,6 @@ module SonicPi
        bf: 10, BF: 10, Bf: 10, bF: 10,
        as: 10, AS: 10, As: 10, aS: 10,
        b:  11, B: 11,
-       cf: 11, CF: 11, Cf: 11, cF: 11,
-       cb: 11, CB: 11, Cb: 11, cB: 11,
        bs: 12, BS: 12, Bs: 12, bS: 12}
 
     INTERVALS_TO_NOTES = {

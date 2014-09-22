@@ -152,6 +152,14 @@ module SonicPi
       end
     end
 
+    def test_c_flat_is_octave_lower
+      cb = Note.new(:Cb4)
+      assert_equal(3, cb.octave)
+      assert_equal(:Cb, cb.pitch_class)
+      assert_equal(11, cb.interval)
+      assert_equal(59, cb.midi_note)
+    end
+
   end
 
 
