@@ -33,6 +33,15 @@ module SonicPi
       end
     end
 
+    def num_audio_busses_for_current_os
+      if os == :raspberry
+        128
+      else
+        1024
+      end
+
+    end
+
     def default_sched_ahead_time
       if (os == :raspberry)
         1
