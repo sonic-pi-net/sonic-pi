@@ -46,7 +46,7 @@ $ ruby --version
 ``` 
   - link the ruby version into place:
 ```
-ln -s `which ruby` native/osx/ruby/bin/ruby
+ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 ```
 * Compile any native extensions: `$ app/server/bin/compile-extensions.rb`
 * Now you should be able to open the Qt app
