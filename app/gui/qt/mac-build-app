@@ -56,7 +56,10 @@ $MACDEPLOYQT $SP
 # Put qscintilla dylib in Frameworks dir and symlink
 cd $SP/Contents/Frameworks
 mv ../MacOS/$LIBQS .
-ln -s $LIBQS $LIBQS_LINK
+
+if [ ! -f $LIBQS_LINK ]; then
+  ln -s $LIBQS $LIBQS_LINK
+fi
 
 # symlink server
 # For final release, these need to be mv'd
