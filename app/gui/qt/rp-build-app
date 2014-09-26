@@ -6,6 +6,6 @@ cd $(dirname $0)
 
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/bin/qt-doc.rb -o ruby_help.h
-qmake -o Makefile SonicPi.pro
+qmake -o Makefile SonicPi.pro || qmake-qt4 -o Makefile SonicPi.pro
 set +x
 make

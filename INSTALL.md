@@ -45,10 +45,17 @@ Debian package dependency names:
 * `qt4-dev-tools`
 * `cmake` (for some configurations, e.g., 32bit x86)
 
+Fedora package dependency names:
+
+* `supercollider` (via [Planet CCRMA](http://ccrma.stanford.edu/planetccrma/software/installplanettwenty.html))
+* `ruby` (or use [RVM](http://rvm.io/) to manage specific versions)
+* `qscintilla-devel` (will install `qscintilla` and `qt-devel`)
+* `cmake`
+
 To build and run:
 
-* Run `app/gui/qt/boostrap-qt`
-* Start the GUI: `app/gui/qt/application`
+* Run `app/gui/qt/rp-build-app`
+* Start the GUI: `app/gui/qt/rp-app-bin`
 
 If the app hangs on the splash screen, you may need to compile your own
 native support for the git persistence layer. This can be done by
