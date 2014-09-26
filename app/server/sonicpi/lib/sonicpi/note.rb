@@ -15,10 +15,11 @@ module SonicPi
 
     class InvalidNoteError < ArgumentError ; end ;
     class InvalidOctaveError < ArgumentError ; end ;
-    class InvalidDegreeError < ArgumentError; end ;
 
     NOTES_TO_INTERVALS =
-      {c:  0,  C:  0,
+      {cf: -1, CF: -1, Cf: -1, cF: -1,
+       cb: -1, CB: -1, Cb: -1, cB: -1,
+       c:  0,  C:  0,
        cs: 1,  CS: 1, cS: 1, Cs: 1,
        df: 1,  DF: 1, Df: 1, dF: 1,
        db: 1,  DB: 1, Db: 1, dB: 1,
@@ -43,8 +44,6 @@ module SonicPi
        bf: 10, BF: 10, Bf: 10, bF: 10,
        as: 10, AS: 10, As: 10, aS: 10,
        b:  11, B: 11,
-       cf: 11, CF: 11, Cf: 11, cF: 11,
-       cb: 11, CB: 11, Cb: 11, cB: 11,
        bs: 12, BS: 12, Bs: 12, bS: 12}
 
     INTERVALS_TO_NOTES = {
@@ -61,35 +60,11 @@ module SonicPi
       10 => :Bb,
       11 => :B}
 
-    DEGREE = {:i   => 1,
-              :ii  => 2,
-              :iii => 3,
-              :iv  => 4,
-              :v   => 5,
-              :vi  => 6,
-              :vii => 7}
-
     DEFAULT_OCTAVE = 4
 
     MIDI_NOTE_RE = /\A(([a-gA-G])([sSbBfF]?))([-]?[0-9]*)\Z/
 
-    attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
-
     @@notes_cache = {}
-
-    def self.resolve_degree(degree, tonic, scale)
-      if !(DEGREE.keys + DEGREE.values).member?(degree)
-        raise InvalidDegreeError, "Invalid degree #{degree.inspect}, expecting #{DEGREE.keys.join ','} or 1-7"
-      end
-
-      intervals = Scale::SCALE[scale]
-
-      raise Scale::InvalidScaleError, "Unknown scale name: #{scale.inspect}" unless intervals
-
-      no_intervals = degree.is_a?(Numeric) ? degree-1 : DEGREE[degree]-1
-      intervals = intervals.cycle.take(no_intervals)
-      resolve_midi_note(tonic) + intervals.reduce(0,:+)
-    end
 
     def self.resolve_midi_note_without_octave(n)
       return @@notes_cache[n] if @@notes_cache[n]
@@ -119,6 +94,8 @@ module SonicPi
       INTERVALS_TO_NOTES[note]
     end
 
+    attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
+
     def initialize(n, o=nil)
       n = n.to_s
 
@@ -135,8 +112,8 @@ module SonicPi
       end
 
       @interval = NOTES_TO_INTERVALS[m[1].downcase.to_sym]
-      raise InvalidNoteError, "Invalid note: #{n}" unless @interval
 
+      raise InvalidNoteError, "Invalid note: #{n}" unless @interval
       @midi_note = (@octave * 12) + @interval + 12
       @midi_string = "#{@pitch_class.capitalize}#{@octave}"
     end

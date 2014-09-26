@@ -550,26 +550,28 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
 
        def play(n, *args)
-         return play_chord(n, *args) if n.is_a?(Array)
          ensure_good_timing!
+         return play_chord(n, *args) if n.is_a?(Array)
+         return nil if (n.nil? || n == :r || n == :rest)
 
-         if n
-           n = n.call if n.is_a? Proc
-           n = note(n) unless n.is_a? Numeric
-           args_h = resolve_synth_opts_hash_or_array(args)
-           if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
-             n += shift
-           end
-           args_h[:note] = n
-           trigger_inst current_synth_name, args_h
+         n = n.call if n.is_a? Proc
+         n = note(n) unless n.is_a? Numeric
+         args_h = resolve_synth_opts_hash_or_array(args)
+         if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+           n += shift
          end
+         args_h[:note] = n
+         trigger_inst current_synth_name, args_h
        end
        doc name:          :play,
            introduced:    Version.new(2,0,0),
            summary:       "Play current synth",
            doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with attack, sustain and release phases. These phases are triggered in order, so the duration of the sound is attack + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
 
-Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
+Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.
+
+If note is nil, :r or :rest, play is ignored and treated as a rest.
+",
            args:          [[:note, :symbol_or_number]],
            opts:          DEFAULT_PLAY_OPTS,
            accepts_block: false,
@@ -1595,6 +1597,7 @@ puts status # Returns something similar to:
 
 
        def note(n, *args)
+         return nil if (n.nil? || n == :r || n == :rest)
          return Note.resolve_midi_note_without_octave(n) if args.empty?
          args_h = resolve_synth_opts_hash_or_array(args)
          octave = args_h[:octave]
@@ -1607,7 +1610,7 @@ puts status # Returns something similar to:
        doc name:          :note,
            introduced:    Version.new(2,0,0),
            summary:       "Describe note",
-           doc:           "Takes a midi note, a symbol (e.g. :C ) or a string (e.g. 'C' ) and resolves it to a midi note. You can also pass an optional :octave parameter to get the midi note for a given octave. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3",
+           doc:           "Takes a midi note, a symbol (e.g. :C ) or a string (e.g. 'C' ) and resolves it to a midi note. You can also pass an optional :octave parameter to get the midi note for a given octave. Please note - :octave param is overridden if octave is specified in a symbol i.e. :c3. If the note is nil, :r or :rest, then nil is returned (nil represents a rest)",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => 4},
            accepts_block: false,
@@ -1651,7 +1654,7 @@ puts note_info(:C, octave: 2)
 
 
        def degree(degree, tonic, scale)
-         Note.resolve_degree(degree, tonic, scale)
+         Scale.resolve_degree(degree, tonic, scale)
        end
        doc name:           :degree,
        introduced:         Version.new(2,1,0),
@@ -1659,7 +1662,7 @@ puts note_info(:C, octave: 2)
        doc:                "For a given scale and tonic it takes a symbol :i,:ii,:iii,:iv,:v :vi, :vii or a number 1-7 and resolves it to a midi note.",
        args:               [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol]],
        accepts_block:      false,
-       example:            [%Q{
+       examples:           [%Q{
 play degree(:ii, :D3, :major)
 play degree(2, :C3, :minor)
 }]
@@ -2015,7 +2018,7 @@ stop bar"]
        doc name:          :load_synthdefs,
            introduced:    Version.new(2,0,0),
            summary:       "Load external synthdefs",
-           doc:           "Load all synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi. if you wish your synth to seemlessly integrate with the Sonic ",
+           doc:           "Load all synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi. If you wish your synth to seemlessly integrate with Sonic Pi's FX system you need to ensure your synth outputs a stereo signal to an audio bus with an index specified by a synth arg named out_bus.",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
@@ -2125,6 +2128,8 @@ stop bar"]
          info = SynthInfo.get_info(sn)
 
          n = trigger_synth(synth_name, args_h, group, info, true)
+
+         info = SynthInfo.get_info(sn)
          FXNode.new(n, args_h["in_bus"], current_out_bus)
        end
 
@@ -2200,7 +2205,11 @@ stop bar"]
 
        def current_out_bus
          current_bus = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_out_bus)
-         current_bus || @mod_sound_studio.mixer_bus
+         current_bus || current_job_bus
+       end
+
+       def current_job_bus
+         job_bus(current_job_id)
        end
 
        def job_bus(job_id)
@@ -2236,20 +2245,25 @@ stop bar"]
            m = @JOB_MIXERS_A.deref[job_id]
            return m if m
 
-
            args_h = {
              "in_bus" => job_bus(job_id),
-             "out_bus" => @mod_sound_studio.mixer_bus,
+             "amp" => 0.3
            }
 
-           synth_name = "sonic-pi-basic_mixer"
+           sn = "basic_mixer"
+           info = SynthInfo.get_info(sn)
+           defaults = info.arg_defaults
+           synth_name = info ? info.scsynth_name : synth_name
 
-           validation_fn = mk_synth_args_validator(synth_name)
-           validation_fn.call(args_h)
+           combined_args = defaults.merge(args_h)
+           combined_args = call_synth_default_fns(combined_args)
+           combined_args["out_bus"] = @mod_sound_studio.mixer_bus
 
-           default_args = SynthInfo.get_info(synth_name).arg_defaults
-           combined_args = default_args.merge(args_h)
-           n = @mod_sound_studio.trigger_synth synth_name, job_fx_group(job_id), combined_args, true, &validation_fn
+           validate_if_necessary! info, combined_args
+
+           group = @mod_sound_studio.mixer_group
+
+           n = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, true
 
            mix_n = ChainNode.new(n)
 
@@ -2320,11 +2334,11 @@ stop bar"]
          end
          mixer = old_job_mixers[job_id]
          if mixer
-           mixer.ctl amp_slide: 0.2
            mixer.ctl amp: 0
-           Kernel.sleep 0.2
+           Kernel.sleep 0.5
            mixer.kill
          end
+
        end
 
        def kill_job_group(job_id)

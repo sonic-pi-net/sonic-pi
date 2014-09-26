@@ -236,6 +236,26 @@ class Array
     rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
     self[rgen.rand(self.size)]
   end
+
+  alias_method :__orig_sample__, :sample
+  def sample(*args, &blk)
+    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+    if rgen
+      self[rgen.rand(self.size)]
+    else
+      __orig_sample__ *args, &blk
+    end
+  end
+
+  alias_method :__orig_shuffle__, :shuffle
+  def shuffle(*args, &blk)
+    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+    if rgen
+      __orig_shuffle__(random: rgen)
+    else
+      __orig_shuffle__ *args, &blk
+    end
+  end
 end
 
 

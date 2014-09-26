@@ -37,10 +37,10 @@ Pi. Patches for other platforms will be happily considered.
 ### Compiling the Qt interface on generic Linux:
 
 Debian package dependency names:
-  
+
 * `supercollider`
-* `ruby1.9.3`
-* `libqscintilla2-8`
+* `ruby1.9.3` (Ruby 2+ is preferred)
+* `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqscintilla2-l10n`)
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
 * `cmake` (for some configurations, e.g., 32bit x86)
@@ -55,11 +55,12 @@ Fedora package dependency names:
 To build and run:
 
 * Run `app/gui/qt/rp-build-app`
-* Start the GUI: `app/gui/qt/rp-app-bin`
+* Start the GUI: `app/gui/qt/Sonic-Pi`
 
 If the app hangs on the splash screen, you may need to compile your own
 native support for the git persistence layer. This can be done by
 
+* Install the `ruby-dev` package.
 * Run `app/server/bin/compile-extensions.rb`
 
 ### Unsupported development HTML Interface
@@ -69,15 +70,9 @@ Note: This interface isn't always kept up to date with MASTER on Github.
 The dependencies for this are:
 
 * SuperCollider
-* Ruby 1.9.3
+* Ruby 1.9.3+
 
 If you wish to play with the (development) HTML interface on OS X:
-
-**BE WARNED** Running the development server may open your machine to
-external exploits as Ruby code is currently evaluated on the server
-directly. Do not use this development interface on an open network until
-security features have been added.
-
 
 * Install SuperCollider manually (the Mac OS X app): http://supercollider.sourceforge.net
 * Download a tar ball of the latest version of Sonic Pi: https://github.com/samaaron/sonic-pi/

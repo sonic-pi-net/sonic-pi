@@ -73,7 +73,7 @@ module SonicPi
       @CURRENT_NODE_ID = Counter.new(1)
       @CURRENT_SYNC_ID = Counter.new(0)
       @BUFFER_ALLOCATOR = Allocator.new(1024) # TODO: Another magic num to remove
-      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new 128, 10 #TODO: remove these magic nums
+      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new num_audio_busses_for_current_os, 10 #TODO: remove these magic nums
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
 
       message "Initialising comms... #{msg_queue}"
