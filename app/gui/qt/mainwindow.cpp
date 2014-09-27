@@ -17,6 +17,7 @@
 #include <sstream>
 
 // Qt stuff
+#include <QDir>
 #include <QAction>
 #include <QApplication>
 #include <QCloseEvent>
@@ -110,8 +111,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   args << prg_arg;
 
   std::cout << prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
-  serverProcess->setStandardErrorFile("/tmp/sonic-pi-error");
-  serverProcess->setStandardOutputFile("/tmp/sonic-pi-output");
+
+  QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
+  QString log_path =  sp_user_path + QDir::separator() + "log";
+  QDir().mkdir(sp_user_path);
+  QDir().mkdir(log_path);
+  QString sp_error_log_path = log_path + QDir::separator() + "/errors.log";
+  QString sp_output_log_path = log_path + QDir::separator() + "/output.log";
+  serverProcess->setStandardErrorFile(sp_error_log_path);
+  serverProcess->setStandardOutputFile(sp_output_log_path);
   serverProcess->start(prg_path, args);
   serverProcess->waitForStarted();
 
