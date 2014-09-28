@@ -28,8 +28,9 @@ require 'active_support/inflector'
 
 class MarkdownCoverter
   def self.convert(contents)
-    # Github markdown syntax uses ```` to mark code blocks
-    # Kramdown uses ~~~~
+    # GitHub markdown syntax uses ```` to mark code blocks Kramdown uses ~~~~
+    # Therefore, let's fix-point on GitHub syntax, and fudge it
+    # into Kramdown syntax where necessary
     contents.gsub!(/\`\`\`\`*/, '~~~~')
 
     contents_html = Kramdown::Document.new(contents).to_html
