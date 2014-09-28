@@ -118,8 +118,15 @@ module SonicPi
          end
        end
 
+       def use_sample_bpm(sample_name)
+         sd = sample_duration(sample_name)
+         use_bpm 60.0 / sd
+       end
 
-
+       def with_sample_bpm(sample_name, &block)
+         sd = sample_duration(sample_name)
+         with_bpm(60.0 / sd, &block)
+       end
 
     def use_arg_bpm_scaling(bool, &block)
       raise "use_arg_bpm_scaling does not work with a block. Perhaps you meant with_arg_bpm_scaling" if block
