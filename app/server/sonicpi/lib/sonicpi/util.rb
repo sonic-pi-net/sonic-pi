@@ -152,13 +152,15 @@ module SonicPi
           when Hash
             return opts[0]
           else
-            raise "Invalid options. Options should either be an even list of key value pairs or a single Hash. Got #{opts.inspect}"
+            raise "Invalid options. Options should either be an even list of key value pairs, a single Hash or nil. Got #{opts.inspect}"
           end
         when 0
           return {}
         end
+      when NilClass
+        return {}
       else
-        raise "Invalid options. Options should either be an even list of key value pairs or a single Hash. Got #{opts.inspect}"
+        raise "Invalid options. Options should either be an even list of key value pairs, a single Hash or nil. Got #{opts.inspect}"
       end
     end
   end
