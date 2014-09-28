@@ -129,6 +129,10 @@ module SonicPi
       return "Amount of time (in seconds) for the #{k} value to change. A long #{k}_slide value means that the #{k} takes a long time to slide from the previous value to the new value. A #{k}_slide of 0 means that the #{k} instantly changes to the new value."
     end
 
+    def v_sum_less_than_oet(arg1, arg2, max)
+      [lambda{|args| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
+    end
+
     def v_positive(arg)
       [lambda{|args| args[arg] >= 0}, "must be zero or greater"]
     end
@@ -147,6 +151,10 @@ module SonicPi
 
     def v_less_than(arg,  max)
       [lambda{|args| args[arg] < max}, "must be a value less than #{max}"]
+    end
+
+    def v_less_than_oet(arg,  max)
+      [lambda{|args| args[arg] <= max}, "must be a value less than or equal to #{max}"]
     end
 
     def v_greater_than(arg,  min)
