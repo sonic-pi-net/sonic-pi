@@ -3097,7 +3097,8 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
           doc << "          <em><font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
           doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
-          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
+          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}<br/>\n"
+          doc << "          Scaled with current BPM value\n" if av[:bpm_scale]
           doc << "       </font></em>\n"
           doc << "     </td>\n"
           doc << " </tr>\n"
@@ -3199,7 +3200,8 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
           doc << "          <font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
           doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
-          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
+          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}<br/>\n"
+          doc << "          Scaled with current BPM value\n" if av[:bpm_scale]
           doc << "       </font>\n"
           doc << "     </td>\n"
           doc << " </tr>\n"
