@@ -2369,7 +2369,13 @@ stop bar"]
 
        def call_synth_default_fns(args_h)
          args_h.each do |k, v|
-           args_h[k] = v.call if v.is_a? Proc
+           if v.is_a? Proc
+             if  v.arity == 0
+               args_h[k] = v.call
+             elsif v.arity
+               args_h[k] = v.call(args_h)
+             end
+           end
          end
        end
 
