@@ -555,14 +555,26 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
          n = n.call if n.is_a? Proc
          return nil if (n.nil? || n == :r || n == :rest)
 
-         n = n.call if n.is_a? Proc
-         n = note(n) unless n.is_a? Numeric
+         init_args_h = {}
          args_h = resolve_synth_opts_hash_or_array(args)
+
+         if n.is_a? Numeric
+           # Do nothing
+         elsif n.is_a? Hash
+           init_args_h = resolve_synth_opts_hash_or_array(n)
+
+           n = note(init_args_h[:note])
+           return nil if n.nil?
+           n
+         else
+           n = note(n)
+         end
+
          if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
            n += shift
          end
          args_h[:note] = n
-         trigger_inst current_synth_name, args_h
+         trigger_inst current_synth_name, init_args_h.merge(args_h)
        end
        doc name:          :play,
            introduced:    Version.new(2,0,0),
