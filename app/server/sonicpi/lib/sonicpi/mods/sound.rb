@@ -2145,7 +2145,9 @@ stop bar"]
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
 
          combined_args = defaults.merge(t_l_args.merge(args_h))
-         combined_args = call_synth_default_fns(combined_args)
+         metadef_prochash_lookup!(combined_args)
+         call_synth_default_fns!(combined_args)
+
          combined_args["out_bus"] = out_bus
 
          validate_if_necessary! info, combined_args
@@ -2256,7 +2258,8 @@ stop bar"]
            synth_name = info ? info.scsynth_name : synth_name
 
            combined_args = defaults.merge(args_h)
-           combined_args = call_synth_default_fns(combined_args)
+           metadef_prochash_lookup!(combined_args)
+           call_synth_default_fns!(combined_args)
            combined_args["out_bus"] = @mod_sound_studio.mixer_bus
 
            validate_if_necessary! info, combined_args
@@ -2367,15 +2370,42 @@ stop bar"]
          end
        end
 
-       def call_synth_default_fns(args_h)
+       def call_synth_default_fns!(args_h)
          args_h.each do |k, v|
-           if v.is_a? Proc
-             if  v.arity == 0
-               args_h[k] = v.call
-             elsif v.arity
-               args_h[k] = v.call(args_h)
-             end
-           end
+           # This will auto call any procs vals due to args_h having
+           # auto prohash behaviour thrown into its metaclass
+           args_h[k]
+         end
+       end
+
+       def metadef_prochash_lookup!(args_h)
+         #override the [] lookup in a specific hash so that it knows to
+         #auto call any vals that are procs and to be aware of cyclic
+         #behaviour.
+         args_h.meta_def :[] do |k|
+           v = fetch k
+           return v unless v.is_a? Proc
+
+           trace_id = :sonic_pi_prochash_lookup_trace
+           trace = Thread.current.thread_variable_get(trace_id)
+           trace = trace || []
+           Thread.current.thread_variable_set(trace_id, trace)
+
+           raise "Recursive synth defaults lambda lookup. Looks like two synth args had lambda defaults which were defined in terms of each other!" if trace.include? k
+           trace << k
+
+           res = if v.arity == 0
+                   new_val = v.call
+                   store k, new_val
+                   new_val
+                 else
+                   new_val = v.call self
+                   store k, new_val
+                   new_val
+                 end
+
+           trace.delete k
+           return res
          end
        end
 
