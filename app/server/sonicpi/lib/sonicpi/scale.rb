@@ -10,16 +10,14 @@
 # and distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require_relative 'wrappingarray'
 
 module SonicPi
-  class Scale
+  class Scale < WrappingArray
     # Ported from Overtone: https://github.com/overtone/overtone/blob/master/src/overtone/music/pitch.clj
 
     class InvalidScaleError < ArgumentError; end ;
     class InvalidDegreeError < ArgumentError; end ;
-
-    include Enumerable
-    include Comparable
 
     SCALE = lambda{
       ionian_sequence     = [2, 2, 1, 2, 2, 2, 1]
@@ -129,7 +127,6 @@ module SonicPi
       scale.notes[index]
     end
 
-
     attr_reader :name, :tonic, :num_octaves, :notes
 
     def initialize(tonic, name, num_octaves=1)
@@ -148,6 +145,7 @@ module SonicPi
       @tonic = tonic
       @num_octaves = num_octaves
       @notes = res
+      super(res)
     end
 
     def to_s
@@ -157,18 +155,5 @@ module SonicPi
     def inspect
       to_s
     end
-
-    def to_a
-      @notes
-    end
-
-    def each &block
-      @notes.each(&block)
-    end
-
-    def <=> other
-      @notes <=> other.to_a
-    end
-
   end
 end
