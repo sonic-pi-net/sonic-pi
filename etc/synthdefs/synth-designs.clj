@@ -1032,31 +1032,41 @@
      env_curve 2
      cutoff   80
      cutoff_slide 0
+     cutoff_attack 0.01
+     cutoff_sustain 0
+     cutoff_decay 0
+     cutoff_release 2
      cutoff_min 30
+     cutoff_min_slide 0
+     cutoff_attack_level 1
+     cutoff_sustain_level 1
+     cutoff_env_curve 2
      res      0.1                       ; rlpf resonance
      res_slide 0
      wave     0                         ; 0=saw, 1=pulse, 2=tri
      pulse_width 0.5                    ; only for pulse wave
      pulse_width_slide 0
      out_bus  0]
-    (let [note            (lag note note_slide)
-          amp             (lag amp amp_slide)
-          amp-fudge       1
-          pan             (lag pan pan_slide)
-          cutoff_slide    (lag cutoff cutoff_slide)
-          res             (lag res res_slide)
-          pulse_width     (lag pulse_width pulse_width_slide)
-          cutoff-freq     (midicps cutoff)
-          cutoff-min-freq (midicps cutoff_min)
-          freq            (midicps note)
-          env             (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+    (let [note        (lag note note_slide)
+          amp         (lag amp amp_slide)
+          amp-fudge   1
+          pan         (lag pan pan_slide)
+          cutoff      (lag cutoff cutoff_slide)
+          cutoff_min  (lag cutoff_min cutoff_min_slide)
+          res         (lag res res_slide)
+          pulse_width (lag pulse_width pulse_width_slide)
+          freq        (midicps note)
+          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+          filt-env    (env-gen (env-adsr-ng cutoff_attack cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_sustain_level cutoff_env_curve))
 
-          snd             (rlpf (select:ar wave [(saw freq)
-                                                 (pulse freq pulse_width)
-                                                 (lf-tri freq)])
-                                (+ cutoff-min-freq (* env cutoff-freq))
-                                res)
-          snd             (* amp-fudge env snd)]
+          snd         (rlpf (select:ar wave [(saw freq)
+                                             (pulse freq pulse_width)
+                                             (* 2 (lf-tri freq))])
+
+                            (midicps (lin-lin filt-env 0 1 cutoff_min cutoff))
+                            res)
+
+          snd         (* amp-fudge env snd)]
       (out out_bus (pan2 snd pan amp))))
 
 

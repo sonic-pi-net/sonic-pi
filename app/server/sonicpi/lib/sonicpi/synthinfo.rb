@@ -108,7 +108,8 @@ module SonicPi
         constraints = (default_info[:validations] || []).map{|el| el[1]}
         new_info = {}
         new_info[:doc] = default_info[:doc]
-        new_info[:default] = default
+        new_info[:default] = default_info[:default] || default
+        new_info[:bpm_scale] = default_info[:bpm_scale]
         new_info[:constraints] = constraints
         new_info[:modulatable] = default_info[:modulatable]
         res[arg] = new_info
@@ -1041,9 +1042,16 @@ module SonicPi
         :sustain_level => 1,
         :env_curve => 2,
 
-        :cutoff => 80,
+        :cutoff => 120,
         :cutoff_slide => 0,
         :cutoff_min => 30,
+        :cutoff_min_slide => 0,
+        :cutoff_attack => lambda{|args_h| args_h[:attack]},
+        :cutoff_decay => lambda{|args_h| args_h[:decay]},
+        :cutoff_sustain => lambda{|args_h| args_h[:sustain]},
+        :cutoff_release => lambda{|args_h| args_h[:release]},
+        :cutoff_attack_level => 1,
+        :cutoff_sustain_level => 1,
         :res => 0.1,
         :res_slide => 0,
         :wave => 0,
@@ -1054,28 +1062,99 @@ module SonicPi
 
     def specific_arg_info
       {
+        :cutoff_min =>
+        {
+          :doc => "The minimum  cutoff value.",
+          :validations => [v_less_than_oet(:cutoff_min, 130)],
+          :modulatable => true
+        },
+
+        :cutoff_min_slide =>
+        {
+          :doc => generic_slide_doc(:cutoff_min),
+          :validations => [v_positive(:cutoff_min_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :cutoff =>
+        {
+          :doc => "The maximum cutoff value as a MIDI note",
+          :validations => [v_less_than_oet(:cutoff, 130)],
+          :modulatable => true
+        },
+
+        :cutoff_slide =>
+        {
+          :doc => generic_slide_doc(:cutoff),
+          :validations => [v_positive(:cutoff_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :cutoff_attack_level =>
+        {
+          :doc => "The peak cutoff (value of cutoff at peak of attack) as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value",
+          :validations => [v_between_inclusive(:cutoff_attack_level, 0, 1)],
+          :modulatable => false
+        },
+
+        :cutoff_sustain_level =>
+        {
+          :doc => "The sustain cutoff (value of cutoff at sustain time) as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value.",
+          :validations => [v_between_inclusive(:cutoff_sustain_level, 0, 1)],
+          :modulatable => false
+        },
+
+        :cutoff_attack =>
+        {
+          :doc => "Attack time for cutoff filter. Amount of time (in seconds) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
+          :validations => [v_positive(:cutoff_attack)],
+          :modulatable => false,
+          :default => "attack",
+          :bpm_scale => true
+        },
+
+        :cutoff_decay =>
+        {
+          :doc => "Decay time for cutoff filter. Amount of time (in seconds) for sound to reach full cutoff value. Default value is set to match amp envelope's decay value.",
+          :validations => [v_positive(:cutoff_decay)],
+          :modulatable => false,
+          :default => "decay",
+          :bpm_scale => true
+        },
+
+        :cutoff_sustain =>
+        {
+          :doc => "Amount of time for cutoff value to remain at sustain level in seconds. Default value is set to match amp envelope's sustain value.",
+          :validations => [v_positive(:cutoff_sustain)],
+          :modulatable => false,
+          :default => "sustain",
+          :bpm_scale => true
+        },
+
+        :cutoff_release =>
+        {
+          :doc => "Amount of time (in seconds) for sound to move from cutoff sustain value  to cutoff min value. Default value is set to match amp envelope's release value.",
+          :validations => [v_positive(:cutoff_release)],
+          :modulatable => false,
+          :default => "release",
+          :bpm_scale => true
+        },
+
+        :cutoff_env_curve =>
+        {
+          :doc => "Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
+          :validations => [v_one_of(:cutoff_env_curve, [1, 2, 3, 4, 6, 7])],
+          :modulatable => false
+        },
 
         :wave =>
         {
-          :doc => "Wave type - 0 saw, 1 pulse, 2 triangle",
+          :doc => "Wave type - 0 saw, 1 pulse, 2 triangle. Different waves will produce different sounds.",
           :validations => [v_one_of(:wave, [0, 1, 2])],
           :modulatable => true
         },
-
-        :pulse_width =>
-        {
-          :doc => "Only valid if wave is type pulse.",
-          :validations => [v_positive(:pulse_width)],
-          :modulatable => true
-        },
-
-        :pulse_width_slide =>
-        {
-          :doc => "Time in seconds for pulse width to change. Only valid if wave is type pulse.",
-          :validations => [v_positive(:pulse_width_slide)],
-          :modulatable => true,
-          :bpm_scale => true
-        }
 
       }
     end
