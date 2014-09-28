@@ -33,8 +33,25 @@ module SonicPi
 
 
 
-    def after(times, &block)
+    def after(times, params=nil, &block)
       raise "after must be called with a code block" unless block
+
+
+      if params
+        raise "params needs to be a list-like thing" unless params.respond_to? :map
+        params = params.map do |p|
+          case p
+          when Hash, Array, NilClass
+            resolve_synth_opts_hash_or_array(p)
+          else
+            {note: note(p)}
+          end
+        end
+      else
+        params = []
+      end
+
+      params_size = params.size
 
       times.each_with_index do |t, idx|
         in_thread do
@@ -43,13 +60,18 @@ module SonicPi
           when 0
             block.call
           when 1
-            block.call(t)
-          when 2
-            block.call(t, idx)
+            if params_size == 0
+              block.call({})
+            else
+              p = params[idx % params_size]
+              block.call(p)
+            end
           end
         end
       end
     end
+
+
 
 
 
