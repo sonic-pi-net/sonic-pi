@@ -54,13 +54,20 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 ### Compiling the Qt interface on generic Linux:
 
 Debian package dependency names:
-  
+
 * `supercollider`
 * `ruby1.9.3` (Ruby 2+ is preferred)
 * `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqscintilla2-l10n`)
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
 * `cmake` (for some configurations, e.g., 32bit x86)
+
+Fedora package dependency names:
+
+* `supercollider` (via [Planet CCRMA](http://ccrma.stanford.edu/planetccrma/software/installplanettwenty.html))
+* `ruby` (or use [RVM](http://rvm.io/) to manage specific versions)
+* `qscintilla-devel` (will install `qscintilla` and `qt-devel`)
+* `cmake`
 
 To build and run:
 
