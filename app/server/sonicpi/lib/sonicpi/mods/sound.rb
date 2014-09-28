@@ -552,6 +552,7 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
        def play(n, *args)
          ensure_good_timing!
          return play_chord(n, *args) if n.is_a?(Array)
+         n = n.call if n.is_a? Proc
          return nil if (n.nil? || n == :r || n == :rest)
 
          n = n.call if n.is_a? Proc
