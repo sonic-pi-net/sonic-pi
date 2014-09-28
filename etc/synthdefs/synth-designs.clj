@@ -47,8 +47,7 @@
    (defsynth sonic-pi-basic_mixer [in_bus 0 out_bus 0 amp 1 amp_slide 0.2]
      (let [amp      (lag amp amp_slide)
            src      (in in_bus 2)
-           src      (* amp src)
-           safe-src (limiter src 0.99 0.01)]
+           src      (* amp src)]
        (out:ar out_bus src)))
 
    (defsynth sonic-pi-recorder
