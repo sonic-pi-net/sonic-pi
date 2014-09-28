@@ -1673,7 +1673,7 @@ play degree(2, :C3, :minor)
        def scale(tonic, name, *opts)
          opts = resolve_synth_opts_hash_or_array(opts)
          opts = {:num_octaves => 1}.merge(opts)
-         Scale.new(tonic, name,  opts[:num_octaves]).to_a
+         Scale.new(tonic, name,  opts[:num_octaves])
        end
        doc name:          :scale,
            introduced:    Version.new(2,0,0),
