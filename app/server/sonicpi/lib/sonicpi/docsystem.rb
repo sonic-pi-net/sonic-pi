@@ -70,20 +70,18 @@ module SonicPi
               html << "<table cellpadding=\"8\">\n"
               html << " <tr>\n   <th></th><th></th><th></th>\n </tr>\n"
 
-              if v[:examples] 
-                v[:examples].each_with_index do |e, idx|
+              v[:examples].each_with_index do |e, idx|
 
-                  background_colour = idx.even? ? "#F8F8F8" : "#E8E8E8"
-                  key_bg_colour = idx.even? ? "#E6F0FF" : "#B2D1FF"
+                background_colour = idx.even? ? "#F8F8F8" : "#E8E8E8"
+                key_bg_colour = idx.even? ? "#E6F0FF" : "#B2D1FF"
 
-                  html << " <tr bgcolor=\"#{background_colour}\">\n"
-                  html << "  <td bgcolor=\"#{key_bg_colour}\"><h3><pre>Example #{idx} </pre></h3></td>\n"
+                html << " <tr bgcolor=\"#{background_colour}\">\n"
+                html << "  <td bgcolor=\"#{key_bg_colour}\"><h3><pre>Example #{idx} </pre></h3></td>\n"
 
-                  code, comments = *extract_comments.call(e.strip)
+                code, comments = *extract_comments.call(e.strip)
 
-                  html << "   <td><pre>\n#{code << "\n\n\n"}</pre></td>\n"
-                  html << "   <td><pre>\n#{comments << "\n\n\n"}</pre></td></tr>\n"
-                end
+                html << "   <td><pre>\n#{code << "\n\n\n"}</pre></td>\n"
+                html << "   <td><pre>\n#{comments << "\n\n\n"}</pre></td></tr>\n"
               end
               html << "</table>"
               res[k.to_s] = html
