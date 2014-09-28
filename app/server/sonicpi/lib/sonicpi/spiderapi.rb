@@ -341,7 +341,7 @@ end"]
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
       r = rgen.rand(range.to_i + 1)
       smallest = [min, max].min
-      (r + smallest).to_f
+      (r + smallest)
     end
     doc name:           :rrand_i,
         introduced:     Version.new(2,0,0),
@@ -382,7 +382,7 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
 
     def rand_i(max=2)
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      rgen.rand(max.to_i).to_f
+      rgen.rand(max.to_i)
     end
     doc name:           :rand_i,
         introduced:     Version.new(2,0,0),
