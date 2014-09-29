@@ -36,7 +36,7 @@
 
 (do
   (without-namespace-in-synthdef
-   (defsynth sonic-pi-mixer [in_bus 0 amp 1 safe-recovery-time 3 hpf_freq 0 hpf_pass_thru 1 lpf_freq 0 lpf_pass_thru 1 force_mono 0]
+   (defsynth sonic-pi-mixer [in_bus 0 amp 1 safe-recovery-time 3 hpf_freq 0 hpf_pass_thru 1 lpf_freq 0 lpf_pass_thru 1 force_mono 0, invert_stereo 0]
      (let [l        (in in_bus 1)
            r        (in (+ in_bus 1))
            amp      (lag-ud amp 0 0.02)
@@ -63,7 +63,15 @@
            r   (select:ar force_mono
                           [r
                            (/ (+ l r) 2)])
-           safe-snd (limiter [l r] 0.99 0.01)]
+
+           l2 (select:ar invert_stereo
+                          [l
+                           r])
+
+           r2 (select:ar invert_stereo
+                          [r
+                           l])
+           safe-snd (limiter [l2 r2] 0.99 0.01)]
        (replace-out 0 safe-snd)))
 
    (defsynth sonic-pi-basic_mixer [in_bus 0 out_bus 0 amp 1 amp_slide 0.2]
