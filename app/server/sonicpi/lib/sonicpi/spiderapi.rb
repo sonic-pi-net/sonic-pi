@@ -1070,5 +1070,25 @@ end
 # due to the thread being named, the second re-run will not create a new similarly
 # named thread. This is a nice pattern for live coding.
 "]
+
+    def osc_send(host, port, address, *msg)
+      if msg.length == 1 and msg[0].class == Array then
+        msg = msg[0] # happens when you pass an array instead of multiple args
+      end
+      cli = OSC::Client.new(host, port)
+      cli.send(OSC::Message.new(address, *msg))
+    end
+    doc name:          :osc_send,
+        introduced:    Version.new(2,0,0),
+        summary:       "send an external OSC message",
+        doc:           "send an external OSC message",
+        args:          [[:host, :string], [:port, :number],
+      [:address, :string], [:msg, :any]],
+        opts:          nil,
+        accepts_block: false,
+        examples:      ["
+send_osc 'localhost', 8000, '/demo/foo', 1.0 # send /demo/foo=1.0 to localhost:8000 via OSC UDP
+send_osc 'localhost', 8000, '/demo/bar', ['sample text', 42]
+"]
   end
 end
