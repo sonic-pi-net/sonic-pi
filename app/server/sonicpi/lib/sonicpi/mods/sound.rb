@@ -521,6 +521,13 @@ play 50 # Plays with supersaw synth
            hide:          true
 
 
+       def invert_stereo!
+         @mod_sound_studio.mixer_invert_stereo(true)
+       end
+
+       def standard_stereo!
+         @mod_sound_studio.mixer_invert_stereo(false)
+       end
 
 
        def synth(synth_name, *args)
