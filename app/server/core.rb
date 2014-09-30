@@ -52,8 +52,8 @@ module OSC
 
     def safe_detector
       loop do
-        osc_data, network = @socket.recvfrom( 16384 )
         begin
+          osc_data, network = @socket.recvfrom( 16384 )
           ip_info = Array.new
           ip_info << network[1]
           ip_info.concat(network[2].split('.'))
@@ -62,7 +62,6 @@ module OSC
           end
         rescue Exception => e
           Kernel.puts e.message
-          Kernel.puts e.backtrace.inspect
         end
       end
     end

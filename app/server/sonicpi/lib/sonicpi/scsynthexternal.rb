@@ -156,7 +156,7 @@ module SonicPi
 
       t1 = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_booter)
-        boot_s.run
+        boot_s.safe_run
       end
 
       t2 = Thread.new do
@@ -224,7 +224,8 @@ module SonicPi
       log_boot_msg
       log "Booting on Windows"
       boot_and_wait do
-        system scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s
+        @scsynthpid = Process.spawn(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s)
+        Process.detach(@scsynthpid)
       end
     end
 
