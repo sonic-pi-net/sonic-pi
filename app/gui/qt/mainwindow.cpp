@@ -55,7 +55,7 @@
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
-#include <sonicpilexer.h>
+#include "sonicpilexer.h"
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -64,6 +64,7 @@
 // OS specific stuff
 #if defined(Q_OS_WIN)
   #include <QtConcurrent/QtConcurrentRun>
+  void sleep(int x) { Sleep((x)*1000); }
 #elif defined(Q_OS_MAC)
   #include <QtConcurrent/QtConcurrentRun>
 #else
@@ -96,15 +97,17 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   serverProcess = new QProcess();
 
 #if defined(Q_OS_WIN)
-  QString prg_path = QCoreApplication::applicationDirPath() + "\\..\\..\\server\\native\\osx\\ruby\\bin\\ruby";
+  QString prg_path = "c:\\ruby193\\bin\\ruby.exe";
+  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../../server/bin/sonic-pi-server.rb";
 #elif defined(Q_OS_MAC)
   QString prg_path = QCoreApplication::applicationDirPath() + "/../../server/native/osx/ruby/bin/ruby";
+  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
 #else
   //assuming Raspberry Pi
   QString prg_path = "ruby";
+  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
 #endif
 
-  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
   prg_arg = QDir::toNativeSeparators(prg_arg);
 
   QStringList args;

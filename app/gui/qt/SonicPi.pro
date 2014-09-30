@@ -49,3 +49,8 @@ RESOURCES += \
 
 ICON = images/app.icns
 LIBS         += -lqscintilla2
+
+# not unicode ready
+win32 {
+  DEFINES -= UNICODE DEFINES += _MBCS
+}
