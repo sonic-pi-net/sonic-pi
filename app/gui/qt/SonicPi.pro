@@ -50,6 +50,13 @@ RESOURCES += \
 ICON = images/app.icns
 LIBS         += -lqscintilla2
 
+# copy libqscintilla2.dll to build directory
+win32 {
+	install_qsci.files = $$[QT_INSTALL_BINS]\qscintilla2.dll
+	install_qsci.path = release
+	INSTALLS += install_qsci
+}
+
 # not unicode ready
 win32 {
   DEFINES -= UNICODE DEFINES += _MBCS
