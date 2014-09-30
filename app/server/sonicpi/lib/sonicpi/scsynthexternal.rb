@@ -224,7 +224,7 @@ module SonicPi
       log_boot_msg
       log "Booting on Windows"
       boot_and_wait do
-        system scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os
+        system scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s
       end
     end
 
