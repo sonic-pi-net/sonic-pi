@@ -46,6 +46,8 @@ RESOURCES += \
     SonicPi.qrc \
     help_files.qrc  \
     info_files.qrc
+	
+RC_FILE = SonicPi.rc
 
 ICON = images/app.icns
 LIBS         += -lqscintilla2
