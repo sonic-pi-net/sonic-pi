@@ -52,11 +52,16 @@ RC_FILE = SonicPi.rc
 ICON = images/app.icns
 LIBS         += -lqscintilla2
 
-# copy libqscintilla2.dll to build directory
 win32 {
 	install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
 	install_qsci.path = release
-	INSTALLS += install_qsci
+
+	install_bat.files = sonic-pi.bat
+	install_bat.path = ..\..\..
+
+	INSTALLS += install_qsci install_bat
+	# allow to run on XP
+	QMAKE_SUBSYSTEM_SUFFIX = ,5.01
 }
 
 # not unicode ready
