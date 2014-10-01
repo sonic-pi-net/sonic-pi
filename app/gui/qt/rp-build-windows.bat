@@ -7,3 +7,5 @@ nmake
 nmake install
 cd release
 windeployqt Sonic-Pi.exe -printsupport
+cd ..
+copy sonic-pi.bat ..\..\..\sonic-pi.bat
