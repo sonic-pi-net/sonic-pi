@@ -55,7 +55,7 @@
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
-#include <sonicpilexer.h>
+#include "sonicpilexer.h"
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -64,6 +64,7 @@
 // OS specific stuff
 #if defined(Q_OS_WIN)
   #include <QtConcurrent/QtConcurrentRun>
+  void sleep(int x) { Sleep((x)*1000); }
 #elif defined(Q_OS_MAC)
   #include <QtConcurrent/QtConcurrentRun>
 #else
@@ -96,15 +97,17 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   serverProcess = new QProcess();
 
 #if defined(Q_OS_WIN)
-  QString prg_path = QCoreApplication::applicationDirPath() + "\\..\\..\\server\\native\\osx\\ruby\\bin\\ruby";
+  QString prg_path = "ruby.exe";
+  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../../server/bin/sonic-pi-server.rb";
 #elif defined(Q_OS_MAC)
   QString prg_path = QCoreApplication::applicationDirPath() + "/../../server/native/osx/ruby/bin/ruby";
+  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
 #else
   //assuming Raspberry Pi
   QString prg_path = "ruby";
+  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
 #endif
 
-  QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
   prg_arg = QDir::toNativeSeparators(prg_arg);
 
   QStringList args;
@@ -121,7 +124,12 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   serverProcess->setStandardErrorFile(sp_error_log_path);
   serverProcess->setStandardOutputFile(sp_output_log_path);
   serverProcess->start(prg_path, args);
-  serverProcess->waitForStarted();
+  if (!serverProcess->waitForStarted()) {
+    QMessageBox::critical(this, tr("Where is ruby?"), tr("ruby could not be started, is it installed and in your PATH?"), QMessageBox::Abort);
+    QTimer::singleShot(0, this, SLOT(close()));
+    cont_listening_for_osc = false;
+    return;
+  }
 
   std::cerr << "started..." << serverProcess->state() << std::endl;
 
@@ -251,7 +259,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
-  while (!server_started && cont_listening_for_osc) {
+  int timeout = 10;
+  while (!server_started && cont_listening_for_osc && timeout-- > 0) {
     sleep(1);
     std::cout << "Waiting for server..." << std::endl;
     if(osc_incoming_port_open) {
@@ -259,6 +268,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
       msg.pushStr("QtClient/1/hello");
       sendOSC(msg);
     }
+  }
+  if (!server_started) {
+    QMessageBox::critical(this, QString("Server didn't start"), QString("Failed to start server, please check ") + log_path, QMessageBox::Abort);
+    QTimer::singleShot(0, this, SLOT(close()));
+    cont_listening_for_osc = false;
+
+    return;
   }
 
   loadWorkspaces();
@@ -356,8 +372,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(closeInfoAct, SIGNAL(triggered()), this, SLOT(about()));
   infoWidg->addAction(closeInfoAct);
   this->showNormal();
-
-
 }
 
 void MainWindow::serverError(QProcess::ProcessError error) {

@@ -80,6 +80,26 @@ native support for the git persistence layer. This can be done by
 * Install the `ruby-dev` package.
 * Run `app/server/bin/compile-extensions.rb`
 
+### Compiling the Qt interface on Windows (32-bit)
+
+* Install Visual Studio 2013 Express for Desktop http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop
+* Download Qt 5.3.1+ http://qt-project.org/downloads
+  - Run the setup wizard and install to a known location which we'll call C:\Qt5
+  - Be sure to install the msvc2013_x86 target
+* Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and unzip
+* Set up build environment
+  - open Visual Studio 2013/Visual Studio Tools/VS2013 x86 Tools Command Prompt
+  - add QT to your path: `PATH=%PATH%;C:\Qt5\5.3\msvc2013\bin`
+* Build QScintilla:
+  - `cd Qt4Qt5`
+  - generate makefile: `qmake qscintilla.pro`
+  - `nmake`
+  - copy to QT directory: `nmake install`
+* Run `app\gui\qt\rp-build-windows.bat`
+* copy C:\Program Files (x86)\Microsoft Visual Studio 2012\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
+* App will be in `release` dir, or use sonic-pi.bat to startup
+* Running requires ruby.exe in the PATH, and SuperCollider 3.6.6 in C:\Program Files\SuperCollider-3.6.6 or Program Files (x86).
+
 ### Unsupported development HTML Interface
 
 Note: This interface isn't always kept up to date with MASTER on Github.
