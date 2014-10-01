@@ -1070,6 +1070,5 @@ end
 # due to the thread being named, the second re-run will not create a new similarly
 # named thread. This is a nice pattern for live coding.
 "]
-
   end
 end
