@@ -54,7 +54,7 @@ LIBS         += -lqscintilla2
 
 # copy libqscintilla2.dll to build directory
 win32 {
-	install_qsci.files = $$[QT_INSTALL_BINS]\qscintilla2.dll
+	install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
 	install_qsci.path = release
 	INSTALLS += install_qsci
 }
