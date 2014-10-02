@@ -33,6 +33,23 @@ module SonicPi
 
 
 
+
+
+
+    def silence(name)
+      raise "could not find #{name} to silence" unless @user_methods.method_defined?(name)
+
+      __info "Silencing #{name}"
+      define(name) do |*args|
+        sleep 1
+      end
+    end
+
+
+
+
+
+
     def after(times, params=nil, &block)
       raise "after must be called with a code block" unless block
 
