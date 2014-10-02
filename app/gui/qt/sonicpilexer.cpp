@@ -101,9 +101,9 @@ QColor QsciLexerRuby::defaultPaper(int style) const
     {
     case Comment:
       //      return QColor(94,94,94);
-      return QColor("white");
+      //return QColor("white");
       //return QColor(202, 225, 255); // lilac
-      //      return QColor(191,239,255); //nice light blue
+            return QColor(191,239,255); //nice light blue
     case Error:
         return QColor(0xff,0x00,0x00);
 
@@ -131,7 +131,7 @@ QColor QsciLexerRuby::defaultPaper(int style) const
     case Stdin:
     case Stdout:
     case Stderr:
-        return QColor(0xff,0x80,0x80);
+        return QColor(0xff,0x80,0xdd);
     }
 
     return QsciLexer::defaultPaper(style);
