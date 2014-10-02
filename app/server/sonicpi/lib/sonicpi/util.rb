@@ -139,6 +139,14 @@ module SonicPi
       false
     end
 
+    def resolve_tilde_path(p)
+      if p.start_with? "~"
+        Dir.home << p[1..-1]
+      else
+        p
+      end
+    end
+
     def resolve_synth_opts_hash_or_array(opts)
       case opts
       when Hash

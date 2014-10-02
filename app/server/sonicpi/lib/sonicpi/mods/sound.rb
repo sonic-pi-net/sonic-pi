@@ -1397,6 +1397,7 @@ set_volume! 2 # Set the main system volume to 2",
            __delayed_message "Loaded sample :#{path}" unless cached
            return info
          when String
+           path = resolve_tilde_path(path)
            if File.exists?(path)
              info, cached = @mod_sound_studio.load_sample(path)
              __delayed_message "Loaded sample #{path.inspect}" unless cached
@@ -2038,6 +2039,7 @@ stop bar"]
 
 
        def load_synthdefs(path)
+         path = resolve_tilde_path(path)
          raise "No directory exists called #{path.inspect} " unless File.exists? path
          @mod_sound_studio.load_synthdefs(path)
          __info "Loaded synthdefs in path #{path}"
