@@ -97,9 +97,11 @@ native support for the git persistence layer. This can be done by
   - copy to QT directory: `nmake install`
 * Run `app\gui\qt\win-build-app.bat`
 * copy C:\Program Files (x86)\Microsoft Visual Studio 2012\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
-* copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` into `app\server\native\windows` (but skip the Qt* DLLs, they're only needed for scide.exe
-* copy `C:\ruby193\bin\ruby.exe` and *.dll into `app\server\native\windows`
-* App will be in `release` dir, or use sonic-pi.bat to startup
+* copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` into `app\server\native\windows` (but skip the Qt* DLLs)
+* copy `C:\ruby193\*` into `app\server\native\windows`
+  - there are some things that can be trimmed, such as docs
+* `Sonic-Pi.exe` will be in `release`, or use `sonic-pi.bat` to startup
+* There is an Advanced Installer config file in `Sonic Pi.aip` for packaging to MSI: http://www.advancedinstaller.com/
 
 ### Unsupported development HTML Interface
 

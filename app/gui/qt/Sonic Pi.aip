@@ -11,8 +11,7 @@
     <ROW Property="ARPURLINFOABOUT" Value="http://www.sonic-pi.net"/>
     <ROW Property="ARPURLUPDATEINFO" Value="http://www.sonic-pi.net"/>
     <ROW Property="CTRLS" Value="2"/>
-    <ROW Property="LIMITUI" MultiBuildValue="DefaultBuild:1"/>
-    <ROW Property="MSIFASTINSTALL" MultiBuildValue="DefaultBuild:7"/>
+    <ROW Property="MSIFASTINSTALL" MultiBuildValue="DefaultBuild:5"/>
     <ROW Property="Manufacturer" Value="Sonic Pi"/>
     <ROW Property="ProductCode" Value="1033:{4CA6080C-48A6-4DB5-9462-43EFFBEE83A4} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
@@ -160,7 +159,7 @@
     <ROW Directory="error_reporter_1_Dir" Directory_Parent="parslet_3_Dir" DefaultDir="ERROR_~1|error_reporter"/>
     <ROW Directory="error_reporter_Dir" Directory_Parent="parslet_2_Dir" DefaultDir="ERROR_~1|error_reporter"/>
     <ROW Directory="escaped_chars_Dir" Directory_Parent="span_Dir" DefaultDir="ESCAPE~1|escaped_chars"/>
-    <ROW Directory="etc_Dir" Directory_Parent="app_Dir" DefaultDir="etc"/>
+    <ROW Directory="etc_Dir" Directory_Parent="APPDIR" DefaultDir="etc"/>
     <ROW Directory="example_Dir" Directory_Parent="parslet_1_Dir" DefaultDir="example"/>
     <ROW Directory="examples_1_Dir" Directory_Parent="oscruby_Dir" DefaultDir="examples"/>
     <ROW Directory="examples_2_Dir" Directory_Parent="thread_safe_Dir" DefaultDir="examples"/>
@@ -5110,7 +5109,7 @@
     <ROW Action="AI_SETMIXINSTLOCATION" Type="1" Source="aicustact.dll" Target="MixedAllUsersInstallLocation"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
-    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AI_UserProgramFiles][Manufacturer]\[ProductName]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AI_UserProgramFiles][ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
