@@ -95,7 +95,7 @@ native support for the git persistence layer. This can be done by
   - generate makefile: `qmake qscintilla.pro`
   - `nmake`
   - copy to QT directory: `nmake install`
-* Run `app\gui\qt\rp-build-windows.bat`
+* Run `app\gui\qt\win-build-app.bat`
 * copy C:\Program Files (x86)\Microsoft Visual Studio 2012\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
 * App will be in `release` dir, or use sonic-pi.bat to startup
 * Running requires ruby.exe in the PATH, and SuperCollider 3.6.6 in C:\Program Files\SuperCollider-3.6.6 or Program Files (x86).
