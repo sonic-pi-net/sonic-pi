@@ -99,7 +99,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
 #if defined(Q_OS_WIN)
   QString prg_path = "ruby.exe";
-  QString native_path = QCoreApplication::applicationDirPath() + "\\..\\..\\..\\server\\native\\windows\\ruby.exe";
+  QString native_path = QCoreApplication::applicationDirPath() + "\\..\\..\\..\\server\\native\\windows\\bin\\ruby.exe";
   std::ifstream testfile(native_path.toUtf8().constData());
   if (testfile) {
     prg_path = native_path;

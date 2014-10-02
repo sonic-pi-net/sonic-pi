@@ -97,8 +97,8 @@ native support for the git persistence layer. This can be done by
   - copy to QT directory: `nmake install`
 * Run `app\gui\qt\win-build-app.bat`
 * copy C:\Program Files (x86)\Microsoft Visual Studio 2012\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
-* copy `C:\Program Files (x86)\SuperCollider-3.6.6\* into `app\server\native\windows`
-* copy `C:\ruby193\bin\ruby.exe` into `app\server\native\windows`
+* copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` into `app\server\native\windows` (but skip the Qt* DLLs, they're only needed for scide.exe
+* copy `C:\ruby193\bin\ruby.exe` and *.dll into `app\server\native\windows`
 * App will be in `release` dir, or use sonic-pi.bat to startup
 
 ### Unsupported development HTML Interface
