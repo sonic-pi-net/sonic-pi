@@ -11,18 +11,12 @@
 # notice is included.
 #++
 
+require 'rugged'
+
 module SonicPi
   class GitSave
 
     def initialize(path)
-      @ruggedPresent = true
-      begin
-        require 'rugged'
-      rescue LoadError
-        @ruggedPresent = false
-        return
-      end
-
       @path = path
       begin
         @repo = Rugged::Repository.new(path + '/.git')
@@ -32,7 +26,6 @@ module SonicPi
     end
 
     def save!(filename, content)
-      return unless @ruggedPresent
       puts "saving: #{filename}"
       oid = @repo.write(content, :blob)
       index = @repo.index
