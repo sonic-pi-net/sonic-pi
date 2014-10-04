@@ -614,12 +614,12 @@ play 50 # Plays note 50 on the current synth",
 
 
        def play_pattern(notes, *args)
-         notes.each{|note| play(note, *args) ; sleep 1 }
+         notes.each{|note| play(note, *args) if note; sleep 1 }
        end
        doc name:          :play_pattern,
            introduced:    Version.new(2,0,0),
            summary:       "Play pattern of notes",
-           doc:           "Play list of notes with the current synth one after another with a sleep of 1
+           doc:           "Play list of notes with the current synth one after another with a sleep of 1. If a note is false a rest will be played.
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
            args:          [[:notes, :list]],
@@ -632,6 +632,16 @@ play_pattern [40, 41, 42] # Same as:
                           #   play 41
                           #   sleep 1
                           #   play 42
+
+",
+"play_pattern [40, 41, false, 42] # Same as:
+                          #   play 40
+                          #   sleep 1
+                          #   play 41
+                          #   sleep 1
+                          #   sleep 1
+                          #   play 42
+
 ",
 "play_pattern [:d3, :c1, :Eb5] # You can use keyword notes",
 
@@ -642,15 +652,15 @@ play_pattern [40, 41, 42] # Same as:
 
        def play_pattern_timed(notes, times, *args)
          if times.is_a? Array
-           notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx % times.size])}
+           notes.each_with_index{|note, idx| play(note, *args) if note ; sleep(times[idx % times.size])}
          else
-           notes.each_with_index{|note, idx| play(note, *args) ; sleep times}
+           notes.each_with_index{|note, idx| play(note, *args) if note ; sleep times}
          end
        end
        doc name:          :play_pattern_timed,
            introduced:    Version.new(2,0,0),
            summary:       "Play pattern of notes with specific times",
-           doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers or symbols such as :E4 - identical to the first parameter of the play function. The times should be a list of times between the notes in seconds.
+           doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers or symbols such as :E4 - identical to the first parameter of the play function. If a note is false a rest will be played. The times should be a list of times between the notes in seconds.
 
 If the list of times is smaller than the number of gaps between notes, the list is repeated again. If the list of times is longer than the number of gaps between notes, then some of the times are ignored. See examples for more detail.
 
