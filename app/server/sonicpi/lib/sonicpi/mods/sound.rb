@@ -13,6 +13,7 @@
 require 'tmpdir'
 require 'fileutils'
 require 'thread'
+require 'open-uri'
 require "hamster/set"
 require "hamster/hash"
 require_relative "../blanknode"
@@ -2485,6 +2486,47 @@ stop bar"]
        def set_current_synth(name)
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_current_synth_name, name)
        end
+
+       def freesound(id)
+         cache_dir = home_dir + '/freesound/'
+         ensure_dir(cache_dir)
+
+         cache_file = cache_dir + id.to_s + ".wav"
+
+         return cache_file if File.exists?(cache_file)
+
+        __info "Caching freesound #{id}..."
+         
+         # API key borrowed from Overtone
+         apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve?api_key=47efd585321048819a2328721507ee23' 
+
+         begin
+           open(apiURL) do |http|
+             File.open(cache_file, "wb") do |file|
+               file.puts http.read
+             end
+           end
+           return cache_file
+         rescue Exception=>e
+           __info "Failed to download freesound #{id}: " + e.message
+           return ''
+         end
+       end
+       doc name:          :freesound,
+           introduced:    Version.new(2,0,1),
+           summary:       "Download sample from freesound.org",
+           doc:           "Download and cache a sample by ID from freesound.org, and return its path for playback via sample",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+sample freesound(250129)  # takes a few seconds the first time, but then the sample is cached locally
+",
+"
+puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'
+"
+]
+
      end
    end
  end
