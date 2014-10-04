@@ -30,12 +30,23 @@ module SonicPi
         end
       end
     end
-
+    doc name:           :live_loop,
+        introduced:     Version.new(2,0,0),
+        summary:        "Run code in a new thread, loop it automatically",
+        args:           [[:name, :symbol]],
+        opts:           {},
+        accepts_block: true,
+        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a cue with the same name each time the block runs.",
+        examples: ["
+live_loop :ping do
+  sample :elec_ping
+  sleep 1
+end
+"]
 
 
     def after(times, params=nil, &block)
       raise "after must be called with a code block" unless block
-
 
       if params
         raise "params needs to be a list-like thing" unless params.respond_to? :map
@@ -53,6 +64,7 @@ module SonicPi
 
       params_size = params.size
 
+      raise "times needs to be a list-like thing" unless times.respond_to? :each_with_index
       times.each_with_index do |t, idx|
         in_thread do
           sleep t
@@ -70,11 +82,30 @@ module SonicPi
         end
       end
     end
-
-
-
-
-
+    doc name:           :after,
+        introduced:     Version.new(2,0,0),
+        summary:        "Run a block at the given intervals",
+        doc:            "Given a list of times, run the block once after waiting each given time, with the next value from the optional params.  Only works for note values and synth params at the moment.  If params is smaller than args, the values will rotate through.",
+        args:           [[:times, :list],
+                         [:params, :list]],
+        opts:           {:params=>nil},
+        accepts_block:  true,
+        examples:       ["
+after [1, 2, 4] do  # plays a note after waiting 1 second,
+  play 75           # then after 1 more second, 
+end                 # then after 2 more seconds (4 seconds total)
+",
+"
+after [1, 2, 3], [75, 76, 77] do |n|  # plays 3 different notes
+  play n
+end
+",
+"
+after [1, 2, 3], 
+    [{:amp=>0.5}, {:amp=> 0.8}] do |p| # alternate soft and loud
+  sample :drum_cymbal_open, p          # cymbal hits three times
+end
+"]
 
     def version
       @version
@@ -374,7 +405,7 @@ end"]
         doc:            "Given two numbers, this produces a whole number between the min and max you supplied inclusively. Both min and max need to be supplied. For random floats, see rrand",
         examples:      [
 "
-print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4.0, 0.0 or 10.0) to the output pane",
+print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4, 0 or 10) to the output pane",
 "
 loop do
   play rrand_i(60, 72) #=> Will play a random midi note between C4 (60) and C5 (72)
@@ -412,10 +443,10 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
         args:           [[:max, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a whole numberfloat between 0 and the supplied max value. With no args returns either 0.0 or 1.0",
+        doc:            "Given a max number, produces a whole numberfloat between 0 and the supplied max value. With no args returns either 0 or 1",
         examples:      [
 "
-print rand_i(10) #=> will print a number like 7.0 to the output pane"]
+print rand_i(10) #=> will print a number like 7 to the output pane"]
 
 
 
