@@ -97,10 +97,15 @@ native support for the git persistence layer. This can be done by
   - copy to QT directory: `nmake install`
 * Run `app\gui\qt\win-build-app.bat`
 * copy C:\Program Files (x86)\Microsoft Visual Studio 2012\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
+* `Sonic-Pi.exe` will be in `release`, or use `sonic-pi.bat` to startup
+
+Packaging:
 * copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` into `app\server\native\windows` (but skip the Qt* DLLs)
 * copy `C:\ruby193\*` into `app\server\native\windows`
   - there are some things that can be trimmed, such as docs
-* `Sonic-Pi.exe` will be in `release`, or use `sonic-pi.bat` to startup
+* download a matching DevKit, add your app\server\native\windows directory to config.yml, and run `ruby dk.rb install`
+* make sure CMake is in your path and run app\server\native\windows\bin\ruby install rugged
+  - if you get a "no Makefiles" error, see https://github.com/jweather/rugged/commit/5fa0cb957ae20faddfa3e3504f122495bbd4e72f
 * There is an Advanced Installer config file in `Sonic Pi.aip` for packaging to MSI: http://www.advancedinstaller.com/
 
 ### Unsupported development HTML Interface
