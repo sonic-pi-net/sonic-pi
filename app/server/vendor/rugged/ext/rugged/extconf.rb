@@ -34,7 +34,7 @@ Dir.chdir(LIBGIT2_DIR) do
   Dir.mkdir("build") if !Dir.exists?("build")
 
   Dir.chdir("build") do
-    sys("cmake .. -DBUILD_CLAR=OFF -DTHREADSAFE=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS=-fPIC -DCMAKE_BUILD_TYPE=RelWithDebInfo")
+    sys("cmake .. -DBUILD_CLAR=OFF -DTHREADSAFE=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS=-fPIC -DCMAKE_BUILD_TYPE=RelWithDebInfo -G \"Unix Makefiles\"")
     sys(MAKE)
 
     pcfile = File.join(LIBGIT2_DIR, "build", "libgit2.pc")
