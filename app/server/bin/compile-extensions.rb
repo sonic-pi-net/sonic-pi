@@ -32,8 +32,14 @@ puts "creating #{native_dir}"
 FileUtils.mkdir_p native_dir
 
 native_ext_dirs = [
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c')]
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged')
+]
+
+# FFI is for native scsynth, not supported on Windows
+if os != :windows then
+  native_ext_dirs.push(File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c'))
+end
+
 
 
 native_ext_dirs.each do |ext_dir|
@@ -53,7 +59,7 @@ libs = []
   when :osx
     libs = Dir[ext_dir + '/*.{bundle}']
   when :windows
-    libs = Dir[ext_dir + '/*.{dll}']
+    libs = Dir[ext_dir + '/*.{so}']
   end
 
   libs.each do |f|

@@ -139,6 +139,7 @@ module SonicPi
         osx_scsynth_path
       when :windows
         potential_paths = [
+          "#{native_path}/scsynth.exe",
           "C:/Program Files (x86)/SuperCollider-3.6.6/scsynth.exe",
           "C:/Program Files/SuperCollider-3.6.6/scsynth.exe"]
         path = potential_paths.find {|path| File.exists? path }

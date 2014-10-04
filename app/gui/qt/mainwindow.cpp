@@ -15,6 +15,7 @@
 #include <iostream>
 #include <math.h>
 #include <sstream>
+#include <fstream>
 
 // Qt stuff
 #include <QDir>
@@ -98,6 +99,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
 #if defined(Q_OS_WIN)
   QString prg_path = "ruby.exe";
+  QString native_path = QCoreApplication::applicationDirPath() + "\\..\\..\\..\\server\\native\\windows\\bin\\ruby.exe";
+  std::ifstream testfile(native_path.toUtf8().constData());
+  if (testfile) {
+    prg_path = native_path;
+    testfile.close();
+  }
+
   QString prg_arg = QCoreApplication::applicationDirPath() + "/../../../server/bin/sonic-pi-server.rb";
 #elif defined(Q_OS_MAC)
   QString prg_path = QCoreApplication::applicationDirPath() + "/../../server/native/osx/ruby/bin/ruby";

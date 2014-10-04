@@ -95,10 +95,19 @@ native support for the git persistence layer. This can be done by
   - generate makefile: `qmake qscintilla.pro`
   - `nmake`
   - copy to QT directory: `nmake install`
-* Run `app\gui\qt\rp-build-windows.bat`
+* Run `app\gui\qt\win-build-app.bat`
 * copy C:\Program Files (x86)\Microsoft Visual Studio 2012\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
-* App will be in `release` dir, or use sonic-pi.bat to startup
-* Running requires ruby.exe in the PATH, and SuperCollider 3.6.6 in C:\Program Files\SuperCollider-3.6.6 or Program Files (x86).
+* `Sonic-Pi.exe` will be in `release`, or use `sonic-pi.bat` to startup
+
+Packaging:
+* copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` into `app\server\native\windows` (but skip the Qt* DLLs)
+* copy `C:\ruby193\*` into `app\server\native\windows`
+  - there are some things that can be trimmed, such as docs
+* download a matching DevKit from http://rubyinstaller.org/downloads/
+* make sure CMake, DevKit\bin, and DevKit\mingw\bin are in your path (DevKit doesn't do this automatically since it's not a gem install)
+* Compile native extensions: `ruby app/server/bin/compile-extensions.rb`
+  - if you get a "no Makefiles" error for rugged, you may need to patch app\server\vendor\rugged\ext\rugged\extconf.rb, see https://github.com/jweather/rugged/commit/5fa0cb957ae20faddfa3e3504f122495bbd4e72f
+* There is an Advanced Installer config file in `Sonic Pi.aip` for packaging to MSI: http://www.advancedinstaller.com/
 
 ### Unsupported development HTML Interface
 
