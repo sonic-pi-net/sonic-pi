@@ -13,7 +13,7 @@
 require 'tmpdir'
 require 'fileutils'
 require 'thread'
-require 'open-uri'
+require 'net/http'
 require "hamster/set"
 require "hamster/hash"
 require_relative "../blanknode"
@@ -1522,6 +1522,7 @@ end "]
 
 
        def sample(path, *args_a_or_h)
+         return if path == nil
          ensure_good_timing!
          buf_info = load_sample(path)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
@@ -2504,38 +2505,49 @@ stop bar"]
 
          return cache_file if File.exists?(cache_file)
 
-        __info "Caching freesound #{id}..."
-         
-         # API key borrowed from Overtone
-         apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve?api_key=47efd585321048819a2328721507ee23' 
+         __info "Caching freesound #{id}..."
 
-         begin
-           open(apiURL) do |http|
-             File.open(cache_file, "wb") do |file|
-               file.puts http.read
+         in_thread(name: "__freesound_#{id}".to_sym) do
+           # API key borrowed from Overtone
+           apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23' 
+
+           resp = Net::HTTP.get_response(URI(apiURL))
+           case resp
+           when Net::HTTPSuccess then
+             if not resp['Content-Disposition'] =~ /\.wav\"$/ then
+               raise 'Only WAV freesounds are supported, sorry!'
              end
+
+             open(cache_file, 'wb') do |file|
+               file.write(resp.body)
+             end
+             __info "Freesound #{id} loaded and ready to fire!"
+           else
+             __info "Failed to download freesound #{id}: " + resp.value
            end
-           return cache_file
-         rescue Exception=>e
-           __info "Failed to download freesound #{id}: " + e.message
-           return ''
          end
+         return nil # nothing to do until it's loaded
        end
        doc name:          :freesound,
            introduced:    Version.new(2,0,1),
            summary:       "Download sample from freesound.org",
-           doc:           "Download and cache a sample by ID from freesound.org, and return its path for playback via sample",
+           doc:           "Download and cache a sample by ID from freesound.org, and return its path for playback via sample.  Only WAV samples are supported!",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-sample freesound(250129)  # takes a few seconds the first time, but then the sample is cached locally
+sample freesound(250129)  # takes time to download the first time, but then the sample is cached locally
 ",
 "
 puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'
+",
+"
+loop do
+  sample freesound(27130)
+  sleep sample_duration(freesound(27130))
+end
 "
 ]
-
      end
    end
  end
