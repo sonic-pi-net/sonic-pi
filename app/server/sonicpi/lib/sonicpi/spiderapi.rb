@@ -323,6 +323,24 @@ end"]
 
 
 
+    def vt
+      __current_local_run_time
+    end
+    doc name:           :vt,
+        introduced:     Version.new(2,1,0),
+        summary:        "Get virtual time",
+        args:           [[]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:           "Get the virtual time of the current thread.",
+        examples:      [
+"puts vt # prints 0
+ sleep 1
+ puts vt # prints 1"]
+
+
+
+
     def dice(num_sides=6)
       rrand_i(1, num_sides)
     end
