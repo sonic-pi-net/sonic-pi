@@ -31,7 +31,7 @@ module SonicPi
       end
     end
     doc name:           :live_loop,
-        introduced:     Version.new(2,0,0),
+        introduced:     Version.new(2,1,0),
         summary:        "Run code in a new thread, loop it automatically",
         args:           [[:name, :symbol]],
         opts:           {},
@@ -83,7 +83,7 @@ end
       end
     end
     doc name:           :after,
-        introduced:     Version.new(2,0,0),
+        introduced:     Version.new(2,1,0),
         summary:        "Run a block at the given intervals",
         doc:            "Given a list of times, run the block once after waiting each given time, with the next value from the optional params.  Only works for note values and synth params at the moment.  If params is smaller than args, the values will rotate through.",
         args:           [[:times, :list],
