@@ -17,6 +17,10 @@
 #
 #-------------------------------------------------
 
+LIBS += -L /Users/josephwilk/Workspace/c++/QScintilla-gpl-2.8.4-snapshot-e4e3562b54cb/Qt4Qt5 -lqscintilla2
+INCLUDEPATH += /Users/josephwilk/Workspace/c++/QScintilla-gpl-2.8.4-snapshot-e4e3562b54cb/Qt4Qt5/
+DEPENDPATH += /Users/josephwilk/Workspace/c++/QScintilla-gpl-2.8.4-snapshot-e4e3562b54cb/Qt4Qt5/
+
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -26,12 +30,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
            mainwindow.cpp \
-           sonicpilexer.cpp
+           sonicpilexer.cpp \
+    openglwindow.cpp
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
             udp.hh \
-            sonicpilexer.h
+            sonicpilexer.h \
+    openglwindow.h
 
 OTHER_FILES += \
     images/copy.png \

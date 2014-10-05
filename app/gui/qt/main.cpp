@@ -25,21 +25,21 @@ int main(int argc, char *argv[])
 
   QApplication app(argc, argv);
   app.setApplicationName("Sonic Pi");
-  app.setStyle("gtk");
-  app.setAttribute( Qt::AA_UseHighDpiPixmaps );
+  //app.setStyle("gtk");
+  //app.setAttribute( Qt::AA_UseHighDpiPixmaps );
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
   splashWindow->setAttribute( Qt::WA_TranslucentBackground);
   QPixmap image(":/images/splash@2x.png");
   imageLabel->setPixmap(image);
-  splashWindow->setCentralWidget(imageLabel);
-  splashWindow->setMinimumHeight(image.height()/2);
-  splashWindow->setMaximumHeight(image.height()/2);
-  splashWindow->setMinimumWidth(image.width()/2);
-  splashWindow->setMaximumWidth(image.width()/2);
+//  splashWindow->setCentralWidget(imageLabel);
+//  splashWindow->setMinimumHeight(image.height()/2);
+//  splashWindow->setMaximumHeight(image.height()/2);
+//  splashWindow->setMinimumWidth(image.width()/2);
+//  splashWindow->setMaximumWidth(image.width()/2);
 
-  splashWindow->raise();
-  splashWindow->show();
+//  splashWindow->raise();
+//  splashWindow->show();
 
   MainWindow mainWin(app, splashWindow);
   return app.exec();
@@ -49,12 +49,12 @@ int main(int argc, char *argv[])
   Q_INIT_RESOURCE(SonicPi);
   QApplication app(argc, argv);
   app.setApplicationName("Sonic Pi");
-  app.setStyle("gtk");
-  QPixmap pixmap(":/images/splash.png");
-  QSplashScreen splash(pixmap);
-  splash.setMask(pixmap.mask());
-  splash.show();
-  splash.repaint();
+  //app.setStyle("gtk");
+  //QPixmap pixmap(":/images/splash.png");
+  //QSplashScreen splash(pixmap);
+  //splash.setMask(pixmap.mask());
+  //splash.show();
+  //splash.repaint();
   MainWindow mainWin(app, splash);
   return app.exec();
 

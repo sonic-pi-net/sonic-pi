@@ -83,7 +83,11 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
 #else
 MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 #endif
-  this->setUnifiedTitleAndToolBarOnMac(true);
+  //this->setUnifiedTitleAndToolBarOnMac(true);
+
+  setAttribute(Qt::WA_TranslucentBackground);
+  setStyleSheet("background:transparent;");
+  //setWindowFlags(Qt::FramelessWindowHint);
 
   is_recording = false;
   server_started = false;
@@ -145,11 +149,25 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   tabs->setTabsClosable(false);
   tabs->setMovable(false);
   tabs->setTabPosition(QTabWidget::South);
+
+  tabs->setAttribute(Qt::WA_TranslucentBackground);
+  tabs->setStyleSheet("background:transparent;");
+
   // create workspaces and add them to the tabs
   for(int ws = 0; ws < workspace_max; ws++) {
 	  std::string s;
 
-	  workspaces[ws] = new QsciScintilla;
+      workspaces[ws] = new QsciScintilla;
+
+
+      workspaces[ws]->setSelectionBackgroundColor(QColor(0, 0, 255, 0));
+
+      workspaces[ws]->setWindowOpacity(0.0);
+
+      workspaces[ws]->setAttribute(Qt::WA_TranslucentBackground);
+      workspaces[ws]->setStyleSheet("background:transparent;");
+      //workspaces[ws]->setWindowFlags(Qt::FramelessWindowHint);
+
 	  QString w = QString("Workspace %1").arg(QString::number(ws + 1));
 	  tabs->addTab(workspaces[ws], w);
   }
@@ -175,19 +193,19 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
 
-  outputPane->setReadOnly(true);
-  errorPane->setReadOnly(true);
-  outputPane->setLineWrapMode(QTextEdit::NoWrap);
+  outputPane->setReadOnly(false);
+  errorPane->setReadOnly(false);
+  //outputPane->setLineWrapMode(QTextEdit::NoWrap);
 #if defined(Q_OS_WIN)
-  outputPane->setFontFamily("Courier New");
+  //outputPane->setFontFamily("Courier New");
 #elif defined(Q_OS_MAC)
-  outputPane->setFontFamily("Menlo");
+  //outputPane->setFontFamily("Menlo");
 #else
   outputPane->setFontFamily("Bitstream Vera Sans Mono");
 #endif
 
-  outputPane->document()->setMaximumBlockCount(1000);
-  errorPane->document()->setMaximumBlockCount(1000);
+  //outputPane->document()->setMaximumBlockCount(1000);
+  //errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
   errorPane->zoomIn(1);
@@ -217,7 +235,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   tutorialDocPane = new QTextEdit;
   tutorialDocPane->setReadOnly(true);
-  QString style = "QTextEdit { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
+  QString style = "QTextEdit { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:transparent;}";
   tutorialDocPane->setStyleSheet(style);
   tutorialDocPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
 
@@ -247,14 +265,22 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QVBoxLayout *mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
   mainWidgetLayout->addWidget(errorPane);
+
+
   QWidget *mainWidget = new QWidget;
+
+
+
   errorPane->hide();
   mainWidget->setLayout(mainWidgetLayout);
   setCentralWidget(mainWidget);
 
+  mainWidget->setAttribute(Qt::WA_TranslucentBackground);
+  mainWidget->setStyleSheet("background:transparent;");
+
   // initialise workspaces
   for(int ws = 0; ws < workspace_max; ws++) {
-	  initWorkspace(workspaces[ws]);
+      initWorkspace(workspaces[ws]);
   }
 
   createActions();
@@ -475,37 +501,58 @@ void MainWindow::initPrefsWindow() {
 }
 
 void MainWindow::initWorkspace(QsciScintilla* ws) {
+
+
+
+
+
   ws->setAutoIndent(true);
   ws->setIndentationsUseTabs(false);
   ws->setBackspaceUnindents(true);
   ws->setTabIndents(true);
-  ws->setMatchedBraceBackgroundColor(QColor("dimgray"));
-  ws->setMatchedBraceForegroundColor(QColor("white"));
+  ws->setMatchedBraceBackgroundColor(QColor(128, 1, 0, 0));
+  ws->setMatchedBraceForegroundColor(QColor(128, 1, 0, 0));
 
   ws->setIndentationWidth(2);
   ws->setIndentationGuides(true);
-  ws->setIndentationGuidesForegroundColor(QColor("deep pink"));
+  ws->setIndentationGuidesForegroundColor(QColor(128, 1, 0, 0));
   ws->setBraceMatching( QsciScintilla::SloppyBraceMatch);
-  //TODO: add preference toggle for this:
-  //ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
+  //    TODO: add preference toggle for this:
+  ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
   ws->setCaretLineVisible(true);
-  ws->setCaretLineBackgroundColor(QColor("whitesmoke"));
-  ws->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
+  //ws->setCaretLineBackgroundColor(QColor("whitesmoke"));
+  //ws->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
   ws->setMarginLineNumbers(0, true);
   ws->setMarginWidth(0, "1000000");
-  ws->setMarginsBackgroundColor(QColor("whitesmoke"));
-  ws->setMarginsForegroundColor(QColor("dark gray"));
+  ws->setMarginsBackgroundColor(QColor(128, 1, 0, 0));
+  ws->setMarginsForegroundColor(QColor(128, 1, 0, 0));
   ws->setMarginsFont(QFont("Menlo",5, -1, true));
   ws->setUtf8(true);
   ws->setText("#loading...");
+
+    lexer->setDefaultColor(QColor(128, 1, 0, 0));
+//    lexer->setColor(QColor(128, 128, 255, 255));
+//    lexer->setPaper(QColor(128, 128, 128, 255), -1);
+//   lexer->setStyle
+
+  ws->setHotspotBackgroundColor(QColor(128, 1, 0, 0));
+  ws->setHotspotForegroundColor(QColor(128, 1, 0, 0));
+  ws->setWhitespaceBackgroundColor(QColor(128, 1, 0, 0));
+
   ws->setLexer(lexer);
   ws->zoomIn(13);
   ws->setAutoCompletionThreshold(5);
   ws->setAutoCompletionSource(QsciScintilla::AcsAPIs);
-  ws->setSelectionBackgroundColor("DeepPink");
-  ws->setSelectionForegroundColor("white");
+ // ws->setSelectionBackgroundColor("DeepPink");
+  //ws->setSelectionForegroundColor("white");
   ws->setCaretWidth(5);
-  ws->setCaretForegroundColor("deep pink");
+  //ws->setCaretForegroundColor("deep pink");
+
+
+
+  ws->setAttribute(Qt::WA_TranslucentBackground);
+  ws->setStyleSheet("background:transparent !important;");
+    //ws->setWindowFlags(Qt::FramelessWindowHint);
 
 }
 
@@ -604,15 +651,15 @@ void MainWindow::startOSCListener() {
                   break;
                 case 4:
                   QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-                  QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
+                  //QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
                   break;
                 case 5:
                   QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-                  QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
+                  //QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
                   break;
                 case 6:
                   QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-                  QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
+                  //QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
                   break;
                 default:
                   QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));
@@ -624,7 +671,7 @@ void MainWindow::startOSCListener() {
                                          Q_ARG(QString, QString::fromStdString(ss.str())) );
 
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-              QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
+              //QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("black")));
 
 
 
@@ -639,7 +686,7 @@ void MainWindow::startOSCListener() {
               // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
 
               QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-              QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
+             QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
 
               QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
                                          Q_ARG(QString, QString::fromStdString("=> " + s + "\n")) );
@@ -704,6 +751,10 @@ void MainWindow::startOSCListener() {
 
 void MainWindow::replaceBuffer(QString id, QString content) {
   QsciScintilla* ws = filenameToWorkspace(id.toStdString());
+
+  ws->setAttribute(Qt::WA_TranslucentBackground);
+  ws->setStyleSheet("background: transparent;");
+
   int line;
   int index;
   QString line_content;
@@ -1188,6 +1239,10 @@ void MainWindow::createToolBar()
   toolBar->addAction(infoAct);
   toolBar->addAction(helpAct);
   toolBar->addAction(prefsAct);
+
+  toolBar->setAttribute(Qt::WA_TranslucentBackground);
+  toolBar->setStyleSheet("background:transparent;");
+
 
 }
 
