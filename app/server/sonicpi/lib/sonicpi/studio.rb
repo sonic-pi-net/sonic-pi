@@ -82,6 +82,28 @@ module SonicPi
       @server.node_ctl @mixer, {"amp" => vol}
     end
 
+    def mixer_invert_stereo(invert)
+      # invert should be true or false
+      invert_i = invert ? 1 : 0
+      @server.node_ctl @mixer, {"invert_stereo" => invert_i}
+    end
+
+    def mixer_hpf_enable(freq)
+      @server.node_ctl @mixer, {"hpf_pass_thru" => 0, "hpf_freq" => freq}
+    end
+
+    def mixer_lpf_enable(freq)
+      @server.node_ctl @mixer, {"lpf_pass_thru" => 0, "lpf_freq" => freq}
+    end
+
+    def mixer_lpf_disable
+      @server.node_ctl @mixer, {"lpf_pass_thru" => 1}
+    end
+
+    def mixer_hpf_disable
+      @server.node_ctl @mixer, {"hpf_pass_thru" => 1}
+    end
+
     def status
       @server.status
     end
