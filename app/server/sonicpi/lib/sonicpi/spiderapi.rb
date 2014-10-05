@@ -47,20 +47,8 @@ end
 
     def after(times, params=nil, &block)
       raise "after must be called with a code block" unless block
-
-      if params
-        raise "params needs to be a list-like thing" unless params.respond_to? :map
-        params = params.map do |p|
-          case p
-          when Hash, Array, NilClass
-            resolve_synth_opts_hash_or_array(p)
-          else
-            {note: note(p)}
-          end
-        end
-      else
-        params = []
-      end
+      params ||= []
+      raise "params needs to be a list-like thing" unless params.respond_to? :[]
 
       params_size = params.size
 
@@ -73,11 +61,13 @@ end
             block.call
           when 1
             if params_size == 0
-              block.call({})
+              block.call(nil)
             else
               p = params[idx % params_size]
               block.call(p)
             end
+          else
+            raise "block for after should only accept 0 or 1 parameters. You gave: #{block.arity}."
           end
         end
       end
@@ -85,7 +75,7 @@ end
     doc name:           :after,
         introduced:     Version.new(2,1,0),
         summary:        "Run a block at the given intervals",
-        doc:            "Given a list of times, run the block once after waiting each given time, with the next value from the optional params.  Only works for note values and synth params at the moment.  If params is smaller than args, the values will rotate through.",
+        doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If params is smaller than args, the values will rotate through.",
         args:           [[:times, :list],
                          [:params, :list]],
         opts:           {:params=>nil},
