@@ -3,7 +3,7 @@ use_bpm 100
 
 with_fx :reverb do
   in_thread do
-    with_fx [:echo].choose, room: 0.8, decay: 8, phase: 1, mix: 0.4 do
+    with_fx :echo, room: 0.8, decay: 8, phase: 1, mix: 0.4 do
       loop do
 
         n = [:e2, :e2, :a3].choose
@@ -31,7 +31,7 @@ with_fx :reverb do
   end
 
 
-  with_fx [:echo].choose, room: 0.8, decay: 8, phase: 0.25, mix: 0.4 do
+  with_fx :echo, room: 0.8, decay: 8, phase: 0.25, mix: 0.4 do
     loop do
       sample :drum_heavy_kick, amp: 0.5
       sample :elec_plip, rate: [0.5, 2, 1, 4].choose * [1, 2, 3, 10].choose, amp: 0.6
