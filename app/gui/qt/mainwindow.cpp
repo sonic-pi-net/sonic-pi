@@ -52,6 +52,7 @@
 #include <QRadioButton>
 #include <QCheckBox>
 #include <QScrollArea>
+#include <QShortcut>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -1048,119 +1049,96 @@ void MainWindow::clearOutputPanels()
     errorPane->clear();
 }
 
+// Cmd on Mac, Alt everywhere else
+QKeySequence MainWindow::cmdAltKey(char key)
+{
+#ifdef Q_OS_MAC
+  return QKeySequence(QString("ctrl+%1").arg(key));
+#else
+  return QKeySequence(QString("alt+%1").arg(key));
+#endif
+}
+
+// alt-key on PC, Cmd-key on Mac
+void MainWindow::setShortcutKey(QAction *action, char key, QString tooltip)
+{
+  QString shortcut, tooltipKey;
+#ifdef Q_OS_MAC
+  tooltip = QString("%1 (⌘%2)").arg(tooltip).arg(key);
+#else
+  tooltipKey = QString("%1 (alt-%2)").arg(tooltip).arg(key);
+#endif
+
+  action->setShortcut(cmdAltKey(key));
+  action->setToolTip(tooltipKey);
+  action->setStatusTip(tooltip);
+}
+
 void MainWindow::createActions()
 {
 
   // Run
-  runAct = new QAction(QIcon(":/images/run.png"), tr("&Run"), this);
-#ifdef Q_OS_MAC
-  runAct->setShortcut(tr("ctrl+R"));
-  runAct->setToolTip(tr("Run the code in the current workspace (⌘R)"));
-#else
-  runAct->setShortcut(tr("alt+R"));
-  runAct->setToolTip(tr("Run the code in the current workspace (alt-R)"));
-#endif
-  runAct->setStatusTip(tr("Run the code in the current workspace"));
+  runAct = new QAction(QIcon(":/images/run.png"), tr("Run"), this);
+  setShortcutKey(runAct, 'R', tr("Run the code in the current workspace"));
   connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
 
   // Stop
-  stopAct = new QAction(QIcon(":/images/stop.png"), tr("&Stop"), this);
-#ifdef Q_OS_MAC
-  stopAct->setShortcut(tr("ctrl+S"));
-  stopAct->setToolTip(tr("Stop all running code (⌘S)"));
-#else
-  stopAct->setShortcut(tr("alt+S"));
-  stopAct->setToolTip(tr("Stop all running code (alt-S)"));
-#endif
-  stopAct->setStatusTip(tr("Stop all running code"));
+  stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);
+  setShortcutKey(stopAct, 'S', tr("Stop all running code"));
   connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
 
   // Save
-  saveAsAct = new QAction(QIcon(":/images/save.png"), tr("&Save &As..."), this);
+  saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
   saveAsAct->setToolTip(tr("Export current workspace"));
   saveAsAct->setStatusTip(tr("Export current workspace"));
   connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
   // Info
-  infoAct = new QAction(QIcon(":/images/info.png"), tr("&Info"), this);
+  infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
   infoAct->setToolTip(tr("See information about Sonic Pi"));
   infoAct->setStatusTip(tr("See information about Sonic Pi"));
   connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
 
   // Help
-  helpAct = new QAction(QIcon(":/images/help.png"), tr("&Help"), this);
-#ifdef Q_OS_MAC
-  helpAct->setShortcut(tr("ctrl+I"));
-  helpAct->setToolTip(tr("Toggle help pane (⌘I)"));
-#else
-  helpAct->setShortcut(tr("alt+I"));
-  helpAct->setToolTip(tr("Toggle help pane (alt-I)"));
-#endif
-  helpAct->setStatusTip(tr("Toggle help pane"));
+  helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
+  setShortcutKey(helpAct, 'I', tr("Toggle help pane"));
   connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
 
   // Preferences
-  prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("&Prefs"), this);
+  prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
   prefsAct->setToolTip(tr("Toggle preferences pane"));
   prefsAct->setStatusTip(tr("Toggle preferences pane"));
   connect(prefsAct, SIGNAL(triggered()), this, SLOT(showPrefsPane()));
 
   // Record
-  recAct = new QAction(QIcon(":/images/rec.png"), tr("&Start &Recording"), this);
+  recAct = new QAction(QIcon(":/images/rec.png"), tr("Start Recording"), this);
   recAct->setToolTip(tr("Start Recording"));
   recAct->setStatusTip(tr("Start Recording"));
   connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
   // Align
-  textAlignAct = new QAction(QIcon(":/images/align.png"), tr("&Auto &Align &Text"), this);
-#ifdef Q_OS_MAC
-  textAlignAct->setShortcut(tr("ctrl+M"));
-  textAlignAct->setToolTip(tr("Auto-align text (⌘M)"));
-#else
-  textAlignAct->setShortcut(tr("alt+M"));
-  textAlignAct->setToolTip(tr("Auto-align text (alt-M)"));
-#endif
-  textAlignAct->setStatusTip(tr("Auto-align text"));
+  textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Auto Align Text"), this);
+  setShortcutKey(textAlignAct, 'M', tr("Auto-align text"));
   connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
 
   // Font Size Increase
-  textIncAct1 = new QAction(QIcon(":/images/size_up.png"), tr("&Increase &Text &Size"), this);
-  textIncAct2 = new QAction(this);
-  textIncAct1->setStatusTip(tr("Make text bigger"));
-#ifdef Q_OS_MAC
-  textIncAct1->setShortcut(tr("ctrl++"));
-  textIncAct2->setShortcut(tr("ctrl+="));
-  textIncAct1->setToolTip(tr("Make text bigger (⌘+)"));
-#else
-  textIncAct1->setShortcut(tr("alt++"));
-  textIncAct2->setShortcut(tr("alt+="));
-  textIncAct1->setToolTip(tr("Make text bigger (alt+)"));
-#endif
-  textIncAct1->setStatusTip(tr("Make text bigger (alt+)"));
+  textIncAct1 = new QAction(QIcon(":/images/size_up.png"), tr("Increase Text Size"), this);
+  setShortcutKey(textIncAct1, '+', tr("Make text bigger"));
+  textIncKey2 = new QShortcut(cmdAltKey('='), this,
+			      SLOT(zoomFontIn()));
   connect(textIncAct1, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
-  connect(textIncAct2, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
 
   // Font Size Decrease
-  textDecAct1 = new QAction(QIcon(":/images/size_down.png"), tr("&Decrease &Text &Size"), this);
-  textDecAct2 = new QAction(this);
-#ifdef Q_OS_MAC
-  textDecAct1->setShortcut(tr("ctrl+-"));
-  textDecAct2->setShortcut(tr("ctrl+_"));
-  textDecAct1->setToolTip(tr("Make text smaller (⌘-)"));
-#else
-  textDecAct1->setShortcut(tr("alt+-"));
-  textDecAct2->setShortcut(tr("alt+_"));
-  textDecAct1->setToolTip(tr("Make text smaller (alt-)"));
-#endif
-  textDecAct1->setStatusTip(tr("Make text smaller (alt-)"));
+  textDecAct1 = new QAction(QIcon(":/images/size_down.png"), tr("Decrease Text Size"), this);
+  setShortcutKey(textDecAct1, '-', tr("Make text smaller"));
+  textDecKey2 = new QShortcut(cmdAltKey('_'), this,
+			      SLOT(zoomFontOut()));
   connect(textDecAct1, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
-  connect(textDecAct2, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
-  addAction(textDecAct2);
 
-  QAction *reloadAct = new QAction(this);
-  reloadAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_U));
-  connect(reloadAct, SIGNAL(triggered()), this, SLOT(reloadServerCode()));
-  addAction(reloadAct);
+  reloadKey = new QShortcut(cmdAltKey('U'), this, SLOT(reloadServerCode()));
+
+  tabPrevKey = new QShortcut(cmdAltKey('['), this, SLOT(tabPrev()));
+  tabNextKey = new QShortcut(cmdAltKey(']'), this, SLOT(tabNext()));
 }
 
 void MainWindow::createToolBar()
@@ -1179,8 +1157,6 @@ void MainWindow::createToolBar()
   toolBar->addAction(recAct);
   toolBar->addWidget(spacer);
 
-  toolBar->addAction(textDecAct2);
-  toolBar->addAction(textIncAct2);
   toolBar->addAction(textDecAct1);
   toolBar->addAction(textIncAct1);
   toolBar->addAction(textAlignAct);
@@ -1378,5 +1354,24 @@ QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
 	docsCentral->addTab(tabWidget, name);
 	return nameList;
 }
+
+void MainWindow::tabNext() {
+  int index = tabs->currentIndex();
+  if (index == tabs->count()-1)
+    index = 0;
+  else
+    index++;
+  QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+}
+
+void MainWindow::tabPrev() {
+  int index = tabs->currentIndex();
+  if (index == 0)
+    index = tabs->count() - 1;
+  else
+    index--;
+  QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+}
+   
 
 #include "ruby_help.h"

@@ -89,6 +89,8 @@ private slots:
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void replaceBuffer(QString id, QString content);
+    void tabNext();
+    void tabPrev();
 
 private:
 
@@ -114,6 +116,8 @@ private:
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QTextEdit *docPane, QString name);
+    QKeySequence cmdAltKey(char key);
+    void setShortcutKey(QAction *action, char key, QString tooltip);
 
     QFuture<void> osc_thread;
 
@@ -162,15 +166,19 @@ private:
     QAction *helpAct;
     QAction *textAlignAct;
     QAction *textIncAct1;
-    QAction *textIncAct2;
     QAction *textDecAct1;
-    QAction *textDecAct2;
 
     QAction *saveAsAct;
     QAction *exitAct;
     QAction *cutAct;
     QAction *copyAct;
     QAction *pasteAct;
+
+    QShortcut *tabNextKey;
+    QShortcut *tabPrevKey;
+    QShortcut *textIncKey2;
+    QShortcut *textDecKey2;
+    QShortcut *reloadKey;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *print_output;
