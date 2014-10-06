@@ -201,12 +201,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   prefsWidget->setWidget(prefsCentral);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
   prefsWidget->hide();
+  prefsWidget->setObjectName("prefs");
 
   outputWidget = new QDockWidget(tr("Log"), this);
   outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
+  outputWidget->setObjectName("output");
 
   docsCentral = new QTabWidget;
   docsCentral->setTabsClosable(false);
@@ -215,6 +217,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   docWidget = new QDockWidget("Help", this);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
   docWidget->setWidget(docsCentral);
+  docWidget->setObjectName("help");
 
   tutorialDocPane = new QTextEdit;
   tutorialDocPane->setReadOnly(true);
@@ -500,7 +503,6 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setUtf8(true);
   ws->setText("#loading...");
   ws->setLexer(lexer);
-  ws->zoomIn(13);
   ws->setAutoCompletionThreshold(5);
   ws->setAutoCompletionSource(QsciScintilla::AcsAPIs);
   ws->setSelectionBackgroundColor("DeepPink");
@@ -1022,13 +1024,31 @@ void MainWindow::showPrefsPane()
 
 void MainWindow::zoomFontIn()
 {
-  ((QsciScintilla*)tabs->currentWidget())->zoomIn(1);
+  QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
+  int zoom = ws->property("zoom").toInt();
+  zoom++;
+  ws->setProperty("zoom", QVariant(zoom));
+  ws->zoomTo(zoom);
 }
 
 void MainWindow::zoomFontOut()
 {
-  ((QsciScintilla*)tabs->currentWidget())->zoomOut(1);
+  QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
+  int zoom = ws->property("zoom").toInt();
+  zoom--;
+  ws->setProperty("zoom", QVariant(zoom));
+  ws->zoomTo(zoom);
 }
+
+void MainWindow::wheelEvent(QWheelEvent *event) {
+  if (event->modifiers() & Qt::ControlModifier) {
+    if (event->angleDelta().y() > 0)
+      zoomFontIn();
+    else
+      zoomFontOut();
+  }
+}
+
 
 
 void MainWindow::documentWasModified()
@@ -1059,19 +1079,29 @@ QKeySequence MainWindow::cmdAltKey(char key)
 #endif
 }
 
-// alt-key on PC, Cmd-key on Mac
-void MainWindow::setShortcutKey(QAction *action, char key, QString tooltip)
+// set tooltips, connect event handlers, and add shortcut if applicable
+void MainWindow::setupAction(QAction *action, char key, QString tooltip,
+				 const char *slot)
 {
   QString shortcut, tooltipKey;
+  tooltipKey = tooltip;
+  if (key != 0) {
 #ifdef Q_OS_MAC
-  tooltip = QString("%1 (⌘%2)").arg(tooltip).arg(key);
+    tooltipKey = QString("%1 (⌘%2)").arg(tooltip).arg(key);
 #else
-  tooltipKey = QString("%1 (alt-%2)").arg(tooltip).arg(key);
+    tooltipKey = QString("%1 (alt-%2)").arg(tooltip).arg(key);
 #endif
+  }
 
-  action->setShortcut(cmdAltKey(key));
   action->setToolTip(tooltipKey);
   action->setStatusTip(tooltip);
+  connect(action, SIGNAL(triggered()), this, slot);
+
+  if (key != 0) {
+    // create a QShortcut instead of setting the QAction's shortcut
+    // so it will still be active with the toolbar hidden
+    new QShortcut(cmdAltKey(key), this, slot);
+  }
 }
 
 void MainWindow::createActions()
@@ -1079,61 +1109,53 @@ void MainWindow::createActions()
 
   // Run
   runAct = new QAction(QIcon(":/images/run.png"), tr("Run"), this);
-  setShortcutKey(runAct, 'R', tr("Run the code in the current workspace"));
-  connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
+  setupAction(runAct, 'R', tr("Run the code in the current workspace"),
+		 SLOT(runCode()));
 
   // Stop
   stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);
-  setShortcutKey(stopAct, 'S', tr("Stop all running code"));
-  connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
+  setupAction(stopAct, 'S', tr("Stop all running code"), SLOT(stopCode()));
 
   // Save
   saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
-  saveAsAct->setToolTip(tr("Export current workspace"));
-  saveAsAct->setStatusTip(tr("Export current workspace"));
-  connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
+  setupAction(saveAsAct, 0, tr("Export current workspace"), SLOT(saveAs()));
 
   // Info
   infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
-  infoAct->setToolTip(tr("See information about Sonic Pi"));
-  infoAct->setStatusTip(tr("See information about Sonic Pi"));
-  connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
+  setupAction(infoAct, 0, tr("See information about Sonic Pi"), 
+		 SLOT(about()));
 
   // Help
   helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
-  setShortcutKey(helpAct, 'I', tr("Toggle help pane"));
-  connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
+  setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
 
   // Preferences
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
-  prefsAct->setToolTip(tr("Toggle preferences pane"));
-  prefsAct->setStatusTip(tr("Toggle preferences pane"));
-  connect(prefsAct, SIGNAL(triggered()), this, SLOT(showPrefsPane()));
+  setupAction(prefsAct, 0, tr("Toggle preferences pane"), 
+	      SLOT(showPrefsPane()));
 
   // Record
   recAct = new QAction(QIcon(":/images/rec.png"), tr("Start Recording"), this);
-  recAct->setToolTip(tr("Start Recording"));
-  recAct->setStatusTip(tr("Start Recording"));
-  connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
+  setupAction(recAct, 0, tr("Start Recording"), SLOT(toggleRecording()));
 
   // Align
-  textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Auto Align Text"), this);
-  setShortcutKey(textAlignAct, 'M', tr("Auto-align text"));
-  connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
+  textAlignAct = new QAction(QIcon(":/images/align.png"), 
+			     tr("Auto Align Text"), this);
+  setupAction(textAlignAct, 'M', tr("Auto-align text"), SLOT(beautifyCode()));
 
   // Font Size Increase
-  textIncAct1 = new QAction(QIcon(":/images/size_up.png"), tr("Increase Text Size"), this);
-  setShortcutKey(textIncAct1, '+', tr("Make text bigger"));
+  textIncAct1 = new QAction(QIcon(":/images/size_up.png"), 
+			    tr("Increase Text Size"), this);
+  setupAction(textIncAct1, '+', tr("Make text bigger"), SLOT(zoomFontIn()));
   textIncKey2 = new QShortcut(cmdAltKey('='), this,
 			      SLOT(zoomFontIn()));
-  connect(textIncAct1, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
 
   // Font Size Decrease
-  textDecAct1 = new QAction(QIcon(":/images/size_down.png"), tr("Decrease Text Size"), this);
-  setShortcutKey(textDecAct1, '-', tr("Make text smaller"));
+  textDecAct1 = new QAction(QIcon(":/images/size_down.png"), 
+			    tr("Decrease Text Size"), this);
+  setupAction(textDecAct1, '-', tr("Make text smaller"), SLOT(zoomFontOut()));
   textDecKey2 = new QShortcut(cmdAltKey('_'), this,
 			      SLOT(zoomFontOut()));
-  connect(textDecAct1, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
 
   reloadKey = new QShortcut(cmdAltKey('U'), this, SLOT(reloadServerCode()));
 
@@ -1216,6 +1238,16 @@ void MainWindow::readSettings()
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     resize(size);
     move(pos);
+
+    for (int w=0; w < workspace_max; w++) {
+      // default zoom is 13
+      int zoom = settings.value(QString("workspace%1zoom").arg(w+1), 13)
+	.toInt();
+      workspaces[w]->setProperty("zoom", QVariant(zoom));
+      workspaces[w]->zoomTo(zoom);
+    }
+
+    restoreState(settings.value("windowState").toByteArray());
 }
 
 void MainWindow::writeSettings()
@@ -1224,6 +1256,13 @@ void MainWindow::writeSettings()
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("first_time", 0);
+
+    for (int w=0; w < workspace_max; w++) {
+      settings.setValue(QString("workspace%1zoom").arg(w+1),
+			workspaces[w]->property("zoom"));
+    }
+
+    settings.setValue("windowState", saveState());
 }
 
 void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)

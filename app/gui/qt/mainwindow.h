@@ -55,6 +55,7 @@ public:
 #endif
 protected:
     void closeEvent(QCloseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 private slots:
 
@@ -118,7 +119,8 @@ private:
                      int len);
     QListWidget *createHelpTab(QTextEdit *docPane, QString name);
     QKeySequence cmdAltKey(char key);
-    void setShortcutKey(QAction *action, char key, QString tooltip);
+    void setupAction(QAction *action, char key, QString tooltip, 
+		     const char *slot);
 
     QFuture<void> osc_thread;
 
