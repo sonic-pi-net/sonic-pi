@@ -201,12 +201,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   prefsWidget->setWidget(prefsCentral);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
   prefsWidget->hide();
+  prefsWidget->setObjectName("prefs");
 
   outputWidget = new QDockWidget(tr("Log"), this);
   outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
+  outputWidget->setObjectName("output");
 
   docsCentral = new QTabWidget;
   docsCentral->setTabsClosable(false);
@@ -215,6 +217,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   docWidget = new QDockWidget("Help", this);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
   docWidget->setWidget(docsCentral);
+  docWidget->setObjectName("help");
 
   tutorialDocPane = new QTextEdit;
   tutorialDocPane->setReadOnly(true);
@@ -1243,6 +1246,8 @@ void MainWindow::readSettings()
       workspaces[w]->setProperty("zoom", QVariant(zoom));
       workspaces[w]->zoomTo(zoom);
     }
+
+    restoreState(settings.value("windowState").toByteArray());
 }
 
 void MainWindow::writeSettings()
@@ -1256,6 +1261,8 @@ void MainWindow::writeSettings()
       settings.setValue(QString("workspace%1zoom").arg(w+1),
 			workspaces[w]->property("zoom"));
     }
+
+    settings.setValue("windowState", saveState());
 }
 
 void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)
