@@ -24,6 +24,7 @@
 #include <QListWidget>
 #include <QProcess>
 #include <QFuture>
+#include <QShortcut>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
