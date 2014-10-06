@@ -2561,7 +2561,7 @@ stop bar"]
 
          in_thread(name: "__freesound_#{id}".to_sym) do
            # API key borrowed from Overtone
-           apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23' 
+           apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23'
 
            resp = Net::HTTP.get_response(URI(apiURL))
            case resp
@@ -2581,7 +2581,7 @@ stop bar"]
          return nil # nothing to do until it's loaded
        end
        doc name:          :freesound,
-           introduced:    Version.new(2,0,1),
+           introduced:    Version.new(2,1,0),
            summary:       "Download sample from freesound.org",
            doc:           "Download and cache a sample by ID from freesound.org, and return its path for playback via sample.  Only WAV samples are supported!",
            args:          [[:path, :string]],
