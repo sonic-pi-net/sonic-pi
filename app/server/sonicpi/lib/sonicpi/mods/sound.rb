@@ -144,7 +144,7 @@ module SonicPi
            introduced:    Version.new(2,1,0),
            summary:       "Determine if note or args is a rest",
            doc:           "Given a note or an args map, returns true if it represents a rest and false if otherwise",
-           arts:          [[:note_or_args, :number_symbol_or_map]],
+           args:          [[:note_or_args, :number_symbol_or_map]],
            accepts_block: false,
            examples:      ["puts rest? nil # true",
 "puts rest? :r # true",
