@@ -29,10 +29,10 @@ module SonicPi
           cue name
           if self.method(name).arity == 1
             send(name, inc)
+            inc += 1
           else
             send(name)
           end
-          inc += 1
         end
       end
     end
