@@ -116,6 +116,8 @@ private:
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QTextEdit *docPane, QString name);
+    QKeySequence cmdAltKey(char key);
+    void setShortcutKey(QAction *action, char key, QString tooltip);
 
     QFuture<void> osc_thread;
 
@@ -174,6 +176,7 @@ private:
 
     QShortcut *tabNextKey, *tabPrevKey;
     QShortcut *textIncKey2, *textDecKey2;
+    QShortcut *reloadKey;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *print_output;
