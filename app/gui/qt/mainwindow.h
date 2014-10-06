@@ -59,10 +59,17 @@ private slots:
 
     void unhighlightCode();
     void runCode();
+    void update_mixer_invert_stereo();
     void stopCode();
     void beautifyCode();
     void reloadServerCode();
     void stopRunningSynths();
+    void mixerInvertStereo();
+    void mixerStandardStereo();
+    void mixerLpfEnable(float freq);
+    void mixerHpfEnable(float freq);
+    void mixerHpfDisable();
+    void mixerLpfDisable();
     QString currentTabLabel();
     bool saveAs();
     void about();
@@ -165,6 +172,7 @@ private:
     QAction *copyAct;
     QAction *pasteAct;
 
+    QCheckBox *mixer_invert_stereo;
     QCheckBox *print_output;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;

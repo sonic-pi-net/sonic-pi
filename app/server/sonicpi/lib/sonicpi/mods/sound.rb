@@ -119,6 +119,45 @@ module SonicPi
          end
        end
 
+
+
+
+
+       def rest?(n)
+         case n
+         when Hash
+           if n.has_key?(:note)
+             note = n[:note]
+             return (note.nil? || note == :r || note == :rest)
+           else
+             return false
+           end
+         when Symbol
+           return n == :r || n == :rest
+         when NilClass
+           return true
+         else
+           return false
+         end
+       end
+       doc name:          :rest?,
+           introduced:    Version.new(2,1,0),
+           summary:       "Determine if note or args is a rest",
+           doc:           "Given a note or an args map, returns true if it represents a rest and false if otherwise",
+           arts:          [[:note_or_args, :number_symbol_or_map]],
+           accepts_block: false,
+           examples:      ["puts rest? nil # true",
+"puts rest? :r # true",
+"puts rest? :rest # true",
+"puts rest? 60 # false",
+"puts rest? {} # false",
+"puts rest? {note: :rest} # true",
+"puts rest? {note: nil} # true",
+"puts rest? {note: 50} # false"]
+
+
+
+
        def use_sample_bpm(sample_name)
          sd = sample_duration(sample_name)
          use_bpm 60.0 / sd
@@ -522,11 +561,23 @@ play 50 # Plays with supersaw synth
            hide:          true
 
 
+       def invert_stereo!
+         @mod_sound_studio.mixer_invert_stereo(true)
+       end
+
+       def standard_stereo!
+         @mod_sound_studio.mixer_invert_stereo(false)
+       end
 
 
        def synth(synth_name, *args)
          ensure_good_timing!
          args_h = resolve_synth_opts_hash_or_array(args)
+
+         if rest? args_h
+           __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
+           return nil
+         end
 
          if args_h.has_key? :note
            n = args_h[:note]
@@ -561,8 +612,11 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
          ensure_good_timing!
          return play_chord(n, *args) if n.is_a?(Array)
          n = n.call if n.is_a? Proc
-         return nil if (n.nil? || n == :r || n == :rest)
-
+         synth_name = current_synth_name
+         if rest? n
+           __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
+           return nil
+         end
          init_args_h = {}
          args_h = resolve_synth_opts_hash_or_array(args)
 
@@ -582,7 +636,7 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
            n += shift
          end
          args_h[:note] = n
-         trigger_inst current_synth_name, init_args_h.merge(args_h)
+         trigger_inst synth_name, init_args_h.merge(args_h)
        end
        doc name:          :play,
            introduced:    Version.new(2,0,0),
@@ -1391,6 +1445,7 @@ set_volume! 2 # Set the main system volume to 2",
            __delayed_message "Loaded sample :#{path}" unless cached
            return info
          when String
+           path = resolve_tilde_path(path)
            if File.exists?(path)
              info, cached = @mod_sound_studio.load_sample(path)
              __delayed_message "Loaded sample #{path.inspect}" unless cached
@@ -1619,7 +1674,8 @@ puts status # Returns something similar to:
 
 
        def note(n, *args)
-         return nil if (n.nil? || n == :r || n == :rest)
+         return nil if rest?(n)
+
          return Note.resolve_midi_note_without_octave(n) if args.empty?
          args_h = resolve_synth_opts_hash_or_array(args)
          octave = args_h[:octave]
@@ -2033,6 +2089,7 @@ stop bar"]
 
 
        def load_synthdefs(path)
+         path = resolve_tilde_path(path)
          raise "No directory exists called #{path.inspect} " unless File.exists? path
          @mod_sound_studio.load_synthdefs(path)
          __info "Loaded synthdefs in path #{path}"
@@ -2175,6 +2232,10 @@ stop bar"]
          validate_if_necessary! info, combined_args
 
          combined_args = scale_time_args_to_bpm(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+
+         # shortcut out if we're actually a rest
+         # (i.e. if note is nil, :rest or :r)
+         return nil if rest?(combined_args)
 
          job_id = current_job_id
          __no_kill_block do
@@ -2500,7 +2561,7 @@ stop bar"]
 
          in_thread(name: "__freesound_#{id}".to_sym) do
            # API key borrowed from Overtone
-           apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23' 
+           apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23'
 
            resp = Net::HTTP.get_response(URI(apiURL))
            case resp
@@ -2520,7 +2581,7 @@ stop bar"]
          return nil # nothing to do until it's loaded
        end
        doc name:          :freesound,
-           introduced:    Version.new(2,0,1),
+           introduced:    Version.new(2,1,0),
            summary:       "Download sample from freesound.org",
            doc:           "Download and cache a sample by ID from freesound.org, and return its path for playback via sample.  Only WAV samples are supported!",
            args:          [[:path, :string]],

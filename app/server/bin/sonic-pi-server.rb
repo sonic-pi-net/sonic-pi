@@ -199,6 +199,67 @@ osc_server.add_method("/reload") do |payload|
   end
 end
 
+osc_server.add_method("/mixer-invert-stereo") do |payload|
+  begin
+    sp.invert_stereo!
+  rescue Exception => e
+    puts "Received Exception when attempting to invert stereo"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/mixer-standard-stereo") do |payload|
+  begin sp.standard_stereo!
+  rescue Exception => e
+    puts "Received Exception when attempting to set stereo to standard mode"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/mixer-hpf-enable") do |payload|
+  begin
+    freq = payload.to_a[0].to_f
+    sp.mixer_hpf_enable(freq)
+  rescue Exception => e
+    puts "Received Exception when attempting to enable mixer hpf"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/mixer-hpf-disable") do |payload|
+  begin
+    sp.mixer_hpf_disable(freq)
+  rescue Exception => e
+    puts "Received Exception when attempting to disable mixer hpf"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/mixer-lpf-enable") do |payload|
+  begin
+    freq = payload.to_a[0].to_f
+    sp.mixer_lpf_enable(freq)
+  rescue Exception => e
+    puts "Received Exception when attempting to enable mixer lpf"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/mixer-lpf-disable") do |payload|
+  begin
+    sp.mixer_lpf_disable(freq)
+  rescue Exception => e
+    puts "Received Exception when attempting to disable mixer lpf"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 Thread.new{osc_server.run}
 
 # Send stuff out from Sonic Pi back out to osc_server

@@ -395,12 +395,40 @@ void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
   std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
+void MainWindow::update_mixer_invert_stereo() {
+  if(mixer_invert_stereo->isChecked())
+    {
+      mixerInvertStereo();
+    } else {
+    mixerStandardStereo();
+  }
+}
+
 void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
   QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi Settings"));
   volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
+
+  QGroupBox *advancedAudioBox = new QGroupBox(tr("Advanced Audio Settings"));
+  advancedAudioBox->setToolTip("Advanced audio settings for working with external PA systems when performing with Sonic Pi");
+  // QRadioButton *radio2 = new QRadioButton(tr("&Headphones"));
+  // QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
+  // radio1->setChecked(true);
+  mixer_invert_stereo = new QCheckBox("Invert Stereo");
+  connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
+  // connect(radio2, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHeadphones()));
+  // connect(radio3, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHDMI()));
+
+  QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
+  advanced_audio_box_layout->addWidget(mixer_invert_stereo);
+  // audio_box->addWidget(radio2);
+  // audio_box->addWidget(radio3);
+  // audio_box->addStretch(1);
+  advancedAudioBox->setLayout(advanced_audio_box_layout);
+
+
   QGroupBox *audioOutputBox = new QGroupBox(tr("Force Audio Output"));
   audioOutputBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
   QRadioButton *radio1 = new QRadioButton(tr("&Default"));
@@ -442,6 +470,7 @@ void MainWindow::initPrefsWindow() {
   grid->addWidget(volBox, 0, 1);
 #endif
   grid->addWidget(debug_box, 1, 1);
+  grid->addWidget(advancedAudioBox, 0, 0);
   prefsCentral->setLayout(grid);
 }
 
@@ -837,6 +866,49 @@ void MainWindow::reloadServerCode()
   sendOSC(msg);
 }
 
+void MainWindow::mixerHpfEnable(float freq)
+{
+  statusBar()->showMessage(tr("enabling mixer HPF...."), 2000);
+  Message msg("/mixer-hpf-enable");
+  msg.pushFloat(freq);
+  sendOSC(msg);
+}
+
+void MainWindow::mixerHpfDisable()
+{
+  statusBar()->showMessage(tr("disabling mixer HPF...."), 2000);
+  Message msg("/mixer-hpf-disable");
+  sendOSC(msg);
+}
+
+void MainWindow::mixerLpfEnable(float freq)
+{
+  statusBar()->showMessage(tr("enabling Mixer HPF...."), 2000);
+  Message msg("/mixer-lpf-enable");
+  msg.pushFloat(freq);
+  sendOSC(msg);
+}
+
+void MainWindow::mixerLpfDisable()
+{
+  statusBar()->showMessage(tr("disabling mixer LPF...."), 2000);
+  Message msg("/mixer-lpf-disable");
+  sendOSC(msg);
+}
+
+void MainWindow::mixerInvertStereo()
+{
+  statusBar()->showMessage(tr("enabling inverted stereo...."), 2000);
+  Message msg("/mixer-invert-stereo");
+  sendOSC(msg);
+}
+
+void MainWindow::mixerStandardStereo()
+{
+  statusBar()->showMessage(tr("enabling standard stereo...."), 2000);
+  Message msg("/mixer-standard-stereo");
+  sendOSC(msg);
+}
 
 void MainWindow::stopCode()
 {
