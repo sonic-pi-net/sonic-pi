@@ -500,7 +500,6 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setUtf8(true);
   ws->setText("#loading...");
   ws->setLexer(lexer);
-  ws->zoomIn(13);
   ws->setAutoCompletionThreshold(5);
   ws->setAutoCompletionSource(QsciScintilla::AcsAPIs);
   ws->setSelectionBackgroundColor("DeepPink");
@@ -1022,12 +1021,20 @@ void MainWindow::showPrefsPane()
 
 void MainWindow::zoomFontIn()
 {
-  ((QsciScintilla*)tabs->currentWidget())->zoomIn(1);
+  QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
+  int zoom = ws->property("zoom").toInt();
+  zoom++;
+  ws->setProperty("zoom", QVariant(zoom));
+  ws->zoomTo(zoom);
 }
 
 void MainWindow::zoomFontOut()
 {
-  ((QsciScintilla*)tabs->currentWidget())->zoomOut(1);
+  QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
+  int zoom = ws->property("zoom").toInt();
+  zoom--;
+  ws->setProperty("zoom", QVariant(zoom));
+  ws->zoomTo(zoom);
 }
 
 
@@ -1218,6 +1225,14 @@ void MainWindow::readSettings()
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     resize(size);
     move(pos);
+
+    for (int w=0; w < workspace_max; w++) {
+      // default zoom is 13
+      int zoom = settings.value(QString("workspace%1zoom").arg(w+1), 13)
+	.toInt();
+      workspaces[w]->setProperty("zoom", QVariant(zoom));
+      workspaces[w]->zoomTo(zoom);
+    }
 }
 
 void MainWindow::writeSettings()
@@ -1226,6 +1241,11 @@ void MainWindow::writeSettings()
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("first_time", 0);
+
+    for (int w=0; w < workspace_max; w++) {
+      settings.setValue(QString("workspace%1zoom").arg(w+1),
+			workspaces[w]->property("zoom"));
+    }
 }
 
 void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)
