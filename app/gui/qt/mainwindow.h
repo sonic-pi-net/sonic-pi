@@ -164,9 +164,7 @@ private:
     QAction *helpAct;
     QAction *textAlignAct;
     QAction *textIncAct1;
-    QAction *textIncAct2;
     QAction *textDecAct1;
-    QAction *textDecAct2;
 
     QAction *saveAsAct;
     QAction *exitAct;
@@ -175,6 +173,7 @@ private:
     QAction *pasteAct;
 
     QShortcut *tabNextKey, *tabPrevKey;
+    QShortcut *textIncKey2, *textDecKey2;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *print_output;

@@ -1126,37 +1126,32 @@ void MainWindow::createActions()
 
   // Font Size Increase
   textIncAct1 = new QAction(QIcon(":/images/size_up.png"), tr("&Increase &Text &Size"), this);
-  textIncAct2 = new QAction(this);
   textIncAct1->setStatusTip(tr("Make text bigger"));
 #ifdef Q_OS_MAC
   textIncAct1->setShortcut(tr("ctrl++"));
-  textIncAct2->setShortcut(tr("ctrl+="));
   textIncAct1->setToolTip(tr("Make text bigger (⌘+)"));
+  textIncKey2 = new QShortcut(QKeySequence("ctrl+="), this, SLOT(zoomFontIn()));
 #else
   textIncAct1->setShortcut(tr("alt++"));
-  textIncAct2->setShortcut(tr("alt+="));
   textIncAct1->setToolTip(tr("Make text bigger (alt+)"));
+  textIncKey2 = new QShortcut(QKeySequence("alt+="), this, SLOT(zoomFontIn()));
 #endif
   textIncAct1->setStatusTip(tr("Make text bigger (alt+)"));
   connect(textIncAct1, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
-  connect(textIncAct2, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
 
   // Font Size Decrease
   textDecAct1 = new QAction(QIcon(":/images/size_down.png"), tr("&Decrease &Text &Size"), this);
-  textDecAct2 = new QAction(this);
 #ifdef Q_OS_MAC
   textDecAct1->setShortcut(tr("ctrl+-"));
-  textDecAct2->setShortcut(tr("ctrl+_"));
   textDecAct1->setToolTip(tr("Make text smaller (⌘-)"));
+  textDecKey2 = new QShortcut(QKeySequence("ctrl+_"), this, SLOT(zoomFontOut()));
 #else
   textDecAct1->setShortcut(tr("alt+-"));
-  textDecAct2->setShortcut(tr("alt+_"));
   textDecAct1->setToolTip(tr("Make text smaller (alt-)"));
+  textDecKey2 = new QShortcut(QKeySequence("alt+_"), this, SLOT(zoomFontOut()));
 #endif
   textDecAct1->setStatusTip(tr("Make text smaller (alt-)"));
   connect(textDecAct1, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
-  connect(textDecAct2, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
-  addAction(textDecAct2);
 
   QAction *reloadAct = new QAction(this);
   reloadAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_U));
@@ -1189,8 +1184,6 @@ void MainWindow::createToolBar()
   toolBar->addAction(recAct);
   toolBar->addWidget(spacer);
 
-  toolBar->addAction(textDecAct2);
-  toolBar->addAction(textIncAct2);
   toolBar->addAction(textDecAct1);
   toolBar->addAction(textIncAct1);
   toolBar->addAction(textAlignAct);
