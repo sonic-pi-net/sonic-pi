@@ -48,7 +48,6 @@ module SonicPi
             end
             [code, comments]
           end
-
           @@docs.each do |k, v|
             unless(v[:hide])
               html = ""
@@ -56,6 +55,7 @@ module SonicPi
               html << "<font #{hv_face}>" << (v[:summary] || v[:name]).to_s.capitalize << "</font></span></p>\n"
               html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
               req_args = []
+              raise "no args defined for #{v[:name]}" unless v[:args]
               v[:args].each do |arg|
                 n, t = *arg
                 req_args << "#{n} <font color=\"deeppink\">(#{t})</font>"
