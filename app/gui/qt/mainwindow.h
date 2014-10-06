@@ -55,6 +55,7 @@ public:
 #endif
 protected:
     void closeEvent(QCloseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 private slots:
 

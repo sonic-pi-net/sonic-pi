@@ -1037,6 +1037,16 @@ void MainWindow::zoomFontOut()
   ws->zoomTo(zoom);
 }
 
+void MainWindow::wheelEvent(QWheelEvent *event) {
+  if (event->modifiers() & Qt::ControlModifier) {
+    if (event->angleDelta().y() > 0)
+      zoomFontIn();
+    else
+      zoomFontOut();
+  }
+}
+
+
 
 void MainWindow::documentWasModified()
 {
