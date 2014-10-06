@@ -52,6 +52,7 @@
 #include <QRadioButton>
 #include <QCheckBox>
 #include <QScrollArea>
+#include <QShortcut>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -1161,6 +1162,15 @@ void MainWindow::createActions()
   reloadAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_U));
   connect(reloadAct, SIGNAL(triggered()), this, SLOT(reloadServerCode()));
   addAction(reloadAct);
+
+#ifdef Q_OS_MAC
+  tabPrevKey = new QShortcut(QKeySequence("ctrl+["), this, SLOT(tabPrev()));
+  tabNextKey = new QShortcut(QKeySequence("ctrl+]"), this, SLOT(tabNext()));
+#else
+  tabPrevKey = new QShortcut(QKeySequence("alt+["), this, SLOT(tabPrev()));
+  tabNextKey = new QShortcut(QKeySequence("alt+]"), this, SLOT(tabNext()));
+#endif
+
 }
 
 void MainWindow::createToolBar()
@@ -1378,5 +1388,24 @@ QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
 	docsCentral->addTab(tabWidget, name);
 	return nameList;
 }
+
+void MainWindow::tabNext() {
+  int index = tabs->currentIndex();
+  if (index == tabs->count()-1)
+    index = 0;
+  else
+    index++;
+  QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+}
+
+void MainWindow::tabPrev() {
+  int index = tabs->currentIndex();
+  if (index == 0)
+    index = tabs->count() - 1;
+  else
+    index--;
+  QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+}
+   
 
 #include "ruby_help.h"

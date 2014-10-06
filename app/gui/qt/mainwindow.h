@@ -89,6 +89,8 @@ private slots:
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void replaceBuffer(QString id, QString content);
+    void tabNext();
+    void tabPrev();
 
 private:
 
@@ -171,6 +173,8 @@ private:
     QAction *cutAct;
     QAction *copyAct;
     QAction *pasteAct;
+
+    QShortcut *tabNextKey, *tabPrevKey;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *print_output;
