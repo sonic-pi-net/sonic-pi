@@ -174,8 +174,10 @@ private:
     QAction *copyAct;
     QAction *pasteAct;
 
-    QShortcut *tabNextKey, *tabPrevKey;
-    QShortcut *textIncKey2, *textDecKey2;
+    QShortcut *tabNextKey;
+    QShortcut *tabPrevKey;
+    QShortcut *textIncKey2;
+    QShortcut *textDecKey2;
     QShortcut *reloadKey;
 
     QCheckBox *mixer_invert_stereo;

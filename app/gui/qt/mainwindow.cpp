@@ -1050,7 +1050,8 @@ void MainWindow::clearOutputPanels()
 }
 
 // Cmd on Mac, Alt everywhere else
-QKeySequence MainWindow::cmdAltKey(char key) {
+QKeySequence MainWindow::cmdAltKey(char key)
+{
 #ifdef Q_OS_MAC
   return QKeySequence(QString("ctrl+%1").arg(key));
 #else
@@ -1059,7 +1060,8 @@ QKeySequence MainWindow::cmdAltKey(char key) {
 }
 
 // alt-key on PC, Cmd-key on Mac
-void MainWindow::setShortcutKey(QAction *action, char key, QString tooltip) {
+void MainWindow::setShortcutKey(QAction *action, char key, QString tooltip)
+{
   QString shortcut, tooltipKey;
 #ifdef Q_OS_MAC
   tooltip = QString("%1 (⌘%2)").arg(tooltip).arg(key);
