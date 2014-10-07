@@ -837,12 +837,14 @@ end"
 
 
     def sync(cue_id)
-      __delayed_highlight3_message "sync #{cue_id.to_sym.inspect}"
-      __schedule_delayed_blocks_and_messages!
       p = Promise.new
       @events.oneshot_handler("/spider_thread_sync/" + cue_id.to_s) do |payload|
         p.deliver! payload
       end
+
+      __delayed_highlight3_message "sync #{cue_id.to_sym.inspect}"
+      __schedule_delayed_blocks_and_messages!
+
       payload = p.get
       time = payload[:time]
       run_id = payload[:run]
