@@ -755,14 +755,18 @@ play 62
 
 
     def cue(cue_id)
-      __no_kill_block do
+      payload = {
+        :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
+        :run => current_job_id
+      }
+      __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+      Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :cue)
+        # sleep for a tiny amount of wall-clock time to give other temporally
+        # synced threads real time to register syncs at similar virtual
+        # times.
         Kernel.sleep @sync_real_sleep_time
-payload = {
-          :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
-          :run => current_job_id
-         }
-        __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
-        @events.event("/spider_thread_sync/" + cue_id.to_s, payload)
+        @events.async_event("/spider_thread_sync/" + cue_id.to_s, payload)
       end
     end
     doc name:           :cue,
