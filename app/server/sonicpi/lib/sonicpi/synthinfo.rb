@@ -3056,6 +3056,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         next if v.is_a? StudioInfo
         doc = ""
+
         doc << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
         doc << "<font #{hv_face}>" << v.name << "</font></span></p>\n"
         if klass == SynthInfo
@@ -3077,7 +3078,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           bg_colour = cnt.even? ? "#5e5e5e" : "#E8E8E8"
           fnt_colour = cnt.even? ? "white" : "#5e5e5e"
           cnt += 1
-          arglist << "<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{ak}: </font></h4</pre>\n</td>\n<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre>\n</td>\n"
+          arglist << "<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\"><a href=\"##{ak}\" style=\"text-decoration:none; color: #{fnt_colour};\">#{ak}:</a> </font></h4</pre>\n</td>\n<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre>\n</td>\n"
         end
         arglist << "</tr></table>\n"
         doc << arglist
@@ -3098,6 +3099,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           cnt += 1
           background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
           key_bg_colour = cnt.even? ? "#E6F0FF" : "#B2D1FF"
+          doc << " <a name=\"#{ak}\"></a>\n"
           doc << "  <tr bgcolor=\"#{background_colour}\">\n"
           doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
           doc << "      <td>\n"
