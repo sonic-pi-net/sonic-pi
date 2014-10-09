@@ -1295,9 +1295,15 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
     }
 
     QTextStream out(&file);
+
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    out << text->text();
+    QString code = text->text();
+#if defined(Q_OS_WIN)
+    code.replace("\n", "\r\n"); // CRLF for Windows users
+#endif
+    out << code;
     QApplication::restoreOverrideCursor();
+
     statusBar()->showMessage(tr("File saved"), 2000);
     return true;
 }
