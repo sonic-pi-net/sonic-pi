@@ -35,6 +35,7 @@
 #include <QSize>
 #include <QStatusBar>
 #include <QTextEdit>
+#include <QTextBrowser>
 #include <QToolBar>
 #include <QProcess>
 #include <QFont>
@@ -219,30 +220,30 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   docWidget->setWidget(docsCentral);
   docWidget->setObjectName("help");
 
-  tutorialDocPane = new QTextEdit;
-  tutorialDocPane->setReadOnly(true);
-  QString style = "QTextEdit { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
+  tutorialDocPane = new QTextBrowser;
+  tutorialDocPane->setOpenExternalLinks(true);
+  QString style = "QTextBrowser { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
   tutorialDocPane->setStyleSheet(style);
   tutorialDocPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
 
-  langDocPane = new QTextEdit;
-  langDocPane->setReadOnly(true);
+  langDocPane = new QTextBrowser;
+  langDocPane->setOpenExternalLinks(true);
   langDocPane->setStyleSheet(style);
 
-  synthsDocPane = new QTextEdit;
-  synthsDocPane->setReadOnly(true);
+  synthsDocPane = new QTextBrowser;
+  synthsDocPane->setOpenExternalLinks(true);
   synthsDocPane->setStyleSheet(style);
 
-  fxDocPane = new QTextEdit;
-  fxDocPane->setReadOnly(true);
+  fxDocPane = new QTextBrowser;
+  fxDocPane->setOpenExternalLinks(true);
   fxDocPane->setStyleSheet(style);
 
-  samplesDocPane = new QTextEdit;
-  samplesDocPane->setReadOnly(true);
+  samplesDocPane = new QTextBrowser;
+  samplesDocPane->setOpenExternalLinks(true);
   samplesDocPane->setStyleSheet(style);
 
-  examplesDocPane = new QTextEdit;
-  examplesDocPane->setReadOnly(true);
+  examplesDocPane = new QTextBrowser;
+  examplesDocPane->setOpenExternalLinks(true);
   examplesDocPane->setStyleSheet(style);
 
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
@@ -813,7 +814,8 @@ void MainWindow::runCode()
 
   QsciScintilla *ws = ((QsciScintilla*)tabs->currentWidget());
   ws->getCursorPosition(&currentLine, &currentIndex);
-  ws->selectAll(true);
+  ws->setReadOnly(true);
+  ws->selectAll();
   errorPane->clear();
   errorPane->hide();
   statusBar()->showMessage(tr("Running Code...."), 1000);
@@ -845,11 +847,13 @@ void MainWindow::runCode()
 
 }
 
- void MainWindow::unhighlightCode()
- {
-  ((QsciScintilla*)tabs->currentWidget())->selectAll(false);
-  ((QsciScintilla*)tabs->currentWidget())->setCursorPosition(currentLine, currentIndex);
- }
+void MainWindow::unhighlightCode()
+{
+  QsciScintilla *ws = (QsciScintilla *)tabs->currentWidget();
+  ws->selectAll(false);
+  ws->setCursorPosition(currentLine, currentIndex);
+  ws->setReadOnly(false);
+}
 
  void MainWindow::beautifyCode()
  {
@@ -1295,9 +1299,15 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
     }
 
     QTextStream out(&file);
+
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    out << text->text();
+    QString code = text->text();
+#if defined(Q_OS_WIN)
+    code.replace("\n", "\r\n"); // CRLF for Windows users
+#endif
+    out << code;
     QApplication::restoreOverrideCursor();
+
     statusBar()->showMessage(tr("File saved"), 2000);
     return true;
 }
@@ -1342,7 +1352,7 @@ void MainWindow::onExitCleanup()
 
 }
 
-void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
+void MainWindow::updateDocPane(QListWidgetItem *cur) {
   QString content = cur->data(32).toString();
   tutorialDocPane->setHtml(content);
   langDocPane->setHtml(content);
@@ -1350,7 +1360,6 @@ void MainWindow::updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev) {
   fxDocPane->setHtml(content);
   samplesDocPane->setHtml(content);
   examplesDocPane->setHtml(content);
-  (void) prev; /* unused, but needed for type signature */
 }
 
 void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
@@ -1382,8 +1391,8 @@ QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
 	QListWidget *nameList = new QListWidget;
 	nameList->setSortingEnabled(true);
 	connect(nameList,
-			SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
-			this, SLOT(updateDocPane(QListWidgetItem*, QListWidgetItem*)));
+			SIGNAL(itemPressed(QListWidgetItem*)),
+			this, SLOT(updateDocPane(QListWidgetItem*)));
 	QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
 	layout->addWidget(nameList);
 	layout->addWidget(docPane);

@@ -34,6 +34,7 @@ class QMenu;
 class QsciScintilla;
 class QProcess;
 class QTextEdit;
+class QTextBrowser;
 class SonicPiLexer;
 class QString;
 class QSlider;
@@ -87,7 +88,7 @@ private slots:
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
     void showPrefsPane();
-    void updateDocPane(QListWidgetItem *cur, QListWidgetItem *prev);
+    void updateDocPane(QListWidgetItem *cur);
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void replaceBuffer(QString id, QString content);
@@ -141,12 +142,12 @@ private:
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
     QDockWidget *docWidget;
-    QTextEdit *tutorialDocPane;
-    QTextEdit *langDocPane;
-    QTextEdit *synthsDocPane;
-    QTextEdit *fxDocPane;
-    QTextEdit *samplesDocPane;
-    QTextEdit *examplesDocPane;
+    QTextBrowser *tutorialDocPane;
+    QTextBrowser *langDocPane;
+    QTextBrowser *synthsDocPane;
+    QTextBrowser *fxDocPane;
+    QTextBrowser *samplesDocPane;
+    QTextBrowser *examplesDocPane;
 
     QTabWidget *tabs;
 

@@ -339,6 +339,11 @@ module SonicPi
 
     def __spider_eval(code, info={})
       id = @job_counter.next
+
+      # skip __nosave lines for error reporting
+      firstline = 1
+      firstline -= code.split(/\r?\n/).count{|l| l.include? "#__nosave__"}
+
       job = Thread.new do
         Thread.current.priority = 10
         begin
@@ -362,7 +367,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
           @run_start_time = now if num_running_jobs == 1
           __info "Starting run #{id}"
-          eval(code)
+          eval(code, nil, 'eval', firstline)
           __schedule_delayed_blocks_and_messages!
         rescue Exception => e
           __no_kill_block do
