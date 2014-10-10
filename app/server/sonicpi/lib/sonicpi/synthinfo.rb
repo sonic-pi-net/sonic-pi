@@ -19,7 +19,24 @@ module SonicPi
 
     def initialize
       @scsynth_name = "#{prefix}#{synth_name}"
-      @info = default_arg_info.merge(specific_arg_info)
+      i = default_arg_info.merge(specific_arg_info)
+      res = {}
+      i.each do |k, v|
+        res[k] = v
+        if m = /(.*)_slide/.match(k.to_s)
+          res["#{m[1]}_slide_curve".to_sym] = {
+            :doc => generic_slide_curve_doc(m[1]),
+            :modulatable => true
+          } unless i["#{m[1]}_slide_curve".to_sym]
+
+          res["#{m[1]}_slide_shape".to_sym] = {
+            :doc => generic_slide_shape_doc(m[1]),
+            :validations => [v_one_of(:mod_wave, [0, 1, 3, 4, 5, 6, 7])],
+            :modulatable => true
+          } unless i["#{m[1]}_slide_shape".to_sym]
+        end
+      end
+      @info = res
     end
 
     def rrand(min, max)
@@ -128,6 +145,15 @@ module SonicPi
     def generic_slide_doc(k)
       return "Amount of time (in seconds) for the #{k} value to change. A long #{k}_slide value means that the #{k} takes a long time to slide from the previous value to the new value. A #{k}_slide of 0 means that the #{k} instantly changes to the new value."
     end
+
+    def generic_slide_curve_doc(k)
+      return "Shape of the slide curve (only honoured if slide shape is 5). 0 means linear and positive and negative numbers curve the segment up and down respectively."
+    end
+
+    def generic_slide_shape_doc(k)
+      return "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use curvature param), 6: squared, 7: cubed"
+    end
+
 
     def v_sum_less_than_oet(arg1, arg2, max)
       [lambda{|args| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
@@ -459,10 +485,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -514,10 +546,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -570,10 +608,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -585,8 +629,12 @@ module SonicPi
 
         :cutoff => lambda{rrand(95, 105)},
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :pulse_width => 0.5,
-        :pulse_width_slide => 0
+        :pulse_width_slide => 0,
+        :pulse_width_slide_shape => 5,
+        :pulse_width_slide_curve => 0,
       }
     end
   end
@@ -630,10 +678,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -645,8 +699,12 @@ module SonicPi
 
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :detune => 0.1,
-        :detune_slide => 0
+        :detune_slide => 0,
+        :detune_slide_shape => 5,
+        :detune_slide_curve => 0,
       }
     end
   end
@@ -673,10 +731,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -688,8 +752,12 @@ module SonicPi
 
         :divisor => 2,
         :divisor_slide => 0,
+        :divisor_slide_shape => 5,
+        :divisor_slide_curve => 0,
         :depth => 1,
-        :depth_slide => 0
+        :depth_slide => 0,
+        :depth_slide_shape => 5,
+        :depth_slide_curve => 0,
       }
     end
 
@@ -782,10 +850,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -797,12 +871,20 @@ module SonicPi
 
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :mod_phase => 0.25,
         :mod_phase_slide => 0,
+        :mod_phase_slide_shape => 5,
+        :mod_phase_slide_curve => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
+        :mod_range_slide_shape => 5,
+        :mod_range_slide_curve => 0,
         :mod_pulse_width => 0.5,
         :mod_pulse_width_slide => 0,
+        :mod_pulse_width_slide_shape => 5,
+        :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
         :mod_wave => 1
@@ -832,10 +914,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -847,18 +935,28 @@ module SonicPi
 
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :mod_phase => 0.25,
 
         :mod_phase_slide => 0,
+        :mod_phase_slide_shape => 5,
+        :mod_phase_slide_curve => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
+        :mod_range_slide_shape => 5,
+        :mod_range_slide_curve => 0,
         :mod_pulse_width => 0.5,
         :mod_pulse_width_slide => 0,
+        :mod_pulse_width_slide_shape => 5,
+        :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
         :mod_wave => 1,
         :detune => 0.1,
-        :detune_slide => 0
+        :detune_slide => 0,
+        :detune_slide_shape => 5,
+        :detune_slide_curve => 0,
       }
     end
   end
@@ -885,10 +983,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -900,12 +1004,20 @@ module SonicPi
 
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :mod_phase => 0.25,
         :mod_phase_slide => 0,
+        :mod_phase_slide_shape => 5,
+        :mod_phase_slide_curve => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
+        :mod_range_slide_shape => 5,
+        :mod_range_slide_curve => 0,
         :mod_pulse_width => 0.5,
         :mod_pulse_width_slide => 0,
+        :mod_pulse_width_slide_shape => 5,
+        :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
         :mod_wave => 1
@@ -935,10 +1047,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -950,12 +1068,20 @@ module SonicPi
 
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :mod_phase => 0.25,
         :mod_phase_slide => 0,
+        :mod_phase_slide_shape => 5,
+        :mod_phase_slide_curve => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
+        :mod_range_slide_shape => 5,
+        :mod_range_slide_curve => 0,
         :mod_pulse_width => 0.5,
         :mod_pulse_width_slide => 0,
+        :mod_pulse_width_slide_shape => 5,
+        :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
         :mod_wave => 1
@@ -985,10 +1111,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -1000,17 +1132,27 @@ module SonicPi
 
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :mod_phase => 0.25,
         :mod_phase_slide => 0,
+        :mod_phase_slide_shape => 5,
+        :mod_phase_slide_curve => 0,
         :mod_range => 5,
         :mod_range_slide => 0,
+        :mod_range_slide_shape => 5,
+        :mod_range_slide_curve => 0,
         :mod_pulse_width => 0.5,
         :mod_pulse_width_slide => 0,
+        :mod_pulse_width_slide_shape => 5,
+        :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
         :mod_invert_wave => 0,
         :mod_wave => 1,
         :pulse_width => 0.5,
-        :pulse_width_slide => 0
+        :pulse_width_slide => 0,
+        :pulse_width_slide_shape => 5,
+        :pulse_width_slide_curve => 0,
       }
     end
   end
@@ -1037,10 +1179,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -1052,8 +1200,12 @@ module SonicPi
 
         :cutoff => 120,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :cutoff_min => 30,
         :cutoff_min_slide => 0,
+        :cutoff_min_slide_shape => 5,
+        :cutoff_min_slide_curve => 0,
         :cutoff_attack => lambda{|args_h| args_h[:attack]},
         :cutoff_decay => lambda{|args_h| args_h[:decay]},
         :cutoff_sustain => lambda{|args_h| args_h[:sustain]},
@@ -1062,9 +1214,13 @@ module SonicPi
         :cutoff_sustain_level => 1,
         :res => 0.1,
         :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
         :wave => 0,
         :pulse_width => 0.5,
-        :pulse_width_slide => 0
+        :pulse_width_slide => 0,
+        :pulse_width_slide_shape => 5,
+        :pulse_width_slide_curve => 0,
       }
     end
 
@@ -1189,10 +1345,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -1204,8 +1366,12 @@ module SonicPi
 
         :cutoff => 130,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :res => 0.3,
-        :res_slide => 0
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
 
       }
     end
@@ -1233,10 +1399,16 @@ module SonicPi
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -1247,20 +1419,30 @@ module SonicPi
 
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :res => 0.1,
         :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
 
         :phase => 1,
         :phase_slide => 0,
+        :phase_slide_shape => 5,
+        :phase_slide_curve => 0,
         :phase_offset => 0,
 
         :wave => 3,
         :invert_wave => 1,
         :range => 24,
         :range_slide => 0,
+        :range_slide_shape => 5,
+        :range_slide_curve => 0,
         :disable_wave => 0,
         :pulse_width => 0.5,
-        :pulse_width_slide => 0
+        :pulse_width_slide => 0,
+        :pulse_width_slide_shape => 5,
+        :pulse_width_slide_curve => 0,
 
       }
     end
@@ -1361,10 +1543,16 @@ end
       {
         :note => 52,
         :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -1376,8 +1564,12 @@ end
 
         :cutoff => 110,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :res => 0.3,
-        :res_slide => 0
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
       }
     end
 
@@ -1407,8 +1599,12 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -1420,8 +1616,12 @@ end
 
         :cutoff => 110,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :res => 1,
-        :res_slide => 0
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
       }
     end
 
@@ -1523,8 +1723,12 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
         :input => 0
       }
     end
@@ -1555,10 +1759,16 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
         :rate => 1,
-        :rate_slide => 0
+        :rate_slide => 0,
+        :rate_slide_shape => 5,
+        :rate_slide_curve => 0,
       }
     end
   end
@@ -1602,8 +1812,12 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :pan => 0,
         :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
         :attack => 0,
         :decay => 0,
@@ -1704,7 +1918,9 @@ end
     def arg_defaults
       {
         :amp => 1,
-        :amp_slide => 0.1
+        :amp_slide => 0.1,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
       }
     end
 
@@ -1763,15 +1979,25 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 0.4,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
 
         :room => 0.6,
         :room_slide => 0,
+        :room_slide_shape => 5,
+        :room_slide_curve => 0,
         :damp => 0.5,
-        :damp_slide => 0
+        :damp_slide => 0,
+        :damp_slide_shape => 5,
+        :damp_slide_curve => 0,
       }
     end
 
@@ -1834,14 +2060,24 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :sample_rate => 10000,
         :sample_rate_slide => 0,
+        :sample_rate_slide_shape => 5,
+        :sample_rate_slide_curve => 0,
         :bits => 8,
-        :bits_slide => 0
+        :bits_slide => 0,
+        :bits_slide_shape => 5,
+        :bits_slide_curve => 0,
       }
     end
 
@@ -1901,7 +2137,9 @@ end
     def arg_defaults
       {
         :amp => 1,
-        :amp_slide => 0
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
       }
     end
   end
@@ -1927,17 +2165,29 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :phase => 0.25,
         :phase_slide => 0,
+        :phase_slide_shape => 5,
+        :phase_slide_curve => 0,
         :decay => 2,
         :decay_slide => 0,
+        :decay_slide_shape => 5,
+        :decay_slide_curve => 0,
         :max_phase => 2,
         :amp => 1,
-        :amp_slide => 0
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
       }
     end
 
@@ -2012,18 +2262,32 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :phase => 0.25,
         :phase_slide => 0,
+        :phase_slide_shape => 5,
+        :phase_slide_curve => 0,
         :amp_min => 0,
         :amp_min_slide => 0,
+        :amp_min_slide_shape => 5,
+        :amp_min_slide_curve => 0,
         :amp_max => 1,
         :amp_max_slide => 0,
+        :amp_max_slide_shape => 5,
+        :amp_max_slide_curve => 0,
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
+        :pulse_width_slide_shape => 5,
+        :pulse_width_slide_curve => 0,
         :phase_offset => 0,
         :wave => 1,
         :invert_wave => 0
@@ -2154,22 +2418,38 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :phase => 0.5,
         :phase_slide => 0,
+        :phase_slide_shape => 5,
+        :phase_slide_curve => 0,
         :cutoff_min => 60,
         :cutoff_min_slide => 0,
+        :cutoff_min_slide_shape => 5,
+        :cutoff_min_slide_curve => 0,
         :cutoff_max => 120,
         :cutoff_max_slide => 0,
+        :cutoff_max_slide_shape => 5,
+        :cutoff_max_slide_curve => 0,
         :res => 0.2,
         :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
         :phase_offset => 0,
         :wave => 0,
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
+        :pulse_width_slide_shape => 5,
+        :pulse_width_slide_curve => 0,
         :filter => 0
       }
     end
@@ -2270,19 +2550,33 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :phase => 4,
         :phase_slide => 0,
+        :phase_slide_shape => 5,
+        :phase_slide_curve => 0,
         :phase_offset => 0,
         :cutoff_min => 60,
         :cutoff_min_slide => 0,
+        :cutoff_min_slide_shape => 5,
+        :cutoff_min_slide_curve => 0,
         :cutoff_max => 120,
         :cutoff_max_slide => 0,
+        :cutoff_max_slide_shape => 5,
+        :cutoff_max_slide_curve => 0,
         :res => 0.2,
-        :res_slide => 0
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
       }
     end
 
@@ -2374,19 +2668,33 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :threshold => 0.2,
         :threshold_slide => 0,
+        :threshold_slide_shape => 5,
+        :threshold_slide_curve => 0,
         :clamp_time => 0.01,
         :clamp_time_slide => 0,
+        :clamp_time_slide_shape => 5,
+        :clamp_time_slide_curve => 0,
         :slope_above => 0.5,
         :slope_above_slide => 0,
+        :slide_shape => 5,
+        :slide_curve => 0,
         :slope_below => 1,
         :slope_below_slide => 0,
+        :slide_shape => 5,
+        :slide_curve => 0,
         :relax_time => 0.01,
-        :relax_time_slide => 0
+        :relax_time_slide => 0,
+        :relax_time_slide_shape => 5,
+        :relax_time_slide_curve => 0,
       }
     end
 
@@ -2490,14 +2798,24 @@ end
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :res => 0.5,
-        :res_slide => 0
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
       }
     end
 
@@ -2552,14 +2870,24 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :cutoff => 100,
         :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
         :res => 0.5,
-        :res_slide => 0
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
       }
     end
 
@@ -2608,12 +2936,20 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :cutoff => 100,
-        :cutoff_slide => 0
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
       }
     end
 
@@ -2664,12 +3000,20 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :cutoff => 100,
-        :cutoff_slide => 0
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
       }
     end
   end
@@ -2713,14 +3057,24 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :level => 1,
         :level_slide => 0,
+        :level_slide_shape => 5,
+        :level_slide_curve => 0,
         :amp => 1,
-        :amp_slide => 0
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
       }
     end
 
@@ -2765,12 +3119,20 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :distort => 0.5,
-        :distort_slide => 0
+        :distort_slide => 0,
+        :distort_slide_shape => 5,
+        :distort_slide_curve => 0,
       }
     end
 
@@ -2817,12 +3179,20 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       {
         :amp => 1,
         :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
         :mix => 1,
         :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
         :pre_amp => 1,
         :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
         :pan => 0,
-        :pan_slide => 0
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
       }
     end
   end
