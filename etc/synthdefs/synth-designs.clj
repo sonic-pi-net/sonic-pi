@@ -32,6 +32,20 @@
 (defn save-to-pi [sdef]
   (save-synthdef sdef "/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/"))
 
+(defcgen varlag
+    "Variable shaped lag"
+    [in     {:default 0 :doc "Input to lag"}
+     time   {:default 0.1 :doc "Lag time in seconds"}
+     curvature {:default 0 :doc "Control curvature if shape input is 5 (default). 0 means linear, positive and negative numbers curve the segment up and down."}
+     shape  {:default 5 :doc "Shape of curve. 0: step, 1: linear, 2: exponential, 3: sine, 4: welch, 5: custom (use curvature param), 6: squared, 7: cubed, 8: hold"}
+
+     ]
+    "Similar to Lag but with other curve shapes than exponential. A change on the input will take the specified time to reach the new value. Useful for smoothing out control signals."
+    (:kr
+     (let [gate (+ (+ (impulse:kr 0 0) (> (abs (hpz1 in)) 0))
+                   (> (abs (hpz1 time)) 0) )]
+       (env-gen [in 1 -99 -99 in time shape curvature] gate))))
+
 ;; Main mixer
 
 (do
@@ -74,8 +88,13 @@
            safe-snd (limiter [l2 r2] 0.99 0.01)]
        (replace-out 0 safe-snd)))
 
-   (defsynth sonic-pi-basic_mixer [in_bus 0 out_bus 0 amp 1 amp_slide 0.2]
-     (let [amp      (lag amp amp_slide)
+   (defsynth sonic-pi-basic_mixer [in_bus 0
+                                   out_bus 0
+                                   amp 1
+                                   amp_slide 0.2
+                                   amp_slide_shape 5
+                                   amp_slide_curve 0]
+     (let [amp      (varlag amp amp_slide  amp_slide_curve  amp_slide_shape)
            src      (in in_bus 2)
            src      (* amp src)]
        (out:ar out_bus src)))
@@ -164,10 +183,17 @@
   (without-namespace-in-synthdef
    (defsynth sonic-pi-dull_bell [note 52
                                  note_slide 0
+                                 note_slide_shape 5
+                                 note_slide_curve 0
                                  amp 1
                                  amp_slide 0
+                                 ;;weirdly, having a shape of 2 craps out scsynth!
+                                 amp_slide_shape 5
+                                 amp_slide_curve 0
                                  pan 0
                                  pan_slide 0
+                                 pan_slide_shape 5
+                                 pan_slide_curve 0
                                  attack 0.01
                                  decay 0
                                  sustain 0
@@ -176,9 +202,9 @@
                                  sustain_level 1
                                  env_curve 2
                                  out_bus 0]
-     (let [note (lag note note_slide)
-           amp  (lag amp amp_slide)
-           pan  (lag pan pan_slide)
+     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
+           amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            freq (midicps note)
            snd  (* amp (bell-partials freq attack decay sustain release attack_level sustain_level dull-partials))]
        (detect-silence snd :action FREE)
@@ -186,10 +212,16 @@
 
    (defsynth sonic-pi-pretty_bell [note 52
                                    note_slide 0
+                                   note_slide_shape 5
+                                   note_slide_curve 0
                                    amp 1
                                    amp_slide 0
+                                   amp_slide_shape 5
+                                   amp_slide_curve 0
                                    pan 0
                                    pan_slide 0
+                                   pan_slide_shape 5
+                                   pan_slide_curve 0
                                    attack 0.01
                                    decay 0
                                    sustain 0
@@ -198,9 +230,9 @@
                                    sustain_level 1
                                    env_curve 2
                                    out_bus 0]
-     (let [note (lag note note_slide)
-           amp  (lag amp amp_slide)
-           pan  (lag pan pan_slide)
+     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
+           amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            freq (midicps note)
            snd  (* amp (bell-partials freq attack decay sustain release attack_level sustain_level partials))]
        (detect-silence snd :action FREE)
@@ -208,10 +240,16 @@
 
    (defsynth sonic-pi-beep [note 52
                             note_slide 0
+                            note_slide_shape 5
+                            note_slide_curve 0
                             amp 1
                             amp_slide 0
+                            amp_slide_shape 5
+                            amp_slide_curve 0
                             pan 0
                             pan_slide 0
+                            pan_slide_shape 5
+                            pan_slide_curve 0
                             attack 0
                             decay 0
                             sustain 0
@@ -220,21 +258,29 @@
                             sustain_level 1
                             env_curve 2
                             out_bus 0]
-     (let [note      (lag note note_slide)
-           amp       (lag amp amp_slide)
+     (let [note      (varlag note note_slide note_slide_curve note_slide_shape)
+           amp       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge 1
-           pan       (lag pan pan_slide)
+           pan       (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            freq      (midicps note)
            snd       (sin-osc freq)
            env       (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
        (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
+   ;;   (show-graphviz-synth sonic-pi-beep)
+
    (defsynth sonic-pi-pulse [note 52
                              note_slide 0
+                             note_slide_shape 5
+                             note_slide_curve 0
                              amp 1
                              amp_slide 0
+                             amp_slide_shape 5
+                             amp_slide_curve 0
                              pan 0
                              pan_slide 0
+                             pan_slide_shape 5
+                             pan_slide_curve 0
                              attack 0.01
                              decay 0
                              sustain 0
@@ -244,15 +290,19 @@
                              env_curve 2
                              cutoff 100
                              cutoff_slide 0
+                             cutoff_slide_shape 5
+                             cutoff_slide_curve 0
                              pulse_width 0.5
                              pulse_width_slide 0
+                             pulse_width_slide_shape 5
+                             pulse_width_slide_curve 0
                              out_bus 0]
-     (let [note        (lag note note_slide)
-           amp         (lag amp amp_slide)
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge   0.8
-           pan         (lag pan pan_slide)
-           cutoff      (lag cutoff cutoff_slide)
-           pulse_width (lag pulse_width pulse_width_slide)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           pulse_width (varlag pulse_width pulse_width_slide pulse_width_slide_shape pulse_width_slide_curve)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
            snd         (pulse freq pulse_width)
@@ -264,10 +314,16 @@
 
    (defsynth sonic-pi-saw [note 52
                            note_slide 0
+                           note_slide_shape 5
+                           note_slide_curve 0
                            amp 1
                            amp_slide 0
+                           amp_slide_shape 5
+                           amp_slide_curve 0
                            pan 0
                            pan_slide 0
+                           pan_slide_shape 5
+                           pan_slide_curve 0
                            attack 0.1
                            decay 0
                            sustain 0
@@ -277,12 +333,14 @@
                            env_curve 2
                            cutoff 100
                            cutoff_slide 0
+                           cutoff_slide_shape 5
+                           cutoff_slide_curve 0
                            out_bus 0]
-     (let [note        (lag note note_slide)
-           amp         (lag amp amp_slide)
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge   0.8
-           pan         (lag pan pan_slide)
-           cutoff      (lag cutoff cutoff_slide)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
            snd         (normalizer (lpf (saw freq) cutoff-freq))
@@ -292,10 +350,16 @@
 
    (defsynth sonic-pi-tri [note 52
                            note_slide 0
+                           note_slide_shape 5
+                           note_slide_curve 0
                            amp 1
                            amp_slide 0
+                           amp_slide_shape 5
+                           amp_slide_curve 0
                            pan 0
                            pan_slide 0
+                           pan_slide_shape 5
+                           pan_slide_curve 0
                            attack 0.1
                            decay 0
                            sustain 0
@@ -305,12 +369,14 @@
                            env_curve 2
                            cutoff 100
                            cutoff_slide 0
+                           cutoff_slide_shape 5
+                           cutoff_slide_curve 0
                            out_bus 0]
-     (let [note        (lag note note_slide)
-           amp         (lag amp amp_slide)
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge   1.4
-           pan         (lag pan pan_slide)
-           cutoff      (lag cutoff cutoff_slide)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
            snd         (normalizer (lpf (lf-tri freq) cutoff-freq))
@@ -320,10 +386,16 @@
 
    (defsynth sonic-pi-dsaw [note 52
                             note_slide 0
+                            note_slide_shape 5
+                            note_slide_curve 0
                             amp 1
                             amp_slide 0
+                            amp_slide_shape 5
+                            amp_slide_curve 0
                             pan 0
                             pan_slide 0
+                            pan_slide_shape 5
+                            pan_slide_curve 0
                             attack 0.1
                             decay 0
                             sustain 0
@@ -333,15 +405,19 @@
                             env_curve 2
                             cutoff 100
                             cutoff_slide 0
+                            cutoff_slide_shape 5
+                            cutoff_slide_curve 0
                             detune 0.1
                             detune_slide 0
+                            detune_slide_shape 5
+                            detune_slide_curve 0
                             out_bus 0]
-     (let [note        (lag note note_slide)
-           amp         (lag amp amp_slide)
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge   1.1
-           pan         (lag pan pan_slide)
-           detune      (lag detune detune_slide)
-           cutoff      (lag cutoff cutoff_slide)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           detune      (varlag detune detune_slide detune_slide_curve detune_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
            detune-freq (midicps (+ note detune))
@@ -352,10 +428,16 @@
 
    (defsynth sonic-pi-fm [note 52
                           note_slide 0
+                          note_slide_shape 5
+                          note_slide_curve 0
                           amp 1
                           amp_slide 0
+                          amp_slide_shape 5
+                          amp_slide_curve 0
                           pan 0
                           pan_slide 0
+                          pan_slide_shape 5
+                          pan_slide_curve 0
                           attack 1
                           decay 0
                           sustain 0
@@ -365,15 +447,19 @@
                           env_curve 2
                           divisor 2.0
                           divisor_slide 0
+                          divisor_slide_shape 5
+                          divisor_slide_curve 0
                           depth 1.0
                           depth_slide 0
+                          depth_slide_shape 5
+                          depth_slide_curve 0
                           out_bus 0]
-     (let [note      (lag note note_slide)
-           amp       (lag amp amp_slide)
+     (let [note      (varlag note note_slide note_slide_curve note_slide_shape)
+           amp       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge 0.8
-           pan       (lag pan pan_slide)
-           divisor   (lag divisor divisor_slide)
-           depth     (lag depth depth_slide)
+           pan       (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           divisor   (varlag divisor divisor_slide divisor_slide_curve divisor_slide_shape)
+           depth     (varlag depth depth_slide depth_slide_curve depth_slide_shape)
            carrier   (midicps note)
            modulator (/ carrier divisor)
            env       (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
@@ -386,10 +472,16 @@
 
    (defsynth sonic-pi-mod_fm [note 52
                               note_slide 0
+                              note_slide_shape 5
+                              note_slide_curve 0
                               amp 1
                               amp_slide 0
+                              amp_slide_shape 5
+                              amp_slide_curve 0
                               pan 0
                               pan_slide 0
+                              pan_slide_shape 5
+                              pan_slide_curve 0
                               attack 1
                               decay 0
                               sustain 0
@@ -399,26 +491,36 @@
                               env_curve 2
                               mod_phase 1
                               mod_phase_slide 0
+                              mod_phase_slide_shape 5
+                              mod_phase_slide_curve 0
                               mod_range 5
                               mod_range_slide 0
+                              mod_range_slide_shape 5
+                              mod_range_slide_curve 0
                               mod_pulse_width 0.5
                               mod_pulse_width_slide 0
+                              mod_pulse_width_slide_shape 5
+                              mod_pulse_width_slide_curve 0
                               mod_phase_offset 0
                               mod_wave 1
                               mod_invert_wave 0
                               divisor 2.0
                               divisor_slide 0
+                              divisor_slide_shape 5
+                              divisor_slide_curve 0
                               depth 1.0
                               depth_slide 0
+                              depth_slide_shape 5
+                              depth_slide_curve 0
                               out_bus 0]
-     (let [note                    (lag note note_slide)
-           amp                     (lag amp amp_slide)
+     (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge               1
-           pan                     (lag pan pan_slide)
-           mod_phase               (lag mod_phase mod_phase_slide)
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
            mod_rate                (/ 1 mod_phase)
-           mod_range               (lag mod_range mod_range_slide)
-           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+           mod_range               (varlag mod_range mod_range_slide mod_range_slide_curve mod_range_slide_shape)
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
 
            min_note                note
            max_note                (+ mod_range note)
@@ -433,8 +535,8 @@
            ctl-wave                (* ctl-wave ctl-wave-mul)
            note                    (lin-lin ctl-wave -1 1 min_note max_note)
            freq                    (midicps note)
-           divisor                 (lag divisor divisor_slide)
-           depth                   (lag depth depth_slide)
+           divisor                 (varlag divisor divisor_slide divisor_slide_curve divisor_slide_shape)
+           depth                   (varlag depth depth_slide depth_slide_curve depth_slide_shape)
            carrier                 freq
            modulator               (/ carrier divisor)
            env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
@@ -447,10 +549,16 @@
 
    (defsynth sonic-pi-mod_saw [note 52
                                note_slide 0
+                               note_slide_shape 5
+                               note_slide_curve 0
                                amp 1
                                amp_slide 0
+                               amp_slide_shape 5
+                               amp_slide_curve 0
                                pan 0
                                pan_slide 0
+                               pan_slide_shape 5
+                               pan_slide_curve 0
                                attack 0.01
                                decay 0
                                sustain 0
@@ -460,26 +568,35 @@
                                env_curve 2
                                cutoff 100
                                cutoff_slide 0
+                               cutoff_slide_shape 5
+                               cutoff_slide_curve 0
                                mod_phase 1
                                mod_phase_slide 0
+                               mod_phase_slide_shape 5
+                               mod_phase_slide_curve 0
+
                                mod_range 5
                                mod_range_slide 0
+                               mod_range_slide_shape 5
+                               mod_range_slide_curve 0
                                mod_pulse_width 0.5
                                mod_pulse_width_slide 0
+                               mod_pulse_width_slide_shape 5
+                               mod_pulse_width_slide_curve 0
                                mod_phase_offset 0
                                mod_wave 1
                                mod_invert_wave 0
                                out_bus 0]
-     (let [note                    (lag note note_slide)
-           amp                     (lag amp amp_slide)
+     (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge               0.8
-           pan                     (lag pan pan_slide)
-           cutoff                  (lag cutoff cutoff_slide)
-           mod_phase               (lag mod_phase mod_phase_slide)
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
            mod_rate                (/ 1 mod_phase)
-           mod_range               (lag mod_range mod_range_slide)
+           mod_range               (varlag mod_range mod_range_slide mod_range_slide_curve mod_range_slide_shape)
 
-           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
 
            min_note                note
            max_note                (+ mod_range note)
@@ -505,10 +622,16 @@
 
    (defsynth sonic-pi-mod_dsaw [note 52
                                 note_slide 0
+                                note_slide_shape 5
+                                note_slide_curve 0
                                 amp 1
                                 amp_slide 0
+                                amp_slide_shape 5
+                                amp_slide_curve 0
                                 pan 0
                                 pan_slide 0
+                                pan_slide_shape 5
+                                pan_slide_curve 0
                                 attack 0.01
                                 decay 0
                                 sustain 0
@@ -518,30 +641,40 @@
                                 env_curve 2
                                 cutoff 100
                                 cutoff_slide 0
+                                cutoff_slide_shape 5
+                                cutoff_slide_curve 0
                                 mod_phase 1
                                 mod_phase_slide 0
+                                mod_phase_slide_shape 5
+                                mod_phase_slide_curve 5
                                 mod_range 5
                                 mod_range_slide 0
+                                mod_range_slide_shape 5
+                                mod_range_slide_curve 0
                                 mod_pulse_width 0.5
                                 mod_pulse_width_slide 0
+                                mod_pulse_width_slide_shape 5
+                                mod_pulse_width_slide_curve 0
                                 mod_phase_offset 0
                                 mod_wave 0
                                 mod_invert_wave 0
                                 detune 0.1
                                 detune_slide 0
+                                detune_slide_shape 5
+                                detune_slide_curve 0
                                 out_bus 0]
-     (let [note                    (lag note note_slide)
-           amp                     (lag amp amp_slide)
+     (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge               1.3
-           pan                     (lag pan pan_slide)
-           detune                  (lag detune detune_slide)
-           cutoff                  (lag cutoff cutoff_slide)
-           mod_phase               (lag mod_phase mod_phase_slide)
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           detune                  (varlag detune detune_slide detune_slide_curve detune_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
 
            mod_rate                (/ 1 mod_phase)
-           mod_range               (lag mod_range mod_range_slide)
+           mod_range               (varlag mod_range mod_range_slide)
 
-           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
 
            min_note                note
            max_note                (+ mod_range note)
@@ -567,10 +700,16 @@
 
    (defsynth sonic-pi-mod_sine [note 52
                                 note_slide 0
+                                note_slide_shape 5
+                                note_slide_curve 0
                                 amp 1
                                 amp_slide 0
+                                amp_slide_shape 5
+                                amp_slide_curve 0
                                 pan 0
                                 pan_slide 0
+                                pan_slide_shape 5
+                                pan_slide_curve 0
                                 attack 0.01
                                 decay 0
                                 sustain 0
@@ -580,27 +719,35 @@
                                 env_curve 2
                                 cutoff 100
                                 cutoff_slide 0
+                                cutoff_slide_shape 5
+                                cutoff_slide_curve 0
                                 mod_phase 1
                                 mod_phase_slide 0
+                                mod_phase_slide_shape 5
+                                mod_phase_slide_curve 0
                                 mod_range 5
                                 mod_range_slide 0
+                                mod_range_slide_shape 5
+                                mod_range_slide_curve 0
                                 mod_pulse_width 0.5
                                 mod_pulse_width_slide 0
+                                mod_pulse_width_slide_shape 5
+                                mod_pulse_width_slide_curve 0
                                 mod_phase_offset 0
                                 mod_wave 0
                                 mod_invert_wave 0
                                 out_bus 0]
-     (let [note                    (lag note note_slide)
-           amp                     (lag amp amp_slide)
+     (let [note                    (varlag note note_slide  note_slide_curve  note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge               1
-           pan                     (lag pan pan_slide)
-           cutoff                  (lag cutoff cutoff_slide)
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            cutoff-freq             (midicps cutoff)
-           mod_phase               (lag mod_phase mod_phase_slide)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
            mod_rate                (/ 1 mod_phase)
-           mod_range               (lag mod_range mod_range_slide)
+           mod_range               (varlag mod_range mod_range_slide mod_range_slide_curve mod_range_slide_shape)
 
-           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
 
            min_note                note
            max_note                (+ mod_range note)
@@ -625,10 +772,16 @@
 
    (defsynth sonic-pi-mod_tri [note 52
                                note_slide 0
+                               note_slide_shape 5
+                               note_slide_curve 0
                                amp 1
                                amp_slide 0
+                               amp_slide_shape 5
+                               amp_slide_curve 0
                                pan 0
                                pan_slide 0
+                               pan_slide_shape 5
+                               pan_slide_curve 0
                                attack 0.01
                                decay 0
                                sustain 0
@@ -638,27 +791,35 @@
                                env_curve 2
                                cutoff 100
                                cutoff_slide 0
+                               cutoff_slide_shape 5
+                               cutoff_slide_curve 0
                                mod_phase 1
                                mod_phase_slide 0
+                               mod_phase_slide_shape 5
+                               mod_phase_slide_curve 0
                                mod_range 5
                                mod_range_slide 0
+                               mod_range_slide_shape 5
+                               mod_range_slide_curve 0
                                mod_pulse_width 0.5
                                mod_pulse_width_slide 0
+                               mod_pulse_width_slide_shape 5
+                               mod_pulse_width_slide_curve 0
                                mod_phase_offset 0
                                mod_wave 0
                                mod_invert_wave 0
                                out_bus 0]
-     (let [note                    (lag note note_slide)
-           amp                     (lag amp amp_slide)
+     (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge               1.5
-           pan                     (lag pan pan_slide)
-           cutoff                  (lag cutoff cutoff_slide)
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
 
-           mod_phase               (lag mod_phase mod_phase_slide)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
            mod_rate                (/ 1 mod_phase)
-           mod_range               (lag mod_range mod_range_slide)
+           mod_range               (varlag mod_range mod_range_slide mod_range_slide_curve mod_range_slide_shape)
 
-           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
 
            min_note                note
            max_note                (+ mod_range note)
@@ -684,10 +845,16 @@
 
    (defsynth sonic-pi-mod_pulse [note 52
                                  note_slide 0
+                                 note_slide_shape 5
+                                 note_slide_curve 0
                                  amp 1
                                  amp_slide 0
+                                 amp_slide_shape 5
+                                 amp_slide_curve 0
                                  pan 0
                                  pan_slide 0
+                                 pan_slide_shape 5
+                                 pan_slide_curve 0
                                  attack 0.01
                                  decay 0
                                  sustain 0
@@ -697,28 +864,38 @@
                                  env_curve 2
                                  cutoff 100
                                  cutoff_slide 0
+                                 cutoff_slide_shape 5
+                                 cutoff_slide_curve 0
                                  mod_phase 1
                                  mod_phase_slide 0
+                                 mod_phase_slide_shape 5
+                                 mod_phase_slide_curve 0
                                  mod_range 5
                                  mod_range_slide 0
+                                 mod_range_slide_shape 5
+                                 mod_range_slide_curve 0
                                  mod_pulse_width 0.5
                                  mod_pulse_width_slide 0
+                                 mod_pulse_width_slide_shape 5
+                                 mod_pulse_width_slide_curve 0
                                  mod_phase_offset 0
                                  mod_wave 0
                                  mod_invert_wave 0
                                  pulse_width 0.5
                                  pulse_width_slide 0
+                                 pulse_width_slide_shape 5
+                                 pulse_width_slide_curve 0
                                  out_bus 0]
-     (let [note                    (lag note note_slide)
-           amp                     (lag amp amp_slide)
+     (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge               0.8
-           pan                     (lag pan pan_slide)
-           cutoff                  (lag cutoff cutoff_slide)
-           mod_phase               (lag mod_phase mod_phase_slide)
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
            mod_rate                (/ 1 mod_phase)
-           mod_range               (lag mod_range mod_range_slide)
-           pulse_width             (lag pulse_width pulse_width_slide)
-           mod_pulse_width         (lag mod_pulse_width mod_pulse_width_slide)
+           mod_range               (varlag mod_range mod_range_slide mod_range_slide_curve mod_range_slide_shape)
+           pulse_width             (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
 
            min_note                note
            max_note                (+ mod_range note)
@@ -743,7 +920,7 @@
 
 )
 
-  (comment
+  (do
     (save-to-pi sonic-pi-dull_bell)
     (save-to-pi sonic-pi-pretty_bell)
     (save-to-pi sonic-pi-beep)
@@ -769,14 +946,20 @@
     [buf 0
      amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      pan 0
      pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
      rate 1
      rate_slide 0
+     rate_slide_shape 5
+     rate_slide_curve 0
      out_bus 0]
-    (let [amp  (lag amp amp_slide)
-          pan  (lag pan pan_slide)
-          rate (lag rate rate_slide)
+    (let [amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+          rate (varlag rate rate_slide rate_slide_curve rate_slide_shape)
           rate (* rate (buf-rate-scale buf))
           snd  (play-buf 1 buf rate :action FREE)]
       (out out_bus (pan2 snd pan  amp))))
@@ -785,14 +968,20 @@
     [buf 0
      amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      pan 0
      pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
      rate 1
      rate_slide 0
+     rate_slide_shape 5
+     rate_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          pan           (lag pan pan_slide)
-          rate          (lag rate rate_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+          rate          (varlag rate rate_slide rate_slide_curve rate_slide_shape)
           rate          (* rate (buf-rate-scale buf))
           [snd-l snd-r] (play-buf 2 buf rate :action FREE)
           snd           (balance2 snd-l snd-r pan amp)]
@@ -804,8 +993,12 @@
     [buf 0
      amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      pan 0
      pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
      attack 0.0
      decay 0
      sustain -1
@@ -818,8 +1011,8 @@
      start 0
      finish 1
      out_bus 0]
-    (let [amp         (lag amp amp_slide)
-          pan         (lag pan pan_slide)
+    (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
           n-frames    (- (buf-frames buf) 1)
           start-pos   (* start n-frames)
           end-pos     (* finish n-frames)
@@ -842,8 +1035,12 @@
     [buf 0
      amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      pan 0
      pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
      attack 0.0
      decay 0
      sustain -1
@@ -855,8 +1052,8 @@
      start 0
      finish 1
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          pan           (lag pan pan_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
           n-frames      (- (buf-frames buf) 1)
           start-pos     (* start n-frames)
           end-pos       (* finish n-frames)
@@ -886,8 +1083,12 @@
  (defsynth sonic-pi-bnoise
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     pan 0
     pan_slide 0
+    pan_slide_shape 5
+    pan_slide_curve 0
     attack 0
     sustain 0
     decay 0
@@ -897,14 +1098,18 @@
     env_curve 2
     cutoff 120
     cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
     res 0.1
     res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     out_bus 0]
-   (let [amp         (lag amp amp_slide)
+   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          amp-fudge   1.2
-         pan         (lag pan pan_slide)
-         cutoff      (lag cutoff cutoff_slide)
-         res         (lag res res_slide)
+         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (brown-noise) cutoff-freq res)
          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
@@ -916,8 +1121,12 @@
  (defsynth sonic-pi-pnoise
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     pan 0
     pan_slide 0
+    pan_slide_shape 5
+    pan_slide_curve 0
     attack 0
     sustain 0
     decay 0
@@ -927,14 +1136,18 @@
     env_curve 2
     cutoff 120
     cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
     res 0.1
     res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     out_bus 0]
-   (let [amp         (lag amp amp_slide)
+   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          amp_fudge   3
-         pan         (lag pan pan_slide)
-         cutoff      (lag cutoff cutoff_slide)
-         res         (lag res res_slide)
+         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (pink-noise) cutoff-freq res)
          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
@@ -946,8 +1159,12 @@
   (defsynth sonic-pi-gnoise
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     pan 0
     pan_slide 0
+    pan_slide_shape 5
+    pan_slide_curve 0
     attack 0
     sustain 0
     decay 0
@@ -957,14 +1174,18 @@
     env_curve 2
     cutoff 120
     cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
     res 0.1
     res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     out_bus 0]
-   (let [amp         (lag amp amp_slide)
+   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          amp_fudge   1
-         pan         (lag pan pan_slide)
-         cutoff      (lag cutoff cutoff_slide)
-         res         (lag res res_slide)
+         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (gray-noise) cutoff-freq res)
          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
@@ -976,8 +1197,12 @@
  (defsynth sonic-pi-noise
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     pan 0
     pan_slide 0
+    pan_slide_shape 5
+    pan_slide_curve 0
     attack 0
     sustain 0
     decay 0
@@ -987,14 +1212,18 @@
     env_curve 2
     cutoff 120
     cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
     res 0.1
     res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     out_bus 0]
-   (let [amp         (lag amp amp_slide)
+   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          amp-fudge   0.9
-         pan         (lag pan pan_slide)
-         cutoff      (lag cutoff cutoff_slide)
-         res         (lag res res_slide)
+         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (white-noise) cutoff-freq res)
          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
@@ -1006,8 +1235,12 @@
   (defsynth sonic-pi-cnoise
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     pan 0
     pan_slide 0
+    pan_slide_shape 5
+    pan_slide_curve 0
     attack 0
     sustain 0
     decay 0
@@ -1017,14 +1250,18 @@
     env_curve 2
     cutoff 120
     cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
     res 0.1
     res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     out_bus 0]
-   (let [amp         (lag amp amp_slide)
+   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          amp-fudge   0.6
-         pan         (lag pan pan_slide)
-         cutoff      (lag cutoff cutoff_slide)
-         res         (lag res res_slide)
+         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (clip-noise) cutoff-freq res)
          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
@@ -1048,10 +1285,16 @@
     "A simple clone of the sound of a Roland TB-303 bass synthesizer."
     [note     52                        ; midi note value input
      note_slide 0
+     note_slide_shape 5
+     note_slide_curve 0
      amp      1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      pan      0
      pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
      attack   0.01
      sustain  0
      decay 0
@@ -1061,29 +1304,37 @@
      env_curve 2
      cutoff   80
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      cutoff_attack 0.01
      cutoff_sustain 0
      cutoff_decay 0
      cutoff_release 2
      cutoff_min 30
      cutoff_min_slide 0
+     cutoff_min_slide_shape 5
+     cutoff_min_slide_curve 0
      cutoff_attack_level 1
      cutoff_sustain_level 1
      cutoff_env_curve 2
      res      0.1                       ; rlpf resonance
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      wave     0                         ; 0=saw, 1=pulse, 2=tri
      pulse_width 0.5                    ; only for pulse wave
      pulse_width_slide 0
+     pulse_width_slide_shape 5
+     pulse_width_slide_curve 0
      out_bus  0]
-    (let [note        (lag note note_slide)
-          amp         (lag amp amp_slide)
+    (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+          amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           amp-fudge   1
-          pan         (lag pan pan_slide)
-          cutoff      (lag cutoff cutoff_slide)
-          cutoff_min  (lag cutoff_min cutoff_min_slide)
-          res         (lag res res_slide)
-          pulse_width (lag pulse_width pulse_width_slide)
+          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+          cutoff_min  (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
+          res         (varlag res res_slide res_slide_curve res_slide_shape)
+          pulse_width (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
           freq        (midicps note)
           env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
           filt-env    (env-gen (env-adsr-ng cutoff_attack cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_sustain_level cutoff_env_curve))
@@ -1102,10 +1353,16 @@
 
   (defsynth sonic-pi-supersaw [note 52
                                note_slide 0
+                               note_slide_shape 5
+                               note_slide_curve 0
                                amp 1
                                amp_slide 0
+                               amp_slide_shape 5
+                               amp_slide_curve 0
                                pan 0
                                pan_slide 0
+                               pan_slide_shape 5
+                               pan_slide_curve 0
                                attack 0.01
                                decay 0
                                sustain 0
@@ -1115,15 +1372,19 @@
                                env_curve 2
                                cutoff 130
                                cutoff_slide 0
+                               cutoff_slide_shape 5
+                               cutoff_slide_curve 0
                                res 0.3
                                res_slide 0
+                               res_slide_shape 5
+                               res_slide_curve 0
                                out_bus 0]
-    (let [note        (lag note note_slide)
-          amp         (lag amp amp_slide)
+    (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+          amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           amp-fudge   0.9
-          pan         (lag pan pan_slide)
-          cutoff      (lag cutoff cutoff_slide)
-          res         (lag res res_slide)
+          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+          res         (varlag res res_slide res_slide_curve res_slide_shape)
           freq        (midicps note)
           cutoff-freq (midicps cutoff)
           input       (lf-saw freq)
@@ -1146,10 +1407,16 @@
 
   (defsynth sonic-pi-zawa [note 52
                            note_slide 0
+                           note_slide_shape 5
+                           note_slide_curve 0
                            amp 1
                            amp_slide 0
+                           amp_slide_shape 5
+                           amp_slide_curve 0
                            pan 0
                            pan_slide 0
+                           pan_slide_shape 5
+                           pan_slide_curve 0
                            attack 0.1
                            decay 0
                            sustain 0
@@ -1159,28 +1426,38 @@
                            env_curve 2
                            cutoff 100
                            cutoff_slide 0
+                           cutoff_slide_shape 5
+                           cutoff_slide_curve 0
                            res 0.1
                            res_slide 0
+                           res_slide_shape 5
+                           res_slide_curve 0
                            phase 1
                            phase_slide 0
+                           phase_slide_shape 5
+                           phase_slide_curve 0
                            phase_offset 0
                            wave 0
                            disable_wave 0
                            invert_wave 0
                            pulse_width 0.5
                            pulse_width_slide 0
+                           pulse_width_slide_shape 5
+                           pulse_width_slide_curve 0
                            range 1
                            range_slide 0
+                           range_slide_shape 5
+                           range_slide_curve 0
                            out_bus 0]
-    (let [note                (lag note note_slide)
-          amp                 (lag amp amp_slide)
+    (let [note                (varlag note note_slide note_slide_curve note_slide_shape)
+          amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           amp-fudge           0.5
-          pan                 (lag pan pan_slide)
-          phase               (lag phase phase_slide)
-          pulse_width         (lag pulse_width pulse_width_slide)
-          range               (lag range range_slide)
+          pan                 (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
+          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
+          range               (varlag range range_slide range_slide_curve range_slide_shape)
           wob_rate            (/ 1 phase)
-          cutoff              (lag cutoff cutoff_slide)
+          cutoff              (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           freq                (midicps note)
           cutoff              (midicps cutoff)
           double_phase_offset (* 2 phase_offset)
@@ -1225,10 +1502,16 @@
 
     [note 52
      note_slide 0
+     note_slide_shape 5
+     note_slide_curve 0
      amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      pan 0
      pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
      attack 0.01
      decay 0
      sustain 0
@@ -1238,16 +1521,20 @@
      env_curve 2
      cutoff 110
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.3
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      out_bus 0 ]
 
-    (let [note        (lag note note_slide)
-          amp         (lag amp amp_slide)
+    (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+          amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           amp-fudge   1.5
-          pan         (lag pan pan_slide)
-          cutoff      (lag cutoff cutoff_slide)
-          res         (lag res res_slide)
+          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+          res         (varlag res res_slide res_slide_curve res_slide_shape)
           freq        (midicps note)
           cutoff-freq (midicps cutoff)
           snd         (mix [(pulse freq (* 0.1 (/ (+ 1.2 (sin-osc:kr 1)) )))
@@ -1277,21 +1564,31 @@
  (defsynth sonic-pi-fx_bitcrusher
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     mix 1
     mix_slide 0
+    mix_slide_shape 5
+    mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
+    pre_amp_slide_shape 5
+    pre_amp_slide_curve 0
     sample_rate 10000
     sample_rate_slide 0
+    sample_rate_slide_shape 5
+    sample_rate_slide_curve 0
     bits 8
     bits_slide 0
+    bits_slide_shape 5
+    bits_slide_curve 0
     in_bus 0
     out_bus 0]
-   (let [amp           (lag amp amp_slide)
-         mix           (lag mix mix_slide)
-         pre_amp       (lag pre_amp pre_amp_slide)
-         sample_rate   (lag sample_rate sample_rate_slide)
-         bits          (lag bits bits_slide)
+   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         sample_rate   (varlag sample_rate sample_rate_slide sample_rate_slide_curve sample_rate_slide_shape)
+         bits          (varlag bits bits_slide bits_slide_curve bits_slide_shape)
          [in-l in-r]   (* pre_amp (in in_bus 2))
          [new-l new-r] (decimator [in-l in-r] sample_rate bits)
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -1302,20 +1599,30 @@
  (defsynth sonic-pi-fx_replace_bitcrusher
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     mix 1
     mix_slide 0
+    mix_slide_shape 5
+    mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
+    pre_amp_slide_shape 5
+    pre_amp_slide_curve 0
     sample_rate 10000
     sample_rate_slide 0
+    sample_rate_slide_shape 5
+    sample_rate_slide_curve 0
     bits 8
     bits_slide 0
+    bits_slide_shape 5
+    bits_slide_curve 0
     out_bus 0]
-   (let [amp           (lag amp amp_slide)
-         mix           (lag mix mix_slide)
-         pre_amp       (lag pre_amp pre_amp_slide)
-         sample_rate   (lag sample_rate sample_rate_slide)
-         bits          (lag bits bits_slide)
+   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         sample_rate   (varlag sample_rate sample_rate_slide sample_rate_slide_curve sample_rate_slide_shape)
+         bits          (varlag bits bits_slide bits_slide_curve bits_slide_shape)
          [in-l in-r]   (* pre_amp (in:ar out_bus 2))
          [new-l new-r] (decimator [in-l in-r] sample_rate bits)
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -1326,21 +1633,31 @@
  (defsynth sonic-pi-fx_reverb
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     mix 0.4
     mix_slide 0
+    mix_slide_shape 5
+    mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
+    pre_amp_slide_shape 5
+    pre_amp_slide_curve 0
     room 0.6
     room_slide 0
+    room_slide_shape 5
+    room_slide_curve 0
     damp 0.5
     damp_slide 0
+    damp_slide_shape 5
+    damp_slide_curve 0
     in_bus 0
     out_bus 0]
-   (let [amp     (lag amp amp_slide)
-         mix     (lag mix mix_slide)
-         pre_amp (lag pre_amp pre_amp_slide)
-         room    (lag room room_slide)
-         damp    (lag damp damp_slide)
+   (let [amp     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix     (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         room    (varlag room room_slide room_slide_curve room_slide_shape)
+         damp    (varlag damp damp_slide damp_slide_curve damp_slide_shape)
          [l r]   (* pre_amp (in:ar in_bus 2))
          snd     (* amp (free-verb2 l r mix room damp))]
       (out out_bus snd)))
@@ -1349,20 +1666,30 @@
  (defsynth sonic-pi-fx_replace_reverb
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     mix 0.4
     mix_slide 0
+    mix_slide_shape 5
+    mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
+    pre_amp_slide_shape 5
+    pre_amp_slide_curve 0
     room 0.6
     room_slide 0
+    room_slide_shape 5
+    room_slide_curve 0
     damp 0.5
     damp_slide 0
+    damp_slide_shape 5
+    damp_slide_curve 0
     out_bus 0]
-   (let [amp     (lag amp amp_slide)
-         mix     (lag mix mix_slide)
-         pre_amp (lag pre_amp pre_amp_slide)
-         room    (lag room room_slide)
-         damp    (lag damp damp_slide)
+   (let [amp     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix     (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         room    (varlag room room_slide room_slide_curve room_slide_shape)
+         damp    (varlag damp damp_slide damp_slide_curve damp_slide_shape)
          [l r]   (* pre_amp (in:ar out_bus 2))
          snd     (* amp (free-verb2 l r mix room damp))]
       (replace-out out_bus snd)))
@@ -1371,41 +1698,57 @@
  (defsynth sonic-pi-fx_level
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     in_bus 0
     out_bus 0]
-    (let [amp (lag amp amp_slide)]
+    (let [amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)]
       (out out_bus (* amp (in in_bus 2)))))
 
 
  (defsynth sonic-pi-fx_replace_level
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     out_bus 0]
-    (let [amp (lag amp amp_slide )]
+    (let [amp (varlag amp amp_slide  amp_slide_curve amp_slide_shape)]
       (replace-out out_bus (* amp (in out_bus 2)))))
 
 
  (defsynth sonic-pi-fx_echo
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     mix 1
     mix_slide 0
+    mix_slide_shape 5
+    mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
+    pre_amp_slide_shape 5
+    pre_amp_slide_curve 0
     phase 0.25
     phase_slide 0
+    phase_slide_shape 5
+    phase_slide_curve 0
     decay 8
     decay_slide 0
+    decay_slide_shape 5
+    decay_slide_curve 0
     max_phase 2
     amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     in_bus 0
     out_bus 0]
-   (let [amp           (lag amp amp_slide)
-         mix           (lag mix mix_slide)
-         pre_amp       (lag pre_amp pre_amp_slide)
-         phase         (lag phase phase_slide)
-         decay         (lag decay decay_slide)
+   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         phase         (varlag phase phase_slide phase_slide_curve phase_slide_shape)
+         decay         (varlag decay decay_slide decay_slide_curve decay_slide_shape)
 
          [in-l in-r]   (* pre_amp (in in_bus 2))
          [new-l new-r] (+ [in-l in-r] (comb-n [in-l in-r] max_phase phase decay))
@@ -1417,23 +1760,35 @@
  (defsynth sonic-pi-fx_replace_echo
    [amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     mix 1
     mix_slide 0
+    mix_slide_shape 5
+    mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
+    pre_amp_slide_shape 5
+    pre_amp_slide_curve 0
     phase 0.25
     phase_slide 0
+    phase_slide_shape 5
+    phase_slide_curve 0
     decay 8
     decay_slide 0
+    decay_slide_shape 5
+    decay_slide_curve 0
     max_phase 2
     amp 1
     amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
     out_bus 0]
-   (let [amp           (lag amp amp_slide)
-         mix           (lag mix mix_slide)
-         pre_amp       (lag pre_amp pre_amp_slide)
-         phase         (lag phase phase_slide)
-         decay         (lag decay decay_slide)
+   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         phase         (varlag phase phase_slide phase_slide_curve phase_slide_shape)
+         decay         (varlag decay decay_slide decay_slide_curve decay_slide_shape)
 
          [in-l in-r]   (* pre_amp (in out_bus 2))
          [new-l new-r] (+ [in-l in-r] (comb-n [in-l in-r] max_phase phase decay))
@@ -1445,31 +1800,45 @@
   (defsynth sonic-pi-fx_slicer
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      phase 0.25
      phase_slide 0
+     phase_slide_shape 5
+     phase_slide_curve 0
      amp_min 0
      amp_min_slide 0
+     amp_min_slide_shape 5
+     amp_min_slide_curve 0
      amp_max 1
      amp_max_slide 0
+     amp_max_slide_shape 5
+     amp_max_slide_curve 0
      pulse_width 0.5
      pulse_width_slide 0
+     pulse_width_slide_shape 5
+     pulse_width_slide_curve 0
      phase_offset 0
      wave 1                   ;;0=saw, 1=pulse, 2=tri, 3=sine
      invert_wave 0            ;;0=normal wave, 1=inverted wave
      in_bus 0
      out_bus 0]
-    (let [amp                 (lag amp amp_slide)
-          mix                 (lag mix mix_slide)
-          pre_amp             (lag pre_amp pre_amp_slide)
-          phase               (lag phase phase_slide)
-          amp_min             (lag amp_min amp_min_slide)
-          amp_max             (lag amp_max amp_max_slide)
+    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix                 (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp             (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
+          amp_min             (varlag amp_min amp_min_slide amp_min_slide_curve amp_min_slide_shape)
+          amp_max             (varlag amp_max amp_max_slide amp_max_slide_curve amp_max_slide_shape)
           rate                (/ 1 phase)
-          pulse_width         (lag pulse_width pulse_width_slide)
+          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
           double_phase_offset (* 2 phase_offset)
 
           ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
@@ -1491,30 +1860,44 @@
   (defsynth sonic-pi-fx_replace_slicer
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      phase 0.25
      phase_slide 0
+     phase_slide_shape 5
+     phase_slide_curve 0
      amp_min 0
      amp_min_slide 0
+     amp_min_slide_shape 5
+     amp_min_slide_curve 0
      amp_max 1
      amp_max_slide 0
+     amp_max_slide_shape 5
+     amp_max_slide_curve 0
      pulse_width 0.5
      pulse_width_slide 0
+     pulse_width_slide_shape 5
+     pulse_width_slide_curve 0
      phase_offset 0
      wave 1                   ;;0=saw, 1=pulse, 2=tri, 3=sine
      invert_wave 0            ;;0=normal wave, 1=inverted wave
      out_bus 0]
-    (let [amp                 (lag amp amp_slide)
-          mix                 (lag mix mix_slide)
-          pre_amp             (lag pre_amp pre_amp_slide)
-          phase               (lag phase phase_slide)
-          amp_min             (lag amp_min amp_min_slide)
-          amp_max             (lag amp_max amp_max_slide)
+    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix                 (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp             (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
+          amp_min             (varlag amp_min amp_min_slide amp_min_slide_curve amp_min_slide_shape)
+          amp_max             (varlag amp_max amp_max_slide amp_max_slide_curve amp_max_slide_shape)
           rate                (/ 1 phase)
-          pulse_width         (lag pulse_width pulse_width_slide)
+          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
           double_phase_offset (* 2 phase_offset)
 
           ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
@@ -1536,35 +1919,51 @@
   (defsynth sonic-pi-fx_wobble
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      phase 0.5
      phase_slide 0
+     phase_slide_shape 5
+     phase_slide_curve 0
      cutoff_min 60
      cutoff_min_slide 0
+     cutoff_min_slide_shape 5
+     cutoff_min_slide_curve 0
      cutoff_max 120
      cutoff_max_slide 0
+     cutoff_max_slide_shape 5
+     cutoff_max_slide_curve 0
      res 0.2
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      phase_offset 0.5
      wave 0                             ;0=saw, 1=pulse, 2=tri, 3=sin
      invert_wave 0                      ;0=normal wave, 1=inverted wave
      pulse_width 0.5                    ; only for pulse wave
      pulse_width_slide 0                ; only for pulse wave
+     pulse_width_slide_shape 5                ; only for pulse wa_shape 5
+     pulse_width_slide_curve 0                ; only for pulse wa_curve 0
      filter 0                           ;0=rlpf, 1=rhpf
      in_bus 0
      out_bus 0]
-    (let [amp                 (lag amp amp_slide)
-          mix                 (lag mix mix_slide)
-          pre_amp             (lag pre_amp pre_amp_slide)
-          phase               (lag phase phase_slide)
+    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix                 (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp             (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
           rate                (/ 1 phase)
-          cutoff_min          (lag cutoff_min cutoff_min_slide)
-          cutoff_max          (lag cutoff_max cutoff_max_slide)
-          pulse_width         (lag pulse_width pulse_width_slide)
-          res                 (lag res res_slide)
+          cutoff_min          (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
+          cutoff_max          (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
+          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
+          res                 (varlag res res_slide res_slide_curve res_slide_shape)
           cutoff_min          (midicps cutoff_min)
           cutoff_max          (midicps cutoff_max)
           double_phase_offset (* 2 phase_offset)
@@ -1592,34 +1991,50 @@
   (defsynth sonic-pi-fx_replace_wobble
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      phase 0.5
      phase_slide 0
+     phase_slide_shape 5
+     phase_slide_curve 0
      cutoff_min 60
      cutoff_min_slide 0
+     cutoff_min_slide_shape 5
+     cutoff_min_slide_curve 0
      cutoff_max 120
      cutoff_max_slide 0
+     cutoff_max_slide_shape 5
+     cutoff_max_slide_curve 0
      res 0.2
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      phase_offset 0.5
      wave 0                             ;0=saw, 1=pulse, 2=tri, 3=sin
      invert_wave 0                      ;0=normal wave, 1=inverted wave
      pulse_width 0.5                    ; only for pulse wave
      pulse_width_slide 0                ; only for pulse wave
+     pulse_width_slide_shape 5                ; only for pulse wa_shape 5
+     pulse_width_slide_curve 0                ; only for pulse wa_curve 0
      filter 0                           ;0=rlpf, 1=rhpf
      out_bus 0]
-    (let [amp                 (lag amp amp_slide)
-          mix                 (lag mix mix_slide)
-          pre_amp             (lag pre_amp pre_amp_slide)
-          phase               (lag phase phase_slide)
+    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix                 (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp             (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
           rate                (/ 1 phase)
-          cutoff_min          (lag cutoff_min cutoff_min_slide)
-          cutoff_max          (lag cutoff_max cutoff_max_slide)
-          pulse_width         (lag pulse_width pulse_width_slide)
-          res                 (lag res res_slide)
+          cutoff_min          (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
+          cutoff_max          (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
+          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
+          res                 (varlag res res_slide res_slide_curve res_slide_shape)
           cutoff_min          (midicps cutoff_min)
           cutoff_max          (midicps cutoff_max)
           double_phase_offset (* 2 phase_offset)
@@ -1646,29 +2061,43 @@
   (defsynth sonic-pi-fx_ixi_techno
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      phase 4
      phase_slide 0
+     phase_slide_shape 5
+     phase_slide_curve 0
      phase_offset 0
      cutoff_min 60
      cutoff_min_slide 0
+     cutoff_min_slide_shape 5
+     cutoff_min_slide_curve 0
      cutoff_max 120
      cutoff_max_slide 0
+     cutoff_max_slide_shape 5
+     cutoff_max_slide_curve 0
      res 0.2
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          phase         (lag phase phase_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          phase         (varlag phase phase_slide phase_slide_curve phase_slide_shape)
           rate          (/ 1 phase)
-          cutoff_min    (lag cutoff_min cutoff_min_slide)
-          cutoff_max    (lag cutoff_max cutoff_max_slide)
-          res           (lag res res_slide)
+          cutoff_min    (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
+          cutoff_max    (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
           cutoff_min    (midicps cutoff_min)
           cutoff_max    (midicps cutoff_max)
           freq          (lin-exp (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2))) -1 1 cutoff_min cutoff_max)
@@ -1683,28 +2112,42 @@
   (defsynth sonic-pi-fx_replace_ixi_techno
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      phase 4
      phase_slide 0
+     phase_slide_shape 5
+     phase_slide_curve 0
      phase_offset 0
      cutoff_min 60
      cutoff_min_slide 0
+     cutoff_min_slide_shape 5
+     cutoff_min_slide_curve 0
      cutoff_max 120
      cutoff_max_slide 0
+     cutoff_max_slide_shape 5
+     cutoff_max_slide_curve 0
      res 0.2
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          phase         (lag phase phase_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          phase         (varlag phase phase_slide phase_slide_curve phase_slide_shape)
           rate          (/ 1 phase)
-          cutoff_min    (lag cutoff_min cutoff_min_slide)
-          cutoff_max    (lag cutoff_max cutoff_max_slide)
-          res           (lag res res_slide)
+          cutoff_min    (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
+          cutoff_max    (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
           cutoff_min    (midicps cutoff_min)
           cutoff_max    (midicps cutoff_max)
           freq          (lin-exp (sin-osc:kr rate (* (- phase_offset 0.25) (* Math/PI 2))) -1 1 cutoff_min cutoff_max)
@@ -1719,30 +2162,46 @@
   (defsynth sonic-pi-fx_compressor
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      threshold 0.2
      threshold_slide 0
+     threshold_slide_shape 5
+     threshold_slide_curve 0
      clamp_time 0.01
      clamp_time_slide 0
+     clamp_time_slide_shape 5
+     clamp_time_slide_curve 0
      slope_above 0.5
      slope_above_slide 0
+     slope_above_slide_shape 5
+     slope_above_slide_curve 0
      slope_below 1
      slope_below_slide 0
+     slope_below_slide_shape 5
+     slope_below_slide_curve 0
      relax_time 0.01
      relax_time_slide 0
+     relax_time_slide_shape 5
+     relax_time_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          threshold     (lag threshold threshold_slide)
-          clamp_time    (lag clamp_time clamp_time_slide)
-          slope_above   (lag slope_above slope_above_slide)
-          slope_below   (lag slope_below slope_below_slide)
-          relax_time    (lag relax_time relax_time_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          threshold     (varlag threshold threshold_slide threshold_slide_curve threshold_slide_shape)
+          clamp_time    (varlag clamp_time clamp_time_slide clamp_time_slide_curve clamp_time_slide_shape)
+          slope_above   (varlag slope_above slope_above_slide slope_above_slide_curve slope_above_slide_shape)
+          slope_below   (varlag slope_below slope_below_slide slope_below_slide_curve slope_below_slide_shape)
+          relax_time    (varlag relax_time relax_time_slide relax_time_slide_curve relax_time_slide_shape)
 
           src           (* pre_amp (in in_bus 2))
           [in-l in-r]   src
@@ -1760,29 +2219,45 @@
   (defsynth sonic-pi-fx_replace_compressor
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      threshold 0.2
      threshold_slide 0
+     threshold_slide_shape 5
+     threshold_slide_curve 0
      clamp_time 0.01
      clamp_time_slide 0
+     clamp_time_slide_shape 5
+     clamp_time_slide_curve 0
      slope_above 0.5
      slope_above_slide 0
+     slope_above_slide_shape 5
+     slope_above_slide_curve 0
      slope_below 1
      slope_below_slide 0
+     slope_below_slide_shape 5
+     slope_below_slide_curve 0
      relax_time 0.01
      relax_time_slide 0
+     relax_time_slide_shape 5
+     relax_time_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          threshold     (lag threshold threshold_slide)
-          clamp_time    (lag clamp_time clamp_time_slide)
-          slope_above   (lag slope_above slope_above_slide)
-          slope_below   (lag slope_below slope_below_slide)
-          relax_time    (lag relax_time relax_time_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          threshold     (varlag threshold threshold_slide threshold_slide_curve threshold_slide_shape)
+          clamp_time    (varlag clamp_time clamp_time_slide clamp_time_slide_curve clamp_time_slide_shape)
+          slope_above   (varlag slope_above slope_above_slide slope_above_slide_curve slope_above_slide_shape)
+          slope_below   (varlag slope_below slope_below_slide slope_below_slide_curve slope_below_slide_shape)
+          relax_time    (varlag relax_time relax_time_slide relax_time_slide_curve relax_time_slide_shape)
 
           src           (* pre_amp (in out_bus 2))
           [in-l in-r]   src
@@ -1800,22 +2275,32 @@
   (defsynth sonic-pi-fx_rlpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 100
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.6
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
-          res           (lag res res_slide)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (rlpf [in-l in-r] cutoff res)
@@ -1827,21 +2312,31 @@
   (defsynth sonic-pi-fx_replace_rlpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 100
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.6
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
-          res           (lag res res_slide)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
           [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (rlpf [in-l in-r] cutoff res)
@@ -1853,22 +2348,32 @@
   (defsynth sonic-pi-fx_nrlpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 100
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.6
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
-          res           (lag res res_slide)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (normalizer (rlpf [in-l in-r] cutoff res))
@@ -1880,21 +2385,31 @@
   (defsynth sonic-pi-fx_replace_nrlpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 100
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.6
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
-          res           (lag res res_slide)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
           [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (normalizer (rlpf [in-l in-r] cutoff res))
@@ -1906,22 +2421,32 @@
   (defsynth sonic-pi-fx_rhpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 10
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.6
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
-          res           (lag res res_slide)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
           [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (rhpf [in-l in-r] cutoff res)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -1932,21 +2457,31 @@
   (defsynth sonic-pi-fx_replace_rhpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 10
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.6
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
-          res           (lag res res_slide)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
           [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (rhpf [in-l in-r] cutoff res)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -1957,22 +2492,32 @@
   (defsynth sonic-pi-fx_nrhpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 10
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.6
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
-          res           (lag res res_slide)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
           [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (normalizer (rhpf [in-l in-r] cutoff res))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -1983,21 +2528,31 @@
   (defsynth sonic-pi-fx_replace_nrhpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 10
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      res 0.6
      res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
-          res           (lag res res_slide)
+          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
           [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (normalizer (rhpf [in-l in-r] cutoff res))
@@ -2009,18 +2564,26 @@
   (defsynth sonic-pi-fx_hpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 10
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
@@ -2033,17 +2596,25 @@
   (defsynth sonic-pi-fx_replace_hpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 10
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
 
           [in-l in-r]   (* pre_amp (in out_bus 2))
@@ -2056,18 +2627,26 @@
   (defsynth sonic-pi-fx_nhpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 10
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
@@ -2080,17 +2659,25 @@
   (defsynth sonic-pi-fx_replace_nhpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 10
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
 
           [in-l in-r]   (* pre_amp (in out_bus 2))
@@ -2103,18 +2690,26 @@
   (defsynth sonic-pi-fx_lpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 100
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
@@ -2127,17 +2722,25 @@
     (defsynth sonic-pi-fx_replace_lpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 100
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
 
           [in-l in-r]   (* pre_amp (in out_bus 2))
@@ -2150,18 +2753,26 @@
   (defsynth sonic-pi-fx_nlpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 100
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
@@ -2174,17 +2785,25 @@
   (defsynth sonic-pi-fx_replace_nlpf
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      cutoff 100
      cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          cutoff        (lag cutoff cutoff_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff        (midicps cutoff)
 
           [in-l in-r]   (* pre_amp (in out_bus 2))
@@ -2197,18 +2816,26 @@
   (defsynth sonic-pi-fx_normaliser
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      level 1
      level_slide 0
+     level_slide_shape 5
+     level_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          level         (lag level level_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          level         (varlag level level_slide level_slide_curve level_slide_shape)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (normalizer [in-l in-r] level)
@@ -2220,17 +2847,25 @@
   (defsynth sonic-pi-fx_replace_normaliser
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      level 1
      level_slide 0
+     level_slide_shape 5
+     level_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          level         (lag level level_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          level         (varlag level level_slide level_slide_curve level_slide_shape)
 
           [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (normalizer [in-l in-r] level)
@@ -2242,18 +2877,26 @@
   (defsynth sonic-pi-fx_distortion
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      distort 0.5
      distort_slide 0
+     distort_slide_shape 5
+     distort_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          distort       (lag distort distort_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          distort       (varlag distort distort_slide distort_slide_curve distort_slide_shape)
           k             (/ (* 2 distort) (- 1 distort))
 
           src           (* pre_amp (in in_bus 2))
@@ -2268,17 +2911,25 @@
   (defsynth sonic-pi-fx_replace_distortion
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      distort 0.5
      distort_slide 0
+     distort_slide_shape 5
+     distort_slide_curve 0
      out_bus 0]
-    (let [amp           (lag:kr amp amp_slide)
-          mix           (lag:kr mix mix_slide)
-          pre_amp       (lag:kr pre_amp pre_amp_slide)
-          distort       (lag:kr distort distort_slide)
+    (let [amp           (varlag:kr amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag:kr mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag:kr pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          distort       (varlag:kr distort distort_slide distort_slide_curve distort_slide_shape)
           k             (/ (* 2 distort) (- 1 distort))
 
           src           (* pre_amp (in out_bus 2))
@@ -2292,18 +2943,26 @@
   (defsynth sonic-pi-fx_pan
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      pan 0
      pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
      in_bus 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          pan           (lag pan pan_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
           [in-l in-r]   (* pre_amp (in in_bus 2))
           [new-l new-r] (balance2 in-l in-r pan amp)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -2314,17 +2973,25 @@
   (defsynth sonic-pi-fx_replace_pan
     [amp 1
      amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
      mix 1
      mix_slide 0
+     mix_slide_shape 5
+     mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
+     pre_amp_slide_shape 5
+     pre_amp_slide_curve 0
      pan 0
      pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
      out_bus 0]
-    (let [amp           (lag amp amp_slide)
-          mix           (lag mix mix_slide)
-          pre_amp       (lag pre_amp pre_amp_slide)
-          pan           (lag pan pan_slide)
+    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
           [in-l in-r]   (* pre_amp (in out_bus 2))
           [new-l new-r] (balance2 in-l in-r pan amp)
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -2470,18 +3137,24 @@
     (defsynth sonic-pi-stereo_warp_sample [buf 0
                                            amp 1
                                            amp_slide 0
+                                           amp_slide_shape 5
+                                           amp_slide_curve 0
                                            pan 0
                                            pan_slide 0
+                                           pan_slide_shape 5
+                                           pan_slide_curve 0
                                            start 0
                                            finish 1
                                            rate 1
                                            rate_slide 0
+                                           rate_slide_shape 5
+                                           rate_slide_curve 0
                                            window_size 0.1
                                            overlaps 8
                                            out_bus 0]
-      (let [amp           (lag amp amp_slide)
-            pan           (lag pan pan_slide)
-            rate          (lag rate rate_slide)
+      (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+            pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+            rate          (varlag rate rate_slide rate_slide_curve rate_slide_shape)
             play-time     (* (buf-dur buf) (absdif finish start))
             snd           (warp1:ar 2 buf (line start finish play-time) rate window_size overlaps 0 4)
             [snd-l snd-r] snd
