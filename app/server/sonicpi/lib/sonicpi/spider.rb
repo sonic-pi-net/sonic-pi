@@ -73,13 +73,6 @@ module SonicPi
       __info "#{@version} Ready..."
     end
 
-    #These includes must happen after the initialize method
-    #as they may potentially redefine it to extend behaviour
-    include SonicPi::Mods::SPMIDI
-#    include SonicPi::Mods::Graphics
-    include SonicPi::Mods::Sound
-#    include SonicPi::Mods::Feeds
-    #    include SonicPi::Mods::GlobalKeys
 
     ## Not officially part of the API
     ## Probably should be moved somewhere else
