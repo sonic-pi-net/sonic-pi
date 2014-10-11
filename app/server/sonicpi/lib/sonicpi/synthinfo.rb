@@ -3468,7 +3468,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         v.arg_info.each do |ak, av|
           cnt += 1
           background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
-          key_bg_colour = cnt.even? ? "#E6F0FF" : "#B2D1FF"
+          key_bg_colour = cnt.even? ? "#74ACFF" : "#B2D1FF"
           doc << " <a name=\"#{ak}\"></a>\n"
           doc << "  <tr bgcolor=\"#{background_colour}\">\n"
           doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
@@ -3572,7 +3572,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         StereoPlayer.new.arg_info.each do |ak, av|
           cnt += 1
           background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
-          key_bg_colour = cnt.even? ? "#E6F0FF" : "#B2D1FF"
+          key_bg_colour = cnt.even? ? "#74ACFF" : "#B2D1FF"
           doc << "  <tr bgcolor=\"#{background_colour}\">\n"
           doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
           doc << "      <td>\n"

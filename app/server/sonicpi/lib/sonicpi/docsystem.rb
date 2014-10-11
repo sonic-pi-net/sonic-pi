@@ -74,7 +74,7 @@ module SonicPi
               v[:examples].each_with_index do |e, idx|
 
                 background_colour = idx.even? ? "#F8F8F8" : "#E8E8E8"
-                key_bg_colour = idx.even? ? "#E6F0FF" : "#B2D1FF"
+                key_bg_colour = idx.even? ? "#74ACFF" : "#B2D1FF"
 
                 html << " <tr bgcolor=\"#{background_colour}\">\n"
                 html << "  <td bgcolor=\"#{key_bg_colour}\"><h3><pre>Example #{idx} </pre></h3></td>\n"

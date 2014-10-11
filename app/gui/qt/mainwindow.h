@@ -25,6 +25,7 @@
 #include <QProcess>
 #include <QFuture>
 #include <QShortcut>
+#include <QHash>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -40,8 +41,14 @@ class QString;
 class QSlider;
 
 struct help_page {
-    QString title;
-    QString filename;
+  QString title;
+  QString keyword;
+  QString filename;
+};
+
+struct help_entry {
+  int pageIndex;
+  int entryIndex;
 };
 
 class MainWindow : public QMainWindow
@@ -89,11 +96,13 @@ private slots:
     void setRPSystemAudioHDMI();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
+    void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void replaceBuffer(QString id, QString content);
     void tabNext();
     void tabPrev();
+    void helpContext();
 
 private:
 
@@ -200,6 +209,9 @@ private:
 
     int currentLine;
     int currentIndex;
+
+    QList<QListWidget *> helpLists;
+    QHash<QString, help_entry> helpKeywords;
 };
 
 #endif
