@@ -943,6 +943,38 @@ void MainWindow::help()
   }
 }
 
+void MainWindow::helpContext()
+{
+  if (!docWidget->isVisible())
+    docWidget->show();
+  QsciScintilla *ws = ((QsciScintilla*)tabs->currentWidget());
+  QString selection = ws->selectedText();
+  if (selection == "") { // get current word instead
+    int line, pos;
+    ws->getCursorPosition(&line, &pos);
+    QString text = ws->text(line);
+    int start, end;
+    for (start = pos; start > 0; start--) {
+      if (!text[start-1].isLetter() && text[start-1] != '_') break;
+    }
+    for (end = pos; end < text.length(); end++) {
+      if (!text[end].isLetter() && text[end] != '_') break;
+    }
+    selection = text.mid(start, end-start);
+  }
+  selection = selection.toLower();
+  if (selection[0] == ':')
+    selection = selection.mid(1);
+
+  if (helpKeywords.contains(selection)) {
+    struct help_entry entry = helpKeywords[selection];
+    QMetaObject::invokeMethod(docsCentral, "setCurrentIndex",
+			      Q_ARG(int, entry.pageIndex));
+    QListWidget *list = helpLists[entry.pageIndex];
+    list->setCurrentRow(entry.entryIndex);
+  }
+}
+
 void MainWindow::changeRPSystemVol(int val) {
 #if defined(Q_OS_WIN)
   //do nothing
@@ -1132,6 +1164,8 @@ void MainWindow::createActions()
   // Help
   helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
   setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
+
+  new QShortcut(QKeySequence("F1"), this, SLOT(helpContext()));
 
   // Preferences
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
@@ -1354,12 +1388,18 @@ void MainWindow::onExitCleanup()
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
   QString content = cur->data(32).toString();
+  // todo, there should only be one doc pane
   tutorialDocPane->setHtml(content);
   langDocPane->setHtml(content);
   synthsDocPane->setHtml(content);
   fxDocPane->setHtml(content);
   samplesDocPane->setHtml(content);
   examplesDocPane->setHtml(content);
+}
+
+void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
+  updateDocPane(cur);
+  prev = prev;
 }
 
 void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
@@ -1378,29 +1418,36 @@ void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
 void MainWindow::addHelpPage(QListWidget *nameList,
                              struct help_page *helpPages, int len) {
   int i;
+  struct help_entry entry;
+  entry.pageIndex = docsCentral->count()-1;
 
   for(i = 0; i < len; i++) {
     QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
     setHelpText(item, QString(helpPages[i].filename));
     item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
+    entry.entryIndex = nameList->count()-1;
+    helpKeywords.insert(helpPages[i].keyword.toLower(), entry);
   }
 }
 
 QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
-	QListWidget *nameList = new QListWidget;
-	nameList->setSortingEnabled(true);
-	connect(nameList,
-			SIGNAL(itemPressed(QListWidgetItem*)),
-			this, SLOT(updateDocPane(QListWidgetItem*)));
-	QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
-	layout->addWidget(nameList);
-	layout->addWidget(docPane);
-	layout->setStretch(1, 1);
-	QWidget *tabWidget = new QWidget;
-	tabWidget->setLayout(layout);
-	docsCentral->addTab(tabWidget, name);
-	return nameList;
+  QListWidget *nameList = new QListWidget;
+  connect(nameList,
+	  SIGNAL(itemPressed(QListWidgetItem*)),
+	  this, SLOT(updateDocPane(QListWidgetItem*)));
+  connect(nameList,
+	  SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
+	  this, SLOT(updateDocPane2(QListWidgetItem*, QListWidgetItem*)));
+  QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
+  layout->addWidget(nameList);
+  layout->addWidget(docPane);
+  layout->setStretch(1, 1);
+  QWidget *tabWidget = new QWidget;
+  tabWidget->setLayout(layout);
+  docsCentral->addTab(tabWidget, name);
+  helpLists.append(nameList);
+  return nameList;
 }
 
 void MainWindow::tabNext() {

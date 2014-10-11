@@ -69,7 +69,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items|
+make_tab = lambda do |name, doc_items, titleize=false|
 
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
@@ -84,12 +84,20 @@ make_tab = lambda do |name, doc_items|
   docs << "\n"
   docs << "\n  struct help_page #{help_pages}[] = {\n"
 
-  doc_items.each do |n, doc|
+  doc_items.sort.each do |n, doc|
+    title = n
+    if titleize == :titleize then
+      title = ActiveSupport::Inflector.titleize(title)
+      # HPF et al get capitalized
+      if name == 'fx' and title =~ /pf$/ then
+        title = title.upcase
+      end
+    end
 
     item_var = "#{name}_item_#{count+=1}"
     filename = "help/#{item_var}.html"
 
-    docs << "    { \"#{n}\", \":/#{filename}\" },\n"
+    docs << "    { \"#{title}\", \"#{n}\", \":/#{filename}\" },\n"
 
     filenames << "    <file>#{filename}</file>\n"
 
@@ -128,25 +136,6 @@ ruby_html_map = {
 #  "loop" => "Loop forever",
 }
 
-fx_doc = SonicPi::SynthInfo.fx_doc_html_map
-fx_doc_titlized = {}
-fx_doc.each do |k, v|
-  k = ActiveSupport::Inflector.titleize(k)
-  k.gsub!(/Hpf/, 'HPF')
-  k.gsub!(/Lpf/, 'LPF')
-  k.gsub!(/Rhpf/, 'RHPF')
-  k.gsub!(/Rlpf/, 'RLPF')
-  fx_doc_titlized[k] = v
-end
-
-synths_doc = SonicPi::SynthInfo.synth_doc_html_map
-synths_doc_titleized = {}
-synths_doc.each do |k, v|
-  k = ActiveSupport::Inflector.titleize(k)
-  synths_doc_titleized[k] = v
-end
-
-
 tutorial_html_map = {}
 Dir["#{tutorial_path}/*.md"].each do |path|
   contents = IO.read(path)
@@ -159,14 +148,14 @@ end
 
 make_tab.call("tutorial", tutorial_html_map)
 make_tab.call("examples", example_html_map)
-make_tab.call("synths", synths_doc_titleized)
-make_tab.call("fx", fx_doc_titlized)
+make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize)
+make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
 make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map))
 
 
 
-# update mainwindow.cpp
+# update ruby_help.h
 if options[:output_name] then
    cpp = options[:output_name]
 else
