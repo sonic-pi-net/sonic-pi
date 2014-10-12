@@ -201,7 +201,7 @@ private:
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 
-    QTextEdit *infoPane;
+    QTextBrowser *infoPane;
     QWidget *infoWidg;
     QTextEdit *startupPane;
     QLabel *imageLabel;

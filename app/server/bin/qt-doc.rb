@@ -33,6 +33,7 @@ class MarkdownCoverter
     # into Kramdown syntax where necessary
     contents.gsub!(/\`\`\`\`*/, '~~~~')
 
+    # todo: CSS
     contents_html = Kramdown::Document.new(contents).to_html
     contents_html.gsub!(/<h1.*?>/, '<p> <span style="font-size:25px; color:white;background-color:deeppink;">')
     contents_html.gsub!(/<h2.*?>/, '<br><p><span style="font-size:20px; color:white; background-color:dodgerblue;">')
@@ -44,6 +45,7 @@ class MarkdownCoverter
     contents_html.gsub!(/<ul>/, '<ul style="font-size:15px;color:#5e5e5e;">')
 
     contents_html.gsub!(/<code>/, '<code style="font-size:15px; color:deeppink; background-color:white">')
+    contents_html.gsub!(/<a href/, '<a style="text-decoration: none; color:darkorange;" href')
     contents_html = "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + contents_html + "</font>"
   end
 end
