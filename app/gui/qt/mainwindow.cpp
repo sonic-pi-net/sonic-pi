@@ -298,12 +298,12 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   initDocsWindow();
 
 
-  infoPane = new QTextEdit;
-  infoPane->setReadOnly(true);
+  infoPane = new QTextBrowser;
+  infoPane->setOpenExternalLinks(true);
   infoPane->setFixedSize(550, 650);
   QString html;
 
-  infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"><pre><font size=\"4\"><font color=\"DeepPink\">A Sound Synthesiser<br>for Live Coding</font><br><br>Designed and developed by Sam Aaron<br>in Cambridge, England<br><br><font color=\"DeepPink\">http://sonic-pi.net</font><br><br>For the latest updates follow<br><font color=\"DeepPink\">@sonic_pi<br></font></font></pre><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></h2><pre><font size=\"4\"><br>v2.0.1</font></pre></center>");
+  infoPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"><pre><font size=\"4\"><font color=\"DeepPink\">A Sound Synthesiser<br>for Live Coding</font><br><br>Designed and developed by Sam Aaron<br>in Cambridge, England<br><br><font color=\"DeepPink\"><a href=\"http://sonic-pi.net\" style=\"text-decoration: none; color:DeepPink\">http://sonic-pi.net</a></font><br><br>For the latest updates follow<br><font color=\"DeepPink\"><a href=\"http://twitter.com/sonic_pi\" style=\"text-decoration: none; color:DeepPink;\">@sonic_pi</a><br></font></font></pre><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></h2><pre><font size=\"4\"><br>v2.0.1</font></pre></center>");
 
 
 #if defined(Q_OS_MAC)
@@ -338,8 +338,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QString s;
   QTextStream st(&file);
   s.append(st.readAll());
-  QTextEdit *historyT = new QTextEdit;
-  historyT->setReadOnly(true);
+  QTextBrowser *historyT = new QTextBrowser;
+  historyT->setOpenExternalLinks(true);
   historyT->setHtml(s);
 
   //Contributors
@@ -349,8 +349,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QString s2;
   QTextStream st2(&file2);
   s2.append(st2.readAll());
-  QTextEdit *contributorsT = new QTextEdit;
-  contributorsT->setReadOnly(true);
+  QTextBrowser *contributorsT = new QTextBrowser;
+  contributorsT->setOpenExternalLinks(true);
   contributorsT->setHtml(s2);
 
   //Community
@@ -360,8 +360,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QString s3;
   QTextStream st3(&file3);
   s3.append(st3.readAll());
-  QTextEdit *communityT = new QTextEdit;
-  communityT->setReadOnly(true);
+  QTextBrowser *communityT = new QTextBrowser;
+  communityT->setOpenExternalLinks(true);
   communityT->setHtml(s3);
 
 
@@ -925,6 +925,8 @@ void MainWindow::stopCode()
 
 void MainWindow::about()
 {
+  // todo: this is returning true even after the window disappears
+  // Qt::Tool windows get closed automatically when app loses focus
   if(infoWidg->isVisible()) {
     infoWidg->hide();
   } else {
