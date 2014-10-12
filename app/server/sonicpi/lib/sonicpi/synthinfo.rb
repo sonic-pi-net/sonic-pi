@@ -31,7 +31,7 @@ module SonicPi
 
           res["#{m[1]}_slide_shape".to_sym] = {
             :doc => generic_slide_shape_doc(m[1]),
-            :validations => [v_one_of(:mod_wave, [0, 1, 3, 4, 5, 6, 7])],
+            :validations => [v_one_of("#{m[1]}_slide_shape".to_sym, [0, 1, 3, 4, 5, 6, 7])],
             :modulatable => true
           } unless i["#{m[1]}_slide_shape".to_sym]
         end
