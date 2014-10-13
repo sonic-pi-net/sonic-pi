@@ -221,6 +221,25 @@ osc_server.add_method("/mixer-standard-stereo") do |payload|
   end
 end
 
+osc_server.add_method("/mixer-stereo-mode") do |payload|
+  begin
+    sp.stereo_mode!
+  rescue Exception => e
+    puts "Received Exception when attempting to switch to stereo mode"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/mixer-mono-mode") do |payload|
+  begin sp.mono_mode!
+  rescue Exception => e
+    puts "Received Exception when attempting to switch to mono mode"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 osc_server.add_method("/mixer-hpf-enable") do |payload|
   begin
     freq = payload.to_a[0].to_f

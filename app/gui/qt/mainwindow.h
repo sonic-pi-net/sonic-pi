@@ -70,12 +70,15 @@ private slots:
     void unhighlightCode();
     void runCode();
     void update_mixer_invert_stereo();
+    void update_mixer_force_mono();
     void stopCode();
     void beautifyCode();
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();
     void mixerStandardStereo();
+    void mixerMonoMode();
+    void mixerStereoMode();
     void mixerLpfEnable(float freq);
     void mixerHpfEnable(float freq);
     void mixerHpfDisable();

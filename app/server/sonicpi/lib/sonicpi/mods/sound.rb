@@ -569,6 +569,13 @@ play 50 # Plays with supersaw synth
          @mod_sound_studio.mixer_invert_stereo(false)
        end
 
+       def stereo_mode!
+         @mod_sound_studio.mixer_stereo_mode
+       end
+
+       def mono_mode!
+         @mod_sound_studio.mixer_mono_mode
+       end
 
        def synth(synth_name, *args)
          ensure_good_timing!

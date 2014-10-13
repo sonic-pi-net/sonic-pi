@@ -409,6 +409,15 @@ void MainWindow::update_mixer_invert_stereo() {
   }
 }
 
+void MainWindow::update_mixer_force_mono() {
+  if(mixer_force_mono->isChecked())
+    {
+      mixerMonoMode();
+    } else {
+    mixerStereoMode();
+  }
+}
+
 void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
@@ -418,16 +427,15 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Advanced Audio Settings"));
   advancedAudioBox->setToolTip("Advanced audio settings for working with external PA systems when performing with Sonic Pi");
-  // QRadioButton *radio2 = new QRadioButton(tr("&Headphones"));
-  // QRadioButton *radio3 = new QRadioButton(tr("&HDMI"));
-  // radio1->setChecked(true);
   mixer_invert_stereo = new QCheckBox("Invert Stereo");
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
-  // connect(radio2, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHeadphones()));
-  // connect(radio3, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHDMI()));
+  mixer_force_mono = new QCheckBox("Force Mono");
+  connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
+
 
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
   advanced_audio_box_layout->addWidget(mixer_invert_stereo);
+  advanced_audio_box_layout->addWidget(mixer_force_mono);
   // audio_box->addWidget(radio2);
   // audio_box->addWidget(radio3);
   // audio_box->addStretch(1);
@@ -914,6 +922,20 @@ void MainWindow::mixerStandardStereo()
 {
   statusBar()->showMessage(tr("enabling standard stereo...."), 2000);
   Message msg("/mixer-standard-stereo");
+  sendOSC(msg);
+}
+
+void MainWindow::mixerMonoMode()
+{
+  statusBar()->showMessage(tr("mono mode...."), 2000);
+  Message msg("/mixer-mono-mode");
+  sendOSC(msg);
+}
+
+void MainWindow::mixerStereoMode()
+{
+  statusBar()->showMessage(tr("stereo mode...."), 2000);
+  Message msg("/mixer-stereo-mode");
   sendOSC(msg);
 }
 
