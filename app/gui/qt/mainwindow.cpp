@@ -1160,7 +1160,7 @@ void MainWindow::createActions()
 
   // Info
   infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
-  setupAction(infoAct, 0, tr("See information about Sonic Pi"), 
+  setupAction(infoAct, 0, tr("See information about Sonic Pi"),
 		 SLOT(about()));
 
   // Help
@@ -1171,7 +1171,7 @@ void MainWindow::createActions()
 
   // Preferences
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
-  setupAction(prefsAct, 0, tr("Toggle preferences pane"), 
+  setupAction(prefsAct, 0, tr("Toggle preferences pane"),
 	      SLOT(showPrefsPane()));
 
   // Record
@@ -1179,19 +1179,19 @@ void MainWindow::createActions()
   setupAction(recAct, 0, tr("Start Recording"), SLOT(toggleRecording()));
 
   // Align
-  textAlignAct = new QAction(QIcon(":/images/align.png"), 
+  textAlignAct = new QAction(QIcon(":/images/align.png"),
 			     tr("Auto Align Text"), this);
   setupAction(textAlignAct, 'M', tr("Auto-align text"), SLOT(beautifyCode()));
 
   // Font Size Increase
-  textIncAct1 = new QAction(QIcon(":/images/size_up.png"), 
+  textIncAct1 = new QAction(QIcon(":/images/size_up.png"),
 			    tr("Increase Text Size"), this);
   setupAction(textIncAct1, '+', tr("Make text bigger"), SLOT(zoomFontIn()));
   textIncKey2 = new QShortcut(cmdAltKey('='), this,
 			      SLOT(zoomFontIn()));
 
   // Font Size Decrease
-  textDecAct1 = new QAction(QIcon(":/images/size_down.png"), 
+  textDecAct1 = new QAction(QIcon(":/images/size_down.png"),
 			    tr("Decrease Text Size"), this);
   setupAction(textDecAct1, '-', tr("Make text smaller"), SLOT(zoomFontOut()));
   textDecKey2 = new QShortcut(cmdAltKey('_'), this,
@@ -1469,6 +1469,6 @@ void MainWindow::tabPrev() {
     index--;
   QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
 }
-   
+
 
 #include "ruby_help.h"
