@@ -132,7 +132,7 @@ private:
                      int len);
     QListWidget *createHelpTab(QTextEdit *docPane, QString name);
     QKeySequence cmdAltKey(char key);
-    void setupAction(QAction *action, char key, QString tooltip, 
+    void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
 
     QFuture<void> osc_thread;
@@ -197,6 +197,7 @@ private:
     QShortcut *reloadKey;
 
     QCheckBox *mixer_invert_stereo;
+    QCheckBox *mixer_force_mono;
     QCheckBox *print_output;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
