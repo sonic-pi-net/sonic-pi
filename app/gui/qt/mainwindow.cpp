@@ -413,7 +413,7 @@ void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
-  QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi Settings"));
+  QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
   volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
 
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Advanced Audio Settings"));
