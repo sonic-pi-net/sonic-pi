@@ -54,6 +54,7 @@
 #include <QCheckBox>
 #include <QScrollArea>
 #include <QShortcut>
+#include <QToolButton>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -1087,6 +1088,7 @@ void MainWindow::zoomFontIn()
   QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
   int zoom = ws->property("zoom").toInt();
   zoom++;
+  if (zoom > 20) zoom = 20;
   ws->setProperty("zoom", QVariant(zoom));
   ws->zoomTo(zoom);
 }
@@ -1096,17 +1098,20 @@ void MainWindow::zoomFontOut()
   QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
   int zoom = ws->property("zoom").toInt();
   zoom--;
+  if (zoom < -5) zoom = -5;
   ws->setProperty("zoom", QVariant(zoom));
   ws->zoomTo(zoom);
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event) {
+#if defined(Q_OS_WIN)
   if (event->modifiers() & Qt::ControlModifier) {
     if (event->angleDelta().y() > 0)
       zoomFontIn();
     else
       zoomFontOut();
   }
+#endif
 }
 
 
@@ -1243,6 +1248,9 @@ void MainWindow::createToolBar()
 
   toolBar->addAction(textDecAct1);
   toolBar->addAction(textIncAct1);
+  dynamic_cast<QToolButton*>(toolBar->widgetForAction(textDecAct1))->setAutoRepeat(true);
+  dynamic_cast<QToolButton*>(toolBar->widgetForAction(textIncAct1))->setAutoRepeat(true);
+
   toolBar->addAction(textAlignAct);
 
   toolBar->addAction(infoAct);
@@ -1305,6 +1313,9 @@ void MainWindow::readSettings()
       // default zoom is 13
       int zoom = settings.value(QString("workspace%1zoom").arg(w+1), 13)
 	.toInt();
+      if (zoom < -5) zoom = -5;
+      if (zoom > 20) zoom = 20;
+
       workspaces[w]->setProperty("zoom", QVariant(zoom));
       workspaces[w]->zoomTo(zoom);
     }
