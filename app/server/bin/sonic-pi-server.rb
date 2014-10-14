@@ -204,7 +204,7 @@ end
 
 osc_server.add_method("/mixer-invert-stereo") do |payload|
   begin
-    sp.invert_stereo!
+    sp.set_mixer_invert_stereo!
   rescue Exception => e
     puts "Received Exception when attempting to invert stereo"
     puts e.message
@@ -213,7 +213,7 @@ osc_server.add_method("/mixer-invert-stereo") do |payload|
 end
 
 osc_server.add_method("/mixer-standard-stereo") do |payload|
-  begin sp.standard_stereo!
+  begin sp.set_mixer_standard_stereo!
   rescue Exception => e
     puts "Received Exception when attempting to set stereo to standard mode"
     puts e.message
@@ -223,16 +223,16 @@ end
 
 osc_server.add_method("/mixer-stereo-mode") do |payload|
   begin
-    sp.stereo_mode!
+    sp.set_mixer_stereo_mode!
   rescue Exception => e
-    puts "Received Exception when attempting to switch to stereo mode"
+    puts "Received Exception when attempting to invert stereo"
     puts e.message
     puts e.backtrace.inspect
   end
 end
 
 osc_server.add_method("/mixer-mono-mode") do |payload|
-  begin sp.mono_mode!
+  begin sp.set_mixer_mono_mode!
   rescue Exception => e
     puts "Received Exception when attempting to switch to mono mode"
     puts e.message
@@ -243,7 +243,7 @@ end
 osc_server.add_method("/mixer-hpf-enable") do |payload|
   begin
     freq = payload.to_a[0].to_f
-    sp.mixer_hpf_enable(freq)
+    sp.set_mixer_hpf!(freq)
   rescue Exception => e
     puts "Received Exception when attempting to enable mixer hpf"
     puts e.message
@@ -253,7 +253,7 @@ end
 
 osc_server.add_method("/mixer-hpf-disable") do |payload|
   begin
-    sp.mixer_hpf_disable(freq)
+    sp.set_mixer_hpf_disable!
   rescue Exception => e
     puts "Received Exception when attempting to disable mixer hpf"
     puts e.message
@@ -264,7 +264,7 @@ end
 osc_server.add_method("/mixer-lpf-enable") do |payload|
   begin
     freq = payload.to_a[0].to_f
-    sp.mixer_lpf_enable(freq)
+    sp.set_mixer_lpf!(freq)
   rescue Exception => e
     puts "Received Exception when attempting to enable mixer lpf"
     puts e.message
@@ -274,7 +274,7 @@ end
 
 osc_server.add_method("/mixer-lpf-disable") do |payload|
   begin
-    sp.mixer_lpf_disable(freq)
+    sp.set_mixer_lpf_disable!
   rescue Exception => e
     puts "Received Exception when attempting to disable mixer lpf"
     puts e.message

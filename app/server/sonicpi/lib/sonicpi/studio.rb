@@ -85,31 +85,31 @@ module SonicPi
     def mixer_invert_stereo(invert)
       # invert should be true or false
       invert_i = invert ? 1 : 0
-      @server.node_ctl @mixer, {"invert_stereo" => invert_i}
+      @server.node_ctl @mixer, {"invert_stereo" => invert_i}, true
     end
 
     def mixer_stereo_mode
-      @server.node_ctl @mixer, {"force_mono" => 0}
+      @server.node_ctl @mixer, {"force_mono" => 0}, true
     end
 
     def mixer_mono_mode
-      @server.node_ctl @mixer, {"force_mono" => 1}
+      @server.node_ctl @mixer, {"force_mono" => 1}, true
     end
 
     def mixer_hpf_enable(freq)
-      @server.node_ctl @mixer, {"hpf_pass_thru" => 0, "hpf_freq" => freq}
+      @server.node_ctl @mixer, {"hpf_pass_thru" => 0, "hpf_freq" => freq}, true
     end
 
     def mixer_lpf_enable(freq)
-      @server.node_ctl @mixer, {"lpf_pass_thru" => 0, "lpf_freq" => freq}
+      @server.node_ctl @mixer, {"lpf_pass_thru" => 0, "lpf_freq" => freq}, true
     end
 
     def mixer_lpf_disable
-      @server.node_ctl @mixer, {"lpf_pass_thru" => 1}
+      @server.node_ctl @mixer, {"lpf_pass_thru" => 1}, true
     end
 
     def mixer_hpf_disable
-      @server.node_ctl @mixer, {"hpf_pass_thru" => 1}
+      @server.node_ctl @mixer, {"hpf_pass_thru" => 1}, true
     end
 
     def status

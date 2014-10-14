@@ -561,20 +561,36 @@ play 50 # Plays with supersaw synth
            hide:          true
 
 
-       def invert_stereo!
+       def set_mixer_invert_stereo!
          @mod_sound_studio.mixer_invert_stereo(true)
        end
 
-       def standard_stereo!
+       def set_mixer_standard_stereo!
          @mod_sound_studio.mixer_invert_stereo(false)
        end
 
-       def stereo_mode!
+       def set_mixer_stereo_mode!
          @mod_sound_studio.mixer_stereo_mode
        end
 
-       def mono_mode!
+       def set_mixer_mono_mode!
          @mod_sound_studio.mixer_mono_mode
+       end
+
+       def set_mixer_hpf!(f)
+         @mod_sound_studio.mixer_hpf_enable f
+       end
+
+       def set_mixer_hpf_disable!(f)
+         @mod_sound_studio.mixer_hpf_disable
+       end
+
+       def set_mixer_lpf!(f)
+         @mod_sound_studio.mixer_lpf_enable f
+       end
+
+       def set_mixer_lpf_disable!(f)
+         @mod_sound_studio.mixer_lpf_disable
        end
 
        def synth(synth_name, *args)
