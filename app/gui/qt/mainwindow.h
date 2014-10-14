@@ -29,6 +29,8 @@
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
+#include <sstream>
+#include <fstream>
 
 class QAction;
 class QMenu;
@@ -39,6 +41,7 @@ class QTextBrowser;
 class SonicPiLexer;
 class QString;
 class QSlider;
+class SonicPiAPIs;
 
 struct help_page {
   QString title;
@@ -216,6 +219,9 @@ private:
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
+    std::ofstream stdlog;
+
+    SonicPiAPIs *autocomplete;
 };
 
 #endif

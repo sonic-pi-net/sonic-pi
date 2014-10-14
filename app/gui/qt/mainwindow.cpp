@@ -60,6 +60,7 @@
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include "sonicpilexer.h"
+#include "sonicpiapis.h"
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -110,13 +111,16 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   }
 
   QString prg_arg = QCoreApplication::applicationDirPath() + "/../../../server/bin/sonic-pi-server.rb";
+  QString sample_path = QCoreApplication::applicationDirPath() + "/../../../../etc/samples";
 #elif defined(Q_OS_MAC)
   QString prg_path = QCoreApplication::applicationDirPath() + "/../../server/native/osx/ruby/bin/ruby";
   QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
+  QString sample_path = QCoreApplication::applicationDirPath() + "/../../../etc/samples";
 #else
   //assuming Raspberry Pi
   QString prg_path = "ruby";
   QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
+  QString sample_path = QCoreApplication::applicationDirPath() + "/../../../etc/samples";
 #endif
 
   prg_arg = QDir::toNativeSeparators(prg_arg);
@@ -128,6 +132,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
   QString log_path =  sp_user_path + QDir::separator() + "log";
+
+  stdlog.open(QString(log_path + "/stdout.log").toStdString());
+  std::cout.rdbuf(stdlog.rdbuf());
+
   QDir().mkdir(sp_user_path);
   QDir().mkdir(log_path);
   QString sp_error_log_path = log_path + QDir::separator() + "/errors.log";
@@ -161,14 +169,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
 
   // Autocompletion stuff
-  QsciAPIs* api = new QsciAPIs(lexer);
-  QStringList api_names;
-  // yes, really
-  #include "api_list.h"
-  for (int api_iter = 0; api_iter < api_names.size(); ++api_iter) {
-	  api->add(api_names.at(api_iter));
-  }
-  api->prepare();
+  autocomplete = new SonicPiAPIs(lexer, sample_path);
+
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
   lexer->setDefaultFont(font);
@@ -513,7 +515,7 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setUtf8(true);
   ws->setText("#loading...");
   ws->setLexer(lexer);
-  ws->setAutoCompletionThreshold(5);
+  ws->setAutoCompletionThreshold(1);
   ws->setAutoCompletionSource(QsciScintilla::AcsAPIs);
   ws->setSelectionBackgroundColor("DeepPink");
   ws->setSelectionForegroundColor("white");
@@ -1463,6 +1465,20 @@ void MainWindow::addHelpPage(QListWidget *nameList,
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
     helpKeywords.insert(helpPages[i].keyword.toLower(), entry);
+
+    // magic numbers ahoy
+    // to be revamped along with the help system
+    switch (entry.pageIndex) {
+    case 2:
+      autocomplete->addSymbol(SonicPiAPIs::Synth, helpPages[i].keyword);
+      break;
+    case 3:
+      autocomplete->addSymbol(SonicPiAPIs::FX, helpPages[i].keyword);
+      break;
+    case 5:
+      autocomplete->addKeyword(SonicPiAPIs::Func, helpPages[i].keyword);
+      break;
+    }
   }
 }
 
