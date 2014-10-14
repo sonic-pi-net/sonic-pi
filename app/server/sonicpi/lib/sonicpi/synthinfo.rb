@@ -371,7 +371,6 @@ module SonicPi
         :mod_range =>
         {
           :doc => "The size of gap between modulation notes. A gap of 12 is one octave.",
-          :validations => [v_positive(:mod_range)],
           :modulatable => true
         },
 
