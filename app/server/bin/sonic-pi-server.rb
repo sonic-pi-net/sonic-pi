@@ -31,7 +31,7 @@ server_port = ARGV[0] ? ARGV[0].to_i : 4557
 client_port = ARGV[1] ? ARGV[1].to_i : 4558
 
 ws_out = Queue.new
-osc_server = OSC::Server.new(server_port)
+osc_server = OSC::ServerOverTcp.new(server_port)
 gui = OSC::Client.new("localhost", client_port)
 encoder = SonicPi::OscEncode.new(true)
 
@@ -286,7 +286,7 @@ osc_server.add_method("/mixer-lpf-disable") do |payload|
   end
 end
 
-Thread.new{osc_server.run}
+Thread.new{osc_server.safe_run}
 
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do

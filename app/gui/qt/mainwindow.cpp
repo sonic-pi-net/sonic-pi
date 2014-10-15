@@ -66,6 +66,7 @@
 // OSC stuff
 #include "oscpkt.hh"
 #include "udp.hh"
+#include "tcp.hh"
 
 // OS specific stuff
 #if defined(Q_OS_WIN)
@@ -799,13 +800,12 @@ bool MainWindow::saveAs()
 
  void MainWindow::sendOSC(Message m)
 {
-  UdpSocket sock;
+  TcpSocket sock;
   int PORT_NUM = 4557;
   sock.connectTo("localhost", PORT_NUM);
   if (!sock.isOk()) {
     std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
   } else {
-
     PacketWriter pw;
     pw.addMessage(m);
     sock.sendPacket(pw.packetData(), pw.packetSize());

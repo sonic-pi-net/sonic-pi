@@ -27,6 +27,7 @@
 #include <QShortcut>
 #include <QHash>
 #include "oscpkt.hh"
+#include "tcp.hh"
 #include "udp.hh"
 #include <iostream>
 #include <sstream>

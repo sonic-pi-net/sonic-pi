@@ -33,6 +33,100 @@ class Float
 end
 
 module OSC
+  class ServerOverTcp < Server
+    def send(msg, address, port)
+      socket = @server.accept
+      socket.write msg.encode
+      socket.close
+    end
+
+    def initialize(port)
+      @server = TCPServer.new(port)
+      @matchers = []
+      @queue = Queue.new
+    end
+
+    def safe_detector
+      @server.listen(5)
+      loop do
+        begin
+          socket = @server.accept
+          read_all = false
+          osc_data = ""
+          while(!read_all) do
+            osc_data << socket.recv(16384)
+            read_all = true if osc_data[-1] == "\x00"
+          end
+
+          OSCPacket.messages_from_network( osc_data ).each do |message|
+            @queue.push(message)
+          end
+          socket.close
+        rescue Exception => e
+          Kernel.puts e.message
+        end
+      end
+    end
+
+    def safe_run
+      Thread.fork do
+        begin
+          dispatcher
+        rescue Exception => e
+          Kernel.puts e.message
+          Kernel.puts e.backtrace.inspect
+        end
+      end
+
+      safe_detector
+    end
+
+    #Since we spawn socket per connection there is nothing to stop
+    def stop
+    end
+
+    def run
+      start_dispatcher
+
+      start_detector
+    end
+
+    def add_method( address_pattern, &proc )
+      matcher = AddressPattern.new( address_pattern )
+
+      @matchers << [matcher, proc]
+    end
+
+private
+
+    def dispatch_message( message )
+      diff = ( message.time || 0 ) - Time.now.to_ntp
+
+      if diff <= 0
+        sendmesg( message)
+      else # spawn a thread to wait until it's time
+        Thread.fork do
+    	    sleep( diff )
+    	    sendmesg( mesg )
+    	    Thread.exit
+    	  end
+      end
+    end
+
+    def sendmesg(mesg)
+      @matchers.each do |matcher, proc|
+	      if matcher.match?( mesg.address )
+	        proc.call( mesg )
+	      end
+      end
+    end
+
+
+  end
+end
+
+
+module OSC
 
   class Client
     def send_raw(mesg)
