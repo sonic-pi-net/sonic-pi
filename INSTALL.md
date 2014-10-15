@@ -4,10 +4,10 @@ If you want to use the very latest development version of Sonic Pi, then
 you'll need to compile from source. Here are instructions for the
 following platforms:
 
-* Raspberry Pi
-* Generic Linux
-* Mac OS X 
-* Windows
+* [Raspberry Pi](#raspberry-pi)
+* [Generic Linux](#generic-linux)
+* [Mac OS X](#generic-linux)
+* [Windows](#windows)
 
 
 ## Raspberry Pi
