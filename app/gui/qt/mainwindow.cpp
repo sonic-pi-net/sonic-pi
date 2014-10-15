@@ -273,7 +273,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
-  int timeout = 10;
+  int timeout = 30;
   while (!server_started && cont_listening_for_osc && timeout-- > 0) {
     sleep(1);
     std::cout << "Waiting for server..." << std::endl;
