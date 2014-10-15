@@ -6,7 +6,7 @@ following platforms:
 
 * [Raspberry Pi](#raspberry-pi)
 * [Generic Linux](#generic-linux)
-* [Mac OS X](#generic-linux)
+* [Mac OS X](#mac-os-x)
 * [Windows](#windows)
 
 
