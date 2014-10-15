@@ -249,7 +249,7 @@ module SonicPi
       @jack_pid = `ps cax | grep jackd`.split(" ").first
 
       boot_and_wait do
-        system("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} &")
+        system("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} -z 128 &")
       end
 
       `jack_connect SuperCollider:out_1 system:playback_1`
