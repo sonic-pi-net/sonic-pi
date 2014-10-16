@@ -42,6 +42,7 @@ class SonicPiLexer;
 class QString;
 class QSlider;
 class SonicPiAPIs;
+class SonicPiScintilla;
 
 struct help_page {
   QString title;
@@ -112,7 +113,7 @@ private slots:
 
 private:
 
-    void initWorkspace(QsciScintilla* ws);
+    void initWorkspace(SonicPiScintilla* ws);
     void startOSCListener();
     void clearOutputPanels();
     void createActions();
@@ -120,13 +121,13 @@ private:
     void createStatusBar();
     void readSettings();
     void writeSettings();
-    void loadFile(const QString &fileName, QsciScintilla* &text);
-    bool saveFile(const QString &fileName, QsciScintilla* text);
+    void loadFile(const QString &fileName, SonicPiScintilla* &text);
+    bool saveFile(const QString &fileName, SonicPiScintilla* text);
     void loadWorkspaces();
     void saveWorkspaces();
     std::string number_name(int);
-    std::string workspaceFilename(QsciScintilla* text);
-    QsciScintilla* filenameToWorkspace(std::string filename);
+    std::string workspaceFilename(SonicPiScintilla* text);
+    SonicPiScintilla* filenameToWorkspace(std::string filename);
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
@@ -147,9 +148,9 @@ private:
     bool show_rec_icon_a;
     QTimer *rec_flash_timer;
 
-    QsciScintilla *textEdit;
+    SonicPiScintilla *textEdit;
     static const int workspace_max = 8;
-    QsciScintilla *workspaces[workspace_max];
+    SonicPiScintilla *workspaces[workspace_max];
     QTextEdit *outputPane;
     QTextEdit *errorPane;
     QWidget *prefsCentral;

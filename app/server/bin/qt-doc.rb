@@ -147,7 +147,6 @@ end
 
 
 
-
 make_tab.call("tutorial", tutorial_html_map)
 make_tab.call("examples", example_html_map)
 make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize)
@@ -155,6 +154,20 @@ make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
 make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map))
 
+docs << "  // FX arguments for autocompletion\n"
+docs << "  QStringList fxtmp;\n"
+SonicPi::SynthInfo.get_all.each do |k, v|
+  next unless v.is_a? SonicPi::FXInfo
+  next if (k.to_s.include? 'replace_')
+  safe_k = k.to_s[3..-1]
+  docs << "  // fx :#{safe_k}\n"
+  docs << "  fxtmp.clear(); fxtmp "
+  v.arg_info.each do |ak, av|
+    docs << "<< \"#{ak}\" ";
+  end
+  docs <<";\n"
+  docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n\n"
+end
 
 
 # update ruby_help.h

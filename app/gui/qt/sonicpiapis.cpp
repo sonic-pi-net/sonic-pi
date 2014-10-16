@@ -11,27 +11,21 @@
 // notice is included.
 //++
 
-#include <iostream>
-#include <sstream>
-#include <fstream>
 #include <QDir>
 
 #include "sonicpiapis.h"
 
-
-void SonicPiAPIs::addSymbol(int context, QString sym) {
-  addKeyword(context, QString(":" + sym));
-}
-
-void SonicPiAPIs::addKeyword(int context, QString keyword) {
-  keywords[context] << keyword;
-}
-
 // The ctor.
-SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer, QString sample_path)
+SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
     : QsciAbstractAPIs(lexer)
 {
-  std::cout << "got sample_path: " << sample_path.toStdString() << std::endl;
+  // manually managed for now
+  keywords[Chord] << "'1'" << "'5'" << "'+5'" << "'m+5'" << ":sus2" << ":sus4" << "'6'" << ":m6" << "'7sus2'" << "'7sus4'" << "'7-5'" << "'m7-5'" << "'7+5'" << "'m7+5'" << "'9'" << ":m9" << "'m7+9'" << ":maj9" << "'9sus4'" << "'6*9'" << "'m6*9'" << "'7-9'" << "'m7-9'" << "'7-10'" << "'9+5'" << "'m9+5'" << "'7+5-9'" << "'m7+5-9'" << "'11'" << ":m11" << ":maj11" << "'11+'" << "'m11+'" << "'13'" << ":m13" << ":major" << ":M" << ":minor" << ":m" << ":major7" << ":dom7" << "'7'" << ":M7" << ":minor7" << ":m7" << ":augmented" << ":a" << ":diminished" << ":dim" << ":i" << ":diminished7" << ":dim7" << ":i7";
+
+  keywords[Scale] << ":diatonic" << ":ionian" << ":major" << ":dorian" << ":phrygian" << ":lydian" << ":mixolydian" << ":aeolian" << ":minor" << ":locrian" << ":hex_major6" << ":hex_dorian" << ":hex_phrygian" << ":hex_major7" << ":hex_sus" << ":hex_aeolian" << ":minor_pentatonic" << ":yu" << ":major_pentatonic" << ":gong" << ":egyptian" << ":shang" << ":jiao" << ":zhi" << ":ritusen" << ":whole_tone" << ":whole" << ":chromatic" << ":harmonic_minor" << ":melodic_minor_asc" << ":hungarian_minor" << ":octatonic" << ":messiaen1" << ":messiaen2" << ":messiaen3" << ":messiaen4" << ":messiaen5" << ":messiaen6" << ":messiaen7" << ":super_locrian" << ":hirajoshi" << ":kumoi" << ":neapolitan_major" << ":bartok" << ":bhairav" << ":locrian_major" << ":ahirbhairav" << ":enigmatic" << ":neapolitan_minor" << ":pelog" << ":augmented2" << ":scriabin" << ":harmonic_major" << ":melodic_minor_desc" << ":romanian_minor" << ":hindu" << ":iwato" << ":melodic_minor" << ":diminished2" << ":marva" << ":melodic_major" << ":indian" << ":spanish" << ":prometheus" << ":diminished" << ":todi" << ":leading_whole" << ":augmented" << ":purvi" << ":chinese" << ":lydian_minor";
+}
+
+void SonicPiAPIs::loadSamples(QString sample_path) {
   QDir dir(sample_path);
   QStringList filetypes;
   filetypes << "*.wav";
@@ -43,60 +37,67 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer, QString sample_path)
   }
 }
 
+void SonicPiAPIs::addSymbol(int context, QString sym) {
+  addKeyword(context, QString(":" + sym));
+}
 
-// The dtor.
-SonicPiAPIs::~SonicPiAPIs()
-{
+void SonicPiAPIs::addKeyword(int context, QString keyword) {
+  keywords[context] << keyword;
+}
 
+void SonicPiAPIs::addFXArgs(QString fx, QStringList args) {
+  fxArgs.insert(fx, args);
 }
 
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
-  // QSci's idea of context is somewhat different from mine
-  // apparently only gets the previous word at most
-  if (context.length() == 0) {
-    // does this ever happen?
-    std::cout << "updateAutoCompletionList context = []" << std::endl;
-    return;
-  }
-
-  /*
-  for (int i=0; i<context.length(); i++) {
-    std::cout << "context[" << i << "] = " << context[i].toStdString() << std::endl;
-  }
-  */
+  //  for (int i=0; i<context.length(); i++)
+  //    cout << "context[" << i << "] = " << context[i].toStdString() << endl;
 
   // default
   int ctx = Func;
+  int last = context.length()-1;
+  if (context[last] == "")
+    last--;
+  int lastButOne = last - 1;
 
-  if (context[0] == "sample") {
+  if (context[last] == "sample") {
     ctx = Sample;
-  } else if (context[0] == "with_fx" || context[0] == "use_fx") {
+  } else if (context[last] == "with_fx" || context[last] == "use_fx") {
     ctx = FX;
-  } else if (context[0] == "with_synth" || context[0] == "use_synth") {
+  } else if (context[last] == "with_synth" || context[last] == "use_synth") {
     ctx = Synth;
-  } else {
-    // no context
-    if (context[context.length()-1].length() < 2) {
-      // too short, don't show full list of matches
+
+  // autocomplete the second arg of scale/chord
+  } else if (lastButOne >= 0 && context[lastButOne] == "scale") {
+    ctx = Scale;
+  } else if (lastButOne >= 0 && context[lastButOne] == "chord") {
+    ctx = Chord;
+
+  // FX params
+  } else if (context.length() > 2 &&
+	     (context[0] == "with_fx" ||
+	      context[0] == "use_fx")) {
+    if (context[last].endsWith(':')) return; // don't try to complete parameters
+    if (fxArgs.contains(context[1])) {
+      list = fxArgs[context[1]];
       return;
     }
+
+  } else if (context.length() > 1) {
+    // don't attempt to autocomplete other words on the same line
+    // unless we might actually have a match
+    if (context[context.length()-1].length() < 3) return;
   }
 
   list << keywords[ctx];
 }
 
-void SonicPiAPIs::autoCompletionSelected(const QString &sel) {
-
-}
-
 QStringList SonicPiAPIs::callTips(const QStringList &context, int commas,
 				  QsciScintilla::CallTipsStyle style,
 				  QList<int> &shifts) {
-  QStringList tips;
-  return tips;
-}
-  
-bool SonicPiAPIs::event(QEvent *e) {
-  return QObject::event(e); // huh?
+  QStringList ctx = context; commas = commas; style = style; shifts = shifts;
+  // some day...
+  QStringList none;
+  return none;
 }

@@ -17,33 +17,28 @@
 class SonicPiAPIs : public QsciAbstractAPIs
 {
  public:
-  static const int Func = 0, FX = 1, Synth = 2, Sample = 3, NContext = 4;
+  enum { Func, FX, Synth, Sample, Chord, Scale,
+	 NContext };
 
-  SonicPiAPIs(QsciLexer *lexer, QString sample_path);
+  SonicPiAPIs(QsciLexer *lexer);
 
   void addSymbol(int context, QString sym);
   void addKeyword(int context, QString keyword);
+  void addFXArgs(QString fx, QStringList args);
 
-  //! Destroy the QsciAPIs instance.
-  virtual ~SonicPiAPIs();
-  
+  void loadSamples(QString sample_path);
+
+
   //! \reimp
   virtual void updateAutoCompletionList(const QStringList &context,
 					QStringList &list);
-  
-  //! \reimp
-  virtual void autoCompletionSelected(const QString &sel);
-  
-  //! \reimp
+
   virtual QStringList callTips(const QStringList &context, int commas,
 			       QsciScintilla::CallTipsStyle style,
 			       QList<int> &shifts);
   
-  //! \internal Reimplemented to receive termination events from the worker
-  //! thread.
-  virtual bool event(QEvent *e);
   
-
  private:
   QStringList keywords[NContext];
+  QHash<QString, QStringList> fxArgs;
 };

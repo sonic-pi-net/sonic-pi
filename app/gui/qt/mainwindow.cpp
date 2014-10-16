@@ -61,6 +61,7 @@
 #include <Qsci/qsciscintilla.h>
 #include "sonicpilexer.h"
 #include "sonicpiapis.h"
+#include "sonicpiscintilla.h"
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -160,16 +161,17 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   for(int ws = 0; ws < workspace_max; ws++) {
 	  std::string s;
 
-	  workspaces[ws] = new QsciScintilla;
+	  workspaces[ws] = new SonicPiScintilla;
 	  QString w = QString("Workspace %1").arg(QString::number(ws + 1));
 	  tabs->addTab(workspaces[ws], w);
   }
 
   lexer = new SonicPiLexer;
-  lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
+  lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
   // Autocompletion stuff
-  autocomplete = new SonicPiAPIs(lexer, sample_path);
+  autocomplete = new SonicPiAPIs(lexer);
+  autocomplete->loadSamples(sample_path);
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -490,7 +492,7 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 }
 
-void MainWindow::initWorkspace(QsciScintilla* ws) {
+void MainWindow::initWorkspace(SonicPiScintilla* ws) {
   ws->setAutoIndent(true);
   ws->setIndentationsUseTabs(false);
   ws->setBackspaceUnindents(true);
@@ -501,9 +503,9 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setIndentationWidth(2);
   ws->setIndentationGuides(true);
   ws->setIndentationGuidesForegroundColor(QColor("deep pink"));
-  ws->setBraceMatching( QsciScintilla::SloppyBraceMatch);
+  ws->setBraceMatching( SonicPiScintilla::SloppyBraceMatch);
   //TODO: add preference toggle for this:
-  //ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
+  //ws->setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
   ws->setCaretLineVisible(true);
   ws->setCaretLineBackgroundColor(QColor("whitesmoke"));
   ws->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
@@ -516,7 +518,7 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setText("#loading...");
   ws->setLexer(lexer);
   ws->setAutoCompletionThreshold(1);
-  ws->setAutoCompletionSource(QsciScintilla::AcsAPIs);
+  ws->setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
   ws->setSelectionBackgroundColor("DeepPink");
   ws->setSelectionForegroundColor("white");
   ws->setCaretWidth(5);
@@ -718,7 +720,7 @@ void MainWindow::startOSCListener() {
 }
 
 void MainWindow::replaceBuffer(QString id, QString content) {
-  QsciScintilla* ws = filenameToWorkspace(id.toStdString());
+  SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
   int line;
   int index;
   QString line_content;
@@ -798,7 +800,7 @@ bool MainWindow::saveAs()
 {
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), QDir::homePath() + "/Desktop");
   if(!fileName.isEmpty()){
-    return saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
+    return saveFile(fileName, (SonicPiScintilla*)tabs->currentWidget());
   } else {
     return false;
   }
@@ -823,16 +825,16 @@ void MainWindow::runCode()
 {
 
 
-  QsciScintilla *ws = ((QsciScintilla*)tabs->currentWidget());
+  SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
   ws->getCursorPosition(&currentLine, &currentIndex);
   ws->setReadOnly(true);
   ws->selectAll();
   errorPane->clear();
   errorPane->hide();
   statusBar()->showMessage(tr("Running Code...."), 1000);
-  std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
+  std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
-  std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
+  std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   if(!print_output->isChecked()) {
     code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
@@ -860,7 +862,7 @@ void MainWindow::runCode()
 
 void MainWindow::unhighlightCode()
 {
-  QsciScintilla *ws = (QsciScintilla *)tabs->currentWidget();
+  SonicPiScintilla *ws = (SonicPiScintilla *)tabs->currentWidget();
   ws->selectAll(false);
   ws->setCursorPosition(currentLine, currentIndex);
   ws->setReadOnly(false);
@@ -869,9 +871,9 @@ void MainWindow::unhighlightCode()
  void MainWindow::beautifyCode()
  {
   statusBar()->showMessage(tr("Beautifying...."), 2000);
-  std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
+  std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/beautify-buffer");
-  std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
+  std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   msg.pushStr(code);
   sendOSC(msg);
@@ -974,7 +976,7 @@ void MainWindow::helpContext()
 {
   if (!docWidget->isVisible())
     docWidget->show();
-  QsciScintilla *ws = ((QsciScintilla*)tabs->currentWidget());
+  SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
   QString selection = ws->selectedText();
   if (selection == "") { // get current word instead
     int line, pos;
@@ -1087,7 +1089,7 @@ void MainWindow::showPrefsPane()
 
 void MainWindow::zoomFontIn()
 {
-  QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
+  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
   int zoom = ws->property("zoom").toInt();
   zoom++;
   if (zoom > 20) zoom = 20;
@@ -1097,7 +1099,7 @@ void MainWindow::zoomFontIn()
 
 void MainWindow::zoomFontOut()
 {
-  QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
+  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
   int zoom = ws->property("zoom").toInt();
   zoom--;
   if (zoom < -5) zoom = -5;
@@ -1340,7 +1342,7 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
 }
 
-void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)
+void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
 {
     QFile file(fileName);
     if (!file.open(QFile::ReadOnly)) {
@@ -1358,7 +1360,7 @@ void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)
     statusBar()->showMessage(tr("File loaded"), 2000);
 }
 
-bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
+bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 {
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly)) {
@@ -1383,7 +1385,7 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
     return true;
 }
 
- std::string MainWindow::workspaceFilename(QsciScintilla* text)
+ std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
 {
 	for(int i = 0; i < workspace_max; i++) {
 		if(text == workspaces[i]) {
@@ -1393,7 +1395,7 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
 	return "default";
 }
 
- QsciScintilla*  MainWindow::filenameToWorkspace(std::string filename)
+ SonicPiScintilla*  MainWindow::filenameToWorkspace(std::string filename)
 {
 	std::string s;
 

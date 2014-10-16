@@ -24,10 +24,10 @@ static char default_font[] = "Menlo";
 static char default_font[] = "Bitstream Vera Sans Mono";
 #endif
 
-// allows autocompletion to get the previous word as context
+// triggers autocompletion for the next word
 QStringList QsciLexer::autoCompletionWordSeparators() const {
   QStringList seps;
-  seps << " ";
+  seps << " " << "," << "(" << ")" << "{" << "}";
   return seps;
 }
 
