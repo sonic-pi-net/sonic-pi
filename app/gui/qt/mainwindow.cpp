@@ -486,10 +486,10 @@ void MainWindow::initPrefsWindow() {
   debug_box->setLayout(debug_box_layout);
 
 #if defined(Q_OS_LINUX)
-  grid->addWidget(audioOutputBox, 0, 0);
-  grid->addWidget(volBox, 0, 1);
+  grid->addWidget(audioOutputBox, 1, 0);
+  grid->addWidget(volBox, 1, 1);
 #endif
-  grid->addWidget(debug_box, 1, 1);
+  grid->addWidget(debug_box, 0, 1);
   grid->addWidget(advancedAudioBox, 0, 0);
   prefsCentral->setLayout(grid);
 }
