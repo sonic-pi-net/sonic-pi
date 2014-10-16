@@ -134,8 +134,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
   QString log_path =  sp_user_path + QDir::separator() + "log";
 
+#if defined(Q_OS_WIN)
   stdlog.open(QString(log_path + "/stdout.log").toStdString());
   std::cout.rdbuf(stdlog.rdbuf());
+#endif
 
   QDir().mkdir(sp_user_path);
   QDir().mkdir(log_path);
