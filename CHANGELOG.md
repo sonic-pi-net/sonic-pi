@@ -60,7 +60,7 @@
 
 ## Version 2.0.1
 *Tuesday 9th September, 2014*
-p
+
 * Fix recording functionality
 * Improve documentation content and layout
 * Close off OSC server from external clients
