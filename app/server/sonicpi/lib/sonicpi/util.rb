@@ -132,11 +132,11 @@ module SonicPi
     end
 
     def log(message)
-      File.open("#{log_path}/boot.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")} if debug_mode
+      File.open("#{log_path}/debug.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")} if debug_mode
     end
 
     def debug_mode
-      true
+      false
     end
 
     def resolve_synth_opts_hash_or_array(opts)
