@@ -635,27 +635,19 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
        def play(n, *args)
          ensure_good_timing!
-         return play_chord(n, *args) if n.is_a?(Array)
-         n = n.call if n.is_a? Proc
-         synth_name = current_synth_name
-         if rest? n
+         return play_chord(n, *args) if n.is_a? Array
+
+         n = note(n)
+
+         if n.nil?
            __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
            return nil
          end
+
+         synth_name = current_synth_name
+
          init_args_h = {}
          args_h = resolve_synth_opts_hash_or_array(args)
-
-         if n.is_a? Numeric
-           # Do nothing
-         elsif n.is_a? Hash
-           init_args_h = resolve_synth_opts_hash_or_array(n)
-
-           n = note(init_args_h[:note])
-           return nil if n.nil?
-           n
-         else
-           n = note(n)
-         end
 
          if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
            n += shift
@@ -1697,11 +1689,24 @@ puts status # Returns something similar to:
 
 
 
-
        def note(n, *args)
-         return nil if rest?(n)
+         # Short circuit out if possible.
+         # Also recurse if necessary.
+         case n
+         when Numeric
+           return n
+         when Symbol
+           return nil if(n == :r || n == :rest)
+         when Nil
+           return nil
+         when Proc
+           return note(n.call, *args)
+         when Hash
+           return note(n[:note], *args)
+         end
 
          return Note.resolve_midi_note_without_octave(n) if args.empty?
+
          args_h = resolve_synth_opts_hash_or_array(args)
          octave = args_h[:octave]
          if octave
