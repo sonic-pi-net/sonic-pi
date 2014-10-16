@@ -2,7 +2,7 @@
 
 Welcome to Sonic Pi! Hopefully you're as excited to get started making crazy sounds as I am to show you. It's going to be a really *fun* ride where you'll learn all about music, synthesis, programming, composition, performance and more!
 
-But wait, how rude of me! Let me introduce myself - I'm *Sam Aaron* - the chap that created Sonic Pi. You can find me at *@samaaron* on Twitter and I'd be more than happy to say hello to you. If you have any thoughts, praise, or even grief to pass on - please do. Feedback is so helpful for improving Sonic Pi. You never know, your idea might be the next big feature!
+But wait, how rude of me! Let me introduce myself - I'm *Sam Aaron* - the chap that created Sonic Pi. You can find me at [@samaaron](http://twitter.com/samaaron) on Twitter and I'd be more than happy to say hello to you. If you have any thoughts, praise, or even grief to pass on - please do. Feedback is so helpful for improving Sonic Pi. You never know, your idea might be the next big feature!
 
 ## There are no mistakes
 
