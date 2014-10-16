@@ -12,7 +12,8 @@
 //++
 
 
-#include  <Qsci/qsciabstractapis.h>
+#include <Qsci/qsciabstractapis.h>
+#include <QHash>
 
 class SonicPiAPIs : public QsciAbstractAPIs
 {
