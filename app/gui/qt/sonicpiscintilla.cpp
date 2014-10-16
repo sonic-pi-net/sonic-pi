@@ -32,7 +32,7 @@ QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
   getCursorPosition(&linenum, &cursor);
   QString line = text(linenum);
   line.truncate(cursor);
-  context = line.split(QRegExp("[ ,(]+"));
+  context = line.split(QRegExp("[ ,(){}]+"));
 
   context_start = 0;
   last_word_start = pos;

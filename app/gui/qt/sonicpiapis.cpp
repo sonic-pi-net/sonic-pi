@@ -13,7 +13,11 @@
 
 #include <QDir>
 
+#include <iostream>
+
 #include "sonicpiapis.h"
+
+using namespace std;
 
 // The ctor.
 SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
@@ -51,8 +55,8 @@ void SonicPiAPIs::addFXArgs(QString fx, QStringList args) {
 
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
-  //  for (int i=0; i<context.length(); i++)
-  //    cout << "context[" << i << "] = " << context[i].toStdString() << endl;
+  //for (int i=0; i<context.length(); i++)
+  //  cout << "context[" << i << "] = " << context[i].toStdString() << endl;
 
   // default
   int ctx = Func;
@@ -86,8 +90,15 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   } else if (context.length() > 1) {
     // don't attempt to autocomplete other words on the same line
-    // unless we might actually have a match
-    if (context[context.length()-1].length() < 3) return;
+    // unless we have a plausible match
+    list.clear();
+    if (context[context.length()-1].length() > 2) {
+      foreach (const QString &str, keywords[Func]) {
+	if (str.startsWith(context[context.length()-1]))
+	  list << str;
+      }
+    }
+    return;
   }
 
   list << keywords[ctx];
