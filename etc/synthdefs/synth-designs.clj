@@ -267,7 +267,6 @@
            env       (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
        (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
-   ;;   (show-graphviz-synth sonic-pi-beep)
 
    (defsynth sonic-pi-pulse [note 52
                              note_slide 0
