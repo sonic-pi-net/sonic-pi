@@ -2272,10 +2272,6 @@ stop bar"]
 
          combined_args = scale_time_args_to_bpm(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
-         # shortcut out if we're actually a rest
-         # (i.e. if note is nil, :rest or :r)
-         return nil if rest?(combined_args)
-
          job_id = current_job_id
          __no_kill_block do
 
