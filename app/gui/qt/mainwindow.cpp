@@ -1204,7 +1204,7 @@ void MainWindow::createActions()
 
   // Preferences
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
-  setupAction(prefsAct, 0, tr("Toggle preferences pane"),
+  setupAction(prefsAct, 'P', tr("Toggle preferences pane"),
 	      SLOT(showPrefsPane()));
 
   // Record
