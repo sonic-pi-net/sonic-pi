@@ -83,7 +83,7 @@ module SonicPi
     end
 
     def message(s)
-      @MSG_QUEUE.push({:type => :debug_message, :val => s}) if debug_mode
+      log s
     end
 
     def request_notifications
