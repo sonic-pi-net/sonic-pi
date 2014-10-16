@@ -56,6 +56,11 @@ module SonicPi
       boot
     end
 
+    def sys(cmd)
+      log "System: #{cmd}"
+      system cmd
+    end
+
     def send(*args)
       @out_queue << [:send, args]
     end
@@ -220,7 +225,7 @@ module SonicPi
       end
 
       boot_and_wait do
-        raise unless system("'#{scsynth_path}' -a #{num_audio_busses_for_current_os} -u #{@port} -m 131072 &")
+        raise unless sys("'#{scsynth_path}' -a #{num_audio_busses_for_current_os} -u #{@port} -m 131072 &")
       end
     end
 
@@ -239,7 +244,7 @@ module SonicPi
       log "Booting on Raspberry Pi"
       `killall jackd`
       `killall scsynth`
-      system("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+      sys("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
 
       # Wait for Jackd to start
       while `jack_wait -c`.match /not.*/
@@ -249,7 +254,7 @@ module SonicPi
       @jack_pid = `ps cax | grep jackd`.split(" ").first
 
       boot_and_wait do
-        system("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} -z 128 &")
+        sys("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} -z 128 &")
       end
 
       `jack_connect SuperCollider:out_1 system:playback_1`
@@ -265,7 +270,7 @@ module SonicPi
       if `jack_wait -c`.match /not.*/
         #Jack not running - start a new instance
         log "Jackd not running on system. Starting..."
-        system("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+        sys("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
 
         # Wait for Jackd to start
         while `jack_wait -c`.match /not.*/
@@ -277,7 +282,7 @@ module SonicPi
       end
 
       boot_and_wait do
-        system("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} &")
+        sys("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} &")
       end
 
       `jack_connect SuperCollider:out_1 system:playback_1`
