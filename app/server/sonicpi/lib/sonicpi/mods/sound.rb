@@ -125,6 +125,12 @@ module SonicPi
 
        def rest?(n)
          case n
+         when Numeric
+           return false
+         when Symbol
+           return n == :r || n == :rest
+         when NilClass
+           return true
          when Hash
            if n.has_key?(:note)
              note = n[:note]
@@ -132,10 +138,6 @@ module SonicPi
            else
              return false
            end
-         when Symbol
-           return n == :r || n == :rest
-         when NilClass
-           return true
          else
            return false
          end
