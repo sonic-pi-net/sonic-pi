@@ -24,7 +24,7 @@ QMAKE=$QTBIN/qmake
 MACDEPLOYQT=$QTBIN/macdeployqt
 LIBQS_PATH=$QSCINTILLA/$LIBQS
 
-SP='Sonic-Pi.app'
+SP='Sonic Pi.app'
 
 set -eux
 cd $(dirname $0)
@@ -42,19 +42,19 @@ $QMAKE -o Makefile SonicPi.pro
 make
 
 # Move to build
-mv $SP build
+mv "$SP" build
 cd build
 
 # pull in QScintilla to app
-cp $LIBQS_PATH $SP/Contents/MacOS/
+cp $LIBQS_PATH "$SP/Contents/MacOS/"
 
 # Make stand-alone Qt Mac App
 # Pulls in Qt internally and
 # futzes with shared lib paths
-$MACDEPLOYQT $SP
+$MACDEPLOYQT "$SP"
 
 # Put qscintilla dylib in Frameworks dir and symlink
-cd $SP/Contents/Frameworks
+cd "$SP/Contents/Frameworks"
 mv ../MacOS/$LIBQS .
 
 if [ ! -f $LIBQS_LINK ]; then

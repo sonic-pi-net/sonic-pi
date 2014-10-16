@@ -21,7 +21,13 @@ QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = 'Sonic-Pi'
+
+TARGET = 'sonic-pi'
+
+macx {
+TARGET = 'Sonic Pi'
+}
+
 TEMPLATE = app
 
 SOURCES += main.cpp \
