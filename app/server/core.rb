@@ -39,6 +39,10 @@ module OSC
       @socket.send msg.encode, 0, address, port
     end
 
+    def send_raw(msg, address, port)
+      @socket.send msg, 0, address, port
+    end
+
     def initialize(port, open=false)
       @socket = UDPSocket.new
       if open

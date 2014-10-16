@@ -12,6 +12,7 @@
 #++
 require_relative "util"
 require_relative "promise"
+require_relative "oscencode"
 
 module SonicPi
   class SCSynthExternal
@@ -39,16 +40,18 @@ module SonicPi
 
       @osc_out_thread = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_out)
+        encoder = OscEncode.new
         loop do
           out_job = @out_queue.pop
           if out_job.first == :send
-            @client.send(OSC::Message.new(*out_job[1]), @hostname, @port)
+            address, *args = out_job[1]
+            m = encoder.encode_single_message(address, *args)
+            @client.send_raw(m, @hostname, @port)
           else
             ts = out_job[1]
-            args = out_job[2]
-            m = OSC::Message.new(*args)
-            b = OSC::Bundle.new(ts, m)
-            @client.send(b, @hostname, @port)
+            address, *args = out_job[2]
+            b = encoder.encode_single_bundle(ts, address, *args)
+            @client.send_raw(b, @hostname, @port)
           end
         end
       end
