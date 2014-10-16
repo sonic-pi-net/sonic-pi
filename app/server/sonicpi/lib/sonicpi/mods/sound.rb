@@ -635,7 +635,13 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
        def play(n, *args)
          ensure_good_timing!
-         return play_chord(n, *args) if n.is_a? Array
+         case n
+         when Array
+           return play_chord(n, *args)
+         when Hash
+           # Allow a single hash argument to function unsurprisingly
+           args = n if args.empty?
+         end
 
          n = note(n)
 
@@ -1697,7 +1703,7 @@ puts status # Returns something similar to:
            return n
          when Symbol
            return nil if(n == :r || n == :rest)
-         when Nil
+         when NilClass
            return nil
          when Proc
            return note(n.call, *args)
