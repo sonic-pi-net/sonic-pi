@@ -38,6 +38,10 @@ module SonicPi
       @MSG_QUEUE = msg_queue
       @control_delta = 0.005
 
+      #TODO: Might want to make this available more globally so it can
+      #be dynamically turned on and off
+      @debug_mode = debug_mode
+
       @PORT = port
 
       @osc_events = IncomingEvents.new
@@ -62,6 +66,14 @@ module SonicPi
         end
       end
 
+      @position_codes = {
+        head: 0,
+        tail: 1,
+        before: 2,
+        after: 3,
+        replace: 4
+      }
+
       at_exit do
         puts "Exiting - shutting down scsynth server..."
         @scsynth.shutdown
@@ -76,7 +88,7 @@ module SonicPi
       @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new num_audio_busses_for_current_os, 10 #TODO: remove these magic nums
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
 
-      message "Initialising comms... #{msg_queue}"
+      message "Initialising comms... #{msg_queue}" if @debug_mode
       clear_scsynth!
       request_notifications
 
@@ -87,19 +99,19 @@ module SonicPi
     end
 
     def request_notifications
-      message "Requesting notifications"
+      message "Requesting notifications" if @debug_mode
       osc "/notify", 1
     end
 
     def load_synthdefs(path)
-      message "Loading synthdefs from path: #{path}"
+      message "Loading synthdefs from path: #{path}" if @debug_mode
       with_server_sync do
         osc "/d_loadDir", path.to_s
       end
     end
 
     def clear_scsynth!
-      message "Clearing scsynth"
+      message "Clearing scsynth" if @debug_mode
       @CURRENT_NODE_ID.reset!
       clear_schedule
       group_clear 0, true
@@ -116,56 +128,50 @@ module SonicPi
       @CONTROL_BUS_ALLOCATOR.reset!
     end
 
-    def position_code(position)
-      {
-        head: 0,
-        tail: 1,
-        before: 2,
-        after: 3,
-        replace: 4}[position]
-    end
-
     def group_clear(id, now=false)
-      message "Clearing (nuking) group #{id}"
+      message "Clearing (nuking) group #{id}" if @debug_mode
+      id = id.to_i
       if now
-        osc "/g_freeAll", id.to_f
+        osc "/g_freeAll", id
       else
-        ts = sched_ahead_time_for_node(id)
-        osc_bundle ts, "/g_freeAll", id.to_f
+        ts = sched_ahead_time_for_node_mod(id)
+        osc_bundle ts, "/g_freeAll", id
       end
     end
 
     def group_deep_free(id, now=false)
-      message "Deep freeing group #{id}"
+      message "Deep freeing group #{id}" if @debug_mode
+      id = id.to_i
       if now
-        osc "/g_deepFree", id.to_f
+        osc "/g_deepFree", id
       else
-        ts = sched_ahead_time_for_node(id)
-        osc_bundle ts, "/g_deepFree", id.to_f
+        ts = sched_ahead_time_for_node_mod(id)
+        osc_bundle ts, "/g_deepFree", id
       end
     end
 
     def kill_node(id, now=false)
-      message "Killing node #{id}"
+      message "Killing node #{id}" if @debug_mode
+      id = id.to_i
       if now
-        osc "/n_free", id.to_f
+        osc "/n_free", id
       else
-        ts = sched_ahead_time_for_node(id)
-        osc_bundle ts, "/n_free", id.to_f
+        ts = sched_ahead_time_for_node_mod(id)
+        osc_bundle ts, "/n_free", id
       end
     end
 
     def create_group(position, target)
       target_id = target.to_i
-      pos_code = position_code(position)
+      pos_code = @position_codes[position]
       id = @CURRENT_NODE_ID.next
       if (pos_code && target_id)
         g = Group.new id, self
-        osc "/g_new", id.to_f, pos_code.to_f, target_id.to_f
-        message "Group created with id: #{id}"
+        osc "/g_new", id, pos_code, target_id
+        message "Group created with id: #{id}" if @debug_mode
         g.wait_until_started
       else
-        message "Unable to create a node with position: #{position} and target #{target}"
+        message "Unable to create a node with position: #{position} and target #{target}" if @debug_mode
         nil
       end
     end
@@ -181,8 +187,8 @@ module SonicPi
 
 
     def trigger_synth(position, group, synth_name, args_h, info=nil, now=false)
-      message "Triggering synth #{synth_name} at #{position}, #{group.to_s}" if debug_mode
-      pos_code = position_code(position)
+      message "Triggering synth #{synth_name} at #{position}, #{group.to_s}" if @debug_mode
+      pos_code = @position_codes[position]
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
 
@@ -207,19 +213,19 @@ module SonicPi
       if now
         osc "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
       else
-        ts = sched_ahead_time_for_node(sn)
+        t = Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now
+        ts =  t + @sched_ahead_time
         osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
       end
       sn
     end
 
-    def sched_ahead_time_for_node(node)
-      node_id = node.to_i
+    def sched_ahead_time_for_node_mod(node_id)
       thread_local_time = Thread.current.thread_variable_get(:sonic_pi_spider_time)
 
       if thread_local_time
         thread_local_deltas = Thread.current.thread_variable_get(:sonic_pi_control_deltas)
-        d = thread_local_deltas[node_id] ||= 0
+        d = thread_local_deltas[node_id] ||= @control_delta
         thread_local_deltas[node_id] += @control_delta
         thread_local_time + d + @sched_ahead_time
       else
@@ -229,8 +235,8 @@ module SonicPi
 
     def node_ctl(node, args, now=false)
       args_h = resolve_synth_opts_hash_or_array(args)
-      message "controlling node: #{node} with args: #{args}" if debug_mode
-
+      message "controlling node: #{node} with args: #{args}" if @debug_mode
+      node_id = node.to_i
       normalised_args = []
       args_h.each do |k,v|
         normalised_args << k.to_s << v.to_f
@@ -239,28 +245,30 @@ module SonicPi
       if now
         osc "/n_set", node.to_i, *normalised_args
       else
-        ts = sched_ahead_time_for_node(node)
-        osc_bundle ts, "/n_set", node.to_i, *normalised_args
+        ts = sched_ahead_time_for_node_mod(node_id)
+        osc_bundle ts, "/n_set", node_id, *normalised_args
       end
     end
 
     def node_pause(node, now=false)
-      message "pausing node: #{node}"
+      message "pausing node: #{node}" if @debug_mode
+      node_id = node.to_i
       if now
-        osc "/n_run", node.to_i, 0
+        osc "/n_run", node_id, 0
       else
-        ts = sched_ahead_time_for_node(node)
-        osc_bundle ts, "/n_run", node.to_i, 0
+        ts = sched_ahead_time_for_node_mod(node_id)
+        osc_bundle ts, "/n_run", node_id, 0
       end
     end
 
     def node_run(node, now=false)
-      message "running node: #{node}"
+      message "running node: #{node}" if @debug_mode
+      node_id = node.to_i
       if now
-        osc "/n_run", node.to_i, 1
+        osc "/n_run", node_id, 1
       else
-        ts = sched_ahead_time_for_node(node)
-        osc_bundle ts, "/n_run", node.to_i, 1
+        ts = sched_ahead_time_for_node_mod(node_id)
+        osc_bundle ts, "/n_run", node_id, 1
       end
     end
 
@@ -343,7 +351,7 @@ module SonicPi
         end
       end
       res = block.yield
-      osc "/sync", id.to_f
+      osc "/sync", id
       prom.get
       res
     end
