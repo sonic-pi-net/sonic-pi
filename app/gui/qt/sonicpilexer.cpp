@@ -24,6 +24,13 @@ static char default_font[] = "Menlo";
 static char default_font[] = "Bitstream Vera Sans Mono";
 #endif
 
+// triggers autocompletion for the next word
+QStringList QsciLexer::autoCompletionWordSeparators() const {
+  QStringList seps;
+  seps << " " << "," << "(" << ")" << "{" << "}";
+  return seps;
+}
+
 // Returns the foreground colour of the text for a style.
 QColor QsciLexerRuby::defaultColor(int style) const
 {

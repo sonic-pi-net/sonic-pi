@@ -60,6 +60,8 @@
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
 #include "sonicpilexer.h"
+#include "sonicpiapis.h"
+#include "sonicpiscintilla.h"
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -110,13 +112,16 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   }
 
   QString prg_arg = QCoreApplication::applicationDirPath() + "/../../../server/bin/sonic-pi-server.rb";
+  QString sample_path = QCoreApplication::applicationDirPath() + "/../../../../etc/samples";
 #elif defined(Q_OS_MAC)
   QString prg_path = QCoreApplication::applicationDirPath() + "/../../server/native/osx/ruby/bin/ruby";
   QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
+  QString sample_path = QCoreApplication::applicationDirPath() + "/../../../etc/samples";
 #else
   //assuming Raspberry Pi
   QString prg_path = "ruby";
   QString prg_arg = QCoreApplication::applicationDirPath() + "/../../server/bin/sonic-pi-server.rb";
+  QString sample_path = QCoreApplication::applicationDirPath() + "/../../../etc/samples";
 #endif
 
   prg_arg = QDir::toNativeSeparators(prg_arg);
@@ -128,6 +133,12 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
   QString log_path =  sp_user_path + QDir::separator() + "log";
+
+#if defined(Q_OS_WIN)
+  stdlog.open(QString(log_path + "/stdout.log").toStdString());
+  std::cout.rdbuf(stdlog.rdbuf());
+#endif
+
   QDir().mkdir(sp_user_path);
   QDir().mkdir(log_path);
   QString sp_error_log_path = log_path + QDir::separator() + "/errors.log";
@@ -152,23 +163,18 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   for(int ws = 0; ws < workspace_max; ws++) {
 	  std::string s;
 
-	  workspaces[ws] = new QsciScintilla;
+	  workspaces[ws] = new SonicPiScintilla;
 	  QString w = QString("Workspace %1").arg(QString::number(ws + 1));
 	  tabs->addTab(workspaces[ws], w);
   }
 
   lexer = new SonicPiLexer;
-  lexer->setAutoIndentStyle(QsciScintilla::AiMaintain);
+  lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
   // Autocompletion stuff
-  QsciAPIs* api = new QsciAPIs(lexer);
-  QStringList api_names;
-  // yes, really
-  #include "api_list.h"
-  for (int api_iter = 0; api_iter < api_names.size(); ++api_iter) {
-	  api->add(api_names.at(api_iter));
-  }
-  api->prepare();
+  autocomplete = new SonicPiAPIs(lexer);
+  autocomplete->loadSamples(sample_path);
+
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
   lexer->setDefaultFont(font);
@@ -488,7 +494,7 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 }
 
-void MainWindow::initWorkspace(QsciScintilla* ws) {
+void MainWindow::initWorkspace(SonicPiScintilla* ws) {
   ws->setAutoIndent(true);
   ws->setIndentationsUseTabs(false);
   ws->setBackspaceUnindents(true);
@@ -499,9 +505,9 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setIndentationWidth(2);
   ws->setIndentationGuides(true);
   ws->setIndentationGuidesForegroundColor(QColor("deep pink"));
-  ws->setBraceMatching( QsciScintilla::SloppyBraceMatch);
+  ws->setBraceMatching( SonicPiScintilla::SloppyBraceMatch);
   //TODO: add preference toggle for this:
-  //ws->setFolding(QsciScintilla::CircledTreeFoldStyle, 2);
+  //ws->setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
   ws->setCaretLineVisible(true);
   ws->setCaretLineBackgroundColor(QColor("whitesmoke"));
   ws->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
@@ -513,8 +519,8 @@ void MainWindow::initWorkspace(QsciScintilla* ws) {
   ws->setUtf8(true);
   ws->setText("#loading...");
   ws->setLexer(lexer);
-  ws->setAutoCompletionThreshold(5);
-  ws->setAutoCompletionSource(QsciScintilla::AcsAPIs);
+  ws->setAutoCompletionThreshold(1);
+  ws->setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
   ws->setSelectionBackgroundColor("DeepPink");
   ws->setSelectionForegroundColor("white");
   ws->setCaretWidth(5);
@@ -716,7 +722,7 @@ void MainWindow::startOSCListener() {
 }
 
 void MainWindow::replaceBuffer(QString id, QString content) {
-  QsciScintilla* ws = filenameToWorkspace(id.toStdString());
+  SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
   int line;
   int index;
   QString line_content;
@@ -796,7 +802,7 @@ bool MainWindow::saveAs()
 {
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), QDir::homePath() + "/Desktop");
   if(!fileName.isEmpty()){
-    return saveFile(fileName, (QsciScintilla*)tabs->currentWidget());
+    return saveFile(fileName, (SonicPiScintilla*)tabs->currentWidget());
   } else {
     return false;
   }
@@ -821,16 +827,16 @@ void MainWindow::runCode()
 {
 
 
-  QsciScintilla *ws = ((QsciScintilla*)tabs->currentWidget());
+  SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
   ws->getCursorPosition(&currentLine, &currentIndex);
   ws->setReadOnly(true);
   ws->selectAll();
   errorPane->clear();
   errorPane->hide();
   statusBar()->showMessage(tr("Running Code...."), 1000);
-  std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
+  std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
-  std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
+  std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   if(!print_output->isChecked()) {
     code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
@@ -858,7 +864,7 @@ void MainWindow::runCode()
 
 void MainWindow::unhighlightCode()
 {
-  QsciScintilla *ws = (QsciScintilla *)tabs->currentWidget();
+  SonicPiScintilla *ws = (SonicPiScintilla *)tabs->currentWidget();
   ws->selectAll(false);
   ws->setCursorPosition(currentLine, currentIndex);
   ws->setReadOnly(false);
@@ -867,9 +873,9 @@ void MainWindow::unhighlightCode()
  void MainWindow::beautifyCode()
  {
   statusBar()->showMessage(tr("Beautifying...."), 2000);
-  std::string code = ((QsciScintilla*)tabs->currentWidget())->text().toStdString();
+  std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/beautify-buffer");
-  std::string filename = workspaceFilename( (QsciScintilla*)tabs->currentWidget());
+  std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   msg.pushStr(code);
   sendOSC(msg);
@@ -972,7 +978,7 @@ void MainWindow::helpContext()
 {
   if (!docWidget->isVisible())
     docWidget->show();
-  QsciScintilla *ws = ((QsciScintilla*)tabs->currentWidget());
+  SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
   QString selection = ws->selectedText();
   if (selection == "") { // get current word instead
     int line, pos;
@@ -1085,7 +1091,7 @@ void MainWindow::showPrefsPane()
 
 void MainWindow::zoomFontIn()
 {
-  QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
+  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
   int zoom = ws->property("zoom").toInt();
   zoom++;
   if (zoom > 20) zoom = 20;
@@ -1095,7 +1101,7 @@ void MainWindow::zoomFontIn()
 
 void MainWindow::zoomFontOut()
 {
-  QsciScintilla* ws = ((QsciScintilla*)tabs->currentWidget());
+  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
   int zoom = ws->property("zoom").toInt();
   zoom--;
   if (zoom < -5) zoom = -5;
@@ -1338,7 +1344,7 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
 }
 
-void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)
+void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
 {
     QFile file(fileName);
     if (!file.open(QFile::ReadOnly)) {
@@ -1356,7 +1362,7 @@ void MainWindow::loadFile(const QString &fileName, QsciScintilla* &text)
     statusBar()->showMessage(tr("File loaded"), 2000);
 }
 
-bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
+bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 {
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly)) {
@@ -1381,7 +1387,7 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
     return true;
 }
 
- std::string MainWindow::workspaceFilename(QsciScintilla* text)
+ std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
 {
 	for(int i = 0; i < workspace_max; i++) {
 		if(text == workspaces[i]) {
@@ -1391,7 +1397,7 @@ bool MainWindow::saveFile(const QString &fileName, QsciScintilla* text)
 	return "default";
 }
 
- QsciScintilla*  MainWindow::filenameToWorkspace(std::string filename)
+ SonicPiScintilla*  MainWindow::filenameToWorkspace(std::string filename)
 {
 	std::string s;
 
@@ -1463,6 +1469,20 @@ void MainWindow::addHelpPage(QListWidget *nameList,
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
     helpKeywords.insert(helpPages[i].keyword.toLower(), entry);
+
+    // magic numbers ahoy
+    // to be revamped along with the help system
+    switch (entry.pageIndex) {
+    case 2:
+      autocomplete->addSymbol(SonicPiAPIs::Synth, helpPages[i].keyword);
+      break;
+    case 3:
+      autocomplete->addSymbol(SonicPiAPIs::FX, helpPages[i].keyword);
+      break;
+    case 5:
+      autocomplete->addKeyword(SonicPiAPIs::Func, helpPages[i].keyword);
+      break;
+    }
   }
 }
 
