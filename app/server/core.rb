@@ -34,14 +34,27 @@ end
 
 module OSC
   class ServerOverTcp < Server
+
     def send(msg, address, port)
-      socket = @server.accept
-      socket.write msg.encode
+      connected = false
+      socket = nil
+      while(!connected) do
+        begin
+          socket = TCPSocket.open(address, port)
+          connected = true
+        rescue
+          puts "Awaiting server on #{port}..."
+          sleep(1)
+        end
+      end
+
+      socket.write(msg.encode)
       socket.close
     end
 
     def initialize(port)
-      @server = TCPServer.new(port)
+      puts "port #{port}"
+      @server = TCPServer.open(port)
       @matchers = []
       @queue = Queue.new
     end
@@ -66,6 +79,10 @@ module OSC
           Kernel.puts e.message
         end
       end
+    end
+
+    def stop
+      @server.close
     end
 
     def safe_run
@@ -123,6 +140,39 @@ private
 
 
   end
+
+
+  class ClientOverTcp
+    def initialize(host, port)
+      @host, @port = host, port
+    end
+
+    def send_raw(mesg)
+      socket.send(mesg, 0)
+      socket.close
+    end
+
+    def send(mesg)
+      socket.send(mesg.encode, 0)
+      socket.close
+    end
+
+    def socket
+      connected = false
+      while(!connected) do
+        begin
+          sock = TCPSocket.new(@host, @port)
+          connected = true
+        rescue
+          puts "Awaiting server: #{@host} #{@port}"
+          sleep(1)
+        end
+      end
+      sock
+    end
+
+  end
+
 end
 
 

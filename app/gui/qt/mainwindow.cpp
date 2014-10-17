@@ -519,11 +519,12 @@ void MainWindow::initWorkspace(SonicPiScintilla* ws) {
 }
 
 void MainWindow::startOSCListener() {
-  std::cout << "starting OSC Server" << std::endl;
   int PORT_NUM = 4558;
-  UdpSocket sock;
+  TcpSocket sock;
+  std::cout << "Starting OSC Server Listening on:" << PORT_NUM << std::endl;
   sock.bindTo(PORT_NUM);
-  std::cout << "Listening on port 4558" << std::endl;
+
+  std::cout << "Listening..." << std::endl;
   if (!sock.isOk()) {
     std::cout << "Unable to listen to OSC messages on port 4558" << std::endl;
   } else {
@@ -532,11 +533,17 @@ void MainWindow::startOSCListener() {
     osc_incoming_port_open = true;
     while (sock.isOk() && cont_listening_for_osc) {
 
-      if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
+      std::cout << "Attempt to receive something, should block" << std::endl;
+      if (sock.receiveNext(30 /* timeout, in ms */)) {
+
         pr.init(sock.packetData(), sock.packetSize());
         oscpkt::Message *msg;
-        while (pr.isOk() && (msg = pr.popMessage()) != 0) {
 
+        while (pr.isOk() && (msg = pr.popMessage()) != 0) {
+            std::string id;
+            Message::ArgReader az = msg->arg();
+            az.popStr(id);
+            std::cout << "MSG: " << id  << std::endl;
 
           if (msg->match("/multi_message")){
             int msg_count;

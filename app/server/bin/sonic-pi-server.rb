@@ -32,10 +32,11 @@ client_port = ARGV[1] ? ARGV[1].to_i : 4558
 
 ws_out = Queue.new
 osc_server = OSC::ServerOverTcp.new(server_port)
-gui = OSC::Client.new("localhost", client_port)
+gui = OSC::ClientOverTcp.new("localhost", client_port)
 encoder = SonicPi::OscEncode.new(true)
 
 at_exit do
+  osc_server.stop
   m = encoder.encode_single_message("/exited")
   gui.send_raw(m)
 end
