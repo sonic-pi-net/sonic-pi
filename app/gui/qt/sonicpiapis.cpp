@@ -55,10 +55,8 @@ void SonicPiAPIs::addFXArgs(QString fx, QStringList args) {
 
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
-  if (list.length() > 0)
-    cout << "list.length == " << list.length() << endl;
-  for (int i=0; i<context.length(); i++)
-    cout << "context[" << i << "] = " << context[i].toStdString() << endl;
+  //  for (int i=0; i<context.length(); i++)
+  //    cout << "context[" << i << "] = " << context[i].toStdString() << endl;
 
   // default
   int ctx = Func;
