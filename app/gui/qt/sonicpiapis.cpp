@@ -55,8 +55,10 @@ void SonicPiAPIs::addFXArgs(QString fx, QStringList args) {
 
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
-  //for (int i=0; i<context.length(); i++)
-  //  cout << "context[" << i << "] = " << context[i].toStdString() << endl;
+  if (list.length() > 0)
+    cout << "list.length == " << list.length() << endl;
+  for (int i=0; i<context.length(); i++)
+    cout << "context[" << i << "] = " << context[i].toStdString() << endl;
 
   // default
   int ctx = Func;
@@ -89,19 +91,22 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
     }
 
   } else if (context.length() > 1) {
-    // don't attempt to autocomplete other words on the same line
-    // unless we have a plausible match
-    list.clear();
-    if (context[context.length()-1].length() > 2) {
-      foreach (const QString &str, keywords[Func]) {
-	if (str.startsWith(context[context.length()-1]))
-	  list << str;
-      }
+    if (context[context.length()-1].length() <= 2) {
+      // don't attempt to autocomplete other words on the same line
+      // unless we have a plausible match
+      return;
     }
-    return;
   }
 
-  list << keywords[ctx];
+  if (context[context.length()-1].length() == 0) {
+    list << keywords[ctx];
+  } else {
+    foreach (const QString &str, keywords[Func]) {
+      if (str.startsWith(context[context.length()-1])) {
+	list << str;
+      }
+    }
+  }
 }
 
 QStringList SonicPiAPIs::callTips(const QStringList &context, int commas,
