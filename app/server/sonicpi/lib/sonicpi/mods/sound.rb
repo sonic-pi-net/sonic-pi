@@ -2303,6 +2303,10 @@ stop bar"]
          Thread.current.thread_variable_get :sonic_pi_spider_job_id
        end
 
+       def current_job_mixer
+         job_mixer(current_job_id)
+       end
+
        def current_fx_group
          if g = Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_group)
            return g
