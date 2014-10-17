@@ -970,7 +970,7 @@ void MainWindow::help()
   if(docWidget->isVisible()) {
     docWidget->hide();
   } else {
-    docWidget->show();
+    helpContext();
   }
 }
 
