@@ -2285,8 +2285,6 @@ stop bar"]
 
          validate_if_necessary! info, combined_args
 
-         puts combined_args
-
          job_id = current_job_id
          __no_kill_block do
 
