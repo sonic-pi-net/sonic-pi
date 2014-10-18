@@ -2029,6 +2029,7 @@ sleep 1
          args_h = resolve_synth_opts_hash_or_array(args)
          n = args_h[:note]
          args_h[:note] = note(n) if n
+         normalise_args! args_h
          node.control args_h
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}"
@@ -2147,6 +2148,24 @@ stop bar"]
 
 
        private
+
+       def normalise_args!(args_h)
+         args_h.keys.each do |k|
+           v = args_h[k]
+           case v
+           when Numeric
+             # do nothing
+           when Proc
+             args_h[k] = args_h[v].call.to_f
+           when Symbol
+             # Allow vals to be keys to other vals
+             # But only one level deep...
+             args_h[k] = args_h[v].to_f
+           else
+             args_h[k] = v.to_f
+           end
+         end
+       end
 
        def scale_time_args_to_bpm!(args_h, info)
          # some of the args in args_h need to be scaled to match the
@@ -2267,19 +2286,7 @@ stop bar"]
 
          combined_args["out_bus"] = out_bus
 
-         combined_args.keys.each do |k|
-           # Allow vals to be keys to other vals
-           # But only one level deep...
-           v = combined_args[k]
-           case v
-           when Numeric
-             # do nothing
-           when Symbol
-             combined_args[k] = combined_args[v].to_f
-           else
-             combined_args[k] = v.to_f
-           end
-         end
+         normalise_args!(combined_args)
 
          scale_time_args_to_bpm!(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
