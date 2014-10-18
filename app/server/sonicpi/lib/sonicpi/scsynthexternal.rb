@@ -40,7 +40,7 @@ module SonicPi
 
       @osc_out_thread = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_out)
-        encoder = OscEncode.new
+        encoder = OscEncode.new(true)
         loop do
           out_job = @out_queue.pop
           if out_job.first == :send

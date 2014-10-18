@@ -13,7 +13,8 @@
 
 module SonicPi
   class OscEncode
-    def initialize
+    def initialize(use_cache = false)
+      @use_cache = use_cache
       @string_cache = {}
       @bundle_header = get_from_or_add_to_string_cache("#bundle")
     end
@@ -51,7 +52,11 @@ module SonicPi
         args_encoded << [arg].pack('g').force_encoding("BINARY")
       when String
         tags << 's'
-        args_encoded << get_from_or_add_to_string_cache(arg)
+        if @use_cache
+          args_encoded << get_from_or_add_to_string_cache(arg)
+        else
+          args_encoded << encode_string(s)
+        end
       else
         raise "Unknown arg type to encode: #{arg}"
       end
@@ -61,10 +66,14 @@ module SonicPi
       if cached = @string_cache[s]
         return cached
       else
-        res = padding(s.sub(/\000.*\z/, '') + "\000").force_encoding("BINARY")
+        res = encode_string(s)
         @string_cache[s] = res
         return res
       end
+    end
+
+    def encode_string(s)
+      padding(s.sub(/\000.*\z/, '') + "\000").force_encoding("BINARY")
     end
 
     def padding(s)
