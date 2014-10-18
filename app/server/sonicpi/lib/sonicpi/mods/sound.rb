@@ -200,6 +200,7 @@ sleep rt(2)             # still sleeps for 2 seconds"]
 
 
 
+
     def with_arg_bpm_scaling(bool, &block)
       raise "with_arg_bpm_scaling must be called with a block. Perhaps you meant use_arg_bpm_scaling" unless block
       current_scaling = Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
@@ -2147,7 +2148,7 @@ stop bar"]
 
        private
 
-       def scale_time_args_to_bpm(args_h, info)
+       def scale_time_args_to_bpm!(args_h, info)
          # some of the args in args_h need to be scaled to match the
          # current bpm. Check in info to see if that's necessary and if
          # so, scale them.
@@ -2263,14 +2264,28 @@ stop bar"]
          t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
 
          combined_args = defaults.merge(t_l_args.merge(args_h))
-         metadef_prochash_lookup!(combined_args)
-         call_synth_default_fns!(combined_args)
 
          combined_args["out_bus"] = out_bus
 
+         combined_args.keys.each do |k|
+           # Allow vals to be keys to other vals
+           # But only one level deep...
+           v = combined_args[k]
+           case v
+           when Numeric
+             # do nothing
+           when Symbol
+             combined_args[k] = combined_args[v].to_f
+           else
+             combined_args[k] = v.to_f
+           end
+         end
+
+         scale_time_args_to_bpm!(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+
          validate_if_necessary! info, combined_args
 
-         combined_args = scale_time_args_to_bpm(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+         puts combined_args
 
          job_id = current_job_id
          __no_kill_block do
@@ -2370,7 +2385,7 @@ stop bar"]
            return m if m
 
            args_h = {
-             "in_bus" => job_bus(job_id),
+             "in_bus" => job_bus(job_id).to_i,
              "amp" => 0.3
            }
 
@@ -2380,9 +2395,7 @@ stop bar"]
            synth_name = info ? info.scsynth_name : synth_name
 
            combined_args = defaults.merge(args_h)
-           metadef_prochash_lookup!(combined_args)
-           call_synth_default_fns!(combined_args)
-           combined_args["out_bus"] = @mod_sound_studio.mixer_bus
+           combined_args["out_bus"] = @mod_sound_studio.mixer_bus.to_i
 
            validate_if_necessary! info, combined_args
 
@@ -2489,45 +2502,6 @@ stop bar"]
          subthreads = t.thread_variable_get :sonic_pi_spider_subthreads
          subthreads.each do |st|
            join_thread_and_subthreads(st)
-         end
-       end
-
-       def call_synth_default_fns!(args_h)
-         args_h.each do |k, v|
-           # This will auto call any procs vals due to args_h having
-           # auto prohash behaviour thrown into its metaclass
-           args_h[k]
-         end
-       end
-
-       def metadef_prochash_lookup!(args_h)
-         #override the [] lookup in a specific hash so that it knows to
-         #auto call any vals that are procs and to be aware of cyclic
-         #behaviour.
-         args_h.meta_def :[] do |k|
-           v = fetch k
-           return v unless v.is_a? Proc
-
-           trace_id = :sonic_pi_prochash_lookup_trace
-           trace = Thread.current.thread_variable_get(trace_id)
-           trace = trace || []
-           Thread.current.thread_variable_set(trace_id, trace)
-
-           raise "Recursive synth defaults lambda lookup. Looks like two synth args had lambda defaults which were defined in terms of each other!" if trace.include? k
-           trace << k
-
-           res = if v.arity == 0
-                   new_val = v.call
-                   store k, new_val
-                   new_val
-                 else
-                   new_val = v.call self
-                   store k, new_val
-                   new_val
-                 end
-
-           trace.delete k
-           return res
          end
        end
 

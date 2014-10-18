@@ -50,12 +50,13 @@ module SonicPi
       when Float
         tags << 'f'
         args_encoded << [arg].pack('g').force_encoding("BINARY")
-      when String
+      when String, Symbol
+        arg = arg.to_s
         tags << 's'
         if @use_cache
           args_encoded << get_from_or_add_to_string_cache(arg)
         else
-          args_encoded << encode_string(s)
+          args_encoded << encode_string(arg)
         end
       else
         raise "Unknown arg type to encode: #{arg}"

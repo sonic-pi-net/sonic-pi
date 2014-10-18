@@ -187,22 +187,13 @@ module SonicPi
 
 
     def trigger_synth(position, group, synth_name, args_h, info=nil, now=false)
-      message "Triggering synth #{synth_name} at #{position}, #{group.to_s}" if @debug_mode
+      message "Triggering synth #{synth_name} at #{position}, #{group.to_s}, args: #{args_h}" if @debug_mode
       pos_code = @position_codes[position]
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
 
-      normalised_args = []
-      normalised_args_map = {}
-      args_h.each do |k,v|
-        ks = k.to_s
-        vf = v.to_f
-        normalised_args << ks << vf
-        normalised_args_map[ks] = vf
-      end
-
       s_name = synth_name.to_s
-      sn = SynthNode.new(node_id, group, self, s_name, normalised_args_map, info)
+      sn = SynthNode.new(node_id, group, self, s_name, args_h, info)
 
       group.subnode_add(sn)
 
@@ -211,11 +202,11 @@ module SonicPi
       end
 
       if now
-        osc "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
+        osc "/s_new", s_name, node_id, pos_code, group_id, *args_h.flatten
       else
         t = Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now
         ts =  t + @sched_ahead_time
-        osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *normalised_args
+        osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *args_h.flatten
       end
       sn
     end
