@@ -34,6 +34,12 @@ end
 
 module OSC
 
+  class Client
+    def send_raw(mesg)
+      @so.send(mesg, 0)
+    end
+  end
+
   class Server
     def send(msg, address, port)
       @socket.send msg.encode, 0, address, port
@@ -185,6 +191,7 @@ require 'rubame'
 ## Teach Rubame::Server#run to block on IO.select
 ## and therefore not thrash round in a loop
 module Rubame
+
   class Server
     def run(time = 0, &blk)
       readable, writable = IO.select(@reading, @writing)
