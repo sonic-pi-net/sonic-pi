@@ -19,24 +19,7 @@ module SonicPi
 
     def initialize
       @scsynth_name = "#{prefix}#{synth_name}"
-      i = default_arg_info.merge(specific_arg_info)
-      res = {}
-      i.each do |k, v|
-        res[k] = v
-        if m = /(.*)_slide/.match(k.to_s)
-          res["#{m[1]}_slide_curve".to_sym] = {
-            :doc => generic_slide_curve_doc(m[1]),
-            :modulatable => true
-          } unless i["#{m[1]}_slide_curve".to_sym]
-
-          res["#{m[1]}_slide_shape".to_sym] = {
-            :doc => generic_slide_shape_doc(m[1]),
-            :validations => [v_one_of("#{m[1]}_slide_shape".to_sym, [0, 1, 3, 4, 5, 6, 7])],
-            :modulatable => true
-          } unless i["#{m[1]}_slide_shape".to_sym]
-        end
-      end
-      @info = res
+      @info = default_arg_info.merge(specific_arg_info)
     end
 
     def rrand(min, max)
@@ -121,15 +104,21 @@ module SonicPi
       #Don't call as part of audio loops as slow. Use .info directly
       res = {}
       arg_defaults.each do |arg, default|
-        default_info = @info[arg] || {}
-        constraints = (default_info[:validations] || []).map{|el| el[1]}
-        new_info = {}
-        new_info[:doc] = default_info[:doc]
-        new_info[:default] = default_info[:default] || default
-        new_info[:bpm_scale] = default_info[:bpm_scale]
-        new_info[:constraints] = constraints
-        new_info[:modulatable] = default_info[:modulatable]
-        res[arg] = new_info
+        if m = /(.*)_slide/.match(arg.to_s) then
+          parent = m[1].to_sym
+          res[parent][:slidable] = true
+          # and don't add to arg_info table
+        else
+          default_info = @info[arg] || {}
+          constraints = (default_info[:validations] || []).map{|el| el[1]}
+          new_info = {}
+          new_info[:doc] = default_info[:doc]
+          new_info[:default] = default_info[:default] || default
+          new_info[:bpm_scale] = default_info[:bpm_scale]
+          new_info[:constraints] = constraints
+          new_info[:modulatable] = default_info[:modulatable]
+          res[arg] = new_info
+        end
       end
 
       res
@@ -139,8 +128,6 @@ module SonicPi
     def kill_delay(args_h)
       1
     end
-
-    private
 
     def generic_slide_doc(k)
       return "Amount of time (in seconds) for the #{k} value to change. A long #{k}_slide value means that the #{k} takes a long time to slide from the previous value to the new value. A #{k}_slide of 0 means that the #{k} instantly changes to the new value."
@@ -154,6 +141,7 @@ module SonicPi
       return "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use curvature param), 6: squared, 7: cubed"
     end
 
+    private
 
     def v_sum_less_than_oet(arg1, arg2, max)
       [lambda{|args| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
@@ -2684,12 +2672,12 @@ end
         :clamp_time_slide_curve => 0,
         :slope_above => 0.5,
         :slope_above_slide => 0,
-        :slide_shape => 5,
-        :slide_curve => 0,
+        :slope_above_slide_shape => 5,
+        :slope_above_slide_curve => 0,
         :slope_below => 1,
         :slope_below_slide => 0,
-        :slide_shape => 5,
-        :slide_curve => 0,
+        :slope_below_slide_shape => 5,
+        :slope_below_slide_curve => 0,
         :relax_time => 0.01,
         :relax_time_slide => 0,
         :relax_time_slide_shape => 5,
@@ -3464,6 +3452,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         doc << "<tr><th></th><th></th></tr>\n"
 
         cnt = 0
+        any_slidable = false
         v.arg_info.each do |ak, av|
           cnt += 1
           background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
@@ -3477,12 +3466,46 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           doc << "          <em><font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
           doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
           doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}<br/>\n"
+          doc << "          <a href=#slide>Has slide parameters to shape changes</a><br/>\n" if av[:slidable]
           doc << "          Scaled with current BPM value\n" if av[:bpm_scale]
           doc << "       </font></em>\n"
           doc << "     </td>\n"
           doc << " </tr>\n"
+          any_slidable = true if av[:slidable]
         end
         doc << "  </table>\n"
+
+        if any_slidable then
+          doc << "<a name=slide><h1>Slide Parameters</h1>\n";
+          doc << "Any parameter that is slidable has three additional parameters named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:"
+          slide_args = {
+            :_slide => {:default => 0, :doc=>v.generic_slide_doc('parameter')},
+            :_slide_shape => {:default=>0, :doc=>v.generic_slide_shape_doc('parameter')},
+            :_slide_curve => {:default=>5, :doc=>v.generic_slide_curve_doc('parameter')}
+          }
+
+          # table for slide parameters
+          doc << "<table cellpadding=\"8\">\n"
+          doc << "<tr><th></th><th></th></tr>\n"
+
+          cnt = 0
+          slide_args.each do |ak, av|
+            cnt += 1
+            background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
+            key_bg_colour = cnt.even? ? "#74ACFF" : "#B2D1FF"
+            doc << "  <tr bgcolor=\"#{background_colour}\">\n"
+            doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
+            doc << "      <td>\n"
+            doc << "        <font size=\"4\", #{hv_face}>\n"
+            doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
+            doc << "          <em><font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
+            doc << "       </font></em>\n"
+            doc << "     </td>\n"
+            doc << " </tr>\n"
+          end
+          doc << "  </table>\n"
+        end # any_slidable
+
         res["#{safe_k}"] = doc
       end
       res
@@ -3511,7 +3534,9 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           res << "    - doc: #{av[:doc] || 'write me'}\n"
           res << "    - default: #{av[:default]}\n"
           res << "    - constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}\n"
-          res << "    - #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n\n"
+          res << "    - #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
+          res << "    - Scaled with current BPM value\n" if av[:bpm_scale]
+          res << "    - Has slide parameters for shaping changes\n" if av[:slidable]
         end
         res << "\n\n"
 
@@ -3579,7 +3604,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
           doc << "          <font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
           doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
-          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}<br/>\n"
+          doc << "          May be changed whilst playing<br/>\n" if av[:slidable]
           doc << "          Scaled with current BPM value\n" if av[:bpm_scale]
           doc << "       </font>\n"
           doc << "     </td>\n"
