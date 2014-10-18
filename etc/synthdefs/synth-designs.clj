@@ -32,19 +32,6 @@
 (defn save-to-pi [sdef]
   (save-synthdef sdef "/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/"))
 
-(defcgen varlag
-  "Variable shaped lag"
-  [in     {:default 0 :doc "Input to lag"}
-   time   {:default 0.1 :doc "Lag time in seconds"}
-   curvature {:default 0 :doc "Control curvature if shape input is 5 (default). 0 means linear, positive and negative numbers curve the segment up and down."}
-   shape  {:default 5 :doc "Shape of curve. 0: step, 1: linear, 2: exponential, 3: sine, 4: welch, 5: custom (use curvature param), 6: squared, 7: cubed, 8: hold"}
-
-   ]
-  "Similar to Lag but with other curve shapes than exponential. A change on the input will take the specified time to reach the new value. Useful for smoothing out control signals."
-  (:kr
-   (let [gate (+ (+ (impulse:kr 0 0) (> (abs (hpz1 in)) 0))
-                 (> (abs (hpz1 time)) 0) )]
-     (env-gen [in 1 -99 -99 in time shape curvature] gate))))
 
 ;; Main mixer
 
