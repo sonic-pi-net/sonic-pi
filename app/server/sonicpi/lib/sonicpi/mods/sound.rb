@@ -2156,7 +2156,7 @@ stop bar"]
            when Numeric
              # do nothing
            when Proc
-             args_h[k] = args_h[v].call.to_f
+             args_h[k] = v.call.to_f
            when Symbol
              # Allow vals to be keys to other vals
              # But only one level deep...
