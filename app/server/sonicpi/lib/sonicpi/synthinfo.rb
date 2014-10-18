@@ -3480,8 +3480,8 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           doc << "Any parameter that is slidable has three additional parameters named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:"
           slide_args = {
             :_slide => {:default => 0, :doc=>v.generic_slide_doc('parameter')},
-            :_slide_shape => {:default=>0, :doc=>v.generic_slide_shape_doc('parameter')},
-            :_slide_curve => {:default=>5, :doc=>v.generic_slide_curve_doc('parameter')}
+            :_slide_shape => {:default=>5, :doc=>v.generic_slide_shape_doc('parameter')},
+            :_slide_curve => {:default=>0, :doc=>v.generic_slide_curve_doc('parameter')}
           }
 
           # table for slide parameters
