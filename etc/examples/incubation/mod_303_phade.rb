@@ -4,6 +4,14 @@ live_loop :foo do
   sleep 0.5
 end
 
+live_loop :drums do |n|
+  if n % 2 == 0
+    sample :drum_tom_mid_soft
+  end
+  sample :drum_tom_lo_soft
+  sleep 1
+end
+
 sync :foo
 
 with_fx :reverb do

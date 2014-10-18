@@ -24,9 +24,15 @@ module SonicPi
       define(name, &block)
 
       in_thread(name: name) do
+        inc = 0
         loop do
           cue name
-          send(name)
+          if self.method(name).arity == 1
+            send(name, inc)
+            inc += 1
+          else
+            send(name)
+          end
         end
       end
     end
