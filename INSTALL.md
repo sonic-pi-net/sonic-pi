@@ -114,6 +114,15 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
   - `$ cd /root/path/to/sonic-pi`
   - `$ mkdir -p app/server/native/osx/ruby/bin`
   - check your current ruby version: 
+  ```
+# This should be 2.1.2 although anything 1.9.3+ _should_ work
+$ ruby --version
+  ```
+  - link the ruby version into place:
+  ```
+ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
+  ```
+
 * Run `./mac-build-app`
 * App should be in `build` dir
 

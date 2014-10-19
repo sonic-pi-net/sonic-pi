@@ -43,6 +43,23 @@ module SonicPi
                            sustain:   {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
                            release:   {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
 
+
+       # Rather than erroring out for a missing method, first try interpreting it as a symbol.
+       # This may be the desired behavior for many cases, especially with those new to Ruby.
+       # For example, the following will do the expected thing:
+       #
+       # with_synth dsaw do
+       #   play_pattern [c, d]
+       #   sample loop_amen
+       # end
+       #
+       # and it also reads more like a proper DSL.
+       # This usage shouldn't be encouraged, since method_missing has a nontrivial overhead,
+       # but it can is better than erroring out when you're trying to make music!
+       def method_missing(method)
+         method
+       end
+
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
 
