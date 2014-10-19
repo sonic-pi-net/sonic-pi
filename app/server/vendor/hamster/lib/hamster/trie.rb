@@ -1,8 +1,11 @@
-require "forwardable"
-
 module Hamster
+  # @private
   class Trie
-    extend Forwardable
+    def self.[](pairs)
+      result = self.new(0)
+      pairs.each { |key, val| result.put!(key, val) }
+      result
+    end
 
     # Returns the number of key-value pairs in the trie.
     attr_reader :size
@@ -23,14 +26,21 @@ module Hamster
     def key?(key)
       !!get(key)
     end
-    def_delegator :self, :key?, :has_key?
 
     # Calls <tt>block</tt> once for each entry in the trie, passing the key-value pair as parameters.
-    def each
+    def each(&block)
       @entries.each { |entry| yield(entry) if entry }
       @children.each do |child|
-        child.each { |entry| yield(entry) } if child
+        child.each(&block) if child
       end
+      nil
+    end
+
+    def reverse_each(&block)
+      @children.reverse_each do |child|
+        child.reverse_each(&block) if child
+      end
+      @entries.reverse_each { |entry| yield(entry) if entry }
       nil
     end
 
@@ -40,7 +50,7 @@ module Hamster
     end
 
     def filter
-      reduce(self) { |trie, entry| yield(entry) ? trie : trie.delete(entry.key) }
+      reduce(self) { |trie, entry| yield(entry) ? trie : trie.delete(entry[0]) }
     end
 
     # Returns a copy of <tt>self</tt> with the given value associated with the key.
@@ -50,12 +60,14 @@ module Hamster
 
       if !entry
         entries = @entries.dup
-        entries[index] = Entry.new(key, value)
-        self.class.new(@significant_bits, @size + 1, entries, @children)
-      elsif entry.key.eql?(key)
+        key = key.dup.freeze if key.is_a?(String) && !key.frozen?
+        entries[index] = [key, value].freeze
+        Trie.new(@significant_bits, @size + 1, entries, @children)
+      elsif entry[0].eql?(key)
         entries = @entries.dup
-        entries[index] = Entry.new(key, value)
-        self.class.new(@significant_bits, @size, entries, @children)
+        key = key.dup.freeze if key.is_a?(String) && !key.frozen?
+        entries[index] = [key, value].freeze
+        Trie.new(@significant_bits, @size, entries, @children)
       else
         children = @children.dup
         child = children[index]
@@ -63,19 +75,44 @@ module Hamster
         if child
           children[index] = child.put(key, value)
         else
-          children[index] = self.class.new(@significant_bits + 5).put!(key, value)
+          children[index] = Trie.new(@significant_bits + 5).put!(key, value)
         end
         new_child_size = children[index].size
         new_self_size = @size + (new_child_size - child_size)
-        self.class.new(@significant_bits, new_self_size, @entries, children)
+        Trie.new(@significant_bits, new_self_size, @entries, children)
       end
+    end
+
+    # Returns <tt>self</tt> after overwriting the element associated with the specified key.
+    def put!(key, value)
+      index = index_for(key)
+      entry = @entries[index]
+      if !entry
+        @size += 1
+        key = key.dup.freeze if key.is_a?(String) && !key.frozen?
+        @entries[index] = [key, value].freeze
+      elsif entry[0].eql?(key)
+        key = key.dup.freeze if key.is_a?(String) && !key.frozen?
+        @entries[index] = [key, value].freeze
+      else
+        child = @children[index]
+        if child
+          old_child_size = child.size
+          @children[index] = child.put!(key, value)
+          @size += child.size - old_child_size
+        else
+          @children[index] = Trie.new(@significant_bits + 5).put!(key, value)
+          @size += 1
+        end
+      end
+      self
     end
 
     # Retrieves the entry corresponding to the given key. If not found, returns <tt>nil</tt>.
     def get(key)
       index = index_for(key)
       entry = @entries[index]
-      if entry && entry.key.eql?(key)
+      if entry && entry[0].eql?(key)
         entry
       else
         child = @children[index]
@@ -85,12 +122,31 @@ module Hamster
 
     # Returns a copy of <tt>self</tt> with the given key (and associated value) deleted. If not found, returns <tt>self</tt>.
     def delete(key)
-      find_and_delete(key) || self.class.new(@significant_bits)
+      find_and_delete(key) || Trie.new(@significant_bits)
     end
 
     def include?(key, value)
       entry = get(key)
-      entry && value.eql?(entry.value)
+      entry && value.eql?(entry[1])
+    end
+
+    def at(index)
+      @entries.each do |entry|
+        if entry
+          return entry if index == 0
+          index -= 1
+        end
+      end
+      @children.each do |child|
+        if child
+          if child.size >= index+1
+            return child.at(index)
+          else
+            index -= child.size
+          end
+        end
+      end
+      nil
     end
 
     # Returns <tt>true</tt> if . <tt>eql?</tt> is synonymous with <tt>==</tt>
@@ -98,21 +154,13 @@ module Hamster
       return true if equal?(other)
       return false unless instance_of?(other.class) && size == other.size
       each do |entry|
-        return false unless other.include?(entry.key, entry.value)
+        return false unless other.include?(entry[0], entry[1])
       end
       true
     end
-    def_delegator :self, :eql?, :==
+    alias :== :eql?
 
     protected
-
-    # Returns <tt>self</tt> after overwriting the element associated with the specified key.
-    def put!(key, value)
-      index = index_for(key)
-      @size += 1 unless @entries[index]
-      @entries[index] = Entry.new(key, value)
-      self
-    end
 
     # Returns a replacement instance after removing the specified key.
     # If not found, returns <tt>self</tt>.
@@ -120,7 +168,7 @@ module Hamster
     def find_and_delete(key)
       index = index_for(key)
       entry = @entries[index]
-      if entry && entry.key.eql?(key)
+      if entry && entry[0].eql?(key)
         return delete_at(index)
       else
         child = @children[index]
@@ -130,7 +178,7 @@ module Hamster
             children = @children.dup
             children[index] = copy
             new_size = @size - (child.size - copy_size(copy))
-            return self.class.new(@significant_bits, new_size, @entries, children)
+            return Trie.new(@significant_bits, new_size, @entries, children)
           end
         end
       end
@@ -151,7 +199,7 @@ module Hamster
         else
           entries[index] = nil
         end
-        self.class.new(@significant_bits, @size - 1, entries, children || @children)
+        Trie.new(@significant_bits, @size - 1, entries, children || @children)
       end
     end
 
@@ -164,16 +212,8 @@ module Hamster
     def copy_size(copy)
       copy ? copy.size : 0
     end
-
-    class Entry
-      attr_reader :key, :value
-
-      def initialize(key, value)
-        @key = key
-        @value = value
-      end
-    end
   end
 
+  # @private
   EmptyTrie = Hamster::Trie.new(0)
 end

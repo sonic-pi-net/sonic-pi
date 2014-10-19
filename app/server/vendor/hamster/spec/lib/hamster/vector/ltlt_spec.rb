@@ -11,9 +11,9 @@ describe Hamster::Vector do
       let(:added_vector) { Hamster.vector(*added_values) }
 
       it "preserves the original" do
-        orignal = vector
+        original = vector
         vector << added_value
-        expect(orignal).to eq(vector)
+        expect(original).to eq(vector)
       end
 
       it "ltlts the item to the vector" do
@@ -43,6 +43,24 @@ describe Hamster::Vector do
       let(:added_values) { %w[A A] }
 
       include_examples "checking adding values"
+    end
+
+    [31, 32, 33, 1023, 1024, 1025].each do |size|
+      context "with a #{size}-item vector adding a different item" do
+        let(:values) { (1..size).to_a }
+        let(:added_value) { size+1 }
+        let(:added_values) { (1..(size+1)).to_a }
+
+        include_examples "checking adding values"
+      end
+    end
+
+    context "from a subclass" do
+      it "returns an instance of the subclass" do
+        subclass = Class.new(Hamster::Vector)
+        instance = subclass[1,2,3]
+        (instance << 4).class.should be(subclass)
+      end
     end
   end
 end

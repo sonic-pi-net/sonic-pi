@@ -1,48 +1,43 @@
 require "forwardable"
 require "thread"
+require "atomic"
+require "set"
 
 require "hamster/core_ext/enumerable"
 require "hamster/undefined"
 require "hamster/enumerable"
-require "hamster/tuple"
-require "hamster/sorter"
-require "hamster/hash"
 require "hamster/set"
 
 module Hamster
   class << self
     extend Forwardable
 
-    # Create a list containing the given items
+    # Create a list containing the given items.
     #
     # @example
     #   list = Hamster.list(:a, :b, :c)
     #   # => [:a, :b, :c]
     #
-    # @return [Hamster::List]
-    #
-    # @api public
+    # @return [List]
     def list(*items)
       items.to_list
     end
 
-    # Create a lazy, infinite list
+    # Create a lazy, infinite list.
     #
-    # The given block is repeatedly called to yield the elements of the list.
+    # The given block is called as necessary to return successive elements of the list.
     #
     # @example
     #   Hamster.stream { :hello }.take(3)
     #   # => [:hello, :hello, :hello]
     #
-    # @return [Hamster::List]
-    #
-    # @api public
+    # @return [List]
     def stream(&block)
       return EmptyList unless block_given?
-      Stream.new { Sequence.new(yield, stream(&block)) }
+      LazyList.new { Cons.new(yield, stream(&block)) }
     end
 
-    # Construct a list of consecutive integers
+    # Construct a list of consecutive integers.
     #
     # @example
     #   Hamster.interval(5,9)
@@ -50,9 +45,7 @@ module Hamster
     #
     # @param from [Integer] Start value, inclusive
     # @param to [Integer] End value, inclusive
-    # @return [Hamster::List]
-    #
-    # @api public
+    # @return [List]
     def interval(from, to)
       return EmptyList if from > to
       interval_exclusive(from, to.next)
@@ -65,9 +58,9 @@ module Hamster
     #   Hamster.repeat(:chunky).take(4)
     #   => [:chunky, :chunky, :chunky, :chunky]
     #
-    # @api public
+    # @return [List]
     def repeat(item)
-      Stream.new { Sequence.new(item, repeat(item)) }
+      LazyList.new { Cons.new(item, repeat(item)) }
     end
 
     # Create a list that contains a given item a fixed number of times
@@ -76,43 +69,44 @@ module Hamster
     #   Hamster.replicate(3).(:hamster)
     #   #=> [:hamster, :hamster, :hamster]
     #
-    # @api public
+    # @return [List]
     def replicate(number, item)
       repeat(item).take(number)
     end
 
-    # Create an infinite list where each item is based on the previous one
+    # Create an infinite list where each item is derived from the previous one,
+    # using the provided block
     #
     # @example
-    #   Hamster.iterate(0) {|i| i.next}.take(5)
+    #   Hamster.iterate(0) { |i| i.next }.take(5)
     #   # => [0, 1, 2, 3, 4]
     #
     # @param item [Object] Starting value
     # @yieldparam [Object] The previous value
     # @yieldreturn [Object] The next value
-    #
-    # @api public
+    # @return [List]
     def iterate(item, &block)
-      Stream.new { Sequence.new(item, iterate(yield(item), &block)) }
+      LazyList.new { Cons.new(item, iterate(yield(item), &block)) }
     end
 
-    # Turn an enumerator into a Hamster list
+    # Turn an Enumerator into a `Hamster::List`. The result is a lazy collection
+    # where the values are memoized as they are generated.
     #
-    # The result is a lazy collection where the values are memoized as they are
-    # generated.
+    # If your code uses multiple threads, you need to make sure that the returned
+    # lazy collection is realized on a single thread only. Otherwise, a `FiberError`
+    # will be raised. After the collection is realized, it can be used from other
+    # threads as well.
     #
     # @example
-    #   def rg ; loop { yield rand(100) } ; end
+    #   def rg; loop { yield rand(100) }; end
     #   Hamster.enumerate(to_enum(:rg)).take(10)
     #
     # @param enum [Enumerator] The object to iterate over
-    # @return [Stream]
-    #
-    # @api public
+    # @return [List]
     def enumerate(enum)
-      Stream.new do
+      LazyList.new do
         begin
-          Sequence.new(enum.next, enumerate(enum))
+          Cons.new(enum.next, enumerate(enum))
         rescue StopIteration
           EmptyList
         end
@@ -123,50 +117,75 @@ module Hamster
 
     def interval_exclusive(from, to)
       return EmptyList if from == to
-      Stream.new { Sequence.new(from, interval_exclusive(from.next, to)) }
+      LazyList.new { Cons.new(from, interval_exclusive(from.next, to)) }
     end
   end
 
-  # Common behavior for lists
-  #
-  # A +Hamster::List+ can be constructed with {Hamster.list Hamster.list}. It
-  # consists of a +head+ (the first element) and a +tail+, containing the rest
-  # of the list.
+  # A `List` can be constructed with {Hamster.list Hamster.list} or {List.[] List[]}.
+  # It consists of a *head* (the first element) and a *tail* (which itself is also
+  # a `List`, containing all the remaining elements).
   #
   # This is a singly linked list. Prepending to the list with {List#cons} runs
   # in constant time. Traversing the list from front to back is efficient,
-  # indexed access however runs in linear time because the list needs to be
+  # however, indexed access runs in linear time because the list needs to be
   # traversed to find the element.
   #
-  # In practice lists are constructed of a combination of {Sequence}, providing
-  # the basic blocks that are linked, {Stream} for providing laziness, and
-  # {EmptyList} as a terminator.
   module List
     extend Forwardable
     include Enumerable
 
+    # @private
     CADR = /^c([ad]+)r$/
 
     def_delegator :self, :head, :first
     def_delegator :self, :empty?, :null?
 
+    # Create a new `List` populated with the given items.
+    # @return [Set]
+    def self.[](*items)
+      items.to_list
+    end
+
+    # Return the number of items in this `List`.
+    # @return [Integer]
     def size
-      reduce(0) { |memo, item| memo.next }
+      result, list = 0, self
+      until list.empty?
+        if list.cached_size?
+          return result + list.size
+        else
+          result += 1
+        end
+        list = list.tail
+      end
+      result
     end
     def_delegator :self, :size, :length
 
+    # Create a new `List` with `item` added at the front.
+    # @param item [Object] The item to add
+    # @return [List]
     def cons(item)
-      Sequence.new(item, self)
+      Cons.new(item, self)
     end
     def_delegator :self, :cons, :>>
+    def_delegator :self, :cons, :conj
+    def_delegator :self, :cons, :conjoin
 
+    # Create a new `List` with `item` added at the end.
+    # @param item [Object] The item to add
+    # @return [List]
     def add(item)
       append(Hamster.list(item))
     end
     def_delegator :self, :add, :<<
 
+    # Call the given block once for each item in the list, passing each
+    # item from first to last successively to the block.
+    #
+    # @return [self]
     def each
-      return self unless block_given?
+      return to_enum unless block_given?
       list = self
       until list.empty?
         yield(list.head)
@@ -174,71 +193,103 @@ module Hamster
       end
     end
 
+    # Return a lazy list in which each element is derived from the corresponding
+    # element in this `List`, transformed through the given block.
+    #
+    # @return [List]
     def map(&block)
-      return self unless block_given?
-      Stream.new do
+      return enum_for(:map) unless block_given?
+      LazyList.new do
         next self if empty?
-        Sequence.new(yield(head), tail.map(&block))
+        Cons.new(yield(head), tail.map(&block))
       end
     end
     def_delegator :self, :map, :collect
 
+    # Return a lazy list which is realized by transforming each item into a `List`,
+    # and flattening the resulting lists.
+    #
+    # @return [List]
     def flat_map(&block)
-      return self unless block_given?
-      Stream.new do
+      return enum_for(:flat_map) unless block_given?
+      LazyList.new do
         next self if empty?
         head_list = Hamster.list(*yield(head))
         next tail.flat_map(&block) if head_list.empty?
-        Sequence.new(head_list.first, head_list.drop(1).append(tail.flat_map(&block)))
+        Cons.new(head_list.first, head_list.drop(1).append(tail.flat_map(&block)))
       end
     end
 
+    # Return a lazy list which contains all the items for which the given block
+    # returns true.
+    #
+    # @return [List]
     def filter(&block)
-      return self unless block_given?
-      Stream.new do
-        next self if empty?
-        next Sequence.new(head, tail.filter(&block)) if yield(head)
-        tail.filter(&block)
+      return enum_for(:filter) unless block_given?
+      LazyList.new do
+        list = self
+        while true
+          break list if list.empty?
+          break Cons.new(list.head, list.tail.filter(&block)) if yield(list.head)
+          list = list.tail
+        end
       end
     end
 
+    # Return a lazy list which contains all elements up to, but not including, the
+    # first element for which the block returns `nil` or `false`.
+    #
+    # @return [List, Enumerator]
     def take_while(&block)
-      return self unless block_given?
-      Stream.new do
+      return enum_for(:take_while) unless block_given?
+      LazyList.new do
         next self if empty?
-        next Sequence.new(head, tail.take_while(&block)) if yield(head)
+        next Cons.new(head, tail.take_while(&block)) if yield(head)
         EmptyList
       end
     end
 
+    # Return a lazy list which contains all elements starting from the
+    # first element for which the block returns `nil` or `false`.
+    #
+    # @return [List, Enumerator]
     def drop_while(&block)
-      return self unless block_given?
-      Stream.new do
+      return enum_for(:drop_while) unless block_given?
+      LazyList.new do
         list = self
         list = list.tail while !list.empty? && yield(list.head)
         list
       end
     end
 
+    # Return a lazy list containing the first `number` items from this `List`.
+    # @param number [Integer] The number of items to retain
+    # @return [List]
     def take(number)
-      Stream.new do
+      LazyList.new do
         next self if empty?
-        next Sequence.new(head, tail.take(number - 1)) if number > 0
+        next Cons.new(head, tail.take(number - 1)) if number > 0
         EmptyList
       end
     end
 
+    # Return a lazy list containing all but the last item from this `List`.
+    # @return [List]
     def pop
-      Stream.new do
+      LazyList.new do
         next self if empty?
         new_size = size - 1
-        next Sequence.new(head, tail.take(new_size - 1)) if new_size >= 1
+        next Cons.new(head, tail.take(new_size - 1)) if new_size >= 1
         EmptyList
       end
     end
 
+    # Return a lazy list containing all items after the first `number` items from
+    # this `List`.
+    # @param number [Integer] The number of items to skip over
+    # @return [List]
     def drop(number)
-      Stream.new do
+      LazyList.new do
         list = self
         while !list.empty? && number > 0
           number -= 1
@@ -248,224 +299,608 @@ module Hamster
       end
     end
 
+    # Return a lazy list with all items from this `List`, followed by all items from
+    # `other`.
+    #
+    # @param other [List] The list to add onto the end of this one
+    # @return [List]
     def append(other)
-      Stream.new do
+      LazyList.new do
         next other if empty?
-        Sequence.new(head, tail.append(other))
+        Cons.new(head, tail.append(other))
       end
     end
     def_delegator :self, :append, :concat
     def_delegator :self, :append, :cat
     def_delegator :self, :append, :+
 
+    # Return a `List` with the same items, but in reverse order.
+    # @return [List]
     def reverse
-      Stream.new { reduce(EmptyList) { |list, item| list.cons(item) } }
+      LazyList.new { reduce(EmptyList) { |list, item| list.cons(item) }}
     end
 
-    def zip(other)
-      Stream.new do
-        next self if empty? && other.empty?
-        Sequence.new(Sequence.new(head, Sequence.new(other.head)), tail.zip(other.tail))
+    # Gather the corresponding elements from this `List` and `others` (that is,
+    # the elements with the same indices) into new 2-element lists. Return a
+    # lazy list of these 2-element lists.
+    #
+    # @param others [List] A list of the lists to zip together with this one
+    # @return [List]
+    def zip(others)
+      LazyList.new do
+        next self if empty? && others.empty?
+        Cons.new(Cons.new(head, Cons.new(others.head)), tail.zip(others.tail))
       end
     end
 
+    # Gather the first element of each nested list into a new `List`, then the second
+    # element of each nested list, then the third, and so on. In other words, if each
+    # nested list is a "row", return a lazy list of "columns" instead.
+    #
+    # Although the returned list is lazy, each returned nested list (each "column")
+    # is strict. So while each nested list in the input can be infinite, the parent
+    # `List` must not be, or trying to realize the first element in the output will
+    # cause an infinite loop.
+    #
+    # @example
+    #   # First let's create some infinite lists
+    #   list1 = Hamster.iterate(1, &:next)
+    #   list2 = Hamster.iterate(2) { |n| n * 2 }
+    #   list3 = Hamster.iterate(3) { |n| n * 3 }
+    #
+    #   # Now we transpose our 3 infinite "rows" into an infinite series of 3-element "columns"
+    #   Hamster.list(list1, list2, list3).transpose.take(4)
+    #   # => Hamster::List[
+    #   #      Hamster::List[1, 2, 3],
+    #   #      Hamster::List[2, 4, 9],
+    #   #      Hamster::List[3, 8, 27],
+    #   #      Hamster::List[4, 16, 81]]
+    #
+    # @return [List]
+    def transpose
+      return EmptyList if empty?
+      LazyList.new do
+        next EmptyList if any? { |list| list.empty? }
+        heads, tails = EmptyList, EmptyList
+        reverse_each { |list| heads, tails = heads.cons(list.head), tails.cons(list.tail) }
+        Cons.new(heads, tails.transpose)
+      end
+    end
+
+    # Concatenate an infinite series of copies of this `List` together (into a
+    # new lazy list). Or, if empty, just return an empty list.
+    #
+    # @return [List]
     def cycle
-      Stream.new do
+      LazyList.new do
         next self if empty?
-        Sequence.new(head, tail.append(cycle))
+        Cons.new(head, tail.append(cycle))
       end
     end
 
+    # Return a new `List` with the same elements, but rotated so that the one at
+    # index `count` is the first element of the new list. If `count` is positive,
+    # the elements will be shifted left, and those shifted past the lowest position
+    # will be moved to the end. If `count` is negative, the elements will be shifted
+    # right, and those shifted past the last position will be moved to the beginning.
+    #
+    # @param count [Integer] The number of positions to shift items by
+    # @return [Vector]
+    def rotate(count = 1)
+      raise TypeError, "expected Integer" if not count.is_a?(Integer)
+      return self if  empty? || (count % size) == 0
+      count = (count >= 0) ? count % size : (size - (~count % size) - 1)
+      drop(count).append(take(count))
+    end
+
+    # Return 2 `List`s, one of the first `number` items, and another of all the
+    # remaining items.
+    # @param number [Integer] The index at which to split this list
+    # @return [Array]
     def split_at(number)
-      Tuple.new(take(number), drop(number))
+      [take(number), drop(number)].freeze
     end
 
+    # Return 2 `List`s, one up to (but not including) the first item for which the
+    # block returns `nil` or `false`, and another of all the remaining items.
+    #
+    # @return [Array]
     def span(&block)
-      return Tuple.new(self, EmptyList) unless block_given?
-      Tuple.new(take_while(&block), drop_while(&block))
+      return [self, EmptyList].freeze unless block_given?
+      splitter = Splitter.new(self, block)
+      mutex = Mutex.new
+      [Splitter::Left.new(splitter, splitter.left, mutex),
+       Splitter::Right.new(splitter, mutex)].freeze
     end
 
+    # Return 2 `List`s, one up to (but not including) the first item for which the
+    # block returns true, and another of all the remaining items.
+    #
+    # @return [Array]
     def break(&block)
       return span unless block_given?
       span { |item| !yield(item) }
     end
 
+    # Return an empty `List`.
+    # @return [List]
     def clear
       EmptyList
     end
 
+    # Return a `List` with the same items, but sorted either in their natural order,
+    # or using an optional comparator block. The block must take 2 parameters, and
+    # return 0, 1, or -1 if the first one is equal, greater than, or less than the
+    # second (respectively).
+    #
+    # @return [List]
     def sort(&comparator)
-      Stream.new { Sorter.new(self).sort(&comparator) }
+      LazyList.new { super(&comparator).to_list }
     end
 
+    # Return a new `List` with the same items, but sorted. The sort order will be
+    # determined by mapping the items through the given block to obtain sort keys,
+    # and then sorting the keys according to their natural sort order.
+    #
+    # @return [List]
     def sort_by(&transformer)
       return sort unless block_given?
-      Stream.new { Sorter.new(self).sort_by(&transformer) }
+      LazyList.new { super(&transformer).to_list }
     end
 
-    def join(sep = "")
-      return "" if empty?
-      sep = sep.to_s
-      tail.reduce(head.to_s.dup) { |result, item| result << sep << item.to_s }
-    end
-
+    # Return a new `List` with `sep` inserted between each of the existing elements.
+    #
+    # @example
+    #   Hamster.list('one', 'two', 'three').intersperse(' ')
+    #   # => Hamster::List['one', ' ', 'two', ' ', 'three']
+    #
+    # @return [List]
     def intersperse(sep)
-      Stream.new do
+      LazyList.new do
         next self if tail.empty?
-        Sequence.new(head, Sequence.new(sep, tail.intersperse(sep)))
+        Cons.new(head, Cons.new(sep, tail.intersperse(sep)))
       end
     end
 
-    def uniq(items = EmptySet)
-      Stream.new do
+    # Return a lazy list with the same items, but all duplicates removed.
+    # Use `#hash` and `#eql?` to determine which items are duplicates.
+    #
+    # @return [List]
+    def uniq(items = ::Set.new)
+      LazyList.new do
         next self if empty?
         next tail.uniq(items) if items.include?(head)
-        Sequence.new(head, tail.uniq(items.add(head)))
+        Cons.new(head, tail.uniq(items.add(head)))
       end
     end
     def_delegator :self, :uniq, :nub
     def_delegator :self, :uniq, :remove_duplicates
 
-    def union(other)
-      append(other).uniq
+    # Return a `List` with all the elements from both this list and `other`,
+    # with all duplicates removed.
+    #
+    # @param other [List] The list to merge with
+    # @return [List]
+    def union(other, items = ::Set.new)
+      LazyList.new do
+        next other.uniq(items) if empty?
+        next tail.union(other, items) if items.include?(head)
+        Cons.new(head, tail.union(other, items.add(head)))
+      end
     end
     def_delegator :self, :union, :|
 
+    # Return a lazy list with all elements except the last one.
+    # @return [List]
     def init
       return EmptyList if tail.empty?
-      Stream.new { Sequence.new(head, tail.init) }
+      LazyList.new { Cons.new(head, tail.init) }
     end
 
+    # Return the last item in this list.
+    # @return [Object]
     def last
       list = self
       list = list.tail until list.tail.empty?
       list.head
     end
 
+    # Return a lazy list of all suffixes of this list.
+    #
+    # @example
+    #   Hamster.list(1,2,3).tails
+    #   # => Hamster::List[
+    #   #      Hamster::List[1, 2, 3],
+    #   #      Hamster::List[2, 3],
+    #   #      Hamster::List[3]]
+    #
+    # @return [List]
     def tails
-      Stream.new do
-        next Sequence.new(self) if empty?
-        Sequence.new(self, tail.tails)
-      end
-    end
-
-    def inits
-      Stream.new do
-        next Sequence.new(self) if empty?
-        Sequence.new(EmptyList, tail.inits.map { |list| list.cons(head) })
-      end
-    end
-
-    def combinations(number)
-      return Sequence.new(EmptyList) if number == 0
-      Stream.new do
+      LazyList.new do
         next self if empty?
-        tail.combinations(number - 1).map { |list| list.cons(head) }.append(tail.combinations(number))
+        Cons.new(self, tail.tails)
       end
     end
-    def_delegator :self, :combinations, :combination
 
+    # Return a lazy list of all prefixes of this list.
+    #
+    # @example
+    #   Hamster.list(1,2,3).inits
+    #   # => Hamster::List[
+    #   #      Hamster::List[1],
+    #   #      Hamster::List[1, 2],
+    #   #      Hamster::List[1, 2, 3]]
+    #
+    # @return [List]
+    def inits
+      LazyList.new do
+        next self if empty?
+        Cons.new(Hamster.list(head), tail.inits.map { |list| list.cons(head) })
+      end
+    end
+
+    # Return a lazy list of all combinations of length `n` of items from this `List`.
+    #
+    # @example
+    #   Hamster.list(1,2,3).combination(2)
+    #   # => Hamster::List[
+    #   #      Hamster::List[1, 2],
+    #   #      Hamster::List[1, 3],
+    #   #      Hamster::List[2, 3]]
+    #
+    # @return [List]
+    def combination(n)
+      return Cons.new(EmptyList) if n == 0
+      LazyList.new do
+        next self if empty?
+        tail.combination(n - 1).map { |list| list.cons(head) }.append(tail.combination(n))
+      end
+    end
+
+    # Split the items in this list in groups of `number`. Return a list of lists.
+    # @return [List]
     def chunk(number)
-      Stream.new do
+      LazyList.new do
         next self if empty?
         first, remainder = split_at(number)
-        Sequence.new(first, remainder.chunk(number))
+        Cons.new(first, remainder.chunk(number))
       end
     end
 
+    # Split the items in this list in groups of `number`, and yield each group
+    # to the block (as a `List`).
+    # @return [self]
     def each_chunk(number, &block)
+      return enum_for(:each_chunk, number) unless block_given?
       chunk(number).each(&block)
+      self
     end
     def_delegator :self, :each_chunk, :each_slice
 
+    # Return a new `List` with all nested lists recursively "flattened out",
+    # that is, their elements inserted into the new `List` in the place where
+    # the nested list originally was.
+    #
+    # @return [List]
     def flatten
-      Stream.new do
+      LazyList.new do
         next self if empty?
         next head.append(tail.flatten) if head.is_a?(List)
-        Sequence.new(head, tail.flatten)
+        Cons.new(head, tail.flatten)
       end
     end
 
+    # Passes each item to the block, and gathers them into a {Hash} where the
+    # keys are return values from the block, and the values are `List`s of items
+    # for which the block returned that value.
+    #
+    # @return [Hash]
     def group_by(&block)
-      return group_by { |item| item } unless block_given?
-      reduce(EmptyHash) do |hash, item|
-        key = yield(item)
-        hash.put(key, (hash.get(key) || EmptyList).cons(item))
-      end
+      group_by_with(EmptyList, &block)
     end
     def_delegator :self, :group_by, :group
 
+    # Retrieve the item at `index`. Negative indices count back from the end of
+    # the list (-1 is the last item). If `index` is invalid (either too high or
+    # too low), return `nil`.
+    #
+    # @param index [Integer] The index to retrieve
+    # @return [Object]
     def at(index)
-      drop(index).head
+      index += size if index < 0
+      return nil if index < 0
+      node = self
+      while index > 0
+        node = node.tail
+        index -= 1
+      end
+      node.head
     end
 
-    def slice(from, length = Undefined)
-      return at(from) if length.equal?(Undefined)
-      drop(from).take(length)
-    end
-    def_delegator :self, :slice, :[]
-
-    def find_index
-      return nil unless block_given?
-      i = 0
-      list = self
-      loop do
-        return nil if list.empty?
-        return i if yield(list.head)
-        i += 1
-        list = list.tail
+    # Element reference. Return the item at a specific index, or a specified,
+    # contiguous range of items (as a new list).
+    #
+    # @overload list[index]
+    #   Return the item at `index`.
+    #   @param index [Integer] The index to retrieve.
+    # @overload list[start, length]
+    #   Return a sublist starting at index `start` and continuing for `length` elements.
+    #   @param start [Integer] The index to start retrieving items from.
+    #   @param length [Integer] The number of items to retrieve.
+    # @overload list[range]
+    #   Return a sublist specified by the given `range` of indices.
+    #   @param range [Range] The range of indices to retrieve.
+    #
+    # @return [Object]
+    def [](arg, length = (missing_length = true))
+      if missing_length
+        if arg.is_a?(Range)
+          from, to = arg.begin, arg.end
+          from += size if from < 0
+          return nil if from < 0
+          to   += size if to < 0
+          to   += 1    if !arg.exclude_end?
+          length = to - from
+          length = 0 if length < 0
+          list = self
+          while from > 0
+            return nil if list.empty?
+            list = list.tail
+            from -= 1
+          end
+          list.take(length)
+        else
+          at(arg)
+        end
+      else
+        return nil if length < 0
+        arg += size if arg < 0
+        return nil if arg < 0
+        list = self
+        while arg > 0
+          return nil if list.empty?
+          list = list.tail
+          arg -= 1
+        end
+        list.take(length)
       end
     end
+    def_delegator :self, :[], :slice
 
-    def elem_index(object)
-      find_index { |item| item == object }
-    end
-
-    def index(object = Undefined, &block)
-      return elem_index(object) unless object.equal?(Undefined)
-      find_index(&block)
-    end
-
+    # Pass each item successively to the block, and return a `List` of indices where
+    # the block returns true.
+    #
+    # @return [List]
     def find_indices(i = 0, &block)
-      return EmptyList unless block_given?
-      Stream.new do
-        next EmptyList if empty?
-        next Sequence.new(i, tail.find_indices(i + 1, &block)) if yield(head)
-        tail.find_indices(i + 1, &block)
+      return EmptyList if empty? || !block_given?
+      LazyList.new do
+        node = self
+        while true
+          break Cons.new(i, node.tail.find_indices(i + 1, &block)) if yield(node.head)
+          node = node.tail
+          break EmptyList if node.empty?
+          i += 1
+        end
       end
     end
 
+    # Return a `List` of indices where `object` is found. Use `#==` for testing equality.
+    #
+    # @param object [Object] The object to search for
+    # @return [List]
     def elem_indices(object)
       find_indices { |item| item == object }
     end
 
+    # Return a `List` of indices where the given object is found, or where the given
+    # block returns true.
+    #
+    # @overload indices(obj)
+    #   Return a `List` of indices where `obj` is found. Use `#==` for testing equality.
+    # @overload indices { |item| ... }
+    #   Pass each item successively to the block. Return a list of indices where the
+    #   block returns true.
+    #
+    # @return [List]
     def indices(object = Undefined, &block)
       return elem_indices(object) unless object.equal?(Undefined)
       find_indices(&block)
     end
 
+    # Merge all the nested lists into a single list, using the given comparator
+    # block to determine the order which items should be shifted out of the nested
+    # lists and into the output list. The comparator should take 2 parameters and
+    # return 0, 1, or -1 if the first parameter is (respectively) equal to, greater
+    # than, or less than the second parameter. Whichever nested list's `#head` is
+    # determined to be "lowest" according to the comparator will be the first in
+    # the merged `List`.
+    #
+    # @return [List]
     def merge(&comparator)
       return merge_by unless block_given?
-      Stream.new do
+      LazyList.new do
         sorted = remove(&:empty?).sort do |a, b|
           yield(a.head, b.head)
         end
         next EmptyList if sorted.empty?
-        Sequence.new(sorted.head.head, sorted.tail.cons(sorted.head.tail).merge(&comparator))
+        Cons.new(sorted.head.head, sorted.tail.cons(sorted.head.tail).merge(&comparator))
       end
     end
 
+    # Merge all the nested lists into a single list, using sort keys generated
+    # by mapping the items in the nested lists through the given block to determine the
+    # order which items should be shifted out of the nested lists and into the output
+    # list. Whichever nested list's `#head` has the "lowest" sort key (according to
+    # their natural order) will be the first in the merged `List`.
+    #
+    # @return [List]
     def merge_by(&transformer)
       return merge_by { |item| item } unless block_given?
-      Stream.new do
+      LazyList.new do
         sorted = remove(&:empty?).sort_by do |list|
           yield(list.head)
         end
         next EmptyList if sorted.empty?
-        Sequence.new(sorted.head.head, sorted.tail.cons(sorted.head.tail).merge_by(&transformer))
+        Cons.new(sorted.head.head, sorted.tail.cons(sorted.head.tail).merge_by(&transformer))
       end
     end
 
+    # Return a randomly chosen element from this list.
+    # @return [Object]
+    def sample
+      at(rand(size))
+    end
+
+    # Return a new `List` with the given items inserted before the item at `index`.
+    #
+    # @param index [Integer] The index where the new items should go
+    # @param items [Array] The items to add
+    # @return [List]
+    def insert(index, *items)
+      if index == 0
+        return items.to_list.append(self)
+      elsif index > 0
+        LazyList.new do
+          Cons.new(head, tail.insert(index-1, *items))
+        end
+      else
+        raise IndexError if index < -size
+        insert(index + size, *items)
+      end
+    end
+
+    # Return a lazy list with all elements equal to `obj` removed. `#==` is used
+    # for testing equality.
+    # @param obj [Object] The object to remove.
+    # @return [List]
+    def delete(obj)
+      list = self
+      list = list.tail while list.head == obj && !list.empty?
+      return EmptyList if list.empty?
+      LazyList.new { Cons.new(list.head, list.tail.delete(obj)) }
+    end
+
+    # Return a lazy list containing the same items, minus the one at `index`.
+    # If `index` is negative, it counts back from the end of the list.
+    #
+    # @param index [Integer] The index of the item to remove
+    # @return [List]
+    def delete_at(index)
+      if index == 0
+        tail
+      elsif index < 0
+        index += size if index < 0
+        return self if index < 0
+        delete_at(index)
+      else
+        LazyList.new { Cons.new(head, tail.delete_at(index - 1)) }
+      end
+    end
+
+    # Replace a range of indexes with the given object.
+    #
+    # @overload fill(obj)
+    #   Return a new `List` of the same size, with every item set to `obj`.
+    # @overload fill(obj, start)
+    #   Return a new `List` with all indexes from `start` to the end of the
+    #   list set to `obj`.
+    # @overload fill(obj, start, length)
+    #   Return a new `List` with `length` indexes, beginning from `start`,
+    #   set to `obj`.
+    #
+    # @return [List]
+    def fill(obj, index = 0, length = nil)
+      if index == 0
+        length ||= size
+        if length > 0
+          LazyList.new do
+            Cons.new(obj, tail.fill(obj, 0, length-1))
+          end
+        else
+          self
+        end
+      elsif index > 0
+        LazyList.new do
+          Cons.new(head, tail.fill(obj, index-1, length))
+        end
+      else
+        raise IndexError if index < -size
+        fill(obj, index + size, length)
+      end
+    end
+
+    # Yields all permutations of length `n` of the items in the list, and then
+    # returns `self`. If no length `n` is specified, permutations of the entire
+    # list will be yielded.
+    #
+    # There is no guarantee about which order the permutations will be yielded in.
+    #
+    # If no block is given, an `Enumerator` is returned instead.
+    #
+    # @return [self, Enumerator]
+    def permutation(length = size, &block)
+      return enum_for(:permutation, length) if not block_given?
+      if length == 0
+        yield EmptyList
+      elsif length == 1
+        each { |obj| yield Cons.new(obj, EmptyList) }
+      elsif not empty?
+        if length < size
+          tail.permutation(length, &block)
+        end
+
+        tail.permutation(length-1) do |p|
+          0.upto(length-1) do |i|
+            left,right = p.split_at(i)
+            yield left.append(right.cons(head))
+          end
+        end
+      end
+      self
+    end
+
+    # Yield every non-empty sublist to the given block. (The entire `List` also
+    # counts as one sublist.)
+    #
+    # @example
+    #   Hamster.list(1, 2, 3).subsequences { |list| p list }
+    #   # prints:
+    #   # Hamster::List[1]
+    #   # Hamster::List[1, 2]
+    #   # Hamster::List[1, 2, 3]
+    #   # Hamster::List[2]
+    #   # Hamster::List[2, 3]
+    #   # Hamster::List[3]
+    #
+    # @yield [sublist] One or more contiguous elements from this list
+    # @return [self]
+    def subsequences(&block)
+      return enum_for(:subsequences) if not block_given?
+      if not empty?
+        1.upto(size) do |n|
+          yield take(n)
+        end
+        tail.subsequences(&block)
+      end
+      self
+    end
+
+    # Return 2 `List`s, the first containing all the elements for which the block
+    # evaluates to true, the second containing the rest.
+    #
+    # @return [List]
+    def partition(&block)
+      return enum_for(:partition) if not block_given?
+      partitioner = Partitioner.new(self, block)
+      mutex = Mutex.new
+      [Partitioned.new(partitioner, partitioner.left, mutex),
+       Partitioned.new(partitioner, partitioner.right, mutex)].freeze
+    end
+
+    # Return true if `other` has the same type and contents as this `Hash`.
+    #
+    # @param other [Object] The collection to compare with
+    # @return [Boolean]
     def eql?(other)
       list = self
       loop do
@@ -478,65 +913,96 @@ module Hamster
         other = other.tail
       end
     end
-    def_delegator :self, :eql?, :==
 
+    # See `Object#hash`
+    # @return [Integer]
     def hash
       reduce(0) { |hash, item| (hash << 5) - hash + item.hash }
     end
 
+    # Return `self`.
+    # @return [List]
     def dup
       self
     end
     def_delegator :self, :dup, :clone
 
+    # Return `self`.
+    # @return [List]
     def to_list
       self
     end
 
-    def to_set
-      reduce(EmptySet) { |set, item| set.add(item) }
-    end
-
+    # Return the contents of this `List` as a programmer-readable `String`. If all the
+    # items in the list are serializable as Ruby literal strings, the returned string can
+    # be passed to `eval` to reconstitute an equivalent `List`.
+    #
+    # @return [String]
     def inspect
-      to_a.inspect
+      result = "Hamster::List["
+      each_with_index { |obj, i| result << ', ' if i > 0; result << obj.inspect }
+      result << "]"
     end
 
+    # Allows this `List` to be printed at the `pry` console, or using `pp` (from the
+    # Ruby standard library), in a way which takes the amount of horizontal space on
+    # the screen into account, and which indents nested structures to make them easier
+    # to read.
+    #
+    # @private
+    def pretty_print(pp)
+      pp.group(1, "Hamster::List[", "]") do
+        pp.breakable ''
+        pp.seplist(self) { |obj| obj.pretty_print(pp) }
+      end
+    end
+
+    # @private
     def respond_to?(name, include_private = false)
       super || !!name.to_s.match(CADR)
+    end
+
+    # Return `true` if the size of this list can be obtained in constant time (without
+    # traversing the list).
+    # @return [Integer]
+    def cached_size?
+      false
     end
 
     private
 
     def method_missing(name, *args, &block)
-      return accessor(Regexp.last_match[1]) if name.to_s.match(CADR)
-      super
-    end
-
-    # Perform compositions of <tt>car</tt> and <tt>cdr</tt> operations. Their names consist of a 'c', followed by at
-    # least one 'a' or 'd', and finally an 'r'. The series of 'a's and 'd's in each function's name is chosen to
-    # identify the series of car and cdr operations that is performed by the function. The order in which the 'a's and
-    # 'd's appear is the inverse of the order in which the corresponding operations are performed.
-    def accessor(sequence)
-      sequence.reverse.each_char.reduce(self) do |memo, char|
-        case char
-        when "a" then memo.head
-        when "d" then memo.tail
-        end
+      if name.to_s.match(CADR)
+        # Perform compositions of car and cdr operations. Their names consist of a 'c',
+        # followed by at least one 'a' or 'd', and finally an 'r'. The series of 'a's and
+        # 'd's in the method name identify the series of car and cdr operations performed.
+        # The order in which the 'a's and 'd's appear is the inverse of the order in which
+        # the corresponding operations are performed.
+        code = "def #{name}; self."
+        code << Regexp.last_match[1].reverse.chars.map do |char|
+          {'a' => 'head', 'd' => 'tail'}[char]
+        end.join('.')
+        code << '; end'
+        List.class_eval(code)
+        send(name, *args, &block)
+      else
+        super
       end
     end
   end
 
   # The basic building block for constructing lists
   #
-  # A Sequence, also known as a "cons cell", has a +head+ and a +tail+, where
-  # the +head+ is an element in the list, and the +tail+ is a reference to the
+  # A Cons, also known as a "cons cell", has a "head" and a "tail", where
+  # the head is an element in the list, and the tail is a reference to the
   # rest of the list. This way a singly linked list can be constructed, with
-  # each +Sequence+ holding a single element and a pointer to the next
-  # +Sequence+.
+  # each `Cons` holding a single element and a pointer to the next
+  # `Cons`.
   #
-  # The last +Sequence+ instance in the chain has the {EmptyList} as its tail.
+  # The last `Cons` instance in the chain has the {EmptyList} as its tail.
   #
-  class Sequence
+  # @private
+  class Cons
     include List
 
     attr_reader :head, :tail
@@ -544,76 +1010,299 @@ module Hamster
     def initialize(head, tail = EmptyList)
       @head = head
       @tail = tail
+      @size = tail.cached_size? ? tail.size + 1 : nil
     end
 
     def empty?
       false
     end
+
+    def size
+      @size ||= super
+    end
+
+    def cached_size?
+      @size != nil
+    end
   end
 
-  # Lazy list stream
+  # A `LazyList` takes a block that returns a `List`, i.e. an object that responds
+  # to `#head`, `#tail` and `#empty?`. The list is only realized (i.e. the block is
+  # only called) when one of these operations is performed.
   #
-  # A +Stream+ takes a block that returns a +List+, i.e. an object that responds
-  # to +head+, +tail+ and +empty?+. The list is only realized when one of these
-  # operations is performed.
-  #
-  # By returning a +Sequence+ that in turn has a {Stream} as its +tail+, one can
+  # By returning a `Cons` that in turn has a {LazyList} as its tail, one can
   # construct infinite lazy lists.
   #
-  # The recommended interface for using this is through {Hamster.stream Hamster.stream}
-  #
-  class Stream
-    extend Forwardable
-
+  # @private
+  class LazyList
     include List
 
     def initialize(&block)
-      @block = block
-      @lock = Mutex.new
+      @head   = block # doubles as storage for block while yet unrealized
+      @tail   = nil
+      @atomic = Atomic.new(0) # haven't yet run block
+      @size   = nil
     end
 
-    def_delegator :target, :head
-    def_delegator :target, :tail
-    def_delegator :target, :empty?
+    def head
+      realize if @atomic.get != 2
+      @head
+    end
 
-    protected
+    def tail
+      realize if @atomic.get != 2
+      @tail
+    end
 
-    def vivify
-      @lock.synchronize do
-        unless @block.nil?
-          @target = @block.call
-          @block = nil
-        end
-      end
-      @target
+    def empty?
+      realize if @atomic.get != 2
+      @size == 0
+    end
+
+    def size
+      @size ||= super
+    end
+
+    def cached_size?
+      @size != nil
     end
 
     private
 
-    def target
-      list = vivify
-      list = list.vivify while list.is_a?(Stream)
-      list
+    QUEUE = ConditionVariable.new
+    MUTEX = Mutex.new
+
+    def realize
+      while true
+        # try to "claim" the right to run the block which realizes target
+        if @atomic.compare_and_swap(0,1) # full memory barrier here
+          begin
+            list = @head.call
+            if list.empty?
+              @head, @tail, @size = nil, self, 0
+            else
+              @head, @tail = list.head, list.tail
+            end
+          rescue
+            @atomic.set(0)
+            MUTEX.synchronize { QUEUE.broadcast }
+            raise
+          end
+          @atomic.set(2)
+          MUTEX.synchronize { QUEUE.broadcast }
+          return
+        end
+        # we failed to "claim" it, another thread must be running it
+        if @atomic.get == 1 # another thread is running the block
+          MUTEX.synchronize do
+            # check value of @atomic again, in case another thread already changed it
+            #   *and* went past the call to QUEUE.broadcast before we got here
+            QUEUE.wait(MUTEX) if @atomic.get == 1
+          end
+        elsif @atomic.get == 2 # another thread finished the block
+          return
+        end
+      end
     end
   end
 
-  # A list without any elements
+  # Common behavior for other classes which implement various kinds of lazy lists
+  # @private
+  class Realizable
+    include List
+
+    def initialize
+      @head, @tail, @size = Undefined, Undefined, nil
+    end
+
+    def head
+      realize if @head == Undefined
+      @head
+    end
+
+    def tail
+      realize if @tail == Undefined
+      @tail
+    end
+
+    def empty?
+      realize if @head == Undefined
+      @size == 0
+    end
+
+    def size
+      @size ||= super
+    end
+
+    def cached_size?
+      @size != nil
+    end
+
+    def realized?
+      @head != Undefined
+    end
+  end
+
+  # This class can divide a collection into 2 lazy lists, one of items
+  #   for which the block returns true, and another for false
+  # At the same time, it guarantees the block will only be called ONCE for each item
   #
-  # This is a singleton, since all empty lists are equivalent. It is used
-  # as a terminating element in a chain of +Sequence+ instances.
+  # @private
+  class Partitioner
+    attr_reader :left, :right
+    def initialize(list, block)
+      @list, @block, @left, @right = list, block, [], []
+    end
+
+    def next_item
+      unless @list.empty?
+        item = @list.head
+        (@block.call(item) ? @left : @right) << item
+        @list = @list.tail
+      end
+    end
+
+    def done?
+      @list.empty?
+    end
+  end
+
+  # One of the lazy lists which gets its items from a Partitioner
+  # @private
+  class Partitioned < Realizable
+    def initialize(partitioner, buffer, mutex)
+      super()
+      @partitioner, @buffer, @mutex = partitioner, buffer, mutex
+    end
+
+    def realize
+      @mutex.synchronize do
+        return if @head != Undefined # another thread got ahead of us
+        while true
+          if !@buffer.empty?
+            @head = @buffer.shift
+            @tail = Partitioned.new(@partitioner, @buffer, @mutex)
+            # don't hold onto references
+            # tail will keep references alive until end of list is reached
+            @partitioner, @buffer, @mutex = nil, nil, nil
+            return
+          elsif @partitioner.done?
+            @head, @size, @tail = nil, 0, self
+            @partitioner, @buffer, @mutex = nil, nil, nil # allow them to be GC'd
+            return
+          else
+            @partitioner.next_item
+          end
+        end
+      end
+    end
+  end
+
+  # This class can divide a list up into 2 lazy lists, one for the prefix of elements
+  #   for which the block returns true, and another for all the elements after that
+  # It guarantees that the block will only be called ONCE for each item
+  #
+  # @private
+  class Splitter
+    attr_reader :left, :right
+    def initialize(list, block)
+      @list, @block, @left, @right = list, block, [], EmptyList
+    end
+
+    def next_item
+      unless @list.empty?
+        item = @list.head
+        if @block.call(item)
+          @left << item
+          @list = @list.tail
+        else
+          @right = @list
+          @list  = EmptyList
+        end
+      end
+    end
+
+    def done?
+      @list.empty?
+    end
+
+    class Left < Realizable
+      def initialize(splitter, buffer, mutex)
+        super()
+        @splitter, @buffer, @mutex = splitter, buffer, mutex
+      end
+
+      def realize
+        @mutex.synchronize do
+          return if @head != Undefined # another thread got ahead of us
+          while true
+            if !@buffer.empty?
+              @head = @buffer.shift
+              @tail = Left.new(@splitter, @buffer, @mutex)
+              @splitter, @buffer, @mutex = nil, nil, nil
+              return
+            elsif @splitter.done?
+              @head, @size, @tail = nil, 0, self
+              @splitter, @buffer, @mutex = nil, nil, nil
+              return
+            else
+              @splitter.next_item
+            end
+          end
+        end
+      end
+    end
+
+    class Right < Realizable
+      def initialize(splitter, mutex)
+        super()
+        @splitter, @mutex = splitter, mutex
+      end
+
+      def realize
+        @mutex.synchronize do
+          return if @head != Undefined
+          @splitter.next_item until @splitter.done?
+          if @splitter.right.empty?
+            @head, @size, @tail = nil, 0, self
+          else
+            @head, @tail = @splitter.right.head, @splitter.right.tail
+          end
+          @splitter, @mutex = nil, nil
+        end
+      end
+    end
+  end
+
+  # A list without any elements. This is a singleton, since all empty lists are equivalent.
+  #
   module EmptyList
     class << self
       include List
 
+      # There is no first item in an empty list, so return `nil`.
+      # @return [nil]
       def head
         nil
       end
 
+      # There are no subsequent elements, so return an empty list.
+      # @return [self]
       def tail
         self
       end
 
       def empty?
+        true
+      end
+
+      # Return the number of items in this `List`.
+      # @return [Integer]
+      def size
+        0
+      end
+
+      def cached_size?
         true
       end
     end

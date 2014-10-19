@@ -11,14 +11,14 @@ describe Hamster::Vector do
       let(:values) { [] }
 
       context "with a block" do
-        let(:block) { ->(item) { item + 1 } }
+        let(:block) { ->(item) { item + 1 }}
 
         it "returns false" do
           expect(exist?).to be(false)
         end
       end
 
-      context "with a block" do
+      context "without a block" do
         let(:block) { nil }
 
         it "returns false" do
@@ -31,7 +31,7 @@ describe Hamster::Vector do
       let(:values) { ["A", "B", 3, nil] }
 
       context "with a block that returns true" do
-        let(:block) { ->(item) { item == 3 } }
+        let(:block) { ->(item) { item == 3 }}
 
         it "returns true" do
           expect(exist?).to be(true)
@@ -39,7 +39,7 @@ describe Hamster::Vector do
       end
 
       context "with a block that doesn't return true" do
-        let(:block) { ->(item) { item == "D" } }
+        let(:block) { ->(item) { item == "D" }}
 
         it "returns false" do
           expect(exist?).to be(false)

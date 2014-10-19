@@ -1,10 +1,11 @@
-require "coveralls"
-Coveralls.wear! do
-  add_filter "/spec/"
-end
-
 require "pry"
 require "rspec"
+require "hamster/vector"
+require "hamster/list"
+
+V = Hamster::Vector
+L = Hamster::List
+EmptyList = Hamster::EmptyList
 
 def fixture(name)
   File.read(fixture_path(name))
@@ -26,7 +27,7 @@ else
 end
 
 class DeterministicHash
-  attr_reader :hash
+  attr_reader :hash, :value
 
   def initialize(value, hash)
     @value = value
@@ -39,5 +40,32 @@ class DeterministicHash
 
   def inspect
     @value.inspect
+  end
+
+  def ==(other)
+    other.is_a?(DeterministicHash) && self.value == other.value
+  end
+  alias :eql? :==
+
+  def <=>(other)
+    self.value <=> other.value
+  end
+end
+
+class EqualNotEql
+  def ==(other)
+    true
+  end
+  def eql?(other)
+    false
+  end
+end
+
+class EqlNotEqual
+  def ==(other)
+    false
+  end
+  def eql?(other)
+    true
   end
 end

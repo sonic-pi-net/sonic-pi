@@ -2,6 +2,7 @@ require "forwardable"
 require "thread"
 
 module Hamster
+  # @private
   module ReadCopyUpdate
     extend Forwardable
 

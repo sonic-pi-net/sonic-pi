@@ -1,10 +1,10 @@
 require "forwardable"
-require "hamster/queue"
+require "hamster/deque"
 require "hamster/read_copy_update"
 
 module Hamster
   def self.mutable_queue(*items)
-    MutableQueue.new(queue(*items))
+    MutableQueue.new(deque(*items))
   end
 
   class MutableQueue
