@@ -39,6 +39,7 @@ at_exit do
   osc_server.stop
   m = encoder.encode_single_message("/exited")
   gui.send_raw(m)
+  gui.stop
 end
 
 user_methods = Module.new

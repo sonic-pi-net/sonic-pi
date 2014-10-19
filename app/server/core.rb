@@ -35,53 +35,37 @@ end
 module OSC
   class ServerOverTcp < Server
 
-    def send(msg, address, port)
-      connected = false
-      socket = nil
-      while(!connected) do
-        begin
-          socket = TCPSocket.open(address, port)
-          connected = true
-        rescue
-          puts "Awaiting server on #{port}..."
-          sleep(1)
-        end
-      end
-
-      socket.write(msg.encode)
-      socket.close
-    end
-
     def initialize(port)
       puts "port #{port}"
       @server = TCPServer.open(port)
       @matchers = []
       @queue = Queue.new
+
     end
 
     def safe_detector
       @server.listen(5)
+      @so ||= @server.accept
       loop do
         begin
-          socket = @server.accept
           read_all = false
           osc_data = ""
           while(!read_all) do
-            osc_data << socket.recv(16384)
-            read_all = true if osc_data[-1] == "\x00"
+            osc_data << @so.recv(16384)
+            read_all = (osc_data[-1] == "\x00")
           end
-
           OSCPacket.messages_from_network( osc_data ).each do |message|
             @queue.push(message)
           end
-          socket.close
         rescue Exception => e
+          puts e
           Kernel.puts e.message
         end
       end
     end
 
     def stop
+      @so.close
       @server.close
     end
 
@@ -94,12 +78,7 @@ module OSC
           Kernel.puts e.backtrace.inspect
         end
       end
-
       safe_detector
-    end
-
-    #Since we spawn socket per connection there is nothing to stop
-    def stop
     end
 
     def run
@@ -148,27 +127,27 @@ private
     end
 
     def send_raw(mesg)
-      socket.send(mesg, 0)
-      socket.close
+      so.send(mesg, 0)
     end
 
     def send(mesg)
-      socket.send(mesg.encode, 0)
-      socket.close
+      so.send(mesg.encode, 0)
     end
 
-    def socket
-      connected = false
-      while(!connected) do
+    def stop
+      so.close
+    end
+
+    def so
+      while(!@so) do
         begin
-          sock = TCPSocket.new(@host, @port)
-          connected = true
+          @so = TCPSocket.new(@host, @port)
         rescue
-          puts "Awaiting server: #{@host} #{@port}"
+          puts "Waiting for OSC server..."
           sleep(1)
         end
       end
-      sock
+      @so
     end
 
   end

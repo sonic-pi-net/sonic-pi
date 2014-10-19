@@ -130,14 +130,14 @@ public:
 */
 struct TcpSocket {
   std::string error_message;
-  int sockfd;           /* the file descriptor for the socket */
+  int sockfd;              /* the file descriptor for the socket */
+  int clientfd;            /* the file descriptor for a connected client socket*/
   TcpSockAddr local_addr   /* initialised only for bound sockets */;
   TcpSockAddr remote_addr; /* initialised for connected sockets. Also updated for bound sockets after each datagram received */
 
   std::vector<char> buffer;
 
-
-  TcpSocket() : sockfd(-1) {
+  TcpSocket() : sockfd(-1), clientfd(-1) {
 #ifdef WIN32
     WSADATA wsa_data;
     if (WSAStartup(MAKEWORD(2,2), &wsa_data) != 0) {
@@ -164,7 +164,19 @@ struct TcpSocket {
     }
   }
 
+  void closeClient() {
+    if (clientfd != -1) {
+#ifdef WIN32
+      ::closesocket(sockfd);
+#else
+      ::close(clientfd);
+#endif
+      clientfd = -1;
+    }
+  }
+
   bool isOk() const { return error_message.empty(); }
+
   const std::string &errorMessage() const { return error_message; }
 
   bool isBound() const { return !local_addr.empty(); }
@@ -217,36 +229,24 @@ struct TcpSocket {
   TcpSockAddr &packetOrigin() { return remote_addr; }
 
 
-  bool receiveNext(int timeout_ms = -1) {
+  bool receiveNext() {
     if (!isOk() || sockfd == -1) { setErr("not opened.."); return false; }
     int bufferSize = 1024*128;
     buffer.resize(bufferSize);
 
-    socklen_t len = (socklen_t)remote_addr.maxLen();
-    std::cout << "Listening for new sockets" << std::endl;
-    int connectionfd = accept(sockfd, &remote_addr.addr(), &len);
-    std::cout << "Client connected"<< std::endl;
+    if(clientfd == -1){
+        socklen_t len = (socklen_t)remote_addr.maxLen();
+        clientfd = accept(sockfd, &remote_addr.addr(), &len);
+    }
 
     int bufferGrowth = 1;
     int totalRead = 0;
-    while(int nread = recv(connectionfd, &buffer[0 + totalRead], (int)buffer.size() - totalRead, 0)){
+    while(int nread = recv(clientfd, &buffer[0 + totalRead], (int)buffer.size() - totalRead, 0)){
         totalRead += nread;
         if(buffer[totalRead-1] == '\x00'){ break; }
         bufferGrowth += 1;
         buffer.resize(bufferSize * bufferGrowth);
     }
-    std::cout << "END [" << totalRead << "]" << std::endl;
-
-    if (connectionfd != -1) {
-    #ifdef WIN32
-      ::closesocket(connectionfd);
-    #else
-      ::close(connectionfd);
-    #endif
-      connectionfd = -1;
-    }
-
-    std::cout << "Read in:"<<  totalRead << std::endl;
 
      if (totalRead < 0) {
        // maybe here we should differentiate EAGAIN/EINTR/EWOULDBLOCK from real errors
@@ -268,7 +268,7 @@ struct TcpSocket {
        }
  #endif
 
-    if (!isOk()) close();
+    if (!isOk()) closeClient();
        return false;
     }
 
@@ -276,7 +276,6 @@ struct TcpSocket {
     std::vector<char> tmp(buffer); tmp.swap(buffer);
     return true;
   }
-
 
   bool sendPacket(const void *ptr, size_t sz) {
     if (!isOk() || sockfd == -1) { setErr("not opened.."); return false; }
@@ -286,7 +285,6 @@ struct TcpSocket {
     int bytesleft = (int)sz;
     while(sent < (int)sz){
       int res;
-      //We use send for TCP STREAM connected sockets
       res = send(sockfd, (const char*)ptr + sent, bytesleft, 0);
 
 #ifdef WIN32
@@ -343,7 +341,6 @@ private:
       if (bind(sockfd, rp->ai_addr, (socklen_t)rp->ai_addrlen) != 0) {
         close();
       } else {
-        std::cout << "Listening..." << std::endl;
         listen(sockfd,5);
 
         assert((size_t)rp->ai_addrlen <= sizeof remote_addr);
@@ -358,6 +355,7 @@ private:
       setErr(binding ? "bind failed" : "connect failed"); assert(sockfd == -1);
       return false;
     }
+
     return true;
   };
 
@@ -372,8 +370,16 @@ private:
   }
 
   bool openSocket(const std::string &hostname, const std::string &port, int options) {
+    if(sockfd != -1 && isOk()){
+        //Already connected, just used cached socket
+        return true;
+    }
+    else{
+        close();
+        error_message.clear();
+    }
+
     bool binding = hostname.empty();
-    close(); error_message.clear();
 
     struct addrinfo hints;
     struct addrinfo *result = 0, *rp = 0;
@@ -399,7 +405,7 @@ private:
         continue;
 
       if(connect(sockfd, rp->ai_addr, (socklen_t)rp->ai_addrlen)!=0){
-        std::cout << "Failed connecting to Server" << std::endl;
+        std::cerr << "Failed to connect to OSC Server" << std::endl;
         close();
       } else {
         assert((size_t)rp->ai_addrlen <= sizeof remote_addr);

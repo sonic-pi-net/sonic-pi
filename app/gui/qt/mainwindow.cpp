@@ -522,29 +522,21 @@ void MainWindow::startOSCListener() {
   int PORT_NUM = 4558;
   TcpSocket sock;
   std::cout << "Starting OSC Server Listening on:" << PORT_NUM << std::endl;
+
   sock.bindTo(PORT_NUM);
 
-  std::cout << "Listening..." << std::endl;
   if (!sock.isOk()) {
-    std::cout << "Unable to listen to OSC messages on port 4558" << std::endl;
+    std::cerr << "Unable to listen to OSC messages on port" << PORT_NUM << std::endl;
   } else {
     PacketReader pr;
     PacketWriter pw;
     osc_incoming_port_open = true;
     while (sock.isOk() && cont_listening_for_osc) {
-
-      std::cout << "Attempt to receive something, should block" << std::endl;
-      if (sock.receiveNext(30 /* timeout, in ms */)) {
-
+      if (sock.receiveNext()) {
         pr.init(sock.packetData(), sock.packetSize());
         oscpkt::Message *msg;
 
         while (pr.isOk() && (msg = pr.popMessage()) != 0) {
-            std::string id;
-            Message::ArgReader az = msg->arg();
-            az.popStr(id);
-            std::cout << "MSG: " << id  << std::endl;
-
           if (msg->match("/multi_message")){
             int msg_count;
             int msg_type;
@@ -807,15 +799,15 @@ bool MainWindow::saveAs()
 
  void MainWindow::sendOSC(Message m)
 {
-  TcpSocket sock;
   int PORT_NUM = 4557;
-  sock.connectTo("localhost", PORT_NUM);
-  if (!sock.isOk()) {
-    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+  clientSock.connectTo("localhost", PORT_NUM);
+
+  if (!clientSock.isOk()) {
+    std::cerr << "Client gone away: " << clientSock.errorMessage() << "\n";
   } else {
     PacketWriter pw;
     pw.addMessage(m);
-    sock.sendPacket(pw.packetData(), pw.packetSize());
+    clientSock.sendPacket(pw.packetData(), pw.packetSize());
   }
 }
 
@@ -1427,7 +1419,7 @@ void MainWindow::onExitCleanup()
   }
   osc_thread.waitForFinished();
   std::cout << "Exiting..." << std::endl;
-
+  clientSock.close();
 }
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {

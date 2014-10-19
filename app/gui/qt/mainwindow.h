@@ -142,6 +142,7 @@ private:
 
     QFuture<void> osc_thread;
 
+    oscpkt::TcpSocket clientSock;
     bool cont_listening_for_osc;
     bool server_started;
     bool osc_incoming_port_open;
