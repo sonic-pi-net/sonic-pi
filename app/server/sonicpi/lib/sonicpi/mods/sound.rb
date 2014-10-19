@@ -1105,6 +1105,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          fx_execute_t = in_thread do
            Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
            Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fxt.thread_variable_get(:sonic_pi_spider_delayed_messages))
+           Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fxt.thread_variable_get(:sonic_pi_spider_random_generator))
 
            new_trackers = [tracker]
            (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).each do |tr|
@@ -1137,6 +1138,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
          Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_messages))
          Thread.current.thread_variable_set(:sonic_pi_spider_time, fx_execute_t.thread_variable_get(:sonic_pi_spider_time))
+
+        Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_generator))
 
          # Wait for gc thread to complete. Once the gc thread has
          # completed, the tracker has been successfully removed, and all
