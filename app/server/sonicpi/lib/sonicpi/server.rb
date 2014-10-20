@@ -187,10 +187,11 @@ module SonicPi
 
 
     def trigger_synth(position, group, synth_name, args_h, info=nil, now=false)
-      message "Triggering synth #{synth_name} at #{position}, #{group.to_s}, args: #{args_h}" if @debug_mode
       pos_code = @position_codes[position]
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
+      message "Triggering synth #{synth_name}, ID #{node_id} @ #{position} : #{group.to_s}, args: #{args_h}" if @debug_mode
+
 
       s_name = synth_name.to_s
       sn = SynthNode.new(node_id, group, self, s_name, args_h, info)
