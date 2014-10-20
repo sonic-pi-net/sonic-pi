@@ -970,7 +970,7 @@ void MainWindow::help()
   if(docWidget->isVisible()) {
     docWidget->hide();
   } else {
-    helpContext();
+    docWidget->show();
   }
 }
 
@@ -1201,6 +1201,7 @@ void MainWindow::createActions()
   setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
 
   new QShortcut(QKeySequence("F1"), this, SLOT(helpContext()));
+  new QShortcut(QKeySequence("Ctrl+I"), this, SLOT(helpContext()));
 
   // Preferences
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
