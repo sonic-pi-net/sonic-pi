@@ -45,11 +45,14 @@ module SonicPi
           out_job = @out_queue.pop
           if out_job.first == :send
             address, *args = out_job[1]
+            log "OSC #{address} #{args.inspect}" if osc_debug_mode
             m = encoder.encode_single_message(address, *args)
             @client.send_raw(m, @hostname, @port)
           else
-            ts = out_job[1]
-            address, *args = out_job[2]
+            vt = out_job[1]
+            ts = out_job[2]
+            address, *args = out_job[3]
+            log "BUN[#{vt} : #{ts.to_i}] #{address} #{args.inspect}" if osc_debug_mode
             b = encoder.encode_single_bundle(ts, address, *args)
             @client.send_raw(b, @hostname, @port)
           end
@@ -65,11 +68,16 @@ module SonicPi
     end
 
     def send(*args)
-      @out_queue << [:send, args]
+      @out_queue << [:send,  args]
     end
 
     def send_at(ts, *args)
-      @out_queue << [:send_at, ts, args]
+      if (a = Thread.current.thread_variable_get(:sonic_pi_spider_time)) && (b = Thread.current.thread_variable_get(:sonic_pi_spider_time))
+        vt = a - b
+      else
+        vt = -1
+      end
+      @out_queue << [:send_at, vt, ts, args]
     end
 
     def reboot

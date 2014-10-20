@@ -139,6 +139,10 @@ module SonicPi
       false
     end
 
+    def osc_debug_mode
+      false
+    end
+
     def resolve_synth_opts_hash_or_array(opts)
       case opts
       when Hash
