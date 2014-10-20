@@ -95,7 +95,7 @@ module SonicPi
     end
 
     def message(s)
-      log "#{SRV} s"
+      log "SRV #{s}"
     end
 
    def request_notifications
