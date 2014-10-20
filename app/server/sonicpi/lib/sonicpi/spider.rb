@@ -25,6 +25,7 @@ require_relative "mods/sound"
 require_relative "gitsave"
 require_relative "lifecyclehooks"
 require_relative "version"
+require_relative "sthread"
 require_relative "oscval"
 #require_relative "oscevent"
 #require_relative "stream"
@@ -436,7 +437,7 @@ module SonicPi
         else
           # register this name with the corresponding job id and also
           # store it in a thread local
-          @named_subthreads[name] = job_id
+          @named_subthreads[name] = SThread.new(name, job_id, t)
           t.thread_variable_set :sonic_pi__not_inherited__spider_subthread_name, name
         end
       end
@@ -470,7 +471,7 @@ module SonicPi
       threads = @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         @job_subthreads.delete(job_id)
-        @named_subthreads.delete_if{|k,v| v == job_id}
+        @named_subthreads.delete_if{|k,v| v.job_id == job_id}
         @job_main_threads.delete(job_id)
         threads
       end
@@ -508,6 +509,11 @@ module SonicPi
 
     def filter_for_save(s)
       s.split(/\r?\n/).reject{|l| l.include? "#__nosave__"}.join("\n")
+    end
+
+    def sthread(name)
+      st = @named_subthreads[name]
+      st.thread if st
     end
   end
 end

@@ -18,17 +18,28 @@ module SonicPi
 
     include SonicPi::DocSystem
 
-    def live_loop(name, &block)
+    def live_loop(name, *args, &block)
       raise "live_loop must be called with a code block" unless block
+
+      args_h = resolve_synth_opts_hash_or_array(args)
+      if args_h.has_key? :auto_cue
+        auto_cue = args_h[:auto_cue]
+      else
+        auto_cue = true
+      end
 
       define(name, &block)
 
       in_thread(name: name) do
+        Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
         loop do
-          cue name
+          cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
           send(name)
         end
       end
+
+      st = sthread(name)
+      st.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue if st
     end
     doc name:           :live_loop,
         introduced:     Version.new(2,1,0),
