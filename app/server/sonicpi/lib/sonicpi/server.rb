@@ -190,7 +190,13 @@ module SonicPi
       pos_code = @position_codes[position]
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
-      message "Triggering synth #{synth_name}, ID #{node_id} @ #{position} : #{group.to_s}, args: #{args_h}" if @debug_mode
+      if @debug_mode
+        if osc_debug_mode
+          message "Triggering synth #{synth_name}, ID #{node_id} @ #{position} : Group #{group.to_i}" if @debug_mode
+else
+          message "Triggering synth #{synth_name}, ID #{node_id} @ #{position} : Group#{group.to_i}, args: #{args_h}" if @debug_mode
+        end
+      end
 
 
       s_name = synth_name.to_s
