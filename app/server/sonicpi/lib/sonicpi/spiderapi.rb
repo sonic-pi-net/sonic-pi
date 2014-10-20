@@ -51,7 +51,7 @@ end
       raise "params needs to be a list-like thing" unless params.respond_to? :[]
 
       params_size = params.size
-
+      times = [times] if times.is_a? Numeric
       raise "times needs to be a list-like thing" unless times.respond_to? :each_with_index
       times.each_with_index do |t, idx|
         in_thread do
