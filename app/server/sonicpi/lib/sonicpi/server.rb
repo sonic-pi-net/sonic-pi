@@ -151,7 +151,14 @@ module SonicPi
     end
 
     def kill_node(id, now=false)
-      message "Node #{id} kill" if @debug_mode
+       if @debug_mode
+         if id.is_a? Group
+           message "Group #{id} kill"
+         else
+           message "Node #{id} kill"
+         end
+       end
+
       id = id.to_i
       if now
         osc "/n_free", id
