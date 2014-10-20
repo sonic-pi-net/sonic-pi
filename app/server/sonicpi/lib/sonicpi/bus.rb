@@ -12,14 +12,12 @@
 #++
 module SonicPi
   class Bus
-    attr_reader :id, :size
-    def initialize(id, size, allocator, &free_fn)
+    attr_reader :id
+    def initialize(id, allocator)
       @id = id
-      @size = size
       @allocator = allocator
       @live = true
       @sem = Mutex.new
-      @free_fn = free_fn
     end
 
     def rate
@@ -29,13 +27,17 @@ module SonicPi
     def free
       @sem.synchronize do
         if @live
-          @free_fn.call(@id, @size)
+          @allocator.release!(@id)
           @live = false
           true
         else
           false
         end
       end
+    end
+
+    def live?
+      @live
     end
 
     def to_i
@@ -47,7 +49,7 @@ module SonicPi
     end
 
     def to_s
-      "#<SonicPi::Bus @id=#{@id}, @size=#{@size}>"
+      "#<SonicPi::Bus @id=#{@id}>"
     end
 
     def inspect

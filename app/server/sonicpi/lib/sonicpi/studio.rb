@@ -49,7 +49,7 @@ module SonicPi
 
     def reset_and_setup_groups_and_busses
       @server.clear_scsynth!
-      @mixer_bus = @server.allocate_audio_bus 2
+      @mixer_bus = @server.allocate_audio_bus
       @mixer_group = @server.create_group(:head, 0)
       @fx_group = @server.create_group(:before, @mixer_group)
       @synth_group = @server.create_group(:before, @fx_group)
@@ -134,7 +134,7 @@ module SonicPi
     end
 
     def new_fx_bus
-      @server.allocate_audio_bus 2
+      @server.allocate_audio_bus
     end
 
     def exit

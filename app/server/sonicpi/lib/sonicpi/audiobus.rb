@@ -15,5 +15,9 @@ module SonicPi
     def rate
       :audio
     end
+
+    def to_s
+      "#<SonicPi::AudioBus @id=#{@id}>"
+    end
   end
 end

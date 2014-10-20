@@ -19,6 +19,10 @@ module SonicPi
       AudioBus
     end
 
+    def allocation_size
+      2
+    end
+
     def to_s
       "<#SonicPi::AudioBusAllocator>"
     end

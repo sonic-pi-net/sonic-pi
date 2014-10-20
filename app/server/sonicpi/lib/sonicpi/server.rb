@@ -176,12 +176,12 @@ module SonicPi
       end
     end
 
-    def allocate_audio_bus(num_chans)
-      @AUDIO_BUS_ALLOCATOR.allocate num_chans
+    def allocate_audio_bus
+      @AUDIO_BUS_ALLOCATOR.allocate
     end
 
-    def allocate_control_bus(num_chans)
-      @CONTROL_BUS_ALLOCATOR.allocate num_chans
+    def allocate_control_bus
+      @CONTROL_BUS_ALLOCATOR.allocate
     end
 
 

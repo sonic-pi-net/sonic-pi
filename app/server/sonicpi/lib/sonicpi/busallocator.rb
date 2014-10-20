@@ -11,38 +11,38 @@
 # notice is included.
 #++
 require_relative "bus"
-require_relative "atom"
 require_relative "allocator"
-require "hamster/vector"
 
 module SonicPi
-  class BusAllocator < Allocator
+  class BusAllocator
     def initialize(max_bus_id, idx_offset=0)
-      super
-      @busses_A = Atom.new(Hamster.vector)
+      # allocate busses in pairs
+      @allocation_size = allocation_size
+      @idx_offset = idx_offset
+      @max_id = ((max_bus_id - idx_offset) / allocation_size) - 1
+      @allocator = Allocator.new(@max_id)
     end
 
-    def allocate(num_adj_busses)
-      new_id = super(num_adj_busses)
-      bus = bus_class.new(new_id, num_adj_busses, self){|id, size| release!(id-self.idx_offset, size)}
-
-      @busses_A.swap! {|bs| bs.add(bus)}
-      bus
+    def allocation_size
+      1
     end
 
-    def release(bus)
-      bus.free
+    def allocate
+      new_id = (@allocator.allocate * allocation_size) + @idx_offset
+      bus_class.new(new_id, self)
+    end
+
+    def release!(id)
+      idx = (id - @idx_offset) / allocation_size
+      @allocator.release! idx
     end
 
     def reset!
-      super
-      old_busses = @busses_A.swap_returning_old! {|bs| Hamster.vector}
-      old_busses.each {|b| b.free}
-      @busses_A.reset! Hamster.vector
+      @allocator.reset!
     end
 
     def num_busses_allocated
-      num_allocations
+      @allocator.num_allocations
     end
 
     def to_s
