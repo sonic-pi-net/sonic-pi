@@ -88,17 +88,17 @@ module SonicPi
       @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new num_audio_busses_for_current_os, 10 #TODO: remove these magic nums
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
 
-      message "Initialising comms... #{msg_queue}" if @debug_mode
+      message "SERV Initialising comms... #{msg_queue}" if @debug_mode
       clear_scsynth!
       request_notifications
 
     end
 
     def message(s)
-      log s
+      log "#{SRV} s"
     end
 
-    def request_notifications
+   def request_notifications
       message "Requesting notifications" if @debug_mode
       osc "/notify", 1
     end
@@ -129,7 +129,7 @@ module SonicPi
     end
 
     def group_clear(id, now=false)
-      message "Clearing (nuking) group #{id}" if @debug_mode
+      message "Group #{id} clear" if @debug_mode
       id = id.to_i
       if now
         osc "/g_freeAll", id
@@ -140,7 +140,7 @@ module SonicPi
     end
 
     def group_deep_free(id, now=false)
-      message "Deep freeing group #{id}" if @debug_mode
+      message "Group #{id} deep free" if @debug_mode
       id = id.to_i
       if now
         osc "/g_deepFree", id
@@ -151,7 +151,7 @@ module SonicPi
     end
 
     def kill_node(id, now=false)
-      message "Killing node #{id}" if @debug_mode
+      message "Node #{id} kill" if @debug_mode
       id = id.to_i
       if now
         osc "/n_free", id
@@ -168,7 +168,7 @@ module SonicPi
       if (pos_code && target_id)
         g = Group.new id, self
         osc "/g_new", id, pos_code, target_id
-        message "Group created with id: #{id}" if @debug_mode
+        message "Group #{id} created" if @debug_mode
         g.wait_until_started
       else
         message "Unable to create a node with position: #{position} and target #{target}" if @debug_mode
@@ -227,7 +227,7 @@ module SonicPi
 
     def node_ctl(node, args, now=false)
       args_h = resolve_synth_opts_hash_or_array(args)
-      message "controlling node: #{node} with args: #{args}" if @debug_mode
+      message "Node: #{node} control  with args: #{args}" if @debug_mode
       node_id = node.to_i
       normalised_args = []
       args_h.each do |k,v|
@@ -243,7 +243,7 @@ module SonicPi
     end
 
     def node_pause(node, now=false)
-      message "pausing node: #{node}" if @debug_mode
+      message "Node: #{node} pause" if @debug_mode
       node_id = node.to_i
       if now
         osc "/n_run", node_id, 0
@@ -254,7 +254,7 @@ module SonicPi
     end
 
     def node_run(node, now=false)
-      message "running node: #{node}" if @debug_mode
+      message "Node: #{node} run" if @debug_mode
       node_id = node.to_i
       if now
         osc "/n_run", node_id, 1
