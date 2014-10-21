@@ -40,7 +40,6 @@ module OSC
       @server = TCPServer.open(port)
       @matchers = []
       @queue = Queue.new
-
     end
 
     def safe_detector
@@ -102,18 +101,18 @@ private
         sendmesg( message)
       else # spawn a thread to wait until it's time
         Thread.fork do
-    	    sleep( diff )
-    	    sendmesg( mesg )
-    	    Thread.exit
-    	  end
+          sleep( diff )
+          sendmesg( mesg )
+          Thread.exit
+        end
       end
     end
 
     def sendmesg(mesg)
       @matchers.each do |matcher, proc|
-	      if matcher.match?( mesg.address )
-	        proc.call( mesg )
-	      end
+        if matcher.match?( mesg.address )
+          proc.call( mesg )
+        end
       end
     end
 

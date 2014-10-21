@@ -38,7 +38,7 @@ SOURCES += main.cpp \
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
-            tcp.h \
+            tcp.hh \
             udp.hh \
             sonicpilexer.h \
             sonicpiapis.h \
