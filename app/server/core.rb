@@ -44,17 +44,31 @@ module OSC
 
     def safe_detector
       @server.listen(5)
-      @so ||= @server.accept
       loop do
+        @so ||= @server.accept
         begin
           read_all = false
           osc_data = ""
           while(!read_all) do
-            osc_data << @so.recv(16384)
-            read_all = (osc_data[-1] == "\x00")
+            readfds, _, _ = select([@so], nil, nil, 0.1)
+            if readfds
+              result = @so.recv(16384)
+              if result != ""
+                osc_data << result
+                read_all = (osc_data[-1] == "\x00")
+              else
+                puts "Connection closed by client"
+                @so.close
+                @so = nil
+                break
+              end
+            end
           end
-          OSCPacket.messages_from_network( osc_data ).each do |message|
-            @queue.push(message)
+
+          if read_all
+            OSCPacket.messages_from_network( osc_data ).each do |message|
+              @queue.push(message)
+            end
           end
         rescue Exception => e
           puts e
@@ -64,7 +78,7 @@ module OSC
     end
 
     def stop
-      @so.close
+      @so.close if @so
       @server.close
     end
 
@@ -141,7 +155,7 @@ private
       while(!@so) do
         begin
           @so = TCPSocket.new(@host, @port)
-        rescue
+        rescue Errno::ECONNREFUSED => e
           puts "Waiting for OSC server..."
           sleep(1)
         end
