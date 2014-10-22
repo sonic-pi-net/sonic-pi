@@ -2103,7 +2103,7 @@ end
     end
 
   end
-
+  
   class FXLevel < FXInfo
     def name
       "Level Amplifier"
@@ -2767,6 +2767,371 @@ end
     end
   end
 
+  class FXHarmoniser < FXInfo
+    def name
+      "Harmoniser"
+    end
+
+    def introduced
+      Version.new(2,1,0)
+    end
+
+    def synth_name
+      "fx_harmoniser"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :oct1_amp => 1,
+        :oct1_amp_slide => 0,
+        :oct1_amp_slide_shape => 5,
+        :oct1_amp_slide_curve => 0,
+        :oct2_amp => 1,
+        :oct2_amp_slide => 0,
+        :oct2_amp_slide_shape => 5,
+        :oct2_amp_slide_curve => 0,
+        :clean_amp => 1,
+        :clean_amp_slide => 0,
+        :clean_amp_slide_shape => 5,
+        :clean_amp_slide_curve => 0,
+      }
+    end
+
+    def specific_arg_info
+      {
+        :oct1_amp =>
+        {
+          :doc => "Volume of the signal 1 octave below the input",
+          :validations => [v_positive(:oct1_amp)],
+          :modulatable => true
+        },
+        :oct2_amp =>
+        {
+          :doc => "Volume of the signal 2 octaves below the input",
+          :validations => [v_positive(:oct2_amp)],
+          :modulatable => true
+        },
+        :clean_amp =>
+        {
+          :doc => "Volume of the low-pass filtered clean signal from the input",
+          :validations => [v_positive(:clean_amp)],
+          :modulatable => true
+        }
+      }
+    end
+
+    def doc
+      ""
+    end
+  end
+
+  class FXChorus < FXInfo
+    def name
+      "Chorus"
+    end
+
+    def introduced
+      Version.new(2,1,0)
+    end
+
+    def synth_name
+      "fx_chorus"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :phase => 0.25,
+        :phase_slide => 0,
+        :phase_slide_shape => 5,
+        :phase_slide_curve => 0,
+        :decay => 0.00001,
+        :decay_slide => 0,
+        :decay_slide_shape => 5,
+        :decay_slide_curve => 0,
+        :max_phase => 1,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+      }
+    end
+
+    def specific_arg_info
+      {
+        :max_phase =>
+        {
+          :doc => "The maximum phase duration in seconds.",
+          :validations => [v_positive_not_zero(:max_phase)],
+          :modulatable => false
+        },
+
+        :phase =>
+        {
+          :doc => "The time between echoes in seconds.",
+          :validations => [v_positive_not_zero(:phase)],
+          :modulatable => true,
+          :bpm_scale => true
+
+        },
+
+        :phase_slide =>
+        {
+          :doc => "Slide time in seconds between phase values",
+          :validations => [v_positive(:phase_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :decay =>
+        {
+          :doc => "The time it takes for the echoes to fade away in seconds.",
+          :validations => [v_positive_not_zero(:decay)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :decay_slide =>
+        {
+          :doc => "Slide time in seconds between decay times",
+          :validations => [v_positive(:decay_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        }
+      }
+    end
+
+    def kill_delay(args_h)
+      args_h[:decay] || arg_defaults[:decay]
+    end
+
+    def doc
+      ""
+    end
+  end
+
+  class FXRingMod < FXInfo
+    def name
+      "Ring Modulator"
+    end
+
+    def introduced
+      Version.new(2,1,0)
+    end
+
+    def synth_name
+      "fx_ring_mod"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :freq => 100,
+        :freq_slide => 0,
+        :freq_slide_shape => 5,
+        :freq_slide_curve => 0,
+        :mod_amp => 1,
+        :mod_amp_slide => 0,
+        :mod_amp_slide_shape => 5,
+        :mod_amp_slide_curve => 0,
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+
+    def doc
+      ""
+    end
+  end
+
+  class FXBPF < FXInfo
+    def name
+      "Band Pass Filter"
+    end
+
+    def introduced
+      Version.new(2,1,0)
+    end
+
+    def synth_name
+      "fx_bpf"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :freq => 100,
+        :freq_slide => 0,
+        :freq_slide_shape => 5,
+        :freq_slide_curve => 0,
+        :res => 0.5,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+
+    def doc
+      ""
+    end
+  end
+
+  class FXRBPF < FXInfo
+    def name
+      "Resonant Band Pass Filter"
+    end
+
+    def introduced
+      Version.new(2,1,0)
+    end
+
+    def synth_name
+      "fx_rbpf"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :freq => 100,
+        :freq_slide => 0,
+        :freq_slide_shape => 5,
+        :freq_slide_curve => 0,
+        :res => 0.5,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+
+    def doc
+      ""
+    end
+  end
+
+  class FXNRBPF < FXInfo
+    def name
+      "Normalised Resonant Band Pass Filter"
+    end
+
+    def introduced
+      Version.new(2,1,0)
+    end
+
+    def synth_name
+      "fx_nrbpf"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :freq => 100,
+        :freq_slide => 0,
+        :freq_slide_shape => 5,
+        :freq_slide_curve => 0,
+        :res => 0.5,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+      }
+    end
+
+    def doc
+      ""
+    end
+  end
 
   class FXRLPF < FXInfo
     def name
@@ -3334,7 +3699,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :basic_stereo_player => BasicStereoPlayer.new,
       :basic_mixer => BasicMixer.new,
 
-#      :fx_bitcrusher => FXBitcrusher.new,
+      :fx_bitcrusher => FXBitcrusher.new,
       :fx_reverb => FXReverb.new,
       :fx_replace_reverb => FXReverb.new,
       :fx_level => FXLevel.new,
@@ -3370,7 +3735,14 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :fx_distortion => FXDistortion.new,
       :fx_replace_distortion => FXDistortion.new,
       :fx_pan => FXPan.new,
-      :fx_replace_pan => FXPan.new
+      :fx_replace_pan => FXPan.new,
+      # WIP effects
+      # :fx_bpf => FXBPF.new,
+      # :fx_rbpf => FXRBPF.new,
+      # :fx_nrbpf => FXNRBPF.new,
+      # :fx_ring_mod => FXRingMod.new,
+      # :fx_chorus => FXChorus.new,
+      # :fx_harmoniser => FXHarmoniser.new,
 
       }
 
