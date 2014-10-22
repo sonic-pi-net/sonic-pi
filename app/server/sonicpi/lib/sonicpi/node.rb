@@ -75,17 +75,17 @@ module SonicPi
     end
 
     def kill(now=false)
-      @comms.kill_node @id, now
+      @comms.kill_node self, now
       self
     end
 
     def pause(now=false)
-      @comms.node_pause @id, now
+      @comms.node_pause self, now
       self
     end
 
     def run(now=false)
-      @comms.node_run @id, now
+      @comms.node_run self, now
       self
     end
 
@@ -94,7 +94,7 @@ module SonicPi
       if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
         @info.validate!(args_h) if @info
       end
-      @comms.node_ctl @id, args_h
+      @comms.node_ctl self, args_h
       self
     end
 

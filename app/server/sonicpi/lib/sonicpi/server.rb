@@ -88,7 +88,7 @@ module SonicPi
       @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new num_audio_busses_for_current_os, 10 #TODO: remove these magic nums
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
 
-      message "SERV Initialising comms... #{msg_queue}" if @debug_mode
+      message "info - Initialising comms... #{msg_queue}" if @debug_mode
       clear_scsynth!
       request_notifications
 
@@ -99,19 +99,19 @@ module SonicPi
     end
 
    def request_notifications
-      message "Requesting notifications" if @debug_mode
+      message "info - Requesting notifications" if @debug_mode
       osc "/notify", 1
     end
 
     def load_synthdefs(path)
-      message "Loading synthdefs from path: #{path}" if @debug_mode
+      message "info - loading synthdefs from path: #{path}" if @debug_mode
       with_server_sync do
         osc "/d_loadDir", path.to_s
       end
     end
 
     def clear_scsynth!
-      message "Clearing scsynth" if @debug_mode
+      message "info - clearing scsynth" if @debug_mode
       @CURRENT_NODE_ID.reset!
       clear_schedule
       group_clear 0, true
@@ -129,7 +129,7 @@ module SonicPi
     end
 
     def group_clear(id, now=false)
-      message "Group #{id} clear" if @debug_mode
+      message "grp  - #{id} clear" if @debug_mode
       id = id.to_i
       if now
         osc "/g_freeAll", id
@@ -140,7 +140,7 @@ module SonicPi
     end
 
     def group_deep_free(id, now=false)
-      message "Group #{id} deep free" if @debug_mode
+      message "grp  - #{id} deep free" if @debug_mode
       id = id.to_i
       if now
         osc "/g_deepFree", id
@@ -153,9 +153,9 @@ module SonicPi
     def kill_node(id, now=false)
        if @debug_mode
          if id.is_a? Group
-           message "Group #{id} kill"
+           message "grp  - #{id} kill"
          else
-           message "Node #{id} kill"
+           message "nde  - #{id} kill"
          end
        end
 
@@ -175,10 +175,10 @@ module SonicPi
       if (pos_code && target_id)
         g = Group.new id, self
         osc "/g_new", id, pos_code, target_id
-        message "Group #{id} created" if @debug_mode
+        message "grp  - #{id} create" if @debug_mode
         g.wait_until_started
       else
-        message "Unable to create a node with position: #{position} and target #{target}" if @debug_mode
+        message "err  - unable to create a node with position: #{position} and target #{target}" if @debug_mode
         nil
       end
     end
@@ -199,9 +199,9 @@ module SonicPi
       node_id = @CURRENT_NODE_ID.next
       if @debug_mode
         if osc_debug_mode
-          message "Triggering synth #{synth_name}, ID #{node_id} @ #{position} : Group #{group.to_i}" if @debug_mode
-else
-          message "Triggering synth #{synth_name}, ID #{node_id} @ #{position} : Group#{group.to_i}, args: #{args_h}" if @debug_mode
+          message "trg  - #{node_id} @ #{position} : Group #{group.to_i} - #{synth_name} "
+        else
+          message "trg  - #{node_id} @ #{position} : Group #{group.to_i} - #{synth_name}, args: #{args_h}" if @debug_mode
         end
       end
 
@@ -240,7 +240,7 @@ else
 
     def node_ctl(node, args, now=false)
       args_h = resolve_synth_opts_hash_or_array(args)
-      message "Node: #{node} control  with args: #{args}" if @debug_mode
+      message "nde  - #{node} control with args: #{args}" if @debug_mode
       node_id = node.to_i
       normalised_args = []
       args_h.each do |k,v|
@@ -256,7 +256,7 @@ else
     end
 
     def node_pause(node, now=false)
-      message "Node: #{node} pause" if @debug_mode
+      message "nde  - #{node} pause" if @debug_mode
       node_id = node.to_i
       if now
         osc "/n_run", node_id, 0
@@ -267,7 +267,7 @@ else
     end
 
     def node_run(node, now=false)
-      message "Node: #{node} run" if @debug_mode
+      message "nde  - #{node} run" if @debug_mode
       node_id = node.to_i
       if now
         osc "/n_run", node_id, 1
