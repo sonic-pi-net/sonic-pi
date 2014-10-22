@@ -153,9 +153,9 @@ module SonicPi
     def kill_node(id, now=false)
        if @debug_mode
          if id.is_a? Group
-           message "grp  - #{id} kill"
+           message "grp  - #{id.to_i} kill"
          else
-           message "nde  - #{id} kill"
+           message "nde  - #{id.to_i} kill"
          end
        end
 

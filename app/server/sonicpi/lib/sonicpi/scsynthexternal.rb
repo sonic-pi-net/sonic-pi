@@ -34,7 +34,8 @@ module SonicPi
       @osc_in_thread = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_in)
         Thread.current.priority = -10
-        log "starting server thread"
+        log "\n\n\n"
+        log "Starting server thread"
         @client.run
       end
 
@@ -45,14 +46,14 @@ module SonicPi
           out_job = @out_queue.pop
           if out_job.first == :send
             address, *args = out_job[1]
-            log "OSC      - #{address} #{args.inspect}" if osc_debug_mode
+            log "OSC      ~ #{address} #{args.inspect}" if osc_debug_mode
             m = encoder.encode_single_message(address, *args)
             @client.send_raw(m, @hostname, @port)
           else
             vt = out_job[1]
             ts = out_job[2]
             address, *args = out_job[3]
-            log "BDL      - [#{vt} : #{ts.to_i}] #{address} #{args.inspect}" if osc_debug_mode
+            log "BDL      ~ [#{vt} : #{ts.to_i}] #{address} #{args.inspect}" if osc_debug_mode
             b = encoder.encode_single_bundle(ts, address, *args)
             @client.send_raw(b, @hostname, @port)
           end
