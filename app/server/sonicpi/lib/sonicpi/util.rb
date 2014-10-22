@@ -132,7 +132,17 @@ module SonicPi
     end
 
     def log(message)
-      File.open("#{log_path}/debug.log", 'a') {|f| f.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")} #{message}\n")} if debug_mode
+      if debug_mode
+        res = ""
+        first = true
+        while !(message.empty?)
+          res << "                                 " unless first
+          res << message.slice!(0..140)
+          res << "\n"
+          first = false
+        end
+        File.open("#{log_path}/debug.log", 'a') {|f| f.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{res}")}
+      end
     end
 
     def debug_mode
