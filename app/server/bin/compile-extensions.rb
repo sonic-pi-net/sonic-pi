@@ -31,12 +31,15 @@ native_dir = File.dirname(__FILE__) + '/../rb-native/' + os.to_s + '/' + "#{RUBY
 puts "creating #{native_dir}"
 FileUtils.mkdir_p native_dir
 
+# Rugged is used for storing the user's ruby music scripts in Git
 native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged')
 ]
 
-# FFI is for native scsynth, not supported on Windows
-if os != :windows then
+# FFI will be used in future for wrapping a native C OSC library for the sonic pi ruby server
+# to talk to scsynth with, still to be done
+# Not supported on Windows, and currently failing to build on non-RP Linux
+unless os == :windows || os == :linux
   native_ext_dirs.push(File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c'))
 end
 
