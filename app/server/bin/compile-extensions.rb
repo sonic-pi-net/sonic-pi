@@ -36,14 +36,11 @@ native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged')
 ]
 
-# FFI will be used in future for wrapping a native C OSC library for the sonic pi ruby server
-# to talk to scsynth with, still to be done
-# Not supported on Windows, and currently failing to build on non-RP Linux
-unless os == :windows || os == :linux
-  native_ext_dirs.push(File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c'))
-end
+# FFI will be used in future for wrapping a native C OSC library for the
+# sonic pi ruby server to talk to scsynth with, still to be done
 
-
+# native_ext_dirs.push(File.expand_path(File.dirname(__FILE__) +
+# '/../vendor/ffi/ext/ffi_c'))
 
 native_ext_dirs.each do |ext_dir|
     puts "Compiling native extension in #{ext_dir}"
