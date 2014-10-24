@@ -13,9 +13,18 @@
 
 module SonicPi
   class WrappingArray < Array
-    def [](idx)
-      idx = idx.to_i % size
-      super(idx)
+    def [](idx, len=nil)
+      return self.to_a[idx, len] if len
+
+      idx = idx.to_i % size if idx.is_a? Numeric
+      self.to_a[idx]
+    end
+
+    def slice(idx, len=nil)
+      return self.to_a.slice(idx, len) if len
+
+      idx = idx.to_i % size if idx.is_a? Numeric
+      self.to_a.slice(idx)
     end
   end
 end
