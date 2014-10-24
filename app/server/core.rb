@@ -55,7 +55,7 @@ module OSC
               result = @so.recv(16384)
               if result != ""
                 osc_data << result
-                read_all = (osc_data[-1] == "\x00")
+                read_all = (result[-1] == "\x00")
               else
                 puts "Connection closed by client"
                 @so.close
