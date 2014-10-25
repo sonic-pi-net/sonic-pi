@@ -945,7 +945,7 @@ end"]
       job_id = __current_job_id
       reg_with_parent_completed = Promise.new
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      new_rand_seed = rgen.rand(999999999999999999999999999999999999999)
+      new_rand_seed = args_h[:seed] || rgen.rand(999999999999999999999999999999999999999)
 
       # Create the new thread
       t = Thread.new do
