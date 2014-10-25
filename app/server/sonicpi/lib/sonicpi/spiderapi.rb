@@ -932,7 +932,6 @@ end"]
     def in_thread(*opts, &block)
       args_h = resolve_synth_opts_hash_or_array(opts)
       name = args_h[:name]
-      new_rand_seed = args_h[:seed] || 0
 
       parent_t = Thread.current
 
@@ -946,6 +945,7 @@ end"]
       job_id = __current_job_id
       reg_with_parent_completed = Promise.new
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+      new_rand_seed = rgen.rand(999999999999999999999999999999999999999)
 
       # Create the new thread
       t = Thread.new do
