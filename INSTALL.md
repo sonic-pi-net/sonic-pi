@@ -42,7 +42,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 ### Running
 
-Run the script `rb-app-bin` in the directory `app/gui/qt`.
+Run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 -----
 
@@ -79,7 +79,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 Start the jack sound server daemon `jackd`. This is easily done through [qjackctl](http://qjackctl.sourceforge.net/), available as `qjackctl` in Debian.
 
-Then run the script `rb-app-bin` in the directory `app/gui/qt`.
+Then run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 ----
 
