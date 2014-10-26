@@ -57,6 +57,7 @@ Debian package dependency names:
 * `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqscintilla2-l10n`)
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
+* `ruby-dev`
 * `cmake` (for some configurations, e.g., 32bit x86)
 
 Fedora package dependency names:
