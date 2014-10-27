@@ -42,7 +42,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 ### Running
 
-Run the script `rb-app-bin` in the directory `app/gui/qt`.
+Run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 -----
 
@@ -57,6 +57,7 @@ Debian package dependency names:
 * `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqscintilla2-l10n`)
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
+* `ruby-dev`
 * `cmake` (for some configurations, e.g., 32bit x86)
 
 Fedora package dependency names:
@@ -78,7 +79,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 Start the jack sound server daemon `jackd`. This is easily done through [qjackctl](http://qjackctl.sourceforge.net/), available as `qjackctl` in Debian.
 
-Then run the script `rb-app-bin` in the directory `app/gui/qt`.
+Then run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 ----
 
