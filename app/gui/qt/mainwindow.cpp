@@ -371,6 +371,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   communityT->setOpenExternalLinks(true);
   communityT->setHtml(s3);
 
+  currentLine = 0; currentIndex = 0;
+
 
   // Tabs
   QTabWidget *infoTabs = new QTabWidget(this);
@@ -828,7 +830,10 @@ void MainWindow::runCode()
 
 
   SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
-  ws->getCursorPosition(&currentLine, &currentIndex);
+  if (currentLine == 0 && currentIndex == 0) {
+    // only update saved position if we're not already highlighting code
+    ws->getCursorPosition(&currentLine, &currentIndex);
+  }
   ws->setReadOnly(true);
   ws->selectAll();
   errorPane->clear();
@@ -866,7 +871,10 @@ void MainWindow::unhighlightCode()
 {
   SonicPiScintilla *ws = (SonicPiScintilla *)tabs->currentWidget();
   ws->selectAll(false);
-  ws->setCursorPosition(currentLine, currentIndex);
+  if (currentLine != 0 || currentIndex != 0) {
+    ws->setCursorPosition(currentLine, currentIndex);
+    currentLine = 0; currentIndex = 0;
+  }
   ws->setReadOnly(false);
 }
 
