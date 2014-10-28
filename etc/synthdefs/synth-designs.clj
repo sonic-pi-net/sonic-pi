@@ -431,6 +431,10 @@
                           attack_level 1
                           sustain_level 1
                           env_curve 2
+                          cutoff 100
+                          cutoff_slide 0
+                          cutoff_slide_shape 5
+                          cutoff_slide_curve 0
                           divisor 2.0
                           divisor_slide 0
                           divisor_slide_shape 5
@@ -439,21 +443,25 @@
                           depth_slide 0
                           depth_slide_shape 5
                           depth_slide_curve 0
+
                           out_bus 0]
-     (let [note      (varlag note note_slide note_slide_curve note_slide_shape)
-           amp       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           amp-fudge 0.8
-           pan       (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           divisor   (varlag divisor divisor_slide divisor_slide_curve divisor_slide_shape)
-           depth     (varlag depth depth_slide depth_slide_curve depth_slide_shape)
-           carrier   (midicps note)
-           modulator (/ carrier divisor)
-           env       (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
-       (out out_bus (pan2 (* amp-fudge
-                             env
-                             (sin-osc (+ carrier
-                                         (* env (* carrier depth) (sin-osc modulator)))))
-                          pan amp))))
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge   0.8
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           divisor     (varlag divisor divisor_slide divisor_slide_curve divisor_slide_shape)
+           depth       (varlag depth depth_slide depth_slide_curve depth_slide_shape)
+           carrier     (midicps note)
+           modulator   (/ carrier divisor)
+           cutoff-freq (midicps cutoff)
+           env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           snd         (sin-osc (+ carrier
+                                   (* env (* carrier depth) (sin-osc modulator))))
+           snd         (lpf snd cutoff-freq)
+           ]
+
+       (out out_bus (pan2 (* amp-fudge (* env snd)) pan amp))))
 
 
    (defsynth sonic-pi-mod_fm [note 52
@@ -475,6 +483,10 @@
                               attack_level 1
                               sustain_level 1
                               env_curve 2
+                              cutoff 100
+                              cutoff_slide 0
+                              cutoff_slide_shape 5
+                              cutoff_slide_curve 0
                               mod_phase 1
                               mod_phase_slide 0
                               mod_phase_slide_shape 5
@@ -503,6 +515,7 @@
            amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge               1
            pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
            mod_rate                (/ 1 mod_phase)
            mod_range               (varlag mod_range mod_range_slide mod_range_slide_curve mod_range_slide_shape)
@@ -521,16 +534,18 @@
            ctl-wave                (* ctl-wave ctl-wave-mul)
            note                    (lin-lin ctl-wave -1 1 min_note max_note)
            freq                    (midicps note)
+           cutoff-freq             (midicps cutoff)
            divisor                 (varlag divisor divisor_slide divisor_slide_curve divisor_slide_shape)
            depth                   (varlag depth depth_slide depth_slide_curve depth_slide_shape)
            carrier                 freq
            modulator               (/ carrier divisor)
-           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
-       (out out_bus (pan2 (* amp-fudge
-                             env
-                             (sin-osc (+ carrier
-                                         (* env  (* carrier depth) (sin-osc modulator)))))
-                          pan amp))))
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           snd                     (sin-osc (+ carrier
+                                               (* env (* carrier depth) (sin-osc modulator))))
+           snd                     (lpf snd cutoff-freq)
+           ]
+
+       (out out_bus (pan2 (* amp-fudge (* env snd)) pan amp))))
 
 
    (defsynth sonic-pi-mod_saw [note 52
