@@ -161,13 +161,23 @@ module SonicPi
 
 
        def use_sample_bpm(sample_name)
-         sd = sample_duration(sample_name)
-         use_bpm 60.0 / sd
+         case sample_name
+           when Numeric
+           use_bpm(60.0 / sample_name)
+         else
+           sd = sample_duration(sample_name)
+           use_bpm(60.0 / sd)
+         end
        end
 
        def with_sample_bpm(sample_name, &block)
-         sd = sample_duration(sample_name)
-         with_bpm(60.0 / sd, &block)
+         case sample_name
+         when Numeric
+           with_bpm(60.0 / sample_name, &block)
+         else
+           sd = sample_duration(sample_name)
+           with_bpm(60.0 / sd, &block)
+         end
        end
 
     def use_arg_bpm_scaling(bool, &block)
