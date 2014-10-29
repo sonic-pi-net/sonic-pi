@@ -56,7 +56,7 @@ end
 "]
 
 
-    def after(times, params=nil, &block)
+    def at(times, params=nil, &block)
       raise "after must be called with a code block" unless block
       params ||= []
       raise "params needs to be a list-like thing" unless params.respond_to? :[]
@@ -83,7 +83,7 @@ end
         end
       end
     end
-    doc name:           :after,
+    doc name:           :at,
         introduced:     Version.new(2,1,0),
         summary:        "Run a block at the given intervals",
         doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If params is smaller than args, the values will rotate through.",
@@ -92,17 +92,17 @@ end
         opts:           {:params=>nil},
         accepts_block:  true,
         examples:       ["
-after [1, 2, 4] do  # plays a note after waiting 1 second,
+at [1, 2, 4] do  # plays a note after waiting 1 second,
   play 75           # then after 1 more second,
 end                 # then after 2 more seconds (4 seconds total)
 ",
 "
-after [1, 2, 3], [75, 76, 77] do |n|  # plays 3 different notes
+at [1, 2, 3], [75, 76, 77] do |n|  # plays 3 different notes
   play n
 end
 ",
 "
-after [1, 2, 3],
+at [1, 2, 3],
     [{:amp=>0.5}, {:amp=> 0.8}] do |p| # alternate soft and loud
   sample :drum_cymbal_open, p          # cymbal hits three times
 end
