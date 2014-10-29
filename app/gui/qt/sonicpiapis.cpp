@@ -61,7 +61,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   // default
   int ctx = Func;
   int last = context.length()-1;
-  if (context[last] == "")
+  if (context[last] == "" || context[last][0] == ':')
     last--;
   int lastButOne = last - 1;
 
@@ -99,7 +99,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   if (context[context.length()-1].length() == 0) {
     list << keywords[ctx];
   } else {
-    foreach (const QString &str, keywords[Func]) {
+    foreach (const QString &str, keywords[ctx]) {
       if (str.startsWith(context[context.length()-1])) {
 	list << str;
       }
