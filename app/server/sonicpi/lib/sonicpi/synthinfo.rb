@@ -2108,7 +2108,7 @@ end
     end
 
   end
-  
+
   class FXLevel < FXInfo
     def name
       "Level Amplifier"
@@ -3675,6 +3675,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :dull_bell => DullBell.new,
       :pretty_bell => PrettyBell.new,
       :beep => Beep.new,
+      :sine => Beep.new,
       :saw => Saw.new,
       :pulse => Pulse.new,
       :tri => Tri.new,
@@ -3684,6 +3685,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :mod_saw => ModSaw.new,
       :mod_dsaw => ModDSaw.new,
       :mod_sine => ModSine.new,
+      :mod_beep => ModSine.new,
       :mod_tri => ModTri.new,
       :mod_pulse => ModPulse.new,
       :tb303 => TB303.new,
