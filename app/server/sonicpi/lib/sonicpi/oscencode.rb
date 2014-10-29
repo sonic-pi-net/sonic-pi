@@ -19,7 +19,7 @@ module SonicPi
       @bundle_header = get_from_or_add_to_string_cache("#bundle")
     end
 
-    def encode_single_message(address, *args)
+    def encode_single_message(address, args=[])
       message = ""
       address = get_from_or_add_to_string_cache(address)
       tags = ","
@@ -32,8 +32,8 @@ module SonicPi
       message << address << tags_encoded << args_encoded
     end
 
-    def encode_single_bundle(ts, address, *args)
-      message = encode_single_message(address, *args)
+    def encode_single_bundle(ts, address, args=[])
+      message = encode_single_message(address, args)
       message_encoded = [message.size].pack('N') << message
 
       bundle = ""
