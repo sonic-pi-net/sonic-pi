@@ -47,14 +47,14 @@ module SonicPi
           if out_job.first == :send
             address, *args = out_job[1]
             log "OSC      ~ #{address} #{args.inspect}" if osc_debug_mode
-            m = encoder.encode_single_message(address, *args)
+            m = encoder.encode_single_message(address, args)
             @client.send_raw(m, @hostname, @port)
           else
             vt = out_job[1]
             ts = out_job[2]
             address, *args = out_job[3]
             log "BDL      ~ [#{vt} : #{ts.to_i}] #{address} #{args.inspect}" if osc_debug_mode
-            b = encoder.encode_single_bundle(ts, address, *args)
+            b = encoder.encode_single_bundle(ts, address, args)
             @client.send_raw(b, @hostname, @port)
           end
         end

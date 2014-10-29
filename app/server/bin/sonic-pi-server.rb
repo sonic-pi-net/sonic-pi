@@ -142,7 +142,7 @@ osc_server.add_method("/ping") do |payload|
   #  puts "ping!"
   begin
     id = payload.to_a[0]
-    m = encoder.encode_single_message("/ack", id)
+    m = encoder.encode_single_message("/ack", [id])
     proxy.send_raw(m)
   rescue Exception => e
     puts "Received Exception when attempting to send ack!"
@@ -303,10 +303,10 @@ out_t = Thread.new do
       else
         case message[:type]
         when :multi_message
-          m = encoder.encode_single_message("/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
+          m = encoder.encode_single_message("/multi_message", [message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten])
           proxy.send_raw(m)
         when :info
-          m = encoder.encode_single_message("/info", message[:val])
+          m = encoder.encode_single_message("/info", [message[:val]])
           proxy.send_raw(m)
         when :error
           desc = message[:val] || ""
@@ -315,13 +315,13 @@ out_t = Thread.new do
           desc = CGI.escapeHTML(desc)
           trace = CGI.escapeHTML(trace)
           # puts "sending: /error #{desc}, #{trace}"
-          m = encoder.encode_single_message("/error", message[:jobid], desc, trace)
+          m = encoder.encode_single_message("/error", [message[:jobid], desc, trace])
           proxy.send_raw(m)
         when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val]
 #          puts "replacing buffer #{buf_id}, #{content}"
-          m = encoder.encode_single_message("/replace-buffer", buf_id, content)
+          m = encoder.encode_single_message("/replace-buffer", [buf_id, content])
           proxy.send_raw(m)
         else
 #          puts "ignoring #{message}"
