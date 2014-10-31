@@ -997,6 +997,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          new_bus = nil
          current_bus = current_out_bus
          tracker = nil
+         fx_group = nil
+         job_id = Thread.current.thread_variable_get :sonic_pi_spider_job_id
 
          ## Munge args
          args_h = resolve_synth_opts_hash_or_array(args)
@@ -1012,7 +1014,11 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            ## thread to wait for the current thread to either exit
            ## correctly or to die and to handle things appropriately.
 
+           # Grab current synth trackers
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
+
+           # Create new group for this new FX
+           fx_group = @mod_sound_studio.new_group(:tail, current_fx_group, "Run-#{job_id}-#{fx_name}")
 
            ## Create a new bus for this fx chain
            begin
@@ -1088,6 +1094,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                tracker.block_until_finished
                Kernel.sleep(kill_delay)
                fx_synth.kill(true)
+               fx_group.kill(true)
              end
 
              gc_completed.deliver! true
@@ -1128,7 +1135,10 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            end
            Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, new_trackers)
 
+           # Ensure the fx group points to the new group created for this with_fx
+           Thread.current.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_group)
            begin
+
              if block.arity == 0
                block.call
              else
