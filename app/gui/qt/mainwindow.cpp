@@ -555,12 +555,13 @@ void MainWindow::startOSCListener() {
       while(sock->bytesAvailable() > 0 || sock->waitForReadyRead(-1)){
         buffer.resize(totalBytesRead + sock->bytesAvailable());
         int bytesRead = sock->read(&buffer[0+totalBytesRead], (int)buffer.size() - totalBytesRead);
+        //std::cout << "read ping:" << bytesRead << "\n";
         if(bytesRead < 0) {
-          std::cout << "bytes received:" << bytesRead<< "\n";
+          //std::cout << "bytes received:" << bytesRead<< "\n";
           break;
         }
         totalBytesRead += bytesRead;
-        if (buffer[totalBytesRead-1] == '\x00'){
+        if (buffer[totalBytesRead-1] == '\00'){
           break;
         }
       }
@@ -574,21 +575,22 @@ void MainWindow::startOSCListener() {
       std::vector<char> tmp(buffer);
       tmp.swap(buffer);
 
-      std::cout << "Fini, read (bytes):" << totalBytesRead << "\n";
+      //std::cout << "Fini, read (bytes): " << totalBytesRead << "\n";
 
       pr.init(&buffer[0], buffer.size());
 
-      if(!pr.isOk()){
-        std::cout << "Received a bad OSC message:" << "\n";
-        std::cout << "-------------------------------------------" << "\n";
-        for(int i =0; i < buffer.size(); i++){
-          std::cout << buffer.at(i) << "" << std::flush;;
-
-        }
-        std::cout << "\n" << "-------------------------------------------" << "\n";
-        std::cout.flush();
-      }
-
+//      if(!pr.isOk()){
+//        std::cout << "Received a bad OSC message:" << "\n";
+//        std::cout << "-------------------------------------------" << "\n";
+//        for(int i =0; i < buffer.size(); i++){
+//          std::cout << buffer.at(i) << "" << std::flush;;
+//          if(buffer.at(i) == '\000'){
+//              std::cout << "*" << std::flush;;
+//          }
+//        }
+//        std::cout << "\n" << "-------------------------------------------" << "\n";
+//        std::cout.flush();
+//      }
       oscpkt::Message *msg;
       while (pr.isOk() && (msg = pr.popMessage()) != 0) {
         if (msg->match("/multi_message")){
