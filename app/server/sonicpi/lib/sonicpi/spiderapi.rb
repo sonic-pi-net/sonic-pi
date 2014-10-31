@@ -984,7 +984,10 @@ end"]
         # Give new thread a new subthread mutex
         Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
 
-        # Give new thread a new no_kill mutex
+        # Give new thread a new no_kill mutex This reduces contention
+        # over the alternative of a global no_kill mutex.  Killing a Run
+        # then essentially turns into waiting for each no_kill mutext for
+        # every sub-in_thread before killing them.
         Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
         Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(new_rand_seed)
 
