@@ -1128,6 +1128,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
            Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fxt.thread_variable_get(:sonic_pi_spider_delayed_messages))
            Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fxt.thread_variable_get(:sonic_pi_spider_random_generator))
+           Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fxt.thread_variable_get(:sonic_pi_spider_random_generator))
 
            new_trackers = [tracker]
            (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).each do |tr|
