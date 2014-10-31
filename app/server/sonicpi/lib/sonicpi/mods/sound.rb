@@ -656,6 +656,8 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
          n = note(n)
 
+         synth_name = current_synth_name
+
          if n.nil?
            unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
              __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
@@ -663,8 +665,6 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
            return nil
          end
-
-         synth_name = current_synth_name
 
          init_args_h = {}
          args_h = resolve_synth_opts_hash_or_array(args)
