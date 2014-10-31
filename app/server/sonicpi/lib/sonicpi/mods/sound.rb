@@ -1005,14 +1005,15 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
          __no_kill_block do
 
-           current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
+           ## We're in a no_kill block, so the user can't randomly kill
+           ## the current thread. That means it's safe to set up the
+           ## synth trackers, create the fx synth and busses and modify
+           ## the thread local to make sure new synth triggers in this
+           ## thread output to this fx synth. We can also create a gc
+           ## thread to wait for the current thread to either exit
+           ## correctly or to die and to handle things appropriately.
 
-           ## We're still in a no_kill sync block, so the user can't
-           ## kill us yet. Now that the gc thread is waiting for the fx
-           ## block to either complete (or be killed) we can now set up
-           ## the synth trackers, create the fx synth and busses and
-           ## modify the thread local to make sure new synth triggers in
-           ## this thread output to this fx synth:
+           current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
 
            ## Create a new bus for this fx chain
            begin
@@ -1026,6 +1027,10 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              end
            end
 
+           ## Create a 'GC' thread to safely handle completion of the FX
+           ## block (or the case that the thread dies) and to clean up
+           ## everything appropriately (i.e. ensure the FX synth has
+           ## been killed).
            gc = Thread.new do
 
              Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc)
