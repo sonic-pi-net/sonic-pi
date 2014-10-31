@@ -136,8 +136,8 @@ module SonicPi
         res = ""
         first = true
         while !(message.empty?)
-          res << "                                 " unless first
-          res << message.slice!(0..140)
+          res << "                                        " unless first
+          res << message.slice!(0..133)
           res << "\n"
           first = false
         end

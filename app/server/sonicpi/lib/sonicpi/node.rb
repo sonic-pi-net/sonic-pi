@@ -135,7 +135,7 @@ module SonicPi
     end
 
     def inspect
-      to_s
+      "<#{@id}>"
     end
 
     def blank_node?

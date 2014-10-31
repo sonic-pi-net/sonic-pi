@@ -69,7 +69,6 @@ module SonicPi
              @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
 
              @life_hooks.on_init do |job_id, payload|
-
                @job_proms_queues_mut.synchronize do
                  @job_proms_queues[job_id] = Queue.new
                  joiner = job_proms_joiner(job_id)
@@ -101,7 +100,7 @@ module SonicPi
 
              @life_hooks.on_exit do |job_id, payload|
                Thread.new do
-
+                 Thread.current.thread_variable_set(:sonic_pi_spider_start_time, payload[:start_t])
                  Thread.current.thread_variable_set(:sonic_pi_thread_group, "job_remover-#{job_id}")
                  Thread.current.priority = -10
                  shutdown_job_mixer(job_id)
@@ -2265,7 +2264,7 @@ stop bar"]
        def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
 
-         chord_group = @mod_sound_studio.new_group(:tail, group)
+         chord_group = @mod_sound_studio.new_group(:tail, group, "CHORD")
          cg = ChordGroup.new(chord_group)
 
          nodes = []
@@ -2445,7 +2444,7 @@ stop bar"]
          @JOB_GROUP_MUTEX.synchronize do
            g = @JOB_GROUPS_A.deref[job_id]
            return g if g
-           g = @mod_sound_studio.new_synth_group
+           g = @mod_sound_studio.new_synth_group(job_id)
 
            @JOB_GROUPS_A.swap! do |gs|
              gs.put job_id, g
@@ -2463,7 +2462,7 @@ stop bar"]
          @JOB_FX_GROUP_MUTEX.synchronize do
            g = @JOB_FX_GROUPS_A.deref[job_id]
            return g if g
-           g = @mod_sound_studio.new_fx_group
+           g = @mod_sound_studio.new_fx_group(job_id)
 
            @JOB_FX_GROUPS_A.swap! do |gs|
              gs.put job_id, g

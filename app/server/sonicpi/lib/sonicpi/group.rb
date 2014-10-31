@@ -15,12 +15,13 @@ require_relative "node"
 module SonicPi
   class Group < Node
 
-    def initialize(id, comms)
+    def initialize(id, comms, name="")
       super(id, comms)
       @nodes = {}
       @pending_nodes = {}
       @pending_nodes_mut = Mutex.new
       @nodes_mut = Mutex.new
+      @name = name
 
 
       @on_destroyed_callbacks << lambda do
@@ -72,7 +73,11 @@ module SonicPi
     end
 
     def to_s
-      "#<SonicPi::Group @id=#{@id}>"
+      "#<SonicPi::Group #{@name} @id=#{@id}>"
+    end
+
+    def inspect
+      "[#{@name}:#{@id}]"
     end
   end
 

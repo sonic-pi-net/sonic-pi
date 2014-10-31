@@ -337,7 +337,7 @@ module SonicPi
       # skip __nosave lines for error reporting
       firstline = 1
       firstline -= code.split(/\r?\n/).count{|l| l.include? "#__nosave__"}
-
+      start_t_prom = Promise.new
       job = Thread.new do
         Thread.current.priority = 10
         begin
@@ -357,6 +357,7 @@ module SonicPi
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
           now = Time.now
+          start_t_prom.deliver! now
           Thread.current.thread_variable_set :sonic_pi_spider_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
           @run_start_time = now if num_running_jobs == 1
@@ -383,8 +384,8 @@ module SonicPi
         # wait until all synths are dead
 
         @life_hooks.completed(id)
-
-        @life_hooks.exit(id)
+        start_t = start_t_prom.get
+        @life_hooks.exit(id, {:start_t => start_t})
 
         deregister_job_and_return_subthreads(id)
         @user_jobs.job_completed(id)

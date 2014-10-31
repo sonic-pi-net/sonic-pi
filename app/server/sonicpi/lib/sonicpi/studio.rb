@@ -50,10 +50,10 @@ module SonicPi
     def reset_and_setup_groups_and_busses
       @server.clear_scsynth!
       @mixer_bus = @server.allocate_audio_bus
-      @mixer_group = @server.create_group(:head, 0)
-      @fx_group = @server.create_group(:before, @mixer_group)
-      @synth_group = @server.create_group(:before, @fx_group)
-      @recording_group = @server.create_group(:after, @mixer_group)
+      @mixer_group = @server.create_group(:head, 0, "STUDIO-MIXER")
+      @fx_group = @server.create_group(:before, @mixer_group, "STUDIO-FX")
+      @synth_group = @server.create_group(:before, @fx_group, "STUDIO-SYNTHS")
+      @recording_group = @server.create_group(:after, @mixer_group, "STUDIO-RECORDING")
     end
 
     def reset
@@ -121,16 +121,16 @@ module SonicPi
       @server.group_clear @synth_group
     end
 
-    def new_group(position, target)
-      @server.create_group(position, target)
+    def new_group(position, target, name="")
+      @server.create_group(position, target, name)
     end
 
-    def new_synth_group
-      new_group(:tail, @synth_group)
+    def new_synth_group(id=-1)
+      new_group(:tail, @synth_group, "Run-#{id}-Synths")
     end
 
-    def new_fx_group
-      new_group(:tail, @fx_group)
+    def new_fx_group(id=-1)
+      new_group(:tail, @fx_group, "Run-#{id}-FX")
     end
 
     def new_fx_bus

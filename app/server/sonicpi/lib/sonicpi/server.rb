@@ -88,7 +88,7 @@ module SonicPi
       @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new num_audio_busses_for_current_os, 10 #TODO: remove these magic nums
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
 
-      message "info - Initialising comms... #{msg_queue}" if @debug_mode
+      message "info        - Initialising comms... #{msg_queue}" if @debug_mode
       clear_scsynth!
       request_notifications
 
@@ -99,19 +99,19 @@ module SonicPi
     end
 
    def request_notifications
-      message "info - Requesting notifications" if @debug_mode
+      message "info        - Requesting notifications" if @debug_mode
       osc "/notify", 1
     end
 
     def load_synthdefs(path)
-      message "info - loading synthdefs from path: #{path}" if @debug_mode
+      message "info        - Loading synthdefs from path: #{path}" if @debug_mode
       with_server_sync do
         osc "/d_loadDir", path.to_s
       end
     end
 
     def clear_scsynth!
-      message "info - clearing scsynth" if @debug_mode
+      message "info        - Clearing scsynth" if @debug_mode
       @CURRENT_NODE_ID.reset!
       clear_schedule
       group_clear 0, true
@@ -129,7 +129,7 @@ module SonicPi
     end
 
     def group_clear(id, now=false)
-      message "grp  - #{id} clear" if @debug_mode
+      message "grp f #{'%05d' % id} - Clear #{id.inspect}" if @debug_mode
       id = id.to_i
       if now
         osc "/g_freeAll", id
@@ -140,7 +140,7 @@ module SonicPi
     end
 
     def group_deep_free(id, now=false)
-      message "grp  - #{id} deep free" if @debug_mode
+      message "grp d #{'%05d' % id} - Deep free #{id}" if @debug_mode
       id = id.to_i
       if now
         osc "/g_deepFree", id
@@ -153,9 +153,9 @@ module SonicPi
     def kill_node(id, now=false)
        if @debug_mode
          if id.is_a? Group
-           message "grp  - #{id.to_i} kill"
+           message "grp k #{'%05d' % id} - Kill #{id.inspect}"
          else
-           message "nde  - #{id.to_i} kill"
+           message "nde k #{'%05d' % id} - Kill #{id.inspect}"
          end
        end
 
@@ -168,17 +168,17 @@ module SonicPi
       end
     end
 
-    def create_group(position, target)
+    def create_group(position, target, name="")
       target_id = target.to_i
       pos_code = @position_codes[position]
       id = @CURRENT_NODE_ID.next
       if (pos_code && target_id)
-        g = Group.new id, self
+        g = Group.new id, self, name
         osc "/g_new", id, pos_code, target_id
-        message "grp  - #{id} create" if @debug_mode
+        message "grp n #{'%05d' % id} - Create [#{name}:#{id}] #{position} #{target.inspect}" if @debug_mode
         g.wait_until_started
       else
-        message "err  - unable to create a node with position: #{position} and target #{target}" if @debug_mode
+        message "nde e      - unable to create a node with position: #{position} and target #{target.inspect}" if @debug_mode
         nil
       end
     end
@@ -199,12 +199,11 @@ module SonicPi
       node_id = @CURRENT_NODE_ID.next
       if @debug_mode
         if osc_debug_mode
-          message "trg  - #{node_id} @ #{position} : Group #{group.to_i} - #{synth_name} "
+          message "nde t #{'%05d' % node_id} - Trigger <#{synth_name}:#{node_id}> #{position} #{group.inspect}"
         else
-          message "trg  - #{node_id} @ #{position} : Group #{group.to_i} - #{synth_name}, args: #{args_h}" if @debug_mode
+          message "nde t #{'%05d' % node_id} - Trigger <#{synth_name}:#{node_id}> #{position} #{group.inspect},  args: #{args_h}" if @debug_mode
         end
       end
-
 
       s_name = synth_name.to_s
       sn = SynthNode.new(node_id, group, self, s_name, args_h, info)
@@ -240,8 +239,9 @@ module SonicPi
 
     def node_ctl(node, args, now=false)
       args_h = resolve_synth_opts_hash_or_array(args)
-      message "nde  - #{node} control with args: #{args}" if @debug_mode
       node_id = node.to_i
+      message "nde c #{'%05d' % node_id} - Control #{node.inspect} with args: #{args}" if @debug_mode
+
       normalised_args = []
       args_h.each do |k,v|
         normalised_args << k.to_s << v.to_f
@@ -256,8 +256,9 @@ module SonicPi
     end
 
     def node_pause(node, now=false)
-      message "nde  - #{node} pause" if @debug_mode
       node_id = node.to_i
+      message "nde p #{'%05d' % node_id} - Pause #{node.inspect}" if @debug_mode
+
       if now
         osc "/n_run", node_id, 0
       else
@@ -267,8 +268,9 @@ module SonicPi
     end
 
     def node_run(node, now=false)
-      message "nde  - #{node} run" if @debug_mode
       node_id = node.to_i
+      message "nde r #{'%05d' % node_id} - Run #{node.inspect}" if @debug_mode
+
       if now
         osc "/n_run", node_id, 1
       else
