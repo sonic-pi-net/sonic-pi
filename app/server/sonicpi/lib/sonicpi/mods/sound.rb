@@ -980,24 +980,29 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              return block.call(@blank_node)
            end
          end
+
+         # Now we have a valid fx name, appropriately prefix it with fx_
          fx_synth_name = "fx_#{fx_name}"
 
+         # Fetch the synth metadata for FX
          info = SynthInfo.get_info(fx_synth_name)
          raise "Unknown fx #{fx_name.inspect}" unless info
 
-         start_subthreads = []
-         end_subthreads = []
-
+         # Grab a handle to the current thread
          fxt = Thread.current
+
+         # Promises to be kept...
          p = Promise.new
-         gc_completed = Promise.new
+         gc_setup = Promise.new
+         fx_subthreads_and_synths_completed = Promise.new
 
          # These will be assigned later...
          fx_synth = BlankNode.new
          new_bus = nil
-         current_bus = current_out_bus
-         tracker = nil
          fx_group = nil
+
+         # Remember some thread locals
+         current_bus = current_out_bus
          job_id = Thread.current.thread_variable_get :sonic_pi_spider_job_id
 
          ## Munge args
@@ -1014,11 +1019,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            ## thread to wait for the current thread to either exit
            ## correctly or to die and to handle things appropriately.
 
-           # Grab current synth trackers
-           current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
-
            # Create new group for this new FX
-           fx_group = @mod_sound_studio.new_group(:tail, current_fx_group, "Run-#{job_id}-#{fx_name}")
+           fx_group = @mod_sound_studio.new_group(:head, current_fx_group, "Run-#{job_id}-#{fx_name}")
 
            ## Create a new bus for this fx chain
            begin
@@ -1068,77 +1070,35 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              t1.kill
              t2.kill
 
-             ## Remove synth tracker
-             current_trackers.delete tracker
-
-             ## Get a list of subthreads created by this fx block and create
-             ## a new thread which will wait for them all to finish before
-             ## killing the fx synth node and free its bus
-             fxt.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
-               end_subthreads = fxt.thread_variable_get(:sonic_pi_spider_subthreads).to_a
-             end
-
-             new_subthreads = (end_subthreads - start_subthreads)
-
              Thread.new do
+               # Sit and wait for all block's in_threads and synths to
+               # finish before killing the fx synth, group and audio bus
+
                Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
                Thread.current.priority = -10
-               new_subthreads.each do |st|
-                 join_thread_and_subthreads(st)
-               end
-               ## Sleep for half a second to ensure that any synths
-               ## triggered in the threads joined above get chance to
-               ## asynchronously communicate their existence to the
-               ## tracker. (This happens in a Node#on_started handler)
-               Kernel.sleep 0.5 + @mod_sound_studio.sched_ahead_time
-               tracker.block_until_finished
+
+               fx_subthreads_and_synths_completed.get
+
                Kernel.sleep(kill_delay)
                fx_synth.kill(true)
                fx_group.kill(true)
+               new_bus.free
              end
 
-             gc_completed.deliver! true
+             gc_setup.deliver! true
            end ## end gc collection thread definition
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), current_fx_group)
-
-           ## Create a synth tracker and stick it in a thread local
-           tracker = SynthTracker.new
-
-           ## Get list of current subthreads. We'll need this later to
-           ## determine which threads were created as a result of the fx
-           ## block so we can wait for them all to finish before freeing
-           ## the busses and fx synth.
-           Thread.current.thread_variable_get(:sonic_pi_spider_subthread_mutex).synchronize do
-             start_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).to_a
-           end
-
-           ## Set this thread's out bus to pipe audio into the new fx synth node
-           Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
+           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), fx_group)
 
          end #end don't kill sync
 
-
-
-         ## Now actually execute the fx block. Pass the fx synth in as a
-         ## parameter if the block was defined with a param.
-         fx_execute_t = in_thread do
-           Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
-           Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fxt.thread_variable_get(:sonic_pi_spider_delayed_messages))
-           Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fxt.thread_variable_get(:sonic_pi_spider_random_generator))
-           Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fxt.thread_variable_get(:sonic_pi_spider_random_generator))
-
-           new_trackers = [tracker]
-           (Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || []).each do |tr|
-             new_trackers << tr
-           end
-           Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, new_trackers)
-
-           # Ensure the fx group points to the new group created for this with_fx
-           Thread.current.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_group)
+         #Run this block in wait_for synths and wait_for_threads block
+         with_prom_delivery_on_subthreads_and_synths_completed(fx_subthreads_and_synths_completed) do
            begin
+             ## Set this thread's out bus to pipe audio into the new fx synth node
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
 
              if block.arity == 0
                block.call
@@ -1154,26 +1114,15 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              ## the gc thread.
              p.deliver! true
              ## Reset out bus to value prior to this with_fx block
-             fxt.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
            end
          end
 
-         # Join thread used to execute block. Then transfer virtual
-         # timestamp back to this thread.
-         fx_execute_t.join
-         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
-         Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_messages))
-         Thread.current.thread_variable_set(:sonic_pi_spider_time, fx_execute_t.thread_variable_get(:sonic_pi_spider_time))
-
-        Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_generator))
-
-         # Wait for gc thread to complete. Once the gc thread has
-         # completed, the tracker has been successfully removed, and all
-         # the block threads have been determined. The gc thread has
-         # spawned a new thread joining on those and waiting for all
-         # remaining synths to complete and can be left to work in the
-         # background...
-         gc_completed.get
+         # Wait for gc setup thread to complete. Once the gc thread has
+         # been setup he gc thread has spawned a new thread joining on
+         # those and waiting for all remaining synths to complete and
+         # can be left to work in the background...
+         gc_setup.get
        end
        doc name:          :with_fx,
            introduced:    Version.new(2,0,0),
@@ -2647,6 +2596,51 @@ loop do
 end
 "
 ]
+
+
+       def with_prom_delivery_on_subthreads_and_synths_completed(fx_subthreads_and_synths_completed, &block)
+         # Grab a clone of all current subthreads for this thread It's
+         # important that we get a clone rather than a reference so we
+         # can compare it with itself later in the future.
+         existing_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads).clone
+
+         # Track all synths that have been triggered
+         # get list of proms for running synths
+         tracker = SynthTracker.new
+         trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
+         trackers << tracker
+
+         #run the block
+         block.yield
+
+         # snapshot threads created by block
+         updated_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads)
+         new_subthreads = updated_subthreads - existing_subthreads
+
+         Thread.new do
+           # wait for all subthreads (and their children subthreads etc.) to join
+           # Wait for all synths to complete
+           Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
+           Thread.current.priority = -10
+
+           new_subthreads.each do |st|
+             st.join
+             __join_subthreads(st)
+           end
+
+           ## Sleep for half a second to ensure that any synths
+           ## triggered in the threads joined above get chance to
+           ## asynchronously communicate their existence to the
+           ## tracker. (This happens in a Node#on_started handler)
+           Kernel.sleep 0.5 + @mod_sound_studio.sched_ahead_time
+
+           # Then join on all the synths which have completed
+
+           tracker.block_until_finished
+
+           fx_subthreads_and_synths_completed.deliver! true
+         end
+       end
      end
    end
  end
