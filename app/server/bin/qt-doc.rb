@@ -82,7 +82,7 @@ make_tab = lambda do |name, doc_items, titleize=false|
   docs << "\n"
 
   docs << "  QListWidget *#{list_widget} = "
-  docs << "createHelpTab(#{name}DocPane, \"#{name.capitalize}\");\n"
+  docs << "createHelpTab(\"#{name.capitalize}\");\n"
   docs << "\n"
   docs << "\n  struct help_page #{help_pages}[] = {\n"
 
