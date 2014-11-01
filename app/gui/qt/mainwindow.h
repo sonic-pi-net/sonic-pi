@@ -134,7 +134,7 @@ private:
     void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
-    QListWidget *createHelpTab(QTextEdit *docPane, QString name);
+    QListWidget *createHelpTab(QString name);
     QKeySequence cmdAltKey(char key);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
@@ -158,12 +158,7 @@ private:
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
     QDockWidget *docWidget;
-    QTextBrowser *tutorialDocPane;
-    QTextBrowser *langDocPane;
-    QTextBrowser *synthsDocPane;
-    QTextBrowser *fxDocPane;
-    QTextBrowser *samplesDocPane;
-    QTextBrowser *examplesDocPane;
+    QTextBrowser *docPane;
 
     QTabWidget *tabs;
 
