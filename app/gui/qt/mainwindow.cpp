@@ -222,36 +222,23 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   docsCentral->setTabsClosable(false);
   docsCentral->setMovable(false);
   docsCentral->setTabPosition(QTabWidget::West);
+
+  docPane = new QTextBrowser;
+  docPane->setOpenExternalLinks(true);
+  QString style = "QTextBrowser { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
+  docPane->setStyleSheet(style);
+  docPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
+
+  QHBoxLayout *docLayout = new QHBoxLayout;
+  docLayout->addWidget(docsCentral);
+  docLayout->addWidget(docPane, 1);
+  QWidget *docW = new QWidget();
+  docW->setLayout(docLayout);
+
   docWidget = new QDockWidget("Help", this);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
-  docWidget->setWidget(docsCentral);
+  docWidget->setWidget(docW);
   docWidget->setObjectName("help");
-
-  tutorialDocPane = new QTextBrowser;
-  tutorialDocPane->setOpenExternalLinks(true);
-  QString style = "QTextBrowser { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
-  tutorialDocPane->setStyleSheet(style);
-  tutorialDocPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
-
-  langDocPane = new QTextBrowser;
-  langDocPane->setOpenExternalLinks(true);
-  langDocPane->setStyleSheet(style);
-
-  synthsDocPane = new QTextBrowser;
-  synthsDocPane->setOpenExternalLinks(true);
-  synthsDocPane->setStyleSheet(style);
-
-  fxDocPane = new QTextBrowser;
-  fxDocPane->setOpenExternalLinks(true);
-  fxDocPane->setStyleSheet(style);
-
-  samplesDocPane = new QTextBrowser;
-  samplesDocPane->setOpenExternalLinks(true);
-  samplesDocPane->setStyleSheet(style);
-
-  examplesDocPane = new QTextBrowser;
-  examplesDocPane->setOpenExternalLinks(true);
-  examplesDocPane->setStyleSheet(style);
 
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
   docWidget->hide();
@@ -1438,13 +1425,7 @@ void MainWindow::onExitCleanup()
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
   QString content = cur->data(32).toString();
-  // todo, there should only be one doc pane
-  tutorialDocPane->setHtml(content);
-  langDocPane->setHtml(content);
-  synthsDocPane->setHtml(content);
-  fxDocPane->setHtml(content);
-  samplesDocPane->setHtml(content);
-  examplesDocPane->setHtml(content);
+  docPane->setHtml(content);
 }
 
 void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
@@ -1495,7 +1476,7 @@ void MainWindow::addHelpPage(QListWidget *nameList,
   }
 }
 
-QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
+QListWidget *MainWindow::createHelpTab(QString name) {
   QListWidget *nameList = new QListWidget;
   connect(nameList,
 	  SIGNAL(itemPressed(QListWidgetItem*)),
@@ -1505,7 +1486,6 @@ QListWidget *MainWindow::createHelpTab(QTextEdit *docPane, QString name) {
 	  this, SLOT(updateDocPane2(QListWidgetItem*, QListWidgetItem*)));
   QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
   layout->addWidget(nameList);
-  layout->addWidget(docPane);
   layout->setStretch(1, 1);
   QWidget *tabWidget = new QWidget;
   tabWidget->setLayout(layout);
