@@ -857,14 +857,19 @@ end"
         p.deliver! payload
       end
 
-      __delayed_highlight3_message "sync #{cue_id.to_sym.inspect}"
+      unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+        __delayed_highlight3_message "sync #{cue_id.to_sym.inspect}"
+      end
+
       __schedule_delayed_blocks_and_messages!
 
       payload = p.get
       time = payload[:time]
       run_id = payload[:run]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
-      __delayed_highlight2_message "synced #{cue_id.to_sym.inspect} (Run #{run_id})"
+      unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+        __delayed_highlight2_message "synced #{cue_id.to_sym.inspect} (Run #{run_id})"
+      end
       cue_id
     end
     doc name:           :sync,
