@@ -1455,7 +1455,7 @@ set_volume! 2 # Set the main system volume to 2",
            path = File.expand_path(path)
            if File.exists?(path)
              info, cached = @mod_sound_studio.load_sample(path)
-             __delayed_message "Loaded sample #{path.inspect}" unless cached
+             __info "Loaded sample #{path.inspect}" unless cached
              return info
            else
              raise "No sample exists with path #{path}"
