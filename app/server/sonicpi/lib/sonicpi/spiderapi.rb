@@ -770,7 +770,11 @@ play 62
         :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
         :run => current_job_id
       }
-      __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+
+      unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+        __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+      end
+
       Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :cue)
         # sleep for a tiny amount of wall-clock time to give other temporally
