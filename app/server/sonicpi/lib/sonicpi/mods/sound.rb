@@ -1449,7 +1449,7 @@ set_volume! 2 # Set the main system volume to 2",
            full_path = resolve_sample_symbol_path(path)
            raise "No sample exists called #{path.inspect}" unless File.exists?(full_path)
            info, cached = @mod_sound_studio.load_sample(full_path)
-           __delayed_message "Loaded sample :#{path}" unless cached
+           __info "Loaded sample :#{path}" unless cached
            return info
          when String
            path = File.expand_path(path)
