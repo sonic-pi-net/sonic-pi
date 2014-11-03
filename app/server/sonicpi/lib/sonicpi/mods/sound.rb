@@ -2624,9 +2624,6 @@ end
            end
 
            safe_t = Thread.new do
-             Thread.current.thread_variable_set(:sonic_pi_thread_group, "crash_safe_finaliser")
-             Thread.current.priority = -10
-
              parent_t_vars.each do |k,v|
                Thread.current.thread_variable_set(k, v)
              end
