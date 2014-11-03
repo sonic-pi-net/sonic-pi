@@ -998,11 +998,10 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          current_bus = current_out_bus
          tracker = nil
 
-         ## Munge args
-         args_h = resolve_synth_opts_hash_or_array(args)
-         kill_delay = args_h[:kill_delay] || info.kill_delay(args_h)
-
          __no_kill_block do
+           ## Munge args
+           args_h = resolve_synth_opts_hash_or_array(args)
+           kill_delay = args_h[:kill_delay] || info.kill_delay(args_h)
 
            ## We're in a no_kill block, so the user can't randomly kill
            ## the current thread. That means it's safe to set up the
