@@ -55,7 +55,7 @@ module SonicPi
       @job_subthreads = {}
       @job_main_threads = {}
       @named_subthreads = {}
-      @global_subthread_mutex = Mutex.new
+      @job_subthread_mutex = Mutex.new
       @user_jobs = Jobs.new
       @random_generator = Random.new(0)
       @sync_real_sleep_time = 0.05
@@ -163,9 +163,7 @@ module SonicPi
           job_subthread_rm(__current_job_id, t)
         end
 
-        # TODO: Is this mutext actually necessary?  If so, replace this
-        # comment with an explanation or remove.
-        @global_subthread_mutex.synchronize do
+        @job_subthread_mutex.synchronize do
           t = Thread.new do
             Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_booter)
             pause_then_run_blocks_and_msgs.call
@@ -413,7 +411,7 @@ module SonicPi
 
     def reg_job(job_id, t)
       num_current_jobs = 0
-      @global_subthread_mutex.synchronize do
+      @job_subthread_mutex.synchronize do
         @job_subthreads[job_id] = Set.new
         @job_main_threads[job_id] = t
         num_current_jobs = @job_main_threads.keys.size
@@ -452,7 +450,7 @@ module SonicPi
 
     def job_subthread_add(job_id, t, name=nil)
       #todo only add subthread if name isn't registered yet
-      @global_subthread_mutex.synchronize do
+      @job_subthread_mutex.synchronize do
         job_subthread_add_unmutexed(job_id, t, name)
       end
     end
@@ -465,13 +463,13 @@ module SonicPi
     end
 
     def job_subthread_rm(job_id, t)
-      @global_subthread_mutex.synchronize do
+      @job_subthread_mutex.synchronize do
         job_subthread_rm_unmutexed(job_id, t)
       end
     end
 
     def deregister_job_and_return_subthreads(job_id)
-      threads = @global_subthread_mutex.synchronize do
+      threads = @job_subthread_mutex.synchronize do
         threads = @job_subthreads[job_id]
         @job_subthreads.delete(job_id)
         @named_subthreads.delete_if{|k,v| v.job_id == job_id}
