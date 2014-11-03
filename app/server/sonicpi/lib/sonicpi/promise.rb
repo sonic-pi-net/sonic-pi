@@ -23,9 +23,7 @@ module SonicPi
     end
 
     def get(timeout=nil)
-      # timeout is in seconds
       return @value if @delivered
-
       @prom_sem.synchronize do
         return @value if @delivered
         @received.wait(@prom_sem, timeout)
@@ -33,21 +31,6 @@ module SonicPi
           return @value
         else
           raise "Promise timeout"
-        end
-      end
-    end
-
-    def get_t(timeout)
-      # timeout is in seconds
-      return @value if @delivered
-
-      @prom_sem.synchronize do
-        return @value if @delivered
-        @received.wait(@prom_sem, timeout)
-        if @delivered
-          return @value
-        else
-          return nil
         end
       end
     end

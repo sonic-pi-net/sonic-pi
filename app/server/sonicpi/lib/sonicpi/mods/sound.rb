@@ -992,7 +992,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          fxt = Thread.current
 
          # Promises to be kept...
-         fx_block_completed = Promise.new
+         p = Promise.new
          gc_setup = Promise.new
          fx_subthreads_and_synths_completed = Promise.new
 
@@ -1058,7 +1058,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              t2 = Thread.new do
                Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_fx_block_join)
                Thread.current.priority = -10
-               fx_block_completed.get
+               p.get
                ## FX block completed
                fx_completed.deliver! :fx_block_completed, false
              end
@@ -1090,14 +1090,12 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-
-
            fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), fx_group)
 
          end #end don't kill sync
 
          #Run this block in wait_for synths and wait_for_threads block
-         with_prom_delivery_on_subthreads_and_synths_completed(fx_subthreads_and_synths_completed, [fx_synth]) do
+         with_prom_delivery_on_subthreads_and_synths_completed(fx_subthreads_and_synths_completed) do
            begin
              ## Set this thread's out bus to pipe audio into the new fx synth node
              Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
@@ -1114,7 +1112,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            ensure
              ## Ensure that p's promise is delivered - thus kicking off
              ## the gc thread.
-             fx_block_completed.deliver! true
+             p.deliver! true
              ## Reset out bus to value prior to this with_fx block
              Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
            end
@@ -2129,15 +2127,6 @@ stop bar"]
 
        private
 
-       def current_trackers
-         trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers)
-         return trackers if trackers
-
-         trackers = Set.new
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, trackers)
-         return trackers
-       end
-
        def normalise_args!(args_h)
          args_h.keys.each do |k|
            v = args_h[k]
@@ -2221,7 +2210,6 @@ stop bar"]
          trigger_synth(synth_name, args_h_with_buf, group, info)
        end
 
-
        def trigger_inst(synth_name, args_h, group=current_job_synth_group)
          sn = synth_name.to_sym
          info = SynthInfo.get_info(sn)
@@ -2290,16 +2278,16 @@ stop bar"]
 
            s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, now
 
-           trackers = current_trackers
+           trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers)
 
-           unless trackers.empty?
+           if trackers
              s.on_started do
                trackers.each{|t| t.synth_started(s)}
              end
            end
 
            s.on_destroyed do
-             trackers.each{|t| t.synth_finished(s)}
+             trackers.each{|t| t.synth_finished(s)} if trackers
              job_synth_proms_rm(job_id, p)
              p.deliver! true
            end
@@ -2609,43 +2597,8 @@ end
 "
 ]
 
-       def with_crash_safe_finaliser(block, &finaliser)
-         t = nil
-         latch = Promise.new
-         safe_t = nil
 
-         __no_kill_block do
-           parent_t = Thread.current
-           # Get copy of thread locals whilst we're sure they're not being modified
-           # as we're in the thread parent_t
-           parent_t_vars = {}
-           parent_t.thread_variables.each do |v|
-             parent_t_vars[v] = parent_t.thread_variable_get(v)
-           end
-
-           safe_t = Thread.new do
-             parent_t_vars.each do |k,v|
-               Thread.current.thread_variable_set(k, v)
-             end
-             if latch.get_t(5)
-               finaliser.call
-             else
-               t.join
-               finaliser.call
-             end
-           end
-         end
-
-         t = in_thread do
-           block.call
-         end
-
-         latch.deliver! true
-
-         safe_t.join
-       end
-
-       def with_prom_delivery_on_subthreads_and_synths_completed(fx_subthreads_and_synths_completed, ignore_synths=[])
+       def with_prom_delivery_on_subthreads_and_synths_completed(fx_subthreads_and_synths_completed, &block)
          # Grab a clone of all current subthreads for this thread It's
          # important that we get a clone rather than a reference so we
          # can compare it with itself later in the future.
@@ -2654,45 +2607,38 @@ end
          # Track all synths that have been triggered
          # get list of proms for running synths
          tracker = SynthTracker.new
-
-         ignore_synths.each do |s|
-           tracker.ignore_synth s
-         end
-
-         trackers = current_trackers
-         orig_trackers = trackers.clone
+         trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
          trackers << tracker
 
          #run the block
-         with_crash_safe_finaliser lambda{yield} do
-           Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, orig_trackers)
+         block.yield
 
-           # snapshot threads created by block
-           updated_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads)
-           new_subthreads = updated_subthreads - existing_subthreads
+         # snapshot threads created by block
+         updated_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads)
+         new_subthreads = updated_subthreads - existing_subthreads
 
-           Thread.new do
+         Thread.new do
            # wait for all subthreads (and their children subthreads etc.) to join
-             # Wait for all synths to complete
-             Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
-             Thread.current.priority = -10
+           # Wait for all synths to complete
+           Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
+           Thread.current.priority = -10
 
-             new_subthreads.each do |st|
-               st.join
-               __join_subthreads(st)
-             end
+           new_subthreads.each do |st|
+             st.join
+             __join_subthreads(st)
+           end
 
            ## Sleep for half a second to ensure that any synths
            ## triggered in the threads joined above get chance to
            ## asynchronously communicate their existence to the
            ## tracker. (This happens in a Node#on_started handler)
-             Kernel.sleep 0.5 + @mod_sound_studio.sched_ahead_time
+           Kernel.sleep 0.5 + @mod_sound_studio.sched_ahead_time
 
            # Then join on all the synths which have completed
-             tracker.block_until_finished
 
-             fx_subthreads_and_synths_completed.deliver! true
-           end
+           tracker.block_until_finished
+
+           fx_subthreads_and_synths_completed.deliver! true
          end
        end
      end
