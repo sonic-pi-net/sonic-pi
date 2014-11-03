@@ -2282,7 +2282,7 @@ stop bar"]
          sn = synth_name.to_sym
          info = SynthInfo.get_info(sn)
 
-         n = trigger_synth(synth_name, args_h, group, info)
+         n = trigger_synth(synth_name, args_h, group, info, true)
 
          info = SynthInfo.get_info(sn)
          FXNode.new(n, args_h["in_bus"], current_out_bus)
