@@ -2610,49 +2610,45 @@ end
 ]
 
        def with_crash_safe_finaliser(block, &finaliser)
+         t = nil
          latch = Promise.new
          safe_t = nil
 
-         parent_t = Thread.current
-         parent_t_vars = {}
-         parent_t.thread_variables.each do |v|
-           parent_t_vars[v] = parent_t.thread_variable_get(v)
+         __no_kill_block do
+           parent_t = Thread.current
+           # Get copy of thread locals whilst we're sure they're not being modified
+           # as we're in the thread parent_t
+           parent_t_vars = {}
+           parent_t.thread_variables.each do |v|
+             parent_t_vars[v] = parent_t.thread_variable_get(v)
+           end
+
+           safe_t = Thread.new do
+             Thread.current.thread_variable_set(:sonic_pi_thread_group, "crash_safe_finaliser")
+             Thread.current.priority = -10
+
+             parent_t_vars.each do |k,v|
+               Thread.current.thread_variable_set(k, v)
+             end
+             if latch.get_t(5)
+               finaliser.call
+             else
+               t.join
+               finaliser.call
+             end
+           end
          end
 
-         safe_t = Thread.new do
-           Thread.current.thread_variable_set(:sonic_pi_thread_group, "crash_safe_finaliser")
-           Thread.current.priority = -10
-
-           parent_t_vars.each do |k,v|
-             Thread.current.thread_variable_set(k, v)
-           end
-
-           block_completed = Promise.new
-
-           t1 = Thread.new do
-             Thread.current.thread_variable_set(:sonic_pi_thread_group, :crash_safe_finaliser_join)
-             parent_t.join
-             block_completed.deliver! :crashed, false
-           end
-
-           t2 = Thread.new do
-             Thread.current.thread_variable_set(:sonic_pi_thread_group, :crash_safe_finaliser_block_wait)
-             latch.get
-             block_completed.deliver! :thread_joined, false
-           end
-
-           block_completed.get
-           t1.kill
-           t2.kill
-           finaliser.call
+         t = in_thread do
+           block.call
          end
 
-         block.call
          latch.deliver! true
+
          safe_t.join
        end
 
-       def with_prom_delivery_on_subthreads_and_synths_completed(fx_subthreads_and_synths_completed, ignore_synths=[], &block)
+       def with_prom_delivery_on_subthreads_and_synths_completed(fx_subthreads_and_synths_completed, ignore_synths=[])
          # Grab a clone of all current subthreads for this thread It's
          # important that we get a clone rather than a reference so we
          # can compare it with itself later in the future.
@@ -2671,7 +2667,7 @@ end
          trackers << tracker
          parent_t = Thread.current
          #run the block
-         with_crash_safe_finaliser block do
+         with_crash_safe_finaliser lambda{yield} do
 
            parent_t.thread_variable_set(:sonic_pi_mod_sound_trackers, orig_trackers)
 
