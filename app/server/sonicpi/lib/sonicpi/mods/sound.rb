@@ -2665,11 +2665,10 @@ end
          trackers = current_trackers
          orig_trackers = trackers.clone
          trackers << tracker
-         parent_t = Thread.current
+
          #run the block
          with_crash_safe_finaliser lambda{yield} do
-
-           parent_t.thread_variable_set(:sonic_pi_mod_sound_trackers, orig_trackers)
+           Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, orig_trackers)
 
            # snapshot threads created by block
            updated_subthreads = Thread.current.thread_variable_get(:sonic_pi_spider_subthreads)
