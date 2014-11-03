@@ -1902,6 +1902,7 @@ play_pattern scale(:C, :lydian_minor)
 
 
        def chord(tonic, name=:major, *opts)
+         return [] unless tonic
          if tonic.is_a? Array
            raise "List passed as parameter to chord needs two elements i.e. chord([:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
            Chord.new(tonic[0], tonic[1]).to_a
