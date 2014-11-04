@@ -25,6 +25,7 @@
 #include <QProcess>
 #include <QFuture>
 #include <QShortcut>
+#include <QSettings>
 #include <QHash>
 #include "oscpkt.hh"
 #include "udp.hh"
@@ -112,7 +113,8 @@ private slots:
     void helpContext();
 
 private:
-
+    void addCtrlKeyBinding(QSettings &qs, int cmd, int key);
+    void addOtherKeyBinding(QSettings &qs, int cmd, int key);
     void initWorkspace(SonicPiScintilla* ws);
     void startOSCListener();
     void clearOutputPanels();
@@ -136,6 +138,7 @@ private:
                      int len);
     QListWidget *createHelpTab(QString name);
     QKeySequence cmdAltKey(char key);
+    QKeySequence ctrlKey(char key);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
 
