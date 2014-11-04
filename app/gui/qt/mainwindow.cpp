@@ -55,10 +55,13 @@
 #include <QScrollArea>
 #include <QShortcut>
 #include <QToolButton>
+#include <QSettings>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciscintilla.h>
+#include <Qsci/qscicommandset.h>
+
 #include "sonicpilexer.h"
 #include "sonicpiapis.h"
 #include "sonicpiscintilla.h"
@@ -483,7 +486,64 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 }
 
-void MainWindow::initWorkspace(SonicPiScintilla* ws) {
+ void MainWindow::addCtrlKeyBinding(QSettings &qs, int cmd, int key)
+ {
+   QString skey;
+   skey.sprintf("/Scintilla/keymap/c%d/key", cmd);
+#if defined(Q_OS_MAC)
+   qs.setValue(skey, key | Qt::META);
+#else
+   qs.setValue(skey, key | Qt::CTRL);
+#endif
+ }
+
+ void MainWindow::addOtherKeyBinding(QSettings &qs, int cmd, int key)
+ {
+   QString skey;
+   skey.sprintf("/Scintilla/keymap/c%d/alt", cmd);
+   qs.setValue(skey, key);
+ }
+
+
+
+ void MainWindow::initWorkspace(SonicPiScintilla* ws) {
+   ws->standardCommands()->clearKeys();
+   ws->standardCommands()->clearAlternateKeys();
+   QString skey;
+   QSettings settings("Sonic Pi", "Key bindings");
+
+  //  ws->standardCommands()->writeSettings(settings);
+
+  addCtrlKeyBinding(settings, QsciCommand::LineDown, Qt::Key_N);
+  addOtherKeyBinding(settings, QsciCommand::LineDown, Qt::Key_Down);
+
+
+  addCtrlKeyBinding(settings, QsciCommand::LineUp, Qt::Key_P);
+  addOtherKeyBinding(settings, QsciCommand::LineUp, Qt::Key_Up);
+
+  addCtrlKeyBinding(settings, QsciCommand::CharRight, Qt::Key_F);
+  addOtherKeyBinding(settings, QsciCommand::CharRight, Qt::Key_Right);
+
+  addCtrlKeyBinding(settings, QsciCommand::WordRight, Qt::Key_F | Qt::SHIFT);
+  addOtherKeyBinding(settings, QsciCommand::WordRight, Qt::Key_Right | Qt::SHIFT);
+
+  addCtrlKeyBinding(settings, QsciCommand::CharLeft, Qt::Key_B);
+  addOtherKeyBinding(settings, QsciCommand::CharLeft, Qt::Key_Left);
+
+  addCtrlKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_B | Qt::SHIFT);
+  addOtherKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_Left | Qt::SHIFT);
+
+  addCtrlKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_H);
+  addOtherKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_Backspace);
+
+  addCtrlKeyBinding(settings, QsciCommand::Home, Qt::Key_A);
+  addCtrlKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E);
+
+  addCtrlKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K);
+
+  ws->standardCommands()->readSettings(settings);
+
+
   ws->setAutoIndent(true);
   ws->setIndentationsUseTabs(false);
   ws->setBackspaceUnindents(true);
@@ -1135,11 +1195,20 @@ void MainWindow::clearOutputPanels()
     errorPane->clear();
 }
 
+QKeySequence MainWindow::ctrlKey(char key)
+{
+#ifdef Q_OS_MAC
+  return QKeySequence(QString("Meta+%1").arg(key));
+#else
+  return QKeySequence(QString("Ctrl+%1").arg(key));
+#endif
+}
+
 // Cmd on Mac, Alt everywhere else
 QKeySequence MainWindow::cmdAltKey(char key)
 {
 #ifdef Q_OS_MAC
-  return QKeySequence(QString("ctrl+%1").arg(key));
+  return QKeySequence(QString("Ctrl+%1").arg(key));
 #else
   return QKeySequence(QString("alt+%1").arg(key));
 #endif
@@ -1196,7 +1265,12 @@ void MainWindow::createActions()
   setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
 
   new QShortcut(QKeySequence("F1"), this, SLOT(helpContext()));
-  new QShortcut(QKeySequence("Ctrl+I"), this, SLOT(helpContext()));
+  new QShortcut(ctrlKey('i'), this, SLOT(helpContext()));
+
+  new QShortcut(cmdAltKey('['), this, SLOT(tabPrev()));
+  new QShortcut(cmdAltKey('{'), this, SLOT(tabPrev()));
+  new QShortcut(cmdAltKey(']'), this, SLOT(tabNext()));
+  new QShortcut(cmdAltKey('}'), this, SLOT(tabNext()));
 
   // Preferences
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
@@ -1228,8 +1302,6 @@ void MainWindow::createActions()
 
   reloadKey = new QShortcut(cmdAltKey('U'), this, SLOT(reloadServerCode()));
 
-  tabPrevKey = new QShortcut(cmdAltKey('['), this, SLOT(tabPrev()));
-  tabNextKey = new QShortcut(cmdAltKey(']'), this, SLOT(tabNext()));
 }
 
 void MainWindow::createToolBar()
