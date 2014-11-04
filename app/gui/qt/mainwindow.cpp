@@ -504,6 +504,24 @@ void MainWindow::initPrefsWindow() {
    qs.setValue(skey, key);
  }
 
+  void MainWindow::addStdKeyBinding(QSettings &qs, int cmd, int key)
+ {
+   QString skey;
+   skey.sprintf("/Scintilla/keymap/c%d/key", cmd);
+   qs.setValue(skey, key);
+ }
+
+  void MainWindow::addMetaKeyBinding(QSettings &qs, int cmd, int key)
+ {
+   QString skey;
+   skey.sprintf("/Scintilla/keymap/c%d/key", cmd);
+#if defined(Q_OS_MAC)
+   qs.setValue(skey, key | Qt::CTRL);
+#else
+   qs.setValue(skey, key | Qt::ALT);
+#endif
+ }
+
 
 
  void MainWindow::initWorkspace(SonicPiScintilla* ws) {
@@ -512,11 +530,10 @@ void MainWindow::initPrefsWindow() {
    QString skey;
    QSettings settings("Sonic Pi", "Key bindings");
 
-  //  ws->standardCommands()->writeSettings(settings);
 
+   // basic navigation
   addCtrlKeyBinding(settings, QsciCommand::LineDown, Qt::Key_N);
   addOtherKeyBinding(settings, QsciCommand::LineDown, Qt::Key_Down);
-
 
   addCtrlKeyBinding(settings, QsciCommand::LineUp, Qt::Key_P);
   addOtherKeyBinding(settings, QsciCommand::LineUp, Qt::Key_Up);
@@ -541,7 +558,18 @@ void MainWindow::initPrefsWindow() {
 
   addCtrlKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K);
 
-  ws->standardCommands()->readSettings(settings);
+
+  // tab return
+  addStdKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_Return);
+  addStdKeyBinding(settings, QsciCommand::Tab, Qt::Key_Tab);
+
+  // copy paste
+  addMetaKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C);
+  addMetaKeyBinding(settings, QsciCommand::Paste, Qt::Key_V);
+  addMetaKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z);
+  addMetaKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT);
+
+  ws->standardCommands()->readSettings(settings, "/Scintilla");
 
 
   ws->setAutoIndent(true);
