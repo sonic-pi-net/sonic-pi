@@ -557,13 +557,16 @@ void MainWindow::initPrefsWindow() {
   addCtrlKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E);
 
   addCtrlKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K);
+  addCtrlKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L);
 
+  addStdKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
 
   // tab return
-  addStdKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_Return);
+  addStdKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
   addStdKeyBinding(settings, QsciCommand::Tab, Qt::Key_Tab);
 
   // copy paste
+  addMetaKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X);
   addMetaKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C);
   addMetaKeyBinding(settings, QsciCommand::Paste, Qt::Key_V);
   addMetaKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z);
