@@ -437,16 +437,18 @@ end"]
 
 
     def rand(max=1)
+      max = 0..1 if max == 0
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      rgen.rand(max.to_f)
+      limit = max.is_a?(Range) ? Range.new(*[max.min, max.max].map(&:to_f)) : max.to_f
+      rgen.rand(limit)
     end
     doc name:           :rand,
         introduced:     Version.new(2,0,0),
         summary:        "Generate a random float below a value",
-        args:           [[:max, :number]],
+        args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a float between 0 and the supplied max value. With no args, returns a random value between 0 and 1.",
+        doc:            "Given a max number, produces a float between 0 and the supplied max value. If max is a range, produces a float within the range. With no args or max as 0, returns a random value between 0 and 1.",
         examples:      [
 "
 print rand(0.5) #=> will print a number like 0.397730007820797 to the output pane"]
@@ -455,16 +457,18 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
 
 
     def rand_i(max=2)
+      max = 0..1 if max == 0
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      rgen.rand(max.to_i)
+      limit = max.is_a?(Range) ? Range.new(*[max.min, max.max].map(&:to_i)) : max.to_i
+      rgen.rand(limit)
     end
     doc name:           :rand_i,
         introduced:     Version.new(2,0,0),
         summary:        "Generate a random whole number float below a value",
-        args:           [[:max, :number]],
+        args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a whole numberfloat between 0 and the supplied max value. With no args returns either 0 or 1",
+        doc:            "Given a max number, produces a whole number between 0 and the supplied max value. If max is a range produces a int within the range. With no args or max as 0 returns either 0 or 1",
         examples:      [
 "
 print rand_i(10) #=> will print a number like 7 to the output pane"]
