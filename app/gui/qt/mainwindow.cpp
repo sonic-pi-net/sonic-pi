@@ -557,7 +557,7 @@ void MainWindow::initPrefsWindow() {
   addCtrlKeyBinding(settings, QsciCommand::Home, Qt::Key_A);
   addCtrlKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E);
 
-  addCtrlKeyBinding(settings, QsciCommand::Delete, Qt::Key_D;
+  addCtrlKeyBinding(settings, QsciCommand::Delete, Qt::Key_D);
   addCtrlKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K);
   addCtrlKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L);
 
