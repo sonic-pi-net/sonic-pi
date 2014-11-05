@@ -550,12 +550,14 @@ void MainWindow::initPrefsWindow() {
   addCtrlKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_B | Qt::SHIFT);
   addOtherKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_Left | Qt::SHIFT);
 
+  addCtrlKeyBinding(settings, QsciCommand::Delete, Qt::Key_D);
   addCtrlKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_H);
   addOtherKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_Backspace);
 
   addCtrlKeyBinding(settings, QsciCommand::Home, Qt::Key_A);
   addCtrlKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E);
 
+  addCtrlKeyBinding(settings, QsciCommand::Delete, Qt::Key_D;
   addCtrlKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K);
   addCtrlKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L);
 
@@ -571,9 +573,9 @@ void MainWindow::initPrefsWindow() {
   addMetaKeyBinding(settings, QsciCommand::Paste, Qt::Key_V);
   addMetaKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z);
   addMetaKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT);
+  addMetaKeyBinding(settings, QsciCommand::SelectAll, Qt::Key_A);
 
-  ws->standardCommands()->readSettings(settings, "/Scintilla");
-
+  ws->standardCommands()->readSettings(settings);
 
   ws->setAutoIndent(true);
   ws->setIndentationsUseTabs(false);
