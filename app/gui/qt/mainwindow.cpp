@@ -1038,7 +1038,7 @@ void MainWindow::setRPSystemAudioHeadphones(){
 #else
   //assuming Raspberry Pi
   QProcess *p = new QProcess();
-  QString prog = "amixer cset numid=3 1";
+  QString prog = "amixer -c 0 cset numid=3 1";
   p->start(prog);
 #endif
 }
@@ -1054,7 +1054,7 @@ void MainWindow::setRPSystemAudioHDMI(){
 #else
   //assuming Raspberry Pi
   QProcess *p = new QProcess();
-  QString prog = "amixer cset numid=3 2";
+  QString prog = "amixer -c 0 cset numid=3 2";
   p->start(prog);
 #endif
 }
@@ -1070,7 +1070,7 @@ void MainWindow::setRPSystemAudioAuto(){
 #else
   //assuming Raspberry Pi
   QProcess *p = new QProcess();
-  QString prog = "amixer cset numid=3 0";
+  QString prog = "amixer -c 0 cset numid=3 0";
   p->start(prog);
 #endif
 }
