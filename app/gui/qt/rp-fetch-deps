@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# need to run this script as root...
+apt-get install qt4-dev-tools cmake ruby-dev libqscintilla2-dev
