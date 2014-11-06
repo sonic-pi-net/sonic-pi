@@ -13,11 +13,14 @@
 
 require 'test/unit'
 require_relative "../lib/sonicpi/spiderapi"
+require_relative "../../core"
 
 module SonicPi
 
   class SpiderApiTester < Test::Unit::TestCase
     include SonicPi::SpiderAPI
+
+    Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, Random.new(0))
 
     def test_rrand_handles_0_range
       assert_equal(1, rrand(1,1))
@@ -26,5 +29,26 @@ module SonicPi
     def test_rrand_i_handles_0_range
       assert_equal(1, rrand_i(1,1))
     end
+
+    def test_rand_handles_0
+      number = rand(0)
+      assert(number >= 0 && number < 1)
+    end
+
+    def test_rand_i_handles_0
+      number = rand_i(0)
+      assert(number == 0 || 1 == number)
+    end
+
+    def test_rand_only_returns_floats
+      assert_equal(Float, rand(0..10).class)
+      assert_equal(Float, rand(1).class)
+    end
+
+    def test_rand_i_only_returns_ints
+      assert_equal(Fixnum, rand_i(0..1.0).class)
+      assert_equal(Fixnum, rand_i(1.5).class)
+    end
+
   end
 end
