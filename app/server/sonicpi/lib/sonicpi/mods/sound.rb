@@ -733,7 +733,7 @@ play_pattern [40, 41, 42] # Same as:
        doc name:          :play_pattern_timed,
            introduced:    Version.new(2,0,0),
            summary:       "Play pattern of notes with specific times",
-           doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers or symbols such as :E4 - identical to the first parameter of the play function. The times should be a list of times between the notes in seconds.
+           doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of times between the notes in seconds.
 
 If the list of times is smaller than the number of gaps between notes, the list is repeated again. If the list of times is longer than the number of gaps between notes, then some of the times are ignored. See examples for more detail.
 
