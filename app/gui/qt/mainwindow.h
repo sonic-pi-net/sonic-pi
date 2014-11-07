@@ -65,6 +65,11 @@ public:
 #else
     MainWindow(QApplication &ref, QSplashScreen &splash);
 #endif
+
+    QTextEdit *outputPane;
+    QTextEdit *errorPane;
+
+
 protected:
     void closeEvent(QCloseEvent *event);
     void wheelEvent(QWheelEvent *event);
@@ -152,8 +157,6 @@ private:
     SonicPiScintilla *textEdit;
     static const int workspace_max = 8;
     SonicPiScintilla *workspaces[workspace_max];
-    QTextEdit *outputPane;
-    QTextEdit *errorPane;
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
     QDockWidget *outputWidget;

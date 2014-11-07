@@ -62,6 +62,7 @@
 #include "sonicpilexer.h"
 #include "sonicpiapis.h"
 #include "sonicpiscintilla.h"
+#include "sonicpiserver.h"
 
 #include <QtNetwork>
 #include <QTcpSocket>
@@ -81,10 +82,10 @@
   #include <QtConcurrentRun>
 #endif
 
-#include "mainwindow.h"
 
 using namespace oscpkt;
 
+#include "mainwindow.h"
 #ifdef Q_OS_MAC
 MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
 #else
@@ -101,7 +102,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   rec_flash_timer = new QTimer(this);
   connect(rec_flash_timer, SIGNAL(timeout()), this, SLOT(toggleRecordingOnIcon()));
 
-  osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
+  //osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
+
   serverProcess = new QProcess();
 
   clientSock = new QTcpSocket();
@@ -271,17 +273,21 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
+  SonicPiServer* sonicPiServer = new SonicPiServer::SonicPiServer(this);
+  sonicPiServer->startServer();
+
+
   int timeout = 30;
-  while (!server_started && cont_listening_for_osc && timeout-- > 0) {
+  while (!sonicPiServer->server_started && sonicPiServer->cont_listening_for_osc && timeout-- > 0) {
     sleep(1);
     std::cout << "Waiting for server..." << std::endl;
-    if(osc_incoming_port_open) {
+    if(sonicPiServer->osc_incoming_port_open) {
       Message msg("/ping");
       msg.pushStr("QtClient/1/hello");
       sendOSC(msg);
     }
   }
-  if (!server_started) {
+  if (!sonicPiServer->server_started) {
     QMessageBox::critical(this, QString("Server didn't start"), QString("Failed to start server, please check ") + log_path, QMessageBox::Abort);
     QTimer::singleShot(0, this, SLOT(close()));
     cont_listening_for_osc = false;
@@ -523,247 +529,32 @@ void MainWindow::initWorkspace(SonicPiScintilla* ws) {
 }
 
 void MainWindow::startOSCListener() {
-  std::vector<char> buffer;
-  int PORT_NUM = 4558;
-  int TIMEOUT = 30000;
-  QTcpServer *serverSock = new QTcpServer();
-  std::cout << "Starting OSC Server Listening on:" << PORT_NUM << std::endl;
-
-  if(!serverSock-> listen(QHostAddress::LocalHost, PORT_NUM)){
-    std::cerr << "Could not listen on:" << PORT_NUM << std::endl;
-    return;
-  }
-
-  if(!serverSock->waitForNewConnection(TIMEOUT)){
-    std::cerr << "No clients found:" << PORT_NUM << std::endl;
-    return;
-  }
-  QTcpSocket *sock = serverSock->nextPendingConnection();
-
-  if (!sock->isValid()) {
-    std::cerr << "Unable to listen to OSC messages on port" << PORT_NUM << std::endl;
-  } else {
-    PacketReader pr;
-    PacketWriter pw;
-    osc_incoming_port_open = true;
-
-    while (sock->isValid() && sock->state() == QAbstractSocket::ConnectedState && cont_listening_for_osc) {
-      std::cout.flush();
-      std::vector<char>().swap(buffer);
-
-      int totalBytesRead = 0;
-      while(sock->bytesAvailable() > 0 || sock->waitForReadyRead(-1)){
-        buffer.resize(totalBytesRead + sock->bytesAvailable());
-        int bytesRead = sock->read(&buffer[0+totalBytesRead], (int)buffer.size() - totalBytesRead);
-        //std::cout << "read ping:" << bytesRead << "\n";
-        if(bytesRead < 0) {
-          //std::cout << "bytes received:" << bytesRead<< "\n";
-          break;
-        }
-        totalBytesRead += bytesRead;
-        if (buffer[totalBytesRead-1] == '\00'){
-          break;
-        }
-      }
-
-      if(totalBytesRead == 0) {
-        std::cout << "Problem reading bytes" << "\n";
-        break;
-      }
-
-      buffer.resize(totalBytesRead);
-      std::vector<char> tmp(buffer);
-      tmp.swap(buffer);
-
-      //std::cout << "Fini, read (bytes): " << totalBytesRead << "\n";
-
-      pr.init(&buffer[0], buffer.size());
-
-//      if(!pr.isOk()){
-//        std::cout << "Received a bad OSC message:" << "\n";
-//        std::cout << "-------------------------------------------" << "\n";
-//        for(int i =0; i < buffer.size(); i++){
-//          std::cout << buffer.at(i) << "" << std::flush;;
-//          if(buffer.at(i) == '\000'){
-//              std::cout << "*" << std::flush;;
-//          }
-//        }
-//        std::cout << "\n" << "-------------------------------------------" << "\n";
-//        std::cout.flush();
-//      }
-      oscpkt::Message *msg;
-      while (pr.isOk() && (msg = pr.popMessage()) != 0) {
-        if (msg->match("/multi_message")){
-          int msg_count;
-          int msg_type;
-          int job_id;
-          std::string thread_name;
-          std::string runtime;
-          std::string s;
-          std::ostringstream ss;
-
-          Message::ArgReader ar = msg->arg();
-          ar.popInt32(job_id);
-          ar.popStr(thread_name);
-          ar.popStr(runtime);
-          ar.popInt32(msg_count);
-          QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-          ss << "[Run " << job_id;
-          ss << ", Time " << runtime;
-          if(!thread_name.empty()) {
-            ss << ", Thread :" << thread_name;
-          }
-          ss << "]";
-          QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                     Q_ARG(QString, QString::fromStdString(ss.str())) );
-
-          for(int i = 0 ; i < msg_count ; i++) {
-            ss.str("");
-            ss.clear();
-            ar.popInt32(msg_type);
-            ar.popStr(s);
-
-#if defined(Q_OS_WIN)
-            if(i == (msg_count - 1)) {
-              ss << " └─ ";
-            } else {
-              ss << " ├─ ";
-            }
-#elif defined(Q_OS_MAC)
-            if(i == (msg_count - 1)) {
-              ss << " └─ ";
-            } else {
-              ss << " ├─ ";
-            }
-#else
-            //assuming Raspberry Pi
-            if(i == (msg_count - 1)) {
-              ss << " +- ";
-            } else {
-              ss << " |- ";
-            }
-#endif
 
 
-            QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                       Q_ARG(QString, QString::fromStdString(ss.str())) );
+//  std::vector<char> buffer;
+//  int PORT_NUM = 4558;
+//  int TIMEOUT = 30000;
+//  QTcpServer *serverSock = new QTcpServer();
+//  std::cout << "Starting OSC Server Listening on:" << PORT_NUM << std::endl;
 
+//  if(!serverSock-> listen(QHostAddress::LocalHost, PORT_NUM)){
+//    std::cerr << "Could not listen on:" << PORT_NUM << std::endl;
+//    return;
+//  }
 
-            ss.str("");
-            ss.clear();
+//  if(!serverSock->waitForNewConnection(TIMEOUT)){
+//    std::cerr << "No clients found:" << PORT_NUM << std::endl;
+//    return;
+//  }
+//  QTcpSocket *sock = serverSock->nextPendingConnection();
 
-            switch(msg_type)
-            {
-            case 0:
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
-              break;
-            case 1:
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
-              break;
-            case 2:
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
-              break;
-            case 3:
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("red")));
-              break;
-            case 4:
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-              QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
-              break;
-            case 5:
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-              QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
-              break;
-            case 6:
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-              QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
-              break;
-            default:
-              QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));
-            }
+//  if (!sock->isValid()) {
+//    std::cerr << "Unable to listen to OSC messages on port" << PORT_NUM << std::endl;
+//  } else {
+//    PacketReader pr;
+//    PacketWriter pw;
+//    osc_incoming_port_open = true;
 
-            ss << s;
-
-            QMetaObject::invokeMethod( outputPane, "insertPlainText", Qt::QueuedConnection,
-                                       Q_ARG(QString, QString::fromStdString(ss.str())) );
-
-            QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-            QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-
-
-
-          }
-          QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                     Q_ARG(QString,  QString::fromStdString(" ")) );
-        }
-        else if (msg->match("/info")) {
-          std::string s;
-          if (msg->arg().popStr(s).isOkNoMoreArgs()) {
-            // Evil nasties!
-            // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-
-            QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-            QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-
-            QMetaObject::invokeMethod( outputPane, "append", Qt::QueuedConnection,
-                                       Q_ARG(QString, QString::fromStdString("=> " + s + "\n")) );
-
-            QMetaObject::invokeMethod( outputPane, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-            QMetaObject::invokeMethod( outputPane, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-          } else {
-            std::cout << "Server: unhandled info message: "<< std::endl;
-          }
-        }
-        else if (msg->match("/error")) {
-          int job_id;
-          std::string desc;
-          std::string backtrace;
-          if (msg->arg().popInt32(job_id).popStr(desc).popStr(backtrace).isOkNoMoreArgs()) {
-            // Evil nasties!
-            // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
-            QMetaObject::invokeMethod( errorPane, "show", Qt::QueuedConnection);
-            QMetaObject::invokeMethod( errorPane, "clear", Qt::QueuedConnection);
-            QMetaObject::invokeMethod( errorPane, "setHtml", Qt::QueuedConnection,
-                                       Q_ARG(QString, "<table width=\"100%\"> cellpadding=\"2\"><tr><td bgcolor=\"#FFE4E1\"><h3><font color=\"black\"><pre>Error: " + QString::fromStdString(desc) + "</pre></font></h3></td></tr><tr><td bgcolor=\"#E8E8E8\"><h4><font color=\"#5e5e5e\", background-color=\"black\"><pre>" + QString::fromStdString(backtrace) + "</pre></font></h4></td></tr></table>") );
-
-          } else {
-            std::cout << "Server: unhandled error: "<< std::endl;
-          }
-        }
-        else if (msg->match("/replace-buffer")) {
-          std::string id;
-          std::string content;
-          if (msg->arg().popStr(id).popStr(content).isOkNoMoreArgs()) {
-
-            QMetaObject::invokeMethod( this, "replaceBuffer", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)));
-          } else {
-            std::cout << "Server: unhandled replace-buffer: "<< std::endl;
-          }
-        }
-        else if (msg->match("/exited")) {
-          if (msg->arg().isOkNoMoreArgs()) {
-            std::cout << "server asked us to exit" << std::endl;
-            cont_listening_for_osc = false;
-          } else {
-            std::cout << "Server: unhandled exited: "<< std::endl;
-          }
-        }
-        else if (msg->match("/ack")) {
-          std::string id;
-          if (msg->arg().popStr(id).isOkNoMoreArgs()) {
-            server_started = true;
-          } else
-            std::cout << "Server: unhandled ack " << std::endl;
-        }
-        else {
-          std::cout << "Unknown message" << std::endl;
-        }
-      }
-    }
-  }
-  std::cout << "OSC Stopped, releasing socket" << std::endl;
-  serverSock->close();
-  sock->close();
 }
 
 void MainWindow::replaceBuffer(QString id, QString content) {
