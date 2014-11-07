@@ -1,0 +1,6 @@
+.idea
+.idea/*/**
+.loadpath
+.project
+*.gem
+*.gemspec
