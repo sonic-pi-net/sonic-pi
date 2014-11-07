@@ -156,7 +156,18 @@ module SonicPi
 "puts rest? {note: nil} # true",
 "puts rest? {note: 50} # false"]
 
+       def use_timing_warnings(v, &block)
+         raise "use_timing_warnings does not work with a do/end block. Perhaps you meant with_timing_warnings" if block
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_disable_timing_warnings, !v)
+       end
 
+       def with_timing_warnings(v, &block)
+         raise "with_debug requires a do/end block. Perhaps you meant use_debug" unless block
+         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_disable_timing_warnings)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_disable_timing_warnings, !v)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_disable_timing_warnings, current)
+       end
 
 
        def use_sample_bpm(sample_name)
@@ -2590,6 +2601,8 @@ stop bar"]
        end
 
        def ensure_good_timing!
+         return true if Thread.current.thread_variable_get(:sonic_pi_mod_sound_disable_timing_warnings)
+
          vt  = Thread.current.thread_variable_get :sonic_pi_spider_time
          sat = @mod_sound_studio.sched_ahead_time + 1.1
          raise "Timing Exception: thread got too far behind time." if (Time.now - sat) > vt
