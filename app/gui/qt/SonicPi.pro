@@ -17,7 +17,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui concurrent
+
+QT       += core gui concurrent network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -38,7 +39,6 @@ SOURCES += main.cpp \
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
-            udp.hh \
             sonicpilexer.h \
             sonicpiapis.h \
             sonicpiscintilla.h
