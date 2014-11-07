@@ -50,6 +50,21 @@ P(D, double);
 P(P, const void*);
 P(UL, unsigned long);
 
+#if defined(_WIN32) && !defined(_WIN64)
+bool __stdcall testClosureStdcall(long *a1, void __stdcall(*closure)(void *, long), long a2) { \
+    void* sp_pre;
+    void* sp_post;
+
+    asm volatile (" movl %%esp,%0" : "=g" (sp_pre));
+    (*closure)(a1, a2);
+    asm volatile (" movl %%esp,%0" : "=g" (sp_post));
+
+    /* %esp before pushing parameters on the stack and after the call returns
+     * should be equal, if both sides respects the stdcall convention */
+    return sp_pre == sp_post;
+}
+#endif
+
 void testOptionalClosureBrV(void (*closure)(char), char a1)
 {
     if (closure) {

@@ -32,5 +32,6 @@ describe "functions with custom parameter types" do
       def self.to_native_called?; @to_native_called; end
     end
 
+    # FIXME add tests
   end
 end

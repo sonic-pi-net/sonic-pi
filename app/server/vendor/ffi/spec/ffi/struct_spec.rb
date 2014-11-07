@@ -4,6 +4,37 @@
 #
 
 require File.expand_path(File.join(File.dirname(__FILE__), "spec_helper"))
+
+describe "Struct aligns fields correctly" do
+  it "char, followed by an int" do
+    class CIStruct < FFI::Struct
+      layout :c => :char, :i => :int
+    end
+    expect(CIStruct.size).to eq(8)
+  end
+
+  it "short, followed by an int" do
+    class SIStruct < FFI::Struct
+      layout :s => :short, :i => :int
+    end
+    expect(SIStruct.size).to eq(8)
+  end
+
+  it "int, followed by an int" do
+    class IIStruct < FFI::Struct
+      layout :i1 => :int, :i => :int
+    end
+    expect(IIStruct.size).to eq(8)
+  end
+
+  it "long long, followed by an int" do
+    class LLIStruct < FFI::Struct
+      layout :l => :long_long, :i => :int
+    end
+    expect(LLIStruct.size).to eq(FFI::TYPE_UINT64.alignment == 4 ? 12 : 16)
+  end
+end
+
 describe "Struct tests" do
   StructTypes = {
     's8' => :char,
@@ -18,7 +49,12 @@ describe "Struct tests" do
     extend FFI::Library
     ffi_lib TestLibrary::PATH
     attach_function :ptr_ret_pointer, [ :pointer, :int], :string
-    attach_function :ptr_ret_int32_t, [ :pointer, :int ], :int
+    begin
+      attach_function :ptr_ret_int32_t, [ :pointer, :int ], :int
+    rescue FFI::NotFoundError
+      # NetBSD uses #define instead of typedef for these
+      attach_function :ptr_ret_int32_t, :ptr_ret___int32_t, [ :pointer, :int ], :int
+    end
     attach_function :ptr_from_address, [ :ulong ], :pointer
     attach_function :string_equals, [ :string, :string ], :int
     [ 's8', 's16', 's32', 's64', 'f32', 'f64', 'long' ].each do |t|
@@ -31,6 +67,7 @@ describe "Struct tests" do
   class StringMember < FFI::Struct
     layout :string, :string
   end
+
   it "Struct#[:pointer]" do
     magic = 0x12345678
     mp = FFI::MemoryPointer.new :long
@@ -38,8 +75,9 @@ describe "Struct tests" do
     smp = FFI::MemoryPointer.new :pointer
     smp.put_pointer(0, mp)
     s = PointerMember.new smp
-    s[:pointer].should == mp
+    expect(s[:pointer]).to eq(mp)
   end
+
   it "Struct#[:pointer].nil? for NULL value" do
     magic = 0x12345678
     mp = FFI::MemoryPointer.new :long
@@ -47,8 +85,9 @@ describe "Struct tests" do
     smp = FFI::MemoryPointer.new :pointer
     smp.put_pointer(0, nil)
     s = PointerMember.new smp
-    s[:pointer].null?.should == true
+    expect(s[:pointer].null?).to be true
   end
+
   it "Struct#[:pointer]=" do
     magic = 0x12345678
     mp = FFI::MemoryPointer.new :long
@@ -56,19 +95,23 @@ describe "Struct tests" do
     smp = FFI::MemoryPointer.new :pointer
     s = PointerMember.new smp
     s[:pointer] = mp
-    smp.get_pointer(0).should == mp
+    expect(smp.get_pointer(0)).to eq(mp)
   end
+
   it "Struct#[:pointer]=struct" do
     smp = FFI::MemoryPointer.new :pointer
     s = PointerMember.new smp
-    lambda { s[:pointer] = s }.should_not raise_error
+    expect { s[:pointer] = s }.not_to raise_error Exception
+    expect { foo = s[:pointer] }.not_to raise_error Exception
   end
+
   it "Struct#[:pointer]=nil" do
     smp = FFI::MemoryPointer.new :pointer
     s = PointerMember.new smp
     s[:pointer] = nil
-    smp.get_pointer(0).null?.should == true
+    expect(smp.get_pointer(0)).to be_null
   end
+
   it "Struct#[:string]" do
     magic = "test"
     mp = FFI::MemoryPointer.new 1024
@@ -76,66 +119,71 @@ describe "Struct tests" do
     smp = FFI::MemoryPointer.new :pointer
     smp.put_pointer(0, mp)
     s = StringMember.new smp
-    s[:string].should == magic
+    expect(s[:string]).to eq(magic)
   end
+
   it "Struct#[:string].nil? for NULL value" do
     smp = FFI::MemoryPointer.new :pointer
     smp.put_pointer(0, nil)
     s = StringMember.new smp
-    s[:string].nil?.should == true
+    expect(s[:string]).to be_nil
   end
+
   it "Struct#layout works with :name, :type pairs" do
     class PairLayout < FFI::Struct
       layout :a, :int, :b, :long_long
     end
     ll_off = (FFI::TYPE_UINT64.alignment == 4 ? 4 : 8)
-    PairLayout.size.should == (ll_off + 8)
+    expect(PairLayout.size).to eq((ll_off + 8))
     mp = FFI::MemoryPointer.new(PairLayout.size)
     s = PairLayout.new mp
     s[:a] = 0x12345678
-    mp.get_int(0).should == 0x12345678
+    expect(mp.get_int(0)).to eq(0x12345678)
     s[:b] = 0xfee1deadbeef
-    mp.get_int64(ll_off).should == 0xfee1deadbeef
+    expect(mp.get_int64(ll_off)).to eq(0xfee1deadbeef)
   end
+
   it "Struct#layout works with :name, :type, offset tuples" do
     class PairLayout < FFI::Struct
       layout :a, :int, 0, :b, :long_long, 4
     end
-    PairLayout.size.should == (FFI::TYPE_UINT64.alignment == 4 ? 12 : 16)
+    expect(PairLayout.size).to eq((FFI::TYPE_UINT64.alignment == 4 ? 12 : 16))
     mp = FFI::MemoryPointer.new(PairLayout.size)
     s = PairLayout.new mp
     s[:a] = 0x12345678
-    mp.get_int(0).should == 0x12345678
+    expect(mp.get_int(0)).to eq(0x12345678)
     s[:b] = 0xfee1deadbeef
-    mp.get_int64(4).should == 0xfee1deadbeef
+    expect(mp.get_int64(4)).to eq(0xfee1deadbeef)
   end
+
   it "Struct#layout works with mixed :name,:type and :name,:type,offset" do
     class MixedLayout < FFI::Struct
       layout :a, :int, :b, :long_long, 4
     end
-    MixedLayout.size.should == (FFI::TYPE_UINT64.alignment == 4 ? 12 : 16)
+    expect(MixedLayout.size).to eq((FFI::TYPE_UINT64.alignment == 4 ? 12 : 16))
     mp = FFI::MemoryPointer.new(MixedLayout.size)
     s = MixedLayout.new mp
     s[:a] = 0x12345678
-    mp.get_int(0).should == 0x12345678
+    expect(mp.get_int(0)).to eq(0x12345678)
     s[:b] = 0xfee1deadbeef
-    mp.get_int64(4).should == 0xfee1deadbeef
+    expect(mp.get_int64(4)).to eq(0xfee1deadbeef)
   end
+
   rb_maj, rb_min = RUBY_VERSION.split('.')
   if rb_maj.to_i >= 1 && rb_min.to_i >= 9 || RUBY_PLATFORM =~ /java/
     it "Struct#layout withs with a hash of :name => type" do
       class HashLayout < FFI::Struct
         layout :a => :int, :b => :long_long
       end
-      ll_off = (FFI::TYPE_UINT64.alignment == 4? 4 : 8)
-      HashLayout.size.should == (ll_off + 8)
+      ll_off = (FFI::TYPE_UINT64.alignment == 4 ? 4 : 8)
+      expect(HashLayout.size).to eq(ll_off + 8)
       mp = FFI::MemoryPointer.new(HashLayout.size)
       s = HashLayout.new mp
       s[:a] = 0x12345678
-      mp.get_int(0).should == 0x12345678
+      expect(mp.get_int(0)).to eq(0x12345678)
       s[:b] = 0xfee1deadbeef
-      mp.get_int64(ll_off).should == 0xfee1deadbeef
-      end
+      expect(mp.get_int64(ll_off)).to eq(0xfee1deadbeef)
+    end
   end
 
   it "subclass overrides initialize without calling super" do
@@ -151,104 +199,115 @@ describe "Struct tests" do
 
     end
     s = InitializeWithoutSuper.new(0x1eefbeef, 0xdeadcafebabe)
-    s[:a].should == 0x1eefbeef
-    s[:b].should == 0xdeadcafebabe
+    expect(s[:a]).to eq(0x1eefbeef)
+    expect(s[:b]).to eq(0xdeadcafebabe)
   end
 
   it "Can use Struct subclass as parameter type" do
-    module StructParam
+    expect(module StructParam
       extend FFI::Library
       ffi_lib TestLibrary::PATH
       class TestStruct < FFI::Struct
         layout :c, :char
       end
       attach_function :struct_field_s8, [ TestStruct.in ], :char
-    end
+    end).to be_an_instance_of FFI::Function
   end
+
   it "Can use Struct subclass as IN parameter type" do
-    module StructParam2
+    expect(module StructParam2
       extend FFI::Library
       ffi_lib TestLibrary::PATH
       class TestStruct < FFI::Struct
         layout :c, :char
       end
       attach_function :struct_field_s8, [ TestStruct.in ], :char
-    end
+    end).to be_an_instance_of FFI::Function
   end
+
   it "Can use Struct subclass as OUT parameter type" do
-    module StructParam3
+    expect(module StructParam3
       extend FFI::Library
       ffi_lib TestLibrary::PATH
       class TestStruct < FFI::Struct
         layout :c, :char
       end
       attach_function :struct_field_s8, [ TestStruct.out ], :char
-    end
+    end).to be_an_instance_of FFI::Function
   end
+
   it "can be passed directly as a :pointer parameter" do
     class TestStruct < FFI::Struct
       layout :i, :int
     end
     s = TestStruct.new
     s[:i] = 0x12
-    LibTest.ptr_ret_int32_t(s, 0).should == 0x12
+    expect(LibTest.ptr_ret_int32_t(s, 0)).to eq(0x12)
   end
+
   it ":char member aligned correctly" do
     class AlignChar < FFI::Struct
       layout :c, :char, :v, :char
     end
     s = AlignChar.new
     s[:v] = 0x12
-    LibTest.struct_align_s8(s.pointer).should == 0x12
+    expect(LibTest.struct_align_s8(s.pointer)).to eq(0x12)
   end
+
   it ":short member aligned correctly" do
     class AlignShort < FFI::Struct
       layout :c, :char, :v, :short
     end
     s = AlignShort.alloc_in
     s[:v] = 0x1234
-    LibTest.struct_align_s16(s.pointer).should == 0x1234
+    expect(LibTest.struct_align_s16(s.pointer)).to eq(0x1234)
   end
+
   it ":int member aligned correctly" do
     class AlignInt < FFI::Struct
       layout :c, :char, :v, :int
     end
     s = AlignInt.alloc_in
     s[:v] = 0x12345678
-    LibTest.struct_align_s32(s.pointer).should == 0x12345678
+    expect(LibTest.struct_align_s32(s.pointer)).to eq(0x12345678)
   end
+
   it ":long_long member aligned correctly" do
     class AlignLongLong < FFI::Struct
       layout :c, :char, :v, :long_long
     end
     s = AlignLongLong.alloc_in
     s[:v] = 0x123456789abcdef0
-    LibTest.struct_align_s64(s.pointer).should == 0x123456789abcdef0
+    expect(LibTest.struct_align_s64(s.pointer)).to eq(0x123456789abcdef0)
   end
+
   it ":long member aligned correctly" do
     class AlignLong < FFI::Struct
       layout :c, :char, :v, :long
     end
     s = AlignLong.alloc_in
     s[:v] = 0x12345678
-    LibTest.struct_align_long(s.pointer).should == 0x12345678
+    expect(LibTest.struct_align_long(s.pointer)).to eq(0x12345678)
   end
+
   it ":float member aligned correctly" do
     class AlignFloat < FFI::Struct
       layout :c, :char, :v, :float
     end
     s = AlignFloat.alloc_in
     s[:v] = 1.23456
-    (LibTest.struct_align_f32(s.pointer) - 1.23456).abs.should < 0.00001
+    expect((LibTest.struct_align_f32(s.pointer) - 1.23456).abs).to be < 0.00001
   end
+
   it ":double member aligned correctly" do
     class AlignDouble < FFI::Struct
       layout :c, :char, :v, :double
     end
     s = AlignDouble.alloc_in
     s[:v] = 1.23456789
-    (LibTest.struct_align_f64(s.pointer) - 1.23456789).abs.should < 0.00000001
+    expect((LibTest.struct_align_f64(s.pointer) - 1.23456789).abs).to be < 0.00000001
   end
+
   it ":ulong, :pointer struct" do
     class ULPStruct < FFI::Struct
       layout :ul, :ulong, :p, :pointer
@@ -256,17 +315,17 @@ describe "Struct tests" do
     s = ULPStruct.alloc_in
     s[:ul] = 0xdeadbeef
     s[:p] = LibTest.ptr_from_address(0x12345678)
-    s.pointer.get_ulong(0).should == 0xdeadbeef
+    expect(s.pointer.get_ulong(0)).to eq(0xdeadbeef)
   end
   def test_num_field(type, v)
     klass = Class.new(FFI::Struct)
     klass.layout :v, type, :dummy, :long
-    
+
     s = klass.new
     s[:v] = v
-    s.pointer.send("get_#{type.to_s}", 0).should == v
+    expect(s.pointer.send("get_#{type.to_s}", 0)).to eq(v)
     s.pointer.send("put_#{type.to_s}", 0, 0)
-    s[:v].should == 0
+    expect(s[:v]).to eq(0)
   end
   def self.int_field_test(type, values)
     values.each do |v|
@@ -290,6 +349,7 @@ describe "Struct tests" do
     int_field_test(:long, [ 0, 0x7fffffffffffffff, -0x8000000000000000, -1 ])
     int_field_test(:ulong, [ 0, 0x7fffffffffffffff, 0x8000000000000000, 0xffffffffffffffff ])
   end
+
   it ":float field r/w" do
     klass = Class.new(FFI::Struct)
     klass.layout :v, :float, :dummy, :long
@@ -297,8 +357,9 @@ describe "Struct tests" do
     s = klass.new
     value = 1.23456
     s[:v] = value
-    (s.pointer.get_float(0) - value).abs.should < 0.0001
+    expect((s.pointer.get_float(0) - value).abs).to be < 0.0001
   end
+
   it ":double field r/w" do
     klass = Class.new(FFI::Struct)
     klass.layout :v, :double, :dummy, :long
@@ -306,40 +367,40 @@ describe "Struct tests" do
     s = klass.new
     value = 1.23456
     s[:v] = value
-    (s.pointer.get_double(0) - value).abs.should < 0.0001
+    expect((s.pointer.get_double(0) - value).abs).to be < 0.0001
   end
   module EnumFields
     extend FFI::Library
     TestEnum = enum :test_enum, [:c1, 10, :c2, 20, :c3, 30, :c4, 40]
     class TestStruct < FFI::Struct
-      layout :a, :int, :c, :test_enum, 
+      layout :a, :int, :c, :test_enum,
         :d, [ TestEnum, TestEnum.symbols.length ]
     end
   end
-  
+
   it ":enum field r/w" do
     s = EnumFields::TestStruct.new
     s[:c] = :c3
 
-    s.pointer.get_uint(FFI::Type::INT32.size).should == 30
-    s[:c].should == :c3
+    expect(s.pointer.get_uint(FFI::Type::INT32.size)).to eq(30)
+    expect(s[:c]).to eq(:c3)
   end
-  
+
   it "array of :enum field" do
     s = EnumFields::TestStruct.new
     EnumFields::TestEnum.symbols.each_with_index do |val, i|
       s[:d][i] = val
     end
-    
+
     EnumFields::TestEnum.symbols.each_with_index do |val, i|
-      s.pointer.get_uint(FFI::Type::INT32.size * (2 + i)).should == EnumFields::TestEnum[val]
+      expect(s.pointer.get_uint(FFI::Type::INT32.size * (2 + i))).to eq(EnumFields::TestEnum[val])
     end
-    
+
     s[:d].each_with_index do |val, i|
-      val.should == EnumFields::TestEnum.symbols[i]
+      expect(val).to eq(EnumFields::TestEnum.symbols[i])
     end
   end
-  
+
   module CallbackMember
     extend FFI::Library
     ffi_lib TestLibrary::PATH
@@ -352,47 +413,104 @@ describe "Struct tests" do
     attach_function :struct_call_add_cb, [TestStruct.in, :int, :int], :int
     attach_function :struct_call_sub_cb, [TestStruct.in, :int, :int], :int
   end
+
   it "Can have CallbackInfo struct field" do
       s = CallbackMember::TestStruct.new
       add_proc = lambda { |a, b| a+b }
       sub_proc = lambda { |a, b| a-b }
       s[:add] = add_proc
       s[:sub] = sub_proc
-      CallbackMember.struct_call_add_cb(s, 40, 2).should == 42
-      CallbackMember.struct_call_sub_cb(s, 44, 2).should == 42
+      expect(CallbackMember.struct_call_add_cb(s, 40, 2)).to eq(42)
+      expect(CallbackMember.struct_call_sub_cb(s, 44, 2)).to eq(42)
   end
+
   it "Can return its members as a list" do
     class TestStruct < FFI::Struct
       layout :a, :int, :b, :int, :c, :int
     end
-    TestStruct.members.should include(:a, :b, :c)
+    expect(TestStruct.members).to include(:a, :b, :c)
   end
+
   it "Can return its instance members and values as lists" do
     class TestStruct < FFI::Struct
       layout :a, :int, :b, :int, :c, :int
     end
     s = TestStruct.new
-    s.members.should include(:a, :b, :c)
+    expect(s.members).to include(:a, :b, :c)
     s[:a] = 1
     s[:b] = 2
     s[:c] = 3
-    s.values.should include(1, 2, 3)
+    expect(s.values).to include(1, 2, 3)
   end
+
   it 'should return an ordered field/offset pairs array' do
     class TestStruct < FFI::Struct
       layout :a, :int, :b, :int, :c, :int
     end
     s = TestStruct.new
-    s.offsets.should == [[:a, 0], [:b, 4], [:c, 8]]
-    TestStruct.offsets.should == [[:a, 0], [:b, 4], [:c, 8]]
+    expect(s.offsets).to eq([[:a, 0], [:b, 4], [:c, 8]])
+    expect(TestStruct.offsets).to eq([[:a, 0], [:b, 4], [:c, 8]])
   end
+
   it "Struct#offset_of returns offset of field within struct" do
     class TestStruct < FFI::Struct
       layout :a, :int, :b, :int, :c, :int
     end
-    TestStruct.offset_of(:a).should == 0
-    TestStruct.offset_of(:b).should == 4
-    TestStruct.offset_of(:c).should == 8
+    expect(TestStruct.offset_of(:a)).to eq(0)
+    expect(TestStruct.offset_of(:b)).to eq(4)
+    expect(TestStruct.offset_of(:c)).to eq(8)
+  end
+end
+
+describe FFI::Struct, ".layout" do
+  module FFISpecs
+    module LibTest
+      extend FFI::Library
+      ffi_lib TestLibrary::PATH
+      begin
+        attach_function :ptr_ret_int32_t, [ :pointer, :int ], :int
+      rescue FFI::NotFoundError
+        # NetBSD uses #define instead of typedef for these
+        attach_function :ptr_ret_int32_t, :ptr_ret___int32_t, [ :pointer, :int ], :int
+      end
+    end
+  end
+
+  describe "when derived class is not assigned to any constant" do
+    it "resolves a built-in type" do
+      klass = Class.new FFI::Struct
+      klass.layout :number, :int
+
+      instance = klass.new
+      instance[:number] = 0xA1
+      expect(FFISpecs::LibTest.ptr_ret_int32_t(instance, 0)).to eq(0xA1)
+    end
+  end
+
+  describe "when derived class is assigned to a constant" do
+    it "resolves a built-in type" do
+      class FFISpecs::TestStruct < FFI::Struct
+        layout :number, :int
+      end
+
+      instance = FFISpecs::TestStruct.new
+      instance[:number] = 0xA1
+      expect(FFISpecs::LibTest.ptr_ret_int32_t(instance, 0)).to eq(0xA1)
+    end
+
+    it "resolves a type from the enclosing module" do
+      module FFISpecs::LibTest
+        typedef :uint, :custom_int
+
+        class TestStruct < FFI::Struct
+          layout :number, :custom_int
+        end
+      end
+
+      instance = FFISpecs::LibTest::TestStruct.new
+      instance[:number] = 0xA1
+      expect(FFISpecs::LibTest.ptr_ret_int32_t(instance, 0)).to eq(0xA1)
+    end
   end
 end
 
@@ -412,33 +530,38 @@ describe FFI::Struct, ' with a nested struct field'  do
   before do
     @cs = LibTest::ContainerStruct.new
   end
+
   it 'should align correctly nested struct field' do
     @cs[:ns][:i] = 123
-    LibTest.struct_align_nested_struct(@cs.to_ptr).should == 123
+    expect(LibTest.struct_align_nested_struct(@cs.to_ptr)).to eq(123)
   end
+
   it 'should correctly calculate Container size (in bytes)' do
-    LibTest::ContainerStruct.size.should == 8
+    expect(LibTest::ContainerStruct.size).to eq(8)
   end
+
   it 'should return a Struct object when the field is accessed' do
-    @cs[:ns].is_a?(FFI::Struct).should be_true 
+    expect(@cs[:ns].is_a?(FFI::Struct)).to be true
   end
+
   it 'should read a value from memory' do
     @cs = LibTest::ContainerStruct.new(LibTest.struct_make_container_struct(123))
-    @cs[:ns][:i].should == 123
+    expect(@cs[:ns][:i]).to eq(123)
   end
+
   it 'should write a value to memory' do
     @cs = LibTest::ContainerStruct.new(LibTest.struct_make_container_struct(123))
     @cs[:ns][:i] = 456
-    LibTest.struct_align_nested_struct(@cs.to_ptr).should == 456
+    expect(LibTest.struct_align_nested_struct(@cs.to_ptr)).to eq(456)
   end
 
-  it 'should be able to assign struct instance to nested field' do 
+  it 'should be able to assign struct instance to nested field' do
     cs = LibTest::ContainerStruct.new(LibTest.struct_make_container_struct(123))
     ns = LibTest::NestedStruct.new
     ns[:i] = 567
     cs[:ns] = ns
-    cs[:ns][:i].should == 567
-    LibTest.struct_align_nested_struct(cs.to_ptr).should == 567
+    expect(cs[:ns][:i]).to eq(567)
+    expect(LibTest.struct_align_nested_struct(cs.to_ptr)).to eq(567)
   end
 end
 
@@ -462,33 +585,33 @@ describe FFI::Struct, ' with a nested array of structs'  do
 
   it 'should align correctly nested struct field' do
     @cs[:ns][0][:i] = 123
-    InlineArrayOfStructs.struct_align_nested_struct(@cs.to_ptr).should == 123
+    expect(InlineArrayOfStructs.struct_align_nested_struct(@cs.to_ptr)).to eq(123)
   end
 
   it 'should correctly calculate Container size (in bytes)' do
-    InlineArrayOfStructs::ContainerStruct.size.should == 8
+    expect(InlineArrayOfStructs::ContainerStruct.size).to eq(8)
   end
 
   it 'should return a Struct object when the field is accessed' do
-    @cs[:ns][0].is_a?(FFI::Struct).should be_true
+    expect(@cs[:ns][0].is_a?(FFI::Struct)).to be true
   end
 
   it 'should read a value from memory' do
     @cs = InlineArrayOfStructs::ContainerStruct.new(InlineArrayOfStructs.struct_make_container_struct(123))
-    @cs[:ns][0][:i].should == 123
+    expect(@cs[:ns][0][:i]).to eq(123)
   end
 
   it 'should write a value to memory' do
     @cs = InlineArrayOfStructs::ContainerStruct.new(InlineArrayOfStructs.struct_make_container_struct(123))
     @cs[:ns][0][:i] = 456
-    InlineArrayOfStructs.struct_align_nested_struct(@cs.to_ptr).should == 456
+    expect(InlineArrayOfStructs.struct_align_nested_struct(@cs.to_ptr)).to eq(456)
   end
 
   it 'should support Enumerable#each' do
     @cs = InlineArrayOfStructs::ContainerStruct.new(InlineArrayOfStructs.struct_make_container_struct(123))
     ints = []
     @cs[:ns].each { |s| ints << s[:i] }
-    ints[0].should == 123
+    expect(ints[0]).to eq(123)
   end
 end
 
@@ -518,46 +641,49 @@ describe FFI::Struct, ' by value'  do
 
   it 'return using pre-set values' do
     s = LibTest.struct_return_s8s32
-    s[:s8].should == 0x7f
-    s[:s32].should == 0x12345678
+    expect(s[:s8]).to eq(0x7f)
+    expect(s[:s32]).to eq(0x12345678)
   end
 
   it 'return using passed in values' do
     s = LibTest.struct_s8s32_set(123, 456789)
-    s[:s8].should == 123
-    s[:s32].should == 456789
+    expect(s[:s8]).to eq(123)
+    expect(s[:s32]).to eq(456789)
   end
 
   it 'parameter' do
     s = LibTest::S8S32.new
     s[:s8] = 0x12
     s[:s32] = 0x34567890
-    LibTest.struct_s8s32_get_s8(s).should == 0x12
-    LibTest.struct_s8s32_get_s32(s).should == 0x34567890
+    expect(LibTest.struct_s8s32_get_s8(s)).to eq(0x12)
+    expect(LibTest.struct_s8s32_get_s32(s)).to eq(0x34567890)
   end
 
   it 'parameter with following s32' do
     s = LibTest::S8S32.new
     s[:s8] = 0x12
     s[:s32] = 0x34567890
-    
-    LibTest.struct_s8s32_s32_ret_s32(s, 0x1eefdead).should == 0x1eefdead
+
+    expect(LibTest.struct_s8s32_s32_ret_s32(s, 0x1eefdead)).to eq(0x1eefdead)
   end
 
-  it 'parameter with following s64' do
-    s = LibTest::S8S32.new
-    s[:s8] = 0x12
-    s[:s32] = 0x34567890
-  end
+  # it 'parameter with following s64' do
+  #   s = LibTest::S8S64.new
+  #   s[:s8] = 0x12
+  #   s[:s64] = 0x34567890
+  #
+  #
+  #   LibTest.struct_s8s64_s64_ret_s64(s, 0x1eefdead1eefdead).should == 0x1eefdead1eefdead
+  # end
 
   it 'parameter with preceding s32,ptr,s32' do
     s = LibTest::S8S32.new
     s[:s8] = 0x12
     s[:s32] = 0x34567890
     out = LibTest::S8S32.new
-    LibTest.struct_s32_ptr_s32_s8s32_ret_s32(0x1000000, out, 0x1eafbeef, s).should == 0x34567890
-    out[:s8].should == s[:s8]
-    out[:s32].should == s[:s32]
+    expect(LibTest.struct_s32_ptr_s32_s8s32_ret_s32(0x1000000, out, 0x1eafbeef, s)).to eq(0x34567890)
+    expect(out[:s8]).to eq(s[:s8])
+    expect(out[:s32]).to eq(s[:s32])
   end
 
   it 'parameter with preceding s32,string,s32' do
@@ -565,7 +691,7 @@ describe FFI::Struct, ' by value'  do
     s[:s8] = 0x12
     s[:s32] = 0x34567890
     out = 0.chr * 32
-    LibTest.struct_s32_ptr_s32_s8s32_ret_s32(0x1000000, out, 0x1eafbeef, s).should == 0x34567890
+    expect(LibTest.struct_s32_ptr_s32_s8s32_ret_s32(0x1000000, out, 0x1eafbeef, s)).to eq(0x34567890)
   end
 
   it 'parameter, returning struct by value' do
@@ -574,15 +700,15 @@ describe FFI::Struct, ' by value'  do
     s[:s32] = 0x34567890
 
     ret = LibTest.struct_s8s32_ret_s8s32(s)
-    ret[:s8].should == s[:s8]
-    ret[:s32].should == s[:s32]
+    expect(ret[:s8]).to eq(s[:s8])
+    expect(ret[:s32]).to eq(s[:s32])
   end
 
   it 'varargs returning a struct' do
     string = "test"
     s = LibTest.struct_varargs_ret_struct_string(4, :string, string)
-    s[:len].should == string.length
-    s[:bytes].should == string
+    expect(s[:len]).to eq(string.length)
+    expect(s[:bytes]).to eq(string)
   end
 end
 
@@ -599,27 +725,32 @@ describe FFI::Struct, ' with an array field'  do
   before do
     @s = LibTest::StructWithArray.new
   end
+
   it 'should correctly calculate StructWithArray size (in bytes)' do
-    LibTest::StructWithArray.size.should == 24
+    expect(LibTest::StructWithArray.size).to eq(24)
   end
+
   it 'should read values from memory' do
     @s = LibTest::StructWithArray.new(LibTest.struct_make_struct_with_array(0, 1, 2, 3, 4))
-    @s[:a].to_a.should == [0, 1, 2, 3, 4]
+    expect(@s[:a].to_a).to eq([0, 1, 2, 3, 4])
   end
 #  it 'should cache array object for successive calls' do
 #    @s[:a].object_id.should == @s[:a].object_id
 #  end
+
   it 'should return the number of elements in the array field' do
     @s = LibTest::StructWithArray.new(LibTest.struct_make_struct_with_array(0, 1, 2, 3, 4))
-    @s[:a].size.should == 5
+    expect(@s[:a].size).to eq(5)
   end
+
   it 'should allow iteration through the array elements' do
     @s = LibTest::StructWithArray.new(LibTest.struct_make_struct_with_array(0, 1, 2, 3, 4))
-    @s[:a].each_with_index { |elem, i| elem.should == i }  
+    @s[:a].each_with_index { |elem, i| expect(elem).to eq(i) }
   end
+
   it 'should return the pointer to the array' do
     @s = LibTest::StructWithArray.new(LibTest.struct_make_struct_with_array(0, 1, 2, 3, 4))
-    @s[:a].to_ptr.should == LibTest::struct_field_array(@s.to_ptr)
+    expect(@s[:a].to_ptr).to eq(LibTest::struct_field_array(@s.to_ptr))
   end
 end
 
@@ -638,22 +769,25 @@ describe 'BuggedStruct' do
     end
     attach_function :bugged_struct_size, [], :uint
   end
+
   it 'should return its correct size' do
-    LibTest::BuggedStruct.size.should == LibTest.bugged_struct_size
+    expect(LibTest::BuggedStruct.size).to eq(LibTest.bugged_struct_size)
   end
+
   it "offsets within struct should be correct" do
-    LibTest::BuggedStruct.offset_of(:visible).should == 0
-    LibTest::BuggedStruct.offset_of(:x).should == 4
-    LibTest::BuggedStruct.offset_of(:y).should == 8
-    LibTest::BuggedStruct.offset_of(:rx).should == 12
-    LibTest::BuggedStruct.offset_of(:ry).should == 14
-    LibTest::BuggedStruct.offset_of(:order).should == 16
-    LibTest::BuggedStruct.offset_of(:size).should == 17
+    expect(LibTest::BuggedStruct.offset_of(:visible)).to eq(0)
+    expect(LibTest::BuggedStruct.offset_of(:x)).to eq(4)
+    expect(LibTest::BuggedStruct.offset_of(:y)).to eq(8)
+    expect(LibTest::BuggedStruct.offset_of(:rx)).to eq(12)
+    expect(LibTest::BuggedStruct.offset_of(:ry)).to eq(14)
+    expect(LibTest::BuggedStruct.offset_of(:order)).to eq(16)
+    expect(LibTest::BuggedStruct.offset_of(:size)).to eq(17)
   end
+
   it 'should return correct field/offset pairs' do
-    LibTest::BuggedStruct.offsets.sort do |a, b|
-      a[1] <=> b[1] 
-    end.should == [[:visible, 0], [:x, 4], [:y, 8], [:rx, 12], [:ry, 14], [:order, 16], [:size, 17]]
+    expect(LibTest::BuggedStruct.offsets.sort do |a, b|
+      a[1] <=> b[1]
+    end).to eq([[:visible, 0], [:x, 4], [:y, 8], [:rx, 12], [:ry, 14], [:order, 16], [:size, 17]])
   end
 end
 
@@ -663,11 +797,11 @@ describe "Struct allocation" do
       layout :i, :uint
     end
     p = FFI::MemoryPointer.new(S, 2)
-    p.total.should == 8
-    p.type_size.should == 4
+    expect(p.total).to eq(8)
+    expect(p.type_size).to eq(4)
     p.put_uint(4, 0xdeadbeef)
-    S.new(p[1])[:i].should == 0xdeadbeef
-    p[1].address.should == (p[0].address + 4)
+    expect(S.new(p[1])[:i]).to eq(0xdeadbeef)
+    expect(p[1].address).to eq((p[0].address + 4))
   end
 
   it "Buffer.new(Struct, 2)" do
@@ -675,53 +809,53 @@ describe "Struct allocation" do
       layout :i, :uint
     end
     p = FFI::Buffer.new(S, 2)
-    p.total.should == 8
-    p.type_size.should == 4
+    expect(p.total).to eq(8)
+    expect(p.type_size).to eq(4)
     p.put_uint(4, 0xdeadbeef)
-    S.new(p[1])[:i].should == 0xdeadbeef
+    expect(S.new(p[1])[:i]).to eq(0xdeadbeef)
   end
 
   it "null? should be true when initialized with NULL pointer" do
     class S < FFI::Struct
       layout :i, :uint
     end
-    S.new(FFI::Pointer::NULL).null?.should be_true
+    expect(S.new(FFI::Pointer::NULL)).to be_null
   end
 
   it "null? should be false when initialized with non-NULL pointer" do
     class S < FFI::Struct
       layout :i, :uint
     end
-    S.new(FFI::MemoryPointer.new(S)).null?.should be_false
+    expect(S.new(FFI::MemoryPointer.new(S))).not_to be_null
   end
 
   it "supports :bool as a struct member" do
-    lambda do
+    expect do
       c = Class.new(FFI::Struct) do
         layout :b, :bool
       end
       struct = c.new
       struct[:b] = ! struct[:b]
-    end.should_not raise_error
+    end.not_to raise_error Exception
   end
 
 end
 
 describe "variable-length arrays" do
   it "zero length array should be accepted as last field" do
-    lambda {
+    expect {
       Class.new(FFI::Struct) do
         layout :count, :int, :data, [ :char, 0 ]
       end
-    }.should_not raise_error
+    }.not_to raise_error Exception
   end
 
   it "zero length array before last element should raise error" do
-    lambda {
+    expect {
       Class.new(FFI::Struct) do
         layout :data, [ :char, 0 ], :count, :int
       end
-    }.should raise_error
+    }.to raise_error
   end
 
   it "can access elements of array" do
@@ -731,8 +865,8 @@ describe "variable-length arrays" do
     s = struct_class.new(FFI::MemoryPointer.new(1024))
     s[:data][0] = 0x1eadbeef
     s[:data][1] = 0x12345678
-    s[:data][0].should == 0x1eadbeef
-    s[:data][1].should == 0x12345678
+    expect(s[:data][0]).to eq(0x1eadbeef)
+    expect(s[:data][1]).to eq(0x12345678)
   end
 
   it "non-variable length array is bounds checked" do
@@ -741,8 +875,8 @@ describe "variable-length arrays" do
     end
     s = struct_class.new(FFI::MemoryPointer.new(1024))
     s[:data][0] = 0x1eadbeef
-    lambda { s[:data][1] = 0x12345678 }.should raise_error
-    s[:data][0].should == 0x1eadbeef
-    lambda { s[:data][1].should == 0x12345678 }.should raise_error
+    expect { s[:data][1] = 0x12345678 }.to raise_error
+    expect(s[:data][0]).to eq(0x1eadbeef)
+    expect { expect(s[:data][1]).to == 0x12345678 }.to raise_error
   end
 end

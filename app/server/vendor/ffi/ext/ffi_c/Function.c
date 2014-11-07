@@ -86,7 +86,7 @@ static void function_free(Function *);
 static VALUE function_init(VALUE self, VALUE rbFunctionInfo, VALUE rbProc);
 static void callback_invoke(ffi_cif* cif, void* retval, void** parameters, void* user_data);
 static bool callback_prep(void* ctx, void* code, Closure* closure, char* errmsg, size_t errmsgsize);
-static VALUE callback_with_gvl(void* data);
+static void* callback_with_gvl(void* data);
 static VALUE invoke_callback(void* data);
 static VALUE save_callback_exception(void* data, VALUE exc);
 
@@ -731,10 +731,11 @@ async_cb_call(void *data)
 
 #endif
 
-static VALUE
+static void *
 callback_with_gvl(void* data)
 {
     rb_rescue2(invoke_callback, (VALUE) data, save_callback_exception, (VALUE) data, rb_eException, (VALUE) 0);
+    return NULL;
 }
 
 static VALUE

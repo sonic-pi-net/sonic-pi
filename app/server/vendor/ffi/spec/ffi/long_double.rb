@@ -15,16 +15,16 @@ describe ":long_double arguments and return values" do
   end
 
   it "returns first parameter" do
-    LibTest.ret_f128(0.1).should be_within(0.01).of(0.1)
+    expect(LibTest.ret_f128(0.1)).to be_within(0.01).of(0.1)
   end
 
   it "returns first parameter with high precision" do
     ld =        BigDecimal.new("1.234567890123456789")
     tolerance = BigDecimal.new("0.0000000000000000001")
-    LibTest.ret_f128(ld).should be_within(tolerance).of(ld)
+    expect(LibTest.ret_f128(ld)).to be_within(tolerance).of(ld)
   end
 
   it "add two long double numbers" do
-    LibTest.add_f128(0.1, 0.2).should be_within(0.01).of(0.3)
+    expect(LibTest.add_f128(0.1, 0.2)).to be_within(0.01).of(0.3)
   end
 end

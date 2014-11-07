@@ -31,13 +31,13 @@ describe "functions with custom types" do
   end
 
   it "can attach with custom return type" do
-    lambda do
+    expect do
       Module.new do
         extend FFI::Library
         ffi_lib TestLibrary::PATH
         attach_function :ret_s32, [ :int ], Custom_enum
       end
-    end.should_not raise_error
+    end.not_to raise_error
   end
 
   it "should return object of correct type" do
@@ -49,7 +49,7 @@ describe "functions with custom types" do
       attach_function :ret_s32, [ :int ], Custom_enum
     end
 
-    m.ret_s32(1).is_a?(Symbol).should be_true
+    expect(m.ret_s32(1).is_a?(Symbol)).to be true
   end
 
   it "from_native should be called for result" do
@@ -59,7 +59,7 @@ describe "functions with custom types" do
       attach_function :ret_s32, [ :int ], Custom_enum
     end
     m.ret_s32(1)
-    Custom_enum.from_native_called?.should be_true
+    expect(Custom_enum.from_native_called?).to be true
   end
 
   it "to_native should be called for parameter" do
@@ -69,6 +69,6 @@ describe "functions with custom types" do
       attach_function :ret_s32, [ Custom_enum ], :int
     end
     m.ret_s32(:a)
-    Custom_enum.to_native_called?.should be_true
+    expect(Custom_enum.to_native_called?).to be true
   end
 end

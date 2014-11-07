@@ -119,7 +119,7 @@ fntype_initialize(int argc, VALUE* argv, VALUE self)
     ffi_status status;
     VALUE rbReturnType = Qnil, rbParamTypes = Qnil, rbOptions = Qnil;
     VALUE rbEnums = Qnil, rbConvention = Qnil, rbBlocking = Qnil;
-#if defined(_WIN32) || defined(__WIN32__)
+#if defined(X86_WIN32)
     VALUE rbConventionStr;
 #endif
     int i, nargs;
@@ -181,7 +181,7 @@ fntype_initialize(int argc, VALUE* argv, VALUE self)
     fnInfo->ffiReturnType = fnInfo->returnType->ffiType;
 
 
-#if (defined(_WIN32) || defined(__WIN32__)) && defined(FFI_STDCALL) 
+#if defined(X86_WIN32)
     rbConventionStr = (rbConvention != Qnil) ? rb_funcall2(rbConvention, rb_intern("to_s"), 0, NULL) : Qnil;
     fnInfo->abi = (rbConventionStr != Qnil && strcmp(StringValueCStr(rbConventionStr), "stdcall") == 0)
             ? FFI_STDCALL : FFI_DEFAULT_ABI;

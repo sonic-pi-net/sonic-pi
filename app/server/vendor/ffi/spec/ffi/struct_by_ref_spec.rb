@@ -11,7 +11,7 @@ describe FFI::Struct, ' by_ref' do
       layout :a, :pointer
     end
 
-    @api = Module.new do 
+    @api = Module.new do
       extend FFI::Library
       ffi_lib TestLibrary::PATH
       fn = FFI::Type::POINTER.size == FFI::Type::LONG.size ? :ret_ulong : :ret_u64
@@ -21,15 +21,15 @@ describe FFI::Struct, ' by_ref' do
 
   it "should accept instances of exact struct class" do
     s = @struct_class.new
-    @api.struct_test(s).should == s.pointer
+    expect(@api.struct_test(s)).to eq(s.pointer)
   end
-  
+
   it "should accept nil" do
-    @api.struct_test(nil).should == nil
+    expect(@api.struct_test(nil)).to be_null
   end
 
   it "should reject other types" do
-    lambda { @api.struct_test('test').should == nil }.should raise_error(TypeError)
+    expect { expect(@api.struct_test('test')).to be_nil }.to raise_error(TypeError)
   end
 
   it "should reject instances of other struct classes" do
@@ -37,7 +37,7 @@ describe FFI::Struct, ' by_ref' do
       layout :a, :pointer
     end
 
-    lambda { @api.struct_test(other_class.new) }.should raise_error(TypeError)
+    expect { @api.struct_test(other_class.new) }.to raise_error(TypeError)
   end
 end
 

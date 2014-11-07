@@ -4,6 +4,7 @@
 #
 
 require File.expand_path(File.join(File.dirname(__FILE__), "spec_helper"))
+
 describe "Function with primitive boolean arguments and return values" do
   module LibTest
     extend FFI::Library
@@ -13,17 +14,19 @@ describe "Function with primitive boolean arguments and return values" do
     attach_function :bool_return_val, [ :bool ], :bool
     attach_function :bool_reverse_val, [ :bool ], :bool
   end
+
   it "bools" do
-    LibTest.bool_return_true.should == true
-    LibTest.bool_return_false.should == false
+    expect(LibTest.bool_return_true).to be true
+    expect(LibTest.bool_return_false).to be false
 
-    LibTest.bool_return_val(true).should == true
-    LibTest.bool_return_val(false).should == false
+    expect(LibTest.bool_return_val(true)).to be true
+    expect(LibTest.bool_return_val(false)).to be false
 
-    LibTest.bool_reverse_val(true).should == false
-    LibTest.bool_reverse_val(false).should == true
+    expect(LibTest.bool_reverse_val(true)).to be false
+    expect(LibTest.bool_reverse_val(false)).to be true
   end
+
   it "raise error on invalid types" do
-    lambda { LibTest.bool_return_val(nil) }.should raise_error(::TypeError)
+    expect { LibTest.bool_return_val(nil) }.to raise_error(::TypeError)
   end
 end

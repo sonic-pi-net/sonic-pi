@@ -30,7 +30,7 @@ module LibTest
   extend FFI::Library
   ffi_lib LIBTEST_PATH
 
-  attach_function :bench, :bench_p_v, [ :buffer_in ], :void
+  attach_function :bench, :bench_P_v, [ :buffer_in ], :void
 end
 
 puts "Benchmark MemoryPointer alloc+fill+call performance, #{iter}x"

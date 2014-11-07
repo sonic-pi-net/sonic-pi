@@ -9,9 +9,24 @@ module BufferBench
   extend FFI::Library
   ffi_lib LIBTEST_PATH
   attach_function :bench_s32_v, [ :int ], :void
-  attach_function :bench_buffer_in, :ptr_ret_int32_t, [ :buffer_in, :int ], :void
-  attach_function :bench_buffer_out, :ptr_ret_int32_t, [ :buffer_out, :int ], :void
-  attach_function :bench_buffer_inout, :ptr_ret_int32_t, [ :buffer_inout, :int ], :void
+  begin
+    attach_function :bench_buffer_in, :ptr_ret_int32_t, [ :buffer_in, :int ], :void
+  rescue FFI::NotFoundError
+    # NetBSD uses #define instead of typedef for these
+    attach_function :bench_buffer_in, :ptr_ret___int32_t, [ :buffer_in, :int ], :void
+  end
+  begin
+    attach_function :bench_buffer_inout, :ptr_ret_int32_t, [ :buffer_inout, :int ], :void
+  rescue FFI::NotFoundError
+    # NetBSD uses #define instead of typedef for these
+    attach_function :bench_buffer_inout, :ptr_ret___int32_t, [ :buffer_inout, :int ], :void
+  end
+  begin
+    attach_function :bench_buffer_out, :ptr_ret_int32_t, [ :buffer_out, :int ], :void
+  rescue FFI::NotFoundError
+    # NetBSD uses #define instead of typedef for these
+    attach_function :bench_buffer_out, :ptr_ret___int32_t, [ :buffer_out, :int ], :void
+  end
 end
 class IntStruct < FFI::Struct
   layout :i, :int

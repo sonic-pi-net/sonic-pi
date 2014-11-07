@@ -7,7 +7,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "spec_helper"))
 
 describe FFI::Struct, ' with inline callback functions' do
   it 'should be able to define inline callback field' do
-    module CallbackMember1
+    expect(module CallbackMember1
       extend FFI::Library
       ffi_lib TestLibrary::PATH
       DUMMY_CB = callback :dummy_cb, [ :int ], :int
@@ -19,8 +19,9 @@ describe FFI::Struct, ' with inline callback functions' do
       end
       attach_function :struct_call_add_cb, [TestStruct, :int, :int], :int
       attach_function :struct_call_sub_cb, [TestStruct, :int, :int], :int
-    end
+    end).to be_an_instance_of FFI::Function
   end
+
   it 'should take methods as callbacks' do
     module CallbackMember2
       extend FFI::Library
@@ -42,7 +43,7 @@ describe FFI::Struct, ' with inline callback functions' do
     ts = CallbackMember2::TestStruct.new
     ts[:add] = StructCallbacks.method(:add)
 
-    CallbackMember2.struct_call_add_cb(ts, 1, 2).should == 3
+    expect(CallbackMember2.struct_call_add_cb(ts, 1, 2)).to eq(3)
   end
 
   it 'should return callable object from []' do
@@ -62,8 +63,7 @@ describe FFI::Struct, ' with inline callback functions' do
     add = Proc.new { |a,b| a+b}
     s[:add] = add
     fn = s[:add]
-    fn.respond_to?(:call).should be_true
-    fn.call(1, 2).should == 3
+    expect(fn.respond_to?(:call)).to be true
+    expect(fn.call(1, 2)).to eq(3)
   end
 end
-

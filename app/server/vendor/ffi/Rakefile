@@ -1,18 +1,21 @@
-require 'rubygems'
-require 'rubygems/package_task'
 require 'rubygems/tasks'
 require 'rbconfig'
 require 'rake/clean'
 
 USE_RAKE_COMPILER = (RUBY_PLATFORM =~ /java/) ? false : true
 if USE_RAKE_COMPILER
-  gem 'rake-compiler', '>=0.6.0'
   require 'rake/extensiontask'
 end
 
 require 'date'
 require 'fileutils'
 require 'rbconfig'
+require 'rspec/core/rake_task'
+require 'rubygems/package_task'
+
+RSpec::Core::RakeTask.new(:spec => :compile) do |config|
+  config.rspec_opts = YAML.load_file 'spec/spec.opts'
+end
 
 
 LIBEXT = case RbConfig::CONFIG['host_os'].downcase
@@ -103,13 +106,13 @@ end
 desc "Build all packages"
 task :package => 'gem:package'
 
-
 CLOBBER.include 'build'
 CLOBBER.include FileList['lib/**/ffi_c.so']
 CLOBBER.include FileList["lib/**/ffi_c.#{RbConfig::CONFIG['DLEXT']}"]
 CLOBBER.include 'lib/ffi/types.conf'
 CLOBBER.include 'conftest.dSYM'
 CLOBBER.include 'pkg'
+CLOBBER.include 'spec/ffi/fixtures/libtest.dylib'
 
 task :distclean => :clobber
 
@@ -123,7 +126,7 @@ desc "Build test helper lib"
 task :libtest => "build/libtest.#{LIBEXT}"
 
 desc "Test the extension"
-task :test => [ :specs, :rbxspecs ]
+task :test => [ :spec ]
 
 
 namespace :bench do
@@ -146,11 +149,6 @@ task 'spec:run' => TEST_DEPS
 task 'spec:specdoc' => TEST_DEPS
 
 task :default => :specs
-
-task 'gem:win32' do
-  sh("rake cross native gem RUBY_CC_VERSION='1.8.7:1.9.3:2.0.0'") || raise("win32 build failed!")
-end
-
 
 namespace 'java' do
 
@@ -187,19 +185,25 @@ if USE_RAKE_COMPILER
     ext.cross_platform = %w[i386-mingw32 x64-mingw32]                     # forces the Windows platform instead of the default one
   end
 
-  ENV['RUBY_CC_VERSION'].to_s.split(':').each do |ruby_version|
-    task "copy:ffi_c:i386-mingw32:#{ruby_version}" do |t|
-      %w[lib #{BUILD_DIR}/i386-mingw32/stage/lib].each do |dir| 
-        if File.exists?("#{dir}/#{ruby_version[/^\d+\.\d+/]}/ffi_c.so")
-          sh "i686-w64-mingw32-strip -S #{dir}/#{ruby_version[/^\d+\.\d+/]}/ffi_c.so"
-        end
-      end
-    end
+  task 'gem:win32' => ['gem:win32-x64', 'gem:win32-i386']
 
+  task 'gem:win32-x86' do
+    sh("rake cross native:i386-mingw32 gem RUBY_CC_VERSION='1.8.7:1.9.3:2.0.0:2.1.3'") || raise("win32-i386 build failed!")
+  end
+
+  task 'gem:win32-x64' do
+    sh("rake cross native:x64-mingw32 gem RUBY_CC_VERSION='2.0.0:2.1.3'") || raise("win32-x64 build failed!")
+  end
+
+  (ENV['RUBY_CC_VERSION'] || '1.8.7:1.9.3:2.0.0:2.1.3' ).to_s.split(':').each do |ruby_version|
+    task "copy:ffi_c:i386-mingw32:#{ruby_version}" do |t|
+      sh "i686-w64-mingw32-strip -S #{BUILD_DIR}/i386-mingw32/stage/lib/#{ruby_version[/^\d+\.\d+/]}/ffi_c.so"
+    end
+  end
+
+  (ENV['RUBY_CC_VERSION'] || '2.0.0:2.1.3' ).to_s.split(':').each do |ruby_version|
     task "copy:ffi_c:x64-mingw32:#{ruby_version}" do |t|
-      if File.exists?("#{BUILD_DIR}/x64-mingw32/stage/lib/#{ruby_version[/^\d+\.\d+/]}/ffi_c.so")
-        sh "x86_64-w64-mingw32-strip -S #{BUILD_DIR}/x64-mingw32/stage/lib/#{ruby_version[/^\d+\.\d+/]}/ffi_c.so"
-      end
+      sh "x86_64-w64-mingw32-strip -S #{BUILD_DIR}/x64-mingw32/stage/lib/#{ruby_version[/^\d+\.\d+/]}/ffi_c.so"
     end
   end
 end

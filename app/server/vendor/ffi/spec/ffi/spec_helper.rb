@@ -2,21 +2,83 @@
 # This file is part of ruby-ffi.
 # For licensing, see LICENSE.SPECS
 #
-require 'rubygems'
-require 'rbconfig'
 
-if RUBY_PLATFORM =~/java/
-  libdir = File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "lib"))
-  $:.reject! { |p| p == libdir }
-else
-  $:.unshift File.join(File.dirname(__FILE__), "..", "..", "lib"),
-    File.join(File.dirname(__FILE__), "..", "..", "build", "#{RbConfig::CONFIG['host_cpu''arch']}", "ffi_c", RUBY_VERSION)
+require 'rbconfig'
+require 'fileutils'
+require 'ffi'
+
+CPU = case RbConfig::CONFIG['host_cpu'].downcase
+  when /i[3456]86/
+    # Darwin always reports i686, even when running in 64bit mode
+    if RbConfig::CONFIG['host_os'] =~ /darwin/ && 0xfee1deadbeef.is_a?(Fixnum)
+      "x86_64"
+    else
+      "i386"
+    end
+
+  when /amd64|x86_64/
+    "x86_64"
+
+  when /ppc64|powerpc64/
+    "powerpc64"
+
+  when /ppc|powerpc/
+    "powerpc"
+
+  when /^arm/
+    "arm"
+
+  else
+    RbConfig::CONFIG['host_cpu']
+  end
+
+OS = case RbConfig::CONFIG['host_os'].downcase
+  when /linux/
+    "linux"
+  when /darwin/
+    "darwin"
+  when /freebsd/
+    "freebsd"
+  when /openbsd/
+    "openbsd"
+  when /sunos|solaris/
+    "solaris"
+  when /mswin|mingw/
+    "win32"
+  else
+    RbConfig::CONFIG['host_os'].downcase
+  end
+
+def compile_library(path, lib)
+
+  dir = File.expand_path(path, File.dirname(__FILE__))
+  lib = "#{dir}/#{lib}"
+  if !File.exists?(lib)
+    ldshared  = RbConfig::CONFIG["LDSHARED"] || "clang -dynamic -bundle"
+    libs      = RbConfig::CONFIG["LIBS"]
+    dldflags  = RbConfig::CONFIG["DLDFLAGS"] || "-Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress"
+
+    puts Dir.pwd, dir, File.dirname(__FILE__)
+
+    output = nil
+    FileUtils.cd(dir) do
+      output = system(*%{#{system('which gmake >/dev/null') && 'gmake' || 'make'} CPU=#{CPU} OS=#{OS} }.tap{|x| puts x.inspect})
+    end
+
+    if $?.exitstatus != 0
+      puts "ERROR:\n#{output}"
+      raise "Unable to compile \"#{lib}\""
+    end
+  end
+
+  lib
 end
-# puts "loadpath=#{$:.join(':')}"
+
 require "ffi"
 
 module TestLibrary
-  PATH = "build/libtest.#{FFI::Platform::LIBSUFFIX}"
+  PATH = compile_library("fixtures", "libtest.#{FFI::Platform::LIBSUFFIX}")
+
   def self.force_gc
     if RUBY_PLATFORM =~ /java/
       java.lang.System.gc

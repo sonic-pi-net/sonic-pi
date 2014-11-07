@@ -4,38 +4,58 @@
 #
 
 require File.expand_path(File.join(File.dirname(__FILE__), "spec_helper"))
+
 describe "Function with variadic arguments" do
   module LibTest
     extend FFI::Library
     ffi_lib TestLibrary::PATH
+    enum :enum_type1, [:c1, :c2]
+    enum :enum_type2, [:c3, 42, :c4]
     attach_function :pack_varargs, [ :buffer_out, :string, :varargs ], :void
+    attach_function :pack_varargs2, [ :buffer_out, :enum_type1, :string, :varargs ], :enum_type1
   end
+
+  it "takes enum arguments" do
+    buf = FFI::Buffer.new :long_long, 2
+    LibTest.pack_varargs(buf, "ii", :int, :c3, :int, :c4)
+    expect(buf.get_int64(0)).to eq(42)
+    expect(buf.get_int64(8)).to eq(43)
+  end
+
+  it "returns symbols for enums" do
+    buf = FFI::Buffer.new :long_long, 2
+    expect(LibTest.pack_varargs2(buf, :c1, "ii", :int, :c3, :int, :c4)).to eq(:c2)
+  end
+
   [ 0, 127, -128, -1 ].each do |i|
     it "call variadic with (:char (#{i})) argument" do
       buf = FFI::Buffer.new :long_long
       LibTest.pack_varargs(buf, "c", :char, i)
-      buf.get_int64(0).should == i
+      expect(buf.get_int64(0)).to eq(i)
     end
   end
+
   [ 0, 0x7f, 0x80, 0xff ].each do |i|
     it "call variadic with (:uchar (#{i})) argument" do
       buf = FFI::Buffer.new :long_long
       LibTest.pack_varargs(buf, "C", :uchar, i)
-      buf.get_int64(0).should == i
+      expect(buf.get_int64(0)).to eq(i)
     end
   end
+
   [ 0, 1.234567, 9.87654321 ].each do |v|
     it "call variadic with (:float (#{v})) argument" do
       buf = FFI::Buffer.new :long_long
       LibTest.pack_varargs(buf, "f", :float, v.to_f)
-      buf.get_float64(0).should == v
+      expect(buf.get_float64(0)).to eq(v)
     end
   end
+
   [ 0, 1.234567, 9.87654321 ].each do |v|
     it "call variadic with (:double (#{v})) argument" do
       buf = FFI::Buffer.new :long_long
       LibTest.pack_varargs(buf, "f", :double, v.to_f)
-      buf.get_float64(0).should == v
+      expect(buf.get_float64(0)).to eq(v)
     end
   end
 
@@ -53,6 +73,7 @@ describe "Function with variadic arguments" do
       'f' => [ 1.23456789 ],
       'd' => [ 9.87654321 ]
     }
+
     TYPE_MAP = {
       'c' => :char, 'C' => :uchar, 's' => :short, 'S' => :ushort,
       'i' => :int, 'I' => :uint, 'j' => :long_long, 'J' => :ulong_long,
@@ -62,9 +83,9 @@ describe "Function with variadic arguments" do
 
   def verify(p, off, v)
     if v.kind_of?(Float)
-      p.get_float64(off).should == v
+      expect(p.get_float64(off)).to eq(v)
     else
-      p.get_int64(off).should == v
+      expect(p.get_int64(off)).to eq(v)
     end
   end
 

@@ -36,16 +36,17 @@ describe 'Union' do
   before do
     @u = LibTest::TestUnion.new
   end
+
   it 'should place all the fields at offset 0' do
-    LibTest::TestUnion.members.all? { |m| LibTest::TestUnion.offset_of(m) == 0 }.should be_true
+    expect(LibTest::TestUnion.members.all? { |m| LibTest::TestUnion.offset_of(m) == 0 }).to be true
   end
   LibTest::Types.each do |k, type|
     it "should correctly align/write a #{type[0]} value" do
       @u[type[1]] = type[2]
       if k == 'f32' or k == 'f64'
-        (@u[type[1]] - LibTest.send("union_align_#{k}", @u.to_ptr)).abs.should < 0.00001
+        expect((@u[type[1]] - LibTest.send("union_align_#{k}", @u.to_ptr)).abs).to be < 0.00001
       else
-        @u[type[1]].should == LibTest.send("union_align_#{k}", @u.to_ptr)
+        expect(@u[type[1]]).to eq(LibTest.send("union_align_#{k}", @u.to_ptr))
       end
     end
   end
@@ -53,13 +54,14 @@ describe 'Union' do
     it "should read a #{type[0]} value from memory" do
       @u = LibTest::TestUnion.new(LibTest.send("union_make_union_with_#{k}", type[2]))
       if k == 'f32' or k == 'f64'
-        (@u[type[1]] - type[2]).abs.should < 0.00001
+        expect((@u[type[1]] - type[2]).abs).to be < 0.00001
       else
-        @u[type[1]].should == type[2]
+        expect(@u[type[1]]).to eq(type[2])
       end
     end
   end
+
   it 'should return a size equals to the size of the biggest field' do
-    LibTest::TestUnion.size.should == LibTest.union_size
+    expect(LibTest::TestUnion.size).to eq(LibTest.union_size)
   end
 end

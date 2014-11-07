@@ -12,8 +12,9 @@ describe "Custom type definitions" do
       typedef :uint, :fubar_t
       attach_function :ret_u32, [ :fubar_t ], :fubar_t
     end
-    CustomTypedef.ret_u32(0x12345678).should == 0x12345678
+    expect(CustomTypedef.ret_u32(0x12345678)).to eq(0x12345678)
   end
+
   it "variadic invoker with custom typedef" do
     module VariadicCustomTypedef
       extend FFI::Library
@@ -23,8 +24,9 @@ describe "Custom type definitions" do
     end
     buf = FFI::Buffer.new :uint, 10
     VariadicCustomTypedef.pack_varargs(buf, "i", :fubar_t, 0x12345678)
-    buf.get_int64(0).should == 0x12345678
+    expect(buf.get_int64(0)).to eq(0x12345678)
   end
+
   it "Callback with custom typedef parameter" do
     module CallbackCustomTypedef
       extend FFI::Library
@@ -35,7 +37,7 @@ describe "Custom type definitions" do
     end
     i = 0
     CallbackCustomTypedef.testCallbackU32rV(0xdeadbeef) { |v| i = v }
-    i.should == 0xdeadbeef
+    expect(i).to eq(0xdeadbeef)
   end
     module StructCustomTypedef
       extend FFI::Library
@@ -45,14 +47,15 @@ describe "Custom type definitions" do
         layout :a, :fubar3_t
       end
     end
+
   it "Struct with custom typedef field" do
     s = StructCustomTypedef::S.new
     s[:a] = 0x12345678
-    s.pointer.get_uint(0).should == 0x12345678
+    expect(s.pointer.get_uint(0)).to eq(0x12345678)
   end
 
   it "attach_function after a typedef should not reject normal types" do
-    lambda do
+    expect do
       Module.new do
         extend FFI::Library
         # enum() will insert a custom typedef called :foo for the enum
@@ -60,13 +63,18 @@ describe "Custom type definitions" do
         typedef :int, :bar
         
         ffi_lib TestLibrary::PATH
-        attach_function :ptr_ret_int32_t, [ :string, :foo ], :bar
+        begin
+          attach_function :ptr_ret_int32_t, [ :string, :foo ], :bar
+        rescue FFI::NotFoundError
+          # NetBSD uses #define instead of typedef for these
+          attach_function :ptr_ret_int32_t, :ptr_ret___int32_t, [ :string, :foo ], :bar
+        end
       end
-    end.should_not raise_error
+    end.not_to raise_error
   end
 
   it "detects the correct type for size_t" do
-    lambda do
+    expect do
       Module.new do
         extend FFI::Library
         ffi_lib "c"
@@ -78,6 +86,6 @@ describe "Custom type definitions" do
           attach_function :read, [:int, :pointer, :size_t], :ssize_t
         end
       end
-    end.should_not raise_error
+    end.not_to raise_error
   end
 end

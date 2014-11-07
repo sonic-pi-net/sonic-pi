@@ -22,19 +22,6 @@ puts "Benchmark FFI Struct.get(:int) performance, #{iter}x"
   }
 }
 
-puts "Benchmark FFI Struct.get(:int) using string name performance, #{iter}x"
-10.times {
-  puts Benchmark.measure {
-    i = 0; max = iter / 4; while i < max
-      s['i']
-      s['i']
-      s['i']
-      s['i']
-      i += 1
-    end
-  }
-}
-
 puts "Benchmark FFI Struct.put(:int) performance, #{iter}x"
 10.times {
   puts Benchmark.measure {

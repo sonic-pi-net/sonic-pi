@@ -1,4 +1,5 @@
 doc/
+bin/
 .yardoc
 *.orig
 nbproject/private
@@ -14,3 +15,5 @@ core
 lib/ffi/types.conf
 lib/ffi_c.bundle
 lib/ffi_c.so
+vendor
+.bundle

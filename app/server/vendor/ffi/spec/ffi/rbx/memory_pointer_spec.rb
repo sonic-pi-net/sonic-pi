@@ -1,5 +1,9 @@
 # coding: utf-8
-require "rubygems"
+#
+# This file is part of ruby-ffi.
+# For licensing, see LICENSE.SPECS
+#
+
 require File.expand_path(File.join(File.dirname(__FILE__), "spec_helper"))
 
 module CTest
@@ -12,8 +16,8 @@ end
 describe "MemoryPointer" do
   it "makes a pointer from a string" do
     m = FFI::MemoryPointer.from_string("FFI is Awesome")
-    m.total.should == 15
-    m.type_size.should == 1
+    expect(m.total).to eq(15)
+    expect(m.type_size).to eq(1)
   end
 
   it "does not make a pointer from non-strings" do
@@ -22,48 +26,48 @@ describe "MemoryPointer" do
 
   it "makes a pointer from a string with multibyte characters" do
     m = FFI::MemoryPointer.from_string("ぱんだ")
-    m.total.should == 10
-    m.type_size.should == 1
+    expect(m.total).to eq(10)
+    expect(m.type_size).to eq(1)
   end
 
   it "reads back a string" do
     m = FFI::MemoryPointer.from_string("FFI is Awesome")
-    m.read_string.should == "FFI is Awesome"
+    expect(m.read_string).to eq("FFI is Awesome")
   end
   
   it "makes a pointer for a certain number of bytes" do
     m = FFI::MemoryPointer.new(8)
     m.write_array_of_int([1,2])
-    m.read_array_of_int(2).should == [1,2]
+    expect(m.read_array_of_int(2)).to eq([1,2])
   end
 
   it "allows access to an element of the pointer (as an array)" do
     m = FFI::MemoryPointer.new(:int, 2)
     m.write_array_of_int([1,2])
-    m[0].read_int.should == 1
-    m[1].read_int.should == 2
+    expect(m[0].read_int).to eq(1)
+    expect(m[1].read_int).to eq(2)
   end
   
   it "allows writing as an int" do
     m = FFI::MemoryPointer.new(:int)
     m.write_int(1)
-    m.read_int.should == 1
+    expect(m.read_int).to eq(1)
   end
   
   it "allows writing as a long" do
     m = FFI::MemoryPointer.new(:long)
     m.write_long(10)
-    m.read_long.should == 10
+    expect(m.read_long).to eq(10)
   end
   
   it "raises an error if you try putting a long into a pointer of size 1" do
     m = FFI::MemoryPointer.new(1)
-    lambda { m.write_long(10) }.should raise_error
+    expect { m.write_long(10) }.to raise_error
   end
   
   it "raises an error if you try putting an int into a pointer of size 1" do
     m = FFI::MemoryPointer.new(1)
-    lambda { m.write_int(10) }.should raise_error
+    expect { m.write_int(10) }.to raise_error
   end
 #  it "does not raise IndexError for opaque pointers" do
 #    m = FFI::MemoryPointer.new(8)
@@ -76,41 +80,44 @@ describe "MemoryPointer" do
   it "makes a pointer for a certain type" do
     m = FFI::MemoryPointer.new(:int)
     m.write_int(10)
-    m.read_int.should == 10
+    expect(m.read_int).to eq(10)
   end
   
   it "makes a memory pointer for a number of a certain type" do
     m = FFI::MemoryPointer.new(:int, 2)
     m.write_array_of_int([1,2])
-    m.read_array_of_int(2).should == [1,2]
+    expect(m.read_array_of_int(2)).to eq([1,2])
   end
   
   it "makes a pointer for an object responding to #size" do
     m = FFI::MemoryPointer.new(Struct.new(:size).new(8))
     m.write_array_of_int([1,2])
-    m.read_array_of_int(2).should == [1,2]
+    expect(m.read_array_of_int(2)).to eq([1,2])
   end
 
   it "makes a pointer for a number of an object responding to #size" do
     m = FFI::MemoryPointer.new(Struct.new(:size).new(4), 2)
     m.write_array_of_int([1,2])
-    m.read_array_of_int(2).should == [1,2]
+    expect(m.read_array_of_int(2)).to eq([1,2])
   end  
+
   it "MemoryPointer#address returns correct value" do
     m = FFI::MemoryPointer.new(:long_long)
     magic = 0x12345678
     m.write_long(magic)
-    m.read_pointer.address.should == magic
+    expect(m.read_pointer.address).to eq(magic)
   end
+
   it "MemoryPointer#null? returns true for zero value" do
     m = FFI::MemoryPointer.new(:long_long)
     m.write_long(0)    
-    m.read_pointer.null?.should == true
+    expect(m.read_pointer.null?).to be true
   end
+
   it "MemoryPointer#null? returns false for non-zero value" do
     m = FFI::MemoryPointer.new(:long_long)
     m.write_long(0x12345678)
-    m.read_pointer.null?.should == false
+    expect(m.read_pointer.null?).to be false
   end
   
   it "initialize with block should execute block" do
@@ -118,6 +125,6 @@ describe "MemoryPointer" do
     FFI::MemoryPointer.new(:pointer) do |ptr|
       block_executed = true
     end
-    block_executed.should be_true
+    expect(block_executed).to be true
   end
 end

@@ -73,15 +73,11 @@ static void* dl_open(const char* name, int flags);
 static void dl_error(char* buf, int size);
 #define dl_sym(handle, name) GetProcAddress(handle, name)
 #define dl_close(handle) FreeLibrary(handle)
-enum { RTLD_LAZY=1, RTLD_NOW, RTLD_GLOBAL, RTLD_LOCAL };
 #else
 # define dl_open(name, flags) dlopen(name, flags != 0 ? flags : RTLD_LAZY)
 # define dl_error(buf, size) do { snprintf(buf, size, "%s", dlerror()); } while(0)
 # define dl_sym(handle, name) dlsym(handle, name)
 # define dl_close(handle) dlclose(handle)
-#ifndef RTLD_LOCAL
-# define RTLD_LOCAL 8
-#endif
 #endif
 
 static VALUE
@@ -321,13 +317,21 @@ rbffi_DynamicLibrary_Init(VALUE moduleFFI)
     rb_undef_method(SymbolClass, "new");
     rb_define_method(SymbolClass, "inspect", symbol_inspect, 0);
     rb_define_method(SymbolClass, "initialize_copy", symbol_initialize_copy, 1);
-    
 
 #define DEF(x) rb_define_const(LibraryClass, "RTLD_" #x, UINT2NUM(RTLD_##x))
     DEF(LAZY);
     DEF(NOW);
     DEF(GLOBAL);
     DEF(LOCAL);
+    DEF(NOLOAD);
+    DEF(NODELETE);
+    DEF(FIRST);
+    DEF(DEEPBIND);
+    DEF(MEMBER);
+    DEF(BINDING_MASK);
+    DEF(LOCATION_MASK);
+    DEF(ALL_MASK);
+#undef DEF
 
 }
 

@@ -289,6 +289,7 @@ struct_field(Struct* s, VALUE fieldName)
         return rbField;
     }
 
+    // TODO does this ever return anything?
     rbField = rb_hash_aref(layout->rbFieldMap, fieldName);
     if (rbField == Qnil) {
         VALUE str = rb_funcall2(fieldName, id_to_s, 0, NULL);

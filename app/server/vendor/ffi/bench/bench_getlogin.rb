@@ -6,6 +6,7 @@ iter = 1000000
 
 module Posix
   extend FFI::Library
+  ffi_lib FFI::Library::LIBC
   attach_function :getlogin, [], :string
 end
 if Posix.getlogin != Etc.getlogin

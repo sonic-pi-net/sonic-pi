@@ -14,16 +14,3 @@ s = 'a' * 1000
     ITER.times { LibTest.bench_S_v(s) }
   }
 }
-puts "Benchmark Invoker.call [ :string  ], :void performance, #{ITER}x calls"
-
-invoker = FFI.create_invoker(LIBTEST_PATH, 'bench_S_v', [ :string ], :void)
-unless invoker.respond_to?("call1")
-  class FFI::Invoker
-    alias :call1 :call
-  end
-end
-10.times {
-  puts Benchmark.measure {
-    ITER.times { invoker.call1(s) }
-  }
-}

@@ -42,6 +42,8 @@ module FFI
       "darwin"
     when /freebsd/
       "freebsd"
+    when /netbsd/
+      "netbsd"
     when /openbsd/
       "openbsd"
     when /sunos|solaris/
@@ -81,9 +83,10 @@ module FFI
     IS_LINUX = is_os("linux")
     IS_MAC = is_os("darwin")
     IS_FREEBSD = is_os("freebsd")
+    IS_NETBSD = is_os("netbsd")
     IS_OPENBSD = is_os("openbsd")
     IS_WINDOWS = is_os("windows")
-    IS_BSD = IS_MAC || IS_FREEBSD || IS_OPENBSD
+    IS_BSD = IS_MAC || IS_FREEBSD || IS_NETBSD || IS_OPENBSD
     CONF_DIR = File.join(File.dirname(__FILE__), 'platform', NAME)
     public
 

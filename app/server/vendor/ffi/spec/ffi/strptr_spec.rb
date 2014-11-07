@@ -8,7 +8,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "spec_helper"))
 describe "functions returning :strptr" do
 
   it "can attach function with :strptr return type" do
-    lambda do
+    expect do
       Module.new do
         extend FFI::Library
         ffi_lib FFI::Library::LIBC
@@ -18,7 +18,7 @@ describe "functions returning :strptr" do
           attach_function :_strdup, [ :string ], :strptr
         end
       end
-    end.should_not raise_error
+    end.not_to raise_error
   end
 
   module StrPtr
@@ -34,17 +34,17 @@ describe "functions returning :strptr" do
 
   it "should return [ String, Pointer ]" do
     result = StrPtr.strdup("test")
-    result[0].is_a?(String).should be_true
-    result[1].is_a?(FFI::Pointer).should be_true
+    expect(result[0].is_a?(String)).to be true
+    expect(result[1].is_a?(FFI::Pointer)).to be true
   end
 
   it "should return the correct value" do
     result = StrPtr.strdup("test")
-    result[0].should == "test"
+    expect(result[0]).to eq("test")
   end
 
   it "should return non-NULL pointer" do
     result = StrPtr.strdup("test")
-    result[1].null?.should be_false
+    expect(result[1]).not_to be_null
   end
 end

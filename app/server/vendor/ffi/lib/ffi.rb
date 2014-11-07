@@ -7,30 +7,13 @@ if !defined?(RUBY_ENGINE) || RUBY_ENGINE == 'ruby' || RUBY_ENGINE == 'rbx'
       require '1.9/ffi_c'
     elsif RUBY_VERSION =~ /2.0/
       require '2.0/ffi_c'
+    elsif RUBY_VERSION =~ /2.1/
+      require '2.1/ffi_c'
     else
       require 'ffi_c'
     end
   rescue Exception
-  # Start modifications
-  #
-  # Original code:
-  # require 'ffi_c'
-
-  # Modifications made for Sonic Pi multi-platform compatibility:
-  os = case RUBY_PLATFORM
-       when /.*arm.*-linux.*/
-         :raspberry
-       when /.*linux.*/
-         :linux
-       when /.*darwin.*/
-         :osx
-       when /.*mingw.*/
-         :windows
-       else
-         RUBY_PLATFORM
-       end
-  require_relative "../../../rb-native/#{os}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}/ffi_c"
-
+    require 'ffi_c'
   end
 
   require 'ffi/ffi'
