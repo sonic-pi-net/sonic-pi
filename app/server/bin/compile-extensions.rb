@@ -32,15 +32,11 @@ puts "creating #{native_dir}"
 FileUtils.mkdir_p native_dir
 
 # Rugged is used for storing the user's ruby music scripts in Git
+# FFI is used for MIDI lib support
 native_ext_dirs = [
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged')
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c')
 ]
-
-# FFI will be used in future for wrapping a native C OSC library for the
-# sonic pi ruby server to talk to scsynth with, still to be done
-
-# native_ext_dirs.push(File.expand_path(File.dirname(__FILE__) +
-# '/../vendor/ffi/ext/ffi_c'))
 
 native_ext_dirs.each do |ext_dir|
     puts "Compiling native extension in #{ext_dir}"
