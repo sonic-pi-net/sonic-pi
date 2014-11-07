@@ -29,6 +29,7 @@ The dependencies for building and running this are:
 * `qt4-dev-tools`
 * `cmake`
 * `ruby-dev`
+* `libffi-dev`
 
 Use `sudo apt-get install` to ensure each of these are on your system.
 
@@ -59,6 +60,7 @@ Debian package dependency names:
 * `qt4-dev-tools`
 * `ruby-dev`
 * `cmake` (for some configurations, e.g., 32bit x86)
+* `libffi-dev`
 
 Fedora package dependency names:
 
