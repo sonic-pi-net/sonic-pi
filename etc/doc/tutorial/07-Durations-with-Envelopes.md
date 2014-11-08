@@ -90,7 +90,7 @@ The sustain time is useful for important sounds you which to hold full presence 
 
 ## Decay Time
 
-Finally, for the moments where you need an extra level of control, you can also specify a decay time. This is a phase of the envelope the fits between the attack and sustain phases and specifies a time where the amplitude will drop from the `attack_level` to the `sustain_level`. By default, the decay argument is 0 and both the attack and sustain levels are 1 so you'll need to specify them for the decay time to have any effect:
+Finally, for the moments where you need an extra level of control, you can also specify a decay time. This is a phase of the envelope that fits between the attack and sustain phases and specifies a time where the amplitude will drop from the `attack_level` to the `sustain_level`. By default, the decay argument is 0 and both the attack and sustain levels are 1 so you'll need to specify them for the decay time to have any effect:
 
 ```
 play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain: 1, release: 0.5
