@@ -157,6 +157,8 @@ Packaging:
   - there are some things that can be trimmed, such as docs
 * download a matching DevKit from http://rubyinstaller.org/downloads/
 * make sure CMake, DevKit\bin, and DevKit\mingw\bin are in your path (DevKit doesn't do this automatically since it's not a gem install)
+* Compile native extensions: `ruby app/server/bin/compile-extensions.rb`
+  - if you get a "no Makefiles" error for rugged, you may need to patch app\server\vendor\rugged\ext\rugged\extconf.rb, see https://github.com/jweather/rugged/commit/5fa0cb957ae20faddfa3e3504f122495bbd4e72f
 * There is an Advanced Installer config file in `Sonic Pi.aip` for packaging to MSI: http://www.advancedinstaller.com/
 
 ## Unsupported development HTML Interface
