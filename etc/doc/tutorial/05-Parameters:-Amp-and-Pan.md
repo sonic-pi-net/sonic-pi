@@ -1,6 +1,6 @@
 # Parameters: Amp and Pan
 
-As well as allowing you to control which note to play or which sample to trigger, Sonic Pi provides a whole range of parameters to craft and control the sounds. We'll be covering many of these in this tutorial and there's extensive documentation for each in the help system. However, for now we'll cover introduce of the most useful: *amplitude*.  First, let's look at what parameters actually are.
+As well as allowing you to control which note to play or which sample to trigger, Sonic Pi provides a whole range of parameters to craft and control the sounds. We'll be covering many of these in this tutorial and there's extensive documentation for each in the help system. However, for now we'll introduce the most useful: *amplitude*.  First, let's look at what parameters actually are.
 
 
 ## Parameters
