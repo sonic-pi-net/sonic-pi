@@ -331,7 +331,7 @@ module SonicPi
       @gitsave.save!(filename, content)
     end
 
-    def __spider_eval(code, info={}, workspace="")
+    def __spider_eval(code, info={})
       id = @job_counter.next
 
       # skip __nosave lines for error reporting
@@ -362,7 +362,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
           @run_start_time = now if num_running_jobs == 1
           __info "Starting run #{id}"
-          eval(code, nil, workspace, firstline)
+          eval(code, nil, info[:workspace] || 'eval', firstline)
           __schedule_delayed_blocks_and_messages!
         rescue Exception => e
           __no_kill_block do
