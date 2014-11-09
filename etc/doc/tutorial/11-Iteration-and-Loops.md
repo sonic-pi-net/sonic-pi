@@ -2,7 +2,7 @@
 
 So far we've spent a lot of time looking at the different sounds you can make with `play`, `sample` and `with_fx` blocks. We've also learned how to trigger these things through time using `sleep`.
 
-As you've probably found out, there's a *lot* of fun you can have with these basic building blocks. However, a whole new dimension of fun opens up when you start using the power of code to structure your music and compositions. In the next few sections we'll explore some of this powerful new tools. First up is iteration and loops.
+As you've probably found out, there's a *lot* of fun you can have with these basic building blocks. However, a whole new dimension of fun opens up when you start using the power of code to structure your music and compositions. In the next few sections we'll explore some of these powerful new tools. First up is iteration and loops.
 
 ## Repetition
 
