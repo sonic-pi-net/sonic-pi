@@ -40,7 +40,7 @@ play 62
 sleep 0.25
 ```
 
-Now that's a lot of code! What happens if you want to change sample to `:elec_plip`? You're going to have to find all the places with the original `:elec_blup` and switch them over. More importantly, what if you wanted to repeat the original piece of code 50 times or 1000? Now that would be a lot of code and a lot of lines of code to alter to make if you wanted to make a change.
+Now that's a lot of code! What happens if you want to change sample to `:elec_plip`? You're going to have to find all the places with the original `:elec_blup` and switch them over. More importantly, what if you wanted to repeat the original piece of code 50 times or 1000? Now that would be a lot of code and a lot of lines of code to alter if you wanted to make a change.
 
 ## Iteration
 
