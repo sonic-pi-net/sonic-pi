@@ -112,7 +112,7 @@ play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, release
 
 ## Random notes
 
-Chords and scales are great ways of constraining the a random choice to something meaningful. Have a play with this example which picks notes from random from the chord E3 minor:
+Chords and scales are great ways of constraining a random choice to something meaningful. Have a play with this example which picks random notes from the chord E3 minor:
 
 ```
 use_synth :tb303
