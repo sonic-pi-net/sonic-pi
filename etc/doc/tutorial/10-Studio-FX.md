@@ -153,7 +153,7 @@ We may use very deep nestings for crazy results. However, be warned, the FX can 
 
 ## Discovering FX
 
-Sonic Pi ships with a large number of FX for you to play with. To find out which ones are available click on FX in the far right of this help system and you'll see a list of available options. Here's a list of some of my favourite:
+Sonic Pi ships with a large number of FX for you to play with. To find out which ones are available click on FX in the far left of this help system and you'll see a list of available options. Here's a list of some of my favourite:
 
 * wobble,
 * reverb,
