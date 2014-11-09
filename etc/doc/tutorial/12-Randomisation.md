@@ -99,7 +99,7 @@ end
 We've already seen `rrand`, but let's run over it again. It returns a random number between two values exclusively. That means it will never return either the top or bottom number - always something in between the two. The number will always be a float - meaning it's not a whole number but a fraction of a number. Examples of floats are returned by `rrand(20, 110)`
 
 * 20.343235
-* 12.324324
+* 42.324324
 * 100.93423
 
 ## rrand_i
