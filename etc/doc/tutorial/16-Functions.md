@@ -13,7 +13,7 @@ define :foo do
 end
 ```
 
-Here, we've define a new function called `foo`. We do this with our old friend the do/end block and the magic code `define` followed by the name we which to give our function. We didn't have to call it `foo` we could have called it anything we want such as `bar`, `baz` or ideally something meaningful to you like `main_section` or `lead_riff`. 
+Here, we've defined a new function called `foo`. We do this with our old friend the do/end block and the magic code `define` followed by the name we wish to give our function. We didn't have to call it `foo` we could have called it anything we want such as `bar`, `baz` or ideally something meaningful to you like `main_section` or `lead_riff`. 
 
 Remember to add a colon `:` to the name of your function when you define it.
 
