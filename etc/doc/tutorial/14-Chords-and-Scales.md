@@ -95,7 +95,7 @@ Which would you prefer to write?
 Finally Sonic Pi also has support for a wide range of scales. How about playing a C3 major scale?
 
 ```
-play_pattern_timed chord(:c3, :major), 0.125, release: 0.1
+play_pattern_timed scale(:c3, :major), 0.125, release: 0.1
 ```
 
 We can even ask for more octaves:
