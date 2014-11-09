@@ -49,7 +49,7 @@ This time we're now sleeping for a different amount of time depending on which c
 
 ## Simple if
 
-Sometimes you want optionally execute just one line of code. This is possible by placing `if` and then the question at the end. For example:
+Sometimes you want to optionally execute just one line of code. This is possible by placing `if` and then the question at the end. For example:
 
 ```
 use_synth :dsaw
@@ -63,4 +63,4 @@ loop do
 end
 ```
 
-This will chords of different numbers with the chance of each note playing having a different probability.
+This will play chords of different numbers with the chance of each note playing having a different probability.
