@@ -131,26 +131,54 @@ module SonicPi
       File.absolute_path("#{server_path}/native/#{os}")
     end
 
+    def log_raw(s)
+        # TODO: consider moving this into a worker thread to reduce file
+        # io overhead:
+      File.open("#{log_path}/debug.log", 'a') {|f| f.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")}
+    end
+
+    def log_exception(e, context="")
+      if debug_mode
+        res = "Exception => #{context} #{e.message}"
+        e.backtrace.each do |b|
+          res << "                                        "
+          res << b
+          res << "\n"
+        end
+        log_raw res
+      end
+    end
+
     def log(message)
       if debug_mode
         res = ""
         first = true
         while !(message.empty?)
-          res << "                                        " unless first
-          res << message.slice!(0..133)
-          res << "\n"
-          first = false
+          if first
+            res << message.slice!(0..151)
+            res << "\n"
+            first = false
+          else
+            res << "                                        "
+            res << message.slice!(0..133)
+            res << "\n"
+
+          end
         end
-        File.open("#{log_path}/debug.log", 'a') {|f| f.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{res}")}
+        log_raw res
       end
     end
 
     def debug_mode
-      false
+      true
     end
 
     def osc_debug_mode
-      false
+      true
+    end
+
+    def incoming_osc_debug_mode
+      true
     end
 
     def resolve_synth_opts_hash_or_array(opts)

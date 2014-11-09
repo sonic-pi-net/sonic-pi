@@ -44,27 +44,9 @@ module SonicPi
 
       @PORT = port
 
-      @osc_events = IncomingEvents.new
+      @osc_events = IncomingEvents.new(:internal_events, -10)
 
-      @scsynth = SCSynthExternal.new do |m, args|
-
-        case m
-        when "/n_end"
-          id = args[0].to_i
-          @osc_events.async_event "/n_end/#{id}", args
-        when "/n_off"
-          id = args[0].to_i
-          @osc_events.async_event "/n_off/#{id}", args
-        when "/n_on"
-          id = args[0].to_i
-          @osc_events.async_event "/n_on/#{id}", args
-        when "/n_go"
-          id = args[0].to_i
-          @osc_events.async_event "/n_go/#{id}", args
-        else
-          @osc_events.async_event m, args
-        end
-      end
+      @scsynth = SCSynthExternal.new(@osc_events)
 
       @position_codes = {
         head: 0,
@@ -75,7 +57,7 @@ module SonicPi
       }
 
       at_exit do
-        puts "Exiting - shutting down scsynth server..."
+        log "Exiting - shutting down scsynth server..."
         @scsynth.shutdown
       end
 

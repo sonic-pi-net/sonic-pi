@@ -17,12 +17,15 @@ require_relative "promise"
 
 module SonicPi
   class IncomingEvents
-    def initialize
+    include Util
+
+    def initialize(name=:event_handler, priority=0)
       @event_queue = Queue.new
       @handlers = {}
       @continue = true
       @handler_thread = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :event_handler)
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, name)
+        Thread.current.priority = priority
         while @continue do
           consume_event
         end
@@ -115,10 +118,7 @@ module SonicPi
               end
             end
           rescue Exception => e
-            Kernel.puts e.message
-            e.backtrace.each do |b|
-              Kernel.puts b
-            end
+            log_exception e
           end
         end
 

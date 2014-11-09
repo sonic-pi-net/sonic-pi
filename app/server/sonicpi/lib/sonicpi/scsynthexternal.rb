@@ -13,23 +13,19 @@
 require_relative "util"
 require_relative "promise"
 require_relative "oscencode"
+require_relative "scsynthoscreceiver"
 
 module SonicPi
   class SCSynthExternal
     include Util
 
-    def initialize(opts={}, &callback)
+    def initialize(events, opts={})
       @hostname = opts[:hostname] || "localhost"
       @port = opts[:sc_port] || 4556
       @scsynth_pid = nil
       @jack_pid = nil
       @out_queue = SizedQueue.new(20)
-
-      @client = OSC::Server.new(0)
-
-      @client.add_method '*' do |m|
-        callback.call(m.address, m.to_a)
-      end
+      @client = ScsynthOSCReceiver.new(0, events)
 
       @osc_in_thread = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_in)
@@ -60,7 +56,6 @@ module SonicPi
           end
         end
       end
-
       boot
     end
 
@@ -100,7 +95,7 @@ module SonicPi
       end
 
       log "Sending /quit command to server"
-      @client.send(OSC::Message.new("/quit"), @hostname, @port)
+      @client.send_raw(OSC::Message.new("/quit").encode, @hostname, @port)
       @osc_in_thread.kill
       @osc_out_thread.kill
     end
@@ -112,7 +107,7 @@ module SonicPi
         server_log "Server already booted..."
         return false
       end
-
+      log "booting server..."
       case os
       when :raspberry
         boot_server_raspberry_pi
@@ -169,7 +164,6 @@ module SonicPi
     end
 
     def boot_and_wait(&boot_block)
-
       p = Promise.new
       connected = false
 

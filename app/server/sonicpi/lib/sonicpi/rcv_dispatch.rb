@@ -107,7 +107,6 @@ module SonicPi
       Dir["#{dir}/**/*.rb"].each do |d|
         load d
       end
-      puts "reloaded"
     end
   end
 end

@@ -149,10 +149,7 @@ module SonicPi
         @on_destroyed_callbacks.each{|cb| cb.call}
         @on_destroyed_callbacks = []
       rescue Exception => e
-        Kernel.puts "Exception in on destroyed callbacks: #{e.message}"
-        e.backtrace.each do |b|
-          Kernel.puts b
-        end
+        log_exception e, "in on destroyed callbacks"
       end
     end
 
@@ -161,10 +158,7 @@ module SonicPi
         @on_started_callbacks.each{|cb| cb.call}
         @on_started_callbacks = []
       rescue Exception => e
-        Kernel.puts "Exception in on started callbacks: #{e.message}"
-        e.backtrace.each do |b|
-          Kernel.puts b
-        end
+        log_exception e, "in on started callbacks"
       end
     end
 
