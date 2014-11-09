@@ -552,6 +552,7 @@ void MainWindow::initPrefsWindow() {
   addKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L | SPi_CTRL);
 
   addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
+  addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_G | SPi_CTRL);
 
   // tab return
   addKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
@@ -559,10 +560,15 @@ void MainWindow::initPrefsWindow() {
 
   // copy paste
   addKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_META);
+  addKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
+  addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_META);
+  addKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z | SPi_META);
+  addKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_META);
+  addKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::SelectAll, Qt::Key_A | SPi_META);
 
   ws->standardCommands()->readSettings(settings);
