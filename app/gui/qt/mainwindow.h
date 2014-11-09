@@ -113,9 +113,7 @@ private slots:
     void helpContext();
 
 private:
-    void addMetaKeyBinding(QSettings &qs, int cmd, int key);
-    void addStdKeyBinding(QSettings &qs, int cmd, int key);
-    void addCtrlKeyBinding(QSettings &qs, int cmd, int key);
+    void addKeyBinding(QSettings &qs, int cmd, int key);
     void addOtherKeyBinding(QSettings &qs, int cmd, int key);
     void initWorkspace(SonicPiScintilla* ws);
     void startOSCListener();

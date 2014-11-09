@@ -486,17 +486,6 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 }
 
- void MainWindow::addCtrlKeyBinding(QSettings &qs, int cmd, int key)
- {
-   QString skey;
-   skey.sprintf("/Scintilla/keymap/c%d/key", cmd);
-#if defined(Q_OS_MAC)
-   qs.setValue(skey, key | Qt::META);
-#else
-   qs.setValue(skey, key | Qt::CTRL);
-#endif
- }
-
  void MainWindow::addOtherKeyBinding(QSettings &qs, int cmd, int key)
  {
    QString skey;
@@ -504,25 +493,12 @@ void MainWindow::initPrefsWindow() {
    qs.setValue(skey, key);
  }
 
-  void MainWindow::addStdKeyBinding(QSettings &qs, int cmd, int key)
+  void MainWindow::addKeyBinding(QSettings &qs, int cmd, int key)
  {
    QString skey;
    skey.sprintf("/Scintilla/keymap/c%d/key", cmd);
    qs.setValue(skey, key);
  }
-
-  void MainWindow::addMetaKeyBinding(QSettings &qs, int cmd, int key)
- {
-   QString skey;
-   skey.sprintf("/Scintilla/keymap/c%d/key", cmd);
-#if defined(Q_OS_MAC)
-   qs.setValue(skey, key | Qt::CTRL);
-#else
-   qs.setValue(skey, key | Qt::ALT);
-#endif
- }
-
-
 
  void MainWindow::initWorkspace(SonicPiScintilla* ws) {
    ws->standardCommands()->clearKeys();
@@ -530,50 +506,64 @@ void MainWindow::initPrefsWindow() {
    QString skey;
    QSettings settings("Sonic Pi", "Key bindings");
 
+#if defined(Q_OS_MAC)
+   int SPi_CTRL = Qt::META;
+   int SPi_META = Qt::CTRL;
+#else
+   int SPi_CTRL = Qt::CTRL;
+   int SPi_META = Qt::ALT;
+#endif
+
 
    // basic navigation
-  addCtrlKeyBinding(settings, QsciCommand::LineDown, Qt::Key_N);
+  addKeyBinding(settings, QsciCommand::LineDown, Qt::Key_N | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineDown, Qt::Key_Down);
+  addKeyBinding(settings, QsciCommand::LineDownExtend, Qt::Key_Down | Qt::SHIFT);
 
-  addCtrlKeyBinding(settings, QsciCommand::LineUp, Qt::Key_P);
+  addKeyBinding(settings, QsciCommand::LineUp, Qt::Key_P | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineUp, Qt::Key_Up);
+  addKeyBinding(settings, QsciCommand::LineUpExtend, Qt::Key_Up | Qt::SHIFT);
 
-  addCtrlKeyBinding(settings, QsciCommand::CharRight, Qt::Key_F);
+  addKeyBinding(settings, QsciCommand::CharRight, Qt::Key_F | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::CharRight, Qt::Key_Right);
+  addKeyBinding(settings, QsciCommand::CharRightExtend, Qt::Key_Right | Qt::SHIFT);
 
-  addCtrlKeyBinding(settings, QsciCommand::WordRight, Qt::Key_F | Qt::SHIFT);
-  addOtherKeyBinding(settings, QsciCommand::WordRight, Qt::Key_Right | Qt::SHIFT);
+  addKeyBinding(settings, QsciCommand::WordRight, Qt::Key_F | SPi_CTRL | Qt::SHIFT);
+  addOtherKeyBinding(settings, QsciCommand::WordRight, Qt::Key_Right | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::WordRightExtend, Qt::Key_Right | SPi_CTRL | Qt::SHIFT);
 
-  addCtrlKeyBinding(settings, QsciCommand::CharLeft, Qt::Key_B);
+  addKeyBinding(settings, QsciCommand::CharLeft, Qt::Key_B | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::CharLeft, Qt::Key_Left);
+  addKeyBinding(settings, QsciCommand::CharLeftExtend, Qt::Key_Left | Qt::SHIFT);
 
-  addCtrlKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_B | Qt::SHIFT);
-  addOtherKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_Left | Qt::SHIFT);
+  addKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_B | SPi_CTRL | Qt::SHIFT);
+  addOtherKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_Left | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::WordLeftExtend, Qt::Key_Left | SPi_CTRL | Qt::SHIFT);
 
-  addCtrlKeyBinding(settings, QsciCommand::Delete, Qt::Key_D);
-  addCtrlKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_H);
+  addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_H | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_Backspace);
 
-  addCtrlKeyBinding(settings, QsciCommand::Home, Qt::Key_A);
-  addCtrlKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E);
+  addKeyBinding(settings, QsciCommand::Home, Qt::Key_A | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E | SPi_CTRL);
 
-  addCtrlKeyBinding(settings, QsciCommand::Delete, Qt::Key_D);
-  addCtrlKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K);
-  addCtrlKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L);
+  addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L | SPi_CTRL);
 
-  addStdKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
+  addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
 
   // tab return
-  addStdKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
-  addStdKeyBinding(settings, QsciCommand::Tab, Qt::Key_Tab);
+  addKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
+  addKeyBinding(settings, QsciCommand::Tab, Qt::Key_Tab);
 
   // copy paste
-  addMetaKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X);
-  addMetaKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C);
-  addMetaKeyBinding(settings, QsciCommand::Paste, Qt::Key_V);
-  addMetaKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z);
-  addMetaKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT);
-  addMetaKeyBinding(settings, QsciCommand::SelectAll, Qt::Key_A);
+  addKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_META);
+  addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
+  addKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_META);
+  addKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z | SPi_META);
+  addKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_META);
+  addKeyBinding(settings, QsciCommand::SelectAll, Qt::Key_A | SPi_META);
 
   ws->standardCommands()->readSettings(settings);
 
