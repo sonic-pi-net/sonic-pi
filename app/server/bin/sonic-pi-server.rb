@@ -68,7 +68,8 @@ osc_server.add_method("/save-and-run-buffer") do |payload|
     args = payload.to_a
     buffer_id = args[0]
     code = args[1]
-    sp.__spider_eval code
+    workspace = args[2]
+    sp.__spider_eval code, {}, workspace
     sp.__save_buffer(buffer_id, code)
   rescue Exception => e
     puts "Caught exception when attempting to save and run buffer!"
