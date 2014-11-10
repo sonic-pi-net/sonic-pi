@@ -50,5 +50,13 @@ module SonicPi
       assert_equal(Fixnum, rand_i(1.5).class)
     end
 
+    def test_quantise
+      assert_equal(10.0, quantise(10, 1))
+      assert_equal(9.9, quantise(10, 1.1))
+      assert_equal(13.3, quantise(13.3212, 0.1))
+      assert_equal(13.4, quantise(13.3212, 0.2))
+      assert_equal(13.2, quantise(13.3212, 0.3))
+      assert_equal(13.5, quantise(13.3212, 0.5))
+    end
   end
 end

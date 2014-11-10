@@ -340,6 +340,30 @@ end"]
  puts vt # prints 1"]
 
 
+    def quantise(n, resolution)
+      raise "quantisation resolution should be positive" if resolution <= 0
+      (n.to_f / resolution).round * resolution
+    end
+    doc name:           :quantise,
+        introduced:     Version.new(2,1,0),
+        summary:        "Quantise a value to resolution",
+        args:           [[:number, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Round value to the nearest multiple of resolution.",
+        examples:        [
+"
+quantise(10, 1) # 10 is already a multiple of 1, so returns 10" ,
+"
+quantise(10, 1.1) # Returns 9.9 which is 1.1 * 9",
+"
+quantise(13.3212, 0.1) # 13.3",
+"
+quantise(13.3212, 0.2) # 13.4",
+"
+quantise(13.3212, 0.3) # 13.2",
+"
+quantise(13.3212, 0.5) # 13.5"]
 
 
     def dice(num_sides=6)
