@@ -1,6 +1,6 @@
 # Live Coding
 
-, now we've learned enough to really start having some fun. In this section we'll draw from all the previous sections and show you how you can start making your music compositions live and turning them into a performance. For that we'll need 3 main ingredients:
+Now we've learned enough to really start having some fun. In this section we'll draw from all the previous sections and show you how you can start making your music compositions live and turning them into a performance. For that we'll need 3 main ingredients:
 
 * An ability to write code that makes sounds - CHECK!
 * An ability to write functions - CHECK!
