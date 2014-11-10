@@ -103,7 +103,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   connect(rec_flash_timer, SIGNAL(timeout()), this, SLOT(toggleRecordingOnIcon()));
 
   osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
-  serverProcess = new QProcess();
+  serverProcess = new QProcess(this);
 
 #if defined(Q_OS_WIN)
   QString prg_path = "ruby.exe";
