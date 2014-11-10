@@ -149,6 +149,7 @@ private:
     bool osc_incoming_port_open;
     bool is_recording;
     bool show_rec_icon_a;
+    bool loaded_workspaces;
     QTimer *rec_flash_timer;
 
     SonicPiScintilla *textEdit;
