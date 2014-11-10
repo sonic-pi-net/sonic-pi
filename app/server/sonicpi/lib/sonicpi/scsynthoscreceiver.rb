@@ -22,7 +22,7 @@ module SonicPi
       @socket = UDPSocket.new
       @socket.bind( '', port )
       @osc_events = osc_events
-      @decoder = OscDecode.new
+      @decoder = OscDecode.new(true)
       @udp_incoming = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_osc_detector)
         Thread.current.priority = -10

@@ -14,7 +14,13 @@
 module SonicPi
   class OscDecode
 
-    def initialize
+    def initialize(use_cache = false, cache_size=1000)
+      @float_cache = {}
+      @integer_cache = {}
+      @cache_size = cache_size
+
+      @num_cached_integers = 0
+      @num_cached_floats = 0
     end
 
     def decode_single_message(m)
@@ -24,9 +30,7 @@ module SonicPi
 
       m.force_encoding("BINARY")
 
-      args = []
-      idx = 0
-      string_terminator = "\x00"
+      args, idx, string_terminator = [], 0, "\x00"
 
       # Get OSC address e.g. /foo
       orig_idx = idx
@@ -47,16 +51,31 @@ module SonicPi
           case t
           when "i"
             # int32
-            i = m[idx, 4].unpack('N')[0]
+            raw = m[idx, 4]
+            arg, idx = @integer_cache[raw], idx + 4
 
-            # Values placed inline for efficiency:
-            # 2**32 == 4294967296
-            # 2**31 - 1 == 2147483647
-            i -= 4294967296 if i > 2147483647
-            arg, idx = i, idx + 4
+            unless arg
+              arg = raw.unpack('N')[0]
+              # Values placed inline for efficiency:
+              # 2**32 == 4294967296
+              # 2**31 - 1 == 2147483647
+              arg -= 4294967296 if arg > 2147483647
+              if @num_cached_integers < @cache_size
+                @integer_cache[raw] = arg
+                @num_cached_integers += 1
+              end
+            end
           when "f"
             # float32
-            arg, idx = m[idx, 4].unpack('g')[0], idx + 4
+            raw = m[idx, 4]
+            arg, idx = @float_cache[raw], idx + 4
+            unless arg
+              arg = raw.unpack('g')[0]
+              if @num_cached_floats < @cache_size
+                @float_cache[raw] = arg
+                @num_cached_floats += 1
+              end
+            end
           when "s"
             # string
             orig_idx = idx
