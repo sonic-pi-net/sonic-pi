@@ -769,6 +769,7 @@ void MainWindow::startOSCListener() {
             if (msg->arg().popStr(id).popStr(content).isOkNoMoreArgs()) {
 
               QMetaObject::invokeMethod( this, "replaceBuffer", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)));
+	      loaded_workspaces = true;
             } else {
               std::cout << "Server: unhandled replace-buffer: "<< std::endl;
             }
@@ -1513,7 +1514,8 @@ void MainWindow::onExitCleanup()
     std::cout << "Server process is not running, something is up..." << std::endl;
     cont_listening_for_osc = false;
   } else {
-    saveWorkspaces();
+    if (loaded_workspaces)
+      saveWorkspaces();
     sleep(1);
     std::cout << "Asking server process to exit..." << std::endl;
     Message msg("/exit");
