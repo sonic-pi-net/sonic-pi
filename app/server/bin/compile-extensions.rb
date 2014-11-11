@@ -40,6 +40,7 @@ native_ext_dirs = [
 
   File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean/ext/did_you_mean'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof/ext/ruby_prof/')
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c')
 ]
 
 native_ext_dirs.each do |ext_dir|

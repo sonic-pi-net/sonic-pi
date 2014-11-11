@@ -79,7 +79,6 @@ module SonicPi
     def inspect
       "[#{@name}:#{@id}]"
     end
-
   end
 
 end

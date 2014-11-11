@@ -28,31 +28,18 @@ module SonicPi
         auto_cue = true
       end
 
-      case block.arity
-      when 0
-        define(name) do |a|
-          block.call
-        end
-      when 1
-        define(name) do |a|
-          block.call(a)
-        end
-      else
-        raise "Live loop block must only accept 0 or 1 args"
-      end
+      define(name, &block)
 
       in_thread(name: name) do
         Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
-        res = args_h[:init]
         loop do
           cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
-          res = send(name, res)
+          send(name)
         end
       end
 
       st = sthread(name)
       st.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue if st
-      st
     end
     doc name:           :live_loop,
         introduced:     Version.new(2,1,0),
@@ -120,7 +107,6 @@ at [1, 2, 3],
   sample :drum_cymbal_open, p          # cymbal hits three times
 end
 "]
-
 
     def version
       @version
@@ -727,17 +713,7 @@ sleep rt(1)  # bypasses bpm scaling and sleeps for a second
 play 72"]
 
 
-    def with_abs_time(&block)
-      abs_t = Thread.current.thread_variable_get :sonic_pi_spider_time
-      cur_abs_t = Thread.current.thread_variable_get :sonic_pi_spider_use_absolute_time
 
-      Thread.current.thread_variable_set :sonic_pi_spider_absolute_time, abs_t
-      Thread.current.thread_variable_set :sonic_pi_spider_use_absolute_time, t
-
-      block.callf
-
-      Thread.current.thread_variable_set :sonic_pi_spider_use_absolute_time, cur_abs_t
-    end
 
     def sleep(seconds)
       return if seconds == 0
@@ -774,7 +750,6 @@ play 72"]
       Thread.current.thread_variable_set :sonic_pi_spider_time, new_vt
       ## reset control deltas now that time has advanced
       Thread.current.thread_variable_set :sonic_pi_control_deltas, {}
-      seconds
     end
     doc name:           :sleep,
         introduced:     Version.new(2,0,0),
@@ -1009,8 +984,9 @@ in_thread do
 end"]
 
 
-    def in_thread(*opts, &block)
 
+
+    def in_thread(*opts, &block)
       args_h = resolve_synth_opts_hash_or_array(opts)
       name = args_h[:name]
 

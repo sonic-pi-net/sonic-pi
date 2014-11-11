@@ -32,31 +32,7 @@ module SonicPi
       @samples = {}
       @recorders = {}
       @recording_mutex = Mutex.new
-      @status_mutex = Mutex.new
-
       reset
-
-      @status = @server.status
-      @last_status_check = Time.now.to_i
-      @cont = true
-
-      Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :studio_status_updater)
-        while server_alive? && @cont
-          status_updater
-          Kernel.sleep(1)
-        end
-      end
-    end
-
-    def server_alive?
-      (@last_status_check + 3000) > Time.now.to_i
-    end
-
-    def status_updater
-      @status_mutex.synchronize do
-        # @status = @server.status
-      end
     end
 
     def load_sample(path)
@@ -162,7 +138,6 @@ module SonicPi
     end
 
     def exit
-      @cont = false
       @server.exit
     end
 

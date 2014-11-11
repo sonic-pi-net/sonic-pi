@@ -57,10 +57,6 @@ module SonicPi
       raise "please implement introduced version for synth info: #{self.class}"
     end
 
-    def family
-      "X"
-    end
-
     def args
       args_defaults.keys
     end
@@ -560,10 +556,6 @@ module SonicPi
   end
 
   class Saw < Beep
-    def family
-      "saw"
-    end
-
     def name
       "Saw Wave"
     end
@@ -580,199 +572,6 @@ module SonicPi
       "A saw wave with a low pass filter. Great for using with FX such as the built in low pass filter (available via the cutoff arg) due to the complexity and thickness of the sound."
     end
   end
-
-  class SawN < Saw
-    def name
-      "Normalised Saw Wave"
-    end
-
-    def introduced
-      Version.new(2,1,0)
-    end
-
-    def synth_name
-      "n_saw"
-    end
-
-    def doc
-      "A saw wave with a low pass filter passed through a normaliser."
-    end
-
-  end
-
-  class SawD < Saw
-    def name
-      "Detuned Saw Waves"
-    end
-
-    def introduced
-      Version.new(2,1,0)
-    end
-
-    def synth_name
-      "d_saw"
-    end
-
-    def doc
-      "A pair of detuned saw waves passed through a low pass filter"
-    end
-
-    def arg_defaults
-      super.merge({
-                    :detune => 0.1,
-                    :detune_slide => 0,
-                    :detune_slide_shape => 5,
-                    :detune_slide_curve => 0
-                  })
-    end
-  end
-
-  class SawND < SawD
-    def name
-      "Normalised Detuned Saw Waves"
-    end
-
-    def introduced
-      Version.new(2,1,0)
-    end
-
-    def synth_name
-      "nd_saw"
-    end
-
-    def doc
-      "A pair of detuned saw waves passed through a low pass filter and then through a normaliser"
-    end
-  end
-
-  class SawM < Saw
-    def name
-      "Modulated Saw Wave"
-    end
-
-    def introduced
-      Version.new(2,0,0)
-    end
-
-    def synth_name
-      "m_saw"
-    end
-
-    def doc
-      "A saw wave passed through a low pass filter which modulates between two separate notes via a variety of control waves."
-    end
-
-    def arg_defaults
-      super.merge({
-                    :mod_phase => 0.25,
-                    :mod_phase_slide => 0,
-                    :mod_phase_slide_shape => 5,
-                    :mod_phase_slide_curve => 0,
-                    :mod_range => 5,
-                    :mod_range_slide => 0,
-                    :mod_range_slide_shape => 5,
-                    :mod_range_slide_curve => 0,
-                    :mod_pulse_width => 0.5,
-                    :mod_pulse_width_slide => 0,
-                    :mod_pulse_width_slide_shape => 5,
-                    :mod_pulse_width_slide_curve => 0,
-                    :mod_phase_offset => 0,
-                    :mod_invert_wave => 0,
-                    :mod_wave => 1
-                })
-    end
-  end
-
-  class SawNM < SawM
-    def name
-      "Normalised Modulated Saw Wave"
-    end
-
-    def introduced
-      Version.new(2,1,0)
-    end
-
-    def synth_name
-      "nm_saw"
-    end
-
-    def doc
-      "A modulated saw wave passed through a low pass filter and then a normaliser"
-    end
-
-    def arg_defaults
-      super.merge({
-                    :mod_phase => 0.25,
-                    :mod_phase_slide => 0,
-                    :mod_phase_slide_shape => 5,
-                    :mod_phase_slide_curve => 0,
-                    :mod_range => 5,
-                    :mod_range_slide => 0,
-                    :mod_range_slide_shape => 5,
-                    :mod_range_slide_curve => 0,
-                    :mod_pulse_width => 0.5,
-                    :mod_pulse_width_slide => 0,
-                    :mod_pulse_width_slide_shape => 5,
-                    :mod_pulse_width_slide_curve => 0,
-                    :mod_phase_offset => 0,
-                    :mod_invert_wave => 0,
-                    :mod_wave => 1
-                })
-    end
-  end
-
-  class SawMD < SawM
-    def name
-      "Modulated Detuned Saw Waves"
-    end
-
-    def introduced
-      Version.new(2,0,0)
-    end
-
-    def synth_name
-      "mod_dsaw"
-    end
-
-    def doc
-      "A pair of detuned saw waves (see the dsaw synth) which are modulated between two fixed notes at a given rate."
-    end
-
-    def arg_defaults
-      super.merge({
-                    :detune => 0.1,
-                    :detune_slide => 0,
-                    :detune_slide_shape => 5,
-                    :detune_slide_curve => 0
-                  })
-    end
-  end
-
-
-  class SawNMD < SawMD
-    def name
-      "Normalised Modulated Detuned Saw Waves"
-    end
-
-    def introduced
-      Version.new(2,1,0)
-    end
-
-    def synth_name
-      "mod_dsaw"
-    end
-
-    def doc
-      "A pair of detuned saw waves (see the dsaw synth) which are modulated between two fixed notes at a given rate. The resulting sound is then passed through a normaliser"
-    end
-
-  end
-
-
-
-
-
-
 
 
   class Pulse < SonicPiSynth
@@ -842,6 +641,58 @@ module SonicPi
 
     def doc
       "A simple triangle wave with a low pass filter."
+    end
+  end
+
+  class DSaw < SonicPiSynth
+    def name
+      "Detuned Saw wave"
+    end
+
+    def introduced
+      Version.new(2,0,0)
+    end
+
+    def synth_name
+      "dsaw"
+    end
+
+    def doc
+      "A pair of detuned saw waves passed through a low pass filter. Two saw waves with slightly different frequencies generates a nice thick sound which is the basis for a lot of famous synth sounds. Thicken the sound by increasing the detune value, or create an octave-playing synth by choosing a detune of 12 (12 MIDI notes is an octave)."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
+
+        :attack => 0,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :detune => 0.1,
+        :detune_slide => 0,
+        :detune_slide_shape => 5,
+        :detune_slide_curve => 0,
+      }
     end
   end
 
@@ -968,6 +819,138 @@ module SonicPi
     end
 
 
+  end
+
+  class ModSaw < SonicPiSynth
+    def name
+      "Modulated Saw Wave"
+    end
+
+    def introduced
+      Version.new(2,0,0)
+    end
+
+    def synth_name
+      "mod_saw"
+    end
+
+    def doc
+      "A saw wave passed through a low pass filter which modulates between two separate notes via a variety of control waves."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
+
+        :attack => 0,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :mod_phase => 0.25,
+        :mod_phase_slide => 0,
+        :mod_phase_slide_shape => 5,
+        :mod_phase_slide_curve => 0,
+        :mod_range => 5,
+        :mod_range_slide => 0,
+        :mod_range_slide_shape => 5,
+        :mod_range_slide_curve => 0,
+        :mod_pulse_width => 0.5,
+        :mod_pulse_width_slide => 0,
+        :mod_pulse_width_slide_shape => 5,
+        :mod_pulse_width_slide_curve => 0,
+        :mod_phase_offset => 0,
+        :mod_invert_wave => 0,
+        :mod_wave => 1
+
+      }
+    end
+  end
+
+  class ModDSaw < SonicPiSynth
+    def name
+      "Modulated Detuned Saw Waves"
+    end
+
+    def introduced
+      Version.new(2,0,0)
+    end
+
+    def synth_name
+      "mod_dsaw"
+    end
+
+    def doc
+      "A pair of detuned saw waves (see the dsaw synth) which are modulated between two fixed notes at a given rate."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
+
+        :attack => 0,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
+
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :mod_phase => 0.25,
+
+        :mod_phase_slide => 0,
+        :mod_phase_slide_shape => 5,
+        :mod_phase_slide_curve => 0,
+        :mod_range => 5,
+        :mod_range_slide => 0,
+        :mod_range_slide_shape => 5,
+        :mod_range_slide_curve => 0,
+        :mod_pulse_width => 0.5,
+        :mod_pulse_width_slide => 0,
+        :mod_pulse_width_slide_shape => 5,
+        :mod_pulse_width_slide_curve => 0,
+        :mod_phase_offset => 0,
+        :mod_invert_wave => 0,
+        :mod_wave => 1,
+        :detune => 0.1,
+        :detune_slide => 0,
+        :detune_slide_shape => 5,
+        :detune_slide_curve => 0,
+      }
+    end
   end
 
 
@@ -3687,27 +3670,20 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
     @@all_samples = (@@grouped_samples.values.reduce([]) {|s, el| s << el[:samples]}).flatten
 
-
     @@synth_infos =
       {
       :dull_bell => DullBell.new,
       :pretty_bell => PrettyBell.new,
       :beep => Beep.new,
       :sine => Beep.new,
-
       :saw => Saw.new,
-      :saw_n => SawN.new,
-      :saw_d => SawD.new,
-      :saw_nd => SawND.new,
-      :saw_m => SawM.new,
-      :saw_nm => SawNM.new,
-      :saw_md => SawMD.new,
-      :saw_nmd => SawNMD.new,
-
       :pulse => Pulse.new,
       :tri => Tri.new,
+      :dsaw => DSaw.new,
       :fm => FM.new,
       :mod_fm => ModFM.new,
+      :mod_saw => ModSaw.new,
+      :mod_dsaw => ModDSaw.new,
       :mod_sine => ModSine.new,
       :mod_beep => ModSine.new,
       :mod_tri => ModTri.new,
@@ -3775,19 +3751,10 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       # :fx_chorus => FXChorus.new,
       # :fx_harmoniser => FXHarmoniser.new,
 
-    }
-
-    @@legacy_infos =
-      {
-      :mod_saw => @@synth_infos[:m_saw],
-      :dsaw => @@synth_infos[:d_saw]
       }
 
-    @@combined_infos = @@synth_infos.merge(@@legacy_infos)
-
-
     def self.get_info(synth_name)
-      @@combined_infos[synth_name.to_sym]
+      @@synth_infos[synth_name.to_sym]
     end
 
     def self.get_all

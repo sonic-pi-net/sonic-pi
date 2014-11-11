@@ -119,11 +119,6 @@ module SonicPi
        end
 
 
-       def run_amp(val)
-         val = val * 0.3
-         current_job_bus
-         current_job_mixer.ctl amp: val
-       end
 
 
 
