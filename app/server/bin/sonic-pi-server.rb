@@ -31,9 +31,17 @@ server_port = ARGV[0] ? ARGV[0].to_i : 4557
 client_port = ARGV[1] ? ARGV[1].to_i : 4558
 
 ws_out = Queue.new
-osc_server = OSC::Server.new(server_port)
 gui = OSC::Client.new("localhost", client_port)
 encoder = SonicPi::OscEncode.new(true)
+
+begin
+  osc_server = OSC::Server.new(server_port)
+rescue Exception => e
+  m = encoder.encode_single_message("/exited", ["Failed to open server port " + server_port.to_s + ", is scsynth already running?"])
+  gui.send_raw(m)
+  exit
+end
+
 
 at_exit do
   m = encoder.encode_single_message("/exited")
@@ -48,7 +56,14 @@ klass.send(:include, user_methods)
 klass.send(:include, SonicPi::SpiderAPI)
 #klass.send(:include, SonicPi::Mods::SPMIDI)
 klass.send(:include, SonicPi::Mods::Sound)
-sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
+begin
+  sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
+rescue Exception => e
+  puts "Failed to start server: " + e.message
+  m = encoder.encode_single_message("/exited", [e.message])
+  gui.send_raw(m)
+  exit
+end
 
 osc_server.add_method("/run-code") do |payload|
   begin
