@@ -92,7 +92,7 @@ in_thread do
 end
 ```
 
-Here we have a main `cue` loop which is randomly sending one of the heartbeat names `:foo`, `:bar`, or `:baz`. We then also have three loop threads syncing on each of those names independently and then playing a different sample. The net effect is that we hear a sound every 0.6 seconds as each of the `sync` threads is randomly synced with the `cue` thread and plays its sample.
+Here we have a main `cue` loop which is randomly sending one of the heartbeat names `:foo`, `:bar`, or `:baz`. We then also have three loop threads syncing on each of those names independently and then playing a different sample. The net effect is that we hear a sound every 0.5 seconds as each of the `sync` threads is randomly synced with the `cue` thread and plays its sample.
 
 This of course also works if you order the threads in reverse as the `sync` threads will simply sit and wait for the next `cue`.
 
