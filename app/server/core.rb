@@ -21,7 +21,7 @@ Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
   $:.unshift vendor_lib
 end
 
-require 'did_you_mean'
+require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
 
 #Monkeypatch osc-ruby to add sending skills to Servers
 #https://github.com/samaaron/osc-ruby/commit/bfc31a709cbe2e196011e5e1420827bd0fc0e1a8
