@@ -353,6 +353,26 @@ end"]
  sleep 1
  puts vt # prints 1"]
 
+    def factor?(val, factor)
+      (val % factor) == 0
+    end
+    doc name:           :factor?,
+        introduced:     Version.new(2,1,0),
+        summary:        "Factor test",
+        args:           [[:val, :number], [:factor, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Test to see if factor is indeed a factor of val. In other words, can val be divided exactly by factor.",
+        examples:       [
+"
+factor?(10, 2) # true - 10 is a multiple of 2 (2 * 5 = 10)
+",
+"
+factor?(11, 2) #false - 11 is not a multiple of 2
+",
+"
+factor?(2, 0.5) #true - 2 is not a multiple of 0.5 (0.5 * 4 = 2) "
+]
 
     def quantise(n, resolution)
       raise "quantisation resolution should be positive" if resolution <= 0
