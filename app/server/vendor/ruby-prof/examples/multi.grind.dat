@@ -1,0 +1,194 @@
+events: wall_time
+
+fl=/Users/skaes/src/ruby-prof/test/prime.rb
+fn=Object#make_random_array
+7 7
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Array#each_index
+calls=1 9
+9 7463
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Class#new
+calls=1 8
+8 54
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Array#each_index
+calls=1 9
+9 7256
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Class#new
+calls=1 8
+8 52
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Fixnum#%
+0 199945
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Class#new
+0 6
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=<Class::Array>#allocate
+calls=1 8
+8 1
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Array#initialize
+calls=1 8
+8 48
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=<Class::Array>#allocate
+calls=1 8
+8 1
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Array#initialize
+calls=1 8
+8 50
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Kernel#rand
+0 3238
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Fixnum#-
+0 2361
+
+fl=/Users/skaes/src/ruby-prof/test/printers_test.rb
+fn=PrintersTest#setup
+16 5
+cfl=/Users/skaes/src/ruby-prof/test/prime.rb
+cfn=Object#run_primes
+calls=1 16
+16 702856
+cfl=/Users/skaes/src/ruby-prof/test/printers_test.rb
+cfn=PrintersTest#go
+calls=1 17
+17 709509
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Array#initialize
+0 98
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Array#each_index
+0 8789
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Array#[]=
+calls=10000 10
+10 1364
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Kernel#rand
+calls=10000 10
+10 1602
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Array#[]=
+calls=10000 10
+10 1328
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Kernel#rand
+calls=10000 10
+10 1636
+
+fl=/Users/skaes/src/ruby-prof/test/prime.rb
+fn=Object#is_prime
+16 13805
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Integer#upto
+calls=10000 18
+18 683251
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Fixnum#-
+calls=10000 18
+18 1157
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Integer#upto
+calls=10000 18
+18 689970
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Fixnum#-
+calls=10000 18
+18 1204
+
+fl=/Users/skaes/src/ruby-prof/test/printers_test.rb
+fn=PrintersTest#go
+9 5
+cfl=/Users/skaes/src/ruby-prof/test/prime.rb
+cfn=Object#run_primes
+calls=1 10
+10 709504
+
+fl=/Users/skaes/src/ruby-prof/test/prime.rb
+fn=Object#find_primes
+24 3
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Array#select
+calls=1 25
+25 695331
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Array#select
+calls=1 25
+25 702187
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Array#select
+0 8131
+cfl=/Users/skaes/src/ruby-prof/test/prime.rb
+cfn=Object#is_prime
+calls=10000 26
+26 691245
+cfl=/Users/skaes/src/ruby-prof/test/prime.rb
+cfn=Object#is_prime
+calls=10000 26
+26 698142
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Integer#upto
+0 1004845
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Fixnum#==
+calls=766408 19
+19 83149
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Fixnum#%
+calls=766408 19
+19 99302
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Fixnum#==
+calls=778318 19
+19 85282
+cfl=/Users/skaes/src/ruby-prof/ruby_runtime
+cfn=Fixnum#%
+calls=778318 19
+19 100643
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=<Class::Array>#allocate
+0 2
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Fixnum#==
+0 168431
+
+fl=/Users/skaes/src/ruby-prof/test/prime.rb
+fn=Object#run_primes
+46 7
+cfl=/Users/skaes/src/ruby-prof/test/prime.rb
+cfn=Object#find_primes
+calls=1 51
+51 695333
+cfl=/Users/skaes/src/ruby-prof/test/prime.rb
+cfn=Object#make_random_array
+calls=1 48
+48 7519
+cfl=/Users/skaes/src/ruby-prof/test/prime.rb
+cfn=Object#find_primes
+calls=1 51
+51 702188
+cfl=/Users/skaes/src/ruby-prof/test/prime.rb
+cfn=Object#make_random_array
+calls=1 48
+48 7313
+
+fl=/Users/skaes/src/ruby-prof/ruby_runtime
+fn=Array#[]=
+0 2692
+

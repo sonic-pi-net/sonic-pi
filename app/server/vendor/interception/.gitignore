@@ -1,0 +1,9 @@
+.rbx
+ext/Makefile
+*.class
+*.o
+*.so
+*.gem
+*.lock
+doc/
+.yardoc

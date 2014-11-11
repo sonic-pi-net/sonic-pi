@@ -1,0 +1,25 @@
+script: bundle exec rake test
+
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1
+  - 2.2.0-preview1
+  - ruby-head
+  - jruby
+  - rbx
+
+gemfile:
+  - gemfiles/activerecord_30.gemfile
+  - gemfiles/activerecord_31.gemfile
+  - gemfiles/activerecord_32.gemfile
+  - gemfiles/activerecord_40.gemfile
+  - gemfiles/activerecord_41.gemfile
+  - gemfiles/activerecord_42.gemfile
+  - gemfiles/activerecord_edge.gemfile
+
+matrix:
+  allow_failures:
+    - rvm: jruby
+    - rvm: rbx
+  fast_finish: true

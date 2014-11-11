@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.1.1
+  - 2.1.0
+  - 2.0.0
+  - 1.9.3
+  - 1.9.2
+  - jruby-18mode
+  - jruby-19mode
+  - rbx
+  - 1.8.7
+  - ree

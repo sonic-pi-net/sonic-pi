@@ -1,0 +1,823 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<style media="all" type="text/css">
+    table {
+	    border-collapse: collapse;
+	    border: 1px solid #CCC;
+	    font-family: Verdana, Arial, Helvetica, sans-serif;
+	    font-size: 9pt;
+	    line-height: normal;
+    }
+
+    th {
+	    text-align: center;
+	    border-top: 1px solid #FB7A31;
+	    border-bottom: 1px solid #FB7A31;
+	    background: #FFC;
+	    padding: 0.3em;
+	    border-left: 1px solid silver;
+    }
+
+		tr.break td {
+		  border: 0;
+	    border-top: 1px solid #FB7A31;
+			padding: 0;
+			margin: 0;
+		}
+
+    tr.method td {
+			font-weight: bold;
+    }
+
+    td {
+	    padding: 0.3em;
+    }
+
+    td:first-child {
+	    width: 190px;
+	    }
+
+    td {
+	    border-left: 1px solid #CCC;
+	    text-align: center;
+    }	
+  </style>
+</head>
+<body>
+<h1> Graph Profile</h1>
+<p>Graph profiles show how long each method runs, which methods call it
+  and which methods it calls. To understand how to read a graph profile, refer to
+   the <a href="graph.txt">documentation</a> for the text graph report. </p>
+<p>The main advantage of an HTML graph format versus the text format is the use of
+  hyperlinks to jump between methods. This makes it easier to understand the flow
+of control through a program and which methods take the most time.</p>
+<p>Below is the  output from running printers_test.rb reproduced in HTML. </p>
+<p>Profile Report</p>
+
+<table>
+  <tr>
+    <th>Thread ID</th>
+    <th>Total Time</th>
+  </tr>
+  <tr>
+    <td><a href="#21277412">21277412</a></td>
+    <td>8.766</td>
+  </tr>
+</table>
+
+<h2><a name="21277412">Thread 21277412</a></h2>
+<table>
+  <tr>
+    <th> %Total</th>
+    <th> %Self</th>
+    <th> Total</th>
+    <th> Self</th>
+    <th> Children</th>
+    <th> Calls</th>
+    <th>Name</th>
+  </tr>
+
+  <tr class="method">
+    <td> 100.00%</td>
+    <td> 0.00%</td>
+    <td> 8.77</td>
+    <td> 0.00</td>
+    <td> 8.77</td>
+    <td> 1</td>
+    <td><a name="_toplevel_21277412">#toplevel</a></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 8.77</td>
+    <td> 0.00</td>
+    <td> 8.77</td>
+    <td> 1/1</td>
+    <td><a href="#Object_run_primes_21277412">Object#run_primes</a></td>
+  </tr>
+
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 8.77</td>
+    <td> 0.00</td>
+    <td> 8.77</td>
+    <td> 1/1</td>
+    <td><a href="#_toplevel_21277412">#toplevel</a></td>
+  </tr>
+  <tr class="method">
+    <td> 100.00%</td>
+    <td> 0.00%</td>
+    <td> 8.77</td>
+    <td> 0.00</td>
+    <td> 8.77</td>
+    <td> 1</td>
+    <td><a name="Object_run_primes_21277412">Object#run_primes</a></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.02</td>
+    <td> 0.00</td>
+    <td> 0.02</td>
+    <td> 1/1</td>
+    <td><a href="#Object_make_random_array_21277412">Object#make_random_array</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 2.09</td>
+    <td> 0.00</td>
+    <td> 2.09</td>
+    <td> 1/1</td>
+    <td><a href="#Object_find_largest_21277412">Object#find_largest</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 6.66</td>
+    <td> 0.00</td>
+    <td> 6.66</td>
+    <td> 1/1</td>
+    <td><a href="#Object_find_primes_21277412">Object#find_primes</a></td>
+  </tr>
+
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 6.63</td>
+    <td> 4.06</td>
+    <td> 2.56</td>
+    <td> 500/501</td>
+    <td><a href="#Object_is_prime_21277412">Object#is_prime</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 2.09</td>
+    <td> 0.00</td>
+    <td> 2.09</td>
+    <td> 1/501</td>
+    <td><a href="#Object_find_largest_21277412">Object#find_largest</a></td>
+  </tr>
+  <tr class="method">
+    <td> 99.48%</td>
+    <td> 46.34%</td>
+    <td> 8.72</td>
+    <td> 4.06</td>
+    <td> 4.66</td>
+    <td> 501</td>
+    <td><a name="Integer_upto_21277412">Integer#upto</a></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 61/61</td>
+    <td><a href="#Array_[]_21277412">Array#[]</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 61/61</td>
+    <td><a href="#Fixnum_>_21277412">Fixnum#_</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 2.09</td>
+    <td> 2.09</td>
+    <td> 0.00</td>
+    <td> 61/61</td>
+    <td><a href="#Kernel_sleep_21277412">Kernel.sleep</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 1.24</td>
+    <td> 1.24</td>
+    <td> 0.00</td>
+    <td> 250862/250862</td>
+    <td><a href="#Fixnum____21277412">Fixnum#==</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 1.33</td>
+    <td> 1.33</td>
+    <td> 0.00</td>
+    <td> 250862/250862</td>
+    <td><a href="#Fixnum_%_21277412">Fixnum#%</a></td>
+  </tr>
+
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 6.66</td>
+    <td> 0.01</td>
+    <td> 6.64</td>
+    <td> 1/1</td>
+    <td><a href="#Object_find_primes_21277412">Object#find_primes</a></td>
+  </tr>
+  <tr class="method">
+    <td> 75.93%</td>
+    <td> 0.17%</td>
+    <td> 6.66</td>
+    <td> 0.01</td>
+    <td> 6.64</td>
+    <td> 1</td>
+    <td><a name="Array_select_21277412">Array#select</a></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 6.64</td>
+    <td> 0.01</td>
+    <td> 6.63</td>
+    <td> 500/500</td>
+    <td><a href="#Object_is_prime_21277412">Object#is_prime</a></td>
+  </tr>
+
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 6.66</td>
+    <td> 0.00</td>
+    <td> 6.66</td>
+    <td> 1/1</td>
+    <td><a href="#Object_run_primes_21277412">Object#run_primes</a></td>
+  </tr>
+  <tr class="method">
+    <td> 75.93%</td>
+    <td> 0.00%</td>
+    <td> 6.66</td>
+    <td> 0.00</td>
+    <td> 6.66</td>
+    <td> 1</td>
+    <td><a name="Object_find_primes_21277412">Object#find_primes</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 6.66</td>
+    <td> 0.01</td>
+    <td> 6.64</td>
+    <td> 1/1</td>
+    <td><a href="#Array_select_21277412">Array#select</a></td>
+  </tr>
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 6.64</td>
+    <td> 0.01</td>
+    <td> 6.63</td>
+    <td> 500/500</td>
+    <td><a href="#Array_select_21277412">Array#select</a></td>
+  </tr>
+  <tr class="method">
+    <td> 75.76%</td>
+    <td> 0.17%</td>
+    <td> 6.64</td>
+    <td> 0.01</td>
+    <td> 6.63</td>
+    <td> 500</td>
+    <td><a name="Object_is_prime_21277412">Object#is_prime</a></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 500/501</td>
+    <td><a href="#Fixnum_-_21277412">Fixnum#-</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 6.63</td>
+    <td> 4.06</td>
+    <td> 2.56</td>
+    <td> 500/501</td>
+    <td><a href="#Integer_upto_21277412">Integer#upto</a></td>
+  </tr>
+
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 2.09</td>
+    <td> 0.00</td>
+    <td> 2.09</td>
+    <td> 1/1</td>
+    <td><a href="#Object_run_primes_21277412">Object#run_primes</a></td>
+  </tr>
+  <tr class="method">
+    <td> 23.89%</td>
+    <td> 0.00%</td>
+    <td> 2.09</td>
+    <td> 0.00</td>
+    <td> 2.09</td>
+    <td> 1</td>
+    <td><a name="Object_find_largest_21277412">Object#find_largest</a></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/501</td>
+    <td><a href="#Fixnum_-_21277412">Fixnum#-</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 2.09</td>
+    <td> 0.00</td>
+    <td> 2.09</td>
+    <td> 1/501</td>
+    <td><a href="#Integer_upto_21277412">Integer#upto</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Array_first_21277412">Array#first</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Array_length_21277412">Array#length</a></td>
+  </tr>
+
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 2.09</td>
+    <td> 2.09</td>
+    <td> 0.00</td>
+    <td> 61/61</td>
+    <td><a href="#Integer_upto_21277412">Integer#upto</a></td>
+  </tr>
+  <tr class="method">
+    <td> 23.89%</td>
+    <td> 23.89%</td>
+    <td> 2.09</td>
+    <td> 2.09</td>
+    <td> 0.00</td>
+    <td> 61</td>
+    <td><a name="Kernel_sleep_21277412">Kernel.sleep</a></td>
+  </tr>
+
+
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 1.33</td>
+    <td> 1.33</td>
+    <td> 0.00</td>
+    <td> 250862/250862</td>
+    <td><a href="#Integer_upto_21277412">Integer#upto</a></td>
+  </tr>
+  <tr class="method">
+    <td> 15.12%</td>
+    <td> 15.12%</td>
+    <td> 1.33</td>
+    <td> 1.33</td>
+    <td> 0.00</td>
+    <td> 250862</td>
+    <td><a name="Fixnum_%_21277412">Fixnum#%</a></td>
+  </tr>
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 1.24</td>
+    <td> 1.24</td>
+    <td> 0.00</td>
+    <td> 250862/250862</td>
+    <td><a href="#Integer_upto_21277412">Integer#upto</a></td>
+  </tr>
+  <tr class="method">
+    <td> 14.13%</td>
+    <td> 14.13%</td>
+    <td> 1.24</td>
+    <td> 1.24</td>
+    <td> 0.00</td>
+    <td> 250862</td>
+    <td><a name="Fixnum____21277412">Fixnum#==</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.02</td>
+    <td> 0.00</td>
+    <td> 0.02</td>
+    <td> 1/1</td>
+    <td><a href="#Object_run_primes_21277412">Object#run_primes</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.18%</td>
+    <td> 0.00%</td>
+    <td> 0.02</td>
+    <td> 0.00</td>
+    <td> 0.02</td>
+    <td> 1</td>
+    <td><a name="Object_make_random_array_21277412">Object#make_random_array</a></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.02</td>
+    <td> 0.02</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Array_each_index_21277412">Array#each_index</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Class_new_21277412">Class#new</a></td>
+  </tr>
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.02</td>
+    <td> 0.02</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Object_make_random_array_21277412">Object#make_random_array</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.18%</td>
+    <td> 0.18%</td>
+    <td> 0.02</td>
+    <td> 0.02</td>
+    <td> 0.00</td>
+    <td> 1</td>
+    <td><a name="Array_each_index_21277412">Array#each_index</a></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 500/500</td>
+    <td><a href="#Kernel_rand_21277412">Kernel.rand</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 500/500</td>
+    <td><a href="#Array_[]__21277412">Array#[]=</a></td>
+  </tr>
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 500/501</td>
+    <td><a href="#Object_is_prime_21277412">Object#is_prime</a></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/501</td>
+    <td><a href="#Object_find_largest_21277412">Object#find_largest</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 501</td>
+    <td><a name="Fixnum_-_21277412">Fixnum#-</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Kernel_rand_21277412">Kernel.rand</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1</td>
+    <td><a name="Integer_to_int_21277412">Integer#to_int</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Object_find_largest_21277412">Object#find_largest</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1</td>
+    <td><a name="Array_first_21277412">Array#first</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Class_new_21277412">Class#new</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1</td>
+    <td><a name="Array_initialize_21277412">Array#initialize</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Object_find_largest_21277412">Object#find_largest</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1</td>
+    <td><a name="Array_length_21277412">Array#length</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Object_make_random_array_21277412">Object#make_random_array</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1</td>
+    <td><a name="Class_new_21277412">Class#new</a></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Array_initialize_21277412">Array#initialize</a></td>
+  </tr>
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 61/61</td>
+    <td><a href="#Integer_upto_21277412">Integer#upto</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 61</td>
+    <td><a name="Fixnum_>_21277412">Fixnum#_</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 61/61</td>
+    <td><a href="#Integer_upto_21277412">Integer#upto</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 61</td>
+    <td><a name="Array_[]_21277412">Array#[]</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 500/500</td>
+    <td><a href="#Array_each_index_21277412">Array#each_index</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 500</td>
+    <td><a name="Array_[]__21277412">Array#[]=</a></td>
+  </tr>
+  
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 500/500</td>
+    <td><a href="#Array_each_index_21277412">Array#each_index</a></td>
+  </tr>
+  <tr class="method">
+    <td> 0.00%</td>
+    <td> 0.00%</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 500</td>
+    <td><a name="Kernel_rand_21277412">Kernel.rand</a></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 0.00</td>
+    <td> 1/1</td>
+    <td><a href="#Integer_to_int_21277412">Integer#to_int</a></td>
+  </tr>
+  
+  <tr class="break">
+    <td colspan="7"></td>
+  </tr>
+</table>
+</body>
+</html>

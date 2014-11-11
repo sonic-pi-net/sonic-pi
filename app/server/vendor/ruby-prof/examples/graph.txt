@@ -1,0 +1,170 @@
+= Graph Profiles
+
+Graph profiles show how long each method runs, which methods call it
+and which methods it calls.
+
+As an example, here is the output from running printers_test.rb:
+
+
+Thread ID: 21277412
+  %total   %self     total      self    children               calls   Name
+ --------------------------------------------------------------------------------
+ 100.00%   0.00%      8.77      0.00      8.77                   1     #toplevel
+                      8.77      0.00      8.77                 1/1     Object#run_primes
+ --------------------------------------------------------------------------------
+                      8.77      0.00      8.77                 1/1     #toplevel
+ 100.00%   0.00%      8.77      0.00      8.77                   1     Object#run_primes
+                      0.02      0.00      0.02                 1/1     Object#make_random_array
+                      2.09      0.00      2.09                 1/1     Object#find_largest
+                      6.66      0.00      6.66                 1/1     Object#find_primes
+ --------------------------------------------------------------------------------
+                      6.63      4.06      2.56             500/501     Object#is_prime
+                      2.09      0.00      2.09               1/501     Object#find_largest
+  99.48%  46.34%      8.72      4.06      4.66                 501     Integer#upto
+                      0.00      0.00      0.00               61/61     Array#[]
+                      0.00      0.00      0.00               61/61     Fixnum#>
+                      2.09      2.09      0.00               61/61     Kernel.sleep
+                      1.24      1.24      0.00       250862/250862     Fixnum#==
+                      1.33      1.33      0.00       250862/250862     Fixnum#%
+ --------------------------------------------------------------------------------
+                      6.66      0.01      6.64                 1/1     Object#find_primes
+  75.93%   0.17%      6.66      0.01      6.64                   1     Array#select
+                      6.64      0.01      6.63             500/500     Object#is_prime
+ --------------------------------------------------------------------------------
+                      6.66      0.00      6.66                 1/1     Object#run_primes
+  75.93%   0.00%      6.66      0.00      6.66                   1     Object#find_primes
+                      6.66      0.01      6.64                 1/1     Array#select
+ --------------------------------------------------------------------------------
+                      6.64      0.01      6.63             500/500     Array#select
+  75.76%   0.17%      6.64      0.01      6.63                 500     Object#is_prime
+                      0.00      0.00      0.00             500/501     Fixnum#-
+                      6.63      4.06      2.56             500/501     Integer#upto
+ --------------------------------------------------------------------------------
+                      2.09      0.00      2.09                 1/1     Object#run_primes
+  23.89%   0.00%      2.09      0.00      2.09                   1     Object#find_largest
+                      0.00      0.00      0.00               1/501     Fixnum#-
+                      2.09      0.00      2.09               1/501     Integer#upto
+                      0.00      0.00      0.00                 1/1     Array#first
+                      0.00      0.00      0.00                 1/1     Array#length
+ --------------------------------------------------------------------------------
+                      2.09      2.09      0.00               61/61     Integer#upto
+  23.89%  23.89%      2.09      2.09      0.00                  61     Kernel.sleep
+ --------------------------------------------------------------------------------
+                      1.33      1.33      0.00       250862/250862     Integer#upto
+  15.12%  15.12%      1.33      1.33      0.00              250862     Fixnum#%
+ --------------------------------------------------------------------------------
+                      1.24      1.24      0.00       250862/250862     Integer#upto
+  14.13%  14.13%      1.24      1.24      0.00              250862     Fixnum#==
+ --------------------------------------------------------------------------------
+                      0.02      0.00      0.02                 1/1     Object#run_primes
+   0.18%   0.00%      0.02      0.00      0.02                   1     Object#make_random_array
+                      0.02      0.02      0.00                 1/1     Array#each_index
+                      0.00      0.00      0.00                 1/1     Class#new
+ --------------------------------------------------------------------------------
+                      0.02      0.02      0.00                 1/1     Object#make_random_array
+   0.18%   0.18%      0.02      0.02      0.00                   1     Array#each_index
+                      0.00      0.00      0.00             500/500     Kernel.rand
+                      0.00      0.00      0.00             500/500     Array#[]=
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00             500/501     Object#is_prime
+                      0.00      0.00      0.00               1/501     Object#find_largest
+   0.00%   0.00%      0.00      0.00      0.00                 501     Fixnum#-
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00                 1/1     Kernel.rand
+   0.00%   0.00%      0.00      0.00      0.00                   1     Integer#to_int
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00                 1/1     Object#find_largest
+   0.00%   0.00%      0.00      0.00      0.00                   1     Array#first
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00                 1/1     Class#new
+   0.00%   0.00%      0.00      0.00      0.00                   1     Array#initialize
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00                 1/1     Object#find_largest
+   0.00%   0.00%      0.00      0.00      0.00                   1     Array#length
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00                 1/1     Object#make_random_array
+   0.00%   0.00%      0.00      0.00      0.00                   1     Class#new
+                      0.00      0.00      0.00                 1/1     Array#initialize
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00               61/61     Integer#upto
+   0.00%   0.00%      0.00      0.00      0.00                  61     Fixnum#>
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00               61/61     Integer#upto
+   0.00%   0.00%      0.00      0.00      0.00                  61     Array#[]
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00             500/500     Array#each_index
+   0.00%   0.00%      0.00      0.00      0.00                 500     Array#[]=
+ --------------------------------------------------------------------------------
+                      0.00      0.00      0.00             500/500     Array#each_index
+   0.00%   0.00%      0.00      0.00      0.00                 500     Kernel.rand
+                      0.00      0.00      0.00                 1/1     Integer#to_int
+
+
+
+== Overview
+Dashed lines divide the report into entries, with one entry
+per method.  Entries are sorted by total time which is the 
+time spent in the method plus its children. 
+
+Each entry has a primary line demarked by values in the 
+%total and %self columns.  The primary line represents 
+the method being profiled.  Lines above it are the methods
+that called this method (parents) while the lines below it
+are the methods it called (children).
+
+All values are in seconds.  For the primary line, the columns represent:
+
+	%total       - The percentage of time spent in this method and its children
+	%self        - The percentage of time spent in this method
+	total        - The time spent in this method and its children.
+	self         - The time spent in this method.
+	children     - The time spent in this method's children.
+	calls        - The number of times this method was called.
+	name         - The name of the method.
+  
+The interpretation of method names is:
+* #toplevel - The root method that calls all other methods
+* MyObject#test - An instance method "test" of the class "MyObject"
+* <Object:MyObject>#test - The <> characters indicate a singleton method on a singleton class.
+
+For example, we see that 99.48% of the time was spent in Integer#upto and its children.
+Of that time, 4.06 seconds was spent in Integer#upto itself and 4.66 in its children.
+Overall, Integer#upto was called 501 times.
+
+== Parents
+In each entry, the lines above the primary line are the methods that 
+called the current method.  If the current method is a root method then
+no parents are shown.
+
+
+For parent lines, the columns represent:
+
+	total        - The time spent in the current method and it children on behalf of the parent method.
+	self         - The time spent in this method on behalf of the parent method.
+	children     - The time spent in this method's children on behalf of the parent.
+	calls        - The number of times the parent method called this child
+  
+Looking at Integer#upto again, we see that it was called 500 times from Object#is_prime
+and 1 time from find_largest.  Of the 8.72 total seconds spent in Integer#upto, 6.63
+were done for Object#is_prime and 2.09 for Object#find_largest.
+
+
+== Children
+In each entry, the lines below the primary line are the methods that 
+the current method called.  If the current method is a leaf method then
+no children are shown.
+
+For children lines, the columns represent:
+
+	total        - The time spent in the child, and its children, on behalf of the current method
+	self         - The time spent in the child on behalf of the current method.
+	children     - The time spent in the child's children (ie, granchildren) in behalf of the current method
+	calls        - The number of times the child method was called by the current method.
+
+Taking our example of Integer#upto, we see that it called five other methods - Array#[],
+Fixnum#>, Kernel.sleep, Fixnum#= and Fixnum#%.  Looking at Kernel.sleep, we see that 
+its spent 2.09 seconds working for Integer#upto and its children spent 0 time working for
+Integer#upto.  To see the overall time Kernel.sleep took we would have to look up its entry
+in the graph table.
+
+
