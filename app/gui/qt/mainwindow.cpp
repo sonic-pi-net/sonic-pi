@@ -545,7 +545,10 @@ void MainWindow::initPrefsWindow() {
   addOtherKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_Backspace);
 
   addKeyBinding(settings, QsciCommand::Home, Qt::Key_A | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::VCHome, Qt::Key_Home);
+
   addKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E | SPi_CTRL);
+  addOtherKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_End);
 
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K | SPi_CTRL);
