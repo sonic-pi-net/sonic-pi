@@ -28,18 +28,31 @@ module SonicPi
         auto_cue = true
       end
 
-      define(name, &block)
+      case block.arity
+      when 0
+        define(name) do |a|
+          block.call
+        end
+      when 1
+        define(name) do |a|
+          block.call(a)
+        end
+      else
+        raise "Live loop block must only accept 0 or 1 args"
+      end
 
       in_thread(name: name) do
         Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
+        res = args_h[:init]
         loop do
           cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
-          send(name)
+          res = send(name, res)
         end
       end
 
       st = sthread(name)
       st.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue if st
+      st
     end
     doc name:           :live_loop,
         introduced:     Version.new(2,1,0),
