@@ -58,6 +58,8 @@ module SonicPi
 
              @job_proms_joiners = {}
 
+             @sample_paths_cache = {}
+
              @JOB_GROUPS_A = Atom.new(Hamster.hash)
              @JOB_GROUP_MUTEX = Mutex.new
              @JOB_FX_GROUP_MUTEX = Mutex.new
@@ -1495,7 +1497,6 @@ set_volume! 2 # Set the main system volume to 2",
          case path
          when Symbol
            full_path = resolve_sample_symbol_path(path)
-           raise "No sample exists called #{path.inspect}" unless File.exists?(full_path)
            info, cached = @mod_sound_studio.load_sample(full_path)
            __info "Loaded sample :#{path}" unless cached
            return info
@@ -2228,23 +2229,43 @@ stop bar"]
          args_h
        end
 
-       def resolve_sample_symbol_path(sym)
-         if ((aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)) &&
+       def find_sample_with_path(path)
+         ["wav", "aiff", "aif", "wave"].each do |ext|
+           full = "#{path}.#{ext}"
+           return full if File.exists?(full)
+         end
+         return nil
+       end
 
+       def fetch_or_cache_sample_path(sym)
+         cached = @sample_paths_cache[sym]
+         return cached if cached
+
+         res = find_sample_with_path("#{samples_path}/#{sym.to_s}")
+
+         raise "No sample exists called :#{sym} in default sample pack" unless res
+         @sample_paths_cache[sym] = res
+         res
+       end
+
+       def resolve_sample_symbol_path(sym)
+         aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
+         path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
+
+         return fetch_or_cache_sample_path(sym) unless (aliases || path)
+
+         if (aliases &&
              (m       = sym.to_s.match /(.+?)_(.+)/) &&
              (p       = aliases[m[1]]))
            path = p
            sym = m[2]
            partial = "#{p}/#{sym}"
          else
-           path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || samples_path
+           path = path || samples_path
            partial = path + "/" + sym.to_s
          end
 
-         ["wav", "aiff", "aif", "wave"].each do |ext|
-           full = "#{partial}.#{ext}"
-           return full if File.exists?(full)
-         end
+         find_sample_with_path(partial)
 
          raise "No sample exists called :#{sym} in sample pack #{path}"
        end
