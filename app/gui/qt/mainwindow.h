@@ -107,6 +107,8 @@ private slots:
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void invokeStartupError(QString msg);
+    void startupError(QString msg);
     void replaceBuffer(QString id, QString content);
     void tabNext();
     void tabPrev();
@@ -146,6 +148,7 @@ private:
 
     bool cont_listening_for_osc;
     bool server_started;
+    bool startup_error_reported;
     bool osc_incoming_port_open;
     bool is_recording;
     bool show_rec_icon_a;
