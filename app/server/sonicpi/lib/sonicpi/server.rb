@@ -73,7 +73,7 @@ module SonicPi
       message "info        - Initialising comms... #{msg_queue}" if @debug_mode
       clear_scsynth!
       request_notifications
-
+      osc "/dumpOSC", 1
     end
 
     def message(s)

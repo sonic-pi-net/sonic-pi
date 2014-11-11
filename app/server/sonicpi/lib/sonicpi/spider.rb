@@ -27,7 +27,7 @@ require_relative "lifecyclehooks"
 require_relative "version"
 require_relative "sthread"
 require_relative "oscval"
-#require_relative "oscevent"
+require_relative "oscevent"
 #require_relative "stream"
 
 require 'thread'

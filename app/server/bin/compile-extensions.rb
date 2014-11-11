@@ -36,6 +36,8 @@ FileUtils.mkdir_p native_dir
 native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c')
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean/ext/did_you_mean')
 ]
 
 native_ext_dirs.each do |ext_dir|

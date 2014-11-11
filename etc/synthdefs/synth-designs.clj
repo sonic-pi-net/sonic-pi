@@ -197,6 +197,36 @@
        (detect-silence snd :action FREE)
        (out out_bus (pan2 snd pan))))
 
+
+      (defsynth sonic-pi-dull_bell [note 52
+                                 note_slide 0
+                                 note_slide_shape 5
+                                 note_slide_curve 0
+                                 amp 1
+                                 amp_slide 0
+                                 ;;weirdly, having a shape of 2 craps out scsynth!
+                                 amp_slide_shape 5
+                                 amp_slide_curve 0
+                                 pan 0
+                                 pan_slide 0
+                                 pan_slide_shape 5
+                                 pan_slide_curve 0
+                                 attack 0.01
+                                 decay 0
+                                 sustain 0
+                                 release 1.0
+                                 attack_level 1
+                                 sustain_level 1
+                                 env_curve 2
+                                 out_bus 0]
+     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
+           amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           freq (midicps note)
+           snd  (* amp (bell-partials freq attack decay sustain release attack_level sustain_level dull-partials))]
+       (detect-silence snd :action FREE)
+       (out out_bus (pan2 snd pan))))
+
    (defsynth sonic-pi-pretty_bell [note 52
                                    note_slide 0
                                    note_slide_shape 5
@@ -298,6 +328,10 @@
        (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
 
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;; start saw
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    (defsynth sonic-pi-saw [note 52
                            note_slide 0
                            note_slide_shape 5
@@ -329,8 +363,420 @@
            cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
+           snd         (lpf (saw freq) cutoff-freq)
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
+   (defsynth sonic-pi-saw_d [note 52
+                             note_slide 0
+                             note_slide_shape 5
+                             note_slide_curve 0
+                             amp 1
+                             amp_slide 0
+                             amp_slide_shape 5
+                             amp_slide_curve 0
+                             pan 0
+                             pan_slide 0
+                             pan_slide_shape 5
+                             pan_slide_curve 0
+                             attack 0.1
+                             decay 0
+                             sustain 0
+                             release 0.3
+                             attack_level 1
+                             sustain_level 1
+                             env_curve 2
+                             cutoff 100
+                             cutoff_slide 0
+                             cutoff_slide_shape 5
+                             cutoff_slide_curve 0
+                             detune 0.1
+                             detune_slide 0
+                             detune_slide_shape 5
+                             detune_slide_curve 0
+                             out_bus 0]
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge   0.8
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           freq        (midicps note)
+           cutoff-freq (midicps cutoff)
+           detune-freq (midicps (+ note detune))
+           snd         (lpf (mix (saw [freq detune-freq])) cutoff-freq)
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
+
+      (defsynth sonic-pi-saw_n [note 52
+                                note_slide 0
+                                note_slide_shape 5
+                                note_slide_curve 0
+                                amp 1
+                                amp_slide 0
+                                amp_slide_shape 5
+                                amp_slide_curve 0
+                                pan 0
+                                pan_slide 0
+                                pan_slide_shape 5
+                                pan_slide_curve 0
+                                attack 0.1
+                                decay 0
+                                sustain 0
+                                release 0.3
+                                attack_level 1
+                                sustain_level 1
+                                env_curve 2
+                                cutoff 100
+                                cutoff_slide 0
+                                cutoff_slide_shape 5
+                                cutoff_slide_curve 0
+                                out_bus 0]
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge   0.8
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           freq        (midicps note)
+           cutoff-freq (midicps cutoff)
            snd         (normalizer (lpf (saw freq) cutoff-freq))
            env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
+      (defsynth sonic-pi-saw_m [note 52
+                                note_slide 0
+                                note_slide_shape 5
+                                note_slide_curve 0
+                                amp 1
+                                amp_slide 0
+                                amp_slide_shape 5
+                                amp_slide_curve 0
+                                pan 0
+                                pan_slide 0
+                                pan_slide_shape 5
+                                pan_slide_curve 0
+                                attack 0.01
+                                decay 0
+                                sustain 0
+                                release 2
+                                attack_level 1
+                                sustain_level 1
+                                env_curve 2
+                                cutoff 100
+                                cutoff_slide 0
+                                cutoff_slide_shape 5
+                                cutoff_slide_curve 0
+                                mod_phase 1
+                                mod_phase_slide 0
+                                mod_phase_slide_shape 5
+                                mod_phase_slide_curve 5
+                                mod_range 5
+                                mod_range_slide 0
+                                mod_range_slide_shape 5
+                                mod_range_slide_curve 0
+                                mod_pulse_width 0.5
+                                mod_pulse_width_slide 0
+                                mod_pulse_width_slide_shape 5
+                                mod_pulse_width_slide_curve 0
+                                mod_phase_offset 0
+                                mod_wave 0
+                                mod_invert_wave 0
+                                out_bus 0]
+     (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge               1.3
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
+
+           mod_rate                (/ 1 mod_phase)
+           mod_range               (varlag mod_range mod_range_slide)
+
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
+
+           min_note                note
+           max_note                (+ mod_range note)
+
+           mod_double_phase_offset (* 2 mod_phase_offset)
+           ctl-wave                (select:kr mod_wave [(* -1 (lf-saw:kr mod_rate (+ mod_double_phase_offset 1)))
+                                                        (- (* 2 (lf-pulse:kr mod_rate mod_phase_offset mod_pulse_width)) 1)
+                                                        (lf-tri:kr mod_rate (+ mod_double_phase_offset 1))
+                                                        (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
+
+           ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
+           ctl-wave                (* ctl-wave ctl-wave-mul)
+           mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
+           freq                    (midicps mod-note)
+           cutoff-freq             (midicps cutoff)
+           snd                     (saw freq)
+           snd                     (lpf snd cutoff-freq)
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
+
+   (defsynth sonic-pi-saw_nd [note 52
+                              note_slide 0
+                              note_slide_shape 5
+                              note_slide_curve 0
+                              amp 1
+                              amp_slide 0
+                              amp_slide_shape 5
+                              amp_slide_curve 0
+                              pan 0
+                              pan_slide 0
+                              pan_slide_shape 5
+                              pan_slide_curve 0
+                              attack 0.1
+                              decay 0
+                              sustain 0
+                              release 0.3
+                              attack_level 1
+                              sustain_level 1
+                              env_curve 2
+                              cutoff 100
+                              cutoff_slide 0
+                              cutoff_slide_shape 5
+                              cutoff_slide_curve 0
+                              detune 0.1
+                              detune_slide 0
+                              detune_slide_shape 5
+                              detune_slide_curve 0
+                              out_bus 0]
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge   0.8
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           freq        (midicps note)
+           cutoff-freq (midicps cutoff)
+           detune-freq (midicps (+ note detune))
+           snd         (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
+
+   (defsynth sonic-pi-saw_md [note 52
+                              note_slide 0
+                              note_slide_shape 5
+                              note_slide_curve 0
+                              amp 1
+                              amp_slide 0
+                              amp_slide_shape 5
+                              amp_slide_curve 0
+                              pan 0
+                              pan_slide 0
+                              pan_slide_shape 5
+                              pan_slide_curve 0
+                              attack 0.01
+                              decay 0
+                              sustain 0
+                              release 2
+                              attack_level 1
+                              sustain_level 1
+                              env_curve 2
+                              cutoff 100
+                              cutoff_slide 0
+                              cutoff_slide_shape 5
+                              cutoff_slide_curve 0
+                              mod_phase 1
+                              mod_phase_slide 0
+                              mod_phase_slide_shape 5
+                              mod_phase_slide_curve 5
+                              mod_range 5
+                              mod_range_slide 0
+                              mod_range_slide_shape 5
+                              mod_range_slide_curve 0
+                              mod_pulse_width 0.5
+                              mod_pulse_width_slide 0
+                              mod_pulse_width_slide_shape 5
+                              mod_pulse_width_slide_curve 0
+                              mod_phase_offset 0
+                              mod_wave 0
+                              mod_invert_wave 0
+                              detune 0.1
+                              detune_slide 0
+                              detune_slide_shape 5
+                              detune_slide_curve 0
+                              out_bus 0]
+     (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge               1.3
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           detune                  (varlag detune detune_slide detune_slide_curve detune_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
+
+           mod_rate                (/ 1 mod_phase)
+           mod_range               (varlag mod_range mod_range_slide)
+
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
+
+           min_note                note
+           max_note                (+ mod_range note)
+
+           mod_double_phase_offset (* 2 mod_phase_offset)
+           ctl-wave                (select:kr mod_wave [(* -1 (lf-saw:kr mod_rate (+ mod_double_phase_offset 1)))
+                                                        (- (* 2 (lf-pulse:kr mod_rate mod_phase_offset mod_pulse_width)) 1)
+                                                        (lf-tri:kr mod_rate (+ mod_double_phase_offset 1))
+                                                        (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
+
+           ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
+           ctl-wave                (* ctl-wave ctl-wave-mul)
+           mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
+           freq                    (midicps mod-note)
+           cutoff-freq             (midicps cutoff)
+           detune-freq             (midicps (+ mod-note detune))
+           snd                     (mix (saw [freq detune-freq]))
+           snd                     (lpf snd cutoff-freq)
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
+
+      (defsynth sonic-pi-saw_nm [note 52
+                                 note_slide 0
+                                 note_slide_shape 5
+                                 note_slide_curve 0
+                                 amp 1
+                                 amp_slide 0
+                                 amp_slide_shape 5
+                                 amp_slide_curve 0
+                                 pan 0
+                                 pan_slide 0
+                                 pan_slide_shape 5
+                                 pan_slide_curve 0
+                                 attack 0.01
+                                 decay 0
+                                 sustain 0
+                                 release 2
+                                 attack_level 1
+                                 sustain_level 1
+                                 env_curve 2
+                                 cutoff 100
+                                 cutoff_slide 0
+                                 cutoff_slide_shape 5
+                                 cutoff_slide_curve 0
+                                 mod_phase 1
+                                 mod_phase_slide 0
+                                 mod_phase_slide_shape 5
+                                 mod_phase_slide_curve 5
+                                 mod_range 5
+                                 mod_range_slide 0
+                                 mod_range_slide_shape 5
+                                 mod_range_slide_curve 0
+                                 mod_pulse_width 0.5
+                                 mod_pulse_width_slide 0
+                                 mod_pulse_width_slide_shape 5
+                                 mod_pulse_width_slide_curve 0
+                                 mod_phase_offset 0
+                                 mod_wave 0
+                                 mod_invert_wave 0
+                                 out_bus 0]
+     (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+           amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge               1.3
+           pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
+
+           mod_rate                (/ 1 mod_phase)
+           mod_range               (varlag mod_range mod_range_slide)
+
+           mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
+
+           min_note                note
+           max_note                (+ mod_range note)
+
+           mod_double_phase_offset (* 2 mod_phase_offset)
+           ctl-wave                (select:kr mod_wave [(* -1 (lf-saw:kr mod_rate (+ mod_double_phase_offset 1)))
+                                                        (- (* 2 (lf-pulse:kr mod_rate mod_phase_offset mod_pulse_width)) 1)
+                                                        (lf-tri:kr mod_rate (+ mod_double_phase_offset 1))
+                                                        (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
+
+           ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
+           ctl-wave                (* ctl-wave ctl-wave-mul)
+           mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
+           freq                    (midicps mod-note)
+           cutoff-freq             (midicps cutoff)
+           snd                     (saw freq)
+           snd                     (normalizer (lpf snd cutoff-freq))
+           env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
+
+      (defsynth sonic-pi-saw_nmd [note 52
+                                  note_slide 0
+                                  note_slide_shape 5
+                                  note_slide_curve 0
+                                  amp 1
+                                  amp_slide 0
+                                  amp_slide_shape 5
+                                  amp_slide_curve 0
+                                  pan 0
+                                  pan_slide 0
+                                  pan_slide_shape 5
+                                  pan_slide_curve 0
+                                  attack 0.01
+                                  decay 0
+                                  sustain 0
+                                  release 2
+                                  attack_level 1
+                                  sustain_level 1
+                                  env_curve 2
+                                  cutoff 100
+                                  cutoff_slide 0
+                                  cutoff_slide_shape 5
+                                  cutoff_slide_curve 0
+                                  mod_phase 1
+                                  mod_phase_slide 0
+                                  mod_phase_slide_shape 5
+                                  mod_phase_slide_curve 5
+                                  mod_range 5
+                                  mod_range_slide 0
+                                  mod_range_slide_shape 5
+                                  mod_range_slide_curve 0
+                                  mod_pulse_width 0.5
+                                  mod_pulse_width_slide 0
+                                  mod_pulse_width_slide_shape 5
+                                  mod_pulse_width_slide_curve 0
+                                  mod_phase_offset 0
+                                  mod_wave 0
+                                  mod_invert_wave 0
+                                  detune 0.1
+                                  detune_slide 0
+                                  detune_slide_shape 5
+                                  detune_slide_curve 0
+                                  out_bus 0]
+        (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
+              amp                     (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+              amp-fudge               1.3
+              pan                     (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+              detune                  (varlag detune detune_slide detune_slide_curve detune_slide_shape)
+              cutoff                  (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+              mod_phase               (varlag mod_phase mod_phase_slide mod_phase_slide_curve mod_phase_slide_shape)
+
+              mod_rate                (/ 1 mod_phase)
+              mod_range               (varlag mod_range mod_range_slide)
+
+              mod_pulse_width         (varlag mod_pulse_width mod_pulse_width_slide mod_pulse_width_slide_curve mod_pulse_width_slide_shape)
+
+              min_note                note
+              max_note                (+ mod_range note)
+
+              mod_double_phase_offset (* 2 mod_phase_offset)
+              ctl-wave                (select:kr mod_wave [(* -1 (lf-saw:kr mod_rate (+ mod_double_phase_offset 1)))
+                                                           (- (* 2 (lf-pulse:kr mod_rate mod_phase_offset mod_pulse_width)) 1)
+                                                           (lf-tri:kr mod_rate (+ mod_double_phase_offset 1))
+                                                           (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
+
+              ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
+              ctl-wave                (* ctl-wave ctl-wave-mul)
+              mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
+              freq                    (midicps mod-note)
+              cutoff-freq             (midicps cutoff)
+              detune-freq             (midicps (+ mod-note detune))
+              snd                     (mix (saw [freq detune-freq]))
+              snd                     (normalizer (lpf snd cutoff-freq))
+              env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
        (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
 
@@ -921,19 +1367,35 @@
 
    )
 
-  (comment
+  ;; foo
+  ;; foo_n
+  ;; foo_d
+  ;; foo_nd
+  ;; foo_m
+  ;; foo_nm
+  ;; foo_md
+  ;; foo_nmd
+
+  (do
     (save-to-pi sonic-pi-dull_bell)
     (save-to-pi sonic-pi-pretty_bell)
     (save-to-pi sonic-pi-beep)
+
     (save-to-pi sonic-pi-saw)
+    (save-to-pi sonic-pi-saw_n)
+    (save-to-pi sonic-pi-saw_d)
+    (save-to-pi sonic-pi-saw_nd)
+    (save-to-pi sonic-pi-saw_m)
+    (save-to-pi sonic-pi-saw_nm)
+    (save-to-pi sonic-pi-saw_md)
+    (save-to-pi sonic-pi-saw_nmd)
+
     (save-to-pi sonic-pi-tri)
     (save-to-pi sonic-pi-pulse)
     (save-to-pi sonic-pi-dsaw)
     (save-to-pi sonic-pi-fm)
 
     (save-to-pi sonic-pi-mod_fm)
-    (save-to-pi sonic-pi-mod_saw)
-    (save-to-pi sonic-pi-mod_dsaw)
     (save-to-pi sonic-pi-mod_sine)
     (save-to-pi sonic-pi-mod_tri)
     (save-to-pi sonic-pi-mod_pulse)
@@ -1452,7 +1914,7 @@
                           out_bus 0]
    (let [note                (varlag note note_slide note_slide_curve note_slide_shape)
          amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-         amp-fudge           0.5
+         amp-fudge           0.3
          pan                 (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
