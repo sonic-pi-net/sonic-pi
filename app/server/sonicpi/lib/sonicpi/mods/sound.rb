@@ -2279,15 +2279,39 @@ stop bar"]
          s.chomp(", ") << "}"
        end
 
-       def trigger_sampler(path, buf_id, num_chans, args_h, group=current_job_synth_group)
-         args_h_with_buf = {:buf => buf_id}.merge(args_h)
-
-         if (args_h[:rate] && args_h[:rate] < 0) || ((@complex_sampler_args - args_h.keys).size != @complex_sampler_args.size)
-           synth_name = (num_chans == 1) ? "mono_player" : "stereo_player"
-         else
-           synth_name = (num_chans == 1) ? "basic_mono_player" : "basic_stereo_player"
+       def complex_args?(args_h)
+         # break out early if any of the 'complex' keys exist in the
+         # args map:
+         return false if args_h.empty?
+         @complex_sampler_args.each do |a|
+           return true if args_h[a]
          end
-         sn = synth_name.to_sym
+
+         # Ensure rate isn't negative:
+         r = args_h[:rate]
+         if (r && r < 0)
+           return true
+         else
+           return false
+         end
+       end
+
+
+       def trigger_sampler(path, buf_id, num_chans, args_h, group=current_job_synth_group)
+         if complex_args?(args_h)
+           #complex
+           synth_name = (num_chans == 1) ? :mono_player : :stereo_player
+         else
+           #basic
+           synth_name = (num_chans == 1) ? :basic_mono_player : :basic_stereo_player
+         end
+
+         trigger_specific_sampler(synth_name, path, buf_id, num_chans, args_h, group)
+       end
+
+       def trigger_specific_sampler(sampler_type, path, buf_id, num_chans, args_h, group=current_job_synth_group)
+         args_h_with_buf = {:buf => buf_id}.merge(args_h)
+         sn = sampler_type.to_sym
          info = SynthInfo.get_info(sn)
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
@@ -2298,7 +2322,7 @@ stop bar"]
            end
          end
 
-         trigger_synth(synth_name, args_h_with_buf, group, info)
+         trigger_synth(sn, args_h_with_buf, group, info)
        end
 
        def trigger_inst(synth_name, args_h, group=current_job_synth_group)
