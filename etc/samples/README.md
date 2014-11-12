@@ -124,3 +124,4 @@ Links to original samples:
 * :loop_amen - http://freesound.org/people/Dolfeus/sounds/43389/
 * :loop_amen_full - http://freesound.org/people/gowers/sounds/202537/
 * :loop_garzul - http://freesound.org/people/Garzul/sounds/213524/
+* :loop_mika - http://freesound.org/people/mika55/sounds/188551/
