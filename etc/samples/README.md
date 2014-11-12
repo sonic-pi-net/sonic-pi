@@ -98,9 +98,29 @@ Links to original samples:
 * :bass_dnb_f - http://freesound.org/people/Exsomniel/sounds/206134/
 
 
+## Bass Drums
+
+* :bd_pure - http://freesound.org/people/EKVelika/sounds/209571/
+* :bd_808 - http://freesound.org/people/EKVelika/sounds/208447/
+* :bd_zum - http://freesound.org/people/n1ghthawk/sounds/172124/
+* :bd_gas  - http://freesound.org/people/menegass/sounds/89460/
+* :bd_sone - http://freesound.org/people/soneproject/sounds/223090/
+* :bd_haus - http://freesound.org/people/Rodrigo%20The%20Mad/sounds/137722/
+* :bd_zome - http://freesound.org/people/Dolfeus/sounds/55231/
+* :bd_boom - http://freesound.org/people/Snapper4298/sounds/157245/
+* :bd_klub - http://freesound.org/people/zgump/sounds/83262/
+* :bd_fat - http://freesound.org/people/cubix/sounds/124386/
+
+## Snares
+
+* :sn_dub - http://freesound.org/people/Adriak909/sounds/173142/
+* :sn_dolf - http://freesound.org/people/Dolfeus/sounds/57534/
+* :sn_zome - http://freesound.org/people/Dolfeus/sounds/55232/
+
 ## Loops
 
 * :loop_industrial - http://freesound.org/people/godspine/sounds/222072/
 * :loop_compus - http://freesound.org/people/godspine/sounds/212288/
 * :loop_amen - http://freesound.org/people/Dolfeus/sounds/43389/
 * :loop_amen_full - http://freesound.org/people/gowers/sounds/202537/
+
