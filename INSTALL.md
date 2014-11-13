@@ -148,11 +148,11 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
   - `nmake`
   - copy to QT directory: `nmake install`
 * Run `app\gui\qt\win-build-app.bat`
-* copy C:\Program Files (x86)\Microsoft Visual Studio 2012\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
+* copy C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
 * `Sonic-Pi.exe` will be in `release`, or use `sonic-pi.bat` to startup
 
 Packaging:
-* copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` into `app\server\native\windows` (but skip the Qt* DLLs)
+* copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` and `plugins` into `app\server\native\windows` (but skip the Qt* DLLs)
 * copy `C:\ruby193\*` into `app\server\native\windows`
   - there are some things that can be trimmed, such as docs
 * download a matching DevKit from http://rubyinstaller.org/downloads/
@@ -160,9 +160,11 @@ Packaging:
 * `..\..\native\windows\bin\gem build rugged.gemspec`
 * `..\..\native\windows\bin\gem install rugged-0.19.0.gem`
   - if "Could not create Makefile", check `mkmf.log` to see if it can't find CMake.  If so, try copying the subdirectories under `c:\Program Files (x86)\CMake` to your DevKit directory.  (I couldn't get it to find it using PATH, possibly because DevKit was rewriting it)
-* `cd app\server\vendor\ffi`
-* `..\..\native\windows\bin\gem build ffi.gemspec`
-* `..\..\native\windows\bin\gem install ffi-1.9.6.gem`
+* `cd app\server\vendor\did_you_mean`
+* `..\..\native\windows\bin\gem build did_you_mean.gemspec`
+* `..\..\native\windows\bin\gem install did_you_mean-0.7.0.gem`
+* `..\..\native\windows\bin\gem install ffi`
+  - gem will pull down the mingw32 version, which is not currently included
 * There is an Advanced Installer config file in `Sonic Pi.aip` for packaging to MSI: http://www.advancedinstaller.com/
 
 ## Unsupported development HTML Interface
