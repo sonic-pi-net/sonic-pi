@@ -548,9 +548,15 @@ void MainWindow::initPrefsWindow() {
 
   addKeyBinding(settings, QsciCommand::Home, Qt::Key_A | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::VCHome, Qt::Key_Home);
+  addKeyBinding(settings, QsciCommand::VCHomeExtend, Qt::Key_Home | Qt::SHIFT);
+  addKeyBinding(settings, QsciCommand::DocumentStart, Qt::Key_Home | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::DocumentStartExtend, Qt::Key_Home | SPi_CTRL | Qt::SHIFT);
 
   addKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_End);
+  addKeyBinding(settings, QsciCommand::LineEndExtend, Qt::Key_End | Qt::SHIFT);
+  addKeyBinding(settings, QsciCommand::DocumentEnd, Qt::Key_End | SPi_CTRL);
+  addKeyBinding(settings, QsciCommand::DocumentEndExtend, Qt::Key_End | SPi_CTRL | Qt::SHIFT);
 
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K | SPi_CTRL);
