@@ -202,7 +202,7 @@ end
 # Generate info pages
 ###
 
-info_sources = ["CHANGELOG", "CONTRIBUTORS", "COMMUNITY"]
+info_sources = ["CHANGELOG", "CONTRIBUTORS", "COMMUNITY", "CORETEAM"]
 outputdir = "#{qt_gui_path}/info"
 
 info_sources.each do |src|

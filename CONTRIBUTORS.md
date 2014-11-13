@@ -2,7 +2,7 @@
 
 ## Support and Advice
 
-Thanks also to the following people for their generous support (both technical and otherwise) with time, advice, and wisdom:
+Thanks to the following people for their generous support (both technical and otherwise) with time, advice, and wisdom:
 
 * [Carrie Anne Philbin](https://twitter.com/missphilbin)
 * [Robert Mullins](http://www.cl.cam.ac.uk/~rdm34/)

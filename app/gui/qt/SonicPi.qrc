@@ -25,5 +25,7 @@
         <file>images/tutorial/env-long-attack-short-release.png</file>
         <file>images/tutorial/env-release.png</file>
         <file>images/tutorial/env-short-attack-short-release.png</file>
+
+        <file>images/coreteam/josephwilk.png</file>
     </qresource>
 </RCC>

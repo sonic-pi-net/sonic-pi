@@ -341,27 +341,39 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   historyT->setOpenExternalLinks(true);
   historyT->setHtml(s);
 
-  //Contributors
-  QFile file2(":/info/CONTRIBUTORS.html");
+  //Core Team
+  QFile file2(":/info/CORETEAM.html");
   if(!file2.open(QFile::ReadOnly | QFile::Text)) {
   }
   QString s2;
   QTextStream st2(&file2);
   s2.append(st2.readAll());
-  QTextBrowser *contributorsT = new QTextBrowser;
-  contributorsT->setOpenExternalLinks(true);
-  contributorsT->setHtml(s2);
+  QTextBrowser *coreteamT = new QTextBrowser;
+  coreteamT->setOpenExternalLinks(true);
+  coreteamT->setHtml(s2);
 
-  //Community
-  QFile file3(":/info/COMMUNITY.html");
+
+  //Contributors
+  QFile file3(":/info/CONTRIBUTORS.html");
   if(!file3.open(QFile::ReadOnly | QFile::Text)) {
   }
   QString s3;
   QTextStream st3(&file3);
   s3.append(st3.readAll());
+  QTextBrowser *contributorsT = new QTextBrowser;
+  contributorsT->setOpenExternalLinks(true);
+  contributorsT->setHtml(s3);
+
+  //Community
+  QFile file4(":/info/COMMUNITY.html");
+  if(!file4.open(QFile::ReadOnly | QFile::Text)) {
+  }
+  QString s4;
+  QTextStream st4(&file4);
+  s4.append(st4.readAll());
   QTextBrowser *communityT = new QTextBrowser;
   communityT->setOpenExternalLinks(true);
-  communityT->setHtml(s3);
+  communityT->setHtml(s4);
 
   currentLine = 0; currentIndex = 0;
 
@@ -369,6 +381,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   // Tabs
   QTabWidget *infoTabs = new QTabWidget(this);
   infoTabs->addTab(infoPane, "About");
+  infoTabs->addTab(coreteamT, "Core Team");
   infoTabs->addTab(historyT, "History");
   infoTabs->addTab(contributorsT, "Contributors");
   infoTabs->addTab(communityT, "Community");
