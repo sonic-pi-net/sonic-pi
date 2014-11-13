@@ -5,22 +5,25 @@ rescue LoadError
   # Start modifications
   #
   # Original code:
-  # require "rugged/rugged"
+  begin
+    require "rugged/rugged"
+  rescue LoadError
 
-  # Modifications made for Sonic Pi multi-platform compatibility:
-  os = case RUBY_PLATFORM
-       when /.*arm.*-linux.*/
-         :raspberry
-       when /.*linux.*/
-         :linux
-       when /.*darwin.*/
-         :osx
-       when /.*mingw.*/
-         :windows
-       else
-         RUBY_PLATFORM
-       end
-  require_relative "../../../rb-native/#{os}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}/rugged"
+    # Modifications made for Sonic Pi multi-platform compatibility:
+    os = case RUBY_PLATFORM
+         when /.*arm.*-linux.*/
+           :raspberry
+         when /.*linux.*/
+           :linux
+         when /.*darwin.*/
+           :osx
+         when /.*mingw.*/
+           :windows
+         else
+           RUBY_PLATFORM
+         end
+    require_relative "../../../rb-native/#{os}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}/rugged"
+  end
   # End modifications
 end
 require 'rugged/index'
