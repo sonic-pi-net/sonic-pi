@@ -45,8 +45,13 @@ module SonicPi
         Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
         res = args_h[:init]
         loop do
+          t1 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
+
           cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
           res = send(name, res)
+
+          t2 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
+          raise "Live loop #{name.to_sym} did not sleep!" if t1 == t2
         end
       end
 
