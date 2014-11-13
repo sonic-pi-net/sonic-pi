@@ -4,8 +4,10 @@
 *To be released...*
 
 ### API Changes
+* New fn `quantise`
+* New fn `factor?`
 * New fn `live_loop` 
-* New fn `after` 
+* New fn `at` 
 * New fn `freesound`
 * New fn `degree` - for resolving a note in a scale by degree such as `:i`, `:iv`
 * New TL fn `use_sample_bpm` - for changing the BPM based on a sample's duration
@@ -19,7 +21,9 @@
 
 ### GUI Modifications
 
+* Much improved autocompletion
 * Add HPF, LPF, mono forcer and stereo swapping preferences to new studio section for use when performing with Sonic Pi through an external PA.
+* Shortcuts overhauled - now supports basic Emacs-style Ctrl-* navigation.
 * Shortcuts Alt-[ and Alt-] now cycle through workspaces
 * Shortcuts now work when toolbar is hidden
 * Font sizes for individual workspaces are now stored between sessions
@@ -30,6 +34,7 @@
 * Hitting F1 over a function name now opens up the doc system at the relevant place
 
 ### Bugs/Improvements
+* Much improved efficiency in many areas.
 * Avoid occasional clicking sound when stopping runs
 * Note Cb is now correctly resolved to be a semitone lower than C
 * Non RP systems now start with more audio busses (1024)
@@ -38,13 +43,13 @@
 * Chords and scales now wrap around when accessed from indexes outside of their range.
 * `rand_i` and `rrand_i` now correctly return integers rather than floats
 * rrand arguments now correctly handle a range of 0 (i.e. min == max)
-* Improve efficency of cue mechanism
 * Line offset in error messages is now correct
 * When saving files on Windows, CRLF line endings are used
 * Stop users defining functions with same name as core API fns
 
 
 ### Synths & FX
+* New samples (bass drums, snares and loops)
 * Allow `mod_range` param to have negative values (for oscillating with lower notes)
 * Change slide mechanism to default to linear sliding with support for changing the curve type. All modifiable args now have corresponding  `_slide_shape` and `_slide_curve` args.
 * Improve TB303 synth - now supports separate cutoff ADSR envelopes. New args:
