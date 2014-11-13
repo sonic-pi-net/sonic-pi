@@ -2265,9 +2265,10 @@ stop bar"]
            partial = path + "/" + sym.to_s
          end
 
-         find_sample_with_path(partial)
+         res = find_sample_with_path(partial)
 
-         raise "No sample exists called :#{sym} in sample pack #{path}"
+         raise "No sample exists called :#{sym} in sample pack #{path} (#{File.expand_path(path)})" unless res
+         res
        end
 
        def arg_h_pp(arg_h)
