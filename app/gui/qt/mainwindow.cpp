@@ -543,6 +543,8 @@ void MainWindow::initPrefsWindow() {
   addKeyBinding(settings, QsciCommand::WordLeftExtend, Qt::Key_Left | SPi_CTRL | Qt::SHIFT);
 
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
+  addOtherKeyBinding(settings, QsciCommand::Delete, Qt::Key_Delete);
+
   addKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_H | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_Backspace);
 
