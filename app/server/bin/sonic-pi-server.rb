@@ -12,6 +12,7 @@
 # notice is included.
 #++
 
+require 'bundler/setup'
 require 'cgi'
 
 require_relative "../core.rb"

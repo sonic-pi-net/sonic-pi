@@ -1,6 +1,0 @@
-[submodule "testrepo"]
-	path = testrepo
-	url = 
-[submodule ""]
-	path = testrepo
-	url = 

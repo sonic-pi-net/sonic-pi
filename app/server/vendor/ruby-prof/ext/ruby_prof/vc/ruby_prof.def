@@ -1,3 +1,0 @@
-LIBRARY ruby_prof
-EXPORTS
-  Init_ruby_prof

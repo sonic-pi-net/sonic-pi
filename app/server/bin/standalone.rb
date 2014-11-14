@@ -12,6 +12,7 @@
 # notice is included.
 #++
 
+require 'bundler/setup'
 $:.unshift File.expand_path("../../vendor/osc-ruby/lib", __FILE__)
 require 'osc-ruby'
 require_relative '../util.rb'

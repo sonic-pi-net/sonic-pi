@@ -1,5 +1,0 @@
-[valid "subsection"]
-    something = true
-
-[something "else"]
-    something = false

@@ -1,5 +1,0 @@
-[:define,
- :test,
- [:lambda,
-  [],
-  [:begin, [:display, "something"@54], [:display, 1], [:display, 3.08]]]]

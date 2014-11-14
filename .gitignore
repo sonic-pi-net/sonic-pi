@@ -70,3 +70,6 @@ app/server/rb-native/
 ## Rugged
 
 app/server/vendor/rugged/ext/rugged/Makefile
+
+# bundler
+.bundle
