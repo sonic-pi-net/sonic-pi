@@ -1,40 +1,80 @@
 # Sonic Pi Core Team
 
-The intial concept and implementation of Sonic Pi was by Sam
-Aaron. However, since v2.0.1, Sam has formed and worked alongside the
-Sonic Pi Core Team, a dedicated group of Sonic Pi hackers and
-performers, working hard on new features, sounds and platform support.
+Meet the Sonic Pi Core Team - a dedicated group of Sonic Pi coders and
+performers, working hard to bring you exciting new features, sounds and
+music making possibilities. 
 
 ## Sam Aaron
 
-Description to be added...
+<table>
+<tr>
+  <td> <a href="https://twitter.com/samaaron"><img height="75" width="75" src=":/images/coreteam/josephwilk.png"></a> </td>
+  <td> 
 
-* [Twitter](https://twitter.com/samaaron)
-* [GitHub](https://github.com/samaaron)
+  Description to be added... 
+  <br/>
+  Performing as ...
+  <br/>
+  <br/>
+  <a href="https://twitter.com/samaaron">Twitter</a> | <a href="https://github.com/samaaron">GitHub</a> 
+
+  </td>
+</tr>
+</table>
 
 
 ## Xavier Riley
 
-Description to be added...
+<table>
+<tr>
+  <td> <a href="https://twitter.com/xavriley"><img height="75" width="75" src=":/images/coreteam/josephwilk.png"></a> </td>
+  <td> 
 
-* [Twitter](https://twitter.com/xavriley)
-* [GitHub](https://github.com/xavriley)
+  Description to be added... 
+  <br/>
+  Performing as ...
+  <br/>
+  <br/>
+  <a href="https://twitter.com/xavriley">Twitter</a> | <a href="https://github.com/xavriley">GitHub</a> 
+
+  </td>
+</tr>
+</table>
 
 
 ## Jeremy Weatherford
 
-Description to be added...
+<table>
+<tr>
+  <td><a href="https://twitter.com/weatherfnord"> <img height="75" width="75" src=":/images/coreteam/josephwilk.png"></a> </td>
+  <td> 
 
-* [Twitter](https://twitter.com/weatherfnord)
-* [GitHub](https://github.com/jweather)
+  Description to be added... 
+  <br/>
+  Performing as ...
+  <br/>
+  <br/>
+  <a href="https://twitter.com/weatherfnord">Twitter</a> | <a href="https://github.com/jweather">GitHub</a> 
+
+  </td>
+</tr>
+</table>
 
 
 ## Joseph Wilk
 
-![Joseph Wilk](:/images/coreteam/josephwilk.png)
+<table>
+<tr>
+  <td> <a href="https://twitter.com/josephwilk"><img height="75" width="75" src=":/images/coreteam/josephwilk.png"> </a></td>
+  <td> 
 
-Programmer and live coder of sound, light and poetry.
-Performing as [Repl Electric](http://www.repl-electric.com).
+  Programmer and live coder of sound, light and poetry. 
+  <br/>
+  Performing as <a href="http://www.repl-electric.com">Repl Electric</a>.
+  <br/>
+  <br/>
+  <a href="https://twitter.com/josephwilk">Twitter</a> | <a href="https://github.com/josephwilk">GitHub</a> 
 
-* [Twitter](https://twitter.com/josephwilk)
-* [GitHub](https://github.com/josephwilk)
+  </td>
+</tr>
+</table>
