@@ -134,8 +134,9 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 ### Server extensions
 
-* Compile native extensions: `ruby app/server/bin/compile-extensions.rb`
-  - if you get a "no Makefiles" error for rugged, you may need to patch app\server\vendor\rugged\ext\rugged\extconf.rb, see https://github.com/jweather/rugged/commit/5fa0cb957ae20faddfa3e3504f122495bbd4e72f
+* Compile native extensions:
+  - `gem install bundler`
+  - `bundler install` (from sonic-pi root)
 
 ### Qt GUI
 
@@ -156,15 +157,10 @@ Packaging:
 * copy `C:\ruby193\*` into `app\server\native\windows`
   - there are some things that can be trimmed, such as docs
 * download a matching DevKit from http://rubyinstaller.org/downloads/
-* `cd app\server\vendor\rugged`
-* `..\..\native\windows\bin\gem build rugged.gemspec`
-* `..\..\native\windows\bin\gem install rugged-0.19.0.gem`
-  - if "Could not create Makefile", check `mkmf.log` to see if it can't find CMake.  If so, try copying the subdirectories under `c:\Program Files (x86)\CMake` to your DevKit directory.  (I couldn't get it to find it using PATH, possibly because DevKit was rewriting it)
-* `cd app\server\vendor\did_you_mean`
-* `..\..\native\windows\bin\gem build did_you_mean.gemspec`
-* `..\..\native\windows\bin\gem install did_you_mean-0.7.0.gem`
-* `..\..\native\windows\bin\gem install ffi`
-  - gem will pull down the mingw32 version, which is not currently included
+* prepend app\server\native\windows\bin to your path so it runs first
+  - `PATH=c:\sonic-pi\app\server\native\windows\bin;%PATH%
+  - type `ruby -e 'puts RbConfig.ruby'` to make sure which one is running
+* run `gem install bundler` and `bundler install` using Sonic Pi's copy of Ruby
 * There is an Advanced Installer config file in `Sonic Pi.aip` for packaging to MSI: http://www.advancedinstaller.com/
 
 ## Unsupported development HTML Interface

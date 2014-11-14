@@ -15,6 +15,7 @@
 raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RUBY_VERSION}" if RUBY_VERSION < "1.9.3"
 
 ## This core file sets up the load path and applies any necessary monkeypatches.
+require 'bundler/setup'
 
 ## Ensure all libs in vendor directory are available
 Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
