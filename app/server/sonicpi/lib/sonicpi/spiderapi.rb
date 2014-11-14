@@ -50,12 +50,12 @@ module SonicPi
         end
         loop do
           t1 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
-
+          Thread.current.thread_variable_set(:sonic_pi_spider_synced, false)
           cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
           res = send(name, res)
 
           t2 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
-          raise "Live loop #{name.to_sym} did not sleep!" if t1 == t2
+          raise "Live loop #{name.to_sym} did not sleep!" if (t1 == t2) && !Thread.current.thread_variable_get(:sonic_pi_spider_synced)
         end
       end
 
@@ -941,6 +941,7 @@ end"
 
 
     def sync(cue_id)
+      Thread.current.thread_variable_set(:sonic_pi_spider_synced, true)
       p = Promise.new
       @events.oneshot_handler("/spider_thread_sync/" + cue_id.to_s) do |payload|
         p.deliver! payload
