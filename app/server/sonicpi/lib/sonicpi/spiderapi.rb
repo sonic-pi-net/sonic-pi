@@ -43,7 +43,11 @@ module SonicPi
 
       in_thread(name: name) do
         Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
-        res = args_h[:init]
+        if args_h.has_key?(:init)
+          res = args_h[:init]
+        else
+          res = 0
+        end
         loop do
           t1 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
 
@@ -63,15 +67,24 @@ module SonicPi
         introduced:     Version.new(2,1,0),
         summary:        "Run code in a new thread, loop it automatically",
         args:           [[:name, :symbol]],
-        opts:           {},
+        opts:           {:init => "initial value for optional block arg",
+                         :auto_cue => "enable or disable automatic cue (default is true)"},
         accepts_block: true,
-        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a cue with the same name each time the block runs.",
+        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a cue with the same name each time the block runs. If the block is giving a parameter, this is given the result of the last run of the loop (with initial value either being 0 or an init arg).",
         examples: ["
 live_loop :ping do
   sample :elec_ping
   sleep 1
 end
-"]
+",
+
+"
+live_loop :foo do |a|  # pass a param (a) to the block (inits to 0)
+  puts a               # prints out all the integers
+  sleep 1
+  a += 1               # increment a by 1 (last value is passed back into the loop)
+end
+"   ]
 
 
     def at(times, params=nil, &block)
@@ -216,7 +229,17 @@ end
 play bar # plays 80"]
 
 
-
+    def ndefine(name, &block)
+      # do nothing!
+    end
+    doc name:           :ndefine,
+        introduced:     Version.new(2,1,0),
+        summary:        "Define a new function",
+        args:           [[:name, :symbol]],
+        opts:          nil,
+        accepts_block: true,
+        doc:           "Does nothing. Use to stop a define from actually defining. Simpler than wrapping whole define in a comment block or commenting each individual line out.",
+        examples: []
 
     def define(name, &block)
       raise "define must be called with a code block" unless block
