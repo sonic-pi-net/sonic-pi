@@ -149,6 +149,14 @@ module SonicPi
       @server.sched_ahead_time = t
     end
 
+    def control_delta
+      @server.control_delta
+    end
+
+    def control_delta=(t)
+      @server.control_delta = t
+    end
+
     def recording_start(path, bus=0)
       return false if @recorders[bus]
       @recording_mutex.synchronize do

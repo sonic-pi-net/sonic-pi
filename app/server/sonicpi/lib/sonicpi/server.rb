@@ -29,7 +29,7 @@ module SonicPi
   class Server
     include Util
 
-    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time
+    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta
 
     def initialize(hostname, port, msg_queue)
       @OSC_SEM = Mutex.new

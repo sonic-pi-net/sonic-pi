@@ -285,6 +285,32 @@ end"]
            examples:      ["hz_to_midi(261.63) #=> 60.0003"]
 
 
+       def set_control_delta!(t)
+         @mod_sound_studio.control_delta = t
+         __info "Control delta set to #{t}"
+       end
+       doc name:          :set_control_delta!,
+           introduced:    Version.new(2,1,0),
+           summary:       "Set control delta globally",
+           doc:           "Specify how many seconds between successive modifications (i.e. trigger then controls) of a specific node on a specific thread. Set larger if you are missing control messages sent extremely close together in time.",
+           args:          [[:time, :number]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      [
+"
+set_control_delta! 0.1                 # Set control delta to 0.1
+
+s = play 70, release: 8, note_slide: 8 # Play a note and set the slide time
+control s, note: 82                    # immediately start sliding note.
+                                       # This control message might not be
+                                       # correctly handled as it is sent at the
+                                       # same virtual time as the trigger.
+                                       # If you don't hear a slide, try increasing the
+                                       # control delta until you."]
+
+
+
+
        def set_sched_ahead_time!(t)
          @mod_sound_studio.sched_ahead_time = t
          __info "Schedule ahead time set to #{t}"
