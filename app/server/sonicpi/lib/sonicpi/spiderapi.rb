@@ -12,6 +12,7 @@
 #++
 require_relative 'docsystem'
 require_relative "version"
+require_relative "util"
 
 ## TODO: create _* equivalents of all fns - for silent (i.e computation) versions
 
@@ -19,6 +20,7 @@ module SonicPi
   module SpiderAPI
 
     include SonicPi::DocSystem
+    include SonicPi::Util
 
     def live_loop(name, *args, &block)
       raise "live_loop must be called with a code block" unless block
