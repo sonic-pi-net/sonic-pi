@@ -43,12 +43,12 @@ define :my_loop do
 end
 ```
 
-Now it's sounding pretty interesting, but we can spice it up further. Instead of playing the same note again and again, try playing a chords
+Now it's sounding pretty interesting, but we can spice it up further. Instead of playing the same note again and again, try playing a chord
 
 ```
 define :my_loop do
   use_synth :tb303
-  play choose(chord(:e3, :minor)), release: 0.3
+  play chord(:e3, :minor), release: 0.3
   sleep 0.5
 end
 ```
