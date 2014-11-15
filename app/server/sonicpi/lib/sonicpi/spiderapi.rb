@@ -13,6 +13,8 @@
 require_relative 'docsystem'
 require_relative "version"
 
+## TODO: create _* equivalents of all fns - for silent (i.e computation) versions
+
 module SonicPi
   module SpiderAPI
 
@@ -467,21 +469,35 @@ one_in 100 # will return true with a probability of 1/100, false with a probabil
 
 
 
-    def rrand(min, max)
-      return min if min == max
+    def rrand(min, max, *opts)
+      args_h = resolve_synth_opts_hash_or_array(opts)
+      res = args_h[:res]
+      if min == max
+        if res
+          return quantise(min, res)
+        else
+          return min
+        end
+      end
+
       range = (min - max).abs
       rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
       r = rgen.rand(range.to_f)
       smallest = [min, max].min
-      r + smallest
+
+      if res
+        return quantise((r + smallest), res)
+      else
+        r + smallest
+      end
     end
     doc name:           :rrand,
         introduced:     Version.new(2,0,0),
         summary:        "Generate a random float between two numbers",
         args:           [[:min, :number], [:max, :number]],
-        opts:           nil,
+        opts:           {:res => nil},
         accepts_block:  false,
-        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see rrand_i",
+        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see rrand_i. If optional arg :res is used, the result is quantised by res.",
         examples:      [
 "
 print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
