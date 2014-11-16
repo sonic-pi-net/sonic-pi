@@ -2297,15 +2297,6 @@ stop bar"]
          res
        end
 
-       def arg_h_pp(arg_h)
-         s = "{"
-         arg_h.each do |k, v|
-           rounded = v.is_a?(Float) ? v.round(4) : v
-           s << "#{k}: #{rounded}, "
-         end
-         s.chomp(", ") << "}"
-       end
-
        def complex_args?(args_h)
          # break out early if any of the 'complex' keys exist in the
          # args map:

@@ -917,7 +917,11 @@ play 62
       }
 
       unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-        __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+        if args_h.empty?
+          __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+        else
+          __delayed_highlight_message "cue #{cue_id.to_sym.inspect}, #{arg_h_pp(args_h)}"
+        end
       end
 
       Thread.new do

@@ -205,5 +205,16 @@ module SonicPi
         raise "Invalid options. Options should either be an even list of key value pairs, a single Hash or nil. Got #{opts.inspect}"
       end
     end
+
+    def arg_h_pp(arg_h)
+      s = "{"
+      arg_h.each do |k, v|
+        rounded = v.is_a?(Float) ? v.round(4) : v
+        s << "#{k}: #{rounded}, "
+      end
+      s.chomp(", ") << "}"
+    end
+
+
   end
 end
