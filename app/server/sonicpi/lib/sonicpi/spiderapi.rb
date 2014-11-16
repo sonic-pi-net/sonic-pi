@@ -872,10 +872,18 @@ play 62
 
 
 
-    def cue(cue_id)
+    def cue(cue_id, *opts)
+      args_h = resolve_synth_opts_hash_or_array(opts)
+      args_h.each do |k, v|
+        raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
+        raise "Invalid cue value type (#{v.class}) for key #{k.inspect}. Must be immutable - currently accepted types: Numeric and Symbol." unless v.is_a?(Numeric) || v.is_a?(Symbol)
+      end
+
+
       payload = {
         :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
-        :run => current_job_id
+        :run => current_job_id,
+        :cue_map => args_h
       }
 
       unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
@@ -974,11 +982,12 @@ end"
       payload = p.get
       time = payload[:time]
       run_id = payload[:run]
+      cue_map = payload[:cue_map]
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
       unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
         __delayed_highlight2_message "synced #{cue_id.to_sym.inspect} (Run #{run_id})"
       end
-      cue_id
+      cue_map.dup if cue_map
     end
     doc name:           :sync,
         introduced:     Version.new(2,0,0),
