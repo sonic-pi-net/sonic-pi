@@ -339,7 +339,7 @@ module SonicPi
       firstline -= code.split(/\r?\n/).count{|l| l.include? "#__nosave__"}
       start_t_prom = Promise.new
       job = Thread.new do
-        Thread.current.priority = 10
+        Thread.current.priority = 20
         begin
           num_running_jobs = reg_job(id, Thread.current)
           Thread.current.thread_variable_set :sonic_pi_thread_group, "job-#{id}"

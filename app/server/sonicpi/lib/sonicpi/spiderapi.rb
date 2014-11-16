@@ -826,13 +826,14 @@ play 72"]
         raise "Timing Exception: thread got too far behind time"
       elsif (now - sat) > new_vt
         # Hard warning, system is too far behind, expect timing issues.
-        Thread.current.priority = 20
+        Thread.current.priority = -40
         __delayed_serious_warning "Timing error: can't keep up..."
       elsif now > new_vt
         # Soft warning, system should work correctly, but is currently behind
-        Thread.current.priority = 20
+        Thread.current.priority = -20
         __delayed_warning "Timing warning: running slightly behind..."
       else
+        Thread.current.priority = 20
         Kernel.sleep new_vt - now
       end
 
