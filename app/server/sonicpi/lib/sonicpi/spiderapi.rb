@@ -30,7 +30,7 @@ module SonicPi
         summary:       "Increment",
         args:          [[:n, :number]],
         opts:          {},
-        accepts_block: false
+        accepts_block: false,
         doc:           "Increment a number by 1. Equivalent to n + 1",
         examples:     [
       "inc 1 # returns 2",
@@ -45,7 +45,7 @@ module SonicPi
         summary:       "Decrement",
         args:          [[:n, :number]],
         opts:          {},
-        accepts_block: false
+        accepts_block: false,
         doc:           "Decrement a number by 1. Equivalent to n - 1",
         examples:     [
       "dec 1 # returns 0",
@@ -99,7 +99,7 @@ module SonicPi
     end
     doc name:           :live_loop,
         introduced:     Version.new(2,1,0),
-        summary:        "Run code in a new thread, loop it automatically",
+        summary:        "A loop for live coding",
         args:           [[:name, :symbol]],
         opts:           {:init => "initial value for optional block arg",
                          :auto_cue => "enable or disable automatic cue (default is true)"},
