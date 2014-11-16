@@ -22,6 +22,36 @@ module SonicPi
     include SonicPi::DocSystem
     include SonicPi::Util
 
+    def inc(n)
+      n + 1
+    end
+    doc name:          :inc,
+        introduced:    Version.new(2, 1, 0),
+        summary:       "Increment",
+        args:          [[:n, :number]],
+        opts:          {},
+        accepts_block: false
+        doc:           "Increment a number by 1. Equivalent to n + 1",
+        examples:     [
+      "inc 1 # returns 2",
+      "inc -1 # returns 0"]
+
+
+    def dec(n)
+      n - 1
+    end
+    doc name:          :dec,
+        introduced:    Version.new(2, 1, 0),
+        summary:       "Decrement",
+        args:          [[:n, :number]],
+        opts:          {},
+        accepts_block: false
+        doc:           "Decrement a number by 1. Equivalent to n - 1",
+        examples:     [
+      "dec 1 # returns 0",
+      "dec -1 # returns -2"]
+
+
     def live_loop(name, *args, &block)
       raise "live_loop must be called with a code block" unless block
 
