@@ -2905,8 +2905,7 @@ The way the transpositions are done adds some distortion, particulary to the low
           :doc => "The time between echoes in seconds.",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
-          :bpm_scale => true
-
+          :bpm_scale => false
         },
 
         :phase_slide =>
@@ -2940,7 +2939,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def doc
-      ""
+      "Standard chorus with variable phase duration (time between echoes). A type of short echo that usually makes the sound \"thicker\". If you wish to have a phase duration longer than 2s, you need to specifiy the longest phase duration you'd like with the arg max_phase. Be warned, as with echo, chorus FX with very long phases can consume a lot of memory and take longer to initialise."
     end
   end
 
