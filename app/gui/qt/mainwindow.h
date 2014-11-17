@@ -144,6 +144,8 @@ private:
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
 
+    void addUniversalCopyShortcuts(QTextEdit *te);
+
     QFuture<void> osc_thread;
 
     bool cont_listening_for_osc;

@@ -188,6 +188,11 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
 
+  // adding universal shortcuts to outputpane seems to
+  // steal events from doc system!?
+  // addUniversalCopyShortcuts(outputPane);
+
+  addUniversalCopyShortcuts(errorPane);
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
   outputPane->setLineWrapMode(QTextEdit::NoWrap);
@@ -232,6 +237,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QString style = "QTextBrowser { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
   docPane->setStyleSheet(style);
   docPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
+  addUniversalCopyShortcuts(docPane);
 
   QHBoxLayout *docLayout = new QHBoxLayout;
   docLayout->addWidget(docsCentral);
@@ -299,10 +305,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
 
   infoPane = new QTextBrowser;
+  addUniversalCopyShortcuts(infoPane);
   infoPane->setOpenExternalLinks(true);
   infoPane->setFixedSize(600, 615);
   QString html;
-
   infoPane->setHtml("<center><img src=\":/images/logo-smaller.png\" height=\"268\" width=\"328\"><pre><font size=\"4\"><font color=\"DeepPink\">A Sound Synthesiser<br>for Live Coding</font><br><br>Designed and developed by Sam Aaron<br>in Cambridge, England<br><br><font color=\"DeepPink\"><a href=\"http://sonic-pi.net\" style=\"text-decoration: none; color:DeepPink\">http://sonic-pi.net</a></font><br><br>For the latest updates follow<br><font color=\"DeepPink\"><a href=\"http://twitter.com/sonic_pi\" style=\"text-decoration: none; color:DeepPink;\">@sonic_pi</a><br></font></font></pre><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></h2><pre><font size=\"4\"><br>v2.1</font></pre></center>");
 
 
@@ -318,6 +324,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
     QTextEdit* startupPane = new QTextEdit;
     startupPane->setReadOnly(true);
     startupPane->setFixedSize(600, 615);
+    addUniversalCopyShortcuts(startupPane);
     QString html;
 
 
@@ -340,6 +347,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QTextStream st(&file);
   s.append(st.readAll());
   QTextBrowser *historyT = new QTextBrowser;
+  addUniversalCopyShortcuts(historyT);
   historyT->setOpenExternalLinks(true);
   historyT->setHtml(s);
 
@@ -351,6 +359,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QTextStream st2(&file2);
   s2.append(st2.readAll());
   QTextBrowser *coreteamT = new QTextBrowser;
+  addUniversalCopyShortcuts(coreteamT);
   coreteamT->setOpenExternalLinks(true);
   coreteamT->setHtml(s2);
 
@@ -363,6 +372,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QTextStream st3(&file3);
   s3.append(st3.readAll());
   QTextBrowser *contributorsT = new QTextBrowser;
+  addUniversalCopyShortcuts(contributorsT);
   contributorsT->setOpenExternalLinks(true);
   contributorsT->setHtml(s3);
 
@@ -374,6 +384,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QTextStream st4(&file4);
   s4.append(st4.readAll());
   QTextBrowser *communityT = new QTextBrowser;
+  addUniversalCopyShortcuts(communityT);
   communityT->setOpenExternalLinks(true);
   communityT->setHtml(s4);
 
@@ -1668,5 +1679,12 @@ void MainWindow::tabPrev() {
   QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
 }
 
+ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
+   new QShortcut(ctrlKey('c'), te, SLOT(copy()));
+   new QShortcut(ctrlKey('a'), te, SLOT(selectAll()));
+
+   new QShortcut(cmdAltKey('c'), te, SLOT(copy()));
+   new QShortcut(cmdAltKey('a'), te, SLOT(selectAll()));
+ }
 
 #include "ruby_help.h"
