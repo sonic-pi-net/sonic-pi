@@ -92,7 +92,7 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
 MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 #endif
   this->setUnifiedTitleAndToolBarOnMac(true);
-  this->setWindowIcon(QIcon(":images/icon.png"));
+  this->setWindowIcon(QIcon(":images/icon-smaller.png"));
 
   is_recording = false;
   server_started = false;
@@ -329,6 +329,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   // Main widget for info
   infoWidg = new QWidget;
+  infoWidg->setWindowIcon(QIcon(":images/icon-smaller.png"));
 
 
   // Changelog
