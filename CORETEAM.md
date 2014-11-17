@@ -1,8 +1,8 @@
 # Sonic Pi Core Team
 
-Meet the Sonic Pi Core Team - a dedicated group of Sonic Pi coders and
-performers, working hard to bring you exciting new features, sounds and
-music making possibilities. 
+Meet the Sonic Pi Core Team - a dedicated group of live coders, working
+hard to bring you exciting new features, sounds and music making
+possibilities.
 
 ## Sam Aaron
 
