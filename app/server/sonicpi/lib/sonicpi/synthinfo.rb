@@ -3029,14 +3029,13 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def specific_arg_info
-      {
-
-
-      }
+      { }
     end
 
     def doc
-      ""
+      "Combines low pass and high pass filters to only allow a 'band' of frequencies through. If the band is very narrow (a low res value like 0.0001) then the BPF will reduce the original sound, almost down to a single frequency (controlled by the freq argument).
+      
+With higher values for res we can simulate other filters e.g. telephone lines, by cutting off low and high frequencies."
     end
   end
 
@@ -3086,7 +3085,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def doc
-      ""
+      "Like the Band Pass Filter but with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument."
     end
   end
 
@@ -3136,7 +3135,9 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def doc
-      ""
+      "Like the Band Pass Filter but normalized, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument.
+
+The normalizer is useful here as some volume is lost when filtering the original signal."
     end
   end
 
