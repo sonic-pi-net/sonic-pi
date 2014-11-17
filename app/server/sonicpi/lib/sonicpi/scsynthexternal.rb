@@ -37,7 +37,7 @@ module SonicPi
 
       @osc_out_thread = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_out)
-        Thread.current.priority = 100
+        Thread.current.priority = 200
         encoder = OscEncode.new(true)
         loop do
           out_job = @out_queue.pop
