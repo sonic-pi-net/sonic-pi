@@ -965,6 +965,12 @@ bool MainWindow::saveAs()
   }
 }
 
+ void MainWindow::resetErrorPane() {
+  errorPane->clear();
+  errorPane->hide();
+ }
+
+
 void MainWindow::runCode()
 {
 
@@ -976,8 +982,7 @@ void MainWindow::runCode()
   }
   ws->setReadOnly(true);
   ws->selectAll();
-  errorPane->clear();
-  errorPane->hide();
+  resetErrorPane();
   statusBar()->showMessage(tr("Running Code...."), 1000);
   std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
@@ -1365,6 +1370,9 @@ void MainWindow::createActions()
   new QShortcut(cmdAltKey('{'), this, SLOT(tabPrev()));
   new QShortcut(cmdAltKey(']'), this, SLOT(tabNext()));
   new QShortcut(cmdAltKey('}'), this, SLOT(tabNext()));
+  new QShortcut(Qt::Key_Escape, this, SLOT(resetErrorPane()));
+  new QShortcut(ctrlKey('g'), this, SLOT(resetErrorPane()));
+
 
   // Preferences
   prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);

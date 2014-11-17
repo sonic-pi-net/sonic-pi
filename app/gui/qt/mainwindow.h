@@ -113,6 +113,7 @@ private slots:
     void tabNext();
     void tabPrev();
     void helpContext();
+    void resetErrorPane();
 
 private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
