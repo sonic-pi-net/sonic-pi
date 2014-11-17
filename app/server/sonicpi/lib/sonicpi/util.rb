@@ -184,7 +184,7 @@ module SonicPi
     def resolve_synth_opts_hash_or_array(opts)
       case opts
       when Hash
-        return opts.dup
+        return opts
       when Array
         s = opts.size
         return Hash[*opts] if s.even? && s > 1
@@ -192,7 +192,7 @@ module SonicPi
         when 1
           case opts[0]
           when Hash
-            return opts[0].dup
+            return opts[0]
           else
             raise "Invalid options. Options should either be an even list of key value pairs, a single Hash or nil. Got #{opts.inspect}"
           end
