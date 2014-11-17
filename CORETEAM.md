@@ -27,12 +27,12 @@ music making possibilities.
 
 <table>
 <tr>
-  <td> <a href="https://twitter.com/xavriley"><img height="75" width="75" src=":/images/coreteam/josephwilk.png"></a> </td>
+  <td> <a href="https://twitter.com/xavriley"><img height="75" width="75" src=":/images/coreteam/xavierriley.jpg"></a> </td>
   <td> 
 
-  Description to be added... 
+  Jazz guitarist, double bassist and music graduate who writes Ruby code for a living. Originally from Manchester, now living near Guildford.
   <br/>
-  Performing as ...
+
   <br/>
   <br/>
   <a href="https://twitter.com/xavriley">Twitter</a> | <a href="https://github.com/xavriley">GitHub</a> 
