@@ -820,7 +820,7 @@ void MainWindow::startOSCListener() {
 	  std::string content;
 	  if (msg->arg().nbArgRemaining()) {
 	    msg->arg().popStr(content);
-	    std::cout << "server exited with error: " << content << endl;
+	    std::cout << "server exited with error: " << content << std::endl;
 	    invokeStartupError(QString("server error: ") +
 			       QString::fromStdString(content));
 
