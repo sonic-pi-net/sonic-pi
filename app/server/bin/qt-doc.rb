@@ -75,7 +75,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items, titleize=false|
+make_tab = lambda do |name, doc_items, titleize=false, should_sort=true|
 
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
@@ -89,7 +89,7 @@ make_tab = lambda do |name, doc_items, titleize=false|
   docs << "createHelpTab(\"#{name.capitalize}\");\n"
   docs << "\n"
   docs << "\n  struct help_page #{help_pages}[] = {\n"
-
+  doc_items = doc_items.sort if should_sort
   doc_items.each do |n, doc|
     title = n
     if titleize == :titleize then
@@ -153,7 +153,7 @@ end
 
 
 make_tab.call("tutorial", tutorial_html_map)
-make_tab.call("examples", example_html_map)
+make_tab.call("examples", example_html_map, false, false)
 make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize)
 make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
