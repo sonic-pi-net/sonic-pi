@@ -90,7 +90,7 @@ make_tab = lambda do |name, doc_items, titleize=false|
   docs << "\n"
   docs << "\n  struct help_page #{help_pages}[] = {\n"
 
-  doc_items.sort.each do |n, doc|
+  doc_items.each do |n, doc|
     title = n
     if titleize == :titleize then
       title = ActiveSupport::Inflector.titleize(title)
@@ -121,19 +121,20 @@ make_tab = lambda do |name, doc_items, titleize=false|
 end
 
 example_html_map = {}
-example_dirs = ["apprentice", "illusionist", "magician", "sorcerer", "wizard"]
+example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Meta-eX"]
 example_dirs.each do |ex_dir|
-  Dir["#{examples_path}/#{ex_dir}/*.rb"].each do |path|
+  Dir["#{examples_path}/#{ex_dir.downcase}/*.rb"].each do |path|
     bname = File.basename(path, ".rb")
+    bname = ActiveSupport::Inflector.titleize(bname)
     name = "[#{ex_dir}] #{bname}"
     lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
     html = '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
-    html << "# #{ActiveSupport::Inflector.titleize(bname)}"
+    html << "# #{bname}"
     html << '</span></p>'
     html << "<pre style=\"font-size:18px;color:dodgerblue;\">\n\n"
 
     html << "#{lines.join("\n")}\n\n</pre>\n"
-    example_html_map[ActiveSupport::Inflector.titleize(name)] = html
+    example_html_map[name] = html
   end
 end
 
