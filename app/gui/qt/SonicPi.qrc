@@ -32,5 +32,6 @@
         <file>images/coreteam/samaaron.png</file>
         <file>images/coreteam/josephwilk.png</file>
         <file>images/coreteam/xavierriley.png</file>
+	<file>images/coreteam/jweather.png</file>
     </qresource>
 </RCC>
