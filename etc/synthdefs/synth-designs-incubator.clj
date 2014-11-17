@@ -231,7 +231,7 @@
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
 
- (defsynth sonic-pi-fx_harmoniser
+ (defsynth sonic-pi-fx_octaver
    [amp 1
     amp_slide 0
     amp_slide_shape 5
@@ -256,24 +256,25 @@
     oct2_amp_slide 0
     oct2_amp_slide_shape 5
     oct2_amp_slide_curve 0
-    clean_amp 1
-    clean_amp_slide 0
-    clean_amp_slide_shape 5
-    clean_amp_slide_curve 0
+    oct3_amp 1
+    oct3_amp_slide 0
+    oct3_amp_slide_shape 5
+    oct3_amp_slide_curve 0
     in_bus 0
     out_bus 0]
    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          oct1_amp      (varlag oct1_amp oct1_amp_slide oct1_amp_slide_curve oct1_amp_slide_shape)
          oct2_amp      (varlag oct2_amp oct2_amp_slide oct2_amp_slide_curve oct2_amp_slide_shape)
-         clean_amp      (varlag clean_amp clean_amp_slide clean_amp_slide_curve clean_amp_slide_shape)
+         oct3_amp      (varlag oct3_amp oct3_amp_slide oct3_amp_slide_curve oct3_amp_slide_shape)
          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          direct-lpf    (lpf (* pre_amp (in in_bus 2)) 440)
+         super-oct     (abs direct-lpf)
          sub-oct       (toggle-ff:ar direct-lpf)
          sub-sub-oct   (toggle-ff:ar sub-oct)
 
          [in-l in-r]   (* pre_amp (in in_bus 2))
-         [new-l new-r] (+ (* direct-lpf sub-oct oct1_amp) (* direct-lpf sub-sub-oct oct2_amp) (* direct-lpf clean_amp))
+         [new-l new-r] (+ (* super-oct oct1_amp) (* direct-lpf sub-oct oct2_amp) (* direct-lpf sub-sub-oct oct3_amp))
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
@@ -294,7 +295,7 @@
    (save-to-pi sonic-pi-fx_nrbpf)
    (save-to-pi sonic-pi-fx_ring_mod)
    (save-to-pi sonic-pi-fx_chorus)
-   (save-to-pi sonic-pi-fx_harmoniser)
+   (save-to-pi sonic-pi-fx_octaver)
  ))
 
 ;; Experimental

@@ -2772,9 +2772,9 @@ end
     end
   end
 
-  class FXHarmoniser < FXInfo
+  class FXOctaver < FXInfo
     def name
-      "Harmoniser"
+      "Octaver"
     end
 
     def introduced
@@ -2782,7 +2782,7 @@ end
     end
 
     def synth_name
-      "fx_harmoniser"
+      "fx_octaver"
     end
 
     def arg_defaults
@@ -2803,14 +2803,18 @@ end
         :oct1_amp_slide => 0,
         :oct1_amp_slide_shape => 5,
         :oct1_amp_slide_curve => 0,
+        :oct1_interval => 12,
+        :oct1_interval_slide => 0,
+        :oct1_interval_slide_shape => 5,
+        :oct1_interval_slide_curve => 0,
         :oct2_amp => 1,
         :oct2_amp_slide => 0,
         :oct2_amp_slide_shape => 5,
         :oct2_amp_slide_curve => 0,
-        :clean_amp => 1,
-        :clean_amp_slide => 0,
-        :clean_amp_slide_shape => 5,
-        :clean_amp_slide_curve => 0,
+        :oct3_amp => 1,
+        :oct3_amp_slide => 0,
+        :oct3_amp_slide_shape => 5,
+        :oct3_amp_slide_curve => 0
       }
     end
 
@@ -2818,27 +2822,29 @@ end
       {
         :oct1_amp =>
         {
-          :doc => "Volume of the signal 1 octave below the input",
+          :doc => "Volume of the signal 1 octave above the input",
           :validations => [v_positive(:oct1_amp)],
           :modulatable => true
         },
         :oct2_amp =>
         {
-          :doc => "Volume of the signal 2 octaves below the input",
+          :doc => "Volume of the signal 1 octave below the input",
           :validations => [v_positive(:oct2_amp)],
           :modulatable => true
         },
-        :clean_amp =>
+        :oct3_amp =>
         {
-          :doc => "Volume of the low-pass filtered clean signal from the input",
-          :validations => [v_positive(:clean_amp)],
+          :doc => "Volume of the signal 2 octaves below the input",
+          :validations => [v_positive(:oct3_amp)],
           :modulatable => true
         }
       }
     end
 
     def doc
-      ""
+      "This harmoniser adds three pitches based on the input sound. The first is the original sound transposed up an octave, the second is the original sound transposed down an octave and the third is the original sound transposed down two octaves.
+
+The way the transpositions are done adds some distortion, particulary to the lower octaves, whilst the upper octave has a 'cheap' quality. This effect is often used in guitar effects pedals but it can work with other sounds too."
     end
   end
 
