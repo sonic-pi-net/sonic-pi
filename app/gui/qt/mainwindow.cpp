@@ -92,6 +92,7 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash) {
 MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 #endif
   this->setUnifiedTitleAndToolBarOnMac(true);
+  this->setWindowIcon(QIcon(":images/icon.png"));
 
   is_recording = false;
   server_started = false;
