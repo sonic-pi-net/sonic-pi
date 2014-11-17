@@ -300,7 +300,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
 
   infoPane = new QTextBrowser;
   infoPane->setOpenExternalLinks(true);
-  infoPane->setFixedSize(550, 615);
+  infoPane->setFixedSize(600, 615);
   QString html;
 
   infoPane->setHtml("<center><img src=\":/images/logo-smaller.png\" height=\"268\" width=\"328\"><pre><font size=\"4\"><font color=\"DeepPink\">A Sound Synthesiser<br>for Live Coding</font><br><br>Designed and developed by Sam Aaron<br>in Cambridge, England<br><br><font color=\"DeepPink\"><a href=\"http://sonic-pi.net\" style=\"text-decoration: none; color:DeepPink\">http://sonic-pi.net</a></font><br><br>For the latest updates follow<br><font color=\"DeepPink\"><a href=\"http://twitter.com/sonic_pi\" style=\"text-decoration: none; color:DeepPink;\">@sonic_pi</a><br></font></font></pre><h2><pre><font color=\"#3C3C3C\"><pre>music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></h2><pre><font size=\"4\"><br>v2.0.1</font></pre></center>");
@@ -317,7 +317,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   if(settings.value("first_time", 1).toInt() == 1) {
     QTextEdit* startupPane = new QTextEdit;
     startupPane->setReadOnly(true);
-    startupPane->setFixedSize(550, 615);
+    startupPane->setFixedSize(600, 615);
     QString html;
 
 
