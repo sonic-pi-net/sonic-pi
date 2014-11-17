@@ -26,7 +26,7 @@ require 'kramdown'
 require 'active_support/inflector'
 
 
-class MarkdownCoverter
+class MarkdownConverter
   def self.convert(contents)
     # GitHub markdown syntax uses ```` to mark code blocks Kramdown uses ~~~~
     # Therefore, let's fix-point on GitHub syntax, and fudge it
@@ -35,18 +35,22 @@ class MarkdownCoverter
 
     # todo: CSS
     contents_html = Kramdown::Document.new(contents).to_html
-    contents_html.gsub!(/<h1.*?>/, '<p> <span style="font-size:25px; color:white;background-color:deeppink;">')
-    contents_html.gsub!(/<h2.*?>/, '<br><p><span style="font-size:20px; color:white; background-color:dodgerblue;">')
-    contents_html.gsub!(/<\/h1>/, '</span></p>')
-    contents_html.gsub!(/<\/h2>/, '</span></p>')
-    contents_html.gsub!(/<p>/, '<p style="font-size:15px;color:#5e5e5e;">')
-    contents_html.gsub!(/<em>/, '<em style="font-size:15px;color:darkorange;">')
-    contents_html.gsub!(/<ol>/, '<ol style="font-size:15px;color:#5e5e5e;">')
-    contents_html.gsub!(/<ul>/, '<ul style="font-size:15px;color:#5e5e5e;">')
+    massage!(contents_html)
+  end
 
-    contents_html.gsub!(/<code>/, '<code style="font-size:15px; color:deeppink; background-color:white">')
-    contents_html.gsub!(/<a href/, '<a style="text-decoration: none; color:darkorange;" href')
-    contents_html = "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + contents_html + "</font>"
+  def self.massage!(html)
+    html.gsub!(/<h1.*?>/, '<p> <span style="font-size:25px; color:white;background-color:deeppink;">')
+    html.gsub!(/<h2.*?>/, '<br><p><span style="font-size:20px; color:white; background-color:dodgerblue;">')
+    html.gsub!(/<\/h1>/, '</span></p>')
+    html.gsub!(/<\/h2>/, '</span></p>')
+    html.gsub!(/<p>/, '<p style="font-size:15px;color:#5e5e5e;">')
+    html.gsub!(/<em>/, '<em style="font-size:15px;color:darkorange;">')
+    html.gsub!(/<ol>/, '<ol style="font-size:15px;color:#5e5e5e;">')
+    html.gsub!(/<ul>/, '<ul style="font-size:15px;color:#5e5e5e;">')
+
+    html.gsub!(/<code>/, '<code style="font-size:15px; color:deeppink; background-color:white">')
+    html.gsub!(/<a href/, '<a style="text-decoration: none; color:darkorange;" href')
+    "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + html + "</font>"
   end
 end
 
@@ -141,7 +145,7 @@ ruby_html_map = {
 tutorial_html_map = {}
 Dir["#{tutorial_path}/*.md"].each do |path|
   contents = IO.read(path)
-  html = MarkdownCoverter.convert contents
+  html = MarkdownConverter.convert contents
   tutorial_html_map[File.basename(path, ".md").gsub!(/-/, ' ')] = html
 end
 
@@ -202,15 +206,25 @@ end
 # Generate info pages
 ###
 
-info_sources = ["CHANGELOG", "CONTRIBUTORS", "COMMUNITY", "CORETEAM"]
+info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.html"]
 outputdir = "#{qt_gui_path}/info"
 
 info_sources.each do |src|
 
-  input_path = "#{root_path}/#{src}.md"
+  input_path = "#{root_path}/#{src}"
+  base = File.basename(input_path)
+  m = base.match /(.*)\.(.*)/
+  bn = m[1]
+  ext = m[2]
 
-  html = MarkdownCoverter.convert(IO.read(input_path))
-  output_path = "#{outputdir}/#{src}.html"
+  input = IO.read(input_path)
+  if ext == "md"
+    html = MarkdownConverter.convert(input)
+  else
+    html = MarkdownConverter.massage!(input)
+  end
+
+  output_path = "#{outputdir}/#{bn}.html"
 
   File.open(output_path, 'w') do |f|
     f << html
