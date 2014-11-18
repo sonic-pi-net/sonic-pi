@@ -841,10 +841,6 @@ play 72"]
         Thread.current.priority = p
         __delayed_warning "Timing warning: running slightly behind..."
       else
-        p = Thread.current.priority
-        p -= 1
-        p = 10 if p < 10
-        Thread.current.priority = p
         Kernel.sleep new_vt - now
       end
 
