@@ -25,7 +25,10 @@ module SonicPi
       @scsynth_pid = nil
       @jack_pid = nil
       @out_queue = SizedQueue.new(20)
+
       @client = ScsynthOSCReceiver.new(0, events)
+
+      @encoder = OscEncode.new(true)
 
       @osc_in_thread = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_in)
@@ -35,27 +38,6 @@ module SonicPi
         @client.run
       end
 
-      @osc_out_thread = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_out)
-        Thread.current.priority = 200
-        encoder = OscEncode.new(true)
-        loop do
-          out_job = @out_queue.pop
-          if out_job.first == :send
-            address, *args = out_job[1]
-            log "OSC             ~ #{address} #{args.inspect}" if osc_debug_mode
-            m = encoder.encode_single_message(address, args)
-            @client.send_raw(m, @hostname, @port)
-          else
-            vt = out_job[1]
-            ts = out_job[2]
-            address, *args = out_job[3]
-            log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_i}] #{address} #{args.inspect}" if osc_debug_mode
-            b = encoder.encode_single_bundle(ts, address, args)
-            @client.send_raw(b, @hostname, @port)
-          end
-        end
-      end
       boot
     end
 
@@ -64,19 +46,25 @@ module SonicPi
       system cmd
     end
 
-    def send(*args)
-      @out_queue << [:send,  args]
+    def send(address, *args)
+      log "OSC             ~ #{address} #{args.inspect}" if osc_debug_mode
+      m = @encoder.encode_single_message(address, args)
+      @client.send_raw(m, @hostname, @port)
     end
 
-    def send_at(ts, *args)
-      if (a = Thread.current.thread_variable_get(:sonic_pi_spider_time)) && (b = Thread.current.thread_variable_get(:sonic_pi_spider_start_time))
-        vt = a - b
-      elsif st = Thread.current.thread_variable_get(:sonic_pi_spider_start_time)
-        vt = ts - st
-      else
-        vt = -1
+    def send_at(ts, address, *args)
+      if osc_debug_mode
+        if (a = Thread.current.thread_variable_get(:sonic_pi_spider_time)) && (b = Thread.current.thread_variable_get(:sonic_pi_spider_start_time))
+          vt = a - b
+        elsif st = Thread.current.thread_variable_get(:sonic_pi_spider_start_time)
+          vt = ts - st
+        else
+          vt = -1
+        end
+        log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_i}] #{address} #{args.inspect}"
       end
-      @out_queue << [:send_at, vt, ts, args]
+      b = @encoder.encode_single_bundle(ts, address, args)
+      @client.send_raw(b, @hostname, @port)
     end
 
     def reboot
@@ -97,7 +85,6 @@ module SonicPi
       log "Sending /quit command to server"
       @client.send_raw(OSC::Message.new("/quit").encode, @hostname, @port)
       @osc_in_thread.kill
-      @osc_out_thread.kill
     end
 
     private
