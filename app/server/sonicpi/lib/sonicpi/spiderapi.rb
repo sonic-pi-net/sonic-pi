@@ -442,7 +442,7 @@ factor?(2, 0.5) #true - 2 is not a multiple of 0.5 (0.5 * 4 = 2) "
     doc name:           :quantise,
         introduced:     Version.new(2,1,0),
         summary:        "Quantise a value to resolution",
-        args:           [[:number, :number]],
+        args:           [[:n, :number], [:resolution, :positive_number]],
         opts:           nil,
         accepts_block:  false,
         doc:            "Round value to the nearest multiple of resolution.",
