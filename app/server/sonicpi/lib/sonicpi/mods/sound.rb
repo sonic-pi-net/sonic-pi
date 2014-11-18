@@ -386,7 +386,7 @@ play 90 # Debug message is sent
        doc name:          :use_arg_checks,
            introduced:    Version.new(2,0,0),
            summary:       "Enable and disable arg checks",
-           doc:           "When triggering synths, each argument is checked to see if it is sensible. When argument checking is enabled and an argument isn't sensible, you'll see an error in the debug pane. This setting allows you to explicitly enable and disable the checking mechanism. See with_arg_checks for enabling/sisabling argument checking only for a specific do/end block.",
+           doc:           "When triggering synths, each argument is checked to see if it is sensible. When argument checking is enabled and an argument isn't sensible, you'll see an error in the debug pane. This setting allows you to explicitly enable and disable the checking mechanism. See with_arg_checks for enabling/disabling argument checking only for a specific do/end block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
            accepts_block: false,
