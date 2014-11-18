@@ -22,7 +22,7 @@ with_fx :wobble, phase: 2 do |w|
       sample :bass_hit_c, rate: 0.8, amp: 0.4
       sleep 1
       ## try changing the wobble's phase duration
-      ## whilst it's playing:
+      ## (you'll need to stop and re-start):
       #control w, phase: [0.5, 1, 2].choose
     end
   end
