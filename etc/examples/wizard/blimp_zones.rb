@@ -1,8 +1,9 @@
-# Blimp Zones
-
+use_debug false
+use_random_seed 667
 load_sample :ambi_lunar_land
+sleep 1
 
-live_loop :foo, auto_cue: false do
+live_loop :foo do
   with_fx :reverb, kill_delay: 0.2, room: 0.3 do
     4.times do
       use_random_seed 6667
@@ -15,12 +16,16 @@ live_loop :foo, auto_cue: false do
 end
 
 live_loop :bar, auto_cue: false do
-  sample :ambi_lunar_land if rand < 0.25
+  if rand < 0.25
+    sample :ambi_lunar_land
+    puts :comet_landing
+  end
   sleep 8
 end
 
 live_loop :baz, auto_cue: false do |a|
   sleep 0.25
+  cue :beat, count: a
   sample :bd_haus, amp: factor?(a, 8) ? 3 : 2
   sleep 0.25
   use_synth :fm

@@ -1,7 +1,11 @@
+use_debug false
+
 with_fx :reverb do
   in_thread do
     loop do
+
       r = [0.5, 1.0/3, 3.0/5].choose
+      cue :choir, rate: r
       8.times do
         sample :ambi_choir, rate: r, pan: rrand(-1, 1)
         sleep 0.5
@@ -13,9 +17,12 @@ end
 with_fx :wobble, phase: 2 do |w|
   with_fx :echo, mix: 0.6 do
     loop do
+      cue :wobble_drum
       sample :drum_heavy_kick
       sample :bass_hit_c, rate: 0.8, amp: 0.4
       sleep 1
+      ## try changing the wobble's phase duration
+      ## whilst it's playing:
       #control w, phase: [0.5, 1, 2].choose
     end
   end
