@@ -373,14 +373,14 @@ module SonicPi
       }
     end
 
-    def osc(address, *args)
+    def osc(*args)
 #      Kernel.puts "--> osc: #{args}"
-      @scsynth.send(address, *args)
+      @scsynth.send(*args)
     end
 
-    def osc_bundle(ts, address, *args)
+    def osc_bundle(ts, *args)
 #      Kernel.puts "--> osc at #{ts}, #{args}"
-      @scsynth.send_at(ts, address, *args)
+      @scsynth.send_at(ts, *args)
     end
 
     def async_add_event_handlers(*args)
