@@ -597,14 +597,14 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
     end
     doc name:           :rand_i,
         introduced:     Version.new(2,0,0),
-        summary:        "Generate a random whole number float below a value",
+        summary:        "Generate a random whole number float below a value (exclusive)",
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a whole number between 0 and the supplied max value. If max is a range produces a int within the range. With no args or max as 0 returns either 0 or 1",
+        doc:            "Given a max number, produces a whole number between 0 and the supplied max value exclusively. If max is a range produces a int within the range. With no args or max as 0 returns either 0 or 1",
         examples:      [
 "
-print rand_i(10) #=> will print a number like 7 to the output pane"]
+print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
 
 
 
