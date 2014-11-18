@@ -236,7 +236,18 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   docPane->setOpenExternalLinks(true);
   QString style = "QTextBrowser { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
   docPane->setStyleSheet(style);
-  docPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
+
+#if defined(Q_OS_WIN)
+    docPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
+#elif defined(Q_OS_MAC)
+    docPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
+#else
+  //assuming Raspberry Pi
+  //use smaller logo
+    docPane->setHtml("<center><img src=\":/images/logo-smaller.png\" height=\"161\" width=\"197\"></center>");
+#endif
+
+
   addUniversalCopyShortcuts(docPane);
 
   QHBoxLayout *docLayout = new QHBoxLayout;
