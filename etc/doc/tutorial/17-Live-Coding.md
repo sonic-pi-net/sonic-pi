@@ -1,12 +1,17 @@
 # Live Coding
 
-Now we've learned enough to really start having some fun. In this section we'll draw from all the previous sections and show you how you can start making your music compositions live and turning them into a performance. For that we'll need 3 main ingredients:
+Now we've learned enough to really start having some fun. In this
+section we'll draw from all the previous sections and show you how you
+can start making your music compositions live and turning them into a
+performance. For that we'll need 3 main ingredients:
 
 * An ability to write code that makes sounds - CHECK!
 * An ability to write functions - CHECK!
 * An ability to use (named) threads - CHECK!
 
-Alrighty, let's get started. Let's live code our first sounds. We first need a function containing the code we want to play. Let's start simple. We also want to loop calls to that function in a thread:
+Alrighty, let's get started. Let's live code our first sounds. We first
+need a function containing the code we want to play. Let's start
+simple. We also want to loop calls to that function in a thread:
 
 ```
 define :my_loop do
@@ -21,19 +26,29 @@ in_thread(name: :looper) do
 end
 ```
 
-If that looks a little too complicated to you, go ahead and re-read the sections on functions and threads. It's not too complicated if you've already wrapped your head around these things. 
+If that looks a little too complicated to you, go ahead and re-read the
+sections on functions and threads. It's not too complicated if you've
+already wrapped your head around these things.
 
-What we have here is a function definition which just plays note 50 and sleeps for a second. We then define a named thread called `:looper` which just loops round calling `my_loop` repeatedly. 
+What we have here is a function definition which just plays note 50 and
+sleeps for a second. We then define a named thread called `:looper`
+which just loops round calling `my_loop` repeatedly.
 
 If you run this code, you'll hear note 50 repeating again and again...
 
 ## Changing it up
 
-Now, this is where the fun starts. Whilst the code is *still running* change 50 to another number, say 55, then press the run button again. Woah! It changed! Live!
+Now, this is where the fun starts. Whilst the code is *still running*
+change 50 to another number, say 55, then press the run button
+again. Woah! It changed! Live!
 
-It didn't add a new layer because we're using named threads which only allow one thread for each name. Also, the sound changed because we *redefined* the function. We gave `:my_loop` a new definition. When the `:looper` thread looped round again it simply called the new definition.
+It didn't add a new layer because we're using named threads which only
+allow one thread for each name. Also, the sound changed because we
+*redefined* the function. We gave `:my_loop` a new definition. When the
+`:looper` thread looped round again it simply called the new definition.
 
-Try changing it again, change the note, change the sleep time. How about adding a `use_synth` statement. For example, change it to:
+Try changing it again, change the note, change the sleep time. How about
+adding a `use_synth` statement. For example, change it to:
 
 ```
 define :my_loop do
@@ -84,4 +99,5 @@ define :my_loop do
 end
 ```
 
-Now things are getting exciting! Start creating your own functions, looping them in threads and perform some music for your friends...
+Now things are getting exciting! Start creating your own functions,
+looping them in threads and perform some music for your friends...

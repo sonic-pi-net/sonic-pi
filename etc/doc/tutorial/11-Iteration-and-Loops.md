@@ -1,12 +1,19 @@
 # Iteration and Loops
 
-So far we've spent a lot of time looking at the different sounds you can make with `play`, `sample` and `with_fx` blocks. We've also learned how to trigger these things through time using `sleep`.
+So far we've spent a lot of time looking at the different sounds you can
+make with `play`, `sample` and `with_fx` blocks. We've also learned how
+to trigger these things through time using `sleep`.
 
-As you've probably found out, there's a *lot* of fun you can have with these basic building blocks. However, a whole new dimension of fun opens up when you start using the power of code to structure your music and compositions. In the next few sections we'll explore some of these powerful new tools. First up is iteration and loops.
+As you've probably found out, there's a *lot* of fun you can have with
+these basic building blocks. However, a whole new dimension of fun opens
+up when you start using the power of code to structure your music and
+compositions. In the next few sections we'll explore some of these
+powerful new tools. First up is iteration and loops.
 
 ## Repetition
 
-Have you written some code you'd like to repeat a few times. For example, you might have something like this:
+Have you written some code you'd like to repeat a few times. For
+example, you might have something like this:
 
 ```
 play 50
@@ -17,7 +24,8 @@ play 62
 sleep 0.25
 ```
 
-What if we wished to repeat this 3 times? Well we could do something simple and just copy and paste it three times:
+What if we wished to repeat this 3 times? Well we could do something
+simple and just copy and paste it three times:
 
 ```
 play 50
@@ -40,7 +48,12 @@ play 62
 sleep 0.25
 ```
 
-Now that's a lot of code! What happens if you want to change sample to `:elec_plip`? You're going to have to find all the places with the original `:elec_blup` and switch them over. More importantly, what if you wanted to repeat the original piece of code 50 times or 1000? Now that would be a lot of code and a lot of lines of code to alter if you wanted to make a change.
+Now that's a lot of code! What happens if you want to change sample to
+`:elec_plip`? You're going to have to find all the places with the
+original `:elec_blup` and switch them over. More importantly, what if
+you wanted to repeat the original piece of code 50 times or 1000? Now
+that would be a lot of code and a lot of lines of code to alter if you
+wanted to make a change.
 
 ## Iteration
 
@@ -57,7 +70,8 @@ What repeating the code as as easy as saying *do this three times*. Well, it pre
 end
 ```
 
-Now isn't that much neater than cutting and pasting! We can use this to create lots of nice repeating structures:
+Now isn't that much neater than cutting and pasting! We can use this to
+create lots of nice repeating structures:
 
 ```
 4.times do
@@ -78,7 +92,8 @@ end
 
 ## Nesting Iterations
 
-Just like nesting FX, we can put iterations inside other iterations to create interesting patterns. For example:
+Just like nesting FX, we can put iterations inside other iterations to
+create interesting patterns. For example:
 
 ```
 4.times do
@@ -97,7 +112,10 @@ end
 
 ## Looping
 
-If you want something to repeat a lot of times, you might find yourself using really large numbers such as `1000.times do`. In this case, you're probably better off asking Sonic Pi to repeat forever (at least until you press the stop button!). Let's loop the amen break forever:
+If you want something to repeat a lot of times, you might find yourself
+using really large numbers such as `1000.times do`. In this case, you're
+probably better off asking Sonic Pi to repeat forever (at least until
+you press the stop button!). Let's loop the amen break forever:
 
 ```
 loop do
@@ -106,7 +124,11 @@ loop do
 end
 ```
 
-The important thing to know about loops is that they act like black holes for code. Once the code enters a loop it can never leave until you press stop - it will just go round and round the loop forever. This means if you have code after the loop you will *never* hear it. For example, the cymbal will never play:
+The important thing to know about loops is that they act like black
+holes for code. Once the code enters a loop it can never leave until you
+press stop - it will just go round and round the loop forever. This
+means if you have code after the loop you will *never* hear it. For
+example, the cymbal will never play:
 
 ```
 loop do
