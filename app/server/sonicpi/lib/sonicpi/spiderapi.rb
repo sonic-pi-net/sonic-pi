@@ -608,6 +608,19 @@ print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
 
 
 
+    def shuffle(list)
+      list.to_a.shuffle
+    end
+    doc name:           :shuffle,
+        introduced:     Version.new(2,1,0),
+        summary:        "Randomise order of a list",
+        args:           [[:list, :array]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Returns a new list with the same elements as the original but with their order shuffled.",
+        examples:       [
+"
+shuffle [1, 2, 3, 4] #=> Would return something like: [3, 4, 2, 1] "]
 
     def choose(list)
       list.to_a.choose
