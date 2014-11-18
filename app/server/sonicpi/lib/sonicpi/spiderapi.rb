@@ -838,6 +838,9 @@ play 72"]
       if now - (sat + 0.5) > new_vt
         raise "Timing Exception: thread got too far behind time"
       elsif (now - sat) > new_vt
+        # TODO: Empirical tests to see what effect this priority stuff
+        # actually has on typical workloads
+
         # Hard warning, system is too far behind, expect timing issues.
         p = Thread.current.priority
         p += 10
@@ -852,7 +855,11 @@ play 72"]
         p = 50 if p < 50
         p = 150 if p > 150
         Thread.current.priority = p
-        __delayed_warning "Timing warning: running slightly behind..."
+        ## TODO: Remove this and replace with a much better silencing system which
+        ## is implemented within the __delayed_* fns
+        unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+          __delayed_warning "Timing warning: running slightly behind..."
+        end
       else
         Kernel.sleep new_vt - now
       end
