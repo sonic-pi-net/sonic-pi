@@ -597,7 +597,7 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
     end
     doc name:           :rand_i,
         introduced:     Version.new(2,0,0),
-        summary:        "Generate a random whole number float below a value (exclusive)",
+        summary:        "Generate a random whole number below a value (exclusive)",
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
