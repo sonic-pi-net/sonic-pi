@@ -16,6 +16,10 @@
 # Project created by QtCreator 2014-02-28T14:51:06
 #
 #-------------------------------------------------
+LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5/ -lqscintilla2
+
+INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
+DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
 
 QT       += core gui concurrent
 
@@ -59,7 +63,12 @@ RESOURCES += \
 
 RC_FILE = SonicPi.rc
 
+ICON = images/app.ico
+
+macx {
 ICON = images/app.icns
+}
+
 LIBS         += -lqscintilla2
 
 win32 {
