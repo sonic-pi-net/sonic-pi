@@ -67,5 +67,23 @@ module SonicPi
       assert_equal(true, v2 <= v1)
     end
 
+    def test_string_init
+      v1 = Version.new(2, 1, 0, "RC12")
+      v2 = Version.init_from_string("v2.1.0-RC12")
+      assert_equal(v1, v2)
+
+      v1 = Version.new(2, 1, 0)
+      v2 = Version.init_from_string("v2.1.0")
+      assert_equal(v1, v2)
+
+      v1 = Version.new(2, 1)
+      v2 = Version.init_from_string("v2.1")
+      assert_equal(v1, v2)
+
+      v1 = Version.new(2)
+      v2 = Version.init_from_string("v2")
+      assert_equal(v1, v2)
+    end
+
   end
 end
