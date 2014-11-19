@@ -144,15 +144,16 @@ ruby_html_map = {
 }
 
 tutorial_html_map = {}
-Dir["#{tutorial_path}/*.md"].each do |path|
+Dir["#{tutorial_path}/*.md"].sort.each do |path|
   contents = IO.read(path)
   html = MarkdownConverter.convert contents
-  tutorial_html_map[File.basename(path, ".md").gsub!(/-/, ' ')] = html
+  name = File.basename(path, ".md").gsub!(/-/, ' ')
+  name = name[1..-1] if name.start_with? "0"
+  name = "   #{name}" if name.match(/\A[0-9]+\.[0-9]+/)
+  tutorial_html_map[name] = html
 end
 
-
-
-make_tab.call("tutorial", tutorial_html_map)
+make_tab.call("tutorial", tutorial_html_map, false, false)
 make_tab.call("examples", example_html_map, false, false)
 make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize)
 make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize)
