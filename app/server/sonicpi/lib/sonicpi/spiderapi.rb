@@ -405,7 +405,7 @@ end"]
     doc name:           :vt,
         introduced:     Version.new(2,1,0),
         summary:        "Get virtual time",
-        args:           [[]],
+        args:           [],
         opts:           nil,
         accepts_block:  false,
         doc:           "Get the virtual time of the current thread.",
