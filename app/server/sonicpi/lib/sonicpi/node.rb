@@ -61,7 +61,7 @@ module SonicPi
       prom = nil
       @state_change_sem.synchronize do
         if @state != :pending
-          return true
+          return self
         else
           prom = Promise.new
           cb = lambda do
