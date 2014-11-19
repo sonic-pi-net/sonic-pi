@@ -150,6 +150,8 @@ Dir["#{tutorial_path}/*.md"].each do |path|
   tutorial_html_map[File.basename(path, ".md").gsub!(/-/, ' ')] = html
 end
 
+
+
 make_tab.call("tutorial", tutorial_html_map)
 make_tab.call("examples", example_html_map, false, false)
 make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize)
