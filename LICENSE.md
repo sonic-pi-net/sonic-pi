@@ -1,3 +1,5 @@
+## Main Source (contents of app/ and etc/synthdefs/ directories)
+
 The MIT License (MIT)
 
 Copyright (c) 2013, 2014 Samuel Aaron (http://sam.aaron.name)
@@ -19,3 +21,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+## Docs & Tutorial (contents of etc/doc/ directory)
+
+All the contents of the doc directory including the articlesand the
+tutorial are are Copyright Sam Aaron (2014), and released under the CC
+BY-NC 3.0 license:
+
+https://creativecommons.org/licenses/by-nc/3.0/
