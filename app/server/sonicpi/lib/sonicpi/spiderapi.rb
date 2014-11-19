@@ -609,6 +609,7 @@ print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
 
 
     def shuffle(list)
+      return list.shuffle if list.respond_to? :shuffle
       list.to_a.shuffle
     end
     doc name:           :shuffle,
@@ -617,10 +618,12 @@ print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
         args:           [[:list, :array]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Returns a new list with the same elements as the original but with their order shuffled.",
+        doc:            "Returns a new list with the same elements as the original but with their order shuffled. Also works for strings",
         examples:       [
 "
-shuffle [1, 2, 3, 4] #=> Would return something like: [3, 4, 2, 1] "]
+shuffle [1, 2, 3, 4] #=> Would return something like: [3, 4, 2, 1] ",
+"
+shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
 
     def choose(list)
       list.to_a.choose

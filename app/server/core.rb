@@ -28,6 +28,12 @@ require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
 #and other improvements
 require 'osc-ruby'
 
+class String
+  def shuffle
+    self.chars.to_a.shuffle.join
+  end
+end
+
 class Float
   def times(&block)
     self.to_i.times(&block)
