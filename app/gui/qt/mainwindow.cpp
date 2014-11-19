@@ -56,6 +56,7 @@
 #include <QShortcut>
 #include <QToolButton>
 #include <QSettings>
+#include <QScrollBar>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -236,6 +237,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   docPane->setOpenExternalLinks(true);
   QString style = "QTextBrowser { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
   docPane->setStyleSheet(style);
+
+  QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
+  up->setContext(Qt::WidgetShortcut);
+  connect(up, SIGNAL(activated()), this, SLOT(docScrollUp()));
+  QShortcut *down = new QShortcut(ctrlKey('n'), docPane);
+  down->setContext(Qt::WidgetShortcut);
+  connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
+
 
 #if defined(Q_OS_WIN)
     docPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
@@ -1670,6 +1679,14 @@ QListWidget *MainWindow::createHelpTab(QString name) {
   connect(nameList,
 	  SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
 	  this, SLOT(updateDocPane2(QListWidgetItem*, QListWidgetItem*)));
+
+  QShortcut *up = new QShortcut(ctrlKey('p'), nameList);
+  up->setContext(Qt::WidgetShortcut);
+  connect(up, SIGNAL(activated()), this, SLOT(helpScrollUp()));
+  QShortcut *down = new QShortcut(ctrlKey('n'), nameList);
+  down->setContext(Qt::WidgetShortcut);
+  connect(down, SIGNAL(activated()), this, SLOT(helpScrollDown()));
+
   QBoxLayout *layout = new QBoxLayout(QBoxLayout::LeftToRight);
   layout->addWidget(nameList);
   layout->setStretch(1, 1);
@@ -1678,6 +1695,32 @@ QListWidget *MainWindow::createHelpTab(QString name) {
   docsCentral->addTab(tabWidget, name);
   helpLists.append(nameList);
   return nameList;
+}
+
+void MainWindow::helpScrollUp() {
+  int section = docsCentral->currentIndex();
+  int entry = helpLists[section]->currentRow();
+
+  if (entry > 0)
+    entry--;
+  helpLists[section]->setCurrentRow(entry);
+}
+
+void MainWindow::helpScrollDown() {
+  int section = docsCentral->currentIndex();
+  int entry = helpLists[section]->currentRow();
+
+  if (entry < helpLists[section]->count()-1)
+    entry++;
+  helpLists[section]->setCurrentRow(entry);
+}
+
+void MainWindow::docScrollUp() {
+  docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepSub);
+}
+
+void MainWindow::docScrollDown() {
+  docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
 }
 
 void MainWindow::tabNext() {

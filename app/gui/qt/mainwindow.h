@@ -114,6 +114,10 @@ private slots:
     void tabPrev();
     void helpContext();
     void resetErrorPane();
+    void helpScrollUp();
+    void helpScrollDown();
+    void docScrollUp();
+    void docScrollDown();
 
 private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
