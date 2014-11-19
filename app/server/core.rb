@@ -34,6 +34,12 @@ class String
   end
 end
 
+class Symbol
+  def shuffle
+    self.to_s.shuffle.to_sym
+  end
+end
+
 class Float
   def times(&block)
     self.to_i.times(&block)
