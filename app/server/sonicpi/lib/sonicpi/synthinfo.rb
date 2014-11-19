@@ -614,7 +614,7 @@ module SonicPi
         :sustain_level => 1,
         :env_curve => 2,
 
-        :cutoff => lambda{rrand(95, 105)},
+        :cutoff => 100,
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
