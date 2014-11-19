@@ -564,10 +564,12 @@ void MainWindow::initPrefsWindow() {
 
 
    // basic navigation
+  addKeyBinding(settings, QsciCommand::PageDown, Qt::Key_PageDown);
+  addKeyBinding(settings, QsciCommand::PageUp, Qt::Key_PageUp);
+
   addKeyBinding(settings, QsciCommand::LineDown, Qt::Key_N | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineDown, Qt::Key_Down);
   addKeyBinding(settings, QsciCommand::LineDownExtend, Qt::Key_Down | Qt::SHIFT);
-
   addKeyBinding(settings, QsciCommand::LineUp, Qt::Key_P | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineUp, Qt::Key_Up);
   addKeyBinding(settings, QsciCommand::LineUpExtend, Qt::Key_Up | Qt::SHIFT);
