@@ -277,7 +277,13 @@ play bar # plays 80"]
 
     def define(name, &block)
       raise "define must be called with a code block" unless block
-      if @user_methods.method_defined? name
+      already_defined = @user_methods.method_defined? name
+
+      if !already_defined && self.respond_to?(name)
+        raise "A function called #{name} is already part of Sonic Pi's core API. Please choose another name."
+      end
+
+      if already_defined
         __info "Redefining #{name}"
       else
         __info "Defining #{name}"
