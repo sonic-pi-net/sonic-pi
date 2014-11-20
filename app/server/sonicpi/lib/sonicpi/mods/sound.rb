@@ -1535,6 +1535,8 @@ set_volume! 2 # Set the main system volume to 2",
            else
              raise "No sample exists with path #{path}"
            end
+         when Numeric
+           freesound(path)
          else
            raise "Unknown sample description: #{path}"
          end
@@ -2680,7 +2682,7 @@ stop bar"]
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_current_synth_name, name)
        end
 
-       def freesound(id)
+       def freesound_path(id)
          cache_dir = home_dir + '/freesound/'
          ensure_dir(cache_dir)
 
@@ -2690,7 +2692,7 @@ stop bar"]
 
          __info "Caching freesound #{id}..."
 
-         in_thread(name: "__freesound_#{id}".to_sym) do
+         in_thread(name: "download_freesound_#{id}".to_sym) do
            # API key borrowed from Overtone
            apiURL = 'http://www.freesound.org/api/sounds/' + id.to_s + '/serve/?api_key=47efd585321048819a2328721507ee23'
 
@@ -2709,25 +2711,48 @@ stop bar"]
              __info "Failed to download freesound #{id}: " + resp.value
            end
          end
-         return nil # nothing to do until it's loaded
+         return nil
        end
-       doc name:          :freesound,
+       doc name:          :freesound_path,
            introduced:    Version.new(2,1,0),
-           summary:       "Download sample from freesound.org",
-           doc:           "Download and cache a sample by ID from freesound.org, and return its path for playback via sample.  Only WAV samples are supported!",
-           args:          [[:path, :string]],
+           summary:       "Return local path for sound from freesound.org",
+           doc:           "Download and cache a sample by ID from freesound.org. Returns path as string if cached. If not cached, returns nil and starts a background thread to download the sample.",
+           args:          [[:id, :number]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-sample freesound(250129)  # takes time to download the first time, but then the sample is cached locally
-",
-"
-puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'
+puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'"]
+
+       def freesound(id, *opts)
+         path = freesound_path(id)
+         arg_h = resolve_synth_opts_hash_or_array(opts)
+         fallback = arg_h[:fallback]
+
+         if path
+           sample path
+         elsif fallback
+           raise "Freesound fallback must be a symbol" unless fallback.is_a? Symbol
+           __info "Freesound #{id} not yet loaded, playing #{fallback}"
+           sample fallback
+         else
+           __info "Freesound #{id} not yet loaded, skipping"
+         end
+
+       end
+       doc name:          :freesound,
+           introduced:    Version.new(2,1,0),
+           summary:       "Play sample from freesound.org",
+           doc:           "Fetch from cache (or download then cache) a sample by ID from freesound.org, and then play it.",
+           args:          [[:id, :number]],
+           opts:          {:fallback => "Symbol representing built-in sample to play if the freesound id isn't yet downloaded"},
+           accepts_block: false,
+           examples:      ["
+freesound(250129)  # takes time to download the first time, but then the sample is cached locally
 ",
 "
 loop do
   sample freesound(27130)
-  sleep sample_duration(freesound(27130))
+  sleep sample_duration(27130)
 end
 "
 ]
