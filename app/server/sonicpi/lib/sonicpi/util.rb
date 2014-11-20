@@ -52,7 +52,7 @@ module SonicPi
 
     def default_control_delta
       if (os == :raspberry)
-
+        0.02
       else
         0.005
       end
