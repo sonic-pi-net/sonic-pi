@@ -3,7 +3,6 @@
 # Coded by Meta-eX
 #
 use_debug false
-set_sched_ahead_time! 5
 load_samples [:bd_haus, :elec_blip, :ambi_lunar_land]
 
 define :ocean do |num, amp_mul=1|
