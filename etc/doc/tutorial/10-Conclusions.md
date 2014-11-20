@@ -3,7 +3,7 @@
 This concludes the Sonic Pi introductory tutorial. Hopefully you've
 learned something along the way. Don't worry if you feel you didn't
 understand everything - just play and have fun and you'll pick things up
-along the way. Feel free to dive back in when you have a question that
+in your own time. Feel free to dive back in when you have a question that
 might be covered in one of the sections.
 
 If you have any questions that haven't been covered in the tutorial,
@@ -17,9 +17,9 @@ documentation in this help system. There are a number of features that
 haven't been covered in this tutorial that are waiting for your
 discovery.
 
-So, play, have fun, share your code, perform for your friends and
-remember:
+So, play, have fun, share your code, perform for your friends, show your
+screens and remember:
 
 *There are no mistakes, only opportunities*
 
-Sam Aaron
+[Sam Aaron](http://twitter.com/samaaron)
