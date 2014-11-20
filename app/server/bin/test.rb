@@ -13,7 +13,6 @@
 #++
 
 require_relative "../core.rb"
-require_relative "../sonicpi/lib/sonicpi/scsynth"
 require_relative "../sonicpi/lib/sonicpi/studio"
 require_relative "../sonicpi/lib/sonicpi/spider"
 require_relative "../sonicpi/lib/sonicpi/spiderapi"

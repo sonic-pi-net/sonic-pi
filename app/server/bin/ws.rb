@@ -18,7 +18,6 @@ require 'rubame'
 require 'webrick'
 require 'json'
 
-require_relative "../sonicpi/lib/sonicpi/scsynth"
 require_relative "../sonicpi/lib/sonicpi/studio"
 require_relative "../sonicpi/lib/sonicpi/spider"
 require_relative "../sonicpi/lib/sonicpi/spiderapi"
