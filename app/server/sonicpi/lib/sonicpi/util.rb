@@ -50,6 +50,14 @@ module SonicPi
       end
     end
 
+    def default_control_delta
+      if (os == :raspberry)
+
+      else
+        0.005
+      end
+    end
+
     def home_dir
       File.expand_path(Dir.home + '/.sonic-pi/')
     end

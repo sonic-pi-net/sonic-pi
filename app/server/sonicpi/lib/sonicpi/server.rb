@@ -36,7 +36,7 @@ module SonicPi
       @HOSTNAME = hostname
       @sched_ahead_time = default_sched_ahead_time
       @MSG_QUEUE = msg_queue
-      @control_delta = 0.005
+      @control_delta = default_control_delta
 
       #TODO: Might want to make this available more globally so it can
       #be dynamically turned on and off
