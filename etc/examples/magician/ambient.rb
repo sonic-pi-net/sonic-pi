@@ -1,4 +1,4 @@
-# Ambient Cliches
+# Cliches
 
 load_samples(sample_names :ambi)
 sleep 2

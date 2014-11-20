@@ -1,7 +1,7 @@
 load_samples [:drum_heavy_kick, :elec_plip, :elec_blip]
 use_bpm 100
 
-with_fx :reverb do
+with_fx :reverb, mix: 0.6, room: 0.8 do
   in_thread do
     with_fx :echo, room: 0.8, decay: 8, phase: 1, mix: 0.4 do
       loop do
