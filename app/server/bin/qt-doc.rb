@@ -49,7 +49,7 @@ class MarkdownConverter
     html.gsub!(/<ul>/, '<ul style="font-size:15px;color:#5e5e5e;">')
 
     html.gsub!(/<code>/, '<code style="font-size:15px; color:deeppink; background-color:white">')
-    html.gsub!(/<a href/, '<a style="text-decoration: none; color:darkorange;" href')
+    html.gsub!(/<a href/, '<a style="text-decoration: none; color:dodgerblue;" href')
     "<font face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\">\n\n" + html + "</font>"
   end
 end
