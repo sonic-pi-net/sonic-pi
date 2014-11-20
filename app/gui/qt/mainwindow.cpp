@@ -618,6 +618,7 @@ void MainWindow::initPrefsWindow() {
   // tab return
   addKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
   addKeyBinding(settings, QsciCommand::Tab, Qt::Key_Tab);
+  addKeyBinding(settings, QsciCommand::Backtab, Qt::Key_Tab | Qt::SHIFT);
 
   // copy paste
   addKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_META);
@@ -631,6 +632,9 @@ void MainWindow::initPrefsWindow() {
   addKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::SelectAll, Qt::Key_A | SPi_META);
+
+  // stop autocompletion
+  addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
 
   ws->standardCommands()->readSettings(settings);
 
