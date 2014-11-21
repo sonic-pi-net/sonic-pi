@@ -48,9 +48,9 @@ module SonicPi
         "#{@major}.#{@minor}.#{@patch}-#{@dev}"
       else
         if @patch == 0
-          "#{@major}.#{@minor}"
+          "v#{@major}.#{@minor}"
         else
-          "#{@major}.#{@minor}.#{@patch}"
+          "v#{@major}.#{@minor}.#{@patch}"
         end
       end
     end
