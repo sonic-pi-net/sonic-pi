@@ -16,7 +16,7 @@ next big feature! You might also be interested in my Live Coding band
 audiences. You can find one of my Meta-eX tracks in the examples.
 
 Finally, this tutorial is divided up into sections grouped by
-catetory. Whilst I've written it to have an easy learning progression
+category. Whilst I've written it to have an easy learning progression
 from start to finish, feel very free just to dip in and out of sections
 as you see fit. If you feel that there's something missing, do let me
 know and I'll consider it for a future version of the tutorial.
