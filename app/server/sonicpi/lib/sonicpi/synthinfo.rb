@@ -3659,6 +3659,29 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           :bass_voxy_hit_c,
           :bass_dnb_f]},
 
+      :snares => {
+        :desc => "Snare Drums",
+        :prefix => "ns_",
+        :samples => [
+          :sn_dub,
+          :sn_dolf,
+          :sn_zome]},
+
+      :bass_drums => {
+        :desc => "Bass Drums",
+        :prefix => "bd_",
+        :samples => [
+          :bd_pure,
+          :bd_808,
+          :bd_zum,
+          :bd_gas,
+          :bd_sone,
+          :bd_haus,
+          :bd_zome,
+          :bd_boom,
+          :bd_klub,
+          :bd_fat ]},
+
       :loop => {
         :desc => "Sounds for Looping",
         :prefix => "loop_",
@@ -3666,7 +3689,9 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           :loop_industrial,
           :loop_compus,
           :loop_amen,
-          :loop_amen_full]}}
+          :loop_amen_full,
+          :loop_garzul,
+          :loop_mika]}}
 
     @@all_samples = (@@grouped_samples.values.reduce([]) {|s, el| s << el[:samples]}).flatten
 
