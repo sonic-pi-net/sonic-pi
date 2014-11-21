@@ -150,7 +150,7 @@ end
     end
     doc name:           :at,
         introduced:     Version.new(2,1,0),
-        summary:        "Run a block at the given intervals",
+        summary:        "Run a block at the given times",
         doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If params is smaller than args, the values will rotate through.",
         args:           [[:times, :list],
                          [:params, :list]],
