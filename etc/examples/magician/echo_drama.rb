@@ -1,4 +1,5 @@
 use_random_seed 667
+
 with_fx :lpf, cutoff: 90 do
   with_fx :reverb, room: 0.8, mix: 0.25 do
     with_fx :distortion, distort: 0.3, amp: 0.8 do
