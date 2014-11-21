@@ -415,9 +415,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   QTabWidget *infoTabs = new QTabWidget(this);
   infoTabs->addTab(infoPane, "About");
   infoTabs->addTab(coreteamT, "Core Team");
-  infoTabs->addTab(historyT, "History");
   infoTabs->addTab(contributorsT, "Contributors");
   infoTabs->addTab(communityT, "Community");
+  infoTabs->addTab(historyT, "History");
   infoTabs->setTabPosition(QTabWidget::South);
 
   QBoxLayout *infoLayout = new QBoxLayout(QBoxLayout::LeftToRight);
