@@ -186,7 +186,7 @@ dice - perhaps even a 120 sided dice!
 
 ## one_in
 
-Finally you may wish to emulate throwing a the top score of a dice such
+Finally you may wish to emulate throwing the top score of a dice such
 as a 6 in a standard dice. `one_in` therefore returns true with a
 probability of one in the number of sides on the dice. Therefore
 `one_in(6)` will return true with a probability of 1 in 6 or false

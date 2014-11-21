@@ -613,7 +613,7 @@ void MainWindow::initPrefsWindow() {
   addKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L | SPi_CTRL);
 
   addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
-  addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_G | SPi_CTRL);
+  addOtherKeyBinding(settings, QsciCommand::Cancel, Qt::Key_G | SPi_CTRL);
 
   // tab return
   addKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
