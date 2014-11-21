@@ -1,18 +1,34 @@
 # History
 
 ## Version 2.1
-*To be released...*
+*Friday 21st November, 2014*
+
+The focus of release is very much on technical improvements, efficiency
+and general polish. 
+
+The most obvious and exciting change is the introduction of the
+`live_loop` which will change the way you work with Sonic Pi. For more
+information on `live_loop` take a look at the new section in the
+tutorial. Another very exciting development is that v2.1 marks the
+official support for Windows thanks to the exellent work by Jeremy
+Weatherford. Finally, this release is also the first release where Sonic
+Pi has a Core Team of developers. Please give a warm welcome to Xavier
+Riley, Jeremy Weatherford and Joseph Wilk.
+
 
 ### API Changes
-* New fn `quantise`
-* New fn `factor?`
-* New fn `live_loop` 
-* New fn `at` 
-* New fn `freesound`
+* New fn `live_loop` - A loop for live coding
+* New fn `inc` - increment
+* New fn `dec` - decrement
+* New fn `quantise` - quantise a value to resolution
+* New fn `factor?` - Factor test
+* New fn `at` - Run a block at the given times
 * New fn `degree` - for resolving a note in a scale by degree such as `:i`, `:iv`
+* New fn `chord_degree` - Construct chords based on scale degrees
 * New TL fn `use_sample_bpm` - for changing the BPM based on a sample's duration
-* New fn `rest?`
-* New fn `vt`
+* New fn `rest?` - Determine if note or args is a rest
+* New fn `vt` - Get virtual time
+* New fn `set_control_delta!` - Set control delta globally
 * `wait` now handles both `sleep` and `sync` functionality 
 * Allow first arg to `play` to be a proc or lambda. In which case simple call it and use the result as the note
 * Teach `play` to accept a single map argument (in which case it will extract `:note` key out if it exists.
@@ -21,6 +37,7 @@
 
 ### GUI Modifications
 
+* Updated and improved tutorial
 * Much improved autocompletion
 * Add HPF, LPF, mono forcer and stereo swapping preferences to new studio section for use when performing with Sonic Pi through an external PA.
 * Shortcuts overhauled - now supports basic Emacs-style Ctrl-* navigation.
@@ -31,10 +48,11 @@
 * Links are now clickable (opening external browser)
 * Entries  in docsystem's synth arg table are now clickable and will take focus down to arg documentation
 * Stop users accidentally clearing entire workspace if they type quickly after hitting run
-* Hitting F1 over a function name now opens up the doc system at the relevant place
+* Hitting F1 or `C-i` over a function name now opens up the doc system at the relevant place
 
 ### Bugs/Improvements
-* Much improved efficiency in many areas.
+* Reworked examples.
+* Much improved efficiency in many areas - especially for Raspberry Pi.
 * Avoid occasional clicking sound when stopping runs
 * Note Cb is now correctly resolved to be a semitone lower than C
 * Non RP systems now start with more audio busses (1024)
@@ -48,7 +66,7 @@
 * Stop users defining functions with same name as core API fns
 
 
-### Synths & FX
+### Synths, Samples & FX
 * New samples (bass drums, snares and loops)
 * Allow `mod_range` param to have negative values (for oscillating with lower notes)
 * Change slide mechanism to default to linear sliding with support for changing the curve type. All modifiable args now have corresponding  `_slide_shape` and `_slide_curve` args.
