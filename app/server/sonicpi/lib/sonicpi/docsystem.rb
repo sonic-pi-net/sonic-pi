@@ -66,7 +66,7 @@ module SonicPi
               html << v[:doc] << "\n</p>\n"
               html << "<p><font size=\"3\", #{hv_face}>\n"
               html << "<span style=\"color:white;background-color:darkorange;\">"
-              html << "Introduced in v" << v[:introduced].to_s << "\n</span></p>\n"
+              html << "Introduced in " << v[:introduced].to_s << "\n</span></p>\n"
 
               html << "<table cellpadding=\"8\">\n"
               html << " <tr>\n   <th></th><th></th><th></th>\n </tr>\n"

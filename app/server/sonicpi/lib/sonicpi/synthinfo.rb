@@ -3850,7 +3850,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         doc << "<p><font size=\"3\", #{hv_face}>\n"
         doc << "<span style=\"color:white;background-color:darkorange;\">"
-        doc << "Introduced in v" << v.introduced.to_s << "\n</span></p>\n"
+        doc << "Introduced in " << v.introduced.to_s << "\n</span></p>\n"
 
         doc << "<table cellpadding=\"8\">\n"
         doc << "<tr><th></th><th></th></tr>\n"
