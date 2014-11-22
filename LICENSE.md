@@ -1,3 +1,5 @@
+# License
+
 ## Main Source (contents of app/ and etc/synthdefs/ directories)
 
 The MIT License (MIT)

@@ -408,6 +408,19 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   communityT->setOpenExternalLinks(true);
   communityT->setHtml(s4);
 
+
+  //License
+  QFile file5(":/info/LICENSE.html");
+  if(!file5.open(QFile::ReadOnly | QFile::Text)) {
+  }
+  QString s5;
+  QTextStream st5(&file5);
+  s5.append(st5.readAll());
+  QTextBrowser *licenseT = new QTextBrowser;
+  addUniversalCopyShortcuts(licenseT);
+  licenseT->setOpenExternalLinks(true);
+  licenseT->setHtml(s5);
+
   currentLine = 0; currentIndex = 0;
 
 
@@ -417,6 +430,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen &splash) {
   infoTabs->addTab(coreteamT, "Core Team");
   infoTabs->addTab(contributorsT, "Contributors");
   infoTabs->addTab(communityT, "Community");
+  infoTabs->addTab(licenseT, "License");
   infoTabs->addTab(historyT, "History");
   infoTabs->setTabPosition(QTabWidget::South);
 

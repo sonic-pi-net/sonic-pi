@@ -208,7 +208,7 @@ end
 # Generate info pages
 ###
 
-info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.html"]
+info_sources = ["CHANGELOG.md", "CONTRIBUTORS.md", "COMMUNITY.md", "CORETEAM.html", "LICENSE.md"]
 outputdir = "#{qt_gui_path}/info"
 
 info_sources.each do |src|
