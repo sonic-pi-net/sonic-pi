@@ -355,7 +355,7 @@ end"]
     end
     doc name:           :uncomment,
         introduced:     Version.new(2,0,0),
-        summary:        "Block level comment ingoring",
+        summary:        "Block level comment ignoring",
         args:           [],
         opts:           nil,
         accepts_block:  true,
