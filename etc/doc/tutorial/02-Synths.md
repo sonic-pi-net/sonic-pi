@@ -11,4 +11,4 @@ and approachable manner.
 
 Don't be fooled by the immediate simplicity of Sonic Pi's interface. You
 can get very deep into very sophisticated sound manipulation if that's
-your thing. Hold on to your hats..
+your thing. Hold on to your hats...
