@@ -7,8 +7,7 @@ in your own time. Feel free to dive back in when you have a question that
 might be covered in one of the sections.
 
 If you have any questions that haven't been covered in the tutorial,
-then please jump onto the Sonic Pi forums <a
-href="http://groups.google.com/group/sonic-pi/">http://groups.google.com/group/sonic-pi/</a>
+then please jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/)
 and ask your question there. You'll find someone friendly and willing to
 lend a hand.
 
@@ -17,9 +16,9 @@ documentation in this help system. There are a number of features that
 haven't been covered in this tutorial that are waiting for your
 discovery.
 
-So, play, have fun, share your code, perform for your friends, show your
+So play, have fun, share your code, perform for your friends, show your
 screens and remember:
 
-*There are no mistakes, only opportunities*
+*There are no mistakes, only opportunities.*
 
 [Sam Aaron](http://twitter.com/samaaron)

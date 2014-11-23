@@ -13,4 +13,3 @@ we only really need to consider a very simple data structure - the list.
 
 Let's look at it in more detail. We'll cover its basic form and then
 also how lists can be used to represent scales and chords.
-

@@ -13,9 +13,9 @@ be interested in my Live Coding band [Meta-eX](http://meta-ex.com) where
 I perform with code in front of audiences. You can find one of my
 [Meta-eX](http://meta-ex.com) tracks in the examples.
 
-If you have any thoughts, or ideas for improving Sonic Pi- please pass
-them on - feedback is so helpful. You never know, your idea might be
-the next big feature!
+If you have any thoughts, or ideas for improving Sonic Pi - please
+pass them on - feedback is so helpful. You never know, your idea might
+be the next big feature!
 
 Finally, this tutorial is divided up into sections grouped by
 category. Whilst I've written it to have an easy learning progression
@@ -24,4 +24,3 @@ as you see fit. If you feel that there's something missing, do let me
 know and I'll consider it for a future version.
 
 OK, let's get started...
-
