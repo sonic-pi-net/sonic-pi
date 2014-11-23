@@ -34,9 +34,9 @@ grow and improve the Sonic Pi code base:
 * [Will Stephenson](https://github.com/wstephenson)
 * [Katie Miller](https://github.com/codemiller)
 * [Daniel Canelhas](https://github.com/dcanelhas)
+* [Ruzsa Balázs](https://github.com/cellux)
 * [Karl Hiner](https://github.com/khiner)
 * [Joseph Haig](https://github.com/jrmhaig)
 * [Graham Taylor](https://github.com/vinnievg)
 * [Robin Newman](https://github.com/rbnpi)
 * [Cosmin Stroe](https://github.com/cstroe)
-
