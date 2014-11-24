@@ -659,7 +659,7 @@ void MainWindow::startupError(QString msg) {
   startup_error_reported = true;
 
   QString logtext = readFile(log_path + QDir::separator() + "output.log");
-  QMessageBox *box = new QMessageBox(QMessageBox::Warning, 
+  QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     "We're sorry, but Sonic Pi was unable to start...", msg);
   box->setDetailedText(logtext);
 
@@ -1253,7 +1253,7 @@ QString MainWindow::readFile(QString name)
   QString s;
   s.append(st.readAll());
   return s;
-}  
+}
 
 void MainWindow::createInfoPane() {
   QTabWidget *infoTabs = new QTabWidget(this);
@@ -1337,27 +1337,27 @@ void MainWindow::readSettings() {
   QSize size = settings.value("size", QSize(400, 400)).toSize();
   resize(size);
   move(pos);
-  
+
   for (int w=0; w < workspace_max; w++) {
     // default zoom is 13
     int zoom = settings.value(QString("workspace%1zoom").arg(w+1), 13)
       .toInt();
     if (zoom < -5) zoom = -5;
     if (zoom > 20) zoom = 20;
-    
+
     workspaces[w]->setProperty("zoom", QVariant(zoom));
     workspaces[w]->zoomTo(zoom);
   }
-  
+
   restoreState(settings.value("windowState").toByteArray());
-  
+
   if(settings.value("first_time", 1).toInt() == 1) {
     QTextEdit* startupPane = new QTextEdit;
     startupPane->setReadOnly(true);
     startupPane->setFixedSize(600, 615);
     addUniversalCopyShortcuts(startupPane);
     QString html;
-    
+
     startupPane->setHtml(readFile(":/html/startup.html"));
     docWidget->show();
     startupPane->show();
