@@ -4,7 +4,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2013, 2014 Samuel Aaron (http://sam.aaron.name)
+Copyright (c) 2013, 2014 Samuel Aaron ([http://sam.aaron.name](http://sam.aaron.name))
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ All the contents of the doc directory including the articlesand the
 tutorial are are Copyright Sam Aaron (2014), and released under the CC
 BY-NC 3.0 license:
 
-https://creativecommons.org/licenses/by-nc/3.0/
+[https://creativecommons.org/licenses/by-nc/3.0/](https://creativecommons.org/licenses/by-nc/3.0/)
 
 
 ## Bundled Software
