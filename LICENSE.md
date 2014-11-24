@@ -25,13 +25,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-## Docs & Tutorial (contents of etc/doc/ directory)
+## Docs, Tutorial and Examples (contents of etc/doc/ and etc/examples directories)
 
-All the contents of the doc directory including the articlesand the
-tutorial are are Copyright Sam Aaron (2014), and released under the CC
-BY-NC 3.0 license:
+All the examples (in etc/examples) and contents of the doc directory
+including the articles and the tutorial are are Copyright Sam Aaron
+(2014) and released under the CC BY-NC 3.0 license:
 
 [https://creativecommons.org/licenses/by-nc/3.0/](https://creativecommons.org/licenses/by-nc/3.0/)
+
+
+## Samples
+
+All the bundled samples are individually licensed under CC0 1.0
+Universal Public Domain Dedication. They have all been obtained from
+[freesound.org](http://freesound.org) and links to their sources can be
+found in the file etc/samples/README.md
+
+[http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/)
 
 
 ## Bundled Software
