@@ -337,7 +337,7 @@ private:
     int err = 0;
 
     
-    err = getaddrinfo(binding ? 0 : hostname.c_str(), port.empty() ? 0 : port.c_str(), &hints, &result);
+    err = getaddrinfo(binding ? "127.0.0.1" : hostname.c_str(), port.empty() ? 0 : port.c_str(), &hints, &result);
     if (err != 0) {
       setErr(gai_strerror(err));
       return false;
