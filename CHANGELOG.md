@@ -1,5 +1,13 @@
 # History
 
+## Version 2.1.1
+*To be released*
+
+* Windows version no longer needs special firewall exceptions to run
+* Added license information to info window
+* Minor grammar and spelling tweaks to tutorial
+
+
 ## Version 2.1
 *Friday 21st November, 2014*
 
