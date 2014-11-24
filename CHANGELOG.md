@@ -1,7 +1,7 @@
 # History
 
 ## Version 2.1.1
-*To be released*
+*Tuesday 25th November, 2014*
 
 * Windows version no longer needs special firewall exceptions to run
 * Added license information to info window
