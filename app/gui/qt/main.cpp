@@ -51,10 +51,10 @@ int main(int argc, char *argv[])
   app.setApplicationName("Sonic Pi");
   app.setStyle("gtk");
   QPixmap pixmap(":/images/splash.png");
-  QSplashScreen splash(pixmap);
-  splash.setMask(pixmap.mask());
-  splash.show();
-  splash.repaint();
+  QSplashScreen *splash = new QSplashScreen(pixmap);
+  splash->setMask(pixmap.mask());
+  splash->show();
+  splash->repaint();
   MainWindow mainWin(app, splash);
   return app.exec();
 

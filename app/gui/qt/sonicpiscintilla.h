@@ -12,14 +12,20 @@
 //++
 
 
-#include  <Qsci/qsciscintilla.h>
+#include <Qsci/qsciscintilla.h>
+
+class SonicPiLexer;
+class QSettings;
 
 class SonicPiScintilla : public QsciScintilla
 {
  public:
-  SonicPiScintilla();
+  SonicPiScintilla(SonicPiLexer *lexer);
   
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
-  
+
+ private:
+    void addKeyBinding(QSettings &qs, int cmd, int key);
+    void addOtherKeyBinding(QSettings &qs, int cmd, int key);
 };
