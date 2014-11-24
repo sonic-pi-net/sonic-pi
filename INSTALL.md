@@ -165,7 +165,10 @@ Packaging:
 * `..\..\native\windows\bin\gem install did_you_mean-0.7.0.gem`
 * `..\..\native\windows\bin\gem install ffi`
   - gem will pull down the mingw32 version, which is not currently included
-* There is an Advanced Installer config file in `Sonic Pi.aip` for packaging to MSI: http://www.advancedinstaller.com/
+* There is a WiX project file in `sonic-pi.wxs' -- work in progress
+  - file paths will need to be updated, currently absolute
+  - build with `candle sonic-pi.wxs -ext WixUtilExtension && light sonic-pi.wixobj -ext WixUtilExtension -ext WixUIExtension`
+
 
 ## Unsupported development HTML Interface
 
