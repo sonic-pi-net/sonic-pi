@@ -34,5 +34,8 @@
         <file>images/coreteam/josephwilk.png</file>
         <file>images/coreteam/xavierriley.png</file>
 	<file>images/coreteam/jweather.png</file>
+
+	<file>html/info.html</file>
+	<file>html/startup.html</file>
     </qresource>
 </RCC>

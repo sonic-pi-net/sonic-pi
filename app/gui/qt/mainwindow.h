@@ -64,7 +64,7 @@ public:
 #if defined(Q_OS_MAC)
     MainWindow(QApplication &ref, QMainWindow* splash);
 #else
-    MainWindow(QApplication &ref, QSplashScreen &splash);
+    MainWindow(QApplication &ref, QSplashScreen* splash);
 #endif
 protected:
     void closeEvent(QCloseEvent *event);
@@ -92,7 +92,6 @@ private slots:
     bool saveAs();
     void about();
     void help();
-    void documentWasModified();
     void onExitCleanup();
     void zoomFontIn();
     void zoomFontOut();
@@ -105,6 +104,8 @@ private slots:
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
+    void serverStarted();
+    void splashClose();
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void invokeStartupError(QString msg);
@@ -120,14 +121,13 @@ private slots:
     void docScrollDown();
 
 private:
-    void addKeyBinding(QSettings &qs, int cmd, int key);
-    void addOtherKeyBinding(QSettings &qs, int cmd, int key);
-    void initWorkspace(SonicPiScintilla* ws);
     void startOSCListener();
+    void startServer();
     void clearOutputPanels();
-    void createActions();
+    void createShortcuts();
     void createToolBar();
     void createStatusBar();
+    void createInfoPane();
     void readSettings();
     void writeSettings();
     void loadFile(const QString &fileName, SonicPiScintilla* &text);
@@ -148,10 +148,12 @@ private:
     QKeySequence ctrlKey(char key);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
+    QString readFile(QString name);
+    QString rootPath();
 
     void addUniversalCopyShortcuts(QTextEdit *te);
 
-    QFuture<void> osc_thread;
+    QFuture<void> osc_thread, server_thread;
 
     bool cont_listening_for_osc;
     bool server_started;
@@ -162,7 +164,12 @@ private:
     bool loaded_workspaces;
     QTimer *rec_flash_timer;
 
-    SonicPiScintilla *textEdit;
+#ifdef Q_OS_MAC
+    QMainWindow* splash;
+#else
+    QSplashScreen* splash;
+#endif
+
     static const int workspace_max = 8;
     SonicPiScintilla *workspaces[workspace_max];
     QTextEdit *outputPane;
@@ -186,28 +193,7 @@ private:
 
     QToolBar *toolBar;
 
-    QAction *runAct;
-    QAction *stopAct;
-    QAction *saveAct;
     QAction *recAct;
-    QAction *infoAct;
-    QAction *prefsAct;
-    QAction *helpAct;
-    QAction *textAlignAct;
-    QAction *textIncAct1;
-    QAction *textDecAct1;
-
-    QAction *saveAsAct;
-    QAction *exitAct;
-    QAction *cutAct;
-    QAction *copyAct;
-    QAction *pasteAct;
-
-    QShortcut *tabNextKey;
-    QShortcut *tabPrevKey;
-    QShortcut *textIncKey2;
-    QShortcut *textDecKey2;
-    QShortcut *reloadKey;
 
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
@@ -232,6 +218,7 @@ private:
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
+    QString sample_path, log_path;
 };
 
 #endif
