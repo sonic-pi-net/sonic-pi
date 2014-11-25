@@ -287,6 +287,47 @@
  ;; (run (out ab (pan2 (saw))))
 
  ;; (kill sonic-pi-fx_rbpf)
+(defsynth sonic-pi-stereo_warp_sample  [buf 0
+                                        pitch 2
+                                        amp 1
+                                        amp_slide 0
+                                        amp_slide_shape 5
+                                        amp_slide_curve 0
+                                        pan 0
+                                        pan_slide 0
+                                        pan_slide_shape 5
+                                        attack 0.0
+                                        decay 0
+                                        sustain -1
+                                        release 0.0
+                                        attack_level 1
+                                        sustain_level 1
+                                        env_curve 2
+                                        pan_slide_curve 0
+                                        rate 1
+                                        start 0
+                                        finish 1
+                                        window_size 0.1
+                                        overlaps 8
+                                        rand 0
+                                        out_bus 0]
+     (let  [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+            pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+            pitch         (midiratio pitch)
+            start-pos     start
+            end-pos       finish
+            n-start-pos   (select:kr  (not-pos? rate)  [start-pos end-pos])
+            n-end-pos     (select:kr  (not-pos? rate)  [end-pos start-pos])
+            rate           (abs rate)
+            play-time     (/  (*  (buf-dur buf)  (absdif finish start))
+                                                        rate)
+            phase         (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
+            sustain       (select:kr  (= -1 sustain)  [sustain  (- play-time attack release decay)])
+            env           (env-gen  (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+            [snd-l snd-r] (warp1:ar 2 buf phase pitch window_size -1 overlaps rand 4)
+            snd           (balance2 snd-l snd-r pan amp)]
+         (out out_bus snd)))
+
 
  (do ;;comment
    (save-to-pi sonic-pi-fx_bpf)
@@ -295,6 +336,7 @@
    (save-to-pi sonic-pi-fx_ring_mod)
    (save-to-pi sonic-pi-fx_chorus)
    (save-to-pi sonic-pi-fx_harmoniser)
+   (save-to-pi sonic-pi-stereo_warp_sample)
  ))
 
 ;; Experimental

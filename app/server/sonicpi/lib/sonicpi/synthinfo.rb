@@ -1890,6 +1890,55 @@ end
     end
   end
 
+  class WarpPlayer < MonoPlayer
+    def name
+      "Warp Sample Player"
+    end
+
+    def introduced
+      Version.new(2,1,1)
+    end
+
+    def synth_name
+      "stereo_warp_sample"
+    end
+
+    def arg_defaults
+      {
+        :pitch => 0,
+        :window_size => 0.2,
+        :overlaps => 4,
+        :rand => 0.01,
+
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
+        :rate => 1,
+        :rate_slide => 0,
+        :rate_slide_shape => 5,
+        :rate_slide_curve => 0,
+      }
+    end
+
+    def specific_arg_info
+      {
+
+        :pitch =>
+        {
+          :doc => "",
+          :validations => [v_between_inclusive(:pitch, -127, 127)],
+          :modulatable => false
+        },
+
+      }
+    end
+  end
+
   class BaseMixer < StudioInfo
 
   end
@@ -3719,6 +3768,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :zawa => Zawa.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
+      :warp_player => WarpPlayer.new,
 
       :sound_in => SoundIn.new,
       :noise => Noise.new,
