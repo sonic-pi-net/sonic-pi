@@ -2316,7 +2316,10 @@ stop bar"]
 
 
        def trigger_sampler(path, buf_id, num_chans, args_h, group=current_job_synth_group)
-         if complex_args?(args_h)
+         if args_h.keys.any? {|k| k == :pitch || k == :stretch }
+           #granular
+           synth_name = :warp_player
+         elsif complex_args?(args_h)
            #complex
            synth_name = (num_chans == 1) ? :mono_player : :stereo_player
          else
