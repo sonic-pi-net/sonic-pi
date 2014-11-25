@@ -2772,9 +2772,9 @@ end
     end
   end
 
-  class FXHarmoniser < FXInfo
+  class FXOctaver < FXInfo
     def name
-      "Harmoniser"
+      "Octaver"
     end
 
     def introduced
@@ -2782,7 +2782,7 @@ end
     end
 
     def synth_name
-      "fx_harmoniser"
+      "fx_octaver"
     end
 
     def arg_defaults
@@ -2803,14 +2803,18 @@ end
         :oct1_amp_slide => 0,
         :oct1_amp_slide_shape => 5,
         :oct1_amp_slide_curve => 0,
+        :oct1_interval => 12,
+        :oct1_interval_slide => 0,
+        :oct1_interval_slide_shape => 5,
+        :oct1_interval_slide_curve => 0,
         :oct2_amp => 1,
         :oct2_amp_slide => 0,
         :oct2_amp_slide_shape => 5,
         :oct2_amp_slide_curve => 0,
-        :clean_amp => 1,
-        :clean_amp_slide => 0,
-        :clean_amp_slide_shape => 5,
-        :clean_amp_slide_curve => 0,
+        :oct3_amp => 1,
+        :oct3_amp_slide => 0,
+        :oct3_amp_slide_shape => 5,
+        :oct3_amp_slide_curve => 0
       }
     end
 
@@ -2818,27 +2822,29 @@ end
       {
         :oct1_amp =>
         {
-          :doc => "Volume of the signal 1 octave below the input",
+          :doc => "Volume of the signal 1 octave above the input",
           :validations => [v_positive(:oct1_amp)],
           :modulatable => true
         },
         :oct2_amp =>
         {
-          :doc => "Volume of the signal 2 octaves below the input",
+          :doc => "Volume of the signal 1 octave below the input",
           :validations => [v_positive(:oct2_amp)],
           :modulatable => true
         },
-        :clean_amp =>
+        :oct3_amp =>
         {
-          :doc => "Volume of the low-pass filtered clean signal from the input",
-          :validations => [v_positive(:clean_amp)],
+          :doc => "Volume of the signal 2 octaves below the input",
+          :validations => [v_positive(:oct3_amp)],
           :modulatable => true
         }
       }
     end
 
     def doc
-      ""
+      "This harmoniser adds three pitches based on the input sound. The first is the original sound transposed up an octave, the second is the original sound transposed down an octave and the third is the original sound transposed down two octaves.
+
+The way the transpositions are done adds some distortion, particulary to the lower octaves, whilst the upper octave has a 'cheap' quality. This effect is often used in guitar effects pedals but it can work with other sounds too."
     end
   end
 
@@ -2899,8 +2905,7 @@ end
           :doc => "The time between echoes in seconds.",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
-          :bpm_scale => true
-
+          :bpm_scale => false
         },
 
         :phase_slide =>
@@ -2934,7 +2939,7 @@ end
     end
 
     def doc
-      ""
+      "Standard chorus with variable phase duration (time between echoes). A type of short echo that usually makes the sound \"thicker\". If you wish to have a phase duration longer than 2s, you need to specifiy the longest phase duration you'd like with the arg max_phase. Be warned, as with echo, chorus FX with very long phases can consume a lot of memory and take longer to initialise."
     end
   end
 
@@ -2977,14 +2982,11 @@ end
     end
 
     def specific_arg_info
-      {
-
-
-      }
+      { }
     end
 
     def doc
-      ""
+      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens. We take a 'carrier' signal (a sine wave controlled by the freq argument) and modulate it's amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
     end
   end
 
@@ -3027,14 +3029,13 @@ end
     end
 
     def specific_arg_info
-      {
-
-
-      }
+      { }
     end
 
     def doc
-      ""
+      "Combines low pass and high pass filters to only allow a 'band' of frequencies through. If the band is very narrow (a low res value like 0.0001) then the BPF will reduce the original sound, almost down to a single frequency (controlled by the freq argument).
+      
+With higher values for res we can simulate other filters e.g. telephone lines, by cutting off low and high frequencies."
     end
   end
 
@@ -3084,7 +3085,7 @@ end
     end
 
     def doc
-      ""
+      "Like the Band Pass Filter but with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument."
     end
   end
 
@@ -3134,7 +3135,9 @@ end
     end
 
     def doc
-      ""
+      "Like the Band Pass Filter but normalized, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument.
+
+The normalizer is useful here as some volume is lost when filtering the original signal."
     end
   end
 
