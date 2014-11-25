@@ -487,7 +487,12 @@ dice 3 # will return a number between 1 and 3 inclusively"]
 
 
     def one_in(num)
-      rrand_i(1, num) == 1
+      num = num.to_i
+      if num < 1
+        false
+      else
+        rrand_i(1, num) == 1
+      end
     end
     doc name:           :one_in,
         introduced:     Version.new(2,0,0),
