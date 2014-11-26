@@ -288,6 +288,7 @@ void MainWindow::startServer() {
   QDir().mkdir(log_path);
 
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+  coutbuf = std::cout.rdbuf();
   stdlog.open(QString(log_path + "/stdout.log").toStdString().c_str());
   std::cout.rdbuf(stdlog.rdbuf());
 #endif
@@ -751,6 +752,8 @@ void MainWindow::saveWorkspaces()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
   writeSettings();
+  std::cout.rdbuf(coutbuf); // reset to stdout before exiting
+
   event->accept();
 }
 
