@@ -272,7 +272,7 @@ void MainWindow::startServer() {
 #else
   //assuming Raspberry Pi
   QString prg_path = "ruby"; // use system ruby
-  QString prg_arg = root + "/server/bin/sonic-pi-server.rb";
+  QString prg_arg = root + "/app/server/bin/sonic-pi-server.rb";
   sample_path = root + "/etc/samples";
 #endif
 
