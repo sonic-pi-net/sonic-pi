@@ -272,7 +272,7 @@ void MainWindow::startServer() {
 #else
   //assuming Raspberry Pi
   QString prg_path = "ruby"; // use system ruby
-  QString prg_arg = root + "/server/bin/sonic-pi-server.rb";
+  QString prg_arg = root + "/app/server/bin/sonic-pi-server.rb";
   sample_path = root + "/etc/samples";
 #endif
 
@@ -288,7 +288,8 @@ void MainWindow::startServer() {
   QDir().mkdir(log_path);
 
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-  stdlog.open(QString(log_path + "/stdout.log").toStdString());
+  coutbuf = std::cout.rdbuf();
+  stdlog.open(QString(log_path + "/stdout.log").toStdString().c_str());
   std::cout.rdbuf(stdlog.rdbuf());
 #endif
 
@@ -751,6 +752,8 @@ void MainWindow::saveWorkspaces()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
   writeSettings();
+  std::cout.rdbuf(coutbuf); // reset to stdout before exiting
+
   event->accept();
 }
 

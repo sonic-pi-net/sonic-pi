@@ -215,6 +215,7 @@ private:
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
+    std::streambuf *coutbuf;
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
