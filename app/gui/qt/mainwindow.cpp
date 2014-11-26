@@ -288,7 +288,7 @@ void MainWindow::startServer() {
   QDir().mkdir(log_path);
 
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-  stdlog.open(QString(log_path + "/stdout.log").toStdString());
+  stdlog.open(QString(log_path + "/stdout.log").toStdString().c_str());
   std::cout.rdbuf(stdlog.rdbuf());
 #endif
 
