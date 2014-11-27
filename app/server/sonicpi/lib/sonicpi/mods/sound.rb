@@ -1192,7 +1192,12 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_messages))
          Thread.current.thread_variable_set(:sonic_pi_spider_time, fx_execute_t.thread_variable_get(:sonic_pi_spider_time))
 
-        Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_generator))
+         Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_generator))
+
+         ## Ensure the synced detection mechanism comes back out of
+         ## with_fx blocks so syncs can be within with_fx blocks within
+         ## live_loops without tripping the live_loop no sleep detector
+         Thread.current.thread_variable_set(:sonic_pi_spider_synced, fx_execute_t.thread_variable_get(:sonic_pi_spider_synced))
 
          # Wait for gc thread to complete. Once the gc thread has
          # completed, the tracker has been successfully removed, and all
