@@ -2778,7 +2778,7 @@ end
     end
 
     def introduced
-      Version.new(2,1,0)
+      Version.new(2,2,0)
     end
 
     def synth_name
@@ -2854,7 +2854,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def introduced
-      Version.new(2,1,0)
+      Version.new(2,2,0)
     end
 
     def synth_name
@@ -2949,7 +2949,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def introduced
-      Version.new(2,1,0)
+      Version.new(2,2,0)
     end
 
     def synth_name
@@ -2996,7 +2996,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def introduced
-      Version.new(2,1,0)
+      Version.new(2,2,0)
     end
 
     def synth_name
@@ -3034,7 +3034,7 @@ The way the transpositions are done adds some distortion, particulary to the low
 
     def doc
       "Combines low pass and high pass filters to only allow a 'band' of frequencies through. If the band is very narrow (a low res value like 0.0001) then the BPF will reduce the original sound, almost down to a single frequency (controlled by the freq argument).
-      
+
 With higher values for res we can simulate other filters e.g. telephone lines, by cutting off low and high frequencies."
     end
   end
@@ -3045,7 +3045,7 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
 
     def introduced
-      Version.new(2,1,0)
+      Version.new(2,2,0)
     end
 
     def synth_name
@@ -3771,13 +3771,12 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :fx_replace_distortion => FXDistortion.new,
       :fx_pan => FXPan.new,
       :fx_replace_pan => FXPan.new,
-      # WIP effects
-      # :fx_bpf => FXBPF.new,
-      # :fx_rbpf => FXRBPF.new,
-      # :fx_nrbpf => FXNRBPF.new,
-      # :fx_ring_mod => FXRingMod.new,
-      # :fx_chorus => FXChorus.new,
-      # :fx_harmoniser => FXHarmoniser.new,
+      :fx_bpf => FXBPF.new,
+      :fx_rbpf => FXRBPF.new,
+      :fx_nrbpf => FXNRBPF.new,
+      :fx_ring_mod => FXRingMod.new,
+      :fx_chorus => FXChorus.new
+#      :fx_harmoniser => FXHarmoniser.new
 
       }
 
