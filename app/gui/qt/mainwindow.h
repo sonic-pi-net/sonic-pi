@@ -44,6 +44,7 @@ class QString;
 class QSlider;
 class SonicPiAPIs;
 class SonicPiScintilla;
+class SonicPiUDPServer;
 
 struct help_page {
   QString title;
@@ -66,6 +67,9 @@ public:
 #else
     MainWindow(QApplication &ref, QSplashScreen* splash);
 #endif
+    void invokeStartupError(QString msg);
+    SonicPiUDPServer *sonicPiServer;
+
 protected:
     void closeEvent(QCloseEvent *event);
     void wheelEvent(QWheelEvent *event);
@@ -108,7 +112,6 @@ private slots:
     void splashClose();
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
-    void invokeStartupError(QString msg);
     void startupError(QString msg);
     void replaceBuffer(QString id, QString content);
     void tabNext();
@@ -121,8 +124,8 @@ private slots:
     void docScrollDown();
 
 private:
-    void startOSCListener();
     void startServer();
+    void waitForServiceSync();
     void clearOutputPanels();
     void createShortcuts();
     void createToolBar();
@@ -155,10 +158,7 @@ private:
 
     QFuture<void> osc_thread, server_thread;
 
-    bool cont_listening_for_osc;
-    bool server_started;
     bool startup_error_reported;
-    bool osc_incoming_port_open;
     bool is_recording;
     bool show_rec_icon_a;
     bool loaded_workspaces;
@@ -172,10 +172,10 @@ private:
 
     static const int workspace_max = 8;
     SonicPiScintilla *workspaces[workspace_max];
-    QTextEdit *outputPane;
-    QTextEdit *errorPane;
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
+    QTextEdit *outputPane;
+    QTextEdit *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
     QDockWidget *docWidget;
