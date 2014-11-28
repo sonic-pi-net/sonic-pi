@@ -27,6 +27,7 @@
 #include <QShortcut>
 #include <QSettings>
 #include <QHash>
+#include <QTcpSocket>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -66,6 +67,11 @@ public:
 #else
     MainWindow(QApplication &ref, QSplashScreen* splash);
 #endif
+
+    QTextEdit *outputPane;
+    QTextEdit *errorPane;
+
+
 protected:
     void closeEvent(QCloseEvent *event);
     void wheelEvent(QWheelEvent *event);
@@ -153,6 +159,7 @@ private:
 
     void addUniversalCopyShortcuts(QTextEdit *te);
 
+    QTcpSocket *clientSock;
     QFuture<void> osc_thread, server_thread;
 
     bool cont_listening_for_osc;
@@ -172,8 +179,6 @@ private:
 
     static const int workspace_max = 8;
     SonicPiScintilla *workspaces[workspace_max];
-    QTextEdit *outputPane;
-    QTextEdit *errorPane;
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
     QDockWidget *outputWidget;

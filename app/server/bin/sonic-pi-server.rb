@@ -30,14 +30,15 @@ server_port = ARGV[0] ? ARGV[0].to_i : 4557
 client_port = ARGV[1] ? ARGV[1].to_i : 4558
 
 ws_out = Queue.new
-gui = OSC::Client.new("localhost", client_port)
+gui = OSC::ClientOverTcp.new("localhost", client_port)
 encoder = SonicPi::OscEncode.new(true)
 
 begin
-  osc_server = OSC::Server.new(server_port)
+  osc_server = OSC::ServerOverTcp.new(server_port)
 rescue Exception => e
   m = encoder.encode_single_message("/exited", ["Failed to open server port " + server_port.to_s + ", is scsynth already running?"])
   gui.send_raw(m)
+  gui.stop
   exit
 end
 
@@ -301,7 +302,7 @@ osc_server.add_method("/mixer-lpf-disable") do |payload|
   end
 end
 
-Thread.new{osc_server.run}
+Thread.new{osc_server.safe_run}
 
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
