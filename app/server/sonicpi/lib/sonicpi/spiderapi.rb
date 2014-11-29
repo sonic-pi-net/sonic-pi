@@ -184,7 +184,7 @@ end
         accepts_block: false,
         doc: "Return information representing the current version of Sonic Pi. This information may be further inspected with version.major, version.minor, version.patch and version.dev",
         examples: ["
-puts version # => Prints out the current version such as 2,0,0",
+puts version # => Prints out the current version such as v2.0.1",
 "
 puts version.major # => Prints out the major version number such as 2",
 "
