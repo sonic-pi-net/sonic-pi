@@ -588,7 +588,7 @@ module SonicPi
     end
 
     def doc
-      "A simple pulse wave with a low pass filter. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1."
+      "A simple pulse wave with a low pass filter. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1. The pulse wave is thick and deavy with lower notes and is a great ingredient for bass sounds."
     end
 
     def arg_defaults
