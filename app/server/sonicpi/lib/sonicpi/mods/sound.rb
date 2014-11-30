@@ -1255,7 +1255,12 @@ end"]
 
        def use_sample_pack(pack, &block)
          raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
-         pack = samples_path if pack == :default
+         if pack == :default
+           pack = samples_path
+         else
+           pack = "#{pack}/" if File.directory?(pack)
+         end
+
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
        end
        doc name:          :use_sample_pack,
@@ -1274,6 +1279,7 @@ sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
 
        def use_sample_pack_as(pack, name, &block)
          raise "use_sample_pack_as does not work with a block. Perhaps you meant with_sample_pack" if block
+         pack = "#{pack}/" if File.directory?(pack)
          aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases) || Hamster.hash
          new_aliases = aliases.put name.to_s, pack
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
@@ -1300,7 +1306,13 @@ sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'
 
        def with_sample_pack(pack, &block)
          raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
-         pack = samples_path if pack == :default
+         if pack == :default
+           # allow user to reset sample pack with the :default keyword
+           pack = samples_path
+         else
+           # ensure directories have trailing /
+           pack = "#{pack}/" if File.directory?(pack)
+         end
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
          block.call
@@ -1323,6 +1335,7 @@ end"]
 
        def with_sample_pack_as(pack, name, &block)
          raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack" if block
+         pack = "#{pack}/" if File.directory?(pack)
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
          aliases = current || Hamster.hash
          new_aliases = aliases.put name.to_s, pack
@@ -2286,19 +2299,22 @@ stop bar"]
          return fetch_or_cache_sample_path(sym) unless (aliases || path)
 
          if (aliases &&
-             (m       = sym.to_s.match /(.+?)_(.+)/) &&
+             (m       = sym.to_s.match /\A(.+?)_(.+)/) &&
              (p       = aliases[m[1]]))
            path = p
            sym = m[2]
-           partial = "#{p}/#{sym}"
+           partial = "#{p}#{sym}"
+         elsif path
+           partial = path + sym.to_s
          else
-           path = path || samples_path
+           path = samples_path
            partial = path + "/" + sym.to_s
          end
 
          res = find_sample_with_path(partial)
 
-         raise "No sample exists called :#{sym} in sample pack #{path} (#{File.expand_path(path)})" unless res
+         raise "No sample exists called #{sym.inspect} in sample pack #{path.inspect} (#{File.expand_path(path)})" unless res
+
          res
        end
 
