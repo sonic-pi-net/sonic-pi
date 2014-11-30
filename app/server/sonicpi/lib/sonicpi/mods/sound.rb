@@ -1298,8 +1298,8 @@ use_sample_pack_as '/home/yourname/my/cool/samples/guitar', :my_guitars
 use_sample_pack_as '/home/yourname/my/cool/samples/drums', :my_drums
 
 # You can now play both the 'bass.wav' samples, as they've had the symbol stuck on the front
-sample :my_guitars_bass    #=> plays '/home/yourname/my/cool/samples/guitar/bass.wav'
-sample :my_drums_bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'"]
+sample :my_guitars__bass    #=> plays '/home/yourname/my/cool/samples/guitar/bass.wav'
+sample :my_drums__bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'"]
 
 
 
@@ -1353,7 +1353,7 @@ end"]
            examples:      ["
 with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
   # The foo sample is now available, with a prefix of 'my_samples'
-  sample :my_samples_foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
+  sample :my_samples__foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
 end"]
 
 
@@ -2299,7 +2299,7 @@ stop bar"]
          return fetch_or_cache_sample_path(sym) unless (aliases || path)
 
          if (aliases &&
-             (m       = sym.to_s.match /\A(.+?)_(.+)/) &&
+             (m       = sym.to_s.match /\A(.+?)__(.+)/) &&
              (p       = aliases[m[1]]))
            path = p
            sym = m[2]
