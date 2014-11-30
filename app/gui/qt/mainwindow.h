@@ -29,7 +29,6 @@
 #include <QHash>
 #include <QTcpSocket>
 #include "oscpkt.hh"
-#include "udp.hh"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -70,7 +69,6 @@ public:
 
     QTextEdit *outputPane;
     QTextEdit *errorPane;
-
 
 protected:
     void closeEvent(QCloseEvent *event);

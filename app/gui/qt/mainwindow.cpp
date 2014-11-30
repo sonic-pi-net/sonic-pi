@@ -69,7 +69,10 @@
 #include <QtNetwork>
 #include <QTcpSocket>
 
-#include "sonicpiserver.h"
+#include "sonicpitcpserver.h"
+#include "sonicpiudpserver.h"
+#include "oschandler.h"
+
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -87,6 +90,9 @@ using namespace oscpkt;
   #include <cmath>
   #include <QtConcurrentRun>
 #endif
+
+const int PROTOCOL = 0; //0: UDP
+                        //1: TCP
 
 #include "mainwindow.h"
 
@@ -247,9 +253,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
-  osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
-  server_thread = QtConcurrent::run(this, &MainWindow::startServer);
-
   startServer();
   initPrefsWindow();
   initDocsWindow();
@@ -316,26 +319,54 @@ void MainWindow::startServer() {
     //return;
   //}
 
-  SonicPiServer* sonicPiServer = new SonicPiServer::SonicPiServer(this);
-  sonicPiServer->startServer();
+  OscHandler* handler = new OscHandler::OscHandler(this, this->outputPane, this->errorPane);
 
-  qDebug() << "Now wait";
-  int timeout = 30;
-  while (!sonicPiServer->server_started && sonicPiServer->cont_listening_for_osc && timeout-- > 0) {
-    sleep(1);
-    qDebug() << "Waiting for server..." << "server_started:" << sonicPiServer->server_started << " cont:" << sonicPiServer->cont_listening_for_osc;
-    if(sonicPiServer->osc_incoming_port_open) {
-      Message msg("/ping");
-      msg.pushStr("QtClient/1/hello");
-      sendOSC(msg);
+  if(PROTOCOL == 1){
+    SonicPiTCPServer* sonicPiServer = new SonicPiTCPServer::SonicPiTCPServer(handler);
+    sonicPiServer->startServer();
+
+    qDebug() << "Now wait";
+    int timeout = 30;
+    while (!sonicPiServer->isServerStarted() && sonicPiServer->continueListening() && timeout-- > 0) {
+      sleep(1);
+      qDebug() << "Waiting for server..." << "server_started:" << sonicPiServer->isServerStarted() << " cont:" << sonicPiServer->isIncomingPortOpen();
+      if(sonicPiServer->isIncomingPortOpen()) {
+        Message msg("/ping");
+        msg.pushStr("QtClient/1/hello");
+        sendOSC(msg);
+      }
+    }
+
+    if (!sonicPiServer->isServerStarted()) {
+      if (!startup_error_reported) {
+          invokeStartupError(tr("Failed to start server, please check ") + log_path);
+      }
+      return;
     }
   }
+  else{
+    SonicPiUDPServer* sonicPiServer = new SonicPiUDPServer::SonicPiUDPServer(handler);
+    osc_thread = QtConcurrent::run(sonicPiServer, &SonicPiUDPServer::startServer);
 
-  if (!sonicPiServer->server_started) {
-    if (!startup_error_reported) {
-        invokeStartupError(tr("Failed to start server, please check ") + log_path);
+    qDebug() << "Now wait";
+    int timeout = 30;
+    while (!sonicPiServer->isServerStarted() && sonicPiServer->continueListening() && timeout-- > 0) {
+      sleep(1);
+      qDebug() << "Waiting for server..." << "server_started:" << sonicPiServer->isServerStarted() << " cont:" << sonicPiServer->continueListening();
+      qDebug() << "isServerReady?" << sonicPiServer->isServerReady();
+      if(sonicPiServer->isIncomingPortOpen()) {
+        Message msg("/ping");
+        msg.pushStr("QtClient/1/hello");
+        sendOSC(msg);
+      }
     }
-    return;
+
+    if (!sonicPiServer->isServerStarted()) {
+      if (!startup_error_reported) {
+          //invokeStartupError(tr("Failed to start server, please check ") + log_path);
+      }
+      //return;
+    }
   }
 
   QMetaObject::invokeMethod(this, "serverStarted", Qt::QueuedConnection);
@@ -588,29 +619,43 @@ void MainWindow::sendOSC(Message m)
  int TIMEOUT = 30000;
  int PORT_NUM = 4557;
 
- if (clientSock->state() != QAbstractSocket::ConnectedState){
-   std::cout<<  "Connecting" << "\n";
-   clientSock->connectToHost("localhost", PORT_NUM,  QIODevice::ReadWrite);
+ if(PROTOCOL == 0){
+    UdpSocket sock;
+    int PORT_NUM = 4557;
+    sock.connectTo("localhost", PORT_NUM);
+    if (!sock.isOk()) {
+      std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+    } else {
+      PacketWriter pw;
+      pw.addMessage(m);
+      sock.sendPacket(pw.packetData(), pw.packetSize());
+     }
  }
-
- if(!clientSock->waitForConnected(TIMEOUT)){
-   std::cerr <<  "Timeout, could not connect" << "\n";
-   clientSock->abort();
-   return;
- }
-
- if(clientSock->state() == QAbstractSocket::ConnectedState){
-   PacketWriter pw;
-   pw.addMessage(m);
-   int bytesWritten = clientSock->write(pw.packetData(), pw.packetSize());
-   clientSock->waitForBytesWritten();
-
-   if (bytesWritten < 0){
-     std::cerr <<  "Failed to send bytes" << "\n";
+ else{
+   if (clientSock->state() != QAbstractSocket::ConnectedState){
+     std::cout<<  "Connecting" << "\n";
+     clientSock->connectToHost("localhost", PORT_NUM,  QIODevice::ReadWrite);
    }
 
-  } else {
+   if(!clientSock->waitForConnected(TIMEOUT)){
+     std::cerr <<  "Timeout, could not connect" << "\n";
+     clientSock->abort();
+     return;
+   }
+
+   if(clientSock->state() == QAbstractSocket::ConnectedState){
+     PacketWriter pw;
+     pw.addMessage(m);
+     int bytesWritten = clientSock->write(pw.packetData(), pw.packetSize());
+     clientSock->waitForBytesWritten();
+
+     if (bytesWritten < 0){
+       std::cerr <<  "Failed to send bytes" << "\n";
+     }
+
+    } else {
       std::cerr << "Client gone away: " << "\n";
+    }
   }
 }
 
