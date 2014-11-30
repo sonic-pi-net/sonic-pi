@@ -119,7 +119,6 @@ module SonicPi
     end
 
     def __delayed_user_message(s)
-      s = s.round(4) if s.is_a? Float
       s = s.inspect unless s.is_a? String
       __enqueue_multi_message(1, s)
     end
