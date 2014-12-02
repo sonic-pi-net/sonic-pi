@@ -105,6 +105,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   rec_flash_timer = new QTimer(this);
   connect(rec_flash_timer, SIGNAL(timeout()), this, SLOT(toggleRecordingOnIcon()));
 
+  QThreadPool::globalInstance()->setMaxThreadCount(3);
+  std::cout << "maxThreadCount" << QThreadPool::globalInstance()->maxThreadCount() << std::endl;
+
   osc_thread = QtConcurrent::run(this, &MainWindow::startOSCListener);
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
 
