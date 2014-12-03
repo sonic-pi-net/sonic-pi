@@ -106,8 +106,6 @@ private slots:
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
     void serverStarted();
     void splashClose();
-    void serverError(QProcess::ProcessError error);
-    void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void invokeStartupError(QString msg);
     void startupError(QString msg);
     void replaceBuffer(QString id, QString content);

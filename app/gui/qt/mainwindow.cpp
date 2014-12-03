@@ -345,20 +345,6 @@ void MainWindow::serverStarted() {
   this->showNormal();
 }
 
-
-void MainWindow::serverError(QProcess::ProcessError error) {
-  cont_listening_for_osc = false;
-  std::cout << "SERVER ERROR" << error <<std::endl;
-  std::cout << serverProcess->readAllStandardError().data() << std::endl;
-  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
-}
-
-void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
-  std::cout << "SERVER Finished: " << exitCode << ", " << exitStatus << std::endl;
-  std::cout << serverProcess->readAllStandardError().data() << std::endl;
-  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
-}
-
 void MainWindow::update_mixer_invert_stereo() {
   if (mixer_invert_stereo->isChecked()) {
     mixerInvertStereo();
