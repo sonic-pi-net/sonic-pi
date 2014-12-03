@@ -35,13 +35,13 @@ module SonicPi
        include SonicPi::Util
        include SonicPi::DocSystem
 
-       DEFAULT_PLAY_OPTS = {amp:      {default: 1, doc: "The amplitude of the note"},
-                           amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
-                           pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
-                           pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
-                           attack:    {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
-                           sustain:   {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
-                           release:   {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
+       DEFAULT_PLAY_OPTS = {amp:       {default: 1, doc: "The amplitude of the note"},
+                            amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
+                            pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
+                            pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
+                            attack:    {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
+                            sustain:   {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
+                            release:   {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
 
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
