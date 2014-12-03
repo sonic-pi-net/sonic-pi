@@ -17,7 +17,10 @@
 #
 #-------------------------------------------------
 
-QT       += core gui concurrent
+QT       += core gui concurrent network
+LIBS += -L /Users/josephwilk/Downloads/QScintilla-gpl-2.8.4-snapshot-e4e3562b54cb/Qt4Qt5/ -lqscintilla2
+INCLUDEPATH += /Users/josephwilk/Downloads/QScintilla-gpl-2.8.4-snapshot-e4e3562b54cb/Qt4Qt5/
+DEPENDPATH += /Users/josephwilk/Downloads/QScintilla-gpl-2.8.4-snapshot-e4e3562b54cb/Qt4Qt5/
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,14 +37,24 @@ SOURCES += main.cpp \
            mainwindow.cpp \
            sonicpilexer.cpp \
            sonicpiapis.cpp \
-           sonicpiscintilla.cpp
+           sonicpiserver.cpp \
+           sonicpiscintilla.cpp \
+           oschandler.cpp \
+           sonicpitcpserver.cpp \
+           sonicpiudpserver.cpp \
+           sonicpiserver.cpp
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
             udp.hh \
             sonicpilexer.h \
             sonicpiapis.h \
-            sonicpiscintilla.h
+            sonicpiserver.h \
+            sonicpiscintilla.h \
+            oschandler.h \
+            sonicpitcpserver.h \
+            sonicpiudpserver.h \
+            sonicpiserver.h
 
 OTHER_FILES += \
     images/copy.png \
