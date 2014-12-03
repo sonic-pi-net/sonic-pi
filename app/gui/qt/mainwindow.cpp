@@ -754,7 +754,9 @@ void MainWindow::saveWorkspaces()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
   writeSettings();
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
   std::cout.rdbuf(coutbuf); // reset to stdout before exiting
+#endif
 
   event->accept();
 }
