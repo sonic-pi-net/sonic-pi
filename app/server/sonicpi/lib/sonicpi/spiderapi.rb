@@ -22,6 +22,20 @@ module SonicPi
     include SonicPi::DocSystem
     include SonicPi::Util
 
+	def reset!
+	  set_sched_ahead_time! default_sched_ahead_time
+	  set_control_delta! default_control_delta
+	  set_volume! 1
+	end
+	doc name:		  :reset!,
+        introduced:   Version.new(2, 2, 0),
+        summary:      "Reset set_sched_ahead_time!, set_control_delta! and set_volume! to defaults",
+        args:           [],
+        opts:           {},
+        doc: "Resets set_sched_ahead_time!, set_control_delta_time! and set_volume! to default values for OS in use",
+        examples:     [
+      "reset!"]
+
     def inc(n)
       n + 1
     end
