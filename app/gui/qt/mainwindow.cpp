@@ -113,8 +113,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
 
-  OscHandler* handler = new OscHandler::OscHandler(this, this->outputPane, this->errorPane);
-  sonicPiServer = new SonicPiUDPServer::SonicPiUDPServer(this, handler);
+  OscHandler* handler = new OscHandler(this, this->outputPane, this->errorPane);
+  sonicPiServer = new SonicPiUDPServer(this, handler);
   osc_thread = QtConcurrent::run(sonicPiServer, &SonicPiUDPServer::startServer);
 
   // Window layout

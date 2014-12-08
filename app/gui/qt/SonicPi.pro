@@ -80,5 +80,7 @@ win32 {
 
 # not unicode ready
 win32 {
-  DEFINES -= UNICODE DEFINES += _MBCS
+  DEFINES -= UNICODE
+  DEFINES += _MBCS
+  DEFINES += NOMINMAX
 }
