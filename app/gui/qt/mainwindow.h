@@ -45,7 +45,7 @@ class QString;
 class QSlider;
 class SonicPiAPIs;
 class SonicPiScintilla;
-class SonicPiUDPServer;
+class SonicPiServer;
 
 struct help_page {
   QString title;
@@ -69,7 +69,7 @@ public:
     MainWindow(QApplication &ref, QSplashScreen* splash);
 #endif
     void invokeStartupError(QString msg);
-    SonicPiUDPServer *sonicPiServer;
+    SonicPiServer *sonicPiServer;
 
 protected:
     void closeEvent(QCloseEvent *event);

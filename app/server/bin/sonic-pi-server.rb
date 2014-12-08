@@ -324,8 +324,6 @@ osc_server.add_method("/mixer-lpf-disable") do |payload|
   end
 end
 
-Thread.new{osc_server.run}
-
 osc_server.add_method("/enable-update-checking") do |payload|
   begin
     sp.__enable_update_checker
@@ -344,6 +342,12 @@ osc_server.add_method("/disable-update-checking") do |payload|
     puts e.message
     puts e.backtrace.inspect
   end
+end
+
+if protocol == :tcp
+  Thread.new{osc_server.safe_run}
+else
+  Thread.new{osc_server.run}
 end
 
 # Send stuff out from Sonic Pi back out to osc_server

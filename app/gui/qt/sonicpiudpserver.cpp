@@ -1,35 +1,22 @@
+#include <QtConcurrent>
+#include "sonicpiserver.h"
 #include "sonicpiudpserver.h"
 #include "udp.hh"
 
-SonicPiUDPServer::SonicPiUDPServer(MainWindow *sonicPiWindow, OscHandler *oscHandler)
+SonicPiUDPServer::SonicPiUDPServer(MainWindow *sonicPiWindow, OscHandler *oscHandler) : SonicPiServer(sonicPiWindow, oscHandler)
 {
-  handler = oscHandler;
-  osc_incoming_port_open = false;
-  parent = sonicPiWindow;
-  stop_server = false;
-}
-
-bool SonicPiUDPServer::waitForServer(){
-  return !handler->server_started && continueListening();
-}
-
-bool SonicPiUDPServer::continueListening(){
-  return !handler->signal_server_stop && !stop_server;
-}
-
-bool SonicPiUDPServer::isIncomingPortOpen(){
-  return osc_incoming_port_open;
-}
-
-bool SonicPiUDPServer::isServerStarted(){
-  return handler->server_started;
 }
 
 void SonicPiUDPServer::stopServer(){
   stop_server = true;
 }
 
+
 void SonicPiUDPServer::startServer(){
+  QtConcurrent::run(this, &SonicPiUDPServer::runServer);
+}
+
+void SonicPiUDPServer::runServer(){
     qDebug() << "starting OSC Server";
     int PORT_NUM = 4558;
     oscpkt::UdpSocket sock;
