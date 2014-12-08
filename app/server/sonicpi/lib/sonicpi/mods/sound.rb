@@ -934,7 +934,7 @@ play 44"]
                    sleep scaled_note_slide_time
                  else
                    sleep note_time - scaled_note_slide_time
-                   nt.control(note: next_note);
+                   nt.control(note: next_note) if nt
                    sleep scaled_note_slide_time
                  end
                }
@@ -954,7 +954,7 @@ play 44"]
 
                  nt = play(note, combined_args.merge(sustain: scaled_sustain_time, release: scaled_release_time))
                  sleep note_time - scaled_note_slide_time
-                 nt.control(note: next_note);
+                 nt.control(note: next_note) if nt
                  sleep scaled_note_slide_time
                  sleep legato_time
                }
