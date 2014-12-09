@@ -1,5 +1,5 @@
-# QT GUI
-# --------
+# Compiled things
+# --------------
 
 # Compiled Object files
 *.slo
@@ -14,6 +14,12 @@
 *.lai
 *.la
 *.a
+
+# QT GUI
+# --------
+
+# Compiled Mac libraries
+*.bundle
 
 *.pro.user
 *.qmake.stash
