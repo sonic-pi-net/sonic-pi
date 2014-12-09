@@ -3683,7 +3683,8 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           :bd_zome,
           :bd_boom,
           :bd_klub,
-          :bd_fat ]},
+          :bd_fat,
+          :bd_tek]},
 
       :loop => {
         :desc => "Sounds for Looping",

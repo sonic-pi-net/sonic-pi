@@ -110,6 +110,7 @@ Links to original samples:
 * :bd_boom - http://freesound.org/people/Snapper4298/sounds/157245/
 * :bd_klub - http://freesound.org/people/zgump/sounds/83262/
 * :bd_fat - http://freesound.org/people/cubix/sounds/124386/
+* :bd_tek - http://freesound.org/people/DWSD/sounds/171104/
 
 ## Snares
 
