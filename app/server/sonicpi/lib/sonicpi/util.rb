@@ -194,24 +194,28 @@ module SonicPi
       when Hash
         return opts
       when Array
-        s = opts.size
-        return Hash[*opts] if s.even? && s > 1
-        case s
-        when 1
-          case opts[0]
-          when Hash
-            return opts[0]
-          else
-            raise "Invalid options. Options should either be an even list of key value pairs, a single Hash or nil. Got #{opts.inspect}"
-          end
-        when 0
-          return {}
-        end
+        merge_synth_arg_maps_array(opts)
       when NilClass
         return {}
       else
         raise "Invalid options. Options should either be an even list of key value pairs, a single Hash or nil. Got #{opts.inspect}"
       end
+    end
+
+    def merge_synth_arg_maps_array(opts_a)
+      res = {}
+      idx = 0
+      size = opts_a.size
+
+      while (idx < size) && (m = opts_a[idx]).is_a?(Hash)
+        res = res.merge(m)
+        idx += 1
+      end
+
+      return res if idx == size
+      left = (opts_a[idx..-1])
+      raise "There must be an even number of trailing synth args" unless left.size.even?
+      res.merge(Hash[*left])
     end
 
     def arg_h_pp(arg_h)
