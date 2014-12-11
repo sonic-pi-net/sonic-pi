@@ -89,7 +89,7 @@ module SonicPi
           res = send(name, res)
 
           t2 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
-          raise "Live loop #{name.to_sym} did not sleep!" if (t1 == t2) && !Thread.current.thread_variable_get(:sonic_pi_spider_synced)
+          raise "Live loop #{name.to_sym.inspect} did not sleep!" if (t1 == t2) && !Thread.current.thread_variable_get(:sonic_pi_spider_synced)
         end
       end
 
