@@ -26,6 +26,7 @@ TARGET = 'sonic-pi'
 
 macx {
 TARGET = 'Sonic Pi'
+QT += macextras
 }
 
 TEMPLATE = app
