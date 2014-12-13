@@ -22,6 +22,42 @@ module SonicPi
     include SonicPi::DocSystem
     include SonicPi::Util
 
+    def ring(*args)
+      SonicPi::Core::RingArray.new(args)
+    end
+    doc name:           :ring,
+        introduced:     Version.new(2,2,0),
+        summary:        "Create a ring buffer",
+        args:           [[:list, :array]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new ring buffer from args. Indexes wrap around positively and negatively",
+        examples:       [
+      "(ring 1, 2, 3)[0] #=> 1",
+      "(ring 1, 2, 3)[1] #=> 2",
+      "(ring 1, 2, 3)[3] #=> 1",
+      "(ring 1, 2, 3)[-1] #=> 3",
+    ]
+
+    #TODO: consider whether to convert this to *args
+    def choose(args)
+      args.to_a.choose
+    end
+    doc name:           :choose,
+        introduced:     Version.new(2,0,0),
+        summary:        "Random list selection",
+        args:           [[:list, :array]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Choose an element at random from a list (array).",
+        examples:       [
+"loop do
+  play choose([60, 64, 67]) #=> plays one of 60, 64 or 67 at random
+  sleep 1
+  play chord(:c, :major).choose #=> You can also call .choose on the list
+  sleep 1
+end"]
+
     def inc(n)
       n + 1
     end
@@ -284,9 +320,9 @@ play bar # plays 80"]
       end
 
       if already_defined
-        __info "Redefining #{name}"
+        __info "Redefining fn #{name.inspect}"
       else
-        __info "Defining #{name}"
+        __info "Defining fn #{name.inspect}"
       end
       @user_methods.send(:define_method, name, &block)
     end
@@ -635,26 +671,6 @@ print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
 shuffle [1, 2, 3, 4] #=> Would return something like: [3, 4, 2, 1] ",
 "
 shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
-
-    def choose(list)
-      list.to_a.choose
-    end
-    doc name:           :choose,
-        introduced:     Version.new(2,0,0),
-        summary:        "Random list selection",
-        args:           [[:list, :array]],
-        opts:           nil,
-        accepts_block:  false,
-        doc:            "Choose an element at random from a list (array).",
-        examples:       [
-"loop do
-  play choose([60, 64, 67]) #=> plays one of 60, 64 or 67 at random
-  sleep 1
-  play chord(:c, :major).choose #=> You can also call .choose on the list
-  sleep 1
-end"]
-
-
 
 
     def use_random_seed(seed, &block)
