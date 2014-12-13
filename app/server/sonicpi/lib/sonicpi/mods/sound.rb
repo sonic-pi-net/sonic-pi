@@ -1036,6 +1036,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          new_bus = nil
          current_bus = current_out_bus
          tracker = nil
+         fx_group = nil
+         job_id = Thread.current.thread_variable_get :sonic_pi_spider_job_id
 
          __no_kill_block do
            ## Munge args
@@ -1051,6 +1053,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            ## correctly or to die and to handle things appropriately.
 
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
+
+           fx_group = @mod_sound_studio.new_group(:head, current_fx_main_group, "Run-#{job_id}-#{fx_name}")
 
            ## Create a new bus for this fx chain
            begin
@@ -1126,6 +1130,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                tracker.block_until_finished
                Kernel.sleep(kill_delay)
                fx_synth.kill(true)
+               fx_group.kill(true)
              end
 
              gc_completed.deliver! true
@@ -1133,7 +1138,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), current_fx_group)
+           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), fx_group)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
@@ -1165,7 +1170,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              new_trackers << tr
            end
            Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, new_trackers)
-
+           cur_fx_group = Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_group)
+           Thread.current.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_group)
            begin
              if block.arity == 0
                block.call
@@ -1182,6 +1188,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              p.deliver! true
              ## Reset out bus to value prior to this with_fx block
              fxt.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_fx_group, cur_fx_group)
            end
          end
 
@@ -2397,7 +2404,7 @@ stop bar"]
          sn = synth_name.to_sym
          info = SynthInfo.get_info(sn)
 
-         n = trigger_synth(synth_name, args_h, group, info, true)
+         n = trigger_synth(synth_name, args_h, group, info)
 
          info = SynthInfo.get_info(sn)
          FXNode.new(n, args_h["in_bus"], current_out_bus)
@@ -2459,14 +2466,18 @@ stop bar"]
          job_mixer(current_job_id)
        end
 
-       def current_fx_group
-         if g = Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_group)
+       def current_fx_main_group
+         if g = Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_main_group)
            return g
          else
            g = job_fx_group(current_job_id)
-           Thread.current.thread_variable_set :sonic_pi_mod_sound_fx_group, g
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_fx_main_group, g
            return g
          end
+       end
+
+       def current_fx_group
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_group) || current_fx_main_group
        end
 
        def current_job_synth_group
