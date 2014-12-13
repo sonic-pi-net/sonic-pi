@@ -12,6 +12,7 @@
 #++
 
 module SonicPi
+  #TODO: Deprecate in favour of Core::RingArray
   class WrappingArray < Array
     def [](idx, len=nil)
       return self.to_a[idx, len] if len
