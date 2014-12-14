@@ -1129,7 +1129,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                Kernel.sleep 0.5 + @mod_sound_studio.sched_ahead_time
                tracker.block_until_finished
                Kernel.sleep(kill_delay)
-               fx_synth.kill(true)
                fx_group.kill(true)
              end
 
