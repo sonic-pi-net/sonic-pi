@@ -901,102 +901,62 @@ play 44"]
              # e.g. allowing random for every note
              normalise_args!(combined_args)
 
-             # Other ideas
-             # swing as a percentage of time (see notes below)
-             # degrade as a probability of note playing or not
-
              nt = nil
              times = Array(times)
              notes_with_times = Array(notes.zip(times.cycle))
              total_time = notes_with_times.map(&:last).reduce(&:+)
 
-             # scaling ADSR as percentages of time
-             #   - attack and decay should be relative to the shortest value to be consistent
-             scaled_attack = times.min.to_f * combined_args[:attack].to_f
-             scaled_decay = times.min.to_f * combined_args[:decay].to_f
-             combined_args[:attack] = scaled_attack
-             combined_args[:decay] = scaled_decay
+             # Rethinking this function
+             #
+             #   - A + D + R stay the same
+             #   - Sustain is scaled according to legato
+             #     - legato is a percentage expressed as ~0 - 1 
+             #   - introduce a new param called min_release with a low default (say 0.0001)
+             #   - keep the note_slide aspect (can this be expressed more gracefully?)
+             #   - lose portamento until we can re-trigger envelopes
+             #
+             # Possible extension
+             #   - allow a do ... end block that will preprocess the params and the duration 
 
-             if combined_args[:slur].to_f >= 0.5
-               # If user is specifying slur = true, give them a sensible default for note_slide
-               combined_args[:note_slide] ||= 0.2
+             notes_with_times.each_with_index do |(note, time), idx|
+               legato_time = (time - (combined_args[:legato] || 1) * time)
+               note_time = time - legato_time
 
-               notes_with_times.each_with_index {|(note, time), idx|
-                 # legato doesn't make sense when notes are slurred together
-                 note_time = time
+               a_and_d_time = (combined_args[:attack].to_f + combined_args[:decay].to_f)
+               ad_and_r_time = (a_and_d_time + combined_args[:release].to_f)
+               is_release_too_long = (ad_and_r_time > note_time)
+
+               scaled_sustain_time = [(note_time - ad_and_r_time).to_f, (note_time - a_and_d_time).to_f, 0.0].max
+               
+               combined_args[:min_release] ||= 0.1
+
+               nt = play(note, combined_args.merge(sustain: scaled_sustain_time).merge(is_release_too_long ? {release: combined_args[:min_release]} : {release: combined_args[:release]}))
+
+               # Deal with note_slide if present
+               if combined_args[:note_slide].to_f != 0.0
                  scaled_note_slide_time = (combined_args[:note_slide] * note_time)
                  next_note = note(notes_with_times[(idx + 1) % notes_with_times.length].first)
 
-                 if idx == 0
-                   nt = play(note, combined_args.merge(sustain: total_time, release: 0))
-                   sleep note_time - scaled_note_slide_time
-                   nt.control(note: next_note);
-                   sleep scaled_note_slide_time
-                 else
-                   sleep note_time - scaled_note_slide_time
-                   nt.control(note: next_note) if nt
-                   sleep scaled_note_slide_time
-                 end
-               }
-             elsif combined_args[:note_slide].to_f != 0.0
-               # If they haven't asked for portamento/slides, but have specified slides
-               # then we slide but re-articulate the next note
-               notes_with_times.each_with_index {|(note, time), idx|
-
-                 legato_time = (time - (combined_args[:legato] || 1) * time)
-                 note_time = time - legato_time
-                 time_less_ad = (note_time - combined_args[:attack] - combined_args[:decay])
-                 scaled_sustain_time = time_less_ad.to_f * combined_args[:sustain].to_f
-                 scaled_release_time = time_less_ad.to_f - scaled_sustain_time
-
-                 scaled_note_slide_time = (combined_args[:note_slide] * note_time)
-                 next_note = note(notes_with_times[(idx + 1) % notes_with_times.length].first)
-
-                 nt = play(note, combined_args.merge(sustain: scaled_sustain_time, release: scaled_release_time))
-                 sleep note_time - scaled_note_slide_time
+                 sleep(note_time - scaled_note_slide_time)
                  nt.control(note: next_note) if nt
                  sleep scaled_note_slide_time
-                 sleep legato_time
-               }
-             else
-               notes_with_times.each_with_index {|(note, time), idx|
-                 legato_time = (time - (combined_args[:legato] || 1) * time)
-                 # musical swing is problematic - this would only work for consistent lengths of
-                 # musical beats e.g. every time is 0.5. It won't work with complex rhythms unless
-                 # we develop an awareness of which beat we're currently on
-                 #
-                 # on_beat = ((idx % 2) == 0)
-                 # swing_time = ((combined_args[:swing] || 0) * time)
-                 note_time = time - legato_time
-
-                 time_less_ad = (note_time - combined_args[:attack] - combined_args[:decay])
-                 scaled_sustain_time = time_less_ad.to_f * combined_args[:sustain].to_f
-                 scaled_release_time = time_less_ad.to_f - scaled_sustain_time
-
-                 play(note, combined_args.merge(sustain: scaled_sustain_time, release: scaled_release_time))
-                 # If implementing swing...
-                 # sleep note_time + (on_beat ? swing_time : (swing_time * -1))
-                 # else
+               else
                  sleep note_time
-                 # end
-                 sleep legato_time
-               }
+               end
+
+               sleep legato_time
              end
            end
            doc name:          :play_pattern_relative,
                introduced:    Version.new(2,2,0),
-               summary:       "Play pattern of notes with specific times, scaling their parameters accordingly",
+               summary:       "Play pattern of notes with specific times, scaling their sustain according to a legato parameter",
                doc:           "Play each note in a list of notes one after another with specified times between them. The behaviour is the same as play_pattern_timed but the parameters of each note are changed in the following ways.
 
-    attack and decay: These params are scaled relative to the shortest time in the pattern. This means that `attack: 0.1` makes the attack time 10% of the shortest note in the pattern. Similarly for the decay param. This is to make the attack and decay consistent across all of the notes in the pattern.
-
-    sustain and release: These params are scaled relative to the time of each note, once we've dealt with attack and decay. This means a sustain value of 1 will make the note last right to the end of the given time, but no longer than that. The release param is set to whatever is left of the remaining time that hasn't been used by AD or S.
+    sustain: this is scaled relative to the time of each note, once we've dealt with attack, decay and release. This means a legato value of 1 will make the note last right to the end of the given time, but no longer than that.
 
     legato: This is a new argument that says how long the note will last relative to the time. A value of 1 for legato means the notes will sound for the full time while a value of 0.8 will make the note sound for 80% of the given time. This allows you to create musical legato (values near 1) or staccato (values nearer 0.1) without having to calculate ADSR envelopes for each note length.
 
     note_slide: if a value for note_slide other than 0.0 is given, play_pattern_relative will automatically slide the pitches between the notes. Again note_slide is scaled relative to the length of the note so note_slide: 0.9 means 90% of the note time is spent sliding to the next pitch in the sequence.
-
-    slur: if we provide a value greater than or equal to 0.5 for the slur param, we get a portamento effect where only the first note in the sequence is articulated and then it slides to the other pitch values. This is a popular effect on many VST synths for creating slippery sounding lines.
 
     Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts.",
                args:          [[:notes, :list], [:times, :list_or_number]],
