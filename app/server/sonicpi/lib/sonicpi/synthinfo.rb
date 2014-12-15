@@ -574,17 +574,17 @@ module SonicPi
   end
 
 
-  class Pulse < SonicPiSynth
+  class Square < SonicPiSynth
     def name
-      "Pulse Wave"
+      "Square Wave"
     end
 
     def introduced
-      Version.new(2,0,0)
+      Version.new(2,2,0)
     end
 
     def synth_name
-      "pulse"
+      "square"
     end
 
     def doc
@@ -617,12 +617,34 @@ module SonicPi
         :cutoff => 100,
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
-        :cutoff_slide_curve => 0,
+        :cutoff_slide_curve => 0
+      }
+    end
+  end
+
+  class Pulse < Square
+    def name
+      "Pulse Wave"
+    end
+
+    def introduced
+      Version.new(2,0,0)
+    end
+
+    def synth_name
+      "pulse"
+    end
+
+    def doc
+      "A simple square wave with a low pass filter.  The square wave is thick and deavy with lower notes and is a great ingredient for bass sounds. If you wish to modulate the width of the square wave see the synth pulse."
+    end
+
+    def arg_defaults
+      super.merge({
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
         :pulse_width_slide_shape => 5,
-        :pulse_width_slide_curve => 0,
-      }
+        :pulse_width_slide_curve => 0})
     end
   end
 
@@ -3707,6 +3729,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :sine => Beep.new,
       :saw => Saw.new,
       :pulse => Pulse.new,
+      :square => Square.new,
       :tri => Tri.new,
       :dsaw => DSaw.new,
       :fm => FM.new,
