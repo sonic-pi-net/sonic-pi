@@ -22,6 +22,24 @@ module SonicPi
     include SonicPi::DocSystem
     include SonicPi::Util
 
+    def range(start, finish, step_size=1)
+      start.step(by: step_size, to: finish).to_a.ring
+    end
+    doc name:           :range,
+        introduced:     Version.new(2,2,0),
+        summary:        "Create a ring buffer with the specified start, finish and step size",
+        args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to 1. Indexes wrap around positively and negatively",
+        examples:       [
+      "(range 1, 5)    #=> [1, 2, 3, 4, 5]",
+      "(range 1, 5, 1) #=> [1, 2, 3, 4, 5]",
+      "(range 1, 5, 2) #=> [1, 3, 5]",
+      "(range 1, -5, -2) #=> [1, -1, -3, -5]",
+      "(range 1, -5, -2)[-1] #=> -5"
+    ]
+
     def ring(*args)
       SonicPi::Core::RingArray.new(args)
     end
