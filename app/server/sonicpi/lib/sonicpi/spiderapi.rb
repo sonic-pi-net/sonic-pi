@@ -23,7 +23,7 @@ module SonicPi
     include SonicPi::Util
 
     def range(start, finish, step_size=1)
-      start.step(by: step_size, to: finish).to_a.ring
+      start.step(finish, step_size).to_a.ring
     end
     doc name:           :range,
         introduced:     Version.new(2,2,0),
