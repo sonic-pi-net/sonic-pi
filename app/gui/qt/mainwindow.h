@@ -20,6 +20,7 @@
 #include <QLabel>
 #include <QSplashScreen>
 #include <QCheckBox>
+#include <QRadioButton>
 #include <QListWidgetItem>
 #include <QListWidget>
 #include <QProcess>
@@ -201,6 +202,11 @@ private:
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
 
+    QRadioButton *rp_force_audio_hdmi;
+    QRadioButton *rp_force_audio_default;
+    QRadioButton *rp_force_audio_headphones;
+    QSlider *rp_system_vol;
+
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 
@@ -208,7 +214,6 @@ private:
     QWidget *infoWidg;
     QTextEdit *startupPane;
     QLabel *imageLabel;
-    QSlider *raspberryPiSystemVol;
 
     int currentLine;
     int currentIndex;
