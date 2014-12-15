@@ -1988,7 +1988,7 @@ puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80
            raise "List passed as parameter to chord needs two elements i.e. chord([:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
            Chord.new(tonic[0], tonic[1]).to_a
          else
-           Chord.new(tonic, name).to_a
+           Chord.new(tonic, name)
          end
        end
        doc name:          :chord,
