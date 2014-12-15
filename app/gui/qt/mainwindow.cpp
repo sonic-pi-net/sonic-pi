@@ -432,9 +432,6 @@ void MainWindow::initPrefsWindow() {
   print_output = new QCheckBox("Print output");
   check_args = new QCheckBox("Check synth args");
   clear_output_on_run = new QCheckBox("Clear output on run");
-  print_output->setChecked(true);
-  check_args->setChecked(true);
-  clear_output_on_run->setChecked(true);
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
@@ -449,6 +446,20 @@ void MainWindow::initPrefsWindow() {
   grid->addWidget(debug_box, 0, 1);
   grid->addWidget(advancedAudioBox, 0, 0);
   prefsCentral->setLayout(grid);
+
+
+  // Read in preferences from previous session
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  check_args->setChecked(settings.value("prefs/check-args", true).toBool());
+  print_output->setChecked(settings.value("prefs/print-output", true).toBool());
+  clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
+  mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
+  mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
+
+  // Ensure prefs are honoured on boot
+  update_mixer_invert_stereo();
+  update_mixer_force_mono();
+
 }
 
 void MainWindow::invokeStartupError(QString msg) {
@@ -1141,6 +1152,8 @@ void MainWindow::createStatusBar()
 }
 
 void MainWindow::readSettings() {
+  // Pref settings are read in MainWindow::initPrefsWindow()
+
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
   QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
   QSize size = settings.value("size", QSize(400, 400)).toSize();
@@ -1157,6 +1170,7 @@ void MainWindow::readSettings() {
     workspaces[w]->setProperty("zoom", QVariant(zoom));
     workspaces[w]->zoomTo(zoom);
   }
+
 
   restoreState(settings.value("windowState").toByteArray());
 
@@ -1179,6 +1193,13 @@ void MainWindow::writeSettings()
   settings.setValue("pos", pos());
   settings.setValue("size", size());
   settings.setValue("first_time", 0);
+
+
+  settings.setValue("prefs/check-args", check_args->isChecked());
+  settings.setValue("prefs/print-output", print_output->isChecked());
+  settings.setValue("prefs/clear-output-on-run", clear_output_on_run->isChecked());
+  settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
+  settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
 
   for (int w=0; w < workspace_max; w++) {
     settings.setValue(QString("workspace%1zoom").arg(w+1),
