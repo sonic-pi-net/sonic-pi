@@ -22,6 +22,27 @@ module SonicPi
     include SonicPi::DocSystem
     include SonicPi::Util
 
+    def knit(*args)
+      res = []
+      args.each_slice(2) do |val, num_its|
+        if num_its > 0
+          res = res + ([val] * num_its)
+        end
+      end
+      res.ring
+    end
+    doc name:           :knit,
+        introduced:     Version.new(2,2,0),
+        summary:        "Knit a sequence of repeated values",
+        args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Knits a series of value, count pairs to create a ring buffer where each value is repeated count times.",
+        examples:       [
+      "(knit 1, 5)    #=> [1, 1, 1, 1, 1]",
+      "(knit :e2, 2, :c2, 3) #=> [:e2, :e2, :c2, :c2, :c2]"
+    ]
+
     def range(start, finish, step_size=1)
       start.step(finish, step_size).to_a.ring
     end
