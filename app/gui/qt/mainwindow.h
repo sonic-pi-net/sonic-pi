@@ -123,6 +123,7 @@ private slots:
     void helpScrollDown();
     void docScrollUp();
     void docScrollDown();
+    void helpClosed(bool visible);
 
 private:
     void startServer();
@@ -181,6 +182,7 @@ private:
     QDockWidget *prefsWidget;
     QDockWidget *docWidget;
     QTextBrowser *docPane;
+    bool hidingDocPane;
 
     QTabWidget *tabs;
 

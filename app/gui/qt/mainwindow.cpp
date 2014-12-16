@@ -226,6 +226,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
   docWidget->hide();
+  connect(docWidget, SIGNAL(visibilityChanged(bool)), this,
+	  SLOT(helpClosed(bool)));
 
   QVBoxLayout *mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
@@ -780,6 +782,7 @@ void MainWindow::about()
 void MainWindow::help()
 {
   if(docWidget->isVisible()) {
+    hidingDocPane = true;
     docWidget->hide();
   } else {
     docWidget->show();
@@ -1421,6 +1424,14 @@ void MainWindow::docScrollUp() {
 
 void MainWindow::docScrollDown() {
   docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
+}
+
+void MainWindow::helpClosed(bool visible) {
+  if (visible) return;
+  // redock on close
+  if (!hidingDocPane)
+    docWidget->setFloating(false);
+  hidingDocPane = false;
 }
 
 void MainWindow::tabNext() {
