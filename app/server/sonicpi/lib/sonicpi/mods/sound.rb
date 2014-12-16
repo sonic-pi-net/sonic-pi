@@ -1541,7 +1541,29 @@ set_volume! 2 # Set the main system volume to 2",
 ]
 
 
-
+       def sample_loaded?(path)
+         case path
+         when Symbol
+           full_path = resolve_sample_symbol_path(path)
+           return @mod_sound_studio.sample_loaded?(full_path)
+         when String
+           path = File.expand_path(path)
+           return @mod_sound_studio.sample_loaded?(path)
+         else
+           raise "Unknown sample description: #{path}"
+         end
+       end
+       doc name:          :sample_loaded?,
+           introduced:    Version.new(2,2,0),
+           summary:       "Test if sample was pre-loaded",
+           doc:           "Given a path to a wav|wave|aif|aiff file, return true if the sample has already been loaded.",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
+puts sample_loaded? :elec_blip # prints true because it has been pre-loaded
+puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
        def load_sample(path)
          case path
