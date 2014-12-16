@@ -734,7 +734,7 @@ void MainWindow::mixerLpfDisable()
 
 void MainWindow::mixerInvertStereo()
 {
-  QProcess *p = new QProcess();  statusBar()->showMessage(tr("enabling inverted stereo...."), 2000);
+  statusBar()->showMessage(tr("enabling inverted stereo...."), 2000);
   Message msg("/mixer-invert-stereo");
   sendOSC(msg);
 }
@@ -1193,6 +1193,10 @@ void MainWindow::readSettings() {
   resize(size);
   move(pos);
 
+  int index = settings.value("workspace", 0).toInt();
+  if (index < tabs->count())
+    tabs->setCurrentIndex(index);
+
   for (int w=0; w < workspace_max; w++) {
     // default zoom is 13
     int zoom = settings.value(QString("workspace%1zoom").arg(w+1), 13)
@@ -1238,6 +1242,8 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/rp/force-audio-headphones", rp_force_audio_headphones->isChecked());
   settings.setValue("prefs/rp/force-audio-hdmi", rp_force_audio_hdmi->isChecked());
   settings.setValue("prefs/rp/system-vol", rp_system_vol->value());
+
+  settings.setValue("workspace", tabs->currentIndex());
 
   for (int w=0; w < workspace_max; w++) {
     settings.setValue(QString("workspace%1zoom").arg(w+1),
