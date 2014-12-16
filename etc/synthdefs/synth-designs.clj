@@ -1382,13 +1382,11 @@
                                             (pulse freq pulse_width)
                                             (* 2 (lf-tri freq))])
 
-                           (midicps (lin-lin filt-env 0 1 cutoff_min cutoff))
+                           (+ (midicps cutoff_min) (* filt-env (midicps cutoff) ))
                            res)
 
          snd         (* amp-fudge env snd)]
      (out out_bus (pan2 snd pan amp))))
-
-
 
  (defsynth sonic-pi-supersaw [note 52
                               note_slide 0
