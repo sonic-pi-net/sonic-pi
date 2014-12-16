@@ -41,5 +41,15 @@ module SonicPi
       assert_equal(ring(1, 2, 3), [1, 2, 3])
       assert_equal(ring(1,2, 3).class, SonicPi::Core::RingArray)
     end
+
+    def test_bools
+      assert_equal(bools(1, 0, 1), [true, false, true])
+      assert_equal(bools(), [])
+      assert_equal(bools(1, 1, 1), [true, true, true])
+      assert_equal(bools(true, false, true), [true, false, true])
+      assert_equal(bools(true, nil, true), [true, false, true])
+      assert_equal(bools(:a, 1, nil, true, 0), [true, true, false, true, false])
+      assert_equal(bools(1,0, 0).class, SonicPi::Core::RingArray)
+    end
   end
 end

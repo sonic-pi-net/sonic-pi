@@ -22,6 +22,16 @@ module SonicPi
     include SonicPi::DocSystem
     include SonicPi::Util
 
+    def bools(*args)
+      args.map do |a|
+        if (a == 0) || (not a)
+          false
+        else
+          true
+        end
+      end.ring
+    end
+
     def knit(*args)
       res = []
       args.each_slice(2) do |val, num_its|
