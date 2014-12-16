@@ -123,6 +123,7 @@ private slots:
     void helpScrollDown();
     void docScrollUp();
     void docScrollDown();
+    void helpClosed(bool visible);
 
 private:
     void startServer();
