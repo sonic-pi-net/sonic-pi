@@ -182,6 +182,7 @@ private:
     QDockWidget *prefsWidget;
     QDockWidget *docWidget;
     QTextBrowser *docPane;
+    bool hidingDocPane;
 
     QTabWidget *tabs;
 

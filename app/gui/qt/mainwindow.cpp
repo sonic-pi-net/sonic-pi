@@ -782,6 +782,7 @@ void MainWindow::about()
 void MainWindow::help()
 {
   if(docWidget->isVisible()) {
+    hidingDocPane = true;
     docWidget->hide();
   } else {
     docWidget->show();
@@ -1428,7 +1429,9 @@ void MainWindow::docScrollDown() {
 void MainWindow::helpClosed(bool visible) {
   if (visible) return;
   // redock on close
-  docWidget->setFloating(false);
+  if (!hidingDocPane)
+    docWidget->setFloating(false);
+  hidingDocPane = false;
 }
 
 void MainWindow::tabNext() {
