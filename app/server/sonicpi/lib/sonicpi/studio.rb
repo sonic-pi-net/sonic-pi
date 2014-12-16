@@ -35,6 +35,10 @@ module SonicPi
       reset
     end
 
+    def sample_loaded?(path)
+      return @samples.has_key?(path)
+    end
+
     def load_sample(path)
       return [@samples[path], true] if @samples[path]
       message "Loading full sample path: #{path}"
