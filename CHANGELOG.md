@@ -5,23 +5,23 @@
 
 ## Breaking Changes
 
-* `use_sample_pack`_as now uses `__` as separator between the user-specified alias and the sample name.
+* `use_sample_pack`_as now uses a double underscore `__` as separator between the user-specified alias and the sample name.
 
 ## API Changes
 
-* Teach synth args to take prefixed maps
+* Teach synth args to take prefixed maps: `play 50, {amp: 0.5}, {release: 2}, amp: 2`
 * Don't round Floats when user specifically prints them to log with puts
 * `with_fx` FX synths are now triggered using virtual time rather than
   real time. This means that FX can now be used for rhythmical purposes.
 * Work on new `RingArray` datastructure. This is essentially an array
   that wraps its indexes so you can use indexes larger than the array size.
-* New fn `ring` - `(ring 1, 2, 3)` returns the `RingArray` `[1, 2, 3]`
-* New fn `knit` - `(knit :a1, 2, :c1, 1)` returns the `RingArray` `[:a1, :a1, :c1]`
-* New fn `bools` - `(bools 1, 0, 1)` returns the `RingArray` `[true, false, true]`
-* New fn `range` - `(range 70, 100, 10)` returns the `RingArray` `[70, 70, 90, 100]`
+* New fn `ring` - `(ring 1, 2, 3)` creates a new ring array.
+* New fn `knit` - `(knit :a1, 2, :c1, 1)` returns `(ring :a1, :a1, :c1)` 
+* New fn `bools` - `(bools 1, 0, 1)` returns `(ring true, false, true)`
+* New fn `range` - `(range 70, 100, 10)` returns `(ring 70, 70, 90, 100)`
 * New fn `is_sample_loaded?` - to detect whether a specific sample has been loaded
 
-### Synth & FX
+## Synth & FX
 
 * Fixed regression in `:tb303` synth - sound is reverted to v2.0 behaviour
 * New FX - `:chorus` - Chorus 
@@ -34,7 +34,7 @@
 ## GUI
 
 * Help system now autodocks on close
-* Preferences are now remembered across settings
+* Preferences are now remembered across sessions
 * On Raspberry Pi, preverious volume and audio output options are forced
   on boot.
 
@@ -42,7 +42,7 @@
 
 * `bd_tex` - Bass drum
 
-### Bug fixes
+## Bug fixes
 
 * `one_in` now returns false if num is < 1
 * Ensure `live_loop`'s no-sleep detector works within nested `with_fx` blocks
