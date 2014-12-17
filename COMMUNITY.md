@@ -2,7 +2,14 @@
 
 Sonic Pi is more than just software. It's a whole community of people sharing ideas, helping  and inspiring each other. Welcome.
 
-You can find other members at the following locations:
+You can get involved with the community at the following locations:
+
+## Sonic Pi Weekly
+*<http://sonic-pi.net/weekly/subscribe.html>*
+
+A weekly newsletter by email summarising all the interesting things
+happening with Sonic Pi - articles, news, teaching, resources, music,
+and more.
 
 ## Raspberry Pi
 *<http://raspberrypi.org>*
