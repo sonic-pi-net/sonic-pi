@@ -3798,7 +3798,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :fx_bpf => FXBPF.new,
       :fx_rbpf => FXRBPF.new,
       :fx_nrbpf => FXNRBPF.new,
-      :fx_ring_mod => FXRingMod.new,
+      :fx_ring => FXRingMod.new,
       :fx_chorus => FXChorus.new
 #      :fx_harmoniser => FXHarmoniser.new
 
