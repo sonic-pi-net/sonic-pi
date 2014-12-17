@@ -5,7 +5,7 @@
 
 ## Breaking Changes
 
-* `use_sample_pack`_as now uses a double underscore `__` as separator between the user-specified alias and the sample name.
+* `use_sample_pack_as` now uses a double underscore `__` as separator between the user-specified alias and the sample name.
 
 ## API Changes
 
