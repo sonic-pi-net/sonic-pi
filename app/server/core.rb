@@ -23,9 +23,6 @@ end
 
 require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
 
-#Monkeypatch osc-ruby to add sending skills to Servers
-#https://github.com/samaaron/osc-ruby/commit/bfc31a709cbe2e196011e5e1420827bd0fc0e1a8
-#and other improvements
 require 'osc-ruby'
 
 
@@ -75,6 +72,10 @@ class Float
   end
 end
 
+
+#Monkeypatch osc-ruby to add sending skills to Servers
+#https://github.com/samaaron/osc-ruby/commit/bfc31a709cbe2e196011e5e1420827bd0fc0e1a8
+#and other improvements
 module OSC
 
   class Client
