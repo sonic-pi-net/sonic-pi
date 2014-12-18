@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 with_fx :lpf, cutoff: 90 do
   with_fx :reverb, mix: 0.5 do
     with_fx :compressor, pre_amp: 40 do

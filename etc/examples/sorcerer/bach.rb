@@ -1,4 +1,6 @@
-#Bach Minuet in G contributed by Robin Newman 2 Oct 2013
+# Bach Minuet in G
+#
+# Coded by Robin Newman
 
 use_bpm 60
 use_synth_defaults release: 0.5, amp: 0.7, cutoff: 90

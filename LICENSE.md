@@ -28,8 +28,10 @@ THE SOFTWARE.
 ## Docs, Tutorial and Examples (contents of etc/doc/ and etc/examples directories)
 
 All the examples (in etc/examples) and contents of the doc directory
-including the articles and the tutorial are are Copyright Sam Aaron
-(2014) and released under the CC BY-NC 3.0 license:
+including the articles and the tutorial are copyright by Sam Aaron
+unless a specific author is stated with the comment "# coded by ..." in
+which case the copyright is associated with that author (2014) and the
+content is released under the CC BY-NC 3.0 license:
 
 [https://creativecommons.org/licenses/by-nc/3.0/](https://creativecommons.org/licenses/by-nc/3.0/)
 

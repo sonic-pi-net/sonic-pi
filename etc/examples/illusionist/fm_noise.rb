@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 use_synth :fm
 
 loop do

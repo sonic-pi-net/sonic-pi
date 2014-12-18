@@ -1,4 +1,4 @@
-# Cliches
+# Coded by Sam Aaron
 
 load_samples(sample_names :ambi)
 sleep 2

@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 use_debug false
 use_random_seed 667
 load_sample :ambi_lunar_land

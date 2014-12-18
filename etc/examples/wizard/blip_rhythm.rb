@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 load_samples [:drum_heavy_kick, :elec_plip, :elec_blip]
 use_bpm 100
 
