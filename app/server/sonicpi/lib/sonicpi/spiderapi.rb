@@ -31,6 +31,17 @@ module SonicPi
         end
       end.ring
     end
+    doc name:           :bools,
+        introduced:     Version.new(2,2,0),
+        summary:        "Create a ring of boolean values",
+        args:           [[:list, :array]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new ring of booleans values from 1s, and 0s which can be easier to write and manipulate in a live setting.",
+        examples:       [
+      "(bools 1, 0)    #=> (ring true, false)",
+      "(bools 1, 0, true, false, nil) #=> (ring true, false, true, false, false)"
+    ]
 
     def knit(*args)
       res = []
@@ -49,8 +60,8 @@ module SonicPi
         accepts_block:  false,
         doc:            "Knits a series of value, count pairs to create a ring buffer where each value is repeated count times.",
         examples:       [
-      "(knit 1, 5)    #=> [1, 1, 1, 1, 1]",
-      "(knit :e2, 2, :c2, 3) #=> [:e2, :e2, :c2, :c2, :c2]"
+      "(knit 1, 5)    #=> (ring 1, 1, 1, 1, 1)",
+      "(knit :e2, 2, :c2, 3) #=> (ring :e2, :e2, :c2, :c2, :c2)"
     ]
 
     def range(start, finish, step_size=1)
@@ -64,10 +75,10 @@ module SonicPi
         accepts_block:  false,
         doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to 1. Indexes wrap around positively and negatively",
         examples:       [
-      "(range 1, 5)    #=> [1, 2, 3, 4, 5]",
-      "(range 1, 5, 1) #=> [1, 2, 3, 4, 5]",
-      "(range 1, 5, 2) #=> [1, 3, 5]",
-      "(range 1, -5, -2) #=> [1, -1, -3, -5]",
+      "(range 1, 5)    #=> (ring 1, 2, 3, 4, 5)",
+      "(range 1, 5, 1) #=> (ring 1, 2, 3, 4, 5)",
+      "(range 1, 5, 2) #=> (ring 1, 3, 5)",
+      "(range 1, -5, -2) #=> (ring 1, -1, -3, -5)",
       "(range 1, -5, -2)[-1] #=> -5"
     ]
 
@@ -728,7 +739,7 @@ shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
     end
     doc name:          :use_random_seed,
         introduced:    Version.new(2,0,0),
-        summmary:      "Set random seed generator to known seed",
+        summary:       "Set random seed generator to known seed",
         doc:           "Resets the random number generator to the specified seed. All subsequently generated random numbers will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced",
         args:          [[:seed, :number]],
         opts:          nil,
