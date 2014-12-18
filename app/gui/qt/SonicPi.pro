@@ -17,7 +17,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui concurrent
+QT       += core gui concurrent network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,6 +26,7 @@ TARGET = 'sonic-pi'
 
 macx {
 TARGET = 'Sonic Pi'
+QT += macextras
 }
 
 TEMPLATE = app
@@ -34,14 +35,18 @@ SOURCES += main.cpp \
            mainwindow.cpp \
            sonicpilexer.cpp \
            sonicpiapis.cpp \
-           sonicpiscintilla.cpp
+           sonicpiscintilla.cpp \
+           oschandler.cpp \
+           sonicpiudpserver.cpp
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
             udp.hh \
             sonicpilexer.h \
             sonicpiapis.h \
-            sonicpiscintilla.h
+            sonicpiscintilla.h \
+            oschandler.h \
+            sonicpiudpserver.h
 
 OTHER_FILES += \
     images/copy.png \
@@ -76,5 +81,7 @@ win32 {
 
 # not unicode ready
 win32 {
-  DEFINES -= UNICODE DEFINES += _MBCS
+  DEFINES -= UNICODE
+  DEFINES += _MBCS
+  DEFINES += NOMINMAX
 }

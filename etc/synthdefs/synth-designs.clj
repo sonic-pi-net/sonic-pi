@@ -297,6 +297,43 @@
            env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
        (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
+   (defsynth sonic-pi-square [note 52
+                              note_slide 0
+                              note_slide_shape 5
+                              note_slide_curve 0
+                              amp 1
+                              amp_slide 0
+                              amp_slide_shape 5
+                              amp_slide_curve 0
+                              pan 0
+                              pan_slide 0
+                              pan_slide_shape 5
+                              pan_slide_curve 0
+                              attack 0.01
+                              decay 0
+                              sustain 0
+                              release 2
+                              attack_level 1
+                              sustain_level 1
+                              env_curve 2
+                              cutoff 100
+                              cutoff_slide 0
+                              cutoff_slide_shape 5
+                              cutoff_slide_curve 0
+                              out_bus 0]
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge   0.8
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           freq        (midicps note)
+           cutoff-freq (midicps cutoff)
+           snd         (pulse freq 0.5)
+           snd         (lpf snd cutoff-freq)
+           snd         (normalizer snd)
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
 
    (defsynth sonic-pi-saw [note 52
                            note_slide 0
@@ -928,6 +965,7 @@
     (save-to-pi sonic-pi-saw)
     (save-to-pi sonic-pi-tri)
     (save-to-pi sonic-pi-pulse)
+    (save-to-pi sonic-pi-square)
     (save-to-pi sonic-pi-dsaw)
     (save-to-pi sonic-pi-fm)
 
@@ -1344,13 +1382,11 @@
                                             (pulse freq pulse_width)
                                             (* 2 (lf-tri freq))])
 
-                           (midicps (lin-lin filt-env 0 1 cutoff_min cutoff))
+                           (+ (midicps cutoff_min) (* filt-env (midicps cutoff) ))
                            res)
 
          snd         (* amp-fudge env snd)]
      (out out_bus (pan2 snd pan amp))))
-
-
 
  (defsynth sonic-pi-supersaw [note 52
                               note_slide 0

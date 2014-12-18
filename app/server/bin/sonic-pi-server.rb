@@ -28,6 +28,7 @@ include SonicPi::Util
 
 server_port = ARGV[0] ? ARGV[0].to_i : 4557
 client_port = ARGV[1] ? ARGV[1].to_i : 4558
+puts "Using protocol: UDP"
 
 ws_out = Queue.new
 gui = OSC::Client.new("localhost", client_port)

@@ -35,13 +35,13 @@ module SonicPi
        include SonicPi::Util
        include SonicPi::DocSystem
 
-       DEFAULT_PLAY_OPTS = {amp:      {default: 1, doc: "The amplitude of the note"},
-                           amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
-                           pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
-                           pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
-                           attack:    {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
-                           sustain:   {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
-                           release:   {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
+       DEFAULT_PLAY_OPTS = {amp:       {default: 1, doc: "The amplitude of the note"},
+                            amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
+                            pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
+                            pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
+                            attack:    {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
+                            sustain:   {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
+                            release:   {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
 
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
@@ -1036,6 +1036,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          new_bus = nil
          current_bus = current_out_bus
          tracker = nil
+         fx_group = nil
+         job_id = Thread.current.thread_variable_get :sonic_pi_spider_job_id
 
          __no_kill_block do
            ## Munge args
@@ -1051,6 +1053,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            ## correctly or to die and to handle things appropriately.
 
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
+
+           fx_group = @mod_sound_studio.new_group(:head, current_fx_main_group, "Run-#{job_id}-#{fx_name}")
 
            ## Create a new bus for this fx chain
            begin
@@ -1125,7 +1129,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
                Kernel.sleep 0.5 + @mod_sound_studio.sched_ahead_time
                tracker.block_until_finished
                Kernel.sleep(kill_delay)
-               fx_synth.kill(true)
+               fx_group.kill(true)
              end
 
              gc_completed.deliver! true
@@ -1133,7 +1137,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), current_fx_group)
+           fx_synth = trigger_fx(fx_synth_name, args_h.merge({"in_bus" => new_bus}), fx_group)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
@@ -1165,7 +1169,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              new_trackers << tr
            end
            Thread.current.thread_variable_set(:sonic_pi_mod_sound_trackers, new_trackers)
-
+           cur_fx_group = Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_group)
+           Thread.current.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_group)
            begin
              if block.arity == 0
                block.call
@@ -1182,6 +1187,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              p.deliver! true
              ## Reset out bus to value prior to this with_fx block
              fxt.thread_variable_set(:sonic_pi_mod_sound_synth_out_bus, current_bus)
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_fx_group, cur_fx_group)
            end
          end
 
@@ -1535,7 +1541,29 @@ set_volume! 2 # Set the main system volume to 2",
 ]
 
 
-
+       def sample_loaded?(path)
+         case path
+         when Symbol
+           full_path = resolve_sample_symbol_path(path)
+           return @mod_sound_studio.sample_loaded?(full_path)
+         when String
+           path = File.expand_path(path)
+           return @mod_sound_studio.sample_loaded?(path)
+         else
+           raise "Unknown sample description: #{path}"
+         end
+       end
+       doc name:          :sample_loaded?,
+           introduced:    Version.new(2,2,0),
+           summary:       "Test if sample was pre-loaded",
+           doc:           "Given a path to a wav|wave|aif|aiff file, return true if the sample has already been loaded.",
+           args:          [[:path, :string]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
+puts sample_loaded? :elec_blip # prints true because it has been pre-loaded
+puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
        def load_sample(path)
          case path
@@ -1982,7 +2010,7 @@ puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80
            raise "List passed as parameter to chord needs two elements i.e. chord([:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
            Chord.new(tonic[0], tonic[1]).to_a
          else
-           Chord.new(tonic, name).to_a
+           Chord.new(tonic, name)
          end
        end
        doc name:          :chord,
@@ -2397,7 +2425,7 @@ stop bar"]
          sn = synth_name.to_sym
          info = SynthInfo.get_info(sn)
 
-         n = trigger_synth(synth_name, args_h, group, info, true)
+         n = trigger_synth(synth_name, args_h, group, info)
 
          info = SynthInfo.get_info(sn)
          FXNode.new(n, args_h["in_bus"], current_out_bus)
@@ -2459,14 +2487,18 @@ stop bar"]
          job_mixer(current_job_id)
        end
 
-       def current_fx_group
-         if g = Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_group)
+       def current_fx_main_group
+         if g = Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_main_group)
            return g
          else
            g = job_fx_group(current_job_id)
-           Thread.current.thread_variable_set :sonic_pi_mod_sound_fx_group, g
+           Thread.current.thread_variable_set :sonic_pi_mod_sound_fx_main_group, g
            return g
          end
+       end
+
+       def current_fx_group
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_fx_group) || current_fx_main_group
        end
 
        def current_job_synth_group

@@ -20,6 +20,7 @@
 #include <QLabel>
 #include <QSplashScreen>
 #include <QCheckBox>
+#include <QRadioButton>
 #include <QListWidgetItem>
 #include <QListWidget>
 #include <QProcess>
@@ -44,6 +45,7 @@ class QString;
 class QSlider;
 class SonicPiAPIs;
 class SonicPiScintilla;
+class SonicPiUDPServer;
 
 struct help_page {
   QString title;
@@ -66,6 +68,9 @@ public:
 #else
     MainWindow(QApplication &ref, QSplashScreen* splash);
 #endif
+    void invokeStartupError(QString msg);
+    SonicPiUDPServer *sonicPiServer;
+
 protected:
     void closeEvent(QCloseEvent *event);
     void wheelEvent(QWheelEvent *event);
@@ -108,7 +113,6 @@ private slots:
     void splashClose();
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
-    void invokeStartupError(QString msg);
     void startupError(QString msg);
     void replaceBuffer(QString id, QString content);
     void tabNext();
@@ -119,10 +123,11 @@ private slots:
     void helpScrollDown();
     void docScrollUp();
     void docScrollDown();
+    void helpClosed(bool visible);
 
 private:
-    void startOSCListener();
     void startServer();
+    void waitForServiceSync();
     void clearOutputPanels();
     void createShortcuts();
     void createToolBar();
@@ -155,10 +160,7 @@ private:
 
     QFuture<void> osc_thread, server_thread;
 
-    bool cont_listening_for_osc;
-    bool server_started;
     bool startup_error_reported;
-    bool osc_incoming_port_open;
     bool is_recording;
     bool show_rec_icon_a;
     bool loaded_workspaces;
@@ -172,14 +174,15 @@ private:
 
     static const int workspace_max = 8;
     SonicPiScintilla *workspaces[workspace_max];
-    QTextEdit *outputPane;
-    QTextEdit *errorPane;
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
+    QTextEdit *outputPane;
+    QTextEdit *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
     QDockWidget *docWidget;
     QTextBrowser *docPane;
+    bool hidingDocPane;
 
     QTabWidget *tabs;
 
@@ -201,6 +204,11 @@ private:
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
 
+    QRadioButton *rp_force_audio_hdmi;
+    QRadioButton *rp_force_audio_default;
+    QRadioButton *rp_force_audio_headphones;
+    QSlider *rp_system_vol;
+
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 
@@ -208,7 +216,6 @@ private:
     QWidget *infoWidg;
     QTextEdit *startupPane;
     QLabel *imageLabel;
-    QSlider *raspberryPiSystemVol;
 
     int currentLine;
     int currentIndex;

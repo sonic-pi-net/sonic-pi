@@ -11,21 +11,18 @@
 # notice is included.
 #++
 
+require 'test/unit'
+require_relative "../lib/sonicpi/spiderapi"
+
 module SonicPi
-  #TODO: Deprecate in favour of Core::RingArray
-  class WrappingArray < Array
-    def [](idx, len=nil)
-      return self.to_a[idx, len] if len
+  class ChanceTester < Test::Unit::TestCase
+    include SonicPi::SpiderAPI
 
-      idx = idx.to_i % size if idx.is_a? Numeric
-      self.to_a[idx]
-    end
-
-    def slice(idx, len=nil)
-      return self.to_a.slice(idx, len) if len
-
-      idx = idx.to_i % size if idx.is_a? Numeric
-      self.to_a.slice(idx)
+    def test_one_in_out_of_bounds
+      500.times do
+        assert_equal(false, one_in(0))
+        assert_equal(false, one_in(-1))
+      end
     end
   end
 end

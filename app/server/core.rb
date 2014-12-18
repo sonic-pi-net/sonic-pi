@@ -23,10 +23,36 @@ end
 
 require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
 
-#Monkeypatch osc-ruby to add sending skills to Servers
-#https://github.com/samaaron/osc-ruby/commit/bfc31a709cbe2e196011e5e1420827bd0fc0e1a8
-#and other improvements
 require 'osc-ruby'
+
+
+module SonicPi
+  module Core
+    class RingArray < Array
+      def [](idx, len=nil)
+        return self.to_a[idx, len] if len
+
+        idx = idx.to_i % size if idx.is_a? Numeric
+        self.to_a[idx]
+      end
+
+      # TODO - ensure this returns a ring array
+      def slice(idx, len=nil)
+        return self.to_a.slice(idx, len) if len
+
+        idx = idx.to_i % size if idx.is_a? Numeric
+        self.to_a.slice(idx)
+      end
+
+      def ring
+        self
+      end
+
+      #TODO:    def each_with_ring
+    end
+  end
+end
+
 
 class String
   def shuffle
@@ -46,6 +72,10 @@ class Float
   end
 end
 
+
+#Monkeypatch osc-ruby to add sending skills to Servers
+#https://github.com/samaaron/osc-ruby/commit/bfc31a709cbe2e196011e5e1420827bd0fc0e1a8
+#and other improvements
 module OSC
 
   class Client
@@ -256,6 +286,11 @@ if RUBY_VERSION < "2"
 end
 
 class Array
+
+  def ring
+    SonicPi::Core::RingArray.new(self)
+  end
+
   def choose
     rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
     self[rgen.rand(self.size)]
