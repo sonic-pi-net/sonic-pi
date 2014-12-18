@@ -3,9 +3,15 @@
 ## Version 2.2.0
 *Thursday 18th December, 2014*
 
+This release brings a number of nice enhancements. However the main
+feature is the accurate timing for triggering FX. This means you can now
+reliably use FX for accurate rhythmic purposes such as wobbling, slicing
+and echoes.
+
 ## Breaking Changes
 
-* `use_sample_pack_as` now uses a double underscore `__` as separator between the user-specified alias and the sample name.
+* `use_sample_pack_as` now uses a double underscore `__` as separator
+  between the user-specified alias and the sample name.
 
 ## API Changes
 
@@ -24,11 +30,6 @@
 ## Synth & FX
 
 * Fixed regression in `:tb303` synth - sound is reverted to v2.0 behaviour
-* New FX - `:chorus` - Chorus 
-* New FX - `:ring` - Ring Modulation
-* New FX - `:bpf` - Band Pass Filter
-* New FX - `:rbpf` - Resonant Band Pass Filter
-* New FX - `:nrbpf` - Normalised Resonant Band Pass Filter
 * New Synth - `:square` - Pure square wave
 
 ## GUI
