@@ -22,6 +22,91 @@ module SonicPi
     include SonicPi::DocSystem
     include SonicPi::Util
 
+    def bools(*args)
+      args.map do |a|
+        if (a == 0) || (not a)
+          false
+        else
+          true
+        end
+      end.ring
+    end
+
+    def knit(*args)
+      res = []
+      args.each_slice(2) do |val, num_its|
+        if num_its > 0
+          res = res + ([val] * num_its)
+        end
+      end
+      res.ring
+    end
+    doc name:           :knit,
+        introduced:     Version.new(2,2,0),
+        summary:        "Knit a sequence of repeated values",
+        args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Knits a series of value, count pairs to create a ring buffer where each value is repeated count times.",
+        examples:       [
+      "(knit 1, 5)    #=> [1, 1, 1, 1, 1]",
+      "(knit :e2, 2, :c2, 3) #=> [:e2, :e2, :c2, :c2, :c2]"
+    ]
+
+    def range(start, finish, step_size=1)
+      start.step(finish, step_size).to_a.ring
+    end
+    doc name:           :range,
+        introduced:     Version.new(2,2,0),
+        summary:        "Create a ring buffer with the specified start, finish and step size",
+        args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to 1. Indexes wrap around positively and negatively",
+        examples:       [
+      "(range 1, 5)    #=> [1, 2, 3, 4, 5]",
+      "(range 1, 5, 1) #=> [1, 2, 3, 4, 5]",
+      "(range 1, 5, 2) #=> [1, 3, 5]",
+      "(range 1, -5, -2) #=> [1, -1, -3, -5]",
+      "(range 1, -5, -2)[-1] #=> -5"
+    ]
+
+    def ring(*args)
+      SonicPi::Core::RingArray.new(args)
+    end
+    doc name:           :ring,
+        introduced:     Version.new(2,2,0),
+        summary:        "Create a ring buffer",
+        args:           [[:list, :array]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new ring buffer from args. Indexes wrap around positively and negatively",
+        examples:       [
+      "(ring 1, 2, 3)[0] #=> 1",
+      "(ring 1, 2, 3)[1] #=> 2",
+      "(ring 1, 2, 3)[3] #=> 1",
+      "(ring 1, 2, 3)[-1] #=> 3",
+    ]
+
+    #TODO: consider whether to convert this to *args
+    def choose(args)
+      args.to_a.choose
+    end
+    doc name:           :choose,
+        introduced:     Version.new(2,0,0),
+        summary:        "Random list selection",
+        args:           [[:list, :array]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Choose an element at random from a list (array).",
+        examples:       [
+"loop do
+  play choose([60, 64, 67]) #=> plays one of 60, 64 or 67 at random
+  sleep 1
+  play chord(:c, :major).choose #=> You can also call .choose on the list
+  sleep 1
+end"]
+
     def inc(n)
       n + 1
     end
@@ -36,19 +121,6 @@ module SonicPi
       "inc 1 # returns 2",
       "inc -1 # returns 0"]
 
-	def reset!
-	  set_sched_ahead_time! default_sched_ahead_time
-	  set_control_delta! default_control_delta
-	  set_volume! 1
-	end
-	doc name:		  :reset!,
-        introduced:   Version.new(2, 1, 0),
-        summary:      "Reset set_sched_ahead_time!,!set_control_delta and set_volume! to defaults",
-        args:           [],
-        opts:           {},
-        doc: "Resets set_sched_ahead_time, set_control_delta_time! and set_volume! to default values for OS in use",
-        examples:     [
-      "reset!"]
 
     def dec(n)
       n - 1
@@ -102,7 +174,7 @@ module SonicPi
           res = send(name, res)
 
           t2 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
-          raise "Live loop #{name.to_sym} did not sleep!" if (t1 == t2) && !Thread.current.thread_variable_get(:sonic_pi_spider_synced)
+          raise "Live loop #{name.to_sym.inspect} did not sleep!" if (t1 == t2) && !Thread.current.thread_variable_get(:sonic_pi_spider_synced)
         end
       end
 
@@ -297,9 +369,9 @@ play bar # plays 80"]
       end
 
       if already_defined
-        __info "Redefining #{name}"
+        __info "Redefining fn #{name.inspect}"
       else
-        __info "Defining #{name}"
+        __info "Defining fn #{name.inspect}"
       end
       @user_methods.send(:define_method, name, &block)
     end
@@ -648,26 +720,6 @@ print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
 shuffle [1, 2, 3, 4] #=> Would return something like: [3, 4, 2, 1] ",
 "
 shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
-
-    def choose(list)
-      list.to_a.choose
-    end
-    doc name:           :choose,
-        introduced:     Version.new(2,0,0),
-        summary:        "Random list selection",
-        args:           [[:list, :array]],
-        opts:           nil,
-        accepts_block:  false,
-        doc:            "Choose an element at random from a list (array).",
-        examples:       [
-"loop do
-  play choose([60, 64, 67]) #=> plays one of 60, 64 or 67 at random
-  sleep 1
-  play chord(:c, :major).choose #=> You can also call .choose on the list
-  sleep 1
-end"]
-
-
 
 
     def use_random_seed(seed, &block)
