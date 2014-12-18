@@ -47,7 +47,7 @@ and echoes.
 
 * `one_in` now returns false if num is < 1
 * Ensure `live_loop`'s no-sleep detector works within nested `with_fx` blocks
-* `chord` now returns a `RingArray`
+* `chord` now returns a ring.
 
 ## Version 2.1.1
 *Tuesday 25th November, 2014*
