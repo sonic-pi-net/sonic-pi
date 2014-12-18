@@ -10,7 +10,7 @@ and echoes.
 
 ## Breaking Changes
 
-* `use_sample_pack_as` now uses a double underscore `__` as separator
+* `use_sample_pack_as` now uses a double underscore `__` as a separator
   between the user-specified alias and the sample name.
 
 ## API Changes
@@ -36,7 +36,7 @@ and echoes.
 
 * Help system now autodocks on close
 * Preferences are now remembered across sessions
-* On Raspberry Pi, preverious volume and audio output options are forced
+* On Raspberry Pi, previous volume and audio output options are forced
   on boot.
 
 ## New Samples
