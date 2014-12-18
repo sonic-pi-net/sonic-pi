@@ -48,6 +48,10 @@ module SonicPi
         self
       end
 
+      def to_a
+        Array.new(self)
+      end
+
       #TODO:    def each_with_ring
     end
   end
