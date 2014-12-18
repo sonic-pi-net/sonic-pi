@@ -727,9 +727,9 @@ shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
       Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
     end
     doc name:          :use_random_seed,
-        introduced:     Version.new(2,0,0),
-        summmary: "",
-        doc:            "Resets the random number generator to the specified seed. All subsequently generated random numbers will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced",
+        introduced:    Version.new(2,0,0),
+        summmary:      "Set random seed generator to known seed",
+        doc:           "Resets the random number generator to the specified seed. All subsequently generated random numbers will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced",
         args:          [[:seed, :number]],
         opts:          nil,
         accepts_block: false,
