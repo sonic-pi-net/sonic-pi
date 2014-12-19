@@ -1,0 +1,28 @@
+# Travis-CI Build for rugged
+# see travis-ci.org for details
+
+language: ruby
+
+os:
+  - linux
+  - osx
+
+# Ruby versions to test against
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.2
+  - ruby-head
+  - rbx-2
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: rbx-2
+    - { os: osx, rvm: 2.1.2 }
+
+install:
+  - ./vendor/libgit2/script/install-deps-${TRAVIS_OS_NAME}.sh
+  - bundle install --deployment
+
+script: script/travisbuild

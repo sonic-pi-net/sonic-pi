@@ -1,0 +1,4 @@
+* bar
+*.txt -foo beep=10
+*.md blargh=goop -bar
+

@@ -1,0 +1,9 @@
+# Test for number suffixes
+[number]
+		simple = 1
+		k = 1k
+		kk = 1K
+		m = 1m
+		mm = 1M
+		g = 1g
+		gg = 1G

@@ -1,0 +1,41 @@
+Anc / Our / Thr represent the ancestor / ours / theirs side of a merge
+from branch "branch" into HEAD.  Workdir represents the expected files in
+the working directory.  Index represents the expected files in the index,
+with stage markers.
+
+    Anc  Our  Thr    Workdir             Index
+1   D    D
+               D/F   D/F                 D/F [0]
+
+2   D    D+          D~HEAD (mod/del)    D/F [0]
+               D/F   D/F                 D [1]
+                                         D [2]
+
+3   D          D     D/F                 D/F [0]
+         D/F
+
+4   D          D+    D~branch (mod/del)  D/F [0]
+         D/F         D/F                 D [1]
+                                         D [3]
+
+5   D                D/F (add/add)       D/F [2]
+         D/F                             D/F [3]
+               D/F
+
+6   D/F  D/F         D                   D [0]
+               D
+
+7   D/F  D/F+        D/F (mod/del)       D/F [1]
+               D     D~branch (fil/dir)  D/F [2]
+                                         D [3]
+
+8   D/F        D/F   D                   D [0]
+         D
+
+9   D/F        D/F+  D/F (mod/del)       D/F [1]
+         D           D~HEAD (fil/dir)    D [2]
+                                         D/F [3]
+
+10  D/F              D/F (fil/dir)       D/F [0]
+         D           D~HEAD              D [2]
+               D

@@ -1,0 +1,5 @@
+# This one checks for case sensitivity
+[this "that"]
+	  other = true
+[this "That"]
+	  other = yes

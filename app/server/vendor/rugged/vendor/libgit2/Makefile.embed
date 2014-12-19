@@ -1,0 +1,60 @@
+PLATFORM=$(shell uname -s)
+
+ifneq (,$(CROSS_COMPILE))
+	PREFIX=$(CROSS_COMPILE)-
+else
+	PREFIX=
+endif
+
+MINGW=0
+ifneq (,$(findstring MINGW32,$(PLATFORM)))
+	MINGW=1
+endif
+ifneq (,$(findstring mingw,$(CROSS_COMPILE)))
+	MINGW=1
+endif
+
+rm=rm -f
+AR=$(PREFIX)ar cq
+RANLIB=$(PREFIX)ranlib
+
+LIBNAME=libgit2.a
+
+ifeq ($(MINGW),1)
+	CC=gcc
+else
+	CC=cc
+endif
+
+CC:=$(PREFIX)$(CC)
+
+INCLUDES= -I. -Isrc -Iinclude -Ideps/http-parser -Ideps/zlib
+
+DEFINES= $(INCLUDES) -DNO_VIZ -DSTDC -DNO_GZIP -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE $(EXTRA_DEFINES)
+CFLAGS= -g $(DEFINES) -Wall -Wextra -Wno-missing-field-initializers -O2 $(EXTRA_CFLAGS)
+
+SRCS = $(wildcard src/*.c) $(wildcard src/transports/*.c) $(wildcard src/xdiff/*.c) $(wildcard deps/http-parser/*.c) $(wildcard deps/zlib/*.c) src/hash/hash_generic.c
+
+ifeq ($(MINGW),1)
+	SRCS += $(wildcard src/win32/*.c) $(wildcard src/compat/*.c) deps/regex/regex.c
+	INCLUDES += -Ideps/regex
+	DEFINES += -DWIN32 -D_WIN32_WINNT=0x0501 -D__USE_MINGW_ANSI_STDIO=1
+else
+	SRCS += $(wildcard src/unix/*.c) 
+	CFLAGS += -fPIC
+endif
+
+OBJS = $(patsubst %.c,%.o,$(SRCS))
+
+%.c.o:
+	$(CC) $(CFLAGS) -c $*.c
+
+all: $(LIBNAME)
+
+$(LIBNAME): $(OBJS)
+	$(rm) $@
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+clean:
+	$(rm) $(OBJS) $(LIBNAME)
