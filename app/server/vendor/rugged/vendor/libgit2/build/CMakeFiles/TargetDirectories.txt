@@ -1,1 +1,0 @@
-/Users/sam/Development/RPi/sonic-pi/app/server/vendor/rugged/vendor/libgit2/build/CMakeFiles/git2.dir
