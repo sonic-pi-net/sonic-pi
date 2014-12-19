@@ -1,3 +1,0 @@
-[submodule "submodule"]
-	path = submodule
-	url = ../testrepo.git

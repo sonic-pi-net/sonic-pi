@@ -1,5 +1,0 @@
-[valid "subsection"]
-    something = a
-; we don't allow anything after closing "
-[sec "subsec"x]
-    bleh = blah
