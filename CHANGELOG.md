@@ -8,12 +8,12 @@ feature is the accurate timing for triggering FX. This means you can now
 reliably use FX for accurate rhythmic purposes such as wobbling, slicing
 and echoes.
 
-## Breaking Changes
+### Breaking Changes
 
 * `use_sample_pack_as` now uses a double underscore `__` as a separator
   between the user-specified alias and the sample name.
 
-## API Changes
+### API Changes
 
 * Teach synth args to take prefixed maps: `play 50, {amp: 0.5}, {release: 2}, amp: 2`
 * Don't round Floats when user specifically prints them to log with puts
@@ -27,23 +27,23 @@ and echoes.
 * New fn `range` - `(range 70, 100, 10)` returns `(ring 70, 70, 90, 100)`
 * New fn `is_sample_loaded?` - to detect whether a specific sample has been loaded
 
-## Synth & FX
+### Synth & FX
 
 * Fixed regression in `:tb303` synth - sound is reverted to v2.0 behaviour
 * New Synth - `:square` - Pure square wave
 
-## GUI
+### GUI
 
 * Help system now autodocks on close
 * Preferences are now remembered across sessions
 * On Raspberry Pi, previous volume and audio output options are forced
   on boot.
 
-## New Samples
+### New Samples
 
 * `bd_tek` - Bass drum
 
-## Bug fixes
+### Bug fixes
 
 * `one_in` now returns false if num is < 1
 * Ensure `live_loop`'s no-sleep detector works within nested `with_fx` blocks
