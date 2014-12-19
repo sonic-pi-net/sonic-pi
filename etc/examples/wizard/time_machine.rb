@@ -1,5 +1,7 @@
 # Coded by Sam Aaron
 
+use_debug false
+
 live_loop :time do |idx|
   synth :tb303, release: 8, note: :e1, cutoff: (range 90, 60, -10)[idx]
   sleep 8
