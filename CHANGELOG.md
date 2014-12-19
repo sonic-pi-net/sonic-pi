@@ -41,7 +41,7 @@ and echoes.
 
 ## New Samples
 
-* `bd_tex` - Bass drum
+* `bd_tek` - Bass drum
 
 ## Bug fixes
 
