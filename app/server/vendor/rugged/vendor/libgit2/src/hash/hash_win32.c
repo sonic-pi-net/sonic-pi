@@ -236,7 +236,7 @@ int git_hash_ctx_init(git_hash_ctx *ctx)
 
 	/*
 	 * When compiled with GIT_THREADS, the global hash_prov data is
-	 * initialized with git_threads_init.  Otherwise, it must be initialized
+	 * initialized with git_libgit2_init.  Otherwise, it must be initialized
 	 * at first use.
 	 */
 	if (hash_prov.type == INVALID && (error = git_hash_global_init()) < 0)

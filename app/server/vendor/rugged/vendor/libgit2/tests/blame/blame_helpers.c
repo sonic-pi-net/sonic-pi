@@ -17,7 +17,7 @@ void hunk_message(size_t idx, const git_blame_hunk *hunk, const char *fmt, ...)
 void check_blame_hunk_index(git_repository *repo, git_blame *blame, int idx,
 		int start_line, int len, char boundary, const char *commit_id, const char *orig_path)
 {
-	char expected[41] = {0}, actual[41] = {0};
+	char expected[GIT_OID_HEXSZ+1] = {0}, actual[GIT_OID_HEXSZ+1] = {0};
 	const git_blame_hunk *hunk = git_blame_get_hunk_byindex(blame, idx);
 	cl_assert(hunk);
 
@@ -48,7 +48,7 @@ void check_blame_hunk_index(git_repository *repo, git_blame *blame, int idx,
 				actual, expected);
 	}
 	cl_assert_equal_s(actual, expected);
-	cl_assert_equal_i(git_oid_cmp(&hunk->final_commit_id, &hunk->orig_commit_id), 0);
+	cl_assert_equal_oid(&hunk->final_commit_id, &hunk->orig_commit_id);
 
 
 	if (strcmp(hunk->orig_path, orig_path)) {

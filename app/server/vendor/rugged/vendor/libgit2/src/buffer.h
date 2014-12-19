@@ -156,10 +156,12 @@ void git_buf_rtrim(git_buf *buf);
 int git_buf_cmp(const git_buf *a, const git_buf *b);
 
 /* Write data as base64 encoded in buffer */
-int git_buf_put_base64(git_buf *buf, const char *data, size_t len);
+int git_buf_encode_base64(git_buf *buf, const char *data, size_t len);
+/* Decode the given bas64 and write the result to the buffer */
+int git_buf_decode_base64(git_buf *buf, const char *base64, size_t len);
 
 /* Write data as "base85" encoded in buffer */
-int git_buf_put_base85(git_buf *buf, const char *data, size_t len);
+int git_buf_encode_base85(git_buf *buf, const char *data, size_t len);
 
 /*
  * Insert, remove or replace a portion of the buffer.

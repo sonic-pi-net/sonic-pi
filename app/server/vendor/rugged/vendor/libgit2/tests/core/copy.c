@@ -45,6 +45,16 @@ void test_core_copy__file_in_dir(void)
 	cl_assert(!git_path_isdir("an_dir"));
 }
 
+void assert_hard_link(const char *path)
+{
+	/* we assert this by checking that there's more than one link to the file */
+	struct stat st;
+
+	cl_assert(git_path_isfile(path));
+	cl_git_pass(p_stat(path, &st));
+	cl_assert(st.st_nlink > 1);
+}
+
 void test_core_copy__tree(void)
 {
 	struct stat st;
@@ -121,6 +131,22 @@ void test_core_copy__tree(void)
 
 	cl_git_pass(git_futils_rmdir_r("t2", NULL, GIT_RMDIR_REMOVE_FILES));
 	cl_assert(!git_path_isdir("t2"));
+
+#ifndef GIT_WIN32
+	cl_git_pass(git_futils_cp_r("src", "t3", GIT_CPDIR_CREATE_EMPTY_DIRS | GIT_CPDIR_LINK_FILES, 0));
+	cl_assert(git_path_isdir("t3"));
+
+	cl_assert(git_path_isdir("t3"));
+	cl_assert(git_path_isdir("t3/b"));
+	cl_assert(git_path_isdir("t3/c"));
+	cl_assert(git_path_isdir("t3/c/d"));
+	cl_assert(git_path_isdir("t3/c/e"));
+
+	assert_hard_link("t3/f1");
+	assert_hard_link("t3/b/f2");
+	assert_hard_link("t3/c/f3");
+	assert_hard_link("t3/c/d/f4");
+#endif
 
 	cl_git_pass(git_futils_rmdir_r("src", NULL, GIT_RMDIR_REMOVE_FILES));
 }

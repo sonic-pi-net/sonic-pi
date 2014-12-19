@@ -116,9 +116,9 @@ class TreeWriteTest < Rugged::TestCase
              :oid  => "1385f264afb75a56a5bec74243be9b367ba4ca08",
              :filemode => 33188}
 
-    builder = Rugged::Tree::Builder.new
+    builder = Rugged::Tree::Builder.new(@repo)
     builder << entry
-    sha = builder.write(@repo)
+    sha = builder.write
     obj = @repo.lookup(sha)
     assert_equal 38, obj.read_raw.len
   end

@@ -44,8 +44,8 @@ void test_refs_settargetwithlog__updating_a_direct_reference_adds_a_reflog_entry
 	cl_git_pass(git_reflog_read(&reflog, g_repo, br2_name));
 
 	entry = git_reflog_entry_byindex(reflog, 0);
-	cl_assert(git_oid_cmp(&current_id, &entry->oid_old) == 0);
-	cl_assert(git_oid_cmp(&target_id, &entry->oid_cur) == 0);
+	cl_assert_equal_oid(&current_id, &entry->oid_old);
+	cl_assert_equal_oid(&target_id, &entry->oid_cur);
 	cl_assert_equal_s(message, entry->msg);
 
 	git_reflog_free(reflog);

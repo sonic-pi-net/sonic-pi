@@ -43,17 +43,17 @@ GIT_BEGIN_DECL
  * In between those are `GIT_CHECKOUT_SAFE` and `GIT_CHECKOUT_SAFE_CREATE`
  * both of which only make modifications that will not lose changes.
  *
- *                      |  target == baseline   |  target != baseline  |
- * ---------------------|-----------------------|----------------------|
- *  workdir == baseline |       no action       |  create, update, or  |
- *                      |                       |     delete file      |
- * ---------------------|-----------------------|----------------------|
- *  workdir exists and  |       no action       |   conflict (notify   |
- *    is != baseline    | notify dirty MODIFIED | and cancel checkout) |
- * ---------------------|-----------------------|----------------------|
- *   workdir missing,   | create if SAFE_CREATE |     create file      |
- *   baseline present   | notify dirty DELETED  |                      |
- * ---------------------|-----------------------|----------------------|
+ *                         |  target == baseline   |  target != baseline  |
+ *    ---------------------|-----------------------|----------------------|
+ *     workdir == baseline |       no action       |  create, update, or  |
+ *                         |                       |     delete file      |
+ *    ---------------------|-----------------------|----------------------|
+ *     workdir exists and  |       no action       |   conflict (notify   |
+ *       is != baseline    | notify dirty MODIFIED | and cancel checkout) |
+ *    ---------------------|-----------------------|----------------------|
+ *      workdir missing,   | create if SAFE_CREATE |     create file      |
+ *      baseline present   | notify dirty DELETED  |                      |
+ *    ---------------------|-----------------------|----------------------|
  *
  * The only difference between SAFE and SAFE_CREATE is that SAFE_CREATE
  * will cause a file to be checked out if it is missing from the working
@@ -106,7 +106,7 @@ GIT_BEGIN_DECL
  *   target contains that file.
  */
 typedef enum {
-	GIT_CHECKOUT_NONE = 0, /** default is a dry run, no actual updates */
+	GIT_CHECKOUT_NONE = 0, /**< default is a dry run, no actual updates */
 
 	/** Allow safe updates that cannot overwrite uncommitted data */
 	GIT_CHECKOUT_SAFE = (1u << 0),
@@ -233,18 +233,18 @@ typedef void (*git_checkout_progress_cb)(
 typedef struct git_checkout_options {
 	unsigned int version;
 
-	unsigned int checkout_strategy; /** default will be a dry run */
+	unsigned int checkout_strategy; /**< default will be a dry run */
 
-	int disable_filters;    /** don't apply filters like CRLF conversion */
-	unsigned int dir_mode;  /** default is 0755 */
-	unsigned int file_mode; /** default is 0644 or 0755 as dictated by blob */
-	int file_open_flags;    /** default is O_CREAT | O_TRUNC | O_WRONLY */
+	int disable_filters;    /**< don't apply filters like CRLF conversion */
+	unsigned int dir_mode;  /**< default is 0755 */
+	unsigned int file_mode; /**< default is 0644 or 0755 as dictated by blob */
+	int file_open_flags;    /**< default is O_CREAT | O_TRUNC | O_WRONLY */
 
-	unsigned int notify_flags; /** see `git_checkout_notify_t` above */
+	unsigned int notify_flags; /**< see `git_checkout_notify_t` above */
 	git_checkout_notify_cb notify_cb;
 	void *notify_payload;
 
-	/* Optional callback to notify the consumer of checkout progress. */
+	/** Optional callback to notify the consumer of checkout progress. */
 	git_checkout_progress_cb progress_cb;
 	void *progress_payload;
 
@@ -254,13 +254,13 @@ typedef struct git_checkout_options {
 	 */
 	git_strarray paths;
 
-	git_tree *baseline; /** expected content of workdir, defaults to HEAD */
+	git_tree *baseline; /**< expected content of workdir, defaults to HEAD */
 
-	const char *target_directory; /** alternative checkout path to workdir */
+	const char *target_directory; /**< alternative checkout path to workdir */
 
-	const char *ancestor_label; /** the name of the common ancestor side of conflicts */
-	const char *our_label; /** the name of the "our" side of conflicts */
-	const char *their_label; /** the name of the "their" side of conflicts */
+	const char *ancestor_label; /**< the name of the common ancestor side of conflicts */
+	const char *our_label; /**< the name of the "our" side of conflicts */
+	const char *their_label; /**< the name of the "their" side of conflicts */
 } git_checkout_options;
 
 #define GIT_CHECKOUT_OPTIONS_VERSION 1

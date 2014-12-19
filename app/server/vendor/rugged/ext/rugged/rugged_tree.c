@@ -188,14 +188,26 @@ static VALUE rb_git_tree_each(VALUE self)
 	return Qnil;
 }
 
-static int rugged__treewalk_cb(const char *root, const git_tree_entry *entry, void *proc)
+static int rugged__treewalk_cb(const char *root, const git_tree_entry *entry, void *payload)
 {
-	rb_funcall((VALUE)proc, rb_intern("call"), 2,
-		rb_str_new_utf8(root),
-		rb_git_treeentry_fromC(entry)
-	);
+	int *exception = (int *)payload;
 
-	return GIT_OK;
+	VALUE rb_result, rb_args = rb_ary_new2(2);
+
+	rb_ary_push(rb_args, rb_str_new_utf8(root));
+	rb_ary_push(rb_args, rb_git_treeentry_fromC(entry));
+
+	rb_result = rb_protect(rb_yield_splat, rb_args, exception);
+
+	if (*exception)
+		return -1;
+
+	/* skip entry when 'false' is returned */
+	if (TYPE(rb_result) == T_FALSE)
+		return 1;
+
+	/* otherwise continue normal iteration */
+	return 0;
 }
 
 /*
@@ -207,6 +219,9 @@ static int rugged__treewalk_cb(const char *root, const git_tree_entry *entry, vo
  *  to +block+ every entry in +tree+ and all its subtrees, as a +Hash+. The +block+
  *  also takes a +root+, the relative path in the traversal, starting from the root
  *  of the original tree.
+ *
+ *  If the +block+ returns a falsy value, that entry and its sub-entries (in the case
+ *  of a folder) will be skipped for the iteration.
  *
  *  If no +block+ is given, an +Iterator+ is returned instead.
  *
@@ -223,7 +238,7 @@ static int rugged__treewalk_cb(const char *root, const git_tree_entry *entry, vo
 static VALUE rb_git_tree_walk(VALUE self, VALUE rb_mode)
 {
 	git_tree *tree;
-	int error, mode = 0;
+	int error, mode = 0, exception = 0;
 	ID id_mode;
 
 	Data_Get_Struct(self, git_tree, tree);
@@ -242,7 +257,11 @@ static VALUE rb_git_tree_walk(VALUE self, VALUE rb_mode)
 		rb_raise(rb_eTypeError,
 				"Invalid iteration mode. Expected `:preorder` or `:postorder`");
 
-	error = git_tree_walk(tree, mode, &rugged__treewalk_cb, (void *)rb_block_proc());
+	error = git_tree_walk(tree, mode, &rugged__treewalk_cb, (void *)&exception);
+
+	if (exception)
+		rb_jump_tag(exception);
+
 	rugged_exception_check(error);
 
 	return Qnil;
@@ -274,16 +293,17 @@ static VALUE rb_git_tree_path(VALUE self, VALUE rb_path)
 
 /*
  *  call-seq:
- *    tree.diff(diffable[, options]) -> diff
+ *    Tree.diff(repo, tree, diffable[, options]) -> diff
  *
- *  Returns a diff between the tree and the diffable object that was given.
+ *  Returns a diff between the `tree` and the diffable object that was given.
  *  +diffable+ can either be a +Rugged::Commit+, a +Rugged::Tree+, a +Rugged::Index+,
  *  or +nil+.
  *
  *  The +tree+ object will be used as the "old file" side of the diff, while the
  *  parent tree or the +diffable+ object will be used for the "new file" side.
  *
- *  If +diffable+ is nil, it will be treated as an empty tree.
+ *  If +tree+ or +diffable+ are nil, they will be treated as an empty tree. Passing
+ *  both as `nil` will raise an exception.
  *
  *  The following options can be passed in the +options+ Hash:
  *
@@ -391,28 +411,38 @@ static VALUE rb_git_tree_path(VALUE self, VALUE rb_path)
  *    other_tree = Rugged::Tree.lookup(repo, "7a9e0b02e63179929fed24f0a3e0f19168114d10")
  *    diff = tree.diff(other_tree)
  */
-static VALUE rb_git_tree_diff(int argc, VALUE *argv, VALUE self)
+static VALUE rb_git_tree_diff_(int argc, VALUE *argv, VALUE self)
 {
-	git_tree *tree;
+	git_tree *tree = NULL;
 	git_diff_options opts = GIT_DIFF_OPTIONS_INIT;
-	git_repository *repo;
+	git_repository *repo = NULL;
 	git_diff *diff = NULL;
-	VALUE owner, rb_other, rb_options;
+	VALUE rb_self, rb_repo, rb_other, rb_options;
 	int error;
 
-	rb_scan_args(argc, argv, "10:", &rb_other, &rb_options);
+	rb_scan_args(argc, argv, "22", &rb_repo, &rb_self, &rb_other, &rb_options);
 	rugged_parse_diff_options(&opts, rb_options);
 
-	Data_Get_Struct(self, git_tree, tree);
-	owner = rugged_owner(self);
-	Data_Get_Struct(owner, git_repository, repo);
+	Data_Get_Struct(rb_repo, git_repository, repo);
+
+	if (!NIL_P(rb_self)) {
+		if (!rb_obj_is_kind_of(rb_self, rb_cRuggedTree))
+			rb_raise(rb_eTypeError,
+				"At least a Rugged::Tree object is required for diffing");
+
+		Data_Get_Struct(rb_self, git_tree, tree);
+	}
 
 	if (NIL_P(rb_other)) {
+		if (tree == NULL) {
+			xfree(opts.pathspec.strings);
+			rb_raise(rb_eTypeError, "Need 'old' or 'new' for diffing");
+		}
+
 		error = git_diff_tree_to_tree(&diff, repo, tree, NULL, &opts);
 	} else {
-		if (TYPE(rb_other) == T_STRING) {
-			rb_other = rugged_object_rev_parse(owner, rb_other, 1);
-		}
+		if (TYPE(rb_other) == T_STRING)
+			rb_other = rugged_object_rev_parse(rb_repo, rb_other, 1);
 
 		if (rb_obj_is_kind_of(rb_other, rb_cRuggedCommit)) {
 			git_tree *other_tree;
@@ -443,7 +473,7 @@ static VALUE rb_git_tree_diff(int argc, VALUE *argv, VALUE self)
 	xfree(opts.pathspec.strings);
 	rugged_exception_check(error);
 
-	return rugged_diff_new(rb_cRuggedDiff, self, diff);
+	return rugged_diff_new(rb_cRuggedDiff, rb_repo, diff);
 }
 
 /*
@@ -478,7 +508,7 @@ static VALUE rb_git_tree_diff_workdir(int argc, VALUE *argv, VALUE self)
 	xfree(opts.pathspec.strings);
 	rugged_exception_check(error);
 
-	return rugged_diff_new(rb_cRuggedDiff, self, diff);
+	return rugged_diff_new(rb_cRuggedDiff, owner, diff);
 }
 
 void rugged_parse_merge_options(git_merge_options *opts, VALUE rb_options)
@@ -599,40 +629,42 @@ static void rb_git_treebuilder_free(git_treebuilder *bld)
 	git_treebuilder_free(bld);
 }
 
-static VALUE rb_git_treebuilder_allocate(VALUE klass)
-{
-	return Data_Wrap_Struct(klass, NULL, &rb_git_treebuilder_free, NULL);
-}
-
 /*
  *  call-seq:
- *    TreeBuilder.new([tree])
+ *    TreeBuilder.new(repository, [tree])
  *
- *  Create a new Rugged::Trebuilder instance.
+ *  Create a new Rugged::Trebuilder instance to write a tree to
+ *  the given +repository+.
  *
  *  If an optional +tree+ is given, the returned TreeBuilder will be
  *  initialized with the entry of +tree+. Otherwise, the TreeBuilder
  *  will be empty and has to be filled manually.
  */
-static VALUE rb_git_treebuilder_init(int argc, VALUE *argv, VALUE self)
+static VALUE rb_git_treebuilder_new(int argc, VALUE *argv, VALUE klass)
 {
 	git_treebuilder *builder;
+	git_repository *repo;
 	git_tree *tree = NULL;
-	VALUE rb_object;
+	VALUE rb_object, rb_builder, rb_repo;
 	int error;
 
-	if (rb_scan_args(argc, argv, "01", &rb_object) == 1) {
+	if (rb_scan_args(argc, argv, "11", &rb_repo, &rb_object) == 2) {
 		if (!rb_obj_is_kind_of(rb_object, rb_cRuggedTree))
 			rb_raise(rb_eTypeError, "A Rugged::Tree instance is required");
 
 		Data_Get_Struct(rb_object, git_tree, tree);
 	}
 
-	error = git_treebuilder_create(&builder, tree);
+	rugged_check_repo(rb_repo);
+	Data_Get_Struct(rb_repo, git_repository, repo);
+
+	error = git_treebuilder_create(&builder, repo, tree);
 	rugged_exception_check(error);
 
-	DATA_PTR(self) = builder;
-	return Qnil;
+	rb_builder = Data_Wrap_Struct(klass, NULL, &rb_git_treebuilder_free, builder);
+	rugged_set_owner(rb_builder, rb_repo);
+
+	return rb_builder;
 }
 
 /*
@@ -729,24 +761,21 @@ static VALUE rb_git_treebuilder_remove(VALUE self, VALUE path)
 
 /*
  *  call-seq:
- *    builder.write(repo) -> oid
+ *    builder.write -> oid
  *
- *  Write +builder+'s content as a tree to the given +repo+
- *  and return the +oid+ for the newly created tree.
+ *  Write +builder+'s content as a tree to the repository
+ *  that owns the builder and return the +oid+ for the
+ *  newly created tree.
  */
-static VALUE rb_git_treebuilder_write(VALUE self, VALUE rb_repo)
+static VALUE rb_git_treebuilder_write(VALUE self)
 {
 	git_treebuilder *builder;
-	git_repository *repo;
 	git_oid written_id;
 	int error;
 
-	rugged_check_repo(rb_repo);
-	Data_Get_Struct(rb_repo, git_repository, repo);
-
 	Data_Get_Struct(self, git_treebuilder, builder);
 
-	error = git_treebuilder_write(&written_id, repo, builder);
+	error = git_treebuilder_write(&written_id, builder);
 	rugged_exception_check(error);
 
 	return rugged_create_oid(&written_id);
@@ -788,21 +817,21 @@ void Init_rugged_tree(void)
 	rb_define_method(rb_cRuggedTree, "get_entry", rb_git_tree_get_entry, 1);
 	rb_define_method(rb_cRuggedTree, "get_entry_by_oid", rb_git_tree_get_entry_by_oid, 1);
 	rb_define_method(rb_cRuggedTree, "path", rb_git_tree_path, 1);
-	rb_define_method(rb_cRuggedTree, "diff", rb_git_tree_diff, -1);
 	rb_define_method(rb_cRuggedTree, "diff_workdir", rb_git_tree_diff_workdir, -1);
 	rb_define_method(rb_cRuggedTree, "[]", rb_git_tree_get_entry, 1);
 	rb_define_method(rb_cRuggedTree, "each", rb_git_tree_each, 0);
 	rb_define_method(rb_cRuggedTree, "walk", rb_git_tree_walk, 1);
 	rb_define_method(rb_cRuggedTree, "merge", rb_git_tree_merge, -1);
 
+	rb_define_singleton_method(rb_cRuggedTree, "diff", rb_git_tree_diff_, -1);
+
 	rb_cRuggedTreeBuilder = rb_define_class_under(rb_cRuggedTree, "Builder", rb_cObject);
-	rb_define_alloc_func(rb_cRuggedTreeBuilder, rb_git_treebuilder_allocate);
-	rb_define_method(rb_cRuggedTreeBuilder, "initialize", rb_git_treebuilder_init, -1);
+	rb_define_singleton_method(rb_cRuggedTreeBuilder, "new", rb_git_treebuilder_new, -1);
 	rb_define_method(rb_cRuggedTreeBuilder, "clear", rb_git_treebuilder_clear, 0);
 	rb_define_method(rb_cRuggedTreeBuilder, "[]", rb_git_treebuilder_get, 1);
 	rb_define_method(rb_cRuggedTreeBuilder, "insert", rb_git_treebuilder_insert, 1);
 	rb_define_method(rb_cRuggedTreeBuilder, "<<", rb_git_treebuilder_insert, 1);
 	rb_define_method(rb_cRuggedTreeBuilder, "remove", rb_git_treebuilder_remove, 1);
-	rb_define_method(rb_cRuggedTreeBuilder, "write", rb_git_treebuilder_write, 1);
+	rb_define_method(rb_cRuggedTreeBuilder, "write", rb_git_treebuilder_write, 0);
 	rb_define_method(rb_cRuggedTreeBuilder, "reject!", rb_git_treebuilder_filter, 0);
 }

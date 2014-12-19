@@ -16,7 +16,7 @@ static void *run_workdir_iterator(void *arg)
 	const git_index_entry *entry = NULL;
 
 	cl_git_pass(git_iterator_for_workdir(
-		&iter, _repo, GIT_ITERATOR_DONT_AUTOEXPAND, NULL, NULL));
+		&iter, _repo, NULL, NULL, GIT_ITERATOR_DONT_AUTOEXPAND, NULL, NULL));
 
 	while (!error) {
 		if (entry && entry->mode == GIT_FILEMODE_TREE) {

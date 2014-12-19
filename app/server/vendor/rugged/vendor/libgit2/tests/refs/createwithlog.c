@@ -42,7 +42,7 @@ void test_refs_createwithlog__creating_a_direct_reference_adds_a_reflog_entry(vo
 
 	entry = git_reflog_entry_byindex(reflog, 0);
 	cl_assert(git_oid_streq(&entry->oid_old, GIT_OID_HEX_ZERO) == 0);
-	cl_assert(git_oid_cmp(&id, &entry->oid_cur) == 0);
+	cl_assert_equal_oid(&id, &entry->oid_cur);
 	cl_assert_equal_s(message, entry->msg);
 
 	git_reflog_free(reflog);

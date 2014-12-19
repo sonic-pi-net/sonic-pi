@@ -210,7 +210,7 @@ static int packfile_load__cb(void *data, git_buf *path)
 			return 0;
 	}
 
-	error = git_packfile_alloc(&pack, path->ptr);
+	error = git_mwindow_get_pack(&pack, path->ptr);
 
 	/* ignore missing .pack file as git does */
 	if (error == GIT_ENOTFOUND) {
@@ -605,7 +605,7 @@ static void pack_backend__free(git_odb_backend *_backend)
 
 	for (i = 0; i < backend->packs.length; ++i) {
 		struct git_pack_file *p = git_vector_get(&backend->packs, i);
-		git_packfile_free(p);
+		git_mwindow_put_pack(p);
 	}
 
 	git_vector_free(&backend->packs);
@@ -647,7 +647,7 @@ int git_odb_backend_one_pack(git_odb_backend **backend_out, const char *idx)
 	if (pack_backend__alloc(&backend, 1) < 0)
 		return -1;
 
-	if (git_packfile_alloc(&packfile, idx) < 0 ||
+	if (git_mwindow_get_pack(&packfile, idx) < 0 ||
 		git_vector_insert(&backend->packs, packfile) < 0)
 	{
 		pack_backend__free((git_odb_backend *)backend);
@@ -663,6 +663,9 @@ int git_odb_backend_pack(git_odb_backend **backend_out, const char *objects_dir)
 	int error = 0;
 	struct pack_backend *backend = NULL;
 	git_buf path = GIT_BUF_INIT;
+
+	if (git_mwindow_files_init() < 0)
+		return -1;
 
 	if (pack_backend__alloc(&backend, 8) < 0)
 		return -1;

@@ -356,7 +356,7 @@ typedef struct {
 
 #define CANCEL_VALUE 1234
 
-static int check_one_walkup_step(void *ref, git_buf *path)
+static int check_one_walkup_step(void *ref, const char *path)
 {
 	check_walkup_info *info = (check_walkup_info *)ref;
 
@@ -367,7 +367,7 @@ static int check_one_walkup_step(void *ref, git_buf *path)
 	info->cancel_after--;
 
 	cl_assert(info->expect[info->expect_idx] != NULL);
-	cl_assert_equal_s(info->expect[info->expect_idx], path->ptr);
+	cl_assert_equal_s(info->expect[info->expect_idx], path);
 	info->expect_idx++;
 
 	return 0;
@@ -376,18 +376,42 @@ static int check_one_walkup_step(void *ref, git_buf *path)
 void test_core_path__11_walkup(void)
 {
 	git_buf p = GIT_BUF_INIT;
+
 	char *expect[] = {
-		"/a/b/c/d/e/", "/a/b/c/d/", "/a/b/c/", "/a/b/", "/a/", "/", NULL,
-		"/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", "/a/", "/", NULL,
-		"/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", "/a/", "/", NULL,
-		"/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", "/a/", "/", NULL,
-		"/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", NULL,
-		"/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", NULL,
-		"this is a path", NULL,
-		"///a///b///c///d///e///", "///a///b///c///d///", "///a///b///c///", "///a///b///", "///a///", "///", NULL,
-		NULL
+		/*  1 */ "/a/b/c/d/e/", "/a/b/c/d/", "/a/b/c/", "/a/b/", "/a/", "/", NULL,
+		/*  2 */ "/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", "/a/", "/", NULL,
+		/*  3 */ "/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", "/a/", "/", NULL,
+		/*  4 */ "/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", "/a/", "/", NULL,
+		/*  5 */ "/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", NULL,
+		/*  6 */ "/a/b/c/d/e", "/a/b/c/d/", "/a/b/c/", "/a/b/", NULL,
+		/*  7 */ "this_is_a_path", "", NULL,
+		/*  8 */ "this_is_a_path/", "", NULL,
+		/*  9 */ "///a///b///c///d///e///", "///a///b///c///d///", "///a///b///c///", "///a///b///", "///a///", "///", NULL,
+		/* 10 */ "a/b/c/", "a/b/", "a/", "", NULL,
+		/* 11 */ "a/b/c", "a/b/", "a/", "", NULL,
+		/* 12 */ "a/b/c/", "a/b/", "a/", NULL,
+		/* 13 */ "", NULL,
+		/* 14 */ "/", NULL,
+		/* 15 */ NULL
 	};
-	char *root[] = { NULL, NULL, "/", "", "/a/b", "/a/b/", NULL, NULL, NULL };
+
+	char *root[] = {
+		/*  1 */ NULL,
+		/*  2 */ NULL,
+		/*  3 */ "/",
+		/*  4 */ "",
+		/*  5 */ "/a/b",
+		/*  6 */ "/a/b/",
+		/*  7 */ NULL,
+		/*  8 */ NULL,
+		/*  9 */ NULL,
+		/* 10 */ NULL,
+		/* 11 */ NULL,
+		/* 12 */ "a/",
+		/* 13 */ NULL,
+		/* 14 */ NULL,
+	};
+
 	int i, j;
 	check_walkup_info info;
 
@@ -404,9 +428,8 @@ void test_core_path__11_walkup(void)
 		);
 
 		cl_assert_equal_s(p.ptr, expect[i]);
-
-		/* skip to next run of expectations */
-		while (expect[i] != NULL) i++;
+		cl_assert(expect[info.expect_idx] == NULL);
+		i = info.expect_idx;
 	}
 
 	git_buf_free(&p);

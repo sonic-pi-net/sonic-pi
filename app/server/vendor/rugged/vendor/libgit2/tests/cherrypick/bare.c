@@ -39,7 +39,7 @@ void test_cherrypick_bare__automerge(void)
 	git_oid_fromstr(&cherry_oid, "cfc4f0999a8367568e049af4f72e452d40828a15");
 	cl_git_pass(git_commit_lookup(&commit, repo, &cherry_oid));
 
-	cl_git_pass(git_cherry_pick_commit(&index, repo, commit, head, 0, NULL));
+	cl_git_pass(git_cherrypick_commit(&index, repo, commit, head, 0, NULL));
 	cl_assert(merge_test_index(index, merge_index_entries, 3));
 
 	git_index_free(index);
@@ -69,7 +69,7 @@ void test_cherrypick_bare__conflicts(void)
 	git_oid_fromstr(&cherry_oid, "e9b63f3655b2ad80c0ff587389b5a9589a3a7110");
 	cl_git_pass(git_commit_lookup(&commit, repo, &cherry_oid));
 
-	cl_git_pass(git_cherry_pick_commit(&index, repo, commit, head, 0, NULL));
+	cl_git_pass(git_cherrypick_commit(&index, repo, commit, head, 0, NULL));
 	cl_assert(merge_test_index(index, merge_index_entries, 7));
 
 	git_index_free(index);
@@ -96,7 +96,7 @@ void test_cherrypick_bare__orphan(void)
 	git_oid_fromstr(&cherry_oid, "74f06b5bfec6d33d7264f73606b57a7c0b963819");
 	cl_git_pass(git_commit_lookup(&commit, repo, &cherry_oid));
 
-	cl_git_pass(git_cherry_pick_commit(&index, repo, commit, head, 0, NULL));
+	cl_git_pass(git_cherrypick_commit(&index, repo, commit, head, 0, NULL));
 	cl_assert(merge_test_index(index, merge_index_entries, 4));
 
 	git_index_free(index);

@@ -698,7 +698,6 @@ int git_config_file__ondisk(git_config_backend **out, const char *path)
 	backend->header.parent.del = config_delete;
 	backend->header.parent.del_multivar = config_delete_multivar;
 	backend->header.parent.iterator = config_iterator_new;
-	backend->header.parent.refresh = config_refresh;
 	backend->header.parent.snapshot = config_snapshot;
 	backend->header.parent.free = backend_free;
 
@@ -744,13 +743,6 @@ static int config_delete_readonly(git_config_backend *cfg, const char *name)
 	return config_error_readonly();
 }
 
-static int config_refresh_readonly(git_config_backend *cfg)
-{
-	GIT_UNUSED(cfg);
-
-	return config_error_readonly();
-}
-
 static void backend_readonly_free(git_config_backend *_backend)
 {
 	diskfile_backend *backend = (diskfile_backend *)_backend;
@@ -767,12 +759,17 @@ static int config_readonly_open(git_config_backend *cfg, git_config_level_t leve
 {
 	diskfile_readonly_backend *b = (diskfile_readonly_backend *) cfg;
 	diskfile_backend *src = b->snapshot_from;
+	diskfile_header *src_header = &src->header;
 	refcounted_strmap *src_map;
+	int error;
+
+	if (!src_header->readonly && (error = config_refresh(&src_header->parent)) < 0)
+		return error;
 
 	/* We're just copying data, don't care about the level */
 	GIT_UNUSED(level);
 
-	src_map = refcounted_strmap_take(&src->header);
+	src_map = refcounted_strmap_take(src_header);
 	b->header.values = src_map;
 
 	return 0;
@@ -799,7 +796,6 @@ int git_config_file__snapshot(git_config_backend **out, diskfile_backend *in)
 	backend->header.parent.del = config_delete_readonly;
 	backend->header.parent.del_multivar = config_delete_multivar_readonly;
 	backend->header.parent.iterator = config_iterator_new;
-	backend->header.parent.refresh = config_refresh_readonly;
 	backend->header.parent.free = backend_readonly_free;
 
 	*out = (git_config_backend *)backend;
@@ -1163,7 +1159,7 @@ static int strip_comments(char *line, int in_quotes)
 	}
 
 	/* skip any space at the end */
-	if (ptr > line && git__isspace(ptr[-1])) {
+	while (ptr > line && git__isspace(ptr[-1])) {
 		ptr--;
 	}
 	ptr[0] = '\0';
@@ -1273,7 +1269,7 @@ static int config_parse(git_strmap *values, diskfile_backend *cfg_file, struct r
 				if ((result = git_path_dirname_r(&path, reader->file_path)) < 0)
 					break;
 
-				/* We need to know out index in the array, as the next config_parse call may realloc */
+				/* We need to know our index in the array, as the next config_parse call may realloc */
 				index = git_array_size(cfg_file->readers) - 1;
 				dir = git_buf_detach(&path);
 				result = included_path(&path, dir, var->entry->value);
@@ -1284,12 +1280,18 @@ static int config_parse(git_strmap *values, diskfile_backend *cfg_file, struct r
 
 				r->file_path = git_buf_detach(&path);
 				git_buf_init(&r->buffer, 0);
-				if ((result = git_futils_readbuffer_updated(&r->buffer, r->file_path, &r->file_mtime,
-									    &r->file_size, NULL)) < 0)
-					break;
+				result = git_futils_readbuffer_updated(&r->buffer, r->file_path, &r->file_mtime,
+									    &r->file_size, NULL);
 
-				result = config_parse(values, cfg_file, r, level, depth+1);
-				r = git_array_get(cfg_file->readers, index);
+				if (result == 0) {
+					result = config_parse(values, cfg_file, r, level, depth+1);
+					r = git_array_get(cfg_file->readers, index);
+				}
+				else if (result == GIT_ENOTFOUND) {
+					giterr_clear();
+					result = 0;
+				}
+
 				git_buf_free(&r->buffer);
 
 				if (result < 0)
@@ -1522,12 +1524,15 @@ static int config_write(diskfile_backend *cfg, const char *key, const regex_t *p
 
 			git_filebuf_write(&file, reader->buffer.ptr, reader->buffer.size);
 
+			if (reader->buffer.size > 0 && *(reader->buffer.ptr + reader->buffer.size - 1) != '\n')
+				git_filebuf_write(&file, "\n", 1);
+
 			/* And now if we just need to add a variable */
 			if (!section_matches && write_section(&file, section) < 0)
 				goto rewrite_fail;
 
 			/* Sanity check: if we are here, and value is NULL, that means that somebody
-			 * touched the config file after our intial read. We should probably assert()
+			 * touched the config file after our initial read. We should probably assert()
 			 * this, but instead we'll handle it gracefully with an error. */
 			if (value == NULL) {
 				giterr_set(GITERR_CONFIG,
@@ -1536,9 +1541,6 @@ static int config_write(diskfile_backend *cfg, const char *key, const regex_t *p
 			}
 
 			/* If we are here, there is at least a section line */
-			if (reader->buffer.size > 0 && *(reader->buffer.ptr + reader->buffer.size - 1) != '\n')
-				git_filebuf_write(&file, "\n", 1);
-
 			q = quotes_for_value(value);
 			git_filebuf_printf(&file, "\t%s = %s%s%s\n", name, q, value, q);
 		}
@@ -1649,7 +1651,7 @@ static int is_multiline_var(const char *str)
 	}
 
 	/* An odd number means last backslash wasn't escaped, so it's multiline */
-	return (end > str) && (count & 1);
+	return count & 1;
 }
 
 static int parse_multiline_variable(struct reader *reader, git_buf *value, int in_quotes)

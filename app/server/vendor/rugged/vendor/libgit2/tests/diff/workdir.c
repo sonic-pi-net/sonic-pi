@@ -1610,8 +1610,8 @@ void test_diff_workdir__binary_detection(void)
 	int i;
 	git_buf data[10] = {
 		{ "1234567890", 0, 0 },         /* 0 - all ascii text control */
-		{ "Åü†HøπΩ", 0, 0 },            /* 1 - UTF-8 multibyte text */
-		{ "\xEF\xBB\xBFÜ⤒ƒ8£€", 0, 0 }, /* 2 - UTF-8 with BOM */
+		{ "\xC3\x85\xC3\xBC\xE2\x80\xA0\x48\xC3\xB8\xCF\x80\xCE\xA9", 0, 0 },            /* 1 - UTF-8 multibyte text */
+		{ "\xEF\xBB\xBF\xC3\x9C\xE2\xA4\x92\xC6\x92\x38\xC2\xA3\xE2\x82\xAC", 0, 0 }, /* 2 - UTF-8 with BOM */
 		{ STR999Z, 0, 1000 },           /* 3 - ASCII with NUL at 1000 */
 		{ STR3999Z, 0, 4000 },          /* 4 - ASCII with NUL at 4000 */
 		{ STR4000 STR3999Z "x", 0, 8001 }, /* 5 - ASCII with NUL at 8000 */

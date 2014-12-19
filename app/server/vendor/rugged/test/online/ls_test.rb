@@ -15,7 +15,7 @@ class OnlineLsTest < Rugged::OnlineTestCase
 
   if Rugged.features.include?(:https)
     def test_ls_over_https
-      remote = Rugged::Remote.add(@repo, "origin", "https://github.com/libgit2/TestGitRepository.git")
+      remote = @repo.remotes.create("origin", "https://github.com/libgit2/TestGitRepository.git")
 
       assert_equal [
         { :local? => false, :oid => "49322bb17d3acc9146f98c97d078513228bbf3c0", :loid => nil, :name => "HEAD" },
@@ -35,7 +35,7 @@ class OnlineLsTest < Rugged::OnlineTestCase
     def test_ls_over_git
       reset_remote_repo
 
-      remote = Rugged::Remote.add(@repo, "origin", ENV['GITTEST_REMOTE_GIT_URL'])
+      remote = @repo.remotes.create("origin", ENV['GITTEST_REMOTE_GIT_URL'])
       remote.push(["refs/heads/b1:refs/heads/b1"])
 
       assert_equal [
@@ -48,7 +48,7 @@ class OnlineLsTest < Rugged::OnlineTestCase
     def test_ls_over_ssh_with_credentials
       reset_remote_repo
 
-      remote = Rugged::Remote.add(@repo, "origin", ENV['GITTEST_REMOTE_SSH_URL'])
+      remote = @repo.remotes.create("origin", ENV['GITTEST_REMOTE_SSH_URL'])
       remote.push(["refs/heads/b1:refs/heads/b1"], credentials: ssh_key_credential)
 
       assert_equal [

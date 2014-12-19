@@ -32,7 +32,7 @@ void run_in_parallel(
 
 #ifdef GIT_THREADS
 		for (t = 0; t < threads; ++t)
-			cl_git_pass(git_thread_join(th[t], NULL));
+			cl_git_pass(git_thread_join(&th[t], NULL));
 		memset(th, 0, threads * sizeof(git_thread));
 #endif
 

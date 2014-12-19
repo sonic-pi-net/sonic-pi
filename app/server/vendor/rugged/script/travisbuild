@@ -19,6 +19,7 @@ export GITTEST_REMOTE_SSH_PUBKEY="$HOME/.ssh/rugged_test_rsa.pub"
 export GITTEST_REMOTE_SSH_PASSPHRASE=""
 export GITTEST_REMOTE_REPO_PATH="$HOME/_temp/test.git"
 
+echo 'PasswordAuthentication yes' | sudo tee -a /etc/sshd_config
 eval $(ssh-agent)
 ssh-add $GITTEST_REMOTE_SSH_KEY
 

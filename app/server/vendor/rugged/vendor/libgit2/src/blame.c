@@ -316,7 +316,6 @@ static int blame_internal(git_blame *blame)
 	ent->suspect = o;
 
 	blame->ent = ent;
-	blame->path = blame->path;
 
 	git_blame__like_git(blame, blame->options.flags);
 

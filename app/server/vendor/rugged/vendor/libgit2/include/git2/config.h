@@ -55,15 +55,21 @@ typedef enum {
 	GIT_CONFIG_HIGHEST_LEVEL = -1,
 } git_config_level_t;
 
+/**
+ * An entry in a configuration file
+ */
 typedef struct {
-	const char *name;
-	const char *value;
-	git_config_level_t level;
+	const char *name; /*< Name of the entry (normalised) */
+	const char *value; /*< String value of the entry */
+	git_config_level_t level; /*< Which config file this was found in */
 } git_config_entry;
 
 typedef int  (*git_config_foreach_cb)(const git_config_entry *, void *);
 typedef struct git_config_iterator git_config_iterator;
 
+/**
+ * Config var type
+ */
 typedef enum {
 	GIT_CVAR_FALSE = 0,
 	GIT_CVAR_TRUE = 1,
@@ -71,6 +77,9 @@ typedef enum {
 	GIT_CVAR_STRING
 } git_cvar_t;
 
+/**
+ * Mapping from config variables to values.
+ */
 typedef struct {
 	git_cvar_t cvar_type;
 	const char *str_match;
@@ -242,20 +251,6 @@ GIT_EXTERN(int) git_config_open_global(git_config **out, git_config *config);
  */
 GIT_EXTERN(int) git_config_snapshot(git_config **out, git_config *config);
 
-
-/**
- * Reload changed config files
- *
- * A config file may be changed on disk out from under the in-memory
- * config object.  This function causes us to look for files that have
- * been modified since we last loaded them and refresh the config with
- * the latest information.
- *
- * @param cfg The configuration to refresh
- * @return 0 or an error code
- */
-GIT_EXTERN(int) git_config_refresh(git_config *cfg);
-
 /**
  * Free the configuration and its associated memory and files
  *
@@ -284,7 +279,7 @@ GIT_EXTERN(int) git_config_get_entry(
  *
  * All config files will be looked into, in the order of their
  * defined level. A higher level means a higher priority. The
- * first occurence of the variable will be returned here.
+ * first occurrence of the variable will be returned here.
  *
  * @param out pointer to the variable where the value should be stored
  * @param cfg where to look for the variable

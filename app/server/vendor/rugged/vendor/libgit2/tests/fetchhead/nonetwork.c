@@ -120,7 +120,7 @@ static int fetchhead_ref_cb(const char *name, const char *url,
 
 	expected = git_vector_get(cb_data->fetchhead_vector, cb_data->idx);
 
-	cl_assert(git_oid_cmp(&expected->oid, oid) == 0);
+	cl_assert_equal_oid(&expected->oid, oid);
 	cl_assert(expected->is_merge == is_merge);
 
 	if (expected->ref_name)
@@ -174,7 +174,7 @@ static int read_old_style_cb(const char *name, const char *url,
 
 	cl_assert(name == NULL);
 	cl_assert(url == NULL);
-	cl_assert(git_oid_cmp(&expected, oid) == 0);
+	cl_assert_equal_oid(&expected, oid);
 	cl_assert(is_merge == 1);
 
 	return 0;
@@ -201,7 +201,7 @@ static int read_type_missing(const char *ref_name, const char *remote_url,
 
 	cl_assert_equal_s("name", ref_name);
 	cl_assert_equal_s("remote_url", remote_url);
-	cl_assert(git_oid_cmp(&expected, oid) == 0);
+	cl_assert_equal_oid(&expected, oid);
 	cl_assert(is_merge == 0);
 
 	return 0;
@@ -228,7 +228,7 @@ static int read_name_missing(const char *ref_name, const char *remote_url,
 
 	cl_assert(ref_name == NULL);
 	cl_assert_equal_s("remote_url", remote_url);
-	cl_assert(git_oid_cmp(&expected, oid) == 0);
+	cl_assert_equal_oid(&expected, oid);
 	cl_assert(is_merge == 0);
 
 	return 0;
@@ -331,11 +331,11 @@ void test_fetchhead_nonetwork__unborn_with_upstream(void)
 	cl_git_pass(git_clone(&repo, "./test1", "./repowithunborn", NULL));
 
 	/* Simulate someone pushing to it by changing to one that has stuff */
-	cl_git_pass(git_remote_load(&remote, repo, "origin"));
+	cl_git_pass(git_remote_lookup(&remote, repo, "origin"));
 	cl_git_pass(git_remote_set_url(remote, cl_fixture("testrepo.git")));
 	cl_git_pass(git_remote_save(remote));
 
-	cl_git_pass(git_remote_fetch(remote, NULL, NULL));
+	cl_git_pass(git_remote_fetch(remote, NULL, NULL, NULL));
 	git_remote_free(remote);
 
 	cl_git_pass(git_repository_fetchhead_foreach(repo, assert_master_for_merge, NULL));

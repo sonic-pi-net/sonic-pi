@@ -62,6 +62,9 @@ static unsigned int workdir_delta2status(
 	case GIT_DELTA_UNTRACKED:
 		st = GIT_STATUS_WT_NEW;
 		break;
+	case GIT_DELTA_UNREADABLE:
+		st = GIT_STATUS_WT_UNREADABLE;
+		break;
 	case GIT_DELTA_DELETED:
 		st = GIT_STATUS_WT_DELETED;
 		break;
@@ -310,6 +313,10 @@ int git_status_list_new(
 		diffopt.flags = diffopt.flags | GIT_DIFF_IGNORE_SUBMODULES;
 	if ((flags & GIT_STATUS_OPT_UPDATE_INDEX) != 0)
 		diffopt.flags = diffopt.flags | GIT_DIFF_UPDATE_INDEX;
+	if ((flags & GIT_STATUS_OPT_INCLUDE_UNREADABLE) != 0)
+		diffopt.flags = diffopt.flags | GIT_DIFF_INCLUDE_UNREADABLE;
+	if ((flags & GIT_STATUS_OPT_INCLUDE_UNREADABLE_AS_UNTRACKED) != 0)
+		diffopt.flags = diffopt.flags | GIT_DIFF_INCLUDE_UNREADABLE_AS_UNTRACKED;
 
 	if ((flags & GIT_STATUS_OPT_RENAMES_FROM_REWRITES) != 0)
 		findopt.flags = findopt.flags |
@@ -329,8 +336,9 @@ int git_status_list_new(
 
 	if (show != GIT_STATUS_SHOW_INDEX_ONLY) {
 		if ((error = git_diff_index_to_workdir(
-				&status->idx2wd, repo, index, &diffopt)) < 0)
+				&status->idx2wd, repo, index, &diffopt)) < 0) {
 			goto done;
+		}
 
 		if ((flags & GIT_STATUS_OPT_RENAMES_INDEX_TO_WORKDIR) != 0 &&
 			(error = git_diff_find_similar(status->idx2wd, &findopt)) < 0)
@@ -407,8 +415,9 @@ int git_status_foreach_ext(
 	size_t i;
 	int error = 0;
 
-	if ((error = git_status_list_new(&status, repo, opts)) < 0)
+	if ((error = git_status_list_new(&status, repo, opts)) < 0) {
 		return error;
+	}
 
 	git_vector_foreach(&status->paired, i, status_entry) {
 		const char *path = status_entry->head_to_index ?
@@ -485,7 +494,8 @@ int git_status_file(
 		GIT_STATUS_OPT_RECURSE_IGNORED_DIRS |
 		GIT_STATUS_OPT_INCLUDE_UNTRACKED |
 		GIT_STATUS_OPT_RECURSE_UNTRACKED_DIRS |
-		GIT_STATUS_OPT_INCLUDE_UNMODIFIED;
+		GIT_STATUS_OPT_INCLUDE_UNMODIFIED |
+		GIT_STATUS_OPT_DISABLE_PATHSPEC_MATCH;
 	opts.pathspec.count = 1;
 	opts.pathspec.strings = &sfi.expected;
 

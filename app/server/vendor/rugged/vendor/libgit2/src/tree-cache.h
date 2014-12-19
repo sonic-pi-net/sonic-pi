@@ -9,24 +9,29 @@
 #define INCLUDE_tree_cache_h__
 
 #include "common.h"
+#include "pool.h"
+#include "buffer.h"
 #include "git2/oid.h"
 
-struct git_tree_cache {
-	struct git_tree_cache *parent;
+typedef struct git_tree_cache {
 	struct git_tree_cache **children;
 	size_t children_count;
 
-	ssize_t entries;
+	ssize_t entry_count;
 	git_oid oid;
 	size_t namelen;
 	char name[GIT_FLEX_ARRAY];
-};
+} git_tree_cache;
 
-typedef struct git_tree_cache git_tree_cache;
-
-int git_tree_cache_read(git_tree_cache **tree, const char *buffer, size_t buffer_size);
+int git_tree_cache_write(git_buf *out, git_tree_cache *tree);
+int git_tree_cache_read(git_tree_cache **tree, const char *buffer, size_t buffer_size, git_pool *pool);
 void git_tree_cache_invalidate_path(git_tree_cache *tree, const char *path);
 const git_tree_cache *git_tree_cache_get(const git_tree_cache *tree, const char *path);
+int git_tree_cache_new(git_tree_cache **out, const char *name, git_pool *pool);
+/**
+ * Read a tree as the root of the tree cache (like for `git read-tree`)
+ */
+int git_tree_cache_read_tree(git_tree_cache **out, const git_tree *tree, git_pool *pool);
 void git_tree_cache_free(git_tree_cache *tree);
 
 #endif

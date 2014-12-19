@@ -61,6 +61,31 @@ void test_refs_branches_upstream__trying_to_retrieve_a_remote_tracking_reference
 	cl_assert_equal_i(GIT_ENOTFOUND, git_branch_upstream(&upstream, branch));
 }
 
+void test_refs_branches_upstream__upstream_remote(void)
+{
+	git_buf buf = GIT_BUF_INIT;
+
+	cl_git_pass(git_branch_upstream_remote(&buf, repo, "refs/heads/master"));
+	cl_assert_equal_s("test", buf.ptr);
+	git_buf_free(&buf);
+}
+
+void test_refs_branches_upstream__upstream_remote_empty_value(void)
+{
+	git_repository *repository;
+	git_config *cfg;
+	git_buf buf = GIT_BUF_INIT;
+
+	repository = cl_git_sandbox_init("testrepo.git");
+	cl_git_pass(git_repository_config(&cfg, repository));
+	cl_git_pass(git_config_set_string(cfg, "branch.master.remote", ""));
+	cl_git_fail_with(GIT_ENOTFOUND, git_branch_upstream_remote(&buf, repository, "refs/heads/master"));
+
+	cl_git_pass(git_config_delete_entry(cfg, "branch.master.remote"));
+	cl_git_fail_with(GIT_ENOTFOUND, git_branch_upstream_remote(&buf, repository, "refs/heads/master"));
+	cl_git_sandbox_cleanup();
+}
+
 static void assert_merge_and_or_remote_key_missing(git_repository *repository, const git_commit *target, const char *entry_name)
 {
 	git_reference *branch;

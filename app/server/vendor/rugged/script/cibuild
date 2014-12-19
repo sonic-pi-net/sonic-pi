@@ -6,7 +6,7 @@ set -ex
 cd $(dirname "$0")/..
 PATH="$(pwd)/bin:$(pwd)/script:/usr/share/rbenv/shims:$PATH"
 
-export RBENV_VERSION="2.0.0-github"
+export RBENV_VERSION="2.1.2-github"
 export CI_BUILD=1
 
 # Write commit we're building at
@@ -18,8 +18,7 @@ git submodule update --init
 (
     cd vendor/libgit2
     git fetch origin
-    git reset -q --hard origin/development
-    make -f Makefile.embed clean
+    git reset -q --hard origin/master
 )
 
 bundle install --path vendor/gems --binstubs

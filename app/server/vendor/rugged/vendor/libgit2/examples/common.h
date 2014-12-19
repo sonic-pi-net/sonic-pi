@@ -49,6 +49,15 @@ struct args_info {
 /**
  * Check current `args` entry against `opt` string.  If it matches
  * exactly, take the next arg as a string; if it matches as a prefix with
+ * an equal sign, take the remainder as a string; if value not supplied, 
+ * default value `def` will be given. otherwise return 0.
+ */
+extern int optional_str_arg(
+	const char **out, struct args_info *args, const char *opt, const char *def);
+
+/**
+ * Check current `args` entry against `opt` string.  If it matches
+ * exactly, take the next arg as a string; if it matches as a prefix with
  * an equal sign, take the remainder as a string; otherwise return 0.
  */
 extern int match_str_arg(

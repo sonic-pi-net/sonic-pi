@@ -78,7 +78,7 @@ void test_refs_overwrite__object_id(void)
 
 	/* Ensure it has been overwritten */
 	cl_git_pass(git_reference_lookup(&ref, g_repo, ref_name));
-	cl_assert(!git_oid_cmp(&id, git_reference_target(ref)));
+	cl_assert_equal_oid(&id, git_reference_target(ref));
 
 	git_reference_free(ref);
 }
@@ -130,7 +130,7 @@ void test_refs_overwrite__symbolic_with_object_id(void)
 	/* Ensure it points to the right place */
 	cl_git_pass(git_reference_lookup(&ref, g_repo, ref_name));
 	cl_assert(git_reference_type(ref) & GIT_REF_OID);
-	cl_assert(!git_oid_cmp(git_reference_target(ref), &id));
+	cl_assert_equal_oid(&id, git_reference_target(ref));
 
 	git_reference_free(ref);
 }

@@ -236,7 +236,7 @@ static void action_create_tag(tag_state *state)
 	git_signature_free(tagger);
 }
 
-static void print_usage()
+static void print_usage(void)
 {
 	fprintf(stderr, "usage: see `git help tag`\n");
 	exit(1);
@@ -300,7 +300,7 @@ int main(int argc, char **argv)
 	tag_action action;
 	tag_state state;
 
-	git_threads_init();
+	git_libgit2_init();
 
 	check_lg2(git_repository_open_ext(&repo, ".", 0, NULL),
 			"Could not open repository", NULL);
@@ -313,7 +313,7 @@ int main(int argc, char **argv)
 	action(&state);
 
 	git_repository_free(repo);
-	git_threads_shutdown();
+	git_libgit2_shutdown();
 
 	return 0;
 }

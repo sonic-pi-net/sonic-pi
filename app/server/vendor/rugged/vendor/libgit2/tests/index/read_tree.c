@@ -37,7 +37,7 @@ void test_index_read_tree__read_write_involution(void)
 	git_tree_free(tree);
 
 	cl_git_pass(git_index_write_tree(&tree_oid, index));
-	cl_assert(git_oid_cmp(&expected, &tree_oid) == 0);
+	cl_assert_equal_oid(&expected, &tree_oid);
 
 	git_index_free(index);
 	git_repository_free(repo);

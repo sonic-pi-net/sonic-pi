@@ -89,7 +89,7 @@ void test_index_names__cleaned_on_reset_hard(void)
 	cl_git_pass(git_revparse_single(&target, repo, "3a34580"));
 
 	test_index_names__add();
-	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL, NULL));
 	cl_assert(git_index_name_entrycount(repo_index) == 0);
 
 	git_object_free(target);
@@ -102,7 +102,7 @@ void test_index_names__cleaned_on_reset_mixed(void)
 	cl_git_pass(git_revparse_single(&target, repo, "3a34580"));
 
 	test_index_names__add();
-	cl_git_pass(git_reset(repo, target, GIT_RESET_MIXED, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_MIXED, NULL, NULL, NULL));
 	cl_assert(git_index_name_entrycount(repo_index) == 0);
 
 	git_object_free(target);

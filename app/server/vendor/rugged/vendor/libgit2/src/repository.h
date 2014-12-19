@@ -40,6 +40,8 @@ typedef enum {
 	GIT_CVAR_PRECOMPOSE,    /* core.precomposeunicode */
 	GIT_CVAR_SAFE_CRLF,		/* core.safecrlf */
 	GIT_CVAR_LOGALLREFUPDATES, /* core.logallrefupdates */
+	GIT_CVAR_PROTECTHFS,    /* core.protectHFS */
+	GIT_CVAR_PROTECTNTFS,   /* core.protectNTFS */
 	GIT_CVAR_CACHE_MAX
 } git_cvar_cached;
 
@@ -96,6 +98,10 @@ typedef enum {
 	/* core.logallrefupdates */
 	GIT_LOGALLREFUPDATES_UNSET = 2,
 	GIT_LOGALLREFUPDATES_DEFAULT = GIT_LOGALLREFUPDATES_UNSET,
+	/* core.protectHFS */
+	GIT_PROTECTHFS_DEFAULT = GIT_CVAR_FALSE,
+	/* core.protectNTFS */
+	GIT_PROTECTNTFS_DEFAULT = GIT_CVAR_FALSE,
 } git_cvar_value;
 
 /* internal repository init flags */
@@ -120,8 +126,11 @@ struct git_repository {
 	char *path_repository;
 	char *workdir;
 	char *namespace;
+	char *name_8dot3;
 
-	unsigned is_bare:1;
+	unsigned is_bare:1,
+		has_8dot3:1,
+		has_8dot3_default:1;
 	unsigned int lru_counter;
 
 	git_cvar_value cvar_cache[GIT_CVAR_CACHE_MAX];
@@ -150,7 +159,7 @@ int git_repository_index__weakptr(git_index **out, git_repository *repo);
  * CVAR cache
  *
  * Efficient access to the most used config variables of a repository.
- * The cache is cleared everytime the config backend is replaced.
+ * The cache is cleared every time the config backend is replaced.
  */
 int git_repository__cvar(int *out, git_repository *repo, git_cvar_cached cvar);
 void git_repository__cvar_cache_clear(git_repository *repo);
@@ -170,6 +179,23 @@ GIT_INLINE(int) git_repository__ensure_not_bare(
 	return GIT_EBAREREPO;
 }
 
+int git_repository__set_orig_head(git_repository *repo, const git_oid *orig_head);
+
 int git_repository__cleanup_files(git_repository *repo, const char *files[], size_t files_len);
+
+/*
+ * Gets the DOS-compatible 8.3 "short name".  This will return only the
+ * short name for the repository directory (ie, "git~1" for ".git").  This
+ * will always return a pointer to `git_repository__8dot3_default` when
+ * "GIT~1" is the short name.  This will return NULL for bare repositories,
+ * and systems that do not have a short name.
+ */
+const char *git_repository__8dot3_name(git_repository *repo);
+
+/* The default DOS-compatible 8.3 "short name" for a git repository,
+ * "GIT~1".
+ */
+extern const char *git_repository__8dot3_default;
+extern size_t git_repository__8dot3_default_len;
 
 #endif

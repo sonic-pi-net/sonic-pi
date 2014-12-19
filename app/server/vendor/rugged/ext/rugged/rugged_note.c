@@ -171,9 +171,9 @@ static VALUE rb_git_note_create(VALUE self, VALUE rb_data)
 	error = git_note_create(
 			&note_oid,
 			repo,
+			notes_ref,
 			author,
 			committer,
-			notes_ref,
 			git_object_id(target),
 			StringValueCStr(rb_message),
 			force);

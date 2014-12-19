@@ -4,33 +4,67 @@ require 'net/http'
 class RemoteNetworkTest < Rugged::TestCase
   include Rugged::RepositoryAccess
 
-  def test_remote_network_connect
+  def skip_if_unreachable
     begin
       Net::HTTP.new('github.com').head('/')
     rescue SocketError => msg
       skip "github is not reachable: #{msg}"
     end
+  end
 
-    remote = Rugged::Remote.new(@repo, 'git://github.com/libgit2/libgit2.git')
+  def test_remote_network_connect
+    skip_if_unreachable
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
     assert remote.ls.any?
+  end
+
+  def test_remote_check_connection_fetch
+    skip_if_unreachable
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
+    assert remote.check_connection(:fetch)
+  end
+
+  def test_remote_check_connection_push
+    skip_if_unreachable
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
+    assert !remote.check_connection(:push)
+  end
+
+  def test_remote_check_connection_push_credentials
+    skip_if_unreachable
+    remote = @repo.remotes.create_anonymous('https://github.com/libgit2-push-test/libgit2-push-test.git')
+    credentials = Rugged::Credentials::UserPassword.new(username: "libgit2-push-test", password: "123qwe123")
+    assert remote.check_connection(:push, credentials: credentials)
+  end
+
+  def test_remote_check_connection_invalid
+    skip_if_unreachable
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
+    assert_raises(TypeError) { remote.check_connection(:pull) }
   end
 end
 
-class RemoteTest < Rugged::TestCase
-  include Rugged::RepositoryAccess
+class RemoteTest < Rugged::SandboxedTestCase
+  def setup
+    super
+    @repo = sandbox_init("testrepo.git")
+  end
+
+  def teardown
+    @repo.close
+    super
+  end
 
   class TestException < StandardError
   end
 
   def test_list_remote_names
-    remote_names = Rugged::Remote.names(@repo)
-    assert_equal ["test_remote", "libgit2"].sort, remote_names.sort
+    assert_equal ["empty-remote-pushurl", "empty-remote-url", "joshaber", "test", "test_with_pushurl"], @repo.remotes.each_name.sort
   end
 
   def test_list_remotes
-    remotes = @repo.remotes
-    assert remotes.kind_of? Enumerable
-    assert_equal ["test_remote", "libgit2"].sort, remotes.map(&:name).sort
+    assert @repo.remotes.kind_of? Enumerable
+    assert_equal ["empty-remote-pushurl", "empty-remote-url", "joshaber", "test", "test_with_pushurl"], @repo.remotes.map(&:name).sort
   end
 
   def test_remotes_each_protect
@@ -42,42 +76,42 @@ class RemoteTest < Rugged::TestCase
   end
 
   def test_remote_new_name
-    remote = Rugged::Remote.new(@repo, 'git://github.com/libgit2/libgit2.git')
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
     assert_nil remote.name
     assert_equal 'git://github.com/libgit2/libgit2.git', remote.url
   end
 
   def test_remote_new_invalid_url
-    assert_raises ArgumentError do
-      Rugged::Remote.new(@repo, 'libgit2')
-    end
+    @repo.remotes.create_anonymous('libgit2')
+  end
+
+  def test_remote_delete
+    @repo.remotes.delete("test")
+    assert_nil @repo.remotes["test"]
   end
 
   def test_url_set
     new_url = 'git://github.com/libgit2/TestGitRepository.git'
-    remote = Rugged::Remote.new(@repo, 'git://github.com/libgit2/libgit2.git')
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
     remote.url = new_url
     assert_equal new_url, remote.url
   end
 
   def test_url_set_invalid
-    url = 'upstream'
-    remote = Rugged::Remote.new(@repo, 'git://github.com/libgit2/libgit2.git')
-    assert_raises ArgumentError do
-      remote.url = url
-    end
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
+    remote.url = 'upstream'
   end
 
   def test_push_url
-    assert_equal 'git://github.com/libgit2/TestEmptyRepository.git',
-      Rugged::Remote.lookup(@repo, 'test_remote').push_url
+    assert_equal 'git://github.com/libgit2/pushlibgit2',
+      @repo.remotes['test_with_pushurl'].push_url
 
-    assert_nil Rugged::Remote.lookup(@repo, 'libgit2').push_url
+    assert_nil @repo.remotes['joshaber'].push_url
   end
 
   def test_push_url_set
     new_url = 'git://github.com/libgit2/TestGitRepository.git'
-    remote = Rugged::Remote.new(@repo, 'git://github.com/libgit2/libgit2.git')
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
 
     assert_nil remote.push_url
     remote.push_url = new_url
@@ -85,41 +119,41 @@ class RemoteTest < Rugged::TestCase
   end
 
   def test_push_url_set_invalid
-    new_url = 'upstream'
-    remote = Rugged::Remote.new(@repo, 'git://github.com/libgit2/libgit2.git')
-    assert_raises ArgumentError do
-      remote.push_url = new_url
-    end
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
+    remote.push_url = 'upstream'
   end
 
   def test_fetch_refspecs
-    remote = Rugged::Remote.lookup(@repo, 'test_remote')
-    assert_equal ['+refs/heads/*:refs/remotes/test_remote/*'], remote.fetch_refspecs
+    remote = @repo.remotes['test']
+    assert_equal ['+refs/heads/*:refs/remotes/test/*'], remote.fetch_refspecs
 
-    assert_empty Rugged::Remote.lookup(@repo, 'libgit2').fetch_refspecs
+    assert_empty @repo.remotes['joshaber'].fetch_refspecs
   end
 
   def test_push_refspecs
-    remote = Rugged::Remote.lookup(@repo, 'test_remote')
+    remote = @repo.remotes['test']
+    assert_empty remote.push_refspecs
+
+    remote.add_push('refs/heads/*:refs/heads/testing/*')
     assert_equal ['refs/heads/*:refs/heads/testing/*'], remote.push_refspecs
 
-    assert_empty Rugged::Remote.lookup(@repo, 'libgit2').push_refspecs
+    assert_empty @repo.remotes['joshaber'].push_refspecs
   end
 
   def test_add_fetch
-    remote = Rugged::Remote.new(@repo, 'git://github.com/libgit2/libgit2.git')
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
     assert_nil remote.add_fetch('+refs/heads/*:refs/remotes/test/*')
     assert_equal ['+refs/heads/*:refs/remotes/test/*'], remote.fetch_refspecs
   end
 
   def test_add_push
-    remote = Rugged::Remote.new(@repo, 'git://github.com/libgit2/libgit2.git')
+    remote = @repo.remotes.create_anonymous('git://github.com/libgit2/libgit2.git')
     assert_nil remote.add_push('refs/heads/*:refs/heads/test/*')
     assert_equal ['refs/heads/*:refs/heads/test/*'], remote.push_refspecs
   end
 
   def test_clear_refspecs
-    remote = Rugged::Remote.lookup(@repo, 'test_remote')
+    remote = @repo.remotes['test']
 
     remote.clear_refspecs
 
@@ -128,18 +162,18 @@ class RemoteTest < Rugged::TestCase
   end
 
   def test_remote_lookup
-    remote = Rugged::Remote.lookup(@repo, 'libgit2')
-    assert_equal 'git://github.com/libgit2/libgit2.git', remote.url
-    assert_equal 'libgit2', remote.name
+    remote = @repo.remotes['test']
+    assert_equal 'git://github.com/libgit2/libgit2', remote.url
+    assert_equal 'test', remote.name
   end
 
   def test_remote_lookup_missing
-    assert_nil Rugged::Remote.lookup(@repo, 'missing_remote')
+    assert_nil @repo.remotes['missing_remote']
   end
 
   def test_remote_lookup_invalid
     assert_raises Rugged::ConfigError do
-      Rugged::Remote.lookup(@repo, "*\?")
+      @repo.remotes["*\?"]
     end
   end
 end
@@ -155,7 +189,7 @@ class RemotePushTest < Rugged::SandboxedTestCase
     @repo.references.create("refs/heads/unit_test",
       "8496071c1b46c854b31185ea97743be6a8774479")
 
-    @remote = Rugged::Remote.lookup(@repo, 'origin')
+    @remote = @repo.remotes['origin']
   end
 
   def teardown
@@ -204,50 +238,55 @@ class RemoteWriteTest < Rugged::TestCase
   include Rugged::TempRepositoryAccess
 
   def test_remote_add
-    Rugged::Remote.add(@repo, 'upstream', 'git://github.com/libgit2/libgit2.git')
-    remote = Rugged::Remote.lookup(@repo, 'upstream')
+    @repo.remotes.create('upstream', 'git://github.com/libgit2/libgit2.git')
+    remote = @repo.remotes['upstream']
     assert_equal 'upstream', remote.name
     assert_equal 'git://github.com/libgit2/libgit2.git', remote.url
   end
 
   def test_remote_add_with_invalid_url
-    assert_raises ArgumentError do
-      Rugged::Remote.add(@repo, 'upstream', 'libgit2')
-    end
+    @repo.remotes.create('upstream', 'libgit2')
   end
 
   def test_url_set
     new_url = 'git://github.com/l?#!@#$ibgit2/TestGitRepository.git'
-    remote = Rugged::Remote.lookup(@repo, 'origin')
+    remote = @repo.remotes['origin']
     remote.url = new_url
     assert remote.save
-    assert_equal new_url, Rugged::Remote.lookup(@repo, 'origin').url
+    assert_equal new_url, @repo.remotes['origin'].url
   end
 
   def test_rename
-    remote = Rugged::Remote.lookup(@repo, 'origin')
-    assert_nil remote.rename!('new_remote_name')
-    assert Rugged::Remote.lookup(@repo, 'new_remote_name')
+    new_remote = @repo.remotes.rename('origin', 'new_remote_name') { }
+    assert_equal new_remote.name, 'new_remote_name'
+  end
+
+  def test_rename_with_remote
+    old_remote = @repo.remotes['origin']
+    new_remote = @repo.remotes.rename(old_remote, 'new_remote_name') { }
+
+    assert_equal new_remote.name, 'new_remote_name'
+    assert_equal old_remote.name, 'origin'
   end
 
   def test_rename_invalid_name
-    remote = Rugged::Remote.lookup(@repo, 'origin')
     assert_raises Rugged::ConfigError do
-      remote.rename!('/?')
+      @repo.remotes.rename('origin', '/?') { }
     end
   end
 
-  def test_rename_exists
-    remote = Rugged::Remote.lookup(@repo, 'origin')
+  def test_rename_to_existing
     assert_raises Rugged::ConfigError do
-      remote.rename!('origin')
+      @repo.remotes.rename('origin', 'origin') { }
     end
   end
 
   def test_rename_error_callback
-    @repo.config['remote.origin.fetch']  = '+refs/*:refs/*'
-    remote = Rugged::Remote.lookup(@repo, 'origin')
-    assert_equal ["+refs/*:refs/*"], remote.rename!('test_remote')
+    @repo.config['remote.origin.fetch'] = '+refs/*:refs/*'
+
+    problems = []
+    @repo.remotes.rename('origin', 'test_remote') { |problem| problems << problem }
+    assert_equal ["+refs/*:refs/*"], problems
   end
 end
 
@@ -259,7 +298,7 @@ class RemoteTransportTest < Rugged::TestCase
     @path = Dir.mktmpdir 'dir'
     @repo = Rugged::Repository.init_at(@path, false)
     repo_dir = File.join(TEST_DIR, (File.join('fixtures', 'testrepo.git', '.')))
-    @remote = Rugged::Remote.add(@repo, 'origin', repo_dir)
+    @remote = @repo.remotes.create('origin', repo_dir)
   end
 
   def teardown

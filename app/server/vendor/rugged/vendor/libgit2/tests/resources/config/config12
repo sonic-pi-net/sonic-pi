@@ -1,7 +1,13 @@
 [some "section"]
       test = hi ; comment
+      test2 = hello    ; comment
+      test3 = welcome  #comment
       other = "hello! \" ; ; ; " ; more test
+      other2 = "cool! \" # # # "  # more test
       multi = "hi, this is a ; \
 multiline comment # with ;\n special chars \
 and other stuff !@#"
+      multi2 = "good, this is a ; \
+multiline comment # with ;\n special chars \
+and other stuff !@#"  #^^^
       back = "this is \ba phrase"

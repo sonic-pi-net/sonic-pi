@@ -29,7 +29,7 @@ static void assert_peel(
 	cl_git_pass(git_object_peel(&peeled, obj, requested_type));
 
 	cl_git_pass(git_oid_fromstr(&expected_oid, expected_sha));
-	cl_assert_equal_i(0, git_oid_cmp(&expected_oid, git_object_id(peeled)));
+	cl_assert_equal_oid(&expected_oid, git_object_id(peeled));
 
 	cl_assert_equal_i(expected_type, git_object_type(peeled));
 
@@ -63,28 +63,47 @@ void test_object_peel__peeling_an_object_into_its_own_type_returns_another_insta
 		"0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_BLOB);
 }
 
-void test_object_peel__can_peel_a_tag(void)
+void test_object_peel__tag(void)
 {
 	assert_peel("7b4384978d2493e851f9cca7858815fac9b10980", GIT_OBJ_COMMIT,
 		"e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_COMMIT);
 	assert_peel("7b4384978d2493e851f9cca7858815fac9b10980", GIT_OBJ_TREE,
 		"53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_TREE);
+	assert_peel_error(GIT_EPEEL, "7b4384978d2493e851f9cca7858815fac9b10980", GIT_OBJ_BLOB);
+	assert_peel("7b4384978d2493e851f9cca7858815fac9b10980", GIT_OBJ_ANY,
+		    "e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_COMMIT);
 }
 
-void test_object_peel__can_peel_a_commit(void)
+void test_object_peel__commit(void)
 {
+	assert_peel_error(GIT_EINVALIDSPEC, "e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_BLOB);
 	assert_peel("e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_TREE,
-		"53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_TREE);
+		    "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_TREE);
+	assert_peel("e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_COMMIT,
+		    "e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_COMMIT);
+	assert_peel_error(GIT_EINVALIDSPEC, "e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_TAG);
+	assert_peel("e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_ANY,
+		    "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_TREE);
 }
 
-void test_object_peel__cannot_peel_a_tree(void)
+void test_object_peel__tree(void)
 {
-	assert_peel_error(GIT_EAMBIGUOUS, "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_BLOB);
+	assert_peel_error(GIT_EINVALIDSPEC, "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_BLOB);
+	assert_peel("53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_TREE,
+		    "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_TREE);
+	assert_peel_error(GIT_EINVALIDSPEC, "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_COMMIT);
+	assert_peel_error(GIT_EINVALIDSPEC, "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_TAG);
+	assert_peel_error(GIT_EINVALIDSPEC, "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_ANY);
 }
 
-void test_object_peel__cannot_peel_a_blob(void)
+void test_object_peel__blob(void)
 {
-	assert_peel_error(GIT_ENOTFOUND, "0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_COMMIT);
+	assert_peel("0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_BLOB,
+		    "0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_BLOB);
+	assert_peel_error(GIT_EINVALIDSPEC, "0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_TREE);
+	assert_peel_error(GIT_EINVALIDSPEC, "0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_COMMIT);
+	assert_peel_error(GIT_EINVALIDSPEC, "0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_TAG);
+	assert_peel_error(GIT_EINVALIDSPEC, "0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_ANY);
 }
 
 void test_object_peel__target_any_object_for_type_change(void)
@@ -96,10 +115,4 @@ void test_object_peel__target_any_object_for_type_change(void)
 	/* commit to tree */
 	assert_peel("e90810b8df3e80c413d903f631643c716887138d", GIT_OBJ_ANY,
 		"53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_TREE);
-
-	/* fail to peel tree */
-	assert_peel_error(GIT_EAMBIGUOUS, "53fc32d17276939fc79ed05badaef2db09990016", GIT_OBJ_ANY);
-
-	/* fail to peel blob */
-	assert_peel_error(GIT_ENOTFOUND, "0266163a49e280c4f5ed1e08facd36a2bd716bcf", GIT_OBJ_ANY);
 }

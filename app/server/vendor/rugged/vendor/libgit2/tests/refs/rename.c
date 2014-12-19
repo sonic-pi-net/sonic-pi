@@ -220,7 +220,7 @@ void test_refs_rename__force_loose_packed(void)
 	/* Check we actually renamed it */
 	cl_git_pass(git_reference_lookup(&looked_up_ref, g_repo, packed_test_head_name));
 	cl_assert_equal_s(looked_up_ref->name, packed_test_head_name);
-	cl_assert(!git_oid_cmp(&oid, git_reference_target(looked_up_ref)));
+	cl_assert_equal_oid(&oid, git_reference_target(looked_up_ref));
 	git_reference_free(looked_up_ref);
 
 	/* And that the previous one doesn't exist any longer */
@@ -245,7 +245,7 @@ void test_refs_rename__force_loose(void)
 	/* Check we actually renamed it */
 	cl_git_pass(git_reference_lookup(&looked_up_ref, g_repo, "refs/heads/test"));
 	cl_assert_equal_s(looked_up_ref->name,  "refs/heads/test");
-	cl_assert(!git_oid_cmp(&oid, git_reference_target(looked_up_ref)));
+	cl_assert_equal_oid(&oid, git_reference_target(looked_up_ref));
 	git_reference_free(looked_up_ref);
 
 	/* And that the previous one doesn't exist any longer */

@@ -229,13 +229,13 @@ static void test_reflog(git_repository *repo, size_t idx,
 	if (old_spec) {
 		git_object *obj;
 		cl_git_pass(git_revparse_single(&obj, repo, old_spec));
-		cl_assert_equal_i(0, git_oid_cmp(git_object_id(obj), git_reflog_entry_id_old(entry)));
+		cl_assert_equal_oid(git_object_id(obj), git_reflog_entry_id_old(entry));
 		git_object_free(obj);
 	}
 	if (new_spec) {
 		git_object *obj;
 		cl_git_pass(git_revparse_single(&obj, repo, new_spec));
-		cl_assert_equal_i(0, git_oid_cmp(git_object_id(obj), git_reflog_entry_id_new(entry)));
+		cl_assert_equal_oid(git_object_id(obj), git_reflog_entry_id_new(entry));
 		git_object_free(obj);
 	}
 

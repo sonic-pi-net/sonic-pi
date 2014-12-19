@@ -28,15 +28,15 @@ static int maybe_want(git_remote *remote, git_remote_head *head, git_odb *odb, g
 
 	if (remote->download_tags == GIT_REMOTE_DOWNLOAD_TAGS_ALL) {
 		/*
-		 * If tagopt is --tags, then we only use the default
-		 * tags refspec and ignore the remote's
+		 * If tagopt is --tags, always request tags
+		 * in addition to the remote's refspecs
 		 */
 		if (git_refspec_src_matches(tagspec, head->name))
 			match = 1;
-		else
-			return 0;
-	} else if (git_remote__matching_refspec(remote, head->name))
-			match = 1;
+	}
+
+	if (!match && git_remote__matching_refspec(remote, head->name))
+		match = 1;
 
 	if (!match)
 		return 0;

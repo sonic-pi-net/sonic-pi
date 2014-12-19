@@ -16,6 +16,7 @@
 #include "commit.h"
 #include "signature.h"
 #include "message.h"
+#include "refs.h"
 
 void git_commit__free(void *_commit)
 {
@@ -32,35 +33,6 @@ void git_commit__free(void *_commit)
 	git__free(commit->summary);
 
 	git__free(commit);
-}
-
-static int update_ref_for_commit(git_repository *repo, git_reference *ref, const char *update_ref, const git_oid *id, const git_signature *committer)
-{
-	git_reference *ref2 = NULL;
-	int error;
-	git_commit *c;
-	const char *shortmsg;
-	git_buf reflog_msg = GIT_BUF_INIT;
-
-	if ((error = git_commit_lookup(&c, repo, id)) < 0) {
-		return error;
-	}
-
-	shortmsg = git_commit_summary(c);
-	git_buf_printf(&reflog_msg, "commit%s: %s",
-		       git_commit_parentcount(c) == 0 ? " (initial)" : "",
-		       shortmsg);
-	git_commit_free(c);
-
-	if (ref) {
-		error = git_reference_set_target(&ref2, ref, id, committer, git_buf_cstr(&reflog_msg));
-		git_reference_free(ref2);
-	} else {
-		error = git_reference__update_terminal(repo, update_ref, id, committer, git_buf_cstr(&reflog_msg));
-	}
-
-	git_buf_free(&reflog_msg);
-	return error;
 }
 
 int git_commit_create_from_callback(
@@ -131,7 +103,8 @@ int git_commit_create_from_callback(
 	git_buf_free(&commit);
 
 	if (update_ref != NULL) {
-		error = update_ref_for_commit(repo, ref, update_ref, id, committer);
+		error = git_reference__update_for_commit(
+			repo, ref, update_ref, id, committer, "commit");
 		git_reference_free(ref);
 		return error;
 	}
@@ -321,7 +294,8 @@ int git_commit_amend(
 		&tree_id, commit_parent_for_amend, (void *)commit_to_amend);
 
 	if (!error && update_ref) {
-		error = update_ref_for_commit(repo, ref, NULL, id, committer);
+		error = git_reference__update_for_commit(
+			repo, ref, NULL, id, committer, "commit");
 		git_reference_free(ref);
 	}
 

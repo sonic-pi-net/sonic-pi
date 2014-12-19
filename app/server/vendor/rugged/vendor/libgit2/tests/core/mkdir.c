@@ -186,3 +186,34 @@ void test_core_mkdir__chmods(void)
 	cl_git_pass(git_path_lstat("r/mode2/is2/important2.1", &st));
 	check_mode(0777, st.st_mode);
 }
+
+void test_core_mkdir__mkdir_path_inside_unwriteable_parent(void)
+{
+	struct stat st;
+	mode_t *old;
+
+	/* FAT filesystems don't support exec bit, nor group/world bits */
+	if (!cl_is_chmod_supported())
+		return;
+
+	cl_assert((old = git__malloc(sizeof(mode_t))) != NULL);
+	*old = p_umask(022);
+	cl_set_cleanup(cleanup_chmod_root, old);
+
+	cl_git_pass(git_futils_mkdir("r", NULL, 0777, 0));
+	cl_git_pass(git_futils_mkdir("mode/is/important", "r", 0777, GIT_MKDIR_PATH));
+	cl_git_pass(git_path_lstat("r/mode", &st));
+	check_mode(0755, st.st_mode);
+
+	cl_must_pass(p_chmod("r/mode", 0111));
+	cl_git_pass(git_path_lstat("r/mode", &st));
+	check_mode(0111, st.st_mode);
+
+	cl_git_pass(
+		git_futils_mkdir("mode/is/okay/inside", "r", 0777, GIT_MKDIR_PATH));
+	cl_git_pass(git_path_lstat("r/mode/is/okay/inside", &st));
+	check_mode(0755, st.st_mode);
+
+	cl_must_pass(p_chmod("r/mode", 0777));
+}
+

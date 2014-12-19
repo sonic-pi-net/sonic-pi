@@ -11,9 +11,9 @@
 #include "repository.h"
 #include "odb.h"
 #include "vector.h"
+#include "strmap.h"
 
 struct git_tree_entry {
-	uint16_t removed;
 	uint16_t attr;
 	git_oid oid;
 	size_t filename_len;
@@ -26,8 +26,8 @@ struct git_tree {
 };
 
 struct git_treebuilder {
-	git_vector entries;
-	size_t entrycount; /* vector may contain "removed" entries */
+	git_repository *repo;
+	git_strmap *map;
 };
 
 GIT_INLINE(bool) git_tree_entry__is_tree(const struct git_tree_entry *e)

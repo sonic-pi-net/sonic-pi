@@ -1268,6 +1268,16 @@ typedef struct {
 	fs_iterator fi;
 	git_ignores ignores;
 	int is_ignored;
+
+	/*
+	 * We may have a tree or the index+snapshot to compare against
+	 * when checking for submodules.
+	 */
+	git_tree *tree;
+	git_index *index;
+	git_vector index_snapshot;
+	git_vector_cmp entry_srch;
+
 } workdir_iterator;
 
 GIT_INLINE(bool) workdir_path_is_dotgit(const git_buf *path)
@@ -1287,6 +1297,49 @@ GIT_INLINE(bool) workdir_path_is_dotgit(const git_buf *path)
 		return false;
 
 	return (len == 4 || path->ptr[len - 5] == '/');
+}
+
+/**
+ * Figure out if an entry is a submodule.
+ *
+ * We consider it a submodule if the path is listed as a submodule in
+ * either the tree or the index.
+ */
+static int is_submodule(workdir_iterator *wi, git_path_with_stat *ie)
+{
+	int error, is_submodule = 0;
+
+	if (wi->tree) {
+		git_tree_entry *e;
+
+		/* remove the trailing slash for finding */
+		ie->path[ie->path_len-1] = '\0';
+		error = git_tree_entry_bypath(&e, wi->tree, ie->path);
+		ie->path[ie->path_len-1] = '/';
+		if (error < 0 && error != GIT_ENOTFOUND)
+			return 0;
+		if (!error) {
+			is_submodule = e->attr == GIT_FILEMODE_COMMIT;
+			git_tree_entry_free(e);
+		}
+	}
+
+	if (!is_submodule && wi->index) {
+		git_index_entry *e;
+		size_t pos;
+
+		error = git_index_snapshot_find(&pos, &wi->index_snapshot, wi->entry_srch, ie->path, ie->path_len-1, 0);
+		if (error < 0 && error != GIT_ENOTFOUND)
+			return 0;
+
+		if (!error) {
+			e = git_vector_get(&wi->index_snapshot, pos);
+
+			is_submodule = e->mode == GIT_FILEMODE_COMMIT;
+		}
+	}
+
+	return is_submodule;
 }
 
 static int workdir_iterator__enter_dir(fs_iterator *fi)
@@ -1321,7 +1374,7 @@ static int workdir_iterator__enter_dir(fs_iterator *fi)
 		if (!S_ISDIR(entry->st.st_mode) || !strcmp(GIT_DIR, entry->path))
 			continue;
 
-		if (git_submodule__is_submodule(fi->base.repo, entry->path)) {
+		if (is_submodule(wi, entry)) {
 			entry->st.st_mode = GIT_FILEMODE_COMMIT;
 			entry->path_len--;
 			entry->path[entry->path_len] = '\0';
@@ -1363,6 +1416,9 @@ static int workdir_iterator__update_entry(fs_iterator *fi)
 static void workdir_iterator__free(git_iterator *self)
 {
 	workdir_iterator *wi = (workdir_iterator *)self;
+	if (wi->index)
+		git_index_snapshot_release(&wi->index_snapshot, wi->index);
+	git_tree_free(wi->tree);
 	fs_iterator__free(self);
 	git_ignore__free(&wi->ignores);
 }
@@ -1371,6 +1427,8 @@ int git_iterator_for_workdir_ext(
 	git_iterator **out,
 	git_repository *repo,
 	const char *repo_workdir,
+	git_index *index,
+	git_tree *tree,
 	git_iterator_flag_t flags,
 	const char *start,
 	const char *end)
@@ -1401,6 +1459,18 @@ int git_iterator_for_workdir_ext(
 		git_iterator_free((git_iterator *)wi);
 		return error;
 	}
+
+	if (tree && (error = git_object_dup((git_object **)&wi->tree, (git_object *)tree)) < 0)
+		return error;
+
+	wi->index = index;
+	if (index && (error = git_index_snapshot_new(&wi->index_snapshot, index)) < 0) {
+		git_iterator_free((git_iterator *)wi);
+		return error;
+	}
+	wi->entry_srch = iterator__ignore_case(wi) ?
+		git_index_entry_isrch : git_index_entry_srch;
+
 
 	/* try to look up precompose and set flag if appropriate */
 	if (git_repository__cvar(&precompose, repo, GIT_CVAR_PRECOMPOSE) < 0)

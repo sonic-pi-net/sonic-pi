@@ -11,6 +11,10 @@
 #include "fileops.h"
 #include "map.h"
 #include "global.h"
+#include "strmap.h"
+#include "pack.h"
+
+GIT__USE_STRMAP;
 
 #define DEFAULT_WINDOW_SIZE \
 	(sizeof(void*) >= 8 \
@@ -26,19 +30,128 @@ size_t git_mwindow__mapped_limit = DEFAULT_MAPPED_LIMIT;
 /* Whenever you want to read or modify this, grab git__mwindow_mutex */
 static git_mwindow_ctl mem_ctl;
 
-/*
- * Free all the windows in a sequence, typically because we're done
- * with the file
+/* Global list of mwindow files, to open packs once across repos */
+git_strmap *git__pack_cache = NULL;
+
+/**
+ * Run under mwindow lock
  */
+int git_mwindow_files_init(void)
+{
+	if (git__pack_cache)
+		return 0;
+
+	git__on_shutdown(git_mwindow_files_free);
+
+	return git_strmap_alloc(&git__pack_cache);
+}
+
+void git_mwindow_files_free(void)
+{
+	git_strmap *tmp = git__pack_cache;
+
+	git__pack_cache = NULL;
+	git_strmap_free(tmp);
+}
+
+int git_mwindow_get_pack(struct git_pack_file **out, const char *path)
+{
+	int error;
+	char *packname;
+	git_strmap_iter pos;
+	struct git_pack_file *pack;
+
+	if ((error = git_packfile__name(&packname, path)) < 0)
+		return error;
+
+	if (git_mutex_lock(&git__mwindow_mutex) < 0) {
+		giterr_set(GITERR_OS, "failed to lock mwindow mutex");
+		return -1;
+	}
+
+	if (git_mwindow_files_init() < 0) {
+		git_mutex_unlock(&git__mwindow_mutex);
+		git__free(packname);
+		return -1;
+	}
+
+	pos = git_strmap_lookup_index(git__pack_cache, packname);
+	git__free(packname);
+
+	if (git_strmap_valid_index(git__pack_cache, pos)) {
+		pack = git_strmap_value_at(git__pack_cache, pos);
+		git_atomic_inc(&pack->refcount);
+
+		git_mutex_unlock(&git__mwindow_mutex);
+		*out = pack;
+		return 0;
+	}
+
+	/* If we didn't find it, we need to create it */
+	if ((error = git_packfile_alloc(&pack, path)) < 0) {
+		git_mutex_unlock(&git__mwindow_mutex);
+		return error;
+	}
+
+	git_atomic_inc(&pack->refcount);
+
+	git_strmap_insert(git__pack_cache, pack->pack_name, pack, error);
+	git_mutex_unlock(&git__mwindow_mutex);
+
+	if (error < 0) {
+		git_packfile_free(pack);
+		return -1;
+	}
+
+	*out = pack;
+	return 0;
+}
+
+void git_mwindow_put_pack(struct git_pack_file *pack)
+{
+	int count;
+	git_strmap_iter pos;
+
+	if (git_mutex_lock(&git__mwindow_mutex) < 0)
+		return;
+
+	/* put before get would be a corrupted state */
+	assert(git__pack_cache);
+
+	pos = git_strmap_lookup_index(git__pack_cache, pack->pack_name);
+	/* if we cannot find it, the state is corrupted */
+	assert(git_strmap_valid_index(git__pack_cache, pos));
+
+	count = git_atomic_dec(&pack->refcount);
+	if (count == 0) {
+		git_strmap_delete_at(git__pack_cache, pos);
+		git_packfile_free(pack);
+	}
+
+	git_mutex_unlock(&git__mwindow_mutex);
+	return;
+}
+
 void git_mwindow_free_all(git_mwindow_file *mwf)
 {
-	git_mwindow_ctl *ctl = &mem_ctl;
-	size_t i;
-
 	if (git_mutex_lock(&git__mwindow_mutex)) {
 		giterr_set(GITERR_THREAD, "unable to lock mwindow mutex");
 		return;
 	}
+
+	git_mwindow_free_all_locked(mwf);
+
+	git_mutex_unlock(&git__mwindow_mutex);
+}
+
+/*
+ * Free all the windows in a sequence, typically because we're done
+ * with the file
+ */
+void git_mwindow_free_all_locked(git_mwindow_file *mwf)
+{
+	git_mwindow_ctl *ctl = &mem_ctl;
+	size_t i;
 
 	/*
 	 * Remove these windows from the global list
@@ -67,8 +180,6 @@ void git_mwindow_free_all(git_mwindow_file *mwf)
 		mwf->windows = w->next;
 		git__free(w);
 	}
-
-	git_mutex_unlock(&git__mwindow_mutex);
 }
 
 /*

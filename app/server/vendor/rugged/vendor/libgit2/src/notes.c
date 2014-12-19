@@ -107,7 +107,7 @@ static int tree_write(
 	const git_tree_entry *entry;
 	git_oid tree_oid;
 
-	if ((error = git_treebuilder_create(&tb, source_tree)) < 0)
+	if ((error = git_treebuilder_create(&tb, repo, source_tree)) < 0)
 		goto cleanup;
 
 	if (object_oid) {
@@ -119,7 +119,7 @@ static int tree_write(
 			goto cleanup;
 	}
 
-	if ((error = git_treebuilder_write(&tree_oid, repo, tb)) < 0)
+	if ((error = git_treebuilder_write(&tree_oid, tb)) < 0)
 		goto cleanup;
 
 	error = git_tree_lookup(out, repo, &tree_oid);
@@ -306,7 +306,11 @@ cleanup:
 	return error;
 }
 
-static int note_new(git_note **out, git_oid *note_oid, git_blob *blob)
+static int note_new(
+	git_note **out,
+	git_oid *note_oid,
+	git_commit *commit,
+	git_blob *blob)
 {
 	git_note *note = NULL;
 
@@ -314,16 +318,24 @@ static int note_new(git_note **out, git_oid *note_oid, git_blob *blob)
 	GITERR_CHECK_ALLOC(note);
 
 	git_oid_cpy(&note->id, note_oid);
-	note->message = git__strdup((char *)git_blob_rawcontent(blob));
+
+	if (git_signature_dup(&note->author, git_commit_author(commit)) < 0 ||
+		git_signature_dup(&note->committer, git_commit_committer(commit)) < 0)
+		return -1;
+
+	note->message = git__strndup(git_blob_rawcontent(blob), git_blob_rawsize(blob));
 	GITERR_CHECK_ALLOC(note->message);
 
 	*out = note;
-
 	return 0;
 }
 
 static int note_lookup(
-	git_note **out, git_repository *repo, git_tree *tree, const char *target)
+	git_note **out,
+	git_repository *repo,
+	git_commit *commit,
+	git_tree *tree,
+	const char *target)
 {
 	int error, fanout = 0;
 	git_oid oid;
@@ -340,7 +352,7 @@ static int note_lookup(
 	if ((error = git_blob_lookup(&blob, repo, &oid)) < 0)
 		goto cleanup;
 
-	if ((error = note_new(&note, &oid, blob)) < 0)
+	if ((error = note_new(&note, &oid, commit, blob)) < 0)
 		goto cleanup;
 
 	*out = note;
@@ -432,7 +444,7 @@ int git_note_read(git_note **out, git_repository *repo,
 
 	if (!(error = retrieve_note_tree_and_commit(
 			&tree, &commit, repo, &notes_ref)))
-		error = note_lookup(out, repo, tree, target);
+		error = note_lookup(out, repo, commit, tree, target);
 
 	git__free(target);
 	git_tree_free(tree);
@@ -443,9 +455,9 @@ int git_note_read(git_note **out, git_repository *repo,
 int git_note_create(
 	git_oid *out,
 	git_repository *repo,
+	const char *notes_ref,
 	const git_signature *author,
 	const git_signature *committer,
-	const char *notes_ref,
 	const git_oid *oid,
 	const char *note,
 	int allow_note_overwrite)
@@ -502,6 +514,18 @@ int git_note_default_ref(const char **out, git_repository *repo)
 	return note_get_default_ref(out, repo);
 }
 
+const git_signature *git_note_committer(const git_note *note)
+{
+	assert(note);
+	return note->committer;
+}
+
+const git_signature *git_note_author(const git_note *note)
+{
+	assert(note);
+	return note->author;
+}
+
 const char * git_note_message(const git_note *note)
 {
 	assert(note);
@@ -519,6 +543,8 @@ void git_note_free(git_note *note)
 	if (note == NULL)
 		return;
 
+	git_signature_free(note->committer);
+	git_signature_free(note->author);
 	git__free(note->message);
 	git__free(note);
 }

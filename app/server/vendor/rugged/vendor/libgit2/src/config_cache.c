@@ -51,6 +51,12 @@ static git_cvar_map _cvar_map_autocrlf[] = {
 	{GIT_CVAR_STRING, "input", GIT_AUTO_CRLF_INPUT}
 };
 
+static git_cvar_map _cvar_map_safecrlf[] = {
+	{GIT_CVAR_FALSE, NULL, GIT_SAFE_CRLF_FALSE},
+	{GIT_CVAR_TRUE, NULL, GIT_SAFE_CRLF_FAIL},
+	{GIT_CVAR_STRING, "warn", GIT_SAFE_CRLF_WARN}
+};
+
 /*
  * Generic map for integer values
  */
@@ -68,8 +74,10 @@ static struct map_data _cvar_maps[] = {
 	{"core.trustctime", NULL, 0, GIT_TRUSTCTIME_DEFAULT },
 	{"core.abbrev", _cvar_map_int, 1, GIT_ABBREV_DEFAULT },
 	{"core.precomposeunicode", NULL, 0, GIT_PRECOMPOSE_DEFAULT },
-	{"core.safecrlf", NULL, 0, GIT_SAFE_CRLF_DEFAULT},
+	{"core.safecrlf", _cvar_map_safecrlf, ARRAY_SIZE(_cvar_map_safecrlf), GIT_SAFE_CRLF_DEFAULT},
 	{"core.logallrefupdates", NULL, 0, GIT_LOGALLREFUPDATES_DEFAULT },
+	{"core.protecthfs", NULL, 0, GIT_PROTECTHFS_DEFAULT },
+	{"core.protectntfs", NULL, 0, GIT_PROTECTNTFS_DEFAULT },
 };
 
 int git_config__cvar(int *out, git_config *config, git_cvar_cached cvar)

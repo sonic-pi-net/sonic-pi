@@ -59,14 +59,12 @@ GIT_EXTERN(int) git_note_iterator_new(
 GIT_EXTERN(void) git_note_iterator_free(git_note_iterator *it);
 
 /**
- * Returns the current item (note_id and annotated_id) and advance the iterator
+ * Return the current item (note_id and annotated_id) and advance the iterator
  * internally to the next value
  *
- * The notes must not be freed manually by the user.
- *
- * @param it pointer to the iterator
  * @param note_id id of blob containing the message
  * @param annotated_id id of the git object being annotated
+ * @param it pointer to the iterator
  *
  * @return 0 (no error), GIT_ITEROVER (iteration is done) or an error code
  *         (negative value)
@@ -97,6 +95,23 @@ GIT_EXTERN(int) git_note_read(
 	const git_oid *oid);
 
 /**
+ * Get the note author
+ *
+ * @param note the note
+ * @return the author
+ */
+GIT_EXTERN(const git_signature *) git_note_author(const git_note *note);
+
+/**
+ * Get the note committer
+ *
+ * @param note the note
+ * @return the committer
+ */
+GIT_EXTERN(const git_signature *) git_note_committer(const git_note *note);
+
+
+/**
  * Get the note message
  *
  * @param note the note
@@ -118,10 +133,10 @@ GIT_EXTERN(const git_oid *) git_note_id(const git_note *note);
  *
  * @param out pointer to store the OID (optional); NULL in case of error
  * @param repo repository where to store the note
- * @param author signature of the notes commit author
- * @param committer signature of the notes commit committer
  * @param notes_ref canonical name of the reference to use (optional);
  *					defaults to "refs/notes/commits"
+ * @param author signature of the notes commit author
+ * @param committer signature of the notes commit committer
  * @param oid OID of the git object to decorate
  * @param note Content of the note to add for object oid
  * @param force Overwrite existing note
@@ -131,9 +146,9 @@ GIT_EXTERN(const git_oid *) git_note_id(const git_note *note);
 GIT_EXTERN(int) git_note_create(
 	git_oid *out,
 	git_repository *repo,
+	const char *notes_ref,
 	const git_signature *author,
 	const git_signature *committer,
-	const char *notes_ref,
 	const git_oid *oid,
 	const char *note,
 	int force);

@@ -47,7 +47,7 @@ void test_pack_packbuilder__cleanup(void)
 	git_indexer_free(_indexer);
 	_indexer = NULL;
 
-	p_chdir("..");
+	cl_git_pass(p_chdir(".."));
 	cl_git_sandbox_cleanup();
 	_repo = NULL;
 }
@@ -93,7 +93,7 @@ void test_pack_packbuilder__create_pack(void)
 	git_buf buf = GIT_BUF_INIT, path = GIT_BUF_INIT;
 	git_hash_ctx ctx;
 	git_oid hash;
-	char hex[41]; hex[40] = '\0';
+	char hex[GIT_OID_HEXSZ+1]; hex[GIT_OID_HEXSZ] = '\0';
 
 	seed_packbuilder();
 
@@ -135,7 +135,7 @@ void test_pack_packbuilder__create_pack(void)
 
 void test_pack_packbuilder__get_hash(void)
 {
-	char hex[41]; hex[40] = '\0';
+	char hex[GIT_OID_HEXSZ+1]; hex[GIT_OID_HEXSZ] = '\0';
 
 	seed_packbuilder();
 

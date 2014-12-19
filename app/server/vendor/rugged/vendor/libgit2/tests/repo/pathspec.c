@@ -167,7 +167,7 @@ void test_repo_pathspec__workdir4(void)
 
 	cl_git_pass(git_pathspec_match_workdir(&m, g_repo, 0, ps));
 	cl_assert_equal_sz(13, git_pathspec_match_list_entrycount(m));
-	cl_assert_equal_s("这", git_pathspec_match_list_entry(m, 12));
+	cl_assert_equal_s("\xE8\xBF\x99", git_pathspec_match_list_entry(m, 12));
 	git_pathspec_match_list_free(m);
 
 	git_pathspec_free(ps);

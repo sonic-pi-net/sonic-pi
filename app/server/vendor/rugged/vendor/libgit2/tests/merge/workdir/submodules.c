@@ -30,7 +30,7 @@ void test_merge_workdir_submodules__automerge(void)
 {
 	git_reference *our_ref, *their_ref;
 	git_commit *our_commit;
-	git_merge_head *their_head;
+	git_annotated_commit *their_head;
 	git_index *index;
 
 	struct merge_index_entry merge_index_entries[] = {
@@ -44,18 +44,18 @@ void test_merge_workdir_submodules__automerge(void)
 
 	cl_git_pass(git_reference_lookup(&our_ref, repo, "refs/heads/" SUBMODULE_MAIN_BRANCH));
 	cl_git_pass(git_commit_lookup(&our_commit, repo, git_reference_target(our_ref)));
-	cl_git_pass(git_reset(repo, (git_object *)our_commit, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, (git_object *)our_commit, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	cl_git_pass(git_reference_lookup(&their_ref, repo, "refs/heads/" SUBMODULE_OTHER_BRANCH));
-	cl_git_pass(git_merge_head_from_ref(&their_head, repo, their_ref));
+	cl_git_pass(git_annotated_commit_from_ref(&their_head, repo, their_ref));
 
-	cl_git_pass(git_merge(repo, (const git_merge_head **)&their_head, 1, NULL, NULL));
+	cl_git_pass(git_merge(repo, (const git_annotated_commit **)&their_head, 1, NULL, NULL));
 
 	cl_git_pass(git_repository_index(&index, repo));
 	cl_assert(merge_test_index(index, merge_index_entries, 6));
 
 	git_index_free(index);
-	git_merge_head_free(their_head);
+	git_annotated_commit_free(their_head);
 	git_commit_free(our_commit);
 	git_reference_free(their_ref);
 	git_reference_free(our_ref);
@@ -65,7 +65,7 @@ void test_merge_workdir_submodules__take_changed(void)
 {
 	git_reference *our_ref, *their_ref;
 	git_commit *our_commit;
-	git_merge_head *their_head;
+	git_annotated_commit *their_head;
 	git_index *index;
 
 	struct merge_index_entry merge_index_entries[] = {
@@ -77,18 +77,18 @@ void test_merge_workdir_submodules__take_changed(void)
 
 	cl_git_pass(git_reference_lookup(&our_ref, repo, "refs/heads/" SUBMODULE_MAIN_BRANCH));
 	cl_git_pass(git_commit_lookup(&our_commit, repo, git_reference_target(our_ref)));
-	cl_git_pass(git_reset(repo, (git_object *)our_commit, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, (git_object *)our_commit, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	cl_git_pass(git_reference_lookup(&their_ref, repo, "refs/heads/" SUBMODULE_OTHER2_BRANCH));
-	cl_git_pass(git_merge_head_from_ref(&their_head, repo, their_ref));
+	cl_git_pass(git_annotated_commit_from_ref(&their_head, repo, their_ref));
 
-	cl_git_pass(git_merge(repo, (const git_merge_head **)&their_head, 1, NULL, NULL));
+	cl_git_pass(git_merge(repo, (const git_annotated_commit **)&their_head, 1, NULL, NULL));
 
 	cl_git_pass(git_repository_index(&index, repo));
 	cl_assert(merge_test_index(index, merge_index_entries, 4));
 
 	git_index_free(index);
-	git_merge_head_free(their_head);
+	git_annotated_commit_free(their_head);
 	git_commit_free(our_commit);
 	git_reference_free(their_ref);
 	git_reference_free(our_ref);

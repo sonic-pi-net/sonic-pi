@@ -9,6 +9,17 @@
 
 #include "git2/oid.h"
 
+/**
+ * Format a git_oid into a newly allocated c-string.
+ *
+ * The c-string is owned by the caller and needs to be manually freed.
+ *
+ * @param id the oid structure to format
+ * @return the c-string; NULL if memory is exhausted. Caller must
+ *			deallocate the string with git__free().
+ */
+char *git_oid_allocfmt(const git_oid *id);
+
 GIT_INLINE(int) git_oid__hashcmp(const unsigned char *sha1, const unsigned char *sha2)
 {
 	int i;

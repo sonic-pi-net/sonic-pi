@@ -26,6 +26,14 @@ GIT_INLINE(DWORD) get_wc_flags(void)
 	return flags;
 }
 
+GIT_INLINE(void) git__set_errno(void)
+{
+	if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+		errno = ENAMETOOLONG;
+	else
+		errno = EINVAL;
+}
+
 /**
  * Converts a UTF-8 string to wide characters.
  *
@@ -36,10 +44,15 @@ GIT_INLINE(DWORD) get_wc_flags(void)
  */
 int git__utf8_to_16(wchar_t *dest, size_t dest_size, const char *src)
 {
+	int len;
+
 	/* Length of -1 indicates NULL termination of the input string. Subtract 1 from the result to
 	* turn 0 into -1 (an error code) and to not count the NULL terminator as part of the string's
 	* length. MultiByteToWideChar never returns int's minvalue, so underflow is not possible */
-	return MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, src, -1, dest, (int)dest_size) - 1;
+	if ((len = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, src, -1, dest, (int)dest_size) - 1) < 0)
+		git__set_errno();
+
+	return len;
 }
 
 /**
@@ -52,10 +65,15 @@ int git__utf8_to_16(wchar_t *dest, size_t dest_size, const char *src)
  */
 int git__utf16_to_8(char *dest, size_t dest_size, const wchar_t *src)
 {
+	int len;
+
 	/* Length of -1 indicates NULL termination of the input string. Subtract 1 from the result to
 	 * turn 0 into -1 (an error code) and to not count the NULL terminator as part of the string's
 	 * length. WideCharToMultiByte never returns int's minvalue, so underflow is not possible */
-	return WideCharToMultiByte(CP_UTF8, get_wc_flags(), src, -1, dest, (int)dest_size, NULL, NULL) - 1;
+	if ((len = WideCharToMultiByte(CP_UTF8, get_wc_flags(), src, -1, dest, (int)dest_size, NULL, NULL) - 1) < 0)
+		git__set_errno();
+
+	return len;
 }
 
 /**
@@ -76,17 +94,23 @@ int git__utf8_to_16_alloc(wchar_t **dest, const char *src)
 	/* Length of -1 indicates NULL termination of the input string */
 	utf16_size = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, src, -1, NULL, 0);
 
-	if (!utf16_size)
+	if (!utf16_size) {
+		git__set_errno();
 		return -1;
+	}
 
 	*dest = git__malloc(utf16_size * sizeof(wchar_t));
 
-	if (!*dest)
+	if (!*dest) {
+		errno = ENOMEM;
 		return -1;
+	}
 
 	utf16_size = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, src, -1, *dest, utf16_size);
 
 	if (!utf16_size) {
+		git__set_errno();
+
 		git__free(*dest);
 		*dest = NULL;
 	}
@@ -116,17 +140,23 @@ int git__utf16_to_8_alloc(char **dest, const wchar_t *src)
 	/* Length of -1 indicates NULL termination of the input string */
 	utf8_size = WideCharToMultiByte(CP_UTF8, dwFlags, src, -1, NULL, 0, NULL, NULL);
 
-	if (!utf8_size)
+	if (!utf8_size) {
+		git__set_errno();
 		return -1;
+	}
 
 	*dest = git__malloc(utf8_size);
 
-	if (!*dest)
+	if (!*dest) {
+		errno = ENOMEM;
 		return -1;
+	}
 
 	utf8_size = WideCharToMultiByte(CP_UTF8, dwFlags, src, -1, *dest, utf8_size, NULL, NULL);
 
 	if (!utf8_size) {
+		git__set_errno();
+
 		git__free(*dest);
 		*dest = NULL;
 	}

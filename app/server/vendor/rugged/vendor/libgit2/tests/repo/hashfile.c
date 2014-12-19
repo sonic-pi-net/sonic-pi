@@ -22,14 +22,14 @@ void test_repo_hashfile__simple(void)
 	/* hash with repo relative path */
 	cl_git_pass(git_odb_hashfile(&a, "status/current_file", GIT_OBJ_BLOB));
 	cl_git_pass(git_repository_hashfile(&b, _repo, "current_file", GIT_OBJ_BLOB, NULL));
-	cl_assert(git_oid_equal(&a, &b));
+	cl_assert_equal_oid(&a, &b);
 
 	cl_git_pass(git_buf_joinpath(&full, git_repository_workdir(_repo), "current_file"));
 
 	/* hash with full path */
 	cl_git_pass(git_odb_hashfile(&a, full.ptr, GIT_OBJ_BLOB));
 	cl_git_pass(git_repository_hashfile(&b, _repo, full.ptr, GIT_OBJ_BLOB, NULL));
-	cl_assert(git_oid_equal(&a, &b));
+	cl_assert_equal_oid(&a, &b);
 
 	/* hash with invalid type */
 	cl_git_fail(git_odb_hashfile(&a, full.ptr, GIT_OBJ_ANY));
@@ -58,12 +58,12 @@ void test_repo_hashfile__filtered(void)
 	/* equal hashes because filter is binary */
 	cl_git_pass(git_odb_hashfile(&a, "status/testfile.bin", GIT_OBJ_BLOB));
 	cl_git_pass(git_repository_hashfile(&b, _repo, "testfile.bin", GIT_OBJ_BLOB, NULL));
-	cl_assert(git_oid_equal(&a, &b));
+	cl_assert_equal_oid(&a, &b);
 
 	/* equal hashes when 'as_file' points to binary filtering */
 	cl_git_pass(git_odb_hashfile(&a, "status/testfile.txt", GIT_OBJ_BLOB));
 	cl_git_pass(git_repository_hashfile(&b, _repo, "testfile.txt", GIT_OBJ_BLOB, "foo.bin"));
-	cl_assert(git_oid_equal(&a, &b));
+	cl_assert_equal_oid(&a, &b);
 
 	/* not equal hashes when 'as_file' points to text filtering */
 	cl_git_pass(git_odb_hashfile(&a, "status/testfile.bin", GIT_OBJ_BLOB));
@@ -73,11 +73,11 @@ void test_repo_hashfile__filtered(void)
 	/* equal hashes when 'as_file' is empty and turns off filtering */
 	cl_git_pass(git_odb_hashfile(&a, "status/testfile.txt", GIT_OBJ_BLOB));
 	cl_git_pass(git_repository_hashfile(&b, _repo, "testfile.txt", GIT_OBJ_BLOB, ""));
-	cl_assert(git_oid_equal(&a, &b));
+	cl_assert_equal_oid(&a, &b);
 
 	cl_git_pass(git_odb_hashfile(&a, "status/testfile.bin", GIT_OBJ_BLOB));
 	cl_git_pass(git_repository_hashfile(&b, _repo, "testfile.bin", GIT_OBJ_BLOB, ""));
-	cl_assert(git_oid_equal(&a, &b));
+	cl_assert_equal_oid(&a, &b);
 
 	/* some hash type failures */
 	cl_git_fail(git_odb_hashfile(&a, "status/testfile.txt", 0));

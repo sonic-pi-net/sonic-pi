@@ -54,8 +54,9 @@ struct log_options {
 	int min_parents, max_parents;
 	git_time_t before;
 	git_time_t after;
-	char *author;
-	char *committer;
+	const char *author;
+	const char *committer;
+	const char *grep;
 };
 
 /** utility functions that parse options and help with log output */
@@ -65,6 +66,9 @@ static void print_time(const git_time *intime, const char *prefix);
 static void print_commit(git_commit *commit);
 static int match_with_parent(git_commit *commit, int i, git_diff_options *);
 
+/** utility functions for filtering */
+static int signature_matches(const git_signature *sig, const char *filter);
+static int log_message_matches(const git_commit *commit, const char *filter);
 
 int main(int argc, char *argv[])
 {
@@ -76,7 +80,7 @@ int main(int argc, char *argv[])
 	git_commit *commit = NULL;
 	git_pathspec *ps = NULL;
 
-	git_threads_init();
+	git_libgit2_init();
 
 	/** Parse arguments and set up revwalker. */
 
@@ -128,6 +132,15 @@ int main(int argc, char *argv[])
 				continue;
 		}
 
+		if (!signature_matches(git_commit_author(commit), opt.author))
+			continue;
+
+		if (!signature_matches(git_commit_committer(commit), opt.committer))
+			continue;
+
+		if (!log_message_matches(commit, opt.grep))
+			continue;
+
 		if (count++ < opt.skip)
 			continue;
 		if (opt.limit != -1 && printed++ >= opt.limit) {
@@ -167,7 +180,33 @@ int main(int argc, char *argv[])
 	git_pathspec_free(ps);
 	git_revwalk_free(s.walker);
 	git_repository_free(s.repo);
-	git_threads_shutdown();
+	git_libgit2_shutdown();
+
+	return 0;
+}
+
+/** Determine if the given git_signature does not contain the filter text. */
+static int signature_matches(const git_signature *sig, const char *filter) {
+	if (filter == NULL)
+		return 1;
+
+	if (sig != NULL &&
+		(strstr(sig->name, filter) != NULL ||
+		strstr(sig->email, filter) != NULL))
+		return 1;
+
+	return 0;
+}
+
+static int log_message_matches(const git_commit *commit, const char *filter) {
+	const char *message = NULL;
+
+	if (filter == NULL)
+		return 1;
+
+	if ((message = git_commit_message(commit)) != NULL &&
+		strstr(message, filter) != NULL)
+		return 1;
 
 	return 0;
 }
@@ -401,6 +440,12 @@ static int parse_options(
 			set_sorting(s, GIT_SORT_TOPOLOGICAL);
 		else if (!strcmp(a, "--reverse"))
 			set_sorting(s, GIT_SORT_REVERSE);
+		else if (match_str_arg(&opt->author, &args, "--author"))
+			/** Found valid --author */;
+		else if (match_str_arg(&opt->committer, &args, "--committer"))
+			/** Found valid --committer */;
+		else if (match_str_arg(&opt->grep, &args, "--grep"))
+			/** Found valid --grep */;
 		else if (match_str_arg(&s->repodir, &args, "--git-dir"))
 			/** Found git-dir. */;
 		else if (match_int_arg(&opt->skip, &args, "--skip", 0))

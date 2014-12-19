@@ -145,7 +145,7 @@ void test_commit_write__root(void)
 	cl_assert(git_commit_parentcount(commit) == 0);
 	cl_git_pass(git_reference_lookup(&branch, g_repo, branch_name));
 	branch_oid = git_reference_target(branch);
-	cl_git_pass(git_oid_cmp(branch_oid, &commit_id));
+	cl_assert_equal_oid(branch_oid, &commit_id);
 	cl_assert_equal_s(root_commit_message, git_commit_message(commit));
 
 	cl_git_pass(git_reflog_read(&log, g_repo, branch_name));

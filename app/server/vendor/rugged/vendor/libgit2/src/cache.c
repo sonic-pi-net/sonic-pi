@@ -68,8 +68,8 @@ int git_cache_init(git_cache *cache)
 {
 	memset(cache, 0, sizeof(*cache));
 	cache->map = git_oidmap_alloc();
-	if (git_mutex_init(&cache->lock)) {
-		giterr_set(GITERR_OS, "Failed to initialize cache mutex");
+	if (git_rwlock_init(&cache->lock)) {
+		giterr_set(GITERR_OS, "Failed to initialize cache rwlock");
 		return -1;
 	}
 	return 0;
@@ -94,19 +94,19 @@ static void clear_cache(git_cache *cache)
 
 void git_cache_clear(git_cache *cache)
 {
-	if (git_mutex_lock(&cache->lock) < 0)
+	if (git_rwlock_wrlock(&cache->lock) < 0)
 		return;
 
 	clear_cache(cache);
 
-	git_mutex_unlock(&cache->lock);
+	git_rwlock_wrunlock(&cache->lock);
 }
 
 void git_cache_free(git_cache *cache)
 {
 	git_cache_clear(cache);
 	git_oidmap_free(cache->map);
-	git_mutex_free(&cache->lock);
+	git_rwlock_free(&cache->lock);
 	git__memzero(cache, sizeof(*cache));
 }
 
@@ -152,7 +152,7 @@ static void *cache_get(git_cache *cache, const git_oid *oid, unsigned int flags)
 	khiter_t pos;
 	git_cached_obj *entry = NULL;
 
-	if (!git_cache__enabled || git_mutex_lock(&cache->lock) < 0)
+	if (!git_cache__enabled || git_rwlock_rdlock(&cache->lock) < 0)
 		return NULL;
 
 	pos = kh_get(oid, cache->map, oid);
@@ -166,7 +166,7 @@ static void *cache_get(git_cache *cache, const git_oid *oid, unsigned int flags)
 		}
 	}
 
-	git_mutex_unlock(&cache->lock);
+	git_rwlock_rdunlock(&cache->lock);
 
 	return entry;
 }
@@ -185,7 +185,7 @@ static void *cache_store(git_cache *cache, git_cached_obj *entry)
 	if (!cache_should_store(entry->type, entry->size))
 		return entry;
 
-	if (git_mutex_lock(&cache->lock) < 0)
+	if (git_rwlock_wrlock(&cache->lock) < 0)
 		return entry;
 
 	/* soften the load on the cache */
@@ -227,7 +227,7 @@ static void *cache_store(git_cache *cache, git_cached_obj *entry)
 		}
 	}
 
-	git_mutex_unlock(&cache->lock);
+	git_rwlock_wrunlock(&cache->lock);
 	return entry;
 }
 

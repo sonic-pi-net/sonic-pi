@@ -151,15 +151,14 @@ int p_rename(const char *from, const char *to)
 
 #endif /* GIT_WIN32 */
 
-int p_read(git_file fd, void *buf, size_t cnt)
+ssize_t p_read(git_file fd, void *buf, size_t cnt)
 {
 	char *b = buf;
 
 	while (cnt) {
 		ssize_t r;
 #ifdef GIT_WIN32
-		assert((size_t)((unsigned int)cnt) == cnt);
-		r = read(fd, b, (unsigned int)cnt);
+		r = read(fd, b, cnt > INT_MAX ? INT_MAX : (unsigned int)cnt);
 #else
 		r = read(fd, b, cnt);
 #endif
@@ -173,7 +172,7 @@ int p_read(git_file fd, void *buf, size_t cnt)
 		cnt -= r;
 		b += r;
 	}
-	return (int)(b - (char *)buf);
+	return (b - (char *)buf);
 }
 
 int p_write(git_file fd, const void *buf, size_t cnt)
@@ -207,10 +206,11 @@ int p_write(git_file fd, const void *buf, size_t cnt)
 
 #include "map.h"
 
-long git__page_size(void)
+int git__page_size(size_t *page_size)
 {
 	/* dummy; here we don't need any alignment anyway */
-	return 4096;
+	*page_size = 4096;
+	return 0;
 }
 
 

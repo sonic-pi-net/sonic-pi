@@ -97,14 +97,14 @@ void test_stress_diff__rename_big_files(void)
 	cl_git_pass(git_repository_index(&index, g_repo));
 
 	for (i = 0; i < 100; i += 1) {
-		snprintf(tmp, sizeof(tmp), "renames/newfile%03d", i);
+		p_snprintf(tmp, sizeof(tmp), "renames/newfile%03d", i);
 		for (j = i * 256; j > 0; --j)
 			git_buf_printf(&b, "more content %d\n", i);
 		cl_git_mkfile(tmp, b.ptr);
 	}
 
 	for (i = 0; i < 100; i += 1) {
-		snprintf(tmp, sizeof(tmp), "renames/newfile%03d", i);
+		p_snprintf(tmp, sizeof(tmp), "renames/newfile%03d", i);
 		cl_git_pass(git_index_add_bypath(index, tmp + strlen("renames/")));
 	}
 
@@ -128,15 +128,15 @@ void test_stress_diff__rename_many_files(void)
 	git_buf_printf(&b, "%08d\n" ANOTHER_POEM "%08d\n" ANOTHER_POEM ANOTHER_POEM, 0, 0);
 
 	for (i = 0; i < 2500; i += 1) {
-		snprintf(tmp, sizeof(tmp), "renames/newfile%03d", i);
-		snprintf(b.ptr, 9, "%08d", i);
+		p_snprintf(tmp, sizeof(tmp), "renames/newfile%03d", i);
+		p_snprintf(b.ptr, 9, "%08d", i);
 		b.ptr[8] = '\n';
 		cl_git_mkfile(tmp, b.ptr);
 	}
 	git_buf_free(&b);
 
 	for (i = 0; i < 2500; i += 1) {
-		snprintf(tmp, sizeof(tmp), "renames/newfile%03d", i);
+		p_snprintf(tmp, sizeof(tmp), "renames/newfile%03d", i);
 		cl_git_pass(git_index_add_bypath(index, tmp + strlen("renames/")));
 	}
 

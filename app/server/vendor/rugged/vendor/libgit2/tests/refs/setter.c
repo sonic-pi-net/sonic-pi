@@ -41,7 +41,7 @@ void test_refs_setter__update_direct(void)
 
 	cl_git_pass(git_reference_lookup(&test_ref, g_repo, ref_test_name));
 	cl_assert(git_reference_type(test_ref) == GIT_REF_OID);
-	cl_assert(git_oid_cmp(&id, git_reference_target(test_ref)) == 0);
+	cl_assert_equal_oid(&id, git_reference_target(test_ref));
 	git_reference_free(test_ref);
 }
 

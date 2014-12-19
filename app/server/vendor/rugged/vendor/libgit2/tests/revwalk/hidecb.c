@@ -69,21 +69,15 @@ static int hide_commit_cb(const git_oid *commit_id, void *data)
 	GIT_UNUSED(commit_id);
 	GIT_UNUSED(data);
 
-	if (0 == git_oid_cmp(commit_id, &commit_ids[5]))
-		return 1;
-	else
-		return 0;
-
+	return (git_oid_cmp(commit_id, &commit_ids[5]) == 0);
 }
 
 /* In payload data, pointer to a commit id is passed */
 static int hide_commit_use_payload_cb(const git_oid *commit_id, void *data)
 {
 	git_oid *hide_commit_id = data;
-	if (git_oid_cmp(commit_id, hide_commit_id) == 0)
-		return 1;
-	else
-		return 0;
+
+	return (git_oid_cmp(commit_id, hide_commit_id) == 0);
 }
 
 void test_revwalk_hidecb__hide_all_cb(void)
@@ -170,7 +164,7 @@ void test_revwalk_hidecb__hide_some_commits(void)
 
 	i = 0;
 	while ((error = git_revwalk_next(&id, walk)) == 0) {
-		cl_assert_equal_i(git_oid_cmp(&id, &commit_ids[i]), 0);
+		cl_assert_equal_oid(&commit_ids[i], &id);
 		i++;
 	}
 
@@ -194,7 +188,7 @@ void test_revwalk_hidecb__test_payload(void)
 
 	i = 0;
 	while ((error = git_revwalk_next(&id, walk)) == 0) {
-		cl_assert_equal_i(git_oid_cmp(&id, &commit_ids[i]), 0);
+		cl_assert_equal_oid(&commit_ids[i], &id);
 		i++;
 	}
 

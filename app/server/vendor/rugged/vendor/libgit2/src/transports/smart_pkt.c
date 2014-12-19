@@ -433,6 +433,7 @@ void git_pkt_free(git_pkt *pkt)
 	if (pkt->type == GIT_PKT_REF) {
 		git_pkt_ref *p = (git_pkt_ref *) pkt;
 		git__free(p->head.name);
+		git__free(p->head.symref_target);
 	}
 
 	if (pkt->type == GIT_PKT_OK) {

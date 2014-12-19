@@ -21,7 +21,7 @@ static void assert_note_equal(git_note *note, char *message, git_oid *note_oid) 
 	git_blob *blob;
 
 	cl_assert_equal_s(git_note_message(note), message);
-	cl_assert(!git_oid_cmp(git_note_id(note), note_oid));
+	cl_assert_equal_oid(git_note_id(note), note_oid);
 
 	cl_git_pass(git_blob_lookup(&blob, _repo, note_oid));
 	cl_assert_equal_s(git_note_message(note), (const char *)git_blob_rawcontent(blob));
@@ -34,7 +34,7 @@ static void create_note(git_oid *note_oid, const char *canonical_namespace, cons
 	git_oid oid;
 
 	cl_git_pass(git_oid_fromstr(&oid, target_sha));
-	cl_git_pass(git_note_create(note_oid, _repo, _sig, _sig, canonical_namespace, &oid, message, 0));
+	cl_git_pass(git_note_create(note_oid, _repo, canonical_namespace, _sig, _sig, &oid, message, 0));
 }
 
 static struct {
@@ -61,10 +61,10 @@ static int note_list_cb(
 	cl_assert(*count < EXPECTATIONS_COUNT);
 
 	cl_git_pass(git_oid_fromstr(&expected_note_oid, list_expectations[*count].note_sha));
-	cl_assert(git_oid_cmp(&expected_note_oid, blob_id) == 0);
+	cl_assert_equal_oid(&expected_note_oid, blob_id);
 
 	cl_git_pass(git_oid_fromstr(&expected_target_oid, list_expectations[*count].annotated_object_sha));
-	cl_assert(git_oid_cmp(&expected_target_oid, annotated_obj_id) == 0);
+	cl_assert_equal_oid(&expected_target_oid, annotated_obj_id);
 
 	(*count)++;
 
@@ -195,12 +195,12 @@ void test_notes_notes__creating_a_note_on_a_target_which_already_has_one_returns
 	cl_git_pass(git_oid_fromstr(&target_oid, "08b041783f40edfe12bb406c9c9a8a040177c125"));
 
 	create_note(&note_oid, NULL, "08b041783f40edfe12bb406c9c9a8a040177c125", "hello world\n");
-	error = git_note_create(&note_oid, _repo, _sig, _sig, NULL, &target_oid, "hello world\n", 0);
+	error = git_note_create(&note_oid, _repo, NULL, _sig, _sig, &target_oid, "hello world\n", 0);
 	cl_git_fail(error);
 	cl_assert_equal_i(GIT_EEXISTS, error);
 
 	create_note(&note_oid, "refs/notes/some/namespace", "08b041783f40edfe12bb406c9c9a8a040177c125", "hello world\n");
-	error = git_note_create(&note_oid, _repo, _sig, _sig, "refs/notes/some/namespace", &target_oid, "hello world\n", 0);
+	error = git_note_create(&note_oid, _repo, "refs/notes/some/namespace", _sig, _sig, &target_oid, "hello world\n", 0);
 	cl_git_fail(error);
 	cl_assert_equal_i(GIT_EEXISTS, error);
 }
@@ -214,13 +214,13 @@ void test_notes_notes__creating_a_note_on_a_target_can_overwrite_existing_note(v
 	cl_git_pass(git_oid_fromstr(&target_oid, "08b041783f40edfe12bb406c9c9a8a040177c125"));
 
 	create_note(&note_oid, NULL, "08b041783f40edfe12bb406c9c9a8a040177c125", "hello old world\n");
-	cl_git_pass(git_note_create(&note_oid, _repo, _sig, _sig, NULL, &target_oid, "hello new world\n", 1));
+	cl_git_pass(git_note_create(&note_oid, _repo, NULL, _sig, _sig, &target_oid, "hello new world\n", 1));
 
 	cl_git_pass(git_note_read(&note, _repo, NULL, &target_oid));
 	assert_note_equal(note, "hello new world\n", &note_oid);
 
 	create_note(&note_oid, "refs/notes/some/namespace", "08b041783f40edfe12bb406c9c9a8a040177c125", "hello old world\n");
-	cl_git_pass(git_note_create(&note_oid, _repo, _sig, _sig, "refs/notes/some/namespace", &target_oid, "hello new ref world\n", 1));
+	cl_git_pass(git_note_create(&note_oid, _repo, "refs/notes/some/namespace", _sig, _sig, &target_oid, "hello new ref world\n", 1));
 
 	cl_git_pass(git_note_read(&namespace_note, _repo, "refs/notes/some/namespace", &target_oid));
 	assert_note_equal(namespace_note, "hello new ref world\n", &note_oid);
@@ -269,7 +269,7 @@ void test_notes_notes__can_insert_a_note_in_an_existing_fanout(void)
 	cl_git_pass(git_oid_fromstr(&target_oid, "08b041783f40edfe12bb406c9c9a8a040177c125"));
 	
 	for (i = 0; i <  MESSAGES_COUNT; i++) {
-		cl_git_pass(git_note_create(&note_oid, _repo, _sig, _sig, "refs/notes/fanout", &target_oid, messages[i], 0));
+		cl_git_pass(git_note_create(&note_oid, _repo, "refs/notes/fanout", _sig, _sig, &target_oid, messages[i], 0));
 		cl_git_pass(git_note_read(&_note, _repo, "refs/notes/fanout", &target_oid));
 		git_note_free(_note);
 
@@ -290,7 +290,7 @@ void test_notes_notes__can_read_a_note_in_an_existing_fanout(void)
 	cl_git_pass(git_note_read(&note, _repo, "refs/notes/fanout", &target_oid));
 
 	cl_git_pass(git_oid_fromstr(&note_oid, "08b041783f40edfe12bb406c9c9a8a040177c125"));
-	cl_assert(!git_oid_cmp(git_note_id(note), &note_oid));
+	cl_assert_equal_oid(git_note_id(note), &note_oid);
 
 	git_note_free(note);
 }

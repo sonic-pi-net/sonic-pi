@@ -25,11 +25,12 @@
 #define GIT_FILELOCK_EXTENSION ".lock\0"
 #define GIT_FILELOCK_EXTLENGTH 6
 
+typedef struct git_filebuf git_filebuf;
 struct git_filebuf {
 	char *path_original;
 	char *path_lock;
 
-	int (*write)(struct git_filebuf *file, void *source, size_t len);
+	int (*write)(git_filebuf *file, void *source, size_t len);
 
 	bool compute_digest;
 	git_hash_ctx digest;
@@ -46,8 +47,6 @@ struct git_filebuf {
 	bool do_not_buffer;
 	int last_error;
 };
-
-typedef struct git_filebuf git_filebuf;
 
 #define GIT_FILEBUF_INIT {0}
 

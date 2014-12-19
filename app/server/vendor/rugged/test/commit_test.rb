@@ -93,9 +93,9 @@ class TestCommit < Rugged::TestCase
              :oid  => "1385f264afb75a56a5bec74243be9b367ba4ca08",
              :filemode => 33188}
 
-    builder = Rugged::Tree::Builder.new
+    builder = Rugged::Tree::Builder.new(@repo)
     builder << entry
-    tree_oid = builder.write(@repo)
+    tree_oid = builder.write
 
     person = {:name => 'Scott', :email => 'schacon@gmail.com', :time => Time.now }
 
@@ -154,9 +154,9 @@ class TestCommit < Rugged::TestCase
              :oid  => "1385f264afb75a56a5bec74243be9b367ba4ca08",
              :filemode => 33188}
 
-    builder = Rugged::Tree::Builder.new
+    builder = Rugged::Tree::Builder.new(@repo)
     builder << entry
-    tree_oid = builder.write(@repo)
+    tree_oid = builder.write
 
     person = {:name => 'Scott', :email => 'schacon@gmail.com', :time => Time.now }
 
@@ -245,14 +245,16 @@ class CommitWriteTest < Rugged::TestCase
     end
   end
 
-  def test_write_empty_email
+  def test_write_empty_email_fails
     person = {:name => 'Jake', :email => '', :time => Time.now}
-    Rugged::Commit.create(@repo,
+    assert_raises Rugged::InvalidError do
+      Rugged::Commit.create(@repo,
       :message => "This is the commit message\n\nThis commit is created from Rugged",
       :committer => person,
       :author => person,
       :parents => [@repo.head.target],
       :tree => "c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b")
+    end
   end
 end
 
@@ -306,7 +308,7 @@ index 94aaae8..af8f41d 100644
 +_file1.txt_
  file1.txt
 --
-libgit2 0.20.0
+libgit2 #{Rugged.libgit2_version.join('.')}
 
 EOS
   end
@@ -349,7 +351,7 @@ index 0000000..9435022
 +file3
 +file3
 --
-libgit2 0.20.0
+libgit2 #{Rugged.libgit2_version.join('.')}
 
 EOS
 
@@ -388,7 +390,7 @@ index 9435022..9a2d780 100644
  file3
  file3
 --
-libgit2 0.20.0
+libgit2 #{Rugged.libgit2_version.join('.')}
 
 EOS
 
@@ -432,7 +434,7 @@ index 94aaae8..af8f41d 100644
 +_file1.txt_
  file1.txt
 --
-libgit2 0.20.0
+libgit2 #{Rugged.libgit2_version.join('.')}
 
 EOS
   end
@@ -471,7 +473,7 @@ index 94aaae8..af8f41d 100644
 +_file1.txt_
  file1.txt
 --
-libgit2 0.20.0
+libgit2 #{Rugged.libgit2_version.join('.')}
 
 EOS
   end

@@ -13,9 +13,19 @@ module Rugged
       "#<#{self.class.name}:#{object_id}>"
     end
 
-    # Returns the number of changes in the patch.
+    # Returns the number of additions in the patch.
+    def additions
+      stat[0]
+    end
+
+    # Returns the number of deletions in the patch.
+    def deletions
+      stat[1]
+    end
+
+    # Returns the number of total changes in the patch.
     def changes
-      stat.reduce { |t,v| t + v }
+      additions + deletions
     end
 
     # Returns an Array containing all hunks of the patch.

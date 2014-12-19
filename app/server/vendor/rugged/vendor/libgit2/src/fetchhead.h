@@ -9,14 +9,12 @@
 
 #include "vector.h"
 
-struct git_fetchhead_ref {
+typedef struct git_fetchhead_ref {
 	git_oid oid;
 	unsigned int is_merge;
 	char *ref_name;
 	char *remote_url;
-};
-
-typedef struct git_fetchhead_ref git_fetchhead_ref;
+} git_fetchhead_ref;
 
 int git_fetchhead_ref_create(
 	git_fetchhead_ref **fetchhead_ref_out,

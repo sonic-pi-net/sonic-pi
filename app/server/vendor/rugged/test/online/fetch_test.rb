@@ -15,7 +15,7 @@ class OnlineFetchTest < Rugged::OnlineTestCase
     def test_fetch_over_git
       reset_remote_repo
 
-      Rugged::Remote.add(@repo, "origin", ENV['GITTEST_REMOTE_GIT_URL'])
+      @repo.remotes.create("origin", ENV['GITTEST_REMOTE_GIT_URL'])
 
       @repo.fetch("origin")
     end
@@ -23,7 +23,7 @@ class OnlineFetchTest < Rugged::OnlineTestCase
 
   if Rugged.features.include?(:https)
     def test_fetch_over_https
-      Rugged::Remote.add(@repo, "origin", "https://github.com/libgit2/TestGitRepository.git")
+      @repo.remotes.create("origin", "https://github.com/libgit2/TestGitRepository.git")
 
       @repo.fetch("origin")
 
@@ -42,7 +42,7 @@ class OnlineFetchTest < Rugged::OnlineTestCase
     def test_fetch_over_ssh_with_credentials
       reset_remote_repo
 
-      Rugged::Remote.add(@repo, "origin", ENV['GITTEST_REMOTE_SSH_URL'])
+      @repo.remotes.create("origin", ENV['GITTEST_REMOTE_SSH_URL'])
 
       @repo.fetch("origin", {
         credentials: ssh_key_credential
@@ -52,7 +52,7 @@ class OnlineFetchTest < Rugged::OnlineTestCase
     def test_fetch_over_ssh_with_credentials_from_agent
       reset_remote_repo
 
-      Rugged::Remote.add(@repo, "origin", ENV['GITTEST_REMOTE_SSH_URL'])
+      @repo.remotes.create("origin", ENV['GITTEST_REMOTE_SSH_URL'])
 
       @repo.fetch("origin", {
         credentials: ssh_key_credential_from_agent
@@ -62,7 +62,7 @@ class OnlineFetchTest < Rugged::OnlineTestCase
     def test_fetch_over_ssh_with_credentials_callback
       reset_remote_repo
 
-      Rugged::Remote.add(@repo, "origin", ENV['GITTEST_REMOTE_SSH_URL'])
+      @repo.remotes.create("origin", ENV['GITTEST_REMOTE_SSH_URL'])
 
       @repo.fetch("origin", {
         credentials: lambda { |url, username, allowed_types|

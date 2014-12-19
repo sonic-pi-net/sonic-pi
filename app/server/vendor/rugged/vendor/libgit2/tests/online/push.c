@@ -50,6 +50,15 @@ static int cred_acquire_cb(
 	GIT_UNUSED(user_from_url);
 	GIT_UNUSED(payload);
 
+	if (GIT_CREDTYPE_USERNAME & allowed_types) {
+		if (!_remote_user) {
+			printf("GITTEST_REMOTE_USER must be set\n");
+			return -1;
+		}
+
+		return git_cred_username_new(cred, _remote_user);
+	}
+
 	if (GIT_CREDTYPE_DEFAULT & allowed_types) {
 		if (!_remote_default) {
 			printf("GITTEST_REMOTE_DEFAULT must be set to use NTLM/Negotiate credentials\n");
@@ -80,46 +89,38 @@ static int cred_acquire_cb(
 	return -1;
 }
 
-/* the results of a push status.  when used for expected values, msg may be NULL
- * to indicate that it should not be matched. */
-typedef struct {
-	const char *ref;
-	int success;
-	const char *msg;
-} push_status;
-
 /**
  * git_push_status_foreach callback that records status entries.
  * @param data (git_vector *) of push_status instances
  */
-static int record_push_status_cb(const char *ref, const char *msg, void *data)
+static int record_push_status_cb(const char *ref, const char *msg, void *payload)
 {
-	git_vector *statuses = (git_vector *)data;
+	record_callbacks_data *data = (record_callbacks_data *) payload;
 	push_status *s;
 
-	cl_assert(s = git__malloc(sizeof(*s)));
-	s->ref = ref;
+	cl_assert(s = git__calloc(1, sizeof(*s)));
+	if (ref)
+		cl_assert(s->ref = git__strdup(ref));
 	s->success = (msg == NULL);
-	s->msg = msg;
+	if (msg)
+		cl_assert(s->msg = git__strdup(msg));
 
-	git_vector_insert(statuses, s);
+	git_vector_insert(&data->statuses, s);
 
 	return 0;
 }
 
-static void do_verify_push_status(git_push *push, const push_status expected[], const size_t expected_len)
+static void do_verify_push_status(record_callbacks_data *data, const push_status expected[], const size_t expected_len)
 {
-	git_vector actual = GIT_VECTOR_INIT;
+	git_vector *actual = &data->statuses;
 	push_status *iter;
 	bool failed = false;
 	size_t i;
 
-	git_push_status_foreach(push, record_push_status_cb, &actual);
-
-	if (expected_len != actual.length)
+	if (expected_len != actual->length)
 		failed = true;
 	else
-		git_vector_foreach(&actual, i, iter)
+		git_vector_foreach(actual, i, iter)
 			if (strcmp(expected[i].ref, iter->ref) ||
 				(expected[i].success != iter->success) ||
 				(expected[i].msg && (!iter->msg || strcmp(expected[i].msg, iter->msg)))) {
@@ -140,7 +141,7 @@ static void do_verify_push_status(git_push *push, const push_status expected[], 
 
 		git_buf_puts(&msg, "\nACTUAL:\n");
 
-		git_vector_foreach(&actual, i, iter) {
+		git_vector_foreach(actual, i, iter) {
 			if (iter->success)
 				git_buf_printf(&msg, "%s: success\n", iter->ref);
 			else
@@ -152,10 +153,10 @@ static void do_verify_push_status(git_push *push, const push_status expected[], 
 		git_buf_free(&msg);
 	}
 
-	git_vector_foreach(&actual, i, iter)
+	git_vector_foreach(actual, i, iter)
 		git__free(iter);
 
-	git_vector_free(&actual);
+	git_vector_free(actual);
 }
 
 /**
@@ -204,6 +205,8 @@ static void verify_tracking_branches(git_remote *remote, expected_ref expected_r
 		cl_assert_equal_i(branch_type, GIT_BRANCH_REMOTE);
 
 		cl_git_pass(git_vector_insert(&actual_refs, git__strdup(git_reference_name(ref))));
+
+		git_reference_free(ref);
 	}
 
 	cl_assert_equal_i(error, GIT_ITEROVER);
@@ -397,7 +400,7 @@ void test_online_push__initialize(void)
 
 	/* Now that we've deleted everything, fetch from the remote */
 	cl_git_pass(git_remote_connect(_remote, GIT_DIRECTION_FETCH));
-	cl_git_pass(git_remote_download(_remote));
+	cl_git_pass(git_remote_download(_remote, NULL));
 	cl_git_pass(git_remote_update_tips(_remote, NULL, NULL));
 	git_remote_disconnect(_remote);
 }
@@ -420,22 +423,24 @@ void test_online_push__cleanup(void)
 static int push_pack_progress_cb(
 	int stage, unsigned int current, unsigned int total, void* payload)
 {
-	int *calls = (int *)payload;
+	record_callbacks_data *data = (record_callbacks_data *) payload;
 	GIT_UNUSED(stage); GIT_UNUSED(current); GIT_UNUSED(total);
-	if (*calls < 0)
-		return *calls;
-	(*calls)++;
+	if (data->pack_progress_calls < 0)
+		return data->pack_progress_calls;
+
+	data->pack_progress_calls++;
 	return 0;
 }
 
 static int push_transfer_progress_cb(
 	unsigned int current, unsigned int total, size_t bytes, void* payload)
 {
-	int *calls = (int *)payload;
+	record_callbacks_data *data = (record_callbacks_data *) payload;
 	GIT_UNUSED(current); GIT_UNUSED(total); GIT_UNUSED(bytes);
-	if (*calls < 0)
-		return *calls;
-	(*calls)++;
+	if (data->transfer_progress_calls < 0)
+		return data->transfer_progress_calls;
+
+	data->transfer_progress_calls++;
 	return 0;
 }
 
@@ -455,62 +460,63 @@ static void do_push(
 	expected_ref expected_refs[], size_t expected_refs_len,
 	int expected_ret, int check_progress_cb, int check_update_tips_cb)
 {
-	git_push *push;
 	git_push_options opts = GIT_PUSH_OPTIONS_INIT;
 	size_t i;
-	int pack_progress_calls = 0, transfer_progress_calls = 0;
+	int error;
+	git_strarray specs = {0};
 	git_signature *pusher;
+	git_remote_callbacks callbacks;
+	record_callbacks_data *data;
 
 	if (_remote) {
 		/* Auto-detect the number of threads to use */
 		opts.pb_parallelism = 0;
 
 		cl_git_pass(git_signature_now(&pusher, "Foo Bar", "foo@example.com"));
-		cl_git_pass(git_remote_connect(_remote, GIT_DIRECTION_PUSH));
 
-		cl_git_pass(git_push_new(&push, _remote));
-		cl_git_pass(git_push_set_options(push, &opts));
+		memcpy(&callbacks, git_remote_get_callbacks(_remote), sizeof(callbacks));
+		data = callbacks.payload;
 
-		if (check_progress_cb) {
-			/* if EUSER, then abort in transfer */
-			if (expected_ret == GIT_EUSER)
-				transfer_progress_calls = GIT_EUSER;
+		callbacks.pack_progress = push_pack_progress_cb;
+		callbacks.push_transfer_progress = push_transfer_progress_cb;
+		callbacks.push_update_reference = record_push_status_cb;
+		cl_git_pass(git_remote_set_callbacks(_remote, &callbacks));
 
-			cl_git_pass(
-				git_push_set_callbacks(
-					push, push_pack_progress_cb, &pack_progress_calls,
-					push_transfer_progress_cb, &transfer_progress_calls));
+		if (refspecs_len) {
+			specs.count = refspecs_len;
+			specs.strings = git__calloc(refspecs_len, sizeof(char *));
+			cl_assert(specs.strings);
 		}
 
 		for (i = 0; i < refspecs_len; i++)
-			cl_git_pass(git_push_add_refspec(push, refspecs[i]));
+			specs.strings[i] = (char *) refspecs[i];
+
+		/* if EUSER, then abort in transfer */
+		if (check_progress_cb && expected_ret == GIT_EUSER)
+			data->transfer_progress_calls = GIT_EUSER;
+
+		error = git_remote_push(_remote, &specs, &opts, pusher, "test push");
+		git__free(specs.strings);
 
 		if (expected_ret < 0) {
-			cl_git_fail_with(git_push_finish(push), expected_ret);
-			cl_assert_equal_i(0, git_push_unpack_ok(push));
+			cl_git_fail_with(expected_ret, error);
 		} else {
-			cl_git_pass(git_push_finish(push));
-			cl_assert_equal_i(1, git_push_unpack_ok(push));
+			cl_git_pass(error);
 		}
 
-		if (check_progress_cb && !expected_ret) {
-			cl_assert(pack_progress_calls > 0);
-			cl_assert(transfer_progress_calls > 0);
+		if (check_progress_cb && expected_ret == 0) {
+			cl_assert(data->pack_progress_calls > 0);
+			cl_assert(data->transfer_progress_calls > 0);
 		}
 
-		do_verify_push_status(push, expected_statuses, expected_statuses_len);
+		do_verify_push_status(data, expected_statuses, expected_statuses_len);
 
 		verify_refs(_remote, expected_refs, expected_refs_len);
-
-		cl_git_pass(git_push_update_tips(push, pusher, "test push"));
 		verify_tracking_branches(_remote, expected_refs, expected_refs_len);
 
 		if (check_update_tips_cb)
 			verify_update_tips_callback(_remote, expected_refs, expected_refs_len);
 
-		git_push_free(push);
-
-		git_remote_disconnect(_remote);
 		git_signature_free(pusher);
 	}
 
@@ -620,11 +626,11 @@ void test_online_push__multi(void)
 
 void test_online_push__implicit_tgt(void)
 {
-	const char *specs1[] = { "refs/heads/b1:" };
+	const char *specs1[] = { "refs/heads/b1" };
 	push_status exp_stats1[] = { { "refs/heads/b1", 1 } };
 	expected_ref exp_refs1[] = { { "refs/heads/b1", &_oid_b1 } };
 
-	const char *specs2[] = { "refs/heads/b2:" };
+	const char *specs2[] = { "refs/heads/b2" };
 	push_status exp_stats2[] = { { "refs/heads/b2", 1 } };
 	expected_ref exp_refs2[] = {
 	{ "refs/heads/b1", &_oid_b1 },
@@ -827,22 +833,19 @@ void test_online_push__bad_refspecs(void)
 
 void test_online_push__expressions(void)
 {
+	git_push *push;
+
 	/* TODO: Expressions in refspecs doesn't actually work yet */
 	const char *specs_left_expr[] = { "refs/heads/b2~1:refs/heads/b2" };
 
-	/* expect not NULL to indicate failure (core git replies "funny refname",
-	 * other servers may be less pithy. */
-	const char *specs_right_expr[] = { "refs/heads/b2:refs/heads/b2~1" };
-	push_status exp_stats_right_expr[] = { { "refs/heads/b2~1", 0 } };
+	cl_git_pass(git_push_new(&push, _remote));
+	cl_git_fail(git_push_add_refspec(push, "refs/heads/b2:refs/heads/b2~1"));
+	git_push_free(push);
 
 	/* TODO: Find a more precise way of checking errors than a exit code of -1. */
 	do_push(specs_left_expr, ARRAY_SIZE(specs_left_expr),
 		NULL, 0,
 		NULL, 0, -1, 0, 0);
-
-	do_push(specs_right_expr, ARRAY_SIZE(specs_right_expr),
-		exp_stats_right_expr, ARRAY_SIZE(exp_stats_right_expr),
-		NULL, 0, 0, 1, 1);
 }
 
 void test_online_push__notes(void)
@@ -852,17 +855,57 @@ void test_online_push__notes(void)
 	const char *specs[] = { "refs/notes/commits:refs/notes/commits" };
 	push_status exp_stats[] = { { "refs/notes/commits", 1 } };
 	expected_ref exp_refs[] = { { "refs/notes/commits", &expected_oid } };
+	const char *specs_del[] = { ":refs/notes/commits" };
+
 	git_oid_fromstr(&expected_oid, "8461a99b27b7043e58ff6e1f5d2cf07d282534fb");
 
 	target_oid = &_oid_b6;
 
 	/* Create note to push */
 	cl_git_pass(git_signature_new(&signature, "nulltoken", "emeric.fermas@gmail.com", 1323847743, 60)); /* Wed Dec 14 08:29:03 2011 +0100 */
-	cl_git_pass(git_note_create(&note_oid, _repo, signature, signature, NULL, target_oid, "hello world\n", 0));
+	cl_git_pass(git_note_create(&note_oid, _repo, NULL, signature, signature, target_oid, "hello world\n", 0));
 
 	do_push(specs, ARRAY_SIZE(specs),
 		exp_stats, ARRAY_SIZE(exp_stats),
 		exp_refs, ARRAY_SIZE(exp_refs), 0, 1, 1);
+
+	/* And make sure to delete the note */
+
+	do_push(specs_del, ARRAY_SIZE(specs_del),
+		exp_stats, 1,
+		NULL, 0, 0, 0, 0);
+
+	git_signature_free(signature);
+}
+
+void test_online_push__configured(void)
+{
+	git_oid note_oid, *target_oid, expected_oid;
+	git_signature *signature;
+	const char *specs[] = { "refs/notes/commits:refs/notes/commits" };
+	push_status exp_stats[] = { { "refs/notes/commits", 1 } };
+	expected_ref exp_refs[] = { { "refs/notes/commits", &expected_oid } };
+	const char *specs_del[] = { ":refs/notes/commits" };
+
+	git_oid_fromstr(&expected_oid, "8461a99b27b7043e58ff6e1f5d2cf07d282534fb");
+
+	target_oid = &_oid_b6;
+
+	cl_git_pass(git_remote_add_push(_remote, specs[0]));
+
+	/* Create note to push */
+	cl_git_pass(git_signature_new(&signature, "nulltoken", "emeric.fermas@gmail.com", 1323847743, 60)); /* Wed Dec 14 08:29:03 2011 +0100 */
+	cl_git_pass(git_note_create(&note_oid, _repo, NULL, signature, signature, target_oid, "hello world\n", 0));
+
+	do_push(NULL, 0,
+		exp_stats, ARRAY_SIZE(exp_stats),
+		exp_refs, ARRAY_SIZE(exp_refs), 0, 1, 1);
+
+	/* And make sure to delete the note */
+
+	do_push(specs_del, ARRAY_SIZE(specs_del),
+		exp_stats, 1,
+		NULL, 0, 0, 0, 0);
 
 	git_signature_free(signature);
 }

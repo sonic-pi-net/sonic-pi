@@ -92,6 +92,10 @@ static int diff_delta__from_one(
 	if (status == GIT_DELTA_UNTRACKED &&
 		DIFF_FLAG_ISNT_SET(diff, GIT_DIFF_INCLUDE_UNTRACKED))
 		return 0;
+	
+	if (status == GIT_DELTA_UNREADABLE &&
+		DIFF_FLAG_ISNT_SET(diff, GIT_DIFF_INCLUDE_UNREADABLE))
+		return 0;
 
 	if (!git_pathspec__match(
 			&diff->pathspec, entry->path,
@@ -196,6 +200,7 @@ static git_diff_delta *diff_delta__last_for_item(
 		if (git_oid__cmp(&delta->new_file.id, &item->id) == 0)
 			return delta;
 		break;
+	case GIT_DELTA_UNREADABLE:
 	case GIT_DELTA_UNTRACKED:
 		if (diff->strcomp(delta->new_file.path, item->path) == 0 &&
 			git_oid__cmp(&delta->new_file.id, &item->id) == 0)
@@ -291,6 +296,10 @@ bool git_diff_delta__should_skip(
 
 	if (delta->status == GIT_DELTA_UNTRACKED &&
 		(flags & GIT_DIFF_INCLUDE_UNTRACKED) == 0)
+		return true;
+
+	if (delta->status == GIT_DELTA_UNREADABLE &&
+		(flags & GIT_DIFF_INCLUDE_UNREADABLE) == 0)
 		return true;
 
 	return false;
@@ -430,7 +439,7 @@ static int diff_list_apply_options(
 	/* If not given explicit `opts`, check `diff.xyz` configs */
 	if (!opts) {
 		int context = git_config__get_int_force(cfg, "diff.context", 3);
-		diff->opts.context_lines = context >= 0 ? (uint16_t)context : 3;
+		diff->opts.context_lines = context >= 0 ? (uint32_t)context : 3;
 
 		/* add other defaults here */
 	}
@@ -734,6 +743,11 @@ static int maybe_modified(
 	else if (GIT_MODE_TYPE(omode) != GIT_MODE_TYPE(nmode)) {
 		if (DIFF_FLAG_IS_SET(diff, GIT_DIFF_INCLUDE_TYPECHANGE))
 			status = GIT_DELTA_TYPECHANGE;
+		else if (nmode == GIT_FILEMODE_UNREADABLE) {
+			if (!(error = diff_delta__from_one(diff, GIT_DELTA_DELETED, oitem)))
+				error = diff_delta__from_one(diff, GIT_DELTA_UNREADABLE, nitem);
+			return error;
+		}
 		else {
 			if (!(error = diff_delta__from_one(diff, GIT_DELTA_DELETED, oitem)))
 				error = diff_delta__from_one(diff, GIT_DELTA_ADDED, nitem);
@@ -952,6 +966,13 @@ static int handle_unmatched_new_item(
 				return git_iterator_advance(&info->nitem, info->new_iter);
 			}
 		}
+	}
+
+	else if (nitem->mode == GIT_FILEMODE_UNREADABLE) {
+		if (DIFF_FLAG_IS_SET(diff, GIT_DIFF_INCLUDE_UNREADABLE_AS_UNTRACKED))
+			delta_type = GIT_DELTA_UNTRACKED;
+		else
+			delta_type = GIT_DELTA_UNREADABLE;
 	}
 
 	/* Actually create the record for this item if necessary */
@@ -1193,7 +1214,7 @@ int git_diff_index_to_workdir(
 	DIFF_FROM_ITERATORS(
 		git_iterator_for_index(&a, index, 0, pfx, pfx),
 		git_iterator_for_workdir(
-			&b, repo, GIT_ITERATOR_DONT_AUTOEXPAND, pfx, pfx)
+			&b, repo, index, NULL, GIT_ITERATOR_DONT_AUTOEXPAND, pfx, pfx)
 	);
 
 	if (!error && DIFF_FLAG_IS_SET(*diff, GIT_DIFF_UPDATE_INDEX))
@@ -1209,13 +1230,17 @@ int git_diff_tree_to_workdir(
 	const git_diff_options *opts)
 {
 	int error = 0;
+	git_index *index;
 
 	assert(diff && repo);
+
+	if ((error = git_repository_index__weakptr(&index, repo)))
+		return error;
 
 	DIFF_FROM_ITERATORS(
 		git_iterator_for_tree(&a, old_tree, 0, pfx, pfx),
 		git_iterator_for_workdir(
-			&b, repo, GIT_ITERATOR_DONT_AUTOEXPAND, pfx, pfx)
+			&b, repo, index, old_tree, GIT_ITERATOR_DONT_AUTOEXPAND, pfx, pfx)
 	);
 
 	return error;

@@ -374,3 +374,36 @@ class BlobCreateFromIOTest < Rugged::TestCase
     end
   end
 end
+
+class BlobHashSignatureTest < Rugged::TestCase
+  include Rugged::RepositoryAccess
+
+  LOREM = <<-LOREM
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Sed quis volutpat nunc. Vivamus consectetur pretium lacus, hendrerit dapibus justo rutrum at.
+Fusce imperdiet volutpat ex, vel volutpat velit posuere ac.
+Aenean ante neque, eleifend eu ligula sed, porttitor sagittis eros.
+Vestibulum tincidunt pulvinar ante sit amet tristique.
+Phasellus eu lacus in nunc pulvinar fringilla eu at felis.
+Vestibulum lobortis ipsum eleifend tellus eleifend ultricies. Sed maximus ornare nunc vel consequat.
+Praesent pharetra urna orci, nec pellentesque nulla viverra condimentum.
+Donec ipsum sapien, eleifend gravida lectus vel, congue pulvinar enim.
+Vestibulum pretium gravida velit sit amet consequat.
+Sed sit amet est eu sapien lacinia porttitor eu eu lacus.
+Fusce tempus est a nisi dignissim pulvinar.
+Quisque maximus eleifend massa, non elementum massa convallis a.
+LOREM
+
+  def test_signature_from_blob
+    blob = @repo.lookup("7771329dfa3002caf8c61a0ceb62a31d09023f37")
+
+    sig1 = Rugged::Blob::HashSignature.new(blob)
+    assert blob.similarity(sig1) == 100
+    assert blob.similarity(LOREM) < 20
+
+    sig1 = Rugged::Blob::HashSignature.new(LOREM)
+    sig2 = Rugged::Blob::HashSignature.new(LOREM.gsub('ipsum', 'epsen'))
+    assert Rugged::Blob::HashSignature.compare(sig1, sig2) > 75
+  end
+end
+

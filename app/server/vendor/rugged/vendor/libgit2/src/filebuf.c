@@ -334,8 +334,6 @@ int git_filebuf_commit(git_filebuf *file)
 
 	file->fd = -1;
 
-	p_unlink(file->path_original);
-
 	if (p_rename(file->path_lock, file->path_original) < 0) {
 		giterr_set(GITERR_OS, "Failed to rename lockfile to '%s'", file->path_original);
 		goto on_error;

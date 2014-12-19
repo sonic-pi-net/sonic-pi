@@ -258,7 +258,7 @@ static int git_tag_create__internal(
 		goto cleanup;
 
 	/** Ensure the tag name doesn't conflict with an already existing
-	 *	reference unless overwriting has explictly been requested **/
+	 *	reference unless overwriting has explicitly been requested **/
 	if (error == 0 && !allow_ref_overwrite) {
 		git_buf_free(&ref_name);
 		giterr_set(GITERR_TAG, "Tag already exists");
@@ -406,8 +406,9 @@ int git_tag_delete(git_repository *repo, const char *tag_name)
 	if (error < 0)
 		return error;
 
-	if ((error = git_reference_delete(tag_ref)) == 0)
-		git_reference_free(tag_ref);
+	error = git_reference_delete(tag_ref);
+
+	git_reference_free(tag_ref);
 
 	return error;
 }

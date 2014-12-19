@@ -1,40 +1,27 @@
 diff --git a/files/file.javascript b/files/file.javascript
-index b9f1286..7cd3c5a 100644
+index 0965b37..5391797 100644
 --- a/files/file.javascript
 +++ b/files/file.javascript
-@@ -16,3 +16,4 @@
-     var client = docElem['clientHeight'],
--      inner = window['innerHeight'];
-+      inner = window['innerHeight'],
-+      sample = window['otherProperty'];
+@@ -4,4 +4,3 @@ define(function(require, exports, module) {
+   var Key = require("./key")
+-    , Direction = require("./direction")
+-    , Image = require("./image");
++    , Direction = require("./direction");
  
-@@ -27,3 +28,3 @@
-       if (!isNaN(el.offsetTop)) {
--        offsetTop += el.offsetTop;
-+        offsetTop += el.offsetTop + 1;
-       }
-@@ -43,8 +44,7 @@
-         viewed = scrolled + getViewportH(),
--        elH = el.offsetHeight,
-         elTop = getOffset(el).top,
--        elBottom = elTop + elH,
-+        elBottom = elTop + el.offsetHeight,
-         h = h || 0;
+@@ -16,4 +15,4 @@ define(function(require, exports, module) {
  
--    return (elTop + elH * h) <= viewed && (elBottom) >= scrolled;
-+    return (elTop + el.offsetHeight * h) <= viewed && (elBottom) >= scrolled;
-   }
-@@ -60,4 +60,2 @@
+-    this.pixelX = 0;
+-    this.pixelY = 0;
++    this.pixelX = 10;
++    this.pixelY = 10;
  
--  //  Initialize all scrollreveals, triggering all
--  //  reveals on visible elements.
-       this.elems.forEach(function (el, i) {
-@@ -71,3 +69,3 @@
-             self._scrollPage();
--          }, 60);
-+          }, 61);
-         }
-@@ -101,2 +99,3 @@
-         this.scrolled = false;
-+		this.tested = true;
-     },
+@@ -82,3 +81,3 @@ define(function(require, exports, module) {
+   Player.prototype.moveLeft = function() {
+-    this.x -= 1;
++    this.x -= 5;
+     this.direction = Direction.LEFT;
+@@ -106,3 +105,3 @@ define(function(require, exports, module) {
+ 
+-    context.drawImage(this.image.data, offsetX, offsetY, 32, 48, this.pixelX, this.pixelY - 16, 32, 48);
++    context.drawImage(this.image.data, offsetX, offsetY, 32, 48, this.pixelX, this.pixelY, 32, 48);
+   };

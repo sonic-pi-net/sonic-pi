@@ -199,13 +199,50 @@ class RepositoryTest < Rugged::SandboxedTestCase
     assert_equal base, @repo.merge_base(commit1, commit2, commit3)
   end
 
+  def test_find_merge_bases_between_oids
+    commit1 = 'a4a7dce85cf63874e984719f4fdd239f5145052f'
+    commit2 = 'a65fedf39aefe402d3bb6e24df4d4f5fe4547750'
+
+    assert_equal [
+      "c47800c7266a2be04c571c04d5a6614691ea99bd", "9fd738e8f7967c078dceed8190330fc8648ee56a"
+    ], @repo.merge_bases(commit1, commit2)
+  end
+
+  def test_find_merge_bases_between_commits
+    commit1 = @repo.lookup('a4a7dce85cf63874e984719f4fdd239f5145052f')
+    commit2 = @repo.lookup('a65fedf39aefe402d3bb6e24df4d4f5fe4547750')
+
+    assert_equal [
+      "c47800c7266a2be04c571c04d5a6614691ea99bd", "9fd738e8f7967c078dceed8190330fc8648ee56a"
+    ], @repo.merge_bases(commit1, commit2)
+  end
+
+  def test_find_merge_bases_between_ref_and_oid
+    commit1 = 'a4a7dce85cf63874e984719f4fdd239f5145052f'
+    commit2 = "refs/heads/master"
+
+    assert_equal [
+      "c47800c7266a2be04c571c04d5a6614691ea99bd", "9fd738e8f7967c078dceed8190330fc8648ee56a"
+    ], @repo.merge_bases(commit1, commit2)
+  end
+
+  def test_find_merge_bases_between_many
+    commit1 = 'a4a7dce85cf63874e984719f4fdd239f5145052f'
+    commit2 = "refs/heads/packed"
+    commit3 = @repo.lookup('a65fedf39aefe402d3bb6e24df4d4f5fe4547750')
+
+    assert_equal [
+      "c47800c7266a2be04c571c04d5a6614691ea99bd", "9fd738e8f7967c078dceed8190330fc8648ee56a"
+    ], @repo.merge_bases(commit1, commit2, commit3)
+  end
+
   def test_ahead_behind_with_oids
     ahead, behind = @repo.ahead_behind(
       'a4a7dce85cf63874e984719f4fdd239f5145052f',
       'a65fedf39aefe402d3bb6e24df4d4f5fe4547750'
     )
-    assert_equal 2, ahead
-    assert_equal 1, behind
+    assert_equal 1, ahead
+    assert_equal 2, behind
   end
 
   def test_ahead_behind_with_commits
@@ -213,8 +250,58 @@ class RepositoryTest < Rugged::SandboxedTestCase
       @repo.lookup('a4a7dce85cf63874e984719f4fdd239f5145052f'),
       @repo.lookup('a65fedf39aefe402d3bb6e24df4d4f5fe4547750')
     )
-    assert_equal 2, ahead
-    assert_equal 1, behind
+    assert_equal 1, ahead
+    assert_equal 2, behind
+  end
+
+  def test_expand_objects
+    expected = {
+      'a4a7dce8' => 'a4a7dce85cf63874e984719f4fdd239f5145052f',
+      'a65fedf3' => 'a65fedf39aefe402d3bb6e24df4d4f5fe4547750',
+      'c47800c7' => 'c47800c7266a2be04c571c04d5a6614691ea99bd'
+    }
+
+    assert_equal expected, @repo.expand_oids(['a4a7dce8', 'a65fedf3', 'c47800c7', 'deadbeef'])
+  end
+
+  def test_expand_and_filter_objects
+    assert_equal 2, @repo.expand_oids(['a4a7dce8', '1385f264af']).size
+    assert_equal 1, @repo.expand_oids(['a4a7dce8', '1385f264af'], :commit).size
+  end
+
+  def test_descendant_of
+    # String commit OIDs
+    assert @repo.descendant_of?("a65fedf39aefe402d3bb6e24df4d4f5fe4547750", "be3563ae3f795b2b4353bcce3a527ad0a4f7f644")
+    refute @repo.descendant_of?("be3563ae3f795b2b4353bcce3a527ad0a4f7f644", "a65fedf39aefe402d3bb6e24df4d4f5fe4547750")
+
+    # Rugged::Commit instances
+    commit = @repo.lookup("a65fedf39aefe402d3bb6e24df4d4f5fe4547750")
+    ancestor = @repo.lookup("be3563ae3f795b2b4353bcce3a527ad0a4f7f644")
+
+    assert @repo.descendant_of?(commit, ancestor)
+    refute @repo.descendant_of?(ancestor, commit)
+  end
+
+  def test_descendant_of_bogus_args
+    # non-existent commit
+    assert_raises(Rugged::OdbError) do
+      @repo.descendant_of?("deadbeef" * 5, "a65fedf39aefe402d3bb6e24df4d4f5fe4547750")
+    end
+
+    # non-existent ancestor
+    assert_raises(Rugged::OdbError) do
+      @repo.descendant_of?("a65fedf39aefe402d3bb6e24df4d4f5fe4547750", "deadbeef" * 5)
+    end
+
+    # tree OID as the commit
+    assert_raises(Rugged::InvalidError) do
+      @repo.descendant_of?("181037049a54a1eb5fab404658a3a250b44335d7", "be3563ae3f795b2b4353bcce3a527ad0a4f7f644")
+    end
+
+    # tree OID as the ancestor
+    assert_raises(Rugged::InvalidError) do
+      @repo.descendant_of?("be3563ae3f795b2b4353bcce3a527ad0a4f7f644", "181037049a54a1eb5fab404658a3a250b44335d7")
+    end
   end
 end
 
@@ -294,6 +381,12 @@ class RepositoryWriteTest < Rugged::TestCase
     info = @repo.rev_parse('HEAD').to_hash
     baseless = Rugged::Commit.create(@repo, info.merge(:parents => []))
     assert_nil @repo.merge_base('HEAD', baseless)
+  end
+
+  def test_no_merge_bases_between_unrelated_branches
+    info = @repo.rev_parse('HEAD').to_hash
+    baseless = Rugged::Commit.create(@repo, info.merge(:parents => []))
+    assert_equal [], @repo.merge_bases('HEAD', baseless)
   end
 
   def test_default_signature
@@ -402,7 +495,7 @@ end
 class RepositoryCloneTest < Rugged::TestCase
   def setup
     @tmppath = Dir.mktmpdir
-    @source_path = File.join(Rugged::TestCase::TEST_DIR, 'fixtures', 'testrepo.git')
+    @source_path = "file://" + File.join(Rugged::TestCase::TEST_DIR, 'fixtures', 'testrepo.git')
   end
 
   def teardown
@@ -574,8 +667,7 @@ class RepositoryPushTest < Rugged::SandboxedTestCase
   end
 
   def test_push_to_remote_instance
-    origin = Rugged::Remote.lookup(@repo, "origin")
-    result = @repo.push(origin, ["refs/heads/master"])
+    result = @repo.push(@repo.remotes["origin"], ["refs/heads/master"])
     assert_equal({}, result)
   end
 
@@ -603,6 +695,73 @@ class RepositoryPushTest < Rugged::SandboxedTestCase
     assert_equal({}, result)
 
     assert_equal "8496071c1b46c854b31185ea97743be6a8774479", @remote_repo.ref("refs/heads/master").target_id
+  end
+end
+
+class RepositoryAttributesTest < Rugged::SandboxedTestCase
+
+  ATTRIBUTES = <<-ATTR
+*.txt linguist-lang=text
+new.txt other-attr=this
+README is_readme
+ATTR
+
+  def setup
+    super
+    @repo = sandbox_init("testrepo")
+    @repo.checkout_tree(@repo.rev_parse("refs/heads/dir"), :strategy => :force)
+    IO.write(File.join(@repo.workdir, ".gitattributes"), ATTRIBUTES)
+  end
+
+  def teardown
+    @repo.close
+    super
+  end
+
+  def test_read_attributes_internal
+    assert_equal 'text', @repo.fetch_attributes('branch_file.txt', 'linguist-lang')
+    assert_equal 'text', @repo.fetch_attributes('new.txt', 'linguist-lang')
+    assert_equal 'this', @repo.fetch_attributes('new.txt', 'other-attr')
+    assert_equal true, @repo.fetch_attributes('README', 'is_readme')
+    assert_equal nil, @repo.fetch_attributes('README', 'linguist-lang')
+  end
+
+  def test_read_attributes_internal_multi
+    attr_new = { 'linguist-lang' => 'text', 'other-attr' => 'this' }
+    assert_equal attr_new, @repo.fetch_attributes('new.txt', ['linguist-lang', 'other-attr'])
+
+    attr_readme = { 'is_readme' => true, 'other-attr' => nil}
+    assert_equal attr_readme, @repo.fetch_attributes('README', ['is_readme', 'other-attr'])
+  end
+
+  def test_read_attributes_internal_hash
+    attr_new = { 'linguist-lang' => 'text', 'other-attr' => 'this' }
+    assert_equal attr_new, @repo.fetch_attributes('new.txt')
+
+    attr_new = { 'linguist-lang' => 'text' }
+    assert_equal attr_new, @repo.fetch_attributes('branch_file.txt')
+  end
+
+  def test_attributes
+    atr = @repo.attributes('new.txt')
+    assert atr.instance_of? Rugged::Repository::Attributes
+    assert atr.to_h.instance_of? Hash
+
+    assert_equal 'text', atr['linguist-lang']
+    assert_equal 'this', atr['other-attr']
+
+    atr = @repo.attributes('branch_file.txt')
+    assert_equal 'text', atr['linguist-lang']
+    assert_equal nil, atr['other-attr']
+
+    atr.each do |key, value|
+      assert key.instance_of? String
+      assert [String, TrueClass, FalseClass].include? value.class
+    end
+
+    atr = @repo.attributes('new.txt', :priority => [:index])
+    assert_equal nil, atr['linguist-lang']
+    assert_equal nil, atr['linguist-lang']
   end
 end
 

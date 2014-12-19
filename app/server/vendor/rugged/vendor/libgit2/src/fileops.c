@@ -355,8 +355,9 @@ int git_futils_mkdir(
 		if (p_mkdir(make_path.ptr, mode) < 0) {
 			int tmp_errno = giterr_system_last();
 
-			/* ignore error if directory already exists */
-			if (p_stat(make_path.ptr, &st) < 0 || !S_ISDIR(st.st_mode)) {
+			/* ignore error if not at end or if directory already exists */
+			if (lastch == '\0' &&
+				(p_stat(make_path.ptr, &st) < 0 || !S_ISDIR(st.st_mode))) {
 				giterr_system_set(tmp_errno);
 				giterr_set(GITERR_OS, "Failed to make directory '%s'", make_path.ptr);
 				goto done;
@@ -374,7 +375,8 @@ int git_futils_mkdir(
 		if (((flags & GIT_MKDIR_CHMOD_PATH) != 0 ||
 			 (lastch == '\0' && (flags & GIT_MKDIR_CHMOD) != 0)) &&
 			st.st_mode != mode &&
-			(error = p_chmod(make_path.ptr, mode)) < 0) {
+			(error = p_chmod(make_path.ptr, mode)) < 0 &&
+			lastch == '\0') {
 			giterr_set(GITERR_OS, "Failed to set permissions on '%s'", make_path.ptr);
 			goto done;
 		}
@@ -503,15 +505,15 @@ static int futils__rmdir_recurs_foreach(void *opaque, git_buf *path)
 	return error;
 }
 
-static int futils__rmdir_empty_parent(void *opaque, git_buf *path)
+static int futils__rmdir_empty_parent(void *opaque, const char *path)
 {
 	futils__rmdir_data *data = opaque;
 	int error = 0;
 
-	if (git_buf_len(path) <= data->baselen)
+	if (strlen(path) <= data->baselen)
 		error = GIT_ITEROVER;
 
-	else if (p_rmdir(git_buf_cstr(path)) < 0) {
+	else if (p_rmdir(path) < 0) {
 		int en = errno;
 
 		if (en == ENOENT || en == ENOTDIR) {
@@ -519,7 +521,7 @@ static int futils__rmdir_empty_parent(void *opaque, git_buf *path)
 		} else if (en == ENOTEMPTY || en == EEXIST || en == EBUSY) {
 			error = GIT_ITEROVER;
 		} else {
-			error = git_path_set_error(errno, git_buf_cstr(path), "rmdir");
+			error = git_path_set_error(errno, path, "rmdir");
 		}
 	}
 
@@ -740,9 +742,11 @@ static int _cp_r_callback(void *ref, git_buf *from)
 		return error;
 
 	/* make symlink or regular file */
-	if (S_ISLNK(from_st.st_mode))
+	if (info->flags & GIT_CPDIR_LINK_FILES) {
+		error = p_link(from->ptr, info->to.ptr);
+	} else if (S_ISLNK(from_st.st_mode)) {
 		error = cp_link(from->ptr, info->to.ptr, (size_t)from_st.st_size);
-	else {
+	} else {
 		mode_t usemode = from_st.st_mode;
 
 		if ((info->flags & GIT_CPDIR_SIMPLE_TO_MODE) != 0)

@@ -242,3 +242,22 @@ int git_refdb_init_backend(git_refdb_backend *backend, unsigned int version)
 		backend, version, git_refdb_backend, GIT_REFDB_BACKEND_INIT);
 	return 0;
 }
+
+int git_refdb_lock(void **payload, git_refdb *db, const char *refname)
+{
+	assert(payload && db && refname);
+
+	if (!db->backend->lock) {
+		giterr_set(GITERR_REFERENCE, "backend does not support locking");
+		return -1;
+	}
+
+	return db->backend->lock(payload, db->backend, refname);
+}
+
+int git_refdb_unlock(git_refdb *db, void *payload, int success, int update_reflog, const git_reference *ref, const git_signature *sig, const char *message)
+{
+	assert(db);
+
+	return db->backend->unlock(db->backend, payload, success, update_reflog, ref, sig, message);
+}

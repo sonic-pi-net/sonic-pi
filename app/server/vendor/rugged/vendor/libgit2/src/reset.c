@@ -100,7 +100,8 @@ int git_reset(
 	git_repository *repo,
 	git_object *target,
 	git_reset_t reset_type,
-	git_signature *signature,
+	git_checkout_options *checkout_opts,
+	const git_signature *signature,
 	const char *log_message)
 {
 	git_object *commit = NULL;
@@ -111,6 +112,9 @@ int git_reset(
 	git_buf log_message_buf = GIT_BUF_INIT;
 
 	assert(repo && target);
+
+	if (checkout_opts)
+		opts = *checkout_opts;
 
 	if (git_object_owner(target) != repo) {
 		giterr_set(GITERR_OBJECT,

@@ -143,8 +143,6 @@ extern uint32_t git_pool__full_pages(git_pool *pool);
 
 extern bool git_pool__ptr_in_pool(git_pool *pool, void *ptr);
 
-extern uint32_t git_pool__system_page_size(void);
-
 extern uint32_t git_pool__suggest_items_per_page(uint32_t item_size);
 
 #endif

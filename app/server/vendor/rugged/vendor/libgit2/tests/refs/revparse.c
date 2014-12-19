@@ -24,11 +24,11 @@ static void test_object_and_ref_inrepo(
 	error = git_revparse_ext(&obj, &ref, repo, spec);
 
 	if (expected_oid != NULL) {
-		cl_assert_equal_i(0, error);
+		cl_git_pass(error);
 		git_oid_fmt(objstr, git_object_id(obj));
 		cl_assert_equal_s(objstr, expected_oid);
 	} else
-		cl_assert_equal_i(GIT_ENOTFOUND, error);
+		cl_git_fail(error);
 
 	if (assert_reference_retrieval) {
 		if (expected_refname == NULL)
@@ -222,7 +222,7 @@ void test_refs_revparse__to_type(void)
 	assert_invalid_single_spec("wrapped_tag^{trip}");
 	test_object("point_to_blob^{commit}", NULL);
 	cl_assert_equal_i(
-		GIT_EAMBIGUOUS, git_revparse_single(&g_obj, g_repo, "wrapped_tag^{blob}"));
+		GIT_EPEEL, git_revparse_single(&g_obj, g_repo, "wrapped_tag^{blob}"));
 
 	test_object("wrapped_tag^{commit}", "a65fedf39aefe402d3bb6e24df4d4f5fe4547750");
 	test_object("wrapped_tag^{tree}", "944c0f6e4dfa41595e6eb3ceecdb14f50fe18162");

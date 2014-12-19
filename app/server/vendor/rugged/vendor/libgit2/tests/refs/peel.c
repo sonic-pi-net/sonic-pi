@@ -33,7 +33,7 @@ static void assert_peel_generic(
 	cl_git_pass(git_reference_peel(&peeled, ref, requested_type));
 
 	cl_git_pass(git_oid_fromstr(&expected_oid, expected_sha));
-	cl_assert_equal_i(0, git_oid_cmp(&expected_oid, git_object_id(peeled)));
+	cl_assert_equal_oid(&expected_oid, git_object_id(peeled));
 
 	cl_assert_equal_i(expected_type, git_object_type(peeled));
 
@@ -93,7 +93,7 @@ void test_refs_peel__can_peel_a_symbolic_reference(void)
 
 void test_refs_peel__cannot_peel_into_a_non_existing_target(void)
 {
-	assert_peel_error(GIT_ENOTFOUND, "refs/tags/point_to_blob", GIT_OBJ_TAG);
+	assert_peel_error(GIT_EINVALIDSPEC, "refs/tags/point_to_blob", GIT_OBJ_TAG);
 }
 
 void test_refs_peel__can_peel_into_any_non_tag_object(void)

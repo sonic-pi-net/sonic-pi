@@ -380,7 +380,7 @@ static void index_iterator_test(
 		if (expected_oids != NULL) {
 			git_oid oid;
 			cl_git_pass(git_oid_fromstr(&oid, expected_oids[count]));
-			cl_assert_equal_i(git_oid_cmp(&oid, &entry->id), 0);
+			cl_assert_equal_oid(&oid, &entry->id);
 		}
 
 		count++;
@@ -586,7 +586,7 @@ static void workdir_iterator_test(
 	git_repository *repo = cl_git_sandbox_init(sandbox);
 
 	cl_git_pass(git_iterator_for_workdir(
-		&i, repo, GIT_ITERATOR_DONT_AUTOEXPAND, start, end));
+		&i, repo, NULL, NULL, GIT_ITERATOR_DONT_AUTOEXPAND, start, end));
 
 	error = git_iterator_current(&entry, i);
 	cl_assert((error == 0 && entry != NULL) ||
@@ -797,7 +797,7 @@ void test_diff_iterator__workdir_builtin_ignores(void)
 	cl_git_mkfile("attr/sub/.git", "whatever");
 
 	cl_git_pass(git_iterator_for_workdir(
-		&i, repo, GIT_ITERATOR_DONT_AUTOEXPAND, "dir", "sub/sub/file"));
+		&i, repo, NULL, NULL, GIT_ITERATOR_DONT_AUTOEXPAND, "dir", "sub/sub/file"));
 	cl_git_pass(git_iterator_current(&entry, i));
 
 	for (idx = 0; entry != NULL; ++idx) {
@@ -832,7 +832,7 @@ static void check_wd_first_through_third_range(
 	static const char *expected[] = { "FIRST", "second", "THIRD", NULL };
 
 	cl_git_pass(git_iterator_for_workdir(
-		&i, repo, GIT_ITERATOR_IGNORE_CASE, start, end));
+		&i, repo, NULL, NULL, GIT_ITERATOR_IGNORE_CASE, start, end));
 	cl_git_pass(git_iterator_current(&entry, i));
 
 	for (idx = 0; entry != NULL; ++idx) {

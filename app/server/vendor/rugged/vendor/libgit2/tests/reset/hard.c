@@ -71,7 +71,7 @@ void test_reset_hard__resetting_reverts_modified_files(void)
 
 	cl_git_pass(git_revparse_single(&target, repo, "26a125e"));
 
-	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	for (i = 0; i < 4; ++i) {
 		cl_git_pass(git_buf_joinpath(&path, wd, files[i]));
@@ -96,7 +96,7 @@ void test_reset_hard__cannot_reset_in_a_bare_repository(void)
 
 	cl_git_pass(git_revparse_single(&target, bare, KNOWN_COMMIT_IN_BARE_REPO));
 
-	cl_assert_equal_i(GIT_EBAREREPO, git_reset(bare, target, GIT_RESET_HARD, NULL, NULL));
+	cl_assert_equal_i(GIT_EBAREREPO, git_reset(bare, target, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	git_repository_free(bare);
 }
@@ -152,7 +152,7 @@ void test_reset_hard__resetting_reverts_unmerged(void)
 		cl_git_pass(git_index_write(index));
 
 		cl_git_pass(git_revparse_single(&target, repo, "26a125e"));
-		cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL));
+		cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL, NULL));
 
 		cl_assert(git_path_exists("status/conflicting_file") == 0);
 
@@ -183,7 +183,7 @@ void test_reset_hard__cleans_up_merge(void)
 	cl_git_mkfile(git_buf_cstr(&orig_head_path), "0017bd4ab1ec30440b17bae1680cff124ab5f1f6");
 
 	cl_git_pass(git_revparse_single(&target, repo, "0017bd4"));
-	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	cl_assert(!git_path_exists(git_buf_cstr(&merge_head_path)));
 	cl_assert(!git_path_exists(git_buf_cstr(&merge_msg_path)));
@@ -208,7 +208,7 @@ void test_reset_hard__reflog_is_correct(void)
 
 	/* Branch not moving, no reflog entry */
 	cl_git_pass(git_revparse_single(&target, repo, "HEAD^{commit}"));
-	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL, NULL));
 	reflog_check(repo, "HEAD", 3, "emeric.fermas@gmail.com", exp_msg);
 	reflog_check(repo, "refs/heads/master", 3, "emeric.fermas@gmail.com", exp_msg);
 
@@ -217,7 +217,7 @@ void test_reset_hard__reflog_is_correct(void)
 	/* Moved branch, expect default message */
 	exp_msg = "reset: moving";
 	cl_git_pass(git_revparse_single(&target, repo, "HEAD~^{commit}"));
-	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL, NULL));
 	reflog_check(repo, "HEAD", 4, NULL, exp_msg);
 	reflog_check(repo, "refs/heads/master", 4, NULL, exp_msg);
 
@@ -226,7 +226,7 @@ void test_reset_hard__reflog_is_correct(void)
 	/* Moved branch, expect custom message */
 	exp_msg = "message1";
 	cl_git_pass(git_revparse_single(&target, repo, "HEAD~^{commit}"));
-	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, "message1"));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_HARD, NULL, NULL, "message1"));
 	reflog_check(repo, "HEAD", 5, NULL, exp_msg);
 	reflog_check(repo, "refs/heads/master", 5, NULL, exp_msg);
 }

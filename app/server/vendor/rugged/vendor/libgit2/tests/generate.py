@@ -80,7 +80,7 @@ class Module(object):
         return re.sub(SKIP_COMMENTS_REGEX, _replacer, text)
 
     def parse(self, contents):
-        TEST_FUNC_REGEX = r"^(void\s+(test_%s__(\w+))\(\s*void\s*\))\s*\{"
+        TEST_FUNC_REGEX = r"^(void\s+(test_%s__(\w+))\s*\(\s*void\s*\))\s*\{"
 
         contents = self._skip_comments(contents)
         regex = re.compile(TEST_FUNC_REGEX % self.name, re.MULTILINE)
@@ -118,7 +118,7 @@ class Module(object):
             self.modified = True
             self.mtime = st.st_mtime
 
-            with open(path) as fp:
+            with codecs.open(path, encoding='utf-8') as fp:
                 raw_content = fp.read()
 
         except IOError:
@@ -150,7 +150,7 @@ class TestSuite(object):
 
             for test_file in tests_in_module:
                 full_path = os.path.join(root, test_file)
-                module_name = "_".join(module_root + [test_file[:-2]])
+                module_name = "_".join(module_root + [test_file[:-2]]).replace("-", "_")
 
                 modules.append((full_path, module_name))
 
@@ -223,14 +223,14 @@ class TestSuite(object):
             data.write("static const size_t _clar_suite_count = %d;\n" % self.suite_count())
             data.write("static const size_t _clar_callback_count = %d;\n" % self.callback_count())
 
-        suite.save_cache()
+        self.save_cache()
         return True
 
 if __name__ == '__main__':
     from optparse import OptionParser
 
     parser = OptionParser()
-    parser.add_option('-f', '--force', dest='force', default=False)
+    parser.add_option('-f', '--force', action="store_true", dest='force', default=False)
     parser.add_option('-x', '--exclude', dest='excluded', action='append', default=[])
 
     options, args = parser.parse_args()

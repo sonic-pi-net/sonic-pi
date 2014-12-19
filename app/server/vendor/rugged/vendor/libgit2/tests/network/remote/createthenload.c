@@ -16,7 +16,7 @@ void test_network_remote_createthenload__initialize(void)
 	cl_git_pass(git_config_set_string(_config, "remote.origin.url", url));
 	git_config_free(_config);
 
-	cl_git_pass(git_remote_load(&_remote, _repo, "origin"));
+	cl_git_pass(git_remote_lookup(&_remote, _repo, "origin"));
 }
 
 void test_network_remote_createthenload__cleanup(void)

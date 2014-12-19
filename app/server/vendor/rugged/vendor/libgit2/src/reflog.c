@@ -148,7 +148,7 @@ size_t git_reflog_entrycount(git_reflog *reflog)
 	return reflog->entries.length;
 }
 
-const git_reflog_entry * git_reflog_entry_byindex(git_reflog *reflog, size_t idx)
+const git_reflog_entry * git_reflog_entry_byindex(const git_reflog *reflog, size_t idx)
 {
 	assert(reflog);
 

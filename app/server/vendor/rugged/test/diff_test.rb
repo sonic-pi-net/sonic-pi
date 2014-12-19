@@ -96,11 +96,11 @@ class RepoDiffTest < Rugged::SandboxedTestCase
 
     deltas = diff.deltas
 
-    assert_equal :D, deltas[0].status_char 
-    assert_equal :A, deltas[1].status_char 
-    assert_equal :A, deltas[2].status_char 
-    assert_equal :M, deltas[3].status_char 
-    assert_equal :M, deltas[4].status_char 
+    assert_equal :D, deltas[0].status_char
+    assert_equal :A, deltas[1].status_char
+    assert_equal :A, deltas[2].status_char
+    assert_equal :M, deltas[3].status_char
+    assert_equal :M, deltas[4].status_char
   end
 
   def test_with_nil_on_left_side
@@ -504,7 +504,7 @@ class TreeToTreeDiffTest < Rugged::SandboxedTestCase
     c = Rugged::Commit.lookup(repo, "f5b0af1fb4f5c").tree
 
     diff = a.diff(b).merge!(c.diff(b))
-    
+
     deltas = diff.deltas
     patches = diff.patches
     hunks = patches.map(&:hunks).flatten
@@ -536,7 +536,7 @@ class TreeToTreeDiffTest < Rugged::SandboxedTestCase
 
     deltas = diff.deltas
     patches = diff.patches
- 
+
     assert_equal 3, diff.size
     assert_equal 3, patches.size
     assert_equal 3, deltas.size
@@ -557,7 +557,7 @@ class TreeToTreeDiffTest < Rugged::SandboxedTestCase
 
     deltas = diff.deltas
     patches = diff.patches
- 
+
     assert_equal 2, diff.size
     assert_equal 2, patches.size
     assert_equal 2, deltas.size
@@ -578,7 +578,7 @@ class TreeToTreeDiffTest < Rugged::SandboxedTestCase
 
     deltas = diff.deltas
     patches = diff.patches
- 
+
     assert_equal 1, diff.size
     assert_equal 1, patches.size
     assert_equal 1, deltas.size
@@ -751,7 +751,7 @@ EOS
     assert_equal 1, hunks[0].new_start
     assert_equal 5, hunks[0].new_lines
 
-    assert hunks[1].header.start_with? "@@ -8,10 +8,6 @@" 
+    assert hunks[1].header.start_with? "@@ -8,10 +8,6 @@"
     assert_equal 10, hunks[1].line_count
     assert_equal 8, hunks[1].old_start
     assert_equal 10, hunks[1].old_lines

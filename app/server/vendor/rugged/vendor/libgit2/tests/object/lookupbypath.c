@@ -52,16 +52,16 @@ void test_object_lookupbypath__from_root_tree(void)
 {
 	cl_git_pass(git_object_lookup_bypath(&g_actualobject, (git_object*)g_root_tree,
 				"subdir/subdir_test2.txt", GIT_OBJ_BLOB));
-	cl_assert_equal_i(0, git_oid_cmp(git_object_id(g_expectedobject),
-				git_object_id(g_actualobject)));
+	cl_assert_equal_oid(git_object_id(g_expectedobject),
+		git_object_id(g_actualobject));
 }
 
 void test_object_lookupbypath__from_head_commit(void)
 {
 	cl_git_pass(git_object_lookup_bypath(&g_actualobject, (git_object*)g_head_commit,
 				"subdir/subdir_test2.txt", GIT_OBJ_BLOB));
-	cl_assert_equal_i(0, git_oid_cmp(git_object_id(g_expectedobject),
-				git_object_id(g_actualobject)));
+	cl_assert_equal_oid(git_object_id(g_expectedobject),
+				git_object_id(g_actualobject));
 }
 
 void test_object_lookupbypath__from_subdir_tree(void)
@@ -74,8 +74,8 @@ void test_object_lookupbypath__from_subdir_tree(void)
 
 	cl_git_pass(git_object_lookup_bypath(&g_actualobject, (git_object*)tree,
 				"subdir_test2.txt", GIT_OBJ_BLOB));
-	cl_assert_equal_i(0, git_oid_cmp(git_object_id(g_expectedobject),
-				git_object_id(g_actualobject)));
+	cl_assert_equal_oid(git_object_id(g_expectedobject),
+				git_object_id(g_actualobject));
 
 	git_tree_entry_free(entry);
 	git_tree_free(tree);

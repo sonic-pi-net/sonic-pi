@@ -32,12 +32,13 @@ struct git_revwalk {
 	int (*enqueue)(git_revwalk *, git_commit_list_node *);
 
 	unsigned walking:1,
-		first_parent: 1;
+		first_parent: 1,
+		did_hide: 1,
+		did_push: 1;
 	unsigned int sorting;
 
-	/* merge base calculation */
-	git_commit_list_node *one;
-	git_vector twos;
+	/* the pushes and hides */
+	git_commit_list *user_input;
 
 	/* hide callback */
 	git_revwalk_hide_cb hide_cb;

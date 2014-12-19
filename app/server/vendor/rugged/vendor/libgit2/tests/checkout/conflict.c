@@ -48,7 +48,7 @@ static git_index *g_index;
 
 struct checkout_index_entry {
 	uint16_t mode;
-	char oid_str[41];
+	char oid_str[GIT_OID_HEXSZ+1];
 	int stage;
 	char path[128];
 };
@@ -156,7 +156,7 @@ static void ensure_workdir_oid(const char *path, const char *oid_str)
 
 	cl_git_pass(git_oid_fromstr(&expected, oid_str));
 	cl_git_pass(git_repository_hashfile(&actual, g_repo, path, GIT_OBJ_BLOB, NULL));
-	cl_assert(git_oid_cmp(&expected, &actual) == 0);
+	cl_assert_equal_oid(&expected, &actual);
 }
 
 static void ensure_workdir_mode(const char *path, int mode)
@@ -169,7 +169,7 @@ static void ensure_workdir_mode(const char *path, int mode)
 		git_buf_joinpath(&fullpath, git_repository_workdir(g_repo), path));
 
 	cl_git_pass(p_stat(git_buf_cstr(&fullpath), &st));
-	cl_assert_equal_i(mode, st.st_mode);
+	cl_assert_equal_i((mode & S_IRWXU), (st.st_mode & S_IRWXU));
 
 	git_buf_free(&fullpath);
 #endif
@@ -1078,8 +1078,8 @@ static void collect_progress(
 {
 	git_vector *paths = payload;
 
-	(void)completed_steps;
-	(void)total_steps;
+	GIT_UNUSED(completed_steps);
+	GIT_UNUSED(total_steps);
 
 	if (path == NULL)
 		return;

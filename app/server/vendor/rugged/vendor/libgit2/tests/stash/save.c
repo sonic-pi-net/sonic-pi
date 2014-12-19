@@ -227,18 +227,12 @@ void test_stash_save__can_stash_against_a_detached_head(void)
 
 void test_stash_save__stashing_updates_the_reflog(void)
 {
-	char *sha;
-
 	assert_object_oid("refs/stash@{0}", NULL, GIT_OBJ_COMMIT);
 
 	cl_git_pass(git_stash_save(&stash_tip_oid, repo, signature, NULL, GIT_STASH_DEFAULT));
 
-	sha = git_oid_allocfmt(&stash_tip_oid);
-
-	assert_object_oid("refs/stash@{0}", sha, GIT_OBJ_COMMIT);
+	assert_object_oid("refs/stash@{0}", git_oid_tostr_s(&stash_tip_oid), GIT_OBJ_COMMIT);
 	assert_object_oid("refs/stash@{1}", NULL, GIT_OBJ_COMMIT);
-
-	git__free(sha);
 }
 
 void test_stash_save__cannot_stash_when_there_are_no_local_change(void)
@@ -372,6 +366,23 @@ void test_stash_save__including_untracked_without_any_untracked_file_creates_an_
 	cl_git_pass(git_stash_save(&stash_tip_oid, repo, signature, NULL, GIT_STASH_INCLUDE_UNTRACKED));
 
 	assert_object_oid("stash^3^{tree}", EMPTY_TREE, GIT_OBJ_TREE);
+}
+
+void test_stash_save__ignored_directory(void)
+{
+	cl_git_pass(p_mkdir("stash/ignored_directory", 0777));
+	cl_git_pass(p_mkdir("stash/ignored_directory/sub", 0777));
+	cl_git_mkfile("stash/ignored_directory/sub/some_file", "stuff");
+
+	assert_status(repo, "ignored_directory/sub/some_file", GIT_STATUS_WT_NEW);
+	cl_git_pass(git_ignore_add_rule(repo, "ignored_directory/"));
+	assert_status(repo, "ignored_directory/sub/some_file", GIT_STATUS_IGNORED);
+
+	cl_git_pass(git_stash_save(&stash_tip_oid, repo, signature, NULL, GIT_STASH_INCLUDE_UNTRACKED | GIT_STASH_INCLUDE_IGNORED));
+
+	cl_assert(!git_path_exists("stash/ignored_directory/sub/some_file"));
+	cl_assert(!git_path_exists("stash/ignored_directory/sub"));
+	cl_assert(!git_path_exists("stash/ignored_directory"));
 }
 
 void test_stash_save__skip_submodules(void)

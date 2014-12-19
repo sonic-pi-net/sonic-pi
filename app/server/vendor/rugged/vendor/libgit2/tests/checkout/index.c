@@ -618,3 +618,101 @@ void test_checkout_index__can_get_repo_from_index(void)
 
 	git_index_free(index);
 }
+
+static void add_conflict(git_index *index, const char *path)
+{
+	git_index_entry entry;
+
+	memset(&entry, 0, sizeof(git_index_entry));
+
+	entry.mode = 0100644;
+	entry.path = path;
+
+	git_oid_fromstr(&entry.id, "d427e0b2e138501a3d15cc376077a3631e15bd46");
+	entry.flags = (1 << GIT_IDXENTRY_STAGESHIFT);
+	cl_git_pass(git_index_add(index, &entry));
+
+	git_oid_fromstr(&entry.id, "4e886e602529caa9ab11d71f86634bd1b6e0de10");
+	entry.flags = (2 << GIT_IDXENTRY_STAGESHIFT);
+	cl_git_pass(git_index_add(index, &entry));
+
+	git_oid_fromstr(&entry.id, "2bd0a343aeef7a2cf0d158478966a6e587ff3863");
+	entry.flags = (3 << GIT_IDXENTRY_STAGESHIFT);
+	cl_git_pass(git_index_add(index, &entry));
+}
+
+void test_checkout_index__writes_conflict_file(void)
+{
+	git_index *index;
+	git_checkout_options opts = GIT_CHECKOUT_OPTIONS_INIT;
+	git_buf conflicting_buf = GIT_BUF_INIT;
+
+	cl_git_pass(git_repository_index(&index, g_repo));
+
+	add_conflict(index, "conflicting.txt");
+	cl_git_pass(git_index_write(index));
+
+	cl_git_pass(git_checkout_index(g_repo, NULL, &opts));
+
+	cl_git_pass(git_futils_readbuffer(&conflicting_buf, "testrepo/conflicting.txt"));
+	cl_assert(strcmp(conflicting_buf.ptr,
+		"<<<<<<< ours\n"
+		"this file is changed in master and branch\n"
+		"=======\n"
+		"this file is changed in branch and master\n"
+		">>>>>>> theirs\n") == 0);
+	git_buf_free(&conflicting_buf);
+
+	git_index_free(index);
+}
+
+void test_checkout_index__adding_conflict_removes_stage_0(void)
+{
+	git_index *new_index, *index;
+	git_checkout_options opts = GIT_CHECKOUT_OPTIONS_INIT;
+
+	cl_git_pass(git_index_new(&new_index));
+
+	add_conflict(new_index, "new.txt");
+	cl_git_pass(git_checkout_index(g_repo, new_index, &opts));
+
+	cl_git_pass(git_repository_index(&index, g_repo));
+
+	cl_assert(git_index_get_bypath(index, "new.txt", 0) == NULL);
+	cl_assert(git_index_get_bypath(index, "new.txt", 1) != NULL);
+	cl_assert(git_index_get_bypath(index, "new.txt", 2) != NULL);
+	cl_assert(git_index_get_bypath(index, "new.txt", 3) != NULL);
+
+	git_index_free(index);
+	git_index_free(new_index);
+}
+
+void test_checkout_index__conflicts_honor_coreautocrlf(void)
+{
+#ifdef GIT_WIN32
+	git_index *index;
+	git_checkout_options opts = GIT_CHECKOUT_OPTIONS_INIT;
+	git_buf conflicting_buf = GIT_BUF_INIT;
+
+	cl_git_pass(p_unlink("./testrepo/.gitattributes"));
+	cl_repo_set_bool(g_repo, "core.autocrlf", true);
+
+	cl_git_pass(git_repository_index(&index, g_repo));
+
+	add_conflict(index, "conflicting.txt");
+	cl_git_pass(git_index_write(index));
+
+	cl_git_pass(git_checkout_index(g_repo, NULL, &opts));
+
+	cl_git_pass(git_futils_readbuffer(&conflicting_buf, "testrepo/conflicting.txt"));
+	cl_assert(strcmp(conflicting_buf.ptr,
+		"<<<<<<< ours\r\n"
+		"this file is changed in master and branch\r\n"
+		"=======\r\n"
+		"this file is changed in branch and master\r\n"
+		">>>>>>> theirs\r\n") == 0);
+	git_buf_free(&conflicting_buf);
+
+	git_index_free(index);
+#endif
+}

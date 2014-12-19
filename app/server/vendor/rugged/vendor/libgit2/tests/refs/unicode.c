@@ -32,8 +32,7 @@ void test_refs_unicode__create_and_lookup(void)
 	cl_git_pass(git_repository_open(&repo2, "testrepo.git"));
 
 	cl_git_pass(git_reference_lookup(&ref2, repo2, REFNAME));
-	cl_assert_equal_i(
-		0, git_oid_cmp(git_reference_target(ref1), git_reference_target(ref2)));
+	cl_assert_equal_oid(git_reference_target(ref1), git_reference_target(ref2));
 	cl_assert_equal_s(REFNAME, git_reference_name(ref2));
 	git_reference_free(ref2);
 
@@ -43,8 +42,7 @@ void test_refs_unicode__create_and_lookup(void)
 #define REFNAME_DECOMPOSED "refs/heads/" "A" "\314\212" "ngstro" "\314\210" "m"
 
 	cl_git_pass(git_reference_lookup(&ref2, repo2, REFNAME_DECOMPOSED));
-	cl_assert_equal_i(
-		0, git_oid_cmp(git_reference_target(ref1), git_reference_target(ref2)));
+	cl_assert_equal_oid(git_reference_target(ref1), git_reference_target(ref2));
 	cl_assert_equal_s(REFNAME, git_reference_name(ref2));
 	git_reference_free(ref2);
 #endif

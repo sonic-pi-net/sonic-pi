@@ -87,14 +87,14 @@ void test_odb_foreach__files_in_objects_dir(void)
 	git_repository *repo;
 	git_odb *odb;
 	git_buf buf = GIT_BUF_INIT;
-	size_t nobj = 0;
+	int nobj = 0;
 
 	cl_fixture_sandbox("testrepo.git");
 	cl_git_pass(git_repository_open(&repo, "testrepo.git"));
 
 	cl_git_pass(git_buf_printf(&buf, "%s/objects/somefile", git_repository_path(repo)));
-
 	cl_git_mkfile(buf.ptr, "");
+	git_buf_free(&buf);
 
 	cl_git_pass(git_repository_odb(&odb, repo));
 	cl_git_pass(git_odb_foreach(odb, foreach_cb, &nobj));

@@ -1,40 +1,27 @@
 diff --git a/files/file.javascript b/files/file.javascript
-index b9f1286..7cd3c5a 100644
+index 0965b37..5391797 100644
 --- a/files/file.javascript
 +++ b/files/file.javascript
-@@ -16,3 +16,4 @@ function getViewportH ()
-     var client = docElem['clientHeight'],
--      inner = window['innerHeight'];
-+      inner = window['innerHeight'],
-+      sample = window['otherProperty'];
+@@ -4,4 +4,3 @@ function(require, exports, module)
+   var Key = require("./key")
+-    , Direction = require("./direction")
+-    , Image = require("./image");
++    , Direction = require("./direction");
  
-@@ -27,3 +28,3 @@ function getOffset (el)
-       if (!isNaN(el.offsetTop)) {
--        offsetTop += el.offsetTop;
-+        offsetTop += el.offsetTop + 1;
-       }
-@@ -43,8 +44,7 @@ function isElementInViewport (el, h)
-         viewed = scrolled + getViewportH(),
--        elH = el.offsetHeight,
-         elTop = getOffset(el).top,
--        elBottom = elTop + elH,
-+        elBottom = elTop + el.offsetHeight,
-         h = h || 0;
+@@ -16,4 +15,4 @@ function Player(game)
  
--    return (elTop + elH * h) <= viewed && (elBottom) >= scrolled;
-+    return (elTop + el.offsetHeight * h) <= viewed && (elBottom) >= scrolled;
-   }
-@@ -60,4 +60,2 @@ _init: function ()
+-    this.pixelX = 0;
+-    this.pixelY = 0;
++    this.pixelX = 10;
++    this.pixelY = 10;
  
--  //  Initialize all scrollreveals, triggering all
--  //  reveals on visible elements.
-       this.elems.forEach(function (el, i) {
-@@ -71,3 +69,3 @@ var scrollHandler = function ()
-             self._scrollPage();
--          }, 60);
-+          }, 61);
-         }
-@@ -101,2 +99,3 @@ _scrollPage: function ()
-         this.scrolled = false;
-+		this.tested = true;
-     },
+@@ -82,3 +81,3 @@ Player.prototype.moveUp = function()
+   Player.prototype.moveLeft = function() {
+-    this.x -= 1;
++    this.x -= 5;
+     this.direction = Direction.LEFT;
+@@ -106,3 +105,3 @@ Player.prototype.draw = function(context)
+ 
+-    context.drawImage(this.image.data, offsetX, offsetY, 32, 48, this.pixelX, this.pixelY - 16, 32, 48);
++    context.drawImage(this.image.data, offsetX, offsetY, 32, 48, this.pixelX, this.pixelY, 32, 48);
+   };

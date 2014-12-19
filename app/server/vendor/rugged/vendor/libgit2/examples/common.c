@@ -53,6 +53,33 @@ size_t is_prefixed(const char *str, const char *pfx)
 	return strncmp(str, pfx, len) ? 0 : len;
 }
 
+int optional_str_arg(
+	const char **out, struct args_info *args, const char *opt, const char *def)
+{
+	const char *found = args->argv[args->pos];
+	size_t len = is_prefixed(found, opt);
+
+	if (!len)
+		return 0;
+
+	if (!found[len]) {
+		if (args->pos + 1 == args->argc) {
+			*out = def;
+			return 1;
+		}
+		args->pos += 1;
+		*out = args->argv[args->pos];
+		return 1;
+	}
+
+	if (found[len] == '=') {
+		*out = found + len + 1;
+		return 1;
+	}
+
+	return 0;
+}
+
 int match_str_arg(
 	const char **out, struct args_info *args, const char *opt)
 {

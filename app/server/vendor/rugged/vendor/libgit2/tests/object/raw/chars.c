@@ -12,7 +12,7 @@ void test_object_raw_chars__find_invalid_chars_in_oid(void)
 		0xb7, 0x75, 0x21, 0x3c, 0x23,
 		0xa8, 0xbd, 0x74, 0xf5, 0xe0,
 	};
-	char in[41] = "16a67770b7d8d72317c4b775213c23a8bd74f5e0";
+	char in[] = "16a67770b7d8d72317c4b775213c23a8bd74f5e0";
 	unsigned int i;
 
 	for (i = 0; i < 256; i++) {

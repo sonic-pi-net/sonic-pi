@@ -112,6 +112,7 @@ int git_diff_file_content__init_from_diff(
 		has_data = !use_old &&
 			(diff->opts.flags & GIT_DIFF_SHOW_UNTRACKED_CONTENT) != 0;
 		break;
+	case GIT_DELTA_UNREADABLE:
 	case GIT_DELTA_MODIFIED:
 	case GIT_DELTA_COPIED:
 	case GIT_DELTA_RENAMED:

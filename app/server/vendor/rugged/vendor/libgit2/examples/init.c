@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 	git_repository *repo = NULL;
 	struct opts o = { 1, 0, 0, 0, GIT_REPOSITORY_INIT_SHARED_UMASK, 0, 0, 0 };
 
-	git_threads_init();
+	git_libgit2_init();
 
 	parse_opts(&o, argc, argv);
 
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
 	}
 
 	git_repository_free(repo);
-	git_threads_shutdown();
+	git_libgit2_shutdown();
 
 	return 0;
 }

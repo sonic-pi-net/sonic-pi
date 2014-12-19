@@ -354,7 +354,7 @@ static VALUE rb_git_commit_amend(VALUE self, VALUE rb_data)
  *  - +:tree+: the tree for this commit, represented as a <tt>Rugged::Tree</tt>
  *    instance or an OID +String+.
  *  - +:update_ref+ (optional): a +String+ with the name of a reference in the
- *  repository which should be updated to point to this commit (e.g. "HEAD")
+ *    repository which should be updated to point to this commit (e.g. "HEAD")
  *
  *  When the commit is successfully written to disk, its +oid+ will be
  *  returned as a hex +String+.

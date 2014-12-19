@@ -1,7 +1,8 @@
 libgit2 - the Git linkable library
 ==================================
 
-[![Build Status](https://secure.travis-ci.org/libgit2/libgit2.png?branch=development)](http://travis-ci.org/libgit2/libgit2)
+[![Travis Build Status](https://secure.travis-ci.org/libgit2/libgit2.png?branch=master)](http://travis-ci.org/libgit2/libgit2)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/gnjsdi9r48cfoveg/branch/master?svg=true)](https://ci.appveyor.com/project/nulltoken/libgit2/branch/master)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/639/badge.svg)](https://scan.coverity.com/projects/639)
 
 `libgit2` is a portable, pure C implementation of the Git core methods
@@ -55,8 +56,13 @@ dependencies, it can make use of a few libraries to add to it:
 
 - pthreads (non-Windows) to enable threadsafe access as well as multi-threaded pack generation
 - OpenSSL (non-Windows) to talk over HTTPS and provide the SHA-1 functions
-- LibSSH2 to enable the ssh transport
+- LibSSH2 to enable the SSH transport
 - iconv (OSX) to handle the HFS+ path encoding peculiarities
+
+Threading
+=========
+
+See [THREADING](THREADING.md) for information
 
 Building libgit2 - Using CMake
 ==============================
@@ -90,7 +96,7 @@ The following CMake variables are declared:
 - `INCLUDE_INSTALL_DIR`: Where to install headers to.
 - `BUILD_SHARED_LIBS`: Build libgit2 as a Shared Library (defaults to ON)
 - `BUILD_CLAR`: Build [Clar](https://github.com/vmg/clar)-based test suite (defaults to ON)
-- `THREADSAFE`: Build libgit2 with threading support (defaults to OFF)
+- `THREADSAFE`: Build libgit2 with threading support (defaults to ON)
 - `STDCALL`: Build libgit2 as `stdcall`. Turn off for `cdecl` (Windows; defaults to ON)
 
 Compiler and linker options
@@ -119,8 +125,7 @@ You need to run the CMake commands from the Visual Studio command
 prompt, not the regular or Windows SDK one. Select the right generator
 for your version with the `-G "Visual Studio X" option.
 
-See [the wiki]
-(https://github.com/libgit2/libgit2/wiki/Building-libgit2-on-Windows)
+See [the website](https://libgit2.github.com/docs/guides/build-and-link)
 for more detailed instructions.
 
 Android
@@ -133,11 +138,11 @@ with full path to the toolchain):
 
 	SET(CMAKE_SYSTEM_NAME Linux)
 	SET(CMAKE_SYSTEM_VERSION Android)
-	
+
 	SET(CMAKE_C_COMPILER   {PATH}/bin/arm-linux-androideabi-gcc)
 	SET(CMAKE_CXX_COMPILER {PATH}/bin/arm-linux-androideabi-g++)
 	SET(CMAKE_FIND_ROOT_PATH {PATH}/sysroot/)
-	
+
 	SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 	SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 	SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
@@ -168,6 +173,8 @@ Here are the bindings to libgit2 that are currently available:
     * hgit2 <https://github.com/fpco/gitlib>
 * Java
     * Jagged <https://github.com/ethomson/jagged>
+* Julia
+    * LibGit2.jl <https://github.com/jakebolewski/LibGit2.jl>
 * Lua
     * luagit2 <https://github.com/libgit2/luagit2>
 * .NET
@@ -182,7 +189,7 @@ Here are the bindings to libgit2 that are currently available:
 * Parrot Virtual Machine
     * parrot-libgit2 <https://github.com/letolabs/parrot-libgit2>
 * Perl
-    * Git-Raw <https://github.com/ghedo/p5-Git-Raw>
+    * Git-Raw <https://github.com/jacquesg/p5-Git-Raw>
 * PHP
     * php-git <https://github.com/libgit2/php-git>
 * PowerShell
@@ -193,6 +200,8 @@ Here are the bindings to libgit2 that are currently available:
     * git2r <https://github.com/ropensci/git2r>
 * Ruby
     * Rugged <https://github.com/libgit2/rugged>
+* Rust
+    * git2-rs <https://github.com/alexcrichton/git2-rs>
 * Vala
     * libgit2.vapi <https://github.com/apmasell/vapis/blob/master/libgit2.vapi>
 
@@ -209,7 +218,7 @@ workflow, the libgit2 [coding conventions](CONVENTIONS.md), and out list of
 License
 ==================================
 
-`libgit2` is under GPL2 **with linking exemption**. This means you can link to
+`libgit2` is under GPL2 **with linking exception**. This means you can link to
 and use the library from any program, proprietary or open source; paid or
 gratis.  However, you cannot modify libgit2 and distribute it without
 supplying the source.

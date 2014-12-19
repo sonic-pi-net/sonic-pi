@@ -317,14 +317,17 @@ void test_submodule_status__iterator(void)
 	};
 	submodule_expectations exp = { 0, expected, expected_flags };
 	git_status_options opts = GIT_STATUS_OPTIONS_INIT;
+	git_index *index;
 
-	cl_git_pass(git_iterator_for_workdir(&iter, g_repo,
+	cl_git_pass(git_repository_index(&index, g_repo));
+	cl_git_pass(git_iterator_for_workdir(&iter, g_repo, index, NULL,
 		GIT_ITERATOR_IGNORE_CASE | GIT_ITERATOR_INCLUDE_TREES, NULL, NULL));
 
 	for (i = 0; !git_iterator_advance(&entry, iter); ++i)
 		cl_assert_equal_s(expected[i], entry->path);
 
 	git_iterator_free(iter);
+	git_index_free(index);
 
 	opts.flags = GIT_STATUS_OPT_INCLUDE_UNTRACKED |
 		GIT_STATUS_OPT_INCLUDE_UNMODIFIED |

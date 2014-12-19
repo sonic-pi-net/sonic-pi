@@ -40,17 +40,17 @@ typedef git_atomic git_atomic_ssize;
 
 #ifdef GIT_THREADS
 
-#define git_thread pthread_t
-#define git_thread_create(thread, attr, start_routine, arg) \
-	pthread_create(thread, attr, start_routine, arg)
-#define git_thread_kill(thread) pthread_cancel(thread)
-#define git_thread_exit(status)	pthread_exit(status)
-#define git_thread_join(id, status) pthread_join(id, status)
+#if !defined(GIT_WIN32)
 
-#if defined(GIT_WIN32)
-#define git_thread_yield() Sleep(0)
-#else
-#define git_thread_yield() sched_yield()
+typedef struct {
+	pthread_t thread;
+} git_thread;
+
+#define git_thread_create(git_thread_ptr, attr, start_routine, arg) \
+	pthread_create(&(git_thread_ptr)->thread, attr, start_routine, arg)
+#define git_thread_join(git_thread_ptr, status) \
+	pthread_join((git_thread_ptr)->thread, status)
+
 #endif
 
 /* Pthreads Mutex */
@@ -179,15 +179,14 @@ GIT_INLINE(int64_t) git_atomic64_add(git_atomic64 *a, int64_t addend)
 
 #define git_thread unsigned int
 #define git_thread_create(thread, attr, start_routine, arg) 0
-#define git_thread_kill(thread) (void)0
-#define git_thread_exit(status) (void)0
 #define git_thread_join(id, status) (void)0
-#define git_thread_yield() (void)0
 
 /* Pthreads Mutex */
 #define git_mutex unsigned int
-#define git_mutex_init(a) 0
-#define git_mutex_lock(a) 0
+GIT_INLINE(int) git_mutex_init(git_mutex *mutex) \
+	{ GIT_UNUSED(mutex); return 0; }
+GIT_INLINE(int) git_mutex_lock(git_mutex *mutex) \
+	{ GIT_UNUSED(mutex); return 0; }
 #define git_mutex_unlock(a) (void)0
 #define git_mutex_free(a) (void)0
 

@@ -123,7 +123,12 @@ typedef enum {
  */
 GIT_EXTERN(int) git_libgit2_features(void);
 
-
+/**
+ * Global library options
+ *
+ * These are used to select which global option to set or get and are
+ * used in `git_libgit2_opts()`.
+ */
 typedef enum {
 	GIT_OPT_GET_MWINDOW_SIZE,
 	GIT_OPT_SET_MWINDOW_SIZE,
@@ -136,7 +141,8 @@ typedef enum {
 	GIT_OPT_ENABLE_CACHING,
 	GIT_OPT_GET_CACHED_MEMORY,
 	GIT_OPT_GET_TEMPLATE_PATH,
-	GIT_OPT_SET_TEMPLATE_PATH
+	GIT_OPT_SET_TEMPLATE_PATH,
+	GIT_OPT_SET_SSL_CERT_LOCATIONS,
 } git_libgit2_opt_t;
 
 /**
@@ -220,6 +226,17 @@ typedef enum {
  *		> Set the default template path.
  *		>
  *		> - `path` directory of template.
+ *
+ *	* opts(GIT_OPT_SET_SSL_CERT_LOCATIONS, const char *file, const char *path)
+ *
+ *		> Set the SSL certificate-authority locations.
+ *		>
+ *		> - `file` is the location of a file containing several
+ *		>   certificates concatenated together.
+ *		> - `path` is the location of a directory holding several
+ *		>   certificates, one per file.
+ *		>
+ * 		> Either parameter may be `NULL`, but not both.
  *
  * @param option Option key
  * @param ... value to set the option

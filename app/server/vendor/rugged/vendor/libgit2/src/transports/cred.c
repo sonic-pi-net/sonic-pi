@@ -17,6 +17,40 @@ int git_cred_has_username(git_cred *cred)
 	return 1;
 }
 
+const char *git_cred__username(git_cred *cred)
+{
+	switch (cred->credtype) {
+	case GIT_CREDTYPE_USERNAME:
+	{
+		git_cred_username *c = (git_cred_username *) cred;
+		return c->username;
+	}
+	case GIT_CREDTYPE_USERPASS_PLAINTEXT:
+	{
+		git_cred_userpass_plaintext *c = (git_cred_userpass_plaintext *) cred;
+		return c->username;
+	}
+	case GIT_CREDTYPE_SSH_KEY:
+	{
+		git_cred_ssh_key *c = (git_cred_ssh_key *) cred;
+		return c->username;
+	}
+	case GIT_CREDTYPE_SSH_CUSTOM:
+	{
+		git_cred_ssh_custom *c = (git_cred_ssh_custom *) cred;
+		return c->username;
+	}
+	case GIT_CREDTYPE_SSH_INTERACTIVE:
+	{
+		git_cred_ssh_interactive *c = (git_cred_ssh_interactive *) cred;
+		return c->username;
+	}
+
+	default:
+		return NULL;
+	}
+}
+
 static void plaintext_free(struct git_cred *cred)
 {
 	git_cred_userpass_plaintext *c = (git_cred_userpass_plaintext *)cred;
@@ -127,6 +161,11 @@ static void default_free(struct git_cred *cred)
 	git_cred_default *c = (git_cred_default *)cred;
 
 	git__free(c);
+}
+
+static void username_free(struct git_cred *cred)
+{
+	git__free(cred);
 }
 
 int git_cred_ssh_key_new(
@@ -261,5 +300,24 @@ int git_cred_default_new(git_cred **cred)
 	c->free = default_free;
 
 	*cred = c;
+	return 0;
+}
+
+int git_cred_username_new(git_cred **cred, const char *username)
+{
+	git_cred_username *c;
+	size_t len;
+
+	assert(cred);
+
+	len = strlen(username);
+	c = git__malloc(sizeof(git_cred_username) + len + 1);
+	GITERR_CHECK_ALLOC(c);
+
+	c->parent.credtype = GIT_CREDTYPE_USERNAME;
+	c->parent.free = username_free;
+	memcpy(c->username, username, len + 1);
+
+	*cred = (git_cred *) c;
 	return 0;
 }

@@ -751,13 +751,19 @@ void test_status_ignore__negative_ignores_inside_ignores(void)
 	static const char *test_files[] = {
 		"empty_standard_repo/top/mid/btm/tracked",
 		"empty_standard_repo/top/mid/btm/untracked",
+		"empty_standard_repo/zoo/bar",
+		"empty_standard_repo/zoo/foo/bar",
 		NULL
 	};
 
 	make_test_data("empty_standard_repo", test_files);
 	cl_git_mkfile(
 		"empty_standard_repo/.gitignore",
-		"top\n!top/mid/btm\n");
+		"top\n"
+		"!top/mid/btm\n"
+		"zoo/*\n"
+		"!zoo/bar\n"
+		"!zoo/foo/bar\n");
 	add_one_to_index("top/mid/btm/tracked");
 
 	{
@@ -765,13 +771,15 @@ void test_status_ignore__negative_ignores_inside_ignores(void)
 		status_entry_counts counts;
 		static const char *files[] = {
 			".gitignore", "top/mid/btm/tracked", "top/mid/btm/untracked",
+			"zoo/bar", "zoo/foo/bar",
 		};
 		static const unsigned int statuses[] = {
-			GIT_STATUS_WT_NEW, GIT_STATUS_INDEX_NEW, GIT_STATUS_WT_NEW,
+			GIT_STATUS_WT_NEW, GIT_STATUS_INDEX_NEW, GIT_STATUS_IGNORED,
+			GIT_STATUS_WT_NEW, GIT_STATUS_IGNORED,
 		};
 
 		memset(&counts, 0x0, sizeof(status_entry_counts));
-		counts.expected_entry_count = 3;
+		counts.expected_entry_count = 5;
 		counts.expected_paths = files;
 		counts.expected_statuses = statuses;
 		opts.flags = GIT_STATUS_OPT_DEFAULTS |
@@ -785,6 +793,167 @@ void test_status_ignore__negative_ignores_inside_ignores(void)
 		cl_assert_equal_i(0, counts.wrong_sorted_path);
 	}
 
-	refute_is_ignored("top/mid/btm/tracked");
-	refute_is_ignored("top/mid/btm/untracked");
+	assert_is_ignored("top/mid/btm/tracked");
+	assert_is_ignored("top/mid/btm/untracked");
+	refute_is_ignored("foo/bar");
+}
+
+void test_status_ignore__negative_ignores_in_slash_star(void)
+{
+	git_status_options status_opts = GIT_STATUS_OPTIONS_INIT;
+	git_status_list *list;
+	int found_look_ma = 0, found_what_about = 0;
+	size_t i;
+	static const char *test_files[] = {
+		"empty_standard_repo/bin/look-ma.txt",
+		"empty_standard_repo/bin/what-about-me.txt",
+		NULL
+	};
+
+	make_test_data("empty_standard_repo", test_files);
+	cl_git_mkfile(
+		"empty_standard_repo/.gitignore",
+		"bin/*\n"
+		"!bin/w*\n");
+
+	assert_is_ignored("bin/look-ma.txt");
+	refute_is_ignored("bin/what-about-me.txt");
+
+	status_opts.flags = GIT_STATUS_OPT_DEFAULTS;
+	cl_git_pass(git_status_list_new(&list, g_repo, &status_opts));
+	for (i = 0; i < git_status_list_entrycount(list); i++) {
+		const git_status_entry *entry = git_status_byindex(list, i);
+
+		if (!strcmp("bin/look-ma.txt", entry->index_to_workdir->new_file.path))
+			found_look_ma = 1;
+
+		if (!strcmp("bin/what-about-me.txt", entry->index_to_workdir->new_file.path))
+			found_what_about = 1;
+	}
+	git_status_list_free(list);
+
+	cl_assert(found_look_ma);
+	cl_assert(found_what_about);
+}
+
+void test_status_ignore__negative_ignores_without_trailing_slash_inside_ignores(void)
+{
+	git_status_options status_opts = GIT_STATUS_OPTIONS_INIT;
+	git_status_list *list;
+	int found_parent_file = 0, found_parent_child1_file = 0, found_parent_child2_file = 0;
+	size_t i;
+	static const char *test_files[] = {
+		"empty_standard_repo/parent/file.txt",
+		"empty_standard_repo/parent/force.txt",
+		"empty_standard_repo/parent/child1/file.txt",
+		"empty_standard_repo/parent/child2/file.txt",
+		NULL
+	};
+
+	make_test_data("empty_standard_repo", test_files);
+	cl_git_mkfile(
+		"empty_standard_repo/.gitignore",
+		"parent/*\n"
+		"!parent/force.txt\n"
+		"!parent/child1\n"
+		"!parent/child2/\n");
+
+	add_one_to_index("parent/force.txt");
+
+	assert_is_ignored("parent/file.txt");
+	refute_is_ignored("parent/force.txt");
+	refute_is_ignored("parent/child1/file.txt");
+	refute_is_ignored("parent/child2/file.txt");
+
+	status_opts.flags = GIT_STATUS_OPT_DEFAULTS;
+	cl_git_pass(git_status_list_new(&list, g_repo, &status_opts));
+	for (i = 0; i < git_status_list_entrycount(list); i++) {
+		const git_status_entry *entry = git_status_byindex(list, i);
+
+		if (!entry->index_to_workdir)
+			continue;
+
+		if (!strcmp("parent/file.txt", entry->index_to_workdir->new_file.path))
+			found_parent_file = 1;
+
+		if (!strcmp("parent/force.txt", entry->index_to_workdir->new_file.path))
+			found_parent_file = 1;
+
+		if (!strcmp("parent/child1/file.txt", entry->index_to_workdir->new_file.path))
+			found_parent_child1_file = 1;
+
+		if (!strcmp("parent/child2/file.txt", entry->index_to_workdir->new_file.path))
+			found_parent_child2_file = 1;
+	}
+	git_status_list_free(list);
+
+	cl_assert(found_parent_file);
+	cl_assert(found_parent_child1_file);
+	cl_assert(found_parent_child2_file);
+}
+
+void test_status_ignore__filename_with_cr(void)
+{
+	int ignored;
+
+	g_repo = cl_git_sandbox_init("empty_standard_repo");
+	cl_git_mkfile("empty_standard_repo/.gitignore", "Icon\r\r\n");
+
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "Icon\r"));
+	cl_assert_equal_i(1, ignored);
+
+	cl_git_mkfile("empty_standard_repo/.gitignore", "Ico\rn\n");
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "Ico\rn"));
+	cl_assert_equal_i(1, ignored);
+
+	cl_git_mkfile("empty_standard_repo/.gitignore", "Ico\rn\r\n");
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "Ico\rn"));
+	cl_assert_equal_i(1, ignored);
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "Ico\rn\r"));
+	cl_assert_equal_i(0, ignored);
+
+	cl_git_mkfile("empty_standard_repo/.gitignore", "Ico\rn\r\r\n");
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "Ico\rn\r"));
+	cl_assert_equal_i(1, ignored);
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "Icon\r"));
+	cl_assert_equal_i(0, ignored);
+
+	cl_git_mkfile("empty_standard_repo/.gitignore", "Icon\r\n");
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "Icon\r"));
+	cl_assert_equal_i(0, ignored);
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "Icon"));
+	cl_assert_equal_i(1, ignored);
+}
+
+void test_status_ignore__subdir_doesnt_match_above(void)
+{
+	int ignored, icase = 0, error;
+	git_config *cfg;
+
+	g_repo = cl_git_sandbox_init("empty_standard_repo");
+
+	cl_git_pass(git_repository_config_snapshot(&cfg, g_repo));
+	error = git_config_get_bool(&icase, cfg, "core.ignorecase");
+	git_config_free(cfg);
+	if (error == GIT_ENOTFOUND)
+		error = 0;
+
+	cl_git_pass(error);
+
+	cl_git_pass(p_mkdir("empty_standard_repo/src", 0777));
+	cl_git_pass(p_mkdir("empty_standard_repo/src/src", 0777));
+	cl_git_mkfile("empty_standard_repo/src/.gitignore", "src\n");
+	cl_git_mkfile("empty_standard_repo/.gitignore", "");
+
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "src/test.txt"));
+	cl_assert_equal_i(0, ignored);
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "src/src/test.txt"));
+	cl_assert_equal_i(1, ignored);
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "src/foo/test.txt"));
+	cl_assert_equal_i(0, ignored);
+
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "SRC/src/test.txt"));
+	cl_assert_equal_i(icase, ignored);
+	cl_git_pass(git_ignore_path_is_ignored(&ignored, g_repo, "src/SRC/test.txt"));
+	cl_assert_equal_i(icase, ignored);
 }

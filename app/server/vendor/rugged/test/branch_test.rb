@@ -107,18 +107,35 @@ class BranchTest < Rugged::TestCase
     refute_nil @repo.branches.find { |p| p.name == "test_branch" }
   end
 
-  def test_create_unicode_branch
-    branch_name = "A\314\212ngstro\314\210m"
-    new_branch = @repo.create_branch(branch_name, "5b5b025afb0b4c913b4c338a42934a3863bf3644")
+  def test_create_unicode_branch_nfc
+    branch_name = "\xC3\x85\x73\x74\x72\xC3\xB6\x6D"
 
+    new_branch = @repo.create_branch(branch_name, "5b5b025afb0b4c913b4c338a42934a3863bf3644")
     refute_nil new_branch
+
     assert_equal branch_name, new_branch.name
     assert_equal "refs/heads/#{branch_name}", new_branch.canonical_name
 
-    refute_nil new_branch.target
-    assert_equal "5b5b025afb0b4c913b4c338a42934a3863bf3644", new_branch.target.oid
+    refute_nil @repo.branches[branch_name]
+  end
 
-    refute_nil @repo.branches.find { |p| p.name == branch_name }
+  def test_create_unicode_branch_nfd
+    branch_name = "\x41\xCC\x8A\x73\x74\x72\x6F\xCC\x88\x6D"
+
+    new_branch = @repo.create_branch(branch_name, "5b5b025afb0b4c913b4c338a42934a3863bf3644")
+    refute_nil new_branch
+
+    if @repo.config["core.precomposeunicode"] == "true"
+      expected_name = "\xC3\x85\x73\x74\x72\xC3\xB6\x6D"
+    else
+      expected_name = branch_name
+    end
+
+    assert_equal expected_name, new_branch.name
+    assert_equal "refs/heads/#{expected_name}", new_branch.canonical_name
+
+    refute_nil @repo.branches[branch_name]
+    refute_nil @repo.branches[expected_name]
   end
 
   def test_create_branch_short_sha

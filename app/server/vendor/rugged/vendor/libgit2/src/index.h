@@ -35,6 +35,7 @@ struct git_index {
 	unsigned int no_symlinks:1;
 
 	git_tree_cache *tree;
+	git_pool tree_pool;
 
 	git_vector names;
 	git_vector reuc;

@@ -107,13 +107,13 @@ void test_index_conflicts__get(void)
 	cl_assert_equal_s("conflicts-one.txt", conflict_entry[0]->path);
 
 	git_oid_fromstr(&oid, CONFLICTS_ONE_ANCESTOR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[0]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[0]->id);
 
 	git_oid_fromstr(&oid, CONFLICTS_ONE_OUR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[1]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[1]->id);
 
 	git_oid_fromstr(&oid, CONFLICTS_ONE_THEIR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[2]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[2]->id);
 
 	cl_git_pass(git_index_conflict_get(&conflict_entry[0], &conflict_entry[1],
 		&conflict_entry[2], repo_index, "conflicts-two.txt"));
@@ -121,13 +121,13 @@ void test_index_conflicts__get(void)
 	cl_assert_equal_s("conflicts-two.txt", conflict_entry[0]->path);
 
 	git_oid_fromstr(&oid, CONFLICTS_TWO_ANCESTOR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[0]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[0]->id);
 
 	git_oid_fromstr(&oid, CONFLICTS_TWO_OUR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[1]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[1]->id);
 
 	git_oid_fromstr(&oid, CONFLICTS_TWO_THEIR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[2]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[2]->id);
 }
 
 void test_index_conflicts__iterate(void)
@@ -141,29 +141,29 @@ void test_index_conflicts__iterate(void)
 	cl_git_pass(git_index_conflict_next(&conflict_entry[0], &conflict_entry[1], &conflict_entry[2], iterator));
 
 	git_oid_fromstr(&oid, CONFLICTS_ONE_ANCESTOR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[0]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[0]->id);
 	cl_assert(git__strcmp(conflict_entry[0]->path, "conflicts-one.txt") == 0);
 
 	git_oid_fromstr(&oid, CONFLICTS_ONE_OUR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[1]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[1]->id);
 	cl_assert(git__strcmp(conflict_entry[0]->path, "conflicts-one.txt") == 0);
 
 	git_oid_fromstr(&oid, CONFLICTS_ONE_THEIR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[2]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[2]->id);
 	cl_assert(git__strcmp(conflict_entry[0]->path, "conflicts-one.txt") == 0);
 
 	cl_git_pass(git_index_conflict_next(&conflict_entry[0], &conflict_entry[1], &conflict_entry[2], iterator));
 
 	git_oid_fromstr(&oid, CONFLICTS_TWO_ANCESTOR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[0]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[0]->id);
 	cl_assert(git__strcmp(conflict_entry[0]->path, "conflicts-two.txt") == 0);
 
 	git_oid_fromstr(&oid, CONFLICTS_TWO_OUR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[1]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[1]->id);
 	cl_assert(git__strcmp(conflict_entry[0]->path, "conflicts-two.txt") == 0);
 
 	git_oid_fromstr(&oid, CONFLICTS_TWO_THEIR_OID);
-	cl_assert(git_oid_cmp(&conflict_entry[2]->id, &oid) == 0);
+	cl_assert_equal_oid(&oid, &conflict_entry[2]->id);
 	cl_assert(git__strcmp(conflict_entry[0]->path, "conflicts-two.txt") == 0);
 
 	cl_assert(git_index_conflict_next(&conflict_entry[0], &conflict_entry[1], &conflict_entry[2], iterator) == GIT_ITEROVER);
@@ -281,7 +281,7 @@ void test_index_conflicts__partial(void)
 	cl_git_pass(git_index_conflict_get(&conflict_entry[0], &conflict_entry[1],
 		&conflict_entry[2], repo_index, "test-one.txt"));
 
-	cl_assert(git_oid_cmp(&ancestor_entry.id, &conflict_entry[0]->id) == 0);
+	cl_assert_equal_oid(&ancestor_entry.id, &conflict_entry[0]->id);
 	cl_assert(conflict_entry[1] == NULL);
 	cl_assert(conflict_entry[2] == NULL);
 }

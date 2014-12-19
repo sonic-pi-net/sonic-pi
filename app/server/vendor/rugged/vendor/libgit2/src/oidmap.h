@@ -32,4 +32,20 @@ GIT_INLINE(khint_t) git_oidmap_hash(const git_oid *oid)
 #define git_oidmap_alloc() kh_init(oid)
 #define git_oidmap_free(h) kh_destroy(oid,h), h = NULL
 
+#define git_oidmap_lookup_index(h, k) kh_get(oid, h, k)
+#define git_oidmap_valid_index(h, idx) (idx != kh_end(h))
+
+#define git_oidmap_value_at(h, idx) kh_val(h, idx)
+
+#define git_oidmap_insert(h, key, val, rval) do { \
+	khiter_t __pos = kh_put(oid, h, key, &rval); \
+	if (rval >= 0) { \
+		if (rval == 0) kh_key(h, __pos) = key; \
+		kh_val(h, __pos) = val; \
+	} } while (0)
+
+#define git_oidmap_foreach_value kh_foreach_value
+
+#define git_oidmap_size(h) kh_size(h)
+
 #endif

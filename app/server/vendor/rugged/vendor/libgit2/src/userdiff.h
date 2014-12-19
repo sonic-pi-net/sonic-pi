@@ -191,9 +191,9 @@ PATTERNS("php",
 	 "|[-+*/<>%&^|=!]=|--|\\+\\+|<<=?|>>=?|&&|\\|\\||::|->"),
 
 PATTERNS("javascript",
-	 "^[ \t]*(function[ \t][a-zA-Z_][^\\{]*)\n"
-	 "^[ \t]*(var[ \t]+[a-zA-Z_][a-zA-Z0-9_]*[ \t]*=[ \t]*function[ \t\\(][^\\{]*)\n"
-	 "^[ \t]*([a-zA-Z_][a-zA-Z0-9_]*[ \t]*:[ \t]*function[ \t\\(][^\\{]*)",
+	 "([a-zA-Z_$][a-zA-Z0-9_$]*(\\.[a-zA-Z0-9_$]+)*[ \t]*=[ \t]*function([ \t][a-zA-Z_$][a-zA-Z0-9_$]*)?[^\\{]*)\n"
+	 "([a-zA-Z_$][a-zA-Z0-9_$]*[ \t]*:[ \t]*function([ \t][a-zA-Z_$][a-zA-Z0-9_$]*)?[^\\{]*)\n"
+	 "[^a-zA-Z0-9_\\$](function([ \t][a-zA-Z_$][a-zA-Z0-9_$]*)?[^\\{]*)",
 	 /* -- */
 	 "[a-zA-Z_][a-zA-Z0-9_]*"
 	 "|[-+0-9.e]+[fFlL]?|0[xX]?[0-9a-fA-F]+[lL]?"

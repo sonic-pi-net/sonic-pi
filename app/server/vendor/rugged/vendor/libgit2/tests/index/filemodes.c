@@ -152,3 +152,20 @@ void test_index_filemodes__trusted(void)
 
 	git_index_free(index);
 }
+
+void test_index_filemodes__invalid(void)
+{
+	git_index *index;
+	git_index_entry entry;
+
+	cl_git_pass(git_repository_index(&index, g_repo));
+
+	entry.path = "foo";
+	entry.mode = GIT_OBJ_BLOB;
+	cl_git_fail(git_index_add(index, &entry));
+
+	entry.mode = GIT_FILEMODE_BLOB;
+	cl_git_pass(git_index_add(index, &entry));
+
+	git_index_free(index);
+}

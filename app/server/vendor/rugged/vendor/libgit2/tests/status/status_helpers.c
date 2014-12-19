@@ -82,6 +82,9 @@ int cb_status__print(
 	if (status_flags & GIT_STATUS_IGNORED) {
 		wstatus = 'I'; wcount++;
 	}
+	if (status_flags & GIT_STATUS_WT_UNREADABLE) {
+		wstatus = 'X'; wcount++;
+	}
 
 	fprintf(stderr, "%c%c %s (%d/%d%s)\n",
 			istatus, wstatus, path, icount, wcount,

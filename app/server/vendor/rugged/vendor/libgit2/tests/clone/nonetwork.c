@@ -110,19 +110,32 @@ void test_clone_nonetwork__fail_with_already_existing_but_non_empty_directory(vo
 	cl_git_fail(git_clone(&g_repo, cl_git_fixture_url("testrepo.git"), "./foo", &g_options));
 }
 
+int custom_origin_name_remote_create(
+	git_remote **out,
+	git_repository *repo,
+	const char *name,
+	const char *url,
+	void *payload)
+{
+	GIT_UNUSED(name);
+	GIT_UNUSED(payload);
+
+	return git_remote_create(out, repo, "my_origin", url);
+}
+
 void test_clone_nonetwork__custom_origin_name(void)
 {
-       g_options.remote_name = "my_origin";
-       cl_git_pass(git_clone(&g_repo, cl_git_fixture_url("testrepo.git"), "./foo", &g_options));
+	g_options.remote_cb = custom_origin_name_remote_create;
+	cl_git_pass(git_clone(&g_repo, cl_git_fixture_url("testrepo.git"), "./foo", &g_options));
 
-       cl_git_pass(git_remote_load(&g_remote, g_repo, "my_origin"));
+	cl_git_pass(git_remote_lookup(&g_remote, g_repo, "my_origin"));
 }
 
 void test_clone_nonetwork__defaults(void)
 {
 	cl_git_pass(git_clone(&g_repo, cl_git_fixture_url("testrepo.git"), "./foo", NULL));
 	cl_assert(g_repo);
-	cl_git_pass(git_remote_load(&g_remote, g_repo, "origin"));
+	cl_git_pass(git_remote_lookup(&g_remote, g_repo, "origin"));
 }
 
 void test_clone_nonetwork__cope_with_already_existing_directory(void)
@@ -228,7 +241,7 @@ void test_clone_nonetwork__can_detached_head(void)
 	cl_assert(git_repository_head_detached(cloned));
 
 	cl_git_pass(git_repository_head(&cloned_head, cloned));
-	cl_assert(!git_oid_cmp(git_object_id(obj), git_reference_target(cloned_head)));
+	cl_assert_equal_oid(git_object_id(obj), git_reference_target(cloned_head));
 
 	cl_git_pass(git_reflog_read(&log, cloned, "HEAD"));
 	entry = git_reflog_entry_byindex(log, 0);
@@ -264,23 +277,6 @@ void test_clone_nonetwork__clone_updates_reflog_properly(void)
 	cl_git_pass(git_clone(&g_repo, cl_git_fixture_url("testrepo.git"), "./foo", &g_options));
 	assert_correct_reflog("HEAD");
 	assert_correct_reflog("refs/heads/master");
-}
-
-void test_clone_nonetwork__clone_into_updates_reflog_properly(void)
-{
-	git_remote *remote;
-	git_signature *sig;
-	cl_git_pass(git_signature_now(&sig, "Me", "foo@example.com"));
-
-	cl_git_pass(git_repository_init(&g_repo, "./foo", false));
-	cl_git_pass(git_remote_create(&remote, g_repo, "origin", cl_git_fixture_url("testrepo.git")));
-	cl_git_pass(git_clone_into(g_repo, remote, NULL, NULL, sig));
-
-	assert_correct_reflog("HEAD");
-	assert_correct_reflog("refs/heads/master");
-
-	git_remote_free(remote);
-	git_signature_free(sig);
 }
 
 static void cleanup_repository(void *path)

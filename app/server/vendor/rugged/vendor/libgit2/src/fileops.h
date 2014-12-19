@@ -173,6 +173,7 @@ extern int git_futils_cp(
  * - GIT_CPDIR_SIMPLE_TO_MODE: default tries to replicate the mode of the
  *   source file to the target; with this flag, always use 0666 (or 0777 if
  *   source has exec bits set) for target.
+ * - GIT_CPDIR_LINK_FILES will try to use hardlinks for the files
  */
 typedef enum {
 	GIT_CPDIR_CREATE_EMPTY_DIRS = (1u << 0),
@@ -181,6 +182,7 @@ typedef enum {
 	GIT_CPDIR_OVERWRITE         = (1u << 3),
 	GIT_CPDIR_CHMOD_DIRS        = (1u << 4),
 	GIT_CPDIR_SIMPLE_TO_MODE    = (1u << 5),
+	GIT_CPDIR_LINK_FILES        = (1u << 6),
 } git_futils_cpdir_flags;
 
 /**

@@ -27,7 +27,7 @@ void test_index_rename__single_file(void)
 	cl_assert(!git_index_find(&position, index, "lame.name.txt"));
 
 	entry = git_index_get_byindex(index, position);
-	cl_assert(git_oid_cmp(&expected, &entry->id) == 0);
+	cl_assert_equal_oid(&expected, &entry->id);
 
 	/* This removes the entry from the index, but not from the object database */
 	cl_git_pass(git_index_remove(index, "lame.name.txt", 0));
@@ -41,7 +41,7 @@ void test_index_rename__single_file(void)
 	cl_assert(!git_index_find(&position, index, "fancy.name.txt"));
 
 	entry = git_index_get_byindex(index, position);
-	cl_assert(git_oid_cmp(&expected, &entry->id) == 0);
+	cl_assert_equal_oid(&expected, &entry->id);
 
 	git_index_free(index);
 	git_repository_free(repo);

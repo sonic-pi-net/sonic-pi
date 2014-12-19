@@ -41,7 +41,7 @@ void test_index_crlf__autocrlf_false_no_attrs(void)
 
 	cl_git_pass(git_oid_fromstr(&oid,
 		(GIT_EOL_NATIVE == GIT_EOL_CRLF) ? FILE_OID_CRLF : FILE_OID_LF));
-	cl_assert(git_oid_cmp(&oid, &entry->id) == 0);
+	cl_assert_equal_oid(&oid, &entry->id);
 }
 
 void test_index_crlf__autocrlf_true_no_attrs(void)
@@ -58,7 +58,7 @@ void test_index_crlf__autocrlf_true_no_attrs(void)
 	entry = git_index_get_bypath(g_index, "newfile.txt", 0);
 
 	cl_git_pass(git_oid_fromstr(&oid, FILE_OID_LF));
-	cl_assert(git_oid_cmp(&oid, &entry->id) == 0);
+	cl_assert_equal_oid(&oid, &entry->id);
 }
 
 void test_index_crlf__autocrlf_input_no_attrs(void)
@@ -75,7 +75,7 @@ void test_index_crlf__autocrlf_input_no_attrs(void)
 	entry = git_index_get_bypath(g_index, "newfile.txt", 0);
 
 	cl_git_pass(git_oid_fromstr(&oid, FILE_OID_LF));
-	cl_assert(git_oid_cmp(&oid, &entry->id) == 0);
+	cl_assert_equal_oid(&oid, &entry->id);
 }
 
 void test_index_crlf__autocrlf_false_text_auto_attr(void)
@@ -94,7 +94,7 @@ void test_index_crlf__autocrlf_false_text_auto_attr(void)
 	entry = git_index_get_bypath(g_index, "newfile.txt", 0);
 
 	cl_git_pass(git_oid_fromstr(&oid, FILE_OID_LF));
-	cl_assert(git_oid_cmp(&oid, &entry->id) == 0);
+	cl_assert_equal_oid(&oid, &entry->id);
 }
 
 void test_index_crlf__autocrlf_true_text_auto_attr(void)
@@ -113,7 +113,7 @@ void test_index_crlf__autocrlf_true_text_auto_attr(void)
 	entry = git_index_get_bypath(g_index, "newfile.txt", 0);
 
 	cl_git_pass(git_oid_fromstr(&oid, FILE_OID_LF));
-	cl_assert(git_oid_cmp(&oid, &entry->id) == 0);
+	cl_assert_equal_oid(&oid, &entry->id);
 }
 
 void test_index_crlf__autocrlf_input_text_auto_attr(void)
@@ -132,5 +132,23 @@ void test_index_crlf__autocrlf_input_text_auto_attr(void)
 	entry = git_index_get_bypath(g_index, "newfile.txt", 0);
 
 	cl_git_pass(git_oid_fromstr(&oid, FILE_OID_LF));
-	cl_assert(git_oid_cmp(&oid, &entry->id) == 0);
+	cl_assert_equal_oid(&oid, &entry->id);
+}
+
+void test_index_crlf__safecrlf_true_no_attrs(void)
+{
+	cl_repo_set_bool(g_repo, "core.autocrlf", true);
+	cl_repo_set_bool(g_repo, "core.safecrlf", true);
+
+	cl_git_mkfile("crlf/newfile.txt", ALL_LF_TEXT_RAW);
+	cl_git_pass(git_index_add_bypath(g_index, "newfile.txt"));
+
+	cl_git_mkfile("crlf/newfile.txt", ALL_CRLF_TEXT_RAW);
+	cl_git_pass(git_index_add_bypath(g_index, "newfile.txt"));
+
+	cl_git_mkfile("crlf/newfile.txt", MORE_CRLF_TEXT_RAW);
+	cl_git_fail(git_index_add_bypath(g_index, "newfile.txt"));
+
+	cl_git_mkfile("crlf/newfile.txt", MORE_LF_TEXT_RAW);
+	cl_git_fail(git_index_add_bypath(g_index, "newfile.txt"));
 }

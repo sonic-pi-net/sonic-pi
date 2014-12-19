@@ -19,7 +19,7 @@ static int push_spec_rref_cmp(const void *a, const void *b)
 {
 	const push_spec *push_spec_a = a, *push_spec_b = b;
 
-	return strcmp(push_spec_a->rref, push_spec_b->rref);
+	return strcmp(push_spec_a->refspec.dst, push_spec_b->refspec.dst);
 }
 
 static int push_status_ref_cmp(const void *a, const void *b)
@@ -94,12 +94,7 @@ static void free_refspec(push_spec *spec)
 	if (spec == NULL)
 		return;
 
-	if (spec->lref)
-		git__free(spec->lref);
-
-	if (spec->rref)
-		git__free(spec->rref);
-
+	git_refspec__free(&spec->refspec);
 	git__free(spec);
 }
 
@@ -134,46 +129,24 @@ static int check_lref(git_push *push, char *ref)
 static int parse_refspec(git_push *push, push_spec **spec, const char *str)
 {
 	push_spec *s;
-	char *delim;
 
 	*spec = NULL;
 
 	s = git__calloc(1, sizeof(*s));
 	GITERR_CHECK_ALLOC(s);
 
-	if (str[0] == '+') {
-		s->force = true;
-		str++;
-	}
-
-	delim = strchr(str, ':');
-	if (delim == NULL) {
-		s->lref = git__strdup(str);
-		if (!s->lref || check_lref(push, s->lref) < 0)
-			goto on_error;
-	} else {
-		if (delim - str) {
-			s->lref = git__strndup(str, delim - str);
-			if (!s->lref || check_lref(push, s->lref) < 0)
-				goto on_error;
-		}
-
-		if (strlen(delim + 1)) {
-			s->rref = git__strdup(delim + 1);
-			if (!s->rref || check_rref(s->rref) < 0)
-				goto on_error;
-		}
-	}
-
-	if (!s->lref && !s->rref)
+	if (git_refspec__parse(&s->refspec, str, false) < 0) {
+		giterr_set(GITERR_INVALID, "invalid refspec %s", str);
 		goto on_error;
-
-	/* If rref is ommitted, use the same ref name as lref */
-	if (!s->rref) {
-		s->rref = git__strdup(s->lref);
-		if (!s->rref || check_rref(s->rref) < 0)
-			goto on_error;
 	}
+
+	if (s->refspec.src && s->refspec.src[0] != '\0' &&
+	    check_lref(push, s->refspec.src) < 0) {
+		goto on_error;
+	}
+
+	if (check_rref(s->refspec.dst) < 0)
+		goto on_error;
 
 	*spec = s;
 	return 0;
@@ -220,7 +193,7 @@ int git_push_update_tips(
 
 		/* Find matching  push ref spec */
 		git_vector_foreach(&push->specs, j, push_spec) {
-			if (!strcmp(push_spec->rref, status->ref))
+			if (!strcmp(push_spec->refspec.dst, status->ref))
 				break;
 		}
 
@@ -353,14 +326,15 @@ static int revwalk(git_vector *commits, git_push *push)
 		} else if (git_revwalk_push(rw, &spec->loid) < 0)
 			goto on_error;
 
-		if (!spec->force) {
+		if (!spec->refspec.force) {
 			git_oid base;
 
 			if (git_oid_iszero(&spec->roid))
 				continue;
 
 			if (!git_odb_exists(push->repo->_odb, &spec->roid)) {
-				giterr_set(GITERR_REFERENCE, "Cannot push missing reference");
+				giterr_set(GITERR_REFERENCE, 
+					"Cannot push because a reference that you are trying to update on the remote contains commits that are not present locally.");
 				error = GIT_ENONFASTFORWARD;
 				goto on_error;
 			}
@@ -571,22 +545,20 @@ static int calculate_work(git_push *push)
 	/* Update local and remote oids*/
 
 	git_vector_foreach(&push->specs, i, spec) {
-		if (spec->lref) {
+		if (spec->refspec.src && spec->refspec.src[0]!= '\0') {
 			/* This is a create or update.  Local ref must exist. */
 			if (git_reference_name_to_id(
-					&spec->loid, push->repo, spec->lref) < 0) {
-				giterr_set(GITERR_REFERENCE, "No such reference '%s'", spec->lref);
+					&spec->loid, push->repo, spec->refspec.src) < 0) {
+				giterr_set(GITERR_REFERENCE, "No such reference '%s'", spec->refspec.src);
 				return -1;
 			}
 		}
 
-		if (spec->rref) {
-			/* Remote ref may or may not (e.g. during create) already exist. */
-			git_vector_foreach(&push->remote->refs, j, head) {
-				if (!strcmp(spec->rref, head->name)) {
-					git_oid_cpy(&spec->roid, &head->oid);
-					break;
-				}
+		/* Remote ref may or may not (e.g. during create) already exist. */
+		git_vector_foreach(&push->remote->refs, j, head) {
+			if (!strcmp(spec->refspec.dst, head->name)) {
+				git_oid_cpy(&spec->roid, &head->oid);
+				break;
 			}
 		}
 	}
@@ -660,12 +632,12 @@ int git_push_finish(git_push *push)
 		(error = do_push(push)) < 0)
 		return error;
 
-	return 0;
-}
+	if (!push->unpack_ok) {
+		error = -1;
+		giterr_set(GITERR_NET, "unpacking the sent packfile failed on the remote");
+	}
 
-int git_push_unpack_ok(const git_push *push)
-{
-	return push->unpack_ok;
+	return error;
 }
 
 int git_push_status_foreach(git_push *push,

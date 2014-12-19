@@ -147,10 +147,10 @@ module Rugged
 
     # All the remotes in the repository.
     #
-    # Returns an Enumerable::Enumerator containing all the Rugged::Remotes in
-    # the repository.
+    # Returns a Rugged::RemoteCollection containing all the Rugged::Remote objects
+    # in the repository.
     def remotes
-      Rugged::Remote.each(self)
+      @remotes ||= RemoteCollection.new(self)
     end
 
     # All the branches in the repository
@@ -158,6 +158,13 @@ module Rugged
     # Returns an BranchCollection containing Rugged::Branch objects
     def branches
       @branches ||= BranchCollection.new(self)
+    end
+
+    # All the submodules in the repository
+    #
+    # Returns an SubmoduleCollection containing Rugged::Submodule objects
+    def submodules
+      @submodules ||= SubmoduleCollection.new(self)
     end
 
     # Create a new branch in the repository
@@ -197,7 +204,7 @@ module Rugged
 
     def fetch(remote_or_url, *args)
       unless remote_or_url.kind_of? Remote
-        remote_or_url = Remote.lookup(self, remote_or_url) || Remote.new(self, remote_or_url)
+        remote_or_url = remotes[remote_or_url] || remotes.create_anonymous(remote_or_url)
       end
 
       remote_or_url.fetch(*args)
@@ -211,7 +218,7 @@ module Rugged
     # any error messages or +nil+ as values.
     def push(remote_or_url, *args)
       unless remote_or_url.kind_of? Remote
-        remote_or_url = Remote.lookup(self, remote_or_url) || Remote.new(self, remote_or_url)
+        remote_or_url = remotes[remote_or_url] || remotes.create_anonymous(remote_or_url)
       end
 
       remote_or_url.push(*args)

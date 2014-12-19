@@ -151,7 +151,7 @@ static int commit_quick_parse(
 	while (buffer > committer_start && git__isspace(*buffer))
 		buffer--;
 
-	/* Seek for the begining of the pack of digits */
+	/* Seek for the beginning of the pack of digits */
 	while (buffer > committer_start && git__isdigit(*buffer))
 		buffer--;
 

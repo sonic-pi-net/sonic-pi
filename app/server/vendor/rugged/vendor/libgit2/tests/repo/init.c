@@ -358,13 +358,92 @@ void test_repo_init__extended_1(void)
 	cl_assert_equal_s("refs/heads/development", git_reference_symbolic_target(ref));
 	git_reference_free(ref);
 
-	cl_git_pass(git_remote_load(&remote, _repo, "origin"));
+	cl_git_pass(git_remote_lookup(&remote, _repo, "origin"));
 	cl_assert_equal_s("origin", git_remote_name(remote));
 	cl_assert_equal_s(opts.origin_url, git_remote_url(remote));
 	git_remote_free(remote);
 
 	git_repository_free(_repo);
 	cl_fixture_cleanup("root");
+}
+
+void test_repo_init__relative_gitdir(void)
+{
+	git_repository_init_options opts = GIT_REPOSITORY_INIT_OPTIONS_INIT;
+	git_config *cfg;
+	const char *worktree_path;
+	git_buf dot_git_content = GIT_BUF_INIT;
+
+	opts.workdir_path = "../c_wd";
+	opts.flags =
+		GIT_REPOSITORY_INIT_MKPATH |
+		GIT_REPOSITORY_INIT_RELATIVE_GITLINK |
+		GIT_REPOSITORY_INIT_NO_DOTGIT_DIR;
+
+	/* make the directory first, then it should succeed */
+	cl_git_pass(git_repository_init_ext(&_repo, "root/b/my_repository", &opts));
+
+	cl_assert(!git__suffixcmp(git_repository_workdir(_repo), "root/b/c_wd/"));
+	cl_assert(!git__suffixcmp(git_repository_path(_repo), "root/b/my_repository/"));
+	cl_assert(!git_repository_is_bare(_repo));
+	cl_assert(git_repository_is_empty(_repo));
+
+	/* Verify that the gitlink and worktree entries are relative */
+
+	/* Verify worktree */
+	cl_git_pass(git_repository_config(&cfg, _repo));
+	cl_git_pass(git_config_get_string(&worktree_path, cfg, "core.worktree"));
+	cl_assert_equal_s("../c_wd/", worktree_path);
+
+	/* Verify gitlink */
+	cl_git_pass(git_futils_readbuffer(&dot_git_content, "root/b/c_wd/.git"));
+	cl_assert_equal_s("gitdir: ../my_repository/", dot_git_content.ptr);
+
+	git_buf_free(&dot_git_content);
+	git_config_free(cfg);
+	cleanup_repository("root");
+}
+
+void test_repo_init__relative_gitdir_2(void)
+{
+	git_repository_init_options opts = GIT_REPOSITORY_INIT_OPTIONS_INIT;
+	git_config *cfg;
+	const char *worktree_path;
+	git_buf dot_git_content = GIT_BUF_INIT;
+	git_buf full_path = GIT_BUF_INIT;
+
+	cl_git_pass(git_path_prettify(&full_path, ".", NULL));
+	cl_git_pass(git_buf_joinpath(&full_path, full_path.ptr, "root/b/c_wd"));
+
+	opts.workdir_path = full_path.ptr;
+	opts.flags =
+		GIT_REPOSITORY_INIT_MKPATH |
+		GIT_REPOSITORY_INIT_RELATIVE_GITLINK |
+		GIT_REPOSITORY_INIT_NO_DOTGIT_DIR;
+
+	/* make the directory first, then it should succeed */
+	cl_git_pass(git_repository_init_ext(&_repo, "root/b/my_repository", &opts));
+	git_buf_free(&full_path);
+
+	cl_assert(!git__suffixcmp(git_repository_workdir(_repo), "root/b/c_wd/"));
+	cl_assert(!git__suffixcmp(git_repository_path(_repo), "root/b/my_repository/"));
+	cl_assert(!git_repository_is_bare(_repo));
+	cl_assert(git_repository_is_empty(_repo));
+
+	/* Verify that the gitlink and worktree entries are relative */
+
+	/* Verify worktree */
+	cl_git_pass(git_repository_config(&cfg, _repo));
+	cl_git_pass(git_config_get_string(&worktree_path, cfg, "core.worktree"));
+	cl_assert_equal_s("../c_wd/", worktree_path);
+
+	/* Verify gitlink */
+	cl_git_pass(git_futils_readbuffer(&dot_git_content, "root/b/c_wd/.git"));
+	cl_assert_equal_s("gitdir: ../my_repository/", dot_git_content.ptr);
+
+	git_buf_free(&dot_git_content);
+	git_config_free(cfg);
+	cleanup_repository("root");
 }
 
 #define CLEAR_FOR_CORE_FILEMODE(M) ((M) &= ~0177)

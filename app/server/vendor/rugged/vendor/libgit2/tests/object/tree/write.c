@@ -35,7 +35,7 @@ void test_object_tree_write__from_memory(void)
 	 * on REPOSITORY_FOLDER.
 	 */
 	cl_git_pass(git_tree_lookup(&tree, g_repo, &id));
-	cl_git_pass(git_treebuilder_create(&builder, tree));
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, tree));
 
 	cl_git_fail(git_treebuilder_insert(NULL, builder, "",
 		&bid, GIT_FILEMODE_BLOB));
@@ -53,7 +53,7 @@ void test_object_tree_write__from_memory(void)
 	cl_git_pass(git_treebuilder_insert(
 		NULL, builder, "new.txt", &bid, GIT_FILEMODE_BLOB));
 
-	cl_git_pass(git_treebuilder_write(&rid, g_repo, builder));
+	cl_git_pass(git_treebuilder_write(&rid, builder));
 
 	cl_assert(git_oid_cmp(&rid, &id2) == 0);
 
@@ -75,18 +75,18 @@ void test_object_tree_write__subtree(void)
 	git_oid_fromstr(&bid, blob_oid);
 
 	/* create subtree */
-	cl_git_pass(git_treebuilder_create(&builder, NULL));
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, NULL));
 	cl_git_pass(git_treebuilder_insert(
 		NULL, builder, "new.txt", &bid, GIT_FILEMODE_BLOB)); /* -V536 */
-	cl_git_pass(git_treebuilder_write(&subtree_id, g_repo, builder));
+	cl_git_pass(git_treebuilder_write(&subtree_id, builder));
 	git_treebuilder_free(builder);
 
 	/* create parent tree */
 	cl_git_pass(git_tree_lookup(&tree, g_repo, &id));
-	cl_git_pass(git_treebuilder_create(&builder, tree));
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, tree));
 	cl_git_pass(git_treebuilder_insert(
 		NULL, builder, "new", &subtree_id, GIT_FILEMODE_TREE)); /* -V536 */
-	cl_git_pass(git_treebuilder_write(&id_hiearar, g_repo, builder));
+	cl_git_pass(git_treebuilder_write(&id_hiearar, builder));
 	git_treebuilder_free(builder);
 	git_tree_free(tree);
 
@@ -104,6 +104,7 @@ void test_object_tree_write__subtree(void)
 void test_object_tree_write__sorted_subtrees(void)
 {
 	git_treebuilder *builder;
+	git_tree *tree;
 	unsigned int i;
 	int position_c = -1, position_cake = -1, position_config = -1;
 
@@ -134,17 +135,18 @@ void test_object_tree_write__sorted_subtrees(void)
 
 	memset(&blank_oid, 0x0, sizeof(blank_oid));
 
-	cl_git_pass(git_treebuilder_create(&builder, NULL));
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, NULL));
 
 	for (i = 0; i < ARRAY_SIZE(entries); ++i) {
 		cl_git_pass(git_treebuilder_insert(NULL,
 			builder, entries[i].filename, &blank_oid, entries[i].attr));
 	}
 
-	cl_git_pass(git_treebuilder_write(&tree_oid, g_repo, builder));
+	cl_git_pass(git_treebuilder_write(&tree_oid, builder));
 
-	for (i = 0; i < builder->entries.length; ++i) {
-		git_tree_entry *entry = git_vector_get(&builder->entries, i);
+	cl_git_pass(git_tree_lookup(&tree, g_repo, &tree_oid));
+	for (i = 0; i < git_tree_entrycount(tree); i++) {
+		const git_tree_entry *entry = git_tree_entry_byindex(tree, i);
 
 		if (strcmp(entry->filename, "c") == 0)
 			position_c = i;
@@ -155,6 +157,8 @@ void test_object_tree_write__sorted_subtrees(void)
 		if (strcmp(entry->filename, "config") == 0)
 			position_config = i;
 	}
+
+	git_tree_free(tree);
 
 	cl_assert(position_c != -1);
 	cl_assert(position_cake != -1);
@@ -188,7 +192,7 @@ void test_object_tree_write__removing_and_re_adding_in_treebuilder(void)
 
 	memset(&blank_oid, 0x0, sizeof(blank_oid));
 
-	cl_git_pass(git_treebuilder_create(&builder, NULL));
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, NULL));
 
 	cl_assert_equal_i(0, (int)git_treebuilder_entrycount(builder));
 
@@ -225,7 +229,7 @@ void test_object_tree_write__removing_and_re_adding_in_treebuilder(void)
 		NULL, builder, "apple_extra", &blank_oid, GIT_FILEMODE_BLOB));
 	cl_assert_equal_i(7, (int)git_treebuilder_entrycount(builder));
 
-	cl_git_pass(git_treebuilder_write(&tree_oid, g_repo, builder));
+	cl_git_pass(git_treebuilder_write(&tree_oid, builder));
 
 	git_treebuilder_free(builder);
 
@@ -279,7 +283,7 @@ void test_object_tree_write__filtering(void)
 
 	memset(&blank_oid, 0x0, sizeof(blank_oid));
 
-	cl_git_pass(git_treebuilder_create(&builder, NULL));
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, NULL));
 
 	for (i = 0; _entries[i].filename; ++i)
 		cl_git_pass(git_treebuilder_insert(NULL,
@@ -306,7 +310,7 @@ void test_object_tree_write__filtering(void)
 	cl_assert(git_treebuilder_get(builder, "aardvark") == NULL);
 	cl_assert(git_treebuilder_get(builder, "last") != NULL);
 
-	cl_git_pass(git_treebuilder_write(&tree_oid, g_repo, builder));
+	cl_git_pass(git_treebuilder_write(&tree_oid, builder));
 
 	git_treebuilder_free(builder);
 
@@ -342,13 +346,13 @@ void test_object_tree_write__cruel_paths(void)
 	git_oid_fromstr(&bid, blob_oid);
 
 	/* create tree */
-	cl_git_pass(git_treebuilder_create(&builder, NULL));
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, NULL));
 	for (scan = the_paths; *scan; ++scan) {
 		cl_git_pass(git_treebuilder_insert(
 			NULL, builder, *scan, &bid, GIT_FILEMODE_BLOB));
 		count++;
 	}
-	cl_git_pass(git_treebuilder_write(&id, g_repo, builder));
+	cl_git_pass(git_treebuilder_write(&id, builder));
 	git_treebuilder_free(builder);
 
 	/* check data is correct */
@@ -370,12 +374,12 @@ void test_object_tree_write__cruel_paths(void)
 	git_tree_free(tree);
 
 	/* let's try longer paths */
-	cl_git_pass(git_treebuilder_create(&builder, NULL));
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, NULL));
 	for (scan = the_paths; *scan; ++scan) {
 		cl_git_pass(git_treebuilder_insert(
 			NULL, builder, *scan, &id, GIT_FILEMODE_TREE));
 	}
-	cl_git_pass(git_treebuilder_write(&subid, g_repo, builder));
+	cl_git_pass(git_treebuilder_write(&subid, builder));
 	git_treebuilder_free(builder);
 
 	/* check data is correct */
@@ -395,4 +399,44 @@ void test_object_tree_write__cruel_paths(void)
 	}
 
 	git_tree_free(tree);
+}
+
+void test_object_tree_write__protect_filesystems(void)
+{
+	git_treebuilder *builder;
+	git_oid bid;
+
+	/* Ensure that (by default) we can write objects with funny names on
+	 * platforms that are not affected.
+	 */
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, NULL));
+
+#ifndef GIT_WIN32
+	cl_git_pass(git_treebuilder_insert(NULL, builder, ".git.", &bid, GIT_FILEMODE_BLOB));
+	cl_git_pass(git_treebuilder_insert(NULL, builder, "git~1", &bid, GIT_FILEMODE_BLOB));
+#endif
+
+#ifndef __APPLE__
+	cl_git_pass(git_treebuilder_insert(NULL, builder, ".git\xef\xbb\xbf", &bid, GIT_FILEMODE_BLOB));
+	cl_git_pass(git_treebuilder_insert(NULL, builder, ".git\xe2\x80\xad", &bid, GIT_FILEMODE_BLOB));
+#endif
+
+	git_treebuilder_free(builder);
+
+	/* Now turn on core.protectHFS and core.protectNTFS and validate that these
+	 * paths are rejected.
+	 */
+
+	cl_repo_set_bool(g_repo, "core.protectHFS", true);
+	cl_repo_set_bool(g_repo, "core.protectNTFS", true);
+
+	cl_git_pass(git_treebuilder_create(&builder, g_repo, NULL));
+
+	cl_git_fail(git_treebuilder_insert(NULL, builder, ".git.", &bid, GIT_FILEMODE_BLOB));
+	cl_git_fail(git_treebuilder_insert(NULL, builder, "git~1", &bid, GIT_FILEMODE_BLOB));
+
+	cl_git_fail(git_treebuilder_insert(NULL, builder, ".git\xef\xbb\xbf", &bid, GIT_FILEMODE_BLOB));
+	cl_git_fail(git_treebuilder_insert(NULL, builder, ".git\xe2\x80\xad", &bid, GIT_FILEMODE_BLOB));
+
+	git_treebuilder_free(builder);
 }

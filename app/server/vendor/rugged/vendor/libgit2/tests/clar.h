@@ -74,8 +74,14 @@ void cl_fixture_cleanup(const char *fixture_name);
 #define cl_assert_equal_s(s1,s2) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #s1 " != " #s2, 1, "%s", (s1), (s2))
 #define cl_assert_equal_s_(s1,s2,note) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #s1 " != " #s2 " (" #note ")", 1, "%s", (s1), (s2))
 
+#define cl_assert_equal_wcs(wcs1,wcs2) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #wcs1 " != " #wcs2, 1, "%ls", (wcs1), (wcs2))
+#define cl_assert_equal_wcs_(wcs1,wcs2,note) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #wcs1 " != " #wcs2 " (" #note ")", 1, "%ls", (wcs1), (wcs2))
+
 #define cl_assert_equal_strn(s1,s2,len) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #s1 " != " #s2, 1, "%.*s", (s1), (s2), (int)(len))
 #define cl_assert_equal_strn_(s1,s2,len,note) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #s1 " != " #s2 " (" #note ")", 1, "%.*s", (s1), (s2), (int)(len))
+
+#define cl_assert_equal_wcsn(wcs1,wcs2,len) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #wcs1 " != " #wcs2, 1, "%.*ls", (wcs1), (wcs2), (int)(len))
+#define cl_assert_equal_wcsn_(wcs1,wcs2,len,note) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #wcs1 " != " #wcs2 " (" #note ")", 1, "%.*ls", (wcs1), (wcs2), (int)(len))
 
 #define cl_assert_equal_i(i1,i2) clar__assert_equal(__FILE__,__LINE__,#i1 " != " #i2, 1, "%d", (int)(i1), (int)(i2))
 #define cl_assert_equal_i_(i1,i2,note) clar__assert_equal(__FILE__,__LINE__,#i1 " != " #i2 " (" #note ")", 1, "%d", (i1), (i2))

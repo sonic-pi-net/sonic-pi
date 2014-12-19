@@ -116,13 +116,17 @@ GIT_EXTERN(void) git_oid_nfmt(char *out, size_t n, const git_oid *id);
 GIT_EXTERN(void) git_oid_pathfmt(char *out, const git_oid *id);
 
 /**
- * Format a git_oid into a newly allocated c-string.
+ * Format a git_oid into a statically allocated c-string.
+ *
+ * The c-string is owned by the library and should not be freed
+ * by the user. If libgit2 is built with thread support, the string
+ * will be stored in TLS (i.e. one buffer per thread) to allow for
+ * concurrent calls of the function.
  *
  * @param id the oid structure to format
- * @return the c-string; NULL if memory is exhausted. Caller must
- *			deallocate the string with git__free().
+ * @return the c-string
  */
-GIT_EXTERN(char *) git_oid_allocfmt(const git_oid *id);
+GIT_EXTERN(char *) git_oid_tostr_s(const git_oid *oid);
 
 /**
  * Format a git_oid into a buffer as a hex format c-string.

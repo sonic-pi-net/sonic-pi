@@ -63,7 +63,6 @@ struct git_config_backend {
 	int (*del)(struct git_config_backend *, const char *key);
 	int (*del_multivar)(struct git_config_backend *, const char *key, const char *regexp);
 	int (*iterator)(git_config_iterator **, struct git_config_backend *);
-	int (*refresh)(struct git_config_backend *);
 	/** Produce a read-only version of this backend */
 	int (*snapshot)(struct git_config_backend **, struct git_config_backend *);
 	void (*free)(struct git_config_backend *);

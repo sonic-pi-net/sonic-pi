@@ -89,18 +89,18 @@ static void set_core_autocrlf_to(git_repository *repo, bool value)
 static int merge_branch(void)
 {
 	git_oid their_oids[1];
-	git_merge_head *their_heads[1];
+	git_annotated_commit *their_head;
 	git_merge_options merge_opts = GIT_MERGE_OPTIONS_INIT;
 	git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
 	int error;
 
 	cl_git_pass(git_oid_fromstr(&their_oids[0], MERGE_BRANCH_OID));
-	cl_git_pass(git_merge_head_from_id(&their_heads[0], repo, &their_oids[0]));
+	cl_git_pass(git_annotated_commit_lookup(&their_head, repo, &their_oids[0]));
 
-	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE | GIT_CHECKOUT_ALLOW_CONFLICTS;
-	error = git_merge(repo, (const git_merge_head **)their_heads, 1, &merge_opts, &checkout_opts);
+	checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+	error = git_merge(repo, (const git_annotated_commit **)&their_head, 1, &merge_opts, &checkout_opts);
 
-	git_merge_head_free(their_heads[0]);
+	git_annotated_commit_free(their_head);
 
 	return error;
 }
@@ -182,7 +182,7 @@ static void stage_content(char *content[])
 
 	cl_git_pass(git_repository_head(&head, repo));
 	cl_git_pass(git_reference_peel(&head_object, head, GIT_OBJ_COMMIT));
-	cl_git_pass(git_reset(repo, head_object, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, head_object, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	for (i = 0, filename = content[i], text = content[++i];
 		filename && text;
@@ -209,7 +209,7 @@ static int merge_dirty_files(char *dirty_files[])
 
 	cl_git_pass(git_repository_head(&head, repo));
 	cl_git_pass(git_reference_peel(&head_object, head, GIT_OBJ_COMMIT));
-	cl_git_pass(git_reset(repo, head_object, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, head_object, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	write_files(dirty_files);
 
@@ -229,7 +229,7 @@ static int merge_differently_filtered_files(char *files[])
 
 	cl_git_pass(git_repository_head(&head, repo));
 	cl_git_pass(git_reference_peel(&head_object, head, GIT_OBJ_COMMIT));
-	cl_git_pass(git_reset(repo, head_object, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, head_object, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	write_files(files);
 	hack_index(files);
@@ -266,7 +266,7 @@ void test_merge_workdir_dirty__unstaged_deletes_maintained(void)
 
 	cl_git_pass(git_repository_head(&head, repo));
 	cl_git_pass(git_reference_peel(&head_object, head, GIT_OBJ_COMMIT));
-	cl_git_pass(git_reset(repo, head_object, GIT_RESET_HARD, NULL, NULL));
+	cl_git_pass(git_reset(repo, head_object, GIT_RESET_HARD, NULL, NULL, NULL));
 
 	cl_git_pass(p_unlink("merge-resolve/unchanged.txt"));
 

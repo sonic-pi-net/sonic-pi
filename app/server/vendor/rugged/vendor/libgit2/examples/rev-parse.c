@@ -29,13 +29,13 @@ int main(int argc, char *argv[])
 {
 	struct parse_state ps = {0};
 
-	git_threads_init();
+	git_libgit2_init();
 	parse_opts(&ps, argc, argv);
 
 	check_lg2(parse_revision(&ps), "Parsing", NULL);
 
 	git_repository_free(ps.repo);
-	git_threads_shutdown();
+	git_libgit2_shutdown();
 
 	return 0;
 }

@@ -19,8 +19,8 @@ void rewrite_gitmodules(const char *workdir)
 	cl_git_pass(git_buf_joinpath(&in_f, workdir, "gitmodules"));
 	cl_git_pass(git_buf_joinpath(&out_f, workdir, ".gitmodules"));
 
-	cl_assert((in  = fopen(in_f.ptr, "r")) != NULL);
-	cl_assert((out = fopen(out_f.ptr, "w")) != NULL);
+	cl_assert((in  = fopen(in_f.ptr, "rb")) != NULL);
+	cl_assert((out = fopen(out_f.ptr, "wb")) != NULL);
 
 	while (fgets(line, sizeof(line), in) != NULL) {
 		char *scan = line;

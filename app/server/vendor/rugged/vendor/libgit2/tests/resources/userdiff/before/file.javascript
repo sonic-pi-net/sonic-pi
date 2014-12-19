@@ -1,109 +1,109 @@
-/*
-  Some code extracted from https://github.com/julianlloyd/scrollReveal.js
-  which happens to be a trending Javascript repo with an MIT license at
-  the time I was working on Javascript userdiff support in libgit2
+define(function(require, exports, module) {
+  module.exports = Player;
 
-  I extracted just some of the code, so I suspect this is no longer valid
-  Javascript code, but it contains enough example patterns to work.
-*/
-;(function (window) {
+  var Key = require("./key")
+    , Direction = require("./direction")
+    , Image = require("./image");
 
-  'use strict';
+  function Player(game) {
+    this.game = game;
 
-  var docElem = window.document.documentElement;
+    this.image = new Image("./assets/fighter.png");
+    this.game.resources.add(this.image);
 
-  function getViewportH () {
-    var client = docElem['clientHeight'],
-      inner = window['innerHeight'];
+    this.x = 0;
+    this.y = 0;
 
-    return (client < inner) ? inner : client;
+    this.pixelX = 0;
+    this.pixelY = 0;
+
+    this.animationStep = 0;
   }
 
-  function getOffset (el) {
-    var offsetTop = 0,
-        offsetLeft = 0;
-
-    do {
-      if (!isNaN(el.offsetTop)) {
-        offsetTop += el.offsetTop;
-      }
-      if (!isNaN(el.offsetLeft)) {
-        offsetLeft += el.offsetLeft;
-      }
-    } while (el = el.offsetParent)
-
-    return {
-      top: offsetTop,
-      left: offsetLeft
+  Player.prototype.update = function() {
+    if (!this.isWalking()) {
+      this.handleInput();
     }
-  }
 
-  function isElementInViewport (el, h) {
-    var scrolled = window.pageYOffset,
-        viewed = scrolled + getViewportH(),
-        elH = el.offsetHeight,
-        elTop = getOffset(el).top,
-        elBottom = elTop + elH,
-        h = h || 0;
+    if (this.isWalking()) {
+      // Increase the animation step.
+      this.animationStep = ++this.animationStep % 60;
 
-    return (elTop + elH * h) <= viewed && (elBottom) >= scrolled;
-  }
+      if (this.x * 32 > this.pixelX) {
+        this.pixelX++;
+      } else if (this.x * 32 < this.pixelX) {
+        this.pixelX--;
+      }
 
-  scrollReveal.prototype = {
+      if (this.y * 32 > this.pixelY) {
+        this.pixelY++;
+      } else if (this.y * 32 < this.pixelY) {
+        this.pixelY--;
+      }
+    } else {
+      // Reset the animation step.
+      this.animationStep = 0;
+    }
+  };
 
-    _init: function () {
+  Player.prototype.handleInput = function() {
+    var keyboard = this.game.keyboard, finalAction, action, inputs = {
+      'moveDown': keyboard.isDown(Key.DOWN),
+      'moveUp': keyboard.isDown(Key.UP),
+      'moveLeft': keyboard.isDown(Key.LEFT),
+      'moveRight': keyboard.isDown(Key.RIGHT)
+    };
 
-      var self = this;
-
-      this.elems = Array.prototype.slice.call(docElem.querySelectorAll('[data-scrollReveal]'));
-      this.scrolled = false;
-
-  //  Initialize all scrollreveals, triggering all
-  //  reveals on visible elements.
-      this.elems.forEach(function (el, i) {
-        self.animate(el);
-      });
-
-      var scrollHandler = function () {
-        if (!self.scrolled) {
-          self.scrolled = true;
-          setTimeout(function () {
-            self._scrollPage();
-          }, 60);
+    for (action in inputs) {
+      if (inputs[action]) {
+        if (!finalAction || inputs[finalAction] < inputs[action]) {
+          finalAction = action;
         }
-      };
+      }
+    }
 
-      var resizeHandler = function () {
-        function delayed() {
-          self._scrollPage();
-          self.resizeTimeout = null;
-        }
-        if (self.resizeTimeout) {
-          clearTimeout(self.resizeTimeout);
-        }
-        self.resizeTimeout = setTimeout(delayed, 200);
-      };
+    this[finalAction] && this[finalAction]();
+  };
 
-      window.addEventListener('scroll', scrollHandler, false);
-      window.addEventListener('resize', resizeHandler, false);
-    },
+  Player.prototype.isWalking = function() {
+    return this.x * 32 != this.pixelX || this.y * 32 != this.pixelY;
+  };
 
-    /*=============================================================================*/
+  Player.prototype.moveDown = function() {
+    this.y += 1;
+    this.direction = Direction.DOWN;
+  };
 
-    _scrollPage: function () {
-        var self = this;
+  Player.prototype.moveUp = function() {
+    this.y -= 1;
+    this.direction = Direction.UP;
+  };
 
-        this.elems.forEach(function (el, i) {
-            if (isElementInViewport(el, self.options.viewportFactor)) {
-                self.animate(el);
-            }
-        });
-        this.scrolled = false;
-    },
-  }; // end scrollReveal.prototype
+  Player.prototype.moveLeft = function() {
+    this.x -= 1;
+    this.direction = Direction.LEFT;
+  };
 
-  document.addEventListener("DOMContentLoaded", function (evt) {
-    window.scrollReveal = new scrollReveal();
-  });
+  Player.prototype.moveRight = function() {
+    this.x += 1;
+    this.direction = Direction.RIGHT;
+  };
 
-})(window);
+  Player.prototype.draw = function(context) {
+    var offsetX = Math.floor(this.animationStep / 15) * 32, offsetY = 0;
+
+    switch(this.direction) {
+      case Direction.UP:
+        offsetY = 48 * 3;
+        break;
+      case Direction.RIGHT:
+        offsetY = 48 * 2;
+        break;
+      case Direction.LEFT:
+        offsetY = 48;
+        break;
+    }
+
+    context.drawImage(this.image.data, offsetX, offsetY, 32, 48, this.pixelX, this.pixelY - 16, 32, 48);
+  };
+});

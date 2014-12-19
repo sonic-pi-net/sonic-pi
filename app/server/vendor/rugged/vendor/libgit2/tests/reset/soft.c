@@ -30,7 +30,7 @@ static void assert_reset_soft(bool should_be_detached)
 
 	cl_assert(git_repository_head_detached(repo) == should_be_detached);
 
-	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 
 	cl_assert(git_repository_head_detached(repo) == should_be_detached);
 
@@ -61,7 +61,7 @@ void test_reset_soft__resetting_to_the_commit_pointed_at_by_the_Head_does_not_ch
 
 	cl_git_pass(git_revparse_single(&target, repo, raw_head_oid));
 
-	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 
 	cl_git_pass(git_reference_name_to_id(&oid, repo, "HEAD"));
 	cl_git_pass(git_oid_streq(&oid, raw_head_oid));
@@ -74,7 +74,7 @@ void test_reset_soft__resetting_to_a_tag_sets_the_Head_to_the_peeled_commit(void
 	/* b25fa35 is a tag, pointing to another tag which points to commit e90810b */
 	cl_git_pass(git_revparse_single(&target, repo, "b25fa35"));
 
-	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 
 	cl_assert(git_repository_head_detached(repo) == false);
 	cl_git_pass(git_reference_name_to_id(&oid, repo, "HEAD"));
@@ -86,12 +86,12 @@ void test_reset_soft__cannot_reset_to_a_tag_not_pointing_at_a_commit(void)
 	/* 53fc32d is the tree of commit e90810b */
 	cl_git_pass(git_revparse_single(&target, repo, "53fc32d"));
 
-	cl_git_fail(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_git_fail(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 	git_object_free(target);
 
 	/* 521d87c is an annotated tag pointing to a blob */
 	cl_git_pass(git_revparse_single(&target, repo, "521d87c"));
-	cl_git_fail(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_git_fail(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 }
 
 void test_reset_soft__resetting_against_an_unborn_head_repo_makes_the_head_no_longer_unborn(void)
@@ -104,7 +104,7 @@ void test_reset_soft__resetting_against_an_unborn_head_repo_makes_the_head_no_lo
 
 	cl_assert_equal_i(true, git_repository_head_unborn(repo));
 
-	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 
 	cl_assert_equal_i(false, git_repository_head_unborn(repo));
 
@@ -124,7 +124,7 @@ void test_reset_soft__fails_when_merging(void)
 
 	cl_git_pass(git_revparse_single(&target, repo, KNOWN_COMMIT_IN_BARE_REPO));
 
-	cl_assert_equal_i(GIT_EUNMERGED, git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_assert_equal_i(GIT_EUNMERGED, git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 	cl_git_pass(p_unlink(git_buf_cstr(&merge_head_path)));
 
 	git_buf_free(&merge_head_path);
@@ -152,7 +152,7 @@ void test_reset_soft__fails_when_index_contains_conflicts_independently_of_MERGE
 	cl_git_pass(git_reference_peel(&target, head, GIT_OBJ_COMMIT));
 	git_reference_free(head);
 
-	cl_assert_equal_i(GIT_EUNMERGED, git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_assert_equal_i(GIT_EUNMERGED, git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 }
 
 void test_reset_soft_reflog_is_correct(void)
@@ -164,19 +164,19 @@ void test_reset_soft_reflog_is_correct(void)
 
 	/* Branch not moving, no reflog entry */
 	cl_git_pass(git_revparse_single(&target, repo, "HEAD^{commit}"));
-	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 	reflog_check(repo, "HEAD", 9, "yoram.harmelin@gmail.com", exp_msg);
 	reflog_check(repo, "refs/heads/master", 9, "yoram.harmelin@gmail.com", exp_msg);
 
 	/* Moved branch, expect default message */
 	cl_git_pass(git_revparse_single(&target, repo, "HEAD~^{commit}"));
-	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, NULL));
 	reflog_check(repo, "HEAD", 9, "yoram.harmelin@gmail.com", exp_msg);
 	reflog_check(repo, "refs/heads/master", 10, NULL, "reset: moving");
 
 	/* Moved branch, expect custom message */
 	cl_git_pass(git_revparse_single(&target, repo, "HEAD~^{commit}"));
-	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, "message1"));
+	cl_git_pass(git_reset(repo, target, GIT_RESET_SOFT, NULL, NULL, "message1"));
 	reflog_check(repo, "HEAD", 9, "yoram.harmelin@gmail.com", exp_msg);
 	reflog_check(repo, "refs/heads/master", 11, NULL, "message1");
 }

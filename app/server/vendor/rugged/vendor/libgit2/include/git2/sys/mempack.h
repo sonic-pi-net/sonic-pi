@@ -47,7 +47,7 @@ int git_mempack_new(git_odb_backend **out);
  *	Dump all the queued in-memory writes to a packfile.
  *
  *	The contents of the packfile will be stored in the given buffer.
- *	It is the caller's responsability to ensure that the generated
+ *	It is the caller's responsibility to ensure that the generated
  *	packfile is available to the repository (e.g. by writing it
  *	to disk, or doing something crazy like distributing it across
  *	several copies of the repository over a network).

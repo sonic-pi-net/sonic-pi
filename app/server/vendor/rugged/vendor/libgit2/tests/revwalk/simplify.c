@@ -20,8 +20,8 @@ static const char *commit_head = "a4a7dce85cf63874e984719f4fdd239f5145052f";
 static const char *expected_str[] = {
 	"a4a7dce85cf63874e984719f4fdd239f5145052f", /* 0 */
 	"c47800c7266a2be04c571c04d5a6614691ea99bd", /* 3 */
-	"8496071c1b46c854b31185ea97743be6a8774479", /* 4 */
-	"5b5b025afb0b4c913b4c338a42934a3863bf3644", /* 5 */
+	"5b5b025afb0b4c913b4c338a42934a3863bf3644", /* 4 */
+	"8496071c1b46c854b31185ea97743be6a8774479", /* 5 */
 };
 
 void test_revwalk_simplify__first_parent(void)
@@ -44,7 +44,7 @@ void test_revwalk_simplify__first_parent(void)
 
 	i = 0;
 	while ((error = git_revwalk_next(&id, walk)) == 0) {
-		git_oid_cmp(&id, &expected[i]);
+		cl_assert_equal_oid(&expected[i], &id);
 		i++;
 	}
 

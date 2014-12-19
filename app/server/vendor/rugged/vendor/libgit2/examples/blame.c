@@ -38,6 +38,7 @@ static void parse_opts(struct opts *o, int argc, char *argv[]);
 int main(int argc, char *argv[])
 {
 	int i, line, break_on_null_hunk;
+	size_t rawsize;
 	char spec[1024] = {0};
 	struct opts o = {0};
 	const char *rawdata;
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
 	git_blob *blob;
 	git_object *obj;
 
-	git_threads_init();
+	git_libgit2_init();
 
 	parse_opts(&o, argc, argv);
 	if (o.M) blameopts.flags |= GIT_BLAME_TRACK_COPIES_SAME_COMMIT_MOVES;
@@ -94,23 +95,24 @@ int main(int argc, char *argv[])
 	git_object_free(obj);
 
 	rawdata = git_blob_rawcontent(blob);
+	rawsize = git_blob_rawsize(blob);
 
 	/** Produce the output. */
 	line = 1;
 	i = 0;
 	break_on_null_hunk = 0;
-	while (i < git_blob_rawsize(blob)) {
-		const char *eol = strchr(rawdata+i, '\n');
+	while (i < rawsize) {
+		const char *eol = memchr(rawdata + i, '\n', rawsize - i);
 		char oid[10] = {0};
 		const git_blame_hunk *hunk = git_blame_get_hunk_byline(blame, line);
 
-		if (break_on_null_hunk && !hunk) break;
+		if (break_on_null_hunk && !hunk)
+			break;
 
 		if (hunk) {
 			char sig[128] = {0};
 			break_on_null_hunk = 1;
 			
-
 			git_oid_tostr(oid, 10, &hunk->final_commit_id);
 			snprintf(sig, 30, "%s <%s>", hunk->final_signature->name, hunk->final_signature->email);
 
@@ -118,8 +120,8 @@ int main(int argc, char *argv[])
 					oid,
 					sig,
 					line,
-					(int)(eol-rawdata-i),
-					rawdata+i);
+					(int)(eol - rawdata - i),
+					rawdata + i);
 		}
 
 		i = (int)(eol - rawdata + 1);
@@ -131,7 +133,7 @@ int main(int argc, char *argv[])
 	git_blame_free(blame);
 	git_repository_free(repo);
 
-	git_threads_shutdown();
+	git_libgit2_shutdown();
 
 	return 0;
 }

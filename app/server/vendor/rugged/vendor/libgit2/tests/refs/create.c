@@ -45,7 +45,7 @@ void test_refs_create__symbolic(void)
 	cl_assert(git_reference_type(resolved_ref) == GIT_REF_OID);
 
 	/* ...and that it points to the current master tip */
-	cl_assert(git_oid_cmp(&id, git_reference_target(resolved_ref)) == 0);
+	cl_assert_equal_oid(&id, git_reference_target(resolved_ref));
 	git_reference_free(looked_up_ref);
 	git_reference_free(resolved_ref);
 
@@ -54,7 +54,7 @@ void test_refs_create__symbolic(void)
 
 	cl_git_pass(git_reference_lookup(&looked_up_ref, repo2, new_head_tracker));
 	cl_git_pass(git_reference_resolve(&resolved_ref, looked_up_ref));
-	cl_assert(git_oid_cmp(&id, git_reference_target(resolved_ref)) == 0);
+	cl_assert_equal_oid(&id, git_reference_target(resolved_ref));
 
 	git_repository_free(repo2);
 
@@ -76,7 +76,7 @@ void test_refs_create__deep_symbolic(void)
 	cl_git_pass(git_reference_symbolic_create(&new_reference, g_repo, new_head_tracker, current_head_target, 0, NULL, NULL));
 	cl_git_pass(git_reference_lookup(&looked_up_ref, g_repo, new_head_tracker));
 	cl_git_pass(git_reference_resolve(&resolved_ref, looked_up_ref));
-	cl_assert(git_oid_cmp(&id, git_reference_target(resolved_ref)) == 0);
+	cl_assert_equal_oid(&id, git_reference_target(resolved_ref));
 
 	git_reference_free(new_reference);
 	git_reference_free(looked_up_ref);
@@ -104,14 +104,14 @@ void test_refs_create__oid(void)
 	cl_assert_equal_s(looked_up_ref->name, new_head);
 
 	/* ...and that it points to the current master tip */
-	cl_assert(git_oid_cmp(&id, git_reference_target(looked_up_ref)) == 0);
+	cl_assert_equal_oid(&id, git_reference_target(looked_up_ref));
 	git_reference_free(looked_up_ref);
 
 	/* Similar test with a fresh new repository */
 	cl_git_pass(git_repository_open(&repo2, "testrepo"));
 
 	cl_git_pass(git_reference_lookup(&looked_up_ref, repo2, new_head));
-	cl_assert(git_oid_cmp(&id, git_reference_target(looked_up_ref)) == 0);
+	cl_assert_equal_oid(&id, git_reference_target(looked_up_ref));
 
 	git_repository_free(repo2);
 
@@ -151,12 +151,10 @@ void test_refs_create__propagate_eexists(void)
 	cl_assert(error == GIT_EEXISTS);
 }
 
-void test_refs_create__creating_a_reference_with_an_invalid_name_returns_EINVALIDSPEC(void)
+static void test_invalid_name(const char *name)
 {
 	git_reference *new_reference;
 	git_oid id;
-
-	const char *name = "refs/heads/inv@{id";
 
 	git_oid_fromstr(&id, current_master_tip);
 
@@ -165,4 +163,48 @@ void test_refs_create__creating_a_reference_with_an_invalid_name_returns_EINVALI
 
 	cl_assert_equal_i(GIT_EINVALIDSPEC, git_reference_symbolic_create(
 		&new_reference, g_repo, name, current_head_target, 0, NULL, NULL));
+}
+
+void test_refs_create__creating_a_reference_with_an_invalid_name_returns_EINVALIDSPEC(void)
+{
+	test_invalid_name("refs/heads/inv@{id");
+	test_invalid_name("refs/heads/back\\slash");
+
+	test_invalid_name("refs/heads/foo ");
+	test_invalid_name("refs/heads/foo /bar");
+	test_invalid_name("refs/heads/com1:bar/foo");
+
+	test_invalid_name("refs/heads/e:");
+	test_invalid_name("refs/heads/c:/foo");
+
+	test_invalid_name("refs/heads/foo.");
+}
+
+static void test_win32_name(const char *name)
+{
+	git_reference *new_reference = NULL;
+	git_oid id;
+	int ret;
+
+	git_oid_fromstr(&id, current_master_tip);
+
+	ret = git_reference_create(&new_reference, g_repo, name, &id, 0, NULL, NULL);
+
+#ifdef GIT_WIN32
+	cl_assert_equal_i(GIT_EINVALIDSPEC, ret);
+#else
+	cl_git_pass(ret);
+#endif
+
+	git_reference_free(new_reference);
+}
+
+void test_refs_create__creating_a_loose_ref_with_invalid_windows_name(void)
+{
+	test_win32_name("refs/heads/foo./bar");
+
+	test_win32_name("refs/heads/aux");
+	test_win32_name("refs/heads/aux.foo/bar");
+
+	test_win32_name("refs/heads/com1");
 }

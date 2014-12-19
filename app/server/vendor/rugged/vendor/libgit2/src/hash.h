@@ -16,7 +16,9 @@ int git_hash_global_init(void);
 int git_hash_ctx_init(git_hash_ctx *ctx);
 void git_hash_ctx_cleanup(git_hash_ctx *ctx);
 
-#if defined(OPENSSL_SHA1)
+#if defined(GIT_COMMON_CRYPTO)
+# include "hash/hash_common_crypto.h"
+#elif defined(OPENSSL_SHA1)
 # include "hash/hash_openssl.h"
 #elif defined(WIN32_SHA1)
 # include "hash/hash_win32.h"

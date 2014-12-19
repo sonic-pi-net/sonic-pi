@@ -20,10 +20,10 @@ int main (int argc, char** argv)
 	unsigned int i, ecount;
 	char *dir = ".";
 	size_t dirlen;
-	char out[41];
-	out[40] = '\0';
+	char out[GIT_OID_HEXSZ+1];
+	out[GIT_OID_HEXSZ] = '\0';
 
-	git_threads_init();
+	git_libgit2_init();
 
 	if (argc > 2)
 		fatal("usage: showindex [<repo-dir>]", NULL);
@@ -64,7 +64,7 @@ int main (int argc, char** argv)
 	}
 
 	git_index_free(index);
-	git_threads_shutdown();
+	git_libgit2_shutdown();
 
 	return 0;
 }

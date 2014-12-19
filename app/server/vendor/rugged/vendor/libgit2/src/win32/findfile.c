@@ -5,6 +5,7 @@
  * a Linking Exception. For full terms see the included COPYING file.
  */
 
+#include "path_w32.h"
 #include "utf-conv.h"
 #include "path.h"
 #include "findfile.h"

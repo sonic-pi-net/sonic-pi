@@ -30,7 +30,7 @@ typedef struct {
 
 typedef struct {
 	git_oidmap *map;
-	git_mutex   lock;
+	git_rwlock  lock;
 	ssize_t     used_memory;
 } git_cache;
 

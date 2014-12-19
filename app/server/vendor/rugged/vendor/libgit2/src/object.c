@@ -277,10 +277,8 @@ static int dereference_object(git_object **dereferenced, git_object *obj)
 		return git_tag_target(dereferenced, (git_tag*)obj);
 
 	case GIT_OBJ_BLOB:
-		return GIT_ENOTFOUND;
-
 	case GIT_OBJ_TREE:
-		return GIT_EAMBIGUOUS;
+		return GIT_EPEEL;
 
 	default:
 		return GIT_EINVALIDSPEC;
@@ -303,6 +301,32 @@ static int peel_error(int error, const git_oid *oid, git_otype type)
 	return error;
 }
 
+static int check_type_combination(git_otype type, git_otype target)
+{
+	if (type == target)
+		return 0;
+
+	switch (type) {
+	case GIT_OBJ_BLOB:
+	case GIT_OBJ_TREE:
+		/* a blob or tree can never be peeled to anything but themselves */
+		return GIT_EINVALIDSPEC;
+		break;
+	case GIT_OBJ_COMMIT:
+		/* a commit can only be peeled to a tree */
+		if (target != GIT_OBJ_TREE && target != GIT_OBJ_ANY)
+			return GIT_EINVALIDSPEC;
+		break;
+	case GIT_OBJ_TAG:
+		/* a tag may point to anything, so we let anything through */
+		break;
+	default:
+		return GIT_EINVALIDSPEC;
+	}
+
+	return 0;
+}
+
 int git_object_peel(
 	git_object **peeled,
 	const git_object *object,
@@ -313,14 +337,17 @@ int git_object_peel(
 
 	assert(object && peeled);
 
-	if (git_object_type(object) == target_type)
-		return git_object_dup(peeled, (git_object *)object);
-
 	assert(target_type == GIT_OBJ_TAG ||
 		target_type == GIT_OBJ_COMMIT ||
 		target_type == GIT_OBJ_TREE ||
 		target_type == GIT_OBJ_BLOB ||
 		target_type == GIT_OBJ_ANY);
+
+	if ((error = check_type_combination(git_object_type(object), target_type)) < 0)
+		return peel_error(error, git_object_id(object), target_type);
+
+	if (git_object_type(object) == target_type)
+		return git_object_dup(peeled, (git_object *)object);
 
 	source = (git_object *)object;
 

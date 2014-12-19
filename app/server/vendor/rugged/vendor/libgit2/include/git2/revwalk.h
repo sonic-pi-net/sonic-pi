@@ -21,33 +21,38 @@
 GIT_BEGIN_DECL
 
 /**
- * Sort the repository contents in no particular ordering;
- * this sorting is arbitrary, implementation-specific
- * and subject to change at any time.
- * This is the default sorting for new walkers.
+ * Flags to specify the sorting which a revwalk should perform.
  */
-#define GIT_SORT_NONE			(0)
+typedef enum {
+	/**
+	 * Sort the repository contents in no particular ordering;
+	 * this sorting is arbitrary, implementation-specific
+	 * and subject to change at any time.
+	 * This is the default sorting for new walkers.
+	 */
+	GIT_SORT_NONE = 0,
 
-/**
- * Sort the repository contents in topological order
- * (parents before children); this sorting mode
- * can be combined with time sorting.
- */
-#define GIT_SORT_TOPOLOGICAL (1 << 0)
+	/**
+	 * Sort the repository contents in topological order
+	 * (parents before children); this sorting mode
+	 * can be combined with time sorting.
+	 */
+	GIT_SORT_TOPOLOGICAL = 1 << 0,
 
-/**
- * Sort the repository contents by commit time;
- * this sorting mode can be combined with
- * topological sorting.
- */
-#define GIT_SORT_TIME			(1 << 1)
+	/**
+	 * Sort the repository contents by commit time;
+	 * this sorting mode can be combined with
+	 * topological sorting.
+	 */
+	GIT_SORT_TIME = 1 << 1,
 
-/**
- * Iterate through the repository contents in reverse
- * order; this sorting mode can be combined with
- * any of the above.
- */
-#define GIT_SORT_REVERSE		(1 << 2)
+	/**
+	 * Iterate through the repository contents in reverse
+	 * order; this sorting mode can be combined with
+	 * any of the above.
+	 */
+	GIT_SORT_REVERSE = 1 << 2,
+} git_sort_t;
 
 /**
  * Allocate a new revision walker to iterate through a repo.

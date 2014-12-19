@@ -1,6 +1,20 @@
 #include "clar_libgit2.h"
 #include "thread_helpers.h"
 
+#ifdef GIT_THREADS
+
+# if defined(GIT_WIN32)
+#  define git_thread_yield() Sleep(0)
+# elif defined(__FreeBSD__) || defined(__MidnightBSD__) || defined(__DragonFly__)
+#  define git_thread_yield() pthread_yield()
+# else
+#  define git_thread_yield() sched_yield()
+# endif
+
+#else
+# define git_thread_yield() (void)0
+#endif
+
 static git_repository *_repo;
 static git_tree *_a, *_b;
 static git_atomic _counts[4];

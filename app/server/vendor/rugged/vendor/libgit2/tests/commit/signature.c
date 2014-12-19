@@ -56,8 +56,8 @@ void test_commit_signature__create_empties(void)
 
 	cl_git_fail(try_build_signature("", "emeric.fermas@gmail.com", 1234567890, 60));
 	cl_git_fail(try_build_signature("   ", "emeric.fermas@gmail.com", 1234567890, 60));
-	cl_git_pass(try_build_signature("nulltoken", "", 1234567890, 60));
-	cl_git_pass(try_build_signature("nulltoken", "  ", 1234567890, 60));
+	cl_git_fail(try_build_signature("nulltoken", "", 1234567890, 60));
+	cl_git_fail(try_build_signature("nulltoken", "  ", 1234567890, 60));
 }
 
 void test_commit_signature__create_one_char(void)

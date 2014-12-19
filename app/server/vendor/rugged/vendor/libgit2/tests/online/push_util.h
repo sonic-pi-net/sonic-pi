@@ -12,7 +12,7 @@ extern const git_oid OID_ZERO;
  * @param data pointer to a record_callbacks_data instance
  */
 #define RECORD_CALLBACKS_INIT(data) \
-	{ GIT_REMOTE_CALLBACKS_VERSION, NULL, NULL, cred_acquire_cb, NULL, record_update_tips_cb, data }
+	{ GIT_REMOTE_CALLBACKS_VERSION, NULL, NULL, cred_acquire_cb, NULL, NULL, record_update_tips_cb, NULL, NULL, NULL, data }
 
 typedef struct {
 	char *name;
@@ -22,12 +22,24 @@ typedef struct {
 
 typedef struct {
 	git_vector updated_tips;
+	git_vector statuses;
+	int pack_progress_calls;
+	int transfer_progress_calls;
 } record_callbacks_data;
 
 typedef struct {
 	const char *name;
 	const git_oid *oid;
 } expected_ref;
+
+/* the results of a push status.  when used for expected values, msg may be NULL
+ * to indicate that it should not be matched. */
+typedef struct {
+	char *ref;
+	int success;
+	char *msg;
+} push_status;
+
 
 void updated_tip_free(updated_tip *t);
 

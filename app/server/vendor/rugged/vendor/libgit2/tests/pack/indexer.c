@@ -74,7 +74,7 @@ void test_pack_indexer__fix_thin(void)
 	/* Store the missing base into your ODB so the indexer can fix the pack */
 	cl_git_pass(git_odb_write(&id, odb, base_obj, base_obj_len, GIT_OBJ_BLOB));
 	git_oid_fromstr(&should_id, "e68fe8129b546b101aee9510c5328e7f21ca1d18");
-	cl_assert(!git_oid_cmp(&id, &should_id));
+	cl_assert_equal_oid(&should_id, &id);
 
 	cl_git_pass(git_indexer_new(&idx, ".", 0, odb, NULL, NULL));
 	cl_git_pass(git_indexer_append(idx, thin_pack, thin_pack_len, &stats));
@@ -86,7 +86,7 @@ void test_pack_indexer__fix_thin(void)
 	cl_assert_equal_i(stats.local_objects, 1);
 
 	git_oid_fromstr(&should_id, "11f0f69b334728fdd8bc86b80499f22f29d85b15");
-	cl_assert(!git_oid_cmp(git_indexer_hash(idx), &should_id));
+	cl_assert_equal_oid(&should_id, git_indexer_hash(idx));
 
 	git_indexer_free(idx);
 	git_odb_free(odb);

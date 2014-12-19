@@ -13,24 +13,24 @@ then
 fi
 
 COV_VERSION=6.6.1
-case `uname -m` in
+case $(uname -m) in
 	i?86)				BITS=32 ;;
 	amd64|x86_64)	BITS=64 ;;
 esac
 SCAN_TOOL=https://scan.coverity.com/download/linux-${BITS}
-TOOL_BASE=`pwd`/_coverity-scan
+TOOL_BASE=$(pwd)/_coverity-scan
 
 # Install coverity tools
-if [ ! -d $TOOL_BASE ]; then
+if [ ! -d "$TOOL_BASE" ]; then
 	echo "Downloading coverity..."
-	mkdir -p $TOOL_BASE
-	cd $TOOL_BASE
+	mkdir -p "$TOOL_BASE"
+	pushd "$TOOL_BASE"
 	wget -O coverity_tool.tgz $SCAN_TOOL \
 		--post-data "project=libgit2&token=$COVERITY_TOKEN"
 	tar xzf coverity_tool.tgz
-	cd ..
-	TOOL_DIR=`find $TOOL_BASE -type d -name 'cov-analysis*'`
-	ln -s $TOOL_DIR $TOOL_BASE/cov-analysis
+	popd
+	TOOL_DIR=$(find "$TOOL_BASE" -type d -name 'cov-analysis*')
+	ln -s "$TOOL_DIR" "$TOOL_BASE"/cov-analysis
 fi
 
 COV_BUILD="$TOOL_BASE/cov-analysis/bin/cov-build"
@@ -46,12 +46,12 @@ COVERITY_UNSUPPORTED=1 \
 
 # Upload results
 tar czf libgit2.tgz cov-int
-SHA=`git rev-parse --short HEAD`
+SHA=$(git rev-parse --short HEAD)
 curl \
 	--form project=libgit2 \
-	--form token=$COVERITY_TOKEN \
+	--form token="$COVERITY_TOKEN" \
 	--form email=bs@github.com \
 	--form file=@libgit2.tgz \
-	--form version=$SHA \
+	--form version="$SHA" \
 	--form description="Travis build" \
 	http://scan5.coverity.com/cgi-bin/upload.py

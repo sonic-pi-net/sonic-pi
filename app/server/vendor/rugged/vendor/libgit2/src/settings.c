@@ -5,10 +5,15 @@
  * a Linking Exception. For full terms see the included COPYING file.
  */
 
+#ifdef GIT_SSL
+# include <openssl/err.h>
+#endif
+
 #include <git2.h>
 #include "common.h"
 #include "sysdir.h"
 #include "cache.h"
+#include "global.h"
 
 void git_libgit2_version(int *major, int *minor, int *rev)
 {
@@ -130,6 +135,23 @@ int git_libgit2_opts(int key, ...)
 
 	case GIT_OPT_SET_TEMPLATE_PATH:
 		error = git_sysdir_set(GIT_SYSDIR_TEMPLATE, va_arg(ap, const char *));
+		break;
+
+	case GIT_OPT_SET_SSL_CERT_LOCATIONS:
+#ifdef GIT_SSL
+		{
+			const char *file = va_arg(ap, const char *);
+			const char *path = va_arg(ap, const char *);
+			if (!SSL_CTX_load_verify_locations(git__ssl_ctx, file, path)) {
+				giterr_set(GITERR_NET, "SSL error: %s",
+					ERR_error_string(ERR_get_error(), NULL));
+				error = -1;
+			}
+		}
+#else
+		giterr_set(GITERR_NET, "Cannot set certificate locations: OpenSSL is not enabled");
+		error = -1;
+#endif
 		break;
 	}
 

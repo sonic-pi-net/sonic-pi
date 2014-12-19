@@ -7,13 +7,20 @@
 #ifndef INCLUDE_global_h__
 #define INCLUDE_global_h__
 
+#include "common.h"
 #include "mwindow.h"
 #include "hash.h"
 
 typedef struct {
 	git_error *last_error;
 	git_error error_t;
+	char oid_fmt[GIT_OID_HEXSZ+1];
 } git_global_st;
+
+#ifdef GIT_SSL
+# include <openssl/ssl.h>
+extern SSL_CTX *git__ssl_ctx;
+#endif
 
 git_global_st *git__global_state(void);
 

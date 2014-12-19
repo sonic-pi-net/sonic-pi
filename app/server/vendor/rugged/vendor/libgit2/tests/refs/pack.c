@@ -91,12 +91,12 @@ void test_refs_pack__symbolic(void)
 	/* make a bunch of references */
 
 	for (i = 0; i < 100; ++i) {
-		snprintf(name, sizeof(name), "refs/heads/symbolic-%03d", i);
+		p_snprintf(name, sizeof(name), "refs/heads/symbolic-%03d", i);
 		cl_git_pass(git_reference_symbolic_create(
 			&ref, g_repo, name, "refs/heads/master", 0, NULL, NULL));
 		git_reference_free(ref);
 
-		snprintf(name, sizeof(name), "refs/heads/direct-%03d", i);
+		p_snprintf(name, sizeof(name), "refs/heads/direct-%03d", i);
 		cl_git_pass(git_reference_create(&ref, g_repo, name, &head, 0, NULL, NULL));
 		git_reference_free(ref);
 	}

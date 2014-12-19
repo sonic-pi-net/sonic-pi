@@ -84,4 +84,65 @@ void test_network_refspecs__parsing(void)
 
 	assert_refspec(GIT_DIRECTION_FETCH, "master", true);
 	assert_refspec(GIT_DIRECTION_PUSH, "master", true);
+
+	assert_refspec(GIT_DIRECTION_FETCH, "refs/pull/*/head:refs/remotes/origin/pr/*", true);
+}
+
+static void assert_valid_transform(const char *refspec, const char *name, const char *result)
+{
+	git_refspec spec;
+	git_buf buf = GIT_BUF_INIT;
+
+	git_refspec__parse(&spec, refspec, true);
+	cl_git_pass(git_refspec_transform(&buf, &spec, name));
+	cl_assert_equal_s(result, buf.ptr);
+
+	git_buf_free(&buf);
+	git_refspec__free(&spec);
+}
+
+void test_network_refspecs__transform_mid_star(void)
+{
+	assert_valid_transform("refs/pull/*/head:refs/remotes/origin/pr/*", "refs/pull/23/head", "refs/remotes/origin/pr/23");
+	assert_valid_transform("refs/heads/*:refs/remotes/origin/*", "refs/heads/master", "refs/remotes/origin/master");
+	assert_valid_transform("refs/heads/*:refs/remotes/origin/*", "refs/heads/user/feature", "refs/remotes/origin/user/feature");
+	assert_valid_transform("refs/heads/*:refs/heads/*", "refs/heads/master", "refs/heads/master");
+	assert_valid_transform("refs/heads/*:refs/heads/*", "refs/heads/user/feature", "refs/heads/user/feature");
+	assert_valid_transform("refs/*:refs/*", "refs/heads/master", "refs/heads/master");
+}
+
+static void assert_invalid_transform(const char *refspec, const char *name)
+{
+	git_refspec spec;
+	git_buf buf = GIT_BUF_INIT;
+
+	git_refspec__parse(&spec, refspec, true);
+	cl_git_fail(git_refspec_transform(&buf, &spec, name));
+
+	git_buf_free(&buf);
+	git_refspec__free(&spec);
+}
+
+void test_network_refspecs__invalid(void)
+{
+	assert_invalid_transform("refs/heads/*:refs/remotes/origin/*", "master");
+	assert_invalid_transform("refs/heads/*:refs/remotes/origin/*", "refs/headz/master");
+}
+
+static void assert_invalid_rtransform(const char *refspec, const char *name)
+{
+	git_refspec spec;
+	git_buf buf = GIT_BUF_INIT;
+
+	git_refspec__parse(&spec, refspec, true);
+	cl_git_fail(git_refspec_rtransform(&buf, &spec, name));
+
+	git_buf_free(&buf);
+	git_refspec__free(&spec);
+}
+
+void test_network_refspecs__invalid_reverse(void)
+{
+	assert_invalid_rtransform("refs/heads/*:refs/remotes/origin/*", "master");
+	assert_invalid_rtransform("refs/heads/*:refs/remotes/origin/*", "refs/remotes/o/master");
 }

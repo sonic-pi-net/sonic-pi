@@ -6,6 +6,7 @@
 #include "merge.h"
 #include "git2/merge.h"
 #include "git2/sys/index.h"
+#include "git2/annotated_commit.h"
 
 int merge_trees_from_branches(
 	git_index **index, git_repository *repo,
@@ -84,7 +85,7 @@ int merge_branches(git_repository *repo,
 	git_merge_options *merge_opts, git_checkout_options *checkout_opts)
 {
 	git_reference *head_ref, *theirs_ref;
-	git_merge_head *theirs_head;
+	git_annotated_commit *theirs_head;
 	git_checkout_options head_checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
 
 	head_checkout_opts.checkout_strategy = GIT_CHECKOUT_FORCE;
@@ -93,13 +94,13 @@ int merge_branches(git_repository *repo,
 	cl_git_pass(git_checkout_head(repo, &head_checkout_opts));
 
 	cl_git_pass(git_reference_lookup(&theirs_ref, repo, theirs_branch));
-	cl_git_pass(git_merge_head_from_ref(&theirs_head, repo, theirs_ref));
+	cl_git_pass(git_annotated_commit_from_ref(&theirs_head, repo, theirs_ref));
 
-	cl_git_pass(git_merge(repo, (const git_merge_head **)&theirs_head, 1, merge_opts, checkout_opts));
+	cl_git_pass(git_merge(repo, (const git_annotated_commit **)&theirs_head, 1, merge_opts, checkout_opts));
 
 	git_reference_free(head_ref);
 	git_reference_free(theirs_ref);
-	git_merge_head_free(theirs_head);
+	git_annotated_commit_free(theirs_head);
 
 	return 0;
 }
@@ -327,7 +328,7 @@ int merge_test_reuc(git_index *index, const struct merge_reuc_entry expected[], 
 
 int dircount(void *payload, git_buf *pathbuf)
 {
-	int *entries = payload;
+	size_t *entries = payload;
 	size_t len = git_buf_len(pathbuf);
 
 	if (len < 5 || strcmp(pathbuf->ptr + (git_buf_len(pathbuf) - 5), "/.git") != 0)

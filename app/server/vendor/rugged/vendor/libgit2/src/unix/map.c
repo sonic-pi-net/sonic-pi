@@ -13,14 +13,20 @@
 #include <unistd.h>
 #include <errno.h>
 
-long git__page_size(void)
+int git__page_size(size_t *page_size)
 {
-	return sysconf(_SC_PAGE_SIZE);
+	long sc_page_size = sysconf(_SC_PAGE_SIZE);
+	if (sc_page_size < 0) {
+		giterr_set_str(GITERR_OS, "Can't determine system page size");
+		return -1;
+	}
+	*page_size = (size_t) sc_page_size;
+	return 0;
 }
 
 int p_mmap(git_map *out, size_t len, int prot, int flags, int fd, git_off_t offset)
 {
-	int mprot = 0;
+	int mprot = PROT_READ;
 	int mflag = 0;
 
 	GIT_MMAP_VALIDATE(out, len, prot, flags);
@@ -29,9 +35,7 @@ int p_mmap(git_map *out, size_t len, int prot, int flags, int fd, git_off_t offs
 	out->len = 0;
 
 	if (prot & GIT_PROT_WRITE)
-		mprot = PROT_WRITE;
-	else if (prot & GIT_PROT_READ)
-		mprot = PROT_READ;
+		mprot |= PROT_WRITE;
 
 	if ((flags & GIT_MAP_TYPE) == GIT_MAP_SHARED)
 		mflag = MAP_SHARED;

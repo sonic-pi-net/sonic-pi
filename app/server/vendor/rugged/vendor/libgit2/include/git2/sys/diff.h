@@ -61,10 +61,13 @@ GIT_EXTERN(int) git_diff_print_callback__to_file_handle(
 	void *payload); /*< payload must be a `FILE *` */
 
 
+/**
+ * Performance data from diffing
+ */
 typedef struct {
 	unsigned int version;
-	size_t stat_calls;
-	size_t oid_calculations;
+	size_t stat_calls; /*< Number of stat() calls performed */
+	size_t oid_calculations; /*< Number of ID calculations */
 } git_diff_perfdata;
 
 #define GIT_DIFF_PERFDATA_VERSION 1

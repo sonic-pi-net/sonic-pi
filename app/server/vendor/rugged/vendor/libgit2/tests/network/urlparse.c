@@ -33,6 +33,24 @@ void test_network_urlparse__trivial(void)
 	cl_assert_equal_p(pass, NULL);
 }
 
+void test_network_urlparse__root(void)
+{
+	cl_git_pass(gitno_extract_url_parts(&host, &port, &path, &user, &pass,
+				"http://example.com/", "8080"));
+	cl_assert_equal_s(host, "example.com");
+	cl_assert_equal_s(port, "8080");
+	cl_assert_equal_s(path, "/");
+	cl_assert_equal_p(user, NULL);
+	cl_assert_equal_p(pass, NULL);
+}
+
+void test_network_urlparse__just_hostname(void)
+{
+	cl_git_fail_with(GIT_EINVALIDSPEC,
+			 gitno_extract_url_parts(&host, &port, &path, &user, &pass,
+						 "http://example.com", "8080"));
+}
+
 void test_network_urlparse__encoded_password(void)
 {
 	cl_git_pass(gitno_extract_url_parts(&host, &port, &path, &user, &pass,

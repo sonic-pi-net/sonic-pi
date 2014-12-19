@@ -51,29 +51,6 @@ void test_config_include__homedir(void)
 	cl_sandbox_set_search_path_defaults();
 }
 
-void test_config_include__refresh(void)
-{
-	git_config *cfg;
-	const char *str;
-
-	cl_fixture_sandbox("config");
-
-	cl_git_pass(git_config_open_ondisk(&cfg, "config/config-include"));
-
-	cl_git_pass(git_config_get_string(&str, cfg, "foo.bar.baz"));
-	cl_assert_equal_s(str, "huzzah");
-
-	/* Change the included file and see if we refresh */
-	cl_git_mkfile("config/config-included", "[foo \"bar\"]\nbaz = hurrah");
-	cl_git_pass(git_config_refresh(cfg));
-
-	cl_git_pass(git_config_get_string(&str, cfg, "foo.bar.baz"));
-	cl_assert_equal_s(str, "hurrah");
-
-	git_config_free(cfg);
-	cl_fixture_cleanup("config");
-}
-
 /* We need to pretend that the variables were defined where the file was included */
 void test_config_include__ordering(void)
 {
@@ -106,6 +83,22 @@ void test_config_include__depth(void)
 
 	cl_git_fail(git_config_open_ondisk(&cfg, "a"));
 
-	unlink("a");
-	unlink("b");
+	p_unlink("a");
+	p_unlink("b");
+}
+
+void test_config_include__missing(void)
+{
+	git_config *cfg;
+	const char *str;
+
+	cl_git_mkfile("including", "[include]\npath = nonexistentfile\n[foo]\nbar = baz");
+
+	giterr_clear();
+	cl_git_pass(git_config_open_ondisk(&cfg, "including"));
+	cl_assert(giterr_last() == NULL);
+	cl_git_pass(git_config_get_string(&str, cfg, "foo.bar"));
+	cl_assert_equal_s(str, "baz");
+
+	git_config_free(cfg);
 }

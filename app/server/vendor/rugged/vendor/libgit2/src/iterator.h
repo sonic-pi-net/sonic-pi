@@ -86,6 +86,8 @@ extern int git_iterator_for_workdir_ext(
 	git_iterator **out,
 	git_repository *repo,
 	const char *repo_workdir,
+	git_index *index,
+	git_tree *tree,
 	git_iterator_flag_t flags,
 	const char *start,
 	const char *end);
@@ -96,11 +98,13 @@ extern int git_iterator_for_workdir_ext(
 GIT_INLINE(int) git_iterator_for_workdir(
 	git_iterator **out,
 	git_repository *repo,
+	git_index *index,
+	git_tree *tree,
 	git_iterator_flag_t flags,
 	const char *start,
 	const char *end)
 {
-	return git_iterator_for_workdir_ext(out, repo, NULL, flags, start, end);
+	return git_iterator_for_workdir_ext(out, repo, NULL, index, tree, flags, start, end);
 }
 
 /* for filesystem iterators, you have to explicitly pass in the ignore_case

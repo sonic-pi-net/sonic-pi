@@ -8,32 +8,64 @@
 #include "pthread.h"
 #include "../global.h"
 
-int pthread_create(
-	pthread_t *GIT_RESTRICT thread,
+#define CLEAN_THREAD_EXIT 0x6F012842
+
+/* The thread procedure stub used to invoke the caller's procedure
+ * and capture the return value for later collection. Windows will
+ * only hold a DWORD, but we need to be able to store an entire
+ * void pointer. This requires the indirection. */
+static DWORD WINAPI git_win32__threadproc(LPVOID lpParameter)
+{
+	git_win32_thread *thread = lpParameter;
+
+	thread->result = thread->proc(thread->param);
+
+	return CLEAN_THREAD_EXIT;
+}
+
+int git_win32__thread_create(
+	git_win32_thread *GIT_RESTRICT thread,
 	const pthread_attr_t *GIT_RESTRICT attr,
 	void *(*start_routine)(void*),
 	void *GIT_RESTRICT arg)
 {
 	GIT_UNUSED(attr);
-	*thread = CreateThread(
-		NULL, 0, (LPTHREAD_START_ROUTINE)start_routine, arg, 0, NULL);
-	return *thread ? 0 : -1;
+
+	thread->result = NULL;
+	thread->param = arg;
+	thread->proc = start_routine;
+	thread->thread = CreateThread(
+		NULL, 0, git_win32__threadproc, thread, 0, NULL);
+
+	return thread->thread ? 0 : -1;
 }
 
-int pthread_join(pthread_t thread, void **value_ptr)
+int git_win32__thread_join(
+	git_win32_thread *thread,
+	void **value_ptr)
 {
-	DWORD ret = WaitForSingleObject(thread, INFINITE);
+	DWORD exit;
 
-	if (ret == WAIT_OBJECT_0) {
-		if (value_ptr != NULL) {
-			*value_ptr = NULL;
-			GetExitCodeThread(thread, (void *)value_ptr);
-		}
-		CloseHandle(thread);
-		return 0;
+	if (WaitForSingleObject(thread->thread, INFINITE) != WAIT_OBJECT_0)
+		return -1;
+
+	if (!GetExitCodeThread(thread->thread, &exit)) {
+		CloseHandle(thread->thread);
+		return -1;
 	}
 
-	return -1;
+	/* Check for the thread having exited uncleanly. If exit was unclean,
+	 * then we don't have a return value to give back to the caller. */
+	if (exit != CLEAN_THREAD_EXIT) {
+		assert(false);
+		thread->result = NULL;
+	}
+
+	if (value_ptr)
+		*value_ptr = thread->result;
+
+	CloseHandle(thread->thread);
+	return 0;
 }
 
 int pthread_mutex_init(
@@ -144,9 +176,6 @@ int pthread_num_processors_np(void)
 	return n ? n : 1;
 }
 
-
-static HINSTANCE win32_kernel32_dll;
-
 typedef void (WINAPI *win32_srwlock_fn)(GIT_SRWLOCK *);
 
 static win32_srwlock_fn win32_srwlock_initialize;
@@ -159,7 +188,7 @@ int pthread_rwlock_init(
 	pthread_rwlock_t *GIT_RESTRICT lock,
 	const pthread_rwlockattr_t *GIT_RESTRICT attr)
 {
-	(void)attr;
+	GIT_UNUSED(attr);
 
 	if (win32_srwlock_initialize)
 		win32_srwlock_initialize(&lock->native.srwl);
@@ -217,38 +246,22 @@ int pthread_rwlock_destroy(pthread_rwlock_t *lock)
 	return 0;
 }
 
-
-static void win32_pthread_shutdown(void)
-{
-	if (win32_kernel32_dll) {
-		FreeLibrary(win32_kernel32_dll);
-		win32_kernel32_dll = NULL;
-	}
-}
-
 int win32_pthread_initialize(void)
 {
-	if (win32_kernel32_dll)
-		return 0;
+	HMODULE hModule = GetModuleHandleW(L"kernel32");
 
-	win32_kernel32_dll = LoadLibrary("Kernel32.dll");
-	if (!win32_kernel32_dll) {
-		giterr_set(GITERR_OS, "Could not load Kernel32.dll!");
-		return -1;
+	if (hModule) {
+		win32_srwlock_initialize = (win32_srwlock_fn)
+			GetProcAddress(hModule, "InitializeSRWLock");
+		win32_srwlock_acquire_shared = (win32_srwlock_fn)
+			GetProcAddress(hModule, "AcquireSRWLockShared");
+		win32_srwlock_release_shared = (win32_srwlock_fn)
+			GetProcAddress(hModule, "ReleaseSRWLockShared");
+		win32_srwlock_acquire_exclusive = (win32_srwlock_fn)
+			GetProcAddress(hModule, "AcquireSRWLockExclusive");
+		win32_srwlock_release_exclusive = (win32_srwlock_fn)
+			GetProcAddress(hModule, "ReleaseSRWLockExclusive");
 	}
-
-	win32_srwlock_initialize = (win32_srwlock_fn)
-		GetProcAddress(win32_kernel32_dll, "InitializeSRWLock");
-	win32_srwlock_acquire_shared = (win32_srwlock_fn)
-		GetProcAddress(win32_kernel32_dll, "AcquireSRWLockShared");
-	win32_srwlock_release_shared = (win32_srwlock_fn)
-		GetProcAddress(win32_kernel32_dll, "ReleaseSRWLockShared");
-	win32_srwlock_acquire_exclusive = (win32_srwlock_fn)
-		GetProcAddress(win32_kernel32_dll, "AcquireSRWLockExclusive");
-	win32_srwlock_release_exclusive = (win32_srwlock_fn)
-		GetProcAddress(win32_kernel32_dll, "ReleaseSRWLockExclusive");
-
-	git__on_shutdown(win32_pthread_shutdown);
 
 	return 0;
 }

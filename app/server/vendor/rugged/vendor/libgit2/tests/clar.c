@@ -11,6 +11,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdarg.h>
+#include <wchar.h>
 
 /* required for sandboxing */
 #include <sys/types.h>
@@ -522,6 +523,41 @@ void clar__assert_equal(
 					len, s1, len, s2, pos);
 			} else {
 				p_snprintf(buf, sizeof(buf), "'%.*s' != '%.*s'", len, s1, len, s2);
+			}
+		}
+	}
+	else if (!strcmp("%ls", fmt)) {
+		const wchar_t *wcs1 = va_arg(args, const wchar_t *);
+		const wchar_t *wcs2 = va_arg(args, const wchar_t *);
+		is_equal = (!wcs1 || !wcs2) ? (wcs1 == wcs2) : !wcscmp(wcs1, wcs2);
+
+		if (!is_equal) {
+			if (wcs1 && wcs2) {
+				int pos;
+				for (pos = 0; wcs1[pos] == wcs2[pos] && wcs1[pos] && wcs2[pos]; ++pos)
+					/* find differing byte offset */;
+				p_snprintf(buf, sizeof(buf), "'%ls' != '%ls' (at byte %d)",
+					wcs1, wcs2, pos);
+			} else {
+				p_snprintf(buf, sizeof(buf), "'%ls' != '%ls'", wcs1, wcs2);
+			}
+		}
+	}
+	else if(!strcmp("%.*ls", fmt)) {
+		const wchar_t *wcs1 = va_arg(args, const wchar_t *);
+		const wchar_t *wcs2 = va_arg(args, const wchar_t *);
+		int len = va_arg(args, int);
+		is_equal = (!wcs1 || !wcs2) ? (wcs1 == wcs2) : !wcsncmp(wcs1, wcs2, len);
+
+		if (!is_equal) {
+			if (wcs1 && wcs2) {
+				int pos;
+				for (pos = 0; wcs1[pos] == wcs2[pos] && pos < len; ++pos)
+					/* find differing byte offset */;
+				p_snprintf(buf, sizeof(buf), "'%.*ls' != '%.*ls' (at byte %d)",
+					len, wcs1, len, wcs2, pos);
+			} else {
+				p_snprintf(buf, sizeof(buf), "'%.*ls' != '%.*ls'", len, wcs1, len, wcs2);
 			}
 		}
 	}

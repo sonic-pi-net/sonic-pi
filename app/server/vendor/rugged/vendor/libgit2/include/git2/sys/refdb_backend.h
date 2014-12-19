@@ -153,6 +153,19 @@ struct git_refdb_backend {
 	 * Remove a reflog.
 	 */
 	int (*reflog_delete)(git_refdb_backend *backend, const char *name);
+
+	/**
+	 * Lock a reference. The opaque parameter will be passed to the unlock function
+	 */
+	int (*lock)(void **payload_out, git_refdb_backend *backend, const char *refname);
+
+	/**
+	 * Unlock a reference. Only one of target or symbolic_target
+	 * will be set. success indicates whether to update the
+	 * reference or discard the lock (if it's false)
+	 */
+	int (*unlock)(git_refdb_backend *backend, void *payload, int success, int update_reflog,
+		      const git_reference *ref, const git_signature *sig, const char *message);
 };
 
 #define GIT_REFDB_BACKEND_VERSION 1

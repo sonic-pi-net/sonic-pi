@@ -4,6 +4,7 @@
 #include "attr.h"
 
 #include "attr_expect.h"
+#include "git2/sys/repository.h"
 
 static git_repository *g_repo = NULL;
 
@@ -332,4 +333,46 @@ void test_attr_repo__staging_properly_normalizes_line_endings_according_to_gitat
 	assert_proper_normalization(index, "binary.data", "66eeff1fcbacf589e6d70aa70edd3fce5be2b37c");
 
 	git_index_free(index);
+}
+
+void test_attr_repo__bare_repo_with_index(void)
+{
+	const char *names[4] = { "test1", "test2", "test3", "test4" };
+	const char *values[4];
+	git_index *index;
+
+	cl_git_pass(git_repository_index(&index, g_repo));
+
+	cl_git_mkfile(
+		"attr/.gitattributes",
+		"*.txt test1 test2=foobar -test3\n"
+		"trial.txt -test1 test2=barfoo !test3 test4\n");
+	cl_git_pass(git_index_add_bypath(index, ".gitattributes"));
+	git_index_free(index);
+
+	cl_must_pass(p_unlink("attr/.gitattributes"));
+	cl_assert(!git_path_exists("attr/.gitattributes"));
+
+	cl_git_pass(git_repository_set_bare(g_repo));
+
+	cl_git_pass(git_attr_get_many(values, g_repo, 0, "file.txt", 4, names));
+
+	cl_assert(GIT_ATTR_TRUE(values[0]));
+	cl_assert_equal_s("foobar", values[1]);
+	cl_assert(GIT_ATTR_FALSE(values[2]));
+	cl_assert(GIT_ATTR_UNSPECIFIED(values[3]));
+
+	cl_git_pass(git_attr_get_many(values, g_repo, 0, "trial.txt", 4, names));
+
+	cl_assert(GIT_ATTR_FALSE(values[0]));
+	cl_assert_equal_s("barfoo", values[1]);
+	cl_assert(GIT_ATTR_UNSPECIFIED(values[2]));
+	cl_assert(GIT_ATTR_TRUE(values[3]));
+
+	cl_git_pass(git_attr_get_many(values, g_repo, 0, "sub/sub/subdir.txt", 4, names));
+
+	cl_assert(GIT_ATTR_TRUE(values[0]));
+	cl_assert_equal_s("foobar", values[1]);
+	cl_assert(GIT_ATTR_FALSE(values[2]));
+	cl_assert(GIT_ATTR_UNSPECIFIED(values[3]));
 }

@@ -177,6 +177,73 @@ static VALUE rb_git_tag_collection_create(int argc, VALUE *argv, VALUE self)
 	return rb_git_tag_collection_aref(self, rb_name);
 }
 
+/*
+ *  call-seq:
+ *    tags.create_annotation(name, target, annotation) -> annotation
+ *
+ *  Create a new annotated tag object with the specified +name+ on +target+ in
+ *  +repo+.
+ *
+ *  Unlike the +create+ method, +create_annotation+ simply creates a tag
+ *  object. It does not write a tag ref.
+ *
+ *  +annotation+ must have the following keys:
+ *
+ *  :tagger ::
+ *    An optional Hash containing a git signature. Defaults to the signature
+ *    from the configuration if only `:message` is given. Will cause the
+ *    creation of an annotated tag object if present.
+ *
+ *  :message ::
+ *    An optional string containing the message for the new tag.
+ *
+ *  Returns an instance of Rugged::Tag::Annotation representing the newly
+ *  created annotation.
+ */
+static VALUE rb_git_tag_collection_create_annotation(VALUE self, VALUE rb_name, VALUE rb_target, VALUE rb_annotation)
+{
+	git_oid tag_oid;
+	git_repository *repo = NULL;
+	git_object *target = NULL, *tag = NULL;
+	git_signature *tagger = NULL;
+	VALUE rb_message;
+	int error;
+
+	VALUE rb_repo = rugged_owner(self);
+	rugged_check_repo(rb_repo);
+	Data_Get_Struct(rb_repo, git_repository, repo);
+
+	Check_Type(rb_name, T_STRING);
+
+	target = rugged_object_get(repo, rb_target, GIT_OBJ_ANY);
+
+	rb_message = rb_hash_aref(rb_annotation, CSTR2SYM("message"));
+	Check_Type(rb_message, T_STRING);
+
+	tagger = rugged_signature_get(
+		rb_hash_aref(rb_annotation, CSTR2SYM("tagger")), repo
+	);
+
+	error = git_tag_annotation_create(
+		&tag_oid,
+		repo,
+		StringValueCStr(rb_name),
+		target,
+		tagger,
+		StringValueCStr(rb_message)
+	);
+
+	git_object_free(target);
+	git_signature_free(tagger);
+
+	rugged_exception_check(error);
+
+	error = git_object_lookup(&tag, repo, &tag_oid, GIT_OBJ_TAG);
+	rugged_exception_check(error);
+
+	return rugged_object_new(rb_repo, tag);
+}
+
 static VALUE each_tag(int argc, VALUE *argv, VALUE self, int tag_names_only)
 {
 	git_repository *repo;
@@ -269,8 +336,9 @@ void Init_rugged_tag_collection(void)
 
 	rb_define_method(rb_cRuggedTagCollection, "initialize", rb_git_tag_collection_initialize, 1);
 
-	rb_define_method(rb_cRuggedTagCollection, "create",     rb_git_tag_collection_create, -1);
-	rb_define_method(rb_cRuggedTagCollection, "[]",         rb_git_tag_collection_aref, 1);
+	rb_define_method(rb_cRuggedTagCollection, "create",            rb_git_tag_collection_create, -1);
+	rb_define_method(rb_cRuggedTagCollection, "create_annotation", rb_git_tag_collection_create_annotation, 3);
+	rb_define_method(rb_cRuggedTagCollection, "[]",                rb_git_tag_collection_aref, 1);
 
 	rb_define_method(rb_cRuggedTagCollection, "each",       rb_git_tag_collection_each, -1);
 	rb_define_method(rb_cRuggedTagCollection, "each_name",  rb_git_tag_collection_each_name, -1);

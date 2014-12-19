@@ -174,7 +174,7 @@ int git_revert(
 	char commit_oidstr[GIT_OID_HEXSZ + 1];
 	const char *commit_msg;
 	git_buf their_label = GIT_BUF_INIT;
-	git_index *index_new = NULL, *index_repo = NULL;
+	git_index *index_new = NULL;
 	int error;
 
 	assert(repo && commit);
@@ -199,10 +199,9 @@ int git_revert(
 		(error = git_repository_head(&our_ref, repo)) < 0 ||
 		(error = git_reference_peel((git_object **)&our_commit, our_ref, GIT_OBJ_COMMIT)) < 0 ||
 		(error = git_revert_commit(&index_new, repo, commit, our_commit, opts.mainline, &opts.merge_opts)) < 0 ||
-		(error = git_merge__indexes(repo, index_new)) < 0 ||
-		(error = git_repository_index(&index_repo, repo)) < 0 ||
-		(error = git_merge__append_conflicts_to_merge_msg(repo, index_repo)) < 0 ||
-		(error = git_checkout_index(repo, index_repo, &opts.checkout_opts)) < 0)
+		(error = git_merge__check_result(repo, index_new)) < 0 ||
+		(error = git_merge__append_conflicts_to_merge_msg(repo, index_new)) < 0 ||
+		(error = git_checkout_index(repo, index_new, &opts.checkout_opts)) < 0)
 		goto on_error;
 
 	goto done;
@@ -212,7 +211,6 @@ on_error:
 
 done:
 	git_index_free(index_new);
-	git_index_free(index_repo);
 	git_commit_free(our_commit);
 	git_reference_free(our_ref);
 	git_buf_free(&their_label);

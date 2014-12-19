@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ErrorsTest < Rugged::TestCase 
+class ErrorsTest < Rugged::TestCase
 
   def test_rugged_error_classes_exist
     error_classes = [
@@ -22,7 +22,7 @@ class ErrorsTest < Rugged::TestCase
       Rugged::IndexerError
     ]
 
-    # All should descend from StandardError (correctly), except 
+    # All should descend from StandardError (correctly), except
     # Rugged::NoMemError which descends from Ruby's built-in NoMemoryError,
     # which descends from Exception
     error_classes.each do |klass|

@@ -22,7 +22,7 @@ void test_status_single__hash_single_file(void)
 	cl_set_cleanup(&cleanup__remove_file, (void *)file_name);
 
 	cl_git_pass(git_odb_hashfile(&actual_id, file_name, GIT_OBJ_BLOB));
-	cl_assert(git_oid_cmp(&expected_id, &actual_id) == 0);
+	cl_assert_equal_oid(&expected_id, &actual_id);
 }
 
 /* test retrieving OID from an empty file apart from the ODB */
@@ -40,6 +40,6 @@ void test_status_single__hash_single_empty_file(void)
 	cl_set_cleanup(&cleanup__remove_file, (void *)file_name);
 
 	cl_git_pass(git_odb_hashfile(&actual_id, file_name, GIT_OBJ_BLOB));
-	cl_assert(git_oid_cmp(&expected_id, &actual_id) == 0);
+	cl_assert_equal_oid(&expected_id, &actual_id);
 }
 

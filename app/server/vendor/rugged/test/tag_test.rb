@@ -143,6 +143,34 @@ class AnnotatedTagTest < Rugged::SandboxedTestCase
   end
 end
 
+class AnnotatedTagObjectTest < Rugged::SandboxedTestCase
+  def setup
+    super
+    @repo = sandbox_init("testrepo.git")
+    @annotation = @repo.tags.create_annotation("my-tag", "5b5b025afb0b4c913b4c338a42934a3863bf3644", {
+      :message => "test tag message\n",
+      :tagger  => { :name => "Scott", :email => "schacon@gmail.com", :time => Time.now },
+    })
+  end
+
+  def test_annotation
+    assert_kind_of Rugged::Tag::Annotation, @annotation
+    assert_equal "test tag message\n", @annotation.message
+    assert_equal 'Scott', @annotation.tagger[:name]
+    assert_equal 'schacon@gmail.com', @annotation.tagger[:email]
+    assert_kind_of Time, @annotation.tagger[:time]
+  end
+
+  def test_does_not_create_ref
+    assert_nil @repo.tags["my-tag"]
+  end
+
+  def test_target
+    assert_kind_of Rugged::Commit, @annotation.target
+    assert_equal "5b5b025afb0b4c913b4c338a42934a3863bf3644", @annotation.target.oid
+  end
+end
+
 class LightweightTagTest < Rugged::SandboxedTestCase
   def setup
     super

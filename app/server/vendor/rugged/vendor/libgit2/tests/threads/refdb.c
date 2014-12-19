@@ -58,7 +58,7 @@ void test_threads_refdb__iterator(void)
 	/* make a bunch of references */
 
 	for (r = 0; r < 200; ++r) {
-		snprintf(name, sizeof(name), "refs/heads/direct-%03d", r);
+		p_snprintf(name, sizeof(name), "refs/heads/direct-%03d", r);
 		cl_git_pass(git_reference_create(&ref, g_repo, name, &head, 0, NULL, NULL));
 		git_reference_free(ref);
 	}
@@ -84,7 +84,7 @@ void test_threads_refdb__iterator(void)
 
 #ifdef GIT_THREADS
 		for (t = 0; t < THREADS; ++t) {
-			cl_git_pass(git_thread_join(th[t], NULL));
+			cl_git_pass(git_thread_join(&th[t], NULL));
 		}
 #endif
 
@@ -102,7 +102,7 @@ static void *create_refs(void *arg)
 	cl_git_pass(git_reference_name_to_id(&head, g_repo, "HEAD"));
 
 	for (i = 0; i < 10; ++i) {
-		snprintf(name, sizeof(name), "refs/heads/thread-%03d-%02d", *id, i);
+		p_snprintf(name, sizeof(name), "refs/heads/thread-%03d-%02d", *id, i);
 		cl_git_pass(git_reference_create(&ref[i], g_repo, name, &head, 0, NULL, NULL));
 
 		if (i == 5) {
@@ -127,7 +127,7 @@ static void *delete_refs(void *arg)
 	char name[128];
 
 	for (i = 0; i < 10; ++i) {
-		snprintf(
+		p_snprintf(
 			name, sizeof(name), "refs/heads/thread-%03d-%02d", (*id) & ~0x3, i);
 
 		if (!git_reference_lookup(&ref, g_repo, name)) {
@@ -167,7 +167,7 @@ void test_threads_refdb__edit_while_iterate(void)
 	/* make a bunch of references */
 
 	for (r = 0; r < 50; ++r) {
-		snprintf(name, sizeof(name), "refs/heads/starter-%03d", r);
+		p_snprintf(name, sizeof(name), "refs/heads/starter-%03d", r);
 		cl_git_pass(git_reference_create(&ref, g_repo, name, &head, 0, NULL, NULL));
 		git_reference_free(ref);
 	}
@@ -215,7 +215,7 @@ void test_threads_refdb__edit_while_iterate(void)
 	}
 
 	for (t = 0; t < THREADS; ++t) {
-		cl_git_pass(git_thread_join(th[t], NULL));
+		cl_git_pass(git_thread_join(&th[t], NULL));
 	}
 #endif
 }

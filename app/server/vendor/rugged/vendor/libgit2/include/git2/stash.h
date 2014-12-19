@@ -18,21 +18,30 @@
  */
 GIT_BEGIN_DECL
 
+/**
+ * Stash flags
+ */
 typedef enum {
+	/**
+	 * No option, default
+	 */
 	GIT_STASH_DEFAULT = 0,
 
-	/* All changes already added to the index
-	 * are left intact in the working directory
+	/**
+	 * All changes already added to the index are left intact in
+	 * the working directory
 	 */
 	GIT_STASH_KEEP_INDEX = (1 << 0),
 
-	/* All untracked files are also stashed and then
-	 * cleaned up from the working directory
+	/**
+	 * All untracked files are also stashed and then cleaned up
+	 * from the working directory
 	 */
 	GIT_STASH_INCLUDE_UNTRACKED = (1 << 1),
 
-	/* All ignored files are also stashed and then
-	 * cleaned up from the working directory
+	/**
+	 * All ignored files are also stashed and then cleaned up from
+	 * the working directory
 	 */
 	GIT_STASH_INCLUDE_IGNORED = (1 << 2),
 } git_stash_flags;

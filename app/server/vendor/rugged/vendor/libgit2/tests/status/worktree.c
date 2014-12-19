@@ -935,3 +935,106 @@ void test_status_worktree__update_stat_cache_0(void)
 
 	git_status_list_free(status);
 }
+
+void test_status_worktree__unreadable(void)
+{
+#ifndef GIT_WIN32
+	const char *expected_paths[] = { "no_permission/foo" };
+	const unsigned int expected_statuses[] = {GIT_STATUS_WT_UNREADABLE};
+
+	git_repository *repo = cl_git_sandbox_init("empty_standard_repo");
+	git_status_options opts = GIT_STATUS_OPTIONS_INIT;
+	status_entry_counts counts = {0};
+
+	/* Create directory with no read permission */
+	cl_git_pass(git_futils_mkdir_r("empty_standard_repo/no_permission", NULL, 0777));
+	cl_git_mkfile("empty_standard_repo/no_permission/foo", "dummy");
+	p_chmod("empty_standard_repo/no_permission", 0644);
+
+	counts.expected_entry_count = 1;
+	counts.expected_paths = expected_paths;
+	counts.expected_statuses = expected_statuses;
+
+	opts.show = GIT_STATUS_SHOW_WORKDIR_ONLY;
+	opts.flags = GIT_STATUS_OPT_DEFAULTS | GIT_STATUS_OPT_INCLUDE_UNREADABLE;
+
+	cl_git_pass(
+		git_status_foreach_ext(repo, &opts, cb_status__normal, &counts) );
+
+	/* Restore permissions so we can cleanup :) */
+	p_chmod("empty_standard_repo/no_permission", 0777);
+
+	cl_assert_equal_i(counts.expected_entry_count, counts.entry_count);
+	cl_assert_equal_i(0, counts.wrong_status_flags_count);
+	cl_assert_equal_i(0, counts.wrong_sorted_path);
+#endif
+}
+
+void test_status_worktree__unreadable_not_included(void)
+{
+#ifndef GIT_WIN32
+	const char *expected_paths[] = { "no_permission/" };
+	const unsigned int expected_statuses[] = {GIT_STATUS_WT_NEW};
+
+	git_repository *repo = cl_git_sandbox_init("empty_standard_repo");
+	git_status_options opts = GIT_STATUS_OPTIONS_INIT;
+	status_entry_counts counts = {0};
+
+	/* Create directory with no read permission */
+	cl_git_pass(git_futils_mkdir_r("empty_standard_repo/no_permission", NULL, 0777));
+	cl_git_mkfile("empty_standard_repo/no_permission/foo", "dummy");
+	p_chmod("empty_standard_repo/no_permission", 0644);
+
+	counts.expected_entry_count = 1;
+	counts.expected_paths = expected_paths;
+	counts.expected_statuses = expected_statuses;
+
+	opts.show = GIT_STATUS_SHOW_WORKDIR_ONLY;
+	opts.flags = (GIT_STATUS_OPT_INCLUDE_IGNORED | GIT_STATUS_OPT_INCLUDE_UNTRACKED);
+
+	cl_git_pass(
+		git_status_foreach_ext(repo, &opts, cb_status__normal, &counts) );
+
+	/* Restore permissions so we can cleanup :) */
+	p_chmod("empty_standard_repo/no_permission", 0777);
+
+	cl_assert_equal_i(counts.expected_entry_count, counts.entry_count);
+	cl_assert_equal_i(0, counts.wrong_status_flags_count);
+	cl_assert_equal_i(0, counts.wrong_sorted_path);
+#endif
+}
+
+void test_status_worktree__unreadable_as_untracked(void)
+{
+	const char *expected_paths[] = { "no_permission/foo" };
+	const unsigned int expected_statuses[] = {GIT_STATUS_WT_NEW};
+
+	git_repository *repo = cl_git_sandbox_init("empty_standard_repo");
+	git_status_options opts = GIT_STATUS_OPTIONS_INIT;
+	status_entry_counts counts = {0};
+
+	/* Create directory with no read permission */
+	cl_git_pass(git_futils_mkdir_r("empty_standard_repo/no_permission", NULL, 0777));
+	cl_git_mkfile("empty_standard_repo/no_permission/foo", "dummy");
+	p_chmod("empty_standard_repo/no_permission", 0644);
+
+	counts.expected_entry_count = 1;
+	counts.expected_paths = expected_paths;
+	counts.expected_statuses = expected_statuses;
+
+	opts.show = GIT_STATUS_SHOW_WORKDIR_ONLY;
+	opts.flags = GIT_STATUS_OPT_DEFAULTS |
+		GIT_STATUS_OPT_INCLUDE_UNREADABLE |
+		GIT_STATUS_OPT_INCLUDE_UNREADABLE_AS_UNTRACKED;
+
+	cl_git_pass(
+		git_status_foreach_ext(repo, &opts, cb_status__normal, &counts) );
+
+	/* Restore permissions so we can cleanup :) */
+	p_chmod("empty_standard_repo/no_permission", 0777);
+
+	cl_assert_equal_i(counts.expected_entry_count, counts.entry_count);
+	cl_assert_equal_i(0, counts.wrong_status_flags_count);
+	cl_assert_equal_i(0, counts.wrong_sorted_path);
+}
+

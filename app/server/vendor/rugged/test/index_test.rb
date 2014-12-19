@@ -14,7 +14,7 @@ class IndexTest < Rugged::TestCase
         :file_size => 1000,
         :dev => 234881027,
         :ino => 88888,
-        :mode => 33199,
+        :mode => 33188,
         :uid => 502,
         :gid => 502,
         :stage => 3,
@@ -95,7 +95,7 @@ class IndexTest < Rugged::TestCase
     e[:file_size] = 1000
     e[:dev] = 234881027
     e[:ino] = 88888
-    e[:mode] = 33199
+    e[:mode] = 33188
     e[:uid] = 502
     e[:gid] = 502
     e[:stage] = 3
@@ -195,7 +195,7 @@ class IndexWorkdirTest < Rugged::TestCase
     assert_equal 2, @index.count
 
     e = @index.get 'new_path', 3
-    assert_equal e[:mode], 33199
+    assert_equal e[:mode], 33188
   end
 end
 
@@ -331,6 +331,16 @@ class IndexRepositoryTest < Rugged::TestCase
     new_tree_sha = index.write_tree
     assert head_sha != new_tree_sha
     assert_nil @repo.lookup(new_tree_sha)['second.txt']
+  end
+
+  def test_read_tree_with_not_a_tree
+    head_sha = @repo.references['refs/remotes/origin/packed'].resolve.target_id
+    commit = @repo.lookup(head_sha)
+
+    index = @repo.index
+    assert_raises TypeError do
+      index.read_tree(commit)
+    end
   end
 end
 

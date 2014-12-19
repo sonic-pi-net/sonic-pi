@@ -7,6 +7,7 @@
 #include "buffer.h"
 #include "posix.h"
 #include "git2/buffer.h"
+#include "buf_text.h"
 #include <ctype.h>
 
 /* Used as default value for git_buf->ptr so that people can always
@@ -141,6 +142,16 @@ int git_buf_set(git_buf *buf, const void *data, size_t len)
 	return 0;
 }
 
+int git_buf_is_binary(const git_buf *buf)
+{
+	return git_buf_text_is_binary(buf);
+}
+
+int git_buf_contains_nul(const git_buf *buf)
+{
+	return git_buf_text_contains_nul(buf);
+}
+
 int git_buf_sets(git_buf *buf, const char *string)
 {
 	return git_buf_set(buf, string, string ? strlen(string) : 0);
@@ -165,10 +176,13 @@ int git_buf_putcn(git_buf *buf, char c, size_t len)
 
 int git_buf_put(git_buf *buf, const char *data, size_t len)
 {
-	ENSURE_SIZE(buf, buf->size + len + 1);
-	memmove(buf->ptr + buf->size, data, len);
-	buf->size += len;
-	buf->ptr[buf->size] = '\0';
+	if (len) {
+		assert(data);
+		ENSURE_SIZE(buf, buf->size + len + 1);
+		memmove(buf->ptr + buf->size, data, len);
+		buf->size += len;
+		buf->ptr[buf->size] = '\0';
+	}
 	return 0;
 }
 
@@ -178,10 +192,10 @@ int git_buf_puts(git_buf *buf, const char *string)
 	return git_buf_put(buf, string, strlen(string));
 }
 
-static const char b64str[] =
+static const char base64_encode[] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-int git_buf_put_base64(git_buf *buf, const char *data, size_t len)
+int git_buf_encode_base64(git_buf *buf, const char *data, size_t len)
 {
 	size_t extra = len % 3;
 	uint8_t *write, a, b, c;
@@ -196,19 +210,19 @@ int git_buf_put_base64(git_buf *buf, const char *data, size_t len)
 		b = *read++;
 		c = *read++;
 
-		*write++ = b64str[a >> 2];
-		*write++ = b64str[(a & 0x03) << 4 | b >> 4];
-		*write++ = b64str[(b & 0x0f) << 2 | c >> 6];
-		*write++ = b64str[c & 0x3f];
+		*write++ = base64_encode[a >> 2];
+		*write++ = base64_encode[(a & 0x03) << 4 | b >> 4];
+		*write++ = base64_encode[(b & 0x0f) << 2 | c >> 6];
+		*write++ = base64_encode[c & 0x3f];
 	}
 
 	if (extra > 0) {
 		a = *read++;
 		b = (extra > 1) ? *read++ : 0;
 
-		*write++ = b64str[a >> 2];
-		*write++ = b64str[(a & 0x03) << 4 | b >> 4];
-		*write++ = (extra > 1) ? b64str[(b & 0x0f) << 2] : '=';
+		*write++ = base64_encode[a >> 2];
+		*write++ = base64_encode[(a & 0x03) << 4 | b >> 4];
+		*write++ = (extra > 1) ? base64_encode[(b & 0x0f) << 2] : '=';
 		*write++ = '=';
 	}
 
@@ -218,10 +232,56 @@ int git_buf_put_base64(git_buf *buf, const char *data, size_t len)
 	return 0;
 }
 
+/* The inverse of base64_encode, offset by '+' == 43. */
+static const int8_t base64_decode[] = {
+	62,
+	-1, -1, -1,
+	63,
+	52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
+	-1, -1, -1, 0, -1, -1, -1,
+	0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+	13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+	-1, -1, -1, -1, -1, -1,
+	26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+	39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
+};
+
+#define BASE64_DECODE_VALUE(c) (((c) < 43 || (c) > 122) ? -1 : base64_decode[c - 43])
+
+int git_buf_decode_base64(git_buf *buf, const char *base64, size_t len)
+{
+	size_t i;
+	int8_t a, b, c, d;
+	size_t orig_size = buf->size;
+
+	assert(len % 4 == 0);
+	ENSURE_SIZE(buf, buf->size + (len / 4 * 3) + 1);
+
+	for (i = 0; i < len; i += 4) {
+		if ((a = BASE64_DECODE_VALUE(base64[i])) < 0 ||
+			(b = BASE64_DECODE_VALUE(base64[i+1])) < 0 ||
+			(c = BASE64_DECODE_VALUE(base64[i+2])) < 0 ||
+			(d = BASE64_DECODE_VALUE(base64[i+3])) < 0) {
+			buf->size = orig_size;
+			buf->ptr[buf->size] = '\0';
+
+			giterr_set(GITERR_INVALID, "Invalid base64 input");
+			return -1;
+		}
+
+		buf->ptr[buf->size++] = ((a << 2) | (b & 0x30) >> 4);
+		buf->ptr[buf->size++] = ((b & 0x0f) << 4) | ((c & 0x3c) >> 2);
+		buf->ptr[buf->size++] = (c & 0x03) << 6 | (d & 0x3f);
+	}
+
+	buf->ptr[buf->size] = '\0';
+	return 0;
+}
+
 static const char b85str[] =
 	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~";
 
-int git_buf_put_base85(git_buf *buf, const char *data, size_t len)
+int git_buf_encode_base85(git_buf *buf, const char *data, size_t len)
 {
 	ENSURE_SIZE(buf, buf->size + (5 * ((len / 4) + !!(len % 4))) + 1);
 

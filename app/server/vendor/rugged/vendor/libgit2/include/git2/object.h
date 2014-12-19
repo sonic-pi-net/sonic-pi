@@ -202,18 +202,25 @@ GIT_EXTERN(size_t) git_object__size(git_otype type);
 /**
  * Recursively peel an object until an object of the specified type is met.
  *
- * The retrieved `peeled` object is owned by the repository and should be
- * closed with the `git_object_free` method.
+ * If the query cannot be satisfied due to the object model,
+ * GIT_EINVALIDSPEC will be returned (e.g. trying to peel a blob to a
+ * tree).
  *
- * If you pass `GIT_OBJ_ANY` as the target type, then the object will be
- * peeled until the type changes (e.g. a tag will be chased until the
- * referenced object is no longer a tag).
+ * If you pass `GIT_OBJ_ANY` as the target type, then the object will
+ * be peeled until the type changes. A tag will be peeled until the
+ * referenced object is no longer a tag, and a commit will be peeled
+ * to a tree. Any other object type will return GIT_EINVALIDSPEC.
+ *
+ * If peeling a tag we discover an object which cannot be peeled to
+ * the target type due to the object model, GIT_EPEEL will be
+ * returned.
+ *
+ * You must free the returned object.
  *
  * @param peeled Pointer to the peeled git_object
  * @param object The object to be processed
- * @param target_type The type of the requested object (GIT_OBJ_COMMIT,
- * GIT_OBJ_TAG, GIT_OBJ_TREE, GIT_OBJ_BLOB or GIT_OBJ_ANY).
- * @return 0 on success, GIT_EAMBIGUOUS, GIT_ENOTFOUND or an error code
+ * @param target_type The type of the requested object (a GIT_OBJ_ value)
+ * @return 0 on success, GIT_EINVALIDSPEC, GIT_EPEEL, or an error code
  */
 GIT_EXTERN(int) git_object_peel(
 	git_object **peeled,

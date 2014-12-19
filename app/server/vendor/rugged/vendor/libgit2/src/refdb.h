@@ -51,6 +51,7 @@ int git_refdb_reflog_write(git_reflog *reflog);
 int git_refdb_has_log(git_refdb *db, const char *refname);
 int git_refdb_ensure_log(git_refdb *refdb, const char *refname);
 
-
+int git_refdb_lock(void **payload, git_refdb *db, const char *refname);
+int git_refdb_unlock(git_refdb *db, void *payload, int success, int update_reflog, const git_reference *ref, const git_signature *sig, const char *message);
 
 #endif

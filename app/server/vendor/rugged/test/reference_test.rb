@@ -2,8 +2,6 @@
 require "test_helper"
 
 class ReferenceTest < Rugged::SandboxedTestCase
-  UNICODE_REF_NAME = "A\314\212ngstro\314\210m"
-
   def setup
     super
     @repo = sandbox_init("testrepo")
@@ -182,13 +180,55 @@ class ReferenceWriteTest < Rugged::TestCase
       "refs/heads/master", force: :force)
   end
 
-  def test_list_unicode_refs
-    @repo.references.create(
-      "refs/heads/#{ReferenceTest::UNICODE_REF_NAME}",
-      "refs/heads/master")
+  def test_create_unicode_reference_nfc
+    ref_name = "refs/heads/\xC3\x85\x73\x74\x72\xC3\xB6\x6D"
 
-    refs = @repo.refs.map { |r| r.name.gsub("refs/", '') }
-    assert refs.include? "heads/#{ReferenceTest::UNICODE_REF_NAME}"
+    new_ref = @repo.references.create(ref_name, "5b5b025afb0b4c913b4c338a42934a3863bf3644")
+    refute_nil new_ref
+
+    assert_equal ref_name, new_ref.name
+    assert_equal ref_name, new_ref.canonical_name
+
+    refute_nil @repo.references[ref_name]
+  end
+
+  def test_create_unicode_reference_nfd
+    ref_name = "refs/heads/\x41\xCC\x8A\x73\x74\x72\x6F\xCC\x88\x6D"
+
+    new_ref = @repo.references.create(ref_name, "5b5b025afb0b4c913b4c338a42934a3863bf3644")
+    refute_nil new_ref
+
+    if @repo.config["core.precomposeunicode"] == "true"
+      expected_name = "refs/heads/\xC3\x85\x73\x74\x72\xC3\xB6\x6D"
+    else
+      expected_name = ref_name
+    end
+
+    assert_equal expected_name, new_ref.name
+    assert_equal expected_name, new_ref.canonical_name
+
+    refute_nil @repo.references[ref_name]
+    refute_nil @repo.references[expected_name]
+  end
+
+  def test_rename_unicode_reference_nfd
+    ref_name = "refs/heads/\x41\xCC\x8A\x73\x74\x72\x6F\xCC\x88\x6D"
+
+    @repo.references.create("refs/heads/unit_test", "36060c58702ed4c2a40832c51758d5344201d89a")
+    new_ref = @repo.references.rename("refs/heads/unit_test", ref_name)
+    refute_nil new_ref
+
+    if @repo.config["core.precomposeunicode"] == "true"
+      expected_name = "refs/heads/\xC3\x85\x73\x74\x72\xC3\xB6\x6D"
+    else
+      expected_name = ref_name
+    end
+
+    assert_equal expected_name, new_ref.name
+    assert_equal expected_name, new_ref.canonical_name
+
+    refute_nil @repo.references[ref_name]
+    refute_nil @repo.references[expected_name]
   end
 
   def test_create_symbolic_ref

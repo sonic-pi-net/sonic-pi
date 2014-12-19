@@ -9,6 +9,7 @@
 #define INCLUDE_w32_util_h__
 
 #include "utf-conv.h"
+#include "path_w32.h"
 
 GIT_INLINE(bool) git_win32__isalpha(wchar_t c)
 {

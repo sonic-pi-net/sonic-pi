@@ -119,6 +119,19 @@ GIT_EXTERN(void) git_repository_set_refdb(git_repository *repo, git_refdb *refdb
  */
 GIT_EXTERN(void) git_repository_set_index(git_repository *repo, git_index *index);
 
+/**
+ * Set a repository to be bare.
+ *
+ * Clear the working directory and set core.bare to true.  You may also
+ * want to call `git_repository_set_index(repo, NULL)` since a bare repo
+ * typically does not have an index, but this function will not do that
+ * for you.
+ *
+ * @param repo Repo to make bare
+ * @return 0 on success, <0 on failure
+ */
+GIT_EXTERN(int) git_repository_set_bare(git_repository *repo);
+
 /** @} */
 GIT_END_DECL
 #endif

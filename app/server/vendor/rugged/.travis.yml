@@ -3,17 +3,26 @@
 
 language: ruby
 
+os:
+  - linux
+  - osx
+
 # Ruby versions to test against
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.0
+  - 2.1.2
   - ruby-head
-  - rbx
+  - rbx-2
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: rbx-2
+    - { os: osx, rvm: 2.1.2 }
 
 install:
+  - ./vendor/libgit2/script/install-deps-${TRAVIS_OS_NAME}.sh
   - bundle install --deployment
-  - sudo apt-get -qq update
-  - sudo apt-get -qq install cmake libssh2-1-dev openssh-client openssh-server
 
 script: script/travisbuild

@@ -408,11 +408,14 @@ static int packfile_unpack_header1(
 	size = c & 15;
 	shift = 4;
 	while (c & 0x80) {
-		if (len <= used)
+		if (len <= used) {
+			giterr_set(GITERR_ODB, "buffer too small");
 			return GIT_EBUFS;
+		}
 
 		if (bitsizeof(long) <= shift) {
 			*usedp = 0;
+			giterr_set(GITERR_ODB, "packfile corrupted");
 			return -1;
 		}
 
@@ -620,7 +623,7 @@ int git_packfile_unpack(
 	struct pack_chain_elem *elem = NULL, *stack;
 	git_pack_cache_entry *cached = NULL;
 	struct pack_chain_elem small_stack[SMALL_STACK_SIZE];
-	size_t stack_size, elem_pos;
+	size_t stack_size = 0, elem_pos;
 	git_otype base_type;
 
 	/*
@@ -647,9 +650,6 @@ int git_packfile_unpack(
 		elem = &stack[--elem_pos];
 		base_type = elem->type;
 	}
-
-	if (error < 0)
-		goto cleanup;
 
 	switch (base_type) {
 	case GIT_OBJ_COMMIT:
@@ -744,7 +744,7 @@ cleanup:
 		git__free(obj->data);
 
 	if (elem)
-		*obj_offset = elem->offset;
+		*obj_offset = curpos;
 
 	git_array_clear(chain);
 	return error;
@@ -968,10 +968,10 @@ void git_packfile_free(struct git_pack_file *p)
 
 	cache_free(&p->bases);
 
-	git_mwindow_free_all(&p->mwf);
-
-	if (p->mwf.fd >= 0)
+	if (p->mwf.fd >= 0) {
+		git_mwindow_free_all_locked(&p->mwf);
 		p_close(p->mwf.fd);
+	}
 
 	pack_index_free(p);
 
@@ -1063,6 +1063,23 @@ cleanup:
 	return -1;
 }
 
+int git_packfile__name(char **out, const char *path)
+{
+	size_t path_len;
+	git_buf buf = GIT_BUF_INIT;
+
+	path_len = strlen(path);
+
+	if (path_len < strlen(".idx"))
+		return git_odb__error_notfound("invalid packfile path", NULL);
+
+	if (git_buf_printf(&buf, "%.*s.pack", (int)(path_len - strlen(".idx")), path) < 0)
+		return -1;
+
+	*out = git_buf_detach(&buf);
+	return 0;
+}
+
 int git_packfile_alloc(struct git_pack_file **pack_out, const char *path)
 {
 	struct stat st;
@@ -1091,7 +1108,6 @@ int git_packfile_alloc(struct git_pack_file **pack_out, const char *path)
 			p->pack_keep = 1;
 
 		memcpy(p->pack_name + root_len, ".pack", sizeof(".pack"));
-		path_len = path_len - strlen(".idx") + strlen(".pack");
 	}
 
 	if (p_stat(p->pack_name, &st) < 0 || !S_ISREG(st.st_mode)) {

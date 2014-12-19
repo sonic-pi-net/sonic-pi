@@ -103,7 +103,6 @@ int git_attr_file__load(
 	int error = 0;
 	git_blob *blob = NULL;
 	git_buf content = GIT_BUF_INIT;
-	const char *data = NULL;
 	git_attr_file *file;
 	struct stat st;
 
@@ -120,7 +119,9 @@ int git_attr_file__load(
 			(error = git_blob_lookup(&blob, repo, &id)) < 0)
 			return error;
 
-		data = git_blob_rawcontent(blob);
+		/* Do not assume that data straight from the ODB is NULL-terminated;
+		 * copy the contents of a file to a buffer to work on */
+		git_buf_put(&content, git_blob_rawcontent(blob), git_blob_rawsize(blob));
 		break;
 	}
 	case GIT_ATTR_FILE__FROM_FILE: {
@@ -143,7 +144,6 @@ int git_attr_file__load(
 		if (error < 0)
 			return GIT_ENOTFOUND;
 
-		data = content.ptr;
 		break;
 	}
 	default:
@@ -154,7 +154,7 @@ int git_attr_file__load(
 	if ((error = git_attr_file__new(&file, entry, source)) < 0)
 		goto cleanup;
 
-	if (parser && (error = parser(repo, file, data)) < 0) {
+	if (parser && (error = parser(repo, file, git_buf_cstr(&content))) < 0) {
 		git_attr_file__free(file);
 		goto cleanup;
 	}
@@ -347,6 +347,21 @@ bool git_attr_fnmatch__match(
 	const char *filename;
 	int flags = 0;
 
+	/*
+	 * If the rule was generated in a subdirectory, we must only
+	 * use it for paths inside that directory. We can thus return
+	 * a non-match if the prefixes don't match.
+	 */
+	if (match->containing_dir) {
+		if (match->flags & GIT_ATTR_FNMATCH_ICASE) {
+			if (git__strncasecmp(path->path, match->containing_dir, match->containing_dir_length))
+				return 0;
+		} else {
+			if (git__prefixcmp(path->path, match->containing_dir))
+				return 0;
+		}
+	}
+
 	if (match->flags & GIT_ATTR_FNMATCH_ICASE)
 		flags |= FNM_CASEFOLD;
 	if (match->flags & GIT_ATTR_FNMATCH_LEADINGDIR)
@@ -376,6 +391,18 @@ bool git_attr_fnmatch__match(
 		matchval = p_fnmatch(match->pattern, path->path, flags);
 		path->basename[-1] = '/';
 		return (matchval != FNM_NOMATCH);
+	}
+
+	/* if path is a directory prefix of a negated pattern, then match */
+	if ((match->flags & GIT_ATTR_FNMATCH_NEGATIVE) && path->is_dir) {
+		size_t pathlen = strlen(path->path);
+		bool prefixed = (pathlen <= match->length) &&
+			((match->flags & GIT_ATTR_FNMATCH_ICASE) ?
+			 !strncasecmp(match->pattern, path->path, pathlen) :
+			 !strncmp(match->pattern, path->path, pathlen));
+
+		if (prefixed && git_path_at_end_of_segment(&match->pattern[pathlen]))
+			return true;
 	}
 
 	return (p_fnmatch(match->pattern, filename, flags) != FNM_NOMATCH);
@@ -522,7 +549,8 @@ int git_attr_fnmatch__parse(
 	}
 
 	if (*pattern == '!' && (spec->flags & GIT_ATTR_FNMATCH_ALLOWNEG) != 0) {
-		spec->flags = spec->flags | GIT_ATTR_FNMATCH_NEGATIVE;
+		spec->flags = spec->flags |
+			GIT_ATTR_FNMATCH_NEGATIVE | GIT_ATTR_FNMATCH_LEADINGDIR;
 		pattern++;
 	}
 
@@ -530,7 +558,7 @@ int git_attr_fnmatch__parse(
 	for (scan = pattern; *scan != '\0'; ++scan) {
 		/* scan until (non-escaped) white space */
 		if (git__isspace(*scan) && *(scan - 1) != '\\') {
-			if (!allow_space || (*scan != ' ' && *scan != '\t'))
+			if (!allow_space || (*scan != ' ' && *scan != '\t' && *scan != '\r'))
 				break;
 		}
 
@@ -551,6 +579,15 @@ int git_attr_fnmatch__parse(
 	if ((spec->length = scan - pattern) == 0)
 		return GIT_ENOTFOUND;
 
+	/*
+	 * Remove one trailing \r in case this is a CRLF delimited
+	 * file, in the case of Icon\r\r\n, we still leave the first
+	 * \r there to match against.
+	 */
+	if (pattern[spec->length - 1] == '\r')
+		if (--spec->length == 0)
+			return GIT_ENOTFOUND;
+
 	if (pattern[spec->length - 1] == '/') {
 		spec->length--;
 		spec->flags = spec->flags | GIT_ATTR_FNMATCH_DIRECTORY;
@@ -564,6 +601,17 @@ int git_attr_fnmatch__parse(
 		spec->length -= 2;
 		spec->flags = spec->flags | GIT_ATTR_FNMATCH_LEADINGDIR;
 		/* leave FULLPATH match on, however */
+	}
+
+	if (context) {
+		char *slash = strchr(context, '/');
+		size_t len;
+		if (slash) {
+			/* include the slash for easier matching */
+			len = slash - context + 1;
+			spec->containing_dir = git_pool_strndup(pool, context, len);
+			spec->containing_dir_length = len;
+		}
 	}
 
 	if ((spec->flags & GIT_ATTR_FNMATCH_FULLPATH) != 0 &&

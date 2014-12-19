@@ -26,17 +26,16 @@ int git_smart__store_refs(transport_smart *t, int flushes)
 	int error, flush = 0, recvd;
 	const char *line_end = NULL;
 	git_pkt *pkt = NULL;
-	git_pkt_ref *ref;
 	size_t i;
 
 	/* Clear existing refs in case git_remote_connect() is called again
 	 * after git_remote_disconnect().
 	 */
-	git_vector_foreach(refs, i, ref) {
-		git__free(ref->head.name);
-		git__free(ref);
+	git_vector_foreach(refs, i, pkt) {
+		git_pkt_free(pkt);
 	}
 	git_vector_clear(refs);
+	pkt = NULL;
 
 	do {
 		if (buf->offset > 0)
@@ -78,7 +77,52 @@ int git_smart__store_refs(transport_smart *t, int flushes)
 	return flush;
 }
 
-int git_smart__detect_caps(git_pkt_ref *pkt, transport_smart_caps *caps)
+static int append_symref(const char **out, git_vector *symrefs, const char *ptr)
+{
+	int error;
+	const char *end;
+	git_buf buf = GIT_BUF_INIT;
+	git_refspec *mapping;
+
+	ptr += strlen(GIT_CAP_SYMREF);
+	if (*ptr != '=')
+		goto on_invalid;
+
+	ptr++;
+	if (!(end = strchr(ptr, ' ')) &&
+	    !(end = strchr(ptr, '\0')))
+		goto on_invalid;
+
+	if ((error = git_buf_put(&buf, ptr, end - ptr)) < 0)
+		return error;
+
+	/* symref mapping has refspec format */
+	mapping = git__malloc(sizeof(git_refspec));
+	GITERR_CHECK_ALLOC(mapping);
+
+	error = git_refspec__parse(mapping, git_buf_cstr(&buf), true);
+	git_buf_free(&buf);
+
+	/* if the error isn't OOM, then it's a parse error; let's use a nicer message */
+	if (error < 0) {
+		if (giterr_last()->klass != GITERR_NOMEMORY)
+			goto on_invalid;
+
+		return error;
+	}
+
+	if ((error = git_vector_insert(symrefs, mapping)) < 0)
+		return error;
+
+	*out = end;
+	return 0;
+
+on_invalid:
+	giterr_set(GITERR_NET, "remote sent invalid symref");
+	return -1;
+}
+
+int git_smart__detect_caps(git_pkt_ref *pkt, transport_smart_caps *caps, git_vector *symrefs)
 {
 	const char *ptr;
 
@@ -138,6 +182,15 @@ int git_smart__detect_caps(git_pkt_ref *pkt, transport_smart_caps *caps)
 		if (!git__prefixcmp(ptr, GIT_CAP_THIN_PACK)) {
 			caps->common = caps->thin_pack = 1;
 			ptr += strlen(GIT_CAP_THIN_PACK);
+			continue;
+		}
+
+		if (!git__prefixcmp(ptr, GIT_CAP_SYMREF)) {
+			int error;
+
+			if ((error = append_symref(&ptr, symrefs, ptr)) < 0)
+				return error;
+
 			continue;
 		}
 
@@ -261,7 +314,7 @@ static int wait_while_ack(gitno_buffer *buf)
 			break;
 
 		if (pkt->type == GIT_PKT_ACK &&
-		    (pkt->status != GIT_ACK_CONTINUE ||
+		    (pkt->status != GIT_ACK_CONTINUE &&
 		     pkt->status != GIT_ACK_COMMON)) {
 			git__free(pkt);
 			return 0;
@@ -539,7 +592,9 @@ int git_smart__download_pack(
 				}
 			} else if (pkt->type == GIT_PKT_DATA) {
 				git_pkt_data *p = (git_pkt_data *) pkt;
-				error = writepack->append(writepack, p->data, p->len, stats);
+
+				if (p->len)
+					error = writepack->append(writepack, p->data, p->len, stats);
 			} else if (pkt->type == GIT_PKT_FLUSH) {
 				/* A flush indicates the end of the packfile */
 				git__free(pkt);
@@ -585,12 +640,12 @@ static int gen_pktline(git_buf *buf, git_push *push)
 {
 	push_spec *spec;
 	size_t i, len;
-	char old_id[41], new_id[41];
+	char old_id[GIT_OID_HEXSZ+1], new_id[GIT_OID_HEXSZ+1];
 
-	old_id[40] = '\0'; new_id[40] = '\0';
+	old_id[GIT_OID_HEXSZ] = '\0'; new_id[GIT_OID_HEXSZ] = '\0';
 
 	git_vector_foreach(&push->specs, i, spec) {
-		len = 2*GIT_OID_HEXSZ + 7 + strlen(spec->rref);
+		len = 2*GIT_OID_HEXSZ + 7 + strlen(spec->refspec.dst);
 
 		if (i == 0) {
 			++len; /* '\0' */
@@ -602,7 +657,7 @@ static int gen_pktline(git_buf *buf, git_push *push)
 		git_oid_fmt(old_id, &spec->roid);
 		git_oid_fmt(new_id, &spec->loid);
 
-		git_buf_printf(buf, "%04"PRIxZ"%s %s %s", len, old_id, new_id, spec->rref);
+		git_buf_printf(buf, "%04"PRIxZ"%s %s %s", len, old_id, new_id, spec->refspec.dst);
 
 		if (i == 0) {
 			git_buf_putc(buf, '\0');
@@ -761,7 +816,7 @@ static int add_ref_from_push_spec(git_vector *refs, push_spec *push_spec)
 
 	added->type = GIT_PKT_REF;
 	git_oid_cpy(&added->head.oid, &push_spec->loid);
-	added->head.name = git__strdup(push_spec->rref);
+	added->head.name = git__strdup(push_spec->refspec.dst);
 
 	if (!added->head.name ||
 		git_vector_insert(refs, added) < 0) {
@@ -800,7 +855,7 @@ static int update_refs_from_report(
 
 		/* For each push spec we sent to the server, we should have
 		 * gotten back a status packet in the push report which matches */
-		if (strcmp(push_spec->rref, push_status->ref)) {
+		if (strcmp(push_spec->refspec.dst, push_status->ref)) {
 			giterr_set(GITERR_NET, "report-status: protocol error");
 			return -1;
 		}
@@ -817,7 +872,7 @@ static int update_refs_from_report(
 		push_status = git_vector_get(push_report, i);
 		ref = git_vector_get(refs, j);
 
-		cmp = strcmp(push_spec->rref, ref->head.name);
+		cmp = strcmp(push_spec->refspec.dst, ref->head.name);
 
 		/* Iterate appropriately */
 		if (cmp <= 0) i++;
@@ -908,7 +963,7 @@ int git_smart__push(git_transport *transport, git_push *push)
 #ifdef PUSH_DEBUG
 {
 	git_remote_head *head;
-	char hex[41]; hex[40] = '\0';
+	char hex[GIT_OID_HEXSZ+1]; hex[GIT_OID_HEXSZ] = '\0';
 
 	git_vector_foreach(&push->remote->refs, i, head) {
 		git_oid_fmt(hex, &head->oid);
@@ -930,7 +985,7 @@ int git_smart__push(git_transport *transport, git_push *push)
 	 * cases except when we only send delete commands
 	 */
 	git_vector_foreach(&push->specs, i, spec) {
-		if (spec->lref) {
+		if (spec->refspec.src && spec->refspec.src[0] != '\0') {
 			need_pack = 1;
 			break;
 		}
@@ -969,7 +1024,7 @@ int git_smart__push(git_transport *transport, git_push *push)
 		if (error < 0)
 			goto done;
 
-		error = git_smart__update_heads(t);
+		error = git_smart__update_heads(t, NULL);
 	}
 
 done:

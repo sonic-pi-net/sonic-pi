@@ -148,7 +148,7 @@ GIT_EXTERN(void) git_submodule_free(git_submodule *submodule);
  * Iterate over all tracked submodules of a repository.
  *
  * See the note on `git_submodule` above.  This iterates over the tracked
- * submodules as decribed therein.
+ * submodules as described therein.
  *
  * If you are concerned about items in the working directory that look like
  * submodules but are not tracked, the diff API will generate a diff record
@@ -283,7 +283,7 @@ GIT_EXTERN(const char *) git_submodule_url(git_submodule *submodule);
  * Resolve a submodule url relative to the given repository.
  *
  * @param out buffer to store the absolute submodule url in
- * @param repository Pointer to repository object
+ * @param repo Pointer to repository object
  * @param url Relative url
  * @return 0 or an error code
  */
@@ -469,6 +469,24 @@ GIT_EXTERN(git_submodule_recurse_t) git_submodule_set_fetch_recurse_submodules(
  * @return 0 on success, <0 on failure.
  */
 GIT_EXTERN(int) git_submodule_init(git_submodule *submodule, int overwrite);
+
+/**
+ * Set up the subrepository for a submodule in preparation for clone.
+ *
+ * This function can be called to init and set up a submodule
+ * repository from a submodule in preparation to clone it from
+ * its remote.
+ *
+ * @param out Output pointer to the created git repository.
+ * @param sm The submodule to create a new subrepository from.
+ * @param use_gitlink Should the workdir contain a gitlink to
+ *        the repo in .git/modules vs. repo directly in workdir.
+ * @return 0 on success, <0 on failure.
+ */
+GIT_EXTERN(int) git_submodule_repo_init(
+	git_repository **out,
+	const git_submodule *sm,
+	int use_gitlink);
 
 /**
  * Copy submodule remote info into submodule repo.

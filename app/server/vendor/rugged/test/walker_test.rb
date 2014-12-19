@@ -16,6 +16,59 @@ class WalkerTest < Rugged::TestCase
     assert_equal "4a202.5b5b0.84960.9fd73", oids
   end
 
+  def test_walk_revlist_with_limit
+    @walker.push("9fd738e8f7967c078dceed8190330fc8648ee56a")
+    data = @walker.each(:limit => 2).to_a
+    oids = data.map{|c| c.oid}
+    assert_equal ["9fd738e8f7967c078dceed8190330fc8648ee56a", "4a202b346bb0fb0db7eff3cffeb3c70babbd2045"], oids
+  end
+
+  def test_walk_revlist_with_offset
+    @walker.push("9fd738e8f7967c078dceed8190330fc8648ee56a")
+    data = @walker.each(:offset => 2).to_a
+    oids = data.map{|c| c.oid}
+    assert_equal ["5b5b025afb0b4c913b4c338a42934a3863bf3644", "8496071c1b46c854b31185ea97743be6a8774479"], oids
+  end
+
+  def test_walk_revlist_with_limit_and_offset
+    @walker.push("9fd738e8f7967c078dceed8190330fc8648ee56a")
+    data = @walker.each(:offset => 2, :limit => 1).to_a
+    oids = data.map{|c| c.oid}
+    assert_equal ["5b5b025afb0b4c913b4c338a42934a3863bf3644"], oids
+  end
+
+  def test_walk_revlist_as_oids
+    @walker.push("9fd738e8f7967c078dceed8190330fc8648ee56a")
+    oids = @walker.each_oid.to_a
+    oids = oids.sort { |a, b| a <=> b }.map {|a| a[0,5]}.join('.')
+    assert_equal "4a202.5b5b0.84960.9fd73", oids
+  end
+
+  def test_walk_revlist_with_limit_as_oids
+    @walker.push("9fd738e8f7967c078dceed8190330fc8648ee56a")
+    oids = @walker.each_oid(:limit => 2).to_a
+    assert_equal ["9fd738e8f7967c078dceed8190330fc8648ee56a", "4a202b346bb0fb0db7eff3cffeb3c70babbd2045"], oids
+  end
+
+  def test_walk_revlist_with_offset_as_oids
+    @walker.push("9fd738e8f7967c078dceed8190330fc8648ee56a")
+    oids = @walker.each_oid(:offset => 2).to_a
+    assert_equal ["5b5b025afb0b4c913b4c338a42934a3863bf3644", "8496071c1b46c854b31185ea97743be6a8774479"], oids
+  end
+
+  def test_walk_revlist_with_limit_and_offset_as_oids
+    @walker.push("9fd738e8f7967c078dceed8190330fc8648ee56a")
+    oids = @walker.each_oid(:offset => 2, :limit => 1).to_a
+    assert_equal ["5b5b025afb0b4c913b4c338a42934a3863bf3644"], oids
+  end
+
+  def test_walk_push_range
+    @walker.push_range("HEAD~2..HEAD")
+    data = @walker.each.to_a
+    oids = data.sort { |a, b| a.oid <=> b.oid }.map {|a| a.oid[0,5]}.join('.')
+    assert_equal "36060.5b5b0", oids
+  end
+
   def test_walk_partial_revlist
     oid = "8496071c1b46c854b31185ea97743be6a8774479"
     @walker.push(oid)

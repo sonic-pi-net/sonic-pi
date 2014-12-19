@@ -179,11 +179,14 @@ void test_refs_branches_create__can_create_branch_with_unicode(void)
 		expected[0] = nfd;
 
 	for (i = 0; i < ARRAY_SIZE(names); ++i) {
+		const char *name;
 		cl_git_pass(git_branch_create(
 			&branch, repo, names[i], target, 0, NULL, NULL));
 		cl_git_pass(git_oid_cmp(
 			git_reference_target(branch), git_commit_id(target)));
 
+		cl_git_pass(git_branch_name(&name, branch));
+		cl_assert_equal_s(expected[i], name);
 		assert_branch_matches_name(expected[i], names[i]);
 		if (fs_decompose_unicode && alt[i])
 			assert_branch_matches_name(expected[i], alt[i]);
