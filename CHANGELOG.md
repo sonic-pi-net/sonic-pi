@@ -168,5 +168,5 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Completely re-designed GUI
 * Help system with full documentation, tutorial and many examples
 * Record functionality (for recording performances/pieces)
-* Suport for controlling system audio settings on RP
+* Support for controlling system audio settings on RP
 
