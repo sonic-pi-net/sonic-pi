@@ -869,6 +869,65 @@ end"]
 
 
 
+    def with_bpm_mul(mul, &block)
+      raise "with_bpm_mul must be called with a block. Perhaps you meant use_bpm_mul" unless block
+      current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      new_mul = current_mul / mul
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
+      block.call
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
+    end
+    doc name:           :with_bpm_mul,
+        introduced:     Version.new(2,3,0),
+        summary:        "Set new tempo as a multiple of current tempo for block",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block as a multiplication of the current tempo. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also with_bpm",
+        args:           [[:mul, :number]],
+        opts:           nil,
+        accepts_block:  true,
+        examples:       [
+"
+use_bpm 60   # Set the BPM to 60
+play 50
+sleep 1      # Sleeps for 1 second
+play 62
+sleep 2      # Sleeps for 2 seconds
+with_bpm_mul 0.5 do # BPM is now (60 * 0.5) == 30
+  play 50
+  sleep 1           # Sleeps for 2 seconds
+  play 62
+end
+sleep 1            # BPM is now back to 60, therefore sleep is 1 second
+"]
+
+
+    def use_bpm_mul(mul, &block)
+      raise "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
+      current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      new_mul = current_mul / mul
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
+    end
+    doc name:           :use_bpm_mul,
+        introduced:     Version.new(2,3,0),
+        summary:        "Set new tempo as a multiple of current tempo",
+        doc:            "Sets the tempo in bpm (beats per minute) as a multiplication of the current tempo. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also use_bpm",
+        args:           [[:mul, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        examples:       [
+"
+use_bpm 60   # Set the BPM to 60
+play 50
+sleep 1      # Sleeps for 1 seconds
+play 62
+sleep 2      # Sleeps for 2 seconds
+use_bpm_mul 0.5 do # BPM is now (60 * 0.5) == 30
+play 50
+sleep 1           # Sleeps for 2 seconds
+play 62
+
+"]
+
+
 
     def current_bpm
       60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
