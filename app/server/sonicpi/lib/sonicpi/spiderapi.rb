@@ -1280,13 +1280,8 @@ end"]
       job_id = __current_job_id
       reg_with_parent_completed = Promise.new
 
-      # Don't use the current generator to gen the new seed as this gen
-      # might possibly want be passed through to the block untouched
-      # (which is indeed the case with the current with_fx
-      # implementation)
-      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      cur_seed = rgen.seed
-      new_rand_seed = args_h[:seed] || Random.new(cur_seed).rand(999999999999999999999999999999999999999)
+      rgen = Thread.current.thread_variable_get :sonic_pi_spider_new_thread_random_generator
+      new_rand_seed = args_h[:seed] || rgen.rand(999999999999999999999999999999999999999)
 
       # Create the new thread
       t = Thread.new do
