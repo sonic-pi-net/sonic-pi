@@ -43,6 +43,7 @@ if rehearse
   puts "Aborting prune operation. Turn rehearse off to remove files."
 else
   subdirs.each do |d|
+    puts "rm -rf #{d}"
     FileUtils.rm_rf d
   end
 end
