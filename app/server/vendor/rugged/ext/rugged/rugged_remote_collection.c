@@ -65,6 +65,7 @@ static VALUE rb_git_remote_collection_create_anonymous(VALUE self, VALUE rb_url)
 	Data_Get_Struct(rb_repo, git_repository, repo);
 
 	Check_Type(rb_url, T_STRING);
+	rugged_validate_remote_url(rb_url);
 
 	error = git_remote_create_anonymous(
 			&remote,
@@ -101,7 +102,9 @@ static VALUE rb_git_remote_collection_create(VALUE self, VALUE rb_name, VALUE rb
 	Data_Get_Struct(rb_repo, git_repository, repo);
 
 	Check_Type(rb_name, T_STRING);
+
 	Check_Type(rb_url, T_STRING);
+	rugged_validate_remote_url(rb_url);
 
 	error = git_remote_create(
 			&remote,
@@ -137,7 +140,7 @@ static VALUE rb_git_remote_collection_aref(VALUE self, VALUE rb_name)
 
 	Check_Type(rb_name, T_STRING);
 
-	error = git_remote_lookup(&remote, repo, StringValueCStr(rb_name));
+	error = git_remote_load(&remote, repo, StringValueCStr(rb_name));
 
 	if (error == GIT_ENOTFOUND)
 		return Qnil;
@@ -179,7 +182,7 @@ static VALUE rb_git_remote_collection__each(VALUE self, int only_names)
 		for (i = 0; !exception && !error && i < remotes.count; ++i) {
 			git_remote *remote;
 
-			if (!(error = git_remote_lookup(&remote, repo, remotes.strings[i])))
+			if (!(error = git_remote_load(&remote, repo, remotes.strings[i])))
 				rb_protect(rb_yield, rugged_remote_new(rb_repo, remote), &exception);
 		}
 	}
@@ -230,61 +233,6 @@ static VALUE rb_git_remote_collection_each_name(VALUE self)
 
 /*
  *  call-seq:
- *    remotes.rename(remote, new_name) { |str| }  -> remote
- *    remotes.rename(name, new_name) { |str| } -> remote
- *
- *  Renames a remote.
- *
- *  All remote-tracking branches and configuration settings
- *  for the remote are updated.
- *
- *  Non-default refspecs cannot be renamed automatically and will be
- *  yielded to the given block.
- *
- *  Anonymous, in-memory remotes created through
- *  +ReferenceCollection#create_anonymous+ can not be given a name through
- *  this method.
- *
- *  Returns a new Rugged::Remote object with the new name.
- */
-static VALUE rb_git_remote_collection_rename(VALUE self, VALUE rb_name_or_remote, VALUE rb_new_name)
-{
-	VALUE rb_repo = rugged_owner(self);
-	git_repository *repo;
-	int i, error, exception;
-	git_strarray problems;
-
-	if (!rb_block_given_p())
-		rb_raise(rb_eArgError, "Rugged::RemoteCollection#rename must be called with a block");
-
-	Check_Type(rb_new_name, T_STRING);
-
-	if (rb_obj_is_kind_of(rb_name_or_remote, rb_cRuggedRemote))
-		rb_name_or_remote = rb_funcall(rb_name_or_remote, rb_intern("name"), 0);
-
-	if (TYPE(rb_name_or_remote) != T_STRING)
-		rb_raise(rb_eTypeError, "Expecting a String or Rugged::Remote instance");
-
-	rugged_check_repo(rb_repo);
-	Data_Get_Struct(rb_repo, git_repository, repo);
-
-	error = git_remote_rename(&problems, repo, StringValueCStr(rb_name_or_remote), StringValueCStr(rb_new_name));
-	rugged_exception_check(error);
-
-	for (i = exception = 0; !exception && i < problems.count; ++i) {
-		rb_protect(rb_yield, rb_str_new_utf8(problems.strings[i]), &exception);
-	}
-
-	git_strarray_free(&problems);
-
-	if (exception)
-		rb_jump_tag(exception);
-
-	return rb_git_remote_collection_aref(self, rb_new_name);
-}
-
-/*
- *  call-seq:
  *    remotes.delete(remote) -> nil
  *    remotes.delete(name) -> nil
  *
@@ -296,6 +244,7 @@ static VALUE rb_git_remote_collection_rename(VALUE self, VALUE rb_name_or_remote
 static VALUE rb_git_remote_collection_delete(VALUE self, VALUE rb_name_or_remote)
 {
 	VALUE rb_repo = rugged_owner(self);
+	git_remote *remote;
 	git_repository *repo;
 	int error;
 
@@ -308,7 +257,10 @@ static VALUE rb_git_remote_collection_delete(VALUE self, VALUE rb_name_or_remote
 	rugged_check_repo(rb_repo);
 	Data_Get_Struct(rb_repo, git_repository, repo);
 
-	error = git_remote_delete(repo, StringValueCStr(rb_name_or_remote));
+	error = git_remote_load(&remote, repo, StringValueCStr(rb_name_or_remote));
+	rugged_exception_check(error);
+
+	error = git_remote_delete(remote);
 	rugged_exception_check(error);
 
 	return Qnil;
@@ -329,6 +281,5 @@ void Init_rugged_remote_collection(void)
 	rb_define_method(rb_cRuggedRemoteCollection, "each",             rb_git_remote_collection_each, 0);
 	rb_define_method(rb_cRuggedRemoteCollection, "each_name",        rb_git_remote_collection_each_name, 0);
 
-	rb_define_method(rb_cRuggedRemoteCollection, "rename",           rb_git_remote_collection_rename, 2);
 	rb_define_method(rb_cRuggedRemoteCollection, "delete",           rb_git_remote_collection_delete, 1);
 }

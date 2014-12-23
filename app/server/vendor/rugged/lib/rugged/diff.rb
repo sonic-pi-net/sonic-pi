@@ -8,6 +8,7 @@ module Rugged
     alias each each_patch
 
     attr_reader :owner
+    alias tree owner
 
     def patches
       each_patch.to_a

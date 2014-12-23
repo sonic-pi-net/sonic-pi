@@ -8,13 +8,15 @@
 #define INCLUDE_push_h__
 
 #include "git2.h"
-#include "refspec.h"
 
 typedef struct push_spec {
-	struct git_refspec refspec;
+	char *lref;
+	char *rref;
 
 	git_oid loid;
 	git_oid roid;
+
+	bool force;
 } push_spec;
 
 typedef struct push_status {

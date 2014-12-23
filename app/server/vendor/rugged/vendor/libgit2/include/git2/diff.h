@@ -152,12 +152,6 @@ typedef enum {
 	 */
 	GIT_DIFF_UPDATE_INDEX = (1u << 15),
 
-	/** Include unreadable files in the diff */
-	GIT_DIFF_INCLUDE_UNREADABLE = (1u << 16),
-	
-	/** Include unreadable files in the diff */
-	GIT_DIFF_INCLUDE_UNREADABLE_AS_UNTRACKED = (1u << 17),
-
 	/*
 	 * Options controlling how output will be generated
 	 */
@@ -243,7 +237,6 @@ typedef enum {
 	GIT_DELTA_IGNORED = 6,    /**< entry is ignored item in workdir */
 	GIT_DELTA_UNTRACKED = 7,  /**< entry is untracked item in workdir */
 	GIT_DELTA_TYPECHANGE = 8, /**< type of entry changed between old and new */
-	GIT_DELTA_UNREADABLE = 9, /**< entry is unreadable */
 } git_delta_t;
 
 /**
@@ -377,8 +370,8 @@ typedef struct {
 
 	/* options controlling how to diff text is generated */
 
-	uint32_t    context_lines;    /**< defaults to 3 */
-	uint32_t    interhunk_lines;  /**< defaults to 0 */
+	uint16_t    context_lines;    /**< defaults to 3 */
+	uint16_t    interhunk_lines;  /**< defaults to 0 */
 	uint16_t    id_abbrev;       /**< default 'core.abbrev' or 7 if unset */
 	git_off_t   max_size;         /**< defaults to 512MB */
 	const char *old_prefix;       /**< defaults to "a" */
@@ -421,14 +414,15 @@ typedef int (*git_diff_file_cb)(
 /**
  * Structure describing a hunk of a diff.
  */
-typedef struct {
+typedef struct git_diff_hunk git_diff_hunk;
+struct git_diff_hunk {
 	int    old_start;     /**< Starting line number in old_file */
 	int    old_lines;     /**< Number of lines in old_file */
 	int    new_start;     /**< Starting line number in new_file */
 	int    new_lines;     /**< Number of lines in new_file */
 	size_t header_len;    /**< Number of bytes in header text */
 	char   header[128];   /**< Header text, NUL-byte terminated */
-} git_diff_hunk;
+};
 
 /**
  * When iterating over a diff, callback that will be made per hunk.
@@ -468,7 +462,8 @@ typedef enum {
 /**
  * Structure describing a line (or data span) of a diff.
  */
-typedef struct {
+typedef struct git_diff_line git_diff_line;
+struct git_diff_line {
 	char   origin;       /**< A git_diff_line_t value */
 	int    old_lineno;   /**< Line number in old file or -1 for added line */
 	int    new_lineno;   /**< Line number in new file or -1 for deleted line */
@@ -476,7 +471,7 @@ typedef struct {
 	size_t content_len;  /**< Number of bytes of data */
 	git_off_t content_offset; /**< Offset in the original file to the content */
 	const char *content; /**< Pointer to diff text, not NUL-byte terminated */
-} git_diff_line;
+};
 
 /**
  * When iterating over a diff, callback that will be made per text diff

@@ -138,7 +138,7 @@ void rb_git_repo__free(git_repository *repo)
 	git_repository_free(repo);
 }
 
-VALUE rugged_repo_new(VALUE klass, git_repository *repo)
+static VALUE rugged_repo_new(VALUE klass, git_repository *repo)
 {
 	VALUE rb_repo = Data_Wrap_Struct(klass, NULL, &rb_git_repo__free, repo);
 
@@ -517,56 +517,6 @@ static VALUE rb_git_repo_merge_base(VALUE self, VALUE rb_args)
 
 /*
  *  call-seq:
- *    repo.merge_bases(oid1, oid2, ...) -> Array
- *    repo.merge_bases(ref1, ref2, ...) -> Array
- *    repo.merge_bases(commit1, commit2, ...) -> Array
- *
- *  Find all merge bases, given two or more commits or oids.
- *  Returns an empty array if no merge bases are found.
- */
-static VALUE rb_git_repo_merge_bases(VALUE self, VALUE rb_args)
-{
-	int error = GIT_OK, i;
-	git_repository *repo;
-	git_oidarray bases = {NULL, 0};
-	git_oid *input_array = xmalloc(sizeof(git_oid) * RARRAY_LEN(rb_args));
-	int len = (int)RARRAY_LEN(rb_args);
-
-	VALUE rb_bases;
-
-	if (len < 2)
-		rb_raise(rb_eArgError, "wrong number of arguments (%d for 2+)", len);
-
-	Data_Get_Struct(self, git_repository, repo);
-
-	for (i = 0; !error && i < len; ++i) {
-		error = rugged_oid_get(&input_array[i], repo, rb_ary_entry(rb_args, i));
-	}
-
-	if (error) {
-		xfree(input_array);
-		rugged_exception_check(error);
-	}
-
-	error = git_merge_bases_many(&bases, repo, len, input_array);
-	xfree(input_array);
-
-	if (error != GIT_ENOTFOUND)
-		rugged_exception_check(error);
-
-	rb_bases = rb_ary_new2(bases.count);
-
-	for (i = 0; i < bases.count; ++i) {
-		rb_ary_push(rb_bases, rugged_create_oid(&bases.ids[i]));
-	}
-
-	git_oidarray_free(&bases);
-
-	return rb_bases;
-}
-
-/*
- *  call-seq:
  *    repo.merge_analysis(their_commit) -> Array
  *
  *  Analyzes the given commit and determines the opportunities for merging
@@ -596,7 +546,7 @@ static VALUE rb_git_repo_merge_analysis(int argc, VALUE *argv, VALUE self)
 	int error;
 	git_repository *repo;
 	git_commit *their_commit;
-	git_annotated_commit *annotated_commit;
+	git_merge_head *merge_head;
 	git_merge_analysis_t analysis;
 	git_merge_preference_t preference;
 	VALUE rb_their_commit, result;
@@ -615,13 +565,13 @@ static VALUE rb_git_repo_merge_analysis(int argc, VALUE *argv, VALUE self)
 
 	Data_Get_Struct(rb_their_commit, git_commit, their_commit);
 
-	error = git_annotated_commit_lookup(&annotated_commit, repo, git_commit_id(their_commit));
+	error = git_merge_head_from_id(&merge_head, repo, git_commit_id(their_commit));
 	rugged_exception_check(error);
 
 	error = git_merge_analysis(&analysis, &preference, repo,
 				   /* hack as we currently only do one commit */
-				   (const git_annotated_commit **) &annotated_commit, 1);
-	git_annotated_commit_free(annotated_commit);
+				   (const git_merge_head **) &merge_head, 1);
+	git_merge_head_free(merge_head);
 	rugged_exception_check(error);
 
 	result = rb_ary_new();
@@ -693,10 +643,9 @@ static VALUE rb_git_repo_merge_commits(int argc, VALUE *argv, VALUE self)
  *    repo.exists?(oid) -> true or false
  *
  *  Return whether an object with the given SHA1 OID (represented as
- *  a hex string of at least 7 characters) exists in the repository.
+ *  a 40-character string) exists in the repository.
  *
  *    repo.include?("d8786bfc97485e8d7b19b21fb88c8ef1f199fc3f") #=> true
- *    repo.include?("d8786bfc") #=> true
  */
 static VALUE rb_git_repo_exists(VALUE self, VALUE hex)
 {
@@ -704,23 +653,21 @@ static VALUE rb_git_repo_exists(VALUE self, VALUE hex)
 	git_odb *odb;
 	git_oid oid;
 	int error;
+	VALUE rb_result;
 
 	Data_Get_Struct(self, git_repository, repo);
 	Check_Type(hex, T_STRING);
 
-	error = git_oid_fromstrn(&oid, RSTRING_PTR(hex), RSTRING_LEN(hex));
+	error = git_oid_fromstr(&oid, StringValueCStr(hex));
 	rugged_exception_check(error);
 
 	error = git_repository_odb(&odb, repo);
 	rugged_exception_check(error);
 
-	error = git_odb_exists_prefix(NULL, odb, &oid, RSTRING_LEN(hex));
+	rb_result = git_odb_exists(odb, &oid) ? Qtrue : Qfalse;
 	git_odb_free(odb);
 
-	if (error == 0 || error == GIT_EAMBIGUOUS)
-		return Qtrue;
-
-	return Qfalse;
+	return rb_result;
 }
 
 /*
@@ -787,107 +734,6 @@ static VALUE rb_git_repo_read_header(VALUE self, VALUE hex)
 	rb_hash_aset(rb_hash, CSTR2SYM("len"), INT2FIX(len));
 
 	return rb_hash;
-}
-
-/**
- *  call-seq:
- *    repo.expand_oids([oid..], object_type = :any) -> hash
- *
- *  Expand a list of short oids to their full value, assuming they exist
- *  in the repository. If `object_type` is passed, OIDs are expected to be
- *  of the given type.
- *
- *  Returns a hash of `{ short_oid => full_oid }` for the short OIDs which
- *  exist in the repository and match the expected object type. Missing OIDs
- *  will not appear in the resulting hash.
- */
-static VALUE rb_git_repo_expand_oids(int argc, VALUE *argv, VALUE self)
-{
-	VALUE rb_result, rb_oids, rb_expected_type;
-
-	git_otype expected_type = GIT_OBJ_ANY;
-
-	git_repository *repo;
-	git_oid oid;
-	git_odb *odb;
-	int i, error;
-
-	Data_Get_Struct(self, git_repository, repo);
-
-	rb_scan_args(argc, argv, "11", &rb_oids, &rb_expected_type);
-
-	Check_Type(rb_oids, T_ARRAY);
-	expected_type = rugged_otype_get(rb_expected_type);
-
-	error = git_repository_odb(&odb, repo);
-	rugged_exception_check(error);
-
-	rb_result = rb_hash_new();
-
-	for (i = 0; i < RARRAY_LEN(rb_oids); ++i) {
-		VALUE hex_oid = rb_ary_entry(rb_oids, i);
-		git_oid found_oid;
-
-		if (TYPE(hex_oid) != T_STRING) {
-			git_odb_free(odb);
-			rb_raise(rb_eTypeError, "Expected a SHA1 OID");
-		}
-
-		error = git_oid_fromstrn(&oid, RSTRING_PTR(hex_oid), RSTRING_LEN(hex_oid));
-		if (error < 0) {
-			git_odb_free(odb);
-			rugged_exception_check(error);
-		}
-
-		error = git_odb_exists_prefix(&found_oid, odb, &oid, RSTRING_LEN(hex_oid));
-
-		if (!error) {
-			if (expected_type != GIT_OBJ_ANY) {
-				size_t found_size;
-				git_otype found_type;
-
-				if (git_odb_read_header(&found_size, &found_type, odb, &found_oid) < 0)
-					continue;
-
-				if (found_type != expected_type)
-					continue;
-			}
-
-			rb_hash_aset(rb_result, hex_oid, rugged_create_oid(&found_oid));
-		}
-	}
-
-	git_odb_free(odb);
-	return rb_result;
-}
-
-/*
- *  call-seq:
- *    repo.descendant_of?(commit, ancestor) -> true or false
- *
- *  +commit+ and +ancestor+ must be String commit OIDs or instances of Rugged::Commit.
- *
- *  Returns true if +commit+ is a descendant of +ancestor+, or false if not.
- */
-static VALUE rb_git_repo_descendant_of(VALUE self, VALUE rb_commit, VALUE rb_ancestor)
-{
-	int result;
-	int error;
-	git_repository *repo;
-	git_oid commit, ancestor;
-
-	Data_Get_Struct(self, git_repository, repo);
-
-	error = rugged_oid_get(&commit, repo, rb_commit);
-	rugged_exception_check(error);
-
-	error = rugged_oid_get(&ancestor, repo, rb_ancestor);
-	rugged_exception_check(error);
-
-	result = git_graph_descendant_of(repo, &commit, &ancestor);
-	rugged_exception_check(result);
-
-	return result ? Qtrue : Qfalse;
 }
 
 /*
@@ -1450,7 +1296,7 @@ static VALUE rb_git_repo_reset(int argc, VALUE *argv, VALUE self)
 			log_message = StringValueCStr(rb_val);
 	}
 
-	error = git_reset(repo, target, reset_type, NULL, signature, log_message);
+	error = git_reset(repo, target, reset_type, signature, log_message);
 
 	git_object_free(target);
 	git_signature_free(signature);
@@ -2078,179 +1924,6 @@ static VALUE rb_git_repo_is_path_ignored(VALUE self, VALUE rb_path) {
 	return ignored ? Qtrue : Qfalse;
 }
 
-static void rugged_parse_cherrypick_options(git_cherrypick_options *opts, VALUE rb_options)
-{
-	VALUE rb_value;
-
-	if (NIL_P(rb_options))
-		return;
-
-	Check_Type(rb_options, T_HASH);
-
-	rb_value = rb_hash_aref(rb_options, CSTR2SYM("mainline"));
-	if (!NIL_P(rb_value)) {
-		opts->mainline = FIX2UINT(rb_value);
-	}
-}
-
-static VALUE rugged_create_attr(const char *attr)
-{
-	switch (git_attr_value(attr)) {
-	case GIT_ATTR_TRUE_T:
-		return Qtrue;
-
-	case GIT_ATTR_FALSE_T:
-		return Qfalse;
-
-	case GIT_ATTR_VALUE_T:
-		return rb_str_new2(attr);
-
-	case GIT_ATTR_UNSPECIFIED_T:
-	default:
-		return Qnil;
-	}
-}
-
-static int foreach_attr_hash(const char *name, const char *value, void *payload)
-{
-	VALUE rb_hash = (VALUE)payload;
-	rb_hash_aset(rb_hash, rb_str_new2(name), rugged_create_attr(value));
-	return 0;
-}
-
-static VALUE rb_git_repo_attributes(int argc, VALUE *argv, VALUE self)
-{
-	VALUE rb_path, rb_names, rb_options;
-
-	git_repository *repo;
-	int error, options = 0;
-
-	rb_scan_args(argc, argv, "12", &rb_path, &rb_names, &rb_options);
-
-	Data_Get_Struct(self, git_repository, repo);
-	Check_Type(rb_path, T_STRING);
-
-	if (!NIL_P(rb_options)) {
-		Check_Type(rb_options, T_FIXNUM);
-		options = FIX2INT(rb_options);
-	}
-
-	switch (TYPE(rb_names)) {
-	case T_ARRAY:
-	{
-		VALUE rb_result;
-		const char **values;
-		const char **names;
-		int i, num_attr = RARRAY_LEN(rb_names);
-
-		if (num_attr > 32)
-			rb_raise(rb_eRuntimeError, "Too many attributes requested");
-
-		values = alloca(num_attr * sizeof(const char *));
-		names = alloca(num_attr * sizeof(const char *));
-
-		for (i = 0; i < num_attr; ++i) {
-			VALUE attr = rb_ary_entry(rb_names, i);
-			Check_Type(attr, T_STRING);
-			names[i] = StringValueCStr(attr);
-		}
-
-		error = git_attr_get_many(
-			values, repo, options,
-			StringValueCStr(rb_path),
-			(size_t)num_attr, names);
-
-		rugged_exception_check(error);
-
-		rb_result = rb_hash_new();
-		for (i = 0; i < num_attr; ++i) {
-			VALUE attr = rb_ary_entry(rb_names, i);
-			rb_hash_aset(rb_result, attr, rugged_create_attr(values[i]));
-		}
-		return rb_result;
-	}
-
-	case T_STRING:
-	{
-		const char *value;
-
-		error = git_attr_get(
-			&value, repo, options,
-			StringValueCStr(rb_path),
-			StringValueCStr(rb_names));
-
-		rugged_exception_check(error);
-
-		return rugged_create_attr(value);
-	}
-
-	case T_NIL:
-	{
-		VALUE rb_result = rb_hash_new();
-
-		error = git_attr_foreach(
-			repo, options,
-			StringValueCStr(rb_path),
-			&foreach_attr_hash,
-			(void *)rb_result);
-
-		rugged_exception_check(error);
-		return rb_result;
-	}
-
-	default:
-		rb_raise(rb_eTypeError,
-			"Invalid attribute name (expected String or Array)");
-	}
-}
-
-/*
- *  call-seq:
- *    repo.cherrypick(commit[, options]) -> nil
- *
- *  Cherry-pick the given commit and update the index and working
- *  directory accordingly.
- *
- *  `commit` can be either a string containing a commit id or a
- *  `Rugged::Commit` object.
- *
- *  The following options can be passed in the +options+ Hash:
- *
- *  :mainline ::
- *    When cherry-picking a merge, you need to specify the parent number
- *    (starting from 1) which should be considered the mainline.
- */
-static VALUE rb_git_repo_cherrypick(int argc, VALUE *argv, VALUE self)
-{
-	VALUE rb_options, rb_commit;
-
-	git_repository *repo;
-	git_commit *commit;
-	git_cherrypick_options opts = GIT_CHERRYPICK_OPTIONS_INIT;
-
-	int error;
-
-	rb_scan_args(argc, argv, "10:", &rb_commit, &rb_options);
-
-	if (TYPE(rb_commit) == T_STRING) {
-		rb_commit = rugged_object_rev_parse(self, rb_commit, 1);
-	}
-
-	if (!rb_obj_is_kind_of(rb_commit, rb_cRuggedCommit)) {
-		rb_raise(rb_eArgError, "Expected a Rugged::Commit.");
-	}
-
-	Data_Get_Struct(self, git_repository, repo);
-	Data_Get_Struct(rb_commit, git_commit, commit);
-
-	rugged_parse_cherrypick_options(&opts, rb_options);
-
-	error = git_cherrypick(repo, commit, &opts);
-	rugged_exception_check(error);
-
-	return Qnil;
-}
-
 void Init_rugged_repo(void)
 {
 	id_call = rb_intern("call");
@@ -2269,8 +1942,6 @@ void Init_rugged_repo(void)
 
 	rb_define_method(rb_cRuggedRepo, "exists?", rb_git_repo_exists, 1);
 	rb_define_method(rb_cRuggedRepo, "include?", rb_git_repo_exists, 1);
-	rb_define_method(rb_cRuggedRepo, "expand_oids", rb_git_repo_expand_oids, -1);
-	rb_define_method(rb_cRuggedRepo, "descendant_of?", rb_git_repo_descendant_of, 2);
 
 	rb_define_method(rb_cRuggedRepo, "read",   rb_git_repo_read,   1);
 	rb_define_method(rb_cRuggedRepo, "read_header",   rb_git_repo_read_header,   1);
@@ -2297,8 +1968,6 @@ void Init_rugged_repo(void)
 	rb_define_method(rb_cRuggedRepo, "head", rb_git_repo_get_head, 0);
 
 	rb_define_method(rb_cRuggedRepo, "merge_base", rb_git_repo_merge_base, -2);
-	rb_define_method(rb_cRuggedRepo, "merge_bases", rb_git_repo_merge_bases, -2);
-
 	rb_define_method(rb_cRuggedRepo, "merge_analysis", rb_git_repo_merge_analysis, -1);
 	rb_define_method(rb_cRuggedRepo, "merge_commits", rb_git_repo_merge_commits, -1);
 
@@ -2316,9 +1985,6 @@ void Init_rugged_repo(void)
 
 	rb_define_method(rb_cRuggedRepo, "checkout_tree", rb_git_checkout_tree, -1);
 	rb_define_method(rb_cRuggedRepo, "checkout_head", rb_git_checkout_head, -1);
-
-	rb_define_method(rb_cRuggedRepo, "cherrypick", rb_git_repo_cherrypick, -1);
-	rb_define_method(rb_cRuggedRepo, "fetch_attributes", rb_git_repo_attributes, -1);
 
 	rb_cRuggedOdbObject = rb_define_class_under(rb_mRugged, "OdbObject", rb_cObject);
 	rb_define_method(rb_cRuggedOdbObject, "data",  rb_git_odbobj_data,  0);

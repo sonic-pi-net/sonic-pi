@@ -314,7 +314,7 @@ static int wait_while_ack(gitno_buffer *buf)
 			break;
 
 		if (pkt->type == GIT_PKT_ACK &&
-		    (pkt->status != GIT_ACK_CONTINUE &&
+		    (pkt->status != GIT_ACK_CONTINUE ||
 		     pkt->status != GIT_ACK_COMMON)) {
 			git__free(pkt);
 			return 0;
@@ -592,9 +592,7 @@ int git_smart__download_pack(
 				}
 			} else if (pkt->type == GIT_PKT_DATA) {
 				git_pkt_data *p = (git_pkt_data *) pkt;
-
-				if (p->len)
-					error = writepack->append(writepack, p->data, p->len, stats);
+				error = writepack->append(writepack, p->data, p->len, stats);
 			} else if (pkt->type == GIT_PKT_FLUSH) {
 				/* A flush indicates the end of the packfile */
 				git__free(pkt);
@@ -640,12 +638,12 @@ static int gen_pktline(git_buf *buf, git_push *push)
 {
 	push_spec *spec;
 	size_t i, len;
-	char old_id[GIT_OID_HEXSZ+1], new_id[GIT_OID_HEXSZ+1];
+	char old_id[41], new_id[41];
 
-	old_id[GIT_OID_HEXSZ] = '\0'; new_id[GIT_OID_HEXSZ] = '\0';
+	old_id[40] = '\0'; new_id[40] = '\0';
 
 	git_vector_foreach(&push->specs, i, spec) {
-		len = 2*GIT_OID_HEXSZ + 7 + strlen(spec->refspec.dst);
+		len = 2*GIT_OID_HEXSZ + 7 + strlen(spec->rref);
 
 		if (i == 0) {
 			++len; /* '\0' */
@@ -657,7 +655,7 @@ static int gen_pktline(git_buf *buf, git_push *push)
 		git_oid_fmt(old_id, &spec->roid);
 		git_oid_fmt(new_id, &spec->loid);
 
-		git_buf_printf(buf, "%04"PRIxZ"%s %s %s", len, old_id, new_id, spec->refspec.dst);
+		git_buf_printf(buf, "%04"PRIxZ"%s %s %s", len, old_id, new_id, spec->rref);
 
 		if (i == 0) {
 			git_buf_putc(buf, '\0');
@@ -816,7 +814,7 @@ static int add_ref_from_push_spec(git_vector *refs, push_spec *push_spec)
 
 	added->type = GIT_PKT_REF;
 	git_oid_cpy(&added->head.oid, &push_spec->loid);
-	added->head.name = git__strdup(push_spec->refspec.dst);
+	added->head.name = git__strdup(push_spec->rref);
 
 	if (!added->head.name ||
 		git_vector_insert(refs, added) < 0) {
@@ -855,7 +853,7 @@ static int update_refs_from_report(
 
 		/* For each push spec we sent to the server, we should have
 		 * gotten back a status packet in the push report which matches */
-		if (strcmp(push_spec->refspec.dst, push_status->ref)) {
+		if (strcmp(push_spec->rref, push_status->ref)) {
 			giterr_set(GITERR_NET, "report-status: protocol error");
 			return -1;
 		}
@@ -872,7 +870,7 @@ static int update_refs_from_report(
 		push_status = git_vector_get(push_report, i);
 		ref = git_vector_get(refs, j);
 
-		cmp = strcmp(push_spec->refspec.dst, ref->head.name);
+		cmp = strcmp(push_spec->rref, ref->head.name);
 
 		/* Iterate appropriately */
 		if (cmp <= 0) i++;
@@ -963,7 +961,7 @@ int git_smart__push(git_transport *transport, git_push *push)
 #ifdef PUSH_DEBUG
 {
 	git_remote_head *head;
-	char hex[GIT_OID_HEXSZ+1]; hex[GIT_OID_HEXSZ] = '\0';
+	char hex[41]; hex[40] = '\0';
 
 	git_vector_foreach(&push->remote->refs, i, head) {
 		git_oid_fmt(hex, &head->oid);
@@ -985,7 +983,7 @@ int git_smart__push(git_transport *transport, git_push *push)
 	 * cases except when we only send delete commands
 	 */
 	git_vector_foreach(&push->specs, i, spec) {
-		if (spec->refspec.src && spec->refspec.src[0] != '\0') {
+		if (spec->lref) {
 			need_pack = 1;
 			break;
 		}

@@ -326,6 +326,23 @@ int git_config_add_backend(
 	return 0;
 }
 
+int git_config_refresh(git_config *cfg)
+{
+	int error = 0;
+	size_t i;
+
+	for (i = 0; i < cfg->files.length && !error; ++i) {
+		file_internal *internal = git_vector_get(&cfg->files, i);
+		git_config_backend *file = internal->file;
+		error = file->refresh(file);
+	}
+
+	if (!error && GIT_REFCOUNT_OWNER(cfg) != NULL)
+		git_repository__cvar_cache_clear(GIT_REFCOUNT_OWNER(cfg));
+
+	return error;
+}
+
 /*
  * Loop over all the variables
  */

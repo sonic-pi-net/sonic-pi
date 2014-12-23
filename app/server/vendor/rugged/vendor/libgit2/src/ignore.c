@@ -4,86 +4,10 @@
 #include "attrcache.h"
 #include "path.h"
 #include "config.h"
-#include "fnmatch.h"
 
 #define GIT_IGNORE_INTERNAL		"[internal]exclude"
 
 #define GIT_IGNORE_DEFAULT_RULES ".\n..\n.git\n"
-
-/**
- * A negative ignore can only unignore a file which is given explicitly before, thus
- *
- *    foo
- *    !foo/bar
- *
- * does not unignore 'foo/bar' as it's not in the list. However
- *
- *    foo/<star>
- *    !foo/bar
- *
- * does unignore 'foo/bar', as it is contained within the 'foo/<star>' rule.
- */
-static int does_negate_rule(int *out, git_vector *rules, git_attr_fnmatch *match)
-{
-	int error = 0;
-	size_t i;
-	git_attr_fnmatch *rule;
-	char *path;
-	git_buf buf = GIT_BUF_INIT;
-
-	/* path of the file relative to the workdir, so we match the rules in subdirs */
-	if (match->containing_dir) {
-		git_buf_puts(&buf, match->containing_dir);
-	}
-	if (git_buf_puts(&buf, match->pattern) < 0)
-		return -1;
-
-	path = git_buf_detach(&buf);
-
-	git_vector_foreach(rules, i, rule) {
-		/* no chance of matching w/o a wilcard */
-		if (!(rule->flags & GIT_ATTR_FNMATCH_HASWILD))
-			continue;
-
-	/*
-	 * If we're dealing with a directory (which we know via the
-	 * strchr() check) we want to use 'dirname/<star>' as the
-	 * pattern so p_fnmatch() honours FNM_PATHNAME
-	 */
-		git_buf_clear(&buf);
-		if (rule->containing_dir) {
-			git_buf_puts(&buf, rule->containing_dir);
-		}
-		if (!strchr(rule->pattern, '*'))
-			error = git_buf_printf(&buf, "%s/*", rule->pattern);
-		else
-			error = git_buf_puts(&buf, rule->pattern);
-
-		if (error < 0)
-			goto out;
-
-
-		if ((error = p_fnmatch(git_buf_cstr(&buf), path, FNM_PATHNAME)) < 0) {
-			giterr_set(GITERR_INVALID, "error matching pattern");
-			goto out;
-		}
-
-		/* if we found a match, we want to keep this rule */
-		if (error != FNM_NOMATCH) {
-			*out = 1;
-			error = 0;
-			goto out;
-		}
-	}
-
-	*out = 0;
-	error = 0;
-
-out:
-	git__free(path);
-	git_buf_free(&buf);
-	return error;
-}
 
 static int parse_ignore_file(
 	git_repository *repo, git_attr_file *attrs, const char *data)
@@ -108,8 +32,6 @@ static int parse_ignore_file(
 	}
 
 	while (!error && *scan) {
-		int valid_rule = 1;
-
 		if (!match && !(match = git__calloc(1, sizeof(*match)))) {
 			error = -1;
 			break;
@@ -126,16 +48,11 @@ static int parse_ignore_file(
 				match->flags |= GIT_ATTR_FNMATCH_ICASE;
 
 			scan = git__next_line(scan);
-
-			/* if a negative match doesn't actually do anything, throw it away */
-			if (match->flags & GIT_ATTR_FNMATCH_NEGATIVE)
-				error = does_negate_rule(&valid_rule, &attrs->rules, match);
-
-			if (!error && valid_rule)
-				error = git_vector_insert(&attrs->rules, match);
+			error = git_vector_insert(&attrs->rules, match);
 		}
 
-		if (error != 0 || !valid_rule) {
+		if (error != 0) {
+			git__free(match->pattern);
 			match->pattern = NULL;
 
 			if (error == GIT_ENOTFOUND)
@@ -174,11 +91,11 @@ static int push_ignore_file(
 	return error;
 }
 
-static int push_one_ignore(void *payload, const char *path)
+static int push_one_ignore(void *payload, git_buf *path)
 {
 	git_ignores *ign = payload;
 	ign->depth++;
-	return push_ignore_file(ign, &ign->ign_path, path, GIT_IGNORE_FILE);
+	return push_ignore_file(ign, &ign->ign_path, path->ptr, GIT_IGNORE_FILE);
 }
 
 static int get_internal_ignores(git_attr_file **out, git_repository *repo)

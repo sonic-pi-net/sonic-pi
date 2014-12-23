@@ -159,7 +159,7 @@ int git_repository_index__weakptr(git_index **out, git_repository *repo);
  * CVAR cache
  *
  * Efficient access to the most used config variables of a repository.
- * The cache is cleared every time the config backend is replaced.
+ * The cache is cleared everytime the config backend is replaced.
  */
 int git_repository__cvar(int *out, git_repository *repo, git_cvar_cached cvar);
 void git_repository__cvar_cache_clear(git_repository *repo);
@@ -178,8 +178,6 @@ GIT_INLINE(int) git_repository__ensure_not_bare(
 
 	return GIT_EBAREREPO;
 }
-
-int git_repository__set_orig_head(git_repository *repo, const git_oid *orig_head);
 
 int git_repository__cleanup_files(git_repository *repo, const char *files[], size_t files_len);
 

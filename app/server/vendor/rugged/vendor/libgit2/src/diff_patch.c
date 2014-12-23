@@ -14,11 +14,12 @@
 #include "fileops.h"
 
 /* cached information about a hunk in a diff */
-typedef struct diff_patch_hunk {
+typedef struct diff_patch_hunk diff_patch_hunk;
+struct diff_patch_hunk {
 	git_diff_hunk hunk;
 	size_t line_start;
 	size_t line_count;
-} diff_patch_hunk;
+};
 
 struct git_patch {
 	git_refcount rc;

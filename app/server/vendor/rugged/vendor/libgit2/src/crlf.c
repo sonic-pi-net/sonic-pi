@@ -286,8 +286,7 @@ static int crlf_check(
 		if (error < 0)
 			return error;
 
-		if (ca.crlf_action == GIT_CRLF_GUESS &&
-			ca.auto_crlf == GIT_AUTO_CRLF_FALSE)
+		if (ca.auto_crlf == GIT_AUTO_CRLF_FALSE)
 			return GIT_PASSTHROUGH;
 
 		if (ca.auto_crlf == GIT_AUTO_CRLF_INPUT &&

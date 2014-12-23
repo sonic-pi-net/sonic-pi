@@ -628,8 +628,7 @@ void git__qsort_r(
 	defined(__OpenBSD__) || defined(__NetBSD__) || \
 	defined(__gnu_hurd__) || defined(__ANDROID_API__) || \
 	defined(__sun) || defined(__CYGWIN__) || \
-	(__GLIBC__ == 2 && __GLIBC_MINOR__ < 8) || \
-	(defined(_MSC_VER) && _MSC_VER < 1500)
+	(__GLIBC__ == 2 && __GLIBC_MINOR__ < 8)
 	git__insertsort_r(els, nel, elsize, NULL, cmp, payload);
 #elif defined(GIT_WIN32)
 	git__qsort_r_glue glue = { cmp, payload };

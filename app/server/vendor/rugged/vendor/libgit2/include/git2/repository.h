@@ -196,8 +196,6 @@ GIT_EXTERN(int) git_repository_init(
  *        looking the "template_path" from the options if set, or the
  *        `init.templatedir` global config if not, or falling back on
  *        "/usr/share/git-core/templates" if it exists.
- * * GIT_REPOSITORY_INIT_RELATIVE_GITLINK - If an alternate workdir is
- *        specified, use relative paths for the gitdir and core.worktree.
  */
 typedef enum {
 	GIT_REPOSITORY_INIT_BARE              = (1u << 0),
@@ -206,7 +204,6 @@ typedef enum {
 	GIT_REPOSITORY_INIT_MKDIR             = (1u << 3),
 	GIT_REPOSITORY_INIT_MKPATH            = (1u << 4),
 	GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE = (1u << 5),
-	GIT_REPOSITORY_INIT_RELATIVE_GITLINK  = (1u << 6),
 } git_repository_init_flag_t;
 
 /**
@@ -661,17 +658,11 @@ GIT_EXTERN(int) git_repository_detach_head(
 	const git_signature *signature,
 	const char *reflog_message);
 
-/**
- * Repository state
- *
- * These values represent possible states for the repository to be in,
- * based on the current operation which is ongoing.
- */
 typedef enum {
 	GIT_REPOSITORY_STATE_NONE,
 	GIT_REPOSITORY_STATE_MERGE,
 	GIT_REPOSITORY_STATE_REVERT,
-	GIT_REPOSITORY_STATE_CHERRYPICK,
+	GIT_REPOSITORY_STATE_CHERRY_PICK,
 	GIT_REPOSITORY_STATE_BISECT,
 	GIT_REPOSITORY_STATE_REBASE,
 	GIT_REPOSITORY_STATE_REBASE_INTERACTIVE,

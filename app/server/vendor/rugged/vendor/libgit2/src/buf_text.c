@@ -123,13 +123,9 @@ int git_buf_text_lf_to_crlf(git_buf *tgt, const git_buf *src)
 
 	for (; next; scan = next + 1, next = memchr(scan, '\n', end - scan)) {
 		size_t copylen = next - scan;
-		size_t needsize = tgt->size + copylen + 2 + 1;
-
-		/* if we find mixed line endings, bail */
-		if (next > start && next[-1] == '\r') {
-			git_buf_free(tgt);
-			return GIT_PASSTHROUGH;
-		}
+		/* don't convert existing \r\n to \r\r\n */
+		size_t extralen = (next > start && next[-1] == '\r') ? 1 : 2;
+		size_t needsize = tgt->size + copylen + extralen + 1;
 
 		if (tgt->asize < needsize && git_buf_grow(tgt, needsize) < 0)
 			return -1;
@@ -138,12 +134,11 @@ int git_buf_text_lf_to_crlf(git_buf *tgt, const git_buf *src)
 			memcpy(tgt->ptr + tgt->size, scan, copylen);
 			tgt->size += copylen;
 		}
-
-		tgt->ptr[tgt->size++] = '\r';
+		if (extralen == 2)
+			tgt->ptr[tgt->size++] = '\r';
 		tgt->ptr[tgt->size++] = '\n';
 	}
 
-	tgt->ptr[tgt->size] = '\0';
 	return git_buf_put(tgt, scan, end - scan);
 }
 

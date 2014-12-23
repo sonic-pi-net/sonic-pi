@@ -18,8 +18,6 @@
 #define COMMIT_ALLOC \
 	(sizeof(git_commit_list_node) + PARENTS_PER_COMMIT * sizeof(git_commit_list_node *))
 
-#define FLAG_BITS 4
-
 typedef struct git_commit_list_node {
 	git_oid oid;
 	uint32_t time;
@@ -27,7 +25,7 @@ typedef struct git_commit_list_node {
 			 uninteresting:1,
 			 topo_delay:1,
 			 parsed:1,
-			 flags : FLAG_BITS;
+			 flags : 4;
 
 	unsigned short in_degree;
 	unsigned short out_degree;

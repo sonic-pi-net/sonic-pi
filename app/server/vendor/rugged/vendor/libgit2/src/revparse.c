@@ -205,6 +205,7 @@ cleanup:
 static int retrieve_oid_from_reflog(git_oid *oid, git_reference *ref, size_t identifier)
 {
 	git_reflog *reflog;
+	int error = -1;
 	size_t numentries;
 	const git_reflog_entry *entry;
 	bool search_by_pos = (identifier <= 100000000);
@@ -215,11 +216,21 @@ static int retrieve_oid_from_reflog(git_oid *oid, git_reference *ref, size_t ide
 	numentries = git_reflog_entrycount(reflog);
 
 	if (search_by_pos) {
-		if (numentries < identifier + 1)
-			goto notfound;
+		if (numentries < identifier + 1) {
+			giterr_set(
+				GITERR_REFERENCE,
+				"Reflog for '%s' has only %"PRIuZ" entries, asked for %"PRIuZ,
+				git_reference_name(ref), numentries, identifier);
+
+			error = GIT_ENOTFOUND;
+			goto cleanup;
+		}
 
 		entry = git_reflog_entry_byindex(reflog, identifier);
 		git_oid_cpy(oid, git_reflog_entry_id_new(entry));
+		error = 0;
+		goto cleanup;
+
 	} else {
 		size_t i;
 		git_time commit_time;
@@ -232,24 +243,16 @@ static int retrieve_oid_from_reflog(git_oid *oid, git_reference *ref, size_t ide
 				continue;
 
 			git_oid_cpy(oid, git_reflog_entry_id_new(entry));
-			break;
+			error = 0;
+			goto cleanup;
 		}
 
-		if (i == numentries)
-			goto notfound;
+		error = GIT_ENOTFOUND;
 	}
 
+cleanup:
 	git_reflog_free(reflog);
-	return 0;
-
-notfound:
-	giterr_set(
-		GITERR_REFERENCE,
-		"Reflog for '%s' has only %"PRIuZ" entries, asked for %"PRIuZ,
-		git_reference_name(ref), numentries, identifier);
-
-	git_reflog_free(reflog);
-	return GIT_ENOTFOUND;
+	return error;
 }
 
 static int retrieve_revobject_from_reflog(git_object **out, git_reference **base_ref, git_repository *repo, const char *identifier, size_t position)

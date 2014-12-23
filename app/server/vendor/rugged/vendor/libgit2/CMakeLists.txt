@@ -24,7 +24,7 @@ INCLUDE(AddCFlagIfSupported)
 #
 OPTION( SONAME				"Set the (SO)VERSION of the target"		ON  )
 OPTION( BUILD_SHARED_LIBS	"Build Shared Library (OFF for Static)"	ON  )
-OPTION( THREADSAFE			"Build libgit2 as threadsafe"			ON )
+OPTION( THREADSAFE			"Build libgit2 as threadsafe"			OFF )
 OPTION( BUILD_CLAR			"Build Tests using the Clar suite"		ON  )
 OPTION( BUILD_EXAMPLES		"Build library usage example apps"		OFF )
 OPTION( TAGS				"Generate tags"							OFF )
@@ -36,12 +36,10 @@ OPTION( ANDROID				"Build for android NDK"	 				OFF )
 
 OPTION( USE_ICONV			"Link with and use iconv library" 		OFF )
 OPTION( USE_SSH				"Link with libssh to enable SSH support" ON )
-OPTION( USE_GSSAPI			"Link with libgssapi for SPNEGO auth"   OFF )
 OPTION( VALGRIND			"Configure build for valgrind"			OFF )
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	SET( USE_ICONV ON )
-	ADD_DEFINITIONS(-DGIT_COMMON_CRYPTO)
 ENDIF()
 
 IF(MSVC)
@@ -60,10 +58,6 @@ IF(MSVC)
 	# By default, libgit2 is built with WinHTTP.  To use the built-in
 	# HTTP transport, invoke CMake with the "-DWINHTTP=OFF" argument.
 	OPTION( WINHTTP			"Use Win32 WinHTTP routines"	ON  )
-
-	# If you want to embed a copy of libssh2 into libgit2, pass a
-	# path to libssh2
-	OPTION( EMBED_SSH_PATH		"Path to libssh2 to embed (Windows)" OFF )
 
 	ADD_DEFINITIONS(-D_SCL_SECURE_NO_WARNINGS)
 	ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE)
@@ -139,13 +133,6 @@ STRING(REGEX REPLACE "^.*LIBGIT2_SOVERSION ([0-9]+)$" "\\1" LIBGIT2_SOVERSION "$
 # Find required dependencies
 INCLUDE_DIRECTORIES(src include)
 
-IF (WIN32 AND EMBED_SSH_PATH)
-	FILE(GLOB SRC_SSH "${EMBED_SSH_PATH}/src/*.c")
-	INCLUDE_DIRECTORIES("${EMBED_SSH_PATH}/include")
-	FILE(WRITE "${EMBED_SSH_PATH}/src/libssh2_config.h" "#define HAVE_WINCNG\n#define LIBSSH2_WINCNG\n#include \"../win32/libssh2_config.h\"")
-	ADD_DEFINITIONS(-DGIT_SSH)
-ENDIF()
-
 IF (WIN32 AND WINHTTP AND NOT MINGW)
 	ADD_DEFINITIONS(-DGIT_WINHTTP)
 	INCLUDE_DIRECTORIES(deps/http-parser)
@@ -219,14 +206,6 @@ IF (LIBSSH2_FOUND)
 	INCLUDE_DIRECTORIES(${LIBSSH2_INCLUDE_DIR})
 	SET(LIBGIT2_PC_REQUIRES "${LIBGIT2_PC_REQUIRES} libssh2")
 	SET(SSH_LIBRARIES ${LIBSSH2_LIBRARIES})
-ENDIF()
-
-# Optional external dependency: libgssapi
-IF (USE_GSSAPI)
-	FIND_PACKAGE(GSSAPI)
-ENDIF()
-IF (GSSAPI_FOUND)
-	ADD_DEFINITIONS(-DGIT_GSSAPI)
 ENDIF()
 
 # Optional external dependency: iconv
@@ -405,10 +384,9 @@ ELSE()
 ENDIF()
 
 # Compile and link libgit2
-ADD_LIBRARY(git2 ${SRC_H} ${SRC_GIT2} ${SRC_OS} ${SRC_ZLIB} ${SRC_HTTP} ${SRC_REGEX} ${SRC_SSH} ${SRC_SHA1} ${WIN_RC})
+ADD_LIBRARY(git2 ${SRC_H} ${SRC_GIT2} ${SRC_OS} ${SRC_ZLIB} ${SRC_HTTP} ${SRC_REGEX} ${SRC_SHA1} ${WIN_RC})
 TARGET_LINK_LIBRARIES(git2 ${SSL_LIBRARIES})
 TARGET_LINK_LIBRARIES(git2 ${SSH_LIBRARIES})
-TARGET_LINK_LIBRARIES(git2 ${GSSAPI_LIBRARIES})
 TARGET_LINK_LIBRARIES(git2 ${ICONV_LIBRARIES})
 TARGET_OS_LIBRARIES(git2)
 
@@ -455,7 +433,6 @@ IF (BUILD_CLAR)
 	SET(CLAR_RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/tests/resources" CACHE PATH "Path to test resources.")
 	ADD_DEFINITIONS(-DCLAR_FIXTURE_PATH=\"${CLAR_FIXTURES}\")
 	ADD_DEFINITIONS(-DCLAR_RESOURCES=\"${TEST_RESOURCES}\")
-	ADD_DEFINITIONS(-DCLAR_TMPDIR=\"libgit2_tests\")
 
 	INCLUDE_DIRECTORIES(${CLAR_PATH})
 	FILE(GLOB_RECURSE SRC_TEST ${CLAR_PATH}/*/*.c ${CLAR_PATH}/*/*.h)
@@ -472,11 +449,10 @@ IF (BUILD_CLAR)
 		${CLAR_PATH}/clar.c
 		PROPERTIES OBJECT_DEPENDS ${CLAR_PATH}/clar.suite)
 
-	ADD_EXECUTABLE(libgit2_clar ${SRC_H} ${SRC_GIT2} ${SRC_OS} ${SRC_CLAR} ${SRC_TEST} ${SRC_ZLIB} ${SRC_HTTP} ${SRC_REGEX} ${SRC_SSH} ${SRC_SHA1})
+	ADD_EXECUTABLE(libgit2_clar ${SRC_H} ${SRC_GIT2} ${SRC_OS} ${SRC_CLAR} ${SRC_TEST} ${SRC_ZLIB} ${SRC_HTTP} ${SRC_REGEX} ${SRC_SHA1})
 
 	TARGET_LINK_LIBRARIES(libgit2_clar ${SSL_LIBRARIES})
 	TARGET_LINK_LIBRARIES(libgit2_clar ${SSH_LIBRARIES})
-	TARGET_LINK_LIBRARIES(libgit2_clar ${GSSAPI_LIBRARIES})
 	TARGET_LINK_LIBRARIES(libgit2_clar ${ICONV_LIBRARIES})
 	TARGET_OS_LIBRARIES(libgit2_clar)
 	MSVC_SPLIT_SOURCES(libgit2_clar)

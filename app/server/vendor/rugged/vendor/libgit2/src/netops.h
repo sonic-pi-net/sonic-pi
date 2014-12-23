@@ -9,38 +9,48 @@
 
 #include "posix.h"
 #include "common.h"
-#include "stream.h"
 
 #ifdef GIT_SSL
 # include <openssl/ssl.h>
 #endif
 
-typedef struct gitno_ssl {
+struct gitno_ssl {
 #ifdef GIT_SSL
 	SSL *ssl;
 #else
 	size_t dummy;
 #endif
-} gitno_ssl;
+};
+
+typedef struct gitno_ssl gitno_ssl;
 
 /* Represents a socket that may or may not be using SSL */
-typedef struct gitno_socket {
+struct gitno_socket {
 	GIT_SOCKET socket;
 	gitno_ssl ssl;
-} gitno_socket;
+};
 
-typedef struct gitno_buffer {
+typedef struct gitno_socket gitno_socket;
+
+struct gitno_buffer {
 	char *data;
 	size_t len;
 	size_t offset;
+	gitno_socket *socket;
 	int (*recv)(struct gitno_buffer *buffer);
 	void *cb_data;
-} gitno_buffer;
+};
+
+typedef struct gitno_buffer gitno_buffer;
 
 /* Flags to gitno_connect */
 enum {
 	/* Attempt to create an SSL connection. */
 	GITNO_CONNECT_SSL = 1,
+
+	/* Valid only when GITNO_CONNECT_SSL is also specified.
+	 * Indicates that the server certificate should not be validated. */
+	GITNO_CONNECT_SSL_NO_CHECK_CERT = 2,
 };
 
 /**
@@ -56,12 +66,17 @@ enum {
  */
 int gitno__match_host(const char *pattern, const char *host);
 
-void gitno_buffer_setup_fromstream(git_stream *st, gitno_buffer *buf, char *data, size_t len);
-void gitno_buffer_setup_callback(gitno_buffer *buf, char *data, size_t len, int (*recv)(gitno_buffer *buf), void *cb_data);
+void gitno_buffer_setup(gitno_socket *t, gitno_buffer *buf, char *data, size_t len);
+void gitno_buffer_setup_callback(gitno_socket *t, gitno_buffer *buf, char *data, size_t len, int (*recv)(gitno_buffer *buf), void *cb_data);
 int gitno_recv(gitno_buffer *buf);
 
 void gitno_consume(gitno_buffer *buf, const char *ptr);
 void gitno_consume_n(gitno_buffer *buf, size_t cons);
+
+int gitno_connect(gitno_socket *socket, const char *host, const char *port, int flags);
+int gitno_send(gitno_socket *socket, const char *msg, size_t len, int flags);
+int gitno_close(gitno_socket *s);
+int gitno_select_in(gitno_buffer *buf, long int sec, long int usec);
 
 typedef struct gitno_connection_data {
 	char *host;

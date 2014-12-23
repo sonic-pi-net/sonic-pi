@@ -299,7 +299,7 @@ static VALUE rb_git_minimize_oid(int argc, VALUE *argv, VALUE self)
 static void cleanup_cb(void *unused)
 {
 	(void)unused;
-	git_libgit2_shutdown();
+	git_threads_shutdown();
 }
 
 void rugged_exception_raise(void)
@@ -310,12 +310,12 @@ void rugged_exception_raise(void)
 
 	error = giterr_last();
 
-	if (error && error->klass > 0 && error->klass < RUGGED_ERROR_COUNT) {
+	if (error && error->klass >= 0 && error->klass < RUGGED_ERROR_COUNT) {
 		err_klass = rb_eRuggedErrors[error->klass];
 		err_message = error->message;
 	} else {
-		err_klass = rb_eRuntimeError;
-		err_message = "Rugged operation failed";
+		err_klass = rb_eRuggedErrors[2]; /* InvalidError */
+		err_message = "Unknown Error";
 	}
 
 	err_obj = rb_exc_new2(err_klass, err_message);
@@ -409,12 +409,11 @@ void Init_rugged(void)
 
 		rb_eRuggedError = rb_define_class_under(rb_mRugged, "Error", rb_eStandardError);
 
-		rb_eRuggedErrors[0] = Qnil; /* 0 return value -- no exception */
-		rb_eRuggedErrors[1] = rb_define_class_under(rb_mRugged, RUGGED_ERROR_NAMES[1], rb_eNoMemError);
-		rb_eRuggedErrors[2] = rb_define_class_under(rb_mRugged, RUGGED_ERROR_NAMES[2], rb_eIOError);
-		rb_eRuggedErrors[3] = rb_define_class_under(rb_mRugged, RUGGED_ERROR_NAMES[3], rb_eArgError);
+		rb_eRuggedErrors[0] = rb_define_class_under(rb_mRugged, RUGGED_ERROR_NAMES[0], rb_eNoMemError);
+		rb_eRuggedErrors[1] = rb_define_class_under(rb_mRugged, RUGGED_ERROR_NAMES[1], rb_eIOError);
+		rb_eRuggedErrors[2] = rb_define_class_under(rb_mRugged, RUGGED_ERROR_NAMES[2], rb_eArgError);
 
-		for (i = 4; i < RUGGED_ERROR_COUNT; ++i) {
+		for (i = 3; i < RUGGED_ERROR_COUNT; ++i) {
 			rb_eRuggedErrors[i] = rb_define_class_under(rb_mRugged, RUGGED_ERROR_NAMES[i], rb_eRuggedError);
 		}
 	}
@@ -447,8 +446,6 @@ void Init_rugged(void)
 	Init_rugged_remote_collection();
 	Init_rugged_notes();
 	Init_rugged_settings();
-	Init_rugged_submodule();
-	Init_rugged_submodule_collection();
 	Init_rugged_diff();
 	Init_rugged_patch();
 	Init_rugged_diff_delta();
@@ -487,7 +484,7 @@ void Init_rugged(void)
 	rb_define_const(rb_mRugged, "SORT_REVERSE", INT2FIX(GIT_SORT_REVERSE));
 
 	/* Initialize libgit2 */
-	git_libgit2_init();
+	git_threads_init();
 
 	/* Hook a global object to cleanup the library
 	 * on shutdown */

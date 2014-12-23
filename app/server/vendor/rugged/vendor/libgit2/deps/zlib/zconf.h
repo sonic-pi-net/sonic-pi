@@ -14,7 +14,6 @@
  * forms, we didn't write zlib */
 #if defined(_MSC_VER)
 #	pragma warning( disable : 4131 )
-#	pragma warning( disable : 4142 ) /* benign redefinition of type */
 #endif
 
 /* Maximum value for memLevel in deflateInit2 */
@@ -34,12 +33,10 @@
 #	define FAR
 #endif
 #define OF(args)  args
-#define Z_ARG(args) args
 
 typedef unsigned char  Byte;  /* 8 bits */
 typedef unsigned int   uInt;  /* 16 bits or more */
 typedef unsigned long  uLong; /* 32 bits or more */
-typedef unsigned long z_crc_t;
 
 typedef Byte  FAR Bytef;
 typedef char  FAR charf;
@@ -53,6 +50,5 @@ typedef void       *voidp;
 
 #define z_off_t git_off_t
 #define z_off64_t z_off_t
-#define z_const const
 
 #endif /* ZCONF_H */

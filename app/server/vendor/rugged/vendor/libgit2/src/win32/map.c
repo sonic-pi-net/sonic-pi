@@ -23,10 +23,9 @@ static DWORD get_page_size(void)
 	return page_size;
 }
 
-int git__page_size(size_t *page_size)
+long git__page_size(void)
 {
-	*page_size = get_page_size();
-	return 0;
+	return (long)get_page_size();
 }
 
 int p_mmap(git_map *out, size_t len, int prot, int flags, int fd, git_off_t offset)

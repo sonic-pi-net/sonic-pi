@@ -53,6 +53,12 @@ typedef struct {
 
 #endif
 
+#if defined(GIT_WIN32)
+#define git_thread_yield() Sleep(0)
+#else
+#define git_thread_yield() sched_yield()
+#endif
+
 /* Pthreads Mutex */
 #define git_mutex pthread_mutex_t
 #define git_mutex_init(a)	pthread_mutex_init(a, NULL)
@@ -180,13 +186,12 @@ GIT_INLINE(int64_t) git_atomic64_add(git_atomic64 *a, int64_t addend)
 #define git_thread unsigned int
 #define git_thread_create(thread, attr, start_routine, arg) 0
 #define git_thread_join(id, status) (void)0
+#define git_thread_yield() (void)0
 
 /* Pthreads Mutex */
 #define git_mutex unsigned int
-GIT_INLINE(int) git_mutex_init(git_mutex *mutex) \
-	{ GIT_UNUSED(mutex); return 0; }
-GIT_INLINE(int) git_mutex_lock(git_mutex *mutex) \
-	{ GIT_UNUSED(mutex); return 0; }
+#define git_mutex_init(a) 0
+#define git_mutex_lock(a) 0
 #define git_mutex_unlock(a) (void)0
 #define git_mutex_free(a) (void)0
 

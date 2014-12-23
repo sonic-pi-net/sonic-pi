@@ -12,36 +12,9 @@
 #include <time.h>
 #include "fnmatch.h"
 
-/* stat: file mode type testing macros */
 #ifndef S_IFGITLINK
 #define S_IFGITLINK 0160000
 #define S_ISGITLINK(m) (((m) & S_IFMT) == S_IFGITLINK)
-#endif
-
-#ifndef S_IFLNK
-#define S_IFLNK 0120000
-#undef _S_IFLNK
-#define _S_IFLNK S_IFLNK
-#endif
-
-#ifndef S_IXUSR
-#define S_IXUSR 00100
-#endif
-
-#ifndef S_ISLNK
-#define S_ISLNK(m) (((m) & _S_IFMT) == _S_IFLNK)
-#endif
-
-#ifndef S_ISDIR
-#define S_ISDIR(m) (((m) & _S_IFMT) == _S_IFDIR)
-#endif
-
-#ifndef S_ISREG
-#define S_ISREG(m) (((m) & _S_IFMT) == _S_IFREG)
-#endif
-
-#ifndef S_ISFIFO
-#define S_ISFIFO(m) (((m) & _S_IFMT) == _S_IFIFO)
 #endif
 
 /* if S_ISGID is not defined, then don't try to set it */
@@ -49,22 +22,11 @@
 #define S_ISGID 0
 #endif
 
-#ifndef O_BINARY
+#if !defined(O_BINARY)
 #define O_BINARY 0
 #endif
-#ifndef O_CLOEXEC
+#if !defined(O_CLOEXEC)
 #define O_CLOEXEC 0
-#endif
-
-/* access() mode parameter #defines	*/
-#ifndef F_OK
-#define F_OK 0 /* existence check */
-#endif
-#ifndef W_OK
-#define W_OK 2 /* write mode check */
-#endif
-#ifndef R_OK
-#define R_OK 4 /* read mode check */
 #endif
 
 /* Determine whether an errno value indicates that a read or write failed
@@ -74,12 +36,6 @@
 #define GIT_ISBLOCKED(e) ((e) == EAGAIN || (e) == EWOULDBLOCK)
 #else
 #define GIT_ISBLOCKED(e) ((e) == EAGAIN)
-#endif
-
-/* define some standard errnos that the runtime may be missing.  for example,
- * mingw lacks EAFNOSUPPORT. */
-#ifndef EAFNOSUPPORT
-#define EAFNOSUPPORT (INT_MAX-1)
 #endif
 
 typedef int git_file;
@@ -97,9 +53,11 @@ typedef int git_file;
  * Use your manpages to check the docs on these.
  */
 
-extern ssize_t p_read(git_file fd, void *buf, size_t cnt);
+extern int p_read(git_file fd, void *buf, size_t cnt);
 extern int p_write(git_file fd, const void *buf, size_t cnt);
 
+#define p_fstat(f,b) fstat(f, b)
+#define p_lseek(f,n,w) lseek(f, n, w)
 #define p_close(fd) close(fd)
 #define p_umask(m) umask(m)
 
@@ -108,7 +66,29 @@ extern int p_creat(const char *path, mode_t mode);
 extern int p_getcwd(char *buffer_out, size_t size);
 extern int p_rename(const char *from, const char *to);
 
-extern int git__page_size(size_t *page_size);
+#ifndef GIT_WIN32
+
+#define p_stat(p,b) stat(p, b)
+#define p_chdir(p) chdir(p)
+#define p_rmdir(p) rmdir(p)
+#define p_chmod(p,m) chmod(p, m)
+#define p_access(p,m) access(p,m)
+#define p_ftruncate(fd, sz) ftruncate(fd, sz)
+#define p_recv(s,b,l,f) recv(s,b,l,f)
+#define p_send(s,b,l,f) send(s,b,l,f)
+typedef int GIT_SOCKET;
+#define INVALID_SOCKET -1
+
+#define p_localtime_r localtime_r
+#define p_gmtime_r gmtime_r
+
+#else
+
+typedef SOCKET GIT_SOCKET;
+extern struct tm * p_localtime_r (const time_t *timer, struct tm *result);
+extern struct tm * p_gmtime_r (const time_t *timer, struct tm *result);
+
+#endif
 
 /**
  * Platform-dependent methods

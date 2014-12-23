@@ -56,7 +56,7 @@ typedef struct {
 
 /***********************************************************
  *
- * MISCELLANEOUS HELPER FUNCTIONS
+ * MISCELANEOUS HELPER FUNCTIONS
  *
  ***********************************************************/
 
@@ -714,7 +714,7 @@ struct foreach_state {
 GIT_INLINE(int) filename_to_oid(git_oid *oid, const char *ptr)
 {
 	int v, i = 0;
-	if (strlen(ptr) != GIT_OID_HEXSZ+1)
+	if (strlen(ptr) != 41)
 		return -1;
 
 	if (ptr[2] != '/') {

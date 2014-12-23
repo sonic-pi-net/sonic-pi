@@ -58,7 +58,7 @@ GIT_EXTERN(int) git_reference_name_to_id(
  * Lookup a reference by DWIMing its short name
  *
  * Apply the git precendence rules to the given shorthand to determine
- * which reference the user is referring to.
+ * which reference the user is refering to.
  *
  * @param out pointer in which to store the reference
  * @param repo the repository in which to look
@@ -629,13 +629,7 @@ GIT_EXTERN(int) git_reference_is_tag(const git_reference *ref);
  */
 GIT_EXTERN(int) git_reference_is_note(const git_reference *ref);
 
-/**
- * Normalization options for reference lookup
- */
 typedef enum {
-	/**
-	 * No particular normalization.
-	 */
 	GIT_REF_FORMAT_NORMAL = 0u,
 
 	/**

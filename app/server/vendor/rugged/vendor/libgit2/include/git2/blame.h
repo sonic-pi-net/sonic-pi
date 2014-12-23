@@ -67,6 +67,7 @@ typedef enum {
  *	- `max_line` is the last line in the file to blame.  The default is the last
  *	             line of the file.
  */
+
 typedef struct git_blame_options {
 	unsigned int version;
 

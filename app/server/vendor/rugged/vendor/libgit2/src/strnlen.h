@@ -7,8 +7,7 @@
 #ifndef INCLUDE_strlen_h__
 #define INCLUDE_strlen_h__
 
-#if defined(__MINGW32__) || defined(__sun) || defined(__APPLE__) || defined(__MidnightBSD__) ||\
-	(defined(_MSC_VER) && _MSC_VER < 1500)
+#if defined(__MINGW32__) || defined(__sun) || defined(__APPLE__) || defined(__MidnightBSD__)
 #   define NO_STRNLEN
 #endif
 

@@ -1,7 +1,9 @@
 module Rugged
   class Diff
     class Line
-      attr_reader :line_origin, :content, :old_lineno, :new_lineno, :content_offset
+      attr_reader :line_origin, :content, :owner, :old_lineno, :new_lineno, :content_offset
+
+      alias hunk owner
 
       def context?
         @line_origin == :context

@@ -35,9 +35,6 @@ typedef enum {
 	GIT_FILTER_CLEAN = GIT_FILTER_TO_ODB,
 } git_filter_mode_t;
 
-/**
- * Filter option flags.
- */
 typedef enum {
 	GIT_FILTER_OPT_DEFAULT = 0u,
 	GIT_FILTER_OPT_ALLOW_UNSAFE = (1u << 0),

@@ -82,15 +82,14 @@ char git_diff_status_char(git_delta_t status)
 	char code;
 
 	switch (status) {
-	case GIT_DELTA_ADDED:      code = 'A'; break;
-	case GIT_DELTA_DELETED:    code = 'D'; break;
-	case GIT_DELTA_MODIFIED:   code = 'M'; break;
-	case GIT_DELTA_RENAMED:    code = 'R'; break;
-	case GIT_DELTA_COPIED:     code = 'C'; break;
-	case GIT_DELTA_IGNORED:    code = 'I'; break;
-	case GIT_DELTA_UNTRACKED:  code = '?'; break;
-	case GIT_DELTA_UNREADABLE: code = 'X'; break;
-	default:                   code = ' '; break;
+	case GIT_DELTA_ADDED:     code = 'A'; break;
+	case GIT_DELTA_DELETED:   code = 'D'; break;
+	case GIT_DELTA_MODIFIED:  code = 'M'; break;
+	case GIT_DELTA_RENAMED:   code = 'R'; break;
+	case GIT_DELTA_COPIED:    code = 'C'; break;
+	case GIT_DELTA_IGNORED:   code = 'I'; break;
+	case GIT_DELTA_UNTRACKED: code = '?'; break;
+	default:                  code = ' '; break;
 	}
 
 	return code;
@@ -352,7 +351,7 @@ static int print_binary_hunk(diff_print_info *pi, git_blob *old, git_blob *new)
 		else
 			git_buf_putc(pi->buf, (char)chunk_len - 26 + 'a' - 1);
 
-		git_buf_encode_base85(pi->buf, scan, chunk_len);
+		git_buf_put_base85(pi->buf, scan, chunk_len);
 		git_buf_putc(pi->buf, '\n');
 
 		if (git_buf_oom(pi->buf)) {
@@ -442,7 +441,6 @@ static int diff_print_patch_file(
 	if (S_ISDIR(delta->new_file.mode) ||
 		delta->status == GIT_DELTA_UNMODIFIED ||
 		delta->status == GIT_DELTA_IGNORED ||
-		delta->status == GIT_DELTA_UNREADABLE ||
 		(delta->status == GIT_DELTA_UNTRACKED &&
 		 (pi->flags & GIT_DIFF_SHOW_UNTRACKED_CONTENT) == 0))
 		return 0;

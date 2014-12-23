@@ -45,19 +45,15 @@ void giterr_set(int error_class, const char *string, ...)
 #endif
 	int error_code = (error_class == GITERR_OS) ? errno : 0;
 
-	if (string) {
-		va_start(arglist, string);
-		git_buf_vprintf(&buf, string, arglist);
-		va_end(arglist);
-
-		if (error_class == GITERR_OS)
-			git_buf_PUTS(&buf, ": ");
-	}
+	va_start(arglist, string);
+	git_buf_vprintf(&buf, string, arglist);
+	va_end(arglist);
 
 	if (error_class == GITERR_OS) {
 #ifdef GIT_WIN32
 		char * win32_error = git_win32_get_error_message(win32_error_code);
 		if (win32_error) {
+			git_buf_PUTS(&buf, ": ");
 			git_buf_puts(&buf, win32_error);
 			git__free(win32_error);
 
@@ -65,8 +61,10 @@ void giterr_set(int error_class, const char *string, ...)
 		}
 		else
 #endif
-		if (error_code)
+		if (error_code) {
+			git_buf_PUTS(&buf, ": ");
 			git_buf_puts(&buf, strerror(error_code));
+		}
 
 		if (error_code)
 			errno = 0;

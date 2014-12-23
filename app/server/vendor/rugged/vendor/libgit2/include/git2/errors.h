@@ -41,10 +41,6 @@ typedef enum {
 	GIT_EMERGECONFLICT  = -13,	/**< Merge conflicts prevented operation */
 	GIT_ELOCKED         = -14,	/**< Lock file prevented operation */
 	GIT_EMODIFIED       = -15,	/**< Reference value does not match expected */
-	GIT_EAUTH           = -16,      /**< Authentication error */
-	GIT_ECERTIFICATE    = -17,      /**< Server certificate is invalid */
-	GIT_EAPPLIED        = -18,	/**< Patch/merge has already been applied */
-	GIT_EPEEL           = -19,      /**< The requested peel operation is not possible */
 
 	GIT_PASSTHROUGH     = -30,	/**< Internal only */
 	GIT_ITEROVER        = -31,	/**< Signals end of iteration with iterator */
@@ -91,8 +87,6 @@ typedef enum {
 	GITERR_REVERT,
 	GITERR_CALLBACK,
 	GITERR_CHERRYPICK,
-	GITERR_DESCRIBE,
-	GITERR_REBASE,
 } git_error_t;
 
 /**

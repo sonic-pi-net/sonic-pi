@@ -102,7 +102,7 @@ GIT_EXTERN(size_t) git_reflog_entrycount(git_reflog *reflog);
  * equal to 0 (zero) and less than `git_reflog_entrycount()`.
  * @return the entry; NULL if not found
  */
-GIT_EXTERN(const git_reflog_entry *) git_reflog_entry_byindex(const git_reflog *reflog, size_t idx);
+GIT_EXTERN(const git_reflog_entry *) git_reflog_entry_byindex(git_reflog *reflog, size_t idx);
 
 /**
  * Remove an entry from the reflog by its index

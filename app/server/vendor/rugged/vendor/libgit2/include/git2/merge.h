@@ -10,10 +10,8 @@
 #include "common.h"
 #include "types.h"
 #include "oid.h"
-#include "oidarray.h"
 #include "checkout.h"
 #include "index.h"
-#include "annotated_commit.h"
 
 /**
  * @file git2/merge.h
@@ -110,26 +108,20 @@ typedef enum {
 	GIT_MERGE_FILE_FAVOR_UNION = 3,
 } git_merge_file_favor_t;
 
-/**
- * File merging flags
- */
 typedef enum {
-	/** Defaults */
+	/* Defaults */
 	GIT_MERGE_FILE_DEFAULT = 0,
 
-	/** Create standard conflicted merge files */
+	/* Create standard conflicted merge files */
 	GIT_MERGE_FILE_STYLE_MERGE = (1 << 0),
 
-	/** Create diff3-style files */
+	/* Create diff3-style files */
 	GIT_MERGE_FILE_STYLE_DIFF3 = (1 << 1),
 
-	/** Condense non-alphanumeric regions for simplified diff file */
+	/* Condense non-alphanumeric regions for simplified diff file */
 	GIT_MERGE_FILE_SIMPLIFY_ALNUM = (1 << 2),
 } git_merge_file_flags_t;
 
-/**
- * Options for merging a file
- */
 typedef struct {
 	unsigned int version;
 
@@ -174,9 +166,6 @@ GIT_EXTERN(int) git_merge_file_init_options(
 	git_merge_file_options *opts,
 	unsigned int version);
 
-/**
- * Information about file-level merging
- */
 typedef struct {
 	/**
 	 * True if the output was automerged, false if the output contains
@@ -200,9 +189,6 @@ typedef struct {
 	size_t len;
 } git_merge_file_result;
 
-/**
- * Merging options
- */
 typedef struct {
 	unsigned int version;
 	git_merge_tree_flag_t flags;
@@ -282,11 +268,8 @@ typedef enum {
 	GIT_MERGE_ANALYSIS_UNBORN = (1 << 3),
 } git_merge_analysis_t;
 
-/**
- * The user's stated preference for merges.
- */
 typedef enum {
-	/**
+	/*
 	 * No configuration was found that suggests a preferred behavior for
 	 * merge.
 	 */
@@ -319,7 +302,7 @@ GIT_EXTERN(int) git_merge_analysis(
 	git_merge_analysis_t *analysis_out,
 	git_merge_preference_t *preference_out,
 	git_repository *repo,
-	const git_annotated_commit **their_heads,
+	const git_merge_head **their_heads,
 	size_t their_heads_len);
 
 /**
@@ -333,21 +316,6 @@ GIT_EXTERN(int) git_merge_analysis(
  */
 GIT_EXTERN(int) git_merge_base(
 	git_oid *out,
-	git_repository *repo,
-	const git_oid *one,
-	const git_oid *two);
-
-/**
- * Find merge bases between two commits
- *
- * @param out array in which to store the resulting ids
- * @param repo the repository where the commits exist
- * @param one one of the commits
- * @param two the other commit
- * @return 0 on success, GIT_ENOTFOUND if not found or error code
- */
-GIT_EXTERN(int) git_merge_bases(
-	git_oidarray *out,
 	git_repository *repo,
 	const git_oid *one,
 	const git_oid *two);
@@ -368,21 +336,6 @@ GIT_EXTERN(int) git_merge_base_many(
 	const git_oid input_array[]);
 
 /**
- * Find all merge bases given a list of commits
- *
- * @param out array in which to store the resulting ids
- * @param repo the repository where the commits exist
- * @param length The number of commits in the provided `input_array`
- * @param input_array oids of the commits
- * @return Zero on success; GIT_ENOTFOUND or -1 on failure.
- */
-GIT_EXTERN(int) git_merge_bases_many(
-	git_oidarray *out,
-	git_repository *repo,
-	size_t length,
-	const git_oid input_array[]);
-
-/**
  * Find a merge base in preparation for an octopus merge
  *
  * @param out the OID of a merge base considering all the commits
@@ -396,6 +349,69 @@ GIT_EXTERN(int) git_merge_base_octopus(
 	git_repository *repo,
 	size_t length,
 	const git_oid input_array[]);
+
+/**
+ * Creates a `git_merge_head` from the given reference.  The resulting
+ * git_merge_head must be freed with `git_merge_head_free`.
+ *
+ * @param out pointer to store the git_merge_head result in
+ * @param repo repository that contains the given reference
+ * @param ref reference to use as a merge input
+ * @return 0 on success or error code
+ */
+GIT_EXTERN(int) git_merge_head_from_ref(
+	git_merge_head **out,
+	git_repository *repo,
+	const git_reference *ref);
+
+/**
+ * Creates a `git_merge_head` from the given fetch head data.  The resulting
+ * git_merge_head must be freed with `git_merge_head_free`.
+ *
+ * @param out pointer to store the git_merge_head result in
+ * @param repo repository that contains the given commit
+ * @param branch_name name of the (remote) branch
+ * @param remote_url url of the remote
+ * @param oid the commit object id to use as a merge input
+ * @return 0 on success or error code
+ */
+GIT_EXTERN(int) git_merge_head_from_fetchhead(
+	git_merge_head **out,
+	git_repository *repo,
+	const char *branch_name,
+	const char *remote_url,
+	const git_oid *oid);
+
+/**
+ * Creates a `git_merge_head` from the given commit id.  The resulting
+ * git_merge_head must be freed with `git_merge_head_free`.
+ *
+ * @param out pointer to store the git_merge_head result in
+ * @param repo repository that contains the given commit
+ * @param id the commit object id to use as a merge input
+ * @return 0 on success or error code
+ */
+GIT_EXTERN(int) git_merge_head_from_id(
+	git_merge_head **out,
+	git_repository *repo,
+	const git_oid *id);
+
+/**
+ * Gets the commit ID that the given `git_merge_head` refers to.
+ *
+ * @param head the given merge head
+ * @return commit id
+ */
+GIT_EXTERN(const git_oid *) git_merge_head_id(
+	const git_merge_head *head);
+
+/**
+ * Frees a `git_merge_head`.
+ *
+ * @param head merge head to free
+ */
+GIT_EXTERN(void) git_merge_head_free(
+	git_merge_head *head);
 
 /**
  * Merge two files as they exist in the in-memory data structures, using
@@ -501,11 +517,6 @@ GIT_EXTERN(int) git_merge_commits(
  * to the index.  Callers should inspect the repository's index after this
  * completes, resolve any conflicts and prepare a commit.
  *
- * For compatibility with git, the repository is put into a merging
- * state. Once the commit is done (or if the uses wishes to abort),
- * you should clear this state by calling
- * `git_repository_state_cleanup()`.
- *
  * @param repo the repository to merge
  * @param their_heads the heads to merge into
  * @param their_heads_len the number of heads to merge
@@ -515,7 +526,7 @@ GIT_EXTERN(int) git_merge_commits(
  */
 GIT_EXTERN(int) git_merge(
 	git_repository *repo,
-	const git_annotated_commit **their_heads,
+	const git_merge_head **their_heads,
 	size_t their_heads_len,
 	const git_merge_options *merge_opts,
 	const git_checkout_options *checkout_opts);

@@ -8,7 +8,6 @@
 #define INCLUDE_path_h__
 
 #include "common.h"
-#include "posix.h"
 #include "buffer.h"
 #include "vector.h"
 
@@ -128,14 +127,6 @@ GIT_INLINE(int) git_path_is_relative(const char *p)
 	return (p[0] == '.' && (p[1] == '/' || (p[1] == '.' && p[2] == '/')));
 }
 
-/**
- * Check if string is at end of path segment (i.e. looking at '/' or '\0')
- */
-GIT_INLINE(int) git_path_at_end_of_segment(const char *p)
-{
-	return !*p || *p == '/';
-}
-
 extern int git__percent_decode(git_buf *decoded_out, const char *input);
 
 /**
@@ -195,17 +186,6 @@ extern bool git_path_contains(git_buf *dir, const char *item);
  * @return true if subdirectory exists, false otherwise.
  */
 extern bool git_path_contains_dir(git_buf *parent, const char *subdir);
-
-/**
- * Make the path relative to the given parent path.
- *
- * @param path The path to make relative
- * @param parent The parent path to make path relative to
- * @return 0 if path was made relative, GIT_ENOTFOUND
- *         if there was not common root between the paths,
- *         or <0.
- */
-extern int git_path_make_relative(git_buf *path, const char *parent);
 
 /**
  * Check if the given path contains the given file.
@@ -307,7 +287,7 @@ extern int git_path_cmp(
  * reached (inclusive of a final call at the root_path).
  *
  * Returning anything other than 0 from the callback function
- * will stop the iteration and propagate the error to the caller.
+ * will stop the iteration and propogate the error to the caller.
  *
  * @param pathbuf Buffer the function reads the directory from and
  *		and updates with each successive name.
@@ -323,7 +303,7 @@ extern int git_path_cmp(
 extern int git_path_walk_up(
 	git_buf *pathbuf,
 	const char *ceiling,
-	int (*callback)(void *payload, const char *path),
+	int (*callback)(void *payload, git_buf *path),
 	void *payload);
 
 /**
@@ -459,7 +439,6 @@ extern int git_path_iconv(git_path_iconv_t *ic, char **in, size_t *inlen);
 extern bool git_path_does_fs_decompose_unicode(const char *root);
 
 /* Used for paths to repositories on the filesystem */
-extern bool git_path_is_local_file_url(const char *file_url);
 extern int git_path_from_url_or_path(git_buf *local_path_out, const char *url_or_path);
 
 /* Flags to determine path validity in `git_path_isvalid` */

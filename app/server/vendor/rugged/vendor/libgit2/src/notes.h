@@ -23,9 +23,6 @@
 struct git_note {
 	git_oid id;
 
-	git_signature *author;
-	git_signature *committer;
-
 	char *message;
 };
 

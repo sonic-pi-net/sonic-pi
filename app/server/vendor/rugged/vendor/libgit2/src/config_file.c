@@ -698,6 +698,7 @@ int git_config_file__ondisk(git_config_backend **out, const char *path)
 	backend->header.parent.del = config_delete;
 	backend->header.parent.del_multivar = config_delete_multivar;
 	backend->header.parent.iterator = config_iterator_new;
+	backend->header.parent.refresh = config_refresh;
 	backend->header.parent.snapshot = config_snapshot;
 	backend->header.parent.free = backend_free;
 
@@ -739,6 +740,13 @@ static int config_delete_readonly(git_config_backend *cfg, const char *name)
 {
 	GIT_UNUSED(cfg);
 	GIT_UNUSED(name);
+
+	return config_error_readonly();
+}
+
+static int config_refresh_readonly(git_config_backend *cfg)
+{
+	GIT_UNUSED(cfg);
 
 	return config_error_readonly();
 }
@@ -796,6 +804,7 @@ int git_config_file__snapshot(git_config_backend **out, diskfile_backend *in)
 	backend->header.parent.del = config_delete_readonly;
 	backend->header.parent.del_multivar = config_delete_multivar_readonly;
 	backend->header.parent.iterator = config_iterator_new;
+	backend->header.parent.refresh = config_refresh_readonly;
 	backend->header.parent.free = backend_readonly_free;
 
 	*out = (git_config_backend *)backend;
@@ -1269,7 +1278,7 @@ static int config_parse(git_strmap *values, diskfile_backend *cfg_file, struct r
 				if ((result = git_path_dirname_r(&path, reader->file_path)) < 0)
 					break;
 
-				/* We need to know our index in the array, as the next config_parse call may realloc */
+				/* We need to know out index in the array, as the next config_parse call may realloc */
 				index = git_array_size(cfg_file->readers) - 1;
 				dir = git_buf_detach(&path);
 				result = included_path(&path, dir, var->entry->value);
@@ -1280,18 +1289,12 @@ static int config_parse(git_strmap *values, diskfile_backend *cfg_file, struct r
 
 				r->file_path = git_buf_detach(&path);
 				git_buf_init(&r->buffer, 0);
-				result = git_futils_readbuffer_updated(&r->buffer, r->file_path, &r->file_mtime,
-									    &r->file_size, NULL);
+				if ((result = git_futils_readbuffer_updated(&r->buffer, r->file_path, &r->file_mtime,
+									    &r->file_size, NULL)) < 0)
+					break;
 
-				if (result == 0) {
-					result = config_parse(values, cfg_file, r, level, depth+1);
-					r = git_array_get(cfg_file->readers, index);
-				}
-				else if (result == GIT_ENOTFOUND) {
-					giterr_clear();
-					result = 0;
-				}
-
+				result = config_parse(values, cfg_file, r, level, depth+1);
+				r = git_array_get(cfg_file->readers, index);
 				git_buf_free(&r->buffer);
 
 				if (result < 0)
@@ -1532,7 +1535,7 @@ static int config_write(diskfile_backend *cfg, const char *key, const regex_t *p
 				goto rewrite_fail;
 
 			/* Sanity check: if we are here, and value is NULL, that means that somebody
-			 * touched the config file after our initial read. We should probably assert()
+			 * touched the config file after our intial read. We should probably assert()
 			 * this, but instead we'll handle it gracefully with an error. */
 			if (value == NULL) {
 				giterr_set(GITERR_CONFIG,

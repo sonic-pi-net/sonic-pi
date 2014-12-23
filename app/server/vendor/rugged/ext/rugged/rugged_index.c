@@ -681,10 +681,6 @@ static VALUE rb_git_index_readtree(VALUE self, VALUE rb_tree)
 	Data_Get_Struct(self, git_index, index);
 	Data_Get_Struct(rb_tree, git_tree, tree);
 
-	if (!rb_obj_is_kind_of(rb_tree, rb_cRuggedTree)) {
-		rb_raise(rb_eTypeError, "A Rugged::Tree instance is required");
-	}
-
 	error = git_index_read_tree(index, tree);
 	rugged_exception_check(error);
 
@@ -756,7 +752,7 @@ static VALUE rb_git_index_readtree(VALUE self, VALUE rb_tree)
  *  :recurse_untracked_dirs ::
  *    Even if +:include_untracked+ is true, untracked directories will only be
  *    marked with a single entry in the diff. If this flag is set to true,
- *    all files under ignored directories will be included in the diff, too.
+ *    all files under ignored directories will be included in the di ff, too.
  *
  *  :disable_pathspec_match ::
  *    If true, the given +:paths+ will be applied as exact matches, instead of
@@ -835,7 +831,7 @@ static VALUE rb_git_index_diff(int argc, VALUE *argv, VALUE self)
 	xfree(opts.pathspec.strings);
 	rugged_exception_check(error);
 
-	return rugged_diff_new(rb_cRuggedDiff, owner, diff);
+	return rugged_diff_new(rb_cRuggedDiff, self, diff);
 }
 
 /*

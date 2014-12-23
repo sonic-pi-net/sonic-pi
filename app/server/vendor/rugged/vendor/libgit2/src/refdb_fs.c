@@ -750,57 +750,6 @@ static int loose_commit(git_filebuf *file, const git_reference *ref)
 	return git_filebuf_commit(file);
 }
 
-static int refdb_fs_backend__lock(void **out, git_refdb_backend *_backend, const char *refname)
-{
-	int error;
-	git_filebuf *lock;
-	refdb_fs_backend *backend = (refdb_fs_backend *) _backend;
-
-	lock = git__calloc(1, sizeof(git_filebuf));
-	GITERR_CHECK_ALLOC(lock);
-
-	if ((error = loose_lock(lock, backend, refname)) < 0) {
-		git__free(lock);
-		return error;
-	}
-
-	*out = lock;
-	return 0;
-}
-
-static int refdb_fs_backend__write_tail(
-	git_refdb_backend *_backend,
-	const git_reference *ref,
-	git_filebuf *file,
-	int update_reflog,
-	const git_signature *who,
-	const char *message,
-	const git_oid *old_id,
-	const char *old_target);
-
-static int refdb_fs_backend__delete_tail(
-	git_refdb_backend *_backend,
-	git_filebuf *file,
-	const char *ref_name,
-	const git_oid *old_id, const char *old_target);
-
-static int refdb_fs_backend__unlock(git_refdb_backend *backend, void *payload, int success, int update_reflog,
-				    const git_reference *ref, const git_signature *sig, const char *message)
-{
-	git_filebuf *lock = (git_filebuf *) payload;
-	int error = 0;
-
-	if (success == 2)
-		error = refdb_fs_backend__delete_tail(backend, lock, ref->name, NULL, NULL);
-	else if (success)
-		error = refdb_fs_backend__write_tail(backend, ref, lock, update_reflog, sig, message, NULL, NULL);
-	else
-		git_filebuf_cleanup(lock);
-
-	git__free(lock);
-	return error;
-}
-
 /*
  * Find out what object this reference resolves to.
  *
@@ -1119,6 +1068,7 @@ cleanup:
 	return error;
 }
 
+
 static int refdb_fs_backend__write(
 	git_refdb_backend *_backend,
 	const git_reference *ref,
@@ -1130,7 +1080,9 @@ static int refdb_fs_backend__write(
 {
 	refdb_fs_backend *backend = (refdb_fs_backend *)_backend;
 	git_filebuf file = GIT_FILEBUF_INIT;
-	int error = 0;
+	int error = 0, cmp = 0, should_write;
+	const char *new_target = NULL;
+	const git_oid *new_id = NULL;
 
 	assert(backend);
 
@@ -1141,24 +1093,6 @@ static int refdb_fs_backend__write(
 	/* We need to perform the reflog append and old value check under the ref's lock */
 	if ((error = loose_lock(&file, backend, ref->name)) < 0)
 		return error;
-
-	return refdb_fs_backend__write_tail(_backend, ref, &file, true, who, message, old_id, old_target);
-}
-
-static int refdb_fs_backend__write_tail(
-	git_refdb_backend *_backend,
-	const git_reference *ref,
-	git_filebuf *file,
-	int update_reflog,
-	const git_signature *who,
-	const char *message,
-	const git_oid *old_id,
-	const char *old_target)
-{
-	refdb_fs_backend *backend = (refdb_fs_backend *)_backend;
-	int error = 0, cmp = 0, should_write;
-	const char *new_target = NULL;
-	const git_oid *new_id = NULL;
 
 	if ((error = cmp_old_ref(&cmp, _backend, ref->name, old_id, old_target)) < 0)
 		goto on_error;
@@ -1184,22 +1118,20 @@ static int refdb_fs_backend__write_tail(
 		goto on_error; /* not really error */
 	}
 
-	if (update_reflog) {
-		if ((error = should_write_reflog(&should_write, backend->repo, ref->name)) < 0)
-			goto on_error;
+	if ((error = should_write_reflog(&should_write, backend->repo, ref->name)) < 0)
+		goto on_error;
 
-		if (should_write) {
-			if ((error = reflog_append(backend, ref, NULL, NULL, who, message)) < 0)
-				goto on_error;
-			if ((error = maybe_append_head(backend, ref, who, message)) < 0)
-				goto on_error;
-		}
+	if (should_write) {
+		if ((error = reflog_append(backend, ref, NULL, NULL, who, message)) < 0)
+			goto on_error;
+		if ((error = maybe_append_head(backend, ref, who, message)) < 0)
+			goto on_error;
 	}
 
-	return loose_commit(file, ref);
+	return loose_commit(&file, ref);
 
 on_error:
-        git_filebuf_cleanup(file);
+        git_filebuf_cleanup(&file);
         return error;
 }
 
@@ -1209,28 +1141,16 @@ static int refdb_fs_backend__delete(
 	const git_oid *old_id, const char *old_target)
 {
 	refdb_fs_backend *backend = (refdb_fs_backend *)_backend;
+	git_buf loose_path = GIT_BUF_INIT;
+	size_t pack_pos;
 	git_filebuf file = GIT_FILEBUF_INIT;
-	int error = 0;
+	int error = 0, cmp = 0;
+	bool loose_deleted = 0;
 
 	assert(backend && ref_name);
 
 	if ((error = loose_lock(&file, backend, ref_name)) < 0)
 		return error;
-
-	return refdb_fs_backend__delete_tail(_backend, &file, ref_name, old_id, old_target);
-}
-
-static int refdb_fs_backend__delete_tail(
-	git_refdb_backend *_backend,
-	git_filebuf *file,
-	const char *ref_name,
-	const git_oid *old_id, const char *old_target)
-{
-	refdb_fs_backend *backend = (refdb_fs_backend *)_backend;
-	git_buf loose_path = GIT_BUF_INIT;
-	size_t pack_pos;
-	int error = 0, cmp = 0;
-	bool loose_deleted = 0;
 
 	error = cmp_old_ref(&cmp, _backend, ref_name, old_id, old_target);
 	if (error < 0)
@@ -1277,7 +1197,7 @@ static int refdb_fs_backend__delete_tail(
 	error = packed_write(backend);
 
 cleanup:
-	git_filebuf_cleanup(file);
+	git_filebuf_cleanup(&file);
 
 	return error;
 }
@@ -1927,8 +1847,6 @@ int git_refdb_backend_fs(
 	backend->parent.del = &refdb_fs_backend__delete;
 	backend->parent.rename = &refdb_fs_backend__rename;
 	backend->parent.compress = &refdb_fs_backend__compress;
-	backend->parent.lock = &refdb_fs_backend__lock;
-	backend->parent.unlock = &refdb_fs_backend__unlock;
 	backend->parent.has_log = &refdb_reflog_fs__has_log;
 	backend->parent.ensure_log = &refdb_reflog_fs__ensure_log;
 	backend->parent.free = &refdb_fs_backend__free;

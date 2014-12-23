@@ -16,8 +16,6 @@
 #include "remote.h"
 #include "repository.h"
 
-#include <wincrypt.h>
-#pragma comment(lib, "crypt32")
 #include <winhttp.h>
 #pragma comment(lib, "winhttp")
 
@@ -37,11 +35,6 @@
 #define WINHTTP_OPTION_PEERDIST_EXTENSION_STATE	109
 #define CACHED_POST_BODY_BUF_SIZE	4096
 #define UUID_LENGTH_CCH	32
-#define TIMEOUT_INFINITE -1
-#define DEFAULT_CONNECT_TIMEOUT 60000
-#ifndef WINHTTP_IGNORE_REQUEST_TOTAL_LENGTH
-#define WINHTTP_IGNORE_REQUEST_TOTAL_LENGTH 0
-#endif
 
 static const char *prefix_http = "http://";
 static const char *prefix_https = "https://";
@@ -104,7 +97,7 @@ static int apply_basic_credential(HINTERNET request, git_cred *cred)
 
 	if (git_buf_oom(&raw) ||
 		git_buf_puts(&buf, "Authorization: Basic ") < 0 ||
-		git_buf_encode_base64(&buf, git_buf_cstr(&raw), raw.size) < 0)
+		git_buf_put_base64(&buf, git_buf_cstr(&raw), raw.size) < 0)
 		goto on_error;
 
 	if ((wide_len = git__utf8_to_16_alloc(&wide, git_buf_cstr(&buf))) < 0) {
@@ -161,9 +154,6 @@ static int fallback_cred_acquire_cb(
 {
 	int error = 1;
 
-	GIT_UNUSED(username_from_url);
-	GIT_UNUSED(payload);
-
 	/* If the target URI supports integrated Windows authentication
 	 * as an authentication mechanism */
 	if (GIT_CREDTYPE_DEFAULT & allowed_types) {
@@ -208,64 +198,6 @@ static int fallback_cred_acquire_cb(
 	return error;
 }
 
-static int certificate_check(winhttp_stream *s, int valid)
-{
-	int error;
-	winhttp_subtransport *t = OWNING_SUBTRANSPORT(s);
-	PCERT_CONTEXT cert_ctx;
-	DWORD cert_ctx_size = sizeof(cert_ctx);
-	git_cert_x509 cert;
-
-	/* If there is no override, we should fail if WinHTTP doesn't think it's fine */
-	if (t->owner->certificate_check_cb == NULL && !valid)
-		return GIT_ECERTIFICATE;
-
-	if (t->owner->certificate_check_cb == NULL || !t->connection_data.use_ssl)
-		return 0;
-
-	if (!WinHttpQueryOption(s->request, WINHTTP_OPTION_SERVER_CERT_CONTEXT, &cert_ctx, &cert_ctx_size)) {
-		giterr_set(GITERR_OS, "failed to get server certificate");
-		return -1;
-	}
-
-	giterr_clear();
-	cert.cert_type = GIT_CERT_X509;
-	cert.data = cert_ctx->pbCertEncoded;
-	cert.len = cert_ctx->cbCertEncoded;
-	error = t->owner->certificate_check_cb((git_cert *) &cert, valid, t->connection_data.host, t->owner->cred_acquire_payload);
-	CertFreeCertificateContext(cert_ctx);
-
-	if (error < 0 && !giterr_last())
-		giterr_set(GITERR_NET, "user cancelled certificate check");
-
-	return error;
-}
-
-static void winhttp_stream_close(winhttp_stream *s)
-{
-	if (s->chunk_buffer) {
-		git__free(s->chunk_buffer);
-		s->chunk_buffer = NULL;
-	}
-
-	if (s->post_body) {
-		CloseHandle(s->post_body);
-		s->post_body = NULL;
-	}
-
-	if (s->request_uri) {
-		git__free(s->request_uri);
-		s->request_uri = NULL;
-	}
-
-	if (s->request) {
-		WinHttpCloseHandle(s->request);
-		s->request = NULL;
-	}
-
-	s->sent_request = 0;
-}
-
 static int winhttp_stream_connect(winhttp_stream *s)
 {
 	winhttp_subtransport *t = OWNING_SUBTRANSPORT(s);
@@ -276,8 +208,6 @@ static int winhttp_stream_connect(winhttp_stream *s)
 	BOOL peerdist = FALSE;
 	int error = -1;
 	unsigned long disable_redirects = WINHTTP_DISABLE_REDIRECTS;
-	int default_timeout = TIMEOUT_INFINITE;
-	int default_connect_timeout = DEFAULT_CONNECT_TIMEOUT;
 
 	/* Prepare URL */
 	git_buf_printf(&buf, "%s%s", t->connection_data.path, s->service_url);
@@ -303,11 +233,6 @@ static int winhttp_stream_connect(winhttp_stream *s)
 
 	if (!s->request) {
 		giterr_set(GITERR_OS, "Failed to open request");
-		goto on_error;
-	}
-
-	if (!WinHttpSetTimeouts(s->request, default_timeout, default_connect_timeout, default_timeout, default_timeout)) {
-		giterr_set(GITERR_OS, "Failed to set timeouts for WinHTTP");
 		goto on_error;
 	}
 
@@ -416,6 +341,13 @@ static int winhttp_stream_connect(winhttp_stream *s)
 
 		if (t->owner->parent.read_flags(&t->owner->parent, &flags) < 0)
 			goto on_error;
+
+		if ((GIT_TRANSPORTFLAGS_NO_CHECK_CERT & flags) &&
+			!WinHttpSetOption(s->request, WINHTTP_OPTION_SECURITY_FLAGS,
+			(LPVOID)&no_check_cert_flags, sizeof(no_check_cert_flags))) {
+			giterr_set(GITERR_OS, "Failed to set options to ignore cert errors");
+			goto on_error;
+		}
 	}
 
 	/* If we have a credential on the subtransport, apply it to the request */
@@ -445,9 +377,6 @@ static int winhttp_stream_connect(winhttp_stream *s)
 	error = 0;
 
 on_error:
-	if (error < 0)
-		winhttp_stream_close(s);
-
 	git__free(proxy_url);
 	git_buf_free(&buf);
 	return error;
@@ -525,31 +454,6 @@ static int write_chunk(HINTERNET request, const char *buffer, size_t len)
 	return 0;
 }
 
-static int winhttp_close_connection(winhttp_subtransport *t)
-{
-	int ret = 0;
-
-	if (t->connection) {
-		if (!WinHttpCloseHandle(t->connection)) {
-			giterr_set(GITERR_OS, "Unable to close connection");
-			ret = -1;
-		}
-
-		t->connection = NULL;
-	}
-
-	if (t->session) {
-		if (!WinHttpCloseHandle(t->session)) {
-			giterr_set(GITERR_OS, "Unable to close session");
-			ret = -1;
-		}
-
-		t->session = NULL;
-	}
-
-	return ret;
-}
-
 static int winhttp_connect(
 	winhttp_subtransport *t,
 	const char *url)
@@ -557,14 +461,8 @@ static int winhttp_connect(
 	wchar_t *ua = L"git/1.0 (libgit2 " WIDEN(LIBGIT2_VERSION) L")";
 	wchar_t *wide_host;
 	int32_t port;
+	const char *default_port = "80";
 	int error = -1;
-	int default_timeout = TIMEOUT_INFINITE;
-	int default_connect_timeout = DEFAULT_CONNECT_TIMEOUT;
-
-	GIT_UNUSED(url);
-
-	t->session = NULL;
-	t->connection = NULL;
 
 	/* Prepare port */
 	if (git__strtol32(&port, t->connection_data.port, NULL, 10) < 0)
@@ -589,12 +487,6 @@ static int winhttp_connect(
 		goto on_error;
 	}
 
-	if (!WinHttpSetTimeouts(t->session, default_timeout, default_connect_timeout, default_timeout, default_timeout)) {
-		giterr_set(GITERR_OS, "Failed to set timeouts for WinHTTP");
-		goto on_error;
-	}
-
-	
 	/* Establish connection */
 	t->connection = WinHttpConnect(
 		t->session,
@@ -610,73 +502,7 @@ static int winhttp_connect(
 	error = 0;
 
 on_error:
-	if (error < 0)
-		winhttp_close_connection(t);
-
 	git__free(wide_host);
-
-	return error;
-}
-
-static int do_send_request(winhttp_stream *s, size_t len, int ignore_length)
-{
-	if (ignore_length) {
-		if (!WinHttpSendRequest(s->request,
-			WINHTTP_NO_ADDITIONAL_HEADERS, 0,
-			WINHTTP_NO_REQUEST_DATA, 0,
-			WINHTTP_IGNORE_REQUEST_TOTAL_LENGTH, 0)) {
-			return -1;
-		}
-	} else {
-		if (!WinHttpSendRequest(s->request,
-			WINHTTP_NO_ADDITIONAL_HEADERS, 0,
-			WINHTTP_NO_REQUEST_DATA, 0,
-			len, 0)) {
-			return -1;
-		}
-	}
-
-	return 0;
-}
-
-static int send_request(winhttp_stream *s, size_t len, int ignore_length)
-{
-	int request_failed = 0, cert_valid = 1, error = 0;
-	DWORD ignore_flags;
-
-	if ((error = do_send_request(s, len, ignore_length)) < 0)
-		request_failed = 1;
-
-	if (request_failed) {
-		if (GetLastError() != ERROR_WINHTTP_SECURE_FAILURE) {
-			giterr_set(GITERR_OS, "failed to send request");
-			return -1;
-		} else {
-			cert_valid = 0;
-		}
-	}
-
-	giterr_clear();
-	if ((error = certificate_check(s, cert_valid)) < 0) {
-		if (!giterr_last())
-			giterr_set(GITERR_OS, "user cancelled certificate check");
-
-		return error;
-	}
-
-	/* if neither the request nor the certificate check returned errors, we're done */
-	if (!request_failed)
-		return 0;
-
-	ignore_flags = no_check_cert_flags;
-	
-	if (!WinHttpSetOption(s->request, WINHTTP_OPTION_SECURITY_FLAGS, &ignore_flags, sizeof(ignore_flags))) {
-		giterr_set(GITERR_OS, "failed to set security options");
-		return -1;
-	}
-
-	if ((error = do_send_request(s, len, ignore_length)) < 0)
-		giterr_set(GITERR_OS, "failed to send request");
 
 	return error;
 }
@@ -691,7 +517,6 @@ static int winhttp_stream_read(
 	winhttp_subtransport *t = OWNING_SUBTRANSPORT(s);
 	DWORD dw_bytes_read;
 	char replay_count = 0;
-	int error;
 
 replay:
 	/* Enforce a reasonable cap on the number of replays */
@@ -710,9 +535,13 @@ replay:
 		wchar_t expected_content_type[MAX_CONTENT_TYPE_LEN], content_type[MAX_CONTENT_TYPE_LEN];
 
 		if (!s->sent_request) {
-
-			if ((error = send_request(s, s->post_body_len, 0)) < 0)
-				return error;
+			if (!WinHttpSendRequest(s->request,
+				WINHTTP_NO_ADDITIONAL_HEADERS, 0,
+				WINHTTP_NO_REQUEST_DATA, 0,
+				s->post_body_len, 0)) {
+				giterr_set(GITERR_OS, "Failed to send request");
+				return -1;
+			}
 
 			s->sent_request = 1;
 		}
@@ -849,7 +678,9 @@ replay:
 			git__free(location);
 
 			/* Replay the request */
-			winhttp_stream_close(s);
+			WinHttpCloseHandle(s->request);
+			s->request = NULL;
+			s->sent_request = 0;
 
 			if (!git__prefixcmp_icase(location8, prefix_https)) {
 				/* Upgrade to secure connection; disconnect and start over */
@@ -858,10 +689,7 @@ replay:
 					return -1;
 				}
 
-				winhttp_close_connection(t);
-
-				if (winhttp_connect(t, location8) < 0)
-					return -1;
+				winhttp_connect(t, location8);
 			}
 
 			git__free(location8);
@@ -900,7 +728,9 @@ replay:
 				if (!cred_error) {
 					assert(t->cred);
 
-					winhttp_stream_close(s);
+					WinHttpCloseHandle(s->request);
+					s->request = NULL;
+					s->sent_request = 0;
 
 					/* Successfully acquired a credential */
 					goto replay;
@@ -915,9 +745,9 @@ replay:
 
 		/* Verify that we got the correct content-type back */
 		if (post_verb == s->verb)
-			p_snprintf(expected_content_type_8, MAX_CONTENT_TYPE_LEN, "application/x-git-%s-result", s->service);
+			snprintf(expected_content_type_8, MAX_CONTENT_TYPE_LEN, "application/x-git-%s-result", s->service);
 		else
-			p_snprintf(expected_content_type_8, MAX_CONTENT_TYPE_LEN, "application/x-git-%s-advertisement", s->service);
+			snprintf(expected_content_type_8, MAX_CONTENT_TYPE_LEN, "application/x-git-%s-advertisement", s->service);
 
 		if (git__utf8_to_16(expected_content_type, MAX_CONTENT_TYPE_LEN, expected_content_type_8) < 0) {
 			giterr_set(GITERR_OS, "Failed to convert expected content-type to wide characters");
@@ -965,7 +795,6 @@ static int winhttp_stream_write_single(
 	winhttp_stream *s = (winhttp_stream *)stream;
 	winhttp_subtransport *t = OWNING_SUBTRANSPORT(s);
 	DWORD bytes_written;
-	int error;
 
 	if (!s->request && winhttp_stream_connect(s) < 0)
 		return -1;
@@ -976,8 +805,13 @@ static int winhttp_stream_write_single(
 		return -1;
 	}
 
-	if ((error = send_request(s, len, 0)) < 0)
-		return error;
+	if (!WinHttpSendRequest(s->request,
+			WINHTTP_NO_ADDITIONAL_HEADERS, 0,
+			WINHTTP_NO_REQUEST_DATA, 0,
+			(DWORD)len, 0)) {
+		giterr_set(GITERR_OS, "Failed to send request");
+		return -1;
+	}
 
 	s->sent_request = 1;
 
@@ -1100,7 +934,6 @@ static int winhttp_stream_write_chunked(
 {
 	winhttp_stream *s = (winhttp_stream *)stream;
 	winhttp_subtransport *t = OWNING_SUBTRANSPORT(s);
-	int error;
 
 	if (!s->request && winhttp_stream_connect(s) < 0)
 		return -1;
@@ -1114,8 +947,13 @@ static int winhttp_stream_write_chunked(
 			return -1;
 		}
 
-		if ((error = send_request(s, 0, 1)) < 0)
-			return error;
+		if (!WinHttpSendRequest(s->request,
+			WINHTTP_NO_ADDITIONAL_HEADERS, 0,
+			WINHTTP_NO_REQUEST_DATA, 0,
+			WINHTTP_IGNORE_REQUEST_TOTAL_LENGTH, 0)) {
+			giterr_set(GITERR_OS, "Failed to send request");
+			return -1;
+		}
 
 		s->sent_request = 1;
 	}
@@ -1167,7 +1005,26 @@ static void winhttp_stream_free(git_smart_subtransport_stream *stream)
 {
 	winhttp_stream *s = (winhttp_stream *)stream;
 
-	winhttp_stream_close(s);
+	if (s->chunk_buffer) {
+		git__free(s->chunk_buffer);
+		s->chunk_buffer = NULL;
+	}
+
+	if (s->post_body) {
+		CloseHandle(s->post_body);
+		s->post_body = NULL;
+	}
+
+	if (s->request_uri) {
+		git__free(s->request_uri);
+		s->request_uri = NULL;
+	}
+
+	if (s->request) {
+		WinHttpCloseHandle(s->request);
+		s->request = NULL;
+	}
+
 	git__free(s);
 }
 
@@ -1255,9 +1112,9 @@ static int winhttp_action(
 	int ret = -1;
 
 	if (!t->connection)
-		if ((ret = gitno_connection_data_from_url(&t->connection_data, url, NULL)) < 0 ||
-			 (ret = winhttp_connect(t, url)) < 0)
-			return ret;
+		if (gitno_connection_data_from_url(&t->connection_data, url, NULL) < 0 ||
+			 winhttp_connect(t, url) < 0)
+			return -1;
 
 	if (winhttp_stream_alloc(t, &s) < 0)
 		return -1;
@@ -1296,9 +1153,9 @@ static int winhttp_action(
 static int winhttp_close(git_smart_subtransport *subtransport)
 {
 	winhttp_subtransport *t = (winhttp_subtransport *)subtransport;
+	int ret = 0;
 
 	gitno_connection_data_free_ptrs(&t->connection_data);
-	memset(&t->connection_data, 0x0, sizeof(gitno_connection_data));
 
 	if (t->cred) {
 		t->cred->free(t->cred);
@@ -1310,7 +1167,25 @@ static int winhttp_close(git_smart_subtransport *subtransport)
 		t->url_cred = NULL;
 	}
 
-	return winhttp_close_connection(t);
+	if (t->connection) {
+		if (!WinHttpCloseHandle(t->connection)) {
+			giterr_set(GITERR_OS, "Unable to close connection");
+			ret = -1;
+		}
+
+		t->connection = NULL;
+	}
+
+	if (t->session) {
+		if (!WinHttpCloseHandle(t->session)) {
+			giterr_set(GITERR_OS, "Unable to close session");
+			ret = -1;
+		}
+
+		t->session = NULL;
+	}
+
+	return ret;
 }
 
 static void winhttp_free(git_smart_subtransport *subtransport)

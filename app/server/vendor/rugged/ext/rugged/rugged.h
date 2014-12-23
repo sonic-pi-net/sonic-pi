@@ -65,8 +65,6 @@ void Init_rugged_remote(void);
 void Init_rugged_remote_collection(void);
 void Init_rugged_notes(void);
 void Init_rugged_settings(void);
-void Init_rugged_submodule(void);
-void Init_rugged_submodule_collection(void);
 void Init_rugged_diff(void);
 void Init_rugged_patch(void);
 void Init_rugged_diff_delta(void);
@@ -81,7 +79,6 @@ VALUE rugged_raw_read(git_repository *repo, const git_oid *oid);
 
 VALUE rugged_signature_new(const git_signature *sig, const char *encoding_name);
 
-VALUE rugged_repo_new(VALUE klass, git_repository *repo);
 VALUE rugged_index_new(VALUE klass, VALUE owner, git_index *index);
 VALUE rugged_config_new(VALUE klass, VALUE owner, git_config *cfg);
 VALUE rugged_object_new(VALUE owner, git_object *object);
@@ -118,6 +115,13 @@ static inline void rugged_set_owner(VALUE object, VALUE owner)
 static inline VALUE rugged_owner(VALUE object)
 {
 	return rb_iv_get(object, "@owner");
+}
+
+static inline void rugged_validate_remote_url(VALUE rb_url)
+{
+	Check_Type(rb_url, T_STRING);
+	if (!git_remote_valid_url(StringValueCStr(rb_url)))
+		rb_raise(rb_eArgError, "Invalid URL format");
 }
 
 extern void rugged_exception_raise(void);

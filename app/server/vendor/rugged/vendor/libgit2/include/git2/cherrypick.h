@@ -20,32 +20,29 @@
  */
 GIT_BEGIN_DECL
 
-/**
- * Cherry-pick options
- */
 typedef struct {
 	unsigned int version;
 
 	/** For merge commits, the "mainline" is treated as the parent. */
 	unsigned int mainline;
 
-	git_merge_options merge_opts; /*< Options for the merging */
-	git_checkout_options checkout_opts; /*< Options for the checkout */
-} git_cherrypick_options;
+	git_merge_options merge_opts;
+	git_checkout_options checkout_opts;
+} git_cherry_pick_options;
 
-#define GIT_CHERRYPICK_OPTIONS_VERSION 1
-#define GIT_CHERRYPICK_OPTIONS_INIT {GIT_CHERRYPICK_OPTIONS_VERSION, 0, GIT_MERGE_OPTIONS_INIT, GIT_CHECKOUT_OPTIONS_INIT}
+#define GIT_CHERRY_PICK_OPTIONS_VERSION 1
+#define GIT_CHERRY_PICK_OPTIONS_INIT {GIT_CHERRY_PICK_OPTIONS_VERSION, 0, GIT_MERGE_OPTIONS_INIT, GIT_CHECKOUT_OPTIONS_INIT}
 
 /**
- * Initializes a `git_cherrypick_options` with default values. Equivalent to
- * creating an instance with GIT_CHERRYPICK_OPTIONS_INIT.
+ * Initializes a `git_cherry_pick_options` with default values. Equivalent to
+ * creating an instance with GIT_CHERRY_PICK_OPTIONS_INIT.
  *
- * @param opts the `git_cherrypick_options` struct to initialize
- * @param version Version of struct; pass `GIT_CHERRYPICK_OPTIONS_VERSION`
+ * @param opts the `git_cherry_pick_options` struct to initialize
+ * @param version Version of struct; pass `GIT_CHERRY_PICK_OPTIONS_VERSION`
  * @return Zero on success; -1 on failure.
  */
-GIT_EXTERN(int) git_cherrypick_init_options(
-	git_cherrypick_options *opts,
+GIT_EXTERN(int) git_cherry_pick_init_options(
+	git_cherry_pick_options *opts,
 	unsigned int version);
 
 /**
@@ -56,16 +53,16 @@ GIT_EXTERN(int) git_cherrypick_init_options(
  *
  * @param out pointer to store the index result in
  * @param repo the repository that contains the given commits
- * @param cherrypick_commit the commit to cherry-pick
+ * @param cherry_pick_commit the commit to cherry-pick
  * @param our_commit the commit to revert against (eg, HEAD)
  * @param mainline the parent of the revert commit, if it is a merge
  * @param merge_options the merge options (or null for defaults)
  * @return zero on success, -1 on failure.
  */
-GIT_EXTERN(int) git_cherrypick_commit(
+GIT_EXTERN(int) git_cherry_pick_commit(
 	git_index **out,
 	git_repository *repo,
-	git_commit *cherrypick_commit,
+	git_commit *cherry_pick_commit,
 	git_commit *our_commit,
 	unsigned int mainline,
 	const git_merge_options *merge_options);
@@ -75,13 +72,13 @@ GIT_EXTERN(int) git_cherrypick_commit(
  *
  * @param repo the repository to cherry-pick
  * @param commit the commit to cherry-pick
- * @param cherrypick_options the cherry-pick options (or null for defaults)
+ * @param cherry_pick_options the cherry-pick options (or null for defaults)
  * @return zero on success, -1 on failure.
  */
-GIT_EXTERN(int) git_cherrypick(
+GIT_EXTERN(int) git_cherry_pick(
 	git_repository *repo,
 	git_commit *commit,
-	const git_cherrypick_options *cherrypick_options);
+	const git_cherry_pick_options *cherry_pick_options);
 
 /** @} */
 GIT_END_DECL

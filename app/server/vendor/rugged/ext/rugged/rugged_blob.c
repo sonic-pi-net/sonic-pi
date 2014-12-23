@@ -24,7 +24,6 @@
 
 #include "rugged.h"
 #include <ctype.h>
-#include <git2/sys/hashsig.h>
 
 extern VALUE rb_mRugged;
 extern VALUE rb_cRuggedObject;
@@ -32,7 +31,6 @@ extern VALUE rb_cRuggedRepo;
 static ID id_read;
 
 VALUE rb_cRuggedBlob;
-VALUE rb_cRuggedBlobSig;
 
 /*
  *  call-seq:
@@ -522,57 +520,6 @@ static VALUE rb_git_blob_to_buffer(int argc, VALUE *argv, VALUE self)
 	return rb_ret;
 }
 
-static VALUE rb_git_blob_sig_new(int argc, VALUE *argv, VALUE klass)
-{
-	int error, opts = 0;
-	git_hashsig *sig;
-	VALUE rb_blob, rb_options;
-
-	if (rb_scan_args(argc, argv, "11", &rb_blob, &rb_options) == 2) {
-		Check_Type(rb_options, T_FIXNUM);
-		opts = FIX2INT(rb_options);
-	}
-
-	if (rb_obj_is_kind_of(rb_blob, rb_cRuggedBlob)) {
-		git_blob *blob;
-		Data_Get_Struct(rb_blob, git_blob, blob);
-
-		error = git_hashsig_create(&sig,
-				git_blob_rawcontent(blob),
-				git_blob_rawsize(blob),
-				opts);
-	} else {
-		Check_Type(rb_blob, T_STRING);
-		error = git_hashsig_create(&sig, RSTRING_PTR(rb_blob), RSTRING_LEN(rb_blob), opts);
-	}
-
-	rugged_exception_check(error);
-
-	return Data_Wrap_Struct(klass, NULL, &git_hashsig_free, sig);
-}
-
-static VALUE rb_git_blob_sig_compare(VALUE self, VALUE rb_sig_a, VALUE rb_sig_b)
-{
-	git_hashsig *sig_a;
-	git_hashsig *sig_b;
-	int result;
-
-	if (!rb_obj_is_kind_of(rb_sig_a, rb_cRuggedBlobSig) ||
-		!rb_obj_is_kind_of(rb_sig_b, rb_cRuggedBlobSig)) {
-		rb_raise(rb_eTypeError, "Expected Rugged::Blob::HashSignature");
-	}
-
-	Data_Get_Struct(rb_sig_a, git_hashsig, sig_a);
-	Data_Get_Struct(rb_sig_b, git_hashsig, sig_b);
-
-	result = git_hashsig_compare(sig_a, sig_b);
-
-	if (result < 0)
-		rugged_exception_check(result);
-
-	return INT2FIX(result);
-}
-
 void Init_rugged_blob(void)
 {
 	id_read = rb_intern("read");
@@ -592,8 +539,4 @@ void Init_rugged_blob(void)
 	rb_define_singleton_method(rb_cRuggedBlob, "from_io", rb_git_blob_from_io, -1);
 
 	rb_define_singleton_method(rb_cRuggedBlob, "to_buffer", rb_git_blob_to_buffer, -1);
-
-	rb_cRuggedBlobSig = rb_define_class_under(rb_cRuggedBlob, "HashSignature", rb_cObject);
-	rb_define_singleton_method(rb_cRuggedBlobSig, "new", rb_git_blob_sig_new, -1);
-	rb_define_singleton_method(rb_cRuggedBlobSig, "compare", rb_git_blob_sig_compare, 2);
 }

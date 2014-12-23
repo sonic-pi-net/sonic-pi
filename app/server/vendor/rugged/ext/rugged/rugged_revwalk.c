@@ -223,15 +223,6 @@ static VALUE rb_git_walker_push(VALUE self, VALUE rb_commit)
 	return Qnil;
 }
 
-static VALUE rb_git_walker_push_range(VALUE self, VALUE range)
-{
-	git_revwalk *walk;
-	Data_Get_Struct(self, git_revwalk, walk);
-	int error = git_revwalk_push_range(walk, StringValuePtr(range));
-	rugged_exception_check(error);
-	return Qnil;
-}
-
 /*
  *  call-seq:
  *    walker.hide(commit) -> nil
@@ -309,7 +300,6 @@ void Init_rugged_revwalk(void)
 	rb_define_singleton_method(rb_cRuggedWalker, "new", rb_git_walker_new, 1);
 
 	rb_define_method(rb_cRuggedWalker, "push", rb_git_walker_push, 1);
-	rb_define_method(rb_cRuggedWalker, "push_range", rb_git_walker_push_range, 1);
 	rb_define_method(rb_cRuggedWalker, "each", rb_git_walker_each, -1);
 	rb_define_method(rb_cRuggedWalker, "each_oid", rb_git_walker_each_oid, -1);
 	rb_define_method(rb_cRuggedWalker, "walk", rb_git_walker_each, -1);

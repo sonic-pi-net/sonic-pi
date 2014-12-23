@@ -9,7 +9,6 @@
 #include "netops.h"
 #include "buffer.h"
 #include "push.h"
-#include "git2/sys/transport.h"
 
 #define GIT_SIDE_BAND_DATA     1
 #define GIT_SIDE_BAND_PROGRESS 2
@@ -137,7 +136,6 @@ typedef struct {
 	int flags;
 	git_transport_message_cb progress_cb;
 	git_transport_message_cb error_cb;
-	git_transport_certificate_check_cb certificate_check_cb;
 	void *message_cb_payload;
 	git_smart_subtransport *wrapped;
 	git_smart_subtransport_stream *current_stream;
