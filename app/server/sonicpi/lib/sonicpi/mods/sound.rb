@@ -2147,6 +2147,8 @@ sleep 1
 
        def control(node, *args)
          ensure_good_timing!
+         return nil if node.nil?
+
          args_h = resolve_synth_opts_hash_or_array(args)
          n = args_h[:note]
          args_h[:note] = note(n) if n
@@ -2176,6 +2178,8 @@ control my_node, cutoff: 90 # Now modify cutoff from 79 to 90, sound is still pl
 
        def stop(node)
          ensure_good_timing!
+         return nil if node.nil?
+
          alive = node.live?
          node.kill
          if alive
