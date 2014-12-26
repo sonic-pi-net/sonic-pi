@@ -927,7 +927,31 @@ play 62
 
 "]
 
+    def density(d, &block)
+      with_bpm_mul d do
+        d.times do
+          block.call
+        end
+      end
+    end
+    doc name:           :density,
+        introduced:     Version.new(2,3,0),
+        summary:        "Squash and repeat time",
+        doc:            "Runs the block d times with the bpm for the block also multiplied by d. Great for repeating sections a number of times faster yet keeping within a fixed time.",
+        args:           [[:d, :density]],
+        opts:           nil,
+        accepts_block:  true,
+        examples:       [
+"
+use_bpm 60   # Set the BPM to 60
 
+density 2 do       # BPM for block is now 120
+                   # block is called 2.times
+  sample :bd_hause # sample is played twice
+  sleep 0.5        # sleep is 0.25s
+end
+
+"]
 
     def current_bpm
       60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
