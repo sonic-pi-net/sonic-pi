@@ -25,7 +25,7 @@ and echoes.
 * New fn `knit` - `(knit :a1, 2, :c1, 1)` returns `(ring :a1, :a1, :c1)` 
 * New fn `bools` - `(bools 1, 0, 1)` returns `(ring true, false, true)`
 * New fn `range` - `(range 70, 100, 10)` returns `(ring 70, 70, 90, 100)`
-* New fn `is_sample_loaded?` - to detect whether a specific sample has been loaded
+* New fn `sample_loaded?` - to detect whether a specific sample has been loaded
 
 ### Synth & FX
 
