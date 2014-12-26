@@ -35,6 +35,7 @@ module SonicPi
         @state = :killed
         @server.buffer_free(@id)
       end
+      self
     end
 
     def to_s
