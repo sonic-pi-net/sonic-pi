@@ -1565,6 +1565,8 @@ load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
 puts sample_loaded? :elec_blip # prints true because it has been pre-loaded
 puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
+
+
        def load_sample(path)
          case path
          when Symbol
