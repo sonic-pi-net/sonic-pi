@@ -872,7 +872,7 @@ end"]
     def with_bpm_mul(mul, &block)
       raise "with_bpm_mul must be called with a block. Perhaps you meant use_bpm_mul" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-      new_mul = current_mul / mul
+      new_mul = current_mul.to_f / mul
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
       block.call
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
@@ -903,7 +903,7 @@ sleep 1            # BPM is now back to 60, therefore sleep is 1 second
     def use_bpm_mul(mul, &block)
       raise "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-      new_mul = current_mul / mul
+      new_mul = current_mul.to_f / mul
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
     end
     doc name:           :use_bpm_mul,
