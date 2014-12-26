@@ -2288,10 +2288,17 @@ stop bar"]
              # Allow vals to be keys to other vals
              # But only one level deep...
              args_h[k] = args_h[v].to_f
+           when TrueClass
+             args_h[k] = 1.0
+           when FalseClass
+             args_h[k] = 0.0
+           when NilClass
+             args_h[k] = 0.0
            else
              args_h[k] = v.to_f
            end
          end
+         args_h
        end
 
        def scale_time_args_to_bpm!(args_h, info)
