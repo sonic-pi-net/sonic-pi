@@ -929,8 +929,14 @@ play 62
 
     def density(d, &block)
       with_bpm_mul d do
-        d.times do
-          block.call
+        if block.arity == 0
+          d.times do
+            block.call
+          end
+        else
+          d.times do |idx|
+            block.call idx
+          end
         end
       end
     end
@@ -949,9 +955,14 @@ density 2 do       # BPM for block is now 120
                    # block is called 2.times
   sample :bd_hause # sample is played twice
   sleep 0.5        # sleep is 0.25s
-end
+end",
 
-"]
+"
+density 2 do |idx| # You may also pass a param to the block similar to n.times
+  puts idx         # prints out 0, 1
+  sleep 0.5        # sleep is 0.25s
+end
+"    ]
 
     def current_bpm
       60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
