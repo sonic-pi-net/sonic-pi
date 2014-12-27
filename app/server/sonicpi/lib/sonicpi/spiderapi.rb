@@ -606,6 +606,29 @@ one_in 3 # will return true with a probability of 1/3, false with a probability 
 one_in 100 # will return true with a probability of 1/100, false with a probability of 99/100"]
 
 
+    def rdist(width, centre=0, *opts)
+      rrand(centre - width, centre + width, *opts)
+    end
+    doc name:           :rdist,
+        introduced:     Version.new(2,3,0),
+        summary:        "Random number in centred distribution",
+        args:           [[:width, :number], [:centre, :number]],
+        opts:           {:res => nil},
+        accepts_block:  false,
+        doc:            "Returns a random number within the range with width around centre. If optional arg :res is used, the result is quantised by res.",
+        examples:      [
+"
+print rdist(1, 0) #=> will print a number between -1 and 1
+",
+"
+print rdist(1) #=> centre defaults to 0 so this is the same as rdist(1, 0)
+",
+"
+loop do
+  play :c3, pan: rdist(1) #=> Will play :c3 with random L/R panning
+  sleep 0.125
+end"]
+
 
 
     def rrand(min, max, *opts)
