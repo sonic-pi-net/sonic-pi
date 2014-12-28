@@ -149,6 +149,7 @@ end"]
 
 
     def live_loop(name, *args, &block)
+      ll_name = "live_loop_#{name}".to_sym
       raise "live_loop must be called with a code block" unless block
 
       args_h = resolve_synth_opts_hash_or_array(args)
@@ -160,18 +161,18 @@ end"]
 
       case block.arity
       when 0
-        define(name) do |a|
+        define(ll_name) do |a|
           block.call
         end
       when 1
-        define(name) do |a|
+        define(ll_name) do |a|
           block.call(a)
         end
       else
         raise "Live loop block must only accept 0 or 1 args"
       end
 
-      in_thread(name: name) do
+      in_thread(name: ll_name) do
         Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
         if args_h.has_key?(:init)
           res = args_h[:init]
@@ -182,14 +183,14 @@ end"]
           t1 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
           Thread.current.thread_variable_set(:sonic_pi_spider_synced, false)
           cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
-          res = send(name, res)
+          res = send(ll_name, res)
 
           t2 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
           raise "Live loop #{name.to_sym.inspect} did not sleep!" if (t1 == t2) && !Thread.current.thread_variable_get(:sonic_pi_spider_synced)
         end
       end
 
-      st = sthread(name)
+      st = sthread(ll_name)
       st.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue if st
       st
     end
