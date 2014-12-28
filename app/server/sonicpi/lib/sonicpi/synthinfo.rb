@@ -2067,7 +2067,7 @@ end
     end
 
     def doc
-      "Creates lo-fi output by decimating and deconstructing the incoming audio by lowering both the sample rate and bit depth. The default sample rate for CD audio is 44100, so use values less than that for lo-fi sound. Similarly, the default bit depth for CD audio is 16, so use values less than that for that crunchy chip-tune sound full of artefacts and bitty distortion."
+      "Creates lo-fi output by decimating and deconstructing the incoming audio by lowering both the sample rate and bit depth. The default sample rate for CD audio is 44100, so use values less than that for that crunchy chip-tune sound full of artefacts and bitty distortion. Similarly, the default bit depth for CD audio is 16, so use values less than that for lo-fi sound."
     end
 
     def arg_defaults
