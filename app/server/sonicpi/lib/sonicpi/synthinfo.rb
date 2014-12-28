@@ -2059,7 +2059,7 @@ end
     end
 
     def introduced
-      Version.new(2,0,0)
+      Version.new(2,3,0)
     end
 
     def synth_name
