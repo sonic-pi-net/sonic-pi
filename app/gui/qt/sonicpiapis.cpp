@@ -61,7 +61,8 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   // default
   int ctx = Func;
   int last = context.length()-1;
-  if (context[last] == "" || context[last][0] == ':')
+  if (context.length() > 1 && 
+      (context[last] == "" || context[last][0] == ':'))
     last--;
   int lastButOne = last - 1;
 
