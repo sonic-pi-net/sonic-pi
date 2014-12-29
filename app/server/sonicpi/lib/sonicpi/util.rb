@@ -59,7 +59,7 @@ module SonicPi
     end
 
     def home_dir
-      File.expand_path(Dir.home + '/.sonic-pi/')
+      File.expand_path('~/.sonic-pi/')
     end
 
     def project_path
