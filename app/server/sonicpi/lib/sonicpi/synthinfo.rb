@@ -3593,7 +3593,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
     end
 
     def doc
-      "Mix the incomingsignal with a copy of itself which has a rate modulating faster and slower than the original.  Creates a swirling/whooshing effect."
+      "Mix the incoming signal with a copy of itself which has a rate modulating faster and slower than the original.  Creates a swirling/whooshing effect."
     end
 
     def arg_defaults
