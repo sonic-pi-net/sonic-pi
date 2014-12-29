@@ -17,6 +17,7 @@ module SonicPi
   class GitSave
 
     def initialize(path)
+      path = path.encode('utf-8')
       @path = path
       begin
         @repo = Rugged::Repository.new(path + '/.git')
