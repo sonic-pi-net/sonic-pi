@@ -280,7 +280,14 @@ void MainWindow::startServer(){
     sample_path = root + "/etc/samples";
   #else
     //assuming Raspberry Pi
-    QString prg_path = "ruby"; // use system ruby
+    QString prg_path = root + "/server/native/raspberry/ruby/bin/ruby";
+
+    QFile file(prg_path);
+    if(!file.exists()) {
+      // use system ruby if bundled ruby doesn't exist
+      prg_path = "ruby";
+    }
+
     QString prg_arg = root + "/app/server/bin/sonic-pi-server.rb";
     sample_path = root + "/etc/samples";
   #endif
