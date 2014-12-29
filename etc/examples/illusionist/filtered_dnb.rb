@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 with_fx(:rlpf, cutoff: 10, cutoff_slide: 4) do |c|
   loop do
     sample :bass_dnb_f, amp: 5

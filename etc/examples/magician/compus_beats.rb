@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 sd = sample_duration :loop_compus
 
 live_loop :loopr do

@@ -178,7 +178,6 @@ GIT_EXTERN(int) git_reference_symbolic_create(git_reference **out, git_repositor
  * @param name The name of the reference
  * @param id The object id pointed to by the reference.
  * @param force Overwrite existing references
- * @param force Overwrite existing references
  * @param signature The identity that will used to populate the reflog entry
  * @param log_message The one line long message to be appended to the reflog
  * @return 0 on success, GIT_EEXISTS, GIT_EINVALIDSPEC or an error code
@@ -220,7 +219,6 @@ GIT_EXTERN(int) git_reference_create(git_reference **out, git_repository *repo, 
  * @param repo Repository where that reference will live
  * @param name The name of the reference
  * @param id The object id pointed to by the reference.
- * @param force Overwrite existing references
  * @param force Overwrite existing references
  * @param current_id The expected value of the reference at the time of update
  * @param signature The identity that will used to populate the reflog entry
@@ -415,7 +413,7 @@ GIT_EXTERN(int) git_reference_delete(git_reference *ref);
  * This method removes the named reference from the repository without
  * looking at its old value.
  *
- * @param ref The reference to remove
+ * @param name The reference to remove
  * @return 0 or an error code
  */
 GIT_EXTERN(int) git_reference_remove(git_repository *repo, const char *name);

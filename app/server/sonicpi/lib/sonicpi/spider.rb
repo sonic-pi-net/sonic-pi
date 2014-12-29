@@ -43,7 +43,7 @@ module SonicPi
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
 
-      @version = Version.new(2, 2, 0, "dev")
+      @version = Version.new(2, 3, 0, "dev")
 
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -353,6 +353,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
           Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(0)
+          Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, Random.new(0)
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
           now = Time.now

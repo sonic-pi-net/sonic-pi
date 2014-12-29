@@ -55,7 +55,7 @@ static int valid_entry_name(const char *filename)
 		(*filename != '.' ||
 		 (strcmp(filename, ".") != 0 &&
 		  strcmp(filename, "..") != 0 &&
-		  strcmp(filename, DOT_GIT) != 0));
+		  strcasecmp(filename, DOT_GIT) != 0));
 }
 
 static int entry_sort_cmp(const void *a, const void *b)
@@ -460,7 +460,7 @@ static int append_entry(
 	git_oid_cpy(&entry->oid, id);
 	entry->attr = (uint16_t)filemode;
 
-	if (git_vector_insert(&bld->entries, entry) < 0) {
+	if (git_vector_insert_sorted(&bld->entries, entry, NULL) < 0) {
 		git__free(entry);
 		return -1;
 	}
@@ -667,20 +667,23 @@ int git_treebuilder_insert(
 			entry->removed = 0;
 			bld->entrycount++;
 		}
+
+		entry->attr = filemode;
+		git_oid_cpy(&entry->oid, id);
 	} else {
 		entry = alloc_entry(filename);
 		GITERR_CHECK_ALLOC(entry);
 
-		if (git_vector_insert(&bld->entries, entry) < 0) {
+		entry->attr = filemode;
+		git_oid_cpy(&entry->oid, id);
+
+		if (git_vector_insert_sorted(&bld->entries, entry, NULL) < 0) {
 			git__free(entry);
 			return -1;
 		}
 
 		bld->entrycount++;
 	}
-
-	git_oid_cpy(&entry->oid, id);
-	entry->attr = filemode;
 
 	if (entry_out)
 		*entry_out = entry;

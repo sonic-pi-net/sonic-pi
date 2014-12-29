@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 loop do
   with_synth :dsaw do
     with_fx(:slicer, phase: [0.25,0.125].choose) do

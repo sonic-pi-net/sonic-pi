@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 use_debug false
 load_samples [:drum_heavy_kick, :drum_snare_soft]
 

@@ -443,6 +443,7 @@ void Init_rugged(void)
 	Init_rugged_branch_collection();
 	Init_rugged_config();
 	Init_rugged_remote();
+	Init_rugged_remote_collection();
 	Init_rugged_notes();
 	Init_rugged_settings();
 	Init_rugged_diff();

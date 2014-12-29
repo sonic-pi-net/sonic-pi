@@ -572,18 +572,17 @@ GIT_EXTERN(void) git_remote_set_autotag(
  *
  * A temporary in-memory remote cannot be given a name with this method.
  *
+ * @param problems non-default refspecs cannot be renamed and will be
+ * stored here for further processing by the caller. Always free this
+ * strarray on succesful return.
  * @param remote the remote to rename
  * @param new_name the new name the remote should bear
- * @param callback Optional callback to notify the consumer of fetch refspecs
- * that haven't been automatically updated and need potential manual tweaking.
- * @param payload Additional data to pass to the callback
  * @return 0, GIT_EINVALIDSPEC, GIT_EEXISTS or an error code
  */
 GIT_EXTERN(int) git_remote_rename(
+	git_strarray *problems,
 	git_remote *remote,
-	const char *new_name,
-	git_remote_rename_problem_cb callback,
-	void *payload);
+	const char *new_name);
 
 /**
  * Retrieve the update FETCH_HEAD setting.
@@ -616,12 +615,28 @@ GIT_EXTERN(int) git_remote_is_valid_name(const char *remote_name);
 * All remote-tracking branches and configuration settings
 * for the remote will be removed.
 *
-* once deleted, the passed remote object will be freed and invalidated.
-*
 * @param remote A valid remote
 * @return 0 on success, or an error code.
 */
 GIT_EXTERN(int) git_remote_delete(git_remote *remote);
+
+/**
+ * Retrieve the name of the remote's default branch
+ *
+ * The default branch of a repository is the branch which HEAD points
+ * to. If the remote does not support reporting this information
+ * directly, it performs the guess as git does; that is, if there are
+ * multiple branches which point to the same commit, the first one is
+ * chosen. If the master branch is a candidate, it wins.
+ *
+ * This function must only be called after connecting.
+ *
+ * @param out the buffern in which to store the reference name
+ * @param remote the remote
+ * @return 0, GIT_ENOTFOUND if the remote does not have any references
+ * or none of them point to HEAD's commit, or an error message.
+ */
+GIT_EXTERN(int) git_remote_default_branch(git_buf *out, git_remote *remote);
 
 /** @} */
 GIT_END_DECL

@@ -250,6 +250,21 @@ int git__prefixcmp_icase(const char *str, const char *prefix)
 	return strncasecmp(str, prefix, strlen(prefix));
 }
 
+int git__prefixncmp_icase(const char *str, size_t str_n, const char *prefix)
+{
+	int s, p;
+
+	while(str_n--) {
+		s = (unsigned char)tolower(*str++);
+		p = (unsigned char)tolower(*prefix++);
+
+		if (s != p)
+			return s - p;
+	}
+
+	return (0 - *prefix);
+}
+
 int git__suffixcmp(const char *str, const char *suffix)
 {
 	size_t a = strlen(str);
@@ -647,4 +662,80 @@ void git__insertsort_r(
 
 	if (freeswap)
 		git__free(swapel);
+}
+
+static const int8_t utf8proc_utf8class[256] = {
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
+int git__utf8_charlen(const uint8_t *str, int str_len)
+{
+	int length, i;
+
+	length = utf8proc_utf8class[str[0]];
+	if (!length)
+		return -1;
+
+	if (str_len >= 0 && length > str_len)
+		return -str_len;
+
+	for (i = 1; i < length; i++) {
+		if ((str[i] & 0xC0) != 0x80)
+			return -i;
+	}
+
+	return length;
+}
+
+int git__utf8_iterate(const uint8_t *str, int str_len, int32_t *dst)
+{
+	int length;
+	int32_t uc = -1;
+
+	*dst = -1;
+	length = git__utf8_charlen(str, str_len);
+	if (length < 0)
+		return -1;
+
+	switch (length) {
+		case 1:
+			uc = str[0];
+			break;
+		case 2:
+			uc = ((str[0] & 0x1F) <<  6) + (str[1] & 0x3F);
+			if (uc < 0x80) uc = -1;
+			break;
+		case 3:
+			uc = ((str[0] & 0x0F) << 12) + ((str[1] & 0x3F) <<  6)
+				+ (str[2] & 0x3F);
+			if (uc < 0x800 || (uc >= 0xD800 && uc < 0xE000) ||
+					(uc >= 0xFDD0 && uc < 0xFDF0)) uc = -1;
+			break;
+		case 4:
+			uc = ((str[0] & 0x07) << 18) + ((str[1] & 0x3F) << 12)
+				+ ((str[2] & 0x3F) <<  6) + (str[3] & 0x3F);
+			if (uc < 0x10000 || uc >= 0x110000) uc = -1;
+			break;
+	}
+
+	if (uc < 0 || ((uc & 0xFFFF) >= 0xFFFE))
+		return -1;
+
+	*dst = uc;
+	return length;
 }

@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 use_debug false
 
 with_fx :reverb do

@@ -37,6 +37,9 @@
 
 #define GIT_REPO_VERSION 0
 
+const char *git_repository__8dot3_default = "GIT~1";
+size_t git_repository__8dot3_default_len = 5;
+
 static void set_odb(git_repository *repo, git_odb *odb)
 {
 	if (odb) {
@@ -120,6 +123,7 @@ void git_repository_free(git_repository *repo)
 	git__free(repo->path_repository);
 	git__free(repo->workdir);
 	git__free(repo->namespace);
+	git__free(repo->name_8dot3);
 
 	git__memzero(repo, sizeof(*repo));
 	git__free(repo);
@@ -791,6 +795,27 @@ const char *git_repository_get_namespace(git_repository *repo)
 	return repo->namespace;
 }
 
+const char *git_repository__8dot3_name(git_repository *repo)
+{
+	if (!repo->has_8dot3) {
+		repo->has_8dot3 = 1;
+
+#ifdef GIT_WIN32
+		if (!repo->is_bare) {
+			repo->name_8dot3 = git_win32_path_8dot3_name(repo->path_repository);
+
+			/* We anticipate the 8.3 name is "GIT~1", so use a static for
+			 * easy testing in the common case */
+			if (strcasecmp(repo->name_8dot3, git_repository__8dot3_default) == 0)
+				repo->has_8dot3_default = 1;
+		}
+#endif
+	}
+
+	return repo->has_8dot3_default ?
+		git_repository__8dot3_default : repo->name_8dot3;
+}
+
 static int check_repositoryformatversion(git_config *config)
 {
 	int version;
@@ -1190,6 +1215,7 @@ static int repo_init_structure(
 	bool external_tpl =
 		((opts->flags & GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE) != 0);
 	mode_t dmode = pick_dir_mode(opts);
+	bool chmod = opts->mode != GIT_REPOSITORY_INIT_SHARED_UMASK;
 
 	/* Hide the ".git" directory */
 #ifdef GIT_WIN32
@@ -1230,10 +1256,12 @@ static int repo_init_structure(
 			default_template = true;
 		}
 
-		if (tdir)
-			error = git_futils_cp_r(tdir, repo_dir,
-				GIT_CPDIR_COPY_SYMLINKS | GIT_CPDIR_CHMOD_DIRS |
-				GIT_CPDIR_SIMPLE_TO_MODE, dmode);
+		if (tdir) {
+			uint32_t cpflags = GIT_CPDIR_COPY_SYMLINKS | GIT_CPDIR_SIMPLE_TO_MODE;
+			if (opts->mode != GIT_REPOSITORY_INIT_SHARED_UMASK)
+					cpflags |= GIT_CPDIR_CHMOD_DIRS;
+			error = git_futils_cp_r(tdir, repo_dir, cpflags, dmode);
+		}
 
 		git_buf_free(&template_buf);
 		git_config_free(cfg);
@@ -1254,9 +1282,14 @@ static int repo_init_structure(
 	 * - only create files if no external template was specified
 	 */
 	for (tpl = repo_template; !error && tpl->path; ++tpl) {
-		if (!tpl->content)
+		if (!tpl->content) {
+			uint32_t mkdir_flags = GIT_MKDIR_PATH;
+			if (chmod)
+				mkdir_flags |= GIT_MKDIR_CHMOD;
+
 			error = git_futils_mkdir(
-				tpl->path, repo_dir, dmode, GIT_MKDIR_PATH | GIT_MKDIR_CHMOD);
+				tpl->path, repo_dir, dmode, mkdir_flags);
+		}
 		else if (!external_tpl) {
 			const char *content = tpl->content;
 
@@ -1543,8 +1576,10 @@ int git_repository_head_unborn(git_repository *repo)
 	error = git_repository_head(&ref, repo);
 	git_reference_free(ref);
 
-	if (error == GIT_EUNBORNBRANCH)
+	if (error == GIT_EUNBORNBRANCH) {
+		giterr_clear();
 		return 1;
+	}
 
 	if (error < 0)
 		return -1;

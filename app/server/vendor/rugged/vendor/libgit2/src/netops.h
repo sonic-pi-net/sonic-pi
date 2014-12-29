@@ -16,7 +16,6 @@
 
 struct gitno_ssl {
 #ifdef GIT_SSL
-	SSL_CTX *ctx;
 	SSL *ssl;
 #else
 	size_t dummy;

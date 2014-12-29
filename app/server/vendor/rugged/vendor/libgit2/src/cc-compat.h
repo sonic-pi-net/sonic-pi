@@ -35,6 +35,14 @@
 #	define GIT_TYPEOF(x)
 #endif
 
+#if defined(__GNUC__)
+#	define GIT_ALIGN(x,size) x __attribute__ ((aligned(size)))
+#elif defined(_MSC_VER)
+#	define GIT_ALIGN(x,size) __declspec(align(size)) x
+#else
+#	define GIT_ALIGN(x,size) x
+#endif
+
 #define GIT_UNUSED(x) ((void)(x))
 
 /* Define the printf format specifer to use for size_t output */

@@ -138,6 +138,10 @@ static int crlf_apply_to_odb(
 		if (git_buf_text_gather_stats(&stats, from, false))
 			return GIT_PASSTHROUGH;
 
+		/* If there are no CR characters to filter out, then just pass */
+		if (!stats.cr)
+			return GIT_PASSTHROUGH;
+
 		/* If safecrlf is enabled, sanity-check the result. */
 		if (stats.cr != stats.crlf || stats.lf != stats.crlf) {
 			switch (ca->safe_crlf) {

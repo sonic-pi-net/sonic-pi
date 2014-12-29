@@ -154,15 +154,15 @@ typedef struct git_packbuilder git_packbuilder;
 
 /** Time in a signature */
 typedef struct git_time {
-	git_time_t time; /** time in seconds from epoch */
-	int offset; /** timezone offset, in minutes */
+	git_time_t time; /**< time in seconds from epoch */
+	int offset; /**< timezone offset, in minutes */
 } git_time;
 
 /** An action signature (e.g. for committers, taggers, etc) */
 typedef struct git_signature {
-	char *name; /** full name of the author */
-	char *email; /** email of the author */
-	git_time when; /** time when the action happened */
+	char *name; /**< full name of the author */
+	char *email; /**< email of the author */
+	git_time when; /**< time when the action happened */
 } git_signature;
 
 /** In-memory representation of a reference. */
@@ -183,9 +183,9 @@ typedef struct git_status_list git_status_list;
 
 /** Basic type of any Git reference. */
 typedef enum {
-	GIT_REF_INVALID = 0, /** Invalid reference */
-	GIT_REF_OID = 1, /** A reference which points at an object id */
-	GIT_REF_SYMBOLIC = 2, /** A reference which points at another reference */
+	GIT_REF_INVALID = 0, /**< Invalid reference */
+	GIT_REF_OID = 1, /**< A reference which points at an object id */
+	GIT_REF_SYMBOLIC = 2, /**< A reference which points at another reference */
 	GIT_REF_LISTALL = GIT_REF_OID|GIT_REF_SYMBOLIC,
 } git_ref_t;
 
@@ -314,12 +314,12 @@ typedef enum {
  *   when we don't want any particular ignore rule to be specified.
  */
 typedef enum {
-	GIT_SUBMODULE_IGNORE_RESET     = -1, /* reset to on-disk value */
+	GIT_SUBMODULE_IGNORE_RESET     = -1, /**< reset to on-disk value */
 
-	GIT_SUBMODULE_IGNORE_NONE      = 1,  /* any change or untracked == dirty */
-	GIT_SUBMODULE_IGNORE_UNTRACKED = 2,  /* dirty if tracked files change */
-	GIT_SUBMODULE_IGNORE_DIRTY     = 3,  /* only dirty if HEAD moved */
-	GIT_SUBMODULE_IGNORE_ALL       = 4,  /* never dirty */
+	GIT_SUBMODULE_IGNORE_NONE      = 1,  /**< any change or untracked == dirty */
+	GIT_SUBMODULE_IGNORE_UNTRACKED = 2,  /**< dirty if tracked files change */
+	GIT_SUBMODULE_IGNORE_DIRTY     = 3,  /**< only dirty if HEAD moved */
+	GIT_SUBMODULE_IGNORE_ALL       = 4,  /**< never dirty */
 
 	GIT_SUBMODULE_IGNORE_DEFAULT   = 0
 } git_submodule_ignore_t;

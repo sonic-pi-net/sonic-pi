@@ -3,11 +3,17 @@
 ## Version 2.2.0
 *Thursday 18th December, 2014*
 
-## Breaking Changes
+This release brings a number of nice enhancements. However the main
+feature is the accurate timing for triggering FX. This means you can now
+reliably use FX for accurate rhythmic purposes such as wobbling, slicing
+and echoes.
 
-* `use_sample_pack_as` now uses a double underscore `__` as separator between the user-specified alias and the sample name.
+### Breaking Changes
 
-## API Changes
+* `use_sample_pack_as` now uses a double underscore `__` as a separator
+  between the user-specified alias and the sample name.
+
+### API Changes
 
 * Teach synth args to take prefixed maps: `play 50, {amp: 0.5}, {release: 2}, amp: 2`
 * Don't round Floats when user specifically prints them to log with puts
@@ -19,34 +25,29 @@
 * New fn `knit` - `(knit :a1, 2, :c1, 1)` returns `(ring :a1, :a1, :c1)` 
 * New fn `bools` - `(bools 1, 0, 1)` returns `(ring true, false, true)`
 * New fn `range` - `(range 70, 100, 10)` returns `(ring 70, 70, 90, 100)`
-* New fn `is_sample_loaded?` - to detect whether a specific sample has been loaded
+* New fn `sample_loaded?` - to detect whether a specific sample has been loaded
 
-## Synth & FX
+### Synth & FX
 
 * Fixed regression in `:tb303` synth - sound is reverted to v2.0 behaviour
-* New FX - `:chorus` - Chorus 
-* New FX - `:ring` - Ring Modulation
-* New FX - `:bpf` - Band Pass Filter
-* New FX - `:rbpf` - Resonant Band Pass Filter
-* New FX - `:nrbpf` - Normalised Resonant Band Pass Filter
 * New Synth - `:square` - Pure square wave
 
-## GUI
+### GUI
 
 * Help system now autodocks on close
 * Preferences are now remembered across sessions
-* On Raspberry Pi, preverious volume and audio output options are forced
+* On Raspberry Pi, previous volume and audio output options are forced
   on boot.
 
-## New Samples
+### New Samples
 
-* `bd_tex` - Bass drum
+* `bd_tek` - Bass drum
 
-## Bug fixes
+### Bug fixes
 
 * `one_in` now returns false if num is < 1
 * Ensure `live_loop`'s no-sleep detector works within nested `with_fx` blocks
-* `chord` now returns a `RingArray`
+* `chord` now returns a ring.
 
 ## Version 2.1.1
 *Tuesday 25th November, 2014*
@@ -167,5 +168,5 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Completely re-designed GUI
 * Help system with full documentation, tutorial and many examples
 * Record functionality (for recording performances/pieces)
-* Suport for controlling system audio settings on RP
+* Support for controlling system audio settings on RP
 

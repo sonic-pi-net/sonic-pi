@@ -43,17 +43,17 @@ GIT_BEGIN_DECL
  * In between those are `GIT_CHECKOUT_SAFE` and `GIT_CHECKOUT_SAFE_CREATE`
  * both of which only make modifications that will not lose changes.
  *
- *                      |  target == baseline   |  target != baseline  |
- * ---------------------|-----------------------|----------------------|
- *  workdir == baseline |       no action       |  create, update, or  |
- *                      |                       |     delete file      |
- * ---------------------|-----------------------|----------------------|
- *  workdir exists and  |       no action       |   conflict (notify   |
- *    is != baseline    | notify dirty MODIFIED | and cancel checkout) |
- * ---------------------|-----------------------|----------------------|
- *   workdir missing,   | create if SAFE_CREATE |     create file      |
- *   baseline present   | notify dirty DELETED  |                      |
- * ---------------------|-----------------------|----------------------|
+ *                         |  target == baseline   |  target != baseline  |
+ *    ---------------------|-----------------------|----------------------|
+ *     workdir == baseline |       no action       |  create, update, or  |
+ *                         |                       |     delete file      |
+ *    ---------------------|-----------------------|----------------------|
+ *     workdir exists and  |       no action       |   conflict (notify   |
+ *       is != baseline    | notify dirty MODIFIED | and cancel checkout) |
+ *    ---------------------|-----------------------|----------------------|
+ *      workdir missing,   | create if SAFE_CREATE |     create file      |
+ *      baseline present   | notify dirty DELETED  |                      |
+ *    ---------------------|-----------------------|----------------------|
  *
  * The only difference between SAFE and SAFE_CREATE is that SAFE_CREATE
  * will cause a file to be checked out if it is missing from the working
@@ -106,7 +106,7 @@ GIT_BEGIN_DECL
  *   target contains that file.
  */
 typedef enum {
-	GIT_CHECKOUT_NONE = 0, /** default is a dry run, no actual updates */
+	GIT_CHECKOUT_NONE = 0, /**< default is a dry run, no actual updates */
 
 	/** Allow safe updates that cannot overwrite uncommitted data */
 	GIT_CHECKOUT_SAFE = (1u << 0),

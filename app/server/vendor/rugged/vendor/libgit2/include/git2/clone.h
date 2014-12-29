@@ -24,41 +24,91 @@
 GIT_BEGIN_DECL
 
 /**
+ * Options for bypassing the git-aware transport on clone. Bypassing
+ * it means that instead of a fetch, libgit2 will copy the object
+ * database directory instead of figuring out what it needs, which is
+ * faster. If possible, it will hardlink the files to save space.
+ */
+typedef enum {
+	/**
+	 * Auto-detect (default), libgit2 will bypass the git-aware
+	 * transport for local paths, but use a normal fetch for
+	 * `file://` urls.
+	 */
+	GIT_CLONE_LOCAL_AUTO,
+	/**
+	 * Bypass the git-aware transport even for a `file://` url.
+	 */
+	GIT_CLONE_LOCAL,
+	/**
+	 * Do no bypass the git-aware transport
+	 */
+	GIT_CLONE_NO_LOCAL,
+	/**
+	 * Bypass the git-aware transport, but do not try to use
+	 * hardlinks.
+	 */
+	GIT_CLONE_LOCAL_NO_LINKS,
+} git_clone_local_t;
+
+/**
  * Clone options structure
  *
  * Use the GIT_CLONE_OPTIONS_INIT to get the default settings, like this:
  *
  *		git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
- *
- * - `checkout_opts` are option passed to the checkout step.  To disable
- *   checkout, set the `checkout_strategy` to GIT_CHECKOUT_NONE.
- *   Generally you will want the use GIT_CHECKOUT_SAFE_CREATE to create
- *   all files in the working directory for the newly cloned repository.
- * - `bare` should be set to zero (false) to create a standard repo,
- *   or non-zero for a bare repo
- * - `ignore_cert_errors` should be set to 1 if errors validating the
- *   remote host's certificate should be ignored.
- *
- *   ** "origin" remote options: **
- *
- * - `remote_name` is the name to be given to the "origin" remote.  The
- *   default is "origin".
- * - `checkout_branch` gives the name of the branch to checkout.  NULL
- *   means use the remote's HEAD.
- * - `signature` is the identity used when updating the reflog. NULL means to
- *   use the default signature using the config.
  */
 
 typedef struct git_clone_options {
 	unsigned int version;
 
+	/**
+	 * These options are passed to the checkout step. To disable
+	 * checkout, set the `checkout_strategy` to
+	 * `GIT_CHECKOUT_NONE`. Generally you will want the use
+	 * GIT_CHECKOUT_SAFE_CREATE to create all files in the working
+	 * directory for the newly cloned repository.
+	 */
 	git_checkout_options checkout_opts;
+
+	/**
+	 * Callbacks to use for reporting fetch progress.
+	 */
 	git_remote_callbacks remote_callbacks;
 
+	/**
+	 * Set to zero (false) to create a standard repo, or non-zero
+	 * for a bare repo
+	 */
 	int bare;
+
+	/**
+	 * Set to 1 if errors validating the remote host's certificate
+	 * should be ignored.
+	 */
 	int ignore_cert_errors;
+
+	/**
+	 * Whether to use a fetch or copy the object database.
+	 */
+	git_clone_local_t local;
+
+	/**
+	 * The name to be given to the remote that will be
+	 * created. The default is "origin".
+	 */
 	const char *remote_name;
+
+	/**
+	 * The name of the branch to checkout. NULL means use the
+	 * remote's default branch.
+	 */
 	const char* checkout_branch;
+
+	/**
+	 * The identity used when updating the reflog. NULL means to
+	 * use the default signature using the config.
+	 */
 	git_signature *signature;
 } git_clone_options;
 
@@ -121,6 +171,35 @@ GIT_EXTERN(int) git_clone_into(
 	git_remote *remote,
 	const git_checkout_options *co_opts,
 	const char *branch,
+	const git_signature *signature);
+
+/**
+ * Perform a local clone into a repository
+ *
+ * A "local clone" bypasses any git-aware protocols and simply copies
+ * over the object database from the source repository. It is often
+ * faster than a git-aware clone, but no verification of the data is
+ * performed, and can copy over too much data.
+ *
+ * @param repo the repository to use
+ * @param remote the remote repository to clone from
+ * @param co_opts options to use during checkout
+ * @param branch the branch to checkout after the clone, pass NULL for the
+ *        remote's default branch
+ * @param link wether to use hardlinks instead of copying
+ * objects. This is only possible if both repositories are on the same
+ * filesystem.
+ * @param signature the identity used when updating the reflog
+ * @return 0 on success, any non-zero return value from a callback
+ *         function, or a negative value to indicate an error (use
+ *         `giterr_last` for a detailed error message)
+ */
+GIT_EXTERN(int) git_clone_local_into(
+	git_repository *repo,
+	git_remote *remote,
+	const git_checkout_options *co_opts,
+	const char *branch,
+	int link,
 	const git_signature *signature);
 
 /** @} */

@@ -260,7 +260,7 @@ static int on_headers_complete(http_parser *parser)
 
 	if (parser->status_code == 401 &&
 	    get_verb == s->verb) {
-		if (!t->owner->cred_acquire_payload) {
+		if (!t->owner->cred_acquire_cb) {
 			no_callback = 1;
 		} else {
 			int allowed_types = 0;
@@ -537,7 +537,23 @@ replay:
 	}
 
 	while (!*bytes_read && !t->parse_finished) {
-		t->parse_buffer.offset = 0;
+		size_t data_offset;
+
+		/*
+		 * Make the parse_buffer think it's as full of data as
+		 * the buffer, so it won't try to recv more data than
+		 * we can put into it.
+		 *
+		 * data_offset is the actual data offset from which we
+		 * should tell the parser to start reading.
+		 */
+		if (buf_size >= t->parse_buffer.len) {
+			t->parse_buffer.offset = 0;
+		} else {
+			t->parse_buffer.offset = t->parse_buffer.len - buf_size;
+		}
+
+		data_offset = t->parse_buffer.offset;
 
 		if (gitno_recv(&t->parse_buffer) < 0)
 			return -1;
@@ -558,8 +574,8 @@ replay:
 
 		bytes_parsed = http_parser_execute(&t->parser,
 			&t->settings,
-			t->parse_buffer.data,
-			t->parse_buffer.offset);
+			t->parse_buffer.data + data_offset,
+			t->parse_buffer.offset - data_offset);
 
 		t->parser.data = NULL;
 
@@ -577,7 +593,7 @@ replay:
 		if (t->parse_error < 0)
 			return -1;
 
-		if (bytes_parsed != t->parse_buffer.offset) {
+		if (bytes_parsed != t->parse_buffer.offset - data_offset) {
 			giterr_set(GITERR_NET,
 				"HTTP parser error: %s",
 				http_errno_description((enum http_errno)t->parser.http_errno));

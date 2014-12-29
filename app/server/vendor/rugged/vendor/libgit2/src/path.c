@@ -7,6 +7,7 @@
 #include "common.h"
 #include "path.h"
 #include "posix.h"
+#include "repository.h"
 #ifdef GIT_WIN32
 #include "win32/posix.h"
 #include "win32/w32_util.h"
@@ -494,23 +495,33 @@ bool git_path_is_empty_dir(const char *path)
 		WIN32_FIND_DATAW findData;
 		HANDLE hFind = FindFirstFileW(filter_w, &findData);
 
+		/* FindFirstFile will fail if there are no children to the given
+		 * path, which can happen if the given path is a file (and obviously
+		 * has no children) or if the given path is an empty mount point.
+		 * (Most directories have at least directory entries '.' and '..',
+		 * but ridiculously another volume mounted in another drive letter's
+		 * path space do not, and thus have nothing to enumerate.)  If
+		 * FindFirstFile fails, check if this is a directory-like thing
+		 * (a mount point).
+		 */
+		if (hFind == INVALID_HANDLE_VALUE)
+			return git_path_isdir(path);
+
 		/* If the find handle was created successfully, then it's a directory */
-		if (hFind != INVALID_HANDLE_VALUE) {
-			empty = true;
+		empty = true;
 
-			do {
-				/* Allow the enumeration to return . and .. and still be considered
-				 * empty. In the special case of drive roots (i.e. C:\) where . and
-				 * .. do not occur, we can still consider the path to be an empty
-				 * directory if there's nothing there. */
-				if (!git_path_is_dot_or_dotdotW(findData.cFileName)) {
-					empty = false;
-					break;
-				}
-			} while (FindNextFileW(hFind, &findData));
+		do {
+			/* Allow the enumeration to return . and .. and still be considered
+			 * empty. In the special case of drive roots (i.e. C:\) where . and
+			 * .. do not occur, we can still consider the path to be an empty
+			 * directory if there's nothing there. */
+			if (!git_path_is_dot_or_dotdotW(findData.cFileName)) {
+				empty = false;
+				break;
+			}
+		} while (FindNextFileW(hFind, &findData));
 
-			FindClose(hFind);
-		}
+		FindClose(hFind);
 	}
 
 	return empty;
@@ -1126,4 +1137,277 @@ int git_path_dirload_with_stat(
 	git_buf_free(&full);
 
 	return error;
+}
+
+int git_path_from_url_or_path(git_buf *local_path_out, const char *url_or_path)
+{
+	int error;
+
+	/* If url_or_path begins with file:// treat it as a URL */
+	if (!git__prefixcmp(url_or_path, "file://")) {
+		if ((error = git_path_fromurl(local_path_out, url_or_path)) < 0) {
+			return error;
+		}
+	} else { /* We assume url_or_path is already a path */
+		if ((error = git_buf_sets(local_path_out, url_or_path)) < 0) {
+			return error;
+		}
+	}
+
+	return 0;
+}
+
+/* Reject paths like AUX or COM1, or those versions that end in a dot or
+ * colon.  ("AUX." or "AUX:")
+ */
+GIT_INLINE(bool) verify_dospath(
+	const char *component,
+	size_t len,
+	const char dospath[3],
+	bool trailing_num)
+{
+	size_t last = trailing_num ? 4 : 3;
+
+	if (len < last || git__strncasecmp(component, dospath, 3) != 0)
+		return true;
+
+	if (trailing_num && !git__isdigit(component[3]))
+		return true;
+
+	return (len > last &&
+		component[last] != '.' &&
+		component[last] != ':');
+}
+
+static int32_t next_hfs_char(const char **in, size_t *len)
+{
+	while (*len) {
+		int32_t codepoint;
+		int cp_len = git__utf8_iterate((const uint8_t *)(*in), (int)(*len), &codepoint);
+		if (cp_len < 0)
+			return -1;
+
+		(*in) += cp_len;
+		(*len) -= cp_len;
+
+		/* these code points are ignored completely */
+		switch (codepoint) {
+		case 0x200c: /* ZERO WIDTH NON-JOINER */
+		case 0x200d: /* ZERO WIDTH JOINER */
+		case 0x200e: /* LEFT-TO-RIGHT MARK */
+		case 0x200f: /* RIGHT-TO-LEFT MARK */
+		case 0x202a: /* LEFT-TO-RIGHT EMBEDDING */
+		case 0x202b: /* RIGHT-TO-LEFT EMBEDDING */
+		case 0x202c: /* POP DIRECTIONAL FORMATTING */
+		case 0x202d: /* LEFT-TO-RIGHT OVERRIDE */
+		case 0x202e: /* RIGHT-TO-LEFT OVERRIDE */
+		case 0x206a: /* INHIBIT SYMMETRIC SWAPPING */
+		case 0x206b: /* ACTIVATE SYMMETRIC SWAPPING */
+		case 0x206c: /* INHIBIT ARABIC FORM SHAPING */
+		case 0x206d: /* ACTIVATE ARABIC FORM SHAPING */
+		case 0x206e: /* NATIONAL DIGIT SHAPES */
+		case 0x206f: /* NOMINAL DIGIT SHAPES */
+		case 0xfeff: /* ZERO WIDTH NO-BREAK SPACE */
+			continue;
+		}
+
+		/* fold into lowercase -- this will only fold characters in
+		 * the ASCII range, which is perfectly fine, because the
+		 * git folder name can only be composed of ascii characters
+		 */
+		return tolower(codepoint);
+	}
+	return 0; /* NULL byte -- end of string */
+}
+
+static bool verify_dotgit_hfs(const char *path, size_t len)
+{
+	if (next_hfs_char(&path, &len) != '.' ||
+		next_hfs_char(&path, &len) != 'g' ||
+		next_hfs_char(&path, &len) != 'i' ||
+		next_hfs_char(&path, &len) != 't' ||
+		next_hfs_char(&path, &len) != 0)
+		return true;
+
+	return false;
+}
+
+GIT_INLINE(bool) verify_dotgit_ntfs(git_repository *repo, const char *path, size_t len)
+{
+	const char *shortname = NULL;
+	size_t i, start, shortname_len = 0;
+
+	/* See if the repo has a custom shortname (not "GIT~1") */
+	if (repo &&
+		(shortname = git_repository__8dot3_name(repo)) &&
+		shortname != git_repository__8dot3_default)
+		shortname_len = strlen(shortname);
+
+	if (len >= 4 && strncasecmp(path, ".git", 4) == 0)
+		start = 4;
+	else if (len >= git_repository__8dot3_default_len &&
+		strncasecmp(path, git_repository__8dot3_default, git_repository__8dot3_default_len) == 0)
+		start = git_repository__8dot3_default_len;
+	else if (shortname_len && len >= shortname_len &&
+		strncasecmp(path, shortname, shortname_len) == 0)
+		start = shortname_len;
+	else
+		return true;
+
+	/* Reject paths beginning with ".git\" */
+	if (path[start] == '\\')
+		return false;
+
+	for (i = start; i < len; i++) {
+		if (path[i] != ' ' && path[i] != '.')
+			return true;
+	}
+
+	return false;
+}
+
+GIT_INLINE(bool) verify_char(unsigned char c, unsigned int flags)
+{
+	if ((flags & GIT_PATH_REJECT_BACKSLASH) && c == '\\')
+		return false;
+
+	if ((flags & GIT_PATH_REJECT_SLASH) && c == '/')
+		return false;
+
+	if (flags & GIT_PATH_REJECT_NT_CHARS) {
+		if (c < 32)
+			return false;
+
+		switch (c) {
+		case '<':
+		case '>':
+		case ':':
+		case '"':
+		case '|':
+		case '?':
+		case '*':
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/*
+ * We fundamentally don't like some paths when dealing with user-inputted
+ * strings (in checkout or ref names): we don't want dot or dot-dot
+ * anywhere, we want to avoid writing weird paths on Windows that can't
+ * be handled by tools that use the non-\\?\ APIs, we don't want slashes
+ * or double slashes at the end of paths that can make them ambiguous.
+ *
+ * For checkout, we don't want to recurse into ".git" either.
+ */
+static bool verify_component(
+	git_repository *repo,
+	const char *component,
+	size_t len,
+	unsigned int flags)
+{
+	if (len == 0)
+		return false;
+
+	if ((flags & GIT_PATH_REJECT_TRAVERSAL) &&
+		len == 1 && component[0] == '.')
+		return false;
+
+	if ((flags & GIT_PATH_REJECT_TRAVERSAL) &&
+		len == 2 && component[0] == '.' && component[1] == '.')
+		return false;
+
+	if ((flags & GIT_PATH_REJECT_TRAILING_DOT) && component[len-1] == '.')
+		return false;
+
+	if ((flags & GIT_PATH_REJECT_TRAILING_SPACE) && component[len-1] == ' ')
+		return false;
+
+	if ((flags & GIT_PATH_REJECT_TRAILING_COLON) && component[len-1] == ':')
+		return false;
+
+	if (flags & GIT_PATH_REJECT_DOS_PATHS) {
+		if (!verify_dospath(component, len, "CON", false) ||
+			!verify_dospath(component, len, "PRN", false) ||
+			!verify_dospath(component, len, "AUX", false) ||
+			!verify_dospath(component, len, "NUL", false) ||
+			!verify_dospath(component, len, "COM", true)  ||
+			!verify_dospath(component, len, "LPT", true))
+			return false;
+	}
+
+	if (flags & GIT_PATH_REJECT_DOT_GIT_HFS &&
+		!verify_dotgit_hfs(component, len))
+		return false;
+
+	if (flags & GIT_PATH_REJECT_DOT_GIT_NTFS &&
+		!verify_dotgit_ntfs(repo, component, len))
+		return false;
+
+	if ((flags & GIT_PATH_REJECT_DOT_GIT_HFS) == 0 &&
+		(flags & GIT_PATH_REJECT_DOT_GIT_NTFS) == 0 &&
+		(flags & GIT_PATH_REJECT_DOT_GIT) &&
+		len == 4 &&
+		component[0] == '.' &&
+		(component[1] == 'g' || component[1] == 'G') &&
+		(component[2] == 'i' || component[2] == 'I') &&
+		(component[3] == 't' || component[3] == 'T'))
+		return false;
+
+	return true;
+}
+
+GIT_INLINE(unsigned int) dotgit_flags(
+	git_repository *repo,
+	unsigned int flags)
+{
+	int protectHFS = 0, protectNTFS = 0;
+
+#ifdef __APPLE__
+	protectHFS = 1;
+#endif
+
+#ifdef GIT_WIN32
+	protectNTFS = 1;
+#endif
+
+	if (repo && !protectHFS)
+		git_repository__cvar(&protectHFS, repo, GIT_CVAR_PROTECTHFS);
+	if (protectHFS)
+		flags |= GIT_PATH_REJECT_DOT_GIT_HFS;
+
+	if (repo && !protectNTFS)
+		git_repository__cvar(&protectNTFS, repo, GIT_CVAR_PROTECTNTFS);
+	if (protectNTFS)
+		flags |= GIT_PATH_REJECT_DOT_GIT_NTFS;
+
+	return flags;
+}
+
+bool git_path_isvalid(
+	git_repository *repo,
+	const char *path,
+	unsigned int flags)
+{
+	const char *start, *c;
+
+	/* Upgrade the ".git" checks based on platform */
+	if ((flags & GIT_PATH_REJECT_DOT_GIT))
+		flags = dotgit_flags(repo, flags);
+
+	for (start = c = path; *c; c++) {
+		if (!verify_char(*c, flags))
+			return false;
+
+		if (*c == '/') {
+			if (!verify_component(repo, start, (c - start), flags))
+				return false;
+
+			start = c+1;
+		}
+	}
+
+	return verify_component(repo, start, (c - start), flags);
 }

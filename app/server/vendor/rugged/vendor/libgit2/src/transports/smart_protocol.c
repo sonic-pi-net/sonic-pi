@@ -26,17 +26,16 @@ int git_smart__store_refs(transport_smart *t, int flushes)
 	int error, flush = 0, recvd;
 	const char *line_end = NULL;
 	git_pkt *pkt = NULL;
-	git_pkt_ref *ref;
 	size_t i;
 
 	/* Clear existing refs in case git_remote_connect() is called again
 	 * after git_remote_disconnect().
 	 */
-	git_vector_foreach(refs, i, ref) {
-		git__free(ref->head.name);
-		git__free(ref);
+	git_vector_foreach(refs, i, pkt) {
+		git_pkt_free(pkt);
 	}
 	git_vector_clear(refs);
+	pkt = NULL;
 
 	do {
 		if (buf->offset > 0)
@@ -78,7 +77,52 @@ int git_smart__store_refs(transport_smart *t, int flushes)
 	return flush;
 }
 
-int git_smart__detect_caps(git_pkt_ref *pkt, transport_smart_caps *caps)
+static int append_symref(const char **out, git_vector *symrefs, const char *ptr)
+{
+	int error;
+	const char *end;
+	git_buf buf = GIT_BUF_INIT;
+	git_refspec *mapping;
+
+	ptr += strlen(GIT_CAP_SYMREF);
+	if (*ptr != '=')
+		goto on_invalid;
+
+	ptr++;
+	if (!(end = strchr(ptr, ' ')) &&
+	    !(end = strchr(ptr, '\0')))
+		goto on_invalid;
+
+	if ((error = git_buf_put(&buf, ptr, end - ptr)) < 0)
+		return error;
+
+	/* symref mapping has refspec format */
+	mapping = git__malloc(sizeof(git_refspec));
+	GITERR_CHECK_ALLOC(mapping);
+
+	error = git_refspec__parse(mapping, git_buf_cstr(&buf), true);
+	git_buf_free(&buf);
+
+	/* if the error isn't OOM, then it's a parse error; let's use a nicer message */
+	if (error < 0) {
+		if (giterr_last()->klass != GITERR_NOMEMORY)
+			goto on_invalid;
+
+		return error;
+	}
+
+	if ((error = git_vector_insert(symrefs, mapping)) < 0)
+		return error;
+
+	*out = end;
+	return 0;
+
+on_invalid:
+	giterr_set(GITERR_NET, "remote sent invalid symref");
+	return -1;
+}
+
+int git_smart__detect_caps(git_pkt_ref *pkt, transport_smart_caps *caps, git_vector *symrefs)
 {
 	const char *ptr;
 
@@ -138,6 +182,15 @@ int git_smart__detect_caps(git_pkt_ref *pkt, transport_smart_caps *caps)
 		if (!git__prefixcmp(ptr, GIT_CAP_THIN_PACK)) {
 			caps->common = caps->thin_pack = 1;
 			ptr += strlen(GIT_CAP_THIN_PACK);
+			continue;
+		}
+
+		if (!git__prefixcmp(ptr, GIT_CAP_SYMREF)) {
+			int error;
+
+			if ((error = append_symref(&ptr, symrefs, ptr)) < 0)
+				return error;
+
 			continue;
 		}
 
@@ -969,7 +1022,7 @@ int git_smart__push(git_transport *transport, git_push *push)
 		if (error < 0)
 			goto done;
 
-		error = git_smart__update_heads(t);
+		error = git_smart__update_heads(t, NULL);
 	}
 
 done:

@@ -5,14 +5,16 @@
  * a Linking Exception. For full terms see the included COPYING file.
  */
 
+#ifdef GIT_SSH
+#include <libssh2.h>
+#endif
+
 #include "git2.h"
 #include "buffer.h"
 #include "netops.h"
 #include "smart.h"
 
 #ifdef GIT_SSH
-
-#include <libssh2.h>
 
 #define OWNING_SUBTRANSPORT(s) ((ssh_subtransport *)(s)->parent.subtransport)
 
@@ -132,11 +134,22 @@ static int ssh_stream_write(
 	size_t len)
 {
 	ssh_stream *s = (ssh_stream *)stream;
+	size_t off = 0;
+	ssize_t ret = 0;
 
 	if (!s->sent_command && send_command(s) < 0)
 		return -1;
 
-	if (libssh2_channel_write(s->channel, buffer, len) < LIBSSH2_ERROR_NONE) {
+	do {
+		ret = libssh2_channel_write(s->channel, buffer + off, len - off);
+		if (ret < 0)
+			break;
+
+		off += ret;
+
+	} while (off < len);
+
+	if (ret < 0) {
 		ssh_error(s->session, "SSH could not write data");
 		return -1;
 	}
@@ -274,6 +287,10 @@ static int ssh_agent_auth(LIBSSH2_SESSION *session, git_cred_ssh_key *c) {
 	}
 
 shutdown:
+
+	if (rc != LIBSSH2_ERROR_NONE)
+		ssh_error(session, "error authenticating");
+
 	libssh2_agent_disconnect(agent);
 	libssh2_agent_free(agent);
 
@@ -287,6 +304,7 @@ static int _git_ssh_authenticate_session(
 	int rc;
 
 	do {
+		giterr_clear();
 		switch (cred->credtype) {
 		case GIT_CREDTYPE_USERPASS_PLAINTEXT: {
 			git_cred_userpass_plaintext *c = (git_cred_userpass_plaintext *)cred;
@@ -340,7 +358,8 @@ static int _git_ssh_authenticate_session(
 	} while (LIBSSH2_ERROR_EAGAIN == rc || LIBSSH2_ERROR_TIMEOUT == rc);
 
 	if (rc != LIBSSH2_ERROR_NONE) {
-		ssh_error(session, "Failed to authenticate SSH session");
+		if (!giterr_last())
+			ssh_error(session, "Failed to authenticate SSH session");
 		return -1;
 	}
 

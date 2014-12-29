@@ -69,7 +69,7 @@ GIT_EXTERN(int) git_reflog_append(git_reflog *reflog, const git_oid *id, const g
  *
  * @param repo the repository
  * @param old_name the old name of the reference
- * @param new_name the new name of the reference
+ * @param name the new name of the reference
  * @return 0 on success, GIT_EINVALIDSPEC or an error code
  */
 GIT_EXTERN(int) git_reflog_rename(git_repository *repo, const char *old_name, const char *name);

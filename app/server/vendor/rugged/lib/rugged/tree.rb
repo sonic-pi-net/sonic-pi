@@ -5,6 +5,10 @@ module Rugged
     attr_reader :owner
     alias repo owner
 
+    def diff(other = nil, options = nil)
+      Tree.diff(repo, self, other, options)
+    end
+
     def inspect
       data = "#<Rugged::Tree:#{object_id} {oid: #{oid}}>\n"
       self.each { |e| data << "  <\"#{e[:name]}\" #{e[:oid]}>\n" }

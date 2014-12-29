@@ -48,9 +48,6 @@ static int mark_uninteresting(git_revwalk *walk, git_commit_list_node *commit)
 
 	assert(commit);
 
-	git_array_alloc(pending);
-	GITERR_CHECK_ARRAY(pending);
-
 	do {
 		commit->uninteresting = 1;
 
@@ -67,7 +64,7 @@ static int mark_uninteresting(git_revwalk *walk, git_commit_list_node *commit)
 		tmp = git_array_pop(pending);
 		commit = tmp ? *tmp : NULL;
 
-	} while (git_array_size(pending) > 0);
+	} while (commit != NULL);
 
 	git_array_clear(pending);
 

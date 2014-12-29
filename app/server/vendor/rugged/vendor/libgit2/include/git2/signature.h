@@ -69,7 +69,7 @@ GIT_EXTERN(int) git_signature_default(git_signature **out, git_repository *repo)
  * Call `git_signature_free()` to free the data.
  *
  * @param dest pointer where to store the copy
- * @param entry signature to duplicate
+ * @param sig signature to duplicate
  * @return 0 or an error code
  */
 GIT_EXTERN(int) git_signature_dup(git_signature **dest, const git_signature *sig);

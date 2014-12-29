@@ -16,6 +16,12 @@ git_mutex git__mwindow_mutex;
 
 #define MAX_SHUTDOWN_CB 8
 
+#ifdef GIT_SSL
+# include <openssl/ssl.h>
+SSL_CTX *git__ssl_ctx;
+static git_mutex *openssl_locks;
+#endif
+
 static git_global_shutdown_fn git__shutdown_callbacks[MAX_SHUTDOWN_CB];
 static git_atomic git__n_shutdown_callbacks;
 static git_atomic git__n_inits;
@@ -37,6 +43,81 @@ static void git__shutdown(void)
 			cb();
 	}
 
+}
+
+#if defined(GIT_THREADS) && defined(GIT_SSL)
+void openssl_locking_function(int mode, int n, const char *file, int line)
+{
+	int lock;
+
+	GIT_UNUSED(file);
+	GIT_UNUSED(line);
+
+	lock = mode & CRYPTO_LOCK;
+
+	if (lock) {
+		git_mutex_lock(&openssl_locks[n]);
+	} else {
+		git_mutex_unlock(&openssl_locks[n]);
+	}
+}
+
+static void shutdown_ssl(void)
+{
+	git__free(openssl_locks);
+}
+#endif
+
+static void init_ssl(void)
+{
+#ifdef GIT_SSL
+	SSL_load_error_strings();
+	OpenSSL_add_ssl_algorithms();
+	/*
+	 * Load SSLv{2,3} and TLSv1 so that we can talk with servers
+	 * which use the SSL hellos, which are often used for
+	 * compatibility. We then disable SSL so we only allow OpenSSL
+	 * to speak TLSv1 to perform the encryption itself.
+	 */
+	git__ssl_ctx = SSL_CTX_new(SSLv23_method());
+	SSL_CTX_set_options(git__ssl_ctx,
+			    SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3
+	/* Older OpenSSL and MacOS OpenSSL doesn't have this */
+# ifdef SSL_OP_NO_COMPRESSION
+			    | SSL_OP_NO_COMPRESSION
+# endif
+		);
+	SSL_CTX_set_mode(git__ssl_ctx, SSL_MODE_AUTO_RETRY);
+	SSL_CTX_set_verify(git__ssl_ctx, SSL_VERIFY_NONE, NULL);
+	if (!SSL_CTX_set_default_verify_paths(git__ssl_ctx)) {
+		SSL_CTX_free(git__ssl_ctx);
+		git__ssl_ctx = NULL;
+	}
+
+# ifdef GIT_THREADS
+	{
+		int num_locks, i;
+
+		num_locks = CRYPTO_num_locks();
+		openssl_locks = git__calloc(num_locks, sizeof(git_mutex));
+		if (openssl_locks == NULL) {
+			SSL_CTX_free(git__ssl_ctx);
+			git__ssl_ctx = NULL;
+		}
+
+		for (i = 0; i < num_locks; i++) {
+			if (git_mutex_init(&openssl_locks[i]) != 0) {
+				SSL_CTX_free(git__ssl_ctx);
+				git__ssl_ctx = NULL;
+			}
+		}
+
+		CRYPTO_set_locking_callback(openssl_locking_function);
+	}
+
+	git__on_shutdown(shutdown_ssl);
+# endif
+#endif
 }
 
 /**
@@ -78,7 +159,7 @@ static void git__shutdown(void)
 static DWORD _tls_index;
 static volatile LONG _mutex = 0;
 
-static int synchronized_threads_init()
+static int synchronized_threads_init(void)
 {
 	int error;
 
@@ -112,7 +193,7 @@ int git_threads_init(void)
 	return error;
 }
 
-static void synchronized_threads_shutdown()
+static void synchronized_threads_shutdown(void)
 {
 	/* Shut down any subsystems that have global state */
 	git__shutdown();
@@ -159,6 +240,9 @@ int init_error = 0;
 
 static void cb__free_status(void *st)
 {
+	git_global_st *state = (git_global_st *) st;
+	git__free(state->error_t.message);
+
 	git__free(st);
 }
 
@@ -168,9 +252,13 @@ static void init_once(void)
 		return;
 	pthread_key_create(&_tls_key, &cb__free_status);
 
+
 	/* Initialize any other subsystems that have global state */
 	if ((init_error = git_hash_global_init()) >= 0)
 		init_error = git_sysdir_global_init();
+
+	/* OpenSSL needs to be initialized from the main thread */
+	init_ssl();
 
 	GIT_MEMORY_BARRIER;
 }
@@ -225,6 +313,13 @@ static git_global_st __state;
 
 int git_threads_init(void)
 {
+	static int ssl_inited = 0;
+
+	if (!ssl_inited) {
+		init_ssl();
+		ssl_inited = 1;
+	}
+
 	git_atomic_inc(&git__n_inits);
 	return 0;
 }

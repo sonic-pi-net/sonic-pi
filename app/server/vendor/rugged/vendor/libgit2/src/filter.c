@@ -38,7 +38,7 @@ struct git_filter_list {
 };
 
 typedef struct {
-	const char *filter_name;
+	char *filter_name;
 	git_filter *filter;
 	int priority;
 	int initialized;
@@ -75,6 +75,7 @@ static void filter_registry_shutdown(void)
 			fdef->initialized = false;
 		}
 
+		git__free(fdef->filter_name);
 		git__free(fdef->attrdata);
 		git__free(fdef);
 	}
@@ -230,6 +231,8 @@ int git_filter_register(
 	size_t nattr = 0, nmatch = 0;
 	git_buf attrs = GIT_BUF_INIT;
 
+	assert(name && filter);
+
 	if (filter_registry_initialize() < 0)
 		return -1;
 
@@ -246,7 +249,9 @@ int git_filter_register(
 		sizeof(git_filter_def) + 2 * nattr * sizeof(char *), 1);
 	GITERR_CHECK_ALLOC(fdef);
 
-	fdef->filter_name = name;
+	fdef->filter_name = git__strdup(name);
+	GITERR_CHECK_ALLOC(fdef->filter_name);
+
 	fdef->filter      = filter;
 	fdef->priority    = priority;
 	fdef->nattrs      = nattr;
@@ -256,6 +261,7 @@ int git_filter_register(
 	filter_def_set_attrs(fdef);
 
 	if (git_vector_insert(&git__filter_registry->filters, fdef) < 0) {
+		git__free(fdef->filter_name);
 		git__free(fdef->attrdata);
 		git__free(fdef);
 		return -1;
@@ -269,6 +275,8 @@ int git_filter_unregister(const char *name)
 {
 	size_t pos;
 	git_filter_def *fdef;
+
+	assert(name);
 
 	/* cannot unregister default filters */
 	if (!strcmp(GIT_FILTER_CRLF, name) || !strcmp(GIT_FILTER_IDENT, name)) {
@@ -288,6 +296,7 @@ int git_filter_unregister(const char *name)
 		fdef->initialized = false;
 	}
 
+	git__free(fdef->filter_name);
 	git__free(fdef->attrdata);
 	git__free(fdef);
 

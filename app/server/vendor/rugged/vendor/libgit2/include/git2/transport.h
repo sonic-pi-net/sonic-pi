@@ -11,10 +11,6 @@
 #include "net.h"
 #include "types.h"
 
-#ifdef GIT_SSH
-#include <libssh2.h>
-#endif
-
 /**
  * @file git2/transport.h
  * @brief Git transport interfaces and functions
@@ -61,13 +57,19 @@ typedef struct {
 	char *password;
 } git_cred_userpass_plaintext;
 
-#ifdef GIT_SSH
-typedef LIBSSH2_USERAUTH_PUBLICKEY_SIGN_FUNC((*git_cred_sign_callback));
-typedef LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC((*git_cred_ssh_interactive_callback));
-#else
-typedef int (*git_cred_sign_callback)(void *, ...);
-typedef int (*git_cred_ssh_interactive_callback)(void *, ...);
+
+/*
+ * If the user hasn't included libssh2.h before git2.h, we need to
+ * define a few types for the callback signatures.
+ */
+#ifndef LIBSSH2_VERSION
+typedef struct _LIBSSH2_SESSION LIBSSH2_SESSION;
+typedef struct _LIBSSH2_USERAUTH_KBDINT_PROMPT LIBSSH2_USERAUTH_KBDINT_PROMPT;
+typedef struct _LIBSSH2_USERAUTH_KBDINT_RESPONSE LIBSSH2_USERAUTH_KBDINT_RESPONSE;
 #endif
+
+typedef int (*git_cred_sign_callback)(LIBSSH2_SESSION *session, unsigned char **sig, size_t *sig_len, const unsigned char *data, size_t data_len, void **abstract);
+typedef void (*git_cred_ssh_interactive_callback)(const char* name, int name_len, const char* instruction, int instruction_len, int num_prompts, const LIBSSH2_USERAUTH_KBDINT_PROMPT* prompts, LIBSSH2_USERAUTH_KBDINT_RESPONSE* responses, void **abstract);
 
 /**
  * A ssh key from disk

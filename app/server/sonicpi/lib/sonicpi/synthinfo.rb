@@ -2059,7 +2059,7 @@ end
     end
 
     def introduced
-      Version.new(2,0,0)
+      Version.new(2,3,0)
     end
 
     def synth_name
@@ -2067,7 +2067,7 @@ end
     end
 
     def doc
-      "Creates lo-fi output by decimating and deconstructing the incoming audio by lowering both the sample rate and bit depth. The default sample rate for CD audio is 44100, so use values less than that for lo-fi sound. Similarly, the default bit depth for CD audio is 16, so use values less than that for that crunchy chip-tune sound full of artefacts and bitty distortion."
+      "Creates lo-fi output by decimating and deconstructing the incoming audio by lowering both the sample rate and bit depth. The default sample rate for CD audio is 44100, so use values less than that for that crunchy chip-tune sound full of artefacts and bitty distortion. Similarly, the default bit depth for CD audio is 16, so use values less than that for lo-fi sound."
     end
 
     def arg_defaults
@@ -3579,6 +3579,127 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
     end
   end
 
+    class FXFlanger < FXInfo
+    def name
+      "Flanger"
+    end
+
+    def introduced
+      Version.new(2,3,0)
+    end
+
+    def synth_name
+      "fx_flanger"
+    end
+
+    def doc
+      "Mix the incomingsignal with a copy of itself which has a rate modulating faster and slower than the original.  Creates a swirling/whooshing effect."
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :phase => 4,
+        :phase_slide => 0,
+        :phase_slide_shape => 5,
+        :phase_slide_curve => 0,
+        :phase_offset => 0,
+        :wave => 4,
+        :invert_wave => 0,
+        :delay => 0.1,
+        :delay_slide => 0,
+        :delay_slide_shape => 5,
+        :delay_slide_curve => 0,
+        :depth => 0.1,
+        :depth_slide => 0,
+        :depth_slide_shape => 5,
+        :depth_slide_curve => 0,
+        :decay => 0,
+        :decay_slide => 0,
+        :decay_slide_shape => 5,
+        :decay_slide_curve => 0,
+        :feedback => 0,
+        :feedback_slide => 0,
+        :feedback_slide_shape => 5,
+        :feedback_slide_curve => 0,
+        :invert_flange => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+
+
+        :phase =>
+        {
+          :doc => "Phase duration in seconds of flanger modulation.",
+          :validations => [v_positive_not_zero(:phase)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :wave =>
+        {
+          :doc => "Wave type - 0 saw, 1 pulse, 2 triangle, 3 sine, 4 parabolic. Different waves will produce different flanging modulation effects.",
+          :validations => [v_one_of(:wave, [0, 1, 2, 3, 4])],
+          :modulatable => true
+        },
+
+        :invert_wave =>
+        {
+          :doc => "Invert flanger control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
+          :validations => [v_one_of(:mod_invert_wave, [0, 1])],
+          :modulatable => true
+        },
+
+        :delay =>
+        {
+          :doc => "Amount of delay time between original and flanged version of audio. Values between 0 and 1 work well.",
+          :modulatable => true
+        },
+
+        :depth =>
+        {
+          :doc => "Flange depth - greater depths mean a more prominent effect. Values between 0 and 1 work well.",
+          :modulatable => true
+        },
+
+        :decay =>
+        {
+          :doc => "Flange decay time",
+          :validations => [v_one_of(:mod_invert_wave, [0, 1])],
+          :modulatable => true
+        },
+
+        :feedback =>
+        {
+          :doc => "Amount of feedback as a value between 0 and 1.",
+          :validations => [v_positive(:feedback), v_less_than(:feedback, 1)],
+          :modulatable => true
+        },
+
+        :invert_flange =>
+        {
+          :doc => "Invert phase of flanger signal. 0=no inversion, 1=inverted signal.",
+          :validations => [v_one_of(:invert, [0, 1])],
+          :modulatable => true
+        }
+
+      }
+      end
+  end
+
   class BaseInfo
 
     @@grouped_samples =
@@ -3758,7 +3879,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :basic_stereo_player => BasicStereoPlayer.new,
       :basic_mixer => BasicMixer.new,
 
-#      :fx_bitcrusher => FXBitcrusher.new,
+      :fx_bitcrusher => FXBitcrusher.new,
       :fx_reverb => FXReverb.new,
       :fx_replace_reverb => FXReverb.new,
       :fx_level => FXLevel.new,
@@ -3795,14 +3916,14 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :fx_replace_distortion => FXDistortion.new,
       :fx_pan => FXPan.new,
       :fx_replace_pan => FXPan.new,
-      :fx_bpf => FXBPF.new,
-      :fx_rbpf => FXRBPF.new,
-      :fx_nrbpf => FXNRBPF.new,
-      :fx_ring => FXRingMod.new,
-      :fx_chorus => FXChorus.new
+      # :fx_bpf => FXBPF.new,
+      # :fx_rbpf => FXRBPF.new,
+      # :fx_nrbpf => FXNRBPF.new,
+      # :fx_ring => FXRingMod.new,
+      # :fx_chorus => FXChorus.new
 #      :fx_harmoniser => FXHarmoniser.new
-
-      }
+      :fx_flanger => FXFlanger.new
+    }
 
     def self.get_info(synth_name)
       @@synth_infos[synth_name.to_sym]

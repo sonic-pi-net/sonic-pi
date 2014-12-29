@@ -9,6 +9,7 @@
 
 #include "common.h"
 #include "../posix.h"
+#include "path_w32.h"
 #include "utf-conv.h"
 #include "dir.h"
 

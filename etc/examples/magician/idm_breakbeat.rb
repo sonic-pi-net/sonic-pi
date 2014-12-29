@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 live_loop :idm_bb do
   n = [1,2,4,8,16].choose
   sample :drum_heavy_kick

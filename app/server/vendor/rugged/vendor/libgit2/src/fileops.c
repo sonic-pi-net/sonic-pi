@@ -740,9 +740,11 @@ static int _cp_r_callback(void *ref, git_buf *from)
 		return error;
 
 	/* make symlink or regular file */
-	if (S_ISLNK(from_st.st_mode))
+	if (info->flags & GIT_CPDIR_LINK_FILES) {
+		error = p_link(from->ptr, info->to.ptr);
+	} else if (S_ISLNK(from_st.st_mode)) {
 		error = cp_link(from->ptr, info->to.ptr, (size_t)from_st.st_size);
-	else {
+	} else {
 		mode_t usemode = from_st.st_mode;
 
 		if ((info->flags & GIT_CPDIR_SIMPLE_TO_MODE) != 0)

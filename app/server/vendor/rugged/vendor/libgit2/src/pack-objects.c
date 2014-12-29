@@ -1209,7 +1209,7 @@ static int ll_find_deltas(git_packbuilder *pb, git_pobject **list,
 		git_mutex_unlock(&target->mutex);
 
 		if (!sub_size) {
-			git_thread_join(target->thread, NULL);
+			git_thread_join(&target->thread, NULL);
 			git_cond_free(&target->cond);
 			git_mutex_free(&target->mutex);
 			active_threads--;

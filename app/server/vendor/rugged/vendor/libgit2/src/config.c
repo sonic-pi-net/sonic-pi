@@ -139,7 +139,7 @@ int git_config_open_ondisk(git_config **out, const char *path)
 
 int git_config_snapshot(git_config **out, git_config *in)
 {
-	int error;
+	int error = 0;
 	size_t i;
 	file_internal *internal;
 	git_config *config;

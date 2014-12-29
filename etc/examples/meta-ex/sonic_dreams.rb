@@ -1,6 +1,7 @@
 # rand-seed-ver 31
+# Meta-eX
 #
-# Coded by Meta-eX
+# Coded by Sam Aaron
 #
 # Video: https://vimeo.com/110416910
 

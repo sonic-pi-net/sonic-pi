@@ -33,6 +33,7 @@
 #include "posix.h"
 #include "buffer.h"
 #include "http_parser.h"
+#include "global.h"
 
 #ifdef GIT_WIN32
 static void net_set_error(const char *str)
@@ -157,7 +158,7 @@ void gitno_buffer_setup_callback(
 void gitno_buffer_setup(gitno_socket *socket, gitno_buffer *buf, char *data, size_t len)
 {
 #ifdef GIT_SSL
-	if (socket->ssl.ctx) {
+	if (socket->ssl.ssl) {
 		gitno_buffer_setup_callback(socket, buf, data, len, gitno__recv_ssl, NULL);
 		return;
 	}
@@ -202,7 +203,6 @@ static int gitno_ssl_teardown(gitno_ssl *ssl)
 		ret = 0;
 
 	SSL_free(ssl->ssl);
-	SSL_CTX_free(ssl->ctx);
 	return ret;
 }
 
@@ -390,18 +390,12 @@ static int ssl_setup(gitno_socket *socket, const char *host, int flags)
 {
 	int ret;
 
-	SSL_library_init();
-	SSL_load_error_strings();
-	socket->ssl.ctx = SSL_CTX_new(SSLv23_method());
-	if (socket->ssl.ctx == NULL)
-		return ssl_set_error(&socket->ssl, 0);
+	if (git__ssl_ctx == NULL) {
+		giterr_set(GITERR_NET, "OpenSSL initialization failed");
+		return -1;
+	}
 
-	SSL_CTX_set_mode(socket->ssl.ctx, SSL_MODE_AUTO_RETRY);
-	SSL_CTX_set_verify(socket->ssl.ctx, SSL_VERIFY_NONE, NULL);
-	if (!SSL_CTX_set_default_verify_paths(socket->ssl.ctx))
-		return ssl_set_error(&socket->ssl, 0);
-
-	socket->ssl.ssl = SSL_new(socket->ssl.ctx);
+	socket->ssl.ssl = SSL_new(git__ssl_ctx);
 	if (socket->ssl.ssl == NULL)
 		return ssl_set_error(&socket->ssl, 0);
 
@@ -466,7 +460,7 @@ int gitno_connect(gitno_socket *s_out, const char *host, const char *port, int f
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_family = AF_UNSPEC;
 
-	if ((ret = p_getaddrinfo(host, port, &hints, &info)) < 0) {
+	if ((ret = p_getaddrinfo(host, port, &hints, &info)) != 0) {
 		giterr_set(GITERR_NET,
 			"Failed to resolve address for %s: %s", host, p_gai_strerror(ret));
 		return -1;
@@ -538,7 +532,7 @@ int gitno_send(gitno_socket *socket, const char *msg, size_t len, int flags)
 	size_t off = 0;
 
 #ifdef GIT_SSL
-	if (socket->ssl.ctx)
+	if (socket->ssl.ssl)
 		return gitno_send_ssl(&socket->ssl, msg, len, flags);
 #endif
 
@@ -559,7 +553,7 @@ int gitno_send(gitno_socket *socket, const char *msg, size_t len, int flags)
 int gitno_close(gitno_socket *s)
 {
 #ifdef GIT_SSL
-	if (s->ssl.ctx &&
+	if (s->ssl.ssl &&
 		gitno_ssl_teardown(&s->ssl) < 0)
 		return -1;
 #endif
@@ -723,6 +717,9 @@ int gitno_extract_url_parts(
 	if (u.field_set & (1 << UF_PATH)) {
 		*path = git__substrdup(_path, u.field_data[UF_PATH].len);
 		GITERR_CHECK_ALLOC(*path);
+	} else {
+		giterr_set(GITERR_NET, "invalid url, missing path");
+		return GIT_EINVALIDSPEC;
 	}
 
 	if (u.field_set & (1 << UF_USERINFO)) {

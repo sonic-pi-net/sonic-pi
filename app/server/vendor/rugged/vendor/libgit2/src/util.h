@@ -106,6 +106,7 @@ GIT_INLINE(void) git__free(void *ptr)
 
 extern int git__prefixcmp(const char *str, const char *prefix);
 extern int git__prefixcmp_icase(const char *str, const char *prefix);
+extern int git__prefixncmp_icase(const char *str, size_t str_n, const char *prefix);
 extern int git__suffixcmp(const char *str, const char *suffix);
 
 GIT_INLINE(int) git__signum(int val)
@@ -131,6 +132,13 @@ GIT_INLINE(int) git__is_uint32(size_t p)
 {
 	uint32_t r = (uint32_t)p;
 	return p == (size_t)r;
+}
+
+/** @return true if p fits into the range of an unsigned long */
+GIT_INLINE(int) git__is_ulong(git_off_t p)
+{
+	unsigned long r = (unsigned long)p;
+	return p == (git_off_t)r;
 }
 
 /* 32-bit cross-platform rotl */
@@ -358,6 +366,17 @@ extern int git__date_rfc2822_fmt(char *out, size_t len, const git_time *date);
  * - "chan\\" -> "chan\"
  */
 extern size_t git__unescape(char *str);
+
+/*
+ * Iterate through an UTF-8 string, yielding one
+ * codepoint at a time.
+ *
+ * @param str current position in the string
+ * @param str_len size left in the string; -1 if the string is NULL-terminated
+ * @param dst pointer where to store the current codepoint
+ * @return length in bytes of the read codepoint; -1 if the codepoint was invalid
+ */
+extern int git__utf8_iterate(const uint8_t *str, int str_len, int32_t *dst);
 
 /*
  * Safely zero-out memory, making sure that the compiler

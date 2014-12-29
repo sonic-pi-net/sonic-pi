@@ -458,6 +458,7 @@ typedef struct {
 	git_pool pool;
 	git_vector loose;
 
+	git_sortedcache *cache;
 	size_t loose_pos;
 	size_t packed_pos;
 } refdb_fs_iter;
@@ -468,6 +469,7 @@ static void refdb_fs_backend__iterator_free(git_reference_iterator *_iter)
 
 	git_vector_free(&iter->loose);
 	git_pool_clear(&iter->pool);
+	git_sortedcache_free(iter->cache);
 	git__free(iter);
 }
 
@@ -539,10 +541,14 @@ static int refdb_fs_backend__iterator_next(
 		giterr_clear();
 	}
 
-	git_sortedcache_rlock(backend->refcache);
+	if (!iter->cache) {
+		if ((error = git_sortedcache_copy(&iter->cache, backend->refcache, 1, NULL, NULL)) < 0)
+			return error;
+	}
 
-	while (iter->packed_pos < git_sortedcache_entrycount(backend->refcache)) {
-		ref = git_sortedcache_entry(backend->refcache, iter->packed_pos++);
+	error = GIT_ITEROVER;
+	while (iter->packed_pos < git_sortedcache_entrycount(iter->cache)) {
+		ref = git_sortedcache_entry(iter->cache, iter->packed_pos++);
 		if (!ref) /* stop now if another thread deleted refs and we past end */
 			break;
 
@@ -556,7 +562,6 @@ static int refdb_fs_backend__iterator_next(
 		break;
 	}
 
-	git_sortedcache_runlock(backend->refcache);
 	return error;
 }
 
@@ -579,10 +584,14 @@ static int refdb_fs_backend__iterator_next_name(
 		giterr_clear();
 	}
 
-	git_sortedcache_rlock(backend->refcache);
+	if (!iter->cache) {
+		if ((error = git_sortedcache_copy(&iter->cache, backend->refcache, 1, NULL, NULL)) < 0)
+			return error;
+	}
 
-	while (iter->packed_pos < git_sortedcache_entrycount(backend->refcache)) {
-		ref = git_sortedcache_entry(backend->refcache, iter->packed_pos++);
+	error = GIT_ITEROVER;
+	while (iter->packed_pos < git_sortedcache_entrycount(iter->cache)) {
+		ref = git_sortedcache_entry(iter->cache, iter->packed_pos++);
 		if (!ref) /* stop now if another thread deleted refs and we past end */
 			break;
 
@@ -596,7 +605,6 @@ static int refdb_fs_backend__iterator_next_name(
 		break;
 	}
 
-	git_sortedcache_runlock(backend->refcache);
 	return error;
 }
 
@@ -699,10 +707,15 @@ static int reference_path_available(
 
 static int loose_lock(git_filebuf *file, refdb_fs_backend *backend, const char *name)
 {
-        int error;
+	int error;
 	git_buf ref_path = GIT_BUF_INIT;
 
 	assert(file && backend && name);
+
+	if (!git_path_isvalid(backend->repo, name, GIT_PATH_REJECT_DEFAULTS)) {
+		giterr_set(GITERR_INVALID, "Invalid reference name '%s'.", name);
+		return GIT_EINVALIDSPEC;
+	}
 
 	/* Remove a possibly existing empty directory hierarchy
 	 * which name would collide with the reference name
@@ -1564,6 +1577,11 @@ static int lock_reflog(git_filebuf *file, refdb_fs_backend *backend, const char 
 	int error;
 
 	repo = backend->repo;
+
+	if (!git_path_isvalid(backend->repo, refname, GIT_PATH_REJECT_DEFAULTS)) {
+		giterr_set(GITERR_INVALID, "Invalid reference name '%s'.", refname);
+		return GIT_EINVALIDSPEC;
+	}
 
 	if (retrieve_reflog_path(&log_path, repo, refname) < 0)
 		return -1;

@@ -40,17 +40,29 @@ typedef struct {
 		have_refs : 1;
 } transport_local;
 
+static void free_head(git_remote_head *head)
+{
+	git__free(head->name);
+	git__free(head->symref_target);
+	git__free(head);
+}
+
 static int add_ref(transport_local *t, const char *name)
 {
 	const char peeled[] = "^{}";
-	git_oid head_oid;
+	git_reference *ref, *resolved;
 	git_remote_head *head;
+	git_oid obj_id;
 	git_object *obj = NULL, *target = NULL;
 	git_buf buf = GIT_BUF_INIT;
 	int error;
 
-	error = git_reference_name_to_id(&head_oid, t->repo, name);
+	if ((error = git_reference_lookup(&ref, t->repo, name)) < 0)
+		return error;
+
+	error = git_reference_resolve(&resolved, ref);
 	if (error < 0) {
+		git_reference_free(ref);
 		if (!strcmp(name, GIT_HEAD_FILE) && error == GIT_ENOTFOUND) {
 			/* This is actually okay.  Empty repos often have a HEAD that
 			 * points to a nonexistent "refs/heads/master". */
@@ -60,17 +72,25 @@ static int add_ref(transport_local *t, const char *name)
 		return error;
 	}
 
+	git_oid_cpy(&obj_id, git_reference_target(resolved));
+	git_reference_free(resolved);
+
 	head = git__calloc(1, sizeof(git_remote_head));
 	GITERR_CHECK_ALLOC(head);
 
 	head->name = git__strdup(name);
 	GITERR_CHECK_ALLOC(head->name);
 
-	git_oid_cpy(&head->oid, &head_oid);
+	git_oid_cpy(&head->oid, &obj_id);
+
+	if (git_reference_type(ref) == GIT_REF_SYMBOLIC) {
+		head->symref_target = git__strdup(git_reference_symbolic_target(ref));
+		GITERR_CHECK_ALLOC(head->symref_target);
+	}
+	git_reference_free(ref);
 
 	if ((error = git_vector_insert(&t->refs, head)) < 0) {
-		git__free(head->name);
-		git__free(head);
+		free_head(head);
 		return error;
 	}
 
@@ -103,8 +123,7 @@ static int add_ref(transport_local *t, const char *name)
 		git_oid_cpy(&head->oid, git_object_id(target));
 
 		if ((error = git_vector_insert(&t->refs, head)) < 0) {
-			git__free(head->name);
-			git__free(head);
+			free_head(head);
 		}
 	}
 
@@ -156,27 +175,9 @@ on_error:
 	return -1;
 }
 
-static int path_from_url_or_path(git_buf *local_path_out, const char *url_or_path)
-{
-	int error;
-
-	/* If url_or_path begins with file:// treat it as a URL */
-	if (!git__prefixcmp(url_or_path, "file://")) {
-		if ((error = git_path_fromurl(local_path_out, url_or_path)) < 0) {
-			return error;
-		}
-	} else { /* We assume url_or_path is already a path */
-		if ((error = git_buf_sets(local_path_out, url_or_path)) < 0) {
-			return error;
-		}
-	}
-
-	return 0;
-}
-
 /*
  * Try to open the url as a git directory. The direction doesn't
- * matter in this case because we're calulating the heads ourselves.
+ * matter in this case because we're calculating the heads ourselves.
  */
 static int local_connect(
 	git_transport *transport,
@@ -203,7 +204,7 @@ static int local_connect(
 	t->flags = flags;
 
 	/* 'url' may be a url or path; convert to a path */
-	if ((error = path_from_url_or_path(&buf, url)) < 0) {
+	if ((error = git_path_from_url_or_path(&buf, url)) < 0) {
 		git_buf_free(&buf);
 		return error;
 	}
@@ -367,7 +368,7 @@ static int local_push(
 	size_t j;
 
 	/* 'push->remote->url' may be a url or path; convert to a path */
-	if ((error = path_from_url_or_path(&buf, push->remote->url)) < 0) {
+	if ((error = git_path_from_url_or_path(&buf, push->remote->url)) < 0) {
 		git_buf_free(&buf);
 		return error;
 	}
@@ -626,10 +627,8 @@ static void local_free(git_transport *transport)
 	size_t i;
 	git_remote_head *head;
 
-	git_vector_foreach(&t->refs, i, head) {
-		git__free(head->name);
-		git__free(head);
-	}
+	git_vector_foreach(&t->refs, i, head)
+		free_head(head);
 
 	git_vector_free(&t->refs);
 

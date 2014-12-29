@@ -151,7 +151,7 @@ GIT_EXTERN(int) git_tree_entry_bypath(
  * and must be freed explicitly with `git_tree_entry_free()`.
  *
  * @param dest pointer where to store the copy
- * @param entry tree entry to duplicate
+ * @param source tree entry to duplicate
  * @return 0 or an error code
  */
 GIT_EXTERN(int) git_tree_entry_dup(git_tree_entry **dest, const git_tree_entry *source);

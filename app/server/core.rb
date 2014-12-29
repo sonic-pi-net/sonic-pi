@@ -48,6 +48,10 @@ module SonicPi
         self
       end
 
+      def to_a
+        Array.new(self)
+      end
+
       #TODO:    def each_with_ring
     end
   end
@@ -68,7 +72,9 @@ end
 
 class Float
   def times(&block)
-    self.to_i.times(&block)
+    self.to_i.times do |idx|
+      yield idx.to_f
+    end
   end
 end
 

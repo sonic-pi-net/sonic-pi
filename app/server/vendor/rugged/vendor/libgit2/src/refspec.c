@@ -181,39 +181,63 @@ int git_refspec_dst_matches(const git_refspec *refspec, const char *refname)
 static int refspec_transform(
 	git_buf *out, const char *from, const char *to, const char *name)
 {
-	size_t to_len   = to   ? strlen(to)   : 0;
-	size_t from_len = from ? strlen(from) : 0;
-	size_t name_len = name ? strlen(name) : 0;
+	const char *from_star, *to_star;
+	const char *name_slash, *from_slash;
+	size_t replacement_len, star_offset;
 
 	git_buf_sanitize(out);
+	git_buf_clear(out);
 
-	if (git_buf_set(out, to, to_len) < 0)
-		return -1;
+	/*
+	 * There are two parts to each side of a refspec, the bit
+	 * before the star and the bit after it. The star can be in
+	 * the middle of the pattern, so we need to look at each bit
+	 * individually.
+	 */
+	from_star = strchr(from, '*');
+	to_star = strchr(to, '*');
 
-	if (to_len > 0) {
-		/* No '*' at the end of 'to' means that refspec is mapped to one
-		 * specific branch, so no actual transformation is needed.
-		 */
-		if (out->ptr[to_len - 1] != '*')
-			return 0;
-		git_buf_shorten(out, 1); /* remove trailing '*' copied from 'to' */
-	}
+	assert(from_star && to_star);
 
-	if (from_len > 0) /* ignore trailing '*' from 'from' */
-		from_len--;
-	if (from_len > name_len)
-		from_len = name_len;
+	/* star offset, both in 'from' and in 'name' */
+	star_offset = from_star - from;
 
-	return git_buf_put(out, name + from_len, name_len - from_len);
+	/* the first half is copied over */
+	git_buf_put(out, to, to_star - to);
+
+	/* then we copy over the replacement, from the star's offset to the next slash in 'name' */
+	name_slash = strchr(name + star_offset, '/');
+	if (!name_slash)
+		name_slash = strrchr(name, '\0');
+
+	/* if there is no slash after the star in 'from', we want to copy everything over */
+	from_slash = strchr(from + star_offset, '/');
+	if (!from_slash)
+		name_slash = strrchr(name, '\0');
+
+	replacement_len = (name_slash - name) - star_offset;
+	git_buf_put(out, name + star_offset, replacement_len);
+
+	return git_buf_puts(out, to_star + 1);
 }
 
 int git_refspec_transform(git_buf *out, const git_refspec *spec, const char *name)
 {
+        git_buf_sanitize(out);
+
+	if (!spec->pattern)
+		return git_buf_puts(out, spec->dst);
+
 	return refspec_transform(out, spec->src, spec->dst, name);
 }
 
 int git_refspec_rtransform(git_buf *out, const git_refspec *spec, const char *name)
 {
+        git_buf_sanitize(out);
+
+	if (!spec->pattern)
+		return git_buf_puts(out, spec->src);
+
 	return refspec_transform(out, spec->dst, spec->src, name);
 }
 

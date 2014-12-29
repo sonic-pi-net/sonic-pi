@@ -41,6 +41,11 @@ struct git_remote_head {
 	git_oid oid;
 	git_oid loid;
 	char *name;
+	/**
+	 * If the server send a symref mapping for this ref, this will
+	 * point to the target.
+	 */
+	char *symref_target;
 };
 
 /**

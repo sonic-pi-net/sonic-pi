@@ -477,6 +477,49 @@ static VALUE rb_git_blob_diff(int argc, VALUE *argv, VALUE self)
 	return rugged_patch_new(self, patch);
 }
 
+static VALUE rb_git_blob_to_buffer(int argc, VALUE *argv, VALUE self)
+{
+	VALUE rb_repo, rb_sha1, rb_max_bytes;
+	VALUE rb_ret;
+
+	git_repository *repo = NULL;
+	git_blob *blob = NULL;
+
+	size_t size;
+	const char *content;
+
+	rb_scan_args(argc, argv, "21", &rb_repo, &rb_sha1, &rb_max_bytes);
+
+	rugged_check_repo(rb_repo);
+	Data_Get_Struct(rb_repo, git_repository, repo);
+
+	blob = (git_blob *)rugged_object_get(repo, rb_sha1, GIT_OBJ_BLOB);
+
+	content = git_blob_rawcontent(blob);
+	size = git_blob_rawsize(blob);
+
+	if (!NIL_P(rb_max_bytes)) {
+		int maxbytes;
+
+		Check_Type(rb_max_bytes, T_FIXNUM);
+		maxbytes = FIX2INT(rb_max_bytes);
+
+		if (maxbytes >= 0 && (size_t)maxbytes < size)
+			size = (size_t)maxbytes;
+	}
+
+	rb_ret = rb_ary_new();
+
+	rb_ary_push(rb_ret, rb_str_new(content, size));
+	rb_ary_push(rb_ret, INT2FIX(git_blob_rawsize(blob)));
+
+	git_object_free((git_object*)blob);
+
+	/* TODO: LOC */
+
+	return rb_ret;
+}
+
 void Init_rugged_blob(void)
 {
 	id_read = rb_intern("read");
@@ -495,4 +538,5 @@ void Init_rugged_blob(void)
 	rb_define_singleton_method(rb_cRuggedBlob, "from_disk", rb_git_blob_from_disk, 2);
 	rb_define_singleton_method(rb_cRuggedBlob, "from_io", rb_git_blob_from_io, -1);
 
+	rb_define_singleton_method(rb_cRuggedBlob, "to_buffer", rb_git_blob_to_buffer, -1);
 }

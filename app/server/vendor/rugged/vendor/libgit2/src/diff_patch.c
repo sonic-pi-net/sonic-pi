@@ -274,6 +274,7 @@ int git_diff_foreach(
 		return error;
 
 	memset(&xo, 0, sizeof(xo));
+	memset(&patch, 0, sizeof(patch));
 	diff_output_init(
 		&xo.output, &diff->opts, file_cb, hunk_cb, data_cb, payload);
 	git_xdiff_init(&xo, &diff->opts);

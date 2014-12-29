@@ -32,6 +32,7 @@
 #include "git2/notes.h"
 #include "git2/object.h"
 #include "git2/odb.h"
+#include "git2/odb_backend.h"
 #include "git2/oid.h"
 #include "git2/pack.h"
 #include "git2/patch.h"

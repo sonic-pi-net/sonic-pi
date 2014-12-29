@@ -44,7 +44,7 @@ typedef git_array_t(char) git_array_generic_t;
 /* use a generic array for growth so this can return the new item */
 GIT_INLINE(void *) git_array_grow(void *_a, size_t item_size)
 {
-	git_array_generic_t *a = _a;
+	volatile git_array_generic_t *a = _a;
 	uint32_t new_size = (a->size < 8) ? 8 : a->asize * 3 / 2;
 	char *new_array = git__realloc(a->ptr, new_size * item_size);
 	if (!new_array) {

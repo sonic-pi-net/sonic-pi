@@ -56,7 +56,7 @@ GIT_EXTERN(int) git_revert_init_options(
  * @param revert_commit the commit to revert
  * @param our_commit the commit to revert against (eg, HEAD)
  * @param mainline the parent of the revert commit, if it is a merge
- * @param merge_tree_opts the merge tree options (or null for defaults)
+ * @param merge_options the merge options (or null for defaults)
  * @return zero on success, -1 on failure.
  */
 int git_revert_commit(
@@ -71,9 +71,8 @@ int git_revert_commit(
  * Reverts the given commit, producing changes in the working directory.
  *
  * @param repo the repository to revert
- * @param commits the commits to revert
- * @param commits_len the number of commits to revert
- * @param flags merge flags
+ * @param commit the commit to revert
+ * @param given_opts merge flags
  * @return zero on success, -1 on failure.
  */
 GIT_EXTERN(int) git_revert(

@@ -2342,7 +2342,6 @@ done:
 
 static int merge_check_workdir(size_t *conflicts, git_repository *repo, git_index *index_new, git_vector *merged_paths)
 {
-	git_index *index_repo = NULL;
 	git_diff *wd_diff_list = NULL;
 	git_diff_options opts = GIT_DIFF_OPTIONS_INIT;
 	int error = 0;
@@ -2350,6 +2349,16 @@ static int merge_check_workdir(size_t *conflicts, git_repository *repo, git_inde
 	GIT_UNUSED(index_new);
 
 	*conflicts = 0;
+
+	/* We need to have merged at least 1 file for the possibility to exist to
+	 * have conflicts with the workdir. Passing 0 as the pathspec count paramter
+	 * will consider all files in the working directory, that is, we may detect
+	 * a conflict if there were untracked files in the workdir prior to starting
+	 * the merge. This typically happens when cherry-picking a commmit whose
+	 * changes have already been applied.
+	 */
+	if (merged_paths->length == 0)
+		return 0;
 
 	opts.flags |= GIT_DIFF_INCLUDE_UNTRACKED;
 
@@ -2360,13 +2369,12 @@ static int merge_check_workdir(size_t *conflicts, git_repository *repo, git_inde
 	opts.pathspec.count = merged_paths->length;
 	opts.pathspec.strings = (char **)merged_paths->contents;
 
-	if ((error = git_diff_index_to_workdir(&wd_diff_list, repo, index_repo, &opts)) < 0)
+	if ((error = git_diff_index_to_workdir(&wd_diff_list, repo, NULL, &opts)) < 0)
 		goto done;
 
 	*conflicts = wd_diff_list->deltas.length;
 
 done:
-	git_index_free(index_repo);
 	git_diff_free(wd_diff_list);
 
 	return error;
@@ -2564,8 +2572,42 @@ done:
 	return error;
 }
 
+static int merge_preference(git_merge_preference_t *out, git_repository *repo)
+{
+	git_config *config;
+	const char *value;
+	int bool_value, error = 0;
+
+	*out = GIT_MERGE_PREFERENCE_NONE;
+
+	if ((error = git_repository_config_snapshot(&config, repo)) < 0)
+		goto done;
+
+	if ((error = git_config_get_string(&value, config, "merge.ff")) < 0) {
+		if (error == GIT_ENOTFOUND) {
+			giterr_clear();
+			error = 0;
+		}
+
+		goto done;
+	}
+
+	if (git_config_parse_bool(&bool_value, value) == 0) {
+		if (!bool_value)
+			*out |= GIT_MERGE_PREFERENCE_NO_FASTFORWARD;
+	} else {
+		if (strcasecmp(value, "only") == 0)
+			*out |= GIT_MERGE_PREFERENCE_FASTFORWARD_ONLY;
+	}
+
+done:
+	git_config_free(config);
+	return error;
+}
+
 int git_merge_analysis(
-	git_merge_analysis_t *out,
+	git_merge_analysis_t *analysis_out,
+	git_merge_preference_t *preference_out,
 	git_repository *repo,
 	const git_merge_head **their_heads,
 	size_t their_heads_len)
@@ -2573,18 +2615,21 @@ int git_merge_analysis(
 	git_merge_head *ancestor_head = NULL, *our_head = NULL;
 	int error = 0;
 
-	assert(out && repo && their_heads);
-
-	*out = GIT_MERGE_ANALYSIS_NONE;
-
-	if (git_repository_head_unborn(repo)) {
-		*out = GIT_MERGE_ANALYSIS_FASTFORWARD | GIT_MERGE_ANALYSIS_UNBORN;
-		goto done;
-	}
+	assert(analysis_out && preference_out && repo && their_heads);
 
 	if (their_heads_len != 1) {
 		giterr_set(GITERR_MERGE, "Can only merge a single branch");
 		error = -1;
+		goto done;
+	}
+
+	*analysis_out = GIT_MERGE_ANALYSIS_NONE;
+
+	if ((error = merge_preference(preference_out, repo)) < 0)
+		goto done;
+
+	if (git_repository_head_unborn(repo)) {
+		*analysis_out |= GIT_MERGE_ANALYSIS_FASTFORWARD | GIT_MERGE_ANALYSIS_UNBORN;
 		goto done;
 	}
 
@@ -2593,15 +2638,15 @@ int git_merge_analysis(
 
 	/* We're up-to-date if we're trying to merge our own common ancestor. */
 	if (ancestor_head && git_oid_equal(&ancestor_head->oid, &their_heads[0]->oid))
-		*out = GIT_MERGE_ANALYSIS_UP_TO_DATE;
+		*analysis_out |= GIT_MERGE_ANALYSIS_UP_TO_DATE;
 
 	/* We're fastforwardable if we're our own common ancestor. */
 	else if (ancestor_head && git_oid_equal(&ancestor_head->oid, &our_head->oid))
-		*out = GIT_MERGE_ANALYSIS_FASTFORWARD | GIT_MERGE_ANALYSIS_NORMAL;
+		*analysis_out |= GIT_MERGE_ANALYSIS_FASTFORWARD | GIT_MERGE_ANALYSIS_NORMAL;
 
 	/* Otherwise, just a normal merge is possible. */
 	else
-		*out = GIT_MERGE_ANALYSIS_NORMAL;
+		*analysis_out |= GIT_MERGE_ANALYSIS_NORMAL;
 
 done:
 	git_merge_head_free(ancestor_head);

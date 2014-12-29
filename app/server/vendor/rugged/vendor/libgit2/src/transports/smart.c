@@ -7,6 +7,7 @@
 #include "git2.h"
 #include "smart.h"
 #include "refs.h"
+#include "refspec.h"
 
 static int git_smart__recv_cb(gitno_buffer *buf)
 {
@@ -63,7 +64,7 @@ static int git_smart__set_callbacks(
 	return 0;
 }
 
-int git_smart__update_heads(transport_smart *t)
+int git_smart__update_heads(transport_smart *t, git_vector *symrefs)
 {
 	size_t i;
 	git_pkt *pkt;
@@ -74,11 +75,43 @@ int git_smart__update_heads(transport_smart *t)
 		if (pkt->type != GIT_PKT_REF)
 			continue;
 
+		if (symrefs) {
+			git_refspec *spec;
+			git_buf buf = GIT_BUF_INIT;
+			size_t j;
+			int error = 0;
+
+			git_vector_foreach(symrefs, j, spec) {
+				git_buf_clear(&buf);
+				if (git_refspec_src_matches(spec, ref->head.name) &&
+				    !(error = git_refspec_transform(&buf, spec, ref->head.name)))
+					ref->head.symref_target = git_buf_detach(&buf);
+			}
+
+			git_buf_free(&buf);
+
+			if (error < 0)
+				return error;
+		}
+
 		if (git_vector_insert(&t->heads, &ref->head) < 0)
 			return -1;
 	}
 
 	return 0;
+}
+
+static void free_symrefs(git_vector *symrefs)
+{
+	git_refspec *spec;
+	size_t i;
+
+	git_vector_foreach(symrefs, i, spec) {
+		git_refspec__free(spec);
+		git__free(spec);
+	}
+
+	git_vector_free(symrefs);
 }
 
 static int git_smart__connect(
@@ -94,6 +127,7 @@ static int git_smart__connect(
 	int error;
 	git_pkt *pkt;
 	git_pkt_ref *first;
+	git_vector symrefs;
 	git_smart_service_t service;
 
 	if (git_smart__reset_stream(t, true) < 0)
@@ -147,8 +181,11 @@ static int git_smart__connect(
 
 	first = (git_pkt_ref *)git_vector_get(&t->refs, 0);
 
+	if ((error = git_vector_init(&symrefs, 1, NULL)) < 0)
+		return error;
+
 	/* Detect capabilities */
-	if (git_smart__detect_caps(first, &t->caps) < 0)
+	if (git_smart__detect_caps(first, &t->caps, &symrefs) < 0)
 		return -1;
 
 	/* If the only ref in the list is capabilities^{} with OID_ZERO, remove it */
@@ -159,7 +196,9 @@ static int git_smart__connect(
 	}
 
 	/* Keep a list of heads for _ls */
-	git_smart__update_heads(t);
+	git_smart__update_heads(t, &symrefs);
+
+	free_symrefs(&symrefs);
 
 	if (t->rpc && git_smart__reset_stream(t, false) < 0)
 		return -1;
@@ -272,6 +311,18 @@ static int git_smart__close(git_transport *transport)
 	unsigned int i;
 	git_pkt *p;
 	int ret;
+	git_smart_subtransport_stream *stream;
+	const char flush[] = "0000";
+
+	/*
+	 * If we're still connected at this point and not using RPC,
+	 * we should say goodbye by sending a flush, or git-daemon
+	 * will complain that we disconnected unexpectedly.
+	 */
+	if (t->connected && !t->rpc &&
+	    !t->wrapped->action(&stream, t->wrapped, t->url, GIT_SERVICE_UPLOADPACK)) {
+		t->current_stream->write(t->current_stream, flush, 4);
+	}
 
 	ret = git_smart__reset_stream(t, true);
 

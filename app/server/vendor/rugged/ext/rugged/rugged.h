@@ -62,6 +62,7 @@ void Init_rugged_reference(void);
 void Init_rugged_reference_collection(void);
 void Init_rugged_config(void);
 void Init_rugged_remote(void);
+void Init_rugged_remote_collection(void);
 void Init_rugged_notes(void);
 void Init_rugged_settings(void);
 void Init_rugged_diff(void);
@@ -88,6 +89,7 @@ VALUE rugged_patch_new(VALUE owner, git_patch *patch);
 VALUE rugged_diff_delta_new(VALUE owner, const git_diff_delta *delta);
 VALUE rugged_diff_hunk_new(VALUE owner, size_t hunk_idx, const git_diff_hunk *hunk, size_t lines_in_hunk);
 VALUE rugged_diff_line_new(const git_diff_line *line);
+VALUE rugged_remote_new(VALUE owner, git_remote *remote);
 VALUE rb_git_delta_file_fromC(const git_diff_file *file);
 
 void rugged_parse_diff_options(git_diff_options *opts, VALUE rb_options);
@@ -113,6 +115,13 @@ static inline void rugged_set_owner(VALUE object, VALUE owner)
 static inline VALUE rugged_owner(VALUE object)
 {
 	return rb_iv_get(object, "@owner");
+}
+
+static inline void rugged_validate_remote_url(VALUE rb_url)
+{
+	Check_Type(rb_url, T_STRING);
+	if (!git_remote_valid_url(StringValueCStr(rb_url)))
+		rb_raise(rb_eArgError, "Invalid URL format");
 }
 
 extern void rugged_exception_raise(void);

@@ -33,8 +33,9 @@ module SonicPi
       @mutex.synchronize do
         return false if @state == :killed
         @state = :killed
-        server.buffer_free(@id)
+        @server.buffer_free(@id)
       end
+      self
     end
 
     def to_s

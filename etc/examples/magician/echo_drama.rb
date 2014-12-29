@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 use_random_seed 667
 
 with_fx :lpf, cutoff: 90 do

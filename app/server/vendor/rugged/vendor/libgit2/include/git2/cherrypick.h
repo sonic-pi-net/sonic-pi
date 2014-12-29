@@ -56,7 +56,7 @@ GIT_EXTERN(int) git_cherry_pick_init_options(
  * @param cherry_pick_commit the commit to cherry-pick
  * @param our_commit the commit to revert against (eg, HEAD)
  * @param mainline the parent of the revert commit, if it is a merge
- * @param merge_tree_opts the merge tree options (or null for defaults)
+ * @param merge_options the merge options (or null for defaults)
  * @return zero on success, -1 on failure.
  */
 GIT_EXTERN(int) git_cherry_pick_commit(

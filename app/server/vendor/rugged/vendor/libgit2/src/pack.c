@@ -620,7 +620,7 @@ int git_packfile_unpack(
 	struct pack_chain_elem *elem = NULL, *stack;
 	git_pack_cache_entry *cached = NULL;
 	struct pack_chain_elem small_stack[SMALL_STACK_SIZE];
-	size_t stack_size, elem_pos;
+	size_t stack_size = 0, elem_pos;
 	git_otype base_type;
 
 	/*
@@ -744,7 +744,7 @@ cleanup:
 		git__free(obj->data);
 
 	if (elem)
-		*obj_offset = elem->offset;
+		*obj_offset = curpos;
 
 	git_array_clear(chain);
 	return error;

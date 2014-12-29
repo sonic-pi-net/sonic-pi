@@ -438,4 +438,50 @@ extern int git_path_iconv(git_path_iconv_t *ic, char **in, size_t *inlen);
 
 extern bool git_path_does_fs_decompose_unicode(const char *root);
 
+/* Used for paths to repositories on the filesystem */
+extern int git_path_from_url_or_path(git_buf *local_path_out, const char *url_or_path);
+
+/* Flags to determine path validity in `git_path_isvalid` */
+#define GIT_PATH_REJECT_TRAVERSAL          (1 << 0)
+#define GIT_PATH_REJECT_DOT_GIT            (1 << 1)
+#define GIT_PATH_REJECT_SLASH              (1 << 2)
+#define GIT_PATH_REJECT_BACKSLASH          (1 << 3)
+#define GIT_PATH_REJECT_TRAILING_DOT       (1 << 4)
+#define GIT_PATH_REJECT_TRAILING_SPACE     (1 << 5)
+#define GIT_PATH_REJECT_TRAILING_COLON     (1 << 6)
+#define GIT_PATH_REJECT_DOS_PATHS          (1 << 7)
+#define GIT_PATH_REJECT_NT_CHARS           (1 << 8)
+#define GIT_PATH_REJECT_DOT_GIT_HFS        (1 << 9)
+#define GIT_PATH_REJECT_DOT_GIT_NTFS       (1 << 10)
+
+/* Default path safety for writing files to disk: since we use the
+ * Win32 "File Namespace" APIs ("\\?\") we need to protect from
+ * paths that the normal Win32 APIs would not write.
+ */
+#ifdef GIT_WIN32
+# define GIT_PATH_REJECT_DEFAULTS \
+	GIT_PATH_REJECT_TRAVERSAL | \
+	GIT_PATH_REJECT_BACKSLASH | \
+	GIT_PATH_REJECT_TRAILING_DOT | \
+	GIT_PATH_REJECT_TRAILING_SPACE | \
+	GIT_PATH_REJECT_TRAILING_COLON | \
+	GIT_PATH_REJECT_DOS_PATHS | \
+	GIT_PATH_REJECT_NT_CHARS
+#else
+# define GIT_PATH_REJECT_DEFAULTS GIT_PATH_REJECT_TRAVERSAL
+#endif
+
+/*
+ * Determine whether a path is a valid git path or not - this must not contain
+ * a '.' or '..' component, or a component that is ".git" (in any case).
+ *
+ * `repo` is optional.  If specified, it will be used to determine the short
+ * path name to reject (if `GIT_PATH_REJECT_DOS_SHORTNAME` is specified),
+ * in addition to the default of "git~1".
+ */
+extern bool git_path_isvalid(
+	git_repository *repo,
+	const char *path,
+	unsigned int flags);
+
 #endif

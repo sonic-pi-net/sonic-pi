@@ -210,7 +210,7 @@ GIT_EXTERN(int) git_blob_create_frombuffer(
  *
  * The heuristic used to guess if a file is binary is taken from core git:
  * Searching for NUL bytes and looking for a reasonable ratio of printable
- * to non-printable characters among the first 4000 bytes.
+ * to non-printable characters among the first 8000 bytes.
  *
  * @param blob The blob which content should be analyzed
  * @return 1 if the content of the blob is detected

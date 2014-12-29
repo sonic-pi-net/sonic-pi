@@ -783,6 +783,7 @@ int git_odb_read(git_odb_object **out, git_odb *db, const git_oid *id)
 		return error;
 	}
 
+	giterr_clear();
 	if ((object = odb_object__alloc(id, &raw)) == NULL)
 		return -1;
 

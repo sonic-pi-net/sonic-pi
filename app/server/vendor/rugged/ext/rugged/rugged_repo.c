@@ -548,6 +548,7 @@ static VALUE rb_git_repo_merge_analysis(int argc, VALUE *argv, VALUE self)
 	git_commit *their_commit;
 	git_merge_head *merge_head;
 	git_merge_analysis_t analysis;
+	git_merge_preference_t preference;
 	VALUE rb_their_commit, result;
 
 	rb_scan_args(argc, argv, "10", &rb_their_commit);
@@ -567,7 +568,7 @@ static VALUE rb_git_repo_merge_analysis(int argc, VALUE *argv, VALUE self)
 	error = git_merge_head_from_id(&merge_head, repo, git_commit_id(their_commit));
 	rugged_exception_check(error);
 
-	error = git_merge_analysis(&analysis, repo,
+	error = git_merge_analysis(&analysis, &preference, repo,
 				   /* hack as we currently only do one commit */
 				   (const git_merge_head **) &merge_head, 1);
 	git_merge_head_free(merge_head);
@@ -1092,6 +1093,9 @@ static VALUE flags_to_rb(unsigned int flags)
 
 	if (flags & GIT_STATUS_WT_DELETED)
 		rb_ary_push(rb_flags, CSTR2SYM("worktree_deleted"));
+
+	if (flags & GIT_STATUS_IGNORED)
+		rb_ary_push(rb_flags, CSTR2SYM("ignored"));
 
 	return rb_flags;
 }

@@ -1565,6 +1565,8 @@ load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
 puts sample_loaded? :elec_blip # prints true because it has been pre-loaded
 puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
+
+
        def load_sample(path)
          case path
          when Symbol
@@ -2147,6 +2149,8 @@ sleep 1
 
        def control(node, *args)
          ensure_good_timing!
+         return nil if node.nil?
+
          args_h = resolve_synth_opts_hash_or_array(args)
          n = args_h[:note]
          args_h[:note] = note(n) if n
@@ -2176,6 +2180,8 @@ control my_node, cutoff: 90 # Now modify cutoff from 79 to 90, sound is still pl
 
        def stop(node)
          ensure_good_timing!
+         return nil if node.nil?
+
          alive = node.live?
          node.kill
          if alive
@@ -2282,10 +2288,17 @@ stop bar"]
              # Allow vals to be keys to other vals
              # But only one level deep...
              args_h[k] = args_h[v].to_f
+           when TrueClass
+             args_h[k] = 1.0
+           when FalseClass
+             args_h[k] = 0.0
+           when NilClass
+             args_h[k] = 0.0
            else
              args_h[k] = v.to_f
            end
          end
+         args_h
        end
 
        def scale_time_args_to_bpm!(args_h, info)

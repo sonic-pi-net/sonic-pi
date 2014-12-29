@@ -274,16 +274,17 @@ static VALUE rb_git_tree_path(VALUE self, VALUE rb_path)
 
 /*
  *  call-seq:
- *    tree.diff(diffable[, options]) -> diff
+ *    Tree.diff(repo, tree, diffable[, options]) -> diff
  *
- *  Returns a diff between the tree and the diffable object that was given.
+ *  Returns a diff between the `tree` and the diffable object that was given.
  *  +diffable+ can either be a +Rugged::Commit+, a +Rugged::Tree+, a +Rugged::Index+,
  *  or +nil+.
  *
  *  The +tree+ object will be used as the "old file" side of the diff, while the
  *  parent tree or the +diffable+ object will be used for the "new file" side.
  *
- *  If +diffable+ is nil, it will be treated as an empty tree.
+ *  If +tree+ or +diffable+ are nil, they will be treated as an empty tree. Passing
+ *  both as `nil` will raise an exception.
  *
  *  The following options can be passed in the +options+ Hash:
  *
@@ -391,28 +392,38 @@ static VALUE rb_git_tree_path(VALUE self, VALUE rb_path)
  *    other_tree = Rugged::Tree.lookup(repo, "7a9e0b02e63179929fed24f0a3e0f19168114d10")
  *    diff = tree.diff(other_tree)
  */
-static VALUE rb_git_tree_diff(int argc, VALUE *argv, VALUE self)
+static VALUE rb_git_tree_diff_(int argc, VALUE *argv, VALUE self)
 {
-	git_tree *tree;
+	git_tree *tree = NULL;
 	git_diff_options opts = GIT_DIFF_OPTIONS_INIT;
-	git_repository *repo;
+	git_repository *repo = NULL;
 	git_diff *diff = NULL;
-	VALUE owner, rb_other, rb_options;
+	VALUE rb_self, rb_repo, rb_other, rb_options;
 	int error;
 
-	rb_scan_args(argc, argv, "10:", &rb_other, &rb_options);
+	rb_scan_args(argc, argv, "22", &rb_repo, &rb_self, &rb_other, &rb_options);
 	rugged_parse_diff_options(&opts, rb_options);
 
-	Data_Get_Struct(self, git_tree, tree);
-	owner = rugged_owner(self);
-	Data_Get_Struct(owner, git_repository, repo);
+	Data_Get_Struct(rb_repo, git_repository, repo);
+
+	if (!NIL_P(rb_self)) {
+		if (!rb_obj_is_kind_of(rb_self, rb_cRuggedTree))
+			rb_raise(rb_eTypeError,
+				"At least a Rugged::Tree object is required for diffing");
+
+		Data_Get_Struct(rb_self, git_tree, tree);
+	}
 
 	if (NIL_P(rb_other)) {
+		if (tree == NULL) {
+			xfree(opts.pathspec.strings);
+			rb_raise(rb_eTypeError, "Need 'old' or 'new' for diffing");
+		}
+
 		error = git_diff_tree_to_tree(&diff, repo, tree, NULL, &opts);
 	} else {
-		if (TYPE(rb_other) == T_STRING) {
-			rb_other = rugged_object_rev_parse(owner, rb_other, 1);
-		}
+		if (TYPE(rb_other) == T_STRING)
+			rb_other = rugged_object_rev_parse(rb_repo, rb_other, 1);
 
 		if (rb_obj_is_kind_of(rb_other, rb_cRuggedCommit)) {
 			git_tree *other_tree;
@@ -788,12 +799,13 @@ void Init_rugged_tree(void)
 	rb_define_method(rb_cRuggedTree, "get_entry", rb_git_tree_get_entry, 1);
 	rb_define_method(rb_cRuggedTree, "get_entry_by_oid", rb_git_tree_get_entry_by_oid, 1);
 	rb_define_method(rb_cRuggedTree, "path", rb_git_tree_path, 1);
-	rb_define_method(rb_cRuggedTree, "diff", rb_git_tree_diff, -1);
 	rb_define_method(rb_cRuggedTree, "diff_workdir", rb_git_tree_diff_workdir, -1);
 	rb_define_method(rb_cRuggedTree, "[]", rb_git_tree_get_entry, 1);
 	rb_define_method(rb_cRuggedTree, "each", rb_git_tree_each, 0);
 	rb_define_method(rb_cRuggedTree, "walk", rb_git_tree_walk, 1);
 	rb_define_method(rb_cRuggedTree, "merge", rb_git_tree_merge, -1);
+
+	rb_define_singleton_method(rb_cRuggedTree, "diff", rb_git_tree_diff_, -1);
 
 	rb_cRuggedTreeBuilder = rb_define_class_under(rb_cRuggedTree, "Builder", rb_cObject);
 	rb_define_alloc_func(rb_cRuggedTreeBuilder, rb_git_treebuilder_allocate);

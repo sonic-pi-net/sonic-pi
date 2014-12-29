@@ -1078,6 +1078,30 @@ done:
 	return error;
 }
 
+static int checkout_verify_paths(
+	git_repository *repo,
+	int action,
+	git_diff_delta *delta)
+{
+	unsigned int flags = GIT_PATH_REJECT_DEFAULTS | GIT_PATH_REJECT_DOT_GIT;
+
+	if (action & CHECKOUT_ACTION__REMOVE) {
+		if (!git_path_isvalid(repo, delta->old_file.path, flags)) {
+			giterr_set(GITERR_CHECKOUT, "Cannot remove invalid path '%s'", delta->old_file.path);
+			return -1;
+		}
+	}
+
+	if (action & ~CHECKOUT_ACTION__REMOVE) {
+		if (!git_path_isvalid(repo, delta->new_file.path, flags)) {
+			giterr_set(GITERR_CHECKOUT, "Cannot checkout to invalid path '%s'", delta->old_file.path);
+			return -1;
+		}
+	}
+
+	return 0;
+}
+
 static int checkout_get_actions(
 	uint32_t **actions_ptr,
 	size_t **counts_ptr,
@@ -1111,7 +1135,9 @@ static int checkout_get_actions(
 	}
 
 	git_vector_foreach(deltas, i, delta) {
-		error = checkout_action(&act, data, delta, workdir, &wditem, &pathspec);
+		if ((error = checkout_action(&act, data, delta, workdir, &wditem, &pathspec)) == 0)
+			error = checkout_verify_paths(data->repo, act, delta);
+
 		if (error != 0)
 			goto fail;
 
@@ -1736,10 +1762,12 @@ static int checkout_write_merge(
 	checkout_conflictdata *conflict)
 {
 	git_buf our_label = GIT_BUF_INIT, their_label = GIT_BUF_INIT,
-		path_suffixed = GIT_BUF_INIT, path_workdir = GIT_BUF_INIT;
+		path_suffixed = GIT_BUF_INIT, path_workdir = GIT_BUF_INIT,
+		in_data = GIT_BUF_INIT, out_data = GIT_BUF_INIT;
 	git_merge_file_options opts = GIT_MERGE_FILE_OPTIONS_INIT;
 	git_merge_file_result result = {0};
 	git_filebuf output = GIT_FILEBUF_INIT;
+	git_filter_list *fl = NULL;
 	int error = 0;
 
 	if (data->opts.checkout_strategy & GIT_CHECKOUT_CONFLICT_STYLE_DIFF3)
@@ -1785,13 +1813,29 @@ static int checkout_write_merge(
 		(error = checkout_safe_for_update_only(git_buf_cstr(&path_workdir), result.mode)) <= 0)
 		goto done;
 
+	if (!data->opts.disable_filters) {
+		in_data.ptr = (char *)result.ptr;
+		in_data.size = result.len;
+
+		if ((error = git_filter_list_load(&fl, data->repo, NULL, git_buf_cstr(&path_workdir),
+				GIT_FILTER_TO_WORKTREE, GIT_FILTER_OPT_DEFAULT)) < 0 ||
+			(error = git_filter_list_apply_to_data(&out_data, fl, &in_data)) < 0)
+			goto done;
+	} else {
+		out_data.ptr = (char *)result.ptr;
+		out_data.size = result.len;
+	}
+
 	if ((error = git_futils_mkpath2file(path_workdir.ptr, 0755)) < 0 ||
-		(error = git_filebuf_open(&output, path_workdir.ptr, GIT_FILEBUF_DO_NOT_BUFFER, result.mode)) < 0 ||
-		(error = git_filebuf_write(&output, result.ptr, result.len)) < 0 ||
+		(error = git_filebuf_open(&output, git_buf_cstr(&path_workdir), GIT_FILEBUF_DO_NOT_BUFFER, result.mode)) < 0 ||
+		(error = git_filebuf_write(&output, out_data.ptr, out_data.size)) < 0 ||
 		(error = git_filebuf_commit(&output)) < 0)
 		goto done;
 
 done:
+	git_filter_list_free(fl);
+
+	git_buf_free(&out_data);
 	git_buf_free(&our_label);
 	git_buf_free(&their_label);
 

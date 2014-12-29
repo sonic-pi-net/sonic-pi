@@ -15,6 +15,11 @@ typedef struct {
 	git_error error_t;
 } git_global_st;
 
+#ifdef GIT_SSL
+# include <openssl/ssl.h>
+extern SSL_CTX *git__ssl_ctx;
+#endif
+
 git_global_st *git__global_state(void);
 
 extern git_mutex git__mwindow_mutex;

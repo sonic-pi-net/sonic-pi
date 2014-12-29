@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 use_debug false
 load_sample :bd_fat
 

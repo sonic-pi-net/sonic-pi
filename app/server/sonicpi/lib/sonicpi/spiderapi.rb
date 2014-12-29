@@ -31,6 +31,17 @@ module SonicPi
         end
       end.ring
     end
+    doc name:           :bools,
+        introduced:     Version.new(2,2,0),
+        summary:        "Create a ring of boolean values",
+        args:           [[:list, :array]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new ring of booleans values from 1s, and 0s which can be easier to write and manipulate in a live setting.",
+        examples:       [
+      "(bools 1, 0)    #=> (ring true, false)",
+      "(bools 1, 0, true, false, nil) #=> (ring true, false, true, false, false)"
+    ]
 
     def knit(*args)
       res = []
@@ -49,8 +60,8 @@ module SonicPi
         accepts_block:  false,
         doc:            "Knits a series of value, count pairs to create a ring buffer where each value is repeated count times.",
         examples:       [
-      "(knit 1, 5)    #=> [1, 1, 1, 1, 1]",
-      "(knit :e2, 2, :c2, 3) #=> [:e2, :e2, :c2, :c2, :c2]"
+      "(knit 1, 5)    #=> (ring 1, 1, 1, 1, 1)",
+      "(knit :e2, 2, :c2, 3) #=> (ring :e2, :e2, :c2, :c2, :c2)"
     ]
 
     def range(start, finish, step_size=1)
@@ -64,10 +75,10 @@ module SonicPi
         accepts_block:  false,
         doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to 1. Indexes wrap around positively and negatively",
         examples:       [
-      "(range 1, 5)    #=> [1, 2, 3, 4, 5]",
-      "(range 1, 5, 1) #=> [1, 2, 3, 4, 5]",
-      "(range 1, 5, 2) #=> [1, 3, 5]",
-      "(range 1, -5, -2) #=> [1, -1, -3, -5]",
+      "(range 1, 5)    #=> (ring 1, 2, 3, 4, 5)",
+      "(range 1, 5, 1) #=> (ring 1, 2, 3, 4, 5)",
+      "(range 1, 5, 2) #=> (ring 1, 3, 5)",
+      "(range 1, -5, -2) #=> (ring 1, -1, -3, -5)",
       "(range 1, -5, -2)[-1] #=> -5"
     ]
 
@@ -138,6 +149,7 @@ end"]
 
 
     def live_loop(name, *args, &block)
+      ll_name = "live_loop_#{name}".to_sym
       raise "live_loop must be called with a code block" unless block
 
       args_h = resolve_synth_opts_hash_or_array(args)
@@ -149,18 +161,18 @@ end"]
 
       case block.arity
       when 0
-        define(name) do |a|
+        define(ll_name) do |a|
           block.call
         end
       when 1
-        define(name) do |a|
+        define(ll_name) do |a|
           block.call(a)
         end
       else
         raise "Live loop block must only accept 0 or 1 args"
       end
 
-      in_thread(name: name) do
+      in_thread(name: ll_name) do
         Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
         if args_h.has_key?(:init)
           res = args_h[:init]
@@ -171,14 +183,14 @@ end"]
           t1 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
           Thread.current.thread_variable_set(:sonic_pi_spider_synced, false)
           cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
-          res = send(name, res)
+          res = send(ll_name, res)
 
           t2 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
           raise "Live loop #{name.to_sym.inspect} did not sleep!" if (t1 == t2) && !Thread.current.thread_variable_get(:sonic_pi_spider_synced)
         end
       end
 
-      st = sthread(name)
+      st = sthread(ll_name)
       st.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue if st
       st
     end
@@ -595,6 +607,29 @@ one_in 3 # will return true with a probability of 1/3, false with a probability 
 one_in 100 # will return true with a probability of 1/100, false with a probability of 99/100"]
 
 
+    def rdist(width, centre=0, *opts)
+      rrand(centre - width, centre + width, *opts)
+    end
+    doc name:           :rdist,
+        introduced:     Version.new(2,3,0),
+        summary:        "Random number in centred distribution",
+        args:           [[:width, :number], [:centre, :number]],
+        opts:           {:res => nil},
+        accepts_block:  false,
+        doc:            "Returns a random number within the range with width around centre. If optional arg :res is used, the result is quantised by res.",
+        examples:      [
+"
+print rdist(1, 0) #=> will print a number between -1 and 1
+",
+"
+print rdist(1) #=> centre defaults to 0 so this is the same as rdist(1, 0)
+",
+"
+loop do
+  play :c3, pan: rdist(1) #=> Will play :c3 with random L/R panning
+  sleep 0.125
+end"]
+
 
 
     def rrand(min, max, *opts)
@@ -727,9 +762,9 @@ shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
       Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
     end
     doc name:          :use_random_seed,
-        introduced:     Version.new(2,0,0),
-        summmary: "",
-        doc:            "Resets the random number generator to the specified seed. All subsequently generated random numbers will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced",
+        introduced:    Version.new(2,0,0),
+        summary:       "Set random seed generator to known seed",
+        doc:           "Resets the random number generator to the specified seed. All subsequently generated random numbers will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced",
         args:          [[:seed, :number]],
         opts:          nil,
         accepts_block: false,
@@ -858,6 +893,100 @@ end"]
 
 
 
+    def with_bpm_mul(mul, &block)
+      raise "with_bpm_mul must be called with a block. Perhaps you meant use_bpm_mul" unless block
+      current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      new_mul = current_mul.to_f / mul
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
+      block.call
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
+    end
+    doc name:           :with_bpm_mul,
+        introduced:     Version.new(2,3,0),
+        summary:        "Set new tempo as a multiple of current tempo for block",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block as a multiplication of the current tempo. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also with_bpm",
+        args:           [[:mul, :number]],
+        opts:           nil,
+        accepts_block:  true,
+        examples:       [
+"
+use_bpm 60   # Set the BPM to 60
+play 50
+sleep 1      # Sleeps for 1 second
+play 62
+sleep 2      # Sleeps for 2 seconds
+with_bpm_mul 0.5 do # BPM is now (60 * 0.5) == 30
+  play 50
+  sleep 1           # Sleeps for 2 seconds
+  play 62
+end
+sleep 1            # BPM is now back to 60, therefore sleep is 1 second
+"]
+
+
+    def use_bpm_mul(mul, &block)
+      raise "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
+      current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      new_mul = current_mul.to_f / mul
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
+    end
+    doc name:           :use_bpm_mul,
+        introduced:     Version.new(2,3,0),
+        summary:        "Set new tempo as a multiple of current tempo",
+        doc:            "Sets the tempo in bpm (beats per minute) as a multiplication of the current tempo. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also use_bpm",
+        args:           [[:mul, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        examples:       [
+"
+use_bpm 60   # Set the BPM to 60
+play 50
+sleep 1      # Sleeps for 1 seconds
+play 62
+sleep 2      # Sleeps for 2 seconds
+use_bpm_mul 0.5 do # BPM is now (60 * 0.5) == 30
+play 50
+sleep 1           # Sleeps for 2 seconds
+play 62
+
+"]
+
+    def density(d, &block)
+      with_bpm_mul d do
+        if block.arity == 0
+          d.times do
+            block.call
+          end
+        else
+          d.times do |idx|
+            block.call idx
+          end
+        end
+      end
+    end
+    doc name:           :density,
+        introduced:     Version.new(2,3,0),
+        summary:        "Squash and repeat time",
+        doc:            "Runs the block d times with the bpm for the block also multiplied by d. Great for repeating sections a number of times faster yet keeping within a fixed time.",
+        args:           [[:d, :density]],
+        opts:           nil,
+        accepts_block:  true,
+        examples:       [
+"
+use_bpm 60   # Set the BPM to 60
+
+density 2 do       # BPM for block is now 120
+                   # block is called 2.times
+  sample :bd_hause # sample is played twice
+  sleep 0.5        # sleep is 0.25s
+end",
+
+"
+density 2 do |idx| # You may also pass a param to the block similar to n.times
+  puts idx         # prints out 0, 1
+  sleep 0.5        # sleep is 0.25s
+end
+"    ]
 
     def current_bpm
       60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
@@ -1210,13 +1339,8 @@ end"]
       job_id = __current_job_id
       reg_with_parent_completed = Promise.new
 
-      # Don't use the current generator to gen the new seed as this gen
-      # might possibly want be passed through to the block untouched
-      # (which is indeed the case with the current with_fx
-      # implementation)
-      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      cur_seed = rgen.seed
-      new_rand_seed = args_h[:seed] || Random.new(cur_seed).rand(999999999999999999999999999999999999999)
+      rgen = Thread.current.thread_variable_get :sonic_pi_spider_new_thread_random_generator
+      new_rand_seed = args_h[:seed] || rgen.rand(999999999999999999999999999999999999999)
 
       # Create the new thread
       t = Thread.new do

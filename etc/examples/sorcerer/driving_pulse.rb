@@ -1,3 +1,5 @@
+# Coded by Sam Aaron
+
 load_sample :drum_heavy_kick
 
 live_loop :drums do

@@ -1,7 +1,0 @@
-[some "section"]
-      test = hi ; comment
-      other = "hello! \" ; ; ; " ; more test
-      multi = "hi, this is a ; \
-multiline comment # with ;\n special chars \
-and other stuff !@#"
-      back = "this is \ba phrase"

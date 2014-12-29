@@ -453,7 +453,7 @@ static int append_to_pack(git_indexer *idx, const void *data, size_t size)
 
 	/* add the extra space we need at the end */
 	if (p_ftruncate(idx->pack->mwf.fd, current_size + size) < 0) {
-		giterr_system_set(errno);
+		giterr_set(GITERR_OS, "Failed to increase size of pack file '%s'", idx->pack->pack_name);
 		return -1;
 	}
 

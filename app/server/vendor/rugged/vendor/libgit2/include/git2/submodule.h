@@ -283,7 +283,7 @@ GIT_EXTERN(const char *) git_submodule_url(git_submodule *submodule);
  * Resolve a submodule url relative to the given repository.
  *
  * @param out buffer to store the absolute submodule url in
- * @param repository Pointer to repository object
+ * @param repo Pointer to repository object
  * @param url Relative url
  * @return 0 or an error code
  */

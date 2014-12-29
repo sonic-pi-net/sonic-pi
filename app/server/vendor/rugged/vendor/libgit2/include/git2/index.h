@@ -73,9 +73,12 @@ typedef struct git_index_entry {
  */
 #define GIT_IDXENTRY_NAMEMASK  (0x0fff)
 #define GIT_IDXENTRY_STAGEMASK (0x3000)
-#define GIT_IDXENTRY_EXTENDED  (0x4000)
-#define GIT_IDXENTRY_VALID     (0x8000)
 #define GIT_IDXENTRY_STAGESHIFT 12
+
+typedef enum {
+	GIT_IDXENTRY_EXTENDED  = (0x4000),
+	GIT_IDXENTRY_VALID     = (0x8000),
+} git_indxentry_flag_t;
 
 #define GIT_IDXENTRY_STAGE(E) \
 	(((E)->flags & GIT_IDXENTRY_STAGEMASK) >> GIT_IDXENTRY_STAGESHIFT)
@@ -92,36 +95,36 @@ typedef struct git_index_entry {
  * in-memory only and used by libgit2.  Only the flags in
  * `GIT_IDXENTRY_EXTENDED_FLAGS` will get saved on-disk.
  *
- * These bitmasks match the three fields in the `git_index_entry`
- * `flags_extended` value that belong on disk.  You can use them to
- * interpret the data in the `flags_extended`.
- */
-#define GIT_IDXENTRY_INTENT_TO_ADD     (1 << 13)
-#define GIT_IDXENTRY_SKIP_WORKTREE     (1 << 14)
-/* GIT_IDXENTRY_EXTENDED2 is reserved for future extension */
-#define GIT_IDXENTRY_EXTENDED2         (1 << 15)
-
-#define GIT_IDXENTRY_EXTENDED_FLAGS (GIT_IDXENTRY_INTENT_TO_ADD | GIT_IDXENTRY_SKIP_WORKTREE)
-
-/**
- * Bitmasks for in-memory only fields of `git_index_entry`'s `flags_extended`
- *
- * These bitmasks match the other fields in the `git_index_entry`
- * `flags_extended` value that are only used in-memory by libgit2.  You
+ * Thee first three bitmasks match the three fields in the
+ * `git_index_entry` `flags_extended` value that belong on disk.  You
  * can use them to interpret the data in the `flags_extended`.
+ *
+ * The rest of the bitmasks match the other fields in the `git_index_entry`
+ * `flags_extended` value that are only used in-memory by libgit2.
+ * You can use them to interpret the data in the `flags_extended`.
+ *
  */
-#define GIT_IDXENTRY_UPDATE            (1 << 0)
-#define GIT_IDXENTRY_REMOVE            (1 << 1)
-#define GIT_IDXENTRY_UPTODATE          (1 << 2)
-#define GIT_IDXENTRY_ADDED             (1 << 3)
+typedef enum {
 
-#define GIT_IDXENTRY_HASHED            (1 << 4)
-#define GIT_IDXENTRY_UNHASHED          (1 << 5)
-#define GIT_IDXENTRY_WT_REMOVE         (1 << 6) /* remove in work directory */
-#define GIT_IDXENTRY_CONFLICTED        (1 << 7)
+	GIT_IDXENTRY_INTENT_TO_ADD  =  (1 << 13),
+	GIT_IDXENTRY_SKIP_WORKTREE  =  (1 << 14),
+	/** Reserved for future extension */
+	GIT_IDXENTRY_EXTENDED2      =  (1 << 15),
 
-#define GIT_IDXENTRY_UNPACKED          (1 << 8)
-#define GIT_IDXENTRY_NEW_SKIP_WORKTREE (1 << 9)
+	GIT_IDXENTRY_EXTENDED_FLAGS = (GIT_IDXENTRY_INTENT_TO_ADD | GIT_IDXENTRY_SKIP_WORKTREE),
+	GIT_IDXENTRY_UPDATE            =  (1 << 0),
+	GIT_IDXENTRY_REMOVE            =  (1 << 1),
+	GIT_IDXENTRY_UPTODATE          =  (1 << 2),
+	GIT_IDXENTRY_ADDED             =  (1 << 3),
+
+	GIT_IDXENTRY_HASHED            =  (1 << 4),
+	GIT_IDXENTRY_UNHASHED          =  (1 << 5),
+	GIT_IDXENTRY_WT_REMOVE         =  (1 << 6), /**< remove in work directory */
+	GIT_IDXENTRY_CONFLICTED        =  (1 << 7),
+
+	GIT_IDXENTRY_UNPACKED          =  (1 << 8),
+	GIT_IDXENTRY_NEW_SKIP_WORKTREE =  (1 << 9),
+} git_idxentry_extended_flag_t;
 
 /** Capabilities of system that affect index actions. */
 typedef enum {
@@ -412,10 +415,10 @@ GIT_EXTERN(int) git_index_add(git_index *index, const git_index_entry *source_en
  *
  * This entry is calculated from the entry's flag attribute like this:
  *
- *	(entry->flags & GIT_IDXENTRY_STAGEMASK) >> GIT_IDXENTRY_STAGESHIFT
+ *    (entry->flags & GIT_IDXENTRY_STAGEMASK) >> GIT_IDXENTRY_STAGESHIFT
  *
  * @param entry The entry
- * @returns the stage number
+ * @return the stage number
  */
 GIT_EXTERN(int) git_index_entry_stage(const git_index_entry *entry);
 
