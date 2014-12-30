@@ -3018,7 +3018,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def introduced
-      Version.new(2,2,0)
+      Version.new(2,3,0)
     end
 
     def synth_name
@@ -3039,10 +3039,10 @@ The way the transpositions are done adds some distortion, particulary to the low
         :pre_amp_slide => 0,
         :pre_amp_slide_shape => 5,
         :pre_amp_slide_curve => 0,
-        :freq => 100,
-        :freq_slide => 0,
-        :freq_slide_shape => 5,
-        :freq_slide_curve => 0,
+        :centre => 100,
+        :centre_slide => 0,
+        :centre_slide_shape => 5,
+        :centre_slide_curve => 0,
         :res => 0.5,
         :res_slide => 0,
         :res_slide_shape => 5,
@@ -3051,59 +3051,35 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def specific_arg_info
-      { }
+      {
+        :centre =>
+        {
+          :doc => "Centre frequency for the filter in MIDI. ",
+          :validations => [v_greater_than_oet(:level, 0)],
+          :modulatable => true
+        },
+
+      }
     end
 
     def doc
-      "Combines low pass and high pass filters to only allow a 'band' of frequencies through. If the band is very narrow (a low res value like 0.0001) then the BPF will reduce the original sound, almost down to a single frequency (controlled by the freq argument).
+      "Combines low pass and high pass filters to only allow a 'band' of frequencies through. If the band is very narrow (a low res value like 0.0001) then the BPF will reduce the original sound, almost down to a single frequency (controlled by the centre argument).
 
 With higher values for res we can simulate other filters e.g. telephone lines, by cutting off low and high frequencies."
     end
   end
 
-  class FXRBPF < FXInfo
+  class FXRBPF < FXBPF
     def name
       "Resonant Band Pass Filter"
     end
 
     def introduced
-      Version.new(2,2,0)
+      Version.new(2,3,0)
     end
 
     def synth_name
       "fx_rbpf"
-    end
-
-    def arg_defaults
-      {
-        :amp => 1,
-        :amp_slide => 0,
-        :amp_slide_shape => 5,
-        :amp_slide_curve => 0,
-        :mix => 1,
-        :mix_slide => 0,
-        :mix_slide_shape => 5,
-        :mix_slide_curve => 0,
-        :pre_amp => 1,
-        :pre_amp_slide => 0,
-        :pre_amp_slide_shape => 5,
-        :pre_amp_slide_curve => 0,
-        :freq => 100,
-        :freq_slide => 0,
-        :freq_slide_shape => 5,
-        :freq_slide_curve => 0,
-        :res => 0.5,
-        :res_slide => 0,
-        :res_slide_shape => 5,
-        :res_slide_curve => 0,
-      }
-    end
-
-    def specific_arg_info
-      {
-
-
-      }
     end
 
     def doc
@@ -3111,49 +3087,37 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
   end
 
-  class FXNRBPF < FXInfo
+    class FXNBPF < FXBPF
+    def name
+      "Normalised Band Pass Filter"
+    end
+
+    def introduced
+      Version.new(2,3,0)
+    end
+
+    def synth_name
+      "fx_nbpf"
+    end
+
+    def doc
+      "Like the Band Pass Filter but normalized. The normalizer is useful here as some volume is lost when filtering the original signal."
+    end
+  end
+
+
+
+  class FXNRBPF < FXRBPF
     def name
       "Normalised Resonant Band Pass Filter"
     end
 
     def introduced
-      Version.new(2,1,0)
+      Version.new(2,3,0)
     end
 
     def synth_name
       "fx_nrbpf"
-    end
-
-    def arg_defaults
-      {
-        :amp => 1,
-        :amp_slide => 0,
-        :amp_slide_shape => 5,
-        :amp_slide_curve => 0,
-        :mix => 1,
-        :mix_slide => 0,
-        :mix_slide_shape => 5,
-        :mix_slide_curve => 0,
-        :pre_amp => 1,
-        :pre_amp_slide => 0,
-        :pre_amp_slide_shape => 5,
-        :pre_amp_slide_curve => 0,
-        :freq => 100,
-        :freq_slide => 0,
-        :freq_slide_shape => 5,
-        :freq_slide_curve => 0,
-        :res => 0.5,
-        :res_slide => 0,
-        :res_slide_shape => 5,
-        :res_slide_curve => 0,
-      }
-    end
-
-    def specific_arg_info
-      {
-
-
-      }
     end
 
     def doc
@@ -3916,12 +3880,13 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :fx_replace_distortion => FXDistortion.new,
       :fx_pan => FXPan.new,
       :fx_replace_pan => FXPan.new,
-      # :fx_bpf => FXBPF.new,
-      # :fx_rbpf => FXRBPF.new,
-      # :fx_nrbpf => FXNRBPF.new,
-      # :fx_ring => FXRingMod.new,
-      # :fx_chorus => FXChorus.new
-#      :fx_harmoniser => FXHarmoniser.new
+      :fx_bpf => FXBPF.new,
+      :fx_nbpf => FXNBPF.new,
+      :fx_rbpf => FXRBPF.new,
+      :fx_nrbpf => FXNRBPF.new,
+      #:fx_ring => FXRingMod.new,
+      #:fx_chorus => FXChorus.new,
+      #:fx_harmoniser => FXHarmoniser.new,
       :fx_flanger => FXFlanger.new
     }
 
