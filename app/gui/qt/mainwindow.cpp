@@ -280,8 +280,8 @@ void MainWindow::startServer(){
     sample_path = root + "/etc/samples";
   #else
     //assuming Raspberry Pi
-    QString prg_path = root + "/server/native/raspberry/ruby/bin/ruby";
-
+    QString prg_path = root + "/app/server/native/raspberry/ruby/bin/ruby";
+git
     QFile file(prg_path);
     if(!file.exists()) {
       // use system ruby if bundled ruby doesn't exist
