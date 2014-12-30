@@ -3623,7 +3623,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :invert_wave =>
         {
           :doc => "Invert flanger control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
-          :validations => [v_one_of(:mod_invert_wave, [0, 1])],
+          :validations => [v_one_of(:invert_wave, [0, 1])],
           :modulatable => true
         },
 
@@ -3642,7 +3642,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :decay =>
         {
           :doc => "Flange decay time",
-          :validations => [v_one_of(:mod_invert_wave, [0, 1])],
+          :validations => [v_one_of(:decay, [0, 1])],
           :modulatable => true
         },
 
@@ -3656,7 +3656,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :invert_flange =>
         {
           :doc => "Invert phase of flanger signal. 0=no inversion, 1=inverted signal.",
-          :validations => [v_one_of(:invert, [0, 1])],
+          :validations => [v_one_of(:invert_flange, [0, 1])],
           :modulatable => true
         }
 
