@@ -3739,7 +3739,9 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :desc => "Percussive Sounds",
         :prefix => "perc_",
         :samples => [
-          :perc_bell]},
+          :perc_bell,
+          :perc_snap,
+          :perc_snap2]},
 
       :ambi => {
         :desc => "Ambient Sounds",
@@ -3781,6 +3783,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :desc => "Bass Drums",
         :prefix => "bd_",
         :samples => [
+          :bd_ada,
           :bd_pure,
           :bd_808,
           :bd_zum,
