@@ -3727,7 +3727,8 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :samples => [
           :guit_harmonics,
           :guit_e_fifths,
-          :guit_e_slide]},
+          :guit_e_slide,
+          :guit_em9]},
 
       :misc => {
         :desc => "Miscellaneous Sounds",

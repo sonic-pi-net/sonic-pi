@@ -64,6 +64,7 @@ Links to original samples:
 * :guit_harmonics - http://freesound.org/people/BStateham/sounds/141524/<
 * :guit_e_fifths - http://freesound.org/people/Sub-d/sounds/46990/
 * :guit_e_slide - http://freesound.org/people/Suva/sounds/2410/
+* :guit_em9 - http://www.freesound.org/people/Sub-d/sounds/46992/ 
 
 ## Misc
 
