@@ -1040,7 +1040,7 @@ void MainWindow::createToolBar()
 
   // Save
   QAction *saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
-  setupAction(saveAsAct, 0, tr("Export current workspace"), SLOT(saveAs()));
+  setupAction(saveAsAct, 0, tr("Save current workspace as an external file"), SLOT(saveAs()));
 
   // Info
   QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
