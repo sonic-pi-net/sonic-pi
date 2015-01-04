@@ -1038,6 +1038,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          tracker = nil
          fx_group = nil
          job_id = Thread.current.thread_variable_get :sonic_pi_spider_job_id
+         block_res = nil
 
          __no_kill_block do
            ## Munge args
@@ -1173,9 +1174,9 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            Thread.current.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_group)
            begin
              if block.arity == 0
-               block.call
+               block_res = block.call
              else
-               block.call(fx_synth)
+               block_res = block.call(fx_synth)
              end
            rescue
              ## Oopsey - there was an error in the user's block. Re-raise
@@ -1212,6 +1213,9 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          # remaining synths to complete and can be left to work in the
          # background...
          gc_completed.get
+
+         # return result of block
+         block_res
        end
        doc name:          :with_fx,
            introduced:    Version.new(2,0,0),
