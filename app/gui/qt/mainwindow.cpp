@@ -111,6 +111,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
 
+  // kill any zombie processes that may exist
+  // better: test to see if UDP ports are in use, only kill/sleep if so
+  // best: kill SCSynth directly if needed
+  Message msg("/exit");
+  sendOSC(msg);
+  sleep(2);
+
+
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
 
   OscHandler* handler = new OscHandler(this, this->outputPane, this->errorPane);
