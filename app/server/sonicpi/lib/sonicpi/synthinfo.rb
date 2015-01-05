@@ -3936,16 +3936,6 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         doc << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
         doc << "<font #{hv_face}>" << v.name << "</font></span></p>\n"
-        if klass == SynthInfo
-          safe_k = k
-          doc << "<h2><font color=\"#3C3C3C\"><pre>use_synth"
-          doc << " <font color=\"DeepPink\">:#{safe_k}</font></pre></h2>\n"
-
-        else
-          safe_k = k.to_s[3..-1]
-          doc << "<h2><pre><font color=\"#3C3C3C\">with_fx"
-          doc << " <font color=\"DeepPink\">:#{safe_k}</font> <font color=\"DarkOrange\">do</font><br/>  play <font color=\"DodgerBlue\">50</font><br/><font color=\"DarkOrange\">end</font></pre></font></h2>\n"
-        end
 
         cnt = 0
         doc << "<table cellpadding=\"2\">\n <tr>"
@@ -3964,7 +3954,18 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         doc << "<p><font size=\"4\", #{hv_face}>"
         doc << "  " << v.doc << "</font></p>\n"
 
-        doc << "<p><font size=\"3\", #{hv_face}>\n"
+        if klass == SynthInfo
+          safe_k = k
+          doc << "<h2><font color=\"#3C3C3C\"><pre>use_synth"
+          doc << " <font color=\"DeepPink\">:#{safe_k}</font></pre></h2>\n"
+
+        else
+          safe_k = k.to_s[3..-1]
+          doc << "<h2><pre><font color=\"#3C3C3C\">with_fx"
+          doc << " <font color=\"DeepPink\">:#{safe_k}</font> <font color=\"DarkOrange\">do</font><br/>  play <font color=\"DodgerBlue\">50</font><br/><font color=\"DarkOrange\">end</font></pre></font></h2>\n"
+        end
+
+                doc << "<p><font size=\"3\", #{hv_face}>\n"
         doc << "<span style=\"color:white;background-color:darkorange;\">"
         doc << "Introduced in " << v.introduced.to_s << "\n</span></p>\n"
 
