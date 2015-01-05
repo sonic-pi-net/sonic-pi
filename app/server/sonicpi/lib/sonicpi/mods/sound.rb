@@ -2363,7 +2363,7 @@ stop bar"]
          res
        end
 
-       def complex_args?(args_h)
+       def complex_sampler_args?(args_h)
          # break out early if any of the 'complex' keys exist in the
          # args map:
          return false if args_h.empty?
@@ -2382,7 +2382,7 @@ stop bar"]
 
 
        def trigger_sampler(path, buf_id, num_chans, args_h, group=current_job_synth_group)
-         if complex_args?(args_h)
+         if complex_sampler_args?(args_h)
            #complex
            synth_name = (num_chans == 1) ? :mono_player : :stereo_player
          else
