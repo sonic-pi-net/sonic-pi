@@ -2433,6 +2433,10 @@ stop bar"]
            __delayed_message "synth #{sn.inspect}, #{arg_h_pp(args_h.merge({note: notes}))}"
          end
 
+         # Scale down amplitude based on number of notes in chord
+         amp = args_h[:amp] || 1.0
+         args_h[:amp] = amp.to_f / notes.size
+
          nodes = []
          notes.each do |note|
            if note
