@@ -2449,33 +2449,21 @@ stop bar"]
        end
 
        def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil)
-
-         defaults = info ? info.arg_defaults : {}
          synth_name = info ? info.scsynth_name : synth_name
+         processed_args = normalise_and_resolve_synth_args(args_h, info, out_bus)
+         validate_if_necessary! info, processed_args
+         trigger_synth_with_resolved_args(synth_name, processed_args, group, info, now, out_bus)
+       end
 
-         unless out_bus
-           out_bus = current_out_bus
-         end
-
-         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-
-         combined_args = defaults.merge(t_l_args.merge(args_h))
-
-         combined_args["out_bus"] = out_bus
-
-         normalise_args!(combined_args)
-
-         scale_time_args_to_bpm!(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
-
-         validate_if_necessary! info, combined_args
-
+       # Function that actually triggers synths now that all args are resolved
+       def trigger_synth_with_resolved_args(synth_name, args_h, group, info, now=false, out_bus=nil)
          job_id = current_job_id
          __no_kill_block do
 
            p = Promise.new
            job_synth_proms_add(job_id, p)
 
-           s = @mod_sound_studio.trigger_synth synth_name, group, combined_args, info, now
+           s = @mod_sound_studio.trigger_synth synth_name, group, args_h, info, now
 
            trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers)
 
@@ -2493,7 +2481,20 @@ stop bar"]
 
            s
          end
+       end
 
+       def normalise_and_resolve_synth_args(args_h, info, out_bus=nil)
+         defaults = info ? info.arg_defaults : {}
+         unless out_bus
+           out_bus = current_out_bus
+         end
+
+         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
+         combined_args = defaults.merge(t_l_args.merge(args_h))
+         combined_args["out_bus"] = out_bus
+         normalise_args!(combined_args)
+         scale_time_args_to_bpm!(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+         combined_args
        end
 
        def current_job_id
