@@ -220,12 +220,15 @@ end
 
     def at(times, params=nil, &block)
       raise "after must be called with a code block" unless block
-      params ||= []
+
+      times = [times] if times.is_a? Numeric
+      # When no params are specified, pass the times through as params
+      params ||= times
+
       raise "params needs to be a list-like thing" unless params.respond_to? :[]
+      raise "times needs to be a list-like thing" unless times.respond_to? :each_with_index
 
       params_size = params.size
-      times = [times] if times.is_a? Numeric
-      raise "times needs to be a list-like thing" unless times.respond_to? :each_with_index
       times.each_with_index do |t, idx|
         in_thread do
           sleep t
@@ -233,14 +236,11 @@ end
           when 0
             block.call
           when 1
-            if params_size == 0
-              block.call(nil)
-            else
-              p = params[idx % params_size]
-              block.call(p)
-            end
+            block.call(params[idx % params_size])
+          when 2
+            block.call(t, params[idx % params_size])
           else
-            raise "block for after should only accept 0 or 1 parameters. You gave: #{block.arity}."
+            raise "block for after should only accept 0, 1 or 2 parameters. You gave: #{block.arity}."
           end
         end
       end
@@ -248,7 +248,7 @@ end
     doc name:           :at,
         introduced:     Version.new(2,1,0),
         summary:        "Run a block at the given times",
-        doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If params is smaller than args, the values will rotate through.",
+        doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If params is smaller than args, the values will rotate through. If no params are passed, the times are fed as the default params. Also, if the block is given 2 args, both the times and the params are fed through.",
         args:           [[:times, :list],
                          [:params, :list]],
         opts:           {:params=>nil},
@@ -267,6 +267,16 @@ end
 at [1, 2, 3],
     [{:amp=>0.5}, {:amp=> 0.8}] do |p| # alternate soft and loud
   sample :drum_cymbal_open, p          # cymbal hits three times
+end
+",
+"
+at [0, 1, 2] do |t| # when no params are specified, the times are fed through to the block
+  puts t #=> prints 0, 1, then 2
+end
+",
+"
+at [0, 1, 2], [:a, :b] do |t, b|  #If you pass 2 params to the block, it will  pass through both the time and the param
+  puts [t, b] #=> prints out [0, :a], [1, :b], then [2, :a]
 end
 "]
 
