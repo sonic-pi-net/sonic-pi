@@ -2421,16 +2421,23 @@ stop bar"]
        end
 
        def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
+         sn = synth_name.to_sym
+         info = SynthInfo.get_info(sn)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+         args_h = normalise_and_resolve_synth_args(args_h, info)
 
          chord_group = @mod_sound_studio.new_group(:tail, group, "CHORD")
          cg = ChordGroup.new(chord_group)
+
+         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+           __delayed_message "synth #{sn.inspect}, #{arg_h_pp(args_h.merge({note: notes}))}"
+         end
 
          nodes = []
          notes.each do |note|
            if note
              args_h[:note] = note
-             nodes << trigger_inst(synth_name, args_h, cg)
+             nodes << trigger_synth_with_resolved_args(synth_name, args_h, cg, info)
            end
          end
          cg.sub_nodes = nodes
@@ -2449,14 +2456,14 @@ stop bar"]
        end
 
        def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil)
-         synth_name = info ? info.scsynth_name : synth_name
          processed_args = normalise_and_resolve_synth_args(args_h, info, out_bus)
-         validate_if_necessary! info, processed_args
          trigger_synth_with_resolved_args(synth_name, processed_args, group, info, now, out_bus)
        end
 
        # Function that actually triggers synths now that all args are resolved
        def trigger_synth_with_resolved_args(synth_name, args_h, group, info, now=false, out_bus=nil)
+         synth_name = info ? info.scsynth_name : synth_name
+         validate_if_necessary! info, args_h
          job_id = current_job_id
          __no_kill_block do
 
