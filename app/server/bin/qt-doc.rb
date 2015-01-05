@@ -219,7 +219,7 @@ info_sources.each do |src|
   bn = m[1]
   ext = m[2]
 
-  input = IO.read(input_path)
+  input = IO.read(input_path, :encoding => 'utf-8')
   if ext == "md"
     html = MarkdownConverter.convert(input)
   else
