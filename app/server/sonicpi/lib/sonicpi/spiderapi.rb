@@ -220,7 +220,7 @@ end
 
     def at(times, params=nil, &block)
       raise "after must be called with a code block" unless block
-
+      had_params = params
       times = [times] if times.is_a? Numeric
       # When no params are specified, pass the times through as params
       params ||= times
@@ -238,9 +238,15 @@ end
           when 1
             block.call(params[idx % params_size])
           when 2
-            block.call(t, params[idx % params_size])
+            if had_params
+              block.call(t, params[idx % params_size])
+            else
+              block.call(t, idx)
+            end
+          when 3
+            block.call(t, params[idx % params_size], idx)
           else
-            raise "block for after should only accept 0, 1 or 2 parameters. You gave: #{block.arity}."
+            raise "block for at should only accept 0, 1, 2 or 3 parameters. You gave: #{block.arity}."
           end
         end
       end
@@ -248,7 +254,7 @@ end
     doc name:           :at,
         introduced:     Version.new(2,1,0),
         summary:        "Run a block at the given times",
-        doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If params is smaller than args, the values will rotate through. If no params are passed, the times are fed as the default params. Also, if the block is given 2 args, both the times and the params are fed through.",
+        doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If params is smaller than args, the values will rotate through. If no params are passed, the times are fed as the default params. If the block is given 2 args, both the times and the params are fed through. Finally, a third parameter to the block will receive the index of the time.",
         args:           [[:times, :list],
                          [:params, :list]],
         opts:           {:params=>nil},
@@ -270,15 +276,26 @@ at [1, 2, 3],
 end
 ",
 "
-at [0, 1, 2] do |t| # when no params are specified, the times are fed through to the block
+at [0, 1, 2] do |t| # when no params are given to at, the times are fed through to the block
   puts t #=> prints 0, 1, then 2
 end
 ",
 "
-at [0, 1, 2], [:a, :b] do |t, b|  #If you pass 2 params to the block, it will  pass through both the time and the param
+at [0, 1, 2], [:a, :b] do |t, b|  #If you specify the block with 2 args, it will pass through both the time and the param
   puts [t, b] #=> prints out [0, :a], [1, :b], then [2, :a]
 end
-"]
+",
+"
+at [0, 0.5, 2] do |t, idx|  #If you the block with 2 args, and no param list to at, it will pass through both the time and the index
+  puts [t, idx] #=> prints out [0, 0], [0.5, 1], then [2, 2]
+end
+",
+"
+at [0, 0.5, 2], [:a, :b] do |t, b, idx|  #If specify the block with 3 args, it will pass through the time, the param and the index
+  puts [t, b, idx] #=> prints out [0, :a, 0], [0.5, :b, 1], then [2, :a, 2]
+end
+"
+    ]
 
     def version
       @version
