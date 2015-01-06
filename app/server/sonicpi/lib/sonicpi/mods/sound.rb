@@ -2260,7 +2260,7 @@ stop bar"]
 
 
 
-       def load_synthdefs(path)
+       def load_synthdefs(path=synthdef_path)
          path = File.expand_path(path)
          raise "No directory exists called #{path.inspect} " unless File.exists? path
          @mod_sound_studio.load_synthdefs(path)
