@@ -3581,15 +3581,16 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :phase_offset => 0,
         :wave => 4,
         :invert_wave => 0,
-        :delay => 0.1,
+        :delay => 5,
         :delay_slide => 0,
         :delay_slide_shape => 5,
         :delay_slide_curve => 0,
-        :depth => 0.1,
+        :max_delay => 20,
+        :depth => 5,
         :depth_slide => 0,
         :depth_slide_shape => 5,
         :depth_slide_curve => 0,
-        :decay => 0,
+        :decay => 2,
         :decay_slide => 0,
         :decay_slide_shape => 5,
         :decay_slide_curve => 0,
@@ -3631,6 +3632,13 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         {
           :doc => "Amount of delay time between original and flanged version of audio. Values between 0 and 1 work well.",
           :modulatable => true
+        },
+
+        :max_delay =>
+        {
+          :doc => "Max delay time",
+          :validations => [v_positive(:max_delay)],
+          :modulatable => false
         },
 
         :depth =>

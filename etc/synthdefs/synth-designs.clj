@@ -3262,7 +3262,7 @@
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
 
- (defsynth sonic-pi-fx_flanger
+  (defsynth sonic-pi-fx_flanger
    [amp 1
     amp_slide 0
     amp_slide_shape 5
@@ -3291,12 +3291,14 @@
     pulse_width_slide_shape 5
     pulse_width_slide_curve 0
 
-    delay 0.1
+    delay 5
     delay_slide 0
     delay_slide_shape 5
     delay_slide_curve 0
 
-    depth 0.1
+    max_delay 20
+
+    depth 5
     depth_slide 0
     depth_slide_shape 5
     depth_slide_curve 0
@@ -3306,7 +3308,7 @@
     feedback_slide_shape 5
     feedback_slide_curve 0
 
-    decay 0
+    decay 2
     decay_slide 0
     decay_slide_shape 5
     decay_slide_curve 0
@@ -3324,7 +3326,6 @@
          feedback            (varlag feedback feedback_slide feedback_slide_curve feedback_slide_shape)
          decay               (varlag decay decay_slide decay_slide_curve decay_slide_shape)
          rate                (/ 1 phase)
-         max-delay           0.015
          [in-l in-r]         (* pre_amp (in in_bus 2))
 
          [local-l local-r]   (local-in:ar 2)
@@ -3335,20 +3336,24 @@
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))
-                                              (lf-par:kr rate double_phase_offset)])
+                                              (- (* 2 (lf-par:kr rate double_phase_offset)) 1)])
 
-         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
-         ctl-wave            (* ctl-wave ctl-wave-mul)
+         ctl-wave            (/ (+ ctl-wave 1) 2)
+         ctl-wave            (select:kr invert_wave [ctl-wave
+                                                     (- 1 ctl-wave)])
 
-
-         delay-l             (allpass-l  (+ (* local-l feedback) in-l)
-                                         (* 2 max-delay)
-                                         (mul-add ctl-wave (* depth max-delay) (* delay max-delay))
-                                         decay)
-         delay-r             (allpass-l  (+ (* local-r feedback) in-r)
-                                         (* 2 max-delay)
-                                         (mul-add ctl-wave (* depth max-delay) (* delay max-delay))
-                                         decay)
+         delay-l             (allpass-c  (+ (limiter (* local-l feedback)) in-l)
+                                         (/ max_delay 1000)
+                                         (max
+                                          (mul-add ctl-wave (/ depth 1000) (/ delay 1000))
+                                          0)
+                                         (/ decay 1000))
+         delay-r             (allpass-c  (+ (limiter (* local-r feedback)) in-r)
+                                         (/ max_delay 1000)
+                                         (max
+                                          (mul-add ctl-wave (/ depth 1000) (/ delay 1000))
+                                          0)
+                                         (/ decay 1000))
 
          flange-wave-mul     (+ (* -2 (> invert_flange 0)) 1)
          new-l               (+ in-l (* flange-wave-mul delay-l))
