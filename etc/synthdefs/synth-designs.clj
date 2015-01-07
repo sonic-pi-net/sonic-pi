@@ -3285,6 +3285,7 @@
     phase_offset 0
     wave 4
     invert_wave 0
+    stereo_invert_wave 0
 
     pulse_width 0.5
     pulse_width_slide 0
@@ -3314,6 +3315,7 @@
     decay_slide_curve 0
 
     invert_flange 0
+
     in_bus 0
     out_bus 0]
    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
@@ -3336,23 +3338,31 @@
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))
-                                              (- (* 2 (lf-par:kr rate double_phase_offset)) 1)])
+                                              (lf-cub:kr rate (+ phase_offset 0.5))
+                                              ])
 
+         orig-ctl-wave       (/ (+ ctl-wave 1) 2)
          ctl-wave            (/ (+ ctl-wave 1) 2)
-         ctl-wave            (select:kr invert_wave [ctl-wave
-                                                     (- 1 ctl-wave)])
+         inverted-ctl-wave   (- 1 ctl-wave)
+
+         ctl-wave-r          (select:kr invert_wave [ctl-wave
+                                                     inverted-ctl-wave])
+
+         ctl-wave-l          (select:kr stereo_invert_wave [ctl-wave-r
+                                                            (- 1 ctl-wave)])
 
          delay-l             (allpass-c  (+ (limiter (* local-l feedback)) in-l)
                                          (/ max_delay 1000)
                                          (max
-                                          (mul-add ctl-wave (/ depth 1000) (/ delay 1000))
+                                          (mul-add ctl-wave-l (/ depth 1000) (/ delay 1000))
                                           0)
                                          (/ decay 1000))
          delay-r             (allpass-c  (+ (limiter (* local-r feedback)) in-r)
                                          (/ max_delay 1000)
                                          (max
-                                          (mul-add ctl-wave (/ depth 1000) (/ delay 1000))
+                                          (mul-add ctl-wave-r (/ depth 1000) (/ delay 1000))
                                           0)
+
                                          (/ decay 1000))
 
          flange-wave-mul     (+ (* -2 (> invert_flange 0)) 1)

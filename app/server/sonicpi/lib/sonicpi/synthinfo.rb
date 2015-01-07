@@ -3581,6 +3581,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :phase_offset => 0,
         :wave => 4,
         :invert_wave => 0,
+        :stereo_invert_wave => 0,
         :delay => 5,
         :delay_slide => 0,
         :delay_slide_shape => 5,
@@ -3616,7 +3617,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         :wave =>
         {
-          :doc => "Wave type - 0 saw, 1 pulse, 2 triangle, 3 sine, 4 parabolic. Different waves will produce different flanging modulation effects.",
+          :doc => "Wave type - 0 saw, 1 pulse, 2 triangle, 3 sine, 4 cubic. Different waves will produce different flanging modulation effects.",
           :validations => [v_one_of(:wave, [0, 1, 2, 3, 4])],
           :modulatable => true
         },
@@ -3625,6 +3626,13 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         {
           :doc => "Invert flanger control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
           :validations => [v_one_of(:invert_wave, [0, 1])],
+          :modulatable => true
+        },
+
+        :stereo_invert_wave =>
+        {
+          :doc => "Take the flanger control waveform and only invert the waveform in the left ear only (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave. This happens after the standard wave inversion with param :invert_wave.",
+          :validations => [v_one_of(:stereo_invert_wave, [0, 1])],
           :modulatable => true
         },
 
@@ -3650,7 +3658,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :decay =>
         {
           :doc => "Flange decay time",
-          :validations => [v_one_of(:decay, [0, 1])],
+          :validations => [v_positive(:decay)],
           :modulatable => true
         },
 
