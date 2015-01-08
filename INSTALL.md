@@ -55,8 +55,8 @@ Debian package dependency names:
 
 * `supercollider`
 * `ruby1.9.3` (Ruby 2+ is preferred)
-* `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqscintilla2-l10n`)
-* `libqscintilla2-dev`
+* `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqt5scintilla2-l10n`)
+* `libqscintilla2-dev` (on Ubuntu 14.04 the name is `libqt5scintilla2-dev`)
 * `qt4-dev-tools`
 * `ruby-dev`
 * `cmake` (for some configurations, e.g., 32bit x86)
