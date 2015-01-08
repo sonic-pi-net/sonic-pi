@@ -3349,7 +3349,7 @@
                                                      inverted-ctl-wave])
 
          ctl-wave-l          (select:kr stereo_invert_wave [ctl-wave-r
-                                                            (- 1 ctl-wave)])
+                                                            (- 1 ctl-wave-r)])
 
          delay-l             (allpass-c  (+ (limiter (* local-l feedback)) in-l)
                                          (/ max_delay 1000)
