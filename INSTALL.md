@@ -55,12 +55,20 @@ Debian package dependency names:
 
 * `supercollider`
 * `ruby1.9.3` (Ruby 2+ is preferred)
-* `libqscintilla2-8` (on Ubuntu 14.04 the name is `libqscintilla2-l10n`)
+* `libqscintilla2-8`
 * `libqscintilla2-dev`
 * `qt4-dev-tools`
 * `ruby-dev`
 * `cmake` (for some configurations, e.g., 32bit x86)
 * `libffi-dev`
+
+In addition, under Ubuntu 14.04 based distributions try these:
+
+* `libqscintilla2-l10n`
+* `qt4-qmake`
+* `libqt4-dev`
+* `ruby-qscintilla2`
+* `libqscintilla2-dev`
 
 Fedora package dependency names:
 
