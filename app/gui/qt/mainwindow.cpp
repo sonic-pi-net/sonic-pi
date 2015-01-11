@@ -404,7 +404,7 @@ void MainWindow::initPrefsWindow() {
   volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
 
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio Settings"));
-  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with external PA systems when performing with Sonic Pi."));
+  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
   mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
   mixer_force_mono = new QCheckBox(tr("Force Mono"));
@@ -421,7 +421,7 @@ void MainWindow::initPrefsWindow() {
 
 
   QGroupBox *audioOutputBox = new QGroupBox(tr("Raspberry Pi Audio Output"));
-  audioOutputBox->setToolTip(tr("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. "));
+  audioOutputBox->setToolTip(tr("Your Raspberry Pi has two forms of audio output.\nFirstly, there is the headphone jack of the Raspberry Pi itself.\nSecondly, some HDMI monitors/TVs support audio through the HDMI port.\nUse these buttons to force the output to the one you want."));
   rp_force_audio_default = new QRadioButton(tr("&Default"));
   rp_force_audio_headphones = new QRadioButton(tr("&Headphones"));
   rp_force_audio_hdmi = new QRadioButton(tr("&HDMI"));
@@ -870,13 +870,13 @@ void MainWindow::setRPSystemAudioHeadphones()
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To Headphone Audio Output ."), 2000);
+  statusBar()->showMessage(tr("Switching To Headphone Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 1";
   std::cout << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To Headphone Audio Output ."), 2000);
+  statusBar()->showMessage(tr("Switching To Headphone Audio Output."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 1";
   p->start(prog);
@@ -889,13 +889,13 @@ void MainWindow::setRPSystemAudioHDMI()
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To HDMI Audio Output ."), 2000);
+  statusBar()->showMessage(tr("Switching To HDMI Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 2";
   std::cout << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To HDMI Audio Output ."), 2000);
+  statusBar()->showMessage(tr("Switching To HDMI Audio Output."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 2";
   p->start(prog);
@@ -908,13 +908,13 @@ void MainWindow::setRPSystemAudioAuto()
   //do nothing
 
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To Default Audio Output ."), 2000);
+  statusBar()->showMessage(tr("Switching To Default Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 0";
   std::cout << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To Default Audio Output ."), 2000);
+  statusBar()->showMessage(tr("Switching To Default Audio Output."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 0";
   p->start(prog);
