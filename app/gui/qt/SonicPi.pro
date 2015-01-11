@@ -67,6 +67,9 @@ RC_FILE = SonicPi.rc
 ICON = images/app.icns
 LIBS         += -lqscintilla2
 
+TRANSLATIONS = sonicpi_de.ts
+CODEFORTR = UTF-8
+
 win32 {
 	install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
 	install_qsci.path = release
