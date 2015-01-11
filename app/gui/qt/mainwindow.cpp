@@ -1070,7 +1070,7 @@ void MainWindow::createToolBar()
 
   // Align
   QAction *textAlignAct = new QAction(QIcon(":/images/align.png"),
-			     tr("Auto Align Text"), this);
+			     tr("Auto-Align Text"), this);
   setupAction(textAlignAct, 'M', tr("Auto-align text"), SLOT(beautifyCode()));
 
   // Font Size Increase
