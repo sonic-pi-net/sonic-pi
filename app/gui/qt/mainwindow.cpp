@@ -343,7 +343,7 @@ void MainWindow::waitForServiceSync() {
 
   if (!sonicPiServer->isServerStarted()) {
     if (!startup_error_reported) {
-      invokeStartupError(tr("Failed to start server, please check ") + log_path);
+      invokeStartupError(QString(tr("Failed to start server, please check %1.").arg(log_path)));
     }
     return;
   }
@@ -401,10 +401,10 @@ void MainWindow::initPrefsWindow() {
   QGridLayout *grid = new QGridLayout;
 
   QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
-  volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi"));
+  volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
 
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio Settings"));
-  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with external PA systems when performing with Sonic Pi"));
+  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with external PA systems when performing with Sonic Pi."));
   mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
   mixer_force_mono = new QCheckBox(tr("Force Mono"));
@@ -657,7 +657,7 @@ void MainWindow::runCode()
   ws->setReadOnly(true);
   ws->selectAll();
   resetErrorPane();
-  statusBar()->showMessage(tr("Running Code...."), 1000);
+  statusBar()->showMessage(tr("Running Code..."), 1000);
   std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
@@ -700,7 +700,7 @@ void MainWindow::unhighlightCode()
 
 void MainWindow::beautifyCode()
 {
-  statusBar()->showMessage(tr("Beautifying...."), 2000);
+  statusBar()->showMessage(tr("Beautifying..."), 2000);
   std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/beautify-buffer");
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
@@ -711,14 +711,14 @@ void MainWindow::beautifyCode()
 
 void MainWindow::reloadServerCode()
 {
-  statusBar()->showMessage(tr("Reloading...."), 2000);
+  statusBar()->showMessage(tr("Reloading..."), 2000);
   Message msg("/reload");
   sendOSC(msg);
 }
 
 void MainWindow::mixerHpfEnable(float freq)
 {
-  statusBar()->showMessage(tr("Enabling Mixer HPF...."), 2000);
+  statusBar()->showMessage(tr("Enabling Mixer HPF..."), 2000);
   Message msg("/mixer-hpf-enable");
   msg.pushFloat(freq);
   sendOSC(msg);
@@ -726,14 +726,14 @@ void MainWindow::mixerHpfEnable(float freq)
 
 void MainWindow::mixerHpfDisable()
 {
-  statusBar()->showMessage(tr("Disabling Mixer HPF...."), 2000);
+  statusBar()->showMessage(tr("Disabling Mixer HPF..."), 2000);
   Message msg("/mixer-hpf-disable");
   sendOSC(msg);
 }
 
 void MainWindow::mixerLpfEnable(float freq)
 {
-  statusBar()->showMessage(tr("Enabling Mixer LPF...."), 2000);
+  statusBar()->showMessage(tr("Enabling Mixer LPF..."), 2000);
   Message msg("/mixer-lpf-enable");
   msg.pushFloat(freq);
   sendOSC(msg);
@@ -741,35 +741,35 @@ void MainWindow::mixerLpfEnable(float freq)
 
 void MainWindow::mixerLpfDisable()
 {
-  statusBar()->showMessage(tr("Disabling Mixer LPF...."), 2000);
+  statusBar()->showMessage(tr("Disabling Mixer LPF..."), 2000);
   Message msg("/mixer-lpf-disable");
   sendOSC(msg);
 }
 
 void MainWindow::mixerInvertStereo()
 {
-  statusBar()->showMessage(tr("Enabling Inverted Stereo...."), 2000);
+  statusBar()->showMessage(tr("Enabling Inverted Stereo..."), 2000);
   Message msg("/mixer-invert-stereo");
   sendOSC(msg);
 }
 
 void MainWindow::mixerStandardStereo()
 {
-  statusBar()->showMessage(tr("Enabling Standard Stereo...."), 2000);
+  statusBar()->showMessage(tr("Enabling Standard Stereo..."), 2000);
   Message msg("/mixer-standard-stereo");
   sendOSC(msg);
 }
 
 void MainWindow::mixerMonoMode()
 {
-  statusBar()->showMessage(tr("Mono Mode...."), 2000);
+  statusBar()->showMessage(tr("Mono Mode..."), 2000);
   Message msg("/mixer-mono-mode");
   sendOSC(msg);
 }
 
 void MainWindow::mixerStereoMode()
 {
-  statusBar()->showMessage(tr("Stereo Mode...."), 2000);
+  statusBar()->showMessage(tr("Stereo Mode..."), 2000);
   Message msg("/mixer-stereo-mode");
   sendOSC(msg);
 }
