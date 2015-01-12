@@ -218,7 +218,7 @@ end
 "   ]
 
 
-    def at(times, params=nil, &block)
+    def at(times=0, params=nil, &block)
       raise "after must be called with a code block" unless block
       had_params = params
       times = [times] if times.is_a? Numeric
