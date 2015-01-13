@@ -2971,7 +2971,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def introduced
-      Version.new(2,2,0)
+      Version.new(2,3,0)
     end
 
     def synth_name
@@ -2980,6 +2980,10 @@ The way the transpositions are done adds some distortion, particulary to the low
 
     def arg_defaults
       {
+        :freq => 30,
+        :freq_slide => 0,
+        :freq_slide_shape => 5,
+        :freq_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
         :amp_slide_shape => 5,
@@ -2992,10 +2996,6 @@ The way the transpositions are done adds some distortion, particulary to the low
         :pre_amp_slide => 0,
         :pre_amp_slide_shape => 5,
         :pre_amp_slide_curve => 0,
-        :freq => 100,
-        :freq_slide => 0,
-        :freq_slide_shape => 5,
-        :freq_slide_curve => 0,
         :mod_amp => 1,
         :mod_amp_slide => 0,
         :mod_amp_slide_shape => 5,
@@ -3004,11 +3004,26 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def specific_arg_info
-      { }
+      {
+        :freq =>
+        {
+          :doc => "Frequency of the carrier signal (as a midi note).",
+          :validations => [v_positive_not_zero(:freq)],
+          :modulatable => true
+        },
+
+        :freq_slide =>
+        {
+          :doc => generic_slide_doc(:freq),
+          :validations => [v_positive(:freq_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        }
+      }
     end
 
     def doc
-      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens. We take a 'carrier' signal (a sine wave controlled by the freq argument) and modulate it's amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
+      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens as it sounds hollow or metallic. We take a 'carrier' signal (a sine wave controlled by the freq argument) and modulate it's amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
     end
   end
 
@@ -3904,7 +3919,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :fx_nbpf => FXNBPF.new,
       :fx_rbpf => FXRBPF.new,
       :fx_nrbpf => FXNRBPF.new,
-      #:fx_ring => FXRingMod.new,
+      :fx_ring => FXRingMod.new,
       #:fx_chorus => FXChorus.new,
       #:fx_harmoniser => FXHarmoniser.new,
       :fx_flanger => FXFlanger.new
