@@ -1,0 +1,14 @@
+na_op.c: mknafunc.rb mkop.rb
+	$(RUBY) -I$(srcdir) $(srcdir)/mkop.rb
+
+na_op.o: na_op.c narray.h $(hdrdir)/ruby.h
+
+
+na_math.c: mknafunc.rb mkmath.rb
+	$(RUBY) -I$(srcdir) $(srcdir)/mkmath.rb
+
+na_math.o: na_math.c narray.h $(hdrdir)/ruby.h
+
+
+cleanall:  clean
+	@$(RM) -r Makefile narray_config.h na_op.c na_math.c src pkg

@@ -1,0 +1,327 @@
+
+	Ruby/NArray  ver 0.6.0.7 (2013-02-01)	by Masahiro TANAKA
+
+
+Class method:
+    NArray.new(typecode, size, ...)	create new NArray. initialize with 0.
+
+    NArray.byte(size,...)		1 byte unsigned integer
+    NArray.sint(size,...)		2 byte signed integer
+    NArray.int(size,...)		4 byte signed integer
+    NArray.sfloat(size,...)		single precision float
+    NArray.float(size,...)		double precision float
+    NArray.scomplex(size,...)		single precision complex
+    NArray.complex(size,...)		double precision complex
+    NArray.object(size,...)		Ruby object
+				all above method initialize with 0 or nil.
+
+    NArray.to_na(array)			convert to NArray
+    NArray.to_na(string,type[,size,...])
+    NArray[...]
+      NArray[1,5,10.0]  #=>  NArray.float(3):[1.0, 5.0, 10.0]
+      NArray[1..10]     #=>  NArray.int(10):[1,2,3,4,5,6,7,8,9,10]
+
+
+Class constant:
+    CLASS_DIMENSION	# of dimension treated as data.
+			0 for NArray, 1 for NVector, 2 for NMatrix.
+
+NArray information
+    self.dim		Return the dimension = the number of indices
+    self.rank		same as dim
+    self.shape		Return the array of sizes of each index
+    self.total		Return the number of total elements
+
+Slicing Array
+ - Index components:	Integer, Range, Array, true.
+ - Index order:		FORTRAN type.
+    a[ 1, 2, -1 ]	element slicing.
+			  If negative, counts backward from the end.
+			  Element-dimensions are contracted.
+    a[ 0..3, 4..1 ]	extract in the range.
+			  If the former of the range is bigger,
+			   return elements in reversed order.
+    a[ [1,3,2,4] ]	an array with the elements of the indices.
+			  If `a' has multi-dimension but, in [],
+			   single index is specified,
+			   `a' is treated as a single dimension array.
+    a[ 1, 2..3, [1,3,2,4], true ]   compound index.
+				    This returns 3-dim array.
+    a[]			same as a.dup.
+    a[ 0, true ]	sams as a[0,0..-1]. `true' means all.
+    a[ false, 0 ]	same as a[true,true,0], if a is a 3-d array,
+			`false' means ellipsis dimension.
+    a[ mask ]		masking. "mask" is a byte NArray with its
+			length equal to that of "a". According to the
+			value of each element of mask, the corresponding
+			element in "a" is eliminated (when 0) or
+			retained (when not 0).
+			Example:
+				a=NArray.float(2,2).indgen!
+				p a[ a.lt 3 ]
+				--> [ 0.0, 1.0, 2.0 ]
+				(Here, a.lt 3 gives a byte NArray)
+				(This is also done by a[ (a.lt 3).where ])
+
+ - A 2-or-more-dim array object with only one argument in `[ ]',
+   is treated as a flat 1-d array.
+   e.g.: a[3] is same as a[0,1] if a is 3x3 array.
+
+ - self.slice(...)	Same as self[...] but keeps the rank of
+			original array by not elimiting dimensions
+			whose length became equal to 1 (which self[]
+			does). This is not the case with the
+			1-dimensional indexing and masking (same as []).
+
+Replacing Elements -- Same rule as slicing
+
+    a[ 1, 2, 3 ] = 1
+    a[ 0..3, 1..4, 2..5 ] = 2
+    a[ [1,3,2,4], true ] = 3
+    a[] = 4			Same as a.fill!(4)
+
+    a[0..2]  = b[1..5]		--> Error! due to different num of elements.
+    a[1,2]   = b[0..2,1..3]	Storing elements from index [1,2]
+				( a[1,2]=b[0,1],a[2,2]=b[1,1],... )
+    a[0..2,0..3]  = b[0..2,1]	Storing repetitively
+				( a[0,0]=b[0,1],..,a[0,3]=b[0,1] )
+
+Delete row/columns -- Complement of slice
+
+    self.delete_at(...)	  Arguments are the same as the [] and slice methods
+			  see https://github.com/masa16/narray/issues/5
+
+Filling values
+    self.indgen!([start[,step]]) Generate index;
+				 Set values from 'start' with 'step' increment
+    self.fill!(value)		 Fill elements with 'value'
+    self.random!(max)		 Set random values between 0<=x<max
+				 using MT19337
+    self.randomn		 Set Normally distributed random values
+				 with mean=0, dispersion=1 (Box-Muller)
+    NArray.srand([seed])	 Set random seed.
+				 A time-depend seed is choosed if omitted.
+
+Operation: performed element by element
+    a = NArray.float(3,3).indgen
+    b = NArray.float(3,3).fill(10)
+    c = a*b	# --> NArray.float(3,3)
+
+    a = NArray.float(3,1).indgen
+    b = NArray.float(1,3).fill(10)
+    c = a*b	# --> NArray.float(3,3) -- size=1 dimension is extensible.
+
+Arithmetic operator
+    -self
+    self + other
+    self - other
+    self * other
+    self / other
+    self % other
+    self ** other
+    self.abs
+
+    self.add! other
+    self.sbt! other
+    self.mul! other
+    self.div! other
+    self.mod! other
+
+Bitwise operator (only for integers)
+    ~self
+    self & other
+    self | other
+    self ^ other
+
+Comparison
+  -- element-wise comparison, results in BYTE-type NArray;
+     Note that not true nor false is returned.
+    self.eq other  (distinguish from == operator; see below )
+    self.ne other
+    self.gt other
+    self >  other
+    self.ge other
+    self >= other
+    self.lt other
+    self <  other
+    self.le other
+    self <= other
+
+    self.and other  element-wise condition.
+    self.or  other
+    self.xor other
+    self.not other
+
+    self.all?	  true if all the elements are true.
+    self.any?	  true if any element is true.
+    self.none?	  true if none of the element is true.
+    self.where	  Return NArray of indices where elements are true.
+    self.where2	  Return Array including two NArrays of indices,
+		  where elements are true and false, respectively.
+
+	e.g.: idx_t,idx_f = (a>12).where2
+
+Equivalence
+    NArray[1] == NArray[1]      #=> true
+    NArray[1] == NArray[1.0]    #=> true
+    NArray[1].eql? NArray[1]    #=> true
+    NArray[1].eql? NArray[1.0]  #=> false
+    NArray[1].equal? NArray[1]  #=> false
+    a=b=NArray[1]; a.equal? b   #=> true
+
+Statistics
+    self.sum(dim,..)     Summation
+    self.cumsum          Cumulative Summation (for 1-d array)
+    self.prod(dim,..)    Product (Multiply elements)
+    self.cumprod         Cumulative Produce (for 1-d array)
+    self.mean(dim,..)    Mean
+    self.stddev(dim,..)  Standard deviation
+    self.rms(dim,..)     Root mean square
+    self.rmsdev(dim,..)  Root mean square deviation
+    self.min(dim,..)     Minimum
+    self.max(dim,..)     Maximum
+	note: * If dimensions are specified, statistics are performed
+	      	on those dimensions and the rest dimensions are kept.
+	      * Range can be used.
+	      * If dimension is not specified, statistics are performed
+	        for all the elements.
+    self.median(dim)	 Median in 0..dim (All dimensions if omitted)
+
+Sort
+    self.sort(dim)	  Sort in 0..dim (All dimensions if omitted)
+    self.sort_index(dim)  Return index of Sort result.
+			     self[self.sort_index] equals to self.sort.
+
+Transpose
+    self.transpose( dim0, dim1, .. )
+	Transpose array.
+	The dim0-th dimension goes to the 0-th dimension of new array.
+	Negative number counts backward.
+	transpose(-1,1..-2,0) is replacement between the first and the last.
+
+Changing Shapes of indices
+    self.reshape!(size,...)
+    self.shape=(size,...)
+    self.newdim=(dim)	    Insert new dimension with size=1
+
+Reference to another NArray
+    self.refer			create NArray obj referring to another NArray
+    self.reshape(size,...)	same as self.refer.reshape!
+    self.newdim(dim,...)	same as self.refer.newdim!
+
+Reverse and Rotate
+    self.reverse([dim,...])	Reverse array at axes
+    self.rot90([k])		Rotate array by 90 degrees k times
+
+Type conversion
+    self.floor      Return integer NArray whose elements processed 'floor'
+    self.ceil
+    self.round
+    self.to_f	    Convert NArray type to float
+    self.to_i       Convert NArray type to integer
+    self.to_a	    Convert NArray type to Ruby-object
+    self.to_s	    Convert NArray data to String as a binary data.
+    self.to_string  Convert NArray type to Ruby-object
+		    containing Strings as printed elements
+
+Iteration
+    self.each {|i| ...}
+    self.collect {|i| ...}
+    self.collect! {|i| ...}
+
+Byte swap
+    self.swap_byte	swap byte order
+    self.hton		convert to network byte order
+    self.ntoh
+    self.htov		convert to VAX byte order
+    self.vtoh
+
+Boolean / mask related
+    self.count_false	count # of elements whose value == 0 (only for
+			byte type)
+    self.count_true	count # of elements whose value != 0 (only for
+			byte type)
+    self.mask( mask )	same as self[ mask ], but exclusively for masking.
+			Unlike [], a int or sint mask is accepted.
+
+Complex compound number
+    self.real
+    self.imag
+    self.conj
+    self.conj!
+    self.angle		atan2(self.imag, self.real)
+    self.imag= other	set imaginary part
+    self.im		multiply by imaginary unit
+
+NMath module
+    sqrt(x)
+    exp(x)
+    log(x)
+    log10(x)
+    log2(x)
+    atan2(x,y)
+    sin,cos,tan
+    sinh,cosh,tanh
+    asin,acos,atan
+    asinh,acosh,atanh
+    csc,sec,cot
+    csch,sech,coth
+    acsc,asec,acot
+    acsch,asech,acoth
+    covariance	(no idea why NMath::covariance doesn't work)
+
+
+FFTW module
+ (separate module)
+    fftw(x,[1|-1])
+    convol(a,b)		convolution with FFTW
+
+
+NMatrix
+
+  Subclass of NArray.  First 2 dimensions are used as Matrix.
+  Residual dimensions are treated as Multi-dimensional array.
+  The order of Matrix dimensions is opposite from
+  the notation of mathematics:  a_ij => a[j,i]
+
+  Methods:
+    +,-	 enable if other is NMatrix.
+    *	 Matrix product if other is NMatrix or NVector.
+	 Scalar product if other is Numeric or NArray.
+	 ex: NMatrix[[1,2],[3,4]] * [1,10]
+	       == NMatrix[ [[1,2],[3,4]], [[10,20],[30,40]] ]
+    /	 Scalar division if other is Numeric or NArray.
+	 Solve Linear Equation with LU factorization
+	  if other is square NMatrix.  a/b == b.lu.solve(a)
+
+    transpose		transpose Matrix dimensions if argument omitted.
+    diagonal(val)
+    diagonal!(val)	set val to diagonal elements. (set 1 if omitted)
+    unit		set 1 to diagonal elements.
+    inverse		Inverse matrix.
+    lu			compute LU factorization.
+			return NMatrixLU class object.
+
+NVector
+
+  Subclass of NArray.  First 1 dimension is used as Vector.
+  Residual dimensions are treated as Multi-dimensional array.
+
+  Methods:
+    +,-	 enable if other is NVector.
+    *	 Matrix product if other is NMatrix.
+	 Inner product if other is NVector.
+	 Scalar product if other is Numeric or NArray.
+    /	 Scalar division if other is Numeric or NArray.
+	 Solve Linear Equation with LU factorization
+	   if other is square NMatrix.  v/m == m.lu.solve(v)
+
+
+NMatrixLU
+
+  Created by NMatrix#lu method.
+  Including LU (NMatrix) and pivot (NVector).
+
+  Methods:
+    solve(other)	Solve with the result of LU factorization.
+			other should be NMatrix or NVector instance.

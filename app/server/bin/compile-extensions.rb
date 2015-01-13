@@ -43,6 +43,13 @@ native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean/ext/did_you_mean')
 ]
 
+if os == :osx
+  native_ext_dirs += [
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/narray-0.6.0.9/'),
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.10/ext/')]
+end
+
+
 native_ext_dirs.each do |ext_dir|
     puts "Compiling native extension in #{ext_dir}"
     Dir.chdir(ext_dir) do
