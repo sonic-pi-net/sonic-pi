@@ -92,3 +92,5 @@ relevant licenses:
 * [Thread Safe](https://github.com/ruby-concurrency/thread_safe) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [UniMIDI](https://github.com/arirusso/unimidi) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [Websocket](https://github.com/imanel/websocket-ruby) - [MIT License](http://opensource.org/licenses/MIT)
+* [NArray](https://github.com/masa16/narray) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
+* [Ruby CoreAudio](https://github.com/nagachika/ruby-coreaudio) - [MIT License](http://opensource.org/licenses/MIT)
