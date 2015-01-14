@@ -65,7 +65,22 @@ module SonicPi
     ]
 
     def range(start, finish, step_size=1)
-      start.step(finish, step_size).to_a.ring
+      return [] if start == finish
+      step_size = step_size.abs
+      res = []
+      cur = start
+      if start < finish
+        while cur < finish
+          res << cur
+          cur += step_size
+        end
+      else
+        while cur > finish
+          res << cur
+          cur -= step_size
+        end
+      end
+      res.ring
     end
     doc name:           :range,
         introduced:     Version.new(2,2,0),
@@ -75,11 +90,11 @@ module SonicPi
         accepts_block:  false,
         doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to 1. Indexes wrap around positively and negatively",
         examples:       [
-      "(range 1, 5)    #=> (ring 1, 2, 3, 4, 5)",
-      "(range 1, 5, 1) #=> (ring 1, 2, 3, 4, 5)",
-      "(range 1, 5, 2) #=> (ring 1, 3, 5)",
-      "(range 1, -5, -2) #=> (ring 1, -1, -3, -5)",
-      "(range 1, -5, -2)[-1] #=> -5"
+      "(range 1, 5)    #=> (ring 1, 2, 3, 4)",
+      "(range 1, 5, 1) #=> (ring 1, 2, 3, 4)",
+      "(range 1, 5, 2) #=> (ring 1, 3)",
+      "(range 1, -5, 2) #=> (ring 1, -1, -3)",
+      "(range 1, -5, 2)[-1] #=> -3"
     ]
 
     def ring(*args)
