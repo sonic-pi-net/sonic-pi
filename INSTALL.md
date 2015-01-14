@@ -6,6 +6,7 @@ following platforms:
 
 * [Raspberry Pi](#raspberry-pi)
 * [Generic Linux](#generic-linux)
+* [Arch Linux](#arch-linux)
 * [Mac OS X](#mac-os-x)
 * [Windows](#windows)
 
@@ -90,6 +91,25 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 Start the jack sound server daemon `jackd`. This is easily done through [qjackctl](http://qjackctl.sourceforge.net/), available as `qjackctl` in Debian.
 
 Then run the script `rp-app-bin` in the directory `app/gui/qt`.
+
+----
+
+## Arch Linux
+
+### AUR Package
+
+Arch Linux users are strongly recommended to install the [sonic-pi-git](https://aur.archlinux.org/packages/sonic-pi-git/) package from the AUR; see the wiki article on the [Arch User Repository](https://wiki.archlinux.org/index.php/Arch_User_Repository) if you are unfamiliar with how to install such a package. The PKGBUILD found in this package will:
+* Clone the latest sonic-pi source from GitHub
+* Apply a patch to fix a library naming issue
+* Build sonic-pi from source, according to the instructions found in [Generic Linux](#generic-linux)
+* Install the built software components to `/opt/sonic-pi-git`
+* Install the launcher to `/usr/bin/sonic-pi`
+
+After installing, users need to follow the instructions in the [Generic Linux](#generic-linux) section to start the `jackd` server, and then run `sonic-pi` at a command prompt. 
+
+###Building from source
+
+Users can opt to build from source as well if they would like. Instructions and dependencies can be found within the PKGBUILD file in the AUR package previously mentioned, as well as the required patch file. 
 
 ----
 
