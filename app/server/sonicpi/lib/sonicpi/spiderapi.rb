@@ -834,6 +834,10 @@ puts rand # => 0.7203244934421581
 
 
 
+    # Give a deprecation warning to users coming from v1.0
+    def with_tempo(*args, &block)
+      raise "The function with_tempo is deprecated since v2.0. Please consider use_bpm or with_bpm."
+    end
 
     def use_bpm(bpm, &block)
       raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
