@@ -28,12 +28,13 @@ module SonicPi
     end
 
     def test_range
-      assert_equal(range(1, 5), [1, 2, 3, 4, 5])
-      assert_equal(range(1, 5, 1), [1, 2, 3, 4, 5])
-      assert_equal(range(1, 5, 2), [1, 3, 5])
-      assert_equal(range(1, -5, -2), [1, -1, -3, -5])
-      assert_equal(range(10, 50, 10), [10, 20, 30, 40, 50])
-      assert_equal(range(1, 5, -1), [])
+      assert_equal(range(1, 5), [1, 2, 3, 4])
+      assert_equal(range(1, 5, 1), [1, 2, 3, 4])
+      assert_equal(range(1, 5, 2), [1, 3])
+      assert_equal(range(1, -5, -2), [1, -1, -3])
+      assert_equal(range(10, 50, 10), [10, 20, 30, 40])
+      assert_equal(range(1, 5, -1), [1, 2, 3, 4])
+      assert_equal(range(10, 10, -1), [])
       assert_equal(range(1, 3).class, SonicPi::Core::RingArray)
     end
 
