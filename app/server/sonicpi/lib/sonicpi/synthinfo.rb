@@ -3646,33 +3646,33 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         :stereo_invert_wave =>
         {
-          :doc => "Take the flanger control waveform and only invert the waveform in the left ear only (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave. This happens after the standard wave inversion with param :invert_wave.",
+          :doc => "Make the flanger control waveform in the left ear an inversion of the control waveform in the right ear. 0=normal wave, 1=inverted wave. This happens after the standard wave inversion with param :invert_wave.",
           :validations => [v_one_of(:stereo_invert_wave, [0, 1])],
           :modulatable => true
         },
 
         :delay =>
         {
-          :doc => "Amount of delay time between original and flanged version of audio. Values between 0 and 1 work well.",
+          :doc => "Amount of delay time between original and flanged version of audio.",
           :modulatable => true
         },
 
         :max_delay =>
         {
-          :doc => "Max delay time",
+          :doc => "Max delay time. Used to set internal buffer size.",
           :validations => [v_positive(:max_delay)],
           :modulatable => false
         },
 
         :depth =>
         {
-          :doc => "Flange depth - greater depths mean a more prominent effect. Values between 0 and 1 work well.",
+          :doc => "Flange depth - greater depths produce a more prominent effect.",
           :modulatable => true
         },
 
         :decay =>
         {
-          :doc => "Flange decay time",
+          :doc => "Flange decay time in ms",
           :validations => [v_positive(:decay)],
           :modulatable => true
         },
@@ -3686,7 +3686,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         :invert_flange =>
         {
-          :doc => "Invert phase of flanger signal. 0=no inversion, 1=inverted signal.",
+          :doc => "Invert flanger signal. 0=no inversion, 1=inverted signal.",
           :validations => [v_one_of(:invert_flange, [0, 1])],
           :modulatable => true
         }
