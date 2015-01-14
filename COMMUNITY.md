@@ -31,6 +31,27 @@ For bite-sized chunks of the latest Sonic Pi news and information.
 
 For those Facebook users out there.
 
+## Vimeo Group
+*<https://vimeo.com/groups/287093>*
+
+A Vimeo channel dedicated to Sonic Pi performances, tutorials and
+examples. Please also tag your Vimeo videos with `Sonic Pi` so they may
+be found and added to this channel.
+
+## SoundCloud Playlist
+*<https://soundcloud.com/samaaron/sets/sonic-pi>*
+
+A playlist of audio pieces created with Sonic Pi. Please tag your
+SoundCloud tracks with `# Sonic Pi` so they may be found and added to
+this playlist.
+
+## Blogs
+
+The following is a list of community-maintained blogs which focus on or
+contain Sonic Pi related material:
+
+* [Robin Newman's Blog](https://rbnrpi.wordpress.com)
+
 ## GitHub
 *<http://github.com/samaaron/sonic-pi>*
 
