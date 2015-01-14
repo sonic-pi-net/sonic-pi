@@ -98,7 +98,7 @@ Then run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 ### AUR Package
 
-Arch linux users are strongly recommended to install the [sonic-pi-git](https://aur.archlinux.org/packages/sonic-pi-git/) package from the AUR. After installing, follow the instructions from [Generic Linux](#generic-linux) section to start the `jackd` server, and run `sonic-pi` from the command line. 
+Arch linux users are strongly recommended to install the [sonic-pi-git](https://aur.archlinux.org/packages/sonic-pi-git/) package from the AUR. After installing, follow the instructions in the [Generic Linux](#generic-linux) section to start the `jackd` server, and run `sonic-pi` at a command prompt. 
 
 ### Building from source
 
