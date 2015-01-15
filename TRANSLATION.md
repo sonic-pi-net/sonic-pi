@@ -31,12 +31,13 @@ When you're finished, commit the result and file a pull request.
 ## Adding a new language
 
 Add a reference to the new language file to `app/gui/qt/SonicPi.Pro`
-and `app/gui/qt/SonicPi.Pro`.
+and `app/gui/qt/SonicPi.qrc`.
 
 Then run `lupdate --pro SonicPi.pro` to have the new `.ts` file created
 for you.
 
-Then edit the translation (see above).
+Finally, edit the translation with Qt Linguist (see above), commit and
+have it pulled.
 
 ## To-Do
 
