@@ -59,13 +59,16 @@ OTHER_FILES += \
 
 RESOURCES += \
     SonicPi.qrc \
-    help_files.qrc  \
+    help_files.qrc \
     info_files.qrc
 
 RC_FILE = SonicPi.rc
 
 ICON = images/app.icns
 LIBS         += -lqscintilla2
+
+TRANSLATIONS = lang/sonic-pi_de.ts
+CODEFORTR = UTF-8
 
 win32 {
 	install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
