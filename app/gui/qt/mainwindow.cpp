@@ -333,7 +333,7 @@ void MainWindow::waitForServiceSync() {
   int timeout = 30;
   while (sonicPiServer->waitForServer() && timeout-- > 0) {
     sleep(1);
-    std::cout << tr("Waiting for server...").toStdString() << std::endl;
+    std::cout << "Waiting for server..." << std::endl;
     if(sonicPiServer->isIncomingPortOpen()) {
       Message msg("/ping");
       msg.pushStr("QtClient/1/hello");
@@ -369,13 +369,13 @@ void MainWindow::serverStarted() {
 
 void MainWindow::serverError(QProcess::ProcessError error) {
   sonicPiServer->stopServer();
-  std::cout << tr("Server Error:").toStdString() << " " << error <<std::endl;
+  std::cout << "Server Error: " << error <<std::endl;
   std::cout << serverProcess->readAllStandardError().data() << std::endl;
   std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
 void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
-  std::cout << tr("Server Finished:").toStdString() << " " << exitCode << ", " << exitStatus << std::endl;
+  std::cout << "Server Finished: " << exitCode << ", " << exitStatus << std::endl;
   std::cout << serverProcess->readAllStandardError().data() << std::endl;
   std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
@@ -576,7 +576,7 @@ std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
 
 void MainWindow::loadWorkspaces()
 {
-  std::cout << tr("loading workspaces").toStdString() << std::endl;
+  std::cout << "loading workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     Message msg("/load-buffer");
@@ -588,7 +588,7 @@ void MainWindow::loadWorkspaces()
 
 void MainWindow::saveWorkspaces()
 {
-  std::cout << tr("saving workspaces").toStdString() << std::endl;
+  std::cout "saving workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     std::string code = workspaces[i]->text().toStdString();
@@ -1327,18 +1327,18 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 void MainWindow::onExitCleanup()
 {
   if(serverProcess->state() == QProcess::NotRunning) {
-    std::cout << tr("Server process is not running, something is up...").toStdString() << std::endl;
+    std::cout << "Server process is not running, something is up..." << std::endl;
     sonicPiServer->stopServer();
   } else {
     if (loaded_workspaces)
       saveWorkspaces();
     sleep(1);
-    std::cout << tr("Asking server process to exit...").toStdString() << std::endl;
+    std::cout << "Asking server process to exit..." << std::endl;
     Message msg("/exit");
     sendOSC(msg);
   }
   osc_thread.waitForFinished();
-  std::cout << tr("Exiting...").toStdString() << std::endl;
+  std::cout << "Exiting..." << std::endl;
 
 }
 
