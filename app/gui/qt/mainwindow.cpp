@@ -588,7 +588,7 @@ void MainWindow::loadWorkspaces()
 
 void MainWindow::saveWorkspaces()
 {
-  std::cout "saving workspaces" << std::endl;
+  std::cout << "saving workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     std::string code = workspaces[i]->text().toStdString();
@@ -632,7 +632,7 @@ void MainWindow::sendOSC(Message m)
   int PORT_NUM = 4557;
   sock.connectTo("localhost", PORT_NUM);
   if (!sock.isOk()) {
-    std::cerr << QString(tr("Error connection to port %1:")).arg(QString::number(PORT_NUM)).toStdString() << " " << sock.errorMessage() << "\n";
+    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
   } else {
 
     PacketWriter pw;
