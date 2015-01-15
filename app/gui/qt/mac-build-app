@@ -37,6 +37,9 @@ mkdir build
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/bin/qt-doc.rb -o ruby_help.h
 
+# Generate i18n files
+lrelease SonicPi.pro
+
 # Build app
 $QMAKE -o Makefile SonicPi.pro
 make
