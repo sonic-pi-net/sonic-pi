@@ -576,7 +576,7 @@ std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
 
 void MainWindow::loadWorkspaces()
 {
-  std::cout << tr("loading workspaces").toStdString() << std::endl;;
+  std::cout << tr("loading workspaces").toStdString() << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     Message msg("/load-buffer");
@@ -588,7 +588,7 @@ void MainWindow::loadWorkspaces()
 
 void MainWindow::saveWorkspaces()
 {
-  std::cout << tr("saving workspaces").toStdString() << std::endl;;
+  std::cout << tr("saving workspaces").toStdString() << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     std::string code = workspaces[i]->text().toStdString();
