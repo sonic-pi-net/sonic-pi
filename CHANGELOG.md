@@ -2,6 +2,7 @@
 
 ## Version 2.2.0
 *Thursday 18th December, 2014*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.2.0)
 
 This release brings a number of nice enhancements. However the main
 feature is the accurate timing for triggering FX. This means you can now
@@ -51,6 +52,7 @@ and echoes.
 
 ## Version 2.1.1
 *Tuesday 25th November, 2014*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.1)
 
 * Windows version no longer needs special firewall exceptions to run
 * Added license information to info window
@@ -59,6 +61,7 @@ and echoes.
 
 ## Version 2.1
 *Friday 21st November, 2014*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.0)
 
 The focus of release is very much on technical improvements, efficiency
 and general polish. 
@@ -140,6 +143,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 
 ## Version 2.0.1
 *Tuesday 9th September, 2014*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.0.1)
 
 * Fix recording functionality
 * Improve documentation content and layout
@@ -155,6 +159,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 
 ## Version 2.0
 *Tuesday 2nd September, 2014*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.0.0)
 
 * Complete rewrite since v1.0
 * Support for Live Coding - redefining behaviour whilst music is playing

@@ -2971,7 +2971,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def introduced
-      Version.new(2,2,0)
+      Version.new(2,3,0)
     end
 
     def synth_name
@@ -2980,6 +2980,10 @@ The way the transpositions are done adds some distortion, particulary to the low
 
     def arg_defaults
       {
+        :freq => 30,
+        :freq_slide => 0,
+        :freq_slide_shape => 5,
+        :freq_slide_curve => 0,
         :amp => 1,
         :amp_slide => 0,
         :amp_slide_shape => 5,
@@ -2992,10 +2996,6 @@ The way the transpositions are done adds some distortion, particulary to the low
         :pre_amp_slide => 0,
         :pre_amp_slide_shape => 5,
         :pre_amp_slide_curve => 0,
-        :freq => 100,
-        :freq_slide => 0,
-        :freq_slide_shape => 5,
-        :freq_slide_curve => 0,
         :mod_amp => 1,
         :mod_amp_slide => 0,
         :mod_amp_slide_shape => 5,
@@ -3004,11 +3004,26 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def specific_arg_info
-      { }
+      {
+        :freq =>
+        {
+          :doc => "Frequency of the carrier signal (as a midi note).",
+          :validations => [v_positive_not_zero(:freq)],
+          :modulatable => true
+        },
+
+        :freq_slide =>
+        {
+          :doc => generic_slide_doc(:freq),
+          :validations => [v_positive(:freq_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        }
+      }
     end
 
     def doc
-      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens. We take a 'carrier' signal (a sine wave controlled by the freq argument) and modulate it's amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
+      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens as it sounds hollow or metallic. We take a 'carrier' signal (a sine wave controlled by the freq argument) and modulate it's amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
     end
   end
 
@@ -3631,33 +3646,33 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         :stereo_invert_wave =>
         {
-          :doc => "Take the flanger control waveform and only invert the waveform in the left ear only (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave. This happens after the standard wave inversion with param :invert_wave.",
+          :doc => "Make the flanger control waveform in the left ear an inversion of the control waveform in the right ear. 0=normal wave, 1=inverted wave. This happens after the standard wave inversion with param :invert_wave.",
           :validations => [v_one_of(:stereo_invert_wave, [0, 1])],
           :modulatable => true
         },
 
         :delay =>
         {
-          :doc => "Amount of delay time between original and flanged version of audio. Values between 0 and 1 work well.",
+          :doc => "Amount of delay time between original and flanged version of audio.",
           :modulatable => true
         },
 
         :max_delay =>
         {
-          :doc => "Max delay time",
+          :doc => "Max delay time. Used to set internal buffer size.",
           :validations => [v_positive(:max_delay)],
           :modulatable => false
         },
 
         :depth =>
         {
-          :doc => "Flange depth - greater depths mean a more prominent effect. Values between 0 and 1 work well.",
+          :doc => "Flange depth - greater depths produce a more prominent effect.",
           :modulatable => true
         },
 
         :decay =>
         {
-          :doc => "Flange decay time",
+          :doc => "Flange decay time in ms",
           :validations => [v_positive(:decay)],
           :modulatable => true
         },
@@ -3671,7 +3686,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         :invert_flange =>
         {
-          :doc => "Invert phase of flanger signal. 0=no inversion, 1=inverted signal.",
+          :doc => "Invert flanger signal. 0=no inversion, 1=inverted signal.",
           :validations => [v_one_of(:invert_flange, [0, 1])],
           :modulatable => true
         }
@@ -3904,7 +3919,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :fx_nbpf => FXNBPF.new,
       :fx_rbpf => FXRBPF.new,
       :fx_nrbpf => FXNRBPF.new,
-      #:fx_ring => FXRingMod.new,
+      :fx_ring => FXRingMod.new,
       #:fx_chorus => FXChorus.new,
       #:fx_harmoniser => FXHarmoniser.new,
       :fx_flanger => FXFlanger.new

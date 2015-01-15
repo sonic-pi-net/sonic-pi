@@ -22,6 +22,28 @@ require_relative "../sonicpi/lib/sonicpi/server"
 require_relative "../sonicpi/lib/sonicpi/util"
 require_relative "../sonicpi/lib/sonicpi/oscencode"
 
+os = case RUBY_PLATFORM
+     when /.*arm.*-linux.*/
+       :raspberry
+     when /.*linux.*/
+       :linux
+     when /.*darwin.*/
+       :osx
+     when /.*mingw.*/
+       :windows
+     else
+       RUBY_PLATFORM
+     end
+
+if os == :osx
+  # Force sample rate for both input and output to 44k
+  # If these are not identical, then scsynth will refuse
+  # to boot.
+  require 'coreaudio'
+  CoreAudio.default_output_device(nominal_rate: 44100.0)
+  CoreAudio.default_input_device(nominal_rate: 44100.0)
+end
+
 require 'multi_json'
 
 include SonicPi::Util

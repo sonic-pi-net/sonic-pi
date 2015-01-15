@@ -3341,7 +3341,6 @@
                                               (lf-cub:kr rate (+ phase_offset 0.5))
                                               ])
 
-         orig-ctl-wave       (/ (+ ctl-wave 1) 2)
          ctl-wave            (/ (+ ctl-wave 1) 2)
          inverted-ctl-wave   (- 1 ctl-wave)
 
@@ -3357,12 +3356,12 @@
                                           (mul-add ctl-wave-l (/ depth 1000) (/ delay 1000))
                                           0)
                                          (/ decay 1000))
+
          delay-r             (allpass-c  (+ (limiter (* local-r feedback)) in-r)
                                          (/ max_delay 1000)
                                          (max
                                           (mul-add ctl-wave-r (/ depth 1000) (/ delay 1000))
                                           0)
-
                                          (/ decay 1000))
 
          flange-wave-mul     (+ (* -2 (> invert_flange 0)) 1)
