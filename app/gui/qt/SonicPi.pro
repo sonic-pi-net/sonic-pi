@@ -59,7 +59,7 @@ OTHER_FILES += \
 
 RESOURCES += \
     SonicPi.qrc \
-    help_files.qrc  \
+    help_files.qrc \
     info_files.qrc
 
 RC_FILE = SonicPi.rc
@@ -67,7 +67,7 @@ RC_FILE = SonicPi.rc
 ICON = images/app.icns
 LIBS         += -lqscintilla2
 
-TRANSLATIONS = lang/de.ts
+TRANSLATIONS = lang/sonic-pi_de.ts
 CODEFORTR = UTF-8
 
 win32 {
