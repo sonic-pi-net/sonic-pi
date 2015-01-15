@@ -67,7 +67,7 @@ RC_FILE = SonicPi.rc
 ICON = images/app.icns
 LIBS         += -lqscintilla2
 
-TRANSLATIONS = sonicpi_de.ts
+TRANSLATIONS = lang/de.ts
 CODEFORTR = UTF-8
 
 win32 {
