@@ -103,21 +103,6 @@
         <translation type="unfinished">Arbeitsbereich %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="336"/>
-        <source>Waiting for server...</source>
-        <translation type="unfinished">Warte auf Server...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="372"/>
-        <source>Server Error:</source>
-        <translation type="unfinished">Server-Fehler:</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="378"/>
-        <source>Server Finished:</source>
-        <translation type="unfinished">Server beendet:</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="404"/>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
@@ -155,7 +140,7 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
         <translation type="unfinished">Dein Raspberry Pi hat zwei verschiedene Anschlüsse für die Tonausgabe.
 Erstens: Die analoge Kopfhörerbuchse am Raspberry Pi selbst.
 Zweitens: Der digitale HDMI-Monitoranschluss, der den Ton zum Monitor/Fernseher überträgt.
-Hier wählst Du aus, über welchen davon die Tonausgabe gehen soll.</translation>
+Hier wählst du aus, über welchen davon die Tonausgabe gehen soll.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="447"/>
@@ -181,21 +166,6 @@ Hier wählst Du aus, über welchen davon die Tonausgabe gehen soll.</translation
         <location filename="../mainwindow.cpp" line="515"/>
         <source>We&apos;re sorry, but Sonic Pi was unable to start...</source>
         <translation type="unfinished">Sonic Pi konnte nicht starten. Das tut uns leid...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="579"/>
-        <source>loading workspaces</source>
-        <translation type="unfinished">Lade Arbeitsbereiche</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="591"/>
-        <source>saving workspaces</source>
-        <translation type="unfinished">Speichere Arbeitsbereiche</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="635"/>
-        <source>Error connection to port %1:</source>
-        <translation type="unfinished">Keine Verbindung zu Port %1:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="736"/>
@@ -305,21 +275,6 @@ Hier wählst Du aus, über welchen davon die Tonausgabe gehen soll.</translation
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>See information about Sonic Pi</source>
         <translation type="unfinished">Einige Informationen über Sonic Pi</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1330"/>
-        <source>Server process is not running, something is up...</source>
-        <translation type="unfinished">Da stimmt etwas nicht, der Server-Prozess läuft nicht...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1336"/>
-        <source>Asking server process to exit...</source>
-        <translation type="unfinished">Beende Server-Prozess...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1341"/>
-        <source>Exiting...</source>
-        <translation type="unfinished">Beenden...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="230"/>
@@ -435,7 +390,7 @@ Hier wählst Du aus, über welchen davon die Tonausgabe gehen soll.</translation
     <message>
         <location filename="../mainwindow.cpp" line="1199"/>
         <source>Ready</source>
-        <translation type="unfinished">bereit</translation>
+        <translation type="unfinished">Bereit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1276"/>
@@ -465,8 +420,7 @@ Hier wählst Du aus, über welchen davon die Tonausgabe gehen soll.</translation
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="33"/>
-        <location filename="../main.cpp" line="58"/>
+        <location filename="../main.cpp" line="44"/>
         <source>Sonic Pi</source>
         <translation type="unfinished">Sonic Pi</translation>
     </message>
