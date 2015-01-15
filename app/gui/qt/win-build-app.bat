@@ -5,6 +5,7 @@ ruby ../../server/bin/qt-doc.rb -o ruby_help.h
 @IF ERRORLEVEL==9009 goto :noruby
 
 lrelease SonicPi.pro
+@IF ERRORLEVEL==9009 goto :noqt
 
 qmake -o Makefile SonicPi.pro
 @IF ERRORLEVEL==9009 goto :noqt
