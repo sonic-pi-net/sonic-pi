@@ -163,9 +163,11 @@ end"]
       "dec -1 # returns -2"]
 
 
-    def live_loop(name, *args, &block)
+    def live_loop(name=nil, *args, &block)
+      raise "live_loop needs to have a unique name. For example: live_loop :foo" unless name
+      raise "live_loop's name needs to be a string or symbol, got: #{name.inspect}. Example usage: live_loop :foo" unless (name.is_a?(Symbol) || name.is_a?(String))
       ll_name = "live_loop_#{name}".to_sym
-      raise "live_loop must be called with a code block" unless block
+      raise "live_loop #{name.inspect} must be called with a do/end code block" unless block
 
       args_h = resolve_synth_opts_hash_or_array(args)
       if args_h.has_key? :auto_cue
