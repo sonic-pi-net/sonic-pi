@@ -144,7 +144,7 @@ ruby_html_map = {
 }
 
 tutorial_html_map = {}
-Dir["#{tutorial_path}/*.md"].sort.each do |path|
+Dir["#{tutorial_path}/en/*.md"].sort.each do |path|
   contents = IO.read(path)
   html = MarkdownConverter.convert contents
   name = File.basename(path, ".md").gsub!(/-/, ' ')
