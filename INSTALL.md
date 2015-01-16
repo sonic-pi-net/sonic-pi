@@ -13,8 +13,7 @@ following platforms:
 ## Raspberry Pi
 
 The Raspberry Pi will happily compile all the required aspects of Sonic
-Pi. However, be warned that it will take some time (around 15 mins or so
-for everything). 
+Pi. However, be warned that it will take quite some time to complete.
 
 First grab the dependencies, compile the server extensions, then the GUI then start the app.
 
