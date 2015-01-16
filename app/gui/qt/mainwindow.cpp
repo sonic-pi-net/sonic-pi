@@ -1230,6 +1230,8 @@ void MainWindow::readSettings() {
     QTextEdit* startupPane = new QTextEdit;
     startupPane->setReadOnly(true);
     startupPane->setFixedSize(600, 615);
+    startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
+    startupPane->setWindowTitle("Welcome to Sonic Pi");
     addUniversalCopyShortcuts(startupPane);
     QString html;
 
