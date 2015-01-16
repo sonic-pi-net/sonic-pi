@@ -1391,6 +1391,166 @@ module SonicPi
     end
   end
 
+  class Growl < SonicPiSynth
+    def name
+      "Growl"
+    end
+
+    def introduced
+      Version.new(2,3,0)
+    end
+
+    def synth_name
+      "growl"
+    end
+
+    def doc
+     "A deep rumbling growl with a bright sine shining through at higher notes."
+    end
+
+    def arg_defaults
+      {:note => 52,
+       :note_slide => 0,
+       :note_slide_shape => 5,
+       :note_slide_curve => 0,
+
+       :amp => 1,
+       :amp_slide => 0,
+       :amp_slide_shape => 5,
+       :amp_slide_curve => 0,
+
+       :pan => 0,
+       :pan_slide => 0,
+       :pan_slide_shape => 5,
+       :pan_slide_curve => 0,
+
+       :attack => 0.1,
+       :decay => 0,
+       :sustain => 0,
+       :release => 1,
+       :attack_level => 1,
+       :sustain_level => 1,
+       :env_curve => 2
+      }
+    end
+  end
+
+  class DarkAmbience < SonicPiSynth
+    def name
+      "Dark Ambience"
+    end
+
+    def introduced
+      Version.new(2,3,0)
+    end
+
+    def synth_name
+      "dark_ambience"
+    end
+
+    def doc
+     "A slow rolling bass with a sparkle of light trying to escape the darkness. Great for an ambient sound."
+    end
+
+    def arg_defaults
+      {:freq_addition => 55,
+       :ring_multipler => 0.2,
+
+       :room_size => 70,
+       :reverb_time => 100,
+
+       :note => 52,
+       :note_slide => 0,
+       :note_slide_shape => 5,
+       :note_slide_curve => 0,
+
+       :amp => 1,
+       :amp_slide => 0,
+       :amp_slide_shape => 5,
+       :amp_slide_curve => 0,
+
+       :pan => 0,
+       :pan_slide => 0,
+       :pan_slide_shape => 5,
+       :pan_slide_curve => 0,
+
+       :attack => 0.01,
+       :decay => 0,
+       :sustain => 0,
+       :release => 10,
+       :attack_level => 1,
+       :sustain_level => 1,
+       :env_curve => 2
+      }
+    end
+
+    def specific_arg_info
+      {
+        :freq_addition =>
+        {
+          :doc => "A frequency which is used to generate offsets from the start note which are all then mixed back into a single sound. It has a slight detuning effect."
+        },
+        :ring_multipler => {
+          :doc => "Multiplier used for each ring iteration. Gives a stronger feedback effect.",
+          :validations => [v_between_inclusive(:ring_multipler, 0.1, 50)],
+        },
+        :room_size =>
+        {
+          :doc => "Room size in squared meters used to calculate the reverb.",
+          :validations => [v_positive(:room_size)],
+        },
+        :reverb_time =>
+        {
+          :doc => "How long in seconds the reverb should go on for.",
+          :validations => [v_positive(:reverb_time)],
+        }
+      }
+    end
+  end
+
+  class Wood < SonicPiSynth
+    def name
+      "Wood"
+    end
+
+    def introduced
+      Version.new(2,3,0)
+    end
+
+    def synth_name
+      "wood"
+    end
+
+    def doc
+     "Simulates the sound of wood being hit with stick. A little like a xylophone."
+    end
+
+    def arg_defaults
+      {:note => 52,
+       :note_slide => 0,
+       :note_slide_shape => 5,
+       :note_slide_curve => 0,
+
+       :amp => 1,
+       :amp_slide => 0,
+       :amp_slide_shape => 5,
+       :amp_slide_curve => 0,
+
+       :pan => 0,
+       :pan_slide => 0,
+       :pan_slide_shape => 5,
+       :pan_slide_curve => 0,
+
+       :attack => 0.01,
+       :decay => 0,
+       :sustain => 0,
+       :release => 0.1,
+       :attack_level => 1,
+       :sustain_level => 1,
+       :env_curve => 2
+      }
+    end
+  end
 
   class Zawa < SonicPiSynth
     def name
@@ -1534,8 +1694,7 @@ module SonicPi
       }
     end
   end
-
-
+  
   class Prophet < SonicPiSynth
     def name
       "The Prophet"
@@ -3864,6 +4023,9 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :supersaw => Supersaw.new,
       :prophet => Prophet.new,
       :zawa => Zawa.new,
+      :dark_ambience => DarkAmbience.new,
+      :growl         => Growl.new,
+      :wood          => Wood.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 
