@@ -5,6 +5,8 @@
 
 # Sonic Pi
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Sonic Pi is an open source programming environment designed to explore
 and teach programming concepts through the process of creating new
 sounds. Sonic Pi comes with an associated scheme of work which
