@@ -6,6 +6,7 @@ following platforms:
 
 * [Raspberry Pi](#raspberry-pi)
 * [Generic Linux](#generic-linux)
+* [Arch Linux](#arch-linux)
 * [Mac OS X](#mac-os-x)
 * [Windows](#windows)
 
@@ -89,6 +90,38 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 Start the jack sound server daemon `jackd`. This is easily done through [qjackctl](http://qjackctl.sourceforge.net/), available as `qjackctl` in Debian.
 
 Then run the script `rp-app-bin` in the directory `app/gui/qt`.
+
+----
+
+## Arch Linux
+
+### AUR Package
+
+Arch linux users are strongly recommended to install the [sonic-pi-git](https://aur.archlinux.org/packages/sonic-pi-git/) package from the AUR. After installing, follow the instructions in the [Generic Linux](#generic-linux) section to start the `jackd` server, and run `sonic-pi` at a command prompt. 
+
+### Building from source
+
+Alternatively you can build from source by following the instructions in the [Generic Linux](#generic-linux) section, with a few caveats. 
+
+#### Dependencies 
+
+The [sonic-pi-git](https://aur.archlinux.org/packages/sonic-pi-git/) webpage lists the dependencies required on Arch Linux; please check there for the most up-to-date listing.
+
+####Patching 
+
+You will need to patch the file `sonic-pi/app/gui/qt/SonicPi.pro` with another file that has the following contents:
+```
+68c68
+< LIBS         += -lqscintilla2
+---
+> LIBS         += -lqt5scintilla2 
+```
+If you were to name this file `a.patch`, you would run: 
+`patch -p1 sonic-pi/app/gui/qt/SonicPi.pro a.patch`
+
+####Building
+
+After patching, follow the instructions from the [Generic Linux](#generic-linux) section to finish the build process.
 
 ----
 
