@@ -3679,8 +3679,8 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
 
         :feedback =>
         {
-          :doc => "Amount of feedback as a value between 0 and 1.",
-          :validations => [v_positive(:feedback), v_less_than(:feedback, 1)],
+          :doc => "Amount of feedback.",
+          :validations => [v_positive(:feedback)],
           :modulatable => true
         },
 
