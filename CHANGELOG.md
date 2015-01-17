@@ -70,7 +70,7 @@ The most obvious and exciting change is the introduction of the
 `live_loop` which will change the way you work with Sonic Pi. For more
 information on `live_loop` take a look at the new section in the
 tutorial. Another very exciting development is that v2.1 marks the
-official support for Windows thanks to the exellent work by Jeremy
+official support for Windows thanks to the excellent work by Jeremy
 Weatherford. Finally, this release is also the first release where Sonic
 Pi has a Core Team of developers. Please give a warm welcome to Xavier
 Riley, Jeremy Weatherford and Joseph Wilk.
