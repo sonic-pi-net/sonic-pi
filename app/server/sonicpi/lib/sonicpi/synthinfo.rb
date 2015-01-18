@@ -1508,6 +1508,50 @@ module SonicPi
     end
   end
 
+  class DarkSeaHorn < SonicPiSynth
+    def name
+      "Dark Sea Horn"
+    end
+
+    def introduced
+      Version.new(2,3,0)
+    end
+
+    def synth_name
+      "dark_sea_horn"
+    end
+
+    def doc
+     "A deep, rolling sea horn echoing across the empty water."
+    end
+
+    def arg_defaults
+      {:note => 40,
+       :note_slide => 0,
+       :note_slide_shape => 5,
+       :note_slide_curve => 0,
+
+       :amp => 1,
+       :amp_slide => 0,
+       :amp_slide_shape => 5,
+       :amp_slide_curve => 0,
+
+       :pan => 0,
+       :pan_slide => 0,
+       :pan_slide_shape => 5,
+       :pan_slide_curve => 0,
+
+       :attack => 1,
+       :decay => 0,
+       :sustain => 0,
+       :release => 4.0,
+       :attack_level => 1,
+       :sustain_level => 1,
+       :env_curve => 2
+      }
+    end
+  end
+
   class Wood < SonicPiSynth
     def name
       "Wood"
@@ -4026,6 +4070,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :dark_ambience => DarkAmbience.new,
       :growl         => Growl.new,
       :wood          => Wood.new,
+      :dark_sea_horn => DarkSeaHorn.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 
