@@ -121,7 +121,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true|
 end
 
 example_html_map = {}
-example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Meta-eX"]
+example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Algomancer"]
 example_dirs.each do |ex_dir|
   Dir["#{examples_path}/#{ex_dir.downcase}/*.rb"].each do |path|
     bname = File.basename(path, ".rb")
