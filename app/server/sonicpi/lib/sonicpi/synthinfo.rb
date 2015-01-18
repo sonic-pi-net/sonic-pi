@@ -1552,6 +1552,75 @@ module SonicPi
     end
   end
 
+  class Singer < SonicPiSynth
+    def name
+      "Singer"
+    end
+
+    def introduced
+      Version.new(2,3,0)
+    end
+
+    def synth_name
+      "singer"
+    end
+
+    def doc
+     "Simulating the sound of a vibrato human singer.
+
+     #Bass
+     singer note: :G2
+
+     #Tenor
+     singer note: :C#4
+
+     #Alto
+     singer note: :F#4
+
+     #Soprano
+     singer note: :D5"
+    end
+
+    def arg_defaults
+      {:note => 52,
+       :note_slide => 0,
+       :note_slide_shape => 5,
+       :note_slide_curve => 0,
+
+       :amp => 1,
+       :amp_slide => 0,
+       :amp_slide_shape => 5,
+       :amp_slide_curve => 0,
+
+       :pan => 0,
+       :pan_slide => 0,
+       :pan_slide_shape => 5,
+       :pan_slide_curve => 0,
+
+       :attack => 0.01,
+       :decay => 0,
+       :sustain => 0,
+       :release => 0.1,
+       :attack_level => 1,
+       :sustain_level => 1,
+       :env_curve => 2
+      }
+    end
+
+    def specific_arg_info
+      {
+        :vibrato_speed =>
+        {
+          :doc => "How fast the singer switches between two notes."
+        },
+        :vibrato_depth =>
+        {
+          :doc => "How far the singer travels between notes."
+        }
+      }
+    end
+  end
+
   class Wood < SonicPiSynth
     def name
       "Wood"
@@ -4071,6 +4140,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :growl         => Growl.new,
       :wood          => Wood.new,
       :dark_sea_horn => DarkSeaHorn.new,
+      :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 
