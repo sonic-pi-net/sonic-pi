@@ -1397,7 +1397,7 @@ module SonicPi
     end
 
     def introduced
-      Version.new(2,3,0)
+      Version.new(2,4,0)
     end
 
     def synth_name
@@ -1441,7 +1441,7 @@ module SonicPi
     end
 
     def introduced
-      Version.new(2,3,0)
+      Version.new(2,4,0)
     end
 
     def synth_name
@@ -1514,7 +1514,7 @@ module SonicPi
     end
 
     def introduced
-      Version.new(2,3,0)
+      Version.new(2,4,0)
     end
 
     def synth_name
@@ -1558,7 +1558,7 @@ module SonicPi
     end
 
     def introduced
-      Version.new(2,3,0)
+      Version.new(2,4,0)
     end
 
     def synth_name
@@ -1627,7 +1627,7 @@ module SonicPi
     end
 
     def introduced
-      Version.new(2,3,0)
+      Version.new(2,4,0)
     end
 
     def synth_name
