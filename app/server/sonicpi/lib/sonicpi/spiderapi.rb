@@ -22,6 +22,7 @@ module SonicPi
     include SonicPi::DocSystem
     include SonicPi::Util
 
+    THREAD_RAND_SEED_MAX = 10e20
     def bools(*args)
       args.map do |a|
         if (a == 0) || (not a)
@@ -804,6 +805,8 @@ shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
     def use_random_seed(seed, &block)
       raise "use_random_seed does not work with a block. Perhaps you meant with_random_seed" if block
       Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
+      thread_seed = Random.new(seed).rand(THREAD_RAND_SEED_MAX)
+      Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, Random.new(thread_seed)
     end
     doc name:          :use_random_seed,
         introduced:    Version.new(2,0,0),
@@ -825,9 +828,13 @@ puts rand  #=> 0.417022004702574
     def with_random_seed(seed, &block)
       raise "with_random_seed requires a block. Perhaps you meant use_random_seed" unless block
       current_rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+      current_thread_rgen = Thread.current.thread_variable_get :sonic_pi_spider_new_thread_random_generator
       Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
+      thread_seed = Random.new(seed).rand(THREAD_RAND_SEED_MAX)
+      Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, Random.new(thread_seed)
       block.call
       Thread.current.thread_variable_set :sonic_pi_spider_random_generator, current_rgen
+      Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, current_thread_rgen
     end
     doc name:          :with_random_seed,
         introduced:     Version.new(2,0,0),
