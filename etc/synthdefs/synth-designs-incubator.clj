@@ -365,7 +365,7 @@
      Note: we are purposely not using recusion using busses. Just does not have the same feel."
      [out_bus 0
 
-      note 40
+      note 52
       note_slide 0
       note_slide_shape 5
       note_slide_curve 0
@@ -488,7 +488,7 @@
       sustain_level 1
       env_curve 2
 
-      note 40
+      note 52
       note_slide 0
       note_slide_shape 5
       note_slide_curve 0
