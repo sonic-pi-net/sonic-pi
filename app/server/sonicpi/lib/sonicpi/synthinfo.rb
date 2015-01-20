@@ -1453,7 +1453,7 @@ module SonicPi
     end
 
     def arg_defaults
-      {:freq_addition => 55,
+      {:freq_addition => 52,
        :ring_multipler => 0.2,
 
        :room_size => 70,
@@ -1526,7 +1526,7 @@ module SonicPi
     end
 
     def arg_defaults
-      {:note => 40,
+      {:note => 52,
        :note_slide => 0,
        :note_slide_shape => 5,
        :note_slide_curve => 0,
@@ -1597,10 +1597,10 @@ module SonicPi
        :pan_slide_shape => 5,
        :pan_slide_curve => 0,
 
-       :attack => 0.01,
+       :attack => 1,
        :decay => 0,
        :sustain => 0,
-       :release => 0.1,
+       :release => 4.0,
        :attack_level => 1,
        :sustain_level => 1,
        :env_curve => 2
