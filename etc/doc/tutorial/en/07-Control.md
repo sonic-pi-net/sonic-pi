@@ -1,3 +1,5 @@
+7 Control
+
 # Controlling running sounds
 
 So far we've looked at how you can trigger synths and samples, and
