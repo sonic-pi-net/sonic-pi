@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.0" language="de_DE">
+<defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>MainWindow</name>
     <message>
@@ -15,8 +16,8 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="255"/>
-        <location filename="../mainwindow.cpp" line="1275"/>
-        <location filename="../mainwindow.cpp" line="1293"/>
+        <location filename="../mainwindow.cpp" line="1277"/>
+        <location filename="../mainwindow.cpp" line="1295"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
@@ -393,28 +394,60 @@ Hier wählst du aus, über welchen davon die Tonausgabe gehen soll.</translation
         <translation>Bereit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1276"/>
+        <location filename="../mainwindow.cpp" line="1278"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>Kann Datei %1 nicht laden:
 %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1286"/>
+        <location filename="../mainwindow.cpp" line="1288"/>
         <source>File loaded</source>
         <translation>Datei geladen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1294"/>
+        <location filename="../mainwindow.cpp" line="1296"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>Kann Datei %1 nicht schreiben:
 %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1310"/>
+        <location filename="../mainwindow.cpp" line="1312"/>
         <source>File saved</source>
         <translation>Datei geschrieben</translation>
+    </message>
+    <message>
+        <location filename="../ruby_help.h" line="32"/>
+        <location filename="../ruby_help.h" line="41"/>
+        <location filename="../ruby_help.h" line="96"/>
+        <source>Tutorial</source>
+        <translation>Tutorial</translation>
+    </message>
+    <message>
+        <location filename="../ruby_help.h" line="123"/>
+        <source>Examples</source>
+        <translation>Beispiele</translation>
+    </message>
+    <message>
+        <location filename="../ruby_help.h" line="156"/>
+        <source>Synths</source>
+        <translation>Synths</translation>
+    </message>
+    <message>
+        <location filename="../ruby_help.h" line="188"/>
+        <source>Fx</source>
+        <translation>Fx</translation>
+    </message>
+    <message>
+        <location filename="../ruby_help.h" line="205"/>
+        <source>Samples</source>
+        <translation>Samples</translation>
+    </message>
+    <message>
+        <location filename="../ruby_help.h" line="313"/>
+        <source>Lang</source>
+        <translation>Lang</translation>
     </message>
 </context>
 <context>
