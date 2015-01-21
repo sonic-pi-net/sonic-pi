@@ -10,30 +10,32 @@ Translations for the Qt GUI are located in
 
 ## Translating the tutorial
 
-- sign up with [github](https://help.github.com/categories/bootcamp/)
-- fork the [Sonic Pi repo](https://github.com/samaaron/sonic-pi)
-  to your own github repo
+- Sign up with [github](https://help.github.com/categories/bootcamp/)
+- Fork the [Sonic Pi repo](https://github.com/samaaron/sonic-pi)
+  to your own github repo, `git clone` it to your computer
 - `cd etc/doc/tutorial`
-- want to add a new language to the tutorial? Then copy the `en/`
+- Want to add a new language to the tutorial? Then copy the `en/`
   folder and add the new files to your repo with `git add <NEWLANG>/*.md`
-- when you're happy, `git commit`, `git push`
-- [send a pull request](https://help.github.com/articles/creating-a-pull-request/) to the Sonic Pi repo.
+- When you're happy, `git commit`, `git push` to your github repo.
+- [Send a pull request](https://help.github.com/articles/creating-a-pull-request/) to the Sonic Pi repo.
 
 ## Translating the Qt GUI
 
-- sign up with [github](https://help.github.com/categories/bootcamp/)
-- fork the [Sonic Pi repo](https://github.com/samaaron/sonic-pi)
-  to your own github repo
-- [build Sonic Pi](./blob/master/INSTALL.md),
+- Sign up with [github](https://help.github.com/categories/bootcamp/)
+- Fork the [Sonic Pi repo](https://github.com/samaaron/sonic-pi)
+  to your own github repo, `git clone` it to your computer
+- [Build Sonic Pi](./INSTALL.md),
   first the server extensions, then the Qt GUI.
 - `cd app/gui/qt`
-- want to add a new language to the Qt GUI? Then first add a reference
+- Want to add a new language to the Qt GUI? Then first add a reference
   to the new language file to `SonicPi.Pro` and `SonicPi.qrc`, then run
   `lupdate` to have the new .ts file created for you.
-- edit the translation with `linguist lang/sonic-pi_<LANG>.ts`.
-- when you're happy, `git add` if you added a new language, then
-  `git commit`, `git push`
-- [send a pull request](https://help.github.com/articles/creating-a-pull-request/) to the Sonic Pi repo.
+- Edit the translation with Qt Linguist,
+  `linguist lang/sonic-pi_<LANG>.ts`.
+- Build a new binary, test it.
+- When you're happy, `git add` if you added a new language, then
+  `git commit`, `git push` to your github repo.
+- [Send a pull request](https://help.github.com/articles/creating-a-pull-request/) to the Sonic Pi repo.
 
 ## Adding a new translation string to the Qt GUI
 
