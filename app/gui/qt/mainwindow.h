@@ -49,7 +49,6 @@ class SonicPiUDPServer;
 
 struct help_page {
   QString title;
-  QString keyword;
   QString filename;
 };
 
