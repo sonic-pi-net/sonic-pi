@@ -1,33 +1,41 @@
 # Translating Sonic Pi
 
-At present, you can translate the Qt GUI, only.
+At present, you can translate the tutorial and the Qt GUI, only.
 
-Translations are located in
-[`app/gui/qt/lang/sonic-pi_<LANG>.ts`](https://github.com/samaaron/sonic-pi/tree/master/app/gui/qt/lang).
+Translations for the tutorial are located in
+[`etc/doc/tutorial`](./etc/doc/tutorial/).
 
-## Editing an existing translation
+Translations for the Qt GUI are located in
+[`app/gui/qt/lang/sonic-pi_<LANG>.ts`](./app/gui/qt/lang/).
 
-If you are unhappy with a translation, checkout the Sonic Pi
-repository with git and edit the translation file with Qt Linguist:
+## Translating the tutorial
 
-`linguist lang/sonic-pi_de.ts`
+- sign up with [github](https://help.github.com/categories/bootcamp/)
+- fork the [Sonic Pi repo](https://github.com/samaaron/sonic-pi)
+  to your own github repo
+- `cd etc/doc/tutorial`
+- want to add a new language to the tutorial? Then copy the `en/`
+  folder and add the new files to your repo with `git add <NEWLANG>/*.md`
+- when you're happy, `git commit`, `git push`
+- [send a pull request](https://help.github.com/articles/creating-a-pull-request/) to the Sonic Pi repo.
 
-When you're finished, commit the result and file a pull request.
+## Translating the Qt GUI
 
-## Adding a new language
+- sign up with [github](https://help.github.com/categories/bootcamp/)
+- fork the [Sonic Pi repo](https://github.com/samaaron/sonic-pi)
+  to your own github repo
+- [build Sonic Pi](./blob/master/INSTALL.md),
+  first the server extensions, then the Qt GUI.
+- `cd app/gui/qt`
+- want to add a new language to the Qt GUI? Then first add a reference
+  to the new language file to `SonicPi.Pro` and `SonicPi.qrc`, then run
+  `lupdate` to have the new .ts file created for you.
+- edit the translation with `linguist lang/sonic-pi_<LANG>.ts`.
+- when you're happy, `git add` if you added a new language, then
+  `git commit`, `git push`
+- [send a pull request](https://help.github.com/articles/creating-a-pull-request/) to the Sonic Pi repo.
 
-Add a reference to the new language file to
-[`app/gui/qt/SonicPi.Pro`](https://github.com/samaaron/sonic-pi/blob/master/app/gui/qt/SonicPi.pro)
-and
-[`app/gui/qt/SonicPi.qrc`](https://github.com/samaaron/sonic-pi/blob/master/app/gui/qt/SonicPi.qrc).
-
-Then run `lupdate --pro SonicPi.pro` to have the new `.ts` file created
-for you.
-
-Finally, edit the translation with Qt Linguist (see above), commit and
-have it pulled.
-
-## Adding a new translation string
+## Adding a new translation string to the Qt GUI
 
 Messages you want to have translated need to be marked with `tr()`
 in the source.
@@ -44,5 +52,4 @@ Transifex is integrated.)
 
 ## To-Do
 
-- tutorial translation
 - Transifex integration

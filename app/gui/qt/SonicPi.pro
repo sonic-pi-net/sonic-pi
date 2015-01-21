@@ -29,6 +29,9 @@ TARGET = 'Sonic Pi'
 QT += macextras
 }
 
+CODECFORSRC = UTF-8
+CODECFORTR = UTF-8
+
 TEMPLATE = app
 
 SOURCES += main.cpp \
@@ -46,7 +49,10 @@ HEADERS  += mainwindow.h \
             sonicpiapis.h \
             sonicpiscintilla.h \
             oschandler.h \
-            sonicpiudpserver.h
+            sonicpiudpserver.h \
+            ruby_help.h
+
+TRANSLATIONS = lang/sonic-pi_de.ts
 
 OTHER_FILES += \
     images/copy.png \
@@ -66,9 +72,6 @@ RC_FILE = SonicPi.rc
 
 ICON = images/app.icns
 LIBS         += -lqscintilla2
-
-TRANSLATIONS = lang/sonic-pi_de.ts
-CODEFORTR = UTF-8
 
 win32 {
 	install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
