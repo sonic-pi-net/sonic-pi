@@ -1380,26 +1380,21 @@ void MainWindow::addHelpPage(QListWidget *nameList,
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
 
-    QString keyword;
-
-    // magic numbers ahoy
-    // to be revamped along with the help system
-    switch (entry.pageIndex) {
-    case 2:
-      keyword = helpPages[i].title.toLower();
-      helpKeywords.insert(keyword, entry);
-      autocomplete->addSymbol(SonicPiAPIs::Synth, keyword);
-      break;
-    case 3:
-      keyword = helpPages[i].title.toLower();
-      helpKeywords.insert(keyword, entry);
-      autocomplete->addSymbol(SonicPiAPIs::FX, keyword);
-      break;
-    case 5:
-      keyword = helpPages[i].title.toLower();
-      helpKeywords.insert(keyword, entry);
-      autocomplete->addKeyword(SonicPiAPIs::Func, keyword);
-      break;
+    if (helpPages[i].keyword != NULL) {
+      helpKeywords.insert(helpPages[i].keyword, entry);
+      // magic numbers ahoy
+      // to be revamped along with the help system
+      switch (entry.pageIndex) {
+      case 2:
+        autocomplete->addSymbol(SonicPiAPIs::Synth, helpPages[i].keyword);
+        break;
+      case 3:
+        autocomplete->addSymbol(SonicPiAPIs::FX, helpPages[i].keyword);
+        break;
+      case 5:
+        autocomplete->addKeyword(SonicPiAPIs::Func, helpPages[i].keyword);
+        break;
+      }
     }
   }
 }
