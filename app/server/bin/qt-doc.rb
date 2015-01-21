@@ -75,7 +75,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items, titleize=false, should_sort=true|
+make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false|
 
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
@@ -101,10 +101,22 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true|
     filename = "help/#{item_var}.html"
 
     docs << "    { "
+
     docs << "QString::fromUtf8(" unless title.ascii_only?
     docs << "\"#{title}\""
     docs << ")" unless title.ascii_only?
-    docs << ", \":/#{filename}\" },\n"
+
+    docs << ", "
+    
+    if with_keyword then
+      docs << "\"#{n.downcase}\""
+    else
+      docs << "NULL"
+    end
+
+    docs << ", "
+    docs << "\":/#{filename}\""
+    docs << "},\n"
 
     filenames << filename
 
@@ -190,10 +202,10 @@ make_tutorial.call("en")
 docs << "}\n" unless (languages.empty?)
 
 make_tab.call("examples", example_html_map, false, false)
-make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize)
-make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize)
+make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize, true, true)
+make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize, true, true)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
-make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map))
+make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map), false, true, true)
 
 docs << "  // FX arguments for autocompletion\n"
 docs << "  QStringList fxtmp;\n"
