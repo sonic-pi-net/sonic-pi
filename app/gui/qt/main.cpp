@@ -28,15 +28,15 @@ int main(int argc, char *argv[])
 
   QApplication app(argc, argv);
 
-  QLocale locale;
+  QString systemLocale = QLocale::system().name();
 
   QTranslator qtTranslator;
-  qtTranslator.load(locale, "qt", "_", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+  qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
   app.installTranslator(&qtTranslator);
   
   QTranslator translator;
-  if (!translator.load(locale, "sonic-pi", "_", ":/lang/") && (!locale.name().startsWith("en"))) {
-    std::cout << "No translation found for your locale \"" + locale.name().toStdString() + "\"." << std::endl;
+  if (!translator.load("sonic-pi_" + systemLocale, ":/lang/") && (!systemLocale.startsWith("en")) && (systemLocale != "C")) {
+    std::cout << "No translation found for your locale \"" + systemLocale.toStdString() + "\"." << std::endl;
     std::cout << "Please contact us if you want to translate Sonic Pi to your language." << std::endl;
   }
   app.installTranslator(&translator);
