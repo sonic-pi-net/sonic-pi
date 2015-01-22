@@ -75,20 +75,17 @@ OptionParser.new do |opts|
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items, titleize=false, should_sort=true|
+make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false|
 
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
   tab_widget = "#{name}TabWidget"
   help_pages = "#{name}HelpPages"
 
+  docs << "\n"
   docs << "  // #{name} info\n"
-  docs << "\n"
 
-  docs << "  QListWidget *#{list_widget} = "
-  docs << "createHelpTab(\"#{name.capitalize}\");\n"
-  docs << "\n"
-  docs << "\n  struct help_page #{help_pages}[] = {\n"
+  docs << "  struct help_page #{help_pages}[] = {\n"
   doc_items = doc_items.sort if should_sort
   doc_items.each do |n, doc|
     title = n
@@ -103,9 +100,25 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true|
     item_var = "#{name}_item_#{count+=1}"
     filename = "help/#{item_var}.html"
 
-    docs << "    { \"#{title}\", \"#{n}\", \":/#{filename}\" },\n"
+    docs << "    { "
 
-    filenames << "    <file>#{filename}</file>\n"
+    docs << "QString::fromUtf8(" unless title.ascii_only?
+    docs << "\"#{title}\""
+    docs << ")" unless title.ascii_only?
+
+    docs << ", "
+    
+    if with_keyword then
+      docs << "\"#{n.downcase}\""
+    else
+      docs << "NULL"
+    end
+
+    docs << ", "
+    docs << "\":/#{filename}\""
+    docs << "},\n"
+
+    filenames << filename
 
     File.open("#{qt_gui_path}/#{filename}", 'w') do |f|
       f << "#{doc}"
@@ -114,11 +127,31 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true|
   end
 
   docs << "  };\n\n"
-  docs << "  helpPagesCount = sizeof(#{help_pages}) / sizeof(struct help_page);\n"
-  docs << "  addHelpPage(#{list_widget}, #{help_pages}, helpPagesCount);\n\n"
+  docs << "  addHelpPage(createHelpTab(tr(\"#{name.capitalize}\")), #{help_pages}, #{doc_items.length});\n\n"
 
   docs
 end
+
+
+make_tutorial = lambda do |lang|
+
+  docs << "\n  // language #{lang}"
+  tutorial_html_map = {}
+  Dir["#{tutorial_path}/#{lang}/*.md"].sort.each do |path|
+    f = File.open(path, 'r:UTF-8')
+    # read first line (title) of the markdown, use as title
+    name = f.readline.strip
+    # indent subchapters
+    name = "   #{name}" if name.match(/\A[0-9]+\.[0-9]+/)
+    # read remaining content of markdown
+    markdown = f.read
+    html = MarkdownConverter.convert markdown
+    tutorial_html_map[name] = html
+  end
+
+  make_tab.call("tutorial", tutorial_html_map, false, false)
+end
+
 
 example_html_map = {}
 example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Algomancer"]
@@ -143,22 +176,36 @@ ruby_html_map = {
 #  "loop" => "Loop forever",
 }
 
-tutorial_html_map = {}
-Dir["#{tutorial_path}/en/*.md"].sort.each do |path|
-  contents = IO.read(path)
-  html = MarkdownConverter.convert contents
-  name = File.basename(path, ".md").gsub!(/-/, ' ')
-  name = name[1..-1] if name.start_with? "0"
-  name = "   #{name}" if name.match(/\A[0-9]+\.[0-9]+/)
-  tutorial_html_map[name] = html
+# this will sort locale code names by reverse length
+# to make sure that a more specific locale is handled
+# before the generic language code,
+# e.g., "de_CH" should be handled before "de"
+languages = Dir.
+  glob("#{tutorial_path}/*").
+  select {|f| File.directory? f}.
+  map {|f| File.basename f}.
+  select {|n| n != "en"}.
+  sort_by {|n| -n.length}
+
+docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
+
+# first, try to match all non-default languages (those that aren't "en")
+languages.each do |lang|
+  docs << "if (systemLocale.startsWith(\"#{lang}\")) {\n"
+  make_tutorial.call(lang)
+  docs << "} else "
 end
 
-make_tab.call("tutorial", tutorial_html_map, false, false)
+# finally, add the default language ("en")
+docs << "{\n" unless (languages.empty?)
+make_tutorial.call("en")
+docs << "}\n" unless (languages.empty?)
+
 make_tab.call("examples", example_html_map, false, false)
-make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize)
-make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize)
+make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize, true, true)
+make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize, true, true)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
-make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map))
+make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map), false, true, true)
 
 docs << "  // FX arguments for autocompletion\n"
 docs << "  QStringList fxtmp;\n"
@@ -189,7 +236,7 @@ new_content << "// AUTO-GENERATED-DOCS\n"
 new_content << "// Do not manually add any code below this comment\n"
 new_content << "// otherwise it may be removed\n"
 new_content << "\n"
-new_content << "void MainWindow::initDocsWindow() {\n  int helpPagesCount;\n"
+new_content << "void MainWindow::initDocsWindow() {\n"
 new_content += docs
 new_content << "}\n"
 
@@ -199,7 +246,7 @@ end
 
 File.open("#{qt_gui_path}/help_files.qrc", 'w') do |f|
   f << "<RCC>\n  <qresource prefix=\"/\">\n"
-  f << filenames.join
+  f << filenames.map{|n| "    <file>#{n}</file>\n"}.join
   f << "  </qresource>\n</RCC>\n"
 end
 

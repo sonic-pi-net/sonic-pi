@@ -29,6 +29,9 @@ TARGET = 'Sonic Pi'
 QT += macextras
 }
 
+CODECFORSRC = UTF-8
+CODECFORTR = UTF-8
+
 TEMPLATE = app
 
 SOURCES += main.cpp \
@@ -46,7 +49,12 @@ HEADERS  += mainwindow.h \
             sonicpiapis.h \
             sonicpiscintilla.h \
             oschandler.h \
-            sonicpiudpserver.h
+            sonicpiserver.h \
+            sonicpiudpserver.h \
+            sonicpitcpserver.h
+            ruby_help.h
+
+TRANSLATIONS = lang/sonic-pi_de.ts
 
 OTHER_FILES += \
     images/copy.png \
@@ -59,7 +67,7 @@ OTHER_FILES += \
 
 RESOURCES += \
     SonicPi.qrc \
-    help_files.qrc  \
+    help_files.qrc \
     info_files.qrc
 
 RC_FILE = SonicPi.rc
