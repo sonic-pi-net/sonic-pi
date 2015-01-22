@@ -30,7 +30,7 @@
     path))
 
 (defn save-to-pi [sdef]
-  (save-synthdef sdef "/Users/xavierriley/Projects/sonic-pi/etc/synthdefs"))
+  (save-synthdef sdef "/Users/josephwilk/Workspace/josephwilk/c++/sonic-pi/etc/synthdefs/"))
 
 
 ;; Triggered synths
@@ -228,4 +228,300 @@
           ]
       (out out_bus snd)))
 
-  )
+
+  (without-namespace-in-synthdef
+   (defsynth sonic-pi-growl
+     [out_bus 0
+
+      note 52
+      note_slide 0
+      note_slide_shape 5
+      note_slide_curve 0
+
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+
+      amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      attack 0.1
+      decay 0
+      sustain 0
+      release 1
+      attack_level 1
+      sustain_level 1
+      env_curve 2]
+     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
+           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           freq (midicps note)
+
+           snd (lpf (mix [(saw (* 0.25 freq)) (sin-osc (* 1.01 freq))]))
+           snd (pitch-shift snd 0.4 1 0 0.01)
+           snd (* amp snd)
+           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (* env (pan2 snd pan))))))
+
+  (comment
+    (save-to-pi sonic-pi-growl))
+
+  (without-namespace-in-synthdef
+   (defsynth sonic-pi-dark_ambience
+     [out_bus 0
+
+      freq_addition 55
+      ring_multipler 0.2
+      room_size 70
+      reverb_time 100
+
+      note 52
+      note_slide 0
+      note_slide_shape 5
+      note_slide_curve 0
+
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+
+      amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      attack 0.01
+      decay 0
+      sustain 0
+      release 10.0
+      attack_level 1
+      sustain_level 1
+      env_curve 2]
+     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
+           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           freq (midicps note)
+
+           pink (hpf:ar (* (* 0.005 (pink-noise)) (line:kr 0 1 9)) 5)
+           src1 (ringz (* pink (lf-noise1:kr 0.15)) (+ freq (* freq_addition 0)) ring_multipler)
+           src2 (ringz (* pink (lf-noise1:kr 0.15)) (+ freq (* freq_addition 1)) ring_multipler)
+           src3 (ringz (* pink (lf-noise1:kr 0.15)) (+ freq (* freq_addition 2)) ring_multipler)
+           src (tanh (g-verb (sum [src1 src2 src3]) room_size reverb_time))
+           snd (* amp src)
+
+           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (* env (pan2 snd pan))))))
+
+  (comment
+    (sonic-pi-dark_ambience)
+    (save-to-pi sonic-pi-dark_ambience))
+
+  (without-namespace-in-synthdef
+   (defsynth sonic-pi-wood
+     [out_bus 0
+
+      note 52
+      note_slide 0
+      note_slide_shape 5
+      note_slide_curve 0
+
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+
+      amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      attack 0.01
+      decay 0
+      sustain 0
+      release 0.1
+      attack_level 1
+      sustain_level 1
+      env_curve 2]
+     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
+           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           freq (midicps note)
+
+           snd (bpf:ar (* (white-noise:ar) (line:kr 5 0 0.02)) freq 0.02)
+           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (* env (pan2 snd pan))))))
+
+  (comment
+    (sonic-pi-wood)
+    (save-to-pi sonic-pi-wood))
+
+
+  (without-namespace-in-synthdef
+   (defsynth sonic-pi-dark_sea_horn
+     "Dark, rough and sharp sea horn.
+     Note: we are purposely not using recusion using busses. Just does not have the same feel."
+     [out_bus 0
+
+      note 52
+      note_slide 0
+      note_slide_shape 5
+      note_slide_curve 0
+
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+
+      amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      attack 1
+      decay 0
+      sustain 0
+      release 4.0
+      attack_level 1
+      sustain_level 1
+      env_curve 2]
+     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
+           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           freq (midicps note)
+
+           a (tanh (* 6 (lf-noise1:ar 3) (sin-osc:ar freq (* (lf-noise1:ar 0.1) 3))))
+
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (tanh a)
+
+           a (tanh (* 6 (lf-noise1:ar 3) (sin-osc:ar freq (* a (lf-noise1:ar 0.1) 3))))
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (tanh a)
+
+           a (tanh (* 6 (lf-noise1:ar 3) (sin-osc:ar freq (* a (lf-noise1:ar 0.1) 3))))
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (tanh a)
+
+           a (tanh (* 6 (lf-noise1:ar 3) (sin-osc:ar freq (* a (lf-noise1:ar 0.1) 3))))
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (tanh a)
+
+           a (tanh (* 6 (lf-noise1:ar 3) (sin-osc:ar freq (* a (lf-noise1:ar 0.1) 3))))
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
+           a (tanh a)
+
+           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           snd (* amp a)]
+       (out out_bus (* env (pan2 snd pan))))))
+
+  (comment
+    (sonic-pi-dark_sea_horn :attack 1 :release 8 :note 40)
+    (save-to-pi sonic-pi-dark_sea_horn)
+    )
+
+  (without-namespace-in-synthdef
+   (defsynth sonic-pi-singer
+     "TODO: support vowel changes"
+     [out_bus 0
+
+      vibrato_speed 6
+      vibrato_depth 4
+
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+
+      amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      attack 1
+      decay 0
+      sustain 0
+      release 4.0
+      attack_level 1
+      sustain_level 1
+      env_curve 2
+
+      note 52
+      note_slide 0
+      note_slide_shape 5
+      note_slide_curve 0
+
+      freq0 400 freq1 750 freq2 2400 freq3 2600 freq4 2900
+      amps0 1 amps1 0.28 amps2 0.08 amps3 0.1 amps4 0.01
+      qs0 0.1 qs1 0.1 qs2 0.04 qs3 0.04 qs4 0.04
+      lag-val 0.5]
+     (let [pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           note (varlag note note_slide note_slide_curve note_slide_shape)
+           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           freq (midicps note)
+
+           freqs-list (map #(lag:kr % lag-val) [freq0 freq1 freq2 freq3 freq4])
+           amps-list  (map #(lag:kr (dbamp %) lag-val) [amps0 amps1 amps2 amps3 amps4])
+           qs-list    (map #(lag:kr % lag-val) [qs0 qs1 qs2 qs3 qs4])
+
+           vibrato (* vibrato_depth (sin-osc:kr vibrato_speed))
+           in (saw:ar (lag:kr (+ freq vibrato) 0.2))
+
+           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           snd (mix (* amps-list (bpf:ar in freqs-list qs-list)))
+           snd (* snd amp)]
+       (out out_bus (* (pan2 snd pan) env)))))
+
+  (comment
+    (defn bass          [] (singer :freq 100))
+    (defn tenor         [] (singer :freq 280))
+    (defn alto          [] (singer :freq 380))
+    (defn soprano       [] (singer :freq 580))
+    (def v (bass))
+
+    (save-to-pi sonic-pi-singer)
+    )
+
+)
