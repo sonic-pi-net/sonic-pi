@@ -16,16 +16,35 @@
 #include <QPixmap>
 #include <QBitmap>
 #include <QLabel>
+#include <QTranslator>
+#include <QLibraryInfo>
 
 #include "mainwindow.h"
 int main(int argc, char *argv[])
 {
-
-#if defined(Q_OS_MAC)
+#ifndef Q_OS_MAC
+  Q_INIT_RESOURCE(SonicPi);
+#endif
 
   QApplication app(argc, argv);
-  app.setApplicationName("Sonic Pi");
+
+  QLocale locale;
+
+  QTranslator qtTranslator;
+  qtTranslator.load(locale, "qt", "_", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+  app.installTranslator(&qtTranslator);
+  
+  QTranslator translator;
+  if (!translator.load(locale, "sonic-pi", "_", ":/lang/") && (!locale.name().startsWith("en"))) {
+    std::cout << "No translation found for your locale \"" + locale.name().toStdString() + "\"." << std::endl;
+    std::cout << "Please contact us if you want to translate Sonic Pi to your language." << std::endl;
+  }
+  app.installTranslator(&translator);
+  
+  app.setApplicationName(QObject::tr("Sonic Pi"));
   app.setStyle("gtk");
+
+#ifdef Q_OS_MAC
   app.setAttribute( Qt::AA_UseHighDpiPixmaps );
   QMainWindow* splashWindow = new QMainWindow(0, Qt::FramelessWindowHint);
   QLabel* imageLabel = new QLabel();
@@ -43,22 +62,15 @@ int main(int argc, char *argv[])
 
   MainWindow mainWin(app, splashWindow);
   return app.exec();
-
 #else
-
-  Q_INIT_RESOURCE(SonicPi);
-  QApplication app(argc, argv);
-  app.setApplicationName("Sonic Pi");
-  app.setStyle("gtk");
   QPixmap pixmap(":/images/splash.png");
   QSplashScreen *splash = new QSplashScreen(pixmap);
   splash->setMask(pixmap.mask());
   splash->show();
   splash->repaint();
+
   MainWindow mainWin(app, splash);
   return app.exec();
-
-#endif
-
+#endif  
 
 }
