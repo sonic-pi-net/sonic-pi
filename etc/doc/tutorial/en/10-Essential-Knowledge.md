@@ -1,3 +1,5 @@
+10 Essential Knowledge
+
 # Essential Knowledge
 
 This section will cover some very useful - in fact *essential* - knowledge
