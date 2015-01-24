@@ -2522,7 +2522,7 @@ end
     end
 
     def kill_delay(args_h)
-      args_h[:decay] || arg_defaults[:decay]
+      (args_h[:room] * 10) + 1
     end
 
   end
