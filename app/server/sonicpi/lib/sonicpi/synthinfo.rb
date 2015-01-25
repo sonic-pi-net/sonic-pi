@@ -1807,7 +1807,7 @@ module SonicPi
       }
     end
   end
-  
+
   class Prophet < SonicPiSynth
     def name
       "The Prophet"
@@ -2522,7 +2522,7 @@ end
     end
 
     def kill_delay(args_h)
-      args_h[:decay] || arg_defaults[:decay]
+      (args_h[:room] * 10) + 1
     end
 
   end
@@ -4136,11 +4136,11 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :supersaw => Supersaw.new,
       :prophet => Prophet.new,
       :zawa => Zawa.new,
-      :dark_ambience => DarkAmbience.new,
-      :growl         => Growl.new,
-      :wood          => Wood.new,
-      :dark_sea_horn => DarkSeaHorn.new,
-      :singer        => Singer.new,
+      # :dark_ambience => DarkAmbience.new,
+      # :growl         => Growl.new,
+      # :wood          => Wood.new,
+      # :dark_sea_horn => DarkSeaHorn.new,
+      # :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 
