@@ -2288,6 +2288,11 @@ end
     end
 
 
+    def kill_delay(args_h)
+      [(args_h[:room] * 10) + 1, 11].min
+    end
+
+
     def specific_arg_info
       {
         :room =>
@@ -2522,7 +2527,7 @@ end
     end
 
     def kill_delay(args_h)
-      (args_h[:room] * 10) + 1
+      args_h[:decay] || arg_defaults[:decay]
     end
 
   end
