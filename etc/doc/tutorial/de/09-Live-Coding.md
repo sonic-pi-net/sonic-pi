@@ -1,13 +1,10 @@
 # Live Coding
 
-One of the most exciting aspects of Sonic Pi is that it enables you to
-write and modify code live to make music, just like you might perform
-live with a guitar. One advantage of this approach is to give you more
-feedback whilst composing (get a simple loop running and keep tweaking
-it till it sounds just perfect). However, the main advantage is that you
-can take Sonic Pi on stage and gig with it.
+Einer der interessantesten Aspekte von Sonic Pi ist es, das es dir die Möglichkeit gibt, Code live zu schreiben und zu verändern um Musik zu machen, so als würdest Du beispielsweise mit einer Gitarre auftreten.
 
-In this section we'll cover the fundamentals of turning your static code
-compositions into dynamic performances.
+Ein Vorteil dieser Herangehensweise ist, dass du direkt während dem Komponieren Rückmeldung erhältst. Starte einen einfachen Loop und spiele daran herum, bis er genau richtig klingt.
+Der größte Vorteil ist aber, dass du Sonic Pi mit auf die Bühne nehmen und damit auftreten kannst.
 
-Hold on to your seats...
+Dieser Abschnitt behandelt die Grundlagen, die du benötigst um deinen Kompositionen von statischem Code in rasante Performances zu verwandeln.
+
+Halt dich fest ...
