@@ -88,6 +88,7 @@ module SonicPi
         params = {:uuid => global_uuid,
                   :ruby_platform => RUBY_PLATFORM,
                   :ruby_version => RUBY_VERSION,
+                  :ruby_patchlevel => RUBY_PATCHLEVEL,
                   :sonic_pi_version => @version.to_s}
         uri = URI.parse(url)
         uri.query = URI.encode_www_form( params )
