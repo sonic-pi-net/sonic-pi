@@ -326,6 +326,26 @@ end
 
 Thread.new{osc_server.run}
 
+osc_server.add_method("/enable-update-checking") do |payload|
+  begin
+    sp.__enable_update_checker
+  rescue Exception => e
+    puts "Received Exception when attempting to enable update checking"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
+osc_server.add_method("/disable-update-checking") do |payload|
+  begin
+    sp.__disable_update_checker
+  rescue Exception => e
+    puts "Received Exception when attempting to disable update checking"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do
   continue = true

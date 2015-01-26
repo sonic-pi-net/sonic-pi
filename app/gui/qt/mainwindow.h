@@ -81,6 +81,9 @@ private slots:
     void runCode();
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
+    void update_check_updates();
+    void enableCheckUpdates();
+    void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
     void reloadServerCode();
@@ -203,6 +206,7 @@ private:
     QCheckBox *print_output;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
+    QCheckBox *check_updates;
 
     QRadioButton *rp_force_audio_hdmi;
     QRadioButton *rp_force_audio_default;

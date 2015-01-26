@@ -396,6 +396,14 @@ void MainWindow::update_mixer_force_mono() {
   }
 }
 
+void MainWindow::update_check_updates() {
+  if (check_updates->isChecked()) {
+    enableCheckUpdates();
+  } else {
+    disableCheckUpdates();
+  }
+}
+
 void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
@@ -455,13 +463,26 @@ void MainWindow::initPrefsWindow() {
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
+
+  QGroupBox *update_box = new QGroupBox("Updates");
+  check_updates = new QCheckBox("Check for updates");
+  connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
+
+  update_box->setToolTip("Configure whether Sonic Pi may check for new updates on launch. Please note, the checking process includes sending anonymous information to the Sonic Pi server.");
+
+  QVBoxLayout *update_box_layout = new QVBoxLayout;
+  update_box_layout->addWidget(check_updates);
+  update_box->setLayout(update_box_layout);
+
 #if defined(Q_OS_LINUX)
    grid->addWidget(audioOutputBox, 1, 0);
    grid->addWidget(volBox, 1, 1);
 #endif
   grid->addWidget(debug_box, 0, 1);
   grid->addWidget(advancedAudioBox, 0, 0);
+  grid->addWidget(update_box, 2, 0);
   prefsCentral->setLayout(grid);
+
 
 
   // Read in preferences from previous session
@@ -476,6 +497,8 @@ void MainWindow::initPrefsWindow() {
   rp_force_audio_headphones->setChecked(settings.value("prefs/rp/force-audio-headphones", false).toBool());
   rp_force_audio_hdmi->setChecked(settings.value("prefs/rp/force-audio-hdmi", false).toBool());
 
+  check_updates->setChecked(settings.value("prefs/rp/check-updates", true).toBool());
+
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
 
@@ -483,7 +506,7 @@ void MainWindow::initPrefsWindow() {
   update_mixer_invert_stereo();
   update_mixer_force_mono();
   changeRPSystemVol(stored_vol);
-
+  update_check_updates();
 
   if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
     setRPSystemAudioAuto();
@@ -713,6 +736,20 @@ void MainWindow::reloadServerCode()
 {
   statusBar()->showMessage(tr("Reloading..."), 2000);
   Message msg("/reload");
+  sendOSC(msg);
+}
+
+void MainWindow::enableCheckUpdates()
+{
+  statusBar()->showMessage(tr("enabling update checking...."), 2000);
+  Message msg("/enable-update-checking");
+  sendOSC(msg);
+}
+
+void MainWindow::disableCheckUpdates()
+{
+  statusBar()->showMessage(tr("disabling update checking...."), 2000);
+  Message msg("/disable-update-checking");
   sendOSC(msg);
 }
 
@@ -1259,6 +1296,8 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/rp/force-audio-headphones", rp_force_audio_headphones->isChecked());
   settings.setValue("prefs/rp/force-audio-hdmi", rp_force_audio_hdmi->isChecked());
   settings.setValue("prefs/rp/system-vol", rp_system_vol->value());
+
+  settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
 
   settings.setValue("workspace", tabs->currentIndex());
 
