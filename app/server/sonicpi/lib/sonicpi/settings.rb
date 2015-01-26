@@ -30,6 +30,15 @@ module SonicPi
       @settings[k]
     end
 
+    def del(k)
+      @sem.synchronize do
+        @settings.delete(k)
+        File.open(user_settings_path, 'w') do |f|
+          f.write(MultiJson.dump(@settings, pretty: true))
+        end
+      end
+    end
+
     def set(k, v)
       @sem.synchronize do
         @settings[k] = v
