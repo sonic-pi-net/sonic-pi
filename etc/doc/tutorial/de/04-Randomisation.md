@@ -1,4 +1,4 @@
-# Randomisation[^1]
+# Randomisierung[^1]
 
 Zufallszahlen sind eine tolle Möglichkeit, deine Musik interessant zu gestalten. Sonic Pi bietet einige Funktionen, um Zufallsfaktoren in deine Musik einzubauen;  aber bevor wir starten, müssen wir noch einer schockierenden Wahrheit ins Gesicht sehen: In Sonic Pi bedeutet *zufällig nicht wirklich zufällig*. Was zum Teufel soll das bedeuten? Naja, sehen wir mal.
 
@@ -23,7 +23,7 @@ loop do
 end 
 ```
 
-Jawohl! Nun klingt es zufällig. Innerhalb eines bestimmten Code-Durchgangs liefern Aufrufe von Zufallsfunktionen auch zufällige Werte. Der nächste Durchgang wird jedoch genau dieselbe Folge von Zufallswerten liefern und also auch genau gleich klingen. Es ist, als ob der Sonic Pi-Code immer zu demselben Zeitpunkt zurückspringt, wenn der Run-Button gedrückt wird. Es ist der Groundhog-Day[^2] der musikalischen Synthese.
+Jawohl! Nun klingt es zufällig. Innerhalb eines bestimmten Code-Durchgangs liefern Aufrufe von Zufallsfunktionen auch zufällige Werte. Der nächste Durchgang wird jedoch genau dieselbe Folge von Zufallswerten liefern und also auch genau gleich klingen. Es ist, als ob der Sonic Pi-Code immer zu demselben Zeitpunkt zurückspringt, wenn der Run-Button geklickt wird. Es ist der Groundhog-Day[^2] der musikalischen Synthese.
 
 ## Ruhelose Glocken
 
@@ -134,7 +134,7 @@ Schließlich könnte es sein, das du so tun willst, als ob du beim Würfeln eine
 
 Jetzt los, bring' deinen Code mit ein paar Zufälligkeiten durcheinander!
 
-[^1]: Randomisierung bedeutet hier, dass man eine Auswahl von Zahlen zufällig gestaltet, also jedesmal eine andere Zahl bekommt.
+[^1]: Randomisierung (engl. *randomisation*) bedeutet hier, dass man eine Auswahl von Zahlen zufällig gestaltet, also jedesmal eine andere Zahl bekommt.
 
 [^2]: Im Film *Groundhog Day* (deutsch: *Und täglich grüßt das Murmeltier*) erlebt Bill Murray immer wieder denselben Tag.
 
