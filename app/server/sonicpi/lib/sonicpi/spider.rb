@@ -362,6 +362,14 @@ module SonicPi
       @gitsave.save!(filename, content)
     end
 
+    def __disable_update_checker
+      @settings.set(:no_update_checking, true)
+    end
+
+    def __enable_update_checker
+      @settings.del(:no_update_checking)
+    end
+
     def __spider_eval(code, info={})
       id = @job_counter.next
 
