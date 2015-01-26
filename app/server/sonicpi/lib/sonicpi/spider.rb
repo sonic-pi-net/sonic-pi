@@ -27,9 +27,12 @@ require_relative "lifecyclehooks"
 require_relative "version"
 require_relative "sthread"
 require_relative "oscval"
+require_relative "version"
 #require_relative "oscevent"
 #require_relative "stream"
 
+require 'net/http'
+require 'uri'
 require 'thread'
 require 'fileutils'
 require 'set'
@@ -40,10 +43,12 @@ module SonicPi
   class Spider
 
     attr_reader :event_queue
+    include Util
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
 
       @version = Version.new(2, 3, 0, "dev")
+      @server_version = __server_version
 
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -77,6 +82,23 @@ module SonicPi
 
     ## Not officially part of the API
     ## Probably should be moved somewhere else
+
+    def __server_version(url="http://sonic-pi.net/static/info/latest_version.txt")
+      begin
+        params = {:uuid => global_uuid,
+                  :ruby_platform => RUBY_PLATFORM,
+                  :ruby_version => RUBY_VERSION,
+                  :sonic_pi_version => @version.to_s}
+        uri = URI.parse(url)
+        uri.query = URI.encode_www_form( params )
+        response = Net::HTTP.get_response uri
+        v_string = response.body
+        Version.init_from_string(v_string)
+      rescue
+        Version.new(0)
+      end
+    end
+
 
     def __no_kill_block(t = Thread.current, &block)
       return block.call if t.thread_variable_get(:sonic_pi__not_inherited__spider_in_no_kill_block)
