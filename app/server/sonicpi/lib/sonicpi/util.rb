@@ -12,11 +12,13 @@
 #++
 require 'cgi'
 require 'fileutils'
+require 'securerandom'
 
 module SonicPi
   module Util
     @@project_path = nil
     @@log_path = nil
+    @@current_uuid = nil
 
     def os
       case RUBY_PLATFORM
@@ -77,6 +79,27 @@ module SonicPi
       ensure_dir(path)
       @@log_path = path
       path
+    end
+
+    def global_uuid
+      return @@current_uuid if @@current_uuid
+      path = home_dir + '/.uuid.txt'
+      ensure_dir(home_dir)
+
+      if (File.exists? path)
+        old_id = File.readlines(path).first.strip
+        if  (not old_id.empty?) &&
+            (old_id.size == 36)
+          @@current_uuid = old_id
+          return old_id
+        end
+      end
+
+      # invalid or no uuid - create and store a new one
+      new_uuid = SecureRandom.uuid
+      File.open(path, 'w') {|f| f.write(new_uuid)}
+      @@current_uuid = new_uuid
+      new_uuid
     end
 
     def ensure_dir(d)
