@@ -83,7 +83,7 @@ module SonicPi
 
     def global_uuid
       return @@current_uuid if @@current_uuid
-      path = home_dir + '/.uuid.txt'
+      path = home_dir + '/.uuid'
       ensure_dir(home_dir)
 
       if (File.exists? path)
