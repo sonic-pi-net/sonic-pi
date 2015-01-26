@@ -77,6 +77,8 @@ module SonicPi
         end
       end
       __info "#{@version} Ready..."
+      __print_version_outdated_info if @version < @server_version
+
     end
 
 
@@ -98,6 +100,12 @@ module SonicPi
       rescue
         Version.new(0)
       end
+    end
+
+    def __print_version_outdated_info
+      __info "Your version of Sonic Pi is outdated"
+      __info "The latest is #{@server_version}"
+      __info "Please consider updating..."
     end
 
 
