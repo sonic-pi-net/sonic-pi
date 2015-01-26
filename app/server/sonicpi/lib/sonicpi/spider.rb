@@ -28,6 +28,7 @@ require_relative "version"
 require_relative "sthread"
 require_relative "oscval"
 require_relative "version"
+require_relative "settings"
 #require_relative "oscevent"
 #require_relative "stream"
 
@@ -46,10 +47,9 @@ module SonicPi
     include Util
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
-
+      @settings = Settings.new
       @version = Version.new(2, 3, 0, "dev")
       @server_version = __server_version
-
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
       @event_queue = Queue.new
@@ -86,6 +86,7 @@ module SonicPi
     ## Probably should be moved somewhere else
 
     def __server_version(url="http://sonic-pi.net/static/info/latest_version.txt")
+      return Version.new(0) if @settings.get(:no_update_checking)
       begin
         params = {:uuid => global_uuid,
                   :ruby_platform => RUBY_PLATFORM,
