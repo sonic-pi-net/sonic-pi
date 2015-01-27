@@ -184,6 +184,10 @@ module SonicPi
       end
     end
 
+    def log_info(s)
+      log "--------------->  " + s
+    end
+
     def log(message)
       if debug_mode
         res = ""
