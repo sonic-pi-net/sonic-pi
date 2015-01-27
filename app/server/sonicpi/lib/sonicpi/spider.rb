@@ -87,6 +87,16 @@ module SonicPi
 
     def __server_version(url="http://sonic-pi.net/static/info/latest_version.txt")
       return Version.new(0) if @settings.get(:no_update_checking)
+
+      # Only check for updates at most once every 2 weeks
+      last_update = @settings.get(:last_update_check_time).to_i
+      if  (last_update > 0) &&
+          (Time.at(last_update) < Time.now)
+        two_weeks_in_seconds = 60 * 60 * 24 * 14
+        ts_2_weeks_later = Time.at(last_update + two_weeks_in_seconds)
+        return Version.new(0) if Time.now < ts_2_weeks_later
+      end
+
       begin
         params = {:uuid => global_uuid,
                   :ruby_platform => RUBY_PLATFORM,
@@ -97,7 +107,9 @@ module SonicPi
         uri.query = URI.encode_www_form( params )
         response = Net::HTTP.get_response uri
         v_string = response.body
-        Version.init_from_string(v_string)
+        v = Version.init_from_string(v_string)
+        @settings.set(:last_update_check_time, Time.now.to_i)
+        v
       rescue
         Version.new(0)
       end
