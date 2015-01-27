@@ -11,6 +11,11 @@ A weekly newsletter by email summarising all the interesting things
 happening with Sonic Pi - articles, news, teaching, resources, music,
 and more.
 
+## Gitter Chat
+*<https://gitter.im/samaaron/sonic-pi>*
+
+A friendly chatroom to discuss all matters related to Sonic Pi. Great for getting instant help.
+
 ## Raspberry Pi
 *<http://raspberrypi.org>*
 
