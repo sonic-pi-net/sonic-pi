@@ -10,7 +10,7 @@
   resulting amplitude isn't excessive and is normalised.
 * Chords now evaluate their args once and those args are used for all
   synth triggers. This means random values are only generated once and
-  are similar across all notes in the chord. Previous behviour can be
+  are similar across all notes in the chord. Previous behaviour can be
   obtained by calling play multiple times with now interleaved sleeps.
 * Ensure each new thread's random number generator is unique yet seeded
   in a deterministic manner. This stops random vals across `at` from
@@ -52,6 +52,10 @@
 * New FX `flanger` - a classic swhooshing effect typically used with
   vocals and guitars.
 * New FX `ring` - ring modulation for that friendly Dalek sound
+* New FX `bpf` - a band pass filter
+* New FX `rbpf` - a resonant band pass filter
+* New FX `nbpf` - a normalised band pass filter
+* New FX `nrbpf` - a normalised resonant band pass filter
 
 ### New Samples
 
