@@ -1007,6 +1007,8 @@ play 62
 "]
 
     def density(d, &block)
+      d = d.abs
+      reps = d < 1 ? 1.0 : d
       with_bpm_mul d do
         if block.arity == 0
           d.times do
