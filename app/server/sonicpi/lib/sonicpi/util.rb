@@ -162,6 +162,10 @@ module SonicPi
       File.absolute_path("#{server_path}/native/#{os}")
     end
 
+    def user_settings_path
+      File.absolute_path("#{home_dir}/settings.json")
+    end
+
     def log_raw(s)
         # TODO: consider moving this into a worker thread to reduce file
         # io overhead:
