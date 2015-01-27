@@ -2523,7 +2523,7 @@ end
     end
 
     def kill_delay(args_h)
-      args_h[:decay] || arg_defaults[:decay]
+      args_h[:decay]
     end
 
   end
@@ -3226,7 +3226,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def kill_delay(args_h)
-      args_h[:decay] || arg_defaults[:decay]
+      args_h[:decay]
     end
 
     def doc
