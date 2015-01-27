@@ -76,7 +76,7 @@
   scsynth from crashing when output and input sample rates were
   different.
 
- ## Version 2.2.0 
+## Version 2.2.0 
  *Thursday 18th December, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.2.0)
 
