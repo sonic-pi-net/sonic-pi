@@ -2474,11 +2474,7 @@ end
         :decay_slide => 0,
         :decay_slide_shape => 5,
         :decay_slide_curve => 0,
-        :max_phase => 2,
-        :amp => 1,
-        :amp_slide => 0,
-        :amp_slide_shape => 5,
-        :amp_slide_curve => 0,
+        :max_phase => 2
       }
     end
 
@@ -3182,11 +3178,7 @@ The way the transpositions are done adds some distortion, particulary to the low
         :decay_slide => 0,
         :decay_slide_shape => 5,
         :decay_slide_curve => 0,
-        :max_phase => 1,
-        :amp => 1,
-        :amp_slide => 0,
-        :amp_slide_shape => 5,
-        :amp_slide_curve => 0,
+        :max_phase => 1
       }
     end
 
@@ -3708,11 +3700,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :level => 1,
         :level_slide => 0,
         :level_slide_shape => 5,
-        :level_slide_curve => 0,
-        :amp => 1,
-        :amp_slide => 0,
-        :amp_slide_shape => 5,
-        :amp_slide_curve => 0,
+        :level_slide_curve => 0
       }
     end
 
@@ -4141,11 +4129,11 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :supersaw => Supersaw.new,
       :prophet => Prophet.new,
       :zawa => Zawa.new,
-      # :dark_ambience => DarkAmbience.new,
-      # :growl         => Growl.new,
-      # :wood          => Wood.new,
-      # :dark_sea_horn => DarkSeaHorn.new,
-      # :singer        => Singer.new,
+      :dark_ambience => DarkAmbience.new,
+      :growl         => Growl.new,
+      :wood          => Wood.new,
+      :dark_sea_horn => DarkSeaHorn.new,
+      :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 
