@@ -59,14 +59,24 @@ module SonicPi
       if ((other.is_a? Version) &&
           (@major < other.major) or
           ((@major == other.major) && (@minor < other.minor)) or
-          ((@major == other.major) && (@minor == other.minor) && (@patch < other.patch)))
-        -1
+          ((@major == other.major) && (@minor == other.minor) && (@patch < other.patch)) or
+          if (@dev && other.dev)
+            ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && (@dev.to_s < other.dev.to_s))
+          else
+            ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && @dev)
+          end)
+        return -1
       elsif
         ((other.is_a? Version) &&
-        (@major > other.major) or
+          (@major > other.major) or
           ((@major == other.major) && (@minor > other.minor)) or
-          ((@major == other.major) && (@minor == other.minor) && (@patch > other.patch)))
-        return 1
+          ((@major == other.major) && (@minor == other.minor) && (@patch > other.patch)) or
+          if (@dev && other.dev)
+            ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && (@dev.to_s > other.dev.to_s))
+          else
+            ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && other.dev)
+          end)
+          return 1
       elsif ((other.is_a? Version) &&
           (@major == other.major) &&
           (@minor == other.minor) &&
