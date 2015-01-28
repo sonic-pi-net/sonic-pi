@@ -48,7 +48,7 @@
   sizes to reduce the chance of clipping.
  
 
-### Synth & FX
+### Synths & FX
 
 * New FX `bitcrusher` - for crunching and destroying those hi-fi sounds.
 * New FX `flanger` - a classic swhooshing effect typically used with
@@ -106,7 +106,7 @@ and echoes.
 * New fn `range` - `(range 70, 100, 10)` returns `(ring 70, 80, 90, 100)`
 * New fn `sample_loaded?` - to detect whether a specific sample has been loaded
 
-### Synth & FX
+### Synths & FX
 
 * Fixed regression in `:tb303` synth - sound is reverted to v2.0 behaviour
 * New Synth - `:square` - Pure square wave
