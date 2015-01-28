@@ -94,7 +94,7 @@ module SonicPi
           (Time.at(last_update) < Time.now)
         two_weeks_in_seconds = 60 * 60 * 24 * 14
         ts_2_weeks_later = Time.at(last_update + two_weeks_in_seconds)
-        return Version.new(0) if Time.now < ts_2_weeks_later
+        return __local_cached_server_version if Time.now < ts_2_weeks_later
       end
 
       begin
@@ -109,9 +109,18 @@ module SonicPi
         v_string = response.body
         v = Version.init_from_string(v_string)
         @settings.set(:last_update_check_time, Time.now.to_i)
+        @settings.set(:last_seen_server_version, v.to_s)
         v
       rescue
-        Version.new(0)
+        __local_cached_server_version
+      end
+    end
+
+    def __local_cached_server_version
+      begin
+        return Version.init_from_string(@settings.get(:last_seen_server_version))
+      rescue
+        return Version.new(0)
       end
     end
 
