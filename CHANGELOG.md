@@ -12,7 +12,7 @@
 * Chords now evaluate their args once and those args are used for all
   synth triggers. This means random values are only generated once and
   are similar across all notes in the chord. Previous behaviour can be
-  obtained by calling play multiple times with now interleaved sleeps.
+  obtained by calling play multiple times with no interleaved sleeps.
 * Ensure each new thread's random number generator is unique yet seeded
   in a deterministic manner. This stops random vals across `at` from
   being identical.
@@ -20,10 +20,11 @@
 
 ### New
 
-* New fn `density` for compressing and repeating time. For example,
-  wrapping some code with a call to density of 2 will double the bpm for
-  that block as well as repeating it twice. This ensures the block takes
-  the same amount of time to execute while doing double the work.
+* New fn `density` for compressing and repeating time Dr Who style. For
+  example, wrapping some code with a call to density of 2 will double
+  the bpm for that block as well as repeating it twice. This ensures the
+  block takes the same amount of time to execute while doing double the
+  work.
 * New fns `with_bpm_mul` and `use_bpm_mul` which will multiply the
   current bpm by a specified amount. Useful for slowing down and
   speeding up the execution of a specific thread or live_loop.
