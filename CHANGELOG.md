@@ -1,7 +1,8 @@
 # History
 
 ## Version 2.3.0
-*To be released*
+ *Wednesday 28th January, 2015*
+ [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
 
 ### Breaking Changes
 
