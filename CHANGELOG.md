@@ -26,8 +26,8 @@
 * New fns `with_bpm_mul` and `use_bpm_mul` which will multiply the
   current bpm by a specified amount. Useful for slowing down and
   speeding up the execution of a specific thread or live_loop.
-* New fn `rdist` - generate a radom number with a centred distribution
-* New examples: square skit, shufflit and tilburg
+* New fn `rdist` - generate a random number with a centred distribution
+* New examples: `square skit`, `shufflit` and `tilburg`
 
 ### Improvements
 
@@ -73,7 +73,7 @@
 * Kill zombie scsynth servers on startup for better crash recovery.
 * Handle paths with UTF8 characters gracefully
 * Force sample rate for output and input to 44k on OS X. This stops
-  scsynth from crashing when output and input sample rates were
+  scsynth from crashing when output and input sample rates are
   different.
 
 ## Version 2.2.0 
