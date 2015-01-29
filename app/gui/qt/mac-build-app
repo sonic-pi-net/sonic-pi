@@ -21,6 +21,7 @@ LIBQS_LINK=libqscintilla2.11.dylib
 ## ----
 
 QMAKE=$QTBIN/qmake
+LREL=$QTBIN/lrelease
 MACDEPLOYQT=$QTBIN/macdeployqt
 LIBQS_PATH=$QSCINTILLA/$LIBQS
 
@@ -38,7 +39,7 @@ cp -f ruby_help.tmpl ruby_help.h
 ../../server/bin/qt-doc.rb -o ruby_help.h
 
 # Generate i18n files
-lrelease SonicPi.pro
+$LREL SonicPi.pro
 
 # Build app
 $QMAKE -o Makefile SonicPi.pro
