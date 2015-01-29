@@ -1,3 +1,5 @@
+1 Welcome to Sonic Pi
+
 # Welcome friend :-)
 
 Welcome to Sonic Pi. Hopefully you're as excited to get started making

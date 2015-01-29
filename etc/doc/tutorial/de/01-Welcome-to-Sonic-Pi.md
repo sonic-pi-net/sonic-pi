@@ -1,3 +1,5 @@
+1 Willkommen bei Sonic Pi
+
 # Hallo zusammen :-)
 
 Willkommen bei Sonic Pi! Ich hoffe, Du bist genauso aufgeregt, verrückte Sounds zu machen, wie ich es bin, dir zu zeigen, wie das geht. Wir werden viel Spaß dabei haben, alles über Musik, Synthese, Coding, Komposition, Aufführung und andere Dinge zu lernen.

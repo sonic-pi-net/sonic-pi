@@ -1,3 +1,5 @@
+2 Synths
+
 # Synths
 
 Ok, genug der Einführung - laßt uns Klänge machen.
