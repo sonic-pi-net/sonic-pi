@@ -1,3 +1,5 @@
+4 Randomisierung
+
 # Randomisierung[^1]
 
 Zufallszahlen sind eine tolle Möglichkeit, deine Musik interessant zu gestalten. Sonic Pi bietet einige Funktionen, um Zufallsfaktoren in deine Musik einzubauen;  aber bevor wir starten, müssen wir noch einer schockierenden Wahrheit ins Gesicht sehen: In Sonic Pi bedeutet *zufällig nicht wirklich zufällig*. Was zum Teufel soll das bedeuten? Naja, sehen wir mal.
