@@ -1,3 +1,5 @@
+5 Programmstrukturen
+
 # Programmstrukturen
 
 Jetzt, wo du grundsätzlich weisst, wie man Klänge mit `play` und `sample`erzeugt und einfache Melodien und Rhythmen baut, in dem man `sleep` zwischen die Klänge setzt, fragst du dich vielleicht, was dir die Welt des Codes noch alles zu bieten hat...
