@@ -1,8 +1,9 @@
 # History
 
-## Version 2.3.0
- *Wednesday 28th January, 2015*
- [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
+## Version 2.3 - 'Bitcrush'
+*Wednesday 28th January, 2015*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
+
 
 ### Breaking Changes
 
@@ -78,7 +79,7 @@
   scsynth from crashing when output and input sample rates are
   different.
 
-## Version 2.2.0 
+## Version 2.2 - 'Slicer'
  *Thursday 18th December, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.2.0)
 
@@ -137,7 +138,7 @@ and echoes.
 * Minor grammar and spelling tweaks to tutorial
 
 
-## Version 2.1
+## Version 2.1 - 'Core'
 *Friday 21st November, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.0)
 
@@ -235,7 +236,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Log now communicates when a run has completed executing
 * Fix bug encountered when stopping threads in super fast loops (stopped comms with server)
 
-## Version 2.0
+## Version 2.0 - 'Phoenix'
 *Tuesday 2nd September, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.0.0)
 
