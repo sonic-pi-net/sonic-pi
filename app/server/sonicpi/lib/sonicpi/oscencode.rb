@@ -101,9 +101,9 @@ module SonicPi
     end
 
     def encode_single_bundle(ts, address, args=[])
-      message = encode_single_message(address, args)
+      message = encode_single_message(address, args, attach_size=false)
       message_encoded = [message.size].pack('N') << message
-      "" << @bundle_header << time_encoded(ts) << message_encoded
+        "" << @bundle_header << time_encoded(ts) << message_encoded
     end
 
     private
@@ -135,6 +135,18 @@ module SonicPi
       # 2 ** 32 == 4294967296
       t2 = (fr * 4294967296).to_i
       [t1, t2].pack('N2')
+    end
+  end
+
+  class StreamOscEncode < OscEncode
+    def encode_single_message(address, args=[])
+      message = super
+      ([message.length].pack('N') << message).force_encoding("BINARY")
+    end
+
+    def encode_single_bundle(ts, address, args=[])
+      message = super
+      message.count.pack('N') << message
     end
   end
 end

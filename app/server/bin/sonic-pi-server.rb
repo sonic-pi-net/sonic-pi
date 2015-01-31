@@ -51,14 +51,32 @@ include SonicPi::Util
 
 server_port = ARGV[0] ? ARGV[0].to_i : 4557
 client_port = ARGV[1] ? ARGV[1].to_i : 4558
-puts "Using protocol: UDP"
+
+protocol = case ARGV[2]
+           when "-t"
+            :tcp
+           else
+            :udp
+           end
+
+puts "Using protocol: #{protocol}"
+
+if protocol == :tcp
+  gui = OSC::ClientOverTcp.new("localhost", client_port)
+  encoder = SonicPi::StreamOscEncode.new(true, 1000)
+else
+  gui = OSC::Client.new("localhost", client_port)
+  encoder = SonicPi::OscEncode.new(true, 1000)
+end
 
 ws_out = Queue.new
-gui = OSC::Client.new("localhost", client_port)
-encoder = SonicPi::OscEncode.new(true)
 
 begin
-  osc_server = OSC::Server.new(server_port)
+  if protocol == :tcp
+    osc_server = OSC::ServerOverTcp.new(server_port)
+  else
+    osc_server = OSC::Server.new(server_port)
+  end
 rescue Exception => e
   m = encoder.encode_single_message("/exited", ["Failed to open server port " + server_port.to_s + ", is scsynth already running?"])
   gui.send_raw(m)
@@ -347,7 +365,11 @@ osc_server.add_method("/disable-update-checking") do |payload|
   end
 end
 
-Thread.new{osc_server.run}
+if protocol == :tcp
+  Thread.new{osc_server.safe_run}
+else
+  Thread.new{osc_server.run}
+end
 
 # Send stuff out from Sonic Pi back out to osc_server
 out_t = Thread.new do

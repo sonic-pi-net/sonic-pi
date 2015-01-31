@@ -160,6 +160,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         std::string id;
         if (msg->arg().popStr(id).isOkNoMoreArgs()) {
           server_started = true;
+          QMetaObject::invokeMethod(window, "serverStarted", Qt::QueuedConnection);
         } else
           std::cout << "Server: unhandled ack " << std::endl;
       }

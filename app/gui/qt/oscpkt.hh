@@ -623,6 +623,28 @@ public:
   
   /** return the bytes of the osc packet (NULL if the construction of the packet has failed) */
   char *packetData() { return err ? 0 : storage.begin(); }
+
+  /** return the bytes of the osc packet precedded by byte size (NULL if the construction of the packet has failed) */
+  char *packetDataForStream() {
+
+      if(err){
+          return 0;
+      }
+      else{
+        std::vector<char> buffer;
+        buffer.resize(packetSize() + sizeof(uint32_t));
+        uint32_t networkSize = htonl(packetSize());
+        memcpy(&buffer[0],                &networkSize,    sizeof(uint32_t));
+        memcpy(&buffer[sizeof(uint32_t)], storage.begin(), packetSize());
+
+        std::vector<char> tmp(buffer);
+        tmp.swap(buffer);
+
+        return &buffer.front();
+      }
+  }
+
+
 private:  
   std::vector<size_t> bundles; // hold the position in the storage array of the beginning marker of each bundle
   Storage storage;

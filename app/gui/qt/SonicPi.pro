@@ -41,7 +41,9 @@ SOURCES += main.cpp \
            sonicpiapis.cpp \
            sonicpiscintilla.cpp \
            oschandler.cpp \
-           sonicpiudpserver.cpp
+           sonicpiserver.cpp \
+           sonicpiudpserver.cpp \
+           sonicpitcpserver.cpp
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
@@ -50,8 +52,10 @@ HEADERS  += mainwindow.h \
             sonicpiapis.h \
             sonicpiscintilla.h \
             oschandler.h \
+            sonicpiserver.h \
             sonicpiudpserver.h \
-            ruby_help.h
+            ruby_help.h \
+            sonicpitcpserver.h
 
 TRANSLATIONS = lang/sonic-pi_de.ts
 

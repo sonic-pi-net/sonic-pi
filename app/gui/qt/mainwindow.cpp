@@ -69,6 +69,7 @@
 
 #include "oschandler.h"
 #include "sonicpiudpserver.h"
+#include "sonicpitcpserver.h"
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -95,7 +96,12 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 #endif
 {
+  this->protocol = UDP;
   this->splash = splash;
+
+  if(protocol == TCP){
+    clientSock = new QTcpSocket(this);
+  }
 
   this->setUnifiedTitleAndToolBarOnMac(true);
   this->setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -126,8 +132,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
 
   OscHandler* handler = new OscHandler(this, this->outputPane, this->errorPane);
-  sonicPiServer = new SonicPiUDPServer(this, handler);
-  osc_thread = QtConcurrent::run(sonicPiServer, &SonicPiUDPServer::startServer);
+
+  if(protocol == UDP){
+    sonicPiServer = new SonicPiUDPServer(this, handler);
+    osc_thread = QtConcurrent::run(sonicPiServer, &SonicPiServer::startServer);
+  }
+  else{
+    sonicPiServer = new SonicPiTCPServer(this, handler);
+    sonicPiServer->startServer();
+  }
 
   // Window layout
   tabs = new QTabWidget();
@@ -373,7 +386,7 @@ void MainWindow::waitForServiceSync() {
     return;
   }
 
-  QMetaObject::invokeMethod(this, "serverStarted", Qt::QueuedConnection); }
+}
 
 void MainWindow::splashClose() {
 #if defined(Q_OS_MAC)
@@ -684,16 +697,45 @@ bool MainWindow::saveAs()
 
 void MainWindow::sendOSC(Message m)
 {
-  UdpSocket sock;
+  int TIMEOUT = 30000;
   int PORT_NUM = 4557;
-  sock.connectTo("localhost", PORT_NUM);
-  if (!sock.isOk()) {
-    std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
-  } else {
 
-    PacketWriter pw;
-    pw.addMessage(m);
-    sock.sendPacket(pw.packetData(), pw.packetSize());
+  if(protocol == UDP){
+    UdpSocket sock;
+    sock.connectTo("localhost", PORT_NUM);
+    if (!sock.isOk()) {
+        std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+    } else {
+        PacketWriter pw;
+        pw.addMessage(m);
+        sock.sendPacket(pw.packetData(), pw.packetSize());
+    }
+  }
+  else{
+    if (clientSock->state() != QAbstractSocket::ConnectedState){
+      clientSock->connectToHost("localhost", PORT_NUM,  QIODevice::ReadWrite);
+    }
+
+    if(!clientSock->waitForConnected(TIMEOUT)){
+      std::cerr <<  "Timeout, could not connect" << "\n";
+      clientSock->abort();
+      return;
+    }
+
+    if(clientSock->state() == QAbstractSocket::ConnectedState){
+      PacketWriter pw;
+      pw.addMessage(m);
+      qDebug() << "Send:" << pw.packetSize();
+      int bytesWritten = clientSock->write(pw.packetDataForStream(), pw.packetSize()+sizeof(uint32_t));
+      clientSock->waitForBytesWritten();
+
+      if (bytesWritten < 0){
+        std::cerr <<  "Failed to send bytes" << "\n";
+      }
+
+    } else {
+      std::cerr << "Client gone away: " << "\n";
+    }
   }
 }
 
