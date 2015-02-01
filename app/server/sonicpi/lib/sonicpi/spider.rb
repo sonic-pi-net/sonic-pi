@@ -27,9 +27,13 @@ require_relative "lifecyclehooks"
 require_relative "version"
 require_relative "sthread"
 require_relative "oscval"
+require_relative "version"
+require_relative "settings"
 #require_relative "oscevent"
 #require_relative "stream"
 
+require 'net/http'
+require 'uri'
 require 'thread'
 require 'fileutils'
 require 'set'
@@ -40,11 +44,12 @@ module SonicPi
   class Spider
 
     attr_reader :event_queue
+    include Util
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
-
-      @version = Version.new(2, 3, 0, "dev")
-
+      @settings = Settings.new
+      @version = Version.new(2, 4, 0, "dev")
+      @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
       @event_queue = Queue.new
@@ -72,11 +77,59 @@ module SonicPi
         end
       end
       __info "#{@version} Ready..."
+      __print_version_outdated_info if @version < @server_version
+
     end
 
 
     ## Not officially part of the API
     ## Probably should be moved somewhere else
+
+    def __server_version(url="http://sonic-pi.net/static/info/latest_version.txt")
+      return Version.new(0) if @settings.get(:no_update_checking)
+
+      # Only check for updates at most once every 2 weeks
+      last_update = @settings.get(:last_update_check_time).to_i
+      if  (last_update > 0) &&
+          (Time.at(last_update) < Time.now)
+        two_weeks_in_seconds = 60 * 60 * 24 * 14
+        ts_2_weeks_later = Time.at(last_update + two_weeks_in_seconds)
+        return __local_cached_server_version if Time.now < ts_2_weeks_later
+      end
+
+      begin
+        params = {:uuid => global_uuid,
+                  :ruby_platform => RUBY_PLATFORM,
+                  :ruby_version => RUBY_VERSION,
+                  :ruby_patchlevel => RUBY_PATCHLEVEL,
+                  :sonic_pi_version => @version.to_s}
+        uri = URI.parse(url)
+        uri.query = URI.encode_www_form( params )
+        response = Net::HTTP.get_response uri
+        v_string = response.body
+        v = Version.init_from_string(v_string)
+        @settings.set(:last_update_check_time, Time.now.to_i)
+        @settings.set(:last_seen_server_version, v.to_s)
+        v
+      rescue
+        __local_cached_server_version
+      end
+    end
+
+    def __local_cached_server_version
+      begin
+        return Version.init_from_string(@settings.get(:last_seen_server_version))
+      rescue
+        return Version.new(0)
+      end
+    end
+
+    def __print_version_outdated_info
+      __info "Your version of Sonic Pi is outdated"
+      __info "The latest is #{@server_version}"
+      __info "Please consider updating..."
+    end
+
 
     def __no_kill_block(t = Thread.current, &block)
       return block.call if t.thread_variable_get(:sonic_pi__not_inherited__spider_in_no_kill_block)
@@ -328,6 +381,14 @@ module SonicPi
       content = filter_for_save(content)
       File.open(path, 'w') {|f| f.write(content) }
       @gitsave.save!(filename, content)
+    end
+
+    def __disable_update_checker
+      @settings.set(:no_update_checking, true)
+    end
+
+    def __enable_update_checker
+      @settings.del(:no_update_checking)
     end
 
     def __spider_eval(code, info={})

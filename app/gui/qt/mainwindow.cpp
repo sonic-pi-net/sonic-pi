@@ -140,7 +140,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     std::string s;
 
     workspaces[ws] = new SonicPiScintilla(lexer);
-    QString w = QString("Workspace %1").arg(QString::number(ws + 1));
+    QString w = QString(tr("Workspace %1")).arg(QString::number(ws + 1));
     tabs->addTab(workspaces[ws], w);
   }
 
@@ -227,7 +227,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   QWidget *docW = new QWidget();
   docW->setLayout(docLayout);
 
-  docWidget = new QDockWidget("Help", this);
+  docWidget = new QDockWidget(tr("Help"), this);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
   docWidget->setWidget(docW);
   docWidget->setObjectName("help");
@@ -343,7 +343,7 @@ void MainWindow::waitForServiceSync() {
 
   if (!sonicPiServer->isServerStarted()) {
     if (!startup_error_reported) {
-      invokeStartupError(tr("Failed to start server, please check ") + log_path);
+      invokeStartupError(QString(tr("Failed to start server, please check %1.").arg(log_path)));
     }
     return;
   }
@@ -369,13 +369,13 @@ void MainWindow::serverStarted() {
 
 void MainWindow::serverError(QProcess::ProcessError error) {
   sonicPiServer->stopServer();
-  std::cout << "SERVER ERROR" << error <<std::endl;
+  std::cout << "Server Error: " << error <<std::endl;
   std::cout << serverProcess->readAllStandardError().data() << std::endl;
   std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
 void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
-  std::cout << "SERVER Finished: " << exitCode << ", " << exitStatus << std::endl;
+  std::cout << "Server Finished: " << exitCode << ", " << exitStatus << std::endl;
   std::cout << serverProcess->readAllStandardError().data() << std::endl;
   std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
@@ -396,18 +396,26 @@ void MainWindow::update_mixer_force_mono() {
   }
 }
 
+void MainWindow::update_check_updates() {
+  if (check_updates->isChecked()) {
+    enableCheckUpdates();
+  } else {
+    disableCheckUpdates();
+  }
+}
+
 void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
   QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
-  volBox->setToolTip("Use this slider to change the system volume of your Raspberry Pi");
+  volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
 
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio Settings"));
-  advancedAudioBox->setToolTip("Advanced audio settings for working with external PA systems when performing with Sonic Pi");
-  mixer_invert_stereo = new QCheckBox("Invert Stereo");
+  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
+  mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
-  mixer_force_mono = new QCheckBox("Force Mono");
+  mixer_force_mono = new QCheckBox(tr("Force Mono"));
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
 
 
@@ -421,7 +429,7 @@ void MainWindow::initPrefsWindow() {
 
 
   QGroupBox *audioOutputBox = new QGroupBox(tr("Raspberry Pi Audio Output"));
-  audioOutputBox->setToolTip("Your Raspberry Pi has two forms of audio output. \nFirstly, there is the headphone jack of the Raspberry Pi itself. \nSecondly, some HDMI monitors/TVs support audio through the HDMI port. \nUse these buttons to force the output to the one you want. \nFor example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. ");
+  audioOutputBox->setToolTip(tr("Your Raspberry Pi has two forms of audio output.\nFirstly, there is the headphone jack of the Raspberry Pi itself.\nSecondly, some HDMI monitors/TVs support audio through the HDMI port.\nUse these buttons to force the output to the one you want."));
   rp_force_audio_default = new QRadioButton(tr("&Default"));
   rp_force_audio_headphones = new QRadioButton(tr("&Headphones"));
   rp_force_audio_hdmi = new QRadioButton(tr("&HDMI"));
@@ -444,10 +452,10 @@ void MainWindow::initPrefsWindow() {
   vol_box->addWidget(rp_system_vol);
   volBox->setLayout(vol_box);
 
-  QGroupBox *debug_box = new QGroupBox("Debug Options");
-  print_output = new QCheckBox("Print output");
-  check_args = new QCheckBox("Check synth args");
-  clear_output_on_run = new QCheckBox("Clear output on run");
+  QGroupBox *debug_box = new QGroupBox(tr("Debug Options"));
+  print_output = new QCheckBox(tr("Print output"));
+  check_args = new QCheckBox(tr("Check synth args"));
+  clear_output_on_run = new QCheckBox(tr("Clear output on run"));
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
@@ -455,13 +463,26 @@ void MainWindow::initPrefsWindow() {
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
+
+  QGroupBox *update_box = new QGroupBox("Updates");
+  check_updates = new QCheckBox("Check for updates");
+  connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
+
+  update_box->setToolTip("Configure whether Sonic Pi may check for new updates on launch. Please note, the checking process includes sending anonymous information to the Sonic Pi server.");
+
+  QVBoxLayout *update_box_layout = new QVBoxLayout;
+  update_box_layout->addWidget(check_updates);
+  update_box->setLayout(update_box_layout);
+
 #if defined(Q_OS_LINUX)
    grid->addWidget(audioOutputBox, 1, 0);
    grid->addWidget(volBox, 1, 1);
 #endif
   grid->addWidget(debug_box, 0, 1);
   grid->addWidget(advancedAudioBox, 0, 0);
+  grid->addWidget(update_box, 2, 0);
   prefsCentral->setLayout(grid);
+
 
 
   // Read in preferences from previous session
@@ -476,6 +497,8 @@ void MainWindow::initPrefsWindow() {
   rp_force_audio_headphones->setChecked(settings.value("prefs/rp/force-audio-headphones", false).toBool());
   rp_force_audio_hdmi->setChecked(settings.value("prefs/rp/force-audio-hdmi", false).toBool());
 
+  check_updates->setChecked(settings.value("prefs/rp/check-updates", true).toBool());
+
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
 
@@ -483,7 +506,7 @@ void MainWindow::initPrefsWindow() {
   update_mixer_invert_stereo();
   update_mixer_force_mono();
   changeRPSystemVol(stored_vol);
-
+  update_check_updates();
 
   if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
     setRPSystemAudioAuto();
@@ -512,7 +535,7 @@ void MainWindow::startupError(QString msg) {
 
   QString logtext = readFile(log_path + QDir::separator() + "output.log");
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
-				     "We're sorry, but Sonic Pi was unable to start...", msg);
+				     tr("We're sorry, but Sonic Pi was unable to start..."), msg);
   box->setDetailedText(logtext);
 
   QGridLayout* layout = (QGridLayout*)box->layout();
@@ -576,7 +599,7 @@ std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
 
 void MainWindow::loadWorkspaces()
 {
-  std::cout << "loading workspaces" << std::endl;;
+  std::cout << "loading workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     Message msg("/load-buffer");
@@ -588,7 +611,7 @@ void MainWindow::loadWorkspaces()
 
 void MainWindow::saveWorkspaces()
 {
-  std::cout << "saving workspaces" << std::endl;;
+  std::cout << "saving workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     std::string code = workspaces[i]->text().toStdString();
@@ -657,7 +680,7 @@ void MainWindow::runCode()
   ws->setReadOnly(true);
   ws->selectAll();
   resetErrorPane();
-  statusBar()->showMessage(tr("Running Code...."), 1000);
+  statusBar()->showMessage(tr("Running Code..."), 1000);
   std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/save-and-run-buffer");
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
@@ -679,7 +702,7 @@ void MainWindow::runCode()
   }
 
   msg.pushStr(code);
-  msg.pushStr(QString("Workspace %1").arg(tabs->currentIndex()+1).toStdString());
+  msg.pushStr(QString(tr("Workspace %1")).arg(tabs->currentIndex()+1).toStdString());
   sendOSC(msg);
 
   QTimer::singleShot(500, this, SLOT(unhighlightCode()));
@@ -700,7 +723,7 @@ void MainWindow::unhighlightCode()
 
 void MainWindow::beautifyCode()
 {
-  statusBar()->showMessage(tr("Beautifying...."), 2000);
+  statusBar()->showMessage(tr("Beautifying..."), 2000);
   std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
   Message msg("/beautify-buffer");
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
@@ -711,14 +734,28 @@ void MainWindow::beautifyCode()
 
 void MainWindow::reloadServerCode()
 {
-  statusBar()->showMessage(tr("reloading...."), 2000);
+  statusBar()->showMessage(tr("Reloading..."), 2000);
   Message msg("/reload");
+  sendOSC(msg);
+}
+
+void MainWindow::enableCheckUpdates()
+{
+  statusBar()->showMessage(tr("enabling update checking...."), 2000);
+  Message msg("/enable-update-checking");
+  sendOSC(msg);
+}
+
+void MainWindow::disableCheckUpdates()
+{
+  statusBar()->showMessage(tr("disabling update checking...."), 2000);
+  Message msg("/disable-update-checking");
   sendOSC(msg);
 }
 
 void MainWindow::mixerHpfEnable(float freq)
 {
-  statusBar()->showMessage(tr("enabling mixer HPF...."), 2000);
+  statusBar()->showMessage(tr("Enabling Mixer HPF..."), 2000);
   Message msg("/mixer-hpf-enable");
   msg.pushFloat(freq);
   sendOSC(msg);
@@ -726,14 +763,14 @@ void MainWindow::mixerHpfEnable(float freq)
 
 void MainWindow::mixerHpfDisable()
 {
-  statusBar()->showMessage(tr("disabling mixer HPF...."), 2000);
+  statusBar()->showMessage(tr("Disabling Mixer HPF..."), 2000);
   Message msg("/mixer-hpf-disable");
   sendOSC(msg);
 }
 
 void MainWindow::mixerLpfEnable(float freq)
 {
-  statusBar()->showMessage(tr("enabling Mixer HPF...."), 2000);
+  statusBar()->showMessage(tr("Enabling Mixer LPF..."), 2000);
   Message msg("/mixer-lpf-enable");
   msg.pushFloat(freq);
   sendOSC(msg);
@@ -741,35 +778,35 @@ void MainWindow::mixerLpfEnable(float freq)
 
 void MainWindow::mixerLpfDisable()
 {
-  statusBar()->showMessage(tr("disabling mixer LPF...."), 2000);
+  statusBar()->showMessage(tr("Disabling Mixer LPF..."), 2000);
   Message msg("/mixer-lpf-disable");
   sendOSC(msg);
 }
 
 void MainWindow::mixerInvertStereo()
 {
-  statusBar()->showMessage(tr("enabling inverted stereo...."), 2000);
+  statusBar()->showMessage(tr("Enabling Inverted Stereo..."), 2000);
   Message msg("/mixer-invert-stereo");
   sendOSC(msg);
 }
 
 void MainWindow::mixerStandardStereo()
 {
-  statusBar()->showMessage(tr("enabling standard stereo...."), 2000);
+  statusBar()->showMessage(tr("Enabling Standard Stereo..."), 2000);
   Message msg("/mixer-standard-stereo");
   sendOSC(msg);
 }
 
 void MainWindow::mixerMonoMode()
 {
-  statusBar()->showMessage(tr("mono mode...."), 2000);
+  statusBar()->showMessage(tr("Mono Mode..."), 2000);
   Message msg("/mixer-mono-mode");
   sendOSC(msg);
 }
 
 void MainWindow::mixerStereoMode()
 {
-  statusBar()->showMessage(tr("stereo mode...."), 2000);
+  statusBar()->showMessage(tr("Stereo Mode..."), 2000);
   Message msg("/mixer-stereo-mode");
   sendOSC(msg);
 }
@@ -841,7 +878,7 @@ void MainWindow::changeRPSystemVol(int val)
   //do nothing
   val = val;
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Updating system volume."), 2000);
+  statusBar()->showMessage(tr("Updating System Volume."), 2000);
   //do nothing, just print out what it would do on RPi
   float v = (float) val;
   float vol_float = pow(v/100.0, (float)1./3.) * 100.0;
@@ -857,7 +894,7 @@ void MainWindow::changeRPSystemVol(int val)
   float vol_float = std::pow(v/100.0, (float)1./3.) * 100.0;
   std::ostringstream ss;
   ss << vol_float;
-  statusBar()->showMessage(tr("Updating system volume."), 2000);
+  statusBar()->showMessage(tr("Updating System Volume."), 2000);
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
   p->start(prog);
 #endif
@@ -870,13 +907,13 @@ void MainWindow::setRPSystemAudioHeadphones()
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching to headphone audio output ."), 2000);
+  statusBar()->showMessage(tr("Switching To Headphone Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 1";
   std::cout << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching to headphone audio output ."), 2000);
+  statusBar()->showMessage(tr("Switching To Headphone Audio Output."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 1";
   p->start(prog);
@@ -889,13 +926,13 @@ void MainWindow::setRPSystemAudioHDMI()
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching to HDMI audio output ."), 2000);
+  statusBar()->showMessage(tr("Switching To HDMI Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 2";
   std::cout << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching to HDMI audio output ."), 2000);
+  statusBar()->showMessage(tr("Switching To HDMI Audio Output."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 2";
   p->start(prog);
@@ -908,13 +945,13 @@ void MainWindow::setRPSystemAudioAuto()
   //do nothing
 
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching to default audio output ."), 2000);
+  statusBar()->showMessage(tr("Switching To Default Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 0";
   std::cout << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching to default audio output ."), 2000);
+  statusBar()->showMessage(tr("Switching To Default Audio Output."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 0";
   p->start(prog);
@@ -1070,7 +1107,7 @@ void MainWindow::createToolBar()
 
   // Align
   QAction *textAlignAct = new QAction(QIcon(":/images/align.png"),
-			     tr("Auto Align Text"), this);
+			     tr("Auto-Align Text"), this);
   setupAction(textAlignAct, 'M', tr("Auto-align text"), SLOT(beautifyCode()));
 
   // Font Size Increase
@@ -1128,8 +1165,8 @@ void MainWindow::createInfoPane() {
   QStringList files, tabs;
   files << ":/html/info.html" << ":/info/CORETEAM.html" << ":/info/CONTRIBUTORS.html" <<
     ":/info/COMMUNITY.html" << ":/info/LICENSE.html" <<":/info/CHANGELOG.html";
-  tabs << "About" << "Core Team" << "Contributors" <<
-    "Community" << "License" << "History";
+  tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
+    tr("Community") << tr("License") << tr("History");
 
   for (int t=0; t < files.size(); t++) {
     QTextBrowser *pane = new QTextBrowser;
@@ -1149,7 +1186,7 @@ void MainWindow::createInfoPane() {
   infoWidg->setWindowIcon(QIcon(":images/icon-smaller.png"));
   infoWidg->setLayout(infoLayout);
   infoWidg->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
-  infoWidg->setWindowTitle("Sonic Pi - Info");
+  infoWidg->setWindowTitle(tr("Sonic Pi - Info"));
 
   QAction *closeInfoAct = new QAction(this);
   closeInfoAct->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_W));
@@ -1259,6 +1296,8 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/rp/force-audio-headphones", rp_force_audio_headphones->isChecked());
   settings.setValue("prefs/rp/force-audio-hdmi", rp_force_audio_hdmi->isChecked());
   settings.setValue("prefs/rp/system-vol", rp_system_vol->value());
+
+  settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
 
   settings.setValue("workspace", tabs->currentIndex());
 
@@ -1379,20 +1418,22 @@ void MainWindow::addHelpPage(QListWidget *nameList,
     item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
-    helpKeywords.insert(helpPages[i].keyword.toLower(), entry);
 
-    // magic numbers ahoy
-    // to be revamped along with the help system
-    switch (entry.pageIndex) {
-    case 2:
-      autocomplete->addSymbol(SonicPiAPIs::Synth, helpPages[i].keyword);
-      break;
-    case 3:
-      autocomplete->addSymbol(SonicPiAPIs::FX, helpPages[i].keyword);
-      break;
-    case 5:
-      autocomplete->addKeyword(SonicPiAPIs::Func, helpPages[i].keyword);
-      break;
+    if (helpPages[i].keyword != NULL) {
+      helpKeywords.insert(helpPages[i].keyword, entry);
+      // magic numbers ahoy
+      // to be revamped along with the help system
+      switch (entry.pageIndex) {
+      case 2:
+        autocomplete->addSymbol(SonicPiAPIs::Synth, helpPages[i].keyword);
+        break;
+      case 3:
+        autocomplete->addSymbol(SonicPiAPIs::FX, helpPages[i].keyword);
+        break;
+      case 5:
+        autocomplete->addKeyword(SonicPiAPIs::Func, helpPages[i].keyword);
+        break;
+      }
     }
   }
 }

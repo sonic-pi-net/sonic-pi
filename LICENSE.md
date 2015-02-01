@@ -5,7 +5,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2013, 2014 Samuel Aaron ([http://sam.aaron.name](http://sam.aaron.name))
+Copyright (c) 2013, 2014, 2015 Samuel Aaron ([http://sam.aaron.name](http://sam.aaron.name))
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ All the examples (in
 and contents of the doc directory including the articles and the
 tutorial are copyright by Sam Aaron unless a specific author is stated
 with the comment `# coded by ...` in which case the copyright is
-associated with that author (2014) and the content is released under the
+associated with that author (2015) and the content is released under the
 CC BY-NC 3.0 license:
 
 [https://creativecommons.org/licenses/by-nc/3.0/](https://creativecommons.org/licenses/by-nc/3.0/)

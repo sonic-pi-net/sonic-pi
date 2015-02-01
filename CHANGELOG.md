@@ -1,7 +1,86 @@
 # History
 
-## Version 2.2.0
-*Thursday 18th December, 2014*
+## Version 2.3 - 'Bitcrush'
+*Wednesday 28th January, 2015*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
+
+
+### Breaking Changes
+
+* Playing chords with the fn `chord` now divides the amplitiude of each
+  resulting synth by the number of notes in the chord. This ensures the
+  resulting amplitude isn't excessive and is normalised.
+* Chords now evaluate their args once and those args are used for all
+  synth triggers. This means random values are only generated once and
+  are similar across all notes in the chord. Previous behaviour can be
+  obtained by calling play multiple times with no interleaved sleeps.
+* Ensure each new thread's random number generator is unique yet seeded
+  in a deterministic manner. This stops random vals across `at` from
+  being identical.
+* `range` is now exclusive: `(range 1, 5) #=> (ring 1, 2, 3, 4)`
+
+### New
+
+* New fn `density` for compressing and repeating time Dr Who style. For
+  example, wrapping some code with a call to density of 2 will double
+  the bpm for that block as well as repeating it twice. This ensures the
+  block takes the same amount of time to execute while doing double the
+  work.
+* New fns `with_bpm_mul` and `use_bpm_mul` which will multiply the
+  current bpm by a specified amount. Useful for slowing down and
+  speeding up the execution of a specific thread or live_loop.
+* New fn `rdist` - generate a random number with a centred distribution
+* New examples: `square skit`, `shufflit` and `tilburg`
+
+### Improvements
+
+* Teach control to ignore nil nodes i.e. `control nil, amp: 3` will do
+  nothing.
+* Teach Float#times to yield a float to the block. For example,
+  `3.4.times {|v| puts v}` will yield `0.0`, `1.0` and `2.0`.
+* Synth, Sample and FX args now handle bools and nil correctly. `true`
+  resolves to `1.0` and `false`, `nil` resolve to `0.0`. This allows you
+  to write code such as: `play :e3, invert_wave: true`
+* Teach `at` to handle varying block arities differently. See docs for
+  more detail. Original behaviour is preserved and only extended. 
+* App now checks for updates (at most once every 2 weeks). This may be
+  disabled in the prefs.
+* Teach `:reverb` FX to extend its kill delay time with larger room
+  sizes to reduce the chance of clipping.
+ 
+
+### Synths & FX
+
+* New FX `bitcrusher` - for crunching and destroying those hi-fi sounds.
+* New FX `flanger` - a classic swhooshing effect typically used with
+  vocals and guitars.
+* New FX `ring` - ring modulation for that friendly Dalek sound
+* New FX `bpf` - a band pass filter
+* New FX `rbpf` - a resonant band pass filter
+* New FX `nbpf` - a normalised band pass filter
+* New FX `nrbpf` - a normalised resonant band pass filter
+
+### New Samples
+
+* `perc_snap` - a finger snap
+* `perc_snap2` - another finger snap
+* `bd_ada` - a bass drum
+* `guit_em9` - a lovely guitar arpegio over Em9
+
+### Bug Fixes
+
+* Namespace `live_loop` fn and thread names to stop them clashing with
+  standard user defined threads and fns.
+* GUI no longer crashes when you start a line with a symbol.
+* `with_fx` now returns the result of the block
+* Kill zombie scsynth servers on startup for better crash recovery.
+* Handle paths with UTF8 characters gracefully
+* Force sample rate for output and input to 44k on OS X. This stops
+  scsynth from crashing when output and input sample rates are
+  different.
+
+## Version 2.2 - 'Slicer'
+ *Thursday 18th December, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.2.0)
 
 This release brings a number of nice enhancements. However the main
@@ -28,7 +107,7 @@ and echoes.
 * New fn `range` - `(range 70, 100, 10)` returns `(ring 70, 80, 90, 100)`
 * New fn `sample_loaded?` - to detect whether a specific sample has been loaded
 
-### Synth & FX
+### Synths & FX
 
 * Fixed regression in `:tb303` synth - sound is reverted to v2.0 behaviour
 * New Synth - `:square` - Pure square wave
@@ -59,7 +138,7 @@ and echoes.
 * Minor grammar and spelling tweaks to tutorial
 
 
-## Version 2.1
+## Version 2.1 - 'Core'
 *Friday 21st November, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.0)
 
@@ -157,7 +236,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Log now communicates when a run has completed executing
 * Fix bug encountered when stopping threads in super fast loops (stopped comms with server)
 
-## Version 2.0
+## Version 2.0 - 'Phoenix'
 *Tuesday 2nd September, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.0.0)
 

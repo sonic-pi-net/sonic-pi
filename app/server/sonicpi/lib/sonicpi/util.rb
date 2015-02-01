@@ -12,11 +12,13 @@
 #++
 require 'cgi'
 require 'fileutils'
+require 'securerandom'
 
 module SonicPi
   module Util
     @@project_path = nil
     @@log_path = nil
+    @@current_uuid = nil
 
     def os
       case RUBY_PLATFORM
@@ -79,6 +81,27 @@ module SonicPi
       path
     end
 
+    def global_uuid
+      return @@current_uuid if @@current_uuid
+      path = home_dir + '/.uuid'
+      ensure_dir(home_dir)
+
+      if (File.exists? path)
+        old_id = File.readlines(path).first.strip
+        if  (not old_id.empty?) &&
+            (old_id.size == 36)
+          @@current_uuid = old_id
+          return old_id
+        end
+      end
+
+      # invalid or no uuid - create and store a new one
+      new_uuid = SecureRandom.uuid
+      File.open(path, 'w') {|f| f.write(new_uuid)}
+      @@current_uuid = new_uuid
+      new_uuid
+    end
+
     def ensure_dir(d)
       FileUtils.mkdir_p d
     end
@@ -139,6 +162,10 @@ module SonicPi
       File.absolute_path("#{server_path}/native/#{os}")
     end
 
+    def user_settings_path
+      File.absolute_path("#{home_dir}/settings.json")
+    end
+
     def log_raw(s)
         # TODO: consider moving this into a worker thread to reduce file
         # io overhead:
@@ -155,6 +182,10 @@ module SonicPi
         end
         log_raw res
       end
+    end
+
+    def log_info(s)
+      log "--------------->  " + s
     end
 
     def log(message)

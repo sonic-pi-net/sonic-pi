@@ -2,7 +2,8 @@
 
 ## Support and Advice
 
-Thanks to the following people for their generous support (both technical and otherwise) with time, advice, and wisdom:
+Thanks to the following people for their generous support (both
+technical and otherwise) with time, advice, and wisdom:
 
 * [Carrie Anne Philbin](https://twitter.com/missphilbin)
 * [Robert Mullins](http://www.cl.cam.ac.uk/~rdm34/)
@@ -28,15 +29,20 @@ grow and improve the Sonic Pi code base:
 
 * [Martin Keegan](https://github.com/mk270)
 * [Nicolas Dermine](https://github.com/nicoder)
+* [Robin Newman](https://github.com/rbnpi)
+* [Martin Zeilinger](https://github.com/st01c)
+* [G. Martin Butz](https://github.com/mbutz)
 * [Steve Traylen](https://github.com/traylenator)
 * [Bruce Adams](https://github.com/bruceadams)
-* [Ben Nuttall](https://github.com/bennuttall)
 * [Will Stephenson](https://github.com/wstephenson)
 * [Katie Miller](https://github.com/codemiller)
+* [Ben Nuttall](https://github.com/bennuttall)
 * [Daniel Canelhas](https://github.com/dcanelhas)
 * [Ruzsa Balázs](https://github.com/cellux)
 * [Karl Hiner](https://github.com/khiner)
+* [Cosmin Stroe](https://github.com/cstroe)
 * [Joseph Haig](https://github.com/jrmhaig)
 * [Graham Taylor](https://github.com/vinnievg)
-* [Robin Newman](https://github.com/rbnpi)
-* [Cosmin Stroe](https://github.com/cstroe)
+* [Nigel Michki](https://github.com/nigeil)
+* [Emlyn Corrin](https://github.com/emlyn)
+* [Alex McLean](https://github.com/yaxu)
