@@ -95,7 +95,7 @@ module SonicPi
         args:           [[:accents, :number], [:total_beats, :number], [:beat_rotations, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Create a new ring of booleans values which space a given number of accents as evenly as possible throughout a bar. This is an implementation of the process described in 'The Euclidean Algorithm Generates Traditional Musical Rhythms' (Toussaint 2005). An optional third argument allows the ring to be rotated to the next strong beat allowing for easy permutations of the orignal rhythmic grouping (see example).",
+        doc:            "Creates a new ring of boolean values which space a given number of accents as evenly as possible throughout a bar. This is an implementation of the process described in 'The Euclidean Algorithm Generates Traditional Musical Rhythms' (Toussaint 2005). An optional third argument allows the ring to be rotated to the next strong beat allowing for easy permutations of the orignal rhythmic grouping (see example).",
         examples:       [
       "(distribute 5, 13)    #=> (ring true, false, false, true, false, false, true, false, true, false, false, true, false) # groups of  33232",
       "(distribute 5, 13, 1) #=> (ring true, false, true, false, false, true, false, false, true, false, true, false, false) # groups of 23323 which is the above groupings rotated by 1"
