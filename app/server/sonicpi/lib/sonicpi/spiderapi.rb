@@ -308,7 +308,7 @@ end
     doc name:           :at,
         introduced:     Version.new(2,1,0),
         summary:        "Run a block at the given times",
-        doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If params is smaller than args, the values will rotate through. If no params are passed, the times are fed as the default params. If the block is given 2 args, both the times and the params are fed through. Finally, a third parameter to the block will receive the index of the time.",
+        doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If size of params list is smaller than the times list, the param values will act as rings (rotate through). If the block is given 1 arg, the times are fed through. If the block is given 2 args, both the times and the params are fed through. A third block arg will receive the index of the time.",
         args:           [[:times, :list],
                          [:params, :list]],
         opts:           {:params=>nil},
