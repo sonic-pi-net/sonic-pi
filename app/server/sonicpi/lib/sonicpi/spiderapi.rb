@@ -65,27 +65,27 @@ module SonicPi
       "(knit :e2, 2, :c2, 3) #=> (ring :e2, :e2, :c2, :c2, :c2)"
     ]
 
-    def distribute(accents, total_beats, beat_rotations=0)
+    def spread(num_accents, size, *args)
+      args_h = resolve_synth_opts_hash_or_array(args)
+      beat_rotations = args_h[:rotate]
       res = []
       # if someone requests 9 accents in a bar of 8 beats
       # default to filling the output with accents
-      if accents > total_beats
-        res = [true] * total_beats.times
+      if num_accents > size
+        res = [true] * size.times
         return res.ring
       end
 
-
-      total_beats.times do |i|
+      size.times do |i|
         # makes a boolean based on the index
         # true is an accent, false is a rest
-        res << ((i * accents % total_beats) < accents)
+        res << ((i * num_accents % size) < num_accents)
       end
 
       if beat_rotations && beat_rotations.is_a?(Numeric)
-        while beat_rotations.abs > 0 do
-          if res.rotate!.first == true
-            beat_rotations = beat_rotations.abs - 1
-          end
+        beat_rotations = beat_rotations.abs
+        while beat_rotations > 0 do
+          beat_rotations -= 1 if res.rotate!.first == true
         end
 
         res.ring
@@ -93,16 +93,16 @@ module SonicPi
         res.ring
       end
     end
-    doc name:           :distribute,
+    doc name:           :spread,
         introduced:     Version.new(2,4,0),
-        summary:        "Distribute a number of accents evenly across a number of beats",
-        args:           [[:accents, :number], [:total_beats, :number], [:beat_rotations, :number]],
-        opts:           nil,
+        summary:        "Distribute a number of accents evenly across a ring of specified size",
+        args:           [[:num_accents, :number], [:size, :number]],
+        opts:           {rotate: "rotate to the next strong beat allowing for easy permutations of the orignal rhythmic grouping (see example)"},
         accepts_block:  false,
-        doc:            "Creates a new ring of boolean values which space a given number of accents as evenly as possible throughout a bar. This is an implementation of the process described in 'The Euclidean Algorithm Generates Traditional Musical Rhythms' (Toussaint 2005). An optional third argument allows the ring to be rotated to the next strong beat allowing for easy permutations of the orignal rhythmic grouping (see example).",
+        doc:            "Creates a new ring of boolean values which space a given number of accents as evenly as possible throughout a bar. This is an implementation of the process described in 'The Euclidean Algorithm Generates Traditional Musical Rhythms' (Toussaint 2005).",
         examples:       [
-      "(distribute 5, 13)    #=> (ring true, false, false, true, false, false, true, false, true, false, false, true, false) # groups of  33232",
-      "(distribute 5, 13, 1) #=> (ring true, false, true, false, false, true, false, false, true, false, true, false, false) # groups of 23323 which is the above groupings rotated by 1"
+      "(spread 5, 13)    #=> (ring true, false, false, true, false, false, true, false) a spacing of 332",
+      "(spread 3, 8, rotate: 1) #=> (ring true, false, false, true, false, true, false, false) a spacing of 323"
     ]
 
     def range(start, finish, step_size=1)
