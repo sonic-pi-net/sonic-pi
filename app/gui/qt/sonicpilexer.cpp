@@ -90,7 +90,7 @@ QColor QsciLexerRuby::defaultColor(int style) const
 
     case Backticks:
     case PercentStringx:
-        return QColor(0xff,0xff,0x00);
+        return QColor("Red");
 
     case DataSection:
       return QColor(0x60,0x00,0x00);
@@ -123,7 +123,7 @@ QColor QsciLexerRuby::defaultPaper(int style) const
 
     case Backticks:
     case PercentStringx:
-        return QColor(0xa0,0x80,0x80);
+        return QColor("yellow");
 
     case DataSection:
         return QColor(0xff,0xf0,0xd8);
