@@ -69,7 +69,11 @@ module SonicPi
       res = []
       # if someone requests 9 accents in a bar of 8 beats
       # default to filling the output with accents
-      return total_beats.times.map { true } if accents > total_beats
+      if accents > total_beats
+        res = [true] * total_beats.times
+        return res.ring
+      end
+
 
       total_beats.times do |i|
         # makes a boolean based on the index
