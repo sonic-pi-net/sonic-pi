@@ -72,7 +72,7 @@ module SonicPi
       # if someone requests 9 accents in a bar of 8 beats
       # default to filling the output with accents
       if num_accents > size
-        res = [true] * size.times
+        res = [true] * size
         return res.ring
       end
 
