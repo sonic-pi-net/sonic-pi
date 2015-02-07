@@ -70,6 +70,22 @@ module SonicPi
       arg_defaults[arg_name.to_sym]
     end
 
+    def ctl_validate!(*args)
+      args_h = resolve_synth_opts_hash_or_array(args)
+
+      args_h.each do |k, v|
+        k_sym = k.to_sym
+        arg_information = @info[k_sym] || {}
+        arg_validations = arg_information[:validations] || []
+        arg_validations(k_sym).each do |v_fn, msg|
+          raise "Value of argument #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
+        end
+
+        raise "Invalid arg modulation attempt for #{synth_name.to_sym.inspect}. Argument #{k_sym.inspect} is not modulatable" unless arg_information[:modulatable]
+
+      end
+    end
+
     def validate!(*args)
       args_h = resolve_synth_opts_hash_or_array(args)
 
