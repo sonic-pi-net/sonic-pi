@@ -39,7 +39,7 @@ module SonicPi
                             amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
                             pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
                             pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
-                            attack:    {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percusive sounds and long values for a fade-in effect."},
+                            attack:    {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percussive sounds and long values for a fade-in effect."},
                             sustain:   {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
                             release:   {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
 
@@ -716,7 +716,7 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
        doc name:          :play,
            introduced:    Version.new(2,0,0),
            summary:       "Play current synth",
-           doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with attack, sustain and release phases. These phases are triggered in order, so the duration of the sound is attack + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
+           doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with attack, decay, sustain and release phases. These phases are triggered in order, so the duration of the sound is attack + decay + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.
 

@@ -252,7 +252,7 @@ module SonicPi
 
         :attack =>
         {
-          :doc => "Amount of time (in seconds) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.",
+          :doc => "Amount of time (in seconds) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:attack)],
           :modulatable => false,
           :bpm_scale => true
@@ -268,7 +268,7 @@ module SonicPi
 
         :sustain =>
         {
-          :doc => "Amount of time (in seconds) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + sustain + release.",
+          :doc => "Amount of time (in seconds) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:sustain)],
           :modulatable => false,
           :bpm_scale => true
@@ -276,7 +276,7 @@ module SonicPi
 
         :release =>
         {
-          :doc => "Amount of time (in seconds) for sound to move from sutain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + sustain + release.",
+          :doc => "Amount of time (in seconds) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:release)],
           :modulatable => false,
           :bpm_scale => true
