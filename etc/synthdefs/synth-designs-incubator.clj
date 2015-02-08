@@ -47,6 +47,49 @@
 ;;FX
 (without-namespace-in-synthdef
  ;; BPF designs
+
+   (defsynth sonic-pi-fx_reverb2
+   [amp 1
+    amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
+    mix 0.4
+    mix_slide 0
+    mix_slide_shape 5
+    mix_slide_curve 0
+    pre_amp 1
+    pre_amp_slide 0
+    pre_amp_slide_shape 5
+    pre_amp_slide_curve 0
+    rev_time 0.5
+    rev_time_slide 0
+    rev_time_slide_shape 5
+    room 0.6
+    max_room 1
+    damp 0.5
+    damp_slide 0
+    damp_slide_shape 5
+    damp_slide_curve 0
+    in_damp 0.5
+    in_damp_slide 0
+    in_damp_slide_shape 5
+    in_damp_slide_curve 0
+    in_bus 0
+    out_bus 0]
+   (let [amp      (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix      (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp  (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         room     (* room 300)
+         max_room (* max_room 300)
+         damp     (varlag damp damp_slide damp_slide_curve damp_slide_shape)
+         [l r]    (* pre_amp (in:ar in_bus 2))
+        snd      (* amp (g-verb l r mix room damp))]
+     (out out_bus snd)))
+
+
+
+
+
  (defsynth sonic-pi-fx_chorus
    [amp 1
     amp_slide 0
@@ -88,7 +131,7 @@
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
 
- 
+
 
  ;; END BPF designs
 
