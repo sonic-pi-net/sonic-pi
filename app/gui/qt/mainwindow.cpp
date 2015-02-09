@@ -467,8 +467,8 @@ void MainWindow::initPrefsWindow() {
   debug_box->setLayout(debug_box_layout);
 
 
-  QGroupBox *update_box = new QGroupBox("Updates");
-  check_updates = new QCheckBox("Check for updates");
+  QGroupBox *update_box = new QGroupBox(tr("Updates"));
+  check_updates = new QCheckBox(tr("Check for updates"));
   connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
 
   update_box->setToolTip("Configure whether Sonic Pi may check for new updates on launch. Please note, the checking process includes sending anonymous information to the Sonic Pi server.");
@@ -1266,7 +1266,7 @@ void MainWindow::readSettings() {
 
   restoreState(settings.value("windowState").toByteArray());
 
-  if(settings.value("first_time", 1).toInt() == 1) {
+  if(settings.value("first_time", 1).toInt() == 0) {
     QTextEdit* startupPane = new QTextEdit;
     startupPane->setReadOnly(true);
     startupPane->setFixedSize(600, 615);
