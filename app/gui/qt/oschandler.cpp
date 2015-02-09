@@ -49,9 +49,9 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           ar.popStr(s);
 
           if(i == (msg_count - 1)) {
-            ss.append(" └─ ");
+            ss.append(QString::fromUtf8(" └─ "));
           } else {
-            ss.append(" ├─ ");
+            ss.append(QString::fromUtf8(" ├─ "));
           }
 
           QMetaObject::invokeMethod(out, "append", Qt::QueuedConnection,
