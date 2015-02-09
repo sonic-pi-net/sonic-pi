@@ -99,6 +99,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   this->setUnifiedTitleAndToolBarOnMac(true);
   this->setWindowIcon(QIcon(":images/icon-smaller.png"));
 
+
+  currentLine = 0;
+  currentIndex = 0;
   is_recording = false;
   show_rec_icon_a = false;
 
