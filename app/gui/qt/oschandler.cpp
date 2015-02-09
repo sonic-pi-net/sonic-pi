@@ -26,7 +26,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         std::string thread_name;
         std::string runtime;
         std::string s;
-        std::ostringstream ss;
+        QString ss;
 
         oscpkt::Message::ArgReader ar = msg->arg();
         ar.popInt32(job_id);
@@ -34,49 +34,32 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         ar.popStr(runtime);
         ar.popInt32(msg_count);
         QMetaObject::invokeMethod(out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
-        ss << "[Run " << job_id;
-        ss << ", Time " << runtime;
+        ss.append("[Run ").append(QString::number(job_id));
+        ss.append(", Time ").append(QString::fromStdString(runtime));
         if(!thread_name.empty()) {
-          ss << ", Thread :" << thread_name;
+          ss.append(", Thread :").append(QString::fromStdString(thread_name));
         }
-        ss << "]";
+        ss.append("]");
         QMetaObject::invokeMethod(out, "append", Qt::QueuedConnection,
-                                   Q_ARG(QString, QString::fromStdString(ss.str())) );
+                                   Q_ARG(QString, ss) );
 
         for(int i = 0 ; i < msg_count ; i++) {
-          ss.str("");
-          ss.clear();
+          ss = "";
           ar.popInt32(msg_type);
           ar.popStr(s);
 
-#if defined(Q_OS_WIN)
           if(i == (msg_count - 1)) {
-            ss << " └─ ";
+            ss.append(" └─ ");
           } else {
-            ss << " ├─ ";
+            ss.append(" ├─ ");
           }
-#elif defined(Q_OS_MAC)
-          if(i == (msg_count - 1)) {
-            ss << " └─ ";
-          } else {
-            ss << " ├─ ";
-          }
-#else
-          //assuming Raspberry Pi
-          if(i == (msg_count - 1)) {
-            ss << " +- ";
-          } else {
-            ss << " |- ";
-          }
-#endif
-
 
           QMetaObject::invokeMethod(out, "append", Qt::QueuedConnection,
-                                     Q_ARG(QString, QString::fromStdString(ss.str())) );
+                                     Q_ARG(QString, ss) );
 
 
-          ss.str("");
-          ss.clear();
+          ss = "";
+
 
           switch(msg_type)
           {
@@ -108,10 +91,10 @@ void OscHandler::oscMessage(std::vector<char> buffer){
             QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));
           }
 
-          ss << s;
+          ss.append(QString::fromStdString(s));
 
           QMetaObject::invokeMethod( out, "insertPlainText", Qt::QueuedConnection,
-                                     Q_ARG(QString, QString::fromStdString(ss.str())) );
+                                     Q_ARG(QString, ss) );
 
           QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
