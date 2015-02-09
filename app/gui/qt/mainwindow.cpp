@@ -1266,7 +1266,7 @@ void MainWindow::readSettings() {
 
   restoreState(settings.value("windowState").toByteArray());
 
-  if(settings.value("first_time", 1).toInt() == 0) {
+  if(settings.value("first_time", 1).toInt() == 1) {
     QTextEdit* startupPane = new QTextEdit;
     startupPane->setReadOnly(true);
     startupPane->setFixedSize(600, 615);
