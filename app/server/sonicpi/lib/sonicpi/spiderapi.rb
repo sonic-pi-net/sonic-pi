@@ -1,3 +1,4 @@
+## encoding: utf-8
 #--
 # This file is part of Sonic Pi: http://sonic-pi.net
 # Full project source: https://github.com/samaaron/sonic-pi
@@ -375,6 +376,40 @@ puts version.minor # => Prints out the minor version number such as 0",
 puts version.patch # => Prints out the patch level for this version such as 0"]
 
 
+    def spark(*values)
+      if values.first.is_a?(Array) && values.length == 1
+        values = values.first
+      end
+
+      return "" if values.length == 0
+      return "spark error: can't use nested arrays" if Array(values).flatten.length != Array(values).length
+      return "spark error: arguments should be numeric" if values.any? {|x| not (x.is_a? Numeric) }
+
+      #implementation stolen from @jcromartie https://gist.github.com/jcromartie/1367091
+      @ticks = %w[▁ ▂ ▃ ▄ ▅ ▆ ▇]
+      values = values.map { |x| x.to_f rescue 0.0 }
+      min = values.min
+      range = values.max - values.min
+      scale = @ticks.length - 1
+
+      # Guard lists of length 1 or repeating vals
+      range = 1.0 if range.to_f == 0.0
+
+      values.map {|x|
+        @ticks[(((x - min) / range) * scale).round]
+      }.join
+    end
+    doc name:         :spark,
+      introduced:     Version.new(2,4,0),
+      summary:        "Render a list of numeric values as a spark graph/bar chart",
+      args:           [],
+      opts:           nil,
+      accepts_block:  false,
+      doc:            "Given a list of numeric values, this method turns them into a string of bar heights. Useful for quickly graphing the shape of an array. Remember to use puts so you can see the output.",
+      examples:       [
+        "puts (spark (range 1, 5))    #=> ▁▃▅█",
+        "puts (spark (range 1, 5).to_a.shuffle) #=> ▃█▅▁"
+    ]
 
 
     def defonce(name, *opts, &block)
