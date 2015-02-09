@@ -1,5 +1,30 @@
 # History
 
+## Version 2.4 - 'Defrost'
+*Yet to be released*
+
+### New
+
+* New fn `spread` for creating rings of Euclidean distributions. Great
+  for quickly creating interesting rhythms.
+* GUI now automatically appends a : to the FX param autocomplete list  
+* Synths and FX now raise an exception if any of their non-modulatable
+  params are modulated. This is disabled when the pref 'check synth
+  args' is unchecked.
+
+
+### Synths & FX
+* New Synth `:dark_ambience`
+* New Synth `:dark_sea_horn`
+* New Synth `:singer`
+* New Synth `:wood`
+
+### Bug Fixes
+
+* Fix insanely obsure bug which caused the GUI to freeze on certain platforms (32
+  bit Windows and RP2 with 2G/2G kernel)
+
+
 ## Version 2.3 - 'Bitcrush'
 *Wednesday 28th January, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
@@ -47,7 +72,6 @@
   disabled in the prefs.
 * Teach `:reverb` FX to extend its kill delay time with larger room
   sizes to reduce the chance of clipping.
- 
 
 ### Synths & FX
 
