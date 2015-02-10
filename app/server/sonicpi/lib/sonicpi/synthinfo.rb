@@ -1469,57 +1469,86 @@ module SonicPi
     end
 
     def arg_defaults
-      {:freq_addition => 52,
-       :ring_multipler => 0.2,
+      { :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :room_size => 70,
-       :reverb_time => 100,
+        :attack => 0,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
 
-       :note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+        :cutoff => 110,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :res => 0.3,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :detune1 => 12,
+        :detune1_slide => 0,
+        :detune1_slide_shape => 5,
+        :detune1_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :detune2 => 24,
+        :detune2_slide => 0,
+        :detune2_slide_shape => 5,
+        :detune2_slide_curve => 0,
 
-       :attack => 0.01,
-       :decay => 0,
-       :sustain => 0,
-       :release => 10,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :noise => 0,
+        :ring => 0.2,
+        :room => 70,
+        :reverb_time => 100
       }
     end
 
     def specific_arg_info
       {
-        :freq_addition =>
-        {
-          :doc => "A frequency which is used to generate offsets from the start note which are all then mixed back into a single sound. It has a slight detuning effect."
+        :ring => {
+          :doc => "Amount of ring in the sound. Lower values create a more rough sound, higher values produce a sound with more focus",
+          :validations => [v_between_inclusive(:ring, 0.1, 50)],
+          :modulatable => true
         },
-        :ring_multipler => {
-          :doc => "Multiplier used for each ring iteration. Gives a stronger feedback effect.",
-          :validations => [v_between_inclusive(:ring_multipler, 0.1, 50)],
-        },
-        :room_size =>
+        :room =>
         {
           :doc => "Room size in squared meters used to calculate the reverb.",
-          :validations => [v_positive(:room_size)],
+          :validations => [v_greater_than_oet(:room, 0.1), v_less_than_oet(:room, 300)],
+          :modulatable => false
         },
         :reverb_time =>
         {
           :doc => "How long in seconds the reverb should go on for.",
           :validations => [v_positive(:reverb_time)],
+          :modulatable => false
+        },
+        :detune1 =>
+        {
+          :doc => "Distance (in MIDI notes) between the main note and the second component of sound. Affects thickness, sense of tuning and harmony.",
+        },
+        :detune2 =>
+        {
+          :doc => "Distance (in MIDI notes) between the main note and the third component of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound.",
+        },
+        :noise =>
+        { :doc => "Noise source. Has a subtle affect on the timbre of the sound. 0=pink noise (the default), 1=brown noise, 2=white noise, 3=clip noise and 4 = grey noise",
+          :validations => [v_one_of(:noise, [0, 1, 2, 3, 4])],
+          :modulatable => true
         }
+
       }
     end
   end

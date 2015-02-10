@@ -313,50 +313,13 @@
     (save-to-pi sonic-pi-growl))
 
   (without-namespace-in-synthdef
-   (defsynth sonic-pi-dark_ambience
-     [out_bus 0
 
-      freq_addition 55
-      ring_multipler 0.2
-      room_size 70
-      reverb_time 100
 
-      note 52
-      note_slide 0
-      note_slide_shape 5
-      note_slide_curve 0
 
-      pan 0
-      pan_slide 0
-      pan_slide_shape 5
-      pan_slide_curve 0
 
-      amp 1
-      amp_slide 0
-      amp_slide_shape 5
-      amp_slide_curve 0
+ (save-to-pi prophet)
 
-      attack 0.01
-      decay 0
-      sustain 0
-      release 10.0
-      attack_level 1
-      sustain_level 1
-      env_curve 2]
-     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
-           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           freq (midicps note)
-
-           pink (hpf:ar (* (* 0.005 (pink-noise)) (line:kr 0 1 9)) 5)
-           src1 (ringz (* pink (lf-noise1:kr 0.15)) (+ freq (* freq_addition 0)) ring_multipler)
-           src2 (ringz (* pink (lf-noise1:kr 0.15)) (+ freq (* freq_addition 1)) ring_multipler)
-           src3 (ringz (* pink (lf-noise1:kr 0.15)) (+ freq (* freq_addition 2)) ring_multipler)
-           src (tanh (g-verb (sum [src1 src2 src3]) room_size reverb_time))
-           snd (* amp src)
-
-           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
-       (out out_bus (* env (pan2 snd pan))))))
+)
 
   (comment
     (sonic-pi-dark_ambience)

@@ -1595,7 +1595,99 @@
    (save-to-pi sonic-pi-supersaw)
    (save-to-pi sonic-pi-prophet)
    (save-to-pi sonic-pi-zawa)
+
+
+
    ))
+
+(without-namespace-in-synthdef
+    (defsynth sonic-pi-dark_ambience
+     [out_bus 0
+
+
+      note 52
+      note_slide 0
+      note_slide_shape 5
+      note_slide_curve 0
+
+      amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+
+      attack 0
+      decay 0
+      sustain 0
+      release 4
+      attack_level 1
+      sustain_level 1
+      env_curve 2
+
+      cutoff 110
+      cutoff_slide 0
+      cutoff_slide_shape 5
+      cutoff_slide_curve 0
+      res 0.3
+      res_slide 0
+      res_slide_shape 5
+      res_slide_curve 0
+
+      detune1 12
+      detune1_slide 0
+      detune1_slide_shape 5
+      detune1_slide_curve 0
+
+      detune2 24
+      detune2_slide 0
+      detune2_slide_shape 5
+      detune2_slide_curve 0
+
+      noise 0
+      ring 0.2
+      room 70
+      reverb_time 100
+      ]
+     (let [
+           note          (varlag note note_slide note_slide_curve note_slide_shape)
+           amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           amp-fudge     1
+           pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           res           (varlag res res_slide res_slide_curve res_slide_shape)
+           detune1       (varlag detune1 detune1_slide detune1_slide_curve detune1_slide_shape)
+           detune2       (varlag detune2 detune2_slide detune2_slide_curve detune2_slide_shape)
+
+           freq          (midicps note)
+           freq2         (midicps (+ note detune1))
+           freq3         (midicps (+ note detune2))
+           cutoff-freq   (midicps cutoff)
+           room          (max 0.1 (min 300 (abs room))) ;; stops synth killing scsynth
+           env           (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+
+           pn            (* 0.005 (pink-noise))
+           bn            (* 0.002 (brown-noise))
+           wn            (* 0.002 (white-noise))
+           cl            (* 0.001 (clip-noise))
+           gn            (* 0.001 (gray-noise))
+           src-noise     (select noise [pn bn wn cl gn])
+
+           src1          (ringz src-noise freq ring)
+           src2          (ringz src-noise freq2 ring)
+           src3          (ringz src-noise freq3 ring)
+           src           (g-verb (* env (mix [src1 src1 src2 src3])) room reverb_time)
+           src           (tanh src)
+           [src-l src-r] (rlpf (* amp-fudge env src) cutoff-freq res)
+           src           (balance2 src-l src-r pan amp)
+           ]
+       (out out_bus src)))
+
+    (comment
+       (save-to-pi sonic-pi-dark_ambience)))
 
 ;;FX
 (without-namespace-in-synthdef
