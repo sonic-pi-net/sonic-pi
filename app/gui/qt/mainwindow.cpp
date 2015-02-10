@@ -471,7 +471,7 @@ void MainWindow::initPrefsWindow() {
   check_updates = new QCheckBox(tr("Check for updates"));
   connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
 
-  update_box->setToolTip("Configure whether Sonic Pi may check for new updates on launch. Please note, the checking process includes sending anonymous information to the Sonic Pi server.");
+  update_box->setToolTip(tr("Configure whether Sonic Pi may check for new updates on launch. Please note, the checking process includes sending anonymous information to the Sonic Pi server."));
 
   QVBoxLayout *update_box_layout = new QVBoxLayout;
   update_box_layout->addWidget(check_updates);
