@@ -76,7 +76,7 @@ end.parse!
 
 # valid names: lang, synths, fx, samples, examples
 make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false|
-
+  return if doc_items.empty?
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
   tab_widget = "#{name}TabWidget"
