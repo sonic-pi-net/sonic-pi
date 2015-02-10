@@ -29,7 +29,7 @@ Translations for the Qt GUI are located in
 - `cd app/gui/qt`
 - Want to add a new language to the Qt GUI? Then first add a reference
   to the new language file to `SonicPi.Pro` and `SonicPi.qrc`, then run
-  `lupdate` to have the new .ts file created for you.
+  `lupdate -pro SonicPi.pro` to have the new .ts file created for you.
 - Edit the translation with Qt Linguist,
   `linguist lang/sonic-pi_<LANG>.ts`.
 - Build a new binary, test it.
@@ -43,7 +43,7 @@ Messages you want to have translated need to be marked with `tr()`
 in the source.
 
 If you added or changed a translation string during development,
-don't forget to run `lupdate --pro SonicPi.pro` afterwards to update
+don't forget to run `lupdate -pro SonicPi.pro` afterwards to update
 the `.ts` files.
 
 Then push them back to github and ask the translators to pull and
