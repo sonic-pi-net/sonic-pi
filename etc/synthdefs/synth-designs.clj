@@ -1585,6 +1585,7 @@
 
          snd         (rlpf (* env snd snd) cutoff-freq res)
          snd         (* amp-fudge env snd)
+         snd         (leak-dc snd)
          snd         (pan2 snd pan amp)]
 
      (out out_bus snd)))
