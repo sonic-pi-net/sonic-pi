@@ -12,6 +12,7 @@ qmake -o Makefile SonicPi.pro
 
 nmake
 @if ERRORLEVEL==9009 goto :nocl
+@if ERRORLEVEL==1 goto :done
 
 nmake install
 cd release
