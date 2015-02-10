@@ -471,7 +471,7 @@ void MainWindow::initPrefsWindow() {
   check_updates = new QCheckBox(tr("Check for updates"));
   connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
 
-  update_box->setToolTip("Configure whether Sonic Pi may check for new updates on launch. Please note, the checking process includes sending anonymous information to the Sonic Pi server.");
+  update_box->setToolTip(tr("Configure whether Sonic Pi may check for new updates on launch.\nPlease note, the checking process includes sending\nanonymous information to the Sonic Pi server."));
 
   QVBoxLayout *update_box_layout = new QVBoxLayout;
   update_box_layout->addWidget(check_updates);
@@ -744,14 +744,14 @@ void MainWindow::reloadServerCode()
 
 void MainWindow::enableCheckUpdates()
 {
-  statusBar()->showMessage(tr("enabling update checking...."), 2000);
+  statusBar()->showMessage(tr("Enabling update checking...."), 2000);
   Message msg("/enable-update-checking");
   sendOSC(msg);
 }
 
 void MainWindow::disableCheckUpdates()
 {
-  statusBar()->showMessage(tr("disabling update checking...."), 2000);
+  statusBar()->showMessage(tr("Disabling update checking...."), 2000);
   Message msg("/disable-update-checking");
   sendOSC(msg);
 }
