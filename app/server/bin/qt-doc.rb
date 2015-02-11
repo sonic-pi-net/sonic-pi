@@ -135,7 +135,7 @@ end
 
 make_tutorial = lambda do |lang|
 
-  docs << "\n  // language #{lang}"
+  docs << "\n  // language #{lang}\n"
   tutorial_html_map = {}
   Dir["#{tutorial_path}/#{lang}/*.md"].sort.each do |path|
     f = File.open(path, 'r:UTF-8')
