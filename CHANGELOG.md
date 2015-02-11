@@ -33,10 +33,10 @@ fun!
 * Improve docstrings for sample player.
 
 ### Synths & FX
-* New Synth `:dark_ambience` An ambient bass trying to escape the
+* New Synth `:dark_ambience`, an ambient bass trying to escape the
   darkness.
-* New Synth `:hollow` A hollow breathy sound.
-* New Synth `:growl` A deep rumbling growl.
+* New Synth `:hollow`, a hollow breathy sound.
+* New Synth `:growl`, a deep rumbling growl.
 * Sampler synths now sport built-in `rlpf` and `normaliser` FX. These
   are disabled by default (i.e. won't affect sound of the sample) and
   can by enabled via the new `cutoff:`, `res:` and `norm:` params. 
