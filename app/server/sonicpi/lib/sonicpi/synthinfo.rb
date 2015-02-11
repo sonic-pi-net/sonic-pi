@@ -1666,9 +1666,9 @@ module SonicPi
     end
   end
 
-  class Wood < SonicPiSynth
+  class Hollow < SonicPiSynth
     def name
-      "Wood"
+      "Hollow"
     end
 
     def introduced
@@ -1676,36 +1676,76 @@ module SonicPi
     end
 
     def synth_name
-      "wood"
+      "hollow"
     end
 
     def doc
-     "Simulates the sound of wood being hit with stick. A little like a xylophone."
+     "A hollow breathy sound built constructed from random noise"
     end
 
     def arg_defaults
-      {:note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :attack => 0.01,
-       :decay => 0,
-       :sustain => 0,
-       :release => 0.1,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :attack => 0,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
+
+        :cutoff => 90,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+
+        :res => 0.01,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+
+        :noise => 1,
+        :norm => 0
+
+      }
+    end
+
+    def specific_arg_info
+      {
+        :norm =>
+        {
+          :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter)- this is similar to the normaliser FX. This may emphasise any clicks caused by clipping. ",
+          :validations => [v_one_of(:norm, [0, 1])],
+          :modulatable => true
+        },
+
+        :res =>
+        {
+          :doc => "Filter resonance. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
+          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
+          :modulatable => true
+        },
+
+        :noise =>
+        { :doc => "Noise source. Has a subtle affect on the timbre of the sound. 0=pink noise, 1=brown noise (the default), 2=white noise, 3=clip noise and 4ls
+=grey noise",
+          :validations => [v_one_of(:noise, [0, 1, 2, 3, 4])],
+          :modulatable => true
+        }
       }
     end
   end
@@ -4208,8 +4248,8 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :prophet => Prophet.new,
       :zawa => Zawa.new,
       :dark_ambience => DarkAmbience.new,
-      :growl         => Growl.new,
-      :wood          => Wood.new,
+      :growl => Growl.new,
+      :hollow => Hollow.new,
       :dark_sea_horn => DarkSeaHorn.new,
       :singer        => Singer.new,
       :mono_player => MonoPlayer.new,

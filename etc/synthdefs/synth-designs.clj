@@ -1752,8 +1752,67 @@
            ]
        (out out_bus src)))
 
-    (comment
-       (save-to-pi sonic-pi-dark_ambience)))
+    (defsynth sonic-pi-hollow
+     [note 52
+      note_slide 0
+      note_slide_shape 5
+      note_slide_curve 0
+
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+
+      amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      attack 0
+      decay 0
+      sustain 0
+      release 0.1
+      attack_level 1
+      sustain_level 1
+      env_curve 2
+
+      cutoff 100
+      cutoff_slide 0
+      cutoff_slide_shape 5
+      cutoff_slide_curve 0
+      res 0.3
+      res_slide 0
+      res_slide_shape 5
+      res_slide_curve 0
+
+      noise 0
+      norm 1
+
+      out_bus 0]
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           res         (varlag res res_slide res_slide_curve res_slide_shape)
+           freq        (midicps note)
+           cutoff-freq (midicps cutoff)
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+
+           pn          (* 1 (pink-noise))
+           bn          (* 0.4 (brown-noise))
+           wn          (* 0.5 (white-noise))
+           cl          (* 0.2 (clip-noise))
+           gn          (* 0.2 (gray-noise))
+           src-noise   (select noise [pn bn wn cl gn])
+           snd1        (bpf (* src-noise env) freq res)
+           snd2        (bpf (* src-noise env) (/ freq 2) res)
+           snd         (lpf (+ snd1 snd2) cutoff-freq)
+           snd         (select norm [snd (normalizer snd)])]
+       (out out_bus (pan2 (* env snd) pan amp))))
+
+    (do
+      (save-to-pi sonic-pi-dark_ambience)
+      (save-to-pi sonic-pi-hollow)))
 
 ;;FX
 (without-namespace-in-synthdef
