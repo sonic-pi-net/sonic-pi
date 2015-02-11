@@ -4260,8 +4260,8 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :dark_ambience => DarkAmbience.new,
       :growl => Growl.new,
       :hollow => Hollow.new,
-      :dark_sea_horn => DarkSeaHorn.new,
-      :singer        => Singer.new,
+#      :dark_sea_horn => DarkSeaHorn.new,
+#      :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 
