@@ -1690,7 +1690,7 @@ module SonicPi
     end
 
     def doc
-     "A hollow breathy sound built constructed from random noise"
+     "A hollow breathy sound constructed from random noise"
     end
 
     def arg_defaults
