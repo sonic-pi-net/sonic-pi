@@ -25,6 +25,8 @@ require_relative "../sonicpi/lib/sonicpi/mods/sound"
 require 'kramdown'
 require 'active_support/inflector'
 
+# i18n not enabled until translations are ready
+enable_i18n = false
 
 class MarkdownConverter
   def self.convert(contents)
@@ -176,16 +178,20 @@ ruby_html_map = {
 #  "loop" => "Loop forever",
 }
 
-# this will sort locale code names by reverse length
-# to make sure that a more specific locale is handled
-# before the generic language code,
-# e.g., "de_CH" should be handled before "de"
-languages = Dir.
-  glob("#{tutorial_path}/*").
-  select {|f| File.directory? f}.
-  map {|f| File.basename f}.
-  select {|n| n != "en"}.
-  sort_by {|n| -n.length}
+if enable_i18n then
+  # this will sort locale code names by reverse length
+  # to make sure that a more specific locale is handled
+  # before the generic language code,
+  # e.g., "de_CH" should be handled before "de"
+  languages = Dir.
+    glob("#{tutorial_path}/*").
+    select {|f| File.directory? f}.
+    map {|f| File.basename f}.
+    select {|n| n != "en"}.
+    sort_by {|n| -n.length}
+else
+  languages = []
+end
 
 docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
 
