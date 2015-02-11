@@ -389,7 +389,7 @@ module SonicPi
         :res =>
         {
           :doc => "Filter resonance. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
-          :validations => [v_positive_not_zero(:res)],
+          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
           :modulatable => true
         },
 
@@ -2100,6 +2100,15 @@ end
         :rate_slide => 0,
         :rate_slide_shape => 5,
         :rate_slide_curve => 0,
+        :cutoff => 0,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :res => 1,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+        :norm => 0
       }
     end
   end
@@ -2161,7 +2170,17 @@ end
 
         :rate => 1,
         :start => 0,
-        :finish => 1
+        :finish => 1,
+
+        :res => 1,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+        :cutoff => 0,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :norm => 0
       }
     end
 
@@ -2170,45 +2189,59 @@ end
 
         :attack =>
         {
-          :doc => "",
+          :doc => "Duration of the attack phase of the envelope.",
           :validations => [v_positive(:attack)],
           :modulatable => false
         },
 
         :sustain =>
         {
-          :doc => "",
+          :doc => "Duration of the sustain phase of the envelope.",
           :validations => [v_positive(:attack)],
           :modulatable => false
         },
 
         :release =>
         {
-          :doc => "",
+          :doc => "Duration of the release phase of the envelope.",
           :validations => [[lambda{|args| v = args[:release] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
           :modulatable => false
         },
 
         :rate =>
         {
-          :doc => "",
+          :doc => "Rate which to play back with default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.",
           :validations => [v_not_zero(:rate)],
           :modulatable => false
         },
 
         :start =>
         {
-          :doc => "",
+          :doc => "A fraction (between 0 and 1) representing where in the sample to start playback. 1 represents the end of the sample, 0.5 half-way through etc.",
           :validations => [v_between_inclusive(:start, 0, 1)],
           :modulatable => false
         },
 
         :finish =>
         {
-          :doc => "",
+          :doc => "A fraction (between 0 and 1) representing where in the sample to finish playback. 1 represents the end of the sample, 0.5 half-way through etc.",
           :validations => [v_between_inclusive(:finish, 0, 1)],
           :modulatable => false
         },
+
+        :norm =>
+        {
+          :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter)- this is similar to the normaliser FX. This may emphasise any clicks caused by clipping. ",
+          :validations => [v_one_of(:norm, [0, 1])],
+          :modulatable => true
+        },
+
+        :res =>
+        {
+          :doc => "Filter resonance. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
+          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
+          :modulatable => true
+        }
 
       }
     end

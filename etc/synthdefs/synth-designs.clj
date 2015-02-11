@@ -991,16 +991,31 @@
     pan_slide 0
     pan_slide_shape 5
     pan_slide_curve 0
+    cutoff 0
+    cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
+    res 1
+    res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     rate 1
     rate_slide 0
     rate_slide_shape 5
     rate_slide_curve 0
+    norm 0
     out_bus 0]
-   (let [amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-         pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-         rate (varlag rate rate_slide rate_slide_curve rate_slide_shape)
-         rate (* rate (buf-rate-scale buf))
-         snd  (play-buf 1 buf rate :action FREE)]
+   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         rate        (varlag rate rate_slide rate_slide_curve rate_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (varlag res res_slide res_slide_curve res_slide_shape)
+         cutoff-freq (midicps cutoff)
+         use-filter  (> cutoff 0)
+         rate        (* rate (buf-rate-scale buf))
+         snd         (play-buf 1 buf rate :action FREE)
+         snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
+         snd         (select norm [snd (normalizer snd)])]
      (out out_bus (pan2 snd pan  amp))))
 
  (defsynth sonic-pi-basic_stereo_player
@@ -1013,16 +1028,33 @@
     pan_slide 0
     pan_slide_shape 5
     pan_slide_curve 0
+    cutoff 0
+    cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
+    res 1
+    res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     rate 1
     rate_slide 0
     rate_slide_shape 5
     rate_slide_curve 0
+    norm 0
     out_bus 0]
    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          rate          (varlag rate rate_slide rate_slide_curve rate_slide_shape)
          rate          (* rate (buf-rate-scale buf))
+         cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res           (varlag res res_slide res_slide_curve res_slide_shape)
+         cutoff-freq   (midicps cutoff)
+         use-filter    (> cutoff 0)
          [snd-l snd-r] (play-buf 2 buf rate :action FREE)
+         snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
+         snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
+         snd-l         (select norm [snd-l (normalizer snd-l)])
+         snd-r         (select norm [snd-r (normalizer snd-r)])
          snd           (balance2 snd-l snd-r pan amp)]
      (out out_bus snd)))
 
@@ -1046,12 +1078,25 @@
     sustain_level 1
     env_curve 2
     env_curve 1
+    cutoff 0
+    cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
+    res 1
+    res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     rate 1
     start 0
     finish 1
+    norm 0
     out_bus 0]
    (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (varlag res res_slide res_slide_curve res_slide_shape)
+         cutoff-freq (midicps cutoff)
+         use-filter  (> cutoff 0)
          n-frames    (- (buf-frames buf) 1)
          start-pos   (* start n-frames)
          end-pos     (* finish n-frames)
@@ -1064,6 +1109,8 @@
          sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
          env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
          snd         (buf-rd 1 buf phase)
+         snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
+         snd         (select norm [snd (normalizer snd)])
          snd         (* env snd)
          snd         (pan2 snd pan amp)]
      (out out_bus snd)))
@@ -1080,6 +1127,14 @@
     pan_slide 0
     pan_slide_shape 5
     pan_slide_curve 0
+    cutoff 0
+    cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
+    res 1
+    res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
     attack 0.0
     decay 0
     sustain -1
@@ -1090,9 +1145,14 @@
     rate 1
     start 0
     finish 1
+    norm 0
     out_bus 0]
    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res           (varlag res res_slide res_slide_curve res_slide_shape)
+         cutoff-freq   (midicps cutoff)
+         use-filter    (> cutoff 0)
          n-frames      (- (buf-frames buf) 1)
          start-pos     (* start n-frames)
          end-pos       (* finish n-frames)
@@ -1106,9 +1166,15 @@
          env           (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
 
          [snd-l snd-r] (buf-rd 2 buf phase)
-         snd           (balance2 snd-l snd-r pan amp)
-         snd           (* env snd)]
-     (out out_bus snd)))
+         snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
+         snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
+         snd-l         (select norm [snd-l (normalizer snd-l)])
+         snd-r         (select norm [snd-r (normalizer snd-r)])
+         snd-l         (* env snd-l)
+         snd-r         (* env snd-r)
+         snd           (balance2 snd-l snd-r pan amp)]
+
+      (out out_bus snd)))
 
  (comment
    (save-to-pi sonic-pi-mono_player)
