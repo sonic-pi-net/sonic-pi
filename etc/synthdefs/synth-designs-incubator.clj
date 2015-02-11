@@ -30,15 +30,18 @@
     path))
 
 (defn save-to-pi [sdef]
-  (save-synthdef sdef "/Users/josephwilk/Workspace/josephwilk/c++/sonic-pi/etc/synthdefs/"))
+  (save-synthdef sdef "/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/"))
+
+
+
 
 
 ;; Triggered synths
 (do
   (without-namespace-in-synthdef
 
-    ;; your synths here
-    )
+   ;; your synths here
+   )
 
   (comment
     ;; (save-to-pi sonic-pi-beep)
@@ -48,7 +51,7 @@
 (without-namespace-in-synthdef
  ;; BPF designs
 
-   (defsynth sonic-pi-fx_reverb2
+ (defsynth sonic-pi-fx_reverb2
    [amp 1
     amp_slide 0
     amp_slide_shape 5
@@ -83,11 +86,8 @@
          max_room (* max_room 300)
          damp     (varlag damp damp_slide damp_slide_curve damp_slide_shape)
          [l r]    (* pre_amp (in:ar in_bus 2))
-        snd      (* amp (g-verb l r mix room damp))]
+         snd      (* amp (g-verb l r mix room damp))]
      (out out_bus snd)))
-
-
-
 
 
  (defsynth sonic-pi-fx_chorus
@@ -145,9 +145,10 @@
 
  (do ;;comment
    (save-to-pi sonic-pi-fx_chorus)
- ))
+   ))
 
 ;; Experimental
+
 (comment
   (do
     ;;TODO FIXME!
@@ -273,100 +274,83 @@
 
 
   (without-namespace-in-synthdef
-   (defsynth sonic-pi-growl
-     [out_bus 0
-
-      note 52
+   (defsynth sonic-pi-singer
+     "TODO: support vowel changes"
+     [note 52
       note_slide 0
       note_slide_shape 5
       note_slide_curve 0
-
-      pan 0
-      pan_slide 0
-      pan_slide_shape 5
-      pan_slide_curve 0
 
       amp 1
       amp_slide 0
       amp_slide_shape 5
       amp_slide_curve 0
 
-      attack 0.1
-      decay 0
-      sustain 0
-      release 1
-      attack_level 1
-      sustain_level 1
-      env_curve 2]
-     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
-           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           freq (midicps note)
-
-           snd (lpf (mix [(saw (* 0.25 freq)) (sin-osc (* 1.01 freq))]))
-           snd (pitch-shift snd 0.4 1 0 0.01)
-           snd (* amp snd)
-           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
-       (out out_bus (* env (pan2 snd pan))))))
-
-  (comment
-    (save-to-pi sonic-pi-growl))
-
-  (without-namespace-in-synthdef
-
-
-
-
- (save-to-pi prophet)
-
-)
-
-  (comment
-    (sonic-pi-dark_ambience)
-    (save-to-pi sonic-pi-dark_ambience))
-
-  (without-namespace-in-synthdef
-   (defsynth sonic-pi-wood
-     [out_bus 0
-
-      note 52
-      note_slide 0
-      note_slide_shape 5
-      note_slide_curve 0
-
       pan 0
       pan_slide 0
       pan_slide_shape 5
       pan_slide_curve 0
 
-      amp 1
-      amp_slide 0
-      amp_slide_shape 5
-      amp_slide_curve 0
-
-      attack 0.01
+      attack 0
       decay 0
       sustain 0
-      release 0.1
+      release 4
       attack_level 1
       sustain_level 1
-      env_curve 2]
-     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
-           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           freq (midicps note)
+      env_curve 2
 
-           snd (bpf:ar (* (white-noise:ar) (line:kr 5 0 0.02)) freq 0.02)
-           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
-       (out out_bus (* env (pan2 snd pan))))))
+      cutoff 110
+      cutoff_slide 0
+      cutoff_slide_shape 5
+      cutoff_slide_curve 0
+      res 0.3
+      res_slide 0
+      res_slide_shape 5
+      res_slide_curve 0
 
-  (comment
-    (sonic-pi-wood)
-    (save-to-pi sonic-pi-wood))
+      vibrato_speed 6
+      vibrato_depth 4
 
+      freq0 400
+      freq1 750
+      freq2 2400
+      freq3 2600
+      freq4 2900
+      amp0 1
+      amp1 0.28
+      amp2 0.08
+      amp3 0.1
+      amp4 0.01
+      qs0 0.1
+      qs1 0.1
+      qs2 0.04
+      qs3 0.04
+      qs4 0.04
+      lag-val 0.5
 
-  (without-namespace-in-synthdef
-   (defsynth sonic-pi-dark_sea_horn
+      out_bus 0
+      ]
+     (let [pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           res         (varlag res res_slide res_slide_curve res_slide_shape)
+           freq        (midicps note)
+
+           freqs-list  (map #(lag:kr % lag-val) [freq0 freq1 freq2 freq3 freq4])
+           amps-list   (map #(lag:kr (dbamp %) lag-val) [amp0 amp1 amp2 amp3 amp4])
+           qs-list     (map #(lag:kr % lag-val) [qs0 qs1 qs2 qs3 qs4])
+           cutoff-freq (midicps cutoff)
+           vibrato     (* vibrato_depth (sin-osc:kr vibrato_speed))
+           in          (saw:ar (lag:kr (+ freq vibrato) 0.2))
+
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           snd         (mix (* amps-list (bpf:ar in freqs-list qs-list)))
+           snd         (rlpf snd cutoff-freq res)
+           snd         (* snd amp)]
+       (out out_bus (* (pan2 snd pan) env)))))
+
+  (defsynth sonic-pi-dark_sea_horn
      "Dark, rough and sharp sea horn.
      Note: we are purposely not using recusion using busses. Just does not have the same feel."
      [out_bus 0
@@ -461,64 +445,12 @@
 
            env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
            snd (* amp a)]
-       (out out_bus (* env (pan2 snd pan))))))
+       (out out_bus (* env (pan2 snd pan)))))
 
   (comment
     (sonic-pi-dark_sea_horn :attack 1 :release 8 :note 40)
     (save-to-pi sonic-pi-dark_sea_horn)
     )
-
-  (without-namespace-in-synthdef
-   (defsynth sonic-pi-singer
-     "TODO: support vowel changes"
-     [out_bus 0
-
-      vibrato_speed 6
-      vibrato_depth 4
-
-      pan 0
-      pan_slide 0
-      pan_slide_shape 5
-      pan_slide_curve 0
-
-      amp 1
-      amp_slide 0
-      amp_slide_shape 5
-      amp_slide_curve 0
-
-      attack 1
-      decay 0
-      sustain 0
-      release 4.0
-      attack_level 1
-      sustain_level 1
-      env_curve 2
-
-      note 52
-      note_slide 0
-      note_slide_shape 5
-      note_slide_curve 0
-
-      freq0 400 freq1 750 freq2 2400 freq3 2600 freq4 2900
-      amps0 1 amps1 0.28 amps2 0.08 amps3 0.1 amps4 0.01
-      qs0 0.1 qs1 0.1 qs2 0.04 qs3 0.04 qs4 0.04
-      lag-val 0.5]
-     (let [pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           note (varlag note note_slide note_slide_curve note_slide_shape)
-           amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           freq (midicps note)
-
-           freqs-list (map #(lag:kr % lag-val) [freq0 freq1 freq2 freq3 freq4])
-           amps-list  (map #(lag:kr (dbamp %) lag-val) [amps0 amps1 amps2 amps3 amps4])
-           qs-list    (map #(lag:kr % lag-val) [qs0 qs1 qs2 qs3 qs4])
-
-           vibrato (* vibrato_depth (sin-osc:kr vibrato_speed))
-           in (saw:ar (lag:kr (+ freq vibrato) 0.2))
-
-           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
-           snd (mix (* amps-list (bpf:ar in freqs-list qs-list)))
-           snd (* snd amp)]
-       (out out_bus (* (pan2 snd pan) env)))))
 
   (comment
     (defn bass          [] (singer :freq 100))
@@ -530,4 +462,4 @@
     (save-to-pi sonic-pi-singer)
     )
 
-)
+  )
