@@ -1447,7 +1447,7 @@ module SonicPi
         :release => 1,
         :attack_level => 1,
         :sustain_level => 1,
-        :env_curve => 2
+        :env_curve => 2,
 
         :cutoff => 130,
         :cutoff_slide => 0,
