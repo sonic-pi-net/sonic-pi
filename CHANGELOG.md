@@ -10,7 +10,8 @@ small development cycle, it ships with three fantastic features. Firstly
 we now have the `spread` fn which provides an amazing way to create
 interesting rhythms with very little code. Secondly we can now use
 `cutoff:` on any sample massively increasing their timbral range and
-finally we have 3 exciting new synths for you to play with. Have fun!
+finally we have three exciting new synths for you to play with. Have
+fun!
 
 ### Breaking Changes
 
