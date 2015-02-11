@@ -1668,10 +1668,7 @@
 
 (without-namespace-in-synthdef
     (defsynth sonic-pi-dark_ambience
-     [out_bus 0
-
-
-      note 52
+     [note 52
       note_slide 0
       note_slide_shape 5
       note_slide_curve 0
@@ -1717,6 +1714,7 @@
       ring 0.2
       room 70
       reverb_time 100
+      out_bus 0
       ]
      (let [
            note          (varlag note note_slide note_slide_curve note_slide_shape)
@@ -1792,6 +1790,7 @@
      (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           amp-fudge 15
            cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            res         (varlag res res_slide res_slide_curve res_slide_shape)
            freq        (midicps note)
@@ -1805,14 +1804,67 @@
            gn          (* 0.2 (gray-noise))
            src-noise   (select noise [pn bn wn cl gn])
            snd1        (bpf (* src-noise env) freq res)
-           snd2        (bpf (* src-noise env) (/ freq 2) res)
-           snd         (lpf (+ snd1 snd2) cutoff-freq)
+           snd2        (* 0.5 (bpf (* src-noise env) (* freq 2) res))
+           snd3        (* 0.125 (bpf (* src-noise env) (* freq 4) res))
+           snd         (lpf (+ snd1 snd2 snd3) cutoff-freq)
            snd         (select norm [snd (normalizer snd)])]
-       (out out_bus (pan2 (* env snd) pan amp))))
+       (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
-    (do
+    (defsynth sonic-pi-growl
+     [out_bus 0
+
+      note 52
+      note_slide 0
+      note_slide_shape 5
+      note_slide_curve 0
+
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+
+      amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      attack 0.1
+      decay 0
+      sustain 0
+      release 1
+      attack_level 1
+      sustain_level 1
+      env_curve 2
+
+
+      cutoff 100
+      cutoff_slide 0
+      cutoff_slide_shape 5
+      cutoff_slide_curve 0
+      res 1
+      res_slide 0
+      res_slide_shape 5
+      res_slide_curve 0
+]
+     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           res         (varlag res res_slide res_slide_curve res_slide_shape)
+           freq        (midicps note)
+           cutoff-freq (midicps cutoff)
+           amp-fudge   3
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           snd         (lpf (mix [(saw (* 0.25 freq)) (sin-osc (* 1.01 freq))]))
+           snd         (pitch-shift snd 0.5 1 0 0.001)
+           snd         (rlpf snd cutoff-freq res)
+]
+       (out out_bus (* env (pan2 (* amp-fudge snd) pan amp)))))
+
+    (comment
       (save-to-pi sonic-pi-dark_ambience)
-      (save-to-pi sonic-pi-hollow)))
+      (save-to-pi sonic-pi-hollow)
+      (save-to-pi sonic-pi-growl)))
 
 ;;FX
 (without-namespace-in-synthdef
