@@ -11,6 +11,9 @@
 // notice is included.
 //++
 
+// i18n not enabled until translations are ready
+// #define ENABLE_I18N
+
 #include <QApplication>
 #include <QSplashScreen>
 #include <QPixmap>
@@ -28,6 +31,7 @@ int main(int argc, char *argv[])
 
   QApplication app(argc, argv);
 
+#ifdef ENABLE_I18N
   QString systemLocale = QLocale::system().name();
 
   QTranslator qtTranslator;
@@ -40,6 +44,7 @@ int main(int argc, char *argv[])
     std::cout << "Please contact us if you want to translate Sonic Pi to your language." << std::endl;
   }
   app.installTranslator(&translator);
+#endif
   
   app.setApplicationName(QObject::tr("Sonic Pi"));
   app.setStyle("gtk");
