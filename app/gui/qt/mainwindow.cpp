@@ -1157,6 +1157,7 @@ QString MainWindow::readFile(QString name)
     return "";
 
   QTextStream st(&file);
+  st.setCodec("UTF-8");
   QString s;
   s.append(st.readAll());
   return s;
