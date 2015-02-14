@@ -1157,6 +1157,7 @@ QString MainWindow::readFile(QString name)
     return "";
 
   QTextStream st(&file);
+  st.setCodec("UTF-8");
   QString s;
   s.append(st.readAll());
   return s;
@@ -1404,6 +1405,7 @@ void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
 
   QString s;
   QTextStream st(&file);
+  st.setCodec("UTF-8");
   s.append(st.readAll());
 
   item->setData(32, QVariant(s));
