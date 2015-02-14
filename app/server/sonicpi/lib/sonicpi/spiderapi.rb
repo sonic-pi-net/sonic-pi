@@ -658,7 +658,7 @@ factor?(10, 2) # true - 10 is a multiple of 2 (2 * 5 = 10)
 factor?(11, 2) #false - 11 is not a multiple of 2
 ",
 "
-factor?(2, 0.5) #true - 2 is not a multiple of 0.5 (0.5 * 4 = 2) "
+factor?(2, 0.5) #true - 2 is a multiple of 0.5 (0.5 * 4 = 2) "
 ]
 
     def quantise(n, resolution)
