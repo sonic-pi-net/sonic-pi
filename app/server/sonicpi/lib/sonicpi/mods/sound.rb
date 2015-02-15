@@ -1145,7 +1145,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_group)
+           fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_group, !info.trigger_with_logical_clock?)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
@@ -2455,8 +2455,8 @@ stop bar"]
          cg
        end
 
-       def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group)
-         n = trigger_synth_with_resolved_args(synth_name, args_h, group, info)
+       def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group, now=false)
+         n = trigger_synth_with_resolved_args(synth_name, args_h, group, info, now)
          FXNode.new(n, in_bus, current_out_bus)
        end
 

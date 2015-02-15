@@ -57,6 +57,10 @@ module SonicPi
       raise "please implement introduced version for synth info: #{self.class}"
     end
 
+    def trigger_with_logical_clock?
+      raise "please implement trigger_with_logical_clock? for synth info: #{self.class}"
+    end
+
     def args
       args_defaults.keys
     end
@@ -2341,6 +2345,11 @@ end
   end
 
   class FXInfo < BaseInfo
+
+    def trigger_with_logical_clock?
+      true
+    end
+
     def prefix
       "sonic-pi-"
     end
@@ -2383,6 +2392,10 @@ end
 
     def synth_name
       "fx_reverb"
+    end
+
+    def trigger_with_logical_clock?
+      false
     end
 
     def doc
