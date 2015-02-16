@@ -15,7 +15,7 @@
 ;; SuperCollider compatible binary files. Overtone is Sonic Pi's big
 ;; brother. See: http://overtone.github.io
 
-(ns sp
+(ns sp.synth-designs-incubator
   (:use [overtone.live])
 
   (:require [clojure.string :as str]
