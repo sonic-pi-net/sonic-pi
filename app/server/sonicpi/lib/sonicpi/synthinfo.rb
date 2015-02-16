@@ -57,6 +57,10 @@ module SonicPi
       raise "please implement introduced version for synth info: #{self.class}"
     end
 
+    def trigger_with_logical_clock?
+      raise "please implement trigger_with_logical_clock? for synth info: #{self.class}"
+    end
+
     def args
       args_defaults.keys
     end
@@ -68,6 +72,22 @@ module SonicPi
 
     def arg_default(arg_name)
       arg_defaults[arg_name.to_sym]
+    end
+
+    def ctl_validate!(*args)
+      args_h = resolve_synth_opts_hash_or_array(args)
+
+      args_h.each do |k, v|
+        k_sym = k.to_sym
+        arg_information = @info[k_sym] || {}
+        arg_validations = arg_information[:validations] || []
+        arg_validations(k_sym).each do |v_fn, msg|
+          raise "Value of argument #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
+        end
+
+        raise "Invalid arg modulation attempt for #{synth_name.to_sym.inspect}. Argument #{k_sym.inspect} is not modulatable" unless arg_information[:modulatable]
+
+      end
     end
 
     def validate!(*args)
@@ -252,7 +272,7 @@ module SonicPi
 
         :attack =>
         {
-          :doc => "Amount of time (in seconds) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + sustain + release.",
+          :doc => "Amount of time (in seconds) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:attack)],
           :modulatable => false,
           :bpm_scale => true
@@ -268,7 +288,7 @@ module SonicPi
 
         :sustain =>
         {
-          :doc => "Amount of time (in seconds) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + sustain + release.",
+          :doc => "Amount of time (in seconds) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:sustain)],
           :modulatable => false,
           :bpm_scale => true
@@ -276,7 +296,7 @@ module SonicPi
 
         :release =>
         {
-          :doc => "Amount of time (in seconds) for sound to move from sutain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + sustain + release.",
+          :doc => "Amount of time (in seconds) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:release)],
           :modulatable => false,
           :bpm_scale => true
@@ -373,7 +393,7 @@ module SonicPi
         :res =>
         {
           :doc => "Filter resonance. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
-          :validations => [v_positive_not_zero(:res)],
+          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
           :modulatable => true
         },
 
@@ -1409,28 +1429,38 @@ module SonicPi
     end
 
     def arg_defaults
-      {:note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :attack => 0.1,
-       :decay => 0,
-       :sustain => 0,
-       :release => 1,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :attack => 0.1,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
+
+        :cutoff => 130,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :res => 0.3,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
       }
     end
   end
@@ -1453,57 +1483,86 @@ module SonicPi
     end
 
     def arg_defaults
-      {:freq_addition => 52,
-       :ring_multipler => 0.2,
+      { :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :room_size => 70,
-       :reverb_time => 100,
+        :attack => 0,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
 
-       :note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+        :cutoff => 110,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :res => 0.3,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :detune1 => 12,
+        :detune1_slide => 0,
+        :detune1_slide_shape => 5,
+        :detune1_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :detune2 => 24,
+        :detune2_slide => 0,
+        :detune2_slide_shape => 5,
+        :detune2_slide_curve => 0,
 
-       :attack => 0.01,
-       :decay => 0,
-       :sustain => 0,
-       :release => 10,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :noise => 0,
+        :ring => 0.2,
+        :room => 70,
+        :reverb_time => 100
       }
     end
 
     def specific_arg_info
       {
-        :freq_addition =>
-        {
-          :doc => "A frequency which is used to generate offsets from the start note which are all then mixed back into a single sound. It has a slight detuning effect."
+        :ring => {
+          :doc => "Amount of ring in the sound. Lower values create a more rough sound, higher values produce a sound with more focus",
+          :validations => [v_between_inclusive(:ring, 0.1, 50)],
+          :modulatable => true
         },
-        :ring_multipler => {
-          :doc => "Multiplier used for each ring iteration. Gives a stronger feedback effect.",
-          :validations => [v_between_inclusive(:ring_multipler, 0.1, 50)],
-        },
-        :room_size =>
+        :room =>
         {
           :doc => "Room size in squared meters used to calculate the reverb.",
-          :validations => [v_positive(:room_size)],
+          :validations => [v_greater_than_oet(:room, 0.1), v_less_than_oet(:room, 300)],
+          :modulatable => false
         },
         :reverb_time =>
         {
           :doc => "How long in seconds the reverb should go on for.",
           :validations => [v_positive(:reverb_time)],
+          :modulatable => false
+        },
+        :detune1 =>
+        {
+          :doc => "Distance (in MIDI notes) between the main note and the second component of sound. Affects thickness, sense of tuning and harmony.",
+        },
+        :detune2 =>
+        {
+          :doc => "Distance (in MIDI notes) between the main note and the third component of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound.",
+        },
+        :noise =>
+        { :doc => "Noise source. Has a subtle affect on the timbre of the sound. 0=pink noise (the default), 1=brown noise, 2=white noise, 3=clip noise and 4 = grey noise",
+          :validations => [v_one_of(:noise, [0, 1, 2, 3, 4])],
+          :modulatable => true
         }
+
       }
     end
   end
@@ -1621,9 +1680,9 @@ module SonicPi
     end
   end
 
-  class Wood < SonicPiSynth
+  class Hollow < SonicPiSynth
     def name
-      "Wood"
+      "Hollow"
     end
 
     def introduced
@@ -1631,36 +1690,76 @@ module SonicPi
     end
 
     def synth_name
-      "wood"
+      "hollow"
     end
 
     def doc
-     "Simulates the sound of wood being hit with stick. A little like a xylophone."
+     "A hollow breathy sound constructed from random noise"
     end
 
     def arg_defaults
-      {:note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :attack => 0.01,
-       :decay => 0,
-       :sustain => 0,
-       :release => 0.1,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :attack => 0,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
+
+        :cutoff => 90,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+
+        :res => 0.01,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+
+        :noise => 1,
+        :norm => 0
+
+      }
+    end
+
+    def specific_arg_info
+      {
+        :norm =>
+        {
+          :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter)- this is similar to the normaliser FX. This may emphasise any clicks caused by clipping. ",
+          :validations => [v_one_of(:norm, [0, 1])],
+          :modulatable => true
+        },
+
+        :res =>
+        {
+          :doc => "Filter resonance. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
+          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
+          :modulatable => true
+        },
+
+        :noise =>
+        { :doc => "Noise source. Has a subtle affect on the timbre of the sound. 0=pink noise, 1=brown noise (the default), 2=white noise, 3=clip noise and 4ls
+=grey noise",
+          :validations => [v_one_of(:noise, [0, 1, 2, 3, 4])],
+          :modulatable => true
+        }
       }
     end
   end
@@ -2055,6 +2154,15 @@ end
         :rate_slide => 0,
         :rate_slide_shape => 5,
         :rate_slide_curve => 0,
+        :cutoff => 0,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :res => 1,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+        :norm => 0
       }
     end
   end
@@ -2116,7 +2224,17 @@ end
 
         :rate => 1,
         :start => 0,
-        :finish => 1
+        :finish => 1,
+
+        :res => 1,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0,
+        :cutoff => 0,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :norm => 0
       }
     end
 
@@ -2125,45 +2243,59 @@ end
 
         :attack =>
         {
-          :doc => "",
+          :doc => "Duration of the attack phase of the envelope.",
           :validations => [v_positive(:attack)],
           :modulatable => false
         },
 
         :sustain =>
         {
-          :doc => "",
+          :doc => "Duration of the sustain phase of the envelope.",
           :validations => [v_positive(:attack)],
           :modulatable => false
         },
 
         :release =>
         {
-          :doc => "",
+          :doc => "Duration of the release phase of the envelope.",
           :validations => [[lambda{|args| v = args[:release] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
           :modulatable => false
         },
 
         :rate =>
         {
-          :doc => "",
+          :doc => "Rate which to play back with default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.",
           :validations => [v_not_zero(:rate)],
           :modulatable => false
         },
 
         :start =>
         {
-          :doc => "",
+          :doc => "A fraction (between 0 and 1) representing where in the sample to start playback. 1 represents the end of the sample, 0.5 half-way through etc.",
           :validations => [v_between_inclusive(:start, 0, 1)],
           :modulatable => false
         },
 
         :finish =>
         {
-          :doc => "",
+          :doc => "A fraction (between 0 and 1) representing where in the sample to finish playback. 1 represents the end of the sample, 0.5 half-way through etc.",
           :validations => [v_between_inclusive(:finish, 0, 1)],
           :modulatable => false
         },
+
+        :norm =>
+        {
+          :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter)- this is similar to the normaliser FX. This may emphasise any clicks caused by clipping. ",
+          :validations => [v_one_of(:norm, [0, 1])],
+          :modulatable => true
+        },
+
+        :res =>
+        {
+          :doc => "Filter resonance. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
+          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
+          :modulatable => true
+        }
 
       }
     end
@@ -2213,6 +2345,11 @@ end
   end
 
   class FXInfo < BaseInfo
+
+    def trigger_with_logical_clock?
+      true
+    end
+
     def prefix
       "sonic-pi-"
     end
@@ -2255,6 +2392,10 @@ end
 
     def synth_name
       "fx_reverb"
+    end
+
+    def trigger_with_logical_clock?
+      false
     end
 
     def doc
@@ -4130,10 +4271,10 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :prophet => Prophet.new,
       :zawa => Zawa.new,
       :dark_ambience => DarkAmbience.new,
-      :growl         => Growl.new,
-      :wood          => Wood.new,
-      :dark_sea_horn => DarkSeaHorn.new,
-      :singer        => Singer.new,
+      :growl => Growl.new,
+      :hollow => Hollow.new,
+#      :dark_sea_horn => DarkSeaHorn.new,
+#      :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 

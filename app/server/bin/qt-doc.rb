@@ -25,6 +25,8 @@ require_relative "../sonicpi/lib/sonicpi/mods/sound"
 require 'kramdown'
 require 'active_support/inflector'
 
+# i18n not enabled until translations are ready
+enable_i18n = false
 
 class MarkdownConverter
   def self.convert(contents)
@@ -76,7 +78,7 @@ end.parse!
 
 # valid names: lang, synths, fx, samples, examples
 make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false|
-
+  return if doc_items.empty?
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
   tab_widget = "#{name}TabWidget"
@@ -135,7 +137,7 @@ end
 
 make_tutorial = lambda do |lang|
 
-  docs << "\n  // language #{lang}"
+  docs << "\n  // language #{lang}\n"
   tutorial_html_map = {}
   Dir["#{tutorial_path}/#{lang}/*.md"].sort.each do |path|
     f = File.open(path, 'r:UTF-8')
@@ -176,16 +178,20 @@ ruby_html_map = {
 #  "loop" => "Loop forever",
 }
 
-# this will sort locale code names by reverse length
-# to make sure that a more specific locale is handled
-# before the generic language code,
-# e.g., "de_CH" should be handled before "de"
-languages = Dir.
-  glob("#{tutorial_path}/*").
-  select {|f| File.directory? f}.
-  map {|f| File.basename f}.
-  select {|n| n != "en"}.
-  sort_by {|n| -n.length}
+if enable_i18n then
+  # this will sort locale code names by reverse length
+  # to make sure that a more specific locale is handled
+  # before the generic language code,
+  # e.g., "de_CH" should be handled before "de"
+  languages = Dir.
+    glob("#{tutorial_path}/*").
+    select {|f| File.directory? f}.
+    map {|f| File.basename f}.
+    select {|n| n != "en"}.
+    sort_by {|n| -n.length}
+else
+  languages = []
+end
 
 docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
 
@@ -216,7 +222,7 @@ SonicPi::SynthInfo.get_all.each do |k, v|
   docs << "  // fx :#{safe_k}\n"
   docs << "  fxtmp.clear(); fxtmp "
   v.arg_info.each do |ak, av|
-    docs << "<< \"#{ak}\" ";
+    docs << "<< \"#{ak}:\" ";
   end
   docs <<";\n"
   docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n\n"

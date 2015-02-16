@@ -1,5 +1,54 @@
 # History
 
+## Version 2.4 - 'Defrost'
+*Wednesday 11th February, 2015*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.4.0)
+
+A quick release following `v2.3` to address an issue with the GUI
+freezing on specific CPUs. However, although this release has had a
+small development cycle, it ships with three fantastic features. Firstly
+we now have the `spread` fn which provides an amazing way to create
+interesting rhythms with very little code. Secondly we can now use
+`cutoff:` on any sample massively increasing their timbral range and
+finally we have three exciting new synths for you to play with. Have
+fun!
+
+### Breaking Changes
+
+* Unfortunately 5 pre-release synths accidentally slipped into
+  v2.3. Three of them have been polished up and are in this release (one
+  with major changes including a name change). However, the other two
+  have been removed.
+
+### New
+
+* New fn `spread` for creating rings of Euclidean distributions. Great
+  for quickly creating interesting rhythms.
+* GUI now automatically appends a : to the FX param autocomplete list  
+* Synths and FX now raise an exception if any of their non-modulatable
+  params are modulated. This is disabled when the pref 'check synth
+  args' is unchecked.
+* GUI now renders pretty UTF-8 └─ ├─ characters when printing in the log
+  on RP.
+* Improve docstrings for sample player.
+
+### Synths & FX
+* New Synth `:dark_ambience`, an ambient bass trying to escape the
+  darkness.
+* New Synth `:hollow`, a hollow breathy sound.
+* New Synth `:growl`, a deep rumbling growl.
+* Sampler synths now sport built-in `rlpf` and `normaliser` FX. These
+  are disabled by default (i.e. won't affect sound of the sample) and
+  can by enabled via the new `cutoff:`, `res:` and `norm:` params. 
+
+### Bug Fixes
+
+* Fix insanely obsure bug which caused the GUI to freeze on certain
+  platforms (32 bit Windows and RP2 with 2G/2G kernel).
+* Remove DC Bias offset from Prophet synth (see
+  http://en.wikipedia.org/wiki/DC_bias)
+
+
 ## Version 2.3 - 'Bitcrush'
 *Wednesday 28th January, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
@@ -47,7 +96,6 @@
   disabled in the prefs.
 * Teach `:reverb` FX to extend its kill delay time with larger room
   sizes to reduce the chance of clipping.
- 
 
 ### Synths & FX
 

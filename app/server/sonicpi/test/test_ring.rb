@@ -52,5 +52,10 @@ module SonicPi
       assert_equal(bools(:a, 1, nil, true, 0), [true, true, false, true, false])
       assert_equal(bools(1,0, 0).class, SonicPi::Core::RingArray)
     end
+
+    def test_spread
+      assert_equal(spread(5, 13), [true, false, false, true, false, false, true, false, true, false, false, true, false])
+      assert_equal(spread(3, 8, rotate: 1),  [true, false, false, true, false, true, false, false])
+    end
   end
 end

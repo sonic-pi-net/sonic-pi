@@ -1,6 +1,7 @@
 # Coded by Sam Aaron
 
 use_debug false
+load_samples :guit_em9, :bd_haus
 
 live_loop :low do |idx|
   #  idx = 0
