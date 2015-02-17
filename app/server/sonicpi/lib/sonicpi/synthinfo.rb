@@ -3467,11 +3467,8 @@ The way the transpositions are done adds some distortion, particulary to the low
         :centre => 100,
         :centre_slide => 0,
         :centre_slide_shape => 5,
-        :centre_slide_curve => 0,
-        :res => 0.5,
-        :res_slide => 0,
-        :res_slide_shape => 5,
-        :res_slide_curve => 0,
+        :centre_slide_curve => 0
+
       }
     end
 
@@ -3479,8 +3476,8 @@ The way the transpositions are done adds some distortion, particulary to the low
       {
         :centre =>
         {
-          :doc => "Centre frequency for the filter in MIDI. ",
-          :validations => [v_greater_than_oet(:level, 0)],
+          :doc => "Centre frequency for the filter as a MIDI note. ",
+          :validations => [v_greater_than_oet(:centre, 0)],
           :modulatable => true
         },
 
@@ -3505,6 +3502,15 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
 
     def synth_name
       "fx_rbpf"
+    end
+
+    def arg_defaults
+      super.merge({
+        :res => 0.5,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0
+      })
     end
 
     def doc
