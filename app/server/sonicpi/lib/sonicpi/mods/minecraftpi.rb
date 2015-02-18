@@ -129,8 +129,9 @@ module SonicPi
 
       def __minecraft_sched_send(m)
         s = __minecraft_socket
+        l = __minecraft_lock
         __delayed do
-          __minecraft_lock.synchronize do
+          l.synchronize do
             s.puts m
           end
         end
@@ -183,8 +184,9 @@ module SonicPi
           end
         end
         s = __minecraft_socket
+        l = __minecraft_lock
         __delayed do
-          __minecraft_lock.synchronize do
+          l.synchronize do
             __minecraft_drain_socket(s)
             s.puts "world.getHeight(#{x.to_i},#{z.to_i})"
             y = __minecraft_socket.gets
@@ -195,7 +197,8 @@ module SonicPi
 
       def minecraft_set_ground_pos_sync(x, z)
         s = __minecraft_socket
-        __minecraft_lock.synchronize do
+        l = __minecraft_lock
+        l.synchronize do
           __minecraft_drain_socket(s)
           s.puts "world.getHeight(#{x.to_i},#{z.to_i})"
           y = __minecraft_socket.gets
