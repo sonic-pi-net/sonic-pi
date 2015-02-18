@@ -1545,6 +1545,8 @@ end"]
           end
         end
 
+        __run_thread_end_finalisers
+
         # Disassociate thread with job as it has now finished
         job_subthread_rm(job_id, Thread.current)
       end
@@ -1661,5 +1663,11 @@ end
 # due to the thread being named, the second re-run will not create a new similarly
 # named thread. This is a nice pattern for live coding.
 "]
+
+    def __on_thread_death(&block)
+      gc_jobs = Thread.current.thread_variable_get(:sonic_pi__not_inherited__spider_in_thread_gc_jobs) || []
+      gc_jobs << block
+      Thread.current.thread_variable_set(:sonic_pi__not_inherited__spider_in_thread_gc_jobs, gc_jobs)
+    end
   end
 end
