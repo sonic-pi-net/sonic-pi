@@ -195,7 +195,7 @@ module SonicPi
         end
         p = Promise.new
 
-        pause_then_run_blocks_and_msgs = lambda do
+        pause_then_run_blocks_and_msgs = lambda do |t|
           # Give new thread a new subthread mutex
           Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
@@ -218,7 +218,7 @@ module SonicPi
         @job_subthread_mutex.synchronize do
           t = Thread.new do
             Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_booter)
-            pause_then_run_blocks_and_msgs.call
+            pause_then_run_blocks_and_msgs.call(t)
           end
           job_subthread_add_unmutexed(__current_job_id, t)
         end
