@@ -263,6 +263,20 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   initPrefsWindow();
   initDocsWindow();
+
+  if(settings.value("first_time", 1).toInt() == 1) {
+    QTextEdit* startupPane = new QTextEdit;
+    startupPane->setReadOnly(true);
+    startupPane->setFixedSize(600, 615);
+    startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
+    startupPane->setWindowTitle("Welcome to Sonic Pi");
+    addUniversalCopyShortcuts(startupPane);
+    QString html;
+
+    startupPane->setHtml(readFile(":/html/startup.html"));
+    docWidget->show();
+    startupPane->show();
+  }
 }
 
 QString MainWindow::rootPath() {
@@ -1274,19 +1288,6 @@ void MainWindow::readSettings() {
 
   restoreState(settings.value("windowState").toByteArray());
 
-  if(settings.value("first_time", 1).toInt() == 1) {
-    QTextEdit* startupPane = new QTextEdit;
-    startupPane->setReadOnly(true);
-    startupPane->setFixedSize(600, 615);
-    startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
-    startupPane->setWindowTitle("Welcome to Sonic Pi");
-    addUniversalCopyShortcuts(startupPane);
-    QString html;
-
-    startupPane->setHtml(readFile(":/html/startup.html"));
-    docWidget->show();
-    startupPane->show();
-  }
 }
 
 void MainWindow::writeSettings()
