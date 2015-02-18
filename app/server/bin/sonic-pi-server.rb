@@ -21,6 +21,7 @@ require_relative "../sonicpi/lib/sonicpi/spiderapi"
 require_relative "../sonicpi/lib/sonicpi/server"
 require_relative "../sonicpi/lib/sonicpi/util"
 require_relative "../sonicpi/lib/sonicpi/oscencode"
+require_relative "../sonicpi/lib/sonicpi/mods/minecraftpi"
 
 os = case RUBY_PLATFORM
      when /.*arm.*-linux.*/
@@ -78,6 +79,7 @@ klass.send(:include, user_methods)
 klass.send(:include, SonicPi::SpiderAPI)
 #klass.send(:include, SonicPi::Mods::SPMIDI)
 klass.send(:include, SonicPi::Mods::Sound)
+klass.send(:include, SonicPi::Mods::Minecraft)
 begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
 rescue Exception => e
