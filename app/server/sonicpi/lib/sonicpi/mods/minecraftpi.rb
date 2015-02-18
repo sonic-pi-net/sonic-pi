@@ -1,3 +1,17 @@
+#--
+# This file is part of Sonic Pi: http://sonic-pi.net
+# Full project source: https://github.com/samaaron/sonic-pi
+# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+#
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
+# All rights reserved.
+#
+# Permission is granted for use, copying, modification and distribution
+# of modified versions of this work as long as this notice is included.
+# ++
+
+require 'socket'
+
 module SonicPi
   module Mods
     module Minecraft
@@ -92,24 +106,24 @@ module SonicPi
       end
 
       def __minecraft_socket
-        s = Thread.current.thread_variable_get(:sonic_pi_minecraft_socket)
+        s_sym = :sonic_pi___not_inherited__minecraft_socket
+        s = Thread.current.thread_variable_get(s_sym)
         return s if s
         socket = TCPSocket.new('localhost', 4711)
-        Thread.current.thread_variable_set(:sonic_pi_minecraft_socket, socket)
-        ## needs to gc s
+        Thread.current.thread_variable_set(s_sym, socket)
         __on_thread_death do
-          log "\n\n-----~~~~~~---> closing socket!"
+          # ensure socket is closed when thread has terminated
           socket.close
-          log "-----~~~~~~---> socket #{socket} closed!!\n\n"
         end
         return socket
       end
 
       def __minecraft_lock
-        l = Thread.current.thread_variable_get(:sonic_pi_minecraft_lock)
+        l_sym = :sonic_pi___not_inherited__minecraft_lock
+        l = Thread.current.thread_variable_get(l_sym)
         return l if l
         lock = Mutex.new
-        Thread.current.thread_variable_set(:sonic_pi_minecraft_lock, lock)
+        Thread.current.thread_variable_set(l_sym, lock)
         return lock
       end
 
