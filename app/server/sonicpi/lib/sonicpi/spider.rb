@@ -579,14 +579,13 @@ module SonicPi
     end
 
     def __run_thread_end_finalisers
-        gc_jobs = Thread.current.thread_variable_get(:sonic_pi__not_inherited__spider_in_thread_gc_jobs) || []
-        gc_jobs.each do |job|
-          begin
-            job.call
-          rescue => e
-          end
+      gc_jobs = Thread.current.thread_variable_get(:sonic_pi__not_inherited__spider_in_thread_gc_jobs) || []
+      gc_jobs.each do |job|
+        begin
+          job.call
+        rescue => e
         end
-      __schedule_delayed_blocks_and_messages!
+      end
     end
   end
 end
