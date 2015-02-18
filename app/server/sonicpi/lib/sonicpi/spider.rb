@@ -184,52 +184,9 @@ module SonicPi
       __enqueue_multi_message(2, s)
     end
 
-    def __schedule_delayed_blocks
-      delayed_blocks = Thread.current.thread_variable_get :sonic_pi_spider_delayed_blocks
-      unless(delayed_blocks.empty?)
-        last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
-        parent_t = Thread.current
-        parent_t_vars = {}
-        parent_t.thread_variables.each do |v|
-          parent_t_vars[v] = parent_t.thread_variable_get(v)
-        end
-        p = Promise.new
-
-        pause_then_run_blocks_and_msgs = lambda do |t|
-          # Give new thread a new subthread mutex
-          Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
-          Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
-          parent_t_vars.each do |k,v|
-            Thread.current.thread_variable_set(k, v)
-          end
-          Thread.current.thread_variable_set(:sonic_pi_thread_group, :execute_delayed_blocks)
-          p.get
-          # Calculate the amount of time to sleep to sync us up with the
-          # sched_ahead_time
-          sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
-          sleep_time = sched_ahead_sync_t - Time.now
-          Kernel.sleep(sleep_time) if sleep_time > 0
-          #We're now in sync with the sched_ahead time
-
-          delayed_blocks.each {|b| b.call}
-          job_subthread_rm(__current_job_id, t)
-        end
-
-        @job_subthread_mutex.synchronize do
-          t = Thread.new do
-            Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_booter)
-            pause_then_run_blocks_and_msgs.call(t)
-          end
-          job_subthread_add_unmutexed(__current_job_id, t)
-        end
-        p.deliver! true
-
-        Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
-      end
-    end
-
-    def __schedule_messages
+    def __schedule_delayed_blocks_and_messages!
       delayed_messages = Thread.current.thread_variable_get :sonic_pi_spider_delayed_messages
+      delayed_blocks = Thread.current.thread_variable_get(:sonic_pi_spider_delayed_blocks) || []
       unless(delayed_messages.empty?)
         last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
         parent_t = Thread.current
@@ -255,6 +212,15 @@ module SonicPi
           sleep_time = sched_ahead_sync_t - Time.now
           Kernel.sleep(sleep_time) if sleep_time > 0
           #We're now in sync with the sched_ahead time
+
+          delayed_blocks.each do |b|
+            begin
+              b.call
+            rescue => e
+              log e.backtrace
+            end
+          end
+
           __multi_message(delayed_messages)
           job_subthread_rm(job_id, Thread.current)
         end
@@ -263,11 +229,6 @@ module SonicPi
 
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
       end
-    end
-
-    def __schedule_delayed_blocks_and_messages!
-      __schedule_delayed_blocks
-      __schedule_messages
     end
 
     def __enqueue_multi_message(m_type, m)
