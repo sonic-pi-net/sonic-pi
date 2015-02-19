@@ -203,40 +203,17 @@ module SonicPi
             a, z = a
           end
         end
-        s = __minecraft_socket
-        l = __minecraft_lock
-        __delayed do
-          l.synchronize do
-            __minecraft_drain_socket(s)
-            s.puts "world.getHeight(#{x.to_i},#{z.to_i})"
-            y = __minecraft_socket.gets
-            s.puts "player.setPos(#{x.to_f}, #{y}, #{z.to_f})"
-          end
-        end
+
+        y = minecraft_get_height
+        minecraft_set_location(x.to_f, y, z.to_f)
       end
 
       def minecraft_set_ground_pos(*args)
         minecraft_set_ground_location(*args)
       end
 
-      def minecraft_set_ground_location_sync(x, z)
-        if x.is_a? Array
-          if x.size == 3
-            a = x
-            x = a[0]
-            z = a[1]
-          else
-            a, z = a
-          end
-        end
-        s = __minecraft_socket
-        l = __minecraft_lock
-        l.synchronize do
-          __minecraft_drain_socket(s)
-          s.puts "world.getHeight(#{x.to_i},#{z.to_i})"
-          y = __minecraft_socket.gets
-          s.puts "player.setPos(#{x.to_f}, #{y}, #{z.to_f})"
-        end
+      def minecraft_set_ground_location_sync(x, z=nil)
+        minecraft_set_ground_location(x, z)
       end
 
       def minecraft_set_ground_pos_sync(*args)
