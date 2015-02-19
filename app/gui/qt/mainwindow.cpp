@@ -264,6 +264,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   initPrefsWindow();
   initDocsWindow();
 
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+
   if(settings.value("first_time", 1).toInt() == 1) {
     QTextEdit* startupPane = new QTextEdit;
     startupPane->setReadOnly(true);
