@@ -1657,8 +1657,8 @@ in_thread(name: :main) do  # Create a named thread
   end
 end
 
-# We our now free to modify the contents of :foo and re-run the entire buffer.
-# We'll hear the affect immediately without having to stop and re-start the code.
+# We are now free to modify the contents of :foo and re-run the entire buffer.
+# We'll hear the effect immediately without having to stop and re-start the code.
 # This is because our fn has been redefined, (which our thread will pick up) and
 # due to the thread being named, the second re-run will not create a new similarly
 # named thread. This is a nice pattern for live coding.
