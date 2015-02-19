@@ -108,53 +108,59 @@ module SonicPi
         return res
       end
 
-     def __minecraft_socket
-        s_sym = :sonic_pi___not_inherited__minecraft_socket
-        s = Thread.current.thread_variable_get(s_sym)
-        return s if s
-        socket = TCPSocket.new('localhost', 4711)
-        Thread.current.thread_variable_set(s_sym, socket)
-        # __on_thread_death do
-        #   # ensure socket is closed when thread has terminated
-        #   socket.close
+
+      def __minecraft_socket_recv(s, m)
+        __minecraft_drain_socket(s)
+        s.send "#{m}\n", 0
+        s.recv(1024).chomp
+      end
+
+     def __minecraft_comms
+       s_sym = :sonic_pi___not_inherited__minecraft_comms
+       q = Thread.current.thread_variable_get(s_sym)
+       return q if q
+       q = SizedQueue.new(10)
+       socket = TCPSocket.new('localhost', 4711)
+       Thread.current.thread_variable_set(s_sym, q)
+       cnt = 0
+       t = Thread.new do
+         loop do
+           m, p = q.pop
+           if p
+             p.deliver! __minecraft_socket_recv(socket, m)
+           else
+             socket.send "#{m}\n", 0
+           end
+           __minecraft_socket_recv "player.getPos()" if (cnt+=1 % 5) == 0
+         end
+       end
+       __on_thread_death do
+          # ensure socket is closed when thread has terminated
+         socket.close
+         t.kill
+       end
+
+       return q
+      end
+
+     def __minecraft_sched_send(m)
+        __minecraft_sync_send(m)
+
+        # __delayed do
+        #   __minecraft_sync_send(m)
         # end
-        return socket
-      end
-
-      def __minecraft_lock
-        l_sym = :sonic_pi___not_inherited__minecraft_lock
-        l = Thread.current.thread_variable_get(l_sym)
-        return l if l
-        lock = Mutex.new
-        Thread.current.thread_variable_set(l_sym, lock)
-        return lock
-      end
-
-      def __minecraft_sched_send(m)
-        s = __minecraft_socket
-        l = __minecraft_lock
-        __delayed do
-          l.synchronize do
-            s.send "#{m}\n", 0
-          end
-        end
       end
 
       def __minecraft_sync_send(m)
-        s = __minecraft_socket
-        __minecraft_lock.synchronize do
-          s.send "#{m}\n", 0
-        end
+        __minecraft_comms << [m, nil]
       end
 
       def __minecraft_recv(m)
-        s = __minecraft_socket
-        __minecraft_lock.synchronize do
-          __minecraft_drain_socket(s)
-          s.send "#{m}\n", 0
-          s.recv(1024).chomp
-        end
+        p = Promise.new
+        __minecraft_comms << [m, p]
+        p.get
       end
+
 
       def minecraft_location
         res = __minecraft_recv "player.getPos()"
