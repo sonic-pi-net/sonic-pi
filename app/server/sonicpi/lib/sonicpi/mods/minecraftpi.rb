@@ -11,10 +11,77 @@
 # ++
 
 require 'socket'
+require 'thread'
 
 module SonicPi
   module Mods
     module Minecraft
+      @minecraft_queue = nil
+      @minecraft_queue_creation_lock = Mutex.new
+
+      def self.__drain_socket(s)
+        res = ""
+        begin
+          while d = s.recv_nonblock(1024)
+            res << d
+          end
+        rescue IO::WaitReadable
+          # Do nothing, drained!
+        end
+        return res
+      end
+
+      def self.__socket_recv(s, m)
+        __drain_socket(s)
+        s.send "#{m}\n", 0
+        s.recv(1024).chomp
+      end
+
+      def self.__comms_queue
+        return @minecraft_queue if @minecraft_queue
+
+        @minecraft_queue_creation_lock.synchronize do
+          return @minecraft_queue if @minecraft_queue
+
+          q = SizedQueue.new(10)
+          socket = TCPSocket.new('localhost', 4711)
+          @minecraft_queue = q
+          Thread.new do
+            cnt = 0
+            loop do
+              m, p = q.pop
+              if p
+                p.deliver! __socket_recv(socket, m)
+              else
+                socket.send "#{m}\n", 0
+              end
+              __socket_recv(socket, "player.getPos()") if (cnt+=1 % 5) == 0
+            end
+          end
+        end
+        return @minecraft_queue
+      end
+
+      def self.sched_send(m)
+        minecraft_sync_send(m)
+
+        # __delayed do
+        #   sync_send(m)
+        # end
+      end
+
+      def self.sync_send(m)
+        __comms_queue << [m, nil]
+      end
+
+      def self.recv(m)
+        p = Promise.new
+        __comms_queue << [m, p]
+        p.get
+      end
+
+
+
       BLOCKS_TO_ID = {
         :air                 => 0,
         :stone               => 1,
@@ -96,74 +163,9 @@ module SonicPi
       IDS_TO_BLOCK = BLOCKS_TO_ID.invert
 
 
-      def __minecraft_drain_socket(s)
-        res = ""
-        begin
-          while d = s.recv_nonblock(1024)
-            res << d
-          end
-        rescue IO::WaitReadable
-          # Do nothing, drained!
-        end
-        return res
-      end
-
-
-      def __minecraft_socket_recv(s, m)
-        __minecraft_drain_socket(s)
-        s.send "#{m}\n", 0
-        s.recv(1024).chomp
-      end
-
-     def __minecraft_comms
-       s_sym = :sonic_pi___not_inherited__minecraft_comms
-       q = Thread.current.thread_variable_get(s_sym)
-       return q if q
-       q = SizedQueue.new(10)
-       socket = TCPSocket.new('localhost', 4711)
-       Thread.current.thread_variable_set(s_sym, q)
-       cnt = 0
-       t = Thread.new do
-         loop do
-           m, p = q.pop
-           if p
-             p.deliver! __minecraft_socket_recv(socket, m)
-           else
-             socket.send "#{m}\n", 0
-           end
-           __minecraft_socket_recv "player.getPos()" if (cnt+=1 % 5) == 0
-         end
-       end
-       __on_thread_death do
-          # ensure socket is closed when thread has terminated
-         socket.close
-         t.kill
-       end
-
-       return q
-      end
-
-     def __minecraft_sched_send(m)
-        __minecraft_sync_send(m)
-
-        # __delayed do
-        #   __minecraft_sync_send(m)
-        # end
-      end
-
-      def __minecraft_sync_send(m)
-        __minecraft_comms << [m, nil]
-      end
-
-      def __minecraft_recv(m)
-        p = Promise.new
-        __minecraft_comms << [m, p]
-        p.get
-      end
-
 
       def minecraft_location
-        res = __minecraft_recv "player.getPos()"
+        res = Minecraft.recv "player.getPos()"
         res.split(',').map { |s| s.to_f }
       end
 
@@ -175,7 +177,7 @@ module SonicPi
         if x.is_a? Array
           x, y, z = x
         end
-        __minecraft_sched_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
+        Minecraft.sched_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
       end
 
       def minecraft_set_pos(*args)
@@ -186,7 +188,7 @@ module SonicPi
         if x.is_a? Array
           x, y, z = x
         end
-        __minecraft_sync_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
+        Minecraft.sync_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
       end
 
       def minecraft_set_pos_sync(*args)
@@ -221,7 +223,7 @@ module SonicPi
       end
 
       def minecraft_message(msg)
-        __minecraft_sched_send "chat.post(#{msg})"
+        Minecraft.sched_send "chat.post(#{msg})"
       end
 
       def minecraft_chat_post(msg)
@@ -229,7 +231,7 @@ module SonicPi
       end
 
       def minecraft_message_sync(msg)
-        __minecraft_sync_send "chat.post(#{msg})"
+        Minecraft.sync_send "chat.post(#{msg})"
       end
 
       def minecraft_chat_post_sync(msg)
@@ -237,7 +239,7 @@ module SonicPi
       end
 
       def minecraft_get_height(x, z)
-        res = __minecraft_recv "world.getHeight(#{x.to_i},#{z.to_i})"
+        res = Minecraft.recv "world.getHeight(#{x.to_i},#{z.to_i})"
         res.to_i
       end
 
@@ -245,7 +247,7 @@ module SonicPi
         if x.is_a? Array
           x, y, z = x
         end
-        res = __minecraft_recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
+        res = Minecraft.recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
         IDS_TO_BLOCK[res.to_i]
       end
 
@@ -257,7 +259,7 @@ module SonicPi
         if block_id.is_a? Symbol
           block_id = BLOCKS_TO_ID[block_id]
         end
-        __minecraft_sched_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
+        Minecraft.sched_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
       end
 
       def minecraft_set_block_sync(x, y, z=nil, block_id=nil)
@@ -268,7 +270,7 @@ module SonicPi
         if block_id.is_a? Symbol
           block_id = BLOCKS_TO_ID[block_id]
         end
-        __minecraft_sync_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
+        Minecraft.sync_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
       end
 
       def minecraft_set_area(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
@@ -283,7 +285,7 @@ module SonicPi
         if block_id.is_a? Symbol
           block_id = BLOCKS_TO_ID[block_id]
         end
-        __minecraft_sched_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
+        Minecraft.sched_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
       end
 
       def minecraft_set_area_sync(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
@@ -298,14 +300,14 @@ module SonicPi
         if block_id.is_a? Symbol
           block_id = BLOCKS_TO_ID[block_id]
         end
-        __minecraft_sync_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
+        Minecraft.sync_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
       end
 
       def minecraft_set_tile(x, y=nil, z=nil)
         if x.is_a? Array
           x, y, z = x
         end
-        __minecraft_sched_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+        Minecraft.sched_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
       end
 
       def minecraft_set_tile_sync(x, y=nil, z=nil)
@@ -313,7 +315,7 @@ module SonicPi
           block_id = y
           x, y, z = y
         end
-        __minecraft_sync_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+        Minecraft.sync_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
       end
 
       def minecraft_location
@@ -321,7 +323,7 @@ module SonicPi
       end
 
       def minecraft_get_tile
-        res = __minecraft_recv "player.getTile()"
+        res = Minecraft.recv "player.getTile()"
         res.split(',').map { |s| s.to_i }
       end
 
