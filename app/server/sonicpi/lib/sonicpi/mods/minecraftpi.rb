@@ -204,7 +204,7 @@ module SonicPi
           end
         end
 
-        y = minecraft_get_height
+        y = minecraft_get_height(x, z)
         minecraft_set_location(x.to_f, y, z.to_f)
       end
 
