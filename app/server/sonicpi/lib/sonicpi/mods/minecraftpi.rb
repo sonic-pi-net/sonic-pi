@@ -63,7 +63,7 @@ module SonicPi
       end
 
       def self.sched_send(m)
-        minecraft_sync_send(m)
+        sync_send(m)
 
         # __delayed do
         #   sync_send(m)
