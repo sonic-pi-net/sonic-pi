@@ -97,24 +97,27 @@ module SonicPi
 
 
       def __minecraft_drain_socket(s)
+        res = ""
         begin
-          puts "Extra minecraft data: #{s.read_nonblock(1000000)}"
+          while d = s.recv_nonblock(1024)
+            res << d
+          end
         rescue IO::WaitReadable
           # Do nothing, drained!
         end
-
+        return res
       end
 
-      def __minecraft_socket
+     def __minecraft_socket
         s_sym = :sonic_pi___not_inherited__minecraft_socket
         s = Thread.current.thread_variable_get(s_sym)
         return s if s
         socket = TCPSocket.new('localhost', 4711)
         Thread.current.thread_variable_set(s_sym, socket)
-        __on_thread_death do
-          # ensure socket is closed when thread has terminated
-          socket.close
-        end
+        # __on_thread_death do
+        #   # ensure socket is closed when thread has terminated
+        #   socket.close
+        # end
         return socket
       end
 
@@ -132,7 +135,7 @@ module SonicPi
         l = __minecraft_lock
         __delayed do
           l.synchronize do
-            s.puts m
+            s.send "#{m}\n", 0
           end
         end
       end
@@ -140,7 +143,7 @@ module SonicPi
       def __minecraft_sync_send(m)
         s = __minecraft_socket
         __minecraft_lock.synchronize do
-          s.puts m
+          s.send "#{m}\n", 0
         end
       end
 
@@ -148,8 +151,8 @@ module SonicPi
         s = __minecraft_socket
         __minecraft_lock.synchronize do
           __minecraft_drain_socket(s)
-          s.puts m
-          s.gets.chomp
+          s.send "#{m}\n", 0
+          s.recv(1024).chomp
         end
       end
 
@@ -158,22 +161,33 @@ module SonicPi
         res.split(',').map { |s| s.to_f }
       end
 
-      def minecraft_set_pos(x, y=nil, z=nil)
+      def minecraft_get_pos
+        minecraft_location
+      end
+
+      def minecraft_set_location(x, y=nil, z=nil)
         if x.is_a? Array
           x, y, z = x
         end
-
         __minecraft_sched_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
       end
 
-      def minecraft_set_pos_sync(x, y=nil, z=nil)
+      def minecraft_set_pos(*args)
+        minecraft_set_location(*args)
+      end
+
+      def minecraft_set_location_sync(x, y=nil, z=nil)
         if x.is_a? Array
           x, y, z = x
         end
         __minecraft_sync_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
       end
 
-      def minecraft_set_ground_pos(x, z=nil)
+      def minecraft_set_pos_sync(*args)
+        minecraft_set_pos_sync(*args)
+      end
+
+      def minecraft_set_ground_location(x, z=nil)
         if x.is_a? Array
           if x.size == 3
             a = x
@@ -195,7 +209,20 @@ module SonicPi
         end
       end
 
-      def minecraft_set_ground_pos_sync(x, z)
+      def minecraft_set_ground_pos(*args)
+        minecraft_set_ground_location(*args)
+      end
+
+      def minecraft_set_ground_location_sync(x, z)
+        if x.is_a? Array
+          if x.size == 3
+            a = x
+            x = a[0]
+            z = a[1]
+          else
+            a, z = a
+          end
+        end
         s = __minecraft_socket
         l = __minecraft_lock
         l.synchronize do
@@ -206,12 +233,24 @@ module SonicPi
         end
       end
 
+      def minecraft_set_ground_pos_sync(*args)
+        minecraft_set_ground_location_sync(*args)
+      end
+
       def minecraft_message(msg)
         __minecraft_sched_send "chat.post(#{msg})"
       end
 
+      def minecraft_chat_post(msg)
+        minecraft_message(msg)
+      end
+
       def minecraft_message_sync(msg)
         __minecraft_sync_send "chat.post(#{msg})"
+      end
+
+      def minecraft_chat_post_sync(msg)
+        minecraft_message_sync(msg)
       end
 
       def minecraft_get_height(x, z)
