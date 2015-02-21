@@ -98,11 +98,11 @@ module SonicPi
         introduced:     Version.new(2,4,0),
         summary:        "Distribute a number of accents evenly across a ring of specified size",
         args:           [[:num_accents, :number], [:size, :number]],
-        opts:           {rotate: "rotate to the next strong beat allowing for easy permutations of the orignal rhythmic grouping (see example)"},
+        opts:           {rotate: "rotate to the next strong beat allowing for easy permutations of the original rhythmic grouping (see example)"},
         accepts_block:  false,
         doc:            "Creates a new ring of boolean values which space a given number of accents as evenly as possible throughout a bar. This is an implementation of the process described in 'The Euclidean Algorithm Generates Traditional Musical Rhythms' (Toussaint 2005).",
         examples:       [
-      "(spread 5, 13)    #=> (ring true, false, false, true, false, false, true, false) a spacing of 332",
+      "(spread 3, 8)    #=> (ring true, false, false, true, false, false, true, false) a spacing of 332",
       "(spread 3, 8, rotate: 1) #=> (ring true, false, false, true, false, true, false, false) a spacing of 323"
     ]
 
