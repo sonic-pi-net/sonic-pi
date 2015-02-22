@@ -376,9 +376,7 @@ puts version.minor # => Prints out the minor version number such as 0",
 puts version.patch # => Prints out the patch level for this version such as 0"]
 
 
-    ## Hide this fn as it currently doesn't work across all platforms
-    ## due to encoding issues.
-    def __spark(*values)
+    def spark(*values)
       if values.first.is_a?(Array) && values.length == 1
         values = values.first
       end
@@ -401,9 +399,9 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         @ticks[(((x - min) / range) * scale).round]
       }.join
     end
-    doc name:         :__spark,
-      hide:           true,
-      introduced:     Version.new(2,4,0),
+    doc name:         :spark,
+      hide:           false,
+      introduced:     Version.new(2,5,0),
       summary:        "Render a list of numeric values as a spark graph/bar chart",
       args:           [],
       opts:           nil,
