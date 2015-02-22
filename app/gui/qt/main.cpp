@@ -3,11 +3,11 @@
 // Full project source: https://github.com/samaaron/sonic-pi
 // License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 //
-// Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+// Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
 //
-// Permission is granted for use, copying, modification, distribution,
-// and distribution of modified versions of this work as long as this
+// Permission is granted for use, copying, modification, and
+// distribution of modified versions of this work as long as this
 // notice is included.
 //++
 
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
   QTranslator qtTranslator;
   qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
   app.installTranslator(&qtTranslator);
-  
+
   QTranslator translator;
   if (!translator.load("sonic-pi_" + systemLocale, ":/lang/") && (!systemLocale.startsWith("en")) && (systemLocale != "C")) {
     std::cout << "No translation found for your locale \"" + systemLocale.toStdString() + "\"." << std::endl;
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
   }
   app.installTranslator(&translator);
 #endif
-  
+
   app.setApplicationName(QObject::tr("Sonic Pi"));
   app.setStyle("gtk");
 
@@ -76,6 +76,6 @@ int main(int argc, char *argv[])
 
   MainWindow mainWin(app, splash);
   return app.exec();
-#endif  
+#endif
 
 }
