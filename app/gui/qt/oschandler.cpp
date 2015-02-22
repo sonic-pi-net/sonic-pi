@@ -91,7 +91,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
             QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));
           }
 
-          ss.append(QString::fromStdString(s));
+          ss.append(QString::fromUtf8(s.c_str()));
 
           QMetaObject::invokeMethod( out, "insertPlainText", Qt::QueuedConnection,
                                      Q_ARG(QString, ss) );

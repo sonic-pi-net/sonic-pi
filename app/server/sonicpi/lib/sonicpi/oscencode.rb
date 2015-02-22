@@ -127,7 +127,7 @@ module SonicPi
     def encode_string(s)
       s = s.sub(/\000.*\z/, '')
       s << "\000"
-      (s << ("\000" * ((4 - (s.size % 4)) % 4)))
+      (s << ("\000" * ((4 - (s.bytesize % 4)) % 4)))
     end
 
     def time_encoded(time)
