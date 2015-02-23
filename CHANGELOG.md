@@ -1,5 +1,44 @@
 # History
 
+The following is a history of the major visible changes to Sonic Pi for
+each major release.
+
+For the complete commit history visit GitHub: [http://github.com/samaaron/sonic-pi](http://github.com/samaaron/sonic-pi).
+
+The current release is [v2.4 'Craft'](#v2.5). Information regarding
+previous versions is also available:
+
+* [v2.4 'Defrost', *11th Feb, 2015*](#v2.4) 
+* [v2.3 'Bitcrush', *28th Jan, 2015*](#v2.3)
+* [v2.2 'Slicer', *18th Dec, 2014*](#v2.2)
+* [v2.1 'Core', *21st Nov, 2014*](#v2.1)
+* [v2.0 'Phoenix', *2nd Sept, 2014*](#v2.0)
+
+
+<a name="v2.4"></a>
+
+## Version 2.5 - 'Dev'
+*To be released*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.5.0)
+
+### New
+
+* Support for [Minecraft Pi Edition](http://pi.minecraft.net).
+* German translation of GUI and tutorial. Simply open Sonic Pi with a
+  machine with a German localisation setting.
+* Display GUI fully maximised when opening for first ever time.
+* New fn `spark` for displaying lists of numbers in a fancy text-graph
+  (`▁▃▅▇`) in the log.
+  
+
+### Bug Fixes
+
+* Fix OSC lib to properly encode multibite chars such as UTF8
+* Fix sporadic issue on some platforms when trigging percussive sounds
+  within a `reverb` FX caused a serious audio overload.
+
+ <a name="v2.4"></a>
+
 ## Version 2.4 - 'Defrost'
 *Wednesday 11th February, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.4.0)
@@ -24,11 +63,11 @@ fun!
 
 * New fn `spread` for creating rings of Euclidean distributions. Great
   for quickly creating interesting rhythms.
-* GUI now automatically appends a : to the FX param autocomplete list  
+* GUI now automatically appends a `:` to the FX param autocomplete list  
 * Synths and FX now raise an exception if any of their non-modulatable
   params are modulated. This is disabled when the pref 'check synth
   args' is unchecked.
-* GUI now renders pretty UTF-8 └─ ├─ characters when printing in the log
+* GUI now renders pretty UTF-8 `└─` `├─` characters when printing in the log
   on RP.
 * Improve docstrings for sample player.
 
@@ -49,10 +88,11 @@ fun!
   http://en.wikipedia.org/wiki/DC_bias)
 
 
+<a name="v2.3"></a>
+
 ## Version 2.3 - 'Bitcrush'
 *Wednesday 28th January, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.3.0)
-
 
 ### Breaking Changes
 
@@ -127,6 +167,9 @@ fun!
   scsynth from crashing when output and input sample rates are
   different.
 
+
+<a name="v2.2"></a>
+
 ## Version 2.2 - 'Slicer'
  *Thursday 18th December, 2014*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.2.0)
@@ -185,6 +228,8 @@ and echoes.
 * Added license information to info window
 * Minor grammar and spelling tweaks to tutorial
 
+
+<a name="v2.1"></a>
 
 ## Version 2.1 - 'Core'
 *Friday 21st November, 2014*
@@ -283,6 +328,9 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Improve highlighting of log messages (`cue`/`sync` messages are more clearly highlighted)
 * Log now communicates when a run has completed executing
 * Fix bug encountered when stopping threads in super fast loops (stopped comms with server)
+
+
+<a name="v2.0"></a>
 
 ## Version 2.0 - 'Phoenix'
 *Tuesday 2nd September, 2014*
