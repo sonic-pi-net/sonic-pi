@@ -1542,9 +1542,12 @@ end"]
             __error "Thread died: #{e.inspect}", e
           end
         end
+      end
 
+      Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_gc)
+        t.join
         __run_thread_end_finalisers
-
         # Disassociate thread with job as it has now finished
         job_subthread_rm(job_id, Thread.current)
       end
