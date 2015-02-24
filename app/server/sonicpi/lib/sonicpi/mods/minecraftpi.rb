@@ -323,6 +323,14 @@ module SonicPi
         res.split(',').map { |s| s.to_i }
       end
 
+      def minecraft_block_to_id(name)
+        BLOCKS_TO_ID[name]
+      end
+
+      def minecraft_id_to_block(id)
+        IDS_TO_BLOCK[id]
+      end
+
     end
   end
 
