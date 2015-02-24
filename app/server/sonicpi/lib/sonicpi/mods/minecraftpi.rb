@@ -62,19 +62,11 @@ module SonicPi
         return @minecraft_queue
       end
 
-      def self.sched_send(m)
-        sync_send(m)
-
-        # __delayed do
-        #   sync_send(m)
-        # end
-      end
-
-      def self.sync_send(m)
+      def self.world_send(m)
         __comms_queue << [m, nil]
       end
 
-      def self.recv(m)
+      def self.world_recv(m)
         p = Promise.new
         __comms_queue << [m, p]
         p.get
@@ -165,7 +157,7 @@ module SonicPi
 
 
       def minecraft_location
-        res = Minecraft.recv "player.getPos()"
+        res = Minecraft.world_recv "player.getPos()"
         res.split(',').map { |s| s.to_f }
       end
 
@@ -177,7 +169,9 @@ module SonicPi
         if x.is_a? Array
           x, y, z = x
         end
-        Minecraft.sched_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
+#        __delayed do
+          Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
+#        end
       end
 
       def minecraft_set_pos(*args)
@@ -188,7 +182,7 @@ module SonicPi
         if x.is_a? Array
           x, y, z = x
         end
-        Minecraft.sync_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
+        Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
       end
 
       def minecraft_set_pos_sync(*args)
@@ -223,7 +217,7 @@ module SonicPi
       end
 
       def minecraft_message(msg)
-        Minecraft.sched_send "chat.post(#{msg})"
+        Minecraft.world_send "chat.post(#{msg})"
       end
 
       def minecraft_chat_post(msg)
@@ -231,7 +225,7 @@ module SonicPi
       end
 
       def minecraft_message_sync(msg)
-        Minecraft.sync_send "chat.post(#{msg})"
+        Minecraft.world_send "chat.post(#{msg})"
       end
 
       def minecraft_chat_post_sync(msg)
@@ -239,7 +233,7 @@ module SonicPi
       end
 
       def minecraft_get_height(x, z)
-        res = Minecraft.recv "world.getHeight(#{x.to_i},#{z.to_i})"
+        res = Minecraft.world_recv "world.getHeight(#{x.to_i},#{z.to_i})"
         res.to_i
       end
 
@@ -247,7 +241,7 @@ module SonicPi
         if x.is_a? Array
           x, y, z = x
         end
-        res = Minecraft.recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
+        res = Minecraft.world_recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
         IDS_TO_BLOCK[res.to_i]
       end
 
@@ -259,7 +253,9 @@ module SonicPi
         if block_id.is_a? Symbol
           block_id = BLOCKS_TO_ID[block_id]
         end
-        Minecraft.sched_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
+#        __delayed do
+          Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
+#        end
       end
 
       def minecraft_set_block_sync(x, y, z=nil, block_id=nil)
@@ -270,7 +266,7 @@ module SonicPi
         if block_id.is_a? Symbol
           block_id = BLOCKS_TO_ID[block_id]
         end
-        Minecraft.sync_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
+        Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
       end
 
       def minecraft_set_area(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
@@ -285,7 +281,7 @@ module SonicPi
         if block_id.is_a? Symbol
           block_id = BLOCKS_TO_ID[block_id]
         end
-        Minecraft.sched_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
+        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
       end
 
       def minecraft_set_area_sync(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
@@ -300,14 +296,14 @@ module SonicPi
         if block_id.is_a? Symbol
           block_id = BLOCKS_TO_ID[block_id]
         end
-        Minecraft.sync_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
+        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
       end
 
       def minecraft_set_tile(x, y=nil, z=nil)
         if x.is_a? Array
           x, y, z = x
         end
-        Minecraft.sched_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+        Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
       end
 
       def minecraft_set_tile_sync(x, y=nil, z=nil)
@@ -315,7 +311,7 @@ module SonicPi
           block_id = y
           x, y, z = y
         end
-        Minecraft.sync_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+        Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
       end
 
       def minecraft_location
@@ -323,7 +319,7 @@ module SonicPi
       end
 
       def minecraft_get_tile
-        res = Minecraft.recv "player.getTile()"
+        res = Minecraft.world_recv "player.getTile()"
         res.split(',').map { |s| s.to_i }
       end
 
