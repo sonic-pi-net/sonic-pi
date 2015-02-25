@@ -19,6 +19,10 @@ module SonicPi
       @minecraft_queue = nil
       @minecraft_queue_creation_lock = Mutex.new
 
+      class MinecraftError < StandardError ; end
+      class MinecraftBlockNameError < MinecraftError ; end
+      class MinecraftBlockIdError < MinecraftError ; end
+
       def self.__drain_socket(s)
         res = ""
         begin
@@ -71,8 +75,6 @@ module SonicPi
         __comms_queue << [m, p]
         p.get
       end
-
-
 
       BLOCKS_TO_ID = {
         :air                 => 0,
@@ -324,11 +326,15 @@ module SonicPi
       end
 
       def minecraft_block_to_id(name)
-        BLOCKS_TO_ID[name]
+        id = BLOCKS_TO_ID[name]
+        raise MinecraftBlockNameError, "Unknown Minecraft block name #{name.inspect}" unless id
+        id
       end
 
       def minecraft_id_to_block(id)
-        IDS_TO_BLOCK[id]
+        name = IDS_TO_BLOCK[id]
+        raise MinecraftBlockIdError, "Unknown Minecraft block id #{id.inspect}" unless name
+        name
       end
 
     end
