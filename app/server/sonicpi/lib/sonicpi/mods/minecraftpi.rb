@@ -22,6 +22,7 @@ module SonicPi
       class MinecraftError < StandardError ; end
       class MinecraftBlockNameError < MinecraftError ; end
       class MinecraftBlockIdError < MinecraftError ; end
+      class MinecraftConnectionError < MinecraftError ; end
 
       def self.__drain_socket(s)
         res = ""
@@ -36,9 +37,14 @@ module SonicPi
       end
 
       def self.__socket_recv(s, m)
-        __drain_socket(s)
-        s.send "#{m}\n", 0
-        s.recv(1024).chomp
+        begin
+          __drain_socket(s)
+          s.send "#{m}\n", 0
+          s.recv(1024).chomp
+        rescue => e
+          @minecraft_queue = nil
+          Thread.current.kill
+        end
       end
 
       def self.__comms_queue
@@ -48,16 +54,26 @@ module SonicPi
           return @minecraft_queue if @minecraft_queue
 
           q = SizedQueue.new(10)
-          socket = TCPSocket.new('localhost', 4711)
+          begin
+            socket = TCPSocket.new('localhost', 4711)
+          rescue => e
+            raise MinecraftConnectionError, "Unable to connect to a Minecraft server. Make sure Minecraft Pi Edition is running"
+          end
           @minecraft_queue = q
           Thread.new do
             cnt = 0
             loop do
               m, p = q.pop
               if p
-                p.deliver! __socket_recv(socket, m)
+                res = __socket_recv(socket, m)
+                p.deliver! res
               else
-                socket.send "#{m}\n", 0
+                begin
+                  socket.send "#{m}\n", 0
+                rescue => e
+                  @minecraft_queue = nil
+                  Thread.current.kill
+                end
               end
               __socket_recv(socket, "player.getPos()") if (cnt+=1 % 5) == 0
             end
