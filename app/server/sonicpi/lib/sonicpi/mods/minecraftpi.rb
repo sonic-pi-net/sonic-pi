@@ -16,18 +16,22 @@ require 'thread'
 module SonicPi
   module Mods
     module Minecraft
+
       @minecraft_queue = nil
       @minecraft_queue_creation_lock = Mutex.new
 
       class MinecraftError < StandardError ; end
-      class MinecraftBlockNameError < MinecraftError ; end
-      class MinecraftBlockIdError < MinecraftError ; end
+      class MinecraftBlockError < MinecraftError ; end
       class MinecraftConnectionError < MinecraftError ; end
+      class MinecraftCommsError < MinecraftError ; end
+      class MinecraftLocationError < MinecraftError ; end
+      class MinecraftBlockNameError < MinecraftBlockError ; end
+      class MinecraftBlockIdError < MinecraftBlockError ; end
 
       def self.__drain_socket(s)
         res = ""
         begin
-          while d = s.recv_nonblock(1024)
+          while d = s.recv_nonblock(1024) && !d.empty?
             res << d
           end
         rescue IO::WaitReadable
@@ -37,18 +41,23 @@ module SonicPi
       end
 
       def self.__socket_recv(s, m)
-        begin
-          __drain_socket(s)
-          s.send "#{m}\n", 0
-          s.recv(1024).chomp
-        rescue => e
-          @minecraft_queue = nil
-          Thread.current.kill
+        __drain_socket(s)
+        s.send "#{m}\n", 0
+        s.recv(1024).chomp
+      end
+
+      def self.__drain_queue_and_error_proms!(q)
+        while !q.empty?
+          m, p = q.pop
+          p.deliver! :error
         end
       end
 
       def self.__comms_queue
         return @minecraft_queue if @minecraft_queue
+
+        q = nil
+        socket = nil
 
         @minecraft_queue_creation_lock.synchronize do
           return @minecraft_queue if @minecraft_queue
@@ -60,39 +69,65 @@ module SonicPi
             raise MinecraftConnectionError, "Unable to connect to a Minecraft server. Make sure Minecraft Pi Edition is running"
           end
           @minecraft_queue = q
-          Thread.new do
-            cnt = 0
-            loop do
-              m, p = q.pop
-              if p
+        end
+
+        Thread.new do
+          cnt = 0
+          loop do
+            m, p = q.pop
+            if p
+              begin
                 res = __socket_recv(socket, m)
                 p.deliver! res
-              else
-                begin
-                  socket.send "#{m}\n", 0
-                rescue => e
-                  @minecraft_queue = nil
-                  Thread.current.kill
-                end
+              rescue => e
+                @minecraft_queue = nil
+                p.deliver! :error
+                __drain_queue_and_error_proms!(q)
+                socket.close
+                Thread.current.kill
               end
-              __socket_recv(socket, "player.getPos()") if (cnt+=1 % 5) == 0
+            else
+              begin
+                socket.send "#{m}\n", 0
+              rescue => e
+                @minecraft_queue = nil
+                __drain_queue_and_error_proms!(q)
+                socket.close
+                Thread.current.kill
+              end
+            end
+
+            #Sync with server to avoid flooding
+            if (cnt+=1 % 5) == 0
+              begin
+                __socket_recv(socket, "player.getPos()")
+              rescue => e
+                @minecraft_queue = nil
+                __drain_queue_and_error_proms!(q)
+                socket.close
+                Thread.current.kill
+              end
+
             end
           end
         end
-        return @minecraft_queue
+        return q
       end
 
       def self.world_send(m)
         __comms_queue << [m, nil]
+        true
       end
 
       def self.world_recv(m)
         p = Promise.new
         __comms_queue << [m, p]
-        p.get
+        res = p.get
+        raise MinecraftCommsError, "Error communicating with server. Connection reset" if res == :error
+        res
       end
 
-      BLOCKS_TO_ID = {
+      BLOCK_NAME_TO_ID = {
         :air                 => 0,
         :stone               => 1,
         :grass               => 2,
@@ -170,17 +205,27 @@ module SonicPi
         :nether_reactor_core => 247
       }
 
-      IDS_TO_BLOCK = BLOCKS_TO_ID.invert
-
-
+      BLOCK_ID_TO_NAME = BLOCK_NAME_TO_ID.invert
+      BLOCK_IDS = BLOCK_ID_TO_NAME.keys
+      BLOCK_NAMES = BLOCK_ID_TO_NAME.values
 
       def minecraft_location
         res = Minecraft.world_recv "player.getPos()"
-        res.split(',').map { |s| s.to_f }
+        res = res.split(',').map { |s| s.to_f }
+        raise MinecraftLocationError, "Server returned an invalid location: #{res.inspect}" unless res.size == 3
+        res
       end
+
 
       def minecraft_get_pos
         minecraft_location
+      end
+
+      def minecraft_get_tile
+        res = Minecraft.world_recv "player.getTile()"
+        res = res.split(',').map { |s| s.to_i }
+        raise MinecraftLocationError, "Server returned an invalid location: #{res.inspect}" unless res.size == 3
+        res
       end
 
       def minecraft_set_location(x, y=nil, z=nil)
@@ -188,8 +233,9 @@ module SonicPi
           x, y, z = x
         end
 #        __delayed do
-          Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
-#        end
+        Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
+        #        end
+        true
       end
 
       def minecraft_set_pos(*args)
@@ -201,6 +247,7 @@ module SonicPi
           x, y, z = x
         end
         Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
+        true
       end
 
       def minecraft_set_pos_sync(*args)
@@ -220,6 +267,7 @@ module SonicPi
 
         y = minecraft_get_height(x, z)
         minecraft_set_location(x.to_f, y, z.to_f)
+        true
       end
 
       def minecraft_set_ground_pos(*args)
@@ -236,6 +284,7 @@ module SonicPi
 
       def minecraft_message(msg)
         Minecraft.world_send "chat.post(#{msg})"
+        msg
       end
 
       def minecraft_chat_post(msg)
@@ -244,6 +293,7 @@ module SonicPi
 
       def minecraft_message_sync(msg)
         Minecraft.world_send "chat.post(#{msg})"
+        true
       end
 
       def minecraft_chat_post_sync(msg)
@@ -260,7 +310,7 @@ module SonicPi
           x, y, z = x
         end
         res = Minecraft.world_recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
-        IDS_TO_BLOCK[res.to_i]
+        minecraft_id_to_block(res.to_i)
       end
 
       def minecraft_set_block(x, y, z=nil, block_id=nil)
@@ -268,12 +318,11 @@ module SonicPi
           block_id = y
           x, y, z = x
         end
-        if block_id.is_a? Symbol
-          block_id = BLOCKS_TO_ID[block_id]
-        end
-#        __delayed do
+        block_id = minecraft_block_id(block_id)
+        #__delayed do
           Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
-#        end
+        #end
+        true
       end
 
       def minecraft_set_block_sync(x, y, z=nil, block_id=nil)
@@ -281,10 +330,10 @@ module SonicPi
           block_id = y
           x, y, z = x
         end
-        if block_id.is_a? Symbol
-          block_id = BLOCKS_TO_ID[block_id]
-        end
-        Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
+
+        block_id = minecraft_block_id(block_id)
+        Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id})"
+        true
       end
 
       def minecraft_set_area(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
@@ -296,10 +345,9 @@ module SonicPi
           x2, y2, z2, = a2
         end
 
-        if block_id.is_a? Symbol
-          block_id = BLOCKS_TO_ID[block_id]
-        end
-        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
+        block_id = minecraft_block_id(block_id)
+        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
+        true
       end
 
       def minecraft_set_area_sync(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
@@ -311,10 +359,9 @@ module SonicPi
           x2, y2, z2, = a2
         end
 
-        if block_id.is_a? Symbol
-          block_id = BLOCKS_TO_ID[block_id]
-        end
-        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id.to_i})"
+        block_id = minecraft_block_id(block_id)
+        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
+        true
       end
 
       def minecraft_set_tile(x, y=nil, z=nil)
@@ -322,6 +369,7 @@ module SonicPi
           x, y, z = x
         end
         Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+        true
       end
 
       def minecraft_set_tile_sync(x, y=nil, z=nil)
@@ -330,28 +378,45 @@ module SonicPi
           x, y, z = y
         end
         Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+        true
       end
 
-      def minecraft_location
-        minecraft_get_tile
-      end
-
-      def minecraft_get_tile
-        res = Minecraft.world_recv "player.getTile()"
-        res.split(',').map { |s| s.to_i }
-      end
-
-      def minecraft_block_to_id(name)
-        id = BLOCKS_TO_ID[name]
-        raise MinecraftBlockNameError, "Unknown Minecraft block name #{name.inspect}" unless id
+      def minecraft_block_id(name)
+        case name
+        when Symbol
+          id = BLOCK_NAME_TO_ID[name]
+          raise MinecraftBlockNameError, "Unknown Minecraft block name #{name.inspect}" unless id
+        when Numeric
+          raise MinecraftBlockIdError, "Invalid Minecraft block id #{id.inspect}" unless BLOCK_ID_TO_NAME[name]
+          id = name
+        else
+          raise MinecraftBlockError, "Unable to convert #{name.inspect} to a block ID. Must be either a Symbol or a Numeric, got #{name.class}."
+        end
         id
       end
 
-      def minecraft_id_to_block(id)
-        name = IDS_TO_BLOCK[id]
-        raise MinecraftBlockIdError, "Unknown Minecraft block id #{id.inspect}" unless name
+      def minecraft_block_name(id)
+        case id
+        when Numeric
+          name = BLOCK_ID_TO_NAME[id]
+          raise MinecraftBlockIdError, "Invalid Minecraft block id #{id.inspect}" unless name
+        when Symbol
+          raise MinecraftBlockNameError, "Unknown Minecraft block name #{id.inspect}" unless BLOCK_NAME_TO_ID[id]
+          name = id
+        else
+          raise MinecraftBlockError, "Unable to convert #{name.inspect} to a block name. Must be either a Symbol or a Numeric, got #{name.class}."
+        end
         name
       end
+
+      def minecraft_block_ids
+        BLOCK_IDS
+      end
+
+      def minecraft_block_names
+        BLOCK_NAMES
+      end
+
 
     end
   end
