@@ -90,7 +90,7 @@ module SonicPi
           p.get
         end
 
-        Kernel.sleep 0.1
+        Kernel.sleep 0.5
         assert_equal "sleep", t.status
         t.kill
       end
