@@ -3871,6 +3871,63 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
     end
   end
 
+  class FXPitchShift < FXInfo
+    def name
+      "Pitch shift"
+    end
+
+    def introduced
+      Version.new(2,5,0)
+    end
+
+    def synth_name
+      "fx_pitch_shift"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :window_size => 0.02,
+        :pitch_ratio => 1,
+        :pitch_dispersion => 0.001,
+        :time_dispersion => 0.01,
+      }
+    end
+
+    def specific_arg_info
+      {
+        :window_size =>
+        {
+          :doc => "Length in seconds of the grain used. Defaults to 20ms long.",
+          :validations => [v_greater_than(:window_size, 0)],
+          :modulatable => false
+        },
+        :pitch_ratio =>
+        {
+          :doc => "Ratio of the fx pitch to the input signal. 1 is unchanged, 0.5 is one octave below, 2 is an octave above etc. Maximum of 4 (2 octaves up) is hardcoded into the effect.",
+          :validations => [v_greater_than(:pitch_ratio, 0), v_less_than_oet(:pitch_ratio, 4)],
+          :modulatable => false
+        },
+
+      }
+    end
+
+    def doc
+      "Changes the pitch of a signal without affecting tempo or anything else. Does this mainly through the pitch_ratio parameter although you can play with the other params to produce some interesting sounds."
+    end
+  end
+
   class FXDistortion < FXInfo
     def name
       "Distortion"
@@ -4336,6 +4393,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       :fx_nbpf => FXNBPF.new,
       :fx_rbpf => FXRBPF.new,
       :fx_nrbpf => FXNRBPF.new,
+      :fx_pitch_shift => FXPitchShift.new,
       :fx_ring => FXRingMod.new,
       #:fx_chorus => FXChorus.new,
       #:fx_harmoniser => FXHarmoniser.new,
