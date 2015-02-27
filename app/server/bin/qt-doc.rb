@@ -21,6 +21,7 @@ require_relative "../sonicpi/lib/sonicpi/synthinfo"
 require_relative "../sonicpi/lib/sonicpi/util"
 require_relative "../sonicpi/lib/sonicpi/spiderapi"
 require_relative "../sonicpi/lib/sonicpi/mods/sound"
+require_relative "../sonicpi/lib/sonicpi/mods/minecraftpi"
 
 require 'kramdown'
 require 'active_support/inflector'
@@ -109,7 +110,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
     docs << ")" unless title.ascii_only?
 
     docs << ", "
-    
+
     if with_keyword then
       docs << "\"#{n.downcase}\""
     else
