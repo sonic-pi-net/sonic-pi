@@ -81,7 +81,6 @@ module SonicPi
             if p
               begin
                 res = __socket_recv(socket, m)
-                p.deliver! res
               rescue => e
                 @minecraft_queue = nil
                 p.deliver! :error
@@ -89,6 +88,7 @@ module SonicPi
                 socket.close
                 Thread.current.kill
               end
+              p.deliver! res
             else
               begin
                 socket.send "#{m}\n", 0
