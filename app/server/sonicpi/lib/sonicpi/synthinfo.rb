@@ -3898,25 +3898,39 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
         :pre_amp_slide => 0,
         :pre_amp_slide_shape => 5,
         :pre_amp_slide_curve => 0,
-        :window_size => 0.02,
-        :pitch_ratio => 1,
-        :pitch_dispersion => 0.001,
-        :time_dispersion => 0.01,
+        :window_size => 0.2,
+        :pitch => 0,
+        :pitch_dispersion => 0.0,
+        :time_dispersion => 0.0,
       }
     end
 
     def specific_arg_info
       {
+        :pitch =>
+        {
+          :doc => "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.",
+          :validations => [v_greater_than_oet(:pitch, -72), v_less_than_oet(:pitch, 24)],
+          :modulatable => false
+        },
         :window_size =>
         {
-          :doc => "Length in seconds of the grain used. Defaults to 20ms long.",
+          :doc => "Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
+
+The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
           :validations => [v_greater_than(:window_size, 0)],
           :modulatable => false
         },
-        :pitch_ratio =>
+        :pitch_dispersion =>
         {
-          :doc => "Ratio of the fx pitch to the input signal. 1 is unchanged, 0.5 is one octave below, 2 is an octave above etc. Maximum of 4 (2 octaves up) is hardcoded into the effect.",
-          :validations => [v_greater_than(:pitch_ratio, 0), v_less_than_oet(:pitch_ratio, 4)],
+          :doc => "How much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
+          :validations => [v_greater_than_oet(:pitch_dispersion, 0)],
+          :modulatable => false
+        },
+        :time_dispersion =>
+        {
+          :doc => "(measured in seconds). NB - This won't have an effect if it's larger than window_size. How much random delay before playing each grain. Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original.",
+          :validations => [v_greater_than_oet(:time_dispersion, 0)],
           :modulatable => false
         },
 

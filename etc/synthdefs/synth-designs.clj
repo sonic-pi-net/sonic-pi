@@ -3660,7 +3660,7 @@
      mod_amp_slide_shape 5
      mod_amp_slide_curve 0
      window_size 0.02
-     pitch_ratio 1
+     pitch 0
      pitch_dispersion 0.001
      time_dispersion 0.01
      in_bus 0
@@ -3668,6 +3668,7 @@
     (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
           pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+          pitch_ratio   (midiratio pitch)
           [in-l in-r]   (pitch-shift (* pre_amp (in in_bus 2))
                                      window_size pitch_ratio pitch_dispersion time_dispersion)]
       (out out_bus [in-l in-r])))
