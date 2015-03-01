@@ -24,6 +24,19 @@ module SonicPi
     include SonicPi::Util
 
     THREAD_RAND_SEED_MAX = 10e20
+
+    def tick_set(k, v=0)
+      SonicPi::Core::ThreadLocalCounter.set(k, v)
+    end
+
+    def tick(k, n=1)
+      SonicPi::Core::ThreadLocalCounter.tick(k, n)
+    end
+
+    def hook(k)
+      SonicPi::Core::ThreadLocalCounter.read(k)
+    end
+
     def bools(*args)
       args.map do |a|
         if (a == 0) || (not a)
