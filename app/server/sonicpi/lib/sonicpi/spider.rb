@@ -205,7 +205,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_subthread_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
 
-
+          Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, {})
           # Calculate the amount of time to sleep to sync us up with the
           # sched_ahead_time
           sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
