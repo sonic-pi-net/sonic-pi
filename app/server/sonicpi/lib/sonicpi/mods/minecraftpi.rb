@@ -212,13 +212,13 @@ module SonicPi
       BLOCK_IDS = BLOCK_ID_TO_NAME.keys
       BLOCK_NAMES = BLOCK_ID_TO_NAME.values
 
-      def minecraft_location
+      def mc_location
         res = Minecraft.world_recv "player.getPos()"
         res = res.split(',').map { |s| s.to_f }
         raise MinecraftLocationError, "Server returned an invalid location: #{res.inspect}" unless res.size == 3
         res
       end
-      doc name:           :minecraft_location,
+      doc name:           :mc_location,
           introduced:     Version.new(2,5,0),
           summary:        "Get current location",
           args:           [[]],
@@ -226,9 +226,12 @@ module SonicPi
           accepts_block:  false,
           doc:            "Returns a list of floats [x, y, z] coords of the current location for Steve. The coordinates are finer grained than raw block coordinates.",
           examples:       [
-        "puts minecraft_location    #=> [10.1, 20.67, 101.34]"   ]
+        "puts mc_location    #=> [10.1, 20.67, 101.34]"   ]
 
-      def minecraft_set_location(x, y=nil, z=nil)
+
+
+
+      def mc_set_location(x, y=nil, z=nil)
         if x.is_a? Array
           x, y, z = x
         end
@@ -237,7 +240,7 @@ module SonicPi
         #        end
         true
       end
-      doc name:           :minecraft_set_location,
+      doc name:           :mc_set_location,
           introduced:     Version.new(2,5,0),
           summary:        "Set current location",
           args:           [[]],
@@ -246,20 +249,34 @@ module SonicPi
           doc:            "",
           examples:       []
 
-
-
-      def minecraft_get_pos
-        minecraft_location
+      def mc_set_location_sync(x, y=nil, z=nil)
+        if x.is_a? Array
+          x, y, z = x
+        end
+        Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
+        true
       end
 
 
-      def minecraft_get_tile
+
+
+      ## Fns matching the API names for those coming from Python
+      def mc_get_pos
+        mc_location
+      end
+
+
+
+
+
+
+      def mc_get_tile
         res = Minecraft.world_recv "player.getTile()"
         res = res.split(',').map { |s| s.to_i }
         raise MinecraftLocationError, "Server returned an invalid location: #{res.inspect}" unless res.size == 3
         res
       end
-      doc name:           :minecraft_get_tile,
+      doc name:           :mc_get_tile,
           introduced:     Version.new(2,5,0),
           summary:        "Get location of current tile",
           args:           [[]],
@@ -270,23 +287,14 @@ module SonicPi
 
 
 
-      def minecraft_set_pos(*args)
-        minecraft_set_location(*args)
+
+
+
+      def mc_set_pos_sync(*args)
+        mc_set_pos_sync(*args)
       end
 
-      def minecraft_set_location_sync(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
-        Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
-        true
-      end
-
-      def minecraft_set_pos_sync(*args)
-        minecraft_set_pos_sync(*args)
-      end
-
-      def minecraft_set_ground_location(x, z=nil)
+      def mc_set_ground_location(x, z=nil)
         if x.is_a? Array
           if x.size == 3
             a = x
@@ -297,28 +305,28 @@ module SonicPi
           end
         end
 
-        y = minecraft_get_height(x, z)
-        minecraft_set_location(x.to_f, y, z.to_f)
+        y = mc_get_height(x, z)
+        mc_set_location(x.to_f, y, z.to_f)
         true
       end
 
-      def minecraft_set_ground_pos(*args)
-        minecraft_set_ground_location(*args)
+      def mc_set_ground_pos(*args)
+        mc_set_ground_location(*args)
       end
 
-      def minecraft_set_ground_location_sync(x, z=nil)
-        minecraft_set_ground_location(x, z)
+      def mc_set_ground_location_sync(x, z=nil)
+        mc_set_ground_location(x, z)
       end
 
-      def minecraft_set_ground_pos_sync(*args)
-        minecraft_set_ground_location_sync(*args)
+      def mc_set_ground_pos_sync(*args)
+        mc_set_ground_location_sync(*args)
       end
 
-      def minecraft_message(msg)
+      def mc_message(msg)
         Minecraft.world_send "chat.post(#{msg})"
         msg
       end
-      doc name:           :minecraft_message,
+      doc name:           :mc_message,
           introduced:     Version.new(2,5,0),
           summary:        "Display message on Minecraft",
           args:           [[]],
@@ -329,24 +337,24 @@ module SonicPi
 
 
 
-      def minecraft_chat_post(msg)
-        minecraft_message(msg)
+      def mc_chat_post(msg)
+        mc_message(msg)
       end
 
-      def minecraft_message_sync(msg)
+      def mc_message_sync(msg)
         Minecraft.world_send "chat.post(#{msg})"
         true
       end
 
-      def minecraft_chat_post_sync(msg)
-        minecraft_message_sync(msg)
+      def mc_chat_post_sync(msg)
+        mc_message_sync(msg)
       end
 
-      def minecraft_get_height(x, z)
+      def mc_get_height(x, z)
         res = Minecraft.world_recv "world.getHeight(#{x.to_i},#{z.to_i})"
         res.to_i
       end
-      doc name:           :minecraft_get_height,
+      doc name:           :mc_get_height,
           introduced:     Version.new(2,5,0),
           summary:        "Get current height",
           args:           [[]],
@@ -356,14 +364,14 @@ module SonicPi
           examples:       []
 
 
-      def minecraft_get_block(x, y=nil, z=nil)
+      def mc_get_block(x, y=nil, z=nil)
         if x.is_a? Array
           x, y, z = x
         end
         res = Minecraft.world_recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
-        minecraft_id_to_block(res.to_i)
+        mc_id_to_block(res.to_i)
       end
-      doc name:           :minecraft_get_block,
+      doc name:           :mc_get_block,
           introduced:     Version.new(2,5,0),
           summary:        "Get block type",
           args:           [[]],
@@ -372,18 +380,18 @@ module SonicPi
           doc:            "",
           examples:       []
 
-      def minecraft_set_block(x, y, z=nil, block_id=nil)
+      def mc_set_block(x, y, z=nil, block_id=nil)
         if x.is_a? Array
           block_id = y
           x, y, z = x
         end
-        block_id = minecraft_block_id(block_id)
+        block_id = mc_block_id(block_id)
         #__delayed do
           Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
         #end
         true
       end
-      doc name:           :minecraft_set_block,
+      doc name:           :mc_set_block,
           introduced:     Version.new(2,5,0),
           summary:        "Set block at specific coord",
           args:           [[]],
@@ -392,18 +400,18 @@ module SonicPi
           doc:            "",
           examples:       []
 
-      def minecraft_set_block_sync(x, y, z=nil, block_id=nil)
+      def mc_set_block_sync(x, y, z=nil, block_id=nil)
         if x.is_a? Array
           block_id = y
           x, y, z = x
         end
 
-        block_id = minecraft_block_id(block_id)
+        block_id = mc_block_id(block_id)
         Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id})"
         true
       end
 
-      def minecraft_set_area(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
+      def mc_set_area(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
         if x.is_a? Array
           block_id = z
           a1 = x
@@ -412,11 +420,11 @@ module SonicPi
           x2, y2, z2, = a2
         end
 
-        block_id = minecraft_block_id(block_id)
+        block_id = mc_block_id(block_id)
         Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
         true
       end
-      doc name:           :minecraft_set_area,
+      doc name:           :mc_set_area,
           introduced:     Version.new(2,5,0),
           summary:        "Set area of blocks",
           args:           [[]],
@@ -426,7 +434,7 @@ module SonicPi
           examples:       []
 
 
-      def minecraft_set_area_sync(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
+      def mc_set_area_sync(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
         if x.is_a? Array
           block_id = z
           a1 = x
@@ -435,12 +443,12 @@ module SonicPi
           x2, y2, z2, = a2
         end
 
-        block_id = minecraft_block_id(block_id)
+        block_id = mc_block_id(block_id)
         Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
         true
       end
 
-      def minecraft_set_tile(x, y=nil, z=nil)
+      def mc_set_tile(x, y=nil, z=nil)
         if x.is_a? Array
           x, y, z = x
         end
@@ -448,7 +456,7 @@ module SonicPi
         true
       end
 
-      def minecraft_set_tile_sync(x, y=nil, z=nil)
+      def mc_set_tile_sync(x, y=nil, z=nil)
         if x.is_a? Array
           block_id = y
           x, y, z = y
@@ -457,7 +465,7 @@ module SonicPi
         true
       end
 
-      def minecraft_block_id(name)
+      def mc_block_id(name)
         case name
         when Symbol
           id = BLOCK_NAME_TO_ID[name]
@@ -470,7 +478,7 @@ module SonicPi
         end
         id
       end
-      doc name:           :minecraft_block_id,
+      doc name:           :mc_block_id,
           introduced:     Version.new(2,5,0),
           summary:        "Normalise block code",
           args:           [[]],
@@ -480,7 +488,7 @@ module SonicPi
           examples:       []
 
 
-      def minecraft_block_name(id)
+      def mc_block_name(id)
         case id
         when Numeric
           name = BLOCK_ID_TO_NAME[id]
@@ -493,7 +501,7 @@ module SonicPi
         end
         name
       end
-      doc name:           :minecraft_block_id,
+      doc name:           :mc_block_id,
           introduced:     Version.new(2,5,0),
           summary:        "Normalise block name",
           args:           [[]],
@@ -502,10 +510,10 @@ module SonicPi
           doc:            "",
           examples:       []
 
-      def minecraft_block_ids
+      def mc_block_ids
         BLOCK_IDS
       end
-      doc name:           :minecraft_block_ids,
+      doc name:           :mc_block_ids,
           introduced:     Version.new(2,5,0),
           summary:        "List all block ids",
           args:           [[]],
@@ -515,10 +523,10 @@ module SonicPi
           examples:       []
 
 
-      def minecraft_block_names
+      def mc_block_names
         BLOCK_NAMES
       end
-      doc name:           :minecraft_block_id,
+      doc name:           :mc_block_id,
           introduced:     Version.new(2,5,0),
           summary:        "List all block names",
           args:           [[]],
