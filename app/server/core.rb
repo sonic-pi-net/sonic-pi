@@ -40,6 +40,40 @@ require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
 
 require 'osc-ruby'
 
+module SonicPi
+  module Core
+    module ThreadLocalCounter
+      def self.get_or_create_counters
+        counters = Thread.current.thread_variable_get(:sonic_pi_core_thread_local_counters)
+        unless counters
+          counters = {}
+          Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, counters)
+        end
+        return counters
+      end
+
+      def self.tick(k, n=1)
+        counters = get_or_create_counters
+        if counters[k]
+          return counters[k] = counters[k] + n
+        else
+          return counters[k] = 0
+        end
+      end
+
+      def self.read(k)
+        counters = get_or_create_counters
+        counters[k] || 0
+      end
+
+      def self.set(k, v)
+        counters = get_or_create_counters
+        counters[k] = v
+      end
+    end
+  end
+end
+
 
 module SonicPi
   module Core
@@ -65,6 +99,16 @@ module SonicPi
 
       def to_a
         Array.new(self)
+      end
+
+      def tick(key, n=1)
+        idx = ThreadLocalCounter.tick(key, n)
+        self[idx]
+      end
+
+      def hook(key, *args)
+        idx = ThreadLocalCounter.read(key)
+        self[idx]
       end
 
       #TODO:    def each_with_ring
