@@ -152,6 +152,46 @@ module SonicPi
       "(range 1, -5, 2)[-1] #=> -3"
     ]
 
+
+
+
+    def linear(start, finish, num_slices=16)
+      return [].ring if start == finish
+      raise "Num slices param for fn linear should be a positive none-negative whole number" unless num_slices > 0
+
+      case num_slices
+      when 1
+        [start].ring
+      when 2
+        [finish].ring
+      else
+        length =  (start - finish)
+        mul = length > 0 ? -1 : 1
+        abs_length = length.abs
+
+        step_size = abs_length.to_f / (num_slices - 1)
+        res = (0...(num_slices - 1)).map do |e|
+          start + (e * mul * step_size)
+        end
+        res << finish
+        res.ring
+      end
+    end
+    doc name:           :linear,
+        introduced:     Version.new(2,5,0),
+        summary:        "Create a ring buffer representing a straight line between start and finish of num_slices elements",
+        args:           [[:start, :number], [:finish, :number], [:num_slices, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to 16. Indexes wrap around positively and negatively",
+        examples:       [
+      "(linear 0, 5, 3)    #=> (ring 0, 2.5, 5)",
+      "(linear 5, 0, 3) #=> (ring 5, -2.5, 0)"
+   ]
+
+
+
+
     def ring(*args)
       SonicPi::Core::RingArray.new(args)
     end
