@@ -96,7 +96,11 @@ module SonicPi
           @@docs[args_h[:name]] = args_h
         end
 
-
+        def ring_fns
+          @@docs.values.select do |info|
+            info[:returns] == :ring
+          end
+        end
       end
     end
   end

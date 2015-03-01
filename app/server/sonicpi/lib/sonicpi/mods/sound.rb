@@ -1912,6 +1912,7 @@ play degree(2, :C3, :minor)
            summary:       "Create scale",
            doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional :num_octaves parameter (1 octave is the default)",
            args:          [[:tonic, :symbol], [:name, :symbol]],
+           returns:        :ring,
            opts:          {:num_octaves => 1},
            accepts_block: false,
            examples:      ["
@@ -2031,6 +2032,7 @@ puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80
            summary:       "Create chord",
            doc:           "A helper method that returns a list of midi note numbers when given a tonic note and a chord type",
            args:          [[:tonic, :symbol], [:name, :symbol]],
+           returns:        :ring,
            opts:          nil,
            accepts_block: false,
            examples:      ["
