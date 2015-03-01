@@ -120,7 +120,7 @@ module SonicPi
     ]
 
     def range(start, finish, step_size=1)
-      return [] if start == finish
+      return [].ring if start == finish
       step_size = step_size.abs
       res = []
       cur = start
