@@ -111,6 +111,14 @@ module SonicPi
         self[idx]
       end
 
+      def to_s
+        inspect
+      end
+
+      def inspect
+        "(ring #{self.to_a.inspect[1...-1]})"
+      end
+
       #TODO:    def each_with_ring
     end
   end
