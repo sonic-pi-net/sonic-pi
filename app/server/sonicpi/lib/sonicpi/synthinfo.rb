@@ -3884,7 +3884,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
     end
 
     def trigger_with_logical_clock?
-      false
+      :t_minus_delta
     end
 
     def arg_defaults

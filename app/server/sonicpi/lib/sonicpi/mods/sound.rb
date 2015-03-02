@@ -1202,7 +1202,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
            ## Trigger new fx synth (placing it in the fx group) and
            ## piping the in and out busses correctly
-           fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_group, !info.trigger_with_logical_clock?)
+           t_minus_delta = info.trigger_with_logical_clock? == :t_minus_delta
+           fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_group, !info.trigger_with_logical_clock?, t_minus_delta)
 
            ## Create a synth tracker and stick it in a thread local
            tracker = SynthTracker.new
@@ -2515,8 +2516,8 @@ stop bar"]
          cg
        end
 
-       def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group, now=false)
-         n = trigger_synth_with_resolved_args(synth_name, args_h, group, info, now)
+       def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group, now=false, t_minus_delta=false)
+         n = trigger_synth_with_resolved_args(synth_name, args_h, group, info, now, t_minus_delta)
          FXNode.new(n, in_bus, current_out_bus)
        end
 
@@ -2526,7 +2527,7 @@ stop bar"]
        end
 
        # Function that actually triggers synths now that all args are resolved
-       def trigger_synth_with_resolved_args(synth_name, args_h, group, info, now=false, out_bus=nil)
+       def trigger_synth_with_resolved_args(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false)
          synth_name = info ? info.scsynth_name : synth_name
          validate_if_necessary! info, args_h
          job_id = current_job_id
@@ -2535,7 +2536,7 @@ stop bar"]
            p = Promise.new
            job_synth_proms_add(job_id, p)
 
-           s = @mod_sound_studio.trigger_synth synth_name, group, args_h, info, now
+           s = @mod_sound_studio.trigger_synth synth_name, group, args_h, info, now, t_minus_delta
 
            trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers)
 

@@ -175,7 +175,7 @@ module SonicPi
 
 
 
-    def trigger_synth(position, group, synth_name, args_h, info=nil, now=false)
+    def trigger_synth(position, group, synth_name, args_h, info=nil, now=false, t_minus_delta=false)
       pos_code = @position_codes[position]
       group_id = group.to_i
       node_id = @CURRENT_NODE_ID.next
@@ -201,6 +201,7 @@ module SonicPi
       else
         t = Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now
         ts =  t + @sched_ahead_time
+        ts - t - @control_delta if t_minus_delta
         osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *args_h.flatten
       end
       sn
@@ -263,6 +264,7 @@ module SonicPi
 
     def buffer_alloc_read(path, start=0, n_frames=0)
       buffer_id = @BUFFER_ALLOCATOR.allocate
+      # TODO do we need to sync these?
       with_done_sync do
         osc "/b_allocRead", buffer_id, path, start, n_frames
       end
