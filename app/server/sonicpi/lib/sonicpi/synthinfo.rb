@@ -855,7 +855,7 @@ module SonicPi
                     :mod_range => 5,
                     :mod_pulse_width => 0.5,
                     :mod_phase_offset => 0,
-                    :mod_invert_wave => 0,
+                    :mod_invert_wave => 1,
                     :mod_wave => 1
                   })
     end
@@ -920,7 +920,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 0,
+        :mod_invert_wave => 1,
         :mod_wave => 1
 
       }
@@ -985,7 +985,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 0,
+        :mod_invert_wave => 1,
         :mod_wave => 1,
         :detune => 0.1,
         :detune_slide => 0,
@@ -1053,7 +1053,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 0,
+        :mod_invert_wave => 1,
         :mod_wave => 1
 
       }
@@ -1117,7 +1117,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 0,
+        :mod_invert_wave => 1,
         :mod_wave => 1
       }
     end
@@ -1181,7 +1181,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 0,
+        :mod_invert_wave => 1,
         :mod_wave => 1,
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
@@ -1882,7 +1882,6 @@ module SonicPi
           :bpm_scale => true
         },
 
-
         :wave =>
         {
           :doc => "Wave shape controlling freq sync saw wave. 0=saw wave, 1=pulse, 2=triangle wave and 3=sine wave.",
@@ -1892,7 +1891,7 @@ module SonicPi
 
         :invert_wave =>
         {
-          :doc => "Invert sync freq control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
+          :doc => "Invert sync freq control waveform (i.e. flip it on the y axis). 0=uninverted wave, 1=inverted wave.",
           :validations => [v_one_of(:invert_wave, [0, 1])],
           :modulatable => true
         },
@@ -2718,7 +2717,7 @@ end
         :pulse_width_slide_curve => 0,
         :phase_offset => 0,
         :wave => 1,
-        :invert_wave => 0
+        :invert_wave => 1
       }
     end
 
@@ -2786,7 +2785,7 @@ end
 
         :invert_wave =>
         {
-          :doc => "Invert control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
+          :doc => "Invert control waveform (i.e. flip it on the y axis). 0=uninverted wave, 1=inverted wave.",
           :validations => [v_one_of(:invert_wave, [0, 1])],
           :modulatable => true
         },
@@ -4094,7 +4093,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :phase_slide_curve => 0,
         :phase_offset => 0,
         :wave => 4,
-        :invert_wave => 0,
+        :invert_wave => 1,
         :stereo_invert_wave => 0,
         :delay => 5,
         :delay_slide => 0,
@@ -4138,14 +4137,14 @@ The window_size is the length of the slices and is measured in seconds. It needs
 
         :invert_wave =>
         {
-          :doc => "Invert flanger control waveform (i.e. flip it on the y axis). 0=normal wave, 1=inverted wave.",
+          :doc => "Invert flanger control waveform (i.e. flip it on the y axis). 0=uninverted wave, 1=inverted wave.",
           :validations => [v_one_of(:invert_wave, [0, 1])],
           :modulatable => true
         },
 
         :stereo_invert_wave =>
         {
-          :doc => "Make the flanger control waveform in the left ear an inversion of the control waveform in the right ear. 0=normal wave, 1=inverted wave. This happens after the standard wave inversion with param :invert_wave.",
+          :doc => "Make the flanger control waveform in the left ear an inversion of the control waveform in the right ear. 0=uninverted wave, 1=inverted wave. This happens after the standard wave inversion with param :invert_wave.",
           :validations => [v_one_of(:stereo_invert_wave, [0, 1])],
           :modulatable => true
         },
