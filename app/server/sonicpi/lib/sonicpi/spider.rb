@@ -360,10 +360,11 @@ module SonicPi
       firstline = 1
       firstline -= code.split(/\r?\n/).count{|l| l.include? "#__nosave__"}
       start_t_prom = Promise.new
-      code = PreParser.preparse(code)
+
       job = Thread.new do
         Thread.current.priority = 20
         begin
+
           num_running_jobs = reg_job(id, Thread.current)
           Thread.current.thread_variable_set :sonic_pi_thread_group, "job-#{id}"
           Thread.current.thread_variable_set :sonic_pi_spider_arg_bpm_scaling, true
@@ -386,6 +387,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
           @run_start_time = now if num_running_jobs == 1
           __info "Starting run #{id}"
+          code = PreParser.preparse(code)
           eval(code, nil, info[:workspace] || 'eval', firstline)
           __schedule_delayed_blocks_and_messages!
         rescue Exception => e
