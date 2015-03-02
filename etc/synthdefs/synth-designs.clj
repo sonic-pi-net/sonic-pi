@@ -3642,6 +3642,55 @@
          fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
 
+   (defsynth sonic-pi-fx_pitch_shift
+     [amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+      pan 0
+      pan_slide 0
+      pan_slide_shape 5
+      pan_slide_curve 0
+      pre_amp 1
+      pre_amp_slide 0
+      pre_amp_slide_shape 5
+      pre_amp_slide_curve 0
+      mod_amp 1
+      mod_amp_slide 0
+      mod_amp_slide_shape 5
+      mod_amp_slide_curve 0
+      pitch 0
+      pitch_slide 0
+      pitch_slide_shape 1
+      pitch_slide_curve 0
+      window_size 0.2
+      window_size_slide 0
+      window_size_slide_shape 1
+      window_size_slide_curve 0
+      pitch_dispersion 0.0
+      pitch_dispersion_slide 0
+      pitch_dispersion_slide_shape 1
+      pitch_dispersion_slide_curve 0
+      time_dispersion 0.0
+      time_dispersion_slide 0
+      time_dispersion_slide_shape 1
+      time_dispersion_slide_curve 0
+      in_bus 0
+      out_bus 0]
+     (let [amp               (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pre_amp           (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+           pan               (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           pitch             (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
+           window_size       (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
+           pitch_dispersion  (varlag pitch_dispersion pitch_dispersion_slide pitch_dispersion_slide_curve pitch_dispersion_slide_shape)
+           time_dispersion   (varlag time_dispersion time_dispersion_slide time_dispersion_slide_curve time_dispersion_slide_shape)
+           pitch_ratio       (midiratio pitch)
+           [in-l in-r]       (pitch-shift (* pre_amp (in in_bus 2))
+                                          window_size pitch_ratio pitch_dispersion time_dispersion)
+           [new-l new-r]     (balance2 in-l in-r pan amp)]
+       (out out_bus [new-l new-r])))
+
+
 
  ;;(def ab (audio-bus 2))
  ;;(def g (group :after (foundation-default-group)))
@@ -3693,6 +3742,7 @@
    (save-to-pi sonic-pi-fx_bpf)
    (save-to-pi sonic-pi-fx_rbpf)
    (save-to-pi sonic-pi-fx_nrbpf)
+   (save-to-pi sonic-pi-fx_pitch_shift)
    (save-to-pi sonic-pi-fx_ring_mod)
    (save-to-pi sonic-pi-fx_octaver)
    (save-to-pi sonic-pi-fx_flanger)
