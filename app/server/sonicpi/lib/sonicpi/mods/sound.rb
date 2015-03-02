@@ -296,6 +296,23 @@ end"]
 
 
 
+    def pitch_ratio(m)
+      2 ** (m.to_f / 12)
+    end
+       doc name:          :pitch_ratio,
+           introduced:    Version.new(2,5,0),
+           summary:       "relative MIDI pitch to frequency ratio",
+           doc:           "Convert a midi note a ratio which when applied to a frequency will scale the frequency by the number of semitones.",
+           args:          [[:pitch, :midi_number]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["pitch_to_ratio 12 #=> 2.0",
+                          "pitch_to_ratio 1 #=> 1.05946",
+                          "pitch_to_ratio -12 #=> 0.5",]
+
+
+
+
        def midi_to_hz(n)
          n = note(n) unless n.is_a? Numeric
          440.0 * (2 ** ((n - 69) / 12.0))
