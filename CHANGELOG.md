@@ -5,7 +5,7 @@ each major release.
 
 For the complete commit history visit GitHub: [http://github.com/samaaron/sonic-pi](http://github.com/samaaron/sonic-pi).
 
-The current release is [v2.4 'Craft'](#v2.5). Information regarding
+The current release is [v2.5-dev 'Craft'](#v2.5). Information regarding
 previous versions is also available:
 
 * [v2.4 'Defrost', *11th Feb, 2015*](#v2.4) 
@@ -15,9 +15,9 @@ previous versions is also available:
 * [v2.0 'Phoenix', *2nd Sept, 2014*](#v2.0)
 
 
-<a name="v2.4"></a>
+<a name="v2.5"></a>
 
-## Version 2.5 - 'Dev'
+## Version 2.5-dev - 'Craft'
 *To be released*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.5.0)
 
