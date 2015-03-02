@@ -1596,9 +1596,9 @@ end"]
           __schedule_delayed_blocks_and_messages!
         rescue Exception => e
           if name
-            __error "Thread #{name} died: #{e.inspect}", e
+            __error "Thread death +--> #{name.inspect}\n#{e.inspect}", e
           else
-            __error "Thread died: #{e.inspect}", e
+            __error "Thread death! \n#{e.inspect}", e
           end
         end
       end
