@@ -116,7 +116,12 @@ module SonicPi
       end
 
       def inspect
-        "(ring #{self.to_a.inspect[1...-1]})"
+        a = self.to_a
+        if a.empty?
+          "(ring)"
+        else
+          "(ring #{a.inspect[1...-1]})"
+        end
       end
 
       #TODO:    def each_with_ring
