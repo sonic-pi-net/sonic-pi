@@ -172,6 +172,8 @@ module SonicPi
        end
 
 
+
+
        def use_sample_bpm(sample_name)
          case sample_name
            when Numeric
@@ -185,8 +187,8 @@ module SonicPi
            introduced:     Version.new(2,1,0),
            summary:        "Sample-duration-based bpm modification",
            doc:            "Modify bpm  so that sleeping for 1 will sleep for the duration of the sample.",
-           args:           [[:string, :sample_name]
-                           [:number, :sample_duration]],
+           args:           [[:string, :sample_name],
+                            [:number, :sample_duration]],
            opts:           nil,
            accepts_block:  false,
            examples:       ["
@@ -214,8 +216,8 @@ end"]
            introduced:     Version.new(2,1,0),
            summary:        "Block-scoped sample-duration-based bpm modification",
            doc:            "Block-scoped modifation of bpm so that sleeping for 1 will sleep for the duration of the sample.",
-           args:           [[:string, :sample_name]
-                           [:number, :sample_duration]],
+           args:           [[:string, :sample_name],
+                            [:number, :sample_duration]],
            opts:           nil,
            accepts_block:  true,
        examples:       ["
