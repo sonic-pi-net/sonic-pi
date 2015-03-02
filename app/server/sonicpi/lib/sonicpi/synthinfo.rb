@@ -3884,6 +3884,10 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       "fx_pitch_shift"
     end
 
+    def trigger_with_logical_clock?
+      false
+    end
+
     def arg_defaults
       {
         :amp => 1,
