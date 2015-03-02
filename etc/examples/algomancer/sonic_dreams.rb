@@ -229,7 +229,7 @@ in_thread do
   puts "Part 3"
   puts "Reality A"
   sleep 12
-  use_synth_defaults phase: 0.5, res: 0.5, cutoff: 80, release: 3.3, wave: 1, invert_wave: 0
+  use_synth_defaults phase: 0.5, res: 0.5, cutoff: 80, release: 3.3, wave: 1
   2.times do
     [80, 90, 100, 110].each do |cf|
       use_merged_synth_defaults cutoff: cf
