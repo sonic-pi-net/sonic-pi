@@ -181,6 +181,25 @@ module SonicPi
            use_bpm(60.0 / sd)
          end
        end
+       doc name:           :use_sample_bpm,
+           introduced:     Version.new(2,1,0),
+           summary:        "Sample-duration-based bpm modification",
+           doc:            "Modify bpm  so that sleeping for 1 will sleep for the duration of the sample.",
+           args:           [[:string, :sample_name]
+                           [:number, :sample_duration]],
+           opts:           nil,
+           accepts_block:  false,
+           examples:       ["
+use_sample_bpm :loop_amen  #Set bpm based on :loop_amen duration
+
+live_loop :dnb do
+  sample :bass_dnb_f
+  sample :loop_amen
+  sleep 1                  #`sleep`ing for 1 sleeps for duration of :loop_amen
+end"]
+
+
+
 
        def with_sample_bpm(sample_name, &block)
          case sample_name
@@ -191,6 +210,25 @@ module SonicPi
            with_bpm(60.0 / sd, &block)
          end
        end
+       doc name:           :with_sample_bpm,
+           introduced:     Version.new(2,1,0),
+           summary:        "Block-scoped sample-duration-based bpm modification",
+           doc:            "Block-scoped modifation of bpm so that sleeping for 1 will sleep for the duration of the sample.",
+           args:           [[:string, :sample_name]
+                           [:number, :sample_duration]],
+           opts:           nil,
+           accepts_block:  true,
+       examples:       ["
+live_loop :dnb do
+  with_sample_bpm :loop_amen do #Set bpm based on :loop_amen duration
+    sample :bass_dnb_f
+    sample :loop_amen
+    sleep 1                     #`sleep`ing for 1 sleeps for duration of :loop_amen
+  end
+end"]
+
+
+
 
     def use_arg_bpm_scaling(bool, &block)
       raise "use_arg_bpm_scaling does not work with a block. Perhaps you meant with_arg_bpm_scaling" if block
