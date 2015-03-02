@@ -53,7 +53,7 @@ end
 define :synths do |s_name, co, n=:e2|
   use_synth s_name
   use_transpose 0
-  use_synth_defaults detune: [12,24].choose, amp: 1, pan: lambda{rrand(-1, 1)}, cutoff: co, pulse_width: 0.12, attack: rrand(0.2, 0.5), release: 0.5 ,  mod_phase: 0.25
+  use_synth_defaults detune: [12,24].choose, amp: 1, pan: lambda{rrand(-1, 1)}, cutoff: co, pulse_width: 0.12, attack: rrand(0.2, 0.5), release: 0.5 ,  mod_phase: 0.25, mod_invert_wave: 0
 
   play :e1, mod_range: [7, 12].choose
   sleep 0.125
@@ -229,7 +229,7 @@ in_thread do
   puts "Part 3"
   puts "Reality A"
   sleep 12
-  use_synth_defaults phase: 0.5, res: 0.5, cutoff: 80, release: 3.3, wave: 1
+  use_synth_defaults phase: 0.5, res: 0.5, cutoff: 80, release: 3.3, wave: 1, invert_wave: 0
   2.times do
     [80, 90, 100, 110].each do |cf|
       use_merged_synth_defaults cutoff: cf

@@ -5,7 +5,7 @@ load_samples :guit_em9, :bd_haus
 
 live_loop :low do |idx|
   #  idx = 0
-  synth :zawa, wave: 1, invert_wave: 1, phase: 0.25, release: 5, note: (knit :e1, 12, :c1, 4)[idx], cutoff: (range 60, 120, 10)[idx]
+  synth :zawa, wave: 1, phase: 0.25, release: 5, note: (knit :e1, 12, :c1, 4)[idx], cutoff: (range 60, 120, 10)[idx]
   sleep 4
   idx += 1
 end

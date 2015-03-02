@@ -26,7 +26,7 @@ end
 define :synths do
   puts "how does it feel?"
   use_synth :mod_saw
-  use_synth_defaults amp: 0.5, attack: 0, sustain: 1, release: 0.25, cutoff: 90, mod_range: 12, mod_phase: 0.5
+  use_synth_defaults amp: 0.5, attack: 0, sustain: 1, release: 0.25, cutoff: 90, mod_range: 12, mod_phase: 0.5, mod_invert_wave: 0
   notes = [:F, :C, :D, :D, :G, :C, :D, :D]
   notes.each do |n|
     play note(n, octave: 1)
