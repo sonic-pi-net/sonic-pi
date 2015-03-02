@@ -29,6 +29,7 @@ require_relative "sthread"
 require_relative "oscval"
 require_relative "version"
 require_relative "settings"
+require_relative "preparser"
 #require_relative "oscevent"
 #require_relative "stream"
 
@@ -359,6 +360,7 @@ module SonicPi
       firstline = 1
       firstline -= code.split(/\r?\n/).count{|l| l.include? "#__nosave__"}
       start_t_prom = Promise.new
+      code = PreParser.preparse(code)
       job = Thread.new do
         Thread.current.priority = 20
         begin
