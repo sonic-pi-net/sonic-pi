@@ -1936,6 +1936,62 @@
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (replace-out out_bus [fin-l fin-r])))
 
+  (defsynth sonic-pi-fx_pitch_shift
+     [amp 1
+      amp_slide 0
+      amp_slide_shape 5
+      amp_slide_curve 0
+
+      mix 1
+      mix_slide 0
+      mix_slide_shape 5
+      mix_slide_curve 0
+
+      pre_amp 1
+      pre_amp_slide 0
+      pre_amp_slide_shape 5
+      pre_amp_slide_curve 0
+
+      mod_amp 1
+      mod_amp_slide 0
+      mod_amp_slide_shape 5
+      mod_amp_slide_curve 0
+      pitch 0
+      pitch_slide 0
+      pitch_slide_shape 1
+      pitch_slide_curve 0
+
+      window_size 0.2
+      window_size_slide 0
+      window_size_slide_shape 1
+      window_size_slide_curve 0
+      pitch_dis 0.0
+      pitch_dis_slide 0
+      pitch_dis_slide_shape 1
+      pitch_dis_slide_curve 0
+      time_dis 0.0
+      time_dis_slide 0
+      time_dis_slide_shape 1
+      time_dis_slide_curve 0
+      in_bus 0
+      out_bus 0]
+     (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+           mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+           pitch         (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
+           window_size   (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
+           pitch_dis     (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
+           time_dis      (varlag time_dis time_dis_slide time_dis_slide_curve time_dis_slide_shape)
+           pitch_ratio   (midiratio pitch)
+
+           [in-l in-r]   (* pre_amp (in in_bus 2))
+           [new-l new-r] (pitch-shift [in-l in-r] window_size pitch_ratio pitch_dis time_dis)
+           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+
+
+       (out out_bus [fin-l fin-r])))
+
 
  (defsynth sonic-pi-fx_reverb
    [amp 1
@@ -3642,53 +3698,7 @@
          fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
 
-   (defsynth sonic-pi-fx_pitch_shift
-     [amp 1
-      amp_slide 0
-      amp_slide_shape 5
-      amp_slide_curve 0
-      pan 0
-      pan_slide 0
-      pan_slide_shape 5
-      pan_slide_curve 0
-      pre_amp 1
-      pre_amp_slide 0
-      pre_amp_slide_shape 5
-      pre_amp_slide_curve 0
-      mod_amp 1
-      mod_amp_slide 0
-      mod_amp_slide_shape 5
-      mod_amp_slide_curve 0
-      pitch 0
-      pitch_slide 0
-      pitch_slide_shape 1
-      pitch_slide_curve 0
-      window_size 0.2
-      window_size_slide 0
-      window_size_slide_shape 1
-      window_size_slide_curve 0
-      pitch_dispersion 0.0
-      pitch_dispersion_slide 0
-      pitch_dispersion_slide_shape 1
-      pitch_dispersion_slide_curve 0
-      time_dispersion 0.0
-      time_dispersion_slide 0
-      time_dispersion_slide_shape 1
-      time_dispersion_slide_curve 0
-      in_bus 0
-      out_bus 0]
-     (let [amp               (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           pre_amp           (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
-           pan               (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           pitch             (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
-           window_size       (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
-           pitch_dispersion  (varlag pitch_dispersion pitch_dispersion_slide pitch_dispersion_slide_curve pitch_dispersion_slide_shape)
-           time_dispersion   (varlag time_dispersion time_dispersion_slide time_dispersion_slide_curve time_dispersion_slide_shape)
-           pitch_ratio       (midiratio pitch)
-           [in-l in-r]       (pitch-shift (* pre_amp (in in_bus 2))
-                                          window_size pitch_ratio pitch_dispersion time_dispersion)
-           [new-l new-r]     (balance2 in-l in-r pan amp)]
-       (out out_bus [new-l new-r])))
+
 
 
 
