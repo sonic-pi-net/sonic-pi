@@ -1205,6 +1205,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
          Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_messages))
          Thread.current.thread_variable_set(:sonic_pi_spider_time, fx_execute_t.thread_variable_get(:sonic_pi_spider_time))
+         Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, fx_execute_t.thread_variable_get(:sonic_pi_core_thread_local_counters))
 
          Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_generator))
 
