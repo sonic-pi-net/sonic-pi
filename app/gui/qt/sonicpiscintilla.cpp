@@ -134,12 +134,16 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->setUtf8(true);
   this->setText("#loading...");
   this->setLexer((QsciLexer *)lexer);
+
   this->setAutoCompletionThreshold(1);
   this->setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
+  this->setAutoCompletionCaseSensitivity(false);
+
   this->setSelectionBackgroundColor("DeepPink");
   this->setSelectionForegroundColor("white");
   this->setCaretWidth(5);
   this->setCaretForegroundColor("deep pink");
+
 }
 
 void SonicPiScintilla::addOtherKeyBinding(QSettings &qs, int cmd, int key)
