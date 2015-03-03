@@ -144,7 +144,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     std::string s;
 
     workspaces[ws] = new SonicPiScintilla(lexer);
-    QString w = QString(tr("Workspace %1")).arg(QString::number(ws + 1));
+    QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
     tabs->addTab(workspaces[ws], w);
   }
 
