@@ -602,6 +602,7 @@ void MainWindow::replaceBuffer(QString id, QString content) {
 
 std::string MainWindow::number_name(int i) {
   switch(i) {
+  case 0: return "zero";
   case 1: return "one";
   case 2: return "two";
   case 3: return "three";
@@ -618,7 +619,7 @@ std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
 {
   for(int i = 0; i < workspace_max; i++) {
     if(text == workspaces[i]) {
-      return "workspace_" + number_name(i + 1);
+      return "workspace_" + number_name(i);
     }
   }
   return "default";
@@ -630,7 +631,7 @@ void MainWindow::loadWorkspaces()
 
   for(int i = 0; i < workspace_max; i++) {
     Message msg("/load-buffer");
-    std::string s = "workspace_" + number_name(i + 1);
+    std::string s = "workspace_" + number_name(i);
     msg.pushStr(s);
     sendOSC(msg);
   }
@@ -643,7 +644,7 @@ void MainWindow::saveWorkspaces()
   for(int i = 0; i < workspace_max; i++) {
     std::string code = workspaces[i]->text().toStdString();
     Message msg("/save-buffer");
-    std::string s = "workspace_" + number_name(i + 1);
+    std::string s = "workspace_" + number_name(i);
     msg.pushStr(s);
     msg.pushStr(code);
     sendOSC(msg);
@@ -1279,7 +1280,7 @@ void MainWindow::readSettings() {
 
   for (int w=0; w < workspace_max; w++) {
     // default zoom is 13
-    int zoom = settings.value(QString("workspace%1zoom").arg(w+1), 13)
+    int zoom = settings.value(QString("workspace%1zoom").arg(w), 13)
       .toInt();
     if (zoom < -5) zoom = -5;
     if (zoom > 20) zoom = 20;
@@ -1317,7 +1318,7 @@ void MainWindow::writeSettings()
   settings.setValue("workspace", tabs->currentIndex());
 
   for (int w=0; w < workspace_max; w++) {
-    settings.setValue(QString("workspace%1zoom").arg(w+1),
+    settings.setValue(QString("workspace%1zoom").arg(w),
 		      workspaces[w]->property("zoom"));
   }
 
@@ -1372,7 +1373,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
   std::string s;
 
   for(int i = 0; i < workspace_max; i++) {
-    s = "workspace_" + number_name(i + 1);
+    s = "workspace_" + number_name(i);
     if(filename == s) {
       return workspaces[i];
     }
