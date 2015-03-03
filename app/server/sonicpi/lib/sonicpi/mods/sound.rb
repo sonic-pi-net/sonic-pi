@@ -1353,18 +1353,18 @@ sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
 
 
 
-       def use_sample_pack_as(pack, name, &block)
+       def use_sample_pack_as(pack, pack_alias, &block)
          raise "use_sample_pack_as does not work with a block. Perhaps you meant with_sample_pack" if block
          pack = "#{pack}/" if File.directory?(pack)
          aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases) || Hamster.hash
-         new_aliases = aliases.put name.to_s, pack
+         new_aliases = aliases.put pack_alias.to_s, pack
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
        end
        doc name:          :use_sample_pack_as,
            introduced:    Version.new(2,0,0),
            summary:       "Use sample pack alias",
            doc:           "Similar to use_sample_pack except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
-           args:          [[:pack_path, :string]],
+           args:          [[:path, :string], [:alias, :string]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
