@@ -21,21 +21,37 @@ previous versions is also available:
 *To be released*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.5.0)
 
-### New
+### Breaking Changes
+    
+* `invert_wave` now defaults to 1 everywhere. I found I always inverted
+   the wave every time I used a synth/fx where wave inversion was
+   key. This seemed like such a better default I've broken compatibility
+   for it. Apologies if this has affected you.
 
-* Support for [Minecraft Pi Edition](http://pi.minecraft.net).
+
+### NEW
+
+* Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
 * German translation of GUI and tutorial. Simply open Sonic Pi with a
   machine with a German localisation setting.
 * Display GUI fully maximised when opening for first ever time.
 * New fn `spark` for displaying lists of numbers in a fancy text-graph
   (`▁▃▅▇`) in the log.
-  
+* Rings now pretty print themselves as `(ring 1, 2, 3)` rather than `[1, 2, 3]`.
+* Workpace indexing now starts at 0 to match standard programming indexes.
+
+
+### Synths & FX
+
+* New FX - `:pitch_shift`  
 
 ### Bug Fixes
 
-* Fix OSC lib to properly encode multibite chars such as UTF8
+* Fix OSC lib to properly encode multibyte chars such as UTF8
 * Fix sporadic issue on some platforms when trigging percussive sounds
   within a `reverb` FX caused a serious audio overload.
+* Add missing fn metadata for `*_sample_bpm`
+* Fix arg metadata for `use_sample_pack_as`  
 
  <a name="v2.4"></a>
 
