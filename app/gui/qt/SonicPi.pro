@@ -29,6 +29,7 @@ TARGET = 'Sonic Pi'
 QT += macextras
 }
 
+QMAKE_CXXFLAGS += -Wall -Werror -Wextra
 CODECFORSRC = UTF-8
 CODECFORTR = UTF-8
 

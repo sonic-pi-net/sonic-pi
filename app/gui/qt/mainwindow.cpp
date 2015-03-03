@@ -1024,10 +1024,10 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     else
       zoomFontOut();
   }
+#else
+  (void)event;
 #endif
 }
-
-
 
 void MainWindow::stopRunningSynths()
 {
@@ -1405,8 +1405,8 @@ void MainWindow::updateDocPane(QListWidgetItem *cur) {
 }
 
 void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
+  (void)prev;
   updateDocPane(cur);
-  prev = prev;
 }
 
 void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
