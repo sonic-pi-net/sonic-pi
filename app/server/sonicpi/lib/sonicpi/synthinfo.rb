@@ -3432,7 +3432,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def doc
-      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens as it sounds hollow or metallic. We take a 'carrier' signal (a sine wave controlled by the freq argument) and modulate it's amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
+      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens as it sounds hollow or metallic. We take a 'carrier' signal (a sine wave controlled by the freq argument) and modulate its amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
     end
   end
 

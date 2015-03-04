@@ -3579,11 +3579,12 @@
    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         mod_amp       (varlag mod_amp mod_amp_slide mod_amp_slide_curve mod_amp_slide_shape)
          freq          (varlag freq freq_slide freq_slide_curve freq_slide_shape)
          freq          (midicps freq)
 
          [in-l in-r]   (* pre_amp (in in_bus 2))
-         [new-l new-r] (* [in-l in-r] (sin-osc freq mod_amp))
+         [new-l new-r] (* [in-l in-r] (* mod_amp (sin-osc freq)))
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
