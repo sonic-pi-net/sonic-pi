@@ -13,7 +13,6 @@
 
 require 'cgi'
 require_relative 'util'
-require 'kramdown'
 
 module SonicPi
   module DocSystem

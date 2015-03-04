@@ -11,7 +11,6 @@
 # notice is included.
 #++
 require_relative "version"
-require 'kramdown'
 
 module SonicPi
 
