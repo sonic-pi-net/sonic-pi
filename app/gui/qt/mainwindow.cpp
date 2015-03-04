@@ -735,7 +735,7 @@ void MainWindow::runCode()
   }
 
   msg.pushStr(code);
-  msg.pushStr(QString(tr("Workspace %1")).arg(tabs->currentIndex()+1).toStdString());
+  msg.pushStr(QString(tr("Workspace %1")).arg(tabs->currentIndex()).toStdString());
   sendOSC(msg);
 
   QTimer::singleShot(500, this, SLOT(unhighlightCode()));
