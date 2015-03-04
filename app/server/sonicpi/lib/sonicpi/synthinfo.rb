@@ -4521,12 +4521,12 @@ The window_size is the length of the slices and is measured in seconds. It needs
           doc << "        <font size=\"4\", #{hv_face}>\n"
           docstring = av[:doc] || 'write me'
           doc <<  Kramdown::Document.new(docstring).to_html
-          doc << "          <br/></font>\n"
+          doc << "          <br/><br/></font>\n"
           doc << "          <em><font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
-          doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
-          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}<br/>\n"
-          doc << "          <a href=#slide>Has slide parameters to shape changes</a><br/>\n" if av[:slidable]
-          doc << "          Scaled with current BPM value\n" if av[:bpm_scale]
+          doc << "          #{av[:constraints].join(",").capitalize}<br/>\n" unless av[:constraints].empty?
+          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
+          doc << "          <br/><a style=\"text-decoration: none; color:dodgerblue;\" href=#slide>Has slide parameters to shape changes</a>\n" if av[:slidable]
+          doc << "          <br/>Scaled with current BPM value\n" if av[:bpm_scale]
           doc << "       </font></em>\n"
           doc << "     </td>\n"
           doc << " </tr>\n"
