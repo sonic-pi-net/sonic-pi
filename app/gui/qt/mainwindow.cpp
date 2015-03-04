@@ -238,8 +238,11 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
   docWidget->hide();
-  connect(docWidget, SIGNAL(visibilityChanged(bool)), this,
-	  SLOT(helpClosed(bool)));
+
+  // Currently causes a segfault when dragging doc pane out of main
+  // window:
+  // connect(docWidget, SIGNAL(visibilityChanged(bool)), this,
+  // SLOT(helpClosed(bool)));
 
   QVBoxLayout *mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
