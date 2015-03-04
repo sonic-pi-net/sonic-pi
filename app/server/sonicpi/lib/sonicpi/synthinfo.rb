@@ -11,6 +11,7 @@
 # notice is included.
 #++
 require_relative "version"
+require 'kramdown'
 
 module SonicPi
 
@@ -225,7 +226,7 @@ module SonicPi
 
         :note =>
         {
-          :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: 30, 52, :C, :C2, :Eb4, or :Ds3",
+          :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30, 52, :C, :C2, :Eb4`, or `:Ds3`",
           :validations => [v_positive(:note)],
           :modulatable => true
         },
@@ -846,7 +847,7 @@ module SonicPi
     end
 
     def doc
-      "The FM synth modulating between two notes - the duration of the modulation can be modified using the mod_phase arg, the range (number of notes jumped between) by the mod_range arg and the width of the jumps by the mod_width param. The FM synth is sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth. Useful for generated a wide range of sounds by playing with the divisor and depth params. Great for deep powerful bass and crazy 70s sci-fi sounds."
+      "The FM synth modulating between two notes - the duration of the modulation can be modified using the mod_phase arg, the range (number of notes jumped between) by the mod_range arg and the width of the jumps by the mod_width param. The FM synth is sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth. Useful for generated a wide range of sounds by playing with the `:divisor` and `:depth` params. Great for deep powerful bass and crazy 70s sci-fi sounds."
     end
 
     def arg_defaults
@@ -4486,8 +4487,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         doc << arglist
 
 
-        doc << "<p><font size=\"4\", #{hv_face}>"
-        doc << "  " << v.doc << "</font></p>\n"
+        doc << "<font size=\"4\", #{hv_face}>"
+        doc << "  " << Kramdown::Document.new(v.doc).to_html << "</font>\n"
 
         if klass == SynthInfo
           safe_k = k
@@ -4518,7 +4519,9 @@ The window_size is the length of the slices and is measured in seconds. It needs
           doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
           doc << "      <td>\n"
           doc << "        <font size=\"4\", #{hv_face}>\n"
-          doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
+          docstring = av[:doc] || 'write me'
+          doc <<  Kramdown::Document.new(docstring).to_html
+          doc << "          <br/></font>\n"
           doc << "          <em><font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
           doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
           doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}<br/>\n"

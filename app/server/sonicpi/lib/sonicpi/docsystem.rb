@@ -13,6 +13,7 @@
 
 require 'cgi'
 require_relative 'util'
+require 'kramdown'
 
 module SonicPi
   module DocSystem
@@ -54,7 +55,6 @@ module SonicPi
               html = ""
               html << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
               html << "<font #{hv_face}>" << (v[:summary] || v[:name]).to_s.capitalize << "</font></span></p>\n"
-              html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
               req_args = []
               raise "no args defined for #{v[:name]}" unless v[:args]
               v[:args].each do |arg|
@@ -62,8 +62,12 @@ module SonicPi
                 req_args << "#{n} <font color=\"deeppink\">(#{t})</font>"
               end
               html << "<h2><pre>[#{req_args.join(', ')}]</pre></h2>\n"
+              html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
+
+
               html << "<p><font size=\"4\", #{hv_face}>\n"
-              html << v[:doc] << "\n</p>\n"
+              html << Kramdown::Document.new(v[:doc]).to_html
+              html << "\n</p>\n"
               html << "<p><font size=\"3\", #{hv_face}>\n"
               html << "<span style=\"color:white;background-color:darkorange;\">"
               html << "Introduced in " << v[:introduced].to_s << "\n</span></p>\n"
