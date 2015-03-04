@@ -197,7 +197,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   docsCentral = new QTabWidget;
   docsCentral->setTabsClosable(false);
   docsCentral->setMovable(false);
-  docsCentral->setTabPosition(QTabWidget::West);
+  docsCentral->setTabPosition(QTabWidget::South);
 
   docPane = new QTextBrowser;
   docPane->setOpenExternalLinks(true);
