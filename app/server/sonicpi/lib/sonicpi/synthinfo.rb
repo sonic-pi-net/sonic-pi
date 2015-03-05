@@ -2873,6 +2873,7 @@ end
         :res_slide_curve => 0,
         :phase_offset => 0,
         :wave => 0,
+        :invert_wave => 1,
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
         :pulse_width_slide_shape => 5,
