@@ -28,21 +28,24 @@ module SonicPi
     end
 
     def test_range
-      assert_equal(range(1, 5), [1, 2, 3, 4])
-      assert_equal(range(1, 5, 1), [1, 2, 3, 4])
-      assert_equal(range(1, 5, 2), [1, 3])
-      assert_equal(range(1, -5, -2), [1, -1, -3])
-      assert_equal(range(10, 50, 10), [10, 20, 30, 40])
-      assert_equal(range(1, 5, -1), [1, 2, 3, 4])
-      assert_equal(range(10, 10, -1), [])
+      assert_equal([1, 2, 3, 4], range(1, 5))
+      assert_equal([1, 2, 3, 4, 5], range(1, 5, inclusive: true))
+      assert_equal([1, 2, 3, 4], range(1, 5, 1))
+      assert_equal([1, 2, 3, 4], range(1, 5, step: 1))
+      assert_equal(range(1, 5, step: 2), [1, 3])
+      assert_equal(range(1, -5, step: -2), [1, -1, -3])
+      assert_equal(range(10, 50, step: 10), [10, 20, 30, 40])
+      assert_equal(range(1, 5, step: -1), [1, 2, 3, 4])
+      assert_equal(range(10, 10, step: -1), [])
       assert_equal(range(1, 3).class, SonicPi::Core::RingArray)
     end
 
 
     def test_line
-      assert_equal([0, 1, 2, 3], line(0, 4, 4))
-      assert_equal([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], line(0, 4, 8))
-      assert_equal([5, 4, 3, 2, 1], line(5, 0, 5)
+      assert_equal([0, 1, 2, 3], line(0, 4, slices: 4))
+      assert_equal([0, 1, 2, 3, 4], line(0, 4, slices: 5, inclusive: true))
+      assert_equal([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], line(0, 4, slices: 8))
+      assert_equal([5, 4, 3, 2, 1], line(5, 0, slices: 5))
       assert_equal(line(1, 3).class, SonicPi::Core::RingArray)
     end
 

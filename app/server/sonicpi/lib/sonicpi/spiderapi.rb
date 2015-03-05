@@ -122,22 +122,47 @@ module SonicPi
       "(spread 3, 8, rotate: 1) #=> (ring true, false, false, true, false, true, false, false) a spacing of 323"
     ]
 
-    def range(start, finish, step_size=1)
+    def range(start, finish, *args)
+      if args.is_a?(Array) && args.size == 1 && args.first.is_a?(Numeric)
+        # Allow one optional arg for legacy reasons. Versions earlier
+        # than v2.5 allowed: range(1, 10, 2)
+        step_size = args.first
+        inclusive = false
+      else
+        args_h = resolve_synth_opts_hash_or_array(args)
+        step_size = args_h[:step] || 1
+        inclusive = args_h[:inclusive]
+      end
+
       return [].ring if start == finish
       step_size = step_size.abs
       res = []
       cur = start
-      if start < finish
-        while cur < finish
-          res << cur
-          cur += step_size
+      if inclusive
+        if start < finish
+          while cur <= finish
+            res << cur
+            cur += step_size
+          end
+        else
+          while cur >= finish
+            res << cur
+            cur -= step_size
+          end
         end
+
       else
-        while cur > finish
-          res << cur
-          cur -= step_size
-        end
-      end
+        if start < finish
+          while cur < finish
+            res << cur
+            cur += step_size
+          end
+        else
+          while cur > finish
+            res << cur
+            cur -= step_size
+          end
+        end      end
       res.ring
     end
     doc name:           :range,
@@ -145,7 +170,7 @@ module SonicPi
         summary:        "Create a ring buffer with the specified start, finish and step size",
         args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
         returns:        :ring,
-        opts:           nil,
+        opts:           {:inclusive => "If set to true, range is inclusive of finish value"},
         accepts_block:  false,
         doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to 1. Indexes wrap around positively and negatively",
         examples:       [
@@ -159,19 +184,29 @@ module SonicPi
 
 
 
-    def line(start, finish, num_slices=4)
+    def line(start, finish, *args)
       return [].ring if start == finish
+      args_h = resolve_synth_opts_hash_or_array(args)
+      num_slices = args_h[:slices] || 4
+      inclusive = args_h[:inclusive]
+
       raise "Num slices param for fn linear should be a positive none-negative whole number" unless num_slices > 0
 
-      step_size = (start - finish).abs.to_f / num_slices
-      range(start, finish, step_size)
+      if inclusive
+        step_size = (start - finish).abs.to_f / (num_slices - 1)
+        range(start, finish, inclusive: true,  step: step_size)
+      else
+        step_size = (start - finish).abs.to_f / num_slices
+        range(start, finish, step: step_size)
+      end
     end
     doc name:           :line,
         introduced:     Version.new(2,5,0),
         summary:        "Create a ring buffer representing a straight line between start and finish of num_slices elements",
         args:           [[:start, :number], [:finish, :number], [:num_slices, :number]],
         returns:        :ring,
-        opts:           nil,
+       opts:           {:slices => "number of slices or segments along the line",
+                        :inclusive => "boolean value representing whether or not to include finish value in line"},
         accepts_block:  false,
         doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to 8. Indexes wrap around positively and negatively. Similar to range.",
         examples:       [
