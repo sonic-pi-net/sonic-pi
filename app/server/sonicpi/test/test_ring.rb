@@ -38,6 +38,14 @@ module SonicPi
       assert_equal(range(1, 3).class, SonicPi::Core::RingArray)
     end
 
+
+    def test_line
+      assert_equal([0, 1, 2, 3], line(0, 4, 4))
+      assert_equal([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], line(0, 4, 8))
+      assert_equal([5, 4, 3, 2, 1], line(5, 0, 5)
+      assert_equal(line(1, 3).class, SonicPi::Core::RingArray)
+    end
+
     def test_ring
       assert_equal(ring(1, 2, 3), [1, 2, 3])
       assert_equal(ring(1,2, 3).class, SonicPi::Core::RingArray)
