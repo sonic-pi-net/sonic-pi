@@ -58,6 +58,7 @@
 #include <QToolButton>
 #include <QSettings>
 #include <QScrollBar>
+#include <QSignalMapper>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -140,6 +141,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
   // create workspaces and add them to the tabs
+  signalMapper = new QSignalMapper (this) ;
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
 
@@ -147,7 +149,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer);
 
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
-    connect(indentLine, SIGNAL(activated()), this, SLOT(beautifyCode()));
+
+    connect (indentLine, SIGNAL(activated()), signalMapper, SLOT(map())) ;
+    signalMapper -> setMapping (indentLine, (QObject*)workspace);
 
     QShortcut *cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
     connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));
@@ -155,6 +159,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
   }
+
+  connect (signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeListOrBeautifyCode(QObject*)));
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -292,6 +298,16 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     startupPane->setHtml(readFile(":/html/startup.html"));
     docWidget->show();
     startupPane->show();
+  }
+}
+
+void MainWindow::completeListOrBeautifyCode(QObject* ws){
+  SonicPiScintilla *spws = ((SonicPiScintilla*)ws);
+  if(spws->isListActive()) {
+    spws->tabCompleteifList();
+  }
+  else {
+    beautifyCode();
   }
 }
 

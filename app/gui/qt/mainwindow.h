@@ -32,6 +32,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <QSignalMapper>
 
 class QAction;
 class QMenu;
@@ -59,7 +60,7 @@ struct help_entry {
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
 #if defined(Q_OS_MAC)
@@ -85,6 +86,7 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
+    void completeListOrBeautifyCode(QObject *ws);
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();
@@ -128,6 +130,7 @@ private slots:
     void helpClosed(bool visible);
 
 private:
+    QSignalMapper *signalMapper;
     void startServer();
     void waitForServiceSync();
     void clearOutputPanels();

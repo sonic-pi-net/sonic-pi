@@ -165,6 +165,14 @@ void SonicPiScintilla::cutLineFromPoint()
   SendScintilla(SCI_CUT);
 }
 
+void SonicPiScintilla::tabCompleteifList()
+{
+  if(isListActive())
+    {
+      SendScintilla(QsciCommand::Tab);
+    }
+}
+
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
 					 int &last_word_start)
 {
