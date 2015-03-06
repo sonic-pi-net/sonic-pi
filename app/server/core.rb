@@ -171,10 +171,13 @@ module OSC
             if readfds
               packet_size = @so.recv(4)
               if(packet_size.length < 4)
-                puts "Failed to read full 4 bytes. Length: #{packet_size.length} Content: #{packet_size.unpack("b*")}"
+                if(packet_size.length == 0)
+                  puts "Connection dropped"
+                else
+                  puts "Failed to read full 4 bytes. Length: #{packet_size.length} Content: #{packet_size.unpack("b*")}"
+                end
                 @so.close
                 @so = nil
-                break
               else
                 packet_size.force_encoding("BINARY")
                 bytes_expected = packet_size.unpack('N')[0]
