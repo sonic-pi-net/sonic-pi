@@ -101,7 +101,7 @@ module SonicPi
     end
 
     def encode_single_bundle(ts, address, args=[])
-      message = encode_single_message(address, args, attach_size=false)
+      message = encode_single_message(address, args)
       message_encoded = [message.size].pack('N') << message
         "" << @bundle_header << time_encoded(ts) << message_encoded
     end
