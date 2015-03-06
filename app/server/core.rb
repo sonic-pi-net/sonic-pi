@@ -166,26 +166,35 @@ module OSC
         @so ||= @server.accept
         begin
           read_all = false
-          osc_data = ""
           while(!read_all) do
             readfds, _, _ = select([@so], nil, nil, 0.1)
             if readfds
               packet_size = @so.recv(4)
-              packet_size.force_encoding("BINARY")
-              size = packet_size.unpack('N')[0]
-
-              if size && size > 0
-                puts "size: #{size}"
-                result = @so.recv(size)
-                if result != ""
-                  osc_data = result
-                  read_all = true
-                else
-                  puts "Connection closed by client"
-                  @so.close
-                  @so = nil
-                  break
+              if(packet_size.length < 4)
+                puts "Failed to read full 4 bytes. Length: #{packet_size.length} Content: #{packet_size.unpack("b*")}"
+                @so.close
+                @so = nil
+                break
+              else
+                packet_size.force_encoding("BINARY")
+                bytes_expected = packet_size.unpack('N')[0]
+                bytes_read = 0
+                osc_data = ""
+                while(bytes_read < bytes_expected) do
+                  result = @so.recv(bytes_expected)
+                  #puts "bytes expected: #{bytes_expected} bytes read: #{result.length}"
+                  if result.length <= 0
+                    puts "Connection closed by client"
+                    @so.close
+                    @so = nil
+                    break
+                  else
+                    #puts "message: #{result}"
+                    bytes_read += result.length
+                    osc_data += result
+                  end
                 end
+                read_all = true
               end
             end
           end
