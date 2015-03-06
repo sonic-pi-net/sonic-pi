@@ -343,6 +343,10 @@ void MainWindow::startServer(){
     QStringList args;
     args << prg_arg;
 
+    if(protocol == TCP){
+        args << " -t";
+    }
+
     QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
     log_path =  sp_user_path + QDir::separator() + "log";
     QDir().mkdir(sp_user_path);
