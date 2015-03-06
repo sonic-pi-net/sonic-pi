@@ -49,10 +49,10 @@ require 'multi_json'
 
 include SonicPi::Util
 
-server_port = ARGV[0] ? ARGV[0].to_i : 4557
-client_port = ARGV[1] ? ARGV[1].to_i : 4558
+server_port = ARGV[1] ? ARGV[0].to_i : 4557
+client_port = ARGV[2] ? ARGV[1].to_i : 4558
 
-protocol = case ARGV[2]
+protocol = case ARGV[0]
            when "-t"
             :tcp
            else
