@@ -60,8 +60,6 @@ void SonicPiTCPServer::readMessage()
         blockSize = qToBigEndian(blockSize);
     }
 
-    qDebug() << "Blocksize: " << blockSize << "";
-
     if (socket->bytesAvailable() < blockSize){
         return;
     }
