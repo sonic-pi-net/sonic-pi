@@ -63,10 +63,10 @@ puts "Using protocol: #{protocol}"
 
 ws_out = Queue.new
 if protocol == :tcp
-  gui = OSC::ClientOverTcp.new("localhost", client_port)
+  gui = OSC::ClientOverTcp.new("127.0.0.1", client_port)
   encoder = SonicPi::StreamOscEncode.new(true)
 else
-  gui = OSC::Client.new("localhost", client_port)
+  gui = OSC::Client.new("127.0.0.1", client_port)
   encoder = SonicPi::OscEncode.new(true)
 end
 
