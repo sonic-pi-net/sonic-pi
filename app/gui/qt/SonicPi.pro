@@ -17,16 +17,21 @@
 #
 #-------------------------------------------------
 
+LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.8.5-snapshot-62d128cc92de/Qt4Qt5 -lqscintilla2
+INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.8.5-snapshot-62d128cc92de/Qt4Qt5
+DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.8.5-snapshot-62d128cc92de/Qt4Qt5
 QT       += core gui concurrent network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
+
 TARGET = 'sonic-pi'
 
 macx {
-TARGET = 'Sonic Pi'
-QT += macextras
+  TARGET = 'Sonic Pi'
+  QT += macextras
+  DEFINES += DONT_USE_OSX_KEYS
 }
 
 QMAKE_CXXFLAGS += -Wall -Werror -Wextra

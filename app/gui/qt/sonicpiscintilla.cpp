@@ -14,6 +14,8 @@
 #include "sonicpiscintilla.h"
 
 #include <QSettings>
+#include <QShortcut>
+
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 
@@ -23,7 +25,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->standardCommands()->clearKeys();
   this->standardCommands()->clearAlternateKeys();
   QString skey;
-  QSettings settings("Sonic Pi", "Key bindings");
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi Key bindings");
 
 #if defined(Q_OS_MAC)
   int SPi_CTRL = Qt::META;
@@ -32,7 +34,6 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   int SPi_CTRL = Qt::CTRL;
   int SPi_META = Qt::ALT;
 #endif
-
 
   // basic navigation
   addKeyBinding(settings, QsciCommand::PageDown, Qt::Key_PageDown);
@@ -80,7 +81,6 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   addKeyBinding(settings, QsciCommand::DocumentEndExtend, Qt::Key_End | SPi_CTRL | Qt::SHIFT);
 
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
-  addKeyBinding(settings, QsciCommand::DeleteLineRight, Qt::Key_K | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L | SPi_CTRL);
 
   addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
@@ -88,7 +88,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
 
   // tab return
   addKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
-  addKeyBinding(settings, QsciCommand::Tab, Qt::Key_Tab);
+
   addKeyBinding(settings, QsciCommand::Backtab, Qt::Key_Tab | Qt::SHIFT);
 
   // copy paste
@@ -97,7 +97,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_META);
-  addOtherKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_CTRL);
+  addOtherKeyBinding(settings, QsciCommand::Paste, Qt::Key_Y | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_META);
@@ -109,10 +109,6 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
 
   this->standardCommands()->readSettings(settings);
 
-  this->setAutoIndent(true);
-  this->setIndentationsUseTabs(false);
-  this->setBackspaceUnindents(true);
-  this->setTabIndents(true);
   this->setMatchedBraceBackgroundColor(QColor("dimgray"));
   this->setMatchedBraceForegroundColor(QColor("white"));
 
@@ -158,6 +154,15 @@ void SonicPiScintilla::addKeyBinding(QSettings &qs, int cmd, int key)
   QString skey;
   skey.sprintf("/Scintilla/keymap/c%d/key", cmd);
   qs.setValue(skey, key);
+}
+
+void SonicPiScintilla::cutLineFromPoint()
+{
+  //  SendScintilla(SCI_CLEARSELECTIONS);
+  int pos = SendScintilla(SCI_GETCURRENTPOS);
+  SendScintilla(SCI_LINEEND);
+  SendScintilla(SCI_SETANCHOR, pos);
+  SendScintilla(SCI_CUT);
 }
 
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
