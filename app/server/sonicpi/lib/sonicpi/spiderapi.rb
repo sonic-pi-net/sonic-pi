@@ -175,10 +175,10 @@ module SonicPi
         doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to 1. Indexes wrap around positively and negatively",
         examples:       [
       "(range 1, 5)    #=> (ring 1, 2, 3, 4)",
-      "(range 1, 5, 1) #=> (ring 1, 2, 3, 4)",
-      "(range 1, 5, 2) #=> (ring 1, 3)",
-      "(range 1, -5, 2) #=> (ring 1, -1, -3)",
-      "(range 1, -5, 2)[-1] #=> -3"
+      "(range 1, 5, inclusive: true) #=> (ring 1, 2, 3, 4, 5)",
+      "(range 1, 5, step: 2) #=> (ring 1, 3)",
+      "(range 1, -5, step: 2) #=> (ring 1, -1, -3)",
+      "(range 1, -5, step: 2)[-1] #=> -3"
     ]
 
 
@@ -211,7 +211,8 @@ module SonicPi
         doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to 8. Indexes wrap around positively and negatively. Similar to range.",
         examples:       [
       "(line 0, 4, 4)    #=> (ring 0, 1, 2, 3)",
-      "(line 5, 0, 5)    #=> (ring 5, 4, 3, 2, 1)"
+      "(line 5, 0, 5)    #=> (ring 5, 4, 3, 2, 1)",
+      "(line 0, 4, slices: 4, inclusive: true)"
    ]
 
 
