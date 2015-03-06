@@ -577,7 +577,7 @@ private:
 class PacketWriter {
 public:
   PacketWriter() { init(); }
-  PacketWriter &init() { err = OK_NO_ERROR; storage.clear(); bundles.clear(); return *this; }
+  PacketWriter &init() { err = OK_NO_ERROR; streamBuffer.resize(0); storage.clear(); bundles.clear(); return *this; }
   
   /** begin a new bundle. If you plan to pack more than one message in the Osc packet, you have to 
       put them in a bundle. Nested bundles inside bundles are also allowed. */
@@ -624,29 +624,23 @@ public:
   /** return the bytes of the osc packet (NULL if the construction of the packet has failed) */
   char *packetData() { return err ? 0 : storage.begin(); }
 
-  /** return the bytes of the osc packet precedded by byte size (NULL if the construction of the packet has failed) */
+  /** Modified from original: Return the bytes of the osc packet precedded by byte size*/
   char *packetDataForStream() {
-
       if(err){
-          return 0;
+        return 0;
       }
       else{
-        std::vector<char> buffer;
-        buffer.resize(packetSize() + sizeof(uint32_t));
         uint32_t networkSize = htonl(packetSize());
-        memcpy(&buffer[0],                &networkSize,    sizeof(uint32_t));
-        memcpy(&buffer[sizeof(uint32_t)], storage.begin(), packetSize());
-
-        std::vector<char> tmp(buffer);
-        tmp.swap(buffer);
-
-        return &buffer.front();
+        streamBuffer.resize(packetSize()+sizeof(uint32_t));
+        memcpy(&streamBuffer[0],                &networkSize,    sizeof(uint32_t));
+        memcpy(&streamBuffer[sizeof(uint32_t)], storage.begin(), (uint32_t)packetSize());
+        return &streamBuffer.front();
       }
-  }
-
+}
 
 private:  
   std::vector<size_t> bundles; // hold the position in the storage array of the beginning marker of each bundle
+  std::vector<char> streamBuffer; //Modified from original: Hold size+data for stream
   Storage storage;
   ErrorCode err;
 };
