@@ -340,11 +340,12 @@ void MainWindow::startServer(){
     prg_path = QDir::toNativeSeparators(prg_path);
     prg_arg = QDir::toNativeSeparators(prg_arg);
 
+   
     QStringList args;
     args << prg_arg;
 
     if(protocol == TCP){
-        args << " -t";
+        args << "-t";
     }
 
     QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
