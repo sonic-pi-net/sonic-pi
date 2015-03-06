@@ -69,7 +69,7 @@ void SonicPiTCPServer::readMessage()
     buffer.resize(blockSize);
     int bytesRead = socket->read(&buffer[0], blockSize);
 
-    if(bytesRead < 0 || bytesRead != blockSize) {
+    if(bytesRead < 0 || (uint32_t)bytesRead != blockSize) {
         std::cerr << "Error: read: " << bytesRead << " Expected:" << blockSize << "\n";
         blockSize = 0;
         return;
