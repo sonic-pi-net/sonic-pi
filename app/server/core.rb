@@ -192,9 +192,11 @@ module OSC
                     #puts "message: #{result}"
                     bytes_read += result.length
                     osc_data += result
+                    if bytes_read == bytes_expected
+                      read_all = true
+                    end
                   end
                 end
-                read_all = true
               end
             end
           end
