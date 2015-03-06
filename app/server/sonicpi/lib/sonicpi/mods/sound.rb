@@ -1225,6 +1225,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
          ## Now actually execute the fx block. Pass the fx synth in as a
          ## parameter if the block was defined with a param.
+         block_exception = nil
          fx_execute_t = in_thread do
            Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
            Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fxt.thread_variable_get(:sonic_pi_spider_delayed_messages))
@@ -1243,10 +1244,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
              else
                block_res = block.call(fx_synth)
              end
-           rescue
-             ## Oopsey - there was an error in the user's block. Re-raise
-             ## exception, but only after ensure block has executed.
-             raise
+           rescue => e
+             block_exception = e
            ensure
              ## Ensure that p's promise is delivered - thus kicking off
              ## the gc thread.
@@ -1260,6 +1259,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          # Join thread used to execute block. Then transfer virtual
          # timestamp back to this thread.
          fx_execute_t.join
+         raise block_exception if block_exception
          Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
          Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_messages))
          Thread.current.thread_variable_set(:sonic_pi_spider_time, fx_execute_t.thread_variable_get(:sonic_pi_spider_time))
