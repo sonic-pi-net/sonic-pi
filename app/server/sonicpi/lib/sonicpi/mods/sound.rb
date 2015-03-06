@@ -1739,12 +1739,18 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
        def sample_duration(path, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
          args_h[:rate] = 1 unless args_h[:rate]
-         load_sample(path).duration * 1.0/(args_h[:rate].abs)
+         real_dur = load_sample(path).duration * 1.0/(args_h[:rate].abs)
+
+         if Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+           real_dur.to_f / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+         else
+           real_dur
+         end
        end
        doc name:          :sample_duration,
            introduced:    Version.new(2,0,0),
            summary:       "Get sample duration in seconds",
-           doc:           "Given the name of a loaded sample, or a path to a wav|wave|aif|aiff file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate.",
+           doc:           "Given the name of a loaded sample, or a path to a wav|wave|aif|aiff file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
            args:          [[:path, :string]],
            opts:          {:rate => 1},
            accepts_block: false,
@@ -1763,7 +1769,13 @@ end",
 loop do
   sample :loop_amen, rate: -1 # Works for negative rates too
   sleep sample_duration :loop_amen, rate: -1
-end "]
+end ",
+
+"
+use_sample_bpm :loop_amen
+puts sample_duration(:loop_amen) #=> 1
+"
+       ]
 
 
 
