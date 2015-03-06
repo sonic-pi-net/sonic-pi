@@ -143,9 +143,17 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
 
-    workspaces[ws] = new SonicPiScintilla(lexer);
+
+    SonicPiScintilla *workspace = new SonicPiScintilla(lexer);
+
+    QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
+    connect(indentLine, SIGNAL(activated()), this, SLOT(beautifyCode()));
+
+    QShortcut *cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
+    connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));
     QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
-    tabs->addTab(workspaces[ws], w);
+    workspaces[ws] = workspace;
+    tabs->addTab(workspace, w);
   }
 
   QFont font("Monospace");
