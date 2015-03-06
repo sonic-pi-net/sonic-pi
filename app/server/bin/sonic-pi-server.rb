@@ -61,15 +61,14 @@ protocol = case ARGV[2]
 
 puts "Using protocol: #{protocol}"
 
+ws_out = Queue.new
 if protocol == :tcp
   gui = OSC::ClientOverTcp.new("localhost", client_port)
-  encoder = SonicPi::StreamOscEncode.new(true, 1000)
+  encoder = SonicPi::StreamOscEncode.new(true)
 else
   gui = OSC::Client.new("localhost", client_port)
-  encoder = SonicPi::OscEncode.new(true, 1000)
+  encoder = SonicPi::OscEncode.new(true)
 end
-
-ws_out = Queue.new
 
 begin
   if protocol == :tcp
