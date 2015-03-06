@@ -71,6 +71,7 @@ namespace oscpkt {
 #include <string>
 #include <vector>
 #include <list>
+#include <arpa/inet.h>
 
 #if defined(OSCPKT_OSTREAM_OUTPUT) || defined(OSCPKT_TEST)
 #include <iostream>
