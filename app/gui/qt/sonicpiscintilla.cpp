@@ -177,7 +177,9 @@ void SonicPiScintilla::transposeChars()
     QString replacement = "";
     replacement += ch2;
     replacement += ch;
-    SendScintilla(SCI_DELETERANGE, pos - 1, 2);
+    SendScintilla(SCI_GOTOPOS, pos + 1);
+    SendScintilla(QsciCommand::Delete);
+    SendScintilla(QsciCommand::Delete);
     SendScintilla(SCI_INSERTTEXT, pos - 1,
                 ScintillaBytesConstData(textAsBytes(replacement)));
     SendScintilla(SCI_GOTOPOS, pos + 1);
