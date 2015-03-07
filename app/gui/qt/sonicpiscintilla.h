@@ -30,7 +30,7 @@ class SonicPiScintilla : public QsciScintilla
   public slots:
     void cutLineFromPoint();
     void tabCompleteifList();
-    void transposeChars();
+    /* void transposeChars(); */
     void setMark();
     void escapeAndCancelSelection();
 

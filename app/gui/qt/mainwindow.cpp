@@ -166,9 +166,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     connect (indentLine, SIGNAL(activated()), signalMapper, SLOT(map())) ;
     signalMapper -> setMapping (indentLine, (QObject*)workspace);
 
-    //transpose chars
-    QShortcut *transposeChars = new QShortcut(ctrlKey('t'), workspace);
-    connect (transposeChars, SIGNAL(activated()), workspace, SLOT(transposeChars())) ;
+    // //transpose chars
+    // QShortcut *transposeChars = new QShortcut(ctrlKey('t'), workspace);
+    // connect (transposeChars, SIGNAL(activated()), workspace, SLOT(transposeChars())) ;
 
     //set Mark
 #ifdef Q_OS_MAC

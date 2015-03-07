@@ -167,24 +167,24 @@ void SonicPiScintilla::tabCompleteifList()
     }
 }
 
-void SonicPiScintilla::transposeChars()
-{
+// void SonicPiScintilla::transposeChars()
+// {
 
-  int pos = SendScintilla(SCI_GETCURRENTPOS);
-  if(pos > 0){
-    char ch = SendScintilla(SCI_GETCHARAT, pos - 1);
-    char ch2 = SendScintilla(SCI_GETCHARAT, pos);
-    QString replacement = "";
-    replacement += ch2;
-    replacement += ch;
-    SendScintilla(SCI_GOTOPOS, pos + 1);
-    SendScintilla(QsciCommand::Delete);
-    SendScintilla(QsciCommand::Delete);
-    SendScintilla(SCI_INSERTTEXT, pos - 1,
-                ScintillaBytesConstData(textAsBytes(replacement)));
-    SendScintilla(SCI_GOTOPOS, pos + 1);
-  }
-}
+//   int pos = SendScintilla(SCI_GETCURRENTPOS);
+//   if(pos > 0){
+//     char ch = SendScintilla(SCI_GETCHARAT, pos - 1);
+//     char ch2 = SendScintilla(SCI_GETCHARAT, pos);
+//     QString replacement = "";
+//     replacement += ch2;
+//     replacement += ch;
+//     SendScintilla(SCI_GOTOPOS, pos + 1);
+//     SendScintilla(QsciCommand::Delete);
+//     SendScintilla(QsciCommand::Delete);
+//     SendScintilla(SCI_INSERTTEXT, pos - 1,
+//                 ScintillaBytesConstData(textAsBytes(replacement)));
+//     SendScintilla(SCI_GOTOPOS, pos + 1);
+//   }
+// }
 
 void SonicPiScintilla::setMark()
 {
