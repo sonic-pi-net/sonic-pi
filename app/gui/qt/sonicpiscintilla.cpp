@@ -173,6 +173,23 @@ void SonicPiScintilla::tabCompleteifList()
     }
 }
 
+void SonicPiScintilla::transposeChars()
+{
+
+  int pos = SendScintilla(SCI_GETCURRENTPOS);
+  if(pos > 0){
+    char ch = SendScintilla(SCI_GETCHARAT, pos - 1);
+    char ch2 = SendScintilla(SCI_GETCHARAT, pos);
+    QString replacement = "";
+    replacement += ch2;
+    replacement += ch;
+    SendScintilla(SCI_DELETERANGE, pos - 1, 2);
+    SendScintilla(SCI_INSERTTEXT, pos - 1,
+                ScintillaBytesConstData(textAsBytes(replacement)));
+    SendScintilla(SCI_GOTOPOS, pos + 1);
+  }
+}
+
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
 					 int &last_word_start)
 {

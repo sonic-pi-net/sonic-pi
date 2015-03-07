@@ -161,13 +161,19 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer);
 
+    //indent line
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
-
     connect (indentLine, SIGNAL(activated()), signalMapper, SLOT(map())) ;
     signalMapper -> setMapping (indentLine, (QObject*)workspace);
 
+    //transpose chars
+    QShortcut *transposeChars = new QShortcut(ctrlKey('t'), workspace);
+    connect (transposeChars, SIGNAL(activated()), workspace, SLOT(transposeChars())) ;
+
+    //cut to end of line
     QShortcut *cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
     connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));
+
     QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);

@@ -30,6 +30,7 @@ class SonicPiScintilla : public QsciScintilla
   public slots:
     void cutLineFromPoint();
     void tabCompleteifList();
+    void transposeChars();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
