@@ -190,6 +190,12 @@ void SonicPiScintilla::transposeChars()
   }
 }
 
+void SonicPiScintilla::setMark()
+{
+  SendScintilla(SCI_SETSELECTIONMODE, 0);
+}
+
+
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
 					 int &last_word_start)
 {

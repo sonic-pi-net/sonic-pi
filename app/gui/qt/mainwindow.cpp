@@ -170,6 +170,14 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     QShortcut *transposeChars = new QShortcut(ctrlKey('t'), workspace);
     connect (transposeChars, SIGNAL(activated()), workspace, SLOT(transposeChars())) ;
 
+    //transpose chars
+#ifdef Q_OS_MAC
+    QShortcut *setMark = new QShortcut(QKeySequence("Meta+Space"), workspace);
+#else
+    QShortcut *setMark = new QShortcut(QKeySequence("Ctrl+Space"), workspace);
+#endif
+    connect (setMark, SIGNAL(activated()), workspace, SLOT(setMark())) ;
+
     //cut to end of line
     QShortcut *cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
     connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));
