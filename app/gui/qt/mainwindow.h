@@ -27,6 +27,7 @@
 #include <QShortcut>
 #include <QSettings>
 #include <QHash>
+#include <QTcpSocket>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -45,7 +46,7 @@ class QString;
 class QSlider;
 class SonicPiAPIs;
 class SonicPiScintilla;
-class SonicPiUDPServer;
+class SonicPiServer;
 
 struct help_page {
   QString title;
@@ -69,7 +70,8 @@ public:
     MainWindow(QApplication &ref, QSplashScreen* splash);
 #endif
     void invokeStartupError(QString msg);
-    SonicPiUDPServer *sonicPiServer;
+    SonicPiServer *sonicPiServer;
+    enum {UDP=0, TCP=1};
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -163,7 +165,9 @@ private:
 
     void addUniversalCopyShortcuts(QTextEdit *te);
 
+    QTcpSocket *clientSock;
     QFuture<void> osc_thread, server_thread;
+    int protocol;
 
     bool startup_error_reported;
     bool is_recording;

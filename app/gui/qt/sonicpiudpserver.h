@@ -2,29 +2,20 @@
 #define SONICPIUDPSERVER_H
 
 #include "oschandler.h"
+#include "sonicpiserver.h"
 #include "mainwindow.h"
 
-class SonicPiUDPServer : public QObject
+class SonicPiUDPServer : public SonicPiServer
 {
     Q_OBJECT
 
 public:
-    SonicPiUDPServer(MainWindow *parent, OscHandler *handler = 0);
-    bool waitForServer();
-    bool isIncomingPortOpen();
-    bool isServerStarted();
-    void stopServer();
+    explicit SonicPiUDPServer(MainWindow *parent, OscHandler *handler = 0);
 
 public slots:
+    void stopServer();
     void startServer();
 
-private:
-    OscHandler* handler;
-    MainWindow* parent;
-    bool osc_incoming_port_open;
-    bool stop_server;
-
-    bool continueListening();
 };
 
 #endif // SONICPIUDPSERVER_H
