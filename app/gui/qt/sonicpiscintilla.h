@@ -19,17 +19,13 @@ class QSettings;
 
 class SonicPiScintilla : public QsciScintilla
 {
-  Q_OBJECT
-
  public:
   SonicPiScintilla(SonicPiLexer *lexer);
 
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
-
-  public slots:
-    void cutLineFromPoint();
-    void tabCompleteifList();
+  void cutLineFromPoint();
+  void tabCompleteifList();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
