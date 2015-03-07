@@ -25,7 +25,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->standardCommands()->clearKeys();
   this->standardCommands()->clearAlternateKeys();
   QString skey;
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi Key bindings");
+  QSettings settings("sonic-pi.net", "Key bindings");
 
 #if defined(Q_OS_MAC)
   int SPi_CTRL = Qt::META;
@@ -83,9 +83,6 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L | SPi_CTRL);
 
-  addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
-  addOtherKeyBinding(settings, QsciCommand::Cancel, Qt::Key_G | SPi_CTRL);
-
   // tab return
   addKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
 
@@ -103,9 +100,6 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   addKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::SelectAll, Qt::Key_A | SPi_META);
-
-  // stop autocompletion
-  addKeyBinding(settings, QsciCommand::Cancel, Qt::Key_Escape);
 
   this->standardCommands()->readSettings(settings);
 
@@ -192,7 +186,16 @@ void SonicPiScintilla::transposeChars()
 
 void SonicPiScintilla::setMark()
 {
+  int pos = SendScintilla(SCI_GETCURRENTPOS);
+  SendScintilla(SCI_SETEMPTYSELECTION, pos);
   SendScintilla(SCI_SETSELECTIONMODE, 0);
+}
+
+void SonicPiScintilla::escapeAndCancelSelection()
+{
+  int pos = SendScintilla(SCI_GETCURRENTPOS);
+  SendScintilla(SCI_SETEMPTYSELECTION, pos);
+  SendScintilla(SCI_CANCEL);
 }
 
 

@@ -170,13 +170,21 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     QShortcut *transposeChars = new QShortcut(ctrlKey('t'), workspace);
     connect (transposeChars, SIGNAL(activated()), workspace, SLOT(transposeChars())) ;
 
-    //transpose chars
+    //set Mark
 #ifdef Q_OS_MAC
     QShortcut *setMark = new QShortcut(QKeySequence("Meta+Space"), workspace);
 #else
     QShortcut *setMark = new QShortcut(QKeySequence("Ctrl+Space"), workspace);
 #endif
     connect (setMark, SIGNAL(activated()), workspace, SLOT(setMark())) ;
+
+    //escape
+    QShortcut *escape = new QShortcut(ctrlKey('g'), workspace);
+    QShortcut *escape2 = new QShortcut(QKeySequence("Escape"), workspace);
+    connect(escape, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
+    connect(escape, SIGNAL(activated()), this, SLOT(resetErrorPane()));
+    connect(escape2, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
+    connect(escape2, SIGNAL(activated()), this, SLOT(resetErrorPane()));
 
     //cut to end of line
     QShortcut *cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
@@ -1184,8 +1192,6 @@ void MainWindow::createShortcuts()
   new QShortcut(cmdAltKey('{'), this, SLOT(tabPrev()));
   new QShortcut(cmdAltKey(']'), this, SLOT(tabNext()));
   new QShortcut(cmdAltKey('}'), this, SLOT(tabNext()));
-  new QShortcut(Qt::Key_Escape, this, SLOT(resetErrorPane()));
-  new QShortcut(ctrlKey('g'), this, SLOT(resetErrorPane()));
 
   new QShortcut(cmdAltKey('U'), this, SLOT(reloadServerCode()));
 }
