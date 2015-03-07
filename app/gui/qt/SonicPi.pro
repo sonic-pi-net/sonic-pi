@@ -34,7 +34,14 @@ macx {
   DEFINES += DONT_USE_OSX_KEYS
 }
 
-QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+!win32 {
+  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+}
+win32 {
+  QMAKE_CXXFLAGS += /WX
+  DEFINES += _CRT_SECURE_NO_WARNINGS
+}
+
 CODECFORSRC = UTF-8
 CODECFORTR = UTF-8
 
