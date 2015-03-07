@@ -156,8 +156,7 @@ void SonicPiScintilla::addKeyBinding(QSettings &qs, int cmd, int key)
   qs.setValue(skey, key);
 }
 
-void SonicPiScintilla::cutLineFromPoint()
-{
+void SonicPiScintilla::cutLineFromPoint() {
   //  SendScintilla(SCI_CLEARSELECTIONS);
   int pos = SendScintilla(SCI_GETCURRENTPOS);
   SendScintilla(SCI_LINEEND);

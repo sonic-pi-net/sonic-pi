@@ -141,26 +141,19 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
   // create workspaces and add them to the tabs
-  signalMapper = new QSignalMapper (this) ;
   for(int ws = 0; ws < workspace_max; ws++) {
-    std::string s;
-
-
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer);
 
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
-
-    connect (indentLine, SIGNAL(activated()), signalMapper, SLOT(map())) ;
-    signalMapper -> setMapping (indentLine, (QObject*)workspace);
+    connect(indentLine, SIGNAL(activated()), this, SLOT(completeListOrBeautifyCode()));
 
     QShortcut *cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
-    connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));
+    connect(cutToEndOfLine, SIGNAL(activated()), this, SLOT(cutLineFromPoint()));
+
     QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
   }
-
-  connect (signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeListOrBeautifyCode(QObject*)));
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -301,14 +294,19 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   }
 }
 
-void MainWindow::completeListOrBeautifyCode(QObject* ws){
-  SonicPiScintilla *spws = ((SonicPiScintilla*)ws);
-  if(spws->isListActive()) {
-    spws->tabCompleteifList();
-  }
-  else {
+void MainWindow::completeListOrBeautifyCode() {
+  SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
+  if(ws->isListActive()) {
+    ws->tabCompleteifList();
+  } else {
     beautifyCode();
   }
+}
+
+void MainWindow::cutLineFromPoint()
+{
+  SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
+  ws->cutLineFromPoint();
 }
 
 QString MainWindow::rootPath() {

@@ -86,7 +86,8 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
-    void completeListOrBeautifyCode(QObject *ws);
+    void completeListOrBeautifyCode();
+    void cutLineFromPoint();
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();
@@ -130,7 +131,6 @@ private slots:
     void helpClosed(bool visible);
 
 private:
-    QSignalMapper *signalMapper;
     void startServer();
     void waitForServiceSync();
     void clearOutputPanels();
