@@ -22,12 +22,12 @@ SonicPiTCPServer::SonicPiTCPServer(MainWindow *sonicPiWindow, OscHandler *oscHan
 void SonicPiTCPServer::startServer(){
     int PORT_NUM = 4558;
     if(tcpServer->listen(QHostAddress::LocalHost, PORT_NUM)){
-      qDebug() << "Server started: " << PORT_NUM;
+      std::cout << "TCP OSC Server started: " << PORT_NUM;
       handler->server_started = true;
     }
     else{
       tcpServer->close();
-      qDebug() << "Server: not started!";
+      std::cerr << "Server failed to start!";
     }
 
  }
@@ -35,7 +35,7 @@ void SonicPiTCPServer::startServer(){
 void SonicPiTCPServer::stopServer(){}
 
 void SonicPiTCPServer::logError(QAbstractSocket::SocketError e){
-    qDebug() << e;
+    std::cerr << "Socket error:" << e;
 }
 
 void SonicPiTCPServer::client(){
