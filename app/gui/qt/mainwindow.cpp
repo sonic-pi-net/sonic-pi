@@ -97,7 +97,7 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 #endif
 {
-  this->protocol = UDP;
+  this->protocol = TCP;
   this->splash = splash;
 
   if(protocol == TCP){
