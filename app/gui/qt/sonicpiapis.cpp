@@ -108,10 +108,11 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   }
 }
 
-QStringList SonicPiAPIs::callTips(const QStringList &context, int commas,
-				  QsciScintilla::CallTipsStyle style,
-				  QList<int> &shifts) {
-  QStringList ctx = context; commas = commas; style = style; shifts = shifts;
+QStringList SonicPiAPIs::callTips(const QStringList &context, int commas, QsciScintilla::CallTipsStyle style, QList<int> &shifts) {
+  Q_UNUSED( commas );
+  Q_UNUSED( style );
+  Q_UNUSED( shifts );
+  QStringList ctx = context;
   // some day...
   QStringList none;
   return none;
