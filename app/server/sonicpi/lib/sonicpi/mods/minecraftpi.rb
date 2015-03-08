@@ -535,7 +535,21 @@ module SonicPi
           doc:            "",
           examples:       []
 
+      def mc_build_box(block, x, y, z, size=1, depth=nil, height=nil)
+        width = size
+        depth = depth || size
+        height = height || size
+
+        mc_set_area(x, y, z, x+width, y+height, z+depth, block)
+      end
+      doc name:           :mc_build_box,
+          introduced:     Version.new(2,5,0),
+          summary:        "Build a box",
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       []
     end
   end
-
 end
