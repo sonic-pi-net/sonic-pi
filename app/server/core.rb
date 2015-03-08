@@ -178,6 +178,7 @@ module OSC
                 end
                 @so.close
                 @so = nil
+                break
               else
                 packet_size.force_encoding("BINARY")
                 bytes_expected = packet_size.unpack('N')[0]

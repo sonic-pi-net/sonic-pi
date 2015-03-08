@@ -51,30 +51,32 @@ void SonicPiTCPServer::client(){
 
 void SonicPiTCPServer::readMessage()
 {
-    if (blockSize == 0) {
-        if (socket->bytesAvailable() < (int)sizeof(quint32)){
+    while(socket->bytesAvailable() > 0){
+        if (blockSize == 0) {
+            if (socket->bytesAvailable() < (int)sizeof(quint32)){
+                return;
+            }
+
+            socket->read((char *)&blockSize, sizeof(quint32));
+            blockSize = qToBigEndian(blockSize);
+        }
+
+        if (socket->bytesAvailable() < blockSize){
             return;
         }
 
-        socket->read((char *)&blockSize, sizeof(quint32));
-        blockSize = qToBigEndian(blockSize);
-    }
+        buffer.resize(blockSize);
+        int bytesRead = socket->read(&buffer[0], blockSize);
 
-    if (socket->bytesAvailable() < blockSize){
-        return;
-    }
-
-    buffer.resize(blockSize);
-    int bytesRead = socket->read(&buffer[0], blockSize);
-
-    if(bytesRead < 0 || (uint32_t)bytesRead != blockSize) {
-        std::cerr << "Error: read: " << bytesRead << " Expected:" << blockSize << "\n";
+        if(bytesRead < 0 || (uint32_t)bytesRead != blockSize) {
+            std::cerr << "Error: read: " << bytesRead << " Expected:" << blockSize << "\n";
+            blockSize = 0;
+            return;
+        }
+        std::vector<char> tmp(buffer);
+        tmp.swap(buffer);
+        handler->oscMessage(buffer);
         blockSize = 0;
-        return;
+        std::vector<char>().swap(buffer);
     }
-    std::vector<char> tmp(buffer);
-    tmp.swap(buffer);
-    handler->oscMessage(buffer);
-    blockSize = 0;
-    std::vector<char>().swap(buffer);
 }
