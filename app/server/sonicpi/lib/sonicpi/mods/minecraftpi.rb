@@ -535,10 +535,12 @@ module SonicPi
           doc:            "",
           examples:       []
 
-      def mc_build_box(block, x, y, z, size=1, depth=nil, height=nil)
-        width = size
-        depth = depth || size
-        height = height || size
+      def mc_build_box(block, x, y, z, *opts)
+        args_h = resolve_synth_opts_hash_or_array(opts)
+        size = args_h[:size] || 1
+        width = args_h[:width] || size
+        height = args_h[:height] || size
+        depth = args_h[:depth] || size
 
         mc_set_area(x, y, z, x+width, y+height, z+depth, block)
       end
