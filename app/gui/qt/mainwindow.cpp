@@ -250,7 +250,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   docPane = new QTextBrowser;
   docPane->setOpenExternalLinks(true);
-  QString style = "QTextBrowser { padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
+  QString style = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
   docPane->setStyleSheet(style);
 
   QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
