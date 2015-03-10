@@ -1158,6 +1158,16 @@ QKeySequence MainWindow::cmdAltKey(char key)
 #endif
 }
 
+QKeySequence MainWindow::shiftMetaKey(char key)
+{
+#ifdef Q_OS_MAC
+  return QKeySequence(QString("Shift+Ctrl+%1").arg(key));
+#else
+  return QKeySequence(QString("Shift+alt+%1").arg(key));
+#endif
+}
+
+
 // set tooltips, connect event handlers, and add shortcut if applicable
 void MainWindow::setupAction(QAction *action, char key, QString tooltip,
 			     const char *slot)
@@ -1188,9 +1198,9 @@ void MainWindow::createShortcuts()
   new QShortcut(QKeySequence("F1"), this, SLOT(helpContext()));
   new QShortcut(ctrlKey('i'), this, SLOT(helpContext()));
 
-  new QShortcut(cmdAltKey('['), this, SLOT(tabPrev()));
+  new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
   new QShortcut(cmdAltKey('{'), this, SLOT(tabPrev()));
-  new QShortcut(cmdAltKey(']'), this, SLOT(tabNext()));
+  new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
   new QShortcut(cmdAltKey('}'), this, SLOT(tabNext()));
 
   new QShortcut(cmdAltKey('U'), this, SLOT(reloadServerCode()));

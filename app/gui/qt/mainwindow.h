@@ -157,6 +157,7 @@ private:
                      int len);
     QListWidget *createHelpTab(QString name);
     QKeySequence cmdAltKey(char key);
+    QKeySequence shiftMetaKey(char key);
     QKeySequence ctrlKey(char key);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
