@@ -1481,6 +1481,9 @@ void MainWindow::onExitCleanup()
   if(serverProcess->state() == QProcess::NotRunning) {
     std::cout << "Server process is not running, something is up..." << std::endl;
     sonicPiServer->stopServer();
+    if(protocol == TCP){
+      clientSock->close();
+    }
   } else {
     if (loaded_workspaces)
       saveWorkspaces();
@@ -1489,7 +1492,9 @@ void MainWindow::onExitCleanup()
     Message msg("/exit");
     sendOSC(msg);
   }
-  osc_thread.waitForFinished();
+  if(protocol == UDP){
+    osc_thread.waitForFinished();
+  }
   std::cout << "Exiting..." << std::endl;
 
 }
