@@ -191,7 +191,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));
 
     //Emacs live copy and cut
-    QShortcut *copyToBuffer = new QShortcut(cmdAltKey(']'), workspace);
+    QShortcut *copyToBuffer = new QShortcut(metaKey(']'), workspace);
     connect(copyToBuffer, SIGNAL(activated()), workspace, SLOT(copyClear()));
     QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
     connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
@@ -199,7 +199,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     //Windows/Mac Copy
     QShortcut *copyToBufferWin = new QShortcut(ctrlKey('c'), workspace);
     connect(copyToBufferWin, SIGNAL(activated()), workspace, SLOT(copyClear()));
-    QShortcut *copyToBufferMac = new QShortcut(cmdAltKey('c'), workspace);
+    QShortcut *copyToBufferMac = new QShortcut(metaKey('c'), workspace);
     connect(copyToBufferMac, SIGNAL(activated()), workspace, SLOT(copyClear()));
 
     QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
@@ -1161,7 +1161,7 @@ QKeySequence MainWindow::ctrlKey(char key)
 }
 
 // Cmd on Mac, Alt everywhere else
-QKeySequence MainWindow::cmdAltKey(char key)
+QKeySequence MainWindow::metaKey(char key)
 {
 #ifdef Q_OS_MAC
   return QKeySequence(QString("Ctrl+%1").arg(key));
@@ -1201,7 +1201,7 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
   if (key != 0) {
     // create a QShortcut instead of setting the QAction's shortcut
     // so it will still be active with the toolbar hidden
-    new QShortcut(cmdAltKey(key), this, slot);
+    new QShortcut(metaKey(key), this, slot);
   }
 }
 
@@ -1211,11 +1211,11 @@ void MainWindow::createShortcuts()
   new QShortcut(ctrlKey('i'), this, SLOT(helpContext()));
 
   new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
-  new QShortcut(cmdAltKey('{'), this, SLOT(tabPrev()));
+  new QShortcut(metaKey('{'), this, SLOT(tabPrev()));
   new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
-  new QShortcut(cmdAltKey('}'), this, SLOT(tabNext()));
+  new QShortcut(metaKey('}'), this, SLOT(tabNext()));
 
-  new QShortcut(cmdAltKey('U'), this, SLOT(reloadServerCode()));
+  new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
 }
 
 void MainWindow::createToolBar()
@@ -1260,13 +1260,13 @@ void MainWindow::createToolBar()
   QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
 			    tr("Increase Text Size"), this);
   setupAction(textIncAct, '+', tr("Make text bigger"), SLOT(zoomFontIn()));
-  new QShortcut(cmdAltKey('='), this, SLOT(zoomFontIn()));
+  new QShortcut(metaKey('='), this, SLOT(zoomFontIn()));
 
   // Font Size Decrease
   QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
 			    tr("Decrease Text Size"), this);
   setupAction(textDecAct, '-', tr("Make text smaller"), SLOT(zoomFontOut()));
-  new QShortcut(cmdAltKey('_'), this, SLOT(zoomFontOut()));
+  new QShortcut(metaKey('_'), this, SLOT(zoomFontOut()));
 
   QWidget *spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -1655,8 +1655,8 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
   new QShortcut(ctrlKey('c'), te, SLOT(copy()));
   new QShortcut(ctrlKey('a'), te, SLOT(selectAll()));
 
-  new QShortcut(cmdAltKey('c'), te, SLOT(copy()));
-  new QShortcut(cmdAltKey('a'), te, SLOT(selectAll()));
+  new QShortcut(metaKey('c'), te, SLOT(copy()));
+  new QShortcut(metaKey('a'), te, SLOT(selectAll()));
 }
 
 #include "ruby_help.h"

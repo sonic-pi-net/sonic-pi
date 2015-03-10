@@ -156,7 +156,7 @@ private:
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QString name);
-    QKeySequence cmdAltKey(char key);
+    QKeySequence metaKey(char key);
     QKeySequence shiftMetaKey(char key);
     QKeySequence ctrlKey(char key);
     void setupAction(QAction *action, char key, QString tooltip,
