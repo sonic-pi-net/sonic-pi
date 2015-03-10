@@ -32,7 +32,9 @@ void SonicPiTCPServer::startServer(){
 
  }
 
-void SonicPiTCPServer::stopServer(){}
+void SonicPiTCPServer::stopServer(){
+    tcpServer->close();
+}
 
 void SonicPiTCPServer::logError(QAbstractSocket::SocketError e){
     std::cerr << "Socket error:" << e;
