@@ -78,14 +78,22 @@ begin
   end
 rescue Exception => e
   m = encoder.encode_single_message("/exited", ["Failed to open server port " + server_port.to_s + ", is scsynth already running?"])
-  gui.send_raw(m)
+  begin
+    gui.send_raw(m)
+  rescue Errno::EPIPE => e
+    puts "GUI not listening, exit anyway."
+  end
   exit
 end
 
 
 at_exit do
   m = encoder.encode_single_message("/exited")
-  gui.send_raw(m)
+  begin
+    gui.send_raw(m)
+  rescue Errno::EPIPE => e
+    puts "GUI not listening."
+  end
 end
 
 user_methods = Module.new
@@ -380,7 +388,11 @@ out_t = Thread.new do
 
       if message[:type] == :exit
         m = encoder.encode_single_message("/exited")
-        gui.send_raw(m)
+        begin
+          gui.send_raw(m)
+        rescue Errno::EPIPE => e
+          puts "GUI not listening, exit anyway."
+        end
         continue = false
       else
         case message[:type]
