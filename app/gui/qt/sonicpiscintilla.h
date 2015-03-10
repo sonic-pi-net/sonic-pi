@@ -33,6 +33,8 @@ class SonicPiScintilla : public QsciScintilla
     /* void transposeChars(); */
     void setMark();
     void escapeAndCancelSelection();
+    void copyClear();
+
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);

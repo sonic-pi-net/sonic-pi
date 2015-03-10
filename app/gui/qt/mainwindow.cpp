@@ -190,6 +190,18 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     QShortcut *cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
     connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));
 
+    //Emacs live copy and cut
+    QShortcut *copyToBuffer = new QShortcut(cmdAltKey(']'), workspace);
+    connect(copyToBuffer, SIGNAL(activated()), workspace, SLOT(copyClear()));
+    QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
+    connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
+
+    //Windows/Mac Copy
+    QShortcut *copyToBufferWin = new QShortcut(ctrlKey('c'), workspace);
+    connect(copyToBufferWin, SIGNAL(activated()), workspace, SLOT(copyClear()));
+    QShortcut *copyToBufferMac = new QShortcut(cmdAltKey('c'), workspace);
+    connect(copyToBufferMac, SIGNAL(activated()), workspace, SLOT(copyClear()));
+
     QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
@@ -386,7 +398,7 @@ void MainWindow::startServer(){
     prg_path = QDir::toNativeSeparators(prg_path);
     prg_arg = QDir::toNativeSeparators(prg_arg);
 
-   
+
     QStringList args;
     args << prg_arg;
 

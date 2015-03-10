@@ -91,8 +91,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   // copy paste
   addKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_CTRL);
-  addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
-  addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
+
   addKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::Paste, Qt::Key_Y | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::Undo, Qt::Key_Z | SPi_META);
@@ -200,6 +199,12 @@ void SonicPiScintilla::escapeAndCancelSelection()
   SendScintilla(SCI_CANCEL);
 }
 
+void SonicPiScintilla::copyClear()
+{
+  QsciScintilla::copy();
+  int pos = SendScintilla(SCI_GETCURRENTPOS);
+  SendScintilla(SCI_SETEMPTYSELECTION, pos);
+}
 
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
 					 int &last_word_start)
