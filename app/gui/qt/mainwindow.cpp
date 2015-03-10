@@ -104,9 +104,16 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     clientSock = new QTcpSocket(this);
   }
 
+  // kill any zombie processes that may exist
+  // better: test to see if UDP ports are in use, only kill/sleep if so
+  // best: kill SCSynth directly if needed
+  Message msg("/exit");
+  qDebug() << "SEND KILL SIG";
+  sendOSC(msg);
+  sleep(2);
+
   this->setUnifiedTitleAndToolBarOnMac(true);
   this->setWindowIcon(QIcon(":images/icon-smaller.png"));
-
 
   currentLine = 0;
   currentIndex = 0;
@@ -121,14 +128,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   errorPane = new QTextEdit;
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
-
-  // kill any zombie processes that may exist
-  // better: test to see if UDP ports are in use, only kill/sleep if so
-  // best: kill SCSynth directly if needed
-  Message msg("/exit");
-  sendOSC(msg);
-  sleep(2);
-
 
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
 
