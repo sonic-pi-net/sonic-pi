@@ -369,7 +369,7 @@ module SonicPi
           x, y, z = x
         end
         res = Minecraft.world_recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
-        mc_id_to_block(res.to_i)
+        mc_block_name(res.to_i)
       end
       doc name:           :mc_get_block,
           introduced:     Version.new(2,5,0),
