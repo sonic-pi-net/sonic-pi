@@ -3584,7 +3584,7 @@
           freq          (midicps freq)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
-          [new-l new-r] (limiter (ring1 [in-l in-r] (sin-osc freq)))
+          [new-l new-r] (limiter (ring [in-l in-r] (* mod_amp (sin-osc freq))))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (out out_bus [fin-l fin-r])
