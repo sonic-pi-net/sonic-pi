@@ -236,7 +236,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   outputPane->zoomIn(1);
   errorPane->zoomIn(1);
-  errorPane->setMaximumHeight(100);
+  errorPane->setMaximumHeight(130);
+  errorPane->setMinimumHeight(130);
+
   hudPane = new QTextBrowser;
   hudPane->setMinimumHeight(130);
   hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
