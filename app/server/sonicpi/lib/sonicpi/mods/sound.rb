@@ -2669,7 +2669,7 @@ stop bar"]
            sn = "basic_mixer"
            info = SynthInfo.get_info(sn)
            defaults = info.arg_defaults
-           synth_name = info ? info.scsynth_name : synth_name
+           synth_name = info.scsynth_name
 
            combined_args = defaults.merge(args_h)
            combined_args["out_bus"] = @mod_sound_studio.mixer_bus.to_i
