@@ -190,8 +190,10 @@ private:
     QTextEdit *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
+    QDockWidget *hudWidget;
     QDockWidget *docWidget;
     QTextBrowser *docPane;
+    QTextBrowser *hudPane;
     bool hidingDocPane;
 
     QTabWidget *tabs;

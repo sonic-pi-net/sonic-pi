@@ -237,6 +237,17 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   outputPane->zoomIn(1);
   errorPane->zoomIn(1);
   errorPane->setMaximumHeight(100);
+  hudPane = new QTextBrowser;
+  hudPane->setMinimumHeight(130);
+  hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
+  hudWidget = new QDockWidget(this);
+  hudWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+  hudWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+  hudWidget->setTitleBarWidget(new QWidget());
+  addDockWidget(Qt::RightDockWidgetArea, hudWidget);
+  hudWidget->setWidget(hudPane);
+  hudWidget->setObjectName("hud");
+
 
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
