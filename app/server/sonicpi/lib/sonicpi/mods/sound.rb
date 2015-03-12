@@ -2749,8 +2749,10 @@ stop bar"]
          end
          mixer = old_job_mixers[job_id]
          if mixer
+           mixer.ctl amp_slide: 1
+           Kernel.sleep 0.1
            mixer.ctl amp: 0
-           Kernel.sleep 0.5
+           Kernel.sleep 1.5
            mixer.kill
          end
 
