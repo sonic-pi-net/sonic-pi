@@ -267,12 +267,16 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
   outputWidget->setObjectName("output");
 
+
+
+
   docsCentral = new QTabWidget;
   docsCentral->setTabsClosable(false);
   docsCentral->setMovable(false);
   docsCentral->setTabPosition(QTabWidget::South);
 
   docPane = new QTextBrowser;
+  docPane->setMinimumHeight(100);
   docPane->setOpenExternalLinks(true);
   QString style = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
   docPane->setStyleSheet(style);
