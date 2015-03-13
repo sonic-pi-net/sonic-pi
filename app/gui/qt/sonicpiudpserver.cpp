@@ -15,13 +15,13 @@ void SonicPiUDPServer::stopServer(){
 }
 
 void SonicPiUDPServer::startServer(){
-    std::cout << "starting UDP OSC Server";
+  std::cout << "[Sonic Pi] - starting UDP OSC Server" << std::endl;
     int PORT_NUM = 4558;
     oscpkt::UdpSocket sock;
     sock.bindTo(PORT_NUM);
-    std::cout << "Listening on port 4558";
+    std::cout << "[Sonic Pi] - listening on port 4558" << std::endl;
     if (!sock.isOk()) {
-      std::cout << "Unable to listen to OSC messages on port 4558";
+      std::cout << "[Sonic Pi] - unable to listen to OSC messages on port 4558" << std::endl;
       parent->invokeStartupError(tr("Is Sonic Pi already running?  Can't open UDP port 4558."));
       return;
     }

@@ -119,7 +119,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
         } else {
-          std::cout << "Server: unhandled info message: "<< std::endl;
+          std::cout << "[Sonic Pi] - error: unhandled OSC msg /info "<< std::endl;
         }
       }
       else if (msg->match("/error")) {
@@ -135,7 +135,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
                                      Q_ARG(QString, "<table width=\"100%\"> border=\"1\" bgcolor=\"deeppink\" cellpadding=\"0\"><tr><td bgcolor=\"white\"><h3><font color=\"deeppink\"><pre>Error: " + QString::fromStdString(desc) + "</pre></font></h3></td></tr><tr><td bgcolor=\"white\"><h4><font color=\"#5e5e5e\"><pre>" + QString::fromStdString(backtrace) + "</pre></font></h4></td></tr></table>") );
 
         } else {
-          std::cout << "Server: unhandled error: "<< std::endl;
+          std::cout << "[Sonic Pi] - unhandled OSC msg /error: "<< std::endl;
         }
       }
       else if (msg->match("/replace-buffer")) {
@@ -145,15 +145,15 @@ void OscHandler::oscMessage(std::vector<char> buffer){
 
           QMetaObject::invokeMethod( window, "replaceBuffer", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)));
         } else {
-          std::cout << "Server: unhandled replace-buffer: "<< std::endl;
+          std::cout << "[Sonic Pi] - error: unhandled OSC msg /replace-buffer: "<< std::endl;
         }
       }
       else if (msg->match("/exited")) {
         if (msg->arg().isOkNoMoreArgs()) {
-          std::cout << "server asked us to exit" << std::endl;
+          std::cout << "[Sonic Pi] - server asked us to exit" << std::endl;
           signal_server_stop = true;
         } else {
-          std::cout << "Server: unhandled exited: "<< std::endl;
+          std::cout << "[Sonic Pi] - error: unhandled OSC msg /exited: "<< std::endl;
         }
       }
       else if (msg->match("/ack")) {
@@ -165,10 +165,10 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           server_started = true;
 
         } else
-          std::cout << "Server: unhandled ack " << std::endl;
+          std::cout << "[Sonic Pi] - error: unhandled OSC msg /ack " << std::endl;
       }
       else {
-        std::cout << "Unknown message" << std::endl;
+        std::cout << "[Sonic Pi] - error: unhandled OSC message" << std::endl;
       }
     }
 
