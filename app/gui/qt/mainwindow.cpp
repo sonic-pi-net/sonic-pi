@@ -1288,7 +1288,7 @@ void MainWindow::createToolBar()
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
   toolBar = addToolBar(tr("Tools"));
-
+  toolBar->setObjectName("toolbar");
   toolBar->setIconSize(QSize(270/3, 111/3));
   toolBar->addAction(runAct);
   toolBar->addAction(stopAct);
