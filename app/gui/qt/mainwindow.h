@@ -78,7 +78,7 @@ protected:
     void wheelEvent(QWheelEvent *event);
 
 private slots:
-
+  void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();
     void update_mixer_invert_stereo();

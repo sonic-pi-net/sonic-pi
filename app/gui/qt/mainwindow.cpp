@@ -104,11 +104,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     clientSock = new QTcpSocket(this);
   }
 
+
+  printAsciiArtLogo();
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
-  Message msg("/exit");
   qDebug() << "[Sonic Pi] - shutting down any pre-existing audio servers...";
+  Message msg("/exit");
   sendOSC(msg);
   sleep(2);
 
@@ -1680,6 +1682,21 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
 
   new QShortcut(metaKey('c'), te, SLOT(copy()));
   new QShortcut(metaKey('a'), te, SLOT(selectAll()));
+}
+
+void MainWindow::printAsciiArtLogo(){
+
+  QFile file(":/images/logo.txt");
+  if(!file.open(QFile::ReadOnly | QFile::Text)) {
+  }
+
+  QString s;
+  QTextStream st(&file);
+  st.setCodec("UTF-8");
+  s.append(st.readAll());
+
+  //  qDebug() << s;
+  std::cout << s.toStdString() << std::endl << std::endl << std::endl ;
 }
 
 #include "ruby_help.h"
