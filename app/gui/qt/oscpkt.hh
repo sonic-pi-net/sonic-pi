@@ -58,20 +58,21 @@
 
 #ifndef _MSC_VER
 #include <stdint.h>
+#include <arpa/inet.h>
 #else
-namespace oscpkt {
-  typedef __int32 int32_t;
-  typedef unsigned __int32 uint32_t;
-  typedef __int64 int64_t;
-  typedef unsigned __int64 uint64_t;
-}
+#include <winsock2.h>
+
+typedef __int32 int32_t;
+typedef unsigned __int32 uint32_t;
+typedef __int64 int64_t;
+typedef unsigned __int64 uint64_t;
+
 #endif
 #include <cstring>
 #include <cassert>
 #include <string>
 #include <vector>
 #include <list>
-#include <arpa/inet.h>
 
 #if defined(OSCPKT_OSTREAM_OUTPUT) || defined(OSCPKT_TEST)
 #include <iostream>
