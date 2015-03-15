@@ -162,7 +162,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer);
 
-    //indent line
+    //tab completion when in list
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
     connect (indentLine, SIGNAL(activated()), signalMapper, SLOT(map())) ;
     signalMapper -> setMapping (indentLine, (QObject*)workspace);
@@ -208,7 +208,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     tabs->addTab(workspace, w);
   }
 
-  connect (signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeListOrBeautifyCode(QObject*)));
+  connect (signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeList(QObject*)));
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -366,14 +366,15 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   }
 }
 
-void MainWindow::completeListOrBeautifyCode(QObject* ws){
+void MainWindow::completeList(QObject* ws){
   SonicPiScintilla *spws = ((SonicPiScintilla*)ws);
   if(spws->isListActive()) {
     spws->tabCompleteifList();
   }
   else {
-    beautifyCode();
-  }
+    //Do nothing for now - perhaps later implement
+    //indentLine()
+   }
 }
 
 QString MainWindow::rootPath() {

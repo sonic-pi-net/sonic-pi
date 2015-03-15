@@ -88,7 +88,7 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
-    void completeListOrBeautifyCode(QObject *ws);
+    void completeList(QObject *ws);
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();
