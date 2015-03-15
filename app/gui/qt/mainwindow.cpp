@@ -452,9 +452,9 @@ void MainWindow::startServer(){
 
 void MainWindow::waitForServiceSync() {
   int timeout = 30;
+  qDebug() << "[GUI] - waiting for server to connect...";
   while (sonicPiServer->waitForServer() && timeout-- > 0) {
     sleep(1);
-    qDebug() << "[GUI] - waiting for server to connect...";
     if(sonicPiServer->isIncomingPortOpen()) {
       Message msg("/ping");
       msg.pushStr("QtClient/1/hello");
