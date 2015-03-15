@@ -1694,9 +1694,10 @@ void MainWindow::printAsciiArtLogo(){
   QTextStream st(&file);
   st.setCodec("UTF-8");
   s.append(st.readAll());
+  std::cout << std::endl << std::endl << std::endl;
+  qDebug().noquote() << s;
+  std::cout << std::endl << std::endl << std::endl;
 
-  //  qDebug() << s;
-  std::cout << s.toStdString() << std::endl << std::endl << std::endl ;
 }
 
 #include "ruby_help.h"
