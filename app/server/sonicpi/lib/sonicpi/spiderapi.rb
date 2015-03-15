@@ -1448,15 +1448,24 @@ end"
 
 
 
-    def sync(cue_id)
+
+
+    def sync(*cue_ids)
+      raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
       Thread.current.thread_variable_set(:sonic_pi_spider_synced, true)
       p = Promise.new
-      @events.async_oneshot_handler("/spider_thread_sync/" + cue_id.to_s) do |payload|
+      handles = cue_ids.map {|id| "/spider_thread_sync/" + id.to_s}
+      @events.async_multi_oneshot_handler(handles) do |payload|
         p.deliver! payload
       end
 
       unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-        __delayed_highlight3_message "sync #{cue_id.to_sym.inspect}"
+        if cue_ids.size == 1
+          __delayed_highlight3_message "sync #{cue_ids.first.to_sym.inspect}"
+        else
+          ids_list = cue_ids.map{|cid| cid.to_sym}
+          __delayed_highlight3_message "sync #{ids_list.inspect}"
+        end
       end
 
       __schedule_delayed_blocks_and_messages!
@@ -1465,16 +1474,18 @@ end"
       time = payload[:time]
       run_id = payload[:run]
       cue_map = payload[:cue_map]
+      cue = payload[:cue]
+
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
       unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-        __delayed_highlight2_message "synced #{cue_id.to_sym.inspect} (Run #{run_id})"
+        __delayed_highlight2_message "synced #{cue.inspect} (Run #{run_id})"
       end
       cue_map.dup if cue_map
     end
     doc name:           :sync,
         introduced:     Version.new(2,0,0),
         summary:        "Sync with other threads",
-        doc:            "Pause/block the current thread until a cue heartbeat with a matching cue_id is received. When a matching cue message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the cue heartbeat. The current thread is therefore synced to the cue thread.",
+        doc:            "Pause/block the current thread until a cue heartbeat with a matching cue_id is received. When a matching cue message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the cue heartbeat. The current thread is therefore synced to the cue thread. If multiple cue ids are passed as arguments, it will sync on the first matching cue_id",
         args:           [[:cue_id, :symbol]],
         opts:           nil,
         accepts_block:  false,
@@ -1502,6 +1513,9 @@ loop do                    # In the main thread, just loop
   sync :tick               # waiting for :tick sync messages
   sample :drum_heavy_kick  # after which play the drum kick sample
 end",
+
+"
+sync :foo, :bar # Wait for either a :foo or :bar cue ",
 
 "
 in_thread do   # Start a metronome thread
