@@ -435,7 +435,8 @@ void MainWindow::startServer(){
     std::cout.rdbuf(stdlog.rdbuf());
   #endif
 
-    std::cout << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
+    //    std::cout << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
+    std::cout << "[GUI] - booting live coding server" << std::endl;
 
     QString sp_error_log_path = log_path + QDir::separator() + "errors.log";
     QString sp_output_log_path = log_path + QDir::separator() + "output.log";
@@ -1697,12 +1698,14 @@ void MainWindow::printAsciiArtLogo(){
   std::cout << std::endl << std::endl << std::endl;
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
   qDebug().noquote() << s;
+  std::cout << std::endl << std::endl;
 #else
   //Assuming Raspberry Pi which currently has Qt4
   //TODO: remove when RPi is on Qt5
   qDebug() << s;
+  std::cout << std::endl;
 #endif
-  std::cout << std::endl << std::endl << std::endl;
+
 
 }
 
