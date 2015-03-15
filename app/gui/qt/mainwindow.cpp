@@ -109,7 +109,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
-  qDebug() << "[Sonic Pi] - shutting down any pre-existing audio servers...";
+  qDebug() << "[GUI] - shutting down any pre-existing audio servers...";
   Message msg("/exit");
   sendOSC(msg);
   sleep(2);
@@ -435,7 +435,7 @@ void MainWindow::startServer(){
     std::cout.rdbuf(stdlog.rdbuf());
   #endif
 
-    std::cout << "[Sonic Pi] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
+    std::cout << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
 
     QString sp_error_log_path = log_path + QDir::separator() + "errors.log";
     QString sp_output_log_path = log_path + QDir::separator() + "output.log";
@@ -452,7 +452,7 @@ void MainWindow::waitForServiceSync() {
   int timeout = 30;
   while (sonicPiServer->waitForServer() && timeout-- > 0) {
     sleep(1);
-    qDebug() << "[Sonic Pi] - waiting for server to connect...";
+    qDebug() << "[GUI] - waiting for server to connect...";
     if(sonicPiServer->isIncomingPortOpen()) {
       Message msg("/ping");
       msg.pushStr("QtClient/1/hello");
@@ -467,7 +467,7 @@ void MainWindow::waitForServiceSync() {
     return;
   }
 
-    qDebug() << "[Sonic Pi] - server connection established";
+    qDebug() << "[GUI] - server connection established";
 
 }
 
@@ -497,13 +497,13 @@ void MainWindow::serverStarted() {
 
 void MainWindow::serverError(QProcess::ProcessError error) {
   sonicPiServer->stopServer();
-  std::cout << "[Sonic Pi] - Server Error: " << error <<std::endl;
+  std::cout << "[GUI] - Server Error: " << error <<std::endl;
   std::cout << serverProcess->readAllStandardError().data() << std::endl;
   std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
 void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
-  std::cout << "[Sonic Pi] - Server Finished: " << exitCode << ", " << exitStatus << std::endl;
+  std::cout << "[GUI] - Server Finished: " << exitCode << ", " << exitStatus << std::endl;
   std::cout << serverProcess->readAllStandardError().data() << std::endl;
   std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
 }
@@ -728,7 +728,7 @@ std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
 
 void MainWindow::loadWorkspaces()
 {
-  std::cout << "[Sonic Pi] - loading workspaces" << std::endl;
+  std::cout << "[GUI] - loading workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     Message msg("/load-buffer");
@@ -740,7 +740,7 @@ void MainWindow::loadWorkspaces()
 
 void MainWindow::saveWorkspaces()
 {
-  std::cout << "[Sonic Pi] - saving workspaces" << std::endl;
+  std::cout << "[GUI] - saving workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     std::string code = workspaces[i]->text().toStdString();
@@ -1043,7 +1043,7 @@ void MainWindow::changeRPSystemVol(int val)
   std::ostringstream ss;
   ss << vol_float;
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
-  std::cout << "[Sonic Pi] - " << prog.toStdString() << std::endl;
+  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   QProcess *p = new QProcess();
@@ -1068,7 +1068,7 @@ void MainWindow::setRPSystemAudioHeadphones()
   statusBar()->showMessage(tr("Switching To Headphone Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 1";
-  std::cout << "[Sonic Pi] - " << prog.toStdString() << std::endl;
+  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To Headphone Audio Output."), 2000);
@@ -1087,7 +1087,7 @@ void MainWindow::setRPSystemAudioHDMI()
   statusBar()->showMessage(tr("Switching To HDMI Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 2";
-  std::cout << "[Sonic Pi] - " << prog.toStdString() << std::endl;
+  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To HDMI Audio Output."), 2000);
@@ -1106,7 +1106,7 @@ void MainWindow::setRPSystemAudioAuto()
   statusBar()->showMessage(tr("Switching To Default Audio Output."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 0";
-  std::cout << "[Sonic Pi] - " << prog.toStdString() << std::endl;
+  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To Default Audio Output."), 2000);
@@ -1522,7 +1522,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 void MainWindow::onExitCleanup()
 {
   if(serverProcess->state() == QProcess::NotRunning) {
-    std::cout << "[Sonic Pi] - warning, server process is not running." << std::endl;
+    std::cout << "[GUI] - warning, server process is not running." << std::endl;
     sonicPiServer->stopServer();
     if(protocol == TCP){
       clientSock->close();
@@ -1531,14 +1531,14 @@ void MainWindow::onExitCleanup()
     if (loaded_workspaces)
       saveWorkspaces();
     sleep(1);
-    std::cout << "[Sonic Pi] - asking server process to exit..." << std::endl;
+    std::cout << "[GUI] - asking server process to exit..." << std::endl;
     Message msg("/exit");
     sendOSC(msg);
   }
   if(protocol == UDP){
     osc_thread.waitForFinished();
   }
-  std::cout << "[Sonic Pi] - exiting. Cheerio :-)" << std::endl;
+  std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
 
 }
 
