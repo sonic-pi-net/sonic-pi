@@ -74,6 +74,18 @@ module SonicPi
       end
     end
 
+    def async_multi_oneshot_handler(handles, &block)
+      key_prefix = gensym("sonicpi/incomingevents/oneshot")
+
+      handles_keys = handles.map {|h| [h, "#{key_prefix}-#{h}"]}
+      handles_keys.each do |h, k|
+        async_add_handler(h, k) do |payload|
+          block.call payload
+          handles_keys.each { |han, key| q_rm_handler(han, key) }
+        end
+      end
+    end
+
     def rm_handler(handle, key)
       prom = Promise.new
       @event_queue << [:rm, [handle, key, prom]]
