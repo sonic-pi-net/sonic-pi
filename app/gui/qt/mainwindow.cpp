@@ -1231,12 +1231,8 @@ void MainWindow::createShortcuts()
 {
   new QShortcut(QKeySequence("F1"), this, SLOT(helpContext()));
   new QShortcut(ctrlKey('i'), this, SLOT(helpContext()));
-
-  new QShortcut(shiftMetaKey('['), this, SLOT(tabPrev()));
-  new QShortcut(metaKey('{'), this, SLOT(tabPrev()));
-  new QShortcut(shiftMetaKey(']'), this, SLOT(tabNext()));
-  new QShortcut(metaKey('}'), this, SLOT(tabNext()));
-
+  new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
+  new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
 }
 
