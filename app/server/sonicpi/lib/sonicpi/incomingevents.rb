@@ -67,6 +67,13 @@ module SonicPi
       end
     end
 
+    def async_oneshot_handler(handle, &block)
+      async_add_handler(handle, gensym("sonicpi/incomingevents/oneshot")) do |payload|
+        block.call payload
+        :remove_handler
+      end
+    end
+
     def rm_handler(handle, key)
       prom = Promise.new
       @event_queue << [:rm, [handle, key, prom]]
