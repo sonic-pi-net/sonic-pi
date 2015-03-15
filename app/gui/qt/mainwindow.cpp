@@ -1695,7 +1695,13 @@ void MainWindow::printAsciiArtLogo(){
   st.setCodec("UTF-8");
   s.append(st.readAll());
   std::cout << std::endl << std::endl << std::endl;
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
   qDebug().noquote() << s;
+#else
+  //Assuming Raspberry Pi which currently has Qt4
+  //TODO: remove when RPi is on Qt5
+  qDebug() << s;
+#endif
   std::cout << std::endl << std::endl << std::endl;
 
 }
