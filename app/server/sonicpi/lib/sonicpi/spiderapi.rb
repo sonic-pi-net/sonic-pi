@@ -1450,7 +1450,7 @@ end"
     def sync(cue_id)
       Thread.current.thread_variable_set(:sonic_pi_spider_synced, true)
       p = Promise.new
-      @events.oneshot_handler("/spider_thread_sync/" + cue_id.to_s) do |payload|
+      @events.async_oneshot_handler("/spider_thread_sync/" + cue_id.to_s) do |payload|
         p.deliver! payload
       end
 
