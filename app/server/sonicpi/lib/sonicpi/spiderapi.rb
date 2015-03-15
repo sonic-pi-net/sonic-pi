@@ -1448,8 +1448,6 @@ end"
 
 
 
-
-
     def sync(*cue_ids)
       raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
       Thread.current.thread_variable_set(:sonic_pi_spider_synced, true)
@@ -1474,13 +1472,16 @@ end"
       time = payload[:time]
       run_id = payload[:run]
       cue_map = payload[:cue_map]
-      cue = payload[:cue]
+      cue_map = cue_map.dup if cue_map
+      cue_map = cue_map || {}
+      cue_id = payload[:cue]
+      cue_map[:cue] = cue_id
 
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
       unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-        __delayed_highlight2_message "synced #{cue.inspect} (Run #{run_id})"
+        __delayed_highlight2_message "synced #{cue_id.inspect} (Run #{run_id})"
       end
-      cue_map.dup if cue_map
+      cue_map
     end
     doc name:           :sync,
         introduced:     Version.new(2,0,0),
