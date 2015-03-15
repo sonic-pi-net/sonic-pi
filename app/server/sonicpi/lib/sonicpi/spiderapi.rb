@@ -1362,7 +1362,8 @@ play 62
       payload = {
         :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
         :run => current_job_id,
-        :cue_map => args_h
+        :cue_map => args_h,
+        :cue => cue_id
       }
 
       if args_h.empty?
