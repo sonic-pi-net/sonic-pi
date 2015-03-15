@@ -435,7 +435,7 @@ void MainWindow::startServer(){
     std::cout.rdbuf(stdlog.rdbuf());
   #endif
 
-    std::cout "[Sonic Pi] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
+    std::cout << "[Sonic Pi] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
 
     QString sp_error_log_path = log_path + QDir::separator() + "errors.log";
     QString sp_output_log_path = log_path + QDir::separator() + "output.log";
