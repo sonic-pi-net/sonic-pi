@@ -414,8 +414,10 @@ out_t = Thread.new do
         when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val]
+          line = message[:line]
+          index = message[:index]
 #          puts "replacing buffer #{buf_id}, #{content}"
-          m = encoder.encode_single_message("/replace-buffer", [buf_id, content])
+          m = encoder.encode_single_message("/replace-buffer", [buf_id, content, line, index])
           gui.send_raw(m)
         else
 #          puts "ignoring #{message}"

@@ -678,29 +678,11 @@ void MainWindow::startupError(QString msg) {
   QTimer::singleShot(0, this, SLOT(close()));
 }
 
-void MainWindow::replaceBuffer(QString id, QString content) {
+void MainWindow::replaceBuffer(QString id, QString content, int line, int index) {
   SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
-  int line;
-  int index;
-  QString line_content;
-  int line_length;
-  int new_line_length;
-  ws->getCursorPosition(&line, &index);
-  line_content = ws->text(line);
-  line_length = line_content.length();
   ws->selectAll();
   ws->replaceSelectedText(content);
-  if(ws->lineLength(line) == -1) {
-    // new text is clearly different from old, just put cursor at start
-    // of buffer
-    ws->setCursorPosition(0, 0);
-  }
-  else {
-    line_content = ws->text(line);
-    new_line_length = line_content.length();
-    int diff = new_line_length - line_length;
-    ws->setCursorPosition(line, index + diff);
-  }
+  ws->setCursorPosition(line, index);
 }
 
 std::string MainWindow::number_name(int i) {

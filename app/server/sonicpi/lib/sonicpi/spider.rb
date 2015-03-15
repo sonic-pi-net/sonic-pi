@@ -335,7 +335,8 @@ module SonicPi
       id = id.to_s
       beautiful = RBeautify.beautify_string :ruby, buf
       beautiful.rstrip!
-      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful})
+      beautiful.lstrip!
+      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful, line: 0, index: 0})
     end
 
     def __save_buffer(id, content)

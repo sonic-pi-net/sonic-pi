@@ -141,9 +141,11 @@ void OscHandler::oscMessage(std::vector<char> buffer){
       else if (msg->match("/replace-buffer")) {
         std::string id;
         std::string content;
-        if (msg->arg().popStr(id).popStr(content).isOkNoMoreArgs()) {
+        int line;
+        int index;
+        if (msg->arg().popStr(id).popStr(content).popInt32(line).popInt32(index).isOkNoMoreArgs()) {
 
-          QMetaObject::invokeMethod( window, "replaceBuffer", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)));
+          QMetaObject::invokeMethod( window, "replaceBuffer", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)), Q_ARG(int, line), Q_ARG(int, index));
         } else {
           std::cout << "[GUI] - error: unhandled OSC msg /replace-buffer: "<< std::endl;
         }
