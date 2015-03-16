@@ -114,7 +114,7 @@ Users can opt to build from source as well if they would like. Instructions and 
 
 ### Dependencies
 
-* Download Qt 5.3.1+ http://qt-project.org/downloads
+* Download Qt 5.4+ http://qt-project.org/downloads
 * Run the setup wizard and install to a known location which we'll call /path/to/qt
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and untar into a known location which we'll call /path/to/qscintilla
 
