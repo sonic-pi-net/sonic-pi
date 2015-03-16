@@ -114,7 +114,7 @@ Users can opt to build from source as well if they would like. Instructions and 
 
 ### Dependencies
 
-* Download Qt 5.3.1+ http://qt-project.org/downloads
+* Download Qt 5.4.1+ http://qt-project.org/downloads
 * Run the setup wizard and install to a known location which we'll call /path/to/qt
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and untar into a known location which we'll call /path/to/qscintilla
 
@@ -126,7 +126,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 * Build QScintilla:
   - `cd /path/to/qscintilla/Qt4Qt5`
-  - generate makefile: `/path/to/qt/5.3/clang_64/bin/qmake qscintilla.pro`
+  - generate makefile: `/path/to/qt/5.4/clang_64/bin/qmake qscintilla.pro`
   - `make`
   - (OSX only) update the dylib inner path part 1: `install_name_tool -id "/path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib`
   - (OSX only) update the dylib inner path part 2: `install_name_tool -change "libqscintilla2.11.dylib" "/path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib` 
@@ -136,7 +136,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
     DEPENDPATH += /path/to/qscintilla/Qt4Qt5/
 * Modify top of mac-build-app appropriately i.e.
     QSCINTILLA=/path/to/qscintilla/Qt4Qt5
-    QTBIN=/path/to/qt/5.3/clang_64/bin
+    QTBIN=/path/to/qt/5.4/clang_64/bin
 * Provide a Ruby version for Sonic Pi to use
   - The Qt app expects Ruby to exist at a certain path. We can use a symlink to provide an appropriate Ruby Version
   - `$ cd /root/path/to/sonic-pi`
