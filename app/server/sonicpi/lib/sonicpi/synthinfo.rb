@@ -4424,7 +4424,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :fx_rbpf => FXRBPF.new,
       :fx_nrbpf => FXNRBPF.new,
       :fx_pitch_shift => FXPitchShift.new,
-      :fx_ring => FXRingMod.new,
+      :fx_ring_mod => FXRingMod.new,
       #:fx_chorus => FXChorus.new,
       #:fx_harmoniser => FXHarmoniser.new,
       :fx_flanger => FXFlanger.new
