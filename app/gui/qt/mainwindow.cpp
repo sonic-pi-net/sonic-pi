@@ -507,7 +507,7 @@ void MainWindow::serverStarted() {
     this->showNormal();
 
   }
-
+  this->changeShowLineNumbers();
 }
 
 
@@ -600,11 +600,15 @@ void MainWindow::initPrefsWindow() {
   print_output = new QCheckBox(tr("Print output"));
   check_args = new QCheckBox(tr("Check synth args"));
   clear_output_on_run = new QCheckBox(tr("Clear output on run"));
+  show_line_numbers = new QCheckBox(tr("Show line numbers"));
+
+  connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(check_args);
   debug_box_layout->addWidget(clear_output_on_run);
+  debug_box_layout->addWidget(show_line_numbers);
   debug_box->setLayout(debug_box_layout);
 
 
@@ -634,6 +638,7 @@ void MainWindow::initPrefsWindow() {
   check_args->setChecked(settings.value("prefs/check-args", true).toBool());
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
+  show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
 
@@ -1063,6 +1068,16 @@ void MainWindow::changeRPSystemVol(int val)
 
 }
 
+void MainWindow::changeShowLineNumbers(){
+  for(int i=0; i < tabs->count(); i++){
+    SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+    if (show_line_numbers->isChecked()){
+      ws->showLineNumbers();
+    } else {
+      ws->hideLineNumbers();
+    }
+  }
+}
 
 void MainWindow::setRPSystemAudioHeadphones()
 {
@@ -1443,6 +1458,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/check-args", check_args->isChecked());
   settings.setValue("prefs/print-output", print_output->isChecked());
   settings.setValue("prefs/clear-output-on-run", clear_output_on_run->isChecked());
+  settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
 
