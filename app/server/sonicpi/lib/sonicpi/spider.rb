@@ -331,6 +331,35 @@ module SonicPi
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: content, line: line, index: index})
     end
 
+    def __indent_current_line(id, buf, line, index)
+      `echo 'hey indenting current line' >> /tmp/foo`
+      id = id.to_s
+      buf_lines = buf.lines
+
+      # Calculate amount of whitespace at start of original line
+      prev_line = buf_lines[line]
+      prev_ws_len = prev_line[/\A */].size
+
+      # Beautify buffer
+      beautiful = RBeautify.beautify_string :ruby, buf
+
+      # calculate amount of whitespace at start of beautified line
+      beautiful_lines = beautiful.lines
+      beautiful_len = beautiful_lines.size
+      post_line = beautiful_lines[line]
+      post_ws_len = post_line[/\A */].size
+
+      # shift index based on how much the line was indented so the
+      # cursor stays in the same place relative to the original line
+      # whilst ensuring it stays within line bounds
+      index = index + (post_ws_len - prev_ws_len)
+      index = post_line.size - 1 if index > post_line.size
+
+      buf_lines[line] = beautiful_lines[line]
+      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: buf_lines.join, line: line, index: index})
+
+    end
+
     def __beautify_buffer(id, buf, line, index)
       id = id.to_s
       buf_lines = buf.lines

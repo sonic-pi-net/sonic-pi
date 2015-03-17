@@ -189,6 +189,22 @@ osc_server.add_method("/load-buffer") do |payload|
   end
 end
 
+osc_server.add_method("/indent-current-line") do |payload|
+#  puts "indenting current line..."
+  begin
+    args = payload.to_a
+    id = args[0]
+    buf = args[1]
+    line = args[2]
+    index = args[3]
+    sp.__indent_current_line(id, buf, line, index)
+  rescue Exception => e
+    puts "Received Exception when attempting to indent current line!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 osc_server.add_method("/beautify-buffer") do |payload|
 #  puts "beautifying buffer..."
   begin

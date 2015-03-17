@@ -208,7 +208,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     tabs->addTab(workspace, w);
   }
 
-  connect (signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeList(QObject*)));
+  connect (signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeListOrIndentLine(QObject*)));
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -366,15 +366,29 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   }
 }
 
-void MainWindow::completeList(QObject* ws){
+void MainWindow::completeListOrIndentLine(QObject* ws){
   SonicPiScintilla *spws = ((SonicPiScintilla*)ws);
   if(spws->isListActive()) {
     spws->tabCompleteifList();
   }
   else {
-    //Do nothing for now - perhaps later implement
-    //indentLine()
-   }
+    indentCurrentLine(spws);
+  }
+}
+
+void MainWindow::indentCurrentLine(SonicPiScintilla* ws) {
+  statusBar()->showMessage(tr("Indenting line..."), 2000);
+  std::string code = ws->text().toStdString();
+  int line = 0;
+  int index = 0;
+  ws->getCursorPosition(&line, &index);
+  Message msg("/indent-current-line");
+  std::string filename = workspaceFilename(ws);
+  msg.pushStr(filename);
+  msg.pushStr(code);
+  msg.pushInt32(line);
+  msg.pushInt32(index);
+  sendOSC(msg);
 }
 
 QString MainWindow::rootPath() {

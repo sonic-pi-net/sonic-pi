@@ -88,7 +88,8 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
-    void completeList(QObject *ws);
+    void completeListOrIndentLine(QObject *ws);
+    void indentCurrentLine(SonicPiScintilla *ws);
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();
