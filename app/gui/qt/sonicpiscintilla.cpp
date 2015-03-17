@@ -135,6 +135,18 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
 
 }
 
+void SonicPiScintilla::hideLineNumbers(){
+  this->setMarginLineNumbers(0, false);
+  this->setMarginWidth(0, "0");
+  SendScintilla(SCI_HIDELINES);
+}
+
+void SonicPiScintilla::showLineNumbers(){
+  this->setMarginLineNumbers(0, true);
+  this->setMarginWidth(0, "1000000");
+  SendScintilla(SCI_SHOWLINES);
+}
+
 void SonicPiScintilla::addOtherKeyBinding(QSettings &qs, int cmd, int key)
 {
   QString skey;

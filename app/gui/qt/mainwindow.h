@@ -112,6 +112,7 @@ private slots:
     void setRPSystemAudioAuto();
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
+    void changeShowLineNumbers();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
@@ -215,6 +216,7 @@ private:
     QCheckBox *print_output;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
+    QCheckBox *show_line_numbers;
     QCheckBox *check_updates;
 
     QRadioButton *rp_force_audio_hdmi;

@@ -34,7 +34,8 @@ class SonicPiScintilla : public QsciScintilla
     void setMark();
     void escapeAndCancelSelection();
     void copyClear();
-
+    void hideLineNumbers();
+    void showLineNumbers();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
