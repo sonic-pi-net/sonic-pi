@@ -333,7 +333,7 @@ module SonicPi
 
     def __indent_current_line(id, buf, line, index)
       id = id.to_s
-      buf_lines = buf.lines
+      buf_lines = buf.lines.to_a
 
       # Calculate amount of whitespace at start of original line
       prev_line = buf_lines[line]
@@ -343,7 +343,7 @@ module SonicPi
       beautiful = RBeautify.beautify_string :ruby, buf
 
       # calculate amount of whitespace at start of beautified line
-      beautiful_lines = beautiful.lines
+      beautiful_lines = beautiful.lines.to_a
       beautiful_len = beautiful_lines.size
       post_line = beautiful_lines[line]
       post_ws_len = post_line[/\A */].size
@@ -354,14 +354,14 @@ module SonicPi
       index = index + (post_ws_len - prev_ws_len)
       index = post_line.size - 1 if index > post_line.size
 
-      buf_lines.to_a[line] = beautiful_lines[line]
+      buf_lines[line] = beautiful_lines[line]
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: buf_lines.join, line: line, index: index})
 
     end
 
     def __beautify_buffer(id, buf, line, index)
       id = id.to_s
-      buf_lines = buf.lines
+      buf_lines = buf.lines.to_a
 
       ## ensure point isn't beyond buffer
       max_buf_idx = buf_lines.size - 1
@@ -376,7 +376,7 @@ module SonicPi
       beautiful = RBeautify.beautify_string :ruby, buf
 
       # calculate amount of whitespace at start of beautified line
-      beautiful_lines = beautiful.lines
+      beautiful_lines = beautiful.lines.to_a
       beautiful_len = beautiful_lines.size
       post_line = beautiful_lines[line]
       post_ws_len = post_line[/\A */].size
@@ -392,19 +392,19 @@ module SonicPi
 
       # adjust line number based on how many lines were removed as a
       # result of the whitespace stripping
-      post_lstrip_len = beautiful.lines.size
+      post_lstrip_len = beautiful.lines.to_a.size
       line = line - (beautiful_len - post_lstrip_len)
       line = 0 if line < 0
 
       # Strip whitespace from the end of the buffer
       beautiful.rstrip!
-      post_rstrip_len = beautiful.lines.size
+      post_rstrip_len = beautiful.lines.to_a.size
 
       # move point to end of buffer if whitespace stripping at end of
       # buffer put point out of bounds
       if line >= post_rstrip_len
         line = post_rstrip_len
-        index = beautiful.lines.last.size
+        index = beautiful.lines.to_a.last.size
       end
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful, line: line, index: index})
     end
