@@ -332,7 +332,6 @@ module SonicPi
     end
 
     def __indent_current_line(id, buf, line, index)
-      `echo 'hey indenting current line' >> /tmp/foo`
       id = id.to_s
       buf_lines = buf.lines
 
