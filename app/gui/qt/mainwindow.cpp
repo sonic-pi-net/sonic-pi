@@ -866,11 +866,17 @@ void MainWindow::unhighlightCode()
 void MainWindow::beautifyCode()
 {
   statusBar()->showMessage(tr("Beautifying..."), 2000);
-  std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
+  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+  std::string code = ws->text().toStdString();
+  int line = 0;
+  int index = 0;
+  ws->getCursorPosition(&line, &index);
   Message msg("/beautify-buffer");
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   msg.pushStr(code);
+  msg.pushInt32(line);
+  msg.pushInt32(index);
   sendOSC(msg);
 }
 

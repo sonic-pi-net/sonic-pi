@@ -195,7 +195,9 @@ osc_server.add_method("/beautify-buffer") do |payload|
     args = payload.to_a
     id = args[0]
     buf = args[1]
-    sp.__beautify_buffer(id, buf)
+    line = args[2]
+    index = args[3]
+    sp.__beautify_buffer(id, buf, line, index)
   rescue Exception => e
     puts "Received Exception when attempting to load buffer!"
     puts e.message
