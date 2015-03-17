@@ -215,7 +215,7 @@ osc_server.add_method("/beautify-buffer") do |payload|
     index = args[3]
     sp.__beautify_buffer(id, buf, line, index)
   rescue Exception => e
-    puts "Received Exception when attempting to load buffer!"
+    puts "Received Exception when attempting to beautify buffer!"
     puts e.message
     puts e.backtrace.inspect
   end
