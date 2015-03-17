@@ -1,19 +1,10 @@
 # History
-
-The following is a history of the major visible changes to Sonic Pi for
-each major release.
-
-For the complete commit history visit GitHub: [http://github.com/samaaron/sonic-pi](http://github.com/samaaron/sonic-pi).
-
-The current release is [v2.5-dev 'Craft'](#v2.5). Information regarding
-previous versions is also available:
-
-* [v2.4 'Defrost', *11th Feb, 2015*](#v2.4) 
-* [v2.3 'Bitcrush', *28th Jan, 2015*](#v2.3)
-* [v2.2 'Slicer', *18th Dec, 2014*](#v2.2)
-* [v2.1 'Core', *21st Nov, 2014*](#v2.1)
-* [v2.0 'Phoenix', *2nd Sept, 2014*](#v2.0)
-
+* [v2.5 'Craft'](#v2.5), to be released
+* [v2.4 'Defrost'](#v2.4), 11th Feb, 2015 
+* [v2.3 'Bitcrush'](#v2.3), 28th Jan, 2015
+* [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
+* [v2.1 'Core'](#v2.1), 21st Nov, 2014
+* [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
 <a name="v2.5"></a>
 
@@ -27,19 +18,35 @@ previous versions is also available:
    the wave every time I used a synth/fx where wave inversion was
    key. This seemed like such a better default I've broken compatibility
    for it. Apologies if this has affected you.
+* rename fx `ring` to `ring_mod` to reduce the potentiaon for confusion
+  with the `ring` datastructure.
+* `Tab` now indents current line rather than inserting a useless tab
+  character.
 
-
-### NEW
+### New
 
 * Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
+* New thread local counter system available via `tick`, `tick_set` and `hook`.
+* `sync` now accepts multiple cue ids and will sync on the first matching id.
+* New fn `line` for creating a line from start to finish with a specific
+  number of slices.
+* New fn `spark` for displaying lists of numbers in a fancy text-graph
+  (`▁▃▅▇`) in the log.
+* On stop, amplitude of output slides down over 1s to silence for a
+  smoother transition.
+* `sample_duration` now scales result based on current BPM.
+* `range` now accepts optional args: `inclusive:` and `step:`.
+
+
+### GUI
 * German translation of GUI and tutorial. Simply open Sonic Pi with a
   machine with a German localisation setting.
 * Display GUI fully maximised when opening for first ever time.
-* New fn `spark` for displaying lists of numbers in a fancy text-graph
-  (`▁▃▅▇`) in the log.
-* Rings now pretty print themselves as `(ring 1, 2, 3)` rather than `[1, 2, 3]`.
 * Workpace indexing now starts at 0 to match standard programming indexes.
-
+* New shortcuts - `M-<` and `M->` for switching workspaces, 
+* Increase height of doc and error panes.
+* Auto-align now trims whitespace from start and end of buffer.
+* Add preference toggle to hide/show line numbers.
 
 ### Synths & FX
 
@@ -51,7 +58,11 @@ previous versions is also available:
 * Fix sporadic issue on some platforms when trigging percussive sounds
   within a `reverb` FX caused a serious audio overload.
 * Add missing fn metadata for `*_sample_bpm`
+* Fix synth metadata for FX `:bpf`.
 * Fix arg metadata for `use_sample_pack_as`  
+* Rings now pretty print themselves as `(ring 1, 2, 3)` rather than `[1, 2, 3]`.
+* `C-k` keyboard shortcut now copies text into the clipboard.
+
 
  <a name="v2.4"></a>
 

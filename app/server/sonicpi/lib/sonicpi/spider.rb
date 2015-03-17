@@ -354,7 +354,7 @@ module SonicPi
       index = index + (post_ws_len - prev_ws_len)
       index = post_line.size - 1 if index > post_line.size
 
-      buf_lines[line] = beautiful_lines[line]
+      buf_lines.to_a[line] = beautiful_lines[line]
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: buf_lines.join, line: line, index: index})
 
     end
