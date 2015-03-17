@@ -456,7 +456,7 @@ puts version.minor # => Prints out the minor version number such as 0",
 puts version.patch # => Prints out the patch level for this version such as 0"]
 
 
-    def spark(*values)
+    def spark_graph(*values)
       if values.first.is_a?(Array) && values.length == 1
         values = values.first
       end
@@ -479,17 +479,33 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         @ticks[(((x - min) / range) * scale).round]
       }.join
     end
-    doc name:         :spark,
-      hide:           false,
-      introduced:     Version.new(2,5,0),
-      summary:        "Render a list of numeric values as a spark graph/bar chart",
-      args:           [],
-      opts:           nil,
-      accepts_block:  false,
-      doc:            "Given a list of numeric values, this method turns them into a string of bar heights. Useful for quickly graphing the shape of an array. Remember to use puts so you can see the output.",
-      examples:       [
-        "puts (spark (range 1, 5))    #=> ▁▃▅█",
-        "puts (spark (range 1, 5).to_a.shuffle) #=> ▃█▅▁"
+    doc name:           :spark_graph,
+        hide:           false,
+        introduced:     Version.new(2,5,0),
+        summary:        "Returns a string representing a list of numeric values as a spark graph/bar chart",
+        args:           [],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Given a list of numeric values, this method turns them into a string of bar heights. Useful for quickly graphing the shape of an array. Remember to use puts so you can see the output. See spark for a simple way of printing a spark graph.",
+        examples:       [
+        "puts (spark_graph (range 1, 5))    #=> ▁▃▅█",
+        "puts (spark_graph (range 1, 5).shuffle) #=> ▃█▅▁"
+    ]
+
+    def spark(*values)
+      puts spark_graph(*values)
+    end
+    doc name:           :spark,
+        hide:           false,
+        introduced:     Version.new(2,5,0),
+        summary:        "Print a string representing a list of numeric values as a spark graph/bar chart",
+        args:           [],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Given a list of numeric values, this method turns them into a string of bar heights and prints them out. Useful for quickly graphing the shape of an array.",
+        examples:       [
+        "spark (range 1, 5))    #=> ▁▃▅█",
+        "spark (range 1, 5).shuffle) #=> ▃█▅▁"
     ]
 
 
