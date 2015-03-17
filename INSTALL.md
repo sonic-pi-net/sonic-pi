@@ -126,7 +126,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 * Build QScintilla:
   - `cd /path/to/qscintilla/Qt4Qt5`
-  - generate makefile: `/path/to/qt/5.3/clang_64/bin/qmake qscintilla.pro`
+  - generate makefile: `/path/to/qt/5.4/clang_64/bin/qmake qscintilla.pro`
   - `make`
   - (OSX only) update the dylib inner path part 1: `install_name_tool -id "/path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib`
   - (OSX only) update the dylib inner path part 2: `install_name_tool -change "libqscintilla2.11.dylib" "/path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib` 
@@ -136,7 +136,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
     DEPENDPATH += /path/to/qscintilla/Qt4Qt5/
 * Modify top of mac-build-app appropriately i.e.
     QSCINTILLA=/path/to/qscintilla/Qt4Qt5
-    QTBIN=/path/to/qt/5.3/clang_64/bin
+    QTBIN=/path/to/qt/5.4/clang_64/bin
 * Provide a Ruby version for Sonic Pi to use
   - The Qt app expects Ruby to exist at a certain path. We can use a symlink to provide an appropriate Ruby Version
   - `$ cd /root/path/to/sonic-pi`
@@ -161,7 +161,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 ### Dependencies
 
 * Install Visual Studio 2013 Express for Desktop http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop
-* Download Qt 5.3.1+ http://qt-project.org/downloads
+* Download Qt 5.4.1+ http://qt-project.org/downloads
   - Run the setup wizard and install to a known location which we'll call C:\Qt5
   - Be sure to install the msvc2013_x86 target
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and unzip
@@ -175,7 +175,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 
 * Set up build environment
   - open Visual Studio 2013/Visual Studio Tools/VS2013 x86 Tools Command Prompt
-  - add QT to your path: `PATH=%PATH%;C:\Qt5\5.3\msvc2013\bin`
+  - add QT to your path: `PATH=%PATH%;C:\Qt5\5.4\msvc2013\bin`
 * Build QScintilla:
   - `cd Qt4Qt5`
   - generate makefile: `qmake qscintilla.pro`
