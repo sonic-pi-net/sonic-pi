@@ -197,7 +197,8 @@ osc_server.add_method("/indent-current-line") do |payload|
     buf = args[1]
     line = args[2]
     index = args[3]
-    sp.__indent_current_line(id, buf, line, index)
+    first_line = args[4]
+    sp.__indent_current_line(id, buf, line, index, first_line)
   rescue Exception => e
     puts "Received Exception when attempting to indent current line!"
     puts e.message
@@ -213,7 +214,8 @@ osc_server.add_method("/beautify-buffer") do |payload|
     buf = args[1]
     line = args[2]
     index = args[3]
-    sp.__beautify_buffer(id, buf, line, index)
+    first_line = args[4]
+    sp.__beautify_buffer(id, buf, line, index, first_line)
   rescue Exception => e
     puts "Received Exception when attempting to beautify buffer!"
     puts e.message
@@ -431,11 +433,12 @@ out_t = Thread.new do
           gui.send_raw(m)
         when "replace-buffer"
           buf_id = message[:buffer_id]
-          content = message[:val]
-          line = message[:line]
-          index = message[:index]
+          content = message[:val] || "Internal error within a fn calling replace-buffer without a :val payload"
+          line = message[:line] || 0
+          index = message[:index] || 0
+          first_line = message[:first_line] || 0
 #          puts "replacing buffer #{buf_id}, #{content}"
-          m = encoder.encode_single_message("/replace-buffer", [buf_id, content, line, index])
+          m = encoder.encode_single_message("/replace-buffer", [buf_id, content, line, index, first_line])
           gui.send_raw(m)
         else
 #          puts "ignoring #{message}"

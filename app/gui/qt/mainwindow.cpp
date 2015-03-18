@@ -381,13 +381,16 @@ void MainWindow::indentCurrentLine(SonicPiScintilla* ws) {
   std::string code = ws->text().toStdString();
   int line = 0;
   int index = 0;
+
   ws->getCursorPosition(&line, &index);
+  int first_line = ws->firstVisibleLine();
   Message msg("/indent-current-line");
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);
   msg.pushStr(code);
   msg.pushInt32(line);
   msg.pushInt32(index);
+  msg.pushInt32(first_line);
   sendOSC(msg);
 }
 
@@ -697,11 +700,12 @@ void MainWindow::startupError(QString msg) {
   QTimer::singleShot(0, this, SLOT(close()));
 }
 
-void MainWindow::replaceBuffer(QString id, QString content, int line, int index) {
+void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line) {
   SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
   ws->selectAll();
   ws->replaceSelectedText(content);
   ws->setCursorPosition(line, index);
+  ws->setFirstVisibleLine(first_line);
 }
 
 std::string MainWindow::number_name(int i) {
@@ -890,12 +894,14 @@ void MainWindow::beautifyCode()
   int line = 0;
   int index = 0;
   ws->getCursorPosition(&line, &index);
+  int first_line = ws->firstVisibleLine();
   Message msg("/beautify-buffer");
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   msg.pushStr(code);
   msg.pushInt32(line);
   msg.pushInt32(index);
+  msg.pushInt32(first_line);
   sendOSC(msg);
 }
 
