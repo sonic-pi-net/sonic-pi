@@ -353,7 +353,6 @@ module SonicPi
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
 
-
       if dummy_line
         # remove dummy line and extract leading whitespace
         indented_dummy = beautiful_lines[line]
