@@ -370,6 +370,7 @@ module SonicPi
         # whilst ensuring it stays within line bounds
         index = index + (post_ws_len - prev_ws_len)
         index = post_line.size - 1 if index > post_line.size
+        index = post_ws_len if index < post_ws_len
       end
 
       buf_lines[line] = beautiful_lines[line]
