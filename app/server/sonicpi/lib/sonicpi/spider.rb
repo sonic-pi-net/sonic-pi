@@ -335,24 +335,42 @@ module SonicPi
       id = id.to_s
       buf_lines = buf.lines.to_a
 
+      if buf_lines[line] =~ /^\s*$/
+        #line is just whitespace, put in a dummy line so it gets autoindented
+        buf_lines[line] = "#dummy"
+        dummy_line = true
+      else
+        dummy_line = false
+      end
+
       # Calculate amount of whitespace at start of original line
       prev_line = buf_lines[line]
       prev_ws_len = prev_line[/\A */].size
 
       # Beautify buffer
-      beautiful = RBeautify.beautify_string :ruby, buf
+      beautiful = RBeautify.beautify_string :ruby, buf_lines.join
 
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
-      beautiful_len = beautiful_lines.size
-      post_line = beautiful_lines[line]
-      post_ws_len = post_line[/\A */].size
 
-      # shift index based on how much the line was indented so the
-      # cursor stays in the same place relative to the original line
-      # whilst ensuring it stays within line bounds
-      index = index + (post_ws_len - prev_ws_len)
-      index = post_line.size - 1 if index > post_line.size
+
+      if dummy_line
+        # remove dummy line and extract leading whitespace
+        indented_dummy = beautiful_lines[line]
+        indented_dummy_whitespace = indented_dummy.match(/\A(\s*)/)[1]
+        beautiful_lines[line] = indented_dummy_whitespace + "\n"
+        index = indented_dummy_whitespace.size
+      else
+        beautiful_len = beautiful_lines.size
+        post_line = beautiful_lines[line]
+        post_ws_len = post_line[/\A */].size
+
+        # shift index based on how much the line was indented so the
+        # cursor stays in the same place relative to the original line
+        # whilst ensuring it stays within line bounds
+        index = index + (post_ws_len - prev_ws_len)
+        index = post_line.size - 1 if index > post_line.size
+      end
 
       buf_lines[line] = beautiful_lines[line]
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: buf_lines.join, line: line, index: index, first_line: first_line})
