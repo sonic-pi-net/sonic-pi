@@ -218,6 +218,12 @@ void SonicPiScintilla::copyClear()
   SendScintilla(SCI_SETEMPTYSELECTION, pos);
 }
 
+void SonicPiScintilla::replaceLine(int lineNumber, QString newLine)
+{
+  setSelection(lineNumber, 0, lineNumber + 1, 0);
+  replaceSelectedText(newLine);
+}
+
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
 					 int &last_word_start)
 {
