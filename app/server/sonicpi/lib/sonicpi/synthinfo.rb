@@ -3428,7 +3428,15 @@ The way the transpositions are done adds some distortion, particulary to the low
           :validations => [v_positive(:freq_slide)],
           :modulatable => true,
           :bpm_scale => true
+        },
+
+        :mod_amp =>
+        {
+          :doc => "Amplitude of the modulation",
+          :validations => [v_positive(:mod_amp)],
+          :modulatable => true
         }
+
       }
     end
 
