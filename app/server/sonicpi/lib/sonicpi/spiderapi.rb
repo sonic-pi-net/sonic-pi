@@ -172,7 +172,7 @@ module SonicPi
         returns:        :ring,
         opts:           {:inclusive => "If set to true, range is inclusive of finish value"},
         accepts_block:  false,
-        doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to 1. Indexes wrap around positively and negatively",
+        doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to `1`. Indexes wrap around positively and negatively",
         examples:       [
       "(range 1, 5)    #=> (ring 1, 2, 3, 4)",
       "(range 1, 5, inclusive: true) #=> (ring 1, 2, 3, 4, 5)",
@@ -208,7 +208,7 @@ module SonicPi
        opts:           {:slices => "number of slices or segments along the line",
                         :inclusive => "boolean value representing whether or not to include finish value in line"},
         accepts_block:  false,
-        doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to 8. Indexes wrap around positively and negatively. Similar to range.",
+        doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to `8`. Indexes wrap around positively and negatively. Similar to `range`.",
         examples:       [
       "(line 0, 4, 4)    #=> (ring 0, 1, 2, 3)",
       "(line 5, 0, 5)    #=> (ring 5, 4, 3, 2, 1)",
@@ -264,7 +264,7 @@ end"]
         args:          [[:n, :number]],
         opts:          {},
         accepts_block: false,
-        doc:           "Increment a number by 1. Equivalent to n + 1",
+        doc:           "Increment a number by `1`. Equivalent to `n + 1`",
         examples:     [
       "inc 1 # returns 2",
       "inc -1 # returns 0"]
@@ -279,7 +279,7 @@ end"]
         args:          [[:n, :number]],
         opts:          {},
         accepts_block: false,
-        doc:           "Decrement a number by 1. Equivalent to n - 1",
+        doc:           "Decrement a number by `1`. Equivalent to `n - 1`",
         examples:     [
       "dec 1 # returns 0",
       "dec -1 # returns -2"]
@@ -340,7 +340,7 @@ end"]
         opts:           {:init => "initial value for optional block arg",
                          :auto_cue => "enable or disable automatic cue (default is true)"},
         accepts_block: true,
-        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a cue with the same name each time the block runs. If the block is giving a parameter, this is given the result of the last run of the loop (with initial value either being 0 or an init arg).",
+        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is giving a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
         examples: ["
 live_loop :ping do
   sample :elec_ping
@@ -445,7 +445,7 @@ end
         args:           [],
         opts:           nil,
         accepts_block: false,
-        doc: "Return information representing the current version of Sonic Pi. This information may be further inspected with version.major, version.minor, version.patch and version.dev",
+        doc: "Return information representing the current version of Sonic Pi. This information may be further inspected with `version.major`, `version.minor`, `version.patch` and `version.dev`",
         examples: ["
 puts version # => Prints out the current version such as v2.0.1",
 "
@@ -486,7 +486,7 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         args:           [],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a list of numeric values, this method turns them into a string of bar heights. Useful for quickly graphing the shape of an array. Remember to use puts so you can see the output. See spark for a simple way of printing a spark graph.",
+        doc:            "Given a list of numeric values, this method turns them into a string of bar heights. Useful for quickly graphing the shape of an array. Remember to use puts so you can see the output. See `spark` for a simple way of printing a spark graph.",
         examples:       [
         "puts (spark_graph (range 1, 5))    #=> ▁▃▅█",
         "puts (spark_graph (range 1, 5).shuffle) #=> ▃█▅▁"
@@ -654,7 +654,7 @@ end",]
         args:           [],
         opts:           nil,
         accepts_block:  true,
-        doc:            "Does not evaluate any of the code within the block. However, any optional args passed before the block *will* be evaluated although they will be ignored. See uncomment for switching commenting off without having to remove the comment form.",
+        doc:            "Does not evaluate any of the code within the block. However, any optional args passed before the block *will* be evaluated although they will be ignored. See `uncomment` for switching commenting off without having to remove the comment form.",
         examples:       ["comment do # starting a block level comment:
   play 50 # not played
   sleep 1 # no sleep happens
@@ -692,7 +692,7 @@ end"]
         args:          [[:output, :string]],
         opts:          nil,
         accepts_block: false,
-        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for puts.",
+        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for `puts`.",
         examples:      [
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
@@ -710,7 +710,7 @@ end"]
         args:           [[:output, :string]],
         opts:           nil,
         accepts_block:  false,
-        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for print.",
+        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for `print`.",
         examples:      [
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
@@ -743,7 +743,7 @@ end"]
         args:           [[:val, :number], [:factor, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Test to see if factor is indeed a factor of val. In other words, can val be divided exactly by factor.",
+        doc:            "Test to see if factor is indeed a factor of `val`. In other words, can `val` be divided exactly by factor.",
         examples:       [
 "
 factor?(10, 2) # true - 10 is a multiple of 2 (2 * 5 = 10)
@@ -790,7 +790,7 @@ quantise(13.3212, 0.5) # 13.5"]
         args:           [[:num_sides, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Throws a dice with the specified num_sides (defaults to 6) and returns the score as a number between 1 and num_sides.",
+        doc:            "Throws a dice with the specified num_sides (defaults to `6`) and returns the score as a number between `1` and `num_sides`.",
         examples:      [
 "
 dice # will return a number between 1 and 6 inclusively
@@ -814,7 +814,7 @@ dice 3 # will return a number between 1 and 3 inclusively"]
         args:           [[:num, :number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Returns true or false with a specified probability - it will return true every one in num times where num is the param you specify",
+        doc:            "Returns `true` or `false` with a specified probability - it will return true every one in num times where num is the param you specify",
         examples:      [
 "
 one_in 2 # will return true with a probablility of 1/2, false with probability 1/2",
@@ -833,7 +833,7 @@ one_in 100 # will return true with a probability of 1/100, false with a probabil
         args:           [[:width, :number], [:centre, :number]],
         opts:           {:res => nil},
         accepts_block:  false,
-        doc:            "Returns a random number within the range with width around centre. If optional arg :res is used, the result is quantised by res.",
+        doc:            "Returns a random number within the range with width around centre. If optional arg `res:` is used, the result is quantised by res.",
         examples:      [
 "
 print rdist(1, 0) #=> will print a number between -1 and 1
@@ -877,7 +877,7 @@ end"]
         args:           [[:min, :number], [:max, :number]],
         opts:           {:res => nil},
         accepts_block:  false,
-        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see rrand_i. If optional arg :res is used, the result is quantised by res.",
+        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see `rrand_i`. If optional arg `res:` is used, the result is quantised by res.",
         examples:      [
 "
 print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
@@ -904,7 +904,7 @@ end"]
         args:           [[:min, :number], [:max, :number]],
         opts:           nil,
         accepts_block: false,
-        doc:            "Given two numbers, this produces a whole number between the min and max you supplied inclusively. Both min and max need to be supplied. For random floats, see rrand",
+        doc:            "Given two numbers, this produces a whole number between the min and max you supplied inclusively. Both min and max need to be supplied. For random floats, see `rrand`",
         examples:      [
 "
 print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4, 0 or 10) to the output pane",
@@ -929,7 +929,7 @@ end"]
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a float between 0 and the supplied max value. If max is a range, produces a float within the range. With no args or max as 0, returns a random value between 0 and 1.",
+        doc:            "Given a max number, produces a float between `0` and the supplied max value. If max is a range, produces a float within the range. With no args or max as `0`, returns a random value between `0` and `1`.",
         examples:      [
 "
 print rand(0.5) #=> will print a number like 0.397730007820797 to the output pane"]
@@ -949,7 +949,7 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a whole number between 0 and the supplied max value exclusively. If max is a range produces a int within the range. With no args or max as 0 returns either 0 or 1",
+        doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces a int within the range. With no args or max as `0` returns either `0` or `1`",
         examples:      [
 "
 print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
@@ -1043,7 +1043,7 @@ puts rand # => 0.7203244934421581
     doc name:           :use_bpm,
         introduced:     Version.new(2,0,0),
         summary:        "Set the tempo",
-        doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. Affects all subsequent calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. If you wish to bypass scaling in calls to sleep, see the fn rt. Also, if you wish to bypass time scaling in synth args see use_arg_bpm_scaling. See also with_bpm for a block scoped version of use_bpm.",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. Affects all subsequent calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. If you wish to bypass scaling in calls to sleep, see the fn `rt`. Also, if you wish to bypass time scaling in synth args see `use_arg_bpm_scaling`. See also `with_bpm` for a block scoped version of `use_bpm`.",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  false,
@@ -1088,7 +1088,7 @@ end
     doc name:           :with_bpm,
         introduced:     Version.new(2,0,0),
         summary:        "Set the tempo for the code block",
-        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also use_bpm",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block. Affects all containing calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. See also `use_bpm`",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  true,
@@ -1131,7 +1131,7 @@ end"]
     doc name:           :with_bpm_mul,
         introduced:     Version.new(2,3,0),
         summary:        "Set new tempo as a multiple of current tempo for block",
-        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block as a multiplication of the current tempo. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also with_bpm",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block as a multiplication of the current tempo. Affects all containing calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. See also `with_bpm`",
         args:           [[:mul, :number]],
         opts:           nil,
         accepts_block:  true,
@@ -1160,7 +1160,7 @@ sleep 1            # BPM is now back to 60, therefore sleep is 1 second
     doc name:           :use_bpm_mul,
         introduced:     Version.new(2,3,0),
         summary:        "Set new tempo as a multiple of current tempo",
-        doc:            "Sets the tempo in bpm (beats per minute) as a multiplication of the current tempo. Affects all containing calls to sleep and all temporal synth arguments which will be scaled to match the new bpm. See also use_bpm",
+        doc:            "Sets the tempo in bpm (beats per minute) as a multiplication of the current tempo. Affects all containing calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. See also `use_bpm`",
         args:           [[:mul, :number]],
         opts:           nil,
         accepts_block:  false,
@@ -1196,7 +1196,7 @@ play 62
     doc name:           :density,
         introduced:     Version.new(2,3,0),
         summary:        "Squash and repeat time",
-        doc:            "Runs the block d times with the bpm for the block also multiplied by d. Great for repeating sections a number of times faster yet keeping within a fixed time.",
+        doc:            "Runs the block `d` times with the bpm for the block also multiplied by `d`. Great for repeating sections a number of times faster yet keeping within a fixed time.",
         args:           [[:d, :density]],
         opts:           nil,
         accepts_block:  true,
@@ -1358,7 +1358,7 @@ play 62
     doc name:           :wait,
         introduced:     Version.new(2,0,0),
         summary:        "Wait for duration",
-        doc:            "Synonym for sleep - see sleep",
+        doc:            "Synonym for `sleep` - see `sleep`",
         args:           [[:seconds, :number]],
         opts:           nil,
         accepts_block:  false,
@@ -1400,7 +1400,7 @@ play 62
     doc name:           :cue,
         introduced:     Version.new(2,0,0),
         summary:        "Cue other threads",
-        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the sync fn.",
+        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn.",
         args:           [[:cue_id, :symbol]],
         opts:           {:message => nil},
         accepts_block:  false,
@@ -1502,7 +1502,7 @@ end"
     doc name:           :sync,
         introduced:     Version.new(2,0,0),
         summary:        "Sync with other threads",
-        doc:            "Pause/block the current thread until a cue heartbeat with a matching cue_id is received. When a matching cue message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the cue heartbeat. The current thread is therefore synced to the cue thread. If multiple cue ids are passed as arguments, it will sync on the first matching cue_id",
+        doc:            "Pause/block the current thread until a `cue` heartbeat with a matching `cue_id` is received. When a matching `cue` message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the `cue` heartbeat. The current thread is therefore synced to the `cue` thread. If multiple cue ids are passed as arguments, it will `sync` on the first matching `cue_id`",
         args:           [[:cue_id, :symbol]],
         opts:           nil,
         accepts_block:  false,
@@ -1685,7 +1685,7 @@ end"]
     doc name:           :in_thread,
         introduced:     Version.new(2,0,0),
         summary:        "Run code block at the same time",
-        doc:            "Execute a given block (between do ... end) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the name: optional arg. Named threads will print their name in the logging pane when they print their activity. Finally, if you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.",
+        doc:            "Execute a given block (between `do` ... `end`) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the `name:` optional arg. Named threads will print their name in the logging pane when they print their activity. Finally, if you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.",
         args:           [],
         opts:           {:name => nil},
         accepts_block:  true,
