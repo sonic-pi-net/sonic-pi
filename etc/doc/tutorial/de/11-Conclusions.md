@@ -2,7 +2,7 @@
 
 # Abschluss
 
-Das ist das Ende der Sonic Pi Einführung. Hoffentlich hast Du etwas dabei gelernt. Keine Angst, falls Du das Gefühl hast, nicht alles verstanden zu haben - spiele einfach weiter und hab Spaß dabei. Dann wird immer mehr hängenbleiben.Und komm einfach auf das Tutorial zurück, wenn Du eine Frage hast, die in einem der vorhergegangenen Kapitel behandelt worden sein könnte.  
+Das ist das Ende der Sonic Pi Einführung. Hoffentlich hast Du etwas dabei gelernt. Keine Angst, falls Du das Gefühl hast, nicht alles verstanden zu haben - spiele einfach weiter und hab Spaß dabei. Dann wird immer mehr hängenbleiben. Und komm einfach auf das Tutorial zurück, wenn Du eine Frage hast, die in einem der vorhergegangenen Kapitel behandelt worden sein könnte.
 
 Wenn Du Fragen hast, die über die Einführung hinausgehen, schau doch im [Sonic Pi Forum](http://groups.google.com/group/sonic-pi/) vorbei und stelle Deine Frage dort. Es gibt viele nette Menschen da, die dir gerne zur Hand gehen. 
 
