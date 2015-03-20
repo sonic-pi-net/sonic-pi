@@ -123,6 +123,7 @@ private slots:
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void startupError(QString msg);
     void replaceBuffer(QString id, QString content, int line, int index, int first_line);
+    void replaceLine(QString id, QString content, int line, int index);
     void tabNext();
     void tabPrev();
     void helpContext();

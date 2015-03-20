@@ -151,6 +151,18 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - error: unhandled OSC msg /replace-buffer: "<< std::endl;
         }
       }
+      else if (msg->match("/replace-line")) {
+        std::string id;
+        std::string content;
+        int line;
+        int index;
+        if (msg->arg().popStr(id).popStr(content).popInt32(line).popInt32(index).isOkNoMoreArgs()) {
+
+          QMetaObject::invokeMethod( window, "replaceLine", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)), Q_ARG(int, line), Q_ARG(int, index));
+        } else {
+          std::cout << "[GUI] - error: unhandled OSC msg /replace-line: "<< std::endl;
+        }
+      }
       else if (msg->match("/exited")) {
         if (msg->arg().isOkNoMoreArgs()) {
           std::cout << "[GUI] - server asked us to exit" << std::endl;

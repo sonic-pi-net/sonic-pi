@@ -331,7 +331,7 @@ module SonicPi
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: content, line: 0, index: 0, first_line: 0})
     end
 
-    def __indent_current_line(id, buf, line, index, first_line)
+    def __indent_current_line(id, buf, line, index)
       id = id.to_s
       buf_lines = buf.lines.to_a
 
@@ -372,8 +372,7 @@ module SonicPi
         index = post_ws_len if index < post_ws_len
       end
 
-      buf_lines[line] = beautiful_lines[line]
-      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: buf_lines.join, line: line, index: index, first_line: first_line})
+      @msg_queue.push({type: "replace-line", buffer_id: id, val: beautiful_lines[line], line: line, index: index})
 
     end
 

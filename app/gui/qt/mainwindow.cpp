@@ -383,14 +383,12 @@ void MainWindow::indentCurrentLine(SonicPiScintilla* ws) {
   int index = 0;
 
   ws->getCursorPosition(&line, &index);
-  int first_line = ws->firstVisibleLine();
   Message msg("/indent-current-line");
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);
   msg.pushStr(code);
   msg.pushInt32(line);
   msg.pushInt32(index);
-  msg.pushInt32(first_line);
   sendOSC(msg);
 }
 
@@ -706,6 +704,12 @@ void MainWindow::replaceBuffer(QString id, QString content, int line, int index,
   ws->replaceSelectedText(content);
   ws->setCursorPosition(line, index);
   ws->setFirstVisibleLine(first_line);
+}
+
+void MainWindow::replaceLine(QString id, QString content, int line, int index) {
+  SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
+  ws->replaceLine(line, content);
+  ws->setCursorPosition(line, index);
 }
 
 std::string MainWindow::number_name(int i) {
