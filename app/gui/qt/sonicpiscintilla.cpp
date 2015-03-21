@@ -178,24 +178,31 @@ void SonicPiScintilla::tabCompleteifList()
     }
 }
 
-// void SonicPiScintilla::transposeChars()
-// {
+void SonicPiScintilla::transposeChars()
+{
+  int linenum, index;
+  getCursorPosition(&linenum, &index);
+  setSelection(linenum, 0, linenum + 1, 0);
+  int lineLength = selectedText().size();
 
-//   int pos = SendScintilla(SCI_GETCURRENTPOS);
-//   if(pos > 0){
-//     char ch = SendScintilla(SCI_GETCHARAT, pos - 1);
-//     char ch2 = SendScintilla(SCI_GETCHARAT, pos);
-//     QString replacement = "";
-//     replacement += ch2;
-//     replacement += ch;
-//     SendScintilla(SCI_GOTOPOS, pos + 1);
-//     SendScintilla(QsciCommand::Delete);
-//     SendScintilla(QsciCommand::Delete);
-//     SendScintilla(SCI_INSERTTEXT, pos - 1,
-//                 ScintillaBytesConstData(textAsBytes(replacement)));
-//     SendScintilla(SCI_GOTOPOS, pos + 1);
-//   }
-// }
+  //transpose chars
+  if(index > 0){
+    if(index < (lineLength - 1)){
+      index = index + 1;
+    }
+    setSelection(linenum, index - 2, linenum, index);
+    QString text = selectedText();
+    QChar a, b;
+    a = text.at(0);
+    b = text.at(1);
+    QString replacement  = "";
+    replacement.append(b);
+    replacement.append(a);
+    replaceSelectedText(replacement);
+  }
+
+  setCursorPosition(linenum, index);
+}
 
 void SonicPiScintilla::setMark()
 {
