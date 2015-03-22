@@ -187,6 +187,11 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     connect(escape2, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
     connect(escape2, SIGNAL(activated()), this, SLOT(resetErrorPane()));
 
+    QShortcut *forwardTenLines = new QShortcut(shiftMetaKey('u'), workspace);
+    connect(forwardTenLines, SIGNAL(activated()), workspace, SLOT(forwardTenLines()));
+    QShortcut *backTenLines = new QShortcut(shiftMetaKey('d'), workspace);
+    connect(backTenLines, SIGNAL(activated()), workspace, SLOT(backTenLines()));
+
     //cut to end of line
     QShortcut *cutToEndOfLine = new QShortcut(ctrlKey('k'), workspace);
     connect(cutToEndOfLine, SIGNAL(activated()), workspace, SLOT(cutLineFromPoint()));

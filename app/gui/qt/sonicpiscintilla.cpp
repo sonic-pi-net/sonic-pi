@@ -231,6 +231,27 @@ void SonicPiScintilla::replaceLine(int lineNumber, QString newLine)
   replaceSelectedText(newLine);
 }
 
+void SonicPiScintilla::forwardLines(int numLines) {
+  int idx;
+  if(numLines > 0) {
+    for (idx = 0 ; idx < numLines ; idx++) {
+      SendScintilla(SCI_LINEUP);
+    }
+  } else {
+    for (idx = 0 ; idx > numLines ; idx--) {
+      SendScintilla(SCI_LINEDOWN);
+    }
+  }
+}
+
+void SonicPiScintilla::forwardTenLines() {
+  forwardLines(10);
+}
+
+void SonicPiScintilla::backTenLines() {
+  forwardLines(-10);
+}
+
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
 					 int &last_word_start)
 {
