@@ -886,7 +886,7 @@ sleep 2
 play 44"]
 
 
-           def play_pattern_relative(notes, times, *args)
+           def play_melody(notes, times, *args)
              synth_name = current_synth_name
 
              init_args_h = {}
@@ -906,20 +906,13 @@ play 44"]
              notes_with_times = Array(notes.zip(times.cycle))
              total_time = notes_with_times.map(&:last).reduce(&:+)
 
-             # Rethinking this function
-             #
-             #   - A + D + R stay the same
-             #   - Sustain is scaled according to legato
-             #     - legato is a percentage expressed as ~0 - 1 
-             #   - introduce a new param called min_release with a low default (say 0.0001)
-             #   - keep the note_slide aspect (can this be expressed more gracefully?)
-             #   - lose portamento until we can re-trigger envelopes
-             #
-             # Possible extension
+             #   TODO ideas
+             #   - re-introduce portamento when we can re-trigger envelopes
              #   - allow a do ... end block that will preprocess the params and the duration 
 
              notes_with_times.each_with_index do |(note, time), idx|
-               legato_time = (time - (combined_args[:legato] || 1) * time)
+               # protect from long/negative legatos
+               legato_time = (time - (combined_args[:legato].abs > 1 ? 1 : combined_args[:legato].abs) * time)
                note_time = time - legato_time
 
                a_and_d_time = (combined_args[:attack].to_f + combined_args[:decay].to_f)
@@ -930,7 +923,13 @@ play 44"]
                
                combined_args[:min_release] ||= 0.1
 
-               nt = play(note, combined_args.merge(sustain: scaled_sustain_time).merge(is_release_too_long ? {release: combined_args[:min_release]} : {release: combined_args[:release]}))
+               if is_release_too_long
+                 combined_args = combined_args.merge({release: combined_args[:min_release]})
+               else
+                 combined_args = combined_args.merge({release: combined_args[:release]})
+               end
+
+               nt = play(note, combined_args.merge(sustain: scaled_sustain_time))
 
                # Deal with note_slide if present
                if combined_args[:note_slide].to_f != 0.0
@@ -947,8 +946,8 @@ play 44"]
                sleep legato_time
              end
            end
-           doc name:          :play_pattern_relative,
-               introduced:    Version.new(2,2,0),
+           doc name:          :play_melody,
+               introduced:    Version.new(2,5,0),
                summary:       "Play pattern of notes with specific times, scaling their sustain according to a legato parameter",
                doc:           "Play each note in a list of notes one after another with specified times between them. The behaviour is the same as play_pattern_timed but the parameters of each note are changed in the following ways.
 
@@ -956,14 +955,14 @@ play 44"]
 
     legato: This is a new argument that says how long the note will last relative to the time. A value of 1 for legato means the notes will sound for the full time while a value of 0.8 will make the note sound for 80% of the given time. This allows you to create musical legato (values near 1) or staccato (values nearer 0.1) without having to calculate ADSR envelopes for each note length.
 
-    note_slide: if a value for note_slide other than 0.0 is given, play_pattern_relative will automatically slide the pitches between the notes. Again note_slide is scaled relative to the length of the note so note_slide: 0.9 means 90% of the note time is spent sliding to the next pitch in the sequence.
+    note_slide: if a value for note_slide other than 0.0 is given, play_melody will automatically slide the pitches between the notes. Again note_slide is scaled relative to the length of the note so note_slide: 0.9 means 90% of the note time is spent sliding to the next pitch in the sequence.
 
     Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts.",
                args:          [[:notes, :list], [:times, :list_or_number]],
                opts:          DEFAULT_PLAY_OPTS,
                accepts_block: false,
                examples:      ["
-    play_pattern_relative [40, 42, 44, 46], [1, 2, 3], legato: 0.8
+    play_melody [40, 42, 44, 46], [1, 2, 3], legato: 0.8
 
     # same as:
 
@@ -976,9 +975,7 @@ play 44"]
     play 44
     sleep 2.4
     sleep 0.6 # legato
-    play 46
-
-    #NOTE legato will not work if slur is switched on (>= 0.5)",
+    play 46",
 
       "play_pattern_timed [40, 42, 44, 46, 49], [1, 0.5], attack: 0.1, decay: 0.2, sustain: 0.8
 
