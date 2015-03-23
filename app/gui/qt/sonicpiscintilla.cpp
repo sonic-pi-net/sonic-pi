@@ -163,11 +163,21 @@ void SonicPiScintilla::addKeyBinding(QSettings &qs, int cmd, int key)
 
 void SonicPiScintilla::cutLineFromPoint()
 {
-  //  SendScintilla(SCI_CLEARSELECTIONS);
-  int pos = SendScintilla(SCI_GETCURRENTPOS);
-  SendScintilla(SCI_LINEEND);
-  SendScintilla(SCI_SETANCHOR, pos);
-  SendScintilla(SCI_CUT);
+  int linenum, index;
+  getCursorPosition(&linenum, &index);
+
+  if (text(linenum) == "\n")
+  {
+    setSelection(linenum, index, linenum + 1, 0);
+    SendScintilla(SCI_CUT);
+  } else
+    {
+      //  SendScintilla(SCI_CLEARSELECTIONS);
+      int pos = SendScintilla(SCI_GETCURRENTPOS);
+      SendScintilla(SCI_LINEEND);
+      SendScintilla(SCI_SETANCHOR, pos);
+      SendScintilla(SCI_CUT);
+    }
 }
 
 void SonicPiScintilla::tabCompleteifList()
