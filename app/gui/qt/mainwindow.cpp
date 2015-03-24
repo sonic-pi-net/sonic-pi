@@ -383,23 +383,34 @@ void MainWindow::completeListOrIndentLine(QObject* ws){
     spws->tabCompleteifList();
   }
   else {
-    indentCurrentLine(spws);
+    indentCurrentLineOrSelection(spws);
   }
 }
 
-void MainWindow::indentCurrentLine(SonicPiScintilla* ws) {
-  statusBar()->showMessage(tr("Indenting line..."), 2000);
-  std::string code = ws->text().toStdString();
-  int line = 0;
-  int index = 0;
+void MainWindow::indentCurrentLineOrSelection(SonicPiScintilla* ws) {
+  int start_line, finish_line, point_line, point_index;
+  ws->getCursorPosition(&point_line, &point_index);
+  if(ws->hasSelectedText()) {
+    statusBar()->showMessage(tr("Indenting selection..."), 2000);
+    int unused_a, unused_b;
+    ws->getSelection(&start_line, &unused_a, &finish_line, &unused_b);
+  } else {
+    statusBar()->showMessage(tr("Indenting line..."), 2000);
+    start_line = point_line;
+    finish_line = point_line;
+  }
 
-  ws->getCursorPosition(&line, &index);
-  Message msg("/indent-current-line");
+
+  std::string code = ws->text().toStdString();
+
+  Message msg("/indent-selection");
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);
   msg.pushStr(code);
-  msg.pushInt32(line);
-  msg.pushInt32(index);
+  msg.pushInt32(start_line);
+  msg.pushInt32(finish_line);
+  msg.pushInt32(point_line);
+  msg.pushInt32(point_index);
   sendOSC(msg);
 }
 
@@ -717,10 +728,10 @@ void MainWindow::replaceBuffer(QString id, QString content, int line, int index,
   ws->setFirstVisibleLine(first_line);
 }
 
-void MainWindow::replaceLine(QString id, QString content, int line, int index) {
+void MainWindow::replaceLines(QString id, QString content, int start_line, int finish_line, int point_line, int point_index) {
   SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
-  ws->replaceLine(line, content);
-  ws->setCursorPosition(line, index);
+  ws->replaceLines(start_line, finish_line, content);
+  ws->setCursorPosition(point_line, point_index);
 }
 
 std::string MainWindow::number_name(int i) {

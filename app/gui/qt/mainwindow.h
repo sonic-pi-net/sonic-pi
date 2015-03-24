@@ -89,7 +89,7 @@ private slots:
     void stopCode();
     void beautifyCode();
     void completeListOrIndentLine(QObject *ws);
-    void indentCurrentLine(SonicPiScintilla *ws);
+    void indentCurrentLineOrSelection(SonicPiScintilla *ws);
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();
@@ -123,7 +123,7 @@ private slots:
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void startupError(QString msg);
     void replaceBuffer(QString id, QString content, int line, int index, int first_line);
-    void replaceLine(QString id, QString content, int line, int index);
+    void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
     void tabNext();
     void tabPrev();
     void helpContext();

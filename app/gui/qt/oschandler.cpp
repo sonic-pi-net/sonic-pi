@@ -151,16 +151,18 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - error: unhandled OSC msg /replace-buffer: "<< std::endl;
         }
       }
-      else if (msg->match("/replace-line")) {
+      else if (msg->match("/replace-lines")) {
         std::string id;
         std::string content;
-        int line;
-        int index;
-        if (msg->arg().popStr(id).popStr(content).popInt32(line).popInt32(index).isOkNoMoreArgs()) {
+        int start_line;
+        int finish_line;
+        int point_line;
+        int point_index;
+        if (msg->arg().popStr(id).popStr(content).popInt32(start_line).popInt32(finish_line).popInt32(point_line).popInt32(point_index).isOkNoMoreArgs()) {
 
-          QMetaObject::invokeMethod( window, "replaceLine", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)), Q_ARG(int, line), Q_ARG(int, index));
+          QMetaObject::invokeMethod( window, "replaceLines", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)), Q_ARG(int, start_line),Q_ARG(int, finish_line), Q_ARG(int, point_line), Q_ARG(int, point_index));
         } else {
-          std::cout << "[GUI] - error: unhandled OSC msg /replace-line: "<< std::endl;
+          std::cout << "[GUI] - error: unhandled OSC msg /replace-lines: "<< std::endl;
         }
       }
       else if (msg->match("/exited")) {

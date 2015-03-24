@@ -189,15 +189,17 @@ osc_server.add_method("/load-buffer") do |payload|
   end
 end
 
-osc_server.add_method("/indent-current-line") do |payload|
+osc_server.add_method("/indent-selection") do |payload|
 #  puts "indenting current line..."
   begin
     args = payload.to_a
     id = args[0]
     buf = args[1]
-    line = args[2]
-    index = args[3]
-    sp.__indent_current_line(id, buf, line, index)
+    start_line = args[2]
+    finish_line = args[3]
+    point_line = args[4]
+    point_index = args[5]
+    sp.__indent_lines(id, buf, start_line, finish_line, point_line, point_index)
   rescue Exception => e
     puts "Received Exception when attempting to indent current line!"
     puts e.message
@@ -439,13 +441,15 @@ out_t = Thread.new do
 #          puts "replacing buffer #{buf_id}, #{content}"
           m = encoder.encode_single_message("/replace-buffer", [buf_id, content, line, index, first_line])
           gui.send_raw(m)
-        when "replace-line"
+        when "replace-lines"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-line without a :val payload"
-          line = message[:line] || 0
-          index = message[:index] || 0
+          point_line = message[:point_line] || 0
+          point_index = message[:point_index] || 0
+          start_line = message[:start_line] || point_line
+          finish_line = message[:finish_line] || start_line
 #          puts "replacing line #{buf_id}, #{content}"
-          m = encoder.encode_single_message("/replace-line", [buf_id, content, line, index])
+          m = encoder.encode_single_message("/replace-lines", [buf_id, content, start_line, finish_line, point_line, point_index])
           gui.send_raw(m)
         else
 #          puts "ignoring #{message}"

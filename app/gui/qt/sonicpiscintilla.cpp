@@ -241,6 +241,12 @@ void SonicPiScintilla::replaceLine(int lineNumber, QString newLine)
   replaceSelectedText(newLine);
 }
 
+void SonicPiScintilla::replaceLines(int lineStart, int lineFinish, QString newLines)
+{
+  setSelection(lineStart, 0, lineFinish + 1, 0);
+  replaceSelectedText(newLines);
+}
+
 void SonicPiScintilla::forwardLines(int numLines) {
   int idx;
   if(numLines > 0) {

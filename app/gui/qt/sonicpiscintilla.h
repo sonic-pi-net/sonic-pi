@@ -37,6 +37,7 @@ class SonicPiScintilla : public QsciScintilla
     void hideLineNumbers();
     void showLineNumbers();
     void replaceLine(int lineNumber, QString newLine);
+    void replaceLines(int lineStart, int lineFinish, QString newLines);
     void forwardLines(int numLines);
     void forwardTenLines();
     void backTenLines();
