@@ -155,6 +155,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
   // create workspaces and add them to the tabs
+  // workspace shortcuts
   signalMapper = new QSignalMapper (this) ;
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
@@ -170,6 +171,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     //transpose chars
     QShortcut *transposeChars = new QShortcut(ctrlKey('t'), workspace);
     connect (transposeChars, SIGNAL(activated()), workspace, SLOT(transposeChars())) ;
+
+    //move line or selection up and down
+    QShortcut *moveLineUp = new QShortcut(shiftMetaKey('p'), workspace);
+    connect (moveLineUp, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionUp())) ;
+
+    QShortcut *moveLineDown = new QShortcut(shiftMetaKey('n'), workspace);
+    connect (moveLineDown, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionDown())) ;
 
     //set Mark
 #ifdef Q_OS_MAC
@@ -187,6 +195,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     connect(escape2, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
     connect(escape2, SIGNAL(activated()), this, SLOT(resetErrorPane()));
 
+    //quick nav by jumping up and down 10 lines at a time
     QShortcut *forwardTenLines = new QShortcut(shiftMetaKey('u'), workspace);
     connect(forwardTenLines, SIGNAL(activated()), workspace, SLOT(forwardTenLines()));
     QShortcut *backTenLines = new QShortcut(shiftMetaKey('d'), workspace);
@@ -273,9 +282,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   outputWidget->setWidget(outputPane);
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
   outputWidget->setObjectName("output");
-
-
-
 
   docsCentral = new QTabWidget;
   docsCentral->setTabsClosable(false);

@@ -262,6 +262,65 @@ void SonicPiScintilla::backTenLines() {
   forwardLines(-10);
 }
 
+void SonicPiScintilla::moveLineOrSelectionUp() {
+  moveLineOrSelection(-1);
+}
+
+void SonicPiScintilla::moveLineOrSelectionDown() {
+  moveLineOrSelection(1);
+}
+
+void SonicPiScintilla::moveLineOrSelection(int numLines) {
+  beginUndoAction();
+
+  int linenum, cursor, origLinenum, origCursor;
+  getCursorPosition(&linenum, &cursor);
+  origLinenum = linenum;
+  origCursor = cursor;
+
+  bool hadSelectedText = hasSelectedText();
+
+
+  if(!hadSelectedText) {
+    setSelection(linenum, 0, linenum + 1, 0);
+  }
+
+  int lineFrom, indexFrom, lineTo, indexTo, lineOffset;
+  getSelection(&lineFrom, &indexFrom, &lineTo, &indexTo);
+  lineOffset = lineTo - origLinenum;
+  linenum = lineFrom;
+
+  QString selection = selectedText();
+
+  if(selection[selection.length()-1] != '\n') {
+    selection = selection + "\n";
+    lineTo += 1;
+    lineOffset += 1;
+    indexTo = 0;
+    replaceSelectedText("");
+    setCursorPosition(linenum, 0);
+    SendScintilla(SCI_DELETEBACK);
+  } else {
+    replaceSelectedText("");
+  }
+  setCursorPosition(linenum, 0);
+
+  moveLines(numLines);
+
+  getCursorPosition(&linenum, &cursor);
+  setCursorPosition(linenum, 0);
+  insert(selection);
+
+  setCursorPosition(linenum + lineOffset, origCursor);
+
+  int diffLine = lineTo - lineFrom;
+  int diffIndex = indexTo - indexFrom;
+
+  setSelection(linenum + diffLine, diffIndex, linenum, 0);
+
+  endUndoAction();
+}
+
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
 					 int &last_word_start)
 {
@@ -280,4 +339,32 @@ QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
   last_word_start = pos;
 
   return context;
+}
+
+int SonicPiScintilla::incLineNumWithinBounds(int linenum, int inc) {
+  linenum += inc;
+  int maxBufferIndex = lines() - 1;
+
+  if(linenum < 0) {
+    linenum = 0;
+  }
+
+  if(linenum > maxBufferIndex) {
+    linenum = maxBufferIndex;
+  }
+
+  return linenum;
+}
+
+void SonicPiScintilla::moveLines(int numLines) {
+  if (numLines > 0)
+  {
+    for(int i = 0 ; i < numLines ; i++) {
+      SendScintilla(SCI_LINEDOWN);
+    }
+  } else {
+    for(int i = 0 ; i > numLines ; i--) {
+      SendScintilla(SCI_LINEUP);
+    }
+  }
 }
