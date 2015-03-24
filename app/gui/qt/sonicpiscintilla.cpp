@@ -132,6 +132,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->setSelectionForegroundColor("white");
   this->setCaretWidth(5);
   this->setCaretForegroundColor("deep pink");
+  this->setEolMode(EolUnix);
 
 }
 
