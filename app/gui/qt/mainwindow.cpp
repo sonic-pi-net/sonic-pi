@@ -1173,6 +1173,7 @@ void MainWindow::zoomFontIn()
   if (zoom > 20) zoom = 20;
   ws->setProperty("zoom", QVariant(zoom));
   ws->zoomTo(zoom);
+  ws->setMarginWidth(0, "1000");
 }
 
 void MainWindow::zoomFontOut()
@@ -1180,9 +1181,10 @@ void MainWindow::zoomFontOut()
   SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
   int zoom = ws->property("zoom").toInt();
   zoom--;
-  if (zoom < -5) zoom = -5;
+  if (zoom < -10) zoom = -10;
   ws->setProperty("zoom", QVariant(zoom));
   ws->zoomTo(zoom);
+  ws->setMarginWidth(0, "1000");
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)

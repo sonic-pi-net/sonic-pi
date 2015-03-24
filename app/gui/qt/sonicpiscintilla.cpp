@@ -116,10 +116,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->setCaretLineBackgroundColor(QColor("whitesmoke"));
   this->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
   this->setMarginLineNumbers(0, true);
-  this->setMarginWidth(0, "1000000");
   this->setMarginsBackgroundColor(QColor("whitesmoke"));
   this->setMarginsForegroundColor(QColor("dark gray"));
-  this->setMarginsFont(QFont("Menlo",5, -1, true));
+  this->setMarginsFont(QFont("Menlo",25, -1, true));
   this->setUtf8(true);
   this->setText("#loading...");
   this->setLexer((QsciLexer *)lexer);
@@ -144,7 +143,7 @@ void SonicPiScintilla::hideLineNumbers(){
 
 void SonicPiScintilla::showLineNumbers(){
   this->setMarginLineNumbers(0, true);
-  this->setMarginWidth(0, "1000000");
+  this->setMarginWidth(0, "1000");
   SendScintilla(SCI_SHOWLINES);
 }
 
