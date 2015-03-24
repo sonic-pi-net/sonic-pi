@@ -1170,7 +1170,7 @@ void MainWindow::zoomFontIn()
   SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
   int zoom = ws->property("zoom").toInt();
   zoom++;
-  if (zoom > 50) zoom = 50;
+  if (zoom > 20) zoom = 20;
   ws->setProperty("zoom", QVariant(zoom));
   ws->zoomTo(zoom);
 }
