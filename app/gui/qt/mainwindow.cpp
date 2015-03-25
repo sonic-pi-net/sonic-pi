@@ -173,10 +173,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     connect (transposeChars, SIGNAL(activated()), workspace, SLOT(transposeChars())) ;
 
     //move line or selection up and down
-    QShortcut *moveLineUp = new QShortcut(shiftMetaKey('p'), workspace);
+    QShortcut *moveLineUp = new QShortcut(ctrlMetaKey('p'), workspace);
     connect (moveLineUp, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionUp())) ;
 
-    QShortcut *moveLineDown = new QShortcut(shiftMetaKey('n'), workspace);
+    QShortcut *moveLineDown = new QShortcut(ctrlMetaKey('n'), workspace);
     connect (moveLineDown, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionDown())) ;
 
     //set Mark
