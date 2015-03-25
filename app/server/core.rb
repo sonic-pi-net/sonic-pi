@@ -144,6 +144,18 @@ class String
   end
 end
 
+class Numeric
+  def max(other)
+    return self if self <= other
+    other
+  end
+
+  def min(other)
+    return self if self >= other
+    other
+  end
+end
+
 class Symbol
   def shuffle
     self.to_s.shuffle.to_sym
