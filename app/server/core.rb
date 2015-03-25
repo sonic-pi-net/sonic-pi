@@ -45,19 +45,21 @@ module SonicPi
     module ThreadLocalCounter
       def self.get_or_create_counters
         counters = Thread.current.thread_variable_get(:sonic_pi_core_thread_local_counters)
-        unless counters
-          counters = {}
-          Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, counters)
-        end
-        return counters
+        return counters if counters
+        counters = {}
+        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, counters)
+        counters
       end
 
       def self.tick(k, n=1)
         counters = get_or_create_counters
         if counters[k]
-          return counters[k] = counters[k] + n
+          current_val = counters[k]
+          counters[k] = counters[k] + n
+          return current_val
         else
-          return counters[k] = 0
+          counters[k] = n
+          return 0
         end
       end
 
