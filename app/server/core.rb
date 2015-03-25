@@ -72,6 +72,12 @@ module SonicPi
         counters = get_or_create_counters
         counters[k] = v
       end
+
+      def self.rm(k)
+        counters = get_or_create_counters
+        counters.delete(k)
+        nil
+      end
     end
   end
 end

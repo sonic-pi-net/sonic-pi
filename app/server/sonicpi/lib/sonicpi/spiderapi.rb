@@ -29,6 +29,10 @@ module SonicPi
       SonicPi::Core::ThreadLocalCounter.set(k, v)
     end
 
+    def tick_reset(k)
+      SonicPi::Core::ThreadLocalCounter.rm(k)
+    end
+
     def tick(k, n=1)
       SonicPi::Core::ThreadLocalCounter.tick(k, n)
     end
