@@ -1252,6 +1252,15 @@ QKeySequence MainWindow::shiftMetaKey(char key)
 #endif
 }
 
+QKeySequence MainWindow::ctrlMetaKey(char key)
+{
+#ifdef Q_OS_MAC
+  return QKeySequence(QString("Ctrl+Meta+%1").arg(key));
+#else
+  return QKeySequence(QString("Ctrl+alt+%1").arg(key));
+#endif
+}
+
 
 // set tooltips, connect event handlers, and add shortcut if applicable
 void MainWindow::setupAction(QAction *action, char key, QString tooltip,
