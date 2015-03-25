@@ -191,7 +191,7 @@ module SonicPi
     def line(start, finish, *args)
       return [].ring if start == finish
       args_h = resolve_synth_opts_hash_or_array(args)
-      num_slices = args_h[:slices] || 4
+      num_slices = args_h[:steps] || 4
       inclusive = args_h[:inclusive]
 
       raise "Num slices param for fn linear should be a positive none-negative whole number" unless num_slices > 0
