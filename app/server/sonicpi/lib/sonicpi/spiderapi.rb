@@ -1707,7 +1707,9 @@ end ",
 
 "
 
-# In order to play two loops at the same time, the first loops need to be in a thread:
+# In order to play two loops at the same time, the first loops need to
+# be in a thread (note that it's probably more idiomatic to use live_loop
+# when performing):
 
 # By wrapping out loop in an in_thread block, we split the
 # control flow into two parts. One flows into the loop (a) and
