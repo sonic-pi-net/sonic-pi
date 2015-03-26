@@ -118,7 +118,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->setMarginLineNumbers(0, true);
   this->setMarginsBackgroundColor(QColor("whitesmoke"));
   this->setMarginsForegroundColor(QColor("dark gray"));
-  this->setMarginsFont(QFont("Menlo",25, -1, true));
+  this->setMarginsFont(QFont("Menlo", 15, -1, true));
   this->setUtf8(true);
   this->setText("#loading...");
   this->setLexer((QsciLexer *)lexer);

@@ -154,7 +154,7 @@ QFont QsciLexerRuby::defaultFont(int style) const
     switch (style)
     {
     case Comment:
-      f = QFont(default_font, 25, -1, true);
+      f = QFont(default_font, 15, -1, true);
 	  break;
 
     case POD:
@@ -169,7 +169,7 @@ QFont QsciLexerRuby::defaultFont(int style) const
     case ModuleName:
     case DemotedKeyword:
     default:
-        f = QFont(default_font, 25);
+        f = QFont(default_font, 15);
     }
 
     return f;
