@@ -431,6 +431,7 @@ void MainWindow::updateFocusMode(){
     docWidget->close();
     outputWidget->close();
     toolBar->close();
+    prefsWidget->close();
   }
 }
 
