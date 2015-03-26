@@ -107,6 +107,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   this->i18n = i18n;
   focusMode = false;
+  disableFocusMode();
 
   printAsciiArtLogo();
   // kill any zombie processes that may exist
@@ -420,10 +421,7 @@ void MainWindow::changeTab(int id){
 void MainWindow::updateFocusMode(){
   if(focusMode == true){
     focusMode = false;
-    hudWidget->show();
-    docWidget->show();
-    outputWidget->show();
-    toolBar->show();
+    disableFocusMode();
   }
   else{
     focusMode = true;
@@ -433,6 +431,13 @@ void MainWindow::updateFocusMode(){
     toolBar->close();
     prefsWidget->close();
   }
+}
+
+void MainWindow::disableFocusMode(){
+  hudWidget->show();
+  docWidget->show();
+  outputWidget->show();
+  toolBar->show();
 }
 
 void MainWindow::completeListOrIndentLine(QObject* ws){

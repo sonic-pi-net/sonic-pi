@@ -134,6 +134,7 @@ private slots:
     void docScrollDown();
     void helpClosed(bool visible);
     void updateFocusMode();
+    void disableFocusMode();
 
 private:
     QSignalMapper *signalMapper;
