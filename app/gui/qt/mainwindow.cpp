@@ -255,16 +255,16 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   errorPane->setMaximumHeight(130);
   errorPane->setMinimumHeight(130);
 
-  hudPane = new QTextBrowser;
-  hudPane->setMinimumHeight(130);
-  hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
-  hudWidget = new QDockWidget(this);
-  hudWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-  hudWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-  hudWidget->setTitleBarWidget(new QWidget());
-  addDockWidget(Qt::RightDockWidgetArea, hudWidget);
-  hudWidget->setWidget(hudPane);
-  hudWidget->setObjectName("hud");
+  // hudPane = new QTextBrowser;
+  // hudPane->setMinimumHeight(130);
+  // hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
+  // hudWidget = new QDockWidget(this);
+  // hudWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+  // hudWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+  // hudWidget->setTitleBarWidget(new QWidget());
+  // addDockWidget(Qt::RightDockWidgetArea, hudWidget);
+  // hudWidget->setWidget(hudPane);
+  // hudWidget->setObjectName("hud");
 
 
   prefsWidget = new QDockWidget(tr("Preferences"), this);
