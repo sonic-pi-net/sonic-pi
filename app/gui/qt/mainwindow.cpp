@@ -106,6 +106,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   }
 
   this->i18n = i18n;
+  focusMode = false;
 
   printAsciiArtLogo();
   // kill any zombie processes that may exist
@@ -414,6 +415,23 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
 void MainWindow::changeTab(int id){
   tabs->setCurrentIndex(id);
+}
+
+void MainWindow::updateFocusMode(){
+  if(focusMode == true){
+    focusMode = false;
+    hudWidget->show();
+    docWidget->show();
+    outputWidget->show();
+    toolBar->show();
+  }
+  else{
+    focusMode = true;
+    hudWidget->close();
+    docWidget->close();
+    outputWidget->close();
+    toolBar->close();
+  }
 }
 
 void MainWindow::completeListOrIndentLine(QObject* ws){
@@ -1360,6 +1378,7 @@ void MainWindow::createShortcuts()
   new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
+  new QShortcut(QKeySequence("F10"), this, SLOT(updateFocusMode()));
 }
 
 void MainWindow::createToolBar()

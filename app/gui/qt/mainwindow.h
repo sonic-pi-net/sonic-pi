@@ -133,6 +133,7 @@ private slots:
     void docScrollUp();
     void docScrollDown();
     void helpClosed(bool visible);
+    void updateFocusMode();
 
 private:
     QSignalMapper *signalMapper;
@@ -175,6 +176,7 @@ private:
     QFuture<void> osc_thread, server_thread;
     int protocol;
 
+    bool focusMode;
     bool startup_error_reported;
     bool is_recording;
     bool show_rec_icon_a;
