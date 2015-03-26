@@ -2349,11 +2349,25 @@ stop bar"]
        doc name:          :load_synthdefs,
            introduced:    Version.new(2,0,0),
            summary:       "Load external synthdefs",
-           doc:           "Load all synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi. If you wish your synth to seemlessly integrate with Sonic Pi's FX system you need to ensure your synth outputs a stereo signal to an audio bus with an index specified by a synth arg named `out_bus`.",
+           doc:           "Load all pre-compiled synth designs in the specified directory. The binary files containing synth designs need to have the extension `.scsyndef`. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
+
+## Important note
+
+If you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. For example, the following synth would work nicely:
+
+
+    (
+    SynthDef(\piTest,
+             {|freq = 200, amp = 1, out_bus = 0 |
+               Out.ar(out_bus,
+                      SinOsc.ar([freq,freq],0,0.5)* Line.kr(1, 0, 5, amp, doneAction: 2))}
+    ).store;
+    )
+    ",
            args:          [[:path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      []
+           examples:      ["load_synthdefs \"~/Desktop/my_noises\" # Load all synthdefs in my_noises folder"]
 
 
 
