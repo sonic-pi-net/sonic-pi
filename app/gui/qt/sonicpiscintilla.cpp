@@ -133,6 +133,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->setCaretForegroundColor("deep pink");
   this->setEolMode(EolUnix);
 
+  addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
+  addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
+
 }
 
 void SonicPiScintilla::hideLineNumbers(){

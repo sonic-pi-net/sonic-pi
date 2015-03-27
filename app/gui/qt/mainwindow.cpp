@@ -211,12 +211,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
     connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
 
-    //Windows/Mac Copy
-    QShortcut *copyToBufferWin = new QShortcut(ctrlKey('c'), workspace);
-    connect(copyToBufferWin, SIGNAL(activated()), workspace, SLOT(copyClear()));
-    QShortcut *copyToBufferMac = new QShortcut(metaKey('c'), workspace);
-    connect(copyToBufferMac, SIGNAL(activated()), workspace, SLOT(copyClear()));
-
     QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
