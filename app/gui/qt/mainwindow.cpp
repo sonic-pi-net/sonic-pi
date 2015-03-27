@@ -154,11 +154,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   tabs->setTabPosition(QTabWidget::South);
 
   // Syntax highlighting
-  QFile file("/Users/josephwilk/.sonic-pi/theme.json");
-  if(file.exists()){
+
+  QString themeFilename = QDir::homePath() + "/.sonic-pi/theme.json";
+  QFile themeFile(themeFilename);
+  if(themeFile.exists()){
     qDebug() << "[GUI] Custom colors";
-    file.open(QIODevice::ReadOnly);
-    QByteArray rawData = file.readAll();
+    themeFile.open(QIODevice::ReadOnly);
+    QByteArray rawData = themeFile.readAll();
     QJsonDocument doc(QJsonDocument::fromJson(rawData));
     QJsonObject json = doc.object();
     lexer = new SonicPiLexer(json);
