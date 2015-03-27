@@ -154,7 +154,20 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   tabs->setTabPosition(QTabWidget::South);
 
   // Syntax highlighting
-  lexer = new SonicPiLexer;
+  QFile file("/Users/josephwilk/.sonic-pi/theme.json");
+  if(file.exists()){
+    qDebug() << "[GUI] Custom colors";
+    file.open(QIODevice::ReadOnly);
+    QByteArray rawData = file.readAll();
+    QJsonDocument doc(QJsonDocument::fromJson(rawData));
+    QJsonObject json = doc.object();
+    lexer = new SonicPiLexer(json);
+  }
+  else{
+    qDebug() << "[GUI] Default colors";
+    lexer = new SonicPiLexer(QJsonObject());
+  }
+
   lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
   // create workspaces and add them to the tabs

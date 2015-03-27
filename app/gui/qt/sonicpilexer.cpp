@@ -16,6 +16,42 @@
 #include <qfont.h>
 
 
+
+SonicPiLexer::SonicPiLexer(const QJsonObject& customTheme) : QsciLexerRuby() {
+  if(customTheme.empty()){
+    QJsonObject defaultTheme = QJsonObject();
+    defaultTheme["Default"] = "#808080";
+    defaultTheme["Comment"] = "#5e5e5e";
+    defaultTheme["POD"] = "#004000";
+    defaultTheme["Number"] = "DodgerBlue";
+    defaultTheme["FunctionMethodName"] = "LimeGreen";
+    defaultTheme["Keyword"] = "DarkOrange";
+    defaultTheme["DemotedKeyword"] = "DarkOrange";
+    defaultTheme["ClassName"] = "Lavender";
+    defaultTheme["Global"] = "Red";
+    defaultTheme["Symbol"] = "DeepPink";
+    defaultTheme["ModuleName"] = "yellow";
+    defaultTheme["InstanceVariable"] = "#b00080";
+    defaultTheme["ClassVariable"] = "#8000b0";
+    defaultTheme["Backticks"] = "Red";
+    defaultTheme["PercentStringx"] = "Red";
+    defaultTheme["DataSection"] = "#600000";
+    defaultTheme["DoubleQuotedString"] = "DarkGreen";
+    defaultTheme["SingleQuotedString"] = "DarkGreen";
+    defaultTheme["HereDocument"] = "DarkGreen";
+    defaultTheme["PercentString"] = "DarkGreen";
+    defaultTheme["PercentStringQ"] = "DarkGreen";
+    defaultTheme["Regex"] = "#000000";
+    defaultTheme["HereDocumentDelimiter"] = "#000000";
+    defaultTheme["PercentStringr"] = "#000000";
+    defaultTheme["PercentStringw"] = "#000000";
+    this->theme = defaultTheme;
+  }
+  else{
+    this->theme = customTheme;
+  }
+}
+
 #if defined(Q_OS_WIN)
 static char default_font[] = "Courier New";
 #elif defined(Q_OS_MAC)
@@ -24,6 +60,7 @@ static char default_font[] = "Menlo";
 static char default_font[] = "Bitstream Vera Sans Mono";
 #endif
 
+
 // triggers autocompletion for the next word
 QStringList QsciLexer::autoCompletionWordSeparators() const {
   QStringList seps;
@@ -31,72 +68,61 @@ QStringList QsciLexer::autoCompletionWordSeparators() const {
   return seps;
 }
 
-// Returns the foreground colour of the text for a style.
-QColor QsciLexerRuby::defaultColor(int style) const
+QColor SonicPiLexer::defaultColor(int style) const
 {
     switch (style)
     {
     case Default:
-      //        return QColor(0x80,0x80,0x80);
-      return QColor(60, 60, 60);
-
+      return QColor(theme["Default"].toString());
     case Comment:
-      //      return QColor(40, 40, 40);
-      //return QColor(60, 60, 60);
-      return QColor("#5e5e5e");
+      return QColor(theme["Comment"].toString());
     case POD:
-        return QColor(0x00,0x40,0x00);
-
+      return QColor(theme["POD"].toString());
     case Number:
-      return QColor("DodgerBlue");
-
+      return QColor(theme["Number"].toString());
     case FunctionMethodName:
-        return QColor("LimeGreen");
-
+      return QColor(theme["FunctionMethodName"].toString());
     case Keyword:
+      return QColor(theme["Keyword"].toString());
     case DemotedKeyword:
-        return QColor("DarkOrange");
-
+      return QColor(theme["DemotedKeyword"].toString());
     case DoubleQuotedString:
+      return QColor(theme["DoubleQuotedString"].toString());
     case SingleQuotedString:
+      return QColor(theme["SingleQuotedString"].toString());
     case HereDocument:
+      return QColor(theme["HereDocument"].toString());
     case PercentStringq:
+      return QColor(theme["PercentStringq"].toString());
     case PercentStringQ:
-        return QColor("DarkGreen");
-
+      return QColor(theme["PercentStringQ"].toString());
     case ClassName:
-        return QColor("Lavender");
-
+      return QColor(theme["ClassName"].toString());
     case Regex:
+      return QColor(theme["Regex"].toString());
     case HereDocumentDelimiter:
+      return QColor(theme["HereDocumentDelimiter"].toString());
     case PercentStringr:
+      return QColor(theme["PercentStringr"].toString());
     case PercentStringw:
-        return QColor(0x00,0x00,0x00);
-
+      return QColor(theme["PercentStringw"].toString());
     case Global:
-        return QColor("Red");
-
+      return QColor(theme["Global"].toString());
     case Symbol:
-      return QColor("DeepPink");
-
+      return QColor(theme["Symbol"].toString());
     case ModuleName:
-        return QColor("yellow");
-
+      return QColor(theme["ModuleName"].toString());
     case InstanceVariable:
-        return QColor(0xb0,0x00,0x80);
-
+      return QColor(theme["InstanceVariable"].toString());
     case ClassVariable:
-        return QColor(0x80,0x00,0xb0);
-
+      return QColor(theme["ClassVariable"].toString());
     case Backticks:
+      return QColor(theme["Backticks"].toString());
     case PercentStringx:
-        return QColor("Red");
-
+      return QColor(theme["PercentStringx"].toString());
     case DataSection:
-      return QColor(0x60,0x00,0x00);
-
+      return QColor(theme["DataSection"].toString());
     }
-
 
     return QsciLexer::defaultColor(style);
 }
