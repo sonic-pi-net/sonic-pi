@@ -19,7 +19,7 @@
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, const QJsonObject& customTheme)
   : QsciScintilla()
 {
   standardCommands()->clearKeys();
@@ -34,6 +34,17 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   int SPi_CTRL = Qt::CTRL;
   int SPi_META = Qt::ALT;
 #endif
+
+  //Setup theme
+  QJsonObject themeSettings = QJsonObject();
+  themeSettings["MarginBackground"] = "whitesmoke";
+  themeSettings["SelectionBackground"] = "DeepPink";
+  themeSettings["MatchedBraceBackground"] = "dimgray";
+
+  QStringList customSettings = customTheme.keys();
+  for(int idx=0; idx < customSettings.size(); idx++){
+    themeSettings[customSettings[idx]] = customTheme[customSettings[idx]];
+  }
 
   // basic navigation
   addKeyBinding(settings, QsciCommand::PageDown, Qt::Key_PageDown);
@@ -107,7 +118,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
 
   standardCommands()->readSettings(settings);
 
-  setMatchedBraceBackgroundColor(QColor("dimgray"));
+  setMatchedBraceBackgroundColor(QColor(themeSettings["MatchedBraceBackground"].toString()));
   setMatchedBraceForegroundColor(QColor("white"));
 
   setIndentationWidth(2);
@@ -116,12 +127,12 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   setBraceMatching( SonicPiScintilla::SloppyBraceMatch);
 
   //TODO: add preference toggle for this:
-  //setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
+  //this->setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
   setCaretLineVisible(true);
   setCaretLineBackgroundColor(QColor("whitesmoke"));
   setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
   setMarginLineNumbers(0, true);
-  setMarginsBackgroundColor(QColor("whitesmoke"));
+  setMarginsBackgroundColor(QColor(themeSettings["MarginBackground"].toString()));
   setMarginsForegroundColor(QColor("dark gray"));
   setMarginsFont(QFont("Menlo", 15, -1, true));
   setUtf8(true);
@@ -132,7 +143,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
   setAutoCompletionCaseSensitivity(false);
 
-  setSelectionBackgroundColor("DeepPink");
+  setSelectionBackgroundColor(themeSettings["SelectionBackground"].toString());
   setSelectionForegroundColor("white");
   setCaretWidth(5);
   setCaretForegroundColor("deep pink");
