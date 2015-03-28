@@ -20,6 +20,7 @@ class SonicPiLexer : public QsciLexerRuby
 public:
   SonicPiLexer(const QJsonObject& customTheme);
   QColor defaultColor(int style) const;
+  QColor defaultPaper(int style) const;
 
 private:
   QJsonObject theme;

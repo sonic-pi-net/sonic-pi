@@ -45,6 +45,22 @@ SonicPiLexer::SonicPiLexer(const QJsonObject& customTheme) : QsciLexerRuby() {
     defaultTheme["HereDocumentDelimiter"] = "#000000";
     defaultTheme["PercentStringr"] = "#000000";
     defaultTheme["PercentStringw"] = "#000000";
+
+    defaultTheme["CommentBackground"] = "white";
+    defaultTheme["ErrorBackground"] = "#c0xffc0";
+    defaultTheme["PODBackground"] = "#ff0000";
+    defaultTheme["RegexBackground"] = "#a0ffa0";
+    defaultTheme["PercentStringrBackground"] = "#a0ffa0";
+    defaultTheme["BackticksBackground"] = "yellow";
+    defaultTheme["PercentStringxBackground"] = "yellow";
+    defaultTheme["DataSectionBackground"] = "#fff0d8";
+    defaultTheme["HereDocumentDelimiterBackground"] = "#ddd0dd";
+    defaultTheme["HereDocumentBackground"] = "#ddd0dd";
+    defaultTheme["PercentStringwBackground"] = "#ffffe0";
+    defaultTheme["StdinBackground"] = "#ff8080";
+    defaultTheme["StdoutBackground"] = "#ff8080";
+    defaultTheme["StderrBackground"] = "#ff8080";
+
     this->theme = defaultTheme;
   }
   else{
@@ -128,43 +144,38 @@ QColor SonicPiLexer::defaultColor(int style) const
 }
 
 // Returns the background colour of the text for a style.
-QColor QsciLexerRuby::defaultPaper(int style) const
+QColor SonicPiLexer::defaultPaper(int style) const
 {
   switch (style)
     {
     case Comment:
-      //      return QColor(94,94,94);
-      return QColor("white");
-      //return QColor(202, 225, 255); // lilac
-      //      return QColor(191,239,255); //nice light blue
+       return QColor(theme["CommentBackground"].toString());
     case Error:
-        return QColor(0xff,0x00,0x00);
-
+      return QColor(theme["ErrorBackground"].toString());
     case POD:
-        return QColor(0xc0,0xff,0xc0);
-
+      return QColor(theme["PODBackground"].toString());
     case Regex:
+      return QColor(theme["RegexBackground"].toString());
     case PercentStringr:
-        return QColor(0xa0,0xff,0xa0);
-
+      return QColor(theme["PercentStringrBackground"].toString());
     case Backticks:
+      return QColor(theme["BackticksBackground"].toString());
     case PercentStringx:
-        return QColor("yellow");
-
+      return QColor(theme["PercentStringxBackground"].toString());
     case DataSection:
-        return QColor(0xff,0xf0,0xd8);
-
+      return QColor(theme["DataSectionBackground"].toString());
     case HereDocumentDelimiter:
+      return QColor(theme["DocumentDelimiterBackground"].toString());
     case HereDocument:
-        return QColor(0xdd,0xd0,0xdd);
-
+      return QColor(theme["HereDocumentBackground"].toString());
     case PercentStringw:
-        return QColor(0xff,0xff,0xe0);
-
+      return QColor(theme["PercentStringwBackground"].toString());
     case Stdin:
+      return QColor(theme["StdinBackground"].toString());
     case Stdout:
+      return QColor(theme["StdoutBackground"].toString());
     case Stderr:
-        return QColor(0xff,0x80,0x80);
+      return QColor(theme["StderrBackground"].toString());
     }
 
     return QsciLexer::defaultPaper(style);
