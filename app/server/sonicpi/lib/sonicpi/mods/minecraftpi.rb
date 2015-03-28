@@ -229,15 +229,8 @@ module SonicPi
         "puts mc_location    #=> [10.1, 20.67, 101.34]"   ]
 
 
-
-
-      def mc_set_location(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
-#        __delayed do
+      def mc_teleport(x, y, z)
         Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
-        #        end
         true
       end
       doc name:           :mc_set_location,
@@ -249,26 +242,15 @@ module SonicPi
           doc:            "",
           examples:       []
 
-      def mc_set_location_sync(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
-        Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
-        true
-      end
-
-
-
 
       ## Fns matching the API names for those coming from Python
-      def mc_get_pos
-        mc_location
+      def mc_get_pos(*args)
+        mc_location(*args)
       end
 
-
-
-
-
+      def mc_set_pos(*args)
+        mc_teleport(*args)
+      end
 
       def mc_get_tile
         res = Minecraft.world_recv "player.getTile()"
@@ -286,25 +268,7 @@ module SonicPi
           examples:       []
 
 
-
-
-
-
-      def mc_set_pos_sync(*args)
-        mc_set_pos_sync(*args)
-      end
-
-      def mc_set_ground_location(x, z=nil)
-        if x.is_a? Array
-          if x.size == 3
-            a = x
-            x = a[0]
-            z = a[1]
-          else
-            a, z = a
-          end
-        end
-
+      def mc_surface_teleport(x, z)
         y = mc_get_height(x, z)
         mc_set_location(x.to_f, y, z.to_f)
         true
@@ -312,14 +276,6 @@ module SonicPi
 
       def mc_set_ground_pos(*args)
         mc_set_ground_location(*args)
-      end
-
-      def mc_set_ground_location_sync(x, z=nil)
-        mc_set_ground_location(x, z)
-      end
-
-      def mc_set_ground_pos_sync(*args)
-        mc_set_ground_location_sync(*args)
       end
 
       def mc_message(msg)
@@ -336,18 +292,8 @@ module SonicPi
           examples:       []
 
 
-
       def mc_chat_post(msg)
         mc_message(msg)
-      end
-
-      def mc_message_sync(msg)
-        Minecraft.world_send "chat.post(#{msg})"
-        true
-      end
-
-      def mc_chat_post_sync(msg)
-        mc_message_sync(msg)
       end
 
       def mc_get_height(x, z)
@@ -364,10 +310,7 @@ module SonicPi
           examples:       []
 
 
-      def mc_get_block(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
+      def mc_get_block(x, y, z)
         res = Minecraft.world_recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
         mc_block_name(res.to_i)
       end
@@ -380,15 +323,9 @@ module SonicPi
           doc:            "",
           examples:       []
 
-      def mc_set_block(x, y, z=nil, block_id=nil)
-        if x.is_a? Array
-          block_id = y
-          x, y, z = x
-        end
+      def mc_set_block(x, y, z, block_id)
         block_id = mc_block_id(block_id)
-        #__delayed do
-          Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
-        #end
+        Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
         true
       end
       doc name:           :mc_set_block,
@@ -400,26 +337,8 @@ module SonicPi
           doc:            "",
           examples:       []
 
-      def mc_set_block_sync(x, y, z=nil, block_id=nil)
-        if x.is_a? Array
-          block_id = y
-          x, y, z = x
-        end
 
-        block_id = mc_block_id(block_id)
-        Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id})"
-        true
-      end
-
-      def mc_set_area(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
-        if x.is_a? Array
-          block_id = z
-          a1 = x
-          a2 = y
-          x, y, z = a1
-          x2, y2, z2, = a2
-        end
-
+      def mc_set_area(x, y, z, x2, y2, z2, block_id)
         block_id = mc_block_id(block_id)
         Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
         true
@@ -434,33 +353,7 @@ module SonicPi
           examples:       []
 
 
-      def mc_set_area_sync(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
-        if x.is_a? Array
-          block_id = z
-          a1 = x
-          a2 = y
-          x, y, z = a1
-          x2, y2, z2, = a2
-        end
-
-        block_id = mc_block_id(block_id)
-        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
-        true
-      end
-
-      def mc_set_tile(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
-        Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
-        true
-      end
-
-      def mc_set_tile_sync(x, y=nil, z=nil)
-        if x.is_a? Array
-          block_id = y
-          x, y, z = y
-        end
+      def mc_set_tile(x, y, z)
         Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
         true
       end
