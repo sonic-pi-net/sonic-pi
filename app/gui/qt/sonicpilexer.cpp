@@ -18,55 +18,57 @@
 
 
 SonicPiLexer::SonicPiLexer(const QJsonObject& customTheme) : QsciLexerRuby() {
-  if(customTheme.empty()){
-    QJsonObject defaultTheme = QJsonObject();
-    defaultTheme["Default"] = "#808080";
-    defaultTheme["Comment"] = "#5e5e5e";
-    defaultTheme["POD"] = "#004000";
-    defaultTheme["Number"] = "DodgerBlue";
-    defaultTheme["FunctionMethodName"] = "LimeGreen";
-    defaultTheme["Keyword"] = "DarkOrange";
-    defaultTheme["DemotedKeyword"] = "DarkOrange";
-    defaultTheme["ClassName"] = "Lavender";
-    defaultTheme["Global"] = "Red";
-    defaultTheme["Symbol"] = "DeepPink";
-    defaultTheme["ModuleName"] = "yellow";
-    defaultTheme["InstanceVariable"] = "#b00080";
-    defaultTheme["ClassVariable"] = "#8000b0";
-    defaultTheme["Backticks"] = "Red";
-    defaultTheme["PercentStringx"] = "Red";
-    defaultTheme["DataSection"] = "#600000";
-    defaultTheme["DoubleQuotedString"] = "DarkGreen";
-    defaultTheme["SingleQuotedString"] = "DarkGreen";
-    defaultTheme["HereDocument"] = "DarkGreen";
-    defaultTheme["PercentString"] = "DarkGreen";
-    defaultTheme["PercentStringQ"] = "DarkGreen";
-    defaultTheme["Regex"] = "#000000";
-    defaultTheme["HereDocumentDelimiter"] = "#000000";
-    defaultTheme["PercentStringr"] = "#000000";
-    defaultTheme["PercentStringw"] = "#000000";
+  QJsonObject themeSettings = QJsonObject();
+  themeSettings["Default"] = "#808080";
+  themeSettings["Comment"] = "#5e5e5e";
+  themeSettings["POD"] = "#004000";
+  themeSettings["Number"] = "DodgerBlue";
+  themeSettings["FunctionMethodName"] = "LimeGreen";
+  themeSettings["Keyword"] = "DarkOrange";
+  themeSettings["DemotedKeyword"] = "DarkOrange";
+  themeSettings["ClassName"] = "Lavender";
+  themeSettings["Global"] = "Red";
+  themeSettings["Symbol"] = "DeepPink";
+  themeSettings["ModuleName"] = "yellow";
+  themeSettings["InstanceVariable"] = "#b00080";
+  themeSettings["ClassVariable"] = "#8000b0";
+  themeSettings["Backticks"] = "Red";
+  themeSettings["PercentStringx"] = "Red";
+  themeSettings["DataSection"] = "#600000";
+  themeSettings["DoubleQuotedString"] = "DarkGreen";
+  themeSettings["SingleQuotedString"] = "DarkGreen";
+  themeSettings["HereDocument"] = "DarkGreen";
+  themeSettings["PercentString"] = "DarkGreen";
+  themeSettings["PercentStringQ"] = "DarkGreen";
+  themeSettings["Regex"] = "#000000";
+  themeSettings["HereDocumentDelimiter"] = "#000000";
+  themeSettings["PercentStringr"] = "#000000";
+  themeSettings["PercentStringw"] = "#000000";
 
-    defaultTheme["DefaultBackground"] = "white";
-    defaultTheme["CommentBackground"] = "white";
-    defaultTheme["ErrorBackground"] = "#c0xffc0";
-    defaultTheme["PODBackground"] = "#ff0000";
-    defaultTheme["RegexBackground"] = "#a0ffa0";
-    defaultTheme["PercentStringrBackground"] = "#a0ffa0";
-    defaultTheme["BackticksBackground"] = "yellow";
-    defaultTheme["PercentStringxBackground"] = "yellow";
-    defaultTheme["DataSectionBackground"] = "#fff0d8";
-    defaultTheme["HereDocumentDelimiterBackground"] = "#ddd0dd";
-    defaultTheme["HereDocumentBackground"] = "#ddd0dd";
-    defaultTheme["PercentStringwBackground"] = "#ffffe0";
-    defaultTheme["StdinBackground"] = "#ff8080";
-    defaultTheme["StdoutBackground"] = "#ff8080";
-    defaultTheme["StderrBackground"] = "#ff8080";
+  themeSettings["DefaultBackground"] = "white";
+  themeSettings["CommentBackground"] = "white";
+  themeSettings["ErrorBackground"] = "#c0xffc0";
+  themeSettings["PODBackground"] = "#ff0000";
+  themeSettings["RegexBackground"] = "#a0ffa0";
+  themeSettings["PercentStringrBackground"] = "#a0ffa0";
+  themeSettings["BackticksBackground"] = "yellow";
+  themeSettings["PercentStringxBackground"] = "yellow";
+  themeSettings["DataSectionBackground"] = "#fff0d8";
+  themeSettings["HereDocumentDelimiterBackground"] = "#ddd0dd";
+  themeSettings["HereDocumentBackground"] = "#ddd0dd";
+  themeSettings["PercentStringwBackground"] = "#ffffe0";
+  themeSettings["StdinBackground"] = "#ff8080";
+  themeSettings["StdoutBackground"] = "#ff8080";
+  themeSettings["StderrBackground"] = "#ff8080";
 
-    this->theme = defaultTheme;
+    //this->theme = themeSettings;
+
+  QStringList customSettings = customTheme.keys();
+  for(int idx=0; idx < customSettings.size(); idx++){
+    themeSettings[customSettings[idx]] = customTheme[customSettings[idx]];
   }
-  else{
-    this->theme = customTheme;
-  }
+
+  this->theme = themeSettings;
 }
 
 #if defined(Q_OS_WIN)
