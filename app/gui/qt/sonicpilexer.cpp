@@ -46,6 +46,7 @@ SonicPiLexer::SonicPiLexer(const QJsonObject& customTheme) : QsciLexerRuby() {
     defaultTheme["PercentStringr"] = "#000000";
     defaultTheme["PercentStringw"] = "#000000";
 
+    defaultTheme["DefaultBackground"] = "white";
     defaultTheme["CommentBackground"] = "white";
     defaultTheme["ErrorBackground"] = "#c0xffc0";
     defaultTheme["PODBackground"] = "#ff0000";
@@ -148,6 +149,8 @@ QColor SonicPiLexer::defaultPaper(int style) const
 {
   switch (style)
     {
+    case Default:
+      return QColor(theme["DefaultBackground"].toString());
     case Comment:
        return QColor(theme["CommentBackground"].toString());
     case Error:
@@ -176,6 +179,8 @@ QColor SonicPiLexer::defaultPaper(int style) const
       return QColor(theme["StdoutBackground"].toString());
     case Stderr:
       return QColor(theme["StderrBackground"].toString());
+    default:
+      return QColor(theme["DefaultBackground"].toString());
     }
 
     return QsciLexer::defaultPaper(style);
