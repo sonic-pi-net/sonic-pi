@@ -155,7 +155,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Syntax highlighting
 
-  QString themeFilename = QDir::homePath() + "/.sonic-pi/theme.json";
+  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.json";
   QFile themeFile(themeFilename);
   if(themeFile.exists()){
     qDebug() << "[GUI] Custom colors";
