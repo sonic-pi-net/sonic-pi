@@ -354,7 +354,7 @@ module SonicPi
 
 
       def mc_set_tile(x, y, z)
-        Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+        Minecraft.world_send "player.setPos(#{x.to_f.round}, #{y.to_i}, #{z.to_f.round})"
         true
       end
 
