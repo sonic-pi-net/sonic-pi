@@ -26,7 +26,7 @@
 
 # Sonic Pi
 
-## A free sound synthesiser built to allow everyone to live coding music.
+## A free sound synthesiser built to allow everyone to live code music.
 
 Sonic Pi is an open source programming environment designed to explore
 and teach programming concepts through the process of creating new
