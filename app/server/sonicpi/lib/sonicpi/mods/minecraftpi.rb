@@ -297,7 +297,7 @@ module SonicPi
       end
 
       def mc_get_height(x, z)
-        res = Minecraft.world_recv "world.getHeight(#{x.to_i},#{z.to_i})"
+        res = Minecraft.world_recv "world.getHeight(#{x.to_f.round},#{z.to_f.round})"
         res.to_i
       end
       doc name:           :mc_get_height,
@@ -311,7 +311,7 @@ module SonicPi
 
 
       def mc_get_block(x, y, z)
-        res = Minecraft.world_recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
+        res = Minecraft.world_recv "world.getBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round})"
         mc_block_name(res.to_i)
       end
       doc name:           :mc_get_block,
@@ -325,7 +325,7 @@ module SonicPi
 
       def mc_set_block(x, y, z, block_id)
         block_id = mc_block_id(block_id)
-        Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
+        Minecraft.world_send "world.setBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{block_id})"
         true
       end
       doc name:           :mc_set_block,
@@ -340,7 +340,7 @@ module SonicPi
 
       def mc_set_area(x, y, z, x2, y2, z2, block_id)
         block_id = mc_block_id(block_id)
-        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
+        Minecraft.world_send "world.setBlocks(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{x2.to_f.round},#{y2.to_i},#{z2.to_f.round},#{block_id})"
         true
       end
       doc name:           :mc_set_area,
