@@ -229,6 +229,8 @@ module SonicPi
         "puts mc_location    #=> [10.1, 20.67, 101.34]"   ]
 
 
+
+
       def mc_teleport(x, y, z)
         Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
         true
@@ -243,6 +245,8 @@ module SonicPi
           examples:       []
 
 
+
+
       ## Fns matching the API names for those coming from Python
       def mc_get_pos(*args)
         mc_location(*args)
@@ -251,6 +255,9 @@ module SonicPi
       def mc_set_pos(*args)
         mc_teleport(*args)
       end
+
+
+
 
       def mc_get_tile
         res = Minecraft.world_recv "player.getTile()"
@@ -268,15 +275,23 @@ module SonicPi
           examples:       []
 
 
+
+
       def mc_surface_teleport(x, z)
         y = mc_get_height(x, z)
         mc_set_location(x.to_f, y, z.to_f)
         true
       end
 
+
+
+
       def mc_set_ground_pos(*args)
         mc_set_ground_location(*args)
       end
+
+
+
 
       def mc_message(msg)
         Minecraft.world_send "chat.post(#{msg})"
@@ -292,9 +307,14 @@ module SonicPi
           examples:       []
 
 
+
+
       def mc_chat_post(msg)
         mc_message(msg)
       end
+
+
+
 
       def mc_get_height(x, z)
         res = Minecraft.world_recv "world.getHeight(#{x.to_f.round},#{z.to_f.round})"
@@ -310,6 +330,8 @@ module SonicPi
           examples:       []
 
 
+
+
       def mc_get_block(x, y, z)
         res = Minecraft.world_recv "world.getBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round})"
         mc_block_name(res.to_i)
@@ -322,6 +344,9 @@ module SonicPi
           accepts_block:  false,
           doc:            "",
           examples:       []
+
+
+
 
       def mc_set_block(x, y, z, block_id)
         block_id = mc_block_id(block_id)
@@ -336,6 +361,8 @@ module SonicPi
           accepts_block:  false,
           doc:            "",
           examples:       []
+
+
 
 
       def mc_set_area(x, y, z, x2, y2, z2, block_id)
@@ -353,10 +380,15 @@ module SonicPi
           examples:       []
 
 
+
+
       def mc_set_tile(x, y, z)
         Minecraft.world_send "player.setPos(#{x.to_f.round}, #{y.to_i}, #{z.to_f.round})"
         true
       end
+
+
+
 
       def mc_block_id(name)
         case name
@@ -381,6 +413,8 @@ module SonicPi
           examples:       []
 
 
+
+
       def mc_block_name(id)
         case id
         when Numeric
@@ -403,6 +437,9 @@ module SonicPi
           doc:            "",
           examples:       []
 
+
+
+
       def mc_block_ids
         BLOCK_IDS
       end
@@ -416,6 +453,8 @@ module SonicPi
           examples:       []
 
 
+
+
       def mc_block_names
         BLOCK_NAMES
       end
@@ -427,6 +466,9 @@ module SonicPi
           accepts_block:  false,
           doc:            "",
           examples:       []
+
+
+
 
       def mc_build_box(block, x, y, z, *opts)
         args_h = resolve_synth_opts_hash_or_array(opts)
