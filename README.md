@@ -19,11 +19,6 @@
 
 
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-<br/>
-<img src="https://travis-ci.org/samaaron/sonic-pi.svg?branch=master"/>
-
-
 # Sonic Pi
 
 ## The Live Coding Sound Synthesiser for Everyone.
@@ -47,3 +42,9 @@ evolved into an extremely powerful and performance-ready instrument.
 Sonic Pi has been developed within the Computer Laboratory at the
 University of Cambridge with kind support from the Raspberry Pi
 Foundation and the Broadcom Foundation.
+
+
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<br/>
+<img src="https://travis-ci.org/samaaron/sonic-pi.svg?branch=master"/>
