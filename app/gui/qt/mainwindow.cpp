@@ -1551,6 +1551,7 @@ bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
   QString code = text->text();
 #if defined(Q_OS_WIN)
   code.replace("\n", "\r\n"); // CRLF for Windows users
+  code.replace("\r\r\n", "\r\n"); // don't double-replace if already encoded
 #endif
   out << code;
   QApplication::restoreOverrideCursor();
