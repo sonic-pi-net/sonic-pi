@@ -17,58 +17,8 @@
 
 
 
-SonicPiLexer::SonicPiLexer(const QJsonObject& customTheme) : QsciLexerRuby() {
-  QJsonObject themeSettings = QJsonObject();
-  themeSettings["Default"] = "#808080";
-  themeSettings["Comment"] = "#5e5e5e";
-  themeSettings["POD"] = "#004000";
-  themeSettings["Number"] = "DodgerBlue";
-  themeSettings["FunctionMethodName"] = "LimeGreen";
-  themeSettings["Keyword"] = "DarkOrange";
-  themeSettings["DemotedKeyword"] = "DarkOrange";
-  themeSettings["ClassName"] = "Lavender";
-  themeSettings["Global"] = "Red";
-  themeSettings["Symbol"] = "DeepPink";
-  themeSettings["ModuleName"] = "yellow";
-  themeSettings["InstanceVariable"] = "#b00080";
-  themeSettings["ClassVariable"] = "#8000b0";
-  themeSettings["Backticks"] = "Red";
-  themeSettings["PercentStringx"] = "Red";
-  themeSettings["DataSection"] = "#600000";
-  themeSettings["DoubleQuotedString"] = "DarkGreen";
-  themeSettings["SingleQuotedString"] = "DarkGreen";
-  themeSettings["HereDocument"] = "DarkGreen";
-  themeSettings["PercentString"] = "DarkGreen";
-  themeSettings["PercentStringQ"] = "DarkGreen";
-  themeSettings["Regex"] = "#000000";
-  themeSettings["HereDocumentDelimiter"] = "#000000";
-  themeSettings["PercentStringr"] = "#000000";
-  themeSettings["PercentStringw"] = "#000000";
-
-  themeSettings["DefaultBackground"] = "white";
-  themeSettings["CommentBackground"] = "white";
-  themeSettings["ErrorBackground"] = "#c0xffc0";
-  themeSettings["PODBackground"] = "#ff0000";
-  themeSettings["RegexBackground"] = "#a0ffa0";
-  themeSettings["PercentStringrBackground"] = "#a0ffa0";
-  themeSettings["BackticksBackground"] = "yellow";
-  themeSettings["PercentStringxBackground"] = "yellow";
-  themeSettings["DataSectionBackground"] = "#fff0d8";
-  themeSettings["HereDocumentDelimiterBackground"] = "#ddd0dd";
-  themeSettings["HereDocumentBackground"] = "#ddd0dd";
-  themeSettings["PercentStringwBackground"] = "#ffffe0";
-  themeSettings["StdinBackground"] = "#ff8080";
-  themeSettings["StdoutBackground"] = "#ff8080";
-  themeSettings["StderrBackground"] = "#ff8080";
-
-    //this->theme = themeSettings;
-
-  QStringList customSettings = customTheme.keys();
-  for(int idx=0; idx < customSettings.size(); idx++){
-    themeSettings[customSettings[idx]] = customTheme[customSettings[idx]];
-  }
-
-  this->theme = themeSettings;
+SonicPiLexer::SonicPiLexer(SonicPiTheme *theme) : QsciLexerRuby() {
+    this->theme = theme;
 }
 
 #if defined(Q_OS_WIN)
@@ -92,55 +42,55 @@ QColor SonicPiLexer::defaultColor(int style) const
     switch (style)
     {
     case Default:
-      return QColor(theme["Default"].toString());
+      return theme->color("DefaultForeground");
     case Comment:
-      return QColor(theme["Comment"].toString());
+      return theme->color("CommentForeground");
     case POD:
-      return QColor(theme["POD"].toString());
+      return theme->color("PODForeground");
     case Number:
-      return QColor(theme["Number"].toString());
+      return theme->color("NumberForeground");
     case FunctionMethodName:
-      return QColor(theme["FunctionMethodName"].toString());
+      return theme->color("FunctionMethodNameForeground");
     case Keyword:
-      return QColor(theme["Keyword"].toString());
+      return theme->color("KeywordForeground");
     case DemotedKeyword:
-      return QColor(theme["DemotedKeyword"].toString());
+      return theme->color("DemotedKeywordForeground");
     case DoubleQuotedString:
-      return QColor(theme["DoubleQuotedString"].toString());
+      return theme->color("DoubleQuotedStringForeground");
     case SingleQuotedString:
-      return QColor(theme["SingleQuotedString"].toString());
+      return theme->color("SingleQuotedStringForeground");
     case HereDocument:
-      return QColor(theme["HereDocument"].toString());
+      return theme->color("HereDocumentForeground");
     case PercentStringq:
-      return QColor(theme["PercentStringq"].toString());
+      return theme->color("PercentStringqForeground");
     case PercentStringQ:
-      return QColor(theme["PercentStringQ"].toString());
+      return theme->color("PercentStringQForeground");
     case ClassName:
-      return QColor(theme["ClassName"].toString());
+      return theme->color("ClassNameForeground");
     case Regex:
-      return QColor(theme["Regex"].toString());
+      return theme->color("RegexForeground");
     case HereDocumentDelimiter:
-      return QColor(theme["HereDocumentDelimiter"].toString());
+      return theme->color("HereDocumentDelimiterForeground");
     case PercentStringr:
-      return QColor(theme["PercentStringr"].toString());
+      return theme->color("PercentStringrForeground");
     case PercentStringw:
-      return QColor(theme["PercentStringw"].toString());
+      return theme->color("PercentStringwForeground");
     case Global:
-      return QColor(theme["Global"].toString());
+      return theme->color("GlobalForeground");
     case Symbol:
-      return QColor(theme["Symbol"].toString());
+      return theme->color("SymbolForeground");
     case ModuleName:
-      return QColor(theme["ModuleName"].toString());
+      return theme->color("ModuleNameForeground");
     case InstanceVariable:
-      return QColor(theme["InstanceVariable"].toString());
+      return theme->color("InstanceVariableForeground");
     case ClassVariable:
-      return QColor(theme["ClassVariable"].toString());
+      return theme->color("ClassVariableForeground");
     case Backticks:
-      return QColor(theme["Backticks"].toString());
+      return theme->color("BackticksForeground");
     case PercentStringx:
-      return QColor(theme["PercentStringx"].toString());
+      return theme->color("PercentStringxForeground");
     case DataSection:
-      return QColor(theme["DataSection"].toString());
+      return theme->color("DataSectionForeground");
     }
 
     return QsciLexer::defaultColor(style);
@@ -152,37 +102,37 @@ QColor SonicPiLexer::defaultPaper(int style) const
   switch (style)
     {
     case Default:
-      return QColor(theme["DefaultBackground"].toString());
+      return theme->color("DefaultBackground");
     case Comment:
-       return QColor(theme["CommentBackground"].toString());
+       return theme->color("CommentBackground");
     case Error:
-      return QColor(theme["ErrorBackground"].toString());
+      return theme->color("ErrorBackground");
     case POD:
-      return QColor(theme["PODBackground"].toString());
+      return theme->color("PODBackground");
     case Regex:
-      return QColor(theme["RegexBackground"].toString());
+      return theme->color("RegexBackground");
     case PercentStringr:
-      return QColor(theme["PercentStringrBackground"].toString());
+      return theme->color("PercentStringrBackground");
     case Backticks:
-      return QColor(theme["BackticksBackground"].toString());
+      return theme->color("BackticksBackground");
     case PercentStringx:
-      return QColor(theme["PercentStringxBackground"].toString());
+      return theme->color("PercentStringxBackground");
     case DataSection:
-      return QColor(theme["DataSectionBackground"].toString());
+      return theme->color("DataSectionBackground");
     case HereDocumentDelimiter:
-      return QColor(theme["DocumentDelimiterBackground"].toString());
+      return theme->color("DocumentDelimiterBackground");
     case HereDocument:
-      return QColor(theme["HereDocumentBackground"].toString());
+      return theme->color("HereDocumentBackground");
     case PercentStringw:
-      return QColor(theme["PercentStringwBackground"].toString());
+      return theme->color("PercentStringwBackground");
     case Stdin:
-      return QColor(theme["StdinBackground"].toString());
+      return theme->color("StdinBackground");
     case Stdout:
-      return QColor(theme["StdoutBackground"].toString());
+      return theme->color("StdoutBackground");
     case Stderr:
-      return QColor(theme["StderrBackground"].toString());
+      return theme->color("StderrBackground");
     default:
-      return QColor(theme["DefaultBackground"].toString());
+      return theme->color("DefaultBackground");
     }
 
     return QsciLexer::defaultPaper(style);

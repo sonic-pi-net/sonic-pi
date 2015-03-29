@@ -15,15 +15,18 @@
 #include  <Qsci/qscilexerruby.h>
 #include <QJsonObject>
 
+#include "sonicpitheme.h"
+
 class SonicPiLexer : public QsciLexerRuby
 {
 public:
-  SonicPiLexer(const QJsonObject& customTheme);
+  SonicPiLexer(SonicPiTheme *customTheme);
   QColor defaultColor(int style) const;
   QColor defaultPaper(int style) const;
 
 private:
-  QJsonObject theme;
+  SonicPiTheme *theme;
+
 };
 
 

@@ -67,6 +67,7 @@
 #include "sonicpilexer.h"
 #include "sonicpiapis.h"
 #include "sonicpiscintilla.h"
+#include "sonicpitheme.h"
 
 #include "oschandler.h"
 #include "sonicpiudpserver.h"
@@ -157,19 +158,19 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.json";
   QFile themeFile(themeFilename);
-  QJsonObject themeSettings;
+  SonicPiTheme *theme;
   if(themeFile.exists()){
     qDebug() << "[GUI] Custom colors";
     themeFile.open(QIODevice::ReadOnly);
     QByteArray rawData = themeFile.readAll();
     QJsonDocument doc(QJsonDocument::fromJson(rawData));
-    themeSettings = doc.object();
-    lexer = new SonicPiLexer(themeSettings);
+    theme = new SonicPiTheme(this, doc.object());
+    lexer = new SonicPiLexer(theme);
   }
   else{
     qDebug() << "[GUI] Default colors";
-    themeSettings = QJsonObject();
-    lexer = new SonicPiLexer(themeSettings);
+    theme = new SonicPiTheme(this, QJsonObject());
+    lexer = new SonicPiLexer(theme);
   }
 
   lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
@@ -181,7 +182,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::string s;
 
 
-    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, themeSettings);
+    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme);
 
     //tab completion when in list
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);

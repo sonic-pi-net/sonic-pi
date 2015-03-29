@@ -19,7 +19,7 @@
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, const QJsonObject& customTheme)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   : QsciScintilla()
 {
   standardCommands()->clearKeys();
@@ -34,17 +34,6 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, const QJsonObject& custo
   int SPi_CTRL = Qt::CTRL;
   int SPi_META = Qt::ALT;
 #endif
-
-  //Setup theme
-  QJsonObject themeSettings = QJsonObject();
-  themeSettings["MarginBackground"] = "whitesmoke";
-  themeSettings["SelectionBackground"] = "DeepPink";
-  themeSettings["MatchedBraceBackground"] = "dimgray";
-
-  QStringList customSettings = customTheme.keys();
-  for(int idx=0; idx < customSettings.size(); idx++){
-    themeSettings[customSettings[idx]] = customTheme[customSettings[idx]];
-  }
 
   // basic navigation
   addKeyBinding(settings, QsciCommand::PageDown, Qt::Key_PageDown);
@@ -118,8 +107,8 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, const QJsonObject& custo
 
   standardCommands()->readSettings(settings);
 
-  setMatchedBraceBackgroundColor(QColor(themeSettings["MatchedBraceBackground"].toString()));
-  setMatchedBraceForegroundColor(QColor("white"));
+  this->setMatchedBraceBackgroundColor(theme->color("MatchedBraceBackground"));
+  this->setMatchedBraceForegroundColor(theme->color("MatchedBraceForeground"));
 
   setIndentationWidth(2);
   setIndentationGuides(true);
@@ -128,11 +117,12 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, const QJsonObject& custo
 
   //TODO: add preference toggle for this:
   //this->setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
+
   setCaretLineVisible(true);
   setCaretLineBackgroundColor(QColor("whitesmoke"));
   setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
   setMarginLineNumbers(0, true);
-  setMarginsBackgroundColor(QColor(themeSettings["MarginBackground"].toString()));
+  setMarginsBackgroundColor(theme->color("MarginBackground"));
   setMarginsForegroundColor(QColor("dark gray"));
   setMarginsFont(QFont("Menlo", 15, -1, true));
   setUtf8(true);
@@ -143,8 +133,8 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, const QJsonObject& custo
   setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
   setAutoCompletionCaseSensitivity(false);
 
-  setSelectionBackgroundColor(themeSettings["SelectionBackground"].toString());
-  setSelectionForegroundColor("white");
+  setSelectionBackgroundColor(theme->color("SelectionBackground"));
+  setSelectionForegroundColor(theme->color("SelectionForeground"));
   setCaretWidth(5);
   setCaretForegroundColor("deep pink");
   setEolMode(EolUnix);

@@ -14,6 +14,7 @@
 
 #include <Qsci/qsciscintilla.h>
 #include <QJsonObject>
+#include "sonicpitheme.h"
 
 class SonicPiLexer;
 class QSettings;
@@ -23,7 +24,7 @@ class SonicPiScintilla : public QsciScintilla
   Q_OBJECT
 
  public:
-  SonicPiScintilla(SonicPiLexer *lexer, const QJsonObject &customTheme);
+  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme);
 
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
