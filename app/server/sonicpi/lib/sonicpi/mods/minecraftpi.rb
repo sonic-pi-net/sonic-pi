@@ -470,23 +470,23 @@ module SonicPi
 
 
 
-      def mc_build_box(block, x, y, z, *opts)
-        args_h = resolve_synth_opts_hash_or_array(opts)
-        size = args_h[:size] || 1
-        width = args_h[:width] || size
-        height = args_h[:height] || size
-        depth = args_h[:depth] || size
+      # def mc_build_box(block, x, y, z, *opts)
+      #   args_h = resolve_synth_opts_hash_or_array(opts)
+      #   size = args_h[:size] || 1
+      #   width = args_h[:width] || size
+      #   height = args_h[:height] || size
+      #   depth = args_h[:depth] || size
 
-        mc_set_area(x, y, z, x+width, y+height, z+depth, block)
-      end
-      doc name:           :mc_build_box,
-          introduced:     Version.new(2,5,0),
-          summary:        "Build a box",
-          args:           [[]],
-          opts:           nil,
-          accepts_block:  false,
-          doc:            "",
-          examples:       []
+      #   mc_set_area(x, y, z, x+width, y+height, z+depth, block)
+      # end
+      # doc name:           :mc_build_box,
+      #     introduced:     Version.new(2,5,0),
+      #     summary:        "Build a box",
+      #     args:           [[]],
+      #     opts:           nil,
+      #     accepts_block:  false,
+      #     doc:            "",
+      #     examples:       []
     end
   end
 end
