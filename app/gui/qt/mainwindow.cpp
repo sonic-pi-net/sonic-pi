@@ -1748,12 +1748,11 @@ void MainWindow::printAsciiArtLogo(){
   st.setCodec("UTF-8");
   s.append(st.readAll());
   std::cout << std::endl << std::endl << std::endl;
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+#if QT_VERSION >= 0x050400
   qDebug().noquote() << s;
   std::cout << std::endl << std::endl;
 #else
-  //Assuming Raspberry Pi which currently has Qt4
-  //TODO: remove when RPi is on Qt5
+  //noquote requires QT 5.4
   qDebug() << s;
   std::cout << std::endl;
 #endif
