@@ -59,7 +59,9 @@ SOURCES += main.cpp \
            oschandler.cpp \
            sonicpiserver.cpp \
            sonicpiudpserver.cpp \
-           sonicpitcpserver.cpp
+           sonicpitcpserver.cpp \
+           moc_qsciscintilla.cpp \
+           moc_qsciscintillabase.cpp
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
