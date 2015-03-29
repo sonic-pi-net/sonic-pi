@@ -19,6 +19,8 @@
 
 SonicPiLexer::SonicPiLexer(SonicPiTheme *theme) : QsciLexerRuby() {
     this->theme = theme;
+    this->setDefaultColor(theme->color("Foreground"));
+    this->setDefaultPaper(theme->color("Background"));
 }
 
 #if defined(Q_OS_WIN)
@@ -131,8 +133,6 @@ QColor SonicPiLexer::defaultPaper(int style) const
       return theme->color("StdoutBackground");
     case Stderr:
       return theme->color("StderrBackground");
-    default:
-      return theme->color("DefaultBackground");
     }
 
     return QsciLexer::defaultPaper(style);

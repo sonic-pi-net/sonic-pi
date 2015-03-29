@@ -4,6 +4,9 @@
 SonicPiTheme::SonicPiTheme(QObject *parent, const QJsonObject& settings) : QObject(parent)
 {
     QJsonObject themeSettings = QJsonObject();
+    themeSettings["Foreground"] = "black";
+    themeSettings["Background"] = "white";
+
     themeSettings["DefaultForeground"]               = "#808080";
     themeSettings["CommentForeground"]               = "#5e5e5e";
     themeSettings["PODForeground"]                   = "#004000";
@@ -46,13 +49,18 @@ SonicPiTheme::SonicPiTheme(QObject *parent, const QJsonObject& settings) : QObje
     themeSettings["StdoutBackground"]                = "#ff8080";
     themeSettings["StderrBackground"]                = "#ff8080";
 
-    themeSettings["MarginBackground"]       = "whitesmoke";
-    themeSettings["MarginForeground"]       = "dark gray";
-    themeSettings["SelectionBackground"]    = "DeepPink";
-    themeSettings["SelectionForeground"]    = "white";
-    themeSettings["MatchedBraceBackground"] = "dimgray";
-    themeSettings["MatchedBraceForeground"] = "white";
-    themeSettings["BraceForeground"]        = "white";
+    themeSettings["MarginBackground"]            = "whitesmoke";
+    themeSettings["MarginForeground"]            = "dark gray";
+    themeSettings["SelectionBackground"]         = "DeepPink";
+    themeSettings["SelectionForeground"]         = "white";
+    themeSettings["MatchedBraceBackground"]      = "dimgray";
+    themeSettings["MatchedBraceForeground"]      = "white";
+    themeSettings["BraceForeground"]             = "white";
+    themeSettings["CaretForeground"]             = "deep pink";
+    themeSettings["CaretLineBackground"]         = "whitesmoke";
+    themeSettings["IndentationGuidesForeground"] = "deep pink";
+    themeSettings["FoldMarginForeground"]        = "whitesmoke";
+
 
     QStringList customSettings = settings.keys();
     for(int idx=0; idx < customSettings.size(); idx++){

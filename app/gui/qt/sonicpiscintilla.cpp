@@ -112,18 +112,18 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
 
   setIndentationWidth(2);
   setIndentationGuides(true);
-  setIndentationGuidesForegroundColor(QColor("deep pink"));
+  setIndentationGuidesForegroundColor(theme->color("IndentationGuidesForeground"));
   setBraceMatching( SonicPiScintilla::SloppyBraceMatch);
 
   //TODO: add preference toggle for this:
   //this->setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
-
   setCaretLineVisible(true);
-  setCaretLineBackgroundColor(QColor("whitesmoke"));
-  setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
+  setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
+  setFoldMarginColors(theme->color("FoldMarginForeground"),theme->color("FoldMarginForeground"));
   setMarginLineNumbers(0, true);
+
   setMarginsBackgroundColor(theme->color("MarginBackground"));
-  setMarginsForegroundColor(QColor("dark gray"));
+  setMarginsForegroundColor(theme->color("MarginForeground"));
   setMarginsFont(QFont("Menlo", 15, -1, true));
   setUtf8(true);
   setText("#loading...");
@@ -136,7 +136,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   setSelectionBackgroundColor(theme->color("SelectionBackground"));
   setSelectionForegroundColor(theme->color("SelectionForeground"));
   setCaretWidth(5);
-  setCaretForegroundColor("deep pink");
+  setCaretForegroundColor(theme->color("CaretForeground"));
   setEolMode(EolUnix);
 
   addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
