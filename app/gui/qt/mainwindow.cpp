@@ -106,8 +106,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   }
 
   this->i18n = i18n;
-  focusMode = false;
-  disableFocusMode();
 
   printAsciiArtLogo();
   // kill any zombie processes that may exist
@@ -396,6 +394,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   initPrefsWindow();
   initDocsWindow();
+
+  focusMode = false;
+  disableFocusMode();
 
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
 
