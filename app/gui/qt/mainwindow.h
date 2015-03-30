@@ -22,6 +22,7 @@
 #include <QRadioButton>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QVBoxLayout>
 #include <QProcess>
 #include <QFuture>
 #include <QShortcut>
@@ -239,6 +240,7 @@ private:
     QWidget *infoWidg;
     QTextEdit *startupPane;
     QLabel *imageLabel;
+    QVBoxLayout *mainWidgetLayout;
 
     int currentLine;
     int currentIndex;

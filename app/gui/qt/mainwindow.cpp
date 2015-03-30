@@ -368,7 +368,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // connect(docWidget, SIGNAL(visibilityChanged(bool)), this,
   // SLOT(helpClosed(bool)));
 
-  QVBoxLayout *mainWidgetLayout = new QVBoxLayout;
+  mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
   mainWidgetLayout->addWidget(errorPane);
   QWidget *mainWidget = new QWidget;
@@ -431,6 +431,7 @@ void MainWindow::updateFocusMode(){
     outputWidget->close();
     toolBar->close();
     prefsWidget->close();
+    mainWidgetLayout->setMargin(0);
   }
 }
 
@@ -439,6 +440,7 @@ void MainWindow::disableFocusMode(){
   docWidget->show();
   outputWidget->show();
   toolBar->show();
+  mainWidgetLayout->setMargin(9);
 }
 
 void MainWindow::completeListOrIndentLine(QObject* ws){
