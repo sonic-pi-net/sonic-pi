@@ -60,7 +60,7 @@ module SonicPi
                 n, t = *arg
                 req_args << "#{n} <font color=\"deeppink\">(#{t})</font>"
               end
-              html << "<h2><pre>[#{req_args.join(', ')}]</pre></h2>\n"
+              html << "<h2><pre>#{req_args.join(', ')}</pre></h2>\n"
               html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
 
 
