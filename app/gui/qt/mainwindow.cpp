@@ -179,6 +179,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     QShortcut *moveLineDown = new QShortcut(ctrlMetaKey('n'), workspace);
     connect (moveLineDown, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionDown())) ;
 
+    // Windows-style shortcuts for copy and paste
+
+    QShortcut *winCopy = new QShortcut(ctrlKey('c'), workspace);
+    connect (winCopy, SIGNAL(activated()), workspace, SLOT(copy())) ;
+    QShortcut *winPaste = new QShortcut(ctrlKey('v'), workspace);
+    connect (winPaste, SIGNAL(activated()), workspace, SLOT(paste())) ;
+
     //set Mark
 #ifdef Q_OS_MAC
     QShortcut *setMark = new QShortcut(QKeySequence("Meta+Space"), workspace);
