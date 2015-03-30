@@ -224,7 +224,7 @@ module SonicPi
           args:           [[]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Returns a list of floats [x, y, z] coords of the current location for Steve. The coordinates are finer grained than raw block coordinates.",
+          doc:            "Returns a list of floats [x, y, z] coords of the current location for Steve. The coordinates are finer grained than raw block coordinates but may be used anywhere you might use block coords.",
           examples:       [
         "puts mc_location    #=> [10.1, 20.67, 101.34]"   ]
 
@@ -235,14 +235,18 @@ module SonicPi
         Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
         true
       end
-      doc name:           :mc_set_location,
+      doc name:           :mc_teleport
           introduced:     Version.new(2,5,0),
-          summary:        "Set current location",
-          args:           [[]],
+          summary:        "Teleport to a new location",
+          args:           [[:x, :number], [:y, :number], [:z, :number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Magically teleport the player to the location specified by the x, y, z coordinates. Use this for automatically moving the player either small or large distances around the world.",
+         examples: ["
+mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
+                        # x: 40, y: 50, z: 60
+
+        "]
 
 
 
@@ -251,10 +255,29 @@ module SonicPi
       def mc_get_pos(*args)
         mc_location(*args)
       end
+      doc name:           :mc_get_pos,
+          introduced:     Version.new(2,5,0),
+          summary:        "Synonym for mc_location",
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "See mc_location",
+          examples:       []
+
+
+
 
       def mc_set_pos(*args)
         mc_teleport(*args)
       end
+      doc name:           :mc_set_pos,
+          introduced:     Version.new(2,5,0),
+          summary:        "Synonym for mc_teleport",
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "See mc_teleport",
+          examples:       []
 
 
 
@@ -267,12 +290,12 @@ module SonicPi
       end
       doc name:           :mc_get_tile,
           introduced:     Version.new(2,5,0),
-          summary:        "Get location of current tile",
+          summary:        "Get location of current tile/block",
           args:           [[]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Returns the coordinates of the nearest block that the player is next to. This is more course grained than `mc_location` as it only returns whole number coordinates.",
+          examples:       ["puts mc_get_tile #=> [10, 20, 101]"]
 
 
 
@@ -282,13 +305,14 @@ module SonicPi
         mc_set_location(x.to_f, y, z.to_f)
         true
       end
-
-
-
-
-      def mc_set_ground_pos(*args)
-        mc_set_ground_location(*args)
-      end
+      doc name:           :mc_surface_teleport,
+          introduced:     Version.new(2,5,0),
+          summary:        "Teleport to the specified x and z coordinates on the surface of the world",
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Teleports you to the specified x and y coordinates with the y automatically set to place you on the surface of the world. For example, if the x and y coords target a mountain, you'll be placed on top of the mountain, not in the air or under the ground. See mc_ground_height for discovering the height of the ground at a given x, y point.",
+          examples:       ["mc_surface_teleport 40, 50 #=> Teleport user to coords x = 40, y = height of surface, z = 50"]
 
 
 
@@ -303,8 +327,8 @@ module SonicPi
           args:           [[]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Post a message on the Minecraft chat display",
+          examples:       ["mc_message \"Hello from Sonic Pi\" #=> Displays \"Hello from Sonic Pi\" on Minecraft's chat display" ]
 
 
 
@@ -312,8 +336,32 @@ module SonicPi
       def mc_chat_post(msg)
         mc_message(msg)
       end
+      doc name:           :mc_chat_post,
+          introduced:     Version.new(2,5,0),
+          summary:        "Synonym for mc_message",
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "See mc_message",oo
+          examples:       []
 
 
+
+
+
+
+      def mc_ground_height(x, z)
+        res = Minecraft.world_recv "world.getHeight(#{x.to_f.round},#{z.to_f.round})"
+        res.to_i
+      end
+      doc name:           :mc_get_height,
+          introduced:     Version.new(2,5,0),
+          summary:        "Get current height",
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+      examples:       []
 
 
       def mc_get_height(x, z)
