@@ -221,12 +221,13 @@ module SonicPi
       doc name:           :mc_location,
           introduced:     Version.new(2,5,0),
           summary:        "Get current location",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Returns a list of floats [x, y, z] coords of the current location for Steve. The coordinates are finer grained than raw block coordinates but may be used anywhere you might use block coords.",
+          doc:            "Returns a list of floats `[x, y, z]` coords of the current location for Steve. The coordinates are finer grained than raw block coordinates but may be used anywhere you might use block coords.",
           examples:       [
-        "puts mc_location    #=> [10.1, 20.67, 101.34]"   ]
+        "puts mc_location    #=> [10.1, 20.67, 101.34]",
+"x, y, z = mc_location       #=> Find the current location and store in x, y and z variables."      ]
 
 
 
@@ -241,7 +242,7 @@ module SonicPi
           args:           [[:x, :number], [:y, :number], [:z, :number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Magically teleport the player to the location specified by the x, y, z coordinates. Use this for automatically moving the player either small or large distances around the world.",
+          doc:            "Magically teleport the player to the location specified by the `x`, `y`, `z` coordinates. Use this for automatically moving the player either small or large distances around the world.",
          examples: ["
 mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
                         # x: 40, y: 50, z: 60
@@ -258,10 +259,10 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_get_pos,
           introduced:     Version.new(2,5,0),
           summary:        "Synonym for mc_location",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "See mc_location",
+          doc:            "See `mc_location`",
           examples:       []
 
 
@@ -273,11 +274,27 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_set_pos,
           introduced:     Version.new(2,5,0),
           summary:        "Synonym for mc_teleport",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "See mc_teleport",
+          doc:            "See `mc_teleport`",
           examples:       []
+
+
+
+
+      def mc_set_tile(x, y, z)
+        Minecraft.world_send "player.setTile(#{x.to_f.round}, #{y.to_i}, #{z.to_f.round})"
+        true
+      end
+      doc name:           :mc_set_tile,
+          introduced:     Version.new(2,5,0),
+          summary:        "Set location to coords of specified tile/block",
+          args:           [[:x, :number], [:y, :number], [:z, :number]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
 
 
 
@@ -291,7 +308,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_get_tile,
           introduced:     Version.new(2,5,0),
           summary:        "Get location of current tile/block",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
           doc:            "Returns the coordinates of the nearest block that the player is next to. This is more course grained than `mc_location` as it only returns whole number coordinates.",
@@ -308,7 +325,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_surface_teleport,
           introduced:     Version.new(2,5,0),
           summary:        "Teleport to the specified x and z coordinates on the surface of the world",
-          args:           [[]],
+          args:           [[:x, :number], [:z, :number]],
           opts:           nil,
           accepts_block:  false,
           doc:            "Teleports you to the specified x and y coordinates with the y automatically set to place you on the surface of the world. For example, if the x and y coords target a mountain, you'll be placed on top of the mountain, not in the air or under the ground. See mc_ground_height for discovering the height of the ground at a given x, y point.",
@@ -324,10 +341,10 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_message,
           introduced:     Version.new(2,5,0),
           summary:        "Display message on Minecraft",
-          args:           [[]],
+          args:           [[:msg, :string]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Post a message on the Minecraft chat display",
+          doc:            "Post contents of `msg` on the Minecraft chat display",
           examples:       ["mc_message \"Hello from Sonic Pi\" #=> Displays \"Hello from Sonic Pi\" on Minecraft's chat display" ]
 
 
@@ -339,7 +356,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_chat_post,
           introduced:     Version.new(2,5,0),
           summary:        "Synonym for mc_message",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
           doc:            "See mc_message",
@@ -348,20 +365,20 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
 
 
 
-
-
       def mc_ground_height(x, z)
         res = Minecraft.world_recv "world.getHeight(#{x.to_f.round},#{z.to_f.round})"
         res.to_i
       end
-      doc name:           :mc_get_height,
+      doc name:           :mc_ground_height,
           introduced:     Version.new(2,5,0),
-          summary:        "Get current height",
-          args:           [[]],
+          summary:        "Get ground height for `x`, `z` coords",
+          args:           [[:x, :number], [:z, :number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-      examples:       []
+          doc:            "Returns the height of the ground at the specified `x` and `z` coords.",
+          examples:       ["puts mc_ground_height 40, 50 #=> 43 (height of world at x=40, z=50)"]
+
+
 
 
       def mc_get_height(x, z)
@@ -370,11 +387,11 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       end
       doc name:           :mc_get_height,
           introduced:     Version.new(2,5,0),
-          summary:        "Get current height",
-          args:           [[]],
+          summary:        "Synonym for mc_ground_height",
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "See `mc_ground_height`",
           examples:       []
 
 
@@ -386,54 +403,46 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       end
       doc name:           :mc_get_block,
           introduced:     Version.new(2,5,0),
-          summary:        "Get block type",
-          args:           [[]],
+          summary:        "Get type of block at coords",
+          args:           [[:x, :number], [:y, :number], [:z, :number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Returns the type of the block at the coords `x`, `y`, `z` as a symbol.",
+          examples:       ["puts mc_get_block 40, 50, 60 #=> :air"]
 
 
 
 
-      def mc_set_block(x, y, z, block_id)
-        block_id = mc_block_id(block_id)
+      def mc_set_block(x, y, z, block_name)
+        block_id = mc_block_id(block_name)
         Minecraft.world_send "world.setBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{block_id})"
         true
       end
       doc name:           :mc_set_block,
           introduced:     Version.new(2,5,0),
           summary:        "Set block at specific coord",
-          args:           [[]],
+          args:           [[:x, :number], [:y, :number], [:z, :number], [:block_name, :symbol_or_number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Change the block type of the block at coords `x`, `y`, `z` to `block_type`. The block type may be specified either as a symbol such as `:air` or a number. See `mc_block_ids` and `mc_block_types` for lists of valid symbols and numbers.",
+          examples:       ["mc_set_block 40, 50, 60, :glass #=> set block at coords 40, 50, 60 to type glass"]
 
 
 
 
-      def mc_set_area(x, y, z, x2, y2, z2, block_id)
-        block_id = mc_block_id(block_id)
+      def mc_set_area(x, y, z, x2, y2, z2, block_name)
+        block_id = mc_block_id(block_name)
         Minecraft.world_send "world.setBlocks(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{x2.to_f.round},#{y2.to_i},#{z2.to_f.round},#{block_id})"
         true
       end
       doc name:           :mc_set_area,
           introduced:     Version.new(2,5,0),
           summary:        "Set area of blocks",
-          args:           [[]],
+          args:           [[:x, :number], [:y, :number], [:z, :number], [:x2, :number], [:y2, :number], [:z2, :number], [:block_name, :symbol_or_number]],
           opts:           nil,
           accepts_block:  false,
           doc:            "",
           examples:       []
-
-
-
-
-      def mc_set_tile(x, y, z)
-        Minecraft.world_send "player.setPos(#{x.to_f.round}, #{y.to_i}, #{z.to_f.round})"
-        true
-      end
 
 
 
