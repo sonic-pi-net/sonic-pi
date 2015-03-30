@@ -235,7 +235,7 @@ module SonicPi
         Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
         true
       end
-      doc name:           :mc_teleport
+      doc name:           :mc_teleport,
           introduced:     Version.new(2,5,0),
           summary:        "Teleport to a new location",
           args:           [[:x, :number], [:y, :number], [:z, :number]],
@@ -342,7 +342,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
           args:           [[]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "See mc_message",oo
+          doc:            "See mc_message",
           examples:       []
 
 
