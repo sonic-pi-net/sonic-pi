@@ -100,6 +100,11 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   addOtherKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::SelectAll, Qt::Key_A | SPi_META);
 
+  // delete word left and right
+  addKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backslash | SPi_META);
+  addKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backspace | SPi_META);
+  addKeyBinding(settings, QsciCommand::DeleteWordRight, Qt::Key_D | SPi_META);
+
   this->standardCommands()->readSettings(settings);
 
   this->setMatchedBraceBackgroundColor(QColor("dimgray"));
