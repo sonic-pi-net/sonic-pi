@@ -1205,7 +1205,11 @@ void MainWindow::zoomFontIn()
   if (zoom > 20) zoom = 20;
   ws->setProperty("zoom", QVariant(zoom));
   ws->zoomTo(zoom);
-  ws->setMarginWidth(0, "1000");
+  if (show_line_numbers->isChecked()){
+    ws->showLineNumbers();
+  } else {
+    ws->hideLineNumbers();
+  }
 }
 
 void MainWindow::zoomFontOut()
@@ -1216,7 +1220,11 @@ void MainWindow::zoomFontOut()
   if (zoom < -10) zoom = -10;
   ws->setProperty("zoom", QVariant(zoom));
   ws->zoomTo(zoom);
-  ws->setMarginWidth(0, "1000");
+  if (show_line_numbers->isChecked()){
+    ws->showLineNumbers();
+  } else {
+    ws->hideLineNumbers();
+  }
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)
