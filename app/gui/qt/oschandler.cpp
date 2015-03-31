@@ -173,6 +173,16 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - error: unhandled OSC msg /exited: "<< std::endl;
         }
       }
+      else if (msg->match("/exited_with_error")) {
+        std::string error_message;
+        if (msg->arg().popStr(error_message).isOkNoMoreArgs()) {
+          std::cout << "[GUI] - server failed to start with this error message: " << std::endl;
+          std::cout << "      > " << error_message << std::endl;
+          signal_server_stop = true;
+        } else {
+          std::cout << "[GUI] - error: unhandled OSC msg /exited_with_error: "<< std::endl;
+        }
+      }
       else if (msg->match("/ack")) {
         std::string id;
         if (msg->arg().popStr(id).isOkNoMoreArgs()) {

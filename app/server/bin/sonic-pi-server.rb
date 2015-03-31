@@ -109,7 +109,7 @@ begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
 rescue Exception => e
   puts "Failed to start server: " + e.message
-  m = encoder.encode_single_message("/exited", [e.message])
+  m = encoder.encode_single_message("/exited_with_boot_error", [e.message])
   gui.send_raw(m)
   exit
 end
