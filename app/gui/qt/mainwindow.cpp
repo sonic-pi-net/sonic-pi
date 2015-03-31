@@ -220,7 +220,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
 
     //Goto nth Tab
-    QShortcut *changeTab = new QShortcut(metaKey(QString::number(ws).at(0).toLatin1()), this);
+    QShortcut *changeTab = new QShortcut(metaKey(int2char(ws)), this);
     connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));
     signalMapper -> setMapping(changeTab, ws);
 
@@ -1273,6 +1273,9 @@ QKeySequence MainWindow::ctrlMetaKey(char key)
 #endif
 }
 
+char MainWindow::int2char(int i){
+  return QString::number(i).at(0).toLatin1()
+}
 
 // set tooltips, connect event handlers, and add shortcut if applicable
 void MainWindow::setupAction(QAction *action, char key, QString tooltip,

@@ -164,6 +164,7 @@ private:
     QKeySequence shiftMetaKey(char key);
     QKeySequence ctrlMetaKey(char key);
     QKeySequence ctrlKey(char key);
+    char int2char(int i);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
     QString readFile(QString name);
