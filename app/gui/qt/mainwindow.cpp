@@ -432,6 +432,9 @@ void MainWindow::updateFocusMode(){
     toolBar->close();
     prefsWidget->close();
     mainWidgetLayout->setMargin(0);
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowState(Qt::WindowFullScreen);
+    this->show();
   }
 }
 
@@ -441,6 +444,9 @@ void MainWindow::disableFocusMode(){
   outputWidget->show();
   toolBar->show();
   mainWidgetLayout->setMargin(9);
+  this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
+  this->setWindowFlags(Qt::WindowTitleHint);
+  this->show();
 }
 
 void MainWindow::completeListOrIndentLine(QObject* ws){
