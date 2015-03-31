@@ -78,6 +78,7 @@ protected:
     void wheelEvent(QWheelEvent *event);
 
 private slots:
+    void changeTab(int id);
   void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();

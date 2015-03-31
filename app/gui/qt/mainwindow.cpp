@@ -218,12 +218,19 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
     connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
 
+
+    //Goto nth Tab
+    QShortcut *changeTab = new QShortcut(metaKey(QString::number(ws).at(0).toLatin1()), this);
+    connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));
+    signalMapper -> setMapping(changeTab, ws);
+
     QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
   }
 
-  connect (signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeListOrIndentLine(QObject*)));
+  connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
+  connect(signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeListOrIndentLine(QObject*)));
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -376,6 +383,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     docWidget->show();
     startupPane->show();
   }
+}
+
+void MainWindow::changeTab(int id){
+  tabs->setCurrentIndex(id);
 }
 
 void MainWindow::completeListOrIndentLine(QObject* ws){
