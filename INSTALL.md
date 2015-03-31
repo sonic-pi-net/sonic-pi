@@ -51,16 +51,9 @@ Run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 ### Dependencies
 
-Debian package dependency names:
+Debian package dependency names (Jessie):
 
-* `supercollider`
-* `ruby1.9.3` (Ruby 2+ is preferred)
-* `libqscintilla2-8`
-* `libqscintilla2-dev`
-* `qt4-dev-tools`
-* `ruby-dev`
-* `cmake` (for some configurations, e.g., 32bit x86)
-* `libffi-dev`
+`apt-get install supercollider ruby2.1 libqscintilla2-dev  ruby-dev cmake pkg-config`
 
 In addition, under Ubuntu 14.04 based distributions try these:
 
@@ -87,7 +80,10 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 Start the jack sound server daemon `jackd`. This is easily done through [qjackctl](http://qjackctl.sourceforge.net/), available as `qjackctl` in Debian.
 
-Then run the script `rp-app-bin` in the directory `app/gui/qt`.
+that didn't work for me, but typing this, after randomly googling and trying various things, did:
+`jackd -R -d alsa -d hw:1`
+
+Then run the script `sonic-pi` in the directory `app/gui/qt`.
 
 ----
 
