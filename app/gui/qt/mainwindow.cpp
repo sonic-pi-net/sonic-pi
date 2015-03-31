@@ -666,11 +666,11 @@ void MainWindow::initPrefsWindow() {
   editor_box->setLayout(editor_box_layout);
 
 #if defined(Q_OS_LINUX)
-   grid->addWidget(audioOutputBox, 1, 0);
-   grid->addWidget(volBox, 1, 1);
+   grid->addWidget(audioOutputBox, 0, 0);
+   grid->addWidget(volBox, 0, 1);
 #endif
-  grid->addWidget(debug_box, 0, 1);
-  grid->addWidget(advancedAudioBox, 0, 0);
+  grid->addWidget(debug_box, 1, 1);
+  grid->addWidget(advancedAudioBox, 1, 0);
   grid->addWidget(update_box, 2, 0);
   grid->addWidget(editor_box, 2, 1);
   prefsCentral->setLayout(grid);
