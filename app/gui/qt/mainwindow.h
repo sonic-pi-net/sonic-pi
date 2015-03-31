@@ -78,6 +78,7 @@ protected:
     void wheelEvent(QWheelEvent *event);
 
 private slots:
+    void changeTab(int id);
   void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();
@@ -163,6 +164,7 @@ private:
     QKeySequence shiftMetaKey(char key);
     QKeySequence ctrlMetaKey(char key);
     QKeySequence ctrlKey(char key);
+    char int2char(int i);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
     QString readFile(QString name);
