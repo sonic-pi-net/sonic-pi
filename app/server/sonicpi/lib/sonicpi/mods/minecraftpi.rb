@@ -413,7 +413,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
 
 
 
-      def mc_set_block(x, y, z, block_name)
+      def mc_set_block(block_name, x, y, z)
         block_id = mc_block_id(block_name)
         Minecraft.world_send "world.setBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{block_id})"
         true
@@ -425,12 +425,12 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
           opts:           nil,
           accepts_block:  false,
           doc:            "Change the block type of the block at coords `x`, `y`, `z` to `block_type`. The block type may be specified either as a symbol such as `:air` or a number. See `mc_block_ids` and `mc_block_types` for lists of valid symbols and numbers.",
-          examples:       ["mc_set_block 40, 50, 60, :glass #=> set block at coords 40, 50, 60 to type glass"]
+          examples:       ["mc_set_block :glass, 40, 50, 60 #=> set block at coords 40, 50, 60 to type glass"]
 
 
 
 
-      def mc_set_area(x, y, z, x2, y2, z2, block_name)
+      def mc_set_area(block_name, x, y, z, x2, y2, z2)
         block_id = mc_block_id(block_name)
         Minecraft.world_send "world.setBlocks(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{x2.to_f.round},#{y2.to_i},#{z2.to_f.round},#{block_id})"
         true
@@ -485,14 +485,15 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
         end
         name
       end
-      doc name:           :mc_block_id,
+      doc name:           :mc_block_name,
           introduced:     Version.new(2,5,0),
           summary:        "Normalise block name",
-          args:           [[]],
+          args:           [[:id, :numbor_or_symbol]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Given a block id or a block name will return a symbol representing the block name or throw an exception if the id or name isn't valid.",
+      examples:       ["
+puts mc_block_name :air #=> :air"]
 
 
 
@@ -503,11 +504,11 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_block_ids,
           introduced:     Version.new(2,5,0),
           summary:        "List all block ids",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Returns a list of all the valid block ids as numbers. Note not all numbers are valid block ids. For example, 19 is not a valid block id.",
+          examples:       ["puts mc_block_names #=> [0, 1, 2, 3, 4, 5... "]
 
 
 
@@ -515,14 +516,14 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       def mc_block_names
         BLOCK_NAMES
       end
-      doc name:           :mc_block_id,
+      doc name:           :mc_block_names,
           introduced:     Version.new(2,5,0),
           summary:        "List all block names",
-          args:           [[]],
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Returns a list of all the valid block names as symbols",
+          examples:       ["puts mc_block_names #=> [:air, :stone, :grass, :dirt, :cobblestone... "]
 
 
 

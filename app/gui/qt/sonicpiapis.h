@@ -18,8 +18,8 @@
 class SonicPiAPIs : public QsciAbstractAPIs
 {
  public:
-  enum { Func, FX, Synth, Sample, Chord, Scale,
-	 NContext };
+  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock,
+	 NContext  };
 
   SonicPiAPIs(QsciLexer *lexer);
 
@@ -37,8 +37,8 @@ class SonicPiAPIs : public QsciAbstractAPIs
   virtual QStringList callTips(const QStringList &context, int commas,
 			       QsciScintilla::CallTipsStyle style,
 			       QList<int> &shifts);
-  
-  
+
+
  private:
   QStringList keywords[NContext];
   QHash<QString, QStringList> fxArgs;
