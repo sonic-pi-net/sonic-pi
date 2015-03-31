@@ -635,15 +635,12 @@ void MainWindow::initPrefsWindow() {
   print_output = new QCheckBox(tr("Print output"));
   check_args = new QCheckBox(tr("Check synth args"));
   clear_output_on_run = new QCheckBox(tr("Clear output on run"));
-  show_line_numbers = new QCheckBox(tr("Show line numbers"));
 
-  connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(check_args);
   debug_box_layout->addWidget(clear_output_on_run);
-  debug_box_layout->addWidget(show_line_numbers);
   debug_box->setLayout(debug_box_layout);
 
 
@@ -657,6 +654,17 @@ void MainWindow::initPrefsWindow() {
   update_box_layout->addWidget(check_updates);
   update_box->setLayout(update_box_layout);
 
+
+  QGroupBox *editor_box = new QGroupBox(tr("Editor"));
+  show_line_numbers = new QCheckBox(tr("Show line numbers"));
+
+  connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
+  editor_box->setToolTip(tr("Editor Preferences"));
+
+  QVBoxLayout *editor_box_layout = new QVBoxLayout;
+  editor_box_layout->addWidget(show_line_numbers);
+  editor_box->setLayout(editor_box_layout);
+
 #if defined(Q_OS_LINUX)
    grid->addWidget(audioOutputBox, 1, 0);
    grid->addWidget(volBox, 1, 1);
@@ -664,6 +672,7 @@ void MainWindow::initPrefsWindow() {
   grid->addWidget(debug_box, 0, 1);
   grid->addWidget(advancedAudioBox, 0, 0);
   grid->addWidget(update_box, 2, 0);
+  grid->addWidget(editor_box, 2, 1);
   prefsCentral->setLayout(grid);
 
 
