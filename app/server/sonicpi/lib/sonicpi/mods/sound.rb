@@ -1976,7 +1976,7 @@ play degree(2, :C3, :minor)
        def scale(tonic, name, *opts)
          opts = resolve_synth_opts_hash_or_array(opts)
          opts = {:num_octaves => 1}.merge(opts)
-         Scale.new(tonic, name,  opts[:num_octaves])
+         Scale.new(tonic, name,  opts[:num_octaves]).ring
        end
        doc name:          :scale,
            introduced:    Version.new(2,0,0),
@@ -2093,9 +2093,9 @@ puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80
          return [] unless tonic
          if tonic.is_a? Array
            raise "List passed as parameter to chord needs two elements i.e. (chord [:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
-           Chord.new(tonic[0], tonic[1]).to_a
+           Chord.new(tonic[0], tonic[1]).ring
          else
-           Chord.new(tonic, name)
+           Chord.new(tonic, name).ring
          end
        end
        doc name:          :chord,
