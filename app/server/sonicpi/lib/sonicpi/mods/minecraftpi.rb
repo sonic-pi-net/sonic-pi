@@ -568,7 +568,7 @@ puts mc_block_name :air #=> :air",
       def mc_camera_normal
         Minecraft.world_send "camera.mode.setNormal()"
       end
-      doc name:           :mc_camera_normal
+      doc name:           :mc_camera_normal,
           introduced:     Version.new(2,5,0),
           summary:        "Normal camera mode",
           args:           [],
@@ -583,7 +583,7 @@ puts mc_block_name :air #=> :air",
       def mc_camera_third_person
         Minecraft.world_send "camera.mode.setThirdPerson()"
       end
-      doc name:           :mc_camera_third_person
+      doc name:           :mc_camera_third_person,
           introduced:     Version.new(2,5,0),
           summary:        "Third person camera mode",
           args:           [],
@@ -598,7 +598,7 @@ puts mc_block_name :air #=> :air",
       def mc_camera_fixed
         Minecraft.world_send "camera.mode.setFixed()"
       end
-      doc name:           :mc_camera_fixed
+      doc name:           :mc_camera_fixed,
           introduced:     Version.new(2,5,0),
           summary:        "Fixed camera mode",
           args:           [],
@@ -613,7 +613,7 @@ puts mc_block_name :air #=> :air",
       def mc_camera_set_location(x, y, z)
         Minecraft.world_send "camera.mode.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
       end
-      doc name:           :mc_camera_set_location
+      doc name:           :mc_camera_set_location,
           introduced:     Version.new(2,5,0),
           summary:        "Move camera",
           args:           [],
