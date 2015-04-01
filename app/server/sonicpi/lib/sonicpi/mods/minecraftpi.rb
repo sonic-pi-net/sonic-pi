@@ -535,6 +535,94 @@ puts mc_block_name :air #=> :air",
 
 
 
+      def mc_checkpoint_save
+        Minecraft.world_send "world.checkpoint.save()"
+      end
+      doc name:           :mc_checkpoint_save,
+          introduced:     Version.new(2,5,0),
+          summary:        "Save checkpoint",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_checkpoint_restore
+        Minecraft.world_send "world.checkpoint.restore()"
+      end
+      doc name:           :mc_checkpoint_restore,
+          introduced:     Version.new(2,5,0),
+          summary:        "Restore checkpoint",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_camera_normal
+        Minecraft.world_send "camera.mode.setNormal()"
+      end
+      doc name:           :mc_camera_normal
+          introduced:     Version.new(2,5,0),
+          summary:        "Normal camera mode",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_camera_third_person
+        Minecraft.world_send "camera.mode.setThirdPerson()"
+      end
+      doc name:           :mc_camera_third_person
+          introduced:     Version.new(2,5,0),
+          summary:        "Third person camera mode",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_camera_fixed
+        Minecraft.world_send "camera.mode.setFixed()"
+      end
+      doc name:           :mc_camera_fixed
+          introduced:     Version.new(2,5,0),
+          summary:        "Fixed camera mode",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_camera_set_location(x, y, z)
+        Minecraft.world_send "camera.mode.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+      end
+      doc name:           :mc_camera_set_location
+          introduced:     Version.new(2,5,0),
+          summary:        "Move camera",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
       # def mc_build_box(block, x, y, z, *opts)
       #   args_h = resolve_synth_opts_hash_or_array(opts)
       #   size = args_h[:size] || 1
@@ -552,6 +640,7 @@ puts mc_block_name :air #=> :air",
       #     accepts_block:  false,
       #     doc:            "",
       #     examples:       []
+
     end
   end
 end
