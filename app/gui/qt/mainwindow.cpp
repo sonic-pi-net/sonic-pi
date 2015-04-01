@@ -431,6 +431,10 @@ void MainWindow::updateFocusMode(){
     outputWidget->close();
     toolBar->close();
     prefsWidget->close();
+
+    QTabBar *tabBar = tabs->findChild<QTabBar *>();
+    tabBar->hide();
+
     mainWidgetLayout->setMargin(0);
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setWindowState(Qt::WindowFullScreen);
@@ -443,6 +447,10 @@ void MainWindow::disableFocusMode(){
   docWidget->show();
   outputWidget->show();
   toolBar->show();
+
+  QTabBar *tabBar = tabs->findChild<QTabBar *>();
+  tabBar->show();
+
   mainWidgetLayout->setMargin(9);
   this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
   this->setWindowFlags(Qt::WindowTitleHint);
