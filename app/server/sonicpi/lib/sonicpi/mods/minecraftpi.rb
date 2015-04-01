@@ -441,7 +441,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
           args:           [[:x, :number], [:y, :number], [:z, :number], [:x2, :number], [:y2, :number], [:z2, :number], [:block_name, :symbol_or_number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "Set an area/box of blocks of type `block_name` defined by two distinct sets of coordinates.",
           examples:       []
 
 
@@ -463,11 +463,15 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_block_id,
           introduced:     Version.new(2,5,0),
           summary:        "Normalise block code",
-          args:           [[]],
+          args:           [[:name, :symbol_or_number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Given a block name or id will return a number representing the id of the block or throw an exception if the name or id isn't valid",
+          examples:       ["
+puts mc_block_id :air #=> 0",
+"puts mc_block_id 0  #=> 0",
+"puts mc_block_id 19 #=> Throws an invalid block id exception",
+"puts mc_block_id :foo #=> Throws an invalid block name exception"      ]
 
 
 
@@ -493,7 +497,10 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
           accepts_block:  false,
           doc:            "Given a block id or a block name will return a symbol representing the block name or throw an exception if the id or name isn't valid.",
       examples:       ["
-puts mc_block_name :air #=> :air"]
+puts mc_block_name :air #=> :air",
+"puts mc_block_name 0   #=> :air",
+"puts mc_block_name 19 #=> Throws an invalid block id exception",
+"puts mc_block_name :foo #=> Throws an invalid block name exception"]
 
 
 
