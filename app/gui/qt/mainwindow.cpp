@@ -1291,7 +1291,7 @@ QKeySequence MainWindow::ctrlMetaKey(char key)
 }
 
 char MainWindow::int2char(int i){
-  return QString::number(i).at(0).toLatin1();
+  return '0' + i;
 }
 
 // set tooltips, connect event handlers, and add shortcut if applicable
