@@ -72,7 +72,7 @@ module SonicPi
 
              @life_hooks.on_init do |job_id, payload|
                @job_proms_queues_mut.synchronize do
-                 @job_proms_queues[job_id] = Queue.new
+                 @job_proms_queues[job_id] = SizedQueue.new(20)
                  joiner = job_proms_joiner(job_id)
                  @job_proms_joiners[job_id] = joiner
                end

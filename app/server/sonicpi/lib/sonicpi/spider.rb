@@ -53,7 +53,7 @@ module SonicPi
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
-      @event_queue = Queue.new
+      @event_queue = SizedQueue.new(20)
       @keypress_handlers = {}
       @events = IncomingEvents.new
       @sync_counter = Counter.new

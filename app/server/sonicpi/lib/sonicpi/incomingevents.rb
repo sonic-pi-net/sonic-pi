@@ -20,7 +20,7 @@ module SonicPi
     include Util
 
     def initialize(name=:event_handler, priority=0)
-      @event_queue = Queue.new
+      @event_queue = SizedQueue.new(50)
       @handlers = {}
       @continue = true
       @handler_thread = Thread.new do
