@@ -13,6 +13,8 @@
 
 require 'cgi'
 require_relative 'util'
+require_relative 'markdown_converter'
+
 
 module SonicPi
   module DocSystem
@@ -63,9 +65,9 @@ module SonicPi
               html << "<h2><pre>#{req_args.join(', ')}</pre></h2>\n"
               html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
 
+              html << MarkdownConverter.convert(v[:doc])
 
               html << "<p><font size=\"4\", #{hv_face}>\n"
-              html << Kramdown::Document.new(v[:doc]).to_html
               html << "\n</p>\n"
               html << "<p><font size=\"3\", #{hv_face}>\n"
               html << "<span style=\"color:white;background-color:darkorange;\">"
