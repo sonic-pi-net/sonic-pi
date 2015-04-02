@@ -206,8 +206,8 @@ module SonicPi
     end
     doc name:           :line,
         introduced:     Version.new(2,5,0),
-        summary:        "Create a ring buffer representing a straight line between start and finish of num_slices elements",
-        args:           [[:start, :number], [:finish, :number], [:num_slices, :number]],
+        summary:        "Create a ring buffer representing a straight line",
+        args:           [[:start, :number], [:finish, :number]],
         returns:        :ring,
        opts:           {:slices => "number of slices or segments along the line",
                         :inclusive => "boolean value representing whether or not to include finish value in line"},
