@@ -55,20 +55,22 @@ module SonicPi
             unless(v[:hide])
               html = ""
               html << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
-              html << "<font #{hv_face}>" << (v[:summary] || v[:name]).to_s.capitalize << "</font></span></p>\n"
+
+              summary = (v[:summary] || v[:name]).to_s
+              summary[0] = summary[0].capitalize
+              html << "<font #{hv_face}>" << summary << "</font></span></p>\n"
+              html << "<h2><font color=\"deeppink\"><pre>#{v[:name]}<font color=\"#3c3c3c\">"
+              name_size = v[:name].size
               req_args = []
               raise "no args defined for #{v[:name]}" unless v[:args]
               v[:args].each do |arg|
                 n, t = *arg
-                req_args << "#{n} <font color=\"deeppink\">(#{t})</font>"
+                req_args << "#{n} <font color=\"gray\">(#{t})</font>"
               end
-              html << "<h2><pre>#{req_args.join(', ')}</pre></h2>\n"
-              html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
+              html << " #{req_args.join(', ')}</pre></font></h2>\n"
 
               html << MarkdownConverter.convert(v[:doc])
 
-              html << "<p><font size=\"4\", #{hv_face}>\n"
-              html << "\n</p>\n"
               html << "<p><font size=\"3\", #{hv_face}>\n"
               html << "<span style=\"color:white;background-color:darkorange;\">"
               html << "Introduced in " << v[:introduced].to_s << "\n</span></p>\n"
