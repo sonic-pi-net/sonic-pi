@@ -400,7 +400,7 @@ end
         doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If size of params list is smaller than the times list, the param values will act as rings (rotate through). If the block is given 1 arg, the times are fed through. If the block is given 2 args, both the times and the params are fed through. A third block arg will receive the index of the time.",
         args:           [[:times, :list],
                          [:params, :list]],
-        opts:           {:params=>nil},
+        opts:           nil,
         accepts_block:  true,
         examples:       ["
 at [1, 2, 4] do  # plays a note after waiting 1 second,
@@ -529,7 +529,7 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         introduced:     Version.new(2,0,0),
         summary:        "Define a named value only once",
         args:           [[:name, :symbol]],
-        opts:           {:override => false},
+        opts:           {:override => "If set to true, re-definitions are allowed and this acts like define"},
         accepts_block: true,
         doc:            "Allows you assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
         examples:       ["
@@ -1404,9 +1404,11 @@ play 62
     doc name:           :cue,
         introduced:     Version.new(2,0,0),
         summary:        "Cue other threads",
-        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn.",
+        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id` as a map. The values of the opts must be immutable. Currently only numbers and symbols are supported.",
         args:           [[:cue_id, :symbol]],
-        opts:           {:message => nil},
+        opts:           {:your_key => "Your value",
+                         :another_key => "Another value",
+                         :key => "All these opts are passed through to the thread which syncs"},
         accepts_block:  false,
         examples:       ["
 in_thread do
@@ -1691,7 +1693,7 @@ end"]
         summary:        "Run code block at the same time",
         doc:            "Execute a given block (between `do` ... `end`) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the `name:` optional arg. Named threads will print their name in the logging pane when they print their activity. Finally, if you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.",
         args:           [],
-        opts:           {:name => nil},
+        opts:           {:name => "Make this thread a named thread with name"},
         accepts_block:  true,
         examples:       [
 "
