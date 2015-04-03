@@ -276,6 +276,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
 
   prefsWidget = new QDockWidget(tr("Preferences"), this);
+  prefsWidget->setFocusPolicy(Qt::NoFocus);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
   prefsCentral = new QWidget;
@@ -285,6 +286,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   prefsWidget->setObjectName("prefs");
 
   outputWidget = new QDockWidget(tr("Log"), this);
+  outputWidget->setFocusPolicy(Qt::NoFocus);
   outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   outputWidget->setWidget(outputPane);
@@ -292,11 +294,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   outputWidget->setObjectName("output");
 
   docsCentral = new QTabWidget;
+  docsCentral->setFocusPolicy(Qt::NoFocus);
   docsCentral->setTabsClosable(false);
   docsCentral->setMovable(false);
   docsCentral->setTabPosition(QTabWidget::South);
 
   docPane = new QTextBrowser;
+  docPane->setFocusPolicy(Qt::NoFocus);
   docPane->setMinimumHeight(200);
   docPane->setOpenExternalLinks(true);
   QString style = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
@@ -330,6 +334,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   docW->setLayout(docLayout);
 
   docWidget = new QDockWidget(tr("Help"), this);
+  docWidget->setFocusPolicy(Qt::NoFocus);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
   docWidget->setWidget(docW);
   docWidget->setObjectName("help");
@@ -346,6 +351,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   mainWidgetLayout->addWidget(tabs);
   mainWidgetLayout->addWidget(errorPane);
   QWidget *mainWidget = new QWidget;
+  mainWidget->setFocusPolicy(Qt::NoFocus);
   errorPane->hide();
   mainWidget->setLayout(mainWidgetLayout);
   setCentralWidget(mainWidget);
