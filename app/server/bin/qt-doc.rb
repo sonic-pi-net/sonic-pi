@@ -197,7 +197,7 @@ SonicPi::SynthInfo.get_all.each do |k, v|
   v.arg_info.each do |ak, av|
     docs << "<< \"#{ak}:\" ";
   end
-  docs <<";\n"
+  docs << ";\n"
   docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n\n"
 end
 
