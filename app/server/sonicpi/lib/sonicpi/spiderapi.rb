@@ -1375,7 +1375,7 @@ play 62
       args_h = resolve_synth_opts_hash_or_array(opts)
       args_h.each do |k, v|
         raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
-        raise "Invalid cue value type (#{v.class}) for key #{k.inspect}. Must be immutable - currently accepted types: Numeric and Symbol." unless v.is_a?(Numeric) || v.is_a?(Symbol)
+        raise "Invalid cue value type (#{v.class}) for key #{k.inspect}. Must be immutable - currently accepted types: Numbers, Symbols and Booleans." unless v.is_a?(Numeric) || v.is_a?(Symbol) || v.is_a?(TrueClass) || v.is_a?(FalseClass)
       end
 
 
@@ -1404,7 +1404,7 @@ play 62
     doc name:           :cue,
         introduced:     Version.new(2,0,0),
         summary:        "Cue other threads",
-        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id` as a map. The values of the opts must be immutable. Currently only numbers and symbols are supported.",
+        doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id` as a map. The values of the opts must be immutable. Currently only numbers, symbols and booleans are supported.",
         args:           [[:cue_id, :symbol]],
         opts:           {:your_key => "Your value",
                          :another_key => "Another value",
