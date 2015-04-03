@@ -55,6 +55,10 @@ module SonicPi
       @node.ctl(*args)
     end
 
+    def ctl_now(*args)
+      @node.ctl_now(*args)
+    end
+
     def live?
       @node.live?
     end
