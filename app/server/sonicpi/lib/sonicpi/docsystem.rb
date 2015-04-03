@@ -69,9 +69,32 @@ module SonicPi
               end
               html << " #{req_args.join(', ')}</pre></font></h2>\n"
 
-              html << MarkdownConverter.convert(v[:doc])
 
+              if v[:opts] && !v[:opts].empty?
+
+                html << "<p>"
+
+                html << "<table cellpadding=\"2\">\n"
+
+                bg_colour_k = "#5e5e5e"
+                fnt_colour_k = "white"
+
+                bg_colour_v = "#E8E8E8"
+                fnt_colour_v = "#5e5e5e"
+
+                html << "<tr><td bgcolor=\"dodgerblue\"><font color=\"white\">Options</font></td/<td></td></tr>"
+                cnt = 0
+                v[:opts].each do |opt_name, opt_doc|
+
+
+                  html << "<tr><td bgcolor=\"#{bg_colour_k}\"><pre><font color=\"#{fnt_colour_k}\">#{opt_name.to_s}:</font></pre></td><td bgcolor=\"#{bg_colour_v}\"><font color=\"#{fnt_colour_v}\"> #{MarkdownConverter.convert(opt_doc)}</font></td></tr>"
+                  cnt += 1
+                end
+                html << "</table></p>"
+              end
+              html << MarkdownConverter.convert(v[:doc])
               html << "<p><font size=\"3\", #{hv_face}>\n"
+
               html << "<span style=\"color:white;background-color:darkorange;\">"
               html << "Introduced in " << v[:introduced].to_s << "\n</span></p>\n"
 
