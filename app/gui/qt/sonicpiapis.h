@@ -18,7 +18,7 @@
 class SonicPiAPIs : public QsciAbstractAPIs
 {
  public:
-  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock,
+  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam,
 	 NContext  };
 
   SonicPiAPIs(QsciLexer *lexer);

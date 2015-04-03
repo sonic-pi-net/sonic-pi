@@ -28,7 +28,13 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
   keywords[Scale] << ":diatonic" << ":ionian" << ":major" << ":dorian" << ":phrygian" << ":lydian" << ":mixolydian" << ":aeolian" << ":minor" << ":locrian" << ":hex_major6" << ":hex_dorian" << ":hex_phrygian" << ":hex_major7" << ":hex_sus" << ":hex_aeolian" << ":minor_pentatonic" << ":yu" << ":major_pentatonic" << ":gong" << ":egyptian" << ":shang" << ":jiao" << ":zhi" << ":ritusen" << ":whole_tone" << ":whole" << ":chromatic" << ":harmonic_minor" << ":melodic_minor_asc" << ":hungarian_minor" << ":octatonic" << ":messiaen1" << ":messiaen2" << ":messiaen3" << ":messiaen4" << ":messiaen5" << ":messiaen6" << ":messiaen7" << ":super_locrian" << ":hirajoshi" << ":kumoi" << ":neapolitan_major" << ":bartok" << ":bhairav" << ":locrian_major" << ":ahirbhairav" << ":enigmatic" << ":neapolitan_minor" << ":pelog" << ":augmented2" << ":scriabin" << ":harmonic_major" << ":melodic_minor_desc" << ":romanian_minor" << ":hindu" << ":iwato" << ":melodic_minor" << ":diminished2" << ":marva" << ":melodic_major" << ":indian" << ":spanish" << ":prometheus" << ":diminished" << ":todi" << ":leading_whole" << ":augmented" << ":purvi" << ":chinese" << ":lydian_minor";
 
   keywords[MCBlock] << ":air" << ":stone" << ":grass" << ":dirt" << ":cobblestone" << ":wood_plank" << ":sapling" << ":bedrock" << ":water_flowing" << ":water" << ":water_stationary" << ":lava_flowing" << ":lava" << ":lava_stationary" << ":sand" << ":gravel" << ":gold_ore" << ":iron_ore" << ":coal_ore" << ":wood" << ":leaves" << ":glass" << ":lapis" << ":lapis_lazuli_block" << ":sandstone" << ":bed" << ":cobweb" << ":grass_tall" << ":flower_yellow" << ":flower_cyan" << ":mushroom_brown" << ":mushroom_red" << ":gold_block" << ":gold" << ":iron_block" << ":iron" << ":stone_slab_double" << ":stone_slab" << ":brick" << ":brick_block" << ":tnt" << ":bookshelf" << ":moss_stone" << ":obsidian" << ":torch" << ":fire" << ":stairs_wood" << ":chest" << ":diamond_ore" << ":diamond_block" << ":diamond" << ":crafting_table" << ":farmland" << ":furnace_inactive" << ":furnace_active" << ":door_wood" << ":ladder" << ":stairs_cobblestone" << ":door_iron" << ":redstone_ore" << ":snow" << ":ice" << ":snow_block" << ":cactus" << ":clay" << ":sugar_cane" << ":fence" << ":glowstone_block" << ":bedrock_invisible" << ":stone_brick" << ":glass_pane" << ":melon" << ":fence_gate" << ":glowing_obsidian" << ":nether_reactor_core";
+
+  keywords[PlayParam] << "amp:" << "attack:" << "release:" << "sustain:" << "decay:" << "env_curv:" << "sustain_level:" << "pan:" << "attack_level:";
+
+  keywords[SampleParam] << "amp:" << "pan:" << "attack:" << "decay:" << "sustain:" << "release:" << "attack_level:" << "sustain_level:" << "env_curve:" << "rate:" << "start:" << "finish:" << "res:" << "cutoff:" << "norm:";
 }
+
+
 
 void SonicPiAPIs::loadSamples(QString sample_path) {
   QDir dir(sample_path);
@@ -107,6 +113,18 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
       list = synthArgs[context[1]];
       return;
     }
+
+  // Play params
+  } else if (context.length() > 2 &&
+	     (context[0] == "play")) {
+    if (context[last].endsWith(':')) return; // don't try to complete parameters
+    ctx = PlayParam;
+
+  // Sample params
+  } else if (context.length() > 2 &&
+	     (context[0] == "sample")) {
+    if (context[last].endsWith(':')) return; // don't try to complete parameters
+    ctx = SampleParam;
 
   } else if (context.length() > 1) {
     if (context[context.length()-1].length() <= 2) {
