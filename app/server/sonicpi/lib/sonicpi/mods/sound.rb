@@ -35,13 +35,15 @@ module SonicPi
        include SonicPi::Util
        include SonicPi::DocSystem
 
-       DEFAULT_PLAY_OPTS = {amp:       {default: 1, doc: "The amplitude of the note"},
-                            amp_slide: {default: 0, doc: "The duration in seconds for amplitude changes to take place"},
-                            pan:       {default: 0, doc: "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25"},
-                            pan_slide: {default: 0, doc: "The duration in seconds for the pan value to change"},
-                            attack:    {default: :synth_specific, doc: "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percussive sounds and long values for a fade-in effect."},
-                            sustain:   {default: 0, doc: "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration"},
-                            release:   {default: :synth_specific, doc: "The duration in seconds for the sound to fade out."}}
+       DEFAULT_PLAY_OPTS = {amp:       "The amplitude of the note",
+                            amp_slide: "The duration in seconds for amplitude changes to take place",
+                            pan:       "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25",
+                            pan_slide: "The duration in seconds for the pan value to change",
+                            attack:    "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percussive sounds and long values for a fade-in effect.",
+                            sustain:  "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration",
+                            release:   "The duration in seconds for the sound to fade out."}
+
+
 
        def self.included(base)
          base.instance_exec {alias_method :sonic_pi_mods_sound_initialize_old, :initialize}
@@ -1752,7 +1754,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
            summary:       "Get sample duration in seconds",
            doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
            args:          [[:path, :string]],
-           opts:          {:rate => 1},
+           opts:          {:rate => "Rate modifier. For example, doubling the rate will half the duration."},
            accepts_block: false,
            examples:      ["
 loop do   # Using sample_duration here means the loop plays back without any gaps or breaks
@@ -1792,7 +1794,16 @@ puts sample_duration(:loop_amen) #=> 1
            summary:       "Trigger sample",
            doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif` or `.aiff` files from anywhere on your computer too. The `rate:` parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the `use_sample_pack` and `use_sample_pack_as` fns for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider using `load_sample` or `load_samples`.",
            args:          [[:name_or_path, :symbol_or_string]],
-           opts:          {:rate => 1, :attack => 0, :release => 0.0, :start => 0, :finish => 1, :pan => 0, :pan_slide => 0, :amp => 1, :amp_slide => 0},
+       opts:          {:rate      => "Rate with which to play back the sample. Higher rates mean an increase in pitch and a decrease in duration. Default is 1.",
+                       :attack    => "Time to reach full volume. Default is 0",
+                       :sustain    => "Time to stay at full volume. Default is to stretch to length of sample (minus attack and release times).",
+                       :release   => "Time (from the end of the sample) to go from full amplitude to 0. Default is 0",
+                       :start     => "Position in sample as a fraction between 0 and 1 to start playback. Default is 0.",
+                       :finish    => "Position in sample as a fraction between 0 and 1 to end playback. Default is 1.",
+                       :pan       => "Stereo position of audio. -1 is left ear only, 1 is right ear only, and values in between position the sound accordingly. Default is 0",
+                       :pan_slide => "Time to slide the pan value from current to next value on next control",
+                       :amp       => "Amplitude of playback",
+                       :amp_slide => "Time to slide the amp value from current to next value on next control"},
            accepts_block: false,
            examples:      ["
 sample :perc_bell # plays one of Sonic Pi's built in samples",
@@ -1915,7 +1926,7 @@ puts status # Returns something similar to:
            summary:       "Describe note",
            doc:           "Takes a midi note, a symbol (e.g. `:C`) or a string (e.g. `\"C\"`) and resolves it to a midi note. You can also pass an optional `octave:` parameter to get the midi note for a given octave. Please note - `octave:` param is overridden if octave is specified in a symbol i.e. `:c3`. If the note is `nil`, `:r` or `:rest`, then `nil` is returned (`nil` represents a rest)",
            args:          [[:note, :symbol_or_number]],
-           opts:          {:octave => 4},
+           opts:          {:octave => "The octave of the note. Overrides any octave declaration in the note symbol such as :c2. Default is 4"},
            accepts_block: false,
            examples:      ["
 # These all return 60 which is the midi number for middle C (octave 4)
@@ -1946,7 +1957,7 @@ puts note('C', octave: 2)
            summary:       "Get note info",
            doc:           "Returns an instance of `SonicPi::Note`. Please note - `octave:` param is overridden if octave is specified in a symbol i.e. `:c3`",
            args:          [[:note, :symbol_or_number]],
-           opts:          {:octave => 4},
+           opts:          {:octave => "The octave of the note. Overrides any octave declaration in the note symbol such as :c2. Default is 4"},
            accepts_block: false,
            examples:      [%Q{
 puts note_info(:C, octave: 2)
@@ -1984,7 +1995,7 @@ play degree(2, :C3, :minor)
            doc:           "A helper method that returns an Array of midi note numbers when given a tonic note and a scale type. Also takes an optional `num_octaves:` parameter (octave `1` is the default)",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            returns:        :ring,
-           opts:          {:num_octaves => 1},
+           opts:          {:num_octaves => "The number of octaves you'd like the scale to consist of. More octaves means a larger scale. Default is 1."},
            accepts_block: false,
            examples:      ["
 puts scale(:C, :major) # returns the list [60, 62, 64, 65, 67, 69, 71, 72]",
