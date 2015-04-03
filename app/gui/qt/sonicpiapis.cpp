@@ -12,7 +12,6 @@
 //++
 
 #include <QDir>
-
 #include <iostream>
 
 #include "sonicpiapis.h"
@@ -55,6 +54,10 @@ void SonicPiAPIs::addFXArgs(QString fx, QStringList args) {
   fxArgs.insert(fx, args);
 }
 
+void SonicPiAPIs::addSynthArgs(QString fx, QStringList args) {
+  synthArgs.insert(fx, args);
+}
+
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
   //  for (int i=0; i<context.length(); i++)
@@ -72,7 +75,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
     ctx = Sample;
   } else if (context[last] == "with_fx" || context[last] == "use_fx") {
     ctx = FX;
-  } else if (context[last] == "with_synth" || context[last] == "use_synth") {
+  } else if (context[last] == "with_synth" || context[last] == "use_synth" || context[last] == "synth") {
     ctx = Synth;
 
 
@@ -93,6 +96,15 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
     if (context[last].endsWith(':')) return; // don't try to complete parameters
     if (fxArgs.contains(context[1])) {
       list = fxArgs[context[1]];
+      return;
+    }
+
+  // Synth params
+  } else if (context.length() > 2 &&
+	     (context[0] == "synth")) {
+    if (context[last].endsWith(':')) return; // don't try to complete parameters
+    if (synthArgs.contains(context[1])) {
+      list = synthArgs[context[1]];
       return;
     }
 

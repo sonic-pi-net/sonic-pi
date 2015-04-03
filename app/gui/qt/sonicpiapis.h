@@ -26,6 +26,7 @@ class SonicPiAPIs : public QsciAbstractAPIs
   void addSymbol(int context, QString sym);
   void addKeyword(int context, QString keyword);
   void addFXArgs(QString fx, QStringList args);
+  void addSynthArgs(QString fx, QStringList args);
 
   void loadSamples(QString sample_path);
 
@@ -42,4 +43,5 @@ class SonicPiAPIs : public QsciAbstractAPIs
  private:
   QStringList keywords[NContext];
   QHash<QString, QStringList> fxArgs;
+  QHash<QString, QStringList> synthArgs;
 };

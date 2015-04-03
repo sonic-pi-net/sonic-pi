@@ -202,6 +202,18 @@ SonicPi::SynthInfo.get_all.each do |k, v|
 end
 
 
+SonicPi::SynthInfo.get_all.each do |k, v|
+  next unless v.is_a? SonicPi::SynthInfo
+  docs << "  // synth :#{k}\n"
+  docs << "  fxtmp.clear(); fxtmp "
+  v.arg_info.each do |ak, av|
+    docs << "<< \"#{ak}:\" ";
+  end
+  docs << ";\n"
+  docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
+end
+
+
 # update ruby_help.h
 if options[:output_name] then
    cpp = options[:output_name]
