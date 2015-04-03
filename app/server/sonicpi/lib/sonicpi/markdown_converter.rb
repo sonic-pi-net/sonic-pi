@@ -3,6 +3,7 @@ require 'kramdown'
 module SonicPi
   class MarkdownConverter
     def self.convert(contents)
+      contents = contents.to_s
       # GitHub markdown syntax uses ```` to mark code blocks Kramdown uses ~~~~
       # Therefore, let's fix-point on GitHub syntax, and fudge it
       # into Kramdown syntax where necessary
