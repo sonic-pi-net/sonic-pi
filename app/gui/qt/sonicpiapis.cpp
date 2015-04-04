@@ -66,79 +66,92 @@ void SonicPiAPIs::addSynthArgs(QString fx, QStringList args) {
 
 void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
-  //  for (int i=0; i<context.length(); i++)
-  //    cout << "context[" << i << "] = " << context[i].toStdString() << endl;
+  if (context.isEmpty()) return;
 
   // default
   int ctx = Func;
-  int last = context.length()-1;
-  if (context.length() > 1 &&
-      (context[last] == "" || context[last][0] == ':'))
-    last--;
-  int lastButOne = last - 1;
 
-  if (context[last] == "sample") {
+  QString partial = context.last();
+  QStringList words;
+  for (int i=0; i<context.length()-1; i++) {
+    if (context[i] != "")
+      words.append(context[i]);
+  }
+
+  QString last = words.isEmpty() ? "" : words.last();
+  QString lastButOne = words.length() < 2 ? "" : words[words.length()-2];
+  QString first = words.isEmpty() ? "" : words.first();
+  QString second = words.length() < 2 ? "" : words[1];
+
+  /* // debug
+  for (int i=0; i<context.length(); i++)
+    cout << "context[" << i << "] = " << context[i].toStdString() << endl;
+  for (int i=0; i<words.length(); i++)
+    cout << "words[" << i << "] = " << words[i].toStdString() << endl;
+  cout << "first = " << first.toStdString()
+       << ", second = " << second.toStdString()
+       << ", lastButOne = " << lastButOne.toStdString()
+       << ", last = " << last.toStdString()
+       << ", partial = " << partial.toStdString() << endl;
+  */
+
+  if (last == "sample") {
     ctx = Sample;
-  } else if (context[last] == "with_fx" || context[last] == "use_fx") {
+  } else if (last == "with_fx" || last == "use_fx") {
     ctx = FX;
-  } else if (context[last] == "with_synth" || context[last] == "use_synth" || context[last] == "synth") {
+  } else if (last == "with_synth" || last == "use_synth" || last == "synth") {
     ctx = Synth;
 
-
   // autocomplete the second arg of scale/chord
-  } else if (lastButOne >= 0 && context[lastButOne] == "scale") {
+  } else if (lastButOne == "scale") {
     ctx = Scale;
-  } else if (lastButOne >= 0 && context[lastButOne] == "chord") {
+  } else if (lastButOne == "chord") {
     ctx = Chord;
-  } else if (context[last] == "mc_set_block" ||
-             context[last] == "mc_block_id" ||
-             context[last] == "mc_set_area") {
+  } else if (last == "mc_set_block" ||
+             last == "mc_block_id" ||
+             last == "mc_set_area") {
     ctx = MCBlock;
 
   // FX params
-  } else if (context.length() > 2 &&
-	     (context[0] == "with_fx" ||
-	      context[0] == "use_fx")) {
-    if (context[last].endsWith(':')) return; // don't try to complete parameters
-    if (fxArgs.contains(context[1])) {
-      list = fxArgs[context[1]];
+  } else if (words.length() >= 2 &&
+	     (first == "with_fx" || first == "use_fx")) {
+    if (partial.endsWith(':')) return; // don't try to complete parameters
+    if (fxArgs.contains(second)) {
+      list = fxArgs[second];
       return;
     }
 
   // Synth params
-  } else if (context.length() > 2 &&
-	     (context[0] == "synth")) {
-    if (context[last].endsWith(':')) return; // don't try to complete parameters
-    if (synthArgs.contains(context[1])) {
-      list = synthArgs[context[1]];
+  } else if (words.length() >= 2 && first == "synth") {
+    if (partial.endsWith(':')) return; // don't try to complete parameters
+    if (synthArgs.contains(second)) {
+      list = synthArgs[second];
       return;
     }
 
   // Play params
-  } else if (context.length() > 2 &&
-	     (context[0] == "play")) {
-    if (context[last].endsWith(':')) return; // don't try to complete parameters
+  } else if (words.length() >= 2 && first == "play") {
+    if (partial.endsWith(':')) return; // don't try to complete parameters
     ctx = PlayParam;
 
   // Sample params
-  } else if (context.length() > 2 &&
-	     (context[0] == "sample")) {
-    if (context[last].endsWith(':')) return; // don't try to complete parameters
+  } else if (words.length() >= 2 && first == "sample") {
+    if (partial.endsWith(':')) return; // don't try to complete parameters
     ctx = SampleParam;
 
   } else if (context.length() > 1) {
-    if (context[context.length()-1].length() <= 2) {
+    if (partial.length() <= 2) {
       // don't attempt to autocomplete other words on the same line
       // unless we have a plausible match
       return;
     }
   }
 
-  if (context[context.length()-1].length() == 0) {
+  if (partial == "") {
     list << keywords[ctx];
   } else {
     foreach (const QString &str, keywords[ctx]) {
-      if (str.startsWith(context[context.length()-1])) {
+      if (str.startsWith(partial)) {
 	list << str;
       }
     }
