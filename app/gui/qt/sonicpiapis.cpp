@@ -115,7 +115,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   // FX params
   } else if (words.length() >= 2 &&
 	     (first == "with_fx" || first == "use_fx")) {
-    if (partial.endsWith(':')) return; // don't try to complete parameters
+    if (last.endsWith(':')) return; // don't try to complete parameters
     if (fxArgs.contains(second)) {
       list = fxArgs[second];
       return;
@@ -123,7 +123,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   // Synth params
   } else if (words.length() >= 2 && first == "synth") {
-    if (partial.endsWith(':')) return; // don't try to complete parameters
+    if (last.endsWith(':')) return; // don't try to complete parameters
     if (synthArgs.contains(second)) {
       list = synthArgs[second];
       return;
@@ -131,12 +131,12 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
 
   // Play params
   } else if (words.length() >= 2 && first == "play") {
-    if (partial.endsWith(':')) return; // don't try to complete parameters
+    if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = PlayParam;
 
   // Sample params
   } else if (words.length() >= 2 && first == "sample") {
-    if (partial.endsWith(':')) return; // don't try to complete parameters
+    if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = SampleParam;
 
   } else if (context.length() > 1) {
