@@ -772,6 +772,7 @@ std::string MainWindow::number_name(int i) {
   case 6: return "six";
   case 7: return "seven";
   case 8: return "eight";
+  case 9: return "nine";
   default: assert(false); return "";
   }
 }
