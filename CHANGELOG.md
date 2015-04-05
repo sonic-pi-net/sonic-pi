@@ -26,7 +26,6 @@
 ### New
 
 * Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
-* New thread local counter system available via `tick`, `tick_set` and `hook`.
 * `sync` now accepts multiple cue ids and will sync on the first matching id.
 * New fn `line` for creating a line from start to finish with a specific
   number of slices.
