@@ -27,7 +27,7 @@ which emphasises the importance of creativity in the learning process
 and gives users the control to turn their sonic ideas into reality.
 
 However, in addition to being an engaging education resource it's also
-evolved into an extremely powerful and performance-ready instrument.
+evolved into an extremely powerful and performance-ready live coding instrument.
 
 * Info: http://sonic-pi.net
 * Source: https://github.com/samaaron/sonic-pi
