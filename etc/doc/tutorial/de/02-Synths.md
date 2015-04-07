@@ -9,10 +9,11 @@ manipuliert. Synth ist die Kurzform von Synthesizer, welches ein
 hochtrabendes Wort für ein Ding ist, welches einen Klang erzeugt. 
 Typischerweise sind Synths ziemlich kompliziert im Gebrauch - vor allem 
 analoge Synths mit vielen Kabeln und Modulen. Sonic Pi jedoch stellt 
-dir vieles davon auf eine einfache und gut zugänglich Art zur 
+Dir vieles davon auf eine einfache und gut zugängliche Art zur 
 Verfügung.
 
-Lass dich nicht von der scheinbaren Einfachheit der Programmoberfläche 
+Lass Dich nicht von der scheinbaren Einfachheit der Programmoberfläche 
 von Sonic Pi täuschen. Du kannst sehr tief in ausgeklügelte 
-Klangmanipulationen eintauchen - wenn das dein Ding ist. Haltet euch 
-fest...
+Klangmanipulationen eintauchen - wenn das Dein Ding ist.
+
+Haltet Euch fest...
