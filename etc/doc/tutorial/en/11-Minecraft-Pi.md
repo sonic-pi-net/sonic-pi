@@ -2,7 +2,7 @@
 
 # Minecraft Pi
 
-Sonic Pi now supports a simple API for interacting with Mincraft Pi -
+Sonic Pi now supports a simple API for interacting with Minecraft Pi -
 the special edition of Minecraft which is installed by default on the
 Raspberry Pi's Raspbian Linux-based operating system.
 
