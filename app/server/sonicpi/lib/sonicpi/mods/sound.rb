@@ -1070,12 +1070,20 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
          raise "with_fx must be called with a block" unless block
          raise "with_fx block must only accept 0 or 1 args" unless [0, 1].include?(block.arity)
 
+         ## Munge args
+         args_h = resolve_synth_opts_hash_or_array(args)
+         args_h[:reps] = 1 unless args_h[:reps]
+
          ## Teach with_fx to do nothing if fx_name is :none
          if fx_name == :none
            if block.arity == 0
-             return block.call
+             return args_h[:reps].times do
+               block.call
+             end
            else
-             return block.call(@blank_node)
+             return args_h[:reps].times do
+               block.call(@blank_node)
+             end
            end
          end
          fx_synth_name = "fx_#{fx_name}"
@@ -1116,16 +1124,19 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            rescue AllocationError
              __delayed_serious_warning "All busses allocated - unable to honour FX"
              if block.arity == 0
-               return block.call
+             return args_h[:reps].times do
+                 block.call
+               end
              else
-               return block.call(@blank_node)
+               return args_h[:reps].times do
+                 block.call(@blank_node)
+               end
              end
            end
 
-           ## Munge args
-           args_h = resolve_synth_opts_hash_or_array(args)
            args_h["in_bus"] = new_bus
            args_h = normalise_and_resolve_synth_args(args_h, info)
+
 
            # Setup trackers
            current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
@@ -1242,9 +1253,13 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            Thread.current.thread_variable_set(:sonic_pi_mod_sound_fx_group, fx_group)
            begin
              if block.arity == 0
-               block_res = block.call
+               args_h[:reps].times do
+                 block_res = block.call
+               end
              else
-               block_res = block.call(fx_synth)
+               args_h[:reps].times do
+                 block_res = block.call(fx_synth)
+               end
              end
            rescue => e
              block_exception = e
