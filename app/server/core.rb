@@ -570,10 +570,31 @@ class Array
   end
 end
 
+class String
+  def ring
+    self.chars.ring
+  end
+end
+
+class Symbol
+  def ring
+    self.to_s.ring
+  end
+end
+
 
 # Meta-glasses from our hero Why to help us
 # see more clearly..
 class Object
+
+  def ring
+    self.to_a.ring
+  end
+
+  def tick(k)
+    self.ring.tick(k)
+  end
+
   # The hidden singleton lurks behind everyone
   def metaclass; class << self; self; end; end
 
