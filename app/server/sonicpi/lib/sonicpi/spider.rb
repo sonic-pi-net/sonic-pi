@@ -333,6 +333,7 @@ module SonicPi
 
     def __indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index)
       id = workspace_id.to_s
+      buf = buf + "\n"
       buf_lines = buf.lines.to_a
 
       if (start_line <= point_line) && (point_line <= finish_line)
@@ -386,6 +387,7 @@ module SonicPi
 
     def __beautify_buffer(id, buf, line, index, first_line)
       id = id.to_s
+      buf = buf + "\n"
       buf_lines = buf.lines.to_a
 
       ## ensure point isn't beyond buffer
