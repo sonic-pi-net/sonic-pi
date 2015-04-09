@@ -24,7 +24,7 @@ module SonicPi
       SonicPi::SpiderAPI.ring_fns.each do |fn|
         fn = fn[:name].to_s
         rb.gsub!(/\((\s*)#{fn}(\s)/, '\1' + fn + '(\2')
-        raise PreParseError, "You may not use the built-in fn names as variable names.\n You attempted to use: #{fn}" if rb.match(/\W?#{fn}\s*=[\s\w]/)
+        raise PreParseError, "You may not use the built-in fn names as variable names.\n You attempted to use: #{fn}" if rb.match(/\W#{fn}\s*=[\s\w]/)
       end
       rb
     end
