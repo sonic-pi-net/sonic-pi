@@ -2,7 +2,7 @@
 
 # Randomisierung[^1]
 
-Zufallszahlen sind eine tolle Möglichkeit, deine Musik interessant zu gestalten. Sonic Pi bietet einige Funktionen, um Zufallsfaktoren in deine Musik einzubauen;  aber bevor wir starten, müssen wir noch einer schockierenden Wahrheit ins Gesicht sehen: In Sonic Pi bedeutet *zufällig nicht wirklich zufällig*. Was zum Teufel soll das bedeuten? Naja, sehen wir mal.
+Zufallszahlen sind eine tolle Möglichkeit, Deine Musik interessant zu gestalten. Sonic Pi bietet einige Funktionen, um Zufallsfaktoren in Deine Musik einzubauen;  aber bevor wir starten, müssen wir noch einer schockierenden Wahrheit ins Gesicht sehen: In Sonic Pi bedeutet *zufällig nicht wirklich zufällig*. Was zum Teufel soll das bedeuten? Naja, sehen wir mal.
 
 ## Wiederholbarkeit
 
@@ -14,7 +14,7 @@ play rrand(50, 100)
 
 Oh, eine zufällige Note wird gespielt. Es war die Note `77.4407`. Eine nette Note zwischen 50 und 100. Aber hallo, habe ich gerade diese angeblich zufällige Note  exakt vorhergesagt? Da ist doch etwas nicht ganz astrein. Lass' den Code noch einmal ablaufen. Wieder `77.4407`, oder? Das kann doch kein Zufall sein!
 
-Die Antwort ist, es ist nicht wirklich zufällig, sondern pseudo-zufällig. Sonic Pi liefert dir Reihenfolgen von Zufallszahlen, die wiederholbar sind. Das ist sehr nützlich, weil es sicherstellt, dass die Musik, die du auf deinem Rechner erzeugst, auf anderen Rechnern identisch klingt - sogar, wenn du einen Zufallsfaktor einbaust.
+Die Antwort ist, es ist nicht wirklich zufällig, sondern pseudo-zufällig. Sonic Pi liefert dir Reihenfolgen von Zufallszahlen, die wiederholbar sind. Das ist sehr nützlich, weil es sicherstellt, dass die Musik, die du auf Deinem Rechner erzeugst, auf anderen Rechnern identisch klingt - sogar, wenn du einen Zufallsfaktor einbaust.
 
 Klar, wenn in einem bestimmten Musikstück jedesmal die `77.4407` als 'zufällige' Zahl gewählt würde, dann wäre das nicht besonders interessant. Aber so ist es auch nicht. Versuch' folgendes:
 
@@ -81,7 +81,7 @@ Schauen wir uns noch eine andere nützlich Zufallsfunktion an.
 
 ## Auswählen (choose)
 
-Häufig kommt es vor, dass man aus einer Liste von Dingen eines zufällig auswählen möchte. Zum Beispiel möchte ich einen Ton aus der folgenden Liste auswählen: 60, 65 oder 72. Das kannst du mit `choose` erreichen. Zuerst musst du deine Zahlen in eine Liste packen; dafür schreibst du sie jeweils durch Kommata getrennt in eckige Klammern. Dann übergibst du diese Liste `choose`:
+Häufig kommt es vor, dass man aus einer Liste von Dingen eines zufällig auswählen möchte. Zum Beispiel möchte ich einen Ton aus der folgenden Liste auswählen: 60, 65 oder 72. Das kannst du mit `choose` erreichen. Zuerst musst du Deine Zahlen in eine Liste packen; dafür schreibst du sie jeweils durch Kommata getrennt in eckige Klammern. Dann übergibst du diese Liste `choose`:
 
 ```
 choose([60, 65, 72])
@@ -135,7 +135,7 @@ Manchmal möchte man so tun, als würde man würfeln (engl. *to dice*) - das ist
 
 Schließlich könnte es sein, das du so tun willst, als ob du beim Würfeln eine 6 hast - also den höchten Wert erreichst. `one_in` gibt - mit einer Wahrscheinlichkeit 1 im Verhältnis zur Menge der Würfelseiten - den Wert *wahr* (engl. *true*) zurück, falls die höchste Zahl gewürfelt wurde. `one_in(6)` wird also mit einer Wahrscheinlichkeit von 1 zu 6 wahr, ansonsten *falsch* (engl. *false*). Wahr- und Falsch-Werte sind sehr nützlich, wenn es um `if`-Anweisungen geht, die wir in einem folgenden Kapitel dieses Tutorials besprechen.
 
-Jetzt los, bring' deinen Code mit ein paar Zufälligkeiten durcheinander!
+Jetzt los, bring' Deinen Code mit ein paar Zufälligkeiten durcheinander!
 
 [^1]: Randomisierung (engl. *randomisation*) bedeutet hier, dass man eine Auswahl von Zahlen zufällig gestaltet, also jedesmal eine andere Zahl bekommt.
 
