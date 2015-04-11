@@ -4103,7 +4103,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :phase_offset => 0,
         :wave => 4,
         :invert_wave => 1,
-        :stereo_invert_wave => 0,
+        :stereo_invert_wave => 1,
         :delay => 5,
         :delay_slide => 0,
         :delay_slide_shape => 5,
