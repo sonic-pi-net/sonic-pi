@@ -13,6 +13,8 @@
 
 require 'cgi'
 require_relative 'util'
+require_relative 'markdown_converter'
+
 
 module SonicPi
   module DocSystem
@@ -53,21 +55,46 @@ module SonicPi
             unless(v[:hide])
               html = ""
               html << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
-              html << "<font #{hv_face}>" << (v[:summary] || v[:name]).to_s.capitalize << "</font></span></p>\n"
+
+              summary = (v[:summary] || v[:name]).to_s
+              summary[0] = summary[0].capitalize
+              html << "<font #{hv_face}>" << summary << "</font></span></p>\n"
+              html << "<h2><font color=\"deeppink\"><pre>#{v[:name]}<font color=\"#3c3c3c\">"
+              name_size = v[:name].size
               req_args = []
               raise "no args defined for #{v[:name]}" unless v[:args]
               v[:args].each do |arg|
                 n, t = *arg
-                req_args << "#{n} <font color=\"deeppink\">(#{t})</font>"
+                req_args << "#{n} <font color=\"gray\">(#{t})</font>"
               end
-              html << "<h2><pre>[#{req_args.join(', ')}]</pre></h2>\n"
-              html << "<h1><font color=\"#3c3c3c\"><pre>#{v[:name]}<pre></font></h1>\n"
+              html << " #{req_args.join(', ')}</pre></font></h2>\n"
 
 
-              html << "<p><font size=\"4\", #{hv_face}>\n"
-              html << Kramdown::Document.new(v[:doc]).to_html
-              html << "\n</p>\n"
+              if v[:opts] && !v[:opts].empty?
+
+                html << "<p>"
+
+                html << "<table cellpadding=\"2\">\n"
+
+                bg_colour_k = "#5e5e5e"
+                fnt_colour_k = "white"
+
+                bg_colour_v = "#E8E8E8"
+                fnt_colour_v = "#5e5e5e"
+
+                html << "<tr><td bgcolor=\"dodgerblue\"><font color=\"white\">Options</font></td/<td></td></tr>"
+                cnt = 0
+                v[:opts].each do |opt_name, opt_doc|
+
+
+                  html << "<tr><td bgcolor=\"#{bg_colour_k}\"><pre><font color=\"#{fnt_colour_k}\">#{opt_name.to_s}:</font></pre></td><td bgcolor=\"#{bg_colour_v}\"><font color=\"#{fnt_colour_v}\"> #{MarkdownConverter.convert(opt_doc)}</font></td></tr>"
+                  cnt += 1
+                end
+                html << "</table></p>"
+              end
+              html << MarkdownConverter.convert(v[:doc])
               html << "<p><font size=\"3\", #{hv_face}>\n"
+
               html << "<span style=\"color:white;background-color:darkorange;\">"
               html << "Introduced in " << v[:introduced].to_s << "\n</span></p>\n"
 

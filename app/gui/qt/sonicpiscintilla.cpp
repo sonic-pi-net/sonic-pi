@@ -100,6 +100,11 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   addOtherKeyBinding(settings, QsciCommand::Redo, Qt::Key_Z | Qt::SHIFT | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::SelectAll, Qt::Key_A | SPi_META);
 
+  // delete word left and right
+  addKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backslash | SPi_META);
+  addKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backspace | SPi_META);
+  addKeyBinding(settings, QsciCommand::DeleteWordRight, Qt::Key_D | SPi_META);
+
   this->standardCommands()->readSettings(settings);
 
   this->setMatchedBraceBackgroundColor(QColor("dimgray"));
@@ -116,10 +121,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->setCaretLineBackgroundColor(QColor("whitesmoke"));
   this->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
   this->setMarginLineNumbers(0, true);
-  this->setMarginWidth(0, "1000000");
   this->setMarginsBackgroundColor(QColor("whitesmoke"));
   this->setMarginsForegroundColor(QColor("dark gray"));
-  this->setMarginsFont(QFont("Menlo",5, -1, true));
+  this->setMarginsFont(QFont("Menlo", 15, -1, true));
   this->setUtf8(true);
   this->setText("#loading...");
   this->setLexer((QsciLexer *)lexer);
@@ -132,7 +136,23 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   this->setSelectionForegroundColor("white");
   this->setCaretWidth(5);
   this->setCaretForegroundColor("deep pink");
+  this->setEolMode(EolUnix);
 
+  addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
+  addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
+
+}
+
+void SonicPiScintilla::hideLineNumbers(){
+  this->setMarginLineNumbers(0, false);
+  this->setMarginWidth(0, "0");
+  SendScintilla(SCI_HIDELINES);
+}
+
+void SonicPiScintilla::showLineNumbers(){
+  this->setMarginLineNumbers(0, true);
+  this->setMarginWidth(0, "1000");
+  SendScintilla(SCI_SHOWLINES);
 }
 
 void SonicPiScintilla::addOtherKeyBinding(QSettings &qs, int cmd, int key)
@@ -151,11 +171,21 @@ void SonicPiScintilla::addKeyBinding(QSettings &qs, int cmd, int key)
 
 void SonicPiScintilla::cutLineFromPoint()
 {
-  //  SendScintilla(SCI_CLEARSELECTIONS);
-  int pos = SendScintilla(SCI_GETCURRENTPOS);
-  SendScintilla(SCI_LINEEND);
-  SendScintilla(SCI_SETANCHOR, pos);
-  SendScintilla(SCI_CUT);
+  int linenum, index;
+  getCursorPosition(&linenum, &index);
+
+  if (text(linenum) == "\n")
+  {
+    setSelection(linenum, index, linenum + 1, 0);
+    SendScintilla(SCI_CUT);
+  } else
+    {
+      //  SendScintilla(SCI_CLEARSELECTIONS);
+      int pos = SendScintilla(SCI_GETCURRENTPOS);
+      SendScintilla(SCI_LINEEND);
+      SendScintilla(SCI_SETANCHOR, pos);
+      SendScintilla(SCI_CUT);
+    }
 }
 
 void SonicPiScintilla::tabCompleteifList()
@@ -166,24 +196,31 @@ void SonicPiScintilla::tabCompleteifList()
     }
 }
 
-// void SonicPiScintilla::transposeChars()
-// {
+void SonicPiScintilla::transposeChars()
+{
+  int linenum, index;
+  getCursorPosition(&linenum, &index);
+  setSelection(linenum, 0, linenum + 1, 0);
+  int lineLength = selectedText().size();
 
-//   int pos = SendScintilla(SCI_GETCURRENTPOS);
-//   if(pos > 0){
-//     char ch = SendScintilla(SCI_GETCHARAT, pos - 1);
-//     char ch2 = SendScintilla(SCI_GETCHARAT, pos);
-//     QString replacement = "";
-//     replacement += ch2;
-//     replacement += ch;
-//     SendScintilla(SCI_GOTOPOS, pos + 1);
-//     SendScintilla(QsciCommand::Delete);
-//     SendScintilla(QsciCommand::Delete);
-//     SendScintilla(SCI_INSERTTEXT, pos - 1,
-//                 ScintillaBytesConstData(textAsBytes(replacement)));
-//     SendScintilla(SCI_GOTOPOS, pos + 1);
-//   }
-// }
+  //transpose chars
+  if(index > 0){
+    if(index < (lineLength - 1)){
+      index = index + 1;
+    }
+    setSelection(linenum, index - 2, linenum, index);
+    QString text = selectedText();
+    QChar a, b;
+    a = text.at(0);
+    b = text.at(1);
+    QString replacement  = "";
+    replacement.append(b);
+    replacement.append(a);
+    replaceSelectedText(replacement);
+  }
+
+  setCursorPosition(linenum, index);
+}
 
 void SonicPiScintilla::setMark()
 {
@@ -206,6 +243,98 @@ void SonicPiScintilla::copyClear()
   SendScintilla(SCI_SETEMPTYSELECTION, pos);
 }
 
+void SonicPiScintilla::replaceLine(int lineNumber, QString newLine)
+{
+  setSelection(lineNumber, 0, lineNumber + 1, 0);
+  replaceSelectedText(newLine);
+}
+
+void SonicPiScintilla::replaceLines(int lineStart, int lineFinish, QString newLines)
+{
+  setSelection(lineStart, 0, lineFinish + 1, 0);
+  replaceSelectedText(newLines);
+}
+
+void SonicPiScintilla::forwardLines(int numLines) {
+  int idx;
+  if(numLines > 0) {
+    for (idx = 0 ; idx < numLines ; idx++) {
+      SendScintilla(SCI_LINEUP);
+    }
+  } else {
+    for (idx = 0 ; idx > numLines ; idx--) {
+      SendScintilla(SCI_LINEDOWN);
+    }
+  }
+}
+
+void SonicPiScintilla::forwardTenLines() {
+  forwardLines(10);
+}
+
+void SonicPiScintilla::backTenLines() {
+  forwardLines(-10);
+}
+
+void SonicPiScintilla::moveLineOrSelectionUp() {
+  moveLineOrSelection(-1);
+}
+
+void SonicPiScintilla::moveLineOrSelectionDown() {
+  moveLineOrSelection(1);
+}
+
+void SonicPiScintilla::moveLineOrSelection(int numLines) {
+  beginUndoAction();
+
+  int linenum, cursor, origLinenum, origCursor;
+  getCursorPosition(&linenum, &cursor);
+  origLinenum = linenum;
+  origCursor = cursor;
+
+  bool hadSelectedText = hasSelectedText();
+
+
+  if(!hadSelectedText) {
+    setSelection(linenum, 0, linenum + 1, 0);
+  }
+
+  int lineFrom, indexFrom, lineTo, indexTo, lineOffset;
+  getSelection(&lineFrom, &indexFrom, &lineTo, &indexTo);
+  lineOffset = lineTo - origLinenum;
+  linenum = lineFrom;
+
+  QString selection = selectedText();
+
+  if(selection[selection.length()-1] != '\n') {
+    selection = selection + "\n";
+    lineTo += 1;
+    lineOffset += 1;
+    indexTo = 0;
+    replaceSelectedText("");
+    setCursorPosition(linenum, 0);
+    SendScintilla(SCI_DELETEBACK);
+  } else {
+    replaceSelectedText("");
+  }
+  setCursorPosition(linenum, 0);
+
+  moveLines(numLines);
+
+  getCursorPosition(&linenum, &cursor);
+  setCursorPosition(linenum, 0);
+  insert(selection);
+
+  setCursorPosition(linenum + lineOffset, origCursor);
+
+  int diffLine = lineTo - lineFrom;
+  int diffIndex = indexTo - indexFrom;
+
+  setSelection(linenum + diffLine, diffIndex, linenum, 0);
+
+  endUndoAction();
+}
+
 QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
 					 int &last_word_start)
 {
@@ -224,4 +353,32 @@ QStringList SonicPiScintilla::apiContext(int pos, int &context_start,
   last_word_start = pos;
 
   return context;
+}
+
+int SonicPiScintilla::incLineNumWithinBounds(int linenum, int inc) {
+  linenum += inc;
+  int maxBufferIndex = lines() - 1;
+
+  if(linenum < 0) {
+    linenum = 0;
+  }
+
+  if(linenum > maxBufferIndex) {
+    linenum = maxBufferIndex;
+  }
+
+  return linenum;
+}
+
+void SonicPiScintilla::moveLines(int numLines) {
+  if (numLines > 0)
+  {
+    for(int i = 0 ; i < numLines ; i++) {
+      SendScintilla(SCI_LINEDOWN);
+    }
+  } else {
+    for(int i = 0 ; i > numLines ; i--) {
+      SendScintilla(SCI_LINEUP);
+    }
+  }
 }

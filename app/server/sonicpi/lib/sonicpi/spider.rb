@@ -53,7 +53,7 @@ module SonicPi
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
-      @event_queue = Queue.new
+      @event_queue = SizedQueue.new(20)
       @keypress_handlers = {}
       @events = IncomingEvents.new
       @sync_counter = Counter.new
@@ -328,13 +328,112 @@ module SonicPi
     def __replace_buffer(id, content)
       id = id.to_s
       content = content.to_s
-      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: content})
+      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: content, line: 0, index: 0, first_line: 0})
     end
 
-    def __beautify_buffer(id, buf)
+    def __indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index)
+      id = workspace_id.to_s
+      buf = buf + "\n"
+      buf_lines = buf.lines.to_a
+
+      if (start_line <= point_line) && (point_line <= finish_line)
+        manipulate_point = true
+        # Calculate amount of whitespace at start of original line
+        orig_point_line = buf_lines[point_line]
+        orig_point_line_ws_len = orig_point_line[/\A */].size
+
+        if buf_lines[point_line] =~ /^\s*$/
+          #line is just whitespace, put in a dummy line so it gets autoindented
+          buf_lines[point_line] = "#dummy"
+          dummy_line = true
+        else
+          dummy_line = false
+        end
+      else
+        manipulate_point = false
+      end
+
+      # Beautify buffer
+      beautiful = RBeautify.beautify_string :ruby, buf_lines.join
+
+      # calculate amount of whitespace at start of beautified line
+      beautiful_lines = beautiful.lines.to_a
+
+      if manipulate_point
+        if dummy_line
+          # remove dummy line and extract leading whitespace
+          indented_dummy = beautiful_lines[point_line]
+          indented_dummy_whitespace = indented_dummy.match(/\A(\s*)/)[1]
+          beautiful_lines[point_line] = indented_dummy_whitespace + "\n"
+          point_index = indented_dummy_whitespace.size
+        else
+          new_point_line = beautiful_lines[point_line]
+          new_point_line_ws_len = new_point_line[/\A */].size
+
+          # shift index based on how much the line was indented so the
+          # cursor stays in the same place relative to the original line
+          # whilst ensuring it stays within line bounds
+          point_index = point_index + (new_point_line_ws_len - orig_point_line_ws_len)
+          point_index = new_point_line.size - 1 if point_index > new_point_line.size
+          point_index = orig_point_line_ws_len if point_index < orig_point_line_ws_len
+        end
+      end
+
+      indented_lines = beautiful_lines[start_line..finish_line].join
+
+      @msg_queue.push({type: "replace-lines", buffer_id: id, val: indented_lines, start_line: start_line, finish_line: finish_line, point_line: point_line, point_index: point_index})
+
+    end
+
+    def __beautify_buffer(id, buf, line, index, first_line)
       id = id.to_s
+      buf = buf + "\n"
+      buf_lines = buf.lines.to_a
+
+      ## ensure point isn't beyond buffer
+      max_buf_idx = buf_lines.size - 1
+      line  = max_buf_idx if line > max_buf_idx
+
+
+      # Calculate amount of whitespace at start of original line
+      prev_line = buf_lines[line]
+      prev_ws_len = prev_line[/\A */].size
+
+      # Beautify buffer
       beautiful = RBeautify.beautify_string :ruby, buf
-      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful})
+
+      # calculate amount of whitespace at start of beautified line
+      beautiful_lines = beautiful.lines.to_a
+      beautiful_len = beautiful_lines.size
+      post_line = beautiful_lines[line]
+      post_ws_len = post_line[/\A */].size
+
+      # shift index based on how much the line was indented so the
+      # cursor stays in the same place relative to the original line
+      # whilst ensuring it stays within line bounds
+      index = index + (post_ws_len - prev_ws_len)
+      index = post_line.size - 1 if index > post_line.size
+
+      # Strip whitespace at the beginning of the buffer
+      beautiful.lstrip!
+
+      # adjust line number based on how many lines were removed as a
+      # result of the whitespace stripping
+      post_lstrip_len = beautiful.lines.to_a.size
+      line = line - (beautiful_len - post_lstrip_len)
+      line = 0 if line < 0
+
+      # Strip whitespace from the end of the buffer
+      beautiful.rstrip!
+      post_rstrip_len = beautiful.lines.to_a.size
+
+      # move point to end of buffer if whitespace stripping at end of
+      # buffer put point out of bounds
+      if line >= post_rstrip_len
+        line = post_rstrip_len
+        index = beautiful.lines.to_a.last.size
+      end
+      @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful, line: line, index: index, first_line: first_line})
     end
 
     def __save_buffer(id, content)

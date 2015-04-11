@@ -15,9 +15,9 @@ module RBeautify
       if @formatted.nil?
         if format?
           if stripped.length == 0
-            @formatted = ""
+            @formatted = "\n"
           else
-            @formatted = tab_string + stripped
+            @formatted = tab_string + stripped + "\n"
           end
         else
           @formatted = content

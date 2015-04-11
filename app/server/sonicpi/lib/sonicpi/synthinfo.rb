@@ -3428,7 +3428,15 @@ The way the transpositions are done adds some distortion, particulary to the low
           :validations => [v_positive(:freq_slide)],
           :modulatable => true,
           :bpm_scale => true
+        },
+
+        :mod_amp =>
+        {
+          :doc => "Amplitude of the modulation",
+          :validations => [v_positive(:mod_amp)],
+          :modulatable => true
         }
+
       }
     end
 
@@ -3934,7 +3942,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
           :doc => "Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
 
 The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
-          :validations => [v_greater_than(:window_size, 0)],
+          :validations => [v_greater_than(:window_size, 0.00005)],
           :modulatable => true
         },
         :pitch_dis =>
@@ -4424,7 +4432,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :fx_rbpf => FXRBPF.new,
       :fx_nrbpf => FXNRBPF.new,
       :fx_pitch_shift => FXPitchShift.new,
-      :fx_ring => FXRingMod.new,
+      :fx_ring_mod => FXRingMod.new,
       #:fx_chorus => FXChorus.new,
       #:fx_harmoniser => FXHarmoniser.new,
       :fx_flanger => FXFlanger.new

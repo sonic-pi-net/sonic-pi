@@ -109,7 +109,7 @@ begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
 rescue Exception => e
   puts "Failed to start server: " + e.message
-  m = encoder.encode_single_message("/exited", [e.message])
+  m = encoder.encode_single_message("/exited_with_boot_error", [e.message])
   gui.send_raw(m)
   exit
 end
@@ -189,15 +189,36 @@ osc_server.add_method("/load-buffer") do |payload|
   end
 end
 
+osc_server.add_method("/indent-selection") do |payload|
+#  puts "indenting current line..."
+  begin
+    args = payload.to_a
+    id = args[0]
+    buf = args[1]
+    start_line = args[2]
+    finish_line = args[3]
+    point_line = args[4]
+    point_index = args[5]
+    sp.__indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+  rescue Exception => e
+    puts "Received Exception when attempting to indent current line!"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 osc_server.add_method("/beautify-buffer") do |payload|
 #  puts "beautifying buffer..."
   begin
     args = payload.to_a
     id = args[0]
     buf = args[1]
-    sp.__beautify_buffer(id, buf)
+    line = args[2]
+    index = args[3]
+    first_line = args[4]
+    sp.__beautify_buffer(id, buf, line, index, first_line)
   rescue Exception => e
-    puts "Received Exception when attempting to load buffer!"
+    puts "Received Exception when attempting to beautify buffer!"
     puts e.message
     puts e.backtrace.inspect
   end
@@ -413,9 +434,22 @@ out_t = Thread.new do
           gui.send_raw(m)
         when "replace-buffer"
           buf_id = message[:buffer_id]
-          content = message[:val]
+          content = message[:val] || "Internal error within a fn calling replace-buffer without a :val payload"
+          line = message[:line] || 0
+          index = message[:index] || 0
+          first_line = message[:first_line] || 0
 #          puts "replacing buffer #{buf_id}, #{content}"
-          m = encoder.encode_single_message("/replace-buffer", [buf_id, content])
+          m = encoder.encode_single_message("/replace-buffer", [buf_id, content, line, index, first_line])
+          gui.send_raw(m)
+        when "replace-lines"
+          buf_id = message[:buffer_id]
+          content = message[:val] || "Internal error within a fn calling replace-line without a :val payload"
+          point_line = message[:point_line] || 0
+          point_index = message[:point_index] || 0
+          start_line = message[:start_line] || point_line
+          finish_line = message[:finish_line] || start_line
+#          puts "replacing line #{buf_id}, #{content}"
+          m = encoder.encode_single_message("/replace-lines", [buf_id, content, start_line, finish_line, point_line, point_index])
           gui.send_raw(m)
         else
 #          puts "ignoring #{message}"

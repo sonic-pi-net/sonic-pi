@@ -12,6 +12,7 @@
 #++
 
 require 'test/unit'
+require_relative "../../core"
 require_relative "../lib/sonicpi/spiderapi"
 
 module SonicPi
@@ -42,10 +43,10 @@ module SonicPi
 
 
     def test_line
-      assert_equal([0, 1, 2, 3], line(0, 4, slices: 4))
-      assert_equal([0, 1, 2, 3, 4], line(0, 4, slices: 5, inclusive: true))
-      assert_equal([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], line(0, 4, slices: 8))
-      assert_equal([5, 4, 3, 2, 1], line(5, 0, slices: 5))
+      assert_equal([0, 1, 2, 3], line(0, 4, steps: 4))
+      assert_equal([0, 1, 2, 3, 4], line(0, 4, steps: 5, inclusive: true))
+      assert_equal([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], line(0, 4, steps: 8))
+      assert_equal([5, 4, 3, 2, 1], line(5, 0, steps: 5))
       assert_equal(line(1, 3).class, SonicPi::Core::RingArray)
     end
 

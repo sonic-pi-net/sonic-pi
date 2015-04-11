@@ -60,6 +60,11 @@ SOURCES += main.cpp \
            sonicpiserver.cpp \
            sonicpiudpserver.cpp \
            sonicpitcpserver.cpp
+win32 {
+# have to link these explicitly for some reason
+  SOURCES += platform/win/moc_qsciscintilla.cpp \
+             platform/win/moc_qsciscintillabase.cpp
+}
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \

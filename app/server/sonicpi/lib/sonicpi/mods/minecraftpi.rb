@@ -220,52 +220,81 @@ module SonicPi
       end
       doc name:           :mc_location,
           introduced:     Version.new(2,5,0),
-          summary:        "Get current location",
-          args:           [[]],
+          summary:        "Minecraft Pi - get current location",
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Returns a list of floats [x, y, z] coords of the current location for Steve. The coordinates are finer grained than raw block coordinates.",
+          doc:            "Returns a list of floats `[x, y, z]` coords of the current location for Steve. The coordinates are finer grained than raw block coordinates but may be used anywhere you might use block coords.",
           examples:       [
-        "puts mc_location    #=> [10.1, 20.67, 101.34]"   ]
+        "puts mc_location    #=> [10.1, 20.67, 101.34]",
+"x, y, z = mc_location       #=> Find the current location and store in x, y and z variables."      ]
 
 
 
 
-      def mc_set_location(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
-#        __delayed do
+      def mc_teleport(x, y, z)
         Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
-        #        end
         true
       end
-      doc name:           :mc_set_location,
+      doc name:           :mc_teleport,
           introduced:     Version.new(2,5,0),
-          summary:        "Set current location",
-          args:           [[]],
+          summary:        "Minecraft Pi - teleport to a new location",
+          args:           [[:x, :number], [:y, :number], [:z, :number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Magically teleport the player to the location specified by the `x`, `y`, `z` coordinates. Use this for automatically moving the player either small or large distances around the world.",
+         examples: ["
+mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
+                        # x: 40, y: 50, z: 60
 
-      def mc_set_location_sync(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
-        Minecraft.world_send "player.setPos(#{x.to_f}, #{y.to_f}, #{z.to_f})"
-        true
-      end
+        "]
 
 
 
 
       ## Fns matching the API names for those coming from Python
-      def mc_get_pos
-        mc_location
+      def mc_get_pos(*args)
+        mc_location(*args)
       end
+      doc name:           :mc_get_pos,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - synonym for mc_location",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "See `mc_location`",
+          examples:       []
 
 
+
+
+      def mc_set_pos(*args)
+        mc_teleport(*args)
+      end
+      doc name:           :mc_set_pos,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - synonym for mc_teleport",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "See `mc_teleport`",
+          examples:       []
+
+
+
+
+      def mc_set_tile(x, y, z)
+        Minecraft.world_send "player.setTile(#{x.to_f.round}, #{y.to_i}, #{z.to_f.round})"
+        true
+      end
+      doc name:           :mc_set_tile,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - set location to coords of specified tile/block",
+          args:           [[:x, :number], [:y, :number], [:z, :number]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
 
 
 
@@ -278,49 +307,32 @@ module SonicPi
       end
       doc name:           :mc_get_tile,
           introduced:     Version.new(2,5,0),
-          summary:        "Get location of current tile",
-          args:           [[]],
+          summary:        "Minecraft Pi - set location of current tile/block",
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Returns the coordinates of the nearest block that the player is next to. This is more course grained than `mc_location` as it only returns whole number coordinates.",
+          examples:       ["puts mc_get_tile #=> [10, 20, 101]"]
 
 
 
 
-
-
-      def mc_set_pos_sync(*args)
-        mc_set_pos_sync(*args)
-      end
-
-      def mc_set_ground_location(x, z=nil)
-        if x.is_a? Array
-          if x.size == 3
-            a = x
-            x = a[0]
-            z = a[1]
-          else
-            a, z = a
-          end
-        end
-
+      def mc_surface_teleport(x, z)
         y = mc_get_height(x, z)
         mc_set_location(x.to_f, y, z.to_f)
         true
       end
+      doc name:           :mc_surface_teleport,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - teleport to world surface at x and z coords",
+          args:           [[:x, :number], [:z, :number]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Teleports you to the specified x and y coordinates with the y automatically set to place you on the surface of the world. For example, if the x and y coords target a mountain, you'll be placed on top of the mountain, not in the air or under the ground. See mc_ground_height for discovering the height of the ground at a given x, y point.",
+          examples:       ["mc_surface_teleport 40, 50 #=> Teleport user to coords x = 40, y = height of surface, z = 50"]
 
-      def mc_set_ground_pos(*args)
-        mc_set_ground_location(*args)
-      end
 
-      def mc_set_ground_location_sync(x, z=nil)
-        mc_set_ground_location(x, z)
-      end
 
-      def mc_set_ground_pos_sync(*args)
-        mc_set_ground_location_sync(*args)
-      end
 
       def mc_message(msg)
         Minecraft.world_send "chat.post(#{msg})"
@@ -328,142 +340,112 @@ module SonicPi
       end
       doc name:           :mc_message,
           introduced:     Version.new(2,5,0),
-          summary:        "Display message on Minecraft",
-          args:           [[]],
+          summary:        "Minecraft Pi - post a chat message",
+          args:           [[:msg, :string]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Post contents of `msg` on the Minecraft chat display",
+          examples:       ["mc_message \"Hello from Sonic Pi\" #=> Displays \"Hello from Sonic Pi\" on Minecraft's chat display" ]
+
 
 
 
       def mc_chat_post(msg)
         mc_message(msg)
       end
+      doc name:           :mc_chat_post,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - synonym for mc_message",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "See mc_message",
+          examples:       []
 
-      def mc_message_sync(msg)
-        Minecraft.world_send "chat.post(#{msg})"
-        true
-      end
 
-      def mc_chat_post_sync(msg)
-        mc_message_sync(msg)
+
+
+      def mc_ground_height(x, z)
+        res = Minecraft.world_recv "world.getHeight(#{x.to_f.round},#{z.to_f.round})"
+        res.to_i
       end
+      doc name:           :mc_ground_height,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - get ground height at x, z coords",
+          args:           [[:x, :number], [:z, :number]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Returns the height of the ground at the specified `x` and `z` coords.",
+          examples:       ["puts mc_ground_height 40, 50 #=> 43 (height of world at x=40, z=50)"]
+
+
+
 
       def mc_get_height(x, z)
-        res = Minecraft.world_recv "world.getHeight(#{x.to_i},#{z.to_i})"
+        res = Minecraft.world_recv "world.getHeight(#{x.to_f.round},#{z.to_f.round})"
         res.to_i
       end
       doc name:           :mc_get_height,
           introduced:     Version.new(2,5,0),
-          summary:        "Get current height",
-          args:           [[]],
+          summary:        "Minecraft Pi - synonym for mc_ground_height",
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "See `mc_ground_height`",
           examples:       []
 
 
-      def mc_get_block(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
-        res = Minecraft.world_recv "world.getBlock(#{x.to_i},#{y.to_i},#{z.to_i})"
+
+
+      def mc_get_block(x, y, z)
+        res = Minecraft.world_recv "world.getBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round})"
         mc_block_name(res.to_i)
       end
       doc name:           :mc_get_block,
           introduced:     Version.new(2,5,0),
-          summary:        "Get block type",
-          args:           [[]],
+          summary:        "Minecraft Pi - get type of block at coords",
+          args:           [[:x, :number], [:y, :number], [:z, :number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Returns the type of the block at the coords `x`, `y`, `z` as a symbol.",
+          examples:       ["puts mc_get_block 40, 50, 60 #=> :air"]
 
-      def mc_set_block(x, y, z=nil, block_id=nil)
-        if x.is_a? Array
-          block_id = y
-          x, y, z = x
-        end
-        block_id = mc_block_id(block_id)
-        #__delayed do
-          Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id.to_i})"
-        #end
+
+
+
+      def mc_set_block(block_name, x, y, z)
+        block_id = mc_block_id(block_name)
+        Minecraft.world_send "world.setBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{block_id})"
         true
       end
       doc name:           :mc_set_block,
           introduced:     Version.new(2,5,0),
-          summary:        "Set block at specific coord",
-          args:           [[]],
+          summary:        "Minecraft Pi - set block at specific coord",
+          args:           [[:x, :number], [:y, :number], [:z, :number], [:block_name, :symbol_or_number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Change the block type of the block at coords `x`, `y`, `z` to `block_type`. The block type may be specified either as a symbol such as `:air` or a number. See `mc_block_ids` and `mc_block_types` for lists of valid symbols and numbers.",
+          examples:       ["mc_set_block :glass, 40, 50, 60 #=> set block at coords 40, 50, 60 to type glass"]
 
-      def mc_set_block_sync(x, y, z=nil, block_id=nil)
-        if x.is_a? Array
-          block_id = y
-          x, y, z = x
-        end
 
-        block_id = mc_block_id(block_id)
-        Minecraft.world_send "world.setBlock(#{x.to_i},#{y.to_i},#{z.to_i},#{block_id})"
-        true
-      end
 
-      def mc_set_area(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
-        if x.is_a? Array
-          block_id = z
-          a1 = x
-          a2 = y
-          x, y, z = a1
-          x2, y2, z2, = a2
-        end
 
-        block_id = mc_block_id(block_id)
-        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
+      def mc_set_area(block_name, x, y, z, x2, y2, z2)
+        block_id = mc_block_id(block_name)
+        Minecraft.world_send "world.setBlocks(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{x2.to_f.round},#{y2.to_i},#{z2.to_f.round},#{block_id})"
         true
       end
       doc name:           :mc_set_area,
           introduced:     Version.new(2,5,0),
-          summary:        "Set area of blocks",
-          args:           [[]],
+          summary:        "Minecraft Pi - set area of blocks",
+          args:           [[:x, :number], [:y, :number], [:z, :number], [:x2, :number], [:y2, :number], [:z2, :number], [:block_name, :symbol_or_number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "Set an area/box of blocks of type `block_name` defined by two distinct sets of coordinates.",
           examples:       []
 
 
-      def mc_set_area_sync(x, y, z, x2=nil, y2=nil, z2=nil, block_id=nil)
-        if x.is_a? Array
-          block_id = z
-          a1 = x
-          a2 = y
-          x, y, z = a1
-          x2, y2, z2, = a2
-        end
 
-        block_id = mc_block_id(block_id)
-        Minecraft.world_send "world.setBlocks(#{x.to_i},#{y.to_i},#{z.to_i},#{x2.to_i},#{y2.to_i},#{z2.to_i},#{block_id})"
-        true
-      end
-
-      def mc_set_tile(x, y=nil, z=nil)
-        if x.is_a? Array
-          x, y, z = x
-        end
-        Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
-        true
-      end
-
-      def mc_set_tile_sync(x, y=nil, z=nil)
-        if x.is_a? Array
-          block_id = y
-          x, y, z = y
-        end
-        Minecraft.world_send "player.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
-        true
-      end
 
       def mc_block_id(name)
         case name
@@ -480,12 +462,18 @@ module SonicPi
       end
       doc name:           :mc_block_id,
           introduced:     Version.new(2,5,0),
-          summary:        "Normalise block code",
-          args:           [[]],
+          summary:        "Minecraft Pi - normalise block code",
+          args:           [[:name, :symbol_or_number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Given a block name or id will return a number representing the id of the block or throw an exception if the name or id isn't valid",
+          examples:       ["
+puts mc_block_id :air #=> 0",
+"puts mc_block_id 0  #=> 0",
+"puts mc_block_id 19 #=> Throws an invalid block id exception",
+"puts mc_block_id :foo #=> Throws an invalid block name exception"      ]
+
+
 
 
       def mc_block_name(id)
@@ -501,57 +489,158 @@ module SonicPi
         end
         name
       end
-      doc name:           :mc_block_id,
+      doc name:           :mc_block_name,
           introduced:     Version.new(2,5,0),
-          summary:        "Normalise block name",
-          args:           [[]],
+          summary:        "Minecraft Pi - normalise block name",
+          args:           [[:id, :numbor_or_symbol]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Given a block id or a block name will return a symbol representing the block name or throw an exception if the id or name isn't valid.",
+      examples:       ["
+puts mc_block_name :air #=> :air",
+"puts mc_block_name 0   #=> :air",
+"puts mc_block_name 19 #=> Throws an invalid block id exception",
+"puts mc_block_name :foo #=> Throws an invalid block name exception"]
+
+
+
 
       def mc_block_ids
         BLOCK_IDS
       end
       doc name:           :mc_block_ids,
           introduced:     Version.new(2,5,0),
-          summary:        "List all block ids",
-          args:           [[]],
+          summary:        "Minecraft Pi - list all block ids",
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Returns a list of all the valid block ids as numbers. Note not all numbers are valid block ids. For example, 19 is not a valid block id.",
+          examples:       ["puts mc_block_names #=> [0, 1, 2, 3, 4, 5... "]
+
+
 
 
       def mc_block_names
         BLOCK_NAMES
       end
-      doc name:           :mc_block_id,
+      doc name:           :mc_block_names,
           introduced:     Version.new(2,5,0),
-          summary:        "List all block names",
-          args:           [[]],
+          summary:        "Minecraft Pi - list all block names",
+          args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
-          examples:       []
+          doc:            "Returns a list of all the valid block names as symbols",
+          examples:       ["puts mc_block_names #=> [:air, :stone, :grass, :dirt, :cobblestone... "]
 
-      def mc_build_box(block, x, y, z, *opts)
-        args_h = resolve_synth_opts_hash_or_array(opts)
-        size = args_h[:size] || 1
-        width = args_h[:width] || size
-        height = args_h[:height] || size
-        depth = args_h[:depth] || size
 
-        mc_set_area(x, y, z, x+width, y+height, z+depth, block)
+
+
+      def mc_checkpoint_save
+        Minecraft.world_send "world.checkpoint.save()"
       end
-      doc name:           :mc_build_box,
+      doc name:           :mc_checkpoint_save,
           introduced:     Version.new(2,5,0),
-          summary:        "Build a box",
-          args:           [[]],
+          summary:        "Minecraft Pi - save checkpoint",
+          args:           [],
           opts:           nil,
           accepts_block:  false,
           doc:            "",
-          examples:       []
+          examples:       [""]
+
+
+
+
+      def mc_checkpoint_restore
+        Minecraft.world_send "world.checkpoint.restore()"
+      end
+      doc name:           :mc_checkpoint_restore,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - restore checkpoint",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_camera_normal
+        Minecraft.world_send "camera.mode.setNormal()"
+      end
+      doc name:           :mc_camera_normal,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - normal camera mode",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_camera_third_person
+        Minecraft.world_send "camera.mode.setThirdPerson()"
+      end
+      doc name:           :mc_camera_third_person,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - third person camera mode",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_camera_fixed
+        Minecraft.world_send "camera.mode.setFixed()"
+      end
+      doc name:           :mc_camera_fixed,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - fixed camera mode",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+
+
+      def mc_camera_set_location(x, y, z)
+        Minecraft.world_send "camera.mode.setPos(#{x.to_i}, #{y.to_i}, #{z.to_i})"
+      end
+      doc name:           :mc_camera_set_location,
+          introduced:     Version.new(2,5,0),
+          summary:        "Minecraft Pi - move camera",
+          args:           [],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "",
+          examples:       [""]
+
+
+      # def mc_build_box(block, x, y, z, *opts)
+      #   args_h = resolve_synth_opts_hash_or_array(opts)
+      #   size = args_h[:size] || 1
+      #   width = args_h[:width] || size
+      #   height = args_h[:height] || size
+      #   depth = args_h[:depth] || size
+
+      #   mc_set_area(x, y, z, x+width, y+height, z+depth, block)
+      # end
+      # doc name:           :mc_build_box,
+      #     introduced:     Version.new(2,5,0),
+      #     summary:        "Build a box",
+      #     args:           [[]],
+      #     opts:           nil,
+      #     accepts_block:  false,
+      #     doc:            "",
+      #     examples:       []
+
     end
   end
 end

@@ -51,16 +51,9 @@ Run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 ### Dependencies
 
-Debian package dependency names:
+Debian package dependency names (Jessie):
 
-* `supercollider`
-* `ruby1.9.3` (Ruby 2+ is preferred)
-* `libqscintilla2-8`
-* `libqscintilla2-dev`
-* `qt4-dev-tools`
-* `ruby-dev`
-* `cmake` (for some configurations, e.g., 32bit x86)
-* `libffi-dev`
+`apt-get install supercollider ruby2.1 libqscintilla2-dev  ruby-dev cmake pkg-config`
 
 In addition, under Ubuntu 14.04 based distributions try these:
 
@@ -87,7 +80,10 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 Start the jack sound server daemon `jackd`. This is easily done through [qjackctl](http://qjackctl.sourceforge.net/), available as `qjackctl` in Debian.
 
-Then run the script `rp-app-bin` in the directory `app/gui/qt`.
+that didn't work for me, but typing this, after randomly googling and trying various things, did:
+`jackd -R -d alsa -d hw:1`
+
+Then run the script `sonic-pi` in the directory `app/gui/qt`.
 
 ----
 
@@ -114,7 +110,7 @@ Users can opt to build from source as well if they would like. Instructions and 
 
 ### Dependencies
 
-* Download Qt 5.3.1+ http://qt-project.org/downloads
+* Download Qt 5.4+ http://qt-project.org/downloads
 * Run the setup wizard and install to a known location which we'll call /path/to/qt
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and untar into a known location which we'll call /path/to/qscintilla
 
@@ -126,7 +122,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 * Build QScintilla:
   - `cd /path/to/qscintilla/Qt4Qt5`
-  - generate makefile: `/path/to/qt/5.3/clang_64/bin/qmake qscintilla.pro`
+  - generate makefile: `/path/to/qt/5.4/clang_64/bin/qmake qscintilla.pro`
   - `make`
   - (OSX only) update the dylib inner path part 1: `install_name_tool -id "/path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib`
   - (OSX only) update the dylib inner path part 2: `install_name_tool -change "libqscintilla2.11.dylib" "/path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib` 
@@ -136,7 +132,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
     DEPENDPATH += /path/to/qscintilla/Qt4Qt5/
 * Modify top of mac-build-app appropriately i.e.
     QSCINTILLA=/path/to/qscintilla/Qt4Qt5
-    QTBIN=/path/to/qt/5.3/clang_64/bin
+    QTBIN=/path/to/qt/5.4/clang_64/bin
 * Provide a Ruby version for Sonic Pi to use
   - The Qt app expects Ruby to exist at a certain path. We can use a symlink to provide an appropriate Ruby Version
   - `$ cd /root/path/to/sonic-pi`
@@ -161,7 +157,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 ### Dependencies
 
 * Install Visual Studio 2013 Express for Desktop http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop
-* Download Qt 5.3.1+ http://qt-project.org/downloads
+* Download Qt 5.4.1+ http://qt-project.org/downloads
   - Run the setup wizard and install to a known location which we'll call C:\Qt5
   - Be sure to install the msvc2013_x86 target
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and unzip
@@ -175,7 +171,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 
 * Set up build environment
   - open Visual Studio 2013/Visual Studio Tools/VS2013 x86 Tools Command Prompt
-  - add QT to your path: `PATH=%PATH%;C:\Qt5\5.3\msvc2013\bin`
+  - add QT to your path: `PATH=%PATH%;C:\Qt5\5.4\msvc2013\bin`
 * Build QScintilla:
   - `cd Qt4Qt5`
   - generate makefile: `qmake qscintilla.pro`

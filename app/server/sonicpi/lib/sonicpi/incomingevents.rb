@@ -20,7 +20,7 @@ module SonicPi
     include Util
 
     def initialize(name=:event_handler, priority=0)
-      @event_queue = Queue.new
+      @event_queue = SizedQueue.new(50)
       @handlers = {}
       @continue = true
       @handler_thread = Thread.new do
@@ -64,6 +64,25 @@ module SonicPi
       add_handler(handle, gensym("sonicpi/incomingevents/oneshot")) do |payload|
         block.call payload
         :remove_handler
+      end
+    end
+
+    def async_oneshot_handler(handle, &block)
+      async_add_handler(handle, gensym("sonicpi/incomingevents/oneshot")) do |payload|
+        block.call payload
+        :remove_handler
+      end
+    end
+
+    def async_multi_oneshot_handler(handles, &block)
+      key_prefix = gensym("sonicpi/incomingevents/oneshot")
+
+      handles_keys = handles.map {|h| [h, "#{key_prefix}-#{h}"]}
+      handles_keys.each do |h, k|
+        async_add_handler(h, k) do |payload|
+          block.call payload
+          handles_keys.each { |han, key| q_rm_handler(han, key) }
+        end
       end
     end
 

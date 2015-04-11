@@ -45,19 +45,21 @@ module SonicPi
     module ThreadLocalCounter
       def self.get_or_create_counters
         counters = Thread.current.thread_variable_get(:sonic_pi_core_thread_local_counters)
-        unless counters
-          counters = {}
-          Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, counters)
-        end
-        return counters
+        return counters if counters
+        counters = {}
+        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, counters)
+        counters
       end
 
       def self.tick(k, n=1)
         counters = get_or_create_counters
         if counters[k]
-          return counters[k] = counters[k] + n
+          current_val = counters[k]
+          counters[k] = counters[k] + n
+          return current_val
         else
-          return counters[k] = 0
+          counters[k] = n
+          return 0
         end
       end
 
@@ -69,6 +71,12 @@ module SonicPi
       def self.set(k, v)
         counters = get_or_create_counters
         counters[k] = v
+      end
+
+      def self.rm(k)
+        counters = get_or_create_counters
+        counters.delete(k)
+        nil
       end
     end
   end
@@ -133,6 +141,18 @@ end
 class String
   def shuffle
     self.chars.to_a.shuffle.join
+  end
+end
+
+class Numeric
+  def max(other)
+    return self if self <= other
+    other
+  end
+
+  def min(other)
+    return self if self >= other
+    other
   end
 end
 
@@ -550,10 +570,31 @@ class Array
   end
 end
 
+class String
+  def ring
+    self.chars.ring
+  end
+end
+
+class Symbol
+  def ring
+    self.to_s.ring
+  end
+end
+
 
 # Meta-glasses from our hero Why to help us
 # see more clearly..
 class Object
+
+  def ring
+    self.to_a.ring
+  end
+
+  def tick(k)
+    self.ring.tick(k)
+  end
+
   # The hidden singleton lurks behind everyone
   def metaclass; class << self; self; end; end
 

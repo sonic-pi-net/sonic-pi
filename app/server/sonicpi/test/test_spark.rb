@@ -13,6 +13,7 @@
 #++
 
 require 'test/unit'
+require_relative "../../core"
 require_relative "../lib/sonicpi/spiderapi"
 
 module SonicPi
@@ -20,13 +21,13 @@ module SonicPi
     include SonicPi::SpiderAPI
 
     def test_spark
-      assert_equal("▁▃▅▇", spark(1, 2, 3, 4))
-      assert_equal("▁▃▅▇", spark([1, 2, 3, 4]))
-      assert_equal("▁", spark(1))
-      assert_equal("▁▁▁", spark(3, 3, 3))
-      assert_equal("", spark([]))
-      assert_equal("spark error: can't use nested arrays", spark([1, 2], 3, 4))
-      assert_equal("spark error: arguments should be numeric", spark('foo', 'apple', 'banana', {silly: :hash}))
+      assert_equal("▁▃▅▇", spark_graph(1, 2, 3, 4))
+      assert_equal("▁▃▅▇", spark_graph([1, 2, 3, 4]))
+      assert_equal("▁", spark_graph(1))
+      assert_equal("▁▁▁", spark_graph(3, 3, 3))
+      assert_equal("", spark_graph([]))
+      assert_equal("spark error: can't use nested arrays", spark_graph([1, 2], 3, 4))
+      assert_equal("spark error: arguments should be numeric", spark_graph('foo', 'apple', 'banana', {silly: :hash}))
     end
   end
 end

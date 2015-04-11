@@ -18,14 +18,15 @@
 class SonicPiAPIs : public QsciAbstractAPIs
 {
  public:
-  enum { Func, FX, Synth, Sample, Chord, Scale,
-	 NContext };
+  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam,
+	 NContext  };
 
   SonicPiAPIs(QsciLexer *lexer);
 
   void addSymbol(int context, QString sym);
   void addKeyword(int context, QString keyword);
   void addFXArgs(QString fx, QStringList args);
+  void addSynthArgs(QString fx, QStringList args);
 
   void loadSamples(QString sample_path);
 
@@ -37,9 +38,10 @@ class SonicPiAPIs : public QsciAbstractAPIs
   virtual QStringList callTips(const QStringList &context, int commas,
 			       QsciScintilla::CallTipsStyle style,
 			       QList<int> &shifts);
-  
-  
+
+
  private:
   QStringList keywords[NContext];
   QHash<QString, QStringList> fxArgs;
+  QHash<QString, QStringList> synthArgs;
 };

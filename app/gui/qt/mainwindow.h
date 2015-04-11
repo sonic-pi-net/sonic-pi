@@ -78,7 +78,8 @@ protected:
     void wheelEvent(QWheelEvent *event);
 
 private slots:
-
+    void changeTab(int id);
+  void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();
     void update_mixer_invert_stereo();
@@ -88,7 +89,8 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
-    void completeListOrBeautifyCode(QObject *ws);
+    void completeListOrIndentLine(QObject *ws);
+    void indentCurrentLineOrSelection(SonicPiScintilla *ws);
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();
@@ -112,6 +114,7 @@ private slots:
     void setRPSystemAudioAuto();
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
+    void changeShowLineNumbers();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
@@ -120,7 +123,8 @@ private slots:
     void serverError(QProcess::ProcessError error);
     void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void startupError(QString msg);
-    void replaceBuffer(QString id, QString content);
+    void replaceBuffer(QString id, QString content, int line, int index, int first_line);
+    void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
     void tabNext();
     void tabPrev();
     void helpContext();
@@ -158,7 +162,9 @@ private:
     QListWidget *createHelpTab(QString name);
     QKeySequence metaKey(char key);
     QKeySequence shiftMetaKey(char key);
+    QKeySequence ctrlMetaKey(char key);
     QKeySequence ctrlKey(char key);
+    char int2char(int i);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
     QString readFile(QString name);
@@ -182,7 +188,7 @@ private:
     QSplashScreen* splash;
 #endif
 
-    static const int workspace_max = 9;
+    static const int workspace_max = 10;
     SonicPiScintilla *workspaces[workspace_max];
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
@@ -215,6 +221,7 @@ private:
     QCheckBox *print_output;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
+    QCheckBox *show_line_numbers;
     QCheckBox *check_updates;
 
     QRadioButton *rp_force_audio_hdmi;
