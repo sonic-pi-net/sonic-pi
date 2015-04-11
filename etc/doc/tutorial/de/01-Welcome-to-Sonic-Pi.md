@@ -30,9 +30,3 @@ wissen, und ich überlege, wie ich das in zukünftige Versionen einbauen
 kann.
 
 Ok, legen wir los...
-
-
-
-
-
-
