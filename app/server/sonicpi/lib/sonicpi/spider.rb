@@ -511,7 +511,6 @@ module SonicPi
         @life_hooks.completed(id)
         start_t = start_t_prom.get
         @life_hooks.exit(id, {:start_t => start_t})
-        __run_thread_end_finalisers
         deregister_job_and_return_subthreads(id)
         @user_jobs.job_completed(id)
         Kernel.sleep @mod_sound_studio.sched_ahead_time
@@ -640,16 +639,6 @@ module SonicPi
     def sthread(name)
       st = @named_subthreads[name]
       st.thread if st
-    end
-
-    def __run_thread_end_finalisers
-      gc_jobs = Thread.current.thread_variable_get(:sonic_pi__not_inherited__spider_in_thread_gc_jobs) || []
-      gc_jobs.each do |job|
-        begin
-          job.call
-        rescue => e
-        end
-      end
     end
   end
 end
