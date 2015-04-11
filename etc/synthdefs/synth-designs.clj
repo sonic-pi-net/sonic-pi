@@ -1454,6 +1454,75 @@
          snd         (* amp-fudge env snd)]
      (out out_bus (pan2 snd pan amp))))
 
+
+  (defsynth sonic-pi-hoover
+    "Implementation of the rave hoover synth taken from Daniel Turczanski's Overtone implementation,
+     which in turn is based on Dan Stowell's version here http://www.mcld.co.uk/blog/blog.php?254
+     as described here http://jvmsoup.com/2012/11/28/hoover-sound-in-overtone/"
+    [note 52
+     note_slide 0
+     note_slide_shape 5
+     note_slide_curve 0
+     amp 1
+     amp_slide 0
+     amp_slide_shape 5
+     amp_slide_curve 0
+     pan 0
+     pan_slide 0
+     pan_slide_shape 5
+     pan_slide_curve 0
+     attack 0.1
+     decay 0.0
+     sustain 0.0
+     release 2
+     attack_level 1
+     sustain_level 1
+     env_curve 2
+     cutoff 137
+     cutoff_slide 0
+     cutoff_slide_shape 5
+     cutoff_slide_curve 0
+     pre_amp 10
+     amp-fudge 2.5
+     out_bus 0]
+    (let [;; The pwm here is creating a special half-saw, half-square hybrid wave
+          ;; that was apparently used on the Roland Juno that made this sound
+          pwm    (lin-lin (sin-osc:kr (vec (repeatedly 3 #(ranged-rand 2 4)))) -1 1 0.125 0.875)
+          note   (varlag note note_slide note_slide_curve note_slide_shape)
+          amp    (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          pan    (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+          cutoff (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+          cutoff-freq (midicps cutoff)
+          freq   (midicps note)
+          freq   (*
+                  freq
+                  (lin-exp (sin-osc:kr 
+                             (vec (repeatedly 3 #(ranged-rand 2.9 3.1)))
+                             (vec (repeatedly 3 #(ranged-rand 0 (* 2 Math/PI))))
+                             ) -1 1 0.995 1.005)) 
+          mix    (*
+                  0.1
+                  (apply + 
+                         (*
+                          (lin-lin (lf-saw (* [0.25 0.5 1] freq) 1) -1 1 0 1)
+                          (- 1 (lf-pulse:ar (* freq [0.5 1 2]) 0 pwm)))))
+          ;bass
+          mix   (+ mix (lf-par (* 0.25 freq) 0))
+          mix   (mul-add mix 0.1 0)
+          ;eq
+          mix   (b-peak-eq mix 6000 1 3)
+          mix   (b-peak-eq mix 3500 1 6)
+          ;chorus
+          mix   (+ mix 
+                   (* 0.5 (comb-c mix 1/200 
+                                  (lin-lin (sin-osc:kr 3 [(* 0.5 Math/PI) (* 1.5 Math/PI)]) -1 1 1/300 1/200)
+                                  0)))
+          env    (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+          output (* pre_amp mix env)
+          output (lpf output cutoff-freq)]
+      (out out_bus (pan2 output pan (* amp-fudge amp)))))
+ 
+
  (defsynth sonic-pi-supersaw [note 52
                               note_slide 0
                               note_slide_shape 5
@@ -1659,6 +1728,7 @@
  (comment
    (save-to-pi sonic-pi-tb303)
    (save-to-pi sonic-pi-supersaw)
+   (save-to-pi sonic-pi-hoover)
    (save-to-pi sonic-pi-prophet)
    (save-to-pi sonic-pi-zawa)
 
