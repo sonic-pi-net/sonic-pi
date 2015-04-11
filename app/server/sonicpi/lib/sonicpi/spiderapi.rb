@@ -1601,7 +1601,11 @@ end"]
         main_t.priority = 10
 
         Thread.new do
-          Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
+          if name
+            Thread.current.thread_variable_set(:sonic_pi_thread_group, "in_thread_join_#{name}")
+          else
+            Thread.current.thread_variable_set(:sonic_pi_thread_group, :in_thread_join)
+          end
           Thread.current.priority = -10
           # wait for all subthreads to finish before removing self from
           # the subthread tree
