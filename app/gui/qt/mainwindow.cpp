@@ -1332,7 +1332,7 @@ void MainWindow::createShortcuts()
   new QShortcut(ctrlKey('i'), this, SLOT(helpContext()));
   new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
-  new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
+  //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
 }
 
 void MainWindow::createToolBar()
