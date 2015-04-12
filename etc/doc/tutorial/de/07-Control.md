@@ -10,6 +10,6 @@ seine Abspieldauer.
 
 Wäre es nicht cool, wenn man diese Parameter verändern könnte, während 
 der Ton noch abgespielt wird, genauso wie Du eine noch schwingende Saite 
-beim Gitarre spielen benden würdest.
+beim Gitarre spielen ziehen würdest.
 
 Glück gehabt - dieses Kapitel wird dir genau das zeigen.
