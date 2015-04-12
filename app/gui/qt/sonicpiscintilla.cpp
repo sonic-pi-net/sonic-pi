@@ -387,3 +387,14 @@ void SonicPiScintilla::moveLines(int numLines) {
     }
   }
 }
+
+void SonicPiScintilla::upcaseWordOrSelection(){
+  if(hasSelectedText()) {
+    SendScintilla(SCI_UPPERCASE);
+  } else {
+    setMark();
+    SendScintilla(SCI_WORDRIGHT);
+    SendScintilla(SCI_UPPERCASE);
+    deselect();
+  }
+}

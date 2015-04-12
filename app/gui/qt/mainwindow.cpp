@@ -218,6 +218,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
     connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
 
+    //upcase next word
+    QShortcut *upcaseWord= new QShortcut(metaKey('u'), workspace);
+    connect(upcaseWord, SIGNAL(activated()), workspace, SLOT(upcaseWordOrSelection()));
 
     //Goto nth Tab
     QShortcut *changeTab = new QShortcut(metaKey(int2char(ws)), this);
