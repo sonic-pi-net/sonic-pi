@@ -236,11 +236,16 @@ void SonicPiScintilla::escapeAndCancelSelection()
   SendScintilla(SCI_CANCEL);
 }
 
+void SonicPiScintilla::deselect()
+{
+  int pos = SendScintilla(SCI_GETCURRENTPOS);
+  SendScintilla(SCI_SETEMPTYSELECTION, pos);
+}
+
 void SonicPiScintilla::copyClear()
 {
   QsciScintilla::copy();
-  int pos = SendScintilla(SCI_GETCURRENTPOS);
-  SendScintilla(SCI_SETEMPTYSELECTION, pos);
+  deselect();
 }
 
 void SonicPiScintilla::replaceLine(int lineNumber, QString newLine)

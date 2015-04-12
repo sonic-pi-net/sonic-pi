@@ -46,6 +46,7 @@ class SonicPiScintilla : public QsciScintilla
     void moveLineOrSelectionDown();
     int incLineNumWithinBounds(int linenum, int inc);
     void moveLines(int numLines);
+    void deselect();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
