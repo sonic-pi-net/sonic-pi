@@ -48,6 +48,7 @@ class SonicPiScintilla : public QsciScintilla
     void moveLines(int numLines);
     void deselect();
     void upcaseWordOrSelection();
+    void downcaseWordOrSelection();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);

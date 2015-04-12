@@ -222,6 +222,10 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     QShortcut *upcaseWord= new QShortcut(metaKey('u'), workspace);
     connect(upcaseWord, SIGNAL(activated()), workspace, SLOT(upcaseWordOrSelection()));
 
+    //downcase next word
+    QShortcut *downcaseWord= new QShortcut(metaKey('l'), workspace);
+    connect(downcaseWord, SIGNAL(activated()), workspace, SLOT(downcaseWordOrSelection()));
+
     //Goto nth Tab
     QShortcut *changeTab = new QShortcut(metaKey(int2char(ws)), this);
     connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));

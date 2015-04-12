@@ -398,3 +398,15 @@ void SonicPiScintilla::upcaseWordOrSelection(){
     deselect();
   }
 }
+
+
+void SonicPiScintilla::downcaseWordOrSelection(){
+  if(hasSelectedText()) {
+    SendScintilla(SCI_LOWERCASE);
+  } else {
+    setMark();
+    SendScintilla(SCI_WORDRIGHT);
+    SendScintilla(SCI_LOWERCASE);
+    deselect();
+  }
+}
