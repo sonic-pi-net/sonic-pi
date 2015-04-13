@@ -388,7 +388,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     startupPane->setReadOnly(true);
     startupPane->setFixedSize(600, 615);
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
-    startupPane->setWindowTitle("Welcome to Sonic Pi");
+    startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
     addUniversalCopyShortcuts(startupPane);
     QString html;
 
@@ -975,14 +975,14 @@ void MainWindow::reloadServerCode()
 
 void MainWindow::enableCheckUpdates()
 {
-  statusBar()->showMessage(tr("Enabling update checking...."), 2000);
+  statusBar()->showMessage(tr("Enabling update checking..."), 2000);
   Message msg("/enable-update-checking");
   sendOSC(msg);
 }
 
 void MainWindow::disableCheckUpdates()
 {
-  statusBar()->showMessage(tr("Disabling update checking...."), 2000);
+  statusBar()->showMessage(tr("Disabling update checking..."), 2000);
   Message msg("/disable-update-checking");
   sendOSC(msg);
 }
@@ -1112,7 +1112,7 @@ void MainWindow::changeRPSystemVol(int val)
   //do nothing
   val = val;
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Updating System Volume."), 2000);
+  statusBar()->showMessage(tr("Updating System Volume..."), 2000);
   //do nothing, just print out what it would do on RPi
   float v = (float) val;
   float vol_float = pow(v/100.0, (float)1./3.) * 100.0;
@@ -1128,7 +1128,7 @@ void MainWindow::changeRPSystemVol(int val)
   float vol_float = std::pow(v/100.0, (float)1./3.) * 100.0;
   std::ostringstream ss;
   ss << vol_float;
-  statusBar()->showMessage(tr("Updating System Volume."), 2000);
+  statusBar()->showMessage(tr("Updating System Volume..."), 2000);
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
   p->start(prog);
 #endif
@@ -1151,13 +1151,13 @@ void MainWindow::setRPSystemAudioHeadphones()
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To Headphone Audio Output."), 2000);
+  statusBar()->showMessage(tr("Switching To Headphone Audio Output..."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 1";
   std::cout << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To Headphone Audio Output."), 2000);
+  statusBar()->showMessage(tr("Switching To Headphone Audio Output..."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 1";
   p->start(prog);
@@ -1170,13 +1170,13 @@ void MainWindow::setRPSystemAudioHDMI()
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To HDMI Audio Output."), 2000);
+  statusBar()->showMessage(tr("Switching To HDMI Audio Output..."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 2";
   std::cout << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To HDMI Audio Output."), 2000);
+  statusBar()->showMessage(tr("Switching To HDMI Audio Output..."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 2";
   p->start(prog);
@@ -1189,13 +1189,13 @@ void MainWindow::setRPSystemAudioAuto()
   //do nothing
 
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To Default Audio Output."), 2000);
+  statusBar()->showMessage(tr("Switching To Default Audio Output..."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 0";
   std::cout << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
-  statusBar()->showMessage(tr("Switching To Default Audio Output."), 2000);
+  statusBar()->showMessage(tr("Switching To Default Audio Output..."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 0";
   p->start(prog);
@@ -1504,7 +1504,7 @@ void MainWindow::toggleRecording() {
 
 void MainWindow::createStatusBar()
 {
-  statusBar()->showMessage(tr("Ready"));
+  statusBar()->showMessage(tr("Ready..."));
 }
 
 void MainWindow::readSettings() {
@@ -1583,7 +1583,7 @@ void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
   QApplication::setOverrideCursor(Qt::WaitCursor);
   text->setText(in.readAll());
   QApplication::restoreOverrideCursor();
-  statusBar()->showMessage(tr("File loaded"), 2000);
+  statusBar()->showMessage(tr("File loaded..."), 2000);
 }
 
 bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
@@ -1608,7 +1608,7 @@ bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
   out << code;
   QApplication::restoreOverrideCursor();
 
-  statusBar()->showMessage(tr("File saved"), 2000);
+  statusBar()->showMessage(tr("File saved..."), 2000);
   return true;
 }
 
