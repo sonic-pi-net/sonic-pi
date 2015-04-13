@@ -2,18 +2,17 @@
 
 # Live Coding
 
-Einer der interessantesten Aspekte von Sonic Pi ist es, das es dir die 
-Möglichkeit gibt, Code live zu schreiben und zu verändern um Musik zu 
-machen, so als würdest Du beispielsweise mit einer Gitarre auftreten.
+Und jetzt kommt ein sehr aufregendes Thema! Mit Sonic Pi kannst Du
+Deinen Code live schreiben und verändern. Du kannst also mit Sonic Pi
+während eines Auftritts auf der Bühne Musik machen wie mit einer Gitarre.
 
-Ein Vorteil dieser Herangehensweise ist, dass du direkt während dem 
+Ein Vorteil dieser Herangehensweise ist, dass Du direkt während des 
 Komponieren Rückmeldung erhältst. Starte einen einfachen Loop und 
 spiele daran herum, bis er genau richtig klingt. Der größte Vorteil ist 
-aber, dass du Sonic Pi mit auf die Bühne nehmen und damit auftreten 
-kannst.
+aber, dass Du Sonic Pi bei einem Gig mit auf die Bühne nehmen kannst.
 
-Dieser Abschnitt behandelt die Grundlagen, die du benötigst um deinen 
+Dieser Abschnitt behandelt die Grundlagen, die Du benötigst, um Deine 
 Kompositionen von statischem Code in rasante Performances zu 
 verwandeln.
 
-Halt dich fest ...
+Halt Dich fest...
