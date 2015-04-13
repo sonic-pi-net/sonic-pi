@@ -4,10 +4,10 @@ Sonic Pi is more than just software. It's a whole community of people sharing id
 
 You can get involved with the community at the following locations:
 
-## Sonic Pi Weekly
-*<http://sonic-pi.net/weekly/subscribe.html>*
+## Sonic Pi Monthly
+*<http://sonic-pi.net/monthly/subscribe.html>*
 
-A weekly newsletter by email summarising all the interesting things
+A monthly newsletter by email summarising all the interesting things
 happening with Sonic Pi - articles, news, teaching, resources, music,
 and more.
 
