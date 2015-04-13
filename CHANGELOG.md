@@ -1,5 +1,5 @@
 # History
-* [v2.5 'Craft'](#v2.5), to be released
+* [v2.5 'Craft'](#v2.5), 13th April, 2015
 * [v2.4 'Defrost'](#v2.4), 11th Feb, 2015 
 * [v2.3 'Bitcrush'](#v2.3), 28th Jan, 2015
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
@@ -8,9 +8,20 @@
 
 <a name="v2.5"></a>
 
-## Version 2.5-dev - 'Craft'
-*To be released*
+## Version 2.5 - 'Craft'
+*Monday 13th April, 2015*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.5.0)
+
+This release comes with support for
+[Minecraft: Pi Edition](http://pi.minecraft.net) installed on the
+Raspberry Pi. You can now create music with Minecraft visuals or even
+code up a synth score in Minecraft blocks and read and play the score
+from Sonic Pi! Another exciting aspect of this release is much improved
+editor functionality for navigating around and manipulating code via
+keyboard shortcuts. This means that live coding just got a lot more
+fun. The keyboard shortcuts are based on the standard shortcuts provided
+by [GNU Emacs](https://www.gnu.org/software/emacs/) - the oldest and
+most powerful text editor in use by wizard programmers today.
 
 ### Breaking Changes
     
@@ -18,15 +29,19 @@
    the wave every time I used a synth/fx where wave inversion was
    key. This seemed like such a better default I've broken compatibility
    for it. Apologies if this has affected you.
-* rename fx `ring` to `ring_mod` to reduce the potentiaon for confusion
+* The `flanger` FX now defaults the optional arg `stereo_invert_wave` to
+  1.
+* Renamed FX `ring` to `ring_mod` to reduce the potential for confusion
   with the `ring` datastructure.
-* `Tab` now indents current line rather than inserting a useless tab
-  character.
+* `Tab` now indents current line or selection rather than inserting a
+  useless tab character.
 
 ### New
 
 * Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
 * `sync` now accepts multiple cue ids and will sync on the first matching id.
+* New fn `pitch_ratio` for converting a midio note to a frequency
+  ratio. Useful for tuning samples.
 * New fn `line` for creating a line from start to finish with a specific
   number of slices.
 * New fn `spark` for displaying lists of numbers in a fancy text-graph
@@ -42,10 +57,16 @@
   machine with a German localisation setting.
 * Display GUI fully maximised when opening for first ever time.
 * Workpace indexing now starts at 0 to match standard programming indexes.
-* New shortcuts - `M-<` and `M->` for switching workspaces, 
+* New shortcuts - `M-<` and `M->` for switching workspaces.
+* Many new Emacs-based code navigation and editing shortcuts. See
+  shortcut cheatsheet in tutorial for more information.
 * Increase height of doc and error panes.
+* Improve error pane colour scheme.
 * Auto-align now trims whitespace from start and end of buffer.
 * Add preference toggle to hide/show line numbers.
+* Documentation now supports semantic formatting and highlighting.
+* Docsystem tabs are now positioned at the bottom for better navigation.
+* New preference to hide/show line numbers in editor.
 
 ### Synths & FX
 
@@ -61,6 +82,10 @@
 * Fix arg metadata for `use_sample_pack_as`  
 * Rings now pretty print themselves as `(ring 1, 2, 3)` rather than `[1, 2, 3]`.
 * `C-k` keyboard shortcut now copies text into the clipboard.
+* Scales and chords now return actual `ring`s rather than `ring`-like
+  things.
+* Improve Ring Mod FX arguments
+* Exceptions created within `with_fx` are now raised correctly.
 
 
  <a name="v2.4"></a>
