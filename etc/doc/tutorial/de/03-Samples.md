@@ -2,7 +2,7 @@
 
 # Samples
 
-Du kannst deine Musik auch prima mit aufgenommenen Sounds erweitern. In 
+Du kannst Deine Musik auch prima mit aufgenommenen Sounds erweitern. In
 der großen Tradition des Hip-Hop nennen wir diese aufgenommenen Sounds 
 auch *Samples*. Also, wenn Du ein Mikrophon mit nach draußen nimmst und 
 den zarten Klang der Regentropfen auf einem Zeltdach aufnimmst, dann 

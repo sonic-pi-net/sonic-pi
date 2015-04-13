@@ -30,7 +30,7 @@ oder? Das kann doch kein Zufall sein!
 Die Antwort ist, es ist nicht wirklich zufällig, sondern 
 pseudo-zufällig. Sonic Pi liefert Dir Reihenfolgen von Zufallszahlen, 
 die wiederholbar sind. Das ist sehr nützlich, weil es sicherstellt, 
-dass die Musik, die Du auf deinem Rechner erzeugst, auf anderen 
+dass die Musik, die Du auf Deinem Rechner erzeugst, auf anderen 
 Rechnern identisch klingt - sogar, wenn Du einen Zufallsfaktor 
 einbaust.
 
@@ -123,7 +123,7 @@ Schauen wir uns noch eine andere nützlich Zufallsfunktion an.
 Häufig kommt es vor, dass man aus einer Liste von Dingen eines zufällig 
 auswählen möchte. Zum Beispiel möchte ich einen Ton aus der folgenden 
 Liste auswählen: 60, 65 oder 72. Das kannst Du mit `choose` erreichen. 
-Zuerst musst Du deine Zahlen in eine Liste packen; dafür schreibst Du 
+Zuerst musst Du Deine Zahlen in eine Liste packen; dafür schreibst Du 
 sie jeweils durch Kommata getrennt in eckige Klammern. Dann übergibst 
 Du diese Liste dem Kommando `choose`:
 
@@ -212,7 +212,7 @@ gewürfelt wurde. `one_in(6)` wird also mit einer Wahrscheinlichkeit von
 sind sehr nützlich, wenn es um `if`-Anweisungen geht, die wir in einem 
 folgenden Kapitel dieses Tutorials besprechen.
 
-Jetzt los, bring' deinen Code mit ein paar Zufälligkeiten 
+Jetzt los, bring' Deinen Code mit ein paar Zufälligkeiten
 durcheinander!
 
 [^1]: Randomisierung (engl. *Randomisation*) bedeutet hier, dass man 
