@@ -141,6 +141,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
 
+  SendScintilla(SCI_SETWORDCHARS, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:_?!");
+
+
 }
 
 void SonicPiScintilla::hideLineNumbers(){
