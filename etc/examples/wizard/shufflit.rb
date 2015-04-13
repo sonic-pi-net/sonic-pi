@@ -5,7 +5,7 @@ use_random_seed 667
 load_sample :ambi_lunar_land
 sleep 1
 
-live_loop :travelling do |idx|
+live_loop :travelling do
   with_fx :echo, phase: 0.125, mix: 0.8  do
     use_synth :beep
     notes = scale(:e3, :minor_pentatonic, num_octaves: 1)
@@ -28,7 +28,7 @@ live_loop :comet, auto_cue: false do
 end
 
 live_loop :shuff, auto_cue: false do |idx|
-  with_fx :hpf, cutoff: 10 do |f|
+  with_fx :hpf, cutoff: 10 do
     8.times do
       sleep 0.25
       sample :bd_tek, amp: factor?(idx, 8) ? 6 : 4

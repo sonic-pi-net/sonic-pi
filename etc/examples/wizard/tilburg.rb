@@ -11,7 +11,7 @@ live_loop :low do |idx|
 end
 
 with_fx :reverb, room: 1  do
-  live_loop :lands, auto_cue: false do |idx|
+  live_loop :lands, auto_cue: false do
     use_synth :dsaw
     use_random_seed 66679
     ns = (scale :e2, :minor_pentatonic, num_octaves: 3)
@@ -22,13 +22,13 @@ with_fx :reverb, room: 1  do
   end
 end
 
-live_loop :fietsen do |idx|
+live_loop :fietsen do
   sleep 0.25
   sample :guit_em9, rate: -1
   sleep 7.75
 end
 
-live_loop :tijd, auto_cue: false do |idx|
+live_loop :tijd, auto_cue: false do
   sample :bd_haus, amp: 2.5
   sleep 0.5
 end
