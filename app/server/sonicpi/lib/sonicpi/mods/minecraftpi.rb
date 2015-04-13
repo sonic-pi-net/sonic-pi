@@ -544,7 +544,7 @@ puts mc_block_name :air #=> :air",
           args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "Take a snapshot of the world and save it. Restore back with `mc_checkpoint_restor`",
           examples:       [""]
 
 
@@ -559,7 +559,7 @@ puts mc_block_name :air #=> :air",
           args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "Restore the world to the last snapshot taken with `mc_checkpoint_save`.",
           examples:       [""]
 
 
@@ -574,7 +574,7 @@ puts mc_block_name :air #=> :air",
           args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "Set the camera mode to normal.",
           examples:       [""]
 
 
@@ -589,7 +589,7 @@ puts mc_block_name :air #=> :air",
           args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "Set the camera mode to third person",
           examples:       [""]
 
 
@@ -604,7 +604,7 @@ puts mc_block_name :air #=> :air",
           args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "Set the camera mode to fixed.",
           examples:       [""]
 
 
@@ -619,7 +619,7 @@ puts mc_block_name :air #=> :air",
           args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "",
+          doc:            "Move the camera to a new location.",
           examples:       [""]
 
 
