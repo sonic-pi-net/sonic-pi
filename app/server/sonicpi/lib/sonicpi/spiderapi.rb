@@ -214,9 +214,9 @@ module SonicPi
         accepts_block:  false,
         doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to `8`. Indexes wrap around positively and negatively. Similar to `range`.",
         examples:       [
-      "(line 0, 4, 4)    #=> (ring 0, 1, 2, 3)",
-      "(line 5, 0, 5)    #=> (ring 5, 4, 3, 2, 1)",
-      "(line 0, 4, slices: 4, inclusive: true)"
+      "(line 0, 4, steps: 4)    #=> (ring 0.0, 1.0, 2.0, 3.0)",
+      "(line 5, 0, steps: 5)    #=> (ring 5.0, 4.0, 3.0, 2.0, 1.0)",
+      "(line 0, 3, inclusive: true) #=> (ring 0.0, 1.0, 2.0, 3.0)"
    ]
 
 
