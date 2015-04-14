@@ -36,8 +36,9 @@ int main(int argc, char *argv[])
 
   QTranslator translator;
   if (!translator.load("sonic-pi_" + systemLocale, ":/lang/") && (!systemLocale.startsWith("en")) && (systemLocale != "C")) {
-    std::cout << "No translation found for your locale \"" + systemLocale.toStdString() + "\"." << std::endl;
-    std::cout << "Please contact us if you want to translate Sonic Pi to your language." << std::endl;
+    std::cerr << "No translation found for your locale \"" + systemLocale.toStdString() + "\"." << std::endl;
+    std::cerr << "Do you you want to translate Sonic Pi to your language?" << std::endl;
+    std::cerr << "Read https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md" << std::endl;
   }
   app.installTranslator(&translator);
 

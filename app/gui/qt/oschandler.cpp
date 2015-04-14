@@ -119,7 +119,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
         } else {
-          std::cout << "[GUI] - error: unhandled OSC msg /info "<< std::endl;
+          std::cerr << "[GUI] - error: unhandled OSC msg /info "<< std::endl;
         }
       }
       else if (msg->match("/error")) {
@@ -135,7 +135,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
                                      Q_ARG(QString, "<table width=\"100%\"> border=\"1\" bgcolor=\"deeppink\" cellpadding=\"0\"><tr><td bgcolor=\"white\"><h3><font color=\"deeppink\"><pre>Error: " + QString::fromStdString(desc) + "</pre></font></h3></td></tr><tr><td bgcolor=\"white\"><h4><font color=\"#5e5e5e\"><pre>" + QString::fromStdString(backtrace) + "</pre></font></h4></td></tr></table>") );
 
         } else {
-          std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
+          std::cerr << "[GUI] - unhandled OSC msg /error: "<< std::endl;
         }
       }
       else if (msg->match("/replace-buffer")) {
@@ -148,7 +148,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
 
           QMetaObject::invokeMethod( window, "replaceBuffer", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)), Q_ARG(int, line), Q_ARG(int, index), Q_ARG(int, line_number));
         } else {
-          std::cout << "[GUI] - error: unhandled OSC msg /replace-buffer: "<< std::endl;
+          std::cerr << "[GUI] - error: unhandled OSC msg /replace-buffer: "<< std::endl;
         }
       }
       else if (msg->match("/replace-lines")) {
@@ -162,25 +162,25 @@ void OscHandler::oscMessage(std::vector<char> buffer){
 
           QMetaObject::invokeMethod( window, "replaceLines", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(id)), Q_ARG(QString, QString::fromStdString(content)), Q_ARG(int, start_line),Q_ARG(int, finish_line), Q_ARG(int, point_line), Q_ARG(int, point_index));
         } else {
-          std::cout << "[GUI] - error: unhandled OSC msg /replace-lines: "<< std::endl;
+          std::cerr << "[GUI] - error: unhandled OSC msg /replace-lines: "<< std::endl;
         }
       }
       else if (msg->match("/exited")) {
         if (msg->arg().isOkNoMoreArgs()) {
-          std::cout << "[GUI] - server asked us to exit" << std::endl;
+          std::cerr << "[GUI] - server asked us to exit" << std::endl;
           signal_server_stop = true;
         } else {
-          std::cout << "[GUI] - error: unhandled OSC msg /exited: "<< std::endl;
+          std::cerr << "[GUI] - error: unhandled OSC msg /exited: "<< std::endl;
         }
       }
       else if (msg->match("/exited_with_boot_error")) {
         std::string error_message;
         if (msg->arg().popStr(error_message).isOkNoMoreArgs()) {
-          std::cout << "[GUI] - server failed to start with this error message: " << std::endl;
-          std::cout << "      > " << error_message << std::endl;
+          std::cerr << "[GUI] - server failed to start with this error message: " << std::endl;
+          std::cerr << "      > " << error_message << std::endl;
           signal_server_stop = true;
         } else {
-          std::cout << "[GUI] - error: unhandled OSC msg /exited_with_error: "<< std::endl;
+          std::cerr << "[GUI] - error: unhandled OSC msg /exited_with_error: "<< std::endl;
         }
       }
       else if (msg->match("/ack")) {
@@ -192,10 +192,10 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           server_started = true;
 
         } else
-          std::cout << "[GUI] - error: unhandled OSC msg /ack " << std::endl;
+          std::cerr << "[GUI] - error: unhandled OSC msg /ack " << std::endl;
       }
       else {
-        std::cout << "[GUI] - error: unhandled OSC message" << std::endl;
+        std::cerr << "[GUI] - error: unhandled OSC message" << std::endl;
       }
     }
 

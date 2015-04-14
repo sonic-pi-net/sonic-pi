@@ -104,12 +104,23 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     clientSock = new QTcpSocket(this);
   }
 
+    QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
+    log_path =  sp_user_path + QDir::separator() + "log";
+    QDir().mkdir(sp_user_path);
+    QDir().mkdir(log_path);
+
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+    cerrbuf = std::cerr.rdbuf();
+    stderr.open(QString(log_path + "/stderr.log").toStdString().c_str());
+    std::cerr.rdbuf(stderr.rdbuf());
+#endif
 
   printAsciiArtLogo();
+  
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
-  qDebug() << "[GUI] - shutting down any pre-existing audio servers...";
+  std::cerr << "[GUI] - shutting down any pre-existing audio servers..." << std::endl;
   Message msg("/exit");
   sendOSC(msg);
   sleep(2);
@@ -481,19 +492,8 @@ void MainWindow::startServer(){
         args << "-t";
     }
 
-    QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
-    log_path =  sp_user_path + QDir::separator() + "log";
-    QDir().mkdir(sp_user_path);
-    QDir().mkdir(log_path);
-
-  #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    coutbuf = std::cout.rdbuf();
-    stdlog.open(QString(log_path + "/stdout.log").toStdString().c_str());
-    std::cout.rdbuf(stdlog.rdbuf());
-  #endif
-
-    //    std::cout << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
-    std::cout << "[GUI] - booting live coding server" << std::endl;
+    //    std::cerr << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
+    std::cerr << "[GUI] - booting live coding server" << std::endl;
 
     QString sp_error_log_path = log_path + QDir::separator() + "errors.log";
     QString sp_output_log_path = log_path + QDir::separator() + "output.log";
@@ -508,7 +508,7 @@ void MainWindow::startServer(){
 
 void MainWindow::waitForServiceSync() {
   int timeout = 30;
-  qDebug() << "[GUI] - waiting for server to connect...";
+  std::cerr << "[GUI] - waiting for server to connect..." << std::endl;
   while (sonicPiServer->waitForServer() && timeout-- > 0) {
     sleep(1);
     if(sonicPiServer->isIncomingPortOpen()) {
@@ -525,7 +525,7 @@ void MainWindow::waitForServiceSync() {
     return;
   }
 
-    qDebug() << "[GUI] - server connection established";
+    std::cerr << "[GUI] - server connection established" << std::endl;
 
 }
 
@@ -555,15 +555,15 @@ void MainWindow::serverStarted() {
 
 void MainWindow::serverError(QProcess::ProcessError error) {
   sonicPiServer->stopServer();
-  std::cout << "[GUI] - Server Error: " << error <<std::endl;
-  std::cout << serverProcess->readAllStandardError().data() << std::endl;
-  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
+  std::cerr << "[GUI] - Server Error: " << error <<std::endl;
+  std::cerr << serverProcess->readAllStandardError().data() << std::endl;
+  std::cerr << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
 void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
-  std::cout << "[GUI] - Server Finished: " << exitCode << ", " << exitStatus << std::endl;
-  std::cout << serverProcess->readAllStandardError().data() << std::endl;
-  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
+  std::cerr << "[GUI] - Server Finished: " << exitCode << ", " << exitStatus << std::endl;
+  std::cerr << serverProcess->readAllStandardError().data() << std::endl;
+  std::cerr << serverProcess->readAllStandardOutput().data() << std::endl;
 }
 
 void MainWindow::update_mixer_invert_stereo() {
@@ -790,7 +790,7 @@ std::string MainWindow::workspaceFilename(SonicPiScintilla* text)
 
 void MainWindow::loadWorkspaces()
 {
-  std::cout << "[GUI] - loading workspaces" << std::endl;
+  std::cerr << "[GUI] - loading workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     Message msg("/load-buffer");
@@ -802,7 +802,7 @@ void MainWindow::loadWorkspaces()
 
 void MainWindow::saveWorkspaces()
 {
-  std::cout << "[GUI] - saving workspaces" << std::endl;
+  std::cerr << "[GUI] - saving workspaces" << std::endl;
 
   for(int i = 0; i < workspace_max; i++) {
     std::string code = workspaces[i]->text().toStdString();
@@ -817,10 +817,6 @@ void MainWindow::saveWorkspaces()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
   writeSettings();
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-  std::cout.rdbuf(coutbuf); // reset to stdout before exiting
-#endif
-
   event->accept();
 }
 
@@ -849,7 +845,7 @@ void MainWindow::sendOSC(Message m)
     UdpSocket sock;
     sock.connectTo("localhost", PORT_NUM);
     if (!sock.isOk()) {
-        std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+        std::cerr << "[GUI] - error connecting to port " << PORT_NUM << ": " << sock.errorMessage() << std::endl;
     } else {
         PacketWriter pw;
         pw.addMessage(m);
@@ -862,7 +858,7 @@ void MainWindow::sendOSC(Message m)
     }
 
     if(!clientSock->waitForConnected(TIMEOUT)){
-      std::cerr <<  "Timeout, could not connect" << "\n";
+      std::cerr <<  "[GUI] - timeout, could not connect" << std::endl;
       clientSock->abort();
       return;
     }
@@ -875,11 +871,11 @@ void MainWindow::sendOSC(Message m)
       clientSock->waitForBytesWritten();
 
       if (bytesWritten < 0){
-        std::cerr <<  "Failed to send bytes" << "\n";
+        std::cerr <<  "[GUI] - failed to send bytes" << std::endl;
       }
 
     } else {
-      std::cerr << "Client gone away: " << "\n";
+      std::cerr << "[GUI] - client gone away: " << std::endl;
     }
   }
 }
@@ -1113,7 +1109,7 @@ void MainWindow::changeRPSystemVol(int val)
   std::ostringstream ss;
   ss << vol_float;
   QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
-  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
+  std::cerr << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   QProcess *p = new QProcess();
@@ -1148,7 +1144,7 @@ void MainWindow::setRPSystemAudioHeadphones()
   statusBar()->showMessage(tr("Switching To Headphone Audio Output..."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 1";
-  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
+  std::cerr << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To Headphone Audio Output..."), 2000);
@@ -1167,7 +1163,7 @@ void MainWindow::setRPSystemAudioHDMI()
   statusBar()->showMessage(tr("Switching To HDMI Audio Output..."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 2";
-  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
+  std::cerr << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To HDMI Audio Output..."), 2000);
@@ -1186,7 +1182,7 @@ void MainWindow::setRPSystemAudioAuto()
   statusBar()->showMessage(tr("Switching To Default Audio Output..."), 2000);
   //do nothing, just print out what it would do on RPi
   QString prog = "amixer cset numid=3 0";
-  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
+  std::cerr << "[GUI] - " << prog.toStdString() << std::endl;
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To Default Audio Output..."), 2000);
@@ -1623,7 +1619,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 void MainWindow::onExitCleanup()
 {
   if(serverProcess->state() == QProcess::NotRunning) {
-    std::cout << "[GUI] - warning, server process is not running." << std::endl;
+    std::cerr << "[GUI] - warning, server process is not running." << std::endl;
     sonicPiServer->stopServer();
     if(protocol == TCP){
       clientSock->close();
@@ -1632,15 +1628,18 @@ void MainWindow::onExitCleanup()
     if (loaded_workspaces)
       saveWorkspaces();
     sleep(1);
-    std::cout << "[GUI] - asking server process to exit..." << std::endl;
+    std::cerr << "[GUI] - asking server process to exit..." << std::endl;
     Message msg("/exit");
     sendOSC(msg);
   }
   if(protocol == UDP){
     osc_thread.waitForFinished();
   }
-  std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
+  std::cerr << "[GUI] - exiting. Cheerio :-)" << std::endl;
 
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+  std::cerr.rdbuf(cerrbuf); // reset to stdout before exiting
+#endif
 }
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
@@ -1800,17 +1799,9 @@ QString MainWindow::asciiArtLogo(){
 void MainWindow::printAsciiArtLogo(){
 
   QString s = asciiArtLogo();
-  std::cout << std::endl << std::endl << std::endl;
-#if QT_VERSION >= 0x050400
-  qDebug().noquote() << s;
-  std::cout << std::endl << std::endl;
-#else
-  //noquote requires QT 5.4
-  qDebug() << s;
-  std::cout << std::endl;
-#endif
-
-
+  std::cerr << std::endl << std::endl << std::endl;
+  std::cerr << qPrintable(s);
+  std::cerr << std::endl << std::endl;
 }
 
 #include "ruby_help.h"
