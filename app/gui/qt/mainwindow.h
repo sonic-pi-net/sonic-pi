@@ -79,7 +79,7 @@ protected:
 
 private slots:
     void changeTab(int id);
-  void printAsciiArtLogo();
+    void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();
     void update_mixer_invert_stereo();
@@ -242,8 +242,8 @@ private:
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
-    std::streambuf *coutbuf;
-    std::ofstream stdlog;
+    std::streambuf *cerrbuf;
+    std::ofstream stderr;
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
