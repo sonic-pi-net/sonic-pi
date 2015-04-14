@@ -1411,6 +1411,52 @@ module SonicPi
     end
   end
 
+  class Hoover < SonicPiSynth
+    def name
+      "Hoover"
+    end
+
+    def introduced
+      Version.new(2,6,0)
+    end
+
+    def synth_name
+      "hoover"
+    end
+
+    def doc
+      "Classic early 90's rave synth - 'a sort of slurry chorussy synth line like the classic Dominator by Human Resource'. Based on Dan Stowell's implementation in SuperCollider and Daniel Turczanski's port to Overtone. Works really well with portamento (see docs for the 'control' method)."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
+        :attack => 0.05,
+        :decay => 0,
+        :sustain => 0,
+        :release => 1,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2,
+        :cutoff => 130,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+      }
+    end
+  end
+
   class Growl < SonicPiSynth
     def name
       "Growl"
@@ -4369,6 +4415,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :mod_pulse => ModPulse.new,
       :tb303 => TB303.new,
       :supersaw => Supersaw.new,
+      :hoover => Hoover.new,
       :prophet => Prophet.new,
       :zawa => Zawa.new,
       :dark_ambience => DarkAmbience.new,
