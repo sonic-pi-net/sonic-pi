@@ -92,9 +92,9 @@ using namespace oscpkt;
 #include "mainwindow.h"
 
 #ifdef Q_OS_MAC
-MainWindow::MainWindow(QApplication &app, QMainWindow* splash)
+MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 #else
-MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
+MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
   this->protocol = UDP;
@@ -116,7 +116,13 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 #endif
 
   printAsciiArtLogo();
-  
+
+  if (!i18n) {
+    std::cerr << "[GUI] - no translation found for your system locale \"" + QLocale::system().name().toStdString() + "\"." << std::endl;
+    std::cerr << "[GUI] - do you want to help us translate Sonic Pi to your language?" << std::endl;
+    std::cerr << "[GUI] - visit https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md" << std::endl;
+  }
+
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
