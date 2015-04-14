@@ -8,12 +8,6 @@ Translations for the tutorial are located in
 Translations for the Qt GUI are located in
 [`app/gui/qt/lang/sonic-pi_<LANG>.ts`](./app/gui/qt/lang/).
 
-## Please note
-
-The i18n code is disabled right now. If you want to enable it to test
-your translation, set the required constants in `main.cpp`
-(`ENABLE_I18N`) and `qt-doc.rb` (`enable_i18n`).
-
 ## Translating the tutorial
 
 - Sign up with [github](https://help.github.com/categories/bootcamp/)
