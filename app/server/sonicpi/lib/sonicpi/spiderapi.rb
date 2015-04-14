@@ -198,10 +198,10 @@ module SonicPi
 
       if inclusive
         step_size = (start - finish).abs.to_f / (num_slices - 1)
-        range(start, finish, inclusive: true,  step: step_size)
+        range(start.to_f, finish.to_f, inclusive: true,  step: step_size)
       else
         step_size = (start - finish).abs.to_f / num_slices
-        range(start, finish, step: step_size)
+        range(start.to_f, finish.to_f, step: step_size)
       end
     end
     doc name:           :line,
