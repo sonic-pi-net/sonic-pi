@@ -59,7 +59,7 @@ most powerful text editor in use by wizard programmers today.
 * Workpace indexing now starts at 0 to match standard programming indexes.
 * New shortcuts - `M-<` and `M->` for switching workspaces.
 * Many new Emacs-based code navigation and editing shortcuts. See the
-  shortcut cheatsheet in the built-intutorial for more information.
+  shortcut cheatsheet in the built-in tutorial for more information.
 * Increase height of doc and error panes.
 * Improve error pane colour scheme.
 * Auto-align now trims whitespace from start and end of buffer.
