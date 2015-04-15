@@ -27,7 +27,7 @@ automatically detect and re-create the connection for you.
 
 ## Designed to be Live Coded
 
-The Minecraft Pi API has been designed to work seemlessly within
+The Minecraft Pi API has been designed to work seamlessly within
 `live_loop`s. This means it's possible to synchronise modifications in
 your Minecraft Pi worlds with modifcations in your Sonic Pi
 sounds. Instant Minecraft-based music videos! Note however that
