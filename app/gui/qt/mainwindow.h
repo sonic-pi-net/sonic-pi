@@ -247,6 +247,9 @@ private:
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
+    QString defaultTextBrowserStyle;
+
+
 };
 
 #endif

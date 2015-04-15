@@ -117,6 +117,8 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   this->setUnifiedTitleAndToolBarOnMac(true);
   this->setWindowIcon(QIcon(":images/icon-smaller.png"));
 
+  defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
+
   currentLine = 0;
   currentIndex = 0;
   is_recording = false;
@@ -273,6 +275,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   // hudPane = new QTextBrowser;
   // hudPane->setMinimumHeight(130);
   // hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
+  // hudPane->setStyleSheet(defaultTextBrowserStyle);
   // hudWidget = new QDockWidget(this);
   // hudWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   // hudWidget->setAllowedAreas(Qt::RightDockWidgetArea);
@@ -280,7 +283,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   // addDockWidget(Qt::RightDockWidgetArea, hudWidget);
   // hudWidget->setWidget(hudPane);
   // hudWidget->setObjectName("hud");
-
 
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setFocusPolicy(Qt::NoFocus);
@@ -310,8 +312,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   docPane->setFocusPolicy(Qt::NoFocus);
   docPane->setMinimumHeight(200);
   docPane->setOpenExternalLinks(true);
-  QString style = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
-  docPane->setStyleSheet(style);
+  docPane->setStyleSheet(defaultTextBrowserStyle);
 
   QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
   up->setContext(Qt::WidgetShortcut);
@@ -1445,6 +1446,7 @@ void MainWindow::createInfoPane() {
     pane->setOpenExternalLinks(true);
     pane->setFixedSize(600, 615);
     pane->setHtml(readFile(files[t]));
+    pane->setStyleSheet(defaultTextBrowserStyle);
     infoTabs->addTab(pane, tabs[t]);
   }
 
