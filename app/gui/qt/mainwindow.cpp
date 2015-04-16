@@ -1803,10 +1803,8 @@ QString MainWindow::asciiArtLogo(){
 }
 
 void MainWindow::printAsciiArtLogo(){
-
-  QString s = asciiArtLogo();
   std::cerr << std::endl << std::endl << std::endl;
-  std::cerr << qPrintable(s);
+  std::cerr << qPrintable(asciiArtLogo());
   std::cerr << std::endl << std::endl;
 }
 
