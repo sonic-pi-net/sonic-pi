@@ -118,7 +118,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   printAsciiArtLogo();
 
   if (!i18n) {
-    std::cerr << "[GUI] - no translation found for your system locale \"" + QLocale::system().name().toStdString() + "\"." << std::endl;
+    std::cerr << "[GUI] - no translation found for your system locale \"";
+    std::cerr << QLocale::system().name().toStdString();
+    std::cerr << "\" (";
+    std::cerr << QLocale::languageToString(QLocale::system().language()).toStdString();
+    std::cerr << "/";
+    std::cerr << QLocale::countryToString(QLocale::system().country()).toStdString();
+    std::cerr << ")." << std::endl;
     std::cerr << "[GUI] - do you want to help us translate Sonic Pi to your language?" << std::endl;
     std::cerr << "[GUI] - visit https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md" << std::endl;
   }
