@@ -268,6 +268,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
+  outputPane->setTextColor(QColor("#5e5e5e"));
+  outputPane->append(asciiArtLogo());
+
   errorPane->zoomIn(1);
   errorPane->setMaximumHeight(130);
   errorPane->setMinimumHeight(130);
@@ -1792,8 +1795,7 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
   new QShortcut(metaKey('a'), te, SLOT(selectAll()));
 }
 
-void MainWindow::printAsciiArtLogo(){
-
+QString MainWindow::asciiArtLogo(){
   QFile file(":/images/logo.txt");
   if(!file.open(QFile::ReadOnly | QFile::Text)) {
   }
@@ -1802,6 +1804,12 @@ void MainWindow::printAsciiArtLogo(){
   QTextStream st(&file);
   st.setCodec("UTF-8");
   s.append(st.readAll());
+  return s;
+}
+
+void MainWindow::printAsciiArtLogo(){
+
+  QString s = asciiArtLogo();
   std::cout << std::endl << std::endl << std::endl;
 #if QT_VERSION >= 0x050400
   qDebug().noquote() << s;

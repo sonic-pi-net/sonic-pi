@@ -79,7 +79,8 @@ protected:
 
 private slots:
     void changeTab(int id);
-  void printAsciiArtLogo();
+    QString asciiArtLogo();
+    void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();
     void update_mixer_invert_stereo();
