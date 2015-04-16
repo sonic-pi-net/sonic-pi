@@ -324,17 +324,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   down->setContext(Qt::WidgetShortcut);
   connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
 
-
-#if defined(Q_OS_WIN)
-  docPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
-#elif defined(Q_OS_MAC)
-  docPane->setHtml("<center><img src=\":/images/logo.png\" height=\"298\" width=\"365\"></center>");
-#else
-  //assuming Raspberry Pi
-  //use smaller logo
-  docPane->setHtml("<center><img src=\":/images/logo-smaller.png\" height=\"161\" width=\"197\"></center>");
-#endif
-
+  docPane->setHtml("<center> <font size=\"32\"><br><br><pre><font color=\"#3C3C3C\">music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></font><pre><font size=\"4\"><br>v2.6-dev</font></pre></center>");
 
   addUniversalCopyShortcuts(docPane);
 
