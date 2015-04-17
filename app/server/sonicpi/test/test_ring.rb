@@ -22,10 +22,16 @@ module SonicPi
     def test_knit
       assert_equal(knit(:e1, 3), [:e1, :e1, :e1])
       assert_equal(knit(:e1, 3, :c1, 2), [:e1, :e1, :e1, :c1, :c1])
-      assert_equal(knit(:e2, 0), [])
-      assert_equal(knit(:e2, -1), [])
       assert_equal(knit(:e2, -1, :c1, 3), [:c1, :c1, :c1])
       assert_equal(knit(:e1, 3).class, SonicPi::Core::RingArray)
+      assert_raise SonicPi::Core::EmptyRingError do
+        knit(:e2, 0)
+      end
+
+      assert_raise SonicPi::Core::EmptyRingError do
+        knit(:e2, -1)
+      end
+
     end
 
     def test_range
@@ -37,8 +43,11 @@ module SonicPi
       assert_equal(range(1, -5, step: -2), [1, -1, -3])
       assert_equal(range(10, 50, step: 10), [10, 20, 30, 40])
       assert_equal(range(1, 5, step: -1), [1, 2, 3, 4])
-      assert_equal(range(10, 10, step: -1), [])
       assert_equal(range(1, 3).class, SonicPi::Core::RingArray)
+
+      assert_raise SonicPi::Core::EmptyRingError do
+        range(10, 10, step: -1)
+      end
     end
 
 
@@ -57,12 +66,16 @@ module SonicPi
 
     def test_bools
       assert_equal(bools(1, 0, 1), [true, false, true])
-      assert_equal(bools(), [])
+
       assert_equal(bools(1, 1, 1), [true, true, true])
       assert_equal(bools(true, false, true), [true, false, true])
       assert_equal(bools(true, nil, true), [true, false, true])
       assert_equal(bools(:a, 1, nil, true, 0), [true, true, false, true, false])
       assert_equal(bools(1,0, 0).class, SonicPi::Core::RingArray)
+
+      assert_raise SonicPi::Core::EmptyRingError do
+        assert_equal(bools(), [])
+      end
     end
 
     def test_spread
