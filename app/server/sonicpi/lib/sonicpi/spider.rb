@@ -42,6 +42,8 @@ require 'ruby-beautify'
 
 
 module SonicPi
+  class Stop < StandardError ; end
+
   class Spider
 
     attr_reader :event_queue
@@ -489,6 +491,10 @@ module SonicPi
           code = PreParser.preparse(code)
           eval(code, nil, info[:workspace] || 'eval', firstline)
           __schedule_delayed_blocks_and_messages!
+        rescue Stop => e
+          __no_kill_block do
+            __info("Stopping Run #{id}")
+          end
         rescue Exception => e
           __no_kill_block do
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})

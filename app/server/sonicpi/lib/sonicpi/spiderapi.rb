@@ -20,6 +20,7 @@ require_relative "util"
 module SonicPi
   module SpiderAPI
 
+
     include SonicPi::DocSystem
     include SonicPi::Util
 
@@ -40,6 +41,34 @@ module SonicPi
     def hook(k)
       SonicPi::Core::ThreadLocalCounter.read(k)
     end
+
+    def stop
+      raise SonicPi::Stop
+    end
+    doc name:           :stop,
+        introduced:     Version.new(2,5,0),
+        summary:        "Stop current thread or run",
+        args:           [[]],
+        returns:        nil,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Stops the current thread or if not in a thread, stops the current run. Does not stop any running synths triggered previously in the run/thread or kill any existing sub-threads.",
+        examples:       ["
+sample :loop_amen #=> this sample is played until completion
+sleep 0.5
+stop                #=> signal to stop executing this run
+sample :loop_garzul #=> this never executes
+",
+"
+in_thread do
+  play 60      #=> this note plays
+  stop
+  sleep 0.5    #=> this sleep never happens
+  play 72      #=> this play never happens
+end
+
+play 80  #=> this plays as the stop only affected the above thread"
+    ]
 
     def bools(*args)
       args.map do |a|
@@ -1657,6 +1686,13 @@ end"]
           # ensure delayed jobs and messages are honoured for this
           # thread:
           __schedule_delayed_blocks_and_messages!
+        rescue Stop => e
+          if name
+            __info("Stopping thread #{name.inspect}")
+          else
+            __delayed_message("Stopped internal thread")
+            __schedule_delayed_blocks_and_messages!
+          end
         rescue Exception => e
           if name
             __error "Thread death +--> #{name.inspect}\n#{e.inspect}", e
