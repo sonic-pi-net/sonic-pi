@@ -85,10 +85,16 @@ end
 
 module SonicPi
   module Core
+    class EmptyRingError < StandardError ; end
+
     class RingArray < Array
+      def initialize(list)
+        raise EmptyRingError, "Cannot create an empty ring" if list.empty?
+        super
+      end
+
       def [](idx, len=nil)
         return self.to_a[idx, len] if len
-
         idx = idx.to_i % size if idx.is_a? Numeric
         self.to_a[idx]
       end
