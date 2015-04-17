@@ -91,6 +91,7 @@ module SonicPi
       def initialize(list)
         raise EmptyRingError, "Cannot create an empty ring" if list.empty?
         super
+        self.freeze
       end
 
       def [](idx, len=nil)
