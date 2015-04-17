@@ -269,6 +269,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   outputPane->zoomIn(1);
   outputPane->setTextColor(QColor("#5e5e5e"));
+  outputPane->append("\n");
   outputPane->append(asciiArtLogo());
 
   errorPane->zoomIn(1);
