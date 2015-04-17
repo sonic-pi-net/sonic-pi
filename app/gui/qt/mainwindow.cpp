@@ -117,18 +117,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   printAsciiArtLogo();
 
-  if (!i18n) {
-    std::cerr << "[GUI] - no translation found for your system locale \"";
-    std::cerr << QLocale::system().name().toStdString();
-    std::cerr << "\" (";
-    std::cerr << QLocale::languageToString(QLocale::system().language()).toStdString();
-    std::cerr << "/";
-    std::cerr << QLocale::countryToString(QLocale::system().country()).toStdString();
-    std::cerr << ")." << std::endl;
-    std::cerr << "[GUI] - do you want to help us translate Sonic Pi to your language?" << std::endl;
-    std::cerr << "[GUI] - visit https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md" << std::endl;
-  }
-
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
@@ -293,6 +281,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   outputPane->zoomIn(1);
   outputPane->setTextColor(QColor("#5e5e5e"));
   outputPane->append(asciiArtLogo());
+  
+  if (!i18n) {
+      outputPane->append("   You can help translate Sonic Pi to " + QLocale::languageToString(QLocale::system().language()) + ".");
+      outputPane->append("   Click Info and read Community/Github for how.");
+      outputPane->append("");
+  }
 
   errorPane->zoomIn(1);
   errorPane->setMaximumHeight(130);
@@ -1437,7 +1431,7 @@ void MainWindow::createInfoPane() {
 
   QStringList files, tabs;
   files << ":/html/info.html" << ":/info/CORETEAM.html" << ":/info/CONTRIBUTORS.html" <<
-    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" <<":/info/CHANGELOG.html";
+    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" << ":/info/CHANGELOG.html";
   tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
     tr("Community") << tr("License") << tr("History");
 

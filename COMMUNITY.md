@@ -60,4 +60,6 @@ contain Sonic Pi related material:
 ## GitHub
 *<http://github.com/samaaron/sonic-pi>*
 
-For developers interested in the full source code. The issue tracker is also hosted here.
+For developers interested in the full source code.
+The [issue tracker](https://github.com/samaaron/sonic-pi/issues) is also hosted here.
+Read the [translation guide](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) if you want to help translate Sonic Pi to your language.
