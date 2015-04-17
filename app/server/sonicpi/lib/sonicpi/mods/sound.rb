@@ -2288,7 +2288,7 @@ control my_node, cutoff: 90 # Now modify cutoff from 79 to 90, sound is still pl
 
 
 
-       def stop(node)
+       def kill(node)
          ensure_good_timing!
          return nil if node.nil?
 
@@ -2300,9 +2300,9 @@ control my_node, cutoff: 90 # Now modify cutoff from 79 to 90, sound is still pl
            __delayed_message "not stopping sound #{node.id} (already stopped)"
          end
        end
-       doc name:          :stop,
+       doc name:          :kill,
            introduced:    Version.new(2,0,0),
-           summary:       "Stop synth",
+           summary:       "Kill synth",
            doc:           "Stop a running synth sound or sample. In order to stop a sound, you need to have stored a reference to it in a variable.",
            args:          [[:node, :synth_node]],
            opts:          {},
@@ -2312,11 +2312,11 @@ control my_node, cutoff: 90 # Now modify cutoff from 79 to 90, sound is still pl
 foo = play 50, release: 4
 sleep 1
 # foo is still playing, but we can stop it early:
-stop foo
+kill foo
 ",
 "bar = sample :loop_amen
 sleep 0.5
-stop bar"]
+kill bar"]
 
 
 
