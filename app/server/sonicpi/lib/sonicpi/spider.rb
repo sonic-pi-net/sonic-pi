@@ -240,8 +240,25 @@ module SonicPi
       delayed_messages << [m_type, m]
     end
 
+    def __extract_line_of_error(e)
+      trace = e.backtrace
+      l = trace.find {|line| line.include?("in __spider_eval")}
+      unless l
+        return -1
+      else
+        m = l.match(/.*:([0-9]+):/)
+        if m
+          return m[1]
+        else
+          return -1
+        end
+      end
+    end
+
     def __error(s, e)
-      @msg_queue.push({:type => :error, :val => s.to_s, :jobid => __current_job_id, :jobinfo => __current_job_info, :backtrace => e.backtrace})
+      line = __extract_line_of_error(e)
+      s = "[Line #{line}] #{s}" if line != -1
+      @msg_queue.push({:type => :error, :val => s, :jobid => __current_job_id, :jobinfo => __current_job_info, :backtrace => e.backtrace})
     end
 
     def __current_run_time
@@ -497,8 +514,11 @@ module SonicPi
           end
         rescue Exception => e
           __no_kill_block do
+            line = __extract_line_of_error(e)
+            err_msg = e.message
+            err_msg = "[Line #{line}] #{err_msg}" if line != -1
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            @msg_queue.push({type: :error, val: e.message, backtrace: e.backtrace, jobid: id  , jobinfo: info})
+            @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: id  , jobinfo: info})
 
           end
         end
