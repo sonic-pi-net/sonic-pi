@@ -189,7 +189,7 @@ osc_server.add_method("/load-buffer") do |payload|
   end
 end
 
-osc_server.add_method("/indent-selection") do |payload|
+osc_server.add_method("/complete-snippet-or-indent-selection") do |payload|
 #  puts "indenting current line..."
   begin
     args = payload.to_a
@@ -199,7 +199,7 @@ osc_server.add_method("/indent-selection") do |payload|
     finish_line = args[3]
     point_line = args[4]
     point_index = args[5]
-    sp.__indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+    sp.__complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
   rescue Exception => e
     puts "Received Exception when attempting to indent current line!"
     puts e.message

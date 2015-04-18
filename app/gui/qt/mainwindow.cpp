@@ -423,7 +423,7 @@ void MainWindow::indentCurrentLineOrSelection(SonicPiScintilla* ws) {
 
   std::string code = ws->text().toStdString();
 
-  Message msg("/indent-selection");
+  Message msg("/complete-snippet-or-indent-selection");
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);
   msg.pushStr(code);

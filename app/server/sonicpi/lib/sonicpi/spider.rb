@@ -70,6 +70,8 @@ module SonicPi
       @user_methods = user_methods
       @run_start_time = 0
 
+      @snippets = {}
+
       @gitsave = GitSave.new(project_path)
 
       @event_t = Thread.new do
@@ -82,11 +84,47 @@ module SonicPi
       __info "#{@version} Ready..."
       __print_version_outdated_info if @version < @server_version
 
+
+      __load_snippets
+
     end
+
 
 
     ## Not officially part of the API
     ## Probably should be moved somewhere else
+
+    def __load_snippets
+      Dir["#{snippets_path}/*"].each do |p|
+        lines = File.readlines(p)
+        key = nil
+        completion = ""
+        point_line  = 0
+        point_index = 0
+
+        while (l = lines.shift) && !(l.start_with? "# --")
+          res = l.match /\# ?([_a-z]+):(.*)/
+          if res
+            k = res[1].strip
+            v = res[2].strip
+            if !v.empty?
+              case k
+              when "key"
+                key = v
+              when "point_line"
+                point_line = v.to_i
+              when "point_index"
+                point_index = v.to_i
+              end
+            end
+          end
+        end
+
+        completion = lines.join.strip + "\n"
+
+        __add_completion(key, completion, point_line, point_index)
+      end
+    end
 
     def __server_version(url="http://sonic-pi.net/static/info/latest_version.txt")
       return Version.new(0) if @settings.get(:no_update_checking)
@@ -350,10 +388,55 @@ module SonicPi
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: content, line: 0, index: 0, first_line: 0})
     end
 
-    def __indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index)
+    def __add_completion(k, text, point_line_offset=0, point=0)
+      @snippets[k] = [text, point_line_offset, point]
+    end
+
+    def __snippet_completion?(text)
+      text = text.rstrip
+      @snippets.each do |k, v|
+        if text.end_with?(k) && ((text.length == k.length)  || (text[((k.length * -1) - 1)] == " "))
+          return [k, v]
+        end
+      end
+      return nil
+    end
+
+    def __complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index)
+      orig_finish_line = finish_line
+      snippet_completion = false
       id = workspace_id.to_s
       buf = buf + "\n"
       buf_lines = buf.lines.to_a
+      if (start_line == finish_line)
+        completion_line = buf_lines[start_line].to_s.rstrip
+
+        if (point_index == completion_line.length)
+          c = __snippet_completion?(completion_line)
+          if c
+
+            snippet_completion = true
+            completion_key, val = *c
+            completion_text, point_line_offset, new_point_index = *val
+            completion_line = completion_line[0..((completion_key.length * -1) -1)]
+            completion_text = completion_line + completion_text
+            completion_lines = completion_text.lines.to_a
+            point_line = point_line + point_line_offset
+
+            buf_lines = buf_lines[0...start_line] + completion_lines + buf_lines[(start_line + 1)..-1]
+
+            log "how are you?"
+            point_index = [new_point_index, buf_lines[point_line].to_s.length].min
+
+            finish_line = start_line + completion_lines.size - 1
+
+
+
+#            @msg_queue.push({type: "replace-lines", buffer_id: workspace_id, val: text, start_line: start_line, finish_line: finish_line, point_line: point_line + point_line_offset, point_index: new_point_index})
+#            return nil
+          end
+        end
+      end
 
       if (start_line <= point_line) && (point_line <= finish_line)
         manipulate_point = true
@@ -363,7 +446,7 @@ module SonicPi
 
         if buf_lines[point_line] =~ /^\s*$/
           #line is just whitespace, put in a dummy line so it gets autoindented
-          buf_lines[point_line] = "#dummy"
+          buf_lines[point_line] = "#dummy\n"
           dummy_line = true
         else
           dummy_line = false
@@ -377,7 +460,6 @@ module SonicPi
 
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
-
       if manipulate_point
         if dummy_line
           # remove dummy line and extract leading whitespace
@@ -397,9 +479,8 @@ module SonicPi
           point_index = orig_point_line_ws_len if point_index < orig_point_line_ws_len
         end
       end
-
       indented_lines = beautiful_lines[start_line..finish_line].join
-
+      finish_line = orig_finish_line if snippet_completion
       @msg_queue.push({type: "replace-lines", buffer_id: id, val: indented_lines, start_line: start_line, finish_line: finish_line, point_line: point_line, point_index: point_index})
 
     end

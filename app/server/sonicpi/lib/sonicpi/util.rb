@@ -114,6 +114,10 @@ module SonicPi
       File.absolute_path("#{root_path}/etc")
     end
 
+    def snippets_path
+      File.absolute_path("#{etc_path}/snippets")
+    end
+
     def doc_path
       File.absolute_path("#{etc_path}/doc")
     end
