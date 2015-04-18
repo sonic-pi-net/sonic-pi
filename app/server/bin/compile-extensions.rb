@@ -28,7 +28,9 @@ os = case RUBY_PLATFORM
      end
 
 native_dir = File.dirname(__FILE__) + '/../rb-native/' + os.to_s + '/' + "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}"
-puts "creating #{native_dir}"
+puts "Clearing #{native_dir}"
+FileUtils.rm_rf native_dir
+puts "Creating #{native_dir}"
 FileUtils.mkdir_p native_dir
 
 # Rugged is used for storing the user's ruby music scripts in Git
@@ -40,7 +42,8 @@ native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof/ext/ruby_prof/'),
 
   File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean/ext/did_you_mean')
+
+  [File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean-0.9.8/ext/did_you_mean'), "did_you_mean"]
 ]
 
 if os == :osx
@@ -51,6 +54,11 @@ end
 
 
 native_ext_dirs.each do |ext_dir|
+  if ext_dir.is_a? Array
+    ext_dir, tgt_dir = *ext_dir
+  else
+    tgt_dir = ""
+  end
     puts "Compiling native extension in #{ext_dir}"
     Dir.chdir(ext_dir) do
       `#{RbConfig.ruby} extconf.rb`
@@ -71,8 +79,11 @@ libs = []
   end
 
   libs.each do |f|
-    puts "Copying #{f}  to #{native_dir}"
-    FileUtils.cp f, native_dir
+
+    tgt = "#{native_dir}/#{tgt_dir}"
+    FileUtils.mkdir_p tgt
+    puts "Copying #{f} to #{tgt}"
+    FileUtils.cp f, tgt
   end
 
 end
