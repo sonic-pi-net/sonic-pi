@@ -14,7 +14,7 @@
 require_relative 'docsystem'
 require_relative "version"
 require_relative "util"
-require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
+
 ## TODO: create _* equivalents of all fns - for silent (i.e computation) versions
 
 module SonicPi
