@@ -31,7 +31,8 @@ evolved into an extremely powerful and performance-ready live coding instrument.
 
 * Info: http://sonic-pi.net
 * Source: https://github.com/samaaron/sonic-pi
-* Education: http://www.raspberrypi.org/learning/sonic-pi-lessons/
+* Computing Education Resources: http://www.raspberrypi.org/learning/sonic-pi-lessons/
+* Music Education Toolkit: http://sonicpiliveandcoding.com
 
 
 ## Acknowledgements
