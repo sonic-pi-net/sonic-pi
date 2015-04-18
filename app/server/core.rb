@@ -36,8 +36,6 @@ Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
   $:.unshift vendor_lib
 end
 
-require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
-
 require 'osc-ruby'
 
 module SonicPi
