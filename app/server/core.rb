@@ -37,7 +37,7 @@ Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
 end
 
 begin
-  require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
+  require 'did_you_mean'
 rescue LoadError
   warn "Could not load did_you_mean"
 end
