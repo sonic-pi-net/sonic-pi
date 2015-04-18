@@ -18,7 +18,7 @@
               /____/\____/_/ /_/_/\___/  /_/   /_/
 
 
-## The Live Coding Sound Synthesiser for Everyone.
+## The Live Coding Synth for Everyone.
 
 Sonic Pi is an open source programming environment originally designed
 to explore and teach programming concepts through the process of
