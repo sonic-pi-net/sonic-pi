@@ -425,7 +425,6 @@ module SonicPi
 
             buf_lines = buf_lines[0...start_line] + completion_lines + buf_lines[(start_line + 1)..-1]
 
-            log "how are you?"
             point_index = [new_point_index, buf_lines[point_line].to_s.length].min
 
             finish_line = start_line + completion_lines.size - 1
