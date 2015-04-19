@@ -85,7 +85,7 @@ module SonicPi
       __print_version_outdated_info if @version < @server_version
 
 
-      __load_snippets
+      load_snippets
 
     end
 
@@ -94,8 +94,7 @@ module SonicPi
     ## Not officially part of the API
     ## Probably should be moved somewhere else
 
-    def __load_snippets
-      Dir["#{snippets_path}/*"].each do |p|
+    def load_snippets(path=snippets_path)
       Dir["#{snippets_path}/**/*.sps"].each do |p|
         lines = File.readlines(p)
         key = nil
