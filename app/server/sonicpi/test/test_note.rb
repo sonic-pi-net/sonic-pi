@@ -61,6 +61,8 @@ module SonicPi
       assert_equal(:C, Note.resolve_note_name(:C))
       assert_equal(:C, Note.resolve_note_name(:C, 4))
       assert_equal(:C, Note.resolve_note_name(:C4, 4))
+      assert_equal(:C, Note.resolve_note_name(60.2))
+      assert_equal(:C, Note.resolve_note_name(60.2, 4))
     end
 
     def test_init_c4

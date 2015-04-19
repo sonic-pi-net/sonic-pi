@@ -1965,7 +1965,7 @@ puts note('C', octave: 2)
        def note_info(n, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
          octave = args_h[:octave]
-         Note.new(n, octave)
+         SonicPi::Note.new(SonicPi::Note.resolve_note_name(n, octave), octave)
        end
        doc name:          :note_info,
            introduced:    Version.new(2,0,0),
