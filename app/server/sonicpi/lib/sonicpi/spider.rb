@@ -120,7 +120,7 @@ module SonicPi
           end
         end
 
-        completion = lines.join.strip + "\n"
+        completion = lines.join
 
         __add_completion(key, completion, point_line, point_index)
       end
@@ -411,29 +411,41 @@ module SonicPi
       if (start_line == finish_line)
         completion_line = buf_lines[start_line].to_s.rstrip
 
-        if (point_index == completion_line.length)
-          c = __snippet_completion?(completion_line)
-          if c
+        c = __snippet_completion?(completion_line[0...point_index])
+        if c
+          snippet_completion = true
+          completion_key, val = *c
+          completion_text, point_line_offset, orig_new_point_index = *val
+          new_point_index = orig_new_point_index
+          orig_completion_lines = completion_text.lines.to_a
+          completion_line_pre = completion_line[0...(point_index - completion_key.length)]
+          completion_line_post = completion_line[point_index..-1]
+          completion_text = completion_line_pre + completion_text + completion_line_post
+          completion_lines = completion_text.lines.to_a
+          point_line = point_line + point_line_offset
 
-            snippet_completion = true
-            completion_key, val = *c
-            completion_text, point_line_offset, new_point_index = *val
-            completion_line = completion_line[0..((completion_key.length * -1) -1)]
-            completion_text = completion_line + completion_text
-            completion_lines = completion_text.lines.to_a
-            point_line = point_line + point_line_offset
+          buf_lines = buf_lines[0...start_line] + completion_lines + buf_lines[(start_line + 1)..-1]
+          new_point_line_content = buf_lines[point_line].to_s
+          new_point_line_content_len = new_point_line_content.length
 
-            buf_lines = buf_lines[0...start_line] + completion_lines + buf_lines[(start_line + 1)..-1]
+          if point_line_offset == 0
+            if new_point_index < 0
+              new_point_index = [0, completion_line_pre.length + orig_completion_lines[0].length + new_point_index + 1].max
+            else
+              new_point_index += point_index
+            end
+          else
+            if new_point_index < 0
+              new_point_index = [0, (new_point_line_content_len + new_point_index)].max
+            else
 
-            point_index = [new_point_index, buf_lines[point_line].to_s.length].min
+              new_point_index = [new_point_index, buf_lines[point_line].to_s.length].min
 
-            finish_line = start_line + completion_lines.size - 1
-
-
-
-#            @msg_queue.push({type: "replace-lines", buffer_id: workspace_id, val: text, start_line: start_line, finish_line: finish_line, point_line: point_line + point_line_offset, point_index: new_point_index})
-#            return nil
+            end
           end
+
+          point_index = new_point_index
+          finish_line = start_line + completion_lines.size - 1
         end
       end
 
