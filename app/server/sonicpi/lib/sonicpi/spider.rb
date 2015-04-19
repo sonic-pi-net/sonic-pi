@@ -96,6 +96,7 @@ module SonicPi
 
     def __load_snippets
       Dir["#{snippets_path}/*"].each do |p|
+      Dir["#{snippets_path}/**/*.sps"].each do |p|
         lines = File.readlines(p)
         key = nil
         completion = ""
