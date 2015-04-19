@@ -84,9 +84,7 @@ module SonicPi
       __info "#{@version} Ready..."
       __print_version_outdated_info if @version < @server_version
 
-
-      load_snippets
-
+      load_snippets(snippets_path, true)
     end
 
 
@@ -94,9 +92,10 @@ module SonicPi
     ## Not officially part of the API
     ## Probably should be moved somewhere else
 
-    def load_snippets(path=snippets_path)
+    def load_snippets(path=snippets_path, quiet=false)
       path = File.expand_path(path)
       Dir["#{path}/**/*.sps"].each do |p|
+
         lines = File.readlines(p)
         key = nil
         completion = ""
@@ -121,9 +120,12 @@ module SonicPi
           end
         end
 
-        completion = lines.join
+        if key
+          __info "Loading snippet #{key} in #{p}" unless quiet
+          completion = lines.join
 
-        __add_completion(key, completion, point_line, point_index)
+          __add_completion(key, completion, point_line, point_index)
+        end
       end
     end
 
