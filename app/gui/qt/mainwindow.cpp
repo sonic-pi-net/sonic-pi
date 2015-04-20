@@ -92,9 +92,9 @@ using namespace oscpkt;
 #include "mainwindow.h"
 
 #ifdef Q_OS_MAC
-MainWindow::MainWindow(QApplication &app, QMainWindow* splash)
+MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 #else
-MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
+MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
   this->protocol = UDP;
@@ -271,6 +271,12 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   outputPane->setTextColor(QColor("#5e5e5e"));
   outputPane->append("\n");
   outputPane->append(asciiArtLogo());
+  
+  if (!i18n) {
+    outputPane->append("     You can help translate Sonic Pi to " + QLocale::languageToString(QLocale::system().language()) + ".");
+    outputPane->append("     Click Info & read Community/Github for how.");
+    outputPane->append("");
+  }
 
   errorPane->zoomIn(1);
   errorPane->setMaximumHeight(130);
@@ -1430,7 +1436,7 @@ void MainWindow::createInfoPane() {
 
   QStringList files, tabs;
   files << ":/html/info.html" << ":/info/CORETEAM.html" << ":/info/CONTRIBUTORS.html" <<
-    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" <<":/info/CHANGELOG.html";
+    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" << ":/info/CHANGELOG.html";
   tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
     tr("Community") << tr("License") << tr("History");
 
