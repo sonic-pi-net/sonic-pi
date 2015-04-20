@@ -65,9 +65,9 @@ class MainWindow : public QMainWindow
 
 public:
 #if defined(Q_OS_MAC)
-    MainWindow(QApplication &ref, QMainWindow* splash);
+    MainWindow(QApplication &ref, bool i18n, QMainWindow* splash);
 #else
-    MainWindow(QApplication &ref, QSplashScreen* splash);
+    MainWindow(QApplication &ref, bool i18n, QSplashScreen* splash);
 #endif
     void invokeStartupError(QString msg);
     SonicPiServer *sonicPiServer;
@@ -243,8 +243,8 @@ private:
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
-    std::streambuf *coutbuf;
-    std::ofstream stdlog;
+    std::streambuf *cerrbuf;
+    std::ofstream stderr;
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
