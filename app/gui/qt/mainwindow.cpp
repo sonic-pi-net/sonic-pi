@@ -92,9 +92,9 @@ using namespace oscpkt;
 #include "mainwindow.h"
 
 #ifdef Q_OS_MAC
-MainWindow::MainWindow(QApplication &app, QMainWindow* splash)
+MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 #else
-MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
+MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
   this->protocol = UDP;
@@ -104,6 +104,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     clientSock = new QTcpSocket(this);
   }
 
+  this->i18n = i18n;
 
   printAsciiArtLogo();
   // kill any zombie processes that may exist
@@ -672,7 +673,7 @@ void MainWindow::initPrefsWindow() {
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
   editor_box->setLayout(editor_box_layout);
-
+  
 #if defined(Q_OS_LINUX)
    grid->addWidget(audioOutputBox, 0, 0);
    grid->addWidget(volBox, 0, 1);
@@ -681,9 +682,28 @@ void MainWindow::initPrefsWindow() {
   grid->addWidget(advancedAudioBox, 1, 0);
   grid->addWidget(update_box, 2, 0);
   grid->addWidget(editor_box, 2, 1);
+
+  if (!i18n) {
+    QGroupBox *translation_box = new QGroupBox("Translation");
+    QVBoxLayout *translation_box_layout = new QVBoxLayout;
+    QLabel *go_translate = new QLabel;
+    go_translate->setOpenExternalLinks(true);
+    go_translate->setText(
+      "Sonic Pi hasn't been translated to " +
+      QLocale::languageToString(QLocale::system().language()) +
+      " yet.<br>" +
+      "You can help " +
+      "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
+      "translate the Sonic Pi GUI</a> to your language."
+    );
+    go_translate->setTextFormat(Qt::RichText);
+    translation_box_layout->addWidget(go_translate);
+    translation_box->setLayout(translation_box_layout);
+    
+    grid->addWidget(translation_box, 3, 0, 1, 2);
+  }
+
   prefsCentral->setLayout(grid);
-
-
 
   // Read in preferences from previous session
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
@@ -1368,12 +1388,12 @@ void MainWindow::createToolBar()
 
   // Record
   recAct = new QAction(QIcon(":/images/rec.png"), tr("Start Recording"), this);
-  setupAction(recAct, 0, tr("Start Recording"), SLOT(toggleRecording()));
+  setupAction(recAct, 0, tr("Start recording to WAV audio file"), SLOT(toggleRecording()));
 
   // Align
   QAction *textAlignAct = new QAction(QIcon(":/images/align.png"),
 			     tr("Auto-Align Text"), this);
-  setupAction(textAlignAct, 'M', tr("Auto-align text"), SLOT(beautifyCode()));
+  setupAction(textAlignAct, 'M', tr("Improve readability of code"), SLOT(beautifyCode()));
 
   // Font Size Increase
   QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
@@ -1430,7 +1450,7 @@ void MainWindow::createInfoPane() {
 
   QStringList files, tabs;
   files << ":/html/info.html" << ":/info/CORETEAM.html" << ":/info/CONTRIBUTORS.html" <<
-    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" <<":/info/CHANGELOG.html";
+    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" << ":/info/CHANGELOG.html";
   tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
     tr("Community") << tr("License") << tr("History");
 

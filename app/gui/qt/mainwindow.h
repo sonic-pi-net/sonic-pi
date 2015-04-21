@@ -65,9 +65,9 @@ class MainWindow : public QMainWindow
 
 public:
 #if defined(Q_OS_MAC)
-    MainWindow(QApplication &ref, QMainWindow* splash);
+    MainWindow(QApplication &ref, bool i18n, QMainWindow* splash);
 #else
-    MainWindow(QApplication &ref, QSplashScreen* splash);
+    MainWindow(QApplication &ref, bool i18n, QSplashScreen* splash);
 #endif
     void invokeStartupError(QString msg);
     SonicPiServer *sonicPiServer;
@@ -189,6 +189,7 @@ private:
     QSplashScreen* splash;
 #endif
 
+    bool i18n;
     static const int workspace_max = 10;
     SonicPiScintilla *workspaces[workspace_max];
     QWidget *prefsCentral;

@@ -35,10 +35,7 @@ int main(int argc, char *argv[])
   app.installTranslator(&qtTranslator);
 
   QTranslator translator;
-  if (!translator.load("sonic-pi_" + systemLocale, ":/lang/") && (!systemLocale.startsWith("en")) && (systemLocale != "C")) {
-    std::cout << "No translation found for your locale \"" + systemLocale.toStdString() + "\"." << std::endl;
-    std::cout << "Please contact us if you want to translate Sonic Pi to your language." << std::endl;
-  }
+  bool i18n = translator.load("sonic-pi_" + systemLocale, ":/lang/") || systemLocale.startsWith("en") || systemLocale == "C";
   app.installTranslator(&translator);
 
   app.setApplicationName(QObject::tr("Sonic Pi"));
@@ -60,7 +57,7 @@ int main(int argc, char *argv[])
   splashWindow->raise();
   splashWindow->show();
 
-  MainWindow mainWin(app, splashWindow);
+  MainWindow mainWin(app, i18n, splashWindow);
   return app.exec();
 #else
   QPixmap pixmap(":/images/splash.png");
@@ -69,7 +66,7 @@ int main(int argc, char *argv[])
   splash->show();
   splash->repaint();
 
-  MainWindow mainWin(app, splash);
+  MainWindow mainWin(app, i18n, splash);
   return app.exec();
 #endif
 
