@@ -28,6 +28,8 @@
 #include <QSettings>
 #include <QHash>
 #include <QTcpSocket>
+#include <QTranslator>
+#include <QGroupBox>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
@@ -88,6 +90,7 @@ private slots:
     void update_check_updates();
     void enableCheckUpdates();
     void disableCheckUpdates();
+    void update_show_translation();
     void stopCode();
     void beautifyCode();
     void completeListOrIndentLine(QObject *ws);
@@ -145,6 +148,7 @@ private:
     void createToolBar();
     void createStatusBar();
     void createInfoPane();
+    void switchTranslation(bool i18n);
     void readSettings();
     void writeSettings();
     void loadFile(const QString &fileName, SonicPiScintilla* &text);
@@ -156,7 +160,8 @@ private:
     SonicPiScintilla* filenameToWorkspace(std::string filename);
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
-    void initDocsWindow();
+    void updateDocsWindow(bool i18n);
+    void initAutocomplete();
     void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
@@ -166,8 +171,6 @@ private:
     QKeySequence ctrlMetaKey(char key);
     QKeySequence ctrlKey(char key);
     char int2char(int i);
-    void setupAction(QAction *action, char key, QString tooltip,
-		     const char *slot);
     QString readFile(QString name);
     QString rootPath();
 
@@ -204,6 +207,12 @@ private:
     bool hidingDocPane;
 
     QTabWidget *tabs;
+    
+    bool i18n_available;
+    bool i18n_installed;
+    bool i18n_english;
+    QTranslator *translator;
+    QTranslator *qtTranslator;
 
     QProcess *serverProcess;
 
@@ -215,25 +224,50 @@ private:
 
     QToolBar *toolBar;
 
+    QAction *runAct;
+    QAction *stopAct;
+    QAction *saveAsAct;
     QAction *recAct;
 
-    QCheckBox *mixer_invert_stereo;
-    QCheckBox *mixer_force_mono;
-    QCheckBox *print_output;
-    QCheckBox *check_args;
-    QCheckBox *clear_output_on_run;
-    QCheckBox *show_line_numbers;
-    QCheckBox *check_updates;
+    QAction *textDecAct;
+    QAction *textIncAct;    
+    QAction *textAlignAct;
+    
+    QAction *infoAct;
+    QAction *helpAct;
+    QAction *prefsAct;
 
+    QGroupBox *audio_output_box;
     QRadioButton *rp_force_audio_hdmi;
     QRadioButton *rp_force_audio_default;
     QRadioButton *rp_force_audio_headphones;
+
+    QGroupBox *volume_box;
     QSlider *rp_system_vol;
+
+    QGroupBox *advanced_audio_box;
+    QCheckBox *mixer_invert_stereo;
+    QCheckBox *mixer_force_mono;
+
+    QGroupBox *debug_box;
+    QCheckBox *print_output;
+    QCheckBox *check_args;
+    QCheckBox *clear_output_on_run;
+
+    QGroupBox *update_box;
+    QCheckBox *check_updates;
+
+    QGroupBox *editor_box;
+    QCheckBox *show_line_numbers;
+    
+    QGroupBox *translation_box;
+    QCheckBox *show_translation;
 
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 
     QTextBrowser *infoPane;
+    QTabWidget *infoTabs;
     QWidget *infoWidg;
     QTextEdit *startupPane;
     QLabel *imageLabel;
@@ -249,7 +283,6 @@ private:
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
     QString defaultTextBrowserStyle;
-
 
 };
 

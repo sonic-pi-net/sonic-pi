@@ -159,7 +159,8 @@ languages = Dir.
   select {|n| n != "en"}.
   sort_by {|n| -n.length}
 
-docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?
+docs << "void MainWindow::updateDocsWindow(bool i18n) {\n"
+docs << "\n  QString systemLocale = i18n ? QLocale::system().name() : \"en\";\n\n" unless languages.empty?
 
 # first, try to match all non-default languages (those that aren't "en")
 languages.each do |lang|
@@ -179,8 +180,12 @@ make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize, true, true)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
 make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map), false, true, true)
 
+docs << "}\n\n\n"
+
+docs << "void MainWindow::initAutocomplete() {\n"
 docs << "  // FX arguments for autocompletion\n"
 docs << "  QStringList fxtmp;\n"
+
 SonicPi::SynthInfo.get_all.each do |k, v|
   next unless v.is_a? SonicPi::FXInfo
   next if (k.to_s.include? 'replace_')
@@ -194,7 +199,6 @@ SonicPi::SynthInfo.get_all.each do |k, v|
   docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n\n"
 end
 
-
 SonicPi::SynthInfo.get_all.each do |k, v|
   next unless v.is_a? SonicPi::SynthInfo
   docs << "  // synth :#{k}\n"
@@ -206,6 +210,7 @@ SonicPi::SynthInfo.get_all.each do |k, v|
   docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
 end
 
+docs << "}\n\n\n"
 
 # update ruby_help.h
 if options[:output_name] then
@@ -220,9 +225,7 @@ new_content << "// AUTO-GENERATED-DOCS\n"
 new_content << "// Do not manually add any code below this comment\n"
 new_content << "// otherwise it may be removed\n"
 new_content << "\n"
-new_content << "void MainWindow::initDocsWindow() {\n"
 new_content += docs
-new_content << "}\n"
 
 File.open(cpp, 'w') do |f|
   f << new_content.join

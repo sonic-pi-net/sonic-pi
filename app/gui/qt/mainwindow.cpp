@@ -97,13 +97,22 @@ MainWindow::MainWindow(QApplication &app, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 #endif
 {
+  QString systemLocale = QLocale::system().name();
+  i18n_english = systemLocale.startsWith("en") || systemLocale == "C";
+  if (!i18n_english) {
+    qtTranslator = new QTranslator();
+    qtTranslator->load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    translator = new QTranslator();
+    i18n_available = translator->load("sonic-pi_" + systemLocale, ":/lang/");
+    i18n_installed = false;
+  }
+
   this->protocol = UDP;
   this->splash = splash;
 
   if(protocol == TCP){
     clientSock = new QTcpSocket(this);
   }
-
 
   printAsciiArtLogo();
   // kill any zombie processes that may exist
@@ -161,7 +170,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   signalMapper = new QSignalMapper (this) ;
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
-
 
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer);
 
@@ -233,9 +241,9 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));
     signalMapper -> setMapping(changeTab, ws);
 
-    QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
-    tabs->addTab(workspace, w);
+    // tab names are set in switchLanguage()
+    tabs->addTab(workspace, "");
   }
 
   connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
@@ -288,7 +296,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   // hudWidget->setWidget(hudPane);
   // hudWidget->setObjectName("hud");
 
-  prefsWidget = new QDockWidget(tr("Preferences"), this);
+  prefsWidget = new QDockWidget(this);
   prefsWidget->setFocusPolicy(Qt::NoFocus);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
@@ -298,7 +306,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   prefsWidget->hide();
   prefsWidget->setObjectName("prefs");
 
-  outputWidget = new QDockWidget(tr("Log"), this);
+  outputWidget = new QDockWidget(this);
   outputWidget->setFocusPolicy(Qt::NoFocus);
   outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
   outputWidget->setAllowedAreas(Qt::RightDockWidgetArea);
@@ -325,8 +333,6 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   down->setContext(Qt::WidgetShortcut);
   connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
 
-  docPane->setHtml("<center> <font size=\"32\"><br><pre><font color=\"#3C3C3C\">music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></font><pre><font size=\"4\"><br>v2.6-dev</font></pre></center>");
-
   addUniversalCopyShortcuts(docPane);
 
   QHBoxLayout *docLayout = new QHBoxLayout;
@@ -335,7 +341,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   QWidget *docW = new QWidget();
   docW->setLayout(docLayout);
 
-  docWidget = new QDockWidget(tr("Help"), this);
+  docWidget = new QDockWidget(this);
   docWidget->setFocusPolicy(Qt::NoFocus);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
   docWidget->setWidget(docW);
@@ -365,16 +371,12 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
 
   readSettings();
 
-  #ifndef Q_OS_MAC
-  setWindowTitle(tr("Sonic Pi"));
-  #endif
-
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
   waitForServiceSync();
 
+  initAutocomplete();
   initPrefsWindow();
-  initDocsWindow();
 
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
 
@@ -391,6 +393,135 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
     docWidget->show();
     startupPane->show();
   }
+}
+
+void MainWindow::switchTranslation(bool i18n){
+  // sets/updates all translatable labels, titles and tooltips of QT widgets
+
+  if (!i18n_english) {
+    if (i18n) {
+      if (!i18n_installed) {
+        QApplication::installTranslator(qtTranslator);
+        QApplication::installTranslator(translator);
+        i18n_installed = true;
+      }
+    } else {
+      if (i18n_installed) {
+        QApplication::removeTranslator(translator);
+        QApplication::removeTranslator(qtTranslator);
+        i18n_installed = false;
+      }
+    }
+  }
+
+  #ifndef Q_OS_MAC
+  setWindowTitle(tr("Sonic Pi"));
+  #endif
+  
+  toolBar->setWindowTitle(tr("Tools"));
+
+  #ifdef Q_OS_MAC
+  QString shortcut = QString(" (⌘%1)");
+  #else
+  QString shortcut = QString(" (alt-%1)");
+  #endif
+
+  runAct->setText(tr("Run"));
+  runAct->setToolTip(tr("Run the code in the current workspace") + shortcut.arg('R'));
+  runAct->setStatusTip(tr("Run the code in the current workspace"));
+  
+  stopAct->setText(tr("Stop"));
+  stopAct->setToolTip(tr("Stop all running code") + shortcut.arg('S'));
+  stopAct->setStatusTip(tr("Stop all running code"));
+  
+  saveAsAct->setText(tr("Save As..."));
+  saveAsAct->setToolTip(tr("Save current workspace as an external file"));
+  saveAsAct->setStatusTip(tr("Save current workspace as an external file"));
+  
+  recAct->setText(tr("Start Recording"));
+  recAct->setToolTip(tr("Start recording to WAV audio file"));
+  recAct->setStatusTip(tr("Start recording to WAV audio file"));
+  
+  textDecAct->setText(tr("Decrease Text Size"));
+  textDecAct->setToolTip(tr("Make text smaller") + shortcut.arg('-'));
+  textDecAct->setStatusTip(tr("Make text smaller"));
+
+  textIncAct->setText(tr("Increase Text Size"));
+  textIncAct->setToolTip(tr("Make text bigger") + shortcut.arg('+'));
+  textIncAct->setStatusTip(tr("Make text bigger"));
+  
+  textAlignAct->setText(tr("Auto-Align Text"));
+  textAlignAct->setToolTip(tr("Improve readability of code") + shortcut.arg('M'));
+  textAlignAct->setStatusTip(tr("Improve readability of code"));
+  
+  infoAct->setText(tr("Info"));
+  infoAct->setToolTip(tr("See information about Sonic Pi"));
+  infoAct->setStatusTip(tr("See information about Sonic Pi"));
+
+  helpAct->setText(tr("Help"));
+  helpAct->setToolTip(tr("Toggle help pane") + shortcut.arg('I'));
+  helpAct->setStatusTip(tr("Toggle help pane"));
+
+  prefsAct->setText(tr("Prefs"));
+  prefsAct->setToolTip(tr("Toggle preferences pane") + shortcut.arg('P'));
+  prefsAct->setStatusTip(tr("Toggle preferences pane"));
+
+  prefsWidget->setWindowTitle(tr("Preferences"));
+  outputWidget->setWindowTitle(tr("Log"));
+  docWidget->setWindowTitle(tr("Help"));
+  
+  volume_box->setTitle(tr("Raspberry Pi System Volume"));
+  volume_box->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
+
+  advanced_audio_box->setTitle(tr("Studio Settings"));
+  advanced_audio_box->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
+
+  audio_output_box->setTitle(tr("Raspberry Pi Audio Output"));
+  audio_output_box->setToolTip(tr("Your Raspberry Pi has two forms of audio output.\nFirstly, there is the headphone jack of the Raspberry Pi itself.\nSecondly, some HDMI monitors/TVs support audio through the HDMI port.\nUse these buttons to force the output to the one you want."));
+
+  rp_force_audio_default->setText(tr("&Default"));
+  rp_force_audio_headphones->setText(tr("&Headphones"));
+  rp_force_audio_hdmi->setText(tr("&HDMI"));
+
+  mixer_invert_stereo->setText(tr("Invert Stereo"));
+  mixer_force_mono->setText(tr("Force Mono"));
+
+  debug_box->setTitle(tr("Debug Options"));
+
+  print_output->setText(tr("Print output"));
+  check_args->setText(tr("Check synth args"));
+  clear_output_on_run->setText(tr("Clear output on run"));
+
+  update_box->setTitle(tr("Updates"));
+  update_box->setToolTip(tr("Configure whether Sonic Pi may check for new updates on launch.\nPlease note, the checking process includes sending\nanonymous information to the Sonic Pi server."));
+
+  check_updates->setText(tr("Check for updates"));
+
+  editor_box->setTitle(tr("Editor"));
+  editor_box->setToolTip(tr("Editor Preferences"));
+
+  show_line_numbers->setText(tr("Show line numbers"));
+  
+  translation_box->setTitle(tr("Translation"));
+  translation_box->setToolTip(tr("Use translated Sonic Pi GUI"));
+  
+  show_translation->setText(tr("Use translated Sonic Pi GUI"));
+
+  infoTabs->setTabText(0, tr("About"));
+  infoTabs->setTabText(1, tr("Core Team"));
+  infoTabs->setTabText(2, tr("Contributors"));
+  infoTabs->setTabText(3, tr("Community"));
+  infoTabs->setTabText(4, tr("License"));
+  infoTabs->setTabText(5, tr("History"));
+  
+  for(int ws = 0; ws < workspace_max; ws++) {
+    tabs->setTabText(ws, tr("Workspace %1").arg(QString::number(ws)));
+  }
+  
+  docsCentral->clear();
+  updateDocsWindow(i18n_english ? false : i18n);
+  
+  docPane->setHtml("<center><font size=\"32\"><br><pre><font color=\"#3C3C3C\">music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></font><pre><font size=\"4\"><br>v2.6-dev</font></pre></center>");
 }
 
 void MainWindow::changeTab(int id){
@@ -419,7 +550,6 @@ void MainWindow::indentCurrentLineOrSelection(SonicPiScintilla* ws) {
     start_line = point_line;
     finish_line = point_line;
   }
-
 
   std::string code = ws->text().toStdString();
 
@@ -527,7 +657,6 @@ void MainWindow::waitForServiceSync() {
   }
 
     qDebug() << "[GUI] - server connection established";
-
 }
 
 void MainWindow::splashClose() {
@@ -552,7 +681,6 @@ void MainWindow::serverStarted() {
   }
   this->changeShowLineNumbers();
 }
-
 
 void MainWindow::serverError(QProcess::ProcessError error) {
   sonicPiServer->stopServer();
@@ -591,36 +719,32 @@ void MainWindow::update_check_updates() {
   }
 }
 
+void MainWindow::update_show_translation() {
+  switchTranslation(show_translation->isChecked());
+}
+
 void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
-  QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
-  volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
+  volume_box = new QGroupBox();
+  advanced_audio_box = new QGroupBox();
 
-  QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio Settings"));
-  advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
-  mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
+  mixer_invert_stereo = new QCheckBox();
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
-  mixer_force_mono = new QCheckBox(tr("Force Mono"));
+  mixer_force_mono = new QCheckBox();
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
-
 
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
   advanced_audio_box_layout->addWidget(mixer_invert_stereo);
   advanced_audio_box_layout->addWidget(mixer_force_mono);
-  // audio_box->addWidget(radio2);
-  // audio_box->addWidget(radio3);
-  // audio_box->addStretch(1);
-  advancedAudioBox->setLayout(advanced_audio_box_layout);
+  advanced_audio_box->setLayout(advanced_audio_box_layout);
 
+  audio_output_box = new QGroupBox();
 
-  QGroupBox *audioOutputBox = new QGroupBox(tr("Raspberry Pi Audio Output"));
-  audioOutputBox->setToolTip(tr("Your Raspberry Pi has two forms of audio output.\nFirstly, there is the headphone jack of the Raspberry Pi itself.\nSecondly, some HDMI monitors/TVs support audio through the HDMI port.\nUse these buttons to force the output to the one you want."));
-  rp_force_audio_default = new QRadioButton(tr("&Default"));
-  rp_force_audio_headphones = new QRadioButton(tr("&Headphones"));
-  rp_force_audio_hdmi = new QRadioButton(tr("&HDMI"));
-
+  rp_force_audio_default = new QRadioButton();
+  rp_force_audio_headphones = new QRadioButton();
+  rp_force_audio_hdmi = new QRadioButton();
 
   connect(rp_force_audio_default, SIGNAL(clicked()), this, SLOT(setRPSystemAudioAuto()));
   connect(rp_force_audio_headphones, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHeadphones()));
@@ -631,19 +755,18 @@ void MainWindow::initPrefsWindow() {
   audio_box->addWidget(rp_force_audio_headphones);
   audio_box->addWidget(rp_force_audio_hdmi);
   audio_box->addStretch(1);
-  audioOutputBox->setLayout(audio_box);
+  audio_output_box->setLayout(audio_box);
 
   QHBoxLayout *vol_box = new QHBoxLayout;
   rp_system_vol = new QSlider(this);
   connect(rp_system_vol, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
   vol_box->addWidget(rp_system_vol);
-  volBox->setLayout(vol_box);
+  volume_box->setLayout(vol_box);
 
-  QGroupBox *debug_box = new QGroupBox(tr("Debug Options"));
-  print_output = new QCheckBox(tr("Print output"));
-  check_args = new QCheckBox(tr("Check synth args"));
-  clear_output_on_run = new QCheckBox(tr("Clear output on run"));
-
+  debug_box = new QGroupBox();
+  print_output = new QCheckBox();
+  check_args = new QCheckBox();
+  clear_output_on_run = new QCheckBox();
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
@@ -651,39 +774,57 @@ void MainWindow::initPrefsWindow() {
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
-
-  QGroupBox *update_box = new QGroupBox(tr("Updates"));
-  check_updates = new QCheckBox(tr("Check for updates"));
+  update_box = new QGroupBox();
+  check_updates = new QCheckBox();
   connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
-
-  update_box->setToolTip(tr("Configure whether Sonic Pi may check for new updates on launch.\nPlease note, the checking process includes sending\nanonymous information to the Sonic Pi server."));
 
   QVBoxLayout *update_box_layout = new QVBoxLayout;
   update_box_layout->addWidget(check_updates);
   update_box->setLayout(update_box_layout);
 
-
-  QGroupBox *editor_box = new QGroupBox(tr("Editor"));
-  show_line_numbers = new QCheckBox(tr("Show line numbers"));
-
+  editor_box = new QGroupBox();
+  show_line_numbers = new QCheckBox();
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-  editor_box->setToolTip(tr("Editor Preferences"));
 
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
   editor_box->setLayout(editor_box_layout);
+  
+  translation_box = new QGroupBox();
+  show_translation = new QCheckBox();
+  connect(show_translation, SIGNAL(clicked()), this, SLOT(update_show_translation()));
+  
+  QVBoxLayout *translation_box_layout = new QVBoxLayout;
+  if (i18n_available) {
+    translation_box_layout->addWidget(show_translation);
+  } else {
+    QLabel *go_translate = new QLabel;
+    go_translate->setOpenExternalLinks(true);
+    go_translate->setText(
+      "Sonic Pi hasn't been translated to " +
+      QLocale::languageToString(QLocale::system().language()) +
+      " yet.<br>" +
+      "You can help " +
+      "<a href=\"https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md\">" +
+      "translate the Sonic Pi GUI</a> to your language."
+    );
+    go_translate->setTextFormat(Qt::RichText);
+    translation_box_layout->addWidget(go_translate);
+  }
+  translation_box->setLayout(translation_box_layout);
 
 #if defined(Q_OS_LINUX)
-   grid->addWidget(audioOutputBox, 0, 0);
-   grid->addWidget(volBox, 0, 1);
+   grid->addWidget(audio_output_box, 0, 0);
+   grid->addWidget(volume_box, 0, 1);
 #endif
   grid->addWidget(debug_box, 1, 1);
-  grid->addWidget(advancedAudioBox, 1, 0);
+  grid->addWidget(advanced_audio_box, 1, 0);
   grid->addWidget(update_box, 2, 0);
   grid->addWidget(editor_box, 2, 1);
+  if (!i18n_english) {
+    grid->addWidget(translation_box, 3, 0, 1, 2);
+  }
   prefsCentral->setLayout(grid);
-
-
 
   // Read in preferences from previous session
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
@@ -699,6 +840,9 @@ void MainWindow::initPrefsWindow() {
   rp_force_audio_hdmi->setChecked(settings.value("prefs/rp/force-audio-hdmi", false).toBool());
 
   check_updates->setChecked(settings.value("prefs/rp/check-updates", true).toBool());
+  if (i18n_available && !i18n_english) {
+    show_translation->setChecked(settings.value("prefs/rp/gui-translation", true).toBool());
+  }
 
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
@@ -708,6 +852,7 @@ void MainWindow::initPrefsWindow() {
   update_mixer_force_mono();
   changeRPSystemVol(stored_vol);
   update_check_updates();
+  update_show_translation();
 
   if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
     setRPSystemAudioAuto();
@@ -718,7 +863,6 @@ void MainWindow::initPrefsWindow() {
   if(settings.value("prefs/rp/force-audio-hdmi", false).toBool()) {
     setRPSystemAudioHDMI();
   }
-
 
 }
 
@@ -1303,31 +1447,6 @@ char MainWindow::int2char(int i){
   return '0' + i;
 }
 
-// set tooltips, connect event handlers, and add shortcut if applicable
-void MainWindow::setupAction(QAction *action, char key, QString tooltip,
-			     const char *slot)
-{
-  QString shortcut, tooltipKey;
-  tooltipKey = tooltip;
-  if (key != 0) {
-#ifdef Q_OS_MAC
-    tooltipKey = QString("%1 (⌘%2)").arg(tooltip).arg(key);
-#else
-    tooltipKey = QString("%1 (alt-%2)").arg(tooltip).arg(key);
-#endif
-  }
-
-  action->setToolTip(tooltipKey);
-  action->setStatusTip(tooltip);
-  connect(action, SIGNAL(triggered()), this, slot);
-
-  if (key != 0) {
-    // create a QShortcut instead of setting the QAction's shortcut
-    // so it will still be active with the toolbar hidden
-    new QShortcut(metaKey(key), this, slot);
-  }
-}
-
 void MainWindow::createShortcuts()
 {
   new QShortcut(QKeySequence("F1"), this, SLOT(helpContext()));
@@ -1335,62 +1454,59 @@ void MainWindow::createShortcuts()
   new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
+  
+  // shortcuts for tool bar
+  // if you change these don't forget to update switchLanguage()
+  new QShortcut(metaKey('R'), this, SLOT(runCode()));
+  new QShortcut(metaKey('S'), this, SLOT(stopCode()));
+  new QShortcut(metaKey('I'), this, SLOT(help()));
+  new QShortcut(metaKey('P'), this, SLOT(showPrefsPane()));
+  new QShortcut(metaKey('M'), this, SLOT(beautifyCode()));
+  new QShortcut(metaKey('+'), this, SLOT(zoomFontIn()));
+  new QShortcut(metaKey('='), this, SLOT(zoomFontIn()));
+  new QShortcut(metaKey('-'), this, SLOT(zoomFontOut()));
+  new QShortcut(metaKey('_'), this, SLOT(zoomFontOut()));
 }
 
 void MainWindow::createToolBar()
 {
   // Run
-  QAction *runAct = new QAction(QIcon(":/images/run.png"), tr("Run"), this);
-  setupAction(runAct, 'R', tr("Run the code in the current workspace"),
-	      SLOT(runCode()));
-
+  runAct = new QAction(QIcon(":/images/run.png"), "", this);
+  connect(runAct, SIGNAL(triggered()), this, SLOT(runCode()));
   // Stop
-  QAction *stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);
-  setupAction(stopAct, 'S', tr("Stop all running code"), SLOT(stopCode()));
-
-  // Save
-  QAction *saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
-  setupAction(saveAsAct, 0, tr("Save current workspace as an external file"), SLOT(saveAs()));
-
-  // Info
-  QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
-  setupAction(infoAct, 0, tr("See information about Sonic Pi"),
-	      SLOT(about()));
-
-  // Help
-  QAction *helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
-  setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
-
-  // Preferences
-  QAction *prefsAct = new QAction(QIcon(":/images/prefs.png"), tr("Prefs"), this);
-  setupAction(prefsAct, 'P', tr("Toggle preferences pane"),
-	      SLOT(showPrefsPane()));
-
+  stopAct = new QAction(QIcon(":/images/stop.png"), "", this);
+  connect(stopAct, SIGNAL(triggered()), this, SLOT(stopCode()));
+  // SaveAs
+  saveAsAct = new QAction(QIcon(":/images/save.png"), "", this);
+  connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
   // Record
-  recAct = new QAction(QIcon(":/images/rec.png"), tr("Start Recording"), this);
-  setupAction(recAct, 0, tr("Start Recording"), SLOT(toggleRecording()));
-
-  // Align
-  QAction *textAlignAct = new QAction(QIcon(":/images/align.png"),
-			     tr("Auto-Align Text"), this);
-  setupAction(textAlignAct, 'M', tr("Auto-align text"), SLOT(beautifyCode()));
-
-  // Font Size Increase
-  QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
-			    tr("Increase Text Size"), this);
-  setupAction(textIncAct, '+', tr("Make text bigger"), SLOT(zoomFontIn()));
-  new QShortcut(metaKey('='), this, SLOT(zoomFontIn()));
+  recAct = new QAction(QIcon(":/images/rec.png"), "", this);
+  connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
   // Font Size Decrease
-  QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
-			    tr("Decrease Text Size"), this);
-  setupAction(textDecAct, '-', tr("Make text smaller"), SLOT(zoomFontOut()));
-  new QShortcut(metaKey('_'), this, SLOT(zoomFontOut()));
+  textDecAct = new QAction(QIcon(":/images/size_down.png"), "", this);
+  connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomFontOut()));
+  // Font Size Increase
+  textIncAct = new QAction(QIcon(":/images/size_up.png"), "", this);
+  connect(textIncAct, SIGNAL(triggered()), this, SLOT(zoomFontIn()));
+  // Align
+  textAlignAct = new QAction(QIcon(":/images/align.png"), "", this);
+  connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
+
+  // Info
+  infoAct = new QAction(QIcon(":/images/info.png"), "", this);
+  connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
+  // Help
+  helpAct = new QAction(QIcon(":/images/help.png"), "", this);
+  connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
+  // Preferences
+  prefsAct = new QAction(QIcon(":/images/prefs.png"), "", this);
+  connect(prefsAct, SIGNAL(triggered()), this, SLOT(showPrefsPane()));
 
   QWidget *spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-  toolBar = addToolBar(tr("Tools"));
+  toolBar = addToolBar("");
   toolBar->setObjectName("toolbar");
   toolBar->setIconSize(QSize(270/3, 111/3));
   toolBar->addAction(runAct);
@@ -1426,13 +1542,11 @@ QString MainWindow::readFile(QString name)
 }
 
 void MainWindow::createInfoPane() {
-  QTabWidget *infoTabs = new QTabWidget(this);
+  infoTabs = new QTabWidget(this);
 
-  QStringList files, tabs;
+  QStringList files;
   files << ":/html/info.html" << ":/info/CORETEAM.html" << ":/info/CONTRIBUTORS.html" <<
-    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" <<":/info/CHANGELOG.html";
-  tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
-    tr("Community") << tr("License") << tr("History");
+    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" << ":/info/CHANGELOG.html";
 
   for (int t=0; t < files.size(); t++) {
     QTextBrowser *pane = new QTextBrowser;
@@ -1441,7 +1555,8 @@ void MainWindow::createInfoPane() {
     pane->setFixedSize(600, 615);
     pane->setHtml(readFile(files[t]));
     pane->setStyleSheet(defaultTextBrowserStyle);
-    infoTabs->addTab(pane, tabs[t]);
+    // tab names are set in switchLanguage()
+    infoTabs->addTab(pane, "");
   }
 
   infoTabs->setTabPosition(QTabWidget::South);
@@ -1527,9 +1642,7 @@ void MainWindow::readSettings() {
     workspaces[w]->zoomTo(zoom);
   }
 
-
   restoreState(settings.value("windowState").toByteArray());
-
 }
 
 void MainWindow::writeSettings()
@@ -1553,6 +1666,9 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/rp/system-vol", rp_system_vol->value());
 
   settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
+  if (i18n_available && !i18n_english) {
+    settings.setValue("prefs/rp/gui-translation", show_translation->isChecked());
+  }
 
   settings.setValue("workspace", tabs->currentIndex());
 
