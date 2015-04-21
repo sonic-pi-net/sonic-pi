@@ -97,8 +97,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
-  this->protocol = UDP;
   this->splash = splash;
+  protocol = UDP;
 
   if(protocol == TCP){
     clientSock = new QTcpSocket(this);
@@ -115,8 +115,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   sendOSC(msg);
   sleep(2);
 
-  this->setUnifiedTitleAndToolBarOnMac(true);
-  this->setWindowIcon(QIcon(":images/icon-smaller.png"));
+  setUnifiedTitleAndToolBarOnMac(true);
+  setWindowIcon(QIcon(":images/icon-smaller.png"));
 
   defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
 
@@ -136,7 +136,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
 
-  OscHandler* handler = new OscHandler(this, this->outputPane, this->errorPane);
+  OscHandler* handler = new OscHandler(this, outputPane, errorPane);
 
   if(protocol == UDP){
     sonicPiServer = new SonicPiUDPServer(this, handler);
@@ -546,12 +546,12 @@ void MainWindow::serverStarted() {
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
 
   if(settings.value("first_time", 1).toInt() == 1) {
-    this->showMaximized();
+    showMaximized();
   } else {
-    this->showNormal();
+    showNormal();
 
   }
-  this->changeShowLineNumbers();
+  changeShowLineNumbers();
 }
 
 
