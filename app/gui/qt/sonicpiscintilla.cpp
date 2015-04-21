@@ -22,8 +22,8 @@
 SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   : QsciScintilla()
 {
-  this->standardCommands()->clearKeys();
-  this->standardCommands()->clearAlternateKeys();
+  standardCommands()->clearKeys();
+  standardCommands()->clearAlternateKeys();
   QString skey;
   QSettings settings("sonic-pi.net", "Key bindings");
 
@@ -105,38 +105,38 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   addKeyBinding(settings, QsciCommand::DeleteWordLeft, Qt::Key_Backspace | SPi_META);
   addKeyBinding(settings, QsciCommand::DeleteWordRight, Qt::Key_D | SPi_META);
 
-  this->standardCommands()->readSettings(settings);
+  standardCommands()->readSettings(settings);
 
-  this->setMatchedBraceBackgroundColor(QColor("dimgray"));
-  this->setMatchedBraceForegroundColor(QColor("white"));
+  setMatchedBraceBackgroundColor(QColor("dimgray"));
+  setMatchedBraceForegroundColor(QColor("white"));
 
-  this->setIndentationWidth(2);
-  this->setIndentationGuides(true);
-  this->setIndentationGuidesForegroundColor(QColor("deep pink"));
-  this->setBraceMatching( SonicPiScintilla::SloppyBraceMatch);
+  setIndentationWidth(2);
+  setIndentationGuides(true);
+  setIndentationGuidesForegroundColor(QColor("deep pink"));
+  setBraceMatching( SonicPiScintilla::SloppyBraceMatch);
 
   //TODO: add preference toggle for this:
-  //this->setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
-  this->setCaretLineVisible(true);
-  this->setCaretLineBackgroundColor(QColor("whitesmoke"));
-  this->setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
-  this->setMarginLineNumbers(0, true);
-  this->setMarginsBackgroundColor(QColor("whitesmoke"));
-  this->setMarginsForegroundColor(QColor("dark gray"));
-  this->setMarginsFont(QFont("Menlo", 15, -1, true));
-  this->setUtf8(true);
-  this->setText("#loading...");
-  this->setLexer((QsciLexer *)lexer);
+  //setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
+  setCaretLineVisible(true);
+  setCaretLineBackgroundColor(QColor("whitesmoke"));
+  setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
+  setMarginLineNumbers(0, true);
+  setMarginsBackgroundColor(QColor("whitesmoke"));
+  setMarginsForegroundColor(QColor("dark gray"));
+  setMarginsFont(QFont("Menlo", 15, -1, true));
+  setUtf8(true);
+  setText("#loading...");
+  setLexer((QsciLexer *)lexer);
 
-  this->setAutoCompletionThreshold(1);
-  this->setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
-  this->setAutoCompletionCaseSensitivity(false);
+  setAutoCompletionThreshold(1);
+  setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
+  setAutoCompletionCaseSensitivity(false);
 
-  this->setSelectionBackgroundColor("DeepPink");
-  this->setSelectionForegroundColor("white");
-  this->setCaretWidth(5);
-  this->setCaretForegroundColor("deep pink");
-  this->setEolMode(EolUnix);
+  setSelectionBackgroundColor("DeepPink");
+  setSelectionForegroundColor("white");
+  setCaretWidth(5);
+  setCaretForegroundColor("deep pink");
+  setEolMode(EolUnix);
 
   addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
   addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
@@ -147,14 +147,14 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
 }
 
 void SonicPiScintilla::hideLineNumbers(){
-  this->setMarginLineNumbers(0, false);
-  this->setMarginWidth(0, "0");
+  setMarginLineNumbers(0, false);
+  setMarginWidth(0, "0");
   SendScintilla(SCI_HIDELINES);
 }
 
 void SonicPiScintilla::showLineNumbers(){
-  this->setMarginLineNumbers(0, true);
-  this->setMarginWidth(0, "1000");
+  setMarginLineNumbers(0, true);
+  setMarginWidth(0, "1000");
   SendScintilla(SCI_SHOWLINES);
 }
 
