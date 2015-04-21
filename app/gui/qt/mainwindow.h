@@ -148,7 +148,7 @@ private:
     void createToolBar();
     void createStatusBar();
     void createInfoPane();
-    void switchTranslation(bool i18n);
+    void updateTranslation(bool i18n);
     void readSettings();
     void writeSettings();
     void loadFile(const QString &fileName, SonicPiScintilla* &text);

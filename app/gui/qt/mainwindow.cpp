@@ -395,7 +395,7 @@ MainWindow::MainWindow(QApplication &app, QSplashScreen* splash)
   }
 }
 
-void MainWindow::switchTranslation(bool i18n){
+void MainWindow::updateTranslation(bool i18n){
   // sets/updates all translatable labels, titles and tooltips of QT widgets
 
   if (!i18n_english) {
@@ -720,7 +720,7 @@ void MainWindow::update_check_updates() {
 }
 
 void MainWindow::update_show_translation() {
-  switchTranslation(show_translation->isChecked());
+  updateTranslation(show_translation->isChecked());
 }
 
 void MainWindow::initPrefsWindow() {
