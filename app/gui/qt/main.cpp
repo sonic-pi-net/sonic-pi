@@ -16,7 +16,6 @@
 #include <QPixmap>
 #include <QBitmap>
 #include <QLabel>
-#include <QTranslator>
 #include <QLibraryInfo>
 
 #include "mainwindow.h"
@@ -27,21 +26,7 @@ int main(int argc, char *argv[])
 #endif
 
   QApplication app(argc, argv);
-
-  QString systemLocale = QLocale::system().name();
-
-  QTranslator qtTranslator;
-  qtTranslator.load("qt_" + systemLocale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-  app.installTranslator(&qtTranslator);
-
-  QTranslator translator;
-  if (!translator.load("sonic-pi_" + systemLocale, ":/lang/") && (!systemLocale.startsWith("en")) && (systemLocale != "C")) {
-    std::cout << "No translation found for your locale \"" + systemLocale.toStdString() + "\"." << std::endl;
-    std::cout << "Please contact us if you want to translate Sonic Pi to your language." << std::endl;
-  }
-  app.installTranslator(&translator);
-
-  app.setApplicationName(QObject::tr("Sonic Pi"));
+  app.setApplicationName("Sonic Pi");
   app.setStyle("gtk");
 
 #ifdef Q_OS_MAC
