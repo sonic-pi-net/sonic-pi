@@ -2762,6 +2762,7 @@ end
         :pulse_width_slide_shape => 5,
         :pulse_width_slide_curve => 0,
         :phase_offset => 0,
+        :probability => 1,
         :wave => 1,
         :invert_wave => 1
       }
@@ -2864,6 +2865,14 @@ end
           :validations => [v_positive(:amp_max_slide)],
           :modulatable => true,
           :bpm_scale => true
+        },
+
+        :probability =>
+        {
+          :doc => "Probability that a 'slice' will happen. 1 means 100% so it'll slice every time, 0 means it won't slice at all. Values in between give you a random slicing sound a bit like morse code or IDM.",
+          :validations => [v_between_inclusive(:probability, 0, 1)],
+          :modulatable => false,
+          :bpm_scale => false
         }
 
       }
