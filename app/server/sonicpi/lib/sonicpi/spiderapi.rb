@@ -768,6 +768,7 @@ end"]
  puts vt # prints 1"]
 
     def factor?(val, factor)
+      return false if factor == 0
       (val % factor) == 0
     end
     doc name:           :factor?,
