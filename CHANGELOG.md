@@ -40,7 +40,7 @@ most powerful text editor in use by wizard programmers today.
 
 * Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
 * `sync` now accepts multiple cue ids and will sync on the first matching id.
-* New fn `pitch_ratio` for converting a midio note to a frequency
+* New fn `pitch_ratio` for converting a midi note to a frequency
   ratio. Useful for tuning samples.
 * New fn `line` for creating a line from start to finish with a specific
   number of slices.
@@ -56,7 +56,7 @@ most powerful text editor in use by wizard programmers today.
 * German translation of GUI and tutorial. Simply open Sonic Pi with a
   machine with a German localisation setting.
 * Display GUI fully maximised when opening for first ever time.
-* Workpace indexing now starts at 0 to match standard programming indexes.
+* Workspace indexing now starts at 0 to match standard programming indexes.
 * New shortcuts - `M-<` and `M->` for switching workspaces.
 * Many new Emacs-based code navigation and editing shortcuts. See the
   shortcut cheatsheet in the built-in tutorial for more information.
@@ -133,7 +133,7 @@ fun!
 
 ### Bug Fixes
 
-* Fix insanely obsure bug which caused the GUI to freeze on certain
+* Fix insanely obscure bug which caused the GUI to freeze on certain
   platforms (32 bit Windows and RP2 with 2G/2G kernel).
 * Remove DC Bias offset from Prophet synth (see
   http://en.wikipedia.org/wiki/DC_bias)
@@ -147,7 +147,7 @@ fun!
 
 ### Breaking Changes
 
-* Playing chords with the fn `chord` now divides the amplitiude of each
+* Playing chords with the fn `chord` now divides the amplitude of each
   resulting synth by the number of notes in the chord. This ensures the
   resulting amplitude isn't excessive and is normalised.
 * Chords now evaluate their args once and those args are used for all
@@ -204,7 +204,7 @@ fun!
 * `perc_snap` - a finger snap
 * `perc_snap2` - another finger snap
 * `bd_ada` - a bass drum
-* `guit_em9` - a lovely guitar arpegio over Em9
+* `guit_em9` - a lovely guitar arpeggio over Em9
 
 ### Bug Fixes
 
