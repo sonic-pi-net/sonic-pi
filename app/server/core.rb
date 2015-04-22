@@ -120,9 +120,13 @@ module SonicPi
         Array.new(self)
       end
 
-      def tick(key, n=1)
-        idx = ThreadLocalCounter.tick(key, n)
-        self[idx]
+      def tick(key, *args)
+        opts = args[0] || {}
+        raise "tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
+        step = opts[:step] || 1
+        offset = opts[:offset] || 0
+        idx = ThreadLocalCounter.tick(key, step)
+        self[idx + offset]
       end
 
       def hook(key, *args)
