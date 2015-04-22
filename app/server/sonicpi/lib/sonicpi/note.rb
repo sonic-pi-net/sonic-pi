@@ -93,7 +93,7 @@ module SonicPi
 
     def self.resolve_note_name(n, o=nil)
       note = resolve_midi_note(n, o)
-      note = note % 12
+      note = note.to_i % 12
       INTERVALS_TO_NOTES[note]
     end
 
