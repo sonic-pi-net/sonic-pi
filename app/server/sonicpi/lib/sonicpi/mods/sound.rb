@@ -1030,6 +1030,64 @@ play 50 # plays note 50 with a cutoff of 70 and defaults for rest of args - note
 
 
 
+       def use_sample_defaults(*args, &block)
+         raise "use_sample_defaults does not work with a block. Perhaps you meant with_sample_defaults" if block
+         args_h = resolve_synth_opts_hash_or_array(args)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, args_h
+       end
+       doc name:          :use_sample_defaults,
+           introduced:    Version.new(2,5,0),
+           summary:       "Use new sample defaults",
+           doc:           "Specify new default values to be used by all subsequent calls to `sample`. Will remove and override any previous defaults.",
+           args:          [],
+           opts:          {},
+           accepts_block: false,
+           examples:      ["
+sample :loop_amen # plays amen break with default arguments
+
+use_sample_defaults amp: 0.5, cutoff: 70
+
+sample :loop_amen # plays amen break with an amp of 0.5, cutoff of 70 and defaults for rest of args
+
+use_sample_defaults cutoff: 90
+
+sample :loop_amen  # plays amen break with a cutoff of 70 and defaults for rest of args - note that amp is no longer 0.5
+"]
+
+
+
+
+
+       def with_sample_defaults(*args, &block)
+         raise "with_sample_defaults must be called with a block. Perhaps you meant use_sample_defaults" unless block
+         current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, args_h
+         block.call
+         Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, current_defs
+
+       end
+       doc name:          :with_sample_defaults,
+           introduced:    Version.new(2,5,0),
+           summary:       "Block-level use new sample defaults",
+           doc:           "Specify new default values to be used by all subsequent calls to `sample` within the `do`/`end` block. After the `do`/`end` block has completed, the previous sampled defaults (if any) are restored. For the contents of the block, will remove and override any previous defaults.",
+           args:          [],
+           opts:          {},
+           accepts_block: false,
+           examples:      ["
+sample :loop_amen # plays amen break with default arguments
+
+use_sample_defaults amp: 0.5, cutoff: 70
+
+sample :loop_amen # plays amen break with an amp of 0.5, cutoff of 70 and defaults for rest of args
+
+with_sample_defaults cutoff: 90
+  sample :loop_amen  # plays amen break with a cutoff of 70 and defaults for rest of args - note that amp is no longer 0.5
+end
+
+sample :loop_amen  # plays amen break with default cutoff and amp is 0.5 again as the previous defaults are restored."]
+
+
 
        def with_synth_defaults(*args, &block)
          raise "with_synth_defaults must be called with a block" unless block
@@ -1513,6 +1571,22 @@ puts current_sample_pack_aliases # Print out the current sample pack aliases"]
 use_synth_defaults amp: 0.5, cutoff: 80
 play 50 # Plays note 50 with amp 0.5 and cutoff 80
 puts current_synth_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
+
+
+       def current_sample_defaults
+         Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
+       end
+       doc name:          :current_sample_defaults,
+           introduced:    Version.new(2,5,0),
+           summary:       "Get current sample defaults",
+           doc:           "Returns the current sample defaults. This is a map of synth arg names to either values or functions.",
+           args:          [],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+use_sample_defaults amp: 0.5, cutoff: 80
+sample :loop_amen # Plays amen break with amp 0.5 and cutoff 80
+puts current_sample_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
 
 
 
@@ -2526,6 +2600,11 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
            end
          end
 
+         # Combine thread local defaults here as
+         # normalise_and_resolve_synth_args has only been taught about
+         # synth thread local defaults
+         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
+         args_h_with_buf = t_l_args.merge(args_h_with_buf)
          trigger_synth(sn, args_h_with_buf, group, info)
        end
 
