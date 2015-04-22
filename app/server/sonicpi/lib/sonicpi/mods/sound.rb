@@ -1729,6 +1729,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
 
        def load_sample(path)
+         raise "Attempted to load sample with an empty string as path" if path.empty?
          case path
          when Symbol
            full_path = resolve_sample_symbol_path(path)
