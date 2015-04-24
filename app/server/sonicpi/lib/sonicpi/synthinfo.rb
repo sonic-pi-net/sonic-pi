@@ -2516,6 +2516,69 @@ end
 
   end
 
+  class FXKrush < FXInfo
+    def name
+      "krush"
+    end
+
+    def introduced
+      Version.new(2,6,0)
+    end
+
+    def synth_name
+      "fx_krush"
+    end
+
+    def doc
+      "Krush that sound!"
+    end
+
+    def arg_defaults
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :gain => 30,
+        :gain_slide => 0,
+        :gain_slide_shape => 5,
+        :gain_slide__curve => 0,
+        :cutoff => 100,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+        :gain =>
+        {
+          :doc => "Amount of crushing to serve",
+          :validations => [v_positive_not_zero(:gain)],
+          :modulatable => true
+        },
+
+        :gain_slide =>
+        {
+          :doc => generic_slide_doc(:gain),
+          :validations => [v_positive(:gain_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        }
+      }
+    end
+
+  end
+
   class FXBitcrusher < FXInfo
     def name
       "Bitcrusher"
@@ -4438,6 +4501,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :basic_mixer => BasicMixer.new,
 
       :fx_bitcrusher => FXBitcrusher.new,
+      :fx_krush => FXKrush.new,
       :fx_reverb => FXReverb.new,
       :fx_replace_reverb => FXReverb.new,
       :fx_level => FXLevel.new,

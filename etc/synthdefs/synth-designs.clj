@@ -1938,6 +1938,54 @@
 
 ;;FX
 (without-namespace-in-synthdef
+
+ (defsynth sonic-pi-fx_krush
+   [amp 1
+    amp_slide 0
+    amp_slide_shape 5
+    amp_slide_curve 0
+    mix 1
+    mix_slide 0
+    mix_slide_shape 5
+    mix_slide_curve 0
+    pre_amp 1
+    pre_amp_slide 0
+    pre_amp_slide_shape 5
+    pre_amp_slide_curve 0
+    gain 4
+    gain_slide 0
+    gain_slide_shape 5
+    gain_slide_curve 0
+    cutoff 100
+    cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
+    res 1
+    res_slide 0
+    res_slide_shape 5
+    res_slide_curve 0
+    in_bus 0
+    out_bus 0]
+   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix         (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp     (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         gain        (varlag gain gain_slide gain_slide_curve gain_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (varlag res res_slide res_slide_curve res_slide_shape)
+         cutoff-freq (midicps cutoff)
+
+         [in-l in-r] (abs (* pre_amp (in in_bus 2)))
+         new-l-sqr   (squared in-l)
+         new-l       (/ (+ new-l-sqr (* gain in-l)) (+ new-l-sqr (* in-l (- gain 1)) 1))
+         new-r-sqr   (squared in-r)
+         new-r       (/ (+ new-r-sqr (* gain in-r)) (+ new-r-sqr (* in-r (- gain 1)) 1))
+         new-l       (rlpf new-l cutoff-freq res)
+         new-r       (rlpf new-r cutoff-freq res)
+         fin-l       (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+         fin-r       (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+
+     (out out_bus [fin-l fin-r])))
+
  (defsynth sonic-pi-fx_bitcrusher
    [amp 1
     amp_slide 0
@@ -3783,6 +3831,7 @@
  ;;(kill sonic-pi-fx_rbpf)
 
  (comment
+   (save-to-pi sonic-pi-fx_krush)
    (save-to-pi sonic-pi-fx_bitcrusher)
    (save-to-pi sonic-pi-fx_replace_bitcrusher)
    (save-to-pi sonic-pi-fx_reverb)
