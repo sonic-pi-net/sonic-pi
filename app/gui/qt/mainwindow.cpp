@@ -554,20 +554,6 @@ void MainWindow::serverStarted() {
   changeShowLineNumbers();
 }
 
-
-void MainWindow::serverError(QProcess::ProcessError error) {
-  sonicPiServer->stopServer();
-  std::cout << "[GUI] - Server Error: " << error <<std::endl;
-  std::cout << serverProcess->readAllStandardError().data() << std::endl;
-  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
-}
-
-void MainWindow::serverFinished(int exitCode, QProcess::ExitStatus exitStatus) {
-  std::cout << "[GUI] - Server Finished: " << exitCode << ", " << exitStatus << std::endl;
-  std::cout << serverProcess->readAllStandardError().data() << std::endl;
-  std::cout << serverProcess->readAllStandardOutput().data() << std::endl;
-}
-
 void MainWindow::update_mixer_invert_stereo() {
   if (mixer_invert_stereo->isChecked()) {
     mixerInvertStereo();
