@@ -1,28 +1,36 @@
-1 Welcome to Sonic Pi
+1 Witaj w Sonic Pi
 
-# Welcome friend :-)
+# Witaj Kolego :-)
 
-Welcome to Sonic Pi. Hopefully you're as excited to get started making
-crazy sounds as I am to show you. It's going to be a really *fun* ride
-where you'll learn all about music, synthesis, programming, composition,
-performance and more.
+Witaj w Sonic Pi. Mam nadzieję, że jesteś podekscytowany możliwością 
+rozpoczecia tworzenia zwariowanych dźwięków tak samo, jak ja jestem 
+podekcytowany tym, że mogę Ci to pokazać. To będzie naprawdę *świetna* 
+zabawa, podczas której nauczysz się wszystkiego o muzyce, syntezie, 
+programowaniu, kompozycji, wydajności oraz znacznie więcej.
+           
+Ale poczekaj, gdzie moje maniery! Pozwól, że się przedstawię - jestem 
+[Sam Aaron](http://twitter.com/samaaron) - facet, który stworzył Sonic Pi.
+Możesz znaleść mnie pod nikiem [@samaaron](http://twitter.com/samaaron) na 
+Twitterze i będę bardzo zadowolony jeśli będę mógł powiedzieć Ci cześć. 
+Być może zainteresuje Cię również moja strona 
+[Live Coding Performances](http://facebook.com/livecodersamaaron), gdzie 
+koduję przed publicznością na żywo używając Sonic Pi.
 
-But wait, how rude of me! Let me introduce myself - I'm
-[Sam Aaron](http://twitter.com/samaaron) - the chap that created Sonic
-Pi. You can find me at [@samaaron](http://twitter.com/samaaron) on
-Twitter and I'd be more than happy to say hello to you.  You might also
-be interested in my Live Coding band [Meta-eX](http://meta-ex.com) where
-I perform with code in front of audiences. You can find one of my
-[Meta-eX](http://meta-ex.com) tracks in the examples.
+Jeśli masz jakiekolwiek przemyślenia lub pomysły jak można ulepszyć Sonic Pi - 
+będę wdzięczny za ich przekazanie - informacja zwrotna jest bardzo pomocna. 
+Nigdy nie wiadomo, być może twój pomysł może być następnym kolejną wielką 
+funkcjonalnością!
 
-If you have any thoughts, or ideas for improving Sonic Pi - please
-pass them on - feedback is so helpful. You never know, your idea might
-be the next big feature!
+Ten samouczek został podzielony na sekcje, które są pogrupowane wg kategorii. 
+Pomimo, że napisałem go w taki sposób, aby umożliwiał łatwą naukę od początku 
+do końca, to nic nie szkodzi na przeszkodzie abyś abyś po prostu zaczął czytać 
+dowolną z sekcji - taką która wydaje Ci się odpowiednia dla Ciebie. Jeśli 
+uważasz, że czegoś brakuje daj mi o tym znać, rozważę dołożenie tego 
+do kolejnej wersji.
 
-Finally, this tutorial is divided up into sections grouped by
-category. Whilst I've written it to have an easy learning progression
-from start to finish, feel very free just to dip in and out of sections
-as you see fit. If you feel that there's something missing, do let me
-know and I'll consider it for a future version.
+I jeszcze jedno na koniec. Oglądanie innych osób, które kodują na żywo 
+jest naprawdę świetnym sposobem nauki. Regularnie nadaję na żywo na moim 
+kanale [livecoding.tv/samaaron](http://livecoding.tv/samaaron), możesz więc 
+wpaść, powiedzieć do mnie cześć i zadać mi wiele pytań :-)
 
-OK, let's get started...
+Dobra, zaczynajmy...
