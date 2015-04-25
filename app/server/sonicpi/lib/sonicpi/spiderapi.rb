@@ -93,6 +93,7 @@ play 80  #=> this plays as the stop only affected the above thread"
     ]
 
     def stretch(*args)
+      raise "stretch needs an even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
       res = args.each_slice(2).flat_map do |values, num_its|
         if !values.respond_to? :flat_map
           values = [values]
