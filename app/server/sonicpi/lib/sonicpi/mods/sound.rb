@@ -217,7 +217,7 @@ end"]
        doc name:           :with_sample_bpm,
            introduced:     Version.new(2,1,0),
            summary:        "Block-scoped sample-duration-based bpm modification",
-           doc:            "Block-scoped modifation of bpm so that sleeping for 1 will sleep for the duration of the sample.",
+           doc:            "Block-scoped modification of bpm so that sleeping for 1 will sleep for the duration of the sample.",
            args:           [[:string, :sample_name],
                             [:number, :sample_duration]],
            opts:           nil,
@@ -304,7 +304,7 @@ end"]
        doc name:          :pitch_ratio,
            introduced:    Version.new(2,5,0),
            summary:       "relative MIDI pitch to frequency ratio",
-           doc:           "Convert a midi note a ratio which when applied to a frequency will scale the frequency by the number of semitones.",
+           doc:           "Convert a midi note to a ratio which when applied to a frequency will scale the frequency by the number of semitones.",
            args:          [[:pitch, :midi_number]],
            opts:          nil,
            accepts_block: false,
@@ -365,7 +365,7 @@ control s, note: 82                    # immediately start sliding note.
                                        # correctly handled as it is sent at the
                                        # same virtual time as the trigger.
                                        # If you don't hear a slide, try increasing the
-                                       # control delta until you."]
+                                       # control delta until you do."]
 
 
 
@@ -732,7 +732,7 @@ play 50 # Plays with supersaw synth
            opts:  {},
            accepts_block: false,
            examples: ["
-synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an aplitude of 0.5",
+synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an amplitude of 0.5",
 
 "
 use_synth_defaults release: 5
@@ -961,7 +961,7 @@ play 50 #=> Plays note 50 with amp 0.7 and cutoff 80
 
 "use_synth_defaults amp: 0.5, cutoff: 80, pan: -1
 use_merged_synth_defaults amp: 0.7
-play 50 #=> Plays note 50 with amp 0.8, cutoff 80 and pan -1"]
+play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
 
 
 
@@ -1025,7 +1025,7 @@ play 50 # plays note 50 with an amp of 0.5, cutoff of 70 and defaults for rest o
 
 use_synth_defaults cutoff: 90
 
-play 50 # plays note 50 with a cutoff of 70 and defaults for rest of args - note that amp is no longer 0.5
+play 50 # plays note 50 with a cutoff of 90 and defaults for rest of args - note that amp is no longer 0.5
 "]
 
 
@@ -1051,7 +1051,7 @@ sample :loop_amen # plays amen break with an amp of 0.5, cutoff of 70 and defaul
 
 use_sample_defaults cutoff: 90
 
-sample :loop_amen  # plays amen break with a cutoff of 70 and defaults for rest of args - note that amp is no longer 0.5
+sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest of args - note that amp is no longer 0.5
 "]
 
 
@@ -1081,11 +1081,11 @@ use_sample_defaults amp: 0.5, cutoff: 70
 
 sample :loop_amen # plays amen break with an amp of 0.5, cutoff of 70 and defaults for rest of args
 
-with_sample_defaults cutoff: 90
-  sample :loop_amen  # plays amen break with a cutoff of 70 and defaults for rest of args - note that amp is no longer 0.5
+with_sample_defaults cutoff: 90 do
+  sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest of args - note that amp is no longer 0.5
 end
 
-sample :loop_amen  # plays amen break with default cutoff and amp is 0.5 again as the previous defaults are restored."]
+sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again as the previous defaults are restored."]
 
 
 
@@ -1112,8 +1112,8 @@ use_synth_defaults amp: 0.5, pan: -1
 
 play 50 # plays note 50 with an amp of 0.5, pan of -1 and defaults for rest of args
 
-with_synth_defaults amp: 0.6, cutoff: 80
-  play 50 # plays note 50 with an amp of 0.5, cutoff of 80 and defaults for rest of args (including pan)
+with_synth_defaults amp: 0.6, cutoff: 80 do
+  play 50 # plays note 50 with an amp of 0.6, cutoff of 80 and defaults for rest of args (including pan)
 end
 
 play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of args
@@ -1429,7 +1429,7 @@ sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
 
 
        def use_sample_pack_as(pack, pack_alias, &block)
-         raise "use_sample_pack_as does not work with a block. Perhaps you meant with_sample_pack" if block
+         raise "use_sample_pack_as does not work with a block. Perhaps you meant with_sample_pack_as" if block
          pack = "#{pack}/" if File.directory?(pack)
          aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases) || Hamster.hash
          new_aliases = aliases.put pack_alias.to_s, pack
@@ -1443,7 +1443,7 @@ sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
            opts:          nil,
            accepts_block: false,
            examples:      ["
-# lets say you have two folders of your own sample files,
+# let's say you have two folders of your own sample files,
 # and they both contain a file named 'bass.wav'
 use_sample_pack_as '/home/yourname/my/cool/samples/guitar', :my_guitars
 use_sample_pack_as '/home/yourname/my/cool/samples/drums', :my_drums
@@ -1485,7 +1485,7 @@ end"]
 
 
        def with_sample_pack_as(pack, name, &block)
-         raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack" if block
+         raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack_as" unless block
          pack = "#{pack}/" if File.directory?(pack)
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
          aliases = current || Hamster.hash
@@ -1500,7 +1500,7 @@ end"]
            doc:           "Similar to `with_sample_pack` except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
            args:          [[:pack_path, :string]],
            opts:          nil,
-           accepts_block: false,
+           accepts_block: true,
            examples:      ["
 with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
   # The foo sample is now available, with a prefix of 'my_samples'
@@ -1844,7 +1844,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
            summary:       "Get sample duration in seconds",
            doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
            args:          [[:path, :string]],
-           opts:          {:rate => "Rate modifier. For example, doubling the rate will half the duration."},
+           opts:          {:rate => "Rate modifier. For example, doubling the rate will halve the duration."},
            accepts_block: false,
            examples:      ["
 loop do   # Using sample_duration here means the loop plays back without any gaps or breaks
@@ -2014,7 +2014,7 @@ puts status # Returns something similar to:
        doc name:          :note,
            introduced:    Version.new(2,0,0),
            summary:       "Describe note",
-           doc:           "Takes a midi note, a symbol (e.g. `:C`) or a string (e.g. `\"C\"`) and resolves it to a midi note. You can also pass an optional `octave:` parameter to get the midi note for a given octave. Please note - `octave:` param is overridden if octave is specified in a symbol i.e. `:c3`. If the note is `nil`, `:r` or `:rest`, then `nil` is returned (`nil` represents a rest)",
+           doc:           "Takes a midi note, a symbol (e.g. `:C`) or a string (e.g. `\"C\"`) and resolves it to a midi note. You can also pass an optional `octave:` parameter to get the midi note for a given octave. Please note - `octave:` param overrides any octave specified in a symbol i.e. `:c3`. If the note is `nil`, `:r` or `:rest`, then `nil` is returned (`nil` represents a rest)",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => "The octave of the note. Overrides any octave declaration in the note symbol such as :c2. Default is 4"},
            accepts_block: false,
@@ -2358,7 +2358,7 @@ my_node = play 50, release: 5, cutoff: 60 # play note 50 with release of 5 and c
 sleep 1 # Sleep for a second
 control my_node, cutoff: 70 # Now modify cutoff from 60 to 70, sound is still playing
 sleep 1 # Sleep for another second
-control my_node, cutoff: 90 # Now modify cutoff from 79 to 90, sound is still playing"]
+control my_node, cutoff: 90 # Now modify cutoff from 70 to 90, sound is still playing"]
 
 
 
