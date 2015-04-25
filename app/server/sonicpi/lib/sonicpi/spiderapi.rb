@@ -127,7 +127,7 @@ play 80  #=> this plays as the stop only affected the above thread"
     doc name:           :knit,
         introduced:     Version.new(2,2,0),
         summary:        "Knit a sequence of repeated values",
-        args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
+        args:           [[:value, :anything], [:count, :number]],
         returns:        :ring,
         opts:           nil,
         accepts_block:  false,
