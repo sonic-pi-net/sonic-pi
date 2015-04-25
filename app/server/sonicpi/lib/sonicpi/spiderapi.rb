@@ -92,6 +92,28 @@ play 80  #=> this plays as the stop only affected the above thread"
       "(bools 1, 0, true, false, nil) #=> (ring true, false, true, false, false)"
     ]
 
+    def stretch(*args)
+      res = args.each_slice(2).flat_map do |values, num_its|
+        if !values.respond_to? :flat_map
+          values = [values]
+        end
+        knit(*values.flat_map{|v| [v, num_its]})
+      end
+      (res||[]).ring
+    end
+    doc name:           :stretch,
+        introduced:     Version.new(2,6,0),
+        summary:        "Stretch a sequence of values",
+        args:           [[:list, :number]],
+        returns:        :ring,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Stretches a list of values each value repeated count times.",
+        examples:       [
+      "(stretch [1,2], 3)    #=> (ring 1, 1, 1, 2, 2, 2)",
+      "(stretch [:e2, :c3], 1, [:c2, :d3], 2) #=> (ring :e2, :c3, :c2, :c2, :d3, :d3)"
+    ]
+
     def knit(*args)
       res = []
       args.each_slice(2) do |val, num_its|

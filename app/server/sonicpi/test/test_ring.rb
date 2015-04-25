@@ -19,6 +19,18 @@ module SonicPi
   class RingTester < Test::Unit::TestCase
     include SonicPi::SpiderAPI
 
+    def test_stretch
+      assert_equal([:e1, :e1, :e1, :e2, :e2, :e2], stretch([:e1,:e2], 3))
+      assert_equal([:a2, :a2, :a3, :a3, :a1, :a1, :a1, :a4, :a4, :a4], stretch([:a2,:a3], 2, [:a1,:a4], 3))
+
+      assert_equal(SonicPi::Core::RingArray, stretch([:e1], 3).class)
+      assert_equal([:a2,:a2], stretch(:a2, 2))
+
+      assert_raise SonicPi::Core::EmptyRingError do
+        stretch([:e2], 0)
+      end
+    end
+
     def test_knit
       assert_equal(knit(:e1, 3), [:e1, :e1, :e1])
       assert_equal(knit(:e1, 3, :c1, 2), [:e1, :e1, :e1, :c1, :c1])
