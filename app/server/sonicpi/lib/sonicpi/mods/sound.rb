@@ -1485,7 +1485,7 @@ end"]
 
 
        def with_sample_pack_as(pack, name, &block)
-         raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack" if block
+         raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack_as" unless block
          pack = "#{pack}/" if File.directory?(pack)
          current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
          aliases = current || Hamster.hash
@@ -1500,7 +1500,7 @@ end"]
            doc:           "Similar to `with_sample_pack` except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
            args:          [[:pack_path, :string]],
            opts:          nil,
-           accepts_block: false,
+           accepts_block: true,
            examples:      ["
 with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
   # The foo sample is now available, with a prefix of 'my_samples'
