@@ -11,9 +11,11 @@
 ;; notice is included.
 ;;++
 
+
 (ns sonic-pi.synths.basic
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core]))
+  (:require [sonic-pi.synths.core :as core]))
+
 
 
 (do
@@ -866,20 +868,20 @@
    )
 
   (comment
-    (save-to-pi sonic-pi-dull_bell)
-    (save-to-pi sonic-pi-pretty_bell)
-    (save-to-pi sonic-pi-beep)
-    (save-to-pi sonic-pi-saw)
-    (save-to-pi sonic-pi-tri)
-    (save-to-pi sonic-pi-pulse)
-    (save-to-pi sonic-pi-square)
-    (save-to-pi sonic-pi-dsaw)
-    (save-to-pi sonic-pi-fm)
+    (core/save-synthdef sonic-pi-dull_bell)
+    (core/save-synthdef sonic-pi-pretty_bell)
+    (core/save-synthdef sonic-pi-beep)
+    (core/save-synthdef sonic-pi-saw)
+    (core/save-synthdef sonic-pi-tri)
+    (core/save-synthdef sonic-pi-pulse)
+    (core/save-synthdef sonic-pi-square)
+    (core/save-synthdef sonic-pi-dsaw)
+    (core/save-synthdef sonic-pi-fm)
 
-    (save-to-pi sonic-pi-mod_fm)
-    (save-to-pi sonic-pi-mod_saw)
-    (save-to-pi sonic-pi-mod_dsaw)
-    (save-to-pi sonic-pi-mod_sine)
-    (save-to-pi sonic-pi-mod_tri)
-    (save-to-pi sonic-pi-mod_pulse)
+    (core/save-synthdef sonic-pi-mod_fm)
+    (core/save-synthdef sonic-pi-mod_saw)
+    (core/save-synthdef sonic-pi-mod_dsaw)
+    (core/save-synthdef sonic-pi-mod_sine)
+    (core/save-synthdef sonic-pi-mod_tri)
+    (core/save-synthdef sonic-pi-mod_pulse)
     ))

@@ -1,0 +1,35 @@
+digraph synthdef {
+7 [label = "{{ <a> |<b> 0.0} |<__UG_NAME__>+ }" style="dashed, rounded" shape=record rankdir=LR];
+0 [label = "control
+ :amp
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+1 [label = "control
+ :amp_slide
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+2 [label = "control
+ :pan
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+3 [label = "control
+ :pan_slide
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+4 [label = "control
+ :input
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+5 [label = "control
+ :out_bus
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+8 [label = "{{ <bus> bus|<num____channels> num-channels 1} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+6 [label = "{<__UG_NAME__>num-output-buses }" style="dashed, rounded" shape=record rankdir=LR];
+10 [label = "{{ <bus> bus|{{<signals___pan2___0>|<signals___pan2___1>}|signals}} |<__UG_NAME__>out }" style="filled, bold, rounded"  shape=record rankdir=LR];
+9 [label = "{{ <in> in|<pos> pos|<level> level} |<__UG_NAME__>pan2 }" style="filled, bold, rounded"  shape=record rankdir=LR];
+
+6:__UG_NAME__ -> 7:a ;
+7:__UG_NAME__ -> 8:bus ;
+9:__UG_NAME__ -> 10:signals___pan2___0 ;
+9:__UG_NAME__ -> 10:signals___pan2___1 ;
+5:__UG_NAME__ -> 10:bus ;
+0:__UG_NAME__ -> 9:level ;
+2:__UG_NAME__ -> 9:pos ;
+8:__UG_NAME__ -> 9:in ;
+
+}

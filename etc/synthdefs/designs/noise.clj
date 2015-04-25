@@ -207,10 +207,10 @@
      (out out_bus (pan2 snd pan amp))))
 
  (comment
-   (save-to-pi sonic-pi-noise)
-   (save-to-pi sonic-pi-pnoise)
-   (save-to-pi sonic-pi-bnoise)
-   (save-to-pi sonic-pi-gnoise)
-   (save-to-pi sonic-pi-cnoise)
+   (core/save-synthdef sonic-pi-noise)
+   (core/save-synthdef sonic-pi-pnoise)
+   (core/save-synthdef sonic-pi-bnoise)
+   (core/save-synthdef sonic-pi-gnoise)
+   (core/save-synthdef sonic-pi-cnoise)
    )
  )

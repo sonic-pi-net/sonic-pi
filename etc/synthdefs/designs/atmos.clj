@@ -211,6 +211,6 @@
        (out out_bus (* env (pan2 (* amp-fudge snd) pan amp)))))
 
     (comment
-      (save-to-pi sonic-pi-dark_ambience)
-      (save-to-pi sonic-pi-hollow)
-      (save-to-pi sonic-pi-growl)))
+      (core/save-synthdef sonic-pi-dark_ambience)
+      (core/save-synthdef sonic-pi-hollow)
+      (core/save-synthdef sonic-pi-growl)))

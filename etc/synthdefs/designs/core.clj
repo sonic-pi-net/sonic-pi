@@ -22,11 +22,13 @@
 
 ;; Utility functions (for creating and storing synthdefs)
 
-(defn save-synthdef [sdef folder]
-  (let [path (str folder "/" (last (str/split (-> sdef :sdef :name) #"/")) ".scsyndef") ]
-    (overtone.sc.machinery.synthdef/synthdef-write (:sdef sdef) path)
-    path))
+(def path-to-synthdefs "/Users/sam/Development/RPi/sonic-pi/etc/synthdefs")
 
-(defn save-to-pi [sdef path]
-  (let [path (or path "/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/")]
-    (save-synthdef sdef path)))
+(defn save-synthdef [sdef]
+  (let [compiled (str path-to-synthdefs "/compiled/" (last (str/split (-> sdef :sdef :name) #"/")) ".scsyndef")
+        gv       (str path-to-synthdefs "/graphviz/" (last (str/split (-> sdef :sdef :name) #"/")) ".dot")
+        dot     (graphviz sdef)]
+
+    (spit gv dot)
+    (overtone.sc.machinery.synthdef/synthdef-write (:sdef sdef) compiled)
+    :done))

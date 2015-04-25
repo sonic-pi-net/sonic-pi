@@ -1,0 +1,106 @@
+digraph synthdef {
+11 [label = "{{ <a> |<b> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
+18 [label = "{{ <a> |<b> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
+16 [label = "{{ <a> |<b> 1.0} |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+23 [label = "{{ <a> |<b> } |<__UG_NAME__>+ }" style="filled, bold, rounded"  shape=record rankdir=LR];
+26 [label = "{{ <a> |<b> } |<__UG_NAME__>+ }" style="filled, bold, rounded"  shape=record rankdir=LR];
+24 [label = "{{ <a> |<b> 2.0} |<__UG_NAME__>/ }" style="filled, bold, rounded"  shape=record rankdir=LR];
+27 [label = "{{ <a> |<b> 2.0} |<__UG_NAME__>/ }" style="filled, bold, rounded"  shape=record rankdir=LR];
+0 [label = "control
+ :in_bus
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+1 [label = "control
+ :amp
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+2 [label = "control
+ :safe-recovery-time
+ default: 3.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+3 [label = "control
+ :hpf_freq
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+4 [label = "control
+ :hpf_pass_thru
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+5 [label = "control
+ :lpf_freq
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+6 [label = "control
+ :lpf_pass_thru
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+7 [label = "control
+ :force_mono
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+8 [label = "control
+ :invert_stereo
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+12 [label = "{{ <in> in|<freq> freq} |<__UG_NAME__>hpf }" style="filled, bold, rounded"  shape=record rankdir=LR];
+19 [label = "{{ <in> in|<freq> freq} |<__UG_NAME__>hpf }" style="filled, bold, rounded"  shape=record rankdir=LR];
+10 [label = "{{ <bus> bus|<num____channels> num-channels 1} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+17 [label = "{{ <bus> bus|<num____channels> num-channels 1} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+9 [label = "{{ <in> in|<lag____time____up> lag-time-up 0.0|<lag____time____down> lag-time-down 0.02} |<__UG_NAME__>lag-ud }" style="bold, rounded" shape=record rankdir=LR];
+30 [label = "{{ <in> in|<level> level 0.99|<dur> dur 0.01} |<__UG_NAME__>limiter }" style="filled, bold, rounded"  shape=record rankdir=LR];
+32 [label = "{{ <in> in|<level> level 0.99|<dur> dur 0.01} |<__UG_NAME__>limiter }" style="filled, bold, rounded"  shape=record rankdir=LR];
+14 [label = "{{ <in> in|<freq> freq} |<__UG_NAME__>lpf }" style="filled, bold, rounded"  shape=record rankdir=LR];
+21 [label = "{{ <in> in|<freq> freq} |<__UG_NAME__>lpf }" style="filled, bold, rounded"  shape=record rankdir=LR];
+33 [label = "{{ <bus> bus 0.0|{{<signals___limiter___0>|<signals___limiter___1>}|signals}} |<__UG_NAME__>replace-out }" style="filled, bold, rounded"  shape=record rankdir=LR];
+13 [label = "{{ <which> which|{{<array___hpf___0>|<array___binary____op____u____gen___1>}|array}} |<__UG_NAME__>select }" style="filled, bold, rounded"  shape=record rankdir=LR];
+15 [label = "{{ <which> which|{{<array___lpf___0>|<array___select___1>}|array}} |<__UG_NAME__>select }" style="filled, bold, rounded"  shape=record rankdir=LR];
+20 [label = "{{ <which> which|{{<array___hpf___0>|<array___binary____op____u____gen___1>}|array}} |<__UG_NAME__>select }" style="filled, bold, rounded"  shape=record rankdir=LR];
+22 [label = "{{ <which> which|{{<array___lpf___0>|<array___select___1>}|array}} |<__UG_NAME__>select }" style="filled, bold, rounded"  shape=record rankdir=LR];
+25 [label = "{{ <which> which|{{<array___select___0>|<array___binary____op____u____gen___1>}|array}} |<__UG_NAME__>select }" style="filled, bold, rounded"  shape=record rankdir=LR];
+28 [label = "{{ <which> which|{{<array___select___0>|<array___binary____op____u____gen___1>}|array}} |<__UG_NAME__>select }" style="filled, bold, rounded"  shape=record rankdir=LR];
+29 [label = "{{ <which> which|{{<array___select___0>|<array___select___1>}|array}} |<__UG_NAME__>select }" style="filled, bold, rounded"  shape=record rankdir=LR];
+31 [label = "{{ <which> which|{{<array___select___0>|<array___select___1>}|array}} |<__UG_NAME__>select }" style="filled, bold, rounded"  shape=record rankdir=LR];
+
+10:__UG_NAME__ -> 11:b ;
+9:__UG_NAME__ -> 11:a ;
+17:__UG_NAME__ -> 18:b ;
+9:__UG_NAME__ -> 18:a ;
+0:__UG_NAME__ -> 16:a ;
+22:__UG_NAME__ -> 23:b ;
+15:__UG_NAME__ -> 23:a ;
+22:__UG_NAME__ -> 26:b ;
+25:__UG_NAME__ -> 26:a ;
+23:__UG_NAME__ -> 24:a ;
+26:__UG_NAME__ -> 27:a ;
+3:__UG_NAME__ -> 12:freq ;
+11:__UG_NAME__ -> 12:in ;
+3:__UG_NAME__ -> 19:freq ;
+18:__UG_NAME__ -> 19:in ;
+0:__UG_NAME__ -> 10:bus ;
+16:__UG_NAME__ -> 17:bus ;
+1:__UG_NAME__ -> 9:in ;
+29:__UG_NAME__ -> 30:in ;
+31:__UG_NAME__ -> 32:in ;
+5:__UG_NAME__ -> 14:freq ;
+13:__UG_NAME__ -> 14:in ;
+5:__UG_NAME__ -> 21:freq ;
+20:__UG_NAME__ -> 21:in ;
+30:__UG_NAME__ -> 33:signals___limiter___0 ;
+32:__UG_NAME__ -> 33:signals___limiter___1 ;
+12:__UG_NAME__ -> 13:array___hpf___0 ;
+11:__UG_NAME__ -> 13:array___binary____op____u____gen___1 ;
+4:__UG_NAME__ -> 13:which ;
+14:__UG_NAME__ -> 15:array___lpf___0 ;
+13:__UG_NAME__ -> 15:array___select___1 ;
+6:__UG_NAME__ -> 15:which ;
+19:__UG_NAME__ -> 20:array___hpf___0 ;
+18:__UG_NAME__ -> 20:array___binary____op____u____gen___1 ;
+4:__UG_NAME__ -> 20:which ;
+21:__UG_NAME__ -> 22:array___lpf___0 ;
+20:__UG_NAME__ -> 22:array___select___1 ;
+6:__UG_NAME__ -> 22:which ;
+15:__UG_NAME__ -> 25:array___select___0 ;
+24:__UG_NAME__ -> 25:array___binary____op____u____gen___1 ;
+7:__UG_NAME__ -> 25:which ;
+22:__UG_NAME__ -> 28:array___select___0 ;
+27:__UG_NAME__ -> 28:array___binary____op____u____gen___1 ;
+7:__UG_NAME__ -> 28:which ;
+25:__UG_NAME__ -> 29:array___select___0 ;
+28:__UG_NAME__ -> 29:array___select___1 ;
+8:__UG_NAME__ -> 29:which ;
+28:__UG_NAME__ -> 31:array___select___0 ;
+25:__UG_NAME__ -> 31:array___select___1 ;
+8:__UG_NAME__ -> 31:which ;
+
+}

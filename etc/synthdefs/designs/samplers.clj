@@ -14,7 +14,7 @@
 
 (ns sonic-pi.synths.samplers
   (:use [overtone.live])
-  (:require [sonic-pi.synths.core]))
+  (:require [sonic-pi.synths.core :as core]))
 
 (without-namespace-in-synthdef
 
@@ -214,7 +214,7 @@
       (out out_bus snd)))
 
  (comment
-   (save-to-pi sonic-pi-mono_player)
-   (save-to-pi sonic-pi-stereo_player)
-   (save-to-pi sonic-pi-basic_mono_player)
-   (save-to-pi sonic-pi-basic_stereo_player)))
+   (core/save-synthdef sonic-pi-mono_player)
+   (core/save-synthdef sonic-pi-stereo_player)
+   (core/save-synthdef sonic-pi-basic_mono_player)
+   (core/save-synthdef sonic-pi-basic_stereo_player)))

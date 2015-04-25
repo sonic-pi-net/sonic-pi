@@ -83,7 +83,7 @@
 
 
   (comment
-    (core/save-to-pi sonic-pi-sound_in)
-    (core/save-to-pi sonic-pi-mixer)
-    (core/save-to-pi sonic-pi-basic_mixer)
-    (core/save-to-pi sonic-pi-recorder)))
+    (core/save-synthdef sonic-pi-sound_in)
+    (core/save-synthdef sonic-pi-mixer)
+    (core/save-synthdef sonic-pi-basic_mixer)
+    (core/save-synthdef sonic-pi-recorder)))

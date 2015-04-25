@@ -20,7 +20,7 @@ def sp_scripts_path()
 end
 
 def sp_synthdefs_path()
-  File.absolute_path("#{sp_sonic_pi_path}/app/etc/synthdefs")
+  File.absolute_path("#{sp_sonic_pi_path}/app/etc/synthdefs/compiled")
 end
 
 def spider_log(message)

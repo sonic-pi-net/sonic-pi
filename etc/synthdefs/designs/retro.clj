@@ -357,11 +357,11 @@
      (out out_bus snd)))
 
  (comment
-   (save-to-pi sonic-pi-tb303)
-   (save-to-pi sonic-pi-supersaw)
-   (save-to-pi sonic-pi-hoover)
-   (save-to-pi sonic-pi-prophet)
-   (save-to-pi sonic-pi-zawa)
+   (core/save-synthdef sonic-pi-tb303)
+   (core/save-synthdef sonic-pi-supersaw)
+   (core/save-synthdef sonic-pi-hoover)
+   (core/save-synthdef sonic-pi-prophet)
+   (core/save-synthdef sonic-pi-zawa)
 
 
 
