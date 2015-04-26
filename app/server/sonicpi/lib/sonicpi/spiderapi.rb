@@ -105,7 +105,7 @@ play 80  #=> this plays as the stop only affected the above thread"
     doc name:           :stretch,
         introduced:     Version.new(2,6,0),
         summary:        "Stretch a sequence of values",
-        args:           [[:list, :number]],
+        args:           [[:list, :anything], [:count, :number]],
         returns:        :ring,
         opts:           nil,
         accepts_block:  false,
