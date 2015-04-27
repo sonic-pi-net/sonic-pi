@@ -551,6 +551,66 @@ play 80 # Plays note 83
 
 "]
 
+           def use_tuning(tuning, fundamental_note = :c, &block)
+             raise "use_tuning does not work with a do/end block. Perhaps you meant with_tuning" if block
+             raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, tuning)
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning_fundamental_note, fundamental_note)
+           end
+           doc name:          :use_tuning,
+             introduced:    Version.new(2,6,0),
+             summary:       "Use alternative tuning systems",
+             doc:           "In most music we make semitones by dividing the octave into 12 equal parts, which is known as equal temperament. However there are lots of other ways to tune the 12 notes. This method adjusts each midi note into the specified tuning system. Because the ratios between notes aren't always equal, be careful to pick a center note that is in the key of the music you're making for the best sound.",
+             args:          [[:tuning, :symbol], [:fundamental_note, :symbol_or_number]],
+             opts:          nil,
+             accepts_block: false,
+             examples:      ["
+    play :e4 # Plays note 64
+    use_tuning :just, :c
+    play :e4 # Plays note 63.8631
+    # transparently changes midi notes too
+    play 64 # Plays note 63.8631",
+
+      "
+    # You may change the tuning multiple times:
+    play 64 # Plays note 64
+    use_tuning :just
+    play 64 # Plays note 63.8631
+    use_tuning :equal
+    play 64 # Plays note 64"]
+
+
+
+           def with_tuning(tuning, fundamental_note = :c, &block)
+             raise "with_tuning requires a do/end block. Perhaps you meant use_tuning" unless block
+             raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
+             curr_tuning = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+             curr_fundamental = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning_fundamental_note)
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, tuning)
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning_fundamental_note, fundamental_note)
+             block.call
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, curr_tuning)
+             Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning_fundamental_note, curr_fundamental)
+           end
+           doc name:          :with_tuning,
+             introduced:    Version.new(2,0,0),
+             summary:       "Block-level note transposition",
+             doc:           "Similar to use_tuning except only applies to code within supplied `do`/`end` block. Previous tuning value is restored after block.",
+             args:          [[:tuning, :symbol], [:fundamental_note, :symbol_or_number]],
+             opts:          nil,
+             accepts_block: true,
+             examples:      ["
+  use_tuning :equal, :c
+  play :e4 # Plays note 64
+
+  with_tuning :equal, :c do
+    play :e4 # Plays note 63.8631
+    sleep 1
+    play :c4 # Plays note 60
+  end
+
+  # Original tuning value is restored
+  play :e4 # Plays note 64"]
 
 
 
@@ -765,6 +825,36 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
          init_args_h = {}
          args_h = resolve_synth_opts_hash_or_array(args)
+
+         if tuning_system = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+           fundamental_sym = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning_fundamental_note)
+           fundamental = Note.resolve_midi_note(fundamental_sym)
+
+           @tunings = {:just => [1, #c
+                                16.0/15.0, #cs
+                                9.0/8.0, #d
+                                6.0/5.0, #ds
+                                5.0/4.0, #e
+                                4.0/3.0, #f
+                                45.0/32.0, #fs
+                                3.0/2.0, #g
+                                8.0/5.0, #gs
+                                5.0/3.0, #a
+                                9.0/5.0, #as
+                                15.0/8.0 #b
+           ]}
+
+           # create an array of all the tuned notes
+           tuned_notes = (0..150).to_a.map {|midi_note|
+             note_idx = midi_note % 12
+             # tuning systems are ratios of the fundamental note
+             tuned_note = midi_to_hz(midi_note - note_idx) * @tunings[tuning_system][note_idx]
+             hz_to_midi(tuned_note)
+           }
+
+           #select the tuned note for a given midi note
+           n = tuned_notes[n - 1]
+         end
 
          if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
            n += shift
