@@ -15,9 +15,10 @@ require 'active_support/core_ext/hash/indifferent_access'
 
 module SonicPi
   class Settings
-    def initialize
+    def initialize(settings_path)
+      @settings_path = settings_path
       begin
-        content = File.read(user_settings_path)
+        content = File.read(@settings_path)
         cur_settings =  MultiJson.load(content)
       rescue
         cur_settings = {}
@@ -27,13 +28,15 @@ module SonicPi
     end
 
     def get(k)
-      @settings[k]
+      @sem.synchronize do
+        @settings[k]
+      end
     end
 
     def del(k)
       @sem.synchronize do
         @settings.delete(k)
-        File.open(user_settings_path, 'w') do |f|
+        File.open(@settings_path, 'w') do |f|
           f.write(MultiJson.dump(@settings, pretty: true))
         end
       end
@@ -42,7 +45,7 @@ module SonicPi
     def set(k, v)
       @sem.synchronize do
         @settings[k] = v
-        File.open(user_settings_path, 'w') do |f|
+        File.open(@settings_path, 'w') do |f|
           f.write(MultiJson.dump(@settings, pretty: true))
         end
       end

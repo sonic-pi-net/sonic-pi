@@ -50,7 +50,7 @@ module SonicPi
     include Util
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
-      @settings = Settings.new
+      @settings = Settings.new(user_settings_path)
       @version = Version.new(2, 6, 0, "dev")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
