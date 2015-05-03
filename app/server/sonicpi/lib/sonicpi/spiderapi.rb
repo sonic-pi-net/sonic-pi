@@ -396,7 +396,7 @@ end"]
         opts:           {:init => "initial value for optional block arg",
                          :auto_cue => "enable or disable automatic cue (default is true)"},
         accepts_block: true,
-        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is giving a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
+        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
         examples: ["
 live_loop :ping do
   sample :elec_ping
@@ -583,7 +583,7 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         args:           [[:name, :symbol]],
         opts:           {:override => "If set to true, re-definitions are allowed and this acts like define"},
         accepts_block: true,
-        doc:            "Allows you assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
+        doc:            "Allows you to assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
         examples:       ["
 
 defonce :foo do  # Define a new function called foo
@@ -851,7 +851,7 @@ quantise(13.3212, 0.5) # 13.5"]
         examples:      [
 "
 dice # will return a number between 1 and 6 inclusively
-     # (with an even probaility distribution).",
+     # (with an even probability distribution).",
 "
 dice 3 # will return a number between 1 and 3 inclusively"]
 
@@ -874,7 +874,7 @@ dice 3 # will return a number between 1 and 3 inclusively"]
         doc:            "Returns `true` or `false` with a specified probability - it will return true every one in num times where num is the param you specify",
         examples:      [
 "
-one_in 2 # will return true with a probablility of 1/2, false with probability 1/2",
+one_in 2 # will return true with a probability of 1/2, false with probability 1/2",
 "
 one_in 3 # will return true with a probability of 1/3, false with a probability of 2/3",
 "
@@ -1006,7 +1006,7 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces a int within the range. With no args or max as `0` returns either `0` or `1`",
+        doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args or max as `0` returns either `0` or `1`",
         examples:      [
 "
 print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
@@ -1125,7 +1125,7 @@ sleep 2 # sleep for 1 second
 # Let's make it go even faster...
 use_bpm 240  #  bpm is 4x original speed!
 8.times do
-  play 62, attack: 0.5, release: 0.125 # attack is scaled to 0.25s and release is now 0.0625s
+  play 62, attack: 0.5, release: 0.25 # attack is scaled to 0.125s and release is now 0.0625s
   sleep 1 # actually sleeps for 0.25 seconds
 end
 
@@ -1228,7 +1228,7 @@ play 50
 sleep 1      # Sleeps for 1 seconds
 play 62
 sleep 2      # Sleeps for 2 seconds
-use_bpm_mul 0.5 do # BPM is now (60 * 0.5) == 30
+use_bpm_mul 0.5 # BPM is now (60 * 0.5) == 30
 play 50
 sleep 1           # Sleeps for 2 seconds
 play 62
@@ -1379,7 +1379,7 @@ play 62
 sleep 1  # Create a gap, to allow a moment's pause for reflection...
 
 play 50  # Let's try the chord again, but this time with sleeps:
-sleep 0.5 # With the sleeps, we turn a chord into an arpegio
+sleep 0.5 # With the sleeps, we turn a chord into an arpeggio
 play 55
 sleep 0.5
 play 62",
@@ -1772,7 +1772,7 @@ end ",
 # be in a thread (note that it's probably more idiomatic to use live_loop
 # when performing):
 
-# By wrapping out loop in an in_thread block, we split the
+# By wrapping our loop in an in_thread block, we split the
 # control flow into two parts. One flows into the loop (a) and
 # the other part flows immediately after the in_thread block (b).
 # both parts of the control flow execute at exactly the same time.
@@ -1801,7 +1801,7 @@ in_thread do     # Create a new thread
   play 50        # Play note 50 at time 0
   use_synth :fm  # Switch to fm synth (only affects this thread)
   sleep 1        # sleep for 0.5 seconds (as we're double rate)
-  play 38        # Play note 50 at time 0.5
+  play 38        # Play note 38 at time 0.5
 end
 
 play 62          # Play note 62 at time 0 (with dsaw synth)
