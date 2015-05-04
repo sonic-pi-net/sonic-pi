@@ -1,10 +1,20 @@
 # History
+* [v2.6](#v2.6), In development
 * [v2.5 'Craft'](#v2.5), 13th April, 2015
 * [v2.4 'Defrost'](#v2.4), 11th Feb, 2015 
 * [v2.3 'Bitcrush'](#v2.3), 28th Jan, 2015
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v2.6"></a>
+
+### Breaking Changes
+
+* The `res:` param for all synths and FX now has range 0->1 rather than
+  1->0. This means that a higher res value results in more
+  resonance. This will hopefully be more intuitive to beginners less
+  surprising for people with existing synth knowledge.
 
 <a name="v2.5"></a>
 

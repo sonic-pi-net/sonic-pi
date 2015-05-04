@@ -11,7 +11,7 @@ live_loop :foo do
       use_random_seed 6667
       8.times do
         sleep 0.25
-        play chord(:e3, :m7).choose, release: 0.1, pan: rrand(-1, 1, res: 0.1), amp: 0.8
+        play chord(:e3, :m7).choose, release: 0.1, pan: rrand(-1, 1, res: 0.9), amp: 0.8
       end
     end
   end

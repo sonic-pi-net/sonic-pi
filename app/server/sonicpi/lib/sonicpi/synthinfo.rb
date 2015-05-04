@@ -392,8 +392,8 @@ module SonicPi
 
         :res =>
         {
-          :doc => "Filter resonance. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
-          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
+          :doc => "Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
+          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
           :modulatable => true
         },
 
@@ -1246,7 +1246,7 @@ module SonicPi
         :cutoff_release => :release,
         :cutoff_attack_level => 1,
         :cutoff_sustain_level => 1,
-        :res => 0.1,
+        :res => 0.9,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -1402,7 +1402,7 @@ module SonicPi
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
-        :res => 0.3,
+        :res => 0.7,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -1503,7 +1503,7 @@ module SonicPi
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
-        :res => 0.3,
+        :res => 0.7,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -1554,7 +1554,7 @@ module SonicPi
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
-        :res => 0.3,
+        :res => 0.7,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -1773,7 +1773,7 @@ module SonicPi
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
 
-        :res => 0.01,
+        :res => 0.99,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -1795,8 +1795,8 @@ module SonicPi
 
         :res =>
         {
-          :doc => "Filter resonance. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
-          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
+          :doc => "Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
+          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
           :modulatable => true
         },
 
@@ -1853,7 +1853,7 @@ module SonicPi
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
-        :res => 0.1,
+        :res => 0.9,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -1996,7 +1996,7 @@ end
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
-        :res => 0.3,
+        :res => 0.7,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -2048,7 +2048,7 @@ end
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
-        :res => 1,
+        :res => 0,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -2203,7 +2203,7 @@ end
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
-        :res => 1,
+        :res => 0,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -2271,7 +2271,7 @@ end
         :start => 0,
         :finish => 1,
 
-        :res => 1,
+        :res => 0,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -2337,8 +2337,8 @@ end
 
         :res =>
         {
-          :doc => "Filter resonance. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 0) can create a whistling sound around the cutoff frequency. Smaller values produce more resonance.",
-          :validations => [v_positive_not_zero(:res), v_less_than_oet(:res, 1)],
+          :doc => "Filter resonance as a value betwee 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
+          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
           :modulatable => true
         }
 
@@ -2976,7 +2976,7 @@ end
         :cutoff_max_slide => 0,
         :cutoff_max_slide_shape => 5,
         :cutoff_max_slide_curve => 0,
-        :res => 0.2,
+        :res => 0.8,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
@@ -3110,7 +3110,7 @@ end
         :cutoff_max_slide => 0,
         :cutoff_max_slide_shape => 5,
         :cutoff_max_slide_curve => 0,
-        :res => 0.2,
+        :res => 0.8,
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,

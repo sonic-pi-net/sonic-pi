@@ -69,6 +69,7 @@
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          cutoff_min  (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          pulse_width (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
          freq        (midicps note)
@@ -113,44 +114,50 @@
      cutoff_slide 0
      cutoff_slide_shape 5
      cutoff_slide_curve 0
+     res      0.1                       ; rlpf resonance
+     res_slide 0
+     res_slide_shape 5
+     res_slide_curve 0
      pre_amp 10
      amp-fudge 2.5
      out_bus 0]
     (let [;; The pwm here is creating a special half-saw, half-square hybrid wave
           ;; that was apparently used on the Roland Juno that made this sound
-          pwm    (lin-lin (sin-osc:kr (vec (repeatedly 3 #(ranged-rand 2 4)))) -1 1 0.125 0.875)
-          note   (varlag note note_slide note_slide_curve note_slide_shape)
-          amp    (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-          pan    (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-          cutoff (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+          pwm         (lin-lin (sin-osc:kr (vec (repeatedly 3 #(ranged-rand 2 4)))) -1 1 0.125 0.875)
+          note        (varlag note note_slide note_slide_curve note_slide_shape)
+          amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
           cutoff-freq (midicps cutoff)
-          freq   (midicps note)
-          freq   (*
-                  freq
-                  (lin-exp (sin-osc:kr
-                             (vec (repeatedly 3 #(ranged-rand 2.9 3.1)))
-                             (vec (repeatedly 3 #(ranged-rand 0 (* 2 Math/PI))))
-                             ) -1 1 0.995 1.005))
-          mix    (*
-                  0.1
-                  (apply +
-                         (*
-                          (lin-lin (lf-saw (* [0.25 0.5 1] freq) 1) -1 1 0 1)
-                          (- 1 (lf-pulse:ar (* freq [0.5 1 2]) 0 pwm)))))
-          ;bass
-          mix   (+ mix (lf-par (* 0.25 freq) 0))
-          mix   (mul-add mix 0.1 0)
-          ;eq
-          mix   (b-peak-eq mix 6000 1 3)
-          mix   (b-peak-eq mix 3500 1 6)
-          ;chorus
-          mix   (+ mix
-                   (* 0.5 (comb-c mix 1/200
-                                  (lin-lin (sin-osc:kr 3 [(* 0.5 Math/PI) (* 1.5 Math/PI)]) -1 1 1/300 1/200)
-                                  0)))
-          env    (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
-          output (* pre_amp mix env)
-          output (lpf output cutoff-freq)]
+          res         (lin-lin res 1 0 0 1)
+          res         (varlag res res_slide res_slide_curve res_slide_shape)
+          freq        (midicps note)
+          freq        (*
+                       freq
+                       (lin-exp (sin-osc:kr
+                                 (vec (repeatedly 3 #(ranged-rand 2.9 3.1)))
+                                 (vec (repeatedly 3 #(ranged-rand 0 (* 2 Math/PI))))
+                                 ) -1 1 0.995 1.005))
+          mix         (*
+                       0.1
+                       (apply +
+                              (*
+                               (lin-lin (lf-saw (* [0.25 0.5 1] freq) 1) -1 1 0 1)
+                               (- 1 (lf-pulse:ar (* freq [0.5 1 2]) 0 pwm)))))
+                                        ;bass
+          mix         (+ mix (lf-par (* 0.25 freq) 0))
+          mix         (mul-add mix 0.1 0)
+                                        ;eq
+          mix         (b-peak-eq mix 6000 1 3)
+          mix         (b-peak-eq mix 3500 1 6)
+                                        ;chorus
+          mix         (+ mix
+                         (* 0.5 (comb-c mix 1/200
+                                        (lin-lin (sin-osc:kr 3 [(* 0.5 Math/PI) (* 1.5 Math/PI)]) -1 1 1/300 1/200)
+                                        0)))
+          env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+          output      (* pre_amp mix env)
+          output      (rlpf output cutoff-freq res)]
       (out out_bus (pan2 output pan (* amp-fudge amp)))))
 
 
@@ -187,6 +194,7 @@
          amp-fudge   0.9
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          freq        (midicps note)
          cutoff-freq (midicps cutoff)
@@ -261,6 +269,8 @@
          range               (varlag range range_slide range_slide_curve range_slide_shape)
          wob_rate            (/ 1 phase)
          cutoff              (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res                 (lin-lin res 1 0 0 1)
+         res                 (varlag res res_slide res_slide_curve res_slide_shape)
          freq                (midicps note)
          cutoff              (midicps cutoff)
          double_phase_offset (* 2 phase_offset)
@@ -337,6 +347,7 @@
          amp-fudge   1.5
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          freq        (midicps note)
          cutoff-freq (midicps cutoff)

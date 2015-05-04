@@ -46,6 +46,7 @@
          amp-fudge   1.2
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (brown-noise) cutoff-freq res)
@@ -84,6 +85,7 @@
          amp_fudge   3
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (pink-noise) cutoff-freq res)
@@ -122,6 +124,7 @@
          amp_fudge   1
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (gray-noise) cutoff-freq res)
@@ -160,6 +163,7 @@
          amp-fudge   0.9
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (white-noise) cutoff-freq res)
@@ -198,6 +202,7 @@
          amp-fudge   0.6
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (clip-noise) cutoff-freq res)

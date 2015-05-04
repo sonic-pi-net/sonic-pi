@@ -71,6 +71,7 @@
            amp-fudge     1
            pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           res           (lin-lin res 1 0 0 1)
            res           (varlag res res_slide res_slide_curve res_slide_shape)
            detune1       (varlag detune1 detune1_slide detune1_slide_curve detune1_slide_shape)
            detune2       (varlag detune2 detune2_slide detune2_slide_curve detune2_slide_shape)
@@ -139,8 +140,9 @@
      (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           amp-fudge 15
+           amp-fudge   15
            cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           res         (lin-lin res 1 0 0 1)
            res         (varlag res res_slide res_slide_curve res_slide_shape)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
@@ -199,6 +201,7 @@
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           res         (lin-lin res 1 0 0 1)
            res         (varlag res res_slide res_slide_curve res_slide_shape)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)

@@ -30,7 +30,7 @@ loop do
   cue :bar
   32.times do |i|
     use_synth :tb303
-    play chord(:a3, :minor).choose, attack: 0, release: 0.05, cutoff: rrand_i(70, 98) + i, res: rrand(0.05, 0.1)
+    play chord(:a3, :minor).choose, attack: 0, release: 0.05, cutoff: rrand_i(70, 98) + i, res: rrand(0.9, 0.95)
     sleep 0.125
   end
 
