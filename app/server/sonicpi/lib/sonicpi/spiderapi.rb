@@ -455,9 +455,9 @@ end
         opts:           nil,
         accepts_block:  true,
         examples:       ["
-at [1, 2, 4] do  # plays a note after waiting 1 second,
-  play 75           # then after 1 more second,
-end                 # then after 2 more seconds (4 seconds total)
+at [1, 2, 4] do  # plays a note after waiting 1 beat,
+  play 75           # then after 1 more beat,
+end                 # then after 2 more beats (4 beats total)
 ",
 "
 at [1, 2, 3], [75, 76, 77] do |n|  # plays 3 different notes
@@ -1311,8 +1311,8 @@ play 72"]
 
 
 
-    def sleep(seconds)
-      return if seconds == 0
+    def sleep(beats)
+      return if beats == 0
       # Grab the current virtual time
       last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
 
@@ -1322,7 +1322,7 @@ play 72"]
       # Now get on with syncing the rest of the sleep time...
 
       # Calculate the amount of time to sleep (take into account current bpm setting)
-      sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      sleep_time = beats * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       # Calculate the new virtual time
       new_vt = last_vt + sleep_time
 
@@ -1365,8 +1365,8 @@ play 72"]
     doc name:           :sleep,
         introduced:     Version.new(2,0,0),
         summary:        "Wait for duration",
-        doc:            "Wait for a number of seconds before triggering the next command. Seconds are scaled to the current bpm setting.",
-        args:           [[:seconds, :number]],
+        doc:            "Wait for a number of beats before triggering the next command. Beats are converted to seconds by scaling to the current bpm setting.",
+        args:           [[:beats, :number]],
         opts:           nil,
         accepts_block:  false,
         examples:       [
