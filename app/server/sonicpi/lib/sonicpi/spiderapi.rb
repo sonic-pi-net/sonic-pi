@@ -587,13 +587,15 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         examples:       ["
 
 defonce :foo do  # Define a new function called foo
-  sleep 1        # Sleep for a second in the function definition
+  sleep 1        # Sleep for a beat in the function definition. Note that this amount
+                 # of time in seconds will depend on the current BPM of the live_loop
+                 # or thread calling this function.
   puts \"hello\" # Print hello
   10             # Return a value of 10
 end
 
 # Call foo on its own
-puts foo # The run sleeps for a second and prints \"hello\" before returning 10
+puts foo # The run sleeps for a beat and prints \"hello\" before returning 10
 
 # Try it again:
 puts foo # This time the run doesn't sleep or print anything out. However,  10 is still returned.
@@ -1416,7 +1418,7 @@ play 62
         introduced:     Version.new(2,0,0),
         summary:        "Wait for duration",
         doc:            "Synonym for `sleep` - see `sleep`",
-        args:           [[:seconds, :number]],
+        args:           [[:beats, :number]],
         opts:           nil,
         accepts_block:  false,
         examples:       []
@@ -1478,7 +1480,7 @@ cue :foo # We send a cue message from the main thread.
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
     cue :tick # sending tick heartbeat messages
-    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+    sleep 0.5  # and sleeping for 0.5 beats between ticks
   end
 end
 
@@ -1492,7 +1494,7 @@ end",
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
     cue [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
-    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+    sleep 0.5  # and sleeping for 0.5 beats between ticks
   end
 end
 
@@ -1580,7 +1582,7 @@ cue :foo # We send a sync message from the main thread.
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
     cue :tick # sending tick heartbeat messages
-    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+    sleep 0.5  # and sleeping for 0.5 beats between ticks
   end
 end
 
@@ -1597,7 +1599,7 @@ sync :foo, :bar # Wait for either a :foo or :bar cue ",
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
     cue [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
-    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+    sleep 0.5  # and sleeping for 0.5 beats between ticks
   end
 end
 

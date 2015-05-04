@@ -150,7 +150,7 @@ module SonicPi
     end
 
     def generic_slide_doc(k)
-      return "Amount of time (in seconds) for the #{k} value to change. A long #{k}_slide value means that the #{k} takes a long time to slide from the previous value to the new value. A #{k}_slide of 0 means that the #{k} instantly changes to the new value."
+      return "Amount of time (in beats) for the #{k} value to change. A long #{k}_slide value means that the #{k} takes a long time to slide from the previous value to the new value. A #{k}_slide of 0 means that the #{k} instantly changes to the new value."
     end
 
     def generic_slide_curve_doc(k)
@@ -218,7 +218,7 @@ module SonicPi
 
         :mix_slide =>
         {
-          :doc => "Amount of time (in seconds) for the mix value to change. A long slide value means that the mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the mix instantly changes to the new value.",
+          :doc => "Amount of time (in beats) for the mix value to change. A long slide value means that the mix takes a long time to slide from the previous value to the new value. A slide of 0 means that the mix instantly changes to the new value.",
           :validations => [v_positive(:mix_slide)],
           :modulatable => true
         },
@@ -232,7 +232,7 @@ module SonicPi
 
         :note_slide =>
         {
-          :doc => "Amount of time (in seconds) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note.",
+          :doc => "Amount of time (in beats) for the note to change. A long slide value means that the note takes a long time to slide from the previous note to the new note. A slide of 0 means that the note instantly changes to the new note.",
           :validations => [v_positive(:note_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -247,7 +247,7 @@ module SonicPi
 
         :amp_slide =>
         {
-          :doc => "Amount of time (in seconds) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude.",
+          :doc => "Amount of time (in beats) for the amplitude (amp) to change. A long slide value means that the amp takes a long time to slide from the previous amplitude to the new amplitude. A slide of 0 means that the amplitude instantly changes to the new amplitude.",
           :validations => [v_positive(:amp_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -263,7 +263,7 @@ module SonicPi
 
         :pan_slide =>
         {
-          :doc => "Amount of time (in seconds) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position.",
+          :doc => "Amount of time (in beats) for the pan to change. A long slide value means that the pan takes a long time to slide from the previous pan position to the new pan position. A slide of 0 means that the pan instantly changes to the new pan position.",
           :validations => [v_positive(:pan_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -272,7 +272,7 @@ module SonicPi
 
         :attack =>
         {
-          :doc => "Amount of time (in seconds) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.",
+          :doc => "Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:attack)],
           :modulatable => false,
           :bpm_scale => true
@@ -280,7 +280,7 @@ module SonicPi
 
         :decay =>
         {
-          :doc => "Amount of time (in seconds) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).",
+          :doc => "Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).",
           :validations => [v_positive(:decay)],
           :modulatable => false,
           :bpm_scale => true
@@ -288,7 +288,7 @@ module SonicPi
 
         :sustain =>
         {
-          :doc => "Amount of time (in seconds) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.",
+          :doc => "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:sustain)],
           :modulatable => false,
           :bpm_scale => true
@@ -296,7 +296,7 @@ module SonicPi
 
         :release =>
         {
-          :doc => "Amount of time (in seconds) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.",
+          :doc => "Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. Full length of sound is attack + decay + sustain + release.",
           :validations => [v_positive(:release)],
           :modulatable => false,
           :bpm_scale => true
@@ -332,7 +332,7 @@ module SonicPi
 
         :cutoff_slide =>
         {
-          :doc => "Amount of time (in seconds) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value.",
+          :doc => "Amount of time (in beats) for the cutoff value to change. A long cutoff_slide value means that the cutoff takes a long time to slide from the previous value to the new value. A cutoff_slide of 0 means that the cutoff instantly changes to the new value.",
           :validations => [v_positive(:cutoff_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -355,7 +355,7 @@ module SonicPi
 
         :mod_phase =>
         {
-          :doc => "Phase duration in seconds of oscillations between the two notes. Time it takes to switch betwen the notes.",
+          :doc => "Phase duration in beats of oscillations between the two notes. Time it takes to switch betwen the notes.",
           :validations => [v_positive_not_zero(:mod_phase)],
           :modulatable => true,
           :bpm_scale => true
@@ -414,7 +414,7 @@ module SonicPi
 
         :pulse_width_slide =>
         {
-          :doc => "Time in seconds for pulse width to change.",
+          :doc => "Time in beats for pulse width to change.",
           :validations => [v_positive(:pulse_width_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -429,7 +429,7 @@ module SonicPi
 
         :mod_pulse_width_slide =>
         {
-          :doc => "Time in seconds for modulated pulse width to change.",
+          :doc => "Time in beats for modulated pulse width to change.",
           :validations => [v_positive(:mod_pulse_width_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -1306,7 +1306,7 @@ module SonicPi
 
         :cutoff_attack =>
         {
-          :doc => "Attack time for cutoff filter. Amount of time (in seconds) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
+          :doc => "Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
           :validations => [v_positive(:cutoff_attack)],
           :modulatable => false,
           :default => "attack",
@@ -1315,7 +1315,7 @@ module SonicPi
 
         :cutoff_decay =>
         {
-          :doc => "Decay time for cutoff filter. Amount of time (in seconds) for sound to reach full cutoff value. Default value is set to match amp envelope's decay value.",
+          :doc => "Decay time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's decay value.",
           :validations => [v_positive(:cutoff_decay)],
           :modulatable => false,
           :default => "decay",
@@ -1324,7 +1324,7 @@ module SonicPi
 
         :cutoff_sustain =>
         {
-          :doc => "Amount of time for cutoff value to remain at sustain level in seconds. Default value is set to match amp envelope's sustain value.",
+          :doc => "Amount of time for cutoff value to remain at sustain level in beats. Default value is set to match amp envelope's sustain value.",
           :validations => [v_positive(:cutoff_sustain)],
           :modulatable => false,
           :default => "sustain",
@@ -1333,7 +1333,7 @@ module SonicPi
 
         :cutoff_release =>
         {
-          :doc => "Amount of time (in seconds) for sound to move from cutoff sustain value  to cutoff min value. Default value is set to match amp envelope's release value.",
+          :doc => "Amount of time (in beats) for sound to move from cutoff sustain value  to cutoff min value. Default value is set to match amp envelope's release value.",
           :validations => [v_positive(:cutoff_release)],
           :modulatable => false,
           :default => "release",
@@ -1591,7 +1591,7 @@ module SonicPi
         },
         :reverb_time =>
         {
-          :doc => "How long in seconds the reverb should go on for.",
+          :doc => "How long in beats the reverb should go on for.",
           :validations => [v_positive(:reverb_time)],
           :modulatable => false
         },
@@ -1883,7 +1883,7 @@ module SonicPi
       {
         :phase =>
         {
-          :doc => "Phase duration in seconds of timbre modulation.",
+          :doc => "Phase duration in beats of timbre modulation.",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
           :bpm_scale => true
@@ -2731,14 +2731,14 @@ end
       {
         :max_phase =>
         {
-          :doc => "The maximum phase duration in seconds.",
+          :doc => "The maximum phase duration in beats.",
           :validations => [v_positive_not_zero(:max_phase)],
           :modulatable => false
         },
 
         :phase =>
         {
-          :doc => "The time between echoes in seconds.",
+          :doc => "The time between echoes in beats.",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
           :bpm_scale => true
@@ -2747,7 +2747,7 @@ end
 
         :phase_slide =>
         {
-          :doc => "Slide time in seconds between phase values",
+          :doc => "Slide time in beats between phase values",
           :validations => [v_positive(:phase_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -2755,7 +2755,7 @@ end
 
         :decay =>
         {
-          :doc => "The time it takes for the echoes to fade away in seconds.",
+          :doc => "The time it takes for the echoes to fade away in beats.",
           :validations => [v_positive_not_zero(:decay)],
           :modulatable => true,
           :bpm_scale => true
@@ -2763,7 +2763,7 @@ end
 
         :decay_slide =>
         {
-          :doc => "Slide time in seconds between decay times",
+          :doc => "Slide time in beats between decay times",
           :validations => [v_positive(:decay_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -2834,7 +2834,7 @@ end
       {
         :phase =>
         {
-          :doc => "The phase duration (in seconds) of the slices",
+          :doc => "The phase duration (in beats) of the slices",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
           :bpm_scale => true
@@ -2842,7 +2842,7 @@ end
 
         :phase_slide =>
         {
-          :doc => "Slide time in seconds between phase values",
+          :doc => "Slide time in beats between phase values",
           :validations => [v_positive(:phase_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -2857,7 +2857,7 @@ end
 
         :width_slide =>
         {
-          :doc => "Slide time in seconds between width values",
+          :doc => "Slide time in beats between width values",
           :validations => [v_positive(:width_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -3026,7 +3026,7 @@ end
 
         :phase =>
         {
-          :doc => "The phase duration (in seconds) for filter modulation cycles",
+          :doc => "The phase duration (in beats) for filter modulation cycles",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
           :bpm_scale => true
@@ -3041,7 +3041,7 @@ end
 
         :pulse_width_slide =>
         {
-          :doc => "Time in seconds for pulse width to change. Only valid if wave is type pulse.",
+          :doc => "Time in beats for pulse width to change. Only valid if wave is type pulse.",
           :validations => [v_positive(:pulse_width_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -3121,7 +3121,7 @@ end
       {
         :phase =>
         {
-          :doc => "The phase duration (in seconds) for filter modulation cycles",
+          :doc => "The phase duration (in beats) for filter modulation cycles",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
           :bpm_scale => true
@@ -3436,14 +3436,14 @@ The way the transpositions are done adds some distortion, particulary to the low
       {
         :max_phase =>
         {
-          :doc => "The maximum phase duration in seconds.",
+          :doc => "The maximum phase duration in beats.",
           :validations => [v_positive_not_zero(:max_phase)],
           :modulatable => false
         },
 
         :phase =>
         {
-          :doc => "The time between echoes in seconds.",
+          :doc => "The time between echoes in beats.",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
           :bpm_scale => false
@@ -3451,7 +3451,7 @@ The way the transpositions are done adds some distortion, particulary to the low
 
         :phase_slide =>
         {
-          :doc => "Slide time in seconds between phase values",
+          :doc => "Slide time in beats between phase values",
           :validations => [v_positive(:phase_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -3459,7 +3459,7 @@ The way the transpositions are done adds some distortion, particulary to the low
 
         :decay =>
         {
-          :doc => "The time it takes for the echoes to fade away in seconds.",
+          :doc => "The time it takes for the echoes to fade away in beats.",
           :validations => [v_positive_not_zero(:decay)],
           :modulatable => true,
           :bpm_scale => true
@@ -3467,7 +3467,7 @@ The way the transpositions are done adds some distortion, particulary to the low
 
         :decay_slide =>
         {
-          :doc => "Slide time in seconds between decay times",
+          :doc => "Slide time in beats between decay times",
           :validations => [v_positive(:decay_slide)],
           :modulatable => true,
           :bpm_scale => true
@@ -4240,7 +4240,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
 
         :phase =>
         {
-          :doc => "Phase duration in seconds of flanger modulation.",
+          :doc => "Phase duration in beats of flanger modulation.",
           :validations => [v_positive_not_zero(:phase)],
           :modulatable => true,
           :bpm_scale => true
