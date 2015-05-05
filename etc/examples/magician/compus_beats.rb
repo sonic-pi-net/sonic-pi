@@ -10,7 +10,7 @@ end
 live_loop :bass do
   sample :bass_voxy_c, amp: rrand(0.1, 0.2), rate: [0.5, 0.5, 1, 1,2,4].choose if rand < 0.25
   use_synth :mod_pulse
-  use_synth_defaults mod_invert_wave: 0
+  use_synth_defaults mod_invert_wave: 1
   play :C1, mod_range: 12, amp: rrand(0.5, 1), mod_phase: [8, 16, 32].choose / sd, release: 1, cutoff: rrand(50, 90)
   play :C2, mod_range: [24, 36, 34].choose, amp: 0.35, mod_phase: sd/16, release: 2, cutoff: 60, pulse_width: rand
   sleep sd / 4

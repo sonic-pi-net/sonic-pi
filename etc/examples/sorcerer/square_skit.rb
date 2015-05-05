@@ -3,7 +3,7 @@
 use_debug false
 
 live_loop :skit do
-  with_fx :slicer, phase: 1, invert_wave: 0, wave: 0 do
+  with_fx :slicer, phase: 1, invert_wave: 1, wave: 0 do
     with_fx :slicer, wave: 0, phase: 0.25 do
       sample :loop_mika, rate: 1, amp: 2
     end

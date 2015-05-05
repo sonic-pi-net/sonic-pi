@@ -855,7 +855,7 @@ module SonicPi
                     :mod_range => 5,
                     :mod_pulse_width => 0.5,
                     :mod_phase_offset => 0,
-                    :mod_invert_wave => 1,
+                    :mod_invert_wave => 0,
                     :mod_wave => 1
                   })
     end
@@ -920,7 +920,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 1,
+        :mod_invert_wave => 0,
         :mod_wave => 1
 
       }
@@ -985,7 +985,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 1,
+        :mod_invert_wave => 0,
         :mod_wave => 1,
         :detune => 0.1,
         :detune_slide => 0,
@@ -1053,7 +1053,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 1,
+        :mod_invert_wave => 0,
         :mod_wave => 1
 
       }
@@ -1117,7 +1117,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 1,
+        :mod_invert_wave => 0,
         :mod_wave => 1
       }
     end
@@ -1181,7 +1181,7 @@ module SonicPi
         :mod_pulse_width_slide_shape => 5,
         :mod_pulse_width_slide_curve => 0,
         :mod_phase_offset => 0,
-        :mod_invert_wave => 1,
+        :mod_invert_wave => 0,
         :mod_wave => 1,
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
@@ -1865,7 +1865,7 @@ module SonicPi
         :phase_offset => 0,
 
         :wave => 3,
-        :invert_wave => 1,
+        :invert_wave => 0,
         :range => 24,
         :range_slide => 0,
         :range_slide_shape => 5,
@@ -2826,7 +2826,7 @@ end
         :pulse_width_slide_curve => 0,
         :phase_offset => 0,
         :wave => 1,
-        :invert_wave => 1
+        :invert_wave => 0
       }
     end
 
@@ -2982,7 +2982,7 @@ end
         :res_slide_curve => 0,
         :phase_offset => 0,
         :wave => 0,
-        :invert_wave => 1,
+        :invert_wave => 0,
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
         :pulse_width_slide_shape => 5,
@@ -4211,8 +4211,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :phase_slide_curve => 0,
         :phase_offset => 0,
         :wave => 4,
-        :invert_wave => 1,
-        :stereo_invert_wave => 1,
+        :invert_wave => 0,
+        :stereo_invert_wave => 0,
         :delay => 5,
         :delay_slide => 0,
         :delay_slide_shape => 5,

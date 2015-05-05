@@ -281,7 +281,7 @@
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
-         ctl-wave            (* ctl-wave ctl-wave-mul)
+         ctl-wave            (* -1 ctl-wave ctl-wave-mul)
 
          saw-freq            (select:kr disable_wave [(midicps (lin-lin ctl-wave -1 1 note (+ note range)))
                                                       (midicps (+ note range))])

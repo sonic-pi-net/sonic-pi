@@ -301,7 +301,7 @@
 
          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
 
-         slice-amp           (* ctl-wave ctl-wave-mul)
+         slice-amp           (* -1 ctl-wave ctl-wave-mul)
          slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
          [in-l in-r]         (* pre_amp (in in_bus 2))
          [new-l new-r]       (* slice-amp [in-l in-r])
@@ -372,7 +372,7 @@
 
          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
 
-         cutoff-freq         (lin-exp:kr (* ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
+         cutoff-freq         (lin-exp:kr (* -1 ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
 
          [in-l in-r]         (* pre_amp (in in_bus 2))
 

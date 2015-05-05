@@ -360,7 +360,7 @@
                                                       (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
 
          ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
-         ctl-wave                (* ctl-wave ctl-wave-mul)
+         ctl-wave                (* -1 ctl-wave ctl-wave-mul)
          note                    (lin-lin ctl-wave -1 1 min_note max_note)
          freq                    (midicps note)
          cutoff-freq             (midicps cutoff)
@@ -439,7 +439,7 @@
                                                       (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
 
          ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
-         ctl-wave                (* ctl-wave ctl-wave-mul)
+         ctl-wave                (* -1 ctl-wave ctl-wave-mul)
          note                    (lin-lin ctl-wave -1 1 min_note max_note)
          freq                    (midicps note)
 
@@ -518,7 +518,7 @@
                                                       (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
 
          ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
-         ctl-wave                (* ctl-wave ctl-wave-mul)
+         ctl-wave                (* -1 ctl-wave ctl-wave-mul)
          mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
          freq                    (midicps mod-note)
          cutoff-freq             (midicps cutoff)
@@ -591,7 +591,7 @@
                                                       (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
 
          ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
-         ctl-wave                (* ctl-wave ctl-wave-mul)
+         ctl-wave                (* -1 ctl-wave ctl-wave-mul)
          mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
          freq                    (midicps mod-note)
 
@@ -663,7 +663,7 @@
                                                       (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
 
          ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
-         ctl-wave                (* ctl-wave ctl-wave-mul)
+         ctl-wave                (* -1 ctl-wave ctl-wave-mul)
          mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
          freq                    (midicps mod-note)
          cutoff-freq             (midicps cutoff)
@@ -738,7 +738,7 @@
                                                       (sin-osc:kr mod_rate (* (+ mod_phase_offset 0.25) (* Math/PI 2)))])
 
          ctl-wave-mul            (- (* 2 (> mod_invert_wave 0)) 1)
-         ctl-wave                (* ctl-wave ctl-wave-mul)
+         ctl-wave                (* -1 ctl-wave ctl-wave-mul)
          mod-note                (lin-lin ctl-wave -1 1 min_note max_note)
          freq                    (midicps mod-note)
          cutoff-freq             (midicps cutoff)
@@ -751,8 +751,6 @@
 
 
  (comment
-   (core/save-synthdef sonic-pi-dull_bell)
-   (core/save-synthdef sonic-pi-pretty_bell)
    (core/save-synthdef sonic-pi-beep)
    (core/save-synthdef sonic-pi-saw)
    (core/save-synthdef sonic-pi-tri)
