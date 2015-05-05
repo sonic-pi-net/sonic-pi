@@ -1206,7 +1206,7 @@ module SonicPi
     end
 
     def doc
-      "Emulation of the classic Roland TB-303 Bass Line synthesiser. Overdrive the res (i.e. use very small values) for that classic late 80s acid sound. "
+      "Emulation of the classic Roland TB-303 Bass Line synthesiser. Overdrive the res (i.e. use very large values) for that classic late 80s acid sound. "
     end
 
     def arg_defaults
