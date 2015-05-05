@@ -14,10 +14,10 @@
 #++
 
 ## ---- Modify these to point to your system
-QSCINTILLA=/Users/sam/Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
+QSCINTILLA=/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
 QTBIN=/Users/sam/Development/Qt/5.4/clang_64/bin
-LIBQS=libqscintilla2.11.2.0.dylib
-LIBQS_LINK=libqscintilla2.11.dylib
+LIBQS=libqscintilla2.12.0.0.dylib
+LIBQS_LINK=libqscintilla2.12.dylib
 ## ----
 
 QMAKE=$QTBIN/qmake
