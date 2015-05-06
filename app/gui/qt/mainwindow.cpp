@@ -326,7 +326,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   down->setContext(Qt::WidgetShortcut);
   connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
 
-  docPane->setHtml("<center> <font size=\"32\"><br><pre><font color=\"#3C3C3C\">music_as <font color=\"DeepPink\">:code</font><br>code_as <font color=\"DeepPink\">:art</font></pre></font><pre><font size=\"4\"><br>v2.6-dev</font></pre></center>");
+  docPane->setHtml(readFile(":/html/doc.html"));
 
   addUniversalCopyShortcuts(docPane);
 

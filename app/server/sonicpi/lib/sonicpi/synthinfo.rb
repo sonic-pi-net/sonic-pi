@@ -4568,7 +4568,6 @@ The window_size is the length of the slices and is measured in seconds. It needs
     def self.info_doc_html_map(klass)
       key_mod = nil
       res = {}
-      hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
 
       max_len =  0
       get_all.each do |k, v|
@@ -4589,73 +4588,69 @@ The window_size is the length of the slices and is measured in seconds. It needs
         next if v.is_a? StudioInfo
         doc = ""
 
-        doc << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
-        doc << "<font #{hv_face}>" << v.name << "</font></span></p>\n"
+        doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+        doc << "<h1>" << v.name << "</h1>\n\n"
 
+        doc << "<p><table class=\"arguments\"><tr>\n"
         cnt = 0
-        doc << "<table cellpadding=\"2\">\n <tr>"
-        arglist = ""
         v.arg_info.each do |ak, av|
-          arglist << "</tr><tr>" if cnt%6 == 0
-          bg_colour = cnt.even? ? "#5e5e5e" : "#E8E8E8"
-          fnt_colour = cnt.even? ? "white" : "#5e5e5e"
+          doc << "</tr><tr>" if (cnt > 0) and cnt % 6 == 0
+          td_class = cnt.even? ? "even" : "odd"
+          doc << "<td class=\"#{td_class}\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
+          doc << "<td class=\"#{td_class}\">#{av[:default]}</td>\n"
           cnt += 1
-          arglist << "<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\"><a href=\"##{ak}\" style=\"text-decoration:none; color: #{fnt_colour};\">#{ak}:</a> </font></h4</pre>\n</td>\n<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre>\n</td>\n"
         end
-        arglist << "</tr></table>\n"
-        doc << arglist
+        doc << "</tr></table></p>\n\n"
 
-
-        doc << "<font size=\"4\", #{hv_face}>"
-        doc << "  " << Kramdown::Document.new(v.doc).to_html << "</font>\n"
-
+        doc << "<p class=\"usage\"><code><pre>"
         if klass == SynthInfo
           safe_k = k
-          doc << "<h2><font color=\"#3C3C3C\"><pre>use_synth"
-          doc << " <font color=\"DeepPink\">:#{safe_k}</font></pre></h2>\n"
-
+          doc << "use_synth <span class=\"symbol\">:#{safe_k}</span>"
         else
           safe_k = k.to_s[3..-1]
-          doc << "<h2><pre><font color=\"#3C3C3C\">with_fx"
-          doc << " <font color=\"DeepPink\">:#{safe_k}</font> <font color=\"DarkOrange\">do</font><br/>  play <font color=\"DodgerBlue\">50</font><br/><font color=\"DarkOrange\">end</font></pre></font></h2>\n"
+          doc << "with_fx <span class=\"symbol\">:#{safe_k}</span> <span class=\"keyword\">do</span>\n"
+          doc << "  play <span class=\"number\">50</span>\n"
+          doc << "<span class=\"keyword\">end</span>"
         end
+        doc << "</pre></code></p>\n"
 
-                doc << "<p><font size=\"3\", #{hv_face}>\n"
-        doc << "<span style=\"color:white;background-color:darkorange;\">"
-        doc << "Introduced in " << v.introduced.to_s << "\n</span></p>\n"
+        doc << Kramdown::Document.new(v.doc).to_html << "\n"
 
-        doc << "<table cellpadding=\"8\">\n"
-        doc << "<tr><th></th><th></th></tr>\n"
+        doc << "<p class=\"introduced\">"
+        doc << "Introduced in " << v.introduced.to_s << "</p>\n\n"
+        
+        doc << "<h2>Parameters</h2>\n"
+
+        doc << "<p><table class=\"details\">\n"
 
         cnt = 0
         any_slidable = false
         v.arg_info.each do |ak, av|
-          cnt += 1
-          background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
-          key_bg_colour = cnt.even? ? "#74ACFF" : "#B2D1FF"
-          doc << " <a name=\"#{ak}\"></a>\n"
-          doc << "  <tr bgcolor=\"#{background_colour}\">\n"
-          doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
-          doc << "      <td>\n"
-          doc << "        <font size=\"4\", #{hv_face}>\n"
+          td_class = cnt.even? ? "even" : "odd"
+          doc << "<a name=\"#{ak}\"></a>\n"
+          doc << "<tr>\n"
+          doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
+          doc << " <td class=\"#{td_class}\">\n"
           docstring = av[:doc] || 'write me'
           doc <<  Kramdown::Document.new(docstring).to_html
-          doc << "          <br/><br/></font>\n"
-          doc << "          <em><font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
-          doc << "          #{av[:constraints].join(",").capitalize}<br/>\n" unless av[:constraints].empty?
-          doc << "          #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
-          doc << "          <br/><a style=\"text-decoration: none; color:dodgerblue;\" href=#slide>Has slide parameters to shape changes</a>\n" if av[:slidable]
-          doc << "          <br/>Scaled with current BPM value\n" if av[:bpm_scale]
-          doc << "       </font></em>\n"
-          doc << "     </td>\n"
-          doc << " </tr>\n"
+          doc << "  <p class=\"properties\">\n"
+          doc << "   Default: #{av[:default]}\n"
+          doc << "   <br/>#{av[:constraints].join(",").capitalize}\n" unless av[:constraints].empty?
+          doc << "   <br/>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
+          doc << "   <br/><a href=\"#slide\">Has slide parameters to shape changes</a>\n" if av[:slidable]
+          doc << "   <br/>Scaled with current BPM value\n" if av[:bpm_scale]
+          doc << "  </p>\n"
+          doc << " </td>\n"
+          doc << "</tr>\n"
           any_slidable = true if av[:slidable]
+          cnt += 1
         end
-        doc << "  </table>\n"
+        doc << "</table></p>\n"
 
         if any_slidable then
-          doc << "<a name=slide><h1>Slide Parameters</h1>\n";
-          doc << "Any parameter that is slidable has three additional parameters named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:"
+          doc << "<a name=slide></a>\n"
+          doc << "<h2>Slide Parameters</h2>\n"
+          doc << "<p>Any parameter that is slidable has three additional parameters named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:</p>\n"
           slide_args = {
             :_slide => {:default => 0, :doc=>v.generic_slide_doc('parameter')},
             :_slide_shape => {:default=>5, :doc=>v.generic_slide_shape_doc('parameter')},
@@ -4663,26 +4658,26 @@ The window_size is the length of the slices and is measured in seconds. It needs
           }
 
           # table for slide parameters
-          doc << "<table cellpadding=\"8\">\n"
-          doc << "<tr><th></th><th></th></tr>\n"
-
+          doc << "<p><table class=\"details\">\n"
+  
           cnt = 0
           slide_args.each do |ak, av|
+            td_class = cnt.even? ? "even" : "odd"
+            doc << "<tr>\n"
+            doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
+            doc << " <td class=\"#{td_class}\">\n"
+            doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
+            doc << "  <p class=\"properties\">\n"
+            doc << "   Default: #{av[:default]}\n"
+            doc << "  </p>\n"
+            doc << " </td>\n"
+            doc << "</tr>\n"
             cnt += 1
-            background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
-            key_bg_colour = cnt.even? ? "#74ACFF" : "#B2D1FF"
-            doc << "  <tr bgcolor=\"#{background_colour}\">\n"
-            doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
-            doc << "      <td>\n"
-            doc << "        <font size=\"4\", #{hv_face}>\n"
-            doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
-            doc << "          <em><font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
-            doc << "       </font></em>\n"
-            doc << "     </td>\n"
-            doc << " </tr>\n"
           end
-          doc << "  </table>\n"
+          doc << "</table></p>\n"
         end # any_slidable
+        
+        doc << "</body>\n"
 
         res["#{safe_k}"] = doc
       end
@@ -4739,58 +4734,55 @@ The window_size is the length of the slices and is measured in seconds. It needs
     end
 
     def self.samples_doc_html_map
-      hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
       res = {}
 
       grouped_samples.each do |k, v|
       cnt = 0
         cnt = 0
-        html = ""
-        html << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
-        html << "<font #{hv_face}>" << v[:desc] << "</font></span></p>\n"
-        html << "<table cellpadding=\"2\">\n <tr>"
-        arglist = ""
+        doc = ""
+        doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+        doc << "<h1>" << v[:desc] << "</h1>\n"
+        doc << "<p><table class=\"arguments\"><tr>\n"
         StereoPlayer.new.arg_info.each do |ak, av|
-          arglist << "</tr><tr>" if cnt%6 == 0
-          bg_colour = cnt.even? ? "#5e5e5e" : "#E8E8E8"
-          fnt_colour = cnt.even? ? "white" : "#5e5e5e"
+          doc << "</tr><tr>" if (cnt > 0) and cnt % 6 == 0
+          td_class = cnt.even? ? "even" : "odd"
+          doc << "<td class=\"#{td_class}\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
+          doc << "<td class=\"#{td_class}\">#{av[:default]}</td>\n"
           cnt += 1
-          arglist << "<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{ak}: </font></h4</pre>\n</td>\n<td bgcolor=\"#{bg_colour}\">\n  <pre><h4><font color=\"#{fnt_colour}\">#{av[:default]}</font></h4></pre>\n</td>\n"
         end
-        arglist << "</tr></table>\n"
-        html << arglist
+        doc << "</tr></table></p>\n"
 
-        html << "<table cellpadding=\"2\">\n <tr>"
+        doc << "<p class=\"usage\"><code><pre>"
 
         v[:samples].each do |s|
-          html << "  <tr><td bgcolor=\"white\"><h2><pre><font color=\"#3C3C3C\"> sample</font> <font color=\"DeepPink\">:#{s}<font></pre></h2></td></tr>\n"
+          doc << "sample <span class=\"symbol\">:#{s}</span>\n"
         end
-        html << "</table>\n"
-        doc = ""
-        doc << "<table cellpadding=\"10\">\n"
-        doc << "<tr><th></th><th></th></tr>\n"
+        doc << "</pre></code></p>\n"
+        
+        doc << "<p><table class=\"details\">\n"
 
         cnt = 0
         StereoPlayer.new.arg_info.each do |ak, av|
+          td_class = cnt.even? ? "even" : "odd"
+          doc << "<a name=\"#{ak}\"></a>\n"
+          doc << "<tr>\n"
+          doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
+          doc << " <td class=\"#{td_class}\">\n"
+          doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
+          doc << "  <p class=\"properties\">\n"
+          doc << "   Default: #{av[:default]}\n"
+          doc << "   <br/>#{av[:constraints].join(",")}\n" unless av[:constraints].empty?
+          doc << "   <br/>May be changed whilst playing\n" if av[:slidable]
+          doc << "   <br/>Scaled with current BPM value\n" if av[:bpm_scale]
+          doc << "  </p>\n"
+          doc << " </td>\n"
+          doc << "</tr>\n"
           cnt += 1
-          background_colour = cnt.even? ? "#F8F8F8" : "#E8E8E8"
-          key_bg_colour = cnt.even? ? "#74ACFF" : "#B2D1FF"
-          doc << "  <tr bgcolor=\"#{background_colour}\">\n"
-          doc << "    <td bgcolor=\"#{key_bg_colour}\"><h3><pre> #{ak}:</pre></h3></td>\n"
-          doc << "      <td>\n"
-          doc << "        <font size=\"4\", #{hv_face}>\n"
-          doc << "          #{av[:doc] || 'write me'}<br/></font>\n"
-          doc << "          <font size=\"3\", #{hv_face}>Default: #{av[:default]}<br/>\n"
-          doc << "          #{av[:constraints].join(",")}<br/>\n" unless av[:constraints].empty?
-          doc << "          May be changed whilst playing<br/>\n" if av[:slidable]
-          doc << "          Scaled with current BPM value\n" if av[:bpm_scale]
-          doc << "       </font>\n"
-          doc << "     </td>\n"
-          doc << " </tr>\n"
         end
-        doc << "  </table>\n"
-        html << doc
-        res[v[:desc]] = html
+        doc << "</table></p>\n"
+        doc << "</body>\n"
+
+        res[v[:desc]] = doc
       end
       res
     end

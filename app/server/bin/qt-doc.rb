@@ -133,12 +133,14 @@ example_dirs.each do |ex_dir|
     bname = ActiveSupport::Inflector.titleize(bname)
     name = "[#{ex_dir}] #{bname}"
     lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
-    html = '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
+    html = "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"example\">\n\n"
+    html << '<h1>'
     html << "# #{bname}"
-    html << '</span></p>'
-    html << "<pre style=\"font-size:18px;color:dodgerblue;\">\n\n"
+    html << '</h1>'
+    html << "<p><pre><code>\n"
 
-    html << "#{lines.join("\n")}\n\n</pre>\n"
+    html << "#{lines.join("\n")}\n\n</code></pre></p>\n"
+    html << "</body>\n"
     example_html_map[name] = html
   end
 end

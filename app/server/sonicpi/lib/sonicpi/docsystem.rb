@@ -32,7 +32,6 @@ module SonicPi
 
         # Generates HTML for Lang part of help system
         def docs_html_map
-          hv_face = "face=\"HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue\""
           res = {}
 
           extract_comments = lambda do |s|
@@ -54,67 +53,69 @@ module SonicPi
           @@docs.each do |k, v|
             unless(v[:hide])
               html = ""
-              html << '<p> <span style="font-size:25px; color:white;background-color:deeppink;">'
+              html << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
 
               summary = (v[:summary] || v[:name]).to_s
               summary[0] = summary[0].capitalize
-              html << "<font #{hv_face}>" << summary << "</font></span></p>\n"
-              html << "<h2><font color=\"deeppink\"><pre>#{v[:name]}<font color=\"#3c3c3c\">"
+              html << "<h1>" << summary << "</h1>\n"
+              html << "<p class=\"usage\"><code><pre><span class=\"symbol\">#{v[:name]}</span> "
               name_size = v[:name].size
               req_args = []
               raise "no args defined for #{v[:name]}" unless v[:args]
               v[:args].each do |arg|
                 n, t = *arg
-                req_args << "#{n} <font color=\"gray\">(#{t})</font>"
+                req_args << "#{n} <span class=\"info\">(#{t})</span>"
               end
-              html << " #{req_args.join(', ')}</pre></font></h2>\n"
+              html << " #{req_args.join(', ')}</pre></code></p>\n"
 
+              html << Kramdown::Document.new(v[:doc]).to_html << "\n"
+
+              html << "<p class=\"introduced\">"
+              html << "Introduced in " << v[:introduced].to_s << "</p>\n\n"
 
               if v[:opts] && !v[:opts].empty?
 
-                html << "<p>"
+                html << "<h2>Options</h2>"
+                html << "<p><table class=\"details\">\n"
 
-                html << "<table cellpadding=\"2\">\n"
-
-                bg_colour_k = "#5e5e5e"
-                fnt_colour_k = "white"
-
-                bg_colour_v = "#E8E8E8"
-                fnt_colour_v = "#5e5e5e"
-
-                html << "<tr><td bgcolor=\"dodgerblue\"><font color=\"white\">Options</font></td/<td></td></tr>"
                 cnt = 0
                 v[:opts].each do |opt_name, opt_doc|
-
-
-                  html << "<tr><td bgcolor=\"#{bg_colour_k}\"><pre><font color=\"#{fnt_colour_k}\">#{opt_name.to_s}:</font></pre></td><td bgcolor=\"#{bg_colour_v}\"><font color=\"#{fnt_colour_v}\"> #{MarkdownConverter.convert(opt_doc)}</font></td></tr>"
+                  td_class = cnt.even? ? "even" : "odd"
+                  html << "<tr>"
+                  html << " <td class=\"#{td_class} key\">#{opt_name.to_s}:</td>\n"
+                  html << " <td class=\"#{td_class}\">\n"
+                  html << Kramdown::Document.new(opt_doc.to_s).to_html << "\n"
+                  html << " </td>\n"
+                  html << "</tr>\n"
                   cnt += 1
                 end
                 html << "</table></p>"
               end
-              html << MarkdownConverter.convert(v[:doc])
-              html << "<p><font size=\"3\", #{hv_face}>\n"
 
-              html << "<span style=\"color:white;background-color:darkorange;\">"
-              html << "Introduced in " << v[:introduced].to_s << "\n</span></p>\n"
+              if v[:examples] && !v[:examples].empty?
+                html << "<h2>Example#{"s" if v[:examples].count > 1}</h2>\n"
+                html << "<p><table class=\"examples\">\n"
 
-              html << "<table cellpadding=\"8\">\n"
-              html << " <tr>\n   <th></th><th></th><th></th>\n </tr>\n"
+                v[:examples].each_with_index do |e, idx|
 
-              v[:examples].each_with_index do |e, idx|
+                  td_class = idx.even? ? "even" : "odd"
 
-                background_colour = idx.even? ? "#F8F8F8" : "#E8E8E8"
-                key_bg_colour = idx.even? ? "#74ACFF" : "#B2D1FF"
-
-                html << " <tr bgcolor=\"#{background_colour}\">\n"
-                html << "  <td bgcolor=\"#{key_bg_colour}\"><h3><pre>Example #{idx} </pre></h3></td>\n"
-
-                code, comments = *extract_comments.call(e.strip)
-
-                html << "   <td><pre>\n#{code << "\n\n\n"}</pre></td>\n"
-                html << "   <td><pre>\n#{comments << "\n\n\n"}</pre></td></tr>\n"
+                  html << " <tr>\n"
+                  html << "  <td colspan=\"2\" class=\"#{td_class} head\"># Example #{idx+1}</td>\n"
+                  html << " </tr><tr>\n"
+                  code, comments = *extract_comments.call(e.strip)
+                  html << "  <td class=\"#{td_class}\">\n"
+                  html << "   <p><code><pre>\n#{code << "\n\n\n"}</pre></code></p>\n"
+                  html << "  </td>\n"
+                  html << "  <td class=\"#{td_class}\">\n"
+                  html << "   <p><code><pre>\n#{comments << "\n\n\n"}</pre></code></p>\n"
+                  html << "  </td>\n"
+                  html << " </tr>\n"
+                end
+                html << "</table></p>\n"
               end
-              html << "</table>"
+              
+              html << "</body>\n"
               res[k.to_s] = html
             end
           end
