@@ -7,7 +7,7 @@ gestalten. Sonic Pi bietet einige Funktionen, um Zufallsfaktoren in
 Deine Musik einzubauen; aber bevor wir starten, müssen wir noch einer 
 schockierenden Wahrheit ins Gesicht sehen: In Sonic Pi bedeutet 
 *zufällig nicht wirklich zufällig*. Was zum Teufel soll das bedeuten? 
-Naja, sehen wir mal.
+Nun, das verrate ich Dir jetzt.
 
 ## Wiederholbarkeit
 
@@ -29,10 +29,9 @@ oder? Das kann doch kein Zufall sein!
 
 Die Antwort ist, es ist nicht wirklich zufällig, sondern 
 pseudo-zufällig. Sonic Pi liefert Dir Reihenfolgen von Zufallszahlen, 
-die wiederholbar sind. Das ist sehr nützlich, weil es sicherstellt, 
-dass die Musik, die Du auf Deinem Rechner erzeugst, auf anderen 
-Rechnern identisch klingt - sogar, wenn Du einen Zufallsfaktor 
-einbaust.
+die wiederholbar sind. Das ist sehr nützlich, denn so ist
+sichergestellt, dass die Musik von Deinem Rechner auf anderen Rechnern
+identisch klingt - sogar dann, wenn Du einen Zufallsfaktor einbaust.
 
 Klar, wenn in einem bestimmten Musikstück jedesmal die `77.4407` als 
 'zufällige' Zahl gewählt würde, dann wäre das nicht besonders 
@@ -55,10 +54,10 @@ musikalischen Synthese.
 
 ## Ruhelose Glocken
 
-Eine großartige Illustration von Zufall in Aktion bieten das Beispiel 
-der ruhelosen Glocken, bei dem das Sample `:perc_bell` mit einer 
-zufälligen Samplerate und Pausenzeit in einer Schleife[^3] abgespielt 
-wird.
+Ein großartiges Beispiel von Zufall in Aktion bietet der
+"Haunted Bells"-Code. Die "ruhelosen Glocken" spielen das Sample
+`:perc_bell` mit einer zufälligen Samplerate und Pausenzeit
+in einer Endlosschleife[^3] ab:
 
 ```
 loop do
@@ -100,7 +99,7 @@ end
 ```
 
 Jedes Mal, wenn Du den Code ablaufen läßt, hörst Du dieselbe Folge von
-5 Tönen. Um eine andere Folge zu bekommen, setzte einfach einen anderen 
+5 Tönen. Um eine andere Folge zu bekommen, setze einfach einen anderen 
 Startpunkt:
 
 ```
@@ -111,10 +110,10 @@ use_random_seed 40
 end
 ```
 
-Nun wird eine andere Folge von 5 Tönen produziert. Indem Du den 
+Nun produziert Sonic Pi eine andere Folge von 5 Tönen. Indem Du den 
 Startpunkt wechselst und Dir die Ergebnisse anhörst, kannst Du eine 
-Folge finden, die Dir gefällt - und wenn Du das mit anderen teilst, 
-werden sie genau das hören, was auch Du gehört hast.
+Folge finden, die Dir gefällt - und wenn Du den Code dann an andere
+weitergibst, werden sie genau das hören, was auch Du gehört hast.
 
 Schauen wir uns noch eine andere nützlich Zufallsfunktion an.
 
@@ -122,7 +121,7 @@ Schauen wir uns noch eine andere nützlich Zufallsfunktion an.
 
 Häufig kommt es vor, dass man aus einer Liste von Dingen eines zufällig 
 auswählen möchte. Zum Beispiel möchte ich einen Ton aus der folgenden 
-Liste auswählen: 60, 65 oder 72. Das kannst Du mit `choose` erreichen. 
+Liste auswählen: 60, 65 oder 72. Dafür ist `choose` da. 
 Zuerst musst Du Deine Zahlen in eine Liste packen; dafür schreibst Du 
 sie jeweils durch Kommata getrennt in eckige Klammern. Dann übergibst 
 Du diese Liste dem Kommando `choose`:
@@ -199,7 +198,7 @@ wieviele Seiten der Würfel hat. Ein normaler Würfel hat 6 Seiten, also
 wird `dice(6)` entsprechend funktionieren und den Wert 1, 2, 3, 4, 5 
 oder 6 zurückgeben. Aber - angenommen wir befänden uns in einen 
 Fantasy-Rollenspiel - ist es Dir vielleicht lieber, wenn der Würfel 4 
-oder 12, 20 oder sogar 120 Seiten hat!
+oder 12, 20 oder sogar 120 Seiten hat!?
 
 ## one_in
 
