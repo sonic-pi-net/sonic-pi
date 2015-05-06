@@ -137,9 +137,9 @@ example_dirs.each do |ex_dir|
     html << '<h1>'
     html << "# #{bname}"
     html << '</h1>'
-    html << "<pre><code>\n"
+    html << "<p><pre><code>\n"
 
-    html << "#{lines.join("\n")}\n\n</code></pre>\n"
+    html << "#{lines.join("\n")}\n\n</code></pre></p>\n"
     html << "</body>\n"
     example_html_map[name] = html
   end
