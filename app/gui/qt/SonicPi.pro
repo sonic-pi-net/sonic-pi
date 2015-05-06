@@ -19,9 +19,9 @@
 
 # -- Change to match the location of QScintilla on your system
 #
-# LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.8.5-snapshot-62d128cc92de/Qt4Qt5 -lqscintilla2
-# INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.8.5-snapshot-62d128cc92de/Qt4Qt5
-# DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.8.5-snapshot-62d128cc92de/Qt4Qt5
+ LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 -lqscintilla2
+ INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
+ DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
 # --
 
 QT       += core gui concurrent network

@@ -16,7 +16,7 @@ define :ocean do |num, amp_mul=1|
   end
 end
 
-define :echoes do |num, tonics, co=80, res=0.1, amp=1|
+define :echoes do |num, tonics, co=80, res=0.9, amp=1|
   num.times do
     play chord(tonics.choose, :minor).choose, res: res, cutoff: rrand(co - 40, co + 20), amp: 0.5 * amp, attack: 0, release: rrand(0.5, 1.5), pan: rrand(-0.7, 0.7)
     sleep [0.25, 0.5, 0.5, 0.5, 1, 1].choose
@@ -45,7 +45,7 @@ define :drums do |level, b_level=1, rand_cf=false|
   co = rand_cf ? rrand(110, 130) : 130
   a  = rand_cf ? rrand(0.3, 0.5) : 0.6
   n  = rand_cf ? :bnoise         : :noise
-  synth :noise, release: 0.05, cutoff: co, res: 0.05, amp: a if level > 0
+  synth :noise, release: 0.05, cutoff: co, res: 0.95, amp: a if level > 0
   sample :elec_blip, amp: 2, rate: 2, pan: rrand(-0.8, 0.8) if level > 1
   sleep 1
 end
@@ -53,7 +53,7 @@ end
 define :synths do |s_name, co, n=:e2|
   use_synth s_name
   use_transpose 0
-  use_synth_defaults detune: [12,24].choose, amp: 1, pan: lambda{rrand(-1, 1)}, cutoff: co, pulse_width: 0.12, attack: rrand(0.2, 0.5), release: 0.5 ,  mod_phase: 0.25, mod_invert_wave: 0
+  use_synth_defaults detune: [12,24].choose, amp: 1, pan: lambda{rrand(-1, 1)}, cutoff: co, pulse_width: 0.12, attack: rrand(0.2, 0.5), release: 0.5 ,  mod_phase: 0.25, mod_invert_wave: 1
 
   play :e1, mod_range: [7, 12].choose
   sleep 0.125
@@ -126,14 +126,14 @@ uncomment do
           echoes(5, [:e1, :e2, :e3])
         end
         use_synth :tb303
-        echoes(1, [:e1, :e2, :e3], 60, 0.1, 0.5)
+        echoes(1, [:e1, :e2, :e3], 60, 0.9, 0.5)
         echoes(1, [:e1, :e2, :e3], 62)
-        echoes(1, [:e1, :e2, :e3], 64, 0.03)
+        echoes(1, [:e1, :e2, :e3], 64, 0.97)
         echoes(1, [:e1, :e2, :e3], 66)
         echoes(1, [:e1, :e2, :e3], 68)
         cue :liminality_holds_fast
         echoes(4, [:b1, :e1, :e2, :b3, :e3], 80)
-        echoes(1, [:b1, :b2, :e1, :e2, :b3, :e3], 85,  0.02)
+        echoes(1, [:b1, :b2, :e1, :e2, :b3, :e3], 85,  0.98)
         cue :within_reach
         echoes(5, [:e1, :b2], 90)
         cue :as_it_unfolds
@@ -240,7 +240,7 @@ in_thread do
     end
     4.times do |t|
       binary_celebration(6, 0.5)
-      synth :zawa, note: :e2, phase: 0.25, res: rrand(0.01, 0.1), cutoff: [100, 105, 110, 115][t]
+      synth :zawa, note: :e2, phase: 0.25, res: rrand(0.9, 0.99), cutoff: [100, 105, 110, 115][t]
       sleep 3
     end
   end

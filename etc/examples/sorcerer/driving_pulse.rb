@@ -11,7 +11,7 @@ end
 
 live_loop :synths do
   use_synth :mod_pulse
-  use_synth_defaults amp: 1, mod_range: 15, cutoff: 80, pulse_width: 0.2, attack: 0.03, release: 0.6,  mod_phase: 0.25, mod_invert_wave: 0
+  use_synth_defaults amp: 1, mod_range: 15, cutoff: 80, pulse_width: 0.2, attack: 0.03, release: 0.6,  mod_phase: 0.25, mod_invert_wave: 1
   play 30
   sleep 0.25
   play 38

@@ -113,6 +113,7 @@ Users can opt to build from source as well if they would like. Instructions and 
 * Download Qt 5.4+ http://qt-project.org/downloads
 * Run the setup wizard and install to a known location which we'll call /path/to/qt
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and untar into a known location which we'll call /path/to/qscintilla
+  (current version is QScintilla-gpl-2.9)
 
 ### Server extensions
 
@@ -124,8 +125,8 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
   - `cd /path/to/qscintilla/Qt4Qt5`
   - generate makefile: `/path/to/qt/5.4/clang_64/bin/qmake qscintilla.pro`
   - `make`
-  - (OSX only) update the dylib inner path part 1: `install_name_tool -id "/path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib`
-  - (OSX only) update the dylib inner path part 2: `install_name_tool -change "libqscintilla2.11.dylib" "/path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.11.dylib` 
+  - (OSX only) update the dylib inner path part 1: `install_name_tool -id "/path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib`
+  - (OSX only) update the dylib inner path part 2: `install_name_tool -change "libqscintilla2.12.dylib" "/path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib` 
 * Add the following to SonicPi.pro
     LIBS += -L /path/to/qscintilla/Qt4Qt5/ -lqscintilla2
     INCLUDEPATH += /path/to/qscintilla/Qt4Qt5/

@@ -396,7 +396,7 @@ end"]
         opts:           {:init => "initial value for optional block arg",
                          :auto_cue => "enable or disable automatic cue (default is true)"},
         accepts_block: true,
-        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is giving a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
+        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
         examples: ["
 live_loop :ping do
   sample :elec_ping
@@ -455,9 +455,9 @@ end
         opts:           nil,
         accepts_block:  true,
         examples:       ["
-at [1, 2, 4] do  # plays a note after waiting 1 second,
-  play 75           # then after 1 more second,
-end                 # then after 2 more seconds (4 seconds total)
+at [1, 2, 4] do  # plays a note after waiting 1 beat,
+  play 75           # then after 1 more beat,
+end                 # then after 2 more beats (4 beats total)
 ",
 "
 at [1, 2, 3], [75, 76, 77] do |n|  # plays 3 different notes
@@ -583,17 +583,19 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         args:           [[:name, :symbol]],
         opts:           {:override => "If set to true, re-definitions are allowed and this acts like define"},
         accepts_block: true,
-        doc:            "Allows you assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
+        doc:            "Allows you to assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
         examples:       ["
 
 defonce :foo do  # Define a new function called foo
-  sleep 1        # Sleep for a second in the function definition
+  sleep 1        # Sleep for a beat in the function definition. Note that this amount
+                 # of time in seconds will depend on the current BPM of the live_loop
+                 # or thread calling this function.
   puts \"hello\" # Print hello
   10             # Return a value of 10
 end
 
 # Call foo on its own
-puts foo # The run sleeps for a second and prints \"hello\" before returning 10
+puts foo # The run sleeps for a beat and prints \"hello\" before returning 10
 
 # Try it again:
 puts foo # This time the run doesn't sleep or print anything out. However,  10 is still returned.
@@ -851,7 +853,7 @@ quantise(13.3212, 0.5) # 13.5"]
         examples:      [
 "
 dice # will return a number between 1 and 6 inclusively
-     # (with an even probaility distribution).",
+     # (with an even probability distribution).",
 "
 dice 3 # will return a number between 1 and 3 inclusively"]
 
@@ -874,7 +876,7 @@ dice 3 # will return a number between 1 and 3 inclusively"]
         doc:            "Returns `true` or `false` with a specified probability - it will return true every one in num times where num is the param you specify",
         examples:      [
 "
-one_in 2 # will return true with a probablility of 1/2, false with probability 1/2",
+one_in 2 # will return true with a probability of 1/2, false with probability 1/2",
 "
 one_in 3 # will return true with a probability of 1/3, false with a probability of 2/3",
 "
@@ -1006,7 +1008,7 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces a int within the range. With no args or max as `0` returns either `0` or `1`",
+        doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args or max as `0` returns either `0` or `1`",
         examples:      [
 "
 print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
@@ -1125,7 +1127,7 @@ sleep 2 # sleep for 1 second
 # Let's make it go even faster...
 use_bpm 240  #  bpm is 4x original speed!
 8.times do
-  play 62, attack: 0.5, release: 0.125 # attack is scaled to 0.25s and release is now 0.0625s
+  play 62, attack: 0.5, release: 0.25 # attack is scaled to 0.125s and release is now 0.0625s
   sleep 1 # actually sleeps for 0.25 seconds
 end
 
@@ -1228,7 +1230,7 @@ play 50
 sleep 1      # Sleeps for 1 seconds
 play 62
 sleep 2      # Sleeps for 2 seconds
-use_bpm_mul 0.5 do # BPM is now (60 * 0.5) == 30
+use_bpm_mul 0.5 # BPM is now (60 * 0.5) == 30
 play 50
 sleep 1           # Sleeps for 2 seconds
 play 62
@@ -1311,8 +1313,8 @@ play 72"]
 
 
 
-    def sleep(seconds)
-      return if seconds == 0
+    def sleep(beats)
+      return if beats == 0
       # Grab the current virtual time
       last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
 
@@ -1322,7 +1324,7 @@ play 72"]
       # Now get on with syncing the rest of the sleep time...
 
       # Calculate the amount of time to sleep (take into account current bpm setting)
-      sleep_time = seconds * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      sleep_time = beats * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       # Calculate the new virtual time
       new_vt = last_vt + sleep_time
 
@@ -1365,8 +1367,8 @@ play 72"]
     doc name:           :sleep,
         introduced:     Version.new(2,0,0),
         summary:        "Wait for duration",
-        doc:            "Wait for a number of seconds before triggering the next command. Seconds are scaled to the current bpm setting.",
-        args:           [[:seconds, :number]],
+        doc:            "Wait for a number of beats before triggering the next command. Beats are converted to seconds by scaling to the current bpm setting.",
+        args:           [[:beats, :number]],
         opts:           nil,
         accepts_block:  false,
         examples:       [
@@ -1379,7 +1381,7 @@ play 62
 sleep 1  # Create a gap, to allow a moment's pause for reflection...
 
 play 50  # Let's try the chord again, but this time with sleeps:
-sleep 0.5 # With the sleeps, we turn a chord into an arpegio
+sleep 0.5 # With the sleeps, we turn a chord into an arpeggio
 play 55
 sleep 0.5
 play 62",
@@ -1416,7 +1418,7 @@ play 62
         introduced:     Version.new(2,0,0),
         summary:        "Wait for duration",
         doc:            "Synonym for `sleep` - see `sleep`",
-        args:           [[:seconds, :number]],
+        args:           [[:beats, :number]],
         opts:           nil,
         accepts_block:  false,
         examples:       []
@@ -1478,7 +1480,7 @@ cue :foo # We send a cue message from the main thread.
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
     cue :tick # sending tick heartbeat messages
-    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+    sleep 0.5  # and sleeping for 0.5 beats between ticks
   end
 end
 
@@ -1492,7 +1494,7 @@ end",
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
     cue [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
-    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+    sleep 0.5  # and sleeping for 0.5 beats between ticks
   end
 end
 
@@ -1580,7 +1582,7 @@ cue :foo # We send a sync message from the main thread.
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
     cue :tick # sending tick heartbeat messages
-    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+    sleep 0.5  # and sleeping for 0.5 beats between ticks
   end
 end
 
@@ -1597,7 +1599,7 @@ sync :foo, :bar # Wait for either a :foo or :bar cue ",
 in_thread do   # Start a metronome thread
   loop do      # Loop forever:
     cue [:foo, :bar, :baz].choose # sending one of three tick heartbeat messages randomly
-    sleep 0.5  # and sleeping for 0.5 seconds between ticks
+    sleep 0.5  # and sleeping for 0.5 beats between ticks
   end
 end
 
@@ -1772,7 +1774,7 @@ end ",
 # be in a thread (note that it's probably more idiomatic to use live_loop
 # when performing):
 
-# By wrapping out loop in an in_thread block, we split the
+# By wrapping our loop in an in_thread block, we split the
 # control flow into two parts. One flows into the loop (a) and
 # the other part flows immediately after the in_thread block (b).
 # both parts of the control flow execute at exactly the same time.
@@ -1801,7 +1803,7 @@ in_thread do     # Create a new thread
   play 50        # Play note 50 at time 0
   use_synth :fm  # Switch to fm synth (only affects this thread)
   sleep 1        # sleep for 0.5 seconds (as we're double rate)
-  play 38        # Play note 50 at time 0.5
+  play 38        # Play note 38 at time 0.5
 end
 
 play 62          # Play note 62 at time 0 (with dsaw synth)

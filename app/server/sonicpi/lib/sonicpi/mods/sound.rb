@@ -36,12 +36,12 @@ module SonicPi
        include SonicPi::DocSystem
 
        DEFAULT_PLAY_OPTS = {amp:       "The amplitude of the note",
-                            amp_slide: "The duration in seconds for amplitude changes to take place",
-                            pan:       "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use value in between -1 and 1 such as 0.25",
-                            pan_slide: "The duration in seconds for the pan value to change",
-                            attack:    "The duration in seconds for the sound to reach maximum amplitude. Choose short values for percussive sounds and long values for a fade-in effect.",
-                            sustain:  "The duration in seconds for the sound to stay at full amplitude. Used to give the sound duration",
-                            release:   "The duration in seconds for the sound to fade out."}
+                            amp_slide: "The duration in beats for amplitude changes to take place",
+                            pan:       "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use a value in between -1 and 1 such as 0.25",
+                            pan_slide: "The duration in beats for the pan value to change",
+                            attack:    "The duration in beats for the sound to reach maximum amplitude. Choose short values for percussive sounds and long values for a fade-in effect.",
+                            sustain:  "The duration in beats for the sound to stay at full amplitude. Used to give the sound duration",
+                            release:   "The duration in beats for the sound to fade out."}
 
 
 
@@ -438,7 +438,7 @@ play 90 # Debug message is sent
 
 
        def use_arg_checks(v, &block)
-         raise "use_arg_checks does not work with a a do/end block. Perhaps you meant use_arg_checks" if block
+         raise "use_arg_checks does not work with a do/end block. Perhaps you meant with_arg_checks" if block
 
          Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, !!v)
        end
@@ -831,7 +831,7 @@ play_pattern [40, 41, 42] # Same as:
        doc name:          :play_pattern_timed,
            introduced:    Version.new(2,0,0),
            summary:       "Play pattern of notes with specific times",
-           doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of times between the notes in seconds.
+           doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of times between the notes in beats.
 
 If the list of times is smaller than the number of gaps between notes, the list is repeated again. If the list of times is longer than the number of gaps between notes, then some of the times are ignored. See examples for more detail.
 
@@ -874,8 +874,9 @@ play 40
 sleep 0.5
 play 42
 sleep 0.5
-play 55
-sleep 0.5",
+play 44
+sleep 0.5
+play 46",
 
 "play_pattern_timed [40, 42, 44], [1, 2, 3, 4, 5]
 
@@ -1389,7 +1390,7 @@ with_fx :reverb, mix: 0.1 do |fx|
   # here we set the reverb level quite low to start with (0.1)
   # and we can change it later by using the 'fx' reference we've set up
 
-  play 60 # plays note 50 with a little bit of reverb
+  play 60 # plays note 60 with a little bit of reverb
   sleep 2
 
   control fx, mix: 0.5 # change the parameters of the effect to add more reverb
@@ -1417,7 +1418,7 @@ end"]
        doc name:          :use_sample_pack,
            introduced:    Version.new(2,0,0),
            summary:       "Use sample pack",
-           doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif` or `.aiff` files in that folder available as samples. Consider using use_`sample_pack_as` when using multiple sample packs.",
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif` or `.aiff` files in that folder available as samples. Consider using `use_sample_pack_as` when using multiple sample packs.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
@@ -1841,7 +1842,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
        end
        doc name:          :sample_duration,
            introduced:    Version.new(2,0,0),
-           summary:       "Get sample duration in seconds",
+           summary:       "Get sample duration in beats",
            doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
            args:          [[:path, :string]],
            opts:          {:rate => "Rate modifier. For example, doubling the rate will halve the duration."},
@@ -1898,7 +1899,7 @@ puts sample_duration(:loop_amen) #=> 1
            examples:      ["
 sample :perc_bell # plays one of Sonic Pi's built in samples",
 "sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|aif|aiff file from your local filesystem",
-"# Lets play with the rate parameter
+"# Let's play with the rate parameter
 # play one of the included samples
 sample :loop_amen
 sleep sample_duration(:loop_amen) # this sleeps for exactly the length of the sample
@@ -2045,7 +2046,7 @@ puts note('C', octave: 2)
        doc name:          :note_info,
            introduced:    Version.new(2,0,0),
            summary:       "Get note info",
-           doc:           "Returns an instance of `SonicPi::Note`. Please note - `octave:` param is overridden if octave is specified in a symbol i.e. `:c3`",
+           doc:           "Returns an instance of `SonicPi::Note`. Please note - `octave:` param overrides any octave specified in a symbol i.e. `:c3`",
            args:          [[:note, :symbol_or_number]],
            opts:          {:octave => "The octave of the note. Overrides any octave declaration in the note symbol such as :c2. Default is 4"},
            accepts_block: false,

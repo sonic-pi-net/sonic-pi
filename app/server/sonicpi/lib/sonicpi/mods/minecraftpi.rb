@@ -307,7 +307,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       end
       doc name:           :mc_get_tile,
           introduced:     Version.new(2,5,0),
-          summary:        "Minecraft Pi - set location of current tile/block",
+          summary:        "Minecraft Pi - get location of current tile/block",
           args:           [],
           opts:           nil,
           accepts_block:  false,
@@ -328,7 +328,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
           args:           [[:x, :number], [:z, :number]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Teleports you to the specified x and y coordinates with the y automatically set to place you on the surface of the world. For example, if the x and y coords target a mountain, you'll be placed on top of the mountain, not in the air or under the ground. See mc_ground_height for discovering the height of the ground at a given x, y point.",
+          doc:            "Teleports you to the specified x and z coordinates with the y automatically set to place you on the surface of the world. For example, if the x and z coords target a mountain, you'll be placed on top of the mountain, not in the air or under the ground. See mc_ground_height for discovering the height of the ground at a given x, z point.",
           examples:       ["mc_surface_teleport 40, 50 #=> Teleport user to coords x = 40, y = height of surface, z = 50"]
 
 
@@ -492,7 +492,7 @@ puts mc_block_id :air #=> 0",
       doc name:           :mc_block_name,
           introduced:     Version.new(2,5,0),
           summary:        "Minecraft Pi - normalise block name",
-          args:           [[:id, :numbor_or_symbol]],
+          args:           [[:id, :number_or_symbol]],
           opts:           nil,
           accepts_block:  false,
           doc:            "Given a block id or a block name will return a symbol representing the block name or throw an exception if the id or name isn't valid.",
@@ -515,7 +515,7 @@ puts mc_block_name :air #=> :air",
           opts:           nil,
           accepts_block:  false,
           doc:            "Returns a list of all the valid block ids as numbers. Note not all numbers are valid block ids. For example, 19 is not a valid block id.",
-          examples:       ["puts mc_block_names #=> [0, 1, 2, 3, 4, 5... "]
+          examples:       ["puts mc_block_ids #=> [0, 1, 2, 3, 4, 5... "]
 
 
 
@@ -544,7 +544,7 @@ puts mc_block_name :air #=> :air",
           args:           [],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Take a snapshot of the world and save it. Restore back with `mc_checkpoint_restor`",
+          doc:            "Take a snapshot of the world and save it. Restore back with `mc_checkpoint_restore`",
           examples:       [""]
 
 

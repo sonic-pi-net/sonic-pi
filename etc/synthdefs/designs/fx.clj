@@ -50,6 +50,7 @@
          pre_amp     (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          gain        (varlag gain gain_slide gain_slide_curve gain_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
 
@@ -300,7 +301,7 @@
 
          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
 
-         slice-amp           (* ctl-wave ctl-wave-mul)
+         slice-amp           (* -1 ctl-wave ctl-wave-mul)
          slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
          [in-l in-r]         (* pre_amp (in in_bus 2))
          [new-l new-r]       (* slice-amp [in-l in-r])
@@ -358,6 +359,7 @@
          cutoff_min          (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
          cutoff_max          (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
+         res         (lin-lin res 1 0 0 1)
          res                 (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff_min          (midicps cutoff_min)
          cutoff_max          (midicps cutoff_max)
@@ -370,7 +372,7 @@
 
          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
 
-         cutoff-freq         (lin-exp:kr (* ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
+         cutoff-freq         (lin-exp:kr (* -1 ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
 
          [in-l in-r]         (* pre_amp (in in_bus 2))
 
@@ -423,6 +425,7 @@
          rate          (/ 1 phase)
          cutoff_min    (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
          cutoff_max    (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
+         res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff_min    (midicps cutoff_min)
          cutoff_max    (midicps cutoff_max)
@@ -522,6 +525,7 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          cutoff        (midicps cutoff)
+         res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
          [in-l in-r]   (* pre_amp (in in_bus 2))
@@ -559,6 +563,7 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          cutoff        (midicps cutoff)
+         res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
          [in-l in-r]   (* pre_amp (in in_bus 2))
@@ -596,6 +601,7 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          cutoff        (midicps cutoff)
+         res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
          [in-l in-r]   (* pre_amp (in in_bus 2))
          [new-l new-r] (rhpf [in-l in-r] cutoff res)
@@ -928,6 +934,7 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          centre        (varlag centre centre_slide centre_slide_curve centre_slide_shape)
          freq          (midicps centre)
+         res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
          [in-l in-r]   (* pre_amp (in in_bus 2))
@@ -964,6 +971,7 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          centre        (varlag centre centre_slide centre_slide_curve centre_slide_shape)
          freq          (midicps centre)
+         res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
          [in-l in-r]   (* pre_amp (in in_bus 2))
@@ -1000,6 +1008,7 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          centre        (varlag centre centre_slide centre_slide_curve centre_slide_shape)
          freq          (midicps centre)
+         res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
 
          [in-l in-r]   (* pre_amp (in in_bus 2))

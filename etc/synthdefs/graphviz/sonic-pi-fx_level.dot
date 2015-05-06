@@ -53,8 +53,8 @@ digraph synthdef {
 0:__UG_NAME__ -> 7:in ;
 1:__UG_NAME__ -> 11:in ;
 4:__UG_NAME__ -> 16:bus ;
-17:__UG_NAME__ -> 19:signals___binary____op____u____gen___0 ;
-18:__UG_NAME__ -> 19:signals___binary____op____u____gen___1 ;
+18:__UG_NAME__ -> 19:signals___binary____op____u____gen___0 ;
+17:__UG_NAME__ -> 19:signals___binary____op____u____gen___1 ;
 5:__UG_NAME__ -> 19:bus ;
 
 }
