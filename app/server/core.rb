@@ -58,23 +58,24 @@ module SonicPi
       def self.tick(k, n=1)
         counters = get_or_create_counters
         if counters[k]
-          current_val = counters[k]
-          counters[k] = counters[k] + n
-          return current_val
+          curr_val, next_val = *counters[k]
+          counters[k] = [next_val, next_val + n]
+          return next_val
         else
-          counters[k] = n
+          counters[k] = [0, n]
           return 0
         end
       end
 
       def self.read(k)
         counters = get_or_create_counters
-        counters[k] || 0
+        val, _ = *counters[k]
+        val || 0
       end
 
       def self.set(k, v)
         counters = get_or_create_counters
-        counters[k] = v
+        counters[k] = [v, v]
       end
 
       def self.rm(k)
