@@ -319,7 +319,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
 
       def mc_surface_teleport(x, z)
         y = mc_get_height(x, z)
-        mc_set_location(x.to_f, y, z.to_f)
+        mc_teleport(x.to_f, y, z.to_f)
         true
       end
       doc name:           :mc_surface_teleport,
