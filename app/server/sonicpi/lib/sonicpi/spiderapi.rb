@@ -275,7 +275,7 @@ play 80  #=> this plays as the stop only affected the above thread"
 
 
     def ring(*args)
-      SonicPi::Core::RingArray.new(args)
+      SonicPi::Core::RingVector.new(args)
     end
     doc name:           :ring,
         introduced:     Version.new(2,2,0),

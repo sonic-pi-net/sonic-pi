@@ -90,31 +90,43 @@ end
 
 module SonicPi
   module Core
-    class EmptyRingError < StandardError ; end
+    class EmptyVectorError < StandardError ; end
 
-    class RingArray < Array
+    class SPVector < Array
       def initialize(list)
-        raise EmptyRingError, "Cannot create an empty ring" if list.empty?
+        raise EmptyVectorError, "Cannot create an empty vector" if list.empty?
         super
         self.freeze
       end
 
+      def ___sp_vector_name
+        "vector"
+      end
+
       def [](idx, len=nil)
         return self.to_a[idx, len] if len
-        idx = idx.to_i % size if idx.is_a? Numeric
+        idx = map_index(idx) if idx.is_a? Numeric
         self.to_a[idx]
       end
 
       # TODO - ensure this returns a ring array
       def slice(idx, len=nil)
         return self.to_a.slice(idx, len) if len
-
-        idx = idx.to_i % size if idx.is_a? Numeric
+        idx = map_index(idx) if idx.is_a? Numeric
         self.to_a.slice(idx)
       end
 
-      def ring
-        self
+      def to_s
+        inspect
+      end
+
+      def inspect
+        a = self.to_a
+        if a.empty?
+          "(#{___sp_vector_name})"
+        else
+          "(#{___sp_vector_name} #{a.inspect[1...-1]})"
+        end
       end
 
       def to_a
@@ -134,21 +146,17 @@ module SonicPi
         idx = ThreadLocalCounter.read(key)
         self[idx]
       end
+    end
 
-      def to_s
-        inspect
+    class RingVector < SPVector
+      def map_index(idx)
+        idx = idx % size
+        return idx
       end
 
-      def inspect
-        a = self.to_a
-        if a.empty?
-          "(ring)"
-        else
-          "(ring #{a.inspect[1...-1]})"
-        end
+      def ___sp_vector_name
+        "ring"
       end
-
-      #TODO:    def each_with_ring
     end
   end
 end

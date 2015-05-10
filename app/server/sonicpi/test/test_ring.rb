@@ -23,7 +23,7 @@ module SonicPi
       assert_equal([:e1, :e1, :e1, :e2, :e2, :e2], stretch([:e1,:e2], 3))
       assert_equal([:a2, :a2, :a3, :a3, :a1, :a1, :a1, :a4, :a4, :a4], stretch([:a2,:a3], 2, [:a1,:a4], 3))
 
-      assert_equal(SonicPi::Core::RingArray, stretch([:e1], 3).class)
+      assert_equal(SonicPi::Core::RingVector, stretch([:e1], 3).class)
       assert_equal([:a2,:a2], stretch(:a2, 2))
 
       assert_raise SonicPi::Core::EmptyRingError do
@@ -35,7 +35,7 @@ module SonicPi
       assert_equal(knit(:e1, 3), [:e1, :e1, :e1])
       assert_equal(knit(:e1, 3, :c1, 2), [:e1, :e1, :e1, :c1, :c1])
       assert_equal(knit(:e2, -1, :c1, 3), [:c1, :c1, :c1])
-      assert_equal(knit(:e1, 3).class, SonicPi::Core::RingArray)
+      assert_equal(knit(:e1, 3).class, SonicPi::Core::RingVector)
       assert_raise SonicPi::Core::EmptyRingError do
         knit(:e2, 0)
       end
@@ -55,7 +55,7 @@ module SonicPi
       assert_equal(range(1, -5, step: -2), [1, -1, -3])
       assert_equal(range(10, 50, step: 10), [10, 20, 30, 40])
       assert_equal(range(1, 5, step: -1), [1, 2, 3, 4])
-      assert_equal(range(1, 3).class, SonicPi::Core::RingArray)
+      assert_equal(range(1, 3).class, SonicPi::Core::RingVector)
 
       assert_raise SonicPi::Core::EmptyRingError do
         range(10, 10, step: -1)
@@ -68,12 +68,12 @@ module SonicPi
       assert_equal([0, 1, 2, 3, 4], line(0, 4, steps: 5, inclusive: true))
       assert_equal([0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], line(0, 4, steps: 8))
       assert_equal([5, 4, 3, 2, 1], line(5, 0, steps: 5))
-      assert_equal(line(1, 3).class, SonicPi::Core::RingArray)
+      assert_equal(line(1, 3).class, SonicPi::Core::RingVector)
     end
 
     def test_ring
       assert_equal(ring(1, 2, 3), [1, 2, 3])
-      assert_equal(ring(1,2, 3).class, SonicPi::Core::RingArray)
+      assert_equal(ring(1,2, 3).class, SonicPi::Core::RingVector)
     end
 
     def test_bools
@@ -83,7 +83,7 @@ module SonicPi
       assert_equal(bools(true, false, true), [true, false, true])
       assert_equal(bools(true, nil, true), [true, false, true])
       assert_equal(bools(:a, 1, nil, true, 0), [true, true, false, true, false])
-      assert_equal(bools(1,0, 0).class, SonicPi::Core::RingArray)
+      assert_equal(bools(1,0, 0).class, SonicPi::Core::RingVector)
 
       assert_raise SonicPi::Core::EmptyRingError do
         assert_equal(bools(), [])
