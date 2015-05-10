@@ -292,6 +292,28 @@ play 80  #=> this plays as the stop only affected the above thread"
       "(ring 1, 2, 3)[-1] #=> 3",
     ]
 
+
+    def ramp(*args)
+      SonicPi::Core::RampVector.new(args)
+    end
+    doc name:           :ramp,
+        introduced:     Version.new(2,6,0),
+        summary:        "Create a ramp vector",
+        args:           [[:list, :array]],
+        returns:        :ring,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new ramp vector from args. Indexes always return first or last value if out of bounds.",
+        examples:       [
+      "(ramp 1, 2, 3)[0] #=> 1",
+      "(ramp 1, 2, 3)[1] #=> 2",
+      "(ramp 1, 2, 3)[2] #=> 3",
+      "(ramp 1, 2, 3)[3] #=> 3",
+      "(ramp 1, 2, 3)[1000] #=> 3",
+      "(ramp 1, 2, 3)[-1] #=> 1",
+      "(ramp 1, 2, 3)[-1000] #=> 1",
+    ]
+
     #TODO: consider whether to convert this to *args
     def choose(args)
       args.to_a.choose

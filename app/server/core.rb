@@ -158,6 +158,19 @@ module SonicPi
         "ring"
       end
     end
+
+    class RampVector < SPVector
+      def map_index(idx)
+        idx = idx.to_i
+        idx = [idx, size - 1].min
+        idx = [idx, 0].max
+        return idx
+      end
+
+      def ___sp_vector_name
+        "ramp"
+      end
+    end
   end
 end
 
@@ -565,7 +578,11 @@ end
 class Array
 
   def ring
-    SonicPi::Core::RingArray.new(self)
+    SonicPi::Core::RingVector.new(self)
+  end
+
+  def ramp
+    SonicPi::Core::RampVector.new(self)
   end
 
   def choose
