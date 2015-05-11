@@ -226,7 +226,8 @@ play 80  #=> this plays as the stop only affected the above thread"
         summary:        "Create a ring buffer with the specified start, finish and step size",
         args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
         returns:        :ring,
-        opts:           {:inclusive => "If set to true, range is inclusive of finish value"},
+    opts:           {:step => "Size of increment between steps; tep size."
+                     :inclusive => "If set to true, range is inclusive of finish value"},
         accepts_block:  false,
         doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to `1`. Indexes wrap around positively and negatively",
         examples:       [
@@ -261,7 +262,7 @@ play 80  #=> this plays as the stop only affected the above thread"
         summary:        "Create a ring buffer representing a straight line",
         args:           [[:start, :number], [:finish, :number]],
         returns:        :ring,
-       opts:           {:slices => "number of slices or segments along the line",
+       opts:           {:steps => "number of slices or segments along the line",
                         :inclusive => "boolean value representing whether or not to include finish value in line"},
         accepts_block:  false,
         doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to `8`. Indexes wrap around positively and negatively. Similar to `range`.",
