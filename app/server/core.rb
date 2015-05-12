@@ -43,6 +43,7 @@ rescue LoadError
 end
 
 require 'osc-ruby'
+require 'hamster/vector'
 
 module SonicPi
   module Core
@@ -92,7 +93,7 @@ module SonicPi
   module Core
     class EmptyVectorError < StandardError ; end
 
-    class SPVector < Array
+    class SPVector < Hamster::Vector
       def initialize(list)
         raise EmptyVectorError, "Cannot create an empty vector" if list.empty?
         super
@@ -103,17 +104,26 @@ module SonicPi
         "vector"
       end
 
-      def [](idx, len=nil)
-        return self.to_a[idx, len] if len
-        idx = map_index(idx) if idx.is_a? Numeric
-        self.to_a[idx]
+      def [](idx, len=(missing_length = true))
+        if idx.is_a?(Numeric) && missing_length
+          idx = map_index(idx)
+          super idx
+        else
+          super
+        end
       end
 
-      # TODO - ensure this returns a ring array
-      def slice(idx, len=nil)
-        return self.to_a.slice(idx, len) if len
-        idx = map_index(idx) if idx.is_a? Numeric
-        self.to_a.slice(idx)
+      def choose
+        rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+        self[rgen.rand(self.size)]
+      end
+
+      def ring
+        SonicPi::Core::RingVector.new(self)
+      end
+
+      def ramp
+        SonicPi::Core::RampVector.new(self)
       end
 
       def to_s
