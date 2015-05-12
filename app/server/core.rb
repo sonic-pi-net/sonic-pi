@@ -609,6 +609,16 @@ class Array
       __orig_shuffle__ *args, &blk
     end
   end
+
+  alias_method :__orig_shuffle_bang__, :shuffle!
+  def shuffle!(*args, &blk)
+    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
+    if rgen
+      __orig_shuffle_bang__(random: rgen)
+    else
+      __orig_shuffle_bang__ *args, &blk
+    end
+  end
 end
 
 class String
