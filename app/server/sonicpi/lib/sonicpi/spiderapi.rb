@@ -275,6 +275,30 @@ play 80  #=> this plays as the stop only affected the above thread"
 
 
 
+    def vector(*args)
+      SonicPi::Core::SPVector.new(args)
+    end
+    doc name:           :vector,
+        introduced:     Version.new(2,6,0),
+        summary:        "Create a vector",
+        args:           [[:list, :array]],
+        returns:        :ring,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new vector from args. Out of range indexes return nil.",
+        examples:       [
+      "(vector 1, 2, 3)[0] #=> 1",
+      "(vector 1, 2, 3)[1] #=> 2",
+      "(vector 1, 2, 3)[2] #=> 3",
+      "(vector 1, 2, 3)[3] #=> nil",
+      "(vector 1, 2, 3)[1000] #=> nil",
+      "(vector 1, 2, 3)[-1] #=> nil",
+      "(vector 1, 2, 3)[-1000] #=> nil",
+    ]
+
+
+
+
     def ring(*args)
       SonicPi::Core::RingVector.new(args)
     end
@@ -292,6 +316,8 @@ play 80  #=> this plays as the stop only affected the above thread"
       "(ring 1, 2, 3)[3] #=> 1",
       "(ring 1, 2, 3)[-1] #=> 3",
     ]
+
+
 
 
     def ramp(*args)
