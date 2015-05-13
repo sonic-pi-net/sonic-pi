@@ -39,6 +39,17 @@ QStringList QsciLexer::autoCompletionWordSeparators() const {
   return seps;
 }
 
+void SonicPiLexer::highlightAll()
+{
+    setPaper(QColor("deeppink"),-1);
+    this->setDefaultPaper(theme->color("Background"));
+}
+
+void SonicPiLexer::unhighlightAll()
+{
+    setPaper(theme->color("DefaultBackground"),-1);
+}
+
 QColor SonicPiLexer::defaultColor(int style) const
 {
     switch (style)

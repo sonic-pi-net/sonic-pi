@@ -923,7 +923,8 @@ void MainWindow::runCode()
     ws->getCursorPosition(&currentLine, &currentIndex);
   }
   ws->setReadOnly(true);
-  ws->selectAll();
+  lexer->highlightAll();
+
   resetErrorPane();
   statusBar()->showMessage(tr("Running Code..."), 1000);
   std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
@@ -958,7 +959,7 @@ void MainWindow::runCode()
 void MainWindow::unhighlightCode()
 {
   SonicPiScintilla *ws = (SonicPiScintilla *)tabs->currentWidget();
-  ws->selectAll(false);
+  lexer->unhighlightAll();
   if (currentLine != 0 || currentIndex != 0) {
     ws->setCursorPosition(currentLine, currentIndex);
     currentLine = 0; currentIndex = 0;
