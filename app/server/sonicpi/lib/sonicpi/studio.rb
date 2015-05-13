@@ -21,7 +21,7 @@ module SonicPi
     SYNTHS = ["beep", "fm", "pretty_bell", "dull_bell", "saw_beep"]
     SYNTH_MOD = Mutex.new
     SAMPLE_SEM = Mutex.new
-    attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths
+    attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
       @server = Server.new(hostname, port, msg_queue)
@@ -32,6 +32,7 @@ module SonicPi
       @samples = {}
       @recorders = {}
       @recording_mutex = Mutex.new
+      @rand_buf_id = load_sample(samples_path + "/noise-seed.wav")[0].to_i
       reset
     end
 

@@ -2826,12 +2826,29 @@ end
         :pulse_width_slide_curve => 0,
         :phase_offset => 0,
         :wave => 1,
-        :invert_wave => 0
+        :invert_wave => 0,
+        :probability => 1,
+        :seed => 0,
       }
     end
 
     def specific_arg_info
       {
+        :probability =>
+        {
+          :doc => "Probability that a given slice will sound as a value between 0 and 1",
+          :validations => [v_between_inclusive(:probability, 0, 1)],
+          :modulatable => true
+        },
+
+        :seed =>
+        {
+          :doc => "Seed value for rand num generator used for probability test",
+          :validations => [v_positive(:seed)],
+          :modulatable => false
+        },
+
+
         :phase =>
         {
           :doc => "The phase duration (in beats) of the slices",
@@ -4618,7 +4635,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
 
         doc << "<p class=\"introduced\">"
         doc << "Introduced in " << v.introduced.to_s << "</p>\n\n"
-        
+
         doc << "<h2>Parameters</h2>\n"
 
         doc << "<p><table class=\"details\">\n"
@@ -4659,7 +4676,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
 
           # table for slide parameters
           doc << "<p><table class=\"details\">\n"
-  
+
           cnt = 0
           slide_args.each do |ak, av|
             td_class = cnt.even? ? "even" : "odd"
@@ -4676,7 +4693,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           end
           doc << "</table></p>\n"
         end # any_slidable
-        
+
         doc << "</body>\n"
 
         res["#{safe_k}"] = doc
@@ -4758,7 +4775,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           doc << "sample <span class=\"symbol\">:#{s}</span>\n"
         end
         doc << "</pre></code></p>\n"
-        
+
         doc << "<p><table class=\"details\">\n"
 
         cnt = 0

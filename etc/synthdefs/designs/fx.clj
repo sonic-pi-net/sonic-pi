@@ -279,9 +279,12 @@
     pulse_width_slide 0
     pulse_width_slide_shape 5
     pulse_width_slide_curve 0
+    probability 1
     phase_offset 0
     wave 1         ;;0=saw, 1=pulse, 2=tri, 3=sine
     invert_wave 0  ;;0=normal wave, 1=inverted wave
+    seed 0
+    rand_buf 0
     in_bus 0
     out_bus 0]
    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
@@ -293,23 +296,26 @@
          rate                (/ 1 phase)
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
          double_phase_offset (* 2 phase_offset)
+         use-prob            (< probability 1)
 
          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed  probability
+                                                      (impulse:kr rate))
 
+         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
          slice-amp           (* -1 ctl-wave ctl-wave-mul)
          slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
+         slice-amp           (select:kr use-prob [slice-amp
+                                                  (* ctl-wave-prob slice-amp)])
          [in-l in-r]         (* pre_amp (in in_bus 2))
          [new-l new-r]       (* slice-amp [in-l in-r])
          fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
-
-
 
 
  (defsynth sonic-pi-fx_wobble
