@@ -4398,7 +4398,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :desc => "Miscellaneous Sounds",
         :prefix => "misc_",
         :samples => [
-          :misc_burp]},
+          :misc_burp,
+          :misc_rand_noise]},
 
       :perc => {
         :desc => "Percussive Sounds",
