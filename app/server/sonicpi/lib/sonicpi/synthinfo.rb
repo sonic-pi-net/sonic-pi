@@ -2829,11 +2829,36 @@ module SonicPi
         :invert_wave => 0,
         :probability => 1,
         :seed => 0,
+        :smooth => 0,
+        :smooth_up => 0,
+        :smooth_down => 0
+
       }
     end
 
     def specific_arg_info
       {
+        :smooth =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next. Allows you to round off harsh edges in the slicer wave which may cause clicks.",
+          :validations => [v_positive(:smooth)],
+          :modulatable => true
+        },
+
+        :smooth_up =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going up. This smoothing happens before the main smooth mechanism.",
+          :validations => [v_positive(:smooth)],
+          :modulatable => true
+        },
+
+        :smooth_down =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going down. This smoothing happens before the main smooth mechanism.",
+          :validations => [v_positive(:smooth)],
+          :modulatable => true
+        },
+
         :probability =>
         {
           :doc => "Probability that a given slice will sound as a value between 0 and 1",

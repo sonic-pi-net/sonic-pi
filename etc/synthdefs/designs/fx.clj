@@ -279,6 +279,18 @@
     pulse_width_slide 0
     pulse_width_slide_shape 5
     pulse_width_slide_curve 0
+    smooth 0
+    smooth_slide 0
+    smooth_slide_shape 5
+    smooth_slide_curve 0
+    smooth_up 0
+    smooth_up_slide 0
+    smooth_up_slide_shape 5
+    smooth_up_slide_curve 0
+    smooth_down 0
+    smooth_down_slide 0
+    smooth_down_slide_shape 5
+    smooth_down_slide_curve 0
     probability 1
     phase_offset 0
     wave 1         ;;0=saw, 1=pulse, 2=tri, 3=sine
@@ -293,7 +305,11 @@
          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
          amp_min             (varlag amp_min amp_min_slide amp_min_slide_curve amp_min_slide_shape)
          amp_max             (varlag amp_max amp_max_slide amp_max_slide_curve amp_max_slide_shape)
+         smooth              (varlag smooth smooth_slide smooth_slide_curve smooth_slide_shape)
+         smooth_up           (varlag smooth_up smooth_up_slide smooth_up_slide_curve smooth_up_slide_shape)
+         smooth_down         (varlag smooth_down smooth_down_slide smooth_down_slide_curve smooth_down_slide_shape)
          rate                (/ 1 phase)
+
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
          double_phase_offset (* 2 phase_offset)
          use-prob            (< probability 1)
@@ -311,6 +327,9 @@
          slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
          slice-amp           (select:kr use-prob [slice-amp
                                                   (* ctl-wave-prob slice-amp)])
+
+         slice-amp           (lag-ud slice-amp smooth_up smooth_down)
+         slice-amp           (lag slice-amp smooth)
          [in-l in-r]         (* pre_amp (in in_bus 2))
          [new-l new-r]       (* slice-amp [in-l in-r])
          fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
@@ -442,7 +461,6 @@
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
-
 
 
  (defsynth sonic-pi-fx_compressor
@@ -1217,9 +1235,6 @@
          fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
-
-
-
 
 
  ;;(def ab (audio-bus 2))
