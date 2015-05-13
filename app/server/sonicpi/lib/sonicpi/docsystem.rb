@@ -114,7 +114,7 @@ module SonicPi
                 end
                 html << "</table></p>\n"
               end
-              
+
               html << "</body>\n"
               res[k.to_s] = html
             end
@@ -127,9 +127,9 @@ module SonicPi
           @@docs[args_h[:name]] = args_h
         end
 
-        def ring_fns
+        def vec_fns
           @@docs.values.select do |info|
-            info[:returns] == :ring
+            info[:returns] == :ring || info[:returns] == :vector || info[:returns] == :ramp
           end
         end
       end
