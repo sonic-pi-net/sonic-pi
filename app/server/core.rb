@@ -109,7 +109,11 @@ module SonicPi
           idx = map_index(idx)
           super idx
         else
-          super
+          if missing_length
+            super(idx)
+          else
+            super(idx, len)
+          end
         end
       end
 
