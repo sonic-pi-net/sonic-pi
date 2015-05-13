@@ -2848,14 +2848,14 @@ module SonicPi
         :smooth_up =>
         {
           :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going up. This smoothing happens before the main smooth mechanism.",
-          :validations => [v_positive(:smooth)],
+          :validations => [v_positive(:smooth_up)],
           :modulatable => true
         },
 
         :smooth_down =>
         {
           :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going down. This smoothing happens before the main smooth mechanism.",
-          :validations => [v_positive(:smooth)],
+          :validations => [v_positive(:smooth_down)],
           :modulatable => true
         },
 
