@@ -42,12 +42,14 @@ QStringList QsciLexer::autoCompletionWordSeparators() const {
 void SonicPiLexer::highlightAll()
 {
     setPaper(QColor("deeppink"),-1);
+    setColor(QColor("white"), -1);
     this->setDefaultPaper(theme->color("Background"));
 }
 
 void SonicPiLexer::unhighlightAll()
 {
     setPaper(theme->color("DefaultBackground"),-1);
+    this->setDefaultColor(theme->color("Foreground"));
 }
 
 QColor SonicPiLexer::defaultColor(int style) const
