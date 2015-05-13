@@ -48,6 +48,14 @@ SonicPiTheme::SonicPiTheme(QObject *parent, const QJsonObject& settings) : QObje
     themeSettings["StdinBackground"]                 = "#ff8080";
     themeSettings["StdoutBackground"]                = "#ff8080";
     themeSettings["StderrBackground"]                = "#ff8080";
+    themeSettings["NumberBackground"]                = "white";
+    themeSettings["DoubleQuotedStringBackground"]    = "white";
+    themeSettings["SingleQuotedStringBackground"]    = "white";
+    themeSettings["InstanceVariableBackground"]      = "white";
+    themeSettings["SymbolBackground"]                = "white";
+    themeSettings["DemotedKeywordBackground"]        = "white";
+    themeSettings["KeywordBackground"]               = "white";
+    themeSettings["FunctionMethodNameBackground"]    = "white";
 
     themeSettings["MarginBackground"]            = "whitesmoke";
     themeSettings["MarginForeground"]            = "dark gray";
