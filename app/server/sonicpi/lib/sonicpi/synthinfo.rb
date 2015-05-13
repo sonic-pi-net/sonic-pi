@@ -30,7 +30,7 @@ module SonicPi
     end
 
     def doc
-       "Please write documentation!"
+      "Please write documentation!"
     end
 
     def arg_defaults
@@ -95,7 +95,7 @@ module SonicPi
 
       args_h.each do |k, v|
         k_sym = k.to_sym
-#        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
+        #        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
 
         arg_validations(k_sym).each do |v_fn, msg|
           raise "Value of argument #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
@@ -661,10 +661,10 @@ module SonicPi
 
     def arg_defaults
       super.merge({
-        :pulse_width => 0.5,
-        :pulse_width_slide => 0,
-        :pulse_width_slide_shape => 5,
-        :pulse_width_slide_curve => 0})
+                    :pulse_width => 0.5,
+                    :pulse_width_slide => 0,
+                    :pulse_width_slide_shape => 5,
+                    :pulse_width_slide_curve => 0})
     end
   end
 
@@ -1471,7 +1471,7 @@ module SonicPi
     end
 
     def doc
-     "A deep rumbling growl with a bright sine shining through at higher notes."
+      "A deep rumbling growl with a bright sine shining through at higher notes."
     end
 
     def arg_defaults
@@ -1525,7 +1525,7 @@ module SonicPi
     end
 
     def doc
-     "A slow rolling bass with a sparkle of light trying to escape the darkness. Great for an ambient sound."
+      "A slow rolling bass with a sparkle of light trying to escape the darkness. Great for an ambient sound."
     end
 
     def arg_defaults
@@ -1627,32 +1627,32 @@ module SonicPi
     end
 
     def doc
-     "A deep, rolling sea horn echoing across the empty water."
+      "A deep, rolling sea horn echoing across the empty water."
     end
 
     def arg_defaults
       {:note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :attack => 1,
-       :decay => 0,
-       :sustain => 0,
-       :release => 4.0,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :attack => 1,
+        :decay => 0,
+        :sustain => 0,
+        :release => 4.0,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2
       }
     end
   end
@@ -1671,7 +1671,7 @@ module SonicPi
     end
 
     def doc
-     "Simulating the sound of a vibrato human singer.
+      "Simulating the sound of a vibrato human singer.
 
      #Bass
      singer note: :G2
@@ -1688,27 +1688,27 @@ module SonicPi
 
     def arg_defaults
       {:note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :attack => 1,
-       :decay => 0,
-       :sustain => 0,
-       :release => 4.0,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :attack => 1,
+        :decay => 0,
+        :sustain => 0,
+        :release => 4.0,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2
       }
     end
 
@@ -1740,7 +1740,7 @@ module SonicPi
     end
 
     def doc
-     "A hollow breathy sound constructed from random noise"
+      "A hollow breathy sound constructed from random noise"
     end
 
     def arg_defaults
@@ -1824,7 +1824,7 @@ module SonicPi
     end
 
     def doc
-     "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths). "
+      "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths). "
     end
 
     def arg_defaults
@@ -1967,7 +1967,7 @@ module SonicPi
 
     def doc
       "Dark and swirly, this synth uses Pulse Width Modulation (PWM) to create a timbre which continually moves around. This effect is created using the pulse ugen which produces a variable width square wave. We then control the width of the pulses using a variety of LFOs - sin-osc and lf-tri in this case. We use a number of these LFO modulated pulse ugens with varying LFO type and rate (and phase in some cases to provide the LFO with a different starting point. We then mix all these pulses together to create a thick sound and then feed it through a resonant low pass filter (rlpf). For extra bass, one of the pulses is an octave lower (half the frequency) and its LFO has a little bit of randomisation thrown into its frequency component for that extra bit of variety."
-end
+    end
 
     def arg_defaults
       {
@@ -2005,8 +2005,8 @@ end
 
   end
 
- class Pitchless < SonicPiSynth
- end
+  class Pitchless < SonicPiSynth
+  end
 
   class Noise < Pitchless
     def name
@@ -3153,7 +3153,7 @@ end
         },
 
         :phase_offset =>
-           {
+        {
           :doc => "Initial modulation phase offset (a value between 0 and 1).",
           :validations => [v_between_inclusive(:phase_offset, 0, 1)],
           :modulatable => false
@@ -3640,11 +3640,11 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
 
     def arg_defaults
       super.merge({
-        :res => 0.5,
-        :res_slide => 0,
-        :res_slide_shape => 5,
-        :res_slide_curve => 0
-      })
+                    :res => 0.5,
+                    :res_slide => 0,
+                    :res_slide_shape => 5,
+                    :res_slide_curve => 0
+                  })
     end
 
     def doc
@@ -3652,7 +3652,7 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
   end
 
-    class FXNBPF < FXBPF
+  class FXNBPF < FXBPF
     def name
       "Normalised Band Pass Filter"
     end
@@ -3823,7 +3823,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       "fx_nrhpf"
     end
 
-      "A resonant high pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard high pass filter and then normalised to ensure the amplitude of the final output is constant. A high pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for hpf."
+    "A resonant high pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard high pass filter and then normalised to ensure the amplitude of the final output is constant. A high pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for hpf."
   end
 
   class FXLPF < FXInfo
@@ -4147,7 +4147,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           :bpm_scale => true
         }
       }
-      end
+    end
   end
 
 
@@ -4191,7 +4191,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
     end
   end
 
-    class FXFlanger < FXInfo
+  class FXFlanger < FXInfo
     def name
       "Flanger"
     end
@@ -4325,7 +4325,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         }
 
       }
-      end
+    end
   end
 
   class BaseInfo
@@ -4502,8 +4502,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :dark_ambience => DarkAmbience.new,
       :growl => Growl.new,
       :hollow => Hollow.new,
-#      :dark_sea_horn => DarkSeaHorn.new,
-#      :singer        => Singer.new,
+      #      :dark_sea_horn => DarkSeaHorn.new,
+      #      :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
 
@@ -4755,7 +4755,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       res = {}
 
       grouped_samples.each do |k, v|
-      cnt = 0
+        cnt = 0
         cnt = 0
         doc = ""
         doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
