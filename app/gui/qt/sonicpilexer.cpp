@@ -102,7 +102,7 @@ QColor SonicPiLexer::defaultColor(int style) const
 QColor SonicPiLexer::defaultPaper(int style) const
 {
   switch (style)
-    {
+  {
     case Default:
       return theme->color("DefaultBackground");
     case Comment:
@@ -133,9 +133,36 @@ QColor SonicPiLexer::defaultPaper(int style) const
       return theme->color("StdoutBackground");
     case Stderr:
       return theme->color("StderrBackground");
-    }
-
-    return QsciLexer::defaultPaper(style);
+    case FunctionMethodName:
+      return theme->color("FunctionMethodNameBackground");
+    case Number:
+     return theme->color("NumberBackground");
+    case Keyword:
+      return theme->color("KeywordBackground");
+    case DemotedKeyword:
+      return theme->color("DemotedKeywordBackground");
+    case DoubleQuotedString:
+      return theme->color("DoubleQuotedStringBackground");
+    case SingleQuotedString:
+      return theme->color("SingleQuotedStringBackground");
+    case PercentStringq:
+      return theme->color("PercentStringqBackground");
+    case PercentStringQ:
+      return theme->color("PercentStringQBackground");
+    case ClassName:
+      return theme->color("ClassNameBackground");
+    case Global:
+      return theme->color("GlobalBackground");
+    case Symbol:
+      return theme->color("SymbolBackground");
+    case ModuleName:
+      return theme->color("ModuleNameBackground");
+    case InstanceVariable:
+      return theme->color("InstanceVariableBackground");
+    case ClassVariable:
+      return theme->color("ClassVariableBackground");
+  }
+  return QsciLexer::defaultPaper(style);
 }
 
 
