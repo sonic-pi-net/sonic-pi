@@ -48,8 +48,34 @@ void SonicPiLexer::highlightAll()
 
 void SonicPiLexer::unhighlightAll()
 {
-    setPaper(theme->color("DefaultBackground"),-1);
-    this->setDefaultColor(theme->color("Foreground"));
+    setPaper(theme->color("Background"));
+    setColor(theme->color("Foreground"));
+
+    setColor(theme->color("DefaultForeground"), Default);
+    setColor(theme->color("CommentForeground"),Comment);
+    setColor(theme->color("PODForeground"),POD);
+    setColor(theme->color("NumberForeground"),Number);
+    setColor(theme->color("FunctionMethodNameForeground"),FunctionMethodName);
+    setColor(theme->color("KeywordForeground"),Keyword);
+    setColor(theme->color("DemotedKeywordForeground"),DemotedKeyword);
+    setColor(theme->color("DoubleQuotedStringForeground"),DoubleQuotedString);
+    setColor(theme->color("SingleQuotedStringForeground"),SingleQuotedString);
+    setColor(theme->color("HereDocumentForeground"),HereDocument);
+    setColor(theme->color("PercentStringqForeground"),PercentStringq);
+    setColor(theme->color("PercentStringQForeground"),PercentStringQ);
+    setColor(theme->color("ClassNameForeground"),ClassName);
+    setColor(theme->color("RegexForeground"),Regex);
+    setColor(theme->color("HereDocumentDelimiterForeground"),HereDocumentDelimiter);
+    setColor(theme->color("PercentStringrForeground"),PercentStringr);
+    setColor(theme->color("PercentStringwForeground"),PercentStringw);
+    setColor(theme->color("GlobalForeground"),Global);
+    setColor(theme->color("SymbolForeground"),Symbol);
+    setColor(theme->color("ModuleNameForeground"),ModuleName);
+    setColor(theme->color("InstanceVariableForeground"),InstanceVariable);
+    setColor(theme->color("ClassVariableForeground"),ClassVariable);
+    setColor(theme->color("BackticksForeground"),Backticks);
+    setColor(theme->color("PercentStringxForeground"),PercentStringx);
+    setColor(theme->color("DataSectionForeground"),DataSection);
 }
 
 QColor SonicPiLexer::defaultColor(int style) const
