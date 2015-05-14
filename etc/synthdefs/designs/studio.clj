@@ -75,14 +75,37 @@
      (disk-out out-buf (in in_bus 2)))
 
 
-   (defsynth sonic-pi-sound_in [amp 1
+   (defsynth sonic-pi-sound_in [                           amp 1
                                 amp_slide 0
+                                amp_slide_shape 5
+                                amp_slide_curve 0
                                 pan 0
                                 pan_slide 0
+                                pan_slide_shape 5
+                                pan_slide_curve 0
+                                attack 0.01
+                                decay 0
+                                sustain 0
+                                release 2
+                                attack_level 1
+                                sustain_level 1
+                                env_curve 2
+                                cutoff 100
+                                cutoff_slide 0
+                                cutoff_slide_shape 5
+                                cutoff_slide_curve 0
+
                                 input 0
                                 out_bus 0]
-     (let [snd (sound-in 0)]
-       (out out_bus (pan2 snd pan amp)))))
+     (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+           cutoff-freq (midicps cutoff)
+           snd         (lpf snd cutoff-freq)
+           snd         (sound-in input)
+
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+       (out out_bus (pan2 (* env snd) pan amp)))))
 
 
   (comment
