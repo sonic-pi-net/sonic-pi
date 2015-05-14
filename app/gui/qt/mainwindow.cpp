@@ -433,6 +433,7 @@ void MainWindow::updateFocusMode(){
     outputWidget->close();
     toolBar->close();
     prefsWidget->close();
+    statusBar()->close();
 
     QTabBar *tabBar = tabs->findChild<QTabBar *>();
     tabBar->hide();
@@ -451,6 +452,7 @@ void MainWindow::disableFocusMode(){
   }
   outputWidget->show();
   toolBar->show();
+  statusBar()->show();
 
   QTabBar *tabBar = tabs->findChild<QTabBar *>();
   tabBar->show();
