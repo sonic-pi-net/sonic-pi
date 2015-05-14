@@ -368,7 +368,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // connect(docWidget, SIGNAL(visibilityChanged(bool)), this,
   // SLOT(helpClosed(bool)));
 
-  QVBoxLayout *mainWidgetLayout = new QVBoxLayout;
+  mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
   mainWidgetLayout->addWidget(errorPane);
   QWidget *mainWidget = new QWidget;
@@ -410,10 +410,57 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     docWidget->show();
     startupPane->show();
   }
+
+  focusMode = false;
+  disableFocusMode();
 }
 
 void MainWindow::changeTab(int id){
   tabs->setCurrentIndex(id);
+}
+
+void MainWindow::updateFocusMode(){
+  if(focusMode == true){
+    focusMode = false;
+    disableFocusMode();
+  }
+  else{
+    focusMode = true;
+    if(docWidget->isVisible()){
+      restoreDocPane = true;
+      docWidget->close();
+    }
+    outputWidget->close();
+    toolBar->close();
+    prefsWidget->close();
+    statusBar()->close();
+
+    QTabBar *tabBar = tabs->findChild<QTabBar *>();
+    tabBar->hide();
+
+    mainWidgetLayout->setMargin(0);
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowState(Qt::WindowFullScreen);
+    this->show();
+  }
+}
+
+void MainWindow::disableFocusMode(){
+ if(restoreDocPane){
+    docWidget->show();
+    restoreDocPane = false;
+  }
+  outputWidget->show();
+  toolBar->show();
+  statusBar()->show();
+
+  QTabBar *tabBar = tabs->findChild<QTabBar *>();
+  tabBar->show();
+
+  mainWidgetLayout->setMargin(9);
+  this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
+  this->setWindowFlags(Qt::WindowTitleHint);
+  this->show();
 }
 
 void MainWindow::completeListOrIndentLine(QObject* ws){
@@ -1360,6 +1407,7 @@ void MainWindow::createShortcuts()
   new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
+  new QShortcut(QKeySequence("F10"), this, SLOT(updateFocusMode()));
 }
 
 void MainWindow::createToolBar()

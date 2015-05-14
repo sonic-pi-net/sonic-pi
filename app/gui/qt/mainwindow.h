@@ -22,6 +22,7 @@
 #include <QRadioButton>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QVBoxLayout>
 #include <QProcess>
 #include <QFuture>
 #include <QShortcut>
@@ -133,6 +134,8 @@ private slots:
     void docScrollUp();
     void docScrollDown();
     void helpClosed(bool visible);
+    void updateFocusMode();
+    void disableFocusMode();
 
 private:
     QSignalMapper *signalMapper;
@@ -175,6 +178,7 @@ private:
     QFuture<void> osc_thread, server_thread;
     int protocol;
 
+    bool focusMode;
     bool startup_error_reported;
     bool is_recording;
     bool show_rec_icon_a;
@@ -201,6 +205,7 @@ private:
     QTextBrowser *docPane;
     QTextBrowser *hudPane;
     bool hidingDocPane;
+    bool restoreDocPane;
 
     QTabWidget *tabs;
 
@@ -236,6 +241,7 @@ private:
     QWidget *infoWidg;
     QTextEdit *startupPane;
     QLabel *imageLabel;
+    QVBoxLayout *mainWidgetLayout;
 
     int currentLine;
     int currentIndex;
