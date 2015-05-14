@@ -395,9 +395,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   initPrefsWindow();
   initDocsWindow();
 
-  focusMode = false;
-  disableFocusMode();
-
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
 
   if(settings.value("first_time", 1).toInt() == 1) {
@@ -413,6 +410,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     docWidget->show();
     startupPane->show();
   }
+
+  focusMode = false;
+  disableFocusMode();
 }
 
 void MainWindow::changeTab(int id){
@@ -426,8 +426,10 @@ void MainWindow::updateFocusMode(){
   }
   else{
     focusMode = true;
-    hudWidget->close();
-    docWidget->close();
+    if(docWidget->isVisible()){
+      restoreDocPane = true;
+      docWidget->close();
+    }
     outputWidget->close();
     toolBar->close();
     prefsWidget->close();
@@ -443,8 +445,10 @@ void MainWindow::updateFocusMode(){
 }
 
 void MainWindow::disableFocusMode(){
-  hudWidget->show();
-  docWidget->show();
+ if(restoreDocPane){
+    docWidget->show();
+    restoreDocPane = false;
+  }
   outputWidget->show();
   toolBar->show();
 

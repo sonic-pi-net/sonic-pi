@@ -205,6 +205,7 @@ private:
     QTextBrowser *docPane;
     QTextBrowser *hudPane;
     bool hidingDocPane;
+    bool restoreDocPane;
 
     QTabWidget *tabs;
 
