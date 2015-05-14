@@ -59,7 +59,8 @@ SOURCES += main.cpp \
            oschandler.cpp \
            sonicpiserver.cpp \
            sonicpiudpserver.cpp \
-           sonicpitcpserver.cpp
+           sonicpitcpserver.cpp \
+           sonicpitheme.cpp
 win32 {
 # have to link these explicitly for some reason
   SOURCES += platform/win/moc_qsciscintilla.cpp \
@@ -76,7 +77,8 @@ HEADERS  += mainwindow.h \
             sonicpiserver.h \
             sonicpiudpserver.h \
             ruby_help.h \
-            sonicpitcpserver.h
+            sonicpitcpserver.h \
+            sonicpitheme.h
 
 TRANSLATIONS = lang/sonic-pi_de.ts
 

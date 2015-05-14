@@ -67,6 +67,7 @@
 #include "sonicpilexer.h"
 #include "sonicpiapis.h"
 #include "sonicpiscintilla.h"
+#include "sonicpitheme.h"
 
 #include "oschandler.h"
 #include "sonicpiudpserver.h"
@@ -154,7 +155,24 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   tabs->setTabPosition(QTabWidget::South);
 
   // Syntax highlighting
-  lexer = new SonicPiLexer;
+
+  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.json";
+  QFile themeFile(themeFilename);
+  SonicPiTheme *theme;
+  if(themeFile.exists()){
+    qDebug() << "[GUI] Custom colors";
+    themeFile.open(QIODevice::ReadOnly);
+    QByteArray rawData = themeFile.readAll();
+    QJsonDocument doc(QJsonDocument::fromJson(rawData));
+    theme = new SonicPiTheme(this, doc.object());
+    lexer = new SonicPiLexer(theme);
+  }
+  else{
+    qDebug() << "[GUI] Default colors";
+    theme = new SonicPiTheme(this, QJsonObject());
+    lexer = new SonicPiLexer(theme);
+  }
+
   lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
   // create workspaces and add them to the tabs
@@ -164,7 +182,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::string s;
 
 
-    SonicPiScintilla *workspace = new SonicPiScintilla(lexer);
+    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme);
 
     //tab completion when in list
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
@@ -905,7 +923,8 @@ void MainWindow::runCode()
     ws->getCursorPosition(&currentLine, &currentIndex);
   }
   ws->setReadOnly(true);
-  ws->selectAll();
+  lexer->highlightAll();
+
   resetErrorPane();
   statusBar()->showMessage(tr("Running Code..."), 1000);
   std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
@@ -940,7 +959,7 @@ void MainWindow::runCode()
 void MainWindow::unhighlightCode()
 {
   SonicPiScintilla *ws = (SonicPiScintilla *)tabs->currentWidget();
-  ws->selectAll(false);
+  lexer->unhighlightAll();
   if (currentLine != 0 || currentIndex != 0) {
     ws->setCursorPosition(currentLine, currentIndex);
     currentLine = 0; currentIndex = 0;

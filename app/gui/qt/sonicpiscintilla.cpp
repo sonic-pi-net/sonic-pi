@@ -19,7 +19,7 @@
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   : QsciScintilla()
 {
   standardCommands()->clearKeys();
@@ -107,22 +107,23 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
 
   standardCommands()->readSettings(settings);
 
-  setMatchedBraceBackgroundColor(QColor("dimgray"));
-  setMatchedBraceForegroundColor(QColor("white"));
+  this->setMatchedBraceBackgroundColor(theme->color("MatchedBraceBackground"));
+  this->setMatchedBraceForegroundColor(theme->color("MatchedBraceForeground"));
 
   setIndentationWidth(2);
   setIndentationGuides(true);
-  setIndentationGuidesForegroundColor(QColor("deep pink"));
+  setIndentationGuidesForegroundColor(theme->color("IndentationGuidesForeground"));
   setBraceMatching( SonicPiScintilla::SloppyBraceMatch);
 
   //TODO: add preference toggle for this:
-  //setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
+  //this->setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
   setCaretLineVisible(true);
-  setCaretLineBackgroundColor(QColor("whitesmoke"));
-  setFoldMarginColors(QColor("whitesmoke"),QColor("whitesmoke"));
+  setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
+  setFoldMarginColors(theme->color("FoldMarginForeground"),theme->color("FoldMarginForeground"));
   setMarginLineNumbers(0, true);
-  setMarginsBackgroundColor(QColor("whitesmoke"));
-  setMarginsForegroundColor(QColor("dark gray"));
+
+  setMarginsBackgroundColor(theme->color("MarginBackground"));
+  setMarginsForegroundColor(theme->color("MarginForeground"));
   setMarginsFont(QFont("Menlo", 15, -1, true));
   setUtf8(true);
   setText("#loading...");
@@ -132,10 +133,10 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer)
   setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
   setAutoCompletionCaseSensitivity(false);
 
-  setSelectionBackgroundColor("DeepPink");
-  setSelectionForegroundColor("white");
+  setSelectionBackgroundColor(theme->color("SelectionBackground"));
+  setSelectionForegroundColor(theme->color("SelectionForeground"));
   setCaretWidth(5);
-  setCaretForegroundColor("deep pink");
+  setCaretForegroundColor(theme->color("CaretForeground"));
   setEolMode(EolUnix);
 
   addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
