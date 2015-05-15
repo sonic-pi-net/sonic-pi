@@ -13,7 +13,6 @@
 
 
 #include <Qsci/qsciscintilla.h>
-#include <QJsonObject>
 #include "sonicpitheme.h"
 
 class SonicPiLexer;

@@ -1,9 +1,9 @@
 
 #include "sonicpitheme.h"
 
-SonicPiTheme::SonicPiTheme(QObject *parent, const QJsonObject& settings) : QObject(parent)
+SonicPiTheme::SonicPiTheme(QObject *parent, const QSettings& settings) : QObject(parent)
 {
-    QJsonObject themeSettings = QJsonObject();
+    QMap<QString, QString> themeSettings;
     themeSettings["Foreground"] = "black";
     themeSettings["Background"] = "white";
 
@@ -70,16 +70,16 @@ SonicPiTheme::SonicPiTheme(QObject *parent, const QJsonObject& settings) : QObje
     themeSettings["FoldMarginForeground"]        = "whitesmoke";
 
 
-    QStringList customSettings = settings.keys();
+    QStringList customSettings = settings.allKeys();
     for(int idx=0; idx < customSettings.size(); idx++){
-      themeSettings[customSettings[idx]] = settings[customSettings[idx]];
+      themeSettings[customSettings[idx]] = settings.value(customSettings[idx]).toString();
     }
 
     this->theme = themeSettings;
 }
 
 QColor SonicPiTheme::color(QString key){
-    return theme[key].toString();
+    return theme[key];
 }
 
 SonicPiTheme::~SonicPiTheme(){}
