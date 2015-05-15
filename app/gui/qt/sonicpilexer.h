@@ -13,7 +13,6 @@
 
 
 #include  <Qsci/qscilexerruby.h>
-#include <QJsonObject>
 
 #include "sonicpitheme.h"
 

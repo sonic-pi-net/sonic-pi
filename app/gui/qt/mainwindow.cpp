@@ -156,20 +156,18 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Syntax highlighting
 
-  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.json";
+  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
   QFile themeFile(themeFilename);
   SonicPiTheme *theme;
   if(themeFile.exists()){
     qDebug() << "[GUI] Custom colors";
-    themeFile.open(QIODevice::ReadOnly);
-    QByteArray rawData = themeFile.readAll();
-    QJsonDocument doc(QJsonDocument::fromJson(rawData));
-    theme = new SonicPiTheme(this, doc.object());
+    QSettings settings(themeFilename, QSettings::IniFormat);
+    theme = new SonicPiTheme(this, settings);
     lexer = new SonicPiLexer(theme);
   }
   else{
     qDebug() << "[GUI] Default colors";
-    theme = new SonicPiTheme(this, QJsonObject());
+    theme = new SonicPiTheme(this, QSettings());
     lexer = new SonicPiLexer(theme);
   }
 
