@@ -894,41 +894,6 @@
      (out out_bus [fin-l fin-r])))
 
 
- (defsynth sonic-pi-fx_bpf
-   [amp 1
-    amp_slide 0
-    amp_slide_shape 5
-    amp_slide_curve 0
-    mix 1
-    mix_slide 0
-    mix_slide_shape 5
-    mix_slide_curve 0
-    pre_amp 1
-    pre_amp_slide 0
-    pre_amp_slide_shape 5
-    pre_amp_slide_curve 0
-    freq 100
-    freq_slide 0
-    freq_slide_shape 5
-    freq_slide_curve 0
-    mod_amp 1
-    mod_amp_slide 0
-    mod_amp_slide_shape 5
-    mod_amp_slide_curve 0
-    in_bus 0
-    out_bus 0]
-   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
-         pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
-         freq          (varlag freq freq_slide freq_slide_curve freq_slide_shape)
-         freq          (midicps freq)
-
-         [in-l in-r]   (* pre_amp (in in_bus 2))
-         [new-l new-r] (* [in-l in-r] (* (sin-osc freq) mod_amp))
-         fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
-         fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
-     (out out_bus [fin-l fin-r])))
-
 
  (defsynth sonic-pi-fx_bpf
    [amp 1
@@ -966,6 +931,8 @@
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
+
+
 
  (defsynth sonic-pi-fx_rbpf
    [amp 1
