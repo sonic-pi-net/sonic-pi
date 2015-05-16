@@ -9,7 +9,7 @@ class SonicPiTheme : public QObject
 {
     Q_OBJECT
 public:
-    explicit SonicPiTheme(QObject *parent = 0, const QSettings& settings = QSettings());
+    explicit SonicPiTheme(QObject *parent = 0, QSettings *settings = 0);
     ~SonicPiTheme();
     QColor color(QString);
 

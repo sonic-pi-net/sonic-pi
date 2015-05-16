@@ -1,7 +1,7 @@
 
 #include "sonicpitheme.h"
 
-SonicPiTheme::SonicPiTheme(QObject *parent, const QSettings& settings) : QObject(parent)
+SonicPiTheme::SonicPiTheme(QObject *parent, QSettings *settings) : QObject(parent)
 {
     QMap<QString, QString> themeSettings;
     themeSettings["Foreground"] = "black";
@@ -70,9 +70,11 @@ SonicPiTheme::SonicPiTheme(QObject *parent, const QSettings& settings) : QObject
     themeSettings["FoldMarginForeground"]        = "whitesmoke";
 
 
-    QStringList customSettings = settings.allKeys();
-    for(int idx=0; idx < customSettings.size(); idx++){
-      themeSettings[customSettings[idx]] = settings.value(customSettings[idx]).toString();
+    if(settings!=0){
+      QStringList customSettings = settings->allKeys();
+      for(int idx=0; idx < customSettings.size(); idx++){
+        themeSettings[customSettings[idx]] = settings->value(customSettings[idx]).toString();
+      }
     }
 
     this->theme = themeSettings;
