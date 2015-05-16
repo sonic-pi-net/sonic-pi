@@ -2347,7 +2347,7 @@ sleep 1
        doc name:          :invert_chord,
            introduced:    Version.new(2,6,0),
            summary:       "Invert a chord",
-           doc:           "Given a set of notes, apply a number of inversions indicated by Shift. Inversions being an increase if Shift is positive or decreasing if Shift is negative.",
+           doc:           "Given a set of notes, apply a number of inversions indicated by Shift. Inversions being an increase to notes if Shift is positive or decreasing the notes if Shift is negative.",
            args:          [[:notes, :list], [:shift, :number]],
            returns:        :ring,
            opts:          nil,
