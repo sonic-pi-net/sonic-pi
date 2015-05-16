@@ -971,12 +971,13 @@ void MainWindow::resetErrorPane() {
 
 void MainWindow::runCode()
 {
-   ws->highlightAll();
+  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
+  ws->highlightAll();
   lexer->highlightAll();
 
   resetErrorPane();
   statusBar()->showMessage(tr("Running Code..."), 1000);
-  std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
+  std::string code = ws->text().toStdString();
   Message msg("/save-and-run-buffer");
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
@@ -1005,7 +1006,9 @@ void MainWindow::runCode()
 
 void MainWindow::unhighlightCode()
 {
+  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
   ws->unhighlightAll();
+
   lexer->unhighlightAll();
 }
 
