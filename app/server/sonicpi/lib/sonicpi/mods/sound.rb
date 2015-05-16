@@ -2347,15 +2347,17 @@ sleep 1
        doc name:          :invert_chord,
            introduced:    Version.new(2,6,0),
            summary:       "Invert a chord",
-           doc:           "Given a set of notes inverts the chord",
+           doc:           "Given a set of notes, apply a number of inversions indicated by Shift. Inversions being an increase if Shift is positive or decreasing if Shift is negative.",
            args:          [[:notes, :list], [:shift, :number]],
            returns:        :ring,
            opts:          nil,
            accepts_block: false,
            examples:      ["
-play invert_chord(chord(:A3, \"M\"), 1)
+play invert_chord(chord(:A3, \"M\"), 0) #No inversion
 sleep 1
-play invert_chord(chord(:A3, \"M\"), 2)
+play invert_chord(chord(:A3, \"M\"), 1) #First chord inversion
+sleep 1
+play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
 "]
 
 
