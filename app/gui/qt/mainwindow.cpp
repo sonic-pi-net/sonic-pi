@@ -731,7 +731,7 @@ void MainWindow::initPrefsWindow() {
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
   editor_box->setLayout(editor_box_layout);
-  
+
 #if defined(Q_OS_LINUX)
    grid->addWidget(audioOutputBox, 0, 0);
    grid->addWidget(volBox, 0, 1);
@@ -757,7 +757,7 @@ void MainWindow::initPrefsWindow() {
     go_translate->setTextFormat(Qt::RichText);
     translation_box_layout->addWidget(go_translate);
     translation_box->setLayout(translation_box_layout);
-    
+
     grid->addWidget(translation_box, 3, 0, 1, 2);
   }
 
@@ -971,12 +971,6 @@ void MainWindow::resetErrorPane() {
 
 void MainWindow::runCode()
 {
-  SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
-  if (currentLine == 0 && currentIndex == 0) {
-    // only update saved position if we're not already highlighting code
-    ws->getCursorPosition(&currentLine, &currentIndex);
-  }
-  ws->setReadOnly(true);
   lexer->highlightAll();
 
   resetErrorPane();
@@ -1006,19 +1000,11 @@ void MainWindow::runCode()
   sendOSC(msg);
 
   QTimer::singleShot(500, this, SLOT(unhighlightCode()));
-
-
 }
 
 void MainWindow::unhighlightCode()
 {
-  SonicPiScintilla *ws = (SonicPiScintilla *)tabs->currentWidget();
   lexer->unhighlightAll();
-  if (currentLine != 0 || currentIndex != 0) {
-    ws->setCursorPosition(currentLine, currentIndex);
-    currentLine = 0; currentIndex = 0;
-  }
-  ws->setReadOnly(false);
 }
 
 void MainWindow::beautifyCode()
