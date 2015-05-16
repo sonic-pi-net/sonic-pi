@@ -744,7 +744,7 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
        def play(n, *args)
          ensure_good_timing!
          case n
-         when Array
+         when Array, SonicPi::Core::RingVector
            return play_chord(n, *args)
          when Hash
            # Allow a single hash argument to function unsurprisingly
