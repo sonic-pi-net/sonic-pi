@@ -50,8 +50,11 @@ class SonicPiScintilla : public QsciScintilla
     void deselect();
     void upcaseWordOrSelection();
     void downcaseWordOrSelection();
+    void highlightAll();
+    void unhighlightAll();
 
  private:
+    SonicPiTheme *theme;
     void addKeyBinding(QSettings &qs, int cmd, int key);
     void addOtherKeyBinding(QSettings &qs, int cmd, int key);
 };
