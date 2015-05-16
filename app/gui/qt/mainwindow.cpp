@@ -162,12 +162,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   if(themeFile.exists()){
     qDebug() << "[GUI] Custom colors";
     QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, settings);
+    theme = new SonicPiTheme(this, &settings);
     lexer = new SonicPiLexer(theme);
   }
   else{
     qDebug() << "[GUI] Default colors";
-    theme = new SonicPiTheme(this, QSettings());
+    theme = new SonicPiTheme(this, 0);
     lexer = new SonicPiLexer(theme);
   }
 
