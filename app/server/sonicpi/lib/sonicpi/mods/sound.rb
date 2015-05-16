@@ -2333,6 +2333,34 @@ sleep 1
 
 
 
+       def invert_chord(notes, shift)
+         raise "Shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
+         raise "Notes must be a list of notes, got #{notes.inspect}" unless (notes.is_a?(SonicPi::Core::RingVector) || notes.is_a?(Array))
+         if(shift > 0)
+           invert_chord(notes[1..-1] + [notes[0]+12], shift-1)
+         elsif(shift < 0)
+           invert_chord(notes[1..-1] + [notes[0]-12], shift+1)
+         else
+           notes.ring
+         end
+       end
+       doc name:          :invert_chord,
+           introduced:    Version.new(2,6,0),
+           summary:       "Invert a chord",
+           doc:           "Given a set of notes inverts the chord",
+           args:          [[:notes, :list], [:shift, :number]],
+           returns:        :ring,
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["
+play invert_chord(chord(:A3, \"M\"), 1)
+sleep 1
+play invert_chord(chord(:A3, \"M\"), 2)
+"]
+
+
+
+
        def control(node, *args)
          ensure_good_timing!
          return nil if node.nil?
