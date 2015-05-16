@@ -971,6 +971,7 @@ void MainWindow::resetErrorPane() {
 
 void MainWindow::runCode()
 {
+   ws->highlightAll();
   lexer->highlightAll();
 
   resetErrorPane();
@@ -1004,6 +1005,7 @@ void MainWindow::runCode()
 
 void MainWindow::unhighlightCode()
 {
+  ws->unhighlightAll();
   lexer->unhighlightAll();
 }
 

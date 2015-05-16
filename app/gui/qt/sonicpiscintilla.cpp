@@ -22,6 +22,7 @@
 SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   : QsciScintilla()
 {
+  this->theme = theme;
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
   QString skey;
@@ -145,6 +146,14 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   SendScintilla(SCI_SETWORDCHARS, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:_?!");
 
 
+}
+
+void SonicPiScintilla::highlightAll(){
+  setCaretLineBackgroundColor("deeppink");
+}
+
+void SonicPiScintilla::unhighlightAll(){
+    setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
 }
 
 void SonicPiScintilla::hideLineNumbers(){
