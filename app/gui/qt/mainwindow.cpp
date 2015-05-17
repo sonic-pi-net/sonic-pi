@@ -461,7 +461,7 @@ void MainWindow::disableFocusMode(){
   this->show();
 }
 
-void MainWindow::updateLogVisiblity(){
+void MainWindow::updateLogVisibility(){
   if(outputWidget->isVisible()){
     outputWidget->close();
   }
@@ -1406,7 +1406,7 @@ void MainWindow::createShortcuts()
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
   new QShortcut(QKeySequence("F10"), this, SLOT(updateFocusMode()));
-  new QShortcut(QKeySequence("F11"), this, SLOT(updateLogVisiblity()));
+  new QShortcut(QKeySequence("F11"), this, SLOT(updateLogVisibility()));
 }
 
 void MainWindow::createToolBar()

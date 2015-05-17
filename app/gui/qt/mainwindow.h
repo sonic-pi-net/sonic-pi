@@ -136,7 +136,7 @@ private slots:
     void helpClosed(bool visible);
     void updateFocusMode();
     void disableFocusMode();
-    void updateLogVisiblity();
+    void updateLogVisibility();
 
 private:
     QSignalMapper *signalMapper;
