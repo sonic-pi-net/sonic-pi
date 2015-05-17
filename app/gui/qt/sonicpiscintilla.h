@@ -27,6 +27,8 @@ class SonicPiScintilla : public QsciScintilla
 
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
+  SonicPiTheme *theme;
+  void redraw();
 
   public slots:
     void cutLineFromPoint();
@@ -54,7 +56,6 @@ class SonicPiScintilla : public QsciScintilla
     void unhighlightAll();
 
  private:
-    SonicPiTheme *theme;
     void addKeyBinding(QSettings &qs, int cmd, int key);
     void addOtherKeyBinding(QSettings &qs, int cmd, int key);
 };

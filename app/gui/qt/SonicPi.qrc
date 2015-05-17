@@ -37,6 +37,7 @@
         <file>images/coreteam/jweather.png</file>
         
         <file>html/styles.css</file>
+        <file>html/dark_styles.css</file>
         <file>html/doc.html</file>
         <file>html/info.html</file>
         <file>html/startup.html</file>

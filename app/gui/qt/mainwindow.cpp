@@ -133,11 +133,28 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
 
+  // Syntax highlighting
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
+  QFile themeFile(themeFilename);
+  SonicPiTheme *theme;
+  if(themeFile.exists()){
+    qDebug() << "[GUI] Custom colors";
+    QSettings settings(themeFilename, QSettings::IniFormat);
+    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
+    lexer = new SonicPiLexer(theme);
+  }
+  else{
+    qDebug() << "[GUI] Default colors";
+    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
+    lexer = new SonicPiLexer(theme);
+  }
+
   QThreadPool::globalInstance()->setMaxThreadCount(3);
 
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
 
-  OscHandler* handler = new OscHandler(this, outputPane, errorPane);
+  OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
 
   if(protocol == UDP){
     sonicPiServer = new SonicPiUDPServer(this, handler);
@@ -153,23 +170,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   tabs->setTabsClosable(false);
   tabs->setMovable(false);
   tabs->setTabPosition(QTabWidget::South);
-
-  // Syntax highlighting
-
-  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-  QFile themeFile(themeFilename);
-  SonicPiTheme *theme;
-  if(themeFile.exists()){
-    qDebug() << "[GUI] - Custom colours";
-    QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, &settings);
-    lexer = new SonicPiLexer(theme);
-  }
-  else{
-    qDebug() << "[GUI] - Default colours";
-    theme = new SonicPiTheme(this, 0);
-    lexer = new SonicPiLexer(theme);
-  }
 
   lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
@@ -369,7 +369,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
   mainWidgetLayout->addWidget(errorPane);
-  QWidget *mainWidget = new QWidget;
+  mainWidget = new QWidget;
   mainWidget->setFocusPolicy(Qt::NoFocus);
   errorPane->hide();
   mainWidget->setLayout(mainWidgetLayout);
@@ -393,8 +393,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   initPrefsWindow();
   initDocsWindow();
 
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-
   if(settings.value("first_time", 1).toInt() == 1) {
     QTextBrowser* startupPane = new QTextBrowser;
     startupPane->setFixedSize(600, 615);
@@ -412,6 +410,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   focusMode = false;
   restoreDocPane = false;
+  changeTheme();
   disableFocusMode();
 }
 
@@ -726,12 +725,16 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *editor_box = new QGroupBox(tr("Editor"));
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
+  dark_mode = new QCheckBox(tr("Dark mode"));
 
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
+  connect(dark_mode, SIGNAL(clicked()), this, SLOT(changeTheme()));
+
   editor_box->setToolTip(tr("Editor Preferences"));
 
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
+  editor_box_layout->addWidget(dark_mode);
   editor_box->setLayout(editor_box_layout);
 
 #if defined(Q_OS_LINUX)
@@ -771,6 +774,7 @@ void MainWindow::initPrefsWindow() {
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
+  dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
 
@@ -1203,6 +1207,63 @@ void MainWindow::changeRPSystemVol(int val)
 
 }
 
+void MainWindow::changeTheme(){
+  SonicPiTheme *currentTheme = lexer->theme;
+
+  if(dark_mode->isChecked()){
+    currentTheme->darkMode();
+
+    QString windowColor = currentTheme->color("WindowBackground").name();
+    this->setStyleSheet(QString("QDockWidget {color:#FFF; background-color: %1;} QMainWindow::separator{border: 1px solid #222;} QMainWindow{background-color: %1; color:#fff}; QFrame{border: 1px solid #222;}").arg(windowColor));
+    statusBar()->setStyleSheet(QString("QStatusBar{color:#FFF; background-color: %1; border-top: 1px solid #222;}").arg(windowColor));
+
+    outputPane->setStyleSheet("QTextEdit{background-color: #000; color:#fff; border: 0px;}");
+    outputWidget->setStyleSheet(QString("QDockWidget{color: #FFF; background-color: #000} QDockWidget::title{color: #FFF; border-bottom: 1px solid #222; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor));
+
+    prefsWidget->setStyleSheet(QString("QGroupBox{font-size: 11px;} QDockWidget *{color: #FFF;} QDockWidget::title{font: bold 2px; color: #FFF; border-bottom: 1px solid #222; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor));
+    tabs->setStyleSheet("QTabBar::tab{background: #1c2529; color:#ffffff;} QTabBar::tab:selected{background: #0b1418}");
+
+    docPane->setStyleSheet("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:#000;}");
+    docsCentral->setStyleSheet("QTabBar::tab{background: #1c2529; color:#ffffff;} QTabBar::tab:selected{background: #0b1418}");
+    docWidget->setStyleSheet(QString("QDockWidget QListView {color: #fff; background-color:#000;} QDockWidget::title{color: #FFF; border-bottom: 1px solid #222; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor));
+    toolBar->setStyleSheet(QString("QToolBar{background-color: %1; border-bottom: 1px solid #222;}").arg(windowColor));
+    mainWidget->setStyleSheet("QsciScintillaBase{ border: 1px solid #222;}");
+
+    errorPane->setStyleSheet("QTextEdit{background-color: #000;}");
+
+    for(int i=0; i < tabs->count(); i++){
+      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+      ws->setStyleSheet("QsciScintillaBase{ border: 0px;} ");
+    }
+
+  }else{
+    this->setStyleSheet("");
+    mainWidget->setStyleSheet("");
+    statusBar()->setStyleSheet("");
+    outputPane->setStyleSheet("");
+    outputWidget->setStyleSheet("");
+    prefsWidget->setStyleSheet("");
+    tabs->setStyleSheet("");
+    docsCentral->setStyleSheet("");
+    docWidget->setStyleSheet("");
+    toolBar->setStyleSheet("");
+    errorPane->setStyleSheet("");
+    currentTheme->lightMode();
+    docPane->setStyleSheet("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}");
+
+    for(int i=0; i < tabs->count(); i++){
+      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+      ws->setStyleSheet("");
+    }
+  }
+
+  for(int i=0; i < tabs->count(); i++){
+    SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+      ws->redraw();
+    }
+  lexer->unhighlightAll();
+}
+
 void MainWindow::changeShowLineNumbers(){
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
@@ -1619,6 +1680,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/print-output", print_output->isChecked());
   settings.setValue("prefs/clear-output-on-run", clear_output_on_run->isChecked());
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
+  settings.setValue("prefs/dark-mode", dark_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
 
@@ -1721,6 +1783,9 @@ void MainWindow::onExitCleanup()
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
   QString content = cur->data(32).toString();
+  if(dark_mode->isChecked()){
+    content = QString("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/dark_styles.css\"/></head>"+content);
+  }
   docPane->setHtml(content);
 }
 
