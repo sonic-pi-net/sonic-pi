@@ -2173,7 +2173,7 @@ play_pattern scale(:C, :lydian_minor)
 
 
        def chord_degree(degree, tonic, scale=:major, number_of_notes=4)
-         Chord.resolve_degree(degree, tonic, scale, number_of_notes)
+         Chord.resolve_degree(degree, tonic, scale, number_of_notes).ring
        end
        doc name:          :chord_degree,
            introduced:    Version.new(2,1,0),
