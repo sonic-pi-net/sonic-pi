@@ -2,7 +2,7 @@
 
 # Unentbehrliche Kenntnisse
 
-In diesem Kapitel findest sehr nützliches - nein, *unentbehrliches* - 
+In diesem Kapitel findest Du sehr nützliches - nein, *unentbehrliches* - 
 Wissen, um das Bestmögliche aus Deinem Sonic Pi herauszuholen.
 
 Wir behandeln viele der verfügbaren Tastaturkürzel, zeigen, wie Du 
