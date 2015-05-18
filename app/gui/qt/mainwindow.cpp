@@ -1155,7 +1155,7 @@ void MainWindow::helpContext()
       if (!text[start-1].isLetter() && text[start-1] != '_') break;
     }
     for (end = pos; end < text.length(); end++) {
-      if (!text[end].isLetter() && text[end] != '_') break;
+      if (!text[end].isLetter() && text[end] != '_' && text[end] !='?') break;
     }
     selection = text.mid(start, end-start);
   }
