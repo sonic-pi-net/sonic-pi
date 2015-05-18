@@ -396,7 +396,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
 
   if(settings.value("first_time", 1).toInt() == 1) {
-    QTextEdit* startupPane = new QTextEdit;
+    QTextEdit* startupPane = new QTextBrowser;
     startupPane->setReadOnly(true);
     startupPane->setFixedSize(600, 615);
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -405,6 +405,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QString html;
 
     startupPane->setHtml(readFile(":/html/startup.html"));
+    startupPane->setStyleSheet(defaultTextBrowserStyle);
+
     docWidget->show();
     startupPane->show();
   }
