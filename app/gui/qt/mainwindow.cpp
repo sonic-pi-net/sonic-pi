@@ -396,7 +396,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
 
   if(settings.value("first_time", 1).toInt() == 1) {
-    QTextEdit* startupPane = new QTextBrowser;
+    QTextBrowser* startupPane = new QTextBrowser;
     startupPane->setFixedSize(600, 615);
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
     startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
