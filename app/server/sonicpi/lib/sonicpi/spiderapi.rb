@@ -1339,6 +1339,23 @@ end
 puts current_bpm # Print out the current bpm"]
 
 
+    def current_beat_duration
+      Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+    end
+    doc name:          :current_beat_duration,
+        introduced:    Version.new(2,6,0),
+        summary:       "Duration of current beat",
+        doc:           "Get the duration of the current beat in seconds. This is the actual length of time which will elapse with `sleep 1`.",
+        args:          [],
+        opts:          nil,
+        accepts_block: false,
+        examples:      ["
+use_bpm 60
+puts current_beat_duration #=> 1
+
+use_bpm 120
+puts current_beat_duration #=> 0.5"]
+
 
 
     def rt(t)
