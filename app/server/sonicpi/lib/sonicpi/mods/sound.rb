@@ -1908,6 +1908,13 @@ puts sample_duration(:loop_amen) #=> 1
          ensure_good_timing!
          buf_info = load_sample(path)
          args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+         stretch_duration = args_h[:beat_stretch]
+         if stretch_duration
+           stretch_duration = stretch_duration.to_f
+           rate = args_h[:rate] || 1
+           dur = load_sample(path).duration
+           args_h[:rate] = (1.0 / stretch_duration) * rate * (current_bpm / (60.0 / dur))
+         end
          trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
        end
        doc name:          :sample,
@@ -1916,6 +1923,7 @@ puts sample_duration(:loop_amen) #=> 1
            doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif` or `.aiff` files from anywhere on your computer too. The `rate:` parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the `use_sample_pack` and `use_sample_pack_as` fns for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider using `load_sample` or `load_samples`.",
            args:          [[:name_or_path, :symbol_or_string]],
        opts:          {:rate      => "Rate with which to play back the sample. Higher rates mean an increase in pitch and a decrease in duration. Default is 1.",
+                       :beat_stretch => "Stretch (or shrink) the sample to last for exactly the specified number of beats. Please note - this does *not* keep the pitch constant and is essentially the same as modifying the rate directly.",
                        :attack    => "Time to reach full volume. Default is 0",
                        :sustain    => "Time to stay at full volume. Default is to stretch to length of sample (minus attack and release times).",
                        :release   => "Time (from the end of the sample) to go from full amplitude to 0. Default is 0",
