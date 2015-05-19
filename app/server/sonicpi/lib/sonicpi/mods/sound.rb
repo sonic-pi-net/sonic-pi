@@ -176,58 +176,82 @@ module SonicPi
 
 
 
-       def use_sample_bpm(sample_name)
+       def use_sample_bpm(sample_name, *args)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         num_beats = args_h[:num_beats] || 1
          case sample_name
            when Numeric
-           use_bpm(60.0 / sample_name)
+           use_bpm(num_beats * (60.0 / sample_name))
          else
            sd = sample_duration(sample_name)
-           use_bpm(60.0 / sd)
+           use_bpm(num_beats * (60.0 / sd))
          end
        end
        doc name:           :use_sample_bpm,
            introduced:     Version.new(2,1,0),
            summary:        "Sample-duration-based bpm modification",
            doc:            "Modify bpm  so that sleeping for 1 will sleep for the duration of the sample.",
-           args:           [[:string, :sample_name],
-                            [:number, :sample_duration]],
-           opts:           nil,
+           args:           [[:string_or_number, :sample_name_or_duration]],
+           opts:           {:num_beats => "The number of beats within the sample. By default this is 1."},
            accepts_block:  false,
-           examples:       ["
-use_sample_bpm :loop_amen  #Set bpm based on :loop_amen duration
+           examples:       ["use_sample_bpm :loop_amen  #Set bpm based on :loop_amen duration
 
 live_loop :dnb do
   sample :bass_dnb_f
   sample :loop_amen
   sleep 1                  #`sleep`ing for 1 sleeps for duration of :loop_amen
+end",
+"
+use_sample_bpm :loop_amen, num_beats: 4  # Set bpm based on :loop_amen duration
+                                         # but also specify that the sample duration
+                                         # is actually 4 beats long.
+
+live_loop :dnb do
+  sample :bass_dnb_f
+  sample :loop_amen
+  sleep 4                  #`sleep`ing for 4 sleeps for duration of :loop_amen
+                           # as we specified that the sample consisted of
+                           # 4 beats
 end"]
 
 
 
 
-       def with_sample_bpm(sample_name, &block)
+       def with_sample_bpm(sample_name, *args, &block)
+         args_h = resolve_synth_opts_hash_or_array(args)
+         num_beats = args_h[:num_beats] || 1
          case sample_name
          when Numeric
-           with_bpm(60.0 / sample_name, &block)
+           with_bpm(num_beats * (60.0 / sample_name), &block)
          else
            sd = sample_duration(sample_name)
-           with_bpm(60.0 / sd, &block)
+           with_bpm(num_beats * (60.0 / sd), &block)
          end
        end
        doc name:           :with_sample_bpm,
            introduced:     Version.new(2,1,0),
            summary:        "Block-scoped sample-duration-based bpm modification",
            doc:            "Block-scoped modification of bpm so that sleeping for 1 will sleep for the duration of the sample.",
-           args:           [[:string, :sample_name],
-                            [:number, :sample_duration]],
-           opts:           nil,
+           args:           [[:string_or_number, :sample_name_or_duration]],
+           opts:           {:num_beats => "The number of beats within the sample. By default this is 1."},
            accepts_block:  true,
-       examples:       ["
+           examples:       ["
 live_loop :dnb do
   with_sample_bpm :loop_amen do #Set bpm based on :loop_amen duration
     sample :bass_dnb_f
     sample :loop_amen
     sleep 1                     #`sleep`ing for 1 sleeps for duration of :loop_amen
+  end
+end",
+"live_loop :dnb do
+  with_sample_bpm :loop_amen, num_beats: 4 do # Set bpm based on :loop_amen duration
+                                              # but also specify that the sample duration
+                                              # is actually 4 beats long.
+    sample :bass_dnb_f
+    sample :loop_amen
+    sleep 4                     #`sleep`ing for 4 sleeps for duration of :loop_amen
+                                # as we specified that the sample consisted of
+                                # 4 beats
   end
 end"]
 
@@ -1408,7 +1432,7 @@ end"]
        def use_sample_pack(pack, &block)
          raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
          if pack == :default
-           pack = samples_path
+           pack = samples_path + "/"
          else
            pack = "#{pack}/" if File.directory?(pack)
          end
@@ -1418,13 +1442,19 @@ end"]
        doc name:          :use_sample_pack,
            introduced:    Version.new(2,0,0),
            summary:       "Use sample pack",
-           doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif` or `.aiff` files in that folder available as samples. Consider using `use_sample_pack_as` when using multiple sample packs.",
+           doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif` or `.aiff` files in that folder available as samples. Consider using `use_sample_pack_as` when using multiple sample packs. Use `use_sample_pack :default` To revert back to the default built-in samples.",
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: false,
-           examples:      ["
+       examples:
+         ["
 use_sample_pack '/home/yourname/path/to/sample/dir'
-sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}"]
+sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
+             #   where {wav|wave|aif|aiff} means one of wav, wave aif or aiff.
+sample :bd_haus #=> will not work unless there's a sample in '/home/yourname/path/to/sample/dir'
+                #   called bd_haus.{wav|wave|aif|aiff}
+use_sample_pack :default
+sample :bd_haus #=> will play the built-in bd_haus.wav sample" ]
 
 
 
