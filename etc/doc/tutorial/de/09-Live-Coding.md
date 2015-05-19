@@ -1,6 +1,6 @@
-9 Live Coding
+9 Live-Coding
 
-# Live Coding
+# Live-Coding
 
 So, und jetzt wird es aufregend! Mit Sonic Pi kannst Du den Code für
 Deine Musik live schreiben und verändern. Du kannst also während
