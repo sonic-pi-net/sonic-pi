@@ -581,7 +581,7 @@ module SonicPi
           num_running_jobs = reg_job(id, Thread.current)
           Thread.current.thread_variable_set :sonic_pi_thread_group, "job-#{id}"
           Thread.current.thread_variable_set :sonic_pi_spider_arg_bpm_scaling, true
-          Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1
+          Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1.0
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
