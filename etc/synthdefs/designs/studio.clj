@@ -20,43 +20,43 @@
   (without-namespace-in-synthdef
    (defsynth sonic-pi-mixer [in_bus 0 amp 1 safe-recovery-time 3 hpf_freq 0 hpf_pass_thru 1 lpf_freq 0 lpf_pass_thru 1 force_mono 0, invert_stereo 0]
      (let [l        (in in_bus 1)
-            r        (in (+ in_bus 1))
-            amp      (lag-ud amp 0 0.02)
-            l        (* amp l)
-            r        (* amp r)
+           r        (in (+ in_bus 1))
+           amp      (lag-ud amp 0 0.02)
+           l        (* amp l)
+           r        (* amp r)
 
-            l        (select:ar hpf_pass_thru
-                                [(hpf l hpf_freq)
-                                 l])
-            r        (select:ar hpf_pass_thru
-                                [(hpf r hpf_freq)
-                                 r])
+           l        (select:ar hpf_pass_thru
+                               [(hpf l hpf_freq)
+                                l])
+           r        (select:ar hpf_pass_thru
+                               [(hpf r hpf_freq)
+                                r])
 
-            l        (select:ar lpf_pass_thru
-                                [(lpf l lpf_freq)
-                                 l])
-            r        (select:ar lpf_pass_thru
-                                [(lpf r lpf_freq)
-                                 r])
+           l        (select:ar lpf_pass_thru
+                               [(lpf l lpf_freq)
+                                l])
+           r        (select:ar lpf_pass_thru
+                               [(lpf r lpf_freq)
+                                r])
 
-            l        (select:ar force_mono
-                                [l
-                                 (/ (+ l r) 2)])
-            r        (select:ar force_mono
-                                [r
-                                 (/ (+ l r) 2)])
+           l        (select:ar force_mono
+                               [l
+                                (/ (+ l r) 2)])
+           r        (select:ar force_mono
+                               [r
+                                (/ (+ l r) 2)])
 
-            l2       (select:ar invert_stereo
-                                [l
-                                 r])
+           l2       (select:ar invert_stereo
+                               [l
+                                r])
 
-            r2       (select:ar invert_stereo
-                                [r
-                                 l])
+           r2       (select:ar invert_stereo
+                               [r
+                                l])
 
 
-            safe-snd (limiter [l2 r2] 0.99 0.01)
-            safe-snd (leak-dc safe-snd)]
+           safe-snd (limiter [l2 r2] 0.99 0.01)
+           safe-snd (leak-dc safe-snd)]
        (replace-out 0 safe-snd)))
 
    (defsynth sonic-pi-basic_mixer [in_bus 0
@@ -75,7 +75,7 @@
      (disk-out out-buf (in in_bus 2)))
 
 
-   (defsynth sonic-pi-sound_in [                           amp 1
+   (defsynth sonic-pi-sound_in [amp 1
                                 amp_slide 0
                                 amp_slide_shape 5
                                 amp_slide_curve 0
@@ -101,9 +101,8 @@
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            cutoff-freq (midicps cutoff)
-           snd         (lpf snd cutoff-freq)
            snd         (sound-in input)
-
+           snd         (lpf snd cutoff-freq)
            env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp)))))
 
