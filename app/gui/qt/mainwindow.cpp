@@ -342,7 +342,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   down->setContext(Qt::WidgetShortcut);
   connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
 
-  docPane->setHtml(readFile(":/html/doc.html"));
+  docPane->setSource(QUrl("qrc:///html/doc.html"));
 
   addUniversalCopyShortcuts(docPane);
 
@@ -401,9 +401,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
     startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
     addUniversalCopyShortcuts(startupPane);
-    QString html;
 
-    startupPane->setHtml(readFile(":/html/startup.html"));
+    startupPane->setSource(QUrl("qrc:///html/startup.html"));
     startupPane->setStyleSheet(defaultTextBrowserStyle);
 
     docWidget->show();
@@ -1502,8 +1501,8 @@ void MainWindow::createInfoPane() {
   QTabWidget *infoTabs = new QTabWidget(this);
 
   QStringList files, tabs;
-  files << ":/html/info.html" << ":/info/CORETEAM.html" << ":/info/CONTRIBUTORS.html" <<
-    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" << ":/info/CHANGELOG.html";
+  files << "qrc:///html/info.html" << "qrc:///info/CORETEAM.html" << "qrc:///info/CONTRIBUTORS.html" <<
+    "qrc:///info/COMMUNITY.html" << "qrc:///info/LICENSE.html" << "qrc:///info/CHANGELOG.html";
   tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
     tr("Community") << tr("License") << tr("History");
 
@@ -1512,7 +1511,7 @@ void MainWindow::createInfoPane() {
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
     pane->setFixedSize(600, 615);
-    pane->setHtml(readFile(files[t]));
+    pane->setSource(QUrl(files[t]));
     pane->setStyleSheet(defaultTextBrowserStyle);
     infoTabs->addTab(pane, tabs[t]);
   }
