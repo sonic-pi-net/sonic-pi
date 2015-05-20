@@ -17,7 +17,7 @@ module SonicPi
       # remove unneeded newlines before </pre>
       html.gsub!(/\n(<\/code>)?<\/pre>/, '\1</pre>')
       # add stylesheet header reference and <body>-tags
-      "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body>\n\n" + html + "\n</body>\n"
+      "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n</head>\n\n<body>\n\n" + html + "\n</body>\n"
     end
   end
 end
