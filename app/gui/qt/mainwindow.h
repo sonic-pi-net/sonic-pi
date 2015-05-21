@@ -158,7 +158,6 @@ private:
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
-    void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QString name);
