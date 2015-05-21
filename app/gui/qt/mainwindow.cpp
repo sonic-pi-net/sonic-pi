@@ -1726,17 +1726,7 @@ void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
 }
 
 void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
-  QFile file(filename);
-
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-
-  item->setData(32, QVariant(s));
+  item->setData(32, QVariant(readFile(filename)));
 }
 
 void MainWindow::addHelpPage(QListWidget *nameList,
@@ -1858,15 +1848,7 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
 }
 
 QString MainWindow::asciiArtLogo(){
-  QFile file(":/images/logo.txt");
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-  return s;
+  return readFile(":/images/logo.txt");
 }
 
 void MainWindow::printAsciiArtLogo(){
