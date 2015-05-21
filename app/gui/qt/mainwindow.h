@@ -52,7 +52,7 @@ class SonicPiServer;
 struct help_page {
   QString title;
   QString keyword;
-  QString filename;
+  QString url;
 };
 
 struct help_entry {

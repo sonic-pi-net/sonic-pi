@@ -179,7 +179,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
 
-
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme);
 
     //tab completion when in list
@@ -1698,17 +1697,13 @@ void MainWindow::onExitCleanup()
 }
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
-  QString content = cur->data(32).toString();
-  docPane->setHtml(content);
+  QString url = cur->data(32).toString();
+  docPane->setSource(QUrl(url));
 }
 
 void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
   (void)prev;
   updateDocPane(cur);
-}
-
-void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
-  item->setData(32, QVariant(readFile(filename)));
 }
 
 void MainWindow::addHelpPage(QListWidget *nameList,
@@ -1719,7 +1714,7 @@ void MainWindow::addHelpPage(QListWidget *nameList,
 
   for(i = 0; i < len; i++) {
     QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
-    setHelpText(item, QString(helpPages[i].filename));
+    item->setData(32, QVariant(helpPages[i].url));
     item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
