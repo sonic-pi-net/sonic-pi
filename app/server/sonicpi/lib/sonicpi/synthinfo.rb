@@ -4631,7 +4631,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         next if v.is_a? StudioInfo
         doc = ""
 
-        doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+        doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n</head>\n\n<body class=\"manual\">\n\n"
         doc << "<h1>" << v.name << "</h1>\n\n"
 
         doc << "<p><table class=\"arguments\"><tr>\n"
