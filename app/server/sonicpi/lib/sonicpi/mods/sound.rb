@@ -218,6 +218,7 @@ end"]
 
 
        def with_sample_bpm(sample_name, *args, &block)
+         raise "with_sample_bpm must be called with a do/end block" unless block
          args_h = resolve_synth_opts_hash_or_array(args)
          num_beats = args_h[:num_beats] || 1
          case sample_name
@@ -290,7 +291,7 @@ sleep rt(2)             # still sleeps for 2 seconds"]
 
 
     def with_arg_bpm_scaling(bool, &block)
-      raise "with_arg_bpm_scaling must be called with a block. Perhaps you meant use_arg_bpm_scaling" unless block
+      raise "with_arg_bpm_scaling must be called with a do/end block. Perhaps you meant use_arg_bpm_scaling" unless block
       current_scaling = Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
       Thread.current.thread_variable_set(:sonic_pi_spider_arg_bpm_scaling, bool)
@@ -993,7 +994,7 @@ play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
 
 
        def with_merged_synth_defaults(*args, &block)
-         raise "with_merged_synth_defaults must be called with a block" unless block
+         raise "with_merged_synth_defaults must be called with a do/end block" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
 
          args_h = resolve_synth_opts_hash_or_array(args)
@@ -1084,7 +1085,7 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest 
 
 
        def with_sample_defaults(*args, &block)
-         raise "with_sample_defaults must be called with a block. Perhaps you meant use_sample_defaults" unless block
+         raise "with_sample_defaults must be called with a do/end block. Perhaps you meant use_sample_defaults" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
          args_h = resolve_synth_opts_hash_or_array(args)
          Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, args_h
@@ -1115,7 +1116,7 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
 
 
        def with_synth_defaults(*args, &block)
-         raise "with_synth_defaults must be called with a block" unless block
+         raise "with_synth_defaults must be called with a do/end block" unless block
          current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
 
          args_h = resolve_synth_opts_hash_or_array(args)
@@ -1150,7 +1151,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
        end
 
        def with_fx(fx_name, *args, &block)
-         raise "with_fx must be called with a block" unless block
+         raise "with_fx must be called with a do/end block" unless block
          raise "with_fx block must only accept 0 or 1 args" unless [0, 1].include?(block.arity)
 
          ## Munge args

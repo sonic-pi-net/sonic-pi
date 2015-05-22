@@ -394,7 +394,7 @@ end"]
       raise "live_loop needs to have a unique name. For example: live_loop :foo" unless name
       raise "live_loop's name needs to be a string or symbol, got: #{name.inspect}. Example usage: live_loop :foo" unless (name.is_a?(Symbol) || name.is_a?(String))
       ll_name = "live_loop_#{name}".to_sym
-      raise "live_loop #{name.inspect} must be called with a do/end code block" unless block
+      raise "live_loop #{name.inspect} must be called with a do/end block" unless block
 
       args_h = resolve_synth_opts_hash_or_array(args)
       if args_h.has_key? :auto_cue
@@ -463,7 +463,7 @@ end
 
 
     def at(times=0, params=nil, &block)
-      raise "after must be called with a code block" unless block
+      raise "after must be called with a do/end block" unless block
       had_params = params
       times = [times] if times.is_a? Numeric
       # When no params are specified, pass the times through as params
@@ -615,7 +615,7 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
 
 
     def defonce(name, *opts, &block)
-      raise "defonce must be called with a code block" unless block
+      raise "defonce must be called with a do/end block" unless block
       args_h = resolve_synth_opts_hash_or_array(opts)
       if args_h[:override] || !(@user_methods.method_defined? name)
         val = block.yield
@@ -697,7 +697,7 @@ play bar # plays 80"]
         examples: []
 
     def define(name, &block)
-      raise "define must be called with a code block" unless block
+      raise "define must be called with a do/end block" unless block
       already_defined = @user_methods.method_defined? name
 
       if !already_defined && self.respond_to?(name)
@@ -1186,7 +1186,7 @@ end
 
 
     def with_bpm(bpm, &block)
-      raise "with_bpm must be called with a block. Perhaps you meant use_bpm" unless block
+      raise "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       sleep_mul = 60.0 / bpm
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
@@ -1229,7 +1229,7 @@ end"]
 
 
     def with_bpm_mul(mul, &block)
-      raise "with_bpm_mul must be called with a block. Perhaps you meant use_bpm_mul" unless block
+      raise "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       new_mul = current_mul.to_f / mul
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
