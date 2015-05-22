@@ -1485,13 +1485,11 @@ void MainWindow::createToolBar()
 QString MainWindow::readFile(QString name)
 {
   QFile file(name);
-  if (file.open(QFile::ReadOnly | QFile::Text)) {
-    QTextStream st(&file);
-    st.setCodec("UTF-8");
-    return st.readAll();
-  } else {
-    return "";
-  }
+  if (!file.open(QFile::ReadOnly | QFile::Text)) return "";
+
+  QTextStream st(&file);
+  st.setCodec("UTF-8");
+  return st.readAll();
 }
 
 void MainWindow::createInfoPane() {
