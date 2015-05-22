@@ -1226,7 +1226,7 @@ void MainWindow::changeTheme(){
     outputPane->setStyleSheet(QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
     outputWidget->setStyleSheet(QString("QDockWidget{color: %4; background-color: %2} QDockWidget::title{color: %4; border-bottom: 1px solid %3; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor, paneColor, windowBorder, windowForegroundColor));
 
-    prefsWidget->setStyleSheet(QString("QGroupBox{font-size: 11px;} QDockWidget *{color: %3;} QDockWidget::title{font: bold 2px; color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor, windowBorder, windowForegroundColor));
+    prefsWidget->setStyleSheet(QString("QGroupBox{font-size: 11px;} QDockWidget *{color: %3;} QDockWidget::title{font: bold 2px; color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);} QCheckBox *{color: #000;}").arg(windowColor, windowBorder, windowForegroundColor));
     tabs->setStyleSheet(QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418}").arg(windowForegroundColor));
 
     docPane->setStyleSheet(QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
