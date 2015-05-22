@@ -1243,6 +1243,8 @@ void MainWindow::changeTheme(){
       ws->setStyleSheet("QsciScintillaBase{ border: 0px;} ");
     }
 
+    refreshDocContent();
+
   }else{
     this->setStyleSheet("");
     mainWidget->setStyleSheet("");
@@ -1262,8 +1264,9 @@ void MainWindow::changeTheme(){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
       ws->setStyleSheet("");
     }
-  }
 
+    refreshDocContent();
+  }
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->redraw();
@@ -1872,6 +1875,26 @@ QListWidget *MainWindow::createHelpTab(QString name) {
   docsCentral->addTab(tabWidget, name);
   helpLists.append(nameList);
   return nameList;
+}
+
+//TODO: Find a better way to signal a re-render of the doc html content with potential new
+//      styling from dark/light mode. Currently uses scrolling signals to achieve a re-render.
+void MainWindow::refreshDocContent(){
+  int section = docsCentral->currentIndex();
+  int entry = helpLists[section]->currentRow();
+
+  if (entry == 0){
+    helpScrollDown();
+    helpScrollUp();
+  }
+  else if(entry == helpLists[section]->count()-1){
+    helpScrollUp();
+    helpScrollDown();
+  }
+  else{
+    helpScrollDown();
+    helpScrollUp();
+  }
 }
 
 void MainWindow::helpScrollUp() {
