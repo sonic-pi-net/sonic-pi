@@ -1485,7 +1485,9 @@ void MainWindow::createToolBar()
 QString MainWindow::readFile(QString name)
 {
   QFile file(name);
-  if (!file.open(QFile::ReadOnly | QFile::Text)) return "";
+  if (!file.open(QFile::ReadOnly | QFile::Text)) {
+    return "";
+  }
 
   QTextStream st(&file);
   st.setCodec("UTF-8");
