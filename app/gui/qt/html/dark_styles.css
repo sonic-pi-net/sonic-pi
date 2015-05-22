@@ -6,7 +6,7 @@ body {
 }
 
 a {
-  color: dodgerblue;
+  color: #2cb4df;
   text-decoration: none;
 }
 
@@ -75,7 +75,7 @@ body.info a {
 
 body.example code {
   font-size: large;
-  color: dodgerblue;
+  color: #2cb4df;
 }
 
 body.manual .introduced {
