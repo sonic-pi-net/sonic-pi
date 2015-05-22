@@ -16,9 +16,11 @@ public:
     void lightMode();
 
 private:
+    QMap<QString, QString> withCustomSettings(QMap<QString, QString> settings);
     QMap<QString, QString> lightTheme();
     QMap<QString, QString> darkTheme();
     QMap<QString, QString> theme;
+    QMap<QString, QString> customSettings;
 
 signals:
 

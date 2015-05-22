@@ -99,7 +99,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
   this->splash = splash;
-  protocol = UDP;
+  protocol = TCP;
 
   if(protocol == TCP){
     clientSock = new QTcpSocket(this);
@@ -314,6 +314,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
   prefsWidget->hide();
   prefsWidget->setObjectName("prefs");
+
+
 
   outputWidget = new QDockWidget(tr("Log"), this);
   outputWidget->setFocusPolicy(Qt::NoFocus);
@@ -576,8 +578,8 @@ void MainWindow::startServer(){
     serverProcess->setStandardOutputFile(sp_output_log_path);
     serverProcess->start(prg_path, args);
     if (!serverProcess->waitForStarted()) {
-      invokeStartupError(tr("ruby could not be started, is it installed and in your PATH?"));
-      return;
+      //invokeStartupError(tr("ruby could not be started, is it installed and in your PATH?"));
+      //return;
     }
 }
 
@@ -664,7 +666,6 @@ void MainWindow::initPrefsWindow() {
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
   mixer_force_mono = new QCheckBox(tr("Force Mono"));
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
-
 
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
   advanced_audio_box_layout->addWidget(mixer_invert_stereo);
@@ -1214,22 +1215,28 @@ void MainWindow::changeTheme(){
     currentTheme->darkMode();
 
     QString windowColor = currentTheme->color("WindowBackground").name();
-    this->setStyleSheet(QString("QDockWidget {color:#FFF; background-color: %1;} QMainWindow::separator{border: 1px solid #222;} QMainWindow{background-color: %1; color:#fff}; QFrame{border: 1px solid #222;}").arg(windowColor));
-    statusBar()->setStyleSheet(QString("QStatusBar{color:#FFF; background-color: %1; border-top: 1px solid #222;}").arg(windowColor));
+    QString windowForegroundColor = currentTheme->color("WindowForeground").name();
+    QString paneColor = currentTheme->color("PaneBackground").name();
+    QString windowBorder = currentTheme->color("WindowBorder").name();
 
-    outputPane->setStyleSheet("QTextEdit{background-color: #000; color:#fff; border: 0px;}");
-    outputWidget->setStyleSheet(QString("QDockWidget{color: #FFF; background-color: #000} QDockWidget::title{color: #FFF; border-bottom: 1px solid #222; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor));
+    this->setStyleSheet(QString("QDockWidget {color:%3; background-color: %1;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
+    statusBar()->setStyleSheet(QString("QStatusBar{color: %3; background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
 
-    prefsWidget->setStyleSheet(QString("QGroupBox{font-size: 11px;} QDockWidget *{color: #FFF;} QDockWidget::title{font: bold 2px; color: #FFF; border-bottom: 1px solid #222; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor));
-    tabs->setStyleSheet("QTabBar::tab{background: #1c2529; color:#ffffff;} QTabBar::tab:selected{background: #0b1418}");
 
-    docPane->setStyleSheet("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:#000;}");
-    docsCentral->setStyleSheet("QTabBar::tab{background: #1c2529; color:#ffffff;} QTabBar::tab:selected{background: #0b1418}");
-    docWidget->setStyleSheet(QString("QDockWidget QListView {color: #fff; background-color:#000;} QDockWidget::title{color: #FFF; border-bottom: 1px solid #222; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor));
-    toolBar->setStyleSheet(QString("QToolBar{background-color: %1; border-bottom: 1px solid #222;}").arg(windowColor));
-    mainWidget->setStyleSheet("QsciScintillaBase{ border: 1px solid #222;}");
+    outputPane->setStyleSheet(QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
+    outputWidget->setStyleSheet(QString("QDockWidget{color: %4; background-color: %2} QDockWidget::title{color: %4; border-bottom: 1px solid %3; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor, paneColor, windowBorder, windowForegroundColor));
 
-    errorPane->setStyleSheet("QTextEdit{background-color: #000;}");
+    prefsWidget->setStyleSheet(QString("QGroupBox{font-size: 11px;} QDockWidget *{color: %3;} QDockWidget::title{font: bold 2px; color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor, windowBorder, windowForegroundColor));
+    tabs->setStyleSheet(QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418}").arg(windowForegroundColor));
+
+    docPane->setStyleSheet(QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
+    docsCentral->setStyleSheet(QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418}").arg(windowForegroundColor));
+    docWidget->setStyleSheet(QString("QDockWidget QListView {color: %4; background-color: %2;} QDockWidget::title{color: %4; border-bottom: 1px solid %3; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor,paneColor, windowBorder, windowForegroundColor));
+
+    toolBar->setStyleSheet(QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
+    mainWidget->setStyleSheet(QString("QsciScintillaBase{ border: 1px solid %1;}").arg(windowBorder));
+
+    errorPane->setStyleSheet(QString("QTextEdit{background-color: %1;}").arg(paneColor));
 
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
@@ -1249,7 +1256,7 @@ void MainWindow::changeTheme(){
     toolBar->setStyleSheet("");
     errorPane->setStyleSheet("");
     currentTheme->lightMode();
-    docPane->setStyleSheet("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}");
+    docPane->setStyleSheet(defaultTextBrowserStyle);
 
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
@@ -1259,7 +1266,7 @@ void MainWindow::changeTheme(){
 
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-      ws->redraw();
+    ws->redraw();
     }
   lexer->unhighlightAll();
 }
@@ -1268,6 +1275,7 @@ void MainWindow::changeShowLineNumbers(){
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     if (show_line_numbers->isChecked()){
+
       ws->showLineNumbers();
     } else {
       ws->hideLineNumbers();
@@ -1480,7 +1488,7 @@ void MainWindow::createToolBar()
   setupAction(runAct, 'R', tr("Run the code in the current workspace"),
 	      SLOT(runCode()));
 
-  // Stop
+  //
   QAction *stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);
   setupAction(stopAct, 'S', tr("Stop all running code"), SLOT(stopCode()));
 

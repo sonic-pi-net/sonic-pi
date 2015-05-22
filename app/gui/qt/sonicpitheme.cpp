@@ -12,21 +12,30 @@ SonicPiTheme::SonicPiTheme(QObject *parent, QSettings *settings, bool dark) : QO
     }
 
     if(settings!=0){
-      QStringList customSettings = settings->allKeys();
-      for(int idx=0; idx < customSettings.size(); idx++){
-        themeSettings[customSettings[idx]] = settings->value(customSettings[idx]).toString();
+      QStringList customSettingKeys = settings->allKeys();
+      for(int idx=0; idx < customSettingKeys.size(); idx++){
+        themeSettings[customSettingKeys[idx]] = settings->value(customSettingKeys[idx]).toString();
+        customSettings[customSettingKeys[idx]] = themeSettings[customSettingKeys[idx]];
       }
     }
 
     this->theme = themeSettings;
 }
 
+QMap<QString, QString> SonicPiTheme::withCustomSettings(QMap<QString, QString> settings){
+  QStringList customSettingKeys = customSettings.keys();
+  for(int idx=0; idx < customSettingKeys.size(); idx++){
+    settings[customSettingKeys[idx]] = customSettings[customSettingKeys[idx]];
+  }
+  return settings;
+}
+
 void SonicPiTheme::darkMode(){
-  this->theme = darkTheme();
+  this->theme = withCustomSettings(darkTheme());
 }
 
 void SonicPiTheme::lightMode(){
-  this->theme = lightTheme();
+  this->theme = withCustomSettings(lightTheme());
 }
 
 QMap<QString, QString> SonicPiTheme::lightTheme(){
@@ -109,7 +118,10 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
 QMap<QString, QString> SonicPiTheme::darkTheme(){
     QMap<QString, QString> themeSettings;
 
+    themeSettings["WindowForeground"] = "#fff";
     themeSettings["WindowBackground"] = "#2c3539";
+    themeSettings["PaneBackground"] = "black";
+    themeSettings["WindowBorder"]= "#222";
     themeSettings["Foreground"] = "white";
     themeSettings["Background"] = "black";
     themeSettings["ErrorBackground"] = "black";
