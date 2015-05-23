@@ -1242,6 +1242,10 @@ void MainWindow::changeTheme(){
       ws->setStyleSheet("QsciScintillaBase{ border: 0px;} ");
     }
 
+    QPalette p = dark_mode->palette();
+    p.setColor(QPalette::Active, QPalette::WindowText, Qt::white);
+    dark_mode->setPalette(p);
+
     refreshDocContent();
 
   }else{
