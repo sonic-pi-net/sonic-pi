@@ -1214,6 +1214,10 @@ void MainWindow::changeTheme(){
   if(dark_mode->isChecked()){
     currentTheme->darkMode();
 
+    QPalette p = QApplication::palette();
+    p.setColor(QPalette::WindowText, currentTheme->color("WindowForeground"));
+    QApplication::setPalette(p);
+
     QString windowColor = currentTheme->color("WindowBackground").name();
     QString windowForegroundColor = currentTheme->color("WindowForeground").name();
     QString paneColor = currentTheme->color("PaneBackground").name();
@@ -1242,10 +1246,6 @@ void MainWindow::changeTheme(){
       ws->setStyleSheet("QsciScintillaBase{ border: 0px;} ");
     }
 
-    QPalette p = dark_mode->palette();
-    p.setColor(QPalette::Active, QPalette::WindowText, Qt::white);
-    dark_mode->setPalette(p);
-
     refreshDocContent();
 
   }else{
@@ -1267,6 +1267,10 @@ void MainWindow::changeTheme(){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
       ws->setStyleSheet("");
     }
+
+    QPalette p = QApplication::palette();
+    p.setColor(QPalette::WindowText, currentTheme->color("WindowForeground"));
+    QApplication::setPalette(p);
 
     refreshDocContent();
   }
