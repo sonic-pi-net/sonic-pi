@@ -41,6 +41,8 @@ void SonicPiTheme::lightMode(){
 QMap<QString, QString> SonicPiTheme::lightTheme(){
     QMap<QString, QString> themeSettings;
 
+    themeSettings["WindowBackground"] = "#EDEDED";
+    themeSettings["WindowForeground"] = "black";
     themeSettings["Foreground"] = "black";
     themeSettings["Background"] = "white";
     themeSettings["ErrorBackground"] = "white";

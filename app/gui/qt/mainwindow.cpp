@@ -1216,6 +1216,7 @@ void MainWindow::changeTheme(){
 
     QPalette p = QApplication::palette();
     p.setColor(QPalette::WindowText, currentTheme->color("WindowForeground"));
+    p.setColor(QPalette::Background, currentTheme->color("WindowBackground"));
     QApplication::setPalette(p);
 
     QString windowColor = currentTheme->color("WindowBackground").name();
@@ -1270,6 +1271,7 @@ void MainWindow::changeTheme(){
 
     QPalette p = QApplication::palette();
     p.setColor(QPalette::WindowText, currentTheme->color("WindowForeground"));
+    p.setColor(QPalette::Background, currentTheme->color("WindowBackground"));
     QApplication::setPalette(p);
 
     refreshDocContent();
