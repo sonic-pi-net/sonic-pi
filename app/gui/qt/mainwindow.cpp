@@ -1506,7 +1506,7 @@ void MainWindow::createToolBar()
   setupAction(runAct, 'R', tr("Run the code in the current workspace"),
 	      SLOT(runCode()));
 
-  //
+  // Stop
   QAction *stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);
   setupAction(stopAct, 'S', tr("Stop all running code"), SLOT(stopCode()));
 
