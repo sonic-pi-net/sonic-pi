@@ -1240,7 +1240,7 @@ void MainWindow::changeTheme(){
     docsCentral->setStyleSheet(QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418}").arg(windowForegroundColor));
     docWidget->setStyleSheet(QString("QDockWidget QListView {color: %4; background-color: %2;} QDockWidget::title{color: %4; border-bottom: 1px solid %3; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor,paneColor, windowBorder, windowForegroundColor));
 
-    docPane->setStyleSheet(QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:0; padding-top:0; padding-bottom:0; padding-right:0 ; background: %1}").arg(paneColor));
+    docPane->setStyleSheet(QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
 
     toolBar->setStyleSheet(QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
     errorPane->setStyleSheet(QString("QTextEdit{background-color: %1;}").arg(paneColor));
