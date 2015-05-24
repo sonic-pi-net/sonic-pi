@@ -1216,7 +1216,7 @@ void MainWindow::changeTheme(){
     p.setColor(QPalette::WindowText, currentTheme->color("WindowForeground"));
     p.setColor(QPalette::Window, currentTheme->color("WindowBackground"));
     p.setColor(QPalette::Base,   QColor("#a3a3a3"));
-    p.setColor(QPalette::Text,   currentTheme->color("WindowForeground"));
+    p.setColor(QPalette::Text,   QColor("#000"));
 
     p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
     p.setColor(QPalette::Highlight, currentTheme->color("HighlightedBackground"));
