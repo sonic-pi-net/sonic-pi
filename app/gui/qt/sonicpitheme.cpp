@@ -40,6 +40,8 @@ void SonicPiTheme::lightMode(){
 
 QMap<QString, QString> SonicPiTheme::lightTheme(){
     QMap<QString, QString> themeSettings;
+    themeSettings["HighlightedBackground"] = "#c5c5c5";
+    themeSettings["HighlightedForeground"] = "#000";
 
     themeSettings["WindowBackground"] = "#EDEDED";
     themeSettings["WindowForeground"] = "black";
@@ -120,6 +122,8 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
 QMap<QString, QString> SonicPiTheme::darkTheme(){
     QMap<QString, QString> themeSettings;
 
+    themeSettings["HighlightedBackground"] = "deeppink";
+    themeSettings["HighlightedForeground"] = "#6a001d";
     themeSettings["WindowForeground"] = "#fff";
     themeSettings["WindowBackground"] = "#2c3539";
     themeSettings["PaneBackground"] = "black";
