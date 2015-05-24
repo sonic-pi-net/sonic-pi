@@ -99,7 +99,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
   this->splash = splash;
-  protocol = TCP;
+  protocol = UDP;
 
   if(protocol == TCP){
     clientSock = new QTcpSocket(this);
@@ -578,8 +578,8 @@ void MainWindow::startServer(){
     serverProcess->setStandardOutputFile(sp_output_log_path);
     serverProcess->start(prg_path, args);
     if (!serverProcess->waitForStarted()) {
-      //invokeStartupError(tr("ruby could not be started, is it installed and in your PATH?"));
-      //return;
+      invokeStartupError(tr("ruby could not be started, is it installed and in your PATH?"));
+      return;
     }
 }
 
