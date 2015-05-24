@@ -315,8 +315,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   prefsWidget->hide();
   prefsWidget->setObjectName("prefs");
 
-
-
   outputWidget = new QDockWidget(tr("Log"), this);
   outputWidget->setFocusPolicy(Qt::NoFocus);
   outputWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
