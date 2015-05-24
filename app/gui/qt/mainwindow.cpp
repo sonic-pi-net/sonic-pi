@@ -1216,7 +1216,12 @@ void MainWindow::changeTheme(){
 
     QPalette p = QApplication::palette();
     p.setColor(QPalette::WindowText, currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::Background, currentTheme->color("WindowBackground"));
+    p.setColor(QPalette::Window, currentTheme->color("WindowBackground"));
+    p.setColor(QPalette::Base,   QColor("#a3a3a3"));
+    p.setColor(QPalette::Text,   currentTheme->color("WindowForeground"));
+
+    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
+    p.setColor(QPalette::Highlight, currentTheme->color("HighlightedBackground"));
     QApplication::setPalette(p);
 
     QString windowColor = currentTheme->color("WindowBackground").name();
@@ -1224,22 +1229,20 @@ void MainWindow::changeTheme(){
     QString paneColor = currentTheme->color("PaneBackground").name();
     QString windowBorder = currentTheme->color("WindowBorder").name();
 
-    this->setStyleSheet(QString("QDockWidget {color:%3; background-color: %1;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
-    statusBar()->setStyleSheet(QString("QStatusBar{color: %3; background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
-
+    this->setStyleSheet(QString("QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
+    statusBar()->setStyleSheet(QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
 
     outputPane->setStyleSheet(QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
-    outputWidget->setStyleSheet(QString("QDockWidget{color: %4; background-color: %2} QDockWidget::title{color: %4; border-bottom: 1px solid %3; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor, paneColor, windowBorder, windowForegroundColor));
-
-    prefsWidget->setStyleSheet(QString("QGroupBox{font-size: 11px; color: %3} QDockWidget{color: %3;} QDockWidget::title{font: bold 2px; color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor, windowBorder, windowForegroundColor));
+    outputWidget->setStyleSheet(QString("QDockWidget::title{color: %4; border-bottom: 1px solid %3; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor, paneColor, windowBorder, windowForegroundColor));
+    prefsWidget->setStyleSheet(QString("QGroupBox{font-size: 11px; color: %3} QDockWidget::title{font: bold 2px; color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor, windowBorder, windowForegroundColor));
     tabs->setStyleSheet(QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418}").arg(windowForegroundColor));
 
-    docPane->setStyleSheet(QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:0; padding-top:0; padding-bottom:0; padding-right:0 ; background: %1}").arg(paneColor));
     docsCentral->setStyleSheet(QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418}").arg(windowForegroundColor));
     docWidget->setStyleSheet(QString("QDockWidget QListView {color: %4; background-color: %2;} QDockWidget::title{color: %4; border-bottom: 1px solid %3; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);}").arg(windowColor,paneColor, windowBorder, windowForegroundColor));
 
+    docPane->setStyleSheet(QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:0; padding-top:0; padding-bottom:0; padding-right:0 ; background: %1}").arg(paneColor));
+
     toolBar->setStyleSheet(QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
-     
     errorPane->setStyleSheet(QString("QTextEdit{background-color: %1;}").arg(paneColor));
 
     for(int i=0; i < tabs->count(); i++){
@@ -1271,7 +1274,12 @@ void MainWindow::changeTheme(){
 
     QPalette p = QApplication::palette();
     p.setColor(QPalette::WindowText, currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::Background, currentTheme->color("WindowBackground"));
+    p.setColor(QPalette::Window, currentTheme->color("WindowBackground"));
+    p.setColor(QPalette::Base,   QColor("#fff"));
+    p.setColor(QPalette::Text,   currentTheme->color("WindowForeground"));
+    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
+    p.setColor(QPalette::Highlight, currentTheme->color("HighlightedBackground"));
+
     QApplication::setPalette(p);
 
     refreshDocContent();
