@@ -1497,18 +1497,18 @@ QString MainWindow::readFile(QString name)
 void MainWindow::createInfoPane() {
   QTabWidget *infoTabs = new QTabWidget(this);
 
-  QStringList files, tabs;
-  files << "qrc:///html/info.html" << "qrc:///info/CORETEAM.html" << "qrc:///info/CONTRIBUTORS.html" <<
+  QStringList urls, tabs;
+  urls << "qrc:///html/info.html" << "qrc:///info/CORETEAM.html" << "qrc:///info/CONTRIBUTORS.html" <<
     "qrc:///info/COMMUNITY.html" << "qrc:///info/LICENSE.html" << "qrc:///info/CHANGELOG.html";
   tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
     tr("Community") << tr("License") << tr("History");
 
-  for (int t=0; t < files.size(); t++) {
+  for (int t=0; t < urls.size(); t++) {
     QTextBrowser *pane = new QTextBrowser;
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
     pane->setFixedSize(600, 615);
-    pane->setSource(QUrl(files[t]));
+    pane->setSource(QUrl(urls[t]));
     pane->setStyleSheet(defaultTextBrowserStyle);
     infoTabs->addTab(pane, tabs[t]);
   }
