@@ -179,7 +179,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
 
-
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme);
 
     //tab completion when in list
@@ -342,7 +341,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   down->setContext(Qt::WidgetShortcut);
   connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
 
-  docPane->setHtml(readFile(":/html/doc.html"));
+  docPane->setSource(QUrl("qrc:///html/doc.html"));
 
   addUniversalCopyShortcuts(docPane);
 
@@ -401,9 +400,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
     startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
     addUniversalCopyShortcuts(startupPane);
-    QString html;
 
-    startupPane->setHtml(readFile(":/html/startup.html"));
+    startupPane->setSource(QUrl("qrc:///html/startup.html"));
     startupPane->setStyleSheet(defaultTextBrowserStyle);
 
     docWidget->show();
@@ -814,10 +812,9 @@ void MainWindow::startupError(QString msg) {
   splashClose();
   startup_error_reported = true;
 
-  QString logtext = readFile(log_path + QDir::separator() + "output.log");
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     tr("We're sorry, but Sonic Pi was unable to start..."), msg);
-  box->setDetailedText(logtext);
+  box->setDetailedText(readFile(log_path + QDir::separator() + "output.log"));
 
   QGridLayout* layout = (QGridLayout*)box->layout();
   QSpacerItem* hSpacer = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
@@ -1490,31 +1487,30 @@ void MainWindow::createToolBar()
 QString MainWindow::readFile(QString name)
 {
   QFile file(name);
-  if (!file.open(QFile::ReadOnly | QFile::Text))
+  if (!file.open(QFile::ReadOnly | QFile::Text)) {
     return "";
+  }
 
   QTextStream st(&file);
   st.setCodec("UTF-8");
-  QString s;
-  s.append(st.readAll());
-  return s;
+  return st.readAll();
 }
 
 void MainWindow::createInfoPane() {
   QTabWidget *infoTabs = new QTabWidget(this);
 
-  QStringList files, tabs;
-  files << ":/html/info.html" << ":/info/CORETEAM.html" << ":/info/CONTRIBUTORS.html" <<
-    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" << ":/info/CHANGELOG.html";
+  QStringList urls, tabs;
+  urls << "qrc:///html/info.html" << "qrc:///info/CORETEAM.html" << "qrc:///info/CONTRIBUTORS.html" <<
+    "qrc:///info/COMMUNITY.html" << "qrc:///info/LICENSE.html" << "qrc:///info/CHANGELOG.html";
   tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
     tr("Community") << tr("License") << tr("History");
 
-  for (int t=0; t < files.size(); t++) {
+  for (int t=0; t < urls.size(); t++) {
     QTextBrowser *pane = new QTextBrowser;
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
     pane->setFixedSize(600, 615);
-    pane->setHtml(readFile(files[t]));
+    pane->setSource(QUrl(urls[t]));
     pane->setStyleSheet(defaultTextBrowserStyle);
     infoTabs->addTab(pane, tabs[t]);
   }
@@ -1639,24 +1635,6 @@ void MainWindow::writeSettings()
   settings.setValue("windowState", saveState());
 }
 
-void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
-{
-  QFile file(fileName);
-  if (!file.open(QFile::ReadOnly)) {
-    QMessageBox::warning(this, tr("Sonic Pi"),
-			 tr("Cannot read file %1:\n%2.")
-			 .arg(fileName)
-			 .arg(file.errorString()));
-    return;
-  }
-
-  QTextStream in(&file);
-  QApplication::setOverrideCursor(Qt::WaitCursor);
-  text->setText(in.readAll());
-  QApplication::restoreOverrideCursor();
-  statusBar()->showMessage(tr("File loaded..."), 2000);
-}
-
 bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 {
   QFile file(fileName);
@@ -1720,27 +1698,13 @@ void MainWindow::onExitCleanup()
 }
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
-  QString content = cur->data(32).toString();
-  docPane->setHtml(content);
+  QString url = cur->data(32).toString();
+  docPane->setSource(QUrl(url));
 }
 
 void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
   (void)prev;
   updateDocPane(cur);
-}
-
-void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
-  QFile file(filename);
-
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-
-  item->setData(32, QVariant(s));
 }
 
 void MainWindow::addHelpPage(QListWidget *nameList,
@@ -1751,7 +1715,7 @@ void MainWindow::addHelpPage(QListWidget *nameList,
 
   for(i = 0; i < len; i++) {
     QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
-    setHelpText(item, QString(helpPages[i].filename));
+    item->setData(32, QVariant(helpPages[i].url));
     item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
@@ -1862,15 +1826,7 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
 }
 
 QString MainWindow::asciiArtLogo(){
-  QFile file(":/images/logo.txt");
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-  return s;
+  return readFile(":/images/logo.txt");
 }
 
 void MainWindow::printAsciiArtLogo(){
