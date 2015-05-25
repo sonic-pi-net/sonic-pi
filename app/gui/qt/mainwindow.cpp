@@ -411,6 +411,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   }
 
   focusMode = false;
+  restoreDocPane = false;
   disableFocusMode();
 }
 
