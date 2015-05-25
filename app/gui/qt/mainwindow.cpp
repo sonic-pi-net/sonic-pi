@@ -1227,7 +1227,7 @@ void MainWindow::changeTheme(){
     QString paneColor = currentTheme->color("PaneBackground").name();
     QString windowBorder = currentTheme->color("WindowBorder").name();
 
-    this->setStyleSheet(QString("QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
+    this->setStyleSheet(QString("QScrollBar::add-line:horizontal {display:none; border: 0px;} QScrollBar::sub-line:horizontal{border:0px; display:none;} QScrollBar:horizontal{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal { background: %1;  border-radius: 5px; min-width: 80%;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
     statusBar()->setStyleSheet(QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
 
     outputPane->setStyleSheet(QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
