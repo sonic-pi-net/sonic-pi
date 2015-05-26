@@ -1243,7 +1243,7 @@ void MainWindow::changeTheme(){
     infoWidg->setStyleSheet(QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418}").arg(windowForegroundColor));
 
     toolBar->setStyleSheet(QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
-    errorPane->setStyleSheet(QString("QTextEdit{background-color: %1;}").arg(paneColor));
+    errorPane->setStyleSheet(QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
 
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
@@ -1264,7 +1264,6 @@ void MainWindow::changeTheme(){
     docsCentral->setStyleSheet("");
     docWidget->setStyleSheet("");
     toolBar->setStyleSheet("");
-    errorPane->setStyleSheet("");
     currentTheme->lightMode();
     docPane->setStyleSheet(defaultTextBrowserStyle);
 
@@ -1283,12 +1282,14 @@ void MainWindow::changeTheme(){
 
     QApplication::setPalette(p);
 
+    errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: #FFF;}").arg(currentTheme->color("ErrorBackground").name()));
+
     refreshDocContent();
   }
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->redraw();
-    }
+  }
   lexer->unhighlightAll();
 }
 

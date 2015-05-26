@@ -133,7 +133,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
           QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
           QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection,
-                                     Q_ARG(QString, "<table width=\"100%\"> border=\"1\" bgcolor=\"deeppink\" cellpadding=\"0\"><tr><td bgcolor=\""+ theme->color("ErrorBackground").name() +"\"><h3><font color=\"deeppink\"><pre>Error: " + QString::fromStdString(desc) + "</pre></font></h3></td></tr><tr><td bgcolor=\""+ theme->color("ErrorBackground").name() +"\"><h4><font color=\"#5e5e5e\"><pre>" + QString::fromStdString(backtrace) + "</pre></font></h4></td></tr></table>") );
+                                     Q_ARG(QString, "<table width=\"100%\"> border=\"1\" bgcolor=\"deeppink\" cellpadding=\"0\"><tr><td class=\"error-background\"><h3><font color=\"deeppink\"><pre>Error: " + QString::fromStdString(desc) + "</pre></font></h3></td></tr><tr><td class=\"error-background\"><h4><font color=\"#5e5e5e\"><pre>" + QString::fromStdString(backtrace) + "</pre></font></h4></td></tr></table>") );
 
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
