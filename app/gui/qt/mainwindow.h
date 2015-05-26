@@ -117,6 +117,7 @@ private slots:
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
+    void changeTheme();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
@@ -159,6 +160,7 @@ private:
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
+    void refreshDocContent();
     void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
@@ -205,6 +207,7 @@ private:
     QDockWidget *docWidget;
     QTextBrowser *docPane;
     QTextBrowser *hudPane;
+    QWidget *mainWidget;
     bool hidingDocPane;
     bool restoreDocPane;
 
@@ -228,6 +231,7 @@ private:
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
     QCheckBox *show_line_numbers;
+    QCheckBox *dark_mode;
     QCheckBox *check_updates;
 
     QRadioButton *rp_force_audio_hdmi;

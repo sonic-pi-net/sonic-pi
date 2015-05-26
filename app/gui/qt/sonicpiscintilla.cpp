@@ -147,12 +147,24 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
 
 }
 
+void SonicPiScintilla::redraw(){
+  setMarginsBackgroundColor(theme->color("MarginBackground"));
+  setMarginsForegroundColor(theme->color("MarginForeground"));
+  setSelectionBackgroundColor(theme->color("SelectionBackground"));
+  setSelectionForegroundColor(theme->color("SelectionForeground"));
+  setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
+  setFoldMarginColors(theme->color("FoldMarginForeground"),theme->color("FoldMarginForeground"));
+  setIndentationGuidesForegroundColor(theme->color("IndentationGuidesForeground"));
+  setMatchedBraceBackgroundColor(theme->color("MatchedBraceBackground"));
+  setMatchedBraceForegroundColor(theme->color("MatchedBraceForeground"));
+}
+
 void SonicPiScintilla::highlightAll(){
   setCaretLineBackgroundColor("deeppink");
 }
 
 void SonicPiScintilla::unhighlightAll(){
-    setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
+  setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
 }
 
 void SonicPiScintilla::hideLineNumbers(){

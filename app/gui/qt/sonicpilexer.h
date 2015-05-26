@@ -24,8 +24,6 @@ public:
   QColor defaultPaper(int style) const;
   void highlightAll();
   void unhighlightAll();
-
-private:
   SonicPiTheme *theme;
 
 };
