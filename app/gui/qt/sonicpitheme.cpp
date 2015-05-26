@@ -190,7 +190,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["BraceForeground"]             = "white";
 
     themeSettings["CaretForeground"]             = "deep pink";
-    themeSettings["CaretLineBackground"]         = "black";
+    themeSettings["CaretLineBackground"]         = "#111";
 
     themeSettings["IndentationGuidesForeground"] = "#4D4DFF";
     themeSettings["FoldMarginForeground"]        = "black";
