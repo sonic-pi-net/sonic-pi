@@ -1282,7 +1282,7 @@ void MainWindow::changeTheme(){
 
     QApplication::setPalette(p);
 
-    errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: #FFF;}").arg(currentTheme->color("ErrorBackground").name()));
+    errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
 
     refreshDocContent();
   }
