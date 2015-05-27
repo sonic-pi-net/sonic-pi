@@ -1227,7 +1227,7 @@ void MainWindow::changeTheme(){
     QString paneColor = currentTheme->color("PaneBackground").name();
     QString windowBorder = currentTheme->color("WindowBorder").name();
 
-    this->setStyleSheet(QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {display:none; border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px; display:none;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
+    this->setStyleSheet(QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
     statusBar()->setStyleSheet(QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
 
     outputPane->setStyleSheet(QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
@@ -1243,12 +1243,7 @@ void MainWindow::changeTheme(){
     infoWidg->setStyleSheet(QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418}").arg(windowForegroundColor));
 
     toolBar->setStyleSheet(QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
-    errorPane->setStyleSheet(QString("QTextEdit{background-color: %1;}").arg(paneColor));
-
-    for(int i=0; i < tabs->count(); i++){
-      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-      ws->setStyleSheet("QsciScintillaBase{ border: 0px;} ");
-    }
+    errorPane->setStyleSheet(QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
 
     refreshDocContent();
 
@@ -1264,7 +1259,6 @@ void MainWindow::changeTheme(){
     docsCentral->setStyleSheet("");
     docWidget->setStyleSheet("");
     toolBar->setStyleSheet("");
-    errorPane->setStyleSheet("");
     currentTheme->lightMode();
     docPane->setStyleSheet(defaultTextBrowserStyle);
 
@@ -1283,12 +1277,14 @@ void MainWindow::changeTheme(){
 
     QApplication::setPalette(p);
 
+    errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
+
     refreshDocContent();
   }
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->redraw();
-    }
+  }
   lexer->unhighlightAll();
 }
 
