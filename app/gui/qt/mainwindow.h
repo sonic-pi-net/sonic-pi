@@ -147,7 +147,7 @@ private:
     void createShortcuts();
     void createToolBar();
     void createStatusBar();
-    void createInfoPane();
+    void createInfoPane(QStringList *files);
     void readSettings();
     void writeSettings();
     void loadFile(const QString &fileName, SonicPiScintilla* &text);
@@ -212,6 +212,8 @@ private:
     bool restoreDocPane;
 
     QTabWidget *tabs;
+    QTabWidget *infoTabs;
+    QStringList *infoFiles;
 
     QProcess *serverProcess;
 
