@@ -133,7 +133,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
 
     themeSettings["DefaultForeground"]               = "black";
     themeSettings["CommentForeground"]               = "#8B8989";
-    themeSettings["PODForeground"]                   = "#004000";
+    themeSettings["PODForeground"]                   = "#fff";
     themeSettings["NumberForeground"]                = "#4c83ff";
     themeSettings["FunctionMethodNameForeground"]    = "deeppink";
     themeSettings["KeywordForeground"]               = "#FBDE2D";
@@ -153,9 +153,9 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["PercentStringForeground"]         = "DarkGreen";
     themeSettings["PercentStringQForeground"]        = "DarkGreen";
     themeSettings["RegexForeground"]                 = "#E9C062";
-    themeSettings["HereDocumentDelimiterForeground"] = "#000000";
-    themeSettings["PercentStringrForeground"]        = "#000000";
-    themeSettings["PercentStringwForeground"]        = "#000000";
+    themeSettings["HereDocumentDelimiterForeground"] = "#fff";
+    themeSettings["PercentStringrForeground"]        = "#6e88ff";
+    themeSettings["PercentStringwForeground"]        = "#6e88ff";
 
     themeSettings["DefaultBackground"]               = "white";
     themeSettings["CommentBackground"]               = "white";
