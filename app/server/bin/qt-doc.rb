@@ -134,14 +134,14 @@ example_dirs.each do |ex_dir|
     name = "[#{ex_dir}] #{bname}"
     lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
     html = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
-    html << "<span class=\"example\">\n"
+    html << "<body class=\"example\">\n"
     html << '<h1>'
     html << "# #{bname}"
     html << '</h1>'
     html << "<p><pre><code>\n"
 
     html << "#{lines.join("\n")}\n\n</code></pre></p>\n"
-    html << "</span>\n"
+    html << "</body>\n"
     example_html_map[name] = html
   end
 end

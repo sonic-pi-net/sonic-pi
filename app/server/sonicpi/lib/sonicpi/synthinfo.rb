@@ -4631,7 +4631,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         next if v.is_a? StudioInfo
         doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
 
-        doc << "<span class=\"manual\">\n"
+        doc << "<body class=\"manual\">\n"
         doc << "<h1>" << v.name << "</h1>\n\n"
 
         doc << "<p><table class=\"arguments\"><tr>\n"
@@ -4720,7 +4720,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           doc << "</table></p>\n"
         end # any_slidable
 
-        doc << "</span>\n"
+        doc << "</body>\n"
 
         res["#{safe_k}"] = doc
       end
@@ -4783,7 +4783,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         cnt = 0
         cnt = 0
         doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
-        doc << "<span class=\"manual\">\n\n"
+        doc << "<body class=\"manual\">\n\n"
         doc << "<h1>" << v[:desc] << "</h1>\n"
         doc << "<p><table class=\"arguments\"><tr>\n"
         StereoPlayer.new.arg_info.each do |ak, av|
@@ -4823,7 +4823,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           cnt += 1
         end
         doc << "</table></p>\n"
-        doc << "</span>\n"
+        doc << "</body>\n"
 
         res[v[:desc]] = doc
       end
