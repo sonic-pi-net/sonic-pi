@@ -1730,24 +1730,6 @@ void MainWindow::writeSettings()
   settings.setValue("windowState", saveState());
 }
 
-void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
-{
-  QFile file(fileName);
-  if (!file.open(QFile::ReadOnly)) {
-    QMessageBox::warning(this, tr("Sonic Pi"),
-			 tr("Cannot read file %1:\n%2.")
-			 .arg(fileName)
-			 .arg(file.errorString()));
-    return;
-  }
-
-  QTextStream in(&file);
-  QApplication::setOverrideCursor(Qt::WaitCursor);
-  text->setText(in.readAll());
-  QApplication::restoreOverrideCursor();
-  statusBar()->showMessage(tr("File loaded..."), 2000);
-}
-
 bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 {
   QFile file(fileName);

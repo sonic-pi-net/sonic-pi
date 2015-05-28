@@ -151,7 +151,6 @@ private:
     void createInfoPane();
     void readSettings();
     void writeSettings();
-    void loadFile(const QString &fileName, SonicPiScintilla* &text);
     bool saveFile(const QString &fileName, SonicPiScintilla* text);
     void loadWorkspaces();
     void saveWorkspaces();
