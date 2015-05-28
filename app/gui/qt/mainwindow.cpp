@@ -122,8 +122,6 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
 
   defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
 
-  currentLine = 0;
-  currentIndex = 0;
   is_recording = false;
   show_rec_icon_a = false;
 
@@ -293,18 +291,6 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
   errorPane->zoomIn(1);
   errorPane->setMaximumHeight(130);
   errorPane->setMinimumHeight(130);
-
-  // hudPane = new QTextBrowser;
-  // hudPane->setMinimumHeight(130);
-  // hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
-  // hudPane->setStyleSheet(defaultTextBrowserStyle);
-  // hudWidget = new QDockWidget(this);
-  // hudWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-  // hudWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-  // hudWidget->setTitleBarWidget(new QWidget());
-  // addDockWidget(Qt::RightDockWidgetArea, hudWidget);
-  // hudWidget->setWidget(hudPane);
-  // hudWidget->setObjectName("hud");
 
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setFocusPolicy(Qt::NoFocus);

@@ -246,14 +246,9 @@ private:
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 
-    QTextBrowser *infoPane;
     QWidget *infoWidg;
     QTextEdit *startupPane;
-    QLabel *imageLabel;
     QVBoxLayout *mainWidgetLayout;
-
-    int currentLine;
-    int currentIndex;
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
@@ -263,8 +258,6 @@ private:
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
     QString defaultTextBrowserStyle;
-
-
 };
 
 #endif
