@@ -18,6 +18,10 @@ em {
     color: deeppink;
 }
 
+.backtrace {
+    /* placeholder */
+}
+
 pre {
     font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
 }
@@ -41,7 +45,7 @@ code .keyword {
 }
 
 code .info {
-  color: gray;
+  color: #5e5e5e;
 }
 
 .version {
@@ -103,8 +107,8 @@ body.manual table.arguments td {
 
 body.manual table.arguments td.odd,
 body.manual table.arguments td.odd a {
-  background-color: #e8e8e8;
-  color: #5e5e5e;
+    background-color: #e8e8e8;
+    color: #5e5e5e;
 }
 
 body.manual table.arguments td.even,

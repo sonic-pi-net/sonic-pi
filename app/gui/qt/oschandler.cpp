@@ -34,7 +34,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         ar.popStr(thread_name);
         ar.popStr(runtime);
         ar.popInt32(msg_count);
-        QMetaObject::invokeMethod(out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
+        QMetaObject::invokeMethod(out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor(theme->color("LogDefaultForeground"))));
         ss.append("[Run ").append(QString::number(job_id));
         ss.append(", Time ").append(QString::fromStdString(runtime));
         if(!thread_name.empty()) {
@@ -97,7 +97,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           QMetaObject::invokeMethod( out, "insertPlainText", Qt::QueuedConnection,
                                      Q_ARG(QString, ss) );
 
-          QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
+          QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor(theme->color("LogDefaultForeground"))));
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")));
 
 

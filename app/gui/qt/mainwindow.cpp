@@ -286,7 +286,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
-  outputPane->setTextColor(QColor("#5e5e5e"));
+  outputPane->setTextColor(QColor(theme->color("LogDefaultForeground")));
   outputPane->append("\n");
   outputPane->append(asciiArtLogo());
 

@@ -1,4 +1,3 @@
-
 #include "sonicpitheme.h"
 
 SonicPiTheme::SonicPiTheme(QObject *parent, QSettings *settings, bool dark) : QObject(parent)
@@ -114,6 +113,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["LogForeground"] = "black";
     themeSettings["LogInfoBackground"] = "#5e5e5e";
     themeSettings["LogInfoForeground"] = "white";
+    themeSettings["LogDefaultForeground"] = "#5e5e5e";
 
     return themeSettings;
 }
@@ -199,6 +199,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["LogForeground"] = "white";
     themeSettings["LogInfoBackground"] = "#2c3539";
     themeSettings["LogInfoForeground"] = "white";
+    themeSettings["LogDefaultForeground"] = "white";
 
     return themeSettings;
 }
@@ -208,4 +209,3 @@ QColor SonicPiTheme::color(QString key){
 }
 
 SonicPiTheme::~SonicPiTheme(){}
-
