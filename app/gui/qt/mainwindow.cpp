@@ -139,7 +139,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QFile themeFile(themeFilename);
   SonicPiTheme *theme;
   if(themeFile.exists()){
-    qDebug() << "[GUI] Custom colors";
+    qDebug() << "[GUI] - custom colours";
     QSettings settings(themeFilename, QSettings::IniFormat);
     theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
     lexer = new SonicPiLexer(theme);
