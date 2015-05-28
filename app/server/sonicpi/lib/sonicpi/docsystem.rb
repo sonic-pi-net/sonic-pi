@@ -52,8 +52,8 @@ module SonicPi
           end
           @@docs.each do |k, v|
             unless(v[:hide])
-              html = ""
-              html << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+              html = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+              html << "<span class=\"manual\">\n"
 
               summary = (v[:summary] || v[:name]).to_s
               summary[0] = summary[0].capitalize
@@ -115,7 +115,7 @@ module SonicPi
                 html << "</table></p>\n"
               end
 
-              html << "</body>\n"
+              html << "</span>\n"
               res[k.to_s] = html
             end
           end
