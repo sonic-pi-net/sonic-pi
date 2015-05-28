@@ -145,7 +145,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     lexer = new SonicPiLexer(theme);
   }
   else{
-    qDebug() << "[GUI] Default colors";
+    qDebug() << "[GUI] - default colours";
     theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
     lexer = new SonicPiLexer(theme);
   }
