@@ -160,7 +160,6 @@ private:
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
-    void refreshDocContent();
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QString name);

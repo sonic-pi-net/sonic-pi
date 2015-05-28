@@ -129,23 +129,12 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
   // Setup output and error panes
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
+  errorPane->setObjectName("errors");
 
   // Syntax highlighting
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-  QFile themeFile(themeFilename);
-  SonicPiTheme *theme;
-  if(themeFile.exists()){
-    qDebug() << "[GUI] Custom colors";
-    QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
-  else{
-    qDebug() << "[GUI] Default colors";
-    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
+  SonicPiTheme *theme = new SonicPiTheme(":/theme/light/theme-colours.ini");
+  lexer = new SonicPiLexer(theme);
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
 
@@ -1200,89 +1189,17 @@ void MainWindow::changeRPSystemVol(int val)
 void MainWindow::changeTheme(){
   SonicPiTheme *currentTheme = lexer->theme;
 
-  if(dark_mode->isChecked()){
-    currentTheme->darkMode();
+  QString theme = dark_mode->isChecked() ? "dark" : "light";
 
-    QPalette p = QApplication::palette();
-    p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
-    p.setColor(QPalette::Base,            QColor("#a3a3a3"));
-    p.setColor(QPalette::Text,            QColor("#000"));
-    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
-    p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
-
-    QApplication::setPalette(p);
-
-    QString windowColor = currentTheme->color("WindowBackground").name();
-    QString windowForegroundColor = currentTheme->color("WindowForeground").name();
-    QString paneColor = currentTheme->color("PaneBackground").name();
-    QString windowBorder = currentTheme->color("WindowBorder").name();
-
-    QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} ").arg(windowColor);
-    QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418;} ").arg(windowForegroundColor);
-    QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);} ").arg(windowColor, windowBorder, windowForegroundColor);
-
-    this->setStyleSheet(        QString(scrollStyling + "QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
-    statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
-    outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
-    outputWidget->setStyleSheet(widgetTitleStyling);
-    prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox{font-size: 11px; color: %1}").arg(windowForegroundColor));
-    tabs->setStyleSheet(        tabStyling);
-    docsCentral->setStyleSheet( tabStyling);
-    docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1;}").arg(paneColor, windowForegroundColor));
-    docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
-    infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
-    toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
-    errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
-
-    for(int i=0; i < infoTabs->count(); i++){
-      QTextEdit *w = (QTextEdit *)infoTabs->widget(i);
-      w->setHtml("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/dark_styles.css\"/></head>"+readFile(infoFiles->at(i)));
-      w->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
-    }
-
-    refreshDocContent();
-
-  }else{
-    this->setStyleSheet("");
-    infoWidg->setStyleSheet("");
-    mainWidget->setStyleSheet("");
-    statusBar()->setStyleSheet("");
-    outputPane->setStyleSheet("");
-    outputWidget->setStyleSheet("");
-    prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet("");
-    docsCentral->setStyleSheet("");
-    docWidget->setStyleSheet("");
-    toolBar->setStyleSheet("");
-    currentTheme->lightMode();
-    docPane->setStyleSheet(defaultTextBrowserStyle);
-
-    for(int i=0; i < tabs->count(); i++){
-      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-      ws->setStyleSheet("");
-    }
-
-    QPalette p = QApplication::palette();
-    p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
-    p.setColor(QPalette::Base,            QColor("#fff"));
-    p.setColor(QPalette::Text,            currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
-    p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
-
-    QApplication::setPalette(p);
-
-    errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
-
-    for(int i=0; i < infoTabs->count(); i++){
-      QTextEdit *w = (QTextEdit *)infoTabs->widget(i);
-      w->setHtml(readFile(infoFiles->at(i)));
-      w->setStyleSheet(defaultTextBrowserStyle);
-    }
-
-    refreshDocContent();
+  app->setStyleSheet(readFile(QString(":/theme/%1/qt-styles.qss").arg(theme)));
+  QString css = readFile(QString(":/theme/%1/html-styles.css").arg(theme));
+  docPane->document()->setDefaultStyleSheet(css);
+  docPane->reload();
+  foreach(QTextBrowser* pane, infoPanes) {
+    pane->document()->setDefaultStyleSheet(css);
+    pane->reload();
   }
+  currentTheme->readTheme(QString(":/theme/%1/theme-colours.ini").arg(theme));
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->redraw();
@@ -1856,26 +1773,6 @@ QListWidget *MainWindow::createHelpTab(QString name) {
   docsCentral->addTab(tabWidget, name);
   helpLists.append(nameList);
   return nameList;
-}
-
-//TODO: Find a better way to signal a re-render of the doc html content with potential new
-//      styling from dark/light mode. Currently uses scrolling signals to achieve a re-render.
-void MainWindow::refreshDocContent(){
-  int section = docsCentral->currentIndex();
-  int entry = helpLists[section]->currentRow();
-
-  if (entry == 0){
-    helpScrollDown();
-    helpScrollUp();
-  }
-  else if(entry == helpLists[section]->count()-1){
-    helpScrollUp();
-    helpScrollDown();
-  }
-  else{
-    helpScrollDown();
-    helpScrollUp();
-  }
 }
 
 void MainWindow::helpScrollUp() {

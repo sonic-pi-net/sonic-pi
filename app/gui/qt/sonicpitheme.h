@@ -9,18 +9,12 @@ class SonicPiTheme : public QObject
 {
     Q_OBJECT
 public:
-    explicit SonicPiTheme(QObject *parent = 0, QSettings *settings = 0, bool dark = false);
-    ~SonicPiTheme();
+    explicit SonicPiTheme(QString filename);
     QColor color(QString);
-    void darkMode();
-    void lightMode();
+    void readTheme(QString filename);
 
 private:
-    QMap<QString, QString> withCustomSettings(QMap<QString, QString> settings);
-    QMap<QString, QString> lightTheme();
-    QMap<QString, QString> darkTheme();
     QMap<QString, QString> theme;
-    QMap<QString, QString> customSettings;
 
 signals:
 
