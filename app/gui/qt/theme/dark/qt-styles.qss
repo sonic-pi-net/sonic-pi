@@ -1,0 +1,77 @@
+QWidget {
+    color: white;
+    background: #2c3539;
+}
+
+QMainWindow::separator {
+    border: 1px solid #222222;
+}
+
+QFrame {
+    border: 1px solid #222222;
+}
+
+QStatusBar {
+    border-top: 1px solid #222222;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::add-line:vertical {
+    border: 0px;
+}
+
+QScrollBar::sub-line:horizontal,
+QScrollBar::sub-line:vertical {
+    border: 0px;
+}
+
+QScrollBar:horizontal,
+QScrollBar:vertical {
+    background-color: #222;
+    border: 1px solid #000;
+}
+
+QScrollBar::handle:horizontal,
+QScrollBar::handle:vertical {
+    background: #2c3539;
+    border-radius: 5px;
+    min-width: 80%;
+}
+
+QDockWidget::title {
+    border-bottom: 1px solid #222222;
+    text-align: center;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2c3539, stop: 1.0 #1c2529);
+}
+
+QGroupBox {
+    font-size: 11px;
+}
+
+QTabBar::tab {
+    background: #1c2529;
+}
+
+QTabBar::tab:selected {
+    background: #0b1418;
+}
+
+QListView {
+    background-color: black;
+}
+
+QToolBar {
+    border-bottom: 1px solid #222222;
+}
+
+QTextEdit {
+    background-color: black;
+    border: 0px;
+}
+
+QTextBrowser {
+    selection-color: white;
+    selection-background-color: deeppink;
+    padding: 10px;
+    background: black;
+}

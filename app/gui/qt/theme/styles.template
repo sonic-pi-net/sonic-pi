@@ -1,0 +1,284 @@
+QWidget {
+    color: @WindowForeground;
+    background: @WindowBackground;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::add-line:vertical {
+    border: 0px;
+}
+
+QScrollBar::sub-line:horizontal,
+QScrollBar::sub-line:vertical {
+    border: 0px;
+}
+
+QScrollBar:horizontal,
+QScrollBar:vertical {
+    background-color: @WindowBorder;
+    border: 1px solid @PaneBackground;
+}
+
+QScrollBar::handle:horizontal,
+QScrollBar::handle:vertical {
+    background: @WindowBackground;
+    border-radius: 5px;
+    min-width: 80%;
+}
+
+QMainWindow::separator {
+    border: 1px solid @WindowBorder;
+}
+
+QMainWindow {
+    background-color: @WindowBackground;
+    color: @WindowForeground;
+}
+
+QFrame {
+    border: 1px solid @WindowBorder;
+}
+
+QStatusBar {
+    background-color: @WindowBackground;
+    border-top: 1px solid @WindowBorder;
+}
+
+QTextEdit {
+    background-color: @PaneBackground;
+    color: @WindowForeground;
+    border: 0px;
+}
+
+QDockWidget::title {
+    color: @WindowForeground;
+    border-bottom: 1px solid @WindowBorder;
+    text-align: center;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 @WindowBackground, stop: 1.0 #1c2529);
+}
+
+QGroupBox {
+    font-size: 11px;
+    color: @WindowForeground
+}
+QDockWidget::title {
+    font: bold 2px;
+    color: @WindowForeground;
+    border-bottom: 1px solid @WindowBorder;
+    text-align: center;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 @WindowBackground, stop: 1.0 #1c2529);
+}
+
+QTabBar::tab {
+    background: #1c2529;
+    color: @WindowForeground;
+}
+
+QTabBar::tab:selected {
+    background: #0b1418;
+}
+
+QDockWidget QListView {
+    color: @WindowForeground;
+    background-color: @PaneBackground;
+}
+
+QDockWidget::title {
+    color: @WindowForeground;
+    border-bottom: 1px solid @WindowBorder;
+    text-align: center;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 @WindowBackground, stop: 1.0 #1c2529);
+}
+
+QTabBar::tab {
+    background: #1c2529;
+    color: @WindowForeground;
+}
+
+QTabBar::tab:selected {
+    background: #0b1418;
+}
+
+QToolBar {
+    background-color: @WindowBackground;
+    border-bottom: 1px solid @WindowBorder;
+}
+
+QTextEdit {
+    background-color: @PaneBackground;
+}
+
+.error-background {
+    background-color: @ErrorBackground;
+}
+
+.error-background {
+    background-color: @ErrorBackground;
+}
+QTextEdit {
+    background-color: @ErrorBackground;
+}
+
+QTextBrowser {
+    selection-color: white;
+    selection-background-color: deeppink;
+    padding: 10px;
+    background: @PaneBackground;
+    font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Liberation Sans;
+    font-size: large;
+    color: #5e5e5e;
+}
+
+QTextBrowser a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+QTextBrowser em {
+  color: darkorange;
+}
+
+QTextBrowser .hightlight,
+QTextBrowser code {
+  color: deeppink;
+}
+
+QTextBrowser code .symbol {
+  color: deeppink;
+}
+
+QTextBrowser code .number {
+  color: dodgerblue;
+}
+
+QTextBrowser code .keyword {
+  color: darkorange;
+}
+
+QTextBrowser code .info {
+  color: gray;
+}
+
+QTextBrowser .version {
+  font-size: small;
+}
+
+QTextBrowser .strapline {
+  font-size: xx-large;
+}
+
+QTextBrowser .usage code {
+  font-size: large;
+  color: black;
+  background-color: white;
+}
+
+QTextBrowser h1 {
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: deeppink;
+}
+
+QTextBrowser h2 {
+  font-size: x-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: dodgerblue;
+}
+
+QTextBrowser span.info,
+QTextBrowser .startup,
+QTextBrowser .doc {
+  font-family: monospace;
+}
+
+QTextBrowser .info a,
+QTextBrowser .startup a,
+QTextBrowser .doc a {
+  color: deeppink;
+}
+
+QTextBrowser .example code {
+  font-size: large;
+  color: dodgerblue;
+}
+
+QTextBrowser .manual .introduced {
+  color: darkorange;
+  font-size: small;
+}
+
+QTextBrowser .manual table.arguments td {
+  padding: 2px;
+  font-family: monospace;
+}
+
+QTextBrowser .manual table.arguments td.odd,
+QTextBrowser .manual table.arguments td.odd a {
+  background-color: #e8e8e8;
+  color: #5e5e5e;
+}
+
+QTextBrowser .manual table.arguments td.even,
+QTextBrowser .manual table.arguments td.even a {
+  background-color: #5e5e5e;
+  color: white;
+}
+
+QTextBrowser .manual table.details td {
+  padding: 8px;
+}
+
+QTextBrowser .manual table.details td.key {
+  font-family: monospace;
+  font-size: large;
+}
+
+QTextBrowser .manual table.details td.odd {
+  background-color: #f8f8f8;
+}
+
+QTextBrowser .manual table.details td.even {
+  background-color: #e8e8e8;
+}
+
+QTextBrowser .manual table.details td.odd.key {
+  background-color: #74acff;
+}
+
+QTextBrowser .manual table.details td.even.key {
+  background-color: #b2d1ff;
+}
+
+QTextBrowser .manual table.details .properties {
+  font-size: medium;
+  font-style: italic;
+}
+
+QTextBrowser .manual table.examples td {
+  padding: 8px;
+}
+
+QTextBrowser .manual table.examples code {
+  color: #5e5e5e;
+  font-size: medium;
+}
+
+QTextBrowser .manual table.examples td.odd {
+  background-color: #f8f8f8;
+}
+
+QTextBrowser .manual table.examples td.even {
+  background-color: #e8e8e8;
+}
+
+QTextBrowser .manual table.examples td.odd.head {
+  background-color: #74acff;
+}
+
+QTextBrowser .manual table.examples td.even.head {
+  background-color: #b2d1ff;
+}
