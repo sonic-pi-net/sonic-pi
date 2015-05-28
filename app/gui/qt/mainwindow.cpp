@@ -131,7 +131,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Setup output and error panes
   outputPane = new QTextEdit;
-  errorPane = new QTextEdit;
+  errorPane = new QTextBrowser;
+  errorPane->setOpenExternalLinks(true);
 
   // Syntax highlighting
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");

@@ -73,6 +73,7 @@ public:
     void invokeStartupError(QString msg);
     SonicPiServer *sonicPiServer;
     enum {UDP=0, TCP=1};
+    QCheckBox *dark_mode;
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -140,6 +141,8 @@ private slots:
     void updateLogVisibility();
     void updateButtonVisibilty();
 
+
+
 private:
     QSignalMapper *signalMapper;
     void startServer();
@@ -201,7 +204,7 @@ private:
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
     QTextEdit *outputPane;
-    QTextEdit *errorPane;
+    QTextBrowser *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
     QDockWidget *hudWidget;
@@ -234,7 +237,6 @@ private:
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
     QCheckBox *show_line_numbers;
-    QCheckBox *dark_mode;
     QCheckBox *check_updates;
 
     QRadioButton *rp_force_audio_hdmi;

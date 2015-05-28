@@ -6,17 +6,26 @@ body {
 }
 
 a {
-  color: #2cb4df;
-  text-decoration: none;
+    color: #FBDE2D;
+    text-decoration: none;
 }
 
 em {
   color: darkorange;
 }
 
-.hightlight,
+.hightlight {
+    color: deeppink;
+}
+
+pre {
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
 code {
-  color: deeppink;
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+
+    color: deeppink;
 }
 
 code .symbol {
@@ -43,6 +52,10 @@ code .info {
   font-size: xx-large;
 }
 
+.usage {
+    color: white;
+}
+
 .usage code {
   font-size: large;
   color: white;
@@ -62,11 +75,11 @@ h2 {
   font-weight: bold;
   padding: 2px;
   color: white;
-  background-color: #032c7f;
+  background-color: #5d99f3;
 }
 
 body.info {
-  font-family: monospace;
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
 }
 
 body.info a {
@@ -75,7 +88,7 @@ body.info a {
 
 body.example code {
   font-size: large;
-  color: #2cb4df;
+  color: deeppink;
 }
 
 body.manual .introduced {
@@ -85,7 +98,7 @@ body.manual .introduced {
 
 body.manual table.arguments td {
   padding: 2px;
-  font-family: monospace;
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
 }
 
 body.manual table.arguments td.odd,
@@ -105,7 +118,7 @@ body.manual table.details td {
 }
 
 body.manual table.details td.key {
-  font-family: monospace;
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
   font-size: large;
 }
 
