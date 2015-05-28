@@ -52,7 +52,7 @@ class SonicPiServer;
 struct help_page {
   QString title;
   QString keyword;
-  QString filename;
+  QString url;
 };
 
 struct help_entry {
@@ -148,7 +148,7 @@ private:
     void createShortcuts();
     void createToolBar();
     void createStatusBar();
-    void createInfoPane(QStringList *files);
+    void createInfoPane();
     void readSettings();
     void writeSettings();
     void loadFile(const QString &fileName, SonicPiScintilla* &text);
@@ -162,7 +162,6 @@ private:
     void initPrefsWindow();
     void initDocsWindow();
     void refreshDocContent();
-    void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QString name);
@@ -214,8 +213,6 @@ private:
     bool restoreDocPane;
 
     QTabWidget *tabs;
-    QTabWidget *infoTabs;
-    QStringList *infoFiles;
 
     QProcess *serverProcess;
 
@@ -247,6 +244,7 @@ private:
     QMap<QString, QString> *map;
 
     QWidget *infoWidg;
+    QList<QTextBrowser *> infoPanes;
     QTextEdit *startupPane;
     QVBoxLayout *mainWidgetLayout;
 
@@ -257,7 +255,6 @@ private:
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
-    QString defaultTextBrowserStyle;
 };
 
 #endif

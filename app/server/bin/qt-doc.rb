@@ -87,7 +87,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
     end
 
     docs << ", "
-    docs << "\":/#{filename}\""
+    docs << "\"qrc:///#{filename}\""
     docs << "},\n"
 
     filenames << filename
