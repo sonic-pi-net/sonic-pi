@@ -93,11 +93,12 @@ using namespace oscpkt;
 #include "mainwindow.h"
 
 #ifdef Q_OS_MAC
-MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
+MainWindow::MainWindow(QApplication* app, bool i18n, QMainWindow* splash)
 #else
-MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
+MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  this->app = app;
   this->splash = splash;
   protocol = UDP;
 
@@ -395,7 +396,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   setWindowTitle(tr("Sonic Pi"));
   #endif
 
-  connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
+  connect(app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
   waitForServiceSync();
 
