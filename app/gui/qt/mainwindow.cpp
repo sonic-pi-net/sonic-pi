@@ -251,7 +251,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));
     signalMapper -> setMapping(changeTab, ws);
 
-    QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
+    QString w = QString(tr("Buffer %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
   }
