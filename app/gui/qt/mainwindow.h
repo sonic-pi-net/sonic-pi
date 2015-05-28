@@ -52,7 +52,7 @@ class SonicPiServer;
 struct help_page {
   QString title;
   QString keyword;
-  QString filename;
+  QString url;
 };
 
 struct help_entry {
@@ -66,9 +66,9 @@ class MainWindow : public QMainWindow
 
 public:
 #if defined(Q_OS_MAC)
-    MainWindow(QApplication &ref, bool i18n, QMainWindow* splash);
+    MainWindow(QApplication* app, bool i18n, QMainWindow* splash);
 #else
-    MainWindow(QApplication &ref, bool i18n, QSplashScreen* splash);
+    MainWindow(QApplication* app, bool i18n, QSplashScreen* splash);
 #endif
     void invokeStartupError(QString msg);
     SonicPiServer *sonicPiServer;
@@ -148,10 +148,9 @@ private:
     void createShortcuts();
     void createToolBar();
     void createStatusBar();
-    void createInfoPane(QStringList *files);
+    void createInfoPane();
     void readSettings();
     void writeSettings();
-    void loadFile(const QString &fileName, SonicPiScintilla* &text);
     bool saveFile(const QString &fileName, SonicPiScintilla* text);
     void loadWorkspaces();
     void saveWorkspaces();
@@ -161,8 +160,6 @@ private:
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
-    void refreshDocContent();
-    void setHelpText(QListWidgetItem *item, const QString filename);
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QString name);
@@ -195,6 +192,7 @@ private:
     QSplashScreen* splash;
 #endif
 
+    QApplication *app;
     bool i18n;
     static const int workspace_max = 10;
     SonicPiScintilla *workspaces[workspace_max];
@@ -213,8 +211,6 @@ private:
     bool restoreDocPane;
 
     QTabWidget *tabs;
-    QTabWidget *infoTabs;
-    QStringList *infoFiles;
 
     QProcess *serverProcess;
 
@@ -245,14 +241,10 @@ private:
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 
-    QTextBrowser *infoPane;
     QWidget *infoWidg;
+    QList<QTextBrowser *> infoPanes;
     QTextEdit *startupPane;
-    QLabel *imageLabel;
     QVBoxLayout *mainWidgetLayout;
-
-    int currentLine;
-    int currentIndex;
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
@@ -261,9 +253,6 @@ private:
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
-    QString defaultTextBrowserStyle;
-
-
 };
 
 #endif

@@ -57,16 +57,15 @@ int main(int argc, char *argv[])
   splashWindow->raise();
   splashWindow->show();
 
-  MainWindow mainWin(app, i18n, splashWindow);
+  MainWindow mainWin(&app, i18n, splashWindow);
   return app.exec();
 #else
   QPixmap pixmap(":/images/splash.png");
   QSplashScreen *splash = new QSplashScreen(pixmap);
-  splash->setMask(pixmap.mask());
   splash->show();
   splash->repaint();
 
-  MainWindow mainWin(app, i18n, splash);
+  MainWindow mainWin(&app, i18n, splash);
   return app.exec();
 #endif
 

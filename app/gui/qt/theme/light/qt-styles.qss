@@ -1,0 +1,6 @@
+QTextBrowser {
+    selection-color: white;
+    selection-background-color: deeppink;
+    padding: 10px;
+    background: white;
+}

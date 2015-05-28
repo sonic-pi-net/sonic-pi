@@ -93,11 +93,12 @@ using namespace oscpkt;
 #include "mainwindow.h"
 
 #ifdef Q_OS_MAC
-MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
+MainWindow::MainWindow(QApplication* app, bool i18n, QMainWindow* splash)
 #else
-MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
+MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  this->app = app;
   this->splash = splash;
   protocol = UDP;
 
@@ -119,10 +120,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   setUnifiedTitleAndToolBarOnMac(true);
   setWindowIcon(QIcon(":images/icon-smaller.png"));
 
-  defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
-
-  currentLine = 0;
-  currentIndex = 0;
   is_recording = false;
   show_rec_icon_a = false;
 
@@ -132,23 +129,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // Setup output and error panes
   outputPane = new QTextEdit;
   errorPane = new QTextEdit;
+  errorPane->setObjectName("errors");
 
   // Syntax highlighting
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-  QFile themeFile(themeFilename);
-  SonicPiTheme *theme;
-  if(themeFile.exists()){
-    qDebug() << "[GUI] - custom colours";
-    QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
-  else{
-    qDebug() << "[GUI] - default colours";
-    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
+  SonicPiTheme *theme = new SonicPiTheme(":/theme/light/theme-colours.ini");
+  lexer = new SonicPiLexer(theme);
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
 
@@ -293,18 +279,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   errorPane->setMaximumHeight(130);
   errorPane->setMinimumHeight(130);
 
-  // hudPane = new QTextBrowser;
-  // hudPane->setMinimumHeight(130);
-  // hudPane->setHtml("<center><img src=\":/images/logo.png\" height=\"113\" width=\"138\"></center>");
-  // hudPane->setStyleSheet(defaultTextBrowserStyle);
-  // hudWidget = new QDockWidget(this);
-  // hudWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-  // hudWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-  // hudWidget->setTitleBarWidget(new QWidget());
-  // addDockWidget(Qt::RightDockWidgetArea, hudWidget);
-  // hudWidget->setWidget(hudPane);
-  // hudWidget->setObjectName("hud");
-
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setFocusPolicy(Qt::NoFocus);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
@@ -333,7 +307,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   docPane->setFocusPolicy(Qt::NoFocus);
   docPane->setMinimumHeight(200);
   docPane->setOpenExternalLinks(true);
-  docPane->setStyleSheet(defaultTextBrowserStyle);
 
   QShortcut *up = new QShortcut(ctrlKey('p'), docPane);
   up->setContext(Qt::WidgetShortcut);
@@ -342,7 +315,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   down->setContext(Qt::WidgetShortcut);
   connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
 
-  docPane->setHtml(readFile(":/html/doc.html"));
+  docPane->setSource(QUrl("qrc:///html/doc.html"));
 
   addUniversalCopyShortcuts(docPane);
 
@@ -378,16 +351,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   createShortcuts();
   createToolBar();
   createStatusBar();
-
-  infoFiles = new QStringList();
-  infoFiles->append(":/html/info.html");
-  infoFiles->append(":/info/CORETEAM.html");
-  infoFiles->append(":/info/CONTRIBUTORS.html");
-  infoFiles->append(":/info/COMMUNITY.html");
-  infoFiles->append(":/info/LICENSE.html");
-  infoFiles->append(":/info/CHANGELOG.html");
-
-  createInfoPane(infoFiles);
+  createInfoPane();
 
   readSettings();
 
@@ -395,7 +359,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   setWindowTitle(tr("Sonic Pi"));
   #endif
 
-  connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
+  connect(app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
   waitForServiceSync();
 
@@ -410,8 +374,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     addUniversalCopyShortcuts(startupPane);
     QString html;
 
-    startupPane->setHtml(readFile(":/html/startup.html"));
-    startupPane->setStyleSheet(defaultTextBrowserStyle);
+    startupPane->setSource(QUrl("qrc:///html/doc.html"));
 
     docWidget->show();
     startupPane->show();
@@ -835,10 +798,9 @@ void MainWindow::startupError(QString msg) {
   splashClose();
   startup_error_reported = true;
 
-  QString logtext = readFile(log_path + QDir::separator() + "output.log");
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     tr("We're sorry, but Sonic Pi was unable to start..."), msg);
-  box->setDetailedText(logtext);
+  box->setDetailedText(readFile(log_path + QDir::separator() + "output.log"));
 
   QGridLayout* layout = (QGridLayout*)box->layout();
   QSpacerItem* hSpacer = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
@@ -1227,89 +1189,17 @@ void MainWindow::changeRPSystemVol(int val)
 void MainWindow::changeTheme(){
   SonicPiTheme *currentTheme = lexer->theme;
 
-  if(dark_mode->isChecked()){
-    currentTheme->darkMode();
+  QString theme = dark_mode->isChecked() ? "dark" : "light";
 
-    QPalette p = QApplication::palette();
-    p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
-    p.setColor(QPalette::Base,            QColor("#a3a3a3"));
-    p.setColor(QPalette::Text,            QColor("#000"));
-    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
-    p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
-
-    QApplication::setPalette(p);
-
-    QString windowColor = currentTheme->color("WindowBackground").name();
-    QString windowForegroundColor = currentTheme->color("WindowForeground").name();
-    QString paneColor = currentTheme->color("PaneBackground").name();
-    QString windowBorder = currentTheme->color("WindowBorder").name();
-
-    QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} ").arg(windowColor);
-    QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418;} ").arg(windowForegroundColor);
-    QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);} ").arg(windowColor, windowBorder, windowForegroundColor);
-
-    this->setStyleSheet(        QString(scrollStyling + "QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
-    statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
-    outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
-    outputWidget->setStyleSheet(widgetTitleStyling);
-    prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox{font-size: 11px; color: %1}").arg(windowForegroundColor));
-    tabs->setStyleSheet(        tabStyling);
-    docsCentral->setStyleSheet( tabStyling);
-    docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1;}").arg(paneColor, windowForegroundColor));
-    docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
-    infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
-    toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
-    errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
-
-    for(int i=0; i < infoTabs->count(); i++){
-      QTextEdit *w = (QTextEdit *)infoTabs->widget(i);
-      w->setHtml("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/dark_styles.css\"/></head>"+readFile(infoFiles->at(i)));
-      w->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
-    }
-
-    refreshDocContent();
-
-  }else{
-    this->setStyleSheet("");
-    infoWidg->setStyleSheet("");
-    mainWidget->setStyleSheet("");
-    statusBar()->setStyleSheet("");
-    outputPane->setStyleSheet("");
-    outputWidget->setStyleSheet("");
-    prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet("");
-    docsCentral->setStyleSheet("");
-    docWidget->setStyleSheet("");
-    toolBar->setStyleSheet("");
-    currentTheme->lightMode();
-    docPane->setStyleSheet(defaultTextBrowserStyle);
-
-    for(int i=0; i < tabs->count(); i++){
-      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-      ws->setStyleSheet("");
-    }
-
-    QPalette p = QApplication::palette();
-    p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
-    p.setColor(QPalette::Base,            QColor("#fff"));
-    p.setColor(QPalette::Text,            currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
-    p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
-
-    QApplication::setPalette(p);
-
-    errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
-
-    for(int i=0; i < infoTabs->count(); i++){
-      QTextEdit *w = (QTextEdit *)infoTabs->widget(i);
-      w->setHtml(readFile(infoFiles->at(i)));
-      w->setStyleSheet(defaultTextBrowserStyle);
-    }
-
-    refreshDocContent();
+  app->setStyleSheet(readFile(QString(":/theme/%1/qt-styles.qss").arg(theme)));
+  QString css = readFile(QString(":/theme/%1/html-styles.css").arg(theme));
+  docPane->document()->setDefaultStyleSheet(css);
+  docPane->reload();
+  foreach(QTextBrowser* pane, infoPanes) {
+    pane->document()->setDefaultStyleSheet(css);
+    pane->reload();
   }
+  currentTheme->readTheme(QString(":/theme/%1/theme-colours.ini").arg(theme));
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->redraw();
@@ -1606,29 +1496,31 @@ void MainWindow::createToolBar()
 QString MainWindow::readFile(QString name)
 {
   QFile file(name);
-  if (!file.open(QFile::ReadOnly | QFile::Text))
+  if (!file.open(QFile::ReadOnly | QFile::Text)) {
     return "";
+  }
 
   QTextStream st(&file);
   st.setCodec("UTF-8");
-  QString s;
-  s.append(st.readAll());
-  return s;
+  return st.readAll();
 }
 
-void MainWindow::createInfoPane(QStringList *files) {
-  infoTabs = new QTabWidget(this);
+void MainWindow::createInfoPane() {
+  QTabWidget *infoTabs = new QTabWidget(this);
 
-  QStringList tabs;
-  tabs << tr("About") << tr("Core Team") << tr("Contributors") << tr("Community") << tr("License") << tr("History");
+  QStringList urls, tabs;
+  urls << "qrc:///html/info.html" << "qrc:///info/CORETEAM.html" << "qrc:///info/CONTRIBUTORS.html" <<
+    "qrc:///info/COMMUNITY.html" << "qrc:///info/LICENSE.html" << "qrc:///info/CHANGELOG.html";
+  tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
+    tr("Community") << tr("License") << tr("History");
 
-  for (int t=0; t < files->size(); t++) {
+  for (int t=0; t < urls.size(); t++) {
     QTextBrowser *pane = new QTextBrowser;
+    infoPanes.append(pane);
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
     pane->setFixedSize(600, 615);
-    pane->setHtml(readFile(files->at(t)));
-    pane->setStyleSheet(defaultTextBrowserStyle);
+    pane->setSource(QUrl(urls[t]));
     infoTabs->addTab(pane, tabs[t]);
   }
 
@@ -1753,24 +1645,6 @@ void MainWindow::writeSettings()
   settings.setValue("windowState", saveState());
 }
 
-void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
-{
-  QFile file(fileName);
-  if (!file.open(QFile::ReadOnly)) {
-    QMessageBox::warning(this, tr("Sonic Pi"),
-			 tr("Cannot read file %1:\n%2.")
-			 .arg(fileName)
-			 .arg(file.errorString()));
-    return;
-  }
-
-  QTextStream in(&file);
-  QApplication::setOverrideCursor(Qt::WaitCursor);
-  text->setText(in.readAll());
-  QApplication::restoreOverrideCursor();
-  statusBar()->showMessage(tr("File loaded..."), 2000);
-}
-
 bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 {
   QFile file(fileName);
@@ -1834,30 +1708,13 @@ void MainWindow::onExitCleanup()
 }
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
-  QString content = cur->data(32).toString();
-  if(dark_mode->isChecked()){
-    content = QString("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/dark_styles.css\"/></head>"+content);
-  }
-  docPane->setHtml(content);
+  QString url = cur->data(32).toString();
+  docPane->setSource(QUrl(url));
 }
 
 void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
   (void)prev;
   updateDocPane(cur);
-}
-
-void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
-  QFile file(filename);
-
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-
-  item->setData(32, QVariant(s));
 }
 
 void MainWindow::addHelpPage(QListWidget *nameList,
@@ -1868,7 +1725,7 @@ void MainWindow::addHelpPage(QListWidget *nameList,
 
   for(i = 0; i < len; i++) {
     QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
-    setHelpText(item, QString(helpPages[i].filename));
+    item->setData(32, QVariant(helpPages[i].url));
     item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
@@ -1916,26 +1773,6 @@ QListWidget *MainWindow::createHelpTab(QString name) {
   docsCentral->addTab(tabWidget, name);
   helpLists.append(nameList);
   return nameList;
-}
-
-//TODO: Find a better way to signal a re-render of the doc html content with potential new
-//      styling from dark/light mode. Currently uses scrolling signals to achieve a re-render.
-void MainWindow::refreshDocContent(){
-  int section = docsCentral->currentIndex();
-  int entry = helpLists[section]->currentRow();
-
-  if (entry == 0){
-    helpScrollDown();
-    helpScrollUp();
-  }
-  else if(entry == helpLists[section]->count()-1){
-    helpScrollUp();
-    helpScrollDown();
-  }
-  else{
-    helpScrollDown();
-    helpScrollUp();
-  }
 }
 
 void MainWindow::helpScrollUp() {
@@ -1999,15 +1836,7 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
 }
 
 QString MainWindow::asciiArtLogo(){
-  QFile file(":/images/logo.txt");
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-  return s;
+  return readFile(":/images/logo.txt");
 }
 
 void MainWindow::printAsciiArtLogo(){
