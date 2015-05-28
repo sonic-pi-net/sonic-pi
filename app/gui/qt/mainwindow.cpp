@@ -809,10 +809,9 @@ void MainWindow::startupError(QString msg) {
   splashClose();
   startup_error_reported = true;
 
-  QString logtext = readFile(log_path + QDir::separator() + "output.log");
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     tr("We're sorry, but Sonic Pi was unable to start..."), msg);
-  box->setDetailedText(logtext);
+  box->setDetailedText(readFile(log_path + QDir::separator() + "output.log"));
 
   QGridLayout* layout = (QGridLayout*)box->layout();
   QSpacerItem* hSpacer = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
@@ -1580,14 +1579,13 @@ void MainWindow::createToolBar()
 QString MainWindow::readFile(QString name)
 {
   QFile file(name);
-  if (!file.open(QFile::ReadOnly | QFile::Text))
+  if (!file.open(QFile::ReadOnly | QFile::Text)) {
     return "";
+  }
 
   QTextStream st(&file);
   st.setCodec("UTF-8");
-  QString s;
-  s.append(st.readAll());
-  return s;
+  return st.readAll();
 }
 
 void MainWindow::createInfoPane() {
@@ -1941,15 +1939,7 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
 }
 
 QString MainWindow::asciiArtLogo(){
-  QFile file(":/images/logo.txt");
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-  return s;
+  return readFile(":/images/logo.txt");
 }
 
 void MainWindow::printAsciiArtLogo(){
