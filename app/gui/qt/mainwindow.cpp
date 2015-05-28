@@ -310,8 +310,11 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   prefsWidget->setFocusPolicy(Qt::NoFocus);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
+
   prefsCentral = new QWidget;
   prefsWidget->setWidget(prefsCentral);
+  QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+  prefsCentral->setSizePolicy(prefsSizePolicy);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
   prefsWidget->hide();
   prefsWidget->setObjectName("prefs");
