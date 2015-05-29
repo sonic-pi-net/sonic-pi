@@ -56,7 +56,7 @@ module SonicPi
         counters
       end
 
-      def self.tick(k, n=1)
+      def self.tick(k=:___sonic_pi_default_tick_key___, n=1)
         counters = get_or_create_counters
         if counters[k]
           curr_val, next_val = *counters[k]
@@ -68,18 +68,18 @@ module SonicPi
         end
       end
 
-      def self.read(k)
+      def self.read(k=:___sonic_pi_default_tick_key___)
         counters = get_or_create_counters
         val, _ = *counters[k]
         val || 0
       end
 
-      def self.set(k, v)
+      def self.set(k=:___sonic_pi_default_tick_key___, v)
         counters = get_or_create_counters
         counters[k] = [v, v]
       end
 
-      def self.rm(k)
+      def self.rm(k=:___sonic_pi_default_tick_key___)
         counters = get_or_create_counters
         counters.delete(k)
         nil
@@ -147,7 +147,7 @@ module SonicPi
         Array.new(self)
       end
 
-      def tick(key, *args)
+      def tick(key=:___sonic_pi_default_tick_key___, *args)
         opts = args[0] || {}
         raise "tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
         step = opts[:step] || 1
@@ -156,7 +156,7 @@ module SonicPi
         self[idx + offset]
       end
 
-      def hook(key, *args)
+      def hook(key=:___sonic_pi_default_tick_key___, *args)
         idx = ThreadLocalCounter.read(key)
         self[idx]
       end
@@ -656,7 +656,7 @@ class Object
     self.to_a.ring
   end
 
-  def tick(k)
+  def tick(k=:___sonic_pi_default_tick_key___)
     self.ring.tick(k)
   end
 

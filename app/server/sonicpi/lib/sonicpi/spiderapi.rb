@@ -26,19 +26,19 @@ module SonicPi
 
     THREAD_RAND_SEED_MAX = 10e20
 
-    def tick_set(k, v=0)
+    def tick_set(k=:___sonic_pi_default_tick_key___, v=0)
       SonicPi::Core::ThreadLocalCounter.set(k, v)
     end
 
-    def tick_reset(k)
+    def tick_reset(k=:___sonic_pi_default_tick_key___)
       SonicPi::Core::ThreadLocalCounter.rm(k)
     end
 
-    def tick(k, n=1)
+    def tick(k=:___sonic_pi_default_tick_key___, n=1)
       SonicPi::Core::ThreadLocalCounter.tick(k, n)
     end
 
-    def hook(k)
+    def hook(k=:___sonic_pi_default_tick_key___)
       SonicPi::Core::ThreadLocalCounter.read(k)
     end
 
