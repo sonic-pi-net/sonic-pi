@@ -121,8 +121,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
 
-  currentLine = 0;
-  currentIndex = 0;
   is_recording = false;
   show_rec_icon_a = false;
 

@@ -253,9 +253,6 @@ private:
     QLabel *imageLabel;
     QVBoxLayout *mainWidgetLayout;
 
-    int currentLine;
-    int currentIndex;
-
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
     std::streambuf *coutbuf;
