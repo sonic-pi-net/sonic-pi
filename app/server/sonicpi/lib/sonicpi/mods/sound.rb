@@ -236,6 +236,7 @@ end"]
            args:           [[:string_or_number, :sample_name_or_duration]],
            opts:           {:num_beats => "The number of beats within the sample. By default this is 1."},
            accepts_block:  true,
+           requires_block: true,
            examples:       ["
 live_loop :dnb do
   with_sample_bpm :loop_amen do #Set bpm based on :loop_amen duration
@@ -305,6 +306,7 @@ sleep rt(2)             # still sleeps for 2 seconds"]
         args:           [],
         opts:           nil,
         accepts_block:  true,
+        requires_block: true,
         examples:       ["use_bpm 120
 play 50, release: 2 # release is actually 1 due to bpm scaling
 with_arg_bpm_scaling false do
@@ -379,6 +381,7 @@ end"]
            doc:           "Specify how many seconds between successive modifications (i.e. trigger then controls) of a specific node on a specific thread. Set larger if you are missing control messages sent extremely close together in time.",
            args:          [[:time, :number]],
            opts:          nil,
+           modifies_env: true,
            accepts_block: false,
            examples:      [
 "
@@ -405,6 +408,7 @@ control s, note: 82                    # immediately start sliding note.
            doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding.",
            args:          [[:time, :number]],
            opts:          nil,
+           modifies_env: true,
            accepts_block: false,
            examples:      ["set_sched_ahead_time! 1 # Code will now run approximately 1 second ahead of audio."]
 
@@ -441,6 +445,7 @@ control s, note: 82                    # immediately start sliding note.
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 # Turn on debugging:
 use_debug true
@@ -497,6 +502,7 @@ play 50, release: 5 # Args are not checked"]
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 # Turn on arg checking:
 use_arg_checks true
@@ -561,6 +567,7 @@ play 62 # Plays note 65"]
            args:          [[:note_shift, :number]],
            opts:          nil,
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 use_transpose 3
 play 62 # Plays note 65
@@ -612,6 +619,7 @@ play 50 # Plays with mod_sine synth"]
            args:          [[:synth_name, :symbol]],
            opts:          nil,
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 play 50 # Plays with default synth
 sleep 2
@@ -1010,6 +1018,7 @@ play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
            args:          [],
            opts:          {},
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 with_merged_synth_defaults amp: 0.5, pan: 1 do
   play 50 # => plays note 50 with amp 0.5 and pan 1
@@ -1100,6 +1109,7 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest 
            args:          [],
            opts:          {},
            accepts_block: false,
+           requires_block: false,
            examples:      ["
 sample :loop_amen # plays amen break with default arguments
 
@@ -1131,6 +1141,7 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
            args:          [],
            opts:          {},
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 play 50 # plays note 50 with default arguments
 
@@ -1393,6 +1404,7 @@ For advanced control, it is also possible to modify the parameters of an effect 
            args:          [[:fx_name, :symbol]],
            opts:          {},
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 # Basic usage
 with_fx :distortion do # Use the distortion effect with default parameters
@@ -1508,6 +1520,7 @@ sample :my_drums__bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 with_sample_pack '/path/to/sample/dir' do
   sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff}
@@ -1533,6 +1546,7 @@ end"]
            args:          [[:pack_path, :string]],
            opts:          nil,
            accepts_block: true,
+           requires_block: true,
            examples:      ["
 with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
   # The foo sample is now available, with a prefix of 'my_samples'
@@ -1725,6 +1739,7 @@ puts current_arg_checks # Print out the current arg check setting"]
            args:          [[:vol, :number]],
            opts:          nil,
            accepts_block: false,
+           modifies_env: true,
            examples:      ["
 set_volume! 2 # Set the main system volume to 2",
 

@@ -445,6 +445,8 @@ end"]
         opts:           {:init => "initial value for optional block arg",
                          :auto_cue => "enable or disable automatic cue (default is true)"},
         accepts_block: true,
+        requires_block: true,
+        async_block: true,
         doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
         examples: ["
 live_loop :ping do
@@ -503,6 +505,8 @@ end
                          [:params, :list]],
         opts:           nil,
         accepts_block:  true,
+        requires_block: true,
+        async_block:    true,
         examples:       ["
 at [1, 2, 4] do  # plays a note after waiting 1 beat,
   play 75           # then after 1 more beat,
@@ -632,6 +636,7 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         args:           [[:name, :symbol]],
         opts:           {:override => "If set to true, re-definitions are allowed and this acts like define"},
         accepts_block: true,
+        requires_block: true,
         doc:            "Allows you to assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
         examples:       ["
 
@@ -693,6 +698,7 @@ play bar # plays 80"]
         args:           [[:name, :symbol]],
         opts:          nil,
         accepts_block: true,
+        requires_block: true,
         doc:           "Does nothing. Use to stop a define from actually defining. Simpler than wrapping whole define in a comment block or commenting each individual line out.",
         examples: []
 
@@ -717,6 +723,7 @@ play bar # plays 80"]
         args:           [[:name, :symbol]],
         opts:          nil,
         accepts_block: true,
+        requires_block: true,
         doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
         examples:       ["
 # Define a new function called foo
@@ -761,6 +768,7 @@ end",]
         args:           [],
         opts:           nil,
         accepts_block:  true,
+        requires_block: true,
         doc:            "Does not evaluate any of the code within the block. However, any optional args passed before the block *will* be evaluated although they will be ignored. See `uncomment` for switching commenting off without having to remove the comment form.",
         examples:       ["comment do # starting a block level comment:
   play 50 # not played
@@ -780,6 +788,7 @@ end"]
         args:           [],
         opts:           nil,
         accepts_block:  true,
+        requires_block: true,
         doc:            "Evaluates all of the code within the block. Use to reverse the effect of the comment without having to explicitly remove it.",
         examples:       ["uncomment do # starting a block level comment:
   play 50 # played
@@ -1437,6 +1446,7 @@ play 72"]
         args:           [[:beats, :number]],
         opts:           nil,
         accepts_block:  false,
+        advances_time: true,
         examples:       [
 "# Without calls to sleep, all sounds would happen at once:
 
@@ -1487,6 +1497,7 @@ play 62
         args:           [[:beats, :number]],
         opts:           nil,
         accepts_block:  false,
+        advances_time: true,
         examples:       []
 
 
@@ -1633,6 +1644,7 @@ end"
         args:           [[:cue_id, :symbol]],
         opts:           nil,
         accepts_block:  false,
+        advances_time:  true,
         examples:       ["
 in_thread do
   sync :foo # this parks the current thread waiting for a foo sync message to be received.
@@ -1822,6 +1834,8 @@ end"]
         args:           [],
         opts:           {:name => "Make this thread a named thread with name"},
         accepts_block:  true,
+        requires_block: true,
+        async_block: true,
         examples:       [
 "
 loop do      # If you write two loops one after another like this,
