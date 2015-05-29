@@ -98,6 +98,15 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  
+  sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
+  QDir().mkdir(sp_user_path);
+
+  log_path =  sp_user_path + QDir::separator() + "log";
+  QDir().mkdir(log_path);
+
+  theme_path = sp_user_path + QDir::separator() + "theme";
+
   this->app = app;
   this->splash = splash;
   protocol = UDP;
@@ -133,7 +142,7 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
 
   // Syntax highlighting
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-  SonicPiTheme *theme = new SonicPiTheme(":/theme/light/theme-colours.ini");
+  SonicPiTheme *theme = new SonicPiTheme();
   lexer = new SonicPiLexer(theme);
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
@@ -164,7 +173,6 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
   signalMapper = new QSignalMapper (this) ;
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
-
 
     SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme);
 
@@ -382,7 +390,6 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
 
   focusMode = false;
   restoreDocPane = false;
-  changeTheme();
   disableFocusMode();
 }
 
@@ -537,11 +544,6 @@ void MainWindow::startServer(){
         args << "-t";
     }
 
-    QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
-    log_path =  sp_user_path + QDir::separator() + "log";
-    QDir().mkdir(sp_user_path);
-    QDir().mkdir(log_path);
-
   #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     coutbuf = std::cout.rdbuf();
     stdlog.open(QString(log_path + "/stdout.log").toStdString().c_str());
@@ -654,13 +656,11 @@ void MainWindow::initPrefsWindow() {
   // audio_box->addStretch(1);
   advancedAudioBox->setLayout(advanced_audio_box_layout);
 
-
   QGroupBox *audioOutputBox = new QGroupBox(tr("Raspberry Pi Audio Output"));
   audioOutputBox->setToolTip(tr("Your Raspberry Pi has two forms of audio output.\nFirstly, there is the headphone jack of the Raspberry Pi itself.\nSecondly, some HDMI monitors/TVs support audio through the HDMI port.\nUse these buttons to force the output to the one you want."));
   rp_force_audio_default = new QRadioButton(tr("&Default"));
   rp_force_audio_headphones = new QRadioButton(tr("&Headphones"));
   rp_force_audio_hdmi = new QRadioButton(tr("&HDMI"));
-
 
   connect(rp_force_audio_default, SIGNAL(clicked()), this, SLOT(setRPSystemAudioAuto()));
   connect(rp_force_audio_headphones, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHeadphones()));
@@ -702,20 +702,28 @@ void MainWindow::initPrefsWindow() {
   update_box_layout->addWidget(check_updates);
   update_box->setLayout(update_box_layout);
 
-
   QGroupBox *editor_box = new QGroupBox(tr("Editor"));
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
-  dark_mode = new QCheckBox(tr("Dark mode"));
+  theme_light = new QRadioButton(tr("Light Theme"));
+  theme_dark = new QRadioButton(tr("Dark Theme"));
+  theme_custom = new QRadioButton(tr("Custom Theme"));
 
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-  connect(dark_mode, SIGNAL(clicked()), this, SLOT(changeTheme()));
+  connect(theme_light, SIGNAL(clicked()), this, SLOT(setThemeLight()));
+  connect(theme_dark, SIGNAL(clicked()), this, SLOT(setThemeDark()));
 
   editor_box->setToolTip(tr("Editor Preferences"));
 
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
-  editor_box_layout->addWidget(dark_mode);
+  editor_box_layout->addWidget(theme_light);
+  editor_box_layout->addWidget(theme_dark);
   editor_box->setLayout(editor_box_layout);
+
+  if (QDir(theme_path).exists()) {
+    editor_box_layout->addWidget(theme_custom);
+    connect(theme_custom, SIGNAL(clicked()), this, SLOT(setThemeCustom()));
+  }
 
 #if defined(Q_OS_LINUX)
    grid->addWidget(audioOutputBox, 0, 0);
@@ -754,7 +762,17 @@ void MainWindow::initPrefsWindow() {
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
-  dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
+  QString prefs_theme = settings.value("prefs/theme", "light").toString();
+  if (prefs_theme == "custom") {
+    theme_custom->setChecked(true);
+    setThemeCustom();
+  } else if (prefs_theme == "dark") {
+    theme_dark->setChecked(true);
+    setThemeDark();
+  } else { // default "light"
+    theme_light->setChecked(true);
+    setThemeLight();
+  }
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
 
@@ -1186,20 +1204,32 @@ void MainWindow::changeRPSystemVol(int val)
 
 }
 
-void MainWindow::changeTheme(){
+void MainWindow::setThemeLight() {
+  changeTheme(":/theme/light");
+}
+
+void MainWindow::setThemeDark() {
+  changeTheme(":/theme/dark");
+}
+
+void MainWindow::setThemeCustom() {
+  changeTheme(theme_path);
+}
+
+void MainWindow::changeTheme(QString path) {
+  std::cerr << "[GUI] - changeTheme(" << path.toStdString() << ")\n";
+
   SonicPiTheme *currentTheme = lexer->theme;
 
-  QString theme = dark_mode->isChecked() ? "dark" : "light";
-
-  app->setStyleSheet(readFile(QString(":/theme/%1/qt-styles.qss").arg(theme)));
-  QString css = readFile(QString(":/theme/%1/html-styles.css").arg(theme));
+  app->setStyleSheet(readFile(path + QDir::separator() + "qt-styles.qss"));
+  QString css = readFile(QString(path + QDir::separator() + "html-styles.css"));
   docPane->document()->setDefaultStyleSheet(css);
   docPane->reload();
   foreach(QTextBrowser* pane, infoPanes) {
     pane->document()->setDefaultStyleSheet(css);
     pane->reload();
   }
-  currentTheme->readTheme(QString(":/theme/%1/theme-colours.ini").arg(theme));
+  currentTheme->readTheme(QString(path + QDir::separator() + "theme-colours.ini"));
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->redraw();
@@ -1497,6 +1527,7 @@ QString MainWindow::readFile(QString name)
 {
   QFile file(name);
   if (!file.open(QFile::ReadOnly | QFile::Text)) {
+    std::cerr << "[GUI] - could not open file " << name.toStdString() << "\n";
     return "";
   }
 
@@ -1624,7 +1655,14 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/print-output", print_output->isChecked());
   settings.setValue("prefs/clear-output-on-run", clear_output_on_run->isChecked());
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
-  settings.setValue("prefs/dark-mode", dark_mode->isChecked());
+
+  QString prefs_theme = "light";
+  if (theme_dark->isChecked()) {
+    prefs_theme = "dark";
+  } else if (theme_custom->isChecked()) {
+    prefs_theme = "custom";
+  }
+  settings.setValue("prefs/theme", prefs_theme);
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
 

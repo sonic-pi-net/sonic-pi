@@ -117,7 +117,6 @@ private slots:
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
-    void changeTheme();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
@@ -139,6 +138,9 @@ private slots:
     void disableFocusMode();
     void updateLogVisibility();
     void updateButtonVisibilty();
+    void setThemeLight();
+    void setThemeDark();
+    void setThemeCustom();
 
 private:
     QSignalMapper *signalMapper;
@@ -154,6 +156,7 @@ private:
     bool saveFile(const QString &fileName, SonicPiScintilla* text);
     void loadWorkspaces();
     void saveWorkspaces();
+    void changeTheme(QString theme_name);
     std::string number_name(int);
     std::string workspaceFilename(SonicPiScintilla* text);
     SonicPiScintilla* filenameToWorkspace(std::string filename);
@@ -230,7 +233,9 @@ private:
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
     QCheckBox *show_line_numbers;
-    QCheckBox *dark_mode;
+    QRadioButton *theme_light;
+    QRadioButton *theme_dark;
+    QRadioButton *theme_custom;
     QCheckBox *check_updates;
 
     QRadioButton *rp_force_audio_hdmi;
@@ -252,7 +257,7 @@ private:
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
-    QString sample_path, log_path;
+    QString sp_user_path, sample_path, log_path, theme_path;
 };
 
 #endif

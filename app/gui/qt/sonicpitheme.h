@@ -9,7 +9,7 @@ class SonicPiTheme : public QObject
 {
     Q_OBJECT
 public:
-    explicit SonicPiTheme(QString filename);
+    explicit SonicPiTheme();
     QColor color(QString);
     void readTheme(QString filename);
 

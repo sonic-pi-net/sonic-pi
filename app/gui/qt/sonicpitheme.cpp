@@ -1,9 +1,9 @@
 #include <iostream>
 #include "sonicpitheme.h"
 
-SonicPiTheme::SonicPiTheme(QString filename)
+SonicPiTheme::SonicPiTheme()
 {
-  readTheme(filename);
+  theme.clear();
 }
 
 void SonicPiTheme::readTheme(QString filename) {
@@ -15,8 +15,5 @@ void SonicPiTheme::readTheme(QString filename) {
 }
 
 QColor SonicPiTheme::color(QString key) {
-  if (!theme.contains(key)) {
-    std::cerr << "[GUI] - no colour value found for key " << key.toStdString() << "\n";
-  }
   return QColor(theme[key]);
 }
