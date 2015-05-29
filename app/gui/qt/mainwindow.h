@@ -247,10 +247,8 @@ private:
     QAction *aboutQtAct;
     QMap<QString, QString> *map;
 
-    QTextBrowser *infoPane;
     QWidget *infoWidg;
     QTextEdit *startupPane;
-    QLabel *imageLabel;
     QVBoxLayout *mainWidgetLayout;
 
     QList<QListWidget *> helpLists;
