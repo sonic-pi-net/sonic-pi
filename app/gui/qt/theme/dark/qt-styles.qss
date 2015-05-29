@@ -2,7 +2,7 @@
 
 QWidget {
     color: white;
-    background: #2c3539;
+    background-color: #2c3539;
 }
 
 QMainWindow::separator {
@@ -54,12 +54,18 @@ QTabBar::tab:selected {
     background: #0b1418;
 }
 
+QGroupBox {
+    font-weight: bold;
+}
+
 QListView {
-    background-color: black;
+    background: black;
 }
 
 QToolBar {
     border-bottom: 1px solid #222222;
+    padding: 3px;
+    spacing: 2px;
 }
 
 QTextEdit {
@@ -68,6 +74,7 @@ QTextEdit {
 }
 
 QTextBrowser {
+    color: white;
     selection-color: white;
     selection-background-color: deeppink;
     padding: 10px;
