@@ -50,7 +50,7 @@ code .info {
 }
 
 .version {
-  font-size: small;
+  font-size: medium;
 }
 
 .strapline {
@@ -98,7 +98,7 @@ body.example code {
 
 body.manual .introduced {
   color: darkorange;
-  font-size: small;
+  font-size: medium;
 }
 
 body.manual table.arguments td {
