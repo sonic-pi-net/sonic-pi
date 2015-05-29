@@ -804,7 +804,7 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.
 
-If note is nil, :r or :rest, play is ignored and treated as a rest.
+If note is `nil`, `:r` or `:rest`, play is ignored and treated as a rest.
 ",
            args:          [[:note, :symbol_or_number]],
            opts:          DEFAULT_PLAY_OPTS,
