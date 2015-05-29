@@ -245,7 +245,7 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
     connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));
     signalMapper -> setMapping(changeTab, ws);
 
-    QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
+    QString w = QString(tr("Buffer %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
   }
@@ -280,7 +280,7 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
   errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
-  outputPane->setTextColor(QColor("#5e5e5e"));
+  outputPane->setTextColor(theme->color("LogDefaultForeground"));
   outputPane->append("\n");
   outputPane->append(asciiArtLogo());
 
