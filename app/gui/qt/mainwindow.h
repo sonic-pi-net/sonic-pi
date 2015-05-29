@@ -202,7 +202,7 @@ private:
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
     QTextEdit *outputPane;
-    QTextEdit *errorPane;
+    QTextBrowser *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
     QDockWidget *hudWidget;

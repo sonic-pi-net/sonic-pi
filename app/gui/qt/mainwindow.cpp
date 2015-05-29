@@ -137,7 +137,8 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
 
   // Setup output and error panes
   outputPane = new QTextEdit;
-  errorPane = new QTextEdit;
+  errorPane = new QTextBrowser;
+  errorPane->setOpenExternalLinks(true);
   errorPane->setObjectName("errors");
 
   // Syntax highlighting
@@ -1229,6 +1230,7 @@ void MainWindow::changeTheme(QString path) {
     pane->document()->setDefaultStyleSheet(css);
     pane->reload();
   }
+  errorPane->document()->setDefaultStyleSheet(css);
   currentTheme->readTheme(QString(path + QDir::separator() + "theme-colours.ini"));
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);

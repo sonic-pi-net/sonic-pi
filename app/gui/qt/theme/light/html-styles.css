@@ -16,8 +16,20 @@ em {
   color: darkorange;
 }
 
-.hightlight,
+.hightlight {
+  color: deeppink;
+}
+
+pre {
+  font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+.backtrace {
+  color: #5e5e5e;
+}
+
 code {
+  font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
   color: deeppink;
 }
 
@@ -68,7 +80,7 @@ h2 {
 }
 
 body.info {
-  font-family: monospace;
+  font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
 }
 
 body.info a {
@@ -87,7 +99,7 @@ body.manual .introduced {
 
 body.manual table.arguments td {
   padding: 2px;
-  font-family: monospace;
+  font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
 }
 
 body.manual table.arguments td.odd,
@@ -107,7 +119,7 @@ body.manual table.details td {
 }
 
 body.manual table.details td.key {
-  font-family: monospace;
+  font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
   font-size: large;
 }
 
