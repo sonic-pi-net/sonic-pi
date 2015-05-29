@@ -1,3 +1,5 @@
+/* These are the stylesheets used by Qt for the Sonic Pi GUI widgets */
+
 QWidget {
     color: white;
     background: #2c3539;
