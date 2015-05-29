@@ -101,7 +101,8 @@ body.manual .introduced {
 }
 
 body.manual table.arguments td {
-  padding: 2px;
+    font-size: medium;
+    padding: 2px;
     font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
 }
 
