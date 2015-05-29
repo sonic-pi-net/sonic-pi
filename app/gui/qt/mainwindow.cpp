@@ -137,6 +137,7 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
 
   // Setup output and error panes
   outputPane = new QTextEdit;
+  outputPane->setObjectName("output");
   errorPane = new QTextBrowser;
   errorPane->setOpenExternalLinks(true);
   errorPane->setObjectName("errors");
@@ -268,19 +269,11 @@ MainWindow::MainWindow(QApplication* app, bool i18n, QSplashScreen* splash)
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
   outputPane->setLineWrapMode(QTextEdit::NoWrap);
-#if defined(Q_OS_WIN)
-  outputPane->setFontFamily("Courier New");
-#elif defined(Q_OS_MAC)
-  outputPane->setFontFamily("Menlo");
-#else
-  outputPane->setFontFamily("Bitstream Vera Sans Mono");
-#endif
 
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
-  outputPane->setTextColor(theme->color("LogDefaultForeground"));
   outputPane->append("\n");
   outputPane->append(asciiArtLogo());
 

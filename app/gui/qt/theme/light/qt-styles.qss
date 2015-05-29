@@ -6,3 +6,8 @@ QTextBrowser {
     padding: 10px;
     background: white;
 }
+
+QTextEdit#output {
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+    color: #5e5e5e;
+}

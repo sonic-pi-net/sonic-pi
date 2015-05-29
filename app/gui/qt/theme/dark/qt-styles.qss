@@ -77,6 +77,11 @@ QTextEdit {
     border: 0px;
 }
 
+QTextEdit#output {
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+    color: #5e5e5e;
+}
+
 QTextBrowser {
     color: white;
     selection-color: white;
