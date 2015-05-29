@@ -285,7 +285,7 @@ play 80  #=> this plays as the stop only affected the above thread"
         returns:        :vector,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Create a new vector from args. Out of range indexes return nil.",
+        doc:            "Create a new immutable vector from args. Out of range indexes return nil.",
         examples:       [
       "(vector 1, 2, 3)[0] #=> 1",
       "(vector 1, 2, 3)[1] #=> 2",
@@ -309,7 +309,7 @@ play 80  #=> this plays as the stop only affected the above thread"
         returns:        :ring,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Create a new ring buffer from args. Indexes wrap around positively and negatively",
+        doc:            "Create a new immutable ring buffer from args. Indexes wrap around positively and negatively",
         examples:       [
       "(ring 1, 2, 3)[0] #=> 1",
       "(ring 1, 2, 3)[1] #=> 2",
@@ -330,7 +330,7 @@ play 80  #=> this plays as the stop only affected the above thread"
         returns:        :ramp,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Create a new ramp vector from args. Indexes always return first or last value if out of bounds.",
+        doc:            "Create a new immutable ramp vector from args. Indexes always return first or last value if out of bounds.",
         examples:       [
       "(ramp 1, 2, 3)[0] #=> 1",
       "(ramp 1, 2, 3)[1] #=> 2",
