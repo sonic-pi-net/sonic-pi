@@ -760,6 +760,7 @@ end",]
 
 
     def comment(*args, &block)
+      raise "comment requires a block." unless block
       #do nothing!
     end
     doc name:           :comment,
@@ -780,6 +781,7 @@ end"]
 
 
     def uncomment(*args, &block)
+      raise "uncomment requires a block." unless block
       block.call
     end
     doc name:           :uncomment,
