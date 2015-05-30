@@ -188,7 +188,9 @@ module SonicPi
            when Numeric
            use_bpm(num_beats * (60.0 / sample_name))
          else
-           sd = sample_duration(sample_name)
+           # Don't use sample_duration as that is stretched to the current
+           # bpm!
+           sd = load_sample(sample_name).duration
            use_bpm(num_beats * (60.0 / sd))
          end
        end
@@ -230,7 +232,9 @@ end"]
          when Numeric
            with_bpm(num_beats * (60.0 / sample_name), &block)
          else
-           sd = sample_duration(sample_name)
+           # Don't use sample_duration as that is stretched to the current
+           # bpm!
+           sd = load_sample(sample_name).duration
            with_bpm(num_beats * (60.0 / sd), &block)
          end
        end
