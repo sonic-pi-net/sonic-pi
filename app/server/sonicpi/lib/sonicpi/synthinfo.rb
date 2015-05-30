@@ -1579,13 +1579,13 @@ module SonicPi
     def specific_arg_info
       {
         :ring => {
-          :doc => "Amount of ring in the sound. Lower values create a more rough sound, higher values produce a sound with more focus",
+          :doc => "Amount of ring in the sound. Lower values create a more rough sound, higher values produce a sound with more focus.",
           :validations => [v_between_inclusive(:ring, 0.1, 50)],
           :modulatable => true
         },
         :room =>
         {
-          :doc => "Room size in squared meters used to calculate the reverb.",
+          :doc => "Room size in squared metres used to calculate the reverb.",
           :validations => [v_greater_than_oet(:room, 0.1), v_less_than_oet(:room, 300)],
           :modulatable => false
         },
@@ -3343,7 +3343,7 @@ module SonicPi
 
         :relax_time =>
         {
-          :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artifacts. Also known as the time of the release phase.",
+          :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase.",
           :validations => [v_positive(:clamp_time)],
           :modulatable => true
         },
@@ -3691,7 +3691,7 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
 
     def doc
-      "Like the Band Pass Filter but normalized. The normalizer is useful here as some volume is lost when filtering the original signal."
+      "Like the Band Pass Filter but normalised. The normaliser is useful here as some volume is lost when filtering the original signal."
     end
   end
 
@@ -3711,9 +3711,9 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
 
     def doc
-      "Like the Band Pass Filter but normalized, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument.
+      "Like the Band Pass Filter but normalised, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument.
 
-The normalizer is useful here as some volume is lost when filtering the original signal."
+The normaliser is useful here as some volume is lost when filtering the original signal."
     end
   end
 
