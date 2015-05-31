@@ -611,7 +611,7 @@ module SonicPi
           __no_kill_block do
             line = __extract_line_of_error(e)
             err_msg = e.message
-            err_msg = "[Line #{line}] #{err_msg}" if line != -1
+            err_msg = "[Line #{line}] \n #{err_msg}" if line != -1
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
             @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: id  , jobinfo: info})
 
