@@ -18,9 +18,18 @@ em {
     color: deeppink;
 }
 
-.backtrace {
-    /* placeholder */
+.error_description {
+    background-color: dodgerblue;
+    color: white;
 }
+
+
+.backtrace {
+    font-size: small;
+    color: #5e5e5e;
+}
+
+
 
 pre {
     font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;

@@ -18,7 +18,14 @@ em {
     color: deeppink;
 }
 
+.error_description {
+    background-color: deeppink;
+    color: white;
+}
+
+
 .backtrace {
+    font-size: small;
     color: #5e5e5e;
 }
 
