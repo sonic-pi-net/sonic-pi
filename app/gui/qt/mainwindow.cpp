@@ -337,7 +337,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   down->setContext(Qt::WidgetShortcut);
   connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
 
-  docPane->setHtml(readFile(":/html/doc.html"));
+  docPane->setSource(QUrl("qrc:///html/doc.html"));
 
   addUniversalCopyShortcuts(docPane);
 
@@ -373,16 +373,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   createShortcuts();
   createToolBar();
   createStatusBar();
-
-  infoFiles = new QStringList();
-  infoFiles->append(":/html/info.html");
-  infoFiles->append(":/info/CORETEAM.html");
-  infoFiles->append(":/info/CONTRIBUTORS.html");
-  infoFiles->append(":/info/COMMUNITY.html");
-  infoFiles->append(":/info/LICENSE.html");
-  infoFiles->append(":/info/CHANGELOG.html");
-
-  createInfoPane(infoFiles);
+  createInfoPane();
 
   readSettings();
 
@@ -403,11 +394,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
     startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
     addUniversalCopyShortcuts(startupPane);
-    QString html;
-
-    startupPane->setHtml(readFile(":/html/startup.html"));
-    startupPane->setStyleSheet(defaultTextBrowserStyle);
-
+    startupPane->document()->setDefaultStyleSheet(readFile(":/theme/light/doc-styles.css"));
+    startupPane->setSource(QUrl("qrc:///html/startup.html"));
     docWidget->show();
     startupPane->show();
   }
@@ -1222,6 +1210,15 @@ void MainWindow::changeRPSystemVol(int val)
 void MainWindow::changeTheme(){
   SonicPiTheme *currentTheme = lexer->theme;
 
+  QString css = readFile(QString(":/theme/%1/doc-styles.css").arg(dark_mode->isChecked() ? "dark" : "light"));
+  docPane->document()->setDefaultStyleSheet(css);
+  docPane->reload();
+  foreach(QTextBrowser* pane, infoPanes) {
+    pane->document()->setDefaultStyleSheet(css);
+    pane->reload();
+  }
+  errorPane->document()->setDefaultStyleSheet(css);
+
   if(dark_mode->isChecked()){
     currentTheme->darkMode();
 
@@ -1257,13 +1254,9 @@ void MainWindow::changeTheme(){
     toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
     errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
 
-    for(int i=0; i < infoTabs->count(); i++){
-      QTextEdit *w = (QTextEdit *)infoTabs->widget(i);
-      w->setHtml("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/dark_styles.css\"/></head>"+readFile(infoFiles->at(i)));
-      w->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
+    foreach(QTextBrowser* pane, infoPanes) { 
+      pane->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
     }
-
-    refreshDocContent();
 
   }else{
     this->setStyleSheet("");
@@ -1297,18 +1290,16 @@ void MainWindow::changeTheme(){
 
     errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
 
-    for(int i=0; i < infoTabs->count(); i++){
-      QTextEdit *w = (QTextEdit *)infoTabs->widget(i);
-      w->setHtml(readFile(infoFiles->at(i)));
-      w->setStyleSheet(defaultTextBrowserStyle);
+    foreach(QTextBrowser* pane, infoPanes) { 
+      pane->setStyleSheet(defaultTextBrowserStyle);
     }
-
-    refreshDocContent();
   }
+  
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->redraw();
   }
+
   lexer->unhighlightAll();
 }
 
@@ -1611,19 +1602,32 @@ QString MainWindow::readFile(QString name)
   return st.readAll();
 }
 
-void MainWindow::createInfoPane(QStringList *files) {
-  infoTabs = new QTabWidget(this);
+void MainWindow::createInfoPane() {
+  QTabWidget* infoTabs = new QTabWidget(this);
 
-  QStringList tabs;
-  tabs << tr("About") << tr("Core Team") << tr("Contributors") << tr("Community") << tr("License") << tr("History");
+  QStringList urls, tabs;
 
-  for (int t=0; t < files->size(); t++) {
+  urls << "qrc:///html/info.html"
+       << "qrc:///info/CORETEAM.html"
+       << "qrc:///info/CONTRIBUTORS.html"
+       << "qrc:///info/COMMUNITY.html"
+       << "qrc:///info/LICENSE.html"
+       << "qrc:///info/CHANGELOG.html";
+
+  tabs << tr("About") 
+       << tr("Core Team")
+       << tr("Contributors")
+       << tr("Community")
+       << tr("License")
+       << tr("History");
+
+  for (int t=0; t < urls.size(); t++) {
     QTextBrowser *pane = new QTextBrowser;
+    infoPanes.append(pane);
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
     pane->setFixedSize(600, 615);
-    pane->setHtml(readFile(files->at(t)));
-    pane->setStyleSheet(defaultTextBrowserStyle);
+    pane->setSource(QUrl(urls[t]));
     infoTabs->addTab(pane, tabs[t]);
   }
 
@@ -1829,30 +1833,13 @@ void MainWindow::onExitCleanup()
 }
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
-  QString content = cur->data(32).toString();
-  if(dark_mode->isChecked()){
-    content = QString("<head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/dark_styles.css\"/></head>"+content);
-  }
-  docPane->setHtml(content);
+  QString url = cur->data(32).toString();
+  docPane->setSource(QUrl(url));
 }
 
 void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
   (void)prev;
   updateDocPane(cur);
-}
-
-void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
-  QFile file(filename);
-
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-
-  item->setData(32, QVariant(s));
 }
 
 void MainWindow::addHelpPage(QListWidget *nameList,
@@ -1863,7 +1850,7 @@ void MainWindow::addHelpPage(QListWidget *nameList,
 
   for(i = 0; i < len; i++) {
     QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
-    setHelpText(item, QString(helpPages[i].filename));
+    item->setData(32, QVariant(helpPages[i].url));
     item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
@@ -1911,26 +1898,6 @@ QListWidget *MainWindow::createHelpTab(QString name) {
   docsCentral->addTab(tabWidget, name);
   helpLists.append(nameList);
   return nameList;
-}
-
-//TODO: Find a better way to signal a re-render of the doc html content with potential new
-//      styling from dark/light mode. Currently uses scrolling signals to achieve a re-render.
-void MainWindow::refreshDocContent(){
-  int section = docsCentral->currentIndex();
-  int entry = helpLists[section]->currentRow();
-
-  if (entry == 0){
-    helpScrollDown();
-    helpScrollUp();
-  }
-  else if(entry == helpLists[section]->count()-1){
-    helpScrollUp();
-    helpScrollDown();
-  }
-  else{
-    helpScrollDown();
-    helpScrollUp();
-  }
 }
 
 void MainWindow::helpScrollUp() {
