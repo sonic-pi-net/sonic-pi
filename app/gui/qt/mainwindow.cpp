@@ -396,6 +396,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     addUniversalCopyShortcuts(startupPane);
     startupPane->document()->setDefaultStyleSheet(readFile(":/theme/light/doc-styles.css"));
     startupPane->setSource(QUrl("qrc:///html/startup.html"));
+    startupPane->setStyleSheet(defaultTextBrowserStyle);
     docWidget->show();
     startupPane->show();
   }
