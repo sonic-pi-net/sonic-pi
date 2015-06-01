@@ -334,7 +334,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   docsCentral->setTabPosition(QTabWidget::South);
 
   docPane = new QTextBrowser;
-  docPane->setFocusPolicy(Qt::NoFocus);
   docPane->setMinimumHeight(200);
   docPane->setOpenExternalLinks(true);
   docPane->setStyleSheet(defaultTextBrowserStyle);
