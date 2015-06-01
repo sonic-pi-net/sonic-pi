@@ -1601,14 +1601,14 @@ void MainWindow::createToolBar()
 QString MainWindow::readFile(QString name)
 {
   QFile file(name);
-  if (!file.open(QFile::ReadOnly | QFile::Text))
+  if (!file.open(QFile::ReadOnly | QFile::Text)) {
+    std::cerr << "[GUI] - could not open file " << name.toStdString() << "\n";
     return "";
+  }
 
   QTextStream st(&file);
   st.setCodec("UTF-8");
-  QString s;
-  s.append(st.readAll());
-  return s;
+  return st.readAll();
 }
 
 void MainWindow::createInfoPane(QStringList *files) {
@@ -1994,15 +1994,7 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
 }
 
 QString MainWindow::asciiArtLogo(){
-  QFile file(":/images/logo.txt");
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-  return s;
+  return readFile(":/images/logo.txt");
 }
 
 void MainWindow::printAsciiArtLogo(){
