@@ -4629,9 +4629,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         next if (klass == FXInfo) && (k.to_s.include? 'replace_')
 
         next if v.is_a? StudioInfo
-        doc = ""
-
-        doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+        doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n" 
+        doc << "<body class=\"manual\">\n"
         doc << "<h1>" << v.name << "</h1>\n\n"
 
         doc << "<p><table class=\"arguments\"><tr>\n"
@@ -4782,8 +4781,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
       grouped_samples.each do |k, v|
         cnt = 0
         cnt = 0
-        doc = ""
-        doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+        doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+        doc << "<body class=\"manual\">\n\n"
         doc << "<h1>" << v[:desc] << "</h1>\n"
         doc << "<p><table class=\"arguments\"><tr>\n"
         StereoPlayer.new.arg_info.each do |ak, av|
