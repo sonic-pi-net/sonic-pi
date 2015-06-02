@@ -87,7 +87,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
     end
 
     docs << ", "
-    docs << "\":/#{filename}\""
+    docs << "\"qrc:///#{filename}\""
     docs << "},\n"
 
     filenames << filename
@@ -133,7 +133,8 @@ example_dirs.each do |ex_dir|
     bname = ActiveSupport::Inflector.titleize(bname)
     name = "[#{ex_dir}] #{bname}"
     lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
-    html = "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"example\">\n\n"
+    html = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+    html << "<body class=\"example\">\n"
     html << '<h1>'
     html << "# #{bname}"
     html << '</h1>'
