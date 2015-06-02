@@ -44,6 +44,10 @@ module SonicPi
         knit(:e2, -1)
       end
 
+      assert_raise RuntimeError, "even number" do
+        knit(:e2, 1, :c3)
+      end
+
     end
 
     def test_range

@@ -137,6 +137,7 @@ play 80  #=> this plays as the stop only affected the above thread"
 
 
     def knit(*args)
+      raise "knit must have a even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
       res = []
       args.each_slice(2) do |val, num_its|
         if num_its > 0
