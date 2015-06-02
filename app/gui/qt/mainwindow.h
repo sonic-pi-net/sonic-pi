@@ -248,11 +248,7 @@ private:
     QWidget *infoWidg;
     QList<QTextBrowser *> infoPanes;
     QTextEdit *startupPane;
-    QLabel *imageLabel;
     QVBoxLayout *mainWidgetLayout;
-
-    int currentLine;
-    int currentIndex;
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
