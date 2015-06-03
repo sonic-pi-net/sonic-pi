@@ -12,7 +12,7 @@
 #++
 module SonicPi
   class Node
-    attr_reader :id, :comms
+    attr_reader :id, :comms, :info
 
     def initialize(id, comms, info=nil)
       @id = id

@@ -2449,7 +2449,17 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
          args_h = resolve_synth_opts_hash_or_array(args)
          n = args_h[:note]
          args_h[:note] = note(n) if n
-         normalise_args! args_h
+         notes = args_h[:notes]
+         if node.is_a?(ChordGroup) && notes
+           # don't normalise notes key as it is special
+           # when controlling ChordGroups.
+           # TODO: remove this hard coded behaviour
+           args_h.delete(:notes)
+           normalise_args! args_h
+           args_h[:notes] = notes
+         else
+           normalise_args! args_h
+         end
          node.control args_h
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}"
@@ -2737,7 +2747,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
          args_h = normalise_and_resolve_synth_args(args_h, info, nil, true)
 
          chord_group = @mod_sound_studio.new_group(:tail, group, "CHORD")
-         cg = ChordGroup.new(chord_group)
+         cg = ChordGroup.new(chord_group, notes)
 
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            __delayed_message "synth #{sn.inspect}, #{arg_h_pp(args_h.merge({note: notes}))}"

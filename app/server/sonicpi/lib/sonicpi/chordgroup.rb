@@ -15,10 +15,33 @@ require_relative "group"
 module SonicPi
   class ChordGroup < Group
 
-    def initialize(group)
+    attr_reader :notes
+
+    def initialize(group, notes)
+      @notes = notes
       @sub_nodes = []
       super(group.id, group.comms)
       @sem = Mutex.new
+    end
+
+    def control(*args)
+      args_h = resolve_synth_opts_hash_or_array(args)
+
+      notes = args_h[:notes]
+      if notes && notes.respond_to?(:each_with_index)
+        # We're trying to change all the notes of this
+        # chord group to a different set of notes
+        a = args_h[:amp]
+        s = @sub_nodes.size
+        args_h[:amp] = a.to_f / s if a && s > 0
+        args_h.delete(:notes)
+        r_notes = notes.ring
+        @sub_nodes.each_with_index do |sn, idx|
+          sn.control(args_h.merge({:note => r_notes[idx]}))
+        end
+      else
+        super
+      end
     end
 
     def sub_nodes=(nodes)
