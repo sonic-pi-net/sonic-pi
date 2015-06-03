@@ -10,7 +10,6 @@ class SonicPiTheme : public QObject
     Q_OBJECT
 public:
     explicit SonicPiTheme(QObject *parent = 0, QSettings *settings = 0, bool dark = false);
-    ~SonicPiTheme();
     QColor color(QString);
     void darkMode();
     void lightMode();

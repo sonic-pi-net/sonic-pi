@@ -207,5 +207,3 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
 QColor SonicPiTheme::color(QString key){
     return theme[key];
 }
-
-SonicPiTheme::~SonicPiTheme(){}
