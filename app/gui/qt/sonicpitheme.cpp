@@ -1,4 +1,3 @@
-#include <iostream>
 #include "sonicpitheme.h"
 
 SonicPiTheme::SonicPiTheme()
