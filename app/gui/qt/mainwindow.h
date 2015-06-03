@@ -209,21 +209,16 @@ private:
     QDockWidget *hudWidget;
     QDockWidget *docWidget;
     QTextBrowser *docPane;
-    QTextBrowser *hudPane;
+//  QTextBrowser *hudPane;
     QWidget *mainWidget;
     bool hidingDocPane;
     bool restoreDocPane;
 
     QTabWidget *tabs;
-    QStringList *infoFiles;
 
     QProcess *serverProcess;
 
     SonicPiLexer *lexer;
-
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *helpMenu;
 
     QToolBar *toolBar;
 
@@ -242,9 +237,6 @@ private:
     QRadioButton *rp_force_audio_headphones;
     QSlider *rp_system_vol;
 
-    QAction *aboutQtAct;
-    QMap<QString, QString> *map;
-
     QWidget *infoWidg;
     QList<QTextBrowser *> infoPanes;
     QTextEdit *startupPane;
@@ -253,12 +245,10 @@ private:
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
     std::streambuf *coutbuf;
-    std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
     QString defaultTextBrowserStyle;
-
 
 };
 
