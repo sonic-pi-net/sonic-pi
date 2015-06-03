@@ -134,20 +134,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Syntax highlighting
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-  QFile themeFile(themeFilename);
-  SonicPiTheme *theme;
-  if(themeFile.exists()){
-    qDebug() << "[GUI] - using custom editor colours";
-    QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
-  else{
-    qDebug() << "[GUI] - using default editor colours";
-    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
+  SonicPiTheme *theme = new SonicPiTheme();
+  lexer = new SonicPiLexer(theme);
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
 
@@ -1208,6 +1196,8 @@ void MainWindow::changeRPSystemVol(int val)
 
 void MainWindow::changeTheme(){
   SonicPiTheme *currentTheme = lexer->theme;
+  
+  currentTheme->readTheme(QString(":/theme/%1/colours.ini").arg(dark_mode->isChecked() ? "dark" : "light"));
 
   QString css = readFile(QString(":/theme/%1/doc-styles.css").arg(dark_mode->isChecked() ? "dark" : "light"));
   docPane->document()->setDefaultStyleSheet(css);
@@ -1219,8 +1209,6 @@ void MainWindow::changeTheme(){
   errorPane->document()->setDefaultStyleSheet(css);
 
   if(dark_mode->isChecked()){
-    currentTheme->darkMode();
-
     QPalette p = QApplication::palette();
     p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
     p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
@@ -1269,7 +1257,6 @@ void MainWindow::changeTheme(){
     docsCentral->setStyleSheet("");
     docWidget->setStyleSheet("");
     toolBar->setStyleSheet("");
-    currentTheme->lightMode();
     docPane->setStyleSheet(defaultTextBrowserStyle);
 
     for(int i=0; i < tabs->count(); i++){
