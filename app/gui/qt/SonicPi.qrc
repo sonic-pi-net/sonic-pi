@@ -42,7 +42,9 @@
         <file>html/startup.html</file>
 
         <file>theme/light/doc-styles.css</file>
+        <file>theme/light/colours.ini</file>
         <file>theme/dark/doc-styles.css</file>
+        <file>theme/dark/colours.ini</file>
 
         <file>lang/sonic-pi_de.qm</file>
     </qresource>
