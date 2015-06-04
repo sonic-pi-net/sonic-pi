@@ -14,6 +14,7 @@ public:
     void readTheme(QString filename);
 
 private:
+    bool isInitialized;
     QMap<QString, QString> theme;
 
 signals:

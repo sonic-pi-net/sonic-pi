@@ -1,8 +1,9 @@
+#include <iostream>
 #include "sonicpitheme.h"
 
 SonicPiTheme::SonicPiTheme()
 {
-  theme.clear();
+  isInitialized = false;
 }
 
 void SonicPiTheme::readTheme(QString filename) {
@@ -11,8 +12,14 @@ void SonicPiTheme::readTheme(QString filename) {
   foreach(QString key, settings.allKeys()) {
     theme[key] = settings.value(key).toString();
   }
+  isInitialized = true;
 }
 
 QColor SonicPiTheme::color(QString key) {
+  
+  if ( !theme.contains(key) && isInitialized) {
+    std::cerr << "[GUI] - colours.ini contains no value for " << key.toStdString() << "\n";
+  }
+  
   return QColor(theme[key]);
 }
