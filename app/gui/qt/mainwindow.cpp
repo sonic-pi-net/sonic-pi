@@ -264,7 +264,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
-  outputPane->setTextColor(QColor(theme->color("LogDefaultForeground")));
   outputPane->append("\n");
   outputPane->append(asciiArtLogo());
 
@@ -1207,6 +1206,8 @@ void MainWindow::changeTheme(){
     pane->reload();
   }
   errorPane->document()->setDefaultStyleSheet(css);
+
+  outputPane->setTextColor(QColor(currentTheme->color("LogDefaultForeground")));
 
   if(dark_mode->isChecked()){
     QPalette p = QApplication::palette();
