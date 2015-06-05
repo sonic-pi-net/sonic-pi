@@ -1247,7 +1247,7 @@ void MainWindow::changeTheme(){
     prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox{font-size: 11px; color: %1}").arg(windowForegroundColor));
     tabs->setStyleSheet(        tabStyling);
     docsCentral->setStyleSheet( tabStyling);
-    docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1;}").arg(paneColor, windowForegroundColor));
+    docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-background-color: deeppink;}").arg(paneColor, windowForegroundColor));
     docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
     infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
     toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
