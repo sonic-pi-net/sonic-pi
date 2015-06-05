@@ -57,6 +57,12 @@ module SonicPi
       end
 
       def self.tick(k=:___sonic_pi_default_tick_key___, n=1)
+        if k.is_a? Numeric
+          n = k
+          k = :___sonic_pi_default_tick_key___
+        end
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+        raise "Tick increment must be a number, got #{n.class}: #{n.inspect}" unless n.is_a? Numeric
         counters = get_or_create_counters
         if counters[k]
           curr_val, next_val = *counters[k]
@@ -69,17 +75,25 @@ module SonicPi
       end
 
       def self.read(k=:___sonic_pi_default_tick_key___)
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
         counters = get_or_create_counters
         val, _ = *counters[k]
         val || 0
       end
 
       def self.set(k=:___sonic_pi_default_tick_key___, v)
+        if k.is_a? Numeric
+          v = k
+          k = :___sonic_pi_default_tick_key___
+        end
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+        raise "Tick value must be a number, got #{v.class}: #{v.inspect}" unless v.is_a? Numeric
         counters = get_or_create_counters
         counters[k] = [v, v]
       end
 
       def self.rm(k=:___sonic_pi_default_tick_key___)
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
         counters = get_or_create_counters
         counters.delete(k)
         nil
@@ -147,17 +161,28 @@ module SonicPi
         Array.new(self)
       end
 
-      def tick(key=:___sonic_pi_default_tick_key___, *args)
+      def tick(k=:___sonic_pi_default_tick_key___, *args)
+        if args.size.odd?
+          args = [k] + args
+          k = :___sonic_pi_default_tick_key___
+        end
+
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
         opts = args[0] || {}
         raise "tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
         step = opts[:step] || 1
         offset = opts[:offset] || 0
-        idx = ThreadLocalCounter.tick(key, step)
+        idx = ThreadLocalCounter.tick(k, step)
         self[idx + offset]
       end
 
-      def hook(key=:___sonic_pi_default_tick_key___, *args)
-        idx = ThreadLocalCounter.read(key)
+      def hook(k=:___sonic_pi_default_tick_key___, *args)
+        if args.size.odd?
+          args = [k] + args
+          k = :___sonic_pi_default_tick_key___
+        end
+
+        idx = ThreadLocalCounter.read(k)
         self[idx]
       end
     end
@@ -657,7 +682,13 @@ class Object
   end
 
   def tick(k=:___sonic_pi_default_tick_key___)
+    raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
     self.ring.tick(k)
+  end
+
+  def hook(k=:___sonic_pi_default_tick_key___)
+    raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+    self.ring.hook(k)
   end
 
   # The hidden singleton lurks behind everyone

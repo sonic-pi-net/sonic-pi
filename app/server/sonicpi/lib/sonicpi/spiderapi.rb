@@ -26,7 +26,13 @@ module SonicPi
 
     THREAD_RAND_SEED_MAX = 10e20
 
-    def tick_set(k=:___sonic_pi_default_tick_key___, v=0)
+    def tick_set(k=:___sonic_pi_default_tick_key___, v)
+      if k.is_a? Numeric
+        v = k
+        k = :___sonic_pi_default_tick_key___
+      end
+      raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+      raise "Tick value must be a number, got #{v.class}: #{v.inspect}" unless v.is_a? Numeric
       SonicPi::Core::ThreadLocalCounter.set(k, v)
     end
 
@@ -34,6 +40,7 @@ module SonicPi
 
 
     def tick_reset(k=:___sonic_pi_default_tick_key___)
+      raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
       SonicPi::Core::ThreadLocalCounter.rm(k)
     end
 
@@ -41,6 +48,12 @@ module SonicPi
 
 
     def tick(k=:___sonic_pi_default_tick_key___, n=1)
+      if k.is_a? Numeric
+        n = k
+        k = :___sonic_pi_default_tick_key___
+      end
+      raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+      raise "Tick increment must be a number, got #{n.class}: #{n.inspect}" unless n.is_a? Numeric
       SonicPi::Core::ThreadLocalCounter.tick(k, n)
     end
 
@@ -48,6 +61,7 @@ module SonicPi
 
 
     def hook(k=:___sonic_pi_default_tick_key___)
+      raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
       SonicPi::Core::ThreadLocalCounter.read(k)
     end
 
