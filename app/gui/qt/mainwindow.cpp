@@ -1236,7 +1236,7 @@ void MainWindow::changeTheme(){
     QString paneColor = currentTheme->color("PaneBackground").name();
     QString windowBorder = currentTheme->color("WindowBorder").name();
 
-    QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal{background: none;} ").arg(windowColor);
+    QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
     QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: #0b1418;} ").arg(windowForegroundColor);
     QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);} ").arg(windowColor, windowBorder, windowForegroundColor);
 
