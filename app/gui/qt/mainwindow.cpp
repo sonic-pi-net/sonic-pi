@@ -1300,6 +1300,9 @@ void MainWindow::changeTheme(){
     p.setColor(QPalette::Button,        QColor("#ddd"));
     p.setColor(QPalette::ButtonText,    QColor("#000"));
     p.setColor(QPalette::Shadow,        QColor("#fff"));
+    p.setColor(QPalette::Dark, QColor("#000"));
+    p.setColor(QPalette::Midlight, QColor("grey"));
+    p.setColor(QPalette::Light, QColor("#fff"));
 
     QApplication::setPalette(p);
 
