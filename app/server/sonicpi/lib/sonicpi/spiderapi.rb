@@ -35,6 +35,26 @@ module SonicPi
       raise "Tick value must be a number, got #{v.class}: #{v.inspect}" unless v.is_a? Numeric
       SonicPi::Core::ThreadLocalCounter.set(k, v)
     end
+    doc name:           :tick_set,
+        introduced:     Version.new(2,6,0),
+        summary:        "Set tick to a specific value",
+        args:           [[:value, :number]],
+        alt_args:       [[[:key, :symbol], [:value, :number]]],
+        returns:        :number,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Set the default tick to the specificed `value`. If a `key` is referenced, set that tick to `value` instead. Next call to `hook` will return `value`.",
+        examples:       ["
+tick_set 40 # set default tick to 40
+puts hook   #=> 40",
+"
+tick_set :foo, 40 # set tick :foo to 40
+puts hook(:foo)   #=> 40 (tick :foo is now 40)
+puts hook         #=> 0 (default tick is unaffected)
+
+"
+    ]
+
 
 
 
@@ -42,11 +62,64 @@ module SonicPi
       raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
       SonicPi::Core::ThreadLocalCounter.rm(k)
     end
+    doc name:           :tick_reset,
+        introduced:     Version.new(2,6,0),
+        summary:        "Reset tick to 0",
+        args:           [[]],
+        alt_args:       [[[:key, :symbol]]],
+        returns:        :number,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Reset default tick to 0. If a `key` is referenced, set that tick to 0 instead. Same as calling tick_set(0)",
+        examples:       ["
+         # increment default tick a few times
+tick
+tick
+tick
+puts hook #=> 2 (default tick is now 2)
+tick_set 0 # default tick is now 0
+puts hook #=> 0 (default tick is now 0
+",
+"
+                # increment tick :foo a few times
+tick :foo
+tick :foo
+tick :foo
+puts hook(:foo) #=> 2 (tick :foo is now 2)
+tick_set 0 # default tick is now 0
+puts hook(:foo) #=> 2 (tick :foo is still 2)
+tick_set :foo, 0 #  reset tick :foo
+puts hook(:foo) #=> 0 (tick :foo is now 0)"
+    ]
+
+
 
 
     def tick_reset_all
       SonicPi::Core::ThreadLocalCounter.reset_all
     end
+    doc name:           :tick_reset_all,
+        introduced:     Version.new(2,6,0),
+        summary:        "Reset all ticks",
+        args:           [[:value, :number]],
+        alt_args:       [[[:key, :symbol], [:value, :number]]],
+        returns:        :nil,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Reset all ticks - default and keyed",
+        examples:       ["
+tick      # increment default tick and tick :foo
+tick
+tick :foo
+tick :foo
+tick :foo
+puts hook #=> 1
+puts hook(:foo) #=> 2
+tick_reset_all
+puts hook #=> 0
+puts hook(:foo) #=> 0
+"
+    ]
 
 
 
@@ -60,6 +133,18 @@ module SonicPi
       raise "Tick increment must be a number, got #{n.class}: #{n.inspect}" unless n.is_a? Numeric
       SonicPi::Core::ThreadLocalCounter.tick(k, n)
     end
+    doc name:           :tick,
+        introduced:     Version.new(2,6,0),
+        summary:        "Increment a tick and return value",
+        args:           [[:value, :number]],
+        alt_args:       [[[:key, :symbol], [:value, :number]]],
+        returns:        :number,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Increment the default tick by 1 and return value. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are thread and live_loop local, so incrementing a tick only affects the current thread's version of that tick.",
+        examples:       ["
+"
+    ]
 
 
 
@@ -68,6 +153,18 @@ module SonicPi
       raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
       SonicPi::Core::ThreadLocalCounter.read(k)
     end
+    doc name:           :hook,
+        introduced:     Version.new(2,6,0),
+        summary:        "Obtain value of a tick",
+        args:           [[]],
+        alt_args:       [[[:key, :symbol]]],
+        returns:        :number,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are thead and live_loop local, so the tick read will be the tick of the current thread calling `hook`.",
+        examples:       ["
+"
+    ]
 
 
 

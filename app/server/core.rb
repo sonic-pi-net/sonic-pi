@@ -90,6 +90,7 @@ module SonicPi
         raise "Tick value must be a number, got #{v.class}: #{v.inspect}" unless v.is_a? Numeric
         counters = get_or_create_counters
         counters[k] = [v, v]
+        v
       end
 
       def self.rm(k=:___sonic_pi_default_tick_key___)
@@ -101,6 +102,7 @@ module SonicPi
 
       def self.reset_all
         Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, {})
+        nil
       end
     end
   end
