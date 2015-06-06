@@ -1263,6 +1263,11 @@ void MainWindow::changeTheme(){
     toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
     errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
 
+    for(int i=0; i < tabs->count(); i++){
+      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+      ws->setFrameShape(QFrame::Panel);
+    }
+
     foreach(QTextBrowser* pane, infoPanes) { 
       pane->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
     }
@@ -1284,6 +1289,7 @@ void MainWindow::changeTheme(){
 
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+      ws->setFrameShape(QFrame::StyledPanel);
       ws->setStyleSheet("");
     }
 
