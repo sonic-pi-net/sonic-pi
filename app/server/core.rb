@@ -66,11 +66,11 @@ module SonicPi
         counters = get_or_create_counters
         if counters[k]
           curr_val, next_val = *counters[k]
-          counters[k] = [next_val, next_val + n]
-          return next_val
+          counters[k] = [next_val + n-1, next_val + n]
+          return next_val + n-1
         else
-          counters[k] = [0, n]
-          return 0
+          counters[k] = [n-1, n]
+          return n-1
         end
       end
 
