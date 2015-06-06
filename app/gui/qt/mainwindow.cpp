@@ -1225,9 +1225,12 @@ void MainWindow::changeTheme(){
     p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
     p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
     p.setColor(QPalette::Base,            QColor("#a3a3a3"));
+    p.setColor(QPalette::AlternateBase,   QColor("#a2a2a2"));
     p.setColor(QPalette::Text,            QColor("#000"));
     p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
     p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
+    p.setColor(QPalette::ToolTipBase,   QColor("#929292"));
+    p.setColor(QPalette::ToolTipText,   QColor("#fff"));
 
     QApplication::setPalette(p);
 
@@ -1284,6 +1287,7 @@ void MainWindow::changeTheme(){
     p.setColor(QPalette::Text,            currentTheme->color("WindowForeground"));
     p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
     p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
+    p.setColor(QPalette::AlternateBase,   QColor("#fff"));
 
     QApplication::setPalette(p);
 
