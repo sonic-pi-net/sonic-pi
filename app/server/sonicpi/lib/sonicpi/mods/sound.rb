@@ -2614,7 +2614,11 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
            when NilClass
              args_h[k] = 0.0
            else
-             args_h[k] = v.to_f
+             begin
+               args_h[k] = v.to_f
+             rescue
+               raise "Unable to normalise argument with key #{k.inspect} and value #{v.inspect}"
+             end
            end
          end
          args_h
