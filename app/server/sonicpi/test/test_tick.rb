@@ -126,5 +126,21 @@ module SonicPi
       assert_equal(10, hook(:foo))
       assert_equal(10, hook)
     end
+
+    def test_decremented_ticks
+      tick_reset_all
+
+      5.times do
+        tick
+      end
+
+      assert_equal(4, hook)
+
+      tick(-1)
+      assert_equal(3, hook)
+      assert_equal(4, tick)
+      tick(-10)
+      assert_equal(-6, hook)
+    end
   end
 end
