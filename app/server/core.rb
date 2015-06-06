@@ -98,6 +98,10 @@ module SonicPi
         counters.delete(k)
         nil
       end
+
+      def self.reset_all
+        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, {})
+      end
     end
   end
 end

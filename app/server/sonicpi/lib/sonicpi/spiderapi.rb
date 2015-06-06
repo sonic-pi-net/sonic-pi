@@ -38,10 +38,14 @@ module SonicPi
 
 
 
-
     def tick_reset(k=:___sonic_pi_default_tick_key___)
       raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
       SonicPi::Core::ThreadLocalCounter.rm(k)
+    end
+
+
+    def tick_reset_all
+      SonicPi::Core::ThreadLocalCounter.reset_all
     end
 
 
