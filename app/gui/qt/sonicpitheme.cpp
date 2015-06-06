@@ -122,7 +122,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     QMap<QString, QString> themeSettings;
 
     themeSettings["HighlightedBackground"] = "deeppink";
-    themeSettings["HighlightedForeground"] = "#6a001d";
+    themeSettings["HighlightedForeground"] = "#fff";
     themeSettings["WindowForeground"] = "#fff";
     themeSettings["WindowBackground"] = "#2c3539";
     themeSettings["PaneBackground"] = "black";
