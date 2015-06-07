@@ -692,12 +692,12 @@ class Object
 
   def tick(k=:___sonic_pi_default_tick_key___)
     raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-    self.ring.tick(k)
+    self.to_a.tick(k)
   end
 
   def hook(k=:___sonic_pi_default_tick_key___)
     raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-    self.ring.hook(k)
+    self.to_a.hook(k)
   end
 
   # The hidden singleton lurks behind everyone
