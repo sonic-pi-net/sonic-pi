@@ -237,7 +237,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     connect(downcaseWord, SIGNAL(activated()), workspace, SLOT(downcaseWordOrSelection()));
 
     //Goto nth Tab
-    QShortcut *changeTab = new QShortcut(metaKey(int2char(ws)), this);
+    QShortcut *changeTab = new QShortcut(metaKey(int2char(ws)), tabs);
     connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));
     signalMapper -> setMapping(changeTab, ws);
 
@@ -1268,7 +1268,7 @@ void MainWindow::changeTheme(){
       ws->setFrameShape(QFrame::Panel);
     }
 
-    foreach(QTextBrowser* pane, infoPanes) { 
+    foreach(QTextBrowser* pane, infoPanes) {
       pane->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
     }
 
@@ -1300,6 +1300,7 @@ void MainWindow::changeTheme(){
     p.setColor(QPalette::Text,            currentTheme->color("WindowForeground"));
     p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
     p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
+
     p.setColor(QPalette::AlternateBase,   QColor("#fff"));
     p.setColor(QPalette::ToolTipBase,   QColor("#fff"));
     p.setColor(QPalette::ToolTipText,   QColor("#000"));
@@ -1314,11 +1315,11 @@ void MainWindow::changeTheme(){
 
     errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
 
-    foreach(QTextBrowser* pane, infoPanes) { 
+    foreach(QTextBrowser* pane, infoPanes) {
       pane->setStyleSheet(defaultTextBrowserStyle);
     }
   }
-  
+
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     ws->redraw();
@@ -1638,7 +1639,7 @@ void MainWindow::createInfoPane() {
        << "qrc:///info/LICENSE.html"
        << "qrc:///info/CHANGELOG.html";
 
-  tabs << tr("About") 
+  tabs << tr("About")
        << tr("Core Team")
        << tr("Contributors")
        << tr("Community")
