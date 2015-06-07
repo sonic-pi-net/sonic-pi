@@ -262,8 +262,12 @@ puts hook(:bar) #=> 0 (other keyed hooks haven't been advanced either)
 # You can call hook on lists and rings
 live_loop :foo do
   tick                                      # advance the default tick
+  use_synth :beep
   play (scale :e3, :minor_pentatonic).hook  # hook into the default tick to play all notes in sequence
-  sleep 1
+  sleep 0.5
+  use_synth :square
+  play (ring :e1, :e2, :e3).hook, release: 0.25 # use the same hook on another ring
+  sleep 0.25
 end
 "
     ]
