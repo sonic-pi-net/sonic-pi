@@ -661,8 +661,10 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio Settings"));
   advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
   mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
+  mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
   mixer_force_mono = new QCheckBox(tr("Force Mono"));
+  mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
 
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
@@ -699,14 +701,20 @@ void MainWindow::initPrefsWindow() {
   volBox->setLayout(vol_box);
 
   QGroupBox *debug_box = new QGroupBox(tr("Debug Options"));
-  print_output = new QCheckBox(tr("Print output"));
-  check_args = new QCheckBox(tr("Check synth args"));
-  clear_output_on_run = new QCheckBox(tr("Clear output on run"));
+  debug_box->setToolTip(tr("Configure debug behaviour"));
 
+  print_output = new QCheckBox(tr("Log output"));
+  print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
+
+  check_args = new QCheckBox(tr("Safe mode"));
+  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth argument values may\ncreate unexpectedly loud or uncomfortable sounds."));
+
+  clear_output_on_run = new QCheckBox(tr("Clear log on run"));
+  clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
-  debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(check_args);
+  debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
@@ -723,13 +731,13 @@ void MainWindow::initPrefsWindow() {
 
 
   QGroupBox *editor_box = new QGroupBox(tr("Editor"));
+  editor_box->setToolTip(tr("Configure editor look and feel"));
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
+  show_line_numbers->setToolTip(tr("Toggle line number visibility."));
   dark_mode = new QCheckBox(tr("Dark mode"));
-
+  dark_mode->setToolTip(tr("Toggle dark mode.\nDark mode is perfect for live coding in night clubs."));
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
   connect(dark_mode, SIGNAL(clicked()), this, SLOT(changeTheme()));
-
-  editor_box->setToolTip(tr("Editor Preferences"));
 
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
@@ -1262,6 +1270,7 @@ void MainWindow::changeTheme(){
     infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
     toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
     errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
+
 
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
