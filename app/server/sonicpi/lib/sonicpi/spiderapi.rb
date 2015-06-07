@@ -237,6 +237,34 @@ end
         accepts_block:  false,
         doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are `in_thead` and `live_loop` local, so the tick read will be the tick of the current thread calling `hook`.",
         examples:       ["
+puts hook #=> 0
+puts hook #=> 0
+puts hook #=> 0 # hook doesn't advance the tick, it just returns the current value
+",
+"
+puts hook #=> 0 # A tick is always 0 before the first tick
+tick # advance the tick
+puts hook #=> 0 # Note: a tick is still 0 after the first tick.
+tick
+puts hook #=> 1
+puts hook #=> 1 # multiple calls to hook doesn't affect tick value
+tick
+puts hook #=> 2
+",
+"
+tick(:foo)
+tick(:foo)
+puts hook(:foo) #=> 1 (keyed hook :foo has been advanced)
+puts hook #=> 0 (default hook hasn't been advanced)
+puts hook(:bar) #=> 0 (other keyed hooks haven't been advanced either)
+",
+"
+# You can call hook on lists and rings
+live_loop :foo do
+  tick                                      # advance the default tick
+  play (scale :e3, :minor_pentatonic).hook  # hook into the default tick to play all notes in sequence
+  sleep 1
+end
 "
     ]
 
