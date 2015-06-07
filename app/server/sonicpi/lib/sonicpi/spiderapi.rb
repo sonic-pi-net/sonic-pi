@@ -141,8 +141,82 @@ puts hook(:foo) #=> 0
         returns:        :number,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Increment the default tick by 1 and return value. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are thread and live_loop local, so incrementing a tick only affects the current thread's version of that tick.",
+        doc:            "Increment the default tick by 1 and return value. Successive calls to `tick` will continue to increment the default tick. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are `in_thread` and `live_loop` local, so incrementing a tick only affects the current thread's version of that tick.",
         examples:       ["
+puts tick #=> 0
+puts tick #=> 1
+puts tick #=> 2
+puts tick #=> 3
+",
+"
+puts tick(:foo) #=> 0 # named ticks have their own counts
+puts tick(:foo) #=> 1
+puts tick(:foo) #=> 2
+puts tick(:bar) #=> 0 # tick :bar is independent of tick :foo
+",
+" # Each_live loop has its own separate ticks
+live_loop :fast_tick do
+  puts tick   # the fast_tick live_loop's tick will
+  sleep 2     # be updated every 2 seconds
+end
+
+live_loop :slow_tick do
+  puts tick   # the slow_tick live_loop's tick is
+  sleep 4     # totally independent from the fast_tick
+              # live loop and will be updated every 4
+              # seconds
+end
+",
+"
+live_loop :regular_tick do
+  puts tick   # the fast_tick live_loop's tick will
+  sleep 1     # be updated every 2 seconds
+end
+
+live_loop :random_reset_tick do
+  if one_in 3 # randomly reset tick
+    tick_reset
+    puts \"reset tick!\"
+  end
+  puts tick   # this live_loop's tick is totally
+  sleep 1     # independent and the reset only affects
+              # this tick.
+end
+",
+"
+# Ticks work directly on lists, and will tick through each element
+# However, once they get to the end, they'll return nil
+live_loop :scale do
+  play [:c, :d, :e, :f, :g].tick   # play all notes just once, then rests
+  sleep 1
+end
+",
+"
+# Normal ticks interact directly with list ticks
+live_loop :odd_scale do
+  tick  # Increment the default tick
+  play [:c, :d, :e, :f, :g, :a].tick   # this now play every *other* note just once,
+                                       # then rests
+  sleep 1
+end
+",
+"
+# Ticks work wonderfully with rings
+# as the ring ensures the tick wraps
+# round internally always returning a
+# value
+live_loop :looped_scale do
+  play (ring :c, :d, :e, :f, :g).tick   # play all notes just once, then repeats
+  sleep 1
+end
+",
+"
+# Ticks work wonderfully with scales
+# which are also rings
+live_loop :looped_scale do
+  play (scale :e3, :minor_pentatonic).tick   # play all notes just once, then repeats
+  sleep 0.25
+end
 "
     ]
 
@@ -161,7 +235,7 @@ puts hook(:foo) #=> 0
         returns:        :number,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are thead and live_loop local, so the tick read will be the tick of the current thread calling `hook`.",
+        doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are `in_thead` and `live_loop` local, so the tick read will be the tick of the current thread calling `hook`.",
         examples:       ["
 "
     ]
