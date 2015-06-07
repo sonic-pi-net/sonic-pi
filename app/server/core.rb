@@ -47,6 +47,32 @@ require 'hamster/vector'
 
 module SonicPi
   module Core
+    module TLMixin
+      def tick(k=:___sonic_pi_default_tick_key___, *args)
+        if args.size.odd?
+          args = [k] + args
+          k = :___sonic_pi_default_tick_key___
+        end
+
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+        opts = args[0] || {}
+        raise "Tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
+        step = opts[:step] || 1
+        offset = opts[:offset] || 0
+        idx = SonicPi::Core::ThreadLocalCounter.tick(k, step)
+        self[idx + offset]
+      end
+
+      def hook(k=:___sonic_pi_default_tick_key___, *args)
+        if args.size.odd?
+          args = [k] + args
+          k = :___sonic_pi_default_tick_key___
+        end
+
+        idx = SonicPi::Core::ThreadLocalCounter.read(k)
+        self[idx]
+      end
+    end
     module ThreadLocalCounter
       def self.get_or_create_counters
         counters = Thread.current.thread_variable_get(:sonic_pi_core_thread_local_counters)
@@ -114,6 +140,7 @@ module SonicPi
     class EmptyVectorError < StandardError ; end
 
     class SPVector < Hamster::Vector
+      include TLMixin
       def initialize(list)
         raise EmptyVectorError, "Cannot create an empty vector" if list.empty?
         super
@@ -165,31 +192,6 @@ module SonicPi
 
       def to_a
         Array.new(self)
-      end
-
-      def tick(k=:___sonic_pi_default_tick_key___, *args)
-        if args.size.odd?
-          args = [k] + args
-          k = :___sonic_pi_default_tick_key___
-        end
-
-        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-        opts = args[0] || {}
-        raise "tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
-        step = opts[:step] || 1
-        offset = opts[:offset] || 0
-        idx = ThreadLocalCounter.tick(k, step)
-        self[idx + offset]
-      end
-
-      def hook(k=:___sonic_pi_default_tick_key___, *args)
-        if args.size.odd?
-          args = [k] + args
-          k = :___sonic_pi_default_tick_key___
-        end
-
-        idx = ThreadLocalCounter.read(k)
-        self[idx]
       end
     end
 
@@ -621,6 +623,7 @@ if RUBY_VERSION < "2"
 end
 
 class Array
+  include SonicPi::Core::TLMixin
 
   def ring
     SonicPi::Core::RingVector.new(self)
