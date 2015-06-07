@@ -28,29 +28,23 @@ module SonicPi
 
     def test_tick_set
       tick_reset_all
-
       tick_set 40
       assert_equal(40, hook)
     end
 
     def test_tick_set_return_val
       tick_reset_all
-
       assert_equal(40, tick_set(40))
     end
 
     def test_tick_reset_return_val
       tick_reset_all
-
       assert_equal(nil, tick_reset)
     end
 
     def test_tick_reset_return_val
-
-
       assert_equal(nil, tick_reset_all)
     end
-
 
     def test_tick_reset_all
       tick_reset_all
