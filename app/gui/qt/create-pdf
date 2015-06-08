@@ -1,0 +1,18 @@
+#!/bin/bash
+
+mkdir pdf
+rm pdf/*
+
+for F in book/*.html
+do
+
+  PDF=${F/book\//pdf\/}
+  PDF=${PDF/\.html/\.pdf}
+  echo $PDF
+
+  wkhtmltopdf \
+    --enable-internal-links \
+    "$F" \
+    "$PDF"
+
+done
