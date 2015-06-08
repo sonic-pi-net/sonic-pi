@@ -1,6 +1,6 @@
 4 Randomisierung
 
-# Randomisierung[^1]
+# Randomisierung[^9]
 
 Zufallszahlen sind eine tolle Möglichkeit, Deine Musik interessant zu 
 gestalten. Sonic Pi bietet einige Funktionen, um Zufallsfaktoren in 
@@ -49,7 +49,7 @@ Code-Durchgangs liefern Aufrufe von Zufallsfunktionen auch zufällige
 Werte. Der nächste Durchgang wird jedoch genau die selbe Folge von 
 Zufallswerten liefern und also auch genau gleich klingen. Es ist, als 
 ob der Code immer zu demselben Zeitpunkt zurückspringt, wenn 
-der Ausführen-Button geklickt wird. Es ist der Groundhog-Day[^2] der 
+der Ausführen-Button geklickt wird. Es ist der Groundhog-Day[^10] der 
 musikalischen Synthese.
 
 ## Ruhelose Glocken
@@ -57,7 +57,7 @@ musikalischen Synthese.
 Ein großartiges Beispiel von Zufall in Aktion bietet der
 "Haunted Bells"-Code. Die "ruhelosen Glocken" spielen das Sample
 `:perc_bell` mit einer zufälligen Samplerate und Pausenzeit
-in einer Endlosschleife[^3] ab:
+in einer Endlosschleife[^11] ab:
 
 ```
 loop do
@@ -69,7 +69,7 @@ end
 ## Zufällig abschneiden (random cutoff)
 
 Ein anderes spannendes Beispiel für die Randomisierung ist das 
-zufällige Abschneiden[^4] eines Synth-Klangs. Der `:tb303`-Emulator ist 
+zufällige Abschneiden[^12] eines Synth-Klangs. Der `:tb303`-Emulator ist 
 ein guter Synth, um das auszuprobieren:
 
 ```
@@ -84,7 +84,7 @@ loop do
 ## Startpunkt der Zufallsfolge (random seed)
 
 Was aber, wenn Du die Abfolge von Zufallszahlen, die Sonic Pi Dir 
-liefert, nicht magst? Nun, mit `use_random_seed`[^5] kannst Du 
+liefert, nicht magst? Nun, mit `use_random_seed`[^13] kannst Du 
 unterschiedliche Startpunkte für diese Folge angeben. Der 
 Standard-Startpunkt ist die 0. Wähle also einfach einen anderen 
 Startpunkt und mache eine andere Zufallserfahrung!
@@ -147,7 +147,7 @@ aber ohne diese Werte selbst; man sagt auch *exklusiv* dieser beiden
 Werte. Das bedeutet, dass sowohl der minimale als auch der maximale 
 Wert niemals ausgegeben werden, immer nur eine Zahl *zwischen* diesen 
 beiden Werten. Die Zahl wird immer eine Gleitkommazahl (engl. *Float*) 
-sein, also keine ganze Zahl, sondern eine mit einem Komma[^6]. Einige 
+sein, also keine ganze Zahl, sondern eine mit einem Komma[^14]. Einige 
 Beispiele für Gleitkommazahlen, die der wiederholte Aufruf von 
 `rrand(20, 110)` ausgeben könnte:
 
@@ -158,7 +158,7 @@ Beispiele für Gleitkommazahlen, die der wiederholte Aufruf von
 ## rrand_i
 
 Manchmal braucht man eine zufällige aber ganze Zahl, eben keine 
-Gleitkommazahl. Hier rettet einen `rrand_i`[^7]. Es funktioniert 
+Gleitkommazahl. Hier rettet einen `rrand_i`[^15]. Es funktioniert 
 ähnlich `rrand`, kann jedoch auch den minimalen oder maximalen Wert, 
 den man übergeben hat, als mögliche Zufallszahl auswählen (man kann 
 auch sagen: es ist *inklusiv*, also nicht exklusive der Werte, mit 
@@ -214,28 +214,28 @@ folgenden Kapitel dieses Tutorials besprechen.
 Jetzt los, bring' Deinen Code mit ein paar Zufälligkeiten
 durcheinander!
 
-[^1]: Randomisierung (engl. *Randomisation*) bedeutet hier, dass man 
+[^9]: Randomisierung (engl. *Randomisation*) bedeutet hier, dass man 
     eine Auswahl von Zahlen zufällig gestaltet, also jedesmal eine
     andere Zahl bekommt.
 
-[^2]: Im Film *Groundhog Day* (deutsch: *Und täglich grüßt das
+[^10]: Im Film *Groundhog Day* (deutsch: *Und täglich grüßt das
     Murmeltier*) erlebt Bill Murray immer wieder denselben Tag.
 
-[^3]: Ein Schleife wird mit dem Ausdruck `loop` eingeleitet. Alles was
+[^11]: Ein Schleife wird mit dem Ausdruck `loop` eingeleitet. Alles was
     innerhalb der Schleife steht, wird so oft wie angegeben oder
     unendlich oft wiederholt. 
 
-[^4]: In Sonic Pi wird das das Abschneiden oder Verkürzen mit dem
+[^12]: In Sonic Pi wird das das Abschneiden oder Verkürzen mit dem
     Ausdruck `cutoff` bezeichnet.
 
-[^5]: Das englische Wort *Seed* bedeutet im Deutschen *Keim* oder
+[^13]: Das englische Wort *Seed* bedeutet im Deutschen *Keim* oder
     *Samen*; hier wird es als *Startpunkt* übersetzt. 
 
-[^6]: Die Sache wird noch dadurch ein wenig komplizierter, dass im
+[^14]: Die Sache wird noch dadurch ein wenig komplizierter, dass im
     Englischen anstelle eines Kommas ein Punkt steht. Die Gleitkommazahl
     `5,978` ist also im Englischen die *Floating Point Number* (kurz:
     *Float*) `5.978`. Alle Zahlen mit Kommawerten werden also in Sonic
     Pi mit einem Punkt dargestellt.
 
-[^7]: Das kleine *i* in `rrand_i` steht für englisch *Integer* als eine
+[^15]: Das kleine *i* in `rrand_i` steht für englisch *Integer* als eine
     ganze Zahl im Unterschied zu den Gleitkommazahlen.
