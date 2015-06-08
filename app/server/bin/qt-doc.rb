@@ -56,7 +56,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   layout = "#{name}Layout"
   tab_widget = "#{name}TabWidget"
   help_pages = "#{name}HelpPages"
-  
+
   docs << "\n"
   docs << "  // #{name} info\n"
 
@@ -64,7 +64,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   doc_items = doc_items.sort if should_sort
   
   book = ""
-  toc = "<ul>\n"
+  toc = "<ul class=\"toc\">\n"
   toc_level = 0
 
   doc_items.each do |n, doc|
@@ -80,6 +80,17 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
     item_var = "#{name}_item_#{count+=1}"
     filename = "help/#{item_var}.html"
 
+    if title.start_with?("   ") then
+      if toc_level == 0 then
+        toc << "<ul class=\"toc\">\n"
+        toc_level += 1
+      end
+    else
+      if toc_level == 1 then
+        toc << "</ul>\n"
+        toc_level -= 1
+      end
+    end
     toc << "<li><a href=\"\##{item_var}\">#{title}</a></li>\n"
 
     docs << "    { "
@@ -106,6 +117,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
       f << "#{doc}"
     end
 
+    book << "<hr/>\n"
     book << "<a name=\"#{item_var}\"></a>\n"
     book << doc
 
