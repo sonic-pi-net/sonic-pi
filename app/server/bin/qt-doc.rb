@@ -117,8 +117,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
       f << "#{doc}"
     end
 
-    book << "<hr/>\n"
-    book << "<a name=\"#{item_var}\"></a>\n"
+    book << "<hr id=\"#{item_var}\"/>\n"
     book << doc
 
   end
