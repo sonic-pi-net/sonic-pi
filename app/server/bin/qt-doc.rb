@@ -131,7 +131,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   book_body = book[/<body.*?>/]
   book.gsub!(/<\/?body.*?>/, '')
   book.gsub!(/<meta http-equiv.*?>/, '')
-  File.open("#{qt_gui_path}/book/Sonic Pi - #{name.capitalize} (#{lang}).html", 'w') do |f|
+  File.open("#{qt_gui_path}/book/Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "") + ".html", 'w') do |f|
     f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
     f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
     f << book_body << "\n"
