@@ -50,7 +50,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, lang="en"|
+make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, chapters=false, lang="en"|
   return if doc_items.empty?
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
@@ -118,6 +118,10 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
     end
 
     book << "<hr id=\"#{item_var}\"/>\n"
+    if chapters then
+      c = title[/\A\s*[0-9]+(\.[0-9]+)?/]
+      doc.gsub!(/(<h1.*?>)/, "\\1#{c} - ")
+    end
     book << doc
 
   end
@@ -125,8 +129,8 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   toc << "</ul>\n"
 
   book_body = book[/<body.*?>/]
-  book = book.gsub(/<\/?body.*?>/, '')
-  book = book.gsub(/<meta http-equiv.*?>/, '')
+  book.gsub!(/<\/?body.*?>/, '')
+  book.gsub!(/<meta http-equiv.*?>/, '')
   File.open("#{qt_gui_path}/book/Sonic Pi - #{name.capitalize} (#{lang}).html", 'w') do |f|
     f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
     f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
@@ -159,7 +163,7 @@ make_tutorial = lambda do |lang|
     tutorial_html_map[name] = html
   end
 
-  make_tab.call("tutorial", tutorial_html_map, false, false, false, lang)
+  make_tab.call("tutorial", tutorial_html_map, false, false, false, true, lang)
 end
 
 
