@@ -34,6 +34,9 @@ FileUtils::mkdir "#{qt_gui_path}/help/"
 FileUtils::rm_rf "#{qt_gui_path}/info/"
 FileUtils::mkdir "#{qt_gui_path}/info/"
 
+FileUtils::rm_rf "#{qt_gui_path}/book/"
+FileUtils::mkdir "#{qt_gui_path}/book/"
+
 docs = []
 filenames = []
 count = 0
@@ -47,18 +50,23 @@ OptionParser.new do |opts|
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false|
+make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, lang="en"|
   return if doc_items.empty?
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
   tab_widget = "#{name}TabWidget"
   help_pages = "#{name}HelpPages"
-
+  
   docs << "\n"
   docs << "  // #{name} info\n"
 
   docs << "  struct help_page #{help_pages}[] = {\n"
   doc_items = doc_items.sort if should_sort
+  
+  book = ""
+  toc = "<ul>\n"
+  toc_level = 0
+
   doc_items.each do |n, doc|
     title = n
     if titleize == :titleize then
@@ -71,6 +79,8 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
 
     item_var = "#{name}_item_#{count+=1}"
     filename = "help/#{item_var}.html"
+
+    toc << "<li><a href=\"\##{item_var}\">#{title}</a></li>\n"
 
     docs << "    { "
 
@@ -96,6 +106,23 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
       f << "#{doc}"
     end
 
+    book << "<a name=\"#{item_var}\"></a>\n"
+    book << doc
+
+  end
+
+  toc << "</ul>\n"
+
+  book_body = book[/<body.*?>/]
+  book = book.gsub(/<\/?body.*?>/, '')
+  book = book.gsub(/<meta http-equiv.*?>/, '')
+  File.open("#{qt_gui_path}/book/#{name.capitalize} (#{lang}).html", 'w') do |f|
+    f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
+    f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+    f << book_body << "\n"
+    f << toc << "\n"
+    f << book << "\n"
+    f << "</body>\n"
   end
 
   docs << "  };\n\n"
@@ -121,7 +148,7 @@ make_tutorial = lambda do |lang|
     tutorial_html_map[name] = html
   end
 
-  make_tab.call("tutorial", tutorial_html_map, false, false)
+  make_tab.call("tutorial", tutorial_html_map, false, false, false, lang)
 end
 
 
