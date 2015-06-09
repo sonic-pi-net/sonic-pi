@@ -43,7 +43,7 @@ module SonicPi
         returns:        :number,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Set the default tick to the specificed `value`. If a `key` is referenced, set that tick to `value` instead. Next call to `hook` will return `value`.",
+        doc:            "Set the default tick to the specified `value`. If a `key` is referenced, set that tick to `value` instead. Next call to `hook` will return `value`.",
         examples:       ["
 tick_set 40 # set default tick to 40
 puts hook   #=> 40",
@@ -169,8 +169,8 @@ end
 ",
 "
 live_loop :regular_tick do
-  puts tick   # the fast_tick live_loop's tick will
-  sleep 1     # be updated every 2 seconds
+  puts tick   # the regular_tick live_loop's tick will
+  sleep 1     # be updated every second
 end
 
 live_loop :random_reset_tick do
@@ -235,19 +235,19 @@ end
         returns:        :number,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are `in_thead` and `live_loop` local, so the tick read will be the tick of the current thread calling `hook`.",
+        doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are `in_thread` and `live_loop` local, so the tick read will be the tick of the current thread calling `hook`.",
         examples:       ["
 puts hook #=> 0
 puts hook #=> 0
 puts hook #=> 0 # hook doesn't advance the tick, it just returns the current value
 ",
 "
-puts hook #=> 0 # A tick is always 0 before the first tick
+puts hook #=> 0 # A hook is always 0 before the first tick
 tick # advance the tick
-puts hook #=> 0 # Note: a tick is still 0 after the first tick.
+puts hook #=> 0 # Note: a hook is still 0 after the first tick.
 tick
 puts hook #=> 1
-puts hook #=> 1 # multiple calls to hook doesn't affect tick value
+puts hook #=> 1 # making multiple calls to hook doesn't affect tick value
 tick
 puts hook #=> 2
 ",
