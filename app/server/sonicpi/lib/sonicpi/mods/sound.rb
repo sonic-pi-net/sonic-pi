@@ -2456,7 +2456,7 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
            # TODO: remove this hard coded behaviour
            args_h.delete(:notes)
            normalise_args! args_h
-           args_h[:notes] = notes
+           args_h[:notes] = notes.map{|n| note(n)}
          else
            normalise_args! args_h
          end
