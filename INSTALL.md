@@ -10,6 +10,7 @@ following platforms:
 * [Mac OS X](#mac-os-x)
 * [Windows](#windows)
 
+----
 
 ## Raspberry Pi
 
@@ -151,6 +152,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 * Run `./mac-build-app`
 * App should be in `build` dir
 
+----
 
 ## Windows
 
@@ -200,6 +202,7 @@ Packaging:
   - file paths will need to be updated, currently absolute
   - build with `candle sonic-pi.wxs -ext WixUtilExtension && light sonic-pi.wixobj -ext WixUtilExtension -ext WixUIExtension`
 
+----
 
 ## Optional: Sonic Pi reference books
 
@@ -222,6 +225,7 @@ On your Linux or OS X system, you will need to have installed
   from their site, as Ubuntu's own binary package does not support all
   features needed for a clean PDF conversion.)
 
+----
 
 ## Unsupported development HTML Interface
 
