@@ -5,6 +5,10 @@ body {
   background-color: white;
 }
 
+ul.toc {
+  list-style-type: none;
+}
+
 a {
   color: dodgerblue;
   text-decoration: none;

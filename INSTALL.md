@@ -10,6 +10,7 @@ following platforms:
 * [Mac OS X](#mac-os-x)
 * [Windows](#windows)
 
+----
 
 ## Raspberry Pi
 
@@ -100,7 +101,7 @@ Arch Linux users are strongly recommended to install the [sonic-pi-git](https://
 
 After installing, users need to follow the instructions in the [Generic Linux](#generic-linux) section to start the `jackd` server, and then run `sonic-pi` at a command prompt. 
 
-###Building from source
+### Building from source
 
 Users can opt to build from source as well if they would like. Instructions and dependencies can be found within the PKGBUILD file in the AUR package previously mentioned, as well as the required patch file. 
 
@@ -151,6 +152,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 * Run `./mac-build-app`
 * App should be in `build` dir
 
+----
 
 ## Windows
 
@@ -200,6 +202,30 @@ Packaging:
   - file paths will need to be updated, currently absolute
   - build with `candle sonic-pi.wxs -ext WixUtilExtension && light sonic-pi.wixobj -ext WixUtilExtension -ext WixUIExtension`
 
+----
+
+## Optional: Sonic Pi reference books
+
+Do you want to read the Sonic Pi tutorial as a whole, e.g. on your
+mobile reader or printed out on paper?
+
+During the Qt GUI build process, the directory `app/gui/qt/book` will
+be generated, containing each section of the integrated help system
+as a printable HTML reference book document.
+
+As an optional step after the build process, you can convert these HTML
+files to more convenient PDFs using the `./create-pdf` script.
+
+On your Linux or OS X system, you will need to have installed
+
+* [wkhtmltopdf](http://wkhtmltopdf.org)
+  
+  (Note: On Ubuntu, you will need the
+  [wkhtmltopdf binary with a patched Qt](http://wkhtmltopdf.org/downloads.html)
+  from their site, as Ubuntu's own binary package does not support all
+  features needed for a clean PDF conversion.)
+
+----
 
 ## Unsupported development HTML Interface
 

@@ -5,6 +5,10 @@ body {
   background-color: black;
 }
 
+ul.toc {
+  list-style-type: none;
+}
+
 a {
     color: #FBDE2D;
     text-decoration: none;
