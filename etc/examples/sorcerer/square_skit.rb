@@ -11,14 +11,13 @@ live_loop :skit do
   end
 end
 
-live_loop :foo, auto_cue: false do |idx|
-  #idx = 0
+live_loop :foo, auto_cue: false do
+  tick(:note) if factor? tick, 4
   use_synth :square
   density 2 do
-    play (knit :c2, 2, :e1, 1, :f3, 1)[idx], release: 0, attack: 0.25, amp: 1, cutoff: rrand_i(70, 130)
+    play (knit :c2, 2, :e1, 1, :f3, 1).hook(:note), release: 0, attack: 0.25, amp: 1, cutoff: rrand_i(70, 130)
     sleep 0.5
   end
-  idx += 0.25
 end
 
 live_loop :kik, auto_cue: false do
