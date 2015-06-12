@@ -50,7 +50,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, chapters=false, lang="en"|
+make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, page_break=false, chapters=false, lang="en"|
   return if doc_items.empty?
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
@@ -117,16 +117,23 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
       f << "#{doc}"
     end
 
-    book << "<hr id=\"#{item_var}\"/>\n"
     if chapters then
       c = title[/\A\s*[0-9]+(\.[0-9]+)?/]
       doc.gsub!(/(<h1.*?>)/, "\\1#{c} - ")
     end
+    if page_break then
+      doc.gsub!(/<h1.*?>/, "<h1 id=\"#{item_var}\" style=\"page-break-before: always;\">")
+    else
+      doc.gsub!(/<h1.*?>/, "<h1 id=\"#{item_var}\">")
+    end
     book << doc
-
+    book << "<hr/>\n"
   end
 
-  toc << "</ul>\n"
+  while toc_level >= 0 do
+    toc << "</ul>\n"
+    toc_level -= 1
+  end
 
   book_body = book[/<body.*?>/]
   book.gsub!(/<\/?body.*?>/, '')
@@ -163,7 +170,7 @@ make_tutorial = lambda do |lang|
     tutorial_html_map[name] = html
   end
 
-  make_tab.call("tutorial", tutorial_html_map, false, false, false, true, lang)
+  make_tab.call("tutorial", tutorial_html_map, false, false, false, true, true, lang)
 end
 
 
@@ -218,11 +225,11 @@ docs << "{\n" unless (languages.empty?)
 make_tutorial.call("en")
 docs << "}\n" unless (languages.empty?)
 
-make_tab.call("examples", example_html_map, false, false)
-make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize, true, true)
-make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize, true, true)
-make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
-make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map), false, true, true)
+make_tab.call("examples", example_html_map, false, false, false, true)
+make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize, true, true, true)
+make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize, true, true, true)
+make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map, false, true, false, true)
+make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map), false, true, true, false)
 
 docs << "  // FX arguments for autocompletion\n"
 docs << "  QStringList fxtmp;\n"
