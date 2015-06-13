@@ -705,6 +705,7 @@ end"]
         accepts_block:  true,
         requires_block: true,
         async_block:    true,
+        intro_fn:       true,
         doc:            "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
         examples:       ["
 live_loop :ping do
@@ -998,6 +999,7 @@ play bar # plays 80"]
         opts:           nil,
         accepts_block:  true,
         requires_block: true,
+        intro_fn:       true,
         doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
         examples:       ["
 # Define a new function called foo
@@ -1086,6 +1088,7 @@ end"]
         args:          [[:output, :string]],
         opts:          nil,
         accepts_block: false,
+        intro_fn:       true,
         doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for `puts`.",
         examples:      [
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
@@ -1104,6 +1107,7 @@ end"]
         args:           [[:output, :string]],
         opts:           nil,
         accepts_block:  false,
+        intro_fn:       true,
         doc:            "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for `print`.",
         examples:      [
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
@@ -1282,6 +1286,7 @@ end"]
         args:           [[:min, :number], [:max, :number]],
         opts:           {:res => nil},
         accepts_block:  false,
+        intro_fn:       true,
         doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see `rrand_i`. If optional arg `res:` is used, the result is quantised by res.",
         examples:       ["
 print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
@@ -1332,6 +1337,7 @@ end"]
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
+        intro_fn:       true,
         doc:            "Given a max number, produces a float between `0` and the supplied max value. If max is a range, produces a float within the range. With no args or max as `0`, returns a random value between `0` and `1`.",
         examples:       ["
 print rand(0.5) #=> will print a number like 0.397730007820797 to the output pane"]
@@ -1456,6 +1462,7 @@ puts rand # => 0.7203244934421581
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  false,
+        intro_fn:       true,
         examples:       ["
 # default tempo is 60 bpm
 4.times do

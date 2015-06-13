@@ -547,6 +547,7 @@ play 90 # Args are checked
            args:          [[:note_shift, :number]],
            opts:          nil,
            accepts_block: false,
+           intro_fn:       true,
            examples:      ["
 play 50 # Plays note 50
 use_transpose 1
@@ -608,6 +609,7 @@ play 80 # Plays note 83
            args:          [[:synth_name, :symbol]],
            opts:          nil,
            accepts_block: false,
+           intro_fn:       true,
            examples:      ["
 play 50 # Plays with default synth
 use_synth :mod_sine
@@ -828,6 +830,7 @@ If note is `nil`, `:r` or `:rest`, play is ignored and treated as a rest.
            args:          [[:note, :symbol_or_number]],
            opts:          DEFAULT_PLAY_OPTS,
            accepts_block: false,
+           intro_fn:       true,
            examples:      ["
 play 50 # Plays note 50 on the current synth",
 
@@ -1423,6 +1426,7 @@ For advanced control, it  is also possible to modify the parameters of an effect
            opts:           {},
            accepts_block:  true,
            requires_block: true,
+           intro_fn:       true,
            examples:      ["
 # Basic usage
 with_fx :distortion do # Use the distortion effect with default parameters
@@ -1974,6 +1978,9 @@ puts sample_duration(:loop_amen) #=> 1
                            :amp       => "Amplitude of playback",
                            :amp_slide => "Time to slide the amp value from current to next value on next control"},
            accepts_block: false,
+           intro_fn:       true,
+
+
            examples:      ["
 sample :perc_bell # plays one of Sonic Pi's built in samples",
 "sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|aif|aiff file from your local filesystem",
@@ -2167,6 +2174,7 @@ play degree(2, :C3, :minor)
            returns:        :ring,
            opts:          {:num_octaves => "The number of octaves you'd like the scale to consist of. More octaves means a larger scale. Default is 1."},
            accepts_block: false,
+           intro_fn:       true,
            examples:      ["
 puts scale(:C, :major) # returns the list [60, 62, 64, 65, 67, 69, 71, 72]",
 "# anywhere you can use a list of notes, you can also use scale
@@ -2287,6 +2295,7 @@ puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80
            returns:        :ring,
            opts:          nil,
            accepts_block: false,
+           intro_fn:       true,
            examples:      ["
 puts chord(:e, :minor) # returns a list of midi notes - [64, 67, 71]
 ",
