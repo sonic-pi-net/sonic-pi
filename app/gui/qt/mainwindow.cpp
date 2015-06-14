@@ -1274,7 +1274,7 @@ void MainWindow::changeTheme(){
 
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-      ws->setFrameShape(QFrame::Panel);
+      ws->setFrameShape(QFrame::NoFrame);
     }
 
     foreach(QTextBrowser* pane, infoPanes) {
