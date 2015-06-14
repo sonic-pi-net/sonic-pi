@@ -60,9 +60,6 @@ module SonicPi
     end
 
     module ThreadLocalCounter
-      # TODO combine this with equiv fn in util.rb
-      # to remove duplicate functionality
-
       def self.get_or_create_counters
         counters = Thread.current.thread_variable_get(:sonic_pi_core_thread_local_counters)
         return counters if counters
