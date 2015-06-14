@@ -2259,8 +2259,11 @@ play_pattern scale(:C, :lydian_minor)
 
 
 
-       def chord_degree(degree, tonic, scale=:major, number_of_notes=4)
-         Chord.resolve_degree(degree, tonic, scale, number_of_notes).ring
+       def chord_degree(degree, tonic, scale=:major, number_of_notes=4, *opts)
+         opts = resolve_synth_opts_hash_or_array(opts)
+         opts = {invert: 0}.merge(opts)
+
+         invert_chord(Chord.resolve_degree(degree, tonic, scale, number_of_notes), opts[:invert]).ring
        end
        doc name:          :chord_degree,
            introduced:    Version.new(2,1,0),
@@ -2280,11 +2283,14 @@ puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80
 
        def chord(tonic, name=:major, *opts)
          return [] unless tonic
+         opts = resolve_synth_opts_hash_or_array(opts)
+         opts = {invert: 0}.merge(opts)
+
          if tonic.is_a? Array
            raise "List passed as parameter to chord needs two elements i.e. (chord [:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
-           Chord.new(tonic[0], tonic[1]).ring
+           invert_chord(Chord.new(tonic[0], tonic[1]), opts[:invert]).ring
          else
-           Chord.new(tonic, name).ring
+           invert_chord(Chord.new(tonic, name), opts[:invert]).ring
          end
        end
        doc name:          :chord,
