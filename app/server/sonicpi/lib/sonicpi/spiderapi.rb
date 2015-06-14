@@ -26,14 +26,8 @@ module SonicPi
 
     THREAD_RAND_SEED_MAX = 10e20
 
-    def tick_set(k=:___sonic_pi_default_tick_key___, v)
-      if k.is_a? Numeric
-        v = k
-        k = :___sonic_pi_default_tick_key___
-      end
-      raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-      raise "Tick value must be a number, got #{v.class}: #{v.inspect}" unless v.is_a? Numeric
-      SonicPi::Core::ThreadLocalCounter.set(k, v)
+    def tick_set(*args)
+      SonicPi::Core::ThreadLocalCounter.set(*args)
     end
     doc name:           :tick_set,
         introduced:     Version.new(2,6,0),
@@ -58,9 +52,8 @@ puts hook         #=> 0 (default tick is unaffected)
 
 
 
-    def tick_reset(k=:___sonic_pi_default_tick_key___)
-      raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-      SonicPi::Core::ThreadLocalCounter.rm(k)
+    def tick_reset(*args)
+      SonicPi::Core::ThreadLocalCounter.rm(*args)
     end
     doc name:           :tick_reset,
         introduced:     Version.new(2,6,0),
@@ -121,17 +114,8 @@ puts hook(:foo) #=> 0
 "
     ]
 
-
-
-
-    def tick(k=:___sonic_pi_default_tick_key___, n=1)
-      if k.is_a? Numeric
-        n = k
-        k = :___sonic_pi_default_tick_key___
-      end
-      raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-      raise "Tick increment must be a number, got #{n.class}: #{n.inspect}" unless n.is_a? Numeric
-      SonicPi::Core::ThreadLocalCounter.tick(k, n)
+    def tick(*args)
+      SonicPi::Core::ThreadLocalCounter.tick(*args)
     end
     doc name:           :tick,
         introduced:     Version.new(2,6,0),
@@ -139,7 +123,8 @@ puts hook(:foo) #=> 0
         args:           [[:value, :number]],
         alt_args:       [[[:key, :symbol], [:value, :number]]],
         returns:        :number,
-        opts:           nil,
+        opts:           {step: "",
+                         offset: ""},
         accepts_block:  false,
         doc:            "Increment the default tick by 1 and return value. Successive calls to `tick` will continue to increment the default tick. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are `in_thread` and `live_loop` local, so incrementing a tick only affects the current thread's version of that tick.",
         examples:       ["
@@ -223,9 +208,8 @@ end
 
 
 
-    def hook(k=:___sonic_pi_default_tick_key___)
-      raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-      SonicPi::Core::ThreadLocalCounter.read(k)
+    def hook(*args)
+      SonicPi::Core::ThreadLocalCounter.hook(*args)
     end
     doc name:           :hook,
         introduced:     Version.new(2,6,0),

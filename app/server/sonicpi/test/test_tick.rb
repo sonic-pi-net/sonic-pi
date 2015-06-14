@@ -122,7 +122,7 @@ module SonicPi
       tick_reset_all
 
       # adding an increment value is the same as calling tick n times:
-      tick(:foo, 5)
+      tick(:foo, step: 5)
       5.times do
         tick
       end
@@ -136,7 +136,7 @@ module SonicPi
       assert_equal(5, tick)
       assert_equal(5, hook)
 
-      tick(:foo, 5)
+      tick(:foo, step: 5)
       5.times do
         tick
       end
@@ -155,10 +155,10 @@ module SonicPi
 
       assert_equal(4, hook)
 
-      tick(-1)
+      tick(step: -1)
       assert_equal(3, hook)
       assert_equal(4, tick)
-      tick(-10)
+      tick(step: -10)
       assert_equal(-6, hook)
     end
   end

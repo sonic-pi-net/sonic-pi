@@ -48,32 +48,21 @@ require 'hamster/vector'
 module SonicPi
   module Core
     module TLMixin
-      def tick(k=:___sonic_pi_default_tick_key___, *args)
-        if args.size.odd?
-          args = [k] + args
-          k = :___sonic_pi_default_tick_key___
-        end
-
-        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-        opts = args[0] || {}
-        raise "Tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
-        step = opts[:step] || 1
-        offset = opts[:offset] || 0
-        idx = SonicPi::Core::ThreadLocalCounter.tick(k, step)
-        self[idx + offset]
+      def tick(*args)
+        idx = SonicPi::Core::ThreadLocalCounter.tick(*args)
+        self[idx]
       end
 
-      def hook(k=:___sonic_pi_default_tick_key___, *args)
-        if args.size.odd?
-          args = [k] + args
-          k = :___sonic_pi_default_tick_key___
-        end
-
-        idx = SonicPi::Core::ThreadLocalCounter.read(k)
+      def hook(*args)
+        idx = SonicPi::Core::ThreadLocalCounter.hook(*args)
         self[idx]
       end
     end
+
     module ThreadLocalCounter
+      # TODO combine this with equiv fn in util.rb
+      # to remove duplicate functionality
+
       def self.get_or_create_counters
         counters = Thread.current.thread_variable_get(:sonic_pi_core_thread_local_counters)
         return counters if counters
@@ -82,29 +71,44 @@ module SonicPi
         counters
       end
 
-      def self.tick(k=:___sonic_pi_default_tick_key___, n=1)
-        if k.is_a? Numeric
-          n = k
+      def self.tick(k = :___sonic_pi_default_tick_key___, *args)
+        puts "input: #{k}, #{args}"
+        if k.is_a? Symbol
+          opts = args.first || {}
+        else
+          opts = k
           k = :___sonic_pi_default_tick_key___
         end
+
+        puts "k: #{k}, opts: #{opts}"
         raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-        raise "Tick increment must be a number, got #{n.class}: #{n.inspect}" unless n.is_a? Numeric
+        raise "Tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
+        step = opts[:step] || 1
+        offset = opts[:offset] || 0
         counters = get_or_create_counters
         if counters[k]
           curr_val, next_val = *counters[k]
-          counters[k] = [next_val + n-1, next_val + n]
-          return next_val + n-1
+          counters[k] = [next_val + step-1, next_val + step]
+          return next_val + step-1 + offset
         else
-          counters[k] = [n-1, n]
-          return n-1
+          counters[k] = [step-1, step]
+          return step-1 + offset
         end
       end
 
-      def self.read(k=:___sonic_pi_default_tick_key___)
+      def self.hook(k = :___sonic_pi_default_tick_key___, *args)
+        if k.is_a? Symbol
+          opts = args.first || {}
+        else
+          opts = k
+          k = :___sonic_pi_default_tick_key___
+        end
+
         raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+        offset = opts[:offset] || 0
         counters = get_or_create_counters
         val, _ = *counters[k]
-        val || 0
+        return (val || 0) + offset
       end
 
       def self.set(k=:___sonic_pi_default_tick_key___, v)
@@ -690,14 +694,12 @@ class Object
     self.to_a.ring
   end
 
-  def tick(k=:___sonic_pi_default_tick_key___)
-    raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-    self.to_a.tick(k)
+  def tick(*args)
+    self.to_a.tick(*args)
   end
 
-  def hook(k=:___sonic_pi_default_tick_key___)
-    raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
-    self.to_a.hook(k)
+  def hook(*args)
+    self.to_a.hook(*args)
   end
 
   # The hidden singleton lurks behind everyone
