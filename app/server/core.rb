@@ -69,7 +69,6 @@ module SonicPi
       end
 
       def self.tick(k = :___sonic_pi_default_tick_key___, *args)
-        puts "input: #{k}, #{args}"
         if k.is_a? Symbol
           opts = args.first || {}
         else
