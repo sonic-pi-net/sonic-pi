@@ -69,7 +69,6 @@ module SonicPi
       end
 
       def self.tick(k = :___sonic_pi_default_tick_key___, *args)
-        puts "input: #{k}, #{args}"
         if k.is_a? Symbol
           opts = args.first || {}
         else
@@ -77,7 +76,6 @@ module SonicPi
           k = :___sonic_pi_default_tick_key___
         end
 
-        puts "k: #{k}, opts: #{opts}"
         raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
         raise "Tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
         step = opts[:step] || 1
