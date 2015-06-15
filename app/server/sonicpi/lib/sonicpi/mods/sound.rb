@@ -2038,7 +2038,16 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
        def sample_duration(path, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
          args_h[:rate] = 1 unless args_h[:rate]
-         real_dur = load_sample(path).duration * 1.0/(args_h[:rate].abs)
+         start = args_h[:start] || 0
+         start = [1, [0, start].max].min
+         finish = args_h[:finish] || 1
+         finish = [1, [0, finish].max].min
+         if finish > start
+           len = finish - start
+         else
+           len = start - finish
+         end
+         real_dur = load_sample(path).duration * 1.0/(args_h[:rate].abs) * len
 
          if Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
            real_dur.to_f / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
@@ -2051,7 +2060,9 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
            summary:       "Get sample duration in beats",
            doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
            args:          [[:path, :string]],
-           opts:          {:rate => "Rate modifier. For example, doubling the rate will halve the duration."},
+           opts:          {:rate => "Rate modifier. For example, doubling the rate will halve the duration.",
+                           :start => "Start position of sample playback as a value from 0 to 1",
+                           :finish => "Finish position of sample playback as a value from 0 to 1"},
            accepts_block: false,
            examples:      ["
 loop do   # Using sample_duration here means the loop plays back without any gaps or breaks
