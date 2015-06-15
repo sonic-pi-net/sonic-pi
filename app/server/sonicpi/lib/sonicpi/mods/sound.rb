@@ -646,7 +646,7 @@ play 64 # Plays note 64"]
          examples:      ["
 use_tuning :equal, :c
 play :e4 # Plays note 64
-with_tuning :equal, :c do
+with_tuning :just, :c do
   play :e4 # Plays note 63.8631
   sleep 1
   play :c4 # Plays note 60
