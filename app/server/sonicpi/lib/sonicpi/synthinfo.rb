@@ -1414,6 +1414,52 @@ module SonicPi
   class Hoover < SonicPiSynth
     def name
       "Hoover"
+      end
+
+      def introduced
+        Version.new(2,6,0)
+      end
+
+      def synth_name
+        "hoover"
+      end
+
+      def doc
+        "Classic early 90's rave synth - 'a sort of slurry chorussy synth line like the classic Dominator by Human Resource'. Based on Dan Stowell's implementation in SuperCollider and Daniel Turczanski's port to Overtone. Works really well with portamento (see docs for the 'control' method)."
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 5,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 5,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 5,
+          :pan_slide_curve => 0,
+          :attack => 0.05,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :sustain_level => 1,
+          :env_curve => 2,
+          :cutoff => 130,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 5,
+          :cutoff_slide_curve => 0,
+        }
+      end
+  end
+
+  class SynthViolin < SonicPiSynth
+    def name
+      "SynthViolin"
     end
 
     def introduced
@@ -1421,11 +1467,11 @@ module SonicPi
     end
 
     def synth_name
-      "hoover"
+      "synth_violin"
     end
 
     def doc
-      "Classic early 90's rave synth - 'a sort of slurry chorussy synth line like the classic Dominator by Human Resource'. Based on Dan Stowell's implementation in SuperCollider and Daniel Turczanski's port to Overtone. Works really well with portamento (see docs for the 'control' method)."
+      "A rather cheesy sounding violin synth based on filtered saw waves and a variable vibrato."
     end
 
     def arg_defaults
@@ -1442,17 +1488,51 @@ module SonicPi
         :pan_slide => 0,
         :pan_slide_shape => 5,
         :pan_slide_curve => 0,
-        :attack => 0.05,
+        :attack => 0.2,
         :decay => 0,
         :sustain => 0,
-        :release => 1,
+        :release => 0.85,
         :attack_level => 1,
         :sustain_level => 1,
         :env_curve => 2,
-        :cutoff => 130,
+
+        :cutoff => 107,
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
+
+        :vibrato_rate => 6,
+        :vibrato_depth => 0.15,
+        :vibrato_delay => 0.5,
+        :vibrato_onset => 0.1,
+      }
+    end
+
+    def specific_arg_info
+      {
+        :vibrato_rate => {
+          :doc => "Number of wobbles per second. For realism this should be between 6 and 8, maybe even faster for really high notes.",
+          :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 20.0)],
+          :modulatable => false
+        },
+        :vibrato_depth =>
+        {
+          :doc => "Amount of variation around the central note. 1 is the sensible maximum (but you can go up to 5 if you want a special effect), 0 would mean no vibrato. Works well around 0.15 but you can experiment.",
+          :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 5.0)],
+          :modulatable => false
+        },
+        :vibrato_delay =>
+        {
+          :doc => "How long in seconds the before the vibrato kicks in.",
+          :validations => [v_positive(:vibrato_delay)],
+          :modulatable => false
+        },
+        :vibrato_onset =>
+        {
+          :doc => "How long in seconds the before the vibrato reaches full power.",
+          :validations => [v_positive(:vibrato_onset)],
+          :modulatable => false
+        },
       }
     end
   end
@@ -4531,6 +4611,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       #      :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
+      :synth_violin => SynthViolin.new,
 
       :sound_in => SoundIn.new,
       :noise => Noise.new,
