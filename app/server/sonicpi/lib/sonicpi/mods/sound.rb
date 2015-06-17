@@ -1555,7 +1555,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
 For advanced control, it  is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
            args:           [[:fx_name, :symbol]],
-           opts:           {},
+           opts:           {reps: "Number of times to repeat the block in an iteration.",
+                            kill_delay: "Amount of time to wait after all synths triggered by the block have completed before stopping and freeing the effect synthesiser." },
            accepts_block:  true,
            requires_block: true,
            intro_fn:       true,
@@ -1591,7 +1592,24 @@ with_fx :reverb, mix: 0.1 do |fx|
   control fx, mix: 1 # change the parameters of the effect to add more reverb
   play 60 # plays note 60 with loads of reverb
   sleep 2
-end"]
+end",
+
+"
+# Repeat the block 16 times internally
+with_fx :reverb, reps: 16 do
+  play (scale :e3, :minor_pentatonic), release: 0.1
+  sleep 0.125
+end
+
+# The above is a shorthand for this:
+with_fx :reverb do
+  16.times do
+    play (scale :e3, :minor_pentatonic), release: 0.1
+    sleep 0.125
+  end
+end
+"
+       ]
 
 
 
