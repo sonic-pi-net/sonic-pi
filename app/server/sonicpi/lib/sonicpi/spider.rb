@@ -228,6 +228,10 @@ module SonicPi
       __enqueue_multi_message(2, s)
     end
 
+    def __delayed_current_line_info(s)
+      __enqueue_multi_message(7, s)
+    end
+
     def __schedule_delayed_blocks_and_messages!
       delayed_messages = Thread.current.thread_variable_get :sonic_pi_spider_delayed_messages
       delayed_blocks = Thread.current.thread_variable_get(:sonic_pi_spider_delayed_blocks) || []
