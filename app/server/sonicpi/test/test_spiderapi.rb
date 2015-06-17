@@ -58,16 +58,5 @@ module SonicPi
       assert_equal(13.2, quantise(13.3212, 0.3))
       assert_equal(13.5, quantise(13.3212, 0.5))
     end
-
-    def test_note_range
-      assert_equal(ring(*(60..72)), note_range(:c4,:c5))
-      assert_equal(ring(60, 64, 67, 72), note_range(:c4,:c5, pitches: Chord.new(:c, :major)))
-      assert_equal(ring(60, 62, 64, 65, 67, 69, 71, 72), note_range(:c4,:c5, pitches: Scale.new(:c, :major)))
-      assert_equal(ring(67), note_range(:c4,:c5, pitches: [:g3]))
-
-      # multiple octaves
-      assert_equal(ring(60, 64, 67, 72, 76, 79, 84), note_range(:c4,:c6, pitches: Chord.new(:c, :major)))
-    end
-
   end
 end
