@@ -367,6 +367,48 @@ play 80  #=> this plays as the stop only affected the above thread"
 
 
 
+    def note_range(low_note, high_note, options={})
+      low_note = Note.resolve_midi_note(low_note)
+      high_note = Note.resolve_midi_note(high_note)
+
+      potential_note_range = Range.new(low_note, high_note)
+
+      if options[:pitches]
+        pitch_classes = options[:pitches].map {|x| Note.resolve_note_name(x) }
+
+        note_pool = potential_note_range.select {|n|
+          pitch_classes.include? Note.resolve_note_name(n)
+        }
+      else
+        note_pool = potential_note_range
+      end
+
+      (ring *note_pool)
+    end
+    doc name:           :note_range,
+        introduced:     Version.new(2,6,0),
+        summary:        "Get all the notes between a lower and an upper note, optionally filtering for certain pitches",
+        args:           [[:low_note, :anything], [:high_note, :anything]],
+        returns:        :ring,
+        opts:           {:pitches => "An array of notes (symbols or ints) to filter on. Octave information is ignored."},
+        accepts_block:  false,
+        doc:            "Produces a ring of all the notes between a low note and a high note. By default this is chromatic (all the notes) but can be filtered with a :pitches argument. This opens the door to arpeggiator style sequences and other useful patterns. If you try to specify only pitches which aren't in the range it will raise an error - you have been warned!",
+        examples:       [
+          "(note_range :c4, :c5) # => (ring 60,61,62,63,64,65,66,67,68,69,70,71,72)",
+          "(note_range :c4, :c5, pitches: chord(:c, :major)) # => (ring 60,64,67,72)",
+          "(note_range :c4, :c6, pitches: chord(:c, :major)) # => (ring 60,64,67,72,76,79,84)",
+          "(note_range :c4, :c5, pitches: scale(:c, :major)) # => (ring 60,62,64,65,67,69,71,72)",
+          "(note_range :c4, :c5, pitches: [:c4, :g2]) # => (ring 60,67,72)",
+          "live_loop :arpeggiator do
+  # try changing the chord
+  play (note_range :c4, :c5, pitches: chord(:c, :major)).tick
+  sleep 0.125
+end"
+        ]
+
+
+
+
     def spread(num_accents, size, *args)
       args_h = resolve_synth_opts_hash_or_array(args)
       beat_rotations = args_h[:rotate]
