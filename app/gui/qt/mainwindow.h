@@ -74,7 +74,7 @@ public:
     SonicPiServer *sonicPiServer;
     enum {UDP=0, TCP=1};
     QCheckBox *dark_mode;
-    bool loaded_workspaces = false;
+    bool loaded_workspaces;
 
 protected:
     void closeEvent(QCloseEvent *event);

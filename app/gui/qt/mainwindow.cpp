@@ -98,6 +98,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  loaded_workspaces = false;
   this->splash = splash;
   protocol = UDP;
 
