@@ -2307,12 +2307,12 @@ puts note('C', octave: 2)
        doc name:           :note_range,
            introduced:     Version.new(2,6,0),
            summary:        "Get a range of notes",
-       args:           [[:low_note, :note], [:high_note, :note]],
-       returns:        :ring,
-       opts:           {:pitches => "An array of notes (symbols or ints) to filter on. Octave information is ignored."},
-       accepts_block:  false,
-       doc:            "Produces a ring of all the notes between a low note and a high note. By default this is chromatic (all the notes) but can be filtered with a :pitches argument. This opens the door to arpeggiator style sequences and other useful patterns. If you try to specify only pitches which aren't in the range it will raise an error - you have been warned!",
-       examples:       [
+           args:           [[:low_note, :note], [:high_note, :note]],
+           returns:        :ring,
+           opts:           {:pitches => "An array of notes (symbols or ints) to filter on. Octave information is ignored."},
+           accepts_block:  false,
+           doc:            "Produces a ring of all the notes between a low note and a high note. By default this is chromatic (all the notes) but can be filtered with a :pitches argument. This opens the door to arpeggiator style sequences and other useful patterns. If you try to specify only pitches which aren't in the range it will raise an error - you have been warned!",
+           examples:       [
          "(note_range :c4, :c5) # => (ring 60,61,62,63,64,65,66,67,68,69,70,71,72)",
          "(note_range :c4, :c5, pitches: (chord :c, :major)) # => (ring 60,64,67,72)",
          "(note_range :c4, :c6, pitches: (chord :c, :major)) # => (ring 60,64,67,72,76,79,84)",
