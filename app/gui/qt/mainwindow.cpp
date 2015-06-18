@@ -1254,7 +1254,7 @@ void MainWindow::changeTheme(){
     QString windowForegroundColor = currentTheme->color("WindowForeground").name();
     QString paneColor = currentTheme->color("PaneBackground").name();
     QString windowBorder = currentTheme->color("WindowBorder").name();
-    QString selectedTab = "#444";
+    QString selectedTab = "deeppink";
 
     QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
     QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: %2;} ").arg(windowForegroundColor, selectedTab);
