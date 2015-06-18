@@ -1325,6 +1325,9 @@ void MainWindow::changeTheme(){
 
     QApplication::setPalette(p);
 
+    QString toolTipStyling = QString("QToolTip {color: #000; background-color: #ddd;}");
+    this->setStyleSheet(toolTipStyling);
+
     errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
 
     foreach(QTextBrowser* pane, infoPanes) {
