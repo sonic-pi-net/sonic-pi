@@ -2060,6 +2060,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
          start = [1, [0, start].max].min
          finish = args_h[:finish] || 1
          finish = [1, [0, finish].max].min
+
          if finish > start
            len = finish - start
          else
@@ -2067,10 +2068,17 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
          end
          real_dur = load_sample(path).duration * 1.0/(args_h[:rate].abs) * len
 
+         if args_h.has_key?(:sustain)
+           attack = [0, args_h[:attack].to_f].max
+           decay = [0, args_h[:decay].to_f].max
+           release = [0, args_h[:release].to_f].max
+           real_dur = [attack + decay + release, real_dur].min
+         end
+
          if Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
-           real_dur.to_f / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+           return real_dur.to_f / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
          else
-           real_dur
+           return real_dur
          end
        end
        doc name:          :sample_duration,
@@ -2080,7 +2088,12 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
            args:          [[:path, :string]],
            opts:          {:rate => "Rate modifier. For example, doubling the rate will halve the duration.",
                            :start => "Start position of sample playback as a value from 0 to 1",
-                           :finish => "Finish position of sample playback as a value from 0 to 1"},
+                           :finish => "Finish position of sample playback as a value from 0 to 1",
+                           :attack => "Duration of the attack phase of the envelope.",
+                           :decay => "Duration of the decay phase of the envelope.",
+                           :sustain => "Duration of the sustain phase of the envelope.",
+                           :release => "Duration of the release phase of the envelope."},
+
            accepts_block: false,
            examples:      ["
 loop do   # Using sample_duration here means the loop plays back without any gaps or breaks
