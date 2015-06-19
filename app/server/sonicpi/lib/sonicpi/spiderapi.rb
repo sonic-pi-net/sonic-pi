@@ -398,7 +398,6 @@ play 80  #=> this plays as the stop only affected the above thread"
     doc name:           :spread,
         introduced:     Version.new(2,4,0),
         summary:        "Euclidean distribution for beats",
-        summary:        "Distribute a number of accents evenly across a ring of specified size",
         args:           [[:num_accents, :number], [:size, :number]],
         returns:        :ring,
         opts:           {rotate: "rotate to the next strong beat allowing for easy permutations of the original rhythmic grouping (see example)"},
@@ -408,7 +407,7 @@ play 80  #=> this plays as the stop only affected the above thread"
       "(spread 3, 8)    #=> (ring true, false, false, true, false, false, true, false) a spacing of 332",
       "(spread 3, 8, rotate: 1) #=> (ring true, false, false, true, false, true, false, false) a spacing of 323",
       "
-# Easily create interesting polyrhthmic beats
+# Easily create interesting polyrhythmic beats
 live_loop :euclid_beat do
   sample :elec_bong, amp: 1.5 if (spread 3, 8).tick # Spread 3 bongs over 8
   sample :perc_snap, amp: 0.8 if (spread 7, 11).hook # Spread 7 snaps over 11
