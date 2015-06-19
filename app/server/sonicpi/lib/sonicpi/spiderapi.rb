@@ -123,8 +123,8 @@ puts hook(:foo) #=> 0
         args:           [[:value, :number]],
         alt_args:       [[[:key, :symbol], [:value, :number]]],
         returns:        :number,
-        opts:           {step: "",
-                         offset: ""},
+        opts:           {step: "The amount to tick up by. Default is 1.",
+                         offset: "Offset to add to index returned. Useful when calling tick on lists, rings and vectors to offset the returned value. Default is 0."},
         accepts_block:  false,
         doc:            "Increment the default tick by 1 and return value. Successive calls to `tick` will continue to increment the default tick. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are `in_thread` and `live_loop` local, so incrementing a tick only affects the current thread's version of that tick.",
         examples:       ["
@@ -217,7 +217,7 @@ end
         args:           [],
         alt_args:       [[[:key, :symbol]]],
         returns:        :number,
-        opts:           nil,
+        opts:           {offset: "Offset to add to index returned. Useful when calling hook on lists, rings and vectors to offset the returned value"},
         accepts_block:  false,
         doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are `in_thread` and `live_loop` local, so the tick read will be the tick of the current thread calling `hook`.",
         examples:       ["
