@@ -4717,7 +4717,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         next if (klass == FXInfo) && (k.to_s.include? 'replace_')
 
         next if v.is_a? StudioInfo
-        doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n" 
+        doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
         doc << "<body class=\"manual\">\n"
         doc << "<h1>" << v.name << "</h1>\n\n"
 
