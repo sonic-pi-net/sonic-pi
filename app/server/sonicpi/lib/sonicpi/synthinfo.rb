@@ -2373,6 +2373,13 @@ module SonicPi
           :modulatable => false
         },
 
+        :decay =>
+        {
+          :doc => "Duration of the decay phase of the envelope.",
+          :validations => [v_positive(:decay)],
+          :modulatable => false
+        },
+
         :sustain =>
         {
           :doc => "Duration of the sustain phase of the envelope.",
