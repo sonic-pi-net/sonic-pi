@@ -1507,32 +1507,72 @@ module SonicPi
         :vibrato_onset => 0.1,
       }
     end
+  end
+
+  class SynthPiano < SonicPiSynth
+    def name
+      "SynthPiano"
+    end
+
+    def introduced
+      Version.new(2,6,0)
+    end
+
+    def synth_name
+      "piano"
+    end
+
+    def doc
+      "A basic piano synthesiser."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
+        :vel => 0.2,
+        :decay => 0.2,
+        :release => 0.2,
+        :hard => 0.5,
+        :stereo_width => 0.5,
+        :cutoff => 0,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :res => 0.2,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0
+      }
+    end
 
     def specific_arg_info
       {
-        :vibrato_rate => {
-          :doc => "Number of wobbles per second. For realism this should be between 6 and 8, maybe even faster for really high notes.",
-          :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 20.0)],
-          :modulatable => false
-        },
-        :vibrato_depth =>
-        {
-          :doc => "Amount of variation around the central note. 1 is the sensible maximum (but you can go up to 5 if you want a special effect), 0 would mean no vibrato. Works well around 0.15 but you can experiment.",
-          :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 5.0)],
-          :modulatable => false
-        },
-        :vibrato_delay =>
-        {
-          :doc => "How long in seconds the before the vibrato kicks in.",
-          :validations => [v_positive(:vibrato_delay)],
-          :modulatable => false
-        },
-        :vibrato_onset =>
-        {
-          :doc => "How long in seconds the before the vibrato reaches full power.",
-          :validations => [v_positive(:vibrato_onset)],
-          :modulatable => false
-        },
+        :vel => {
+          :doc => "Velocity of keypress. ",
+          :validations => [v_between_inclusive(:vel, 0, 1)],
+          :modulatable => false},
+
+        :hard => {
+          :doc => "Hardness of keypress. ",
+         :validations => [v_between_inclusive(:vel, 0, 1)],
+          :modulatable => false},
+
+        :stereo_width => {
+          :doc => "Width of the stereo effect (which makes low notes sound towards the left, high notes towards the right). 0 to 1.",
+          :validations => [v_between_inclusive(:vel, 0, 1)],
+          :modulatable => false},
+
       }
     end
   end
@@ -4619,6 +4659,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
       :synth_violin => SynthViolin.new,
+      :piano => SynthPiano.new,
 
       :sound_in => SoundIn.new,
       :noise => Noise.new,
