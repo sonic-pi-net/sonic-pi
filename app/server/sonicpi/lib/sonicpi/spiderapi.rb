@@ -2064,6 +2064,7 @@ end"]
 
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
+        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, parent_t.thread_variable_get(:sonic_pi_core_thread_local_counters).clone)
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
         Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
