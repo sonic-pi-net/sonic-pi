@@ -59,6 +59,7 @@
 #include <QSettings>
 #include <QScrollBar>
 #include <QSignalMapper>
+#include <QSplitter>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -340,16 +341,15 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   addUniversalCopyShortcuts(docPane);
 
-  QHBoxLayout *docLayout = new QHBoxLayout;
-  docLayout->addWidget(docsCentral);
-  docLayout->addWidget(docPane, 1);
-  QWidget *docW = new QWidget();
-  docW->setLayout(docLayout);
+  QSplitter *docsplit = new QSplitter;
+
+  docsplit->addWidget(docsCentral);
+  docsplit->addWidget(docPane);
 
   docWidget = new QDockWidget(tr("Help"), this);
   docWidget->setFocusPolicy(Qt::NoFocus);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
-  docWidget->setWidget(docW);
+  docWidget->setWidget(docsplit);
   docWidget->setObjectName("help");
 
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
