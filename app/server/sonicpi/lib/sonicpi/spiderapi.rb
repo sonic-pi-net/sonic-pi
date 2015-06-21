@@ -414,6 +414,58 @@ live_loop :euclid_beat do
   sample :bd_haus, amp: 2 if (spread 1, 4).hook # Spread 1 bd over 4
   sleep 0.125
 end
+",
+"
+# Spread descriptions from
+# 'The Euclidean Algorithm Generates Traditional Musical Rhythms' (Toussaint 2005).
+(spread 2, 5)  # A thirteenth century Persian rhythm called Khafif-e-ramal.
+
+(spread 3, 4)  # The archetypal pattern of the Cumbria from Columbia, as well
+               # as a Calypso rhythm from Trinidad
+
+(spread 3, 5)  # When started on the second onset, is another thirteenth
+               # century Persian rhythm by the name of Khafif-e-ramal, as well
+               # as a Romanian folk-dance rhythm.
+
+(spread 3, 7)  # A ruchenitza rhythm used in a Bulgarian folk-dance.
+
+(spread 3, 8)  # The Cuban tresillo pattern
+
+(spread 4, 7)  # Another Ruchenitza Bulgarian folk-dance rhythm
+
+(spread 4, 9)  # The Aksak rhythm of Turkey.
+
+(spread 4, 11) # The metric pattern used by Frank Zappa in his piece Outside Now
+
+(spread 5, 6)  # Yields the York-Samai pattern, a popular Arab rhythm, when
+               # started on the second onset.
+
+(spread 5, 7)  # The Nawakhat pattern, another popular Arab rhythm.
+
+(spread 5, 8)  # The Cuban cinquillo pattern.
+
+(spread 5, 9)  # A popular ARab rhythm called Agsag-Samai.
+
+(spread 5, 11) # The metric pattern used by Moussorgsky in Pictures at an
+               # Exhibition
+
+(spread 5, 12) # The Venda clapping pattern of a South African children's
+               # song.
+
+(spread 5, 16) # The Bossa-Nova rhythm necklace of Brazil.
+
+(spread 7, 8)  # A typical rhythm played on the Bendir (frame drum)
+
+(spread 7, 12) # A common West African bell pattern.
+
+(spread 7, 16) # A Samba rhythm necklace from Brazil.
+
+(spread 9, 16) # A rhythm necklace used in the Central African Republic.
+
+(spread 11, 24) # A rhythm necklace of the Aka Pygmies of Central Africa.
+
+(spread 13, 24) # Another rhythm necklace of the Aka Pygmies of the upper
+                # Sangha.
 "
     ]
 
