@@ -2024,6 +2024,14 @@ end"]
         parent_t_vars[v] = parent_t.thread_variable_get(v)
       end
 
+      # clone the thread local counters rather than grabbing them as they're mutable.
+      # do this here in the parent thread so we know they're not being modified.
+      if parent_t_vars[:sonic_pi_core_thread_local_counters]
+        cloned_thread_local_counters = parent_t_vars[:sonic_pi_core_thread_local_counters].clone
+      else
+        cloned_thread_local_counters = nil
+      end
+
       job_id = __current_job_id
       reg_with_parent_completed = Promise.new
 
@@ -2064,7 +2072,8 @@ end"]
 
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
-        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, parent_t.thread_variable_get(:sonic_pi_core_thread_local_counters).clone)
+        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, cloned_thread_local_counters) if cloned_thread_local_counters
+
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
         Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
