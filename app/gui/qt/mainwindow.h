@@ -128,6 +128,8 @@ private slots:
     void startupError(QString msg);
     void replaceBuffer(QString id, QString content, int line, int index, int first_line);
     void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
+    void setLineMarker(QString mixedArgs);
+    void clearLineMarkers();
     void tabNext();
     void tabPrev();
     void helpContext();

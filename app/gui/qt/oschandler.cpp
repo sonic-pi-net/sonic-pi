@@ -89,8 +89,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
             QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
             break;
           case 7:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-            QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
+            QMetaObject::invokeMethod( window, "setLineMarker", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(s.c_str())));
             break;
           default:
             QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));

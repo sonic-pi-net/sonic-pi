@@ -132,6 +132,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   setText("#loading...");
   setLexer((QsciLexer *)lexer);
 
+  markerDefine(RightArrow, 8);
+  setMarkerBackgroundColor("deeppink", 8);
+
   setAutoCompletionThreshold(1);
   setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
   setAutoCompletionCaseSensitivity(false);
@@ -177,6 +180,15 @@ void SonicPiScintilla::showLineNumbers(){
   setMarginLineNumbers(0, true);
   setMarginWidth(0, "1000");
   SendScintilla(SCI_SHOWLINES);
+}
+
+void SonicPiScintilla::setLineMarker(int lineNumber){
+  markerDeleteAll(-1);
+  markerAdd(lineNumber, 8);
+}
+
+void SonicPiScintilla::clearLineMarkers(){
+  markerDeleteAll(-1);
 }
 
 void SonicPiScintilla::addOtherKeyBinding(QSettings &qs, int cmd, int key)
