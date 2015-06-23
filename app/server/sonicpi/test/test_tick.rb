@@ -23,13 +23,13 @@ module SonicPi
 
     def test_tick_basic_reset
       tick_reset
-      assert_equal(0, hook)
+      assert_equal(0, look)
     end
 
     def test_tick_set
       tick_reset_all
       tick_set 40
-      assert_equal(40, hook)
+      assert_equal(40, look)
     end
 
     def test_tick_set_return_val
@@ -48,10 +48,10 @@ module SonicPi
 
     def test_tick_reset_all
       tick_reset_all
-      assert_equal(0, hook)
-      assert_equal(0, hook(:foo))
-      assert_equal(0, hook(:bar))
-      assert_equal(0, hook(:baz))
+      assert_equal(0, look)
+      assert_equal(0, look(:foo))
+      assert_equal(0, look(:bar))
+      assert_equal(0, look(:baz))
 
       assert_equal(0, tick)
       assert_equal(0, tick(:foo))
@@ -66,10 +66,10 @@ module SonicPi
 
       tick_reset_all
 
-      assert_equal(0, hook)
-      assert_equal(0, hook(:foo))
-      assert_equal(0, hook(:bar))
-      assert_equal(0, hook(:baz))
+      assert_equal(0, look)
+      assert_equal(0, look(:foo))
+      assert_equal(0, look(:bar))
+      assert_equal(0, look(:baz))
     end
 
     def test_basic_tick_behaviour
@@ -82,20 +82,20 @@ module SonicPi
       assert_equal(0, tick)
     end
 
-    def test_basic_hook_behaviour
+    def test_basic_look_behaviour
       tick_reset_all
       assert_equal(0, tick)
-      assert_equal(0, hook)
+      assert_equal(0, look)
       assert_equal(1, tick)
-      assert_equal(1, hook)
+      assert_equal(1, look)
       assert_equal(2, tick)
-      assert_equal(2, hook)
+      assert_equal(2, look)
       assert_equal(3, tick)
-      assert_equal(3, hook)
+      assert_equal(3, look)
       tick_reset
-      assert_equal(0, hook)
+      assert_equal(0, look)
       assert_equal(0, tick)
-      assert_equal(0, hook)
+      assert_equal(0, look)
     end
 
     def test_keyed_ticks
@@ -127,14 +127,14 @@ module SonicPi
         tick
       end
 
-      assert_equal(4, hook(:foo))
-      assert_equal(4, hook)
+      assert_equal(4, look(:foo))
+      assert_equal(4, look)
 
       assert_equal(5, tick(:foo))
-      assert_equal(5, hook(:foo))
+      assert_equal(5, look(:foo))
 
       assert_equal(5, tick)
-      assert_equal(5, hook)
+      assert_equal(5, look)
 
       tick(:foo, step: 5)
       5.times do
@@ -142,8 +142,8 @@ module SonicPi
       end
 
 
-      assert_equal(10, hook(:foo))
-      assert_equal(10, hook)
+      assert_equal(10, look(:foo))
+      assert_equal(10, look)
     end
 
     def test_decremented_ticks
@@ -153,13 +153,13 @@ module SonicPi
         tick
       end
 
-      assert_equal(4, hook)
+      assert_equal(4, look)
 
       tick(step: -1)
-      assert_equal(3, hook)
+      assert_equal(3, look)
       assert_equal(4, tick)
       tick(step: -10)
-      assert_equal(-6, hook)
+      assert_equal(-6, look)
     end
   end
 end
