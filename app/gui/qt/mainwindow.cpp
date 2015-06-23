@@ -238,11 +238,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QShortcut *downcaseWord= new QShortcut(metaKey('l'), workspace);
     connect(downcaseWord, SIGNAL(activated()), workspace, SLOT(downcaseWordOrSelection()));
 
-    //Goto nth Tab
-    QShortcut *changeTab = new QShortcut(metaKey(int2char(ws)), tabs);
-    connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));
-    signalMapper -> setMapping(changeTab, ws);
-
     QString w = QString(tr("Buffer %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
