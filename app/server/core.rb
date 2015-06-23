@@ -53,8 +53,8 @@ module SonicPi
         self[idx]
       end
 
-      def hook(*args)
-        idx = SonicPi::Core::ThreadLocalCounter.hook(*args)
+      def look(*args)
+        idx = SonicPi::Core::ThreadLocalCounter.look(*args)
         self[idx]
       end
     end
@@ -91,7 +91,7 @@ module SonicPi
         end
       end
 
-      def self.hook(k = :___sonic_pi_default_tick_key___, *args)
+      def self.look(k = :___sonic_pi_default_tick_key___, *args)
         if k.is_a? Symbol
           opts = args.first || {}
         else
@@ -693,8 +693,8 @@ class Object
     self.to_a.tick(*args)
   end
 
-  def hook(*args)
-    self.to_a.hook(*args)
+  def look(*args)
+    self.to_a.look(*args)
   end
 
   # The hidden singleton lurks behind everyone

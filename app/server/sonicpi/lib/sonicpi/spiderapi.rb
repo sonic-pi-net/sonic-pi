@@ -37,14 +37,14 @@ module SonicPi
         returns:        :number,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Set the default tick to the specified `value`. If a `key` is referenced, set that tick to `value` instead. Next call to `hook` will return `value`.",
+        doc:            "Set the default tick to the specified `value`. If a `key` is referenced, set that tick to `value` instead. Next call to `look` will return `value`.",
         examples:       ["
 tick_set 40 # set default tick to 40
-puts hook   #=> 40",
+puts look   #=> 40",
 "
 tick_set :foo, 40 # set tick :foo to 40
-puts hook(:foo)   #=> 40 (tick :foo is now 40)
-puts hook         #=> 0 (default tick is unaffected)
+puts look(:foo)   #=> 40 (tick :foo is now 40)
+puts look         #=> 0 (default tick is unaffected)
 
 "
     ]
@@ -69,20 +69,20 @@ puts hook         #=> 0 (default tick is unaffected)
 tick
 tick
 tick
-puts hook #=> 2 (default tick is now 2)
+puts look #=> 2 (default tick is now 2)
 tick_set 0 # default tick is now 0
-puts hook #=> 0 (default tick is now 0
+puts look #=> 0 (default tick is now 0
 ",
 "
                 # increment tick :foo a few times
 tick :foo
 tick :foo
 tick :foo
-puts hook(:foo) #=> 2 (tick :foo is now 2)
+puts look(:foo) #=> 2 (tick :foo is now 2)
 tick_set 0 # default tick is now 0
-puts hook(:foo) #=> 2 (tick :foo is still 2)
+puts look(:foo) #=> 2 (tick :foo is still 2)
 tick_set :foo, 0 #  reset tick :foo
-puts hook(:foo) #=> 0 (tick :foo is now 0)"
+puts look(:foo) #=> 0 (tick :foo is now 0)"
     ]
 
 
@@ -106,11 +106,11 @@ tick
 tick :foo
 tick :foo
 tick :foo
-puts hook #=> 1
-puts hook(:foo) #=> 2
+puts look #=> 1
+puts look(:foo) #=> 2
 tick_reset_all
-puts hook #=> 0
-puts hook(:foo) #=> 0
+puts look #=> 0
+puts look(:foo) #=> 0
 "
     ]
 
@@ -208,49 +208,49 @@ end
 
 
 
-    def hook(*args)
-      SonicPi::Core::ThreadLocalCounter.hook(*args)
+    def look(*args)
+      SonicPi::Core::ThreadLocalCounter.look(*args)
     end
-    doc name:           :hook,
+    doc name:           :look,
         introduced:     Version.new(2,6,0),
         summary:        "Obtain value of a tick",
         args:           [],
         alt_args:       [[[:key, :symbol]]],
         returns:        :number,
-        opts:           {offset: "Offset to add to index returned. Useful when calling hook on lists, rings and vectors to offset the returned value"},
+        opts:           {offset: "Offset to add to index returned. Useful when calling look on lists, rings and vectors to offset the returned value"},
         accepts_block:  false,
-        doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are `in_thread` and `live_loop` local, so the tick read will be the tick of the current thread calling `hook`.",
+        doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are `in_thread` and `live_loop` local, so the tick read will be the tick of the current thread calling `look`.",
         examples:       ["
-puts hook #=> 0
-puts hook #=> 0
-puts hook #=> 0 # hook doesn't advance the tick, it just returns the current value
+puts look #=> 0
+puts look #=> 0
+puts look #=> 0 # look doesn't advance the tick, it just returns the current value
 ",
 "
-puts hook #=> 0 # A hook is always 0 before the first tick
+puts look #=> 0 # A look is always 0 before the first tick
 tick # advance the tick
-puts hook #=> 0 # Note: a hook is still 0 after the first tick.
+puts look #=> 0 # Note: a look is still 0 after the first tick.
 tick
-puts hook #=> 1
-puts hook #=> 1 # making multiple calls to hook doesn't affect tick value
+puts look #=> 1
+puts look #=> 1 # making multiple calls to look doesn't affect tick value
 tick
-puts hook #=> 2
+puts look #=> 2
 ",
 "
 tick(:foo)
 tick(:foo)
-puts hook(:foo) #=> 1 (keyed hook :foo has been advanced)
-puts hook #=> 0 (default hook hasn't been advanced)
-puts hook(:bar) #=> 0 (other keyed hooks haven't been advanced either)
+puts look(:foo) #=> 1 (keyed look :foo has been advanced)
+puts look #=> 0 (default look hasn't been advanced)
+puts look(:bar) #=> 0 (other keyed looks haven't been advanced either)
 ",
 "
-# You can call hook on lists and rings
+# You can call look on lists and rings
 live_loop :foo do
   tick                                      # advance the default tick
   use_synth :beep
-  play (scale :e3, :minor_pentatonic).hook  # hook into the default tick to play all notes in sequence
+  play (scale :e3, :minor_pentatonic).look  # look into the default tick to play all notes in sequence
   sleep 0.5
   use_synth :square
-  play (ring :e1, :e2, :e3).hook, release: 0.25 # use the same hook on another ring
+  play (ring :e1, :e2, :e3).look, release: 0.25 # use the same look on another ring
   sleep 0.25
 end
 "
@@ -410,8 +410,8 @@ play 80  #=> this plays as the stop only affected the above thread"
 # Easily create interesting polyrhythmic beats
 live_loop :euclid_beat do
   sample :elec_bong, amp: 1.5 if (spread 3, 8).tick # Spread 3 bongs over 8
-  sample :perc_snap, amp: 0.8 if (spread 7, 11).hook # Spread 7 snaps over 11
-  sample :bd_haus, amp: 2 if (spread 1, 4).hook # Spread 1 bd over 4
+  sample :perc_snap, amp: 0.8 if (spread 7, 11).look # Spread 7 snaps over 11
+  sample :bd_haus, amp: 2 if (spread 1, 4).look # Spread 1 bd over 4
   sleep 0.125
 end
 ",
