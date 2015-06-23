@@ -438,7 +438,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
       doc name:           :mc_set_area,
           introduced:     Version.new(2,5,0),
           summary:        "Minecraft Pi - set area of blocks",
-          args:           [[:x, :number], [:y, :number], [:z, :number], [:x2, :number], [:y2, :number], [:z2, :number], [:block_name, :symbol_or_number]],
+          args:           [[:block_name, :symbol_or_number], [:x, :number], [:y, :number], [:z, :number], [:x2, :number], [:y2, :number], [:z2, :number]],
           opts:           nil,
           accepts_block:  false,
           doc:            "Set an area/box of blocks of type `block_name` defined by two distinct sets of coordinates.",
