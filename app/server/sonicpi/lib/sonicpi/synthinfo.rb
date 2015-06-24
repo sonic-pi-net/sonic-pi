@@ -2954,7 +2954,14 @@ module SonicPi
         :phase_offset => 0,
         :wave => 1,
         :invert_wave => 0,
-        :probability => 1,
+        :probability => 0,
+        :probability_slide => 0,
+        :probability_slide_shape => 5,
+        :probability_slide_curve => 0,
+        :prob_pos => 0,
+        :prob_pos_slide => 0,
+        :prob_pos_slide_shape => 5,
+        :prob_pos_slide_curve => 0,
         :seed => 0,
         :smooth => 0,
         :smooth_up => 0,
@@ -2988,8 +2995,15 @@ module SonicPi
 
         :probability =>
         {
-          :doc => "Probability that a given slice will sound as a value between 0 and 1",
+          :doc => "Probability (as a value between 0 and 1) that a given slice will be replaced by the value of the  prob_pos opt (which defaults to 0, i.e. silence)",
           :validations => [v_between_inclusive(:probability, 0, 1)],
+          :modulatable => true
+        },
+
+        :prob_pos =>
+        {
+          :doc => "Position of the slicer that will be jumped to when the probability test passes as a value between 0 and 1",
+          :validations => [v_between_inclusive(:prob_pos, 0, 1)],
           :modulatable => true
         },
 
@@ -3157,7 +3171,14 @@ module SonicPi
         :pulse_width_slide_shape => 5,
         :pulse_width_slide_curve => 0,
         :filter => 0,
-        :probability => 1,
+        :probability => 0,
+        :probability_slide => 0,
+        :probability_slide_shape => 5,
+        :probability_slide_curve => 0,
+        :prob_pos => 0,
+        :prob_pos_slide => 0,
+        :prob_pos_slide_shape => 5,
+        :prob_pos_slide_curve => 0,
         :seed => 0,
         :smooth => 0,
         :smooth_up => 0,
@@ -3198,8 +3219,15 @@ module SonicPi
 
         :probability =>
         {
-          :doc => "Probability that a given slice will sound as a value between 0 and 1",
+          :doc => "Probability (as a value between 0 and 1) that a given wobble will be replaced by the value of the  prob_pos opt (which defaults to 0, i.e. min_cutoff)",
           :validations => [v_between_inclusive(:probability, 0, 1)],
+          :modulatable => true
+        },
+
+        :prob_pos =>
+        {
+          :doc => "Position of the wobble that will be jumped to when the probability test passes as a value between 0 and 1",
+          :validations => [v_between_inclusive(:prob_pos, 0, 1)],
           :modulatable => true
         },
 

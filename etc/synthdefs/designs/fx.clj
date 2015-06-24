@@ -291,7 +291,14 @@
     smooth_down_slide 0
     smooth_down_slide_shape 5
     smooth_down_slide_curve 0
-    probability 1
+    probability 0
+    probability_slide 0
+    probability_slide_shape 5
+    probability_slide_curve 0
+    prob_pos 0
+    prob_pos_slide 0
+    prob_pos_slide_shape 5
+    prob_pos_slide_curve 0
     phase_offset 0
     wave 1         ;;0=saw, 1=pulse, 2=tri, 3=sine
     invert_wave 0  ;;0=normal wave, 1=inverted wave
@@ -310,23 +317,33 @@
          smooth_down         (varlag smooth_down smooth_down_slide smooth_down_slide_curve smooth_down_slide_shape)
          rate                (/ 1 phase)
 
+         prob_pos            (clip prob_pos 0 1)
+         probability         (clip probability 0 1)
+         prob_pos            (lin-lin prob_pos 0 1 -1 1)
+         probability         (varlag probability probability_slide probability_slide_curve probability_slide_shape)
+         prob_pos            (varlag prob_pos prob_pos_slide prob_pos_slide_curve prob_pos_slide_shape)
+         use-prob            (> probability 0)
+
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
          double_phase_offset (* 2 phase_offset)
-         use-prob            (< probability 1)
+
+
 
          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed  probability
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed (- 1 probability)
                                                       (impulse:kr rate))
 
+
+
          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
-         slice-amp           (* -1 ctl-wave ctl-wave-mul)
-         slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
-         slice-amp           (select:kr use-prob [slice-amp
-                                                  (select:kr ctl-wave-prob [amp_min slice-amp])])
+         ctl-wave            (* -1 ctl-wave-mul ctl-wave)
+         ctl-wave            (select:kr use-prob [ctl-wave
+                                                  (select:kr ctl-wave-prob [prob_pos ctl-wave])])
+         slice-amp           (lin-lin ctl-wave -1 1 amp_min amp_max)
 
          slice-amp           (lag-ud slice-amp smooth_up smooth_down)
          slice-amp           (lag slice-amp smooth)
@@ -386,7 +403,14 @@
     phase_offset 0
     wave 0                              ;0=saw, 1=pulse, 2=tri, 3=sine
     invert_wave 0                       ;0=normal wave, 1=inverted wave
-    probability 1
+    probability 0
+    probability_slide 0
+    probability_slide_shape 5
+    probability_slide_curve 0
+    prob_pos 0
+    prob_pos_slide 0
+    prob_pos_slide_shape 5
+    prob_pos_slide_curve 0
     seed 0
     rand_buf 0
     in_bus 0
@@ -395,34 +419,48 @@
          mix                 (varlag mix mix_slide mix_slide_curve mix_slide_shape)
          pre_amp             (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
-         rate                (/ 1 phase)
          cutoff_min          (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
          cutoff_max          (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
-         pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
-         res                 (lin-lin res 1 0 0 1)
-         res                 (varlag res res_slide res_slide_curve res_slide_shape)
          smooth              (varlag smooth smooth_slide smooth_slide_curve smooth_slide_shape)
          smooth_up           (varlag smooth_up smooth_up_slide smooth_up_slide_curve smooth_up_slide_shape)
          smooth_down         (varlag smooth_down smooth_down_slide smooth_down_slide_curve smooth_down_slide_shape)
+         rate                (/ 1 phase)
+
+         prob_pos            (clip prob_pos 0 1)
+         probability         (clip probability 0 1)
+         prob_pos            (lin-lin prob_pos 0 1 -1 1)
+         probability         (varlag probability probability_slide probability_slide_curve probability_slide_shape)
+         prob_pos            (varlag prob_pos prob_pos_slide prob_pos_slide_curve prob_pos_slide_shape)
+         use-prob            (> probability 0)
+
+         pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
+         double_phase_offset (* 2 phase_offset)
+         res                 (lin-lin res 1 0 0 1)
+         res                 (varlag res res_slide res_slide_curve res_slide_shape)
+
+
          cutoff_min          (midicps cutoff_min)
          cutoff_max          (midicps cutoff_max)
-         double_phase_offset (* 2 phase_offset)
-         use-prob            (< probability 1)
+
+
 
          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed probability
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed (- 1 probability)
                                                       (impulse:kr rate))
 
          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
-         cutoff-freq         (* -1 ctl-wave-mul ctl-wave)
-         cutoff-freq         (lin-exp:kr cutoff-freq -1 1 cutoff_min cutoff_max)
-         cutoff-freq         (select:kr use-prob [cutoff-freq
-                                                  (select:kr ctl-wave-prob [cutoff_min cutoff-freq])
-])
+         ctl-wave            (* -1 ctl-wave-mul ctl-wave)
+         ctl-wave            (select:kr use-prob [ctl-wave
+                                                  (select:kr ctl-wave-prob [prob_pos ctl-wave])])
+
+         cutoff-freq         (lin-exp:kr ctl-wave -1 1 cutoff_min cutoff_max)
+
+         cutoff-freq         (lag-ud cutoff-freq smooth_up smooth_down)
+         cutoff-freq         (lag cutoff-freq smooth)
 
          [in-l in-r]         (* pre_amp (in in_bus 2))
 
