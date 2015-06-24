@@ -326,7 +326,7 @@
          slice-amp           (* -1 ctl-wave ctl-wave-mul)
          slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
          slice-amp           (select:kr use-prob [slice-amp
-                                                  (* ctl-wave-prob slice-amp)])
+                                                  (select:kr ctl-wave-prob [amp_min slice-amp])])
 
          slice-amp           (lag-ud slice-amp smooth_up smooth_down)
          slice-amp           (lag slice-amp smooth)
@@ -421,7 +421,8 @@
          cutoff-freq         (* -1 ctl-wave-mul ctl-wave)
          cutoff-freq         (lin-exp:kr cutoff-freq -1 1 cutoff_min cutoff_max)
          cutoff-freq         (select:kr use-prob [cutoff-freq
-                                                  (* ctl-wave-prob cutoff-freq)])
+                                                  (select:kr ctl-wave-prob [cutoff_min cutoff-freq])
+])
 
          [in-l in-r]         (* pre_amp (in in_bus 2))
 
