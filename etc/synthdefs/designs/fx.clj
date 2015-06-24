@@ -366,14 +366,29 @@
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
-    phase_offset 0.5
-    wave 0                              ;0=saw, 1=pulse, 2=tri, 3=sin
-    invert_wave 0                       ;0=normal wave, 1=inverted wave
     pulse_width 0.5                     ; only for pulse wave
     pulse_width_slide 0                 ; only for pulse wave
     pulse_width_slide_shape 5           ; only for pulse wa_shape 5
     pulse_width_slide_curve 0           ; only for pulse wa_curve 0
     filter 0                            ;0=rlpf, 1=rhpf
+    smooth 0
+    smooth_slide 0
+    smooth_slide_shape 5
+    smooth_slide_curve 0
+    smooth_up 0
+    smooth_up_slide 0
+    smooth_up_slide_shape 5
+    smooth_up_slide_curve 0
+    smooth_down 0
+    smooth_down_slide 0
+    smooth_down_slide_shape 5
+    smooth_down_slide_curve 0
+    phase_offset 0
+    wave 0                              ;0=saw, 1=pulse, 2=tri, 3=sine
+    invert_wave 0                       ;0=normal wave, 1=inverted wave
+    probability 1
+    seed 0
+    rand_buf 0
     in_bus 0
     out_bus 0]
    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
@@ -384,20 +399,29 @@
          cutoff_min          (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
          cutoff_max          (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
-         res         (lin-lin res 1 0 0 1)
+         res                 (lin-lin res 1 0 0 1)
          res                 (varlag res res_slide res_slide_curve res_slide_shape)
+         smooth              (varlag smooth smooth_slide smooth_slide_curve smooth_slide_shape)
+         smooth_up           (varlag smooth_up smooth_up_slide smooth_up_slide_curve smooth_up_slide_shape)
+         smooth_down         (varlag smooth_down smooth_down_slide smooth_down_slide_curve smooth_down_slide_shape)
          cutoff_min          (midicps cutoff_min)
          cutoff_max          (midicps cutoff_max)
          double_phase_offset (* 2 phase_offset)
+         use-prob            (< probability 1)
 
          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed probability
+                                                      (impulse:kr rate))
 
-         cutoff-freq         (lin-exp:kr (* -1 ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
+         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+         cutoff-freq         (* -1 ctl-wave-mul ctl-wave)
+         cutoff-freq         (lin-exp:kr cutoff-freq -1 1 cutoff_min cutoff_max)
+         cutoff-freq         (select:kr use-prob [cutoff-freq
+                                                  (* ctl-wave-prob cutoff-freq)])
 
          [in-l in-r]         (* pre_amp (in in_bus 2))
 
