@@ -88,6 +88,59 @@
          env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
+ (defsynth sonic-pi-subpulse [note 52
+                              note_slide 0
+                              note_slide_shape 5
+                              note_slide_curve 0
+                              amp 1
+                              amp_slide 0
+                              amp_slide_shape 5
+                              amp_slide_curve 0
+                              pan 0
+                              pan_slide 0
+                              pan_slide_shape 5
+                              pan_slide_curve 0
+                              attack 0.01
+                              decay 0
+                              sustain 0
+                              release 2
+                              attack_level 1
+                              sustain_level 1
+                              env_curve 2
+                              cutoff 100
+                              cutoff_slide 0
+                              cutoff_slide_shape 5
+                              cutoff_slide_curve 0
+                              pulse_width 0.5
+                              pulse_width_slide 0
+                              pulse_width_slide_shape 5
+                              pulse_width_slide_curve 0
+                              sub_amp 1
+                              sub_amp_slide 0
+                              sub_amp_slide_shape 5
+                              sub_amp_slide_curve 0
+                              sub_detune -12
+                              sub_detune_slide 0
+                              sub_detune_slide_shape 5
+                              sub_detune_slide_curve 0
+                              out_bus 0]
+   (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+         amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         amp-fudge   0.8
+         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         pulse_width (varlag pulse_width pulse_width_slide pulse_width_slide_shape pulse_width_slide_curve)
+         sub_detune  (varlag sub_detune sub_detune_slide sub_detune_slide_shape sub_detune_slide_curve)
+         freq        (midicps note)
+         beep-freq   (midicps (+ note sub_detune))
+         cutoff-freq (midicps cutoff)
+         snd         (+ (pulse freq pulse_width)
+                        (* sub_amp (sin-osc beep-freq)))
+         snd         (lpf snd cutoff-freq)
+         snd         (normalizer snd)
+         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+     (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
+
 
 
  (defsynth sonic-pi-square [note 52
@@ -756,6 +809,7 @@
    (core/save-synthdef sonic-pi-saw)
    (core/save-synthdef sonic-pi-tri)
    (core/save-synthdef sonic-pi-pulse)
+   (core/save-synthdef sonic-pi-subpulse)
    (core/save-synthdef sonic-pi-square)
    (core/save-synthdef sonic-pi-dsaw)
    (core/save-synthdef sonic-pi-fm)

@@ -668,6 +668,54 @@ module SonicPi
     end
   end
 
+  class SubPulse < Pulse
+    def name
+      "Pulse Wave with sub"
+    end
+
+    def introduced
+      Version.new(2,6,0)
+    end
+
+    def synth_name
+      "subpulse"
+    end
+
+    def doc
+      "A pulse wave with a sub sinewave passed through a low pass filter.  The square wave is thick and deavy with lower notes and is a great ingredient for bass sounds - especially with the sub wave."
+    end
+
+    def arg_defaults
+      super.merge({
+                    :sub_amp => 1,
+                    :sub_amp_slide => 0,
+                    :sub_amp_slide_shape => 5,
+                    :sub_amp_slide_curve => 0,
+                    :sub_detune => -12,
+                    :sub_detune_slide => 0,
+                    :sub_detune_slide_shape => 5,
+                    :sub_detune_slide_curve => 0})
+    end
+
+    def specific_arg_info
+      {
+        :sub_amp =>
+        {
+          :doc => "Amplitude for the additional sine wave.",
+          :validations => [],
+          :modulatable => true
+        },
+
+        :sub_detune =>
+        {
+          :doc => "Amount of detune from the note for the additional sine wave. Default is -12",
+          :validations => [],
+          :modulatable => true
+        }
+      }
+    end
+  end
+
   class Tri < Pulse
     def name
       "Triangle Wave"
@@ -4711,6 +4759,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :sine => Beep.new,
       :saw => Saw.new,
       :pulse => Pulse.new,
+      :subpulse => SubPulse.new,
       :square => Square.new,
       :tri => Tri.new,
       :dsaw => DSaw.new,
