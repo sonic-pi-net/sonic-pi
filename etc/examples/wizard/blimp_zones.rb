@@ -25,13 +25,13 @@ live_loop :bar, auto_cue: false do
   sleep 8
 end
 
-live_loop :baz, auto_cue: false do |a|
+live_loop :baz, auto_cue: false do
+  tick
   sleep 0.25
-  cue :beat, count: a
-  sample :bd_haus, amp: factor?(a, 8) ? 3 : 2
+  cue :beat, count: look
+  sample :bd_haus, amp: factor?(look, 8) ? 3 : 2
   sleep 0.25
   use_synth :fm
-  play :e2, release: 1, amp: 1 if factor?(a, 4)
+  play :e2, release: 1, amp: 1 if factor?(look, 4)
   synth :noise, release: 0.051, amp: 0.5
-  a += 1
 end
