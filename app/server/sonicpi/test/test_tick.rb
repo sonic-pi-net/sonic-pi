@@ -123,8 +123,8 @@ module SonicPi
       assert_equal(0, tick("foo"))
       assert_equal(1, tick(:foo))
 
-      assert_equal(1, hook("foo"))
-      assert_equal(1, hook(:foo))
+      assert_equal(1, look("foo"))
+      assert_equal(1, look(:foo))
     end
 
     def test_incremented_ticks
