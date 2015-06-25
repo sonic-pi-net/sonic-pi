@@ -608,7 +608,7 @@ module SonicPi
     end
 
     def doc
-      "A simple pulse wave with a low pass filter. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1. The pulse wave is thick and deavy with lower notes and is a great ingredient for bass sounds."
+      "A simple pulse wave with a low pass filter. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1. The pulse wave is thick and heavy with lower notes and is a great ingredient for bass sounds."
     end
 
     def arg_defaults
@@ -656,7 +656,7 @@ module SonicPi
     end
 
     def doc
-      "A simple square wave with a low pass filter.  The square wave is thick and deavy with lower notes and is a great ingredient for bass sounds. If you wish to modulate the width of the square wave see the synth pulse."
+      "A simple square wave with a low pass filter. The square wave is thick and heavy with lower notes and is a great ingredient for bass sounds. If you wish to modulate the width of the square wave see the synth pulse."
     end
 
     def arg_defaults
@@ -682,7 +682,7 @@ module SonicPi
     end
 
     def doc
-      "A pulse wave with a sub sinewave passed through a low pass filter.  The square wave is thick and deavy with lower notes and is a great ingredient for bass sounds - especially with the sub wave."
+      "A pulse wave with a sub sine wave passed through a low pass filter. The pulse wave is thick and heavy with lower notes and is a great ingredient for bass sounds - especially with the sub wave."
     end
 
     def arg_defaults
@@ -1571,13 +1571,13 @@ module SonicPi
         },
         :vibrato_delay =>
         {
-          :doc => "How long in seconds the before the vibrato kicks in.",
+          :doc => "How long in seconds before the vibrato kicks in.",
           :validations => [v_positive(:vibrato_delay)],
           :modulatable => false
         },
         :vibrato_onset =>
         {
-          :doc => "How long in seconds the before the vibrato reaches full power.",
+          :doc => "How long in seconds before the vibrato reaches full power.",
           :validations => [v_positive(:vibrato_onset)],
           :modulatable => false
         },
