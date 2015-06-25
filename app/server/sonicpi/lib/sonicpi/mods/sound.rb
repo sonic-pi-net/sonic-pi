@@ -2826,7 +2826,30 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
            examples:      ["load_synthdefs \"~/Desktop/my_noises\" # Load all synthdefs in my_noises folder"]
 
 
+       def scale_names
+         Scale::SCALE.keys.ring
+       end
+       doc name:          :scale_names,
+           introduced:    Version.new(2,6,0),
+           summary:       "All scale names",
+           doc:           "Returns a ring containing all scale names known to Sonic Pi",
+           args:          [[]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["puts scale_names #=>  prints a list of all the scales"]
 
+
+       def chord_names
+         Chord::CHORD.keys.ring
+       end
+       doc name:          :chord_names,
+           introduced:    Version.new(2,6,0),
+           summary:       "All chord names",
+           doc:           "Returns a ring containing all chord names known to Sonic Pi",
+           args:          [[]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["puts chord_names #=>  prints a list of all the chords"]
 
        private
 
