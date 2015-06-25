@@ -3,15 +3,14 @@
 use_debug false
 load_samples :guit_em9, :bd_haus
 
-live_loop :low do |idx|
-  #  idx = 0
-  synth :zawa, wave: 1, phase: 0.25, release: 5, note: (knit :e1, 12, :c1, 4)[idx], cutoff: (range 60, 120, 10)[idx]
+live_loop :low do
+  tick
+  synth :zawa, wave: 1, phase: 0.25, release: 5, note: (knit :e1, 12, :c1, 4).look, cutoff: (range 60, 120, 10).look
   sleep 4
-  idx += 1
 end
 
-with_fx :reverb, room: 1  do
-  live_loop :lands, auto_cue: false do
+live_loop :lands, auto_cue: false do
+  with_fx :reverb, room: 1, reps: 2 do
     use_synth :dsaw
     use_random_seed 66679
     ns = (scale :e2, :minor_pentatonic, num_octaves: 3)
