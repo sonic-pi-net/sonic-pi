@@ -2704,16 +2704,49 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
        doc name:          :control,
            introduced:    Version.new(2,0,0),
            summary:       "Control running synth",
-           doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for parameter details.",
+           doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for opt details.",
            args:          [[:node, :synth_node]],
            opts:          {},
            accepts_block: false,
            examples:      ["
+## Basic control
+
 my_node = play 50, release: 5, cutoff: 60 # play note 50 with release of 5 and cutoff of 60. Assign return value to variable my_node
 sleep 1 # Sleep for a second
 control my_node, cutoff: 70 # Now modify cutoff from 60 to 70, sound is still playing
 sleep 1 # Sleep for another second
-control my_node, cutoff: 90 # Now modify cutoff from 70 to 90, sound is still playing"]
+control my_node, cutoff: 90 # Now modify cutoff from 70 to 90, sound is still playing",
+"
+## Combining control with slide opts allows you to create nice transitions.
+
+s = synth :prophet, note: :e1, cutoff: 70, cutoff_slide: 8, release: 8 # start synth and specify slide time for cutoff opt
+control s, cutoff: 130 # Change the cutoff value with a control.
+                       # Cutoff will now slide over 8 beats from 70 to 130",
+
+"
+## Use a short slide time and many controls to create a sliding melody
+
+notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle # get a random ordering of a scale
+
+s = synth :beep, note: :e3, sustain: 8, note_slide: 0.05 # Start our synth running with a long sustain and short note slide time
+64.times do
+  control s, note: notes.tick                            # Keep quickly changing the note by ticking through notes repeatedly
+  sleep 0.125
+end
+",
+
+"
+## Controlling FX
+
+with_fx :bitcrusher, sample_rate: 1000, sample_rate_slide: 8 do |bc| # Start FX but also use the handy || goalposts
+                                                                     # to grab a handle on the running FX. We can call
+                                                                     # our handle anything we want. Here we've called it bc
+  sample :loop_garzul, rate: 1
+  control bc, sample_rate: 5000                                      # We can use our handle bc now just like we used s in the
+                                                                     # previous example to modify the FX as it runs.
+end"
+
+       ]
 
 
 
