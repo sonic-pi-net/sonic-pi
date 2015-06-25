@@ -69,6 +69,7 @@ module SonicPi
       end
 
       def self.tick(k = :___sonic_pi_default_tick_key___, *args)
+        k = (k && k.is_a?(String)) ? k.to_sym : k
         if k.is_a? Symbol
           opts = args.first || {}
         else
@@ -92,6 +93,7 @@ module SonicPi
       end
 
       def self.look(k = :___sonic_pi_default_tick_key___, *args)
+        k = (k && k.is_a?(String)) ? k.to_sym : k
         if k.is_a? Symbol
           opts = args.first || {}
         else

@@ -118,6 +118,15 @@ module SonicPi
       assert_equal(0, tick(:baz))
     end
 
+    def test_string_keyed_ticks
+      tick_reset_all
+      assert_equal(0, tick("foo"))
+      assert_equal(1, tick(:foo))
+
+      assert_equal(1, look("foo"))
+      assert_equal(1, look(:foo))
+    end
+
     def test_incremented_ticks
       tick_reset_all
 
