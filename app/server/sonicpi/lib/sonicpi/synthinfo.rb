@@ -1555,6 +1555,34 @@ module SonicPi
         :vibrato_onset => 0.1,
       }
     end
+
+    def specific_arg_info
+      {
+        :vibrato_rate => {
+          :doc => "Number of wobbles per second. For realism this should be between 6 and 8, maybe even faster for really high notes.",
+          :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 20.0)],
+          :modulatable => false
+        },
+        :vibrato_depth =>
+        {
+          :doc => "Amount of variation around the central note. 1 is the sensible maximum (but you can go up to 5 if you want a special effect), 0 would mean no vibrato. Works well around 0.15 but you can experiment.",
+          :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 5.0)],
+          :modulatable => false
+        },
+        :vibrato_delay =>
+        {
+          :doc => "How long in seconds the before the vibrato kicks in.",
+          :validations => [v_positive(:vibrato_delay)],
+          :modulatable => false
+        },
+        :vibrato_onset =>
+        {
+          :doc => "How long in seconds the before the vibrato reaches full power.",
+          :validations => [v_positive(:vibrato_onset)],
+          :modulatable => false
+        },
+      }
+    end
   end
 
   class SynthPiano < SonicPiSynth
