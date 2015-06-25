@@ -1560,7 +1560,7 @@ module SonicPi
       {
         :vibrato_rate => {
           :doc => "Number of wobbles per second. For realism this should be between 6 and 8, maybe even faster for really high notes.",
-          :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 20.0)],
+          :validations => [v_greater_than_oet(:vibrato_rate, 0.0), v_less_than_oet(:vibrato_rate, 20.0)],
           :modulatable => false
         },
         :vibrato_depth =>
