@@ -212,7 +212,7 @@ module SonicPi
       log_boot_msg
       log "Booting on OS X"
       boot_and_wait do
-        sys("'#{scsynth_path}' -a #{num_audio_busses_for_current_os} -u #{@port} -m 131072&")
+        sys("'#{scsynth_path}' -a #{num_audio_busses_for_current_os} -u #{@port} -m 131072 -D 0 &")
       end
     end
 
@@ -221,7 +221,7 @@ module SonicPi
       log_boot_msg
       log "Booting on Windows"
       boot_and_wait do
-        @scsynthpid = Process.spawn(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072")
+        @scsynthpid = Process.spawn(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0")
         Process.detach(@scsynthpid)
       end
     end
@@ -241,7 +241,7 @@ module SonicPi
       @jack_pid = `ps cax | grep jackd`.split(" ").first
 
       boot_and_wait do
-        sys("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} -z 256 -U /usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/ &")
+        sys("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} -z 256 -D 0 -U /usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/ &")
       end
 
       `jack_connect SuperCollider:out_1 system:playback_1`
@@ -269,7 +269,7 @@ module SonicPi
       end
 
       boot_and_wait do
-        sys("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} &")
+        sys("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} -D 0 &")
       end
 
       `jack_connect SuperCollider:out_1 system:playback_1`
