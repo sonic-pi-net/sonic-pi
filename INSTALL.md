@@ -115,6 +115,8 @@ Users can opt to build from source as well if they would like. Instructions and 
 * Run the setup wizard and install to a known location which we'll call /path/to/qt
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and untar into a known location which we'll call /path/to/qscintilla
   (current version is QScintilla-gpl-2.9)
+* Install SuperCollider 3.6 from http://supercollider.github.io/download.html
+* Download SuperCollider extensions from http://sourceforge.net/projects/sc3-plugins/files/OSX_3.6/ and install as per the included README.txt file
 
 ### Server extensions
 
