@@ -158,19 +158,30 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 
 ## Windows
 
+### Source Code 
+
+* Download & install [Git for Windows](https://msysgit.github.io/).
+* Checkout [latest Sonic Pi sources](https://github.com/samaaron/sonic-pi) from GitHub.
 
 ### Dependencies
 
-* Install Visual Studio 2013 Express for Desktop http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop
-* Download Qt 5.4.1+ http://qt-project.org/downloads
-  - Run the setup wizard and install to a known location which we'll call C:\Qt5
+* Download & Install [Visual Studio 2013 Express for Desktop](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
+* Download & Install [Qt 5.4.1+](https://www.qt.io/download-open-source/)
+  - Run the setup wizard and install to a known location (e.g. C:\Qt5 or C:\apps\qt5) which we'll call %QT5_HOME%
   - Be sure to install the msvc2013_x86 target
-* Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and unzip
+  - More details on Qt installation can be found on [this blog post](http://sonicpidevnotes.blogspot.com/2015/06/installing-qt-5-on-windows-7-for-sonic.html)
+* Grab a copy of the [QScintilla libs](http://www.riverbankcomputing.co.uk/software/qscintilla/download) and unzip it in your apps directory
 
 ### Server extensions
 
-* Compile native extensions: `ruby app/server/bin/compile-extensions.rb`
+* Download & Install [Ruby 2.1.x](http://rubyinstaller.org/downloads/)
+* [Download](http://rubyinstaller.org/downloads/) & [Install](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) Ruby Development Kit
+* Compile native extensions: 
+  - start ruby dev tools (%RUBY_DEV_HOME%\msys.bat)
+  - go to your Sonic Pi checkout dir
+  - run `ruby app/server/bin/compile-extensions.rb`
   - if you get a "no Makefiles" error for rugged, you may need to patch app\server\vendor\rugged\ext\rugged\extconf.rb, see https://github.com/jweather/rugged/commit/5fa0cb957ae20faddfa3e3504f122495bbd4e72f
+  - TODO: how one can determine if compilation of native extensions was successful?
 
 ### Qt GUI
 
