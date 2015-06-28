@@ -140,7 +140,7 @@ private slots:
     void updateFocusMode();
     void disableFocusMode();
     void updateLogVisibility();
-    void updateButtonVisibilty();
+    void updateButtonVisibility();
 
 
 

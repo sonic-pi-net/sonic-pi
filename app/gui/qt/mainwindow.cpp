@@ -458,7 +458,7 @@ void MainWindow::updateLogVisibility(){
   }
 }
 
-void MainWindow::updateButtonVisibilty(){
+void MainWindow::updateButtonVisibility(){
   if(toolBar->isVisible()){
     toolBar->close();
   }
@@ -1544,7 +1544,7 @@ void MainWindow::createShortcuts()
   new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
-  new QShortcut(QKeySequence("F9"), this, SLOT(updateButtonVisibilty()));
+  new QShortcut(QKeySequence("F9"), this, SLOT(updateButtonVisibility()));
   new QShortcut(QKeySequence("F10"), this, SLOT(updateFocusMode()));
   new QShortcut(QKeySequence("F11"), this, SLOT(updateLogVisibility()));
 }
