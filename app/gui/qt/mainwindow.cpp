@@ -703,7 +703,7 @@ void MainWindow::initPrefsWindow() {
   print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
 
   check_args = new QCheckBox(tr("Safe mode"));
-  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth argument values may\ncreate unexpectedly loud or uncomfortable sounds."));
+  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
 
   clear_output_on_run = new QCheckBox(tr("Clear log on run"));
   clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
