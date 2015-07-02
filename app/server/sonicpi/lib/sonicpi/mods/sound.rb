@@ -708,10 +708,14 @@ play 50 # Plays with supersaw synth
 
 
        def recording_start
-         __info "Start recording"
-         tmp_dir = Dir.mktmpdir("sonic-pi")
-         @tmp_path = File.expand_path("#{tmp_dir}/#{Random.rand(100000000)}.wav")
-         @mod_sound_studio.recording_start @tmp_path
+         if @mod_sound_studio.recording?
+             __info "Already recording..."
+         else
+           __info "Start recording"
+           tmp_dir = Dir.mktmpdir("sonic-pi")
+           @tmp_path = File.expand_path("#{tmp_dir}/#{Random.rand(100000000)}.wav")
+           @mod_sound_studio.recording_start @tmp_path
+         end
        end
        doc name:          :recording_start,
            introduced:    Version.new(2,0,0),
@@ -727,8 +731,12 @@ play 50 # Plays with supersaw synth
 
 
        def recording_stop
-         __info "Stop recording"
-         @mod_sound_studio.recording_stop
+         if @mod_sound_studio.recording?
+             __info "Stop recording"
+           @mod_sound_studio.recording_stop
+         else
+           __info "Recording already stopped"
+         end
        end
        doc name:          :recording_stop,
            introduced:    Version.new(2,0,0),
@@ -744,9 +752,13 @@ play 50 # Plays with supersaw synth
 
 
        def recording_save(filename)
-         __info "Saving recording to #{filename}"
-         FileUtils.mv(@tmp_path, filename)
-         @tmp_path = nil
+         if @tmp_path && File.exists?(@tmp_path)
+           FileUtils.mv(@tmp_path, filename)
+           @tmp_path = nil
+           __info "Saving recording to #{filename}"
+         else
+           __info "No recording to save"
+         end
        end
        doc name:          :recording_save,
            introduced:    Version.new(2,0,0),
