@@ -216,7 +216,7 @@ module SonicPi
         thread_local_deltas[node_id] += @control_delta
         thread_local_time + d + @sched_ahead_time
       else
-        Time.now + @sched_ahead_time
+        Time.now.to_f + @sched_ahead_time
       end
     end
 
@@ -381,8 +381,8 @@ module SonicPi
     end
 
     def osc_bundle(ts, *args)
-#      Kernel.puts "--> osc at #{ts}, #{args}"
-      @scsynth.send_at(ts, *args)
+      #Kernel.puts "--> osc at #{ts.to_f}, #{args}"
+      @scsynth.send_at(ts.to_f, *args)
     end
 
     def async_add_event_handlers(*args)

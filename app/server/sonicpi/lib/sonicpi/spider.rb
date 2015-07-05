@@ -252,8 +252,8 @@ module SonicPi
           Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, {})
           # Calculate the amount of time to sleep to sync us up with the
           # sched_ahead_time
-          sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time
-          sleep_time = sched_ahead_sync_t - Time.now
+          sched_ahead_sync_t = last_vt + @mod_sound_studio.sched_ahead_time.rationalize
+          sleep_time = sched_ahead_sync_t - Time.now.to_f.rationalize
           Kernel.sleep(sleep_time) if sleep_time > 0
           #We're now in sync with the sched_ahead time
 
@@ -581,7 +581,7 @@ module SonicPi
           num_running_jobs = reg_job(id, Thread.current)
           Thread.current.thread_variable_set :sonic_pi_thread_group, "job-#{id}"
           Thread.current.thread_variable_set :sonic_pi_spider_arg_bpm_scaling, true
-          Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1.0
+          Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1.0.rationalize
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
@@ -594,7 +594,8 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, Random.new(0)
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
-          now = Time.now
+          now = Time.now.to_f.rationalize
+
           start_t_prom.deliver! now
           Thread.current.thread_variable_set :sonic_pi_spider_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now

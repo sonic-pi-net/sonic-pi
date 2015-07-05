@@ -76,7 +76,7 @@ module SonicPi
       else
         vt = -1
       end
-      @out_queue << [:send_at, vt, ts, args]
+      @out_queue << [:send_at, vt.to_f, ts.to_f, args]
     end
 
     def reboot
