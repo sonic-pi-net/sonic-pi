@@ -27,6 +27,7 @@ require_relative "../chordgroup"
 require_relative "../synthtracker"
 require_relative "../docsystem"
 require_relative "../version"
+require_relative "../tuning"
 
 module SonicPi
    module Mods
@@ -53,6 +54,8 @@ module SonicPi
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
              @complex_sampler_args = [:attack, :decay, :sustain, :release, :start, :finish, :env_curve, :attack_level, :sustain_level]
+
+             @tuning = Tuning.new
 
              @blank_node = BlankNode.new
              @job_proms_queues = {}
@@ -598,8 +601,7 @@ play 80 # Plays note 83
        def use_tuning(tuning, fundamental_note = :c, &block)
          raise "use_tuning does not work with a do/end block. Perhaps you meant with_tuning" if block
          raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, tuning)
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning_fundamental_note, fundamental_note)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note])
        end
        doc name:          :use_tuning,
            introduced:    Version.new(2,6,0),
@@ -628,17 +630,14 @@ play 64 # Plays note 64"]
        def with_tuning(tuning, fundamental_note = :c, &block)
          raise "with_tuning requires a do/end block. Perhaps you meant use_tuning" unless block
          raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
-         curr_tuning = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
-         curr_fundamental = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning_fundamental_note)
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, tuning)
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning_fundamental_note, fundamental_note)
+         curr_tuning, curr_fundamental = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note])
          block.call
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, curr_tuning)
-         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning_fundamental_note, curr_fundamental)
+         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, [curr_tuning, curr_fundamental])
        end
        doc name:          :with_tuning,
          introduced:    Version.new(2,0,0),
-         summary:       "Block-level note transposition",
+         summary:       "Block-level tuning modification",
          doc:           "Similar to use_tuning except only applies to code within supplied `do`/`end` block. Previous tuning value is restored after block.",
          args:          [[:tuning, :symbol], [:fundamental_note, :symbol_or_number]],
          opts:          nil,
@@ -834,6 +833,15 @@ play 50 # Plays with supersaw synth
            if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
              n += shift
            end
+
+
+           if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+             tuning_system, fundamental_sym = tuning_info
+             if tuning_system != :equal
+               n = @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
+             end
+           end
+
            args_h[:note] = n
          end
 
@@ -852,7 +860,6 @@ synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an amplitude 
 "
 use_synth_defaults release: 5
 synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
-
 
 
 
@@ -881,7 +888,42 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
          init_args_h = {}
          args_h = resolve_synth_opts_hash_or_array(args)
 
-         if tuning_system = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+
+         if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+           tuning_system, fundamental_sym = tuning_info
+           if tuning_system != :equal
+             n = @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
+           end
+         end
+       end
+
+
+       def orig_play(n, *args)
+         ensure_good_timing!
+         case n
+         when Array, SonicPi::Core::RingVector
+           return play_chord(n, *args)
+         when Hash
+           # Allow a single hash argument to function unsurprisingly
+           args = n if args.empty?
+         end
+
+         n = note(n)
+
+         synth_name = current_synth_name
+
+         if n.nil?
+           unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+             __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
+           end
+
+           return nil
+         end
+
+         init_args_h = {}
+         args_h = resolve_synth_opts_hash_or_array(args)
+
+         tuning_system = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
            if tuning_system != :equal
              fundamental_sym = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning_fundamental_note)
              fundamental = Note.resolve_midi_note_without_octave(fundamental_sym)
@@ -954,7 +996,6 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
                n = @@tuned_notes[tuning_system][n]
              end
            end
-         end
 
          if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
            n += shift
