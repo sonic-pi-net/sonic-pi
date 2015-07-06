@@ -18,9 +18,6 @@
 
 (without-namespace-in-synthdef
  (defsynth sonic-pi-piano [note 52
-                           note_slide 0
-                           note_slide_shape 5
-                           note_slide_curve 0
                            amp 1
                            amp_slide 0
                            amp_slide_shape 5
@@ -49,15 +46,15 @@
                            res_slide_curve 0
 
                            out_bus 0]
-   (let [note          (varlag note note_slide note_slide_curve note_slide_shape)
+   (let [note          (+ 0.5 (floor note))
          amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          cutoff-freq   (midicps cutoff)
+         freq          (midicps note)
          use-filter    (> cutoff 0)
          res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
-         freq          (midicps note)
          vel           (clip vel 0 1)
          vel           (lin-lin vel 0 1 0 4)
          vel           (* vel 127)
