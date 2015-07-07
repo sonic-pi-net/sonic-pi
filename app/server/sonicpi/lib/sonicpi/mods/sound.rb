@@ -2874,7 +2874,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
          # so, scale them.
          info.bpm_scale_args.each do |arg_name|
            if args_h.has_key? arg_name
-             args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul).to_f
+             args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
            end
 
          end
@@ -3320,7 +3320,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
          vt  = Thread.current.thread_variable_get :sonic_pi_spider_time
          sat = @mod_sound_studio.sched_ahead_time + 1.1
-         raise "Timing Exception: thread got too far behind time." if (Time.now.to_f - sat) > vt
+         raise "Timing Exception: thread got too far behind time." if (Time.now - sat) > vt
        end
 
        def current_synth_name

@@ -418,7 +418,7 @@ out_t = Thread.new do
       else
         case message[:type]
         when :multi_message
-          m = encoder.encode_single_message("/multi_message", [message[:jobid], message[:thread_name].to_s, message[:runtime].to_f.to_s, message[:val].size, *message[:val].flatten])
+          m = encoder.encode_single_message("/multi_message", [message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten])
           gui.send_raw(m)
         when :info
           m = encoder.encode_single_message("/info", [message[:val]])

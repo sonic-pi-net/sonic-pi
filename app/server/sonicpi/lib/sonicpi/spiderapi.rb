@@ -1560,7 +1560,7 @@ end
 
     def use_bpm(bpm, &block)
       raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
-      sleep_mul = 60 / bpm.rationalize
+      sleep_mul = 60.0 / bpm
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
     end
     doc name:           :use_bpm,
@@ -1604,7 +1604,7 @@ end
     def with_bpm(bpm, &block)
       raise "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-      sleep_mul = 60 / bpm.rationalize
+      sleep_mul = 60.0 / bpm
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
       block.call
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
@@ -1649,7 +1649,7 @@ end"]
     def with_bpm_mul(mul, &block)
       raise "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-      new_mul = current_mul / mul.rationalize
+      new_mul = current_mul.to_f / mul
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
       block.call
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
@@ -1682,7 +1682,7 @@ sleep 1            # BPM is now back to 60, therefore sleep is 1 second
     def use_bpm_mul(mul, &block)
       raise "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-      new_mul = current_mul / mul.rationalize
+      new_mul = current_mul.to_f / mul
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
     end
     doc name:           :use_bpm_mul,
@@ -1749,7 +1749,7 @@ end
 
 
     def current_bpm
-      60 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
     end
     doc name:          :current_bpm,
         introduced:    Version.new(2,0,0),
@@ -1785,7 +1785,7 @@ puts current_beat_duration #=> 0.5"]
 
 
     def rt(t)
-      t.rationalize / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      t / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
     end
     doc name:          :rt,
         introduced:    Version.new(2,0,0),
@@ -1816,13 +1816,13 @@ play 72"]
       # Now get on with syncing the rest of the sleep time...
 
       # Calculate the amount of time to sleep (take into account current bpm setting)
-      sleep_time = beats.rationalize * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      sleep_time = beats * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       # Calculate the new virtual time
       new_vt = last_vt + sleep_time
 
       # TODO: remove this, api shouldn't need to know about sound module
       sat = @mod_sound_studio.sched_ahead_time
-      now = Time.now.to_f.rationalize
+      now = Time.now
       if now - (sat + 0.5) > new_vt
         raise "Timing Exception: thread got too far behind time"
       elsif (now - sat) > new_vt
