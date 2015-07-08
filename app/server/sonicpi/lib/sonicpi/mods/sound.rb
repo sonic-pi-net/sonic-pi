@@ -35,7 +35,7 @@ class Symbol
   end
 
   def +(other)
-    SonicPi::Note.resolve_midi_note_without_octave(self) - SonicPi::Note.resolve_midi_note_without_octave(other)
+    SonicPi::Note.resolve_midi_note_without_octave(self) + SonicPi::Note.resolve_midi_note_without_octave(other)
   end
 end
 
