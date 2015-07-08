@@ -1205,17 +1205,17 @@ factor?(2, 0.5) #true - 2 is a multiple of 0.5 (0.5 * 4 = 2) "
 
 
 
-    def quantise(n, resolution)
-      raise "quantisation resolution should be positive" if resolution <= 0
-      (n.to_f / resolution).round * resolution
+    def quantise(n, step)
+      raise "quantisation step resolution should be positive" if step <= 0
+      (n.to_f / step).round * step
     end
     doc name:           :quantise,
         introduced:     Version.new(2,1,0),
         summary:        "Quantise a value to resolution",
-        args:           [[:n, :number], [:resolution, :positive_number]],
+        args:           [[:n, :number], [:step, :positive_number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Round value to the nearest multiple of resolution.",
+        doc:            "Round value to the nearest multiple of step resolution.",
         examples:        [
 "
 quantise(10, 1) # 10 is already a multiple of 1, so returns 10" ,
@@ -1284,9 +1284,9 @@ one_in 100 # will return true with a probability of 1/100, false with a probabil
         introduced:     Version.new(2,3,0),
         summary:        "Random number in centred distribution",
         args:           [[:width, :number], [:centre, :number]],
-        opts:           {:res => nil},
+        opts:           {:step => "Step size of value to quantise to."},
         accepts_block:  false,
-        doc:            "Returns a random number within the range with width around centre. If optional arg `res:` is used, the result is quantised by res.",
+        doc:            "Returns a random number within the range with width around centre. If optional arg `step:` is used, the result is quantised by step.",
         examples:       [
 "
 print rdist(1, 0) #=> will print a number between -1 and 1
@@ -1305,7 +1305,7 @@ end"]
 
     def rrand(min, max, *opts)
       args_h = resolve_synth_opts_hash_or_array(opts)
-      res = args_h[:res]
+      res = args_h[:step]
       if min == max
         if res
           return quantise(min, res)
@@ -1329,10 +1329,10 @@ end"]
         introduced:     Version.new(2,0,0),
         summary:        "Generate a random float between two numbers",
         args:           [[:min, :number], [:max, :number]],
-        opts:           {:res => nil},
+        opts:           {:step => "Step size of value to quantise to."},
         accepts_block:  false,
         intro_fn:       true,
-        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see `rrand_i`. If optional arg `res:` is used, the result is quantised by res.",
+        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see `rrand_i`. If optional arg `step:` is used, the result is quantised by step.",
         examples:       ["
 print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
 "
