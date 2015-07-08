@@ -227,6 +227,10 @@ class String
   def shuffle
     self.chars.to_a.shuffle.join
   end
+
+  def ring
+    self.chars.ring
+  end
 end
 
 class Numeric
@@ -244,6 +248,10 @@ end
 class Symbol
   def shuffle
     self.to_s.shuffle.to_sym
+  end
+
+  def ring
+    self.to_s.ring
   end
 end
 
@@ -670,17 +678,6 @@ class Array
   end
 end
 
-class String
-  def ring
-    self.chars.ring
-  end
-end
-
-class Symbol
-  def ring
-    self.to_s.ring
-  end
-end
 
 
 # Meta-glasses from our hero Why to help us
