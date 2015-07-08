@@ -29,6 +29,16 @@ require_relative "../docsystem"
 require_relative "../version"
 require_relative "../tuning"
 
+class Symbol
+  def -(other)
+    SonicPi::Note.resolve_midi_note_without_octave(self) - SonicPi::Note.resolve_midi_note_without_octave(other)
+  end
+
+  def +(other)
+    SonicPi::Note.resolve_midi_note_without_octave(self) - SonicPi::Note.resolve_midi_note_without_octave(other)
+  end
+end
+
 module SonicPi
    module Mods
      module Sound
