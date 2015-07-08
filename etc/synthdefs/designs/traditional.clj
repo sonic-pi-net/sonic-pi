@@ -26,6 +26,13 @@
                            pan_slide 0
                            pan_slide_shape 5
                            pan_slide_curve 0
+                           attack 0
+                           decay 0
+                           sustain 3
+                           release 1
+                           attack_level 1
+                           sustain_level 1
+                           env_curve 2
                            gate 1
                            vel 0.2
                            decay 0.2
@@ -62,28 +69,30 @@
          hard          (lin-lin hard 0 1 -3 3)
 
 
-         snd           (mda-piano {:freq freq
-                                   :gate 1
-                                   :vel vel
-                                   :decay decay
-                                   :release release
-                                   :hard hard
-                                   :velhard 0.8
-                                   :muffle 0.8
-                                   :velmuff 0.8
+         snd           (mda-piano {:freq     freq
+                                   :gate     1
+                                   :vel      vel
+                                   :decay    decay
+                                   :release  release
+                                   :hard     hard
+                                   :velhard  0.8
+                                   :muffle   0.8
+                                   :velmuff  0.8
                                    :velcurve velcurve
-                                   :stereo stereo_width
-                                   :tune 0.5
-                                   :random 0
-                                   :stretch 0
-                                   :sustain 0.1 })
+                                   :stereo   stereo_width
+                                   :tune     0.5
+                                   :random   0
+                                   :stretch  0
+                                   :sustain  0.1})
 
          [snd-l snd-r] snd
          snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
          snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
-         [new-l new-r] (balance2 snd-l snd-r pan amp)]
-     (out out_bus [new-l new-r])
-     (detect-silence snd 0.005 :action FREE) )
+         [new-l new-r] (balance2 snd-l snd-r pan amp)
+         env           (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         new-l         (* env new-l)
+         new-r         (* env new-r)]
+     (out out_bus [new-l new-r]))
 
    )
 
