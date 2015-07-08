@@ -692,7 +692,6 @@ end"]
 
 
 
-
     def live_loop(name=nil, *args, &block)
       raise "live_loop needs to have a unique name. For example: live_loop :foo" unless name
       raise "live_loop's name needs to be a string or symbol, got: #{name.inspect}. Example usage: live_loop :foo" unless (name.is_a?(Symbol) || name.is_a?(String))
@@ -1556,6 +1555,55 @@ end
     end
 
 
+    def use_cue_logging(v, &block)
+         raise "use_cue_logging does not work with a do/end block. Perhaps you meant with_cue_logging" if block
+         Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, !v)
+       end
+       doc name:          :use_cue_logging,
+           introduced:    Version.new(2,6,0),
+           summary:       "Enable and disable cue logging",
+           doc:           "Enable or disable log messages created on cues. This does not disable the cues themselves, it just stops them from being printed to the log",
+           args:          [[:true_or_false, :boolean]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["use_cue_logging true # Turn on cue messages", "use_cue_logging false # Disable cue messages"]
+
+
+
+
+       def with_cue_logging(v, &block)
+         raise "with_cue_logging requires a do/end block. Perhaps you meant use_cue_logging" unless block
+         current = Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
+         Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, !v)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, current)
+       end
+       doc name:          :with_cue_logging,
+           introduced:    Version.new(2,6,0),
+           summary:       "Block-level enable and disable cue logging",
+           doc:           "Similar to use_log_cues except only applies to code within supplied `do`/`end` block. Previous cue log value is restored after block.",
+           args:          [[:true_or_false, :boolean]],
+           opts:          nil,
+           accepts_block: true,
+           requires_block: true,
+           examples:      ["
+# Turn on debugging:
+use_cue_logging true
+
+cue :foo # cue message is printed to log
+
+with_cue_logging false do
+  #Cue logging is now disabled
+  cue :bar # cue *is* sent but not displayed in log
+end
+slepe 1
+# Debug is re-enabled
+cue :quux # cue is displayed in log
+"]
+
+
+
+
 
 
     def use_bpm(bpm, &block)
@@ -1937,10 +1985,12 @@ play 62
         :cue => cue_id
       }
 
-      if args_h.empty?
-        __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
-      else
-        __delayed_highlight_message "cue #{cue_id.to_sym.inspect}, #{arg_h_pp(args_h)}"
+      unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
+        if args_h.empty?
+          __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+        else
+          __delayed_highlight_message "cue #{cue_id.to_sym.inspect}, #{arg_h_pp(args_h)}"
+        end
       end
 
       Thread.new do
