@@ -1,4 +1,5 @@
 require_relative 'null_finder_test'
+require_relative 'word_collection_test'
 require_relative 'name_error_extension_test'
 require_relative 'similar_name_finder_test'
 

@@ -12,11 +12,12 @@ module DidYouMean
       x = nil
 
       # to avoid duplicating an enumerable object, create it outside of the loop
-      str2_codepoint_enumerable = str2.each_codepoint
+      str2_codepoints = str2.codepoints.to_a
 
       str1.each_codepoint.with_index(1) do |char1, i|
-        str2_codepoint_enumerable.with_index do |char2, j|
-          cost = (char1 == char2) ? 0 : 1
+        j = 0
+        while j < m
+          cost = (char1 == str2_codepoints[j]) ? 0 : 1
           x = min3(
             d[j+1] + 1, # insertion
             i + 1,      # deletion
@@ -24,6 +25,8 @@ module DidYouMean
           )
           d[j] = i
           i = x
+
+          j += 1
         end
         d[m] = x
       end

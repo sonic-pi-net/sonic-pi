@@ -15,7 +15,10 @@ module DidYouMean
       target_word = target_word.to_s
       threshold   = threshold(target_word)
 
-      select {|word| Levenshtein.distance(word.to_s, target_word) <= threshold }
+      map {|word| [Levenshtein.distance(word.to_s, target_word), word] }
+        .select {|distance, _| distance <= threshold }
+        .sort
+        .map(&:last)
     end
 
     private
