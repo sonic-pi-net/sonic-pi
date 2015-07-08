@@ -393,7 +393,7 @@ module SonicPi
         :res =>
         {
           :doc => "Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
-          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
+          :validations => [v_positive(:res), v_less_than(:res, 1)],
           :modulatable => true
         },
 
@@ -1992,7 +1992,7 @@ module SonicPi
         :res =>
         {
           :doc => "Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
-          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
+          :validations => [v_positive(:res), v_less_than(:res, 1)],
           :modulatable => true
         },
 
@@ -2540,8 +2540,8 @@ module SonicPi
 
         :res =>
         {
-          :doc => "Filter resonance as a value betwee 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
-          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
+          :doc => "Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
+          :validations => [v_positive(:res), v_less_than(:res, 1)],
           :modulatable => true
         }
 
