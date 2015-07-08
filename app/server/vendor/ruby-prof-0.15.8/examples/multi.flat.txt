@@ -1,0 +1,23 @@
+Measure Mode: wall_time
+Thread ID: 70140045951280
+Fiber ID: 70140054192180
+Total: 0.002968
+Sort by: self_time
+
+ %self      total      self      wait     child     calls  name
+ 86.99      0.003     0.003     0.000     0.000      201   Integer#upto
+  3.11      0.003     0.000     0.000     0.003      200   Object#is_prime
+  2.94      0.000     0.000     0.000     0.000      200   Kernel#rand
+  2.82      0.003     0.000     0.000     0.003        1   Array#select
+  2.37      0.000     0.000     0.000     0.000        1   Array#each_index
+  1.02      0.000     0.000     0.000     0.000      200   Kernel#respond_to_missing?
+  0.18      0.003     0.000     0.000     0.003        1   PrintersTest#setup
+  0.14      0.000     0.000     0.000     0.000        1   Class#new
+  0.10      0.000     0.000     0.000     0.000        1   Object#find_largest
+  0.10      0.000     0.000     0.000     0.000        1   Object#make_random_array
+  0.06      0.003     0.000     0.000     0.003        1   Object#find_primes
+  0.06      0.000     0.000     0.000     0.000        1   Array#initialize
+  0.06      0.003     0.000     0.000     0.003        1   Object#run_primes
+  0.03      0.000     0.000     0.000     0.000        1   Array#first
+
+* indicates recursively called methods

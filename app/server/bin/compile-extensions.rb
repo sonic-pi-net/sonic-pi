@@ -37,19 +37,19 @@ FileUtils.mkdir_p native_dir
 # FFI is used for MIDI lib support
 native_ext_dirs = [
   File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi/ext/ffi_c'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi-1.9.10/ext/ffi_c'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/atomic/ext'),
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof/ext/ruby_prof/'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof-0.15.8/ext/ruby_prof/'),
 
   File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
 
-  [File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean-0.9.8/ext/did_you_mean'), "did_you_mean"]
+  [File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean-0.9.10/ext/did_you_mean'), "did_you_mean"]
 ]
 
 if os == :osx
   native_ext_dirs += [
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/narray-0.6.0.9/'),
-    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.10/ext/')]
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/narray-0.6.1.1/'),
+    File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-coreaudio-0.0.11/ext/')]
 end
 
 

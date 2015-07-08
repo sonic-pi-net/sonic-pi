@@ -1,0 +1,760 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <style media="all" type="text/css">
+    table {
+      border-collapse: collapse;
+      border: 1px solid #CCC;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 9pt;
+      line-height: normal;
+      width: 100%;
+    }
+
+    th {
+      text-align: center;
+      border-top: 1px solid #FB7A31;
+      border-bottom: 1px solid #FB7A31;
+      background: #FFC;
+      padding: 0.3em;
+      border-left: 1px solid silver;
+    }
+
+    tr.break td {
+      border: 0;
+      border-top: 1px solid #FB7A31;
+      padding: 0;
+      margin: 0;
+    }
+
+    tr.method td {
+      font-weight: bold;
+    }
+
+    td {
+      padding: 0.3em;
+    }
+
+    td:first-child {
+      width: 190px;
+      }
+
+    td {
+      border-left: 1px solid #CCC;
+      text-align: center;
+    }
+
+    .method_name {
+      text-align: left;
+    }
+
+    tfoot td {
+      text-align: left;
+    }
+  </style>
+  </head>
+  <body>
+    <h1>Profile Report: wall_time</h1>
+    <!-- Threads Table -->
+    <table>
+      <tr>
+        <th>Thread ID</th>
+        <th>Fiber ID</th>
+        <th>Total Time</th>
+      </tr>
+
+      <tr>
+        <td>70140045951280</td>
+        <td><a href="#70140054192180">70140054192180</a></td>
+        <td>0.0029680728912353516</td>
+      </tr>
+
+    </table>
+    <!-- Methods Tables -->
+
+      <h2><a name="70140054192180">Thread 70140045951280, Fiber: 70140054192180</a></h2>
+      <table>
+        <thead>
+          <tr>
+            <th>%Total</th>
+            <th>%Self</th>
+            <th>Total</th>
+            <th>Self</th>
+            <th>Wait</th>
+            <th>Child</th>
+            <th>Calls</th>
+            <th class="method_name">Name</th>
+            <th>Line</th>
+          </tr>
+        </thead>
+        <tbody>
+
+               <!-- Parents -->
+
+               <tr class="method">
+                 <td>100.00%</td>
+                 <td>0.18%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="PrintersTest_setup_70140054192180">
+                      PrintersTest#setup
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/printers_test.rb&line=14" title="/Users/stefan.kaes/src/ruby-prof/test/printers_test.rb:14">14</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_run_primes_70140054192180">Object#run_primes</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/printers_test.rb&line=14" title="/Users/stefan.kaes/src/ruby-prof/test/printers_test.rb:14">14</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#PrintersTest_setup_70140054192180">PrintersTest#setup</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/printers_test.rb&line=14" title="/Users/stefan.kaes/src/ruby-prof/test/printers_test.rb:14">14</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>99.82%</td>
+                 <td>0.06%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Object_run_primes_70140054192180">
+                      Object#run_primes
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=45" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:45">45</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_find_primes_70140054192180">Object#find_primes</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=50" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:50">50</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_make_random_array_70140054192180">Object#make_random_array</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=47" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:47">47</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_find_largest_70140054192180">Object#find_largest</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=53" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:53">53</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_run_primes_70140054192180">Object#run_primes</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=50" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:50">50</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>92.62%</td>
+                 <td>0.06%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Object_find_primes_70140054192180">
+                      Object#find_primes
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=24" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:24">24</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Array_select_70140054192180">Array#select</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=25" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:25">25</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_find_primes_70140054192180">Object#find_primes</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=25" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:25">25</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>92.55%</td>
+                 <td>2.82%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Array_select_70140054192180">
+                      Array#select
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>200/200</td>
+                   <td class="method_name"><a href="#Object_is_prime_70140054192180">Object#is_prime</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>200/200</td>
+                   <td class="method_name"><a href="#Array_select_70140054192180">Array#select</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>89.73%</td>
+                 <td>3.11%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>200</td>
+                 <td class="method_name">
+                   <a name="Object_is_prime_70140054192180">
+                      Object#is_prime
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=16" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:16">16</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>200/201</td>
+                   <td class="method_name"><a href="#Integer_upto_70140054192180">Integer#upto</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=18" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:18">18</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/201</td>
+                   <td class="method_name"><a href="#Object_find_largest_70140054192180">Object#find_largest</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=36" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:36">36</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>200/201</td>
+                   <td class="method_name"><a href="#Object_is_prime_70140054192180">Object#is_prime</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=18" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:18">18</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>86.99%</td>
+                 <td>86.99%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>201</td>
+                 <td class="method_name">
+                   <a name="Integer_upto_70140054192180">
+                      Integer#upto
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_run_primes_70140054192180">Object#run_primes</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=47" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:47">47</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>6.64%</td>
+                 <td>0.10%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Object_make_random_array_70140054192180">
+                      Object#make_random_array
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=7" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:7">7</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Array_each_index_70140054192180">Array#each_index</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=9" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:9">9</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Class_new_70140054192180">Class#new</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=8" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:8">8</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_make_random_array_70140054192180">Object#make_random_array</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=9" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:9">9</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>6.33%</td>
+                 <td>2.37%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Array_each_index_70140054192180">
+                      Array#each_index
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>200/200</td>
+                   <td class="method_name"><a href="#Kernel_rand_70140054192180">Kernel#rand</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>200/200</td>
+                   <td class="method_name"><a href="#Array_each_index_70140054192180">Array#each_index</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>3.96%</td>
+                 <td>2.94%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>200</td>
+                 <td class="method_name">
+                   <a name="Kernel_rand_70140054192180">
+                      Kernel#rand
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>200/200</td>
+                   <td class="method_name"><a href="#Kernel_respond_to_missing__70140054192180">Kernel#respond_to_missing?</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>200/200</td>
+                   <td class="method_name"><a href="#Kernel_rand_70140054192180">Kernel#rand</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>1.02%</td>
+                 <td>1.02%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>200</td>
+                 <td class="method_name">
+                   <a name="Kernel_respond_to_missing__70140054192180">
+                      Kernel#respond_to_missing?
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_run_primes_70140054192180">Object#run_primes</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=53" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:53">53</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.51%</td>
+                 <td>0.10%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Object_find_largest_70140054192180">
+                      Object#find_largest
+                   </a>
+                 </td>
+                 <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=31" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:31">31</a></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/201</td>
+                   <td class="method_name"><a href="#Integer_upto_70140054192180">Integer#upto</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=36" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:36">36</a></td>
+                 </tr>
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Array_first_70140054192180">Array#first</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=32" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:32">32</a></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_make_random_array_70140054192180">Object#make_random_array</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=8" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:8">8</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.20%</td>
+                 <td>0.14%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Class_new_70140054192180">
+                      Class#new
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Array_initialize_70140054192180">Array#initialize</a></td>
+                   <td></td>
+                 </tr>
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Class_new_70140054192180">Class#new</a></td>
+                   <td></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.06%</td>
+                 <td>0.06%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Array_initialize_70140054192180">
+                      Array#initialize
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+               <!-- Parents -->
+
+                 <tr>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>0.00</td>
+                   <td>1/1</td>
+                   <td class="method_name"><a href="#Object_find_largest_70140054192180">Object#find_largest</a></td>
+                   <td><a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=32" title="/Users/stefan.kaes/src/ruby-prof/test/prime.rb:32">32</a></td>
+                 </tr>
+
+               <tr class="method">
+                 <td>0.03%</td>
+                 <td>0.03%</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>0.00</td>
+                 <td>1</td>
+                 <td class="method_name">
+                   <a name="Array_first_70140054192180">
+                      Array#first
+                   </a>
+                 </td>
+                 <td></td>
+               </tr>
+               <!-- Children -->
+
+               <!-- Create divider row -->
+               <tr class="break"><td colspan="9"></td></tr>
+
+
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="9">* indicates recursively called methods</td>
+          </tr>
+        </tfoot>
+      </table>
+
+  </body>
+</html>
