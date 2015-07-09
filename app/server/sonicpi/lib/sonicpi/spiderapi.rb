@@ -1581,7 +1581,7 @@ end
        doc name:          :with_cue_logging,
            introduced:    Version.new(2,6,0),
            summary:       "Block-level enable and disable cue logging",
-           doc:           "Similar to use_log_cues except only applies to code within supplied `do`/`end` block. Previous cue log value is restored after block.",
+           doc:           "Similar to use_cue_logging except only applies to code within supplied `do`/`end` block. Previous cue log value is restored after block.",
            args:          [[:true_or_false, :boolean]],
            opts:          nil,
            accepts_block: true,
@@ -1596,7 +1596,7 @@ with_cue_logging false do
   #Cue logging is now disabled
   cue :bar # cue *is* sent but not displayed in log
 end
-slepe 1
+sleep 1
 # Debug is re-enabled
 cue :quux # cue is displayed in log
 "]
