@@ -423,14 +423,21 @@ out_t = Thread.new do
         when :info
           m = encoder.encode_single_message("/info", [message[:val]])
           gui.send_raw(m)
+        when :syntax_error
+          desc = message[:val] || ""
+          line = message[:line] || -1
+          desc = CGI.escapeHTML(desc)
+          m = encoder.encode_single_message("/syntax_error", [message[:jobid], desc, "", line])
+          gui.send_raw(m)
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")
+          line = message[:line] || -1
           # TODO: Move this escaping to the Qt Client
           desc = CGI.escapeHTML(desc)
           trace = CGI.escapeHTML(trace)
           # puts "sending: /error #{desc}, #{trace}"
-          m = encoder.encode_single_message("/error", [message[:jobid], desc, trace])
+          m = encoder.encode_single_message("/error", [message[:jobid], desc, trace, line])
           gui.send_raw(m)
         when "replace-buffer"
           buf_id = message[:buffer_id]

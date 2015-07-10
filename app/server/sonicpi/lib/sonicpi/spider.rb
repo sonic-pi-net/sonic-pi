@@ -289,7 +289,7 @@ module SonicPi
       else
         m = l.match(/.*:([0-9]+):/)
         if m
-          return m[1]
+          return m[1].to_i
         else
           return -1
         end
@@ -611,12 +611,14 @@ module SonicPi
           __no_kill_block do
             _, line, message = *e.message.match(/\A.*:([0-9]+): syntax error[, ]*(.*)/)
             if line
-              err_msg = "[Syntax Error on Line #{line}] \n #{message}"
+              line = line.to_i
+              err_msg = "[Line #{line}] \n #{message}"
             else
-              err_msg = "[Syntax Error] \n #{e.message}"
+              line = -1
+              err_msg = "\n #{e.message}"
             end
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            @msg_queue.push({type: :error, val: err_msg, backtrace: [], jobid: id  , jobinfo: info})
+            @msg_queue.push({type: :syntax_error, val: err_msg, backtrace: [], jobid: id  , jobinfo: info, line: line})
 
           end
         rescue Exception => e
@@ -625,7 +627,7 @@ module SonicPi
             err_msg = e.message
             err_msg = "[Line #{line}] \n #{err_msg}" if line != -1
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: id  , jobinfo: info})
+            @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: id  , jobinfo: info, line: line})
 
           end
         end

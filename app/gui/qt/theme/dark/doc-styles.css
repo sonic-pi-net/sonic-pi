@@ -23,6 +23,11 @@ em {
 }
 
 .error_description {
+    background-color: deeppink;
+    color: white;
+}
+
+.syntax_error_description {
     background-color: dodgerblue;
     color: white;
 }

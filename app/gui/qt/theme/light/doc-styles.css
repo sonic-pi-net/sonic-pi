@@ -27,6 +27,11 @@ em {
     color: white;
 }
 
+.syntax_error_description {
+    background-color: dodgerblue;
+    color: white;
+}
+
 
 .backtrace {
     font-size: small;
