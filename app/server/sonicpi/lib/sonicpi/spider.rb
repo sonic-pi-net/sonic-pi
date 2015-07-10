@@ -607,6 +607,18 @@ module SonicPi
           __no_kill_block do
             __info("Stopping Run #{id}")
           end
+        rescue SyntaxError => e
+          __no_kill_block do
+            _, line, message = *e.message.match(/\A.*:([0-9]+): syntax error[, ]*(.*)/)
+            if line
+              err_msg = "[Syntax Error on Line #{line}] \n #{message}"
+            else
+              err_msg = "[Syntax Error] \n #{e.message}"
+            end
+            @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+            @msg_queue.push({type: :error, val: err_msg, backtrace: [], jobid: id  , jobinfo: info})
+
+          end
         rescue Exception => e
           __no_kill_block do
             line = __extract_line_of_error(e)
