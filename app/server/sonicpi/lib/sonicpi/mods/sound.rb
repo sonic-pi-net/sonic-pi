@@ -1276,6 +1276,15 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
 
 
+       def with_afx(fx_name, *args, &block)
+         in_thread do
+           with_fx(fx_name, *args, &block)
+         end
+       end
+
+
+
+
        def with_fx(fx_name, *args, &block)
          raise "with_fx must be called with a do/end block" unless block
          raise "with_fx block must only accept 0 or 1 args" unless [0, 1].include?(block.arity)
