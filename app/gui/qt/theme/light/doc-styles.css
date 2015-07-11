@@ -38,6 +38,11 @@ em {
     color: #5e5e5e;
 }
 
+.error_line {
+    font-size: large;
+    color: deeppink;
+}
+
 pre {
     font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
 }

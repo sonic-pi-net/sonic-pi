@@ -610,15 +610,17 @@ module SonicPi
         rescue SyntaxError => e
           __no_kill_block do
             _, line, message = *e.message.match(/\A.*:([0-9]+): syntax error[, ]*(.*)/)
+            error_line = ""
             if line
               line = line.to_i
               err_msg = "[Line #{line}] \n #{message}"
+              error_line = code.lines[line + 1] ||  ""
             else
               line = -1
               err_msg = "\n #{e.message}"
             end
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            @msg_queue.push({type: :syntax_error, val: err_msg, backtrace: [], jobid: id  , jobinfo: info, line: line})
+            @msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
 
           end
         rescue Exception => e
