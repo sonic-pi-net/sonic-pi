@@ -162,6 +162,10 @@ module SonicPi
       @server.control_delta = t
     end
 
+    def recording?(bus=0)
+      @recorders[bus]
+    end
+
     def recording_start(path, bus=0)
       return false if @recorders[bus]
       @recording_mutex.synchronize do
