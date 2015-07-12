@@ -159,7 +159,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
           QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
           QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection,
-                                     Q_ARG(QString, "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_line\">" + QString::fromStdString(error_line) + "</body></html>") );
+                                     Q_ARG(QString, "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_line\">Line with error: " + QString::fromStdString(error_line) + "</body></html>") );
 
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;
