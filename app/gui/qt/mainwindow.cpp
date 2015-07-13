@@ -701,7 +701,7 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *debug_box = new QGroupBox(tr("Debug Options"));
   debug_box->setToolTip(tr("Configure debug behaviour"));
 
-  print_output = new QCheckBox(tr("Log output"));
+  print_output = new QCheckBox(tr("Log synths"));
   print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
 
   check_args = new QCheckBox(tr("Safe mode"));
