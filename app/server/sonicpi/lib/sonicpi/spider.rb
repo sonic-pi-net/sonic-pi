@@ -30,6 +30,7 @@ require_relative "oscval"
 require_relative "version"
 require_relative "config/settings"
 require_relative "preparser"
+
 #require_relative "oscevent"
 #require_relative "stream"
 
@@ -39,7 +40,8 @@ require 'thread'
 require 'fileutils'
 require 'set'
 require 'ruby-beautify'
-
+require 'securerandom'
+require 'active_support/core_ext/integer/inflections'
 
 module SonicPi
   class Stop < StandardError ; end
@@ -48,6 +50,7 @@ module SonicPi
 
     attr_reader :event_queue
     include Util
+    include ActiveSupport
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
       @settings = Config::Settings.new(user_settings_path)
@@ -69,7 +72,7 @@ module SonicPi
       @sync_real_sleep_time = 0.05
       @user_methods = user_methods
       @run_start_time = 0
-
+      @session_id = SecureRandom.uuid
       @snippets = {}
 
       @gitsave = GitSave.new(project_path)
@@ -81,6 +84,10 @@ module SonicPi
           __handle_event event
         end
       end
+      __info "Session #{@session_id}"
+      date = Time.now
+      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}"
+      __info "#{date.hour}:#{date.min}, #{date.zone}"
       __info "#{@version} Ready..."
       __print_version_outdated_info if @version < @server_version
 
@@ -621,7 +628,7 @@ module SonicPi
             end
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
             @msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
-
+            __info("Syntax error in run #{id}. Code ignored.")
           end
         rescue Exception => e
           __no_kill_block do
