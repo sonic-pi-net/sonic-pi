@@ -211,8 +211,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QShortcut *escape2 = new QShortcut(QKeySequence("Escape"), workspace);
     connect(escape, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
     connect(escape, SIGNAL(activated()), this, SLOT(resetErrorPane()));
+    connect(escape, SIGNAL(activated()), workspace, SLOT(clearLineMarkers()));
     connect(escape2, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
     connect(escape2, SIGNAL(activated()), this, SLOT(resetErrorPane()));
+    connect(escape2, SIGNAL(activated()), workspace, SLOT(clearLineMarkers()));
 
     //quick nav by jumping up and down 10 lines at a time
     QShortcut *forwardTenLines = new QShortcut(shiftMetaKey('u'), workspace);
@@ -983,7 +985,7 @@ void MainWindow::runCode()
   SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
   ws->highlightAll();
   lexer->highlightAll();
-
+  ws->clearLineMarkers();
   resetErrorPane();
   statusBar()->showMessage(tr("Running Code..."), 1000);
   std::string code = ws->text().toStdString();
@@ -1985,6 +1987,13 @@ void MainWindow::tabPrev() {
   else
     index--;
   QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
+}
+
+void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
+  if (num > 0) {
+    SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
+    ws->setLineErrorMarker(num - 1);
+  }
 }
 
 void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){

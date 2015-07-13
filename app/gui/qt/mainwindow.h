@@ -141,6 +141,7 @@ private slots:
     void disableFocusMode();
     void updateLogVisibility();
     void updateButtonVisibility();
+    void setLineMarkerinCurrentWorkspace(int num);
 
 
 

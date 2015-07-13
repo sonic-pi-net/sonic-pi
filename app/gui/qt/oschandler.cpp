@@ -135,6 +135,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         if (msg->arg().popInt32(job_id).popStr(desc).popStr(backtrace).popInt32(line).isOkNoMoreArgs()) {
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
+          QMetaObject::invokeMethod( window, "setLineMarkerinCurrentWorkspace", Qt::QueuedConnection, Q_ARG(int, line));
           QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
           QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
           QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection,
@@ -157,9 +158,11 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
           QMetaObject::invokeMethod( error, "show", Qt::QueuedConnection);
+          QMetaObject::invokeMethod( window, "setLineMarkerinCurrentWorkspace", Qt::QueuedConnection, Q_ARG(int, line));
+
           QMetaObject::invokeMethod( error, "clear", Qt::QueuedConnection);
           QMetaObject::invokeMethod( error, "setHtml", Qt::QueuedConnection,
-                                     Q_ARG(QString, "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_line\">Line with error: " + QString::fromStdString(error_line) + "</body></html>") );
+                                     Q_ARG(QString, "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"" + style_sheet + "\"/></head><body><h2 class=\"syntax_error_description\"><pre>Syntax Error: " + QString::fromStdString(desc) + "</pre></h2><pre class=\"error_line\">" + QString::fromStdString(error_line) + "</pre></body></html>") );
 
         } else {
           std::cout << "[GUI] - unhandled OSC msg /error: "<< std::endl;

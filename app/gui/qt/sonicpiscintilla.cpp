@@ -132,6 +132,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   setText("#loading...");
   setLexer((QsciLexer *)lexer);
 
+  markerDefine(RightArrow, 8);
+  setMarkerBackgroundColor("deeppink", 8);
+
   setAutoCompletionThreshold(1);
   setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
   setAutoCompletionCaseSensitivity(false);
@@ -433,4 +436,14 @@ void SonicPiScintilla::downcaseWordOrSelection(){
     SendScintilla(SCI_LOWERCASE);
     deselect();
   }
+}
+
+void SonicPiScintilla::setLineErrorMarker(int lineNumber){
+  markerDeleteAll(-1);
+  markerAdd(lineNumber, 8);
+  setCursorPosition(lineNumber, 0);
+}
+
+void SonicPiScintilla::clearLineMarkers(){
+  markerDeleteAll(-1);
 }
