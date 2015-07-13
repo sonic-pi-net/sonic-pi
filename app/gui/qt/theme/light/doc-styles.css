@@ -40,6 +40,11 @@ em {
 
 .error_line {
     font-size: large;
+    color: #5e5e5e;
+}
+
+.error_msg {
+    font-size: large;
     color: deeppink;
 }
 
