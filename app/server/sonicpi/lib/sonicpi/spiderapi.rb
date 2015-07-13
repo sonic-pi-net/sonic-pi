@@ -2080,7 +2080,7 @@ end"
         p.deliver! payload
       end
 
-      unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+      unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
         if cue_ids.size == 1
           __delayed_highlight3_message "sync #{cue_ids.first.to_sym.inspect}"
         else
@@ -2101,7 +2101,8 @@ end"
       cue_map[:cue] = cue_id
 
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
-      unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+
+      unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
         __delayed_highlight2_message "synced #{cue_id.inspect} (Run #{run_id})"
       end
       cue_map
