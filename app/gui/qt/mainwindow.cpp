@@ -850,6 +850,23 @@ void MainWindow::replaceLines(QString id, QString content, int start_line, int f
   ws->setCursorPosition(point_line, point_index);
 }
 
+void MainWindow::setLineMarker(QString mixedArgs) {
+  std::string workspaceName = "workspace_" + number_name(mixedArgs.split(":")[0].toInt());
+  int lineNumber            = mixedArgs.split(":")[1].toInt();
+
+  SonicPiScintilla* ws = filenameToWorkspace(workspaceName);
+  ws->setLineMarker(lineNumber - 1);
+}
+
+void MainWindow::clearLineMarkers() {
+  for(int i = 0; i < workspace_max; i++) {
+    Message msg("/load-buffer");
+    std::string s = "workspace_" + number_name(i);
+    SonicPiScintilla* ws = filenameToWorkspace(s);
+    ws->clearLineMarkers();
+  }
+}
+
 std::string MainWindow::number_name(int i) {
   switch(i) {
   case 0: return "zero";
@@ -1122,6 +1139,7 @@ void MainWindow::mixerStereoMode()
 void MainWindow::stopCode()
 {
   stopRunningSynths();
+  clearLineMarkers();
   statusBar()->showMessage(tr("Stopping..."), 2000);
 }
 

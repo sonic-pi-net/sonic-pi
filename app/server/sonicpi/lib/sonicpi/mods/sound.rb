@@ -875,6 +875,8 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
        def play(n, *args)
          ensure_good_timing!
+         __send_current_line_to_gui
+
          case n
          when Array, SonicPi::Core::RingVector
            return play_chord(n, *args)
@@ -2094,6 +2096,7 @@ puts sample_duration(:loop_amen) #=> 1
 
 
        def sample(path, *args_a_or_h)
+         __send_current_line_to_gui
          return if path == nil
          ensure_good_timing!
          buf_info = load_sample(path)

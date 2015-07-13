@@ -263,5 +263,14 @@ module SonicPi
     end
 
 
+    def __send_current_line_to_gui
+      workspace_line = caller.grep(/Workspace/).first
+      if not workspace_line.nil?
+        workspace_no, active_line_no = workspace_line.match(/Workspace (\d+):(\d+)/)[1..2]
+        __delayed_current_line_info("#{workspace_no}:#{active_line_no}")
+      end
+    end
+
+
   end
 end
