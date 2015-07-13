@@ -63,6 +63,8 @@ module SonicPi
            define_method(:initialize) do |*splat, &block|
              sonic_pi_mods_sound_initialize_old *splat, &block
              hostname, port, msg_queue, max_concurrent_synths = *splat
+
+             @mod_sound_home_dir = File.expand_path('~/')
              @complex_sampler_args = [:attack, :decay, :sustain, :release, :start, :finish, :env_curve, :attack_level, :sustain_level]
 
              @tuning = Tuning.new
@@ -2979,7 +2981,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
          args_h_with_buf = {:buf => buf_id}.merge(args_h)
          sn = sampler_type.to_sym
          info = SynthInfo.get_info(sn)
-
+         path = path.gsub(/\A#{@mod_sound_home_dir}/, "~")
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
              __delayed_message "sample #{path.inspect}"
