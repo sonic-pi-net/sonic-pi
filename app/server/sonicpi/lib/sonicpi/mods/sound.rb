@@ -2981,7 +2981,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
          args_h_with_buf = {:buf => buf_id}.merge(args_h)
          sn = sampler_type.to_sym
          info = SynthInfo.get_info(sn)
-         path = path.gsub(/\A#{@mod_sound_home_dir}/, "~")
+         path = path.gsub(/\A#{@mod_sound_home_dir}/, "~") if path.is_a? String
          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
            if args_h.empty?
              __delayed_message "sample #{path.inspect}"
