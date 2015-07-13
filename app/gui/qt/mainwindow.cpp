@@ -710,9 +710,13 @@ void MainWindow::initPrefsWindow() {
   clear_output_on_run = new QCheckBox(tr("Clear log on run"));
   clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
 
+  log_cues = new QCheckBox(tr("Log cues"));
+  log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
+
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(check_args);
   debug_box_layout->addWidget(print_output);
+  debug_box_layout->addWidget(log_cues);
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
@@ -778,6 +782,7 @@ void MainWindow::initPrefsWindow() {
   check_args->setChecked(settings.value("prefs/check-args", true).toBool());
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
+  log_cues->setChecked(settings.value("prefs/log-cues", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
   dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
@@ -994,6 +999,9 @@ void MainWindow::runCode()
   msg.pushStr(filename);
   if(!print_output->isChecked()) {
     code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+  if(!log_cues->isChecked()) {
+    code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
   else{
     code = "use_debug true #__nosave__ set by Qt GUI user preferences.\n" + code ;
@@ -1767,6 +1775,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/check-args", check_args->isChecked());
   settings.setValue("prefs/print-output", print_output->isChecked());
   settings.setValue("prefs/clear-output-on-run", clear_output_on_run->isChecked());
+  settings.setValue("prefs/log-cues", log_cues->isChecked());
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
   settings.setValue("prefs/dark-mode", dark_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
@@ -1990,7 +1999,7 @@ void MainWindow::tabPrev() {
 }
 
 void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
-  if (num > 0) {
+  if(num > 0) {
     SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
     ws->setLineErrorMarker(num - 1);
   }

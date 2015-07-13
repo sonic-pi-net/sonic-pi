@@ -230,6 +230,7 @@ private:
     QCheckBox *print_output;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
+    QCheckBox *log_cues;
     QCheckBox *show_line_numbers;
     QCheckBox *check_updates;
 
