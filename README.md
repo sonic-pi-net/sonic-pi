@@ -27,7 +27,8 @@ which emphasises the importance of creativity in the learning process
 and gives users the control to turn their sonic ideas into reality.
 
 However, in addition to being an engaging education resource it's also
-evolved into an extremely powerful and performance-ready live coding instrument.
+evolved into an extremely powerful and performance-ready live coding
+instrument.
 
 * Info: http://sonic-pi.net
 * Source: https://github.com/samaaron/sonic-pi
@@ -40,7 +41,6 @@ evolved into an extremely powerful and performance-ready live coding instrument.
 Sonic Pi has been developed within the Computer Laboratory at the
 University of Cambridge with kind support from the Raspberry Pi
 Foundation and the Broadcom Foundation.
-
 
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

@@ -30,7 +30,7 @@ module SonicPi
     end
 
     def doc
-       "Please write documentation!"
+      "Please write documentation!"
     end
 
     def arg_defaults
@@ -95,7 +95,7 @@ module SonicPi
 
       args_h.each do |k, v|
         k_sym = k.to_sym
-#        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
+        #        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
 
         arg_validations(k_sym).each do |v_fn, msg|
           raise "Value of argument #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
@@ -393,7 +393,7 @@ module SonicPi
         :res =>
         {
           :doc => "Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
-          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
+          :validations => [v_positive(:res), v_less_than(:res, 1)],
           :modulatable => true
         },
 
@@ -608,7 +608,7 @@ module SonicPi
     end
 
     def doc
-      "A simple pulse wave with a low pass filter. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1. The pulse wave is thick and deavy with lower notes and is a great ingredient for bass sounds."
+      "A simple pulse wave with a low pass filter. This defaults to a square wave, but the timbre can be changed dramatically by adjusting the pulse_width arg between 0 and 1. The pulse wave is thick and heavy with lower notes and is a great ingredient for bass sounds."
     end
 
     def arg_defaults
@@ -656,15 +656,63 @@ module SonicPi
     end
 
     def doc
-      "A simple square wave with a low pass filter.  The square wave is thick and deavy with lower notes and is a great ingredient for bass sounds. If you wish to modulate the width of the square wave see the synth pulse."
+      "A simple square wave with a low pass filter. The square wave is thick and heavy with lower notes and is a great ingredient for bass sounds. If you wish to modulate the width of the square wave see the synth pulse."
     end
 
     def arg_defaults
       super.merge({
-        :pulse_width => 0.5,
-        :pulse_width_slide => 0,
-        :pulse_width_slide_shape => 5,
-        :pulse_width_slide_curve => 0})
+                    :pulse_width => 0.5,
+                    :pulse_width_slide => 0,
+                    :pulse_width_slide_shape => 5,
+                    :pulse_width_slide_curve => 0})
+    end
+  end
+
+  class SubPulse < Pulse
+    def name
+      "Pulse Wave with sub"
+    end
+
+    def introduced
+      Version.new(2,6,0)
+    end
+
+    def synth_name
+      "subpulse"
+    end
+
+    def doc
+      "A pulse wave with a sub sine wave passed through a low pass filter. The pulse wave is thick and heavy with lower notes and is a great ingredient for bass sounds - especially with the sub wave."
+    end
+
+    def arg_defaults
+      super.merge({
+                    :sub_amp => 1,
+                    :sub_amp_slide => 0,
+                    :sub_amp_slide_shape => 5,
+                    :sub_amp_slide_curve => 0,
+                    :sub_detune => -12,
+                    :sub_detune_slide => 0,
+                    :sub_detune_slide_shape => 5,
+                    :sub_detune_slide_curve => 0})
+    end
+
+    def specific_arg_info
+      {
+        :sub_amp =>
+        {
+          :doc => "Amplitude for the additional sine wave.",
+          :validations => [],
+          :modulatable => true
+        },
+
+        :sub_detune =>
+        {
+          :doc => "Amount of detune from the note for the additional sine wave. Default is -12",
+          :validations => [],
+          :modulatable => true
+        }
+      }
     end
   end
 
@@ -1414,6 +1462,52 @@ module SonicPi
   class Hoover < SonicPiSynth
     def name
       "Hoover"
+      end
+
+      def introduced
+        Version.new(2,6,0)
+      end
+
+      def synth_name
+        "hoover"
+      end
+
+      def doc
+        "Classic early 90's rave synth - 'a sort of slurry chorussy synth line like the classic Dominator by Human Resource'. Based on Dan Stowell's implementation in SuperCollider and Daniel Turczanski's port to Overtone. Works really well with portamento (see docs for the 'control' method)."
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 5,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 5,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 5,
+          :pan_slide_curve => 0,
+          :attack => 0.05,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :sustain_level => 1,
+          :env_curve => 2,
+          :cutoff => 130,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 5,
+          :cutoff_slide_curve => 0,
+        }
+      end
+  end
+
+  class SynthViolin < SonicPiSynth
+    def name
+      "SynthViolin"
     end
 
     def introduced
@@ -1421,11 +1515,11 @@ module SonicPi
     end
 
     def synth_name
-      "hoover"
+      "synth_violin"
     end
 
     def doc
-      "Classic early 90's rave synth - 'a sort of slurry chorussy synth line like the classic Dominator by Human Resource'. Based on Dan Stowell's implementation in SuperCollider and Daniel Turczanski's port to Overtone. Works really well with portamento (see docs for the 'control' method)."
+      "A rather cheesy sounding violin synth based on filtered saw waves and a variable vibrato."
     end
 
     def arg_defaults
@@ -1442,17 +1536,119 @@ module SonicPi
         :pan_slide => 0,
         :pan_slide_shape => 5,
         :pan_slide_curve => 0,
-        :attack => 0.05,
+        :attack => 0.2,
         :decay => 0,
         :sustain => 0,
-        :release => 1,
+        :release => 0.85,
         :attack_level => 1,
         :sustain_level => 1,
         :env_curve => 2,
-        :cutoff => 130,
+
+        :cutoff => 107,
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
+
+        :vibrato_rate => 6,
+        :vibrato_depth => 0.15,
+        :vibrato_delay => 0.5,
+        :vibrato_onset => 0.1,
+      }
+    end
+
+    def specific_arg_info
+      {
+        :vibrato_rate => {
+          :doc => "Number of wobbles per second. For realism this should be between 6 and 8, maybe even faster for really high notes.",
+          :validations => [v_greater_than_oet(:vibrato_rate, 0.0), v_less_than_oet(:vibrato_rate, 20.0)],
+          :modulatable => false
+        },
+        :vibrato_depth =>
+        {
+          :doc => "Amount of variation around the central note. 1 is the sensible maximum (but you can go up to 5 if you want a special effect), 0 would mean no vibrato. Works well around 0.15 but you can experiment.",
+          :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 5.0)],
+          :modulatable => false
+        },
+        :vibrato_delay =>
+        {
+          :doc => "How long in seconds before the vibrato kicks in.",
+          :validations => [v_positive(:vibrato_delay)],
+          :modulatable => false
+        },
+        :vibrato_onset =>
+        {
+          :doc => "How long in seconds before the vibrato reaches full power.",
+          :validations => [v_positive(:vibrato_onset)],
+          :modulatable => false
+        },
+      }
+    end
+  end
+
+  class SynthPiano < SonicPiSynth
+    def name
+      "SynthPiano"
+    end
+
+    def introduced
+      Version.new(2,6,0)
+    end
+
+    def synth_name
+      "piano"
+    end
+
+    def doc
+      "A basic piano synthesiser."
+    end
+
+    def arg_defaults
+      {
+        :note => 52,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
+        :vel => 0.2,
+        :decay => 0.2,
+        :release => 0.2,
+        :hard => 0.5,
+        :stereo_width => 0.5,
+        :cutoff => 0,
+        :cutoff_slide => 0,
+        :cutoff_slide_shape => 5,
+        :cutoff_slide_curve => 0,
+        :res => 0.2,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0
+      }
+    end
+
+    def specific_arg_info
+      {
+        :vel => {
+          :doc => "Velocity of keypress. ",
+          :validations => [v_between_inclusive(:vel, 0, 1)],
+          :modulatable => false},
+
+        :hard => {
+          :doc => "Hardness of keypress. ",
+         :validations => [v_between_inclusive(:vel, 0, 1)],
+          :modulatable => false},
+
+        :stereo_width => {
+          :doc => "Width of the stereo effect (which makes low notes sound towards the left, high notes towards the right). 0 to 1.",
+          :validations => [v_between_inclusive(:vel, 0, 1)],
+          :modulatable => false},
+
       }
     end
   end
@@ -1471,7 +1667,7 @@ module SonicPi
     end
 
     def doc
-     "A deep rumbling growl with a bright sine shining through at higher notes."
+      "A deep rumbling growl with a bright sine shining through at higher notes."
     end
 
     def arg_defaults
@@ -1525,7 +1721,7 @@ module SonicPi
     end
 
     def doc
-     "A slow rolling bass with a sparkle of light trying to escape the darkness. Great for an ambient sound."
+      "A slow rolling bass with a sparkle of light trying to escape the darkness. Great for an ambient sound."
     end
 
     def arg_defaults
@@ -1579,13 +1775,13 @@ module SonicPi
     def specific_arg_info
       {
         :ring => {
-          :doc => "Amount of ring in the sound. Lower values create a more rough sound, higher values produce a sound with more focus",
+          :doc => "Amount of ring in the sound. Lower values create a more rough sound, higher values produce a sound with more focus.",
           :validations => [v_between_inclusive(:ring, 0.1, 50)],
           :modulatable => true
         },
         :room =>
         {
-          :doc => "Room size in squared meters used to calculate the reverb.",
+          :doc => "Room size in squared metres used to calculate the reverb.",
           :validations => [v_greater_than_oet(:room, 0.1), v_less_than_oet(:room, 300)],
           :modulatable => false
         },
@@ -1627,32 +1823,32 @@ module SonicPi
     end
 
     def doc
-     "A deep, rolling sea horn echoing across the empty water."
+      "A deep, rolling sea horn echoing across the empty water."
     end
 
     def arg_defaults
       {:note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :attack => 1,
-       :decay => 0,
-       :sustain => 0,
-       :release => 4.0,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :attack => 1,
+        :decay => 0,
+        :sustain => 0,
+        :release => 4.0,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2
       }
     end
   end
@@ -1671,7 +1867,7 @@ module SonicPi
     end
 
     def doc
-     "Simulating the sound of a vibrato human singer.
+      "Simulating the sound of a vibrato human singer.
 
      #Bass
      singer note: :G2
@@ -1688,27 +1884,27 @@ module SonicPi
 
     def arg_defaults
       {:note => 52,
-       :note_slide => 0,
-       :note_slide_shape => 5,
-       :note_slide_curve => 0,
+        :note_slide => 0,
+        :note_slide_shape => 5,
+        :note_slide_curve => 0,
 
-       :amp => 1,
-       :amp_slide => 0,
-       :amp_slide_shape => 5,
-       :amp_slide_curve => 0,
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
 
-       :pan => 0,
-       :pan_slide => 0,
-       :pan_slide_shape => 5,
-       :pan_slide_curve => 0,
+        :pan => 0,
+        :pan_slide => 0,
+        :pan_slide_shape => 5,
+        :pan_slide_curve => 0,
 
-       :attack => 1,
-       :decay => 0,
-       :sustain => 0,
-       :release => 4.0,
-       :attack_level => 1,
-       :sustain_level => 1,
-       :env_curve => 2
+        :attack => 1,
+        :decay => 0,
+        :sustain => 0,
+        :release => 4.0,
+        :attack_level => 1,
+        :sustain_level => 1,
+        :env_curve => 2
       }
     end
 
@@ -1740,7 +1936,7 @@ module SonicPi
     end
 
     def doc
-     "A hollow breathy sound constructed from random noise"
+      "A hollow breathy sound constructed from random noise"
     end
 
     def arg_defaults
@@ -1796,7 +1992,7 @@ module SonicPi
         :res =>
         {
           :doc => "Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
-          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
+          :validations => [v_positive(:res), v_less_than(:res, 1)],
           :modulatable => true
         },
 
@@ -1824,7 +2020,7 @@ module SonicPi
     end
 
     def doc
-     "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths). "
+      "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths). "
     end
 
     def arg_defaults
@@ -1967,7 +2163,7 @@ module SonicPi
 
     def doc
       "Dark and swirly, this synth uses Pulse Width Modulation (PWM) to create a timbre which continually moves around. This effect is created using the pulse ugen which produces a variable width square wave. We then control the width of the pulses using a variety of LFOs - sin-osc and lf-tri in this case. We use a number of these LFO modulated pulse ugens with varying LFO type and rate (and phase in some cases to provide the LFO with a different starting point. We then mix all these pulses together to create a thick sound and then feed it through a resonant low pass filter (rlpf). For extra bass, one of the pulses is an octave lower (half the frequency) and its LFO has a little bit of randomisation thrown into its frequency component for that extra bit of variety."
-end
+    end
 
     def arg_defaults
       {
@@ -2005,8 +2201,8 @@ end
 
   end
 
- class Pitchless < SonicPiSynth
- end
+  class Pitchless < SonicPiSynth
+  end
 
   class Noise < Pitchless
     def name
@@ -2293,6 +2489,13 @@ end
           :modulatable => false
         },
 
+        :decay =>
+        {
+          :doc => "Duration of the decay phase of the envelope.",
+          :validations => [v_positive(:decay)],
+          :modulatable => false
+        },
+
         :sustain =>
         {
           :doc => "Duration of the sustain phase of the envelope.",
@@ -2337,8 +2540,8 @@ end
 
         :res =>
         {
-          :doc => "Filter resonance as a value betwee 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
-          :validations => [v_positive(:res), v_less_than_oet(:res, 1)],
+          :doc => "Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
+          :validations => [v_positive(:res), v_less_than(:res, 1)],
           :modulatable => true
         }
 
@@ -2826,12 +3029,68 @@ end
         :pulse_width_slide_curve => 0,
         :phase_offset => 0,
         :wave => 1,
-        :invert_wave => 0
+        :invert_wave => 0,
+        :probability => 0,
+        :probability_slide => 0,
+        :probability_slide_shape => 5,
+        :probability_slide_curve => 0,
+        :prob_pos => 0,
+        :prob_pos_slide => 0,
+        :prob_pos_slide_shape => 5,
+        :prob_pos_slide_curve => 0,
+        :seed => 0,
+        :smooth => 0,
+        :smooth_up => 0,
+        :smooth_down => 0
+
       }
     end
 
     def specific_arg_info
       {
+        :smooth =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next. Allows you to round off harsh edges in the slicer wave which may cause clicks.",
+          :validations => [v_positive(:smooth)],
+          :modulatable => true
+        },
+
+        :smooth_up =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going up. This smoothing happens before the main smooth mechanism.",
+          :validations => [v_positive(:smooth_up)],
+          :modulatable => true
+        },
+
+        :smooth_down =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going down. This smoothing happens before the main smooth mechanism.",
+          :validations => [v_positive(:smooth_down)],
+          :modulatable => true
+        },
+
+        :probability =>
+        {
+          :doc => "Probability (as a value between 0 and 1) that a given slice will be replaced by the value of the  prob_pos opt (which defaults to 0, i.e. silence)",
+          :validations => [v_between_inclusive(:probability, 0, 1)],
+          :modulatable => true
+        },
+
+        :prob_pos =>
+        {
+          :doc => "Position of the slicer that will be jumped to when the probability test passes as a value between 0 and 1",
+          :validations => [v_between_inclusive(:prob_pos, 0, 1)],
+          :modulatable => true
+        },
+
+        :seed =>
+        {
+          :doc => "Seed value for rand num generator used for probability test",
+          :validations => [v_positive(:seed)],
+          :modulatable => false
+        },
+
+
         :phase =>
         {
           :doc => "The phase duration (in beats) of the slices",
@@ -2987,12 +3246,74 @@ end
         :pulse_width_slide => 0,
         :pulse_width_slide_shape => 5,
         :pulse_width_slide_curve => 0,
-        :filter => 0
+        :filter => 0,
+        :probability => 0,
+        :probability_slide => 0,
+        :probability_slide_shape => 5,
+        :probability_slide_curve => 0,
+        :prob_pos => 0,
+        :prob_pos_slide => 0,
+        :prob_pos_slide_shape => 5,
+        :prob_pos_slide_curve => 0,
+        :seed => 0,
+        :smooth => 0,
+        :smooth_up => 0,
+        :smooth_down => 0
+
       }
     end
 
     def specific_arg_info
       {
+        :invert_wave =>
+        {
+          :doc => "Invert control waveform (i.e. flip it on the y axis). 0=uninverted wave, 1=inverted wave.",
+          :validations => [v_one_of(:invert_wave, [0, 1])],
+          :modulatable => true
+        },
+
+        :smooth =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next. Allows you to round off harsh edges in the slicer wave which may cause clicks.",
+          :validations => [v_positive(:smooth)],
+          :modulatable => true
+        },
+
+        :smooth_up =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going up. This smoothing happens before the main smooth mechanism.",
+          :validations => [v_positive(:smooth_up)],
+          :modulatable => true
+        },
+
+        :smooth_down =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going down. This smoothing happens before the main smooth mechanism.",
+          :validations => [v_positive(:smooth_down)],
+          :modulatable => true
+        },
+
+        :probability =>
+        {
+          :doc => "Probability (as a value between 0 and 1) that a given wobble will be replaced by the value of the  prob_pos opt (which defaults to 0, i.e. min_cutoff)",
+          :validations => [v_between_inclusive(:probability, 0, 1)],
+          :modulatable => true
+        },
+
+        :prob_pos =>
+        {
+          :doc => "Position of the wobble that will be jumped to when the probability test passes as a value between 0 and 1",
+          :validations => [v_between_inclusive(:prob_pos, 0, 1)],
+          :modulatable => true
+        },
+
+        :seed =>
+        {
+          :doc => "Seed value for rand num generator used for probability test",
+          :validations => [v_positive(:seed)],
+          :modulatable => false
+        },
+
 
         :cutoff_min =>
         {
@@ -3136,7 +3457,7 @@ end
         },
 
         :phase_offset =>
-           {
+        {
           :doc => "Initial modulation phase offset (a value between 0 and 1).",
           :validations => [v_between_inclusive(:phase_offset, 0, 1)],
           :modulatable => false
@@ -3301,7 +3622,7 @@ end
 
         :relax_time =>
         {
-          :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artifacts. Also known as the time of the release phase.",
+          :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase.",
           :validations => [v_positive(:clamp_time)],
           :modulatable => true
         },
@@ -3623,11 +3944,11 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
 
     def arg_defaults
       super.merge({
-        :res => 0.5,
-        :res_slide => 0,
-        :res_slide_shape => 5,
-        :res_slide_curve => 0
-      })
+                    :res => 0.5,
+                    :res_slide => 0,
+                    :res_slide_shape => 5,
+                    :res_slide_curve => 0
+                  })
     end
 
     def doc
@@ -3635,7 +3956,7 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
   end
 
-    class FXNBPF < FXBPF
+  class FXNBPF < FXBPF
     def name
       "Normalised Band Pass Filter"
     end
@@ -3649,7 +3970,7 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
 
     def doc
-      "Like the Band Pass Filter but normalized. The normalizer is useful here as some volume is lost when filtering the original signal."
+      "Like the Band Pass Filter but normalised. The normaliser is useful here as some volume is lost when filtering the original signal."
     end
   end
 
@@ -3669,9 +3990,9 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
 
     def doc
-      "Like the Band Pass Filter but normalized, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument.
+      "Like the Band Pass Filter but normalised, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument.
 
-The normalizer is useful here as some volume is lost when filtering the original signal."
+The normaliser is useful here as some volume is lost when filtering the original signal."
     end
   end
 
@@ -3806,7 +4127,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       "fx_nrhpf"
     end
 
-      "A resonant high pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard high pass filter and then normalised to ensure the amplitude of the final output is constant. A high pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for hpf."
+    "A resonant high pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard high pass filter and then normalised to ensure the amplitude of the final output is constant. A high pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for hpf."
   end
 
   class FXLPF < FXInfo
@@ -4130,7 +4451,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           :bpm_scale => true
         }
       }
-      end
+    end
   end
 
 
@@ -4174,7 +4495,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
     end
   end
 
-    class FXFlanger < FXInfo
+  class FXFlanger < FXInfo
     def name
       "Flanger"
     end
@@ -4308,7 +4629,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         }
 
       }
-      end
+    end
   end
 
   class BaseInfo
@@ -4381,7 +4702,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :desc => "Miscellaneous Sounds",
         :prefix => "misc_",
         :samples => [
-          :misc_burp]},
+          :misc_burp,
+          :misc_rand_noise]},
 
       :perc => {
         :desc => "Percussive Sounds",
@@ -4465,6 +4787,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :sine => Beep.new,
       :saw => Saw.new,
       :pulse => Pulse.new,
+      :subpulse => SubPulse.new,
       :square => Square.new,
       :tri => Tri.new,
       :dsaw => DSaw.new,
@@ -4484,10 +4807,12 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :dark_ambience => DarkAmbience.new,
       :growl => Growl.new,
       :hollow => Hollow.new,
-#      :dark_sea_horn => DarkSeaHorn.new,
-#      :singer        => Singer.new,
+      #      :dark_sea_horn => DarkSeaHorn.new,
+      #      :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
+      :synth_violin => SynthViolin.new,
+      :piano => SynthPiano.new,
 
       :sound_in => SoundIn.new,
       :noise => Noise.new,
@@ -4586,9 +4911,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         next if (klass == FXInfo) && (k.to_s.include? 'replace_')
 
         next if v.is_a? StudioInfo
-        doc = ""
-
-        doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+        doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+        doc << "<body class=\"manual\">\n"
         doc << "<h1>" << v.name << "</h1>\n\n"
 
         doc << "<p><table class=\"arguments\"><tr>\n"
@@ -4618,7 +4942,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
 
         doc << "<p class=\"introduced\">"
         doc << "Introduced in " << v.introduced.to_s << "</p>\n\n"
-        
+
         doc << "<h2>Parameters</h2>\n"
 
         doc << "<p><table class=\"details\">\n"
@@ -4659,7 +4983,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
 
           # table for slide parameters
           doc << "<p><table class=\"details\">\n"
-  
+
           cnt = 0
           slide_args.each do |ak, av|
             td_class = cnt.even? ? "even" : "odd"
@@ -4676,7 +5000,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           end
           doc << "</table></p>\n"
         end # any_slidable
-        
+
         doc << "</body>\n"
 
         res["#{safe_k}"] = doc
@@ -4737,10 +5061,10 @@ The window_size is the length of the slices and is measured in seconds. It needs
       res = {}
 
       grouped_samples.each do |k, v|
-      cnt = 0
         cnt = 0
-        doc = ""
-        doc << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+        cnt = 0
+        doc = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+        doc << "<body class=\"manual\">\n\n"
         doc << "<h1>" << v[:desc] << "</h1>\n"
         doc << "<p><table class=\"arguments\"><tr>\n"
         StereoPlayer.new.arg_info.each do |ak, av|
@@ -4758,7 +5082,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           doc << "sample <span class=\"symbol\">:#{s}</span>\n"
         end
         doc << "</pre></code></p>\n"
-        
+
         doc << "<p><table class=\"details\">\n"
 
         cnt = 0

@@ -1,0 +1,199 @@
+body {
+  font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Liberation Sans;
+  font-size: large;
+  color: #5e5e5e;
+  background-color: white;
+}
+
+ul.toc {
+  list-style-type: none;
+}
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+em {
+  color: darkorange;
+}
+
+.highlight {
+    color: deeppink;
+}
+
+.error_description {
+    background-color: deeppink;
+    color: white;
+}
+
+.syntax_error_description {
+    background-color: dodgerblue;
+    color: white;
+}
+
+
+.backtrace {
+    font-size: small;
+    color: #5e5e5e;
+}
+
+.error_line {
+    font-size: large;
+    color: #5e5e5e;
+}
+
+.error_msg {
+    font-size: large;
+    color: deeppink;
+}
+
+pre {
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+code {
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+    color: deeppink;
+}
+
+code .symbol {
+  color: deeppink;
+}
+
+code .number {
+  color: dodgerblue;
+}
+
+code .keyword {
+  color: darkorange;
+}
+
+code .info {
+  color: gray;
+}
+
+.version {
+  font-size: medium;
+}
+
+.strapline {
+  font-size: xx-large;
+}
+
+.usage {
+    /* placeholder */
+}
+
+.usage code {
+  font-size: large;
+  color: black;
+  background-color: white;
+}
+
+h1 {
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: deeppink;
+}
+
+h2 {
+  font-size: x-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: dodgerblue;
+}
+
+body.info {
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+body.info a {
+  color: deeppink;
+}
+
+body.example code {
+  font-size: large;
+  color: dodgerblue;
+}
+
+body.manual .introduced {
+  color: darkorange;
+  font-size: medium;
+}
+
+body.manual table.arguments td {
+    font-size: medium;
+    padding: 2px;
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+body.manual table.arguments td.odd,
+body.manual table.arguments td.odd a {
+  background-color: #e8e8e8;
+  color: #5e5e5e;
+}
+
+body.manual table.arguments td.even,
+body.manual table.arguments td.even a {
+  background-color: #5e5e5e;
+  color: white;
+}
+
+body.manual table.details td {
+  padding: 8px;
+}
+
+body.manual table.details td.key {
+    font-family: "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+  font-size: large;
+}
+
+body.manual table.details td.odd {
+  background-color: #f8f8f8;
+}
+
+body.manual table.details td.even {
+  background-color: #e8e8e8;
+}
+
+body.manual table.details td.odd.key {
+  background-color: #74acff;
+}
+
+body.manual table.details td.even.key {
+  background-color: #b2d1ff;
+}
+
+body.manual table.details .properties {
+  font-size: medium;
+  font-style: italic;
+}
+
+body.manual table.examples td {
+  padding: 8px;
+}
+
+body.manual table.examples code {
+  color: #5e5e5e;
+  font-size: medium;
+}
+
+body.manual table.examples td.odd {
+  background-color: #f8f8f8;
+}
+
+body.manual table.examples td.even {
+  background-color: #e8e8e8;
+}
+
+body.manual table.examples td.odd.head {
+  background-color: #74acff;
+}
+
+body.manual table.examples td.even.head {
+  background-color: #b2d1ff;
+}

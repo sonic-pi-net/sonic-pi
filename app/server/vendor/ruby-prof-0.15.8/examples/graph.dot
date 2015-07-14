@@ -1,0 +1,84 @@
+digraph "Profile" {
+labelloc=t;
+labeljust=l;
+subgraph "Thread 70140045951280" {
+70140046535720 [label="setup\n(100%)"];
+70140046535720 -> 70140046535660 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046535660 [label="run_primes\n(100%)"];
+70140046535660 -> 70140046534940 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046535660 -> 70140046535640 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046535660 -> 70140046534640 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046534940 [label="find_primes\n(93%)"];
+70140046534940 -> 70140046534920 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046534920 [label="select\n(93%)"];
+70140046534920 -> 70140046534840 [label="200/200" fontsize=10 fontcolor="#666666"];
+70140046534840 [label="is_prime\n(90%)"];
+70140046534840 -> 70140046534820 [label="200/201" fontsize=10 fontcolor="#666666"];
+70140046534820 [label="upto\n(87%)"];
+70140046535640 [label="make_random_array\n(7%)"];
+70140046535640 -> 70140046535500 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046535640 -> 70140046535600 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046535500 [label="each_index\n(6%)"];
+70140046535500 -> 70140046535140 [label="200/200" fontsize=10 fontcolor="#666666"];
+70140046535140 [label="rand\n(4%)"];
+70140046535140 -> 70140046535100 [label="200/200" fontsize=10 fontcolor="#666666"];
+70140046535100 [label="respond_to_missing?\n(1%)"];
+70140046534640 [label="find_largest\n(1%)"];
+70140046534640 -> 70140046534820 [label="1/201" fontsize=10 fontcolor="#666666"];
+70140046534640 -> 70140046534620 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046535600 [label="new\n(0%)"];
+70140046535600 -> 70140046535580 [label="1/1" fontsize=10 fontcolor="#666666"];
+70140046535580 [label="initialize\n(0%)"];
+70140046534620 [label="first\n(0%)"];
+}
+subgraph cluster_70140046962360 {
+label = "PrintersTest";
+fontcolor = "#666666";
+fontsize = 16;
+color = "#666666";
+70140046535720;
+}
+subgraph cluster_70140046962240 {
+label = "Object";
+fontcolor = "#666666";
+fontsize = 16;
+color = "#666666";
+70140046535660;
+70140046535640;
+70140046534940;
+70140046534840;
+70140046534640;
+}
+subgraph cluster_70140046962040 {
+label = "Class";
+fontcolor = "#666666";
+fontsize = 16;
+color = "#666666";
+70140046535600;
+}
+subgraph cluster_70140046961920 {
+label = "Array";
+fontcolor = "#666666";
+fontsize = 16;
+color = "#666666";
+70140046535580;
+70140046535500;
+70140046534920;
+70140046534620;
+}
+subgraph cluster_70140046961720 {
+label = "Kernel";
+fontcolor = "#666666";
+fontsize = 16;
+color = "#666666";
+70140046535140;
+70140046535100;
+}
+subgraph cluster_70140046961280 {
+label = "Integer";
+fontcolor = "#666666";
+fontsize = 16;
+color = "#666666";
+70140046534820;
+}
+}

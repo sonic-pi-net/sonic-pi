@@ -1,0 +1,547 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>ruby-prof call tree</title>
+<style type="text/css">
+<!--
+  body {
+    font-size:70%;
+    padding:0;
+    margin:5px;
+    margin-right:0px;
+    margin-left:0px;
+    background: #ffffff;
+  }
+  ul {
+    margin-left:0px;
+    margin-top:0px;
+    margin-bottom:0px;
+    padding-left:0px;
+    list-style-type:none;
+  }
+  li {
+    margin-left:11px;
+    padding:0px;
+    white-space:nowrap;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+  }
+  .thread {
+    margin-left:11px;
+    background:#708090;
+    padding-top:3px;
+    padding-left:12px;
+    padding-bottom:2px;
+    border-left:1px solid #CCCCCC;
+    border-top:1px solid #CCCCCC;
+    font-weight:bold;
+  }
+  .hidden {
+    display:none;
+    width:0px;
+    height:0px;
+    margin:0px;
+    padding:0px;
+    border-style:none;
+  }
+  .color01 { background:#adbdeb }
+  .color05 { background:#9daddb }
+  .color0 { background:#8d9dcb }
+  .color1 { background:#89bccb }
+  .color2 { background:#56e3e7 }
+  .color3 { background:#32cd70 }
+  .color4 { background:#a3d53c }
+  .color5 { background:#c4cb34 }
+  .color6 { background:#dcb66d }
+  .color7 { background:#cda59e }
+  .color8 { background:#be9d9c }
+  .color9 { background:#cf947a }
+  #commands {
+    font-size:10pt;
+    padding:10px;
+    margin-left:11px;
+    margin-bottom:0px;
+    margin-top:0px;
+    background:#708090;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+  }
+  #titlebar {
+    font-size:10pt;
+    padding:10px;
+    margin-left:11px;
+    margin-bottom:0px;
+    margin-top:10px;
+    background:#8090a0;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+  }
+  #help {
+    font-size:10pt;
+    padding:10px;
+    margin-left:11px;
+    margin-bottom:0px;
+    margin-top:0px;
+    background:#8090a0;
+    display:none;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+  }
+  #sentinel {
+    height: 400px;
+    margin-left:11px;
+    background:#8090a0;
+    border-top:1px solid #cccccc;
+    border-left:1px solid #cccccc;
+    border-bottom:none;
+  }
+  input { margin-left:10px; }
+
+  .toggle {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAJCAMAAAD0FKf3AAAAA3NCSVQICAjb4U/gAAAAb1BMVEX///98jcR8jMV4jMB7jcR7jcR8jcT////7/f/3/P/0+vzx+v7s9vzq9Pzm8Prk7vzi7fnj5/Pc5vTb5vbg5PHW4fHV3/XS3fLM1+3K1e/G0e3EzuzCzey8x+m8xuystuSqtt98jsR8jcR7jcQAAADWswcWAAAAJXRSTlMAVVVV3e7u////////////////////////////////////////Vv4VOQAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAACVSURBVAiZPc/hDoIwDATgobCWgZsWgSGidOz9n9F1CPfrki+5tIqPXHSQVMVZFH8/sx/Is16X9zR2vtQPAMC6LxVnco5Dpvtt40QRGrspnueBqDUcdmrEMILtknkiQkQOU5RAsn9RPGRKNkLOxiibIEauNSYZy2CNyerGRngtsilkiLXP9Cx1bzuAZU13Himq/a3rWX4VVRPEuDWiLQAAAABJRU5ErkJggg==) no-repeat left center;
+    float:left;
+    width:9px;
+    height:9px;
+    margin:2px 1px 1px 1px;
+  }
+
+  .toggle.minus {
+    background-position: -9px 0;
+  }
+
+  .toggle.plus {
+    background-position: -18px 0;
+  }
+
+-->
+</style>
+<script type="text/javascript">
+  /*
+   Copyright (C) 2005,2009  Stefan Kaes
+   skaes@railsexpress.de
+   */
+
+  function rootNode() {
+    return currentThread;
+  }
+
+  function showUL(node, show) {
+    var lis = node.childNodes;
+    var l = lis.length;
+    for (var i=0; i < l ; i++ ) {
+      toggle(lis[i], show);
+    }
+  }
+
+  function findUlChild(li){
+    var ul = li.childNodes[2];
+    while (ul && ul.nodeName != "UL") {
+      ul = ul.nextSibling;
+    }
+    return ul;
+  }
+
+  function isLeafNode(li) {
+    var img = li.firstChild;
+    return (img.className.indexOf('empty') > -1);
+  }
+
+  function toggle(li, show) {
+    if (isLeafNode(li))
+      return;
+
+    var img = li.firstChild;
+    img.className = 'toggle ';
+    img.className += show ? 'minus' : 'plus';
+
+    var ul = findUlChild(li);
+    if (ul) {
+      ul.style.display = show ? 'block' : 'none';
+      showUL(ul, true);
+    }
+  }
+
+  function toggleLI(li) {
+    var img = li.firstChild;
+    if (img.className.indexOf("minus")>-1)
+      toggle(li, false);
+    else {
+      if (img.className.indexOf("plus")>-1)
+        toggle(li, true);
+    }
+  }
+
+  function aboveThreshold(text, threshold) {
+    var match = text.match(/\d+[.,]\d+/);
+    return (match && parseFloat(match[0].replace(/,/, '.'))>=threshold);
+  }
+
+  function setThresholdLI(li, threshold) {
+    var img = li.firstChild;
+    var text = img.nextSibling;
+    var ul = findUlChild(li);
+
+    var visible = aboveThreshold(text.nodeValue, threshold) ? 1 : 0;
+
+    var count = 0;
+    if (ul) {
+      count = setThresholdUL(ul, threshold);
+    }
+    if (count>0) {
+      img.className = 'toggle minus';
+    }
+    else {
+      img.className = 'toggle empty';
+    }
+    if (visible) {
+      li.style.display = 'block'
+    }
+    else {
+      li.style.display = 'none'
+    }
+    return visible;
+  }
+
+  function setThresholdUL(node, threshold) {
+    var lis = node.childNodes;
+    var l = lis.length;
+
+    var count = 0;
+    for ( var i = 0; i < l ; i++ ) {
+      count = count + setThresholdLI(lis[i], threshold);
+    }
+
+    var visible = (count > 0) ? 1 : 0;
+    if (visible) {
+      node.style.display = 'block';
+    }
+    else {
+      node.style.display = 'none';
+    }
+    return visible;
+  }
+
+  function toggleChildren(img, event) {
+    event.cancelBubble=true;
+    if (img.className.indexOf('empty') > -1)
+      return;
+
+    var minus = (img.className.indexOf('minus') > -1);
+
+    if (minus) {
+      img.className = 'toggle plus';
+    }
+    else
+      img.className = 'toggle minus';
+
+    var li = img.parentNode;
+    var ul = findUlChild(li);
+    if (ul) {
+      if (minus)
+        ul.style.display = 'none';
+      else
+        ul.style.display = 'block';
+    }
+    if (minus)
+      moveSelectionIfNecessary(li);
+  }
+
+  function showChildren(li) {
+    var img = li.firstChild;
+    if (img.className.indexOf('empty') > -1)
+      return;
+    img.className = 'toggle minus';
+
+    var ul = findUlChild(li);
+    if (ul) {
+      ul.style.display = 'block';
+    }
+  }
+
+  function setThreshold() {
+    var tv = document.getElementById("threshold").value;
+    if (tv.match(/[0-9]+([.,][0-9]+)?/)) {
+      var f = parseFloat(tv.replace(/,/, '.'));
+      var threads = document.getElementsByName("thread");
+      var l = threads.length;
+      for ( var i = 0; i < l ; i++ ) {
+        setThresholdUL(threads[i], f);
+      }
+      var p = selectedNode;
+      while (p && p.style.display=='none')
+        p=p.parentNode.parentNode;
+      if (p && p.nodeName=="LI")
+        selectNode(p);
+    }
+    else {
+      alert("Please specify a decimal number as threshold value!");
+    }
+  }
+
+  function expandAll(event) {
+    toggleAll(event, true);
+  }
+
+  function collapseAll(event) {
+    toggleAll(event, false);
+    selectNode(rootNode(), null);
+  }
+
+  function toggleAll(event, show) {
+    event.cancelBubble=true;
+    var threads = document.getElementsByName("thread");
+    var l = threads.length;
+    for ( var i = 0; i < l ; i++ ) {
+      showUL(threads[i], show);
+    }
+  }
+
+  function toggleHelp(node) {
+    var help = document.getElementById("help");
+    if (node.value == "Show Help") {
+      node.value = "Hide Help";
+      help.style.display = 'block';
+    }
+    else {
+      node.value = "Show Help";
+      help.style.display = 'none';
+    }
+  }
+
+  var selectedNode = null;
+  var selectedColor = null;
+  var selectedThread = null;
+
+  function descendentOf(a,b){
+    while (a!=b && b!=null)
+      b=b.parentNode;
+    return (a==b);
+  }
+
+  function moveSelectionIfNecessary(node){
+    if (descendentOf(node, selectedNode))
+      selectNode(node, null);
+  }
+
+  function selectNode(node, event) {
+    if (event) {
+      event.cancelBubble = true;
+      thread = findThread(node);
+      selectThread(thread);
+    }
+    if (selectedNode) {
+      selectedNode.style.background = selectedColor;
+    }
+    selectedNode = node;
+    selectedColor = node.style.background;
+    selectedNode.style.background = "red";
+    selectedNode.scrollIntoView();
+    window.scrollBy(0,-400);
+  }
+
+  function moveUp(){
+    move(selectedNode.previousSibling);
+  }
+
+  function moveDown(){
+    move(selectedNode.nextSibling);
+  }
+
+  function move(p) {
+    while (p && p.style.display == 'none')
+      p = p.nextSibling;
+    if (p && p.nodeName == "LI") {
+      selectNode(p, null);
+    }
+  }
+
+  function moveLeft(){
+    var p = selectedNode.parentNode.parentNode;
+    if (p && p.nodeName=="LI") {
+      selectNode(p, null);
+    }
+  }
+
+  function moveRight(){
+    if (!isLeafNode(selectedNode)) {
+      showChildren(selectedNode);
+      var ul = findUlChild(selectedNode);
+      if (ul) {
+        selectNode(ul.firstChild, null);
+      }
+    }
+  }
+
+  function moveForward(){
+    if (isLeafNode(selectedNode)) {
+      var p = selectedNode;
+      while ((p.nextSibling == null || p.nextSibling.style.display=='none') && p.nodeName=="LI") {
+        p = p.parentNode.parentNode;
+      }
+      if (p.nodeName=="LI")
+        selectNode(p.nextSibling, null);
+    }
+    else {
+      moveRight();
+    }
+  }
+
+  function isExpandedNode(li){
+    var img = li.firstChild;
+    return(img.className.indexOf('minus')>-1);
+  }
+
+  function moveBackward(){
+    var p = selectedNode;
+    var q = p.previousSibling;
+    while (q != null && q.style.display=='none')
+      q = q.previousSibling;
+    if (q == null) {
+      p = p.parentNode.parentNode;
+    } else {
+      while (!isLeafNode(q) && isExpandedNode(q)) {
+        q = findUlChild(q).lastChild;
+        while (q.style.display=='none')
+          q = q.previousSibling;
+      }
+      p = q;
+    }
+    if (p.nodeName=="LI")
+      selectNode(p, null);
+  }
+
+  function moveHome() {
+    selectNode(currentThread);
+  }
+
+  var currentThreadIndex = null;
+
+  function findThread(node){
+    while (node && !node.parentNode.nodeName.match(/BODY|DIV/g)) {
+      node = node.parentNode;
+    }
+    return node.firstChild;
+  }
+
+  function selectThread(node){
+    var threads = document.getElementsByName("thread");
+    currentThread = node;
+    for (var i=0; i<threads.length; i++) {
+      if (threads[i]==currentThread.parentNode)
+        currentThreadIndex = i;
+    }
+  }
+
+  function nextThread(){
+    var threads = document.getElementsByName("thread");
+    if (currentThreadIndex==threads.length-1)
+      currentThreadIndex = 0;
+    else
+      currentThreadIndex += 1
+    currentThread = threads[currentThreadIndex].firstChild;
+    selectNode(currentThread, null);
+  }
+
+  function previousThread(){
+    var threads = document.getElementsByName("thread");
+    if (currentThreadIndex==0)
+      currentThreadIndex = threads.length-1;
+    else
+      currentThreadIndex -= 1
+    currentThread = threads[currentThreadIndex].firstChild;
+    selectNode(currentThread, null);
+  }
+
+  function switchThread(node, event){
+    event.cancelBubble = true;
+    selectThread(node.nextSibling.firstChild);
+    selectNode(currentThread, null);
+  }
+
+  function handleKeyEvent(event){
+    var code = event.charCode ? event.charCode : event.keyCode;
+    var str = String.fromCharCode(code);
+    switch (str) {
+      case "a": moveLeft();  break;
+      case "s": moveDown();  break;
+      case "d": moveRight(); break;
+      case "w": moveUp();    break;
+      case "f": moveForward(); break;
+      case "b": moveBackward(); break;
+      case "x": toggleChildren(selectedNode.firstChild, event); break;
+      case "*": toggleLI(selectedNode); break;
+      case "n": nextThread(); break;
+      case "h": moveHome(); break;
+      case "p": previousThread(); break;
+    }
+  }
+  document.onkeypress=function(event){ handleKeyEvent(event) };
+
+  window.onload=function(){
+    var images = document.querySelectorAll(".toggle");
+    for (var i=0; i<images.length; i++) {
+      var img = images[i];
+        img.onclick = function(event){ toggleChildren(this, event); return false; };
+    }
+    var divs = document.getElementsByTagName("div");
+    for (i=0; i<divs.length; i++) {
+      var div = divs[i];
+      if (div.className == "thread")
+        div.onclick = function(event){ switchThread(this, event) };
+    }
+    var lis = document.getElementsByTagName("li");
+    for (var i=0; i<lis.length; i++) {
+      lis[i].onclick = function(event){ selectNode(this, event); };
+    }
+    var threads = document.getElementsByName("thread");;
+    currentThreadIndex = 0;
+    currentThread = threads[0].firstChild;
+    selectNode(currentThread, null);
+  };
+
+</script>
+</head><body><div style="display: inline-block;">
+<div id="titlebar">
+Call tree for application <b>primes </b><br/>
+Generated on 2015-04-24 11:52:24 +0200 with options {:application=&gt;&quot;primes&quot;}<br/>
+</div>
+<div id="commands">
+<span style="font-size: 11pt; font-weight: bold;">Threshold:</span>
+<input value="1.0" size="3" id="threshold" type="text">
+<input value="Apply" onclick="setThreshold();" type="submit">
+<input value="Expand All" onclick="expandAll(event);" type="submit">
+<input value="Collapse All" onclick="collapseAll(event);" type="submit">
+<input value="Show Help" onclick="toggleHelp(this);" type="submit">
+</div>
+<div style="display: none;" id="help">
+&#8226; Enter a decimal value <i>d</i> into the threshold field and click "Apply"
+        to hide all nodes marked with time values lower than <i>d</i>.<br>
+&#8226; Click on "Expand All" for full tree expansion.<br>
+&#8226; Click on "Collapse All" to show only top level nodes.<br>
+&#8226; Use a, s, d, w as in Quake or Urban Terror to navigate the tree.<br>
+&#8226; Use f and b to navigate the tree in preorder forward and backwards.<br>
+&#8226; Use x to toggle visibility of a subtree.<br>
+&#8226; Use * to expand/collapse a whole subtree.<br>
+&#8226; Use h to navigate to thread root.<br>
+&#8226; Use n and p to navigate between threads.<br>
+&#8226; Click on background to move focus to a subtree.<br>
+</div>
+<div class="thread">Thread: 70140045951280, Fiber: 70140054192180 (100.00% ~ 0.0029680728912353516)</div><ul name="thread"><li class="color9" style="display:block"><a href="#" class="toggle minus" ></a><span> 100.00% (100.00%) <a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/printers_test.rb&line=14">PrintersTest#setup</a> [1 calls, <a href='multi.graph.html#PrintersTest_setup_70140054192180'>1</a> total]</span>
+<ul><li class="color9" style="display:block"><a href="#" class="toggle minus" ></a><span> 99.82% (99.82%) <a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=45">Object#run_primes</a> [1 calls, <a href='multi.graph.html#Object_run_primes_70140054192180'>1</a> total]</span>
+<ul><li class="color9" style="display:block"><a href="#" class="toggle minus" ></a><span> 92.62% (92.78%) <a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=24">Object#find_primes</a> [1 calls, <a href='multi.graph.html#Object_find_primes_70140054192180'>1</a> total]</span>
+<ul><li class="color9" style="display:block"><a href="#" class="toggle minus" ></a><span> 92.55% (99.93%) Array#select [1 calls, <a href='multi.graph.html#Array_select_70140054192180'>1</a> total]</span>
+<ul><li class="color8" style="display:block"><a href="#" class="toggle minus" ></a><span> 89.73% (96.95%) <a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=16">Object#is_prime</a> [200 calls, <a href='multi.graph.html#Object_is_prime_70140054192180'>200</a> total]</span>
+<ul><li class="color8" style="display:block"><a href="#" class="toggle empty" ></a><span> 86.63% (96.54%) Integer#upto [200 calls, <a href='multi.graph.html#Integer_upto_70140054192180'>201</a> total]</span>
+</li></ul></li></ul></li></ul></li><li class="color05" style="display:block"><a href="#" class="toggle plus" ></a><span> 6.64% (6.65%) <a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=7">Object#make_random_array</a> [1 calls, <a href='multi.graph.html#Object_make_random_array_70140054192180'>1</a> total]</span>
+<ul style="display:none"><li class="color05" style="display:block"><a href="#" class="toggle plus" ></a><span> 6.33% (95.40%) Array#each_index [1 calls, <a href='multi.graph.html#Array_each_index_70140054192180'>1</a> total]</span>
+<ul style="display:none"><li class="color01" style="display:block"><a href="#" class="toggle plus" ></a><span> 3.96% (62.56%) Kernel#rand [200 calls, <a href='multi.graph.html#Kernel_rand_70140054192180'>200</a> total]</span>
+<ul style="display:none"><li class="color01" style="display:block"><a href="#" class="toggle empty" ></a><span> 1.02% (25.76%) Kernel#respond_to_missing? [200 calls, <a href='multi.graph.html#Kernel_respond_to_missing__70140054192180'>200</a> total]</span>
+</li></ul></li></ul></li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.20% (3.03%) Class#new [1 calls, <a href='multi.graph.html#Class_new_70140054192180'>1</a> total]</span>
+<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.06% (32.00%) Array#initialize [1 calls, <a href='multi.graph.html#Array_initialize_70140054192180'>1</a> total]</span>
+</li></ul></li></ul></li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.51% (0.51%) <a href="txmt://open?url=file:///Users/stefan.kaes/src/ruby-prof/test/prime.rb&line=31">Object#find_largest</a> [1 calls, <a href='multi.graph.html#Object_find_largest_70140054192180'>1</a> total]</span>
+<ul style="display:none"><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.37% (73.02%) Integer#upto [1 calls, <a href='multi.graph.html#Integer_upto_70140054192180'>201</a> total]</span>
+</li><li class="color01" style="display:none"><a href="#" class="toggle empty" ></a><span> 0.03% (6.35%) Array#first [1 calls, <a href='multi.graph.html#Array_first_70140054192180'>1</a> total]</span>
+</li></ul></li></ul></li></ul></li></ul><div id="sentinel"></div></div></body></html>

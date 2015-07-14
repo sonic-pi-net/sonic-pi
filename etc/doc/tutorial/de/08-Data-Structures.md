@@ -2,19 +2,19 @@
 
 # Datenstrukturen
 
-Ein sehr hilfreiches Werkzeug im Werkzeugkasten eines Programmierers 
+Ein sehr praktisches Werkzeug im Werkzeugkasten jedes Programmierers 
 sind Datenstrukturen.
 
-Manchmal möchtest Du mehr als eine Sache darstellen oder verwenden. So 
-könnte es beispielsweise nützlich sein, eine Reihe von Noten zu haben, 
-um sie nacheinander abzuspielen. Programmiersprachen bieten 
-Datenstrukturen, um genau das zu ermöglichen.
+Manchmal möchtest Du mehr als eine Sache darstellen oder verwenden. Es 
+könnte beispielsweise nützlich sein, sich eine Reihe von Noten zu
+merken, um sie dann nacheinander abzuspielen. In Programmiersprachen
+sind Datenstrukturen genau für diesen Zweck da.
 
 Es sind viele aufregende und exotische Datenstrukturen für 
 Programmierer verfügbar - und es werden immer noch neue erfunden. Für 
 unsere Zwecke benötigen wir vorerst jedoch nur eine sehr einfache 
-Datenstruktur - die Liste.
+Datenstruktur: Die Liste.
 
-Lass uns das im Detail anschauen. Wir werden uns die Grundform einer 
-Liste anschauen und wie sie verwendet werden kann, um Skalen und 
+Lass uns das gleich im Detail anschauen. Wir werden uns die Grundform
+einer Liste anschauen und wie man sie verwendet, um Skalen und 
 Akkorde abzubilden.

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+command -v wkhtmltopdf >/dev/null 2>&1 || { echo "This script requires wkhtmltopdf, but it's not installed.  Aborting."; exit 1; }
+
+# On Ubuntu, install the binary from http://wkhtmltopdf.org/downloads.html
+# or --enable-internal-links will not work
+
+mkdir pdf 2> /dev/null
+rm pdf/* 2> /dev/null
+
+for F in book/*.html
+do
+
+  PDF=${F/book\//pdf\/}
+  PDF=${PDF/\.html/\.pdf}
+  echo $PDF
+
+  wkhtmltopdf \
+    --enable-internal-links \
+    "$F" \
+    "$PDF"
+
+done

@@ -16,8 +16,8 @@ module SonicPi
     def self.massage!(html)
       # remove unneeded newlines before </pre>
       html.gsub!(/\n(<\/code>)?<\/pre>/, '\1</pre>')
-      # add stylesheet header reference and <body>-tags
-      "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body>\n\n" + html + "\n</body>\n"
+      # add Unicode and body tags
+      "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n<body>\n" + html + "</body>\n"
     end
   end
 end

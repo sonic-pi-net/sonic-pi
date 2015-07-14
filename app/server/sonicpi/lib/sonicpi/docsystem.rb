@@ -52,8 +52,8 @@ module SonicPi
           end
           @@docs.each do |k, v|
             unless(v[:hide])
-              html = ""
-              html << "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"manual\">\n\n"
+              html = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+              html << "<body class=\"manual\">\n"
 
               summary = (v[:summary] || v[:name]).to_s
               summary[0] = summary[0].capitalize
@@ -114,7 +114,7 @@ module SonicPi
                 end
                 html << "</table></p>\n"
               end
-              
+
               html << "</body>\n"
               res[k.to_s] = html
             end
@@ -127,9 +127,9 @@ module SonicPi
           @@docs[args_h[:name]] = args_h
         end
 
-        def ring_fns
+        def vec_fns
           @@docs.values.select do |info|
-            info[:returns] == :ring
+            info[:returns] == :ring || info[:returns] == :vector || info[:returns] == :ramp
           end
         end
       end

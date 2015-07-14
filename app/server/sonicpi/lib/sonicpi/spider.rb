@@ -30,6 +30,7 @@ require_relative "oscval"
 require_relative "version"
 require_relative "config/settings"
 require_relative "preparser"
+
 #require_relative "oscevent"
 #require_relative "stream"
 
@@ -39,7 +40,8 @@ require 'thread'
 require 'fileutils'
 require 'set'
 require 'ruby-beautify'
-
+require 'securerandom'
+require 'active_support/core_ext/integer/inflections'
 
 module SonicPi
   class Stop < StandardError ; end
@@ -48,6 +50,7 @@ module SonicPi
 
     attr_reader :event_queue
     include Util
+    include ActiveSupport
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
       @settings = Config::Settings.new(user_settings_path)
@@ -69,7 +72,7 @@ module SonicPi
       @sync_real_sleep_time = 0.05
       @user_methods = user_methods
       @run_start_time = 0
-
+      @session_id = SecureRandom.uuid
       @snippets = {}
 
       @gitsave = GitSave.new(project_path)
@@ -81,6 +84,10 @@ module SonicPi
           __handle_event event
         end
       end
+      __info "Session #{@session_id}"
+      date = Time.now
+      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}"
+      __info "#{date.hour}:#{date.min}, #{date.zone}"
       __info "#{@version} Ready..."
       __print_version_outdated_info if @version < @server_version
 
@@ -289,7 +296,7 @@ module SonicPi
       else
         m = l.match(/.*:([0-9]+):/)
         if m
-          return m[1]
+          return m[1].to_i
         else
           return -1
         end
@@ -581,7 +588,7 @@ module SonicPi
           num_running_jobs = reg_job(id, Thread.current)
           Thread.current.thread_variable_set :sonic_pi_thread_group, "job-#{id}"
           Thread.current.thread_variable_set :sonic_pi_spider_arg_bpm_scaling, true
-          Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1
+          Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1.0
           Thread.current.thread_variable_set :sonic_pi_spider_job_id, id
           Thread.current.thread_variable_set :sonic_pi_spider_job_info, info
           Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
@@ -607,13 +614,29 @@ module SonicPi
           __no_kill_block do
             __info("Stopping Run #{id}")
           end
+        rescue SyntaxError => e
+          __no_kill_block do
+            _, line, message = *e.message.match(/\A.*:([0-9]+): syntax error[, ]*(.*)/)
+            error_line = ""
+            if line
+              line = line.to_i
+              err_msg = "[Line #{line}] \n #{message}"
+              error_line = code.lines[line + 1] ||  ""
+            else
+              line = -1
+              err_msg = "\n #{e.message}"
+            end
+            @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+            @msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
+            __info("Syntax error in run #{id}. Code ignored.")
+          end
         rescue Exception => e
           __no_kill_block do
             line = __extract_line_of_error(e)
             err_msg = e.message
-            err_msg = "[Line #{line}] #{err_msg}" if line != -1
+            err_msg = "[Line #{line}] \n #{err_msg}" if line != -1
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: id  , jobinfo: info})
+            @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: id  , jobinfo: info, line: line})
 
           end
         end

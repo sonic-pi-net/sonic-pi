@@ -279,9 +279,31 @@
     pulse_width_slide 0
     pulse_width_slide_shape 5
     pulse_width_slide_curve 0
+    smooth 0
+    smooth_slide 0
+    smooth_slide_shape 5
+    smooth_slide_curve 0
+    smooth_up 0
+    smooth_up_slide 0
+    smooth_up_slide_shape 5
+    smooth_up_slide_curve 0
+    smooth_down 0
+    smooth_down_slide 0
+    smooth_down_slide_shape 5
+    smooth_down_slide_curve 0
+    probability 0
+    probability_slide 0
+    probability_slide_shape 5
+    probability_slide_curve 0
+    prob_pos 0
+    prob_pos_slide 0
+    prob_pos_slide_shape 5
+    prob_pos_slide_curve 0
     phase_offset 0
     wave 1         ;;0=saw, 1=pulse, 2=tri, 3=sine
     invert_wave 0  ;;0=normal wave, 1=inverted wave
+    seed 0
+    rand_buf 0
     in_bus 0
     out_bus 0]
    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
@@ -290,26 +312,46 @@
          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
          amp_min             (varlag amp_min amp_min_slide amp_min_slide_curve amp_min_slide_shape)
          amp_max             (varlag amp_max amp_max_slide amp_max_slide_curve amp_max_slide_shape)
+         smooth              (varlag smooth smooth_slide smooth_slide_curve smooth_slide_shape)
+         smooth_up           (varlag smooth_up smooth_up_slide smooth_up_slide_curve smooth_up_slide_shape)
+         smooth_down         (varlag smooth_down smooth_down_slide smooth_down_slide_curve smooth_down_slide_shape)
          rate                (/ 1 phase)
+
+         prob_pos            (clip prob_pos 0 1)
+         probability         (clip probability 0 1)
+         prob_pos            (lin-lin prob_pos 0 1 -1 1)
+         probability         (varlag probability probability_slide probability_slide_curve probability_slide_shape)
+         prob_pos            (varlag prob_pos prob_pos_slide prob_pos_slide_curve prob_pos_slide_shape)
+         use-prob            (> probability 0)
+
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
          double_phase_offset (* 2 phase_offset)
+
+
 
          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed (- 1 probability)
+                                                      (impulse:kr rate))
 
-         slice-amp           (* -1 ctl-wave ctl-wave-mul)
-         slice-amp           (lin-lin slice-amp -1 1 amp_min amp_max)
+
+
+         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+         ctl-wave            (* -1 ctl-wave-mul ctl-wave)
+         ctl-wave            (select:kr use-prob [ctl-wave
+                                                  (select:kr ctl-wave-prob [prob_pos ctl-wave])])
+         slice-amp           (lin-lin ctl-wave -1 1 amp_min amp_max)
+
+         slice-amp           (lag-ud slice-amp smooth_up smooth_down)
+         slice-amp           (lag slice-amp smooth)
          [in-l in-r]         (* pre_amp (in in_bus 2))
          [new-l new-r]       (* slice-amp [in-l in-r])
          fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
-
-
 
 
  (defsynth sonic-pi-fx_wobble
@@ -341,38 +383,84 @@
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
-    phase_offset 0.5
-    wave 0                              ;0=saw, 1=pulse, 2=tri, 3=sin
-    invert_wave 0                       ;0=normal wave, 1=inverted wave
     pulse_width 0.5                     ; only for pulse wave
     pulse_width_slide 0                 ; only for pulse wave
     pulse_width_slide_shape 5           ; only for pulse wa_shape 5
     pulse_width_slide_curve 0           ; only for pulse wa_curve 0
     filter 0                            ;0=rlpf, 1=rhpf
+    smooth 0
+    smooth_slide 0
+    smooth_slide_shape 5
+    smooth_slide_curve 0
+    smooth_up 0
+    smooth_up_slide 0
+    smooth_up_slide_shape 5
+    smooth_up_slide_curve 0
+    smooth_down 0
+    smooth_down_slide 0
+    smooth_down_slide_shape 5
+    smooth_down_slide_curve 0
+    phase_offset 0
+    wave 0                              ;0=saw, 1=pulse, 2=tri, 3=sine
+    invert_wave 0                       ;0=normal wave, 1=inverted wave
+    probability 0
+    probability_slide 0
+    probability_slide_shape 5
+    probability_slide_curve 0
+    prob_pos 0
+    prob_pos_slide 0
+    prob_pos_slide_shape 5
+    prob_pos_slide_curve 0
+    seed 0
+    rand_buf 0
     in_bus 0
     out_bus 0]
    (let [amp                 (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          mix                 (varlag mix mix_slide mix_slide_curve mix_slide_shape)
          pre_amp             (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          phase               (varlag phase phase_slide phase_slide_curve phase_slide_shape)
-         rate                (/ 1 phase)
          cutoff_min          (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
          cutoff_max          (varlag cutoff_max cutoff_max_slide cutoff_max_slide_curve cutoff_max_slide_shape)
+         smooth              (varlag smooth smooth_slide smooth_slide_curve smooth_slide_shape)
+         smooth_up           (varlag smooth_up smooth_up_slide smooth_up_slide_curve smooth_up_slide_shape)
+         smooth_down         (varlag smooth_down smooth_down_slide smooth_down_slide_curve smooth_down_slide_shape)
+         rate                (/ 1 phase)
+
+         prob_pos            (clip prob_pos 0 1)
+         probability         (clip probability 0 1)
+         prob_pos            (lin-lin prob_pos 0 1 -1 1)
+         probability         (varlag probability probability_slide probability_slide_curve probability_slide_shape)
+         prob_pos            (varlag prob_pos prob_pos_slide prob_pos_slide_curve prob_pos_slide_shape)
+         use-prob            (> probability 0)
+
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
-         res         (lin-lin res 1 0 0 1)
+         double_phase_offset (* 2 phase_offset)
+         res                 (lin-lin res 1 0 0 1)
          res                 (varlag res res_slide res_slide_curve res_slide_shape)
+
+
          cutoff_min          (midicps cutoff_min)
          cutoff_max          (midicps cutoff_max)
-         double_phase_offset (* 2 phase_offset)
+
+
 
          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed (- 1 probability)
+                                                      (impulse:kr rate))
 
-         cutoff-freq         (lin-exp:kr (* -1 ctl-wave-mul ctl-wave) -1 1 cutoff_min cutoff_max)
+         ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
+         ctl-wave            (* -1 ctl-wave-mul ctl-wave)
+         ctl-wave            (select:kr use-prob [ctl-wave
+                                                  (select:kr ctl-wave-prob [prob_pos ctl-wave])])
+
+         cutoff-freq         (lin-exp:kr ctl-wave -1 1 cutoff_min cutoff_max)
+
+         cutoff-freq         (lag-ud cutoff-freq smooth_up smooth_down)
+         cutoff-freq         (lag cutoff-freq smooth)
 
          [in-l in-r]         (* pre_amp (in in_bus 2))
 
@@ -436,7 +524,6 @@
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
-
 
 
  (defsynth sonic-pi-fx_compressor
@@ -870,41 +957,6 @@
      (out out_bus [fin-l fin-r])))
 
 
- (defsynth sonic-pi-fx_bpf
-   [amp 1
-    amp_slide 0
-    amp_slide_shape 5
-    amp_slide_curve 0
-    mix 1
-    mix_slide 0
-    mix_slide_shape 5
-    mix_slide_curve 0
-    pre_amp 1
-    pre_amp_slide 0
-    pre_amp_slide_shape 5
-    pre_amp_slide_curve 0
-    freq 100
-    freq_slide 0
-    freq_slide_shape 5
-    freq_slide_curve 0
-    mod_amp 1
-    mod_amp_slide 0
-    mod_amp_slide_shape 5
-    mod_amp_slide_curve 0
-    in_bus 0
-    out_bus 0]
-   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
-         pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
-         freq          (varlag freq freq_slide freq_slide_curve freq_slide_shape)
-         freq          (midicps freq)
-
-         [in-l in-r]   (* pre_amp (in in_bus 2))
-         [new-l new-r] (* [in-l in-r] (* (sin-osc freq) mod_amp))
-         fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
-         fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
-     (out out_bus [fin-l fin-r])))
-
 
  (defsynth sonic-pi-fx_bpf
    [amp 1
@@ -942,6 +994,8 @@
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
+
+
 
  (defsynth sonic-pi-fx_rbpf
    [amp 1
@@ -1211,9 +1265,6 @@
          fin-l               (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r               (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
-
-
-
 
 
  ;;(def ab (audio-bus 2))

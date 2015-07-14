@@ -22,6 +22,7 @@
 #include <QRadioButton>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QVBoxLayout>
 #include <QProcess>
 #include <QFuture>
 #include <QShortcut>
@@ -51,7 +52,7 @@ class SonicPiServer;
 struct help_page {
   QString title;
   QString keyword;
-  QString filename;
+  QString url;
 };
 
 struct help_entry {
@@ -72,6 +73,8 @@ public:
     void invokeStartupError(QString msg);
     SonicPiServer *sonicPiServer;
     enum {UDP=0, TCP=1};
+    QCheckBox *dark_mode;
+    bool loaded_workspaces;
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -116,6 +119,7 @@ private slots:
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
+    void changeTheme();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
@@ -133,6 +137,13 @@ private slots:
     void docScrollUp();
     void docScrollDown();
     void helpClosed(bool visible);
+    void updateFocusMode();
+    void disableFocusMode();
+    void updateLogVisibility();
+    void updateButtonVisibility();
+    void setLineMarkerinCurrentWorkspace(int num);
+
+
 
 private:
     QSignalMapper *signalMapper;
@@ -155,7 +166,7 @@ private:
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
-    void setHelpText(QListWidgetItem *item, const QString filename);
+    void refreshDocContent();
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QString name);
@@ -175,10 +186,10 @@ private:
     QFuture<void> osc_thread, server_thread;
     int protocol;
 
+    bool focusMode;
     bool startup_error_reported;
     bool is_recording;
     bool show_rec_icon_a;
-    bool loaded_workspaces;
     QTimer *rec_flash_timer;
 
 #ifdef Q_OS_MAC
@@ -193,24 +204,22 @@ private:
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
     QTextEdit *outputPane;
-    QTextEdit *errorPane;
+    QTextBrowser *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
     QDockWidget *hudWidget;
     QDockWidget *docWidget;
     QTextBrowser *docPane;
-    QTextBrowser *hudPane;
+//  QTextBrowser *hudPane;
+    QWidget *mainWidget;
     bool hidingDocPane;
+    bool restoreDocPane;
 
     QTabWidget *tabs;
 
     QProcess *serverProcess;
 
     SonicPiLexer *lexer;
-
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *helpMenu;
 
     QToolBar *toolBar;
 
@@ -221,6 +230,7 @@ private:
     QCheckBox *print_output;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
+    QCheckBox *log_cues;
     QCheckBox *show_line_numbers;
     QCheckBox *check_updates;
 
@@ -229,26 +239,21 @@ private:
     QRadioButton *rp_force_audio_headphones;
     QSlider *rp_system_vol;
 
-    QAction *aboutQtAct;
-    QMap<QString, QString> *map;
-
-    QTextBrowser *infoPane;
     QWidget *infoWidg;
+    QList<QTextBrowser *> infoPanes;
     QTextEdit *startupPane;
-    QLabel *imageLabel;
-
-    int currentLine;
-    int currentIndex;
+    QVBoxLayout *mainWidgetLayout;
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
     std::streambuf *coutbuf;
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     std::ofstream stdlog;
+#endif
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
     QString defaultTextBrowserStyle;
-
 
 };
 

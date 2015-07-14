@@ -13,6 +13,7 @@
 
 
 #include <Qsci/qsciscintilla.h>
+#include "sonicpitheme.h"
 
 class SonicPiLexer;
 class QSettings;
@@ -22,10 +23,12 @@ class SonicPiScintilla : public QsciScintilla
   Q_OBJECT
 
  public:
-  SonicPiScintilla(SonicPiLexer *lexer);
+  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme);
 
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
+  SonicPiTheme *theme;
+  void redraw();
 
   public slots:
     void cutLineFromPoint();
@@ -36,6 +39,8 @@ class SonicPiScintilla : public QsciScintilla
     void copyClear();
     void hideLineNumbers();
     void showLineNumbers();
+    void setLineErrorMarker(int lineNumber);
+    void clearLineMarkers();
     void replaceLine(int lineNumber, QString newLine);
     void replaceLines(int lineStart, int lineFinish, QString newLines);
     void forwardLines(int numLines);
@@ -49,6 +54,8 @@ class SonicPiScintilla : public QsciScintilla
     void deselect();
     void upcaseWordOrSelection();
     void downcaseWordOrSelection();
+    void highlightAll();
+    void unhighlightAll();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);

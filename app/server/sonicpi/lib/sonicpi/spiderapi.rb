@@ -26,21 +26,238 @@ module SonicPi
 
     THREAD_RAND_SEED_MAX = 10e20
 
-    def tick_set(k, v=0)
-      SonicPi::Core::ThreadLocalCounter.set(k, v)
+    def tick_set(*args)
+      SonicPi::Core::ThreadLocalCounter.set(*args)
     end
+    doc name:           :tick_set,
+        introduced:     Version.new(2,6,0),
+        summary:        "Set tick to a specific value",
+        args:           [[:value, :number]],
+        alt_args:       [[[:key, :symbol], [:value, :number]]],
+        returns:        :number,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Set the default tick to the specified `value`. If a `key` is referenced, set that tick to `value` instead. Next call to `look` will return `value`.",
+        examples:       ["
+tick_set 40 # set default tick to 40
+puts look   #=> 40",
+"
+tick_set :foo, 40 # set tick :foo to 40
+puts look(:foo)   #=> 40 (tick :foo is now 40)
+puts look         #=> 0 (default tick is unaffected)
 
-    def tick_reset(k)
-      SonicPi::Core::ThreadLocalCounter.rm(k)
-    end
+"
+    ]
 
-    def tick(k, n=1)
-      SonicPi::Core::ThreadLocalCounter.tick(k, n)
-    end
 
-    def hook(k)
-      SonicPi::Core::ThreadLocalCounter.read(k)
+
+
+    def tick_reset(*args)
+      SonicPi::Core::ThreadLocalCounter.rm(*args)
     end
+    doc name:           :tick_reset,
+        introduced:     Version.new(2,6,0),
+        summary:        "Reset tick to 0",
+        args:           [],
+        alt_args:       [[[:key, :symbol]]],
+        returns:        :number,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Reset default tick to 0. If a `key` is referenced, set that tick to 0 instead. Same as calling tick_set(0)",
+        examples:       ["
+         # increment default tick a few times
+tick
+tick
+tick
+puts look #=> 2 (default tick is now 2)
+tick_set 0 # default tick is now 0
+puts look #=> 0 (default tick is now 0
+",
+"
+                # increment tick :foo a few times
+tick :foo
+tick :foo
+tick :foo
+puts look(:foo) #=> 2 (tick :foo is now 2)
+tick_set 0 # default tick is now 0
+puts look(:foo) #=> 2 (tick :foo is still 2)
+tick_set :foo, 0 #  reset tick :foo
+puts look(:foo) #=> 0 (tick :foo is now 0)"
+    ]
+
+
+
+
+    def tick_reset_all
+      SonicPi::Core::ThreadLocalCounter.reset_all
+    end
+    doc name:           :tick_reset_all,
+        introduced:     Version.new(2,6,0),
+        summary:        "Reset all ticks",
+        args:           [[:value, :number]],
+        alt_args:       [[[:key, :symbol], [:value, :number]]],
+        returns:        :nil,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Reset all ticks - default and keyed",
+        examples:       ["
+tick      # increment default tick and tick :foo
+tick
+tick :foo
+tick :foo
+tick :foo
+puts look #=> 1
+puts look(:foo) #=> 2
+tick_reset_all
+puts look #=> 0
+puts look(:foo) #=> 0
+"
+    ]
+
+    def tick(*args)
+      SonicPi::Core::ThreadLocalCounter.tick(*args)
+    end
+    doc name:           :tick,
+        introduced:     Version.new(2,6,0),
+        summary:        "Increment a tick and return value",
+        args:           [[:value, :number]],
+        alt_args:       [[[:key, :symbol], [:value, :number]]],
+        returns:        :number,
+        opts:           {step: "The amount to tick up by. Default is 1.",
+                         offset: "Offset to add to index returned. Useful when calling tick on lists, rings and vectors to offset the returned value. Default is 0."},
+        accepts_block:  false,
+        doc:            "Increment the default tick by 1 and return value. Successive calls to `tick` will continue to increment the default tick. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are `in_thread` and `live_loop` local, so incrementing a tick only affects the current thread's version of that tick.",
+        examples:       ["
+puts tick #=> 0
+puts tick #=> 1
+puts tick #=> 2
+puts tick #=> 3
+",
+"
+puts tick(:foo) #=> 0 # named ticks have their own counts
+puts tick(:foo) #=> 1
+puts tick(:foo) #=> 2
+puts tick(:bar) #=> 0 # tick :bar is independent of tick :foo
+",
+" # Each_live loop has its own separate ticks
+live_loop :fast_tick do
+  puts tick   # the fast_tick live_loop's tick will
+  sleep 2     # be updated every 2 seconds
+end
+
+live_loop :slow_tick do
+  puts tick   # the slow_tick live_loop's tick is
+  sleep 4     # totally independent from the fast_tick
+              # live loop and will be updated every 4
+              # seconds
+end
+",
+"
+live_loop :regular_tick do
+  puts tick   # the regular_tick live_loop's tick will
+  sleep 1     # be updated every second
+end
+
+live_loop :random_reset_tick do
+  if one_in 3 # randomly reset tick
+    tick_reset
+    puts \"reset tick!\"
+  end
+  puts tick   # this live_loop's tick is totally
+  sleep 1     # independent and the reset only affects
+              # this tick.
+end
+",
+"
+# Ticks work directly on lists, and will tick through each element
+# However, once they get to the end, they'll return nil
+live_loop :scale do
+  play [:c, :d, :e, :f, :g].tick   # play all notes just once, then rests
+  sleep 1
+end
+",
+"
+# Normal ticks interact directly with list ticks
+live_loop :odd_scale do
+  tick  # Increment the default tick
+  play [:c, :d, :e, :f, :g, :a].tick   # this now play every *other* note just once,
+                                       # then rests
+  sleep 1
+end
+",
+"
+# Ticks work wonderfully with rings
+# as the ring ensures the tick wraps
+# round internally always returning a
+# value
+live_loop :looped_scale do
+  play (ring :c, :d, :e, :f, :g).tick   # play all notes just once, then repeats
+  sleep 1
+end
+",
+"
+# Ticks work wonderfully with scales
+# which are also rings
+live_loop :looped_scale do
+  play (scale :e3, :minor_pentatonic).tick   # play all notes just once, then repeats
+  sleep 0.25
+end
+"
+    ]
+
+
+
+
+    def look(*args)
+      SonicPi::Core::ThreadLocalCounter.look(*args)
+    end
+    doc name:           :look,
+        introduced:     Version.new(2,6,0),
+        summary:        "Obtain value of a tick",
+        args:           [],
+        alt_args:       [[[:key, :symbol]]],
+        returns:        :number,
+        opts:           {offset: "Offset to add to index returned. Useful when calling look on lists, rings and vectors to offset the returned value"},
+        accepts_block:  false,
+        doc:            "Read and return value of default tick. If a `key` is specified, read the value of that specific tick. Ticks are `in_thread` and `live_loop` local, so the tick read will be the tick of the current thread calling `look`.",
+        examples:       ["
+puts look #=> 0
+puts look #=> 0
+puts look #=> 0 # look doesn't advance the tick, it just returns the current value
+",
+"
+puts look #=> 0 # A look is always 0 before the first tick
+tick # advance the tick
+puts look #=> 0 # Note: a look is still 0 after the first tick.
+tick
+puts look #=> 1
+puts look #=> 1 # making multiple calls to look doesn't affect tick value
+tick
+puts look #=> 2
+",
+"
+tick(:foo)
+tick(:foo)
+puts look(:foo) #=> 1 (keyed look :foo has been advanced)
+puts look #=> 0 (default look hasn't been advanced)
+puts look(:bar) #=> 0 (other keyed looks haven't been advanced either)
+",
+"
+# You can call look on lists and rings
+live_loop :foo do
+  tick                                      # advance the default tick
+  use_synth :beep
+  play (scale :e3, :minor_pentatonic).look  # look into the default tick to play all notes in sequence
+  sleep 0.5
+  use_synth :square
+  play (ring :e1, :e2, :e3).look, release: 0.25 # use the same look on another ring
+  sleep 0.25
+end
+"
+    ]
+
+
+
 
     def stop
       raise SonicPi::Stop
@@ -48,7 +265,7 @@ module SonicPi
     doc name:           :stop,
         introduced:     Version.new(2,5,0),
         summary:        "Stop current thread or run",
-        args:           [[]],
+        args:           [],
         returns:        nil,
         opts:           nil,
         accepts_block:  false,
@@ -69,6 +286,9 @@ end
 
 play 80  #=> this plays as the stop only affected the above thread"
     ]
+
+
+
 
     def bools(*args)
       args.map do |a|
@@ -91,6 +311,9 @@ play 80  #=> this plays as the stop only affected the above thread"
       "(bools 1, 0)    #=> (ring true, false)",
       "(bools 1, 0, true, false, nil) #=> (ring true, false, true, false, false)"
     ]
+
+
+
 
     def stretch(*args)
       raise "stretch needs an even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
@@ -115,7 +338,11 @@ play 80  #=> this plays as the stop only affected the above thread"
       "(stretch [:e2, :c3], 1, [:c2, :d3], 2) #=> (ring :e2, :c3, :c2, :c2, :d3, :d3)"
     ]
 
+
+
+
     def knit(*args)
+      raise "knit must have a even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
       res = []
       args.each_slice(2) do |val, num_its|
         if num_its > 0
@@ -136,6 +363,9 @@ play 80  #=> this plays as the stop only affected the above thread"
       "(knit 1, 5)    #=> (ring 1, 1, 1, 1, 1)",
       "(knit :e2, 2, :c2, 3) #=> (ring :e2, :e2, :c2, :c2, :c2)"
     ]
+
+
+
 
     def spread(num_accents, size, *args)
       args_h = resolve_synth_opts_hash_or_array(args)
@@ -167,7 +397,7 @@ play 80  #=> this plays as the stop only affected the above thread"
     end
     doc name:           :spread,
         introduced:     Version.new(2,4,0),
-        summary:        "Distribute a number of accents evenly across a ring of specified size",
+        summary:        "Euclidean distribution for beats",
         args:           [[:num_accents, :number], [:size, :number]],
         returns:        :ring,
         opts:           {rotate: "rotate to the next strong beat allowing for easy permutations of the original rhythmic grouping (see example)"},
@@ -175,8 +405,72 @@ play 80  #=> this plays as the stop only affected the above thread"
         doc:            "Creates a new ring of boolean values which space a given number of accents as evenly as possible throughout a bar. This is an implementation of the process described in 'The Euclidean Algorithm Generates Traditional Musical Rhythms' (Toussaint 2005).",
         examples:       [
       "(spread 3, 8)    #=> (ring true, false, false, true, false, false, true, false) a spacing of 332",
-      "(spread 3, 8, rotate: 1) #=> (ring true, false, false, true, false, true, false, false) a spacing of 323"
+      "(spread 3, 8, rotate: 1) #=> (ring true, false, false, true, false, true, false, false) a spacing of 323",
+      "
+# Easily create interesting polyrhythmic beats
+live_loop :euclid_beat do
+  sample :elec_bong, amp: 1.5 if (spread 3, 8).tick # Spread 3 bongs over 8
+  sample :perc_snap, amp: 0.8 if (spread 7, 11).look # Spread 7 snaps over 11
+  sample :bd_haus, amp: 2 if (spread 1, 4).look # Spread 1 bd over 4
+  sleep 0.125
+end
+",
+"
+# Spread descriptions from
+# 'The Euclidean Algorithm Generates Traditional Musical Rhythms' (Toussaint 2005).
+(spread 2, 5)  # A thirteenth century Persian rhythm called Khafif-e-ramal.
+
+(spread 3, 4)  # The archetypal pattern of the Cumbria from Columbia, as well
+               # as a Calypso rhythm from Trinidad
+
+(spread 3, 5)  # When started on the second onset, is another thirteenth
+               # century Persian rhythm by the name of Khafif-e-ramal, as well
+               # as a Romanian folk-dance rhythm.
+
+(spread 3, 7)  # A ruchenitza rhythm used in a Bulgarian folk-dance.
+
+(spread 3, 8)  # The Cuban tresillo pattern
+
+(spread 4, 7)  # Another Ruchenitza Bulgarian folk-dance rhythm
+
+(spread 4, 9)  # The Aksak rhythm of Turkey.
+
+(spread 4, 11) # The metric pattern used by Frank Zappa in his piece Outside Now
+
+(spread 5, 6)  # Yields the York-Samai pattern, a popular Arab rhythm, when
+               # started on the second onset.
+
+(spread 5, 7)  # The Nawakhat pattern, another popular Arab rhythm.
+
+(spread 5, 8)  # The Cuban cinquillo pattern.
+
+(spread 5, 9)  # A popular ARab rhythm called Agsag-Samai.
+
+(spread 5, 11) # The metric pattern used by Moussorgsky in Pictures at an
+               # Exhibition
+
+(spread 5, 12) # The Venda clapping pattern of a South African children's
+               # song.
+
+(spread 5, 16) # The Bossa-Nova rhythm necklace of Brazil.
+
+(spread 7, 8)  # A typical rhythm played on the Bendir (frame drum)
+
+(spread 7, 12) # A common West African bell pattern.
+
+(spread 7, 16) # A Samba rhythm necklace from Brazil.
+
+(spread 9, 16) # A rhythm necklace used in the Central African Republic.
+
+(spread 11, 24) # A rhythm necklace of the Aka Pygmies of Central Africa.
+
+(spread 13, 24) # Another rhythm necklace of the Aka Pygmies of the upper
+                # Sangha.
+"
     ]
+
+
+
 
     def range(start, finish, *args)
       if args.is_a?(Array) && args.size == 1 && args.first.is_a?(Numeric)
@@ -226,7 +520,8 @@ play 80  #=> this plays as the stop only affected the above thread"
         summary:        "Create a ring buffer with the specified start, finish and step size",
         args:           [[:start, :number], [:finish, :number], [:step_size, :number]],
         returns:        :ring,
-        opts:           {:inclusive => "If set to true, range is inclusive of finish value"},
+        opts:           {:step      => "Size of increment between steps; step size.",
+                         :inclusive => "If set to true, range is inclusive of finish value"},
         accepts_block:  false,
         doc:            "Create a new ring buffer from the range arguments (start, finish and step size). Step size defaults to `1`. Indexes wrap around positively and negatively",
         examples:       [
@@ -261,21 +556,45 @@ play 80  #=> this plays as the stop only affected the above thread"
         summary:        "Create a ring buffer representing a straight line",
         args:           [[:start, :number], [:finish, :number]],
         returns:        :ring,
-       opts:           {:slices => "number of slices or segments along the line",
-                        :inclusive => "boolean value representing whether or not to include finish value in line"},
+        opts:           {:steps     => "number of slices or segments along the line",
+                         :inclusive => "boolean value representing whether or not to include finish value in line"},
         accepts_block:  false,
         doc:            "Create a ring buffer representing a straight line between start and finish of num_slices elements. Num slices defaults to `8`. Indexes wrap around positively and negatively. Similar to `range`.",
         examples:       [
       "(line 0, 4, steps: 4)    #=> (ring 0.0, 1.0, 2.0, 3.0)",
       "(line 5, 0, steps: 5)    #=> (ring 5.0, 4.0, 3.0, 2.0, 1.0)",
       "(line 0, 3, inclusive: true) #=> (ring 0.0, 1.0, 2.0, 3.0)"
-   ]
+    ]
+
+
+
+
+    def vector(*args)
+      SonicPi::Core::SPVector.new(args)
+    end
+    doc name:           :vector,
+        introduced:     Version.new(2,6,0),
+        summary:        "Create a vector",
+        args:           [[:list, :array]],
+        returns:        :vector,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new immutable vector from args. Out of range indexes return nil.",
+        examples:       [
+      "(vector 1, 2, 3)[0] #=> 1",
+      "(vector 1, 2, 3)[1] #=> 2",
+      "(vector 1, 2, 3)[2] #=> 3",
+      "(vector 1, 2, 3)[3] #=> nil",
+      "(vector 1, 2, 3)[1000] #=> nil",
+      "(vector 1, 2, 3)[-1] #=> nil",
+      "(vector 1, 2, 3)[-1000] #=> nil",
+    ]
 
 
 
 
     def ring(*args)
-      SonicPi::Core::RingArray.new(args)
+      SonicPi::Core::RingVector.new(args)
     end
     doc name:           :ring,
         introduced:     Version.new(2,2,0),
@@ -284,7 +603,7 @@ play 80  #=> this plays as the stop only affected the above thread"
         returns:        :ring,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Create a new ring buffer from args. Indexes wrap around positively and negatively",
+        doc:            "Create a new immutable ring buffer from args. Indexes wrap around positively and negatively",
         examples:       [
       "(ring 1, 2, 3)[0] #=> 1",
       "(ring 1, 2, 3)[1] #=> 2",
@@ -292,7 +611,33 @@ play 80  #=> this plays as the stop only affected the above thread"
       "(ring 1, 2, 3)[-1] #=> 3",
     ]
 
-    #TODO: consider whether to convert this to *args
+
+
+
+    def ramp(*args)
+      SonicPi::Core::RampVector.new(args)
+    end
+    doc name:           :ramp,
+        introduced:     Version.new(2,6,0),
+        summary:        "Create a ramp vector",
+        args:           [[:list, :array]],
+        returns:        :ramp,
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Create a new immutable ramp vector from args. Indexes always return first or last value if out of bounds.",
+        examples:       [
+      "(ramp 1, 2, 3)[0] #=> 1",
+      "(ramp 1, 2, 3)[1] #=> 2",
+      "(ramp 1, 2, 3)[2] #=> 3",
+      "(ramp 1, 2, 3)[3] #=> 3",
+      "(ramp 1, 2, 3)[1000] #=> 3",
+      "(ramp 1, 2, 3)[-1] #=> 1",
+      "(ramp 1, 2, 3)[-1000] #=> 1",
+    ]
+
+
+
+
     def choose(args)
       args.to_a.choose
     end
@@ -303,13 +648,16 @@ play 80  #=> this plays as the stop only affected the above thread"
         opts:           nil,
         accepts_block:  false,
         doc:            "Choose an element at random from a list (array).",
-        examples:       [
-"loop do
+       examples:       ["
+loop do
   play choose([60, 64, 67]) #=> plays one of 60, 64 or 67 at random
   sleep 1
   play chord(:c, :major).choose #=> You can also call .choose on the list
   sleep 1
 end"]
+
+
+
 
     def inc(n)
       n + 1
@@ -324,6 +672,8 @@ end"]
         examples:     [
       "inc 1 # returns 2",
       "inc -1 # returns 0"]
+
+
 
 
     def dec(n)
@@ -341,11 +691,12 @@ end"]
       "dec -1 # returns -2"]
 
 
+
     def live_loop(name=nil, *args, &block)
       raise "live_loop needs to have a unique name. For example: live_loop :foo" unless name
       raise "live_loop's name needs to be a string or symbol, got: #{name.inspect}. Example usage: live_loop :foo" unless (name.is_a?(Symbol) || name.is_a?(String))
       ll_name = "live_loop_#{name}".to_sym
-      raise "live_loop #{name.inspect} must be called with a do/end code block" unless block
+      raise "live_loop #{name.inspect} must be called with a do/end block" unless block
 
       args_h = resolve_synth_opts_hash_or_array(args)
       if args_h.has_key? :auto_cue
@@ -393,18 +744,21 @@ end"]
         introduced:     Version.new(2,1,0),
         summary:        "A loop for live coding",
         args:           [[:name, :symbol]],
-        opts:           {:init => "initial value for optional block arg",
+        opts:           {:init     => "initial value for optional block arg",
                          :auto_cue => "enable or disable automatic cue (default is true)"},
-        accepts_block: true,
-        doc: "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
-        examples: ["
+        accepts_block:  true,
+        requires_block: true,
+        async_block:    true,
+        intro_fn:       true,
+        doc:            "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
+        examples:       ["
 live_loop :ping do
   sample :elec_ping
   sleep 1
 end
 ",
 
-"
+      "
 live_loop :foo do |a|  # pass a param (a) to the block (inits to 0)
   puts a               # prints out all the integers
   sleep 1
@@ -413,8 +767,10 @@ end
 "   ]
 
 
+
+
     def at(times=0, params=nil, &block)
-      raise "after must be called with a code block" unless block
+      raise "after must be called with a do/end block" unless block
       had_params = params
       times = [times] if times.is_a? Numeric
       # When no params are specified, pass the times through as params
@@ -448,12 +804,14 @@ end
     end
     doc name:           :at,
         introduced:     Version.new(2,1,0),
-        summary:        "Run a block at the given times",
+        summary:        "Asynchronous Time. Run a block at the given time(s)",
         doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If size of params list is smaller than the times list, the param values will act as rings (rotate through). If the block is given 1 arg, the times are fed through. If the block is given 2 args, both the times and the params are fed through. A third block arg will receive the index of the time.",
         args:           [[:times, :list],
                          [:params, :list]],
         opts:           nil,
         accepts_block:  true,
+        requires_block: true,
+        async_block:    true,
         examples:       ["
 at [1, 2, 4] do  # plays a note after waiting 1 beat,
   play 75           # then after 1 more beat,
@@ -492,6 +850,9 @@ end
 "
     ]
 
+
+
+
     def version
       @version
     end
@@ -500,9 +861,9 @@ end
         summary:        "Get current version information",
         args:           [],
         opts:           nil,
-        accepts_block: false,
-        doc: "Return information representing the current version of Sonic Pi. This information may be further inspected with `version.major`, `version.minor`, `version.patch` and `version.dev`",
-        examples: ["
+        accepts_block:  false,
+        doc:            "Return information representing the current version of Sonic Pi. This information may be further inspected with `version.major`, `version.minor`, `version.patch` and `version.dev`",
+        examples:       ["
 puts version # => Prints out the current version such as v2.0.1",
 "
 puts version.major # => Prints out the major version number such as 2",
@@ -510,6 +871,8 @@ puts version.major # => Prints out the major version number such as 2",
 puts version.minor # => Prints out the minor version number such as 0",
 "
 puts version.patch # => Prints out the patch level for this version such as 0"]
+
+
 
 
     def spark_graph(*values)
@@ -536,17 +899,19 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
       }.join
     end
     doc name:           :spark_graph,
-        hide:           false,
         introduced:     Version.new(2,5,0),
         summary:        "Returns a string representing a list of numeric values as a spark graph/bar chart",
         args:           [],
         opts:           nil,
         accepts_block:  false,
         doc:            "Given a list of numeric values, this method turns them into a string of bar heights. Useful for quickly graphing the shape of an array. Remember to use puts so you can see the output. See `spark` for a simple way of printing a spark graph.",
-        examples:       [
-        "puts (spark_graph (range 1, 5))    #=> ▁▃▅█",
-        "puts (spark_graph (range 1, 5).shuffle) #=> ▃█▅▁"
+    examples:           [
+"puts (spark_graph (range 1, 5))    #=> ▁▃▅█",
+"puts (spark_graph (range 1, 5).shuffle) #=> ▃█▅▁"
     ]
+
+
+
 
     def spark(*values)
       puts spark_graph(*values)
@@ -560,13 +925,15 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         accepts_block:  false,
         doc:            "Given a list of numeric values, this method turns them into a string of bar heights and prints them out. Useful for quickly graphing the shape of an array.",
         examples:       [
-        "spark (range 1, 5))    #=> ▁▃▅█",
-        "spark (range 1, 5).shuffle) #=> ▃█▅▁"
+"spark (range 1, 5))    #=> ▁▃▅█",
+"spark (range 1, 5).shuffle) #=> ▃█▅▁"
     ]
 
 
+
+
     def defonce(name, *opts, &block)
-      raise "defonce must be called with a code block" unless block
+      raise "defonce must be called with a do/end block" unless block
       args_h = resolve_synth_opts_hash_or_array(opts)
       if args_h[:override] || !(@user_methods.method_defined? name)
         val = block.yield
@@ -582,7 +949,8 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         summary:        "Define a named value only once",
         args:           [[:name, :symbol]],
         opts:           {:override => "If set to true, re-definitions are allowed and this acts like define"},
-        accepts_block: true,
+        accepts_block:  true,
+        requires_block: true,
         doc:            "Allows you to assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
         examples:       ["
 
@@ -635,6 +1003,8 @@ end
 play bar # plays 80"]
 
 
+
+
     def ndefine(name, &block)
       # do nothing!
     end
@@ -642,13 +1012,17 @@ play bar # plays 80"]
         introduced:     Version.new(2,1,0),
         summary:        "Define a new function",
         args:           [[:name, :symbol]],
-        opts:          nil,
-        accepts_block: true,
-        doc:           "Does nothing. Use to stop a define from actually defining. Simpler than wrapping whole define in a comment block or commenting each individual line out.",
-        examples: []
+        opts:           nil,
+        accepts_block:  true,
+        requires_block: true,
+        doc:            "Does nothing. Use to stop a define from actually defining. Simpler than wrapping whole define in a comment block or commenting each individual line out.",
+        examples:       []
+
+
+
 
     def define(name, &block)
-      raise "define must be called with a code block" unless block
+      raise "define must be called with a do/end block" unless block
       already_defined = @user_methods.method_defined? name
 
       if !already_defined && self.respond_to?(name)
@@ -666,8 +1040,10 @@ play bar # plays 80"]
         introduced:     Version.new(2,0,0),
         summary:        "Define a new function",
         args:           [[:name, :symbol]],
-        opts:          nil,
-        accepts_block: true,
+        opts:           nil,
+        accepts_block:  true,
+        requires_block: true,
+        intro_fn:       true,
         doc:            "Allows you to group a bunch of code and give it your own name for future re-use. Functions are very useful for structuring your code. They are also the gateway into live coding as you may redefine a function whilst a thread is calling it, and the next time the thread calls your function, it will use the latest definition.",
         examples:       ["
 # Define a new function called foo
@@ -704,6 +1080,7 @@ end",]
 
 
     def comment(*args, &block)
+      raise "comment requires a block." unless block
       #do nothing!
     end
     doc name:           :comment,
@@ -712,8 +1089,10 @@ end",]
         args:           [],
         opts:           nil,
         accepts_block:  true,
+        requires_block: true,
         doc:            "Does not evaluate any of the code within the block. However, any optional args passed before the block *will* be evaluated although they will be ignored. See `uncomment` for switching commenting off without having to remove the comment form.",
-        examples:       ["comment do # starting a block level comment:
+        examples:       ["
+comment do # starting a block level comment:
   play 50 # not played
   sleep 1 # no sleep happens
   play 62 # not played
@@ -723,6 +1102,7 @@ end"]
 
 
     def uncomment(*args, &block)
+      raise "uncomment requires a block." unless block
       block.call
     end
     doc name:           :uncomment,
@@ -731,8 +1111,10 @@ end"]
         args:           [],
         opts:           nil,
         accepts_block:  true,
+        requires_block: true,
         doc:            "Evaluates all of the code within the block. Use to reverse the effect of the comment without having to explicitly remove it.",
-        examples:       ["uncomment do # starting a block level comment:
+        examples:       ["
+uncomment do # starting a block level comment:
   play 50 # played
   sleep 1 # sleep happens
   play 62 # played
@@ -742,7 +1124,7 @@ end"]
 
 
     def print(output)
-     __delayed_user_message output
+      __delayed_user_message output
     end
     doc name:          :print,
         introduced:     Version.new(2,0,0),
@@ -750,6 +1132,7 @@ end"]
         args:          [[:output, :string]],
         opts:          nil,
         accepts_block: false,
+        intro_fn:       true,
         doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for `puts`.",
         examples:      [
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
@@ -764,11 +1147,12 @@ end"]
     end
     doc name:           :puts,
         introduced:     Version.new(2,0,0),
-        summary:       "Display a message in the output pane",
+        summary:        "Display a message in the output pane",
         args:           [[:output, :string]],
         opts:           nil,
         accepts_block:  false,
-        doc:           "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for `print`.",
+        intro_fn:       true,
+        doc:            "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for `print`.",
         examples:      [
 "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
 "print 5               #=> will print the number 5 to the output pane",
@@ -786,11 +1170,14 @@ end"]
         args:           [],
         opts:           nil,
         accepts_block:  false,
-        doc:           "Get the virtual time of the current thread.",
-        examples:      [
-"puts vt # prints 0
+        doc:            "Get the virtual time of the current thread.",
+        examples:      ["
+puts vt # prints 0
  sleep 1
  puts vt # prints 1"]
+
+
+
 
     def factor?(val, factor)
       return false if factor == 0
@@ -812,19 +1199,22 @@ factor?(11, 2) #false - 11 is not a multiple of 2
 ",
 "
 factor?(2, 0.5) #true - 2 is a multiple of 0.5 (0.5 * 4 = 2) "
-]
+    ]
 
-    def quantise(n, resolution)
-      raise "quantisation resolution should be positive" if resolution <= 0
-      (n.to_f / resolution).round * resolution
+
+
+
+    def quantise(n, step)
+      raise "quantisation step resolution should be positive" if step <= 0
+      (n.to_f / step).round * step
     end
     doc name:           :quantise,
         introduced:     Version.new(2,1,0),
         summary:        "Quantise a value to resolution",
-        args:           [[:n, :number], [:resolution, :positive_number]],
+        args:           [[:n, :number], [:step, :positive_number]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Round value to the nearest multiple of resolution.",
+        doc:            "Round value to the nearest multiple of step resolution.",
         examples:        [
 "
 quantise(10, 1) # 10 is already a multiple of 1, so returns 10" ,
@@ -840,6 +1230,8 @@ quantise(13.3212, 0.3) # 13.2",
 quantise(13.3212, 0.5) # 13.5"]
 
 
+
+
     def dice(num_sides=6)
       rrand_i(1, num_sides)
     end
@@ -850,12 +1242,12 @@ quantise(13.3212, 0.5) # 13.5"]
         opts:           nil,
         accepts_block:  false,
         doc:            "Throws a dice with the specified num_sides (defaults to `6`) and returns the score as a number between `1` and `num_sides`.",
-        examples:      [
-"
+        examples:      ["
 dice # will return a number between 1 and 6 inclusively
      # (with an even probability distribution).",
 "
 dice 3 # will return a number between 1 and 3 inclusively"]
+
 
 
 
@@ -874,13 +1266,14 @@ dice 3 # will return a number between 1 and 3 inclusively"]
         opts:           nil,
         accepts_block:  false,
         doc:            "Returns `true` or `false` with a specified probability - it will return true every one in num times where num is the param you specify",
-        examples:      [
-"
+        examples:       ["
 one_in 2 # will return true with a probability of 1/2, false with probability 1/2",
 "
 one_in 3 # will return true with a probability of 1/3, false with a probability of 2/3",
 "
 one_in 100 # will return true with a probability of 1/100, false with a probability of 99/100"]
+
+
 
 
     def rdist(width, centre=0, *opts)
@@ -890,10 +1283,10 @@ one_in 100 # will return true with a probability of 1/100, false with a probabil
         introduced:     Version.new(2,3,0),
         summary:        "Random number in centred distribution",
         args:           [[:width, :number], [:centre, :number]],
-        opts:           {:res => nil},
+        opts:           {:step => "Step size of value to quantise to."},
         accepts_block:  false,
-        doc:            "Returns a random number within the range with width around centre. If optional arg `res:` is used, the result is quantised by res.",
-        examples:      [
+        doc:            "Returns a random number within the range with width around centre. If optional arg `step:` is used, the result is quantised by step.",
+        examples:       [
 "
 print rdist(1, 0) #=> will print a number between -1 and 1
 ",
@@ -908,9 +1301,10 @@ end"]
 
 
 
+
     def rrand(min, max, *opts)
       args_h = resolve_synth_opts_hash_or_array(opts)
-      res = args_h[:res]
+      res = args_h[:step]
       if min == max
         if res
           return quantise(min, res)
@@ -934,11 +1328,11 @@ end"]
         introduced:     Version.new(2,0,0),
         summary:        "Generate a random float between two numbers",
         args:           [[:min, :number], [:max, :number]],
-        opts:           {:res => nil},
+        opts:           {:step => "Step size of value to quantise to."},
         accepts_block:  false,
-        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see `rrand_i`. If optional arg `res:` is used, the result is quantised by res.",
-        examples:      [
-"
+        intro_fn:       true,
+        doc:            "Given two numbers, this produces a float between the supplied min and max values exclusively. Both min and max need to be supplied. For random integers, see `rrand_i`. If optional arg `step:` is used, the result is quantised by step.",
+        examples:       ["
 print rrand(0, 10) #=> will print a number like 8.917730007820797 to the output pane",
 "
 loop do
@@ -964,8 +1358,7 @@ end"]
         opts:           nil,
         accepts_block: false,
         doc:            "Given two numbers, this produces a whole number between the min and max you supplied inclusively. Both min and max need to be supplied. For random floats, see `rrand`",
-        examples:      [
-"
+        examples:      ["
 print rrand_i(0, 10) #=> will print a random number between 0 and 10 (e.g. 4, 0 or 10) to the output pane",
 "
 loop do
@@ -988,9 +1381,9 @@ end"]
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
+        intro_fn:       true,
         doc:            "Given a max number, produces a float between `0` and the supplied max value. If max is a range, produces a float within the range. With no args or max as `0`, returns a random value between `0` and `1`.",
-        examples:      [
-"
+        examples:       ["
 print rand(0.5) #=> will print a number like 0.397730007820797 to the output pane"]
 
 
@@ -1009,9 +1402,9 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
         opts:           nil,
         accepts_block:  false,
         doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args or max as `0` returns either `0` or `1`",
-        examples:      [
-"
+        examples:       ["
 print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
+
 
 
 
@@ -1027,10 +1420,12 @@ print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
         accepts_block:  false,
         doc:            "Returns a new list with the same elements as the original but with their order shuffled. Also works for strings",
         examples:       [
-"
+      "
 shuffle [1, 2, 3, 4] #=> Would return something like: [3, 4, 2, 1] ",
-"
+      "
 shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
+
+
 
 
     def use_random_seed(seed, &block)
@@ -1042,16 +1437,45 @@ shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
     doc name:          :use_random_seed,
         introduced:    Version.new(2,0,0),
         summary:       "Set random seed generator to known seed",
-        doc:           "Resets the random number generator to the specified seed. All subsequently generated random numbers will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced",
+        doc:           "Resets the random number generator to the specified seed. All subsequently generated random numbers and randomisation functions such as `shuffle` and `choose` will use this new generator and the current generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced. Especially useful if combined with iteration. See examples.",
         args:          [[:seed, :number]],
         opts:          nil,
         accepts_block: false,
         examples:      ["
+## Basic usage
+
 use_random_seed 1 # reset random seed to 1
 puts rand # => 0.417022004702574
 use_random_seed 1 # reset random seed back to 1
 puts rand  #=> 0.417022004702574
-"]
+",
+"
+## Generating melodies
+notes = (scale :eb3, :minor_pentatonic)  # Create a set of notes to choose from.
+                                         # Scales work well for this
+
+with_fx :reverb do
+  live_loop :repeating_melody do         # Create a live loop
+
+    use_random_seed 300                  # Set the random seed to a known value every
+                                         # time around the loop. This seed is the key
+                                         # to our melody. Try changing the number to
+                                         # something else. Different numbers produce
+                                         # different melodies
+
+    8.times do                           # Now iterate a number of times. The size of
+                                         # the iteration will be the length of the
+                                         # repeating melody.
+
+      play notes.choose, release: 0.1    # 'Randomly' choose a note from our ring of
+                                         # notes. See how this isn't actually random
+                                         # but uses a reproducible method! These notes
+                                         # are therefore repeated over and over...
+      sleep 0.125
+    end
+  end
+end
+"  ]
 
 
 
@@ -1067,13 +1491,14 @@ puts rand  #=> 0.417022004702574
       Thread.current.thread_variable_set :sonic_pi_spider_random_generator, current_rgen
       Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, current_thread_rgen
     end
-    doc name:          :with_random_seed,
+    doc name:           :with_random_seed,
         introduced:     Version.new(2,0,0),
-        summary:       "Specify random seed for code block",
-        doc:            "Resets the random number generator to the specified seed for the specified code block. All generated random numbers within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded.",
-        args:          [[:seed, :number]],
-        opts:          nil,
-        accepts_block: true,
+        summary:        "Specify random seed for code block",
+        doc:            "Resets the random number generator to the specified seed for the specified code block. All generated random numbers and randomisation functions such as `shuffle` and `choose` within the code block will use this new generator. Once the code block has completed, the original generator is restored and the code block generator is discarded. Use this to change the sequence of random numbers in your piece in a way that can be reproduced. Especially useful if combined with iteration. See examples.",
+        args:           [[:seed, :number]],
+        opts:           nil,
+        accepts_block:  true,
+        requires_block: true,
         examples:      ["
 use_random_seed 1 # reset random seed to 1
 puts rand # => 0.417022004702574
@@ -1085,7 +1510,42 @@ with_random_seed 1 do # reset seed back to 1 just for this block
   puts rand #=> 0.7203244934421581
 end
 puts rand # => 0.7203244934421581
-          # notice how the original generator is restored"]
+          # notice how the original generator is restored",
+"
+## Generating melodies
+notes = (scale :eb3, :minor_pentatonic, num_octaves: 2)  # Create a set of notes to choose from.
+                                         # Scales work well for this
+
+with_fx :reverb do
+  live_loop :repeating_melody do         # Create a live loop
+
+    with_random_seed 300 do              # Set the random seed to a known value every
+                                         # time around the loop. This seed is the key
+                                         # to our melody. Try changing the number to
+                                         # something else. Different numbers produce
+                                         # different melodies
+
+      8.times do                         # Now iterate a number of times. The size of
+                                         # the iteration will be the length of the
+                                         # repeating melody.
+
+        play notes.choose, release: 0.1  # 'Randomly' choose a note from our ring of
+                                         # notes. See how this isn't actually random
+                                         # but uses a reproducible method! These notes
+                                         # are therefore repeated over and over...
+        sleep 0.125
+      end
+    end
+
+    play notes.choose, amp: 1.5, release: 0.5 # Note that this line is outside of
+                                              # the with_random_seed block and therefore
+                                              # the randomisation never gets reset and this
+                                              # part of the melody never repeats.
+  end
+end
+"
+    ]
+
 
 
 
@@ -1093,6 +1553,58 @@ puts rand # => 0.7203244934421581
     def with_tempo(*args, &block)
       raise "The function with_tempo is deprecated since v2.0. Please consider use_bpm or with_bpm."
     end
+
+
+    def use_cue_logging(v, &block)
+         raise "use_cue_logging does not work with a do/end block. Perhaps you meant with_cue_logging" if block
+         Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, !v)
+       end
+       doc name:          :use_cue_logging,
+           introduced:    Version.new(2,6,0),
+           summary:       "Enable and disable cue logging",
+           doc:           "Enable or disable log messages created on cues. This does not disable the cues themselves, it just stops them from being printed to the log",
+           args:          [[:true_or_false, :boolean]],
+           opts:          nil,
+           accepts_block: false,
+           examples:      ["use_cue_logging true # Turn on cue messages", "use_cue_logging false # Disable cue messages"]
+
+
+
+
+       def with_cue_logging(v, &block)
+         raise "with_cue_logging requires a do/end block. Perhaps you meant use_cue_logging" unless block
+         current = Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
+         Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, !v)
+         block.call
+         Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, current)
+       end
+       doc name:          :with_cue_logging,
+           introduced:    Version.new(2,6,0),
+           summary:       "Block-level enable and disable cue logging",
+           doc:           "Similar to use_cue_logging except only applies to code within supplied `do`/`end` block. Previous cue log value is restored after block.",
+           args:          [[:true_or_false, :boolean]],
+           opts:          nil,
+           accepts_block: true,
+           requires_block: true,
+           examples:      ["
+# Turn on debugging:
+use_cue_logging true
+
+cue :foo # cue message is printed to log
+
+with_cue_logging false do
+  #Cue logging is now disabled
+  cue :bar # cue *is* sent but not displayed in log
+end
+sleep 1
+# Debug is re-enabled
+cue :quux # cue is displayed in log
+"]
+
+
+
+
+
 
     def use_bpm(bpm, &block)
       raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
@@ -1106,8 +1618,9 @@ puts rand # => 0.7203244934421581
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  false,
-        examples:       [
-"# default tempo is 60 bpm
+        intro_fn:       true,
+        examples:       ["
+# default tempo is 60 bpm
 4.times do
   play 50, attack: 0.5, release: 0.25 # attack is 0.5s and release is 0.25s
   sleep 1 # sleep for 1 second
@@ -1137,7 +1650,7 @@ end
 
 
     def with_bpm(bpm, &block)
-      raise "with_bpm must be called with a block. Perhaps you meant use_bpm" unless block
+      raise "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       sleep_mul = 60.0 / bpm
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
@@ -1151,8 +1664,9 @@ end
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  true,
-        examples:       [
-"# default tempo is 60 bpm
+        requires_block: true,
+        examples:       ["
+# default tempo is 60 bpm
 4.times do
   sample :drum_bass_hard
   sleep 1 # sleeps for 1 second
@@ -1179,8 +1693,9 @@ end"]
 
 
 
+
     def with_bpm_mul(mul, &block)
-      raise "with_bpm_mul must be called with a block. Perhaps you meant use_bpm_mul" unless block
+      raise "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       new_mul = current_mul.to_f / mul
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
@@ -1194,8 +1709,8 @@ end"]
         args:           [[:mul, :number]],
         opts:           nil,
         accepts_block:  true,
-        examples:       [
-"
+        requires_block: true,
+        examples:       ["
 use_bpm 60   # Set the BPM to 60
 play 50
 sleep 1      # Sleeps for 1 second
@@ -1208,6 +1723,8 @@ with_bpm_mul 0.5 do # BPM is now (60 * 0.5) == 30
 end
 sleep 1            # BPM is now back to 60, therefore sleep is 1 second
 "]
+
+
 
 
     def use_bpm_mul(mul, &block)
@@ -1223,8 +1740,7 @@ sleep 1            # BPM is now back to 60, therefore sleep is 1 second
         args:           [[:mul, :number]],
         opts:           nil,
         accepts_block:  false,
-        examples:       [
-"
+        examples:       ["
 use_bpm 60   # Set the BPM to 60
 play 50
 sleep 1      # Sleeps for 1 seconds
@@ -1234,8 +1750,10 @@ use_bpm_mul 0.5 # BPM is now (60 * 0.5) == 30
 play 50
 sleep 1           # Sleeps for 2 seconds
 play 62
-
 "]
+
+
+
 
     def density(d, &block)
       d = d.abs
@@ -1259,8 +1777,7 @@ play 62
         args:           [[:d, :density]],
         opts:           nil,
         accepts_block:  true,
-        examples:       [
-"
+        examples:       ["
 use_bpm 60   # Set the BPM to 60
 
 density 2 do       # BPM for block is now 120
@@ -1276,6 +1793,9 @@ density 2 do |idx| # You may also pass a param to the block similar to n.times
 end
 "    ]
 
+
+
+
     def current_bpm
       60.0 / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
     end
@@ -1288,6 +1808,26 @@ end
         accepts_block: false,
         examples:      ["
 puts current_bpm # Print out the current bpm"]
+
+
+
+
+    def current_beat_duration
+      Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+    end
+    doc name:          :current_beat_duration,
+        introduced:    Version.new(2,6,0),
+        summary:       "Duration of current beat",
+        doc:           "Get the duration of the current beat in seconds. This is the actual length of time which will elapse with `sleep 1`.",
+        args:          [],
+        opts:          nil,
+        accepts_block: false,
+        examples:      ["
+use_bpm 60
+puts current_beat_duration #=> 1
+
+use_bpm 120
+puts current_beat_duration #=> 0.5"]
 
 
 
@@ -1371,8 +1911,9 @@ play 72"]
         args:           [[:beats, :number]],
         opts:           nil,
         accepts_block:  false,
-        examples:       [
-"# Without calls to sleep, all sounds would happen at once:
+        advances_time:  true,
+        examples:       ["
+# Without calls to sleep, all sounds would happen at once:
 
 play 50  # This is actually a chord with all notes played simultaneously
 play 55
@@ -1407,6 +1948,8 @@ play 62
 "]
 
 
+
+
     def wait(time)
       if time.is_a? Symbol
         sync(time)
@@ -1421,6 +1964,7 @@ play 62
         args:           [[:beats, :number]],
         opts:           nil,
         accepts_block:  false,
+        advances_time:  true,
         examples:       []
 
 
@@ -1441,10 +1985,12 @@ play 62
         :cue => cue_id
       }
 
-      if args_h.empty?
-        __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
-      else
-        __delayed_highlight_message "cue #{cue_id.to_sym.inspect}, #{arg_h_pp(args_h)}"
+      unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
+        if args_h.empty?
+          __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+        else
+          __delayed_highlight_message "cue #{cue_id.to_sym.inspect}, #{arg_h_pp(args_h)}"
+        end
       end
 
       Thread.new do
@@ -1461,9 +2007,9 @@ play 62
         summary:        "Cue other threads",
         doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id` as a map. The values of the opts must be immutable. Currently only numbers, symbols and booleans are supported.",
         args:           [[:cue_id, :symbol]],
-        opts:           {:your_key => "Your value",
+        opts:           {:your_key    => "Your value",
                          :another_key => "Another value",
-                         :key => "All these opts are passed through to the thread which syncs"},
+                         :key         => "All these opts are passed through to the thread which syncs"},
         accepts_block:  false,
         examples:       ["
 in_thread do
@@ -1520,7 +2066,7 @@ in_thread do
     sample :elec_blup  # after which play the elec blup sample
   end
 end"
-]
+    ]
 
 
 
@@ -1534,7 +2080,7 @@ end"
         p.deliver! payload
       end
 
-      unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+      unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
         if cue_ids.size == 1
           __delayed_highlight3_message "sync #{cue_ids.first.to_sym.inspect}"
         else
@@ -1555,7 +2101,8 @@ end"
       cue_map[:cue] = cue_id
 
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
-      unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+
+      unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
         __delayed_highlight2_message "synced #{cue_id.inspect} (Run #{run_id})"
       end
       cue_map
@@ -1567,6 +2114,7 @@ end"
         args:           [[:cue_id, :symbol]],
         opts:           nil,
         accepts_block:  false,
+        advances_time:  true,
         examples:       ["
 in_thread do
   sync :foo # this parks the current thread waiting for a foo sync message to be received.
@@ -1642,6 +2190,14 @@ end"]
         parent_t_vars[v] = parent_t.thread_variable_get(v)
       end
 
+      # clone the thread local counters rather than grabbing them as they're mutable.
+      # do this here in the parent thread so we know they're not being modified.
+      if parent_t_vars[:sonic_pi_core_thread_local_counters]
+        cloned_thread_local_counters = parent_t_vars[:sonic_pi_core_thread_local_counters].clone
+      else
+        cloned_thread_local_counters = nil
+      end
+
       job_id = __current_job_id
       reg_with_parent_completed = Promise.new
 
@@ -1682,6 +2238,8 @@ end"]
 
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
         Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
+        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, cloned_thread_local_counters) if cloned_thread_local_counters
+
         # Reset subthreads thread local to the empty set. This shouldn't
         # be inherited from the parent thread.
         Thread.current.thread_variable_set :sonic_pi_spider_subthreads, Set.new
@@ -1756,8 +2314,9 @@ end"]
         args:           [],
         opts:           {:name => "Make this thread a named thread with name"},
         accepts_block:  true,
-        examples:       [
-"
+        requires_block: true,
+        async_block:    true,
+        examples:       ["
 loop do      # If you write two loops one after another like this,
   play 50    # then only the first loop will execute as the loop acts
   sleep 1    # like a trap not letting the flow of control out
@@ -1845,6 +2404,9 @@ end
 # due to the thread being named, the second re-run will not create a new similarly
 # named thread. This is a nice pattern for live coding.
 "]
+
+
+
 
     def __on_thread_death(&block)
       gc_jobs = Thread.current.thread_variable_get(:sonic_pi__not_inherited__spider_in_thread_gc_jobs) || []

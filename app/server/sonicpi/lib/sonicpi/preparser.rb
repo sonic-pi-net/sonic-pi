@@ -21,7 +21,7 @@ module SonicPi
     class PreParseError < StandardError ; end
 
     def self.preparse(rb)
-      SonicPi::SpiderAPI.ring_fns.each do |fn|
+      SonicPi::SpiderAPI.vec_fns.each do |fn|
         fn = fn[:name].to_s
         rb.gsub!(/\((\s*)#{fn}(\s)/, '\1' + fn + '(\2')
 

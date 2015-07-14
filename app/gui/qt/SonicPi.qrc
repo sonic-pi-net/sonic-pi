@@ -21,6 +21,7 @@
         <file>images/icon-smaller.png</file>
         <file>images/logo.png</file>
         <file>images/logo-smaller.png</file>
+        <file>images/logo-smaller-dark.png</file>
         <file>images/logo.txt</file>
         <file>images/tutorial/sample.png</file>
         <file>images/tutorial/env-attack-release.png</file>
@@ -35,11 +36,13 @@
         <file>images/coreteam/josephwilk.png</file>
         <file>images/coreteam/xavierriley.png</file>
         <file>images/coreteam/jweather.png</file>
-        
-        <file>html/styles.css</file>
+
         <file>html/doc.html</file>
         <file>html/info.html</file>
         <file>html/startup.html</file>
+
+        <file>theme/light/doc-styles.css</file>
+        <file>theme/dark/doc-styles.css</file>
 
         <file>lang/sonic-pi_de.qm</file>
     </qresource>

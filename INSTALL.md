@@ -10,6 +10,7 @@ following platforms:
 * [Mac OS X](#mac-os-x)
 * [Windows](#windows)
 
+----
 
 ## Raspberry Pi
 
@@ -100,7 +101,7 @@ Arch Linux users are strongly recommended to install the [sonic-pi-git](https://
 
 After installing, users need to follow the instructions in the [Generic Linux](#generic-linux) section to start the `jackd` server, and then run `sonic-pi` at a command prompt. 
 
-###Building from source
+### Building from source
 
 Users can opt to build from source as well if they would like. Instructions and dependencies can be found within the PKGBUILD file in the AUR package previously mentioned, as well as the required patch file. 
 
@@ -114,6 +115,8 @@ Users can opt to build from source as well if they would like. Instructions and 
 * Run the setup wizard and install to a known location which we'll call /path/to/qt
 * Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and untar into a known location which we'll call /path/to/qscintilla
   (current version is QScintilla-gpl-2.9)
+* Install SuperCollider 3.6 from http://supercollider.github.io/download.html
+* Download SuperCollider extensions from http://sourceforge.net/projects/sc3-plugins/files/OSX_3.6/ and install as per the included README.txt file
 
 ### Server extensions
 
@@ -151,22 +154,34 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 * Run `./mac-build-app`
 * App should be in `build` dir
 
+----
 
 ## Windows
 
+### Source Code 
+
+* Download & install [Git for Windows](https://msysgit.github.io/).
+* Checkout [latest Sonic Pi sources](https://github.com/samaaron/sonic-pi) from GitHub.
 
 ### Dependencies
 
-* Install Visual Studio 2013 Express for Desktop http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop
-* Download Qt 5.4.1+ http://qt-project.org/downloads
-  - Run the setup wizard and install to a known location which we'll call C:\Qt5
+* Download & Install [Visual Studio 2013 Express for Desktop](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
+* Download & Install [Qt 5.4.1+](https://www.qt.io/download-open-source/)
+  - Run the setup wizard and install to a known location (e.g. C:\Qt5 or C:\apps\qt5) which we'll call %QT5_HOME%
   - Be sure to install the msvc2013_x86 target
-* Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and unzip
+  - More details on Qt installation can be found on [this blog post](http://sonicpidevnotes.blogspot.com/2015/06/installing-qt-5-on-windows-7-for-sonic.html)
+* Grab a copy of the [QScintilla libs](http://www.riverbankcomputing.co.uk/software/qscintilla/download) and unzip it in your apps directory
 
 ### Server extensions
 
-* Compile native extensions: `ruby app/server/bin/compile-extensions.rb`
+* Download & Install [Ruby 2.1.x](http://rubyinstaller.org/downloads/)
+* [Download](http://rubyinstaller.org/downloads/) & [Install](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) Ruby Development Kit
+* Compile native extensions: 
+  - start ruby dev tools (%RUBY_DEV_HOME%\msys.bat)
+  - go to your Sonic Pi checkout dir
+  - run `ruby app/server/bin/compile-extensions.rb`
   - if you get a "no Makefiles" error for rugged, you may need to patch app\server\vendor\rugged\ext\rugged\extconf.rb, see https://github.com/jweather/rugged/commit/5fa0cb957ae20faddfa3e3504f122495bbd4e72f
+  - TODO: how one can determine if compilation of native extensions was successful?
 
 ### Qt GUI
 
@@ -200,6 +215,30 @@ Packaging:
   - file paths will need to be updated, currently absolute
   - build with `candle sonic-pi.wxs -ext WixUtilExtension && light sonic-pi.wixobj -ext WixUtilExtension -ext WixUIExtension`
 
+----
+
+## Optional: Sonic Pi reference books
+
+Do you want to read the Sonic Pi tutorial as a whole, e.g. on your
+mobile reader or printed out on paper?
+
+During the Qt GUI build process, the directory `app/gui/qt/book` will
+be generated, containing each section of the integrated help system
+as a printable HTML reference book document.
+
+As an optional step after the build process, you can convert these HTML
+files to more convenient PDFs using the `./create-pdf` script.
+
+On your Linux or OS X system, you will need to have installed
+
+* [wkhtmltopdf](http://wkhtmltopdf.org)
+  
+  (Note: On Ubuntu, you will need the
+  [wkhtmltopdf binary with a patched Qt](http://wkhtmltopdf.org/downloads.html)
+  from their site, as Ubuntu's own binary package does not support all
+  features needed for a clean PDF conversion.)
+
+----
 
 ## Unsupported development HTML Interface
 

@@ -59,6 +59,7 @@
 #include <QSettings>
 #include <QScrollBar>
 #include <QSignalMapper>
+#include <QSplitter>
 
 // QScintilla stuff
 #include <Qsci/qsciapis.h>
@@ -67,6 +68,7 @@
 #include "sonicpilexer.h"
 #include "sonicpiapis.h"
 #include "sonicpiscintilla.h"
+#include "sonicpitheme.h"
 
 #include "oschandler.h"
 #include "sonicpiudpserver.h"
@@ -97,6 +99,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  loaded_workspaces = false;
   this->splash = splash;
   protocol = UDP;
 
@@ -120,8 +123,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
 
-  currentLine = 0;
-  currentIndex = 0;
   is_recording = false;
   show_rec_icon_a = false;
 
@@ -130,13 +131,31 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Setup output and error panes
   outputPane = new QTextEdit;
-  errorPane = new QTextEdit;
+  errorPane = new QTextBrowser;
+  errorPane->setOpenExternalLinks(true);
+
+  // Syntax highlighting
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
+  QFile themeFile(themeFilename);
+  SonicPiTheme *theme;
+  if(themeFile.exists()){
+    qDebug() << "[GUI] - using custom editor colours";
+    QSettings settings(themeFilename, QSettings::IniFormat);
+    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
+    lexer = new SonicPiLexer(theme);
+  }
+  else{
+    qDebug() << "[GUI] - using default editor colours";
+    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
+    lexer = new SonicPiLexer(theme);
+  }
 
   QThreadPool::globalInstance()->setMaxThreadCount(3);
 
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
 
-  OscHandler* handler = new OscHandler(this, outputPane, errorPane);
+  OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
 
   if(protocol == UDP){
     sonicPiServer = new SonicPiUDPServer(this, handler);
@@ -153,8 +172,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   tabs->setMovable(false);
   tabs->setTabPosition(QTabWidget::South);
 
-  // Syntax highlighting
-  lexer = new SonicPiLexer;
   lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
   // create workspaces and add them to the tabs
@@ -164,7 +181,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     std::string s;
 
 
-    SonicPiScintilla *workspace = new SonicPiScintilla(lexer);
+    SonicPiScintilla *workspace = new SonicPiScintilla(lexer, theme);
 
     //tab completion when in list
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
@@ -181,14 +198,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     QShortcut *moveLineDown = new QShortcut(ctrlMetaKey('n'), workspace);
     connect (moveLineDown, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionDown())) ;
-
-    // Windows-style shortcuts for copy and paste
-
-    QShortcut *winCopy = new QShortcut(ctrlKey('c'), workspace);
-    connect (winCopy, SIGNAL(activated()), workspace, SLOT(copy())) ;
-    QShortcut *winPaste = new QShortcut(ctrlKey('v'), workspace);
-    connect (winPaste, SIGNAL(activated()), workspace, SLOT(paste())) ;
-
     //set Mark
 #ifdef Q_OS_MAC
     QShortcut *setMark = new QShortcut(QKeySequence("Meta+Space"), workspace);
@@ -202,8 +211,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QShortcut *escape2 = new QShortcut(QKeySequence("Escape"), workspace);
     connect(escape, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
     connect(escape, SIGNAL(activated()), this, SLOT(resetErrorPane()));
+    connect(escape, SIGNAL(activated()), workspace, SLOT(clearLineMarkers()));
     connect(escape2, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
     connect(escape2, SIGNAL(activated()), this, SLOT(resetErrorPane()));
+    connect(escape2, SIGNAL(activated()), workspace, SLOT(clearLineMarkers()));
 
     //quick nav by jumping up and down 10 lines at a time
     QShortcut *forwardTenLines = new QShortcut(shiftMetaKey('u'), workspace);
@@ -229,12 +240,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QShortcut *downcaseWord= new QShortcut(metaKey('l'), workspace);
     connect(downcaseWord, SIGNAL(activated()), workspace, SLOT(downcaseWordOrSelection()));
 
-    //Goto nth Tab
-    QShortcut *changeTab = new QShortcut(metaKey(int2char(ws)), this);
-    connect(changeTab, SIGNAL(activated()), signalMapper, SLOT(map()));
-    signalMapper -> setMapping(changeTab, ws);
-
-    QString w = QString(tr("Workspace %1")).arg(QString::number(ws));
+    QString w = QString(tr("Buffer %1")).arg(QString::number(ws));
     workspaces[ws] = workspace;
     tabs->addTab(workspace, w);
   }
@@ -269,7 +275,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
-  outputPane->setTextColor(QColor("#5e5e5e"));
+  outputPane->setTextColor(QColor(theme->color("LogDefaultForeground")));
   outputPane->append("\n");
   outputPane->append(asciiArtLogo());
 
@@ -293,8 +299,11 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   prefsWidget->setFocusPolicy(Qt::NoFocus);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
+
   prefsCentral = new QWidget;
   prefsWidget->setWidget(prefsCentral);
+  QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+  prefsCentral->setSizePolicy(prefsSizePolicy);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
   prefsWidget->hide();
   prefsWidget->setObjectName("prefs");
@@ -314,7 +323,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   docsCentral->setTabPosition(QTabWidget::South);
 
   docPane = new QTextBrowser;
-  docPane->setFocusPolicy(Qt::NoFocus);
   docPane->setMinimumHeight(200);
   docPane->setOpenExternalLinks(true);
   docPane->setStyleSheet(defaultTextBrowserStyle);
@@ -326,20 +334,19 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   down->setContext(Qt::WidgetShortcut);
   connect(down, SIGNAL(activated()), this, SLOT(docScrollDown()));
 
-  docPane->setHtml(readFile(":/html/doc.html"));
+  docPane->setSource(QUrl("qrc:///html/doc.html"));
 
   addUniversalCopyShortcuts(docPane);
 
-  QHBoxLayout *docLayout = new QHBoxLayout;
-  docLayout->addWidget(docsCentral);
-  docLayout->addWidget(docPane, 1);
-  QWidget *docW = new QWidget();
-  docW->setLayout(docLayout);
+  QSplitter *docsplit = new QSplitter;
+
+  docsplit->addWidget(docsCentral);
+  docsplit->addWidget(docPane);
 
   docWidget = new QDockWidget(tr("Help"), this);
   docWidget->setFocusPolicy(Qt::NoFocus);
   docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
-  docWidget->setWidget(docW);
+  docWidget->setWidget(docsplit);
   docWidget->setObjectName("help");
 
   addDockWidget(Qt::BottomDockWidgetArea, docWidget);
@@ -350,10 +357,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // connect(docWidget, SIGNAL(visibilityChanged(bool)), this,
   // SLOT(helpClosed(bool)));
 
-  QVBoxLayout *mainWidgetLayout = new QVBoxLayout;
+  mainWidgetLayout = new QVBoxLayout;
   mainWidgetLayout->addWidget(tabs);
   mainWidgetLayout->addWidget(errorPane);
-  QWidget *mainWidget = new QWidget;
+  mainWidget = new QWidget;
   mainWidget->setFocusPolicy(Qt::NoFocus);
   errorPane->hide();
   mainWidget->setLayout(mainWidgetLayout);
@@ -377,25 +384,89 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   initPrefsWindow();
   initDocsWindow();
 
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-
   if(settings.value("first_time", 1).toInt() == 1) {
-    QTextEdit* startupPane = new QTextEdit;
-    startupPane->setReadOnly(true);
+    QTextBrowser* startupPane = new QTextBrowser;
     startupPane->setFixedSize(600, 615);
     startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
     startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
     addUniversalCopyShortcuts(startupPane);
-    QString html;
-
-    startupPane->setHtml(readFile(":/html/startup.html"));
+    startupPane->document()->setDefaultStyleSheet(readFile(":/theme/light/doc-styles.css"));
+    startupPane->setSource(QUrl("qrc:///html/startup.html"));
+    startupPane->setStyleSheet(defaultTextBrowserStyle);
     docWidget->show();
     startupPane->show();
   }
+
+  focusMode = false;
+  restoreDocPane = false;
+  changeTheme();
+  disableFocusMode();
 }
 
 void MainWindow::changeTab(int id){
   tabs->setCurrentIndex(id);
+}
+
+void MainWindow::updateFocusMode(){
+  if(focusMode == true){
+    focusMode = false;
+    disableFocusMode();
+  }
+  else{
+    focusMode = true;
+    if(docWidget->isVisible()){
+      restoreDocPane = true;
+      docWidget->close();
+    }
+    outputWidget->close();
+    toolBar->close();
+    prefsWidget->close();
+    statusBar()->close();
+
+    QTabBar *tabBar = tabs->findChild<QTabBar *>();
+    tabBar->hide();
+
+    mainWidgetLayout->setMargin(0);
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowState(Qt::WindowFullScreen);
+    this->show();
+  }
+}
+
+void MainWindow::disableFocusMode(){
+ if(restoreDocPane){
+    docWidget->show();
+    restoreDocPane = false;
+  }
+  outputWidget->show();
+  toolBar->show();
+  statusBar()->show();
+
+  QTabBar *tabBar = tabs->findChild<QTabBar *>();
+  tabBar->show();
+
+  mainWidgetLayout->setMargin(9);
+  this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
+  this->setWindowFlags(Qt::WindowTitleHint);
+  this->show();
+}
+
+void MainWindow::updateLogVisibility(){
+  if(outputWidget->isVisible()){
+    outputWidget->close();
+  }
+  else{
+    outputWidget->show();
+  }
+}
+
+void MainWindow::updateButtonVisibility(){
+  if(toolBar->isVisible()){
+    toolBar->close();
+  }
+  else{
+    toolBar->show();
+  }
 }
 
 void MainWindow::completeListOrIndentLine(QObject* ws){
@@ -588,10 +659,11 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio Settings"));
   advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
   mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
+  mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
   mixer_force_mono = new QCheckBox(tr("Force Mono"));
+  mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
-
 
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
   advanced_audio_box_layout->addWidget(mixer_invert_stereo);
@@ -627,14 +699,24 @@ void MainWindow::initPrefsWindow() {
   volBox->setLayout(vol_box);
 
   QGroupBox *debug_box = new QGroupBox(tr("Debug Options"));
-  print_output = new QCheckBox(tr("Print output"));
-  check_args = new QCheckBox(tr("Check synth args"));
-  clear_output_on_run = new QCheckBox(tr("Clear output on run"));
+  debug_box->setToolTip(tr("Configure debug behaviour"));
 
+  print_output = new QCheckBox(tr("Log synths"));
+  print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
+
+  check_args = new QCheckBox(tr("Safe mode"));
+  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
+
+  clear_output_on_run = new QCheckBox(tr("Clear log on run"));
+  clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
+
+  log_cues = new QCheckBox(tr("Log cues"));
+  log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
-  debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(check_args);
+  debug_box_layout->addWidget(print_output);
+  debug_box_layout->addWidget(log_cues);
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
@@ -651,15 +733,19 @@ void MainWindow::initPrefsWindow() {
 
 
   QGroupBox *editor_box = new QGroupBox(tr("Editor"));
+  editor_box->setToolTip(tr("Configure editor look and feel"));
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
-
+  show_line_numbers->setToolTip(tr("Toggle line number visibility."));
+  dark_mode = new QCheckBox(tr("Dark mode"));
+  dark_mode->setToolTip(tr("Toggle dark mode.\nDark mode is perfect for live coding in night clubs."));
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
-  editor_box->setToolTip(tr("Editor Preferences"));
+  connect(dark_mode, SIGNAL(clicked()), this, SLOT(changeTheme()));
 
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
+  editor_box_layout->addWidget(dark_mode);
   editor_box->setLayout(editor_box_layout);
-  
+
 #if defined(Q_OS_LINUX)
    grid->addWidget(audioOutputBox, 0, 0);
    grid->addWidget(volBox, 0, 1);
@@ -685,7 +771,7 @@ void MainWindow::initPrefsWindow() {
     go_translate->setTextFormat(Qt::RichText);
     translation_box_layout->addWidget(go_translate);
     translation_box->setLayout(translation_box_layout);
-    
+
     grid->addWidget(translation_box, 3, 0, 1, 2);
   }
 
@@ -696,7 +782,9 @@ void MainWindow::initPrefsWindow() {
   check_args->setChecked(settings.value("prefs/check-args", true).toBool());
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
+  log_cues->setChecked(settings.value("prefs/log-cues", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
+  dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
 
@@ -899,21 +987,21 @@ void MainWindow::resetErrorPane() {
 
 void MainWindow::runCode()
 {
-  SonicPiScintilla *ws = ((SonicPiScintilla*)tabs->currentWidget());
-  if (currentLine == 0 && currentIndex == 0) {
-    // only update saved position if we're not already highlighting code
-    ws->getCursorPosition(&currentLine, &currentIndex);
-  }
-  ws->setReadOnly(true);
-  ws->selectAll();
+  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
+  ws->highlightAll();
+  lexer->highlightAll();
+  ws->clearLineMarkers();
   resetErrorPane();
   statusBar()->showMessage(tr("Running Code..."), 1000);
-  std::string code = ((SonicPiScintilla*)tabs->currentWidget())->text().toStdString();
+  std::string code = ws->text().toStdString();
   Message msg("/save-and-run-buffer");
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   if(!print_output->isChecked()) {
     code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+  if(!log_cues->isChecked()) {
+    code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
   else{
     code = "use_debug true #__nosave__ set by Qt GUI user preferences.\n" + code ;
@@ -933,19 +1021,14 @@ void MainWindow::runCode()
   sendOSC(msg);
 
   QTimer::singleShot(500, this, SLOT(unhighlightCode()));
-
-
 }
 
 void MainWindow::unhighlightCode()
 {
-  SonicPiScintilla *ws = (SonicPiScintilla *)tabs->currentWidget();
-  ws->selectAll(false);
-  if (currentLine != 0 || currentIndex != 0) {
-    ws->setCursorPosition(currentLine, currentIndex);
-    currentLine = 0; currentIndex = 0;
-  }
-  ws->setReadOnly(false);
+  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
+  ws->unhighlightAll();
+
+  lexer->unhighlightAll();
 }
 
 void MainWindow::beautifyCode()
@@ -1089,8 +1172,9 @@ void MainWindow::helpContext()
     for (start = pos; start > 0; start--) {
       if (!text[start-1].isLetter() && text[start-1] != '_') break;
     }
+    QString identifierEndChars = QString("?!_=");
     for (end = pos; end < text.length(); end++) {
-      if (!text[end].isLetter() && text[end] != '_') break;
+      if (!text[end].isLetter() && !identifierEndChars.contains(text[end])) break;
     }
     selection = text.mid(start, end-start);
   }
@@ -1136,10 +1220,139 @@ void MainWindow::changeRPSystemVol(int val)
 
 }
 
+void MainWindow::changeTheme(){
+  SonicPiTheme *currentTheme = lexer->theme;
+
+  QString css = readFile(QString(":/theme/%1/doc-styles.css").arg(dark_mode->isChecked() ? "dark" : "light"));
+  docPane->document()->setDefaultStyleSheet(css);
+  docPane->reload();
+  foreach(QTextBrowser* pane, infoPanes) {
+    pane->document()->setDefaultStyleSheet(css);
+    pane->reload();
+  }
+  errorPane->document()->setDefaultStyleSheet(css);
+
+  if(dark_mode->isChecked()){
+    currentTheme->darkMode();
+
+    QPalette p = QApplication::palette();
+    p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
+    p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
+    p.setColor(QPalette::Base,            QColor("#a3a3a3"));
+    p.setColor(QPalette::AlternateBase,   QColor("#a2a2a2"));
+    p.setColor(QPalette::Text,            QColor("#000"));
+    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
+    p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
+    p.setColor(QPalette::ToolTipBase,   QColor("#929292"));
+    p.setColor(QPalette::ToolTipText,   QColor("#fff"));
+    p.setColor(QPalette::Button,        QColor("#000"));
+    p.setColor(QPalette::ButtonText,    QColor("#fff"));
+    p.setColor(QPalette::Shadow,        QColor("#333"));
+    p.setColor(QPalette::Mid, QColor("#222"));
+    p.setColor(QPalette::Dark, QColor("#333"));
+    p.setColor(QPalette::Midlight, QColor("#222"));
+    p.setColor(QPalette::Light, QColor("#111"));
+
+    QApplication::setPalette(p);
+
+    QString windowColor = currentTheme->color("WindowBackground").name();
+    QString windowForegroundColor = currentTheme->color("WindowForeground").name();
+    QString paneColor = currentTheme->color("PaneBackground").name();
+    QString windowBorder = currentTheme->color("WindowBorder").name();
+    QString selectedTab = "deeppink";
+
+    QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
+    QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: %2;} ").arg(windowForegroundColor, selectedTab);
+    QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529);} ").arg(windowColor, windowBorder, windowForegroundColor);
+    QString toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
+
+    this->setStyleSheet(        QString(toolTipStyling+scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
+    statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
+    outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
+    outputWidget->setStyleSheet(widgetTitleStyling);
+    prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #000; color: %1;}").arg(windowForegroundColor));
+    tabs->setStyleSheet(        tabStyling);
+    docsCentral->setStyleSheet( tabStyling);
+    docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-background-color: deeppink;}").arg(paneColor, windowForegroundColor));
+    docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
+    infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
+    toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
+    errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
+
+
+    for(int i=0; i < tabs->count(); i++){
+      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+      ws->setFrameShape(QFrame::NoFrame);
+    }
+
+    foreach(QTextBrowser* pane, infoPanes) {
+      pane->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
+    }
+
+  }else{
+    this->setStyleSheet("");
+    infoWidg->setStyleSheet("");
+    mainWidget->setStyleSheet("");
+    statusBar()->setStyleSheet("");
+    outputPane->setStyleSheet("");
+    outputWidget->setStyleSheet("");
+    prefsWidget->setStyleSheet("");
+    tabs->setStyleSheet("");
+    docsCentral->setStyleSheet("");
+    docWidget->setStyleSheet("");
+    toolBar->setStyleSheet("");
+    currentTheme->lightMode();
+    docPane->setStyleSheet(defaultTextBrowserStyle);
+
+    for(int i=0; i < tabs->count(); i++){
+      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+      ws->setFrameShape(QFrame::StyledPanel);
+      ws->setStyleSheet("");
+    }
+
+    QPalette p = QApplication::palette();
+    p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
+    p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
+    p.setColor(QPalette::Base,            QColor("#fff"));
+    p.setColor(QPalette::Text,            currentTheme->color("WindowForeground"));
+    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
+    p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
+
+    p.setColor(QPalette::AlternateBase,   QColor("#fff"));
+    p.setColor(QPalette::ToolTipBase,   QColor("#fff"));
+    p.setColor(QPalette::ToolTipText,   QColor("#000"));
+    p.setColor(QPalette::Button,        QColor("#ddd"));
+    p.setColor(QPalette::ButtonText,    QColor("#000"));
+    p.setColor(QPalette::Shadow,        QColor("#fff"));
+    p.setColor(QPalette::Dark, QColor("#000"));
+    p.setColor(QPalette::Midlight, QColor("grey"));
+    p.setColor(QPalette::Light, QColor("#fff"));
+
+    QApplication::setPalette(p);
+
+    QString toolTipStyling = QString("QToolTip {color: #000; background-color: #ddd; border: 0px;}");
+    this->setStyleSheet(toolTipStyling);
+
+    errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
+
+    foreach(QTextBrowser* pane, infoPanes) {
+      pane->setStyleSheet(defaultTextBrowserStyle);
+    }
+  }
+
+  for(int i=0; i < tabs->count(); i++){
+    SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+    ws->redraw();
+  }
+
+  lexer->unhighlightAll();
+}
+
 void MainWindow::changeShowLineNumbers(){
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
     if (show_line_numbers->isChecked()){
+
       ws->showLineNumbers();
     } else {
       ws->hideLineNumbers();
@@ -1341,6 +1554,9 @@ void MainWindow::createShortcuts()
   new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
+  new QShortcut(QKeySequence("F9"), this, SLOT(updateButtonVisibility()));
+  new QShortcut(QKeySequence("F10"), this, SLOT(updateFocusMode()));
+  new QShortcut(QKeySequence("F11"), this, SLOT(updateLogVisibility()));
 }
 
 void MainWindow::createToolBar()
@@ -1421,32 +1637,42 @@ void MainWindow::createToolBar()
 QString MainWindow::readFile(QString name)
 {
   QFile file(name);
-  if (!file.open(QFile::ReadOnly | QFile::Text))
+  if (!file.open(QFile::ReadOnly | QFile::Text)) {
+    std::cerr << "[GUI] - could not open file " << name.toStdString() << "\n";
     return "";
+  }
 
   QTextStream st(&file);
   st.setCodec("UTF-8");
-  QString s;
-  s.append(st.readAll());
-  return s;
+  return st.readAll();
 }
 
 void MainWindow::createInfoPane() {
-  QTabWidget *infoTabs = new QTabWidget(this);
+  QTabWidget* infoTabs = new QTabWidget(this);
 
-  QStringList files, tabs;
-  files << ":/html/info.html" << ":/info/CORETEAM.html" << ":/info/CONTRIBUTORS.html" <<
-    ":/info/COMMUNITY.html" << ":/info/LICENSE.html" << ":/info/CHANGELOG.html";
-  tabs << tr("About") << tr("Core Team") << tr("Contributors") <<
-    tr("Community") << tr("License") << tr("History");
+  QStringList urls, tabs;
 
-  for (int t=0; t < files.size(); t++) {
+  urls << "qrc:///html/info.html"
+       << "qrc:///info/CORETEAM.html"
+       << "qrc:///info/CONTRIBUTORS.html"
+       << "qrc:///info/COMMUNITY.html"
+       << "qrc:///info/LICENSE.html"
+       << "qrc:///info/CHANGELOG.html";
+
+  tabs << tr("About")
+       << tr("Core Team")
+       << tr("Contributors")
+       << tr("Community")
+       << tr("License")
+       << tr("History");
+
+  for (int t=0; t < urls.size(); t++) {
     QTextBrowser *pane = new QTextBrowser;
+    infoPanes.append(pane);
     addUniversalCopyShortcuts(pane);
     pane->setOpenExternalLinks(true);
     pane->setFixedSize(600, 615);
-    pane->setHtml(readFile(files[t]));
-    pane->setStyleSheet(defaultTextBrowserStyle);
+    pane->setSource(QUrl(urls[t]));
     infoTabs->addTab(pane, tabs[t]);
   }
 
@@ -1549,7 +1775,9 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/check-args", check_args->isChecked());
   settings.setValue("prefs/print-output", print_output->isChecked());
   settings.setValue("prefs/clear-output-on-run", clear_output_on_run->isChecked());
+  settings.setValue("prefs/log-cues", log_cues->isChecked());
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
+  settings.setValue("prefs/dark-mode", dark_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
 
@@ -1651,27 +1879,13 @@ void MainWindow::onExitCleanup()
 }
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
-  QString content = cur->data(32).toString();
-  docPane->setHtml(content);
+  QString url = cur->data(32).toString();
+  docPane->setSource(QUrl(url));
 }
 
 void MainWindow::updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev) {
   (void)prev;
   updateDocPane(cur);
-}
-
-void MainWindow::setHelpText(QListWidgetItem *item, const QString filename) {
-  QFile file(filename);
-
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-
-  item->setData(32, QVariant(s));
 }
 
 void MainWindow::addHelpPage(QListWidget *nameList,
@@ -1682,7 +1896,7 @@ void MainWindow::addHelpPage(QListWidget *nameList,
 
   for(i = 0; i < len; i++) {
     QListWidgetItem *item = new QListWidgetItem(helpPages[i].title);
-    setHelpText(item, QString(helpPages[i].filename));
+    item->setData(32, QVariant(helpPages[i].url));
     item->setSizeHint(QSize(item->sizeHint().width(), 25));
     nameList->addItem(item);
     entry.entryIndex = nameList->count()-1;
@@ -1784,6 +1998,13 @@ void MainWindow::tabPrev() {
   QMetaObject::invokeMethod(tabs, "setCurrentIndex", Q_ARG(int, index));
 }
 
+void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
+  if(num > 0) {
+    SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
+    ws->setLineErrorMarker(num - 1);
+  }
+}
+
 void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
   new QShortcut(ctrlKey('c'), te, SLOT(copy()));
   new QShortcut(ctrlKey('a'), te, SLOT(selectAll()));
@@ -1793,15 +2014,7 @@ void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
 }
 
 QString MainWindow::asciiArtLogo(){
-  QFile file(":/images/logo.txt");
-  if(!file.open(QFile::ReadOnly | QFile::Text)) {
-  }
-
-  QString s;
-  QTextStream st(&file);
-  st.setCodec("UTF-8");
-  s.append(st.readAll());
-  return s;
+  return readFile(":/images/logo.txt");
 }
 
 void MainWindow::printAsciiArtLogo(){

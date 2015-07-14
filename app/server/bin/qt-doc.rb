@@ -34,6 +34,9 @@ FileUtils::mkdir "#{qt_gui_path}/help/"
 FileUtils::rm_rf "#{qt_gui_path}/info/"
 FileUtils::mkdir "#{qt_gui_path}/info/"
 
+FileUtils::rm_rf "#{qt_gui_path}/book/"
+FileUtils::mkdir "#{qt_gui_path}/book/"
+
 docs = []
 filenames = []
 count = 0
@@ -47,7 +50,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # valid names: lang, synths, fx, samples, examples
-make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false|
+make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_keyword=false, page_break=false, chapters=false, lang="en"|
   return if doc_items.empty?
   list_widget = "#{name}NameList"
   layout = "#{name}Layout"
@@ -59,6 +62,11 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
 
   docs << "  struct help_page #{help_pages}[] = {\n"
   doc_items = doc_items.sort if should_sort
+  
+  book = ""
+  toc = "<ul class=\"toc\">\n"
+  toc_level = 0
+
   doc_items.each do |n, doc|
     title = n
     if titleize == :titleize then
@@ -71,6 +79,19 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
 
     item_var = "#{name}_item_#{count+=1}"
     filename = "help/#{item_var}.html"
+
+    if title.start_with?("   ") then
+      if toc_level == 0 then
+        toc << "<ul class=\"toc\">\n"
+        toc_level += 1
+      end
+    else
+      if toc_level == 1 then
+        toc << "</ul>\n"
+        toc_level -= 1
+      end
+    end
+    toc << "<li><a href=\"\##{item_var}\">#{title}</a></li>\n"
 
     docs << "    { "
 
@@ -87,7 +108,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
     end
 
     docs << ", "
-    docs << "\":/#{filename}\""
+    docs << "\"qrc:///#{filename}\""
     docs << "},\n"
 
     filenames << filename
@@ -96,6 +117,34 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
       f << "#{doc}"
     end
 
+    if chapters then
+      c = title[/\A\s*[0-9]+(\.[0-9]+)?/]
+      doc.gsub!(/(<h1.*?>)/, "\\1#{c} - ")
+    end
+    if page_break then
+      doc.gsub!(/<h1.*?>/, "<h1 id=\"#{item_var}\" style=\"page-break-before: always;\">")
+    else
+      doc.gsub!(/<h1.*?>/, "<h1 id=\"#{item_var}\">")
+    end
+    book << doc
+    book << "<hr/>\n"
+  end
+
+  while toc_level >= 0 do
+    toc << "</ul>\n"
+    toc_level -= 1
+  end
+
+  book_body = book[/<body.*?>/]
+  book.gsub!(/<\/?body.*?>/, '')
+  book.gsub!(/<meta http-equiv.*?>/, '')
+  File.open("#{qt_gui_path}/book/Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "") + ".html", 'w') do |f|
+    f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
+    f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+    f << book_body << "\n"
+    f << toc << "\n"
+    f << book << "\n"
+    f << "</body>\n"
   end
 
   docs << "  };\n\n"
@@ -121,7 +170,7 @@ make_tutorial = lambda do |lang|
     tutorial_html_map[name] = html
   end
 
-  make_tab.call("tutorial", tutorial_html_map, false, false)
+  make_tab.call("tutorial", tutorial_html_map, false, false, false, true, true, lang)
 end
 
 
@@ -133,7 +182,8 @@ example_dirs.each do |ex_dir|
     bname = ActiveSupport::Inflector.titleize(bname)
     name = "[#{ex_dir}] #{bname}"
     lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
-    html = "<head>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:///html/styles.css\"/>\n</head>\n\n<body class=\"example\">\n\n"
+    html = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+    html << "<body class=\"example\">\n"
     html << '<h1>'
     html << "# #{bname}"
     html << '</h1>'
@@ -175,11 +225,11 @@ docs << "{\n" unless (languages.empty?)
 make_tutorial.call("en")
 docs << "}\n" unless (languages.empty?)
 
-make_tab.call("examples", example_html_map, false, false)
-make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize, true, true)
-make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize, true, true)
-make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map)
-make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map), false, true, true)
+make_tab.call("examples", example_html_map, false, false, false, true)
+make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize, true, true, true)
+make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize, true, true, true)
+make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map, false, true, false, true)
+make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map), false, true, true, false)
 
 docs << "  // FX arguments for autocompletion\n"
 docs << "  QStringList fxtmp;\n"
