@@ -2586,7 +2586,7 @@ module SonicPi
         :amp => 1,
         :amp_slide => 0.1,
         :amp_slide_shape => 5,
-        :amp_slide_curve => 0,
+        :amp_slide_curve => 0
       }
     end
 
@@ -3015,14 +3015,14 @@ module SonicPi
         :phase_slide => 0,
         :phase_slide_shape => 5,
         :phase_slide_curve => 0,
-        :amp_min => 0,
-        :amp_min_slide => 0,
-        :amp_min_slide_shape => 5,
-        :amp_min_slide_curve => 0,
-        :amp_max => 1,
-        :amp_max_slide => 0,
-        :amp_max_slide_shape => 5,
-        :amp_max_slide_curve => 0,
+        :pan_min => 0,
+        :pan_min_slide => 0,
+        :pan_min_slide_shape => 5,
+        :pan_min_slide_curve => 0,
+        :pan_max => 1,
+        :pan_max_slide => 0,
+        :pan_max_slide_shape => 5,
+        :pan_max_slide_curve => 0,
         :pulse_width => 0.5,
         :pulse_width_slide => 0,
         :pulse_width_slide_shape => 5,
@@ -3042,6 +3042,7 @@ module SonicPi
         :smooth => 0,
         :smooth_up => 0,
         :smooth_down => 0
+
 
       }
     end
@@ -3385,6 +3386,217 @@ module SonicPi
     end
   end
 
+  class FXPanSlicer < FXSlicer
+    def name
+      "Pan Slicer"
+    end
+
+    def introduced
+      Version.new(2,6,0)
+    end
+
+    def synth_name
+      "fx_panslicer"
+    end
+
+    def doc
+      "Slice the pan automatically from left to right using a variety of different control waves. Behaves similarly to slicer and wobble FX but modifies stereo panning of sound in left and right speakers."
+    end
+
+    def arg_defaults
+
+      {
+        :amp => 1,
+        :amp_slide => 0,
+        :amp_slide_shape => 5,
+        :amp_slide_curve => 0,
+        :mix => 1,
+        :mix_slide => 0,
+        :mix_slide_shape => 5,
+        :mix_slide_curve => 0,
+        :pre_amp => 1,
+        :pre_amp_slide => 0,
+        :pre_amp_slide_shape => 5,
+        :pre_amp_slide_curve => 0,
+        :phase => 0.25,
+        :phase_slide => 0,
+        :phase_slide_shape => 5,
+        :phase_slide_curve => 0,
+        :pan_min => -1,
+        :pan_min_slide => 0,
+        :pan_min_slide_shape => 5,
+        :pan_min_slide_curve => 0,
+        :pan_max => 1,
+        :pan_max_slide => 0,
+        :pan_max_slide_shape => 5,
+        :pan_max_slide_curve => 0,
+        :pulse_width => 0.5,
+        :pulse_width_slide => 0,
+        :pulse_width_slide_shape => 5,
+        :pulse_width_slide_curve => 0,
+        :phase_offset => 0,
+        :wave => 1,
+        :invert_wave => 0,
+        :probability => 0,
+        :probability_slide => 0,
+        :probability_slide_shape => 5,
+        :probability_slide_curve => 0,
+        :prob_pos => 0,
+        :prob_pos_slide => 0,
+        :prob_pos_slide_shape => 5,
+        :prob_pos_slide_curve => 0,
+        :seed => 0,
+        :smooth => 0,
+        :smooth_up => 0,
+        :smooth_down => 0,
+      }
+      end
+    end
+
+    def specific_arg_info
+      {
+        :smooth =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next. Allows you to round off harsh edges in the slicer wave which may cause clicks.",
+          :validations => [v_positive(:smooth)],
+          :modulatable => true
+        },
+
+        :smooth_up =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going up. This smoothing happens before the main smooth mechanism.",
+          :validations => [v_positive(:smooth_up)],
+          :modulatable => true
+        },
+
+        :smooth_down =>
+        {
+          :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going down. This smoothing happens before the main smooth mechanism.",
+          :validations => [v_positive(:smooth_down)],
+          :modulatable => true
+        },
+
+        :probability =>
+        {
+          :doc => "Probability (as a value between 0 and 1) that a given slice will be replaced by the value of the  prob_pos opt (which defaults to 0, i.e. silence)",
+          :validations => [v_between_inclusive(:probability, 0, 1)],
+          :modulatable => true
+        },
+
+        :prob_pos =>
+        {
+          :doc => "Position of the slicer that will be jumped to when the probability test passes as a value between 0 and 1",
+          :validations => [v_between_inclusive(:prob_pos, 0, 1)],
+          :modulatable => true
+        },
+
+        :seed =>
+        {
+          :doc => "Seed value for rand num generator used for probability test",
+          :validations => [v_positive(:seed)],
+          :modulatable => false
+        },
+
+
+        :phase =>
+        {
+          :doc => "The phase duration (in beats) of the slices",
+          :validations => [v_positive_not_zero(:phase)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :phase_slide =>
+        {
+          :doc => "Slide time in beats between phase values",
+          :validations => [v_positive(:phase_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :width =>
+        {
+          :doc => "The width of the slices - 0 - 1.",
+          :validations => [v_between_exclusive(:width, 0, 1)],
+          :modulatable => true
+        },
+
+        :width_slide =>
+        {
+          :doc => "Slide time in beats between width values",
+          :validations => [v_positive(:width_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :phase_offset=>
+        {
+          :doc => "Initial phase offset.",
+          :validations => [v_between_inclusive(:phase_offset, 0, 1)],
+          :modulatable => false
+        },
+
+        :amp_slide =>
+        {
+          :doc => "The slide lag time for amplitude changes.",
+          :validations => [v_positive(:amp_slide)],
+          :modulatable => true,
+          :bpm_scale => true
+        },
+
+        :amp =>
+        {
+          :doc => "The amplitude of the resulting effect.",
+          :validations => [v_positive(:amp)],
+          :modulatable => true
+        },
+
+        :wave =>
+        {
+          :doc => "Control waveform used to modulate the amplitude. 0=saw, 1=pulse, 2=tri, 3=sine",
+          :validations => [v_one_of(:wave, [0, 1, 2, 3])],
+          :modulatable => true
+        },
+
+      :invert_wave =>
+        {
+        :doc => "Invert control waveform (i.e. flip it on the y axis). 0=uninverted wave, 1=inverted wave.",
+        :validations => [v_one_of(:invert_wave, [0, 1])],
+        :modulatable => true
+      },
+
+      :pan_min =>
+        {
+        :doc => "Minimum pan value (-1 is the left speaker only)",
+        :validations => [v_positive(:pan_min)],
+        :modulatable => true
+      },
+
+      :pan_min_slide =>
+        {
+        :doc => generic_slide_doc(:pan_min),
+        :validations => [v_positive(:pan_min_slide)],
+        :modulatable => true,
+        :bpm_scale => true
+      },
+
+      :pan_max =>
+        {
+        :doc => "Maximum pan value (+1 is the right speaker only)",
+        :validations => [v_positive(:pan_max)],
+        :modulatable => true
+      },
+
+      :pan_max_slide =>
+        {
+        :doc => generic_slide_doc(:pan_max),
+        :validations => [v_positive(:pan_max_slide)],
+        :modulatable => true,
+        :bpm_scale => true
+      }
+    }
+
+  end
 
 
   class FXIXITechno < FXInfo
@@ -4834,6 +5046,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       :fx_echo => FXEcho.new,
       :fx_replace_echo => FXEcho.new,
       :fx_slicer => FXSlicer.new,
+      :fx_panslicer => FXPanSlicer.new,
       :fx_replace_slicer => FXSlicer.new,
       :fx_wobble => FXWobble.new,
       :fx_replace_wobble => FXWobble.new,
