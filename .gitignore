@@ -58,6 +58,8 @@ app/gui/html/js/cljs-main.js
 
 app/gui/qt/Makefile
 
+app/gui/qt/moc_*
+
 
 # Detritus
 # ---------
