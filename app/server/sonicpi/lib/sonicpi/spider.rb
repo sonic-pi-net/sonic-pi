@@ -621,7 +621,7 @@ module SonicPi
             if line
               line = line.to_i
               err_msg = "[Line #{line}] \n #{message}"
-              error_line = code.lines[line + 1] ||  ""
+              error_line = code.lines.to_a[line + 1] ||  ""
             else
               line = -1
               err_msg = "\n #{e.message}"
