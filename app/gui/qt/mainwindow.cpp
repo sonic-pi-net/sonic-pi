@@ -407,29 +407,20 @@ void MainWindow::changeTab(int id){
   tabs->setCurrentIndex(id);
 }
 
+void MainWindow::toggleFocusMode() {
+  full_screen->toggle();
+  updateFocusMode();
+}
+
 void MainWindow::updateFocusMode(){
-  if(focusMode == true){
-    focusMode = false;
-    disableFocusMode();
-  }
-  else{
-    focusMode = true;
-    if(docWidget->isVisible()){
-      restoreDocPane = true;
-      docWidget->close();
-    }
-    outputWidget->close();
-    toolBar->close();
-    prefsWidget->close();
-    statusBar()->close();
-
-    QTabBar *tabBar = tabs->findChild<QTabBar *>();
-    tabBar->hide();
-
+  if (full_screen->isChecked()) {
     mainWidgetLayout->setMargin(0);
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setWindowState(Qt::WindowFullScreen);
     this->show();
+  }
+  else {
+    disableFocusMode();
   }
 }
 
@@ -451,21 +442,50 @@ void MainWindow::disableFocusMode(){
   this->show();
 }
 
+void MainWindow::toggleLogVisibility() {
+  show_log->toggle();
+  updateLogVisibility();
+}
+
 void MainWindow::updateLogVisibility(){
-  if(outputWidget->isVisible()){
-    outputWidget->close();
+  if(show_log->isChecked()) {
+    outputWidget->show();
   }
   else{
-    outputWidget->show();
+    outputWidget->close();
   }
 }
 
-void MainWindow::updateButtonVisibility(){
-  if(toolBar->isVisible()){
-    toolBar->close();
+
+void MainWindow::toggleTabsVisibility() {
+  show_tabs->toggle();
+  updateTabsVisibility();
+}
+
+void MainWindow::updateTabsVisibility(){
+  QTabBar *tabBar = tabs->findChild<QTabBar *>();
+
+  if(show_tabs->isChecked()) {
+    tabBar->show();
   }
   else{
+    tabBar->hide();
+  }
+}
+
+void MainWindow::toggleButtonVisibility() {
+
+  show_buttons->toggle();
+  updateButtonVisibility();
+
+}
+
+void MainWindow::updateButtonVisibility(){
+  if (show_buttons->isChecked()) {
     toolBar->show();
+  }
+  else {
+    toolBar->close();
   }
 }
 
@@ -733,26 +753,46 @@ void MainWindow::initPrefsWindow() {
 
 
   QGroupBox *editor_box = new QGroupBox(tr("Editor"));
-  editor_box->setToolTip(tr("Configure editor look and feel"));
+  editor_box->setToolTip(tr("Configure editor look and feel."));
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
   show_line_numbers->setToolTip(tr("Toggle line number visibility."));
+  show_log = new QCheckBox(tr("Show log"));
+  show_log->setToolTip(tr("Toggle visibility of the log."));
+  show_log->setChecked(true);
+  show_buttons = new QCheckBox(tr("Show buttons"));
+  show_buttons->setToolTip(tr("Toggle visibility of the control buttons."));
+  show_buttons->setChecked(true);
+  show_tabs = new QCheckBox(tr("Show Tabs"));
+  show_tabs->setChecked(true);
+  show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
+  full_screen = new QCheckBox(tr("Full screen"));
+  full_screen->setToolTip(tr("Toggle full screen mode."));
   dark_mode = new QCheckBox(tr("Dark mode"));
   dark_mode->setToolTip(tr("Toggle dark mode.\nDark mode is perfect for live coding in night clubs."));
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
+  connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
+  connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
+  connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFocusMode()));
+  connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
   connect(dark_mode, SIGNAL(clicked()), this, SLOT(changeTheme()));
 
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
+  editor_box_layout->addWidget(show_log);
+  editor_box_layout->addWidget(show_buttons);
+  editor_box_layout->addWidget(show_tabs);
   editor_box_layout->addWidget(dark_mode);
+  editor_box_layout->addWidget(full_screen);
   editor_box->setLayout(editor_box_layout);
 
 #if defined(Q_OS_LINUX)
    grid->addWidget(audioOutputBox, 0, 0);
    grid->addWidget(volBox, 0, 1);
 #endif
-  grid->addWidget(debug_box, 1, 1);
+
   grid->addWidget(advancedAudioBox, 1, 0);
-  grid->addWidget(update_box, 2, 0);
+  grid->addWidget(update_box, 1, 1);
+  grid->addWidget(debug_box, 2, 0);
   grid->addWidget(editor_box, 2, 1);
 
   if (!i18n) {
@@ -1559,12 +1599,12 @@ void MainWindow::createShortcuts()
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
 
-  new QShortcut(QKeySequence("F9"), this, SLOT(updateButtonVisibility()));
-  new QShortcut(shiftMetaKey('B'), this, SLOT(updateButtonVisibility()));
-  new QShortcut(QKeySequence("F10"), this, SLOT(updateFocusMode()));
-  new QShortcut(shiftMetaKey('F'), this, SLOT(updateFocusMode()));
-  new QShortcut(QKeySequence("F11"), this, SLOT(updateLogVisibility()));
-  new QShortcut(shiftMetaKey('L'), this, SLOT(updateLogVisibility()));
+  new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
+  new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
+  new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
+  new QShortcut(shiftMetaKey('F'), this, SLOT(toggleFocusMode()));
+  new QShortcut(QKeySequence("F11"), this, SLOT(toggleLogVisibility()));
+  new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
 }
 
 void MainWindow::createToolBar()

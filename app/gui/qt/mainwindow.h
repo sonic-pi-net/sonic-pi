@@ -138,9 +138,14 @@ private slots:
     void docScrollDown();
     void helpClosed(bool visible);
     void updateFocusMode();
+    void toggleFocusMode();
     void disableFocusMode();
     void updateLogVisibility();
+    void toggleLogVisibility();
+    void updateTabsVisibility();
+    void toggleTabsVisibility();
     void updateButtonVisibility();
+    void toggleButtonVisibility();
     void setLineMarkerinCurrentWorkspace(int num);
 
 
@@ -232,6 +237,10 @@ private:
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;
     QCheckBox *show_line_numbers;
+    QCheckBox *full_screen;
+    QCheckBox *show_log;
+    QCheckBox *show_buttons;
+    QCheckBox *show_tabs;
     QCheckBox *check_updates;
 
     QRadioButton *rp_force_audio_hdmi;
