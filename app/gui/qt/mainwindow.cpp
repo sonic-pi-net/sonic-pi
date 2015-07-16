@@ -1304,6 +1304,9 @@ void MainWindow::changeTheme(){
     currentTheme->lightMode();
     docPane->setStyleSheet(defaultTextBrowserStyle);
 
+    QString windowForegroundColor = currentTheme->color("WindowForeground").name();
+    prefsWidget->setStyleSheet( QString( "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#e3e3e3; border: 1px solid #d4d4d4; color: %1;}").arg(windowForegroundColor));
+
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
       ws->setFrameShape(QFrame::StyledPanel);
