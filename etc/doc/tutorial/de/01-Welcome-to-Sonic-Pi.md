@@ -25,7 +25,7 @@ Schließlich: Dieses Tutorial ist in Abschnitte aufgeteilt, die in
 Gruppen zu unterschiedlichen Themen aufgeteilt sind. Auch wenn ich es 
 so geschrieben habe, dass man damit von Anfang bis zum Ende einfach 
 lernen kann, kannst Du an jeder Stelle einsteigen, ganz wie es Dir
-gefällt. Wenn Du etwas im Tutorial vermisst, lass' es mich wissen,
+gefällt. Wenn Du etwas im Tutorial vermisst, lass es mich wissen,
 und ich überlege, wie ich das in zukünftige Versionen einbauen 
 kann.
 
