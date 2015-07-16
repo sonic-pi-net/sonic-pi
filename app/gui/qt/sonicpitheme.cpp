@@ -157,7 +157,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["PercentStringrForeground"]        = "#6e88ff";
     themeSettings["PercentStringwForeground"]        = "#6e88ff";
 
-    themeSettings["DefaultBackground"]               = "white";
+    themeSettings["DefaultBackground"]               = "#000";
     themeSettings["CommentBackground"]               = "white";
     themeSettings["ErrorBackground"]                 = "#c0xffc0";
     themeSettings["PODBackground"]                   = "#ff0000";
