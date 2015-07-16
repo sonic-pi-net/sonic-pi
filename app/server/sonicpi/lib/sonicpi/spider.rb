@@ -616,7 +616,7 @@ module SonicPi
           end
         rescue SyntaxError => e
           __no_kill_block do
-            _, line, message = *e.message.match(/\A.*:([0-9]+): syntax error[, ]*(.*)/)
+            _, line, message = *e.message.match(/\A.*:([0-9]+): (.*)/)
             error_line = ""
             if line
               line = line.to_i
