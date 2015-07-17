@@ -400,6 +400,11 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   restoreDocPane = false;
   updateDarkMode();
   focusMode = false;
+
+  updateFullScreenMode();
+  updateTabsVisibility();
+  updateButtonVisibility();
+  updateLogVisibility();
 }
 
 void MainWindow::changeTab(int id){
