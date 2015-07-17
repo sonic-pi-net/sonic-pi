@@ -30,6 +30,7 @@ module SonicPi
       class MinecraftLocationError < MinecraftError ; end
       class MinecraftBlockNameError < MinecraftBlockError ; end
       class MinecraftBlockIdError < MinecraftBlockError ; end
+      class MinecraftBlockTypeIdError < MinecraftBlockError ; end
 
       def self.__drain_socket(s)
         res = ""
@@ -413,9 +414,21 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
 
 
 
-      def mc_set_block(block_name, x, y, z)
+      def mc_set_block(block_name, x, y, z, *opts)
+        opts_h = resolve_synth_opts_hash_or_array(opts)
         block_id = mc_block_id(block_name)
-        Minecraft.world_send "world.setBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{block_id})"
+        type = opts_h[:type]
+        if type
+          begin
+            type_id = type.to_i
+          rescue Exception
+            raise MinecraftBlockTypeIdError, "Invalid block type. Must be a number in the range 0-15, got #{type}."
+          end
+          raise MinecraftBlockTypeIdError, "Invalid block type. Must be a number in the range 0-15, got #{type_id}." if (type_id < 0 || type_id > 15)
+          Minecraft.world_send "world.setBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{block_id},#{type_id})"
+        else
+          Minecraft.world_send "world.setBlock(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{block_id})"
+        end
         true
       end
       doc name:           :mc_set_block,
@@ -430,9 +443,21 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
 
 
 
-      def mc_set_area(block_name, x, y, z, x2, y2, z2)
+      def mc_set_area(block_name, x, y, z, x2, y2, z2, *opts)
+        opts_h = resolve_synth_opts_hash_or_array(opts)
         block_id = mc_block_id(block_name)
-        Minecraft.world_send "world.setBlocks(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{x2.to_f.round},#{y2.to_i},#{z2.to_f.round},#{block_id})"
+        type = opts_h[:type]
+        if type
+          begin
+            type_id = type.to_i
+          rescue Exception
+            raise MinecraftBlockTypeIdError, "Invalid block type. Must be a number in the range 0-15, got #{type}."
+          end
+          raise MinecraftBlockTypeIdError, "Invalid block type. Must be a number in the range 0-15, got #{type_id}." if (type_id < 0 || type_id > 15)
+          Minecraft.world_send "world.setBlocks(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{x2.to_f.round},#{y2.to_i},#{z2.to_f.round},#{block_id},#{type_id})"
+        else
+          Minecraft.world_send "world.setBlocks(#{x.to_f.round},#{y.to_i},#{z.to_f.round},#{x2.to_f.round},#{y2.to_i},#{z2.to_f.round},#{block_id})"
+        end
         true
       end
       doc name:           :mc_set_area,
