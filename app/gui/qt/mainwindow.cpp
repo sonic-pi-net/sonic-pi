@@ -397,22 +397,21 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     startupPane->show();
   }
 
-  focusMode = false;
   restoreDocPane = false;
   changeTheme();
-  disableFocusMode();
+  focusMode = false;
 }
 
 void MainWindow::changeTab(int id){
   tabs->setCurrentIndex(id);
 }
 
-void MainWindow::toggleFocusMode() {
+void MainWindow::toggleFullScreenMode() {
   full_screen->toggle();
-  updateFocusMode();
+  updateFullScreenMode();
 }
 
-void MainWindow::updateFocusMode(){
+void MainWindow::updateFullScreenMode(){
   if (full_screen->isChecked()) {
     mainWidgetLayout->setMargin(0);
     this->setWindowFlags(Qt::FramelessWindowHint);
@@ -420,26 +419,36 @@ void MainWindow::updateFocusMode(){
     this->show();
   }
   else {
-    disableFocusMode();
+    mainWidgetLayout->setMargin(9);
+    this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
+    this->setWindowFlags(Qt::WindowTitleHint);
+    this->show();
   }
 }
 
-void MainWindow::disableFocusMode(){
- if(restoreDocPane){
-    docWidget->show();
-    restoreDocPane = false;
+void MainWindow::toggleFocusMode() {
+  focusMode = !focusMode;
+  updateFocusMode();
+}
+
+void MainWindow::updateFocusMode(){
+  if (focusMode) {
+    full_screen->setChecked(true);
+    show_tabs->setChecked(false);
+    show_buttons->setChecked(false);
+    show_log->setChecked(false);
   }
-  outputWidget->show();
-  toolBar->show();
-  statusBar()->show();
+  else {
+    full_screen->setChecked(false);
+    show_tabs->setChecked(true);
+    show_buttons->setChecked(true);
+    show_log->setChecked(true);
+  }
 
-  QTabBar *tabBar = tabs->findChild<QTabBar *>();
-  tabBar->show();
-
-  mainWidgetLayout->setMargin(9);
-  this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
-  this->setWindowFlags(Qt::WindowTitleHint);
-  this->show();
+  updateFullScreenMode();
+  updateTabsVisibility();
+  updateButtonVisibility();
+  updateLogVisibility();
 }
 
 void MainWindow::toggleLogVisibility() {
@@ -772,7 +781,7 @@ void MainWindow::initPrefsWindow() {
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
   connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
   connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
-  connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFocusMode()));
+  connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
   connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
   connect(dark_mode, SIGNAL(clicked()), this, SLOT(changeTheme()));
 
@@ -1602,7 +1611,7 @@ void MainWindow::createShortcuts()
   new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
   new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
   new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
-  new QShortcut(shiftMetaKey('F'), this, SLOT(toggleFocusMode()));
+  new QShortcut(shiftMetaKey('F'), this, SLOT(toggleFullScreenMode()));
   new QShortcut(QKeySequence("F11"), this, SLOT(toggleLogVisibility()));
   new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
 }

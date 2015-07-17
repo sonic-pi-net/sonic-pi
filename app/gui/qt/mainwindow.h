@@ -137,9 +137,10 @@ private slots:
     void docScrollUp();
     void docScrollDown();
     void helpClosed(bool visible);
+    void updateFullScreenMode();
+    void toggleFullScreenMode();
     void updateFocusMode();
     void toggleFocusMode();
-    void disableFocusMode();
     void updateLogVisibility();
     void toggleLogVisibility();
     void updateTabsVisibility();
