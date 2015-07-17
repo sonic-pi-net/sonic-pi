@@ -398,7 +398,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   }
 
   restoreDocPane = false;
-  changeTheme();
+  updateDarkMode();
   focusMode = false;
 }
 
@@ -783,7 +783,7 @@ void MainWindow::initPrefsWindow() {
   connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
   connect(full_screen, SIGNAL(clicked()), this, SLOT(updateFullScreenMode()));
   connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
-  connect(dark_mode, SIGNAL(clicked()), this, SLOT(changeTheme()));
+  connect(dark_mode, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
 
   QVBoxLayout *editor_box_layout = new QVBoxLayout;
   editor_box_layout->addWidget(show_line_numbers);
@@ -1269,7 +1269,12 @@ void MainWindow::changeRPSystemVol(int val)
 
 }
 
-void MainWindow::changeTheme(){
+void MainWindow::toggleDarkMode() {
+  dark_mode->toggle();
+  updateDarkMode();
+}
+
+void MainWindow::updateDarkMode(){
   SonicPiTheme *currentTheme = lexer->theme;
 
   QString css = readFile(QString(":/theme/%1/doc-styles.css").arg(dark_mode->isChecked() ? "dark" : "light"));
@@ -1612,6 +1617,7 @@ void MainWindow::createShortcuts()
   new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
   new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
   new QShortcut(shiftMetaKey('F'), this, SLOT(toggleFullScreenMode()));
+  new QShortcut(shiftMetaKey('M'), this, SLOT(toggleDarkMode()));
   new QShortcut(QKeySequence("F11"), this, SLOT(toggleLogVisibility()));
   new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
 }
