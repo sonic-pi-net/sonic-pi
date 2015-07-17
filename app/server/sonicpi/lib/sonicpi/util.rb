@@ -19,6 +19,7 @@ module SonicPi
     @@project_path = nil
     @@log_path = nil
     @@current_uuid = nil
+    @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep ARMv6`.empty?)
 
     def os
       case RUBY_PLATFORM
@@ -33,6 +34,10 @@ module SonicPi
       else
         raise "Unsupported platform #{RUBY_PLATFORM}"
       end
+    end
+
+    def raspberry_pi_1?
+      @@raspberry_pi_1
     end
 
     def num_audio_busses_for_current_os
