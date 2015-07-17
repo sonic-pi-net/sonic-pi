@@ -10,7 +10,7 @@ live_loop :low do
 end
 
 live_loop :lands, auto_cue: false do
-  with_fx :reverb, room: 1, reps: 2 do
+  with_fx :reverb, room: 1, reps: 4 do
     use_synth :dsaw
     use_random_seed 66679
     ns = (scale :e2, :minor_pentatonic, num_octaves: 3)
