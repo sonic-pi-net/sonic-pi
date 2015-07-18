@@ -4,14 +4,14 @@
 
 Zufallszahlen sind eine tolle Möglichkeit, Deine Musik interessant zu 
 gestalten. Sonic Pi bietet einige Funktionen, um Zufallsfaktoren in 
-Deine Musik einzubauen; aber bevor wir starten, müssen wir noch einer 
+Deine Musik einzubauen. Aber bevor wir starten, müssen wir noch einer 
 schockierenden Wahrheit ins Gesicht sehen: In Sonic Pi bedeutet 
 *zufällig nicht wirklich zufällig*. Was zum Teufel soll das bedeuten? 
 Nun, das verrate ich Dir jetzt.
 
 ## Wiederholbarkeit
 
-Eine wirklich nützliche Zufallsfunktion ist `rrand`; sie liefert Dir 
+Eine wirklich nützliche Zufallsfunktion ist `rrand`. Sie liefert Dir 
 einen zufälligen Wert zwischen zwei Zahlen - einem *Minimal-* und einem 
 *Maximalwert*. (`rrand` ist ein Kürzel für das englische *ranged 
 random*, also eine Zufallszahl innerhalb eines bestimmten 
@@ -35,7 +35,7 @@ identisch klingt - sogar dann, wenn Du einen Zufallsfaktor einbaust.
 
 Klar, wenn in einem bestimmten Musikstück jedesmal die `77.4407` als 
 'zufällige' Zahl gewählt würde, dann wäre das nicht besonders 
-interessant. Aber so ist es auch nicht. Versuch' folgendes:
+interessant. Aber so ist es auch nicht. Versuch folgendes:
 
 ```
 loop do
@@ -78,7 +78,7 @@ use_synth :tb303
 loop do
   play 50, release: 0.1, cutoff: rrand(60, 120)
   sleep 0.125
-  end
+end
 ```
 
 ## Startpunkt der Zufallsfolge (random seed)
@@ -115,14 +115,14 @@ Startpunkt wechselst und Dir die Ergebnisse anhörst, kannst Du eine
 Folge finden, die Dir gefällt - und wenn Du den Code dann an andere
 weitergibst, werden sie genau das hören, was auch Du gehört hast.
 
-Schauen wir uns noch eine andere nützlich Zufallsfunktion an.
+Schauen wir uns noch eine andere nützliche Zufallsfunktion an.
 
 ## Auswählen (choose)
 
 Häufig kommt es vor, dass man aus einer Liste von Dingen eines zufällig 
 auswählen möchte. Zum Beispiel möchte ich einen Ton aus der folgenden 
 Liste auswählen: 60, 65 oder 72. Dafür ist `choose` da. 
-Zuerst musst Du Deine Zahlen in eine Liste packen; dafür schreibst Du 
+Zuerst musst Du Deine Zahlen in eine Liste packen. Dafür schreibst Du 
 sie jeweils durch Kommata getrennt in eckige Klammern. Dann übergibst 
 Du diese Liste dem Kommando `choose`:
 
@@ -157,7 +157,7 @@ Beispiele für Gleitkommazahlen, die der wiederholte Aufruf von
 
 ## rrand_i
 
-Manchmal braucht man eine zufällige aber ganze Zahl, eben keine 
+Manchmal braucht man eine zufällige, aber ganze Zahl, eben keine 
 Gleitkommazahl. Hier rettet einen `rrand_i`[^15]. Es funktioniert 
 ähnlich `rrand`, kann jedoch auch den minimalen oder maximalen Wert, 
 den man übergeben hat, als mögliche Zufallszahl auswählen (man kann 
@@ -194,7 +194,7 @@ zwischen 0 und einem angegebenen Maximalwert aus.
 Manchmal möchte man so tun, als würde man würfeln (engl. *to dice*) - 
 das ist ein Sonderfall von `rrand_i`, wobei der kleinste Wert immer 
 die 1 ist. Wenn man `dice` verwendet, muss man dabei immer bestimmen, 
-wieviele Seiten der Würfel hat. Ein normaler Würfel hat 6 Seiten, also 
+wie viele Seiten der Würfel hat. Ein normaler Würfel hat 6 Seiten, also 
 wird `dice(6)` entsprechend funktionieren und den Wert 1, 2, 3, 4, 5 
 oder 6 zurückgeben. Aber - angenommen wir befänden uns in einen 
 Fantasy-Rollenspiel - ist es Dir vielleicht lieber, wenn der Würfel 4 
@@ -211,8 +211,7 @@ gewürfelt wurde. `one_in(6)` wird also mit einer Wahrscheinlichkeit von
 sind sehr nützlich, wenn es um `if`-Anweisungen geht, die wir in einem 
 folgenden Kapitel dieses Tutorials besprechen.
 
-Jetzt los, bring' Deinen Code mit ein paar Zufälligkeiten
-durcheinander!
+Jetzt los, bring Deinen Code mit ein paar Zufälligkeiten durcheinander!
 
 [^9]: Randomisierung (engl. *Randomisation*) bedeutet hier, dass man 
     eine Auswahl von Zahlen zufällig gestaltet, also jedesmal eine
