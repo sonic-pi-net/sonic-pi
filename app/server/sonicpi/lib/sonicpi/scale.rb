@@ -111,7 +111,9 @@ module SonicPi
                :xii  => 11}
 
     def self.resolve_degree_index(degree)
-      if idx = DEGREES[degree]
+      if degree.is_a?(Numeric) && degree <= 0
+        raise InvalidDegreeError, "Invalid scale degree #{degree.inspect}, if scale degree is a number it must be greater than 0"
+      elsif idx = DEGREES[degree]
         return idx
       elsif degree.is_a? Numeric
         return degree - 1
