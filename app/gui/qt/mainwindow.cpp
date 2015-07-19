@@ -695,7 +695,7 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
   volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
 
-  QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio Settings"));
+  QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio"));
   advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
   mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
   mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
@@ -770,9 +770,11 @@ void MainWindow::initPrefsWindow() {
   update_box_layout->addWidget(check_updates);
   update_box->setLayout(update_box_layout);
 
-
   QGroupBox *editor_box = new QGroupBox(tr("Editor"));
-  editor_box->setToolTip(tr("Configure editor look and feel."));
+  QGroupBox *editor_display_box = new QGroupBox(tr("Editor Display Preferences"));
+  editor_display_box->setToolTip(tr("Configure editor display options."));
+  QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
+  editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
   show_line_numbers->setToolTip(tr("Toggle line number visibility."));
   show_log = new QCheckBox(tr("Show log"));
@@ -795,34 +797,37 @@ void MainWindow::initPrefsWindow() {
   connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
   connect(dark_mode, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
 
-  QVBoxLayout *editor_box_layout = new QVBoxLayout;
-  editor_box_layout->addWidget(show_line_numbers);
-  editor_box_layout->addWidget(show_log);
-  editor_box_layout->addWidget(show_buttons);
-  editor_box_layout->addWidget(show_tabs);
-  editor_box_layout->addWidget(dark_mode);
-  editor_box_layout->addWidget(full_screen);
-  editor_box->setLayout(editor_box_layout);
-
+  QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
+  QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
+  QGridLayout *gridEditorPrefs = new QGridLayout;
+  editor_display_box_layout->addWidget(show_line_numbers);
+  editor_display_box_layout->addWidget(show_log);
+  editor_display_box_layout->addWidget(show_buttons);
+  editor_display_box_layout->addWidget(show_tabs);
+  editor_box_look_feel_layout->addWidget(dark_mode);
+  editor_box_look_feel_layout->addWidget(full_screen);
+  editor_display_box->setLayout(editor_display_box_layout);
+  editor_look_feel_box->setLayout(editor_box_look_feel_layout);
+  gridEditorPrefs->addWidget(editor_display_box);
+  gridEditorPrefs->addWidget(editor_look_feel_box);
+  editor_box->setLayout(gridEditorPrefs);
   grid->addWidget(prefTabs, 0, 0);
 
+  QGroupBox *audio_prefs_box = new QGroupBox(tr("Audio Settings"));
+  QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
 #if defined(Q_OS_LINUX)
-    QGridLayout *gridRPPrefs = new QGridLayout;
-   gridRPPrefs->addWidget(audioOutputBox, 0, 0);
-   gridRPPrefs->addWidget(volBox, 0, 1);
-   prefTabs->addTab(gridRPPrefs, tr("Audio"));
+  audio_prefs_box_layout->addWidget(audioOutputBox, 0, 0);
+  audio_prefs_box_layout->addWidget(volBox, 0, 1);
 #endif
 
-  // grid->addWidget(advancedAudioBox, 1, 0);
-  // grid->addWidget(update_box, 1, 1);
-  // grid->addWidget(debug_box, 2, 0);
-  // grid->addWidget(editor_box, 2, 1);
+  audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
+  audio_prefs_box->setLayout(audio_prefs_box_layout);
 
-   prefTabs->addTab(advancedAudioBox, tr("Studio"));
-   prefTabs->addTab(debug_box, tr("Logging"));
-   prefTabs->addTab(editor_box, tr("Editor"));
-   prefTabs->addTab(update_box, tr("Updates"));
+  prefTabs->addTab(audio_prefs_box, tr("Audio"));
+  prefTabs->addTab(debug_box, tr("Logging"));
+  prefTabs->addTab(editor_box, tr("Editor"));
+  prefTabs->addTab(update_box, tr("Updates"));
 
   if (!i18n) {
     QGroupBox *translation_box = new QGroupBox("Translation");
