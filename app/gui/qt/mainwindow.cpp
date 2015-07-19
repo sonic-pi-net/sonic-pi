@@ -743,17 +743,20 @@ void MainWindow::initPrefsWindow() {
   print_output = new QCheckBox(tr("Log synths"));
   print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
 
-  check_args = new QCheckBox(tr("Safe mode"));
-  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
-
   clear_output_on_run = new QCheckBox(tr("Clear log on run"));
   clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
 
   log_cues = new QCheckBox(tr("Log cues"));
   log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
 
+  QGroupBox *safety_box = new QGroupBox(tr("Safety"));
+  check_args = new QCheckBox(tr("Safe mode"));
+  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
+  QVBoxLayout *safety_box_layout = new QVBoxLayout;
+  safety_box_layout->addWidget(check_args);
+  safety_box->setLayout(safety_box_layout);
+
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
-  debug_box_layout->addWidget(check_args);
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(log_cues);
   debug_box_layout->addWidget(clear_output_on_run);
@@ -771,7 +774,7 @@ void MainWindow::initPrefsWindow() {
   update_box->setLayout(update_box_layout);
 
   QGroupBox *editor_box = new QGroupBox(tr("Editor"));
-  QGroupBox *editor_display_box = new QGroupBox(tr("Editor Display Preferences"));
+  QGroupBox *editor_display_box = new QGroupBox(tr("Show and Hide"));
   editor_display_box->setToolTip(tr("Configure editor display options."));
   QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
   editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
@@ -813,20 +816,26 @@ void MainWindow::initPrefsWindow() {
   editor_box->setLayout(gridEditorPrefs);
   grid->addWidget(prefTabs, 0, 0);
 
+#if defined(Q_OS_LINUX)
   QGroupBox *audio_prefs_box = new QGroupBox(tr("Audio Settings"));
   QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
-#if defined(Q_OS_LINUX)
   audio_prefs_box_layout->addWidget(audioOutputBox, 0, 0);
   audio_prefs_box_layout->addWidget(volBox, 0, 1);
+  audio_prefs_box->setLayout(audio_prefs_box_layout);
+  prefTabs->addTab(audio_prefs_box, tr("Audio"));
 #endif
 
-  audio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
-  audio_prefs_box->setLayout(audio_prefs_box_layout);
+  QGroupBox *studio_prefs_box = new QGroupBox(tr("Studio Settings"));
+  QGridLayout *studio_prefs_box_layout = new QGridLayout;
 
-  prefTabs->addTab(audio_prefs_box, tr("Audio"));
-  prefTabs->addTab(debug_box, tr("Logging"));
+  studio_prefs_box_layout->addWidget(advancedAudioBox, 0, 0);
+  studio_prefs_box_layout->addWidget(safety_box, 0, 1);
+  studio_prefs_box->setLayout(studio_prefs_box_layout);
+
   prefTabs->addTab(editor_box, tr("Editor"));
+  prefTabs->addTab(debug_box, tr("Logging"));
+  prefTabs->addTab(studio_prefs_box, tr("Studio"));
   prefTabs->addTab(update_box, tr("Updates"));
 
   if (!i18n) {
