@@ -811,8 +811,8 @@ void MainWindow::initPrefsWindow() {
   editor_box_look_feel_layout->addWidget(full_screen);
   editor_display_box->setLayout(editor_display_box_layout);
   editor_look_feel_box->setLayout(editor_box_look_feel_layout);
-  gridEditorPrefs->addWidget(editor_display_box);
-  gridEditorPrefs->addWidget(editor_look_feel_box);
+  gridEditorPrefs->addWidget(editor_display_box, 0, 0);
+  gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
   editor_box->setLayout(gridEditorPrefs);
   grid->addWidget(prefTabs, 0, 0);
 
