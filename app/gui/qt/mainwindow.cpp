@@ -685,6 +685,11 @@ void MainWindow::update_check_updates() {
 
 void MainWindow::initPrefsWindow() {
 
+  prefTabs = new QTabWidget();
+  tabs->setTabsClosable(false);
+  tabs->setMovable(false);
+  tabs->setTabPosition(QTabWidget::South);
+
   QGridLayout *grid = new QGridLayout;
 
   QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
@@ -799,15 +804,25 @@ void MainWindow::initPrefsWindow() {
   editor_box_layout->addWidget(full_screen);
   editor_box->setLayout(editor_box_layout);
 
+  grid->addWidget(prefTabs, 0, 0);
+
+
 #if defined(Q_OS_LINUX)
-   grid->addWidget(audioOutputBox, 0, 0);
-   grid->addWidget(volBox, 0, 1);
+    QGridLayout *gridRPPrefs = new QGridLayout;
+   gridRPPrefs->addWidget(audioOutputBox, 0, 0);
+   gridRPPrefs->addWidget(volBox, 0, 1);
+   prefTabs->addTab(gridRPPrefs, tr("Audio"));
 #endif
 
-  grid->addWidget(advancedAudioBox, 1, 0);
-  grid->addWidget(update_box, 1, 1);
-  grid->addWidget(debug_box, 2, 0);
-  grid->addWidget(editor_box, 2, 1);
+  // grid->addWidget(advancedAudioBox, 1, 0);
+  // grid->addWidget(update_box, 1, 1);
+  // grid->addWidget(debug_box, 2, 0);
+  // grid->addWidget(editor_box, 2, 1);
+
+   prefTabs->addTab(advancedAudioBox, tr("Studio"));
+   prefTabs->addTab(debug_box, tr("Logging"));
+   prefTabs->addTab(editor_box, tr("Editor"));
+   prefTabs->addTab(update_box, tr("Updates"));
 
   if (!i18n) {
     QGroupBox *translation_box = new QGroupBox("Translation");
@@ -1332,6 +1347,7 @@ void MainWindow::updateDarkMode(){
     outputWidget->setStyleSheet(widgetTitleStyling);
     prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #000; color: %1;}").arg(windowForegroundColor));
     tabs->setStyleSheet(        tabStyling);
+    prefTabs->setStyleSheet(tabStyling);
     docsCentral->setStyleSheet( tabStyling);
     docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-background-color: deeppink;}").arg(paneColor, windowForegroundColor));
     docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
