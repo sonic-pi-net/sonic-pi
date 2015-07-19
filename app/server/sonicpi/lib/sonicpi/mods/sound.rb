@@ -349,19 +349,28 @@ end"]
 
 
 
-    def pitch_ratio(m)
-      2 ** (m.to_f / 12)
+    def pitch_to_ratio(m)
+      2.0 ** (m.to_f / 12.0)
     end
-       doc name:          :pitch_ratio,
+       doc name:          :pitch_to_ratio,
            introduced:    Version.new(2,5,0),
            summary:       "relative MIDI pitch to frequency ratio",
-           doc:           "Convert a midi note to a ratio which when applied to a frequency will scale the frequency by the number of semitones.",
+           doc:           "Convert a midi note to a ratio which when applied to a frequency will scale the frequency by the number of semitones. Useful for changing the pitch of a sample by using it as a way of generating the rate.",
            args:          [[:pitch, :midi_number]],
            opts:          nil,
            accepts_block: false,
-           examples:      ["pitch_to_ratio 12 #=> 2.0",
-                          "pitch_to_ratio 1 #=> 1.05946",
-                          "pitch_to_ratio -12 #=> 0.5",]
+    examples:      [
+      "pitch_to_ratio 12 #=> 2.0",
+      "pitch_to_ratio 1 #=> 1.05946",
+      "pitch_to_ratio -12 #=> 0.5",
+      "sample :ambi_choir, rate: pitch_to_ratio(3) # Plays :ambi_choir 3 semitones above default.",
+      "
+# Play a chromatic scale of semitones
+(range 0, 16).each do |n|                  # For each note in the range 0->16
+  sample :ambi_choir, rate: pitch_ratio(n) # play :ambi_choir at the relative pitch
+  sleep 0.5                                # and wait between notes
+end"
+    ]
 
 
 
