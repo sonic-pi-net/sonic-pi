@@ -199,15 +199,11 @@ module SonicPi
        def use_sample_bpm(sample_name, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
          num_beats = args_h[:num_beats] || 1
-         case sample_name
-           when Numeric
-           use_bpm(num_beats * (60.0 / sample_name))
-         else
-           # Don't use sample_duration as that is stretched to the current
-           # bpm!
-           sd = load_sample(sample_name).duration
-           use_bpm(num_beats * (60.0 / sd))
-         end
+
+         # Don't use sample_duration as that is stretched to the current
+         # bpm!
+         sd = load_sample(sample_name).duration
+         use_bpm(num_beats * (60.0 / sd))
        end
        doc name:           :use_sample_bpm,
            introduced:     Version.new(2,1,0),
@@ -243,15 +239,10 @@ end"]
          raise "with_sample_bpm must be called with a do/end block" unless block
          args_h = resolve_synth_opts_hash_or_array(args)
          num_beats = args_h[:num_beats] || 1
-         case sample_name
-         when Numeric
-           with_bpm(num_beats * (60.0 / sample_name), &block)
-         else
-           # Don't use sample_duration as that is stretched to the current
-           # bpm!
-           sd = load_sample(sample_name).duration
-           with_bpm(num_beats * (60.0 / sd), &block)
-         end
+         # Don't use sample_duration as that is stretched to the current
+         # bpm!
+         sd = load_sample(sample_name).duration
+         with_bpm(num_beats * (60.0 / sd), &block)
        end
        doc name:           :with_sample_bpm,
            introduced:     Version.new(2,1,0),
@@ -1937,7 +1928,6 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
 
        def load_sample(path)
-         raise "Attempted to load sample with an empty string as path" if path.empty?
          case path
          when Symbol
            full_path = resolve_sample_symbol_path(path)
@@ -1945,6 +1935,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
            __info "Loaded sample :#{path}" unless cached
            return info
          when String
+           raise "Attempted to load sample with an empty string as path" if path.empty?
            path = File.expand_path(path)
            if File.exists?(path)
              info, cached = @mod_sound_studio.load_sample(path)
@@ -1954,7 +1945,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
              raise "No sample exists with path #{path}"
            end
          else
-           raise "Unknown sample description: #{path}"
+           raise "Unknown sample description: #{path}. Expected a symbol such as :loop_amen or a string containing a path."
          end
        end
        doc name:          :load_sample,
