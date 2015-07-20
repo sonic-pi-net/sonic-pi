@@ -773,7 +773,7 @@ void MainWindow::initPrefsWindow() {
   update_box_layout->addWidget(check_updates);
   update_box->setLayout(update_box_layout);
 
-  QGroupBox *editor_box = new QGroupBox(tr("Editor"));
+  QGroupBox *editor_box = new QGroupBox();
   QGroupBox *editor_display_box = new QGroupBox(tr("Show and Hide"));
   editor_display_box->setToolTip(tr("Configure editor display options."));
   QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
