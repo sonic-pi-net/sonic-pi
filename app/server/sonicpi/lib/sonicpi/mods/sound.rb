@@ -217,7 +217,7 @@ module SonicPi
 live_loop :dnb do
   sample :bass_dnb_f
   sample :loop_amen
-  sleep 1                  #`sleep`ing for 1 sleeps for duration of :loop_amen
+  sleep 1                  #`sleep`ing for 1 actually sleeps for duration of :loop_amen
 end",
 "
 use_sample_bpm :loop_amen, num_beats: 4  # Set bpm based on :loop_amen duration
@@ -227,7 +227,7 @@ use_sample_bpm :loop_amen, num_beats: 4  # Set bpm based on :loop_amen duration
 live_loop :dnb do
   sample :bass_dnb_f
   sample :loop_amen
-  sleep 4                  #`sleep`ing for 4 sleeps for duration of :loop_amen
+  sleep 4                  #`sleep`ing for 4 actually sleeps for duration of :loop_amen
                            # as we specified that the sample consisted of
                            # 4 beats
 end"]
