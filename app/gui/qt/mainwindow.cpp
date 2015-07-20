@@ -737,7 +737,7 @@ void MainWindow::initPrefsWindow() {
   vol_box->addWidget(rp_system_vol);
   volBox->setLayout(vol_box);
 
-  QGroupBox *debug_box = new QGroupBox(tr("Debug Options"));
+  QGroupBox *debug_box = new QGroupBox(tr("Logging"));
   debug_box->setToolTip(tr("Configure debug behaviour"));
 
   print_output = new QCheckBox(tr("Log synths"));
@@ -812,12 +812,14 @@ void MainWindow::initPrefsWindow() {
   editor_display_box->setLayout(editor_display_box_layout);
   editor_look_feel_box->setLayout(editor_box_look_feel_layout);
   gridEditorPrefs->addWidget(editor_display_box, 0, 0);
-  gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
+  gridEditorPrefs->addWidget(debug_box, 0, 1);
+  gridEditorPrefs->addWidget(editor_look_feel_box, 1, 1);
+
   editor_box->setLayout(gridEditorPrefs);
   grid->addWidget(prefTabs, 0, 0);
 
 #if defined(Q_OS_LINUX)
-  QGroupBox *audio_prefs_box = new QGroupBox(tr("Audio Settings"));
+  QGroupBox *audio_prefs_box = new QGroupBox();
   QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
   audio_prefs_box_layout->addWidget(audioOutputBox, 0, 0);
@@ -826,17 +828,17 @@ void MainWindow::initPrefsWindow() {
   prefTabs->addTab(audio_prefs_box, tr("Audio"));
 #endif
 
-  QGroupBox *studio_prefs_box = new QGroupBox(tr("Studio Settings"));
+  QGroupBox *studio_prefs_box = new QGroupBox();
   QGridLayout *studio_prefs_box_layout = new QGridLayout;
 
   studio_prefs_box_layout->addWidget(advancedAudioBox, 0, 0);
   studio_prefs_box_layout->addWidget(safety_box, 0, 1);
+  studio_prefs_box_layout->addWidget(update_box, 1, 1);
+
   studio_prefs_box->setLayout(studio_prefs_box_layout);
 
   prefTabs->addTab(editor_box, tr("Editor"));
-  prefTabs->addTab(debug_box, tr("Logging"));
   prefTabs->addTab(studio_prefs_box, tr("Studio"));
-  prefTabs->addTab(update_box, tr("Updates"));
 
   if (!i18n) {
     QGroupBox *translation_box = new QGroupBox("Translation");
