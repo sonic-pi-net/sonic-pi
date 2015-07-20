@@ -2168,6 +2168,7 @@ puts sample_duration(:loop_amen, rate: 0)",
 # to a variable and control the rate parameter whilst it's playing.
 #
 # The following example sounds a bit like a vinyl speeding up
+# Note, this technique only works when you don't use envelope or start/finish opts.
 s = sample :loop_amen_full, rate: 0.05
 sleep 1
 control(s, rate: 0.2)
