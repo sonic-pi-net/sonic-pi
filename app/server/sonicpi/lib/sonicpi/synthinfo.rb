@@ -2524,7 +2524,7 @@ module SonicPi
         {
           :doc => "Rate which to play back with default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.",
           :validations => [v_not_zero(:rate)],
-          :modulatable => true
+          :modulatable => false
         },
 
         :start =>
