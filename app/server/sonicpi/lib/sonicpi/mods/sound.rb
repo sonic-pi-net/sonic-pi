@@ -358,7 +358,7 @@ end"]
       "
 # Play a chromatic scale of semitones
 (range 0, 16).each do |n|                  # For each note in the range 0->16
-  sample :ambi_choir, rate: pitch_ratio(n) # play :ambi_choir at the relative pitch
+  sample :ambi_choir, rate: pitch_to_ratio(n) # play :ambi_choir at the relative pitch
   sleep 0.5                                # and wait between notes
 end"
     ]
