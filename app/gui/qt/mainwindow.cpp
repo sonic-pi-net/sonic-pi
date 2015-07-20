@@ -786,7 +786,7 @@ void MainWindow::initPrefsWindow() {
   show_buttons = new QCheckBox(tr("Show buttons"));
   show_buttons->setToolTip(tr("Toggle visibility of the control buttons."));
   show_buttons->setChecked(true);
-  show_tabs = new QCheckBox(tr("Show Tabs"));
+  show_tabs = new QCheckBox(tr("Show tabs"));
   show_tabs->setChecked(true);
   show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
   full_screen = new QCheckBox(tr("Full screen"));
