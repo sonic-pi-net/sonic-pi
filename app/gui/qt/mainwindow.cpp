@@ -1387,6 +1387,9 @@ void MainWindow::updateDarkMode(){
     }
 
   }else{
+    QString windowLightForegroundColor = currentTheme->color("WindowForeground").name();
+    QString lightSelectedTab = "deeppink";
+    QString tabLightStyling = QString("QTabBar::tab{background: #808080; color: %1;} QTabBar::tab:selected{background: %2;} ").arg(windowLightForegroundColor, lightSelectedTab);
     this->setStyleSheet("");
     infoWidg->setStyleSheet("");
     mainWidget->setStyleSheet("");
@@ -1394,7 +1397,8 @@ void MainWindow::updateDarkMode(){
     outputPane->setStyleSheet("");
     outputWidget->setStyleSheet("");
     prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet("");
+    tabs->setStyleSheet(tabLightStyling);
+    prefTabs->setStyleSheet(tabLightStyling);
     docsCentral->setStyleSheet("");
     docWidget->setStyleSheet("");
     toolBar->setStyleSheet("");
