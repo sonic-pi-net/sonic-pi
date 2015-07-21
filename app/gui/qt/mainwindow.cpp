@@ -323,6 +323,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   docsCentral->setTabPosition(QTabWidget::South);
 
   docPane = new QTextBrowser;
+  QSizePolicy policy = docPane->sizePolicy();
+  policy.setHorizontalStretch(QSizePolicy::Maximum);
+  docPane->setSizePolicy(policy);
   docPane->setMinimumHeight(200);
   docPane->setOpenExternalLinks(true);
   docPane->setStyleSheet(defaultTextBrowserStyle);
@@ -342,6 +345,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   docsplit->addWidget(docsCentral);
   docsplit->addWidget(docPane);
+
+
 
   docWidget = new QDockWidget(tr("Help"), this);
   docWidget->setFocusPolicy(Qt::NoFocus);
