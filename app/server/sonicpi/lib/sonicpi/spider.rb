@@ -303,10 +303,11 @@ module SonicPi
       end
     end
 
-    def __error(s, e)
+    def __error(e)
       line = __extract_line_of_error(e)
-      s = "[Line #{line}] #{s}" if line != -1
-      @msg_queue.push({:type => :error, :val => s, :jobid => __current_job_id, :jobinfo => __current_job_info, :backtrace => e.backtrace})
+      err_msg = e.message
+      err_msg = "[Line #{line}] \n #{err_msg}" if line != -1
+      @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
     end
 
     def __current_run_time
@@ -632,12 +633,8 @@ module SonicPi
           end
         rescue Exception => e
           __no_kill_block do
-            line = __extract_line_of_error(e)
-            err_msg = e.message
-            err_msg = "[Line #{line}] \n #{err_msg}" if line != -1
+            __error(e)
             @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-            @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: id  , jobinfo: info, line: line})
-
           end
         end
       end

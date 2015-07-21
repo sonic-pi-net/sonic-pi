@@ -2279,11 +2279,7 @@ end"]
             __schedule_delayed_blocks_and_messages!
           end
         rescue Exception => e
-          if name
-            __error "Thread death +--> #{name.inspect}\n#{e.message}", e
-          else
-            __error "Thread death! \n#{e.message}", e
-          end
+          __error e
         end
 
         # Disassociate thread with job as it has now finished
