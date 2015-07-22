@@ -2479,14 +2479,15 @@ puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80
        def chord(tonic, name=:major, *opts)
          return [] unless tonic
          opts = resolve_synth_opts_hash_or_array(opts)
-         opts = {invert: 0}.merge(opts)
-
+         c = []
          if tonic.is_a? Array
            raise "List passed as parameter to chord needs two elements i.e. (chord [:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
-           invert_chord(Chord.new(tonic[0], tonic[1]), opts[:invert]).ring
+           c = Chord.new(tonic[0], tonic[1], opts[:num_octaves])
          else
-           invert_chord(Chord.new(tonic, name), opts[:invert]).ring
+           c = Chord.new(tonic, name, opts[:num_octaves])
          end
+         c = invert_chord(c, opts[:invert]) if opts[:invert]
+         return c.ring
        end
        doc name:          :chord,
            introduced:    Version.new(2,0,0),
@@ -2494,7 +2495,8 @@ puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80
            doc:           "Creates a ring of Midi note numbers when given a tonic note and a chord type",
            args:          [[:tonic, :symbol], [:name, :symbol]],
            returns:        :ring,
-           opts:          nil,
+           opts:          {invert: "Apply the specified num inversions to chord. See the fn `invert_chord`.",
+                           num_octaves: "Create an arpeggio of the chord over n octaves"},
            accepts_block: false,
            intro_fn:       true,
            examples:      ["
@@ -2623,7 +2625,7 @@ sleep 1
 
 
        def invert_chord(notes, shift)
-         raise "Shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
+         raise "Inversion shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
          raise "Notes must be a list of notes, got #{notes.inspect}" unless (notes.is_a?(SonicPi::Core::RingVector) || notes.is_a?(Array))
          if(shift > 0)
            invert_chord(notes[1..-1] + [notes[0]+12], shift-1)
