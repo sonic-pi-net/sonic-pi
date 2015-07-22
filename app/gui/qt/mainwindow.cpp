@@ -323,6 +323,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   docsCentral->setTabPosition(QTabWidget::South);
 
   docPane = new QTextBrowser;
+  QSizePolicy policy = docPane->sizePolicy();
+  policy.setHorizontalStretch(QSizePolicy::Maximum);
+  docPane->setSizePolicy(policy);
   docPane->setMinimumHeight(200);
   docPane->setOpenExternalLinks(true);
   docPane->setStyleSheet(defaultTextBrowserStyle);
@@ -342,6 +345,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   docsplit->addWidget(docsCentral);
   docsplit->addWidget(docPane);
+
+
 
   docWidget = new QDockWidget(tr("Help"), this);
   docWidget->setFocusPolicy(Qt::NoFocus);
@@ -685,12 +690,17 @@ void MainWindow::update_check_updates() {
 
 void MainWindow::initPrefsWindow() {
 
+  prefTabs = new QTabWidget();
+  tabs->setTabsClosable(false);
+  tabs->setMovable(false);
+  tabs->setTabPosition(QTabWidget::South);
+
   QGridLayout *grid = new QGridLayout;
 
   QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
   volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
 
-  QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio Settings"));
+  QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio"));
   advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
   mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
   mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
@@ -732,14 +742,11 @@ void MainWindow::initPrefsWindow() {
   vol_box->addWidget(rp_system_vol);
   volBox->setLayout(vol_box);
 
-  QGroupBox *debug_box = new QGroupBox(tr("Debug Options"));
+  QGroupBox *debug_box = new QGroupBox(tr("Logging"));
   debug_box->setToolTip(tr("Configure debug behaviour"));
 
   print_output = new QCheckBox(tr("Log synths"));
   print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
-
-  check_args = new QCheckBox(tr("Safe mode"));
-  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
 
   clear_output_on_run = new QCheckBox(tr("Clear log on run"));
   clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
@@ -747,8 +754,14 @@ void MainWindow::initPrefsWindow() {
   log_cues = new QCheckBox(tr("Log cues"));
   log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
 
+  QGroupBox *safety_box = new QGroupBox(tr("Safety"));
+  check_args = new QCheckBox(tr("Safe mode"));
+  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
+  QVBoxLayout *safety_box_layout = new QVBoxLayout;
+  safety_box_layout->addWidget(check_args);
+  safety_box->setLayout(safety_box_layout);
+
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
-  debug_box_layout->addWidget(check_args);
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(log_cues);
   debug_box_layout->addWidget(clear_output_on_run);
@@ -765,9 +778,11 @@ void MainWindow::initPrefsWindow() {
   update_box_layout->addWidget(check_updates);
   update_box->setLayout(update_box_layout);
 
-
-  QGroupBox *editor_box = new QGroupBox(tr("Editor"));
-  editor_box->setToolTip(tr("Configure editor look and feel."));
+  QGroupBox *editor_box = new QGroupBox();
+  QGroupBox *editor_display_box = new QGroupBox(tr("Show and Hide"));
+  editor_display_box->setToolTip(tr("Configure editor display options."));
+  QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
+  editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
   show_line_numbers->setToolTip(tr("Toggle line number visibility."));
   show_log = new QCheckBox(tr("Show log"));
@@ -776,7 +791,7 @@ void MainWindow::initPrefsWindow() {
   show_buttons = new QCheckBox(tr("Show buttons"));
   show_buttons->setToolTip(tr("Toggle visibility of the control buttons."));
   show_buttons->setChecked(true);
-  show_tabs = new QCheckBox(tr("Show Tabs"));
+  show_tabs = new QCheckBox(tr("Show tabs"));
   show_tabs->setChecked(true);
   show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
   full_screen = new QCheckBox(tr("Full screen"));
@@ -790,24 +805,45 @@ void MainWindow::initPrefsWindow() {
   connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateTabsVisibility()));
   connect(dark_mode, SIGNAL(clicked()), this, SLOT(updateDarkMode()));
 
-  QVBoxLayout *editor_box_layout = new QVBoxLayout;
-  editor_box_layout->addWidget(show_line_numbers);
-  editor_box_layout->addWidget(show_log);
-  editor_box_layout->addWidget(show_buttons);
-  editor_box_layout->addWidget(show_tabs);
-  editor_box_layout->addWidget(dark_mode);
-  editor_box_layout->addWidget(full_screen);
-  editor_box->setLayout(editor_box_layout);
+  QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
+  QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
+  QGridLayout *gridEditorPrefs = new QGridLayout;
+  editor_display_box_layout->addWidget(show_line_numbers);
+  editor_display_box_layout->addWidget(show_log);
+  editor_display_box_layout->addWidget(show_buttons);
+  editor_display_box_layout->addWidget(show_tabs);
+  editor_box_look_feel_layout->addWidget(dark_mode);
+  editor_box_look_feel_layout->addWidget(full_screen);
+  editor_display_box->setLayout(editor_display_box_layout);
+  editor_look_feel_box->setLayout(editor_box_look_feel_layout);
+  gridEditorPrefs->addWidget(editor_display_box, 0, 0);
+  gridEditorPrefs->addWidget(debug_box, 0, 1);
+  gridEditorPrefs->addWidget(editor_look_feel_box, 1, 1);
+
+  editor_box->setLayout(gridEditorPrefs);
+  grid->addWidget(prefTabs, 0, 0);
 
 #if defined(Q_OS_LINUX)
-   grid->addWidget(audioOutputBox, 0, 0);
-   grid->addWidget(volBox, 0, 1);
+  QGroupBox *audio_prefs_box = new QGroupBox();
+  QGridLayout *audio_prefs_box_layout = new QGridLayout;
+
+  audio_prefs_box_layout->addWidget(audioOutputBox, 0, 0);
+  audio_prefs_box_layout->addWidget(volBox, 0, 1);
+  audio_prefs_box->setLayout(audio_prefs_box_layout);
+  prefTabs->addTab(audio_prefs_box, tr("Audio"));
 #endif
 
-  grid->addWidget(advancedAudioBox, 1, 0);
-  grid->addWidget(update_box, 1, 1);
-  grid->addWidget(debug_box, 2, 0);
-  grid->addWidget(editor_box, 2, 1);
+  QGroupBox *studio_prefs_box = new QGroupBox();
+  QGridLayout *studio_prefs_box_layout = new QGridLayout;
+
+  studio_prefs_box_layout->addWidget(advancedAudioBox, 0, 0);
+  studio_prefs_box_layout->addWidget(safety_box, 0, 1);
+  studio_prefs_box_layout->addWidget(update_box, 1, 1);
+
+  studio_prefs_box->setLayout(studio_prefs_box_layout);
+
+  prefTabs->addTab(editor_box, tr("Editor"));
+  prefTabs->addTab(studio_prefs_box, tr("Studio"));
 
   if (!i18n) {
     QGroupBox *translation_box = new QGroupBox("Translation");
@@ -1322,7 +1358,7 @@ void MainWindow::updateDarkMode(){
 
     QString splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
     QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
-    QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: %2;} ").arg(windowForegroundColor, selectedTab);
+    QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: %2;} QTabWidget::tab-bar{alignment: center;}").arg(windowForegroundColor, selectedTab);
     QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529); font-size 10px;} QDockWidget{font-size:10px;} ").arg(windowColor, windowBorder, windowForegroundColor);
     QString toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
 
@@ -1332,6 +1368,7 @@ void MainWindow::updateDarkMode(){
     outputWidget->setStyleSheet(widgetTitleStyling);
     prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #000; color: %1;}").arg(windowForegroundColor));
     tabs->setStyleSheet(        tabStyling);
+    prefTabs->setStyleSheet(tabStyling);
     docsCentral->setStyleSheet( tabStyling);
     docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-background-color: deeppink;}").arg(paneColor, windowForegroundColor));
     docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
@@ -1350,6 +1387,9 @@ void MainWindow::updateDarkMode(){
     }
 
   }else{
+    QString windowLightForegroundColor = currentTheme->color("WindowForeground").name();
+    QString lightSelectedTab = "deeppink";
+    QString tabLightStyling = QString("QTabBar::tab{background: #808080; color: %1;} QTabBar::tab:selected{background: %2;} QTabWidget::tab-bar{alignment: center;}").arg(windowLightForegroundColor, lightSelectedTab);
     this->setStyleSheet("");
     infoWidg->setStyleSheet("");
     mainWidget->setStyleSheet("");
@@ -1357,7 +1397,8 @@ void MainWindow::updateDarkMode(){
     outputPane->setStyleSheet("");
     outputWidget->setStyleSheet("");
     prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet("");
+    tabs->setStyleSheet(tabLightStyling);
+    prefTabs->setStyleSheet(tabLightStyling);
     docsCentral->setStyleSheet("");
     docWidget->setStyleSheet("");
     toolBar->setStyleSheet("");

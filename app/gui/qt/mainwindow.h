@@ -223,6 +223,7 @@ private:
     bool restoreDocPane;
 
     QTabWidget *tabs;
+    QTabWidget *prefTabs;
 
     QProcess *serverProcess;
 
