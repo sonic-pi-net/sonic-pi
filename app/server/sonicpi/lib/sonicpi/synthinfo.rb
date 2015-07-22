@@ -1620,7 +1620,7 @@ module SonicPi
         :decay => 0.2,
         :release => 0.2,
         :hard => 0.5,
-        :stereo_width => 0.5,
+        :stereo_width => 0,
         :cutoff => 0,
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
