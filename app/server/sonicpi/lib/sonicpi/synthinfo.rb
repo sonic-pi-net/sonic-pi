@@ -2406,16 +2406,6 @@ module SonicPi
         :norm => 0
       }
     end
-
-    def specific_arg_info
-      {
-        :rate =>
-        {
-          :validations => [v_not_zero(:rate)],
-          :modulatable => true
-        }
-      }
-    end
   end
 
   class BasicStereoPlayer < BasicMonoPlayer

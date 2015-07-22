@@ -14,7 +14,6 @@
 require 'test/unit'
 require_relative "../../core"
 require_relative "../lib/sonicpi/scale"
-require_relative "../lib/sonicpi/note"
 
 module SonicPi
   class NoteTester < Test::Unit::TestCase
@@ -49,12 +48,6 @@ module SonicPi
     def test_degree_invalid
       assert_raise Scale::InvalidDegreeError do
         Scale.resolve_degree(:joe, :A3, :major)
-      end
-    end
-
-    def test_too_low_degree
-      assert_raise Scale::InvalidDegreeError do
-        Scale.resolve_degree(-1, :A3, :major)
       end
     end
 

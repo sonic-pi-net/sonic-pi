@@ -199,11 +199,15 @@ module SonicPi
        def use_sample_bpm(sample_name, *args)
          args_h = resolve_synth_opts_hash_or_array(args)
          num_beats = args_h[:num_beats] || 1
-
-         # Don't use sample_duration as that is stretched to the current
-         # bpm!
-         sd = load_sample(sample_name).duration
-         use_bpm(num_beats * (60.0 / sd))
+         case sample_name
+           when Numeric
+           use_bpm(num_beats * (60.0 / sample_name))
+         else
+           # Don't use sample_duration as that is stretched to the current
+           # bpm!
+           sd = load_sample(sample_name).duration
+           use_bpm(num_beats * (60.0 / sd))
+         end
        end
        doc name:           :use_sample_bpm,
            introduced:     Version.new(2,1,0),
@@ -217,7 +221,7 @@ module SonicPi
 live_loop :dnb do
   sample :bass_dnb_f
   sample :loop_amen
-  sleep 1                  #`sleep`ing for 1 actually sleeps for duration of :loop_amen
+  sleep 1                  #`sleep`ing for 1 sleeps for duration of :loop_amen
 end",
 "
 use_sample_bpm :loop_amen, num_beats: 4  # Set bpm based on :loop_amen duration
@@ -227,7 +231,7 @@ use_sample_bpm :loop_amen, num_beats: 4  # Set bpm based on :loop_amen duration
 live_loop :dnb do
   sample :bass_dnb_f
   sample :loop_amen
-  sleep 4                  #`sleep`ing for 4 actually sleeps for duration of :loop_amen
+  sleep 4                  #`sleep`ing for 4 sleeps for duration of :loop_amen
                            # as we specified that the sample consisted of
                            # 4 beats
 end"]
@@ -239,10 +243,15 @@ end"]
          raise "with_sample_bpm must be called with a do/end block" unless block
          args_h = resolve_synth_opts_hash_or_array(args)
          num_beats = args_h[:num_beats] || 1
-         # Don't use sample_duration as that is stretched to the current
-         # bpm!
-         sd = load_sample(sample_name).duration
-         with_bpm(num_beats * (60.0 / sd), &block)
+         case sample_name
+         when Numeric
+           with_bpm(num_beats * (60.0 / sample_name), &block)
+         else
+           # Don't use sample_duration as that is stretched to the current
+           # bpm!
+           sd = load_sample(sample_name).duration
+           with_bpm(num_beats * (60.0 / sd), &block)
+         end
        end
        doc name:           :with_sample_bpm,
            introduced:     Version.new(2,1,0),
@@ -340,28 +349,19 @@ end"]
 
 
 
-    def pitch_to_ratio(m)
-      2.0 ** (m.to_f / 12.0)
+    def pitch_ratio(m)
+      2 ** (m.to_f / 12)
     end
-       doc name:          :pitch_to_ratio,
+       doc name:          :pitch_ratio,
            introduced:    Version.new(2,5,0),
            summary:       "relative MIDI pitch to frequency ratio",
-           doc:           "Convert a midi note to a ratio which when applied to a frequency will scale the frequency by the number of semitones. Useful for changing the pitch of a sample by using it as a way of generating the rate.",
+           doc:           "Convert a midi note to a ratio which when applied to a frequency will scale the frequency by the number of semitones.",
            args:          [[:pitch, :midi_number]],
            opts:          nil,
            accepts_block: false,
-    examples:      [
-      "pitch_to_ratio 12 #=> 2.0",
-      "pitch_to_ratio 1 #=> 1.05946",
-      "pitch_to_ratio -12 #=> 0.5",
-      "sample :ambi_choir, rate: pitch_to_ratio(3) # Plays :ambi_choir 3 semitones above default.",
-      "
-# Play a chromatic scale of semitones
-(range 0, 16).each do |n|                  # For each note in the range 0->16
-  sample :ambi_choir, rate: pitch_to_ratio(n) # play :ambi_choir at the relative pitch
-  sleep 0.5                                # and wait between notes
-end"
-    ]
+           examples:      ["pitch_to_ratio 12 #=> 2.0",
+                          "pitch_to_ratio 1 #=> 1.05946",
+                          "pitch_to_ratio -12 #=> 0.5",]
 
 
 
@@ -1928,6 +1928,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
 
        def load_sample(path)
+         raise "Attempted to load sample with an empty string as path" if path.empty?
          case path
          when Symbol
            full_path = resolve_sample_symbol_path(path)
@@ -1935,7 +1936,6 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
            __info "Loaded sample :#{path}" unless cached
            return info
          when String
-           raise "Attempted to load sample with an empty string as path" if path.empty?
            path = File.expand_path(path)
            if File.exists?(path)
              info, cached = @mod_sound_studio.load_sample(path)
@@ -1945,7 +1945,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
              raise "No sample exists with path #{path}"
            end
          else
-           raise "Unknown sample description: #{path}. Expected a symbol such as :loop_amen or a string containing a path."
+           raise "Unknown sample description: #{path}"
          end
        end
        doc name:          :load_sample,
@@ -2168,7 +2168,6 @@ puts sample_duration(:loop_amen, rate: 0)",
 # to a variable and control the rate parameter whilst it's playing.
 #
 # The following example sounds a bit like a vinyl speeding up
-# Note, this technique only works when you don't use envelope or start/finish opts.
 s = sample :loop_amen_full, rate: 0.05
 sleep 1
 control(s, rate: 0.2)

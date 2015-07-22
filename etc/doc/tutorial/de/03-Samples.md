@@ -10,6 +10,6 @@ ist das Ergebnis ein Sample.
 
 Mit Samples kann man in Sonic Pi viele tolle Sachen machen. Es sind
 nicht nur 90 freie Samples zum sofortigen Gebrauch dabei, sondern Du 
-kannst auch Deine eigenen Samples einbauen und verändern.
+kannst auch Deine eigenen Sampes einbauen und verändern.
 
 Legen wir los...

@@ -1756,7 +1756,6 @@ play 62
 
 
     def density(d, &block)
-      raise "density must be a positive number" unless d.is_a?(Numeric) && d >= 0
       d = d.abs
       reps = d < 1 ? 1.0 : d
       with_bpm_mul d do
@@ -2279,7 +2278,11 @@ end"]
             __schedule_delayed_blocks_and_messages!
           end
         rescue Exception => e
-          __error e
+          if name
+            __error "Thread death +--> #{name.inspect}\n#{e.message}", e
+          else
+            __error "Thread death! \n#{e.message}", e
+          end
         end
 
         # Disassociate thread with job as it has now finished
