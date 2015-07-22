@@ -439,9 +439,16 @@ void SonicPiScintilla::downcaseWordOrSelection(){
 }
 
 void SonicPiScintilla::setLineErrorMarker(int lineNumber){
+
   markerDeleteAll(-1);
   markerAdd(lineNumber, 8);
-  setCursorPosition(lineNumber, 0);
+
+  int currlinenum, index;
+  getCursorPosition(&currlinenum, &index);
+  if (lineNumber != currlinenum) {
+    setCursorPosition(lineNumber, 0);
+  }
+
 }
 
 void SonicPiScintilla::clearLineMarkers(){
