@@ -1368,9 +1368,9 @@ void MainWindow::updateDarkMode(){
     outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
     outputWidget->setStyleSheet(widgetTitleStyling);
     prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #000; color: %1;}").arg(windowForegroundColor));
-    tabs->setStyleSheet(        tabStyling);
+    tabs->setStyleSheet(tabStyling);
     prefTabs->setStyleSheet(tabStyling);
-    docsCentral->setStyleSheet( tabStyling);
+    docsCentral->setStyleSheet(tabStyling);
     docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-background-color: deeppink;}").arg(paneColor, windowForegroundColor));
     docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
     infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
@@ -1388,9 +1388,9 @@ void MainWindow::updateDarkMode(){
     }
 
   }else{
-    QString windowLightForegroundColor = currentTheme->color("WindowForeground").name();
-    QString lightSelectedTab = "deeppink";
-    QString tabLightStyling = QString("QTabBar::tab{background: #808080; color: %1;} QTabBar::tab:selected{background: %2;} QTabWidget::tab-bar{alignment: center;}").arg(windowLightForegroundColor, lightSelectedTab);
+
+    currentTheme->lightMode();
+    // clear stylesheets
     this->setStyleSheet("");
     infoWidg->setStyleSheet("");
     mainWidget->setStyleSheet("");
@@ -1398,16 +1398,30 @@ void MainWindow::updateDarkMode(){
     outputPane->setStyleSheet("");
     outputWidget->setStyleSheet("");
     prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet(tabLightStyling);
-    prefTabs->setStyleSheet(tabLightStyling);
+    tabs->setStyleSheet("");
+    prefTabs->setStyleSheet("");
     docsCentral->setStyleSheet("");
     docWidget->setStyleSheet("");
     toolBar->setStyleSheet("");
-    currentTheme->lightMode();
+
     docPane->setStyleSheet(defaultTextBrowserStyle);
 
-    QString windowForegroundColor = currentTheme->color("WindowForeground").name();
-    prefsWidget->setStyleSheet( QString( "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#e3e3e3; border: 1px solid #d4d4d4; color: %1;}").arg(windowForegroundColor));
+
+    QString l_windowColor = currentTheme->color("WindowBackground").name();
+    QString l_windowForegroundColor = currentTheme->color("WindowForeground").name();
+    QString l_foregroundColor = currentTheme->color("Foreground").name();
+    QString l_paneColor = currentTheme->color("PaneBackground").name();
+    QString l_windowBorder = currentTheme->color("WindowBorder").name();
+    QString l_selectedTab = "deeppink";
+    QString l_toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
+    //    QString l_toolTipStyling = QString("QToolTip {color: #000; background-color: #ddd; border: 0px;}");
+    QString l_tabStyling = QString("QTabBar::tab{background: #808080; color: white;} QTabBar::tab:selected{background: %1; color: white} QTabWidget::tab-bar{alignment: center;}").arg(l_selectedTab);
+
+    QString l_splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
+    QString l_scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: %1;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: #808080;  border-radius: 3px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(l_windowColor);
+
+    QString l_widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 lightgray); font-size 10px;} QDockWidget{font-size:10px;} ").arg(l_windowColor, l_windowBorder, l_windowForegroundColor);
+
 
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
@@ -1435,10 +1449,23 @@ void MainWindow::updateDarkMode(){
 
     QApplication::setPalette(p);
 
-    QString toolTipStyling = QString("QToolTip {color: #000; background-color: #ddd; border: 0px;}");
-    this->setStyleSheet(toolTipStyling);
+    ///start orig
+       this->setStyleSheet( "QWidget{color: #5e5e5e;}" +  QString(l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3} ").arg(l_windowColor, l_windowBorder, l_windowForegroundColor));
 
-    errorPane->setStyleSheet(QString(".error-background{background-color: %1;} QTextEdit{background-color: %1;}").arg(currentTheme->color("ErrorBackground").name()));
+    statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(l_windowColor, l_windowBorder));
+    outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(l_paneColor, l_windowForegroundColor));
+    outputWidget->setStyleSheet(l_widgetTitleStyling);
+    prefsWidget->setStyleSheet( QString(l_widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color: %2; border: 1px solid lightgray; color: %1;}").arg(l_windowForegroundColor, l_windowColor));
+    tabs->setStyleSheet(        l_tabStyling);
+    prefTabs->setStyleSheet(l_tabStyling);
+    docsCentral->setStyleSheet( l_tabStyling);
+    docWidget->setStyleSheet(   QString(l_widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-color: white; selection-background-color: deeppink;}").arg(l_paneColor,  l_foregroundColor));
+    docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(l_paneColor));
+    infoWidg->setStyleSheet(    QString(l_scrollStyling + l_tabStyling + " QTextEdit{background-color: %1;}").arg(l_paneColor));
+    toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(l_windowColor,l_windowBorder));
+    errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(l_paneColor, currentTheme->color("ErrorBackground").name()));
+
+    ///END orig
 
     foreach(QTextBrowser* pane, infoPanes) {
       pane->setStyleSheet(defaultTextBrowserStyle);

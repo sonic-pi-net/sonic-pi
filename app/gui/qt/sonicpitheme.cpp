@@ -43,10 +43,13 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["HighlightedForeground"] = "#000";
 
     themeSettings["WindowBackground"] = "#EDEDED";
-    themeSettings["WindowForeground"] = "black";
-    themeSettings["Foreground"] = "black";
+    themeSettings["WindowForeground"] = "#808080";
+    themeSettings["WindowBorder"]= "lightgray";
+
+    themeSettings["Foreground"] = "#5e5e5e";
     themeSettings["Background"] = "white";
 
+    themeSettings["PaneBackground"] = "white";
     themeSettings["DefaultForeground"]               = "#808080";
     themeSettings["CommentForeground"]               = "#5e5e5e";
     themeSettings["PODForeground"]                   = "#004000";
