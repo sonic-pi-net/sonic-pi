@@ -1349,14 +1349,14 @@
          ctl-wave-l          (select:kr stereo_invert_wave [ctl-wave-r
                                                             (- 1 ctl-wave-r)])
 
-         delay-l             (allpass-c  (+ (limiter (* local-l feedback)) in-l)
+         delay-l             (allpass-c  (+ (limiter (* local-l feedback)) (* (- 1 feedback) in-l))
                                          (/ max_delay 1000)
                                          (max
                                           (mul-add ctl-wave-l (/ depth 1000) (/ delay 1000))
                                           0)
                                          (/ decay 1000))
 
-         delay-r             (allpass-c  (+ (limiter (* local-r feedback)) in-r)
+         delay-r             (allpass-c  (+ (limiter (* local-r feedback)) (* (- 1 feedback) in-r))
                                          (/ max_delay 1000)
                                          (max
                                           (mul-add ctl-wave-r (/ depth 1000) (/ delay 1000))
