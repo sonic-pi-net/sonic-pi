@@ -618,7 +618,7 @@ play 80 # Plays note 83
        doc name:          :use_tuning,
            introduced:    Version.new(2,6,0),
            summary:       "Use alternative tuning systems",
-           doc:           "In most music we make semitones by dividing the octave into 12 equal parts, which is known as equal temperament. However there are lots of other ways to tune the 12 notes. This method adjusts each midi note into the specified tuning system. Because the ratios between notes aren't always equal, be careful to pick a center note that is in the key of the music you're making for the best sound. Currently available tunings are :just, :pythagorean, :meantone and the default of :equal",
+           doc:           "In most music we make semitones by dividing the octave into 12 equal parts, which is known as equal temperament. However there are lots of other ways to tune the 12 notes. This method adjusts each midi note into the specified tuning system. Because the ratios between notes aren't always equal, be careful to pick a centre note that is in the key of the music you're making for the best sound. Currently available tunings are :just, :pythagorean, :meantone and the default of :equal",
            args:          [[:tuning, :symbol], [:fundamental_note, :symbol_or_number]],
            opts:          nil,
            accepts_block: false,
