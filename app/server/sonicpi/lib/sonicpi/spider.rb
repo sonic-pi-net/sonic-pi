@@ -84,11 +84,25 @@ module SonicPi
           __handle_event event
         end
       end
+      __info "Welcome to Sonic Pi"
       __info "Session #{@session_id}"
       date = Time.now
       __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}"
       __info "#{date.hour}:#{date.min}, #{date.zone}"
+
       __info "#{@version} Ready..."
+
+      __info [
+"Hello, somewhere in the world the sun is shining
+   for you right now.",
+"Hello, it's lovely to see you again.
+   I do hope that you're well.",
+"Turn your head towards the sun and the shadows
+   will fall behind you."].sample
+
+
+
+
       __print_version_outdated_info if @version < @server_version
 
       load_snippets(snippets_path, true)
