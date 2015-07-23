@@ -18,7 +18,7 @@ module SonicPi
 
     class InvalidTuningError < ArgumentError ; end ;
 
-
+    attr_accessor :tunings
 
     def initialize
       # http://en.wikipedia.org/wiki/Musical_tuning#Systems_for_the_twelve-note_chromatic_scale
@@ -94,8 +94,6 @@ module SonicPi
       end
     end
 
-    private
-
     def midi_to_hz(n)
       440.0 * (2 ** ((n - 69) / 12.0))
     end
@@ -103,6 +101,8 @@ module SonicPi
     def hz_to_midi(freq)
       (12 * (Math.log(freq * 0.0022727272727) / Math.log(2))) + 69
     end
+
+    private
 
     def tuned_notes(tuning_system, fundamental_offset)
 
