@@ -18,6 +18,12 @@ em {
   color: darkorange;
 }
 
+.asciilogo {
+    font-size: medium;
+    color: deeppink;
+}
+
+
 .highlight {
     color: deeppink;
 }
