@@ -710,9 +710,13 @@ void MainWindow::initPrefsWindow() {
   mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
 
+  check_args = new QCheckBox(tr("Safe mode"));
+  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
+
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
   advanced_audio_box_layout->addWidget(mixer_invert_stereo);
   advanced_audio_box_layout->addWidget(mixer_force_mono);
+  advanced_audio_box_layout->addWidget(check_args);
   // audio_box->addWidget(radio2);
   // audio_box->addWidget(radio3);
   // audio_box->addStretch(1);
@@ -754,13 +758,6 @@ void MainWindow::initPrefsWindow() {
 
   log_cues = new QCheckBox(tr("Log cues"));
   log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
-
-  QGroupBox *safety_box = new QGroupBox(tr("Safety"));
-  check_args = new QCheckBox(tr("Safe mode"));
-  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
-  QVBoxLayout *safety_box_layout = new QVBoxLayout;
-  safety_box_layout->addWidget(check_args);
-  safety_box->setLayout(safety_box_layout);
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
@@ -818,8 +815,7 @@ void MainWindow::initPrefsWindow() {
   editor_display_box->setLayout(editor_display_box_layout);
   editor_look_feel_box->setLayout(editor_box_look_feel_layout);
   gridEditorPrefs->addWidget(editor_display_box, 0, 0);
-  gridEditorPrefs->addWidget(debug_box, 0, 1);
-  gridEditorPrefs->addWidget(editor_look_feel_box, 1, 1);
+  gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
 
   editor_box->setLayout(gridEditorPrefs);
   grid->addWidget(prefTabs, 0, 0);
@@ -834,17 +830,24 @@ void MainWindow::initPrefsWindow() {
   prefTabs->addTab(audio_prefs_box, tr("Audio"));
 #endif
 
-  QGroupBox *studio_prefs_box = new QGroupBox();
+    QGroupBox *studio_prefs_box = new QGroupBox();
   QGridLayout *studio_prefs_box_layout = new QGridLayout;
 
   studio_prefs_box_layout->addWidget(advancedAudioBox, 0, 0);
-  studio_prefs_box_layout->addWidget(safety_box, 0, 1);
-  studio_prefs_box_layout->addWidget(update_box, 1, 1);
+
+  studio_prefs_box_layout->addWidget(debug_box, 0, 1);
 
   studio_prefs_box->setLayout(studio_prefs_box_layout);
 
   prefTabs->addTab(editor_box, tr("Editor"));
   prefTabs->addTab(studio_prefs_box, tr("Studio"));
+
+  QGroupBox *update_prefs_box = new QGroupBox();
+  QGridLayout *update_prefs_box_layout = new QGridLayout;
+
+  update_prefs_box_layout->addWidget(update_box, 0, 0);
+  update_prefs_box->setLayout(update_prefs_box_layout);
+  prefTabs->addTab(update_prefs_box, tr("Updates"));
 
   if (!i18n) {
     QGroupBox *translation_box = new QGroupBox("Translation");
