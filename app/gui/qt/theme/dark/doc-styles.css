@@ -86,11 +86,11 @@ code .info {
 }
 
 .version {
-  font-size: medium;
+  font-size: small;
 }
 
 .strapline {
-  font-size: xx-large;
+  font-size: large;
 }
 
 .usage {
