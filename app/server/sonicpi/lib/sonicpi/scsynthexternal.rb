@@ -231,7 +231,7 @@ module SonicPi
       log "Booting on Raspberry Pi"
       `killall jackd`
       `killall scsynth`
-      sys("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+      sys("jackd -R -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
 
       # Wait for Jackd to start
       while `jack_wait -c`.match /not.*/
