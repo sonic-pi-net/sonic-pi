@@ -277,7 +277,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   outputPane->zoomIn(1);
   outputPane->setTextColor(QColor(theme->color("LogDefaultForeground")));
   outputPane->append("\n");
-  outputPane->append(asciiArtLogo());
+  //outputPane->append(asciiArtLogo());
 
   errorPane->zoomIn(1);
   errorPane->setMaximumHeight(130);
