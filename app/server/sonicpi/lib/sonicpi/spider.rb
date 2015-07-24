@@ -457,7 +457,7 @@ module SonicPi
             if new_point_index < 0
               new_point_index = [0, completion_line_pre.length + orig_completion_lines[0].length + new_point_index + 1].max
             else
-              new_point_index += point_index
+              new_point_index += completion_line_pre.length
             end
           else
             if new_point_index < 0
