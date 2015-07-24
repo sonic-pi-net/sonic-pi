@@ -45,7 +45,7 @@ module SonicPi
 
     def to_s
       if @dev
-        "#{@major}.#{@minor}.#{@patch}-#{@dev}"
+        "v#{@major}.#{@minor}.#{@patch}-#{@dev}"
       else
         if @patch == 0
           "v#{@major}.#{@minor}"
