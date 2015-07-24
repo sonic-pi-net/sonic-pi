@@ -95,5 +95,11 @@ module SonicPi
     def dev?
       !!@dev
     end
+
+    def to_i
+      res = (@major * 1000) + (@minor * 100) + (@patch * 10)
+      res += 1 unless @dev
+      return res
+    end
   end
 end
