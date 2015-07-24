@@ -1397,7 +1397,7 @@ void MainWindow::updateDarkMode(){
     QString windowBorder = currentTheme->color("WindowBorder").name();
     QString selectedTab = "deeppink";
 
-    QString buttonStyling = QString("QPushButton{background-color: deeppink; border-radius: 3px; border-color: #808080; border-width: 2px;} QPushButton::pressed{background-color: white; color: #808080; }");
+    QString buttonStyling = QString("QPushButton{padding: 5px; background-color: deeppink; border-radius: 3px; border-color: #808080; border-width: 2px;} QPushButton::pressed{background-color: white; color: #808080; }");
 
     QString splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
     QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
