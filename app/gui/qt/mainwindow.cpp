@@ -19,6 +19,7 @@
 #include <fstream>
 
 // Qt stuff
+#include <QDate>
 #include <QDesktopServices>
 #include <QDir>
 #include <QAction>
@@ -141,7 +142,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   errorPane->setOpenExternalLinks(true);
 
   update_info = new QLabel(tr("Sonic Pi update info"));
-
   update_info->setWordWrap(true);
 
   // Syntax highlighting
@@ -802,6 +802,7 @@ void MainWindow::initPrefsWindow() {
 
   QVBoxLayout *update_box_layout = new QVBoxLayout;
   update_box_layout->addWidget(check_updates);
+
   update_box_layout->addWidget(check_updates_now);
   update_box_layout->addWidget(visit_sonic_pi_net);
   update_box->setLayout(update_box_layout);
@@ -2226,11 +2227,13 @@ void MainWindow::open_sonic_pi_net() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
 
-void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int latest_v_num) {
+void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int latest_v_num, QDate last_checked) {
   version = v;
   version_num = v_num;
   latest_version = latest_v;
   latest_version_num = latest_v_num;
+
+  QString last_update_check = tr("Last checked %1").arg(last_checked.toString());
 
   QString preamble = tr("Sonic Pi checks for updates every two weeks. This check involves sending anonymous information about your platform and version. This may be disabled by unchecking 'Check for updates'. You can also force a check by hitting 'Check now'");
 
@@ -2244,7 +2247,7 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
     visit_sonic_pi_net->setVisible(true);
   }
   else {
-    setUpdateInfoText(QString(preamble + "\n\n" + print_version + "\n\n").arg(version));
+    setUpdateInfoText(QString(preamble + "\n\n" + print_version + "\n\n" + last_update_check).arg(version));
   }
 }
 

@@ -407,7 +407,8 @@ osc_server.add_method("/version") do |payload|
   begin
     v = sp.__current_version
     lv = sp.__server_version
-    m = encoder.encode_single_message("/version", [v.to_s, v.to_i, lv.to_s, lv.to_i])
+    lc = sp.__last_update_check
+    m = encoder.encode_single_message("/version", [v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year])
     gui.send_raw(m)
   rescue Exception => e
     puts "Received Exception when attempting to check for version "
@@ -487,8 +488,8 @@ out_t = Thread.new do
           v_num = message[:version_num]
           lv = message[:latest_version]
           lv_num = message[:latest_version_num]
-
-          m = encoder.encode_single_message("/version", [v.to_s, v_num.to_i, lv.to_s, lv_num.to_i])
+          lc = message[:last_checked]
+          m = encoder.encode_single_message("/version", [v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year])
           gui.send_raw(m)
         else
           puts "ignoring #{message}"

@@ -14,6 +14,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QDate>
 #include <QMainWindow>
 #include <QDialog>
 #include <QLabel>
@@ -151,7 +152,7 @@ private slots:
     void toggleButtonVisibility();
     void setLineMarkerinCurrentWorkspace(int num);
     void setUpdateInfoText(QString t);
-    void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num);
+    void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date);
     void requestVersion();
     void open_sonic_pi_net();
 
@@ -251,7 +252,6 @@ private:
     QPushButton *check_updates_now;
     QPushButton *visit_sonic_pi_net;
     QLabel *update_info;
-
 
     QRadioButton *rp_force_audio_hdmi;
     QRadioButton *rp_force_audio_default;
