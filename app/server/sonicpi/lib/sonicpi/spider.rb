@@ -150,18 +150,16 @@ module SonicPi
       end
     end
 
-    def __server_version(url="http://sonic-pi.net/static/info/latest_version.txt")
-      return Version.new(0) if @settings.get(:no_update_checking)
+    def __update_gui_version_info_now
+      v = __check_for_server_version_now
+      @msg_queue.push({:type => :version, :version => @version.to_s, :version_num =>  @version.to_i, :latest_version => v.to_s, :latest_version_num => v.to_i})
+    end
 
-      # Only check for updates at most once every 2 weeks
-      last_update = @settings.get(:last_update_check_time).to_i
-      if  (last_update > 0) &&
-          (Time.at(last_update) < Time.now)
-        two_weeks_in_seconds = 60 * 60 * 24 * 14
-        ts_2_weeks_later = Time.at(last_update + two_weeks_in_seconds)
-        return __local_cached_server_version if Time.now < ts_2_weeks_later
-      end
+    def __current_version
+      @version
+    end
 
+    def __check_for_server_version_now(url="http://sonic-pi.net/static/info/latest_version.txt")
       begin
         params = {:uuid => global_uuid,
                   :ruby_platform => RUBY_PLATFORM,
@@ -179,6 +177,21 @@ module SonicPi
       rescue
         __local_cached_server_version
       end
+    end
+
+    def __server_version(url="http://sonic-pi.net/static/info/latest_version.txt")
+      return Version.new(0) if @settings.get(:no_update_checking)
+
+      # Only check for updates at most once every 2 weeks
+      last_update = @settings.get(:last_update_check_time).to_i
+      if  (last_update > 0) &&
+          (Time.at(last_update) < Time.now)
+        two_weeks_in_seconds = 60 * 60 * 24 * 14
+        ts_2_weeks_later = Time.at(last_update + two_weeks_in_seconds)
+        return __local_cached_server_version if Time.now < ts_2_weeks_later
+      end
+
+      __check_for_server_version_now(url)
     end
 
     def __local_cached_server_version

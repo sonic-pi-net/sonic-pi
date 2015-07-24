@@ -89,6 +89,7 @@ private slots:
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
     void update_check_updates();
+    void check_for_updates_now();
     void enableCheckUpdates();
     void disableCheckUpdates();
     void stopCode();
@@ -149,8 +150,10 @@ private slots:
     void updateButtonVisibility();
     void toggleButtonVisibility();
     void setLineMarkerinCurrentWorkspace(int num);
-
-
+    void setUpdateInfoText(QString t);
+    void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num);
+    void requestVersion();
+    void open_sonic_pi_net();
 
 private:
     QSignalMapper *signalMapper;
@@ -245,6 +248,10 @@ private:
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
+    QPushButton *check_updates_now;
+    QPushButton *visit_sonic_pi_net;
+    QLabel *update_info;
+
 
     QRadioButton *rp_force_audio_hdmi;
     QRadioButton *rp_force_audio_default;
@@ -266,6 +273,12 @@ private:
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
     QString defaultTextBrowserStyle;
+
+    QString version;
+    int version_num;
+    QString latest_version;
+    int latest_version_num;
+
 
 };
 

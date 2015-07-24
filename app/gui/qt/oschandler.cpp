@@ -189,6 +189,14 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - error: unhandled OSC msg /replace-buffer: "<< std::endl;
         }
       }
+      else if (msg->match("/update-info-text")) {
+        std::string content;
+        if (msg->arg().popStr(content).isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( window, "setUpdateInfoText", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(content)));
+        } else {
+          std::cout << "[GUI] - error: unhandled OSC msg /update_info_text: "<< std::endl;
+        }
+      }
       else if (msg->match("/replace-lines")) {
         std::string id;
         std::string content;
@@ -231,6 +239,17 @@ void OscHandler::oscMessage(std::vector<char> buffer){
 
         } else
           std::cout << "[GUI] - error: unhandled OSC msg /ack " << std::endl;
+      }
+      else if (msg->match("/version")) {
+        std::string version;
+        int version_num;
+        std::string latest_version;
+        int latest_version_num;
+
+        if (msg->arg().popStr(version).popInt32(version_num).popStr(latest_version).popInt32(latest_version_num).isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( window, "updateVersionNumber", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(version)), Q_ARG(int, version_num), Q_ARG(QString, QString::fromStdString(latest_version)), Q_ARG(int, latest_version_num));
+        } else
+          std::cout << "[GUI] - error: unhandled OSC msg /version " << std::endl;
       }
       else {
         std::cout << "[GUI] - error: unhandled OSC message" << std::endl;

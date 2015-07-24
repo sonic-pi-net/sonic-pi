@@ -19,6 +19,7 @@
 #include <fstream>
 
 // Qt stuff
+#include <QDesktopServices>
 #include <QDir>
 #include <QAction>
 #include <QApplication>
@@ -118,6 +119,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   sendOSC(msg);
   sleep(2);
 
+
   setUnifiedTitleAndToolBarOnMac(true);
   setWindowIcon(QIcon(":images/icon-smaller.png"));
 
@@ -130,9 +132,17 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   connect(rec_flash_timer, SIGNAL(timeout()), this, SLOT(toggleRecordingOnIcon()));
 
   // Setup output and error panes
+  version = "";
+  latest_version = "";
+  version_num = 0;
+  latest_version_num = 0;
   outputPane = new QTextEdit;
   errorPane = new QTextBrowser;
   errorPane->setOpenExternalLinks(true);
+
+  update_info = new QLabel(tr("Sonic Pi update info"));
+
+  update_info->setWordWrap(true);
 
   // Syntax highlighting
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
@@ -411,6 +421,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   updateButtonVisibility();
   updateLogVisibility();
   updateDarkMode();
+  requestVersion();
 }
 
 void MainWindow::changeTab(int id){
@@ -766,14 +777,33 @@ void MainWindow::initPrefsWindow() {
   debug_box->setLayout(debug_box_layout);
 
 
+
+
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
   check_updates = new QCheckBox(tr("Check for updates"));
+  check_updates_now = new QPushButton(tr("Check now"));
+  visit_sonic_pi_net = new QPushButton(tr("Get update"));
+  visit_sonic_pi_net->setVisible(false);
+  check_updates_now->setMaximumWidth(100);
+  visit_sonic_pi_net->setMaximumWidth(150);
+
+  QGroupBox *update_info_box = new QGroupBox(tr("Update Info"));
+  update_info_box->setMaximumWidth(350);
+  QVBoxLayout *update_info_box_layout = new QVBoxLayout;
+  update_info_box_layout->addWidget(update_info);
+  update_info_box->setLayout(update_info_box_layout);
+
+
   connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
+  connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(open_sonic_pi_net()));
+  connect(check_updates_now, SIGNAL(clicked()), this, SLOT(check_for_updates_now()));
 
   update_box->setToolTip(tr("Configure whether Sonic Pi may check for new updates on launch.\nPlease note, the checking process includes sending\nanonymous information to the Sonic Pi server."));
 
   QVBoxLayout *update_box_layout = new QVBoxLayout;
   update_box_layout->addWidget(check_updates);
+  update_box_layout->addWidget(check_updates_now);
+  update_box_layout->addWidget(visit_sonic_pi_net);
   update_box->setLayout(update_box_layout);
 
   QGroupBox *editor_box = new QGroupBox();
@@ -845,7 +875,8 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *update_prefs_box = new QGroupBox();
   QGridLayout *update_prefs_box_layout = new QGridLayout;
 
-  update_prefs_box_layout->addWidget(update_box, 0, 0);
+  update_prefs_box_layout->addWidget(update_info_box, 0, 0);
+  update_prefs_box_layout->addWidget(update_box, 0, 1);
   update_prefs_box->setLayout(update_prefs_box_layout);
   prefTabs->addTab(update_prefs_box, tr("Updates"));
 
@@ -1151,6 +1182,12 @@ void MainWindow::reloadServerCode()
   sendOSC(msg);
 }
 
+void MainWindow::check_for_updates_now() {
+  statusBar()->showMessage(tr("Checking for updates..."), 2000);
+  Message msg("/check-for-updates-now");
+  sendOSC(msg);
+}
+
 void MainWindow::enableCheckUpdates()
 {
   statusBar()->showMessage(tr("Enabling update checking..."), 2000);
@@ -1360,17 +1397,19 @@ void MainWindow::updateDarkMode(){
     QString windowBorder = currentTheme->color("WindowBorder").name();
     QString selectedTab = "deeppink";
 
+    QString buttonStyling = QString("QPushButton{background-color: deeppink; border-radius: 3px; border-color: #808080; border-width: 2px;} QPushButton::pressed{background-color: white; color: #808080; }");
+
     QString splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
     QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
     QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: %2;} QTabWidget::tab-bar{alignment: center;} QTabWidget::pane{border: 0px;}").arg(windowForegroundColor, selectedTab);
     QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529); font-size 10px;} QDockWidget{font-size:10px;} ").arg(windowColor, windowBorder, windowForegroundColor);
     QString toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
 
-    this->setStyleSheet(QString("QWidget{margin: 0px; border: 1px solid %1 ; color: %3; background-color: %1;}" + splitterStyling+ toolTipStyling+scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
+    this->setStyleSheet(QString("QWidget{margin: 0px; border: 1px solid %1 ; color: %3; background-color: %1;}" + buttonStyling + splitterStyling+ toolTipStyling+scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
     statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
     outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
     outputWidget->setStyleSheet(widgetTitleStyling);
-    prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #1c2529; color: %1;} QWidget{background-color: %2;}").arg(windowForegroundColor, windowColor));
+    prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #1c2529; color: %1;} QWidget{background-color: %2;}" + buttonStyling).arg(windowForegroundColor, windowColor));
     tabs->setStyleSheet(tabStyling);
     prefTabs->setStyleSheet(tabStyling);
     docsCentral->setStyleSheet(tabStyling);
@@ -1409,6 +1448,7 @@ void MainWindow::updateDarkMode(){
 
     docPane->setStyleSheet(defaultTextBrowserStyle);
 
+    QString l_buttonStyling = QString("QPushButton{background-color: deeppink; border-radius: 3px; padding: 5px; color: white; border-color: white; border-width: 2px;} QPushButton::pressed{background-color: white; color: #808080; }");
 
     QString l_windowColor = currentTheme->color("WindowBackground").name();
     QString l_windowForegroundColor = currentTheme->color("WindowForeground").name();
@@ -1453,12 +1493,12 @@ void MainWindow::updateDarkMode(){
     QApplication::setPalette(p);
 
     ///start orig
-    this->setStyleSheet(QString("QWidget{margin: 0px; border: 1px solid %1 ; color: #5e5e5e; background-color: %1;}" + l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3} ").arg(l_windowColor, l_windowBorder, l_windowForegroundColor));
+    this->setStyleSheet(QString("QWidget{margin: 0px; border: 1px solid %1 ; color: #5e5e5e; background-color: %1;}" + l_buttonStyling + l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3} ").arg(l_windowColor, l_windowBorder, l_windowForegroundColor));
 
     statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(l_windowColor, l_windowBorder));
     outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(l_paneColor, l_windowForegroundColor));
     outputWidget->setStyleSheet(l_widgetTitleStyling);
-    prefsWidget->setStyleSheet( QString(l_widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color: %2; border: 1px solid lightgray; color: %1;}").arg(l_windowForegroundColor, l_windowColor));
+    prefsWidget->setStyleSheet( QString(l_buttonStyling + l_widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color: %2; border: 1px solid lightgray; color: %1;}").arg(l_windowForegroundColor, l_windowColor));
     tabs->setStyleSheet(        l_tabStyling);
     prefTabs->setStyleSheet(l_tabStyling);
     docsCentral->setStyleSheet( l_tabStyling);
@@ -2145,6 +2185,10 @@ void MainWindow::setLineMarkerinCurrentWorkspace(int num) {
   }
 }
 
+void MainWindow::setUpdateInfoText(QString t) {
+  update_info->setText(t);
+}
+
 void MainWindow::addUniversalCopyShortcuts(QTextEdit *te){
   new QShortcut(ctrlKey('c'), te, SLOT(copy()));
   new QShortcut(ctrlKey('a'), te, SLOT(selectAll()));
@@ -2171,6 +2215,37 @@ void MainWindow::printAsciiArtLogo(){
 #endif
 
 
+}
+
+void MainWindow::requestVersion() {
+    Message msg("/version");
+    sendOSC(msg);
+}
+
+void MainWindow::open_sonic_pi_net() {
+  QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
+}
+
+void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int latest_v_num) {
+  version = v;
+  version_num = v_num;
+  latest_version = latest_v;
+  latest_version_num = latest_v_num;
+
+  QString preamble = tr("Sonic Pi checks for updates every two weeks. This check involves sending anonymous information about your platform and version. This may be disabled by unchecking 'Check for updates'. You can also force a check by hitting 'Check now'");
+
+  QString print_version = tr("You are running Sonic Pi %1");
+  QString new_version = tr("Version %2 is now available!");
+
+  if(v_num < latest_v_num) {
+    setUpdateInfoText(QString(preamble + "\n\n" + print_version + "\n\n" + new_version).arg(version, latest_version));
+    visit_sonic_pi_net->setText(tr("New version available!\nGet Sonic Pi %1").arg(latest_version));
+    check_updates_now->setVisible(false);
+    visit_sonic_pi_net->setVisible(true);
+  }
+  else {
+    setUpdateInfoText(QString(preamble + "\n\n" + print_version + "\n\n").arg(version));
+  }
 }
 
 #include "ruby_help.h"
