@@ -152,7 +152,7 @@ module SonicPi
 
     def __update_gui_version_info_now
       v = __check_for_server_version_now
-      @msg_queue.push({:type => :version, :version => @version.to_s, :version_num =>  @version.to_i, :latest_version => v.to_s, :latest_version_num => v.to_i, :last_checked => __last_update_checked})
+      @msg_queue.push({:type => :version, :version => @version.to_s, :version_num =>  @version.to_i, :latest_version => v.to_s, :latest_version_num => v.to_i, :last_checked => __last_update_check})
     end
 
     def __current_version
