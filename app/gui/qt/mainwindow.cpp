@@ -781,8 +781,11 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
   check_updates = new QCheckBox(tr("Check for updates"));
+  check_updates->setToolTip(tr("Toggle automatic update checking"));
   check_updates_now = new QPushButton(tr("Check now"));
+  check_updates_now->setToolTip(tr("Force a check for updates now"));
   visit_sonic_pi_net = new QPushButton(tr("Get update"));
+  visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
   visit_sonic_pi_net->setVisible(false);
   check_updates_now->setMaximumWidth(100);
   visit_sonic_pi_net->setMaximumWidth(150);
@@ -797,8 +800,6 @@ void MainWindow::initPrefsWindow() {
   connect(check_updates, SIGNAL(clicked()), this, SLOT(update_check_updates()));
   connect(visit_sonic_pi_net, SIGNAL(clicked()), this, SLOT(open_sonic_pi_net()));
   connect(check_updates_now, SIGNAL(clicked()), this, SLOT(check_for_updates_now()));
-
-  update_box->setToolTip(tr("Configure whether Sonic Pi may check for new updates on launch.\nPlease note, the checking process includes sending\nanonymous information to the Sonic Pi server."));
 
   QVBoxLayout *update_box_layout = new QVBoxLayout;
   update_box_layout->addWidget(check_updates);
