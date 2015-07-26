@@ -2240,7 +2240,7 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
 
   QString preamble = tr("Sonic Pi checks for updates\nevery two weeks.");
 
-  QString print_version = tr("You are running Sonic Pi %1");
+  QString print_version = tr("This is Sonic Pi %1");
   QString new_version = tr("Version %2 is now available!");
 
   if(v_num < latest_v_num) {
