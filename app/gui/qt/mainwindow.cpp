@@ -780,7 +780,9 @@ void MainWindow::initPrefsWindow() {
 
 
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
+  QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   check_updates = new QCheckBox(tr("Check for updates"));
+  check_updates->setSizePolicy(updatesPrefSizePolicy);
   check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
   check_updates_now = new QPushButton(tr("Check now"));
   check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
