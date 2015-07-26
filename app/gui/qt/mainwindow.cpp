@@ -712,7 +712,7 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
   volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
 
-  QGroupBox *advancedAudioBox = new QGroupBox(tr("Studio"));
+  QGroupBox *advancedAudioBox = new QGroupBox(tr("Advanced Audio"));
   advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
   mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
   mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
