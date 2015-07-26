@@ -781,9 +781,9 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
   check_updates = new QCheckBox(tr("Check for updates"));
-  check_updates->setToolTip(tr("Toggle automatic update checking"));
+  check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
   check_updates_now = new QPushButton(tr("Check now"));
-  check_updates_now->setToolTip(tr("Force a check for updates now"));
+  check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
   visit_sonic_pi_net = new QPushButton(tr("Get update"));
   visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
   visit_sonic_pi_net->setVisible(false);
@@ -2236,7 +2236,7 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
 
   QString last_update_check = tr("Last checked %1").arg(last_checked.toString());
 
-  QString preamble = tr("Sonic Pi checks for updates every two weeks. This check involves sending anonymous information about your platform and version. This may be disabled by unchecking 'Check for updates'. You can also force a check by hitting 'Check now'");
+  QString preamble = tr("Sonic Pi checks for updates\nevery two weeks.");
 
   QString print_version = tr("You are running Sonic Pi %1");
   QString new_version = tr("Version %2 is now available!");
