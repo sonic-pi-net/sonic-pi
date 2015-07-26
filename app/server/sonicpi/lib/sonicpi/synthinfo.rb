@@ -2760,14 +2760,18 @@ module SonicPi
         :pre_amp_slide => 0,
         :pre_amp_slide_shape => 5,
         :pre_amp_slide_curve => 0,
-        :gain => 30,
+        :gain => 5,
         :gain_slide => 0,
         :gain_slide_shape => 5,
         :gain_slide__curve => 0,
         :cutoff => 100,
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
-        :cutoff_slide_curve => 0
+        :cutoff_slide_curve => 0,
+        :res => 0,
+        :res_slide => 0,
+        :res_slide_shape => 5,
+        :res_slide_curve => 0
       }
     end
 
