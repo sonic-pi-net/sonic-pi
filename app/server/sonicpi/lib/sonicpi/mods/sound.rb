@@ -2681,7 +2681,7 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
        doc name:          :control,
            introduced:    Version.new(2,0,0),
            summary:       "Control running synth",
-           doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for opt details.",
+           doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for opt details. Is the synth to control is a chord, then control will change all the notes of that chord group at once to a new target set of notes - see example. ",
            args:          [[:node, :synth_node]],
            opts:          {},
            accepts_block: false,
@@ -2721,9 +2721,46 @@ with_fx :bitcrusher, sample_rate: 1000, sample_rate_slide: 8 do |bc| # Start FX 
   sample :loop_garzul, rate: 1
   control bc, sample_rate: 5000                                      # We can use our handle bc now just like we used s in the
                                                                      # previous example to modify the FX as it runs.
-end"
+end",
+"
+## Controlling chords
+cg = play (chord :e4, :minor), sustain: 2  # start a chord
+sleep 1
+control cg, notes: (chord :c3, :major)     # transition to new chord.
+                                           # Each note in the original chord is mapped onto
+                                           # the equivalent in the new chord.
+",
+"
+## Sliding between chords
 
-       ]
+cg = play (chord :e4, :minor), sustain: 4, note_slide: 3  # start a chord
+sleep 1
+control cg, notes: (chord :c3, :major)                    # slide to new chord.
+                                                          # Each note in the original chord is mapped onto
+                                                          # the equivalent in the new chord.
+",
+"
+## Sliding from a larger to smaller chord
+cg = play (chord :e3, :m13), sustain: 4, note_slide: 3  # start a chord with 7 notes
+sleep 1
+control cg, notes: (chord :c3, :major)                    # slide to new chord with fewer notes (3)
+                                                          # Each note in the original chord is mapped onto
+                                                          # the equivalent in the new chord using ring-like indexing.
+                                                          # This means that the 4th note in the original chord will
+                                                          # be mapped onto the 1st note in the second chord and so-on.
+",
+"
+## Sliding from a smaller to larger chord
+cg = play (chord :c3, :major), sustain: 4, note_slide: 3  # start a chord with 3 notes
+sleep 1
+control cg, notes: (chord :e3, :m13)                     # slide to new chord with more notes (7)
+                                                          # Each note in the original chord is mapped onto
+                                                          # the equivalent in the new chord.
+                                                          # This means that the 4th note in the new chord
+                                                          # will not sound as there is no 4th note in the
+                                                          # original chord.
+"
+]
 
 
 
