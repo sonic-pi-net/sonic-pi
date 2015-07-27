@@ -145,11 +145,14 @@ module SonicPi
       def initialize(list)
         raise EmptyVectorError, "Cannot create an empty vector" if list.empty?
         super
-        self.freeze
       end
 
       def ___sp_vector_name
         "vector"
+      end
+
+      def ___sp_preserve_vec_kind(a)
+        self.class.new(a)
       end
 
       def [](idx, len=(missing_length = true))
@@ -193,6 +196,16 @@ module SonicPi
 
       def to_a
         Array.new(self)
+      end
+
+      def stretch(num_its)
+        res = []
+        self.each do |v|
+          num_its.times do
+            res << v
+          end
+        end
+        ___sp_preserve_vec_kind(res)
       end
     end
 
