@@ -1507,7 +1507,7 @@ module SonicPi
 
   class SynthViolin < SonicPiSynth
     def name
-      "SynthViolin"
+      "Blade Runner style strings"
     end
 
     def introduced
@@ -1519,7 +1519,7 @@ module SonicPi
     end
 
     def doc
-      "A rather cheesy sounding violin synth based on filtered saw waves and a variable vibrato."
+      "Straight from the 70s, evoking the mists of Blade Runner, this simple electro-style string synth is based on filtered saw waves and a variable vibrato."
     end
 
     def arg_defaults
@@ -1544,7 +1544,7 @@ module SonicPi
         :sustain_level => 1,
         :env_curve => 2,
 
-        :cutoff => 107,
+        :cutoff => 100,
         :cutoff_slide => 0,
         :cutoff_slide_shape => 5,
         :cutoff_slide_curve => 0,
@@ -5037,7 +5037,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       #      :singer        => Singer.new,
       :mono_player => MonoPlayer.new,
       :stereo_player => StereoPlayer.new,
-      :synth_violin => SynthViolin.new,
+      :blade => SynthViolin.new,
       :piano => SynthPiano.new,
 
       :sound_in => SoundIn.new,
