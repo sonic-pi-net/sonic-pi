@@ -1,5 +1,5 @@
 # History
-* [v2.6](#v2.6), In development
+* [v2.6 'Algorave'](#v2.6), In development
 * [v2.5 'Craft'](#v2.5), 13th April, 2015
 * [v2.4 'Defrost'](#v2.4), 11th Feb, 2015 
 * [v2.3 'Bitcrush'](#v2.3), 28th Jan, 2015
@@ -9,12 +9,107 @@
 
 <a name="v2.6"></a>
 
+Highlights:
+
+* `beat_stretch:`
+* `tick`
+* `probability:`
+
 ### Breaking Changes
 
-* The `res:` param for all synths and FX now has range 0->1 rather than
+* The `res:` opt for all synths and FX now has range 0->1 rather than
   1->0. This means that a higher res value results in more
   resonance. This will hopefully be more intuitive to beginners less
   surprising for people with existing synth knowledge.
+* The fn `stop` has been renamed to `kill` for killing specific
+  synths. In its place a new fn `stop` has been added to stop a given
+  thread or `live_loop`.
+* `invert_wave` opts are now inverted. The default is now 0 which
+  has the same behaviour as the old 1.  This means that it's more
+  intuitive to use the opt as to invert the current wave, you now
+  specify: `invert_wave: true`, rather than `invert_wave: false`. This
+  shouldn't affect any code which doesn't explicitly set the `invert_wave:`
+  opt. Pieces which have explicit inversion need to swap all 0s for 1s
+  and visa versa.
+* Workspaces are now named buffers. This is a smaller word which works
+  better on lower res screens and is also a lovely term used by a number
+  of wonderful programming editors such as Emacs.
+
+
+### New
+
+* New visual look and feel including a new Dark Mode for live coding in
+  night clubs. 
+* New preferences for hiding/showing aspects of the GUI such as the
+  buttons, log, tabs etc.
+* New preference for full screen mode.a  
+* New thread-local (i.e. live_loop local) counter system via fns `tick`
+  and `look`.
+* New fn `vector` which creates a new kind of Array - an immutable
+  vector (`SPVector`) which is now the default base class for all rings.
+* New fns `use_sample_defaults` and `with_sample_defaults` which act
+  similarly as their `*_synth_defaults` counterparts but for samples not
+  synths.
+* New fns `use_tuning` and `with_tuning` for exploring other tuning
+  systems such as `:just`, `:pythagorean`, and `:meantone`.
+* New fn `invert_chord` for chord inversions.  
+* New fn `current_beat_duration` for returning the duration of the
+  current beat in seconds.
+
+  
+ 
+
+
+### GUI  
+
+### Synths & FX
+
+
+* New FX - `krush` for krushing the sound.
+* FX `slicer` now has a wonderful new `probability:` opt which will only
+  slice on (or off depending on wave inversion) with the specified
+  probability. The behaviour is deterministic, so repeated calls with
+  the same `seed:` and `probability:` opts will result in the same
+  behaviour. Great for adding rhythmic variation to sound.
+* FX `slicer` now has smoothing opts for even more control over the
+  resulting slice wave form.
+
+### Improvements
+
+
+* Teach `note_info` to also handle a number as its param.
+* Teach `factor?` to handle division by 0.
+* Teach `load_sample` to throw exception when passed an empty path.
+* Now throws an exception when you attempt to create an empty ring.
+* Rings are now immutable (in the Clojure sense) which means they can be
+  safely passed to multiple threads/live_loops without any issues.
+* Teach `use_sample_bpm` the opt `num_beats:` to indicate that a given
+  sample consists of a specific number of beats.
+* Teach `sample` the opt `beat_stretch:` for modifying the rate of the
+  sample to make sure the duration of the sample is n beats long (with
+  respect to the current bpm).
+* Teach `comment` and `uncomment` to require blocks.  
+* Teach synth chord groups to allow their notes to be controlled
+  individually to allow transitions between chords.
+* Throw nicer exception when unable to normalise synth args  
+* Teach `chord` the new opt `invert:` as a shortcut to the new
+  `invert_chord` fn.
+* Teach `sample_duration` about the opts `start:` and `finish:`. This
+  allows you to replace any call to `sample` with `sample_duration` to
+  get the exact duration of that call.
+
+### Bug Fixes
+
+
+  safely shared across `live_loop`s.
+
+* Fix bug in `with_sample_pack_as` to now correctly accept a block.
+* `mx_surface_teleport` no longer throws an error.
+* `Array#shuffle` now works correctly with the random seeds for
+  deterministic behaviour.
+* Fix broken behaviour with multiple nested calls to `*_sample_bpm`.
+
+
 
 <a name="v2.5"></a>
 
@@ -48,7 +143,7 @@ most powerful text editor in use by wizard programmers today.
 
 ### New
 
-* Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
+1* Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
 * `sync` now accepts multiple cue ids and will sync on the first matching id.
 * New fn `pitch_ratio` for converting a midi note to a frequency
   ratio. Useful for tuning samples.
