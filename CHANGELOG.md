@@ -9,16 +9,15 @@
 
 <a name="v2.6"></a>
 
-Highlights:
-
 The laser beams sliced through the wafts of smoke as the subwoofer
 pumped bass deep into the bodies of the crowd. The atmosphere was ripe
 with a heady mix of synths and dancing. However something wasn't quite
 right in this nightclub. Projected in bright colours above the DJ booth
 was futuristic text, moving, dancing flashing. This wasn't fancy
 visuals, it was merely a projection of Sonic Pi running on a Raspberry
-Pi. The occupant of the DJ booth wasn't spinning disks, he was writing,
-editing and evaluating code. Live. This was an [Algorave](http://twitter.com/algorave).
+Pi. The occupant of the DJ booth wasn't spinning disks, she was writing,
+editing and evaluating code. Live. This was an
+[Algorave](http://twitter.com/algorave).
 
 This release is codenamed [Algorave](http://twitter.com/algorave) to
 celebrate that Sonic Pi is now ready to be performed with in nightclubs
