@@ -346,7 +346,7 @@ end"
         returns:        :ring,
         opts:           nil,
         accepts_block:  false,
-        doc:            "Stretches a list of values each value repeated count times.",
+        doc:            "Stretches a list of values each value repeated count times. Always returns a ring regardless of the type of the list that is stretched. To preserve type, consider using `.stretch` i.e. `(ramp 1, 2, 3).stretch(2) #=> (ramp 1, 1, 2, 2, 3, 3)`",
         examples:       [
       "(stretch [1,2], 3)    #=> (ring 1, 1, 1, 2, 2, 2)",
       "(stretch [:e2, :c3], 1, [:c2, :d3], 2) #=> (ring :e2, :c3, :c2, :c2, :d3, :d3)"
