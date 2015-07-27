@@ -284,7 +284,20 @@ in_thread do
   play 72      #=> this play never happens
 end
 
-play 80  #=> this plays as the stop only affected the above thread"
+play 80  #=> this plays as the stop only affected the above thread",
+
+"
+# Stopping live loops
+live_loop :foo
+  sample :bd_haus
+  sleep 1
+  stop               # live loop :foo will now stop and no longer loop
+end
+
+live_loop :bar       # live loop :bar will continue looping
+  sample :elec_blip
+  sleep 0.25
+end"
     ]
 
 
@@ -318,6 +331,7 @@ play 80  #=> this plays as the stop only affected the above thread"
     def stretch(*args)
       raise "stretch needs an even number of arguments, you passed: #{args.size} - #{args.inspect}" unless args.size.even?
       res = args.each_slice(2).flat_map do |values, num_its|
+
         if !values.respond_to? :flat_map
           values = [values]
         end
