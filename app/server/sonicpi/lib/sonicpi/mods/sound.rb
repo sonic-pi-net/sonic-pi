@@ -2735,15 +2735,15 @@ end"
          alive = node.live?
          node.kill
          if alive
-           __delayed_message "stopping sound #{node.id}"
+           __delayed_message "killing sound #{node.id}"
          else
-           __delayed_message "not stopping sound #{node.id} (already stopped)"
+           __delayed_message "not killing sound #{node.id} (already killed)"
          end
        end
        doc name:          :kill,
            introduced:    Version.new(2,0,0),
            summary:       "Kill synth",
-           doc:           "Stop a running synth sound or sample. In order to stop a sound, you need to have stored a reference to it in a variable.",
+           doc:           "Kill a running synth sound or sample. In order to kill a sound, you need to have stored a reference to it in a variable.",
            args:          [[:node, :synth_node]],
            opts:          {},
            accepts_block: false,
@@ -2751,7 +2751,7 @@ end"
 # store a reference to a running synth in a variable called foo:
 foo = play 50, release: 4
 sleep 1
-# foo is still playing, but we can stop it early:
+# foo is still playing, but we can kill it early:
 kill foo
 ",
 "bar = sample :loop_amen
