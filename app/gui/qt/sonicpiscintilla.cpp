@@ -443,11 +443,12 @@ void SonicPiScintilla::setLineErrorMarker(int lineNumber){
   markerDeleteAll(-1);
   markerAdd(lineNumber, 8);
 
-  int currlinenum, index;
-  getCursorPosition(&currlinenum, &index);
-  if (lineNumber != currlinenum) {
-    setCursorPosition(lineNumber, 0);
-  }
+  // Perhaps consider a more manual way of returning this functionality:
+  // int currlinenum, index;
+  // getCursorPosition(&currlinenum, &index);
+  // if (lineNumber != currlinenum) {
+  //   setCursorPosition(lineNumber, 0);
+  // }
 
 }
 
