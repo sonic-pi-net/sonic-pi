@@ -11,9 +11,32 @@
 
 Highlights:
 
-* `beat_stretch:`
-* `tick`
-* `probability:`
+The laser beams sliced through the wafts of smoke as the subwoofer
+pumped bass deep into the bodies of the crowd. The atmosphere was ripe
+with a heady mix of synths and dancing. However something wasn't quite
+right in this nightclub. Projected in bright colours above the DJ booth
+was futuristic text, moving, dancing flashing. This wasn't fancy
+visuals, it was merely a projection of Sonic Pi running on a Raspberry
+Pi. The occupant of the DJ booth wasn't spinning disks, he was writing,
+editing and evaluating code. Live. This was an [Algorave](http://twitter.com/algorave).
+
+This release is codenamed [Algorave](http://twitter.com/algorave) to
+celebrate that Sonic Pi is now ready to be performed with in nightclubs
+as well as still being a fantastic tool for learning how to code
+creatively. There are many improvements as detailed below. However,
+let's just take a brief look at some of the most fun. Firstly we have
+the new error reporting system to make it easier to find and debug your
+errors. Syntax errors are now blue and runtime errors pink. We also have
+a new look and feel including a new dark mode for performing in dark
+places. We also have some fantastic new synths, FX and have even
+improved the standard synths. For example, `sample` now lets you stretch
+to match the beat, change pitch and the `slicer` FX now sports a
+fantastic deterministic probability opt for creating and manipulating
+rhythmic structures with ease. Finally there's the new thread local
+`tick`/`look` system which will revolutionise the way you work with
+`ring`s within `live_loop`s. Of course there's so much more too!
+
+Enjoy this release and happy Algoraving!
 
 ### Breaking Changes
 
@@ -31,18 +54,14 @@ Highlights:
   shouldn't affect any code which doesn't explicitly set the `invert_wave:`
   opt. Pieces which have explicit inversion need to swap all 0s for 1s
   and visa versa.
-* Workspaces are now named buffers. This is a smaller word which works
-  better on lower res screens and is also a lovely term used by a number
-  of wonderful programming editors such as Emacs.
+* The `res:` opt for `rrand` and `rdist` has been renamed to `step:` to
+  avoid confusion with the resonance opt for cutoff filters.
+* Rename `pitch_ratio` to `pitch_to_ratio` to keep inline with other
+  similar fns such as `midi_to_hz`.
 
 
 ### New
 
-* New visual look and feel including a new Dark Mode for live coding in
-  night clubs. 
-* New preferences for hiding/showing aspects of the GUI such as the
-  buttons, log, tabs etc.
-* New preference for full screen mode.a  
 * New thread-local (i.e. live_loop local) counter system via fns `tick`
   and `look`.
 * New fn `vector` which creates a new kind of Array - an immutable
@@ -55,27 +74,62 @@ Highlights:
 * New fn `invert_chord` for chord inversions.  
 * New fn `current_beat_duration` for returning the duration of the
   current beat in seconds.
-
+* New fn `note_range` for returning a range of notes between two notes
+  with a `pitches:` opt for constraining the choice of filler notes.
+* New fns `scale_names` and `chord_names` for returning a ring of all
+  chords and scales.
+* New example `rerezzed` - strongly influenced by Daft Punk's track
+  `derezzed`.
+* New example `reich phase` - a nice way of combining `live_loop`s and
+  `tick` to create sophisticated polyrhythms.
+* New fns `use_cue_logging` and `with_cue_logging` for enabling and
+  disabling the logging of `cue` messages.
+* It is now possible to set the block type in the Minecraft API.
   
  
-
-
 ### GUI  
+* New visual look and feel including a new Dark Mode for live coding in
+  night clubs. 
+* New preferences for hiding/showing aspects of the GUI such as the
+  buttons, log, tabs etc.
+* New preference for full screen mode.
+* Improve error message reporting. Syntax errors are now made distinct
+  from runtime errors with colour-coded message. Also, the line number
+  of the error is much more visible, and the line of the error is
+  highlighted with an arrow in the left-hand margin.
+* Workspaces are now named buffers. This is a smaller word which works
+  better on lower res screens and is also a lovely term used by a number
+  of wonderful programming editors such as Emacs.
+* Print friendly messages to the log on boot.  
+* Add pref option to check for updates now.
+
 
 ### Synths & FX
 
-
 * New FX - `krush` for krushing the sound.
-* FX `slicer` now has a wonderful new `probability:` opt which will only
-  slice on (or off depending on wave inversion) with the specified
-  probability. The behaviour is deterministic, so repeated calls with
-  the same `seed:` and `probability:` opts will result in the same
-  behaviour. Great for adding rhythmic variation to sound.
-* FX `slicer` now has smoothing opts for even more control over the
-  resulting slice wave form.
+* New FX - `panslicer` similar to `slicer` and `wobble` but modulates
+  the stereo panning of the audio.
+* New synth `subpulse` for a full range pulse with extra bass.
+* New synth `blade` - a moody Blade Runner-esque synth violin
+* New synth `piano` - a basic piano emulation. Only capable of whole notes.
+* FXs `slicer` and `wobble` now have a wonderful new `probability:` opt
+  which will only slice on (or off depending on wave inversion) with the
+  specified probability. The behaviour is deterministic, so repeated
+  calls with the same `seed:` and `probability:` opts will result in the
+  same behaviour. Great for adding interesting rhythmic variation to
+  sound.
+* FXs `slicer` and `wobble` now have smoothing opts for even more
+  control over the resulting wave form.
+* Teach `sample` the opt `beat_stretch:` for modifying the rate of the
+  sample to make sure the duration of the sample is n beats long (with
+  respect to the current bpm). Note: stretching the beat *does* change
+  the pitch.
+* Teach `sample` the opt `pitch` to enable pitch shifting on any sample.  
+* FX `flanger`'s feedback mixing is now more fair and is less likely to
+  hike up the amplitude.
+
 
 ### Improvements
-
 
 * Teach `note_info` to also handle a number as its param.
 * Teach `factor?` to handle division by 0.
@@ -85,23 +139,21 @@ Highlights:
   safely passed to multiple threads/live_loops without any issues.
 * Teach `use_sample_bpm` the opt `num_beats:` to indicate that a given
   sample consists of a specific number of beats.
-* Teach `sample` the opt `beat_stretch:` for modifying the rate of the
-  sample to make sure the duration of the sample is n beats long (with
-  respect to the current bpm).
 * Teach `comment` and `uncomment` to require blocks.  
 * Teach synth chord groups to allow their notes to be controlled
   individually to allow transitions between chords.
 * Throw nicer exception when unable to normalise synth args  
 * Teach `chord` the new opt `invert:` as a shortcut to the new
   `invert_chord` fn.
-* Teach `sample_duration` about the opts `start:` and `finish:`. This
-  allows you to replace any call to `sample` with `sample_duration` to
-  get the exact duration of that call.
+* Teach `sample_duration` about the opts `start:` and `finish:` and
+  envelop opts such as `attack:` and `release:`. This allows you to
+  replace any call to `sample` with `sample_duration` to get the exact
+  duration of that call.
+* Teach `chord` the opt `num_octaves` to enable the easy creation of
+  arpeggios.
+
 
 ### Bug Fixes
-
-
-  safely shared across `live_loop`s.
 
 * Fix bug in `with_sample_pack_as` to now correctly accept a block.
 * `mx_surface_teleport` no longer throws an error.
