@@ -2681,7 +2681,7 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
        doc name:          :control,
            introduced:    Version.new(2,0,0),
            summary:       "Control running synth",
-           doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for opt details. Is the synth to control is a chord, then control will change all the notes of that chord group at once to a new target set of notes - see example. ",
+           doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for opt details. If the synth to control is a chord, then control will change all the notes of that chord group at once to a new target set of notes - see example. ",
            args:          [[:node, :synth_node]],
            opts:          {},
            accepts_block: false,

@@ -13,14 +13,14 @@ The laser beams sliced through the wafts of smoke as the subwoofer
 pumped bass deep into the bodies of the crowd. The atmosphere was ripe
 with a heady mix of synths and dancing. However something wasn't quite
 right in this nightclub. Projected in bright colours above the DJ booth
-was futuristic text, moving, dancing flashing. This wasn't fancy
+was futuristic text, moving, dancing, flashing. This wasn't fancy
 visuals, it was merely a projection of Sonic Pi running on a Raspberry
 Pi. The occupant of the DJ booth wasn't spinning disks, she was writing,
 editing and evaluating code. Live. This was an
 [Algorave](http://twitter.com/algorave).
 
 This release is codenamed [Algorave](http://twitter.com/algorave) to
-celebrate that Sonic Pi is now ready to be performed with in nightclubs
+celebrate that Sonic Pi is now ready to be performed within nightclubs
 as well as still being a fantastic tool for learning how to code
 creatively. There are many improvements as detailed below. However,
 let's just take a brief look at some of the most fun. Firstly we have
@@ -55,7 +55,7 @@ Enjoy this release and happy Algoraving!
   and visa versa.
 * The `res:` opt for `rrand` and `rdist` has been renamed to `step:` to
   avoid confusion with the resonance opt for cutoff filters.
-* Rename `pitch_ratio` to `pitch_to_ratio` to keep inline with other
+* Rename `pitch_ratio` to `pitch_to_ratio` to keep in line with other
   similar fns such as `midi_to_hz`.
 
 
@@ -93,7 +93,7 @@ Enjoy this release and happy Algoraving!
   buttons, log, tabs etc.
 * New preference for full screen mode.
 * Improve error message reporting. Syntax errors are now made distinct
-  from runtime errors with colour-coded message. Also, the line number
+  from runtime errors with colour-coded messages. Also, the line number
   of the error is much more visible, and the line of the error is
   highlighted with an arrow in the left-hand margin.
 * Workspaces are now named buffers. This is a smaller word which works
@@ -145,7 +145,7 @@ Enjoy this release and happy Algoraving!
 * Teach `chord` the new opt `invert:` as a shortcut to the new
   `invert_chord` fn.
 * Teach `sample_duration` about the opts `start:` and `finish:` and
-  envelop opts such as `attack:` and `release:`. This allows you to
+  envelope opts such as `attack:` and `release:`. This allows you to
   replace any call to `sample` with `sample_duration` to get the exact
   duration of that call.
 * Teach `chord` the opt `num_octaves` to enable the easy creation of
