@@ -818,18 +818,18 @@ void MainWindow::initPrefsWindow() {
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
   show_line_numbers->setToolTip(tr("Toggle line number visibility."));
   show_log = new QCheckBox(tr("Show log"));
-  show_log->setToolTip(tr("Toggle visibility of the log."));
+  show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
   show_log->setChecked(true);
   show_buttons = new QCheckBox(tr("Show buttons"));
-  show_buttons->setToolTip(tr("Toggle visibility of the control buttons."));
+  show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
   show_buttons->setChecked(true);
   show_tabs = new QCheckBox(tr("Show tabs"));
   show_tabs->setChecked(true);
   show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
   full_screen = new QCheckBox(tr("Full screen"));
-  full_screen->setToolTip(tr("Toggle full screen mode."));
+  full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
   dark_mode = new QCheckBox(tr("Dark mode"));
-  dark_mode->setToolTip(tr("Toggle dark mode.\nDark mode is perfect for live coding in night clubs."));
+  dark_mode->setToolTip(tooltipStrShiftMeta('M', tr("Toggle dark mode.")) + QString(tr("\nDark mode is perfect for live coding in night clubs.")));
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
   connect(show_log, SIGNAL(clicked()), this, SLOT(updateLogVisibility()));
   connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateButtonVisibility()));
@@ -1701,6 +1701,23 @@ char MainWindow::int2char(int i){
   return '0' + i;
 }
 
+ QString MainWindow::tooltipStrShiftMeta(char key, QString str) {
+#ifdef Q_OS_MAC
+    return QString("%1 (⇧⌘%2)").arg(str).arg(key);
+#else
+    return QString("%1 (⇧-alt-%2)").arg(str).arg(key);
+#endif
+}
+
+ QString MainWindow::tooltipStrMeta(char key, QString str) {
+#ifdef Q_OS_MAC
+    return QString("%1 (⌘%2)").arg(str).arg(key);
+#else
+    return QString("%1 (alt-%2)").arg(str).arg(key);
+#endif
+}
+
+
 // set tooltips, connect event handlers, and add shortcut if applicable
 void MainWindow::setupAction(QAction *action, char key, QString tooltip,
 			     const char *slot)
@@ -1708,11 +1725,7 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
   QString shortcut, tooltipKey;
   tooltipKey = tooltip;
   if (key != 0) {
-#ifdef Q_OS_MAC
-    tooltipKey = QString("%1 (⌘%2)").arg(tooltip).arg(key);
-#else
-    tooltipKey = QString("%1 (alt-%2)").arg(tooltip).arg(key);
-#endif
+    tooltipKey = tooltipStrMeta(key, tooltip);
   }
 
   action->setToolTip(tooltipKey);

@@ -188,6 +188,8 @@ private:
     char int2char(int i);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
+    QString tooltipStrShiftMeta(char key, QString str);
+    QString tooltipStrMeta(char key, QString str);
     QString readFile(QString name);
     QString rootPath();
 
