@@ -1375,6 +1375,22 @@ void MainWindow::updateDarkMode(){
   if(dark_mode->isChecked()){
     currentTheme->darkMode();
 
+    // clear stylesheets
+    this->setStyleSheet("");
+    infoWidg->setStyleSheet("");
+    mainWidget->setStyleSheet("");
+    statusBar()->setStyleSheet("");
+    outputPane->setStyleSheet("");
+    outputWidget->setStyleSheet("");
+    prefsWidget->setStyleSheet("");
+    tabs->setStyleSheet("");
+    prefTabs->setStyleSheet("");
+    docsCentral->setStyleSheet("");
+    docWidget->setStyleSheet("");
+    toolBar->setStyleSheet("");
+
+    docPane->setStyleSheet(defaultTextBrowserStyle);
+
     QPalette p = QApplication::palette();
     p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
     p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
@@ -1404,7 +1420,7 @@ void MainWindow::updateDarkMode(){
     QString buttonStyling = QString("QPushButton{padding: 5px; background-color: deeppink; border-radius: 3px; border-color: #808080; border-width: 2px;} QPushButton::pressed{background-color: white; color: #808080; }");
 
     QString splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
-    QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
+    QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border-right: 1px solid #000; border-bottom: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
 
     QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: %2;} QTabWidget::tab-bar{alignment: center;} QTabWidget::pane{border: 0px;}").arg(windowForegroundColor, selectedTab);
     QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529); font-size 10px;} QDockWidget{font-size:10px;} ").arg(windowColor, windowBorder, windowForegroundColor);
@@ -1456,11 +1472,12 @@ void MainWindow::updateDarkMode(){
     QString l_windowBorder = currentTheme->color("WindowBorder").name();
     QString l_selectedTab = "deeppink";
     QString l_toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
-    //    QString l_toolTipStyling = QString("QToolTip {color: #000; background-color: #ddd; border: 0px;}");
-    QString l_tabStyling = QString("QTabBar::tab{background: #808080; color: white;} QTabBar::tab:selected{background: %1; color: white} QTabWidget::tab-bar{alignment: center;}").arg(l_selectedTab);
+
+    QString l_tabStyling =         QString("QTabBar::tab{background: #808080; color: white;} QTabBar::tab:selected{background: %1;} QTabWidget::tab-bar{alignment: center;} QTabWidget::pane{border: 0px;}").arg(l_selectedTab);
 
     QString l_splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
-    QString l_scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: %1;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: #808080;  border-radius: 3px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(l_windowColor);
+
+    QString l_scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: lightgray; border-right: 1px solid lightgray; border-bottom: 1px solid lightgray;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(l_windowColor);
 
     QString l_widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 lightgray); font-size 10px;} QDockWidget{font-size:10px;} ").arg(l_windowColor, l_windowBorder, l_windowForegroundColor);
 
@@ -1493,7 +1510,7 @@ void MainWindow::updateDarkMode(){
 
     ///start orig
 
-    this->setStyleSheet(QString(l_buttonStyling + l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: white;} QFrame{border: 0px;}").arg(l_windowColor));
+    this->setStyleSheet(QString(l_buttonStyling + l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: %1;} QFrame{border: 0px;}").arg(l_windowColor));
 
     statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(l_windowColor, l_windowBorder));
     outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(l_paneColor, l_windowForegroundColor));
