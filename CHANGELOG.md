@@ -1,7 +1,7 @@
 # History
 * [v2.6 'Algorave'](#v2.6), In development
 * [v2.5 'Craft'](#v2.5), 13th April, 2015
-* [v2.4 'Defrost'](#v2.4), 11th Feb, 2015 
+* [v2.4 'Defrost'](#v2.4), 11th Feb, 2015
 * [v2.3 'Bitcrush'](#v2.3), 28th Jan, 2015
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
@@ -84,11 +84,11 @@ Enjoy this release and happy Algoraving!
 * New fns `use_cue_logging` and `with_cue_logging` for enabling and
   disabling the logging of `cue` messages.
 * It is now possible to set the block type in the Minecraft API.
-  
- 
+
+
 ### GUI  
 * New visual look and feel including a new Dark Mode for live coding in
-  night clubs. 
+  night clubs.
 * New preferences for hiding/showing aspects of the GUI such as the
   buttons, log, tabs etc.
 * New preference for full screen mode.
@@ -180,7 +180,7 @@ by [GNU Emacs](https://www.gnu.org/software/emacs/) - the oldest and
 most powerful text editor in use by wizard programmers today.
 
 ### Breaking Changes
-    
+
 * `invert_wave` now defaults to 1 everywhere. I found I always inverted
    the wave every time I used a synth/fx where wave inversion was
    key. This seemed like such a better default I've broken compatibility
@@ -285,7 +285,7 @@ fun!
 * New Synth `:growl`, a deep rumbling growl.
 * Sampler synths now sport built-in `rlpf` and `normaliser` FX. These
   are disabled by default (i.e. won't affect sound of the sample) and
-  can by enabled via the new `cutoff:`, `res:` and `norm:` params. 
+  can by enabled via the new `cutoff:`, `res:` and `norm:` params.
 
 ### Bug Fixes
 
@@ -338,7 +338,7 @@ fun!
   resolves to `1.0` and `false`, `nil` resolve to `0.0`. This allows you
   to write code such as: `play :e3, invert_wave: true`
 * Teach `at` to handle varying block arities differently. See docs for
-  more detail. Original behaviour is preserved and only extended. 
+  more detail. Original behaviour is preserved and only extended.
 * App now checks for updates (at most once every 2 weeks). This may be
   disabled in the prefs.
 * Teach `:reverb` FX to extend its kill delay time with larger room
@@ -400,7 +400,7 @@ and echoes.
 * Work on new `RingArray` datastructure. This is essentially an array
   that wraps its indexes so you can use indexes larger than the array size.
 * New fn `ring` - `(ring 1, 2, 3)` creates a new ring array.
-* New fn `knit` - `(knit :a1, 2, :c1, 1)` returns `(ring :a1, :a1, :c1)` 
+* New fn `knit` - `(knit :a1, 2, :c1, 1)` returns `(ring :a1, :a1, :c1)`
 * New fn `bools` - `(bools 1, 0, 1)` returns `(ring true, false, true)`
 * New fn `range` - `(range 70, 100, 10)` returns `(ring 70, 80, 90, 100)`
 * New fn `sample_loaded?` - to detect whether a specific sample has been loaded
@@ -443,7 +443,7 @@ and echoes.
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.1.0)
 
 The focus of release is very much on technical improvements, efficiency
-and general polish. 
+and general polish.
 
 The most obvious and exciting change is the introduction of the
 `live_loop` which will change the way you work with Sonic Pi. For more
@@ -468,10 +468,10 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * New fn `rest?` - Determine if note or args is a rest
 * New fn `vt` - Get virtual time
 * New fn `set_control_delta!` - Set control delta globally
-* `wait` now handles both `sleep` and `sync` functionality 
+* `wait` now handles both `sleep` and `sync` functionality
 * Allow first arg to `play` to be a proc or lambda. In which case simple call it and use the result as the note
 * Teach `play` to accept a single map argument (in which case it will extract `:note` key out if it exists.
-* Fns `play` and `synth` now treat 'notes' `nil`, `:r` and `:rest` as rests and don't trigger any synths. 
+* Fns `play` and `synth` now treat 'notes' `nil`, `:r` and `:rest` as rests and don't trigger any synths.
 
 
 ### GUI Modifications
@@ -510,12 +510,12 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Allow `mod_range` param to have negative values (for oscillating with lower notes)
 * Change slide mechanism to default to linear sliding with support for changing the curve type. All modifiable args now have corresponding  `_slide_shape` and `_slide_curve` args.
 * Improve TB303 synth - now supports separate cutoff ADSR envelopes. New args:
-  - `cutoff_attack`, 
-  - `cutoff_sustain`, 
-  - `cutoff_decay`, 
-  - `cutoff_release`, 
-  - `cutoff_min_slide`, 
-  - `cutoff_attack_level`, 
+  - `cutoff_attack`,
+  - `cutoff_sustain`,
+  - `cutoff_decay`,
+  - `cutoff_release`,
+  - `cutoff_min_slide`,
+  - `cutoff_attack_level`,
   - `cutoff_sustain_level`,
   - `cutoff_env_curve`
 
@@ -547,7 +547,7 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Support for Live Coding - redefining behaviour whilst music is playing
 * New timing system - timing now guaranteed to be accurate
 * Many new synths
-* New chainable studio FX system 
+* New chainable studio FX system
 * Support for sample playback
 * Inclusion of over 70 CC0 licensed samples from http://freesound.org
 * Support for controlling and modifying synth, fx and sample playback
@@ -556,4 +556,3 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 * Help system with full documentation, tutorial and many examples
 * Record functionality (for recording performances/pieces)
 * Support for controlling system audio settings on RP
-
