@@ -1405,11 +1405,12 @@ void MainWindow::updateDarkMode(){
 
     QString splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
     QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
+
     QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: %2;} QTabWidget::tab-bar{alignment: center;} QTabWidget::pane{border: 0px;}").arg(windowForegroundColor, selectedTab);
     QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529); font-size 10px;} QDockWidget{font-size:10px;} ").arg(windowColor, windowBorder, windowForegroundColor);
     QString toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
 
-    this->setStyleSheet(QString(buttonStyling + splitterStyling+ toolTipStyling+scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3}; QFrame{border: 1px solid %2;}").arg(windowColor, windowBorder, windowForegroundColor));
+    this->setStyleSheet(QString(buttonStyling + splitterStyling+ toolTipStyling+scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: white;} QFrame{border: 0px;}").arg(windowColor));
     statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
     outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
     outputWidget->setStyleSheet(widgetTitleStyling);
@@ -1491,7 +1492,8 @@ void MainWindow::updateDarkMode(){
     QApplication::setPalette(p);
 
     ///start orig
-    this->setStyleSheet(QString(l_buttonStyling + l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %2;} QMainWindow{background-color: %1; color: %3} ").arg(l_windowColor, l_windowBorder, l_windowForegroundColor));
+
+    this->setStyleSheet(QString(l_buttonStyling + l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: white;} QFrame{border: 0px;}").arg(l_windowColor));
 
     statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(l_windowColor, l_windowBorder));
     outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(l_paneColor, l_windowForegroundColor));
