@@ -126,7 +126,7 @@ puts look(:foo) #=> 0
         opts:           {step: "The amount to tick up by. Default is 1.",
                          offset: "Offset to add to index returned. Useful when calling tick on lists, rings and vectors to offset the returned value. Default is 0."},
         accepts_block:  false,
-        doc:            "Increment the default tick by 1 and return value. Successive calls to `tick` will continue to increment the default tick. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are `in_thread` and `live_loop` local, so incrementing a tick only affects the current thread's version of that tick.",
+        doc:            "Increment the default tick by 1 and return value. Successive calls to `tick` will continue to increment the default tick. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are `in_thread` and `live_loop` local, so incrementing a tick only affects the current thread's version of that tick. See `tick_reset` and `tick_set` for directly manipulating the tick vals.",
         examples:       ["
 puts tick #=> 0
 puts tick #=> 1
