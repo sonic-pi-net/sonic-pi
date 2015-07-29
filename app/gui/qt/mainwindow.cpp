@@ -1056,7 +1056,7 @@ QString MainWindow::currentTabLabel()
 
 bool MainWindow::saveAs()
 {
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Workspace"), QDir::homePath() + "/Desktop");
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop");
   if(!fileName.isEmpty()){
     return saveFile(fileName, (SonicPiScintilla*)tabs->currentWidget());
   } else {
@@ -1789,7 +1789,7 @@ void MainWindow::createToolBar()
 
   // Save
   QAction *saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
-  setupAction(saveAsAct, 0, tr("Save current workspace as an external file"), SLOT(saveAs()));
+  setupAction(saveAsAct, 0, tr("Save current buffer as an external file"), SLOT(saveAs()));
 
   // Info
   QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
