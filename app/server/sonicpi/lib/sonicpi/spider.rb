@@ -594,7 +594,13 @@ module SonicPi
       path = project_path + "/" + filename
       content = filter_for_save(content)
       File.open(path, 'w') {|f| f.write(content) }
-      @gitsave.save!(filename, content)
+      begin
+        @gitsave.save!(filename, content)
+      rescue Exception => e
+        ##TODO: remove this and ensure that git saving actually works
+        ##instead of cowardly hiding the issue!
+      end
+
     end
 
     def __disable_update_checker
