@@ -184,7 +184,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["KeywordBackground"]               = "white";
     themeSettings["FunctionMethodNameBackground"]    = "white";
 
-    themeSettings["MarginBackground"]            = "black";
+    themeSettings["MarginBackground"]            = "#111";
     themeSettings["MarginForeground"]            = "dark gray";
     themeSettings["SelectionBackground"]         = "DeepPink";
     themeSettings["SelectionForeground"]         = "white";
