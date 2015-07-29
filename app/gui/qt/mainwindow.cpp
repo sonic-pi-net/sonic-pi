@@ -1725,7 +1725,7 @@ char MainWindow::int2char(int i){
 #ifdef Q_OS_MAC
     return QString("%1 (⇧⌘%2)").arg(str).arg(key);
 #else
-    return QString("%1 (⇧-alt-%2)").arg(str).arg(key);
+    return QString("%1 (Shift-alt-%2)").arg(str).arg(key);
 #endif
 }
 
