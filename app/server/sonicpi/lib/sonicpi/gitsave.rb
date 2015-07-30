@@ -26,7 +26,7 @@ module SonicPi
       end
     end
 
-    def save!(filename, content)
+    def save!(filename, content, msgpre="")
       puts "saving: #{filename}"
       oid = @repo.write(content, :blob)
       index = @repo.index
@@ -38,7 +38,7 @@ module SonicPi
 
       options[:author] = { :email => "autosave@sonic-pi.net", :name => 'Sonic Pi Autosave', :time => Time.now }
       options[:committer] = { :email => "autosave@sonic-pi.net", :name => 'Sonic Pi Autosave', :time => Time.now }
-      options[:message] ||= "Autosave Workspace #{filename}"
+      options[:message] ||= "#{msgpre} :~: Autosave Workspace #{filename}"
       options[:parents] = @repo.empty? ? [] : [ @repo.head.target ].compact
       options[:update_ref] = 'HEAD'
 

@@ -599,7 +599,7 @@ module SonicPi
       content = filter_for_save(content)
       File.open(path, 'w') {|f| f.write(content) }
       begin
-        @gitsave.save!(filename, content)
+        @gitsave.save!(filename, content, "#{@version} -- #{@session_id} -- ")
       rescue Exception => e
         ##TODO: remove this and ensure that git saving actually works
         ##instead of cowardly hiding the issue!
