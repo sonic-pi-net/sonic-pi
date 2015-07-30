@@ -40,6 +40,11 @@ module SonicPi
       os == :raspberry && @@raspberry_pi_1
     end
 
+    def raspberry_pi_2?
+      os == :raspberry && !@@raspberry_pi_1
+    end
+
+
     def num_audio_busses_for_current_os
       if os == :raspberry
         64
@@ -60,6 +65,8 @@ module SonicPi
     def default_control_delta
       if raspberry_pi_1?
         0.02
+      elsif raspberry_pi_2?
+        0.013
       else
         0.005
       end
