@@ -338,7 +338,9 @@ with_arg_bpm_scaling false do
 end"]
 
 
-
+    def pitch_ratio(*args)
+      raise "The fn pitch_ratio has been renamed. Please use the new name: pitch_to_ratio"
+    end
 
     def pitch_to_ratio(m)
       2.0 ** (m.to_f / 12.0)
