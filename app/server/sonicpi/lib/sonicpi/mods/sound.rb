@@ -2463,12 +2463,12 @@ play_pattern scale(:C, :lydian_minor)
        doc name:          :chord_degree,
            introduced:    Version.new(2,1,0),
            summary:       "Construct chords based on scale degrees",
-           doc:           "A helper method that returns a list of midi note numbers when given a degree (a symbol `:i`, `:ii`, `:iii`, `:iv`, `:v`, `:vi`, `:vii` or a number `1`-`7`), tonic, scale and number of notes",
+           doc:           "A helper method that returns a ring of midi note numbers when given a degree (a symbol `:i`, `:ii`, `:iii`, `:iv`, `:v`, `:vi`, `:vii` or a number `1`-`7`), tonic, scale and number of notes",
            args:          [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol], [:number_of_notes, :number]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [57, 61, 64, 68]
+puts chord_degree(:i, :A3, :major) # returns a ring of midi notes - (ring 57, 61, 64, 68)
 ",
 "play chord_degree(:i, :A3, :major)"
 ]
