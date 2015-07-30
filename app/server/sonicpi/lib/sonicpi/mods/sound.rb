@@ -2468,7 +2468,7 @@ play_pattern scale(:C, :lydian_minor)
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80]
+puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [57, 61, 64, 68]
 ",
 "play chord_degree(:i, :A3, :major)"
 ]
