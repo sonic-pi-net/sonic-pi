@@ -211,7 +211,7 @@ module SonicPi
       {
         :mix =>
         {
-          :doc => "The amount (percentage) of FX present in the resulting sound represented as a value between 0 and 1. For example, a mix of 0 means that only the original sound is heard, a mix of 1 means that only the FX is heard (typically the default) and a mix of 0.5 means that half the original and half of the FX is heard. ",
+          :doc => "The amount (percentage) of FX present in the resulting sound represented as a value between 0 and 1. For example, a mix of 0 means that only the original sound is heard, a mix of 1 means that only the FX is heard (typically the default) and a mix of 0.5 means that half the original and half of the FX is heard.",
           :validations => [v_between_inclusive(:mix, 0, 1)],
           :modulatable => true
         },
@@ -256,7 +256,7 @@ module SonicPi
         :pan =>
         {
 
-          :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
+          :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
           :validations => [v_between_inclusive(:pan, -1, 1)],
           :modulatable => true
         },
@@ -1254,7 +1254,7 @@ module SonicPi
     end
 
     def doc
-      "Emulation of the classic Roland TB-303 Bass Line synthesiser. Overdrive the res (i.e. use very large values) for that classic late 80s acid sound. "
+      "Emulation of the classic Roland TB-303 Bass Line synthesiser. Overdrive the res (i.e. use very large values) for that classic late 80s acid sound."
     end
 
     def arg_defaults
@@ -1310,7 +1310,7 @@ module SonicPi
       {
         :cutoff_min =>
         {
-          :doc => "The minimum  cutoff value.",
+          :doc => "The minimum cutoff value.",
           :validations => [v_less_than_oet(:cutoff_min, 130)],
           :modulatable => true
         },
@@ -1381,7 +1381,7 @@ module SonicPi
 
         :cutoff_release =>
         {
-          :doc => "Amount of time (in beats) for sound to move from cutoff sustain value  to cutoff min value. Default value is set to match amp envelope's release value.",
+          :doc => "Amount of time (in beats) for sound to move from cutoff sustain value to cutoff min value. Default value is set to match amp envelope's release value.",
           :validations => [v_positive(:cutoff_release)],
           :modulatable => false,
           :default => "release",
@@ -1984,7 +1984,7 @@ module SonicPi
       {
         :norm =>
         {
-          :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter)- this is similar to the normaliser FX. This may emphasise any clicks caused by clipping. ",
+          :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
           :validations => [v_one_of(:norm, [0, 1])],
           :modulatable => true
         },
@@ -2020,7 +2020,7 @@ module SonicPi
     end
 
     def doc
-      "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths). "
+      "Saw wave with oscillating timbre. Produces moving saw waves with a unique character controllable with the control oscillator (usage similar to mod synths)."
     end
 
     def arg_defaults
@@ -2267,7 +2267,7 @@ module SonicPi
     end
 
     def doc
-      "Generates noise which results from flipping random bits in a word.  The spectrum is emphasised towards lower frequencies. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
+      "Generates noise which results from flipping random bits in a word. The spectrum is emphasised towards lower frequencies. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
     end
   end
 
@@ -2543,7 +2543,7 @@ module SonicPi
 
         :norm =>
         {
-          :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter)- this is similar to the normaliser FX. This may emphasise any clicks caused by clipping. ",
+          :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
           :validations => [v_one_of(:norm, [0, 1])],
           :modulatable => true
         },
@@ -3787,7 +3787,7 @@ module SonicPi
 
         :threshold =>
         {
-          :doc => "threshold value determining the break point between slope_below and slope_above. ",
+          :doc => "Threshold value determining the break point between slope_below and slope_above.",
           :validations => [v_positive(:threshold)],
           :modulatable => true
         },
@@ -4140,7 +4140,7 @@ The way the transpositions are done adds some distortion, particulary to the low
       {
         :centre =>
         {
-          :doc => "Centre frequency for the filter as a MIDI note. ",
+          :doc => "Centre frequency for the filter as a MIDI note.",
           :validations => [v_greater_than_oet(:centre, 0)],
           :modulatable => true
         },
@@ -4296,7 +4296,7 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
     def doc
       "Dampens the parts of the signal that are lower than the cutoff point (typicaly the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). The resonant part of the resonant low pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res param with a lower res resulting in greater resonance. High amounts of resonance (rq ~0) can create a whistling sound around the cutoff frequency.
 
-Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy. "
+Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy."
     end
 
     def introduced
@@ -4609,7 +4609,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         },
         :time_dis =>
         {
-          :doc => "Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size. ",
+          :doc => "Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.",
           :validations => [v_greater_than_oet(:time_dis, 0)],
           :modulatable => true
         },
@@ -4735,7 +4735,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
     end
 
     def doc
-      "Mix the incoming signal with a copy of itself which has a rate modulating faster and slower than the original.  Creates a swirling/whooshing effect."
+      "Mix the incoming signal with a copy of itself which has a rate modulating faster and slower than the original. Creates a swirling/whooshing effect."
     end
 
     def arg_defaults

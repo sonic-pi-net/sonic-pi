@@ -980,7 +980,7 @@ end
 puts foo # The run sleeps for a beat and prints \"hello\" before returning 10
 
 # Try it again:
-puts foo # This time the run doesn't sleep or print anything out. However,  10 is still returned.
+puts foo # This time the run doesn't sleep or print anything out. However, 10 is still returned.
 
 
 
