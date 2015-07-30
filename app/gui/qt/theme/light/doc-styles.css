@@ -5,10 +5,6 @@ body {
   background-color: white;
 }
 
-ul {
-    font-size:  medium;
-}
-
 ul.toc {
   list-style-type: none;
 }
@@ -16,11 +12,6 @@ ul.toc {
 a {
   color: dodgerblue;
   text-decoration: none;
-}
-
-
-p {
-    font-size:  medium;
 }
 
 em {
@@ -107,7 +98,7 @@ code .info {
 }
 
 h1 {
-  font-size: larger;
+  font-size: xx-large;
   font-weight: bold;
   padding: 2px;
   color: white;
@@ -115,7 +106,7 @@ h1 {
 }
 
 h2 {
-  font-size: large;
+  font-size: x-large;
   font-weight: bold;
   padding: 2px;
   color: white;
