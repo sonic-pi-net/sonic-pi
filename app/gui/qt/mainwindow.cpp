@@ -351,12 +351,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   addUniversalCopyShortcuts(docPane);
 
-  QSplitter *docsplit = new QSplitter;
+  docsplit = new QSplitter;
 
   docsplit->addWidget(docsCentral);
   docsplit->addWidget(docPane);
-
-
 
   docWidget = new QDockWidget(tr("Help"), this);
   docWidget->setFocusPolicy(Qt::NoFocus);
@@ -1976,6 +1974,7 @@ void MainWindow::readSettings() {
     workspaces[w]->zoomTo(zoom);
   }
 
+  docsplit->restoreState(settings.value("docsplitState").toByteArray());
 
   restoreState(settings.value("windowState").toByteArray());
 
@@ -2012,6 +2011,7 @@ void MainWindow::writeSettings()
 		      workspaces[w]->property("zoom"));
   }
 
+  settings.setValue("docsplitState", docsplit->saveState());
   settings.setValue("windowState", saveState());
 }
 

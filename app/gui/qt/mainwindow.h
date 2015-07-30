@@ -14,6 +14,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QSplitter>
 #include <QDate>
 #include <QMainWindow>
 #include <QDialog>
@@ -157,6 +158,7 @@ private slots:
     void open_sonic_pi_net();
 
 private:
+
     QSignalMapper *signalMapper;
     void startServer();
     void waitForServiceSync();
@@ -281,6 +283,7 @@ private:
     QString latest_version;
     int latest_version_num;
 
+    QSplitter *docsplit;
 
 };
 
