@@ -5,6 +5,10 @@ body {
   background-color: black;
 }
 
+ul {
+    font-size:  medium;
+}
+
 ul.toc {
   list-style-type: none;
 }
@@ -13,6 +17,11 @@ a {
     color: #FBDE2D;
     text-decoration: none;
 }
+
+p {
+    font-size:  medium;
+}
+
 
 em {
   color: darkorange;
@@ -104,7 +113,7 @@ code .info {
 }
 
 h1 {
-  font-size: xx-large;
+  font-size: larger;
   font-weight: bold;
   padding: 2px;
   color: white;
@@ -112,7 +121,7 @@ h1 {
 }
 
 h2 {
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
   padding: 2px;
   color: white;
