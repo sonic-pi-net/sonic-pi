@@ -441,7 +441,14 @@ void MainWindow::updateFullScreenMode(){
   else {
     mainWidgetLayout->setMargin(9);
     this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
+#ifdef Q_OS_WIN
+    this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
+			 Qt::WindowMinimizeButtonHint |
+			 Qt::WindowMaximizeButtonHint |
+			 Qt::WindowCloseButtonHint);
+#else
     this->setWindowFlags(Qt::WindowTitleHint);
+#endif
     this->show();
   }
 }
