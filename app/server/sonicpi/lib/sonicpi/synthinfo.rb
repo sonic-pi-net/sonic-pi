@@ -120,7 +120,7 @@ module SonicPi
     end
 
     def arg_info
-      #Specifically for doc usage. Consider changing name do doc_info
+      #Specifically for doc usage. Consider changing name to doc_info
       #Don't call as part of audio loops as slow. Use .info directly
       res = {}
       arg_defaults.each do |arg, default|
@@ -240,7 +240,7 @@ module SonicPi
 
         :amp =>
         {
-          :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, it will just reduce the quality of all the sounds currently being played (due to compression.)",
+          :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
           :validations => [v_positive(:amp)],
           :modulatable => true
         },
@@ -355,7 +355,7 @@ module SonicPi
 
         :mod_phase =>
         {
-          :doc => "Phase duration in beats of oscillations between the two notes. Time it takes to switch betwen the notes.",
+          :doc => "Phase duration in beats of oscillations between the two notes. Time it takes to switch between the notes.",
           :validations => [v_positive_not_zero(:mod_phase)],
           :modulatable => true,
           :bpm_scale => true
@@ -422,7 +422,7 @@ module SonicPi
 
         :mod_pulse_width =>
         {
-          :doc => "The width of the modualted pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.",
+          :doc => "The width of the modulated pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Only valid if mod wave is type pulse.",
           :validations => [v_between_exclusive(:mod_pulse_width, 0, 1)],
           :modulatable => true
         },
@@ -485,7 +485,7 @@ module SonicPi
     end
 
     def doc
-      "A simple dull dischordant bell sound."
+      "A simple dull discordant bell sound."
     end
 
     def arg_defaults
@@ -801,7 +801,7 @@ module SonicPi
     end
 
     def doc
-      "A sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth. Useful for generated a wide range of sounds by playing with the divisor and depth params. Great for deep powerful bass and crazy 70s sci-fi sounds."
+      "A sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation, division and depth. Useful for generating a wide range of sounds by playing with the divisor and depth params. Great for deep powerful bass and crazy 70s sci-fi sounds."
     end
 
     def arg_defaults
@@ -894,7 +894,7 @@ module SonicPi
     end
 
     def doc
-      "The FM synth modulating between two notes - the duration of the modulation can be modified using the mod_phase arg, the range (number of notes jumped between) by the mod_range arg and the width of the jumps by the mod_width param. The FM synth is sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation division and depth. Useful for generated a wide range of sounds by playing with the `:divisor` and `:depth` params. Great for deep powerful bass and crazy 70s sci-fi sounds."
+      "The FM synth modulating between two notes - the duration of the modulation can be modified using the mod_phase arg, the range (number of notes jumped between) by the mod_range arg and the width of the jumps by the mod_width param. The FM synth is a sine wave with a fundamental frequency which is modulated at audio rate by another sine wave with a specific modulation, division and depth. Useful for generating a wide range of sounds by playing with the `:divisor` and `:depth` params. Great for deep powerful bass and crazy 70s sci-fi sounds."
     end
 
     def arg_defaults
@@ -1800,7 +1800,7 @@ module SonicPi
           :doc => "Distance (in MIDI notes) between the main note and the third component of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound.",
         },
         :noise =>
-        { :doc => "Noise source. Has a subtle affect on the timbre of the sound. 0=pink noise (the default), 1=brown noise, 2=white noise, 3=clip noise and 4 = grey noise",
+        { :doc => "Noise source. Has a subtle effect on the timbre of the sound. 0=pink noise (the default), 1=brown noise, 2=white noise, 3=clip noise and 4=grey noise",
           :validations => [v_one_of(:noise, [0, 1, 2, 3, 4])],
           :modulatable => true
         }
@@ -1997,8 +1997,7 @@ module SonicPi
         },
 
         :noise =>
-        { :doc => "Noise source. Has a subtle affect on the timbre of the sound. 0=pink noise, 1=brown noise (the default), 2=white noise, 3=clip noise and 4ls
-=grey noise",
+        { :doc => "Noise source. Has a subtle effect on the timbre of the sound. 0=pink noise, 1=brown noise (the default), 2=white noise, 3=clip noise and 4=grey noise",
           :validations => [v_one_of(:noise, [0, 1, 2, 3, 4])],
           :modulatable => true
         }
@@ -2111,7 +2110,7 @@ module SonicPi
 
         :range =>
         {
-          :doc => "range of the assocatied sync saw in MIDI notes from the main note. Modifies timbre.",
+          :doc => "Range of the associated sync saw in MIDI notes from the main note. Modifies timbre.",
           :validations => [v_between_inclusive(:phase_offset, 0, 90)],
           :modulatable => true
         },
@@ -2162,7 +2161,7 @@ module SonicPi
     end
 
     def doc
-      "Dark and swirly, this synth uses Pulse Width Modulation (PWM) to create a timbre which continually moves around. This effect is created using the pulse ugen which produces a variable width square wave. We then control the width of the pulses using a variety of LFOs - sin-osc and lf-tri in this case. We use a number of these LFO modulated pulse ugens with varying LFO type and rate (and phase in some cases to provide the LFO with a different starting point. We then mix all these pulses together to create a thick sound and then feed it through a resonant low pass filter (rlpf). For extra bass, one of the pulses is an octave lower (half the frequency) and its LFO has a little bit of randomisation thrown into its frequency component for that extra bit of variety."
+      "Dark and swirly, this synth uses Pulse Width Modulation (PWM) to create a timbre which continually moves around. This effect is created using the pulse ugen which produces a variable width square wave. We then control the width of the pulses using a variety of LFOs - sin-osc and lf-tri in this case. We use a number of these LFO modulated pulse ugens with varying LFO type and rate (and phase in some cases) to provide the LFO with a different starting point. We then mix all these pulses together to create a thick sound and then feed it through a resonant low pass filter (rlpf). For extra bass, one of the pulses is an octave lower (half the frequency) and its LFO has a little bit of randomisation thrown into its frequency component for that extra bit of variety."
     end
 
     def arg_defaults
@@ -2522,7 +2521,7 @@ module SonicPi
 
         :rate =>
         {
-          :doc => "Rate which to play back with default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.",
+          :doc => "Rate with which to play back - default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.",
           :validations => [v_not_zero(:rate)],
           :modulatable => false
         },
@@ -2657,7 +2656,7 @@ module SonicPi
     end
 
     def doc
-      "Make the incoming signal sound more spacious or distant as if it were played in a large room or cave. Signal may also be dampened by reducing the ampitude of the higher frequencies."
+      "Make the incoming signal sound more spacious or distant as if it were played in a large room or cave. Signal may also be dampened by reducing the amplitude of the higher frequencies."
     end
 
     def arg_defaults
@@ -2915,7 +2914,7 @@ module SonicPi
     end
 
     def doc
-      "Standard echo with variable phase duration (time between echoes) and decay (length of echo fade out). If you wish to have a phase duration longer than 2s, you need to specifiy the longest phase duration you'd like with the arg max_phase. Be warned, echo FX with very long phases can consume a lot of memory and take longer to initialise."
+      "Standard echo with variable phase duration (time between echoes) and decay (length of echo fade out). If you wish to have a phase duration longer than 2s, you need to specify the longest phase duration you'd like with the arg max_phase. Be warned, echo FX with very long phases can consume a lot of memory and take longer to initialise."
     end
 
     def arg_defaults
@@ -3332,7 +3331,7 @@ module SonicPi
 
         :cutoff_min =>
         {
-          :doc => "Minimum (MIDI) note filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
+          :doc => "Minimum (MIDI) note that filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
           :modulatable => true
         },
@@ -3347,7 +3346,7 @@ module SonicPi
 
         :cutoff_max =>
         {
-          :doc => "Maximum (MIDI) note filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
+          :doc => "Maximum (MIDI) note that filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
           :modulatable => true
         },
@@ -3392,7 +3391,7 @@ module SonicPi
 
         :filter =>
         {
-          :doc => "Filter used for wobble effect. Use 0 for a resonant low pass filter or 1 for a rsonant high pass filter",
+          :doc => "Filter used for wobble effect. Use 0 for a resonant low pass filter or 1 for a resonant high pass filter",
           :validations => [v_one_of(:filter, [0, 1])],
           :modulatable => true
         }
@@ -3691,7 +3690,7 @@ module SonicPi
 
         :cutoff_min =>
         {
-          :doc => "Minimum (MIDI) note filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
+          :doc => "Minimum (MIDI) note that filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
           :modulatable => true
         },
@@ -3706,7 +3705,7 @@ module SonicPi
 
         :cutoff_max =>
         {
-          :doc => "Maximum (MIDI) note filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
+          :doc => "Maximum (MIDI) note that filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
           :modulatable => true
         },
@@ -3721,7 +3720,7 @@ module SonicPi
 
         :filter =>
         {
-          :doc => "Filter used for wobble effect. Use 0 for a resonant low pass filter or 1 for a rsonant high pass filter",
+          :doc => "Filter used for wobble effect. Use 0 for a resonant low pass filter or 1 for a resonant high pass filter",
           :validations => [v_one_of(:filter, [0, 1])],
           :modulatable => true
         }
@@ -3745,7 +3744,7 @@ module SonicPi
     end
 
     def doc
-      "Compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quite. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the arguments to both expand and compress the signal."
+      "Compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the arguments to both expand and compress the signal."
     end
 
     def arg_defaults
@@ -3936,7 +3935,7 @@ module SonicPi
     def doc
       "This harmoniser adds three pitches based on the input sound. The first is the original sound transposed up an octave, the second is the original sound transposed down an octave and the third is the original sound transposed down two octaves.
 
-The way the transpositions are done adds some distortion, particulary to the lower octaves, whilst the upper octave has a 'cheap' quality. This effect is often used in guitar effects pedals but it can work with other sounds too."
+The way the transpositions are done adds some distortion, particularly to the lower octaves, whilst the upper octave has a 'cheap' quality. This effect is often used in guitar effects pedals but it can work with other sounds too."
     end
   end
 
@@ -4027,7 +4026,7 @@ The way the transpositions are done adds some distortion, particulary to the low
     end
 
     def doc
-      "Standard chorus with variable phase duration (time between echoes). A type of short echo that usually makes the sound \"thicker\". If you wish to have a phase duration longer than 2s, you need to specifiy the longest phase duration you'd like with the arg max_phase. Be warned, as with echo, chorus FX with very long phases can consume a lot of memory and take longer to initialise."
+      "Standard chorus with variable phase duration (time between echoes). A type of short echo that usually makes the sound \"thicker\". If you wish to have a phase duration longer than 2s, you need to specify the longest phase duration you'd like with the arg max_phase. Be warned, as with echo, chorus FX with very long phases can consume a lot of memory and take longer to initialise."
     end
   end
 
@@ -4268,7 +4267,7 @@ The normaliser is useful here as some volume is lost when filtering the original
     end
 
     def doc
-      "Dampens the parts of the signal that are above than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typicaly the bass/mid of the sound). behaviour, The resonant part of the resonant low pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res param with a lower res resulting in greater resonance. High amounts of resonance (rq ~0) can create a whistling sound around the cutoff frequency.
+      "Dampens the parts of the signal that are above than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typically the bass/mid of the sound). behaviour, The resonant part of the resonant low pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res param with a lower res resulting in greater resonance. High amounts of resonance (rq ~0) can create a whistling sound around the cutoff frequency.
 
 Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
     end
@@ -4294,7 +4293,7 @@ Choose a higher cutoff to keep more of the high frequences/treble of the sound a
     end
 
     def doc
-      "Dampens the parts of the signal that are lower than the cutoff point (typicaly the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). The resonant part of the resonant low pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res param with a lower res resulting in greater resonance. High amounts of resonance (rq ~0) can create a whistling sound around the cutoff frequency.
+      "Dampens the parts of the signal that are lower than the cutoff point (typically the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). The resonant part of the resonant high pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res param with a lower res resulting in greater resonance. High amounts of resonance (rq ~0) can create a whistling sound around the cutoff frequency.
 
 Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy."
     end
@@ -4370,7 +4369,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
     end
 
     def doc
-      "Dampens the parts of the signal that are above than the cutoff point(typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typicaly the bass/mid of the sound). Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
+      "Dampens the parts of the signal that are above than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typically the bass/mid of the sound). Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
     end
 
     def arg_defaults
@@ -4434,7 +4433,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
     end
 
     def doc
-      "Dampens the parts of the signal that are lower than the cutoff point (typicaly the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy. "
+      "Dampens the parts of the signal that are lower than the cutoff point (typically the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy."
     end
 
     def arg_defaults
@@ -4519,7 +4518,7 @@ Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make t
       {
         :level =>
         {
-          :doc => "The peak output amplitude level to which to normalise the in",
+          :doc => "The peak output amplitude level at which to normalise the input.",
           :validations => [v_greater_than_oet(:level, 0)],
           :modulatable => true
         },
@@ -4664,7 +4663,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
       {
         :distort =>
         {
-          :doc => "Amount of distortion to be applied (as a value between 0 ad 1)",
+          :doc => "Amount of distortion to be applied (as a value between 0 and 1)",
           :validations => [v_greater_than_oet(:distort, 0), v_less_than(:distort, 1)],
           :modulatable => true
         },
@@ -4969,7 +4968,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
 
       :snares => {
         :desc => "Snare Drums",
-        :prefix => "ns_",
+        :prefix => "sn_",
         :samples => [
           :sn_dub,
           :sn_dolf,

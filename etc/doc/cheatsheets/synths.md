@@ -11,7 +11,7 @@
 * [Modulated Detuned Saw Waves](#modulated-detuned-saw-waves)
 * [Modulated Detuned Saw Waves Simple](#modulated-detuned-saw-waves-simple)
 * [Modulated Sine Wave](#modulated-sine-wave)
-* [Simple Modualted Sine Wave](#simple-modualted-sine-wave)
+* [Simple Modulated Sine Wave](#simple-modulated-sine-wave)
 * [Modulated Triangle Wave](#modulated-triangle-wave)
 * [Simple Modulated Triangle Wave](#simple-modulated-triangle-wave)
 * [Modulated Pulse](#modulated-pulse)
@@ -32,7 +32,7 @@
   :dull_bell
 
 ### Doc:
-  A simple dull dischordant bell sound.
+  A simple dull discordant bell sound.
 
 ### Arguments:
   * note:
@@ -951,7 +951,7 @@
 
 
 
-## Simple Modualted Sine Wave
+## Simple Modulated Sine Wave
 
 ### Key:
   :mod_sine_s
@@ -1717,7 +1717,7 @@
       width square wave. We then control the width of the pulses using a
       variety of LFOs - sin-osc and lf-tri in this case. We use a number
       of these LFO modulated pulse ugens with varying LFO type and rate
-      (and phase in some cases to provide the LFO with a different
+      (and phase in some cases) to provide the LFO with a different
       starting point. We then mix all these pulses together to create a
       thick sound and then feed it through a resonant low pass filter
       (rlpf).
