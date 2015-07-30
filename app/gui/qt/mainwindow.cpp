@@ -1977,6 +1977,7 @@ void MainWindow::readSettings() {
   docsplit->restoreState(settings.value("docsplitState").toByteArray());
 
   restoreState(settings.value("windowState").toByteArray());
+  restoreGeometry(settings.value("windowGeom").toByteArray());
 
 }
 
@@ -2013,6 +2014,7 @@ void MainWindow::writeSettings()
 
   settings.setValue("docsplitState", docsplit->saveState());
   settings.setValue("windowState", saveState());
+  settings.setValue("windowGeom", saveGeometry());
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
