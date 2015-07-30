@@ -174,6 +174,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 
 ### Server extensions
 
+* Download & Install [CMake](http://www.cmake.org/download/), ensuring it is added to your PATH
 * Download & Install [Ruby 2.1.x](http://rubyinstaller.org/downloads/)
 * [Download](http://rubyinstaller.org/downloads/) & [Install](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) Ruby Development Kit
 * Compile native extensions: 
