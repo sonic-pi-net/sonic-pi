@@ -1,5 +1,5 @@
 # History
-* [v2.6 'Algorave'](#v2.6), In development
+* [v2.6 'Algorave'](#v2.6), 30th July, 2015
 * [v2.5 'Craft'](#v2.5), 13th April, 2015
 * [v2.4 'Defrost'](#v2.4), 11th Feb, 2015
 * [v2.3 'Bitcrush'](#v2.3), 28th Jan, 2015
@@ -9,15 +9,20 @@
 
 <a name="v2.6"></a>
 
+## Version 2.6 - 'Algorave'
+*Thursday 30th July, 2015*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.6.0)
+
+
 The laser beams sliced through the wafts of smoke as the subwoofer
 pumped bass deep into the bodies of the crowd. The atmosphere was ripe
 with a heady mix of synths and dancing. However something wasn't quite
 right in this nightclub. Projected in bright colours above the DJ booth
 was futuristic text, moving, dancing, flashing. This wasn't fancy
 visuals, it was merely a projection of Sonic Pi running on a Raspberry
-Pi. The occupant of the DJ booth wasn't spinning disks, she was writing,
-editing and evaluating code. Live. This was an
-[Algorave](http://twitter.com/algorave).
+Pi. The occupant of the DJ booth wasn't spinning disks or playing MP3s,
+she was writing, editing and evaluating code. She was *live coding* and
+this was an [Algorave](http://twitter.com/algorave).
 
 This release is codenamed [Algorave](http://twitter.com/algorave) to
 celebrate that Sonic Pi is now ready to be performed within nightclubs
@@ -29,13 +34,14 @@ errors. Syntax errors are now blue and runtime errors pink. We also have
 a new look and feel including a new dark mode for performing in dark
 places. We also have some fantastic new synths, FX and have even
 improved the standard synths. For example, `sample` now lets you stretch
-to match the beat, change pitch and the `slicer` FX now sports a
-fantastic deterministic probability opt for creating and manipulating
-rhythmic structures with ease. Finally there's the new thread local
-`tick`/`look` system which will revolutionise the way you work with
-`ring`s within `live_loop`s. Of course there's so much more too!
+to match the beat with the `beat_stretch:` opt, change pitch with
+`pitch:`. The `slicer` FX now sports a fantastic deterministic
+`probability:` opt for creating and manipulating rhythmic structures
+with ease. Finally there's the new thread local `tick`/`look` system
+which will revolutionise the way you work with `ring`s within
+`live_loop`s. Of course there's so much more too!
 
-Enjoy this release and happy Algoraving!
+Enjoy this release and happy [Algoraving!](http://algorave.com)
 
 ### Breaking Changes
 
