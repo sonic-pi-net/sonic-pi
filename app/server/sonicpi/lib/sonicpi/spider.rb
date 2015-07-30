@@ -93,12 +93,16 @@ module SonicPi
       __info "#{@version} Ready..."
 
       __info [
-"Hello, somewhere in the world the sun is shining
+"Hello, somewhere in the world
+   the sun is shining
    for you right now.",
-"Hello, it's lovely to see you again.
-   I do hope that you're well.",
-"Turn your head towards the sun and the shadows
-   will fall behind you."].sample
+"Hello, it's lovely to see
+   you again. I do hope that
+   you're well.",
+"Turn your head towards the sun
+   and the shadows
+   will fall
+   behind you."].sample
 
 
 
