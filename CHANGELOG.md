@@ -34,7 +34,7 @@ errors. Syntax errors are now blue and runtime errors pink. We also have
 a new look and feel including a new dark mode for performing in dark
 places. We also have some fantastic new synths, FX and have even
 improved the standard synths. For example, `sample` now lets you stretch
-to match the beat with the `beat_stretch:` opt, change pitch with
+to match the beat with the `beat_stretch:` opt and change pitch with
 `pitch:`. The `slicer` FX now sports a fantastic deterministic
 `probability:` opt for creating and manipulating rhythmic structures
 with ease. Finally there's the new thread local `tick`/`look` system
