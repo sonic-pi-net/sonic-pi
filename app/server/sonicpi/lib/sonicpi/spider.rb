@@ -85,7 +85,7 @@ module SonicPi
         end
       end
       __info "Welcome to Sonic Pi"
-      __info "Session #{@session_id}"
+      __info "Session #{@session_id[0..7]}"
       date = Time.now
       __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}"
       __info "%02d:%02d, %s" % [date.hour, date.min, date.zone]
