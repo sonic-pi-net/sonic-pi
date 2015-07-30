@@ -11,7 +11,7 @@
 * [Modulated Detuned Saw Waves](#modulated-detuned-saw-waves)
 * [Modulated Detuned Saw Waves Simple](#modulated-detuned-saw-waves-simple)
 * [Modulated Sine Wave](#modulated-sine-wave)
-* [Simple Modualted Sine Wave](#simple-modualted-sine-wave)
+* [Simple Modulated Sine Wave](#simple-modulated-sine-wave)
 * [Modulated Triangle Wave](#modulated-triangle-wave)
 * [Simple Modulated Triangle Wave](#simple-modulated-triangle-wave)
 * [Modulated Pulse](#modulated-pulse)
@@ -32,7 +32,7 @@
   :dull_bell
 
 ### Doc:
-  A simple dull dischordant bell sound.
+  A simple dull discordant bell sound.
 
 ### Arguments:
   * note:
@@ -60,7 +60,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -125,7 +125,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -190,7 +190,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -255,7 +255,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -320,7 +320,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -352,7 +352,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 100
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -409,7 +409,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -498,7 +498,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -530,7 +530,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 100
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -599,7 +599,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -670,7 +670,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -702,7 +702,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 100
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -771,7 +771,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -878,7 +878,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -904,7 +904,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 100
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -951,7 +951,7 @@
 
 
 
-## Simple Modualted Sine Wave
+## Simple Modulated Sine Wave
 
 ### Key:
   :mod_sine_s
@@ -985,7 +985,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1092,7 +1092,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1118,7 +1118,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 100
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -1193,7 +1193,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1276,7 +1276,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1308,7 +1308,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 100
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -1395,7 +1395,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1478,7 +1478,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1510,7 +1510,7 @@
   * cutoff:
     - doc: 
     - default: 80
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -1522,7 +1522,7 @@
   * cutoff_min:
     - doc: 
     - default: 30
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * res:
@@ -1591,7 +1591,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1623,7 +1623,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 130
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -1680,7 +1680,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1717,7 +1717,7 @@
       width square wave. We then control the width of the pulses using a
       variety of LFOs - sin-osc and lf-tri in this case. We use a number
       of these LFO modulated pulse ugens with varying LFO type and rate
-      (and phase in some cases to provide the LFO with a different
+      (and phase in some cases) to provide the LFO with a different
       starting point. We then mix all these pulses together to create a
       thick sound and then feed it through a resonant low pass filter
       (rlpf).
@@ -1752,7 +1752,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1784,7 +1784,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 110
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -1841,7 +1841,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1873,7 +1873,7 @@
   * cutoff:
     - doc: MIDI note representing the highest frequences allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.
     - default: 100
-    - constraints: must be zero or greater,must be a value less than 130
+    - constraints: must be zero or greater, must be a value less than 130
     - May be changed whilst playing
 
   * cutoff_slide:
@@ -1930,7 +1930,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -1968,13 +1968,13 @@
   * start:
     - doc: 
     - default: 0
-    - constraints: must be zero or greater,must be a value between 0 and 1 inclusively
+    - constraints: must be zero or greater, must be a value between 0 and 1 inclusively
     - Can not be changed once set
 
   * finish:
     - doc: 
     - default: 1
-    - constraints: must be zero or greater,must be a value between 0 and 1 inclusively
+    - constraints: must be zero or greater, must be a value between 0 and 1 inclusively
     - Can not be changed once set
 
 
@@ -2001,7 +2001,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -2039,13 +2039,13 @@
   * start:
     - doc: 
     - default: 0
-    - constraints: must be zero or greater,must be a value between 0 and 1 inclusively
+    - constraints: must be zero or greater, must be a value between 0 and 1 inclusively
     - Can not be changed once set
 
   * finish:
     - doc: 
     - default: 1
-    - constraints: must be zero or greater,must be a value between 0 and 1 inclusively
+    - constraints: must be zero or greater, must be a value between 0 and 1 inclusively
     - Can not be changed once set
 
 
@@ -2072,7 +2072,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing
@@ -2119,7 +2119,7 @@
     - May be changed whilst playing
 
   * pan:
-    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the soundis completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
+    - doc: Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.
     - default: 0
     - constraints: must be a value between -1 and 1 inclusively
     - May be changed whilst playing

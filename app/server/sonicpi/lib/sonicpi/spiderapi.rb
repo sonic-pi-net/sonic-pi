@@ -555,7 +555,7 @@ end
       num_slices = args_h[:steps] || 4
       inclusive = args_h[:inclusive]
 
-      raise "Num slices param for fn linear should be a positive none-negative whole number" unless num_slices > 0
+      raise "Num slices param for fn linear should be a positive non-zero whole number" unless num_slices > 0
 
       if inclusive
         step_size = (start - finish).abs.to_f / (num_slices - 1)
@@ -784,7 +784,7 @@ end
 
 
     def at(times=0, params=nil, &block)
-      raise "after must be called with a do/end block" unless block
+      raise "at must be called with a do/end block" unless block
       had_params = params
       times = [times] if times.is_a? Numeric
       # When no params are specified, pass the times through as params
@@ -853,12 +853,12 @@ at [0, 1, 2], [:a, :b] do |t, b|  #If you specify the block with 2 args, it will
 end
 ",
 "
-at [0, 0.5, 2] do |t, idx|  #If you the block with 2 args, and no param list to at, it will pass through both the time and the index
+at [0, 0.5, 2] do |t, idx|  #If you specify the block with 2 args, and no param list to at, it will pass through both the time and the index
   puts [t, idx] #=> prints out [0, 0], [0.5, 1], then [2, 2]
 end
 ",
 "
-at [0, 0.5, 2], [:a, :b] do |t, b, idx|  #If specify the block with 3 args, it will pass through the time, the param and the index
+at [0, 0.5, 2], [:a, :b] do |t, b, idx|  #If you specify the block with 3 args, it will pass through the time, the param and the index
   puts [t, b, idx] #=> prints out [0, :a, 0], [0.5, :b, 1], then [2, :a, 2]
 end
 "
@@ -965,7 +965,7 @@ puts version.patch # => Prints out the patch level for this version such as 0"]
         opts:           {:override => "If set to true, re-definitions are allowed and this acts like define"},
         accepts_block:  true,
         requires_block: true,
-        doc:            "Allows you to assign the result of some code to a name with the property that the code will only execute once therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
+        doc:            "Allows you to assign the result of some code to a name, with the property that the code will only execute once - therefore stopping re-definitions. This is useful for defining values that you use in your compositions but you don't want to reset every time you press run. You may force the block to execute again regardless of whether or not it has executed once already by using the override option (see examples).",
         examples:       ["
 
 defonce :foo do  # Define a new function called foo
@@ -980,7 +980,7 @@ end
 puts foo # The run sleeps for a beat and prints \"hello\" before returning 10
 
 # Try it again:
-puts foo # This time the run doesn't sleep or print anything out. However,  10 is still returned.
+puts foo # This time the run doesn't sleep or print anything out. However, 10 is still returned.
 
 
 

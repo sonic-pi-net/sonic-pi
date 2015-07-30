@@ -208,7 +208,7 @@ module SonicPi
        doc name:           :use_sample_bpm,
            introduced:     Version.new(2,1,0),
            summary:        "Sample-duration-based bpm modification",
-           doc:            "Modify bpm  so that sleeping for 1 will sleep for the duration of the sample.",
+           doc:            "Modify bpm so that sleeping for 1 will sleep for the duration of the sample.",
            args:           [[:string_or_number, :sample_name_or_duration]],
            opts:           {:num_beats => "The number of beats within the sample. By default this is 1."},
            accepts_block:  false,
@@ -862,7 +862,7 @@ play 50 # Plays with supersaw synth
        doc name:          :synth,
            introduced:    Version.new(2,0,0),
            summary:       "Trigger specific synth",
-           doc: "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults. ",
+           doc:           "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults.",
            args:          [[:synth_name, :symbol]],
            opts:          {},
            accepts_block: false,
@@ -1123,7 +1123,7 @@ play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
        end
        doc name:           :with_merged_synth_defaults,
            introduced:     Version.new(2,0,0),
-           summary:        "Block-level merge synth defaults ",
+           summary:        "Block-level merge synth defaults",
            doc:            "Specify synth arg values to be used by any following call to play within the specified `do`/`end` block. Merges the specified values with any previous defaults, rather than replacing them. After the `do`/`end` block has completed, previous defaults (if any) are restored.",
            args:           [],
            opts:           {},
@@ -1527,7 +1527,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
            summary:        "Use Studio FX",
            doc:            "This applies the named effect (FX) to everything within a given `do`/`end` block. Effects may take extra parameters to modify their behaviour. See FX help for parameter details.
 
-For advanced control, it  is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
+For advanced control, it is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
            args:           [[:fx_name, :symbol]],
            opts:           {reps: "Number of times to repeat the block in an iteration.",
                             kill_delay: "Amount of time to wait after all synths triggered by the block have completed before stopping and freeing the effect synthesiser." },
@@ -2463,12 +2463,12 @@ play_pattern scale(:C, :lydian_minor)
        doc name:          :chord_degree,
            introduced:    Version.new(2,1,0),
            summary:       "Construct chords based on scale degrees",
-           doc:           "A helper method that returns a list of midi note numbers when given a degree (a symbol `:i`, `:ii`, `:iii`, `:iv`, `:v`, `:vi`, `:vii` or a number `1`-`7`), tonic, scale and number of notes",
+           doc:           "A helper method that returns a ring of midi note numbers when given a degree (a symbol `:i`, `:ii`, `:iii`, `:iv`, `:v`, `:vi`, `:vii` or a number `1`-`7`), tonic, scale and number of notes",
            args:          [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol], [:number_of_notes, :number]],
            opts:          nil,
            accepts_block: false,
            examples:      ["
-puts chord_degree(:i, :A3, :major) # returns a list of midi notes - [69 73 76 80]
+puts chord_degree(:i, :A3, :major) # returns a ring of midi notes - (ring 57, 61, 64, 68)
 ",
 "play chord_degree(:i, :A3, :major)"
 ]
@@ -2845,7 +2845,7 @@ kill bar"]
 
        def load_synthdefs(path=synthdef_path)
          path = File.expand_path(path)
-         raise "No directory exists called #{path.inspect} " unless File.exists? path
+         raise "No directory exists called #{path.inspect}" unless File.exists? path
          @mod_sound_studio.load_synthdefs(path)
          __info "Loaded synthdefs in path #{path}"
        end
