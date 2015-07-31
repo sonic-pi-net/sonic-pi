@@ -295,9 +295,9 @@ fun!
 
 * New fn `spread` for creating rings of Euclidean distributions. Great
   for quickly creating interesting rhythms.
-* GUI now automatically appends a `:` to the FX param autocomplete list  
+* GUI now automatically appends a `:` to the FX opt autocomplete list  
 * Synths and FX now raise an exception if any of their non-modulatable
-  params are modulated. This is disabled when the pref 'check synth
+  opts are modulated. This is disabled when the pref 'check synth
   args' is unchecked.
 * GUI now renders pretty UTF-8 `└─` `├─` characters when printing in the log
   on RP.
@@ -310,7 +310,7 @@ fun!
 * New Synth `:growl`, a deep rumbling growl.
 * Sampler synths now sport built-in `rlpf` and `normaliser` FX. These
   are disabled by default (i.e. won't affect sound of the sample) and
-  can by enabled via the new `cutoff:`, `res:` and `norm:` params.
+  can by enabled via the new `cutoff:`, `res:` and `norm:` opts.
 
 ### Bug Fixes
 
@@ -532,17 +532,17 @@ Riley, Jeremy Weatherford and Joseph Wilk.
 
 ### Synths, Samples & FX
 * New samples (bass drums, snares and loops)
-* Allow `mod_range` param to have negative values (for oscillating with lower notes)
+* Allow `mod_range:` opt to have negative values (for oscillating with lower notes)
 * Change slide mechanism to default to linear sliding with support for changing the curve type. All modifiable args now have corresponding  `_slide_shape` and `_slide_curve` args.
-* Improve TB303 synth - now supports separate cutoff ADSR envelopes. New args:
-  - `cutoff_attack`,
-  - `cutoff_sustain`,
-  - `cutoff_decay`,
-  - `cutoff_release`,
-  - `cutoff_min_slide`,
-  - `cutoff_attack_level`,
-  - `cutoff_sustain_level`,
-  - `cutoff_env_curve`
+* Improve TB303 synth - now supports separate cutoff ADSR envelopes. New opts:
+  - `cutoff_attack:`,
+  - `cutoff_sustain:`,
+  - `cutoff_decay:`,
+  - `cutoff_release:`,
+  - `cutoff_min_slide:`,
+  - `cutoff_attack_level:`,
+  - `cutoff_sustain_level:`,
+  - `cutoff_env_curve:`
 
 
 ## Version 2.0.1
