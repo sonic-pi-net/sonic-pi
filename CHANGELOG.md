@@ -58,7 +58,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
   specify: `invert_wave: true`, rather than `invert_wave: false`. This
   shouldn't affect any code which doesn't explicitly set the `invert_wave:`
   opt. Pieces which have explicit inversion need to swap all 0s for 1s
-  and visa versa.
+  and vice versa.
 * The `res:` opt for `rrand` and `rdist` has been renamed to `step:` to
   avoid confusion with the resonance opt for cutoff filters.
 * Rename `pitch_ratio` to `pitch_to_ratio` to keep in line with other
