@@ -1,4 +1,5 @@
 # History
+* [v2.6 (#v2.7), In development
 * [v2.6 'Algorave'](#v2.6), 30th July, 2015
 * [v2.5 'Craft'](#v2.5), 13th April, 2015
 * [v2.4 'Defrost'](#v2.4), 11th Feb, 2015
@@ -6,6 +7,24 @@
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v2.7"></a>
+## Version 2.7
+*In development*
+
+### Breaking Changes
+
+### New
+
+### GUI
+
+### Synths & FX
+
+### Improvements
+
+### Bug Fixes
+
+
 
 <a name="v2.6"></a>
 
