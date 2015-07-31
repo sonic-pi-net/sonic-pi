@@ -14,11 +14,13 @@
 
 ### Breaking Changes
 
-### New
+### New Fns
 
 ### GUI
 
 ### Synths & FX
+
+### Examples
 
 ### Improvements
 
@@ -66,7 +68,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
 
 * The `res:` opt for all synths and FX now has range 0->1 rather than
   1->0. This means that a higher res value results in more
-  resonance. This will hopefully be more intuitive to beginners less
+  resonance. This will hopefully be more intuitive to beginners and less
   surprising for people with existing synth knowledge.
 * The fn `stop` has been renamed to `kill` for killing specific
   synths. In its place a new fn `stop` has been added to stop a given
@@ -84,7 +86,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
   similar fns such as `midi_to_hz`.
 
 
-### New
+### New Fns
 
 * New thread-local (i.e. live_loop local) counter system via fns `tick`
   and `look`.
@@ -108,7 +110,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
   `tick` to create sophisticated polyrhythms.
 * New fns `use_cue_logging` and `with_cue_logging` for enabling and
   disabling the logging of `cue` messages.
-* It is now possible to set the block type in the Minecraft API.
+
 
 
 ### GUI  
@@ -175,6 +177,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
   duration of that call.
 * Teach `chord` the opt `num_octaves` to enable the easy creation of
   arpeggios.
+* It is now possible to set the block type in the Minecraft API.
 
 
 ### Bug Fixes
