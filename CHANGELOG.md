@@ -161,7 +161,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
 ### Bug Fixes
 
 * Fix bug in `with_sample_pack_as` to now correctly accept a block.
-* `mx_surface_teleport` no longer throws an error.
+* `mc_surface_teleport` no longer throws an error.
 * `Array#shuffle` now works correctly with the random seeds for
   deterministic behaviour.
 * Fix broken behaviour with multiple nested calls to `*_sample_bpm`.
