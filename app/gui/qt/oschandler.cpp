@@ -23,89 +23,33 @@ void OscHandler::oscMessage(std::vector<char> buffer){
     while (pr.isOk() && (msg = pr.popMessage()) != 0) {
       if (msg->match("/multi_message")){
         int msg_count;
-        int msg_type;
-        int job_id;
-        std::string thread_name;
-        std::string runtime;
-        std::string s;
-        QString ss;
+        SonicPiLog::MultiMessage mm;
+        mm.theme = theme;
 
         oscpkt::Message::ArgReader ar = msg->arg();
-        ar.popInt32(job_id);
-        ar.popStr(thread_name);
-        ar.popStr(runtime);
+        ar.popInt32(mm.job_id);
+        ar.popStr(mm.thread_name);
+        ar.popStr(mm.runtime);
         ar.popInt32(msg_count);
-        QMetaObject::invokeMethod(out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor(theme->color("LogDefaultForeground"))));
-        ss.append("[Run ").append(QString::number(job_id));
-        ss.append(", Time ").append(QString::fromStdString(runtime));
-        if(!thread_name.empty()) {
-          ss.append(", Thread :").append(QString::fromStdString(thread_name));
-        }
-        ss.append("]");
-        QMetaObject::invokeMethod(out, "append", Qt::QueuedConnection,
-                                   Q_ARG(QString, ss) );
 
         for(int i = 0 ; i < msg_count ; i++) {
-          ss = "";
-          ar.popInt32(msg_type);
-          ar.popStr(s);
-
-          if(i == (msg_count - 1)) {
-            ss.append(QString::fromUtf8(" └─ "));
-          } else {
-            ss.append(QString::fromUtf8(" ├─ "));
-          }
-
-          QMetaObject::invokeMethod(out, "append", Qt::QueuedConnection,
-                                     Q_ARG(QString, ss) );
-
-
-          ss = "";
-
-
-          switch(msg_type)
-          {
-          case 0:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
-            break;
-          case 1:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
-            break;
-          case 2:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
-            break;
-          case 3:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("red")));
-            break;
-          case 4:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-            QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
-            break;
-          case 5:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-            QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
-            break;
-          case 6:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-            QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
-            break;
-          default:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));
-          }
-
-          ss.append(QString::fromUtf8(s.c_str()));
-
-          QMetaObject::invokeMethod( out, "insertPlainText", Qt::QueuedConnection,
-                                     Q_ARG(QString, ss) );
-
-          QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor(theme->color("LogDefaultForeground"))));
-          QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")));
-
-
-
+          SonicPiLog::Message message;
+          ar.popInt32(message.msg_type);
+          ar.popStr(message.s);
+          mm.messages.push_back(message);
         }
-        QMetaObject::invokeMethod( out, "append", Qt::QueuedConnection,
-                                   Q_ARG(QString,  QString::fromStdString(" ")) );
+        // QMetaObject::invokeMethod: No such method SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage)
+        // matched /multi_message
+
+        // QMetaObject::invokeMethod: No such method SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage)
+        // matched /multi_message
+
+        // http://stackoverflow.com/questions/7872578/how-to-properly-use-qregistermetatype-on-a-class-derived-from-qobject
+
+        // http://www.ics.com/designpatterns/slides/qmetatype.html
+
+        QMetaObject::invokeMethod( out, "handleMultiMessage", Qt::QueuedConnection,
+                                   Q_ARG(SonicPiLog::MultiMessage, mm ) );
       }
       else if (msg->match("/info")) {
         std::string s;
