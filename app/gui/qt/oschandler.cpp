@@ -2,10 +2,11 @@
 #include "oscpkt.hh"
 #include "oschandler.h"
 #include "mainwindow.h"
+#include "sonicpilog.h"
 
 #include <QTextEdit>
 
-OscHandler::OscHandler(MainWindow *parent, QTextEdit *outPane, QTextEdit *errorPane, SonicPiTheme *theme)
+OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane, QTextEdit *errorPane, SonicPiTheme *theme)
 {
     window = parent;
     out = outPane;

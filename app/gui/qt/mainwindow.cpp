@@ -73,6 +73,7 @@
 #include "sonicpitheme.h"
 
 #include "oschandler.h"
+#include "sonicpilog.h"
 #include "sonicpiudpserver.h"
 #include "sonicpitcpserver.h"
 
@@ -137,7 +138,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   latest_version = "";
   version_num = 0;
   latest_version_num = 0;
-  outputPane = new QTextEdit;
+  outputPane = new SonicPiLog;
   errorPane = new QTextBrowser;
   errorPane->setOpenExternalLinks(true);
 

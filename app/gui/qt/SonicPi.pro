@@ -57,6 +57,7 @@ SOURCES += main.cpp \
            sonicpiapis.cpp \
            sonicpiscintilla.cpp \
            oschandler.cpp \
+           sonicpilog.cpp \
            sonicpiserver.cpp \
            sonicpiudpserver.cpp \
            sonicpitcpserver.cpp \
@@ -71,6 +72,7 @@ HEADERS  += mainwindow.h \
             oscpkt.hh \
             udp.hh \
             sonicpilexer.h \
+            sonicpilog.h \
             sonicpiapis.h \
             sonicpiscintilla.h \
             oschandler.h \
