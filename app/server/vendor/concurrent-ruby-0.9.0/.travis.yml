@@ -1,0 +1,29 @@
+language: ruby
+
+rvm:
+  - 2.2.0
+  - 2.1.5
+  - 2.1.4
+  - 2.0.0
+  - 1.9.3
+  - ruby-head
+  - jruby-1.7.19
+  - jruby-head
+  - rbx-2
+
+jdk:
+  - oraclejdk8
+
+sudo: false
+
+branches:
+  only:
+    - master
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: 1.9.3
+
+script: bundle exec rake ci
