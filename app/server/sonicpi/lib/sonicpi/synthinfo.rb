@@ -1515,7 +1515,7 @@ module SonicPi
     end
 
     def synth_name
-      "synth_violin"
+      "blade"
     end
 
     def doc
