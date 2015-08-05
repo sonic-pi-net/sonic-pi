@@ -242,6 +242,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
     connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
 
+    //comment line
+    QShortcut *toggleLineComment= new QShortcut(metaKey(';'), workspace);
+    connect(toggleLineComment, SIGNAL(activated()), workspace, SLOT(toggleComment()));
+
     //upcase next word
     QShortcut *upcaseWord= new QShortcut(metaKey('u'), workspace);
     connect(upcaseWord, SIGNAL(activated()), workspace, SLOT(upcaseWordOrSelection()));
