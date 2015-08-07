@@ -2131,9 +2131,15 @@ puts sample_duration(:loop_amen) #=> 1
                            :start     => "Position in sample as a fraction between 0 and 1 to start playback. Default is 0.",
                            :finish    => "Position in sample as a fraction between 0 and 1 to end playback. Default is 1.",
                            :pan       => "Stereo position of audio. -1 is left ear only, 1 is right ear only, and values in between position the sound accordingly. Default is 0",
-                           :pan_slide => "Time to slide the pan value from current to next value on next control",
                            :amp       => "Amplitude of playback",
-                           :amp_slide => "Time to slide the amp value from current to next value on next control"},
+                           :norm      => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
+                           :cutoff => "Cutoff value of the built-in low pass filter (lpf) in MIDI notes. Unless specified, the lpf is *not* added to the signal chain.",
+                           :res => "Cutoff-specific opt. Only honoured if cutoff: is specified. Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
+                           :pitch => "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.",
+                           :window_size => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed. The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
+                           :pitch_dis => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
+                           :time_dis => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size."
+       },
            accepts_block: false,
            intro_fn:       true,
 
