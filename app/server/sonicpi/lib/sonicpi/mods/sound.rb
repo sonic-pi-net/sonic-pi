@@ -2895,7 +2895,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
            introduced:    Version.new(2,6,0),
            summary:       "All scale names",
            doc:           "Returns a ring containing all scale names known to Sonic Pi",
-           args:          [[]],
+           args:          [],
            opts:          nil,
            accepts_block: false,
            examples:      ["puts scale_names #=>  prints a list of all the scales"]
@@ -2908,7 +2908,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
            introduced:    Version.new(2,6,0),
            summary:       "All chord names",
            doc:           "Returns a ring containing all chord names known to Sonic Pi",
-           args:          [[]],
+           args:          [],
            opts:          nil,
            accepts_block: false,
            examples:      ["puts chord_names #=>  prints a list of all the chords"]
