@@ -840,24 +840,29 @@ play 50 # Plays with supersaw synth
            return nil
          end
 
+         n = 52
+
          if args_h.has_key? :note
            n = args_h[:note]
            n = n.call if n.is_a? Proc
            n = note(n) unless n.is_a? Numeric
-           if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
-             n += shift
-           end
-
-
-           if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
-             tuning_system, fundamental_sym = tuning_info
-             if tuning_system != :equal
-               n = @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
-             end
-           end
-
-           args_h[:note] = n
          end
+
+         if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+           n += shift
+         end
+
+         n += args_h[:pitch].to_f
+
+         if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+           tuning_system, fundamental_sym = tuning_info
+           if tuning_system != :equal
+             n = @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
+           end
+         end
+
+         args_h[:note] = n
+
 
          trigger_inst synth_name, args_h
        end
@@ -905,6 +910,8 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
          if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
            n += shift
          end
+
+         n += args_h[:pitch].to_f
 
          if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
            tuning_system, fundamental_sym = tuning_info
