@@ -1,5 +1,5 @@
 # History
-* [v2.6 (#v2.7), In development
+* [v2.7-dev](#v2.7), In development
 * [v2.6 'Algorave'](#v2.6), 30th July, 2015
 * [v2.5 'Craft'](#v2.5), 13th April, 2015
 * [v2.4 'Defrost'](#v2.4), 11th Feb, 2015
