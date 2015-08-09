@@ -43,22 +43,23 @@ CC BY-NC-SA 4.0 license:
 ## Samples
 (contents of [etc/samples/](https://github.com/samaaron/sonic-pi/tree/master/etc/samples))
 
-All the bundled samples are individually licensed under CC0 1.0
-Universal Public Domain Dedication. They have all been obtained from
-[freesound.org](http://freesound.org) and links to their sources can be
-found in the file [etc/samples/README.md](https://github.com/samaaron/sonic-pi/blob/master/etc/samples/README.md)
+All the bundled samples are individually licensed under a
+[CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
+have all been obtained from [freesound.org](http://freesound.org) and
+links to their sources can be found in the file
+[etc/samples/README.md](https://github.com/samaaron/sonic-pi/blob/master/etc/samples/README.md)
 
 [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/)
 
 
 ## Wavetables
-(contents of [etc/samples/](https://github.com/samaaron/sonic-pi/tree/master/etc/wavetables)
+(contents of [etc/wavetables/](https://github.com/samaaron/sonic-pi/tree/master/etc/wavetables)
 
-All the bundled wavetable samples are individually licensed under CC0
-1.0 Universal Public Domain Dedication. They have been obtained from the
+All the bundled wavetable samples are individually licensed under a
+[CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
+have been obtained from the
 [Adventure Kid]http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/
 site.
-
 
 ## Bundled Software
 
