@@ -1622,6 +1622,7 @@ cue :quux # cue is displayed in log
 
     def use_bpm(bpm, &block)
       raise "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
+      raise "use_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
       sleep_mul = 60.0 / bpm
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
     end
@@ -1665,6 +1666,7 @@ end
 
     def with_bpm(bpm, &block)
       raise "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
+      raise "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       sleep_mul = 60.0 / bpm
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
@@ -1710,6 +1712,7 @@ end"]
 
     def with_bpm_mul(mul, &block)
       raise "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
+      raise "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       new_mul = current_mul.to_f / mul
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
@@ -1743,6 +1746,7 @@ sleep 1            # BPM is now back to 60, therefore sleep is 1 second
 
     def use_bpm_mul(mul, &block)
       raise "use_bpm_mul must not be called with a block. Perhaps you meant with_bpm_mul" if block
+      raise "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
       current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       new_mul = current_mul.to_f / mul
       Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
