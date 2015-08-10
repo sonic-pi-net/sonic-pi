@@ -1882,12 +1882,12 @@ play 72"]
 
 
     def sleep(beats)
+      # Schedule messages
+      __schedule_delayed_blocks_and_messages!
+
       return if beats == 0
       # Grab the current virtual time
       last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
-
-      # Schedule messages
-      __schedule_delayed_blocks_and_messages!
 
       # Now get on with syncing the rest of the sleep time...
 
@@ -2100,6 +2100,8 @@ end"
 
 
     def sync(*cue_ids)
+      __schedule_delayed_blocks_and_messages!
+
       raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
       Thread.current.thread_variable_set(:sonic_pi_spider_synced, true)
       p = Promise.new
@@ -2117,7 +2119,7 @@ end"
         end
       end
 
-      __schedule_delayed_blocks_and_messages!
+
 
       payload = p.get
       time = payload[:time]
