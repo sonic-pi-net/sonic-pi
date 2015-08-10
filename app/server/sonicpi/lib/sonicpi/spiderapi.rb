@@ -260,6 +260,8 @@ end
 
 
     def stop
+      # Schedule messages
+      __schedule_delayed_blocks_and_messages!
       raise SonicPi::Stop
     end
     doc name:           :stop,
