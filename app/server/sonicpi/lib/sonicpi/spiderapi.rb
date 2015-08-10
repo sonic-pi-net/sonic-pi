@@ -1775,15 +1775,14 @@ play 62
 
     def density(d, &block)
       raise "density must be a positive number" unless d.is_a?(Numeric) && d >= 0
-      d = d.abs
       reps = d < 1 ? 1.0 : d
       with_bpm_mul d do
         if block.arity == 0
-          d.times do
+          reps.times do
             block.call
           end
         else
-          d.times do |idx|
+          reps.times do |idx|
             block.call idx
           end
         end
@@ -1792,7 +1791,7 @@ play 62
     doc name:           :density,
         introduced:     Version.new(2,3,0),
         summary:        "Squash and repeat time",
-        doc:            "Runs the block `d` times with the bpm for the block also multiplied by `d`. Great for repeating sections a number of times faster yet keeping within a fixed time.",
+        doc:            "Runs the block `d` times with the bpm for the block also multiplied by `d`. Great for repeating sections a number of times faster yet keeping within a fixed time. If `d` is less then 1, then time will be stretched accordingly and the block will take longer to complete.",
         args:           [[:d, :density]],
         opts:           nil,
         accepts_block:  true,
@@ -1809,6 +1808,14 @@ end",
 density 2 do |idx| # You may also pass a param to the block similar to n.times
   puts idx         # prints out 0, 1
   sleep 0.5        # sleep is 0.25s
+end
+",
+"
+density 0.5 do          # Specifying a density val of < 1 will stretch out time
+                        # A density of 0.5 will double the length of the block's
+                        # execution time.
+  play 80, release: 1   # plays note 80 with 2s release
+  sleep 0.5             # sleep is 1s
 end
 "    ]
 
