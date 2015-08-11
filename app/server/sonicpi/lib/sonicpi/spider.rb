@@ -338,12 +338,20 @@ module SonicPi
       end
     end
 
-    def __error(e)
+    def __error(e, m=nil)
       line = __extract_line_of_error(e)
       err_msg = e.message
+      info = __current_job_info
       err_msg.gsub!(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
-      err_msg = "[Line #{line}] \n #{err_msg}" if line != -1
-      @msg_queue.push({type: :error, val: err_msg, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
+      res = ""
+      if line != -1
+        res = res + "[#{info[:workspace]}, line #{line}]"
+      else
+        res = res + "[#{info[:workspace]}]"
+      end
+      res = res + "\n" + m if m
+      res = res + "\n #{err_msg}"
+      @msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, line: line})
     end
 
     def __current_run_time
@@ -363,7 +371,7 @@ module SonicPi
     end
 
     def __current_job_info
-      Thread.current.thread_variable_get :sonic_pi_spider_job_info
+      Thread.current.thread_variable_get :sonic_pi_spider_job_info || {}
     end
 
     def __sync_msg_command(msg)
@@ -623,7 +631,7 @@ module SonicPi
       firstline = 1
       firstline -= code.split(/\r?\n/).count{|l| l.include? "#__nosave__"}
       start_t_prom = Promise.new
-
+      info[:workspace] = 'eval' unless info[:workspace]
       job = Thread.new do
         Thread.current.priority = 20
         begin
@@ -651,7 +659,8 @@ module SonicPi
           @run_start_time = now if num_running_jobs == 1
           __info "Starting run #{id}"
           code = PreParser.preparse(code)
-          eval(code, nil, info[:workspace] || 'eval', firstline)
+
+          eval(code, nil, info[:workspace], firstline)
           __schedule_delayed_blocks_and_messages!
         rescue Stop => e
           __no_kill_block do
@@ -663,7 +672,7 @@ module SonicPi
             error_line = ""
             if line
               line = line.to_i
-              err_msg = "[Line #{line}] \n #{message}"
+              err_msg = "[#{info[:workspace]}, line #{line}] \n #{message}"
               error_line = code.lines.to_a[line + 1] ||  ""
             else
               line = -1
