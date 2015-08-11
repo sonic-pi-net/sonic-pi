@@ -815,22 +815,6 @@ play 50 # Plays with supersaw synth
          @mod_sound_studio.mixer_mono_mode
        end
 
-       def set_mixer_hpf!(f)
-         @mod_sound_studio.mixer_hpf_enable f
-       end
-
-       def set_mixer_hpf_disable!(f)
-         @mod_sound_studio.mixer_hpf_disable
-       end
-
-       def set_mixer_lpf!(f)
-         @mod_sound_studio.mixer_lpf_enable f
-       end
-
-       def set_mixer_lpf_disable!(f)
-         @mod_sound_studio.mixer_lpf_disable
-       end
-
        def set_mixer_control!(opts)
          @mod_sound_studio.mixer_control(opts)
        end

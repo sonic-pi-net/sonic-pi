@@ -113,22 +113,6 @@ module SonicPi
       @server.node_ctl @mixer, {"force_mono" => 1}, true
     end
 
-    def mixer_hpf_enable(freq)
-      @server.node_ctl @mixer, {"hpf_pass_thru" => 0, "hpf_freq" => freq}, true
-    end
-
-    def mixer_lpf_enable(freq)
-      @server.node_ctl @mixer, {"lpf_pass_thru" => 0, "lpf_freq" => freq}, true
-    end
-
-    def mixer_lpf_disable
-      @server.node_ctl @mixer, {"lpf_pass_thru" => 1}, true
-    end
-
-    def mixer_hpf_disable
-      @server.node_ctl @mixer, {"hpf_pass_thru" => 1}, true
-    end
-
     def status
       @server.status
     end
