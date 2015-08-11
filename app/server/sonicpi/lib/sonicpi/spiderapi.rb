@@ -766,7 +766,7 @@ end"]
         args:           [[:name, :symbol]],
         opts:           {:init     => "initial value for optional block arg",
                          :auto_cue => "enable or disable automatic cue (default is true)",
-                         :delay    => "Initial delay in beats before the live_loop starts. Default is 0."},    },
+                         :delay    => "Initial delay in beats before the live_loop starts. Default is 0."},
         accepts_block:  true,
         requires_block: true,
         async_block:    true,
