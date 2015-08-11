@@ -2008,6 +2008,7 @@ play 62
 
       payload = {
         :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
+        :sleep_mul => Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul),
         :run => current_job_id,
         :cue_map => args_h,
         :cue => cue_id
@@ -2098,10 +2099,8 @@ end"
 
 
 
-
-    def sync(*cue_ids)
-      __schedule_delayed_blocks_and_messages!
-
+    def sync(cue_ids, opts={})
+      cue_ids = [cue_ids] if cue_ids.is_a?(Symbol) || cue_ids.is_a?(String)
       raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
       Thread.current.thread_variable_set(:sonic_pi_spider_synced, true)
       p = Promise.new
@@ -2119,30 +2118,36 @@ end"
         end
       end
 
-
+      __schedule_delayed_blocks_and_messages!
 
       payload = p.get
       time = payload[:time]
+      sleep_mul = payload[:sleep_mul]
+      bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : true
       run_id = payload[:run]
       cue_map = payload[:cue_map]
       cue_map = cue_map.dup if cue_map
       cue_map = cue_map || {}
       cue_id = payload[:cue]
       cue_map[:cue] = cue_id
-
       Thread.current.thread_variable_set :sonic_pi_spider_time, time
+      Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
 
       unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
-        __delayed_highlight2_message "synced #{cue_id.inspect} (Run #{run_id})"
+        if bpm_sync
+          __delayed_highlight2_message "synced #{cue_id.inspect}. Inheriting bpm of #{current_bpm} (Run #{run_id})"
+        else
+          __delayed_highlight2_message "synced #{cue_id.inspect} (Run #{run_id})"
+        end
       end
       cue_map
     end
     doc name:           :sync,
         introduced:     Version.new(2,0,0),
         summary:        "Sync with other threads",
-        doc:            "Pause/block the current thread until a `cue` heartbeat with a matching `cue_id` is received. When a matching `cue` message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the `cue` heartbeat. The current thread is therefore synced to the `cue` thread. If multiple cue ids are passed as arguments, it will `sync` on the first matching `cue_id`",
+        doc:            "Pause/block the current thread until a `cue` heartbeat with a matching `cue_id` is received. When a matching `cue` message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the `cue` heartbeat. The current thread is therefore synced to the `cue` thread. If multiple cue ids are passed as arguments, it will `sync` on the first matching `cue_id`. By default the BPM of the cueing thread is inherited. This can be disabled using the bpm_sync: opt.",
         args:           [[:cue_id, :symbol]],
-        opts:           nil,
+        opts:           {:bpm_sync => "Inherit the BPM of the cueing thread. Default is true"},
         accepts_block:  false,
         advances_time:  true,
         examples:       ["
