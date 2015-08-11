@@ -368,6 +368,25 @@ end"
 
 
 
+      def ratio_to_pitch(r)
+        12.0 * Math.log2(r.to_f)
+      end
+      doc name:          :ratio_to_pitch,
+          introduced:    Version.new(2,7,0),
+          summary:       "relative frequency ratio to MIDI pitch",
+          doc:           "Convert a frequency ratio to a midi note which when added to a note will transpose the note to match the frequency ratio.",
+          args:          [[:ratio, :number]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      [
+        "ratio_to_pitch 2 #=> 12.0",
+        "ratio_to_pitch 0.5 #=> -12.0"
+
+      ]
+
+
+
+
       def midi_to_hz(n)
         n = note(n) unless n.is_a? Numeric
         440.0 * (2 ** ((n - 69) / 12.0))
