@@ -2215,6 +2215,9 @@ end"]
     def in_thread(*opts, &block)
       args_h = resolve_synth_opts_hash_or_array(opts)
       name = args_h[:name]
+      delay = args_h[:delay]
+
+      raise "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
       parent_t = Thread.current
 
@@ -2301,6 +2304,7 @@ end"]
 
         # Actually run the thread code specified by the user!
         begin
+          sleep delay if delay
           block.call
           # ensure delayed jobs and messages are honoured for this
           # thread:
@@ -2343,7 +2347,8 @@ end"]
         summary:        "Run code block at the same time",
         doc:            "Execute a given block (between `do` ... `end`) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the `name:` optional arg. Named threads will print their name in the logging pane when they print their activity. Finally, if you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.",
         args:           [],
-        opts:           {:name => "Make this thread a named thread with name"},
+        opts:           {:name  => "Make this thread a named thread with name",
+                         :delay => "Initial delay in beats before the thread starts. Default is 0."},
         accepts_block:  true,
         requires_block: true,
         async_block:    true,
@@ -2433,8 +2438,16 @@ end
 # We'll hear the effect immediately without having to stop and re-start the code.
 # This is because our fn has been redefined, (which our thread will pick up) and
 # due to the thread being named, the second re-run will not create a new similarly
-# named thread. This is a nice pattern for live coding.
-"]
+# named thread. This is a nice pattern for live coding and is the basis of live_loop.
+",
+"
+#Delaying the start of a thread
+in_thread delay: 1 do
+  sample :ambi_lunar_land # this sample is not triggered at time 0 but after 1 beat
+end
+
+play 80                   # Note 80 is played at time 0
+"    ]
 
 
 
