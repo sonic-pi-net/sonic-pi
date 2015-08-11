@@ -831,6 +831,10 @@ play 50 # Plays with supersaw synth
          @mod_sound_studio.mixer_lpf_disable
        end
 
+       def set_mixer_control!(opts)
+         @mod_sound_studio.mixer_control(opts)
+       end
+
        def synth(synth_name, *args)
          ensure_good_timing!
          args_h = resolve_synth_opts_hash_or_array(args)

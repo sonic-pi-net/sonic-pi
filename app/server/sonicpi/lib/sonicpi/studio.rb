@@ -93,6 +93,18 @@ module SonicPi
       @server.node_ctl @mixer, {"invert_stereo" => invert_i}, true
     end
 
+    def mixer_control(opts)
+      now = 0
+      opts = opts.clone
+      if opts[:now].is_a?(Numeric)
+        now = opts[:now]
+      else
+        now = opts[:now] ? 1 : 0
+      end
+      opts.delete :now
+      @server.node_ctl @mixer, opts, now
+    end
+
     def mixer_stereo_mode
       @server.node_ctl @mixer, {"force_mono" => 0}, true
     end
