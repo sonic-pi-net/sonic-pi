@@ -1793,7 +1793,7 @@ play 62
     doc name:           :density,
         introduced:     Version.new(2,3,0),
         summary:        "Squash and repeat time",
-        doc:            "Runs the block `d` times with the bpm for the block also multiplied by `d`. Great for repeating sections a number of times faster yet keeping within a fixed time. If `d` is less then 1, then time will be stretched accordingly and the block will take longer to complete.",
+        doc:            "Runs the block `d` times with the bpm for the block also multiplied by `d`. Great for repeating sections a number of times faster yet keeping within a fixed time. If `d` is less than 1, then time will be stretched accordingly and the block will take longer to complete.",
         args:           [[:d, :density]],
         opts:           nil,
         accepts_block:  true,
