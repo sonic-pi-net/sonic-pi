@@ -715,6 +715,10 @@ end"]
       raise "live_loop #{name.inspect} must be called with a do/end block" unless block
 
       args_h = resolve_synth_opts_hash_or_array(args)
+
+      delay = args_h[:delay]
+      raise "live_loop's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
+
       if args_h.has_key? :auto_cue
         auto_cue = args_h[:auto_cue]
       else
@@ -734,7 +738,7 @@ end"]
         raise "Live loop block must only accept 0 or 1 args"
       end
 
-      in_thread(name: ll_name) do
+      in_thread(name: ll_name, delay: delay) do
         Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
         if args_h.has_key?(:init)
           res = args_h[:init]
@@ -761,7 +765,8 @@ end"]
         summary:        "A loop for live coding",
         args:           [[:name, :symbol]],
         opts:           {:init     => "initial value for optional block arg",
-                         :auto_cue => "enable or disable automatic cue (default is true)"},
+                         :auto_cue => "enable or disable automatic cue (default is true)",
+                         :delay    => "Initial delay in beats before the live_loop starts. Default is 0."},    },
         accepts_block:  true,
         requires_block: true,
         async_block:    true,
