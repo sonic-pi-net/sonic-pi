@@ -1,7 +1,7 @@
 var app = require('app');
 var BrowserWindow = require('browser-window');
-import Receiver from './lib/receiver';
-import Sender from './lib/sender';
+import Receiver from './backend/receiver';
+import Sender from './backend/sender';
 
 var exec = require('child_process').exec;
 var mainWindow = null;
@@ -21,7 +21,7 @@ app.on('ready', function() {
   let receiver = new Receiver();
   let sender = new Sender();
 
-  sender.runCode("play 70");
+  sender.runCode("play 70; sleep 1; play 80");
 
   mainWindow.on('closed', function() {
     mainWindow = null;

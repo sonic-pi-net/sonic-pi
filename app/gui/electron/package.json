@@ -2,7 +2,11 @@
   "name": "sonic-pi-electron",
   "version": "0.0.1",
   "main": "dist/main.js",
+  "scripts": {
+    "start" : "gulp && electron ."
+  },
   "dependencies": {
+    "bower": "^1.4.1",
     "osc-min": "^0.2.0"
   },
   "devDependencies": {

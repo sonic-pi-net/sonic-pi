@@ -1,0 +1,38 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #dcdcdc; /* light grey */
+}
+nav {
+  height: 32px;
+  background-color: red;
+}
+main {
+  height: calc(100% - 64px);
+}
+.container {
+  height: 100%;
+  width: calc(100% - 300px);
+  float: left;
+  background-color: cyan;
+}
+aside {
+  height: 100%;
+  background-color: purple;
+  width: 300px;
+  display: inline-block;
+}
+footer {
+  height: 32px;
+  background-color: green;
+}
+
