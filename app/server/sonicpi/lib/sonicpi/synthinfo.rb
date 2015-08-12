@@ -119,6 +119,17 @@ module SonicPi
       @cached_bpm_scale_args = args_to_scale
     end
 
+    def slide_args
+      return @cached_slide_args if @cached_slide_args
+
+      slide_args = []
+      @info.each do |k, v|
+        slide_args << k if v[:bpm_scale] && k.to_s.end_with?("slide")
+      end
+
+      @cached_slide_args = slide_args
+    end
+
     def arg_info
       #Specifically for doc usage. Consider changing name to doc_info
       #Don't call as part of audio loops as slow. Use .info directly

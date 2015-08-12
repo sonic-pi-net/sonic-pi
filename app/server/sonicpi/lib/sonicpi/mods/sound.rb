@@ -52,7 +52,8 @@ module SonicPi
         pan_slide: "The duration in beats for the pan value to change",
         attack:    "The duration in beats for the sound to reach maximum amplitude. Choose short values for percussive sounds and long values for a fade-in effect.",
         sustain:  "The duration in beats for the sound to stay at full amplitude. Used to give the sound duration",
-        release:   "The duration in beats for the sound to fade out."}
+        release:   "The duration in beats for the sound to fade out.",
+        slide:     "Default slide time in beats for all slide opts. Individually specified slide opts will override this value" }
 
 
 
@@ -878,7 +879,7 @@ play 50 # Plays with supersaw synth
           summary:       "Trigger specific synth",
           doc:           "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults.",
           args:          [[:synth_name, :symbol]],
-          opts:          {},
+          opts:          {:slide => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value"},
           accepts_block: false,
           examples:      ["
 synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an amplitude of 0.5",
@@ -2174,8 +2175,8 @@ puts sample_duration(:loop_amen) #=> 1
                           :pitch         => "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.",
                           :window_size   => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed. The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
                           :pitch_dis     => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
-                          :time_dis      => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size."
-      },
+                          :time_dis      => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.",
+                          :slide         => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value" },
           accepts_block: false,
           intro_fn:       true,
 
@@ -2723,6 +2724,16 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
         else
           normalise_args! args_h
         end
+
+        # set default slide times
+        default_slide_time = args_h[:slide]
+        args_h.delete :slide
+        if node.info && default_slide_time
+          node.info.slide_args.each do |k|
+            args_h[k] = default_slide_time unless args_h.has_key?(k)
+          end
+        end
+
         node.control args_h
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}"
@@ -3135,6 +3146,15 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, combine_tls=false)
+
+        # set default slide times
+        default_slide_time = args_h[:slide]
+        if info && default_slide_time
+          info.slide_args.each do |k|
+            args_h[k] = default_slide_time unless args_h.has_key?(k)
+          end
+        end
+
         processed_args = normalise_and_resolve_synth_args(args_h, info, out_bus, combine_tls)
         trigger_synth_with_resolved_args(synth_name, processed_args, group, info, now, out_bus)
       end
