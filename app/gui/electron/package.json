@@ -1,8 +1,12 @@
 {
   "name": "sonic-pi-electron",
   "version": "0.0.1",
-  "main": "main.js",
+  "main": "dist/main.js",
   "dependencies": {
     "osc-min": "^0.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.0"
   }
 }
