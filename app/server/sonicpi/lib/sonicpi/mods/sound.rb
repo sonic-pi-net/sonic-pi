@@ -2044,6 +2044,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
 
 
       def sample_duration(path, *args)
+        dur = load_sample(path).duration
         args_h = resolve_synth_opts_hash_or_array(args)
         args_h[:rate] = 1 unless args_h[:rate]
         start = args_h[:start] || 0
@@ -2051,12 +2052,27 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
         finish = args_h[:finish] || 1
         finish = [1, [0, finish].max].min
 
+        # adjust for both beat and pitch stretching
+        # (which are BPM dependent)
+        if args_h[:beat_stretch]
+          beat_stretch = args_h[:beat_stretch].to_f
+          beat_rate_mod = (1.0 / beat_stretch) * args_h[:rate] * (current_bpm / (60.0 / dur))
+          args_h[:rate] = args_h[:rate] * beat_rate_mod
+        end
+
+        if args_h[:pitch_stretch]
+          pitch_stretch = args_h[:pitch_stretch].to_f
+          pitch_rate_mod = (1.0 / pitch_stretch) * args_h[:rate] * (current_bpm / (60.0 / dur))
+          args_h[:rate] = args_h[:rate] * pitch_rate_mod
+        end
+
+
         if finish > start
           len = finish - start
         else
           len = start - finish
         end
-        real_dur = load_sample(path).duration * 1.0/(args_h[:rate].abs) * len
+        real_dur = dur * 1.0/(args_h[:rate].abs) * len
 
         if args_h.has_key?(:sustain)
           attack = [0, args_h[:attack].to_f].max
