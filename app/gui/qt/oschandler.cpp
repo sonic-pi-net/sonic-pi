@@ -38,15 +38,6 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           ar.popStr(message.s);
           mm.messages.push_back(message);
         }
-        // QMetaObject::invokeMethod: No such method SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage)
-        // matched /multi_message
-
-        // QMetaObject::invokeMethod: No such method SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage)
-        // matched /multi_message
-
-        // http://stackoverflow.com/questions/7872578/how-to-properly-use-qregistermetatype-on-a-class-derived-from-qobject
-
-        // http://www.ics.com/designpatterns/slides/qmetatype.html
 
         QMetaObject::invokeMethod( out, "handleMultiMessage", Qt::QueuedConnection,
                                    Q_ARG(SonicPiLog::MultiMessage, mm ) );
