@@ -1448,7 +1448,7 @@ void MainWindow::updateDarkMode(){
     infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
     toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
     errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
-
+    statusBar()->setStyleSheet( QString("QWidget{background-color: %1; color: dodgerblue;}").arg(windowBorder));
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
       ws->setFrameShape(QFrame::NoFrame);
@@ -1958,7 +1958,10 @@ void MainWindow::toggleRecording() {
 
 void MainWindow::createStatusBar()
 {
+  QLabel *label = new QLabel(this);
+  label->setText("Sonic Pi v2.7-dev");
   statusBar()->showMessage(tr("Ready..."));
+  statusBar()->addPermanentWidget(label);
 }
 
 void MainWindow::readSettings() {
