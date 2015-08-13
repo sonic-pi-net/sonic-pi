@@ -1082,7 +1082,7 @@ void MainWindow::sendOSC(Message m)
     UdpSocket sock;
     sock.connectTo("localhost", PORT_NUM);
     if (!sock.isOk()) {
-        std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+        std::cerr << "[GUI] - Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
     } else {
         PacketWriter pw;
         pw.addMessage(m);
@@ -1095,7 +1095,7 @@ void MainWindow::sendOSC(Message m)
     }
 
     if(!clientSock->waitForConnected(TIMEOUT)){
-      std::cerr <<  "Timeout, could not connect" << "\n";
+      std::cerr <<  "[GUI] - Timeout, could not connect" << "\n";
       clientSock->abort();
       return;
     }
@@ -1108,11 +1108,11 @@ void MainWindow::sendOSC(Message m)
       clientSock->waitForBytesWritten();
 
       if (bytesWritten < 0){
-        std::cerr <<  "Failed to send bytes" << "\n";
+        std::cerr <<  "[GUI] - Failed to send bytes" << "\n";
       }
 
     } else {
-      std::cerr << "Client gone away: " << "\n";
+      std::cerr << "[GUI] - Client gone away: " << "\n";
     }
   }
 }
