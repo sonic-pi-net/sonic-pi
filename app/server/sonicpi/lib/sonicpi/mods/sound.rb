@@ -2091,7 +2091,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
       doc name:          :sample_duration,
       introduced:    Version.new(2,0,0),
       summary:       "Get sample duration in beats",
-      doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
+      doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time in beats that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
       args:          [[:path, :string]],
       opts:          {:rate => "Rate modifier. For example, doubling the rate will halve the duration.",
         :start => "Start position of sample playback as a value from 0 to 1",
