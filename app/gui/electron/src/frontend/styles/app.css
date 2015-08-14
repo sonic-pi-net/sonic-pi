@@ -36,3 +36,10 @@ footer {
   background-color: green;
 }
 
+.hidden {
+  display: none;
+}
+
+a.active {
+  border: 1px solid white;
+}

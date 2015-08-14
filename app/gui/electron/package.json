@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "dist/main.js",
   "scripts": {
-    "start" : "gulp && electron ."
+    "start": "gulp && electron ."
   },
   "dependencies": {
     "bower": "^1.4.1",
@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.0"
+    "gulp-babel": "^5.2.0",
+    "gulp-file-include": "^0.13.7",
+    "gulp-sourcemaps": "^1.5.2"
   }
 }

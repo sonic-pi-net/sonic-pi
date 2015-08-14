@@ -7,11 +7,14 @@
   </head>
   <body>
     <nav>
+      <a href="#" id="run-button">Run</a>
+      <a href="#" id="settings-button">Settings</a>
     </nav>
     <main>
-      <div id="editor" class="container">
-      </div>
-      <aside>
+      <div id="editor" class="container">#diversity is the spice of life
+</div>
+      <aside id="settings-pane">
+        @@include("./frontend/partials/settings.html")
       </aside>
     </main>
     <footer>
@@ -19,4 +22,5 @@
   </body>
   <script src="frontend/scripts/editor.js"></script>
   <script src="frontend/scripts/app.js"></script>
+  <script src="frontend/scripts/settings.js"></script>
 </html>
