@@ -21,7 +21,7 @@ app.on('ready', function() {
   let receiver = new Receiver();
   let sender = new Sender();
 
-  sender.runCode("play 70; sleep 1; play 80");
+//sender.runCode("play 70; sleep 1; play 80");
 
   mainWindow.on('closed', function() {
     mainWindow = null;
