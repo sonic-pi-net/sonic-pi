@@ -36,13 +36,17 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-if os == :osx
-  # Force sample rate for both input and output to 44k
-  # If these are not identical, then scsynth will refuse
-  # to boot.
-  require 'coreaudio'
-  CoreAudio.default_output_device(nominal_rate: 44100.0)
-  CoreAudio.default_input_device(nominal_rate: 44100.0)
+begin
+  if os == :osx
+    # Force sample rate for both input and output to 44k
+    # If these are not identical, then scsynth will refuse
+    # to boot.
+    require 'coreaudio'
+    CoreAudio.default_output_device(nominal_rate: 44100.0)
+    CoreAudio.default_input_device(nominal_rate: 44100.0)
+  end
+rescue LoadError
+  warn "Could not load coreaudio"
 end
 
 require 'multi_json'

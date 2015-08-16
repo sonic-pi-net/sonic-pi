@@ -86,7 +86,8 @@ using namespace oscpkt;
   #include <QtConcurrent/QtConcurrentRun>
   void sleep(int x) { Sleep((x)*1000); }
 #elif defined(Q_OS_MAC)
-  #include <QtConcurrent/QtConcurrentRun>
+  /* #include <QtConcurrent/QtConcurrentRun> */
+  #include <QtConcurrentRun>
 #else
 //assuming Raspberry Pi
   #include <cmath>
