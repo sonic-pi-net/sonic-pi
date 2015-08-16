@@ -113,8 +113,6 @@ private slots:
     void about();
     void help();
     void onExitCleanup();
-    void zoomFontIn();
-    void zoomFontOut();
     void toggleRecording();
     void toggleRecordingOnIcon();
     void changeRPSystemVol(int val);

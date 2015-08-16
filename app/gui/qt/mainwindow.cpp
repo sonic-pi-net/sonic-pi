@@ -208,6 +208,27 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     QShortcut *moveLineDown = new QShortcut(ctrlMetaKey('n'), workspace);
     connect (moveLineDown, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionDown())) ;
+
+    QShortcut *contextHelp = new QShortcut(ctrlKey('i'), workspace);
+    connect (contextHelp, SIGNAL(activated()), this, SLOT(helpContext()));
+
+    QShortcut *contextHelp2 = new QShortcut(QKeySequence("F1"), workspace);
+    connect (contextHelp2, SIGNAL(activated()), this, SLOT(helpContext()));
+
+    QShortcut *fontZoom = new QShortcut(metaKey('='), workspace);
+    connect (fontZoom, SIGNAL(activated()), workspace, SLOT(zoomFontIn()));
+
+    QShortcut *fontZoom2 = new QShortcut(metaKey('+'), workspace);
+    connect (fontZoom2, SIGNAL(activated()), workspace, SLOT(zoomFontIn()));
+
+
+    QShortcut *fontZoomOut = new QShortcut(metaKey('-'), workspace);
+    connect (fontZoomOut, SIGNAL(activated()), workspace, SLOT(zoomFontOut()));
+
+    QShortcut *fontZoomOut2 = new QShortcut(metaKey('_'), workspace);
+    connect (fontZoomOut2, SIGNAL(activated()), workspace, SLOT(zoomFontOut()));
+
+    //    new QShortcut(metaKey('='), this, SLOT(zoomFontIn()));
     //set Mark
 #ifdef Q_OS_MAC
     QShortcut *setMark = new QShortcut(QKeySequence("Meta+Space"), workspace);
@@ -1632,44 +1653,15 @@ void MainWindow::showPrefsPane()
   }
 }
 
-void MainWindow::zoomFontIn()
-{
-  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
-  int zoom = ws->property("zoom").toInt();
-  zoom++;
-  if (zoom > 20) zoom = 20;
-  ws->setProperty("zoom", QVariant(zoom));
-  ws->zoomTo(zoom);
-  if (show_line_numbers->isChecked()){
-    ws->showLineNumbers();
-  } else {
-    ws->hideLineNumbers();
-  }
-}
-
-void MainWindow::zoomFontOut()
-{
-  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
-  int zoom = ws->property("zoom").toInt();
-  zoom--;
-  if (zoom < -10) zoom = -10;
-  ws->setProperty("zoom", QVariant(zoom));
-  ws->zoomTo(zoom);
-  if (show_line_numbers->isChecked()){
-    ws->showLineNumbers();
-  } else {
-    ws->hideLineNumbers();
-  }
-}
-
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
 #if defined(Q_OS_WIN)
   if (event->modifiers() & Qt::ControlModifier) {
+    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
     if (event->angleDelta().y() > 0)
-      zoomFontIn();
+      ws->zoomFontIn();
     else
-      zoomFontOut();
+      ws->zoomFontOut();
   }
 #else
   (void)event;
@@ -1769,8 +1761,7 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
 
 void MainWindow::createShortcuts()
 {
-  new QShortcut(QKeySequence("F1"), this, SLOT(helpContext()));
-  new QShortcut(ctrlKey('i'), this, SLOT(helpContext()));
+
   new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
@@ -1825,14 +1816,10 @@ void MainWindow::createToolBar()
   // Font Size Increase
   QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
 			    tr("Increase Text Size"), this);
-  setupAction(textIncAct, '+', tr("Make text bigger"), SLOT(zoomFontIn()));
-  new QShortcut(metaKey('='), this, SLOT(zoomFontIn()));
 
   // Font Size Decrease
   QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
 			    tr("Decrease Text Size"), this);
-  setupAction(textDecAct, '-', tr("Make text smaller"), SLOT(zoomFontOut()));
-  new QShortcut(metaKey('_'), this, SLOT(zoomFontOut()));
 
   QWidget *spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);

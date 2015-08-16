@@ -487,3 +487,19 @@ void SonicPiScintilla::setLineErrorMarker(int lineNumber){
 void SonicPiScintilla::clearLineMarkers(){
   markerDeleteAll(-1);
 }
+
+void SonicPiScintilla::zoomFontIn() {
+  int zoom = property("zoom").toInt();
+  zoom++;
+  if (zoom > 20) zoom = 20;
+  setProperty("zoom", QVariant(zoom));
+  zoomTo(zoom);
+}
+
+void SonicPiScintilla::zoomFontOut() {
+  int zoom = property("zoom").toInt();
+  zoom--;
+  if (zoom < -10) zoom = -10;
+  setProperty("zoom", QVariant(zoom));
+  zoomTo(zoom);
+}
