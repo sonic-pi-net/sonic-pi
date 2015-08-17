@@ -5,20 +5,34 @@ class Editor {
     if(!instance) {
       var selector = options.selector || "editor";
       this.editor = ace.edit(selector);
-      this.editor.getSession().setMode("ace/mode/ruby");
-      this.editor.getSession().setUseSoftTabs(true);
-      this.editor.getSession().setTabSize(2);
+      if(options.settings) this.applySettings(options.settings)
+      if(options.onSave)   this.onSave(options.onSave);
       this.editor.focus();
       instance = this;
-      if(options.onSave) {
-        this.onSave(options.onSave);
-      }
     }
     return instance;
   }
 
+  applySettings(settings) {
+    this.theme      = settings.theme;
+    this.keyBinding = settings.keyBinding;
+    this.showGutter = settings.showGutter;
+    this.editor.getSession().setMode("ace/mode/ruby");
+    this.editor.getSession().setUseSoftTabs(true);
+    this.editor.getSession().setTabSize(2);
+  }
+
+  get availableThemes() {
+    let themelist = ace.require("ace/ext/themelist");
+    var result = [];
+    for (var theme of themelist.themes) {
+      result.push({ name: theme.caption, value: theme.theme, isDark: theme.isDark });
+    }
+    return result;
+  }
+
   get showGutter() {
-    this.editor.renderer.getShowGutter();
+    return this.editor.renderer.getShowGutter();
   }
 
   set showGutter(newVal) {
@@ -26,14 +40,14 @@ class Editor {
   }
 
   get theme() {
-    this.editor.getTheme();
+    return this.editor.getTheme();
   }
   set theme(themeName) {
     this.editor.setTheme(themeName);
   }
 
   get keyBinding() {
-    this.editor.getKeyboardHandler();
+    return this.editor.getKeyboardHandler().$id;
   }
 
   set keyBinding(bindingName) {
@@ -66,3 +80,5 @@ class Editor {
     this.editor.focus();
   }
 }
+
+export default Editor;
