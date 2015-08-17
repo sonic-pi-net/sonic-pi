@@ -18,6 +18,7 @@ settings.load().then( (settings) => {
     onSave: () => { runCurrentBuffer() }
   });
 
+  utils.populateThemeSelect(editor, "aside#settings-pane select#theme");
   utils.bindThemeSelect(editor, settings, "aside#settings-pane select#theme");
   utils.bindKeysSelect(editor, settings, "aside#settings-pane select#key-binding");
   utils.bindLineNumbersCheckbox(editor,settings, "aside#settings-pane input#show-numbers");

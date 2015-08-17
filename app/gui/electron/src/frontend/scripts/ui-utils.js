@@ -1,4 +1,4 @@
-export function bindThemeSelect(editor, settings, selector) {
+export function populateThemeSelect(editor, selector) {
   // TODO: ohmy, this is dirty.
   let str = "";
   str += '<optgroup label="Bright">';
@@ -13,14 +13,18 @@ export function bindThemeSelect(editor, settings, selector) {
     str += `<option value="${theme.value}">${theme.name}</option>`;
   str += '</optgroup>';
 
-  let themeSelector = document.querySelector(selector);
-  themeSelector.innerHTML = str;
-  themeSelector.value = editor.theme;
-  themeSelector.addEventListener("change", function(event, target){
+  let themeSelect = document.querySelector(selector);
+  themeSelect.innerHTML = str;
+}
+
+export function bindThemeSelect(editor, settings, selector) {
+  let themeSelect = document.querySelector(selector);
+  themeSelect.value = settings.editor.theme;
+  themeSelect.addEventListener("change", function(event, target){
     editor.theme = this.value;
     settings.editor.theme = this.value;
     settings.save();
-  })
+  });
 }
 
 export function bindKeysSelect(editor, settings, selector) {
@@ -35,7 +39,7 @@ export function bindKeysSelect(editor, settings, selector) {
 
 export function bindLineNumbersCheckbox(editor, settings, selector) {
   let lineNumbersCheckBox = document.querySelector(selector);
-  lineNumbersCheckBox.checked = editor.showGutter;
+  lineNumbersCheckBox.checked = settings.editor.showGutter;
   lineNumbersCheckBox.addEventListener("change", function(event, target){
     editor.showGutter = this.checked;
     settings.editor.showGutter = this.checked;
