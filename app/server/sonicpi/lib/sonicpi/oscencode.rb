@@ -56,7 +56,8 @@ module SonicPi
           else
             args_encoded << [arg].pack('N')
           end
-        when Float
+        when Float, Rational
+          arg = arg.to_f
           tags << 'f'
           if @use_cache
             if cached = @float_cache[arg]

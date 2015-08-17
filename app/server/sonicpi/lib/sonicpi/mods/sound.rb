@@ -2973,7 +2973,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         args_h.keys.each do |k|
           v = args_h[k]
           case v
-          when Numeric
+          when Fixnum, Float
             # do nothing
           when Proc
             args_h[k] = v.call.to_f
