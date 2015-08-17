@@ -210,12 +210,15 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QShortcut *moveLineDown = new QShortcut(ctrlMetaKey('n'), workspace);
     connect (moveLineDown, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionDown())) ;
 
+    // Contextual help
     QShortcut *contextHelp = new QShortcut(ctrlKey('i'), workspace);
     connect (contextHelp, SIGNAL(activated()), this, SLOT(helpContext()));
 
     QShortcut *contextHelp2 = new QShortcut(QKeySequence("F1"), workspace);
     connect (contextHelp2, SIGNAL(activated()), this, SLOT(helpContext()));
 
+
+    // Font zooming
     QShortcut *fontZoom = new QShortcut(metaKey('='), workspace);
     connect (fontZoom, SIGNAL(activated()), workspace, SLOT(zoomFontIn()));
 
@@ -229,7 +232,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QShortcut *fontZoomOut2 = new QShortcut(metaKey('_'), workspace);
     connect (fontZoomOut2, SIGNAL(activated()), workspace, SLOT(zoomFontOut()));
 
-    //    new QShortcut(metaKey('='), this, SLOT(zoomFontIn()));
     //set Mark
 #ifdef Q_OS_MAC
     QShortcut *setMark = new QShortcut(QKeySequence("Meta+Space"), workspace);
