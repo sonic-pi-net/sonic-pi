@@ -58,7 +58,7 @@ links to their sources can be found in the file
 All the bundled wavetable samples are individually licensed under a
 [CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
 have been obtained from the
-[Adventure Kid]http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/
+[Adventure Kid](http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/)
 site.
 
 ## Bundled Software
