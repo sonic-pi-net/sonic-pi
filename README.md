@@ -32,7 +32,7 @@ between three core principles:
 
 Powering Sonic Pi is an open source programming environment originally
 designed to explore and teach programming concepts through the process
-of creating new sounds. Whilst maintainig Education as a core focus it
+of creating new sounds. Whilst maintaining Education as a core focus it
 now sits at the intersection between three core domains:
 
 * *Education* 
@@ -40,7 +40,7 @@ now sits at the intersection between three core domains:
 * *Art*
 
 Again, finding a balance working to the best benefits of all these
-domains is is the objective.
+domains is the objective.
 
 
 Sonic Pi comes with an associated scheme of work
