@@ -2540,7 +2540,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :sustain =>
         {
           :doc => "Duration of the sustain phase of the envelope.",
-          :validations => [v_positive(:attack)],
+          :validations => [v_positive(:sustain)],
           :modulatable => false
         },
 
