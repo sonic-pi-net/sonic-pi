@@ -48,6 +48,7 @@ class SonicPiLexer;
 class QString;
 class QSlider;
 class SonicPiAPIs;
+class SonicPiLog;
 class SonicPiScintilla;
 class SonicPiServer;
 
@@ -216,7 +217,7 @@ private:
     SonicPiScintilla *workspaces[workspace_max];
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
-    QTextEdit *outputPane;
+    SonicPiLog *outputPane;
     QTextBrowser *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;

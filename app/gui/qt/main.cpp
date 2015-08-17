@@ -20,6 +20,7 @@
 #include <QLibraryInfo>
 
 #include "mainwindow.h"
+#include "sonicpilog.h"
 int main(int argc, char *argv[])
 {
 #ifndef Q_OS_MAC
@@ -27,6 +28,7 @@ int main(int argc, char *argv[])
 #endif
 
   QApplication app(argc, argv);
+  qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
   QString systemLocale = QLocale::system().name();
 
