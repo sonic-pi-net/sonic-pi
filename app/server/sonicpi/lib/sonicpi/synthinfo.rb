@@ -169,7 +169,7 @@ module SonicPi
     end
 
     def generic_slide_shape_doc(k)
-      return "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use curvature param), 6: squared, 7: cubed"
+      return "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
     end
 
     private
