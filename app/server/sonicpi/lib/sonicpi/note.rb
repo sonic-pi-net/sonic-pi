@@ -100,6 +100,11 @@ module SonicPi
     attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
     def initialize(n, o=nil)
+      if n.is_a? Numeric
+        o = (n / 12).to_i - 1
+        n = n % 12
+        n = Note.resolve_note_name(n.to_f)
+      end
       n = n.to_s
 
       m = MIDI_NOTE_RE.match n
