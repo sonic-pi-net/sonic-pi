@@ -1,18 +1,16 @@
 {
   "name": "sonic-pi-electron",
   "version": "0.0.1",
-  "main": "dist/main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "gulp && electron ."
+    "start": "electron --version;electron ./"
   },
   "dependencies": {
     "bower": "^1.4.1",
     "osc-min": "^0.2.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.0",
-    "gulp-file-include": "^0.13.7",
-    "gulp-sourcemaps": "^1.5.2"
+    "electron-compile": "^0.8.2",
+    "electron-prebuilt": "0.30.2"
   }
 }
