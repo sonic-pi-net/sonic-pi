@@ -2540,14 +2540,15 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :sustain =>
         {
           :doc => "Duration of the sustain phase of the envelope.",
-          :validations => [v_positive(:sustain)],
+          :validations => [[lambda{|args| v = args[:sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+
           :modulatable => false
         },
 
         :release =>
         {
           :doc => "Duration of the release phase of the envelope.",
-          :validations => [[lambda{|args| v = args[:release] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+          :validations => [v_positive(:release)],
           :modulatable => false
         },
 
