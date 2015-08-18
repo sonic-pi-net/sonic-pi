@@ -26,7 +26,7 @@ strings or whacking things with sticks - you write code - live.
 Sonic Pi has been designed with the aim to find a harmonious balance
 between three core principles:
 
-* *Simple* enough for the 10 year old inside you
+* *Simple* enough for the 10 year old within you
 * *Joyful* enough for you to lose yourself through play
 * *Powerful* enough for your own expressions
 
