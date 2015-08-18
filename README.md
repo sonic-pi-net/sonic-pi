@@ -32,10 +32,10 @@ between three core principles:
 
 Sonic Pi is a complete open source programming environment originally
 designed to explore and **teach programming concepts** within schools through 
-the process of creating new sounds. 
+the process of creating **new sounds**. 
 
 In addition to being an engaging education resource it has evolved into 
-an extremely powerful and performance-ready **live coding instrument** suitable 
+an **extremely powerful** and **performance-ready** **live coding instrument** suitable 
 for professional artists and DJs.
 
 Whilst Education is a core focus it now sits at the intersection
@@ -49,7 +49,7 @@ Again, finding a balance working to the best benefits of all these
 domains is the objective.
 
 
-* Info: http://sonic-pi.net
+* Info & Latest Releases: http://sonic-pi.net
 * Source: https://github.com/samaaron/sonic-pi
 * Computing Education Resources for Schools: http://www.raspberrypi.org/learning/sonic-pi-lessons/
 * Music Education Toolkit for Schools: http://sonicpiliveandcoding.com
