@@ -1,7 +1,7 @@
 {
   "name": "sonic-pi-electron",
   "version": "0.0.1",
-  "main": "src/main.js",
+  "main": "src/init.js",
   "scripts": {
     "start": "electron ./"
   },
