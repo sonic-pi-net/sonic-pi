@@ -21,7 +21,7 @@
 ## The Live Coding Synth for Everyone.
 
 Sonic Pi is a **new kind of musical instrument**. Instead of strumming
-strings or whacking things with sticks - you write code - live.
+strings or whacking things with sticks - you write code - **live**.
 
 Sonic Pi has been designed with the aim to find a harmonious balance
 between three core principles:
