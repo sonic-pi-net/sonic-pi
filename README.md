@@ -30,32 +30,29 @@ between three core principles:
 * *Joyful* enough for you to lose yourself through play
 * *Powerful* enough for your own expressions
 
-Powering Sonic Pi is an open source programming environment originally
-designed to explore and teach programming concepts through the process
-of creating new sounds. Whilst maintaining Education as a core focus it
-now sits at the intersection between three core domains:
+Sonic Pi is a complete open source programming environment originally
+designed to explore and **teach programming concepts** within schools through 
+the process of creating new sounds. 
 
-* *Education* 
-* *Technology*
+In addition to being an engaging education resource it has evolved into 
+an extremely powerful and performance-ready **live coding instrument** suitable 
+for professional artists and DJs.
+
+Whilst Education is a core focus it now sits at the intersection
+between three core domains:
+
 * *Art*
+* *Technology*
+* *Education* 
 
 Again, finding a balance working to the best benefits of all these
 domains is the objective.
 
 
-Sonic Pi comes with an associated scheme of work
-which emphasises the importance of creativity in the learning process
-and gives users the control to turn their sonic ideas into reality.
-
-However, in addition to being an engaging education resource it's also
-evolved into an extremely powerful and performance-ready live coding
-instrument suitable for professional artists and DJs.
-
 * Info: http://sonic-pi.net
 * Source: https://github.com/samaaron/sonic-pi
-* Computing Education Resources: http://www.raspberrypi.org/learning/sonic-pi-lessons/
-* Music Education Toolkit: http://sonicpiliveandcoding.com
-
+* Computing Education Resources for Schools: http://www.raspberrypi.org/learning/sonic-pi-lessons/
+* Music Education Toolkit for Schools: http://sonicpiliveandcoding.com
 
 ## Acknowledgements
 
