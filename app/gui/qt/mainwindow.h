@@ -284,6 +284,8 @@ private:
 
     QSplitter *docsplit;
 
+    QLabel *versionLabel;
+
 };
 
 #endif

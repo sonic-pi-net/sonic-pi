@@ -1947,10 +1947,10 @@ void MainWindow::toggleRecording() {
 
 void MainWindow::createStatusBar()
 {
-  QLabel *label = new QLabel(this);
-  label->setText("Sonic Pi v2.7-dev");
+  versionLabel = new QLabel(this);
+  versionLabel->setText("Sonic Pi");
   statusBar()->showMessage(tr("Ready..."));
-  statusBar()->addPermanentWidget(label);
+  statusBar()->addPermanentWidget(versionLabel);
 }
 
 void MainWindow::readSettings() {
@@ -2274,6 +2274,10 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
   latest_version = latest_v;
   latest_version_num = latest_v_num;
 
+  // update status bar
+  versionLabel->setText(QString("Sonic Pi ") + v );
+
+  // update preferences
   QString last_update_check = tr("Last checked %1").arg(last_checked.toString());
 
   QString preamble = tr("Sonic Pi checks for updates\nevery two weeks.");
