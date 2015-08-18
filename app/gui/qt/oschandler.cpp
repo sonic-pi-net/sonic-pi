@@ -184,10 +184,11 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         int last_checked_day;
         int last_checked_month;
         int last_checked_year;
+        std::string platform;
 
-        if (msg->arg().popStr(version).popInt32(version_num).popStr(latest_version).popInt32(latest_version_num).popInt32(last_checked_day).popInt32(last_checked_month).popInt32(last_checked_year).isOkNoMoreArgs()) {
+        if (msg->arg().popStr(version).popInt32(version_num).popStr(latest_version).popInt32(latest_version_num).popInt32(last_checked_day).popInt32(last_checked_month).popInt32(last_checked_year).popStr(platform).isOkNoMoreArgs()) {
           QDate date = QDate(last_checked_year, last_checked_month, last_checked_day);
-          QMetaObject::invokeMethod( window, "updateVersionNumber", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(version)), Q_ARG(int, version_num), Q_ARG(QString, QString::fromStdString(latest_version)), Q_ARG(int, latest_version_num),Q_ARG(QDate, date));
+          QMetaObject::invokeMethod( window, "updateVersionNumber", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(version)), Q_ARG(int, version_num), Q_ARG(QString, QString::fromStdString(latest_version)), Q_ARG(int, latest_version_num),Q_ARG(QDate, date), Q_ARG(QString, QString::fromStdString(platform)));
         } else
           std::cout << "[GUI] - error: unhandled OSC msg /version " << std::endl;
       }

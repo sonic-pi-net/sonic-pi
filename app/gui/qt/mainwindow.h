@@ -152,7 +152,7 @@ private slots:
     void toggleButtonVisibility();
     void setLineMarkerinCurrentWorkspace(int num);
     void setUpdateInfoText(QString t);
-    void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date);
+    void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
     void requestVersion();
     void open_sonic_pi_net();
 

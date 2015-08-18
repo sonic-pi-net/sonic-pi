@@ -2268,14 +2268,14 @@ void MainWindow::open_sonic_pi_net() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
 
-void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int latest_v_num, QDate last_checked) {
+void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int latest_v_num, QDate last_checked, QString platform) {
   version = v;
   version_num = v_num;
   latest_version = latest_v;
   latest_version_num = latest_v_num;
 
   // update status bar
-  versionLabel->setText(QString("Sonic Pi ") + v );
+  versionLabel->setText(QString("Sonic Pi on ") + platform + " " + v );
 
   // update preferences
   QString last_update_check = tr("Last checked %1").arg(last_checked.toString());
