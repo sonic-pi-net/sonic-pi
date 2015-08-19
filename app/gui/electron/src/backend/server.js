@@ -26,9 +26,8 @@ class Server {
       ruby_path = "ruby";
     });
 
-    if(! fs.existsSync(ruby_path)) {
+    if(! fs.existsSync(ruby_path))
       ruby_path = "ruby";
-    });
 
     this.server = spawn(ruby_path, [server_path]);
     this.server.stdout.on("data", this.stdoutHandler);
