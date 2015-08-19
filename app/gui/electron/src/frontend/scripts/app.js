@@ -1,7 +1,7 @@
 import Sender from './backend/sender';
 import Settings from './frontend/scripts/settings';
 import Editor from './frontend/scripts/editor';
-import * as utils from './frontend/scripts/ui-utils'
+import * as utils from './frontend/scripts/ui-utils';
 
 let runCurrentBuffer = () => {
   new Sender().runCode(editor.value());
