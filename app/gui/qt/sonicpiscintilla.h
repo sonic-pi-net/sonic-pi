@@ -57,6 +57,8 @@ class SonicPiScintilla : public QsciScintilla
     void downcaseWordOrSelection();
     void highlightAll();
     void unhighlightAll();
+    void zoomFontIn();
+    void zoomFontOut();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);

@@ -73,6 +73,7 @@
 #include "sonicpitheme.h"
 
 #include "oschandler.h"
+#include "sonicpilog.h"
 #include "sonicpiudpserver.h"
 #include "sonicpitcpserver.h"
 
@@ -137,7 +138,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   latest_version = "";
   version_num = 0;
   latest_version_num = 0;
-  outputPane = new QTextEdit;
+  outputPane = new SonicPiLog;
   errorPane = new QTextBrowser;
   errorPane->setOpenExternalLinks(true);
 
@@ -208,6 +209,29 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     QShortcut *moveLineDown = new QShortcut(ctrlMetaKey('n'), workspace);
     connect (moveLineDown, SIGNAL(activated()), workspace, SLOT(moveLineOrSelectionDown())) ;
+
+    // Contextual help
+    QShortcut *contextHelp = new QShortcut(ctrlKey('i'), workspace);
+    connect (contextHelp, SIGNAL(activated()), this, SLOT(helpContext()));
+
+    QShortcut *contextHelp2 = new QShortcut(QKeySequence("F1"), workspace);
+    connect (contextHelp2, SIGNAL(activated()), this, SLOT(helpContext()));
+
+
+    // Font zooming
+    QShortcut *fontZoom = new QShortcut(metaKey('='), workspace);
+    connect (fontZoom, SIGNAL(activated()), workspace, SLOT(zoomFontIn()));
+
+    QShortcut *fontZoom2 = new QShortcut(metaKey('+'), workspace);
+    connect (fontZoom2, SIGNAL(activated()), workspace, SLOT(zoomFontIn()));
+
+
+    QShortcut *fontZoomOut = new QShortcut(metaKey('-'), workspace);
+    connect (fontZoomOut, SIGNAL(activated()), workspace, SLOT(zoomFontOut()));
+
+    QShortcut *fontZoomOut2 = new QShortcut(metaKey('_'), workspace);
+    connect (fontZoomOut2, SIGNAL(activated()), workspace, SLOT(zoomFontOut()));
+
     //set Mark
 #ifdef Q_OS_MAC
     QShortcut *setMark = new QShortcut(QKeySequence("Meta+Space"), workspace);
@@ -1082,7 +1106,7 @@ void MainWindow::sendOSC(Message m)
     UdpSocket sock;
     sock.connectTo("localhost", PORT_NUM);
     if (!sock.isOk()) {
-        std::cerr << "Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
+        std::cerr << "[GUI] - Error connection to port " << PORT_NUM << ": " << sock.errorMessage() << "\n";
     } else {
         PacketWriter pw;
         pw.addMessage(m);
@@ -1095,7 +1119,7 @@ void MainWindow::sendOSC(Message m)
     }
 
     if(!clientSock->waitForConnected(TIMEOUT)){
-      std::cerr <<  "Timeout, could not connect" << "\n";
+      std::cerr <<  "[GUI] - Timeout, could not connect" << "\n";
       clientSock->abort();
       return;
     }
@@ -1108,11 +1132,11 @@ void MainWindow::sendOSC(Message m)
       clientSock->waitForBytesWritten();
 
       if (bytesWritten < 0){
-        std::cerr <<  "Failed to send bytes" << "\n";
+        std::cerr <<  "[GUI] - Failed to send bytes" << "\n";
       }
 
     } else {
-      std::cerr << "Client gone away: " << "\n";
+      std::cerr << "[GUI] - Client gone away: " << "\n";
     }
   }
 }
@@ -1436,7 +1460,7 @@ void MainWindow::updateDarkMode(){
     QString toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
 
     this->setStyleSheet(QString(buttonStyling + splitterStyling+ toolTipStyling+scrollStyling + "QToolButton:hover{background: transparent;} QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: white;}").arg(windowColor));
-    statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
+    statusBar()->setStyleSheet( QString("QWidget{background-color: %1; color: #808080;} QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
     outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
     outputWidget->setStyleSheet(widgetTitleStyling);
     prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #1c2529; color: %1;} QWidget{background-color: %2;}" + buttonStyling).arg(windowForegroundColor, windowColor));
@@ -1448,7 +1472,6 @@ void MainWindow::updateDarkMode(){
     infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
     toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
     errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
-
     for(int i=0; i < tabs->count(); i++){
       SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
       ws->setFrameShape(QFrame::NoFrame);
@@ -1633,44 +1656,15 @@ void MainWindow::showPrefsPane()
   }
 }
 
-void MainWindow::zoomFontIn()
-{
-  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
-  int zoom = ws->property("zoom").toInt();
-  zoom++;
-  if (zoom > 20) zoom = 20;
-  ws->setProperty("zoom", QVariant(zoom));
-  ws->zoomTo(zoom);
-  if (show_line_numbers->isChecked()){
-    ws->showLineNumbers();
-  } else {
-    ws->hideLineNumbers();
-  }
-}
-
-void MainWindow::zoomFontOut()
-{
-  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
-  int zoom = ws->property("zoom").toInt();
-  zoom--;
-  if (zoom < -10) zoom = -10;
-  ws->setProperty("zoom", QVariant(zoom));
-  ws->zoomTo(zoom);
-  if (show_line_numbers->isChecked()){
-    ws->showLineNumbers();
-  } else {
-    ws->hideLineNumbers();
-  }
-}
-
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
 #if defined(Q_OS_WIN)
   if (event->modifiers() & Qt::ControlModifier) {
+    SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
     if (event->angleDelta().y() > 0)
-      zoomFontIn();
+      ws->zoomFontIn();
     else
-      zoomFontOut();
+      ws->zoomFontOut();
   }
 #else
   (void)event;
@@ -1770,8 +1764,7 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
 
 void MainWindow::createShortcuts()
 {
-  new QShortcut(QKeySequence("F1"), this, SLOT(helpContext()));
-  new QShortcut(ctrlKey('i'), this, SLOT(helpContext()));
+
   new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('>'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
@@ -1826,14 +1819,10 @@ void MainWindow::createToolBar()
   // Font Size Increase
   QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
 			    tr("Increase Text Size"), this);
-  setupAction(textIncAct, '+', tr("Make text bigger"), SLOT(zoomFontIn()));
-  new QShortcut(metaKey('='), this, SLOT(zoomFontIn()));
 
   // Font Size Decrease
   QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
 			    tr("Decrease Text Size"), this);
-  setupAction(textDecAct, '-', tr("Make text smaller"), SLOT(zoomFontOut()));
-  new QShortcut(metaKey('_'), this, SLOT(zoomFontOut()));
 
   QWidget *spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -1958,7 +1947,10 @@ void MainWindow::toggleRecording() {
 
 void MainWindow::createStatusBar()
 {
+  versionLabel = new QLabel(this);
+  versionLabel->setText("Sonic Pi");
   statusBar()->showMessage(tr("Ready..."));
+  statusBar()->addPermanentWidget(versionLabel);
 }
 
 void MainWindow::readSettings() {
@@ -2276,12 +2268,16 @@ void MainWindow::open_sonic_pi_net() {
   QDesktopServices::openUrl(QUrl("http://sonic-pi.net", QUrl::TolerantMode));
 }
 
-void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int latest_v_num, QDate last_checked) {
+void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int latest_v_num, QDate last_checked, QString platform) {
   version = v;
   version_num = v_num;
   latest_version = latest_v;
   latest_version_num = latest_v_num;
 
+  // update status bar
+  versionLabel->setText(QString("Sonic Pi on ") + platform + " " + v );
+
+  // update preferences
   QString last_update_check = tr("Last checked %1").arg(last_checked.toString());
 
   QString preamble = tr("Sonic Pi checks for updates\nevery two weeks.");

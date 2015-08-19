@@ -52,7 +52,8 @@ module SonicPi
         pan_slide: "The duration in beats for the pan value to change",
         attack:    "The duration in beats for the sound to reach maximum amplitude. Choose short values for percussive sounds and long values for a fade-in effect.",
         sustain:  "The duration in beats for the sound to stay at full amplitude. Used to give the sound duration",
-        release:   "The duration in beats for the sound to fade out."}
+        release:   "The duration in beats for the sound to fade out.",
+        slide:     "Default slide time in beats for all slide opts. Individually specified slide opts will override this value" }
 
 
 
@@ -878,7 +879,7 @@ play 50 # Plays with supersaw synth
           summary:       "Trigger specific synth",
           doc:           "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults.",
           args:          [[:synth_name, :symbol]],
-          opts:          {},
+          opts:          {:slide => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value"},
           accepts_block: false,
           examples:      ["
 synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an amplitude of 0.5",
@@ -2044,6 +2045,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
 
 
       def sample_duration(path, *args)
+        dur = load_sample(path).duration
         args_h = resolve_synth_opts_hash_or_array(args)
         args_h[:rate] = 1 unless args_h[:rate]
         start = args_h[:start] || 0
@@ -2051,12 +2053,27 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
         finish = args_h[:finish] || 1
         finish = [1, [0, finish].max].min
 
+        # adjust for both beat and pitch stretching
+        # (which are BPM dependent)
+        if args_h[:beat_stretch]
+          beat_stretch = args_h[:beat_stretch].to_f
+          beat_rate_mod = (1.0 / beat_stretch) * args_h[:rate] * (current_bpm / (60.0 / dur))
+          args_h[:rate] = args_h[:rate] * beat_rate_mod
+        end
+
+        if args_h[:pitch_stretch]
+          pitch_stretch = args_h[:pitch_stretch].to_f
+          pitch_rate_mod = (1.0 / pitch_stretch) * args_h[:rate] * (current_bpm / (60.0 / dur))
+          args_h[:rate] = args_h[:rate] * pitch_rate_mod
+        end
+
+
         if finish > start
           len = finish - start
         else
           len = start - finish
         end
-        real_dur = load_sample(path).duration * 1.0/(args_h[:rate].abs) * len
+        real_dur = dur * 1.0/(args_h[:rate].abs) * len
 
         if args_h.has_key?(:sustain)
           attack = [0, args_h[:attack].to_f].max
@@ -2074,7 +2091,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
       doc name:          :sample_duration,
       introduced:    Version.new(2,0,0),
       summary:       "Get sample duration in beats",
-      doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
+      doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time in beats that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
       args:          [[:path, :string]],
       opts:          {:rate => "Rate modifier. For example, doubling the rate will halve the duration.",
         :start => "Start position of sample playback as a value from 0 to 1",
@@ -2123,36 +2140,56 @@ puts sample_duration(:loop_amen) #=> 1
           dur = load_sample(path).duration
           args_h[:rate] = (1.0 / stretch_duration) * rate * (current_bpm / (60.0 / dur))
         end
+
+        pitch_stretch_duration = args_h[:pitch_stretch]
+        if pitch_stretch_duration
+          pitch_stretch_duration = pitch_stretch_duration.to_f
+          rate = args_h[:rate] || 1
+          dur = load_sample(path).duration
+          new_rate = (1.0 / pitch_stretch_duration) * rate * (current_bpm / (60.0 / dur))
+          pitch_shift = ratio_to_pitch(new_rate)
+          args_h[:rate] = new_rate * (args_h[:rate] || 1)
+          args_h[:pitch] = args_h[:pitch].to_f - pitch_shift
+        end
+
+        rate_pitch = args_h[:rpitch]
+        if rate_pitch
+          new_rate = pitch_to_ratio(rate_pitch.to_f)
+          args_h[:rate] = new_rate * (args_h[:rate] || 1)
+        end
+
         trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
       end
       doc name:          :sample,
-      introduced:    Version.new(2,0,0),
-      summary:       "Trigger sample",
-      doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif` or `.aiff` files from anywhere on your computer too. The `rate:` parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the `use_sample_pack` and `use_sample_pack_as` fns for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider using `load_sample` or `load_samples`.",
-      args:          [[:name_or_path, :symbol_or_string]],
-      opts:          {:rate      => "Rate with which to play back the sample. Higher rates mean an increase in pitch and a decrease in duration. Default is 1.",
-        :beat_stretch => "Stretch (or shrink) the sample to last for exactly the specified number of beats. Please note - this does *not* keep the pitch constant and is essentially the same as modifying the rate directly.",
-        :attack    => "Time to reach full volume. Default is 0",
-        :sustain   => "Time to stay at full volume. Default is to stretch to length of sample (minus attack and release times).",
-        :release   => "Time (from the end of the sample) to go from full amplitude to 0. Default is 0",
-        :start     => "Position in sample as a fraction between 0 and 1 to start playback. Default is 0.",
-        :finish    => "Position in sample as a fraction between 0 and 1 to end playback. Default is 1.",
-        :pan       => "Stereo position of audio. -1 is left ear only, 1 is right ear only, and values in between position the sound accordingly. Default is 0",
-        :amp       => "Amplitude of playback",
-        :norm      => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
-        :cutoff => "Cutoff value of the built-in low pass filter (lpf) in MIDI notes. Unless specified, the lpf is *not* added to the signal chain.",
-        :res => "Cutoff-specific opt. Only honoured if cutoff: is specified. Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
-        :pitch => "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.",
-        :window_size => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed. The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
-        :pitch_dis => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
-        :time_dis => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size."
-      },
-      accepts_block: false,
-      intro_fn:       true,
+          introduced:    Version.new(2,0,0),
+          summary:       "Trigger sample",
+          doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif` or `.aiff` files from anywhere on your computer too. The `rate:` parameter affects both the speed and the pitch of the playback. See the examples for details. Check out the `use_sample_pack` and `use_sample_pack_as` fns for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider using `load_sample` or `load_samples`.",
+          args:          [[:name_or_path, :symbol_or_string]],
+          opts:          {:rate          => "Rate with which to play back the sample. Higher rates mean an increase in pitch and a decrease in duration. Default is 1.",
+                          :beat_stretch  => "Stretch (or shrink) the sample to last for exactly the specified number of beats. Please note - this does *not* keep the pitch constant and is essentially the same as modifying the rate directly.",
+                          :pitch_stretch => "Stretch (or shrink) the sample to last for exactly the specified number of beats. This attempts to keep the pitch constant using the pitch: opt. Note, it's very likely you'll need to experiment with the window_size: pitch_dis: and time_dis: opts depending on the sample and the amount you'd like to stretch/shrink from original size.",
+                          :attack        => "Time to reach full volume. Default is 0",
+                          :sustain       => "Time to stay at full volume. Default is to stretch to length of sample (minus attack and release times).",
+                          :release       => "Time (from the end of the sample) to go from full amplitude to 0. Default is 0",
+                          :start         => "Position in sample as a fraction between 0 and 1 to start playback. Default is 0.",
+                          :finish        => "Position in sample as a fraction between 0 and 1 to end playback. Default is 1.",
+                          :pan           => "Stereo position of audio. -1 is left ear only, 1 is right ear only, and values in between position the sound accordingly. Default is 0",
+                          :amp           => "Amplitude of playback",
+                          :norm          => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
+                          :cutoff        => "Cutoff value of the built-in low pass filter (lpf) in MIDI notes. Unless specified, the lpf is *not* added to the signal chain.",
+                          :res           => "Cutoff-specific opt. Only honoured if cutoff: is specified. Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
+                          :rpitch        => "Rate modified pitch. Multiplies the rate by the appropriate ratio to shift up or down the specified amount in MIDI notes. Please note - this does *not* keep the duration and rhythmical rate constant and ie essentially the same as modifying the rate directly.",
+                          :pitch         => "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.",
+                          :window_size   => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed. The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
+                          :pitch_dis     => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
+                          :time_dis      => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.",
+                          :slide         => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value" },
+          accepts_block: false,
+          intro_fn:       true,
 
 
-      examples:      ["
-sample :perc_bell # plays one of Sonic Pi's built in samples",
+          examples:      ["
+!sample :perc_bell # plays one of Sonic Pi's built in samples",
         "sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|aif|aiff file from your local filesystem",
         "# Let's play with the rate parameter
 # play one of the included samples
@@ -2344,7 +2381,7 @@ end"
         raise Exception.new("note_info argument must be a valid note. Got nil.") if(n.nil?)
         args_h = resolve_synth_opts_hash_or_array(args)
         octave = args_h[:octave]
-        SonicPi::Note.new(SonicPi::Note.resolve_note_name(n, octave), octave)
+        SonicPi::Note.new(n, octave)
       end
       doc name:          :note_info,
           introduced:    Version.new(2,0,0),
@@ -2694,6 +2731,16 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
         else
           normalise_args! args_h
         end
+
+        # set default slide times
+        default_slide_time = args_h[:slide]
+        args_h.delete :slide
+        if node.info && default_slide_time
+          node.info.slide_args.each do |k|
+            args_h[k] = default_slide_time unless args_h.has_key?(k)
+          end
+        end
+
         node.control args_h
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}"
@@ -2926,7 +2973,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         args_h.keys.each do |k|
           v = args_h[k]
           case v
-          when Numeric
+          when Fixnum, Float
             # do nothing
           when Proc
             args_h[k] = v.call.to_f
@@ -3106,6 +3153,15 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, combine_tls=false)
+
+        # set default slide times
+        default_slide_time = args_h[:slide]
+        if info && default_slide_time
+          info.slide_args.each do |k|
+            args_h[k] = default_slide_time unless args_h.has_key?(k)
+          end
+        end
+
         processed_args = normalise_and_resolve_synth_args(args_h, info, out_bus, combine_tls)
         trigger_synth_with_resolved_args(synth_name, processed_args, group, info, now, out_bus)
       end

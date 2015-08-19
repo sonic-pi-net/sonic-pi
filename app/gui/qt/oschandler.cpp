@@ -2,10 +2,11 @@
 #include "oscpkt.hh"
 #include "oschandler.h"
 #include "mainwindow.h"
+#include "sonicpilog.h"
 
 #include <QTextEdit>
 
-OscHandler::OscHandler(MainWindow *parent, QTextEdit *outPane, QTextEdit *errorPane, SonicPiTheme *theme)
+OscHandler::OscHandler(MainWindow *parent, SonicPiLog *outPane, QTextEdit *errorPane, SonicPiTheme *theme)
 {
     window = parent;
     out = outPane;
@@ -22,89 +23,24 @@ void OscHandler::oscMessage(std::vector<char> buffer){
     while (pr.isOk() && (msg = pr.popMessage()) != 0) {
       if (msg->match("/multi_message")){
         int msg_count;
-        int msg_type;
-        int job_id;
-        std::string thread_name;
-        std::string runtime;
-        std::string s;
-        QString ss;
+        SonicPiLog::MultiMessage mm;
+        mm.theme = theme;
 
         oscpkt::Message::ArgReader ar = msg->arg();
-        ar.popInt32(job_id);
-        ar.popStr(thread_name);
-        ar.popStr(runtime);
+        ar.popInt32(mm.job_id);
+        ar.popStr(mm.thread_name);
+        ar.popStr(mm.runtime);
         ar.popInt32(msg_count);
-        QMetaObject::invokeMethod(out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor(theme->color("LogDefaultForeground"))));
-        ss.append("[Run ").append(QString::number(job_id));
-        ss.append(", Time ").append(QString::fromStdString(runtime));
-        if(!thread_name.empty()) {
-          ss.append(", Thread :").append(QString::fromStdString(thread_name));
-        }
-        ss.append("]");
-        QMetaObject::invokeMethod(out, "append", Qt::QueuedConnection,
-                                   Q_ARG(QString, ss) );
 
         for(int i = 0 ; i < msg_count ; i++) {
-          ss = "";
-          ar.popInt32(msg_type);
-          ar.popStr(s);
-
-          if(i == (msg_count - 1)) {
-            ss.append(QString::fromUtf8(" └─ "));
-          } else {
-            ss.append(QString::fromUtf8(" ├─ "));
-          }
-
-          QMetaObject::invokeMethod(out, "append", Qt::QueuedConnection,
-                                     Q_ARG(QString, ss) );
-
-
-          ss = "";
-
-
-          switch(msg_type)
-          {
-          case 0:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
-            break;
-          case 1:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
-            break;
-          case 2:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
-            break;
-          case 3:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("red")));
-            break;
-          case 4:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-            QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("deeppink")));
-            break;
-          case 5:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-            QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("dodgerblue")));
-            break;
-          case 6:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("white")));
-            QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("darkorange")));
-            break;
-          default:
-            QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor("green")));
-          }
-
-          ss.append(QString::fromUtf8(s.c_str()));
-
-          QMetaObject::invokeMethod( out, "insertPlainText", Qt::QueuedConnection,
-                                     Q_ARG(QString, ss) );
-
-          QMetaObject::invokeMethod( out, "setTextColor", Qt::QueuedConnection, Q_ARG(QColor, QColor(theme->color("LogDefaultForeground"))));
-          QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")));
-
-
-
+          SonicPiLog::Message message;
+          ar.popInt32(message.msg_type);
+          ar.popStr(message.s);
+          mm.messages.push_back(message);
         }
-        QMetaObject::invokeMethod( out, "append", Qt::QueuedConnection,
-                                   Q_ARG(QString,  QString::fromStdString(" ")) );
+
+        QMetaObject::invokeMethod( out, "handleMultiMessage", Qt::QueuedConnection,
+                                   Q_ARG(SonicPiLog::MultiMessage, mm ) );
       }
       else if (msg->match("/info")) {
         std::string s;
@@ -248,10 +184,11 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         int last_checked_day;
         int last_checked_month;
         int last_checked_year;
+        std::string platform;
 
-        if (msg->arg().popStr(version).popInt32(version_num).popStr(latest_version).popInt32(latest_version_num).popInt32(last_checked_day).popInt32(last_checked_month).popInt32(last_checked_year).isOkNoMoreArgs()) {
+        if (msg->arg().popStr(version).popInt32(version_num).popStr(latest_version).popInt32(latest_version_num).popInt32(last_checked_day).popInt32(last_checked_month).popInt32(last_checked_year).popStr(platform).isOkNoMoreArgs()) {
           QDate date = QDate(last_checked_year, last_checked_month, last_checked_day);
-          QMetaObject::invokeMethod( window, "updateVersionNumber", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(version)), Q_ARG(int, version_num), Q_ARG(QString, QString::fromStdString(latest_version)), Q_ARG(int, latest_version_num),Q_ARG(QDate, date));
+          QMetaObject::invokeMethod( window, "updateVersionNumber", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(version)), Q_ARG(int, version_num), Q_ARG(QString, QString::fromStdString(latest_version)), Q_ARG(int, latest_version_num),Q_ARG(QDate, date), Q_ARG(QString, QString::fromStdString(platform)));
         } else
           std::cout << "[GUI] - error: unhandled OSC msg /version " << std::endl;
       }

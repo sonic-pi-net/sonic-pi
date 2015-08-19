@@ -10,6 +10,7 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require "hamster/hash"
 module SonicPi
   class Note
 
@@ -100,6 +101,11 @@ module SonicPi
     attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
     def initialize(n, o=nil)
+      if n.is_a? Numeric
+        o = (n / 12).to_i - 1
+        n = n % 12
+        n = Note.resolve_note_name(n.to_f)
+      end
       n = n.to_s
 
       m = MIDI_NOTE_RE.match n
@@ -119,6 +125,10 @@ module SonicPi
       raise InvalidNoteError, "Invalid note: #{n}" unless @interval
       @midi_note = (@octave * 12) + @interval + 12
       @midi_string = "#{@pitch_class.capitalize}#{@octave}"
+    end
+
+    def to_hamster
+      Hamster.hash({:pitch_class => @pitch_class, :octave => @octave, :interval => @interval, :midi_note => @midi_note, :midi_string => @midi_string})
     end
 
     def to_s

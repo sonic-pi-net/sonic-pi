@@ -48,6 +48,7 @@ class SonicPiLexer;
 class QString;
 class QSlider;
 class SonicPiAPIs;
+class SonicPiLog;
 class SonicPiScintilla;
 class SonicPiServer;
 
@@ -113,8 +114,6 @@ private slots:
     void about();
     void help();
     void onExitCleanup();
-    void zoomFontIn();
-    void zoomFontOut();
     void toggleRecording();
     void toggleRecordingOnIcon();
     void changeRPSystemVol(int val);
@@ -153,7 +152,7 @@ private slots:
     void toggleButtonVisibility();
     void setLineMarkerinCurrentWorkspace(int num);
     void setUpdateInfoText(QString t);
-    void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date);
+    void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
     void requestVersion();
     void open_sonic_pi_net();
 
@@ -218,7 +217,7 @@ private:
     SonicPiScintilla *workspaces[workspace_max];
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
-    QTextEdit *outputPane;
+    SonicPiLog *outputPane;
     QTextBrowser *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
@@ -284,6 +283,8 @@ private:
     int latest_version_num;
 
     QSplitter *docsplit;
+
+    QLabel *versionLabel;
 
 };
 

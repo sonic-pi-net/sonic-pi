@@ -53,8 +53,10 @@ module SonicPi
     include ActiveSupport
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
+      @git_hash = __extract_git_hash
+      gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
-      @version = Version.new(2, 7, 0, "dev")
+      @version = Version.new(2, 7, 0, "dev#{gh_short}")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
@@ -150,6 +152,18 @@ module SonicPi
           completion = lines.join
 
           __add_completion(key, completion, point_line, point_index)
+        end
+      end
+    end
+
+    def __extract_git_hash
+      head_path = root_path + "/.git/HEAD"
+      if File.exists? head_path
+        ref = File.readlines(head_path).first
+        ref_path = root_path + "/.git/" + ref[5..-1]
+        ref_path = ref_path.strip
+        if File.exists? ref_path
+          return File.readlines(ref_path).first
         end
       end
     end

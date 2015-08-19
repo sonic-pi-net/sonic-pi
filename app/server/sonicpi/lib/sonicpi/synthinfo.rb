@@ -119,6 +119,17 @@ module SonicPi
       @cached_bpm_scale_args = args_to_scale
     end
 
+    def slide_args
+      return @cached_slide_args if @cached_slide_args
+
+      slide_args = []
+      @info.each do |k, v|
+        slide_args << k if v[:bpm_scale] && k.to_s.end_with?("slide")
+      end
+
+      @cached_slide_args = slide_args
+    end
+
     def arg_info
       #Specifically for doc usage. Consider changing name to doc_info
       #Don't call as part of audio loops as slow. Use .info directly
@@ -158,7 +169,7 @@ module SonicPi
     end
 
     def generic_slide_shape_doc(k)
-      return "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use curvature param), 6: squared, 7: cubed"
+      return "Shape of curve. 0: step, 1: linear, 3: sine, 4: welch, 5: custom (use *_slide_curve: opt e.g. amp_slide_curve:), 6: squared, 7: cubed. "
     end
 
     private
@@ -2529,14 +2540,15 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :sustain =>
         {
           :doc => "Duration of the sustain phase of the envelope.",
-          :validations => [v_positive(:attack)],
+          :validations => [[lambda{|args| v = args[:sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+
           :modulatable => false
         },
 
         :release =>
         {
           :doc => "Duration of the release phase of the envelope.",
-          :validations => [[lambda{|args| v = args[:release] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+          :validations => [v_positive(:release)],
           :modulatable => false
         },
 
