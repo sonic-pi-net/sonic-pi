@@ -21,10 +21,6 @@ class Server {
     } else {
       ruby_path = prefix + "/app/server/native/raspberry/ruby/bin/ruby";
     }
-    
-    if(! fs.existsSync(ruby_path) {
-      ruby_path = "ruby";
-    });
 
     if(! fs.existsSync(ruby_path))
       ruby_path = "ruby";
