@@ -3,9 +3,12 @@ import Settings from './frontend/scripts/settings';
 import Editor from './frontend/scripts/editor';
 import * as utils from './frontend/scripts/ui-utils'
 
-var runCurrentBuffer = () => {
-  var sender = new Sender();
-  sender.runCode(editor.value());
+let runCurrentBuffer = () => {
+  new Sender().runCode(editor.value());
+}
+
+let stopCurrentBuffer = () => {
+  new Sender().stopAllJobs();
 }
 
 let editor = null;
@@ -25,17 +28,24 @@ settings.load().then( (settings) => {
 });
 
 // TODO: Discuss if need to replace with a proper class
-var runButton = document.getElementById("run-button");
-runButton.addEventListener("click", function(event, target) {
+let runButton = document.getElementById("run-button");
+runButton.addEventListener("click", (event, target) => {
   runCurrentBuffer();
   editor.focus();
   event.preventDefault();
 })
 
-var settingsButton = document.getElementById("settings-button");
-settingsButton.addEventListener("click", function(event, target) {
+let stopButton = document.getElementById("stop-button");
+stopButton.addEventListener("click", (event, target) => {
+  stopCurrentBuffer();
+  editor.focus();
+  event.preventDefault();
+});
+
+let settingsButton = document.getElementById("settings-button");
+settingsButton.addEventListener("click", (event, target) => {
   this.classList.toggle("active");
-  var settingsPane = document.getElementById("settings-pane");
+  let settingsPane = document.getElementById("settings-pane");
   settingsPane.classList.toggle("hidden");
   event.preventDefault();
 })

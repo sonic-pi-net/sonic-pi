@@ -7,13 +7,21 @@ class Sender {
     this.port = options.port || this.default_port;
     this.host = "localhost";
     this.socket = dgram.createSocket("udp4");
+    return this;
   }
 
   runCode(code) {
     let buf = osc.toBuffer({
       address: "/run-code",
       args: [code]
-    })
+    });
+    this.socket.send(buf, 0, buf.length, this.port, this.host);
+  }
+
+  stopAllJobs() {
+    let buf = osc.toBuffer({
+      address: "/stop-all-jobs"
+    });
     this.socket.send(buf, 0, buf.length, this.port, this.host);
   }
 }
