@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "main": "src/init.js",
   "scripts": {
-    "start": "electron ./"
+    "start": "electron ."
   },
   "dependencies": {
     "bower": "^1.4.1",
-    "osc-min": "^0.2.0"
+    "osc-min": "^0.2.0",
+    "electron-compile": "^0.7.1"
   },
   "devDependencies": {
-    "electron-compile": "^0.8.2",
-    "electron-prebuilt": "0.30.2"
+    "electron-prebuilt": "0.30.3"
   }
 }
