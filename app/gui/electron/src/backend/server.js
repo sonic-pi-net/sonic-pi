@@ -1,4 +1,5 @@
 let spawn = require('child_process').spawn;
+let fs = require('fs');
 
 class Server {
   constructor(options = {}) {
@@ -20,6 +21,10 @@ class Server {
     } else {
       ruby_path = prefix + "/app/server/native/raspberry/ruby/bin/ruby";
     }
+    
+    if(! fs.existsSync(ruby_path) {
+      ruby_path = "ruby";
+    });
 
     this.server = spawn(ruby_path, [server_path]);
     this.server.stdout.on("data", this.stdoutHandler);
