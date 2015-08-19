@@ -2413,7 +2413,6 @@ module SonicPi
         :res_slide => 0,
         :res_slide_shape => 5,
         :res_slide_curve => 0,
-        :norm => 0
       }
     end
 
@@ -2422,29 +2421,8 @@ module SonicPi
         :rate =>
         {
           :validations => [v_not_zero(:rate)],
-          :modulatable => true
-        },
-
-        :window_size =>
-        {
-          :doc => "Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
-
-The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
-          :validations => [v_greater_than(:window_size, 0.00005)],
-          :modulatable => true
-        },
-        :pitch_dis =>
-        {
-          :doc => "Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
-          :validations => [v_greater_than_oet(:pitch_dis, 0)],
-          :modulatable => true
-        },
-        :time_dis =>
-        {
-          :doc => "Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.",
-          :validations => [v_greater_than_oet(:time_dis, 0)],
-          :modulatable => true
-        },
+          :modulatable => false
+        }
       }
     end
   end
