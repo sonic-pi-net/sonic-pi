@@ -102,6 +102,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  guiID = QUuid::createUuid().toString();
   loaded_workspaces = false;
   this->splash = splash;
   protocol = UDP;
@@ -165,6 +166,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QThreadPool::globalInstance()->setMaxThreadCount(3);
 
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
+
+  QTimer *timer = new QTimer(this);
+  connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
+  timer->start(1000);
 
   OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
 
@@ -2099,6 +2104,13 @@ void MainWindow::onExitCleanup()
   std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
 
 }
+
+void MainWindow::heartbeatOSC() {
+  Message msg("/gui-heartbeat");
+  msg.pushStr(guiID.toStdString());
+  sendOSC(msg);
+}
+
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
   QString url = cur->data(32).toString();

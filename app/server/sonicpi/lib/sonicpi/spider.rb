@@ -77,6 +77,8 @@ module SonicPi
       @session_id = SecureRandom.uuid
       @snippets = {}
 
+      @gui_heartbeats = {}
+      @gui_last_heartbeat = nil
       @gitsave = GitSave.new(project_path)
 
       @event_t = Thread.new do
@@ -154,6 +156,12 @@ module SonicPi
           __add_completion(key, completion, point_line, point_index)
         end
       end
+    end
+
+    def __gui_heartbeat(id)
+      t = Time.now
+      @gui_heartbeats[id] = t
+      @gui_last_heartbeat = t
     end
 
     def __extract_git_hash

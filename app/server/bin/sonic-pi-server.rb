@@ -418,6 +418,18 @@ osc_server.add_method("/version") do |payload|
   end
 end
 
+osc_server.add_method("/gui-heartbeat") do |payload|
+  begin
+    args = payload.to_a
+    gui_id = args[0]
+    sp.__gui_heartbeat gui_id
+  rescue Exception => e
+    puts "Received Exception when attempting to handle gui heartbeat"
+    puts e.message
+    puts e.backtrace.inspect
+  end
+end
+
 if protocol == :tcp
   Thread.new{osc_server.safe_run}
 else
