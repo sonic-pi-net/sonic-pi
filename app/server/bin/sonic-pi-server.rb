@@ -116,8 +116,10 @@ end
 
 osc_server.add_method("/run-code") do |payload|
   begin
-#    puts "Received OSC: #{payload}"
-    code = payload.to_a[0]
+    #    puts "Received OSC: #{payload}"
+    args = payload.to_a
+    gui_id = args[0]
+    code = args[1]
     sp.__spider_eval code
   rescue Exception => e
     puts "Received Exception!"
@@ -130,9 +132,10 @@ osc_server.add_method("/save-and-run-buffer") do |payload|
   begin
 #    puts "Received save-and-run-buffer: #{payload.to_a}"
     args = payload.to_a
-    buffer_id = args[0]
-    code = args[1]
-    workspace = args[2]
+    gui_id = args[0]
+    buffer_id = args[1]
+    code = args[2]
+    workspace = args[3]
     sp.__save_buffer(buffer_id, code)
     sp.__spider_eval code, {workspace: workspace}
   rescue Exception => e
@@ -146,8 +149,9 @@ osc_server.add_method("/save-buffer") do |payload|
   begin
 #    puts "Received save-buffer: #{payload.to_a}"
     args = payload.to_a
-    buffer_id = args[0]
-    code = args[1]
+    gui_id = args[0]
+    buffer_id = args[1]
+    code = args[2]
     sp.__save_buffer(buffer_id, code)
   rescue Exception => e
     puts "Caught exception when attempting to save buffer!"
@@ -157,8 +161,10 @@ osc_server.add_method("/save-buffer") do |payload|
 end
 
 osc_server.add_method("/exit") do |payload|
-#  puts "exiting..."
   begin
+    #  puts "exiting..."
+    args = payload.to_a
+    gui_id = args[0]
     sp.__exit
   rescue Exception => e
     puts "Received Exception when attempting to exit!"
@@ -170,6 +176,8 @@ end
 osc_server.add_method("/stop-all-jobs") do |payload|
 #  puts "stopping all jobs..."
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.__stop_jobs
   rescue Exception => e
     puts "Received Exception when attempting to stop all jobs!"
@@ -181,7 +189,9 @@ end
 osc_server.add_method("/load-buffer") do |payload|
 #  puts "loading buffer..."
   begin
-    sp.__load_buffer(payload.to_a[0])
+    args = payload.to_a
+    gui_id = args[0]
+    sp.__load_buffer args[1]
   rescue Exception => e
     puts "Received Exception when attempting to load buffer!"
     puts e.message
@@ -193,12 +203,13 @@ osc_server.add_method("/complete-snippet-or-indent-selection") do |payload|
 #  puts "indenting current line..."
   begin
     args = payload.to_a
-    id = args[0]
-    buf = args[1]
-    start_line = args[2]
-    finish_line = args[3]
-    point_line = args[4]
-    point_index = args[5]
+    gui_id = args[0]
+    id = args[1]
+    buf = args[2]
+    start_line = args[3]
+    finish_line = args[4]
+    point_line = args[5]
+    point_index = args[6]
     sp.__complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
   rescue Exception => e
     puts "Received Exception when attempting to indent current line!"
@@ -211,11 +222,12 @@ osc_server.add_method("/beautify-buffer") do |payload|
 #  puts "beautifying buffer..."
   begin
     args = payload.to_a
-    id = args[0]
-    buf = args[1]
-    line = args[2]
-    index = args[3]
-    first_line = args[4]
+    gui_id = args[0]
+    id = args[1]
+    buf = args[2]
+    line = args[3]
+    index = args[4]
+    first_line = args[5]
     sp.__beautify_buffer(id, buf, line, index, first_line)
   rescue Exception => e
     puts "Received Exception when attempting to beautify buffer!"
@@ -227,7 +239,9 @@ end
 osc_server.add_method("/ping") do |payload|
   #  puts "ping!"
   begin
-    id = payload.to_a[0]
+    args = payload.to_a
+    gui_id = args[0]
+    id = args[1]
     m = encoder.encode_single_message("/ack", [id])
     gui.send_raw(m)
   rescue Exception => e
@@ -239,6 +253,8 @@ end
 
 osc_server.add_method("/start-recording") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.recording_start
   rescue Exception => e
     puts "Received Exception when attempting to start recording"
@@ -249,6 +265,8 @@ end
 
 osc_server.add_method("/stop-recording") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.recording_stop
   rescue Exception => e
     puts "Received Exception when attempting to stop recording"
@@ -259,6 +277,8 @@ end
 
 osc_server.add_method("/delete-recording") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.recording_delete
   rescue Exception => e
     puts "Received Exception when attempting to delete recording"
@@ -269,7 +289,9 @@ end
 
 osc_server.add_method("/save-recording") do |payload|
   begin
-    filename = payload.to_a[0]
+    args = payload.to_a
+    gui_id = args[0]
+    filename = payload.to_a[1]
     sp.recording_save(filename)
   rescue Exception => e
     puts "Received Exception when attempting to delete recording"
@@ -280,6 +302,8 @@ end
 
 osc_server.add_method("/reload") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     dir = File.dirname("#{File.absolute_path(__FILE__)}")
     Dir["#{dir}/../sonicpi/**/*.rb"].each do |d|
       load d
@@ -294,6 +318,8 @@ end
 
 osc_server.add_method("/mixer-invert-stereo") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.set_mixer_invert_stereo!
   rescue Exception => e
     puts "Received Exception when attempting to invert stereo"
@@ -303,7 +329,10 @@ osc_server.add_method("/mixer-invert-stereo") do |payload|
 end
 
 osc_server.add_method("/mixer-standard-stereo") do |payload|
-  begin sp.set_mixer_standard_stereo!
+  begin
+    args = payload.to_a
+    gui_id = args[0]
+    sp.set_mixer_standard_stereo!
   rescue Exception => e
     puts "Received Exception when attempting to set stereo to standard mode"
     puts e.message
@@ -313,6 +342,8 @@ end
 
 osc_server.add_method("/mixer-stereo-mode") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.set_mixer_stereo_mode!
   rescue Exception => e
     puts "Received Exception when attempting to invert stereo"
@@ -322,7 +353,10 @@ osc_server.add_method("/mixer-stereo-mode") do |payload|
 end
 
 osc_server.add_method("/mixer-mono-mode") do |payload|
-  begin sp.set_mixer_mono_mode!
+  begin
+    args = payload.to_a
+    gui_id = args[0]
+    sp.set_mixer_mono_mode!
   rescue Exception => e
     puts "Received Exception when attempting to switch to mono mode"
     puts e.message
@@ -332,7 +366,9 @@ end
 
 osc_server.add_method("/mixer-hpf-enable") do |payload|
   begin
-    freq = payload.to_a[0].to_f
+    args = payload.to_a
+    gui_id = args[0]
+    freq = args[1].to_f
     sp.set_mixer_hpf!(freq)
   rescue Exception => e
     puts "Received Exception when attempting to enable mixer hpf"
@@ -343,6 +379,8 @@ end
 
 osc_server.add_method("/mixer-hpf-disable") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.set_mixer_hpf_disable!
   rescue Exception => e
     puts "Received Exception when attempting to disable mixer hpf"
@@ -353,7 +391,9 @@ end
 
 osc_server.add_method("/mixer-lpf-enable") do |payload|
   begin
-    freq = payload.to_a[0].to_f
+    args = payload.to_a
+    gui_id = args[0]
+    freq = args[1].to_f
     sp.set_mixer_lpf!(freq)
   rescue Exception => e
     puts "Received Exception when attempting to enable mixer lpf"
@@ -364,6 +404,8 @@ end
 
 osc_server.add_method("/mixer-lpf-disable") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.set_mixer_lpf_disable!
   rescue Exception => e
     puts "Received Exception when attempting to disable mixer lpf"
@@ -375,6 +417,8 @@ end
 
 osc_server.add_method("/enable-update-checking") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.__enable_update_checker
   rescue Exception => e
     puts "Received Exception when attempting to enable update checking"
@@ -385,6 +429,8 @@ end
 
 osc_server.add_method("/disable-update-checking") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.__disable_update_checker
   rescue Exception => e
     puts "Received Exception when attempting to disable update checking"
@@ -395,6 +441,8 @@ end
 
 osc_server.add_method("/check-for-updates-now") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     sp.__update_gui_version_info_now
   rescue Exception => e
     puts "Received Exception when attempting to check for latest version now"
@@ -405,6 +453,8 @@ end
 
 osc_server.add_method("/version") do |payload|
   begin
+    args = payload.to_a
+    gui_id = args[0]
     v = sp.__current_version
     lv = sp.__server_version
     lc = sp.__last_update_check
