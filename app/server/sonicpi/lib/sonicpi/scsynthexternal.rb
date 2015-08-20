@@ -240,8 +240,10 @@ module SonicPi
 
       @jack_pid = `ps cax | grep jackd`.split(" ").first
 
+      buffer_size = raspberry_pi_1? ? 512 : 128
+
       boot_and_wait do
-        sys("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} -z 256 -D 0 -U /usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/ &")
+        sys("scsynth -u #{@port} -m 131072 -i 2 -o 2 -c 128 -a #{num_audio_busses_for_current_os} -z #{buffer_size} -D 0 -U /usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/ &")
       end
 
       `jack_connect SuperCollider:out_1 system:playback_1`
