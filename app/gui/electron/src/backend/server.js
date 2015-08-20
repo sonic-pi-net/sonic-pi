@@ -5,6 +5,7 @@ class Server {
   constructor(options = {}) {
     this.stdoutHandler = options.stdoutHandler || ((data) => console.log(data.toString()));
     this.stderrHandler = options.stderrHandler || ((data) => console.log(data.toString()));
+    this.booted = false;
     return this;
   }
 
@@ -26,9 +27,22 @@ class Server {
       ruby_path = "ruby";
 
     this.server = spawn(ruby_path, [server_path]);
-    this.server.stdout.on("data", this.stdoutHandler);
-    this.server.stderr.on("data", this.stderrHandler);
-    return this;
+
+    // this promise never gets rejected, that's bad
+    return new Promise((resolve, reject) => {
+      this.server.stderr.on("data", this.stderrHandler);
+      this.server.stdout.on("data", (data) => {
+        if(this.isServerBooted(data))
+          resolve();
+        this.stdoutHandler(data);
+      })
+    });
+  }
+
+  // check whether the SC server has been properly started
+  isServerBooted(data) {
+    let matchString = /SuperCollider 3 server ready/;
+    return matchString.test(data.toString());
   }
 
   kill() {

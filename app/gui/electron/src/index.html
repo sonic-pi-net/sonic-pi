@@ -16,27 +16,36 @@
       <a href="#" id="settings-button" class="button"><i class="fa fa-cog"></i>Settings</a>
     </nav>
     <main>
-      <div id="editor" class="container">#diversity is the spice of life</div>
+<div id="editor" class="container">#go wild
+play 80
+sleep 1
+play 70
+sleep 1
+play 90
+</div>
       <aside id="settings-pane">
         <h1> Settings </h1>
         <form>
           <fieldset>
             <legend>Editor</legend>
-            <label for="theme">Color scheme</label>
-            <select id="theme" size="1">
-              <!-- this is populated separately -->
-            </select>
-
-            <label for="key-binding">Key Binding</label>
-            <select id="key-binding" size="1">
-              <option value="ace/keyboard/ace">Ace</option>
-              <option value="ace/keyboard/vim">Vim</option>
-              <option value="ace/keyboard/emacs">Emacs</option>
-            </select>
-
-            <label for="show-numbers">Show line numbers</label>
-            <input type="checkbox" id="show-numbers" value="0">
-
+            <div class="input-group">
+              <label for="theme">Color scheme</label>
+              <select id="theme" size="1">
+                <!-- this is populated separately -->
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="key-binding">Key Binding</label>
+              <select id="key-binding" size="1">
+                <option value="ace/keyboard/ace">Ace</option>
+                <option value="ace/keyboard/vim">Vim</option>
+                <option value="ace/keyboard/emacs">Emacs</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="show-numbers">Show line numbers</label>
+              <input type="checkbox" id="show-numbers" value="0">
+            </div>
           </fieldset>
         </form>
       </aside>

@@ -7,14 +7,21 @@ import Server   from './backend/server';
 
 let mainWindow = null;
 let server = new Server();
+let splashScreenWindow = null;
 
 app.on("ready", () => {
   let receiver = new Receiver();
-  server.spawn();
+  // splash size = splash image size
+  splashScreen = new BrowserWindow({ width: 923, height: 606, frame: false });
+  splashScreen.loadUrl("file://" + __dirname + "/splash.html");
 
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({ width: 800, height: 600, show: false });
   mainWindow.loadUrl("file://" + __dirname + "/index.html");
-  mainWindow.openDevTools();
+
+  server.spawn().then(() => {
+    splashScreen.close();
+    mainWindow.show();
+  });
 
   mainWindow.on("closed", () => {
     mainWindow = null;
