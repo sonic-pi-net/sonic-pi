@@ -79,7 +79,11 @@ module SonicPi
 
     def start_mixer
       message "Starting mixer"
-      @mixer = @server.trigger_synth(:head, @mixer_group, "sonic-pi-mixer", {"in_bus" => @mixer_bus.to_i}, nil, true)
+      # TODO create a way of swapping these on the fly:
+      # set_mixer! :basic
+      # set_mixer! :default
+      mixer_synth = raspberry_pi_1? "sonic-pi-basic_mixer" : "sonic-pi-mixer"
+      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i}, nil, true)
     end
 
     def volume=(vol)
