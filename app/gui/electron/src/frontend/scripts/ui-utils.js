@@ -46,3 +46,15 @@ export function bindLineNumbersCheckbox(editor, settings, selector) {
     settings.save();
   });
 }
+
+export function bindUiThemeSelect(settings, selector) {
+  let uiThemeSelect = document.querySelector(selector);
+  uiThemeSelect.value = settings.ui.theme;
+  document.body.className = uiThemeSelect.value;
+
+  uiThemeSelect.addEventListener("change", function(event, target){
+    document.body.className = this.value;
+    settings.ui.theme = this.value;
+    settings.save();
+  });
+}

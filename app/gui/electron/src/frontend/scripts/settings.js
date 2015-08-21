@@ -14,6 +14,7 @@ class Settings {
           reject("Could not find the settings file");
         // TODO: use Object.assign
         that.editor = JSON.parse(data).editor;
+        that.ui = JSON.parse(data).ui;
         resolve(that);
       });
     });
@@ -21,7 +22,8 @@ class Settings {
 
   save() {
     return new Promise((resolve, reject) => {
-      let settings = { editor: this.editor }
+      let settings = { editor: this.editor, ui: this.ui };
+
       fs.writeFile(this.path, JSON.stringify(settings), function(err) {
         if(err)
           return console.log(err);

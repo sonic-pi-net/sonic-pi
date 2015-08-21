@@ -25,6 +25,8 @@ settings.load().then( (settings) => {
   utils.bindThemeSelect(editor, settings, "aside#settings-pane select#theme");
   utils.bindKeysSelect(editor, settings, "aside#settings-pane select#key-binding");
   utils.bindLineNumbersCheckbox(editor,settings, "aside#settings-pane input#show-numbers");
+
+  utils.bindUiThemeSelect(settings, "aside#settings-pane select#ui-theme");
 });
 
 // TODO: Discuss if need to replace with a proper class
