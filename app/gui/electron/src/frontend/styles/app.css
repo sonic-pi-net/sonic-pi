@@ -30,8 +30,11 @@ main {
 }
 .container {
   height: 100%;
-  width: calc(100% - 320px);
+  width: 100%;
   float: left;
+}
+.compressed {
+  width: calc(100% - 320px);
 }
 aside {
   display: inline-block;
@@ -82,7 +85,6 @@ a.active {
   border-bottom: 1px solid #333;
 }
 .theme-dark .container {
-  background-color: #444;
   border-top: 1px solid #666;
   border-bottom: 1px solid #333;
   border-right: 1px solid #333;
@@ -120,7 +122,6 @@ a.active {
   border-bottom: 1px solid #bbb;
 }
 .theme-light .container {
-  background-color: #ddd;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #bbb;
   border-right: 1px solid #bbb;

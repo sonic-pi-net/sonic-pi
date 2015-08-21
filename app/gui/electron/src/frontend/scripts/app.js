@@ -44,8 +44,9 @@ stopButton.addEventListener("click", (event, target) => {
 
 let settingsButton = document.getElementById("settings-button");
 settingsButton.addEventListener("click", (event, target) => {
-  this.classList.toggle("active");
   let settingsPane = document.getElementById("settings-pane");
+  let editorContainer= document.getElementById("editor");
   settingsPane.classList.toggle("hidden");
+  editorContainer.classList.toggle("compressed");
   event.preventDefault();
 })
