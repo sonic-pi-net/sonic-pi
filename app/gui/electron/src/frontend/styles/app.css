@@ -10,9 +10,12 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: #dcdcdc; /* light grey */
+  background-color: #ddd; /* light grey */
   font-family: sans-serif;
-  color: #eee;
+}
+
+.hidden {
+  display: none;
 }
 .flex-container {
   display: flex;
@@ -20,8 +23,6 @@ body {
 }
 nav {
   height: 48px;
-  background-color: #444;
-  border-bottom: 1px solid #333;
   display: flex;
 }
 main {
@@ -31,19 +32,11 @@ main {
   height: 100%;
   width: calc(100% - 320px);
   float: left;
-  background-color: #4A4A4A;
-  border-top: 1px solid #666;
-  border-bottom: 1px solid #333;
-  border-right: 1px solid #333;
 }
 aside {
-  height: 100%;
-  background-color: #4A4A4A;
-  width: 320px;
   display: inline-block;
-  border-top: 1px solid #666;
-  border-bottom: 1px solid #333;
-  border-left: 1px solid #666;
+  height: 100%;
+  width: 320px;
   padding: 12px;
 }
 aside h1 {
@@ -51,36 +44,19 @@ aside h1 {
 }
 footer {
   height: 32px;
-  background-color: #444;
-  border-top: 1px solid #666;
 }
-
-.hidden {
-  display: none;
-}
-
 a.active {
   border: 1px solid white;
 }
-
 .button {
-  box-shadow: inset 0px 1px 0px 0px #777;
-  background: linear-gradient(to bottom, #666 5%, #555 100%);
   border-radius: 3px;
-  border: 1px solid #333;
   display: inline-block;
   cursor: pointer;
-  color: #eee;
   font-family: Arial;
   font-size: 15px;
   margin: 0 10px;
   padding: 6px 8px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #777;
-}
-.button:hover {
-  background: linear-gradient(to bottom, #555 5%, #666 100%);
-  background-color: #555;
 }
 .button:active {
   position: relative;
@@ -93,4 +69,80 @@ a.active {
   font-size: 16px;
   line-height: 15px;
   margin-right: 8px;
+}
+
+
+/* Dark theme */
+
+.theme-dark {
+  color: #eee;
+}
+.theme-dark nav {
+  background-color: #444;
+  border-bottom: 1px solid #333;
+}
+.theme-dark .container {
+  background-color: #444;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+}
+.theme-dark aside {
+  background-color: #444;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #333;
+  border-left: 1px solid #666;
+}
+.theme-dark footer {
+  background-color: #444;
+  border-top: 1px solid #666;
+}
+.theme-dark .button {
+  color: #eee;
+  border: 1px solid #333;
+  box-shadow: inset 0px 1px 0px 0px #777;
+  background: linear-gradient(to bottom, #666 5%, #555 100%);
+  text-shadow: 0px 1px 0px #777;
+}
+.theme-dark .button:hover {
+  background: linear-gradient(to bottom, #555 5%, #666 100%);
+  background-color: #555;
+}
+
+
+/* Light theme */
+
+.theme-light body {
+  color: #222;
+}
+.theme-light nav {
+  background-color: #ddd;
+  border-bottom: 1px solid #bbb;
+}
+.theme-light .container {
+  background-color: #ddd;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+}
+.theme-light aside {
+  background-color: #ddd;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #bbb;
+  border-left: 1px solid #fff;
+}
+.theme-light footer {
+  background-color: #ddd;
+  border-top: 1px solid #fff;
+}
+.theme-light .button {
+  color: #333;
+  border: 1px solid #bbb;
+  box-shadow: inset 0px 1px 0px 0px #ddd;
+  background: linear-gradient(to bottom, #ddd 5%, #ccc 100%);
+  text-shadow: 0px 1px 0px #eee;
+}
+.theme-light .button:hover {
+  background: linear-gradient(to bottom, #ccc 5%, #ddd 100%);
+  background-color: #ccc;
 }
