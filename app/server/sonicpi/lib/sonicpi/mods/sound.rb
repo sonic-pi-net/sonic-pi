@@ -145,6 +145,7 @@ module SonicPi
 
             @events.add_handler("/exit", @events.gensym("/mods-sound-exit")) do |payload|
               @mod_sound_studio.exit
+              nil
             end
           end
         end

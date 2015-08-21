@@ -175,12 +175,14 @@ module SonicPi
       @state_change_sem.synchronize do
         @state = :paused
       end
+      nil
     end
 
     def handle_n_on(arg)
       @state_change_sem.synchronize do
         @state = :running
       end
+      nil
     end
 
     def handle_n_go(arg)
@@ -189,6 +191,7 @@ module SonicPi
         @state = :running
         call_on_started_callbacks if prev_state == :pending
       end
+      nil
     end
 
     def handle_n_end(arg)

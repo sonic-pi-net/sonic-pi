@@ -129,11 +129,13 @@ module SonicPi
         hs.each do |key, fn|
           begin
             res = fn.call payload
-            if(res == :remove_handler)
-              q_rm_handler handle, key
-            elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
-              res[1].each do |h_info|
-                q_rm_handler(h_info[0], h_info[1])
+            if res
+              if(res == :remove_handler)
+                q_rm_handler handle, key
+              elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
+                res[1].each do |h_info|
+                  q_rm_handler(h_info[0], h_info[1])
+                end
               end
             end
           rescue Exception => e
