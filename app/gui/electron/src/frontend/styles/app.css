@@ -11,7 +11,8 @@ body {
   padding: 0;
   height: 100%;
   background-color: #ddd; /* light grey */
-  font-family: sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 100;
 }
 
 .hidden {
@@ -146,4 +147,37 @@ a.active {
 .theme-light .button:hover {
   background: linear-gradient(to bottom, #ccc 5%, #ddd 100%);
   background-color: #ccc;
+}
+
+select {
+  border: 1px solid #bbb;
+  height: 2.25em;
+}
+
+legend {
+  font-weight: 100;
+  display: block;
+  padding: .3em 0;
+  width: 100%;
+}
+.theme-light legend {
+  border-bottom: 1px solid #333;
+}
+
+.theme-dark legend {
+  border-bottom: 1px solid #eee;
+}
+
+fieldset {
+  margin: 0;
+  padding: .35em 0 .75em;
+  border: 0;
+}
+
+label {
+  font-size: 0.9em;
+}
+
+.input-group {
+  line-height: 2em;
 }
