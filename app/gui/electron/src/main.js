@@ -9,6 +9,7 @@ let mainWindow = null;
 let server = new Server();
 let splashScreenWindow = null;
 
+
 app.on("ready", () => {
   let receiver = new Receiver();
   // splash size = splash image size

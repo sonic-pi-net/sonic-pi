@@ -2,13 +2,15 @@ import Sender from './backend/sender';
 import Settings from './frontend/scripts/settings';
 import Editor from './frontend/scripts/editor';
 import * as utils from './frontend/scripts/ui-utils';
+let uuid = require('node-uuid');
+const ID = uuid.v1();
 
 let runCurrentBuffer = () => {
-  new Sender().runCode(editor.value());
+  new Sender({ id: ID }).runCode(editor.value());
 }
 
 let stopCurrentBuffer = () => {
-  new Sender().stopAllJobs();
+  new Sender({ id: ID }).stopAllJobs();
 }
 
 let editor = null;

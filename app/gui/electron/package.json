@@ -11,6 +11,7 @@
     "electron-compile": "^0.7.1"
   },
   "devDependencies": {
-    "electron-prebuilt": "0.30.3"
+    "electron-prebuilt": "0.30.3",
+    "node-uuid": "^1.4.3"
   }
 }
