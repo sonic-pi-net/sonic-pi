@@ -85,3 +85,8 @@ app/server/vendor/rugged/vendor/libgit2/build
 ## Atomic
 
 app/server/vendor/atomic/ext/Makefile
+
+
+## Book
+
+book/

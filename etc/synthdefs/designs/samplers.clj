@@ -37,48 +37,23 @@
     res_slide_shape 5
     res_slide_curve 0
     rate 1
-    rate_slide 0
-    rate_slide_shape 5
-    rate_slide_curve 0
-    norm 0
-    pitch 0
-    pitch_slide 0
-    pitch_slide_shape 1
-    pitch_slide_curve 0
-    window_size 0.2
-    window_size_slide 0
-    window_size_slide_shape 1
-    window_size_slide_curve 0
-    pitch_dis 0.0
-    pitch_dis_slide 0
-    pitch_dis_slide_shape 1
-    pitch_dis_slide_curve 0
-    time_dis 0.0
-    time_dis_slide 0
-    time_dis_slide_shape 1
-    time_dis_slide_curve 0
     out_bus 0]
+
    (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-         rate        (varlag rate rate_slide rate_slide_curve rate_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
-         pitch       (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
-         window_size (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
-         pitch_dis   (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
-         time_dis    (varlag time_dis time_dis_slide time_dis_slide_curve time_dis_slide_shape)
-         pitch_ratio (midiratio pitch)
-         res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
+         res         (lin-lin:kr res 1 0 0 1)
+         rate        (* rate (buf-rate-scale buf))
          cutoff-freq (midicps cutoff)
          use-filter  (> cutoff 0)
-         rate        (* rate (buf-rate-scale buf))
-         snd         (play-buf 1 buf rate :action FREE)
-         snd         (select:ar (not= 0 pitch)
-                                [snd
-                                 (pitch-shift snd window_size pitch_ratio pitch_dis time_dis)])
-         snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
-         snd         (select norm [snd (normalizer snd)])]
-     (out out_bus (pan2 snd pan  amp))))
+         killer      (line:kr 0 1 (* (/ 1 (abs rate)) (buf-dur buf)) :action FREE)
+         start       (select:kr (< rate 0) [0
+                                            (- (buf-frames buf) 1)])
+         snd         (play-buf 1 buf rate 0 start)
+         snd         (select use-filter [snd (rlpf snd cutoff-freq res)])]
+
+     (out out_bus (pan2 snd pan amp))))
 
  (defsynth sonic-pi-basic_stereo_player
    [buf 0
@@ -99,55 +74,24 @@
     res_slide_shape 5
     res_slide_curve 0
     rate 1
-    rate_slide 0
-    rate_slide_shape 5
-    rate_slide_curve 0
-    norm 0
-    pitch 0
-    pitch_slide 0
-    pitch_slide_shape 1
-    pitch_slide_curve 0
-    window_size 0.2
-    window_size_slide 0
-    window_size_slide_shape 1
-    window_size_slide_curve 0
-    pitch_dis 0.0
-    pitch_dis_slide 0
-    pitch_dis_slide_shape 1
-    pitch_dis_slide_curve 0
-    time_dis 0.0
-    time_dis_slide 0
-    time_dis_slide_shape 1
-    time_dis_slide_curve 0
     out_bus 0]
 
    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-         rate          (varlag rate rate_slide rate_slide_curve rate_slide_shape)
-         rate          (* rate (buf-rate-scale buf))
          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
-         res           (lin-lin res 1 0 0 1)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
-         pitch         (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
-         window_size   (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
-         pitch_dis     (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
-         time_dis      (varlag time_dis time_dis_slide time_dis_slide_curve time_dis_slide_shape)
-         pitch_ratio   (midiratio pitch)
+         res           (lin-lin:kr res 1 0 0 1)
+         rate          (* rate (buf-rate-scale buf))
          cutoff-freq   (midicps cutoff)
          use-filter    (> cutoff 0)
-         [snd-l snd-r] (play-buf 2 buf rate :action FREE)
-         snd-l         (select:ar (not= 0 pitch)
-                                  [snd-l
-                                   (pitch-shift snd-l window_size pitch_ratio pitch_dis time_dis)])
-
-         snd-r         (select:ar (not= 0 pitch)
-                                  [snd-r
-                                   (pitch-shift snd-r window_size pitch_ratio pitch_dis time_dis)])
+         killer        (line:kr 0 1 (* (/ 1 (abs rate)) (buf-dur buf)) :action FREE)
+         start         (select:kr (< rate 0) [0
+                                              (- (buf-frames buf) 1)])
+         [snd-l snd-r] (play-buf 2 buf rate 0 start)
          snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
          snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
-         snd-l         (select norm [snd-l (normalizer snd-l)])
-         snd-r         (select norm [snd-r (normalizer snd-r)])
          snd           (balance2 snd-l snd-r pan amp)]
+
      (out out_bus snd)))
 
 
@@ -332,9 +276,6 @@
    (core/save-synthdef sonic-pi-stereo_player)
    (core/save-synthdef sonic-pi-basic_mono_player)
    (core/save-synthdef sonic-pi-basic_stereo_player)))
-
-
-
 
 
 

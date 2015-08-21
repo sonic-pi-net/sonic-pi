@@ -155,6 +155,7 @@ private slots:
     void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
     void requestVersion();
     void open_sonic_pi_net();
+    void heartbeatOSC();
 
 private:
 
@@ -285,6 +286,8 @@ private:
     QSplitter *docsplit;
 
     QLabel *versionLabel;
+
+    QString guiID;
 
 };
 

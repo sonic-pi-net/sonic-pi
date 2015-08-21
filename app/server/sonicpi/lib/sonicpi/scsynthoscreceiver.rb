@@ -23,12 +23,24 @@ module SonicPi
       @socket.bind( '', port )
       @osc_events = osc_events
       @decoder = OscDecode.new(true)
+    end
+
+    def run
       @udp_incoming = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_osc_detector)
         Thread.current.priority = -10
+
         loop do
-          detector
+          osc_data, _network_ = @socket.recvfrom(16384)
+          begin
+            address, args = @decoder.decode_single_message(osc_data)
+            handle_message(address, args)
+            log "incoming: #{address}, #{args.inspect}" if incoming_osc_debug_mode
+          rescue Exception => e
+            log_exception e, "in detector"
+          end
         end
+
       end
     end
 
@@ -38,7 +50,7 @@ module SonicPi
 
     def stop
       @socket.close
-      @udp_incoming.kill
+      @udp_incoming.kill if @udp_incoming
     end
 
     def handle_message(address, args)
@@ -59,20 +71,5 @@ module SonicPi
         @osc_events.async_event address, args
       end
     end
-
-    def detector
-      loop do
-        osc_data, _network_ = @socket.recvfrom(16384)
-        begin
-          address, args = @decoder.decode_single_message(osc_data)
-          handle_message(address, args)
-          log "incoming: #{address}, #{args.inspect}" if incoming_osc_debug_mode
-        rescue Exception => e
-          log_exception e, "in detector"
-        end
-      end
-    end
-
-
   end
 end

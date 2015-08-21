@@ -66,7 +66,7 @@ module SonicPi
             hostname, port, msg_queue, max_concurrent_synths = *splat
 
             @mod_sound_home_dir = File.expand_path('~/')
-            @complex_sampler_args = [:attack, :decay, :sustain, :release, :start, :finish, :env_curve, :attack_level, :sustain_level]
+            @simple_sampler_args = [:amp, :amp_slide, :amp_slide_shape, :amp_slide_curve, :pan, :pan_slide, :pan_slide_shape, :pan_slide_curve, :cutoff, :cutoff_slide, :cutoff_slide_shape, :cutoff_slide_curve, :res, :res_slide, :res_slide_shape, :res_slide_curve, :rate]
 
             @tuning = Tuning.new
 
@@ -3060,17 +3060,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         # break out early if any of the 'complex' keys exist in the
         # args map:
         return false if args_h.empty?
-        @complex_sampler_args.each do |a|
-          return true if args_h[a]
-        end
-
-        # Ensure rate isn't negative:
-        r = args_h[:rate]
-        if (r && r < 0)
-          return true
-        else
-          return false
-        end
+        return !(args_h.keys - @simple_sampler_args).empty?
       end
 
 

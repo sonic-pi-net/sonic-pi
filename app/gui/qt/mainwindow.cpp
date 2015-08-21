@@ -102,6 +102,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  guiID = QUuid::createUuid().toString();
   loaded_workspaces = false;
   this->splash = splash;
   protocol = UDP;
@@ -118,6 +119,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // best: kill SCSynth directly if needed
   qDebug() << "[GUI] - shutting down any pre-existing audio servers...";
   Message msg("/exit");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
   sleep(2);
 
@@ -165,6 +167,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QThreadPool::globalInstance()->setMaxThreadCount(3);
 
   server_thread = QtConcurrent::run(this, &MainWindow::startServer);
+
+  QTimer *timer = new QTimer(this);
+  connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
+  timer->start(1000);
 
   OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
 
@@ -580,6 +586,7 @@ void MainWindow::indentCurrentLineOrSelection(SonicPiScintilla* ws) {
   std::string code = ws->text().toStdString();
 
   Message msg("/complete-snippet-or-indent-selection");
+  msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);
   msg.pushStr(code);
@@ -670,6 +677,7 @@ void MainWindow::waitForServiceSync() {
     sleep(1);
     if(sonicPiServer->isIncomingPortOpen()) {
       Message msg("/ping");
+      msg.pushStr(guiID.toStdString());
       msg.pushStr("QtClient/1/hello");
       sendOSC(msg);
     }
@@ -1051,6 +1059,7 @@ void MainWindow::loadWorkspaces()
 
   for(int i = 0; i < workspace_max; i++) {
     Message msg("/load-buffer");
+    msg.pushStr(guiID.toStdString());
     std::string s = "workspace_" + number_name(i);
     msg.pushStr(s);
     sendOSC(msg);
@@ -1064,6 +1073,7 @@ void MainWindow::saveWorkspaces()
   for(int i = 0; i < workspace_max; i++) {
     std::string code = workspaces[i]->text().toStdString();
     Message msg("/save-buffer");
+    msg.pushStr(guiID.toStdString());
     std::string s = "workspace_" + number_name(i);
     msg.pushStr(s);
     msg.pushStr(code);
@@ -1157,6 +1167,7 @@ void MainWindow::runCode()
   statusBar()->showMessage(tr("Running Code..."), 1000);
   std::string code = ws->text().toStdString();
   Message msg("/save-and-run-buffer");
+  msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   if(!print_output->isChecked()) {
@@ -1203,6 +1214,7 @@ void MainWindow::beautifyCode()
   ws->getCursorPosition(&line, &index);
   int first_line = ws->firstVisibleLine();
   Message msg("/beautify-buffer");
+  msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
   msg.pushStr(code);
@@ -1216,12 +1228,14 @@ void MainWindow::reloadServerCode()
 {
   statusBar()->showMessage(tr("Reloading..."), 2000);
   Message msg("/reload");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
 void MainWindow::check_for_updates_now() {
   statusBar()->showMessage(tr("Checking for updates..."), 2000);
   Message msg("/check-for-updates-now");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1229,6 +1243,7 @@ void MainWindow::enableCheckUpdates()
 {
   statusBar()->showMessage(tr("Enabling update checking..."), 2000);
   Message msg("/enable-update-checking");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1236,6 +1251,7 @@ void MainWindow::disableCheckUpdates()
 {
   statusBar()->showMessage(tr("Disabling update checking..."), 2000);
   Message msg("/disable-update-checking");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1243,6 +1259,7 @@ void MainWindow::mixerHpfEnable(float freq)
 {
   statusBar()->showMessage(tr("Enabling Mixer HPF..."), 2000);
   Message msg("/mixer-hpf-enable");
+  msg.pushStr(guiID.toStdString());
   msg.pushFloat(freq);
   sendOSC(msg);
 }
@@ -1251,6 +1268,7 @@ void MainWindow::mixerHpfDisable()
 {
   statusBar()->showMessage(tr("Disabling Mixer HPF..."), 2000);
   Message msg("/mixer-hpf-disable");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1258,6 +1276,7 @@ void MainWindow::mixerLpfEnable(float freq)
 {
   statusBar()->showMessage(tr("Enabling Mixer LPF..."), 2000);
   Message msg("/mixer-lpf-enable");
+  msg.pushStr(guiID.toStdString());
   msg.pushFloat(freq);
   sendOSC(msg);
 }
@@ -1266,6 +1285,7 @@ void MainWindow::mixerLpfDisable()
 {
   statusBar()->showMessage(tr("Disabling Mixer LPF..."), 2000);
   Message msg("/mixer-lpf-disable");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1273,6 +1293,7 @@ void MainWindow::mixerInvertStereo()
 {
   statusBar()->showMessage(tr("Enabling Inverted Stereo..."), 2000);
   Message msg("/mixer-invert-stereo");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1280,6 +1301,7 @@ void MainWindow::mixerStandardStereo()
 {
   statusBar()->showMessage(tr("Enabling Standard Stereo..."), 2000);
   Message msg("/mixer-standard-stereo");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1287,6 +1309,7 @@ void MainWindow::mixerMonoMode()
 {
   statusBar()->showMessage(tr("Mono Mode..."), 2000);
   Message msg("/mixer-mono-mode");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1294,6 +1317,7 @@ void MainWindow::mixerStereoMode()
 {
   statusBar()->showMessage(tr("Stereo Mode..."), 2000);
   Message msg("/mixer-stereo-mode");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1674,6 +1698,7 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 void MainWindow::stopRunningSynths()
 {
   Message msg("/stop-all-jobs");
+  msg.pushStr(guiID.toStdString());
   sendOSC(msg);
 }
 
@@ -1924,6 +1949,7 @@ void MainWindow::toggleRecording() {
     recAct->setToolTip(tr("Stop Recording"));
     rec_flash_timer->start(500);
     Message msg("/start-recording");
+    msg.pushStr(guiID.toStdString());
     sendOSC(msg);
   } else {
     rec_flash_timer->stop();
@@ -1931,14 +1957,17 @@ void MainWindow::toggleRecording() {
     recAct->setToolTip(tr("Start Recording"));
     recAct->setIcon(QIcon(":/images/rec.png"));
     Message msg("/stop-recording");
+    msg.pushStr(guiID.toStdString());
     sendOSC(msg);
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), QDir::homePath() + "/Desktop/my-recording.wav");
     if (!fileName.isEmpty()) {
       Message msg("/save-recording");
+      msg.pushStr(guiID.toStdString());
       msg.pushStr(fileName.toStdString());
       sendOSC(msg);
     } else {
       Message msg("/delete-recording");
+      msg.pushStr(guiID.toStdString());
       sendOSC(msg);
     }
   }
@@ -2091,6 +2120,7 @@ void MainWindow::onExitCleanup()
     sleep(1);
     std::cout << "[GUI] - asking server process to exit..." << std::endl;
     Message msg("/exit");
+    msg.pushStr(guiID.toStdString());
     sendOSC(msg);
   }
   if(protocol == UDP){
@@ -2099,6 +2129,13 @@ void MainWindow::onExitCleanup()
   std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
 
 }
+
+void MainWindow::heartbeatOSC() {
+  Message msg("/gui-heartbeat");
+  msg.pushStr(guiID.toStdString());
+  sendOSC(msg);
+}
+
 
 void MainWindow::updateDocPane(QListWidgetItem *cur) {
   QString url = cur->data(32).toString();
@@ -2261,6 +2298,7 @@ void MainWindow::printAsciiArtLogo(){
 
 void MainWindow::requestVersion() {
     Message msg("/version");
+    msg.pushStr(guiID.toStdString());
     sendOSC(msg);
 }
 
