@@ -18,7 +18,8 @@ settings.load().then( (settings) => {
   editor = new Editor({
     selector: "editor",
     settings: settings.editor,
-    onSave: () => { runCurrentBuffer() }
+    onCmdR: () => { runCurrentBuffer() },
+    onCmdS: () => { stopCurrentBuffer() }
   });
 
   utils.populateThemeSelect(editor, "aside#settings-pane select#theme");

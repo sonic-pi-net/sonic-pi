@@ -6,7 +6,8 @@ class Editor {
       var selector = options.selector || "editor";
       this.editor = ace.edit(selector);
       if(options.settings) this.applySettings(options.settings)
-      if(options.onSave)   this.onSave(options.onSave);
+      if(options.onCmdR)   this.onCmdR(options.onCmdR);
+      if(options.onCmdS)   this.onCmdS(options.onCmdS);
       this.editor.focus();
       instance = this;
     }
@@ -17,7 +18,8 @@ class Editor {
     this.theme      = settings.theme;
     this.keyBinding = settings.keyBinding;
     this.showGutter = settings.showGutter;
-    this.editor.getSession().setMode("ace/mode/ruby");
+    var rubyMode = ace.require("ace/mode/ruby").Mode;
+    this.editor.getSession().setMode(new rubyMode());
     this.editor.getSession().setUseSoftTabs(true);
     this.editor.getSession().setTabSize(2);
   }
@@ -62,9 +64,23 @@ class Editor {
     return instance;
   }
 
-  onSave(fun) {
+  onCmdR(fun) {
     this.editor.commands.addCommand({
-      name: 'saveFile',
+      name: 'Run',
+      bindKey: {
+        win: 'Ctrl-R',
+        mac: 'Command-R',
+        sender: 'editor|cli'
+      },
+      exec: function(env, args, request) {
+        fun.call();
+      }
+    });
+  }
+
+  onCmdS(fun) {
+    this.editor.commands.addCommand({
+      name: 'Stop',
       bindKey: {
         win: 'Ctrl-S',
         mac: 'Command-S',
@@ -75,7 +91,6 @@ class Editor {
       }
     });
   }
-
   focus() {
     this.editor.focus();
   }
