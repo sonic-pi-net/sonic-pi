@@ -31,11 +31,23 @@ require_relative "../tuning"
 
 class Symbol
   def -(other)
+    return self if (self == :r) || (self == :rest)
     SonicPi::Note.resolve_midi_note_without_octave(self) - SonicPi::Note.resolve_midi_note_without_octave(other)
   end
 
   def +(other)
+    return self if (self == :r) || (self == :rest)
     SonicPi::Note.resolve_midi_note_without_octave(self) + SonicPi::Note.resolve_midi_note_without_octave(other)
+  end
+end
+
+class NilClass
+  def -(other)
+    return nil
+  end
+
+  def +(other)
+    return nil
   end
 end
 
