@@ -19,6 +19,7 @@ app.on("ready", () => {
   mainWindow.loadUrl("file://" + __dirname + "/index.html");
 
   server.spawn().then(() => {
+    receiver.initialize();
     splashScreen.close();
     mainWindow.show();
   });
