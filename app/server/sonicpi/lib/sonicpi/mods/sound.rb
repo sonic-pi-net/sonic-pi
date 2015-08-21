@@ -151,6 +151,22 @@ module SonicPi
       end
 
 
+      def notes(*args)
+        args = args.map {|a| note(a)}
+        SonicPi::Core::RingVector.new(args)
+      end
+      doc name:           :notes,
+          introduced:     Version.new(2,7,0),
+          summary:        "Create a ring buffer of notes",
+          args:           [[:list, :array]],
+          returns:        :ring,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Create a new immutable ring buffer of notes from args. Indexes wrap around positively and negatively. Final ring consists only of MIDI numbers and nil.",
+          examples:       [
+        "(notes :d3, :d4, :d5) #=> (ring 50, 62, 74)",
+        "(notes :d3, 62,  nil) #=> (ring 50, 62, nil)"
+       ]
 
 
       def rest?(n)
