@@ -1636,7 +1636,17 @@ cue :quux # cue is displayed in log
     doc name:           :use_bpm,
         introduced:     Version.new(2,0,0),
         summary:        "Set the tempo",
-        doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. Affects all subsequent calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. If you wish to bypass scaling in calls to sleep, see the fn `rt`. Also, if you wish to bypass time scaling in synth args see `use_arg_bpm_scaling`. See also `with_bpm` for a block scoped version of `use_bpm`.",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. Affects all subsequent calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. If you wish to bypass scaling in calls to sleep, see the fn `rt`. Also, if you wish to bypass time scaling in synth args see `use_arg_bpm_scaling`. See also `with_bpm` for a block scoped version of `use_bpm`.
+
+For dance music here's a rough guide for which BPM to aim for depending on your genre:
+
+* Dub: 60-90 bpm
+* Hip-hop: 60-100 bpm
+* Downtempo: 90-120 bpm
+* House: 115-130 bpm
+* Techno/trance: 120-140 bpm
+* Dubstep: 135-145 bpm
+* Drum and bass: 160-180 bpm",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  false,
@@ -1683,7 +1693,18 @@ end
     doc name:           :with_bpm,
         introduced:     Version.new(2,0,0),
         summary:        "Set the tempo for the code block",
-        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block. Affects all containing calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. See also `use_bpm`",
+        doc:            "Sets the tempo in bpm (beats per minute) for everything in the given block. Affects all containing calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. See also `use_bpm`
+
+For dance music here's a rough guide for which BPM to aim for depending on your genre:
+
+* Dub: 60-90 bpm
+* Hip-hop: 60-100 bpm
+* Downtempo: 90-120 bpm
+* House: 115-130 bpm
+* Techno/trance: 120-140 bpm
+* Dubstep: 135-145 bpm
+* Drum and bass: 160-180 bpm
+",
         args:           [[:bpm, :number]],
         opts:           nil,
         accepts_block:  true,
