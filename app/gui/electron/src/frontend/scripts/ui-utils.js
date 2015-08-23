@@ -47,6 +47,16 @@ export function bindLineNumbersCheckbox(editor, settings, selector) {
   });
 }
 
+export function bindHighlightCheckbox(editor, settings, selector) {
+  let highlightCheckbox = document.querySelector(selector);
+  highlightCheckbox.checked = settings.editor.highlightOnRun;
+  highlightCheckbox.addEventListener("change", function(event, target){
+    editor.highlightOnRun = this.checked;
+    settings.editor.highlightOnRun = this.checked;
+    settings.save();
+  });
+}
+
 export function bindUiThemeSelect(settings, selector) {
   let uiThemeSelect = document.querySelector(selector);
   uiThemeSelect.value = settings.ui.theme;

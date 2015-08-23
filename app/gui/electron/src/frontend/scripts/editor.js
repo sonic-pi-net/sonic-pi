@@ -2,6 +2,7 @@ var instance = null;
 
 class Editor {
   constructor(options = {}) {
+    // singleton for now. Can be extended to accomodate multiple editors.
     if(!instance) {
       var selector = options.selector || "editor";
       this.editor = ace.edit(selector);
@@ -15,9 +16,10 @@ class Editor {
   }
 
   applySettings(settings) {
-    this.theme      = settings.theme;
-    this.keyBinding = settings.keyBinding;
-    this.showGutter = settings.showGutter;
+    this.theme          = settings.theme;
+    this.keyBinding     = settings.keyBinding;
+    this.showGutter     = settings.showGutter;
+    this.highlightOnRun = settings.highlightOnRun;
     var rubyMode = ace.require("ace/mode/ruby").Mode;
     this.editor.getSession().setMode(new rubyMode());
     this.editor.getSession().setUseSoftTabs(true);
@@ -62,6 +64,14 @@ class Editor {
 
   static instance() {
     return instance;
+  }
+
+  highlight() {
+    if(this.highlightOnRun) {
+      this.editor.container.classList.remove("run-animation")
+      this.editor.container.offsetWidth = this.editor.container.offsetWidth;
+      this.editor.container.classList.add("run-animation")
+    }
   }
 
   onCmdR(fun) {

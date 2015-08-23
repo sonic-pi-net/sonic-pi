@@ -3,10 +3,12 @@ import Settings from './frontend/scripts/settings';
 import Editor from './frontend/scripts/editor';
 import * as utils from './frontend/scripts/ui-utils';
 let uuid = require('node-uuid');
+// For now, generate one id for the whole app.
 const ID = uuid.v1();
 
 let runCurrentBuffer = () => {
   new Sender({ id: ID }).runCode(editor.value());
+  editor.highlight();
 }
 
 let stopCurrentBuffer = () => {
@@ -28,6 +30,7 @@ settings.load().then( (settings) => {
   utils.bindThemeSelect(editor, settings, "aside#settings-pane select#theme");
   utils.bindKeysSelect(editor, settings, "aside#settings-pane select#key-binding");
   utils.bindLineNumbersCheckbox(editor,settings, "aside#settings-pane input#show-numbers");
+  utils.bindHighlightCheckbox(editor,settings, "aside#settings-pane input#highlight-on-run");
 
   utils.bindUiThemeSelect(settings, "aside#settings-pane select#ui-theme");
 });

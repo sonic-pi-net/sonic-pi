@@ -29,11 +29,22 @@ nav {
 main {
   height: calc(100% - 80px);
 }
+@keyframes highlight {
+  /*THE PINK*/
+  0%   { background: rgba(255, 20, 147, 0.0); }
+  15%  { background: rgba(255, 20, 147, 0.5); }
+  100% { background: rgba(255, 20, 147, 0.0); }
+}
 .container {
   height: 100%;
   width: 100%;
   float: left;
 }
+
+.run-animation {
+  animation: highlight 0.3s 1; 
+}
+
 .compressed {
   width: calc(100% - 320px);
 }
