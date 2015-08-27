@@ -174,7 +174,7 @@ end
 ## rand_i
 
 Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will
-return a whole number between 0 and the max value you specify.
+return a random whole number between 0 and the max value you specify.
 
 ## dice
 
