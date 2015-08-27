@@ -222,7 +222,7 @@ most powerful text editor in use by wizard programmers today.
 
 ### New
 
-1* Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
+* Support for programming [Minecraft Pi Edition](http://pi.minecraft.net).
 * `sync` now accepts multiple cue ids and will sync on the first matching id.
 * New fn `pitch_ratio` for converting a midi note to a frequency
   ratio. Useful for tuning samples.
