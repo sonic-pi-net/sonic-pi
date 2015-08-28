@@ -1,14 +1,16 @@
-5 Programming Structures
+5 Konstrukcje Programistyczne
 
-# Programming Structures
+# Konstrukcje Programistyczne
 
-Now that you've learned the basics of creating sounds with `play` and
-`sample` and creating simple melodies and rhythms by `sleep`ing between
-sounds, you might be wondering what else the world of code can offer
-you...
+Teraz, kiedy nauczyłeś się podstaw tworzenia dźwięków z wykorzystaniem 
+poleceń `play` i `sample` oraz utworzyłeś swoje pierwsze proste melodie 
+i rytmy korzystając z polecenia `sleep` do tworzenia odstępów między 
+poszczególnymi dźwiękami, zastanawiasz się zapewne co takiego może Ci 
+jeszcze zaoferować świat kodowania...
 
-Well, you're in for an exciting treat! It turns out that basic
-programming structures such as looping, conditionals, functions and
-threads give you amazingly powerful tools to express your musical ideas.
+Dobrze, jesteś przygotowany na ekscytującą ucztę. Okazuje się, że proste 
+konstrukcje programistyczne, takie jak pętle (looping), instrukcje warunkowe, 
+funkcje mogą stać się dla Ciebie niesamowicie potężnymi narzędziami do 
+wyrażenia twoich muzycznych pomysłów.
 
-Let's get stuck in with the basics...
+Zakasaj rękawy i zabieramy się do podstaw...
