@@ -856,6 +856,11 @@ void MainWindow::initPrefsWindow() {
   editor_display_box->setToolTip(tr("Configure editor display options."));
   QGroupBox *editor_look_feel_box = new QGroupBox(tr("Look and Feel"));
   editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
+  QGroupBox *automation_box = new QGroupBox(tr("Automation"));
+  automation_box->setToolTip(tr("Configure automation features."));
+  auto_indent_on_run = new QCheckBox(tr("Auto-align"));
+  auto_indent_on_run->setToolTip(tr("Automatically align code on Run"));
+
   show_line_numbers = new QCheckBox(tr("Show line numbers"));
   show_line_numbers->setToolTip(tr("Toggle line number visibility."));
   show_log = new QCheckBox(tr("Show log"));
@@ -880,6 +885,7 @@ void MainWindow::initPrefsWindow() {
 
   QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
   QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
+  QVBoxLayout *automation_box_layout = new QVBoxLayout;
   QGridLayout *gridEditorPrefs = new QGridLayout;
   editor_display_box_layout->addWidget(show_line_numbers);
   editor_display_box_layout->addWidget(show_log);
@@ -889,8 +895,14 @@ void MainWindow::initPrefsWindow() {
   editor_box_look_feel_layout->addWidget(full_screen);
   editor_display_box->setLayout(editor_display_box_layout);
   editor_look_feel_box->setLayout(editor_box_look_feel_layout);
+
+  automation_box_layout->addWidget(auto_indent_on_run);
+  automation_box->setLayout(automation_box_layout);
+
   gridEditorPrefs->addWidget(editor_display_box, 0, 0);
   gridEditorPrefs->addWidget(editor_look_feel_box, 0, 1);
+  gridEditorPrefs->addWidget(automation_box, 1, 1);
+
 
   editor_box->setLayout(gridEditorPrefs);
   grid->addWidget(prefTabs, 0, 0);
@@ -963,6 +975,8 @@ void MainWindow::initPrefsWindow() {
   rp_force_audio_hdmi->setChecked(settings.value("prefs/rp/force-audio-hdmi", false).toBool());
 
   check_updates->setChecked(settings.value("prefs/rp/check-updates", true).toBool());
+
+  auto_indent_on_run->setChecked(settings.value("prefs/auto-indent-on-run", true).toBool());
 
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
@@ -1156,6 +1170,9 @@ void MainWindow::resetErrorPane() {
 
 void MainWindow::runCode()
 {
+  if(auto_indent_on_run->isChecked()) {
+    beautifyCode();
+  }
   SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
   ws->highlightAll();
   lexer->highlightAll();
@@ -2035,6 +2052,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/rp/system-vol", rp_system_vol->value());
 
   settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
+  settings.setValue("prefs/auto-indent-on-run", auto_indent_on_run->isChecked());
 
   settings.setValue("workspace", tabs->currentIndex());
 
