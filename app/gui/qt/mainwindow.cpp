@@ -1400,20 +1400,16 @@ void MainWindow::helpContext()
   }
 }
 
+#if defined(Q_OS_LINUX)
 void MainWindow::changeRPSystemVol(int val)
+#else
+void MainWindow::changeRPSystemVol(int)
+#endif
 {
 #if defined(Q_OS_WIN)
-  //do nothing
-  val = val;
+  // do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Updating System Volume..."), 2000);
-  //do nothing, just print out what it would do on RPi
-  float v = (float) val;
-  float vol_float = pow(v/100.0, (float)1./3.) * 100.0;
-  std::ostringstream ss;
-  ss << vol_float;
-  QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
-  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
+  // do nothing
 #else
   //assuming Raspberry Pi
   QProcess *p = new QProcess();
@@ -1637,10 +1633,7 @@ void MainWindow::setRPSystemAudioHeadphones()
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To Headphone Audio Output..."), 2000);
-  //do nothing, just print out what it would do on RPi
-  QString prog = "amixer cset numid=3 1";
-  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
+  //do nothing
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To Headphone Audio Output..."), 2000);
@@ -1656,10 +1649,7 @@ void MainWindow::setRPSystemAudioHDMI()
 #if defined(Q_OS_WIN)
   //do nothing
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To HDMI Audio Output..."), 2000);
-  //do nothing, just print out what it would do on RPi
-  QString prog = "amixer cset numid=3 2";
-  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
+  //do nothing
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To HDMI Audio Output..."), 2000);
@@ -1673,12 +1663,8 @@ void MainWindow::setRPSystemAudioAuto()
 {
 #if defined(Q_OS_WIN)
   //do nothing
-
 #elif defined(Q_OS_MAC)
-  statusBar()->showMessage(tr("Switching To Default Audio Output..."), 2000);
-  //do nothing, just print out what it would do on RPi
-  QString prog = "amixer cset numid=3 0";
-  std::cout << "[GUI] - " << prog.toStdString() << std::endl;
+  //do nothing
 #else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To Default Audio Output..."), 2000);
