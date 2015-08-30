@@ -73,7 +73,7 @@ public:
 #else
     MainWindow(QApplication &ref, bool i18n, QSplashScreen* splash);
 #endif
-    void invokeStartupError(QString msg);
+
     SonicPiServer *sonicPiServer;
     enum {UDP=0, TCP=1};
     QCheckBox *dark_mode;
@@ -83,9 +83,12 @@ protected:
     void closeEvent(QCloseEvent *event);
     void wheelEvent(QWheelEvent *event);
 
-private slots:
 
-   bool eventFilter(QObject *obj, QEvent *evt);
+public slots:
+    void invokeStartupError(QString msg);
+
+private slots:
+    bool eventFilter(QObject *obj, QEvent *evt);
     void changeTab(int id);
     QString asciiArtLogo();
     void printAsciiArtLogo();
@@ -163,6 +166,7 @@ private slots:
 
 private:
 
+    void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;
     void startServer();
     void waitForServiceSync();

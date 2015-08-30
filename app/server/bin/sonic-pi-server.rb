@@ -81,7 +81,7 @@ rescue Exception => e
   begin
     gui.send_raw(m)
   rescue Errno::EPIPE => e
-    puts "GUI not listening, exit anyway."
+    STDERR.puts "GUI not listening, exit anyway."
   end
   exit
 end
@@ -92,7 +92,7 @@ at_exit do
   begin
     gui.send_raw(m)
   rescue Errno::EPIPE => e
-    puts "GUI not listening."
+    STDERR.puts "GUI not listening."
   end
 end
 
@@ -108,8 +108,9 @@ klass.send(:include, SonicPi::Mods::Minecraft)
 begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
 rescue Exception => e
-  puts "Failed to start server: " + e.message
-  m = encoder.encode_single_message("/exited-with-boot-error", [e.message])
+  STDERR.puts "Failed to start server: " + e.message
+  STDERR.puts e.backtrace.join("\n")
+  m = encoder.encode_single_message("/exited-with-boot-error", ["Server Exception:\n #{e.message}"])
   gui.send_raw(m)
   exit
 end
@@ -122,9 +123,9 @@ osc_server.add_method("/run-code") do |payload|
     code = args[1]
     sp.__spider_eval code
   rescue Exception => e
-    puts "Received Exception!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -139,9 +140,9 @@ osc_server.add_method("/save-and-run-buffer") do |payload|
     sp.__save_buffer(buffer_id, code)
     sp.__spider_eval code, {workspace: workspace}
   rescue Exception => e
-    puts "Caught exception when attempting to save and run buffer!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Caught exception when attempting to save and run buffer!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -154,9 +155,9 @@ osc_server.add_method("/save-buffer") do |payload|
     code = args[2]
     sp.__save_buffer(buffer_id, code)
   rescue Exception => e
-    puts "Caught exception when attempting to save buffer!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Caught exception when attempting to save buffer!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -167,9 +168,9 @@ osc_server.add_method("/exit") do |payload|
     gui_id = args[0]
     sp.__exit
   rescue Exception => e
-    puts "Received Exception when attempting to exit!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to exit!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -180,9 +181,9 @@ osc_server.add_method("/stop-all-jobs") do |payload|
     gui_id = args[0]
     sp.__stop_jobs
   rescue Exception => e
-    puts "Received Exception when attempting to stop all jobs!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to stop all jobs!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -193,9 +194,9 @@ osc_server.add_method("/load-buffer") do |payload|
     gui_id = args[0]
     sp.__load_buffer args[1]
   rescue Exception => e
-    puts "Received Exception when attempting to load buffer!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to load buffer!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -212,9 +213,9 @@ osc_server.add_method("/complete-snippet-or-indent-selection") do |payload|
     point_index = args[6]
     sp.__complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
   rescue Exception => e
-    puts "Received Exception when attempting to indent current line!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to indent current line!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -230,9 +231,9 @@ osc_server.add_method("/beautify-buffer") do |payload|
     first_line = args[5]
     sp.__beautify_buffer(id, buf, line, index, first_line)
   rescue Exception => e
-    puts "Received Exception when attempting to beautify buffer!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to beautify buffer!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -245,9 +246,9 @@ osc_server.add_method("/ping") do |payload|
     m = encoder.encode_single_message("/ack", [id])
     gui.send_raw(m)
   rescue Exception => e
-    puts "Received Exception when attempting to send ack!"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to send ack!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -257,9 +258,9 @@ osc_server.add_method("/start-recording") do |payload|
     gui_id = args[0]
     sp.recording_start
   rescue Exception => e
-    puts "Received Exception when attempting to start recording"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to start recording"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -269,9 +270,9 @@ osc_server.add_method("/stop-recording") do |payload|
     gui_id = args[0]
     sp.recording_stop
   rescue Exception => e
-    puts "Received Exception when attempting to stop recording"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to stop recording"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -281,9 +282,9 @@ osc_server.add_method("/delete-recording") do |payload|
     gui_id = args[0]
     sp.recording_delete
   rescue Exception => e
-    puts "Received Exception when attempting to delete recording"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to delete recording"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -294,9 +295,9 @@ osc_server.add_method("/save-recording") do |payload|
     filename = payload.to_a[1]
     sp.recording_save(filename)
   rescue Exception => e
-    puts "Received Exception when attempting to delete recording"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to delete recording"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -310,9 +311,9 @@ osc_server.add_method("/reload") do |payload|
     end
     puts "reloaded"
   rescue Exception => e
-    puts "Received Exception when attempting to reload files"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to reload files"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -322,9 +323,9 @@ osc_server.add_method("/mixer-invert-stereo") do |payload|
     gui_id = args[0]
     sp.set_mixer_invert_stereo!
   rescue Exception => e
-    puts "Received Exception when attempting to invert stereo"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to invert stereo"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -334,9 +335,9 @@ osc_server.add_method("/mixer-standard-stereo") do |payload|
     gui_id = args[0]
     sp.set_mixer_standard_stereo!
   rescue Exception => e
-    puts "Received Exception when attempting to set stereo to standard mode"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to set stereo to standard mode"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -346,9 +347,9 @@ osc_server.add_method("/mixer-stereo-mode") do |payload|
     gui_id = args[0]
     sp.set_mixer_stereo_mode!
   rescue Exception => e
-    puts "Received Exception when attempting to invert stereo"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to invert stereo"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -358,9 +359,9 @@ osc_server.add_method("/mixer-mono-mode") do |payload|
     gui_id = args[0]
     sp.set_mixer_mono_mode!
   rescue Exception => e
-    puts "Received Exception when attempting to switch to mono mode"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to switch to mono mode"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -371,9 +372,9 @@ osc_server.add_method("/mixer-hpf-enable") do |payload|
     freq = args[1].to_f
     sp.set_mixer_hpf!(freq)
   rescue Exception => e
-    puts "Received Exception when attempting to enable mixer hpf"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to enable mixer hpf"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -383,9 +384,9 @@ osc_server.add_method("/mixer-hpf-disable") do |payload|
     gui_id = args[0]
     sp.set_mixer_hpf_disable!
   rescue Exception => e
-    puts "Received Exception when attempting to disable mixer hpf"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to disable mixer hpf"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -396,9 +397,9 @@ osc_server.add_method("/mixer-lpf-enable") do |payload|
     freq = args[1].to_f
     sp.set_mixer_lpf!(freq)
   rescue Exception => e
-    puts "Received Exception when attempting to enable mixer lpf"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to enable mixer lpf"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -408,9 +409,9 @@ osc_server.add_method("/mixer-lpf-disable") do |payload|
     gui_id = args[0]
     sp.set_mixer_lpf_disable!
   rescue Exception => e
-    puts "Received Exception when attempting to disable mixer lpf"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to disable mixer lpf"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -421,9 +422,9 @@ osc_server.add_method("/enable-update-checking") do |payload|
     gui_id = args[0]
     sp.__enable_update_checker
   rescue Exception => e
-    puts "Received Exception when attempting to enable update checking"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to enable update checking"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -433,9 +434,9 @@ osc_server.add_method("/disable-update-checking") do |payload|
     gui_id = args[0]
     sp.__disable_update_checker
   rescue Exception => e
-    puts "Received Exception when attempting to disable update checking"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to disable update checking"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -445,9 +446,9 @@ osc_server.add_method("/check-for-updates-now") do |payload|
     gui_id = args[0]
     sp.__update_gui_version_info_now
   rescue Exception => e
-    puts "Received Exception when attempting to check for latest version now"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to check for latest version now"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -462,9 +463,9 @@ osc_server.add_method("/version") do |payload|
     m = encoder.encode_single_message("/version", [v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s])
     gui.send_raw(m)
   rescue Exception => e
-    puts "Received Exception when attempting to check for version "
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to check for version "
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -474,9 +475,9 @@ osc_server.add_method("/gui-heartbeat") do |payload|
     gui_id = args[0]
     sp.__gui_heartbeat gui_id
   rescue Exception => e
-    puts "Received Exception when attempting to handle gui heartbeat"
-    puts e.message
-    puts e.backtrace.inspect
+    STDERR.puts "Received Exception when attempting to handle gui heartbeat"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
   end
 end
 
@@ -499,7 +500,7 @@ out_t = Thread.new do
         begin
           gui.send_raw(m)
         rescue Errno::EPIPE => e
-          puts "GUI not listening, exit anyway."
+          STDERR.puts "GUI not listening, exit anyway."
         end
         continue = false
       else
@@ -555,14 +556,14 @@ out_t = Thread.new do
           m = encoder.encode_single_message("/version", [v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year])
           gui.send_raw(m)
         else
-          puts "ignoring #{message}"
+          STDERR.puts "ignoring #{message}"
         end
 
       end
     rescue Exception => e
-      puts "Exception!"
-      puts e.message
-      puts e.backtrace.inspect
+      STDERR.puts "Exception!"
+      STDERR.puts e.message
+      STDERR.puts e.backtrace.inspect
     end
   end
 end

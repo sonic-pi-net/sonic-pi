@@ -25,7 +25,7 @@ void SonicPiUDPServer::startServer(){
     return;
   }
 
-  std::cout << "[GUI] - UDP OSC Server listening" << std::endl;
+  std::cout << "[GUI] - UDP OSC Server ready and listening" << std::endl << std::flush;
 
   osc_incoming_port_open = true;
 
@@ -33,6 +33,7 @@ void SonicPiUDPServer::startServer(){
     if (sock.receiveNextPacket(30 /* timeout, in ms */)) {
       handler->oscMessage(sock.buffer);
       std::vector<char>().swap(sock.buffer);
+      std::cout << std::flush;
     }
   }
 }

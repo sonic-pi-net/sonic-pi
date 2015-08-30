@@ -104,6 +104,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 {
   app.installEventFilter(this);
 
+  setupLogPathAndRedirectStdOut();
+  std::cout << "\n\n\n";
+
   guiID = QUuid::createUuid().toString();
   loaded_workspaces = false;
   this->splash = splash;
@@ -119,7 +122,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
-  qDebug() << "[GUI] - shutting down any pre-existing audio servers...";
+  std::cout << "[GUI] - shutting down any old audio servers..." << std::endl;
   Message msg("/exit");
   msg.pushStr(guiID.toStdString());
   sendOSC(msg);
@@ -155,13 +158,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   QFile themeFile(themeFilename);
   SonicPiTheme *theme;
   if(themeFile.exists()){
-    qDebug() << "[GUI] - using custom editor colours";
+    std::cout << "[GUI] - using custom editor colours" << std::endl;
     QSettings settings(themeFilename, QSettings::IniFormat);
     theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
     lexer = new SonicPiLexer(theme);
   }
   else{
-    qDebug() << "[GUI] - using default editor colours";
+    std::cout << "[GUI] - using default editor colours" << std::endl;
     theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
     lexer = new SonicPiLexer(theme);
   }
@@ -650,34 +653,25 @@ void MainWindow::startServer(){
         args << "-t";
     }
 
-    QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
-    log_path =  sp_user_path + QDir::separator() + "log";
-    QDir().mkdir(sp_user_path);
-    QDir().mkdir(log_path);
 
-  #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    coutbuf = std::cout.rdbuf();
-    stdlog.open(QString(log_path + "/stdout.log").toStdString().c_str());
-    std::cout.rdbuf(stdlog.rdbuf());
-  #endif
 
     //    std::cout << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
-    std::cout << "[GUI] - booting live coding server" << std::endl;
 
-    QString sp_error_log_path = log_path + QDir::separator() + "errors.log";
-    QString sp_output_log_path = log_path + QDir::separator() + "output.log";
+    std::cout << "[GUI] - booting live coding server" << std::endl;
+    QString sp_error_log_path = log_path + QDir::separator() + "server-errors.log";
+    QString sp_output_log_path = log_path + QDir::separator() + "server-output.log";
     serverProcess->setStandardErrorFile(sp_error_log_path);
     serverProcess->setStandardOutputFile(sp_output_log_path);
     serverProcess->start(prg_path, args);
     if (!serverProcess->waitForStarted()) {
-      invokeStartupError(tr("ruby could not be started, is it installed and in your PATH?"));
+      invokeStartupError(tr("Ruby could not be started, is it installed and in your PATH?"));
       return;
     }
 }
 
 void MainWindow::waitForServiceSync() {
   int timeout = 30;
-  qDebug() << "[GUI] - waiting for server to connect...";
+  std::cout << "[GUI] - waiting for server to connect..." << std::endl;
   while (sonicPiServer->waitForServer() && timeout-- > 0) {
     sleep(1);
     if(sonicPiServer->isIncomingPortOpen()) {
@@ -687,15 +681,16 @@ void MainWindow::waitForServiceSync() {
       sendOSC(msg);
     }
   }
-
   if (!sonicPiServer->isServerStarted()) {
+
     if (!startup_error_reported) {
-      invokeStartupError(QString(tr("Failed to start server, please check %1.").arg(log_path)));
+      std::cout << "[GUI] - critical error!" << std::endl;
+      invokeStartupError("Critical server error!");
     }
     return;
   }
 
-    qDebug() << "[GUI] - server connection established";
+  std::cout << "[GUI] - server connection established" << std::endl;
 
 }
 
@@ -1001,21 +996,21 @@ void MainWindow::invokeStartupError(QString msg) {
 
 void MainWindow::startupError(QString msg) {
   splashClose();
-  startup_error_reported = true;
 
-  QString logtext = readFile(log_path + QDir::separator() + "output.log");
+  QString gui_log = readFile(log_path + QDir::separator() + "gui.log");
+  QString server_errors_log = readFile(log_path + QDir::separator() + "server-errors.log");
+  QString server_output_log = readFile(log_path + QDir::separator() + "server-output.log");
+
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
-				     tr("We're sorry, but Sonic Pi was unable to start..."), msg);
-  box->setDetailedText(logtext);
+				     tr("Server boot error..."), tr("Apologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
+  QString error_report = "Detailed Error Report:\n\nGUI log\n-------\n" + gui_log + "\n\n\nServer Errors\n-------------\n\n" + server_errors_log + "\n\n\nServer Output\n-------------\n\n" + server_output_log;
+  box->setDetailedText(error_report);
 
   QGridLayout* layout = (QGridLayout*)box->layout();
-  QSpacerItem* hSpacer = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
-  QSpacerItem* vSpacer = new QSpacerItem(0, 400, QSizePolicy::Minimum, QSizePolicy::Expanding);
+  QSpacerItem* hSpacer = new QSpacerItem(200, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
   layout->addItem(hSpacer, layout->rowCount(), 0, 1, layout->columnCount());
-  layout->addItem(vSpacer, layout->rowCount(), 0, 1, layout->columnCount());
   box->exec();
-
-  QTimer::singleShot(0, this, SLOT(close()));
+  close();
 }
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line) {
@@ -1089,10 +1084,7 @@ void MainWindow::saveWorkspaces()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
   writeSettings();
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
   std::cout.rdbuf(coutbuf); // reset to stdout before exiting
-#endif
-
   event->accept();
 }
 
@@ -2115,6 +2107,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
+  setupLogPathAndRedirectStdOut();
   if(serverProcess->state() == QProcess::NotRunning) {
     std::cout << "[GUI] - warning, server process is not running." << std::endl;
     sonicPiServer->stopServer();
@@ -2134,7 +2127,7 @@ void MainWindow::onExitCleanup()
     osc_thread.waitForFinished();
   }
   std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
-
+  std::cout.rdbuf(coutbuf); // reset to stdout before exiting
 }
 
 void MainWindow::heartbeatOSC() {
@@ -2288,7 +2281,6 @@ QString MainWindow::asciiArtLogo(){
 }
 
 void MainWindow::printAsciiArtLogo(){
-
   QString s = asciiArtLogo();
   std::cout << std::endl << std::endl << std::endl;
 #if QT_VERSION >= 0x050400
@@ -2299,8 +2291,6 @@ void MainWindow::printAsciiArtLogo(){
   qDebug() << s;
   std::cout << std::endl;
 #endif
-
-
 }
 
 void MainWindow::requestVersion() {
@@ -2339,6 +2329,18 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
   else {
     setUpdateInfoText(QString(preamble + "\n\n" + print_version + "\n\n" + last_update_check).arg(version));
   }
+}
+
+
+void MainWindow::setupLogPathAndRedirectStdOut() {
+  QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
+  log_path =  sp_user_path + QDir::separator() + "log";
+  QDir().mkdir(sp_user_path);
+  QDir().mkdir(log_path);
+
+  coutbuf = std::cout.rdbuf();
+  stdlog.open(QString(log_path + "/gui.log").toStdString().c_str());
+  std::cout.rdbuf(stdlog.rdbuf());
 }
 
 
