@@ -77,7 +77,7 @@ begin
     osc_server = OSC::Server.new(server_port)
   end
 rescue Exception => e
-  m = encoder.encode_single_message("/exited", ["Failed to open server port " + server_port.to_s + ", is scsynth already running?"])
+  m = encoder.encode_single_message("/exited-with-boot-error", ["Failed to open server port " + server_port.to_s + ", is scsynth already running?"])
   begin
     gui.send_raw(m)
   rescue Errno::EPIPE => e
@@ -109,7 +109,7 @@ begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
 rescue Exception => e
   puts "Failed to start server: " + e.message
-  m = encoder.encode_single_message("/exited_with_boot_error", [e.message])
+  m = encoder.encode_single_message("/exited-with-boot-error", [e.message])
   gui.send_raw(m)
   exit
 end

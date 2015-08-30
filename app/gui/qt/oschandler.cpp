@@ -155,14 +155,14 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           std::cout << "[GUI] - error: unhandled OSC msg /exited: "<< std::endl;
         }
       }
-      else if (msg->match("/exited_with_boot_error")) {
+      else if (msg->match("/exited-with-boot-error")) {
         std::string error_message;
         if (msg->arg().popStr(error_message).isOkNoMoreArgs()) {
           std::cout << "[GUI] - server failed to start with this error message: " << std::endl;
           std::cout << "      > " << error_message << std::endl;
           signal_server_stop = true;
         } else {
-          std::cout << "[GUI] - error: unhandled OSC msg /exited_with_error: "<< std::endl;
+          std::cout << "[GUI] - error: unhandled OSC msg /exited-with-boot-error: "<< std::endl;
         }
       }
       else if (msg->match("/ack")) {
