@@ -272,6 +272,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QShortcut *cutToBuffer = new QShortcut(ctrlKey(']'), workspace);
     connect(cutToBuffer, SIGNAL(activated()), workspace, SLOT(cut()));
 
+    QShortcut *pasteToBufferWin = new QShortcut(ctrlKey('v'), workspace);
+    connect(pasteToBufferWin, SIGNAL(activated()), workspace, SLOT(paste()));
+
     //comment line
     QShortcut *toggleLineComment= new QShortcut(metaKey('/'), workspace);
     connect(toggleLineComment, SIGNAL(activated()), workspace, SLOT(toggleComment()));
