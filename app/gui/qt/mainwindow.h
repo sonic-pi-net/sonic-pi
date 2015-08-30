@@ -156,6 +156,8 @@ private slots:
     void requestVersion();
     void open_sonic_pi_net();
     void heartbeatOSC();
+    void zoomCurrentWorkspaceIn();
+    void zoomCurrentWorkspaceOut();
 
 private:
 

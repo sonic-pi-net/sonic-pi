@@ -1204,6 +1204,20 @@ void MainWindow::unhighlightCode()
   lexer->unhighlightAll();
 }
 
+void MainWindow::zoomCurrentWorkspaceIn()
+{
+  statusBar()->showMessage(tr("Zooming In..."), 2000);
+  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+  ws->zoomFontIn();
+}
+
+void MainWindow::zoomCurrentWorkspaceOut()
+{
+  statusBar()->showMessage(tr("Zooming Out..."), 2000);
+  SonicPiScintilla* ws = ((SonicPiScintilla*)tabs->currentWidget());
+  ws->zoomFontOut();
+}
+
 void MainWindow::beautifyCode()
 {
   statusBar()->showMessage(tr("Beautifying..."), 2000);
@@ -1844,10 +1858,12 @@ void MainWindow::createToolBar()
   // Font Size Increase
   QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
 			    tr("Increase Text Size"), this);
+  setupAction(textIncAct, 0, tr("Increase Text Size"), SLOT(zoomCurrentWorkspaceIn()));
 
   // Font Size Decrease
   QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
 			    tr("Decrease Text Size"), this);
+  setupAction(textDecAct, 0, tr("Decrease Text Size"), SLOT(zoomCurrentWorkspaceOut()));
 
   QWidget *spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
