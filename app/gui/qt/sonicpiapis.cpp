@@ -31,7 +31,7 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
 
   keywords[PlayParam] << "amp:" << "attack:" << "release:" << "sustain:" << "decay:" << "env_curv:" << "sustain_level:" << "pan:" << "attack_level:";
 
-  keywords[SampleParam] << "amp:" << "pan:" << "attack:" << "decay:" << "sustain:" << "release:" << "attack_level:" << "sustain_level:" << "env_curve:" << "rate:" << "beat_stretch:" << "start:" << "finish:" << "res:" << "cutoff:" << "norm:" << "rpitch" << "pitch:" << "pitch_stretch:" << "window_size:" << "pitch_dis:" << "time_dis:";
+  keywords[SampleParam] << "amp:" << "pan:" << "attack:" << "decay:" << "sustain:" << "release:" << "attack_level:" << "sustain_level:" << "env_curve:" << "rate:" << "beat_stretch:" << "start:" << "finish:" << "res:" << "cutoff:" << "norm:" << "rpitch:" << "pitch:" << "pitch_stretch:" << "window_size:" << "pitch_dis:" << "time_dis:";
 }
 
 
