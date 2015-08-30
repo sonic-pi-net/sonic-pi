@@ -102,6 +102,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  app.installEventFilter(this);
+
   guiID = QUuid::createUuid().toString();
   loaded_workspaces = false;
   this->splash = splash;
@@ -2339,4 +2341,14 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
   }
 }
 
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
+{
+    if(obj==qApp && ( evt->type() == QEvent::ApplicationActivate ))
+    {
+      statusBar()->showMessage(tr("Welcome back. Now get your live code on..."), 2000);
+      update();
+    }
+    return QMainWindow::eventFilter(obj, evt);
+}
 #include "ruby_help.h"

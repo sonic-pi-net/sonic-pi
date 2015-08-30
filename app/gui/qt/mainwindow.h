@@ -84,6 +84,8 @@ protected:
     void wheelEvent(QWheelEvent *event);
 
 private slots:
+
+   bool eventFilter(QObject *obj, QEvent *evt);
     void changeTab(int id);
     QString asciiArtLogo();
     void printAsciiArtLogo();
