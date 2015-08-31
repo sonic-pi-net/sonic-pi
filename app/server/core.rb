@@ -44,11 +44,14 @@ end
 
 require 'osc-ruby'
 require 'hamster/vector'
+require 'wavefile'
 
 module SonicPi
   module Core
     module SPRand
-      @@random_numbers = (0...441000).reduce([]){|res, _| res << rand}.freeze
+      # Read in same random numbers as server for random stream sync
+      @@random_numbers = ::WaveFile::Reader.new(File.expand_path("../../../etc/buffers/rand-stream.wav", __FILE__), ::WaveFile::Format.new(:mono, :float, 44100)).read(441000).samples.freeze
+
       def self.to_a
         @@random_numbers
       end
@@ -77,7 +80,9 @@ module SonicPi
       def self.rand(max, idx=nil)
         idx = inc_idx unless idx
         # we know that the fixed rand stream has length 44100
-        idx = idx % 44100
+        # also, scsynth server seems to swallow first rand
+        # so always add 1 to index
+        idx = (idx + 1) % 44100
         @@random_numbers[idx] * max
       end
 
