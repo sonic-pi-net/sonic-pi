@@ -36,14 +36,13 @@
 
 (defcgen buffered-coin-gate
   "Deterministic coingate using random buffer"
-  [buf {:doc "pre-allocated buffer containing random values between -1 and 1"}
+  [buf {:doc "pre-allocated buffer containing random values between 0 and 1"}
    seed {:default 0, :doc "Offset into pre-allocated buffer. Acts as the seed"}
    prob {:default 1, :doc "Determines the possibility that the trigger is passed through as a value between 0 and 1"}
    trig {:doc "Incoming trigger signal"} ]
   ""
-  (:kr (let [prob (lin-lin prob 0 1 -1 1)
-             phase (+ seed (pulse-count trig))
+  (:kr (let [phase (+ seed (pulse-count trig))
              v     (buf-rd:kr 1 buf phase 1)
-             res          (< v prob)
+             res   (< v prob)
              ]
          res)))

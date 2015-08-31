@@ -171,6 +171,10 @@ module SonicPi
       File.absolute_path("#{etc_path}/samples")
     end
 
+    def buffers_path
+      File.absolute_path("#{etc_path}/buffers")
+    end
+
     def app_path
       File.absolute_path("#{root_path}/app")
     end

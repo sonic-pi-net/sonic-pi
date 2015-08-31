@@ -32,7 +32,7 @@ module SonicPi
       @samples = {}
       @recorders = {}
       @recording_mutex = Mutex.new
-      @rand_buf_id = load_sample(samples_path + "/misc_rand_noise.wav")[0].to_i
+      @rand_buf_id = load_sample(buffers_path + "/rand-stream.wav")[0].to_i
       reset
     end
 
