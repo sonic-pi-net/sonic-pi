@@ -1389,9 +1389,12 @@ end"]
 
 
     def rand(max=1)
-      max = 0..1 if max == 0
-      limit = max.is_a?(Range) ? Range.new(*[max.min, max.max].map(&:to_f)) : max.to_f
-      SonicPi::Core::SPRand.rand(limit)
+      return 0.0 if max == 0
+      if max.is_a?(Range)
+        rrand(max.min, max.max)
+      else
+        SonicPi::Core::SPRand.rand(max)
+      end
     end
     doc name:           :rand,
         introduced:     Version.new(2,0,0),
@@ -1400,7 +1403,7 @@ end"]
         opts:           nil,
         accepts_block:  false,
         intro_fn:       true,
-        doc:            "Given a max number, produces a float between `0` and the supplied max value. If max is a range, produces a float within the range. With no args or max as `0`, returns a random value between `0` and `1`.",
+        doc:            "Given a max number, produces a float between `0` and the supplied max value. If max is a range, produces a float within the range. With no args returns a random value between `0` and `1`.",
         examples:       ["
 print rand(0.5) #=> will print a number like 0.397730007820797 to the output pane"]
 
@@ -1408,9 +1411,12 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
 
 
     def rand_i(max=2)
-      max = 0..1 if max == 0
-      limit = max.is_a?(Range) ? Range.new(*[max.min, max.max].map(&:to_i)) : max.to_i
-      SonicPi::Core::SPRand.rand_i(limit)
+      return 0 if max == 0
+      if max.is_a?(Range)
+        rrand_i(max.min, max.max)
+      else
+        SonicPi::Core::SPRand.rand_i(max)
+      end
     end
     doc name:           :rand_i,
         introduced:     Version.new(2,0,0),
@@ -1418,7 +1424,7 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
         args:           [[:max, :number_or_range]],
         opts:           nil,
         accepts_block:  false,
-        doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args or max as `0` returns either `0` or `1`",
+        doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args returns either `0` or `1`",
         examples:       ["
 print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
 

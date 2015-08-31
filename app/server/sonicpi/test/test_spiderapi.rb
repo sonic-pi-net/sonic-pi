@@ -37,7 +37,7 @@ module SonicPi
 
     def test_rand_i_handles_0
       number = rand_i(0)
-      assert(number == 0 || 1 == number)
+      assert(number == 0)
     end
 
     def test_rand_only_returns_floats
