@@ -745,6 +745,7 @@ end"]
         else
           res = 0
         end
+        use_random_seed args_h[:seed] if args_h[:seed]
         loop do
           t1 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
           Thread.current.thread_variable_set(:sonic_pi_spider_synced, false)
@@ -766,7 +767,9 @@ end"]
         args:           [[:name, :symbol]],
         opts:           {:init     => "initial value for optional block arg",
                          :auto_cue => "enable or disable automatic cue (default is true)",
-                         :delay    => "Initial delay in beats before the live_loop starts. Default is 0."},
+                         :delay    => "Initial delay in beats before the live_loop starts. Default is 0.",
+                         :seed     => "override initial random generator seed before starting loop."
+    },
         accepts_block:  true,
         requires_block: true,
         async_block:    true,
