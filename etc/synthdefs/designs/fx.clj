@@ -334,7 +334,7 @@
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed (- 1 probability)
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed probability
                                                       (impulse:kr rate))
 
 
@@ -449,7 +449,7 @@
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed (- 1 probability)
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed probability
                                                       (impulse:kr rate))
 
          ctl-wave-mul        (- (* 2 (> invert_wave 0)) 1)
@@ -557,7 +557,7 @@
                                               (lf-tri:kr rate (+ double_phase_offset 1))
                                               (sin-osc:kr rate (* (+ phase_offset 0.25) (* Math/PI 2)))])
 
-         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed (- 1 probability)
+         ctl-wave-prob       (core/buffered-coin-gate rand_buf seed probability
                                                       (impulse:kr rate))
 
 
