@@ -1509,7 +1509,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         fx_execute_t = in_thread do
           Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fxt.thread_variable_get(:sonic_pi_spider_delayed_blocks))
           Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fxt.thread_variable_get(:sonic_pi_spider_delayed_messages))
-          Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fxt.thread_variable_get(:sonic_pi_spider_random_generator))
+          Thread.current.thread_variable_set(:sonic_pi_spider_random_gen_idx, fxt.thread_variable_get(:sonic_pi_spider_random_gen_idx))
           Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, fxt.thread_variable_get(:sonic_pi_core_thread_local_counters))
 
           new_trackers = [tracker]
@@ -1550,7 +1550,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         Thread.current.thread_variable_set(:sonic_pi_spider_time, fx_execute_t.thread_variable_get(:sonic_pi_spider_time))
         Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, fx_execute_t.thread_variable_get(:sonic_pi_core_thread_local_counters))
 
-        Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_generator))
+        Thread.current.thread_variable_set(:sonic_pi_spider_random_gen_idx, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_gen_idx))
 
         ## Ensure the synced detection mechanism comes back out of
         ## with_fx blocks so syncs can be within with_fx blocks within

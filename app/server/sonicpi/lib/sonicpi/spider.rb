@@ -70,7 +70,6 @@ module SonicPi
       @named_subthreads = {}
       @job_subthread_mutex = Mutex.new
       @user_jobs = Jobs.new
-      @random_generator = Random.new(0)
       @sync_real_sleep_time = 0.05
       @user_methods = user_methods
       @run_start_time = 0
@@ -659,6 +658,7 @@ module SonicPi
         begin
 
           num_running_jobs = reg_job(id, Thread.current)
+          Thread.current.thread_variable_set :sonic_pi_spider_thread, true
           Thread.current.thread_variable_set :sonic_pi_thread_group, "job-#{id}"
           Thread.current.thread_variable_set :sonic_pi_spider_arg_bpm_scaling, true
           Thread.current.thread_variable_set :sonic_pi_spider_sleep_mul, 1.0
@@ -670,8 +670,8 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
-          Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(0)
-          Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, Random.new(0)
+          Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, 0
+          Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_gen_idx, 0
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})
           @life_hooks.init(id, {:thread => Thread.current})
           now = Time.now

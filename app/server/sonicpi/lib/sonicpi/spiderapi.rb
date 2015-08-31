@@ -1335,8 +1335,7 @@ end"]
       end
 
       range = (min - max).abs
-      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      r = rgen.rand(range.to_f)
+      r = SonicPi::Core::SPRand.rand(range)
       smallest = [min, max].min
 
       if res
@@ -1367,8 +1366,7 @@ end"]
     def rrand_i(min, max)
       return min if min == max
       range = (min - max).abs
-      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      r = rgen.rand(range.to_i + 1)
+      r = SonicPi::Core::SPRand.rand_i(range.to_i + 1)
       smallest = [min, max].min
       (r + smallest)
     end
@@ -1392,9 +1390,8 @@ end"]
 
     def rand(max=1)
       max = 0..1 if max == 0
-      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
       limit = max.is_a?(Range) ? Range.new(*[max.min, max.max].map(&:to_f)) : max.to_f
-      rgen.rand(limit)
+      SonicPi::Core::SPRand.rand(limit)
     end
     doc name:           :rand,
         introduced:     Version.new(2,0,0),
@@ -1412,9 +1409,8 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
 
     def rand_i(max=2)
       max = 0..1 if max == 0
-      rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
       limit = max.is_a?(Range) ? Range.new(*[max.min, max.max].map(&:to_i)) : max.to_i
-      rgen.rand(limit)
+      SonicPi::Core::SPRand.rand_i(limit)
     end
     doc name:           :rand_i,
         introduced:     Version.new(2,0,0),
@@ -1451,9 +1447,7 @@ shuffle \"foobar\"  #=> Would return something like: \"roobfa\""    ]
 
     def use_random_seed(seed, &block)
       raise "use_random_seed does not work with a block. Perhaps you meant with_random_seed" if block
-      Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
-      thread_seed = Random.new(seed).rand(THREAD_RAND_SEED_MAX)
-      Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, Random.new(thread_seed)
+      SonicPi::Core::SPRand.set_seed! seed
     end
     doc name:          :use_random_seed,
         introduced:    Version.new(2,0,0),
@@ -1503,14 +1497,10 @@ end
 
     def with_random_seed(seed, &block)
       raise "with_random_seed requires a block. Perhaps you meant use_random_seed" unless block
-      current_rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-      current_thread_rgen = Thread.current.thread_variable_get :sonic_pi_spider_new_thread_random_generator
-      Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(seed)
-      thread_seed = Random.new(seed).rand(THREAD_RAND_SEED_MAX)
-      Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, Random.new(thread_seed)
+      current_seed = SonicPi::Core::SPRand.get_seed
+      SonicPi::Core::SPRand.set_seed! seed
       block.call
-      Thread.current.thread_variable_set :sonic_pi_spider_random_generator, current_rgen
-      Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_generator, current_thread_rgen
+      SonicPi::Core::SPRand.set_seed! current_seed
     end
     doc name:           :with_random_seed,
         introduced:     Version.new(2,0,0),
@@ -2265,9 +2255,13 @@ end"]
       job_id = __current_job_id
       reg_with_parent_completed = Promise.new
 
-      rgen = Thread.current.thread_variable_get :sonic_pi_spider_new_thread_random_generator
-      new_rand_seed = args_h[:seed] || rgen.rand(999999999999999999999999999999999999999)
-
+      if args_h[:seed]
+        new_rand_seed = args_h[:seed]
+      else
+        new_thread_gen_idx = Thread.current.thread_variable_get :sonic_pi_spider_new_thread_random_gen_idx
+        new_rand_seed = SonicPi::Core::SPRand.rand(441000, new_thread_gen_idx)
+        Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_gen_idx, new_thread_gen_idx + 1
+      end
       # Create the new thread
       t = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :job_subthread)
@@ -2316,7 +2310,9 @@ end"]
         # then essentially turns into waiting for each no_kill mutext for
         # every sub-in_thread before killing them.
         Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
-        Thread.current.thread_variable_set :sonic_pi_spider_random_generator, Random.new(new_rand_seed)
+
+        SonicPi::Core::SPRand.set_seed!(new_rand_seed)
+
 
         # Wait for parent to deliver promise. Throws an exception if
         # parent dies before the promise is delivered, thus stopping

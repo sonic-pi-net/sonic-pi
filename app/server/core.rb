@@ -47,6 +47,46 @@ require 'hamster/vector'
 
 module SonicPi
   module Core
+    module SPRand
+      @@random_numbers = (0...441000).reduce([]){|res, _| res << rand}.freeze
+      def self.to_a
+        @@random_numbers
+      end
+
+      def self.inc_idx(init=0)
+        ridx = Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || init
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx + 1
+        ridx
+      end
+
+      def self.dec_idx(init=0)
+        ridx = Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || init
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx - 1
+        ridx
+      end
+
+      def self.set_seed!(seed)
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, seed
+      end
+
+
+      def self.get_seed
+        Thread.current.thread_variable_get :sonic_pi_spider_random_gen_idx
+      end
+
+      def self.rand(max, idx=nil)
+        idx = inc_idx unless idx
+        # we know that the fixed rand stream has length 44100
+        idx = idx % 44100
+        @@random_numbers[idx] * max
+      end
+
+      def self.rand_i(max, idx=nil)
+        rand(max, idx).to_i
+      end
+
+    end
+
     module TLMixin
       def tick(*args)
         idx = SonicPi::Core::ThreadLocalCounter.tick(*args)
@@ -169,8 +209,7 @@ module SonicPi
       end
 
       def choose
-        rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-        self[rgen.rand(self.size)]
+        self[SonicPi::Core::SPRand.rand_i(self.size)]
       end
 
       def ring
@@ -656,15 +695,14 @@ class Array
   end
 
   def choose
-    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-    self[rgen.rand(self.size)]
+    self[SonicPi::Core::SPRand.rand_i(self.size)]
   end
 
   alias_method :__orig_sample__, :sample
   def sample(*args, &blk)
-    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-    if rgen
-      self[rgen.rand(self.size)]
+
+    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+      self[SonicPi::Core::SPRand.rand(self.size)]
     else
       __orig_sample__ *args, &blk
     end
@@ -672,9 +710,15 @@ class Array
 
   alias_method :__orig_shuffle__, :shuffle
   def shuffle(*args, &blk)
-    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-    if rgen
-      __orig_shuffle__(random: rgen)
+    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+      new_a = self.dup
+      s = new_a.size
+      s.times do
+        idx_a = SonicPi::Core::SPRand.rand(s)
+        idx_b = SonicPi::Core::SPRand.rand(s)
+        new_a[idx_a], new_a[idx_b] = new_a[idx_b], new_a[idx_a]
+      end
+      return new_a
     else
       __orig_shuffle__ *args, &blk
     end
@@ -682,9 +726,9 @@ class Array
 
   alias_method :__orig_shuffle_bang__, :shuffle!
   def shuffle!(*args, &blk)
-    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-    if rgen
-      __orig_shuffle_bang__(random: rgen)
+    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+      new_a = self.shuffle
+      self.replace(new_a)
     else
       __orig_shuffle_bang__ *args, &blk
     end
