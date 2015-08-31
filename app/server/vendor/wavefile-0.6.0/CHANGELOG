@@ -1,0 +1,103 @@
+0.6.0
+===============================================================================
+* Support for reading and writing Wave files containing 24-bit PCM sample data,
+  and the ability to convert buffers containing 24-bit PCM sample data to/from
+  other formats. (Thanks to Rich Orton (https://github.com/richorton) for
+  suggesting this).
+* Reading files with 2 or more channels is now faster.
+* Converting buffers from one format to another is now faster in certain cases.
+* Bug fix: Files containing certain chunks with an odd size are now read properly.
+  According to the Wave file spec, all chunks should be aligned to an even
+  number of bytes. If the chunk has an odd size, a padding byte should be
+  appended to bring the chunk to an even size. The Reader class now properly
+  takes this expected padding byte into account for all chunks when reading
+  files. (Previously it just took this into account for the main 'data' chunk).
+  (Thanks to [Andrew Kuklewicz](https://github.com/kookster) for reporting
+  this).
+
+
+0.5.0
+===============================================================================
+* Added support for reading and writing Wave files containing 32 and 64-bit
+  floating point sample data.
+* Added support for buffers that contain floating point data (i.e., samples
+  between -1.0 and 1.0), including the ability to convert to and from
+  PCM buffers.
+* Added a new Duration object which can be used to calculate the playback
+  time given a sample rate and number of sample frames.
+* New attributes: Reader.current_sample_frame, Reader.total_sample_frames,
+  and Writer.total_sample_frames.
+* Ability to get these attributes as a Duration object as well:
+  Reader.total_duration, Writer.total_duration.
+* The 2nd argument to Format.new now indicates the sample format, not the
+  bits per sample. For example, :pcm_16 or :float_32 instead of 8 or 16.
+  For backwards compatibility, 8, 16, and 32 can still be given and will be
+  interpreted as :pcm_8, :pcm_16, and :pcm_32, but this support might be
+  removed in the future.
+* Bug fix: Wave files are no longer corrupted when an unhandled exception
+  occurs inside a Writer block. (Thanks to James Tunnell
+  (https://github.com/jamestunnell) for reporting and fixing this).
+* Bug fix: Writer.file_name now returns the file name, instead of always
+  returning nil (Thanks to James Tunnell (https://github.com/jamestunnell)
+  for reporting this).
+* Info.duration now returns a Duration object, instead of a hash.
+* Info.sample_count has been renamed sample_frame_count.
+
+
+0.4.0
+===============================================================================
+* A brand new API, based on streaming. (The old API has been removed).
+  Improvements due to the new API include:
+** Reduced memory consumption, due to not having to load the entire file
+   into memory. In practice, this allows the gem to read/write files that
+   previously would have been prohibitively large.
+** Better performance for large files, for the same reason as above.
+** Ability to progressively append data to the end of a file, instead of
+   writing the entire file at once.
+** Ability to easily read and write data in an arbitrary format, regardless of
+   the file's native format. For example, you can transparently read data out
+   of a 16-bit stereo file as 8-bit mono.
+** Automatic file management, similar to how IO.open() works.
+* Ability to query format metadata of files without opening them, even for
+  formats that this gem can't read or write.
+* Support for reading and writing 32-bit PCM files.
+* No longer supported: Reading PCM data as floating point and writing floating
+  point as PCM.
+
+
+0.3.0
+===============================================================================
+* New method bits_per_sample=(). Allows converting a file from 8-bit to 16-bit
+  and vice-versa.
+* New method num_channels=(). Allows converting a mono file to stereo, and
+  vice-versa.
+* New method sample_rate=(). Allows changing the sample rate of a file.
+* New method duration(). Returns a hash listing the playback time of the file.
+* New method inspect(). Returns a pretty-printed string listing metadata
+  about the file.
+* More descriptive error messages are displayed when a file with an invalid
+  format can't be opened.
+* Files that have more than just a format and data chunk can now be opened.
+
+
+0.2.1
+===============================================================================
+* Fixed bug which prevented stereo files from being opened, due to refactoring
+  gone bad.
+
+
+0.2.0
+===============================================================================
+* Added support for properly reading and writing stereo files. Files with more
+  than 2 channels (such as surround sound) are supported as well.
+* Added convenience methods mono?() and stereo?().
+* Can now pass :mono and :stereo into the num_channels argument of the
+  constructor, to allow for more readable code.
+* Added method reverse().
+* Conversion of raw samples to normalized samples, and vice versa, is more
+  accurate.
+
+
+0.1.0
+===============================================================================
+* Initial version.

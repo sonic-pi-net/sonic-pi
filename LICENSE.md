@@ -104,3 +104,4 @@ relevant licenses:
 * [Websocket](https://github.com/imanel/websocket-ruby) - [MIT License](http://opensource.org/licenses/MIT)
 * [NArray](https://github.com/masa16/narray) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
 * [Ruby CoreAudio](https://github.com/nagachika/ruby-coreaudio) - [MIT License](http://opensource.org/licenses/MIT)
+* [WaveFile](https://github.com/jstrait/wavefile/) - [MIT License](http://opensource.org/licenses/MIT)
