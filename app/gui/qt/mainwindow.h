@@ -279,9 +279,7 @@ private:
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
     std::streambuf *coutbuf;
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     std::ofstream stdlog;
-#endif
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
