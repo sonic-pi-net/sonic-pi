@@ -14,18 +14,69 @@
 
 ### Breaking Changes
 
+* `sync` now causes the BPM to be inherited from the thread calling the
+  matching `cue`. This may be disabled with the new `bpm_sync:` opt.
+* Complete rewrite of random number system. This means if you've been
+  combining calls to `use_random_seed` with randomisation to create
+  predictable melodies/rhythms/timbral manipulations you will
+  unfortunately get different results in `v2.7`. This change is to
+  synchronise both the Ruby rand stream with the one in SuperCollider as
+  well as enabling the reversal of calls to rand (undo rand!)
+* `rrand` and `rand` now only return 0 if called with 0.
+
 ### New Fns
+
+* `ratio_to_pitch` which provides the inverse of `pitch_to_ratio`
+* `midi_notes` - returns a ring of numbers (mapping the source
+  ring/array through the fn `note`).
 
 ### GUI
 
 ### Synths & FX
 
+* All synths learned the `decay_level` opt to allow the sustain phase to
+  shift between two distinct values. The default value for `decay_level`
+  is to mirror `sustain_level:` thus preserving current behaviour.
+* `play` and `synth` have now learned the `pitch:` opt to match
+  `sample`. This just increments or decrements the final note.
+* `sample` now correctly validates opts.
+* `sample` learned the `pitch_stretch:` opt which combines `rate:`
+  modification (similar to `beat_stretch:` with `pitch:`. Attempts to
+  maintain the pitch whilst simultaneously changing the rate. The
+  underlying implementation is very basic and can easily destroy the
+  sound.
+* `sample` learned the `rpitch:` opt for simple rate pitch
+  modulation. This modifies the rate to match the specified number of
+  MIDI notes relative from the current pitch. For example, a `rpitch:`
+  of 12 would double the rate.
+  * FX `:echo`'s `decay_level:` opt is now scaled with the BPM.
+
 ### Examples
 
 ### Improvements
 
-### Bug Fixes
-
+* Auto-align code on Run.
+* `live_loop` learned the `seed:` opt which will set the new thread with
+  the specified seed prior to initial run.
+* Add check to ensure BPM is a positive value.
+* `density` has now been taught to handle values between 0 and 1 which
+  will now stretch time for the specified block.
+* Errors now no longer print out crazy print version of context object
+  i.e. #<SonicPiSpiderUser1:0x007fc82e1f79a0>
+* Both `in_thread` and `live_loop` have now learned the `delay:` opt
+  which will delay the initial execution by the specified number of
+  beats.
+* Buffer and thread name are now printed on error.  
+* `sample_duration` now understands all the opts that you can pass to `sample`  
+* It is now possible to do basic arethmetic on symbols representing
+  rests: `:r + 3` returns `:r` (a rest plus any MIDI note shift is still
+  a rest).
+  
+  ### Bug Fixes
+  
+* Fixed crash when synth args were specified as Rationals.  
+* `note_info` now correctly handles octaves.
+* Fix windows paste shortcut `C-v`.
 
 
 <a name="v2.6"></a>
