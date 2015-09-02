@@ -15,13 +15,13 @@ value between two numbers - a *min* and a *max*. (`rrand` is short for
 ranged random). Let's try playing a random note:
 
 ```
-play rrand(50, 100)
+play rrand(50, 95)
 ```
 
-Ooh, it played a random note. It played note `77.4407`. A nice random
-note between 50 and 100. Woah, wait, did I just predict the exact random
+Ooh, it played a random note. It played note `83.7527`. A nice random
+note between 50 and 95. Woah, wait, did I just predict the exact random
 note you got too? Something fishy is going on here. Try running the code
-again. What? It chose `77.4407` again? That can't be random!
+again. What? It chose `83.7527` again? That can't be random!
 
 The answer is that it is not truly random, it's pseudo-random. Sonic Pi
 will give you random-like numbers in a repeatable manner. This is very
@@ -29,13 +29,13 @@ useful for ensuring that the music you create on your machine sounds
 identical on everybody else's machine - even if you use some randomness
 in your composition.
 
-Of course, in a given piece of music, if it 'randomly' chose `77.4407`
+Of course, in a given piece of music, if it 'randomly' chose `83.7527`
 every time, then it wouldn't be very interesting. However, it
 doesn't. Try the following:
 
 ```
 loop do
-  play rrand(50, 100)
+  play rrand(50, 95)
   sleep 0.5
 end 
 ```
@@ -141,9 +141,9 @@ two. The number will always be a float - meaning it's not a whole number
 but a fraction of a number. Examples of floats returned by
 `rrand(20, 110)`:
 
-* 20.343235
-* 42.324324
-* 100.93423
+* 87.5054931640625
+* 86.05255126953125
+* 61.77825927734375
 
 ## rrand_i
 
@@ -153,9 +153,9 @@ except it may return the min and max values as potential random values
 (which means it's inclusive rather than exclusive of the
 range). Examples of numbers returned by `rrand_i(20, 110)` are:
 
-* 20
-* 46
-* 99
+* 88
+* 86
+* 62
 
 ## rand
 

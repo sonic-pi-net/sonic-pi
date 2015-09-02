@@ -18,13 +18,13 @@ random*, also eine Zufallszahl innerhalb eines bestimmten
 Wertebereichs).
 
 ```
-play rrand(50, 100)
+play rrand(50, 95)
 ```
 
-Oh, eine zufällige Note wird gespielt. Es war die Note `77.4407`. Eine 
+Oh, eine zufällige Note wird gespielt. Es war die Note `83.7527`. Eine 
 nette Note zwischen 50 und 100. Aber hallo, habe ich gerade diese 
 angeblich zufällige Note exakt vorhergesagt? Da ist doch etwas nicht 
-ganz astrein. Lasse den Code noch einmal ablaufen. Wieder `77.4407`, 
+ganz astrein. Lasse den Code noch einmal ablaufen. Wieder `83.7527`, 
 oder? Das kann doch kein Zufall sein!
 
 Die Antwort ist, es ist nicht wirklich zufällig, sondern 
@@ -33,13 +33,13 @@ die wiederholbar sind. Das ist sehr nützlich, denn so ist
 sichergestellt, dass die Musik von Deinem Rechner auf anderen Rechnern
 identisch klingt - sogar dann, wenn Du einen Zufallsfaktor einbaust.
 
-Klar, wenn in einem bestimmten Musikstück jedesmal die `77.4407` als 
+Klar, wenn in einem bestimmten Musikstück jedesmal die `83.7527` als 
 'zufällige' Zahl gewählt würde, dann wäre das nicht besonders 
 interessant. Aber so ist es auch nicht. Versuch folgendes:
 
 ```
 loop do
-  play rrand(50, 100)
+  play rrand(50, 95)
   sleep 0.5
 end 
 ```
@@ -151,9 +151,9 @@ sein, also keine ganze Zahl, sondern eine mit einem Komma[^14]. Einige
 Beispiele für Gleitkommazahlen, die der wiederholte Aufruf von 
 `rrand(20, 110)` ausgeben könnte:
 
-* 20.343235
-* 42.324324
-* 100.93423
+* 87.5054931640625
+* 86.05255126953125
+* 61.77825927734375
 
 ## rrand_i
 
@@ -165,9 +165,9 @@ auch sagen: es ist *inklusiv*, also nicht exklusive der Werte, mit
 denen man den Bereich für die Auswahl festgelegt hat). `rrand_i(20, 
 110)` könnte zum Beispiel die folgenden Werte ausgeben:
 
-* 20
-* 46
-* 99
+* 88
+* 86
+* 62
 
 ## rand
 
