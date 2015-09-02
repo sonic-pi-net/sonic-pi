@@ -138,6 +138,7 @@
                                 sustain 0
                                 release 2
                                 attack_level 1
+                                decay_level 1
                                 sustain_level 1
                                 env_curve 2
                                 cutoff 100
@@ -153,7 +154,7 @@
            cutoff-freq (midicps cutoff)
            snd         (sound-in input)
            snd         (lpf snd cutoff-freq)
-           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp)))))
 
 

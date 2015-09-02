@@ -57,6 +57,7 @@
      release  {:default 1.0 :doc "Duration multiplier. Length of longest partial will
                             be dur seconds"}
      attack-level {:default 1}
+     decay-level {:default 1}
      sustain-level {:default 1}
      partials {:default [0.5 1 2 4] :doc "sequence of frequencies which are
                                         multiples of freq"}]
@@ -94,6 +95,7 @@
                                  sustain 0
                                  release 1.0
                                  attack_level 1
+                                 decay_level 1
                                  sustain_level 1
                                  env_curve 2
                                  out_bus 0]
@@ -101,7 +103,7 @@
            amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            freq (midicps note)
-           snd  (* amp (bell-partials freq attack decay sustain release attack_level sustain_level dull-partials))]
+           snd  (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level dull-partials))]
        (detect-silence snd :action FREE)
        (out out_bus (pan2 snd pan))))
 
@@ -122,6 +124,7 @@
                                    sustain 0
                                    release 1.3
                                    attack_level 1
+                                   decay_level 1
                                    sustain_level 1
                                    env_curve 2
                                    out_bus 0]
@@ -129,7 +132,7 @@
            amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            freq (midicps note)
-           snd  (* amp (bell-partials freq attack decay sustain release attack_level sustain_level partials))]
+           snd  (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level partials))]
        (detect-silence snd :action FREE)
        (out out_bus (pan2 snd pan)))))
 

@@ -112,6 +112,7 @@
     sustain -1
     release 0.0
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     env_curve 1
@@ -166,7 +167,7 @@
                         rate)
          phase       (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
          sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
          snd         (buf-rd 1 buf phase)
          snd         (select:ar (not= 0 pitch)
                                 [snd
@@ -202,6 +203,7 @@
     sustain -1
     release 0.0
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     rate 1
@@ -247,7 +249,7 @@
                           rate)
          phase         (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
          sustain       (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
-         env           (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env           (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
          [snd-l snd-r] (buf-rd 2 buf phase)
          snd-l         (select:ar (not= 0 pitch)
@@ -306,6 +308,7 @@
     sustain -1
     release 0.0
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     rate 1
@@ -362,7 +365,7 @@
 
          phase         (* (lin-lin val 0 1 n-start n-finish) n-frames)
          sustain       (select:kr (= -1 sustain) [sustain (- (/ length rate) attack release decay)])
-         env           (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env           (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
          [snd-l snd-r] (buf-rd 2 buf phase)
 
@@ -412,6 +415,7 @@
     sustain -1
     release 0.0
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     rate 1
@@ -468,7 +472,7 @@
 
          phase       (* (lin-lin val 0 1 n-start n-finish) n-frames)
          sustain     (select:kr (= -1 sustain) [sustain (- (/ length rate) attack release decay)])
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
          snd         (buf-rd 2 buf phase)
 

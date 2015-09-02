@@ -118,6 +118,7 @@
      sustain 0.8
      release 1.5
      attack_level 1
+     decay_level 1
      sustain_level 1
      env_curve 2
      cutoff 107 ;; ~ 4000 Hz
@@ -165,7 +166,7 @@
           ;; a high-pass filter on the way out
           saw3        (hpf saw2 30)
           snd         (* amp-fudge saw3)
-          env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+          env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
           ]
       (out out_bus (pan2 (* amp-fudge snd env) pan amp)))))
 

@@ -31,6 +31,7 @@
     decay 0
     release 2
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     cutoff 120
@@ -50,7 +51,7 @@
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (brown-noise) cutoff-freq res)
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
          snd         (* amp-fudge snd env)]
 
      (out out_bus (pan2 snd pan amp))))
@@ -70,6 +71,7 @@
     decay 0
     release 2
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     cutoff 120
@@ -89,7 +91,7 @@
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (pink-noise) cutoff-freq res)
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
          snd         (* amp_fudge snd env)]
 
      (out out_bus (pan2 snd pan amp))))
@@ -109,6 +111,7 @@
     decay 0
     release 2
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     cutoff 120
@@ -128,7 +131,7 @@
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (gray-noise) cutoff-freq res)
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
          snd         (* amp_fudge snd env)]
 
      (out out_bus (pan2 snd pan amp))))
@@ -148,6 +151,7 @@
     decay 0
     release 2
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     cutoff 120
@@ -167,7 +171,7 @@
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (white-noise) cutoff-freq res)
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
          snd         (* amp-fudge snd env)]
 
      (out out_bus (pan2 snd pan amp))))
@@ -187,6 +191,7 @@
     decay 0
     release 2
     attack_level 1
+    decay_level 1
     sustain_level 1
     env_curve 2
     cutoff 120
@@ -206,7 +211,7 @@
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
          snd         (rlpf (clip-noise) cutoff-freq res)
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
          snd         (* amp-fudge snd env)]
 
      (out out_bus (pan2 snd pan amp))))

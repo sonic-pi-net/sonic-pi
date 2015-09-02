@@ -37,6 +37,7 @@
       sustain 0
       release 4
       attack_level 1
+      decay_level 1
       sustain_level 1
       env_curve 2
 
@@ -81,7 +82,7 @@
            freq3         (midicps (+ note detune2))
            cutoff-freq   (midicps cutoff)
            room          (max 0.1 (min 300 (abs room))) ;; stops synth killing scsynth
-           env           (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           env           (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
            pn            (* 0.005 (pink-noise))
            bn            (* 0.002 (brown-noise))
@@ -121,6 +122,7 @@
       sustain 0
       release 0.1
       attack_level 1
+      decay_level 1
       sustain_level 1
       env_curve 2
 
@@ -146,7 +148,7 @@
            res         (varlag res res_slide res_slide_curve res_slide_shape)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
-           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
            pn          (* 1 (pink-noise))
            bn          (* 0.4 (brown-noise))
@@ -184,6 +186,7 @@
       sustain 0
       release 1
       attack_level 1
+      decay_level 1
       sustain_level 1
       env_curve 2
 
@@ -206,7 +209,7 @@
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
            amp-fudge   3
-           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
            snd         (lpf (mix [(saw (* 0.25 freq)) (sin-osc (* 1.01 freq))]))
            snd         (pitch-shift snd 0.5 1 0 0.001)
            snd         (rlpf snd cutoff-freq res)

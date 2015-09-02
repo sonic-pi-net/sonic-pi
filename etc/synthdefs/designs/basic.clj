@@ -34,6 +34,7 @@
                           sustain 0
                           release 0.2
                           attack_level 1
+                          decay_level 1
                           sustain_level 1
                           env_curve 2
                           out_bus 0]
@@ -43,7 +44,7 @@
          pan       (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          freq      (midicps note)
          snd       (sin-osc freq)
-         env       (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env       (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
  (defsynth sonic-pi-pulse [note 52
@@ -63,6 +64,7 @@
                            sustain 0
                            release 2
                            attack_level 1
+                           decay_level 1
                            sustain_level 1
                            env_curve 2
                            cutoff 100
@@ -85,7 +87,7 @@
          snd         (pulse freq pulse_width)
          snd         (lpf snd cutoff-freq)
          snd         (normalizer snd)
-         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
  (defsynth sonic-pi-subpulse [note 52
@@ -105,6 +107,7 @@
                               sustain 0
                               release 2
                               attack_level 1
+                              decay_level 1
                               sustain_level 1
                               env_curve 2
                               cutoff 100
@@ -138,7 +141,7 @@
                         (* sub_amp (sin-osc beep-freq)))
          snd         (lpf snd cutoff-freq)
          snd         (normalizer snd)
-         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
 
@@ -160,6 +163,7 @@
                             sustain 0
                             release 2
                             attack_level 1
+                            decay_level 1
                             sustain_level 1
                             env_curve 2
                             cutoff 100
@@ -177,7 +181,7 @@
          snd         (pulse freq 0.5)
          snd         (lpf snd cutoff-freq)
          snd         (normalizer snd)
-         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
 
@@ -198,6 +202,7 @@
                          sustain 0
                          release 0.3
                          attack_level 1
+                         decay_level 1
                          sustain_level 1
                          env_curve 2
                          cutoff 100
@@ -213,7 +218,7 @@
          freq        (midicps note)
          cutoff-freq (midicps cutoff)
          snd         (normalizer (lpf (saw freq) cutoff-freq))
-         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
 
@@ -234,6 +239,7 @@
                          sustain 0
                          release 0.3
                          attack_level 1
+                         decay_level 1
                          sustain_level 1
                          env_curve 2
                          cutoff 100
@@ -249,7 +255,7 @@
          freq        (midicps note)
          cutoff-freq (midicps cutoff)
          snd         (normalizer (lpf (lf-tri freq) cutoff-freq))
-         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge snd env) pan amp))))
 
  (defsynth sonic-pi-dsaw [note 52
@@ -269,6 +275,7 @@
                           sustain 0
                           release 0.3
                           attack_level 1
+                          decay_level 1
                           sustain_level 1
                           env_curve 2
                           cutoff 100
@@ -290,7 +297,7 @@
          cutoff-freq (midicps cutoff)
          detune-freq (midicps (+ note detune))
          snd         (normalizer (lpf (mix (saw [freq detune-freq])) cutoff-freq))
-         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge snd env) pan amp))))
 
 
@@ -311,6 +318,7 @@
                         sustain 0
                         release 1
                         attack_level 1
+                        decay_level 1
                         sustain_level 1
                         env_curve 2
                         cutoff 100
@@ -337,7 +345,7 @@
          carrier     (midicps note)
          modulator   (/ carrier divisor)
          cutoff-freq (midicps cutoff)
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
          snd         (sin-osc (+ carrier
                                  (* env (* carrier depth) (sin-osc modulator))))
          snd         (lpf snd cutoff-freq)
@@ -363,6 +371,7 @@
                             sustain 0
                             release 1
                             attack_level 1
+                            decay_level 1
                             sustain_level 1
                             env_curve 2
                             cutoff 100
@@ -421,7 +430,7 @@
          depth                   (varlag depth depth_slide depth_slide_curve depth_slide_shape)
          carrier                 freq
          modulator               (/ carrier divisor)
-         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
          snd                     (sin-osc (+ carrier
                                              (* env (* carrier depth) (sin-osc modulator))))
          snd                     (lpf snd cutoff-freq)
@@ -448,6 +457,7 @@
                              sustain 0
                              release 2
                              attack_level 1
+                             decay_level 1
                              sustain_level 1
                              env_curve 2
                              cutoff 100
@@ -500,7 +510,7 @@
          snd                     (saw freq)
          snd                     (lpf snd cutoff-freq)
          snd                     (normalizer snd)
-         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
 
@@ -522,6 +532,7 @@
                               sustain 0
                               release 2
                               attack_level 1
+                              decay_level 1
                               sustain_level 1
                               env_curve 2
                               cutoff 100
@@ -579,7 +590,7 @@
          snd                     (mix (saw [freq detune-freq]))
          snd                     (lpf snd cutoff-freq)
          snd                     (normalizer snd)
-         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
 
@@ -600,6 +611,7 @@
                               sustain 0
                               release 2
                               attack_level 1
+                              decay_level 1
                               sustain_level 1
                               env_curve 2
                               cutoff 100
@@ -651,7 +663,7 @@
          snd                     (sin-osc freq)
          snd                     (lpf snd cutoff-freq)
          snd                     (normalizer snd)
-         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
 
@@ -672,6 +684,7 @@
                              sustain 0
                              release 2
                              attack_level 1
+                             decay_level 1
                              sustain_level 1
                              env_curve 2
                              cutoff 100
@@ -724,7 +737,7 @@
          snd                     (lf-tri freq)
          snd                     (lpf snd cutoff-freq)
          snd                     (normalizer snd)
-         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp))))
 
  (defsynth sonic-pi-mod_pulse [note 52
@@ -744,6 +757,7 @@
                                sustain 0
                                release 2
                                attack_level 1
+                               decay_level 1
                                sustain_level 1
                                env_curve 2
                                cutoff 100
@@ -799,7 +813,7 @@
          snd                     (pulse freq pulse_width)
          snd                     (lpf snd cutoff-freq)
          snd                     (normalizer snd)
-         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)]
+         env                     (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
      (out out_bus (pan2 (* amp-fudge env snd) pan amp)))))
 
 
