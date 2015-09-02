@@ -221,7 +221,7 @@ module SonicPi
       log_boot_msg
       log "Booting on Windows"
       boot_and_wait do
-        @scsynthpid = Process.spawn(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "l", "1")
+        @scsynthpid = Process.spawn(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1")
         Process.detach(@scsynthpid)
       end
     end
