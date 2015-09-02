@@ -11,9 +11,9 @@ But wait, how rude of me! Let me introduce myself - I'm
 [Sam Aaron](http://twitter.com/samaaron) - the chap that created Sonic
 Pi. You can find me at [@samaaron](http://twitter.com/samaaron) on
 Twitter and I'd be more than happy to say hello to you.  You might also
-be interested in my Live Coding band [Meta-eX](http://meta-ex.com) where
-I perform with code in front of audiences. You can find one of my
-[Meta-eX](http://meta-ex.com) tracks in the examples.
+be interested in finding out more about my
+[Live Coding Performances](http://facebook.com/livecodersamaaron) where
+I code with Sonic Pi live in front of audiences.
 
 If you have any thoughts, or ideas for improving Sonic Pi - please
 pass them on - feedback is so helpful. You never know, your idea might
