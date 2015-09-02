@@ -62,9 +62,14 @@ module SonicPi
         amp_slide: "The duration in beats for amplitude changes to take place",
         pan:       "The stereo position of the sound. -1 is left, 0 is in the middle and 1 is on the right. You may use a value in between -1 and 1 such as 0.25",
         pan_slide: "The duration in beats for the pan value to change",
-        attack:    "The duration in beats for the sound to reach maximum amplitude. Choose short values for percussive sounds and long values for a fade-in effect.",
-        sustain:  "The duration in beats for the sound to stay at full amplitude. Used to give the sound duration",
-        release:   "The duration in beats for the sound to fade out.",
+        attack: "Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently.",
+        decay: "Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level).",
+        sustain:  "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. Full length of sound is attack + decay + sustain + release.",
+        release:   "Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently.",
+        attack_level: "Amplitude level reached after attack phase and immediately before decay phase",
+        decay_level: "Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set",
+        sustain_level: "Amplitude level reached after decay phase and immediately before release phase.",
+        env_curve: "Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
         slide:     "Default slide time in beats for all slide opts. Individually specified slide opts will override this value" }
 
 
