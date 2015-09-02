@@ -3474,7 +3474,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
     end
 
     def doc
-      "Slice the pan automatically from left to right using a variety of different control waves. Behaves similarly to slicer and wobble FX but modifies stereo panning of sound in left and right speakers."
+      "Slice the pan automatically from left to right. Behaves similarly to slicer and wobble FX but modifies stereo panning of sound in left and right speakers. Default slice wave form is square (hard slicing between left and right) however other wave forms can be set with the `wave:` opt."
     end
 
     def arg_defaults
