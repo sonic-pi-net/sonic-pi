@@ -3132,7 +3132,6 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :seed =>
         {
           :doc => "Seed value for rand num generator used for probability test",
-          :validations => [v_positive(:seed)],
           :modulatable => false
         },
 
@@ -3356,7 +3355,6 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :seed =>
         {
           :doc => "Seed value for rand num generator used for probability test",
-          :validations => [v_positive(:seed)],
           :modulatable => false
         },
 
@@ -3538,7 +3536,6 @@ The window_size is the length of the slices and is measured in seconds. It needs
         :seed =>
         {
           :doc => "Seed value for rand num generator used for probability test",
-          :validations => [v_positive(:seed)],
           :modulatable => false
         },
 
