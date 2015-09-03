@@ -68,12 +68,12 @@
   beats.
 * Buffer and thread name are now printed on error.  
 * `sample_duration` now understands all the opts that you can pass to `sample`  
-* It is now possible to do basic arethmetic on symbols representing
+* It is now possible to do basic arithmetic on symbols representing
   rests: `:r + 3` returns `:r` (a rest plus any MIDI note shift is still
   a rest).
-  
+
   ### Bug Fixes
-  
+
 * Fixed crash when synth args were specified as Rationals.  
 * `note_info` now correctly handles octaves.
 * Fix windows paste shortcut `C-v`.
