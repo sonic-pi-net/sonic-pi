@@ -43,7 +43,7 @@ between three core domains:
 
 * **Art** - providing the means to express yourself and ask new questions of music and notation
 * **Technology** - exploring questions related to liveness, time and concurrency in programming languages
-* **Education**  - demonstrating that open play rather than rigid structures increases motivation and engaging in the classroom
+* **Education**  - demonstrating that open play rather than rigid structures increases motivation and engagement in the classroom
 
 Again, finding a balance working to the best benefits of all these
 domains is the objective.
