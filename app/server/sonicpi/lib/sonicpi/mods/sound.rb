@@ -404,7 +404,7 @@ end"
 
 
       def ratio_to_pitch(r)
-        12.0 * Math.log2(r.to_f)
+        12.0 * Math.log2(r.abs.to_f)
       end
       doc name:          :ratio_to_pitch,
           introduced:    Version.new(2,7,0),
