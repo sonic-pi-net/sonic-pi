@@ -2169,6 +2169,7 @@ puts sample_duration(:loop_amen) #=> 1
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
         stretch_duration = args_h[:beat_stretch]
         if stretch_duration
+          raise "beat_stretch: opt needs to be a positive number. Got: #{stretch_duration.inspect}" unless stretch_duration.is_a?(Numeric) && stretch_duration > 0
           stretch_duration = stretch_duration.to_f
           rate = args_h[:rate] || 1
           dur = load_sample(path).duration
@@ -2177,6 +2178,7 @@ puts sample_duration(:loop_amen) #=> 1
 
         pitch_stretch_duration = args_h[:pitch_stretch]
         if pitch_stretch_duration
+          raise "pitch_stretch: opt needs to be a positive number. Got: #{pitch_stretch_duration.inspect}" unless pitch_stretch_duration.is_a?(Numeric) && pitch_stretch_duration > 0
           pitch_stretch_duration = pitch_stretch_duration.to_f
           rate = args_h[:rate] || 1
           dur = load_sample(path).duration
