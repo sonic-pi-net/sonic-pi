@@ -72,8 +72,9 @@
   rests: `:r + 3` returns `:r` (a rest plus any MIDI note shift is still
   a rest).
 
-  ### Bug Fixes
-
+  
+### Bug Fixes
+  
 * Fixed crash when synth args were specified as Rationals.  
 * `note_info` now correctly handles octaves.
 * Fix windows paste shortcut `C-v`.
