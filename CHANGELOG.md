@@ -17,7 +17,7 @@
 * `sync` now causes the BPM to be inherited from the thread calling the
   matching `cue`. This may be disabled with the new `bpm_sync:` opt.
 * Complete rewrite of random number system. This means if you've been
-  combining calls to `use_random_seed` with randomisation to create
+  combining calls to `use_random_seed` with randomization to create
   predictable melodies/rhythms/timbral manipulations you will
   unfortunately get different results in `v2.7`. This change is to
   synchronise both the Ruby rand stream with the one in SuperCollider as
@@ -66,16 +66,16 @@
 * Both `in_thread` and `live_loop` have now learned the `delay:` opt
   which will delay the initial execution by the specified number of
   beats.
-* Buffer and thread name are now printed on error.  
-* `sample_duration` now understands all the opts that you can pass to `sample`  
+* Buffer and thread name are now printed on error.
+* `sample_duration` now understands all the opts that you can pass to `sample`
 * It is now possible to do basic arithmetic on symbols representing
   rests: `:r + 3` returns `:r` (a rest plus any MIDI note shift is still
   a rest).
 
-  
+
 ### Bug Fixes
-  
-* Fixed crash when synth args were specified as Rationals.  
+
+* Fixed crash when synth args were specified as Rationals.
 * `note_info` now correctly handles octaves.
 * Fix windows paste shortcut `C-v`.
 
@@ -149,7 +149,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
   synths.
 * New fns `use_tuning` and `with_tuning` for exploring other tuning
   systems such as `:just`, `:pythagorean`, and `:meantone`.
-* New fn `invert_chord` for chord inversions.  
+* New fn `invert_chord` for chord inversions.
 * New fn `current_beat_duration` for returning the duration of the
   current beat in seconds.
 * New fn `note_range` for returning a range of notes between two notes
@@ -165,7 +165,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
 
 
 
-### GUI  
+### GUI
 * New visual look and feel including a new Dark Mode for live coding in
   night clubs.
 * New preferences for hiding/showing aspects of the GUI such as the
@@ -178,7 +178,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
 * Workspaces are now named buffers. This is a smaller word which works
   better on lower res screens and is also a lovely term used by a number
   of wonderful programming editors such as Emacs.
-* Print friendly messages to the log on boot.  
+* Print friendly messages to the log on boot.
 * Add pref option to check for updates now.
 
 
@@ -202,7 +202,7 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
   sample to make sure the duration of the sample is n beats long (with
   respect to the current bpm). Note: stretching the beat *does* change
   the pitch.
-* Teach `sample` the opt `pitch` to enable pitch shifting on any sample.  
+* Teach `sample` the opt `pitch` to enable pitch shifting on any sample.
 * FX `flanger`'s feedback mixing is now more fair and is less likely to
   hike up the amplitude.
 
@@ -217,10 +217,10 @@ Enjoy this release and happy [Algoraving!](http://algorave.com)
   safely passed to multiple threads/live_loops without any issues.
 * Teach `use_sample_bpm` the opt `num_beats:` to indicate that a given
   sample consists of a specific number of beats.
-* Teach `comment` and `uncomment` to require blocks.  
+* Teach `comment` and `uncomment` to require blocks.
 * Teach synth chord groups to allow their notes to be controlled
   individually to allow transitions between chords.
-* Throw nicer exception when unable to normalise synth args  
+* Throw nicer exception when unable to normalise synth args
 * Teach `chord` the new opt `invert:` as a shortcut to the new
   `invert_chord` fn.
 * Teach `sample_duration` about the opts `start:` and `finish:` and
@@ -306,7 +306,7 @@ most powerful text editor in use by wizard programmers today.
 
 ### Synths & FX
 
-* New FX - `:pitch_shift`  
+* New FX - `:pitch_shift`
 
 ### Bug Fixes
 
@@ -315,7 +315,7 @@ most powerful text editor in use by wizard programmers today.
   within a `reverb` FX caused a serious audio overload.
 * Add missing fn metadata for `*_sample_bpm`
 * Fix synth metadata for FX `:bpf`.
-* Fix arg metadata for `use_sample_pack_as`  
+* Fix arg metadata for `use_sample_pack_as`
 * Rings now pretty print themselves as `(ring 1, 2, 3)` rather than `[1, 2, 3]`.
 * `C-k` keyboard shortcut now copies text into the clipboard.
 * Scales and chords now return actual `ring`s rather than `ring`-like
@@ -350,7 +350,7 @@ fun!
 
 * New fn `spread` for creating rings of Euclidean distributions. Great
   for quickly creating interesting rhythms.
-* GUI now automatically appends a `:` to the FX opt autocomplete list  
+* GUI now automatically appends a `:` to the FX opt autocomplete list
 * Synths and FX now raise an exception if any of their non-modulatable
   opts are modulated. This is disabled when the pref 'check synth
   args' is unchecked.
