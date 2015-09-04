@@ -1568,10 +1568,10 @@ module SonicPi
         :pan_slide => 0,
         :pan_slide_shape => 5,
         :pan_slide_curve => 0,
-        :attack => 0.2,
+        :attack => 0,
         :decay => 0,
         :sustain => 0,
-        :release => 0.85,
+        :release => 1,
         :attack_level => 1,
         :decay_level => :sustain_level,
         :sustain_level => 1,
@@ -1583,7 +1583,11 @@ module SonicPi
         :cutoff_slide_curve => 0,
 
         :vibrato_rate => 6,
+        :vibrato_rate_shape => 5,
+        :vibrato_rate_curve => 0,
         :vibrato_depth => 0.15,
+        :vibrato_depth_shape => 5,
+        :vibrato_depth_curve => 0,
         :vibrato_delay => 0.5,
         :vibrato_onset => 0.1,
       }
@@ -1594,13 +1598,13 @@ module SonicPi
         :vibrato_rate => {
           :doc => "Number of wobbles per second. For realism this should be between 6 and 8, maybe even faster for really high notes.",
           :validations => [v_greater_than_oet(:vibrato_rate, 0.0), v_less_than_oet(:vibrato_rate, 20.0)],
-          :modulatable => false
+          :modulatable => true
         },
         :vibrato_depth =>
         {
           :doc => "Amount of variation around the central note. 1 is the sensible maximum (but you can go up to 5 if you want a special effect), 0 would mean no vibrato. Works well around 0.15 but you can experiment.",
           :validations => [v_greater_than_oet(:vibrato_depth, 0.0), v_less_than_oet(:vibrato_depth, 5.0)],
-          :modulatable => false
+          :modulatable => true
         },
         :vibrato_delay =>
         {
