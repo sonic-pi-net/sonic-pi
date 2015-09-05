@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'ruby-beautify'
+
+include RubyBeautify
+my_argv = config_argv
+
+Options = OptionParser.new do |opts|
+	opts.on("-V", "--version", "Print version") { |version| puts RubyBeautify::VERSION;exit 0}
+	opts.on("-c", "--indent_count [COUNT]", Integer, "Count of characters to use for indenting. (default: 1)") { |count| @indent_count = count}
+	opts.on("-t", "--tabs", "Use tabs for the indent character (default)") { @indent_token = "\t" }
+	opts.on("-s", "--spaces", "Use spaces for the indent character") { @indent_token = " " }
+	opts.on("--overwrite", "Overwrite files as you go (won't touch files that failed a syntax check).") { @overwrite = true }
+	opts.banner = "Usage: print ruby into a pretty format, or break trying."
+end
+Options.parse!(my_argv)
+
+@indent_token = "\t" unless @indent_token
+@indent_count = 1 unless @indent_count
+
+def print_or_die(content)
+	if content
+		if syntax_ok? content
+			puts pretty_string content, indent_token: @indent_token, indent_count: @indent_count
+		else
+			puts content
+			exit 127
+		end
+	end
+end
+
+if my_argv.empty?
+	content = $stdin.read
+	print_or_die content
+else
+	my_argv.each do |file|
+		if File.exist? file
+			fh = open(file)
+			content = fh.read
+			fh.sync
+			fh.close
+		else
+			puts "No such file: #{file}"
+			exit
+		end
+
+		if @overwrite
+			if syntax_ok? content
+				fh = open(file, 'w')
+				fh.write pretty_string content, indent_token: @indent_token, indent_count: @indent_count
+				fh.sync
+				fh.close
+			else
+				next
+			end
+		else
+			print_or_die content
+		end
+	end
+end

@@ -543,7 +543,7 @@ module SonicPi
       end
 
       # Beautify buffer
-      beautiful = RBeautify.beautify_string :ruby, buf_lines.join
+      beautiful = RubyBeautify.pretty_string buf_lines.join, indent_token: " ", indent_count: 2
 
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
@@ -587,7 +587,7 @@ module SonicPi
       prev_ws_len = prev_line[/\A */].size
 
       # Beautify buffer
-      beautiful = RBeautify.beautify_string :ruby, buf
+      beautiful = RubyBeautify.pretty_string buf, indent_token: " ", indent_count: 2
 
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
