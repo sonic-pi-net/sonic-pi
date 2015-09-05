@@ -2225,7 +2225,7 @@ puts sample_duration(:loop_amen) #=> 1
 
 
           examples:      ["
-!sample :perc_bell # plays one of Sonic Pi's built in samples",
+sample :perc_bell # plays one of Sonic Pi's built in samples",
         "sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|aif|aiff file from your local filesystem",
         "# Let's play with the rate parameter
 # play one of the included samples
