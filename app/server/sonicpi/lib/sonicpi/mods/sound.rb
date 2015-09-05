@@ -1083,6 +1083,140 @@ sleep 2
 play 44"]
 
 
+           def play_melody(notes, times, *args)
+             synth_name = current_synth_name
+
+             init_args_h = {}
+             args_h = resolve_synth_opts_hash_or_array(args)
+
+             sn = synth_name.to_sym
+             info = SynthInfo.get_info(sn)
+
+             defaults = info ? info.arg_defaults : {}
+             combined_args = defaults.merge(args_h)
+             #TODO: figure out a better way of working with lambdas in pattern
+             # e.g. allowing random for every note
+             normalise_args!(combined_args)
+
+             nt = nil
+             times = Array(times)
+             notes_with_times = Array(notes.zip(times.cycle))
+             total_time = notes_with_times.map(&:last).reduce(&:+)
+
+             #   TODO ideas
+             #   - re-introduce portamento when we can re-trigger envelopes
+             #   - allow a do ... end block that will preprocess the params and the duration 
+
+             notes_with_times.each_with_index do |(note, time), idx|
+               # protect from long/negative legatos
+               legato_time = (time - (combined_args[:legato].abs > 1 ? 1 : combined_args[:legato].abs) * time)
+               note_time = time - legato_time
+
+               a_and_d_time = (combined_args[:attack].to_f + combined_args[:decay].to_f)
+               ad_and_r_time = (a_and_d_time + combined_args[:release].to_f)
+               is_release_too_long = (ad_and_r_time > note_time)
+
+               scaled_sustain_time = [(note_time - ad_and_r_time).to_f, (note_time - a_and_d_time).to_f, 0.0].max
+               
+               combined_args[:min_release] ||= 0.1
+
+               if is_release_too_long
+                 combined_args = combined_args.merge({release: combined_args[:min_release]})
+               else
+                 combined_args = combined_args.merge({release: combined_args[:release]})
+               end
+
+               nt = play(note, combined_args.merge(sustain: scaled_sustain_time))
+
+               # Deal with note_slide if present
+               if combined_args[:note_slide].to_f != 0.0
+                 scaled_note_slide_time = (combined_args[:note_slide] * note_time)
+                 next_note = note(notes_with_times[(idx + 1) % notes_with_times.length].first)
+
+                 sleep(note_time - scaled_note_slide_time)
+                 nt.control(note: next_note) if nt
+                 sleep scaled_note_slide_time
+               else
+                 sleep note_time
+               end
+
+               sleep legato_time
+             end
+           end
+           doc name:          :play_melody,
+               introduced:    Version.new(2,5,0),
+               summary:       "Play pattern of notes with specific times, scaling their sustain according to a legato parameter",
+               doc:           "Play each note in a list of notes one after another with specified times between them. The behaviour is the same as play_pattern_timed but the parameters of each note are changed in the following ways.
+
+    sustain: this is scaled relative to the time of each note, once we've dealt with attack, decay and release. This means a legato value of 1 will make the note last right to the end of the given time, but no longer than that.
+
+    legato: This is a new argument that says how long the note will last relative to the time. A value of 1 for legato means the notes will sound for the full time while a value of 0.8 will make the note sound for 80% of the given time. This allows you to create musical legato (values near 1) or staccato (values nearer 0.1) without having to calculate ADSR envelopes for each note length.
+
+    note_slide: if a value for note_slide other than 0.0 is given, play_melody will automatically slide the pitches between the notes. Again note_slide is scaled relative to the length of the note so note_slide: 0.9 means 90% of the note time is spent sliding to the next pitch in the sequence.
+
+    Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts.",
+               args:          [[:notes, :list], [:times, :list_or_number]],
+               opts:          DEFAULT_PLAY_OPTS,
+               accepts_block: false,
+               examples:      ["
+    play_melody [40, 42, 44, 46], [1, 2, 3], legato: 0.8
+
+    # same as:
+
+    play 40
+    sleep 0.8
+    sleep 0.2 # legato
+    play 42
+    sleep 1.6
+    sleep 0.4 # legato
+    play 44
+    sleep 2.4
+    sleep 0.6 # legato
+    play 46",
+
+      "play_pattern_timed [40, 42, 44, 46, 49], [1, 0.5], attack: 0.1, decay: 0.2, sustain: 0.8
+
+    # same as:
+
+    play 40, attack: 0.05, decay: 0.1, sustain: 0.68, release: 0.17
+    sleep 1
+    play 42, attack: 0.05, decay: 0.1, sustain: 0.28, release: 0.07
+    sleep 0.5
+    play 44, attack: 0.05, decay: 0.1, sustain: 0.68, release: 0.17
+    sleep 1
+    play 46, attack: 0.05, decay: 0.1, sustain: 0.28, release: 0.07
+    sleep 0.5
+    play 49, attack: 0.05, decay: 0.1, sustain: 0.68, release: 0.17",
+
+    "play_pattern_timed [40, 42, 55], [1], note_slide: 0.25
+
+    # same as:
+
+    nt = play 40
+    sleep 0.75
+    control(nt, note: 42)
+    sleep 0.25
+
+    nt = play 42
+    sleep 0.75
+    control(nt, note: 55)
+    sleep 0.25
+
+    play 55
+    sleep 1",
+
+    "play_pattern_timed [40, 42, 55], [1], note_slide: 0.25, slur: 1
+
+    # same as:
+
+    nt = play 40, sustain: 3, release: 0
+    sleep 0.75
+    control(nt, note: 42)
+    sleep 0.25
+
+    sleep 0.75
+    control(nt, note: 55)
+    sleep 0.25"]
 
 
       def play_chord(notes, *args)
