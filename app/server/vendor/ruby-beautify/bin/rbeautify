@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+require 'ruby-beautify'
+require 'optparse'
+
+include RBeautify
+
+Options = OptionParser.new do |opts|
+  opts.on("-V", "--version", "Print version") { |version| puts RBeautify::VERSION;exit 0}
+  opts.banner = "Usage: print ruby into a pretty format, or break trying."
+end
+Options.parse!
+
+if ARGV.empty?
+  begin
+    puts RBeautify.beautify_string :ruby, STDIN
+  rescue Exception => e
+    puts e.message
+    exit
+  end
+else
+  ARGV.each do |f|
+    if File.exist? f
+      puts RBeautify.beautify_string :ruby, open(f).read
+    else
+      puts "No such file: #{f}"
+    end
+  end
+end
