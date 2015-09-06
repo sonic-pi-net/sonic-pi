@@ -1,15 +1,16 @@
-7 Control
+7 Kontrola
 
-# Controlling running sounds
+# Kontrola działających dźwięków
 
-So far we've looked at how you can trigger synths and samples, and
-also how to change their default parameters such as amplitude, pan,
-envelope settings and more. Each sound triggered is essentially its
-own sound with its own set of parameters set for the duration of the
-sound.
+Do tej pory dowiedzieliśmy się jak możemy wyzwalać syntezatory 
+i sample oraz w jaki sposób zmieniać ich domyślne parametry takie 
+jak amplituda, kanał, ustawienia obwiedni i inne. Każdy uruchomiony 
+dźwięk jest w zasadzie osobnym dźwiękiem z jego własnym zestawem 
+parametrów ustalonych na czas trwania dźwięku. 
 
-Wouldn't it also be cool if you could change a sound's parameters
-whilst it's still playing, just like you might bend a string of a
-guitar whilst it's still vibrating?
+Czy nie było by super gdybyś mógł zmieniać parametry dźwięku 
+w trakcie odtwarzania danego dźwięku, tak samo jak możesz 
+naciągnać struny gitary gdy jej struny wciąż wibruja?
 
-You're in luck - this section will show you how to do exactly this.
+Masz szczęście - ten rozdział pokaże Ci dokładnie jak możesz 
+tego dokonać.
