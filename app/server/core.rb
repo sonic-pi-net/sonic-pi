@@ -184,6 +184,7 @@ end
 module SonicPi
   module Core
     class EmptyVectorError < StandardError ; end
+    class InvalidIndexError < StandardError ; end
 
     class SPVector < Hamster::Vector
       include TLMixin
@@ -201,6 +202,7 @@ module SonicPi
       end
 
       def [](idx, len=(missing_length = true))
+        raise InvalidIndexError, "Invalid index: #{idx.inspect}, was expecting a number or range" unless idx && (idx.is_a?(Numeric) || idx.is_a?(Range))
         if idx.is_a?(Numeric) && missing_length
           idx = map_index(idx)
           super idx
