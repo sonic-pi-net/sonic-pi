@@ -970,9 +970,9 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
           summary:       "Play current synth",
           doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with `attack:`, `decay:`, `sustain:` and `release:` phases. These phases are triggered in order, so the duration of the sound is attack + decay + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
 
-    Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.
+Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.
 
-    If note is `nil`, `:r` or `:rest`, play is ignored and treated as a rest.
+If note is `nil`, `:r` or `:rest`, play is ignored and treated as a rest.
     ",
           args:          [[:note, :symbol_or_number]],
           opts:          DEFAULT_PLAY_OPTS,
@@ -1027,9 +1027,9 @@ play_pattern [40, 41, 42] # Same as:
           summary:       "Play pattern of notes with specific times",
           doc:           "Play each note in a list of notes one after another with specified times between them. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of times between the notes in beats.
 
-    If the list of times is smaller than the number of gaps between notes, the list is repeated again. If the list of times is longer than the number of gaps between notes, then some of the times are ignored. See examples for more detail.
+If the list of times is smaller than the number of gaps between notes, the list is repeated again. If the list of times is longer than the number of gaps between notes, then some of the times are ignored. See examples for more detail.
 
-    Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
+Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.",
           args:          [[:notes, :list], [:times, :list_or_number]],
           opts:          DEFAULT_PLAY_OPTS,
           accepts_block: false,
@@ -1101,7 +1101,7 @@ play 44"]
           summary:       "Play notes simultaneously",
           doc:           "Play a list of notes at the same time.
 
-    Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
+Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.",
           args:          [[:notes, :list]],
           opts:          DEFAULT_PLAY_OPTS,
           accepts_block: false,
@@ -1578,7 +1578,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           summary:        "Use Studio FX",
           doc:            "This applies the named effect (FX) to everything within a given `do`/`end` block. Effects may take extra parameters to modify their behaviour. See FX help for parameter details.
 
-    For advanced control, it is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
+For advanced control, it is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
           args:           [[:fx_name, :symbol]],
           opts:           {reps: "Number of times to repeat the block in an iteration.",
             kill_delay: "Amount of time to wait after all synths triggered by the block have completed before stopping and freeing the effect synthesiser." },
