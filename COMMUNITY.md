@@ -4,12 +4,10 @@ Sonic Pi is more than just software. It's a whole community of people sharing id
 
 You can get involved with the community at the following locations:
 
-## Sonic Pi Monthly
-*<http://sonic-pi.net/monthly/subscribe.html>*
+## Live Coding TV
+*<http://livecoding.tv/samaaron/>*
 
-A monthly newsletter by email summarising all the interesting things
-happening with Sonic Pi - articles, news, teaching, resources, music,
-and more.
+Sam Aaron regularly streams his live coding sessions on livecoding.tv/samaaron - please drop by, say hello and ask lots of questions.
 
 ## Gitter Chat
 *<https://gitter.im/samaaron/sonic-pi>*

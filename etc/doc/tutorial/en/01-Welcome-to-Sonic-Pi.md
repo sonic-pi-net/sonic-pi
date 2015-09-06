@@ -19,10 +19,15 @@ If you have any thoughts, or ideas for improving Sonic Pi - please
 pass them on - feedback is so helpful. You never know, your idea might
 be the next big feature!
 
-Finally, this tutorial is divided up into sections grouped by
-category. Whilst I've written it to have an easy learning progression
-from start to finish, feel very free just to dip in and out of sections
-as you see fit. If you feel that there's something missing, do let me
-know and I'll consider it for a future version.
+This tutorial is divided up into sections grouped by category. Whilst
+I've written it to have an easy learning progression from start to
+finish, feel very free just to dip in and out of sections as you see
+fit. If you feel that there's something missing, do let me know and I'll
+consider it for a future version.
+
+Finally, watching others live code is a really great way to learn. I
+regularly stream live on
+[livecoding.tv/samaaron](http://livecoding.tv/samaaron) so please do
+drop by, say hi and ask me lots of questions :-)
 
 OK, let's get started...
