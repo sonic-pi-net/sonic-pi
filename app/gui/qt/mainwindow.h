@@ -104,6 +104,8 @@ private slots:
     void beautifyCode();
     void completeListOrIndentLine(QObject *ws);
     void indentCurrentLineOrSelection(SonicPiScintilla *ws);
+    void toggleCommentInCurrentWorkspace();
+    void toggleComment(SonicPiScintilla *ws);
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();

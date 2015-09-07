@@ -219,6 +219,26 @@ osc_server.add_method("/complete-snippet-or-indent-selection") do |payload|
   end
 end
 
+
+osc_server.add_method("/toggle-comment") do |payload|
+#  puts "toggling selection..."
+  begin
+    args = payload.to_a
+    gui_id = args[0]
+    id = args[1]
+    buf = args[2]
+    start_line = args[3]
+    finish_line = args[4]
+    point_line = args[5]
+    point_index = args[6]
+    sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
+  rescue Exception => e
+    STDERR.puts "Received Exception when attempting to toggle comment!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
+  end
+end
+
 osc_server.add_method("/beautify-buffer") do |payload|
 #  puts "beautifying buffer..."
   begin

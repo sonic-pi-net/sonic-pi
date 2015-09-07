@@ -572,6 +572,44 @@ module SonicPi
 
     end
 
+    def __toggle_comment(workspace_id, buf, start_line, finish_line, point_line, point_index)
+      id = workspace_id.to_s
+      indented_linex = ""
+      buf_lines = buf.lines.to_a
+      # Check to see if we need to comment or uncomment:
+      # If all lines in selection start with a # (after whitespace)
+      # or are whitespace we need to uncomment.
+      # Otherwise comment
+      lines = buf_lines[start_line..finish_line]
+
+      if(lines.all?{|el| el.match(/^\s*#.*/) || el.match(/^\s*$/)})
+        # need to uncomment
+        lines = lines.map do |l|
+          m = l.match(/^(\s*)#+[ ]?(.*)/)
+          if m
+            m[1] + m[2] + "\n"
+          else
+            l
+          end
+        end
+
+      else
+        # need to comment
+        # find shortest amount of whitespace at beginning of line
+        ws = Float::INFINITY
+        lines.each do |l|
+          m = l.match(/^(\s*).*/)
+          ws = m[1].size if m && m[1].size < ws unless l.match(/^(\s*)$/)
+        end
+
+        lines.each do |l|
+          l[ws] = "# #{l[ws]}" unless l.match(/^(\s*)$/)
+        end
+      end
+
+      @msg_queue.push({type: "replace-lines", buffer_id: id, val: lines.join, start_line: start_line, finish_line: finish_line, point_line: point_line, point_index: point_index})
+    end
+
     def __beautify_buffer(id, buf, line, index, first_line)
       id = id.to_s
       buf = buf + "\n"

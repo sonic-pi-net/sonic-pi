@@ -282,7 +282,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     //comment line
     QShortcut *toggleLineComment= new QShortcut(metaKey('/'), workspace);
-    connect(toggleLineComment, SIGNAL(activated()), workspace, SLOT(toggleComment()));
+    connect(toggleLineComment, SIGNAL(activated()), this, SLOT(toggleCommentInCurrentWorkspace()));
 
     //upcase next word
     QShortcut *upcaseWord= new QShortcut(metaKey('u'), workspace);
@@ -594,6 +594,39 @@ void MainWindow::indentCurrentLineOrSelection(SonicPiScintilla* ws) {
   std::string code = ws->text().toStdString();
 
   Message msg("/complete-snippet-or-indent-selection");
+  msg.pushStr(guiID.toStdString());
+  std::string filename = workspaceFilename(ws);
+  msg.pushStr(filename);
+  msg.pushStr(code);
+  msg.pushInt32(start_line);
+  msg.pushInt32(finish_line);
+  msg.pushInt32(point_line);
+  msg.pushInt32(point_index);
+  sendOSC(msg);
+}
+
+void MainWindow::toggleCommentInCurrentWorkspace() {
+  SonicPiScintilla *ws = (SonicPiScintilla*)tabs->currentWidget();
+  toggleComment(ws);
+}
+
+void MainWindow::toggleComment(SonicPiScintilla* ws) {
+  int start_line, finish_line, point_line, point_index;
+  ws->getCursorPosition(&point_line, &point_index);
+  if(ws->hasSelectedText()) {
+    statusBar()->showMessage(tr("Commenting selection..."), 2000);
+    int unused_a, unused_b;
+    ws->getSelection(&start_line, &unused_a, &finish_line, &unused_b);
+  } else {
+    statusBar()->showMessage(tr("Commenting line..."), 2000);
+    start_line = point_line;
+    finish_line = point_line;
+  }
+
+
+  std::string code = ws->text().toStdString();
+
+  Message msg("/toggle-comment");
   msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);

@@ -52,7 +52,6 @@ class SonicPiScintilla : public QsciScintilla
     int incLineNumWithinBounds(int linenum, int inc);
     void moveLines(int numLines);
     void deselect();
-    void toggleComment();
     void upcaseWordOrSelection();
     void downcaseWordOrSelection();
     void highlightAll();
