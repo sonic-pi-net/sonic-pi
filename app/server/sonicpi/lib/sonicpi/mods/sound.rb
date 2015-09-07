@@ -2723,9 +2723,9 @@ sleep 1
         raise "Inversion shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
         raise "Notes must be a list of notes, got #{notes.inspect}" unless (notes.is_a?(SonicPi::Core::RingVector) || notes.is_a?(Array))
         if(shift > 0)
-          invert_chord(notes[1..-1] + [notes[0]+12], shift-1)
+          invert_chord(notes.to_a[1..-1] + [notes.to_a[0]+12], shift-1)
         elsif(shift < 0)
-          invert_chord(notes[1..-1] + [notes[0]-12], shift+1)
+          invert_chord((notes.to_a[0..-2] + [notes.to_a[-1]-12]).sort, shift+1)
         else
           notes.ring
         end
