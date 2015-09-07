@@ -45,5 +45,6 @@
         <file>theme/dark/doc-styles.css</file>
 
         <file>lang/sonic-pi_de.qm</file>
+        <file>lang/sonic-pi_is.qm</file>
     </qresource>
 </RCC>

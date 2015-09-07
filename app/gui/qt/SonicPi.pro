@@ -82,7 +82,8 @@ HEADERS  += mainwindow.h \
             sonicpitcpserver.h \
             sonicpitheme.h
 
-TRANSLATIONS = lang/sonic-pi_de.ts
+TRANSLATIONS = lang/sonic-pi_de.ts \
+               lang/sonic-pi_is.ts
 
 OTHER_FILES += \
     images/copy.png \
