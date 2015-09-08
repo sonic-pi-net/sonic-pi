@@ -738,6 +738,8 @@ class Array
   alias_method :__orig_shuffle__, :shuffle
   def shuffle(*args, &blk)
     if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+      orig_seed, orig_idx = SonicPi::Core::SPRand.get_seed_and_idx
+      SonicPi::Core::SPRand.set_seed!(SonicPi::Core::SPRand.rand_i!(441000))
       new_a = self.dup
       s = new_a.size
       s.times do
@@ -745,6 +747,7 @@ class Array
         idx_b = SonicPi::Core::SPRand.rand!(s)
         new_a[idx_a], new_a[idx_b] = new_a[idx_b], new_a[idx_a]
       end
+      SonicPi::Core::SPRand.set_seed!(orig_seed, orig_idx + 1)
       return new_a
     else
       __orig_shuffle__ *args, &blk
