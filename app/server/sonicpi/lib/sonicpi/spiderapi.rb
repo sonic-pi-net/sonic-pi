@@ -1506,10 +1506,10 @@ end
 
     def with_random_seed(seed, &block)
       raise "with_random_seed requires a block. Perhaps you meant use_random_seed" unless block
-      current_seed = SonicPi::Core::SPRand.get_seed
+      current_seed, current_idx = SonicPi::Core::SPRand.get_seed_and_idx
       SonicPi::Core::SPRand.set_seed! seed
       block.call
-      SonicPi::Core::SPRand.set_seed! current_seed
+      SonicPi::Core::SPRand.set_seed! current_seed, current_idx
     end
     doc name:           :with_random_seed,
         introduced:     Version.new(2,0,0),
@@ -2320,7 +2320,7 @@ end"]
         # every sub-in_thread before killing them.
         Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
 
-        SonicPi::Core::SPRand.set_seed!(new_rand_seed)
+        SonicPi::Core::SPRand.set_seed!(new_rand_seed + SonicPi::Core::SPRand.get_seed)
 
 
         # Wait for parent to deliver promise. Throws an exception if

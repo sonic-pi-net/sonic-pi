@@ -708,6 +708,7 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_no_kill_mutex, Mutex.new
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_blocks, []
           Thread.current.thread_variable_set :sonic_pi_spider_delayed_messages, []
+          Thread.current.thread_variable_set :sonic_pi_spider_random_gen_seed, 0
           Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, 0
           Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_gen_idx, 0
           @msg_queue.push({type: :job, jobid: id, action: :start, jobinfo: info})

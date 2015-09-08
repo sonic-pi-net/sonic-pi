@@ -68,17 +68,27 @@ module SonicPi
         ridx
       end
 
-      def self.set_seed!(seed)
-        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, seed
+      def self.set_seed!(seed, idx=0)
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_seed, seed
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, idx
       end
 
 
+      def self.get_seed_and_idx
+        [Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed),
+          Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx)]
+      end
+
       def self.get_seed
-        Thread.current.thread_variable_get :sonic_pi_spider_random_gen_idx
+        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed)
+      end
+
+      def self.get_idx
+        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx)
       end
 
       def self.rand(max, idx=nil)
-        idx = inc_idx unless idx
+        idx = get_seed + inc_idx unless idx
         # we know that the fixed rand stream has length 44100
         # also, scsynth server seems to swallow first rand
         # so always add 1 to index
