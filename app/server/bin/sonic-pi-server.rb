@@ -575,6 +575,10 @@ out_t = Thread.new do
           lc = message[:last_checked]
           m = encoder.encode_single_message("/version", [v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year])
           gui.send_raw(m)
+        when :job
+          id = message[:job_id]
+          action = message[:action]
+          # do nothing for now
         else
           STDERR.puts "ignoring #{message}"
         end
