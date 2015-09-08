@@ -1338,7 +1338,7 @@ end"]
       end
 
       range = (min - max).abs
-      r = SonicPi::Core::SPRand.rand(range)
+      r = SonicPi::Core::SPRand.rand!(range)
       smallest = [min, max].min
 
       if res
@@ -1369,7 +1369,7 @@ end"]
     def rrand_i(min, max)
       return min if min == max
       range = (min - max).abs
-      r = SonicPi::Core::SPRand.rand_i(range.to_i + 1)
+      r = SonicPi::Core::SPRand.rand_i!(range.to_i + 1)
       smallest = [min, max].min
       (r + smallest)
     end
@@ -1396,7 +1396,7 @@ end"]
       if max.is_a?(Range)
         rrand(max.min, max.max)
       else
-        SonicPi::Core::SPRand.rand(max)
+        SonicPi::Core::SPRand.rand!(max)
       end
     end
     doc name:           :rand,
@@ -1408,7 +1408,7 @@ end"]
         intro_fn:       true,
         doc:            "Given a max number, produces a float between `0` and the supplied max value. If max is a range, produces a float within the range. With no args returns a random value between `0` and `1`.",
         examples:       ["
-print rand(0.5) #=> will print a number like 0.397730007820797 to the output pane"]
+print rand(0.5) #=> will print a number like 0.375030517578125 to the output pane"]
 
 
 
@@ -1418,7 +1418,7 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
       if max.is_a?(Range)
         rrand_i(max.min, max.max)
       else
-        SonicPi::Core::SPRand.rand_i(max)
+        SonicPi::Core::SPRand.rand_i!(max)
       end
     end
     doc name:           :rand_i,
@@ -1430,6 +1430,97 @@ print rand(0.5) #=> will print a number like 0.397730007820797 to the output pan
         doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args returns either `0` or `1`",
         examples:       ["
 print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
+
+
+
+
+    def rand_back(amount=1)
+      SonicPi::Core::SPRand.dec_idx!(amount)
+      SonicPi::Core::SPRand.rand_peek
+    end
+    doc name:           :rand_back,
+        introduced:     Version.new(2,7,0),
+        summary:        "Roll back random generator",
+        args:           [[:amount, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Roll the random generator back essentially 'undoing' the last call to `rand`. You may specify an amount to roll back allowing you to skip back n calls to `rand`.",
+        examples:       ["
+# Basic rand stream rollback
+puts rand # prints 0.75006103515625
+rand_back # roll random stream back one
+          # the result of the next call to rand will be
+          # exactly the same as the previous call
+puts rand # prints 0.75006103515625 again!
+puts rand # prints 0.733917236328125",
+"
+# Jumping back multiple places in the rand stream
+puts rand # prints 0.75006103515625
+puts rand # prints 0.733917236328125
+puts rand # prints 0.464202880859375
+puts rand # prints 0.24249267578125
+rand_back(3) # roll random stream back three places
+             # the result of the next call to rand will be
+             # exactly the same as the result 3 calls to
+             # `rand` ago.
+puts rand # prints  0.733917236328125 again!
+puts rand # prints  0.464202880859375"]
+
+
+
+
+    def rand_skip(amount=1)
+      SonicPi::Core::SPRand.inc_idx!(amount)
+      SonicPi::Core::SPRand.rand_peek
+    end
+    doc name:           :rand_skip,
+        introduced:     Version.new(2,7,0),
+        summary:        "Jump forward random generator",
+        args:           [[:amount, :number]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Jump the random generator forward essentially skipping the next call to `rand`. You may specify an amount to jump allowing you to skip n calls to `rand`.",
+        examples:       ["
+# Basic rand stream skip
+puts rand # prints 0.75006103515625
+rand_skip # jump random stream forward one
+          # typically the next rand is 0.733917236328125
+puts rand # prints 0.464202880859375",
+"
+# Jumping forward multiple places in the rand stream
+puts rand # prints 0.75006103515625
+puts rand # prints 0.733917236328125
+puts rand # prints 0.464202880859375
+puts rand # prints 0.24249267578125
+rand_reset  # reset the random stream
+puts rand # prints 0.75006103515625
+rand_skip(2) # jump random stream forward three places
+             # the result of the next call to rand will be
+             # exactly the same as if rand had been called
+             # three times
+puts rand 0.24249267578125"]
+
+
+
+
+    def rand_reset
+      SonicPi::Core::SPRand.set_idx!(0)
+    end
+    doc name:           :rand_reset,
+        introduced:     Version.new(2,7,0),
+        summary:        "Reset rand generator to last seed",
+        args:           [[]],
+        opts:           nil,
+        accepts_block:  false,
+        doc:            "Resets the random stream to the last specified seed. See `use_random_seed` for changing the seed.",
+        examples:       ["
+puts rand # prints 0.75006103515625
+puts rand # prints 0.733917236328125
+puts rand # prints 0.464202880859375
+puts rand # prints 0.24249267578125
+rand_reset  # reset the random stream
+puts rand # prints 0.75006103515625
+"]
 
 
 
@@ -2268,7 +2359,7 @@ end"]
         new_rand_seed = args_h[:seed]
       else
         new_thread_gen_idx = Thread.current.thread_variable_get :sonic_pi_spider_new_thread_random_gen_idx
-        new_rand_seed = SonicPi::Core::SPRand.rand(441000, new_thread_gen_idx)
+        new_rand_seed = SonicPi::Core::SPRand.rand!(441000, new_thread_gen_idx)
         Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_gen_idx, new_thread_gen_idx + 1
       end
       # Create the new thread

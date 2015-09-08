@@ -56,15 +56,15 @@ module SonicPi
         @@random_numbers
       end
 
-      def self.inc_idx(init=0)
+      def self.inc_idx!(increment=1, init=0)
         ridx = Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || init
-        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx + 1
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx + increment
         ridx
       end
 
-      def self.dec_idx(init=0)
+      def self.dec_idx!(decrement=1, init=0)
         ridx = Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || init
-        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx - 1
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx - decrement
         ridx
       end
 
@@ -73,6 +73,9 @@ module SonicPi
         Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, idx
       end
 
+      def self.set_idx!(idx)
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, idx
+      end
 
       def self.get_seed_and_idx
         [Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed),
@@ -80,15 +83,22 @@ module SonicPi
       end
 
       def self.get_seed
-        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed)
+        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed) || 0
       end
 
       def self.get_idx
-        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx)
+        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || 0
       end
 
-      def self.rand(max, idx=nil)
-        idx = get_seed + inc_idx unless idx
+      def self.rand!(max=1, idx=nil)
+        idx = inc_idx! unless idx
+        rand_peek(max, idx)
+      end
+
+      def self.rand_peek(max=1, idx=nil, seed=nil)
+        idx = get_idx unless idx
+        seed = get_seed unless seed
+        idx = seed + idx
         # we know that the fixed rand stream has length 441000
         # also, scsynth server seems to swallow first rand
         # so always add 1 to index
@@ -96,8 +106,8 @@ module SonicPi
         @@random_numbers[idx] * max
       end
 
-      def self.rand_i(max, idx=nil)
-        rand(max, idx).to_i
+      def self.rand_i!(max, idx=nil)
+        rand!(max, idx).to_i
       end
 
     end
