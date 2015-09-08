@@ -236,7 +236,7 @@ module SonicPi
       end
 
       def choose
-        self[SonicPi::Core::SPRand.rand_i(self.size)]
+        self[SonicPi::Core::SPRand.rand_i!(self.size)]
       end
 
       def ring
@@ -722,14 +722,14 @@ class Array
   end
 
   def choose
-    self[SonicPi::Core::SPRand.rand_i(self.size)]
+    self[SonicPi::Core::SPRand.rand_i!(self.size)]
   end
 
   alias_method :__orig_sample__, :sample
   def sample(*args, &blk)
 
     if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
-      self[SonicPi::Core::SPRand.rand(self.size)]
+      self[SonicPi::Core::SPRand.rand!(self.size)]
     else
       __orig_sample__ *args, &blk
     end
@@ -741,8 +741,8 @@ class Array
       new_a = self.dup
       s = new_a.size
       s.times do
-        idx_a = SonicPi::Core::SPRand.rand(s)
-        idx_b = SonicPi::Core::SPRand.rand(s)
+        idx_a = SonicPi::Core::SPRand.rand!(s)
+        idx_b = SonicPi::Core::SPRand.rand!(s)
         new_a[idx_a], new_a[idx_b] = new_a[idx_b], new_a[idx_a]
       end
       return new_a
