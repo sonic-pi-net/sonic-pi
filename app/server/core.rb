@@ -89,10 +89,10 @@ module SonicPi
 
       def self.rand(max, idx=nil)
         idx = get_seed + inc_idx unless idx
-        # we know that the fixed rand stream has length 44100
+        # we know that the fixed rand stream has length 441000
         # also, scsynth server seems to swallow first rand
         # so always add 1 to index
-        idx = (idx + 1) % 44100
+        idx = (idx + 1) % 441000
         @@random_numbers[idx] * max
       end
 
