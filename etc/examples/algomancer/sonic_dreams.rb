@@ -1,5 +1,4 @@
-# rand-seed-ver 31
-# Meta-eX
+# rand-seed-ver 32
 #
 # Coded by Sam Aaron
 #
@@ -10,15 +9,15 @@ load_samples [:bd_haus, :elec_blip, :ambi_lunar_land]
 
 define :ocean do |num, amp_mul=1|
   num.times do
-    s = synth [:bnoise, :cnoise, :gnoise].choose, amp: rrand(0.5, 1.5) * amp_mul, attack: rrand(0, 4), sustain: rrand(0, 2), release: rrand(0, 5) + 0.5, cutoff_slide: rrand(0, 5), cutoff: rrand(60, 100), pan: rrand(-1, 1), pan_slide: 1, amp: rrand(0.5, 1)
+    s = synth [:bnoise, :cnoise, :gnoise].choose, amp: rrand(0.5, 1.5) * amp_mul, attack: rrand(0, 1), sustain: rrand(0, 2), release: rrand(0, 5) + 0.5, cutoff_slide: rrand(0, 5), cutoff: rrand(60, 100), pan: rrand(-1, 1), pan_slide: 1
     control s, pan: rrand(-1, 1), cutoff: rrand(60, 110)
-    sleep rrand(2, 4)
+    sleep rrand(0.5, 4)
   end
 end
 
-define :echoes do |num, tonics, co=80, res=0.9, amp=1|
+define :echoes do |num, tonics, co=100, res=0.9, amp=1|
   num.times do
-    play chord(tonics.choose, :minor).choose, res: res, cutoff: rrand(co - 40, co + 20), amp: 0.5 * amp, attack: 0, release: rrand(0.5, 1.5), pan: rrand(-0.7, 0.7)
+    play chord(tonics.choose, :minor).choose, res: res, cutoff: rrand(co - 20, co + 20), amp: 0.5 * amp, attack: 0, release: rrand(0.5, 1.5), pan: rrand(-0.7, 0.7)
     sleep [0.25, 0.5, 0.5, 0.5, 1, 1].choose
   end
 end
@@ -26,13 +25,13 @@ end
 define :bd do
   cue :in_relentless_cycles
   16.times do
-    sample :bd_haus, amp: 3
+    sample :bd_haus, amp: 4, cutoff: 120
     sleep 0.5
   end
   cue :winding_everywhichway
   2.times do
     2.times do
-      sample :bd_haus, amp: 3
+      sample :bd_haus, amp: 4, cutoff: 120
       sleep 0.25
     end
     sample :ambi_lunar_land
@@ -41,7 +40,7 @@ define :bd do
 end
 
 define :drums do |level, b_level=1, rand_cf=false|
-  synth :fm, note: :e2, release: 0.1, amp: b_level * 2.5
+  synth :fm, note: :e2, release: 0.1, amp: b_level * 3, cutoff: 130
   co = rand_cf ? rrand(110, 130) : 130
   a  = rand_cf ? rrand(0.3, 0.5) : 0.6
   n  = rand_cf ? :bnoise         : :noise
@@ -106,8 +105,9 @@ cue :oceans
 at [7, 12], [:crash, :within_oceans] do |m|
   cue m
 end
+
 uncomment do
-  use_random_seed 0
+  use_random_seed 1000
   with_bpm 45 do
     with_fx :reverb do
       with_fx(:echo, delay: 0.5, decay: 4) do
@@ -118,6 +118,7 @@ uncomment do
           ocean 1, 0.25
         end
         sleep 10
+        use_random_seed 1200
         echoes(5, [:b1, :b2, :e1, :e2, :b3, :e3])
         cue :a_distant_object
         echoes(5, [:b1, :e1, :e2, :e3])
@@ -149,14 +150,12 @@ end
 in_thread(name: :bassdrums) do
   use_random_seed 0
   sleep 22
-  loop do
-    3.times do
-      bd
-    end
-    sleep 28
-    loop do
-      bd
-    end
+  3.times do
+    bd
+  end
+  sleep 28
+  live_loop :bd do
+    bd
   end
 end
 
@@ -200,7 +199,7 @@ in_thread(name: :drums) do
       drums 2
     end
 
-    loop do
+    live_loop :drums do
       8.times do |i|
         drums 1
       end
@@ -230,6 +229,7 @@ in_thread do
   puts "Reality A"
   sleep 12
   use_synth_defaults phase: 0.5, res: 0.5, cutoff: 80, release: 3.3, wave: 1
+
   2.times do
     [80, 90, 100, 110].each do |cf|
       use_merged_synth_defaults cutoff: cf
@@ -240,7 +240,7 @@ in_thread do
     end
     4.times do |t|
       binary_celebration(6, 0.5)
-      synth :zawa, note: :e2, phase: 0.25, res: rrand(0.9, 0.99), cutoff: [100, 105, 110, 115][t]
+      synth :zawa, note: :e2, phase: 0.25, res: rrand(0.8, 0.9), cutoff: [100, 105, 110, 115][t]
       sleep 3
     end
   end

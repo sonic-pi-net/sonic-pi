@@ -8,10 +8,10 @@ sleep 1
 live_loop :foo do
   with_fx :reverb, kill_delay: 0.2, room: 0.3 do
     4.times do
-      use_random_seed 6667
+      use_random_seed 4000
       8.times do
         sleep 0.25
-        play chord(:e3, :m7).choose, release: 0.1, pan: rrand(-1, 1, res: 0.9), amp: 0.8
+        play chord(:e3, :m7).choose, release: 0.1, pan: rrand(-1, 1, res: 0.9), amp: 1
       end
     end
   end

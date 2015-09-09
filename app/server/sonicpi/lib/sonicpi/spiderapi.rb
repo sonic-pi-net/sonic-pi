@@ -1447,22 +1447,28 @@ print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
         doc:            "Roll the random generator back essentially 'undoing' the last call to `rand`. You may specify an amount to roll back allowing you to skip back n calls to `rand`.",
         examples:       ["
 # Basic rand stream rollback
+
 puts rand # prints 0.75006103515625
+
 rand_back # roll random stream back one
           # the result of the next call to rand will be
           # exactly the same as the previous call
+
 puts rand # prints 0.75006103515625 again!
 puts rand # prints 0.733917236328125",
 "
 # Jumping back multiple places in the rand stream
+
 puts rand # prints 0.75006103515625
 puts rand # prints 0.733917236328125
 puts rand # prints 0.464202880859375
 puts rand # prints 0.24249267578125
+
 rand_back(3) # roll random stream back three places
              # the result of the next call to rand will be
              # exactly the same as the result 3 calls to
-             # `rand` ago.
+             # rand ago.
+
 puts rand # prints  0.733917236328125 again!
 puts rand # prints  0.464202880859375"]
 
@@ -1482,22 +1488,30 @@ puts rand # prints  0.464202880859375"]
         doc:            "Jump the random generator forward essentially skipping the next call to `rand`. You may specify an amount to jump allowing you to skip n calls to `rand`.",
         examples:       ["
 # Basic rand stream skip
+
 puts rand # prints 0.75006103515625
+
 rand_skip # jump random stream forward one
           # typically the next rand is 0.733917236328125
+
 puts rand # prints 0.464202880859375",
 "
 # Jumping forward multiple places in the rand stream
+
 puts rand # prints 0.75006103515625
 puts rand # prints 0.733917236328125
 puts rand # prints 0.464202880859375
 puts rand # prints 0.24249267578125
+
 rand_reset  # reset the random stream
+
 puts rand # prints 0.75006103515625
+
 rand_skip(2) # jump random stream forward three places
              # the result of the next call to rand will be
              # exactly the same as if rand had been called
              # three times
+
 puts rand 0.24249267578125"]
 
 
