@@ -1,17 +1,20 @@
-8 Data Structures
+8 Struktury Danych
 
-# Data Structures
+# Struktury Danych
 
-A very useful tool in a programmer's toolkit is a data structure.
+Struktury danych to bardzo przydatne narzędzie dostępne w standardowm 
+zestawie narzędzi każdego programisty.
 
-Sometimes you may wish to represent and use more than one thing. For
-example, you may find it useful to have a series of notes to play one
-after another. Programming languages have data structures to allow you
-do exactly this.
+Czasami będziesz chciał reprezentować i używać czegoś więcej niż 
+tylko jednej rzeczy. Na przykład, przydatnym może okazać się możliwość 
+posiadania serii nut do zagrania jedna po drugiej. Języki programowania 
+posiadają coś takiego jak struktury danych, które pozwalają Ci robić 
+takie rzeczy.  
 
-There are many exciting and exotic data structures available to
-programmers - and people are always inventing new ones. However, for now
-we only really need to consider a very simple data structure - the list.
+Istnieje wiele ekscytujących i egzotycznych struktur danych dostępnych 
+dla programistów - a ludzie wciąż wymyślają nowe. Na razie potrzebujemy
+w zasadzie wziąć pod uwagę tylko jedną prostą strukturę danych - listę. 
 
-Let's look at it in more detail. We'll cover its basic form and then
-also how lists can be used to represent scales and chords.
+Przyjrzyjmy się jej bardziej szczegółowo. Skupimy się jej podstawową 
+formą, następnie pokażemy w jaki sposób możemy wykorzystać listy 
+do reprezentacji skal oraz akordów.
