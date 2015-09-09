@@ -11,7 +11,7 @@
 <a name="v2.7"></a>
 
 ## Version 2.7 - 'Rerezzed'
-*Wednesday 10th September, 2015*
+*Thursday 10th September, 2015*
 
 This release brings a substantial change to the random number
 generator. This has the unfortunate side effect of breaking backwards
@@ -25,7 +25,7 @@ with the random stream on the synthesis server allowing you to sync
 behaviour between synths and code. Exciting times.
 
 The sampler has also been super charged. We can now easily change the
-rate via MIDI note intervals with `rpitch:o` and stretch the sample whilst
+rate via MIDI note intervals with `rpitch:` and stretch the sample whilst
 preserving pitch via `pitch_stretch:` (although with variable results
 `;-)`).
 
