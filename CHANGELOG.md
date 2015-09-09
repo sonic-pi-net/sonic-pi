@@ -1,5 +1,5 @@
 # History
-* [v2.7-dev](#v2.7), In development
+* [v2.7 'Rerezzed'](#v2.7), 10th Sept, 2015
 * [v2.6 'Algorave'](#v2.6), 30th July, 2015
 * [v2.5 'Craft'](#v2.5), 13th April, 2015
 * [v2.4 'Defrost'](#v2.4), 11th Feb, 2015
@@ -9,29 +9,62 @@
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
 <a name="v2.7"></a>
-## Version 2.7
-*In development*
+
+## Version 2.7 - 'Rerezzed'
+*Wednesday 10th September, 2015*
+
+This release brings a substantial change to the random number
+generator. This has the unfortunate side effect of breaking backwards
+compatibility.  If you have been using `rand`, `choose`, `shuffle` and
+friends to create predictable patterns for your riffs, your code will
+produce different results in this release. Please let me apologise and
+say it's for a good cause. So what is this good cause?  Well, you can
+now jump backwards and forwards through the random stream giving you way
+more creative control than before! The random stream is now also unified
+with the random stream on the synthesis server allowing you to sync
+behaviour between synths and code. Exciting times.
+
+The sampler has also been super charged. We can now easily change the
+rate via MIDI note intervals with `rpitch:o` and stretch the sample whilst
+preserving pitch via `pitch_stretch:` (although with variable results
+`;-)`).
+
+Finally you can now control the global mixer with `set_mixer_control!`
+for those full filter sweeps over the entire sound...
+
+Have fun and happy live coding!
+
 
 ### Breaking Changes
 
-* `sync` now causes the BPM to be inherited from the thread calling the
-  matching `cue`. This may be disabled with the new `bpm_sync:` opt.
 * Complete rewrite of random number system. This means if you've been
   combining calls to `use_random_seed` with randomisation to create
   predictable melodies/rhythms/timbral manipulations you will
   unfortunately get different results in `v2.7`. This change is to
   synchronise both the Ruby rand stream with the one in SuperCollider as
-  well as enabling the reversal of calls to rand (undo rand!)
-* `rrand` and `rand` now only return 0 if called with 0.
+  well as enabling the reversal of calls to rand via `rand_back`.
+* `sync` now causes the BPM to be inherited from the thread calling the
+  matching `cue`. This may be disabled with the new `bpm_sync:` opt.
+* `rrand` and `rand` now return 0 if called with 0.
+
 
 ### New Fns
 
 * `ratio_to_pitch` which provides the inverse of `pitch_to_ratio`
 * `midi_notes` - returns a ring of numbers (mapping the source
   ring/array through the fn `note`).
+* `rand_back` - reverse the random stream and 'undo' calls to `rand`
+* `rand_skip` - skip forward through the random stream.
+* `rand_reset`- reset the random stream to the last seed.
+
 
 ### GUI
 
+* It is now possible to toggle the commenting of whole selections or
+  individual lines with the shortcut `M-/`.
+* Added Icelandic translation.
+
+  
 ### Synths & FX
 
 * All synths learned the `decay_level` opt to allow the sustain phase to
@@ -49,9 +82,17 @@
   modulation. This modifies the rate to match the specified number of
   MIDI notes relative from the current pitch. For example, a `rpitch:`
   of 12 would double the rate.
-  * FX `:echo`'s `decay_level:` opt is now scaled with the BPM.
+* The units of the FX `:echo`'s `decay:` opt is now beats and is scaled
+  with the BPM.
+
 
 ### Examples
+
+* Most examples have been tweaked to sound good with the new random
+  generator. 
+* Tilburg has been replaced with Tilburg 2. Play it and get your
+  Algorave on!
+
 
 ### Improvements
 
@@ -72,13 +113,12 @@
   rests: `:r + 3` returns `:r` (a rest plus any MIDI note shift is still
   a rest).
 
-  
+
 ### Bug Fixes
   
 * Fixed crash when synth args were specified as Rationals.  
 * `note_info` now correctly handles octaves.
 * Fix windows paste shortcut `C-v`.
-
 
 <a name="v2.6"></a>
 
