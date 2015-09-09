@@ -11,7 +11,7 @@
 <a name="v2.7"></a>
 
 ## Version 2.7 - 'Rerezzed'
-*Wednesday 10th September, 2015*
+*Thursday 10th September, 2015*
 
 This release brings a substantial change to the random number
 generator. This has the unfortunate side effect of breaking backwards
