@@ -853,6 +853,31 @@ play 50 # Plays with supersaw synth
           hide:          true
 
 
+
+
+      def set_mixer_control!(opts)
+        @mod_sound_studio.mixer_control(opts)
+      end
+      doc name:          :set_mixer_control!,
+          introduced:    Version.new(2,7,0),
+          summary:       "Control master mixer",
+          doc:           "The master mixer is the final mixer that all sound passes through. This fn gives you control over the master mixer allowing you to manipulate all the sound playing through Sonic Pi at once. For example, you can sweep a lpf or hpf over the entire sound.",
+          args:          [],
+          opts:          {pre_amp:        "Controls the amplitude of the signal prior to th e FX stage of the mixer (prior to lpf/hpf stages). Has slide opts. Default 1.",
+                          amp:            "Controls the amplitude of the signal after the FX tage. Has slide opts. Default 1.",
+                          hpf:            "Global hpf FX. Has slide opts. Default 0.",
+                          lpf:            "Global lpf FX. Has slide opts. Default 135.5.",
+                          hpf_bypass:     "Bypass the global hpf. 0=no bypass, 1=bypass. Default 0.",
+                          lpf_bypass:     "Bypass the global lpf. 0=no bypass, 1=bypass. Default 0.",
+                          limiter_bypass: "Bypass the final limiter. 0=no bypass, 1=bypass. Default 0.",
+                          leak_dc_bypass: "Bypass the final DC leak correction FX. 0=no bypass, 1=bypass. Default 0."},
+          accepts_block: false,
+          examples:      ["
+set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 beats."]
+
+
+
+
       def set_mixer_invert_stereo!
         @mod_sound_studio.mixer_invert_stereo(true)
       end
@@ -869,9 +894,8 @@ play 50 # Plays with supersaw synth
         @mod_sound_studio.mixer_mono_mode
       end
 
-      def set_mixer_control!(opts)
-        @mod_sound_studio.mixer_control(opts)
-      end
+
+
 
       def synth(synth_name, *args)
         ensure_good_timing!
