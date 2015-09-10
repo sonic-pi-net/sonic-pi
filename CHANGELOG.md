@@ -82,7 +82,7 @@ Have fun and happy live coding!
   modulation. This modifies the rate to match the specified number of
   MIDI notes relative from the current pitch. For example, a `rpitch:`
   of 12 would double the rate.
-* The units of the FX `:echo`'s `decay:` opt is now beats and is scaled
+* The units of the FX `:echo`'s `decay:` opt are now beats and are scaled
   with the BPM.
 
 
