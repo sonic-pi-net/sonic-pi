@@ -34,7 +34,8 @@ TARGET = 'sonic-pi'
 
 macx {
   TARGET = 'Sonic Pi'
-  QT += macextras
+  greaterThan(QT_MAJOR_VERSION, 4): QT += macextras
+  lessThan(QT_MAJOR_VERSION, 5): QT += mac
   DEFINES += DONT_USE_OSX_KEYS
 }
 
