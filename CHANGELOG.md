@@ -82,8 +82,8 @@ Have fun and happy live coding!
   modulation. This modifies the rate to match the specified number of
   MIDI notes relative from the current pitch. For example, a `rpitch:`
   of 12 would double the rate.
-* The units of the FX `:echo`'s `decay:` opt are now beats and are scaled
-  with the BPM.
+* The unit of the FX `:echo`'s `decay:` opt is now beats and the value
+  is scaled with the BPM.
 
 
 ### Examples
@@ -119,6 +119,8 @@ Have fun and happy live coding!
 * Fixed crash when synth args were specified as Rationals.  
 * `note_info` now correctly handles octaves.
 * Fix windows paste shortcut `C-v`.
+* Teach `invert_chord` how to properly handle out of range index ranges
+  and negative inversions.
 
 <a name="v2.6"></a>
 
