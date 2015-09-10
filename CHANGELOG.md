@@ -46,6 +46,8 @@ Have fun and happy live coding!
 * `sync` now causes the BPM to be inherited from the thread calling the
   matching `cue`. This may be disabled with the new `bpm_sync:` opt.
 * `rrand` and `rand` now return 0 if called with 0.
+* `invert_chord` now handles negative inversions in a more musically
+  appropriate manner..
 
 
 ### New Fns
@@ -119,8 +121,7 @@ Have fun and happy live coding!
 * Fixed crash when synth args were specified as Rationals.  
 * `note_info` now correctly handles octaves.
 * Fix windows paste shortcut `C-v`.
-* Teach `invert_chord` how to properly handle out of range index ranges
-  and negative inversions.
+* Teach `invert_chord` how to properly handle out of range index ranges.
 
 <a name="v2.6"></a>
 
