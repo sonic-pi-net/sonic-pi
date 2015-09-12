@@ -2126,6 +2126,11 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
           args_h[:rate] = args_h[:rate] * pitch_rate_mod
         end
 
+        rate_pitch = args_h[:rpitch]
+        if rate_pitch
+          new_rate = pitch_to_ratio(rate_pitch.to_f)
+          args_h[:rate] = new_rate * (args_h[:rate] || 1)
+        end
 
         if finish > start
           len = finish - start
