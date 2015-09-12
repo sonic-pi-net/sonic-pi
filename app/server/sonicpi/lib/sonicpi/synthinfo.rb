@@ -1661,8 +1661,6 @@ module SonicPi
         :attack_level => 1,
         :decay_level => :sustain_level,
         :sustain_level => 1,
-        :decay => 0.2,
-        :release => 0.2,
         :hard => 0.5,
         :stereo_width => 0,
         :cutoff => 0,
