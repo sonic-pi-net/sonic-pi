@@ -2153,40 +2153,146 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
         end
       end
       doc name:          :sample_duration,
-      introduced:    Version.new(2,0,0),
-      summary:       "Get sample duration in beats",
-      doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file this returns the length of time in beats that the sample would play for. It's useful when looping samples to make sure there are no gaps - see the examples. You may pass a rate opt which it will use to scale the returned time to match the duration at that rate. The time returned is scaled to the current bpm.",
-      args:          [[:path, :string]],
-      opts:          {:rate => "Rate modifier. For example, doubling the rate will halve the duration.",
-        :start => "Start position of sample playback as a value from 0 to 1",
-        :finish => "Finish position of sample playback as a value from 0 to 1",
-        :attack => "Duration of the attack phase of the envelope.",
-        :decay => "Duration of the decay phase of the envelope.",
-        :sustain => "Duration of the sustain phase of the envelope.",
-        :release => "Duration of the release phase of the envelope."},
+          introduced:    Version.new(2,0,0),
+          summary:       "Get duration of sample in beats",
+          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an affect on the playback duration such as `rate:`. The time returned is scaled to the current bpm.",
+          args:          [[:path, :string]],
+          opts:          {:rate    => "Rate modifier. For example, doubling the rate will halve the duration.",
+                          :start   => "Start position of sample playback as a value from 0 to 1",
+                          :finish  => "Finish position of sample playback as a value from 0 to 1",
+                          :attack  => "Duration of the attack phase of the envelope.",
+                          :decay   => "Duration of the decay phase of the envelope.",
+                          :sustain => "Duration of the sustain phase of the envelope.",
+                          :release => "Duration of the release phase of the envelope.",
+                          :beat_stretch  => "Change the rate of the sample so that it's new duration matches the specified number of beats.",
+                          :pitch_stretch => "Change the rate of the sample so that it's new duration matches the specified number of beats but attempt to preserve pitch.",
+                          :rpitch        => "Change the rate to shift the pitch up or down the specified number of MIDI notes."},
 
-      accepts_block: false,
-      examples:      ["
-loop do   # Using sample_duration here means the loop plays back without any gaps or breaks
-  sample :loop_amen # Play amen break
-  sleep sample_duration(:loop_amen) # sleep for duration of amen break
-end",
+          accepts_block: false,
+          examples:      ["
+# Simple use
+puts sample_duration(:loop_garzul) # returns 8.0 because this sample is 8 seconds long
+",
 
-        "loop do  # You can also use rate if you want to keep a seamless loop whilst adjusting the speed
-  sample :loop_amen, rate: 0.75
-  sleep sample_duration(:loop_amen, rate: 0.75)
-end",
-
-        "
-loop do
-  sample :loop_amen, rate: -1 # Works for negative rates too
-  sleep sample_duration :loop_amen, rate: -1
-end ",
-
-        "
-use_sample_bpm :loop_amen
-puts sample_duration(:loop_amen) #=> 1
 "
+# The result is scaled to the current BPM
+use_bpm 120
+puts sample_duration(:loop_garzul) # => 16.0
+use_bpm 90
+puts sample_duration(:loop_garzul) # => 12.0
+use_bpm 21
+puts sample_duration(:loop_garzul) # => 2.8
+",
+
+"
+# Avoid using sample_duration to set the sleep time in live_loops
+
+live_loop :avoid_this do               # It is possible to use sample_duration to drive the frequency of a live loop.
+  with_fx :slicer do                   # However, if you're using a rhythmical sample such as a drum beat and it isn't
+    sample :loop_amen                  # in the same BPM as the current BPM, then the FX such as this slicer will be
+    sleep sample_duration(:loop_amen)  # badly out of sync. This is because the slicer slices at the current BPM and
+  end                                  # this live_loop is looping at a different BPM (that of the sample)
+end
+
+live_loop :prefer_this do              # Instead prefer to set the BPM of the live_loop to match the sample. It has
+  use_sample_bpm :loop_amen            # two benefits. Now our sleep is a nice and simple 1 (as it's one beat).
+  with_fx :slicer do                   # Also, our slicer now works with the beat and sounds much better.
+    sample :loop_amen
+    sleep 1
+  end
+end
+
+live_loop :or_this do                  # Alternatively we can beat_stretch the sample to match the current BPM. This has the
+  with_fx :slicer do                   # side effect of changing the rate of the sample (and hence the pitch). However, the
+    sample :loop_amen, beat_stretch: 1 # FX works nicely in time and the sleep time is also a simple 1.
+    sleep 1
+  end
+end
+",
+
+"
+# The standard sample opts are also honoured
+
+                                                                  # Playing a sample at standard speed will return standard length
+sample_duration :loop_garzul, rate: 1                             # => 16.0
+
+                                                                  # Playing a sample at half speed will double duration
+sample_duration :loop_garzul, rate: 0.5                           # => 16.0
+
+                                                                  # Playing a sample at double speed will half duration
+sample_duration :loop_garzul, rate: 2                             # => 4.0
+
+                                                                  # Playing a sample backwards at double speed will half duration
+sample_duration :loop_garzul, rate: -2                            # => 4.0
+
+                                                                  # Without an explicit sustain: opt attack: just affects amplitude not duration
+sample_duration :loop_garzul, attack: 1                           # => 8.0
+sample_duration :loop_garzul, attack: 100                         # => 8.0
+sample_duration :loop_garzul, attack: 0                           # => 8.0
+
+                                                                  # Without an explicit sustain: opt release: just affects amplitude not duration
+sample_duration :loop_garzul, release: 1                          # => 8.0
+sample_duration :loop_garzul, release: 100                        # => 8.0
+sample_duration :loop_garzul, release: 0                          # => 8.0
+
+                                                                  # Without an explicit sustain: opt decay: just affects amplitude not duration
+sample_duration :loop_garzul, decay: 1                            # => 8.0
+sample_duration :loop_garzul, decay: 100                          # => 8.0
+sample_duration :loop_garzul, decay: 0                            # => 8.0
+
+                                                                  # With an explicit sustain: opt, if the attack + decay + sustain + release envelope
+                                                                  # duration is less than the sample duration time, the envelope will shorten the
+                                                                  # sample time.
+sample_duration :loop_garzul, sustain: 0, attack: 0.5             # => 0.5
+sample_duration :loop_garzul, sustain: 0, decay: 0.1              # => 0.1
+sample_duration :loop_garzul, sustain: 0, release: 1              # => 1.0
+sample_duration :loop_garzul, sustain: 2, attack: 0.5, release: 1 # => 3.5
+
+                                                                  # If the envelope duration is longer than the sample it will not affect the
+                                                                  # sample duration
+sample_duration :loop_garzul, sustain: 0, attack: 8, release: 3   # => 8
+
+
+                                                                  # All other opts are taken into account before the comparison with the envelope opts.
+sample_duration :loop_garzul, rate: 10                            # => 0.8
+sample_duration :loop_garzul, sustain: 0, attack: 0.9, rate: 10   # => 0.8 (The duration of the sample is less than the envelope length so wins)
+
+
+                                                                  # The rpitch: opt will modify the rate to shift the pitch of the sample up and down
+                                                                  # and therefore affects duration.
+sample_duration :loop_garzul, rpitch: 12                          # => 4.0
+sample_duration :loop_garzul, rpitch: -12                         # => 16
+
+                                                                  # The rpitch: and rate: opts combine together.
+sample_duration :loop_garzul, rpitch: 12, rate: 2                 # => 2.0
+
+                                                                  # The beat_stretch: opt stretches the sample so that it's duration matches the value.
+                                                                  # It also combines with rate:
+sample_duration :loop_garzul, beat_stretch: 3                     # => 3.0
+sample_duration :loop_garzul, beat_stretch: 3, rate: 0.5          # => 6.0
+
+                                                                  # The pitch_stretch: opt acts identially to beat_stretch when just considering sample
+                                                                  # duration.
+sample_duration :loop_garzul, pitch_stretch: 3                    # => 3.0
+sample_duration :loop_garzul, pitch_stretch: 3, rate: 0.5         # => 6.0
+
+                                                                  # The start: and finish: opts can also shorten the sample duration: and also combine
+                                                                  # with other opts such as rate:
+sample_duration :loop_garzul, start: 0.5                          # => 4.0
+sample_duration :loop_garzul, start: 0.5, finish: 0.75            # => 2.0
+sample_duration :loop_garzul, finish: 0.5, start: 0.75            # => 2.0
+sample_duration :loop_garzul, rate: 2, finish: 0.5, start: 0.75 # => 1.0
+",
+"
+# Triggering samples one after another
+
+sample :loop_amen                    # start the :loop_amen sample
+sleep sample_duration(:loop_amen)    # wait for the duration of :loop_amen before
+sample :loop_amen                    # starting it again
+"
+
+
+
       ]
 
 
