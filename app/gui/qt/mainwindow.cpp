@@ -851,6 +851,15 @@ void MainWindow::initPrefsWindow() {
   debug_box->setLayout(debug_box_layout);
 
 
+  QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
+  QGridLayout *transparency_box_layout = new QGridLayout;
+  gui_transparency_slider = new QSlider(this);
+  connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
+  transparency_box_layout->addWidget(gui_transparency_slider);
+  transparency_box->setLayout(transparency_box_layout);
+
+
+
 
 
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
@@ -962,6 +971,13 @@ void MainWindow::initPrefsWindow() {
   prefTabs->addTab(editor_box, tr("Editor"));
   prefTabs->addTab(studio_prefs_box, tr("Studio"));
 
+  QGroupBox *performance_box = new QGroupBox(tr("Performance"));
+  performance_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
+  QGridLayout *performance_box_layout = new QGridLayout;
+  performance_box_layout->addWidget(transparency_box, 0, 0);
+  performance_box->setLayout(performance_box_layout);
+  prefTabs->addTab(performance_box, tr("Performance"));
+
   QGroupBox *update_prefs_box = new QGroupBox();
   QGridLayout *update_prefs_box_layout = new QGridLayout;
 
@@ -1010,6 +1026,8 @@ void MainWindow::initPrefsWindow() {
   check_updates->setChecked(settings.value("prefs/rp/check-updates", true).toBool());
 
   auto_indent_on_run->setChecked(settings.value("prefs/auto-indent-on-run", true).toBool());
+
+  gui_transparency_slider->setValue(settings.value("prefs/gui_transparency", 100).toInt());
 
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
@@ -1443,6 +1461,13 @@ void MainWindow::helpContext()
     list->setCurrentRow(entry.entryIndex);
   }
 }
+
+void MainWindow::changeGUITransparency(int val)
+{
+  // scale it linearly from 0 -> 100 to 0.3 -> 1
+  setWindowOpacity((0.7 * ((float)val / 100.0))  + 0.3);
+}
+
 
 #if defined(Q_OS_LINUX)
 void MainWindow::changeRPSystemVol(int val)
@@ -2086,7 +2111,7 @@ void MainWindow::writeSettings()
 
   settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
   settings.setValue("prefs/auto-indent-on-run", auto_indent_on_run->isChecked());
-
+  settings.setValue("prefs/gui_transparency", gui_transparency_slider->value());
   settings.setValue("workspace", tabs->currentIndex());
 
   for (int w=0; w < workspace_max; w++) {
