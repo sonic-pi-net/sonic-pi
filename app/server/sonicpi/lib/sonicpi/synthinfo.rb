@@ -1700,7 +1700,7 @@ module SonicPi
 
         :attack =>
         {
-          :doc => "Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. With the piano synth, this opt can only have the affect of shortening the attack phase, not prolonging it.",
+          :doc => "Amount of time (in beats) for sound to reach full amplitude (attack_level). A short attack (i.e. 0.01) makes the initial part of the sound very percussive like a sharp tap. A longer attack (i.e 1) fades the sound in gently. With the piano synth, this opt can only have the effect of shortening the attack phase, not prolonging it.",
           :validations => [v_positive(:attack)],
           :modulatable => false,
           :bpm_scale => true
@@ -1708,7 +1708,7 @@ module SonicPi
 
         :decay =>
         {
-          :doc => "Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level). With the piano synth, this opt can only have the affect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+          :doc => "Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level). With the piano synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
           :validations => [v_positive(:decay)],
           :modulatable => false,
           :bpm_scale => true
@@ -1716,7 +1716,7 @@ module SonicPi
 
         :sustain =>
         {
-          :doc => "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. With the piano synth, this opt can only have the affect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+          :doc => "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. With the piano synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
           :validations => [v_positive(:sustain)],
           :modulatable => false,
           :bpm_scale => true
@@ -1724,7 +1724,7 @@ module SonicPi
 
         :release =>
         {
-          :doc => "Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. With the piano synth, this opt can only have the affect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+          :doc => "Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. With the piano synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
           :validations => [v_positive(:release)],
           :modulatable => false,
           :bpm_scale => true

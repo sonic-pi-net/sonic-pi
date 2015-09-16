@@ -2155,7 +2155,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
       doc name:          :sample_duration,
           introduced:    Version.new(2,0,0),
           summary:       "Get duration of sample in beats",
-          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an affect on the playback duration such as `rate:`. The time returned is scaled to the current bpm.",
+          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current bpm.",
           args:          [[:path, :string]],
           opts:          {:rate    => "Rate modifier. For example, doubling the rate will halve the duration.",
                           :start   => "Start position of sample playback as a value from 0 to 1",
@@ -2164,8 +2164,8 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
                           :decay   => "Duration of the decay phase of the envelope.",
                           :sustain => "Duration of the sustain phase of the envelope.",
                           :release => "Duration of the release phase of the envelope.",
-                          :beat_stretch  => "Change the rate of the sample so that it's new duration matches the specified number of beats.",
-                          :pitch_stretch => "Change the rate of the sample so that it's new duration matches the specified number of beats but attempt to preserve pitch.",
+                          :beat_stretch  => "Change the rate of the sample so that its new duration matches the specified number of beats.",
+                          :pitch_stretch => "Change the rate of the sample so that its new duration matches the specified number of beats but attempt to preserve pitch.",
                           :rpitch        => "Change the rate to shift the pitch up or down the specified number of MIDI notes."},
 
           accepts_block: false,
@@ -2219,10 +2219,10 @@ sample_duration :loop_garzul, rate: 1                             # => 16.0
                                                                   # Playing a sample at half speed will double duration
 sample_duration :loop_garzul, rate: 0.5                           # => 16.0
 
-                                                                  # Playing a sample at double speed will half duration
+                                                                  # Playing a sample at double speed will halve duration
 sample_duration :loop_garzul, rate: 2                             # => 4.0
 
-                                                                  # Playing a sample backwards at double speed will half duration
+                                                                  # Playing a sample backwards at double speed will halve duration
 sample_duration :loop_garzul, rate: -2                            # => 4.0
 
                                                                   # Without an explicit sustain: opt attack: just affects amplitude not duration
@@ -2266,17 +2266,17 @@ sample_duration :loop_garzul, rpitch: -12                         # => 16
                                                                   # The rpitch: and rate: opts combine together.
 sample_duration :loop_garzul, rpitch: 12, rate: 2                 # => 2.0
 
-                                                                  # The beat_stretch: opt stretches the sample so that it's duration matches the value.
+                                                                  # The beat_stretch: opt stretches the sample so that its duration matches the value.
                                                                   # It also combines with rate:
 sample_duration :loop_garzul, beat_stretch: 3                     # => 3.0
 sample_duration :loop_garzul, beat_stretch: 3, rate: 0.5          # => 6.0
 
-                                                                  # The pitch_stretch: opt acts identially to beat_stretch when just considering sample
+                                                                  # The pitch_stretch: opt acts identically to beat_stretch when just considering sample
                                                                   # duration.
 sample_duration :loop_garzul, pitch_stretch: 3                    # => 3.0
 sample_duration :loop_garzul, pitch_stretch: 3, rate: 0.5         # => 6.0
 
-                                                                  # The start: and finish: opts can also shorten the sample duration: and also combine
+                                                                  # The start: and finish: opts can also shorten the sample duration and also combine
                                                                   # with other opts such as rate:
 sample_duration :loop_garzul, start: 0.5                          # => 4.0
 sample_duration :loop_garzul, start: 0.5, finish: 0.75            # => 2.0
