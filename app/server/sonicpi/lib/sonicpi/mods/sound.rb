@@ -2214,7 +2214,7 @@ end
 # The standard sample opts are also honoured
 
                                                                   # Playing a sample at standard speed will return standard length
-sample_duration :loop_garzul, rate: 1                             # => 16.0
+sample_duration :loop_garzul, rate: 1                             # => 8.0
 
                                                                   # Playing a sample at half speed will double duration
 sample_duration :loop_garzul, rate: 0.5                           # => 16.0
