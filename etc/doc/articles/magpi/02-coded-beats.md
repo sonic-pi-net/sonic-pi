@@ -154,7 +154,7 @@ you create! See you next time...
      p = [0.125, 0.25, 0.5].choose
      with_fx :slicer, phase: p, wave: 0, mix: rrand(0.7, 1) do
        r = [1, 1, 1, -1].choose
-       sample :loop_amen, beat_stretch: 2, rate: r , amp: 2
+       sample :loop_amen, beat_stretch: 2, rate: r, amp: 2
      end
      sleep 2
    end
