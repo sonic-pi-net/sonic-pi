@@ -75,7 +75,7 @@ created will pass through that FX.
 In order to really discover your coding sound you'll soon want to know
 how to modify and control synths and FX. For example, you might want to
 change the duration of a note, add more reverb, or change the time
-between echoes. Luckly, Sonic Pi gives you an amazing level of control
+between echoes. Luckily, Sonic Pi gives you an amazing level of control
 to do exactly this with special things called optional parameters. Let's
 take a quick look. Copy this code into a workspace and hit run:
 
@@ -117,7 +117,7 @@ Copy this code into one of your Sonic Pi workspaces:
     end
 
 
-Now, hit run and you'll here a slightly muffled drum break. Now, change
+Now, hit run and you'll hear a slightly muffled drum break. Now, change
 the `cutoff:` value to `80` and hit run again. Can you hear the
 difference? Try `90`, `100`, `110`...
 

@@ -50,9 +50,7 @@ fingertips.
 
 / break out box begin
 
-Timbre is just a fancy word describing the sound of a sound. If you play
-a the same note with different instruments such as a violin, guitar,
-piano, the pitch (how high or low it sounds) would be the same, but the
+Timbre is just a fancy word describing the sound of a sound. If you play the same note with different instruments such as a violin, guitar, or piano, the pitch (how high or low it sounds) would be the same, but the
 sound quality would be different. That sound quality - the thing which
 allows you to tell the difference between a piano and a guitar is the
 timbre.
@@ -105,7 +103,7 @@ through our shuffled notes to play the riff.
 
 Now, here's where the fun starts. If we change the random seed value to
 another number, say 3000, we get an entirely different shuffling of the
-notes. So now it's extemely easy to explore new melodies. Simply choose
+notes. So now it's extremely easy to explore new melodies. Simply choose
 the list of notes we want to shuffle (scales are a great starting point)
 and then choose the seed we want to shuffle with. If we don't like the
 melody, just change one of those two things and try again. Repeat until
@@ -115,7 +113,7 @@ you like what you hear!
 Pseudo Randomisation
 
 Sonic Pi's randomisation is not actually random it's what's called
-psuedo random.  Imagine if you were to roll a dice 100 times and write
+pseudo random.  Imagine if you were to roll a dice 100 times and write
 down the result of each roll onto a piece of paper. Sonic Pi has the
 equivalent of this list of results which it uses when you ask for a
 random value. Instead of rolling an actual dice, it just picks the next
@@ -177,7 +175,7 @@ example. See you next time!
     live_loop :drums do
       use_random_seed 500
       16.times do
-        sample ::bd_haus, rate: 2, cutoff: 110 if rand < 0.35
+        sample :bd_haus, rate: 2, cutoff: 110 if rand < 0.35
         sleep 0.125
       end
     end

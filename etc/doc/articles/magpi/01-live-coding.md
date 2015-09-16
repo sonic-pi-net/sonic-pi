@@ -4,7 +4,7 @@ The laser beams sliced through the wafts of smoke as the subwoofer
 pumped bass deep into the bodies of the crowd. The atmosphere was ripe
 with a heady mix of synths and dancing. However something wasn't quite
 right in this nightclub. Projected in bright colours above the DJ booth
-was futuristic text, moving, dancing flashing. This wasn't fancy
+was futuristic text, moving, dancing, flashing. This wasn't fancy
 visuals, it was merely a projection of Sonic Pi running on a Raspberry
 Pi. The occupant of the DJ booth wasn't spinning disks, he was writing,
 editing and evaluating code. Live. This is Live Coding.
@@ -18,7 +18,7 @@ to music making has taken is the Algorave (http://algorave.com) - events
 where artists like myself code music for people to dance to. However,
 you don't need to be in a nightclub to Live Code - with Sonic Pi v2.6+
 you can do it anywhere you can take your Raspberry Pi and a pair of
-headphones or some speakers.  Once you reach the end of this articla,
+headphones or some speakers.  Once you reach the end of this article,
 you'll be programming your own beats and modifying them live. Where you
 go afterwards will only be constrained by your imagination.
 
@@ -58,7 +58,7 @@ with Sonic Pi. Let's have a play:
       sleep 1
     end
 
-Now hit press the Run button or hit `alt-r`. You're now listening to
+Now press the Run button or hit `alt-r`. You're now listening to
 some gorgeous choir sounds. Now, whilst it's still playing, change the
 rate from `0.4` to `0.38`. Hit run again. Woah! Did you hear the choir
 change note? Change it back up to `0.4` to return back to how it
@@ -113,7 +113,7 @@ another looping slowly making a crazy bass sound.
 
 One of the interesting things about using multiple `live_loop`s is that
 they each manage their own time. This means it's really easy to create
-interesting polyrhytmical structures and even play with phasing Steve
+interesting polyrhythmical structures and even play with phasing Steve
 Reich style. Check this out:
 
     # Steve Reich's Piano Phase

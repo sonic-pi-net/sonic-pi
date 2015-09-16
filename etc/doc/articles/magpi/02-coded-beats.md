@@ -38,7 +38,7 @@ for being played as a one-shot, it was built for being looped.
 ## Beat Stretching 
 
 Let's loop the Amen Break by using our old friend the `live_loop`
-introduced in this tutorial last month::
+introduced in this tutorial last month:
 
    live_loop :amen_break do
      sample :loop_amen
@@ -46,7 +46,7 @@ introduced in this tutorial last month::
    end
 
 OK, so it is looping, but there's an annoying pause every time
-round. That is because we asked it to sleep for `2` beats and the with
+round. That is because we asked it to sleep for `2` beats and with
 the default BPM of 60 the `:loop_amen` sample only lasts for `1.753`
 beats. We therefore have a silence of `2 - 1.753 = 0.247` beats. Even
 though it's short, it's still noticeable.
@@ -65,7 +65,7 @@ we just call them *opts* to keep things nice and simple.
      sleep 2
    end  
 
-Now we're dancing! Although, perhaps we want speed it up or slow it down
+Now we're dancing! Although, perhaps we want to speed it up or slow it down
 to suit the mood.
 
 ## Playing with Time
@@ -86,7 +86,7 @@ sleeping for 2 and our BPM is 30, yet everything is in time. The
 `beat_stretch` opt works with the current BPM to make sure everything just works. 
 
 Now, here's the fun part. Whilst the loop is still live, change the `30`
-in `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept
+in the `use_bpm 30` line to `50`. Woah, everything just got faster yet *kept
 in time*! Try going faster - up to 80, to 120, now go crazy and punch in
 200!
 
@@ -130,14 +130,14 @@ the sound up. Wrap the `sample` line with the FX code like this:
 
 Notice how the sound bounces up and down a little more. (You can hear
 the original sound without the FX by changing the `mix:` opt to `0`.)
-Now, try playing around with the `:slicer` opt. This is the rate (in
-beats) of the slicing effect. A smaller value like `0.125` will slicer
+Now, try playing around with the `phase:` opt. This is the rate (in
+beats) of the slicing effect. A smaller value like `0.125` will slice
 faster and larger values like `0.5` will slice more slowly. Notice that
 successively halving or doubling the `phase:` opts val tends to always
 sound good. Finally, change the `wave:` opt to one of 0, 1, or 2 and
 hear how it changes the sound. These are the various wave shapes. 0 is a
 saw wave, (hard in, fade out) 1 is a square wave (hard in, hard out) and
-2 is a triangle wave (fade in fade out).
+2 is a triangle wave (fade in, fade out).
 
 
 ## Bringing it all together
