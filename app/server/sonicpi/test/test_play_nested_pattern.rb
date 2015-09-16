@@ -11,9 +11,9 @@
 # notice is included.
 #++
 
-require 'test/unit'
+require_relative "./setup_test"
 require 'mocha/setup'
-require_relative "../../core"
+
 require_relative "../lib/sonicpi/mods/sound"
 require_relative "../lib/sonicpi/spiderapi"
 
