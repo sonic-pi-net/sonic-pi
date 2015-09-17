@@ -40,9 +40,15 @@ if os == :osx
   # Force sample rate for both input and output to 44k
   # If these are not identical, then scsynth will refuse
   # to boot.
+  begin
   require 'coreaudio'
-  CoreAudio.default_output_device(nominal_rate: 44100.0)
-  CoreAudio.default_input_device(nominal_rate: 44100.0)
+    CoreAudio.default_output_device(nominal_rate: 44100.0)
+    CoreAudio.default_input_device(nominal_rate: 44100.0)
+  rescue Exception => e
+    STDERR.puts "Unable to set sample rate on default input/output device to 44100"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
+  end
 end
 
 require 'multi_json'
