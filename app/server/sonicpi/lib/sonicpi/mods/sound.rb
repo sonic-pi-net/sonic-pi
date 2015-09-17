@@ -1186,7 +1186,7 @@ If you want to use a triplet rhythm you can use a special notation to spread acr
     random_pattern = [rand_notes, rand_notes, [rand_notes, rand_notes], rand_notes]
     loop do
       # because we already sleep inside play_pattern_timed,
-      # we set the :beath_length to zero
+      # we set the :beat_length to zero
       play_nested_pattern(random_pattern, mode: :lambdas, beat_length: 0)
     end
     ","
