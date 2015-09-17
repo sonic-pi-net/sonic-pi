@@ -21,6 +21,20 @@ module SonicPi
 
       @num_cached_integers = 0
       @num_cached_floats = 0
+      @string_terminator = "\x00"
+      @args = []
+      @i_tag = "i"
+      @f_tag = "f"
+      @s_tag = "s"
+      @d_tag = "d"
+      @h_tag = "h"
+      @b_tag = "b"
+
+      @cap_n = 'N'
+      @cap_g = 'G'
+      @low_g = 'g'
+      @q_lt = 'q>'
+      @binary_encoding = "BINARY"
     end
 
     def decode_single_message(m)
@@ -28,13 +42,13 @@ module SonicPi
       ## cost of method dispatch. Apologies if this makes it harder to
       ## read & understand. See http://opensoundcontrol.org for spec.
 
-      m.force_encoding("BINARY")
+      m.force_encoding(@binary_encoding)
 
-      args, idx, string_terminator = [], 0, "\x00"
+      args, idx = [], 0
 
       # Get OSC address e.g. /foo
       orig_idx = idx
-      idx = m.index(string_terminator, orig_idx)
+      idx = m.index(@string_terminator, orig_idx)
       address, idx =  m[orig_idx...idx], idx + 1 + ((4 - ((idx + 1) % 4)) % 4)
 
       sep, idx = m[idx], idx + 1
@@ -44,18 +58,18 @@ module SonicPi
 
         # Get type tags
         orig_idx = idx
-        idx = m.index(string_terminator, orig_idx)
+        idx = m.index(@string_terminator, orig_idx)
         tags, idx = m[orig_idx...idx], idx + 1 + ((4 - ((idx + 1) % 4)) % 4)
 
         tags.each_char do |t|
           case t
-          when "i"
+          when @i_tag
             # int32
             raw = m[idx, 4]
             arg, idx = @integer_cache[raw], idx + 4
 
             unless arg
-              arg = raw.unpack('N')[0]
+              arg = raw.unpack(@cap_n)[0]
               # Values placed inline for efficiency:
               # 2**32 == 4294967296
               # 2**31 - 1 == 2147483647
@@ -65,31 +79,31 @@ module SonicPi
                 @num_cached_integers += 1
               end
             end
-          when "f"
+          when @f_tag
             # float32
             raw = m[idx, 4]
             arg, idx = @float_cache[raw], idx + 4
             unless arg
-              arg = raw.unpack('g')[0]
+              arg = raw.unpack(@low_g)[0]
               if @num_cached_floats < @cache_size
                 @float_cache[raw] = arg
                 @num_cached_floats += 1
               end
             end
-          when "s"
+          when @s_tag
             # string
             orig_idx = idx
-            idx = m.index(string_terminator, orig_idx)
+            idx = m.index(@string_terminator, orig_idx)
             arg, idx =  m[orig_idx...idx], idx + 1 + ((4 - ((idx + 1) % 4)) % 4)
-          when "d"
+          when @d_tag
             # double64
-            arg, idx = m[idx, 8].unpack('G')[0], idx + 8
-          when "h"
+            arg, idx = m[idx, 8].unpack(@cap_g)[0], idx + 8
+          when @h_tag
             # int64
-            arg, idx = m[idx, 8].unpack('q>')[0], idx + 8
-          when "b"
+            arg, idx = m[idx, 8].unpack(@q_lt)[0], idx + 8
+          when @b_tag
             # binary blob
-            l = m[idx, 4].unpack('N')[0]
+            l = m[idx, 4].unpack(@cap_n)[0]
             idx += 4
             arg = m[idx, l]
             idx += l
