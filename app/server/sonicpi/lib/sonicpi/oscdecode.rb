@@ -34,7 +34,7 @@ module SonicPi
 
       # Get OSC address e.g. /foo
       orig_idx = idx
-      idx += 1 while m[idx] != string_terminator
+      idx = m.index(string_terminator, orig_idx)
       address, idx =  m[orig_idx...idx], idx + 1 + ((4 - ((idx + 1) % 4)) % 4)
 
       sep, idx = m[idx], idx + 1
@@ -44,7 +44,7 @@ module SonicPi
 
         # Get type tags
         orig_idx = idx
-        idx += 1 while m[idx] != string_terminator
+        idx = m.index(string_terminator, orig_idx)
         tags, idx = m[orig_idx...idx], idx + 1 + ((4 - ((idx + 1) % 4)) % 4)
 
         tags.each_char do |t|
@@ -79,7 +79,7 @@ module SonicPi
           when "s"
             # string
             orig_idx = idx
-            idx += 1 while m[idx] != string_terminator
+            idx = m.index(string_terminator, orig_idx)
             arg, idx =  m[orig_idx...idx], idx + 1 + ((4 - ((idx + 1) % 4)) % 4)
           when "d"
             # double64
