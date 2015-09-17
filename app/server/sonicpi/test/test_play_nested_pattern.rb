@@ -19,7 +19,7 @@ require_relative "../lib/sonicpi/spiderapi"
 
 module SonicPi
   class PlayNestedPatternTester < Test::Unit::TestCase
-    setup do
+    def setup
       @mock_sound = Object.new
       @mock_sound.extend(Mods::Sound)
       @mock_sound.extend(SpiderAPI)
