@@ -346,6 +346,8 @@ module SonicPi
 
     def __extract_line_of_error(e)
       trace = e.backtrace
+      return -1 unless trace
+
       l = trace.find {|line| line.include?("in __spider_eval")}
       unless l
         return -1
@@ -681,6 +683,18 @@ module SonicPi
 
     def __enable_update_checker
       @settings.del(:no_update_checking)
+    end
+
+    def __run_tests
+      path_to_test_folder = File.join(server_path, "sonicpi", "test")
+      test_paths = Dir.glob(File.join(path_to_test_folder, "test_*.rb"))
+      __info "Running tests, hold tight..."
+      #output = []
+      test_paths.each do |test_path|
+        __info "Running #{File.basename(test_path)}"
+        __info `#{ruby_path} #{test_path} 2>&1`
+      end
+      #__error(Exception.new(output.join("\n")))
     end
 
     def __spider_eval(code, info={})

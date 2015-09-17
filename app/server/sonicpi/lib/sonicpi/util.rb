@@ -199,6 +199,16 @@ module SonicPi
       File.absolute_path("#{server_path}/native/#{os}")
     end
 
+    def ruby_path
+      # For running tests
+      case os
+      when :windows
+        File.join(native_path, "bin", "ruby.exe")
+      when :osx, :raspberry, :linux
+        File.join(native_path, "ruby", "bin", "ruby")
+      end
+    end
+
     def user_settings_path
       File.absolute_path("#{home_dir}/settings.json")
     end
