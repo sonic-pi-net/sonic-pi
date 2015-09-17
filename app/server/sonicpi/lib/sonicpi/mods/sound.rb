@@ -2011,7 +2011,7 @@ puts current_volume #=> 2"]
 
 
       def current_transpose
-        Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+        Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
       end
       doc name:          :current_transpose,
           introduced:    Version.new(2,0,0),
