@@ -1686,14 +1686,18 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         # timestamp back to this thread.
         fx_execute_t.join
         raise block_exception if block_exception
-        Thread.current.thread_variable_set(:sonic_pi_spider_delayed_blocks, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_blocks))
-        Thread.current.thread_variable_set(:sonic_pi_spider_delayed_messages, fx_execute_t.thread_variable_get(:sonic_pi_spider_delayed_messages))
-        Thread.current.thread_variable_set(:sonic_pi_spider_time, fx_execute_t.thread_variable_get(:sonic_pi_spider_time))
-        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, fx_execute_t.thread_variable_get(:sonic_pi_core_thread_local_counters))
+        [ :sonic_pi_spider_delayed_blocks,
+          :sonic_pi_spider_delayed_messages,
+          :sonic_pi_spider_time,
+          :sonic_pi_core_thread_local_counters,
+          :sonic_pi_spider_random_gen_idx,
+          :sonic_pi_spider_random_gen_seed,
+          :sonic_pi_spider_sleep_mul,
+          :sonic_pi_spider_synced].each do |tl|
+          Thread.current.thread_variable_set(tl, fx_execute_t.thread_variable_get(tl))
+        end
 
-        Thread.current.thread_variable_set(:sonic_pi_spider_random_gen_idx, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_gen_idx))
-        Thread.current.thread_variable_set(:sonic_pi_spider_random_gen_seed, fx_execute_t.thread_variable_get(:sonic_pi_spider_random_gen_seed))
-        Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, fx_execute_t.thread_variable_get(:sonic_pi_spider_sleep_mul))
+
 
         ## Ensure the synced detection mechanism comes back out of
         ## with_fx blocks so syncs can be within with_fx blocks within
