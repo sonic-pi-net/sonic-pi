@@ -1,5 +1,4 @@
-require 'test/unit'
-require_relative "../../core"
+require_relative "./setup_test"
 require_relative "../lib/sonicpi/spiderapi"
 
 module SonicPi

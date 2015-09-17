@@ -10,9 +10,7 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require_relative "../../core"
-
-require 'test/unit'
+require_relative "./setup_test"
 require 'osc-ruby'
 
 require_relative "../lib/sonicpi/oscencode"
