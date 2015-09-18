@@ -1141,7 +1141,7 @@ A nested array is just an array that contains other arrays inside it e.g. `[1, [
 
 We can use this nesting to play through the contents of the array at faster and faster rates. Things nested at the second level will play twice as fast, things nested at the third level will play four times as fast and so on.
 
-It might help to think about music notation - if the level 1 is a crotchet/quarter note, then level two is like a quaver/eigth note and so on, all the way down to hemidemisemiquavers and beyond.
+It might help to think about music notation - if the level 1 is a crotchet/quarter note, then level two is like a quaver/eighth note and so on, all the way down to hemidemisemiquavers and beyond.
 
 If you want to use a triplet rhythm you can use a special notation to spread across multiple beats e.g. `[:d5, :cs5, {over: 2, val: [:c5,:c5,:c5]}, :b4, :bb4, :a4]`. This spaces the three `:c5` notes over the space of two normal notes which gives you a quaver triplet rhythm. You might recognize this from Bizet's opera Carmen.",
               args:          [[:pattern]],
