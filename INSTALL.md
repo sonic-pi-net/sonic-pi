@@ -61,6 +61,7 @@ In addition, under Ubuntu 14.04 based distributions try these:
 * `libqscintilla2-l10n`
 * `qt4-qmake`
 * `libqt4-dev`
+* `libffi-dev`
 
 Fedora package dependency names:
 
