@@ -18,6 +18,19 @@ module SonicPi
     # See http://opensoundcontrol.org for spec.
 
     def initialize(use_cache = false, cache_size=1000)
+      @literal_binary_str = "BINARY"
+      @literal_cap_n = 'N'
+      @literal_cap_n2 = 'N2'
+      @literal_low_f = 'f'
+      @literal_low_i = 'i'
+      @literal_low_g = 'g'
+      @literal_low_s = 's'
+      @literal_empty_str = ''
+      @literal_str_encode_regexp = /\000.*\z/
+      @literal_str_pad = "\000"
+      @literal_two_to_pow_2 = 2 ** 32
+      @literal_magic_time_offset = 2208988800
+
       @use_cache = use_cache
       @integer_cache = {}
       @string_cache = {}
@@ -29,23 +42,24 @@ module SonicPi
       @num_cached_strings = 0
 
       @bundle_header = get_from_or_add_to_string_cache("#bundle")
+
     end
 
     def encode_single_message(address, args=[])
       message, args_encoded, tags = "", "", ","
-      message.force_encoding("BINARY")
+      message.force_encoding(@literal_binary_str)
       address = get_from_or_add_to_string_cache(address)
 
       args.each do |arg|
         case arg
         when Integer
-          tags << 'i'
+          tags << @literal_low_i
 
           if @use_cache
             if cached = @integer_cache[arg]
               args_encoded << cached
             else
-              res = [arg].pack('N')
+              res = [arg].pack(@literal_cap_n)
               if @num_cached_integers < @cache_size
                 @integer_cache[arg] = res
                 @num_cached_integers += 1
@@ -54,16 +68,16 @@ module SonicPi
               args_encoded << res
             end
           else
-            args_encoded << [arg].pack('N')
+            args_encoded << [arg].pack(@literal_cap_n)
           end
         when Float, Rational
           arg = arg.to_f
-          tags << 'f'
+          tags << @literal_low_f
           if @use_cache
             if cached = @float_cache[arg]
               args_encoded << cached
             else
-              res = [arg].pack('g')
+              res = [arg].pack(@literal_low_g)
               if @num_cached_floats < @cache_size
                 @float_cache[arg] = res
                 @num_cached_floats += 1
@@ -72,11 +86,11 @@ module SonicPi
               args_encoded << res
             end
           else
-            args_encoded << [arg].pack('g')
+            args_encoded << [arg].pack(@literal_low_g)
           end
         when String, Symbol
           arg = arg.to_s
-          tags << 's'
+          tags << @literal_low_s
           if @use_cache
             if cached = @string_cache[arg]
               args_encoded << cached
@@ -103,7 +117,7 @@ module SonicPi
 
     def encode_single_bundle(ts, address, args=[])
       message = encode_single_message(address, args)
-      message_encoded = [message.size].pack('N') << message
+      message_encoded = [message.size].pack(@literal_cap_n) << message
         "" << @bundle_header << time_encoded(ts) << message_encoded
     end
 
@@ -126,28 +140,29 @@ module SonicPi
     end
 
     def encode_string(s)
-      s = s.sub(/\000.*\z/, '')
-      s << "\000"
-      (s << ("\000" * ((4 - (s.bytesize % 4)) % 4)))
+      s = s.sub(@literal_str_encode_regexp, @literal_empty_str)
+      s << @literal_str_pad
+      (s << (@literal_str_pad * ((4 - (s.bytesize % 4)) % 4)))
     end
 
     def time_encoded(time)
-      t1, fr = (time.to_f + 2208988800).divmod(1)
-      # 2 ** 32 == 4294967296
-      t2 = (fr * 4294967296).to_i
-      [t1, t2].pack('N2')
+
+      t1, fr = (time.to_f + @literal_magic_time_offset).divmod(1)
+
+      t2 = (fr * @literal_two_to_pow_2).to_i
+      [t1, t2].pack(@literal_cap_n2)
     end
   end
 
   class StreamOscEncode < OscEncode
     def encode_single_message(address, args=[])
       message = super
-      ([message.length].pack('N') << message).force_encoding("BINARY")
+      ([message.length].pack(@literal_cap_n) << message).force_encoding(@literal_binary_str)
     end
 
     def encode_single_bundle(ts, address, args=[])
       message = super
-      message.count.pack('N') << message
+      message.count.pack(@literal_cap_n) << message
     end
   end
 end
