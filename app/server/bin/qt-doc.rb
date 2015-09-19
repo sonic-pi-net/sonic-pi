@@ -186,7 +186,7 @@ example_dirs.each do |ex_dir|
     html << "<body class=\"example\">\n"
     html << '<h1>'
     html << "# #{bname}"
-    html << '</h1>'
+    html << ' <a href="#play" class="play">Play Example</a></h1>'
     html << "<p><pre><code>\n"
 
     html << "#{lines.join("\n")}\n\n</code></pre></p>\n"
