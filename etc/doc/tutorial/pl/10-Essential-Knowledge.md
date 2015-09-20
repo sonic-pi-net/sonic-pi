@@ -1,10 +1,10 @@
-10 Essential Knowledge
+10 Niezbędna Wiedza
 
-# Essential Knowledge
+# Niezbędna Wiedza
 
-This section will cover some very useful - in fact *essential* - knowledge
-for getting the most out of your Sonic Pi experience.
+Ten rozdział obejmie trochę bardzo przydatnej - w zasadzie *niezbędnej* - 
+wiedzy, która pozwoli Ci na wyciągnięcie maksimum możliwości z Sonic Pi.
 
-We'll cover how to take advantage of the many keyboard shortcuts
-available to you, how to share your work and some tips on performing
-with Sonic Pi.
+Pokażemy tutaj jak wykorzystać wiele skrótów klawiszowych, które są 
+dostępne, w jaki sposób możesz dzielić się swoją pracą a także 
+parę przydatnych sztuczek dotyczących występów z Sonic Pi.
