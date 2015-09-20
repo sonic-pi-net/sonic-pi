@@ -17,8 +17,8 @@
         <location filename="../mainwindow.cpp" line="370"/>
         <location filename="../mainwindow.cpp" line="1577"/>
         <location filename="../mainwindow.cpp" line="1595"/>
-        <source>Sonic Jam Pi</source>
-        <translation>Sonic Jam Pi</translation>
+        <source>Sonic Pi</source>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="506"/>
@@ -104,8 +104,8 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"/>
-        <source>Welcome to Sonic Jam Pi</source>
-        <translation>Sonic Jam Piへようこそ</translation>
+        <source>Welcome to Sonic Pi</source>
+        <translation>Sonic Piへようこそ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="415"/>
@@ -126,8 +126,8 @@
     <message>
         <location filename="../mainwindow.cpp" line="589"/>
         <source>Advanced audio settings for working with
-external PA systems when performing with Sonic Jam Pi.</source>
-        <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Jam Pi.</oldsource>
+external PA systems when performing with Sonic Pi.</source>
+        <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
         <translation>外部PAシステムの高度なオーディオ設定を行います。</translation>
     </message>
     <message>
@@ -188,11 +188,11 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="646"/>
-        <source>Configure whether Sonic Jam Pi may check for new updates on launch.
+        <source>Configure whether Sonic Pi may check for new updates on launch.
 Please note, the checking process includes sending
-anonymous information to the Sonic Jam Pi server.</source>
-        <translation>Sonic Jam Piが起動時に新しい更新をチェックするかを設定します。
-チェック処理は、Sonic Jam Piサーバーへ匿名情報を
+anonymous information to the Sonic Pi server.</source>
+        <translation>Sonic Piが起動時に新しい更新をチェックするかを設定します。
+チェック処理は、Sonic Piサーバーへ匿名情報を
 送信することを含むことに注意してください。</translation>
     </message>
     <message>
@@ -478,8 +478,8 @@ anonymous information to the Sonic Jam Pi server.</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1462"/>
-        <source>Sonic Jam Pi - Info</source>
-        <translation>Sonic Jam Pi - Info</translation>
+        <source>Sonic Pi - Info</source>
+        <translation>Sonic Pi - Info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1482"/>
@@ -554,16 +554,16 @@ anonymous information to the Sonic Jam Pi server.</source>
     <name>QObject</name>
     <message>
         <location filename="../main.cpp" line="41"/>
-        <source>Sonic Jam Pi</source>
-        <translation>Sonic Jam Pi</translation>
+        <source>Sonic Pi</source>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
     <name>SonicPiUDPServer</name>
     <message>
         <location filename="../sonicpiudpserver.cpp" line="24"/>
-        <source>Is Sonic Jam Pi already running?  Can&apos;t open UDP port 4558.</source>
-        <translation>Sonic Jam Piはすでに実行されていませんか？ UDPポート4558を開くことができませんでした。</translation>
+        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <translation>Sonic Piはすでに実行されていませんか？ UDPポート4558を開くことができませんでした。</translation>
     </message>
 </context>
 </TS>
