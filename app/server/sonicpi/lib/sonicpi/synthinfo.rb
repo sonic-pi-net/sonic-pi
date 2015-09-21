@@ -82,10 +82,10 @@ module SonicPi
         arg_information = @info[k_sym] || {}
         arg_validations = arg_information[:validations] || []
         arg_validations(k_sym).each do |v_fn, msg|
-          raise "Value of argument #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
+          raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
         end
 
-        raise "Invalid arg modulation attempt for #{synth_name.to_sym.inspect}. Argument #{k_sym.inspect} is not modulatable" unless arg_information[:modulatable]
+        raise "Invalid arg modulation attempt for #{synth_name.to_sym.inspect}. Opt #{k_sym.inspect} is not modulatable" unless arg_information[:modulatable]
 
       end
     end
@@ -98,7 +98,7 @@ module SonicPi
         #        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
 
         arg_validations(k_sym).each do |v_fn, msg|
-          raise "Value of argument #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
+          raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
         end
       end
     end
@@ -3871,7 +3871,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
     end
 
     def doc
-      "Compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the arguments to both expand and compress the signal."
+      "Compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal."
     end
 
     def arg_defaults
@@ -4225,7 +4225,7 @@ The way the transpositions are done adds some distortion, particularly to the lo
     end
 
     def doc
-      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens as it sounds hollow or metallic. We take a 'carrier' signal (a sine wave controlled by the freq argument) and modulate its amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
+      "Attack of the Daleks! Ring mod is a classic effect often used on soundtracks to evoke robots or aliens as it sounds hollow or metallic. We take a 'carrier' signal (a sine wave controlled by the freq opt) and modulate its amplitude using the signal given inside the fx block. This produces a wide variety of sounds - the best way to learn is to experiment!"
     end
   end
 
@@ -4278,7 +4278,7 @@ The way the transpositions are done adds some distortion, particularly to the lo
     end
 
     def doc
-      "Combines low pass and high pass filters to only allow a 'band' of frequencies through. If the band is very narrow (a low res value like 0.0001) then the BPF will reduce the original sound, almost down to a single frequency (controlled by the centre argument).
+      "Combines low pass and high pass filters to only allow a 'band' of frequencies through. If the band is very narrow (a low res value like 0.0001) then the BPF will reduce the original sound, almost down to a single frequency (controlled by the centre opt).
 
 With higher values for res we can simulate other filters e.g. telephone lines, by cutting off low and high frequencies."
     end
@@ -4307,7 +4307,7 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
 
     def doc
-      "Like the Band Pass Filter but with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument."
+      "Like the Band Pass Filter but with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res opt."
     end
   end
 
@@ -4345,7 +4345,7 @@ With higher values for res we can simulate other filters e.g. telephone lines, b
     end
 
     def doc
-      "Like the Band Pass Filter but normalised, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res argument.
+      "Like the Band Pass Filter but normalised, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res opt.
 
 The normaliser is useful here as some volume is lost when filtering the original signal."
     end
@@ -5380,7 +5380,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
         res << "  :#{mk}\n\n"
         res << "### Doc:\n"
         res << "  " << v.doc << "\n\n"
-        res << "### Arguments:" "\n"
+        res << "### Opts:" "\n"
         v.arg_info.each do |ak, av|
           res << "  * #{ak}:\n"
           res << "    - doc: #{av[:doc] || 'write me'}\n"
@@ -5388,6 +5388,7 @@ The window_size is the length of the slices and is measured in seconds. It needs
           res << "    - constraints: #{av[:constraints].empty? ? "none" : av[:constraints].join(",")}\n"
           res << "    - #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
           res << "    - Scaled with current BPM value\n" if av[:bpm_scale]
+          res << "    - Accepts note symbols such as :e3\n" if av[:midi]
           res << "    - Has slide parameters for shaping changes\n" if av[:slidable]
         end
         res << "\n\n"
