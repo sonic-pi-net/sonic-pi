@@ -1496,7 +1496,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         end
         fx_synth_name = "fx_#{fx_name}"
 
-        info = SynthInfo.get_info(fx_synth_name)
+        info = Synths::SynthInfo.get_info(fx_synth_name)
         raise "Unknown fx #{fx_name.inspect}" unless info
 
         start_subthreads = []
@@ -3375,7 +3375,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       def trigger_specific_sampler(sampler_type, path, buf_id, num_chans, args_h, group=current_job_synth_group)
         args_h_with_buf = {:buf => buf_id}.merge(args_h)
         sn = sampler_type.to_sym
-        info = SynthInfo.get_info(sn)
+        info = Synths::SynthInfo.get_info(sn)
         path = path.gsub(/\A#{@mod_sound_home_dir}/, "~") if path.is_a? String
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           if args_h.empty?
@@ -3395,7 +3395,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
       def trigger_inst(synth_name, args_h, group=current_job_synth_group)
         sn = synth_name.to_sym
-        info = SynthInfo.get_info(sn)
+        info = Synths::SynthInfo.get_info(sn)
 
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{sn.inspect}, #{arg_h_pp(args_h)}"
@@ -3406,7 +3406,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
       def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
         sn = synth_name.to_sym
-        info = SynthInfo.get_info(sn)
+        info = Synths::SynthInfo.get_info(sn)
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
         args_h = normalise_and_resolve_synth_args(args_h, info, nil, true)
 
@@ -3583,7 +3583,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           }
 
           sn = "basic_mixer"
-          info = SynthInfo.get_info(sn)
+          info = Synths::SynthInfo.get_info(sn)
           defaults = info.arg_defaults
           synth_name = info.scsynth_name
 
