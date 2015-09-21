@@ -3032,13 +3032,24 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
         # set default slide times
         default_slide_time = args_h[:slide]
         args_h.delete :slide
-        if node.info && default_slide_time
-          node.info.slide_args.each do |k|
-            args_h[k] = default_slide_time unless args_h.has_key?(k)
+
+        if node.info
+          if default_slide_time
+            node.info.slide_args.each do |k|
+              args_h[k] = default_slide_time unless args_h.has_key?(k)
+            end
           end
+
+          args_h = scale_time_args_to_bpm!(args_h, node.info)
+
+          if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+            node.info.ctl_validate!(args_h)
+          end
+
         end
 
         node.control args_h
+
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}"
         end
@@ -3833,6 +3844,19 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       #            accepts_block: false,
       #            examples:      ["
       # puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'"]
+
+      def scale_time_args_to_bpm!(args_h, info)
+        # some of the args in args_h need to be scaled to match the
+        # current bpm. Check in info to see if that's necessary and if
+        # so, scale them.
+        info.bpm_scale_args.each do |arg_name|
+          if args_h.has_key? arg_name
+            args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+          end
+
+        end
+        args_h
+      end
 
       def __freesound(id, *opts)
         path = __freesound_path(id)
