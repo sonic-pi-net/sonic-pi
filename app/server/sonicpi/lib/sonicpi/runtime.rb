@@ -17,11 +17,8 @@ require_relative "counter"
 require_relative "promise"
 require_relative "jobs"
 require_relative "synthinfo"
-require_relative "mods/spmidi"
-#require_relative "mods/graphics"
-require_relative "mods/sound"
-#require_relative "mods/feeds"
-#require_relative "mods/globalkeys"
+require_relative "lang/core"
+require_relative "lang/sound"
 require_relative "gitsave"
 require_relative "lifecyclehooks"
 require_relative "version"
@@ -46,7 +43,7 @@ require 'active_support/core_ext/integer/inflections'
 module SonicPi
   class Stop < StandardError ; end
 
-  class Spider
+  class Runtime
 
     attr_reader :event_queue
     include Util

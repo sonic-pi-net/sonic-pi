@@ -19,9 +19,9 @@ require 'fileutils'
 require_relative "../core.rb"
 require_relative "../sonicpi/lib/sonicpi/synthinfo"
 require_relative "../sonicpi/lib/sonicpi/util"
-require_relative "../sonicpi/lib/sonicpi/spiderapi"
-require_relative "../sonicpi/lib/sonicpi/mods/sound"
-require_relative "../sonicpi/lib/sonicpi/mods/minecraftpi"
+require_relative "../sonicpi/lib/sonicpi/runtime"
+require_relative "../sonicpi/lib/sonicpi/lang/sound"
+require_relative "../sonicpi/lib/sonicpi/lang/minecraftpi"
 
 require 'active_support/inflector'
 
@@ -62,7 +62,7 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
 
   docs << "  struct help_page #{help_pages}[] = {\n"
   doc_items = doc_items.sort if should_sort
-  
+
   book = ""
   toc = "<ul class=\"toc\">\n"
   toc_level = 0
@@ -229,7 +229,7 @@ make_tab.call("examples", example_html_map, false, false, false, true)
 make_tab.call("synths", SonicPi::SynthInfo.synth_doc_html_map, :titleize, true, true, true)
 make_tab.call("fx", SonicPi::SynthInfo.fx_doc_html_map, :titleize, true, true, true)
 make_tab.call("samples", SonicPi::SynthInfo.samples_doc_html_map, false, true, false, true)
-make_tab.call("lang", SonicPi::SpiderAPI.docs_html_map.merge(SonicPi::Mods::Sound.docs_html_map).merge(ruby_html_map), false, true, true, false)
+make_tab.call("lang", SonicPi::Lang::Core.docs_html_map.merge(SonicPi::Lang::Sound.docs_html_map).merge(ruby_html_map), false, true, true, false)
 
 docs << "  // FX arguments for autocompletion\n"
 docs << "  QStringList fxtmp;\n"

@@ -12,13 +12,13 @@
 
 require 'socket'
 require 'thread'
-require_relative '../docsystem'
+require_relative 'support/docsystem'
 
 module SonicPi
-  module Mods
+  module Lang
     module Minecraft
 
-      include SonicPi::DocSystem
+      include SonicPi::Lang::Support::DocSystem
 
       @minecraft_queue = nil
       @minecraft_queue_creation_lock = Mutex.new

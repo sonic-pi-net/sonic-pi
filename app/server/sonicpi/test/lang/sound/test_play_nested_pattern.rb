@@ -11,18 +11,18 @@
 # notice is included.
 #++
 
-require_relative "./setup_test"
+require_relative "../../setup_test"
 require 'mocha/setup'
 
-require_relative "../lib/sonicpi/mods/sound"
-require_relative "../lib/sonicpi/spiderapi"
+require_relative "../../../lib/sonicpi/lang/sound"
+require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
   class PlayNestedPatternTester < Test::Unit::TestCase
     def setup
       @mock_sound = Object.new
-      @mock_sound.extend(Mods::Sound)
-      @mock_sound.extend(SpiderAPI)
+      @mock_sound.extend(Lang::Sound)
+      @mock_sound.extend(Lang::Core)
       @mock_sound.stubs(:sleep) # avoid loading Spider class
     end
 

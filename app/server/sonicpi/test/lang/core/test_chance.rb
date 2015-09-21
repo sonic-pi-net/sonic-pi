@@ -11,12 +11,12 @@
 # notice is included.
 #++
 
-require_relative "./setup_test"
-require_relative "../lib/sonicpi/spiderapi"
+require_relative "../../setup_test"
+require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
   class ChanceTester < Test::Unit::TestCase
-    include SonicPi::SpiderAPI
+    include SonicPi::Lang::Core
 
     def test_one_in_out_of_bounds
       500.times do

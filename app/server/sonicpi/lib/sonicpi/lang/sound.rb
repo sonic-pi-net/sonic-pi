@@ -25,9 +25,9 @@ require_relative "../scale"
 require_relative "../chord"
 require_relative "../chordgroup"
 require_relative "../synthtracker"
-require_relative "../docsystem"
 require_relative "../version"
 require_relative "../tuning"
+require_relative "support/docsystem"
 
 class Symbol
   def -(other)
@@ -52,11 +52,11 @@ class NilClass
 end
 
 module SonicPi
-  module Mods
+  module Lang
     module Sound
 
       include SonicPi::Util
-      include SonicPi::DocSystem
+      include SonicPi::Lang::Support::DocSystem
 
       DEFAULT_PLAY_OPTS = {amp:       "The amplitude of the note",
         amp_slide: "The duration in beats for amplitude changes to take place",

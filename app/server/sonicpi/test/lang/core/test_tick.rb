@@ -11,13 +11,13 @@
 # notice is included.
 #++
 
-require_relative "./setup_test"
-require_relative "../lib/sonicpi/spiderapi"
+require_relative "../../setup_test"
+require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
 
   class TickTester < Test::Unit::TestCase
-    include SonicPi::SpiderAPI
+    include SonicPi::Lang::Core
 
 
     def test_tick_basic_reset

@@ -11,11 +11,11 @@
 # notice is included.
 #++
 
-require_relative "./setup_test"
-require_relative "../lib/sonicpi/mods/sound"
+require_relative "../../setup_test"
+require_relative "../../../lib/sonicpi/lang/sound"
 
 module SonicPi
-  module Mods
+  module Lang
     module Sound
       module_function :note_info
     end
@@ -23,13 +23,13 @@ module SonicPi
   class NoteInfoTester < Test::Unit::TestCase
 
     def test_resolution_of_octave
-      assert_equal(7, Mods::Sound.note_info(:C7).octave)
-      assert_equal(7, Mods::Sound.note_info("C7").octave)
-      assert_equal(7, Mods::Sound.note_info(96).octave)
+      assert_equal(7, Lang::Sound.note_info(:C7).octave)
+      assert_equal(7, Lang::Sound.note_info("C7").octave)
+      assert_equal(7, Lang::Sound.note_info(96).octave)
 
-      assert_equal(7, Mods::Sound.note_info(96, octave: 7).octave)
-      assert_equal(7, Mods::Sound.note_info(:C, octave: 7).octave)
-      assert_equal(7, Mods::Sound.note_info("C", octave: 7).octave)
+      assert_equal(7, Lang::Sound.note_info(96, octave: 7).octave)
+      assert_equal(7, Lang::Sound.note_info(:C, octave: 7).octave)
+      assert_equal(7, Lang::Sound.note_info("C", octave: 7).octave)
     end
 
   end

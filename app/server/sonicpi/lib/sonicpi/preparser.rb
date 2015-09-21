@@ -11,9 +11,9 @@
 # notice is included.
 #++
 
-require_relative "spiderapi"
-require_relative "mods/sound"
-require_relative "docsystem"
+require_relative "lang/core"
+require_relative "lang/sound"
+require_relative "lang/support/docsystem"
 
 module SonicPi
   module PreParser
@@ -21,7 +21,7 @@ module SonicPi
     class PreParseError < StandardError ; end
 
     def self.preparse(rb)
-      SonicPi::SpiderAPI.vec_fns.each do |fn|
+      SonicPi::Lang::Core.vec_fns.each do |fn|
         fn = fn[:name].to_s
         rb.gsub!(/\((\s*)#{fn}(\s)/, '\1' + fn + '(\2')
 

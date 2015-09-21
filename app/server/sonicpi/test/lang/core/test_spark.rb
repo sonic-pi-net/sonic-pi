@@ -12,12 +12,12 @@
 # notice is included.
 #++
 
-require_relative "./setup_test"
-require_relative "../lib/sonicpi/spiderapi"
+require_relative "../../setup_test"
+require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
   class SparkTester < Test::Unit::TestCase
-    include SonicPi::SpiderAPI
+    include SonicPi::Lang::Core
 
     def test_spark
       assert_equal("▁▃▅▇", spark_graph(1, 2, 3, 4))
