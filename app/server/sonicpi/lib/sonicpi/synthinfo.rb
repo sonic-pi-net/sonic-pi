@@ -119,6 +119,16 @@ module SonicPi
       @cached_bpm_scale_args = args_to_scale
     end
 
+    def midi_args
+      return @cached_midi_args if @cached_midi_args
+
+      midi_args = []
+      @info.each do |k, v|
+        midi_args << k if v[:midi]
+      end
+      @cached_midi_args = midi_args
+    end
+
     def slide_args
       return @cached_slide_args if @cached_slide_args
 
@@ -345,7 +355,8 @@ module SonicPi
         {
           :doc => "MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
           :validations => [v_positive(:cutoff), v_less_than(:cutoff, 131)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
         :cutoff_slide =>
@@ -1342,7 +1353,8 @@ module SonicPi
         {
           :doc => "The minimum cutoff value.",
           :validations => [v_less_than_oet(:cutoff_min, 130)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
         :cutoff_min_slide =>
@@ -1357,7 +1369,8 @@ module SonicPi
         {
           :doc => "The maximum cutoff value as a MIDI note",
           :validations => [v_less_than_oet(:cutoff, 130)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
         :cutoff_slide =>
@@ -3444,7 +3457,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         {
           :doc => "Minimum (MIDI) note that filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
         :cutoff_min_slide =>
@@ -3459,7 +3473,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         {
           :doc => "Maximum (MIDI) note that filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
         :cutoff_max_slide =>
@@ -3802,7 +3817,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         {
           :doc => "Minimum (MIDI) note that filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
         :cutoff_min_slide =>
@@ -3817,7 +3833,8 @@ The window_size is the length of the slices and is measured in seconds. It needs
         {
           :doc => "Maximum (MIDI) note that filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
           :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
         :cutoff_max_slide =>
@@ -4185,7 +4202,8 @@ The way the transpositions are done adds some distortion, particularly to the lo
         {
           :doc => "Frequency of the carrier signal (as a midi note).",
           :validations => [v_positive_not_zero(:freq)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
         :freq_slide =>
@@ -4252,7 +4270,8 @@ The way the transpositions are done adds some distortion, particularly to the lo
         {
           :doc => "Centre frequency for the filter as a MIDI note.",
           :validations => [v_greater_than_oet(:centre, 0)],
-          :modulatable => true
+          :modulatable => true,
+          :midi => true
         },
 
       }

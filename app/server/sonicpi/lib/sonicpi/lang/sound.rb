@@ -3041,6 +3041,7 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
           end
 
           args_h = scale_time_args_to_bpm!(args_h, node.info)
+          args_h = resolve_midi_args!(args_h, node.info)
 
           if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
             node.info.ctl_validate!(args_h)
@@ -3495,7 +3496,9 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         combined_args["out_bus"] = out_bus
         combined_args[:rand_buf] = @mod_sound_studio.rand_buf_id if combined_args[:seed]
+        resolve_midi_args!(combined_args, info)
         normalise_args!(combined_args)
+
         scale_time_args_to_bpm!(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
         combined_args
       end
@@ -3853,6 +3856,15 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
             args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
           end
 
+        end
+        args_h
+      end
+
+      def resolve_midi_args!(args_h, info)
+        info.midi_args.each do |arg_name|
+          if args_h.has_key? arg_name
+            args_h[arg_name] = note(args_h[arg_name])
+          end
         end
         args_h
       end
