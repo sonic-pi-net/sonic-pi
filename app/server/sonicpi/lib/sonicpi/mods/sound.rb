@@ -3295,19 +3295,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         args_h
       end
 
-      def scale_time_args_to_bpm!(args_h, info)
-        # some of the args in args_h need to be scaled to match the
-        # current bpm. Check in info to see if that's necessary and if
-        # so, scale them.
-        info.bpm_scale_args.each do |arg_name|
-          if args_h.has_key? arg_name
-            args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-          end
-
-        end
-        args_h
-      end
-
       def find_sample_with_path(path)
         ["wav", "aiff", "aif", "wave"].each do |ext|
           full = "#{path}.#{ext}"

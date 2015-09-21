@@ -12,6 +12,8 @@
 #++
 module SonicPi
   class Node
+    include SonicPi::Util
+
     attr_reader :id, :comms, :info
 
     def initialize(id, comms, info=nil)
@@ -94,6 +96,7 @@ module SonicPi
       if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
         @info.ctl_validate!(args_h) if @info
       end
+      args_h = scale_time_args_to_bpm!(args_h, @info)
       @comms.node_ctl self, args_h
       self
     end
@@ -103,6 +106,7 @@ module SonicPi
       if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
         @info.ctl_validate!(args_h) if @info
       end
+      args_h = scale_time_args_to_bpm!(args_h, @info)
       @comms.node_ctl self, args_h, true
       self
     end
