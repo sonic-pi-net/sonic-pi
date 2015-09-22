@@ -4280,7 +4280,9 @@ module SonicPi
       def doc
         "Combines low pass and high pass filters to only allow a 'band' of frequencies through. If the band is very narrow (a low res value like 0.0001) then the BPF will reduce the original sound, almost down to a single frequency (controlled by the centre opt).
 
-  With higher values for res we can simulate other filters e.g. telephone lines, by cutting off low and high frequencies."
+  With higher values for res we can simulate other filters e.g. telephone lines, by cutting off low and high frequencies.
+
+Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a given band of frequencies."
       end
     end
 
