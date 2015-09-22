@@ -4485,6 +4485,105 @@ module SonicPi
       "A resonant high pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard high pass filter and then normalised to ensure the amplitude of the final output is constant. A high pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for hpf."
     end
 
+    class FXBandEQ < FXInfo
+      def name
+        "Band EQ Filter"
+      end
+
+      def introduced
+        Version.new(2,8,0)
+      end
+
+      def synth_name
+        "fx_band_eq"
+      end
+
+      def doc
+        "Attenuate or Boost a frequency band"
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 5,
+          :amp_slide_curve => 0,
+          :mix => 1,
+          :mix_slide => 0,
+          :mix_slide_shape => 5,
+          :mix_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 5,
+          :pre_amp_slide_curve => 0,
+          :freq => 100,
+          :freq_slide => 0,
+          :freq_slide_shape => 5,
+          :freq_slide_curve => 0,
+          :res => 0.6,
+          :res_slide => 0,
+          :res_slide_shape => 5,
+          :res_slide_curve => 0,
+          :db => 0.6,
+          :db_slide => 0,
+          :db_slide_shape => 5,
+          :db_slide_curve => 0,
+        }
+      end
+
+      def specific_arg_info
+        {
+
+          :freq =>
+          {
+            :doc => "Center frequency of the band in MIDI.",
+            :validations => [v_positive_not_zero(:freq)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :freq_slide =>
+          {
+            :doc => generic_slide_doc(:freq),
+            :validations => [v_positive(:freq_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :res =>
+          {
+            :doc => "Width of the band as a value between 0 and 1",
+            :validations => [v_positive(:res), v_less_than(:res, 1)],
+            :modulatable => true
+          },
+
+          :res_slide =>
+          {
+            :doc => generic_slide_doc(:res),
+            :validations => [v_positive(:res_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :db =>
+          {
+            :doc => "Ammount of boost or attenuation of the frequency band. A poistive value boosts frequencies in the band, a negative value attenutates them.",
+            :modulatable => true
+          },
+
+          :db_slide =>
+          {
+            :doc => generic_slide_doc(:db),
+            :validations => [v_positive(:db_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+        }
+      end
+
+    end
+
     class FXLPF < FXInfo
       def name
         "Low Pass Filter"
@@ -4498,9 +4597,13 @@ module SonicPi
         "fx_lpf"
       end
 
+
+
       def doc
         "Dampens the parts of the signal that are above than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typically the bass/mid of the sound). Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
       end
+
+
 
       def arg_defaults
         {
@@ -5222,6 +5325,7 @@ module SonicPi
         :fx_nbpf => FXNBPF.new,
         :fx_rbpf => FXRBPF.new,
         :fx_nrbpf => FXNRBPF.new,
+        :fx_band_eq => FXBandEQ.new,
         :fx_pitch_shift => FXPitchShift.new,
         :fx_ring_mod => FXRingMod.new,
         #:fx_chorus => FXChorus.new,
