@@ -21,19 +21,24 @@ module SonicPi
     SYNTHS = ["beep", "fm", "pretty_bell", "dull_bell", "saw_beep"]
     SYNTH_MOD = Mutex.new
     SAMPLE_SEM = Mutex.new
-    attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id
+    attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id, :amp
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
+      @amp = [0.0, 1.0]
       @server = Server.new(hostname, port, msg_queue)
       @server.load_synthdefs(synthdef_path)
-
+      @server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
+        @amp = [payload[2], payload[3]]
+      end
       @msg_queue = msg_queue
       @max_concurrent_synths = max_concurrent_synths
       @samples = {}
       @recorders = {}
       @recording_mutex = Mutex.new
       @rand_buf_id = load_sample(buffers_path + "/rand-stream.wav")[0].to_i
+
       reset
+
     end
 
     def sample_loaded?(path)
@@ -64,6 +69,8 @@ module SonicPi
     def reset
       reset_and_setup_groups_and_busses
       start_mixer
+      @amp_synth = @server.trigger_synth :head, @recording_group, "sonic-pi-amp_stereo_monitor", {"bus" => 0}, true
+
     end
 
 

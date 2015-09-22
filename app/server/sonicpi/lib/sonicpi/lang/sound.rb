@@ -156,6 +156,9 @@ module SonicPi
         end
       end
 
+      def current_amp
+        @mod_sound_studio.amp
+      end
 
       def midi_notes(*args)
         args = args.map {|a| note(a)}
