@@ -23,6 +23,7 @@ require_relative "../sonicpi/lib/sonicpi/oscencode"
 require_relative "../sonicpi/lib/sonicpi/lang/core"
 require_relative "../sonicpi/lib/sonicpi/lang/minecraftpi"
 require_relative "../sonicpi/lib/sonicpi/lang/sound"
+require_relative "../sonicpi/lib/sonicpi/lang/pattern"
 require_relative "../sonicpi/lib/sonicpi/runtime"
 
 os = case RUBY_PLATFORM
@@ -112,6 +113,7 @@ klass.send(:include, user_methods)
 klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:include, SonicPi::Lang::Minecraft)
+klass.send(:include, SonicPi::Lang::Pattern)
 
 begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
