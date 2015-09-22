@@ -1,26 +1,27 @@
-12 Conclusions
+12 Wnioski
 
-# Conclusions
+# Wnioski
 
-This concludes the Sonic Pi introductory tutorial. Hopefully you've
-learned something along the way. Don't worry if you feel you didn't
-understand everything - just play and have fun and you'll pick things up
-in your own time. Feel free to dive back in when you have a question that
-might be covered in one of the sections.
+Czas na podsumowanie samouczka wprowadzającego do Sonic Pi. Mam nadziję, 
+że nauczyłeś się czegoś w trakcie jego czytania. Nie przejmuj się 
+jeśli czujesz, że nie wszystko zrozumiałeś - po prostu graj i baw się 
+a na pewno załapiesz kolejne rzeczy w odpowiednim dla siebie czasie. 
+Nie krępuj się i zajrzyj tutaj ponownie jeśli będziesz miał jakieś 
+pytanie, na które odpowiedź znajduje się w jednym z rozdziałów. 
 
-If you have any questions that haven't been covered in the tutorial,
-then please jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/)
-and ask your question there. You'll find someone friendly and willing to
-lend a hand.
+Jeśli masz jakiekolwiek pytania, na które nie znalazłeś odpowiedzi 
+w tym samouczku, polecam Ci zajrzeć na [forum Sonic Pi](http://groups.google.com/group/sonic-pi/) 
+i zadać swoje pytanie właśnie tam. Na pewno znajdziesz tam kogoś 
+kto bez problemu i z chęcią poda Ci pomocną dłoń. 
 
-Finally, I also invite you to take a deeper look at the rest of the
-documentation in this help system. There are a number of features that
-haven't been covered in this tutorial that are waiting for your
-discovery.
+I na koniec, zachęcam Cię również abyś przyjrzał się głebiej pozostałej 
+części dokumentacji dostępnej w systemie pomocy. Znajdziesz tam wiele 
+funkcjonalności, które nie zostały omówione w tym samouczku i czekają 
+tam abyś je odkrył. 
 
-So play, have fun, share your code, perform for your friends, show your
-screens and remember:
+Tak więc, graj, baw się, dziel się swoim kodem, występuj na żywo przed 
+twoimi znajomymi, pokazuj swój ekran i pamiętaj: 
 
-*There are no mistakes, only opportunities.*
+*Błędów nie ma, są tylko nowe możliwości.*
 
 [Sam Aaron](http://twitter.com/samaaron)
