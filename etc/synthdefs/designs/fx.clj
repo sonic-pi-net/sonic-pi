@@ -87,6 +87,10 @@
     bits_slide 0
     bits_slide_shape 5
     bits_slide_curve 0
+    cutoff 0
+    cutoff_slide 0
+    cutoff_slide_shape 5
+    cutoff_slide_curve 0
     in_bus 0
     out_bus 0]
    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
@@ -94,8 +98,13 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          sample_rate   (varlag sample_rate sample_rate_slide sample_rate_slide_curve sample_rate_slide_shape)
          bits          (varlag bits bits_slide bits_slide_curve bits_slide_shape)
+         cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         cutoff-freq   (midicps cutoff)
+         use-filter    (> cutoff 0)
          [in-l in-r]   (* pre_amp (in in_bus 2))
          [new-l new-r] (decimator [in-l in-r] sample_rate bits)
+         new-l         (select use-filter [new-l (lpf new-l cutoff-freq)])
+         new-r         (select use-filter [new-r (lpf new-r cutoff-freq)])
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
