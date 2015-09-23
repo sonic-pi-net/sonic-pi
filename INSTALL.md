@@ -85,6 +85,9 @@ Start the jack sound server daemon `jackd`. This is easily done through [qjackct
 that didn't work for me, but typing this, after randomly googling and trying various things, did:
 `jackd -R -d alsa -d hw:1`
 
+On systems like Ubuntu that run pulseaudio, use
+`pasuspender -- jackd -R -d alsa
+
 Then run the script `sonic-pi` in the directory `app/gui/qt`.
 
 ----
