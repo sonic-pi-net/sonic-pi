@@ -27,10 +27,10 @@ module SonicPi
 
     def test_sample_with_various_args
       Note.expects(:resolve_midi_note_without_octave).with(:c4)
-      @mock_sound.note :c4
+      @mock_sound.send(:note, :c4)
 
       Note.expects(:resolve_midi_note).with(:c, 5)
-      @mock_sound.note :c, octave: 5
+      @mock_sound.send(:note, :c, octave: 5)
     end
 
   end
