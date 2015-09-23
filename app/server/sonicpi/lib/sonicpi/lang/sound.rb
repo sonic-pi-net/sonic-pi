@@ -958,7 +958,12 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
           return play_chord(n, *args)
         when Hash
           # Allow a single hash argument to function unsurprisingly
-          args = n if args.empty?
+          if args.empty?
+            args = n
+          else
+            args_h = resolve_synth_opts_hash_or_array(args)
+            args = n.merge(args_h)
+          end
         end
 
         n = note(n)
