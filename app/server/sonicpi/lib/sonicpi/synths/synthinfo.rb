@@ -4538,7 +4538,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
           :freq =>
           {
-            :doc => "Center frequency of the band in MIDI.",
+            :doc => "Centre frequency of the band in MIDI.",
             :validations => [v_positive_not_zero(:freq)],
             :modulatable => true,
             :midi => true
@@ -4569,7 +4569,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
           :db =>
           {
-            :doc => "Ammount of boost or attenuation of the frequency band. A poistive value boosts frequencies in the band, a negative value attenutates them.",
+            :doc => "Amount of boost or attenuation of the frequency band. A positive value boosts frequencies in the band, a negative value attenuates them.",
             :modulatable => true
           },
 
