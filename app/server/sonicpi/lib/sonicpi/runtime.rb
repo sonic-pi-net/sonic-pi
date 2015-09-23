@@ -542,7 +542,8 @@ module SonicPi
       end
 
       # Beautify buffer
-      beautiful = RBeautify.beautify_string :ruby, buf_lines.join
+
+      beautiful = beautify_ruby_source(buf_lines.join)
 
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
@@ -624,7 +625,8 @@ module SonicPi
       prev_ws_len = prev_line[/\A */].size
 
       # Beautify buffer
-      beautiful = RBeautify.beautify_string :ruby, buf
+
+      beautiful = beautify_ruby_source(buf)
 
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
@@ -903,6 +905,10 @@ module SonicPi
     def sthread(name)
       st = @named_subthreads[name]
       st.thread if st
+    end
+    def beautify_ruby_source(source)
+      source = source << "\n" unless source.end_with? "\n"
+      RBeautify.beautify_string :ruby, source
     end
   end
 end
