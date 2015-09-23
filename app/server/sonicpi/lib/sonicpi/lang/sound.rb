@@ -2313,6 +2313,24 @@ sample :loop_amen                    # starting it again
 
       def sample(path, *args_a_or_h)
         return if path == nil
+
+        # Allow for hash only variant with :sample_name
+        # and procs as sample name inline with note()
+        case path
+        when Proc
+          return sample(path.call, *args_a_or_h)
+        when Hash
+          if path.has_key? :name
+            # handle case where sample receives Hash and args
+            new_path = path.delete(:name)
+            new_args = path.tap {|myhash| myhash.delete :name }
+            args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+            return sample(new_path, new_args.merge(args_h))
+          else
+            return nil
+          end
+        end
+
         ensure_good_timing!
         buf_info = load_sample(path)
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
@@ -2431,7 +2449,14 @@ sample :loop_amen, start: 0.5, finish: 1 # play the last half of a sample",
         "
 # You can also play part of any sample backwards by using a start value that's
 # higher than the finish
-sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards"]
+sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards",
+        "
+# You can also specify the sample using a Hash with a `:sample_name` key
+sample {sample_name: :loop_amen, rate: 2}",
+        "
+# You can also specify the sample using a lambda that yields a symbol
+# although you probably don't need a lambda for this in most cases.
+sample lambda { [:loop_amen, :loop_garzul].choose }"]
 
 
 
