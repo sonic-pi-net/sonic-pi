@@ -15,7 +15,7 @@ require_relative "./setup_test"
 require_relative "../lib/sonicpi/preparser"
 
 module SonicPi
-  class PreParserTester < Test::Unit::TestCase
+  class PreParserTester < Minitest::Test
     def test_no_change
       a = "    def test_resolution_of_basic_major\n      assert_equal(Chord.new(:C4, :major), [60, 64, 67])\n      assert_equal(Chord.new(60, :major), [60, 64, 67])\n    end\n    end\n\n  end\nend"
       assert_equal(a, PreParser.preparse(a))
@@ -29,21 +29,20 @@ module SonicPi
 
     def test_raises_on_assignment_to_ring_fn
       a = "ring  = [50, 60, 70]"
-      assert_raise PreParser::PreParseError do
+      assert_raises PreParser::PreParseError do
         PreParser.preparse(a)
       end
     end
 
     def test_partial_matches_on_builtin_fns
       a = "testscale = 10"
-      assert_nothing_thrown PreParser::PreParseError do
-        PreParser.preparse(a)
-      end
+      # minitest doesn't have a refute_raises
+      assert_equal(a, PreParser.preparse(a))
     end
 
     def test_using_a_builtin_raises_an_exception
       a = "scale = 10"
-      assert_raise PreParser::PreParseError do
+      assert_raises PreParser::PreParseError do
         PreParser.preparse(a)
       end
     end

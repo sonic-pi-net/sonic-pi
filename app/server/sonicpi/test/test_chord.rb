@@ -12,10 +12,12 @@
 #++
 
 require_relative "./setup_test"
+require_relative "../lib/sonicpi/note"
+require_relative "../lib/sonicpi/scale"
 require_relative "../lib/sonicpi/chord"
 
 module SonicPi
-  class ChordTester < Test::Unit::TestCase
+  class ChordTester < Minitest::Test
 
     def test_resolution_of_basic_major
       assert_equal(Chord.new(:C4, :major), [60, 64, 67])

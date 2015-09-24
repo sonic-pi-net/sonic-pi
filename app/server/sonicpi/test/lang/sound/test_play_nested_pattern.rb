@@ -14,12 +14,13 @@
 require_relative "../../setup_test"
 require 'mocha/setup'
 
+require_relative "../../../lib/sonicpi/util"
 require_relative "../../../lib/sonicpi/lang/sound"
 require_relative "../../../lib/sonicpi/lang/core"
 require_relative "../../../lib/sonicpi/lang/pattern"
 
 module SonicPi
-    class PlayNestedPatternTester < Test::Unit::TestCase
+    class PlayNestedPatternTester < Minitest::Test
     def setup
       @mock_sound = Object.new
       @mock_sound.extend(Lang::Sound)

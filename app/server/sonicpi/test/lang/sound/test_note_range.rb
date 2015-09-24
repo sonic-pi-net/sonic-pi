@@ -12,6 +12,8 @@
 #++
 
 require_relative "../../setup_test"
+require_relative "../../../lib/sonicpi/util"
+require_relative "../../../lib/sonicpi/lang/core"
 require_relative "../../../lib/sonicpi/lang/sound"
 
 module SonicPi
@@ -21,7 +23,7 @@ module SonicPi
       module_function :note
     end
   end
-  class NoteRangeTester < Test::Unit::TestCase
+  class NoteRangeTester < Minitest::Test
     include SonicPi::Lang::Core
 
     def test_note_range

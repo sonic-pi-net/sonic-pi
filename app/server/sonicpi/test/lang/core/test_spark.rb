@@ -16,7 +16,7 @@ require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
-  class SparkTester < Test::Unit::TestCase
+  class SparkTester < Minitest::Test
     include SonicPi::Lang::Core
 
     def test_spark

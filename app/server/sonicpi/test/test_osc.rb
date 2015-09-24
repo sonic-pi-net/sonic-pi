@@ -17,7 +17,7 @@ require_relative "../lib/sonicpi/oscencode"
 require_relative "../lib/sonicpi/oscdecode"
 
 module SonicPi
-  class OSCTester < Test::Unit::TestCase
+  class OSCTester < Minitest::Test
 
     def test_basic_address_encoding
       encoder = OscEncode.new

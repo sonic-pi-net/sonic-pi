@@ -16,7 +16,7 @@ require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
 
-  class TickTester < Test::Unit::TestCase
+  class TickTester < Minitest::Test
     include SonicPi::Lang::Core
 
 

@@ -12,6 +12,7 @@
 #++
 
 require_relative "../../setup_test"
+require_relative "../../../lib/sonicpi/util"
 require_relative "../../../lib/sonicpi/chord"
 require_relative "../../../lib/sonicpi/lang/sound"
 
@@ -22,7 +23,7 @@ module SonicPi
       module_function :chord
     end
   end
-  class InvertChordTester < Test::Unit::TestCase
+  class InvertChordTester < Minitest::Test
 
     def test_inversion_of_basic_major
       assert_equal(Lang::Sound.invert_chord(Chord.new(:C4, :major), 0), [60, 64, 67])

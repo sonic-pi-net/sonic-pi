@@ -17,7 +17,7 @@ require_relative "../lib/sonicpi/tuning"
 
 
 module SonicPi
-  class TuningTester < Test::Unit::TestCase
+  class TuningTester < Minitest::Test
     # Testing with A 440Hz
     #  440Hz == :a4
     def test_just
