@@ -311,6 +311,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // steal events from doc system!?
   // addUniversalCopyShortcuts(outputPane);
 
+  new QShortcut(ctrlKey('='), outputPane, SLOT(zoomIn()));
+  new QShortcut(ctrlKey('-'), outputPane, SLOT(zoomOut()));
   addUniversalCopyShortcuts(errorPane);
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
