@@ -22,6 +22,7 @@ public:
   SonicPiLexer(SonicPiTheme *customTheme);
   QColor defaultColor(int style) const;
   QColor defaultPaper(int style) const;
+  QFont defaultFont(int style) const;
   void highlightAll();
   void unhighlightAll();
   SonicPiTheme *theme;

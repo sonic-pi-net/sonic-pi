@@ -325,6 +325,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   outputPane->setFontFamily("Bitstream Vera Sans Mono");
 #endif
 
+  if(!theme->font("LogFace").isEmpty()){
+      outputPane->setFontFamily(theme->font("LogFace"));
+  }
+
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 

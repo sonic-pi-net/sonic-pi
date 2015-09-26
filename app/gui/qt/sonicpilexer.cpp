@@ -207,14 +207,19 @@ QColor SonicPiLexer::defaultPaper(int style) const
 
 
 // Returns the font of the text for a style.
-QFont QsciLexerRuby::defaultFont(int style) const
+QFont SonicPiLexer::defaultFont(int style) const
 {
     QFont f;
+    QString activeFont = default_font;
+
+    if(!theme->font("EditorFace").isEmpty()){
+        activeFont = theme->font("EditorFace");
+    }
 
     switch (style)
     {
     case Comment:
-      f = QFont(default_font, 15, -1, true);
+      f = QFont(activeFont, 15, -1, true);
 	  break;
 
     case POD:
@@ -229,7 +234,7 @@ QFont QsciLexerRuby::defaultFont(int style) const
     case ModuleName:
     case DemotedKeyword:
     default:
-        f = QFont(default_font, 15);
+        f = QFont(activeFont, 15);
     }
 
     return f;

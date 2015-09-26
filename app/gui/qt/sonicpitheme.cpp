@@ -211,4 +211,8 @@ QColor SonicPiTheme::color(QString key){
     return theme[key];
 }
 
+QString SonicPiTheme::font(QString key){
+    return theme[key];
+}
+
 SonicPiTheme::~SonicPiTheme(){}
