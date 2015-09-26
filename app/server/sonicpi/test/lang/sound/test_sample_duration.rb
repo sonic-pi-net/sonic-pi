@@ -12,6 +12,7 @@
 #++
 
 require_relative "../../setup_test"
+require_relative "../../../lib/sonicpi/util"
 require_relative "../../../lib/sonicpi/lang/sound"
 
 module SonicPi
@@ -33,7 +34,7 @@ module SonicPi
     end
   end
 
-  class SampleDurationTester < Test::Unit::TestCase
+  class SampleDurationTester < Minitest::Test
 
     def test_duration_of_samples
       assert_equal(8,  Lang::Sound.sample_duration(:foo))

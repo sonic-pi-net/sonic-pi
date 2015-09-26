@@ -12,6 +12,7 @@
 #++
 
 require_relative "../../setup_test"
+require_relative "../../../lib/sonicpi/util"
 require_relative "../../../lib/sonicpi/lang/sound"
 
 module SonicPi
@@ -20,7 +21,7 @@ module SonicPi
       module_function :note_info
     end
   end
-  class NoteInfoTester < Test::Unit::TestCase
+  class NoteInfoTester < Minitest::Test
 
     def test_resolution_of_octave
       assert_equal(7, Lang::Sound.note_info(:C7).octave)

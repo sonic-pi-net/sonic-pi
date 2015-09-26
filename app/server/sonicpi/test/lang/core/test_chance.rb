@@ -15,7 +15,7 @@ require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
-  class ChanceTester < Test::Unit::TestCase
+  class ChanceTester < Minitest::Test
     include SonicPi::Lang::Core
 
     def test_one_in_out_of_bounds

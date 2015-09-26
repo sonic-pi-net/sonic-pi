@@ -16,7 +16,7 @@ require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
 
-  class SpiderApiTester < Test::Unit::TestCase
+  class SpiderApiTester < Minitest::Test
     include SonicPi::Lang::Core
 
     Thread.current.thread_variable_set(:sonic_pi_spider_random_generator, Random.new(0))

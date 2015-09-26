@@ -2,7 +2,7 @@ require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
-  class RandomTester < Test::Unit::TestCase
+  class RandomTester < Minitest::Test
     include SonicPi::Lang::Core
 
     def test_rand
