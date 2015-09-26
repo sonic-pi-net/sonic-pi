@@ -2328,9 +2328,8 @@ sample :loop_amen                    # starting it again
           if path.has_key? :name
             # handle case where sample receives Hash and args
             new_path = path.delete(:name)
-            new_args = path.tap {|myhash| myhash.delete :name }
             args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
-            return sample(new_path, new_args.merge(args_h))
+            return sample(new_path, path.merge(args_h))
           else
             return nil
           end
