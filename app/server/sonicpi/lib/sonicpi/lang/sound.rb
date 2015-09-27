@@ -156,6 +156,10 @@ module SonicPi
         end
       end
 
+      def start_amp_monitor
+        @mod_sound_studio.start_amp_monitor
+      end
+
       def current_amp
         @mod_sound_studio.amp
       end

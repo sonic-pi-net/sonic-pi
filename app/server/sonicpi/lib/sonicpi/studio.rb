@@ -69,11 +69,15 @@ module SonicPi
     def reset
       reset_and_setup_groups_and_busses
       start_mixer
-      @amp_synth = @server.trigger_synth :head, @recording_group, "sonic-pi-amp_stereo_monitor", {"bus" => 0}, true
+
 
     end
 
-
+    def start_amp_monitor
+      unless @amp_synth
+        @amp_synth = @server.trigger_synth :head, @recording_group, "sonic-pi-amp_stereo_monitor", {"bus" => 0}, true
+      end
+    end
 
 
     def message(s)
