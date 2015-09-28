@@ -2488,7 +2488,7 @@ module SonicPi
           summary:        "Run code block at the same time",
           doc:            "Execute a given block (between `do` ... `end`) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the `name:` optional arg. Named threads will print their name in the logging pane when they print their activity. Finally, if you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.",
           args:           [],
-          opts:           {:name  => "Make this thread a named thread with name",
+          opts:           {:name  => "Make this thread a named thread with name. If a thread with this name already exists, a new thread will not be created.",
                            :delay => "Initial delay in beats before the thread starts. Default is 0."},
           accepts_block:  true,
           requires_block: true,
