@@ -1875,8 +1875,8 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
 void MainWindow::createShortcuts()
 {
 
-  new QShortcut(metaKey('<'), this, SLOT(tabPrev()));
-  new QShortcut(metaKey('>'), this, SLOT(tabNext()));
+  new QShortcut(metaKey('{'), this, SLOT(tabPrev()));
+  new QShortcut(metaKey('}'), this, SLOT(tabNext()));
   //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
 
   new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
