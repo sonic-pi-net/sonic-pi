@@ -19,7 +19,7 @@ require 'mocha/setup'
 require 'ostruct'
 
 module SonicPi
-  class SampleTester < Test::Unit::TestCase
+  class SampleTester < Minitest::Test
     def setup
       @mock_sound = Object.new
       @mock_sound.extend(Lang::Sound)
