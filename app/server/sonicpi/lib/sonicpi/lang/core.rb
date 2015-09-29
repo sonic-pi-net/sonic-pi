@@ -776,18 +776,18 @@ module SonicPi
           intro_fn:       true,
           doc:            "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
           examples:       ["
-  live_loop :ping do
-    sample :elec_ping
-    sleep 1
-  end
+live_loop :ping do
+  sample :elec_ping
+  sleep 1
+end
   ",
 
         "
-  live_loop :foo do |a|  # pass a param (a) to the block (inits to 0)
-    puts a               # prints out all the integers
-    sleep 1
-    a += 1               # increment a by 1 (last value is passed back into the loop)
-  end
+live_loop :foo do |a|  # pass a param (a) to the block (inits to 0)
+  puts a               # prints out all the integers
+  sleep 1
+  a += 1               # increment a by 1 (last value is passed back into the loop)
+end
   "   ]
 
 
