@@ -34,19 +34,19 @@
     attack   0.01
     sustain  0
     decay 0
-    release  2
+    release  1
     attack_level 1
     decay_level 1
     sustain_level 1
     env_curve 2
-    cutoff   80
+    cutoff   120
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    cutoff_attack 0.01
+    cutoff_attack 0
     cutoff_sustain 0
     cutoff_decay 0
-    cutoff_release 2
+    cutoff_release 1
     cutoff_min 30
     cutoff_min_slide 0
     cutoff_min_slide_shape 5
@@ -55,7 +55,7 @@
     cutoff_decay_level 1
     cutoff_sustain_level 1
     cutoff_env_curve 2
-    res      0.1                       ; rlpf resonance
+    res      0.9                       ; rlpf resonance
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -105,15 +105,15 @@
      pan_slide 0
      pan_slide_shape 5
      pan_slide_curve 0
-     attack 0.1
+     attack 0.05
      decay 0.0
      sustain 0.0
-     release 2
+     release 1
      attack_level 1
      decay_level 1
      sustain_level 1
      env_curve 2
-     cutoff 137
+     cutoff 130
      cutoff_slide 0
      cutoff_slide_shape 5
      cutoff_slide_curve 0
@@ -176,10 +176,10 @@
                               pan_slide 0
                               pan_slide_shape 5
                               pan_slide_curve 0
-                              attack 0.01
+                              attack 0
                               decay 0
                               sustain 0
-                              release 2
+                              release 1
                               attack_level 1
                               decay_level 1
                               sustain_level 1
@@ -188,7 +188,7 @@
                               cutoff_slide 0
                               cutoff_slide_shape 5
                               cutoff_slide_curve 0
-                              res 0.3
+                              res 0.7
                               res_slide 0
                               res_slide_shape 5
                               res_slide_curve 0
@@ -232,7 +232,7 @@
                           pan_slide 0
                           pan_slide_shape 5
                           pan_slide_curve 0
-                          attack 0.1
+                          attack 0
                           decay 0
                           sustain 0
                           release 1
@@ -244,7 +244,7 @@
                           cutoff_slide 0
                           cutoff_slide_shape 5
                           cutoff_slide_curve 0
-                          res 0.1
+                          res 0.9
                           res_slide 0
                           res_slide_shape 5
                           res_slide_curve 0
@@ -260,7 +260,7 @@
                           pulse_width_slide 0
                           pulse_width_slide_shape 5
                           pulse_width_slide_curve 0
-                          range 1
+                          range 24
                           range_slide 0
                           range_slide_shape 5
                           range_slide_curve 0
@@ -333,7 +333,7 @@
     attack 0.01
     decay 0
     sustain 0
-    release 2
+    release 1
     attack_level 1
     decay_level 1
     sustain_level 1
@@ -342,7 +342,7 @@
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.3
+    res 0.7
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0

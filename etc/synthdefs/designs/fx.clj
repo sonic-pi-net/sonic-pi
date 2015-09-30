@@ -31,7 +31,7 @@
     pre_amp_slide 0
     pre_amp_slide_shape 5
     pre_amp_slide_curve 0
-    gain 4
+    gain 5
     gain_slide 0
     gain_slide_shape 5
     gain_slide_curve 0
@@ -39,7 +39,7 @@
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -127,10 +127,6 @@
       pre_amp_slide_shape 5
       pre_amp_slide_curve 0
 
-      mod_amp 1
-      mod_amp_slide 0
-      mod_amp_slide_shape 5
-      mod_amp_slide_curve 0
       pitch 0
       pitch_slide 0
       pitch_slide_shape 1
@@ -138,15 +134,15 @@
 
       window_size 0.2
       window_size_slide 0
-      window_size_slide_shape 1
+      window_size_slide_shape 5
       window_size_slide_curve 0
       pitch_dis 0.0
       pitch_dis_slide 0
-      pitch_dis_slide_shape 1
+      pitch_dis_slide_shape 5
       pitch_dis_slide_curve 0
       time_dis 0.0
       time_dis_slide 0
-      time_dis_slide_shape 1
+      time_dis_slide_shape 5
       time_dis_slide_curve 0
       in_bus 0
       out_bus 0]
@@ -233,15 +229,11 @@
     phase_slide 0
     phase_slide_shape 5
     phase_slide_curve 0
-    decay 8
+    decay 2
     decay_slide 0
     decay_slide_shape 5
     decay_slide_curve 0
     max_phase 2
-    amp 1
-    amp_slide 0
-    amp_slide_shape 5
-    amp_slide_curve 0
     in_bus 0
     out_bus 0]
    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
@@ -388,7 +380,7 @@
     cutoff_max_slide 0
     cutoff_max_slide_shape 5
     cutoff_max_slide_curve 0
-    res 0.2
+    res 0.8
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -498,7 +490,7 @@
     phase_slide 0
     phase_slide_shape 5
     phase_slide_curve 0
-    pan_min 0
+    pan_min -1
     pan_min_slide 0
     pan_min_slide_shape 5
     pan_min_slide_curve 0
@@ -587,7 +579,6 @@
      (out out_bus [fin-l fin-r])))
 
 
-
  (defsynth sonic-pi-fx_ixi_techno
    [amp 1
     amp_slide 0
@@ -614,7 +605,7 @@
     cutoff_max_slide 0
     cutoff_max_slide_shape 5
     cutoff_max_slide_curve 0
-    res 0.2
+    res 0.8
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -755,7 +746,7 @@
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.6
+    res 0.5
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -793,7 +784,7 @@
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.6
+    res 0.5
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -827,11 +818,11 @@
     pre_amp_slide 0
     pre_amp_slide_shape 5
     pre_amp_slide_curve 0
-    cutoff 10
+    cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.6
+    res 0.5
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -865,11 +856,11 @@
     pre_amp_slide 0
     pre_amp_slide_shape 5
     pre_amp_slide_curve 0
-    cutoff 10
+    cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.6
+    res 0.5
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -888,6 +879,9 @@
      (out out_bus [fin-l fin-r])))
 
 
+;;;;;; Got HERE!!!!!
+
+
  (defsynth sonic-pi-fx_hpf
    [amp 1
     amp_slide 0
@@ -901,7 +895,7 @@
     pre_amp_slide 0
     pre_amp_slide_shape 5
     pre_amp_slide_curve 0
-    cutoff 10
+    cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
@@ -933,7 +927,7 @@
     pre_amp_slide 0
     pre_amp_slide_shape 5
     pre_amp_slide_curve 0
-    cutoff 10
+    cutoff 100
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
@@ -1286,7 +1280,7 @@
      pre_amp_slide 0
      pre_amp_slide_shape 5
      pre_amp_slide_curve 0
-     freq 100
+     freq 30
      freq_slide 0
      freq_slide_shape 5
      freq_slide_curve 0

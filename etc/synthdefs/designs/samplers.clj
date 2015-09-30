@@ -32,7 +32,7 @@
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -69,7 +69,7 @@
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -120,7 +120,7 @@
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -194,7 +194,7 @@
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0

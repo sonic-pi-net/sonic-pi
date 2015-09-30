@@ -32,7 +32,7 @@
                           attack 0
                           decay 0
                           sustain 0
-                          release 0.2
+                          release 1
                           attack_level 1
                           decay_level 1
                           sustain_level 1
@@ -59,10 +59,10 @@
                            pan_slide 0
                            pan_slide_shape 5
                            pan_slide_curve 0
-                           attack 0.01
+                           attack 0
                            decay 0
                            sustain 0
-                           release 2
+                           release 1
                            attack_level 1
                            decay_level 1
                            sustain_level 1
@@ -102,10 +102,10 @@
                               pan_slide 0
                               pan_slide_shape 5
                               pan_slide_curve 0
-                              attack 0.01
+                              attack 0
                               decay 0
                               sustain 0
-                              release 2
+                              release 1
                               attack_level 1
                               decay_level 1
                               sustain_level 1
@@ -158,10 +158,10 @@
                             pan_slide 0
                             pan_slide_shape 5
                             pan_slide_curve 0
-                            attack 0.01
+                            attack 0
                             decay 0
                             sustain 0
-                            release 2
+                            release 1
                             attack_level 1
                             decay_level 1
                             sustain_level 1
@@ -197,10 +197,10 @@
                          pan_slide 0
                          pan_slide_shape 5
                          pan_slide_curve 0
-                         attack 0.1
+                         attack 0
                          decay 0
                          sustain 0
-                         release 0.3
+                         release 1
                          attack_level 1
                          decay_level 1
                          sustain_level 1
@@ -234,10 +234,10 @@
                          pan_slide 0
                          pan_slide_shape 5
                          pan_slide_curve 0
-                         attack 0.1
+                         attack 0
                          decay 0
                          sustain 0
-                         release 0.3
+                         release 1
                          attack_level 1
                          decay_level 1
                          sustain_level 1
@@ -270,10 +270,10 @@
                           pan_slide 0
                           pan_slide_shape 5
                           pan_slide_curve 0
-                          attack 0.1
+                          attack 0
                           decay 0
                           sustain 0
-                          release 0.3
+                          release 1
                           attack_level 1
                           decay_level 1
                           sustain_level 1
@@ -313,7 +313,7 @@
                         pan_slide 0
                         pan_slide_shape 5
                         pan_slide_curve 0
-                        attack 1
+                        attack 0
                         decay 0
                         sustain 0
                         release 1
@@ -366,7 +366,7 @@
                             pan_slide 0
                             pan_slide_shape 5
                             pan_slide_curve 0
-                            attack 1
+                            attack 0
                             decay 0
                             sustain 0
                             release 1
@@ -378,7 +378,7 @@
                             cutoff_slide 0
                             cutoff_slide_shape 5
                             cutoff_slide_curve 0
-                            mod_phase 1
+                            mod_phase 0.25
                             mod_phase_slide 0
                             mod_phase_slide_shape 5
                             mod_phase_slide_curve 0
@@ -452,10 +452,10 @@
                              pan_slide 0
                              pan_slide_shape 5
                              pan_slide_curve 0
-                             attack 0.01
+                             attack 0
                              decay 0
                              sustain 0
-                             release 2
+                             release 1
                              attack_level 1
                              decay_level 1
                              sustain_level 1
@@ -464,7 +464,7 @@
                              cutoff_slide 0
                              cutoff_slide_shape 5
                              cutoff_slide_curve 0
-                             mod_phase 1
+                             mod_phase 0.25
                              mod_phase_slide 0
                              mod_phase_slide_shape 5
                              mod_phase_slide_curve 0
@@ -527,10 +527,10 @@
                               pan_slide 0
                               pan_slide_shape 5
                               pan_slide_curve 0
-                              attack 0.01
+                              attack 0.
                               decay 0
                               sustain 0
-                              release 2
+                              release 1
                               attack_level 1
                               decay_level 1
                               sustain_level 1
@@ -539,7 +539,7 @@
                               cutoff_slide 0
                               cutoff_slide_shape 5
                               cutoff_slide_curve 0
-                              mod_phase 1
+                              mod_phase 0.25
                               mod_phase_slide 0
                               mod_phase_slide_shape 5
                               mod_phase_slide_curve 5
@@ -552,7 +552,7 @@
                               mod_pulse_width_slide_shape 5
                               mod_pulse_width_slide_curve 0
                               mod_phase_offset 0
-                              mod_wave 0
+                              mod_wave 1
                               mod_invert_wave 0
                               detune 0.1
                               detune_slide 0
@@ -606,10 +606,10 @@
                               pan_slide 0
                               pan_slide_shape 5
                               pan_slide_curve 0
-                              attack 0.01
+                              attack 0
                               decay 0
                               sustain 0
-                              release 2
+                              release 1
                               attack_level 1
                               decay_level 1
                               sustain_level 1
@@ -618,7 +618,7 @@
                               cutoff_slide 0
                               cutoff_slide_shape 5
                               cutoff_slide_curve 0
-                              mod_phase 1
+                              mod_phase 0.25
                               mod_phase_slide 0
                               mod_phase_slide_shape 5
                               mod_phase_slide_curve 0
@@ -631,7 +631,7 @@
                               mod_pulse_width_slide_shape 5
                               mod_pulse_width_slide_curve 0
                               mod_phase_offset 0
-                              mod_wave 0
+                              mod_wave 1
                               mod_invert_wave 0
                               out_bus 0]
    (let [note                    (varlag note note_slide  note_slide_curve  note_slide_shape)
@@ -679,10 +679,10 @@
                              pan_slide 0
                              pan_slide_shape 5
                              pan_slide_curve 0
-                             attack 0.01
+                             attack 0
                              decay 0
                              sustain 0
-                             release 2
+                             release 1
                              attack_level 1
                              decay_level 1
                              sustain_level 1
@@ -691,7 +691,7 @@
                              cutoff_slide 0
                              cutoff_slide_shape 5
                              cutoff_slide_curve 0
-                             mod_phase 1
+                             mod_phase 0.25
                              mod_phase_slide 0
                              mod_phase_slide_shape 5
                              mod_phase_slide_curve 0
@@ -704,7 +704,7 @@
                              mod_pulse_width_slide_shape 5
                              mod_pulse_width_slide_curve 0
                              mod_phase_offset 0
-                             mod_wave 0
+                             mod_wave 1
                              mod_invert_wave 0
                              out_bus 0]
    (let [note                    (varlag note note_slide note_slide_curve note_slide_shape)
@@ -752,10 +752,10 @@
                                pan_slide 0
                                pan_slide_shape 5
                                pan_slide_curve 0
-                               attack 0.01
+                               attack 0
                                decay 0
                                sustain 0
-                               release 2
+                               release 1
                                attack_level 1
                                decay_level 1
                                sustain_level 1
@@ -764,7 +764,7 @@
                                cutoff_slide 0
                                cutoff_slide_shape 5
                                cutoff_slide_curve 0
-                               mod_phase 1
+                               mod_phase 0.25
                                mod_phase_slide 0
                                mod_phase_slide_shape 5
                                mod_phase_slide_curve 0
@@ -777,7 +777,7 @@
                                mod_pulse_width_slide_shape 5
                                mod_pulse_width_slide_curve 0
                                mod_phase_offset 0
-                               mod_wave 0
+                               mod_wave 1
                                mod_invert_wave 0
                                pulse_width 0.5
                                pulse_width_slide 0

@@ -1546,6 +1546,10 @@ module SonicPi
             :cutoff_slide => 0,
             :cutoff_slide_shape => 5,
             :cutoff_slide_curve => 0,
+            :res => 0.1,
+            :res_slide => 0,
+            :res_slide_shape => 5,
+            :res_slide_curve => 0,
           }
         end
     end
@@ -1676,14 +1680,6 @@ module SonicPi
           :sustain_level => 1,
           :hard => 0.5,
           :stereo_width => 0,
-          :cutoff => 0,
-          :cutoff_slide => 0,
-          :cutoff_slide_shape => 5,
-          :cutoff_slide_curve => 0,
-          :res => 0.2,
-          :res_slide => 0,
-          :res_slide_shape => 5,
-          :res_slide_curve => 0
         }
       end
 
@@ -2960,6 +2956,10 @@ module SonicPi
           :bits_slide => 0,
           :bits_slide_shape => 5,
           :bits_slide_curve => 0,
+          :cutoff => 0,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 5,
+          :cutoff_slide_curve => 0
         }
       end
 
@@ -3179,10 +3179,17 @@ module SonicPi
           :prob_pos_slide_curve => 0,
           :seed => 0,
           :smooth => 0,
+          :smooth_slide => 0,
+          :smooth_slide_shape => 5,
+          :smooth_slide_curve => 0,
           :smooth_up => 0,
-          :smooth_down => 0
-
-
+          :smooth_up_slide => 0,
+          :smooth_up_slide_shape => 5,
+          :smooth_up_slide_curve => 0,
+          :smooth_down => 0,
+          :smooth_down_slide => 0,
+          :smooth_down_slide_shape => 5,
+          :smooth_down_slide_curve => 0
         }
       end
 
@@ -3396,9 +3403,17 @@ module SonicPi
           :prob_pos_slide_curve => 0,
           :seed => 0,
           :smooth => 0,
+          :smooth_slide => 0,
+          :smooth_slide_shape => 5,
+          :smooth_slide_curve => 0,
           :smooth_up => 0,
-          :smooth_down => 0
-
+          :smooth_up_slide => 0,
+          :smooth_up_slide_shape => 5,
+          :smooth_up_slide_curve => 0,
+          :smooth_down => 0,
+          :smooth_down_slide => 0,
+          :smooth_down_slide_shape => 5,
+          :smooth_down_slide_curve => 0
         }
       end
 
@@ -3586,8 +3601,17 @@ module SonicPi
           :prob_pos_slide_curve => 0,
           :seed => 0,
           :smooth => 0,
+          :smooth_slide => 0,
+          :smooth_slide_shape => 5,
+          :smooth_slide_curve => 0,
           :smooth_up => 0,
+          :smooth_up_slide => 0,
+          :smooth_up_slide_shape => 5,
+          :smooth_up_slide_curve => 0,
           :smooth_down => 0,
+          :smooth_down_slide => 0,
+          :smooth_down_slide_shape => 5,
+          :smooth_down_slide_curve => 0
         }
         end
       end
@@ -4259,7 +4283,11 @@ module SonicPi
           :centre => 100,
           :centre_slide => 0,
           :centre_slide_shape => 5,
-          :centre_slide_curve => 0
+          :centre_slide_curve => 0,
+          :res => 0.6,
+          :res_slide => 0,
+          :res_slide_shape => 5,
+          :res_slide_curve => 0
 
         }
       end
@@ -4806,15 +4834,15 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :window_size_slide_curve => 0,
           :pitch => 0,
           :pitch_slide => 0,
-          :pitch_slide_shape => 1,
+          :pitch_slide_shape => 5,
           :pitch_slide_curve => 0,
           :pitch_dis => 0.0,
           :pitch_dis_slide => 0,
-          :pitch_dis_slide_shape => 1,
+          :pitch_dis_slide_shape => 5,
           :pitch_dis_slide_curve => 0,
           :time_dis => 0.0,
           :time_dis_slide => 0,
-          :time_dis_slide_shape => 1,
+          :time_dis_slide_shape => 5,
           :time_dis_slide_curve => 0,
         }
       end

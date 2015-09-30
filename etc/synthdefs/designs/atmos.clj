@@ -35,7 +35,7 @@
       attack 0
       decay 0
       sustain 0
-      release 4
+      release 1
       attack_level 1
       decay_level 1
       sustain_level 1
@@ -45,7 +45,7 @@
       cutoff_slide 0
       cutoff_slide_shape 5
       cutoff_slide_curve 0
-      res 0.3
+      res 0.7
       res_slide 0
       res_slide_shape 5
       res_slide_curve 0
@@ -120,23 +120,23 @@
       attack 0
       decay 0
       sustain 0
-      release 0.1
+      release 1
       attack_level 1
       decay_level 1
       sustain_level 1
       env_curve 2
 
-      cutoff 100
+      cutoff 90
       cutoff_slide 0
       cutoff_slide_shape 5
       cutoff_slide_curve 0
-      res 0.3
+      res 0.99
       res_slide 0
       res_slide_shape 5
       res_slide_curve 0
 
-      noise 0
-      norm 1
+      noise 1
+      norm 0
 
       out_bus 0]
      (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
@@ -191,11 +191,11 @@
       env_curve 2
 
 
-      cutoff 100
+      cutoff 130
       cutoff_slide 0
       cutoff_slide_shape 5
       cutoff_slide_curve 0
-      res 1
+      res 0.7
       res_slide 0
       res_slide_shape 5
       res_slide_curve 0

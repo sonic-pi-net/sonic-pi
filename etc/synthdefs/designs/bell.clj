@@ -90,7 +90,7 @@
                                  pan_slide 0
                                  pan_slide_shape 5
                                  pan_slide_curve 0
-                                 attack 0.01
+                                 attack 0
                                  decay 0
                                  sustain 0
                                  release 1.0
@@ -119,10 +119,10 @@
                                    pan_slide 0
                                    pan_slide_shape 5
                                    pan_slide_curve 0
-                                   attack 0.01
+                                   attack 0
                                    decay 0
                                    sustain 0
-                                   release 1.3
+                                   release 1
                                    attack_level 1
                                    decay_level 1
                                    sustain_level 1

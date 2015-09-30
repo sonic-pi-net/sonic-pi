@@ -29,16 +29,16 @@
     attack 0
     sustain 0
     decay 0
-    release 2
+    release 1
     attack_level 1
     decay_level 1
     sustain_level 1
     env_curve 2
-    cutoff 120
+    cutoff 110
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -69,16 +69,16 @@
     attack 0
     sustain 0
     decay 0
-    release 2
+    release 1
     attack_level 1
     decay_level 1
     sustain_level 1
     env_curve 2
-    cutoff 120
+    cutoff 110
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -109,16 +109,16 @@
     attack 0
     sustain 0
     decay 0
-    release 2
+    release 1
     attack_level 1
     decay_level 1
     sustain_level 1
     env_curve 2
-    cutoff 120
+    cutoff 110
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -149,16 +149,16 @@
     attack 0
     sustain 0
     decay 0
-    release 2
+    release 1
     attack_level 1
     decay_level 1
     sustain_level 1
     env_curve 2
-    cutoff 120
+    cutoff 110
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0
@@ -189,16 +189,16 @@
     attack 0
     sustain 0
     decay 0
-    release 2
+    release 1
     attack_level 1
     decay_level 1
     sustain_level 1
     env_curve 2
-    cutoff 120
+    cutoff 110
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
-    res 0.1
+    res 0
     res_slide 0
     res_slide_shape 5
     res_slide_curve 0

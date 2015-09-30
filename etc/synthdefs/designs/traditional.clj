@@ -28,40 +28,22 @@
                            pan_slide_curve 0
                            attack 0
                            decay 0
-                           sustain 3
+                           sustain 0
                            release 1
                            attack_level 1
                            sustain_level 1
                            env_curve 2
-                           gate 1
                            vel 0.2
-                           decay 0.2
-                           release 0.2
+                           decay 0
                            hard 0.5
-                           velhard 0.4
-                           muffle 0.8
-                           velmuff 0.8
                            velcurve 0.8
-                           stereo_width 0.2
-                           cutoff 0
-                           cutoff_slide 0
-                           cutoff_slide_shape 5
-                           cutoff_slide_curve 0
-                           res 0.2
-                           res_slide 0
-                           res_slide_shape 5
-                           res_slide_curve 0
+                           stereo_width 0
 
                            out_bus 0]
    (let [note          (+ 0.5 (floor note))
          amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-         cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
-         cutoff-freq   (midicps cutoff)
          freq          (midicps note)
-         use-filter    (> cutoff 0)
-         res           (lin-lin res 1 0 0 1)
-         res           (varlag res res_slide res_slide_curve res_slide_shape)
          vel           (clip vel 0 1)
          vel           (lin-lin vel 0 1 0 4)
          vel           (* vel 127)
@@ -86,8 +68,6 @@
                                    :sustain  0.1})
 
          [snd-l snd-r] snd
-         snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
-         snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
          [new-l new-r] (balance2 snd-l snd-r pan amp)
          env           (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
          new-l         (* env new-l)
@@ -121,7 +101,7 @@
      decay_level 1
      sustain_level 1
      env_curve 2
-     cutoff 107 ;; ~ 4000 Hz
+     cutoff 100 ;; ~ 4000 Hz
      cutoff_slide 0
      cutoff_slide_shape 5
      cutoff_slide_curve 0
@@ -129,7 +109,7 @@
      vibrato_rate_slide 0
      vibrato_rate_slide_shape 5
      vibrato_rate_slide_curve 0
-     vibrato_depth 0.02
+     vibrato_depth 0.15
      vibrato_depth_slide 0
      vibrato_depth_slide_shape 5
      vibrato_depth_slide_curve 0
