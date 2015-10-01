@@ -3202,7 +3202,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
       private
 
-      def normalise_args!(args_h)
+      def normalise_args!(args_h, defaults={})
         args_h.keys.each do |k|
           v = args_h[k]
           case v
@@ -3213,7 +3213,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           when Symbol
             # Allow vals to be keys to other vals
             # But only one level deep...
-            args_h[k] = args_h[v].to_f
+            args_h[k] = (args_h[v] || defaults[v]).to_f
           when TrueClass
             args_h[k] = 1.0
           when FalseClass
@@ -3413,17 +3413,18 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         if combine_tls
           t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-          combined_args = defaults.merge(t_l_args.merge(args_h))
+          combined_args = t_l_args.merge(args_h)
         else
-          combined_args = defaults.merge(args_h)
+          combined_args = args_h
         end
 
         combined_args["out_bus"] = out_bus
         combined_args[:rand_buf] = @mod_sound_studio.rand_buf_id if combined_args[:seed]
         resolve_midi_args!(combined_args, info)
-        normalise_args!(combined_args)
+        normalise_args!(combined_args, defaults)
+        scale_time_args_to_bpm!(combined_args, info, true) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
-        scale_time_args_to_bpm!(combined_args, info) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+
         combined_args
       end
 
@@ -3683,8 +3684,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_current_synth_name, name)
       end
 
-
-
       def __freesound_path(id)
         cache_dir = home_dir + '/freesound/'
         ensure_dir(cache_dir)
@@ -3726,15 +3725,33 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       #            examples:      ["
       # puts freesound(250129)    # preloads a freesound and prints its local path, such as '/home/user/.sonic_pi/freesound/250129.wav'"]
 
-      def scale_time_args_to_bpm!(args_h, info)
+      def scale_time_args_to_bpm!(args_h, info, force_add = true)
         # some of the args in args_h need to be scaled to match the
         # current bpm. Check in info to see if that's necessary and if
         # so, scale them.
-        info.bpm_scale_args.each do |arg_name|
-          if args_h.has_key? arg_name
-            args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-          end
 
+
+        if force_add
+          defaults = info.arg_defaults
+          # force_add is true so we need to ensure that we scale args
+          # that haven't been explicitly passed as the synth arg
+          # defaults have no idea of BPM.
+          info.bpm_scale_args.each do |arg_name|
+            val = args_h[arg_name] || defaults[arg_name]
+            # perform a lookup in defaults if necessary
+            # allows defaults to be keys one level deep
+            # see .normalise_args!
+            val = defaults[val] if val.is_a?(Symbol)
+            raise "oooh #{[val.inspect, arg_name, defaults]}" unless val.is_a?(Numeric)
+            args_h[arg_name] =  val * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+
+          end
+        else
+          # only scale the args that have been passed.
+          info.bpm_scale_args.each do |arg_name, default|
+            args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul) if args_h.has_key?(arg_name)
+
+          end
         end
         args_h
       end

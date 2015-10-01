@@ -19,7 +19,21 @@ module SonicPi
 
       def initialize
         @scsynth_name = "#{prefix}#{synth_name}"
-        @info = default_arg_info.merge(specific_arg_info)
+        merged_info = default_arg_info.merge(specific_arg_info)
+        @arg_names = arg_defaults.keys
+
+        # useful sanity check
+        # @arg_names.each do |k|
+        #   raise "no arg info for synth: #{@scsynth_name}, arg: #{k.inspect}" unless k.to_s.include?("_slide_") || k.to_s == "input" || merged_info[k]
+        # end
+
+        merged_info.each do |k, v|
+          merged_info.delete(k) unless @arg_names.member?(k)
+        end
+
+        @info = merged_info
+        # force arg_info to be cached
+        arg_info
       end
 
       def rrand(min, max)
@@ -141,8 +155,8 @@ module SonicPi
       end
 
       def arg_info
-        #Specifically for doc usage. Consider changing name to doc_info
-        #Don't call as part of audio loops as slow. Use .info directly
+        return @cached_arg_info if @cached_arg_info
+
         res = {}
         arg_defaults.each do |arg, default|
           if m = /(.*)_slide/.match(arg.to_s) then
@@ -162,7 +176,7 @@ module SonicPi
           end
         end
 
-        res
+        @cached_arg_info = res
 
       end
 
