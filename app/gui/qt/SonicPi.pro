@@ -83,7 +83,8 @@ HEADERS  += mainwindow.h \
             sonicpitheme.h
 
 TRANSLATIONS = lang/sonic-pi_de.ts \
-               lang/sonic-pi_is.ts
+               lang/sonic-pi_is.ts \
+               lang/sonic-pi_ja.ts
 
 OTHER_FILES += \
     images/copy.png \
