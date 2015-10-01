@@ -3742,7 +3742,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
             # allows defaults to be keys one level deep
             # see .normalise_args!
             val = defaults[val] if val.is_a?(Symbol)
-            raise "oooh #{[val.inspect, arg_name, defaults]}" unless val.is_a?(Numeric)
             args_h[arg_name] =  val * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
 
           end
