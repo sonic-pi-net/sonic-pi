@@ -259,6 +259,19 @@ module SonicPi
             :bpm_scale => true
           },
 
+          :note_slide_shape =>
+          {
+            :doc => "Shape of curve for note slide  0: step, 1: linear, 2: exponential, 3: sine, 4: welch, 5: custom (use *_curve opt), 6: squared, 7: cubed, 8: hold",
+            :validations => [v_one_of(:env_curve, [0, 1, 2, 3, 4, 6, 7, 8])],
+            :modulatable => false
+          },
+
+          :note_slide_curve =>
+          {
+            :doc => "Control curvature for note slide. Only used if *_slide_shape is 5. 0 means linear, positive and negative numbers curve the segment up and down.",
+            :modulatable => false
+          },
+
           :amp =>
           {
             :doc => "The amplitude of the sound. Typically a value between 0 and 1. Higher amplitudes may be used, but won't make the sound louder, they will just reduce the quality of all the sounds currently being played (due to compression.)",
@@ -738,12 +751,28 @@ module SonicPi
             :modulatable => true
           },
 
+          :sub_amp_slide =>
+          {
+            :doc => generic_slide_doc(:sub_amp),
+            :validations => [v_positive(:sub_amp_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :sub_detune =>
           {
             :doc => "Amount of detune from the note for the additional sine wave. Default is -12",
             :validations => [],
             :modulatable => true
-          }
+          },
+
+          :sub_detune_slide =>
+          {
+            :doc => generic_slide_doc(:sub_detune),
+            :validations => [v_positive(:sub_detune_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
         }
       end
     end
@@ -1388,6 +1417,14 @@ module SonicPi
             :modulatable => false
           },
 
+          :cutoff_decay_level =>
+          {
+            :doc => "The level of cutoff after the decay phase as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value",
+            :validations => [v_between_inclusive(:cutoff_decay_level, 0, 1)],
+            :modulatable => false
+          },
+
+
           :cutoff_sustain_level =>
           {
             :doc => "The sustain cutoff (value of cutoff at sustain time) as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value.",
@@ -1600,11 +1637,11 @@ module SonicPi
           :cutoff_slide_curve => 0,
 
           :vibrato_rate => 6,
-          :vibrato_rate_shape => 5,
-          :vibrato_rate_curve => 0,
+          :vibrato_rate_slide_shape => 5,
+          :vibrato_rate_slide_curve => 0,
           :vibrato_depth => 0.15,
-          :vibrato_depth_shape => 5,
-          :vibrato_depth_curve => 0,
+          :vibrato_depth_slide_shape => 5,
+          :vibrato_depth_slide_curve => 0,
           :vibrato_delay => 0.5,
           :vibrato_onset => 0.1,
         }
@@ -1889,10 +1926,29 @@ module SonicPi
           {
             :doc => "Distance (in MIDI notes) between the main note and the second component of sound. Affects thickness, sense of tuning and harmony.",
           },
+
+
+          :detune1_slide =>
+          {
+            :doc => generic_slide_doc(:detune1),
+            :validations => [v_positive(:detune1_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :detune2 =>
           {
             :doc => "Distance (in MIDI notes) between the main note and the third component of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound.",
           },
+
+          :detune2_slide =>
+          {
+            :doc => generic_slide_doc(:detune2),
+            :validations => [v_positive(:detune2_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :noise =>
           { :doc => "Noise source. Has a subtle effect on the timbre of the sound. 0=pink noise (the default), 1=brown noise, 2=white noise, 3=clip noise and 4=grey noise",
             :validations => [v_one_of(:noise, [0, 1, 2, 3, 4])],
@@ -2491,9 +2547,6 @@ module SonicPi
           :pan_slide_shape => 5,
           :pan_slide_curve => 0,
           :rate => 1,
-          :rate_slide => 0,
-          :rate_slide_shape => 5,
-          :rate_slide_curve => 0,
           :cutoff => 0,
           :cutoff_slide => 0,
           :cutoff_slide_shape => 5,
@@ -3202,6 +3255,14 @@ module SonicPi
             :modulatable => true
           },
 
+          :smooth_slide =>
+          {
+            :doc => generic_slide_doc(:smooth),
+            :validations => [v_positive(:smooth_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :smooth_up =>
           {
             :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going up. This smoothing happens before the main smooth mechanism.",
@@ -3209,11 +3270,28 @@ module SonicPi
             :modulatable => true
           },
 
+          :smooth_up_slide =>
+          {
+            :doc => generic_slide_doc(:smooth_up),
+            :validations => [v_positive(:smooth_up_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
           :smooth_down =>
           {
             :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going down. This smoothing happens before the main smooth mechanism.",
             :validations => [v_positive(:smooth_down)],
             :modulatable => true
+          },
+
+          :smooth_down_slide =>
+          {
+            :doc => generic_slide_doc(:smooth_down),
+            :validations => [v_positive(:smooth_down_slide)],
+            :modulatable => true,
+            :bpm_scale => true
           },
 
           :probability =>
@@ -3223,12 +3301,32 @@ module SonicPi
             :modulatable => true
           },
 
+          :probability_slide =>
+          {
+            :doc => generic_slide_doc(:probability),
+            :validations => [v_positive(:probability_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :prob_pos =>
           {
             :doc => "Position of the slicer that will be jumped to when the probability test passes as a value between 0 and 1",
             :validations => [v_between_inclusive(:prob_pos, 0, 1)],
             :modulatable => true
           },
+
+          :prob_pos_slide =>
+          {
+            :doc => generic_slide_doc(:prob_pos),
+            :validations => [v_positive(:prob_pos_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
+
+
 
           :seed =>
           {
@@ -3433,12 +3531,29 @@ module SonicPi
             :modulatable => true
           },
 
+          :smooth_slide =>
+          {
+            :doc => generic_slide_doc(:smooth),
+            :validations => [v_positive(:smooth_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :smooth_up =>
           {
             :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going up. This smoothing happens before the main smooth mechanism.",
             :validations => [v_positive(:smooth_up)],
             :modulatable => true
           },
+
+          :smooth_up_slide =>
+          {
+            :doc => generic_slide_doc(:smooth_up),
+            :validations => [v_positive(:smooth_up_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
 
           :smooth_down =>
           {
@@ -3447,6 +3562,16 @@ module SonicPi
             :modulatable => true
           },
 
+          :smooth_down_slide =>
+          {
+            :doc => generic_slide_doc(:smooth_down),
+            :validations => [v_positive(:smooth_down_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
+
           :probability =>
           {
             :doc => "Probability (as a value between 0 and 1) that a given wobble will be replaced by the value of the  prob_pos opt (which defaults to 0, i.e. min_cutoff)",
@@ -3454,11 +3579,27 @@ module SonicPi
             :modulatable => true
           },
 
+          :probability_slide =>
+          {
+            :doc => generic_slide_doc(:probability),
+            :validations => [v_positive(:probability_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :prob_pos =>
           {
             :doc => "Position of the wobble that will be jumped to when the probability test passes as a value between 0 and 1",
             :validations => [v_between_inclusive(:prob_pos, 0, 1)],
             :modulatable => true
+          },
+
+          :prob_pos_slide =>
+          {
+            :doc => generic_slide_doc(:prob_pos),
+            :validations => [v_positive(:prob_pos_slide)],
+            :modulatable => true,
+            :bpm_scale => true
           },
 
           :seed =>
@@ -3504,6 +3645,14 @@ module SonicPi
           {
             :doc => "The phase duration (in beats) for filter modulation cycles",
             :validations => [v_positive_not_zero(:phase)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :phase_slide =>
+          {
+            :doc => generic_slide_doc(:phase),
+            :validations => [v_positive(:phase_slide)],
             :modulatable => true,
             :bpm_scale => true
           },
@@ -3613,7 +3762,6 @@ module SonicPi
           :smooth_down_slide_shape => 5,
           :smooth_down_slide_curve => 0
         }
-        end
       end
 
       def specific_arg_info
@@ -3625,6 +3773,14 @@ module SonicPi
             :modulatable => true
           },
 
+          :smooth_slide =>
+          {
+            :doc => generic_slide_doc(:smooth),
+            :validations => [v_positive(:smooth_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :smooth_up =>
           {
             :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going up. This smoothing happens before the main smooth mechanism.",
@@ -3632,11 +3788,28 @@ module SonicPi
             :modulatable => true
           },
 
+          :smooth_up_slide =>
+          {
+            :doc => generic_slide_doc(:smooth_up),
+            :validations => [v_positive(:smooth_up_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
           :smooth_down =>
           {
             :doc => "Amount of time in seconds to transition from the current value to the next only when the value is going down. This smoothing happens before the main smooth mechanism.",
             :validations => [v_positive(:smooth_down)],
             :modulatable => true
+          },
+
+          :smooth_down_slide =>
+          {
+            :doc => generic_slide_doc(:smooth_down),
+            :validations => [v_positive(:smooth_down_slide)],
+            :modulatable => true,
+            :bpm_scale => true
           },
 
           :probability =>
@@ -3646,12 +3819,29 @@ module SonicPi
             :modulatable => true
           },
 
+          :probability_slide =>
+          {
+            :doc => generic_slide_doc(:probability),
+            :validations => [v_positive(:probability_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :prob_pos =>
           {
             :doc => "Position of the slicer that will be jumped to when the probability test passes as a value between 0 and 1",
             :validations => [v_between_inclusive(:prob_pos, 0, 1)],
             :modulatable => true
           },
+
+          :prob_pos_slide =>
+          {
+            :doc => generic_slide_doc(:prob_pos),
+            :validations => [v_positive(:prob_pos_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
 
           :seed =>
           {
@@ -3720,46 +3910,46 @@ module SonicPi
             :modulatable => true
           },
 
-        :invert_wave =>
+          :invert_wave =>
           {
-          :doc => "Invert control waveform (i.e. flip it on the y axis). 0=uninverted wave, 1=inverted wave.",
-          :validations => [v_one_of(:invert_wave, [0, 1])],
-          :modulatable => true
-        },
+            :doc => "Invert control waveform (i.e. flip it on the y axis). 0=uninverted wave, 1=inverted wave.",
+            :validations => [v_one_of(:invert_wave, [0, 1])],
+            :modulatable => true
+          },
 
-        :pan_min =>
+          :pan_min =>
           {
-          :doc => "Minimum pan value (-1 is the left speaker only)",
-          :validations => [v_positive(:pan_min)],
-          :modulatable => true
-        },
+            :doc => "Minimum pan value (-1 is the left speaker only)",
+            :validations => [v_positive(:pan_min)],
+            :modulatable => true
+          },
 
-        :pan_min_slide =>
+          :pan_min_slide =>
           {
-          :doc => generic_slide_doc(:pan_min),
-          :validations => [v_positive(:pan_min_slide)],
-          :modulatable => true,
-          :bpm_scale => true
-        },
+            :doc => generic_slide_doc(:pan_min),
+            :validations => [v_positive(:pan_min_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
 
-        :pan_max =>
+          :pan_max =>
           {
-          :doc => "Maximum pan value (+1 is the right speaker only)",
-          :validations => [v_positive(:pan_max)],
-          :modulatable => true
-        },
+            :doc => "Maximum pan value (+1 is the right speaker only)",
+            :validations => [v_positive(:pan_max)],
+            :modulatable => true
+          },
 
-        :pan_max_slide =>
+          :pan_max_slide =>
           {
-          :doc => generic_slide_doc(:pan_max),
-          :validations => [v_positive(:pan_max_slide)],
-          :modulatable => true,
-          :bpm_scale => true
+            :doc => generic_slide_doc(:pan_max),
+            :validations => [v_positive(:pan_max_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          }
         }
-      }
 
+      end
     end
-
 
     class FXIXITechno < FXInfo
       def name
@@ -4243,6 +4433,14 @@ module SonicPi
             :doc => "Amplitude of the modulation",
             :validations => [v_positive(:mod_amp)],
             :modulatable => true
+          },
+
+          :mod_amp_slide =>
+          {
+            :doc => generic_slide_doc(:mod_amp),
+            :validations => [v_positive(:mod_amp_slide)],
+            :modulatable => true,
+            :bpm_scale => true
           }
 
         }
@@ -4302,6 +4500,14 @@ module SonicPi
             :midi => true
           },
 
+
+          :centre_slide =>
+          {
+            :doc => generic_slide_doc(:centre),
+            :validations => [v_positive(:centre_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
         }
       end
 
@@ -4855,6 +5061,15 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :validations => [v_greater_than_oet(:pitch, -72), v_less_than_oet(:pitch, 24)],
             :modulatable => true
           },
+
+          :pitch_slide =>
+          {
+            :doc => generic_slide_doc(:pitch),
+            :validations => [v_positive(:pitch_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :window_size =>
           {
             :doc => "Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
@@ -4863,18 +5078,47 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :validations => [v_greater_than(:window_size, 0.00005)],
             :modulatable => true
           },
+
+          :window_size_slide =>
+          {
+            :doc => generic_slide_doc(:window_size),
+            :validations => [v_positive(:window_size_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
           :pitch_dis =>
           {
             :doc => "Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
             :validations => [v_greater_than_oet(:pitch_dis, 0)],
             :modulatable => true
           },
+
+          :pitch_dis_slide =>
+          {
+            :doc => generic_slide_doc(:pitch_dis),
+            :validations => [v_positive(:pitch_dis_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :time_dis =>
           {
             :doc => "Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.",
             :validations => [v_greater_than_oet(:time_dis, 0)],
             :modulatable => true
           },
+
+          :time_dis_slide =>
+          {
+            :doc => generic_slide_doc(:time_dis),
+            :validations => [v_positive(:time_dis_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+
 
         }
       end
@@ -5055,6 +5299,14 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :bpm_scale => true
           },
 
+          :phase_slide =>
+          {
+            :doc => generic_slide_doc(:phase),
+            :validations => [v_positive(:phase_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :wave =>
           {
             :doc => "Wave type - 0 saw, 1 pulse, 2 triangle, 3 sine, 4 cubic. Different waves will produce different flanging modulation effects.",
@@ -5082,6 +5334,14 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :modulatable => true
           },
 
+          :delay_slide =>
+          {
+            :doc => generic_slide_doc(:delay),
+            :validations => [v_positive(:delay_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :max_delay =>
           {
             :doc => "Max delay time. Used to set internal buffer size.",
@@ -5095,6 +5355,14 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :modulatable => true
           },
 
+          :depth_slide =>
+          {
+            :doc => generic_slide_doc(:delay),
+            :validations => [v_positive(:depth_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :decay =>
           {
             :doc => "Flange decay time in ms",
@@ -5102,11 +5370,27 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :modulatable => true
           },
 
+          :decay_slide =>
+          {
+            :doc => generic_slide_doc(:decay),
+            :validations => [v_positive(:decay_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
           :feedback =>
           {
             :doc => "Amount of feedback.",
             :validations => [v_positive(:feedback)],
             :modulatable => true
+          },
+
+          :feedback_slide =>
+          {
+            :doc => generic_slide_doc(:feedback),
+            :validations => [v_positive(:feedback_slide)],
+            :modulatable => true,
+            :bpm_scale => true
           },
 
           :invert_flange =>
