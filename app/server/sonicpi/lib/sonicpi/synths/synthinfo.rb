@@ -2876,7 +2876,8 @@ module SonicPi
 
 
       def kill_delay(args_h)
-        [(args_h[:room] * 10) + 1, 11].min
+        r = args_h[:room] || arg_defaults[:room]
+        [(r * 10) + 1, 11].min
       end
 
 
@@ -3181,7 +3182,7 @@ module SonicPi
       end
 
       def kill_delay(args_h)
-        args_h[:decay]
+        args_h[:decay] || arg_defaults[:decay]
       end
 
     end
@@ -4378,7 +4379,7 @@ module SonicPi
       end
 
       def kill_delay(args_h)
-        args_h[:decay]
+        args_h[:decay] || arg_defaults[:decay]
       end
 
       def doc
