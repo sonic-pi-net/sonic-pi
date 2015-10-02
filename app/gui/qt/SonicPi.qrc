@@ -48,5 +48,6 @@
 
         <file>lang/sonic-pi_de.qm</file>
         <file>lang/sonic-pi_is.qm</file>
+        <file>lang/sonic-pi_ja.qm</file>
     </qresource>
 </RCC>
