@@ -2964,7 +2964,7 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
             end
           end
 
-          args_h = scale_time_args_to_bpm!(args_h, node.info)
+          args_h = scale_time_args_to_bpm!(args_h, node.info, false)
           args_h = resolve_midi_args!(args_h, node.info)
 
           if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
