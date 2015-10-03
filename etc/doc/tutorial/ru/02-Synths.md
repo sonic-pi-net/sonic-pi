@@ -1,16 +1,15 @@
 2 Synths
 
-# Synths
+# Синты
 
-OK, enough of the intros - let's get into some sound.
+Довольно вступлений. Пора поработать со звуком.
 
-In this section we'll cover the basis of triggering and manipulating
-synths. Synth is short for synthesiser which is a fancy word for
-something which creates sounds. Typically synths are quite complicated
-to use - especially analog synths with many patch wires and
-modules. However, Sonic Pi gives you much of that power in a very simple
-and approachable manner. 
+В этой главе мы будем рассматривать основы запуска и управления синтами. Синт -
+это сокращения от синтезатор, что само по себе означает модное словечко для чего-то,
+что издает звук. Обычно, синты довольно сложны в использовании (особенно аналоговые
+синты, в которых много соединений проводами и модулей). Sonic Pi предоставляет
+такие же возможности, но очень простым и доступным способом.
 
-Don't be fooled by the immediate simplicity of Sonic Pi's interface. You
-can get very deep into very sophisticated sound manipulation if that's
-your thing. Hold on to your hats...
+Не обманывайся кажущейся простотой интерфейса Sonic Pi. С ним можно добраться до
+самых потаенных глубин очень сложной манипуляции звука, если захочется. Итак,
+придержите свои шляпы, чтобы не сдуло ветром...
