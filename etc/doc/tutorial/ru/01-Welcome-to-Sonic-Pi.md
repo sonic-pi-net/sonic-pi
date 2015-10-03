@@ -1,33 +1,32 @@
 1 Welcome to Sonic Pi
 
-# Welcome friend :-)
+# Приветствую, друг :-)
 
-Welcome to Sonic Pi. Hopefully you're as excited to get started making
-crazy sounds as I am to show you. It's going to be a really *fun* ride
-where you'll learn all about music, synthesis, programming, composition,
-performance and more.
+Добро пожаловать в мир Sonic Pi. Надеюсь, что тебе настолько же не терпится начать
+создавать безумные звуки, насколько мне не терпится показать тебе, как это делается.
+О, да, это будет действительно веселое путешествие, в котором ты будешь изучать
+музыку, синтез, программирование, композицию, исполнение и много всего прочего.
 
-But wait, how rude of me! Let me introduce myself - I'm
-[Sam Aaron](http://twitter.com/samaaron) - the chap that created Sonic
-Pi. You can find me at [@samaaron](http://twitter.com/samaaron) on
-Twitter and I'd be more than happy to say hello to you.  You might also
-be interested in finding out more about my
-[Live Coding Performances](http://facebook.com/livecodersamaaron) where
-I code with Sonic Pi live in front of audiences.
+Постой, как же я мог быть таким невоспитанным! Позволь мне представиться - Я
+[Sam Aaron](http://twitter.com/samaaron) - тот самый парень, который создал Sonic
+Pi. Меня можно найти по имени [@samaaron](http://twitter.com/samaaron) в Твиттере,
+и я был бы очень счастлив обменяться приветствием с тобой там. Тебе, возможно,
+также было бы интересно узнать о моих
+[Выступлениях живого кодирования](http://facebook.com/livecodersamaaron), где я
+сам пишу на Sonic Pi перед зрителями.
 
-If you have any thoughts, or ideas for improving Sonic Pi - please
-pass them on - feedback is so helpful. You never know, your idea might
-be the next big feature!
+Если у тебя появятся какие-то мысли или идеи о том, как улучшить Sonic Pi, то,
+пожалуйста, передай их. Обратная связь - это очень полезно. Никогда не знаешь,
+вдруг твоя идея может вырасти в нечто действительно большое!
 
-This tutorial is divided up into sections grouped by category. Whilst
-I've written it to have an easy learning progression from start to
-finish, feel very free just to dip in and out of sections as you see
-fit. If you feel that there's something missing, do let me know and I'll
-consider it for a future version.
+Этот учебник поделен на главы, сгруппированные по категориям. Несмотря на то, что
+я написал его от простого к сложному, можно свободно прыгать туда-сюда как тебе
+удобно. Если тебе кажется, что чего-то не хватает, обязательно дай мне об этом знать,
+и я посмотрю, что можно сделать для следующего выпуска.
 
-Finally, watching others live code is a really great way to learn. I
-regularly stream live on
-[livecoding.tv/samaaron](http://livecoding.tv/samaaron) so please do
-drop by, say hi and ask me lots of questions :-)
+Наконец, смотреть за тем, как другие кодируют, - отличный способ учиться. Я
+регулярно вещаю в прямом эфире на [livecoding.tv/samaaron](http://livecoding.tv/samaaron).
+Так что не забывай появляться там, чтобы поприветствовать всех и задать все свои
+многочисленные вопросы :-)
 
-OK, let's get started...
+Что ж, давай начнем...
