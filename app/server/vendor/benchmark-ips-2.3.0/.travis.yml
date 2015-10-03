@@ -1,0 +1,12 @@
+language: ruby
+sudo: false
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+  - 2.1.2
+  - 2.2.2
+  - ree
+  - ruby-head
