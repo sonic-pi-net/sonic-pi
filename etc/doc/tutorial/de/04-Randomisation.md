@@ -186,8 +186,8 @@ end
 
 ## rand_i
 
-Ähnlich wie bei `rrand_i` und `rrand`, wählt `rand_i` eine ganze Zahl 
-zwischen 0 und einem angegebenen Maximalwert aus.
+Ähnlich wie bei `rrand_i` und `rrand`, wählt `rand_i` eine zufällige
+ganze Zahl zwischen 0 und einem angegebenen Maximalwert aus.
 
 ## dice
 
