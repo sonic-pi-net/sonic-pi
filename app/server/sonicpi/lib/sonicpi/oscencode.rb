@@ -42,12 +42,12 @@ module SonicPi
       @num_cached_strings = 0
 
       @bundle_header = get_from_or_add_to_string_cache("#bundle")
-
     end
 
     def encode_single_message(address, args=[])
-      message, args_encoded, tags = "", "", ","
-      message.force_encoding(@literal_binary_str)
+      args_encoded, tags = "", ","
+
+      # inlining this method was not faster surprisingly
       address = get_from_or_add_to_string_cache(address)
 
       args.each do |arg|
@@ -73,6 +73,7 @@ module SonicPi
         when Float, Rational
           arg = arg.to_f
           tags << @literal_low_f
+
           if @use_cache
             if cached = @float_cache[arg]
               args_encoded << cached
@@ -91,28 +92,16 @@ module SonicPi
         when String, Symbol
           arg = arg.to_s
           tags << @literal_low_s
-          if @use_cache
-            if cached = @string_cache[arg]
-              args_encoded << cached
-            else
-              res = encode_string(arg)
-              if @num_cached_strings < @cache_size
-                @string_cache[arg] = res
-                @num_cached_strings += 1
-                # log "caching string #{arg}"
-              end
-              args_encoded << res
-            end
-          else
-            args_encoded << encode_string(arg)
-          end
+
+          args_encoded << get_from_or_add_to_string_cache(arg)
         else
           raise "Unknown arg type to encode: #{arg}"
         end
       end
 
       tags_encoded = get_from_or_add_to_string_cache(tags)
-      message << address << tags_encoded << args_encoded
+      # Address here needs to be a new string, not sure why
+      String.new(address) << tags_encoded << args_encoded
     end
 
     def encode_single_bundle(ts, address, args=[])
@@ -122,12 +111,14 @@ module SonicPi
     end
 
     private
-
     def get_from_or_add_to_string_cache(s)
       if cached = @string_cache[s]
         return cached
       else
-        res = encode_string(s)
+        # Forgive me father, for I have sinned...
+        # This makes a null padded string rounded up to the nearest
+        # multiple of four
+        res = [s].pack("Z#{4*((s.bytesize.zero? ? 0 : s.bytesize.to_f+0.01)/4).ceil}")
         if @num_cached_strings < @cache_size
           # only cache the first @cache_size strings to avoid a memory
           # memory leak.
@@ -139,14 +130,7 @@ module SonicPi
       end
     end
 
-    def encode_string(s)
-      s = s.sub(@literal_str_encode_regexp, @literal_empty_str)
-      s << @literal_str_pad
-      (s << (@literal_str_pad * ((4 - (s.bytesize % 4)) % 4)))
-    end
-
     def time_encoded(time)
-
       t1, fr = (time.to_f + @literal_magic_time_offset).divmod(1)
 
       t2 = (fr * @literal_two_to_pow_2).to_i

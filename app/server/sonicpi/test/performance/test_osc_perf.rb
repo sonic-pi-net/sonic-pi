@@ -15,20 +15,33 @@
 # Uncomment this file if you want to run benchmark tests
 # requires benchmark/ips gem to be installed
 
+if ENV['RUN_PERF_TESTS']
+  require_relative '../setup_test.rb'
+  require_relative "../../lib/sonicpi/oscdecode"
+  require_relative "../../lib/sonicpi/oscencode"
+  require 'benchmark/ips'
+  require 'osc-ruby'
 
-# require_relative '../setup_test.rb'
-# require_relative "../../lib/sonicpi/oscdecode"
-# require 'benchmark/ips'
-# require 'osc-ruby'
+  samosc = SonicPi::OscDecode.new(false)
+  samoscenc = SonicPi::OscEncode.new(false)
+  oscruby = OSC::OSCPacket
 
-# samosc = SonicPi::OscDecode.new
-# oscruby = OSC::OSCPacket
+  address = "/feeooblah"
+  args = ["beans", 1, 2.0] 
+  msg = OSC::Message.new(address, *args)
+  test_message = msg.encode
 
-# test_message = OSC::Message.new("/foo", ["beans", 1, 2.0]).encode
+  Benchmark.ips do |bencher|
+    bencher.report("samsosc") { samoscenc.encode_single_message(address, args) }
+    bencher.report("oscruby") { msg.encode }
 
-# Benchmark.ips do |bencher|
-#   bencher.report("samsosc") { samosc.decode_single_message(test_message) }
-#   bencher.report("oscruby") { oscruby.messages_from_network(test_message) }
+    bencher.compare
+  end
 
-#   bencher.compare
-# end
+  # Benchmark.ips do |bencher|
+  #   bencher.report("samsosc") { samosc.decode_single_message(test_message) }
+  #   bencher.report("oscruby") { oscruby.messages_from_network(test_message) }
+  # 
+  #   bencher.compare
+  # end
+end
