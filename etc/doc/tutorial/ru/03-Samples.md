@@ -1,12 +1,12 @@
 3 Samples
 
-# Samples
+# Сэмплы
 
-Another great way to develop your music is to use pre-recorded
-sounds. In great hip-hop tradition, we call these pre-recorded sounds
-*samples*. So, if you take a microphone outside, go and record the gentle
-sound of rain hitting canvas, you've just created a sample.
+Другой отличный способ сочинять музыку - использовать записанные звуки. В лучших
+традициях хип-хопа, мы называем такие записанные звуки *сэмплами*. То есть, если
+ты возьмешь микрофон с собой, выйдешь наружу и запишешь мягкие звуки ударов дождя
+о навес, ты создашь сэмпл.
 
-Sonic Pi lets you do lots of fun things with samples. Not only does it
-ship with over 90 public domain samples ready for you to jam with, it
-lets you play and manipulate your own. Let's get to it...
+В Sonic Pi можно делать много забавных вещей с сэмплами. Помимо 90 встроенных
+сэмплов со свободной лицензией, программа дает тебе работать и играть с
+собственными. Перейдем же к делу..
