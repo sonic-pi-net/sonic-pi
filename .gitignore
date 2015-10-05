@@ -66,6 +66,7 @@ app/gui/qt/moc_*
 
 *.DS_Store
 *.log
+*.swp
 \.#*
 .lein-plugins
 *~
