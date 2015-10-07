@@ -316,25 +316,25 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   addUniversalCopyShortcuts(errorPane);
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
-  outputPane->setLineWrapMode(QTextEdit::NoWrap);
+  outputPane->setLineWrapMode(QPlainTextEdit::NoWrap);
 #if defined(Q_OS_WIN)
-  outputPane->setFontFamily("Courier New");
+  // outputPane->setFontFamily("Courier New");
 #elif defined(Q_OS_MAC)
-  outputPane->setFontFamily("Menlo");
+  // outputPane->setFontFamily("Menlo");
 #else
-  outputPane->setFontFamily("Bitstream Vera Sans Mono");
+  // outputPane->setFontFamily("Bitstream Vera Sans Mono");
 #endif
 
-  if(!theme->font("LogFace").isEmpty()){
-      outputPane->setFontFamily(theme->font("LogFace"));
-  }
+  //if(!theme->font("LogFace").isEmpty()){
+  //    outputPane->setFontFamily(theme->font("LogFace"));
+  //}
 
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
-  outputPane->setTextColor(QColor(theme->color("LogDefaultForeground")));
-  outputPane->append("\n");
+  //outputPane->setTextColor(QColor(theme->color("LogDefaultForeground")));
+  outputPane->appendPlainText("\n");
   //outputPane->append(asciiArtLogo());
 
   errorPane->zoomIn(1);

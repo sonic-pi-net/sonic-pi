@@ -1,11 +1,11 @@
 #ifndef SONICPILOG_H
 #define SONICPILOG_H
 
-#include <QTextEdit>
+#include <QPlainTextEdit>
 
 class SonicPiTheme;
 
-class SonicPiLog : public QTextEdit
+class SonicPiLog : public QPlainTextEdit
 {
     Q_OBJECT
 public:
