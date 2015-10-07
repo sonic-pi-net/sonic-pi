@@ -129,6 +129,7 @@ private slots:
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
+    void changeWrapMode();
     void toggleDarkMode();
     void updateDarkMode();
     void showPrefsPane();
@@ -259,6 +260,7 @@ private:
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;
     QCheckBox *show_line_numbers;
+    QCheckBox *wrap_mode;
     QCheckBox *auto_indent_on_run;
     QCheckBox *full_screen;
     QCheckBox *show_log;
