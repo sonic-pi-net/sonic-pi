@@ -318,22 +318,24 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   errorPane->setReadOnly(true);
   outputPane->setLineWrapMode(QPlainTextEdit::NoWrap);
 #if defined(Q_OS_WIN)
-  // outputPane->setFontFamily("Courier New");
+  outputPane->setFontFamily("Courier New");
 #elif defined(Q_OS_MAC)
-  // outputPane->setFontFamily("Menlo");
+  outputPane->setFontFamily("Menlo");
 #else
-  // outputPane->setFontFamily("Bitstream Vera Sans Mono");
+  outputPane->setFontFamily("Bitstream Vera Sans Mono");
 #endif
 
-  //if(!theme->font("LogFace").isEmpty()){
-  //    outputPane->setFontFamily(theme->font("LogFace"));
-  //}
+  if(!theme->font("LogFace").isEmpty()){
+      outputPane->setFontFamily(theme->font("LogFace"));
+  }
 
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
   outputPane->zoomIn(1);
-  //outputPane->setTextColor(QColor(theme->color("LogDefaultForeground")));
+  //outputPane->setBackgroundVisible(true);
+  //outputPane->setAutoFillBackground(true);
+  outputPane->setTextColor(QColor(theme->color("LogInfoForeground")));
   outputPane->appendPlainText("\n");
   //outputPane->append(asciiArtLogo());
 
@@ -1565,6 +1567,7 @@ void MainWindow::updateDarkMode(){
 
     QString windowColor = currentTheme->color("WindowBackground").name();
     QString windowForegroundColor = currentTheme->color("WindowForeground").name();
+    QString logInfoForegroundColor = currentTheme->color("LogInfoForeground").name();
     QString paneColor = currentTheme->color("PaneBackground").name();
     QString windowBorder = currentTheme->color("WindowBorder").name();
     QString selectedTab = "deeppink";
@@ -1580,7 +1583,8 @@ void MainWindow::updateDarkMode(){
 
     this->setStyleSheet(QString(buttonStyling + splitterStyling+ toolTipStyling+scrollStyling + "QToolButton:hover{background: transparent;} QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: white;}").arg(windowColor));
     statusBar()->setStyleSheet( QString("QWidget{background-color: %1; color: #808080;} QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
-    outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, windowForegroundColor));
+    // Colour log messages as info by default
+    outputPane->setStyleSheet(  QString("QPlainTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, logInfoForegroundColor));
     outputWidget->setStyleSheet(widgetTitleStyling);
     prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #1c2529; color: %1;} QWidget{background-color: %2;}" + buttonStyling).arg(windowForegroundColor, windowColor));
     tabs->setStyleSheet(tabStyling);
@@ -1624,6 +1628,7 @@ void MainWindow::updateDarkMode(){
     QString l_windowColor = currentTheme->color("WindowBackground").name();
     QString l_windowForegroundColor = currentTheme->color("WindowForeground").name();
     QString l_foregroundColor = currentTheme->color("Foreground").name();
+    QString l_logInfoForegroundColor = currentTheme->color("LogInfoForeground").name();
     QString l_paneColor = currentTheme->color("PaneBackground").name();
     QString l_windowBorder = currentTheme->color("WindowBorder").name();
     QString l_selectedTab = "deeppink";
@@ -1667,7 +1672,8 @@ void MainWindow::updateDarkMode(){
     this->setStyleSheet(QString(l_buttonStyling + l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: white;}").arg(l_windowColor));
 
     statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(l_windowColor, l_windowBorder));
-    outputPane->setStyleSheet(  QString("QTextEdit{background-color: %1; color: %2; border: 0px;}").arg(l_paneColor, l_windowForegroundColor));
+    // Colour log messages as info by default
+    outputPane->setStyleSheet(  QString("QPlainTextEdit{background-color: %1; color: %2; border: 0px;}").arg(l_paneColor, l_logInfoForegroundColor));
     outputWidget->setStyleSheet(l_widgetTitleStyling);
     prefsWidget->setStyleSheet( QString(l_buttonStyling + l_widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color: %2; border: 1px solid lightgray; color: %1;}").arg(l_windowForegroundColor, l_windowColor));
     tabs->setStyleSheet(        l_tabStyling);

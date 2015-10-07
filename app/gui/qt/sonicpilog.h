@@ -30,6 +30,9 @@ public:
 signals:
 
 public slots:
+    void setTextColor(QColor c);
+    void setTextBackgroundColor(QColor c);
+    void setFontFamily(QString font_name);
     void handleMultiMessage(SonicPiLog::MultiMessage mm);
 
 protected:
