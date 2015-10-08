@@ -35,8 +35,8 @@ module SonicPi
       encoder = OscEncode.new
       decoder = OscDecode.new
 
-      address = "/foobar"
-      args = ["beans"]
+      address = "/multi_message"
+      args = [1, "", "0.0", 1, 0, "synth :beep, {note: 60.0}"]
 
       m = encoder.encode_single_message(address, args)
       m2 = OSC::Message.new(address, *args).encode

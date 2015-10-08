@@ -101,7 +101,7 @@ module SonicPi
 
       tags_encoded = get_from_or_add_to_string_cache(tags)
       # Address here needs to be a new string, not sure why
-      String.new(address) << tags_encoded << args_encoded
+      "#{address}#{tags_encoded}#{args_encoded}"
     end
 
     def encode_single_bundle(ts, address, args=[])
@@ -118,7 +118,7 @@ module SonicPi
         # Forgive me father, for I have sinned...
         # This makes a null padded string rounded up to the nearest
         # multiple of four
-        res = [s].pack("Z#{4*((s.bytesize.zero? ? 0 : s.bytesize.to_f+0.01)/4).ceil}")
+        res = [s].pack("Z#{4*((s.bytesize.to_f+0.01)/4).ceil}")
         if @num_cached_strings < @cache_size
           # only cache the first @cache_size strings to avoid a memory
           # memory leak.
