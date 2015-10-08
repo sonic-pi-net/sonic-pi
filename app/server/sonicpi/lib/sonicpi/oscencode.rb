@@ -118,7 +118,7 @@ module SonicPi
         # Forgive me father, for I have sinned...
         # This makes a null padded string rounded up to the nearest
         # multiple of four
-        res = [s].pack("Z#{4*((s.bytesize.zero? ? 0 : s.bytesize.to_f+0.01)/4).ceil}")
+        res = [s].pack("Z#{4*((s.bytesize.to_f+0.01)/4).ceil}")
         if @num_cached_strings < @cache_size
           # only cache the first @cache_size strings to avoid a memory
           # memory leak.
