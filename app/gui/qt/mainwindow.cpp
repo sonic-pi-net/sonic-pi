@@ -332,9 +332,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
-  outputPane->zoomIn(1);
-  //outputPane->setBackgroundVisible(true);
-  //outputPane->setAutoFillBackground(true);
+  //outputPane->zoomIn(1);
   outputPane->setTextColor(QColor(theme->color("LogInfoForeground")));
   outputPane->appendPlainText("\n");
   //outputPane->append(asciiArtLogo());
