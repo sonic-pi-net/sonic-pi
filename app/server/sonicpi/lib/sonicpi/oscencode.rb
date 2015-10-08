@@ -101,7 +101,7 @@ module SonicPi
 
       tags_encoded = get_from_or_add_to_string_cache(tags)
       # Address here needs to be a new string, not sure why
-      String.new(address) << tags_encoded << args_encoded
+      "#{address}#{tags_encoded}#{args_encoded}"
     end
 
     def encode_single_bundle(ts, address, args=[])
