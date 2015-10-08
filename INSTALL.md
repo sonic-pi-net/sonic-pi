@@ -54,7 +54,10 @@ Run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 Debian package dependency names (Jessie):
 
-`apt-get install supercollider ruby2.1 libqscintilla2-dev  ruby-dev cmake pkg-config`
+`apt-get install supercollider ruby2.1 libqscintilla2-dev ruby-dev cmake pkg-config g++`
+
+For Ubuntu 14.04.3 (Trusty Tahr):
+`apt-get install supercollider ruby2.0 libqscintilla2-dev ruby-dev cmake pkg-config g++`
 
 In addition, under Ubuntu 14.04 based distributions try these:
 
