@@ -332,7 +332,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   outputPane->document()->setMaximumBlockCount(1000);
   errorPane->document()->setMaximumBlockCount(1000);
 
-  //outputPane->zoomIn(1);
+#if QT_VERSION >= 0x050400
+  //zoomable QPlainTextEdit requires QT 5.4
+  outputPane->zoomIn(1);
+#endif
   outputPane->setTextColor(QColor(theme->color("LogInfoForeground")));
   outputPane->appendPlainText("\n");
   //outputPane->append(asciiArtLogo());
