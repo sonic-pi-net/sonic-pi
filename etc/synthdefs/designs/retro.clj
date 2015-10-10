@@ -253,7 +253,7 @@
                           phase_slide_shape 5
                           phase_slide_curve 0
                           phase_offset 0
-                          wave 0
+                          wave 3
                           disable_wave 0
                           invert_wave 0
                           pulse_width 0.5
