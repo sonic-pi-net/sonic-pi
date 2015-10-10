@@ -1,14 +1,14 @@
 5 Programming Structures
 
-# Programming Structures
+# Программные структуры
 
-Now that you've learned the basics of creating sounds with `play` and
-`sample` and creating simple melodies and rhythms by `sleep`ing between
-sounds, you might be wondering what else the world of code can offer
-you...
+После того, как ты изучил основы создания звука при помощи `play` и `sample` и
+сочинения простых мелодий и ритмов, расставляя задержки между ними, тебе могло
+стать интересно, а что же еще мир программирования может предложить тебе...
 
-Well, you're in for an exciting treat! It turns out that basic
-programming structures such as looping, conditionals, functions and
-threads give you amazingly powerful tools to express your musical ideas.
+Скажем так, что тебя ожидает захватывающее удовольствие! Оказывается, что основные
+структуры программирования, такие как циклы, условные выражения, функции и потоки,
+предлагают тебе страшно мощные инструменты для выражения собственных
+музыкальных идей.
 
-Let's get stuck in with the basics...
+Ограничимся лишь основами...
