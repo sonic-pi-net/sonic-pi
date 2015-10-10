@@ -40,8 +40,7 @@
                            stereo_width 0
 
                            out_bus 0]
-   (let [note          (+ 0.5 (floor note))
-         amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          freq          (midicps note)
          vel           (clip vel 0 1)
