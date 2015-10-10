@@ -2939,19 +2939,6 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
         return nil if node.nil?
 
         args_h = resolve_synth_opts_hash_or_array(args)
-        n = args_h[:note]
-        args_h[:note] = note(n) if n
-        notes = args_h[:notes]
-        if node.is_a?(ChordGroup) && notes
-          # don't normalise notes key as it is special
-          # when controlling ChordGroups.
-          # TODO: remove this hard coded behaviour
-          args_h.delete(:notes)
-          normalise_args! args_h
-          args_h[:notes] = notes.map{|n| note(n)}
-        else
-          normalise_args! args_h
-        end
 
         # set default slide times
         default_slide_time = args_h[:slide]
@@ -2971,6 +2958,20 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
             node.info.ctl_validate!(args_h)
           end
 
+        end
+
+        n = args_h[:note]
+        args_h[:note] = note(n) if n
+        notes = args_h[:notes]
+        if node.is_a?(ChordGroup) && notes
+          # don't normalise notes key as it is special
+          # when controlling ChordGroups.
+          # TODO: remove this hard coded behaviour
+          args_h.delete(:notes)
+          normalise_args! args_h
+          args_h[:notes] = notes.map{|n| note(n)}
+        else
+          normalise_args! args_h
         end
 
         node.control args_h
