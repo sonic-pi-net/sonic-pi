@@ -1448,6 +1448,8 @@ synth :dsaw, note: :e3 # This is triggered after 0.5s from start"
           summary:       "Play current synth",
           doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with `attack:`, `decay:`, `sustain:` and `release:` phases. These phases are triggered in order, so the duration of the sound is attack + decay + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
 
+If `duration:` is supplied and `sustain:` isn't, it causes `sustain:` to be set so that all four phases add up to the duration.
+
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.
 
 If note is `nil`, `:r` or `:rest`, play is ignored and treated as a rest. Also, if the `on:` opt is specified and returns `false`, or `nil` then play is similarly ignored and treated as a rest.
@@ -1487,7 +1489,7 @@ play :e3 # This is triggered after 0.5s from start"]
 
 
       def play_pattern(notes, *args)
-        notes.each{|note| play(note, *args) ; sleep 1 }
+        play_pattern_timed(notes, 1, *args)
       end
       doc name:          :play_pattern,
           introduced:    Version.new(2,0,0),
@@ -1516,9 +1518,15 @@ play_pattern [40, 41, 42] # Same as:
       def play_pattern_timed(notes, times, *args)
         if times.is_a?(Array) || times.is_a?(SonicPi::Core::SPVector)
           t = times.ring
-          notes.each_with_index{|note, idx| play(note, *args) ; sleep(t[idx])}
+          notes.each_with_index do |note, idx|
+            kwargs = if args.last.is_a?(Hash) then args.last else {} end
+            duration = t[idx]
+            kwargs[:duration] = duration
+            play(note, *[kwargs])
+            sleep(duration)
+          end
         else
-          notes.each_with_index{|note, idx| play(note, *args) ; sleep times}
+          play_pattern_timed(notes, [times], *args)
         end
       end
       doc name:          :play_pattern_timed,
@@ -4290,10 +4298,20 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         args_h[:rand_buf] = @mod_sound_studio.rand_buf_id if args_h[:seed]
       end
 
+      def calculate_sustain!(args)
+        if args.has_key? :duration and not(args.has_key? :sustain)
+          attack = args.fetch(:attack, 0)
+          decay = args.fetch(:decay, 0)
+          release = args.fetch(:release, 0)
+          duration = args[:duration]
+
+          sustain = duration - (attack + decay + release)
+          args[:sustain] = [0, sustain].max
+        end
+      end
 
       def normalise_and_resolve_sample_args(path, args_h, info, combine_tls=false)
         purge_nil_vals!(args_h)
-
         defaults = info ? info.arg_defaults : {}
         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
         t_l_args.each do |k, v|
@@ -4349,8 +4367,8 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         resolve_midi_args!(args_h, info) if info
         normalise_args!(args_h, defaults)
+        calculate_sustain!(args_h)
         scale_time_args_to_bpm!(args_h, info, true) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
-
 
         args_h
       end
