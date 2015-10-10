@@ -1,57 +1,58 @@
 4 Randomisation
 
-# Randomisation
+# Рандомизация
 
-A great way to add some interest into your music is using some random
-numbers. Sonic Pi has some great functionality for adding randomness to
-your music, but before we start we need to learn a shocking truth: in
-Sonic Pi *random is not truly random*. What on earth does this mean?
-Well, let's see.
+Отличный способ сделать твою музыку несколько более интересной - это использовать
+случайные числа. В Sonic Pi есть замечательная функция добавления случайности в
+музыку, но прежде, чем мы начнем, нужно усвоить неприятную истину: в Sonic Pi
+*случайности не являются по-настоящему случайными*. Что же, спрашивается, это
+значит? Давай разберемся.
 
-## Repeatability
+## Повторяемость
 
-A really useful random function is `rrand` which will give you a random
-value between two numbers - a *min* and a *max*. (`rrand` is short for
-ranged random). Let's try playing a random note:
+Очень полезная случайная функция называется `rrand`. Она вернет случайное значение
+в диапазоне двух чисел - *минимума* и *максимума* (`rrand` - сокращение от
+ранжированный случайный генератор). Попробуем проиграть какую-нибудь случайную
+ноту:
 
 ```
 play rrand(50, 95)
 ```
 
-Ooh, it played a random note. It played note `83.7527`. A nice random
-note between 50 and 95. Woah, wait, did I just predict the exact random
-note you got too? Something fishy is going on here. Try running the code
-again. What? It chose `83.7527` again? That can't be random!
+Ого, получился неожиданный звук. Он воспроизвел ноту `83.7527`. Прекрасная
+случайная нота в промежутке между 50 и 95. Постой-ка, я только что точно предсказал
+случайную ноту, которая и у тебя получилась? Что-то тут нечисто. Попробуй снова.
+Что? Он снова выбрал `83.7527`? Это явно не случайно!
 
-The answer is that it is not truly random, it's pseudo-random. Sonic Pi
-will give you random-like numbers in a repeatable manner. This is very
-useful for ensuring that the music you create on your machine sounds
-identical on everybody else's machine - even if you use some randomness
-in your composition.
+Правда в том, что выбор не случаен по-настоящему, он псевдо-случаен. Sonic Pi
+выдает повторяющиеся псевдо-случайные числа. Чтобы быть уверенным, что музыка,
+которую ты создаешь на своей машине, будет совпадать с той, что получается на всех
+остальных, это очень полезное свойство. Даже если ты добавляешь немного случайности
+в свои композиции.
 
-Of course, in a given piece of music, if it 'randomly' chose `83.7527`
-every time, then it wouldn't be very interesting. However, it
-doesn't. Try the following:
+Конечно же, в кокретном музыкальном произведении, если бы `83.7527` 'случайно'
+выбиралась каждый раз, то было бы не очень интересно. Но все-таки этого не происходит
+Попробуй следующее:
 
 ```
 loop do
   play rrand(50, 95)
   sleep 0.5
-end 
+end
 ```
 
-Yes! It finally sounds random. Within a given *run* subsequent calls
-to random functions will return random values. However, the next run
-will produce exactly the same sequence of random values and sound
-exactly the same. It's as if all Sonic Pi code went back in time to
-exactly the same point every time the Run button was pressed. It's the
-Groundhog Day of music synthesis!
+Ура! Наконец-то он звучит случайно. В течение одного запуска последующие вызовы
+функции случайного генератора будут возвращать случайные значения. Однако,
+следующий прогон создаст точно такую же последовательность случайных чисел и
+будет звучать идентично. Как если бы код Sonic Pi возвращался бы назад во времени
+в точку всякий раз, когда нажимается кнопка Run. Это День Сурка для музыкального
+синтеза!
 
-## Haunted Bells
+## Колокола с привидениями
 
-A lovely illustration of randomisation in action is the haunted bells
-example which loops the `:perc_bell` sample with a random rate and sleep
-time between bell sounds:
+Прекрасной иллюстрацией рандомизации в действии является пример колоколов, в
+которые как будто вселились призраки. Он повторяет `:perc_bell` сэмпл, выбирая
+случайную скорость и задержку между звуками:
 
 ```
 loop do
@@ -60,11 +61,10 @@ loop do
 end
 ```
 
-## Random cutoff
+## Случайный срез
 
-Another fun example of randomisation is to modify the cutoff of a
-synth randomly. A great synth to try this out on is the `:tb303`
-emulator:
+Еще один забавный пример случайности - управление частотой среза синта случайным
+образом. Отличный синт, на котором можно это попробовать, - это эмулятор `:tb303`:
 
 ```
 use_synth :tb303
@@ -75,14 +75,14 @@ loop do
 end
 ```
 
-## Random seeds
+## Затравки случайных чисел
 
-So, what if you don't like this particular sequence of random numbers
-Sonic Pi provides? Well it's totally possible to choose a different
-starting point via `use_random_seed`. The default seed happens to be
-0, so choose a different seed for a different random experience!
+Что, если тебе не нравится именно эта последовательность случайных чисел,
+сгенерированная Sonic Pi? Ну, очень легко выбрать другую начальную точку, если
+использовать `use_random_seed`. Затравка по умолчанию равна 0, так что для другого
+случайного результата выбирай другую затравку!
 
-Consider the following:
+Сравни следующее:
 
 ```
 5.times do
@@ -91,8 +91,8 @@ Consider the following:
 end
 ```
 
-Every time you run this code, you'll hear the same sequence of 5
-notes. To get a different sequence simply change the seed:
+Каждый раз, когда этот код выполняется, ты будешь слышать один и тот же набор
+нот. Чтобы получить другой порядок просто поменяй затравку:
 
 ```
 use_random_seed 40
@@ -102,28 +102,25 @@ use_random_seed 40
 end
 ```
 
-This will produce a different sequence of 5 notes. By changing the seed
-and listening to the results you can find something that you like - and
-when you share it with others, they will hear exactly what you heard
-too.
+В итоге получится другая последовательность из 5 нот. Изменяя затравку и слушая
+результат, ты можешь выбрать что-то, что тебе нравится. Потом, когда ты делишься
+с другими, то они услышат в точности то же самое, что и ты.
 
-Let's have a look at some other useful random functions.
-
+Давай познакомимся с некоторыми другими случайными функциями.
 
 ## choose
 
-A very common thing to do is to choose an item randomly from a list of
-known items. For example, I may want to play one note from the
-following: 60, 65 or 72. I can achieve this with `choose` which lets
-me choose an item from a list. First, I need to put my numbers in a list
-which is done by wrapping them in square brackets and separating them
-with commas: `[60, 65, 72]`. Next I just need to pass them to `choose`:
+Очень часто приходится выбирать вещь случайным образом из списка данных. Например,
+мне бы могло захотеться проиграть одну ноту из набора: 60, 65 и 72. Я могу достичь
+этого с помощью `choose`, которая позволяет мне выбрать предмет из списка. Вначале,
+надо добавить мои числа в список, что достигается заключением их в квадратные скобки
+и разделением из запятыми: `[60, 65, 72]`. Затем, надо просто передать их `choose`:
 
 ```
 choose([60, 65, 72])
 ```
 
-Let's hear what that sounds like:
+Послушаем, на что это похоже:
 
 ```
 loop do
@@ -134,12 +131,11 @@ end
 
 ## rrand
 
-We've already seen `rrand`, but let's run over it again. It returns a
-random number between two values exclusively. That means it will never
-return either the top or bottom number - always something in between the
-two. The number will always be a float - meaning it's not a whole number
-but a fraction of a number. Examples of floats returned by
-`rrand(20, 110)`:
+Мы уже видели `rrand`, но пробежимся по ней вновь. Она возвращает случайную
+величину в промежутке двух чисел, не включая границы. Это значит, что никогда
+не будет выбрано самое большое или самое маленькое значение - всегда нечто между
+ними. Число всегда будет дробным, то есть не целым. Примеры дробных чисел,
+возвращаемых `rrand(20, 110)`:
 
 * 87.5054931640625
 * 86.05255126953125
@@ -147,11 +143,10 @@ but a fraction of a number. Examples of floats returned by
 
 ## rrand_i
 
-Occasionally you'll want a whole random number, not a float. This is
-where `rrand_i` comes to the rescue. It works similarly to `rrand`
-except it may return the min and max values as potential random values
-(which means it's inclusive rather than exclusive of the
-range). Examples of numbers returned by `rrand_i(20, 110)` are:
+Время от времени тебе понадобится целое случайное число, а не дробное. Тут-то и
+придет на помощь `rrand_i`. Она работает так же, как `rrand`, но она включает
+граничные значения (то есть она может выбирать минимальные и максимальные числа).
+Примеры, полученные из `rrand_i(20, 110)`:
 
 * 88
 * 86
@@ -159,10 +154,9 @@ range). Examples of numbers returned by `rrand_i(20, 110)` are:
 
 ## rand
 
-This will return a random float between 0 (inclusive) and the max
-value you specify (exclusive). By default it will return a value
-between 0 and one. It's therefore useful for choosing random `amp:`
-values:
+Вернет случайное дробное число от 0 (включительно) до максимального указанного
+тобой. По умолчанию числа лежат в промежутке от 0 до 1. Такая функция полезна для
+выбора случайного усиления:
 
 ```
 loop do
@@ -173,26 +167,25 @@ end
 
 ## rand_i
 
-Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will
-return a random whole number between 0 and the max value you specify.
+Относится к `rrand_i`, как `rrand_i` к `rrand`. То есть она выбирает случайное
+целое число в диапазоне от 0 до максимального значение, которое ты укажешь.
 
 ## dice
 
-Sometimes you want to emulate a dice throw - this is a special case of
-`rrand_i` where the lower value is always 1. A call to `dice` requires
-you to specify the number of sides on the dice. A standard dice has 6
-sides, so `dice(6)` will act very similarly - returning values of either
-1, 2, 3, 4, 5, or 6. However, just like fantasy role-play games, you
-might find value in a 4 sided dice, or a 12 sided dice, or a 20 sided
-dice - perhaps even a 120 sided dice!
+Иногда нужно изобразить бросание игральных костей - это частный случай `rrand_i`,
+когда минимальное значение всегда 1. В вызов `dice` требуется передать количество
+сторон кости. Стандартная игральная кость имеет 6 сторон, так что `dice(6)` будет
+работать очень похожим образом - возвращать 1, 2, 3, 4, 5 или 6. Однако, прямо как
+в ролевых играх в стиле фэнтези, пользу может принести и кость с 4 сторонами, и
+с 12 сторонами или с 20 сторонами. Может даже потребуется кость со 120 гранями!
 
 ## one_in
 
-Finally you may wish to emulate throwing the top score of a dice such
-as a 6 in a standard dice. `one_in` therefore returns true with a
-probability of one in the number of sides on the dice. Therefore
-`one_in(6)` will return true with a probability of 1 in 6 or false
-otherwise. True and false values are very useful for `if` statements
-which we will cover in a subsequent section of this tutorial.
+Наконец, может потребоваться подражать бросанию костей на высшее значение, например
+6 для обычной кости. Функция `one_in` возвращает истинное значение с вероятностью
+один из числа сторон кости. Следовательно, для `one_in(6)` шанс получить истину
+составляет 1 к 5. В остальных 5 из 6 случаях вернется ложь. Истинные и ложные
+значения очень полезны для логических выражений `if`, которые мы рассмотрим в одной
+из следующих глав нашего учебника.
 
-Now, go and jumble up your code with some randomness!
+Теперь пришла пора добавить немного неразберихи в твою музыку за счет случайности!
