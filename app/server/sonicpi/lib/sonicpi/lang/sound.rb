@@ -1588,18 +1588,28 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         # TODO - fix this with a much less brittle TL system
         fx_execute_t.join
         raise block_exception if block_exception
-        [ :sonic_pi_spider_delayed_blocks,
+        [ :sonic_pi_core_thread_local_counters,
+          :sonic_pi_control_deltas,
+          :sonic_pi_suppress_cue_logging,
+
+          :sonic_pi_spider_delayed_blocks,
           :sonic_pi_spider_delayed_messages,
           :sonic_pi_spider_time,
-          :sonic_pi_core_thread_local_counters,
+          :sonic_pi_spider_arg_bpm_scaling,
           :sonic_pi_spider_random_gen_idx,
           :sonic_pi_spider_random_gen_seed,
           :sonic_pi_spider_sleep_mul,
           :sonic_pi_spider_synced,
-          :sonic_pi_control_deltas,
-          :sonic_pi_suppress_cue_logging,
+
           :sonic_pi_mod_sound_synth_silent,
-          :sonic_pi_mod_sound_transpose
+          :sonic_pi_mod_sound_transpose,
+          :sonic_pi_mod_sound_disable_timing_warnings,
+          :sonic_pi_mod_sound_check_synth_args,
+          :sonic_pi_mod_sound_tuning,
+          :sonic_pi_mod_sound_current_synth_name,
+          :sonic_pi_mod_sound_synth_defaults,
+          :sonic_pi_mod_sound_sample_path
+
         ].each do |tl|
           Thread.current.thread_variable_set(tl, fx_execute_t.thread_variable_get(tl))
         end
