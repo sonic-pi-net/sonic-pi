@@ -1728,6 +1728,18 @@ end
 
 
 
+      def use_key(tonic, name)
+        pitches = scale(tonic, name)
+        key = lambda do |index|
+                rank = index % 7
+                octave = index / 7
+                pitches[rank] + 12 * octave
+              end
+        Thread.current.thread_variable_set(:sonic_pi_spider_key, key)
+      end
+      doc name:           :use_key,
+          summary:        "Set the key",
+          doc:            "Sets the key for everything afterwards."
 
 
 
