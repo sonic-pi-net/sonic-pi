@@ -75,6 +75,8 @@ app/gui/qt/moc_*
 
 app/server/native/
 app/server/vendor/ffi/ext/
+app/server/vendor/ffi-1.9.10/ext/ffi_c/Makefile
+app/server/vendor/ffi-1.9.10/ext/ffi_c/extconf.h
 
 app/server/rb-native/
 
