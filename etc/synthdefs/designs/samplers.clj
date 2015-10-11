@@ -44,10 +44,11 @@
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          res         (lin-lin:kr res 1 0 0 1)
+         orig-rate   rate
          rate        (* rate (buf-rate-scale buf))
          cutoff-freq (midicps cutoff)
          use-filter  (> cutoff 0)
-         killer      (line:kr 0 1 (* (/ 1 (abs rate)) (buf-dur buf)) :action FREE)
+         killer      (line:kr 0 1 (* (/ 1 (abs orig-rate)) (buf-dur buf)) :action FREE)
          start       (select:kr (< rate 0) [0
                                             (- (buf-frames buf) 1)])
          snd         (play-buf 1 buf rate 0 start)
@@ -81,10 +82,11 @@
          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
          res           (lin-lin:kr res 1 0 0 1)
+         orig-rate     rate
          rate          (* rate (buf-rate-scale buf))
          cutoff-freq   (midicps cutoff)
          use-filter    (> cutoff 0)
-         killer        (line:kr 0 1 (* (/ 1 (abs rate)) (buf-dur buf)) :action FREE)
+         killer        (line:kr 0 1 (* (/ 1 (abs orig-rate)) (buf-dur buf)) :action FREE)
          start         (select:kr (< rate 0) [0
                                               (- (buf-frames buf) 1)])
          [snd-l snd-r] (play-buf 2 buf rate 0 start)
