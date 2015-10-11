@@ -3433,7 +3433,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         combined_args["out_bus"] = out_bus
         combined_args[:rand_buf] = @mod_sound_studio.rand_buf_id if combined_args[:seed]
-        resolve_midi_args!(combined_args, info)
+        resolve_midi_args!(combined_args, info) if info
         normalise_args!(combined_args, defaults)
         scale_time_args_to_bpm!(combined_args, info, true) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
