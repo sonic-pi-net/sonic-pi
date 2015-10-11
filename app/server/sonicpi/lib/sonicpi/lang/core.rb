@@ -2228,7 +2228,6 @@ end
       ]
 
 
-
       def sync(cue_ids, opts={})
         cue_ids = [cue_ids] if cue_ids.is_a?(Symbol) || cue_ids.is_a?(String)
         raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
@@ -2253,7 +2252,7 @@ end
         payload = p.get
         time = payload[:time]
         sleep_mul = payload[:sleep_mul]
-        bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : true
+        bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : false
         run_id = payload[:run]
         cue_map = payload[:cue_map]
         cue_map = cue_map.dup if cue_map
@@ -2277,7 +2276,7 @@ end
           summary:        "Sync with other threads",
           doc:            "Pause/block the current thread until a `cue` heartbeat with a matching `cue_id` is received. When a matching `cue` message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the `cue` heartbeat. The current thread is therefore synced to the `cue` thread. If multiple cue ids are passed as arguments, it will `sync` on the first matching `cue_id`. By default the BPM of the cueing thread is inherited. This can be disabled using the bpm_sync: opt.",
           args:           [[:cue_id, :symbol]],
-          opts:           {:bpm_sync => "Inherit the BPM of the cueing thread. Default is true"},
+          opts:           {:bpm_sync => "Inherit the BPM of the cueing thread. Default is false"},
           accepts_block:  false,
           advances_time:  true,
           examples:       ["
