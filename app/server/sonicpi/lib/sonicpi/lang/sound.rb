@@ -902,8 +902,6 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
       end
 
 
-
-
       def synth(synth_name, *args)
         ensure_good_timing!
         args_h = resolve_synth_opts_hash_or_array(args)
@@ -913,29 +911,9 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           return nil
         end
 
-        n = 52
-
-        if args_h.has_key? :note
-          n = args_h[:note]
-          n = n.call if n.is_a? Proc
-          n = note(n) unless n.is_a? Numeric
-        end
-
-        if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
-          n += shift
-        end
-
-        n += args_h[:pitch].to_f
-
-        if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
-          tuning_system, fundamental_sym = tuning_info
-          if tuning_system != :equal
-            n = @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
-          end
-        end
-
+        n = args_h[:note] || 52
+        n = normalise_transpose_and_tune_note_from_args(n, args_h)
         args_h[:note] = n
-
 
         trigger_inst synth_name, args_h
       end
@@ -985,20 +963,9 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
         init_args_h = {}
         args_h = resolve_synth_opts_hash_or_array(args)
 
-        if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
-          n += shift
-        end
-
-        n += args_h[:pitch].to_f
-
-        if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
-          tuning_system, fundamental_sym = tuning_info
-          if tuning_system != :equal
-            n = @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
-          end
-        end
-
+        n = normalise_transpose_and_tune_note_from_args(n, args_h)
         args_h[:note] = n
+
         trigger_inst synth_name, init_args_h.merge(args_h)
       end
       doc name:          :play,
@@ -1123,12 +1090,9 @@ play 44"]
 
       def play_chord(notes, *args)
         ensure_good_timing!
+        args_h = resolve_synth_opts_hash_or_array(args)
+        shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
 
-        shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose) || 0
-        shifted_notes = notes.map do |n|
-          n = note(n) unless n.is_a? Numeric
-          n + shift
-        end
         synth_name = current_synth_name
         trigger_chord(synth_name, shifted_notes, args)
       end
@@ -2966,14 +2930,13 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
           args_h = scale_time_args_to_bpm!(args_h, node.info, false)
           args_h = resolve_midi_args!(args_h, node.info)
 
-          if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-            node.info.ctl_validate!(args_h)
-          end
-
         end
 
-        n = args_h[:note]
-        args_h[:note] = note(n) if n
+        if args_h.has_key?(:note)
+          n = normalise_transpose_and_tune_note_from_args(args_h[:note], args_h)
+          args_h[:note] = n
+        end
+
         notes = args_h[:notes]
         if node.is_a?(ChordGroup) && notes
           # don't normalise notes key as it is special
@@ -2981,9 +2944,13 @@ play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
           # TODO: remove this hard coded behaviour
           args_h.delete(:notes)
           normalise_args! args_h
-          args_h[:notes] = notes.map{|n| note(n)}
+          args_h[:notes] = notes.map{|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
         else
           normalise_args! args_h
+        end
+
+        if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
+          node.info.ctl_validate!(args_h) if node.info
         end
 
         node.control args_h
@@ -3777,6 +3744,27 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         end
         args_h
       end
+
+      def normalise_transpose_and_tune_note_from_args(n, args_h)
+        n = n.call if n.is_a? Proc
+        n = note(n) unless n.is_a? Numeric
+
+        if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
+          n += shift
+        end
+
+        n += args_h[:pitch].to_f
+
+        if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+          tuning_system, fundamental_sym = tuning_info
+          if tuning_system != :equal
+            n = @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
+          end
+        end
+
+        return n
+      end
+
 
       def __freesound(id, *opts)
         path = __freesound_path(id)
