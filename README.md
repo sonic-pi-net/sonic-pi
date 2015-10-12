@@ -60,6 +60,17 @@ Sonic Pi has been developed within the Computer Laboratory at the
 University of Cambridge with kind support from the Raspberry Pi
 Foundation and the Broadcom Foundation.
 
+## Information for developers
+
+Sonic Pi is under active development, and welcomes new contributors:
+
+* [Change log](CHANGELOG.md)
+* [Community](COMMUNITY.md)
+* [Contributors](CONTRIBUTORS.md)
+* [Installation](INSTALL.md)
+* [License](LICENSE.md)
+* [Testing](TESTING.md)
+* [Translation](TRANSLATION.md)
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <br/>
