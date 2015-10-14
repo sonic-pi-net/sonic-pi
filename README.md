@@ -60,6 +60,21 @@ Sonic Pi has been developed within the Computer Laboratory at the
 University of Cambridge with kind support from the Raspberry Pi
 Foundation and the Broadcom Foundation.
 
+## Translations
+
+Sonic Pi's built in tutorial has been translated into several languages thanks to the awesome work of the following contributors.
+
+\-           | Language      | Status      | Contributors |
+------------ | ------------- | ----------  | ------------ |
+:fr:         | French        | merged      | @echevresm, @nicoder, @SergeStinckwich |
+:de:         | German        | merged      | @hzulla, G. Martin Butz, @hztirf, @mbutz, @wwerner, @st01c |
+:it:         | Italian       | merged      | @marco-giordano |
+:jp:         | Japanese      | merged      | @keikomachiya |
+-            | Polish        | merged      | @hopbit, @nurkiewicz |
+:ru:         | Russian       | in progress | @RomanSaveljev, dcromster |
+
+Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
+
 ## Information for developers
 
 Sonic Pi is under active development, and welcomes new contributors:
