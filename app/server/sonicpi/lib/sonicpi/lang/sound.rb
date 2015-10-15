@@ -3081,7 +3081,7 @@ kill bar"]
 
 
       def sample_names(group)
-        BaseInfo.grouped_samples[group][:samples]
+        Synths::BaseInfo.grouped_samples[group][:samples]
       end
       doc name:          :sample_names,
           introduced:    Version.new(2,0,0),
@@ -3096,7 +3096,7 @@ kill bar"]
 
 
       def all_sample_names
-        BaseInfo.all_samples
+        Synths::BaseInfo.all_samples
       end
       doc name:          :all_sample_names,
           introduced:    Version.new(2,0,0),
@@ -3111,7 +3111,7 @@ kill bar"]
 
 
       def sample_groups
-        BaseInfo.grouped_samples.keys
+        Synths::BaseInfo.grouped_samples.keys
       end
       doc name:          :sample_groups,
           introduced:    Version.new(2,0,0),
