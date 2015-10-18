@@ -103,6 +103,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
   app.installEventFilter(this);
+  app.processEvents();
 
   setupLogPathAndRedirectStdOut();
   std::cout << "\n\n\n";
