@@ -585,7 +585,7 @@ module SonicPi
       end
 
       def doc
-        "A pretty bell sound. Works well with short attacks and long delays."
+        "A pretty bell sound. Works well with short attacks and long decays."
       end
     end
 
