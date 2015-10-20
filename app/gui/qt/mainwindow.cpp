@@ -111,6 +111,11 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   guiID = QUuid::createUuid().toString();
   loaded_workspaces = false;
   this->splash = splash;
+  this->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
+  // this->setParent(0); // Create TopLevel-Widget
+  this->setAttribute(Qt::WA_NoSystemBackground, true);
+  this->setAttribute(Qt::WA_TranslucentBackground, true);  
+  // this->setAttribute(Qt::WA_PaintOnScreen); // not needed in Qt 5.2 and up
   protocol = UDP;
 
   if(protocol == TCP){
@@ -191,6 +196,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Window layout
   tabs = new QTabWidget();
+  tabs->setAttribute(Qt::WA_TranslucentBackground);
+  tabs->setStyleSheet("QTabWidget{ background-color: transparent}");
   tabs->setTabsClosable(false);
   tabs->setMovable(false);
   tabs->setTabPosition(QTabWidget::South);

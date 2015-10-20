@@ -47,9 +47,9 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["WindowBorder"]= "lightgray";
 
     themeSettings["Foreground"] = "#5e5e5e";
-    themeSettings["Background"] = "white";
+    themeSettings["Background"] = "transparent";
 
-    themeSettings["PaneBackground"] = "white";
+    themeSettings["PaneBackground"] = "transparent";
     themeSettings["DefaultForeground"]               = "#808080";
     themeSettings["CommentForeground"]               = "#5e5e5e";
     themeSettings["PODForeground"]                   = "#004000";
@@ -76,7 +76,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["PercentStringrForeground"]        = "#000000";
     themeSettings["PercentStringwForeground"]        = "#000000";
 
-    themeSettings["DefaultBackground"]               = "white";
+    themeSettings["DefaultBackground"]               = "transparent";
     themeSettings["CommentBackground"]               = "white";
     themeSettings["ErrorBackground"]                 = "#fff";
     themeSettings["PODBackground"]                   = "#ff0000";
@@ -131,7 +131,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["PaneBackground"] = "black";
     themeSettings["WindowBorder"]= "#222";
     themeSettings["Foreground"] = "white";
-    themeSettings["Background"] = "black";
+    themeSettings["Background"] = "transparent";
     themeSettings["ErrorBackground"] = "black";
 
     themeSettings["DefaultForeground"]               = "#fff";
@@ -160,7 +160,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["PercentStringrForeground"]        = "#6e88ff";
     themeSettings["PercentStringwForeground"]        = "#6e88ff";
 
-    themeSettings["DefaultBackground"]               = "#000";
+    themeSettings["DefaultBackground"]               = "transparent";
     themeSettings["CommentBackground"]               = "white";
     themeSettings["ErrorBackground"]                 = "#c0xffc0";
     themeSettings["PODBackground"]                   = "#ff0000";
