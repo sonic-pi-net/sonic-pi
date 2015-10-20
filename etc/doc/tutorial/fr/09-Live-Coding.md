@@ -12,6 +12,6 @@ avantage est que vous pouvez amener Sonic Pi sur scène et donner un
 concert avec.
 
 Dans cette section, nous allons couvrir les fondamentaux du changement 
-de vos compositions avec du code statique en interprétations dynamiques.
+de vos compositions en interprétations dynamiques avec du code statique.
 
 Tenez-vous bien...
