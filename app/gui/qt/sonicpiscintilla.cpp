@@ -132,7 +132,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   setMarginsForegroundColor(theme->color("MarginForeground"));
   setMarginsFont(QFont("Menlo", 15, -1, true));
   setUtf8(true);
-  setText("#loading...");
+  setText("# Loading previous buffer contents. Please wait...");
   setLexer((QsciLexer *)lexer);
 
   markerDefine(RightArrow, 8);
