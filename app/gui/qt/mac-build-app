@@ -36,7 +36,7 @@ mkdir build
 
 # Generate automated docs
 cp -f ruby_help.tmpl ruby_help.h
-../../server/bin/qt-doc.rb -o ruby_help.h
+../../server/native/osx/ruby/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
 
 # Generate i18n files
 $LREL SonicPi.pro
