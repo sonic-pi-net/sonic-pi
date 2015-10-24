@@ -13,7 +13,6 @@
 # notice is included.
 #++
 require_relative "incomingosc"
-require 'osc-ruby'
 require 'ffi'
 
 module SonicPi

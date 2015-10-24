@@ -103,8 +103,7 @@ module SonicPi
 
       log "Sending /quit command to server"
       @server.send(@hostname, @port, "/quit")
-      @osc_in_thread.kill
-      @osc_out_thread.kill
+      @server.stop
     end
 
     private
