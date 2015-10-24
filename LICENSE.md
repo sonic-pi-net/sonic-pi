@@ -92,7 +92,6 @@ relevant licenses:
 * [MIDI Winmm](https://github.com/arirusso/midi-winmm) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [MIDILib](https://github.com/jimm/midilib) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
 * [Multi JSON](https://github.com/intridea/multi_json) - [MIT License](http://opensource.org/licenses/MIT)
-* [OSC Ruby](https://github.com/aberant/osc-ruby) - [MIT License](http://opensource.org/licenses/MIT)
 * [Parslet](http://kschiess.github.io/parslet/) - [MIT License](http://opensource.org/licenses/MIT)
 * [Rouge](https://github.com/jneen/rouge) - [MIT License](http://opensource.org/licenses/MIT)
 * [Rubame](https://github.com/saward/Rubame) - [MIT License](http://opensource.org/licenses/MIT)
