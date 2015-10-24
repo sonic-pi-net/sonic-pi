@@ -10,7 +10,6 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require 'osc-ruby'
 require_relative "util"
 require_relative "group"
 require_relative "synthnode"

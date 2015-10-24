@@ -19,7 +19,7 @@ require_relative "../sonicpi/lib/sonicpi/studio"
 
 require_relative "../sonicpi/lib/sonicpi/server"
 require_relative "../sonicpi/lib/sonicpi/util"
-require_relative "../sonicpi/lib/sonicpi/oscencode"
+require_relative "../sonicpi/lib/sonicpi/osc/osc"
 require_relative "../sonicpi/lib/sonicpi/lang/core"
 require_relative "../sonicpi/lib/sonicpi/lang/minecraftpi"
 require_relative "../sonicpi/lib/sonicpi/lang/sound"
@@ -44,7 +44,7 @@ if os == :osx
   # If these are not identical, then scsynth will refuse
   # to boot.
   begin
-  require 'coreaudio'
+    require 'coreaudio'
     CoreAudio.default_output_device(nominal_rate: 44100.0)
     CoreAudio.default_input_device(nominal_rate: 44100.0)
   rescue Exception => e
@@ -63,32 +63,33 @@ client_port = ARGV[2] ? ARGV[1].to_i : 4558
 
 protocol = case ARGV[0]
            when "-t"
-            :tcp
+             :tcp
            else
-            :udp
+             :udp
            end
 
 puts "Using protocol: #{protocol}"
 
 ws_out = Queue.new
 if protocol == :tcp
-  gui = OSC::ClientOverTcp.new("127.0.0.1", client_port)
-  encoder = SonicPi::StreamOscEncode.new(true)
+  gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
 else
-  gui = OSC::Client.new("127.0.0.1", client_port)
-  encoder = SonicPi::OscEncode.new(true)
+  gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
 end
 
 begin
   if protocol == :tcp
-    osc_server = OSC::ServerOverTcp.new(server_port)
+    osc_server = SonicPi::OSC::TCPServer.new(server_port, use_decoder_cache: true)
   else
-    osc_server = OSC::Server.new(server_port)
+    osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
   end
 rescue Exception => e
-  m = encoder.encode_single_message("/exited-with-boot-error", ["Failed to open server port " + server_port.to_s + ", is scsynth already running?"])
   begin
-    gui.send_raw(m)
+    STDERR.puts "Received Exception!"
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.inspect
+    STDERR.puts e.backtrace
+    gui.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is scsynth already running?")
   rescue Errno::EPIPE => e
     STDERR.puts "GUI not listening, exit anyway."
   end
@@ -97,9 +98,8 @@ end
 
 
 at_exit do
-  m = encoder.encode_single_message("/exited")
   begin
-    gui.send_raw(m)
+    gui.send("/exited")
   rescue Errno::EPIPE => e
     STDERR.puts "GUI not listening."
   end
@@ -120,401 +120,184 @@ begin
 rescue Exception => e
   STDERR.puts "Failed to start server: " + e.message
   STDERR.puts e.backtrace.join("\n")
-  m = encoder.encode_single_message("/exited-with-boot-error", ["Server Exception:\n #{e.message}"])
-  gui.send_raw(m)
+  gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}")
   exit
 end
 
-osc_server.add_method("/run-code") do |payload|
-  begin
-    #    puts "Received OSC: #{payload}"
-    args = payload.to_a
-    gui_id = args[0]
-    code = args[1]
-    sp.__spider_eval code
-  rescue Exception => e
-    STDERR.puts "Received Exception!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/run-code") do |args|
+  gui_id = args[0]
+  code = args[1]
+  sp.__spider_eval code
 end
 
-osc_server.add_method("/save-and-run-buffer") do |payload|
-  begin
-#    puts "Received save-and-run-buffer: #{payload.to_a}"
-    args = payload.to_a
-    gui_id = args[0]
-    buffer_id = args[1]
-    code = args[2]
-    workspace = args[3]
-    sp.__save_buffer(buffer_id, code)
-    sp.__spider_eval code, {workspace: workspace}
-  rescue Exception => e
-    STDERR.puts "Caught exception when attempting to save and run buffer!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/save-and-run-buffer") do |args|
+  gui_id = args[0]
+  buffer_id = args[1]
+  code = args[2]
+  workspace = args[3]
+  sp.__save_buffer(buffer_id, code)
+  sp.__spider_eval code, {workspace: workspace}
 end
 
-osc_server.add_method("/save-buffer") do |payload|
-  begin
-#    puts "Received save-buffer: #{payload.to_a}"
-    args = payload.to_a
-    gui_id = args[0]
-    buffer_id = args[1]
-    code = args[2]
-    sp.__save_buffer(buffer_id, code)
-  rescue Exception => e
-    STDERR.puts "Caught exception when attempting to save buffer!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/save-buffer") do |args|
+  gui_id = args[0]
+  buffer_id = args[1]
+  code = args[2]
+  sp.__save_buffer(buffer_id, code)
 end
 
-osc_server.add_method("/exit") do |payload|
-  begin
-    #  puts "exiting..."
-    args = payload.to_a
-    gui_id = args[0]
-    sp.__exit
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to exit!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/exit") do |args|
+  gui_id = args[0]
+  sp.__exit
 end
 
-osc_server.add_method("/stop-all-jobs") do |payload|
-#  puts "stopping all jobs..."
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.__stop_jobs
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to stop all jobs!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/stop-all-jobs") do |args|
+  gui_id = args[0]
+  sp.__stop_jobs
 end
 
-osc_server.add_method("/load-buffer") do |payload|
-#  puts "loading buffer..."
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.__load_buffer args[1]
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to load buffer!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/load-buffer") do |args|
+  gui_id = args[0]
+  sp.__load_buffer args[1]
 end
 
-osc_server.add_method("/complete-snippet-or-indent-selection") do |payload|
-#  puts "indenting current line..."
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    id = args[1]
-    buf = args[2]
-    start_line = args[3]
-    finish_line = args[4]
-    point_line = args[5]
-    point_index = args[6]
-    sp.__complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to indent current line!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/complete-snippet-or-indent-selection") do |args|
+  gui_id = args[0]
+  id = args[1]
+  buf = args[2]
+  start_line = args[3]
+  finish_line = args[4]
+  point_line = args[5]
+  point_index = args[6]
+  sp.__complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
 end
 
-
-osc_server.add_method("/toggle-comment") do |payload|
-#  puts "toggling selection..."
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    id = args[1]
-    buf = args[2]
-    start_line = args[3]
-    finish_line = args[4]
-    point_line = args[5]
-    point_index = args[6]
-    sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to toggle comment!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/toggle-comment") do |args|
+  gui_id = args[0]
+  id = args[1]
+  buf = args[2]
+  start_line = args[3]
+  finish_line = args[4]
+  point_line = args[5]
+  point_index = args[6]
+  sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
 end
 
-osc_server.add_method("/beautify-buffer") do |payload|
-#  puts "beautifying buffer..."
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    id = args[1]
-    buf = args[2]
-    line = args[3]
-    index = args[4]
-    first_line = args[5]
-    sp.__beautify_buffer(id, buf, line, index, first_line)
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to beautify buffer!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/beautify-buffer") do |args|
+  gui_id = args[0]
+  id = args[1]
+  buf = args[2]
+  line = args[3]
+  index = args[4]
+  first_line = args[5]
+  sp.__beautify_buffer(id, buf, line, index, first_line)
 end
 
-osc_server.add_method("/ping") do |payload|
-  #  puts "ping!"
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    id = args[1]
-    m = encoder.encode_single_message("/ack", [id])
-    gui.send_raw(m)
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to send ack!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/ping") do |args|
+  gui_id = args[0]
+  id = args[1]
+  gui.send("/ack", id)
 end
 
-osc_server.add_method("/start-recording") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.recording_start
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to start recording"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/start-recording") do |args|
+  gui_id = args[0]
+  sp.recording_start
 end
 
-osc_server.add_method("/stop-recording") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.recording_stop
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to stop recording"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/stop-recording") do |args|
+  gui_id = args[0]
+  sp.recording_stop
 end
 
-osc_server.add_method("/delete-recording") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.recording_delete
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to delete recording"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/delete-recording") do |args|
+  gui_id = args[0]
+  sp.recording_delete
 end
 
-osc_server.add_method("/save-recording") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    filename = payload.to_a[1]
-    sp.recording_save(filename)
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to delete recording"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/save-recording") do |args|
+  gui_id = args[0]
+  filename = args[1]
+  sp.recording_save(filename)
 end
 
-osc_server.add_method("/reload") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    dir = File.dirname("#{File.absolute_path(__FILE__)}")
-    Dir["#{dir}/../sonicpi/**/*.rb"].each do |d|
-      load d
-    end
-    puts "reloaded"
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to reload files"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
+osc_server.add_method("/reload") do |args|
+  gui_id = args[0]
+  dir = File.dirname("#{File.absolute_path(__FILE__)}")
+  Dir["#{dir}/../sonicpi/**/*.rb"].each do |d|
+    load d
   end
+  puts "reloaded"
 end
 
-osc_server.add_method("/mixer-invert-stereo") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.set_mixer_invert_stereo!
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to invert stereo"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/mixer-invert-stereo") do |args|
+  gui_id = args[0]
+  sp.set_mixer_invert_stereo!
 end
 
-osc_server.add_method("/mixer-standard-stereo") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.set_mixer_standard_stereo!
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to set stereo to standard mode"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/mixer-standard-stereo") do |args|
+  gui_id = args[0]
+  sp.set_mixer_standard_stereo!
 end
 
-osc_server.add_method("/mixer-stereo-mode") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.set_mixer_stereo_mode!
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to invert stereo"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/mixer-stereo-mode") do |args|
+  gui_id = args[0]
+  sp.set_mixer_stereo_mode!
 end
 
-osc_server.add_method("/mixer-mono-mode") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.set_mixer_mono_mode!
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to switch to mono mode"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/mixer-mono-mode") do |args|
+  gui_id = args[0]
+  sp.set_mixer_mono_mode!
 end
 
-osc_server.add_method("/mixer-hpf-enable") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    freq = args[1].to_f
-    sp.set_mixer_hpf!(freq)
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to enable mixer hpf"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/mixer-hpf-enable") do |args|
+  gui_id = args[0]
+  freq = args[1].to_f
+  sp.set_mixer_hpf!(freq)
 end
 
-osc_server.add_method("/mixer-hpf-disable") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.set_mixer_hpf_disable!
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to disable mixer hpf"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/mixer-hpf-disable") do |args|
+  gui_id = args[0]
+  sp.set_mixer_hpf_disable!
 end
 
-osc_server.add_method("/mixer-lpf-enable") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    freq = args[1].to_f
-    sp.set_mixer_lpf!(freq)
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to enable mixer lpf"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/mixer-lpf-enable") do |args|
+  gui_id = args[0]
+  freq = args[1].to_f
+  sp.set_mixer_lpf!(freq)
 end
 
-osc_server.add_method("/mixer-lpf-disable") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.set_mixer_lpf_disable!
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to disable mixer lpf"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/mixer-lpf-disable") do |args|
+  gui_id = args[0]
+  sp.set_mixer_lpf_disable!
 end
 
-
-osc_server.add_method("/enable-update-checking") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.__enable_update_checker
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to enable update checking"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/enable-update-checking") do |args|
+  gui_id = args[0]
+  sp.__enable_update_checker
 end
 
-osc_server.add_method("/disable-update-checking") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.__disable_update_checker
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to disable update checking"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/disable-update-checking") do |args|
+  gui_id = args[0]
+  sp.__disable_update_checker
 end
 
-osc_server.add_method("/check-for-updates-now") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.__update_gui_version_info_now
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to check for latest version now"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/check-for-updates-now") do |args|
+  gui_id = args[0]
+  sp.__update_gui_version_info_now
 end
 
-osc_server.add_method("/version") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    v = sp.__current_version
-    lv = sp.__server_version
-    lc = sp.__last_update_check
-    plat = host_platform_desc
-    m = encoder.encode_single_message("/version", [v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s])
-    gui.send_raw(m)
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to check for version "
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
+osc_server.add_method("/version") do |args|
+  gui_id = args[0]
+  v = sp.__current_version
+  lv = sp.__server_version
+  lc = sp.__last_update_check
+  plat = host_platform_desc
+  gui.send("/version", v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s)
 end
 
-osc_server.add_method("/gui-heartbeat") do |payload|
-  begin
-    args = payload.to_a
-    gui_id = args[0]
-    sp.__gui_heartbeat gui_id
-  rescue Exception => e
-    STDERR.puts "Received Exception when attempting to handle gui heartbeat"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
-end
-
-if protocol == :tcp
-  Thread.new{osc_server.safe_run}
-else
-  Thread.new{osc_server.run}
+osc_server.add_method("/gui-heartbeat") do |args|
+  gui_id = args[0]
+  sp.__gui_heartbeat gui_id
 end
 
 # Send stuff out from Sonic Pi back out to osc_server
@@ -526,9 +309,8 @@ out_t = Thread.new do
       # message[:ts] = Time.now.strftime("%H:%M:%S")
 
       if message[:type] == :exit
-        m = encoder.encode_single_message("/exited")
         begin
-          gui.send_raw(m)
+          gui.send("/exited")
         rescue Errno::EPIPE => e
           STDERR.puts "GUI not listening, exit anyway."
         end
@@ -536,18 +318,15 @@ out_t = Thread.new do
       else
         case message[:type]
         when :multi_message
-          m = encoder.encode_single_message("/multi_message", [message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten])
-          gui.send_raw(m)
+          gui.send("/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
         when :info
-          m = encoder.encode_single_message("/info", [message[:val]])
-          gui.send_raw(m)
+          gui.send("/info", message[:val])
         when :syntax_error
           desc = message[:val] || ""
           line = message[:line] || -1
           error_line = message[:error_line] || ""
           desc = CGI.escapeHTML(desc)
-          m = encoder.encode_single_message("/syntax_error", [message[:jobid], desc, error_line, line, line.to_s])
-          gui.send_raw(m)
+          gui.send("/syntax_error", message[:jobid], desc, error_line, line, line.to_s)
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")
@@ -556,17 +335,15 @@ out_t = Thread.new do
           desc = CGI.escapeHTML(desc)
           trace = CGI.escapeHTML(trace)
           # puts "sending: /error #{desc}, #{trace}"
-          m = encoder.encode_single_message("/error", [message[:jobid], desc, trace, line])
-          gui.send_raw(m)
+          gui.send("/error", message[:jobid], desc, trace, line)
         when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-buffer without a :val payload"
           line = message[:line] || 0
           index = message[:index] || 0
           first_line = message[:first_line] || 0
-#          puts "replacing buffer #{buf_id}, #{content}"
-          m = encoder.encode_single_message("/replace-buffer", [buf_id, content, line, index, first_line])
-          gui.send_raw(m)
+          #          puts "replacing buffer #{buf_id}, #{content}"
+          gui.send("/replace-buffer", buf_id, content, line, index, first_line)
         when "replace-lines"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-line without a :val payload"
@@ -574,17 +351,15 @@ out_t = Thread.new do
           point_index = message[:point_index] || 0
           start_line = message[:start_line] || point_line
           finish_line = message[:finish_line] || start_line
-#          puts "replacing line #{buf_id}, #{content}"
-          m = encoder.encode_single_message("/replace-lines", [buf_id, content, start_line, finish_line, point_line, point_index])
-          gui.send_raw(m)
+          #          puts "replacing line #{buf_id}, #{content}"
+          gui.send("/replace-lines", buf_id, content, start_line, finish_line, point_line, point_index)
         when :version
           v = message[:version]
           v_num = message[:version_num]
           lv = message[:latest_version]
           lv_num = message[:latest_version_num]
           lc = message[:last_checked]
-          m = encoder.encode_single_message("/version", [v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year])
-          gui.send_raw(m)
+          gui.send("/version", v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year)
         when :job
           id = message[:job_id]
           action = message[:action]

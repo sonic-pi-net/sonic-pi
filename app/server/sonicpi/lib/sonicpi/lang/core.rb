@@ -120,7 +120,7 @@ module SonicPi
       doc name:           :tick,
           introduced:     Version.new(2,6,0),
           summary:        "Increment a tick and return value",
-          args:           [[:value, :number]],
+          args:           [[:key, :symbol]],
           alt_args:       [[[:key, :symbol], [:value, :number]]],
           returns:        :number,
           opts:           {step: "The amount to tick up by. Default is 1.",

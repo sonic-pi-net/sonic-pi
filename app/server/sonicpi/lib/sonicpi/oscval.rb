@@ -10,30 +10,30 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require 'osc-ruby'
+# require 'osc-ruby'
 
-module SonicPi
-  class OSCVal
-    def initialize(port)
-      server = OSC::Server.new(port, true)
-      @vals = {}
-      server.add_method '*' do |m|
-        @vals[m.address] = m.to_a || []
-      end
+# module SonicPi
+#   class OSCVal
+#     def initialize(port)
+#       server = OSC::Server.new(port, true)
+#       @vals = {}
+#       server.add_method '*' do |m|
+#         @vals[m.address] = m.to_a || []
+#       end
 
-      @server_thread = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :osc_val_server)
-        server.run
-      end
-    end
+#       @server_thread = Thread.new do
+#         Thread.current.thread_variable_set(:sonic_pi_thread_group, :osc_val_server)
+#         server.run
+#       end
+#     end
 
-    def read(path, idx=0)
-      (@vals[path] || [])[idx] || 0
-    end
+#     def read(path, idx=0)
+#       (@vals[path] || [])[idx] || 0
+#     end
 
-    def read_all(path)
-      @vals[path] || []
-    end
+#     def read_all(path)
+#       @vals[path] || []
+#     end
 
-  end
-end
+#   end
+# end

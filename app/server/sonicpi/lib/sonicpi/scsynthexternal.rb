@@ -12,8 +12,7 @@
 #++
 require_relative "util"
 require_relative "promise"
-require_relative "oscencode"
-require_relative "scsynthoscreceiver"
+require_relative "osc/osc"
 
 module SonicPi
   class SCSynthExternal
@@ -25,34 +24,42 @@ module SonicPi
       @scsynth_pid = nil
       @jack_pid = nil
       @out_queue = SizedQueue.new(20)
-      @client = ScsynthOSCReceiver.new(0, events)
+      @server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
 
-      @osc_in_thread = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_in)
-        Thread.current.priority = -10
-        log "\n\n\n"
-        log "Starting server thread"
-        @client.run
+      @server.add_global_method do |address, args|
+        case address
+        when "/n_end"
+          id = args[0].to_i
+          events.async_event "/n_end/#{id}", args
+        when "/n_off"
+          id = args[0].to_i
+          events.async_event "/n_off/#{id}", args
+        when "/n_on"
+          id = args[0].to_i
+          events.async_event "/n_on/#{id}", args
+        when "/n_go"
+          id = args[0].to_i
+          events.async_event "/n_go/#{id}", args
+        else
+          events.async_event address, args
+        end
       end
 
       @osc_out_thread = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_out)
         Thread.current.priority = 200
-        encoder = OscEncode.new(true)
         loop do
           out_job = @out_queue.pop
           if out_job.first == :send
             address, *args = out_job[1]
             log "OSC             ~ #{address} #{args.inspect}" if osc_debug_mode
-            m = encoder.encode_single_message(address, args)
-            @client.send_raw(m, @hostname, @port)
+            @server.send(@hostname, @port, address, *args)
           else
             vt = out_job[1]
             ts = out_job[2]
             address, *args = out_job[3]
             log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_i}] #{address} #{args.inspect}" if osc_debug_mode
-            b = encoder.encode_single_bundle(ts, address, args)
-            @client.send_raw(b, @hostname, @port)
+            @server.send_ts(ts, @hostname, @port, address, *args)
           end
         end
       end
@@ -95,7 +102,7 @@ module SonicPi
       end
 
       log "Sending /quit command to server"
-      @client.send_raw(OSC::Message.new("/quit").encode, @hostname, @port)
+      @server.send(@hostname, @port, "/quit")
       @osc_in_thread.kill
       @osc_out_thread.kill
     end
@@ -164,25 +171,18 @@ module SonicPi
       p = Promise.new
       connected = false
 
-
-      boot_s = OSC::Server.new(5998)
-      boot_s.add_method '*' do |m|
+      boot_s = OSC::UDPServer.new(5998) do |a, b|
         log "Boot - Receiving ack from server on port 5998"
         p.deliver! true unless connected
         connected = true
       end
 
       t1 = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_booter)
-        boot_s.safe_run
-      end
-
-      t2 = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_boot_ack)
         loop do
           begin
             log "Boot - Sending /status to server: #{@hostname}:#{@port}"
-            boot_s.send(OSC::Message.new("/status"), @hostname, @port)
+            boot_s.send(@hostname, @port, "/status")
           rescue Exception => e
             log "Boot - Error sending /status to server: #{e.message}"
           end
@@ -196,15 +196,13 @@ module SonicPi
       begin
         p.get(10)
       rescue Exception => e
-        boot_s.send(OSC::Message.new("/quit"), @hostname, @port)
+        boot_s.send(@hostname, @port, "/quit")
       ensure
         t1.kill
-        t2.kill
         boot_s.stop
       end
 
       raise "Boot - Unable to connect to scsynth" unless connected
-
       log "Boot - Server connection established"
     end
 

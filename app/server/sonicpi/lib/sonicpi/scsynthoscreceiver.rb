@@ -12,7 +12,7 @@
 #++
 
 require_relative "util"
-require_relative "oscdecode"
+require_relative "osc/osc"
 
 module SonicPi
   class ScsynthOSCReceiver
@@ -22,7 +22,7 @@ module SonicPi
       @socket = UDPSocket.new
       @socket.bind( '', port )
       @osc_events = osc_events
-      @decoder = OscDecode.new(true)
+      @decoder = OSC::OscDecode.new(true)
     end
 
     def run
