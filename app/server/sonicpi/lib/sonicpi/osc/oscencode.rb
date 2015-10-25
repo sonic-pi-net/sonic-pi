@@ -116,10 +116,10 @@ module SonicPi
         if cached = @string_cache[s]
           return cached
         else
-          # Forgive me father, for I have sinned...
           # This makes a null padded string rounded up to the nearest
           # multiple of four
-          res = [s].pack("Z#{4*((s.bytesize.to_f+0.01)/4).ceil}")
+          size = s.bytesize
+          res = [s].pack("Z#{size + 4 - (size % 4)}")
           if @num_cached_strings < @cache_size
             # only cache the first @cache_size strings to avoid a memory
             # memory leak.
