@@ -1613,8 +1613,9 @@ end
         raise "with_random_seed requires a block. Perhaps you meant use_random_seed" unless block
         current_seed, current_idx = SonicPi::Core::SPRand.get_seed_and_idx
         SonicPi::Core::SPRand.set_seed! seed
-        block.call
+        res = block.call
         SonicPi::Core::SPRand.set_seed! current_seed, current_idx
+        res
       end
       doc name:           :with_random_seed,
           introduced:     Version.new(2,0,0),
@@ -1791,8 +1792,9 @@ end
         current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
         sleep_mul = 60.0 / bpm
         Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
+        res
       end
       doc name:           :with_bpm,
           introduced:     Version.new(2,0,0),
@@ -1848,8 +1850,9 @@ end
         current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
         new_mul = current_mul.to_f / mul
         Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, current_mul)
+        res
       end
       doc name:           :with_bpm_mul,
           introduced:     Version.new(2,3,0),

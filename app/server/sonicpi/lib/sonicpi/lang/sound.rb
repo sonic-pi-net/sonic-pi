@@ -231,8 +231,9 @@ module SonicPi
         raise "with_debug requires a do/end block. Perhaps you meant use_debug" unless block
         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_disable_timing_warnings)
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_disable_timing_warnings, !v)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_disable_timing_warnings, current)
+        res
       end
 
 
@@ -353,8 +354,9 @@ sleep rt(2)             # still sleeps for 2 seconds"]
         current_scaling = Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
         Thread.current.thread_variable_set(:sonic_pi_spider_arg_bpm_scaling, bool)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_spider_arg_bpm_scaling, current_scaling)
+        res
       end
       doc name:           :with_arg_bpm_scaling,
           introduced:     Version.new(2,0,0),
@@ -524,8 +526,9 @@ control s, note: 82                    # immediately start sliding note.
         raise "with_debug requires a do/end block. Perhaps you meant use_debug" unless block
         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, !v)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_synth_silent, current)
+       res
       end
       doc name:          :with_debug,
           introduced:    Version.new(2,0,0),
@@ -581,8 +584,9 @@ play 50, release: 5 # Args are not checked"]
 
         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, v)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_check_synth_args, current)
+        res
       end
       doc name:           :with_arg_checks,
           introduced:     Version.new(2,0,0),
@@ -647,8 +651,9 @@ play 62 # Plays note 65"]
         raise "Transpose value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
         curr = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, shift)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_transpose, curr)
+        res
       end
       doc name:           :with_transpose,
           introduced:     Version.new(2,0,0),
@@ -707,8 +712,9 @@ play 64 # Plays note 64"]
         raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
         curr_tuning, curr_fundamental = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note])
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, [curr_tuning, curr_fundamental])
+        res
       end
       doc name:          :with_tuning,
           introduced:    Version.new(2,6,0),
@@ -753,8 +759,9 @@ play 50 # Plays with mod_sine synth"]
         raise "with_synth must be called with a do/end block. Perhaps you meant use_synth" unless block
         orig_synth = current_synth_name
         set_current_synth synth_name
-        block.call
+        res = block.call
         set_current_synth orig_synth
+        res
       end
       doc name:           :with_synth,
           introduced:     Version.new(2,0,0),
@@ -1169,8 +1176,9 @@ play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
         args_h = resolve_synth_opts_hash_or_array(args)
         merged_defs = (current_defs || {}).merge(args_h)
         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, merged_defs
-        block.call
+        res = block.call
         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current_defs
+        res
       end
       doc name:           :with_merged_synth_defaults,
           introduced:     Version.new(2,0,0),
@@ -1260,9 +1268,9 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest 
         current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
         Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, args_h
-        block.call
+        res = block.call
         Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, current_defs
-
+        res
       end
       doc name:           :with_sample_defaults,
           introduced:     Version.new(2,5,0),
@@ -1294,8 +1302,9 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
 
         args_h = resolve_synth_opts_hash_or_array(args)
         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, args_h
-        block.call
+        res = block.call
         Thread.current.thread_variable_set :sonic_pi_mod_sound_synth_defaults, current_defs
+        res
       end
       doc name:           :with_synth_defaults,
           introduced:     Version.new(2,0,0),
@@ -1730,8 +1739,9 @@ sample :my_drums__bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav
         end
         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
+        res
       end
       doc name:           :with_sample_pack,
           introduced:     Version.new(2,0,0),
@@ -1756,8 +1766,9 @@ end"]
         aliases = current || Hamster.hash
         new_aliases = aliases.put name.to_s, pack
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
-        block.call
+        res = block.call
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, current)
+        res
       end
       doc name:           :with_sample_pack_as,
           introduced:     Version.new(2,0,0),
