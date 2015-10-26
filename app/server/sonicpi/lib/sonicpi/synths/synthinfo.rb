@@ -260,7 +260,7 @@ module SonicPi
 
           :note =>
           {
-            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30, 52, :C, :C2, :Eb4`, or `:Ds3`",
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`",
             :validations => [v_positive(:note)],
             :modulatable => true
           },
@@ -1738,7 +1738,7 @@ module SonicPi
         {
           :note =>
           {
-            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30, 52, :C, :C2, :Eb4`, or `:Ds3`. Note that the piano synth can only play whole tones such as 60 and does not handle floats such as 60.3",
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`. Note that the piano synth can only play whole tones such as 60 and does not handle floats such as 60.3",
             :validations => [v_positive(:note)],
             :modulatable => true
           },

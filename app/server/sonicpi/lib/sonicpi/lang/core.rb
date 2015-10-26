@@ -460,7 +460,7 @@ module SonicPi
 
   (spread 5, 8)  # The Cuban cinquillo pattern.
 
-  (spread 5, 9)  # A popular ARab rhythm called Agsag-Samai.
+  (spread 5, 9)  # A popular Arab rhythm called Agsag-Samai.
 
   (spread 5, 11) # The metric pattern used by Moussorgsky in Pictures at an
                  # Exhibition
