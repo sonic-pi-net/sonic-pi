@@ -301,6 +301,61 @@
      (out out_bus (pan2 (* amp-fudge snd env) pan amp))))
 
 
+ (defsynth sonic-pi-dpulse [note 52
+                            note_slide 0
+                            note_slide_shape 5
+                            note_slide_curve 0
+                            amp 1
+                            amp_slide 0
+                            amp_slide_shape 5
+                            amp_slide_curve 0
+                            pan 0
+                            pan_slide 0
+                            pan_slide_shape 5
+                            pan_slide_curve 0
+                            attack 0
+                            decay 0
+                            sustain 0
+                            release 1
+                            attack_level 1
+                            decay_level 1
+                            sustain_level 1
+                            env_curve 2
+                            cutoff 100
+                            cutoff_slide 0
+                            cutoff_slide_shape 5
+                            cutoff_slide_curve 0
+                            detune 0.1
+                            detune_slide 0
+                            detune_slide_shape 5
+                            detune_slide_curve 0
+                            pulse_width 0.5
+                            pulse_width_slide 0
+                            pulse_width_slide_shape 5
+                            pulse_width_slide_curve 0
+
+                            dpulse_width 0.5
+                            dpulse_width_slide 0
+                            dpulse_width_slide_shape 5
+                            dpulse_width_slide_curve 0
+                            out_bus 0]
+   (let [note         (varlag note note_slide note_slide_curve note_slide_shape)
+         amp          (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         amp-fudge    1.1
+         pan          (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         detune       (varlag detune detune_slide detune_slide_curve detune_slide_shape)
+         cutoff       (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         pulse_width  (varlag pulse_width pulse_width_slide pulse_width_slide_shape pulse_width_slide_curve)
+         dpulse_width (varlag dpulse_width dpulse_width_slide dpulse_width_slide_shape dpulse_width_slide_curve)
+         freq         (midicps note)
+         cutoff-freq  (midicps cutoff)
+         detune-freq  (midicps (+ note detune))
+         snd          (normalizer (lpf (/ (+ (pulse freq pulse_width) (pulse detune-freq dpulse_width)) 2) cutoff-freq))
+         env          (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
+     (out out_bus (pan2 (* amp-fudge snd env) pan amp))))
+
+
+
  (defsynth sonic-pi-fm [note 52
                         note_slide 0
                         note_slide_shape 5
@@ -826,6 +881,7 @@
    (core/save-synthdef sonic-pi-subpulse)
    (core/save-synthdef sonic-pi-square)
    (core/save-synthdef sonic-pi-dsaw)
+   (core/save-synthdef sonic-pi-dpulse)
    (core/save-synthdef sonic-pi-fm)
 
    (core/save-synthdef sonic-pi-mod_fm)

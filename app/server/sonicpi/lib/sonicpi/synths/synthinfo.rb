@@ -862,6 +862,71 @@ module SonicPi
       end
     end
 
+    class DPulse < DSaw
+      def name
+        "Detuned Pulse Wave"
+      end
+
+      def introduced
+        Version.new(2, 8, 0)
+      end
+
+      def synth_name
+        "dpulse"
+      end
+
+      def doc
+        "A pair of detuned pulse waves passed through a low pass filter. Two pulse waves with slightly different frequencies generates a nice thick sound which can be used as a basis for some nice bass sounds. Thicken the sound by increasing the detune value, or create an octave-playing synth by choosing a detune of 12 (12 MIDI notes is an octave). Each pulse wave can also have individual widths (although the default is for the detuned pulse to mirror the width of the main pulse)."
+      end
+
+      def arg_defaults
+        super.merge({
+                      :pulse_width => 0.5,
+                      :pulse_width_slide => 0,
+                      :pulse_width_slide_shape => 5,
+                      :pulse_width_slide_curve => 0,
+                      :dpulse_width => :pulse_width,
+                      :dpulse_width_slide => :pulse_width_slide,
+                      :dpulse_width_slide_shape => :pulse_width_slide_shape,
+                      :dpulse_width_slide_curve => :pulse_width_slide_curve})
+      end
+
+      def specific_arg_info
+        {
+          :pulse_width =>
+          {
+            :doc => "The width of the pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.",
+            :validations => [v_between_exclusive(:pulse_width, 0, 1)],
+            :modulatable => true
+          },
+
+          :pulse_width_slide =>
+          {
+            :doc => "Time in beats for pulse width to change.",
+            :validations => [v_positive(:pulse_width_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :dpulse_width =>
+          {
+            :doc => "The width of the second detuned pulse wave as a value between 0 and 1. A width of 0.5 will produce a square wave. Different values will change the timbre of the sound. Only valid if wave is type pulse.",
+            :validations => [v_between_exclusive(:dpulse_width, 0, 1)],
+            :modulatable => true
+          },
+
+          :dpulse_width_slide =>
+          {
+            :doc => "Time in beats for second detuned pulse width to change.",
+            :validations => [v_positive(:dpulse_width_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          }
+        }
+
+      end
+    end
+
 
     class FM < SonicPiSynth
       def name
@@ -5577,6 +5642,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :square => Square.new,
         :tri => Tri.new,
         :dsaw => DSaw.new,
+        :dpulse => DPulse.new,
         :fm => FM.new,
         :mod_fm => ModFM.new,
         :mod_saw => ModSaw.new,
