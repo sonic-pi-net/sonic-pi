@@ -551,8 +551,6 @@
          pulse_width         (varlag pulse_width pulse_width_slide pulse_width_slide_curve pulse_width_slide_shape)
          double_phase_offset (* 2 phase_offset)
 
-
-
          ctl-wave            (select:kr wave [(* -1 (lf-saw:kr rate (+ double_phase_offset 1)))
                                               (- (* 2 (lf-pulse:kr rate phase_offset pulse_width)) 1)
                                               (lf-tri:kr rate (+ double_phase_offset 1))
@@ -568,8 +566,7 @@
          ctl-wave            (select:kr use-prob [ctl-wave
                                                   (select:kr ctl-wave-prob [prob_pos ctl-wave])])
 
-         pan-val             ctl-wave
-
+         pan-val             (lin-lin:kr ctl-wave -1 1 pan_min pan_max)
          pan-val             (lag-ud pan-val smooth_up smooth_down)
          pan-val             (lag pan-val smooth)
          [in-l in-r]         (* pre_amp (in in_bus 2))

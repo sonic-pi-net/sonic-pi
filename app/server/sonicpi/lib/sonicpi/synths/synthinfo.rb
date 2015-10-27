@@ -4000,7 +4000,7 @@ module SonicPi
           :pan_min =>
           {
             :doc => "Minimum pan value (-1 is the left speaker only)",
-            :validations => [v_positive(:pan_min)],
+            :validations => [v_between_inclusive(:pan_min, -1, 1)],
             :modulatable => true
           },
 
@@ -4015,7 +4015,7 @@ module SonicPi
           :pan_max =>
           {
             :doc => "Maximum pan value (+1 is the right speaker only)",
-            :validations => [v_positive(:pan_max)],
+            :validations => [v_between_inclusive(:pan_min, -1, 1)],
             :modulatable => true
           },
 
