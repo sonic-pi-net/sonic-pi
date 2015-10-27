@@ -1026,8 +1026,9 @@ play_pattern [40, 41, 42] # Same as:
 
 
       def play_pattern_timed(notes, times, *args)
-        if times.is_a? Array
-          notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx % times.size])}
+        if times.is_a?(Array) || times.is_a?(SonicPi::Core::SPVector)
+          t = times.ring
+          notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx])}
         else
           notes.each_with_index{|note, idx| play(note, *args) ; sleep times}
         end
