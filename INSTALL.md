@@ -89,7 +89,7 @@ that didn't work for me, but typing this, after randomly googling and trying var
 `jackd -R -d alsa -d hw:1`
 
 On systems like Ubuntu that run pulseaudio, use
-`pasuspender -- jackd -R -d alsa
+`pasuspender -- jackd -R -d alsa` 
 
 Then run the script `sonic-pi` in the directory `app/gui/qt`.
 
@@ -224,7 +224,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 ### Packaging
 * TODO: there should be a "make distclean" target to clean up the tree for MSI packaging
   - or else a script to build a release tree by copying things out of the working tree
-* There is a WiX project file in `sonic-pi.wxs' -- work in progress
+* There is a WiX project file in `sonic-pi.wxs` -- work in progress
   - download [WiX Toolset](http://wixtoolset.org/)
   - see comments at top of sonic-pi.wxs for packaging
 
