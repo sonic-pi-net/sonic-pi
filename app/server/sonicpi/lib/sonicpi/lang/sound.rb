@@ -3314,7 +3314,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         info = Synths::SynthInfo.get_info(sn)
 
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-          __delayed_message "synth #{sn.inspect}, #{arg_h_pp(args_h)}"
+          __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(args_h)}"
         end
 
         trigger_synth(synth_name, args_h, group, info, false, nil, true)
