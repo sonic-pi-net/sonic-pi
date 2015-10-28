@@ -69,7 +69,7 @@ end
 ## Zufällig abschneiden (random cutoff)
 
 Ein anderes spannendes Beispiel für die Randomisierung ist das 
-zufällige Abschneiden[^12] eines Synth-Klangs. Der `:tb303`-Emulator ist 
+zufällige Abschneiden hoher Töne[^12] eines Synth-Klangs. Der `:tb303`-Emulator ist 
 ein guter Synth, um das auszuprobieren:
 
 ```
@@ -224,8 +224,8 @@ Jetzt los, bring Deinen Code mit ein paar Zufälligkeiten durcheinander!
     innerhalb der Schleife steht, wird so oft wie angegeben oder
     unendlich oft wiederholt. 
 
-[^12]: In Sonic Pi wird das das Abschneiden oder Verkürzen mit dem
-    Ausdruck `cutoff` bezeichnet.
+[^12]: In Sonic Pi wird das Abschneiden oder Verkürzen hoher Töne
+    (Filtern) mit dem Ausdruck `cutoff` bezeichnet.
 
 [^13]: Das englische Wort *Seed* bedeutet im Deutschen *Keim* oder
     *Samen*; hier wird es als *Startpunkt* übersetzt. 
