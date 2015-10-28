@@ -164,7 +164,7 @@ module SonicPi
     end
 
     def synthdef_path
-      File.absolute_path("#{etc_path}/synthdefs")
+      File.absolute_path("#{etc_path}/synthdefs/compiled")
     end
 
     def samples_path
