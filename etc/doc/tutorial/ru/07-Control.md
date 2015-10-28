@@ -1,15 +1,13 @@
 7 Control
 
-# Controlling running sounds
+# Управление звуком во время воспроизведения
 
-So far we've looked at how you can trigger synths and samples, and
-also how to change their default opts such as amplitude, pan,
-envelope settings and more. Each sound triggered is essentially its
-own sound with its own list of options set for the duration of the
-sound.
+До этого момента мы разбирали, как включать синты и сэмплы, и то, как менять их
+регулировки, такие как амплитуда, панорамирование, параметры огибающей и так далее.
+Каждый звук, по сути, является отдельным звуком с собственными настройками,
+действующими в течение всей его продолжительности.
 
-Wouldn't it also be cool if you could change a sound's opts whilst it's
-still playing, just like you might bend a string of a guitar whilst it's
-still vibrating?
+Как бы было здорово, если бы ты мог менять параметры воспроизводящегося звука,
+прямо как ты можешь подтягивать вибрирующую струну гитары, правда?
 
-You're in luck - this section will show you how to do exactly this.
+Тебе повезло - этот раздел покажет, как именно это делается.
