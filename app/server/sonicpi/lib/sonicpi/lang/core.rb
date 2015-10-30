@@ -2593,6 +2593,69 @@ end
   "    ]
 
 
+      def assert(arg, msg=nil)
+        unless arg
+          error_msg =  "Assert failed! #{msg}"
+          raise AssertionError, error_msg
+        end
+
+        arg
+      end
+      doc name:           :assert,
+          introduced:     Version.new(2,8,0),
+          summary:        "Ensure arg is valid",
+          doc:            "Raises an exception if the argument is either nil or false.",
+          args:           [[:arg, :anything]],
+          alt_args:       [[:arg, :anything],[:error_msg, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+# Simple assertions
+assert true   # As true is neither nil or false, this assertion passes
+assert 1      # Similarly, 1 passes
+assert \"foo\" # As do string
+assert false  # This will raise an exception
+",
+"
+# Communicating error messages
+assert false, \"oops\" # This will raise an exception containing the message \"oops\"
+",
+
+"
+# More interesting assertions
+assert (1 + 1) == 2 # Ensure that arithmetic is sane!
+assert [:a, :b, :c].size == 3 # ensure lists can be correctly counted
+"]
+
+      def assert_equal(arg1, arg2, msg=nil)
+        unless arg1 == arg2
+          error_msg =  "Assert failed! #{arg1.inspect} is not equal to #{arg2.inspect}. #{msg}"
+          raise AssertionError, error_msg
+        end
+        arg1
+      end
+      doc name:           :assert_equal,
+          introduced:     Version.new(2,8,0),
+          summary:        "Ensure args are equal",
+          doc:            "Raises an exception if both arguments aren't equal. ",
+          args:           [[:arg1, :anything], [:arg1, :anything]],
+          alt_args:       [[:arg1, :anything], [:arg1, :anything],[:error_msg, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+# Simple assertions
+assert_equal 1, 1
+",
+"
+# More interesting assertions
+assert_equal 1 + 1, 2 # Ensure that arithmetic is sane!
+assert_equal [:a, :b, :c].size,  3 # ensure lists can be correctly counted
+",
+
+"
+# Add messages to the exceptions
+assert_equal 3, 5, \"something is seriously wrong!\"
+" ]
 
 
       def __on_thread_death(&block)
