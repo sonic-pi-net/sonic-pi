@@ -106,10 +106,11 @@ module SonicPi
         n = n % 12
         n = Note.resolve_note_name(n.to_f)
       end
+      orig_n = n
       n = n.to_s
 
       m = MIDI_NOTE_RE.match n
-      raise InvalidNoteError, "Invalid note: #{n}" unless m
+      raise InvalidNoteError, "Invalid note: #{orig_n.inspect}" unless m
 
       @pitch_class = "#{m[2].capitalize}#{unify_sharp_flat_modifier(m[3])}".to_sym
 
@@ -122,7 +123,7 @@ module SonicPi
 
       @interval = NOTES_TO_INTERVALS[m[1].downcase.to_sym]
 
-      raise InvalidNoteError, "Invalid note: #{n}" unless @interval
+      raise InvalidNoteError, "Invalid note: #{orig_n.inspect}" unless @interval
       @midi_note = (@octave * 12) + @interval + 12
       @midi_string = "#{@pitch_class.capitalize}#{@octave}"
     end
