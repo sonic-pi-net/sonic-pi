@@ -2638,8 +2638,8 @@ assert [:a, :b, :c].size == 3 # ensure lists can be correctly counted
           introduced:     Version.new(2,8,0),
           summary:        "Ensure args are equal",
           doc:            "Raises an exception if both arguments aren't equal. ",
-          args:           [[:arg1, :anything], [:arg1, :anything]],
-          alt_args:       [[:arg1, :anything], [:arg1, :anything],[:error_msg, :string]],
+          args:           [[:arg1, :anything], [:arg2, :anything]],
+          alt_args:       [[:arg1, :anything], [:arg2, :anything],[:error_msg, :string]],
           opts:           nil,
           accepts_block:  false,
           examples:       ["
