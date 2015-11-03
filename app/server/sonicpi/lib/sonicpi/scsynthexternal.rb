@@ -166,7 +166,7 @@ module SonicPi
       end
     end
 
-    def boot_and_wait(&boot_block)
+    def boot_and_wait(*args)
       p = Promise.new
       connected = false
 
@@ -190,13 +190,15 @@ module SonicPi
       end
 
       log "Boot - Starting the SuperCollider server..."
-      yield
+      @scsynth_pid = Process.spawn(*args)
+      Process.detach(@scsynth_pid)
 
       begin
         p.get(30)
       rescue Exception => e
-        boot_s.send(@hostname, @port, "/quit")
+        Process.kill(9, @scsynth_pid)
       ensure
+
         t1.kill
         boot_s.stop
       end
@@ -208,19 +210,15 @@ module SonicPi
     def boot_server_osx
       log_boot_msg
       log "Booting on OS X"
-      boot_and_wait do
-        sys("'#{scsynth_path}' -a #{num_audio_busses_for_current_os} -u #{@port} -m 131072 -D 0 -R 0 -l 1&")
-      end
+      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1")
     end
 
 
     def boot_server_windows
       log_boot_msg
       log "Booting on Windows"
-      boot_and_wait do
-        @scsynthpid = Process.spawn(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1")
-        Process.detach(@scsynthpid)
-      end
+
+      boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1")
     end
 
     def boot_server_raspberry_pi
@@ -239,9 +237,7 @@ module SonicPi
 
       buffer_size = raspberry_pi_1? ? 512 : 128
 
-      boot_and_wait do
-        sys("scsynth -u #{@port} -m 131072 -i 2 -o 2 -c 128 -a #{num_audio_busses_for_current_os} -z #{buffer_size} -D 0 -U /usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/ -R 0 -l 1 &")
-      end
+      boot_and_wait(scsynth, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-z", buffer_size.to_s,  "-c", "128", "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/")
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
