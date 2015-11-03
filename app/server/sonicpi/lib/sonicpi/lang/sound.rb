@@ -922,7 +922,7 @@ play 50 # Plays with supersaw synth
           doc:           "The master mixer is the final mixer that all sound passes through. This fn gives you control over the master mixer allowing you to manipulate all the sound playing through Sonic Pi at once. For example, you can sweep a lpf or hpf over the entire sound.",
           args:          [],
           opts:          {pre_amp:        "Controls the amplitude of the signal prior to the FX stage of the mixer (prior to lpf/hpf stages). Has slide opts. Default 1.",
-                          amp:            "Controls the amplitude of the signal after the FX tage. Has slide opts. Default 1.",
+                          amp:            "Controls the amplitude of the signal after the FX stage. Has slide opts. Default 1.",
                           hpf:            "Global hpf FX. Has slide opts. Default 0.",
                           lpf:            "Global lpf FX. Has slide opts. Default 135.5.",
                           hpf_bypass:     "Bypass the global hpf. 0=no bypass, 1=bypass. Default 0.",
