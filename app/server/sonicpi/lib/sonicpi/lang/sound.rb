@@ -70,7 +70,8 @@ module SonicPi
         decay_level: "Amplitude level reached after decay phase and immediately before sustain phase. Defaults to sustain_level unless explicitly set",
         sustain_level: "Amplitude level reached after decay phase and immediately before release phase.",
         env_curve: "Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
-        slide:     "Default slide time in beats for all slide opts. Individually specified slide opts will override this value" }
+        slide:     "Default slide time in beats for all slide opts. Individually specified slide opts will override this value",
+        on: "If specified and false/nil/0 will stop the synth from being played. Ensures all opts are evaluated."}
 
 
 
@@ -215,6 +216,49 @@ module SonicPi
         "puts rest? {note: :rest} # true",
         "puts rest? {note: nil} # true",
         "puts rest? {note: 50} # false"]
+
+      def truthy?(val)
+
+        case val
+        when Numeric
+          return val != 0
+        when NilClass
+          return false
+        when TrueClass
+          return true
+        when FalseClass
+          return false
+        when Proc
+          new_v = val.call
+          return truthy?(new_v)
+        end
+      end
+
+
+
+      def should_trigger?(args_h, sample=false)
+        # grab synth or sample thread locals
+
+        if args_h.has_key?(:on)
+          on = args_h.delete(:on)
+          return truthy?(on)
+        end
+
+        tls = if sample
+                Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
+              else
+                Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
+              end
+
+        if tls.has_key?(:on)
+          # need to normalise it!
+          on = tls.delete(:on)
+          return truthy?(on)
+
+        end
+
+        true
+      end
 
 
 
@@ -913,6 +957,8 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
         ensure_good_timing!
         args_h = resolve_synth_opts_hash_or_array(args)
 
+        return nil unless should_trigger?(args_h)
+
         if rest? args_h
           __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
           return nil
@@ -929,14 +975,41 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           summary:       "Trigger specific synth",
           doc:           "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults.",
           args:          [[:synth_name, :symbol]],
-          opts:          {:slide => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value"},
+          opts:          {:slide => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value",
+                          :on => "If specified and false/nil/0 will stop the synth from being played. Ensures all opts are evaluated."},
           accepts_block: false,
           examples:      ["
 synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an amplitude of 0.5",
 
         "
 use_synth_defaults release: 5
-synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
+synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5",
+"
+# on: vs if
+notes = (scale :e3, :minor_pentatonic, num_octaves: 2)
+
+live_loop :rhyth do
+  8.times do
+    trig = (spread 3, 7).tick(:rhyth)
+    synth :tri, on: trig, note: notes.tick, release: 0.1  # Here, we're calling notes.tick
+                                                          # every time we attempt to play the synth
+                                                          # so the notes rise faster than rhyth2
+    sleep 0.125
+  end
+end
+
+
+live_loop :rhyth2 do
+  8.times do
+    trig = (spread 3, 7).tick(:rhyth)
+    synth :saw, note: notes.tick, release: 0.1 if trig  # Here, we're calling notes.tick
+                                                        # only when the spread says to play
+                                                        # so the notes rise slower than rhyth
+    sleep 0.125
+  end
+end
+"
+      ]
 
 
 
@@ -969,6 +1042,8 @@ synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5"]
 
         init_args_h = {}
         args_h = resolve_synth_opts_hash_or_array(args)
+
+        return nil unless should_trigger?(args_h)
 
         n = normalise_transpose_and_tune_note_from_args(n, args_h)
         args_h[:note] = n
@@ -1028,7 +1103,7 @@ play_pattern [40, 41, 42] # Same as:
       def play_pattern_timed(notes, times, *args)
         if times.is_a?(Array) || times.is_a?(SonicPi::Core::SPVector)
           t = times.ring
-          notes.each_with_index{|note, idx| play(note, *args) ; sleep(times[idx])}
+          notes.each_with_index{|note, idx| play(note, *args) ; sleep(t[idx])}
         else
           notes.each_with_index{|note, idx| play(note, *args) ; sleep times}
         end
@@ -2330,6 +2405,9 @@ sample :loop_amen                    # starting it again
         ensure_good_timing!
         buf_info = load_sample(path)
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+
+        return nil unless should_trigger?(args_h, true)
+
         stretch_duration = args_h[:beat_stretch]
         if stretch_duration
           raise "beat_stretch: opt needs to be a positive number. Got: #{stretch_duration.inspect}" unless stretch_duration.is_a?(Numeric) && stretch_duration > 0
@@ -2760,7 +2838,7 @@ play_pattern scale(:C, :lydian_minor)
       doc name:          :chord,
           introduced:    Version.new(2,0,0),
           summary:       "Create chord",
-          doc:           "Creates a ring of Midi note numbers when given a tonic note and a chord type",
+          doc:           "Creates an immutable ring of Midi note numbers when given a tonic note and a chord type",
           args:          [[:tonic, :symbol], [:name, :symbol]],
           returns:        :ring,
           opts:          {invert: "Apply the specified num inversions to chord. See the fn `invert_chord`.",
@@ -2768,15 +2846,21 @@ play_pattern scale(:C, :lydian_minor)
           accepts_block: false,
           intro_fn:       true,
           examples:      ["
-puts chord(:e, :minor) # returns a list of midi notes - [64, 67, 71]
+puts (chord :e, :minor) # returns a ring of midi notes - (ring 64, 67, 71)
 ",
         "# Play all the notes together
-play chord(:e, :minor)",
-        "# looping over arpeggios can sound good
-# Here we use choose to pick a random note from the chord
-loop do
-  play chord(:e, :minor).choose
-  sleep 0.2
+play (chord :e, :minor)",
+"
+# Chord inversions (see the fn invert_chord)
+play (chord :e3, :minor, invert: 0) # Play the basic :e3, :minor chord - (ring 52, 55, 59)
+play (chord :e3, :minor, invert: 1) # Play the first inversion of :e3, :minor - (ring 55, 59, 64)
+play (chord :e3, :minor, invert: 2) # Play the first inversion of :e3, :minor - (ring 59, 64, 67)
+",
+
+"# chords are great for arpeggiators
+live_loop :arp do
+  play chord(:e, :minor, num_octaves: 2).tick, release: 0.1
+  sleep 0.125
 end",
         "# Sonic Pi supports a large range of chords
  # Notice that the more exotic ones have to be surrounded by ' quotes
@@ -2905,18 +2989,22 @@ sleep 1
       end
       doc name:          :invert_chord,
           introduced:    Version.new(2,6,0),
-          summary:       "Invert a chord",
-          doc:           "Given a set of notes, apply a number of inversions indicated by Shift. Inversions being an increase to notes if Shift is positive or decreasing the notes if Shift is negative.",
+          summary:       "Chord inversion",
+          doc:           "Given a set of notes, apply a number of inversions indicated by the `shift` parameter. Inversions being an increase to notes if `shift` is positive or decreasing the notes if `shift` is negative.
+
+An inversion is simply rotating the chord and shifting the wrapped notes up or down an octave. For example, consider the chord :e3, :minor - `(ring 52, 55, 59)`. When we invert it once, we rotate the notes around to `(ring 55, 59, 52)`. However, because note 52 is wrapped round, it's shifted up an actoave (12 semitones) so the actual first inversion of the chord :e3, :minor is `(ring 55, 59, 52 + 12)` or `(ring 55, 59, 64)`.
+
+Note that it's also possible to directly invert chords on creation with the `invert:` opt - `(chord :e3, :minor, invert: 2)`",
           args:          [[:notes, :list], [:shift, :number]],
           returns:        :ring,
           opts:          nil,
           accepts_block: false,
           examples:      ["
-play invert_chord(chord(:A3, \"M\"), 0) #No inversion
+play invert_chord((chord :A3, \"M\"), 0) #No inversion     - (ring 57, 61, 64)
 sleep 1
-play invert_chord(chord(:A3, \"M\"), 1) #First chord inversion
+play invert_chord((chord :A3, \"M\"), 1) #First inversion  - (ring 61, 64, 69)
 sleep 1
-play invert_chord(chord(:A3, \"M\"), 2) #Second chord inversion
+play invert_chord((chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 "]
 
 
@@ -3201,7 +3289,21 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           when Fixnum, Float
             # do nothing
           when Proc
-            args_h[k] = v.call.to_f
+            res = v.call
+            case res
+            when TrueClass
+              args_h[k] = 1.0
+            when FalseClass
+              args_h[k] = 0.0
+            when NilClass
+              args_h[k] = 0.0
+            else
+              begin
+                args_h[k] = res.to_f
+              rescue
+                raise "Unable to normalise argument with key #{k.inspect} and value #{res.inspect}"
+              end
+            end
           when Symbol
             # Allow vals to be keys to other vals
             # But only one level deep...
@@ -3354,7 +3456,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, combine_tls=false)
-
         # set default slide times
         default_slide_time = args_h[:slide]
         if info && default_slide_time
