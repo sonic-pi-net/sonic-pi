@@ -179,13 +179,13 @@ module SonicPi
       t1 = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_boot_ack)
         loop do
+          sleep 2
           begin
             log "Boot - Sending /status to server: #{@hostname}:#{@port}"
             boot_s.send(@hostname, @port, "/status")
           rescue Exception => e
             log "Boot - Error sending /status to server: #{e.message}"
           end
-          sleep 0.25
         end
       end
 
@@ -193,7 +193,7 @@ module SonicPi
       yield
 
       begin
-        p.get(10)
+        p.get(30)
       rescue Exception => e
         boot_s.send(@hostname, @port, "/quit")
       ensure
