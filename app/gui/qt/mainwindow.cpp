@@ -1820,6 +1820,15 @@ QKeySequence MainWindow::metaKey(char key)
 #endif
 }
 
+Qt::Modifier MainWindow::metaKeyModifier()
+{
+#ifdef Q_OS_MAC
+  return Qt::CTRL;
+#else
+  return Qt::ALT;
+#endif
+}
+
 QKeySequence MainWindow::shiftMetaKey(char key)
 {
 #ifdef Q_OS_MAC
@@ -1902,6 +1911,7 @@ void MainWindow::createToolBar()
   QAction *runAct = new QAction(QIcon(":/images/run.png"), tr("Run"), this);
   setupAction(runAct, 'R', tr("Run the code in the current workspace"),
 	      SLOT(runCode()));
+  new QShortcut(QKeySequence(metaKeyModifier() + Qt::Key_Return), this, SLOT(runCode()));
 
   // Stop
   QAction *stopAct = new QAction(QIcon(":/images/stop.png"), tr("Stop"), this);
