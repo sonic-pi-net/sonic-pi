@@ -263,9 +263,7 @@ module SonicPi
         log "Jackd already running. Not starting another server..."
       end
 
-      boot_and_wait do
-        sys("scsynth -u #{@port} -m 131072 -a #{num_audio_busses_for_current_os} -D 0 -R 0 -l 1 &")
-      end
+      boot_and_wait("scsynth", "-u", @port, "-m", "131072", "-a", num_audio_busses_for_current_os, "-D", "0", "-R", "0", "-l", "1", "&")
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
