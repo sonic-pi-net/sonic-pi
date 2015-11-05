@@ -64,16 +64,16 @@ Foundation and the Broadcom Foundation.
 
 Sonic Pi's built in tutorial has been translated into several languages thanks to the awesome work of the following contributors.
 
-\-           | Language      | Status      | Contributors |
------------- | ------------- | ----------  | ------------ |
-:fr:         | French        | merged      | @echevresm, @nicoder, @SergeStinckwich |
-:de:         | German        | merged      | @hzulla, G. Martin Butz, @hztirf, @mbutz, @wwerner, @st01c |
-:it:         | Italian       | merged      | @marco-giordano |
-:jp:         | Japanese      | merged      | @keikomachiya |
--            | Polish        | merged      | @hopbit, @nurkiewicz |
-:ru:         | Russian       | in progress | @RomanSaveljev, dcromster |
+\-           | Language      | Status      | Maintainer   | Contributors |
+------------ | ------------- | ----------  | ------------ | ------------ |
+:fr:         | French        | merged      |              | @echevresm, @nicoder, @SergeStinckwich |
+:de:         | German        | merged      |              | @hzulla, G. Martin Butz, @hztirf, @mbutz, @wwerner, @st01c |
+:it:         | Italian       | merged      |              | @marco-giordano |
+:jp:         | Japanese      | merged      |              | @keikomachiya |
+             | Polish        | merged      | @hopbit      | @hopbit, @nurkiewicz |
+:ru:         | Russian       | in progress |              | @RomanSaveljev, @dcromster |
 
-Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
+Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started. Additionally [here](https://github.com/samaaron/sonic-pi/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+i18n) you can find translations (i18n) related issues.
 
 ## Information for developers
 
