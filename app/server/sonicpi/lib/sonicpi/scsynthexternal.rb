@@ -237,7 +237,7 @@ module SonicPi
 
       buffer_size = raspberry_pi_1? ? 512 : 128
 
-      boot_and_wait(scsynth, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-z", buffer_size.to_s,  "-c", "128", "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/")
+      boot_and_wait("scsynth", "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1", "-z", buffer_size.to_s,  "-c", "128", "-U", "/usr/lib/SuperCollider/plugins:#{native_path}/extra-ugens/")
 
       `jack_connect SuperCollider:out_1 system:playback_1`
       `jack_connect SuperCollider:out_2 system:playback_2`
