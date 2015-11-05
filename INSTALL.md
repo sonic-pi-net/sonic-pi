@@ -66,6 +66,15 @@ In addition, under Ubuntu 14.04 based distributions try these:
 * `libqt4-dev`
 * `libffi-dev`
 
+If you are using a newer version of QT, you need the according version of scintilla. For QT5 they are: 
+
+* `libqt5scintilla2-dev` instead of `libqscintilla2-dev`
+* `libqt5scintilla2-l10n` instead of `libqscintilla2-l10n`
+
+In addition, you need to tell sonic-pi to use these. In order to do so, navigate to `app/gui/qt/`
+and open `SonicPi.pro`with your text editor of choice.
+Replace `lqscintilla2`with `lqt5scintilla2` everywhere it is written.
+
 Fedora package dependency names:
 
 * `supercollider` (via [Planet CCRMA](http://ccrma.stanford.edu/planetccrma/software/installplanettwenty.html))
