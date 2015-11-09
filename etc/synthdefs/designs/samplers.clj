@@ -48,11 +48,12 @@
          rate        (* rate (buf-rate-scale buf))
          cutoff-freq (midicps cutoff)
          use-filter  (> cutoff 0)
-         killer      (line:kr 0 1 (* (/ 1 (abs orig-rate)) (buf-dur buf)) :action FREE)
+         dur         (* (/ 1 (abs orig-rate)) (buf-dur buf))
          start       (select:kr (< rate 0) [0
                                             (- (buf-frames buf) 1)])
          snd         (play-buf 1 buf rate 0 start)
-         snd         (select use-filter [snd (rlpf snd cutoff-freq res)])]
+         snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
+         snd         (hold snd dur 0.1 FREE)]
 
      (out out_bus (pan2 snd pan amp))))
 
@@ -86,12 +87,15 @@
          rate          (* rate (buf-rate-scale buf))
          cutoff-freq   (midicps cutoff)
          use-filter    (> cutoff 0)
-         killer        (line:kr 0 1 (* (/ 1 (abs orig-rate)) (buf-dur buf)) :action FREE)
+         dur           (* (/ 1 (abs orig-rate)) (buf-dur buf))
          start         (select:kr (< rate 0) [0
                                               (- (buf-frames buf) 1)])
          [snd-l snd-r] (play-buf 2 buf rate 0 start)
          snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
          snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
+         snd-l         (hold snd-l dur 0.1 FREE)
+         snd-r         (hold snd-r dur 0.1 FREE)
+
          snd           (balance2 snd-l snd-r pan amp)]
 
      (out out_bus snd)))
@@ -117,11 +121,22 @@
     decay_level 1
     sustain_level 1
     env_curve 2
-    env_curve 1
     cutoff 0
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
+    cutoff_attack 0
+    cutoff_sustain -1
+    cutoff_decay 0
+    cutoff_release 0
+    cutoff_min 30
+    cutoff_min_slide 0
+    cutoff_min_slide_shape 5
+    cutoff_min_slide_curve 0
+    cutoff_attack_level 1
+    cutoff_decay_level 1
+    cutoff_sustain_level 1
+    cutoff_env_curve 2
     res 0
     res_slide 0
     res_slide_shape 5
@@ -147,37 +162,44 @@
     time_dis_slide_shape 1
     time_dis_slide_curve 0
     out_bus 0]
-   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
-         res         (lin-lin res 1 0 0 1)
-         res         (varlag res res_slide res_slide_curve res_slide_shape)
-         pitch       (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
-         window_size (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
-         pitch_dis   (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
-         time_dis    (varlag time_dis time_dis_slide time_dis_slide_curve time_dis_slide_shape)
-         pitch_ratio (midiratio pitch)
-         cutoff-freq (midicps cutoff)
-         use-filter  (> cutoff 0)
-         n-frames    (- (buf-frames buf) 1)
-         start-pos   (* start n-frames)
-         end-pos     (* finish n-frames)
-         n-start-pos (select:kr (not-pos? rate) [start-pos end-pos])
-         n-end-pos   (select:kr (not-pos? rate) [end-pos start-pos])
-         rate        (abs rate)
-         play-time   (/ (* (buf-dur buf) (absdif finish start))
-                        rate)
-         phase       (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
-         sustain     (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
-         snd         (buf-rd 1 buf phase)
-         snd         (select:ar (not= 0 pitch)
+   (let [amp            (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         pan            (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         cutoff         (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         res            (lin-lin res 1 0 0 1)
+         res            (varlag res res_slide res_slide_curve res_slide_shape)
+         pitch          (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
+         window_size    (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
+         pitch_dis      (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
+         time_dis       (varlag time_dis time_dis_slide time_dis_slide_curve time_dis_slide_shape)
+         cutoff_min     (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
+         pitch_ratio    (midiratio pitch)
+         cutoff-freq    (midicps cutoff)
+         use-filter     (> cutoff 0)
+         n-frames       (- (buf-frames buf) 1)
+         start-pos      (* start n-frames)
+         end-pos        (* finish n-frames)
+         n-start-pos    (select:kr (not-pos? rate) [start-pos end-pos])
+         n-end-pos      (select:kr (not-pos? rate) [end-pos start-pos])
+         rate           (abs rate)
+         play-time      (/ (* (buf-dur buf) (absdif finish start))
+                           rate)
+         phase          (line:ar :start n-start-pos :end n-end-pos :dur play-time)
+         sustain        (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
+         cutoff_sustain (select:kr (= -1 cutoff_sustain) [cutoff_sustain (- play-time cutoff_attack cutoff_release cutoff_decay)])
+         env            (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve))
+         filt-env       (env-gen (env-adsr-ng cutoff_attack cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve))
+         snd            (buf-rd 1 buf phase)
+         snd            (hold snd play-time 0.1 FREE)
+         snd            (select:ar (not= 0 pitch)
+                                   [snd
+                                    (pitch-shift snd window_size pitch_ratio pitch_dis time_dis)])
+         snd            (select use-filter
                                 [snd
-                                 (pitch-shift snd window_size pitch_ratio pitch_dis time_dis)])
-         snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
-         snd         (select norm [snd (normalizer snd)])
-         snd         (* env snd)
-         snd         (pan2 snd pan amp)]
+                                 (rlpf snd (+ (midicps cutoff_min) (* filt-env cutoff-freq)) res)])
+         snd            (* env snd)
+         snd            (select norm [snd (normalizer snd)])
+
+         snd            (pan2 snd pan amp)]
      (out out_bus snd)))
 
  (defsynth sonic-pi-stereo_player
@@ -192,10 +214,22 @@
     pan_slide 0
     pan_slide_shape 5
     pan_slide_curve 0
-    cutoff 0
+    cutoff -1
     cutoff_slide 0
     cutoff_slide_shape 5
     cutoff_slide_curve 0
+    cutoff_attack 0
+    cutoff_sustain -1
+    cutoff_decay 0
+    cutoff_release 0
+    cutoff_min -1
+    cutoff_min_slide 0
+    cutoff_min_slide_shape 5
+    cutoff_min_slide_curve 0
+    cutoff_attack_level -1
+    cutoff_decay_level -1
+    cutoff_sustain_level -1
+    cutoff_env_curve 2
     res 0
     res_slide 0
     res_slide_shape 5
@@ -229,45 +263,66 @@
     time_dis_slide_shape 1
     time_dis_slide_curve 0
     out_bus 0]
-   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-         pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-         cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
-         pitch         (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
-         window_size   (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
-         pitch_dis     (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
-         time_dis      (varlag time_dis time_dis_slide time_dis_slide_curve time_dis_slide_shape)
-         pitch_ratio   (midiratio pitch)
-         res           (lin-lin res 1 0 0 1)
-         res           (varlag res res_slide res_slide_curve res_slide_shape)
-         cutoff-freq   (midicps cutoff)
-         use-filter    (> cutoff 0)
-         n-frames      (- (buf-frames buf) 1)
-         start-pos     (* start n-frames)
-         end-pos       (* finish n-frames)
-         n-start-pos   (select:kr (not-pos? rate) [start-pos end-pos])
-         n-end-pos     (select:kr (not-pos? rate) [end-pos start-pos])
-         rate          (abs rate)
-         play-time     (/ (* (buf-dur buf) (absdif finish start))
-                          rate)
-         phase         (line:ar :start n-start-pos :end n-end-pos :dur play-time :action FREE)
-         sustain       (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
-         env           (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
+   (let [amp                  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         pan                  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         use-filter           (or (not= -1 cutoff)
+                                  (not= -1 cutoff_attack_level)
+                                  (not= -1 cutoff_decay_level)
+                                  (not= -1 cutoff_sustain_level)
+                                  (not= -1 cutoff_min))
+         cutoff               (select:kr (= -1 cutoff) [cutoff 130])
+         cutoff_min           (select:kr (= -1 cutoff_min) [cutoff_min 50])
+         cutoff_attack_level  (select:kr (= -1 cutoff_attack_level) [cutoff_attack_level cutoff])
+         cutoff_decay_level   (select:kr (= -1 cutoff_decay_level) [cutoff_decay_level cutoff_attack_level])
+         cutoff_sustain_level (select:kr (= -1 cutoff_sustain_level) [cutoff_sustain_level cutoff_decay_level])
 
-         [snd-l snd-r] (buf-rd 2 buf phase)
-         snd-l         (select:ar (not= 0 pitch)
-                                  [snd-l
-                                   (pitch-shift snd-l window_size pitch_ratio pitch_dis time_dis)])
+         cutoff               (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         pitch                (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
+         window_size          (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
+         pitch_dis            (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
+         time_dis             (varlag time_dis time_dis_slide time_dis_slide_curve time_dis_slide_shape)
+         cutoff_min           (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
+         pitch_ratio          (midiratio pitch)
+         res                  (lin-lin res 1 0 0 1)
+         res                  (varlag res res_slide res_slide_curve res_slide_shape)
+         cutoff-freq          (midicps cutoff)
+         cutoff-min-freq      (midicps cutoff_min)
 
-         snd-r         (select:ar (not= 0 pitch)
-                                  [snd-r
-                                   (pitch-shift snd-r window_size pitch_ratio pitch_dis time_dis)])
-         snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
-         snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
-         snd-l         (select norm [snd-l (normalizer snd-l)])
-         snd-r         (select norm [snd-r (normalizer snd-r)])
-         snd-l         (* env snd-l)
-         snd-r         (* env snd-r)
-         snd           (balance2 snd-l snd-r pan amp)]
+         n-frames             (- (buf-frames buf) 1)
+         start-pos            (* start n-frames)
+         end-pos              (* finish n-frames)
+         n-start-pos          (select:kr (not-pos? rate) [start-pos end-pos])
+         n-end-pos            (select:kr (not-pos? rate) [end-pos start-pos])
+         rate                 (abs rate)
+         play-time            (/ (* (buf-dur buf) (absdif finish start))
+                                 rate)
+         phase                (line:ar :start n-start-pos :end n-end-pos :dur play-time)
+         sustain              (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
+         cutoff_sustain       (select:kr (= -1 cutoff_sustain) [cutoff_sustain (- play-time cutoff_attack cutoff_release cutoff_decay)])
+         env                  (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve))
+         filt-env             (midicps (env-gen (envelope [cutoff_min cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_min] [cutoff_attack cutoff_decay cutoff_sustain cutoff_release] cutoff_env_curve)))
+
+         [snd-l snd-r]        (buf-rd 2 buf phase)
+
+         snd-l                (select:ar (not= 0 pitch)
+                                         [snd-l
+                                          (pitch-shift snd-l window_size pitch_ratio pitch_dis time_dis)])
+
+         snd-r                (select:ar (not= 0 pitch)
+                                         [snd-r
+                                          (pitch-shift snd-r window_size pitch_ratio pitch_dis time_dis)])
+
+         snd-l                (hold snd-l play-time 0.1 FREE)
+         snd-r                (hold snd-r play-time 0.1 FREE)
+
+         snd-l                (select use-filter [snd-l (rlpf snd-l (min filt-env cutoff-freq) res)])
+         snd-r                (select use-filter [snd-l (rlpf snd-r (min filt-env cutoff-freq) res)])
+
+         snd-l                (select norm [snd-l (normalizer snd-l)])
+         snd-r                (select norm [snd-r (normalizer snd-r)])
+         snd-l                (* env snd-l)
+         snd-r                (* env snd-r)
+         snd                  (balance2 snd-l snd-r pan amp)]
 
       (out out_bus snd)))
 

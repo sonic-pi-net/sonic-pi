@@ -2704,6 +2704,19 @@ module SonicPi
           :sustain_level => 1,
           :env_curve => 2,
 
+          :cutoff_attack => 0,
+          :cutoff_decay => 0,
+          :cutoff_sustain => -1,
+          :cutoff_release => 0,
+          :cutoff_attack_level => :cutoff,
+          :cutoff_decay_level => :cutoff,
+          :cutoff_sustain_level => :cutoff,
+          :cutoff_env_curve => 2,
+          :cutoff_min => 30,
+          :cutoff_min_slide => 0,
+          :cutoff_min_slide_shape => 5,
+          :cutoff_min_slide_curve => 0,
+
           :rate => 1,
           :start => 0,
           :finish => 1,
@@ -2716,7 +2729,24 @@ module SonicPi
           :cutoff_slide => 0,
           :cutoff_slide_shape => 5,
           :cutoff_slide_curve => 0,
-          :norm => 0
+          :norm => 0,
+
+          :pitch => 0,
+          :pitch_slide => 0,
+          :pitch_slide_shape => 1,
+          :pitch_slide_curve => 0,
+          :window_size => 0.2,
+          :window_size_slide => 0,
+          :window_size_slide_shape => 1,
+          :window_size_slide_curve => 0,
+          :pitch_dis => 0.0,
+          :pitch_dis_slide => 0,
+          :pitch_dis_slide_shape => 1,
+          :pitch_dis_slide_curve => 0,
+          :time_dis => 0.0,
+          :time_dis_slide => 0,
+          :time_dis_slide_shape => 1,
+          :time_dis_slide_curve => 0
         }
       end
 
@@ -2739,7 +2769,7 @@ module SonicPi
 
           :sustain =>
           {
-            :doc => "Duration of the sustain phase of the envelope.",
+            :doc => "Duration of the sustain phase of the envelope. When -1 (the default) will auto-stretch.",
             :validations => [[lambda{|args| v = args[:sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
 
             :modulatable => false
@@ -2751,6 +2781,7 @@ module SonicPi
             :validations => [v_positive(:release)],
             :modulatable => false
           },
+
 
           :rate =>
           {
@@ -2787,7 +2818,7 @@ module SonicPi
             :modulatable => true
           },
 
-                  :window_size =>
+          :window_size =>
           {
             :doc => "Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
 
@@ -2795,6 +2826,7 @@ module SonicPi
             :validations => [v_greater_than(:window_size, 0.00005)],
             :modulatable => true
           },
+
           :pitch_dis =>
           {
             :doc => "Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
@@ -2806,6 +2838,83 @@ module SonicPi
             :doc => "Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.",
             :validations => [v_greater_than_oet(:time_dis, 0)],
             :modulatable => true
+          },
+
+          :cutoff_attack_level =>
+          {
+            :doc => "The peak cutoff (value of cutoff at peak of attack) as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value",
+            :validations => [v_between_inclusive(:cutoff_attack_level, 0, 130)],
+            :modulatable => false
+          },
+
+          :cutoff_decay_level =>
+          {
+            :doc => "The level of cutoff after the decay phase as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value",
+            :validations => [v_between_inclusive(:cutoff_decay_level, 0, 130)],
+            :modulatable => false
+          },
+
+
+          :cutoff_sustain_level =>
+          {
+            :doc => "The sustain cutoff (value of cutoff at sustain time) as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value.",
+            :validations => [v_between_inclusive(:cutoff_sustain_level, 0, 130)],
+            :modulatable => false
+          },
+
+          :cutoff_attack =>
+          {
+            :doc => "Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
+            :validations => [v_positive(:cutoff_attack)],
+            :modulatable => false,
+            :default => "attack"
+          },
+
+          :cutoff_decay =>
+          {
+            :doc => "Decay time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's decay value.",
+            :validations => [v_positive(:cutoff_decay)],
+            :modulatable => false,
+            :default => "decay"
+          },
+
+          :cutoff_sustain =>
+          {
+            :doc => "Amount of time for cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.",
+            :validations => [[lambda{|args| v = args[:cutoff_sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+            :modulatable => false,
+            :default => "sustain"
+          },
+
+          :cutoff_release =>
+          {
+            :doc => "Amount of time (in beats) for sound to move from cutoff sustain value to cutoff min value. Default value is set to match amp envelope's release value.",
+            :validations => [v_positive(:cutoff_release)],
+            :modulatable => false,
+            :default => "release"
+          },
+
+          :cutoff_env_curve =>
+          {
+            :doc => "Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
+            :validations => [v_one_of(:cutoff_env_curve, [1, 2, 3, 4, 6, 7])],
+            :modulatable => false
+          },
+
+          :cutoff_min =>
+          {
+            :doc => "The minimum cutoff value.",
+            :validations => [v_less_than_oet(:cutoff_min, 130)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :cutoff_min_slide =>
+          {
+            :doc => generic_slide_doc(:cutoff_min),
+            :validations => [v_positive(:cutoff_min_slide)],
+            :modulatable => true,
+            :bpm_scale => true
           },
 
         }
