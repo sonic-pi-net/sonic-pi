@@ -378,6 +378,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   addDockWidget(Qt::RightDockWidgetArea, outputWidget);
   outputWidget->setObjectName("output");
 
+  blankWidget = new QWidget();
+  outputWidgetTitle = outputWidget->titleBarWidget();
+
   docsCentral = new QTabWidget;
   docsCentral->setFocusPolicy(Qt::NoFocus);
   docsCentral->setTabsClosable(false);
@@ -523,12 +526,14 @@ void MainWindow::updateFocusMode(){
     show_tabs->setChecked(false);
     show_buttons->setChecked(false);
     show_log->setChecked(false);
+    outputWidget->setTitleBarWidget(blankWidget);
   }
   else {
     full_screen->setChecked(false);
     show_tabs->setChecked(true);
     show_buttons->setChecked(true);
     show_log->setChecked(true);
+    outputWidget->setTitleBarWidget(outputWidgetTitle);
   }
 
   updateFullScreenMode();
