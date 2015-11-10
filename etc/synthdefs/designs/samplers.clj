@@ -177,7 +177,7 @@
          cutoff_min           (select:kr (= -1 cutoff_min) [cutoff_min 50])
          cutoff_attack_level  (select:kr (= -1 cutoff_attack_level) [cutoff_attack_level cutoff])
 
-         cutoff_sustain_level (select:kr (= -1 cutoff_sustain_level) [cutoff_sustain_level cutoff_decay_level])
+         cutoff_sustain_level (select:kr (= -1 cutoff_sustain_level) [cutoff_sustain_level cutoff_attack_level])
          cutoff_decay_level   (select:kr (= -1 cutoff_decay_level) [cutoff_decay_level cutoff_sustain_level])
 
          cutoff               (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
@@ -299,7 +299,7 @@
          cutoff_min           (select:kr (= -1 cutoff_min) [cutoff_min 50])
          cutoff_attack_level  (select:kr (= -1 cutoff_attack_level) [cutoff_attack_level cutoff])
 
-         cutoff_sustain_level (select:kr (= -1 cutoff_sustain_level) [cutoff_sustain_level cutoff_decay_level])
+         cutoff_sustain_level (select:kr (= -1 cutoff_sustain_level) [cutoff_sustain_level cutoff_attack_level])
          cutoff_decay_level   (select:kr (= -1 cutoff_decay_level) [cutoff_decay_level cutoff_sustain_level])
 
          cutoff               (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
@@ -353,7 +353,6 @@
          snd                  (balance2 snd-l snd-r pan amp)]
 
       (out out_bus snd)))
-
 
 
  (comment

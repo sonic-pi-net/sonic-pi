@@ -2459,7 +2459,7 @@ Check out the `use_sample_pack` and `use_sample_pack_as` fns for details on maki
                           :norm          => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
                           :cutoff               => "Cutoff value of the built-in resonant low pass filter (rlpf) in MIDI notes. Unless specified, the rlpf is *not* added to the signal chain.",
                           :cutoff_attack_level  => "The peak cutoff (value of cutoff at peak of attack) as a MIDI note. Default value is 130.",
-                          :cutoff_decay_level   => "The level of cutoff after the decay phase as a MIDI note. Default value is `:cutoff_sustain_level`.",
+                          :cutoff_decay_level   => "The level of cutoff after the decay phase as a MIDI note. Default value is `:cutoff_attack_level`.",
                           :cutoff_sustain_level => "The sustain cutoff (value of cutoff at sustain time) as a MIDI note. Default value is `:cutoff_decay_level`.",
                           :cutoff_attack        => "Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
                           :cutoff_decay         => "Decay time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's decay value.",
