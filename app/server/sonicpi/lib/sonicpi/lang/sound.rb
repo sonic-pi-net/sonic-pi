@@ -2462,7 +2462,7 @@ Check out the `use_sample_pack` and `use_sample_pack_as` fns for details on maki
                           :cutoff_decay_level   => "The level of cutoff after the decay phase as a MIDI note. Default value is `:cutoff_attack_level`.",
                           :cutoff_sustain_level => "The sustain cutoff (value of cutoff at sustain time) as a MIDI note. Default value is `:cutoff_decay_level`.",
                           :cutoff_attack        => "Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
-                          :cutoff_decay         => "Decay time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's decay value.",
+                          :cutoff_decay         => "Decay time for cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.",
                           :cutoff_sustain       =>  "Amount of time for cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.",
                           :cutoff_release       => "Amount of time (in beats) for sound to move from cutoff sustain value to cutoff min value. Default value is set to match amp envelope's release value.",
                           :cutoff_env_curve     => "Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
