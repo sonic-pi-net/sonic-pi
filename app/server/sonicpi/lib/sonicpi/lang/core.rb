@@ -2014,6 +2014,28 @@ end
 
 
 
+      def bt(t)
+        t * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+      end
+      doc name:          :bt,
+          introduced:    Version.new(2,8,0),
+          summary:       "Beat time conversion",
+          doc:           "Beat time representation. Scales the time to the current BPM. Useful for adding bpm scaling",
+          args:          [[:seconds, :number]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+  use_bpm 120  # Set the BPM to be double the default
+  puts bt(1) # 0.5
+  use_bpm 60   # BPM is now default
+  puts bt(1) # 1
+  use_bpm 30   # BPM is now half the default
+  puts bt(1) # 2
+"]
+
+
+
+
       def sleep(beats)
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
