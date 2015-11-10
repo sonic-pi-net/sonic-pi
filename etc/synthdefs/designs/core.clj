@@ -46,3 +46,29 @@
              res   (< v prob)
              ]
          res)))
+
+(defn shaped-adsr
+  "Non gated adsr envelope with shape"
+  ([attack
+    decay
+    sustain
+    release
+    attack_level
+    decay_level
+    sustain_level
+    env_curve]
+   (shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve 0))
+  ([attack
+    decay
+    sustain
+    release
+    attack_level
+    decay_level
+    sustain_level
+    env_curve
+    min]
+  [min 4 -99 -99
+   attack_level  attack  env_curve 0
+   decay_level   decay   env_curve 0
+   sustain_level sustain env_curve 0
+   min           release env_curve 0] ))
