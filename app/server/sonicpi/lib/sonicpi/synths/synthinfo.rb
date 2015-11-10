@@ -1522,7 +1522,7 @@ module SonicPi
 
           :cutoff_decay =>
           {
-            :doc => "Decay time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's decay value.",
+            :doc => "Decay time for cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.",
             :validations => [v_positive(:cutoff_decay)],
             :modulatable => false,
             :default => "decay",
@@ -2872,7 +2872,7 @@ module SonicPi
 
           :cutoff_decay =>
           {
-            :doc => "Decay time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's decay value.",
+            :doc => "Decay time for cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.",
             :validations => [v_positive(:cutoff_decay)],
             :modulatable => false,
             :default => "decay"
