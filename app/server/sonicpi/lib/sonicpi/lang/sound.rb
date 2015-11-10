@@ -3870,6 +3870,16 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         args_h
       end
 
+      def normalise_tuning(n)
+        if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+          tuning_system, fundamental_sym = tuning_info
+          if tuning_system != :equal
+            return @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
+          end
+        end
+        n
+      end
+
       def normalise_transpose_and_tune_note_from_args(n, args_h)
         n = n.call if n.is_a? Proc
         n = note(n) unless n.is_a? Numeric
@@ -3880,13 +3890,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         n += args_h[:pitch].to_f
 
-        if tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
-          tuning_system, fundamental_sym = tuning_info
-          if tuning_system != :equal
-            n = @tuning.resolve_tuning(n, tuning_system, fundamental_sym)
-          end
-        end
-
+        normalise_tuning(n)
         return n
       end
 
