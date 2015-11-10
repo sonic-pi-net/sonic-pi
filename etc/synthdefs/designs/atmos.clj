@@ -19,17 +19,17 @@
     (defsynth sonic-pi-dark_ambience
      [note 52
       note_slide 0
-      note_slide_shape 5
+      note_slide_shape 1
       note_slide_curve 0
 
       amp 1
       amp_slide 0
-      amp_slide_shape 5
+      amp_slide_shape 1
       amp_slide_curve 0
 
       pan 0
       pan_slide 0
-      pan_slide_shape 5
+      pan_slide_shape 1
       pan_slide_curve 0
 
       attack 0
@@ -37,27 +37,27 @@
       sustain 0
       release 1
       attack_level 1
-      decay_level 1
+      decay_level -1
       sustain_level 1
-      env_curve 2
+      env_curve 1
 
       cutoff 110
       cutoff_slide 0
-      cutoff_slide_shape 5
+      cutoff_slide_shape 1
       cutoff_slide_curve 0
       res 0.7
       res_slide 0
-      res_slide_shape 5
+      res_slide_shape 1
       res_slide_curve 0
 
       detune1 12
       detune1_slide 0
-      detune1_slide_shape 5
+      detune1_slide_shape 1
       detune1_slide_curve 0
 
       detune2 24
       detune2_slide 0
-      detune2_slide_shape 5
+      detune2_slide_shape 1
       detune2_slide_curve 0
 
       noise 0
@@ -67,6 +67,7 @@
       out_bus 0
       ]
      (let [
+           decay_level   (select:kr (= -1 decay_level) [decay_level sustain_level])
            note          (varlag note note_slide note_slide_curve note_slide_shape)
            amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            amp-fudge     1
@@ -82,7 +83,7 @@
            freq3         (midicps (+ note detune2))
            cutoff-freq   (midicps cutoff)
            room          (max 0.1 (min 300 (abs room))) ;; stops synth killing scsynth
-           env           (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
+           env           (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
            pn            (* 0.005 (pink-noise))
            bn            (* 0.002 (brown-noise))
@@ -104,17 +105,17 @@
     (defsynth sonic-pi-hollow
      [note 52
       note_slide 0
-      note_slide_shape 5
+      note_slide_shape 1
       note_slide_curve 0
 
       pan 0
       pan_slide 0
-      pan_slide_shape 5
+      pan_slide_shape 1
       pan_slide_curve 0
 
       amp 1
       amp_slide 0
-      amp_slide_shape 5
+      amp_slide_shape 1
       amp_slide_curve 0
 
       attack 0
@@ -122,24 +123,25 @@
       sustain 0
       release 1
       attack_level 1
-      decay_level 1
+      decay_level -1
       sustain_level 1
-      env_curve 2
+      env_curve 1
 
       cutoff 90
       cutoff_slide 0
-      cutoff_slide_shape 5
+      cutoff_slide_shape 1
       cutoff_slide_curve 0
       res 0.99
       res_slide 0
-      res_slide_shape 5
+      res_slide_shape 1
       res_slide_curve 0
 
       noise 1
       norm 0
 
       out_bus 0]
-     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+           note        (varlag note note_slide note_slide_curve note_slide_shape)
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            amp-fudge   15
@@ -148,7 +150,7 @@
            res         (varlag res res_slide res_slide_curve res_slide_shape)
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
-           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
+           env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
            pn          (* 1 (pink-noise))
            bn          (* 0.4 (brown-noise))
@@ -168,17 +170,17 @@
 
       note 52
       note_slide 0
-      note_slide_shape 5
+      note_slide_shape 1
       note_slide_curve 0
 
       pan 0
       pan_slide 0
-      pan_slide_shape 5
+      pan_slide_shape 1
       pan_slide_curve 0
 
       amp 1
       amp_slide 0
-      amp_slide_shape 5
+      amp_slide_shape 1
       amp_slide_curve 0
 
       attack 0.1
@@ -186,21 +188,22 @@
       sustain 0
       release 1
       attack_level 1
-      decay_level 1
+      decay_level -1
       sustain_level 1
-      env_curve 2
+      env_curve 1
 
 
       cutoff 130
       cutoff_slide 0
-      cutoff_slide_shape 5
+      cutoff_slide_shape 1
       cutoff_slide_curve 0
       res 0.7
       res_slide 0
-      res_slide_shape 5
+      res_slide_shape 1
       res_slide_curve 0
 ]
-     (let [note        (varlag note note_slide note_slide_curve note_slide_shape)
+     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+           note        (varlag note note_slide note_slide_curve note_slide_shape)
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
@@ -209,7 +212,7 @@
            freq        (midicps note)
            cutoff-freq (midicps cutoff)
            amp-fudge   3
-           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
+           env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
            snd         (lpf (mix [(saw (* 0.25 freq)) (sin-osc (* 1.01 freq))]))
            snd         (pitch-shift snd 0.5 1 0 0.001)
            snd         (rlpf snd cutoff-freq res)

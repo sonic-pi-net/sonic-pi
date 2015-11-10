@@ -113,17 +113,17 @@
   (defsynth sonic-pi-stereo_warp_sample [buf 0
                                          amp 1
                                          amp_slide 0
-                                         amp_slide_shape 5
+                                         amp_slide_shape 1
                                          amp_slide_curve 0
                                          pan 0
                                          pan_slide 0
-                                         pan_slide_shape 5
+                                         pan_slide_shape 1
                                          pan_slide_curve 0
                                          start 0
                                          finish 1
                                          rate 1
                                          rate_slide 0
-                                         rate_slide_shape 5
+                                         rate_slide_shape 1
                                          rate_slide_curve 0
                                          window_size 0.1
                                          overlaps 8

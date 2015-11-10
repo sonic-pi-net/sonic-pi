@@ -22,19 +22,19 @@
    [buf 0
     amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     pan 0
     pan_slide 0
-    pan_slide_shape 5
+    pan_slide_shape 1
     pan_slide_curve 0
     cutoff 0
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 0
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     rate 1
     out_bus 0]
@@ -61,19 +61,19 @@
    [buf 0
     amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     pan 0
     pan_slide 0
-    pan_slide_shape 5
+    pan_slide_shape 1
     pan_slide_curve 0
     cutoff 0
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 0
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     rate 1
     out_bus 0]
@@ -107,23 +107,23 @@
    [buf 0
     amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     pan 0
     pan_slide 0
-    pan_slide_shape 5
+    pan_slide_shape 1
     pan_slide_curve 0
     attack 0.0
     decay 0
     sustain -1
     release 0.0
     attack_level 1
-    decay_level 1
+    decay_level -1
     sustain_level 1
-    env_curve 2
+    env_curve 1
     cutoff -1
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     cutoff_attack 0
     cutoff_sustain -1
@@ -131,7 +131,7 @@
     cutoff_release 0
     cutoff_min 30
     cutoff_min_slide 0
-    cutoff_min_slide_shape 5
+    cutoff_min_slide_shape 1
     cutoff_min_slide_curve 0
     cutoff_attack_level 1
     cutoff_decay_level 1
@@ -139,7 +139,7 @@
     cutoff_env_curve 1
     res 0
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     rate 1
     start 0
@@ -162,7 +162,8 @@
     time_dis_slide_shape 1
     time_dis_slide_curve 0
     out_bus 0]
-   (let [amp                  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+   (let [decay_level          (select:kr (= -1 decay_level) [decay_level sustain_level])
+         amp                  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan                  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          use-filter           (or (not= -1 cutoff)
                                   (not= -1 cutoff_attack_level)
@@ -203,7 +204,7 @@
          phase                (line:ar :start n-start-pos :end n-end-pos :dur play-time)
          sustain              (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
          cutoff_sustain       (select:kr (= -1 cutoff_sustain) [cutoff_sustain (- play-time cutoff_attack cutoff_release cutoff_decay)])
-         env                  (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve))
+         env                  (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
          filt-env             (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
 
          snd                  (buf-rd 1 buf phase)
@@ -229,15 +230,15 @@
    [buf 0
     amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     pan 0
     pan_slide 0
-    pan_slide_shape 5
+    pan_slide_shape 1
     pan_slide_curve 0
     cutoff -1
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     cutoff_attack 0
     cutoff_sustain -1
@@ -245,7 +246,7 @@
     cutoff_release 0
     cutoff_min -1
     cutoff_min_slide 0
-    cutoff_min_slide_shape 5
+    cutoff_min_slide_shape 1
     cutoff_min_slide_curve 0
     cutoff_attack_level -1
     cutoff_decay_level -1
@@ -253,16 +254,16 @@
     cutoff_env_curve 1
     res 0
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     attack 0.0
     decay 0
     sustain -1
     release 0.0
     attack_level 1
-    decay_level 1
+    decay_level -1
     sustain_level 1
-    env_curve 2
+    env_curve 1
     rate 1
     start 0
     finish 1
@@ -284,7 +285,8 @@
     time_dis_slide_shape 1
     time_dis_slide_curve 0
     out_bus 0]
-   (let [amp                  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+   (let [decay_level          (select:kr (= -1 decay_level) [decay_level sustain_level])
+         amp                  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan                  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          use-filter           (or (not= -1 cutoff)
                                   (not= -1 cutoff_attack_level)
@@ -325,7 +327,7 @@
          phase                (line:ar :start n-start-pos :end n-end-pos :dur play-time)
          sustain              (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
          cutoff_sustain       (select:kr (= -1 cutoff_sustain) [cutoff_sustain (- play-time cutoff_attack cutoff_release cutoff_decay)])
-         env                  (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve))
+         env                  (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
          filt-env             (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
 
          [snd-l snd-r]        (buf-rd 2 buf phase)
@@ -371,31 +373,31 @@
    [buf 0
     amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     pan 0
     pan_slide 0
-    pan_slide_shape 5
+    pan_slide_shape 1
     pan_slide_curve 0
     cutoff 0
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 1
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     attack 0.0
     decay 0
     sustain -1
     release 0.0
     attack_level 1
-    decay_level 1
+    decay_level -1
     sustain_level 1
-    env_curve 2
+    env_curve 1
     rate 1
     rate_slide 0
-    rate_slide_shape 5
+    rate_slide_shape 1
     rate_slide_curve 0
     start 0
     finish 1
@@ -419,7 +421,8 @@
     time_dis_slide_shape 1
     time_dis_slide_curve 0
     out_bus 0]
-   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+   (let [decay_level   (select:kr (= -1 decay_level) [decay_level sustain_level])
+         amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          rate          (varlag rate rate_slide rate_slide_curve rate_slide_shape)
@@ -447,7 +450,7 @@
 
          phase         (* (lin-lin val 0 1 n-start n-finish) n-frames)
          sustain       (select:kr (= -1 sustain) [sustain (- (/ length rate) attack release decay)])
-         env           (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
+         env           (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
          [snd-l snd-r] (buf-rd 2 buf phase)
 
@@ -478,31 +481,31 @@
    [buf 0
     amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     pan 0
     pan_slide 0
-    pan_slide_shape 5
+    pan_slide_shape 1
     pan_slide_curve 0
     cutoff 0
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 1
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     attack 0.0
     decay 0
     sustain -1
     release 0.0
     attack_level 1
-    decay_level 1
+    decay_level -1
     sustain_level 1
-    env_curve 2
+    env_curve 1
     rate 1
     rate_slide 0
-    rate_slide_shape 5
+    rate_slide_shape 1
     rate_slide_curve 0
     start 0
     finish 1
@@ -526,7 +529,8 @@
     time_dis_slide_shape 1
     time_dis_slide_curve 0
     out_bus 0]
-   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+   (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+         amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          rate        (varlag rate rate_slide rate_slide_curve rate_slide_shape)
@@ -554,7 +558,7 @@
 
          phase       (* (lin-lin val 0 1 n-start n-finish) n-frames)
          sustain     (select:kr (= -1 sustain) [sustain (- (/ length rate) attack release decay)])
-         env         (env-gen (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
+         env         (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
 
          snd         (buf-rd 2 buf phase)
 

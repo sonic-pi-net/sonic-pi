@@ -79,60 +79,62 @@
   (without-namespace-in-synthdef
    (defsynth sonic-pi-dull_bell [note 52
                                  note_slide 0
-                                 note_slide_shape 5
+                                 note_slide_shape 1
                                  note_slide_curve 0
                                  amp 1
                                  amp_slide 0
                                  ;;weirdly, having a shape of 2 craps out scsynth!
-                                 amp_slide_shape 5
+                                 amp_slide_shape 1
                                  amp_slide_curve 0
                                  pan 0
                                  pan_slide 0
-                                 pan_slide_shape 5
+                                 pan_slide_shape 1
                                  pan_slide_curve 0
                                  attack 0
                                  decay 0
                                  sustain 0
                                  release 1.0
                                  attack_level 1
-                                 decay_level 1
+                                 decay_level -1
                                  sustain_level 1
-                                 env_curve 2
+                                 env_curve 1
                                  out_bus 0]
-     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
-           amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           freq (midicps note)
-           snd  (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level dull-partials))]
+     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+           note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           freq        (midicps note)
+           snd         (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level dull-partials))]
        (detect-silence snd :action FREE)
        (out out_bus (pan2 snd pan))))
 
    (defsynth sonic-pi-pretty_bell [note 52
                                    note_slide 0
-                                   note_slide_shape 5
+                                   note_slide_shape 1
                                    note_slide_curve 0
                                    amp 1
                                    amp_slide 0
-                                   amp_slide_shape 5
+                                   amp_slide_shape 1
                                    amp_slide_curve 0
                                    pan 0
                                    pan_slide 0
-                                   pan_slide_shape 5
+                                   pan_slide_shape 1
                                    pan_slide_curve 0
                                    attack 0
                                    decay 0
                                    sustain 0
                                    release 1
                                    attack_level 1
-                                   decay_level 1
+                                   decay_level -1
                                    sustain_level 1
-                                   env_curve 2
+                                   env_curve 1
                                    out_bus 0]
-     (let [note (varlag note note_slide note_slide_curve note_slide_shape)
-           amp  (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-           pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           freq (midicps note)
-           snd  (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level partials))]
+     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+           note        (varlag note note_slide note_slide_curve note_slide_shape)
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           freq        (midicps note)
+           snd         (* amp (bell-partials freq attack decay sustain release attack_level decay_level sustain_level partials))]
        (detect-silence snd :action FREE)
        (out out_bus (pan2 snd pan)))))
 

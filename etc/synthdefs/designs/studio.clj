@@ -21,23 +21,23 @@
    (defsynth sonic-pi-mixer [in_bus 0
                              pre_amp 1
                              pre_amp_slide 0.02
-                             pre_amp_slide_shape 5
+                             pre_amp_slide_shape 1
                              pre_amp_slide_curve 0
                              amp 1
                              amp_slide 0.02
-                             amp_slide_shape 5
+                             amp_slide_shape 1
                              amp_slide_curve 0
                              safe-recovery-time 3
                              hpf 0
                              hpf_bypass 0
 
                              hpf_slide 0.02
-                             hpf_slide_shape 5
+                             hpf_slide_shape 1
                              hpf_slide_curve 0
                              lpf 135.5
                              lpf_bypass 0
                              lpf_slide 0.02
-                             lpf_slide_shape 5
+                             lpf_slide_shape 1
                              lpf_slide_curve 0
                              force_mono 0
                              invert_stereo 0
@@ -113,7 +113,7 @@
                                    out_bus 0
                                    amp 1
                                    amp_slide 0.2
-                                   amp_slide_shape 5
+                                   amp_slide_shape 1
                                    amp_slide_curve 0]
      (let [amp      (varlag amp amp_slide  amp_slide_curve  amp_slide_shape)
            src      (in in_bus 2)
@@ -127,34 +127,35 @@
 
    (defsynth sonic-pi-sound_in [amp 1
                                 amp_slide 0
-                                amp_slide_shape 5
+                                amp_slide_shape 1
                                 amp_slide_curve 0
                                 pan 0
                                 pan_slide 0
-                                pan_slide_shape 5
+                                pan_slide_shape 1
                                 pan_slide_curve 0
                                 attack 0.01
                                 decay 0
                                 sustain 0
                                 release 2
                                 attack_level 1
-                                decay_level 1
+                                decay_level -1
                                 sustain_level 1
-                                env_curve 2
+                                env_curve 1
                                 cutoff 100
                                 cutoff_slide 0
-                                cutoff_slide_shape 5
+                                cutoff_slide_shape 1
                                 cutoff_slide_curve 0
 
                                 input 0
                                 out_bus 0]
-     (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
            cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
            cutoff-freq (midicps cutoff)
            snd         (sound-in input)
            snd         (lpf snd cutoff-freq)
-           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
+           env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
        (out out_bus (pan2 (* env snd) pan amp)))))
 
 

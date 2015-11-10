@@ -25,27 +25,27 @@
  (defsynth sonic-pi-fx_krush
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     gain 4
     gain_slide 0
-    gain_slide_shape 5
+    gain_slide_shape 1
     gain_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 1
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -81,28 +81,28 @@
  (defsynth sonic-pi-fx_reverb2
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 0.4
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     rev_time 0.5
     rev_time_slide 0
-    rev_time_slide_shape 5
+    rev_time_slide_shape 1
     room 0.6
     max_room 1
     damp 0.5
     damp_slide 0
-    damp_slide_shape 5
+    damp_slide_shape 1
     damp_slide_curve 0
     in_damp 0.5
     in_damp_slide 0
-    in_damp_slide_shape 5
+    in_damp_slide_shape 1
     in_damp_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -120,28 +120,28 @@
  (defsynth sonic-pi-fx_chorus
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     phase 0.5
     phase_slide 0
-    phase_slide_shape 5
+    phase_slide_shape 1
     phase_slide_curve 0
     decay 0
     decay_slide 0
-    decay_slide_shape 5
+    decay_slide_shape 1
     decay_slide_curve 0
     max_phase 1
     amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -274,17 +274,17 @@
   (defsynth sonic-pi-stereo_warp_sample [buf 0
                                          amp 1
                                          amp_slide 0
-                                         amp_slide_shape 5
+                                         amp_slide_shape 1
                                          amp_slide_curve 0
                                          pan 0
                                          pan_slide 0
-                                         pan_slide_shape 5
+                                         pan_slide_shape 1
                                          pan_slide_curve 0
                                          start 0
                                          finish 1
                                          rate 1
                                          rate_slide 0
-                                         rate_slide_shape 5
+                                         rate_slide_shape 1
                                          rate_slide_curve 0
                                          window_size 0.1
                                          overlaps 8
@@ -305,17 +305,17 @@
      "TODO: support vowel changes"
      [note 52
       note_slide 0
-      note_slide_shape 5
+      note_slide_shape 1
       note_slide_curve 0
 
       amp 1
       amp_slide 0
-      amp_slide_shape 5
+      amp_slide_shape 1
       amp_slide_curve 0
 
       pan 0
       pan_slide 0
-      pan_slide_shape 5
+      pan_slide_shape 1
       pan_slide_curve 0
 
       attack 0
@@ -324,15 +324,15 @@
       release 4
       attack_level 1
       sustain_level 1
-      env_curve 2
+      env_curve 1
 
       cutoff 110
       cutoff_slide 0
-      cutoff_slide_shape 5
+      cutoff_slide_shape 1
       cutoff_slide_curve 0
       res 0.3
       res_slide 0
-      res_slide_shape 5
+      res_slide_shape 1
       res_slide_curve 0
 
       vibrato_speed 6
@@ -371,7 +371,7 @@
            vibrato     (* vibrato_depth (sin-osc:kr vibrato_speed))
            in          (saw:ar (lag:kr (+ freq vibrato) 0.2))
 
-           env         (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level sustain_level env_curve) :action FREE)
            snd         (mix (* amps-list (bpf:ar in freqs-list qs-list)))
            snd         (rlpf snd cutoff-freq res)
            snd         (* snd amp)]
@@ -384,17 +384,17 @@
 
       note 52
       note_slide 0
-      note_slide_shape 5
+      note_slide_shape 1
       note_slide_curve 0
 
       pan 0
       pan_slide 0
-      pan_slide_shape 5
+      pan_slide_shape 1
       pan_slide_curve 0
 
       amp 1
       amp_slide 0
-      amp_slide_shape 5
+      amp_slide_shape 1
       amp_slide_curve 0
 
       attack 1
@@ -403,7 +403,7 @@
       release 4.0
       attack_level 1
       sustain_level 1
-      env_curve 2]
+      env_curve 1]
      (let [note (varlag note note_slide note_slide_curve note_slide_shape)
            amp (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan  (varlag pan pan_slide pan_slide_curve pan_slide_shape)
@@ -470,7 +470,7 @@
            a (allpass-l:ar a 0.3 [(+ (ranged-rand 0 0.2) 0.1) (+ (ranged-rand 0 0.2) 0.1)] 5)
            a (tanh a)
 
-           env (env-gen:kr (env-adsr-ng attack decay sustain release attack_level sustain_level env_curve) :action FREE)
+           env (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level sustain_level env_curve) :action FREE)
            snd (* amp a)]
        (out out_bus (* env (pan2 snd pan)))))
 

@@ -21,27 +21,27 @@
  (defsynth sonic-pi-fx_krush
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     gain 5
     gain_slide 0
-    gain_slide_shape 5
+    gain_slide_shape 1
     gain_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 0
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -69,27 +69,27 @@
  (defsynth sonic-pi-fx_bitcrusher
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     sample_rate 10000
     sample_rate_slide 0
-    sample_rate_slide_shape 5
+    sample_rate_slide_shape 1
     sample_rate_slide_curve 0
     bits 8
     bits_slide 0
-    bits_slide_shape 5
+    bits_slide_shape 1
     bits_slide_curve 0
     cutoff 0
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -114,17 +114,17 @@
   (defsynth sonic-pi-fx_pitch_shift
      [amp 1
       amp_slide 0
-      amp_slide_shape 5
+      amp_slide_shape 1
       amp_slide_curve 0
 
       mix 1
       mix_slide 0
-      mix_slide_shape 5
+      mix_slide_shape 1
       mix_slide_curve 0
 
       pre_amp 1
       pre_amp_slide 0
-      pre_amp_slide_shape 5
+      pre_amp_slide_shape 1
       pre_amp_slide_curve 0
 
       pitch 0
@@ -134,15 +134,15 @@
 
       window_size 0.2
       window_size_slide 0
-      window_size_slide_shape 5
+      window_size_slide_shape 1
       window_size_slide_curve 0
       pitch_dis 0.0
       pitch_dis_slide 0
-      pitch_dis_slide_shape 5
+      pitch_dis_slide_shape 1
       pitch_dis_slide_curve 0
       time_dis 0.0
       time_dis_slide 0
-      time_dis_slide_shape 5
+      time_dis_slide_shape 1
       time_dis_slide_curve 0
       in_bus 0
       out_bus 0]
@@ -167,23 +167,23 @@
  (defsynth sonic-pi-fx_reverb
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 0.4
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     room 0.6
     room_slide 0
-    room_slide_shape 5
+    room_slide_shape 1
     room_slide_curve 0
     damp 0.5
     damp_slide 0
-    damp_slide_shape 5
+    damp_slide_shape 1
     damp_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -202,7 +202,7 @@
  (defsynth sonic-pi-fx_level
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -215,23 +215,23 @@
  (defsynth sonic-pi-fx_echo
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     phase 0.25
     phase_slide 0
-    phase_slide_shape 5
+    phase_slide_shape 1
     phase_slide_curve 0
     decay 2
     decay_slide 0
-    decay_slide_shape 5
+    decay_slide_shape 1
     decay_slide_curve 0
     max_phase 2
     in_bus 0
@@ -254,51 +254,51 @@
  (defsynth sonic-pi-fx_slicer
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     phase 0.25
     phase_slide 0
-    phase_slide_shape 5
+    phase_slide_shape 1
     phase_slide_curve 0
     amp_min 0
     amp_min_slide 0
-    amp_min_slide_shape 5
+    amp_min_slide_shape 1
     amp_min_slide_curve 0
     amp_max 1
     amp_max_slide 0
-    amp_max_slide_shape 5
+    amp_max_slide_shape 1
     amp_max_slide_curve 0
     pulse_width 0.5
     pulse_width_slide 0
-    pulse_width_slide_shape 5
+    pulse_width_slide_shape 1
     pulse_width_slide_curve 0
     smooth 0
     smooth_slide 0
-    smooth_slide_shape 5
+    smooth_slide_shape 1
     smooth_slide_curve 0
     smooth_up 0
     smooth_up_slide 0
-    smooth_up_slide_shape 5
+    smooth_up_slide_shape 1
     smooth_up_slide_curve 0
     smooth_down 0
     smooth_down_slide 0
-    smooth_down_slide_shape 5
+    smooth_down_slide_shape 1
     smooth_down_slide_curve 0
     probability 0
     probability_slide 0
-    probability_slide_shape 5
+    probability_slide_shape 1
     probability_slide_curve 0
     prob_pos 0
     prob_pos_slide 0
-    prob_pos_slide_shape 5
+    prob_pos_slide_shape 1
     prob_pos_slide_curve 0
     phase_offset 0
     wave 1         ;;0=saw, 1=pulse, 2=tri, 3=sine
@@ -358,59 +358,59 @@
  (defsynth sonic-pi-fx_wobble
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     phase 0.5
     phase_slide 0
-    phase_slide_shape 5
+    phase_slide_shape 1
     phase_slide_curve 0
     cutoff_min 60
     cutoff_min_slide 0
-    cutoff_min_slide_shape 5
+    cutoff_min_slide_shape 1
     cutoff_min_slide_curve 0
     cutoff_max 120
     cutoff_max_slide 0
-    cutoff_max_slide_shape 5
+    cutoff_max_slide_shape 1
     cutoff_max_slide_curve 0
     res 0.8
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     pulse_width 0.5                     ; only for pulse wave
     pulse_width_slide 0                 ; only for pulse wave
-    pulse_width_slide_shape 5           ; only for pulse wa_shape 5
+    pulse_width_slide_shape 1           ; only for pulse wa_shape 5
     pulse_width_slide_curve 0           ; only for pulse wa_curve 0
     filter 0                            ;0=rlpf, 1=rhpf
     smooth 0
     smooth_slide 0
-    smooth_slide_shape 5
+    smooth_slide_shape 1
     smooth_slide_curve 0
     smooth_up 0
     smooth_up_slide 0
-    smooth_up_slide_shape 5
+    smooth_up_slide_shape 1
     smooth_up_slide_curve 0
     smooth_down 0
     smooth_down_slide 0
-    smooth_down_slide_shape 5
+    smooth_down_slide_shape 1
     smooth_down_slide_curve 0
     phase_offset 0
     wave 0                              ;0=saw, 1=pulse, 2=tri, 3=sine
     invert_wave 0                       ;0=normal wave, 1=inverted wave
     probability 0
     probability_slide 0
-    probability_slide_shape 5
+    probability_slide_shape 1
     probability_slide_curve 0
     prob_pos 0
     prob_pos_slide 0
-    prob_pos_slide_shape 5
+    prob_pos_slide_shape 1
     prob_pos_slide_curve 0
     seed 0
     rand_buf 0
@@ -476,51 +476,51 @@
   (defsynth sonic-pi-fx_panslicer
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     phase 0.25
     phase_slide 0
-    phase_slide_shape 5
+    phase_slide_shape 1
     phase_slide_curve 0
     pan_min -1
     pan_min_slide 0
-    pan_min_slide_shape 5
+    pan_min_slide_shape 1
     pan_min_slide_curve 0
     pan_max 1
     pan_max_slide 0
-    pan_max_slide_shape 5
+    pan_max_slide_shape 1
     pan_max_slide_curve 0
     pulse_width 0.5
     pulse_width_slide 0
-    pulse_width_slide_shape 5
+    pulse_width_slide_shape 1
     pulse_width_slide_curve 0
     smooth 0
     smooth_slide 0
-    smooth_slide_shape 5
+    smooth_slide_shape 1
     smooth_slide_curve 0
     smooth_up 0
     smooth_up_slide 0
-    smooth_up_slide_shape 5
+    smooth_up_slide_shape 1
     smooth_up_slide_curve 0
     smooth_down 0
     smooth_down_slide 0
-    smooth_down_slide_shape 5
+    smooth_down_slide_shape 1
     smooth_down_slide_curve 0
     probability 0
     probability_slide 0
-    probability_slide_shape 5
+    probability_slide_shape 1
     probability_slide_curve 0
     prob_pos 0
     prob_pos_slide 0
-    prob_pos_slide_shape 5
+    prob_pos_slide_shape 1
     prob_pos_slide_curve 0
     phase_offset 0
     wave 1         ;;0=saw, 1=pulse, 2=tri, 3=sine
@@ -579,32 +579,32 @@
  (defsynth sonic-pi-fx_ixi_techno
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     phase 4
     phase_slide 0
-    phase_slide_shape 5
+    phase_slide_shape 1
     phase_slide_curve 0
     phase_offset 0
     cutoff_min 60
     cutoff_min_slide 0
-    cutoff_min_slide_shape 5
+    cutoff_min_slide_shape 1
     cutoff_min_slide_curve 0
     cutoff_max 120
     cutoff_max_slide 0
-    cutoff_max_slide_shape 5
+    cutoff_max_slide_shape 1
     cutoff_max_slide_curve 0
     res 0.8
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -631,35 +631,35 @@
  (defsynth sonic-pi-fx_compressor
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     threshold 0.2
     threshold_slide 0
-    threshold_slide_shape 5
+    threshold_slide_shape 1
     threshold_slide_curve 0
     clamp_time 0.01
     clamp_time_slide 0
-    clamp_time_slide_shape 5
+    clamp_time_slide_shape 1
     clamp_time_slide_curve 0
     slope_above 0.5
     slope_above_slide 0
-    slope_above_slide_shape 5
+    slope_above_slide_shape 1
     slope_above_slide_curve 0
     slope_below 1
     slope_below_slide 0
-    slope_below_slide_shape 5
+    slope_below_slide_shape 1
     slope_below_slide_curve 0
     relax_time 0.01
     relax_time_slide 0
-    relax_time_slide_shape 5
+    relax_time_slide_shape 1
     relax_time_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -687,27 +687,27 @@
  (defsynth sonic-pi-fx_band_eq
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     freq 100
     freq_slide 0
-    freq_slide_shape 5
+    freq_slide_shape 1
     freq_slide_curve 0
     res 0.6
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     db 0.6
     db_slide 0
-    db_slide_shape 5
+    db_slide_shape 1
     db_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -729,23 +729,23 @@
  (defsynth sonic-pi-fx_rlpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 0.5
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -767,23 +767,23 @@
  (defsynth sonic-pi-fx_nrlpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 0.5
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -805,23 +805,23 @@
  (defsynth sonic-pi-fx_rhpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 0.5
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -843,23 +843,23 @@
  (defsynth sonic-pi-fx_nrhpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     res 0.5
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -882,19 +882,19 @@
  (defsynth sonic-pi-fx_hpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -914,19 +914,19 @@
  (defsynth sonic-pi-fx_nhpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -946,19 +946,19 @@
  (defsynth sonic-pi-fx_lpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -978,19 +978,19 @@
  (defsynth sonic-pi-fx_nlpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     cutoff 100
     cutoff_slide 0
-    cutoff_slide_shape 5
+    cutoff_slide_shape 1
     cutoff_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -1010,19 +1010,19 @@
  (defsynth sonic-pi-fx_normaliser
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     level 1
     level_slide 0
-    level_slide_shape 5
+    level_slide_shape 1
     level_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -1041,19 +1041,19 @@
  (defsynth sonic-pi-fx_distortion
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     distort 0.5
     distort_slide 0
-    distort_slide_shape 5
+    distort_slide_shape 1
     distort_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -1075,19 +1075,19 @@
  (defsynth sonic-pi-fx_pan
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     pan 0
     pan_slide 0
-    pan_slide_shape 5
+    pan_slide_shape 1
     pan_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -1106,23 +1106,23 @@
  (defsynth sonic-pi-fx_bpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     centre 100
     centre_slide 0
-    centre_slide_shape 5
+    centre_slide_shape 1
     centre_slide_curve 0
     res 0.6
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -1145,23 +1145,23 @@
  (defsynth sonic-pi-fx_rbpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     centre 100
     centre_slide 0
-    centre_slide_shape 5
+    centre_slide_shape 1
     centre_slide_curve 0
     res 0.6
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -1182,23 +1182,23 @@
  (defsynth sonic-pi-fx_nrbpf
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
     centre 100
     centre_slide 0
-    centre_slide_shape 5
+    centre_slide_shape 1
     centre_slide_curve 0
     res 0.6
     res_slide 0
-    res_slide_shape 5
+    res_slide_shape 1
     res_slide_curve 0
     in_bus 0
     out_bus 0]
@@ -1219,31 +1219,31 @@
   (defsynth sonic-pi-fx_octaver
     [amp 1
      amp_slide 0
-     amp_slide_shape 5
+     amp_slide_shape 1
      amp_slide_curve 0
      mix 1
      mix_slide 0
-     mix_slide_shape 5
+     mix_slide_shape 1
      mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
-     pre_amp_slide_shape 5
+     pre_amp_slide_shape 1
      pre_amp_slide_curve 0
      amp 1
      amp_slide 0
-     amp_slide_shape 5
+     amp_slide_shape 1
      amp_slide_curve 0
      oct1_amp 1
      oct1_amp_slide 0
-     oct1_amp_slide_shape 5
+     oct1_amp_slide_shape 1
      oct1_amp_slide_curve 0
      oct2_amp 1
      oct2_amp_slide 0
-     oct2_amp_slide_shape 5
+     oct2_amp_slide_shape 1
      oct2_amp_slide_curve 0
      oct3_amp 1
      oct3_amp_slide 0
-     oct3_amp_slide_shape 5
+     oct3_amp_slide_shape 1
      oct3_amp_slide_curve 0
      in_bus 0
      out_bus 0]
@@ -1267,23 +1267,23 @@
   (defsynth sonic-pi-fx_ring_mod
     [amp 1
      amp_slide 0
-     amp_slide_shape 5
+     amp_slide_shape 1
      amp_slide_curve 0
      mix 1
      mix_slide 0
-     mix_slide_shape 5
+     mix_slide_shape 1
      mix_slide_curve 0
      pre_amp 1
      pre_amp_slide 0
-     pre_amp_slide_shape 5
+     pre_amp_slide_shape 1
      pre_amp_slide_curve 0
      freq 30
      freq_slide 0
-     freq_slide_shape 5
+     freq_slide_shape 1
      freq_slide_curve 0
      mod_amp 1
      mod_amp_slide 0
-     mod_amp_slide_shape 5
+     mod_amp_slide_shape 1
      mod_amp_slide_curve 0
      in_bus 0
      out_bus 0]
@@ -1304,22 +1304,22 @@
   (defsynth sonic-pi-fx_flanger
    [amp 1
     amp_slide 0
-    amp_slide_shape 5
+    amp_slide_shape 1
     amp_slide_curve 0
 
     mix 1
     mix_slide 0
-    mix_slide_shape 5
+    mix_slide_shape 1
     mix_slide_curve 0
 
     pre_amp 1
     pre_amp_slide 0
-    pre_amp_slide_shape 5
+    pre_amp_slide_shape 1
     pre_amp_slide_curve 0
 
     phase 4
     phase_slide 0
-    phase_slide_shape 5
+    phase_slide_shape 1
     phase_slide_curve 0
     phase_offset 0
     wave 4
@@ -1328,29 +1328,29 @@
 
     pulse_width 0.5
     pulse_width_slide 0
-    pulse_width_slide_shape 5
+    pulse_width_slide_shape 1
     pulse_width_slide_curve 0
 
     delay 5
     delay_slide 0
-    delay_slide_shape 5
+    delay_slide_shape 1
     delay_slide_curve 0
 
     max_delay 20
 
     depth 5
     depth_slide 0
-    depth_slide_shape 5
+    depth_slide_shape 1
     depth_slide_curve 0
 
     feedback 0
     feedback_slide 0
-    feedback_slide_shape 5
+    feedback_slide_shape 1
     feedback_slide_curve 0
 
     decay 2
     decay_slide 0
-    decay_slide_shape 5
+    decay_slide_shape 1
     decay_slide_curve 0
 
     invert_flange 0
