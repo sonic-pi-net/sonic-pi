@@ -2849,7 +2849,7 @@ module SonicPi
 
           :cutoff_decay_level =>
           {
-            :doc => "The level of cutoff after the decay phase as a MIDI note".,
+            :doc => "The level of cutoff after the decay phase as a MIDI note.",
             :validations => [v_between_inclusive(:cutoff_decay_level, 0, 130)],
             :modulatable => false
           },
