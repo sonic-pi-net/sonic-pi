@@ -2842,14 +2842,14 @@ module SonicPi
 
           :cutoff_attack_level =>
           {
-            :doc => "The peak cutoff (value of cutoff at peak of attack) as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value",
+            :doc => "The peak cutoff (value of cutoff at peak of attack) as a MIDI note.",
             :validations => [v_between_inclusive(:cutoff_attack_level, 0, 130)],
             :modulatable => false
           },
 
           :cutoff_decay_level =>
           {
-            :doc => "The level of cutoff after the decay phase as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value",
+            :doc => "The level of cutoff after the decay phase as a MIDI note".,
             :validations => [v_between_inclusive(:cutoff_decay_level, 0, 130)],
             :modulatable => false
           },
@@ -2857,7 +2857,7 @@ module SonicPi
 
           :cutoff_sustain_level =>
           {
-            :doc => "The sustain cutoff (value of cutoff at sustain time) as a value between 0 and 1 where 0 is the :cutoff_min and 1 is the :cutoff value.",
+            :doc => "The sustain cutoff (value of cutoff at sustain time) as a MIDI note.",
             :validations => [v_between_inclusive(:cutoff_sustain_level, 0, 130)],
             :modulatable => false
           },
