@@ -3890,7 +3890,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         n += args_h[:pitch].to_f
 
-        normalise_tuning(n)
+        n = normalise_tuning(n)
         return n
       end
 
