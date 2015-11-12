@@ -1147,6 +1147,26 @@ end
 
 
 
+      def inspect(*msgs)
+        output = msgs.map{|m| m.inspect}.join(", ")
+        __delayed_user_message output
+      end
+      doc name:          :inspect,
+          introduced:     Version.new(2,8,0),
+          summary:       "Display inspected information in the output pane",
+          args:          [[:output, :anything]],
+          opts:          nil,
+          accepts_block: false,
+          intro_fn:       true,
+          doc:           "Displays the information you specify as an inspected string inside the output pane. This can be a number, symbol, or a string itself.",
+          examples:      [
+  "print \"hello there\" #=> will print the string \"hello there\" to the output pane with quotes",
+  "print 5               #=> will print the number 5 to the output pane",
+  "print :foo            #=> will print the :foo to the output pane"]
+
+
+
+
       def print(*msgs)
         output = msgs.map{|m| m.to_s}.join(" ")
         __delayed_user_message output
@@ -1154,7 +1174,7 @@ end
       doc name:          :print,
           introduced:     Version.new(2,0,0),
           summary:       "Display a message in the output pane",
-          args:          [[:output, :string]],
+          args:          [[:output, :anything]],
           opts:          nil,
           accepts_block: false,
           intro_fn:       true,
@@ -1174,7 +1194,7 @@ end
       doc name:           :puts,
           introduced:     Version.new(2,0,0),
           summary:        "Display a message in the output pane",
-          args:           [[:output, :string]],
+          args:           [[:output, :anything]],
           opts:           nil,
           accepts_block:  false,
           intro_fn:       true,
