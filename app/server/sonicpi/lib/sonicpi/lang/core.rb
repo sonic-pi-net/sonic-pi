@@ -1147,7 +1147,8 @@ end
 
 
 
-      def print(output)
+      def print(*msgs)
+        output = msgs.map{|m| m.to_s}.join(" ")
         __delayed_user_message output
       end
       doc name:          :print,
@@ -1166,7 +1167,8 @@ end
 
 
 
-      def puts(output)
+      def puts(*msgs)
+        output = msgs.map{|m| m.to_s}.join(" ")
         __delayed_user_message output
       end
       doc name:           :puts,
