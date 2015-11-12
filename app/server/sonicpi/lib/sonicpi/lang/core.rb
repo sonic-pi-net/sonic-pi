@@ -1583,6 +1583,8 @@ end
 
       def use_random_seed(seed, &block)
         raise "use_random_seed does not work with a block. Perhaps you meant with_random_seed" if block
+        Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_gen_idx, 0
+
         SonicPi::Core::SPRand.set_seed! seed
       end
       doc name:          :use_random_seed,
@@ -1633,10 +1635,14 @@ end
 
       def with_random_seed(seed, &block)
         raise "with_random_seed requires a block. Perhaps you meant use_random_seed" unless block
+        new_thread_gen_idx = Thread.current.thread_variable_get :sonic_pi_spider_new_thread_random_gen_idx
+
         current_seed, current_idx = SonicPi::Core::SPRand.get_seed_and_idx
         SonicPi::Core::SPRand.set_seed! seed
+        Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_gen_idx, 0
         res = block.call
         SonicPi::Core::SPRand.set_seed! current_seed, current_idx
+        Thread.current.thread_variable_set :sonic_pi_spider_new_thread_random_gen_idx, new_thread_gen_idx
         res
       end
       doc name:           :with_random_seed,
