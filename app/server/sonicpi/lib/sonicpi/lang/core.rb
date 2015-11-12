@@ -557,7 +557,7 @@ module SonicPi
         num_slices = args_h[:steps] || 4
         inclusive = args_h[:inclusive]
 
-        raise "Num slices param for fn linear should be a positive non-zero whole number" unless num_slices > 0
+        raise "steps: opt for fn linear should be a positive non-zero whole number" unless num_slices > 0
 
         if inclusive
           step_size = (start - finish).abs.to_f / (num_slices - 1)
