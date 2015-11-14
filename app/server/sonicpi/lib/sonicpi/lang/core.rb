@@ -906,11 +906,23 @@ end
 
         return "" if values.length == 0
         return "spark error: can't use nested arrays" if Array(values).flatten.length != Array(values).length
-        return "spark error: arguments should be numeric" if values.any? {|x| not (x.is_a? Numeric) }
 
         #implementation stolen from @jcromartie https://gist.github.com/jcromartie/1367091
         @ticks = %w[▁ ▂ ▃ ▄ ▅ ▆ ▇]
-        values = values.map { |x| x.to_f rescue 0.0 }
+        values = values.map do |x|
+          case x
+          when TrueClass
+            1
+          when FalseClass
+            0
+          else
+            begin
+              x.to_f
+            rescue NoMethodError
+              0
+            end
+          end
+        end
         min = values.min
         range = values.max - values.min
         scale = @ticks.length - 1
