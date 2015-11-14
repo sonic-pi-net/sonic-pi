@@ -2688,7 +2688,7 @@ end"
           accepts_block: false,
           examples:      [%Q{
 puts note_info(:C, octave: 2)
-# returns #<SonicPi::Note:0x0000010206bf78 @pitch_class="C", @octave=2, @interval=0, @midi_note=36, @midi_string="C0">}]
+# returns #<SonicPi::Note :C2>}]
 
 
 
