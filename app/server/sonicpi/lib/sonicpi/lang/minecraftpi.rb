@@ -346,7 +346,7 @@ mc_teleport 40, 50, 60  # The player will be moved to the position with coords:
           args:           [[:msg, :string]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Post contents of `msg` on the Minecraft chat display. You may pass mupltiple arguments and all will be joined to form a single message (with spaces).",
+          doc:            "Post contents of `msg` on the Minecraft chat display. You may pass multiple arguments and all will be joined to form a single message (with spaces).",
           examples:       ["mc_message \"Hello from Sonic Pi\" #=> Displays \"Hello from Sonic Pi\" on Minecraft's chat display" ]
 
 
