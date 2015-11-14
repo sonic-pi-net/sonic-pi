@@ -3254,12 +3254,16 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
     (
-    SynthDef(\piTest,
+    SynthDef(\\piTest,
              {|freq = 200, amp = 1, out_bus = 0 |
                Out.ar(out_bus,
                       SinOsc.ar([freq,freq],0,0.5)* Line.kr(1, 0, 5, amp, doneAction: 2))}
     ).store;
     )
+
+The location of the binary synthdef file written to disk by `.store` is platform dependent. In SuperCollider, run `Platform.userAppSupportDir` to find out where this directory exists on your machine and then navigate to the `synthdefs` folder. For example, on my Mac this dir is:
+
+    /Users/sam/Library/Application Support/SuperCollider/synthdefs
     ",
       args:          [[:path, :string]],
       opts:          nil,
