@@ -2980,8 +2980,7 @@ module SonicPi
                       {
                         :doc => "Amplification applied to the input signal immediately before it is passed to the FX.",
                         :validations => [v_positive(:pre_amp)],
-                        :modulatable => true,
-                        :bpm_scale => true
+                        :modulatable => true
                       },
 
                       :pre_amp_slide =>
