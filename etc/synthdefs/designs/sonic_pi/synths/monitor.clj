@@ -7,7 +7,7 @@
 ;; All rights reserved.
 ;;
 ;; Permission is granted for use, copying, modification, and
-sc;; distribution of modified versions of this work as long as this
+;; distribution of modified versions of this work as long as this
 ;; notice is included.
 ;;++
 
