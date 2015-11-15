@@ -236,6 +236,8 @@ private:
     QDockWidget *prefsWidget;
     QDockWidget *hudWidget;
     QDockWidget *docWidget;
+    QWidget *blankWidget;
+    QWidget *outputWidgetTitle;
     QTextBrowser *docPane;
 //  QTextBrowser *hudPane;
     QWidget *mainWidget;
