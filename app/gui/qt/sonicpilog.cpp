@@ -52,7 +52,10 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
       int msg_type = mm.messages[i].msg_type;
       std::string s = mm.messages[i].s;
 
-      if(i == (msg_count - 1)) {
+      if (s.empty()) {
+          ss.append(QString::fromUtf8(" │"));
+        }
+      else if(i == (msg_count - 1)) {
         ss.append(QString::fromUtf8(" └─ "));
       } else {
         ss.append(QString::fromUtf8(" ├─ "));
