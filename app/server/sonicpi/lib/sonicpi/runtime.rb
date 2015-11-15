@@ -68,7 +68,7 @@ module SonicPi
       @user_jobs = Jobs.new
       @sync_real_sleep_time = 0.05
       @user_methods = user_methods
-      @run_start_time = 0
+      @global_start_time = 0
       @session_id = SecureRandom.uuid
       @snippets = {}
 
@@ -374,7 +374,7 @@ module SonicPi
     end
 
     def __current_run_time
-      Thread.current.thread_variable_get(:sonic_pi_spider_time) - @run_start_time
+      Thread.current.thread_variable_get(:sonic_pi_spider_time) - @global_start_time
     end
 
     def __current_local_run_time
@@ -729,7 +729,7 @@ module SonicPi
           start_t_prom.deliver! now
           Thread.current.thread_variable_set :sonic_pi_spider_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
-          @run_start_time = now if num_running_jobs == 1
+          @global_start_time = now if num_running_jobs == 1
           __info "Starting run #{id}"
           code = PreParser.preparse(code)
 
