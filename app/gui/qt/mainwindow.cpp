@@ -496,12 +496,14 @@ void MainWindow::toggleFullScreenMode() {
 void MainWindow::updateFullScreenMode(){
   if (full_screen->isChecked()) {
     mainWidgetLayout->setMargin(0);
+    outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setWindowState(Qt::WindowFullScreen);
     this->show();
   }
   else {
     mainWidgetLayout->setMargin(9);
+    outputWidget->setTitleBarWidget(outputWidgetTitle);
     this->setWindowState(windowState() & ~(Qt::WindowFullScreen));
 #ifdef Q_OS_WIN
     this->setWindowFlags(Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
@@ -526,14 +528,12 @@ void MainWindow::updateFocusMode(){
     show_tabs->setChecked(false);
     show_buttons->setChecked(false);
     show_log->setChecked(false);
-    outputWidget->setTitleBarWidget(blankWidget);
   }
   else {
     full_screen->setChecked(false);
     show_tabs->setChecked(true);
     show_buttons->setChecked(true);
     show_log->setChecked(true);
-    outputWidget->setTitleBarWidget(outputWidgetTitle);
   }
 
   updateFullScreenMode();
