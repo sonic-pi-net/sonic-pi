@@ -45,24 +45,6 @@ module SonicPi
         end
       end
 
-      @osc_out_thread = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_out)
-        Thread.current.priority = 200
-        loop do
-          out_job = @out_queue.pop
-          if out_job.first == :send
-            address, *args = out_job[1]
-            log "OSC             ~ #{address} #{args.inspect}" if osc_debug_mode
-            @server.send(@hostname, @port, address, *args)
-          else
-            vt = out_job[1]
-            ts = out_job[2]
-            address, *args = out_job[3]
-            log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_i}] #{address} #{args.inspect}" if osc_debug_mode
-            @server.send_ts(ts, @hostname, @port, address, *args)
-          end
-        end
-      end
       boot
     end
 
@@ -71,19 +53,26 @@ module SonicPi
       system cmd
     end
 
-    def send(*args)
-      @out_queue << [:send,  args]
+    def send(*all_args)
+      address, *args = *all_args
+      log "OSC             ~ #{address} #{args.inspect}" if osc_debug_mode
+      @server.send(@hostname, @port, address, *args)
     end
 
-    def send_at(ts, *args)
-      if (a = Thread.current.thread_variable_get(:sonic_pi_spider_time)) && (b = Thread.current.thread_variable_get(:sonic_pi_spider_start_time))
-        vt = a - b
-      elsif st = Thread.current.thread_variable_get(:sonic_pi_spider_start_time)
-        vt = ts - st
-      else
-        vt = -1
+    def send_at(ts, *all_args)
+      address, *args = *all_args
+      if osc_debug_mode
+        if (a = Thread.current.thread_variable_get(:sonic_pi_spider_time)) && (b = Thread.current.thread_variable_get(:sonic_pi_spider_start_time))
+          vt = a - b
+        elsif st = Thread.current.thread_variable_get(:sonic_pi_spider_start_time)
+          vt = ts - st
+        else
+          vt = -1
+        end
+        log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_i}] #{address} #{args.inspect}"
       end
-      @out_queue << [:send_at, vt, ts, args]
+
+      @server.send_ts(ts, @hostname, @port, address, *args)
     end
 
     def reboot
