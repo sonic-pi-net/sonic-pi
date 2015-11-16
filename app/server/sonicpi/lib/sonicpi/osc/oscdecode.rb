@@ -22,20 +22,20 @@ module SonicPi
 
         @num_cached_integers = 0
         @num_cached_floats = 0
-        @string_terminator = "\x00"
+        @string_terminator = "\x00".freeze
         @args = []
-        @i_tag = "i"
-        @f_tag = "f"
-        @s_tag = "s"
-        @d_tag = "d"
-        @h_tag = "h"
-        @b_tag = "b"
+        @i_tag = "i".freeze
+        @f_tag = "f".freeze
+        @s_tag = "s".freeze
+        @d_tag = "d".freeze
+        @h_tag = "h".freeze
+        @b_tag = "b".freeze
 
-        @cap_n = 'N'
-        @cap_g = 'G'
-        @low_g = 'g'
-        @q_lt = 'q>'
-        @binary_encoding = "BINARY"
+        @cap_n = 'N'.freeze
+        @cap_g = 'G'.freeze
+        @low_g = 'g'.freeze
+        @q_lt = 'q>'.freeze
+        @binary_encoding = "BINARY".freeze
       end
 
       def decode_single_message(m)

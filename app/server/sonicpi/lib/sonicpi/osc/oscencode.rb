@@ -19,16 +19,16 @@ module SonicPi
       # See http://opensoundcontrol.org for spec.
 
       def initialize(use_cache = false, cache_size=1000)
-        @literal_binary_str = "BINARY"
-        @literal_cap_n = 'N'
-        @literal_cap_n2 = 'N2'
-        @literal_low_f = 'f'
-        @literal_low_i = 'i'
-        @literal_low_g = 'g'
-        @literal_low_s = 's'
-        @literal_empty_str = ''
+        @literal_binary_str = "BINARY".freeze
+        @literal_cap_n = 'N'.freeze
+        @literal_cap_n2 = 'N2'.freeze
+        @literal_low_f = 'f'.freeze
+        @literal_low_i = 'i'.freeze
+        @literal_low_g = 'g'.freeze
+        @literal_low_s = 's'.freeze
+        @literal_empty_str = ''.freeze
         @literal_str_encode_regexp = /\000.*\z/
-        @literal_str_pad = "\000"
+        @literal_str_pad = "\000".freeze
         @literal_two_to_pow_2 = 2 ** 32
         @literal_magic_time_offset = 2208988800
 
