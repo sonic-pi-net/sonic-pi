@@ -226,7 +226,7 @@ module SonicPi
       else
         t = Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now
         ts =  t + @sched_ahead_time
-        ts - t - @control_delta if t_minus_delta
+        ts = ts - @control_delta if t_minus_delta
         osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *args_h.flatten
       end
       sn
