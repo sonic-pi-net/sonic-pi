@@ -254,6 +254,10 @@ module SonicPi
         self + self.reverse.drop(1)
       end
 
+      def reflect
+        self + self.reverse
+      end
+
       def inspect
         a = self.to_a
         if a.empty?
