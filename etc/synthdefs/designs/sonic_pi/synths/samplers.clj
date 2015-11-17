@@ -53,7 +53,7 @@
                                             (- (buf-frames buf) 1)])
          snd         (play-buf 1 buf rate 0 start)
          snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
-         snd         (hold snd dur 0.02 FREE)]
+         killer      (line 1 1 (+ 0.03 dur) FREE)]
 
      (out out_bus (pan2 snd pan amp))))
 
@@ -93,8 +93,7 @@
          [snd-l snd-r] (play-buf 2 buf rate 0 start)
          snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
          snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
-         snd-l         (hold snd-l dur 0.02 FREE)
-         snd-r         (hold snd-r dur 0.02 FREE)
+         killer        (line 1 1 (+ 0.03 dur) FREE)
 
          snd           (balance2 snd-l snd-r pan amp)]
 
@@ -208,7 +207,7 @@
          filt-env             (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
 
          snd                  (buf-rd 1 buf phase)
-         snd                  (hold snd play-time 0.1 FREE)
+         killer               (line 1 1 (+ 0.03 play-time) FREE)
 
          snd                  (select:ar (not= 0 pitch)
                                          [snd
@@ -331,9 +330,7 @@
          filt-env             (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
 
          [snd-l snd-r]        (buf-rd 2 buf phase)
-         snd-l                (hold snd-l play-time 0.1 FREE)
-         snd-r                (hold snd-r play-time 0.1 FREE)
-
+         killer               (line 1 1 (+ 0.03 play-time) FREE)
 
          snd-l                (select:ar (not= 0 pitch)
                                          [snd-l
