@@ -1,4 +1,5 @@
 # History
+* [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
 * [v2.7 'Rerezzed'](#v2.7), 10th Sept, 2015
 * [v2.6 'Algorave'](#v2.6), 30th July, 2015
 * [v2.5 'Craft'](#v2.5), 13th April, 2015
@@ -7,6 +8,91 @@
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v2.8"></a>
+
+## Version 2.8 - 'Karlsruhe'
+*Friday 20th November, 2015*
+
+This release, named after one of the home cities of live coding is
+mainly a maintainance released with a strong focus on both performance,
+stability and documentation. This is therefore the fastest and most
+stable release of Sonic Pi ever with a massive 10% performance
+improvement on the original Raspberry Pi 1. It also ships with new
+translations in Polish and Japanese. Many of these improvements (such as
+the complete rewrite of the OSC stack) are not documentd in this release
+list but can instead be found in the commit logs over on Github.
+
+However, not to go unnoticed is a number of exciting new features. For
+example we now have a new Band EQ FX, the ability to use MIDI note names
+such as `:e5` as values for opts such as `cutoff:`, and new powerful
+cutoff envelopes on the sampler.
+
+
+
+### Breaking Changes
+
+* Shortcuts for switching buffers have changed. They are now `M-{` and
+  `M-}` for switching left and right respectively.
+* `sync` no longer inherits BPM by default. Set the `bpm_sync:` opt to
+  true to enable BPM inheritance.
+* Random seed generation for new threads is now reset on calls to
+  `use_random_seed`.
+
+### New Fns
+
+* `assert` - for raising an exception if the argument is not true.
+* `assert_equal` - for raising an exception if the two arguments are not
+  equal.
+* `bt` - converts the specified time w.r.t. the current BPM.
+* `inspect` - similar to `print` but prints the inspected version of the argument.
+
+### GUI
+
+* New translations for Polish and Japanese.
+* Improve efficiency of logging panel.
+* `M-RET` is now a duplicate shortcut for running the code.
+* Log title bar is now hidden in full-screen mode.
+* Log - don't display └ or ├ if the line is blank, instead display │
+* Add sample name autocompletion to more fns such as `sample_duration`.
+
+### Synths & FX
+
+* New FX - Band EQ for attenuating or boosting a specific frequency band.
+* New synth - DPulse - a detuned pulse wave.
+* Sampler now has a cutoff envelope which can be accessed via new opts
+  which mirror the standard envelope opts but with a `cutoff_` prefix
+  (such as `cutoff_attack`, `cutoff_decay_level` and friends).
+* Sampler now correctly handles samples with different sample rates.
+* Bitcrusher FX now has an internal low pass filter modifiable via a new `cutoff` opt.
+* Panslicer now correctly honours min and max pan values.
+* New default opt `on:` for both `sample` and `synth`. This acts like
+  `if` but ensures all the opt vals are evaluated (useful if wanting to
+  keep the consumption of random streams or ticks consistent even when
+  not triggering a synth.
+* MIDI opts such as `cutoff:` can now accept note names such as `:c4`.
+
+### Improvements
+
+* Massive performance improvements.
+* Teach `play_pattern_timed` to handle rings.
+* `current_transpose` now returns 0 if there is no current
+  transposition.
+* BPM scaling is now honoured when controlling synths and FX
+* All `with_fx*` fns now return the result of their block.
+* `spark` now handles rings correctly.
+* `spark` now treats booleans as 1s and 0s so you can now spark rings of bools.
+* `puts`, `print` and `mc_message` now handle multiple message arguments
+
+
+### Bug Fixes
+
+* Ensure `with_fx` doesn't swallow TL modifications such as
+  transposition, current synth etc.
+* Ensure `with_fx` doesn't affect random seed.
+* Improve reliability of boot process on Mac and Windows.
+* The FX `pre_amp:` opt is no longer scaled w.r.t. the current BPM.
+
 
 <a name="v2.7"></a>
 
