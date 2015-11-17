@@ -258,6 +258,11 @@ module SonicPi
         self + self.reverse
       end
 
+      def repeat(n=2)
+        n = 1 if n < 1
+        self * n
+      end
+
       def inspect
         a = self.to_a
         if a.empty?
