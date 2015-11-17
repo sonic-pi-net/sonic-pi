@@ -80,6 +80,7 @@ Would you like to contribute a translation too? If so, please take a look at our
 
 Sonic Pi is under active development, and welcomes new contributors:
 
+* [How to contribute](HOW-TO-CONTRIBUTE.md)
 * [Change log](CHANGELOG.md)
 * [Community](COMMUNITY.md)
 * [Contributors](CONTRIBUTORS.md)
