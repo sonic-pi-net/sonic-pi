@@ -254,12 +254,14 @@ module SonicPi
         inspect
       end
 
-      def mirror
-        self + self.reverse.drop(1)
+      def mirror(n=1)
+        res = self + self.reverse.drop(1)
+        res = res + (res.drop(1) * (n - 1)) if n > 1
+        res
       end
 
-      def reflect
-        self + self.reverse
+      def reflect(n=1)
+        (self + self.reverse) * n
       end
 
       def repeat(n=2)
