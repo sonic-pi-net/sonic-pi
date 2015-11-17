@@ -53,7 +53,7 @@
                                             (- (buf-frames buf) 1)])
          snd         (play-buf 1 buf rate 0 start)
          snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
-         snd         (hold snd dur 0.1 FREE)]
+         snd         (hold snd dur 0.02 FREE)]
 
      (out out_bus (pan2 snd pan amp))))
 
@@ -93,8 +93,8 @@
          [snd-l snd-r] (play-buf 2 buf rate 0 start)
          snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
          snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
-         snd-l         (hold snd-l dur 0.1 FREE)
-         snd-r         (hold snd-r dur 0.1 FREE)
+         snd-l         (hold snd-l dur 0.02 FREE)
+         snd-r         (hold snd-r dur 0.02 FREE)
 
          snd           (balance2 snd-l snd-r pan amp)]
 
