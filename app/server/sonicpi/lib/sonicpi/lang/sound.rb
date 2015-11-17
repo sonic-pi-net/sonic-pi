@@ -2403,7 +2403,16 @@ sample :loop_amen                    # starting it again
         end
 
         ensure_good_timing!
-        buf_info = load_sample(path)
+        if path.is_a? Buffer
+          buf_info = path
+          if buf_info.path
+            path = buf_info.path
+          else
+            path = "Buffer [#{buffer_info.id}]"
+          end
+        else
+          buf_info = load_sample(path)
+        end
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
 
         return nil unless should_trigger?(args_h, true)
