@@ -113,14 +113,6 @@
     pan_slide 0
     pan_slide_shape 1
     pan_slide_curve 0
-    attack 0.0
-    decay 0
-    sustain -1
-    release 0.0
-    attack_level 1
-    decay_level -1
-    sustain_level 1
-    env_curve 1
     cutoff -1
     cutoff_slide 0
     cutoff_slide_shape 1
@@ -129,18 +121,26 @@
     cutoff_sustain -1
     cutoff_decay 0
     cutoff_release 0
-    cutoff_min 30
+    cutoff_min -1
     cutoff_min_slide 0
     cutoff_min_slide_shape 1
     cutoff_min_slide_curve 0
-    cutoff_attack_level 1
-    cutoff_decay_level 1
-    cutoff_sustain_level 1
+    cutoff_attack_level -1
+    cutoff_decay_level -1
+    cutoff_sustain_level -1
     cutoff_env_curve 1
     res 0
     res_slide 0
     res_slide_shape 1
     res_slide_curve 0
+    attack 0.0
+    decay 0
+    sustain -1
+    release 0.0
+    attack_level 1
+    decay_level -1
+    sustain_level 1
+    env_curve 1
     rate 1
     start 0
     finish 1
