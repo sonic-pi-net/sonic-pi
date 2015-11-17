@@ -3,7 +3,7 @@
 It's impossible to look through the history of electronic dance music
 without seeing the enormous impact of the tiny Roland TB-303
 synthesiser. It's the secret sauce behind the original acid bass
-sound. Those classic squeeling and squelching TB-303 bass riffs can be
+sound. Those classic squealing and squelching TB-303 bass riffs can be
 heard from the early Chicago House scene through to more recent
 electronic artists such as Plastikman, Squarepusher and Aphex Twin.
 
@@ -14,7 +14,7 @@ to. Unfortunately there were a number of problems: they were a little
 fiddly to program, didn't sound particularly good as a bass-guitar
 replacement and were pretty expensive to buy. Deciding to cut their
 losses, Roland stopped making them after 10,000 units were sold and
-after a number of years sitting on guitarist's shelvess, they soon could
+after a number of years sitting on guitarist's shelves, they soon could
 be found in the windows of second hand shops. These lonely discarded
 TB-303s were waiting to be discovered by a new generation of
 experimenters who started using them in ways that Roland didn't imagine
@@ -107,7 +107,7 @@ wave - the raw ingredients of the sound. In this case we have a square
 wave. Next there's the oscillator's amplitude envelope which controls
 the amp of the square wave through time. These are accessed in Sonic Pi
 by the `attack:`, `decay:`, `sustain:` and `release:` opts along with
-their level counter parts. For more information read Section 2.4
+their level counterparts. For more information read Section 2.4
 'Duration with Envelopes' in the built-in tutorial. We then pass our
 enveloped square wave through a resonant low pass filter. This chops off
 the higher frequencies as well as having that nice resonance effect. Now
