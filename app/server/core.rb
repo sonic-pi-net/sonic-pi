@@ -238,6 +238,10 @@ module SonicPi
         self[SonicPi::Core::SPRand.rand_i!(self.size)]
       end
 
+      def sample
+        choose
+      end
+
       def ring
         SonicPi::Core::RingVector.new(self)
       end
