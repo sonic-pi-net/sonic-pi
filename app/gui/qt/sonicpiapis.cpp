@@ -95,7 +95,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
        << ", partial = " << partial.toStdString() << endl;
   */
 
-  if (last == "sample") {
+  if (last == "sample" || last == "sample_info" || last == "sample_duration" || last == "use_sample_bpm" || last == "sample_buffer" || last == "sample_loaded?") {
     ctx = Sample;
   } else if (last == "with_fx" || last == "use_fx") {
     ctx = FX;
