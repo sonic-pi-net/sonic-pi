@@ -16,9 +16,13 @@ to discuss your idea directly.
 ## You need an idea?
 
 If you don't have an itch of your own to scratch, but are still looking
-for something to work on, here's a list of ideas, frequent feature
-requests or unfinished projects that we didn't have time to work on just
-yet and where help is appreciated.
+for something to work on, you can first go and browse the
+[open issues](https://github.com/samaaron/sonic-pi/issues) on GitHub.
+There's probably one among them you can help to fix.
+
+Next to those, here's a list of ideas, frequent feature requests or
+unfinished projects that we didn't have time to work on just yet and
+where help is appreciated.
 
 ### Easy Projects
 
