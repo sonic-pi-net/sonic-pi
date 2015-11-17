@@ -245,10 +245,12 @@ module SonicPi
         end
 
         tls = if sample
-                Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
+                Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
               else
-                Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
+                Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
               end
+
+        return true unless tls
 
         if tls.has_key?(:on)
           # need to normalise it!
