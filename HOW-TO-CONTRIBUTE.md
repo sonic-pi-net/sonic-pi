@@ -34,7 +34,7 @@ yet and where help is appreciated.
   let us know and [open a new issue](https://github.com/samaaron/sonic-pi/issues)
   or, even better, send a pull request on GitHub.
   
-  - [Translate Sonic Pi to your language](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md)
+- [Translate Sonic Pi to your language](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md)
   
   It's a wonderful way to introduce school kids in your country to
   Sonic Pi and educators will appreciate it when we make it easier for
@@ -59,7 +59,8 @@ yet and where help is appreciated.
   
   Sonic Pi translation has been a good start, but it's now turning into
   a hassle to keep up with the changes. A translation service such as
-  Transifex etc. would be beneficial.
+  Transifex etc. would be beneficial. The difficult part is how to
+  integrate this with GitHub.
 
 - Optimization: Identify & fix bottlenecks that waste CPU or RAM
   
@@ -78,7 +79,7 @@ yet and where help is appreciated.
   audio server that turns all the clients' code to music? Or is it
   possible to synchronize each machine's audio on the net?
   
-- Mobile devices? Android?
+- Mobile devices? Porting to Android?
   
   These days, school kids have a smartphone or tablet before they have
   their own computer.
