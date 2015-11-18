@@ -311,9 +311,11 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // adding universal shortcuts to outputpane seems to
   // steal events from doc system!?
   // addUniversalCopyShortcuts(outputPane);
-
+#if QT_VERSION >= 0x050400
+  //requires Qt 5
   new QShortcut(ctrlKey('='), outputPane, SLOT(zoomIn()));
   new QShortcut(ctrlKey('-'), outputPane, SLOT(zoomOut()));
+#endif
   addUniversalCopyShortcuts(errorPane);
   outputPane->setReadOnly(true);
   errorPane->setReadOnly(true);
