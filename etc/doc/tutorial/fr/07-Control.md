@@ -15,4 +15,3 @@ de vibrer ?
 
 Vous êtes chanceux - cette section va vous montrer précisément comment 
 le faire.
-.

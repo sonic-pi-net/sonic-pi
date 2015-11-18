@@ -14,8 +14,8 @@ L'intégration avec Minecraft Pi a été conçue pour être extrêmement
 simple à utiliser. Tout ce dont vous avez besoin est de lancer 
 Minecraft Pi et de créer un nouveau monde. Il vous est alors possible 
 d'utiliser les fonctions `mc_*` juste comme vous pourriez utiliser 
-`play` et `synth`. Il n'y a pas besoin d'importer quoique ce soit ou 
-d'intaller des bibliothèques - c'est tout prêt à utiliser et à 
+`play` et `synth`. Il n'y a pas besoin d'importer quoi que ce soit ou 
+d'installer des bibliothèques - c'est tout prêt à utiliser et à 
 fonctionner sans autre procès.
 
 ## Connection Automatique
