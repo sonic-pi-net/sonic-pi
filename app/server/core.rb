@@ -269,6 +269,19 @@ module SonicPi
         self * n
       end
 
+      def drop_last(n=1)
+        self[0...(size-n)]
+      end
+
+      def take_last(n=1)
+        self if n >= size
+        self[(size-n)..-1]
+      end
+
+      def butlast
+        drop_last(1)
+      end
+
       def inspect
         a = self.to_a
         if a.empty?
