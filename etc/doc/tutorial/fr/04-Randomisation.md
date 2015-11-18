@@ -115,14 +115,14 @@ tête de série et en écoutant les résultats, vous pouvez trouver
 quelque chose que vous aimez - et quand vous le partagerez avec 
 d'autres, ils entendront exactement ce que vous avez aussi écouté.
 
-Jetons un oeil sur d'autres fonctions de randomisation utiles.
+Jetons un œil sur d'autres fonctions de randomisation utiles.
 
 
 ## Choix ("choose")
 
 Une chose très commune est de choisir un item aléatoirement dans une 
 liste d'items connus. Par exemple, je peux vouloir jouer une note parmi 
-les suivantes : 60, 65 or 72. Je peux y arriver avec `choose` qui me 
+les suivantes : 60, 65 ou 72. Je peux y arriver avec `choose` qui me 
 choisit un item dans une liste. En premier, je dois mettre mes nombres 
 dans une liste, ce qui est réalisé en les encadrant entre crochets et 
 en les séparant avec des virgules : `[60, 65, 72]`. Ensuite, j'ai juste 

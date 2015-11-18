@@ -12,7 +12,7 @@ des structures de données pour autoriser précisément ceci.
 
 Il y a beaucoup de structures de données passionnantes et exotiques à 
 disposition des programmeurs - et on en invente toujours de nouvelles. 
-Cependant, pour l'instant vous avons seulement et réellement besoin de 
+Cependant, pour l'instant nous avons seulement et réellement besoin de 
 nous intéresser à une structure de données très simple - la liste.
 
 

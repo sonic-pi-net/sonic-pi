@@ -5,7 +5,7 @@
 Bienvenue à Sonic Pi. Heureusement vous êtes excité pour commencer à
 faire des sons délirants comme je le suis pour vous le montrer. Ça va
 être réellement un parcours amusant où vous allez tout apprendre de la
-musique, de la synthèse, de la programmation, de l'interprètation et
+musique, de la synthèse, de la programmation, de l'interprétation et
 plus encore.
 
 Mais attendez, comme je suis impoli ! Je me présente. Je suis
@@ -13,7 +13,7 @@ Mais attendez, comme je suis impoli ! Je me présente. Je suis
 Vous pouvez me joindre à [@samaaron](http://twitter.com/samaaron) sur
 Twitter et je serai plus qu'heureux de vous saluer. Vous pourriez aussi
 être intéressé par mon orchestre "Live Coding" [Meta-eX](http://meta-ex.com)
-où j'interprête de la musique avec du code devant un public. Vous pouvez
+où j'interprète de la musique avec du code devant un public. Vous pouvez
 trouver un de mes morceaux [Meta-eX](http://meta-ex.com) dans les exemples.
 
 Si vous avez des observations ou des idées pour améliorer Sonic Pi - Faîtes
