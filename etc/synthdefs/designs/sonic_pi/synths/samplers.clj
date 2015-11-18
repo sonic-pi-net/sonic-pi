@@ -19,7 +19,7 @@
 (without-namespace-in-synthdef
 
  (defsynth sonic-pi-basic_mono_player
-   [buf 0
+   [buf [0 :ir]
     amp 1
     amp_slide 0
     amp_slide_shape 1
@@ -36,29 +36,28 @@
     res_slide 0
     res_slide_shape 1
     res_slide_curve 0
-    rate 1
-    out_bus 0]
+    rate [1 :ir]
+    out_bus [0 :ir]]
 
    (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          res         (lin-lin:kr res 1 0 0 1)
-         orig-rate   rate
-         rate        (* rate (buf-rate-scale buf))
+         scaled-rate (* rate (buf-rate-scale:ir buf))
          cutoff-freq (midicps cutoff)
          use-filter  (> cutoff 0)
-         dur         (* (/ 1 (abs orig-rate)) (buf-dur buf))
+         dur         (* (/ 1 (abs rate)) (buf-dur:ir buf))
          start       (select:kr (< rate 0) [0
-                                            (- (buf-frames buf) 1)])
-         snd         (play-buf 1 buf rate 0 start)
+                                            (- (buf-frames:ir buf) 1)])
+         snd         (play-buf 1 buf scaled-rate 0 start)
          snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
-         killer      (line 1 1 (+ 0.03 dur) FREE)]
+         killer      (line:kr 1 1 (+ 0.03 dur) FREE)]
 
      (out out_bus (pan2 snd pan amp))))
 
  (defsynth sonic-pi-basic_stereo_player
-   [buf 0
+   [buf [0 :ir]
     amp 1
     amp_slide 0
     amp_slide_shape 1
@@ -75,25 +74,24 @@
     res_slide 0
     res_slide_shape 1
     res_slide_curve 0
-    rate 1
-    out_bus 0]
+    rate [1 :ir]
+    out_bus [0 :ir]]
 
    (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
          cutoff        (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
          res           (varlag res res_slide res_slide_curve res_slide_shape)
          res           (lin-lin:kr res 1 0 0 1)
-         orig-rate     rate
-         rate          (* rate (buf-rate-scale buf))
+         scaled-rate   (* rate (buf-rate-scale:ir buf))
          cutoff-freq   (midicps cutoff)
          use-filter    (> cutoff 0)
-         dur           (* (/ 1 (abs orig-rate)) (buf-dur buf))
+         dur           (* (/ 1 (abs rate)) (buf-dur:ir buf))
          start         (select:kr (< rate 0) [0
-                                              (- (buf-frames buf) 1)])
-         [snd-l snd-r] (play-buf 2 buf rate 0 start)
+                                              (- (buf-frames:ir buf) 1)])
+         [snd-l snd-r] (play-buf 2 buf scaled-rate 0 start)
          snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
          snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
-         killer        (line 1 1 (+ 0.03 dur) FREE)
+         killer        (line:kr 1 1 (+ 0.03 dur) FREE)
 
          snd           (balance2 snd-l snd-r pan amp)]
 
