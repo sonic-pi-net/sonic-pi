@@ -321,7 +321,7 @@ module SonicPi
           returns:        :ring,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Create a new ring of booleans values from 1s, and 0s which can be easier to write and manipulate in a live setting.",
+          doc:            "Create a new ring of booleans values from 1s and 0s, which can be easier to write and manipulate in a live setting.",
           examples:       [
         "(bools 1, 0)    #=> (ring true, false)",
         "(bools 1, 0, true, false, nil) #=> (ring true, false, true, false, false)"

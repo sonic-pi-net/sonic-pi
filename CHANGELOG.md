@@ -15,7 +15,7 @@
 *Friday 20th November, 2015*
 
 This release, named after one of the home cities of live coding is
-mainly a maintainance released with a strong focus on both performance,
+mainly a maintenance release with a strong focus on both performance,
 stability and documentation. This is therefore the fastest and most
 stable release of Sonic Pi ever with a massive 10% performance
 improvement on the original Raspberry Pi 1. It also ships with new
