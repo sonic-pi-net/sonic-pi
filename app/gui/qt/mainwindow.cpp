@@ -1058,7 +1058,7 @@ void MainWindow::initPrefsWindow() {
 
   auto_indent_on_run->setChecked(settings.value("prefs/auto-indent-on-run", true).toBool());
 
-  gui_transparency_slider->setValue(settings.value("prefs/gui_transparency", 100).toInt());
+  gui_transparency_slider->setValue(settings.value("prefs/gui_transparency", 0).toInt());
 
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
@@ -1500,7 +1500,7 @@ void MainWindow::changeGUITransparency(int val)
 #if defined(Q_OS_WIN)
   // do nothing
 #elif defined(Q_OS_MAC)
-    setWindowOpacity((0.7 * ((float)val / 100.0))  + 0.3);
+  setWindowOpacity((0.7 * ((100 - (float)val) / 100.0))  + 0.3);
 #else
     // assuming Raspberry Pi
     // do nothing
