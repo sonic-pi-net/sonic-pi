@@ -1496,7 +1496,17 @@ void MainWindow::helpContext()
 void MainWindow::changeGUITransparency(int val)
 {
   // scale it linearly from 0 -> 100 to 0.3 -> 1
-  setWindowOpacity((0.7 * ((float)val / 100.0))  + 0.3);
+
+#if defined(Q_OS_WIN)
+  // do nothing
+#elif defined(Q_OS_MAC)
+    setWindowOpacity((0.7 * ((float)val / 100.0))  + 0.3);
+#else
+    // assuming Raspberry Pi
+    // do nothing
+#endif
+
+
 }
 
 
