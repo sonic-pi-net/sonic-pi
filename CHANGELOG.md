@@ -19,7 +19,7 @@ mainly a maintainance released with a strong focus on both performance,
 stability and documentation. This is therefore the fastest and most
 stable release of Sonic Pi ever with a massive 10% performance
 improvement on the original Raspberry Pi 1. It also ships with new
-translations in Polish and Japanese. Many of these improvements (such as
+translations in Polish, Japanese and French. Many of these improvements (such as
 the complete rewrite of the OSC stack) are not documented in this release
 list but can instead be found in the commit logs over on Github.
 
@@ -49,7 +49,7 @@ cutoff envelopes on the sampler.
 
 ### GUI
 
-* New translations for Polish and Japanese.
+* New translations for Polish, Japanese and French.
 * Improve efficiency of logging panel.
 * `M-RET` is now a duplicate shortcut for running the code.
 * Log title bar is now hidden in full-screen mode.
