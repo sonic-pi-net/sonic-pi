@@ -20,10 +20,10 @@ stability and documentation. This is therefore the fastest and most
 stable release of Sonic Pi ever with a massive 10% performance
 improvement on the original Raspberry Pi 1. It also ships with new
 translations in Polish and Japanese. Many of these improvements (such as
-the complete rewrite of the OSC stack) are not documentd in this release
+the complete rewrite of the OSC stack) are not documented in this release
 list but can instead be found in the commit logs over on Github.
 
-However, not to go unnoticed is a number of exciting new features. For
+However, not to go unnoticed are a number of exciting new features. For
 example we now have a new Band EQ FX, the ability to use MIDI note names
 such as `:e5` as values for opts such as `cutoff:`, and new powerful
 cutoff envelopes on the sampler.
