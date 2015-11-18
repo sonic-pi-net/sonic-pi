@@ -47,24 +47,7 @@ module SonicPi
 
     def num_audio_busses_for_current_os
       if os == :raspberry
-        if raspberry_pi_1?
-          16
-        else
-          64
-        end
-      else
-        1024
-      end
-
-    end
-
-    def num_control_busses_for_current_os
-      if os == :raspberry
-        if raspberry_pi_1?
-          16
-        else
-          64
-        end
+        64
       else
         1024
       end
