@@ -13,6 +13,7 @@
 
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/atom"
+require_relative "../../../lib/sonicpi/buffer"
 require_relative "../../../lib/sonicpi/lang/core"
 require_relative "../../../lib/sonicpi/lang/sound"
 require 'mocha/setup'
