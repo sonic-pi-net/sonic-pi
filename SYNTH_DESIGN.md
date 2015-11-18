@@ -142,10 +142,9 @@ To make the synths available simply call `load_synthdefs` with the path
 to the folder containing the synthdefs you've compiled and they'll be
 immediately available to Sonic Pi via the `synth` fn.
 
-However, if you want the synths to be visible by the GUI you'll need to
+However, if you want the synths to be visible to the GUI you'll need to
 add the appropriate metadata to
 `app/server/sonicpi/lib/sonicpi/synths/synthinfo.rb` and re-compile the
 app.
 
 Have fun!
-
