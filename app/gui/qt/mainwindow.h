@@ -147,7 +147,6 @@ private slots:
     void helpScrollDown();
     void docScrollUp();
     void docScrollDown();
-    void docAnchorClicked(const QUrl &);
     void helpClosed(bool visible);
     void updateFullScreenMode();
     void toggleFullScreenMode();
