@@ -995,14 +995,15 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *performance_box = new QGroupBox(tr("Performance"));
   performance_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
-  QGridLayout *performance_box_layout = new QGridLayout;
+
 
 #if defined(Q_OS_WIN)
   // do nothing
 #elif defined(Q_OS_MAC)
-    performance_box_layout->addWidget(transparency_box, 0, 0);
-    performance_box->setLayout(performance_box_layout);
-    prefTabs->addTab(performance_box, tr("Performance"));
+  QGridLayout *performance_box_layout = new QGridLayout;
+  performance_box_layout->addWidget(transparency_box, 0, 0);
+  performance_box->setLayout(performance_box_layout);
+  prefTabs->addTab(performance_box, tr("Performance"));
 #else
     // assuming Raspberry Pi
     // do nothing
