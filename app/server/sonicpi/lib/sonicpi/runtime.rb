@@ -103,7 +103,8 @@ module SonicPi
    will fall
    behind you."].sample
 
-      msg = @settings.get(:message).strip
+      msg = @settings.get(:message) || ""
+      msg = msg.strip
 
       __print_version_outdated_info if @version < @server_version
 
