@@ -360,7 +360,7 @@ out_t = Thread.new do
           lv_num = message[:latest_version_num]
           lc = message[:last_checked]
           plat = host_platform_desc
-          gui.send("/version", v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day - 1, lc.month, lc.year, plat.to_s)
+          gui.send("/version", v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year, plat.to_s)
         when :job
           id = message[:job_id]
           action = message[:action]
