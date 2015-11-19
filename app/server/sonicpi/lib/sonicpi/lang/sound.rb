@@ -1494,6 +1494,14 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           end
 
           args_h["in_bus"] = new_bus
+          # set default slide times
+          default_slide_time = args_h[:slide]
+          if info && default_slide_time
+            info.slide_args.each do |k|
+              args_h[k] = default_slide_time unless args_h.has_key?(k)
+            end
+          end
+
           args_h = normalise_and_resolve_synth_args(args_h, info)
 
 
