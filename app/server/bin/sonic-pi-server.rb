@@ -113,7 +113,7 @@ klass.send(:include, user_methods)
 klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:include, SonicPi::Lang::Minecraft)
-klass.send(:include, SonicPi::Lang::Pattern)
+#klass.send(:include, SonicPi::Lang::Pattern)
 
 begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
