@@ -103,10 +103,11 @@ module SonicPi
    will fall
    behind you."].sample
 
-
-
+      msg = @settings.get(:message).strip
 
       __print_version_outdated_info if @version < @server_version
+
+      __info msg unless msg.empty?
 
       load_snippets(snippets_path, true)
     end
@@ -172,8 +173,16 @@ module SonicPi
     end
 
     def __update_gui_version_info_now
+      __info "Checking for new version of Sonic Pi"
       v = __check_for_server_version_now
+      if @version < v
+        __print_version_outdated_info(v)
+      else
+        __info "Your version of Sonic Pi is the latest: #{@version}"
+      end
+
       @msg_queue.push({:type => :version, :version => @version.to_s, :version_num =>  @version.to_i, :latest_version => v.to_s, :latest_version_num => v.to_i, :last_checked => __last_update_check})
+
     end
 
     def __current_version
@@ -184,27 +193,33 @@ module SonicPi
       Time.at(last_update = @settings.get(:last_update_check_time).to_i)
     end
 
-    def __check_for_server_version_now(url="http://sonic-pi.net/static/info/latest_version.txt")
+    def __check_for_server_version_now
+
       begin
         params = {:uuid => global_uuid,
                   :ruby_platform => RUBY_PLATFORM,
                   :ruby_version => RUBY_VERSION,
                   :ruby_patchlevel => RUBY_PATCHLEVEL,
                   :sonic_pi_version => @version.to_s}
-        uri = URI.parse(url)
-        uri.query = URI.encode_www_form( params )
-        response = Net::HTTP.get_response uri
-        v_string = response.body
-        v = Version.init_from_string(v_string)
+        ver_uri = URI.parse(url="http://sonic-pi.net/static/info/latest_version.txt")
+        msg_uri = URI.parse(url="http://sonic-pi.net/static/info/message.txt")
+        ver_uri.query = URI.encode_www_form( params )
+        msg_uri.query = URI.encode_www_form( params )
+        ver_response = Net::HTTP.get_response ver_uri
+        msg_response = Net::HTTP.get_response msg_uri
+        ver = ver_response.body
+        v = Version.init_from_string(ver)
+        msg = msg_response.body
         @settings.set(:last_update_check_time, Time.now.to_i)
         @settings.set(:last_seen_server_version, v.to_s)
+        @settings.set(:message, msg)
         v
       rescue
         __local_cached_server_version
       end
     end
 
-    def __server_version(url="http://sonic-pi.net/static/info/latest_version.txt")
+    def __server_version
       return Version.new(0) if @settings.get(:no_update_checking)
 
       # Only check for updates at most once every 2 weeks
@@ -216,7 +231,7 @@ module SonicPi
         return __local_cached_server_version if Time.now < ts_2_weeks_later
       end
 
-      __check_for_server_version_now(url)
+      __check_for_server_version_now
     end
 
     def __local_cached_server_version
@@ -227,9 +242,9 @@ module SonicPi
       end
     end
 
-    def __print_version_outdated_info
+    def __print_version_outdated_info(v=@server_version)
       __info "Your version of Sonic Pi is outdated"
-      __info "The latest is #{@server_version}"
+      __info "The latest is #{v}"
       __info "Please consider updating..."
     end
 
