@@ -23,7 +23,7 @@ require_relative "../sonicpi/lib/sonicpi/osc/osc"
 require_relative "../sonicpi/lib/sonicpi/lang/core"
 require_relative "../sonicpi/lib/sonicpi/lang/minecraftpi"
 require_relative "../sonicpi/lib/sonicpi/lang/sound"
-require_relative "../sonicpi/lib/sonicpi/lang/pattern"
+#require_relative "../sonicpi/lib/sonicpi/lang/pattern"
 require_relative "../sonicpi/lib/sonicpi/runtime"
 
 os = case RUBY_PLATFORM
