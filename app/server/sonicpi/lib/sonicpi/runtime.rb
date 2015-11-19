@@ -494,7 +494,7 @@ module SonicPi
           orig_completion_lines = completion_text.lines.to_a
           completion_line_pre = completion_line[0...(point_index - completion_key.length)]
           completion_line_post = completion_line[point_index..-1]
-          completion_text = completion_line_pre + completion_text + completion_line_post
+          completion_text = completion_line_pre + completion_text + completion_line_post + (completion_line_post.empty? ? "" : "\n")
           completion_lines = completion_text.lines.to_a
           point_line = point_line + point_line_offset
 
