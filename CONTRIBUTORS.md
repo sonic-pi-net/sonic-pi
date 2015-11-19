@@ -20,6 +20,7 @@ The following organisations have kindly contributed to Sonic Pi:
 * [The Raspberry Pi Foundation](http://www.raspberrypi.org)
 * [The Broadcom Foundation](http://www.broadcomfoundation.org)
 * [The University of Cambridge Computer Laboratory](http://www.cl.cam.ac.uk)
+* [Nesta](http://www.nesta.org.uk)
 
 ## Developer Contributions
 
@@ -28,39 +29,63 @@ the following developers who have donated their time and effort to help
 grow and improve the Sonic Pi code base:
 
 * [Hanno Zulla](https://github.com/hzulla)
-* [Martin Keegan](https://github.com/mk270)
+* [Łukasz Siwiński](https://github.com/hopbit)
 * [Ethan Crawford](https://github.com/ethancrawford)
+* [Martin Keegan](https://github.com/mk270)
 * [Nicolas Dermine](https://github.com/nicoder)
 * [Wolfgang Werner](https://github.com/wwerner)
 * [Robin Newman](https://github.com/rbnpi)
 * [Clare Macrae](https://github.com/claremacrae)
-* [Łukasz Siwiński](https://github.com/hopbit)
 * [G. Martin Butz](https://github.com/mbutz)
 * [Hannes Fritz](https://github.com/hztirf)
+* [Keiko Machiya](https://github.com/keikomachiya)
+* [Marco Giordano](https://github.com/marco-giordano)
 * [Martin Zeilinger](https://github.com/st01c)
 * [Steve Traylen](https://github.com/traylenator)
 * [Ben Nuttall](https://github.com/bennuttall)
 * [Will Stephenson](https://github.com/wstephenson)
+* [Chris Ford](https://github.com/ctford)
 * [Kenichi Kanai](https://github.com/kn1kn1)
+* [Michel Echevres](https://github.com/echevresm)
+* [Mistral Contrastin](https://github.com/madgen)
+* [Jose Añasco](https://github.com/merongivian)
+* [Daniel Canelhas](https://github.com/dcanelhas)
 * [Katie Miller](https://github.com/codemiller)
 * [Bruce Adams](https://github.com/bruceadams)
-* [Daniel Canelhas](https://github.com/dcanelhas)
-* [John Lawrence Aspden](https://github.com/johnlawrenceaspden)
-* [Hrafnkell Eiríksson](https://github.com/hrafnkelle)
-* [Jose Añasco](https://github.com/merongivian)
-* [Joseph Haig](https://github.com/jrmhaig)
-* [James Smith](https://github.com/Nanomancer)
-* [Graham Taylor](https://github.com/vinnievg)
-* [Alex McLean](https://github.com/yaxu)
-* [Cosmin Stroe](https://github.com/cstroe)
-* [Emlyn Corrin](https://github.com/emlyn)
-* [Nigel Michki](https://github.com/nigeil)
-* [Karl Hiner](https://github.com/khiner)
-* [Ruzsa Balázs](https://github.com/cellux)
-* [Christian Perfect](https://github.com/christianp)
-* [Ivan Zarea](https://github.com/minivan)
-* [Ryan Bigg](https://github.com/radar)
-* [Morgan Owens](https://github.com/equiamos)
+* [Christoph B. Wurzinger](https://github.com/chbw)
 * [Serge Stinckwich](https://github.com/SergeStinckwich)
+* [Nigel Michki](https://github.com/nigeil)
+* [Joseph Haig](https://github.com/jrmhaig)
+* [Graham Taylor](https://github.com/vinnievg)
+* [John Lawrence Aspden](https://github.com/johnlawrenceaspden)
+* [Cosmin Stroe](https://github.com/cstroe)
+* [Ryan Bigg](https://github.com/radar)
+* [Karl Hiner](https://github.com/khiner)
+* [Morgan Owens](https://github.com/equiamos)
+* [Ivan Zarea](https://github.com/minivan)
+* [Alex McLean](https://github.com/yaxu)
+* [Christian Perfect](https://github.com/christianp)
+* [Michael Fulton](https://github.com/emu4hire)
+* [Emlyn Corrin](https://github.com/emlyn)
+* [James Smith](https://github.com/Nanomancer)
+* [Hrafnkell Eiríksson](https://github.com/hrafnkelle)
+* [Enrike Hurtado](https://github.com/enrike)
+* [Tomasz Nurkiewicz](https://github.com/nurkiewicz)
+* [Ruzsa Balázs](https://github.com/cellux)
+* [Russell Jones](https://github.com/Russel-Jones)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
