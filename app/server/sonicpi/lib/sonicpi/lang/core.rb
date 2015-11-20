@@ -585,6 +585,26 @@ module SonicPi
 
 
 
+      def octs(start, num_octs=1)
+        a = []
+        num_octs.times do |i|
+          a << (note(start) + (12 * i))
+        end
+        a.ring
+      end
+      doc name:           :octs,
+          introduced:     Version.new(2,8,0),
+          summary:        "Create a ring of octaves",
+          args:           [[:start, :note], [:num_octaves, :pos_int]],
+          returns:        :ring,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Create a ring of successive octaves starting at `start` for `num_octaves`. ",
+          examples:       [
+        "(octs 60, 2)  #=> (ring 60, 72)",
+        "(octs :e3, 3) #=> (ring 52, 64, 76)"
+]
+
       def vector(*args)
         SonicPi::Core::SPVector.new(args)
       end
