@@ -14,14 +14,15 @@
 ## Version 2.8 - 'Karlsruhe'
 *Friday 20th November, 2015*
 
-This release, named after one of the home cities of live coding is
-mainly a maintenance release with a strong focus on both performance,
-stability and documentation. This is therefore the fastest and most
-stable release of Sonic Pi ever with a massive 10% performance
+This release, named after Karlsruhe, one of the home cities of live
+coding, is mainly a maintenance release with a strong focus on both
+performance, stability and documentation. This is therefore the fastest
+and most stable release of Sonic Pi ever with a massive 10% performance
 improvement on the original Raspberry Pi 1. It also ships with new
-translations in Polish, Japanese and French. Many of these improvements (such as
-the complete rewrite of the OSC stack) are not documented in this release
-list but can instead be found in the commit logs over on Github.
+translations in Polish, Japanese and French. Many of these improvements
+(such as the complete rewrite of the OSC stack) are not documented in
+this release list but can instead be found in the commit logs over on
+Github.
 
 However, not to go unnoticed are a number of exciting new features. For
 example we now have a new Band EQ FX, the ability to use MIDI note names
@@ -41,6 +42,7 @@ cutoff envelopes on the sampler.
 
 ### New Fns
 
+* `octs` - returns a ring of successive octaves.
 * `assert` - for raising an exception if the argument is not true.
 * `assert_equal` - for raising an exception if the two arguments are not
   equal.
@@ -55,6 +57,12 @@ cutoff envelopes on the sampler.
 * Log title bar is now hidden in full-screen mode.
 * Log - don't display └ or ├ if the line is blank, instead display │
 * Add sample name autocompletion to more fns such as `sample_duration`.
+
+### Documentation
+
+* New tutorial section on ring chains (chainable functions for modifying rings)
+* Tilburg 2 example slightly tweaked for Raspberry Pi 1 compatibility.
+* Many minor tweaks and improvements in all areas.
 
 ### Synths & FX
 
@@ -71,6 +79,7 @@ cutoff envelopes on the sampler.
   keep the consumption of random streams or ticks consistent even when
   not triggering a synth.
 * MIDI opts such as `cutoff:` can now accept note names such as `:c4`.
+* FX learned the global `slide:` opt to match synths.
 
 ### Improvements
 
@@ -92,7 +101,7 @@ cutoff envelopes on the sampler.
 * Ensure `with_fx` doesn't affect random seed.
 * Improve reliability of boot process on Mac and Windows.
 * The FX `pre_amp:` opt is no longer scaled w.r.t. the current BPM.
-
+* Fixed GUI side of update checking system.
 
 <a name="v2.7"></a>
 
