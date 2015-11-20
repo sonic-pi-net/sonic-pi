@@ -1,7 +1,7 @@
 cd %~dp0
 
 copy /Y ruby_help.tmpl ruby_help.h
-ruby ../../server/bin/qt-doc.rb -o ruby_help.h
+..\..\server\native\windows\bin\ruby ../../server/bin/qt-doc.rb -o ruby_help.h
 @IF ERRORLEVEL==9009 goto :noruby
 
 lrelease SonicPi.pro
