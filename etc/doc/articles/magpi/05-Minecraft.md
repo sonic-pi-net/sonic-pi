@@ -112,7 +112,7 @@ incredibly powerful and amazing fun. I use `live_loop`s to perform music
 in nightclubs with Sonic Pi - DJs use discs and I use `live_loop`s :-)
 However, today we're going to live code both music and Minecraft.
 
-Let's get started. Run the code above and start making your grass
+Let's get started. Run the code above and start making your melon
 trail again. Now, without stopping the code, just simply change `:melon` to
 `:brick` and hit run. Hey presto, you're now making a brick trail. How
 simple was that! Fancy some music to go with it? Easy. Try this:
