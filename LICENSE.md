@@ -105,3 +105,9 @@ relevant licenses:
 * [Ruby CoreAudio](https://github.com/nagachika/ruby-coreaudio) - [MIT License](http://opensource.org/licenses/MIT)
 * [WaveFile](https://github.com/jstrait/wavefile/) - [MIT License](http://opensource.org/licenses/MIT)
 * [Benchmark-IPS](https://github.com/evanphx/benchmark-ips) - [MIT License](http://opensource.org/licenses/MIT)
+* [Mocha](http://gofreerange.com/mocha/docs/) - [MIT License](http://opensource.org/licenses/MIT)
+* [MiniTest](http://ruby-doc.org/stdlib-2.0.0/libdoc/minitest/rdoc/MiniTest.html) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
+* [AST](https://github.com/whitequark/ast) - [MIT License](http://opensource.org/licenses/MIT)
+* [Parser](https://github.com/whitequark/parser) - [MIT License](http://opensource.org/licenses/MIT)
+* [Metaclass](https://github.com/floehopper/metaclass) - [MIT License](http://opensource.org/licenses/MIT)
+
