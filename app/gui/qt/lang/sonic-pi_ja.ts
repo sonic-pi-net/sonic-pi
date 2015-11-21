@@ -22,22 +22,25 @@
         <translation>Sonic Pi</translation>
     </message>
     <message>
-        <source>ruby could not be started, is it installed and in your PATH?</source>
-        <translation type="obsolete">rubyを起動することができませんでした。インストール、またパスはを確認してください。</translation>
-    </message>
-    <message>
-        <source>Failed to start server, please check %1.</source>
-        <oldsource>Failed to start server, please check </oldsource>
-        <translation type="obsolete">%1.サーバーの起動に失敗しました。確認してください。</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="803"/>
         <source>Raspberry Pi System Volume</source>
         <translation>Raspberry Pi システム ボリューム</translation>
     </message>
     <message>
-        <source>Studio Settings</source>
-        <translation type="obsolete">スタジオ設定</translation>
+        <location filename="../mainwindow.cpp" line="809"/>
+        <source>Toggle stereo inversion.
+If enabled, audio sent to the left speaker will
+be routed to the right speaker and visa versa.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="812"/>
+        <source>Toggle mono mode.
+If enabled both right and left audio is mixed and
+the same signal is sent to both speakers.
+Useful when working with external systems that
+can only handle mono.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
@@ -60,24 +63,49 @@
         <translation>&amp;HDMI</translation>
     </message>
     <message>
-        <source>Save Current Workspace</source>
-        <translation type="obsolete">現在のワークスペースを保存</translation>
+        <location filename="../mainwindow.cpp" line="853"/>
+        <source>Configure debug behaviour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="856"/>
+        <source>Toggle log messages.
+If disabled, activity such as synth and sample
+triggering will not be printed to the log by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="815"/>
+        <source>Safe mode</source>
+        <translation>セーフモード</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="858"/>
+        <source>Clear log on run</source>
+        <translation>実行時にログをクリア</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="859"/>
+        <source>Toggle log clearing on run.
+If enabled, the log is cleared each
+time the run button is pressed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="924"/>
+        <source>Toggle line number visibility.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="936"/>
+        <source>Dark mode</source>
+        <translation>ダークモード</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>コードの実行...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1291"/>
-        <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1298"/>
-        <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>コードを実行します...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1305"/>
@@ -89,12 +117,7 @@
         <location filename="../mainwindow.cpp" line="1325"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation>リロード...</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1332"/>
-        <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>リロードします...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
@@ -114,14 +137,9 @@
         <translation>Workspace %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="153"/>
-        <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="296"/>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Buffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="459"/>
@@ -139,30 +157,10 @@
         <translation>行をインデント...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="634"/>
-        <source>Commenting selection...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="638"/>
-        <source>Commenting line...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="717"/>
-        <source>Ruby could not be started, is it installed and in your PATH?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="804"/>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation>あなたのラズベリーパイのシステムボリュームを変更するには、このスライダを使用します。</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="806"/>
-        <source>Advanced Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>ラズベリーパイのシステムボリュームを変更するには、このスライダを使用します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
@@ -177,30 +175,71 @@ external PA systems when performing with Sonic Pi.</source>
         <translation>ステレオ反転</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="809"/>
-        <source>Toggle stereo inversion.
-If enabled, audio sent to the left speaker will
-be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="811"/>
         <source>Force Mono</source>
         <translation>モノラル設定</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="812"/>
-        <source>Toggle mono mode.
-If enabled both right and left audio is mixed and
-the same signal is sent to both speakers.
-Useful when working with external systems that
-can only handle mono.</source>
+        <location filename="../mainwindow.cpp" line="829"/>
+        <source>Your Raspberry Pi has two forms of audio output.
+Firstly, there is the headphone jack of the Raspberry Pi itself.
+Secondly, some HDMI monitors/TVs support audio through the HDMI port.
+Use these buttons to force the output to the one you want.</source>
+        <oldsource>Your Raspberry Pi has two forms of audio output.
+Firstly, there is the headphone jack of the Raspberry Pi itself.
+Secondly, some HDMI monitors/TVs support audio through the HDMI port.
+Use these buttons to force the output to the one you want.
+For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
+        <translation>ラズベリーパイは、2つの形式のオーディオ出力を持っています。
+まず、ラズベリーパイ自体のヘッドフォンジャック、
+もう一つはHDMIポートを介し、モニター/テレビがサポートするオーディオです。
+これらのボタンを使用し、あなたが望む出力に設定します。</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="882"/>
+        <location filename="../mainwindow.cpp" line="1004"/>
+        <source>Updates</source>
+        <translation>アップデート</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="884"/>
+        <source>Check for updates</source>
+        <translation>アップデートをチェック</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="988"/>
+        <source>Editor</source>
+        <translation>エディタ</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="923"/>
+        <source>Show line numbers</source>
+        <translation>行番号を表示</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="153"/>
+        <source>Sonic Pi update info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="815"/>
-        <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <location filename="../mainwindow.cpp" line="634"/>
+        <source>Commenting selection...</source>
+        <translation>選択範囲をコメント...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="638"/>
+        <source>Commenting line...</source>
+        <translation>行をコメント...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="717"/>
+        <source>Ruby could not be started, is it installed and in your PATH?</source>
+        <translation>Rubyを起動できませんでした。Rubyがインストールされ、PATHが通っていることを確認ください。</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="806"/>
+        <source>Advanced Audio</source>
+        <translation>高度なオーディオ設定</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="816"/>
@@ -210,59 +249,19 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="829"/>
-        <source>Your Raspberry Pi has two forms of audio output.
-Firstly, there is the headphone jack of the Raspberry Pi itself.
-Secondly, some HDMI monitors/TVs support audio through the HDMI port.
-Use these buttons to force the output to the one you want.</source>
-        <oldsource>Your Raspberry Pi has two forms of audio output. 
-Firstly, there is the headphone jack of the Raspberry Pi itself. 
-Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
-Use these buttons to force the output to the one you want. 
-For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
-        <translation>ラズベリーパイは、2つの形式のオーディオ出力を持っています。
-まず、ラズベリーパイ自体のヘッドフォンジャック、
-もう一つはHDMIポートを介し、モニター/テレビがサポートするオーディオです。
-これらのボタンを使用し、あなたが望む出力に設定します。</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="852"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="853"/>
-        <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>ロギング</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="855"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="856"/>
-        <source>Toggle log messages.
-If disabled, activity such as synth and sample
-triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="858"/>
-        <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="859"/>
-        <source>Toggle log clearing on run.
-If enabled, the log is cleared each
-time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>synthをログ出力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="861"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>cueをログ出力</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="862"/>
@@ -306,12 +305,12 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="895"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>アップデート情報</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="914"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
@@ -321,7 +320,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>ルック・アンド・フィール</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"/>
@@ -331,7 +330,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="918"/>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>自動化</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
@@ -341,7 +340,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="920"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation>自動整形</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"/>
@@ -349,14 +348,9 @@ This check involves sending anonymous information about your platform and versio
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="924"/>
-        <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="925"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>ログを表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="926"/>
@@ -366,7 +360,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="928"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>ボタンを表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="929"/>
@@ -376,7 +370,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="931"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>タブを表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
@@ -386,16 +380,11 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>フルスクリーン</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="936"/>
-        <source>Dark mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -412,37 +401,16 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="989"/>
         <source>Studio</source>
-        <translation type="unfinished"></translation>
+        <translation>スタジオ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="991"/>
-        <location filename="../mainwindow.cpp" line="996"/>
-        <source>Performance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="992"/>
-        <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1087"/>
-        <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1087"/>
-        <source>Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1087"/>
-        <source>Please consider reporting a bug at</source>
+        <location filename="../mainwindow.cpp" line="2448"/>
+        <source>Welcome back. Now get your live code on...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -451,89 +419,19 @@ Dark mode is perfect for live coding in night clubs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2413"/>
-        <source>Last checked %1</source>
+        <location filename="../mainwindow.cpp" line="1291"/>
+        <source>Zooming In...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2415"/>
-        <source>Sonic Pi checks for updates
-every two weeks.</source>
+        <location filename="../mainwindow.cpp" line="1298"/>
+        <source>Zooming Out...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2417"/>
-        <source>This is Sonic Pi %1</source>
+        <location filename="../mainwindow.cpp" line="1332"/>
+        <source>Checking for updates...</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2418"/>
-        <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2422"/>
-        <source>New version available!
-Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="2448"/>
-        <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Debug Options</source>
-        <translation type="obsolete">デバッグオプション</translation>
-    </message>
-    <message>
-        <source>Print output</source>
-        <translation type="obsolete">プリント出力</translation>
-    </message>
-    <message>
-        <source>Check synth args</source>
-        <translation type="obsolete">シンセの引数を確認</translation>
-    </message>
-    <message>
-        <source>Clear output on run</source>
-        <translation type="obsolete">実行時の出力をクリア</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="882"/>
-        <location filename="../mainwindow.cpp" line="1004"/>
-        <source>Updates</source>
-        <translation>アップデート</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="884"/>
-        <source>Check for updates</source>
-        <translation>アップデートをチェック</translation>
-    </message>
-    <message>
-        <source>Configure whether Sonic Pi may check for new updates on launch.
-Please note, the checking process includes sending
-anonymous information to the Sonic Pi server.</source>
-        <translation type="obsolete">Sonic Piが起動時に新しい更新をチェックするかを設定します。
-チェック処理は、Sonic Piサーバーへ匿名情報を
-送信することを含むことに注意してください。</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="988"/>
-        <source>Editor</source>
-        <translation>エディタ</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="923"/>
-        <source>Show line numbers</source>
-        <translation>行番号を表示</translation>
-    </message>
-    <message>
-        <source>Editor Preferences</source>
-        <translation type="obsolete">エディタ設定</translation>
-    </message>
-    <message>
-        <source>We&apos;re sorry, but Sonic Jam Pi was unable to start...</source>
-        <translation type="obsolete">Sonic Jam Piは開始できませんでした...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1340"/>
@@ -609,12 +507,7 @@ anonymous information to the Sonic Pi server.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1912"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1916"/>
-        <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">現在のbufferをファイルに保存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1930"/>
@@ -634,7 +527,7 @@ anonymous information to the Sonic Pi server.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2163"/>
         <source>File loaded...</source>
-        <translation>ファイルをロードされました...</translation>
+        <translation>ファイルがロードされました...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
@@ -642,24 +535,31 @@ anonymous information to the Sonic Pi server.</source>
         <translation>ファイルが保存されました...</translation>
     </message>
     <message>
-        <source>Updating System Volume.</source>
-        <oldsource>Updating system volume.</oldsource>
-        <translation type="obsolete">システムボリュームを更新します。</translation>
+        <location filename="../mainwindow.cpp" line="2413"/>
+        <source>Last checked %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Switching To Headphone Audio Output.</source>
-        <oldsource>Switching To Headphone Audio Output .</oldsource>
-        <translation type="obsolete">ヘッドフォン出力に切り替えます。</translation>
+        <location filename="../mainwindow.cpp" line="2415"/>
+        <source>Sonic Pi checks for updates
+every two weeks.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Switching To HDMI Audio Output.</source>
-        <oldsource>Switching To HDMI Audio Output .</oldsource>
-        <translation type="obsolete">HDMIオーディオ出力に切り替えます。</translation>
+        <location filename="../mainwindow.cpp" line="2417"/>
+        <source>This is Sonic Pi %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Switching To Default Audio Output.</source>
-        <oldsource>Switching To Default Audio Output .</oldsource>
-        <translation type="obsolete">オーディオ出力をデフォルトに切り替えます。</translation>
+        <location filename="../mainwindow.cpp" line="2418"/>
+        <source>Version %2 is now available!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2422"/>
+        <source>New version available!
+Get Sonic Pi %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
@@ -687,17 +587,14 @@ anonymous information to the Sonic Pi server.</source>
         <translation>名前を付けて保存</translation>
     </message>
     <message>
-        <source>Save current workspace as an external file</source>
-        <translation type="obsolete">現在のワークスペースを外部ファイルに保存</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1915"/>
         <source>Info</source>
         <translation>インフォメーション</translation>
     </message>
     <message>
-        <source>See information about Sonic Jam Pi</source>
-        <translation type="obsolete">Sonic Jam Piについての情報を参照</translation>
+        <location filename="../mainwindow.cpp" line="1916"/>
+        <source>See information about Sonic Pi</source>
+        <translation>Sonic Piについての情報を参照</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="414"/>
@@ -706,12 +603,30 @@ anonymous information to the Sonic Pi server.</source>
         <translation>ヘルプ</translation>
     </message>
     <message>
-        <source>Enabling update checking....</source>
-        <translation type="obsolete">更新チェックを有効にします....</translation>
+        <location filename="../mainwindow.cpp" line="991"/>
+        <location filename="../mainwindow.cpp" line="996"/>
+        <source>Performance</source>
+        <translation>パフォーマンス</translation>
     </message>
     <message>
-        <source>Disabling update checking....</source>
-        <translation type="obsolete">更新チェックを無効にします....</translation>
+        <location filename="../mainwindow.cpp" line="992"/>
+        <source>Settings useful for performing with Sonic Pi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1087"/>
+        <source>Server boot error...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1087"/>
+        <source>Apologies, a critical error occurred during startup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1087"/>
+        <source>Please consider reporting a bug at</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1921"/>
@@ -739,11 +654,7 @@ anonymous information to the Sonic Pi server.</source>
         <location filename="../mainwindow.cpp" line="1934"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation>テキスト自動整列</translation>
-    </message>
-    <message>
-        <source>Auto-align text</source>
-        <translation type="obsolete">テキスト自動整列</translation>
+        <translation>テキスト自動整形</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1939"/>
@@ -752,18 +663,10 @@ anonymous information to the Sonic Pi server.</source>
         <translation>文字を大きく</translation>
     </message>
     <message>
-        <source>Make text bigger</source>
-        <translation type="obsolete">テキストを大きく</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1944"/>
         <location filename="../mainwindow.cpp" line="1945"/>
         <source>Decrease Text Size</source>
         <translation>文字を小さく</translation>
-    </message>
-    <message>
-        <source>Make text smaller</source>
-        <translation type="obsolete">テキストを小さく</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -817,10 +720,6 @@ anonymous information to the Sonic Pi server.</source>
         <translation>録音を保存</translation>
     </message>
     <message>
-        <source>Ready</source>
-        <translation type="obsolete">Ready</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2153"/>
         <source>Cannot read file %1:
 %2.</source>
@@ -828,19 +727,11 @@ anonymous information to the Sonic Pi server.</source>
 %2.</translation>
     </message>
     <message>
-        <source>File loaded</source>
-        <translation type="obsolete">Datei geladen</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="2171"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>%1:ファイルを書き込むことができません。
 %2.</translation>
-    </message>
-    <message>
-        <source>File saved</source>
-        <translation type="obsolete">ファイルが保存されました。</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="80"/>
@@ -865,7 +756,7 @@ anonymous information to the Sonic Pi server.</source>
     <message>
         <location filename="../ruby_help.h" line="446"/>
         <source>Fx</source>
-        <translation>効果</translation>
+        <translation>エフェクト</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="463"/>
