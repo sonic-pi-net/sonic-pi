@@ -11,7 +11,7 @@ programowaniu, kompozycji, wydajności i wielu innych rzeczach.
 Ale zaraz, zaraz, gdzie moje maniery! Pozwól, że się przedstawię - jestem 
 [Sam Aaron](http://twitter.com/samaaron) - facet, który stworzył Sonic Pi.
 Możesz znaleźć mnie pod nikiem [@samaaron](http://twitter.com/samaaron) na 
-Twitterze i będzie mi bardzo zadowolony jeśli będę mógł powiedzieć Ci cześć. 
+Twitterze i będzie mi bardzo miło jeśli będę mógł powiedzieć Ci cześć. 
 Być może zainteresuje Cię również moja strona 
 [Live Coding Performances](http://facebook.com/livecodersamaaron), gdzie 
 koduję przed publicznością na żywo używając Sonic Pi.
