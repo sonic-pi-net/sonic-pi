@@ -276,7 +276,7 @@ module SonicPi
           :note_slide_shape =>
           {
             :doc => "Shape of curve for note slide  0: step, 1: linear, 2: exponential, 3: sine, 4: welch, 5: custom (use *_curve opt), 6: squared, 7: cubed, 8: hold",
-            :validations => [v_one_of(:env_curve, [0, 1, 2, 3, 4, 6, 7, 8])],
+            :validations => [v_one_of(:note_slide_shape, [0, 1, 2, 3, 4, 6, 7, 8])],
             :modulatable => false
           },
 
