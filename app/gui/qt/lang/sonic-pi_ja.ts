@@ -371,7 +371,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="926"/>
         <source>Toggle visibility of the log.</source>
-        <translation>ログの表示を切り替えます</translation>
+        <translation>ログの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="928"/>
@@ -381,7 +381,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="929"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>コントロールボタンの表示を切り替えます</translation>
+        <translation>コントロールボタンの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="931"/>
@@ -571,7 +571,7 @@ every two weeks.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2418"/>
         <source>Version %2 is now available!</source>
-        <translation>バージョン %2 が利用可能です</translation>
+        <translation>バージョン %2 が利用可能です!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
@@ -603,7 +603,7 @@ Sonic Pi %1 を取得</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1911"/>
         <source>Save As...</source>
-        <translation>名前を付けて保存</translation>
+        <translation>名前を付けて保存...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1915"/>
