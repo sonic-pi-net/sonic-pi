@@ -219,7 +219,7 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
     <message>
         <location filename="../mainwindow.cpp" line="153"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi アップデート情報</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="634"/>
@@ -284,13 +284,15 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>今すぐチェック</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="888"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>強制的にアップデートをチェックします。
+チェック処理は、Sonic Piサーバーへ匿名情報を
+送信することを含むことに注意してください。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="889"/>
@@ -300,7 +302,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="890"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>http://sonic-pi.net で新しいバージョンをダウンロードしてください</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="895"/>
@@ -537,29 +539,31 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2413"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>前回のチェック日時: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2415"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>アップデートのチェックは
+2週間毎に行われます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2417"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2418"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>バージョン %2 が利用可能です</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいバージョンがあります!
+Sonic Pi %1 を取得</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
