@@ -273,7 +273,7 @@ However, they will not be visible in the logs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="871"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>透過</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="886"/>
