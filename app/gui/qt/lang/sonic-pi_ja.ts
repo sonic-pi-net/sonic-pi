@@ -258,8 +258,7 @@ If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
         <translation type="unfinished">シンセの引数をチェックする機能を切り替えます。
 無効にした場合、特定のシンセのオプションの値により
-予期せず大きな音が出たり、不快な音が出たりするかもしれません。
-</translation>
+予期せず大きな音が出たり、不快な音が出たりするかもしれません。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="852"/>
