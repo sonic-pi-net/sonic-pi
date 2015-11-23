@@ -31,7 +31,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>ステレオ反転を切り替えます。
+有効にすると、左スピーカーに送った音が
+右のスピーカーに送られ、逆もまた同様です。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="812"/>
@@ -40,7 +42,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>モノラルモードを切り替えます。
+有効にすると、左右の音がミックスされ
+左右同じ音が両方のスピーカーに送られます。
+外部システムがモノラルしか扱えない場合に
+有用です。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
@@ -65,14 +71,16 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="853"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>デバッグ時の振る舞いを設定します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="856"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>ログメッセージを切り替えます。
+無効にすると、シンセやサンプルの実行のログが
+デフォルトで出力されなくなります。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="815"/>
@@ -89,7 +97,9 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>実行時のログクリアを切り替えます。
+有効にすると、実行ボタンを押下する度に
+ログがクリアされます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="924"/>
@@ -246,7 +256,10 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">シンセの引数をチェックする機能を切り替えます。
+無効にした場合、特定のシンセのオプションの値により
+予期せず大きな音が出たり、不快な音が出たりするかもしれません。
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="852"/>
@@ -268,7 +281,9 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>cueのログを有効／無効にします。
+無効にした場合にも、cueは実行されますが、
+ログには出力されません。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="871"/>
