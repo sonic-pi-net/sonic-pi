@@ -94,7 +94,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="924"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>行番号の表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"/>
