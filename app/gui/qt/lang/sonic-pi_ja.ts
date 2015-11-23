@@ -31,7 +31,9 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>ステレオ反転を切り替えます。
+有効にすると、左スピーカーに送った音が
+右のスピーカーに送られ、逆もまた同様です。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="812"/>
@@ -40,7 +42,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>モノラルモードを切り替えます。
+有効にすると、左右の音がミックスされ
+左右同じ音が両方のスピーカーに送られます。
+外部システムがモノラルしか扱えない場合に
+有用です。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
@@ -65,14 +71,16 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="853"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>デバッグ時の振る舞いを設定します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="856"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>ログメッセージを切り替えます。
+無効にすると、シンセやサンプルの実行のログが
+デフォルトで出力されなくなります。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="815"/>
@@ -89,12 +97,14 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>実行時のログクリアを切り替えます。
+有効にすると、実行ボタンを押下する度に
+ログがクリアされます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="924"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>行番号の表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"/>
@@ -219,7 +229,7 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
     <message>
         <location filename="../mainwindow.cpp" line="153"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi アップデート情報</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="634"/>
@@ -246,7 +256,9 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>シンセの引数をチェックする機能を切り替えます。
+無効にした場合、特定のシンセのオプションの値により
+予期せず大きな音が出たり、不快な音が出たりするかもしれません。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="852"/>
@@ -268,12 +280,14 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>cueのログを有効／無効にします。
+無効にした場合にも、cueは実行されますが、
+ログには出力されません。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="871"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>透過</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="886"/>
@@ -284,13 +298,15 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>今すぐチェック</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="888"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>強制的にアップデートをチェックします。
+チェック処理は、Sonic Piサーバーへ匿名情報を
+送信することを含むことに注意してください。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="889"/>
@@ -300,7 +316,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="890"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>http://sonic-pi.net で新しいバージョンをダウンロードしてください</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="895"/>
@@ -315,7 +331,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>エディタの表示オプションを設定します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
@@ -325,7 +341,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="917"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>エディタのルック・アンド・フィールを設定します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"/>
@@ -335,7 +351,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>自動化機能を設定します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"/>
@@ -345,7 +361,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="921"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>実行時に自動的にコードを整形します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="925"/>
@@ -355,7 +371,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="926"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>ログの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="928"/>
@@ -365,7 +381,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="929"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>コントロールボタンの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="931"/>
@@ -375,7 +391,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>buffer選択タブの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
@@ -385,18 +401,19 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="935"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>フルスクリーンモードを切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>ダークモードを切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+ダークモードは、クラブでのライブコーディングに最適です。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
@@ -507,7 +524,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1912"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished">現在のbufferをファイルに保存</translation>
+        <translation>現在のbufferをファイルに保存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1930"/>
@@ -537,29 +554,31 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2413"/>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>前回のチェック日時: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2415"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>アップデートのチェックは
+2週間毎に行われます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2417"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2418"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>バージョン %2 が利用可能です!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいバージョンがあります!
+Sonic Pi %1 を取得</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
@@ -584,7 +603,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1911"/>
         <source>Save As...</source>
-        <translation>名前を付けて保存</translation>
+        <translation>名前を付けて保存...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1915"/>
@@ -756,7 +775,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="446"/>
         <source>Fx</source>
-        <translation>エフェクト</translation>
+        <translation>効果</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="463"/>
