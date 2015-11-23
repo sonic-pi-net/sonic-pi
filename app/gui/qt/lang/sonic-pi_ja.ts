@@ -293,7 +293,9 @@ However, they will not be visible in the logs.</source>
         <location filename="../mainwindow.cpp" line="886"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Piが起動時に新しい更新をチェックするかを設定します。
+チェック処理は、Sonic Piサーバーへ匿名情報を
+送信することを含むことに注意してください。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
@@ -311,12 +313,12 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="889"/>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation>アップデートを取得</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="890"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>http://sonic-pi.net で新しいバージョンをダウンロードしてください</translation>
+        <translation>新しいバージョンの取得のため、http://sonic-pi.net を表示します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="895"/>
@@ -433,22 +435,22 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1181"/>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>現在のbufferを保存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1291"/>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>ズームイン...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1298"/>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>ズームアウト...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1332"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>アップデートを確認しています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1340"/>
@@ -635,17 +637,17 @@ Sonic Pi %1 を取得</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>サーバー起動エラー...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>申し訳ありません。起動中に重大なエラーが発生しました。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished"></translation>
+        <translation>バグの報告をご検討ください。報告先: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1921"/>
