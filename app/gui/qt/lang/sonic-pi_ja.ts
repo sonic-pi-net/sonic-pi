@@ -630,7 +630,7 @@ Sonic Pi %1 を取得</translation>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Piでパフォーマンスする際に有用な設定です</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
