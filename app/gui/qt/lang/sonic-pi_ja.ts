@@ -256,7 +256,7 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">シンセの引数をチェックする機能を切り替えます。
+        <translation>シンセの引数をチェックする機能を切り替えます。
 無効にした場合、特定のシンセのオプションの値により
 予期せず大きな音が出たり、不快な音が出たりするかもしれません。</translation>
     </message>
@@ -524,7 +524,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1912"/>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished">現在のbufferをファイルに保存</translation>
+        <translation>現在のbufferをファイルに保存</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1930"/>
