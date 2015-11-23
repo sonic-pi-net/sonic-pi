@@ -317,7 +317,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation>エディタの表示オプションを設定します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
@@ -327,7 +327,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="917"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation>エディタのルック・アンド・フィールを設定します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"/>
@@ -337,7 +337,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>自動化機能を設定します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"/>
@@ -347,7 +347,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="921"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation>実行時に自動的にコードを整形します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="925"/>
@@ -357,7 +357,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="926"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>ログの表示を切り替えます</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="928"/>
@@ -367,7 +367,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="929"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>コントロールボタンの表示を切り替えます</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="931"/>
@@ -377,7 +377,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="933"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>buffer選択タブの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
@@ -387,18 +387,18 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="935"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>フルスクリーンモードを切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>ダークモードを切り替えます。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>ダークモードは、クラブでのライブコーディングに最適です。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
