@@ -413,7 +413,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="937"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>ダークモードは、クラブでのライブコーディングに最適です。</translation>
+        <translation>
+ダークモードは、クラブでのライブコーディングに最適です。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
