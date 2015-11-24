@@ -1057,9 +1057,7 @@ end
         return nil unless should_trigger?(args_h)
 
         n = normalise_transpose_and_tune_note_from_args(n, args_h)
-        args_h[:note] = n
-
-        trigger_inst synth_name, init_args_h.merge(args_h)
+        trigger_inst synth_name, {note: n}.merge(init_args_h.merge(args_h))
       end
       doc name:          :play,
           introduced:    Version.new(2,0,0),
@@ -1504,13 +1502,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
           args_h["in_bus"] = new_bus
           # set default slide times
-          default_slide_time = args_h[:slide]
-          if info && default_slide_time
-            info.slide_args.each do |k|
-              args_h[k] = default_slide_time unless args_h.has_key?(k)
-            end
-          end
-
+          add_arg_slide_times!(args_h, info)
           args_h = normalise_and_resolve_synth_args(args_h, info)
 
 
@@ -3031,17 +3023,9 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         default_slide_time = args_h[:slide]
         args_h.delete :slide
 
-        if node.info
-          if default_slide_time
-            node.info.slide_args.each do |k|
-              args_h[k] = default_slide_time unless args_h.has_key?(k)
-            end
-          end
-
-          args_h = scale_time_args_to_bpm!(args_h, node.info, false)
-          args_h = resolve_midi_args!(args_h, node.info)
-
-        end
+        add_arg_slide_times!(args_h, node.info)
+        scale_time_args_to_bpm!(args_h, node.info, false)
+        resolve_midi_args!(args_h, node.info)
 
         if args_h.has_key?(:note)
           n = normalise_transpose_and_tune_note_from_args(args_h[:note], args_h)
@@ -3406,10 +3390,21 @@ The location of the binary synthdef file written to disk by `.store` is platform
       end
 
       def trigger_specific_sampler(sampler_type, path, buf_id, num_chans, args_h, group=current_job_synth_group)
-        args_h_with_buf = {:buf => buf_id}.merge(args_h)
+
         sn = sampler_type.to_sym
         info = Synths::SynthInfo.get_info(sn)
         path = path.gsub(/\A#{@mod_sound_home_dir}/, "~") if path.is_a? String
+
+        # Combine thread local defaults here as
+        # normalise_and_resolve_synth_args has only been taught about
+        # synth thread local defaults
+        t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
+        t_l_args.each do |k, v|
+            args_h[k] = v unless args_h.has_key? k
+          end
+        args_h = normalise_and_resolve_synth_args(args_h, info)
+
+
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           if args_h.empty?
             __delayed_message "sample #{path.inspect}"
@@ -3417,24 +3412,23 @@ The location of the binary synthdef file written to disk by `.store` is platform
             __delayed_message "sample #{path.inspect}, #{arg_h_pp(args_h)}"
           end
         end
-
-        # Combine thread local defaults here as
-        # normalise_and_resolve_synth_args has only been taught about
-        # synth thread local defaults
-        t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
-        args_h_with_buf = t_l_args.merge(args_h_with_buf)
-        trigger_synth(sn, args_h_with_buf, group, info)
+        add_arg_slide_times!(args_h, info)
+        args_h[:buf] = buf_id
+        trigger_synth(sn, args_h, group, info)
       end
 
       def trigger_inst(synth_name, args_h, group=current_job_synth_group)
         sn = synth_name.to_sym
         info = Synths::SynthInfo.get_info(sn)
 
-        unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-          __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(args_h)}"
-        end
+        processed_args = normalise_and_resolve_synth_args(args_h, info, nil, true)
 
-        trigger_synth(synth_name, args_h, group, info, false, nil, true)
+        unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+          __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
+        end
+        add_arg_slide_times!(processed_args, info)
+        out_bus = current_out_bus
+        trigger_synth(synth_name, processed_args, group, info, false, out_bus)
       end
 
       def trigger_chord(synth_name, notes, args_a_or_h, group=current_job_synth_group)
@@ -3444,21 +3438,22 @@ The location of the binary synthdef file written to disk by `.store` is platform
         args_h = normalise_and_resolve_synth_args(args_h, info, nil, true)
 
         chord_group = @mod_sound_studio.new_group(:tail, group, "CHORD")
-        cg = ChordGroup.new(chord_group, notes)
+        cg = ChordGroup.new(chord_group, notes, info)
 
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-          __delayed_message "synth #{sn.inspect}, #{arg_h_pp(args_h.merge({note: notes}))}"
-        end
+          __delayed_message "synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
+       end
 
         # Scale down amplitude based on number of notes in chord
         amp = args_h[:amp] || 1.0
         args_h[:amp] = amp.to_f / notes.size
 
         nodes = []
+
         notes.each do |note|
           if note
             args_h[:note] = note
-            nodes << trigger_synth_with_resolved_args(synth_name, args_h, cg, info)
+            nodes << trigger_synth(synth_name, args_h, cg, info)
           end
         end
         cg.sub_nodes = nodes
@@ -3466,27 +3461,17 @@ The location of the binary synthdef file written to disk by `.store` is platform
       end
 
       def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group, now=false, t_minus_delta=false)
-        n = trigger_synth_with_resolved_args(synth_name, args_h, group, info, now, t_minus_delta)
+        n = trigger_synth(synth_name, args_h, group, info, now, t_minus_delta)
         FXNode.new(n, in_bus, current_out_bus)
       end
 
-      def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, combine_tls=false)
-        # set default slide times
-        default_slide_time = args_h[:slide]
-        if info && default_slide_time
-          info.slide_args.each do |k|
-            args_h[k] = default_slide_time unless args_h.has_key?(k)
-          end
-        end
-
-        processed_args = normalise_and_resolve_synth_args(args_h, info, out_bus, combine_tls)
-        trigger_synth_with_resolved_args(synth_name, processed_args, group, info, now, out_bus)
-      end
-
       # Function that actually triggers synths now that all args are resolved
-      def trigger_synth_with_resolved_args(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false)
+      def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false)
+        add_out_bus_and_rand_buf!(args_h, out_bus)
+        orig_synth_name = synth_name
         synth_name = info ? info.scsynth_name : synth_name
         validate_if_necessary! info, args_h
+
         job_id = current_job_id
         __no_kill_block do
 
@@ -3513,27 +3498,28 @@ The location of the binary synthdef file written to disk by `.store` is platform
         end
       end
 
+      def add_out_bus_and_rand_buf!(args_h, out_bus=nil)
+        out_bus = current_out_bus unless out_bus
+        args_h["out_bus"] = out_bus.to_i
+        args_h[:rand_buf] = @mod_sound_studio.rand_buf_id if args_h[:seed]
+      end
+
+
       def normalise_and_resolve_synth_args(args_h, info, out_bus=nil, combine_tls=false)
         defaults = info ? info.arg_defaults : {}
-        unless out_bus
-          out_bus = current_out_bus
-        end
-
         if combine_tls
           t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
-          combined_args = t_l_args.merge(args_h)
-        else
-          combined_args = args_h
+          t_l_args.each do |k, v|
+            args_h[k] = v unless args_h.has_key? k
+          end
         end
 
-        combined_args["out_bus"] = out_bus
-        combined_args[:rand_buf] = @mod_sound_studio.rand_buf_id if combined_args[:seed]
-        resolve_midi_args!(combined_args, info) if info
-        normalise_args!(combined_args, defaults)
-        scale_time_args_to_bpm!(combined_args, info, true) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+        resolve_midi_args!(args_h, info) if info
+        normalise_args!(args_h, defaults)
+        scale_time_args_to_bpm!(args_h, info, true) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
 
 
-        combined_args
+        args_h
       end
 
       def current_job_id
@@ -3838,7 +3824,7 @@ The location of the binary synthdef file written to disk by `.store` is platform
         # current bpm. Check in info to see if that's necessary and if
         # so, scale them.
 
-
+        new_args = {}
         if force_add
           defaults = info.arg_defaults
           # force_add is true so we need to ensure that we scale args
@@ -3851,23 +3837,33 @@ The location of the binary synthdef file written to disk by `.store` is platform
             # see .normalise_args!
             val = (args_h[val] || defaults[val]) if val.is_a?(Symbol)
             scaled_val = val * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
-            args_h[arg_name] = scaled_val unless scaled_val == defaults[arg_name]
+            new_args[arg_name] = scaled_val unless scaled_val == defaults[arg_name]
 
           end
         else
           # only scale the args that have been passed.
           info.bpm_scale_args.each do |arg_name, default|
-            args_h[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul) if args_h.has_key?(arg_name)
+            new_args[arg_name] = args_h[arg_name] * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul) if args_h.has_key?(arg_name)
 
           end
         end
-        args_h
+        args_h.merge(new_args)
       end
 
       def resolve_midi_args!(args_h, info)
         info.midi_args.each do |arg_name|
           if args_h.has_key? arg_name
             args_h[arg_name] = note(args_h[arg_name])
+          end
+        end
+        args_h
+      end
+
+      def add_arg_slide_times!(args_h, info)
+        default_slide_time = args_h[:slide]
+        if info && default_slide_time
+          info.slide_args.each do |k|
+            args_h[k] = default_slide_time unless args_h.has_key?(k)
           end
         end
         args_h

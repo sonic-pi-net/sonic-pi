@@ -17,11 +17,12 @@ module SonicPi
 
     attr_reader :notes
 
-    def initialize(group, notes)
+    def initialize(group, notes, info)
       @notes = notes
       @sub_nodes = []
       super(group.id, group.comms)
       @sem = Mutex.new
+      @info = info
     end
 
     def control(*args)
