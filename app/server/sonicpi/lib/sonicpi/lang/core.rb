@@ -856,7 +856,7 @@ puts dur #=> Returns 1.5 as 1.5 seconds have passed within the block
       doc name:           :block_slept?,
           introduced:     Version.new(2,9,0),
           summary:        "Determine if block contains sleep time",
-          doc:            "Given a block, runs it and returns whether or not the block contained sleeps or syncs"
+          doc:            "Given a block, runs it and returns whether or not the block contained sleeps or syncs",
           args:           [[]],
           opts:           nil,
           accepts_block:  true,
@@ -890,7 +890,6 @@ dur = block_slept do
 end
 
 puts dur #=> Returns false as there were no sleeps in the block"]
-
 
 
 
