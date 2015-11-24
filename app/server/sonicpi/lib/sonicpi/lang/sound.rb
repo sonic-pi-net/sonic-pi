@@ -2858,15 +2858,16 @@ end",
           summary:       "Construct chords of stacked thirds, based on scale degrees",
           doc:           "In music we build chords from scales. For example, a C major chord is made by taking the 1st, 3rd and 5th notes of the C major scale (C, E and G). If you do this on a piano you might notice that you play one, skip one, play one, skip one etc. If we use the same spacing and start from the second note in C major (which is a D), we get a D minor chord which is the 2nd, 4th and 6th notes in C major (D, F and A). We can move this pattern all the way up or down the scale to get different types of chords. `chord_degree` is a helper method that returns a ring of midi note numbers when given a degree (starting point in a scale) which is a symbol `:i`, `:ii`, `:iii`, `:iv`, `:v`, `:vi`, `:vii` or a number `1`-`7`. The second argument is the tonic note of the scale, the third argument is the scale type and finally the fourth argument is number of notes to stack up in the chord. If we choose 4 notes from degree `:i` of the C major scale, we take the 1st, 3rd, 5th and 7th notes of the scale to get a C major 7 chord.",
           args:          [[:degree, :symbol_or_number], [:tonic, :symbol], [:scale, :symbol], [:number_of_notes, :number]],
+          returns:       :ring,
           opts:          nil,
           accepts_block: false,
-          examples:      ["puts chord_degree(:i, :A3, :major) # returns a ring of midi notes - (ring 57, 61, 64, 68) - an A major 7 chord",
-        "play chord_degree(:i, :A3, :major, 3)",
-        "play chord_degree(:ii, :A3, :major, 3) # Chord ii in A major is a B minor chord",
-        "play chord_degree(:iii, :A3, :major, 3) # Chord iii in A major is a C# minor chord",
-        "play chord_degree(:iv, :A3, :major, 3) # Chord iv in A major is a D major chord",
-        "play chord_degree(:i, :C4, :major, 4) # Taking four notes is the default. This gives us 7th chords - here it plays a C major 7",
-        "play chord_degree(:i, :C4, :major, 5) # Taking five notes gives us 9th chords - here it plays a C major 9 chord",
+          examples:      ["puts (chord_degree :i, :A3, :major) # returns a ring of midi notes - (ring 57, 61, 64, 68) - an A major 7 chord",
+        "play (chord_degree :i, :A3, :major, 3)",
+        "play (chord_degree :ii, :A3, :major, 3) # Chord ii in A major is a B minor chord",
+        "play (chord_degree :iii, :A3, :major, 3) # Chord iii in A major is a C# minor chord",
+        "play (chord_degree :iv, :A3, :major, 3) # Chord iv in A major is a D major chord",
+        "play (chord_degree :i, :C4, :major, 4) # Taking four notes is the default. This gives us 7th chords - here it plays a C major 7",
+        "play (chord_degree :i, :C4, :major, 5) # Taking five notes gives us 9th chords - here it plays a C major 9 chord",
       ]
 
 
@@ -2914,113 +2915,59 @@ live_loop :arp do
 end",
         "# Sonic Pi supports a large range of chords
  # Notice that the more exotic ones have to be surrounded by ' quotes
-use_bpm 150 # this is just to get through all the chords more quickly
-play chord(:C, '1')
-sleep 1
-play chord(:C, '5')
-sleep 1
-play chord(:C, '+5')
-sleep 1
-play chord(:C, 'm+5')
-sleep 1
-play chord(:C, :sus2)
-sleep 1
-play chord(:C, :sus4)
-sleep 1
-play chord(:C, '6')
-sleep 1
-play chord(:C, :m6)
-sleep 1
-play chord(:C, '7sus2')
-sleep 1
-play chord(:C, '7sus4')
-sleep 1
-play chord(:C, '7-5')
-sleep 1
-play chord(:C, 'm7-5')
-sleep 1
-play chord(:C, '7+5')
-sleep 1
-play chord(:C, 'm7+5')
-sleep 1
-play chord(:C, '9')
-sleep 1
-play chord(:C, :m9)
-sleep 1
-play chord(:C, 'm7+9')
-sleep 1
-play chord(:C, :maj9)
-sleep 1
-play chord(:C, '9sus4')
-sleep 1
-play chord(:C, '6*9')
-sleep 1
-play chord(:C, 'm6*9')
-sleep 1
-play chord(:C, '7-9')
-sleep 1
-play chord(:C, 'm7-9')
-sleep 1
-play chord(:C, '7-10')
-sleep 1
-play chord(:C, '9+5')
-sleep 1
-play chord(:C, 'm9+5')
-sleep 1
-play chord(:C, '7+5-9')
-sleep 1
-play chord(:C, 'm7+5-9')
-sleep 1
-play chord(:C, '11')
-sleep 1
-play chord(:C, :m11)
-sleep 1
-play chord(:C, :maj11)
-sleep 1
-play chord(:C, '11+')
-sleep 1
-play chord(:C, 'm11+')
-sleep 1
-play chord(:C, '13')
-sleep 1
-play chord(:C, :m13)
-sleep 1
-play chord(:C, :major)
-sleep 1
-play chord(:C, :M)
-sleep 1
-play chord(:C, :minor)
-sleep 1
-play chord(:C, :m)
-sleep 1
-play chord(:C, :major7)
-sleep 1
-play chord(:C, :dom7)
-sleep 1
-play chord(:C, '7')
-sleep 1
-play chord(:C, :M7)
-sleep 1
-play chord(:C, :minor7)
-sleep 1
-play chord(:C, :m7)
-sleep 1
-play chord(:C, :augmented)
-sleep 1
-play chord(:C, :a)
-sleep 1
-play chord(:C, :diminished)
-sleep 1
-play chord(:C, :dim)
-sleep 1
-play chord(:C, :i)
-sleep 1
-play chord(:C, :diminished7)
-sleep 1
-play chord(:C, :dim7)
-sleep 1
-play chord(:C, :i7)
-sleep 1
+(chord :C, '1')
+(chord :C, '5')
+(chord :C, '+5')
+(chord :C, 'm+5')
+(chord :C, :sus2)
+(chord :C, :sus4)
+(chord :C, '6')
+(chord :C, :m6)
+(chord :C, '7sus2')
+(chord :C, '7sus4')
+(chord :C, '7-5')
+(chord :C, 'm7-5')
+(chord :C, '7+5')
+(chord :C, 'm7+5')
+(chord :C, '9')
+(chord :C, :m9)
+(chord :C, 'm7+9')
+(chord :C, :maj9)
+(chord :C, '9sus4')
+(chord :C, '6*9')
+(chord :C, 'm6*9')
+(chord :C, '7-9')
+(chord :C, 'm7-9')
+(chord :C, '7-10')
+(chord :C, '9+5')
+(chord :C, 'm9+5')
+(chord :C, '7+5-9')
+(chord :C, 'm7+5-9')
+(chord :C, '11')
+(chord :C, :m11)
+(chord :C, :maj11)
+(chord :C, '11+')
+(chord :C, 'm11+')
+(chord :C, '13')
+(chord :C, :m13)
+(chord :C, :major)
+(chord :C, :M)
+(chord :C, :minor)
+(chord :C, :m)
+(chord :C, :major7)
+(chord :C, :dom7)
+(chord :C, '7')
+(chord :C, :M7)
+(chord :C, :minor7)
+(chord :C, :m7)
+(chord :C, :augmented)
+(chord :C, :a)
+(chord :C, :diminished)
+(chord :C, :dim)
+(chord :C, :i)
+(chord :C, :diminished7)
+(chord :C, :dim7)
+(chord :C, :i7)
 "]
 
 
@@ -3050,11 +2997,11 @@ Note that it's also possible to directly invert chords on creation with the `inv
           opts:          nil,
           accepts_block: false,
           examples:      ["
-play invert_chord((chord :A3, \"M\"), 0) #No inversion     - (ring 57, 61, 64)
+play (invert_chord (chord :A3, \"M\"), 0) #No inversion     - (ring 57, 61, 64)
 sleep 1
-play invert_chord((chord :A3, \"M\"), 1) #First inversion  - (ring 61, 64, 69)
+play (invert_chord (chord :A3, \"M\"), 1) #First inversion  - (ring 61, 64, 69)
 sleep 1
-play invert_chord((chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
+play (invert_chord (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 "]
 
 
