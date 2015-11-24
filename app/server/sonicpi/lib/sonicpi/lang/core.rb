@@ -767,13 +767,13 @@ module SonicPi
           end
           use_random_seed args_h[:seed] if args_h[:seed]
           loop do
-            t1 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
-            Thread.current.thread_variable_set(:sonic_pi_spider_synced, false)
-            cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
-            res = send(ll_name, res)
+            slept = block_slept? do
+              Thread.current.thread_variable_set(:sonic_pi_spider_synced, false)
+              cue name if Thread.current.thread_variable_get :sonic_pi__not_inherited__live_loop_auto_cue
+              res = send(ll_name, res)
+            end
 
-            t2 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
-            raise "Live loop #{name.to_sym.inspect} did not sleep!" if (t1 == t2) && !Thread.current.thread_variable_get(:sonic_pi_spider_synced)
+            raise "Live loop #{name.to_sym.inspect} did not sleep!" unless slept
           end
         end
 
@@ -809,6 +809,87 @@ live_loop :foo do |a|  # pass a param (a) to the block (inits to 0)
   a += 1               # increment a by 1 (last value is passed back into the loop)
 end
   "   ]
+
+
+      def block_duration(&block)
+        t1 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
+        block.call
+        t2 = Thread.current.thread_variable_get(:sonic_pi_spider_time)
+        t2 - t1
+      end
+      doc name:           :block_duration,
+          introduced:     Version.new(2,9,0),
+          summary:        "Return block duration",
+          doc:            "Given a block, runs it and returns the amount of time that has passed. This time is in seconds and is not scaled to the current BPM. Any threads spawned in the block are not accounted for.",
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  true,
+          requires_block: true,
+          async_block:    false,
+          examples: ["
+dur = block_duration do
+  play 50
+  sleep 1
+  play 62
+  sleep 2
+end
+
+puts dur #=> Returns 3 as32 seconds have passed within the block",
+"use_bpm 120
+dur = block_duration do
+  play 50
+  sleep 1
+  play 62
+  sleep 2
+end
+
+puts dur #=> Returns 1.5 as 1.5 seconds have passed within the block
+         #   (due to the BPM being 120)"]
+
+
+
+
+      def block_slept?(&block)
+        dur = block_duration(&block)
+        dur > 0
+      end
+      doc name:           :block_slept?,
+          introduced:     Version.new(2,9,0),
+          summary:        "Determine if block contains sleep time",
+          doc:            "Given a block, runs it and returns whether or not the block contained sleeps or syncs"
+          args:           [[]],
+          opts:           nil,
+          accepts_block:  true,
+          requires_block: true,
+          async_block:    false,
+          examples: ["
+slept = block_slept? do
+  play 50
+  sleep 1
+  play 62
+  sleep 2
+end
+
+puts slept #=> Returns true as there were sleeps in the block",
+"
+in_thread do
+  sleep 1
+  cue :foo  # trigger a cue on a different thread
+end
+
+slept = block_slept? do
+  sync :foo  # wait for th cue before playing the note
+  play 62
+end
+
+puts slept #=> Returns true as the block contained a sync.",
+"
+dur = block_slept do
+  play 50
+  play 62
+end
+
+puts dur #=> Returns false as there were no sleeps in the block"]
 
 
 
