@@ -1183,6 +1183,7 @@ play 44"]
       def play_chord(notes, *args)
         ensure_good_timing!
         args_h = resolve_synth_opts_hash_or_array(args)
+        return nil unless should_trigger?(args_h)
         shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
 
         synth_name = current_synth_name
