@@ -2851,7 +2851,7 @@ end",
         opts = resolve_synth_opts_hash_or_array(opts)
         opts = {invert: 0}.merge(opts)
 
-        invert_chord(Chord.resolve_degree(degree, tonic, scale, number_of_notes), opts[:invert]).ring
+        chord_invert(Chord.resolve_degree(degree, tonic, scale, number_of_notes), opts[:invert]).ring
       end
       doc name:          :chord_degree,
           introduced:    Version.new(2,1,0),
@@ -2883,7 +2883,7 @@ end",
         else
           c = Chord.new(tonic, name, opts[:num_octaves])
         end
-        c = invert_chord(c, opts[:invert]) if opts[:invert]
+        c = chord_invert(c, opts[:invert]) if opts[:invert]
         return c.ring
       end
       doc name:          :chord,
@@ -2892,17 +2892,17 @@ end",
           doc:           "Creates an immutable ring of Midi note numbers when given a tonic note and a chord type",
           args:          [[:tonic, :symbol], [:name, :symbol]],
           returns:        :ring,
-          opts:          {invert: "Apply the specified num inversions to chord. See the fn `invert_chord`.",
-            num_octaves: "Create an arpeggio of the chord over n octaves"},
+          opts:          {invert: "Apply the specified num inversions to chord. See the fn `chord_invert`.",
+          num_octaves:   "Create an arpeggio of the chord over n octaves"},
           accepts_block: false,
-          intro_fn:       true,
+          intro_fn:      true,
           examples:      ["
 puts (chord :e, :minor) # returns a ring of midi notes - (ring 64, 67, 71)
 ",
         "# Play all the notes together
 play (chord :e, :minor)",
 "
-# Chord inversions (see the fn invert_chord)
+# Chord inversions (see the fn chord_invert)
 play (chord :e3, :minor, invert: 0) # Play the basic :e3, :minor chord - (ring 52, 55, 59)
 play (chord :e3, :minor, invert: 1) # Play the first inversion of :e3, :minor - (ring 55, 59, 64)
 play (chord :e3, :minor, invert: 2) # Play the first inversion of :e3, :minor - (ring 59, 64, 67)
@@ -2973,18 +2973,18 @@ end",
 
 
 
-      def invert_chord(notes, shift)
+      def chord_invert(notes, shift)
         raise "Inversion shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
         raise "Notes must be a list of notes, got #{notes.inspect}" unless (notes.is_a?(SonicPi::Core::RingVector) || notes.is_a?(Array))
         if(shift > 0)
-          invert_chord(notes.to_a[1..-1] + [notes.to_a[0]+12], shift-1)
+          chord_invert(notes.to_a[1..-1] + [notes.to_a[0]+12], shift-1)
         elsif(shift < 0)
-          invert_chord((notes.to_a[0..-2] + [notes.to_a[-1]-12]).sort, shift+1)
+          chord_invert((notes.to_a[0..-2] + [notes.to_a[-1]-12]).sort, shift+1)
         else
           notes.ring
         end
       end
-      doc name:          :invert_chord,
+      doc name:          :chord_invert,
           introduced:    Version.new(2,6,0),
           summary:       "Chord inversion",
           doc:           "Given a set of notes, apply a number of inversions indicated by the `shift` parameter. Inversions being an increase to notes if `shift` is positive or decreasing the notes if `shift` is negative.
@@ -2997,13 +2997,18 @@ Note that it's also possible to directly invert chords on creation with the `inv
           opts:          nil,
           accepts_block: false,
           examples:      ["
-play (invert_chord (chord :A3, \"M\"), 0) #No inversion     - (ring 57, 61, 64)
+play (chord_invert (chord :A3, \"M\"), 0) #No inversion     - (ring 57, 61, 64)
 sleep 1
-play (invert_chord (chord :A3, \"M\"), 1) #First inversion  - (ring 61, 64, 69)
+play (chord_invert (chord :A3, \"M\"), 1) #First inversion  - (ring 61, 64, 69)
 sleep 1
-play (invert_chord (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
+play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 "]
 
+
+      # keep for backwards compatibility
+      def invert_chord(*args)
+        chord_invert(*args)
+      end
 
 
 
