@@ -2745,8 +2745,8 @@ play degree(2, :C3, :minor)
           accepts_block: false,
           intro_fn:       true,
           examples:      ["
-puts scale(:C, :major) # returns the list [60, 62, 64, 65, 67, 69, 71, 72]",
-        "# anywhere you can use a list of notes, you can also use scale
+puts scale(:C, :major) # returns the following ring of MIDI note numbers: (ring 60, 62, 64, 65, 67, 69, 71, 72)",
+        "# anywhere you can use a list or ring of notes, you can also use scale
 play_pattern scale(:C, :major)",
         "# you can use the :num_octaves parameter to get more notes
 play_pattern(:C, :major, num_octaves: 2)",
