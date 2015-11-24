@@ -3785,7 +3785,7 @@ The location of the binary synthdef file written to disk by `.store` is platform
 
       def current_synth_name
         Thread.current.thread_variable_get(:sonic_pi_mod_sound_current_synth_name) ||
-        Thread.current.thread_variable_set(:sonic_pi_mod_sound_current_synth_name, "beep")
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_current_synth_name, :beep)
       end
 
       def set_current_synth(name)
