@@ -966,10 +966,17 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           return nil
         end
 
+        notes = args_h[:notes] || args_h[:note]
+        if notes.is_a?(SonicPi::Core::RingVector) || notes.is_a?(Array)
+          args_h.delete(:notes)
+          args_h.delete(:note)
+          shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
+          return trigger_chord(synth_name, shifted_notes, args_h)
+        end
+
         n = args_h[:note] || 52
         n = normalise_transpose_and_tune_note_from_args(n, args_h)
         args_h[:note] = n
-
         trigger_inst synth_name, args_h
       end
       doc name:          :synth,
@@ -986,6 +993,8 @@ synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an amplitude 
         "
 use_synth_defaults release: 5
 synth :dsaw, note: 50 # Play note 50 of the :dsaw synth with a release of 5",
+"# You can play chords with the notes: opt:
+synth :dsaw, notes: (chord :e3, :minor)",
 "
 # on: vs if
 notes = (scale :e3, :minor_pentatonic, num_octaves: 2)
