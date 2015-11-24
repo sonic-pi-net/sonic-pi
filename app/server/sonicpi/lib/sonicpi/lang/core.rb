@@ -736,6 +736,8 @@ module SonicPi
 
         args_h = resolve_synth_opts_hash_or_array(args)
 
+        sync_sym = args_h[:sync]
+
         delay = args_h[:delay]
         raise "live_loop's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
@@ -758,7 +760,7 @@ module SonicPi
           raise "Live loop block must only accept 0 or 1 args"
         end
 
-        in_thread(name: ll_name, delay: delay) do
+        in_thread(name: ll_name, delay: delay, sync: sync_sym) do
           Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
           if args_h.has_key?(:init)
             res = args_h[:init]
@@ -788,13 +790,17 @@ module SonicPi
           opts:           {:init     => "initial value for optional block arg",
                            :auto_cue => "enable or disable automatic cue (default is true)",
                            :delay    => "Initial delay in beats before the live_loop starts. Default is 0.",
+                           :sync     => "Initial sync symbol. Will sync with this symbol before the live_loop starts.",
                            :seed     => "override initial random generator seed before starting loop."
       },
           accepts_block:  true,
           requires_block: true,
           async_block:    true,
           intro_fn:       true,
-          doc:            "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).",
+          doc:            "Run the block in a new thread with the given name, and loop it forever.  Also sends a `cue` with the same name each time the block runs. If the block is given a parameter, this is given the result of the last run of the loop (with initial value either being `0` or an init arg).
+
+It is possible to delay the initial trigger of the live_loop on creation with both the `delay:` and `sync:` opts. See their respective docstrings. If both `delay:` and `sync:` are specified, on initial live_loop creation first the delay will be honoured and then the sync.
+",
           examples:       ["
 live_loop :ping do
   sample :elec_ping
@@ -2510,6 +2516,7 @@ puts dur #=> Returns false as there were no sleeps in the block"]
         args_h = resolve_synth_opts_hash_or_array(opts)
         name = args_h[:name]
         delay = args_h[:delay]
+        sync_sym = args_h[:sync]
 
         raise "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
@@ -2605,6 +2612,7 @@ puts dur #=> Returns false as there were no sleeps in the block"]
           # Actually run the thread code specified by the user!
           begin
             sleep delay if delay
+            sync sync_sym if sync_sym
             block.call
             # ensure delayed jobs and messages are honoured for this
             # thread:
@@ -2650,10 +2658,14 @@ puts dur #=> Returns false as there were no sleeps in the block"]
       doc name:           :in_thread,
           introduced:     Version.new(2,0,0),
           summary:        "Run code block at the same time",
-          doc:            "Execute a given block (between `do` ... `end`) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the `name:` optional arg. Named threads will print their name in the logging pane when they print their activity. Finally, if you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.",
+          doc:            "Execute a given block (between `do` ... `end`) in a new thread. Use for playing multiple 'parts' at once. Each new thread created inherits all the use/with defaults of the parent thread such as the time, current synth, bpm, default synth args, etc. Despite inheriting defaults from the parent thread, any modifications of the defaults in the new thread will *not* affect the parent thread. Threads may be named with the `name:` optional arg. Named threads will print their name in the logging pane when they print their activity. If you attempt to create a new named thread with a name that is already in use by another executing thread, no new thread will be created.
+
+It is possible to delay the initial trigger of the thread on creation with both the `delay:` and `sync:` opts. See their respective docstrings. If both `delay:` and `sync:` are specified, on initial thread creation first the delay will be honoured and then the sync.
+",
           args:           [],
           opts:           {:name  => "Make this thread a named thread with name. If a thread with this name already exists, a new thread will not be created.",
-                           :delay => "Initial delay in beats before the thread starts. Default is 0."},
+                           :delay => "Initial delay in beats before the thread starts. Default is 0.",
+                           :sync => "Initial sync symbol. Will sync with this symbol before the thread starts."},
           accepts_block:  true,
           requires_block: true,
           async_block:    true,
