@@ -26,6 +26,7 @@ module SonicPi
       @mock_sound.extend(Lang::Core)
       @mock_sound.stubs(:sleep) # avoid loading Spider class
       @mock_sound.stubs(:ensure_good_timing!) # avoid loading Spider class
+      @mock_sound.stubs(:__delayed_user_message)
       @mock_sound.stubs(:current_synth_name).returns(:beep)
     end
 
@@ -37,11 +38,11 @@ module SonicPi
       @mock_sound.play :c, release: 0.1
 
       # Single hash
-      @mock_sound.expects(:trigger_inst).with(:beep, {note: 60.0, release: 0.1})
+      @mock_sound.expects(:trigger_inst).with(:beep, {note: :c, release: 0.1})
       @mock_sound.play({note: :c, release: 0.1})
 
       # Hash and args
-      @mock_sound.expects(:trigger_inst).with(:beep, {note: 60.0, amp: 1, release: 0.1})
+      @mock_sound.expects(:trigger_inst).with(:beep, {note: :c, amp: 1, release: 0.1})
       @mock_sound.play({note: :c, amp: 1}, {release: 0.1})
     end
 
