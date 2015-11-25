@@ -2317,9 +2317,9 @@ puts dur #=> Returns false as there were no sleeps in the block"]
 
         unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
           if args_h.empty?
-            __delayed_highlight_message "cue #{cue_id.to_sym.inspect}"
+            __delayed_highlight_message "cue #{cue_id.inspect}"
           else
-            __delayed_highlight_message "cue #{cue_id.to_sym.inspect}, #{arg_h_pp(args_h)}"
+            __delayed_highlight_message "cue #{cue_id.inspect}, #{arg_h_pp(args_h)}"
           end
         end
 
@@ -2400,7 +2400,7 @@ puts dur #=> Returns false as there were no sleeps in the block"]
 
 
       def sync(cue_ids, opts={})
-        cue_ids = [cue_ids] if cue_ids.is_a?(Symbol) || cue_ids.is_a?(String)
+        cue_ids = [cue_ids] if cue_ids.is_a?(Symbol) || cue_ids.is_a?(String) || cue_ids.is_a?(SPSym)
         raise "sync needs at least one cue id to sync on. You specified 0" unless cue_ids.size > 0
         Thread.current.thread_variable_set(:sonic_pi_spider_synced, true)
         p = Promise.new
@@ -2411,7 +2411,7 @@ puts dur #=> Returns false as there were no sleeps in the block"]
 
         unless Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
           if cue_ids.size == 1
-            __delayed_highlight3_message "sync #{cue_ids.first.to_sym.inspect}"
+            __delayed_highlight3_message "sync #{cue_ids.first.inspect}"
           else
             ids_list = cue_ids.map{|cid| cid.to_sym}
             __delayed_highlight3_message "sync #{ids_list.inspect}"
