@@ -33,7 +33,7 @@ If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>ステレオ反転を切り替えます。
 有効にすると、左スピーカーに送った音が
-右のスピーカーに送られ、逆もまた同様です。</translation>
+右スピーカーに送られ、逆もまた同様です。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="812"/>
@@ -170,14 +170,15 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="804"/>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation>ラズベリーパイのシステムボリュームを変更するには、このスライダを使用します。</translation>
+        <translation>Raspberry Piのシステムボリュームを変更するには、このスライダを使用します。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation>外部PAシステムの高度なオーディオ設定を行います。</translation>
+        <translation>Sonic Piでパフォーマンスする際に外部PAシステムと
+連携するのに必要な高度なオーディオ設定を行います。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="808"/>
@@ -200,9 +201,9 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.
 For example, if you have headphones connected to your Raspberry Pi, choose &apos;Headphones&apos;. </oldsource>
-        <translation>ラズベリーパイは、2つの形式のオーディオ出力を持っています。
-まず、ラズベリーパイ自体のヘッドフォンジャック、
-もう一つはHDMIポートを介し、モニター/テレビがサポートするオーディオです。
+        <translation>Raspberry Piは、2つの形式のオーディオ出力を持っています。
+1つめは、Raspberry Pi自体のヘッドフォンジャック、
+もう1つは、HDMIポートで接続されたモニター/テレビです。
 これらのボタンを使用し、あなたが望む出力に設定します。</translation>
     </message>
     <message>
@@ -244,7 +245,7 @@ For example, if you have headphones connected to your Raspberry Pi, choose &apos
     <message>
         <location filename="../mainwindow.cpp" line="717"/>
         <source>Ruby could not be started, is it installed and in your PATH?</source>
-        <translation>Rubyを起動できませんでした。Rubyがインストールされ、PATHが通っていることを確認ください。</translation>
+        <translation>rubyを起動できませんでした。rubyがインストールされ、PATHが通っていることを確認ください。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="806"/>
@@ -293,9 +294,8 @@ However, they will not be visible in the logs.</source>
         <location filename="../mainwindow.cpp" line="886"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Sonic Piが起動時に新しい更新をチェックするかを設定します。
-チェック処理は、Sonic Piサーバーへ匿名情報を
-送信することを含むことに注意してください。</translation>
+        <translation>Sonic Piが起動時に新しいアップデートをチェックするかを切り替えます。
+チェックの際に、プラットフォームとバージョンに関する匿名情報を送信しています。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
@@ -307,8 +307,7 @@ This check involves sending anonymous information about your platform and versio
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>強制的にアップデートをチェックします。
-チェック処理は、Sonic Piサーバーへ匿名情報を
-送信することを含むことに注意してください。</translation>
+チェックの際に、プラットフォームとバージョンに関する匿名情報を送信しています。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="889"/>
@@ -318,7 +317,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="890"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>新しいバージョンの取得のため、http://sonic-pi.net を表示します</translation>
+        <translation>新しいバージョンをダウンロードするために、http://sonic-pi.net を表示します</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="895"/>
@@ -450,17 +449,17 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1332"/>
         <source>Checking for updates...</source>
-        <translation>アップデートを確認しています...</translation>
+        <translation>アップデートをチェックしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1340"/>
         <source>Enabling update checking...</source>
-        <translation>更新チェックを有効にしています...</translation>
+        <translation>アップデートのチェックを有効にしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Disabling update checking...</source>
-        <translation>更新チェックを無効にしています...</translation>
+        <translation>アップデートのチェックを無効にしています...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1373"/>
@@ -579,8 +578,8 @@ every two weeks.</source>
         <location filename="../mainwindow.cpp" line="2422"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation>新しいバージョンがあります!
-Sonic Pi %1 を取得</translation>
+        <translation>新しいバージョンが利用可能です!
+Sonic Pi %1 を入手</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
