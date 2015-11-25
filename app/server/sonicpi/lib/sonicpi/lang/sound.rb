@@ -1502,10 +1502,6 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           end
 
           args_h["in_bus"] = new_bus
-          # set default slide times
-          add_arg_slide_times!(args_h, info)
-          args_h = normalise_and_resolve_synth_args(args_h, info)
-
 
           # Setup trackers
           current_trackers = Thread.current.thread_variable_get(:sonic_pi_mod_sound_trackers) || Set.new
@@ -3462,6 +3458,9 @@ The location of the binary synthdef file written to disk by `.store` is platform
       end
 
       def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group, now=false, t_minus_delta=false)
+
+        args_h = normalise_and_resolve_synth_args(args_h, info, nil, true)
+        add_arg_slide_times!(args_h, info)
         n = trigger_synth(synth_name, args_h, group, info, now, t_minus_delta)
         FXNode.new(n, in_bus, current_out_bus)
       end
@@ -3824,7 +3823,6 @@ The location of the binary synthdef file written to disk by `.store` is platform
         # some of the args in args_h need to be scaled to match the
         # current bpm. Check in info to see if that's necessary and if
         # so, scale them.
-
         new_args = {}
         if force_add
           defaults = info.arg_defaults
@@ -3848,7 +3846,7 @@ The location of the binary synthdef file written to disk by `.store` is platform
 
           end
         end
-        args_h.merge(new_args)
+        args_h.merge!(new_args)
       end
 
       def resolve_midi_args!(args_h, info)
