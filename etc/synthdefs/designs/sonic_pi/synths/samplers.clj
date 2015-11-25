@@ -218,7 +218,7 @@
          filt-env                  (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
 
          snd                       (buf-rd 1 buf phase)
-         killer                    (line 1 1 (+ 0.03 play-time) FREE)
+         killer                    (line:kr 1 1 (+ 0.03 play-time) FREE)
 
          snd                       (select:ar (not= 0 pitch)
                                               [snd
@@ -354,7 +354,7 @@
          filt-env                  (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
 
          [snd-l snd-r]             (buf-rd 2 buf phase)
-         killer                    (line 1 1 (+ 0.03 play-time) FREE)
+         killer                    (line:kr 1 1 (+ 0.03 play-time) FREE)
 
          snd-l                     (select:ar (not= 0 pitch)
                                               [snd-l
@@ -365,8 +365,8 @@
                                                (pitch-shift snd-r window_size pitch_ratio pitch_dis time_dis)])
 
          filt-env                  (select use-filter-env [cutoff-freq (min filt-env cutoff-freq)])
-         snd-l                     (select use-filter [(sin-osc) (rlpf snd-l filt-env res)])
-         snd-r                     (select use-filter [snd-l (rlpf snd-r filt-env res)])
+         snd-l                     (select use-filter [snd-l (rlpf snd-l filt-env res)])
+         snd-r                     (select use-filter [snd-r (rlpf snd-r filt-env res)])
 
          snd-l                     (select norm [snd-l (normalizer snd-l)])
          snd-r                     (select norm [snd-r (normalizer snd-r)])
