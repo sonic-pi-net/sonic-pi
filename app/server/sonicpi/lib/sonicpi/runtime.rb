@@ -26,6 +26,7 @@ require_relative "sthread"
 require_relative "version"
 require_relative "config/settings"
 require_relative "preparser"
+require_relative "spsym"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -112,6 +113,9 @@ module SonicPi
 
       load_snippets(snippets_path, true)
     end
+
+
+
 
 
 
