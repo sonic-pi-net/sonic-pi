@@ -840,7 +840,7 @@ dur = block_duration do
   sleep 2
 end
 
-puts dur #=> Returns 3 as32 seconds have passed within the block",
+puts dur #=> Returns 3 as 3 seconds have passed within the block",
 "use_bpm 120
 dur = block_duration do
   play 50
@@ -884,18 +884,18 @@ in_thread do
 end
 
 slept = block_slept? do
-  sync :foo  # wait for th cue before playing the note
+  sync :foo  # wait for the cue before playing the note
   play 62
 end
 
 puts slept #=> Returns true as the block contained a sync.",
 "
-dur = block_slept do
+slept = block_slept? do
   play 50
   play 62
 end
 
-puts dur #=> Returns false as there were no sleeps in the block"]
+puts slept #=> Returns false as there were no sleeps in the block"]
 
 
 
