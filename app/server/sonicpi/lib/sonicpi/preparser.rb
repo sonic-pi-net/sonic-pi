@@ -25,7 +25,7 @@ module SonicPi
         fn = fn[:name].to_s
         rb.gsub!(/\((\s*)#{fn}(\s)/, '\1' + fn + '(\2')
 
-        rb.gsub!(/:([a-z]+:[a-zA-Z0-9:]*)/){|s| "::SonicPi::SPSym.new(#{$1.split(':').map(&:to_sym)})"}
+        rb.gsub!(/:([a-zA-Z0-9\!\?=_]+:[a-zA-Z0-9\!\?=_]+[a-zA-Z0-9\!\?=_]*)/){|s| "::SonicPi::SPSym.new(#{$1.split(':').map(&:to_sym)})"}
 
         if rb.match(/(?!\B)\W?#{fn}\s*=[\s\w]/)
           raise PreParseError, "You may not use the built-in fn names as variable names.\n You attempted to use: #{fn}"
