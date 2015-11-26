@@ -212,6 +212,11 @@ void SonicPiScintilla::cutLineFromPoint()
     {
       //  SendScintilla(SCI_CLEARSELECTIONS);
       int pos = SendScintilla(SCI_GETCURRENTPOS);
+
+      while (text(linenum).endsWith(",\n")) {
+        linenum++;
+        moveLines(1);
+      }
       SendScintilla(SCI_LINEEND);
       SendScintilla(SCI_SETANCHOR, pos);
       SendScintilla(SCI_CUT);
