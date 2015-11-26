@@ -1190,6 +1190,9 @@ bool MainWindow::saveAs()
 {
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop");
   if(!fileName.isEmpty()){
+    if (!fileName.contains(QRegExp("\\.[a-z]+$"))) {
+        fileName = fileName + ".txt";
+      }
     return saveFile(fileName, (SonicPiScintilla*)tabs->currentWidget());
   } else {
     return false;
