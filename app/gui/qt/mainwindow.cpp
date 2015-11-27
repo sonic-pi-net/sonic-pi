@@ -685,7 +685,7 @@ void MainWindow::startServer(){
     QFile file(prg_path);
     if(!file.exists()) {
       // use system ruby if bundled ruby doesn't exist
-      prg_path = "ruby";
+      prg_path = "/usr/bin/ruby";
     }
 
     QString prg_arg = root + "/app/server/bin/sonic-pi-server.rb";
