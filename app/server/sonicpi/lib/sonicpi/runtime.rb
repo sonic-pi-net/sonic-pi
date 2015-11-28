@@ -77,11 +77,31 @@ module SonicPi
       @gui_last_heartbeat = nil
       @gitsave = GitSave.new(project_path)
 
+      @save_queue = SizedQueue.new(20)
+
       @event_t = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :event_loop)
         loop do
           event = @event_queue.pop
           __handle_event event
+        end
+      end
+
+      @save_t = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :save_loop)
+        loop do
+          event = @save_queue.pop
+          id, content = *event
+          filename = id + '.spi'
+          path = project_path + "/" + filename
+          content = filter_for_save(content)
+          begin
+            File.open(path, 'w') {|f| f.write(content) }
+            @gitsave.save!(filename, content, "#{@version} -- #{@session_id} -- ")
+          rescue Exception => e
+            ##TODO: remove this and ensure that git saving actually works
+            ##instead of cowardly hiding the issue!
+          end
         end
       end
       __info "Welcome to Sonic Pi"
@@ -682,17 +702,7 @@ module SonicPi
     end
 
     def __save_buffer(id, content)
-      filename = id + '.spi'
-      path = project_path + "/" + filename
-      content = filter_for_save(content)
-      File.open(path, 'w') {|f| f.write(content) }
-      begin
-        @gitsave.save!(filename, content, "#{@version} -- #{@session_id} -- ")
-      rescue Exception => e
-        ##TODO: remove this and ensure that git saving actually works
-        ##instead of cowardly hiding the issue!
-      end
-
+      @save_queue << [id, content]
     end
 
     def __disable_update_checker
