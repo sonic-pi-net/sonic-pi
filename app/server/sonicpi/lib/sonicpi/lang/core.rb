@@ -24,6 +24,8 @@ module SonicPi
       include SonicPi::Lang::Support::DocSystem
       include SonicPi::Util
 
+      class AssertionError < StandardError ; end
+
       THREAD_RAND_SEED_MAX = 10e20
 
       def tick_set(*args)
