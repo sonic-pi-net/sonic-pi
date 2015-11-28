@@ -5191,6 +5191,65 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
     end
 
+
+    class FXTanh < FXInfo
+      def name
+        "Hyperbolic Tangent"
+      end
+
+      def introduced
+        Version.new(2,9,0)
+      end
+
+
+      def synth_name
+        "fx_tanh"
+      end
+
+      def trigger_with_logical_clock?
+        false
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+          :mix => 1,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+          :krunch => 1,
+          :krunch_slide => 0,
+          :krunch_slide_shape => 1,
+          :krunch_slide_curve => 0,
+
+        }
+      end
+      def specific_arg_info
+        {
+          :krunch =>
+          {
+            :doc => "Higher values progressively destroy the sound. Achieved through a balanced manipulation of pre_amp and amp such that the tanh is pushed harder with higher krunch values yet the overall amplitude stays similar.",
+            :modulatable => true
+          },
+
+          :krunch_slide =>
+          {
+            :doc => generic_slide_doc(:krunch),
+            :validations => [v_positive(:krunchslide)],
+            :modulatable => true,
+            :bpm_scale => true
+          }
+        }
+      end
+    end
+
     class FXPitchShift < FXInfo
       def name
         "Pitch shift"
@@ -5829,6 +5888,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_rbpf => FXRBPF.new,
         :fx_nrbpf => FXNRBPF.new,
         :fx_band_eq => FXBandEQ.new,
+        :fx_tanh => FXTanh.new,
         :fx_pitch_shift => FXPitchShift.new,
         :fx_ring_mod => FXRingMod.new,
         #:fx_chorus => FXChorus.new,

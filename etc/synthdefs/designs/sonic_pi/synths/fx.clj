@@ -66,6 +66,43 @@
 
      (out out_bus [fin-l fin-r])))
 
+
+
+
+ (defsynth sonic-pi-fx_tanh
+   [amp 1
+    amp_slide 0
+    amp_slide_shape 1
+    amp_slide_curve 0
+    mix 1
+    mix_slide 0
+    mix_slide_shape 1
+    mix_slide_curve 0
+    krunch 1
+    krunch_slide 0
+    krunch_slide_shape 1
+    krunch_slide_curve 0
+    pre_amp 1
+    pre_amp_slide 0
+    pre_amp_slide_shape 1
+    pre_amp_slide_curve 0
+    in_bus 0
+    out_bus 0]
+   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         krunch        (varlag krunch krunch_slide krunch_slide_curve krunch_slide_shape)
+         krunch        (select:kr (= 0 krunch) [krunch 0.0001])
+         [in-l in-r]   (* pre_amp krunch (in in_bus 2))
+         [new-l new-r] (* (/ (tanh [in-l in-r]) krunch) (+ 1 (/ krunch 8)))
+
+         fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+         fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+          (out out_bus [fin-l fin-r])))
+
+
+
+
  (defsynth sonic-pi-fx_bitcrusher
    [amp 1
     amp_slide 0
@@ -1419,35 +1456,37 @@
  ;;(run (out ab (pan2 (saw))))
 
  ;;(kill sonic-pi-fx_rbpf)
+)
 
- (comment
-   (core/save-synthdef sonic-pi-fx_krush)
-   (core/save-synthdef sonic-pi-fx_bitcrusher)
-   (core/save-synthdef sonic-pi-fx_reverb)
-   (core/save-synthdef sonic-pi-fx_level)
-   (core/save-synthdef sonic-pi-fx_echo)
-   (core/save-synthdef sonic-pi-fx_slicer)
-   (core/save-synthdef sonic-pi-fx_panslicer)
-   (core/save-synthdef sonic-pi-fx_wobble)
-   (core/save-synthdef sonic-pi-fx_ixi_techno)
-   (core/save-synthdef sonic-pi-fx_compressor)
-   (core/save-synthdef sonic-pi-fx_band_eq)
-   (core/save-synthdef sonic-pi-fx_rlpf)
-   (core/save-synthdef sonic-pi-fx_nrlpf)
-   (core/save-synthdef sonic-pi-fx_rhpf)
-   (core/save-synthdef sonic-pi-fx_nrhpf)
-   (core/save-synthdef sonic-pi-fx_hpf)
-   (core/save-synthdef sonic-pi-fx_nhpf)
-   (core/save-synthdef sonic-pi-fx_lpf)
-   (core/save-synthdef sonic-pi-fx_nlpf)
-   (core/save-synthdef sonic-pi-fx_normaliser)
-   (core/save-synthdef sonic-pi-fx_distortion)
-   (core/save-synthdef sonic-pi-fx_pan)
-   (core/save-synthdef sonic-pi-fx_bpf)
-   (core/save-synthdef sonic-pi-fx_rbpf)
-   (core/save-synthdef sonic-pi-fx_nrbpf)
-   (core/save-synthdef sonic-pi-fx_pitch_shift)
-   (core/save-synthdef sonic-pi-fx_ring_mod)
-   (core/save-synthdef sonic-pi-fx_octaver)
-   (core/save-synthdef sonic-pi-fx_flanger)
-   ))
+(comment
+  (core/save-synthdef sonic-pi-fx_krush)
+  (core/save-synthdef sonic-pi-fx_bitcrusher)
+  (core/save-synthdef sonic-pi-fx_reverb)
+  (core/save-synthdef sonic-pi-fx_level)
+  (core/save-synthdef sonic-pi-fx_echo)
+  (core/save-synthdef sonic-pi-fx_slicer)
+  (core/save-synthdef sonic-pi-fx_panslicer)
+  (core/save-synthdef sonic-pi-fx_wobble)
+  (core/save-synthdef sonic-pi-fx_ixi_techno)
+  (core/save-synthdef sonic-pi-fx_compressor)
+  (core/save-synthdef sonic-pi-fx_band_eq)
+  (core/save-synthdef sonic-pi-fx_rlpf)
+  (core/save-synthdef sonic-pi-fx_nrlpf)
+  (core/save-synthdef sonic-pi-fx_rhpf)
+  (core/save-synthdef sonic-pi-fx_nrhpf)
+  (core/save-synthdef sonic-pi-fx_hpf)
+  (core/save-synthdef sonic-pi-fx_nhpf)
+  (core/save-synthdef sonic-pi-fx_lpf)
+  (core/save-synthdef sonic-pi-fx_nlpf)
+  (core/save-synthdef sonic-pi-fx_normaliser)
+  (core/save-synthdef sonic-pi-fx_distortion)
+  (core/save-synthdef sonic-pi-fx_pan)
+  (core/save-synthdef sonic-pi-fx_bpf)
+  (core/save-synthdef sonic-pi-fx_rbpf)
+  (core/save-synthdef sonic-pi-fx_nrbpf)
+  (core/save-synthdef sonic-pi-fx_tanh)
+  (core/save-synthdef sonic-pi-fx_pitch_shift)
+  (core/save-synthdef sonic-pi-fx_ring_mod)
+  (core/save-synthdef sonic-pi-fx_octaver)
+  (core/save-synthdef sonic-pi-fx_flanger)
+  )
