@@ -1453,10 +1453,11 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
             end
           end
         end
-        fx_synth_name = "fx_#{fx_name}"
 
+        fx_synth_name = "fx_#{fx_name}"
         info = Synths::SynthInfo.get_info(fx_synth_name)
-        raise "Unknown fx #{fx_name.inspect}" unless info
+
+        fx_synth_name = fx_name unless info
 
         start_subthreads = []
         end_subthreads = []
@@ -1561,7 +1562,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
             Thread.new do
               Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
               Thread.current.priority = -10
-              kill_delay = args_h[:kill_delay] || info.kill_delay(args_h)
+              kill_delay = args_h[:kill_delay] || info.kill_delay(args_h) || 1
               new_subthreads.each do |st|
                 join_thread_and_subthreads(st)
               end
@@ -1580,8 +1581,14 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
           ## Trigger new fx synth (placing it in the fx group) and
           ## piping the in and out busses correctly
-          t_minus_delta = info.trigger_with_logical_clock? == :t_minus_delta
-          fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_group, !info.trigger_with_logical_clock?, t_minus_delta)
+          if info
+            use_logical_clock = info.trigger_with_logical_clock?
+            t_minus_delta = use_logical_clock == :t_minus_delta
+          else
+            t_minus_delta = true
+            use_logical_clock = true
+          end
+          fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_group, !use_logical_clock, t_minus_delta)
 
           ## Create a synth tracker and stick it in a thread local
           tracker = SynthTracker.new
@@ -3461,8 +3468,9 @@ The location of the binary synthdef file written to disk by `.store` is platform
 
         args_h = normalise_and_resolve_synth_args(args_h, info, nil, true)
         add_arg_slide_times!(args_h, info)
-        n = trigger_synth(synth_name, args_h, group, info, now, t_minus_delta)
-        FXNode.new(n, in_bus, current_out_bus)
+        out_bus = current_out_bus
+        n = trigger_synth(synth_name, args_h, group, info, now, out_bus, t_minus_delta)
+        FXNode.new(n, in_bus, out_bus)
       end
 
       # Function that actually triggers synths now that all args are resolved
@@ -3471,7 +3479,6 @@ The location of the binary synthdef file written to disk by `.store` is platform
         orig_synth_name = synth_name
         synth_name = info ? info.scsynth_name : synth_name
         validate_if_necessary! info, args_h
-
         job_id = current_job_id
         __no_kill_block do
 
