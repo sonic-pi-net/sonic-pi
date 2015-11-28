@@ -39,12 +39,12 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
     tf.setBackground(theme->color("LogBackground"));
     setCurrentCharFormat(tf);
 
-    ss.append("[Run ").append(QString::number(mm.job_id));
-    ss.append(", Time ").append(QString::fromStdString(mm.runtime));
+    ss.append("{run: ").append(QString::number(mm.job_id));
+    ss.append(", time: ").append(QString::fromStdString(mm.runtime));
     if(!mm.thread_name.empty()) {
-      ss.append(", Thread :").append(QString::fromStdString(mm.thread_name));
+      ss.append(", thread: \"").append(QString::fromStdString(mm.thread_name)).append("\"");
     }
-    ss.append("]");
+    ss.append("}");
     appendPlainText(ss);
 
     for(int i = 0 ; i < msg_count ; i++) {
