@@ -5912,6 +5912,10 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         @@all_samples
       end
 
+      def self.all_synths
+        @@synth_infos.keys
+      end
+
       def self.info_doc_html_map(klass)
         key_mod = nil
         res = {}

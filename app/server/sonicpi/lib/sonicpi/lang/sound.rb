@@ -3224,6 +3224,21 @@ kill bar"]
 
 
 
+      def synth_names
+        Synths::BaseInfo.all_synths
+      end
+      doc name:          :synth_names,
+          introduced:    Version.new(2,9,0),
+          summary:       "Get all synth names",
+          doc:           "Return a list of all the synths available",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      []
+
+
+
+
       def load_synthdefs(path=synthdef_path)
         path = File.expand_path(path)
         raise "No directory exists called #{path.inspect}" unless File.exists? path
