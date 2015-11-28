@@ -775,7 +775,7 @@ module SonicPi
               res = send(ll_name, res)
             end
 
-            raise "Live loop #{name.to_sym.inspect} did not sleep!" unless slept
+            raise "Live loop #{name.to_sym.inspect} did not sleep!" unless slept or Thread.current.thread_variable_get(:sonic_pi_spider_synced)
           end
         end
 
