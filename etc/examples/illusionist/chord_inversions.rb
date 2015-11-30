@@ -1,7 +1,6 @@
 # Chord Inversions
 #
-# Coded by Adrian Cheater
-#
+# Coded by Adrian Cheater in a single tweet
 # https://twitter.com/wpgFactoid/status/666692596605976576
 
 [1, 3, 6, 4].each do |d|
