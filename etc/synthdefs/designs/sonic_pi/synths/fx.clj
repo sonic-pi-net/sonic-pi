@@ -93,12 +93,13 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          krunch        (varlag krunch krunch_slide krunch_slide_curve krunch_slide_shape)
          krunch        (select:kr (= 0 krunch) [krunch 0.0001])
-         [in-l in-r]   (* pre_amp krunch (in in_bus 2))
-         [new-l new-r] (* (/ (tanh [in-l in-r]) krunch) (+ 1 (/ krunch 8)))
+         [in-l in-r]   (* pre_amp (in in_bus 2))
+         [new-l new-r] (* (/ (tanh (* krunch [in-l in-r])) krunch) (+ 1 (/ krunch 8)))
 
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
-          (out out_bus [fin-l fin-r])))
+     (out out_bus [fin-l fin-r])))
+
 
 
 
