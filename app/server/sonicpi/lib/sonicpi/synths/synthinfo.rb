@@ -5793,7 +5793,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :loop_amen,
             :loop_amen_full,
             :loop_garzul,
-            :loop_mika]}}
+            :loop_mika,
+            :loop_breakbeat]}}
 
       @@all_samples = (@@grouped_samples.values.reduce([]) {|s, el| s << el[:samples]}).flatten
 
