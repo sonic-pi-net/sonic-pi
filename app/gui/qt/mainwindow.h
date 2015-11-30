@@ -123,11 +123,7 @@ private slots:
     void onExitCleanup();
     void toggleRecording();
     void toggleRecordingOnIcon();
-    void changeRPSystemVol(int val);
     void changeGUITransparency(int val);
-    void setRPSystemAudioAuto();
-    void setRPSystemAudioHeadphones();
-    void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
     void toggleDarkMode();
     void updateDarkMode();
@@ -225,6 +221,17 @@ private:
 #endif
 
     bool i18n;
+
+#if defined(Q_OS_LINUX)
+    bool raspberryPiSoundcard;
+    QSlider *rp_system_vol;
+    bool isRaspberryPiSoundcard();
+    void changeRPSystemVol(int val);
+    void setRPSystemAudioAuto();
+    void setRPSystemAudioHeadphones();
+    void setRPSystemAudioHDMI();
+#endif
+
     static const int workspace_max = 10;
     SonicPiScintilla *workspaces[workspace_max];
     QWidget *prefsCentral;
@@ -274,7 +281,6 @@ private:
     QRadioButton *rp_force_audio_hdmi;
     QRadioButton *rp_force_audio_default;
     QRadioButton *rp_force_audio_headphones;
-    QSlider *rp_system_vol;
     QSlider *gui_transparency_slider;
 
     QWidget *infoWidg;
