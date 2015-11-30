@@ -17,6 +17,8 @@ raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RU
 ## This core file sets up the load path and applies any necessary monkeypatches.
 
 ## Ensure native lib dir is available
+require 'rbconfig'
+ruby_api = RbConfig::CONFIG['ruby_version']
 os = case RUBY_PLATFORM
      when /.*arm.*-linux.*/
        :raspberry
@@ -29,7 +31,7 @@ os = case RUBY_PLATFORM
      else
        RUBY_PLATFORM
      end
-$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}/"
+$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"
 
 ## Ensure all libs in vendor directory are available
 Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
