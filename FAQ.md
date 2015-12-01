@@ -10,4 +10,7 @@ This problem was reported on Windows machines in Sonic Pi v. 2.7. It was reporte
 * open Windows Task Manager with `Ctrl + Shift + Esc` 
 * try to kill all processes listed below if they're still running
 
+scsynth.exe  
+ruby interpreter (CUI)
+
 ----
