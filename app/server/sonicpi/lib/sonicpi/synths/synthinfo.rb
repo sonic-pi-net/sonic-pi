@@ -3208,14 +3208,14 @@ module SonicPi
         {
           :sample_rate =>
           {
-            :doc => "The sample rate the audio will be resampled at.",
+            :doc => "The sample rate the audio will be resampled at. This represents the number of times per second the audio is sampled. The higher the sample rate, the closer to the original the sound will be, the lower the more low-fi it will sound. The highest sample rate is 44100 (full quality) and the lowest is ~100 (extremely low quality). Try values in between such as 1000, 3000, 8000..."
             :validations => [v_positive_not_zero(:sample_rate)],
             :modulatable => true
           },
 
           :bits =>
           {
-            :doc => "The bit depth of the resampled audio.",
+            :doc => "The bit depth of the resampled audio. Lower bit depths make the audio sound grainy and less defined. The highest bit depth is 16 (full quality) and the lowest is 1 (lowest quality)."
             :validations => [v_positive_not_zero(:bits)],
             :modulatable => true
           },
