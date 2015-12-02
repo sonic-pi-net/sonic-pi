@@ -714,7 +714,7 @@ void MainWindow::startServer(){
     serverProcess->setStandardOutputFile(sp_output_log_path);
     serverProcess->start(prg_path, args);
     if (!serverProcess->waitForStarted()) {
-      invokeStartupError(tr("Ruby could not be started, is it installed and in your PATH?"));
+      invokeStartupError(tr("The Sonic Pi server could not be started!"));
       return;
     }
 }
