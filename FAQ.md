@@ -18,7 +18,7 @@ This problem was reported on Windows machines in Sonic Pi v. 2.7. It was reporte
 
 ## Linux: Trouble with JACK
 
-If the GUI complains that _"The Sonic Pi server could not be started!"
+If the GUI complains that _"The Sonic Pi server could not be started!"_
 or the message _"Loading previous buffer contents. Please wait..."_
 does not disappear from your buffers after startup, the most likely
 reason is a problem with JACK.
