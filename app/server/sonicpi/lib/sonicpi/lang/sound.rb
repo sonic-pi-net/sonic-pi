@@ -3027,9 +3027,12 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         default_slide_time = args_h[:slide]
         args_h.delete :slide
 
-        add_arg_slide_times!(args_h, node.info)
-        scale_time_args_to_bpm!(args_h, node.info, false)
-        resolve_midi_args!(args_h, node.info)
+        info = node.info
+        if node.info
+          add_arg_slide_times!(args_h, info)
+          scale_time_args_to_bpm!(args_h, info, false)
+          resolve_midi_args!(args_h, info)
+        end
 
         if args_h.has_key?(:note)
           n = normalise_transpose_and_tune_note_from_args(args_h[:note], args_h)
@@ -3049,7 +3052,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         end
 
         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-          node.info.ctl_validate!(args_h) if node.info
+          info.ctl_validate!(args_h) if info
         end
 
         node.control args_h
