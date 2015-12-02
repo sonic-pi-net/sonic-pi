@@ -41,7 +41,7 @@ workaround problems starting JACK](https://github.com/samaaron/sonic-pi/issues/8
 
 On Linux distributions using PulseAudio, starting JACK may interfere
 with the applications using sound that were running already, e.g.
-Firefox wills top playing audio once JACK starts. There is a guide on
+Firefox will stop playing audio once JACK starts. There is a guide on
 [how to configure JACK with PulseAudio](https://github.com/jackaudio/jackaudio.github.com/wiki/WalkThrough_User_PulseOnJack)
 to avoid this.
 
