@@ -1562,7 +1562,11 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
             Thread.new do
               Thread.current.thread_variable_set(:sonic_pi_thread_group, :gc_kill_fx_synth)
               Thread.current.priority = -10
-              kill_delay = args_h[:kill_delay] || info.kill_delay(args_h) || 1
+              if info
+                kill_delay = args_h[:kill_delay] || info.kill_delay(args_h) || 1
+              else
+                kill_delay = args_h[:kill_delay] || 1
+              end
               new_subthreads.each do |st|
                 join_thread_and_subthreads(st)
               end
