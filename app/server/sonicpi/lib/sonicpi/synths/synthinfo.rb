@@ -3000,6 +3000,141 @@ module SonicPi
       end
     end
 
+    class FXGVerb < FXInfo
+
+      def name
+        "GVerb"
+      end
+
+
+
+      def introduced
+        Version.new(2,9,0)
+      end
+
+      def synth_name
+        "fx_gverb"
+      end
+
+      def trigger_with_logical_clock?
+        false
+      end
+
+      def doc
+        "Make the incoming signal sound more spacious or distant as if it were played in a large room or cave. Similar to reverb but with a more spacious feel."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :mix => 0.4,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+
+          :spread => 0.5,
+          :spread_slide => 0,
+          :spread_slide_shape => 1,
+          :spread_slide_curve => 0,
+          :damp => 0.5,
+          :damp_slide => 0,
+          :damp_slide_shape => 1,
+          :damp_slide_curve => 0,
+          :pre_damp => 0.5,
+          :pre_damp_slide => 0,
+          :pre_damp_slide_shape => 1,
+          :pre_damp_slide_curve => 0,
+          :dry => 1,
+          :dry_slide => 0,
+          :dry_slide_shape => 1,
+          :dry_slide_curve => 0,
+          :room => 10,
+          :release => 3,
+          :ref_level => 0.7,
+          :tail_level => 0.5
+
+        }
+      end
+
+      def kill_delay(args_h)
+        args_h[:release] || arg_defaults[:release]
+      end
+
+      def specific_arg_info
+        {
+          :release =>
+          {
+            :doc => "Time for reverberation to complete in seconds",
+            :validations => [v_greater_than(:release, 0)],
+            :modulatable => true
+          },
+
+          :spread =>
+          {
+            :doc => "Stereo spread. Amount of stereo spread the reverb has over the left and right channels. A value of 0 means no spread at all - left and right stereo values of the incoming signal are preserved. A value of 1 means full spread - the left and right channels are fully mixed within the reverb - bleading into each other..",
+            :validations => [v_between_inclusive(:spread, 0, 1)],
+            :modulatable => true
+          },
+
+          :damp =>
+          {
+            :doc => "High frequency rolloff. 0 is no damping (the reverb will ring out more) and 1 dampens the reverb signal completely",
+            :validations => [v_between_inclusive(:damp, 0, 1)],
+            :modulatable => true
+          },
+
+          :pre_damp =>
+          {
+            :doc => "High frequency rolloff of input signal. 0 is no damping (the reverb will ring out more) and 1 dampens the reverb signal completely",
+            :validations => [v_between_inclusive(:pre_damp, 0, 1)],
+            :modulatable => true
+          },
+
+          :dry =>
+          {
+            :doc => "Amount of original dry signal present in the effect. This is distinct from mix.",
+            :validations => [v_greater_than_oet(:dry, 0)],
+            :modulatable => true
+          },
+
+          :room =>
+          {
+            :doc => "The room size in squared meters",
+            :validations => [v_greater_than_oet(:room, 0)],
+            :modulatable => true
+          },
+
+          :ref_level =>
+          {
+            :doc => "Reflection level",
+            :validations => [v_greater_than_oet(:ref_level, 0)],
+            :modulatable => true
+          },
+
+          :tail_level =>
+          {
+            :doc => "Tail level amount",
+            :validations => [v_greater_than_oet(:tail_level, 0)],
+            :modulatable => true
+          },
+
+          :max_room =>
+          {
+            :doc => "Maximum room size",
+            :validations => [v_greater_than(:max_room, 0)],
+            :modulatable => false
+          }
+        }
+      end
+    end
+
     class FXReverb < FXInfo
       def name
         "Reverb"
@@ -5848,6 +5983,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_bitcrusher => FXBitcrusher.new,
         :fx_krush => FXKrush.new,
         :fx_reverb => FXReverb.new,
+        :fx_gverb => FXGVerb.new,
         :fx_replace_reverb => FXReverb.new,
         :fx_level => FXLevel.new,
         :fx_replace_level => FXLevel.new,

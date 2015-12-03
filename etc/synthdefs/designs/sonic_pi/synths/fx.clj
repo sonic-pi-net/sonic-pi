@@ -202,6 +202,69 @@
        (out out_bus [fin-l fin-r])))
 
 
+ (defsynth sonic-pi-fx_gverb
+   [amp 1
+    amp_slide 0
+    amp_slide_shape 1
+    amp_slide_curve 0
+    mix 0.4
+    mix_slide 0
+    mix_slide_shape 1
+    mix_slide_curve 0
+    pre_amp 1
+    pre_amp_slide 0
+    pre_amp_slide_shape 1
+    pre_amp_slide_curve 0
+    spread 0.5
+    spread_slide 0
+    spread_slide_shape 1
+    spread_slide_curve 0
+    damp 0.5
+    damp_slide 0
+    damp_slide_shape 1
+    damp_slide_curve 0
+    pre_damp 0.5
+    pre_damp_slide 0
+    pre_damp_slide_shape 1
+    pre_damp_slide_curve 0
+    dry 1
+    dry_slide 0
+    dry_slide_shape 1
+    dry_slide_curve 0
+
+    room [10 :ir]
+    max_room [-1 :ir]
+    release [3 :ir]
+    ref_level [0.7 :ir]
+    tail_level [0.5 :ir]
+
+    in_bus 0
+    out_bus 0]
+   (let [amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix         (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp     (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         spread      (varlag spread spread_slide spread_slide_curve spread_slide_shape)
+         dry         (varlag dry dry_slide dry_slide_curve dry_slide_shape)
+         damp        (varlag damp damp_slide damp_slide_curve damp_slide_shape)
+         pre_damp    (varlag pre_damp pre_damp_slide pre_damp_slide_curve pre_damp_slide_shape)
+         max_room    (select:kr (= -1 max_room) [max_room (+ room 1)])
+         [in-l in-r] (* pre_amp (in:ar in_bus 2))
+         [l-l l-r]   (* amp (g-verb in-l room release damp pre_damp 0 dry ref_level  tail_level max_room))
+         [r-l r-r]   (* amp (g-verb in-r room release damp pre_damp 0 dry ref_level tail_level max_room))
+         spr-lin     (lin-lin spread 0 1 -1 0)
+         new-l       (x-fade2 l-l r-l spr-lin)
+         new-r       (x-fade2 r-r l-r spr-lin)
+
+         fin-l       (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+         fin-r       (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+
+
+
+
+     (out out_bus [fin-l fin-r])))
+
+
+
  (defsynth sonic-pi-fx_reverb
    [amp 1
     amp_slide 0
@@ -1450,19 +1513,14 @@
      (out out_bus [fin-l fin-r])))
 
 
- ;;(def ab (audio-bus 2))
- ;;(def g (group :after (foundation-default-group)))
- ;;(sonic-pi-fx_rbpf [:head g] :in_bus ab)
 
- ;;(run (out ab (pan2 (saw))))
-
- ;;(kill sonic-pi-fx_rbpf)
 )
 
 (comment
   (core/save-synthdef sonic-pi-fx_krush)
   (core/save-synthdef sonic-pi-fx_bitcrusher)
   (core/save-synthdef sonic-pi-fx_reverb)
+  (core/save-synthdef sonic-pi-fx_gverb)
   (core/save-synthdef sonic-pi-fx_level)
   (core/save-synthdef sonic-pi-fx_echo)
   (core/save-synthdef sonic-pi-fx_slicer)
