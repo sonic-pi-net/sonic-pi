@@ -14,6 +14,8 @@
 
 require 'fileutils'
 
+require 'rbconfig'
+ruby_api = RbConfig::CONFIG['ruby_version']
 os = case RUBY_PLATFORM
      when /.*arm.*-linux.*/
        :raspberry
@@ -27,7 +29,7 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-native_dir = File.dirname(__FILE__) + '/../rb-native/' + os.to_s + '/' + "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}"
+native_dir = File.dirname(__FILE__) + "/../rb-native/#{os}/#{ruby_api}"
 puts "Clearing #{native_dir}"
 FileUtils.rm_rf native_dir
 puts "Creating #{native_dir}"
