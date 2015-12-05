@@ -129,7 +129,7 @@ module SonicPi
     end
 
     def to_hamster
-      Hamster.hash({:pitch_class => @pitch_class, :octave => @octave, :interval => @interval, :midi_note => @midi_note, :midi_string => @midi_string})
+      Hamster::Hash.new({:pitch_class => @pitch_class, :octave => @octave, :interval => @interval, :midi_note => @midi_note, :midi_string => @midi_string})
     end
 
     def to_s

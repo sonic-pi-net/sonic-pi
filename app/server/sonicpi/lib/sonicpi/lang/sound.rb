@@ -96,13 +96,13 @@ module SonicPi
 
             @sample_paths_cache = {}
 
-            @JOB_GROUPS_A = Atom.new(Hamster.hash)
+            @JOB_GROUPS_A = Atom.new(Hamster::Hash.new)
             @JOB_GROUP_MUTEX = Mutex.new
             @JOB_FX_GROUP_MUTEX = Mutex.new
-            @JOB_FX_GROUPS_A = Atom.new(Hamster.hash)
-            @JOB_MIXERS_A = Atom.new(Hamster.hash)
+            @JOB_FX_GROUPS_A = Atom.new(Hamster::Hash.new)
+            @JOB_MIXERS_A = Atom.new(Hamster::Hash.new)
             @JOB_MIXERS_MUTEX = Mutex.new
-            @JOB_BUSSES_A = Atom.new(Hamster.hash)
+            @JOB_BUSSES_A = Atom.new(Hamster::Hash.new)
             @JOB_BUSSES_MUTEX = Mutex.new
             @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
 
@@ -1819,7 +1819,7 @@ sample :bd_haus #=> will play the built-in bd_haus.wav sample" ]
       def use_sample_pack_as(pack, pack_alias, &block)
         raise "use_sample_pack_as does not work with a block. Perhaps you meant with_sample_pack_as" if block
         pack = "#{pack}/" if File.directory?(pack)
-        aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases) || Hamster.hash
+        aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases) || Hamster::Hash.new
         new_aliases = aliases.put pack_alias.to_s, pack
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
       end
@@ -1878,7 +1878,7 @@ end"]
         raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack_as" unless block
         pack = "#{pack}/" if File.directory?(pack)
         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
-        aliases = current || Hamster.hash
+        aliases = current || Hamster::Hash.new
         new_aliases = aliases.put name.to_s, pack
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
         res = block.call
