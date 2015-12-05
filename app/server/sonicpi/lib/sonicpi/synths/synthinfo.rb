@@ -1815,12 +1815,12 @@ module SonicPi
 
           :hard => {
             :doc => "Hardness of keypress. ",
-           :validations => [v_between_inclusive(:vel, 0, 1)],
+           :validations => [v_between_inclusive(:hard, 0, 1)],
             :modulatable => false},
 
           :stereo_width => {
             :doc => "Width of the stereo effect (which makes low notes sound towards the left, high notes towards the right). 0 to 1.",
-            :validations => [v_between_inclusive(:vel, 0, 1)],
+            :validations => [v_between_inclusive(:stereo_width, 0, 1)],
             :modulatable => false},
 
           :attack =>
