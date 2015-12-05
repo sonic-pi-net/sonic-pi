@@ -27,7 +27,6 @@
                              amp_slide 0.02
                              amp_slide_shape 1
                              amp_slide_curve 0
-                             safe-recovery-time 3
                              hpf 0
                              hpf_bypass 0
 
