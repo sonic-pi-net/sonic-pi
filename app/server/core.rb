@@ -41,7 +41,7 @@ end
 begin
   require 'did_you_mean'
 rescue LoadError
-  warn "Could not load did_you_mean"
+  warn "Non-critical error: Could not load did_you_mean"
 end
 
 require 'hamster/vector'
