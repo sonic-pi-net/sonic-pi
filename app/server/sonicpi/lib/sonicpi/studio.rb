@@ -121,6 +121,12 @@ module SonicPi
       @server.node_ctl @mixer, opts, now
     end
 
+    def mixer_reset
+      info = Synths::SynthInfo.get_info(:main_mixer)
+      mixer_control(info.slide_arg_defaults)
+      mixer_control(info.arg_defaults)
+    end
+
     def mixer_stereo_mode
       @server.node_ctl @mixer, {"force_mono" => 0}, true
     end
