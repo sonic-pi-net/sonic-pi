@@ -2976,6 +2976,53 @@ module SonicPi
 
     end
 
+
+    class MainMixer < BaseMixer
+      def name
+        "Main Mixer"
+      end
+
+      def introduced
+        Version.new(2,8,0)
+      end
+
+      def synth_name
+        "mixer"
+      end
+
+      def arg_defaults
+        {
+          :amp_slide => 0.02,
+          :pre_amp_slide => 0.02,
+          :hpf_slide => 0.02,
+          :lpf_slide => 0.02,
+          :pre_amp => 1,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+          :amp => 1,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :hpf => 0,
+          :hpf_bypass => 0,
+          :hpf_slide_shape => 1,
+          :hpf_slide_curve => 0,
+          :lpf => 135.5,
+          :lpf_bypass => 0,
+          :lpf_slide_shape => 1,
+          :lpf_slide_curve => 0,
+          :force_mono => 0,
+          :invert_stereo => 0,
+          :limiter_bypass => 0,
+          :leak_dc_bypass => 0}
+
+      end
+
+      def default_arg_info
+        {}
+      end
+
+    end
+
     class FXInfo < BaseInfo
 
       def trigger_with_logical_clock?
@@ -5991,6 +6038,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :basic_mono_player => BasicMonoPlayer.new,
         :basic_stereo_player => BasicStereoPlayer.new,
         :basic_mixer => BasicMixer.new,
+        :main_mixer => MainMixer.new,
 
         :fx_bitcrusher => FXBitcrusher.new,
         :fx_krush => FXKrush.new,
