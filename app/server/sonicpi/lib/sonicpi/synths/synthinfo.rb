@@ -154,15 +154,26 @@ module SonicPi
         @cached_slide_args = slide_args
       end
 
+      def slide_arg_defaults
+        return @cached_slide_arg_defaults if @cached_slide_arg_defaults
+        slide_arg_defaults = slide_args.reduce({}) do |res, a|
+          res[a] = arg_defaults[a]
+        end
+
+        @cached_slide_arg_defaults = slide_arg_defaults
+      end
+
       def arg_info
         return @cached_arg_info if @cached_arg_info
 
         res = {}
         arg_defaults.each do |arg, default|
           if m = /(.*)_slide/.match(arg.to_s) then
+            # modify stem opt (creating info if it doesn't exist)
             parent = m[1].to_sym
-            res[parent][:slidable] = true
-            # and don't add to arg_info table
+            new_info = res[parent] || {}
+            new_info[:slidable] = true
+            res[parent] = new_info
           else
             default_info = @info[arg] || {}
             constraints = (default_info[:validations] || []).map{|el| el[1]}
@@ -513,6 +524,8 @@ module SonicPi
       end
 
     end
+
+
 
     class SynthInfo < BaseInfo
       def category
@@ -2594,7 +2607,6 @@ module SonicPi
       end
 
     end
-
 
 
 
