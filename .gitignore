@@ -82,8 +82,8 @@ app/server/rb-native/
 
 ## Rugged
 
-app/server/vendor/rugged/ext/rugged/Makefile
-app/server/vendor/rugged/vendor/libgit2/build
+app/server/vendor/rugged*/ext/rugged/Makefile
+app/server/vendor/rugged*/vendor/libgit2/build
 
 ## Atomic
 

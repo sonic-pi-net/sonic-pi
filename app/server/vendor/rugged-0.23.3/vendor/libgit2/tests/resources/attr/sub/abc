@@ -1,0 +1,37 @@
+# Test file from gitattributes(5) example:
+
+If you have these three gitattributes file:
+
+   (in $GIT_DIR/info/attributes)
+
+	a*      foo !bar -baz
+
+	(in .gitattributes)
+	abc     foo bar baz
+
+	(in t/.gitattributes)
+	ab*     merge=filfre
+	abc     -foo -bar
+	*.c     frotz
+
+the attributes given to path t/abc are computed as follows:
+
+1. By examining t/.gitattributes (which is in the same directory as the path
+   in question), git finds that the first line matches. merge attribute is
+   set. It also finds that the second line matches, and attributes foo and
+   bar are unset.
+2. Then it examines .gitattributes (which is in the parent directory), and
+   finds that the first line matches, but t/.gitattributes file already
+   decided how merge, foo and bar attributes should be given to this path,
+   so it leaves foo and bar unset. Attribute baz is set.
+3. Finally it examines $GIT_DIR/info/attributes. This file is used to
+   override the in-tree settings. The first line is a match, and foo is set,
+   bar is reverted to unspecified state, and baz is unset.
+
+As the result, the attributes assignment to t/abc becomes:
+
+	foo     set to true
+	bar     unspecified
+	baz     set to false
+	merge   set to string value "filfre"
+	frotz   unspecified

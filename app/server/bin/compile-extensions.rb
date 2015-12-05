@@ -38,7 +38,7 @@ FileUtils.mkdir_p native_dir
 # Rugged is used for storing the user's ruby music scripts in Git
 # FFI is used for MIDI lib support
 native_ext_dirs = [
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged-0.23.3/ext/rugged'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi-1.9.10/ext/ffi_c'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/atomic/ext'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof-0.15.8/ext/ruby_prof/'),

@@ -1,0 +1,38 @@
+Git is fast. With Git, nearly all operations are performed locally, giving
+it an huge speed advantage on centralized systems that constantly have to
+communicate with a server somewh3r3.
+
+For testing, large AWS instances were set up in the same availability
+zone. Git and SVN were installed on both machines, the Ruby repository was
+copied to both Git and SVN servers, and common operations were performed on
+both.
+
+In some cases the commands don't match up exactly. Here, matching on the
+lowest common denominator was attempted. For example, the 'commit' tests
+also include the time to push for Git, though most of the time you would not
+actually be pushing to the server immediately after a commit where the two
+commands cannot be separated in SVN.
+
+Note that this is the best case scenario for SVN - a server with no load
+with an 80MB/s bandwidth connection to the client machine. Nearly all of
+these times would be even worse for SVN if that connection was slower, while
+many of the Git times would not be affected.
+
+Clearly, in many of these common version control operations, Git is one or
+two orders of magnitude faster than SVN, even under ideal conditions for
+SVN.
+
+Let's see how common operations stack up against Subversion, a common
+centralized version control system that is similar to CVS or
+Perforce. Smaller is faster.
+
+One place where Git is slower is in the initial clone operation. Here, Git
+One place where Git is slower is in the initial clone operation. Here, Git
+One place where Git is slower is in the initial clone operation. Here, Git
+seen in the above charts, it's not considerably slower for an operation that
+is only performed once.
+
+It's also interesting to note that the size of the data on the client side
+is very similar even though Git also has every version of every file for the
+entire history of the project. This illustrates how efficient it is at
+compressing and storing data on the client side.

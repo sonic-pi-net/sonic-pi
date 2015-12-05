@@ -1,0 +1,29 @@
+# a comment followed by some blank lines
+
+
+
+      # another comment that is indented
+
+# variations on fnmatch
+
+pat0 attr0
+!pat1 attr1
+pat2/ attr2
+pat3dir/pat3file attr3
+pat4.* attr4
+       *.pat5 attr5
+pat6/pat6/*.pat6 attr6
+
+pat7[a-e]??[xyz] attr7 # with a comment on the line
+
+pat8\ with\ spaces attr8
+
+   invalid # attr with no assignments doesn't count
+
+also/invalid              
+
+invalid.again/
+
+# next attr is at eof
+
+   pat9 attr9

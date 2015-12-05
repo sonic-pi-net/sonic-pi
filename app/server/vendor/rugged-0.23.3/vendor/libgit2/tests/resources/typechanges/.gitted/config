@@ -1,0 +1,12 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+[submodule "e"]
+	url = /Users/rb/src/libgit2/tests-clar/resources/submod2_target/.git
+[submodule "d"]
+	url = /Users/rb/src/libgit2/tests-clar/resources/submod2_target/.git
+[submodule "b"]
+	url = /Users/rb/src/libgit2/tests-clar/resources/submod2_target/.git
