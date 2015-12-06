@@ -85,6 +85,7 @@ HEADERS  += mainwindow.h \
 TRANSLATIONS = lang/sonic-pi_de.ts \
                lang/sonic-pi_is.ts \
                lang/sonic-pi_ja.ts \
+               lang/sonic-pi_nb.ts \
                lang/sonic-pi_pl.ts \
                lang/sonic-pi_fr.ts \
                lang/sonic-pi_es.ts \
