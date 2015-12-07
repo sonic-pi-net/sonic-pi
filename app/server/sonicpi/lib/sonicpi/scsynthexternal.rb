@@ -193,13 +193,14 @@ module SonicPi
       end
 
       raise "Boot - Unable to connect to scsynth" unless connected
+
       log "Boot - Server connection established"
     end
 
     def boot_server_osx
       log_boot_msg
-      log "Booting on OS X"
-      log "Checkout audio rates on OSX:"
+      log "Boot - Booting on OS X"
+      log "Boot - Checkout audio rates on OSX:"
       # Force sample rate for both input and output to 44k
       # If these are not identical, then scsynth will refuse
       # to boot.
@@ -209,8 +210,8 @@ module SonicPi
         require 'coreaudio'
         audio_in_rate = CoreAudio.default_input_device.nominal_rate
         audio_out_rate = CoreAudio.default_output_device.nominal_rate
-        log "Input audio rate: #{audio_in_rate}"
-        log "Output audio rate: #{audio_out_rate}"
+        log "Boot - Input audio rate: #{audio_in_rate}"
+        log "Boot - Output audio rate: #{audio_out_rate}"
         if audio_in_rate != audio_out_rate
           log "Attempting to set both in and out sample rates to 44100.0..."
           CoreAudio.default_output_device(nominal_rate: 44100.0)
@@ -218,14 +219,14 @@ module SonicPi
           # now check again...
           audio_in_rate = CoreAudio.default_input_device.nominal_rate
           audio_out_rate = CoreAudio.default_output_device.nominal_rate
-          log "Input audio rate now: #{audio_in_rate}"
-          log "Output audio rate now: #{audio_out_rate}"
+          log "Boot - Input audio rate now: #{audio_in_rate}"
+          log "Boot - Output audio rate now: #{audio_out_rate}"
           if audio_in.nominal_rate != audio_out.nominal_rate
-            log "Sample rates do not match, exiting"
+            log "Boot - Sample rates do not match, exiting"
             raise
           end
         else
-          log "Sample rates match, we may continue to boot..."
+          log "Boot - Sample rates match, we may continue to boot..."
         end
 
       rescue Exception => e
