@@ -19,32 +19,12 @@ module SonicPi
     include Util
 
     def initialize(events, opts={})
+      @events = events
       @hostname = opts[:hostname] || "localhost"
       @port = opts[:sc_port] || 4556
       @scsynth_pid = nil
       @jack_pid = nil
       @out_queue = SizedQueue.new(20)
-      @server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
-
-      @server.add_global_method do |address, args|
-        case address
-        when "/n_end"
-          id = args[0].to_i
-          events.async_event "/n_end/#{id}", args
-        when "/n_off"
-          id = args[0].to_i
-          events.async_event "/n_off/#{id}", args
-        when "/n_on"
-          id = args[0].to_i
-          events.async_event "/n_on/#{id}", args
-        when "/n_go"
-          id = args[0].to_i
-          events.async_event "/n_go/#{id}", args
-        else
-          events.async_event address, args
-        end
-      end
-
       boot
     end
 
@@ -85,17 +65,48 @@ module SonicPi
     end
 
     def shutdown
-      if @jack_pid
-        log "killing jack process"
-        `kill #{@jack_pid}`
-      end
-
       log "Sending /quit command to server"
       @server.send(@hostname, @port, "/quit")
       @server.stop
+      t1, t2 = nil, nil
+      if @jack_pid
+        log "killing jack process #{@jack_pid}"
+        t1 = Thread.new do
+          kill_pid(@jack_pid)
+          @jack_pid = nil
+        end
+      end
+
+      if @scsynth_pid
+        log "killing scynth process #{@scsynth_pid}"
+        t2 = Thread.new do
+          kill_pid(@scsynth_pid)
+          @scsynth_pid = nil
+        end
+
+      end
+      t1.join if t1
+      t2.join if t2
     end
 
     private
+
+    def kill_pid(pid, safe_wait=4)
+      log "going to kill #{pid}"
+      Process.kill(15, pid)
+      safe_wait.to_i.times do
+        sleep 1
+        begin
+          alive = Process.waitpid(pid, Process::WNOHANG)
+          return unless alive
+        rescue SystemCallError
+          # process is definitely dead!
+          return nil
+        end
+      end
+
+      Process.kill(9, pid)
+    end
 
     def boot
       if booted?
@@ -103,6 +114,29 @@ module SonicPi
         return false
       end
       log "booting server..."
+
+      @server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
+
+      @server.add_global_method do |address, args|
+        case address
+        when "/n_end"
+          id = args[0].to_i
+          @events.async_event "/n_end/#{id}", args
+        when "/n_off"
+          id = args[0].to_i
+          @events.async_event "/n_off/#{id}", args
+        when "/n_on"
+          id = args[0].to_i
+          @events.async_event "/n_on/#{id}", args
+        when "/n_go"
+          id = args[0].to_i
+          @events.async_event "/n_go/#{id}", args
+        else
+          @events.async_event address, args
+        end
+      end
+
+
       case os
       when :raspberry
         boot_server_raspberry_pi
