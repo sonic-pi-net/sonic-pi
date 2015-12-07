@@ -199,6 +199,38 @@ module SonicPi
     def boot_server_osx
       log_boot_msg
       log "Booting on OS X"
+      log "Checkout audio rates on OSX:"
+      # Force sample rate for both input and output to 44k
+      # If these are not identical, then scsynth will refuse
+      # to boot.
+      begin
+        audio_in_rate = :unknown_in_rate
+        audio_out_rate = :unknown_out_rate
+        require 'coreaudio'
+        audio_in_rate = CoreAudio.default_input_device.nominal_rate
+        audio_out_rate = CoreAudio.default_output_device.nominal_rate
+        log "Input audio rate: #{audio_in_rate}"
+        log "Output audio rate: #{audio_out_rate}"
+        if audio_in_rate != audio_out_rate
+          log "Attempting to set both in and out sample rates to 44100.0..."
+          CoreAudio.default_output_device(nominal_rate: 44100.0)
+          CoreAudio.default_input_device(nominal_rate: 44100.0)
+          # now check again...
+          audio_in_rate = CoreAudio.default_input_device.nominal_rate
+          audio_out_rate = CoreAudio.default_output_device.nominal_rate
+          log "Input audio rate now: #{audio_in_rate}"
+          log "Output audio rate now: #{audio_out_rate}"
+          if audio_in.nominal_rate != audio_out.nominal_rate
+            log "Sample rates do not match, exiting"
+            raise
+          end
+        else
+          log "Sample rates match, we may continue to boot..."
+        end
+
+      rescue Exception => e
+       raise "Unable to boot sound synthesis engine: the input and output rates of your audio card are not the same. Got in: #{audio_in_rate}, out: #{audio_out_rate}."
+      end
       boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1")
     end
 
