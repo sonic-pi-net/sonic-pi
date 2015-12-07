@@ -35,7 +35,9 @@ module SonicPi
       @samples = {}
       @recorders = {}
       @recording_mutex = Mutex.new
-      @rand_buf_id = load_sample(buffers_path + "/rand-stream.wav")[0].to_i
+
+      # load rand stream directly - ensuring it doesn't get considered as a 'sample'
+      @rand_buf_id = @server.buffer_alloc_read(buffers_path + "/rand-stream.wav").to_i
 
       reset
 
