@@ -82,7 +82,7 @@ module SonicPi
 
 
     def message(s)
-      # @msg_queue.push "Studio: #{s}"
+      # @msg_queue.push({:type => :info, :val => "Studio: #{s.to_s}"})
     end
 
     def trigger_synth(synth_name, group, args, info, now=false, t_minus_delta=false )
