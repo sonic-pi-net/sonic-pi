@@ -3137,7 +3137,7 @@ module SonicPi
 
           :spread =>
           {
-            :doc => "Stereo spread. Amount of stereo spread the reverb has over the left and right channels. A value of 0 means no spread at all - left and right stereo values of the incoming signal are preserved. A value of 1 means full spread - the left and right channels are fully mixed within the reverb - bleading into each other..",
+            :doc => "Stereo spread. Amount of stereo spread the reverb has over the left and right channels. A value of 0 means no spread at all - left and right stereo values of the incoming signal are preserved. A value of 1 means full spread - the left and right channels are fully mixed within the reverb - bleeding into each other.",
             :validations => [v_between_inclusive(:spread, 0, 1)],
             :modulatable => true
           },
@@ -3165,7 +3165,7 @@ module SonicPi
 
           :room =>
           {
-            :doc => "The room size in squared meters",
+            :doc => "The room size in squared metres",
             :validations => [v_greater_than_oet(:room, 0)],
             :modulatable => true
           },
