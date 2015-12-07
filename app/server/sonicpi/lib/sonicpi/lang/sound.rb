@@ -157,6 +157,67 @@ module SonicPi
         end
       end
 
+
+
+
+      def sample_free(*paths)
+        full_paths = paths.map{ |p| resolve_sample_symbol_path(p)}
+        @mod_sound_studio.free_sample(*full_paths)
+      end
+      doc name:           :sample_free,
+          introduced:     Version.new(2,9,0),
+          summary:        "Free a sample on the synth server",
+          args:           [[:path, :string]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Frees the memory and resources consumed by loading the sample on the server. Subsequent calls to `sample` and friends will re-load the sample on the server. You may pass multiple samples to free at once.",
+          examples:       ["
+sample :loop_amen # The Amen break is now loaded into memory and played
+sleep 2
+sample :loop_amen # The Amen break is not loaded but played from memory
+sleep 2
+sample_free :loop_amen # The Amen break is freed from menory
+sample :loop_amen # the Amen break is re-loaded and played",
+
+"
+puts sample_info(:loop_amen).to_i # This returns the buffer id of the sample i.e. 1
+puts sample_info(:loop_amen).to_i # The buffer id remains constant whilst the sample
+                                  # is loaded in memory
+sample_free :loop_amen
+puts sample_info(:loop_amen).to_i # The Amen break is re-loaded and gets a *new* id.",
+"
+sample :loop_amen
+sample :ambi_lunar_land
+sleep 2
+sample_free :loop_amen, :ambi_lunar_land
+sample :loop_amen                        # re-loads and plays amen
+sample :ambi_lunar_lane                  # re-loads and plays lunar land"]
+
+
+
+
+      def sample_free_all
+        @mod_sound_studio.free_all_samples
+      end
+      doc name:           :sample_free,
+          introduced:     Version.new(2,9,0),
+          summary:        "Free all loaded samples on the synth server",
+          args:           [[]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Unloads all samples therefore freeing the memory and resources consumed . loading the sample on the server. Subsequent calls to `sample` and friends will re-load the sample on the server.",
+          examples:       ["
+sample :loop_amen        # load and play :loop_amen
+sample :ambi_lunar_land  # load and play :ambi_lunar_land
+sleep 2
+sample_free_all
+sample :loop_amen        # re-loads and plays amen"]
+
+
+
+
       def start_amp_monitor
         @mod_sound_studio.start_amp_monitor
       end

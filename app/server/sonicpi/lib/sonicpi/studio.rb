@@ -60,6 +60,26 @@ module SonicPi
       [buf_info, false]
     end
 
+    def free_sample(*paths)
+      SAMPLE_SEM.synchronize do
+        paths.each do |p|
+          info = @samples[p]
+          @samples.delete(p)
+          @server.buffer_free(info) if info
+        end
+      end
+      :free
+    end
+
+    def free_all_samples
+      SAMPLE_SEM.synchronize do
+        @samples.each do |k, v|
+          @server.buffer_free(v)
+        end
+        @samples = {}
+      end
+    end
+
     def reset_and_setup_groups_and_busses
       @server.clear_scsynth!
       @mixer_bus = @server.allocate_audio_bus
