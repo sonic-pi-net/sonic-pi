@@ -26,34 +26,6 @@ require_relative "../sonicpi/lib/sonicpi/lang/sound"
 #require_relative "../sonicpi/lib/sonicpi/lang/pattern"
 require_relative "../sonicpi/lib/sonicpi/runtime"
 
-os = case RUBY_PLATFORM
-     when /.*arm.*-linux.*/
-       :raspberry
-     when /.*linux.*/
-       :linux
-     when /.*darwin.*/
-       :osx
-     when /.*mingw.*/
-       :windows
-     else
-       RUBY_PLATFORM
-     end
-
-if os == :osx
-  # Force sample rate for both input and output to 44k
-  # If these are not identical, then scsynth will refuse
-  # to boot.
-  begin
-    require 'coreaudio'
-    CoreAudio.default_output_device(nominal_rate: 44100.0)
-    CoreAudio.default_input_device(nominal_rate: 44100.0)
-  rescue Exception => e
-    STDERR.puts "Unable to set sample rate on default input/output device to 44100"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-  end
-end
-
 require 'multi_json'
 
 include SonicPi::Util
@@ -70,11 +42,59 @@ protocol = case ARGV[0]
 
 puts "Using protocol: #{protocol}"
 
-ws_out = Queue.new
+os = case RUBY_PLATFORM
+     when /.*arm.*-linux.*/
+       :raspberry
+     when /.*linux.*/
+       :linux
+     when /.*darwin.*/
+       :osx
+     when /.*mingw.*/
+       :windows
+     else
+       RUBY_PLATFORM
+     end
+
 if protocol == :tcp
   gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
 else
   gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+end
+
+if os == :osx
+  puts "Checkout audio rates on OSX:"
+  # Force sample rate for both input and output to 44k
+  # If these are not identical, then scsynth will refuse
+  # to boot.
+  begin
+    audio_in = :unknown_in_rate
+    audio_out = :unknown_out_rate
+    require 'coreaudio'
+    audio_in = CoreAudio.default_input_device
+    audio_out = CoreAudio.default_output_device
+    puts "Input audio rate: #{audio_in.nominal_rate}"
+    puts "Output audio rate: #{audio_out.nominal_rate}"
+    if audio_in.nominal_rate != audio_out.nominal_rate
+      puts "Attempting to set both in and out sample rates to 44100.0..."
+      CoreAudio.default_output_device(nominal_rate: 44100.0)
+      CoreAudio.default_input_device(nominal_rate: 44100.0)
+      # now check again...
+      audio_in = CoreAudio.default_input_device.nominal_rate
+      audio_out = CoreAudio.default_output_device.nominal_rate
+      puts "Input audio rate now: #{audio_in.nominal_rate}"
+      puts "Output audio rate now: #{audio_out.nominal_rate}"
+      if audio_in.nominal_rate != audio_out.nominal_rate
+        puts "Sample rates do not match, exiting"
+        raise
+      end
+    else
+      puts "Sample rates match, we may continue to boot..."
+    end
+
+  rescue Exception => e
+    gui.send("/exited-with-boot-error", "Unable to boot sound synthesis engine: the input and output rates of your audio card are not the same. Got in: #{audio_in}, out: #{audio_out}." )
+    exit
+  end
 end
 
 begin
@@ -114,6 +134,8 @@ klass.send(:include, SonicPi::Lang::Core)
 klass.send(:include, SonicPi::Lang::Sound)
 klass.send(:include, SonicPi::Lang::Minecraft)
 #klass.send(:include, SonicPi::Lang::Pattern)
+
+ws_out = Queue.new
 
 begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
