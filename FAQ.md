@@ -16,6 +16,12 @@ This problem was reported on Windows machines in Sonic Pi v. 2.7. It was reporte
 * open Windows Task Manager with `Ctrl + Shift + Esc` 
 * try to kill all processes listed below if they're still running
 
+Ruby Interpreter (CUI)  
+scsynth.exe
+
+You can also check in Task Manger that there is no application entry sonic-pi.exe  
+and quit it if there is.
+
 ## Linux: Trouble with JACK
 
 If the GUI complains that _"The Sonic Pi server could not be started!"_
