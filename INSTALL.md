@@ -11,7 +11,7 @@ You can always find official pre-built binaries of the latest release at
 * [Ubuntu](https://launchpad.net/~sonic-pi/+archive/ubuntu/ppa) non-official PPA (beta test)
 
 We'd love to have Sonic Pi
-[packaged to other Linux distributions]((HOW-TO-CONTRIBUTE.md)), as well!
+[packaged to other Linux distributions](HOW-TO-CONTRIBUTE.md), as well!
 
 ## The Development Version
 
