@@ -60,6 +60,7 @@ module SonicPi
 
       def stop
         @listener_thread.kill
+        @socket.close
       end
 
       def inspect
