@@ -721,6 +721,60 @@ play 90 # Args are checked
 
 "]
 
+      def use_octave(shift, &block)
+        raise "use_octave does not work with a do/end block. Perhaps you meant with_octave" if block
+        raise "Octave shift must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_octave_shift, shift)
+      end
+      doc name:          :use_octave,
+          introduced:    Version.new(2,9,0),
+          summary:       "Note octave transposition",
+          doc:           "Transposes your music by shifting all notes played by the specified number of octaves. To shift up by an octave use a transpose of 1. To shift down use negative numbers. See `with_octave` for setting the octave shift only for a specific `do`/`end` block. For transposing the notes within the octave range see `use_transpose`.",
+          args:          [[:octave_shift, :number]],
+          opts:          nil,
+          accepts_block: false,
+          intro_fn:      true,
+          examples:      ["
+play 50 # Plays note 50
+use_octave 1
+play 50 # Plays note 62",
+
+        "
+# You may change the transposition multiple times:
+play 62 # Plays note 62
+use_octave -1
+play 62 # Plays note 50
+use_octave 2
+play 62 # Plays note 86"]
+
+
+
+      def with_octave(shift, &block)
+        raise "with_octave requires a do/end block. Perhaps you meant use_octave" unless block
+        raise "Octave shift must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
+        curr = Thread.current.thread_variable_get(:sonic_pi_mod_sound_octave_shift)
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_octave_shift, shift)
+        res = block.call
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_octave_shift, curr)
+        res
+      end
+      doc name:          :with_octave,
+          introduced:    Version.new(2,9,0),
+          summary:       "Block level octave transposition",
+          doc:           "Transposes your music by shifting all notes played by the specified number of octaves within the specified block. To shift up by an octave use a transpose of 1. To shift down use negative numbers. For transposing the notes within the octave range see `with_transpose`.",
+          args:          [[:octave_shift, :number]],
+          opts:          nil,
+          accepts_block: true,
+          intro_fn:      true,
+          examples:      ["
+play 50 # Plays note 50
+sleep 1
+with_octave 1 do
+ play 50 # Plays note 62
+end
+sleep 1
+play 50 # Plays note 50"]
+
 
 
 
@@ -732,7 +786,7 @@ play 90 # Args are checked
       doc name:          :use_transpose,
           introduced:    Version.new(2,0,0),
           summary:       "Note transposition",
-          doc:           "Transposes your music by shifting all notes played by the specified amount. To shift up by a semitone use a transpose of 1. To shift down use negative numbers. See `with_transpose` for setting the transpose value only for a specific `do`/`end` block.",
+          doc:           "Transposes your music by shifting all notes played by the specified amount. To shift up by a semitone use a transpose of 1. To shift down use negative numbers. See `with_transpose` for setting the transpose value only for a specific `do`/`end` block. To transpose entire octaves see `use_octave`.",
           args:          [[:note_shift, :number]],
           opts:          nil,
           accepts_block: false,
@@ -765,7 +819,7 @@ play 62 # Plays note 65"]
       doc name:           :with_transpose,
           introduced:     Version.new(2,0,0),
           summary:        "Block-level note transposition",
-          doc:            "Similar to use_transpose except only applies to code within supplied `do`/`end` block. Previous transpose value is restored after block.",
+          doc:            "Similar to use_transpose except only applies to code within supplied `do`/`end` block. Previous transpose value is restored after block. To transpose entire octaves see `with_octave`.",
           args:           [[:note_shift, :number]],
           opts:           nil,
           accepts_block:  true,
@@ -1752,6 +1806,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
           :sonic_pi_mod_sound_synth_silent,
           :sonic_pi_mod_sound_transpose,
+          :sonic_pi_mod_sound_octave_shift,
           :sonic_pi_mod_sound_disable_timing_warnings,
           :sonic_pi_mod_sound_check_synth_args,
           :sonic_pi_mod_sound_tuning,
@@ -2094,6 +2149,22 @@ puts current_volume #=> 2"]
           accepts_block: false,
           examples:      ["
 puts current_transpose # Print out the current transpose value"]
+
+
+
+
+      def current_octave
+        Thread.current.thread_variable_get(:sonic_pi_mod_sound_octave_shift) || 0
+      end
+      doc name:          :current_octave,
+          introduced:    Version.new(2,9,0),
+          summary:       "Get current octave shift",
+          doc:           "Returns the octave shift value.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+puts current_octave # Print out the current octave shift"]
 
 
 
@@ -3992,6 +4063,10 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         if shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_transpose)
           n += shift
+        end
+
+        if octave_shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_octave_shift)
+          n += (12 * octave_shift)
         end
 
         n += args_h[:pitch].to_f
