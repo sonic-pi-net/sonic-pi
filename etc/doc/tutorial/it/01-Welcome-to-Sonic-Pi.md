@@ -1,6 +1,6 @@
 1 Benvenuto in Sonic Pi
 
-# Benvenuto amico :-)
+# Benvenuto :-)
 
 Benvenuto in Sonic Pi. Probabilmente non vedi l'ora di cominciare a fare strani suoni almeno quanto io sono impaziente di mostrarti come si fa. Sarà un viaggio veramente *divertente* nel quale imparerai tutto su musica, sintesi, programmazione, composizione, performance e altro.
 
