@@ -177,7 +177,7 @@ sample :loop_amen # The Amen break is now loaded into memory and played
 sleep 2
 sample :loop_amen # The Amen break is not loaded but played from memory
 sleep 2
-sample_free :loop_amen # The Amen break is freed from menory
+sample_free :loop_amen # The Amen break is freed from memory
 sample :loop_amen # the Amen break is re-loaded and played",
 
 "
@@ -192,7 +192,7 @@ sample :ambi_lunar_land
 sleep 2
 sample_free :loop_amen, :ambi_lunar_land
 sample :loop_amen                        # re-loads and plays amen
-sample :ambi_lunar_lane                  # re-loads and plays lunar land"]
+sample :ambi_lunar_land                  # re-loads and plays lunar land"]
 
 
 
@@ -200,14 +200,14 @@ sample :ambi_lunar_lane                  # re-loads and plays lunar land"]
       def sample_free_all
         @mod_sound_studio.free_all_samples
       end
-      doc name:           :sample_free,
+      doc name:           :sample_free_all,
           introduced:     Version.new(2,9,0),
           summary:        "Free all loaded samples on the synth server",
           args:           [[]],
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Unloads all samples therefore freeing the memory and resources consumed . loading the sample on the server. Subsequent calls to `sample` and friends will re-load the sample on the server.",
+          doc:            "Unloads all samples therefore freeing the memory and resources consumed. Subsequent calls to `sample` and friends will re-load the sample on the server.",
           examples:       ["
 sample :loop_amen        # load and play :loop_amen
 sample :ambi_lunar_land  # load and play :ambi_lunar_land
