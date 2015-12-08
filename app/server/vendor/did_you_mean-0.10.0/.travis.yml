@@ -1,0 +1,29 @@
+language: ruby
+script:   bundle exec rake test
+cache:    bundler
+sudo:     false
+
+before_install:
+  - 'if [[ "$TRAVIS_RUBY_VERSION" =~ "jruby" ]]; then rvm get head && rvm use --install $TRAVIS_RUBY_VERSION; fi'
+
+after_success:
+  - bundle exec rake test:accuracy
+  - bundle exec rake benchmark:memory
+
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1
+  - 2.2
+  - ruby-head
+  - jruby-1.7.21
+  - jruby-9.0.0.0
+  - jruby-head
+  - rbx-2.4.1
+  - rbx-2.5.8
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+  fast_finish: true

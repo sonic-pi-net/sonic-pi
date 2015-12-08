@@ -1,0 +1,10 @@
+0000000000000000000000000000000000000000 5c0bb3d1b9449d1cc69d7519fd05166f01840915 Congyi Wu <congyiwu@gmail.com> 1352923200 -0500	commit (initial): added a.txt
+5c0bb3d1b9449d1cc69d7519fd05166f01840915 a78705c3b2725f931d3ee05348d83cc26700f247 Congyi Wu <congyiwu@gmail.com> 1352923200 -0500	commit: added fold and fold/b.txt
+a78705c3b2725f931d3ee05348d83cc26700f247 a78705c3b2725f931d3ee05348d83cc26700f247 Congyi Wu <congyiwu@gmail.com> 1352923201 -0500	checkout: moving from master to b3
+a78705c3b2725f931d3ee05348d83cc26700f247 d9b63a88223d8367516f50bd131a5f7349b7f3e4 Congyi Wu <congyiwu@gmail.com> 1352923201 -0500	commit: edited a.txt
+d9b63a88223d8367516f50bd131a5f7349b7f3e4 a78705c3b2725f931d3ee05348d83cc26700f247 Congyi Wu <congyiwu@gmail.com> 1352923201 -0500	checkout: moving from b3 to b4
+a78705c3b2725f931d3ee05348d83cc26700f247 27b7ce66243eb1403862d05f958c002312df173d Congyi Wu <congyiwu@gmail.com> 1352923201 -0500	commit: edited fold\b.txt
+27b7ce66243eb1403862d05f958c002312df173d a78705c3b2725f931d3ee05348d83cc26700f247 Congyi Wu <congyiwu@gmail.com> 1352923201 -0500	checkout: moving from b4 to b5
+a78705c3b2725f931d3ee05348d83cc26700f247 fa38b91f199934685819bea316186d8b008c52a2 Congyi Wu <congyiwu@gmail.com> 1352923206 -0500	commit: added submodule named 'submodule' pointing to '../testrepo.git'
+fa38b91f199934685819bea316186d8b008c52a2 a78705c3b2725f931d3ee05348d83cc26700f247 Congyi Wu <congyiwu@gmail.com> 1352923207 -0500	checkout: moving from b5 to master
+a78705c3b2725f931d3ee05348d83cc26700f247 951bbbb90e2259a4c8950db78946784fb53fcbce Congyi Wu <congyiwu@gmail.com> 1352923207 -0500	merge b3 b4 b5: Merge made by the 'octopus' strategy.

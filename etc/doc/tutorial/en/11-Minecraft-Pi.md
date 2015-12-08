@@ -9,7 +9,7 @@ Raspberry Pi's Raspbian Linux-based operating system.
 ## No need to import libraries
 
 The Minecraft Pi integration has been designed to be insanely easy to
-use. All you need to do is to launch a Minecraft Pi and create a
+use. All you need to do is to launch Minecraft Pi and create a
 world. You're then free to use the `mc_*` fns just like you might use
 `play` and `synth`. There's no need to import anything or install any
 libraries - it's all ready to go and works out of the box.

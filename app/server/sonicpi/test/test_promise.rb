@@ -11,13 +11,12 @@
 # notice is included.
 #++
 
-require 'test/unit'
-require_relative "../../core"
+require_relative "./setup_test"
 require_relative "../lib/sonicpi/promise"
 
 module SonicPi
   module Threading
-    class PromiseTester < Test::Unit::TestCase
+    class PromiseTester < Minitest::Test
 
       def test_get
         p = Promise.new
@@ -48,7 +47,7 @@ module SonicPi
         p = Promise.new
 
         t = Thread.new do
-          assert_raise PromiseTimeoutError do
+          assert_raises PromiseTimeoutError do
             p.get(0.01)
           end
         end
@@ -61,13 +60,13 @@ module SonicPi
         p = Promise.new
 
         t = Thread.new do
-          assert_raise PromiseTimeoutError do
+          assert_raises PromiseTimeoutError do
             p.get(0.01)
           end
         end
 
         t2 = Thread.new do
-          assert_raise PromiseTimeoutError do
+          assert_raises PromiseTimeoutError do
             p.get(0.02)
           end
         end
@@ -80,7 +79,7 @@ module SonicPi
         p = Promise.new
         p.deliver! 3
 
-        assert_raise PromiseAlreadyDeliveredError do
+        assert_raises PromiseAlreadyDeliveredError do
           p.deliver! 4
         end
       end

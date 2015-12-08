@@ -106,5 +106,9 @@ module SonicPi
     def blank_node?
       false
     end
+
+    def info
+      @node.info
+    end
   end
 end

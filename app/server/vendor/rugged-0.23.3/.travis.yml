@@ -1,0 +1,35 @@
+language: ruby
+cache: bundler
+
+os:
+  - linux
+  - osx
+
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.5
+  - 2.2.2
+  - ruby-head
+  - rbx-2
+
+addons:
+  apt:
+    packages:
+    - cmake
+    - libssh2-1-dev
+    - openssh-client
+    - openssh-server
+
+sudo: false
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: rbx-2
+    - rvm: ruby-head
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ./vendor/libgit2/script/install-deps-osx.sh; fi
+
+script: script/travisbuild

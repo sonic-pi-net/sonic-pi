@@ -11,13 +11,12 @@
 # notice is included.
 #++
 
-require 'test/unit'
-require_relative "../../core"
+require_relative "./setup_test"
 require_relative "../lib/sonicpi/scale"
 require_relative "../lib/sonicpi/note"
 
 module SonicPi
-  class NoteTester < Test::Unit::TestCase
+  class NoteTester < Minitest::Test
 
     def test_tonic_capitalisation_should_make_no_difference
       assert_equal(Scale.new(:fs,:major,2), Scale.new(:Fs, :major, 2))
@@ -47,25 +46,25 @@ module SonicPi
     end
 
     def test_degree_invalid
-      assert_raise Scale::InvalidDegreeError do
+      assert_raises Scale::InvalidDegreeError do
         Scale.resolve_degree(:joe, :A3, :major)
       end
     end
 
     def test_too_low_degree
-      assert_raise Scale::InvalidDegreeError do
+      assert_raises Scale::InvalidDegreeError do
         Scale.resolve_degree(-1, :A3, :major)
       end
     end
 
     def test_degree_invalid_scale
-      assert_raise Scale::InvalidScaleError do
+      assert_raises Scale::InvalidScaleError do
         Scale.resolve_degree(:i, :A3, :wooble)
       end
     end
 
     def test_degree_invalid_tonic
-      assert_raise Note::InvalidNoteError do
+      assert_raises Note::InvalidNoteError do
         Scale.resolve_degree(:i, :blah, :minor)
       end
     end

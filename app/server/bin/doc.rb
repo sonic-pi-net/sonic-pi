@@ -13,20 +13,20 @@
 #++
 
 require_relative "../core.rb"
-require_relative "../sonicpi/lib/sonicpi/synthinfo"
+require_relative "../sonicpi/lib/sonicpi/synths/synthinfo"
 require_relative "../sonicpi/lib/sonicpi/util"
 
 include SonicPi::Util
 
 
 File.open( "#{cheatsheets_path}/synths.md", 'w' ) do |f|
- f << SonicPi::SynthInfo.synth_doc_markdown
+ f << SonicPi::Synths::SynthInfo.synth_doc_markdown
 end
 
 File.open( "#{cheatsheets_path}/fx.md", 'w') do |f|
- f << SonicPi::SynthInfo.fx_doc_markdown
+ f << SonicPi::Synths::SynthInfo.fx_doc_markdown
 end
 
 File.open( "#{cheatsheets_path}/samples.md", 'w') do |f|
- f << SonicPi::SynthInfo.samples_doc_markdown
+ f << SonicPi::Synths::SynthInfo.samples_doc_markdown
 end

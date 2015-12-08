@@ -14,6 +14,8 @@
 
 require 'fileutils'
 
+require 'rbconfig'
+ruby_api = RbConfig::CONFIG['ruby_version']
 os = case RUBY_PLATFORM
      when /.*arm.*-linux.*/
        :raspberry
@@ -27,7 +29,7 @@ os = case RUBY_PLATFORM
        RUBY_PLATFORM
      end
 
-native_dir = File.dirname(__FILE__) + '/../rb-native/' + os.to_s + '/' + "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}"
+native_dir = File.dirname(__FILE__) + "/../rb-native/#{os}/#{ruby_api}"
 puts "Clearing #{native_dir}"
 FileUtils.rm_rf native_dir
 puts "Creating #{native_dir}"
@@ -36,14 +38,14 @@ FileUtils.mkdir_p native_dir
 # Rugged is used for storing the user's ruby music scripts in Git
 # FFI is used for MIDI lib support
 native_ext_dirs = [
-  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged/ext/rugged'),
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/rugged-0.23.3/ext/rugged'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ffi-1.9.10/ext/ffi_c'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/atomic/ext'),
   File.expand_path(File.dirname(__FILE__) + '/../vendor/ruby-prof-0.15.8/ext/ruby_prof/'),
 
   File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
 
-  [File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean-0.9.10/ext/did_you_mean'), "did_you_mean"]
+  [File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean-0.10.0/ext/did_you_mean'), "did_you_mean"]
 ]
 
 if os == :osx

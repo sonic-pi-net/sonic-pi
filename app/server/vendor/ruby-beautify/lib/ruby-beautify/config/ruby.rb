@@ -35,13 +35,13 @@ unless RBeautify::Language.language(:ruby)
                    :escape_character => true,
                    :nest_except => [:double_quote, :single_quote, :regex, :back_tick])
 
-#  ruby.add_matcher(:regex,
-#                   /(^|((,|=|~)\s*))\//, # Try to distinguish it from division sign
-#                   /\//,
-#                   :format_content => false,
-#                   :escape_character => true,
-#                   :end_can_also_be_start => false,
-#                   :nest_except => [:double_quote, :single_quote, :regex, :back_tick])
+ ruby.add_matcher(:regex,
+                  /(^|((,|=|~)\s*))\//, # Try to distinguish it from division sign
+                  /\//,
+                  :format_content => false,
+                  :escape_character => true,
+                  :end_can_also_be_start => false,
+                  :nest_except => [:double_quote, :single_quote, :regex, :back_tick])
 
   ruby.add_matcher(:back_tick,
                    /`/,

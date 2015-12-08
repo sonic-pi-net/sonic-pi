@@ -1,0 +1,7 @@
+0000000000000000000000000000000000000000 be3563ae3f795b2b4353bcce3a527ad0a4f7f644 Ben Straub <bstraub@github.com> 1335806563 -0700	clone: from /Users/ben/src/libgit2/tests/resources/testrepo.git
+be3563ae3f795b2b4353bcce3a527ad0a4f7f644 a65fedf39aefe402d3bb6e24df4d4f5fe4547750 Ben Straub <bstraub@github.com> 1335806603 -0900	commit: 
+a65fedf39aefe402d3bb6e24df4d4f5fe4547750 5b5b025afb0b4c913b4c338a42934a3863bf3644 Ben Straub <bstraub@github.com> 1335806604 -0900	checkout: moving from master to 5b5b025
+5b5b025afb0b4c913b4c338a42934a3863bf3644 a65fedf39aefe402d3bb6e24df4d4f5fe4547750 Ben Straub <bstraub@github.com> 1335806605 -0900	checkout: moving from 5b5b025 to master
+a65fedf39aefe402d3bb6e24df4d4f5fe4547750 c47800c7266a2be04c571c04d5a6614691ea99bd Ben Straub <bstraub@github.com> 1335806608 -0900	checkout: moving from master to br2
+c47800c7266a2be04c571c04d5a6614691ea99bd a4a7dce85cf63874e984719f4fdd239f5145052f Ben Straub <bstraub@github.com> 1335806617 -0900	commit: checking in
+a4a7dce85cf63874e984719f4fdd239f5145052f a65fedf39aefe402d3bb6e24df4d4f5fe4547750 Ben Straub <bstraub@github.com> 1335806621 -0900	checkout: moving from br2 to master

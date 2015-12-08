@@ -1,12 +1,12 @@
 digraph synthdef {
 17 [label = "{{ <a> |<b> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
 18 [label = "{{ <a> |<b> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
-10 [label = "{{ <a> |<b> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
-14 [label = "{{ <a> |<b> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
-9 [label = "{{ <a> |<b> 0.0} |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
-13 [label = "{{ <a> |<b> 0.0} |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
-8 [label = "{{ <a> |<b> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
-12 [label = "{{ <a> |<b> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+11 [label = "{{ <a> |<b> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+15 [label = "{{ <a> |<b> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+8 [label = "{{ <a> |<b> 0.0} |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+14 [label = "{{ <a> |<b> 0.0} |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+7 [label = "{{ <a> |<b> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+13 [label = "{{ <a> |<b> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
 0 [label = "control
  :amp
  default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
@@ -15,7 +15,7 @@ digraph synthdef {
  default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
 2 [label = "control
  :amp_slide_shape
- default: 5.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
 3 [label = "control
  :amp_slide_curve
  default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
@@ -25,36 +25,36 @@ digraph synthdef {
 5 [label = "control
  :out_bus
  default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
-15 [label = "{{ {{<envelope___control___0>|1.0|-99|-99|<envelope___control___4>|<envelope___control___5>|<envelope___control___6>|<envelope___control___7>}|envelope}|<gate> gate|<level____scale> level-scale 1.0|<level____bias> level-bias 0.0|<time____scale> time-scale 1.0|<action> action 0.0} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
-7 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
-11 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
-6 [label = "{{ <freq> freq 0.0|<phase> phase 0.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
-16 [label = "{{ <bus> bus|<num____channels> num-channels 2} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+16 [label = "{{ {{<envelope___control___0>|1.0|-99|-99|<envelope___control___4>|<envelope___control___5>|<envelope___control___6>|<envelope___control___7>}|envelope}|<gate> gate|<level____scale> level-scale 1.0|<level____bias> level-bias 0.0|<time____scale> time-scale 1.0|<action> action 0.0} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+6 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+12 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+10 [label = "{{ <freq> freq 0.0|<phase> phase 0.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
+9 [label = "{{ <bus> bus|<num____channels> num-channels 2} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
 19 [label = "{{ <bus> bus|{{<signals___binary____op____u____gen___0>|<signals___binary____op____u____gen___1>}|signals}} |<__UG_NAME__>out }" style="filled, bold, rounded"  shape=record rankdir=LR];
 
-16:__UG_NAME__ -> 17:b ;
-15:__UG_NAME__ -> 17:a ;
-16:__UG_NAME__ -> 18:b ;
-15:__UG_NAME__ -> 18:a ;
-9:__UG_NAME__ -> 10:b ;
-6:__UG_NAME__ -> 10:a ;
-13:__UG_NAME__ -> 14:b ;
-10:__UG_NAME__ -> 14:a ;
-8:__UG_NAME__ -> 9:a ;
-12:__UG_NAME__ -> 13:a ;
+9:__UG_NAME__ -> 17:b ;
+16:__UG_NAME__ -> 17:a ;
+9:__UG_NAME__ -> 18:b ;
+16:__UG_NAME__ -> 18:a ;
+8:__UG_NAME__ -> 11:b ;
+10:__UG_NAME__ -> 11:a ;
+14:__UG_NAME__ -> 15:b ;
+11:__UG_NAME__ -> 15:a ;
 7:__UG_NAME__ -> 8:a ;
-11:__UG_NAME__ -> 12:a ;
-14:__UG_NAME__ -> 15:gate ;
-0:__UG_NAME__ -> 15:envelope___control___0 ;
-0:__UG_NAME__ -> 15:envelope___control___4 ;
-1:__UG_NAME__ -> 15:envelope___control___5 ;
-2:__UG_NAME__ -> 15:envelope___control___6 ;
-3:__UG_NAME__ -> 15:envelope___control___7 ;
-0:__UG_NAME__ -> 7:in ;
-1:__UG_NAME__ -> 11:in ;
-4:__UG_NAME__ -> 16:bus ;
-18:__UG_NAME__ -> 19:signals___binary____op____u____gen___0 ;
-17:__UG_NAME__ -> 19:signals___binary____op____u____gen___1 ;
+13:__UG_NAME__ -> 14:a ;
+6:__UG_NAME__ -> 7:a ;
+12:__UG_NAME__ -> 13:a ;
+15:__UG_NAME__ -> 16:gate ;
+0:__UG_NAME__ -> 16:envelope___control___0 ;
+0:__UG_NAME__ -> 16:envelope___control___4 ;
+1:__UG_NAME__ -> 16:envelope___control___5 ;
+2:__UG_NAME__ -> 16:envelope___control___6 ;
+3:__UG_NAME__ -> 16:envelope___control___7 ;
+0:__UG_NAME__ -> 6:in ;
+1:__UG_NAME__ -> 12:in ;
+4:__UG_NAME__ -> 9:bus ;
+17:__UG_NAME__ -> 19:signals___binary____op____u____gen___0 ;
+18:__UG_NAME__ -> 19:signals___binary____op____u____gen___1 ;
 5:__UG_NAME__ -> 19:bus ;
 
 }

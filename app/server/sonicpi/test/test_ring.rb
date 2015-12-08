@@ -11,13 +11,12 @@
 # notice is included.
 #++
 
-require 'test/unit'
-require_relative "../../core"
-require_relative "../lib/sonicpi/spiderapi"
+require_relative "./setup_test"
+require_relative "../lib/sonicpi/lang/core"
 
 module SonicPi
-  class RingTester < Test::Unit::TestCase
-    include SonicPi::SpiderAPI
+  class RingTester < Minitest::Test
+    include SonicPi::Lang::Core
 
     def test_stretch
       assert_equal([:e1, :e1, :e1, :e2, :e2, :e2], stretch([:e1,:e2], 3))
@@ -26,7 +25,7 @@ module SonicPi
       assert_equal(SonicPi::Core::RingVector, stretch([:e1], 3).class)
       assert_equal([:a2,:a2], stretch(:a2, 2))
 
-      assert_raise SonicPi::Core::EmptyVectorError do
+      assert_raises SonicPi::Core::EmptyVectorError do
         stretch([:e2], 0)
       end
     end
@@ -36,15 +35,15 @@ module SonicPi
       assert_equal(knit(:e1, 3, :c1, 2), [:e1, :e1, :e1, :c1, :c1])
       assert_equal(knit(:e2, -1, :c1, 3), [:c1, :c1, :c1])
       assert_equal(knit(:e1, 3).class, SonicPi::Core::RingVector)
-      assert_raise SonicPi::Core::EmptyVectorError do
+      assert_raises SonicPi::Core::EmptyVectorError do
         knit(:e2, 0)
       end
 
-      assert_raise SonicPi::Core::EmptyVectorError do
+      assert_raises SonicPi::Core::EmptyVectorError do
         knit(:e2, -1)
       end
 
-      assert_raise RuntimeError, "even number" do
+      assert_raises RuntimeError, "even number" do
         knit(:e2, 1, :c3)
       end
 
@@ -61,7 +60,7 @@ module SonicPi
       assert_equal(range(1, 5, step: -1), [1, 2, 3, 4])
       assert_equal(range(1, 3).class, SonicPi::Core::RingVector)
 
-      assert_raise SonicPi::Core::EmptyVectorError do
+      assert_raises SonicPi::Core::EmptyVectorError do
         range(10, 10, step: -1)
       end
     end
@@ -90,7 +89,7 @@ module SonicPi
       assert_equal(bools(:a, 1, nil, true, 0), [true, true, false, true, false])
       assert_equal(bools(1,0, 0).class, SonicPi::Core::RingVector)
 
-      assert_raise SonicPi::Core::EmptyVectorError do
+      assert_raises SonicPi::Core::EmptyVectorError do
         assert_equal(bools(), [])
       end
     end

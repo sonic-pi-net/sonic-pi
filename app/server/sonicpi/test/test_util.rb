@@ -11,13 +11,12 @@
 # notice is included.
 #++
 
-require 'test/unit'
-require_relative "../../core"
+require_relative "./setup_test"
 require_relative "../lib/sonicpi/util"
 
 module SonicPi
 
-  class UtilTester < Test::Unit::TestCase
+  class UtilTester < Minitest::Test
     include Util
     def test_merge_synth_arg_maps_array
       a = [{foo: 1, bar: 2, baz: 4}, {eggs: 5}, beans: 6, foo: 7]

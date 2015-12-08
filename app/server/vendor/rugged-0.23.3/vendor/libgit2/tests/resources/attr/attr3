@@ -1,0 +1,4 @@
+# These are examples from the git-check-attr.1 man page
+*.java diff=java -crlf myAttr
+NoMyAttr.java !myAttr
+README caveat=unspecified

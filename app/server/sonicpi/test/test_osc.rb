@@ -10,20 +10,16 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require_relative "../../core"
-
-require 'test/unit'
-require 'osc-ruby'
-
-require_relative "../lib/sonicpi/oscencode"
-require_relative "../lib/sonicpi/oscdecode"
+require_relative "./setup_test"
+require_relative "../lib/sonicpi/osc/osc"
 
 module SonicPi
-  class OSCTester < Test::Unit::TestCase
+
+  class OSCTester < Minitest::Test
 
     def test_basic_address_encoding
-      encoder = OscEncode.new
-      decoder = OscDecode.new
+      encoder = OSC::OscEncode.new
+      decoder = OSC::OscDecode.new
 
       address = "/foo"
 
@@ -33,24 +29,10 @@ module SonicPi
       assert_equal([], d_args)
     end
 
-    def test_args_encoding
-      encoder = OscEncode.new
-      decoder = OscDecode.new
-
-      address = "/foobar"
-      args = ["beans"]
-
-      m = encoder.encode_single_message(address, args)
-      m2 = OSC::Message.new(address, *args).encode
-      assert_equal(m, m2)
-      d_address, d_args = decoder.decode_single_message(m)
-      assert_equal(address, d_address)
-      assert_equal(args, d_args)
-    end
 
     def test_args_encoding_multiple
-      encoder = OscEncode.new
-      decoder = OscDecode.new
+      encoder = OSC::OscEncode.new
+      decoder = OSC::OscDecode.new
 
       address = "/feooblah"
 
@@ -58,12 +40,10 @@ module SonicPi
 
       args_to_test.each do |args|
         m = encoder.encode_single_message(address, args)
-        m2 = OSC::Message.new(address, *args).encode
-        assert_equal(m, m2)
         d_address, d_args = decoder.decode_single_message(m)
         assert_equal(address, d_address)
         assert_equal(args, d_args)
-        end
+      end
     end
   end
 end

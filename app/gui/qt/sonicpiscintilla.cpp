@@ -72,13 +72,16 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   addKeyBinding(settings, QsciCommand::Home, Qt::Key_A | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::VCHome, Qt::Key_Home);
   addKeyBinding(settings, QsciCommand::VCHomeExtend, Qt::Key_Home | Qt::SHIFT);
-  addKeyBinding(settings, QsciCommand::DocumentStart, Qt::Key_Home | SPi_CTRL);
+
+  addKeyBinding(settings, QsciCommand::DocumentStart, Qt::Key_Comma | Qt::SHIFT | SPi_META);
   addKeyBinding(settings, QsciCommand::DocumentStartExtend, Qt::Key_Home | SPi_CTRL | Qt::SHIFT);
 
   addKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_E | SPi_CTRL);
   addOtherKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_End);
   addKeyBinding(settings, QsciCommand::LineEndExtend, Qt::Key_End | Qt::SHIFT);
-  addKeyBinding(settings, QsciCommand::DocumentEnd, Qt::Key_End | SPi_CTRL);
+
+  addKeyBinding(settings, QsciCommand::DocumentEnd, Qt::Key_Greater | SPi_META);
+  addOtherKeyBinding(settings, QsciCommand::DocumentEnd, Qt::Key_Period | Qt::SHIFT | SPi_META);
   addKeyBinding(settings, QsciCommand::DocumentEndExtend, Qt::Key_End | SPi_CTRL | Qt::SHIFT);
 
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
@@ -129,7 +132,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   setMarginsForegroundColor(theme->color("MarginForeground"));
   setMarginsFont(QFont("Menlo", 15, -1, true));
   setUtf8(true);
-  setText("#loading...");
+  setText("# Loading previous buffer contents. Please wait...");
   setLexer((QsciLexer *)lexer);
 
   markerDefine(RightArrow, 8);
@@ -209,6 +212,11 @@ void SonicPiScintilla::cutLineFromPoint()
     {
       //  SendScintilla(SCI_CLEARSELECTIONS);
       int pos = SendScintilla(SCI_GETCURRENTPOS);
+
+      while (text(linenum).endsWith(",\n")) {
+        linenum++;
+        moveLines(1);
+      }
       SendScintilla(SCI_LINEEND);
       SendScintilla(SCI_SETANCHOR, pos);
       SendScintilla(SCI_CUT);

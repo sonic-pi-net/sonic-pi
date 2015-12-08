@@ -11,12 +11,11 @@
 # notice is included.
 #++
 
-require 'test/unit'
-require_relative "../../core"
+require_relative "./setup_test"
 require_relative "../lib/sonicpi/note"
 
 module SonicPi
-  class NoteTester < Test::Unit::TestCase
+  class NoteTester < Minitest::Test
 
     def test_resolution_of_nil
       assert_equal(nil, Note.resolve_midi_note(nil))
@@ -124,33 +123,33 @@ module SonicPi
     end
 
     def test_init_error_sam
-      assert_raise Note::InvalidNoteError do
+      assert_raises Note::InvalidNoteError do
         Note.new(:sam)
       end
     end
 
     def test_init_error_KF_4
-      assert_raise Note::InvalidNoteError do
+      assert_raises Note::InvalidNoteError do
         Note.new(:KF, 4)
       end
     end
 
     def test_init_error_Ebb2
-      assert_raise Note::InvalidNoteError do
+      assert_raises Note::InvalidNoteError do
         Note.new(:Ebb2!)
       end
     end
 
     def test_init_invalid_octave
-      assert_raise Note::InvalidOctaveError do
+      assert_raises Note::InvalidOctaveError do
         Note.new(:Eb, :foo)
       end
 
-      assert_raise Note::InvalidOctaveError do
+      assert_raises Note::InvalidOctaveError do
         Note.new(:Eb, 3.5)
       end
 
-      assert_raise Note::InvalidOctaveError do
+      assert_raises Note::InvalidOctaveError do
         Note.new(:Eb, 3.0)
       end
     end

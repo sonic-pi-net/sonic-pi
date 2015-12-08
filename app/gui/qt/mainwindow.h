@@ -124,6 +124,7 @@ private slots:
     void toggleRecording();
     void toggleRecordingOnIcon();
     void changeRPSystemVol(int val);
+    void changeGUITransparency(int val);
     void setRPSystemAudioAuto();
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
@@ -194,6 +195,7 @@ private:
                      int len);
     QListWidget *createHelpTab(QString name);
     QKeySequence metaKey(char key);
+    Qt::Modifier metaKeyModifier();
     QKeySequence shiftMetaKey(char key);
     QKeySequence ctrlMetaKey(char key);
     QKeySequence ctrlKey(char key);
@@ -210,7 +212,6 @@ private:
     QTcpSocket *clientSock;
     QFuture<void> osc_thread, server_thread;
     int protocol;
-
     bool focusMode;
     bool startup_error_reported;
     bool is_recording;
@@ -234,6 +235,8 @@ private:
     QDockWidget *prefsWidget;
     QDockWidget *hudWidget;
     QDockWidget *docWidget;
+    QWidget *blankWidget;
+    QWidget *outputWidgetTitle;
     QTextBrowser *docPane;
 //  QTextBrowser *hudPane;
     QWidget *mainWidget;
@@ -272,6 +275,7 @@ private:
     QRadioButton *rp_force_audio_default;
     QRadioButton *rp_force_audio_headphones;
     QSlider *rp_system_vol;
+    QSlider *gui_transparency_slider;
 
     QWidget *infoWidg;
     QList<QTextBrowser *> infoPanes;

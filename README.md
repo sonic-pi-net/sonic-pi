@@ -60,6 +60,37 @@ Sonic Pi has been developed within the Computer Laboratory at the
 University of Cambridge with kind support from the Raspberry Pi
 Foundation and the Broadcom Foundation.
 
+## Translations
+
+Sonic Pi's built in tutorial has been translated into several languages thanks to the awesome work of the following contributors.
+
+\-           | Language      | Status      | Maintainer   | Contributors |
+------------ | ------------- | ----------  | ------------ | ------------ |
+:fr:         | French        | merged      |              | @echevresm, @nicoder, @SergeStinckwich |
+:de:         | German        | merged      |              | @hzulla, G. Martin Butz, @hztirf, @mbutz, @wwerner, @st01c |
+:jp:         | Japanese      | merged      |              | @keikomachiya |
+:pl:         | Polish        | merged      | @hopbit      | @hopbit, @nurkiewicz |
+:it:         | Italian       | in progress |              | @marco-giordano |
+:ru:         | Russian       | in progress |              | @RomanSaveljev, @dcromster |
+:pt:         | Portuguese    | in progress |              | @SiIky |
+:sp:         | Spanish       | in progress |              | @merongivian, @thraex41 |
+:nl:         | Dutch         | in progress | @DuchessFounder | @DuchessFounder, @PrisDiest |
+:gr:         | Greek         | in progress | @aspra       | @aspra |
+
+Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started. Additionally [here](https://github.com/samaaron/sonic-pi/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+i18n) you can find translations (i18n) related issues.
+
+## Information for developers
+
+Sonic Pi is under active development, and welcomes new contributors:
+
+* [How to contribute](HOW-TO-CONTRIBUTE.md)
+* [Change log](CHANGELOG.md)
+* [Community](COMMUNITY.md)
+* [Contributors](CONTRIBUTORS.md)
+* [Installation](INSTALL.md)
+* [License](LICENSE.md)
+* [Testing](TESTING.md)
+* [Translation](TRANSLATION.md)
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <br/>

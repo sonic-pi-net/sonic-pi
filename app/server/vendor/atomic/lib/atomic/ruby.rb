@@ -12,6 +12,8 @@
 begin
   require 'atomic_reference'
 rescue LoadError
+  require 'rbconfig'
+  ruby_api = RbConfig::CONFIG['ruby_version']
   os = case RUBY_PLATFORM
        when /.*arm.*-linux.*/
          :raspberry
@@ -24,7 +26,7 @@ rescue LoadError
        else
          RUBY_PLATFORM
        end
-  require_relative "../../../../rb-native/#{os}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}/atomic_reference"
+  require_relative "../../../../rb-native/#{os}/#{ruby_api}/atomic_reference"
 
 end
 

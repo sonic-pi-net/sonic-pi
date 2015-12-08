@@ -12,6 +12,8 @@
 #++
 module SonicPi
   class Node
+    include SonicPi::Util
+
     attr_reader :id, :comms, :info
 
     def initialize(id, comms, info=nil)
@@ -91,18 +93,12 @@ module SonicPi
 
     def ctl(*args)
       args_h = resolve_synth_opts_hash_or_array(args)
-      if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-        @info.ctl_validate!(args_h) if @info
-      end
       @comms.node_ctl self, args_h
       self
     end
 
     def ctl_now(*args)
       args_h = resolve_synth_opts_hash_or_array(args)
-      if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-        @info.ctl_validate!(args_h) if @info
-      end
       @comms.node_ctl self, args_h, true
       self
     end

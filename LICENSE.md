@@ -35,9 +35,9 @@ and contents of the doc directory including the articles and the
 tutorial are copyright by Sam Aaron unless a specific author is stated
 with the comment `# coded by ...` in which case the copyright is
 associated with that author (2015) and the content is released under the
-CC BY-NC-SA 4.0 license:
+CC BY-SA 4.0 license:
 
-[http://creativecommons.org/licenses/by-nc-sa/4.0/](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+[http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/)
 
 
 ## Samples
@@ -92,7 +92,6 @@ relevant licenses:
 * [MIDI Winmm](https://github.com/arirusso/midi-winmm) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 * [MIDILib](https://github.com/jimm/midilib) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
 * [Multi JSON](https://github.com/intridea/multi_json) - [MIT License](http://opensource.org/licenses/MIT)
-* [OSC Ruby](https://github.com/aberant/osc-ruby) - [MIT License](http://opensource.org/licenses/MIT)
 * [Parslet](http://kschiess.github.io/parslet/) - [MIT License](http://opensource.org/licenses/MIT)
 * [Rouge](https://github.com/jneen/rouge) - [MIT License](http://opensource.org/licenses/MIT)
 * [Rubame](https://github.com/saward/Rubame) - [MIT License](http://opensource.org/licenses/MIT)
@@ -105,3 +104,10 @@ relevant licenses:
 * [NArray](https://github.com/masa16/narray) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
 * [Ruby CoreAudio](https://github.com/nagachika/ruby-coreaudio) - [MIT License](http://opensource.org/licenses/MIT)
 * [WaveFile](https://github.com/jstrait/wavefile/) - [MIT License](http://opensource.org/licenses/MIT)
+* [Benchmark-IPS](https://github.com/evanphx/benchmark-ips) - [MIT License](http://opensource.org/licenses/MIT)
+* [Mocha](http://gofreerange.com/mocha/docs/) - [MIT License](http://opensource.org/licenses/MIT)
+* [MiniTest](http://ruby-doc.org/stdlib-2.0.0/libdoc/minitest/rdoc/MiniTest.html) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
+* [AST](https://github.com/whitequark/ast) - [MIT License](http://opensource.org/licenses/MIT)
+* [Parser](https://github.com/whitequark/parser) - [MIT License](http://opensource.org/licenses/MIT)
+* [Metaclass](https://github.com/floehopper/metaclass) - [MIT License](http://opensource.org/licenses/MIT)
+

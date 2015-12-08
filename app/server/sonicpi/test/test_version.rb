@@ -11,12 +11,11 @@
 # notice is included.
 #++
 
-require 'test/unit'
-require_relative "../../core"
-require_relative "../lib/sonicpi/note"
+require_relative "./setup_test"
+require_relative "../lib/sonicpi/version"
 
 module SonicPi
-  class VersionTester < Test::Unit::TestCase
+  class VersionTester < Minitest::Test
 
     def test_version_init
       v = Version.new(2, 1, 0)
@@ -44,9 +43,9 @@ module SonicPi
       v2 = Version.new(2, 1, 0, "RC11")
       v3 = Version.new(2, 1, 1, "RC12")
       v4 = Version.new(1, 1, 0, "RC12")
-      assert_not_equal(v1, v2)
-      assert_not_equal(v1, v3)
-      assert_not_equal(v1, v4)
+      refute_equal(v1, v2)
+      refute_equal(v1, v3)
+      refute_equal(v1, v4)
     end
 
     def test_less_than

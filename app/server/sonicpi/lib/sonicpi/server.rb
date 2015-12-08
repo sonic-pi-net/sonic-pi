@@ -10,7 +10,6 @@
 # distribution of modified versions of this work as long as this
 # notice is included.
 #++
-require 'osc-ruby'
 require_relative "util"
 require_relative "group"
 require_relative "synthnode"
@@ -32,6 +31,31 @@ module SonicPi
     attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta
 
     def initialize(hostname, port, msg_queue)
+      # Cache common OSC path strings as frozen instance
+      # vars to reduce object creation cost and GC load
+      @osc_path_quit        = "/quit".freeze
+      @osc_path_status      = "/status".freeze
+      @osc_path_sync        = "/sync".freeze
+      @osc_path_synced      = "/synced".freeze
+      @osc_path_done        = "/done".freeze
+      @osc_path_notify      = "/notify".freeze
+      @osc_path_clearsched  = "/clearSched"
+      @osc_path_d_loaddir   = "/d_loadDir".freeze
+      @osc_path_g_freeall   = "/g_freeAll".freeze
+      @osc_path_g_deepfree  = "/g_deepFree".freeze
+      @osc_path_g_new       = "/g_new".freeze
+      @osc_path_n_free      = "/n_free".freeze
+      @osc_path_n_set       = "/n_set".freeze
+      @osc_path_n_run       = "/n_run".freeze
+      @osc_path_s_new       = "/s_new".freeze
+      @osc_path_b_allocread = "/b_allocRead".freeze
+      @osc_path_b_alloc     = "/b_alloc".freeze
+      @osc_path_b_free      = "/b_free".freeze
+      @osc_path_b_write     = "/b_write".freeze
+      @osc_path_b_close     = "/b_close".freeze
+      @osc_path_b_info      = "/b_info".freeze
+      @osc_path_b_query     = "/b_query".freeze
+
       @OSC_SEM = Mutex.new
       @HOSTNAME = hostname
       @sched_ahead_time = default_sched_ahead_time
@@ -74,6 +98,7 @@ module SonicPi
       clear_scsynth!
       request_notifications
 
+
     end
 
     def message(s)
@@ -82,13 +107,13 @@ module SonicPi
 
    def request_notifications
       message "info        - Requesting notifications" if @debug_mode
-      osc "/notify", 1
+      osc @osc_path_notify, 1
     end
 
     def load_synthdefs(path)
       message "info        - Loading synthdefs from path: #{path}" if @debug_mode
       with_server_sync do
-        osc "/d_loadDir", path.to_s
+        osc @osc_path_d_loaddir, path.to_s
       end
     end
 
@@ -100,7 +125,7 @@ module SonicPi
     end
 
     def clear_schedule
-      osc "/clearSched"
+      osc @osc_path_clearsched
     end
 
     def reset!
@@ -114,10 +139,10 @@ module SonicPi
       message "grp f #{'%05d' % id} - Clear #{id.inspect}" if @debug_mode
       id = id.to_i
       if now
-        osc "/g_freeAll", id
+        osc @osc_path_g_freeall, id
       else
         ts = sched_ahead_time_for_node_mod(id)
-        osc_bundle ts, "/g_freeAll", id
+        osc_bundle ts, @osc_path_g_freeall, id
       end
     end
 
@@ -125,10 +150,10 @@ module SonicPi
       message "grp d #{'%05d' % id} - Deep free #{id}" if @debug_mode
       id = id.to_i
       if now
-        osc "/g_deepFree", id
+        osc @osc_path_g_deepfree, id
       else
         ts = sched_ahead_time_for_node_mod(id)
-        osc_bundle ts, "/g_deepFree", id
+        osc_bundle ts, @osc_path_g_deepfree, id
       end
     end
 
@@ -143,10 +168,10 @@ module SonicPi
 
       id = id.to_i
       if now
-        osc "/n_free", id
+        osc @osc_path_n_free, id
       else
         ts = sched_ahead_time_for_node_mod(id)
-        osc_bundle ts, "/n_free", id
+        osc_bundle ts, @osc_path_n_free, id
       end
     end
 
@@ -156,7 +181,7 @@ module SonicPi
       id = @CURRENT_NODE_ID.next
       if (pos_code && target_id)
         g = Group.new id, self, name
-        osc "/g_new", id, pos_code, target_id
+        osc @osc_path_g_new, id, pos_code, target_id
         message "grp n #{'%05d' % id} - Create [#{name}:#{id}] #{position} #{target.inspect}" if @debug_mode
         g.wait_until_started
       else
@@ -197,12 +222,12 @@ module SonicPi
       end
 
       if now
-        osc "/s_new", s_name, node_id, pos_code, group_id, *args_h.flatten
+        osc @osc_path_s_new, s_name, node_id, pos_code, group_id, *args_h.flatten
       else
         t = Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now
         ts =  t + @sched_ahead_time
-        ts - t - @control_delta if t_minus_delta
-        osc_bundle ts, "/s_new", s_name, node_id, pos_code, group_id, *args_h.flatten
+        ts = ts - @control_delta if t_minus_delta
+        osc_bundle ts, @osc_path_s_new, s_name, node_id, pos_code, group_id, *args_h.flatten
       end
       sn
     end
@@ -231,10 +256,10 @@ module SonicPi
       end
 
       if now
-        osc "/n_set", node.to_i, *normalised_args
+        osc @osc_path_n_set, node.to_i, *normalised_args
       else
         ts = sched_ahead_time_for_node_mod(node_id)
-        osc_bundle ts, "/n_set", node_id, *normalised_args
+        osc_bundle ts, @osc_path_n_set, node_id, *normalised_args
       end
     end
 
@@ -243,10 +268,10 @@ module SonicPi
       message "nde p #{'%05d' % node_id} - Pause #{node.inspect}" if @debug_mode
 
       if now
-        osc "/n_run", node_id, 0
+        osc @osc_path_n_run, node_id, 0
       else
         ts = sched_ahead_time_for_node_mod(node_id)
-        osc_bundle ts, "/n_run", node_id, 0
+        osc_bundle ts, @osc_path_n_run, node_id, 0
       end
     end
 
@@ -255,10 +280,10 @@ module SonicPi
       message "nde r #{'%05d' % node_id} - Run #{node.inspect}" if @debug_mode
 
       if now
-        osc "/n_run", node_id, 1
+        osc @osc_path_n_run, node_id, 1
       else
         ts = sched_ahead_time_for_node_mod(node_id)
-        osc_bundle ts, "/n_run", node_id, 1
+        osc_bundle ts, @osc_path_n_run, node_id, 1
       end
     end
 
@@ -266,7 +291,7 @@ module SonicPi
       buffer_id = @BUFFER_ALLOCATOR.allocate
       # TODO do we need to sync these?
       with_done_sync do
-        osc "/b_allocRead", buffer_id, path, start, n_frames
+        osc @osc_path_b_allocread, buffer_id, path, start, n_frames
       end
       buffer_info(buffer_id)
     end
@@ -274,14 +299,14 @@ module SonicPi
     def buffer_alloc(size, n_chans=2)
       buffer_id = @BUFFER_ALLOCATOR.allocate
       with_done_sync do
-        osc "/b_alloc", buffer_id, size, n_chans
+        osc @osc_path_b_alloc, buffer_id, size, n_chans
       end
       buffer_info(buffer_id)
     end
 
     def buffer_free(buf)
       with_done_sync do
-        osc "/b_free", buf.to_i
+        osc @osc_path_b_free, buf.to_i
       end
 
       @BUFFER_ALLOCATOR.release! buf.to_i
@@ -291,7 +316,7 @@ module SonicPi
       buf = buffer_alloc(size, n_chans)
       path = File.expand_path(path)
       with_done_sync do
-        osc "/b_write", buf.to_i, path, extension, sample_format, n_frames, start_frame, leave_open
+        osc @osc_path_b_write, buf.to_i, path, extension, sample_format, n_frames, start_frame, leave_open
       end
 
       BufferStream.new(self, buf, path, size, n_chans, extension, sample_format, n_frames, start_frame, leave_open)
@@ -299,20 +324,20 @@ module SonicPi
 
     def buffer_stream_close(buf_stream)
       with_done_sync do
-        osc "/b_close", buf_stream.to_i
+        osc @osc_path_b_close, buf_stream.to_i
       end
       buffer_free buf_stream
     end
 
     def buffer_info(id)
       prom = Promise.new
-      @osc_events.add_handler("/b_info", @osc_events.gensym("/sonicpi/server")) do |payload|
+      @osc_events.add_handler(@osc_path_b_info, @osc_events.gensym("/sonicpi/server")) do |payload|
         if (id == payload.to_a[0])
           prom.deliver!  payload
           :remove_handler
         end
       end
-      osc "/b_query", id
+      osc @osc_path_b_query, id
       res = prom.get
 
       args = res.to_a
@@ -322,7 +347,7 @@ module SonicPi
     def with_done_sync(&block)
       with_server_sync do
         prom = Promise.new
-        @osc_events.add_handler("/done", @osc_events.gensym("/sonicpi/server")) do |pl|
+        @osc_events.add_handler(@osc_path_done, @osc_events.gensym("/sonicpi/server")) do |pl|
           prom.deliver! true
           :remove_handler
         end
@@ -335,14 +360,14 @@ module SonicPi
     def with_server_sync(&block)
       id = @CURRENT_SYNC_ID.next
       prom = Promise.new
-      @osc_events.add_handler("/synced", @osc_events.gensym("/sonicpi/server")) do |payload|
+      @osc_events.add_handler(@osc_path_synced, @osc_events.gensym("/sonicpi/server")) do |payload|
         if (id == payload.to_a[0])
           prom.deliver!  :sonic_pi_server_sync_notification
           :remove_handler
         end
       end
       res = block.yield
-      osc "/sync", id
+      osc @osc_path_sync, id
       prom.get
       res
     end
@@ -356,7 +381,7 @@ module SonicPi
       end
 
       with_server_sync do
-        osc "/status"
+        osc @osc_path_status
         res = prom.get
       end
 
@@ -376,12 +401,12 @@ module SonicPi
     end
 
     def osc(*args)
-#      Kernel.puts "--> osc: #{args}"
+#      log "--> osc: #{args}"
       @scsynth.send(*args)
     end
 
     def osc_bundle(ts, *args)
-#      Kernel.puts "--> osc at #{ts}, #{args}"
+#      log "--> oscb at #{ts}, #{args}"
       @scsynth.send_at(ts, *args)
     end
 
@@ -418,7 +443,7 @@ module SonicPi
     end
 
     def exit
-      osc "/quit"
+      osc @osc_path_quit
     end
 
   end

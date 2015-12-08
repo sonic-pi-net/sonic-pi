@@ -1,0 +1,2 @@
+0000000000000000000000000000000000000000 a78705c3b2725f931d3ee05348d83cc26700f247 Congyi Wu <congyiwu@gmail.com> 1352923201 -0500	branch: Created from master
+a78705c3b2725f931d3ee05348d83cc26700f247 fa38b91f199934685819bea316186d8b008c52a2 Congyi Wu <congyiwu@gmail.com> 1352923206 -0500	commit: added submodule named 'submodule' pointing to '../testrepo.git'

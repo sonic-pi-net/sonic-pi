@@ -20,7 +20,7 @@ module SonicPi
   class Jobs
 
     def initialize
-      @jobs_A = Atom.new(Hamster.hash)
+      @jobs_A = Atom.new(Hamster::Hash.new)
     end
 
     def add_job(id, job, info)

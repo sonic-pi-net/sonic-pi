@@ -1,0 +1,14 @@
+0000000000000000000000000000000000000000 108b485d8268ea595df8ffea74f0f4b186577d32 nulltoken <emeric.fermas@gmail.com> 1380209394 +0200	commit (initial): initial
+108b485d8268ea595df8ffea74f0f4b186577d32 4d6558b8fa764baeb0f19c1e857df91e0eda5a0f nulltoken <emeric.fermas@gmail.com> 1380209404 +0200	commit: second
+4d6558b8fa764baeb0f19c1e857df91e0eda5a0f b240c0fb88c5a629e00ebc1275fa1f33e364a705 nulltoken <emeric.fermas@gmail.com> 1380209414 +0200	commit: third
+b240c0fb88c5a629e00ebc1275fa1f33e364a705 81f4b1aac643e6983fab370eae8aefccecbf3a4c nulltoken <emeric.fermas@gmail.com> 1380209425 +0200	commit: A
+81f4b1aac643e6983fab370eae8aefccecbf3a4c 6126a5f9c57ebc81e64370ec3095184ad92dab1c nulltoken <emeric.fermas@gmail.com> 1380209445 +0200	commit: c
+6126a5f9c57ebc81e64370ec3095184ad92dab1c 4d6558b8fa764baeb0f19c1e857df91e0eda5a0f nulltoken <emeric.fermas@gmail.com> 1380209455 +0200	reset: moving to 4d6558b8fa764baeb0f19c1e857df91e0eda5a0f
+4d6558b8fa764baeb0f19c1e857df91e0eda5a0f 31fc9136820b507e938a9c6b88bf2c567a9f6f4b nulltoken <emeric.fermas@gmail.com> 1380209465 +0200	commit: B
+31fc9136820b507e938a9c6b88bf2c567a9f6f4b ce1c4f8b6120122e23d4442925d98c56c41917d8 nulltoken <emeric.fermas@gmail.com> 1380209486 +0200	merge c: Merge made by the 'recursive' strategy.
+ce1c4f8b6120122e23d4442925d98c56c41917d8 4d6558b8fa764baeb0f19c1e857df91e0eda5a0f nulltoken <emeric.fermas@gmail.com> 1380209486 +0200	reset: moving to 4d6558b8fa764baeb0f19c1e857df91e0eda5a0f
+4d6558b8fa764baeb0f19c1e857df91e0eda5a0f 6a12b56088706aa6c39ccd23b7c7ce60f3a0b9a1 nulltoken <emeric.fermas@gmail.com> 1380209496 +0200	commit: D
+6a12b56088706aa6c39ccd23b7c7ce60f3a0b9a1 1e016431ec7b22dd3e23f3e6f5f68f358f9227cf nulltoken <emeric.fermas@gmail.com> 1380209527 +0200	commit: another
+1e016431ec7b22dd3e23f3e6f5f68f358f9227cf a9eb02af13df030159e39f70330d5c8a47655691 nulltoken <emeric.fermas@gmail.com> 1380209547 +0200	commit: yet another
+a9eb02af13df030159e39f70330d5c8a47655691 949b98e208015bfc0e2f573debc34ae2f97a7f0e nulltoken <emeric.fermas@gmail.com> 1380209557 +0200	merge ce1c4f8b6120122e23d4442925d98c56c41917d8: Merge made by the 'recursive' strategy.
+949b98e208015bfc0e2f573debc34ae2f97a7f0e a6095f816e81f64651595d488badc42399837d6a nulltoken <emeric.fermas@gmail.com> 1380209567 +0200	commit: x

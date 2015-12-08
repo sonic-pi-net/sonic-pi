@@ -51,9 +51,9 @@ void OscHandler::oscMessage(std::vector<char> buffer){
           QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoForeground")));
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackground")));
 
-          QMetaObject::invokeMethod( out, "append",                 Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString("=> " + s + "\n")) );
+          QMetaObject::invokeMethod( out, "appendPlainText",        Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString("=> " + s + "\n")) );
 
-          QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, QColor("#5e5e5e")));
+          QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogDefaultForeground")));
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogBackground")));
         } else {
           std::cout << "[GUI] - error: unhandled OSC msg /info "<< std::endl;

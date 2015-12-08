@@ -12,6 +12,7 @@ public:
     explicit SonicPiTheme(QObject *parent = 0, QSettings *settings = 0, bool dark = false);
     ~SonicPiTheme();
     QColor color(QString);
+    QString font(QString);
     void darkMode();
     void lightMode();
 
