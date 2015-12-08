@@ -1,4 +1,4 @@
-# Bizet Beats
+## Sonic Pi Tutorial #6 - Bizet Beats
 
 After our brief excursion to the fantastic world of coding Minecraft
 with Sonic Pi last month, let's get musical again. Today we're going to
@@ -9,9 +9,9 @@ using the awesome power of code.
 
 Let's jump into a time machine back to the year 1875. A composer called
 Bizet had just finished his latest opera Carmen.  Unfortunately like
-many exciting and disruptive new piecese of music people initially
+many exciting and disruptive new pieces of music people initially
 didn't like it at all because it was too outrageous and different. Sadly
-Bizet died ten years before the opera gained huge internaltional success
+Bizet died ten years before the opera gained huge international success
 before becoming one of the most famous and frequently performed operas
 of all time. In sympathy with this tragedy let's take one of the main
 themes from Carmen and convert it to a modern format of music that is
@@ -36,7 +36,7 @@ of a computer. We therefore need to figure out a way of decoding it.
 The notes which are arranged from left to right like the words in this
 magazine but also have different heights. *The height on the score
 represents the pitch of the note.* The higher the note on the score, the
-heigher the pitch of the note.
+higher the pitch of the note.
 
 In Sonic Pi we already know how to change the pitch of a note - we
 either use high or low numbers such as `play 75` and `play 80` or we use
@@ -50,7 +50,7 @@ look at this handy look up table:
 
 Music scores are an extremely rich and expressive kind of code capable
 of communicating many things. It therefore shouldn't come as much of a
-suprise that musical scores can not only tell you what notes to play but
+surprise that musical scores can not only tell you what notes to play but
 also when *not* to play notes. In programming this is pretty much
 equivalent to the idea of `nil` or `null` - the absence of a value. In
 other words not playing a note is like the absence of a note.
