@@ -33,14 +33,14 @@ of a computer. We therefore need to figure out a way of decoding it.
 
 # Notes
 
-The notes which are arranged from left to right like the words in this
+The notes are arranged from left to right like the words in this
 magazine but also have different heights. *The height on the score
 represents the pitch of the note.* The higher the note on the score, the
 higher the pitch of the note.
 
 In Sonic Pi we already know how to change the pitch of a note - we
 either use high or low numbers such as `play 75` and `play 80` or we use
-the note names: `play :E` and `play `:F`. Luckily each of the vertical
+the note names: `play :E` and `play :F`. Luckily each of the vertical
 positions of the musical score represents a specific note name. Take a
 look at this handy look up table:
 
@@ -73,7 +73,7 @@ rest has two squiggly beams which means it also represents a 16th of the
 beat.
 
 When we decode and try and understand new things a handy trick is to try
-to make everything as similar as possible to try and see any
+to make everything as similar as possible to try to see any
 relationships or patterns. When we re-write our notation purely in 16ths
 you can see that our notation just turns into a nice sequence of notes
 and rests.
@@ -96,7 +96,7 @@ through it:
     end
     
 Fabulous, that instantly recognisable riff springs to life through your
-speakers. It took a lot of effort to get hear, but it was worth it -
+speakers. It took a lot of effort to get here, but it was worth it -
 high five!
     
 # Moody Synths
