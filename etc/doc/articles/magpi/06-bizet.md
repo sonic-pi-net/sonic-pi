@@ -12,7 +12,7 @@ Bizet had just finished his latest opera Carmen.  Unfortunately like
 many exciting and disruptive new pieces of music people initially
 didn't like it at all because it was too outrageous and different. Sadly
 Bizet died ten years before the opera gained huge international success
-before becoming one of the most famous and frequently performed operas
+and became one of the most famous and frequently performed operas
 of all time. In sympathy with this tragedy let's take one of the main
 themes from Carmen and convert it to a modern format of music that is
 also too outrageous and different for most people in our time - live
@@ -72,11 +72,12 @@ notes have a single beam which means they last for an 8th of a beat. The
 rest has two squiggly beams which means it also represents a 16th of the
 beat.
 
-When we decode and try and understand new things a handy trick is to try
-to make everything as similar as possible to try to see any
-relationships or patterns. When we re-write our notation purely in 16ths
-you can see that our notation just turns into a nice sequence of notes
-and rests.
+When we attempt to decode and explore new things a very handy trick is
+to make everything as similar as possible to try and see any
+relationships or patterns. For example, when we re-write our notation
+purely in 16ths you can see that our notation just turns into a nice
+sequence of notes and rests.
+
 
 ![Habanera Riff 2](https://github.com/samaaron/sonic-pi/blob/master/etc/doc/articles/magpi/images/06-bizet/habanera2.png)
 
