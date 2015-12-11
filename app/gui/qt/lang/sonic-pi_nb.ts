@@ -273,7 +273,7 @@ Denne sjekken innebærer å sende anonym informasjon om din platform og versjon.
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Still inn skriveprogrammets fremvisningsvalg.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
@@ -298,12 +298,12 @@ Denne sjekken innebærer å sende anonym informasjon om din platform og versjon.
     <message>
         <location filename="../mainwindow.cpp" line="920"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Auto-innrykk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fiks innrykk automatisk ved kjøring</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="923"/>
@@ -358,18 +358,18 @@ Denne sjekken innebærer å sende anonym informasjon om din platform og versjon.
     <message>
         <location filename="../mainwindow.cpp" line="936"/>
         <source>Dark mode</source>
-        <translation type="unfinished">Mørk tilstand</translation>
+        <translation type="unfinished">Mørk fremtoning</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished">Styr mørk tilstand.</translation>
+        <translation type="unfinished">Styr mørk fremtoning.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished">Mørk tilstand er perfekt for live-kodinger på nattklubber.</translation>
+        <translation type="unfinished">Mørk fremtoning er perfekt for direkte-kodinger på nattklubber.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
@@ -597,7 +597,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1934"/>
         <source>Auto-Align Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Autoinnrykk på tekst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
