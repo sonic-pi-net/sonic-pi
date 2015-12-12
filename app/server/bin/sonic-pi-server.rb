@@ -103,6 +103,18 @@ ws_out = Queue.new
 
 begin
   sp =  klass.new "localhost", 4556, ws_out, 5, user_methods
+
+  # read in init.rb if exists
+  if File.exists?(init_path)
+    sp.__spider_eval(File.read(init_path))
+  else
+    File.open(init_path, "w") do |f|
+      f.puts "# Sonic Pi init file"
+      f.puts "# Code in here will be evaluated on launch."
+      f.puts ""
+    end
+  end
+
 rescue Exception => e
   STDERR.puts "Failed to start server: " + e.message
   STDERR.puts e.backtrace.join("\n")

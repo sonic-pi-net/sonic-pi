@@ -97,6 +97,9 @@ module SonicPi
       @@home_dir = path
       path
     end
+
+    def init_path
+      home_dir + '/init.rb'
     end
 
     def project_path
