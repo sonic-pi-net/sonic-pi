@@ -20,6 +20,7 @@ module SonicPi
     @@log_path = nil
     @@current_uuid = nil
     @@home_dir = nil
+    @@util_lock = Mutex.new
     @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep ARMv6`.empty?)
 
     def os
@@ -92,10 +93,13 @@ module SonicPi
 
     def home_dir
       return @@home_dir if @@home_dir
-      path = File.expand_path('~/.sonic-pi/')
-      ensure_dir(path)
-      @@home_dir = path
-      path
+      @@util_lock.synchronize do
+        return @@home_dir if @@home_dir
+        path = File.expand_path('~/.sonic-pi/')
+        ensure_dir(path)
+        @@home_dir = path
+        path
+      end
     end
 
     def init_path
@@ -104,39 +108,48 @@ module SonicPi
 
     def project_path
       return @@project_path if @@project_path
-      ## TODO: allow user to modify this for different projects
-      path = home_dir + '/store/default/'
-      ensure_dir(path)
-      @@project_path = path
-      path
+      @@util_lock.synchronize do
+        return @@project_path if @@project_path
+        ## TODO: allow user to modify this for different projects
+        path = home_dir + '/store/default/'
+        ensure_dir(path)
+        @@project_path = path
+        path
+      end
     end
 
     def log_path
       return @@log_path if @@log_path
-      path = home_dir + '/log/'
-      ensure_dir(path)
-      @@log_path = path
-      path
+      @@util_lock.synchronize do
+        return @@log_path if @@log_path
+        path = home_dir + '/log/'
+        ensure_dir(path)
+        @@log_path = path
+        path
+      end
     end
 
     def global_uuid
       return @@current_uuid if @@current_uuid
-      path = home_dir + '/.uuid'
+      @@util_lock.synchronize do
+        return @@current_uuid if @@current_uuid
+        path = home_dir + '/.uuid'
 
-      if (File.exists? path)
-        old_id = File.readlines(path).first.strip
-        if  (not old_id.empty?) &&
-            (old_id.size == 36)
-          @@current_uuid = old_id
-          return old_id
+        if (File.exists? path)
+          old_id = File.readlines(path).first.strip
+          if  (not old_id.empty?) &&
+              (old_id.size == 36)
+            @@current_uuid = old_id
+            return old_id
+          end
         end
-      end
 
-      # invalid or no uuid - create and store a new one
-      new_uuid = SecureRandom.uuid
-      File.open(path, 'w') {|f| f.write(new_uuid)}
-      @@current_uuid = new_uuid
-      new_uuid
+        # invalid or no uuid - create and store a new one
+        new_uuid = SecureRandom.uuid
+        File.open(path, 'w') {|f| f.write(new_uuid)}
+        @@current_uuid = new_uuid
+        new_uuid
+      end
     end
 
     def ensure_dir(d)
