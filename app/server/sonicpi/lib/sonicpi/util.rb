@@ -19,6 +19,7 @@ module SonicPi
     @@project_path = nil
     @@log_path = nil
     @@current_uuid = nil
+    @@home_dir = nil
     @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep ARMv6`.empty?)
 
     def os
@@ -90,7 +91,12 @@ module SonicPi
     end
 
     def home_dir
-      File.expand_path('~/.sonic-pi/')
+      return @@home_dir if @@home_dir
+      path = File.expand_path('~/.sonic-pi/')
+      ensure_dir(path)
+      @@home_dir = path
+      path
+    end
     end
 
     def project_path
@@ -113,7 +119,6 @@ module SonicPi
     def global_uuid
       return @@current_uuid if @@current_uuid
       path = home_dir + '/.uuid'
-      ensure_dir(home_dir)
 
       if (File.exists? path)
         old_id = File.readlines(path).first.strip
