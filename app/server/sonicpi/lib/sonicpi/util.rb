@@ -132,7 +132,7 @@ module SonicPi
     end
 
     def ensure_dir(d)
-      FileUtils.mkdir_p d
+      FileUtils.mkdir_p(d) unless File.exists?(d)
     end
 
     def root_path
