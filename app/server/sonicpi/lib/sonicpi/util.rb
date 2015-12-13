@@ -95,7 +95,7 @@ module SonicPi
       return @@home_dir if @@home_dir
       @@util_lock.synchronize do
         return @@home_dir if @@home_dir
-        path = File.expand_path('~/.sonic-pi/')
+        path = File.expand_path(Dir.home + '/.sonic-pi/')
         ensure_dir(path)
         @@home_dir = path
         path
