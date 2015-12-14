@@ -4317,7 +4317,7 @@ module SonicPi
           :pan_max =>
           {
             :doc => "Maximum pan value (+1 is the right speaker only)",
-            :validations => [v_between_inclusive(:pan_min, -1, 1)],
+            :validations => [v_between_inclusive(:pan_max, -1, 1)],
             :modulatable => true
           },
 
