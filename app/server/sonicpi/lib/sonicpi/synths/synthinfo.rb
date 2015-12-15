@@ -2357,7 +2357,7 @@ module SonicPi
           :range =>
           {
             :doc => "Range of the associated sync saw in MIDI notes from the main note. Modifies timbre.",
-            :validations => [v_between_inclusive(:phase_offset, 0, 90)],
+            :validations => [v_between_inclusive(:range, 0, 90)],
             :modulatable => true
           },
 
@@ -3045,7 +3045,7 @@ module SonicPi
                       :pre_amp_slide =>
                       {
                         :doc => generic_slide_doc(:pre_amp),
-                        :validations => [v_positive(:pre_amp)],
+                        :validations => [v_positive(:pre_amp_slide)],
                         :modulatable => true
                       },
 
@@ -4571,7 +4571,7 @@ module SonicPi
           :relax_time =>
           {
             :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase.",
-            :validations => [v_positive(:clamp_time)],
+            :validations => [v_positive(:relax_time)],
             :modulatable => true
           },
 
@@ -5436,7 +5436,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :krunch_slide =>
           {
             :doc => generic_slide_doc(:krunch),
-            :validations => [v_positive(:krunchslide)],
+            :validations => [v_positive(:krunch_slide)],
             :modulatable => true,
             :bpm_scale => true
           }
