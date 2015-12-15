@@ -102,6 +102,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  QThreadPool::globalInstance()->setMaxThreadCount(3);
   app.installEventFilter(this);
   app.processEvents();
 
@@ -120,15 +121,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   this->i18n = i18n;
 
   printAsciiArtLogo();
-  // kill any zombie processes that may exist
-  // better: test to see if UDP ports are in use, only kill/sleep if so
-  // best: kill SCSynth directly if needed
-  std::cout << "[GUI] - shutting down any old audio servers..." << std::endl;
-  Message msg("/exit");
-  msg.pushStr(guiID.toStdString());
-  sendOSC(msg);
-  sleep(2);
 
+  startServer();
 
   setUnifiedTitleAndToolBarOnMac(true);
   setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -170,9 +164,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     lexer = new SonicPiLexer(theme);
   }
 
-  QThreadPool::globalInstance()->setMaxThreadCount(3);
 
-  server_thread = QtConcurrent::run(this, &MainWindow::startServer);
+
 
   QTimer *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
@@ -667,6 +660,17 @@ QString MainWindow::rootPath() {
 }
 
 void MainWindow::startServer(){
+
+  // kill any zombie processes that may exist
+  // better: test to see if UDP ports are in use, only kill/sleep if so
+  // best: kill SCSynth directly if needed
+  std::cout << "[GUI] - shutting down any old audio servers..." << std::endl;
+  Message msg("/exit");
+  msg.pushStr(guiID.toStdString());
+  sendOSC(msg);
+  sleep(2);
+
+
     serverProcess = new QProcess();
 
     QString root = rootPath();
