@@ -436,9 +436,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   readSettings();
 
-  #ifndef Q_OS_MAC
+
   setWindowTitle(tr("Sonic Pi"));
-  #endif
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
