@@ -675,7 +675,7 @@ void MainWindow::startServer(){
     QString root = rootPath();
 
   #if defined(Q_OS_WIN)
-    QString prg_path = root + "/app/server/native/windows/bin/ruby.exe";
+    QString prg_path = root + "/app/server/native/windows/ruby/bin/ruby.exe";
     QString prg_arg = root + "/app/server/bin/sonic-pi-server.rb";
     sample_path = root + "/etc/samples";
   #elif defined(Q_OS_MAC)
