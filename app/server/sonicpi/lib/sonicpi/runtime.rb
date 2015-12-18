@@ -43,100 +43,7 @@ require 'active_support/core_ext/integer/inflections'
 module SonicPi
   class Stop < StandardError ; end
 
-  class Runtime
-
-    attr_reader :event_queue
-    include Util
-    include ActiveSupport
-
-    def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
-      @git_hash = __extract_git_hash
-      gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
-      @settings = Config::Settings.new(user_settings_path)
-      @version = Version.new(2, 9, 0, "dev#{gh_short}")
-      @server_version = __server_version
-      @life_hooks = LifeCycleHooks.new
-      @msg_queue = msg_queue
-      @event_queue = SizedQueue.new(20)
-      @keypress_handlers = {}
-      @events = IncomingEvents.new
-      @sync_counter = Counter.new
-      @job_counter = Counter.new
-      @job_subthreads = {}
-      @job_main_threads = {}
-      @named_subthreads = {}
-      @job_subthread_mutex = Mutex.new
-      @user_jobs = Jobs.new
-      @sync_real_sleep_time = 0.05
-      @user_methods = user_methods
-      @global_start_time = 0
-      @session_id = SecureRandom.uuid
-      @snippets = {}
-
-      @gui_heartbeats = {}
-      @gui_last_heartbeat = nil
-      @gitsave = GitSave.new(project_path)
-
-      @save_queue = SizedQueue.new(20)
-
-      @event_t = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :event_loop)
-        loop do
-          event = @event_queue.pop
-          __handle_event event
-        end
-      end
-
-      @save_t = Thread.new do
-        Thread.current.thread_variable_set(:sonic_pi_thread_group, :save_loop)
-        loop do
-          event = @save_queue.pop
-          id, content = *event
-          filename = id + '.spi'
-          path = project_path + "/" + filename
-          content = filter_for_save(content)
-          begin
-            File.open(path, 'w') {|f| f.write(content) }
-            @gitsave.save!(filename, content, "#{@version} -- #{@session_id} -- ")
-          rescue Exception => e
-            ##TODO: remove this and ensure that git saving actually works
-            ##instead of cowardly hiding the issue!
-          end
-        end
-      end
-      __info "Welcome to Sonic Pi"
-      __info "Session #{@session_id[0..7]}"
-      date = Time.now
-      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}"
-      __info "%02d:%02d, %s" % [date.hour, date.min, date.zone]
-
-      __info "#{@version} Ready..."
-
-      __info [
-"Hello, somewhere in the world
-   the sun is shining
-   for you right now.",
-"Hello, it's lovely to see
-   you again. I do hope that
-   you're well.",
-"Turn your head towards the sun
-   and the shadows
-   will fall
-   behind you."].sample
-
-      msg = @settings.get(:message) || ""
-      msg = msg.strip
-
-      __print_version_outdated_info if @version < @server_version
-
-      __info msg unless msg.empty?
-
-      load_snippets(snippets_path, true)
-    end
-
-
-
-
+  module RuntimeMethods
 
 
     ## Not officially part of the API
@@ -939,5 +846,104 @@ module SonicPi
       source = source << "\n" unless source.end_with? "\n"
       RBeautify.beautify_string :ruby, source
     end
+
+
   end
+
+  class Runtime
+
+    attr_reader :event_queue
+    include Util
+    include ActiveSupport
+    include RuntimeMethods
+
+    def initialize(hostname, port, msg_queue, max_concurrent_synths, user_methods)
+      @git_hash = __extract_git_hash
+      gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
+      @settings = Config::Settings.new(user_settings_path)
+      @version = Version.new(2, 9, 0, "dev#{gh_short}")
+      @server_version = __server_version
+      @life_hooks = LifeCycleHooks.new
+      @msg_queue = msg_queue
+      @event_queue = SizedQueue.new(20)
+      @keypress_handlers = {}
+      @events = IncomingEvents.new
+      @sync_counter = Counter.new
+      @job_counter = Counter.new
+      @job_subthreads = {}
+      @job_main_threads = {}
+      @named_subthreads = {}
+      @job_subthread_mutex = Mutex.new
+      @user_jobs = Jobs.new
+      @sync_real_sleep_time = 0.05
+      @user_methods = user_methods
+      @global_start_time = 0
+      @session_id = SecureRandom.uuid
+      @snippets = {}
+
+      @gui_heartbeats = {}
+      @gui_last_heartbeat = nil
+      @gitsave = GitSave.new(project_path)
+
+      @save_queue = SizedQueue.new(20)
+
+      @event_t = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :event_loop)
+        loop do
+          event = @event_queue.pop
+          __handle_event event
+        end
+      end
+
+      @save_t = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :save_loop)
+        loop do
+          event = @save_queue.pop
+          id, content = *event
+          filename = id + '.spi'
+          path = project_path + "/" + filename
+          content = filter_for_save(content)
+          begin
+            File.open(path, 'w') {|f| f.write(content) }
+            @gitsave.save!(filename, content, "#{@version} -- #{@session_id} -- ")
+          rescue Exception => e
+            ##TODO: remove this and ensure that git saving actually works
+            ##instead of cowardly hiding the issue!
+          end
+        end
+      end
+      __info "Welcome to Sonic Pi"
+      __info "Session #{@session_id[0..7]}"
+      date = Time.now
+      __info "#{date.strftime("%A")} #{date.day.ordinalize} #{date.strftime("%B, %Y")}"
+      __info "%02d:%02d, %s" % [date.hour, date.min, date.zone]
+
+      __info "#{@version} Ready..."
+
+      __info [
+"Hello, somewhere in the world
+   the sun is shining
+   for you right now.",
+"Hello, it's lovely to see
+   you again. I do hope that
+   you're well.",
+"Turn your head towards the sun
+   and the shadows
+   will fall
+   behind you."].sample
+
+      msg = @settings.get(:message) || ""
+      msg = msg.strip
+
+      __print_version_outdated_info if @version < @server_version
+
+      __info msg unless msg.empty?
+
+      load_snippets(snippets_path, true)
+    end
+
+
+  end
+
+
 end
