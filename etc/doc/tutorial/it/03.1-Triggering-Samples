@@ -1,0 +1,66 @@
+3.1 Avviare i campioni
+
+# Avviare i campioni
+
+Suonare i beep è soltanto l'inizio. Un modo per divertirsi molto è quello di
+utilizzare campioni pre-registrati. Prova a scrivere questo:
+
+```
+sample :ambi_lunar_land
+```
+
+Sonic Pi include al suo interno molti campioni con i quali puoi sbizzarrirti.
+Li puoi usare nello stesso identico modo con cui impieghi adesso il comando
+`play`. Per far suonare più campioni e suoni contemporaneamente, scrivili
+semplicemente uno dopo l'altro, così:
+
+```
+play 36
+play 48
+sample :ambi_lunar_land
+sample :ambi_drone
+```
+
+Se invece vuoi farli suonare in sequenza, usa il comando `sleep`:
+
+```
+sample :ambi_lunar_land
+sleep 1
+play 48
+sleep 0.5
+play 36
+sample :ambi_drone
+sleep 1
+play 36
+```
+
+Fai caso a come Sonic Pi non attende che un suono finisca prima di far suonare
+il successivo. Il comando `sleep` descrive soltanto la separazione tra l'avvio (*triggering*)
+dei suoni. Questo ti permette di suonare molte note contemporaneamente, creando degli
+interessanti effetti di sovrapposizione. Più avanti in questa guida tratteremo il controllo
+delle durate (*duration*) dei suoni attraverso il controllo degli inviluppi.
+
+
+## Scoprire i campioni
+
+Ci sono due modi diversi di scoprire quali campioni ti vengono forniti da Sonic Pi.
+Il primo, è quello di servirzi di questo stesso Help. Clicca sulla voce Samples nel
+menù verticale in fondo a sinistra, scegli la categoria che preferisci e qui troverai
+l'elenco di tutti i suoni a tua disposizione. 
+
+Oppure, puoi utilizzare la funzione di auto-completamento (*auto-completion system*). 
+Semplicemente, digita le lettere iniziali di un gruppo di campioni, come per esempio:
+`sample :ambi_` e ti apparirà un menù a tendina in cui puoi scegliere tra i campioni
+corrispondenti alla tua ricerca. Prova a scrivere uno dei seguenti prefissi di
+categoria:
+
+* `:ambi_` 
+* `:bass_`
+* `:elec_`
+* `:perc_`
+* `:guit_`
+* `:drum_`
+* `:misc_`
+* `:bd_`
+
+Adesso puoi iniziare ad inserire i campioni all'interno delle composizioni!
