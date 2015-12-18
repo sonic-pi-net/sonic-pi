@@ -194,20 +194,24 @@ module SonicPi
       p = Promise.new
       p2 = Promise.new
 
+      booted = false
       connected = false
-      FileUtils.touch scsynth_log_path
+      FileUtils.rm scsynth_log_path if File.exists?(scsynth_log_path)
 
       log "Boot - Starting the SuperCollider server..."
-      @scsynth_pid = Process.spawn(*args, out: scsynth_log_path)
-      Process.detach(@scsynth_pid)
+      f = File.open(scsynth_log_path, 'w')
+      f.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
+      at_exit { f.close }
+      scsynth_pipe = IO.popen(args.join(" "))
+      @scsynth_pid = scsynth_pipe.pid
 
-      f = File.open(scsynth_log_path, 'r')
       t1 = Thread.new do
-        loop do
-          l = f.gets
-          if l =~ /SuperCollider 3 server ready/
+        scsynth_pipe.each_line do |l|
+          f.puts l
+          f.flush
+          if !booted && l =~ /SuperCollider 3 server ready/
             p.deliver! true
-            break
+            booted = true
           end
         end
       end
@@ -215,10 +219,8 @@ module SonicPi
       begin
         v = p.get(60)
       rescue Exception => e
-        Process.kill(9, @scsynth_pid)
-      ensure
-        f.close
         t1.kill
+        Process.kill(9, @scsynth_pid)
       end
       raise "Unable to boot SuperCollider - boot server log does not report server ready" unless v
 
