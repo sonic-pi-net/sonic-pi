@@ -1,0 +1,38 @@
+3.2 Parametri dei campioni
+
+# Parametri dei campioni: Amp e Pan
+
+Come abbiamo visto nel caso dei synth, possiamo facilmente
+controllare i suoni che produciamo variandone i parametri.
+I campioni funzionano esattamente con lo stesso meccanismo
+di parametrizzazione. Ridiamo un'occhiata veloce ai nostri
+amici `amp:` (ampiezza del segnale) e `pan:` (bilanciamento).
+
+## Controllare l'ampiezza del segnale dei campioni
+
+Puoi variare l'ampiezza del segnale dei campioni esattamente
+nello stesso modo che abbiamo già utilizzato per i synth:
+
+```
+sample :ambi_lunar_land, amp: 0.5
+```
+
+## Bilanciamento dei campioni
+
+Possiamo impiegare anche la funzione `pan:` sui campioni. Per esempio, 
+ecco un esempio di come possiamo far suonare il campione 'amen' per
+metà della sua durata nell'orecchio sinistro e per l'altra metà 
+nell'orecchio destro:
+
+```
+sample :loop_amen, pan: -1
+sleep 0.877
+sample :loop_amen, pan: 1
+```
+
+Nota come la durata di 0.877 secondi è esattamente la metà del campione
+`:loop_amen`.
+
+Infine, fai caso a questo: se imposti le condizioni preimpostate a un
+synth utilizzando il comando `use_synth_defaults` (del quale parleremo
+successivamente), questo verrà ignorato dal `sample`.
