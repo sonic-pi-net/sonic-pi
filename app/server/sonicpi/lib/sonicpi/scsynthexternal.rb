@@ -213,7 +213,7 @@ module SonicPi
       end
 
       begin
-        v = p.get(30)
+        v = p.get(60)
       rescue Exception => e
         Process.kill(9, @scsynth_pid)
       ensure
