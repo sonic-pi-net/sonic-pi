@@ -13,6 +13,7 @@
 require_relative "util"
 require_relative "promise"
 require_relative "osc/osc"
+require 'fileutils'
 
 module SonicPi
   class SCSynthExternal
@@ -191,21 +192,38 @@ module SonicPi
 
     def boot_and_wait(*args)
       p = Promise.new
+      p2 = Promise.new
+
       connected = false
+      FileUtils.touch scsynth_log_path
 
       log "Boot - Starting the SuperCollider server..."
-      @scsynth_pid = Process.spawn(*args)
+      @scsynth_pid = Process.spawn(*args, out: scsynth_log_path)
       Process.detach(@scsynth_pid)
 
-      sleep 2
+      f = File.open(scsynth_log_path, 'r')
+      t1 = Thread.new do
+        loop do
+          l = f.gets
+          if l =~ /SuperCollider 3 server ready/
+            p.deliver! true
+            break
+          end
+        end
+      end
+
+      v = p.get(30)
+      t1.kill
+      f.close
+      raise "Unable to boot SuperCollider - boot server log does not report server ready" unless v
 
       boot_s = OSC::UDPServer.new(5998) do |a, b|
         log "Boot - Receiving ack from server on port 5998"
-        p.deliver! true unless connected
+        p2.deliver! true unless connected
         connected = true
       end
 
-      t1 = Thread.new do
+      t2 = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_boot_ack)
         loop do
           begin
@@ -218,14 +236,13 @@ module SonicPi
         end
       end
 
-
       begin
-        p.get(30)
+        p2.get(30)
       rescue Exception => e
         Process.kill(9, @scsynth_pid)
       ensure
 
-        t1.kill
+        t2.kill
         boot_s.stop
       end
 

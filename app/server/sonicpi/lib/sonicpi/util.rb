@@ -220,6 +220,10 @@ module SonicPi
       File.absolute_path("#{server_path}/native/#{os}")
     end
 
+    def scsynth_log_path
+      log_path + '/scsynth.log'
+    end
+
     def ruby_path
       # For running tests
       case os
