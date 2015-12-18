@@ -212,9 +212,14 @@ module SonicPi
         end
       end
 
-      v = p.get(30)
-      t1.kill
-      f.close
+      begin
+        v = p.get(30)
+      rescue Exception => e
+        Process.kill(9, @scsynth_pid)
+      ensure
+        f.close
+        t1.kill
+      end
       raise "Unable to boot SuperCollider - boot server log does not report server ready" unless v
 
       boot_s = OSC::UDPServer.new(5998) do |a, b|
