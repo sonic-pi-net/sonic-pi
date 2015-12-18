@@ -202,7 +202,7 @@ module SonicPi
       f = File.open(scsynth_log_path, 'w')
       f.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
       at_exit { f.close }
-      scsynth_pipe = IO.popen(args.join(" "))
+      scsynth_pipe = IO.popen(args)
       @scsynth_pid = scsynth_pipe.pid
 
       t1 = Thread.new do
