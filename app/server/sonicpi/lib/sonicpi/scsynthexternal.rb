@@ -193,6 +193,12 @@ module SonicPi
       p = Promise.new
       connected = false
 
+      log "Boot - Starting the SuperCollider server..."
+      @scsynth_pid = Process.spawn(*args)
+      Process.detach(@scsynth_pid)
+
+      sleep 2
+
       boot_s = OSC::UDPServer.new(5998) do |a, b|
         log "Boot - Receiving ack from server on port 5998"
         p.deliver! true unless connected
@@ -202,19 +208,16 @@ module SonicPi
       t1 = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_boot_ack)
         loop do
-          sleep 2
           begin
             log "Boot - Sending /status to server: #{@hostname}:#{@port}"
             boot_s.send(@hostname, @port, "/status")
           rescue Exception => e
             log "Boot - Error sending /status to server: #{e.message}"
           end
+          sleep 2
         end
       end
 
-      log "Boot - Starting the SuperCollider server..."
-      @scsynth_pid = Process.spawn(*args)
-      Process.detach(@scsynth_pid)
 
       begin
         p.get(30)
