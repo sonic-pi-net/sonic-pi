@@ -206,6 +206,7 @@ module SonicPi
       @scsynth_pid = scsynth_pipe.pid
 
       t1 = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_log_tracker)
         scsynth_pipe.each_line do |l|
           f.puts l
           f.flush
