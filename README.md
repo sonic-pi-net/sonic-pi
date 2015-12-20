@@ -76,6 +76,7 @@ Sonic Pi's built in tutorial has been translated into several languages thanks t
 :sp:         | Spanish       | in progress |              | @merongivian, @thraex41 |
 :nl:         | Dutch         | in progress | @DuchessFounder | @DuchessFounder, @PrisDiest |
 :gr:         | Greek         | in progress | @aspra       | @aspra |
+:nb:         | Norwegian Bokmål | in progress | @petterreinholdtsen | @petterreinholdtsen |
 
 Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started. Additionally [here](https://github.com/samaaron/sonic-pi/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+i18n) you can find translations (i18n) related issues.
 
