@@ -1118,11 +1118,22 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
       doc name:          :synth,
           introduced:    Version.new(2,0,0),
           summary:       "Trigger specific synth",
-          doc:           "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults.",
+          doc:           "Trigger specified synth with given opts. Bypasses `current_synth` value, yet still honours `current_synth_defaults`. When using `synth`, the note is no longer an explicit argument but an opt with the key `note:`.
+
+If note: opt is `nil`, `:r` or `:rest`, play is ignored and treated as a rest. Also, if the `on:` opt is specified and returns `false`, or `nil` then play is similarly ignored and treated as a rest.
+
+Note that the default opts listed are only a guide to the most common opts across all the synths. Not all synths support all the default opts and each synth typically supports many more opts specific to that synth. For example, the `:tb303` synth supports 45 unique opts. For a full list of a synth's opts see its documentation in the Help system. This can be accessed directly by clicking on the name of the synth and using the shortcut `C-i`",
           args:          [[:synth_name, :symbol]],
           opts:          DEFAULT_PLAY_OPTS,
           accepts_block: false,
-          examples:      ["
+      examples:      [
+"
+use_synth :beep            # Set current synth to :beep
+play 60                    # Play note 60 with opt defaults
+
+synth :dsaw, note: 60    # Bypass current synth and play :dsaw
+                         # with note 60 and opt defaults ",
+"
 synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an amplitude of 0.5",
 
         "
@@ -1201,7 +1212,9 @@ end
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.
 
-If note is `nil`, `:r` or `:rest`, play is ignored and treated as a rest.
+If note is `nil`, `:r` or `:rest`, play is ignored and treated as a rest. Also, if the `on:` opt is specified and returns `false`, or `nil` then play is similarly ignored and treated as a rest.
+
+Note that the default opts listed are only a guide to the most common opts across all the synths. Not all synths support all the default opts and each synth typically supports many more opts specific to that synth. For example, the `:tb303` synth supports 45 unique opts. For a full list of a synth's opts see its documentation in the Help system.
     ",
           args:          [[:note, :symbol_or_number]],
           opts:          DEFAULT_PLAY_OPTS,
