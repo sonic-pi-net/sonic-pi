@@ -1495,6 +1495,33 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest 
 "]
 
 
+      def use_merged_sample_defaults(*args, &block)
+        raise "use_mergeds_ample_defaults does not work with a block. Perhaps you meant with_merged_sample_defaults" if block
+        current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
+        args_h = resolve_synth_opts_hash_or_array(args)
+        merged_defs = (current_defs || {}).merge(args_h)
+        Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, merged_defs
+      end
+      doc name:          :use_merged_sample_defaults,
+          introduced:    Version.new(2,9,0),
+          summary:       "Merge new sample defaults",
+          doc:           "Specify new default values to be used by all subsequent calls to `sample`. Merges the specified values with any previous defaults, rather than replacing them.",
+          args:          [],
+          opts:          {},
+          accepts_block: false,
+          examples:      ["
+sample :loop_amen # plays amen break with default arguments
+
+use_merged_sample_defaults amp: 0.5, cutoff: 70
+
+sample :loop_amen # plays amen break with an amp of 0.5, cutoff of 70 and defaults for rest of args
+
+use_merged_sample_defaults cutoff: 90
+
+sample :loop_amen  # plays amen break with a cutoff of 90 and and an amp of 0.5 with defaults for rest of args
+"]
+
+
 
 
 
@@ -1524,6 +1551,40 @@ sample :loop_amen # plays amen break with an amp of 0.5, cutoff of 70 and defaul
 
 with_sample_defaults cutoff: 90 do
   sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest of args - note that amp is no longer 0.5
+end
+
+sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again as the previous defaults are restored."]
+
+
+
+
+      def with_merged_sample_defaults(*args, &block)
+        raise "with_merged_sample_defaults must be called with a do/end block. Perhaps you meant use_merged_sample_defaults" unless block
+        current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
+        args_h = resolve_synth_opts_hash_or_array(args)
+        merged_defs = (current_defs || {}).merge(args_h)
+        Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, merged_defs
+        res = block.call
+        Thread.current.thread_variable_set :sonic_pi_mod_sound_sample_defaults, current_defs
+        res
+      end
+      doc name:           :with_merged_sample_defaults,
+          introduced:     Version.new(2,9,0),
+          summary:        "Block-level use merged sample defaults",
+          doc:            "Specify new default values to be used by all subsequent calls to `sample` within the `do`/`end` block.  Merges the specified values with any previous sample defaults, rather than replacing them. After the `do`/`end` block has completed, the previous sampled defaults (if any) are restored.",
+          args:           [],
+          opts:           {},
+          accepts_block:  false,
+          requires_block: false,
+          examples:       ["
+sample :loop_amen # plays amen break with default arguments
+
+use_merged_sample_defaults amp: 0.5, cutoff: 70
+
+sample :loop_amen # plays amen break with an amp of 0.5, cutoff of 70 and defaults for rest of args
+
+with_merged_sample_defaults cutoff: 90 do
+  sample :loop_amen  # plays amen break with a cutoff of 90 and amp of 0.5
 end
 
 sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again as the previous defaults are restored."]
