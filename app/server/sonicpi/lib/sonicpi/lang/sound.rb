@@ -1418,7 +1418,7 @@ play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
       doc name:           :with_merged_synth_defaults,
           introduced:     Version.new(2,0,0),
           summary:        "Block-level merge synth defaults",
-          doc:            "Specify synth arg values to be used by any following call to play within the specified `do`/`end` block. Merges the specified values with any previous defaults, rather than replacing them. After the `do`/`end` block has completed, previous defaults (if any) are restored.",
+          doc:            "Specify synth arg values to be used by any following call to play within the specified `do`/`end` block. Merges the specified values with any previous synth defaults, rather than replacing them. After the `do`/`end` block has completed, previous defaults (if any) are restored.",
           args:           [],
           opts:           {},
           accepts_block:  true,
