@@ -723,6 +723,64 @@ play 90 # Args are checked
 
 "]
 
+
+
+
+      def use_cent_tuning(shift, &block)
+        raise "use_cent_tuning does not work with a do/end block. Perhaps you meant with_cent_tuning" if block
+        raise "Cent tuning value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_cent_tuning, shift)
+      end
+      doc name:          :use_cent_tuning,
+          introduced:    Version.new(2,9,0),
+          summary:       "Cent tuning",
+          doc:           "Uniformly tunes your music by shifting all notes played by the specified number of cents. To shift up by a cent use a cent tuning of 1. To shift down use negative numbers. One semitone consists of 100 cents.
+
+See `with_cent_tuning` for setting the cent tuning value only for a specific `do`/`end` block. To tranpose entire semitones see `use_transpose`.",
+          args:          [[:cent_shift, :number]],
+          opts:          nil,
+          accepts_block: false,
+          intro_fn:       true,
+          examples:      ["
+play 50 # Plays note 50
+use_cent_tuning 1
+play 50 # Plays note 50.01"]
+
+
+
+
+      def with_cent_tuning(shift, &block)
+        raise "with_cent_tuning requires a do/end block. Perhaps you meant use_cent_tuning" unless block
+        raise "Cent tuning value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
+        curr = Thread.current.thread_variable_get(:sonic_pi_mod_sound_cent_tuning)
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_cent_tuning, shift)
+        res = block.call
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_cent_tuning, curr)
+        res
+      end
+      doc name:           :with_cent_tuning,
+          introduced:     Version.new(2,9,0),
+          summary:        "Block-level cent tuning",
+          doc:            "Similar to `use_cent_tuning` except only applies cent shift to code within supplied `do`/`end` block. Previous cent tuning value is restored after block. One semitone consists of 100 cents. To tranpose entire semitones see `with_transpose`.",
+          args:           [[:cent_shift, :number]],
+          opts:           nil,
+          accepts_block:  true,
+          requires_block: true,
+          examples:       ["
+use_cent_tuning 1
+play 50 # Plays note 50.01
+
+with_cent_tuning 2 do
+  play 50 # Plays note 50.02
+end
+
+# Original cent tuning value is restored
+play 50 # Plays note 50.01
+
+"]
+
+
+
       def use_octave(shift, &block)
         raise "use_octave does not work with a do/end block. Perhaps you meant with_octave" if block
         raise "Octave shift must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
@@ -1881,6 +1939,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
 
           :sonic_pi_mod_sound_synth_silent,
           :sonic_pi_mod_sound_transpose,
+          :sonic_pi_mod_sound_cent_tuning,
           :sonic_pi_mod_sound_octave_shift,
           :sonic_pi_mod_sound_disable_timing_warnings,
           :sonic_pi_mod_sound_check_synth_args,
@@ -2240,6 +2299,24 @@ This can be set via the fns `use_transpose` and `with_transpose`.",
           accepts_block: false,
           examples:      ["
 puts current_transpose # Print out the current transpose value"]
+
+
+
+
+      def current_cent_tuning
+        Thread.current.thread_variable_get(:sonic_pi_mod_sound_cent_tuning) || 0
+      end
+      doc name:          :current_cent_tuning,
+          introduced:    Version.new(2,9,0),
+          summary:       "Get current cent shift",
+          doc:           "Returns the cent shift value.
+
+This can be set via the fns `use_cent_tuning` and `with_cent_tuning`.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+puts current_cent_tuning # Print out the current cent shift"]
 
 
 
@@ -4163,6 +4240,10 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         if octave_shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_octave_shift)
           n += (12 * octave_shift)
+        end
+
+        if cent_shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_cent_tuning)
+          n += (cent_shift / 100.0)
         end
 
         n += args_h[:pitch].to_f
