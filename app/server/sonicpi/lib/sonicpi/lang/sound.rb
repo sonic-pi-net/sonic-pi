@@ -2155,7 +2155,7 @@ puts current_sample_pack_aliases # Print out the current sample pack aliases"]
           summary:       "Get current synth defaults",
           doc:           "Returns the current synth defaults. This is a map of synth arg names to either values or functions.
 
-This can be set via the fns `use_synth_defaults`, `with_synth_defaults`, `use_merged_synth_defaults` and `with_merged_synth_defaults`."
+This can be set via the fns `use_synth_defaults`, `with_synth_defaults`, `use_merged_synth_defaults` and `with_merged_synth_defaults`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
