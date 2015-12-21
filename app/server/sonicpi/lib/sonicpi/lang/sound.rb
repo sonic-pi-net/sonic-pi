@@ -2099,7 +2099,9 @@ end"]
       doc name:          :current_synth,
           introduced:    Version.new(2,0,0),
           summary:       "Get current synth",
-          doc:           "Returns the current synth name.",
+          doc:           "Returns the current synth name.
+
+This can be set via the fns `use_synth` and `with_synth`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2115,7 +2117,9 @@ puts current_synth # Print out the current synth name"]
       doc name:          :current_sample_pack,
           introduced:    Version.new(2,0,0),
           summary:       "Get current sample pack",
-          doc:           "Returns the current sample pack.",
+          doc:           "Returns the current sample pack.
+
+This can be set via the fns `use_sample_pack` and `with_sample_pack`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2131,7 +2135,9 @@ puts current_sample_pack # Print out the current sample pack"]
       doc name:          :current_sample_pack_aliases,
           introduced:    Version.new(2,0,0),
           summary:       "Get current sample pack aliases",
-          doc:           "Returns a map containing the current sample pack aliases.",
+          doc:           "Returns a map containing the current sample pack aliases.
+
+This can be set via the fns `use_sample_pack_as` and `with_sample_pack_as`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2147,7 +2153,9 @@ puts current_sample_pack_aliases # Print out the current sample pack aliases"]
       doc name:          :current_synth_defaults,
           introduced:    Version.new(2,0,0),
           summary:       "Get current synth defaults",
-          doc:           "Returns the current synth defaults. This is a map of synth arg names to either values or functions.",
+          doc:           "Returns the current synth defaults. This is a map of synth arg names to either values or functions.
+
+This can be set via the fns `use_synth_defaults`, `with_synth_defaults`, `use_merged_synth_defaults` and `with_merged_synth_defaults`."
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2165,7 +2173,9 @@ puts current_synth_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
       doc name:          :current_sample_defaults,
           introduced:    Version.new(2,5,0),
           summary:       "Get current sample defaults",
-          doc:           "Returns the current sample defaults. This is a map of synth arg names to either values or functions.",
+          doc:           "Returns the current sample defaults. This is a map of synth arg names to either values or functions.
+
+This can be set via the fns `use_sample_defaults`, `with_sample_defaults`, `use_merged_sample_defaults` and `with_merged_sample_defaults`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2183,7 +2193,9 @@ puts current_sample_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
       doc name:          :current_sched_ahead_time,
           introduced:    Version.new(2,0,0),
           summary:       "Get current sched ahead time",
-          doc:           "Returns the current schedule ahead time.",
+          doc:           "Returns the current schedule ahead time.
+
+This can be set via the fn `set_sched_ahead_time!`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2200,7 +2212,9 @@ puts current_sched_ahead_time # Prints 0.5"]
       doc name:          :current_volume,
           introduced:    Version.new(2,0,0),
           summary:       "Get current volume",
-          doc:           "Returns the current volume.",
+          doc:           "Returns the current volume.
+
+This can be set via the fn `set_volume!`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2218,7 +2232,9 @@ puts current_volume #=> 2"]
       doc name:          :current_transpose,
           introduced:    Version.new(2,0,0),
           summary:       "Get current transposition",
-          doc:           "Returns the current transpose value.",
+          doc:           "Returns the current transpose value.
+
+This can be set via the fns `use_transpose` and `with_transpose`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2234,13 +2250,14 @@ puts current_transpose # Print out the current transpose value"]
       doc name:          :current_octave,
           introduced:    Version.new(2,9,0),
           summary:       "Get current octave shift",
-          doc:           "Returns the octave shift value.",
+          doc:           "Returns the octave shift value.
+
+This can be set via the fns `use_octave` and `with_octave`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
           examples:      ["
 puts current_octave # Print out the current octave shift"]
-
 
 
 
@@ -2250,7 +2267,9 @@ puts current_octave # Print out the current octave shift"]
       doc name:          :current_debug,
           introduced:    Version.new(2,0,0),
           summary:       "Get current debug status",
-          doc:           "Returns the current debug setting (`true` or `false`).",
+          doc:           "Returns the current debug setting (`true` or `false`).
+
+This can be set via the fns `use_debug` and `with_debug`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2266,7 +2285,9 @@ puts current_debug # Print out the current debug setting"]
       doc name:          :current_arg_checks,
           introduced:    Version.new(2,0,0),
           summary:       "Get current arg checking status",
-          doc:           "Returns the current arg checking setting (`true` or `false`).",
+          doc:           "Returns the current arg checking setting (`true` or `false`).
+
+This can be set via the fns `use_arg_checks` and `with_arg_checks`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
