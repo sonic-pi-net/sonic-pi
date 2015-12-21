@@ -71,6 +71,7 @@ module SonicPi
         sustain_level: "Amplitude level reached after decay phase and immediately before release phase.",
         env_curve: "Select the shape of the curve between levels in the envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
         slide:     "Default slide time in beats for all slide opts. Individually specified slide opts will override this value",
+        pitch: "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc.  Decimal numbers can be used for fine tuning.",
         on: "If specified and false/nil/0 will stop the synth from being played. Ensures all opts are evaluated."}
 
 
