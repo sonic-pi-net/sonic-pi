@@ -2111,7 +2111,9 @@ puts slept #=> Returns false as there were no sleeps in the block"]
       doc name:          :current_bpm,
           introduced:    Version.new(2,0,0),
           summary:       "Get current tempo",
-          doc:           "Returns the current tempo as a bpm value.",
+          doc:           "Returns the current tempo as a bpm value.
+
+This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bpm`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2127,7 +2129,9 @@ puts slept #=> Returns false as there were no sleeps in the block"]
       doc name:          :current_beat_duration,
           introduced:    Version.new(2,6,0),
           summary:       "Duration of current beat",
-          doc:           "Get the duration of the current beat in seconds. This is the actual length of time which will elapse with `sleep 1`.",
+          doc:           "Get the duration of the current beat in seconds. This is the actual length of time which will elapse with `sleep 1`.
+
+Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bpm`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
