@@ -32,6 +32,8 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
   keywords[PlayParam] << "amp:" << "attack:" << "release:" << "sustain:" << "decay:" << "env_curve:" << "sustain_level:" << "pan:" << "attack_level:" << "decay_level:" << "on:" << "slide:" << "pitch:";
 
   keywords[SampleParam] << "amp:" << "pan:" << "attack:" << "decay:" << "sustain:" << "release:" << "attack_level:" << "decay_level:" << "sustain_level:" << "env_curve:" << "rate:" << "beat_stretch:" << "start:" << "finish:" << "res:" << "cutoff:" << "cutoff_attack:" << "cutoff_decay:" << "cutoff_sustain:" << "cutoff_release:" << "cutoff_attack_level:" << "cutoff_decay_level:" << "cutoff_sustain_level:" << "cutoff_env_curve:" << "norm:" << "rpitch:" << "pitch:" << "pitch_stretch:" << "window_size:" << "pitch_dis:" << "time_dis:";
+
+  keywords[Tuning] << ":just" << ":pythagorean" << ":meantone" << ":equal";
 }
 
 
@@ -111,6 +113,8 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
              last == "mc_block_id" ||
              last == "mc_set_area") {
     ctx = MCBlock;
+  } else if (last == "use_tuning" || last == "with_tuning") {
+    ctx = Tuning;
 
   // FX params
   } else if (words.length() >= 2 &&
