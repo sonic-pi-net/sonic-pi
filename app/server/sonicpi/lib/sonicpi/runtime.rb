@@ -384,6 +384,13 @@ module SonicPi
       end
     end
 
+    def __stop_other_jobs
+      __info "Stopping all runs other than #{__current_job_id}..."
+      @user_jobs.each_id do |id|
+        __stop_job id unless id == __current_job_id
+      end
+    end
+
     def __join_subthreads(t)
       subthreads = t.thread_variable_get :sonic_pi_spider_subthreads
       subthreads.each do |st|

@@ -162,10 +162,12 @@ module SonicPi
 
 
       def reboot
-        puts @server_init_args
-        @mod_sound_studio.shutdown
+        __stop_other_jobs
+        __info "Rebooting sound server"
+                @mod_sound_studio.shutdown
         @mod_sound_studio = Studio.new(*@server_init_args)
-        __stop_jobs
+        __info "Reboot successful - sound server ready."
+
       end
 
       def sample_free(*paths)
