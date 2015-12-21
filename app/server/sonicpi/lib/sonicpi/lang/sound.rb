@@ -1120,8 +1120,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           summary:       "Trigger specific synth",
           doc:           "Trigger specified synth with given arguments. Bypasses current synth value, yet still honours synth defaults.",
           args:          [[:synth_name, :symbol]],
-          opts:          {:slide => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value",
-                          :on => "If specified and false/nil/0 will stop the synth from being played. Ensures all opts are evaluated."},
+          opts:          DEFAULT_PLAY_OPTS,
           accepts_block: false,
           examples:      ["
 synth :fm, note: 60, amp: 0.5 # Play note 60 of the :fm synth with an amplitude of 0.5",
