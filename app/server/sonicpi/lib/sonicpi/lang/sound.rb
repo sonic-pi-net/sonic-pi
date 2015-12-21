@@ -84,6 +84,7 @@ module SonicPi
           define_method(:initialize) do |*splat, &block|
             sonic_pi_mods_sound_initialize_old *splat, &block
             hostname, port, msg_queue, max_concurrent_synths = *splat
+            @server_init_args = splat.take(4)
 
             @mod_sound_home_dir = Dir.home
             @simple_sampler_args = [:amp, :amp_slide, :amp_slide_shape, :amp_slide_curve, :pan, :pan_slide, :pan_slide_shape, :pan_slide_curve, :cutoff, :cutoff_slide, :cutoff_slide_shape, :cutoff_slide_curve, :res, :res_slide, :res_slide_shape, :res_slide_curve, :rate, :slide, :beat_stretch, :rpitch]
@@ -152,7 +153,7 @@ module SonicPi
             end
 
             @events.add_handler("/exit", @events.gensym("/mods-sound-exit")) do |payload|
-              @mod_sound_studio.exit
+              @mod_sound_studio.shutdown
               nil
             end
           end
@@ -160,7 +161,12 @@ module SonicPi
       end
 
 
-
+      def reboot
+        puts @server_init_args
+        @mod_sound_studio.shutdown
+        @mod_sound_studio = Studio.new(*@server_init_args)
+        __stop_jobs
+      end
 
       def sample_free(*paths)
         full_paths = paths.map{ |p| resolve_sample_symbol_path(p)}

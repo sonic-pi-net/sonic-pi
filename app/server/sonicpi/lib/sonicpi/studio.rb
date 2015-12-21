@@ -182,10 +182,6 @@ module SonicPi
       @server.allocate_audio_bus
     end
 
-    def exit
-      @server.exit
-    end
-
     def sched_ahead_time
       @server.sched_ahead_time
     end
@@ -231,6 +227,10 @@ module SonicPi
 
     def load_synthdefs(path)
       @server.load_synthdefs(path)
+    end
+
+    def shutdown
+      @server.shutdown
     end
   end
 end

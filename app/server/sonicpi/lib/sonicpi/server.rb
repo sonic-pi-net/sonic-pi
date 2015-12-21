@@ -442,8 +442,8 @@ module SonicPi
       @osc_events.async_event handle, payload
     end
 
-    def exit
-      osc @osc_path_quit
+    def shutdown
+      @scsynth.shutdown
     end
 
   end
