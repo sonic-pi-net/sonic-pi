@@ -16,6 +16,7 @@ require 'securerandom'
 
 module SonicPi
   module Util
+    @@tilde_dir = Dir.home
     @@project_path = nil
     @@log_path = nil
     @@current_uuid = nil
@@ -46,6 +47,9 @@ module SonicPi
       os == :raspberry && !@@raspberry_pi_1
     end
 
+    def unify_tilde_dir(path)
+      path.gsub(/\A#{@@tilde_dir}/, "~")
+    end
 
     def num_audio_busses_for_current_os
       if os == :raspberry
