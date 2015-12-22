@@ -48,6 +48,7 @@ module SonicPi
 
     ## Not officially part of the API
     ## Probably should be moved somewhere else
+    @@stop_job_mutex = Mutex.new
 
     def load_snippets(path=snippets_path, quiet=false)
       path = File.expand_path(path)
@@ -370,11 +371,17 @@ module SonicPi
     end
 
     def __stop_job(j)
-      job_subthreads_kill(j)
-      @user_jobs.kill_job j
-      @life_hooks.killed(j)
-      @life_hooks.exit(j)
-      @msg_queue.push({type: :job, jobid: j, action: :killed})
+      __info "Stopping job #{j}"
+      # Only allow a job to be stopped once
+      @@stop_job_mutex.synchronize do
+        if @user_jobs.running?(j)
+          job_subthreads_kill(j)
+          @user_jobs.kill_job j
+          @life_hooks.killed(j)
+          @life_hooks.exit(j)
+          @msg_queue.push({type: :job, jobid: j, action: :killed})
+        end
+      end
     end
 
     def __stop_jobs
