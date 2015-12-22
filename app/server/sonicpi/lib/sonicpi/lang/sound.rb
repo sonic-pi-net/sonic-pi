@@ -184,7 +184,7 @@ module SonicPi
         __info "Rebooting sound server"
         @mod_sound_studio.reboot
         __info "Reboot successful - sound server ready."
-
+        stop
       end
 
       def sample_free(*paths)
