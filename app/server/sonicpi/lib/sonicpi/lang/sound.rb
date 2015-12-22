@@ -3767,7 +3767,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         sn = sampler_type.to_sym
         info = Synths::SynthInfo.get_info(sn)
-        path = path.gsub(/\A#{@mod_sound_home_dir}/, "~") if path.is_a? String
+        path = unify_tilde_dir(path) if path.is_a? String
 
         # Combine thread local defaults here as
         # normalise_and_resolve_synth_args has only been taught about
