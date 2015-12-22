@@ -14,13 +14,12 @@ require_relative "util"
 require_relative "server"
 require_relative "note"
 
+require 'set'
+
 module SonicPi
   class Studio
     include Util
 
-    SYNTHS = ["beep", "fm", "pretty_bell", "dull_bell", "saw_beep"]
-    SYNTH_MOD = Mutex.new
-    SAMPLE_SEM = Mutex.new
     attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id, :amp
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
@@ -32,6 +31,7 @@ module SonicPi
       reset_server
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
+      @sample_sem = Mutex.new
     end
 
     def init_studio
@@ -84,6 +84,13 @@ module SonicPi
         else
           return false
         end
+      end
+    end
+
+    def load_synthdefs(path, server=@server)
+      @sample_sem.synchronize do
+        server.load_synthdefs(path)
+        @loaded_synthdefs << path
       end
     end
 
@@ -267,9 +274,6 @@ module SonicPi
       end
     end
 
-    def load_synthdefs(path)
-      @server.load_synthdefs(path)
-    end
 
     def shutdown
       @server.shutdown
