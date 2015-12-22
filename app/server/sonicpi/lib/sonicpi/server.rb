@@ -372,17 +372,24 @@ module SonicPi
       res
     end
 
-    def status
+    def status(timeout=nil)
       prom = Promise.new
       res = nil
 
-      @osc_events.oneshot_handler("/status.reply") do |pl|
+      key = @osc_events.gensym("/status.reply")
+      @osc_events.async_add_handler("/status.reply", key) do |pl|
         prom.deliver! pl
+        :remove_handler
       end
 
       with_server_sync do
         osc @osc_path_status
-        res = prom.get
+        begin
+          res = prom.get(timeout)
+        rescue PromiseTimeoutError => e
+          @osc_events.rm_handler("/status.reply", key)
+          return nil
+        end
       end
 
       args = res.to_a
