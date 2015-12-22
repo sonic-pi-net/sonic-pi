@@ -189,7 +189,7 @@ module SonicPi
 
       def sample_free(*paths)
         full_paths = paths.map{ |p| resolve_sample_symbol_path(p)}
-        @mod_sound_studio.free_sample(*full_paths)
+        @mod_sound_studio.free_sample(full_paths)
       end
       doc name:           :sample_free,
           introduced:     Version.new(2,9,0),

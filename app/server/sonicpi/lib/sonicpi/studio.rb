@@ -91,34 +91,34 @@ module SonicPi
       return @samples.has_key?(path)
     end
 
-    def load_sample(path)
+    def load_sample(path, server=@server)
       return [@samples[path], true] if @samples[path]
       #message "Loading full sample path: #{path}"
       buf_info = nil
-      SAMPLE_SEM.synchronize do
+      @sample_sem.synchronize do
         return @samples[path] if @samples[path]
-        buf_info = @server.buffer_alloc_read(path)
+        buf_info = server.buffer_alloc_read(path)
         buf_info.path = path
         @samples[path] = buf_info
       end
       [buf_info, false]
     end
 
-    def free_sample(*paths)
-      SAMPLE_SEM.synchronize do
+    def free_sample(paths, server=@server)
+      @sample_sem.synchronize do
         paths.each do |p|
           info = @samples[p]
           @samples.delete(p)
-          @server.buffer_free(info) if info
+          server.buffer_free(info) if info
         end
       end
       :free
     end
 
-    def free_all_samples
-      SAMPLE_SEM.synchronize do
+    def free_all_samples(server=@server)
+      @sample_sem.synchronize do
         @samples.each do |k, v|
-          @server.buffer_free(v)
+          server.buffer_free(v)
         end
         @samples = {}
       end
