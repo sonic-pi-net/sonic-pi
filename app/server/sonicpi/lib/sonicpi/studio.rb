@@ -78,7 +78,7 @@ module SonicPi
                   @error_occurred_since_last_check = true
                 end
                 message "Sound server is down."
-                reboot
+                locked_reboot
                 Thread.current.kill
               end
             rescue
@@ -86,7 +86,7 @@ module SonicPi
                 @error_occurred_since_last_check = true
               end
               message "Error communicating with sound server."
-              reboot
+              locked_reboot
               Thread.current.kill
             end
           end
@@ -299,12 +299,17 @@ module SonicPi
 
     def reboot
       @server_mutex.synchronize do
+        locked_reboot
+      end
+    end
+
+    private
+    def locked_reboot
         message "Rebooting server..."
         shutdown
         init_studio
         reset_server
         message "Server ready."
-      end
     end
   end
 end
