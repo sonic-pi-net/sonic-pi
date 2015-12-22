@@ -180,10 +180,18 @@ module SonicPi
 
 
       def reboot
-        __stop_other_jobs
-        __info "Rebooting sound server"
-        @mod_sound_studio.reboot
-        __info "Reboot successful - sound server ready."
+        return nil if @mod_sound_studio.rebooting
+        __no_kill_block do
+          __stop_other_jobs
+          __info "Rebooting sound server"
+          res = @mod_sound_studio.reboot
+
+          if res
+            __info "Reboot successful - sound server ready."
+          else
+            __info "Reboot unsuccessful - reboot already in progress."
+          end
+        end
         stop
       end
 
