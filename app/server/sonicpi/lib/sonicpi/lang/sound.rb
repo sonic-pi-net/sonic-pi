@@ -109,6 +109,24 @@ module SonicPi
             @JOB_BUSSES_MUTEX = Mutex.new
             @mod_sound_studio = Studio.new(hostname, port, msg_queue, max_concurrent_synths)
 
+            @mod_sound_studio_checker = Thread.new do
+              # kill all jobs if an error occured in the studio
+              Thread.current.thread_variable_set(:sonic_pi_thread_group, "studio checker")
+              Thread.current.priority = 200
+              loop do
+                Kernel.sleep 5
+                begin
+                  error = @mod_sound_studio.error_occurred?
+                  if error
+                    __stop_jobs
+                  end
+                rescue Exception => e
+                  __info "exception: #{e.message}, #{e.backtrace}"
+                  __stop_jobs
+                end
+              end
+            end
+
             @life_hooks.on_init do |job_id, payload|
               @job_proms_queues_mut.synchronize do
                 @job_proms_queues[job_id] = Queue.new
@@ -164,8 +182,7 @@ module SonicPi
       def reboot
         __stop_other_jobs
         __info "Rebooting sound server"
-                @mod_sound_studio.shutdown
-        @mod_sound_studio = Studio.new(*@server_init_args)
+        @mod_sound_studio.reboot
         __info "Reboot successful - sound server ready."
 
       end

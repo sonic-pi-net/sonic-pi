@@ -24,23 +24,67 @@ module SonicPi
     attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id, :amp
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
+      @hostnane = hostname
+      @port = port
+      @msg_queue = msg_queue
+      @max_concurrent_synths = max_concurrent_synths
+      init_studio
+      reset_server
+      @error_occured_mutex = Mutex.new
+      @error_occurred_since_last_check = false
+    end
+
+    def init_studio
+      message "Initializing..."
       @amp = [0.0, 1.0]
-      @server = Server.new(hostname, port, msg_queue)
+      @server = Server.new(@hostname, @port, @msg_queue)
       @server.load_synthdefs(synthdef_path)
       @server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]
       end
-      @msg_queue = msg_queue
-      @max_concurrent_synths = max_concurrent_synths
       @samples = {}
       @recorders = {}
       @recording_mutex = Mutex.new
-
       # load rand stream directly - ensuring it doesn't get considered as a 'sample'
       @rand_buf_id = @server.buffer_alloc_read(buffers_path + "/rand-stream.wav").to_i
 
-      reset
 
+
+
+      @check_server_t = Thread.new do
+        loop do
+          begin
+            if @server.status(5)
+            else
+              @error_occured_mutex.synchronize do
+                @error_occurred_since_last_check = true
+              end
+              message "Sound server is down."
+              reboot
+              Thread.current.kill
+            end
+          rescue
+            @error_occured_mutex.synchronize do
+              @error_occurred_since_last_check = true
+            end
+            message "Error communicating with sound server."
+            reboot
+            Thread.current.kill
+          end
+          Kernel.sleep 5
+        end
+      end
+    end
+
+    def error_occurred?
+      @error_occured_mutex.synchronize do
+        if @error_occurred_since_last_check
+          @error_occurred_since_last_check = false
+          return true
+        else
+          return false
+        end
+      end
     end
 
     def sample_loaded?(path)
@@ -49,7 +93,7 @@ module SonicPi
 
     def load_sample(path)
       return [@samples[path], true] if @samples[path]
-      message "Loading full sample path: #{path}"
+      #message "Loading full sample path: #{path}"
       buf_info = nil
       SAMPLE_SEM.synchronize do
         return @samples[path] if @samples[path]
@@ -89,11 +133,9 @@ module SonicPi
       @recording_group = @server.create_group(:after, @mixer_group, "STUDIO-RECORDING")
     end
 
-    def reset
+    def reset_server
       reset_and_setup_groups_and_busses
       start_mixer
-
-
     end
 
     def start_amp_monitor
@@ -104,7 +146,7 @@ module SonicPi
 
 
     def message(s)
-      # @msg_queue.push({:type => :info, :val => "Studio: #{s.to_s}"})
+      @msg_queue.push({:type => :info, :val => "Studio: #{s.to_s}"})
     end
 
     def trigger_synth(synth_name, group, args, info, now=false, t_minus_delta=false )
@@ -112,7 +154,7 @@ module SonicPi
     end
 
     def start_mixer
-      message "Starting mixer"
+      #message "Starting mixer"
       # TODO create a way of swapping these on the fly:
       # set_mixer! :basic
       # set_mixer! :default
@@ -231,6 +273,14 @@ module SonicPi
 
     def shutdown
       @server.shutdown
+    end
+
+    def reboot
+      message "Rebooting server..."
+      shutdown
+      init_studio
+      reset_server
+      message "Server ready."
     end
   end
 end
