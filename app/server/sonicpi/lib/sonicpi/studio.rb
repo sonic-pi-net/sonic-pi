@@ -27,12 +27,12 @@ module SonicPi
       @port = port
       @msg_queue = msg_queue
       @max_concurrent_synths = max_concurrent_synths
-      init_studio
-      reset_server
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
       @sample_sem = Mutex.new
       @server_mutex = Mutex.new
+      init_studio
+      reset_server
     end
 
     def init_studio
