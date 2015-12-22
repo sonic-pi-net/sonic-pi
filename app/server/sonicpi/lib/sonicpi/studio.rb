@@ -71,7 +71,7 @@ module SonicPi
         loop do
           @server_mutex.synchronize do
             begin
-              if @server.status(5)
+              if server.status(5)
                 # server is alive
               else
                 @error_occured_mutex.synchronize do
