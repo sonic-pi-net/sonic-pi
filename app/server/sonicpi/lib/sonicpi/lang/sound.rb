@@ -1562,7 +1562,7 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest 
 
 
       def use_merged_sample_defaults(*args, &block)
-        raise "use_mergeds_ample_defaults does not work with a block. Perhaps you meant with_merged_sample_defaults" if block
+        raise "use_merged_sample_defaults does not work with a block. Perhaps you meant with_merged_sample_defaults" if block
         current_defs = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
         args_h = resolve_synth_opts_hash_or_array(args)
         merged_defs = (current_defs || {}).merge(args_h)
