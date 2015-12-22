@@ -32,44 +32,63 @@ module SonicPi
       @error_occured_mutex = Mutex.new
       @error_occurred_since_last_check = false
       @sample_sem = Mutex.new
+      @server_mutex = Mutex.new
     end
 
     def init_studio
       message "Initializing..."
       @amp = [0.0, 1.0]
-      @server = Server.new(@hostname, @port, @msg_queue)
-      @server.load_synthdefs(synthdef_path)
-      @server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
+
+      server = Server.new(@hostname, @port, @msg_queue)
+      server.load_synthdefs(synthdef_path)
+      server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]
       end
+      # load rand stream directly - ensuring it doesn't get considered as a 'sample'
+      rand_buf_id = server.buffer_alloc_read(buffers_path + "/rand-stream.wav").to_i
+      old_samples = @samples
       @samples = {}
+
+      (old_samples || {}).each do |k, v|
+        message "Reloading sample - #{unify_tilde_dir(k)}"
+        load_sample(k, server)
+      end
+
+      old_synthdefs = @loaded_synthdefs
+      @loaded_synthdefs = Set.new
+
+      (old_synthdefs || []).each do |s|
+        message "Reloading synthdefs in #{unify_tilde_dir(s)}"
+        load_synthdefs(s, server)
+      end
+
       @recorders = {}
       @recording_mutex = Mutex.new
-      # load rand stream directly - ensuring it doesn't get considered as a 'sample'
-      @rand_buf_id = @server.buffer_alloc_read(buffers_path + "/rand-stream.wav").to_i
+      @server = server
 
-
-
-
+      @rand_buf_id = rand_buf_id
       @check_server_t = Thread.new do
         loop do
-          begin
-            if @server.status(5)
-            else
+          @server_mutex.synchronize do
+            begin
+              if @server.status(5)
+                # server is alive
+              else
+                @error_occured_mutex.synchronize do
+                  @error_occurred_since_last_check = true
+                end
+                message "Sound server is down."
+                reboot
+                Thread.current.kill
+              end
+            rescue
               @error_occured_mutex.synchronize do
                 @error_occurred_since_last_check = true
               end
-              message "Sound server is down."
+              message "Error communicating with sound server."
               reboot
               Thread.current.kill
             end
-          rescue
-            @error_occured_mutex.synchronize do
-              @error_occurred_since_last_check = true
-            end
-            message "Error communicating with sound server."
-            reboot
-            Thread.current.kill
           end
           Kernel.sleep 5
         end
@@ -274,17 +293,18 @@ module SonicPi
       end
     end
 
-
     def shutdown
       @server.shutdown
     end
 
     def reboot
-      message "Rebooting server..."
-      shutdown
-      init_studio
-      reset_server
-      message "Server ready."
+      @server_mutex.synchronize do
+        message "Rebooting server..."
+        shutdown
+        init_studio
+        reset_server
+        message "Server ready."
+      end
     end
   end
 end
