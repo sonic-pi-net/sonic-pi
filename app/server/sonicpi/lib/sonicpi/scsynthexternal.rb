@@ -96,15 +96,25 @@ module SonicPi
 
     private
 
+    def kill_pid_win(pid)
+      # for some reason SIGINT doesn't seem to work
+      # on Windows, so go straight for the jugular
+      begin
+        Process.kill(9, pid)
+        log "Killed #{pid}"
+        return true
+      rescue Exception => e
+        log "Could not kill #{pid} - perhaps already killed?"
+        return nil
+      end
+    end
+
     def kill_pid(pid, safe_wait=4)
       log "going to kill #{pid}"
-      if os == :windows
-        # for some reason SIGINT doesn't seem to work
-        # on Windows, so go straight for the jugular
-        Process.kill(9, pid)
-      else
-        Process.kill(15, pid)
-      end
+      return kill_pid_win(pid) if os == :windows
+
+      Process.kill(15, pid)
+
       safe_wait.to_i.times do
         sleep 1
         begin
