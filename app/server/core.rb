@@ -33,6 +33,8 @@ os = case RUBY_PLATFORM
      end
 $:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"
 
+require 'win32/process' if os == :windows
+
 ## Ensure all libs in vendor directory are available
 Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
   $:.unshift vendor_lib
