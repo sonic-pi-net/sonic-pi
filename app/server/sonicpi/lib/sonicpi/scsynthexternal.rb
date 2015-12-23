@@ -88,6 +88,10 @@ module SonicPi
       end
       t1.join if t1
       t2.join if t2
+
+      #close log file if it's open
+      @scsynth_log_file.close if @scsynth_log_file
+      @scsynth_log_file = nil
     end
 
     private
@@ -199,17 +203,17 @@ module SonicPi
       FileUtils.rm scsynth_log_path if File.exists?(scsynth_log_path)
 
       log "Boot - Starting the SuperCollider server..."
-      f = File.open(scsynth_log_path, 'w')
-      f.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
-      at_exit { f.close }
+      @scsynth_log_file = File.open(scsynth_log_path, 'w')
+      @scsynth_log_file.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
+      at_exit { @scsynth_log_file.close }
       scsynth_pipe = IO.popen(args)
       @scsynth_pid = scsynth_pipe.pid
 
       t1 = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_log_tracker)
         scsynth_pipe.each_line do |l|
-          f.puts l
-          f.flush
+          @scsynth_log_file.puts l if @scsynth_log_file
+          @scsynth_log_file.flush if @scsynth_log_file
           if !booted && l =~ /SuperCollider 3 server ready/
             p.deliver! true
             booted = true
