@@ -48,6 +48,10 @@ module SonicPi
       end
     end
 
+    def running?(id)
+      @jobs_A.deref[id]
+    end
+
     def each_id(&block)
       @jobs_A.deref.keys.each(&block)
     end
