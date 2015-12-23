@@ -37,6 +37,8 @@ module SonicPi
       init_studio
       reset_server
       @check_server_t = Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, "server checker")
+        Thread.current.priority = 300
         loop do
           unless @rebooting
             begin
