@@ -3,18 +3,19 @@
 // Full project source: https://github.com/samaaron/sonic-pi
 // License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 //
-// Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+// Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 // All rights reserved.
 //
-// Permission is granted for use, copying, modification, distribution,
-// and distribution of modified versions of this work as long as this
+// Permission is granted for use, copying, modification, and
+// distribution of modified versions of this work as long as this
 // notice is included.
 //++
-
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QSplitter>
+#include <QDate>
 #include <QMainWindow>
 #include <QDialog>
 #include <QLabel>
@@ -23,16 +24,19 @@
 #include <QRadioButton>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QVBoxLayout>
 #include <QProcess>
 #include <QFuture>
 #include <QShortcut>
 #include <QSettings>
 #include <QHash>
+#include <QTcpSocket>
 #include "oscpkt.hh"
 #include "udp.hh"
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <QSignalMapper>
 
 class QAction;
 class QMenu;
@@ -44,13 +48,14 @@ class SonicPiLexer;
 class QString;
 class QSlider;
 class SonicPiAPIs;
+class SonicPiLog;
 class SonicPiScintilla;
-class SonicPiUDPServer;
+class SonicPiServer;
 
 struct help_page {
   QString title;
   QString keyword;
-  QString filename;
+  QString url;
 };
 
 struct help_entry {
@@ -60,29 +65,47 @@ struct help_entry {
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
 #if defined(Q_OS_MAC)
-    MainWindow(QApplication &ref, QMainWindow* splash);
+    MainWindow(QApplication &ref, bool i18n, QMainWindow* splash);
 #else
-    MainWindow(QApplication &ref, QSplashScreen* splash);
+    MainWindow(QApplication &ref, bool i18n, QSplashScreen* splash);
 #endif
-    void invokeStartupError(QString msg);
-    SonicPiUDPServer *sonicPiServer;
+
+    SonicPiServer *sonicPiServer;
+    enum {UDP=0, TCP=1};
+    QCheckBox *dark_mode;
+    bool loaded_workspaces;
 
 protected:
     void closeEvent(QCloseEvent *event);
     void wheelEvent(QWheelEvent *event);
 
-private slots:
 
+public slots:
+    void invokeStartupError(QString msg);
+
+private slots:
+    bool eventFilter(QObject *obj, QEvent *evt);
+    void changeTab(int id);
+    QString asciiArtLogo();
+    void printAsciiArtLogo();
     void unhighlightCode();
     void runCode();
     void update_mixer_invert_stereo();
     void update_mixer_force_mono();
+    void update_check_updates();
+    void check_for_updates_now();
+    void enableCheckUpdates();
+    void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
+    void completeListOrIndentLine(QObject *ws);
+    void indentCurrentLineOrSelection(SonicPiScintilla *ws);
+    void toggleCommentInCurrentWorkspace();
+    void toggleComment(SonicPiScintilla *ws);
     void reloadServerCode();
     void stopRunningSynths();
     void mixerInvertStereo();
@@ -98,23 +121,24 @@ private slots:
     void about();
     void help();
     void onExitCleanup();
-    void zoomFontIn();
-    void zoomFontOut();
     void toggleRecording();
     void toggleRecordingOnIcon();
     void changeRPSystemVol(int val);
+    void changeGUITransparency(int val);
     void setRPSystemAudioAuto();
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
+    void changeShowLineNumbers();
+    void toggleDarkMode();
+    void updateDarkMode();
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
     void serverStarted();
     void splashClose();
-    void serverError(QProcess::ProcessError error);
-    void serverFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void startupError(QString msg);
-    void replaceBuffer(QString id, QString content);
+    void replaceBuffer(QString id, QString content, int line, int index, int first_line);
+    void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
     void tabNext();
     void tabPrev();
     void helpContext();
@@ -124,8 +148,29 @@ private slots:
     void docScrollUp();
     void docScrollDown();
     void helpClosed(bool visible);
+    void updateFullScreenMode();
+    void toggleFullScreenMode();
+    void updateFocusMode();
+    void toggleFocusMode();
+    void updateLogVisibility();
+    void toggleLogVisibility();
+    void updateTabsVisibility();
+    void toggleTabsVisibility();
+    void updateButtonVisibility();
+    void toggleButtonVisibility();
+    void setLineMarkerinCurrentWorkspace(int num);
+    void setUpdateInfoText(QString t);
+    void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
+    void requestVersion();
+    void open_sonic_pi_net();
+    void heartbeatOSC();
+    void zoomCurrentWorkspaceIn();
+    void zoomCurrentWorkspaceOut();
 
 private:
+
+    void setupLogPathAndRedirectStdOut();
+    QSignalMapper *signalMapper;
     void startServer();
     void waitForServiceSync();
     void clearOutputPanels();
@@ -145,25 +190,32 @@ private:
     void sendOSC(oscpkt::Message m);
     void initPrefsWindow();
     void initDocsWindow();
-    void setHelpText(QListWidgetItem *item, const QString filename);
+    void refreshDocContent();
     void addHelpPage(QListWidget *nameList, struct help_page *helpPages,
                      int len);
     QListWidget *createHelpTab(QString name);
-    QKeySequence cmdAltKey(char key);
+    QKeySequence metaKey(char key);
+    Qt::Modifier metaKeyModifier();
+    QKeySequence shiftMetaKey(char key);
+    QKeySequence ctrlMetaKey(char key);
     QKeySequence ctrlKey(char key);
+    char int2char(int i);
     void setupAction(QAction *action, char key, QString tooltip,
 		     const char *slot);
+    QString tooltipStrShiftMeta(char key, QString str);
+    QString tooltipStrMeta(char key, QString str);
     QString readFile(QString name);
     QString rootPath();
 
     void addUniversalCopyShortcuts(QTextEdit *te);
 
+    QTcpSocket *clientSock;
     QFuture<void> osc_thread, server_thread;
-
+    int protocol;
+    bool focusMode;
     bool startup_error_reported;
     bool is_recording;
     bool show_rec_icon_a;
-    bool loaded_workspaces;
     QTimer *rec_flash_timer;
 
 #ifdef Q_OS_MAC
@@ -172,27 +224,31 @@ private:
     QSplashScreen* splash;
 #endif
 
-    static const int workspace_max = 8;
+    bool i18n;
+    static const int workspace_max = 10;
     SonicPiScintilla *workspaces[workspace_max];
     QWidget *prefsCentral;
     QTabWidget *docsCentral;
-    QTextEdit *outputPane;
-    QTextEdit *errorPane;
+    SonicPiLog *outputPane;
+    QTextBrowser *errorPane;
     QDockWidget *outputWidget;
     QDockWidget *prefsWidget;
+    QDockWidget *hudWidget;
     QDockWidget *docWidget;
+    QWidget *blankWidget;
+    QWidget *outputWidgetTitle;
     QTextBrowser *docPane;
+//  QTextBrowser *hudPane;
+    QWidget *mainWidget;
     bool hidingDocPane;
+    bool restoreDocPane;
 
     QTabWidget *tabs;
+    QTabWidget *prefTabs;
 
     QProcess *serverProcess;
 
     SonicPiLexer *lexer;
-
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *helpMenu;
 
     QToolBar *toolBar;
 
@@ -203,22 +259,28 @@ private:
     QCheckBox *print_output;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
+    QCheckBox *log_cues;
+    QCheckBox *show_line_numbers;
+    QCheckBox *auto_indent_on_run;
+    QCheckBox *full_screen;
+    QCheckBox *show_log;
+    QCheckBox *show_buttons;
+    QCheckBox *show_tabs;
+    QCheckBox *check_updates;
+    QPushButton *check_updates_now;
+    QPushButton *visit_sonic_pi_net;
+    QLabel *update_info;
 
     QRadioButton *rp_force_audio_hdmi;
     QRadioButton *rp_force_audio_default;
     QRadioButton *rp_force_audio_headphones;
     QSlider *rp_system_vol;
+    QSlider *gui_transparency_slider;
 
-    QAction *aboutQtAct;
-    QMap<QString, QString> *map;
-
-    QTextBrowser *infoPane;
     QWidget *infoWidg;
+    QList<QTextBrowser *> infoPanes;
     QTextEdit *startupPane;
-    QLabel *imageLabel;
-
-    int currentLine;
-    int currentIndex;
+    QVBoxLayout *mainWidgetLayout;
 
     QList<QListWidget *> helpLists;
     QHash<QString, help_entry> helpKeywords;
@@ -227,6 +289,19 @@ private:
 
     SonicPiAPIs *autocomplete;
     QString sample_path, log_path;
+    QString defaultTextBrowserStyle;
+
+    QString version;
+    int version_num;
+    QString latest_version;
+    int latest_version_num;
+
+    QSplitter *docsplit;
+
+    QLabel *versionLabel;
+
+    QString guiID;
+
 };
 
 #endif

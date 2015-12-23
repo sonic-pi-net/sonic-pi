@@ -3,11 +3,11 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 require_relative "counter"
@@ -20,7 +20,7 @@ module SonicPi
   class Jobs
 
     def initialize
-      @jobs_A = Atom.new(Hamster.hash)
+      @jobs_A = Atom.new(Hamster::Hash.new)
     end
 
     def add_job(id, job, info)
@@ -46,6 +46,10 @@ module SonicPi
           job[:job].kill
         end
       end
+    end
+
+    def running?(id)
+      @jobs_A.deref[id]
     end
 
     def each_id(&block)

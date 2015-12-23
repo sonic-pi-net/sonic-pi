@@ -3,16 +3,18 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 module SonicPi
   class Node
-    attr_reader :id, :comms
+    include SonicPi::Util
+
+    attr_reader :id, :comms, :info
 
     def initialize(id, comms, info=nil)
       @id = id
@@ -91,10 +93,13 @@ module SonicPi
 
     def ctl(*args)
       args_h = resolve_synth_opts_hash_or_array(args)
-      if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
-        @info.validate!(args_h) if @info
-      end
       @comms.node_ctl self, args_h
+      self
+    end
+
+    def ctl_now(*args)
+      args_h = resolve_synth_opts_hash_or_array(args)
+      @comms.node_ctl self, args_h, true
       self
     end
 
@@ -166,12 +171,14 @@ module SonicPi
       @state_change_sem.synchronize do
         @state = :paused
       end
+      nil
     end
 
     def handle_n_on(arg)
       @state_change_sem.synchronize do
         @state = :running
       end
+      nil
     end
 
     def handle_n_go(arg)
@@ -180,6 +187,7 @@ module SonicPi
         @state = :running
         call_on_started_callbacks if prev_state == :pending
       end
+      nil
     end
 
     def handle_n_end(arg)

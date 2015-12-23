@@ -3,11 +3,11 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 
@@ -45,7 +45,7 @@ module SonicPi
 
     def to_s
       if @dev
-        "#{@major}.#{@minor}.#{@patch}-#{@dev}"
+        "v#{@major}.#{@minor}.#{@patch}-#{@dev}"
       else
         if @patch == 0
           "v#{@major}.#{@minor}"
@@ -59,14 +59,24 @@ module SonicPi
       if ((other.is_a? Version) &&
           (@major < other.major) or
           ((@major == other.major) && (@minor < other.minor)) or
-          ((@major == other.major) && (@minor == other.minor) && (@patch < other.patch)))
-        -1
+          ((@major == other.major) && (@minor == other.minor) && (@patch < other.patch)) or
+          if (@dev && other.dev)
+            ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && (@dev.to_s < other.dev.to_s))
+          else
+            ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && @dev)
+          end)
+        return -1
       elsif
         ((other.is_a? Version) &&
-        (@major > other.major) or
+          (@major > other.major) or
           ((@major == other.major) && (@minor > other.minor)) or
-          ((@major == other.major) && (@minor == other.minor) && (@patch > other.patch)))
-        return 1
+          ((@major == other.major) && (@minor == other.minor) && (@patch > other.patch)) or
+          if (@dev && other.dev)
+            ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && (@dev.to_s > other.dev.to_s))
+          else
+            ((@major == other.major) && (@minor == other.minor) && (@patch == other.patch) && other.dev)
+          end)
+          return 1
       elsif ((other.is_a? Version) &&
           (@major == other.major) &&
           (@minor == other.minor) &&
@@ -84,6 +94,12 @@ module SonicPi
 
     def dev?
       !!@dev
+    end
+
+    def to_i
+      res = (@major * 1000) + (@minor * 100) + (@patch * 10)
+      res += 1 unless @dev
+      return res
     end
   end
 end

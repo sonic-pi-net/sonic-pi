@@ -19,18 +19,18 @@ making has taken is the Algorave (http://algorave.com) - events where
 artists code music for people to dance to. However, you don't need to be
 in a nightclub to Live Code - with Sonic Pi version 2.0 you can do it
 anywhere you can take your Raspberry Pi and a pair of headphones or some
-speakers.  Once you reach the end of this articla, you'll be programming
+speakers.  Once you reach the end of this article, you'll be programming
 your own beats and modifying them live. Where you go afterwards will
 only be constrained by your imagination.
 
 ## Getting Sonic Pi v2.0
 
-Firstly, you'll need the latest version of Sonic Pi: version 2+. 
+Firstly, you'll need the latest version of Sonic Pi: version 2+.
 
 At the time of writing, this hasn't been released yet. However, by the
 time you read this, it should be available as part of the latest
 Raspbian OS. If you have an older image on your SD cards, running the
-following should get you up to date: 
+following should get you up to date:
 
     sudo apt-get update
     sudo apt-get upgrade
@@ -63,14 +63,14 @@ started. In the main code editor window of Sonic Pi, type the following
 and then hit the Run button:
 
     sample :loop_amen
-    
+
 Boom! Instant drums! Go on, press it a few times. Have fun. I'll still
 be here when you've finished...
 
 But that's not all. We can mess around with the sample. Try this:
 
     sample :loop_amen, rate: 0.5
-    
+
 Oooh, half speed. Go on, try changing the rate. Try lower and higher
 numbers. What happens if you use a negative number?
 
@@ -90,14 +90,14 @@ times. So we have a nice way of saying that with code:
       sample :loop_amen
       sleep 1.753
     end
-    
+
 Of course, we can change the 10 to whatever number we want. Go on, try
 it! What if we want to loop forever? We simply say loop instead of
 10.times. Also, I'm sure you're asking what the magic 1.753 represents
 and how I got it. Well, it's the length of the sample in seconds and I
 got it because I asked Sonic Pi:
 
-    puts sample_duration :loop_amen 
+    puts sample_duration :loop_amen
 
 And it told me 1.753310657596372 - I just shortended it to 1.753 to make
 it easier for you to type in. Now, the cool thing is, we can combine
@@ -105,12 +105,12 @@ this code and add a variable for fun:
 
     sample_to_loop = :loop_amen
     sample_rate = 0.5
-    
+
     loop do
       sample sample_to_loop, rate: sample_rate
       sleep sample_duration sample_to_loop, rate: sample_rate
     end
-    
+
 Now, you can change the :loop_amen to any of the other loop samples (use
 the auto-complete to discover them). Change the rate too. Have fun!
 
@@ -123,13 +123,13 @@ support for studio effects such as reverb and echo and distortion. These
 are really easy to use. For example take the following sample trigger code:
 
     sample :guit_e_fifths
-    
+
 To add some reverb to this, we simply need to wrap it with a with_fx block:
 
     with_fx :reverb do
       sample :guit_e_fifths
     end
-    
+
 To add some distortion too, we can add more fx:
 
     with_fx :reverb do
@@ -137,7 +137,7 @@ To add some distortion too, we can add more fx:
         sample :guit_e_fifths
       end
     end
-    
+
 Just like synths and samples, FX also support parameters to allow you to
 tinker with their settings:
 
@@ -145,7 +145,7 @@ tinker with their settings:
       with_fx :distortion, distort: 0.8 do
         sample :guit_e_fifths
       end
-    end 
+    end
 
 Of course, you can wrap FX blocks around any code. For example here's
 how you'd combine the :ixi_techno FX and our drum loop:
@@ -164,13 +164,13 @@ For a complete list of FX and their parameters click the help button.
 Now we've mastered the basics of triggering samples, sleeping and
 looping, let's do the same with some synths and then jump head first
 into live coding territory:
-    
+
     loop do
       use_synth :tb303
       play 30, attack: 0, release: 0.2
       sleep 0.5
     end
-    
+
 So, what do the numbers mean in this example? Well, you could stop it
 playing, change a number, then start it and see if you can hear the
 difference. However all that stopping and starting gets quite
@@ -182,11 +182,11 @@ changes. We need to put our code into a named function which we loop:
       play 42, attack: 0, release: 0.2
       sleep 0.5
     end
-    
-    loop do 
+
+    loop do
       play_my_synth
     end
-    
+
 Now when you run this it will sound exactly the same as the simpler loop
 above. However, now we have given our code a name (in this case,
 play_my_synth) we can change the definition of our code whilst things
@@ -209,11 +209,11 @@ should look like this:
       play 45, attack: 0, release: 0.2, cutoff: 70
       sleep 0.5
     end
-    
+
     # loop do
     #   play_my_synth
     # end
-    
+
 Then hit the run button again. You should hear the note go higher. Try
 changing the attack and release and cutoff parameters. Listen to the
 effect they have. Notice that attack and release change the length of
@@ -232,7 +232,7 @@ value from a list of numbers. Try changing 45 to chord(:a3,
 :minor).choose. Your play line should look like this:
 
     play chord(:a2, :minor).choose, attack: 0, release: 0.3, cutoff: rrand(30, 100)
-    
+
 Now you can start experimenting with different chords and range values
 for cutoff. You can do something similar with the pan value too:
 

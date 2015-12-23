@@ -21,6 +21,8 @@
         <file>images/icon-smaller.png</file>
         <file>images/logo.png</file>
         <file>images/logo-smaller.png</file>
+        <file>images/logo-smaller-dark.png</file>
+        <file>images/logo.txt</file>
         <file>images/tutorial/sample.png</file>
         <file>images/tutorial/env-attack-release.png</file>
         <file>images/tutorial/env-attack-decay-sustain-release.png</file>
@@ -28,14 +30,29 @@
         <file>images/tutorial/env-long-attack-short-release.png</file>
         <file>images/tutorial/env-release.png</file>
         <file>images/tutorial/env-short-attack-short-release.png</file>
+        <file>images/tutorial/env-decay-level.png</file>
+        <file>images/tutorial/env-decay-level-2.png</file>
         <file>images/tutorial/GUI.png</file>
 
         <file>images/coreteam/samaaron.png</file>
         <file>images/coreteam/josephwilk.png</file>
         <file>images/coreteam/xavierriley.png</file>
-	<file>images/coreteam/jweather.png</file>
+        <file>images/coreteam/jweather.png</file>
 
-	<file>html/info.html</file>
-	<file>html/startup.html</file>
+        <file>html/doc.html</file>
+        <file>html/info.html</file>
+        <file>html/startup.html</file>
+
+        <file>theme/light/doc-styles.css</file>
+        <file>theme/dark/doc-styles.css</file>
+
+        <file>lang/sonic-pi_de.qm</file>
+        <file>lang/sonic-pi_is.qm</file>
+        <file>lang/sonic-pi_ja.qm</file>
+        <file>lang/sonic-pi_nb.qm</file>
+        <file>lang/sonic-pi_pl.qm</file>
+        <file>lang/sonic-pi_fr.qm</file>
+        <file>lang/sonic-pi_es.qm</file>
+        <file>lang/sonic-pi_hu.qm</file>
     </qresource>
 </RCC>

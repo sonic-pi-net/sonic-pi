@@ -3,11 +3,11 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 require_relative 'wrappingarray'
@@ -80,7 +80,7 @@ module SonicPi
         "dim7"        => dim7,
         "i7"          => dim7}}.call
 
-    attr_reader :name, :tonic, :notes
+    attr_reader :name, :tonic, :notes, :num_octaves
 
     def self.resolve_degree(degree, tonic, name, no_of_notes)
       name = name.to_s
@@ -89,20 +89,25 @@ module SonicPi
       scale.notes.drop(degree_int).select.with_index{|_, i| i % 2 == 0}.take(no_of_notes)
     end
 
-    def initialize(tonic, name)
+    def initialize(tonic, name, num_octaves=1)
+      num_octaves = 1 unless num_octaves
       name = name.to_s
       intervals = CHORD[name]
       raise "Unknown chord name: #{name.inspect}" unless intervals
 
       tonic = Note.resolve_midi_note_without_octave(tonic)
       res = []
-      intervals.each do |i|
-        res << tonic + i
+
+      num_octaves.times do |o|
+        intervals.each do |i|
+          res << tonic + i + (o * 12)
+        end
       end
 
       @name = name
       @tonic = tonic
       @notes = res
+      @num_octaves = num_octaves
       super(res)
     end
 

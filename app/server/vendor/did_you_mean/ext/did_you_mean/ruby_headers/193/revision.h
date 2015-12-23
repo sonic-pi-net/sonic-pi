@@ -1,1 +1,0 @@
-#define RUBY_REVISION 44868

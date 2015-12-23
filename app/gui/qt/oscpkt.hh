@@ -58,13 +58,14 @@
 
 #ifndef _MSC_VER
 #include <stdint.h>
+#include <arpa/inet.h>
 #else
-namespace oscpkt {
-  typedef __int32 int32_t;
-  typedef unsigned __int32 uint32_t;
-  typedef __int64 int64_t;
-  typedef unsigned __int64 uint64_t;
-}
+#include <winsock2.h>
+typedef __int32 int32_t;
+typedef unsigned __int32 uint32_t;
+typedef __int64 int64_t;
+typedef unsigned __int64 uint64_t;
+
 #endif
 #include <cstring>
 #include <cassert>
@@ -577,7 +578,7 @@ private:
 class PacketWriter {
 public:
   PacketWriter() { init(); }
-  PacketWriter &init() { err = OK_NO_ERROR; storage.clear(); bundles.clear(); return *this; }
+  PacketWriter &init() { err = OK_NO_ERROR; streamBuffer.resize(0); storage.clear(); bundles.clear(); return *this; }
   
   /** begin a new bundle. If you plan to pack more than one message in the Osc packet, you have to 
       put them in a bundle. Nested bundles inside bundles are also allowed. */
@@ -623,8 +624,24 @@ public:
   
   /** return the bytes of the osc packet (NULL if the construction of the packet has failed) */
   char *packetData() { return err ? 0 : storage.begin(); }
+
+  /** Modified from original: Return the bytes of the osc packet precedded by byte size*/
+  char *packetDataForStream() {
+      if(err){
+        return 0;
+      }
+      else{
+        uint32_t networkSize = htonl(packetSize());
+        streamBuffer.resize(packetSize()+sizeof(uint32_t));
+        memcpy(&streamBuffer[0],                &networkSize,    sizeof(uint32_t));
+        memcpy(&streamBuffer[sizeof(uint32_t)], storage.begin(), (uint32_t)packetSize());
+        return &streamBuffer.front();
+      }
+}
+
 private:  
   std::vector<size_t> bundles; // hold the position in the storage array of the beginning marker of each bundle
+  std::vector<char> streamBuffer; //Modified from original: Hold size+data for stream
   Storage storage;
   ErrorCode err;
 };

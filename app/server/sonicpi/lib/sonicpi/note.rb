@@ -3,13 +3,14 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
+require "hamster/hash"
 module SonicPi
   class Note
 
@@ -93,17 +94,23 @@ module SonicPi
 
     def self.resolve_note_name(n, o=nil)
       note = resolve_midi_note(n, o)
-      note = note % 12
+      note = note.to_i % 12
       INTERVALS_TO_NOTES[note]
     end
 
     attr_reader :pitch_class, :octave, :interval, :midi_note, :midi_string
 
     def initialize(n, o=nil)
+      if n.is_a? Numeric
+        o = (n / 12).to_i - 1
+        n = n % 12
+        n = Note.resolve_note_name(n.to_f)
+      end
+      orig_n = n
       n = n.to_s
 
       m = MIDI_NOTE_RE.match n
-      raise InvalidNoteError, "Invalid note: #{n}" unless m
+      raise InvalidNoteError, "Invalid note: #{orig_n.inspect}" unless m
 
       @pitch_class = "#{m[2].capitalize}#{unify_sharp_flat_modifier(m[3])}".to_sym
 
@@ -116,9 +123,13 @@ module SonicPi
 
       @interval = NOTES_TO_INTERVALS[m[1].downcase.to_sym]
 
-      raise InvalidNoteError, "Invalid note: #{n}" unless @interval
+      raise InvalidNoteError, "Invalid note: #{orig_n.inspect}" unless @interval
       @midi_note = (@octave * 12) + @interval + 12
       @midi_string = "#{@pitch_class.capitalize}#{@octave}"
+    end
+
+    def to_hamster
+      Hamster::Hash.new({:pitch_class => @pitch_class, :octave => @octave, :interval => @interval, :midi_note => @midi_note, :midi_string => @midi_string})
     end
 
     def to_s

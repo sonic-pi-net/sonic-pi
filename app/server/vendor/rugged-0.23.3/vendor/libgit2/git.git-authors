@@ -1,0 +1,74 @@
+# This document lists the authors that have given voice to
+# their decision regarding relicensing the GPL'd code from
+# git.git to the GPL + gcc-exception license used by libgit2.
+#
+# Note that the permission is given for libgit2 use only. For
+# other uses, you must ask each of the contributors yourself.
+#
+# To show the owners of a file in git.git, one can run the
+# following command:
+#
+#  git blame -C -C -M -- file | \
+#    sed -e 's/[^(]*(\([^0-9]*\).*/\1/' -e 's/[\t ]*$//' | \
+#      sort | uniq -c | sort -nr
+#
+# If everyone on the list that produces are on the list in
+# the recently added file "git.git-authors", it *should* be
+# safe to include that code in libgit2, but make sure to
+# read the file to ensure the code doesn't originate from
+# somewhere else.
+#
+# The format of this list is
+# "ok/no/ask/???"<tab>"Author"<space>"<email>"
+#
+# "ok" means the author consents to relicensing all their
+#   contributed code (possibly with some exceptions)
+# "no" means the author does not consent
+# "ask" means that the contributor wants to give/withhold
+#   his/her consent on a patch-by-patch basis.
+# "???" means the person is a prominent contributor who has
+#   not yet made his/her standpoint clear.
+#
+# Please try to keep the list alphabetically ordered. It will
+# help in case we get all 600-ish git.git authors on it.
+#
+# (Paul Kocher is the author of the mozilla-sha1 implementation
+#  but has otherwise not contributed to git.)
+#
+ok	Adam Simpkins <adam@adamsimpkins.net> (http transport)
+ok	Adrian Johnson <ajohnson@redneon.com>
+ok	Alexey Shumkin <alex.crezoff@gmail.com>
+ok	Andreas Ericsson <ae@op5.se>
+ok	Boyd Lynn Gerber <gerberb@zenez.com>
+ok	Brandon Casey <drafnel@gmail.com>
+ok	Brian Downing <bdowning@lavos.net>
+ok	Brian Gernhardt <benji@silverinsanity.com>
+ok	Christian Couder <chriscool@tuxfamily.org>
+ok	Daniel Barkalow <barkalow@iabervon.org>
+ok	Florian Forster <octo@verplant.org>
+ok	Gustaf Hendeby <hendeby@isy.liu.se>
+ok	Holger Weiss <holger@zedat.fu-berlin.de>
+ok	Jeff King <peff@peff.net>
+ok	Johannes Schindelin <Johannes.Schindelin@gmx.de>
+ok	Johannes Sixt <j6t@kdbg.org>
+ask	Jonathan Nieder <jrnieder@gmail.com>
+ok	Junio C Hamano <gitster@pobox.com>
+ok	Kristian Høgsberg <krh@redhat.com>
+ok	Linus Torvalds <torvalds@linux-foundation.org>
+ok	Lukas Sandström <lukass@etek.chalmers.se>
+ok	Matthieu Moy <Matthieu.Moy@imag.fr>
+ok	Michael Haggerty <mhagger@alum.mit.edu>
+ok	Nicolas Pitre <nico@fluxnic.net> <nico@cam.org>
+ok	Paolo Bonzini <bonzini@gnu.org>
+ok	Paul Kocher <paul@cryptography.com>
+ok	Peter Hagervall <hager@cs.umu.se>
+ok	Petr Onderka <gsvick@gmail.com>
+ok	Pierre Habouzit <madcoder@debian.org>
+ok	Pieter de Bie <pdebie@ai.rug.nl>
+ok	René Scharfe <rene.scharfe@lsrfire.ath.cx>
+ok	Sebastian Schuberth <sschuberth@gmail.com>
+ok	Shawn O. Pearce <spearce@spearce.org>
+ok	Steffen Prohaska <prohaska@zib.de>
+ok	Sven Verdoolaege <skimo@kotnet.org>
+ask	Thomas Rast <tr@thomasrast.ch> (ok before 6-Oct-2013)
+ok	Torsten Bögershausen <tboegi@web.de>

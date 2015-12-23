@@ -3,20 +3,17 @@
 use_debug false
 load_sample :bd_fat
 
-8.times do |a|
-  sample :bd_fat, amp: 5 * (inc a).to_f / 8
+8.times do
+  sample :bd_fat, amp: (line 0, 5, steps: 8).tick
   sleep 0.5
 end
 
-loop do
-  in_thread do
-    32.times do
-      sample :bd_fat, amp: 5
-      sleep 0.5
-    end
-  end
+live_loop :drums do
+  sample :bd_fat, amp: 5
+  sleep 0.5
+end
 
-
+live_loop :acid do
   cue :foo
   4.times do |i|
     use_random_seed 667
@@ -30,7 +27,7 @@ loop do
   cue :bar
   32.times do |i|
     use_synth :tb303
-    play chord(:a3, :minor).choose, attack: 0, release: 0.05, cutoff: rrand_i(70, 98) + i, res: rrand(0.05, 0.1)
+    play chord(:a3, :minor).choose, attack: 0, release: 0.05, cutoff: rrand_i(70, 98) + i, res: rrand(0.9, 0.95)
     sleep 0.125
   end
 
@@ -56,5 +53,5 @@ loop do
     end
   end
 
-  sleep 8 * 0.25
+  sleep 4
 end

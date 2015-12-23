@@ -4,29 +4,29 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 
 require_relative "../core.rb"
-require_relative "../sonicpi/lib/sonicpi/synthinfo"
+require_relative "../sonicpi/lib/sonicpi/synths/synthinfo"
 require_relative "../sonicpi/lib/sonicpi/util"
 
 include SonicPi::Util
 
 
 File.open( "#{cheatsheets_path}/synths.md", 'w' ) do |f|
- f << SonicPi::SynthInfo.synth_doc_markdown
+ f << SonicPi::Synths::SynthInfo.synth_doc_markdown
 end
 
 File.open( "#{cheatsheets_path}/fx.md", 'w') do |f|
- f << SonicPi::SynthInfo.fx_doc_markdown
+ f << SonicPi::Synths::SynthInfo.fx_doc_markdown
 end
 
 File.open( "#{cheatsheets_path}/samples.md", 'w') do |f|
- f << SonicPi::SynthInfo.samples_doc_markdown
+ f << SonicPi::Synths::SynthInfo.samples_doc_markdown
 end

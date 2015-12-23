@@ -3,16 +3,17 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 module SonicPi
   class Buffer
     attr_reader :id, :num_frames, :num_chans, :sample_rate, :duration
+    attr_accessor :path
     def initialize(server, id, num_frames, num_chans, sample_rate)
       @server = server
       @id = id
@@ -22,6 +23,7 @@ module SonicPi
       @duration = num_frames.to_f / sample_rate.to_f
       @state = :live
       @mutex = Mutex.new
+      @path = nil
     end
 
     def to_i
@@ -39,7 +41,11 @@ module SonicPi
     end
 
     def to_s
-      "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}>"
+      if @path
+        "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}, @path=#{@path}>"
+      else
+        "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}>"
+      end
     end
 
     def inspect

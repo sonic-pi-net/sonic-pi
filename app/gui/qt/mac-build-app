@@ -5,22 +5,23 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 
 ## ---- Modify these to point to your system
-QSCINTILLA=/Users/sam/Downloads/tmp/QScintilla-gpl-2.8.4-snapshot-aafc4a7247fb/Qt4Qt5
+QSCINTILLA=/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
 QTBIN=/Users/sam/Development/Qt/5.4/clang_64/bin
-LIBQS=libqscintilla2.11.2.0.dylib
-LIBQS_LINK=libqscintilla2.11.dylib
+LIBQS=libqscintilla2.12.0.0.dylib
+LIBQS_LINK=libqscintilla2.12.dylib
 ## ----
 
 QMAKE=$QTBIN/qmake
+LREL=$QTBIN/lrelease
 MACDEPLOYQT=$QTBIN/macdeployqt
 LIBQS_PATH=$QSCINTILLA/$LIBQS
 
@@ -35,7 +36,10 @@ mkdir build
 
 # Generate automated docs
 cp -f ruby_help.tmpl ruby_help.h
-../../server/bin/qt-doc.rb -o ruby_help.h
+../../server/native/osx/ruby/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
+
+# Generate i18n files
+$LREL SonicPi.pro
 
 # Build app
 $QMAKE -o Makefile SonicPi.pro

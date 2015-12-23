@@ -17,7 +17,7 @@ module RBeautify
 
     source.lines.each_with_index do |line_content, line_number|
       line = RBeautify::Line.new(language, line_content, line_number, block, use_tabs)
-      dest += line.format + "\n"
+      dest += line.format
       block = line.block
     end
 

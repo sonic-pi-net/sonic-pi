@@ -64,6 +64,7 @@ Links to original samples:
 * :guit_harmonics - http://freesound.org/people/BStateham/sounds/141524/<
 * :guit_e_fifths - http://freesound.org/people/Sub-d/sounds/46990/
 * :guit_e_slide - http://freesound.org/people/Suva/sounds/2410/
+* :guit_em9 - http://www.freesound.org/people/Sub-d/sounds/46992/ 
 
 ## Misc
 
@@ -72,6 +73,8 @@ Links to original samples:
 ## Percussion
 
 * :perc_bell - http://freesound.org/people/AlaskaRobotics/sounds/221515/
+* :perc_snap - http://www.freesound.org/people/SoundCollectah/sounds/109400/
+* :perc_snap2 - http://www.freesound.org/people/Peram/sounds/158615/
 
 ## Ambient
 
@@ -111,6 +114,7 @@ Links to original samples:
 * :bd_klub - http://freesound.org/people/zgump/sounds/83262/
 * :bd_fat - http://freesound.org/people/cubix/sounds/124386/
 * :bd_tek - http://freesound.org/people/DWSD/sounds/171104/
+* :bd_ada - http://www.freesound.org/people/adammusic18/sounds/208871/
 
 ## Snares
 

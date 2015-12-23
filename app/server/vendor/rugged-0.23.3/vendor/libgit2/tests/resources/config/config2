@@ -1,0 +1,5 @@
+; This one tests for multiline values
+[this "That"]
+	  and = one one one \
+two two \
+three three

@@ -13,17 +13,51 @@
 
 
 #include <Qsci/qsciscintilla.h>
+#include "sonicpitheme.h"
 
 class SonicPiLexer;
 class QSettings;
 
 class SonicPiScintilla : public QsciScintilla
 {
+  Q_OBJECT
+
  public:
-  SonicPiScintilla(SonicPiLexer *lexer);
-  
+  SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme);
+
   virtual QStringList apiContext(int pos, int &context_start,
 				 int &last_word_start);
+  SonicPiTheme *theme;
+  void redraw();
+
+  public slots:
+    void cutLineFromPoint();
+    void tabCompleteifList();
+    void transposeChars();
+    void setMark();
+    void escapeAndCancelSelection();
+    void copyClear();
+    void hideLineNumbers();
+    void showLineNumbers();
+    void setLineErrorMarker(int lineNumber);
+    void clearLineMarkers();
+    void replaceLine(int lineNumber, QString newLine);
+    void replaceLines(int lineStart, int lineFinish, QString newLines);
+    void forwardLines(int numLines);
+    void forwardTenLines();
+    void backTenLines();
+    void moveLineOrSelection(int numLines);
+    void moveLineOrSelectionUp();
+    void moveLineOrSelectionDown();
+    int incLineNumWithinBounds(int linenum, int inc);
+    void moveLines(int numLines);
+    void deselect();
+    void upcaseWordOrSelection();
+    void downcaseWordOrSelection();
+    void highlightAll();
+    void unhighlightAll();
+    void zoomFontIn();
+    void zoomFontOut();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);

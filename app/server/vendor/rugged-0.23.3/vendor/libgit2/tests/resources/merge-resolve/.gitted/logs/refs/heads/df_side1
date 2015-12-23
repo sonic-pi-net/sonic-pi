@@ -1,0 +1,14 @@
+0000000000000000000000000000000000000000 bd593285fc7fe4ca18ccdbabf027f5d689101452 Edward Thomson <ethomson@edwardthomson.com> 1354574697 -0600	branch: Created from HEAD
+bd593285fc7fe4ca18ccdbabf027f5d689101452 d4207f77243500bec335ab477f9227fcdb1e271a Edward Thomson <ethomson@edwardthomson.com> 1354574962 -0600	commit: df_ancestor
+d4207f77243500bec335ab477f9227fcdb1e271a c94b27e41064c521120627e07e2035cca1d24ffa Edward Thomson <ethomson@edwardthomson.com> 1354575027 -0600	commit: df_side1
+c94b27e41064c521120627e07e2035cca1d24ffa a90bc3fb6f15181972a2959a921429efbd81a473 Edward Thomson <ethomson@edwardthomson.com> 1355017650 -0600	commit: df_added
+a90bc3fb6f15181972a2959a921429efbd81a473 005b6fcc8fec71d2550bef8462d169b3c26aa14b Edward Thomson <ethomson@edwardthomson.com> 1355017676 -0600	rebase -i (finish): refs/heads/df_side1 onto c94b27e
+005b6fcc8fec71d2550bef8462d169b3c26aa14b f8958bdf4d365a84a9a178b1f5f35ff1dacbd884 Edward Thomson <ethomson@edwardthomson.com> 1355017715 -0600	reset: moving to df_side2
+f8958bdf4d365a84a9a178b1f5f35ff1dacbd884 8c749d9968d4b10dcfb06c9f97d0e5d92d337071 Edward Thomson <ethomson@edwardthomson.com> 1355017744 -0600	commit: df_added
+8c749d9968d4b10dcfb06c9f97d0e5d92d337071 0204a84f822acbf6386b36d33f1f6bc68bbbf858 Edward Thomson <ethomson@edwardthomson.com> 1355017756 -0600	rebase -i (finish): refs/heads/df_side1 onto f8958bd
+0204a84f822acbf6386b36d33f1f6bc68bbbf858 005b6fcc8fec71d2550bef8462d169b3c26aa14b Edward Thomson <ethomson@edwardthomson.com> 1355017793 -0600	reset: moving to 005b6fcc8fec71d2550bef8462d169b3c26aa14b
+005b6fcc8fec71d2550bef8462d169b3c26aa14b 0204a84f822acbf6386b36d33f1f6bc68bbbf858 Edward Thomson <ethomson@edwardthomson.com> 1355017826 -0600	reset: moving to 0204a84
+005b6fcc8fec71d2550bef8462d169b3c26aa14b e8107f24196736b870a318a0e28f048e29f6feff Edward Thomson <ethomson@edwardthomson.com> 1355169065 -0600	commit: df_side1
+e8107f24196736b870a318a0e28f048e29f6feff 80a8fbb3abb1ba423d554e9630b8fc2e5698f86b Edward Thomson <ethomson@edwardthomson.com> 1355169084 -0600	rebase -i (finish): refs/heads/df_side1 onto 005b6fc
+80a8fbb3abb1ba423d554e9630b8fc2e5698f86b e65a9bb2af9f4c2d1c375dd0f8f8a46cf9c68812 Edward Thomson <ethomson@edwardthomson.com> 1355169419 -0600	commit: side1
+e65a9bb2af9f4c2d1c375dd0f8f8a46cf9c68812 5dc1018e90b19654bee986b7a0c268804d39659d Edward Thomson <ethomson@edwardthomson.com> 1355169435 -0600	rebase -i (finish): refs/heads/df_side1 onto 80a8fbb

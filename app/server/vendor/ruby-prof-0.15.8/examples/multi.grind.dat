@@ -1,0 +1,114 @@
+events: wall_time
+
+fl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+fn=Array#first
+0 1
+
+fl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+fn=Object#find_largest
+31 3
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Array#first
+calls=1 32
+32 1
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Integer#upto
+calls=1 36
+36 11
+
+fl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+fn=Integer#upto
+0 2582
+
+fl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+fn=Object#is_prime
+16 92
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Integer#upto
+calls=200 18
+18 2571
+
+fl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+fn=Array#select
+0 84
+cfl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+cfn=Object#is_prime
+calls=200 26
+26 2663
+
+fl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+fn=Object#find_primes
+24 2
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Array#select
+calls=1 25
+25 2747
+
+fl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+fn=Kernel#respond_to_missing?
+0 30
+
+fl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+fn=Kernel#rand
+0 87
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Kernel#respond_to_missing?
+calls=200 10
+10 30
+
+fl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+fn=Array#each_index
+0 70
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Kernel#rand
+calls=200 10
+10 118
+
+fl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+fn=Array#initialize
+0 2
+
+fl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+fn=Class#new
+0 4
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Array#initialize
+calls=1 8
+8 2
+
+fl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+fn=Object#make_random_array
+7 3
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Class#new
+calls=1 8
+8 6
+cfl=/Users/stefan.kaes/src/ruby-prof/ruby_runtime
+cfn=Array#each_index
+calls=1 9
+9 188
+
+fl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+fn=Object#run_primes
+45 2
+cfl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+cfn=Object#make_random_array
+calls=1 47
+47 197
+cfl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+cfn=Object#find_primes
+calls=1 50
+50 2749
+cfl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+cfn=Object#find_largest
+calls=1 53
+53 15
+
+fl=/Users/stefan.kaes/src/ruby-prof/test/printers_test.rb
+fn=PrintersTest#setup
+14 5
+cfl=/Users/stefan.kaes/src/ruby-prof/test/prime.rb
+cfn=Object#run_primes
+calls=1 14
+14 2963
+

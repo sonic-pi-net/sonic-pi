@@ -3,11 +3,11 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 require_relative "synthnode"
@@ -53,6 +53,10 @@ module SonicPi
 
     def control(*args)
       @node.ctl(*args)
+    end
+
+    def ctl_now(*args)
+      @node.ctl_now(*args)
     end
 
     def live?
@@ -101,6 +105,10 @@ module SonicPi
 
     def blank_node?
       false
+    end
+
+    def info
+      @node.info
     end
   end
 end

@@ -4,11 +4,11 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 
@@ -16,43 +16,322 @@ raise "Sonic Pi requires Ruby 1.9.3+ to be installed. You are using version #{RU
 
 ## This core file sets up the load path and applies any necessary monkeypatches.
 
+## Ensure native lib dir is available
+require 'rbconfig'
+ruby_api = RbConfig::CONFIG['ruby_version']
+os = case RUBY_PLATFORM
+     when /.*arm.*-linux.*/
+       :raspberry
+     when /.*linux.*/
+       :linux
+     when /.*darwin.*/
+       :osx
+     when /.*mingw.*/
+       :windows
+     else
+       RUBY_PLATFORM
+     end
+$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/"
+
+require 'win32/process' if os == :windows
+
 ## Ensure all libs in vendor directory are available
 Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
   $:.unshift vendor_lib
 end
 
-require 'did_you_mean' unless RUBY_VERSION < "2.0.0"
+begin
+  require 'did_you_mean'
+rescue LoadError
+  warn "Non-critical error: Could not load did_you_mean"
+end
 
-require 'osc-ruby'
+require 'hamster/vector'
+require 'wavefile'
+
+module SonicPi
+  module Core
+    module SPRand
+      # Read in same random numbers as server for random stream sync
+      @@random_numbers = ::WaveFile::Reader.new(File.expand_path("../../../etc/buffers/rand-stream.wav", __FILE__), ::WaveFile::Format.new(:mono, :float, 44100)).read(441000).samples.freeze
+
+      def self.to_a
+        @@random_numbers
+      end
+
+      def self.inc_idx!(increment=1, init=0)
+        ridx = Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || init
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx + increment
+        ridx
+      end
+
+      def self.dec_idx!(decrement=1, init=0)
+        ridx = Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || init
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, ridx - decrement
+        ridx
+      end
+
+      def self.set_seed!(seed, idx=0)
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_seed, seed
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, idx
+      end
+
+      def self.set_idx!(idx)
+        Thread.current.thread_variable_set :sonic_pi_spider_random_gen_idx, idx
+      end
+
+      def self.get_seed_and_idx
+        [Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed),
+          Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx)]
+      end
+
+      def self.get_seed
+        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed) || 0
+      end
+
+      def self.get_idx
+        Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || 0
+      end
+
+      def self.rand!(max=1, idx=nil)
+        idx = inc_idx! unless idx
+        rand_peek(max, idx)
+      end
+
+      def self.rand_peek(max=1, idx=nil, seed=nil)
+        idx = get_idx unless idx
+        seed = get_seed unless seed
+        idx = seed + idx
+        # we know that the fixed rand stream has length 441000
+        # also, scsynth server seems to swallow first rand
+        # so always add 1 to index
+        idx = (idx + 1) % 441000
+        @@random_numbers[idx] * max
+      end
+
+      def self.rand_i!(max, idx=nil)
+        rand!(max, idx).to_i
+      end
+
+    end
+
+    module TLMixin
+      def tick(*args)
+        idx = SonicPi::Core::ThreadLocalCounter.tick(*args)
+        self[idx]
+      end
+
+      def look(*args)
+        idx = SonicPi::Core::ThreadLocalCounter.look(*args)
+        self[idx]
+      end
+    end
+
+    module ThreadLocalCounter
+      def self.get_or_create_counters
+        counters = Thread.current.thread_variable_get(:sonic_pi_core_thread_local_counters)
+        return counters if counters
+        counters = {}
+        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, counters)
+        counters
+      end
+
+      def self.tick(k = :___sonic_pi_default_tick_key___, *args)
+        k = (k && k.is_a?(String)) ? k.to_sym : k
+        if k.is_a? Symbol
+          opts = args.first || {}
+        else
+          opts = k
+          k = :___sonic_pi_default_tick_key___
+        end
+
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+        raise "Tick opts must be key value pairs, got: #{opts.inspect}" unless opts.is_a? Hash
+        step = opts[:step] || 1
+        offset = opts[:offset] || 0
+        counters = get_or_create_counters
+        if counters[k]
+          curr_val, next_val = *counters[k]
+          counters[k] = [next_val + step-1, next_val + step]
+          return next_val + step-1 + offset
+        else
+          counters[k] = [step-1, step]
+          return step-1 + offset
+        end
+      end
+
+      def self.look(k = :___sonic_pi_default_tick_key___, *args)
+        k = (k && k.is_a?(String)) ? k.to_sym : k
+        if k.is_a? Symbol
+          opts = args.first || {}
+        else
+          opts = k
+          k = :___sonic_pi_default_tick_key___
+        end
+
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+        offset = opts[:offset] || 0
+        counters = get_or_create_counters
+        val, _ = *counters[k]
+        return (val || 0) + offset
+      end
+
+      def self.set(k=:___sonic_pi_default_tick_key___, v)
+        if k.is_a? Numeric
+          v = k
+          k = :___sonic_pi_default_tick_key___
+        end
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+        raise "Tick value must be a number, got #{v.class}: #{v.inspect}" unless v.is_a? Numeric
+        counters = get_or_create_counters
+        counters[k] = [v, v]
+        v
+      end
+
+      def self.rm(k=:___sonic_pi_default_tick_key___)
+        raise "Tick key must be a symbol, got #{k.class}: #{k.inspect}" unless k.is_a? Symbol
+        counters = get_or_create_counters
+        counters.delete(k)
+        nil
+      end
+
+      def self.reset_all
+        Thread.current.thread_variable_set(:sonic_pi_core_thread_local_counters, {})
+        nil
+      end
+    end
+  end
+end
 
 
 module SonicPi
   module Core
-    class RingArray < Array
-      def [](idx, len=nil)
-        return self.to_a[idx, len] if len
+    class EmptyVectorError < StandardError ; end
+    class InvalidIndexError < StandardError ; end
 
-        idx = idx.to_i % size if idx.is_a? Numeric
-        self.to_a[idx]
+    class SPVector < Hamster::Vector
+      include TLMixin
+      def initialize(list)
+        raise EmptyVectorError, "Cannot create an empty vector" if list.empty?
+        super
       end
 
-      # TODO - ensure this returns a ring array
-      def slice(idx, len=nil)
-        return self.to_a.slice(idx, len) if len
+      def ___sp_vector_name
+        "vector"
+      end
 
-        idx = idx.to_i % size if idx.is_a? Numeric
-        self.to_a.slice(idx)
+      def ___sp_preserve_vec_kind(a)
+        self.class.new(a)
+      end
+
+      def [](idx, len=(missing_length = true))
+        raise InvalidIndexError, "Invalid index: #{idx.inspect}, was expecting a number or range" unless idx && (idx.is_a?(Numeric) || idx.is_a?(Range))
+        if idx.is_a?(Numeric) && missing_length
+          idx = map_index(idx)
+          super idx
+        else
+          if missing_length
+            super(idx)
+          else
+            super(idx, len)
+          end
+        end
+      end
+
+      def choose
+        self[SonicPi::Core::SPRand.rand_i!(self.size)]
+      end
+
+      def sample
+        choose
       end
 
       def ring
-        self
+        SonicPi::Core::RingVector.new(self)
+      end
+
+      def ramp
+        SonicPi::Core::RampVector.new(self)
+      end
+
+      def to_s
+        inspect
+      end
+
+      def reflect(n=1)
+        res = self + self.reverse.drop(1)
+        res = res + (res.drop(1) * (n - 1)) if n > 1
+        res
+      end
+
+      def mirror(n=1)
+        (self + self.reverse) * n
+      end
+
+      def repeat(n=2)
+        n = 1 if n < 1
+        self * n
+      end
+
+      def drop_last(n=1)
+        self[0...(size-n)]
+      end
+
+      def take_last(n=1)
+        self if n >= size
+        self[(size-n)..-1]
+      end
+
+      def butlast
+        drop_last(1)
+      end
+
+      def inspect
+        a = self.to_a
+        if a.empty?
+          "(#{___sp_vector_name})"
+        else
+          "(#{___sp_vector_name} #{a.inspect[1...-1]})"
+        end
       end
 
       def to_a
         Array.new(self)
       end
 
-      #TODO:    def each_with_ring
+      def stretch(num_its)
+        res = []
+        self.each do |v|
+          num_its.times do
+            res << v
+          end
+        end
+        ___sp_preserve_vec_kind(res)
+      end
+    end
+
+    class RingVector < SPVector
+      def map_index(idx)
+        idx = idx % size
+        return idx
+      end
+
+      def ___sp_vector_name
+        "ring"
+      end
+    end
+
+    class RampVector < SPVector
+      def map_index(idx)
+        idx = idx.to_i
+        idx = [idx, size - 1].min
+        idx = [idx, 0].max
+        return idx
+      end
+
+      def ___sp_vector_name
+        "ramp"
+      end
     end
   end
 end
@@ -62,11 +341,31 @@ class String
   def shuffle
     self.chars.to_a.shuffle.join
   end
+
+  def ring
+    self.chars.ring
+  end
+end
+
+class Numeric
+  def max(other)
+    return self if self <= other
+    other
+  end
+
+  def min(other)
+    return self if self >= other
+    other
+  end
 end
 
 class Symbol
   def shuffle
     self.to_s.shuffle.to_sym
+  end
+
+  def ring
+    self.to_s.ring
   end
 end
 
@@ -75,163 +374,6 @@ class Float
     self.to_i.times do |idx|
       yield idx.to_f
     end
-  end
-end
-
-
-#Monkeypatch osc-ruby to add sending skills to Servers
-#https://github.com/samaaron/osc-ruby/commit/bfc31a709cbe2e196011e5e1420827bd0fc0e1a8
-#and other improvements
-module OSC
-
-  class Client
-    def send_raw(mesg)
-      @so.send(mesg, 0)
-    end
-  end
-
-  class Server
-    def send(msg, address, port)
-      @socket.send msg.encode, 0, address, port
-    end
-
-    def send_raw(msg, address, port)
-      @socket.send msg, 0, address, port
-    end
-
-    def initialize(port, open=false)
-      @socket = UDPSocket.new
-      if open
-        @socket.bind('', port )
-      else
-        @socket.bind('localhost', port )
-      end
-      @matchers = []
-      @queue = Queue.new
-    end
-
-    def safe_detector
-      loop do
-        begin
-          osc_data, network = @socket.recvfrom( 16384 )
-          ip_info = Array.new
-          ip_info << network[1]
-          ip_info.concat(network[2].split('.'))
-          OSCPacket.messages_from_network( osc_data, ip_info ).each do |message|
-            @queue.push(message)
-          end
-        rescue Exception => e
-          Kernel.puts e.message
-        end
-      end
-    end
-
-    def safe_run
-      Thread.fork do
-        begin
-          dispatcher
-        rescue Exception => e
-          Kernel.puts e.message
-          Kernel.puts e.backtrace.inspect
-        end
-      end
-
-      safe_detector
-    end
-  end
-
-  class OSCDouble64 < OSCArgument
-    def tag() 'd' end
-    def encode() [@val].pack('G').force_encoding("BINARY") end
-  end
-
-  class OSCInt64 < OSCArgument
-    def tag() 'h' end
-    def encode() [@val].pack('q>').force_encoding("BINARY") end
-  end
-
-  class OSCPacket
-
-    def self.messages_from_network( string, ip_info=nil )
-      messages = []
-      osc = new( string )
-
-      if osc.bundle?
-        osc.get_string #=> bundle
-        time = osc.get_timestamp
-
-        osc.get_bundle_messages.each do | message |
-          begin
-            msg = decode_simple_message( time, OSCPacket.new( message ) )
-            if ip_info
-              # Append info for the ip address
-              msg.ip_port = ip_info.shift
-              msg.ip_address = ip_info.join(".")
-            end
-            messages << msg
-          rescue Exception => e
-            Kernel.puts e.message
-            Kernel.puts e.backtrace.inspect
-          end
-        end
-
-      else
-        begin
-          msg = decode_simple_message( time, osc )
-          if ip_info
-            # Append info for the ip address
-            msg.ip_port = ip_info.shift
-            msg.ip_address = ip_info.join(".")
-          end
-          messages << msg
-        rescue Exception => e
-          Kernel.puts e.message
-          Kernel.puts e.backtrace.inspect
-        end
-      end
-      return messages
-    end
-
-    def initialize( string )
-      @packet = NetworkPacket.new( string )
-
-      @types = {
-        "i" => lambda{OSCInt32.new(    get_int32   )},
-        "f" => lambda{OSCFloat32.new(  get_float32 )},
-        "s" => lambda{OSCString.new(   get_string  )},
-        "b" => lambda{OSCBlob.new(     get_blob    )},
-        "d" => lambda{OSCDouble64.new( get_double64)},
-        "h" => lambda{OSCInt64.new(    get_int64   )}
-      }
-    end
-
-    def get_arguments
-      if @packet.getc == ?,
-
-        tags = get_string
-        args = []
-
-        tags.scan(/./) do | tag |
-          type_handler = @types[tag]
-          raise "Unknown OSC type: #{tag}" unless type_handler
-          args << type_handler.call
-        end
-        args
-      end
-    end
-
-    def get_double64
-      f = @packet.getn(8).unpack('G')[0]
-      @packet.skip_padding
-      f
-    end
-
-    def get_int64
-      f = @packet.getn(8).unpack('q>')[0]
-      @packet.skip_padding
-      f
-    end
-
   end
 end
 
@@ -292,21 +434,25 @@ if RUBY_VERSION < "2"
 end
 
 class Array
+  include SonicPi::Core::TLMixin
 
   def ring
-    SonicPi::Core::RingArray.new(self)
+    SonicPi::Core::RingVector.new(self)
+  end
+
+  def ramp
+    SonicPi::Core::RampVector.new(self)
   end
 
   def choose
-    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-    self[rgen.rand(self.size)]
+    self[SonicPi::Core::SPRand.rand_i!(self.size)]
   end
 
   alias_method :__orig_sample__, :sample
   def sample(*args, &blk)
-    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-    if rgen
-      self[rgen.rand(self.size)]
+
+    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+      self[SonicPi::Core::SPRand.rand!(self.size)]
     else
       __orig_sample__ *args, &blk
     end
@@ -314,19 +460,52 @@ class Array
 
   alias_method :__orig_shuffle__, :shuffle
   def shuffle(*args, &blk)
-    rgen = Thread.current.thread_variable_get :sonic_pi_spider_random_generator
-    if rgen
-      __orig_shuffle__(random: rgen)
+    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+      orig_seed, orig_idx = SonicPi::Core::SPRand.get_seed_and_idx
+      SonicPi::Core::SPRand.set_seed!(SonicPi::Core::SPRand.rand_i!(441000))
+      new_a = self.dup
+      s = new_a.size
+      s.times do
+        idx_a = SonicPi::Core::SPRand.rand!(s)
+        idx_b = SonicPi::Core::SPRand.rand!(s)
+        new_a[idx_a], new_a[idx_b] = new_a[idx_b], new_a[idx_a]
+      end
+      SonicPi::Core::SPRand.set_seed!(orig_seed, orig_idx + 1)
+      return new_a
     else
       __orig_shuffle__ *args, &blk
+    end
+  end
+
+  alias_method :__orig_shuffle_bang__, :shuffle!
+  def shuffle!(*args, &blk)
+    if Thread.current.thread_variable_get(:sonic_pi_spider_thread)
+      new_a = self.shuffle
+      self.replace(new_a)
+    else
+      __orig_shuffle_bang__ *args, &blk
     end
   end
 end
 
 
+
 # Meta-glasses from our hero Why to help us
 # see more clearly..
 class Object
+
+  def ring
+    self.to_a.ring
+  end
+
+  def tick(*args)
+    self.to_a.tick(*args)
+  end
+
+  def look(*args)
+    self.to_a.look(*args)
+  end
+
   # The hidden singleton lurks behind everyone
   def metaclass; class << self; self; end; end
 

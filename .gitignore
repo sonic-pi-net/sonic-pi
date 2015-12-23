@@ -32,6 +32,7 @@ app/gui/qt/qrc_SonicPi.cpp
 app/gui/qt/ruby_help.h
 app/gui/qt/help/*.html
 app/gui/qt/help_files.qrc
+app/gui/qt/lang/*.qm
 app/gui/qt/qrc_help_files.cpp
 app/gui/qt/Sonic-Pi.app
 app/gui/qt/Sonic Pi.app
@@ -57,12 +58,15 @@ app/gui/html/js/cljs-main.js
 
 app/gui/qt/Makefile
 
+app/gui/qt/moc_*
+
 
 # Detritus
 # ---------
 
 *.DS_Store
 *.log
+*.swp
 \.#*
 .lein-plugins
 *~
@@ -71,13 +75,21 @@ app/gui/qt/Makefile
 
 app/server/native/
 app/server/vendor/ffi/ext/
+app/server/vendor/ffi-1.9.10/ext/ffi_c/Makefile
+app/server/vendor/ffi-1.9.10/ext/ffi_c/extconf.h
 
 app/server/rb-native/
 
 ## Rugged
 
-app/server/vendor/rugged/ext/rugged/Makefile
+app/server/vendor/rugged*/ext/rugged/Makefile
+app/server/vendor/rugged*/vendor/libgit2/build
 
 ## Atomic
 
 app/server/vendor/atomic/ext/Makefile
+
+
+## Book
+
+book/

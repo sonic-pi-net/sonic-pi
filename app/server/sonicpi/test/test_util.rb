@@ -3,20 +3,20 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 
-require 'test/unit'
+require_relative "./setup_test"
 require_relative "../lib/sonicpi/util"
 
 module SonicPi
 
-  class UtilTester < Test::Unit::TestCase
+  class UtilTester < Minitest::Test
     include Util
     def test_merge_synth_arg_maps_array
       a = [{foo: 1, bar: 2, baz: 4}, {eggs: 5}, beans: 6, foo: 7]

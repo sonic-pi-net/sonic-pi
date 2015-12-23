@@ -1,0 +1,21 @@
+
+# variations on assignments
+
+pat0 simple
+pat1 -neg
+* notundef
+pat2 !notundef
+pat3 assigned=test-value
+pat4 rule-with-more-chars=value-with-more-chars
+pat5 empty=
+pat6 -negempty=
+pat7 multiple -single values=1 also=a-really-long-value/* happy=yes!
+# the next line has trailing spaces
+pat8 again= another=12321                        
+patbad0 # empty assignment does not count
+# next line will be another simple empty assign that should not count
+            patbad1    
+
+# BTW I think there are 11 valid rules and two "invalid" empty ones
+
+pat9 -at-eof

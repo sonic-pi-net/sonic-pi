@@ -3,11 +3,11 @@
 # Full project source: https://github.com/samaaron/sonic-pi
 # License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 #
-# Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+# Copyright 2013, 2014, 2015 by Sam Aaron (http://sam.aaron.name).
 # All rights reserved.
 #
-# Permission is granted for use, copying, modification, distribution,
-# and distribution of modified versions of this work as long as this
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
 # notice is included.
 #++
 
@@ -20,7 +20,7 @@ module SonicPi
     include Util
 
     def initialize(name=:event_handler, priority=0)
-      @event_queue = Queue.new
+      @event_queue = SizedQueue.new(50)
       @handlers = {}
       @continue = true
       @handler_thread = Thread.new do
@@ -67,6 +67,25 @@ module SonicPi
       end
     end
 
+    def async_oneshot_handler(handle, &block)
+      async_add_handler(handle, gensym("sonicpi/incomingevents/oneshot")) do |payload|
+        block.call payload
+        :remove_handler
+      end
+    end
+
+    def async_multi_oneshot_handler(handles, &block)
+      key_prefix = gensym("sonicpi/incomingevents/oneshot")
+
+      handles_keys = handles.map {|h| [h, "#{key_prefix}-#{h}"]}
+      handles_keys.each do |h, k|
+        async_add_handler(h, k) do |payload|
+          block.call payload
+          handles_keys.each { |han, key| q_rm_handler(han, key) }
+        end
+      end
+    end
+
     def rm_handler(handle, key)
       prom = Promise.new
       @event_queue << [:rm, [handle, key, prom]]
@@ -110,11 +129,13 @@ module SonicPi
         hs.each do |key, fn|
           begin
             res = fn.call payload
-            if(res == :remove_handler)
-              q_rm_handler handle, key
-            elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
-              res[1].each do |h_info|
-                q_rm_handler(h_info[0], h_info[1])
+            if res
+              if(res == :remove_handler)
+                q_rm_handler handle, key
+              elsif (res.kind_of?(Array) && (res.size == 2) && (res.first == :remove_handlers))
+                res[1].each do |h_info|
+                  q_rm_handler(h_info[0], h_info[1])
+                end
               end
             end
           rescue Exception => e

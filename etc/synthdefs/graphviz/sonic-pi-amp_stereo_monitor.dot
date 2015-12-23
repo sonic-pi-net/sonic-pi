@@ -1,0 +1,36 @@
+digraph synthdef {
+4 [label = "{{ <a> |<b> 1.0} |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+8 [label = "{{ <in> in} |<__UG_NAME__>a2k }" style="bold, rounded" shape=record rankdir=LR];
+11 [label = "{{ <in> in} |<__UG_NAME__>a2k }" style="bold, rounded" shape=record rankdir=LR];
+3 [label = "{{ <a> |<b> } |<__UG_NAME__>abs }" style="filled, bold, rounded"  shape=record rankdir=LR];
+6 [label = "{{ <a> |<b> } |<__UG_NAME__>abs }" style="filled, bold, rounded"  shape=record rankdir=LR];
+0 [label = "control
+ :bus
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+1 [label = "control
+ :smoothness
+ default: 0.1" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+9 [label = "{{ <freq> freq 5.0|<phase> phase 0.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
+2 [label = "{{ <bus> bus|<num____channels> num-channels 1} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+5 [label = "{{ <bus> bus|<num____channels> num-channels 1} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+7 [label = "{{ <in> in|<lag____time> lag-time} |<__UG_NAME__>lag }" style="filled, bold, rounded"  shape=record rankdir=LR];
+10 [label = "{{ <in> in|<lag____time> lag-time} |<__UG_NAME__>lag }" style="filled, bold, rounded"  shape=record rankdir=LR];
+12 [label = "{{ <trig> trig|{{47|115|111|110|105|99|45|112|105|47|97|109|112|<cmd____name___a2k___13>|<cmd____name___a2k___14>}|cmd-name}|{{13}|values}|<reply____id> reply-id} |<__UG_NAME__>send-reply }" style="bold, rounded" shape=record rankdir=LR];
+
+0:__UG_NAME__ -> 4:a ;
+7:__UG_NAME__ -> 8:in ;
+10:__UG_NAME__ -> 11:in ;
+2:__UG_NAME__ -> 3:a ;
+5:__UG_NAME__ -> 6:a ;
+0:__UG_NAME__ -> 2:bus ;
+4:__UG_NAME__ -> 5:bus ;
+1:__UG_NAME__ -> 7:lag____time ;
+6:__UG_NAME__ -> 7:in ;
+1:__UG_NAME__ -> 10:lag____time ;
+3:__UG_NAME__ -> 10:in ;
+0:__UG_NAME__ -> 12:reply____id ;
+11:__UG_NAME__ -> 12:cmd____name___a2k___13 ;
+8:__UG_NAME__ -> 12:cmd____name___a2k___14 ;
+9:__UG_NAME__ -> 12:trig ;
+
+}

@@ -17,17 +17,37 @@
 #
 #-------------------------------------------------
 
+# -- Change to match the location of QScintilla on your system
+#
+ LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 -lqscintilla2
+ INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
+ DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
+# --
+
 QT       += core gui concurrent network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
+
 TARGET = 'sonic-pi'
 
 macx {
-TARGET = 'Sonic Pi'
-QT += macextras
+  TARGET = 'Sonic Pi'
+  QT += macextras
+  DEFINES += DONT_USE_OSX_KEYS
 }
+
+!win32 {
+  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+}
+win32 {
+  QMAKE_CXXFLAGS += /WX
+  DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS
+}
+
+CODECFORSRC = UTF-8
+CODECFORTR = UTF-8
 
 TEMPLATE = app
 
@@ -37,16 +57,39 @@ SOURCES += main.cpp \
            sonicpiapis.cpp \
            sonicpiscintilla.cpp \
            oschandler.cpp \
-           sonicpiudpserver.cpp
+           sonicpilog.cpp \
+           sonicpiserver.cpp \
+           sonicpiudpserver.cpp \
+           sonicpitcpserver.cpp \
+           sonicpitheme.cpp
+win32 {
+# have to link these explicitly for some reason
+  SOURCES += platform/win/moc_qsciscintilla.cpp \
+             platform/win/moc_qsciscintillabase.cpp
+}
 
 HEADERS  += mainwindow.h \
             oscpkt.hh \
             udp.hh \
             sonicpilexer.h \
+            sonicpilog.h \
             sonicpiapis.h \
             sonicpiscintilla.h \
             oschandler.h \
-            sonicpiudpserver.h
+            sonicpiserver.h \
+            sonicpiudpserver.h \
+            ruby_help.h \
+            sonicpitcpserver.h \
+            sonicpitheme.h
+
+TRANSLATIONS = lang/sonic-pi_de.ts \
+               lang/sonic-pi_is.ts \
+               lang/sonic-pi_ja.ts \
+               lang/sonic-pi_nb.ts \
+               lang/sonic-pi_pl.ts \
+               lang/sonic-pi_fr.ts \
+               lang/sonic-pi_es.ts \
+               lang/sonic-pi_hu.ts
 
 OTHER_FILES += \
     images/copy.png \
@@ -59,7 +102,7 @@ OTHER_FILES += \
 
 RESOURCES += \
     SonicPi.qrc \
-    help_files.qrc  \
+    help_files.qrc \
     info_files.qrc
 
 RC_FILE = SonicPi.rc
