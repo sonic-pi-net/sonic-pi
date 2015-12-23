@@ -1,6 +1,6 @@
 # SONIC PI DETAILED BUILD YOUR OWN INSTRUCTIONS FOR WINDOWS 10 BASED ON LATEST SP 2.9dev after e7fde3a
 
-Last revision 22nd December 2015 @ 12:36   (rewritten section for copying gem .so files)
+Last revision 23rd December 2015 @ 11;25   (added win32-process gem install)
 
 Test bed was a Windows 10 64bit install (running under vmware fusion on a Mac)
 
@@ -90,7 +90,12 @@ From there we will install gem files required by Sonic Pi
 
 ```.\bin\gem install ffi```
 
-The third gem file is problematical, and needs a patch to install. It goes like this:
+
+Another gem recently added, that is needed specifically for the windows install is ```win32-process```
+
+```.\bin\gem install win32-process```
+
+The fourth gem file is problematical, and needs a patch to install. It goes like this:
 
 ```.\bin\gem fetch rugged```
 
@@ -128,6 +133,7 @@ Now build the patched rugged
 ..\bin\gem build rugged.gemspec
 ..\bin\gem install rugged-0.23.3.gem
 
+
 ```
 create the directory path ```c:\sonic-pi\app\server\rb-native\windows\2.2.0```
 
@@ -156,6 +162,8 @@ At the end of this copying process the ```gem .so folder ``` which is
 c:\app\server\rb-native\windows\2.2.0\
 ```
 (assuming you are using Ruby 2.2.*, or a path ending in 2.1.0 if using Ruby 2.1.*) will contain: ```ffi_c.so```, ```rugged.so``` and a folder named ```did_you_mean``` containing ```method_receiver.so```
+
+(Note nothing needs to be copied with the win32-process gem)
 
 That completes the ruby preparation work. Close the cmd and FileExplorer windows.
 
