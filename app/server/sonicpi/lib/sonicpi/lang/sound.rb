@@ -3545,7 +3545,7 @@ kill bar"]
 
 
       def sample_names(group)
-        Synths::BaseInfo.grouped_samples[group][:samples]
+        Synths::BaseInfo.grouped_samples[group][:samples].ring
       end
       doc name:          :sample_names,
           introduced:    Version.new(2,0,0),
@@ -3560,7 +3560,7 @@ kill bar"]
 
 
       def all_sample_names
-        Synths::BaseInfo.all_samples
+        Synths::BaseInfo.all_samples.ring
       end
       doc name:          :all_sample_names,
           introduced:    Version.new(2,0,0),
@@ -3575,7 +3575,7 @@ kill bar"]
 
 
       def sample_groups
-        Synths::BaseInfo.grouped_samples.keys
+        Synths::BaseInfo.grouped_samples.keys.ring
       end
       doc name:          :sample_groups,
           introduced:    Version.new(2,0,0),
@@ -3590,7 +3590,7 @@ kill bar"]
 
 
       def synth_names
-        Synths::BaseInfo.all_synths
+        Synths::BaseInfo.all_synths.ring
       end
       doc name:          :synth_names,
           introduced:    Version.new(2,9,0),
