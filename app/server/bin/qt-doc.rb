@@ -163,7 +163,7 @@ make_tutorial = lambda do |lang|
     # read first line (title) of the markdown, use as title
     name = f.readline.strip
     # indent subchapters
-    name = "   #{name}" if name.match(/\A[0-9]+\.[0-9]+/)
+    name = "   #{name}" if name.match(/\A[A-Z0-9]+\.[0-9]+ /)
     # read remaining content of markdown
     markdown = f.read
     html = SonicPi::MarkdownConverter.convert markdown
