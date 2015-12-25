@@ -1,4 +1,8 @@
-## Sonic Pi Tutorial #1 - Live Coding
+A.2 Live Coding
+
+# Live Coding
+
+![Sam Aaron Live Coding](../images/tutorial/articles/A.02-live-coding/sam-aaron-live-coding.png)
 
 The laser beams sliced through the wafts of smoke as the subwoofer
 pumped bass deep into the bodies of the crowd. The atmosphere was ripe

@@ -1,4 +1,6 @@
-# 5 Tips for Sonic Pi
+A.1 Tips for Sonic Pi
+
+# Five Top Tips
 
 ## 1. There are no mistakes
 
@@ -6,11 +8,11 @@ The most important lesson to learn with Sonic Pi is that there really
 are no mistakes. The best way to learn is to just try and try and
 try. Try lots of different things out, stop worrying whether your code
 sounds good or not and start experimenting with as many different
-synths, notes, FX and parameters as possible. You'll discover a lot of
-things that make you laugh because they sound just awful and some real
-gems that sound truly amazing. Simply drop the things you don't like and
-keep the things you do. The more 'mistakes' you allow yourself to make
-the quicker you'll learn and discover your personal coding sound.
+synths, notes, FX and opts as possible. You'll discover a lot of things
+that make you laugh because they sound just awful and some real gems
+that sound truly amazing. Simply drop the things you don't like and keep
+the things you do. The more 'mistakes' you allow yourself to make the
+quicker you'll learn and discover your personal coding sound.
 
 
 ## 2. Use the FX
@@ -76,8 +78,9 @@ In order to really discover your coding sound you'll soon want to know
 how to modify and control synths and FX. For example, you might want to
 change the duration of a note, add more reverb, or change the time
 between echoes. Luckily, Sonic Pi gives you an amazing level of control
-to do exactly this with special things called optional parameters. Let's
-take a quick look. Copy this code into a workspace and hit run:
+to do exactly this with special things called optional parameters or
+opts for short. Let's take a quick look. Copy this code into a workspace
+and hit run:
 
     sample :guit_em9
 
@@ -89,7 +92,7 @@ changing its rate?
 
 
 Hey, what's that `rate: 0.5` bit I just added at the end? That's called
-a parameter. All of Sonic Pi's synths and FX support them and there's loads
+an opt. All of Sonic Pi's synths and FX support them and there's loads
 to play around with. They're also available for FX too. Try this:
 
 
@@ -99,7 +102,7 @@ to play around with. They're also available for FX too. Try this:
 
 
 Now, try increasing that feedback to 1 to hear some crazy sounds! Read the
-docs for full details on all the many parameters available to you.
+docs for full details on all the many opts available to you.
 
 
 ## 5. Live Code

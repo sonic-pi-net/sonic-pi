@@ -1,4 +1,8 @@
-## Sonic Pi Tutorial #5 - Musical Minecraft 
+A.6 Musical Minecraft 
+
+# Musical Minecraft
+
+
 
 Hello and welcome back! In the previous tutorials we've focussed purely
 on the music possibilities of Sonic Pi - (turning your Raspberry Pi into
@@ -26,6 +30,8 @@ In a fresh buffer type the following:
 Now, hit Run. Boom! Your message appeared in Minecraft! How easy was
 that? Now, stop reading this for a moment and play about with your own
 messages. Have fun!
+
+![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-small.png)
 
 # Sonic Teleporter
 
@@ -70,6 +76,8 @@ teleport sound whilst it whizzes us across the Minecraft world:
     sleep 1
     mc_teleport 90, 20, 10
     mc_message "Whoooosh!"
+    
+![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png)
 
 # Magic Blocks
 
@@ -134,6 +142,8 @@ changing the cutoff value from `70` to `80` and then up to `100`. Isn't
 this fun?
 
 # Bringing it all together
+
+![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-small.png)
 
 Let's combine everything we've seen so far with a little extra
 magic. Let's combine our teleportation ability with block placing and

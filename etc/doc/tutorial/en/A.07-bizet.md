@@ -1,4 +1,6 @@
-## Sonic Pi Tutorial #6 - Bizet Beats
+A.7 Bizet Beats
+
+# Bizet Beats
 
 After our brief excursion to the fantastic world of coding Minecraft
 with Sonic Pi last month, let's get musical again. Today we're going to
@@ -24,7 +26,7 @@ Trying to live code the whole opera would be a bit of a challenge for
 this tutorial, so let's focus on one of the most famous parts - the bass
 line to the Habanera:
 
-![Habanera Riff](https://github.com/samaaron/sonic-pi/blob/master/etc/doc/articles/magpi/images/06-bizet/habanera.png)
+![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)
 
 This may look extremely unreadable to you if you haven't yet studied
 music notation.  However, as programmers we see music notation as just
@@ -44,7 +46,7 @@ the note names: `play :E` and `play :F`. Luckily each of the vertical
 positions of the musical score represents a specific note name. Take a
 look at this handy look up table:
 
-![Notes](https://github.com/samaaron/sonic-pi/blob/master/etc/doc/articles/magpi/images/06-bizet/notes.png)
+![Notes](../images/tutorial/articles/A.07-bizet/notes.png)
 
 # Rests
 
@@ -79,7 +81,7 @@ purely in 16ths you can see that our notation just turns into a nice
 sequence of notes and rests.
 
 
-![Habanera Riff 2](https://github.com/samaaron/sonic-pi/blob/master/etc/doc/articles/magpi/images/06-bizet/habanera2.png)
+![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)
 
 # Re-coding the Habanera
 
@@ -169,11 +171,3 @@ that! Now, start mashing it around yourself and have fun.
       sleep 0.5
     end
 
-# BBC Ten Pieces
-
-If you've enjoyed this creative mash up of a classical piece you should
-definitely get yourself and your school involved with the BBC Ten Pieces
-project. Check out the website to see all the other fantastically
-creative responses people are making to classical music:
-www.bbc.co.uk/tenpieces. Last year one of the schools coded their way to
-the finals with Sonic Pi - let's see what you can do this year!

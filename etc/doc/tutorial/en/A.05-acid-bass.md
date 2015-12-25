@@ -1,4 +1,6 @@
-## Sonic Pi Tutorial #4 - Acid Bass
+A.5 Acid Bass
+
+# Acid Bass
 
 It's impossible to look through the history of electronic dance music
 without seeing the enormous impact of the tiny Roland TB-303
@@ -102,19 +104,22 @@ synth.
 # Deconstructing the TB-303
 
 The design of the original TB-303 is actually pretty simple. As you can
-see from the diagram there's only 4 core parts. First is the oscillator
-wave - the raw ingredients of the sound. In this case we have a square
-wave. Next there's the oscillator's amplitude envelope which controls
-the amp of the square wave through time. These are accessed in Sonic Pi
-by the `attack:`, `decay:`, `sustain:` and `release:` opts along with
-their level counterparts. For more information read Section 2.4
-'Duration with Envelopes' in the built-in tutorial. We then pass our
-enveloped square wave through a resonant low pass filter. This chops off
-the higher frequencies as well as having that nice resonance effect. Now
-this is where the fun starts. The cutoff value of this filter is also
-controlled by its own envelope! This means we have amazing control over
-the timbre of the sound by playing with both of these envelopes. Let's
-take a look:
+see from the following diagram there's only 4 core parts. 
+
+![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)
+
+First is the oscillator wave - the raw ingredients of the sound. In this
+case we have a square wave. Next there's the oscillator's amplitude
+envelope which controls the amp of the square wave through time. These
+are accessed in Sonic Pi by the `attack:`, `decay:`, `sustain:` and
+`release:` opts along with their level counterparts. For more
+information read Section 2.4 'Duration with Envelopes' in the built-in
+tutorial. We then pass our enveloped square wave through a resonant low
+pass filter. This chops off the higher frequencies as well as having
+that nice resonance effect. Now this is where the fun starts. The cutoff
+value of this filter is also controlled by its own envelope! This means
+we have amazing control over the timbre of the sound by playing with
+both of these envelopes. Let's take a look:
 
   
     use_synth :tb303

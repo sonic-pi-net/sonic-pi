@@ -1,4 +1,6 @@
-## Sonic Pi Tutorial #2 - Coded Beats
+A.3 Coded Beats
+
+# Coded Beats
 
 One of the most exciting and disrupting technical developments in modern
 music was the invention of samplers. These were boxes that allowed you

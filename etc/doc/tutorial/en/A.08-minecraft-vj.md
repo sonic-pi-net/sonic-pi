@@ -1,4 +1,8 @@
-## Become a Minecraft VJ
+A.8 Become a Minecraft VJ
+
+# Become a Minecraft VJ
+
+![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small.png)
 
 Everyone has played Minecraft. You will all have built amazing
 structures, designed cunning traps and even created elaborate cart lines
@@ -121,6 +125,8 @@ like a real VJ. Keep practising and changing things around. How
 different can you make the visuals without stopping the code?
 
 # Epic Block Patterns
+
+![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small.png)
 
 Finally, another great way of generating interesting visuals is to
 generate huge patterned walls to fly towards and close by. For this

@@ -1,4 +1,6 @@
-## Sonic Pi Tutorial #3 - Synth Riffs
+A.4 Synth Riffs
+
+# Synth Riffs
 
 Whether it's the haunting drift of rumbling oscillators or the detuned
 punch of saw waves piercing through the mix, the lead synth plays an
