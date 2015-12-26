@@ -358,7 +358,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
   prefsCentral = new QWidget;
-  prefsWidget->setWidget(prefsCentral);
+          prefsWidget->setWidget(prefsCentral);
   QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   prefsCentral->setSizePolicy(prefsSizePolicy);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
@@ -444,7 +444,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   waitForServiceSync();
 
   initPrefsWindow();
-  initDocsWindow();
 
   if(settings.value("first_time", 1).toInt() == 1) {
     QTextBrowser* startupPane = new QTextBrowser;
@@ -463,11 +462,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   focusMode = false;
 
+  updateDarkMode();
+  initDocsWindow();
   updateFullScreenMode();
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
-  updateDarkMode();
+
   requestVersion();
 }
 
