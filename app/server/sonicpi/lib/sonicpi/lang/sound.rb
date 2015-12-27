@@ -2568,6 +2568,11 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
       def sample_duration(path, *args)
         dur = load_sample(path).duration
         args_h = resolve_synth_opts_hash_or_array(args)
+        t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
+        t_l_args.each do |k, v|
+            args_h[k] = v unless args_h.has_key? k
+        end
+
         args_h[:rate] = 1 unless args_h[:rate]
         start = args_h[:start] || 0
         start = [1, [0, start].max].min
