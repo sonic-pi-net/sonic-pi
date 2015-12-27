@@ -3778,9 +3778,9 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           pitch_stretch_duration = pitch_stretch_duration.to_f
           rate = args_h[:rate] || 1
           dur = load_sample(path).duration
-          new_rate = (1.0 / pitch_stretch_duration) * rate * (current_bpm / (60.0 / dur))
+          new_rate = (1.0 / pitch_stretch_duration) * (current_bpm / (60.0 / dur))
           pitch_shift = ratio_to_pitch(new_rate)
-          args_h[:rate] = new_rate * (args_h[:rate] || 1)
+          args_h[:rate] = new_rate * rate
           args_h[:pitch] = args_h[:pitch].to_f - pitch_shift
         end
 
