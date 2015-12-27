@@ -2794,33 +2794,6 @@ sample :loop_amen                    # starting it again
 
         return nil unless should_trigger?(args_h, true)
 
-        stretch_duration = args_h[:beat_stretch]
-        if stretch_duration
-          raise "beat_stretch: opt needs to be a positive number. Got: #{stretch_duration.inspect}" unless stretch_duration.is_a?(Numeric) && stretch_duration > 0
-          stretch_duration = stretch_duration.to_f
-          rate = args_h[:rate] || 1
-          dur = load_sample(path).duration
-          args_h[:rate] = (1.0 / stretch_duration) * rate * (current_bpm / (60.0 / dur))
-        end
-
-        pitch_stretch_duration = args_h[:pitch_stretch]
-        if pitch_stretch_duration
-          raise "pitch_stretch: opt needs to be a positive number. Got: #{pitch_stretch_duration.inspect}" unless pitch_stretch_duration.is_a?(Numeric) && pitch_stretch_duration > 0
-          pitch_stretch_duration = pitch_stretch_duration.to_f
-          rate = args_h[:rate] || 1
-          dur = load_sample(path).duration
-          new_rate = (1.0 / pitch_stretch_duration) * rate * (current_bpm / (60.0 / dur))
-          pitch_shift = ratio_to_pitch(new_rate)
-          args_h[:rate] = new_rate * (args_h[:rate] || 1)
-          args_h[:pitch] = args_h[:pitch].to_f - pitch_shift
-        end
-
-        rate_pitch = args_h[:rpitch]
-        if rate_pitch
-          new_rate = pitch_to_ratio(rate_pitch.to_f)
-          args_h[:rate] = new_rate * (args_h[:rate] || 1)
-        end
-
         trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
       end
       doc name:          :sample,
@@ -3783,7 +3756,35 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
         t_l_args.each do |k, v|
             args_h[k] = v unless args_h.has_key? k
-          end
+        end
+
+        stretch_duration = args_h[:beat_stretch]
+        if stretch_duration
+          raise "beat_stretch: opt needs to be a positive number. Got: #{stretch_duration.inspect}" unless stretch_duration.is_a?(Numeric) && stretch_duration > 0
+          stretch_duration = stretch_duration.to_f
+          rate = args_h[:rate] || 1
+          dur = load_sample(path).duration
+          args_h[:rate] = (1.0 / stretch_duration) * rate * (current_bpm / (60.0 / dur))
+        end
+
+        pitch_stretch_duration = args_h[:pitch_stretch]
+        if pitch_stretch_duration
+          raise "pitch_stretch: opt needs to be a positive number. Got: #{pitch_stretch_duration.inspect}" unless pitch_stretch_duration.is_a?(Numeric) && pitch_stretch_duration > 0
+          pitch_stretch_duration = pitch_stretch_duration.to_f
+          rate = args_h[:rate] || 1
+          dur = load_sample(path).duration
+          new_rate = (1.0 / pitch_stretch_duration) * rate * (current_bpm / (60.0 / dur))
+          pitch_shift = ratio_to_pitch(new_rate)
+          args_h[:rate] = new_rate * (args_h[:rate] || 1)
+          args_h[:pitch] = args_h[:pitch].to_f - pitch_shift
+        end
+
+        rate_pitch = args_h[:rpitch]
+        if rate_pitch
+          new_rate = pitch_to_ratio(rate_pitch.to_f)
+          args_h[:rate] = new_rate * (args_h[:rate] || 1)
+        end
+
         args_h = normalise_and_resolve_synth_args(args_h, info)
 
 
