@@ -1,5 +1,5 @@
 # History
-* [v2.9 'TBA'](#v2.9), TBA
+* [v2.9 'Venster'](#v2.9), 31st Dec, 2015
 * [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
 * [v2.7 'Rerezzed'](#v2.7), 10th Sept, 2015
 * [v2.6 'Algorave'](#v2.6), 30th July, 2015
@@ -11,12 +11,34 @@
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
 <a name="v2.9"></a>
-## Version 2.9 - 'TBA'
-*Not yet released...*
+## Version 2.9 - Venster'
+*Thursday 31st December, 2015*
+
+Hot on the heels of the previous release comes `v2.9` codenamed
+`Venster` (Dutch for window). This release has a specific focus on
+fixing all the known issues with Sonic Pi running on Windows. If you've
+tried Sonic Pi on Windows before and had issues, make sure to try it
+again with `v2.9`. If you're still having issues on Windows please do
+let us know so we can fix it as soon as possible.
+
+For all you Raspberry Pi and Mac OS X users - you're not left out. Sonic
+Pi is just as stable as it was before (if not more stable) and `v2.9`
+comes with a surprising amount of tweaks and features for its short 1
+month development cycle. There's two new FX to play with: `tanh` and
+`gverb` as well as a heavily revamped logging system which is much
+clearer about printing which opts are actually being used for your
+synths and samples. Finally, we now include of all the published MagPi
+magazine articles in the tutorial. We also now have Hungarian and
+Norwegian translations of the GUI.
+
+Happy Live Coding!
 
 ### Breaking Changes
 
 * Rename fn `invert_chord` to `chord_invert`
+* Sampler no longer mixes `rate:` and `pitch_stretch:` opts. It's now
+  possible to set the `rate:` independent of the `pitch:` modification
+  caused by `pitch_stretch`.
 
 ### New Fns
 
@@ -59,6 +81,7 @@
 
 ### Documentation
 
+* Add 8 complete MagPi magazine articles to the tutorial in appendix A.
 * Add new example 'ambient experiment' by Darin Wilson.
 * Add new example 'chord inversions' by Adrian Cheater.
 * Change tutorial license to CC-BY-SA 4.0.
@@ -99,7 +122,10 @@
   automatically reboots it to enable Sonic Pi to continue without a full
   restart. Reboots automatically reload all loaded samples and
   synthdefs.
-
+* `sample_duration` now correctly takes account of TL defaults set by
+  `use_sample_defaults`.
+* Sampler opts `pitch_stretch`, `beat_stretch` and `rpitch` can now be
+  used in TL defaults.
 
 <a name="v2.8"></a>
 
