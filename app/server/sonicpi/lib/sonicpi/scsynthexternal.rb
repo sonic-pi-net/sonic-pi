@@ -112,7 +112,7 @@ module SonicPi
     def kill_pid(pid, safe_wait=4)
       log "going to kill #{pid}"
       return kill_pid_win(pid) if os == :windows
-
+      pid = Integer(pid)
       Process.kill(15, pid)
 
       safe_wait.to_i.times do
