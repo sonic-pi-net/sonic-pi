@@ -4925,7 +4925,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def doc
-        "Like the Band Pass Filter but with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res opt."
+        "Like the Band Pass Filter but with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with larger values for the res opt."
       end
     end
 
@@ -4963,7 +4963,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def doc
-        "Like the Band Pass Filter but normalised, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with smaller values for the res opt.
+        "Like the Band Pass Filter but normalised, with a resonance (slight volume boost) around the target frequency. This can produce an interesting whistling effect, especially when used with larger values for the res opt.
 
   The normaliser is useful here as some volume is lost when filtering the original signal."
       end
@@ -5041,7 +5041,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def doc
-        "Dampens the parts of the signal that are lower than the cutoff point (typically the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). The resonant part of the resonant high pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res param with a lower res resulting in greater resonance. High amounts of resonance (rq ~1) can create a whistling sound around the cutoff frequency.
+        "Dampens the parts of the signal that are lower than the cutoff point (typically the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). The resonant part of the resonant high pass filter emphasises/resonates the frequencies around the cutoff point. The amount of emphasis is controlled by the res opt with a higher res resulting in greater resonance. High amounts of resonance (rq ~1) can create a whistling sound around the cutoff frequency.
 
   Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy."
       end
