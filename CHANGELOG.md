@@ -112,6 +112,8 @@ Happy Live Coding!
 * If environment variable `SONIC_PI_HOME` is set it will be used over
   `~` as the root of the user's `.sonic-pi` directory (used to auto-save
   files and store logs).
+* Default sound card selection is now honoured on Raspberry Pi - so you
+  may now use your IQaudIO hat (or similar) out of the box.
 
 
 ### Bugfixes
