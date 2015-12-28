@@ -2589,7 +2589,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
 
         if args_h[:pitch_stretch]
           pitch_stretch = args_h[:pitch_stretch].to_f
-          pitch_rate_mod = (1.0 / pitch_stretch) * args_h[:rate] * (current_bpm / (60.0 / dur))
+          pitch_rate_mod = (1.0 / pitch_stretch) * (current_bpm / (60.0 / dur))
           args_h[:rate] = args_h[:rate] * pitch_rate_mod
         end
 
