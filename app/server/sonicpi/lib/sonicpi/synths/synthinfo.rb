@@ -5087,7 +5087,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
     end
 
-    class FXNormRHPF < FXRLPF
+    class FXNormRHPF < FXRHPF
       def name
         "Normalised Resonant High Pass Filter"
       end
@@ -5309,7 +5309,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
     end
 
-    class FXNormHPF < FXRLPF
+    class FXNormHPF < FXHPF
       def name
         "Normalised High Pass Filter"
       end
