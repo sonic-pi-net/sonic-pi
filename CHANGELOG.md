@@ -11,7 +11,8 @@
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
 <a name="v2.9"></a>
-## Version 2.9 - Venster'
+
+## Version 2.9 - 'Venster'
 *Thursday 31st December, 2015*
 
 Hot on the heels of the previous release comes `v2.9` codenamed
