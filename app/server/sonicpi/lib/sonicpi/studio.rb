@@ -25,7 +25,7 @@ module SonicPi
     attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id, :amp, :rebooting
 
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
-      @hostnane = hostname
+      @hostname = hostname
       @port = port
       @msg_queue = msg_queue
       @max_concurrent_synths = max_concurrent_synths

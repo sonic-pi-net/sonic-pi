@@ -20,7 +20,7 @@
 
 ### New Fns
 
-* `block_duration` - returns the duration of the of the given block in seconds (not scaled with the BPM).
+* `block_duration` - returns the duration of the given block in seconds (not scaled with the BPM).
 * `block_slept?` - returns true if the contents of the block slept or synced.
 * `synth_names` - returns a list of all the available synths
 * `reset_mixer!` - resets the main mixer back to its default values.
@@ -95,7 +95,7 @@
 * Fix number of synth validation errors.
 * Fix sporadically failing boot issues on Windows
 * Add auto-reboot functionality for audio server. This now detects
-  errors in the server such as a killed or zombied process) and
+  errors in the server (such as a killed or zombied process) and
   automatically reboots it to enable Sonic Pi to continue without a full
   restart. Reboots automatically reload all loaded samples and
   synthdefs.
