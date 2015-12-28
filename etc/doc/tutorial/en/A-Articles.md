@@ -1,5 +1,7 @@
 A Appendix A - MagPi Articles
 
+# MagPi Articles
+
 Appendix A collects all the Sonic Pi articles written for the MagPi
 magazine.
 
