@@ -10,7 +10,7 @@ magazine.
 These articles aren't meant to be read in any strict order and contain a
 lot of cross-over material from the tutorial itself. Rather than try and
 teach you all of Sonic Pi, they instead each focus on a specific aspect
-of Sonic Pi and covers it in a fun and accessible way.
+of Sonic Pi and cover it in a fun and accessible way.
 
 ## Read the MagPi
 
