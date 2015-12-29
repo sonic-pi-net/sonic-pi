@@ -4969,6 +4969,56 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
     end
 
+    class FXLPF < FXInfo
+      def name
+        "Low Pass Filter"
+      end
+
+      def introduced
+        Version.new(2,0,0)
+      end
+
+      def synth_name
+        "fx_lpf"
+      end
+
+
+
+      def doc
+        "Dampens the parts of the signal that are higher than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typically the bass/mid of the sound). Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
+      end
+
+
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :mix => 1,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+          :cutoff => 100,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+        }
+      end
+
+      def specific_arg_info
+        {
+
+
+        }
+      end
+    end
+
     class FXRLPF < FXLPF
       def name
         "Resonant Low Pass Filter"
@@ -5032,6 +5082,45 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
       def synth_name
         "fx_nrlpf"
+      end
+    end
+
+    class FXHPF < FXInfo
+      def name
+        "High Pass Filter"
+      end
+
+      def introduced
+        Version.new(2,0,0)
+      end
+
+      def synth_name
+        "fx_hpf"
+      end
+
+      def doc
+        "Dampens the parts of the signal that are lower than the cutoff point (typically the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :mix => 1,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+          :cutoff => 100,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+        }
       end
     end
 
@@ -5202,56 +5291,6 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
     end
 
-    class FXLPF < FXInfo
-      def name
-        "Low Pass Filter"
-      end
-
-      def introduced
-        Version.new(2,0,0)
-      end
-
-      def synth_name
-        "fx_lpf"
-      end
-
-
-
-      def doc
-        "Dampens the parts of the signal that are higher than the cutoff point (typically the crunchy fizzy harmonic overtones) and keeps the lower parts (typically the bass/mid of the sound). Choose a higher cutoff to keep more of the high frequences/treble of the sound and a lower cutoff to make the sound more dull and only keep the bass."
-      end
-
-
-
-      def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
-          :cutoff => 100,
-          :cutoff_slide => 0,
-          :cutoff_slide_shape => 1,
-          :cutoff_slide_curve => 0,
-        }
-      end
-
-      def specific_arg_info
-        {
-
-
-        }
-      end
-    end
-
     class FXNormLPF < FXLPF
       def name
         "Normalised Low Pass Filter."
@@ -5267,45 +5306,6 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
       def doc
         "A low pass filter chained to a normaliser. Ensures that the signal is both filtered by a standard low pass filter and then normalised to ensure the amplitude of the final output is constant. A low pass filter will reduce the amplitude of the resulting signal (as some of the sound has been filtered out) the normaliser can compensate for this loss (although will also have the side effect of flattening all dynamics). See doc for lpf."
-      end
-    end
-
-    class FXHPF < FXInfo
-      def name
-        "High Pass Filter"
-      end
-
-      def introduced
-        Version.new(2,0,0)
-      end
-
-      def synth_name
-        "fx_hpf"
-      end
-
-      def doc
-        "Dampens the parts of the signal that are lower than the cutoff point (typically the bass of the sound) and keeps the higher parts (typically the crunchy fizzy harmonic overtones). Choose a lower cutoff to keep more of the bass/mid and a higher cutoff to make the sound more light and crispy."
-      end
-
-      def arg_defaults
-        {
-          :amp => 1,
-          :amp_slide => 0,
-          :amp_slide_shape => 1,
-          :amp_slide_curve => 0,
-          :mix => 1,
-          :mix_slide => 0,
-          :mix_slide_shape => 1,
-          :mix_slide_curve => 0,
-          :pre_amp => 1,
-          :pre_amp_slide => 0,
-          :pre_amp_slide_shape => 1,
-          :pre_amp_slide_curve => 0,
-          :cutoff => 100,
-          :cutoff_slide => 0,
-          :cutoff_slide_shape => 1,
-          :cutoff_slide_curve => 0,
-        }
       end
     end
 
