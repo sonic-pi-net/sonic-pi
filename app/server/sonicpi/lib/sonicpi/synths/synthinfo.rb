@@ -4969,7 +4969,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
     end
 
-    class FXRLPF < FXInfo
+    class FXRLPF < FXLPF
       def name
         "Resonant Low Pass Filter"
       end
@@ -5035,7 +5035,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
     end
 
-    class FXRHPF < FXInfo
+    class FXRHPF < FXHPF
       def name
         "Resonant High Pass Filter"
       end
