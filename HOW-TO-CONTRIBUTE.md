@@ -56,8 +56,12 @@ where help is appreciated.
 
   Currently, there are binaries available for OS X, Windows and
   Raspberry Pi Raspbian. For other Linux distributions, users have to
-  build it on their own. We'd love to find Linux enthusiasts who'd
-  volunteer to maintain packaging for their Linux distros.
+  build it on their own.
+  
+  There is a [.deb packaging project](https://github.com/samaaron/sonic-pi/issues/861)
+  for Debian and Ubuntu already and we'd love to find Linux enthusiasts
+  who'd volunteer to maintain packaging for their non-Debian Linux
+  distros.
 
 - Translation Server Integration
 

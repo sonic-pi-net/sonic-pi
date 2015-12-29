@@ -1,7 +1,22 @@
-# Installing Sonic Pi from Source
+# Installing Sonic Pi
+
+## The Latest Release Version
+
+You can always find official pre-built binaries of the latest release at
+[sonic-pi.net](http://sonic-pi.net).
+
+* [Raspberry Pi](http://sonic-pi.net/#rp) official .deb package (also in Raspbian repository)
+* [Mac OS X](http://sonic-pi.net/#mac) official installer package
+* [Windows](http://sonic-pi.net/#windows) official installer package
+* [Ubuntu](https://launchpad.net/~sonic-pi/+archive/ubuntu/ppa) non-official PPA (beta test)
+
+We'd love to have Sonic Pi
+[packaged to other Linux distributions](HOW-TO-CONTRIBUTE.md), as well!
+
+## The Development Version
 
 If you want to use the very latest development version of Sonic Pi, then
-you'll need to compile from source. Here are instructions for the
+you'll need to compile from source. Here are build instructions for the
 following platforms:
 
 * [Raspberry Pi](#raspberry-pi)
@@ -12,14 +27,14 @@ following platforms:
 
 ----
 
-## Raspberry Pi
+### Raspberry Pi
 
 The Raspberry Pi will happily compile all the required aspects of Sonic
 Pi. However, be warned that it will take quite some time to complete.
 
 First grab the dependencies, compile the server extensions, then the GUI then start the app.
 
-### Dependencies
+#### Dependencies
 
 The dependencies for building and running this are:
 
@@ -34,23 +49,23 @@ The dependencies for building and running this are:
 
 Use `sudo apt-get install` to ensure each of these are on your system.
 
-### Server extensions
+#### Server extensions
 
 Compile the server extensions by `cd`ing into the directory `app/server/bin` and running the script `compile-extensions.rb`. This will take some time.
 
-### Qt GUI
+#### Qt GUI
 
 `cd` into the directory `app/gui/qt/` and run the script `rp-build-app`. This will also take some time.
 
-### Running
+#### Running
 
 Run the script `rp-app-bin` in the directory `app/gui/qt`.
 
 -----
 
-## Generic Linux
+### Generic Linux
 
-### Dependencies
+#### Dependencies
 
 Debian package dependency names (Jessie):
 
@@ -82,15 +97,15 @@ Fedora package dependency names:
 * `qscintilla-devel` (will install `qscintilla` and `qt-devel`)
 * `cmake`
 
-### Server extensions
+#### Server extensions
 
 Compile the server extensions by `cd`ing into the directory `app/server/bin` and running the script `compile-extensions.rb`. This will take some time.
 
-### Qt GUI
+#### Qt GUI
 
 `cd` into the directory `app/gui/qt/` and run the script `rp-build-app`. This will also take some time.
 
-### Running
+#### Running
 
 Start the jack sound server daemon `jackd`. This is easily done through [qjackctl](http://qjackctl.sourceforge.net/), available as `qjackctl` in Debian.
 
@@ -104,9 +119,9 @@ Then run the script `sonic-pi` in the directory `app/gui/qt`.
 
 ----
 
-## Arch Linux
+### Arch Linux
 
-### AUR Package
+#### AUR Package
 
 Arch Linux users are strongly recommended to install the [sonic-pi-git](https://aur.archlinux.org/packages/sonic-pi-git/) package from the AUR; see the wiki article on the [Arch User Repository](https://wiki.archlinux.org/index.php/Arch_User_Repository) if you are unfamiliar with how to install such a package. The PKGBUILD found in this package will:
 * Clone the latest sonic-pi source from GitHub
@@ -117,15 +132,15 @@ Arch Linux users are strongly recommended to install the [sonic-pi-git](https://
 
 After installing, users need to follow the instructions in the [Generic Linux](#generic-linux) section to start the `jackd` server, and then run `sonic-pi` at a command prompt. 
 
-### Building from source
+#### Building from source
 
 Users can opt to build from source as well if they would like. Instructions and dependencies can be found within the PKGBUILD file in the AUR package previously mentioned, as well as the required patch file. 
 
 ----
 
-## Mac OS X
+### Mac OS X
 
-### Dependencies
+#### Dependencies
 
 * Download Qt 5.4+ http://qt-project.org/downloads
 * Run the setup wizard and install to a known location which we'll call /path/to/qt
@@ -134,11 +149,11 @@ Users can opt to build from source as well if they would like. Instructions and 
 * Install SuperCollider 3.6 from http://supercollider.github.io/download.html
 * Download SuperCollider extensions from http://sourceforge.net/projects/sc3-plugins/files/OSX_3.6/ and install as per the included README.txt file
 
-### Server extensions
+#### Server extensions
 
 Compile the server extensions by `cd`ing into the directory `app/server/bin` and running the script `compile-extensions.rb`. This will take some time.
 
-### Qt GUI
+#### Qt GUI
 
 * Build QScintilla:
   - `cd /path/to/qscintilla/Qt4Qt5`
@@ -172,14 +187,14 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 
 ----
 
-## Windows
+### Windows
 
-### Source Code 
+#### Source Code 
 
 * Download & install [Git for Windows](https://msysgit.github.io/).
 * Checkout [latest Sonic Pi sources](https://github.com/samaaron/sonic-pi) from GitHub.
 
-### Dependencies
+#### Dependencies
 
 * Download & Install [Visual Studio 2013 Express for Desktop](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
 * Download & Install [Qt 5.4.1+](https://www.qt.io/download-open-source/)
@@ -192,7 +207,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 * Install [pkg-config-lite](http://sourceforge.net/projects/pkgconfiglite/files/) by copying its files to your devkit install (pkg-config.exe to bin, pkg.m4 to share/aclocal)
 * NB: compile-extensions.rb step is no longer applicable on Windows, because the native bits will get compiled as you install the necessary gems below
 
-### Qt GUI
+#### Qt GUI
 
 * Set up build environment
   - open Visual Studio 2013/Visual Studio Tools/VS2013 x86 Tools Command Prompt
@@ -209,11 +224,11 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 * `Sonic-Pi.exe` will be in `release`
 * it expects to be packaged with SC and Ruby in the locations described below.
 
-### SuperCollider
+#### SuperCollider
 * copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` and `plugins` into `app\server\native\windows` (but skip the Qt* DLLs)
   - Sonic Pi is actually using a custom build of SC at the moment to avoid firewall drama
 
-### Ruby
+#### Ruby
 * copy `C:\ruby193\*` into `app\server\native\windows`
   - there are some things that can be trimmed, such as docs
 * `cd app\server\native\windows`
@@ -230,7 +245,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
     - `..\bin\gem install rugged-0.23.0.gem`
     - TODO: is there a better way to accomplish this?
 
-### Packaging
+#### Packaging
 * TODO: there should be a "make distclean" target to clean up the tree for MSI packaging
   - or else a script to build a release tree by copying things out of the working tree
 * There is a WiX project file in `sonic-pi.wxs` -- work in progress
@@ -239,7 +254,7 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 
 ----
 
-## Optional: Sonic Pi reference books
+### Optional: Sonic Pi reference books
 
 Do you want to read the Sonic Pi tutorial as a whole, e.g. on your
 mobile reader or printed out on paper?
@@ -262,7 +277,7 @@ On your Linux or OS X system, you will need to have installed
 
 ----
 
-## Unsupported development HTML Interface
+### Unsupported development HTML Interface
 
 Note: This interface isn't always kept up to date with MASTER on Github.
 
