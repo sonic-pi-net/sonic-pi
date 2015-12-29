@@ -174,61 +174,9 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 
 ## Windows
 
-### Source Code 
+### Building
 
-* Download & install [Git for Windows](https://msysgit.github.io/).
-* Checkout [latest Sonic Pi sources](https://github.com/samaaron/sonic-pi) from GitHub.
-
-### Dependencies
-
-* Download & Install [Visual Studio 2013 Express for Desktop](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop)
-* Download & Install [Qt 5.4.1+](https://www.qt.io/download-open-source/)
-  - Run the setup wizard and install to a known location (e.g. C:\Qt5 or C:\apps\qt5) which we'll call %QT5_HOME%
-  - Be sure to install the msvc2013_x86 target
-  - More details on Qt installation can be found on [this blog post](http://sonicpidevnotes.blogspot.com/2015/06/installing-qt-5-on-windows-7-for-sonic.html)
-* Download & Install [CMake](http://www.cmake.org/download/), ensuring it is added to your PATH
-* Download & Install [Ruby 2.1.x](http://rubyinstaller.org/downloads/)
-* [Download](http://rubyinstaller.org/downloads/) & [Install](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) Ruby Development Kit (did you install it or just unzip it?  Please read the install directions)
-* Install [pkg-config-lite](http://sourceforge.net/projects/pkgconfiglite/files/) by copying its files to your devkit install (pkg-config.exe to bin, pkg.m4 to share/aclocal)
-* NB: compile-extensions.rb step is no longer applicable on Windows, because the native bits will get compiled as you install the necessary gems below
-
-### Qt GUI
-
-* Set up build environment
-  - open Visual Studio 2013/Visual Studio Tools/VS2013 x86 Tools Command Prompt
-  - add QT to your path: `PATH=%PATH%;C:\Qt5\5.4\msvc2013\bin`
-* Build QScintilla:
- - Download the [QScintilla project](http://www.riverbankcomputing.co.uk/software/qscintilla/download) and unzip it somewhere convenient.
-  - `cd Qt4Qt5`
-  - generate makefile: `qmake qscintilla.pro`
-  - `nmake`
-  - copy to QT directory: `nmake install`
-  - copy Qt4Qt5\release\moc_qscintilla.cpp and moc_qsciscintillabase.cpp to Sonic Pi's app\gui\qt\platform\win directory (let me know if you figure out why this is only needed on Windows)
-* Run `app\gui\qt\win-build-app.bat` from the directory you checked out Sonic Pi to
-* copy C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\redist\x86\Microsoft.VC120.CRT\msvcp120.dll and msvcr120.dll to release\
-* `Sonic-Pi.exe` will be in `release`
-* it expects to be packaged with SC and Ruby in the locations described below.
-
-### SuperCollider
-* copy `C:\Program Files (x86)\SuperCollider-3.6.6\scsynth.exe` and `*.dll` and `plugins` into `app\server\native\windows` (but skip the Qt* DLLs)
-  - Sonic Pi is actually using a custom build of SC at the moment to avoid firewall drama
-
-### Ruby
-* copy `C:\ruby193\*` into `app\server\native\windows`
-  - there are some things that can be trimmed, such as docs
-* `cd app\server\native\windows`
-* `bin\gem install did_you_mean`
-* `bin\gem install ffi`
-* `bin\gem install rugged`
-  - if this errors out, you may need this patch: https://gist.github.com/jweather/96dd36bf291298bfea5c
-    - `bin\gem fetch rugged`
-    - `bin\gem unpack rugged-0.23.0.gem`
-    - `bin\gem spec rugged-0.23.0.gem --ruby > rugged-0.23.0\rugged.gemspec`
-    - patch extconf.rb accordingly
-    - `cd rugged-0.23.0`
-    - `..\bin\gem build rugged.gemspec`
-    - `..\bin\gem install rugged-0.23.0.gem`
-    - TODO: is there a better way to accomplish this?
+Follow the instructions in [WindowsInstall.md](WindowsInstall.md)
 
 ### Packaging
 * TODO: there should be a "make distclean" target to clean up the tree for MSI packaging
