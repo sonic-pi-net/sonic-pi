@@ -174,6 +174,8 @@ ln -s `which ruby` app/server/native/osx/ruby/bin/ruby
 
 ## Windows
 
+For detailed instructions on how to build Sonic Pin on Windows 10 look at [WindowsInstall.md](https://github.com/samaaron/sonic-pi/blob/master/WindowsInstall.md).
+
 ### Source Code 
 
 * Download & install [Git for Windows](https://msysgit.github.io/).
