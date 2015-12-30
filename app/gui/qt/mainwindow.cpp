@@ -724,7 +724,7 @@ void MainWindow::startServer(){
 }
 
 void MainWindow::waitForServiceSync() {
-  int timeout = 30;
+  int timeout = 60;
   std::cout << "[GUI] - waiting for server to connect..." << std::endl;
   while (sonicPiServer->waitForServer() && timeout-- > 0) {
     sleep(1);
