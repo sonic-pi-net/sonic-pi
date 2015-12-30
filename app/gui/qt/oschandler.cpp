@@ -168,9 +168,6 @@ void OscHandler::oscMessage(std::vector<char> buffer){
       else if (msg->match("/ack")) {
         std::string id;
         if (msg->arg().popStr(id).isOkNoMoreArgs()) {
-          if(!server_started) {
-            QMetaObject::invokeMethod(window, "serverStarted", Qt::QueuedConnection);
-          }
           server_started = true;
 
         } else

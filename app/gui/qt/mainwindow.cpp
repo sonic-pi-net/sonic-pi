@@ -441,7 +441,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
 
-  waitForServiceSync();
+
 
   initPrefsWindow();
 
@@ -461,6 +461,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   restoreDocPane = false;
 
   focusMode = false;
+
+  // Wait to hear back from the server before continuing
+  waitForServiceSync();
+  serverStarted();
 
   updateDarkMode();
   initDocsWindow();
@@ -736,12 +740,8 @@ void MainWindow::waitForServiceSync() {
     }
   }
   if (!sonicPiServer->isServerStarted()) {
-
-    if (!startup_error_reported) {
       std::cout << "[GUI] - critical error!" << std::endl;
       invokeStartupError("Critical server error!");
-    }
-    return;
   }
 
   std::cout << "[GUI] - server connection established" << std::endl;
