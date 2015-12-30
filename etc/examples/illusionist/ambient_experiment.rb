@@ -1,5 +1,3 @@
-# Ambient Experiment
-#
 # Coded by Darin Wilson
 #
 # The piece consists of three long loops, each of which
