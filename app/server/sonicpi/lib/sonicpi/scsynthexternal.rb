@@ -221,7 +221,7 @@ module SonicPi
       log "Boot - Starting the SuperCollider server..."
       @scsynth_log_file = File.open(scsynth_log_path, 'w')
       @scsynth_log_file.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
-      at_exit { @scsynth_log_file.close }
+      at_exit { @scsynth_log_file.close if @scsynth_log_file}
       scsynth_pipe = IO.popen(args)
       @scsynth_pid = scsynth_pipe.pid
 
