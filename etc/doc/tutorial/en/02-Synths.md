@@ -4,7 +4,7 @@
 
 OK, enough of the intros - let's get into some sound.
 
-In this section we'll cover the basis of triggering and manipulating
+In this section we'll cover the basics of triggering and manipulating
 synths. Synth is short for synthesiser which is a fancy word for
 something which creates sounds. Typically synths are quite complicated
 to use - especially analog synths with many patch wires and

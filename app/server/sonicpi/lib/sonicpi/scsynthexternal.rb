@@ -112,7 +112,7 @@ module SonicPi
     def kill_pid(pid, safe_wait=4)
       log "going to kill #{pid}"
       return kill_pid_win(pid) if os == :windows
-
+      pid = Integer(pid)
       Process.kill(15, pid)
 
       safe_wait.to_i.times do
@@ -330,7 +330,13 @@ module SonicPi
       log "Booting on Raspberry Pi"
       `killall jackd`
       `killall scsynth`
-      sys("jackd -R -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+      begin
+        asoundrc = File.read(Dir.home + "/.asoundrc")
+        audio_card = (asoundrc.match /pcm.!default\s+{[^}]+\n\s+card\s+([0-9]+)/m)[1]
+      rescue
+        audio_card = "0"
+      end
+      sys("jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -r 44100& ")
 
       # Wait for Jackd to start
       while `jack_wait -c`.match /not.*/

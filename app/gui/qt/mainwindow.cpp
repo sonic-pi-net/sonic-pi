@@ -358,7 +358,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
   prefsCentral = new QWidget;
-  prefsWidget->setWidget(prefsCentral);
+          prefsWidget->setWidget(prefsCentral);
   QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   prefsCentral->setSizePolicy(prefsSizePolicy);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
@@ -444,7 +444,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   waitForServiceSync();
 
   initPrefsWindow();
-  initDocsWindow();
 
   if(settings.value("first_time", 1).toInt() == 1) {
     QTextBrowser* startupPane = new QTextBrowser;
@@ -463,11 +462,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   focusMode = false;
 
+  updateDarkMode();
+  initDocsWindow();
   updateFullScreenMode();
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
-  updateDarkMode();
+
   requestVersion();
 }
 
@@ -2445,7 +2446,7 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
   latest_version_num = latest_v_num;
 
   // update status bar
-  versionLabel->setText(QString("Sonic Pi on ") + platform + " " + v );
+  versionLabel->setText(QString("Sonic Pi " + v + " on " + platform));
 
   // update preferences
   QString last_update_check = tr("Last checked %1").arg(last_checked.toString());

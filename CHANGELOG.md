@@ -1,4 +1,5 @@
 # History
+* [v2.9 'Venster'](#v2.9), 31st Dec, 2015
 * [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
 * [v2.7 'Rerezzed'](#v2.7), 10th Sept, 2015
 * [v2.6 'Algorave'](#v2.6), 30th July, 2015
@@ -8,6 +9,126 @@
 * [v2.2 'Slicer'](#v2.2), 18th Dec, 2014
 * [v2.1 'Core'](#v2.1), 21st Nov, 2014
 * [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v2.9"></a>
+
+## Version 2.9 - 'Venster'
+*Thursday 31st December, 2015*
+
+Hot on the heels of the previous release comes `v2.9` codenamed
+`Venster` (Dutch for window). This release has a specific focus on
+fixing all the known issues with Sonic Pi running on Windows. If you've
+tried Sonic Pi on Windows before and had issues, make sure to try it
+again with `v2.9`. If you're still having issues on Windows please do
+let us know so we can fix it as soon as possible.
+
+For all you Raspberry Pi and Mac OS X users - you're not left out. Sonic
+Pi is just as stable as it was before (if not more stable) and `v2.9`
+comes with a surprising amount of tweaks and features for its short 1
+month development cycle. There's two new FX to play with: `tanh` and
+`gverb` as well as a heavily revamped logging system which is much
+clearer about printing which opts are actually being used for your
+synths and samples. Finally, we now include of all the published MagPi
+magazine articles in the tutorial. We also now have Hungarian and
+Norwegian translations of the GUI.
+
+Happy Live Coding!
+
+### Breaking Changes
+
+* Rename fn `invert_chord` to `chord_invert`
+* Sampler no longer mixes `rate:` and `pitch_stretch:` opts. It's now
+  possible to set the `rate:` independent of the `pitch:` modification
+  caused by `pitch_stretch`.
+
+### New Fns
+
+* `block_duration` - returns the duration of the given block in seconds (not scaled with the BPM).
+* `block_slept?` - returns true if the contents of the block slept or synced.
+* `synth_names` - returns a list of all the available synths
+* `reset_mixer!` - resets the main mixer back to its default values.
+* `sample_free` - unload a sample from memory to free up memory usage.
+* `sample_free_all` - unload all samples from memory.
+* `use_octave` - similar to `use_transpose` but for whole octaves.
+* `with_octave` - similar to `with_transpose` but for whole octaves.
+* `use_merged_sample_defaults` - similar to `use_merged_synth_defaults`
+  but for samples
+* `with_merged_sample_defaults` - similar to
+  `with_merged_synth_defaults` but for samples
+* `use_cent_tuning` - uniformly tune all subsequent notes in cents
+* `with_cent_tuning` - uniformly tune all notes in cents within the block
+
+### Synths & FX
+
+* New FX `tanh` - for more distortion goodness.
+* New FX `gverb` - a different reverb FX to play with.
+
+### GUI
+
+* Synths and samples now also log defaults set by `use_synth_defaults`
+  and friends.
+* Opts are logged in the order they were defined with local opts first
+  followed by inherited opts. 
+* BPM scaling is now accounted for in logging vals.
+* Log metadata such as run number and time is now printed in a more
+  code-like way: as a hash of key value pairs.
+* `C-k` will now kill multiple lines if lines end with `,`.
+* When saving a buffer a `.txt` extension is automatically added to the
+  file name if none specified.
+* Add Hungarian and Norwegian translations of GUI.
+* Add title to main window - enables Sonic Pi to be selected in
+  screensharing app lists such as Google Hangouts and OBS.
+* Add autocompletion for tuning systems.
+
+### Documentation
+
+* Add 8 complete MagPi magazine articles to the tutorial in appendix A.
+* Add new example 'ambient experiment' by Darin Wilson.
+* Add new example 'chord inversions' by Adrian Cheater.
+* Change tutorial license to CC-BY-SA 4.0.
+* Add instructions for compiling and building on Windows.
+* Many, many minor tweaks and improvements.
+
+
+### Improvements
+
+* Add `sync:` opt to `live_loop` and `in_thread`. This now syncs the
+  live loop once on creation. Similar to the `delay:` opt. If both
+  `sync:` and `delay:` are specified then the delay happens before the
+  sync.
+* The `synth` fn can now play chords with the `notes:` opt such as:
+  `synth :dsaw, notes: (chord :e3, :minor)`. This will return a single
+  controllable synth node representing all the notes similar to
+  `play_chord`.
+* BPM scaling and other normalisation is now honoured when controlling nodes
+* The `on:` opt is now honoured when playing chords.
+* Samplers sound signal now bypasses filter envelope when not used.
+* It is now possible to use externally defined FX synths by passing a
+  string as the FX name: `with_fx "my_shiny_effect"`. This needs to be
+  loaded manually via `load_synthdefs`.
+* OS X now supports rates other than 44.1k provided they are similar for
+  both audio in and out.
+* Run code in `~/.sonic-pi/init.rb` on launch if it exists.  
+* If environment variable `SONIC_PI_HOME` is set it will be used over
+  `~` as the root of the user's `.sonic-pi` directory (used to auto-save
+  files and store logs).
+* Default sound card selection is now honoured on Raspberry Pi - so you
+  may now use your IQaudIO hat (or similar) out of the box.
+
+
+### Bugfixes
+
+* Fix number of synth validation errors.
+* Fix sporadically failing boot issues on Windows
+* Add auto-reboot functionality for audio server. This now detects
+  errors in the server (such as a killed or zombied process) and
+  automatically reboots it to enable Sonic Pi to continue without a full
+  restart. Reboots automatically reload all loaded samples and
+  synthdefs.
+* `sample_duration` now correctly takes account of TL defaults set by
+  `use_sample_defaults`.
+* Sampler opts `pitch_stretch`, `beat_stretch` and `rpitch` can now be
+  used in TL defaults.
 
 <a name="v2.8"></a>
 

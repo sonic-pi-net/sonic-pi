@@ -1,6 +1,6 @@
 # SONIC PI DETAILED BUILD YOUR OWN INSTRUCTIONS FOR WINDOWS 10 BASED ON LATEST SP 2.9dev after e7fde3a
 
-Last revision 23rd December 2015 @ 11;25   (added win32-process gem install)
+Last revision 29th December 2015 @ 7:32PM AWST   (minor grammar improvement)
 
 Test bed was a Windows 10 64bit install (running under vmware fusion on a Mac)
 
@@ -173,7 +173,7 @@ From the **Start Button** select **All apps** and scroll down to **Visual Studio
 
 Type **path** in that window after the prompt and press the enter key.
 
-You will see a long string of folder locations which comprise the path associated with the window, which it will automatically search. It includes links the various elements of visual studio. However, we have to add one more item, which is the path of the Qt bin directory.
+You will see a long string of folder locations which comprise the path associated with the window, which it will automatically search. It includes links to the various elements of visual studio. However, we have to add one more item, which is the path of the Qt bin directory.
 
 Since the Visual Studio prompt path is rebuilt each time a window is opened, I have found the convenient way to do this is to create a **batch file** which can be run each time to add the additional entry. Since I want to store this at the C:\ top level, we have to run the cmd window with administrative privileges to create it.
 Close the open Visual Studio Command Prompt window, then reopen it, holding down **Shift** and **Ctrl** when you do so. Say **Yes** to the popup window, and you will then have a cmd window with admin privileges. 
