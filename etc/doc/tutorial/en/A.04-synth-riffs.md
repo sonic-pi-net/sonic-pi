@@ -50,14 +50,14 @@ a full list of all the synths and all the available opts each individual
 synth supports to see just how much power you have under your coding
 fingertips.
 
-/ break out box begin
+## Timbre
 
-Timbre is just a fancy word describing the sound of a sound. If you play the same note with different instruments such as a violin, guitar, or piano, the pitch (how high or low it sounds) would be the same, but the
+Timbre is just a fancy word describing the sound of a sound. If you play
+the same note with different instruments such as a violin, guitar, or
+piano, the pitch (how high or low it sounds) would be the same, but the
 sound quality would be different. That sound quality - the thing which
 allows you to tell the difference between a piano and a guitar is the
 timbre.
-
-/ break out box end
 
 
 ## Melodic Composition
@@ -111,8 +111,8 @@ and then choose the seed we want to shuffle with. If we don't like the
 melody, just change one of those two things and try again. Repeat until
 you like what you hear!
 
-/ break out box begin
-Pseudo Randomisation
+
+## Pseudo Randomisation
 
 Sonic Pi's randomisation is not actually random it's what's called
 pseudo random.  Imagine if you were to roll a dice 100 times and write
@@ -122,8 +122,6 @@ random value. Instead of rolling an actual dice, it just picks the next
 value from the list. Setting the random seed is just jumping to a
 specific point in that list.
  
-/ break out box end
-
 ## Finding your Rhythm
 
 Another important aspect to our riff is the rhythm - when to play a note
@@ -166,7 +164,7 @@ example. See you next time!
       #  uncomment to bring in:
       #  synth :blade, note: :e4, release: 4, cutoff: 100, amp: 1.5
       use_synth :dsaw
-      use_random_seed 30030
+      use_random_seed 43
       notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle.take(8)
       8.times do
         play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)
