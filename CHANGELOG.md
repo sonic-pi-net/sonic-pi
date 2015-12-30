@@ -76,6 +76,7 @@ Happy Live Coding!
 * When saving a buffer a `.txt` extension is automatically added to the
   file name if none specified.
 * Add Hungarian and Norwegian translations of GUI.
+* Add Spanish translation of tutorial.
 * Add title to main window - enables Sonic Pi to be selected in
   screensharing app lists such as Google Hangouts and OBS.
 * Add autocompletion for tuning systems.

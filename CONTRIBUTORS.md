@@ -33,6 +33,7 @@ grow and improve the Sonic Pi code base:
 * [Łukasz Siwiński](https://github.com/hopbit)
 * [Martin Keegan](https://github.com/mk270)
 * [Nicolas Dermine](https://github.com/nicoder)
+* [Ricardo Pozo](https://github.com/thraex41)
 * [Kenichi Kanai](https://github.com/kn1kn1)
 * [Robin Newman](https://github.com/rbnpi)
 * [Wolfgang Werner](https://github.com/wwerner)
