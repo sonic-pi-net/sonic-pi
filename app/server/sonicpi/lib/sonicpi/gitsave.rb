@@ -21,7 +21,7 @@ module SonicPi
       @path = path
       begin
         @repo = Rugged::Repository.new(path + '/.git')
-      rescue Rugged::OSError => e
+      rescue
         @repo = Rugged::Repository.init_at path, false
       end
     end
