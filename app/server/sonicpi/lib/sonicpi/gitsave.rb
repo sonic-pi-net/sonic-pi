@@ -20,9 +20,15 @@ module SonicPi
       path = path.encode('utf-8')
       @path = path
       begin
-        @repo = Rugged::Repository.new(path + '/.git')
+        @repo = Rugged::Repository.new(path + '.git')
       rescue
-        @repo = Rugged::Repository.init_at path, false
+        begin
+          @repo = Rugged::Repository.init_at path, false
+        rescue
+          # Repo is malformed - nuke it for now!
+          FileUtils.rm_rf path + '.git'
+          @repo = Rugged::Repository.init_at path, false
+        end
       end
     end
 
