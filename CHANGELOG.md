@@ -14,6 +14,7 @@
 
 ## Version 2.9 - 'Venster'
 *Thursday 31st December, 2015*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.9.0)
 
 Hot on the heels of the previous release comes `v2.9` codenamed
 `Venster` (Dutch for window). This release has a specific focus on
@@ -135,6 +136,7 @@ Happy Live Coding!
 
 ## Version 2.8 - 'Karlsruhe'
 *Friday 20th November, 2015*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.8.0)
 
 This release, named after Karlsruhe, one of the home cities of live
 coding, is mainly a maintenance release with a strong focus on both
@@ -229,6 +231,7 @@ cutoff envelopes on the sampler.
 
 ## Version 2.7 - 'Rerezzed'
 *Thursday 10th September, 2015*
+[(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.7.0)
 
 This release brings a substantial change to the random number
 generator. This has the unfortunate side effect of breaking backwards
