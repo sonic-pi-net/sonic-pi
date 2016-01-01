@@ -56,7 +56,7 @@
          cutoff-freq (midicps cutoff)
          use-filter  (> cutoff 0)
          dur         (* (/ 1 (abs rate)) (buf-dur:ir buf))
-         env-dur     (/ (+ attack sustain decay release) rate)
+         env-dur     (+ attack sustain decay release)
          start       (select:kr (< rate 0) [0
                                             (- (buf-frames:ir buf) 1)])
          sustain     (select:kr (= -1 sustain) [sustain (- dur attack release decay)])
@@ -107,7 +107,7 @@
          cutoff-freq   (midicps cutoff)
          use-filter    (> cutoff 0)
          dur           (* (/ 1 (abs rate)) (buf-dur:ir buf))
-         env-dur       (/ (+ attack sustain decay release) rate)
+         env-dur       (+ attack sustain decay release)
          sustain       (select:kr (= -1 sustain) [sustain (- dur attack release decay)])
          decay_level   (select:kr (= -1 decay_level) [decay_level sustain_level])
          env           (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
