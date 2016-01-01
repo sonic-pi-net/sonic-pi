@@ -56,6 +56,7 @@
          cutoff-freq (midicps cutoff)
          use-filter  (> cutoff 0)
          dur         (* (/ 1 (abs rate)) (buf-dur:ir buf))
+         env-dur     (/ (+ attack sustain decay release) rate)
          start       (select:kr (< rate 0) [0
                                             (- (buf-frames:ir buf) 1)])
          sustain     (select:kr (= -1 sustain) [sustain (- dur attack release decay)])
@@ -65,7 +66,7 @@
          snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
 
          snd         (* env snd)]
-     (line:kr 1 1 (+ 0.03 dur) FREE)
+     (line:kr 1 1 (+ 0.03 (min dur env-dur)) FREE)
      (out out_bus (pan2 snd pan amp))))
 
  (defsynth sonic-pi-basic_stereo_player
@@ -106,6 +107,7 @@
          cutoff-freq   (midicps cutoff)
          use-filter    (> cutoff 0)
          dur           (* (/ 1 (abs rate)) (buf-dur:ir buf))
+         env-dur       (/ (+ attack sustain decay release) rate)
          sustain       (select:kr (= -1 sustain) [sustain (- dur attack release decay)])
          decay_level   (select:kr (= -1 decay_level) [decay_level sustain_level])
          env           (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
@@ -118,7 +120,7 @@
          snd-l         (* env snd-l)
          snd-r         (* env snd-r)
          snd           (balance2 snd-l snd-r pan amp)]
-     (line:kr 1 1 (+ 0.03 dur) FREE)
+     (line:kr 1 1 (+ 0.03 (min dur env-dur)) FREE)
      (out out_bus snd)))
 
 
