@@ -24,6 +24,14 @@
     amp_slide 0
     amp_slide_shape 1
     amp_slide_curve 0
+    attack [0.0 :ir]
+    decay [0 :ir]
+    sustain [-1 :ir]
+    release [0.0 :ir]
+    attack_level [1 :ir]
+    decay_level [-1 :ir]
+    sustain_level [1 :ir]
+    env_curve [1 :ir]
     pan 0
     pan_slide 0
     pan_slide_shape 1
@@ -50,10 +58,14 @@
          dur         (* (/ 1 (abs rate)) (buf-dur:ir buf))
          start       (select:kr (< rate 0) [0
                                             (- (buf-frames:ir buf) 1)])
+         sustain     (select:kr (= -1 sustain) [sustain (- dur attack release decay)])
+         decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+         env         (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
          snd         (play-buf 1 buf scaled-rate 0 start)
          snd         (select use-filter [snd (rlpf snd cutoff-freq res)])
-         killer      (line:kr 1 1 (+ 0.03 dur) FREE)]
 
+         snd         (* env snd)]
+     (line:kr 1 1 (+ 0.03 dur) FREE)
      (out out_bus (pan2 snd pan amp))))
 
  (defsynth sonic-pi-basic_stereo_player
@@ -62,6 +74,14 @@
     amp_slide 0
     amp_slide_shape 1
     amp_slide_curve 0
+    attack [0.0 :ir]
+    decay [0 :ir]
+    sustain [-1 :ir]
+    release [0.0 :ir]
+    attack_level [1 :ir]
+    decay_level [-1 :ir]
+    sustain_level [1 :ir]
+    env_curve [1 :ir]
     pan 0
     pan_slide 0
     pan_slide_shape 1
@@ -86,15 +106,19 @@
          cutoff-freq   (midicps cutoff)
          use-filter    (> cutoff 0)
          dur           (* (/ 1 (abs rate)) (buf-dur:ir buf))
+         sustain       (select:kr (= -1 sustain) [sustain (- dur attack release decay)])
+         decay_level   (select:kr (= -1 decay_level) [decay_level sustain_level])
+         env           (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
          start         (select:kr (< rate 0) [0
                                               (- (buf-frames:ir buf) 1)])
          [snd-l snd-r] (play-buf 2 buf scaled-rate 0 start)
          snd-l         (select use-filter [snd-l (rlpf snd-l cutoff-freq res)])
          snd-r         (select use-filter [snd-r (rlpf snd-r cutoff-freq res)])
-         killer        (line:kr 1 1 (+ 0.03 dur) FREE)
 
+         snd-l         (* env snd-l)
+         snd-r         (* env snd-r)
          snd           (balance2 snd-l snd-r pan amp)]
-
+     (line:kr 1 1 (+ 0.03 dur) FREE)
      (out out_bus snd)))
 
 
