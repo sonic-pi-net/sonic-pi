@@ -303,7 +303,7 @@ module SonicPi
           audio_out_rate = CoreAudio.default_output_device.nominal_rate
           log "Boot - Input audio rate now: #{audio_in_rate}"
           log "Boot - Output audio rate now: #{audio_out_rate}"
-          if audio_in.nominal_rate != audio_out.nominal_rate
+          if audio_in_rate != :unknown_in_rate && audio_out_rate != :unknown_out_rate && audio_in.nominal_rate != audio_out.nominal_rate
             log "Boot - Sample rates do not match, exiting"
             raise
           end
