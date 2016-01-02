@@ -71,7 +71,14 @@ module SonicPi
 
       def start_listener
         loop do
-          osc_data, network = @socket.recvfrom( 16384 )
+          begin
+            osc_data, network = @socket.recvfrom( 16384 )
+          rescue Exception => e
+            STDERR.puts "Critical: UDP Server had issues receiving reading socket"
+            Kernel.sleep 1
+            redo
+          end
+
           begin
             address, args = @decoder.decode_single_message(osc_data)
             if @global_matcher
