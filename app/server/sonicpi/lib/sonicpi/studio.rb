@@ -51,8 +51,8 @@ module SonicPi
                 message "Sound server is down."
                 begin
                   reboot
-                rescue
-                  message "Error rebooting server"
+                rescue Exception => e
+                  message "Error rebooting server: #{e}, #{e.backtrace}"
                 end
               end
             rescue
@@ -62,8 +62,8 @@ module SonicPi
               message "Error communicating with sound server."
               begin
                 reboot
-              rescue
-                message "Error rebooting server"
+              rescue Exception => e
+                message "Error rebooting server after we lost comms: #{e}, #{e.backtrace}"
               end
             end
           end
@@ -117,7 +117,7 @@ module SonicPi
     end
 
     def load_synthdefs(path, server=@server)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:load_synthdefs)
       internal_load_synthdefs(path, server)
     end
 
@@ -126,12 +126,12 @@ module SonicPi
     end
 
     def load_sample(path, server=@server)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:load_sample)
       internal_load_sample(path, server)
     end
 
     def free_sample(paths, server=@server)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:free_sample)
       @sample_sem.synchronize do
         paths.each do |p|
           info = @samples[p]
@@ -143,7 +143,7 @@ module SonicPi
     end
 
     def free_all_samples(server=@server)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:free_all_samples)
       @sample_sem.synchronize do
         @samples.each do |k, v|
           server.buffer_free(v)
@@ -154,7 +154,7 @@ module SonicPi
 
 
     def start_amp_monitor
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:start_amp_monitor)
       unless @amp_synth
         @amp_synth = @server.trigger_synth :head, @recording_group, "sonic-pi-amp_stereo_monitor", {"bus" => 0}, true
       end
@@ -162,25 +162,25 @@ module SonicPi
 
 
     def trigger_synth(synth_name, group, args, info, now=false, t_minus_delta=false )
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:trigger_synth)
       @server.trigger_synth(:head, group, synth_name, args, info, now, t_minus_delta)
     end
 
     def volume=(vol)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:invert)
       message "Setting main volume to #{vol}"
       @server.node_ctl @mixer, {"amp" => vol}
     end
 
     def mixer_invert_stereo(invert)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:mixer_invert_stereo)
       # invert should be true or false
       invert_i = invert ? 1 : 0
       @server.node_ctl @mixer, {"invert_stereo" => invert_i}, true
     end
 
     def mixer_control(opts)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:mixer_control)
       now = 0
       opts = opts.clone
       if opts[:now].is_a?(Numeric)
@@ -193,80 +193,75 @@ module SonicPi
     end
 
     def mixer_reset
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:mixer_reset)
       info = Synths::SynthInfo.get_info(:main_mixer)
       mixer_control(info.slide_arg_defaults)
       mixer_control(info.arg_defaults)
     end
 
     def mixer_stereo_mode
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:mixer_stereo_mode)
       @server.node_ctl @mixer, {"force_mono" => 0}, true
     end
 
     def mixer_mono_mode
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:mixer_mono_mode)
       @server.node_ctl @mixer, {"force_mono" => 1}, true
     end
 
     def status
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:status)
       @server.status
     end
 
     def stop
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:stop)
       @server.clear_schedule
       @server.group_clear @synth_group
     end
 
     def new_group(position, target, name="")
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:new_group)
       @server.create_group(position, target, name)
     end
 
     def new_synth_group(id=-1)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:new_synth_group)
       new_group(:tail, @synth_group, "Run-#{id}-Synths")
     end
 
     def new_fx_group(id=-1)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:new_fx_group)
       new_group(:tail, @fx_group, "Run-#{id}-FX")
     end
 
     def new_fx_bus
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:new_fx_bus)
       @server.allocate_audio_bus
     end
 
     def sched_ahead_time
-      raise StudioCurrentlyRebootingError if @rebooting
       @server.sched_ahead_time
     end
 
     def sched_ahead_time=(t)
-      raise StudioCurrentlyRebootingError if @rebooting
       @server.sched_ahead_time = t
     end
 
     def control_delta
-      raise StudioCurrentlyRebootingError if @rebooting
       @server.control_delta
     end
 
     def control_delta=(t)
-      raise StudioCurrentlyRebootingError if @rebooting
       @server.control_delta = t
     end
 
     def recording?(bus=0)
-      raise StudioCurrentlyRebootingError if @rebooting
       @recorders[bus]
     end
 
     def recording_start(path, bus=0)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:recording_start)
       return false if @recorders[bus]
       @recording_mutex.synchronize do
         return false if @recorders[bus]
@@ -278,7 +273,7 @@ module SonicPi
     end
 
     def recording_stop(bus=0)
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:recording_stop)
       return false unless @recorders[bus]
       @recording_mutex.synchronize do
         return false unless @recorders[bus]
@@ -291,7 +286,7 @@ module SonicPi
     end
 
     def shutdown
-      raise StudioCurrentlyRebootingError if @rebooting
+      check_for_server_rebooting!(:shutdown)
       @server.shutdown
     end
 
@@ -310,6 +305,14 @@ module SonicPi
     end
 
     private
+
+    def check_for_server_rebooting!(msg=nil)
+      if @rebooting
+        message "Oops, already rebooting: #{msg}"
+        log "Oops, already rebooting: #{msg}"
+        raise StudioCurrentlyRebootingError if @rebooting
+      end
+    end
 
     def message(s)
       @msg_queue.push({:type => :info, :val => "Studio: #{s.to_s}"})

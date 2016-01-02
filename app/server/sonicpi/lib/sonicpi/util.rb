@@ -285,7 +285,7 @@ module SonicPi
     end
 
     def debug_mode
-      false
+      true
     end
 
     def osc_debug_mode
