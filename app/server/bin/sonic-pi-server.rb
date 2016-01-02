@@ -82,11 +82,14 @@ end
 
 
 at_exit do
+  STDOUT.puts "Server is exiting."
   begin
+    STDOUT.puts "Shutting down GUI..."
     gui.send("/exited")
   rescue Errno::EPIPE => e
     STDERR.puts "GUI not listening."
   end
+  STDOUT.puts "Goodbye :-)"
 end
 
 user_methods = Module.new
