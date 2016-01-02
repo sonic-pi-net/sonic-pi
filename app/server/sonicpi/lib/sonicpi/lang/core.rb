@@ -2241,7 +2241,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       end
       doc name:           :sleep,
           introduced:     Version.new(2,0,0),
-          summary:        "Wait for duration",
+          summary:        "Wait for beat duration",
           doc:            "Wait for a number of beats before triggering the next command. Beats are converted to seconds by scaling to the current bpm setting.",
           args:           [[:beats, :number]],
           opts:           nil,
