@@ -313,6 +313,50 @@
      (out out_bus (pan2 (* amp-fudge snd env) pan amp))))
 
 
+  (defsynth sonic-pi-dtri [note 52
+                          note_slide 0
+                          note_slide_shape 1
+                          note_slide_curve 0
+                          amp 1
+                          amp_slide 0
+                          amp_slide_shape 1
+                          amp_slide_curve 0
+                          pan 0
+                          pan_slide 0
+                          pan_slide_shape 1
+                          pan_slide_curve 0
+                          attack 0
+                          decay 0
+                          sustain 0
+                          release 1
+                          attack_level 1
+                          decay_level -1
+                          sustain_level 1
+                          env_curve 1
+                          cutoff 100
+                          cutoff_slide 0
+                          cutoff_slide_shape 1
+                          cutoff_slide_curve 0
+                          detune 0.1
+                          detune_slide 0
+                          detune_slide_shape 1
+                          detune_slide_curve 0
+                          out_bus 0]
+   (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+         note        (varlag note note_slide note_slide_curve note_slide_shape)
+         amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         amp-fudge   1.1
+         pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         detune      (varlag detune detune_slide detune_slide_curve detune_slide_shape)
+         cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+         freq        (midicps note)
+         cutoff-freq (midicps cutoff)
+         detune-freq (midicps (+ note detune))
+         snd         (normalizer (lpf (mix (lf-tri [freq detune-freq])) cutoff-freq))
+         env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
+     (out out_bus (pan2 (* amp-fudge snd env) pan amp))))
+
+
  (defsynth sonic-pi-dpulse [note 52
                             note_slide 0
                             note_slide_shape 1
@@ -906,6 +950,7 @@
    (core/save-synthdef sonic-pi-subpulse)
    (core/save-synthdef sonic-pi-square)
    (core/save-synthdef sonic-pi-dsaw)
+   (core/save-synthdef sonic-pi-dtri)
    (core/save-synthdef sonic-pi-dpulse)
    (core/save-synthdef sonic-pi-fm)
 
