@@ -15,7 +15,7 @@ require 'socket'
 module SonicPi
   module OSC
     class UDPServer
-      def initialize(port, opts={}, &proc)
+      def initialize(port, opts={}, &global_method)
         open = opts[:open]
         use_decoder_cache = opts[:use_decoder_cache]
         decoder_cache_size = opts[:decoder_cache_size] || 1000
@@ -30,7 +30,7 @@ module SonicPi
           @socket.bind('127.0.0.1', port )
         end
         @matchers = {}
-        @global_matcher = proc
+        @global_matcher = global_method
         @decoder = OscDecode.new(use_decoder_cache, decoder_cache_size)
         @encoder = OscEncode.new(use_encoder_cache, encoder_cache_size)
         @listener_thread = Thread.new {start_listener}
