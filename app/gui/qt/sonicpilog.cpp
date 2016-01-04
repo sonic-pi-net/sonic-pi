@@ -6,6 +6,12 @@
 
 SonicPiLog::SonicPiLog(QWidget *parent) : QPlainTextEdit(parent)
 {
+  this->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
+  //setParent(0); // Create TopLevel-Widget
+  this->setAttribute(Qt::WA_NoSystemBackground, true);
+  this->setStyleSheet("background-color: transparent");
+  this->setAttribute(Qt::WA_TranslucentBackground, true);
+  this->setAttribute(Qt::WA_PaintOnScreen); // not needed in Qt 5.2 and up
 }
 
 void SonicPiLog::setTextColor(QColor c)

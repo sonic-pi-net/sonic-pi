@@ -23,6 +23,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   : QsciScintilla()
 {
   this->theme = theme;
+  this->viewport()->setAttribute(Qt::WA_TranslucentBackground);
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
   QString skey;
