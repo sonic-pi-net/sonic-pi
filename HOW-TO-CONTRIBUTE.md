@@ -50,11 +50,11 @@ where help is appreciated.
 - Get us in touch with blind or visually impaired users
 
   We think that Sonic Pi would be a pretty awesome tool for blind or
-  visually impaired users wanting to learn programming. We just don't
-  know if the Sonic Pi GUI is useful and accessible enough for them,
-  so we don't know where to improve it for their needs. If you can
+  visually impaired users wanting to learn programming. If you can
   help us get in touch with one of these users or are one of them,
-  please do get in touch.
+  please let us know. We don't know if the Sonic Pi GUI is useful
+  and accessible enough for you, so we don't know where to improve it
+  for your needs. Your input is highly appreciated.
 
 - Save/Load function for buffers
   
