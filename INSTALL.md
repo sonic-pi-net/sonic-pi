@@ -142,6 +142,8 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 * Build QScintilla:
   - `cd /path/to/qscintilla/Qt4Qt5`
+  - (OSX Xcode7 only) Add the following to qscintilla.pro
+      QMAKE_MAC_SDK = macosx10.11
   - generate makefile: `/path/to/qt/5.4/clang_64/bin/qmake qscintilla.pro`
   - `make`
   - (OSX only) update the dylib inner path part 1: `install_name_tool -id "/path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib`
@@ -150,6 +152,8 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
     LIBS += -L /path/to/qscintilla/Qt4Qt5/ -lqscintilla2
     INCLUDEPATH += /path/to/qscintilla/Qt4Qt5/
     DEPENDPATH += /path/to/qscintilla/Qt4Qt5/
+* (OSX Xcode7 only) Add the following to SonicPi.pro
+    QMAKE_MAC_SDK = macosx10.11
 * Modify top of mac-build-app appropriately i.e.
     QSCINTILLA=/path/to/qscintilla/Qt4Qt5
     QTBIN=/path/to/qt/5.4/clang_64/bin
