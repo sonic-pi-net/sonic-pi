@@ -47,24 +47,19 @@ where help is appreciated.
 
 ### Medium Projects
 
+- Get us in touch with blind or visually impaired users
+
+  We think that Sonic Pi would be a pretty awesome tool for blind or
+  visually impaired users wanting to learn programming. If you can
+  help us get in touch with one of these users or are one of them,
+  please let us know. We don't know if the Sonic Pi GUI is useful
+  and accessible enough for you, so we don't know where to improve it
+  for your needs. Your input is highly appreciated.
+
 - Save/Load function for buffers
   
   Sonic Pi can save to a file, but it still doesn't have a user-friendly
   way to load existing code.
-
-- Packaging for Linux
-
-  Currently, there are binaries available for OS X, Windows and
-  Raspberry Pi Raspbian. For other Linux distributions, users have to
-  build it on their own. We'd love to find Linux enthusiasts who'd
-  volunteer to maintain packaging for their Linux distros.
-
-- Translation Server Integration
-
-  Sonic Pi translation has been a good start, but it's now turning into
-  a hassle to keep up with the changes. A translation service such as
-  Transifex etc. would be beneficial. The difficult part is how to
-  integrate this with GitHub.
 
 - Optimisation: Identify & fix bottlenecks that waste CPU or RAM
 
