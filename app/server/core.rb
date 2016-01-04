@@ -93,6 +93,11 @@ module SonicPi
         Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || 0
       end
 
+      def self.get_seed_plus_idx
+        (Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_idx) || 0) +
+          Thread.current.thread_variable_get(:sonic_pi_spider_random_gen_seed) || 0
+      end
+
       def self.rand!(max=1, idx=nil)
         idx = inc_idx! unless idx
         rand_peek(max, idx)

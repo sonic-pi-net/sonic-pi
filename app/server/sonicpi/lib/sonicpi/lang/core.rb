@@ -2103,6 +2103,32 @@ puts slept #=> Returns false as there were no sleeps in the block"]
   "    ]
 
 
+      def current_random_seed
+        SonicPi::Core::SPRand.get_seed_plus_idx
+      end
+      doc name:          :current_random_seed,
+          introduced:    Version.new(2,10,0),
+          summary:       "Get current random seed",
+          doc:           "Returns the current random seed.
+
+This can be set via the fns `use_random_seed` and `with_random_seed. It is incremented every time you use the random number generator via fns such as `choose` and `rand`.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+  puts current_random_seed # Print out the current random seed",
+"
+## Resetting the seed back to a known place
+puts rand               #=>  0.75006103515625
+puts rand               #=>  0.733917236328125
+a = current_random_seed # Grab the current seed
+puts rand               #=> 0.464202880859375
+puts rand               #=> 0.24249267578125
+use_random_seed a       # Restore the seed
+                        # we'll now get the same random values:
+puts rand               #=> 0.464202880859375
+puts rand               #=> 0.24249267578125
+"]
 
 
       def current_bpm
