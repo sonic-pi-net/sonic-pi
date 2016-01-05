@@ -1,14 +1,14 @@
-#ifndef SONICPISERVER_H
-#define SONICPISERVER_H
+#ifndef SONICPIOSCSERVER_H
+#define SONICPIOSCSERVER_H
 
 #include <QObject>
 #include "oschandler.h"
 
-class SonicPiServer : public QObject
+class SonicPiOSCServer : public QObject
 {
     Q_OBJECT
 public:
-    explicit SonicPiServer(MainWindow *parent = 0, OscHandler *handler = 0);
+    explicit SonicPiOSCServer(MainWindow *parent = 0, OscHandler *handler = 0);
     bool waitForServer();
     bool isIncomingPortOpen();
     bool isServerStarted();
@@ -17,8 +17,8 @@ public:
 signals:
 
 public slots:
-   virtual void stopServer();
-   virtual void startServer();
+   virtual void stop();
+   virtual void start();
 
 protected:
     OscHandler* handler;
@@ -31,4 +31,4 @@ protected:
 
 };
 
-#endif // SONICPISERVER_H
+#endif // SONICPIOSCSERVER_H

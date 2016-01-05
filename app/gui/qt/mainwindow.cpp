@@ -74,8 +74,8 @@
 
 #include "oschandler.h"
 #include "sonicpilog.h"
-#include "sonicpiudpserver.h"
-#include "sonicpitcpserver.h"
+#include "sonic_pi_udp_osc_server.h"
+#include "sonic_pi_tcp_osc_server.h"
 
 // OSC stuff
 #include "oscpkt.hh"
@@ -122,7 +122,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   printAsciiArtLogo();
 
-  startServer();
+  startRubyServer();
 
   setUnifiedTitleAndToolBarOnMac(true);
   setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -174,12 +174,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
 
   if(protocol == UDP){
-    sonicPiServer = new SonicPiUDPServer(this, handler);
-    osc_thread = QtConcurrent::run(sonicPiServer, &SonicPiServer::startServer);
+    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler);
+    osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
   }
   else{
-    sonicPiServer = new SonicPiTCPServer(this, handler);
-    sonicPiServer->startServer();
+    sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
+    sonicPiOSCServer->start();
   }
 
   // Window layout
@@ -663,7 +663,7 @@ QString MainWindow::rootPath() {
 #endif
 }
 
-void MainWindow::startServer(){
+void MainWindow::startRubyServer(){
 
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
@@ -730,16 +730,16 @@ void MainWindow::startServer(){
 void MainWindow::waitForServiceSync() {
   int timeout = 60;
   std::cout << "[GUI] - waiting for server to connect..." << std::endl;
-  while (sonicPiServer->waitForServer() && timeout-- > 0) {
+  while (sonicPiOSCServer->waitForServer() && timeout-- > 0) {
     sleep(1);
-    if(sonicPiServer->isIncomingPortOpen()) {
+    if(sonicPiOSCServer->isIncomingPortOpen()) {
       Message msg("/ping");
       msg.pushStr(guiID.toStdString());
       msg.pushStr("QtClient/1/hello");
       sendOSC(msg);
     }
   }
-  if (!sonicPiServer->isServerStarted()) {
+  if (!sonicPiOSCServer->isServerStarted()) {
       std::cout << "[GUI] - critical error!" << std::endl;
       invokeStartupError("Critical server error!");
   }
@@ -1084,7 +1084,7 @@ void MainWindow::initPrefsWindow() {
 
 void MainWindow::invokeStartupError(QString msg) {
   startup_error_reported = true;
-  sonicPiServer->stopServer();
+  sonicPiOSCServer->stop();
   QMetaObject::invokeMethod(this, "startupError",
 			    Qt::QueuedConnection,
 			    Q_ARG(QString, msg));
@@ -2246,7 +2246,7 @@ void MainWindow::onExitCleanup()
   setupLogPathAndRedirectStdOut();
   if(serverProcess->state() == QProcess::NotRunning) {
     std::cout << "[GUI] - warning, server process is not running." << std::endl;
-    sonicPiServer->stopServer();
+    sonicPiOSCServer->stop();
     if(protocol == TCP){
       clientSock->close();
     }

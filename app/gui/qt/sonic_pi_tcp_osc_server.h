@@ -1,30 +1,26 @@
-#ifndef SONICPITCPSERVER_H
-#define SONICPITCPSERVER_H
+#ifndef SONIC_PI_TCP_OSC_SERVER_H
+#define SONIC_PI_TCP_OSC_SERVER_H
 
 #include "oschandler.h"
-#include "sonicpiserver.h"
+#include "sonic_pi_osc_server.h"
 #include "mainwindow.h"
 
 #include <QtCore>
 #include <QtNetwork>
 #include <QTcpSocket>
 
-#include "oschandler.h"
-#include "sonicpiserver.h"
-#include "mainwindow.h"
-
-class SonicPiTCPServer :  public SonicPiServer
+class SonicPiTCPOSCServer :  public SonicPiOSCServer
 {
     Q_OBJECT
 
 public:
-    explicit SonicPiTCPServer(MainWindow *parent, OscHandler *handler = 0);
+    explicit SonicPiTCPOSCServer(MainWindow *parent, OscHandler *handler = 0);
 
     quint32 blockSize;
 
 public slots:
-    void stopServer();
-    void startServer();
+    void stop();
+    void start();
     void readMessage();
     void client();
     void logError(QAbstractSocket::SocketError);
@@ -37,4 +33,4 @@ private:
     std::vector<char> buffer;
 };
 
-#endif // SONICPITCPSERVER_H
+#endif // SONIC_PI_TCP_OSC_SERVER_H

@@ -50,7 +50,7 @@ class QSlider;
 class SonicPiAPIs;
 class SonicPiLog;
 class SonicPiScintilla;
-class SonicPiServer;
+class SonicPiOSCServer;
 
 struct help_page {
   QString title;
@@ -74,7 +74,7 @@ public:
     MainWindow(QApplication &ref, bool i18n, QSplashScreen* splash);
 #endif
 
-    SonicPiServer *sonicPiServer;
+    SonicPiOSCServer *sonicPiOSCServer;
     enum {UDP=0, TCP=1};
     QCheckBox *dark_mode;
     bool loaded_workspaces;
@@ -171,7 +171,7 @@ private:
 
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;
-    void startServer();
+    void startRubyServer();
     void waitForServiceSync();
     void clearOutputPanels();
     void createShortcuts();

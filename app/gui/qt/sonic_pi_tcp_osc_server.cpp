@@ -1,16 +1,16 @@
-#include "sonicpitcpserver.h"
+#include "sonic_pi_tcp_osc_server.h"
 #include "mainwindow.h"
 
 // Qt stuff
 #include <QtNetwork>
 #include <QTcpSocket>
 
-#include "sonicpiserver.h"
+#include "sonic_pi_osc_server.h"
 
 // OSC stuff
 #include "oscpkt.hh"
 
-SonicPiTCPServer::SonicPiTCPServer(MainWindow *sonicPiWindow, OscHandler *oscHandler) : SonicPiServer(sonicPiWindow, oscHandler)
+SonicPiTCPOSCServer::SonicPiTCPOSCServer(MainWindow *sonicPiWindow, OscHandler *oscHandler) : SonicPiOSCServer(sonicPiWindow, oscHandler)
 {
     tcpServer = new QTcpServer(sonicPiWindow);
     buffer.clear();
@@ -19,7 +19,7 @@ SonicPiTCPServer::SonicPiTCPServer(MainWindow *sonicPiWindow, OscHandler *oscHan
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(client()));
 }
 
-void SonicPiTCPServer::startServer(){
+void SonicPiTCPOSCServer::start(){
     int PORT_NUM = 4558;
     if(tcpServer->listen(QHostAddress::LocalHost, PORT_NUM)){
       std::cout << "[GUI] - TCP OSC Server started: " << PORT_NUM << std::endl;
@@ -32,15 +32,15 @@ void SonicPiTCPServer::startServer(){
 
  }
 
-void SonicPiTCPServer::stopServer(){
+void SonicPiTCPOSCServer::stop(){
     tcpServer->close();
 }
 
-void SonicPiTCPServer::logError(QAbstractSocket::SocketError e){
+void SonicPiTCPOSCServer::logError(QAbstractSocket::SocketError e){
     std::cerr << "[GUI] - Socket error:" << e;
 }
 
-void SonicPiTCPServer::client(){
+void SonicPiTCPOSCServer::client(){
     //In TCP we have no ack signal as we don't block the main loop.
     //Hence assume if we get a connection from a client its booted and ready.
     QMetaObject::invokeMethod(parent, "serverStarted", Qt::QueuedConnection);
@@ -51,7 +51,7 @@ void SonicPiTCPServer::client(){
     std::vector<char>().swap(buffer);
 }
 
-void SonicPiTCPServer::readMessage()
+void SonicPiTCPOSCServer::readMessage()
 {
     while(socket->bytesAvailable() > 0){
         if (blockSize == 0) {

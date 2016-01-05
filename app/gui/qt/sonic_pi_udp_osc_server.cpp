@@ -1,8 +1,8 @@
-#include "sonicpiudpserver.h"
-#include "sonicpiserver.h"
+#include "sonic_pi_udp_osc_server.h"
+#include "sonic_pi_osc_server.h"
 #include "udp.hh"
 
-SonicPiUDPServer::SonicPiUDPServer(MainWindow *sonicPiWindow, OscHandler *oscHandler) : SonicPiServer(sonicPiWindow, oscHandler)
+SonicPiUDPOSCServer::SonicPiUDPOSCServer(MainWindow *sonicPiWindow, OscHandler *oscHandler) : SonicPiOSCServer(sonicPiWindow, oscHandler)
 {
   handler = oscHandler;
   osc_incoming_port_open = false;
@@ -10,11 +10,11 @@ SonicPiUDPServer::SonicPiUDPServer(MainWindow *sonicPiWindow, OscHandler *oscHan
   stop_server = false;
 }
 
-void SonicPiUDPServer::stopServer(){
+void SonicPiUDPOSCServer::stop(){
   stop_server = true;
 }
 
-void SonicPiUDPServer::startServer(){
+void SonicPiUDPOSCServer::start(){
   std::cout << "[GUI] - starting UDP OSC Server on port 4558..." << std::endl;
   int PORT_NUM = 4558;
   oscpkt::UdpSocket sock;
