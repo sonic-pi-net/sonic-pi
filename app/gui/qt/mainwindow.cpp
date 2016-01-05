@@ -122,6 +122,36 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   printAsciiArtLogo();
 
+  // Syntax highlighting
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
+  QFile themeFile(themeFilename);
+  SonicPiTheme *theme;
+  if(themeFile.exists()){
+    std::cout << "[GUI] - using custom editor colours" << std::endl;
+    QSettings settings(themeFilename, QSettings::IniFormat);
+    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
+    lexer = new SonicPiLexer(theme);
+  }
+  else{
+    std::cout << "[GUI] - using default editor colours" << std::endl;
+    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
+    lexer = new SonicPiLexer(theme);
+  }
+
+
+
+  OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
+
+  if(protocol == UDP){
+    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler);
+    osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
+  }
+  else{
+    sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
+    sonicPiOSCServer->start();
+  }
+
   startRubyServer();
 
   setUnifiedTitleAndToolBarOnMac(true);
@@ -147,22 +177,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   update_info = new QLabel(tr("Sonic Pi update info"));
   update_info->setWordWrap(true);
 
-  // Syntax highlighting
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-  QFile themeFile(themeFilename);
-  SonicPiTheme *theme;
-  if(themeFile.exists()){
-    std::cout << "[GUI] - using custom editor colours" << std::endl;
-    QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
-  else{
-    std::cout << "[GUI] - using default editor colours" << std::endl;
-    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
 
 
 
@@ -171,16 +185,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
   timer->start(1000);
 
-  OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
-
-  if(protocol == UDP){
-    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler);
-    osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
-  }
-  else{
-    sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
-    sonicPiOSCServer->start();
-  }
 
   // Window layout
   tabs = new QTabWidget();
