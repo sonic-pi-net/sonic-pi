@@ -58,9 +58,9 @@ SOURCES += main.cpp \
            sonicpiscintilla.cpp \
            oschandler.cpp \
            sonicpilog.cpp \
-           sonicpiserver.cpp \
-           sonicpiudpserver.cpp \
-           sonicpitcpserver.cpp \
+           sonic_pi_osc_server.cpp \
+           sonic_pi_udp_osc_server.cpp \
+           sonic_pi_tcp_osc_server.cpp \
            sonicpitheme.cpp
 win32 {
 # have to link these explicitly for some reason
@@ -76,10 +76,10 @@ HEADERS  += mainwindow.h \
             sonicpiapis.h \
             sonicpiscintilla.h \
             oschandler.h \
-            sonicpiserver.h \
-            sonicpiudpserver.h \
+            sonic_pi_osc_server.h \
+            sonic_pi_udp_osc_server.h \
+            sonic_pi_tcp_osc_server.h \
             ruby_help.h \
-            sonicpitcpserver.h \
             sonicpitheme.h
 
 TRANSLATIONS = lang/sonic-pi_de.ts \
