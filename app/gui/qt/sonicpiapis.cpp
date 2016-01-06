@@ -41,7 +41,7 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
 void SonicPiAPIs::loadSamples(QString sample_path) {
   QDir dir(sample_path);
   QStringList filetypes;
-  filetypes << "*.wav";
+  filetypes << "*.wav" << "*.wave" << "*.aif" << "*.aiff" << "*.flac";
   dir.setNameFilters(filetypes);
 
   QFileInfoList files = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
