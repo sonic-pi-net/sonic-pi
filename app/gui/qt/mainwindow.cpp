@@ -102,74 +102,135 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+
+  loaded_workspaces = false;
+  is_recording = false;
+  show_rec_icon_a = false;
+  restoreDocPane = false;
+  focusMode = false;
+  version = "";
+  latest_version = "";
+  version_num = 0;
+  latest_version_num = 0;
+  this->splash = splash;
+  this->i18n = i18n;
+  guiID = QUuid::createUuid().toString();
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
+
   QThreadPool::globalInstance()->setMaxThreadCount(3);
   app.installEventFilter(this);
   app.processEvents();
 
-  setupLogPathAndRedirectStdOut();
-  std::cout << "\n\n\n";
-
-  guiID = QUuid::createUuid().toString();
-  loaded_workspaces = false;
-  this->splash = splash;
   protocol = UDP;
-
   if(protocol == TCP){
     clientSock = new QTcpSocket(this);
   }
 
-  this->i18n = i18n;
-
+  setupLogPathAndRedirectStdOut();
+  std::cout << "\n\n\n";
   printAsciiArtLogo();
+
+  setupTheme();
+  lexer = new SonicPiLexer(theme);
+
+  setupWindowStructure();
+  createShortcuts();
+  createToolBar();
+  createStatusBar();
+  createInfoPane();
+  setWindowTitle(tr("Sonic Pi"));
+  initPrefsWindow();
+  updateDarkMode();
+  initDocsWindow();
+  updateFullScreenMode();
+  updateTabsVisibility();
+  updateButtonVisibility();
+  updateLogVisibility();
+
+  OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
+
+  if(protocol == UDP){
+    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler);
+    osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
+  }
+  else{
+    sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
+    sonicPiOSCServer->start();
+  }
+
+
+  // Wait to hear back from the server before continuing
+  startRubyServer();
+  waitForServiceSync();
+
+  loadWorkspaces();
+  requestVersion();
+
+  readSettings();
+  showWindow();
+
+  splashClose();
+  showWelcomeScreen();
+
+  connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
+  QTimer *timer = new QTimer(this);
+  connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
+  timer->start(1000);
+
+
+}
+
+void MainWindow::showWelcomeScreen() {
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+if(settings.value("first_time", 1).toInt() == 1) {
+    QTextBrowser* startupPane = new QTextBrowser;
+    startupPane->setFixedSize(600, 615);
+    startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
+    startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
+    addUniversalCopyShortcuts(startupPane);
+    startupPane->document()->setDefaultStyleSheet(readFile(":/theme/light/doc-styles.css"));
+    startupPane->setSource(QUrl("qrc:///html/startup.html"));
+    startupPane->setStyleSheet(defaultTextBrowserStyle);
+    docWidget->show();
+    startupPane->show();
+  }
+}
+
+void MainWindow::setupTheme() {
+
+  // Syntax highlighting
+  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
+  QFile themeFile(themeFilename);
+  if(themeFile.exists()){
+    std::cout << "[GUI] - using custom editor colours" << std::endl;
+    QSettings settings(themeFilename, QSettings::IniFormat);
+    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
+  }
+  else{
+
+    std::cout << "[GUI] - using default editor colours" << std::endl;
+    QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
+
+  }
+}
+
+void MainWindow::setupWindowStructure() {
+
   setUnifiedTitleAndToolBarOnMac(true);
   setWindowIcon(QIcon(":images/icon-smaller.png"));
-
-  defaultTextBrowserStyle = "QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background:white;}";
-
-  is_recording = false;
-  show_rec_icon_a = false;
 
   rec_flash_timer = new QTimer(this);
   connect(rec_flash_timer, SIGNAL(timeout()), this, SLOT(toggleRecordingOnIcon()));
 
   // Setup output and error panes
-  version = "";
-  latest_version = "";
-  version_num = 0;
-  latest_version_num = 0;
+
   outputPane = new SonicPiLog;
   errorPane = new QTextBrowser;
   errorPane->setOpenExternalLinks(true);
-
   update_info = new QLabel(tr("Sonic Pi update info"));
   update_info->setWordWrap(true);
-
-
-
-  // Syntax highlighting
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-  QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
-  QFile themeFile(themeFilename);
-  SonicPiTheme *theme;
-  if(themeFile.exists()){
-    std::cout << "[GUI] - using custom editor colours" << std::endl;
-    QSettings settings(themeFilename, QSettings::IniFormat);
-    theme = new SonicPiTheme(this, &settings, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
-  else{
-    std::cout << "[GUI] - using default editor colours" << std::endl;
-    theme = new SonicPiTheme(this, 0, settings.value("prefs/dark-mode").toBool());
-    lexer = new SonicPiLexer(theme);
-  }
-
-
-
-
-  QTimer *timer = new QTimer(this);
-  connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
-  timer->start(1000);
-
 
   // Window layout
   tabs = new QTabWidget();
@@ -418,65 +479,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   mainWidget->setLayout(mainWidgetLayout);
   setCentralWidget(mainWidget);
 
-  createShortcuts();
-  createToolBar();
-  createStatusBar();
-  createInfoPane();
-
-  readSettings();
-
-
-  setWindowTitle(tr("Sonic Pi"));
-
-  connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
-
-  initPrefsWindow();
-
-
-
-  OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
-
-  if(protocol == UDP){
-    sonicPiOSCServer = new SonicPiUDPOSCServer(this, handler);
-    osc_thread = QtConcurrent::run(sonicPiOSCServer, &SonicPiOSCServer::start);
-  }
-  else{
-    sonicPiOSCServer = new SonicPiTCPOSCServer(this, handler);
-    sonicPiOSCServer->start();
-  }
-
-  startRubyServer();
-
-
-  if(settings.value("first_time", 1).toInt() == 1) {
-    QTextBrowser* startupPane = new QTextBrowser;
-    startupPane->setFixedSize(600, 615);
-    startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
-    startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
-    addUniversalCopyShortcuts(startupPane);
-    startupPane->document()->setDefaultStyleSheet(readFile(":/theme/light/doc-styles.css"));
-    startupPane->setSource(QUrl("qrc:///html/startup.html"));
-    startupPane->setStyleSheet(defaultTextBrowserStyle);
-    docWidget->show();
-    startupPane->show();
-  }
-
-  restoreDocPane = false;
-
-  focusMode = false;
-
-  // Wait to hear back from the server before continuing
-  waitForServiceSync();
-  serverStarted();
-
-  updateDarkMode();
-  initDocsWindow();
-  updateFullScreenMode();
-  updateTabsVisibility();
-  updateButtonVisibility();
-  updateLogVisibility();
-
-  requestVersion();
 }
 
 void MainWindow::changeTab(int id){
@@ -759,12 +761,8 @@ void MainWindow::splashClose() {
 #endif
 }
 
-void MainWindow::serverStarted() {
-  splashClose();
-  loadWorkspaces();
-
+void MainWindow::showWindow() {
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
-
   if(settings.value("first_time", 1).toInt() == 1) {
     showMaximized();
   } else {
@@ -2121,7 +2119,6 @@ void MainWindow::createStatusBar()
 
 void MainWindow::readSettings() {
   // Pref settings are read in MainWindow::initPrefsWindow()
-
   QSettings settings("uk.ac.cam.cl", "Sonic Pi");
   QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
   QSize size = settings.value("size", QSize(400, 400)).toSize();
@@ -2254,8 +2251,10 @@ void MainWindow::onExitCleanup()
       clientSock->close();
     }
   } else {
-    if (loaded_workspaces)
+    if (loaded_workspaces) {
+      // this should be a synchorous call to avoid the following sleep
       saveWorkspaces();
+    }
     sleep(1);
     std::cout << "[GUI] - asking server process to exit..." << std::endl;
     Message msg("/exit");

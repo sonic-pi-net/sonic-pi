@@ -37,6 +37,7 @@
 #include <sstream>
 #include <fstream>
 #include <QSignalMapper>
+#include "sonicpitheme.h"
 
 class QAction;
 class QMenu;
@@ -134,7 +135,7 @@ private slots:
     void showPrefsPane();
     void updateDocPane(QListWidgetItem *cur);
     void updateDocPane2(QListWidgetItem *cur, QListWidgetItem *prev);
-    void serverStarted();
+    void showWindow();
     void splashClose();
     void startupError(QString msg);
     void replaceBuffer(QString id, QString content, int line, int index, int first_line);
@@ -166,6 +167,9 @@ private slots:
     void heartbeatOSC();
     void zoomCurrentWorkspaceIn();
     void zoomCurrentWorkspaceOut();
+    void showWelcomeScreen();
+    void setupWindowStructure();
+    void setupTheme();
 
 private:
 
@@ -249,6 +253,7 @@ private:
     QProcess *serverProcess;
 
     SonicPiLexer *lexer;
+    SonicPiTheme *theme;
 
     QToolBar *toolBar;
 
