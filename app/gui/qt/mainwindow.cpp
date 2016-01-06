@@ -142,7 +142,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   setWindowTitle(tr("Sonic Pi"));
   initPrefsWindow();
   updateDarkMode();
-  initDocsWindow();
+
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
@@ -162,6 +162,11 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   // Wait to hear back from the server before continuing
   startRubyServer();
   waitForServiceSync();
+
+  initDocsWindow();
+
+  //setup autocompletion
+  autocomplete->loadSamples(sample_path);
 
   loadWorkspaces();
   requestVersion();
@@ -349,8 +354,6 @@ void MainWindow::setupWindowStructure() {
   lexer->setDefaultFont(font);
 
   autocomplete = new SonicPiAPIs(lexer);
-  autocomplete->loadSamples(sample_path);
-
   // adding universal shortcuts to outputpane seems to
   // steal events from doc system!?
   // addUniversalCopyShortcuts(outputPane);
