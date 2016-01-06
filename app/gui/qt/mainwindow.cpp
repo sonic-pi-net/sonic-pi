@@ -143,7 +143,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   initPrefsWindow();
   updateDarkMode();
   initDocsWindow();
-  updateFullScreenMode();
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
@@ -168,9 +167,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   requestVersion();
 
   readSettings();
-  showWindow();
 
   splashClose();
+  showWindow();
+  updateFullScreenMode();
   showWelcomeScreen();
 
   connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
