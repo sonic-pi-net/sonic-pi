@@ -120,6 +120,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   this->i18n = i18n;
 
+#if defined(Q_OS_LINUX)
+  this->raspberryPiSoundcard = isRaspberryPiSoundcard();
+#endif
+
   printAsciiArtLogo();
   setUnifiedTitleAndToolBarOnMac(true);
   setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -807,8 +811,45 @@ void MainWindow::initPrefsWindow() {
 
   QGridLayout *grid = new QGridLayout;
 
-  QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
-  volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
+
+#if defined(Q_OS_LINUX)
+  if (raspberryPiSoundcard) {
+    QGroupBox *volBox = new QGroupBox(tr("Raspberry Pi System Volume"));
+    volBox->setToolTip(tr("Use this slider to change the system volume of your Raspberry Pi."));
+
+    QGroupBox *audioOutputBox = new QGroupBox(tr("Raspberry Pi Audio Output"));
+    audioOutputBox->setToolTip(tr("Your Raspberry Pi has two forms of audio output.\nFirstly, there is the headphone jack of the Raspberry Pi itself.\nSecondly, some HDMI monitors/TVs support audio through the HDMI port.\nUse these buttons to force the output to the one you want."));
+    rp_force_audio_default = new QRadioButton(tr("&Default"));
+    rp_force_audio_headphones = new QRadioButton(tr("&Headphones"));
+    rp_force_audio_hdmi = new QRadioButton(tr("&HDMI"));
+
+    connect(rp_force_audio_default, SIGNAL(clicked()), this, SLOT(setRPSystemAudioAuto()));
+    connect(rp_force_audio_headphones, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHeadphones()));
+    connect(rp_force_audio_hdmi, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHDMI()));
+
+    QVBoxLayout *audio_box = new QVBoxLayout;
+    audio_box->addWidget(rp_force_audio_default);
+    audio_box->addWidget(rp_force_audio_headphones);
+    audio_box->addWidget(rp_force_audio_hdmi);
+    audio_box->addStretch(1);
+    audioOutputBox->setLayout(audio_box);
+
+    QHBoxLayout *vol_box = new QHBoxLayout;
+    rp_system_vol = new QSlider(this);
+    connect(rp_system_vol, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
+    vol_box->addWidget(rp_system_vol);
+    volBox->setLayout(vol_box);
+
+    QGroupBox *audio_prefs_box = new QGroupBox();
+    QGridLayout *audio_prefs_box_layout = new QGridLayout;
+
+    audio_prefs_box_layout->addWidget(audioOutputBox, 0, 0);
+    audio_prefs_box_layout->addWidget(volBox, 0, 1);
+    audio_prefs_box->setLayout(audio_prefs_box_layout);
+    prefTabs->addTab(audio_prefs_box, tr("Audio"));
+  }
+#endif
+
 
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Advanced Audio"));
   advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
@@ -830,31 +871,6 @@ void MainWindow::initPrefsWindow() {
   // audio_box->addWidget(radio3);
   // audio_box->addStretch(1);
   advancedAudioBox->setLayout(advanced_audio_box_layout);
-
-
-  QGroupBox *audioOutputBox = new QGroupBox(tr("Raspberry Pi Audio Output"));
-  audioOutputBox->setToolTip(tr("Your Raspberry Pi has two forms of audio output.\nFirstly, there is the headphone jack of the Raspberry Pi itself.\nSecondly, some HDMI monitors/TVs support audio through the HDMI port.\nUse these buttons to force the output to the one you want."));
-  rp_force_audio_default = new QRadioButton(tr("&Default"));
-  rp_force_audio_headphones = new QRadioButton(tr("&Headphones"));
-  rp_force_audio_hdmi = new QRadioButton(tr("&HDMI"));
-
-
-  connect(rp_force_audio_default, SIGNAL(clicked()), this, SLOT(setRPSystemAudioAuto()));
-  connect(rp_force_audio_headphones, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHeadphones()));
-  connect(rp_force_audio_hdmi, SIGNAL(clicked()), this, SLOT(setRPSystemAudioHDMI()));
-
-  QVBoxLayout *audio_box = new QVBoxLayout;
-  audio_box->addWidget(rp_force_audio_default);
-  audio_box->addWidget(rp_force_audio_headphones);
-  audio_box->addWidget(rp_force_audio_hdmi);
-  audio_box->addStretch(1);
-  audioOutputBox->setLayout(audio_box);
-
-  QHBoxLayout *vol_box = new QHBoxLayout;
-  rp_system_vol = new QSlider(this);
-  connect(rp_system_vol, SIGNAL(valueChanged(int)), this, SLOT(changeRPSystemVol(int)));
-  vol_box->addWidget(rp_system_vol);
-  volBox->setLayout(vol_box);
 
   QGroupBox *debug_box = new QGroupBox(tr("Logging"));
   debug_box->setToolTip(tr("Configure debug behaviour"));
@@ -881,9 +897,6 @@ void MainWindow::initPrefsWindow() {
   connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(changeGUITransparency(int)));
   transparency_box_layout->addWidget(gui_transparency_slider);
   transparency_box->setLayout(transparency_box_layout);
-
-
-
 
 
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
@@ -973,17 +986,7 @@ void MainWindow::initPrefsWindow() {
   editor_box->setLayout(gridEditorPrefs);
   grid->addWidget(prefTabs, 0, 0);
 
-#if defined(Q_OS_LINUX)
-  QGroupBox *audio_prefs_box = new QGroupBox();
-  QGridLayout *audio_prefs_box_layout = new QGridLayout;
-
-  audio_prefs_box_layout->addWidget(audioOutputBox, 0, 0);
-  audio_prefs_box_layout->addWidget(volBox, 0, 1);
-  audio_prefs_box->setLayout(audio_prefs_box_layout);
-  prefTabs->addTab(audio_prefs_box, tr("Audio"));
-#endif
-
-    QGroupBox *studio_prefs_box = new QGroupBox();
+  QGroupBox *studio_prefs_box = new QGroupBox();
   QGridLayout *studio_prefs_box_layout = new QGridLayout;
 
   studio_prefs_box_layout->addWidget(advancedAudioBox, 0, 0);
@@ -1053,9 +1056,25 @@ void MainWindow::initPrefsWindow() {
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
 
-  rp_force_audio_default->setChecked(settings.value("prefs/rp/force-audio-default", true).toBool());
-  rp_force_audio_headphones->setChecked(settings.value("prefs/rp/force-audio-headphones", false).toBool());
-  rp_force_audio_hdmi->setChecked(settings.value("prefs/rp/force-audio-hdmi", false).toBool());
+#if defined(Q_OS_LINUX)
+  if (raspberryPiSoundcard) {
+    rp_force_audio_default->setChecked(settings.value("prefs/rp/force-audio-default", true).toBool());
+    rp_force_audio_headphones->setChecked(settings.value("prefs/rp/force-audio-headphones", false).toBool());
+    rp_force_audio_hdmi->setChecked(settings.value("prefs/rp/force-audio-hdmi", false).toBool());
+    int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
+    rp_system_vol->setValue(stored_vol);
+    changeRPSystemVol(stored_vol);
+    if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
+      setRPSystemAudioAuto();
+    }
+    if(settings.value("prefs/rp/force-audio-headphones", false).toBool()) {
+      setRPSystemAudioHeadphones();
+    }
+    if(settings.value("prefs/rp/force-audio-hdmi", false).toBool()) {
+      setRPSystemAudioHDMI();
+    }
+  }
+#endif
 
   check_updates->setChecked(settings.value("prefs/rp/check-updates", true).toBool());
 
@@ -1063,25 +1082,10 @@ void MainWindow::initPrefsWindow() {
 
   gui_transparency_slider->setValue(settings.value("prefs/gui_transparency", 0).toInt());
 
-  int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
-  rp_system_vol->setValue(stored_vol);
-
   // Ensure prefs are honoured on boot
   update_mixer_invert_stereo();
   update_mixer_force_mono();
-  changeRPSystemVol(stored_vol);
   update_check_updates();
-
-  if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
-    setRPSystemAudioAuto();
-  }
-  if(settings.value("prefs/rp/force-audio-headphones", false).toBool()) {
-    setRPSystemAudioHeadphones();
-  }
-  if(settings.value("prefs/rp/force-audio-hdmi", false).toBool()) {
-    setRPSystemAudioHDMI();
-  }
-
 
 }
 
@@ -1517,32 +1521,6 @@ void MainWindow::changeGUITransparency(int)
 
 }
 
-
-#if defined(Q_OS_LINUX)
-void MainWindow::changeRPSystemVol(int val)
-#else
-void MainWindow::changeRPSystemVol(int)
-#endif
-{
-#if defined(Q_OS_WIN)
-  // do nothing
-#elif defined(Q_OS_MAC)
-  // do nothing
-#else
-  //assuming Raspberry Pi
-  QProcess *p = new QProcess();
-  float v = (float) val;
-  // handle the fact that the amixer percentage range isn't linear
-  float vol_float = std::pow(v/100.0, (float)1./3.) * 100.0;
-  std::ostringstream ss;
-  ss << vol_float;
-  statusBar()->showMessage(tr("Updating System Volume..."), 2000);
-  QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
-  p->start(prog);
-#endif
-
-}
-
 void MainWindow::toggleDarkMode() {
   dark_mode->toggle();
   updateDarkMode();
@@ -1750,51 +1728,54 @@ void MainWindow::changeShowLineNumbers(){
   }
 }
 
+#if defined(Q_OS_LINUX)
+bool MainWindow::isRaspberryPiSoundcard() {
+  // look for the Raspberry Pi soundcard name in the kernel's audio info
+  QString cardInfo = readFile("/proc/asound/card0/pcm0p/info");
+  return cardInfo.contains("bcm2835");
+}
+
+void MainWindow::changeRPSystemVol(int val)
+{
+  //assuming Raspberry Pi
+  QProcess *p = new QProcess();
+  float v = (float) val;
+  // handle the fact that the amixer percentage range isn't linear
+  float vol_float = std::pow(v/100.0, (float)1./3.) * 100.0;
+  std::ostringstream ss;
+  ss << vol_float;
+  statusBar()->showMessage(tr("Updating System Volume..."), 2000);
+  QString prog = "amixer cset numid=1 " + QString::fromStdString(ss.str()) + '%';
+  p->start(prog);
+}
+
 void MainWindow::setRPSystemAudioHeadphones()
 {
-#if defined(Q_OS_WIN)
-  //do nothing
-#elif defined(Q_OS_MAC)
-  //do nothing
-#else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To Headphone Audio Output..."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 1";
   p->start(prog);
-#endif
 }
 
 void MainWindow::setRPSystemAudioHDMI()
 {
-
-#if defined(Q_OS_WIN)
-  //do nothing
-#elif defined(Q_OS_MAC)
-  //do nothing
-#else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To HDMI Audio Output..."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 2";
   p->start(prog);
-#endif
 }
 
 void MainWindow::setRPSystemAudioAuto()
 {
-#if defined(Q_OS_WIN)
-  //do nothing
-#elif defined(Q_OS_MAC)
-  //do nothing
-#else
   //assuming Raspberry Pi
   statusBar()->showMessage(tr("Switching To Default Audio Output..."), 2000);
   QProcess *p = new QProcess();
   QString prog = "amixer cset numid=3 0";
   p->start(prog);
-#endif
 }
+#endif
 
 void MainWindow::showPrefsPane()
 {
@@ -2167,10 +2148,14 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
 
-  settings.setValue("prefs/rp/force-audio-default", rp_force_audio_default->isChecked());
-  settings.setValue("prefs/rp/force-audio-headphones", rp_force_audio_headphones->isChecked());
-  settings.setValue("prefs/rp/force-audio-hdmi", rp_force_audio_hdmi->isChecked());
-  settings.setValue("prefs/rp/system-vol", rp_system_vol->value());
+#if defined(Q_OS_LINUX)
+  if (raspberryPiSoundcard) {
+    settings.setValue("prefs/rp/force-audio-default", rp_force_audio_default->isChecked());
+    settings.setValue("prefs/rp/force-audio-headphones", rp_force_audio_headphones->isChecked());
+    settings.setValue("prefs/rp/force-audio-hdmi", rp_force_audio_hdmi->isChecked());
+    settings.setValue("prefs/rp/system-vol", rp_system_vol->value());
+  }
+#endif
 
   settings.setValue("prefs/rp/check-updates", check_updates->isChecked());
   settings.setValue("prefs/auto-indent-on-run", auto_indent_on_run->isChecked());
