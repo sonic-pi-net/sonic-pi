@@ -28,6 +28,8 @@ require_relative "../sonicpi/lib/sonicpi/runtime"
 
 require 'multi_json'
 
+puts "Sonic Pi server booting..."
+
 include SonicPi::Util
 
 server_port = ARGV[1] ? ARGV[0].to_i : 4557
@@ -378,5 +380,8 @@ out_t = Thread.new do
     end
   end
 end
+
+puts "Sonic Pi Server successfully booted."
+STDOUT.flush
 
 out_t.join

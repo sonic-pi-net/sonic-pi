@@ -107,26 +107,28 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     // use FHS directory scheme:
     // Sonic Pi is not running inside the user's home directory, but is
     // installed in /usr/bin on Linux from a distribution's package
-    
+
     ruby_path = "/usr/bin/ruby";
     ruby_server_path = "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb";
     sample_path = "/usr/share/sonic-pi/samples";
-    
+
   } else {
-    
+
     // do not use FHS directory scheme:
     // Sonic Pi is running in user's home dir or installed on
     // Win, OS-X or in non-FHS /opt directory scheme
-    
+
     ruby_path = QDir::toNativeSeparators(rubyPath());
     QString root_path = QDir::toNativeSeparators(rootPath());
     ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
     sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
-  
+
   }
-  
+
   sp_user_path = QDir::toNativeSeparators(QDir::homePath() + "/.sonic-pi");
   log_path = QDir::toNativeSeparators(sp_user_path + "/log");
+  server_error_log_path = QDir::toNativeSeparators(log_path + "/server-errors.log");
+  server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
 
   loaded_workspaces = false;
   is_recording = false;
@@ -736,10 +738,8 @@ void MainWindow::startRubyServer(){
     //    std::cout << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
 
     std::cout << "[GUI] - booting live coding server" << std::endl;
-    QString sp_error_log_path = log_path + QDir::separator() + "server-errors.log";
-    QString sp_output_log_path = log_path + QDir::separator() + "server-output.log";
-    serverProcess->setStandardErrorFile(sp_error_log_path);
-    serverProcess->setStandardOutputFile(sp_output_log_path);
+    serverProcess->setStandardErrorFile(server_error_log_path);
+    serverProcess->setStandardOutputFile(server_output_log_path);
     serverProcess->start(ruby_path, args);
     if (!serverProcess->waitForStarted()) {
       invokeStartupError(tr("The Sonic Pi server could not be started!"));
@@ -748,6 +748,28 @@ void MainWindow::startRubyServer(){
 }
 
 bool MainWindow::waitForServiceSync() {
+  QString contents;
+  std::cout << "[GUI] - waiting for server to boot...";
+  bool server_booted = false;
+
+  for(int i = 0; i < 60; i ++) {
+    contents = readFile(server_output_log_path);
+    if (contents.contains("Sonic Pi Server successfully booted.")) {
+      std::cout << std::endl << "[GUI] - server successfully booted." << std::endl;
+      server_booted = true;
+      break;
+    } else {
+      std::cout << ".";
+      sleep(1);
+    }
+  }
+
+  if (!server_booted) {
+      std::cout << std::endl << "[GUI] - Critical error! Could not boot server." << std::endl;
+      invokeStartupError("Critical server error - could not boot server!");
+      return false;
+  }
+
   int timeout = 60;
   std::cout << "[GUI] - waiting for server to connect..." << std::endl;
   while (sonicPiOSCServer->waitForServer() && timeout-- > 0) {
@@ -760,8 +782,8 @@ bool MainWindow::waitForServiceSync() {
     }
   }
   if (!sonicPiOSCServer->isServerStarted()) {
-      std::cout << "[GUI] - critical error!" << std::endl;
-      invokeStartupError("Critical server error!");
+      std::cout << "[GUI] - Critical error! Could not connect to server." << std::endl;
+      invokeStartupError("Critical server error - could not connect to server!");
       return false;
   } else {
     std::cout << "[GUI] - server connection established" << std::endl;
