@@ -1149,6 +1149,7 @@ void MainWindow::startupError(QString msg) {
   QSpacerItem* hSpacer = new QSpacerItem(200, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
   layout->addItem(hSpacer, layout->rowCount(), 0, 1, layout->columnCount());
   box->exec();
+  std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
   close();
 }
 
