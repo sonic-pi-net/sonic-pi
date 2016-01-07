@@ -186,29 +186,29 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   // Wait to hear back from the server before continuing
   startRubyServer();
-  waitForServiceSync();
+  if (waitForServiceSync()){
+    // We have a connection! Finish up loading app...
+    initDocsWindow();
 
-  initDocsWindow();
+    //setup autocompletion
+    autocomplete->loadSamples(sample_path);
 
-  //setup autocompletion
-  autocomplete->loadSamples(sample_path);
+    loadWorkspaces();
+    requestVersion();
 
-  loadWorkspaces();
-  requestVersion();
+    readSettings();
 
-  readSettings();
+    splashClose();
+    showWindow();
+    updateFullScreenMode();
+    showWelcomeScreen();
 
-  splashClose();
-  showWindow();
-  updateFullScreenMode();
-  showWelcomeScreen();
+    connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
+    timer->start(1000);
 
-  connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
-  QTimer *timer = new QTimer(this);
-  connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
-  timer->start(1000);
-
-
+  }
 }
 
 void MainWindow::showWelcomeScreen() {
@@ -748,7 +748,7 @@ void MainWindow::startRubyServer(){
     }
 }
 
-void MainWindow::waitForServiceSync() {
+bool MainWindow::waitForServiceSync() {
   int timeout = 60;
   std::cout << "[GUI] - waiting for server to connect..." << std::endl;
   while (sonicPiOSCServer->waitForServer() && timeout-- > 0) {
@@ -763,9 +763,11 @@ void MainWindow::waitForServiceSync() {
   if (!sonicPiOSCServer->isServerStarted()) {
       std::cout << "[GUI] - critical error!" << std::endl;
       invokeStartupError("Critical server error!");
+      return false;
+  } else {
+    std::cout << "[GUI] - server connection established" << std::endl;
+    return true;
   }
-
-  std::cout << "[GUI] - server connection established" << std::endl;
 
 }
 

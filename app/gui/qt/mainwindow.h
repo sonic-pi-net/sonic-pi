@@ -176,7 +176,7 @@ private:
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;
     void startRubyServer();
-    void waitForServiceSync();
+    bool waitForServiceSync();
     void clearOutputPanels();
     void createShortcuts();
     void createToolBar();
