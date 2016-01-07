@@ -201,6 +201,7 @@ module SonicPi
     end
 
     def boot_and_wait(*args)
+      log "Boot - Starting the SuperCollider server..."
       p = Promise.new
       p2 = Promise.new
 
@@ -208,7 +209,6 @@ module SonicPi
       connected = false
       FileUtils.rm scsynth_log_path if File.exists?(scsynth_log_path)
 
-      log "Boot - Starting the SuperCollider server..."
       @scsynth_log_file = File.open(scsynth_log_path, 'w')
       @scsynth_log_file.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
       at_exit { @scsynth_log_file.close if @scsynth_log_file}
@@ -233,7 +233,7 @@ module SonicPi
         t1.kill
         Process.kill(9, @scsynth_pid)
       end
-      raise "Unable to boot SuperCollider - boot server log does not report server ready" unless v
+      raise "Unable to boot SuperCollider - boot server log did not report server ready" unless v
 
       boot_s = OSC::UDPServer.new(5998) do |a, b|
         log "Boot - Receiving ack from server on port 5998"
