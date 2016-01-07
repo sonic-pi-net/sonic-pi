@@ -265,7 +265,7 @@ module SonicPi
     def log_raw(s)
         # TODO: consider moving this into a worker thread to reduce file
         # io overhead:
-      File.open("#{log_path}/debug.log", 'a') {|f| f.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")}
+      File.open("#{log_path}/debug.log", 'w') {|f| f.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")}
     end
 
     def log_exception(e, context="")
