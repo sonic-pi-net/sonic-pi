@@ -294,7 +294,7 @@ private:
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
-    QString sample_path, log_path, sp_user_path, root_path, ruby_server_path, ruby_path;
+    QString sample_path, log_path, sp_user_path, ruby_server_path, ruby_path;
     QString defaultTextBrowserStyle;
 
     QString version;
