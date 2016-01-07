@@ -1087,6 +1087,10 @@ void MainWindow::initPrefsWindow() {
 }
 
 void MainWindow::invokeStartupError(QString msg) {
+  if(startup_error_reported) {
+    return;
+  }
+
   startup_error_reported = true;
   sonicPiOSCServer->stop();
   QMetaObject::invokeMethod(this, "startupError",
