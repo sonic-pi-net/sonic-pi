@@ -210,6 +210,7 @@ private:
     QString tooltipStrMeta(char key, QString str);
     QString readFile(QString name);
     QString rootPath();
+    QString rubyPath();
 
     void addUniversalCopyShortcuts(QTextEdit *te);
 
@@ -293,7 +294,7 @@ private:
     std::ofstream stdlog;
 
     SonicPiAPIs *autocomplete;
-    QString sample_path, log_path;
+    QString sample_path, log_path, sp_user_path, root_path, ruby_server_path, ruby_path;
     QString defaultTextBrowserStyle;
 
     QString version;
@@ -306,7 +307,6 @@ private:
     QLabel *versionLabel;
 
     QString guiID;
-
 };
 
 #endif

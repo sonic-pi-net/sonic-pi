@@ -102,6 +102,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
+  sp_user_path = QDir::toNativeSeparators(QDir::homePath() + "/.sonic-pi");
+  log_path = QDir::toNativeSeparators(sp_user_path + "/log");
+  root_path = QDir::toNativeSeparators(rootPath());
+  sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
+  ruby_path = QDir::toNativeSeparators(rubyPath());
+  ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
 
   loaded_workspaces = false;
   is_recording = false;
@@ -671,6 +677,24 @@ QString MainWindow::rootPath() {
 #endif
 }
 
+QString MainWindow::rubyPath() {
+  QString root_path = rootPath();
+#if defined(Q_OS_WIN)
+  QString prg_path = root_path + "/app/server/native/windows/ruby/bin/ruby.exe";
+#elif defined(Q_OS_MAC)
+  QString prg_path = root_path + "/server/native/osx/ruby/bin/ruby";
+#else
+  //assuming Raspberry Pi
+  QString prg_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
+  QFile file(prg_path);
+  if(!file.exists()) {
+    // use system ruby if bundled ruby doesn't exist
+    prg_path = "/usr/bin/ruby";
+  }
+#endif
+  return prg_path;
+}
+
 void MainWindow::startRubyServer(){
 
   // kill any zombie processes that may exist
@@ -682,44 +706,14 @@ void MainWindow::startRubyServer(){
   sendOSC(msg);
   sleep(2);
 
-
     serverProcess = new QProcess();
 
-    QString root = rootPath();
-
-  #if defined(Q_OS_WIN)
-    QString prg_path = root + "/app/server/native/windows/ruby/bin/ruby.exe";
-    QString prg_arg = root + "/app/server/bin/sonic-pi-server.rb";
-    sample_path = root + "/etc/samples";
-  #elif defined(Q_OS_MAC)
-    QString prg_path = root + "/server/native/osx/ruby/bin/ruby";
-    QString prg_arg = root + "/server/bin/sonic-pi-server.rb";
-    sample_path = root + "/etc/samples";
-  #else
-    //assuming Raspberry Pi
-    QString prg_path = root + "/app/server/native/raspberry/ruby/bin/ruby";
-    QFile file(prg_path);
-    if(!file.exists()) {
-      // use system ruby if bundled ruby doesn't exist
-      prg_path = "/usr/bin/ruby";
-    }
-
-    QString prg_arg = root + "/app/server/bin/sonic-pi-server.rb";
-    sample_path = root + "/etc/samples";
-  #endif
-
-    prg_path = QDir::toNativeSeparators(prg_path);
-    prg_arg = QDir::toNativeSeparators(prg_arg);
-
-
     QStringList args;
-    args << prg_arg;
+    args << ruby_server_path;
 
     if(protocol == TCP){
         args << "-t";
     }
-
-
 
     //    std::cout << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
 
@@ -728,7 +722,7 @@ void MainWindow::startRubyServer(){
     QString sp_output_log_path = log_path + QDir::separator() + "server-output.log";
     serverProcess->setStandardErrorFile(sp_error_log_path);
     serverProcess->setStandardOutputFile(sp_output_log_path);
-    serverProcess->start(prg_path, args);
+    serverProcess->start(ruby_path, args);
     if (!serverProcess->waitForStarted()) {
       invokeStartupError(tr("The Sonic Pi server could not be started!"));
       return;
@@ -2479,8 +2473,6 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
 
 
 void MainWindow::setupLogPathAndRedirectStdOut() {
-  QString sp_user_path = QDir::homePath() + QDir::separator() + ".sonic-pi";
-  log_path =  sp_user_path + QDir::separator() + "log";
   QDir().mkdir(sp_user_path);
   QDir().mkdir(log_path);
 
