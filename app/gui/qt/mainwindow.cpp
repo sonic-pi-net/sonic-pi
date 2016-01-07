@@ -726,25 +726,23 @@ void MainWindow::startRubyServer(){
   sendOSC(msg);
   sleep(2);
 
-    serverProcess = new QProcess();
+  serverProcess = new QProcess();
 
-    QStringList args;
-    args << ruby_server_path;
+  QStringList args;
+  args << ruby_server_path;
 
-    if(protocol == TCP){
-        args << "-t";
-    }
+  if(protocol == TCP){
+    args << "-t";
+  }
 
-    //    std::cout << "[GUI] - exec "<< prg_path.toStdString() << " " << prg_arg.toStdString() << std::endl;
-
-    std::cout << "[GUI] - booting live coding server" << std::endl;
-    serverProcess->setStandardErrorFile(server_error_log_path);
-    serverProcess->setStandardOutputFile(server_output_log_path);
-    serverProcess->start(ruby_path, args);
-    if (!serverProcess->waitForStarted()) {
-      invokeStartupError(tr("The Sonic Pi server could not be started!"));
-      return;
-    }
+  std::cout << "[GUI] - booting live coding server" << std::endl;
+  serverProcess->setStandardErrorFile(server_error_log_path);
+  serverProcess->setStandardOutputFile(server_output_log_path);
+  serverProcess->start(ruby_path, args);
+  if (!serverProcess->waitForStarted()) {
+    invokeStartupError(tr("The Sonic Pi server could not be started!"));
+    return;
+  }
 }
 
 bool MainWindow::waitForServiceSync() {
