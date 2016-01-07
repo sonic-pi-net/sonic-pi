@@ -183,17 +183,6 @@ module SonicPi
       log ""
     end
 
-    def osx_scsynth_path
-      potential_paths = [
-        "#{native_path}/scsynth",
-        "/Applications/SuperCollider/scsynth",
-        "/Applications/SuperCollider.app/Contents/Resources/scsynth",
-        "/Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth"]
-      path = potential_paths.find {|path| File.exists? path }
-      raise "Unable to find SuperCollider. Is it installed? I looked here: #{potential_paths.inspect}" unless path
-      path
-    end
-
     def scsynth_path
       case os
       when :raspberry
@@ -201,11 +190,12 @@ module SonicPi
       when :linux
         "scsynth"
       when :osx
-        osx_scsynth_path
+        path = "#{native_path}/scsynth"
+      raise "Unable to find SuperCollider. Is it installed? I looked here: #{path.inspect}" unless File.exists?(path)
+        path
       when :windows
-        potential_paths = ["#{native_path}/scsynth.exe"]
-        path = potential_paths.find {|path| File.exists? path }
-        raise "Unable to find SuperCollider. Is it installed? I looked here: #{potential_paths.inspect}" unless path
+        path = "#{native_path}/scsynth.exe"
+        raise "Unable to find SuperCollider. Is it installed? I looked here: #{path.inspect}" unless File.exists?(path)
         path
       end
     end
