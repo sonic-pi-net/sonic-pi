@@ -191,7 +191,7 @@ module SonicPi
         "scsynth"
       when :osx
         path = "#{native_path}/scsynth"
-      raise "Unable to find SuperCollider. Is it installed? I looked here: #{path.inspect}" unless File.exists?(path)
+        raise "Unable to find SuperCollider. Is it installed? I looked here: #{path.inspect}" unless File.exists?(path)
         path
       when :windows
         path = "#{native_path}/scsynth.exe"
