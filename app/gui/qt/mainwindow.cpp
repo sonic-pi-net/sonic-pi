@@ -153,7 +153,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   }
 
   setupLogPathAndRedirectStdOut();
-  std::cout << "\n\n\n";
   printAsciiArtLogo();
 
   setupTheme();
@@ -1122,8 +1121,8 @@ void MainWindow::startupError(QString msg) {
   QString scsynth_log = readFile(log_path + QDir::separator() + "scsynth.log");
 
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
-				     tr("Server boot error..."), tr("Apologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
-  QString error_report = "Detailed Error Report:\n\nGUI log\n-------\n" + gui_log + "\n\n\nServer Errors\n-------------\n\n" + server_errors_log + "\n\n\nServer Output\n-------------\n" + server_output_log + "\n\n\nScsynth Output\n--------------\n" + scsynth_log;
+				     tr("Server boot error..."), tr("Sonic Pi Boot Error\n\nApologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
+  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nGUI log\n-------\n\n" + gui_log + "\n\n\nServer Errors\n-------------\n\n" + server_errors_log + "\n\n\nServer Output\n-------------\n\n" + server_output_log + "\n\n\nScsynth Output\n--------------\n\n" + scsynth_log;
   box->setDetailedText(error_report);
 
   QGridLayout* layout = (QGridLayout*)box->layout();
@@ -2443,14 +2442,11 @@ QString MainWindow::asciiArtLogo(){
 
 void MainWindow::printAsciiArtLogo(){
   QString s = asciiArtLogo();
-  std::cout << std::endl << std::endl << std::endl;
 #if QT_VERSION >= 0x050400
   qDebug().noquote() << s;
-  std::cout << std::endl << std::endl;
 #else
   //noquote requires QT 5.4
   qDebug() << s;
-  std::cout << std::endl;
 #endif
 }
 
