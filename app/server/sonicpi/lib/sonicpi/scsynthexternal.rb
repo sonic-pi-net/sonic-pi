@@ -235,6 +235,9 @@ module SonicPi
       end
       raise "Unable to boot SuperCollider - boot server log did not report server ready" unless v
 
+      log "Boot - SuperCollider booted successfully."
+      log "Boot - Connecting to the SuperCollider server..."
+
       boot_s = OSC::UDPServer.new(5998) do |a, b|
         log "Boot - Receiving ack from server on port 5998"
         p2.deliver! true unless connected
@@ -259,12 +262,14 @@ module SonicPi
       rescue Exception => e
         Process.kill(9, @scsynth_pid)
       ensure
-
         t2.kill
         boot_s.stop
       end
 
-      raise "Boot - Unable to connect to scsynth" unless connected
+      unless connected
+        log "Boot - Unable to connect to SuperCollider"
+        raise "Boot - Unable to connect to SuperCollider"
+      end
 
       log "Boot - Server connection established"
     end
