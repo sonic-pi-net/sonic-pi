@@ -2082,17 +2082,17 @@ end
       doc name:          :use_sample_pack,
           introduced:    Version.new(2,0,0),
           summary:       "Use sample pack",
-          doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.flac`, `.aif` or `.aiff` files in that folder available as samples. Consider using `use_sample_pack_as` when using multiple sample packs. Use `use_sample_pack :default` To revert back to the default built-in samples.",
+          doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif` or `.aiff` files in that folder available as samples. Consider using `use_sample_pack_as` when using multiple sample packs. Use `use_sample_pack :default` To revert back to the default built-in samples.",
           args:          [[:pack_path, :string]],
           opts:          nil,
           accepts_block: false,
           examples:
         ["
 use_sample_pack '/home/yourname/path/to/sample/dir'
-sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|flac|aif|aiff}
-             #   where {wav|wave|flac|aif|aiff} means one of wav, wave, flac, aif or aiff.
+sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
+             #   where {wav|wave|aif|aiff} means one of wav, wave aif or aiff.
 sample :bd_haus #=> will not work unless there's a sample in '/home/yourname/path/to/sample/dir'
-                #   called bd_haus.{wav|wave|flac|aif|aiff}
+                #   called bd_haus.{wav|wave|aif|aiff}
 use_sample_pack :default
 sample :bd_haus #=> will play the built-in bd_haus.wav sample" ]
 
@@ -2144,14 +2144,14 @@ sample :my_drums__bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav
       doc name:           :with_sample_pack,
           introduced:     Version.new(2,0,0),
           summary:        "Block-level use sample pack",
-          doc:            "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.flac`, `.aif`, or `.aiff` files in that folder available as samples inside the given block. Consider using `with_sample_pack_as` when using multiple sample packs.",
+          doc:            "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif`, or `.aiff` files in that folder available as samples inside the given block. Consider using `with_sample_pack_as` when using multiple sample packs.",
           args:           [[:pack_path, :string]],
           opts:           nil,
           accepts_block:  true,
           requires_block: true,
           examples:       ["
 with_sample_pack '/path/to/sample/dir' do
-  sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|flac|aif|aiff}
+  sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff}
 end"]
 
 
@@ -2179,7 +2179,7 @@ end"]
           examples:       ["
 with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
   # The foo sample is now available, with a prefix of 'my_samples'
-  sample :my_samples__foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|flac|aif|aiff}
+  sample :my_samples__foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
 end"]
 
 
@@ -2453,7 +2453,7 @@ set_volume! 2 # Set the main system volume to 2",
       doc name:          :sample_loaded?,
           introduced:    Version.new(2,2,0),
           summary:       "Test if sample was pre-loaded",
-          doc:           "Given a path to a `.wav`, `.wave`, `.flac`, `.aif` or `.aiff` file, returns `true` if the sample has already been loaded.",
+          doc:           "Given a path to a `.wav`, `.wave`, `.aif` or `.aiff` file, returns `true` if the sample has already been loaded.",
           args:          [[:path, :string]],
           opts:          nil,
           accepts_block: false,
@@ -2489,7 +2489,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
       doc name:          :load_sample,
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load sample",
-          doc:           "Given a path to a `.wav`, `.wave`, `.flac`, `.aif` or `.aiff` file, this loads the file and makes it available as a sample. See `load_samples` for loading multiple samples in one go.",
+          doc:           "Given a path to a `.wav`, `.wave`, `.aif` or `.aiff` file, this loads the file and makes it available as a sample. See `load_samples` for loading multiple samples in one go.",
           args:          [[:path, :string]],
           opts:          nil,
           accepts_block: false,
@@ -2512,7 +2512,7 @@ sample :elec_blip # No delay takes place when attempting to trigger it"]
       doc name:          :load_samples,
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load samples",
-          doc:           "Given an array of paths to `.wav`, `.wave`, `.flac`, `.aif` or `.aiff` files, loads them all into memory so that they may be played with via sample with no delay. See `load_sample`.",
+          doc:           "Given an array of paths to `.wav`, `.wave`, `.aif` or `.aiff` files, loads them all into memory so that they may be played with via sample with no delay. See `load_sample`.",
           args:          [[:paths, :list]],
           opts:          nil,
           accepts_block: false,
@@ -2622,7 +2622,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
       doc name:          :sample_duration,
           introduced:    Version.new(2,0,0),
           summary:       "Get duration of sample in beats",
-          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.flac`, `.aif` or `.aiff` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current bpm.",
+          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current bpm.",
           args:          [[:path, :string]],
           opts:          {:rate    => "Rate modifier. For example, doubling the rate will halve the duration.",
                           :start   => "Start position of sample playback as a value from 0 to 1",
@@ -2804,7 +2804,7 @@ sample :loop_amen                    # starting it again
       doc name:          :sample,
           introduced:    Version.new(2,0,0),
           summary:       "Trigger sample",
-          doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.flac`, `.aif` or `.aiff` files from anywhere on your computer too. The `rate:` opt affects both the speed and the pitch of the playback. To control the rate of the sample in a pitch-meaningful way take a look at the `rpitch:` opt.
+          doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif` or `.aiff` files from anywhere on your computer too. The `rate:` opt affects both the speed and the pitch of the playback. To control the rate of the sample in a pitch-meaningful way take a look at the `rpitch:` opt.
 
 The sampler synth has two separate envelopes - one for amplitude and one for the cutoff value for a resonant low pass filter. These work very similar to the standard synth envelopes except for two major differences. Firstly, the envelope times do not stretch or shrink to match the BPM. Secondly, the sustain time by default stretches to make the envelope fit the length of the sample. This is explained in detail in the tutorial.
 
@@ -2843,7 +2843,7 @@ Check out the `use_sample_pack` and `use_sample_pack_as` fns for details on maki
 
           examples:      ["
 sample :perc_bell # plays one of Sonic Pi's built in samples",
-        "sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|flac|aif|aiff file from your local filesystem",
+        "sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|aif|aiff file from your local filesystem",
         "# Let's play with the rate parameter
 # play one of the included samples
 sample :loop_amen
@@ -3686,7 +3686,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def find_sample_with_path(path)
-        ["wav", "wave", "flac", "aif", "aiff"].each do |ext|
+        ["wav", "aiff", "aif", "wave"].each do |ext|
           full = "#{path}.#{ext}"
           return full if File.exists?(full)
         end
