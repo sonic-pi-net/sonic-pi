@@ -2863,6 +2863,20 @@ assert_equal [:a, :b, :c].size,  3 # ensure lists can be correctly counted
 assert_equal 3, 5, \"something is seriously wrong!\"
 " ]
 
+      def load(path)
+        if path.is_a? Symbol
+          path = Dir[examples_path + '/**/' + path.to_s + '.rb'].first
+          raise "Unable to load buffer - no example found with name: #{path}" unless path
+        else
+          path = path.to_s
+          path = unify_tilde_dir(path)
+          raise "Unable to load buffer - no file found with path: #{path}" unless File.exists?(path)
+        end
+        buf = __current_job_info[:workspace]
+        __info "loading #{buf} with #{path}"
+        __replace_buffer(buf, File.read(path))
+      end
+
 
       def __on_thread_death(&block)
         gc_jobs = Thread.current.thread_variable_get(:sonic_pi__not_inherited__spider_in_thread_gc_jobs) || []

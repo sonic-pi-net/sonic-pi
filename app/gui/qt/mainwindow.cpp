@@ -1333,7 +1333,7 @@ void MainWindow::runCode()
   }
 
   msg.pushStr(code);
-  msg.pushStr(QString(tr("Workspace %1")).arg(tabs->currentIndex()).toStdString());
+  msg.pushStr(filename);
   sendOSC(msg);
 
   QTimer::singleShot(500, this, SLOT(unhighlightCode()));
