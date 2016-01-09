@@ -37,40 +37,46 @@ module SonicPi
       @reboot_mutex = Mutex.new
       @rebooting = false
       @cent_tuning = 0
+
       init_studio
       reset_server
+      @last_check = Time.now
       @check_server_t = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, "server checker")
         Thread.current.priority = 300
         loop do
-          unless @rebooting
-            begin
-              if @server.status(5)
-                # server is alive
-              else
+          Kernel.sleep 5
+          # don't attempt to reboot if we've just woken from sleep
+          if (Time.now - @last_check) < 6
+            unless @rebooting
+              begin
+                if @server.status(5)
+                  # server is alive
+                else
+                  @error_occured_mutex.synchronize do
+                    @error_occurred_since_last_check = true
+                  end
+                  message "Sound server is down."
+                  begin
+                    reboot
+                  rescue Exception => e
+                    message "Error rebooting server: #{e}, #{e.backtrace}"
+                  end
+                end
+              rescue
                 @error_occured_mutex.synchronize do
                   @error_occurred_since_last_check = true
                 end
-                message "Sound server is down."
+                message "Error communicating with sound server."
                 begin
                   reboot
                 rescue Exception => e
-                  message "Error rebooting server: #{e}, #{e.backtrace}"
+                  message "Error rebooting server after we lost comms: #{e}, #{e.backtrace}"
                 end
-              end
-            rescue
-              @error_occured_mutex.synchronize do
-                @error_occurred_since_last_check = true
-              end
-              message "Error communicating with sound server."
-              begin
-                reboot
-              rescue Exception => e
-                message "Error rebooting server after we lost comms: #{e}, #{e.backtrace}"
               end
             end
           end
-          Kernel.sleep 5
+          @last_check = Time.now
         end
       end
     end
