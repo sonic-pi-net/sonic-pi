@@ -756,8 +756,27 @@ play 90 # Args are checked
 
 "]
 
+      def set_cent_tuning!(shift)
+        @mod_sound_studio.cent_tuning = shift
+      end
+      doc name:          :set_cent_tuning!,
+          introduced:    Version.new(2,10,0),
+          summary:       "Global Cent tuning",
+          doc:           "Globally tune Sonic Pi to play with another external instrument.
 
+Uniformly tunes your music by shifting all notes played by the specified number of cents. To shift up by a cent use a cent tuning of 1. To shift down use negative numbers. One semitone consists of 100 cents.
 
+See `use_cent_tuning` for setting the cent tuning value locally for a specific thread or `live_loop`. This is a global value and will shift the tuning for *all* notes. It will also persist for the entire session.
+
+Important note: the cent tuning set by `set_cent_tuning!` is independent of any thread-local cent tuning values set by `use_cent_tuning` or `with_cent_tuning`. ",
+          args:          [[:cent_shift, :number]],
+          opts:          nil,
+          accepts_block: false,
+          intro_fn:       false,
+          examples:      ["
+play 50 # Plays note 50
+set_cent_tuning! 1
+play 50 # Plays note 50.01"]
 
       def use_cent_tuning(shift, &block)
         raise "use_cent_tuning does not work with a do/end block. Perhaps you meant with_cent_tuning" if block
@@ -4285,6 +4304,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         if cent_shift = Thread.current.thread_variable_get(:sonic_pi_mod_sound_cent_tuning)
           n += (cent_shift / 100.0)
         end
+
+        n += (@mod_sound_studio.cent_tuning / 100.0)
 
         n += args_h[:pitch].to_f
 

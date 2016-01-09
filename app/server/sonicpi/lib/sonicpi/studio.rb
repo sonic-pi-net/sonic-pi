@@ -24,6 +24,8 @@ module SonicPi
 
     attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id, :amp, :rebooting
 
+    attr_accessor :cent_tuning
+
     def initialize(hostname, port, msg_queue, max_concurrent_synths)
       @hostname = hostname
       @port = port
@@ -34,6 +36,7 @@ module SonicPi
       @sample_sem = Mutex.new
       @reboot_mutex = Mutex.new
       @rebooting = false
+      @cent_tuning = 0
       init_studio
       reset_server
       @check_server_t = Thread.new do
