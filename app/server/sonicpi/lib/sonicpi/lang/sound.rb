@@ -4305,7 +4305,9 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           n += (cent_shift / 100.0)
         end
 
-        n += (@mod_sound_studio.cent_tuning / 100.0)
+        if @mod_sound_studio
+          n += (@mod_sound_studio.cent_tuning / 100.0)
+        end
 
         n += args_h[:pitch].to_f
 
