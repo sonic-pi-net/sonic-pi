@@ -2868,8 +2868,7 @@ assert_equal 3, 5, \"something is seriously wrong!\"
           path = Dir[examples_path + '/**/' + path.to_s + '.rb'].first
           raise "Unable to load buffer - no example found with name: #{path}" unless path
         else
-          path = path.to_s
-          path = unify_tilde_dir(path)
+          path = File.expand_path(path.to_s)
           raise "Unable to load buffer - no file found with path: #{path}" unless File.exists?(path)
         end
         buf = __current_job_info[:workspace]
