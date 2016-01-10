@@ -639,6 +639,66 @@ end"
 
 
 
+      def halves(start, num_halves=1)
+        raise "Start value for halves needs to be a number, got: #{start.inspect}" unless start.is_a?(Numeric)
+        start = start.to_f
+        return doubles(start, num_halves * -1) if num_halves < 0
+        a = []
+        val = start
+        num_halves.times do
+          a << val
+          val /= 2.0
+        end
+        a.ring
+      end
+      doc name:           :halves,
+          introduced:     Version.new(2,10,0),
+          summary:        "Create a ring of successive halves",
+          args:           [[:start, :number], [:num_halves, :int]],
+          returns:        :ring,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Create a ring containing the results of successive halving of the `start` value. If `num_halves` is negative, will return a ring of `doubles`.",
+          examples:       [
+        "(halves 60, 2)  #=> (ring 60, 30)",
+        "(halves 120, 3) #=> (ring 120, 60, 30)",
+        "(halves 120, 5) #=> (ring 120, 60, 30, 15, 7.5)",
+        "(halves 30, -5) #=> (ring 30, 60, 120, 240, 480)"
+      ]
+
+
+
+
+      def doubles(start, num_doubles=1)
+        raise "Start value for doubles needs to be a number, got: #{start.inspect}" unless start.is_a?(Numeric)
+        return halves(start, num_doubles * -1) if num_doubles < 0
+        start = start.to_f
+        a = []
+        val = start
+        num_doubles.times do
+          a << val
+          val *= 2.0
+        end
+        a.ring
+      end
+      doc name:           :doubles,
+          introduced:     Version.new(2,10,0),
+          summary:        "Create a ring of successive doubles",
+          args:           [[:start, :number], [:num_doubles, :int]],
+          returns:        :ring,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Create a ring containing the results of successive doubling of the `start` value. If `num_doubles` is negative, will return a ring of `halves`.",
+          examples:       [
+        "(doubles 60, 2)  #=> (ring 60, 120)",
+        "(doubles 1.5, 3) #=> (ring 1.5, 3, 6)",
+        "(doubles 1.5, 5) #=> (ring 1.5, 3, 6, 12, 24)",
+        "(doubles 100, -4) #=> (ring 100, 50, 25, 12.5)"
+      ]
+
+
+
+
       def octs(start, num_octs=1)
         a = []
         num_octs.times do |i|
