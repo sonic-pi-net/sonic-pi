@@ -24,6 +24,23 @@ module SonicPi
     @@util_lock = Mutex.new
     @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep ARMv6`.empty?)
 
+
+    @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || Dir.home) + '/.sonic-pi/')
+    @@project_path = @@home_dir + '/store/default/'
+    @@log_path = @@home_dir + '/log/'
+
+
+    [@@home_dir, @@project_path, @@log_path].each do |dir|
+      FileUtils.mkdir_p(dir) unless File.exists?(dir)
+    end
+
+    @@log_file = File.open("#{@@log_path}/debug.log", 'w')
+
+
+    at_exit do
+      @@log_file.close
+    end
+
     def os
       case RUBY_PLATFORM
       when /.*arm.*-linux.*/
@@ -96,14 +113,7 @@ module SonicPi
     end
 
     def home_dir
-      return @@home_dir if @@home_dir
-      @@util_lock.synchronize do
-        return @@home_dir if @@home_dir
-        path = File.expand_path((ENV['SONIC_PI_HOME'] || Dir.home) + '/.sonic-pi/')
-        ensure_dir(path)
-        @@home_dir = path
-        path
-      end
+      @@home_dir
     end
 
     def init_path
@@ -111,26 +121,11 @@ module SonicPi
     end
 
     def project_path
-      return @@project_path if @@project_path
-      @@util_lock.synchronize do
-        return @@project_path if @@project_path
-        ## TODO: allow user to modify this for different projects
-        path = home_dir + '/store/default/'
-        ensure_dir(path)
-        @@project_path = path
-        path
-      end
+      @@project_path
     end
 
     def log_path
-      return @@log_path if @@log_path
-      @@util_lock.synchronize do
-        return @@log_path if @@log_path
-        path = home_dir + '/log/'
-        ensure_dir(path)
-        @@log_path = path
-        path
-      end
+      @@log_path
     end
 
     def global_uuid
@@ -167,7 +162,7 @@ module SonicPi
       # on Linux from a distribution's package
       File.dirname(__FILE__).start_with?("/usr/lib/sonic-pi")
     end
-    
+
     def root_path
       File.absolute_path("#{File.dirname(__FILE__)}/../../../../../")
     end
@@ -263,9 +258,8 @@ module SonicPi
     end
 
     def log_raw(s)
-        # TODO: consider moving this into a worker thread to reduce file
-        # io overhead:
-      File.open("#{log_path}/debug.log", 'a') {|f| f.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")}
+      @@log_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")
+      @@log_file.flush
     end
 
     def log_exception(e, context="")
