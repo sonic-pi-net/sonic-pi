@@ -307,6 +307,58 @@ module SonicPi
 
 
 
+      def on(condition, &blk)
+        blk.call if truthy?(condition)
+      end
+      doc name:           :on,
+          introduced:     Version.new(2,10,0),
+          summary:        "Optionally evaluate block",
+          args:           [[:condition, :truthy]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Optionally evaluate the block depending on the truthiness of the supplied condition. The truthiness rules are as follows: all values are seen as true except for: false, nil and 0. Lambdas will be automatically called and the truthiness of their results used.",
+      examples:       [
+"
+on true do
+  play 70     #=> will play 70 as true is truthy
+end",
+"
+on 1 do
+  play 70     #=> will play 70 as 1 is truthy
+end",
+"
+on 0 do
+  play 70     #=> will *not* play 70 as 0 is not truthy
+end",
+"
+on false do
+  play 70     #=> will *not* play 70 as false is not truthy
+end",
+"
+on nil do
+  play 70     #=> will *not* play 70 as nil is not truthy
+end",
+"
+on lambda{true} do
+  play 70     #=> will play 70 as the lambda returns a truthy value
+end",
+"
+on lambda{false} do
+  play 70     #=> will *not* play 70 as the lambda does not return a truthy value
+end",
+"
+on lambda{[true, false].choose} do
+  play 70     #=> will maybe play 70 depending on the choice in the lambda
+end"
+
+
+
+      ]
+
+
+
+
       def bools(*args)
         args.map do |a|
           if (a == 0) || (not a)
