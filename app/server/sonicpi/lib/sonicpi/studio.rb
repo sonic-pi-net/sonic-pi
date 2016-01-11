@@ -324,7 +324,9 @@ module SonicPi
     end
 
     def message(s)
-      @msg_queue.push({:type => :info, :val => "Studio: #{s.to_s}"})
+      m = s.to_s
+      log "Studio - #{m}"
+      @msg_queue.push({:type => :info, :val => "Studio: #{m}"})
     end
 
 
