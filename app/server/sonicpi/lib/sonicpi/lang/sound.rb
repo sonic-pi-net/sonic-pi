@@ -3120,7 +3120,18 @@ play degree(2, :C3, :minor)
 
 
 
-      def scale(tonic, name, *opts)
+      def scale(tonic_or_name, *opts)
+        tonic = 0
+        name = :minor
+        if opts.size == 0
+          name = tonic_or_name
+        elsif (opts.size == 1) && opts[0].is_a?(Hash)
+          name = tonic_or_name
+        else
+          tonic = tonic_or_name
+          name = opts.shift
+        end
+
         opts = resolve_synth_opts_hash_or_array(opts)
         opts = {:num_octaves => 1}.merge(opts)
         Scale.new(tonic, name,  opts[:num_octaves]).ring
@@ -3131,7 +3142,7 @@ play degree(2, :C3, :minor)
           doc:           "Creates a ring of MIDI note numbers when given a tonic note and a scale type. Also takes an optional `num_octaves:` parameter (octave `1` is the default)",
           args:          [[:tonic, :symbol], [:name, :symbol]],
           returns:        :ring,
-          opts:          {:num_octaves => "The number of octaves you'd like the scale to consist of. More octaves means a larger scale. Default is 1."},
+          opts:          {:num_octaves => "The number of octaves you'd like the scale to consist of. More octaves means a larger scale. Default is 1. If only passed the scale name, the tonic defaults to 0. See examples."},
           accepts_block: false,
           intro_fn:       true,
           examples:      ["
@@ -3143,7 +3154,7 @@ play_pattern(:C, :major, num_octaves: 2)",
         "# Scales can start with any note:
 puts (scale 50, :minor) #=> (ring 50, 52, 53, 55, 57, 58, 60, 62)
 puts (scale 50.1, :minor) #=> (ring 50.1, 52.1, 53.1, 55.1, 57.1, 58.1, 60.1, 62.1)
-puts (scale 0, :minor) #=> (ring 0, 2, 3, 5, 7, 8, 10, 12)",
+puts (scale :minor) #=> (ring 0, 2, 3, 5, 7, 8, 10, 12)",
 
 
 " # scales are also rings
@@ -3263,7 +3274,18 @@ end",
 
 
 
-      def chord(tonic, name=:major, *opts)
+      def chord(tonic_or_name, *opts)
+        tonic = 0
+        name = :minor
+        if opts.size == 0
+          name = tonic_or_name
+        elsif (opts.size == 1) && opts[0].is_a?(Hash)
+          name = tonic_or_name
+        else
+          tonic = tonic_or_name
+          name = opts.shift
+        end
+
         return [] unless tonic
         opts = resolve_synth_opts_hash_or_array(opts)
         c = []
@@ -3279,7 +3301,7 @@ end",
       doc name:          :chord,
           introduced:    Version.new(2,0,0),
           summary:       "Create chord",
-          doc:           "Creates an immutable ring of Midi note numbers when given a tonic note and a chord type",
+          doc:           "Creates an immutable ring of Midi note numbers when given a tonic note and a chord type. If only passed a chord type, will default the tonic to 0. See examples.",
           args:          [[:tonic, :symbol], [:name, :symbol]],
           returns:        :ring,
           opts:          {invert: "Apply the specified num inversions to chord. See the fn `chord_invert`.",
@@ -3297,6 +3319,9 @@ play (chord :e3, :minor, invert: 0) # Play the basic :e3, :minor chord - (ring 5
 play (chord :e3, :minor, invert: 1) # Play the first inversion of :e3, :minor - (ring 55, 59, 64)
 play (chord :e3, :minor, invert: 2) # Play the first inversion of :e3, :minor - (ring 59, 64, 67)
 ",
+
+"# You can create a chord without a tonic:
+puts (chord :minor) #=> (ring 0, 3, 7)",
 
 "# chords are great for arpeggiators
 live_loop :arp do
