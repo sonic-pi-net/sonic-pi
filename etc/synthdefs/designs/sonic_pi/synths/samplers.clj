@@ -184,6 +184,27 @@
     time_dis_slide 0
     time_dis_slide_shape 1
     time_dis_slide_curve 0
+    comp 0
+    threshold 0.2
+    threshold_slide 0
+    threshold_slide_shape 1
+    threshold_slide_curve 0
+    clamp_time 0.01
+    clamp_time_slide 0
+    clamp_time_slide_shape 1
+    clamp_time_slide_curve 0
+    slope_above 0.5
+    slope_above_slide 0
+    slope_above_slide_shape 1
+    slope_above_slide_curve 0
+    slope_below 1
+    slope_below_slide 0
+    slope_below_slide_shape 1
+    slope_below_slide_curve 0
+    relax_time 0.01
+    relax_time_slide 0
+    relax_time_slide_shape 1
+    relax_time_slide_curve 0
     out_bus 0]
   (let [decay_level               (select:kr (= -1 decay_level) [decay_level sustain_level])
         amp                       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
@@ -256,10 +277,16 @@
                                            (rlpf snd filt-env res)])
 
         snd                       (select norm [snd (normalizer snd)])
-        snd                       (* env snd)
+        snd                       (* amp env snd)
+
+        compressed                (compander snd snd threshold
+                                             slope_below slope_above
+                                             clamp_time relax_time)
+
+        snd                       (select:ar comp [snd compressed])
 
 
-        snd                       (pan2 snd pan amp)]
+        snd                       (pan2 snd pan)]
      (line:kr 1 1 (+ 0.03 (min play-time env-dur)) FREE)
      (out out_bus snd)))
 
@@ -323,10 +350,38 @@
     time_dis_slide 0
     time_dis_slide_shape 1
     time_dis_slide_curve 0
+    comp 0
+    threshold 0.2
+    threshold_slide 0
+    threshold_slide_shape 1
+    threshold_slide_curve 0
+    clamp_time 0.01
+    clamp_time_slide 0
+    clamp_time_slide_shape 1
+    clamp_time_slide_curve 0
+    slope_above 0.5
+    slope_above_slide 0
+    slope_above_slide_shape 1
+    slope_above_slide_curve 0
+    slope_below 1
+    slope_below_slide 0
+    slope_below_slide_shape 1
+    slope_below_slide_curve 0
+    relax_time 0.01
+    relax_time_slide 0
+    relax_time_slide_shape 1
+    relax_time_slide_curve 0
     out_bus 0]
    (let [decay_level               (select:kr (= -1 decay_level) [decay_level sustain_level])
          amp                       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pan                       (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+
+         threshold                 (varlag threshold threshold_slide threshold_slide_curve threshold_slide_shape)
+         clamp_time                (varlag clamp_time clamp_time_slide clamp_time_slide_curve clamp_time_slide_shape)
+         slope_above               (varlag slope_above slope_above_slide slope_above_slide_curve slope_above_slide_shape)
+         slope_below               (varlag slope_below slope_below_slide slope_below_slide_curve slope_below_slide_shape)
+         relax_time                (varlag relax_time relax_time_slide relax_time_slide_curve relax_time_slide_shape)
+
          used_cutoff               (not= -1 cutoff)
          used_cutoff_attack_level  (not= -1 cutoff_attack_level)
          used_cutoff_decay_level   (not= -1 cutoff_decay_level)
@@ -398,9 +453,23 @@
 
          snd-l                     (select norm [snd-l (normalizer snd-l)])
          snd-r                     (select norm [snd-r (normalizer snd-r)])
-         snd-l                     (* env snd-l)
-         snd-r                     (* env snd-r)
-         snd                       (balance2 snd-l snd-r pan amp)]
+         snd-l                     (* amp env snd-l)
+         snd-r                     (* amp env snd-r)
+
+         control-sig               (/ (+ snd-l snd-r) 2)
+         compressed-l              (compander snd-l control-sig threshold
+                                              slope_below slope_above
+                                              clamp_time relax_time)
+
+         compressed-r              (compander snd-r control-sig threshold
+                                              slope_below slope_above
+                                              clamp_time relax_time)
+
+
+         snd-l                     (select:ar comp [snd-l compressed-l])
+         snd-r                     (select:ar comp [snd-r compressed-r])
+
+         snd                       (balance2 snd-l snd-r pan)]
 
      (line:kr 1 1 (+ 0.03 (min play-time env-dur)) FREE)
      (out out_bus snd)))

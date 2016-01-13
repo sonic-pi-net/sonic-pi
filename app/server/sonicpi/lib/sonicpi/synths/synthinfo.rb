@@ -2776,7 +2776,29 @@ module SonicPi
           :time_dis => 0.0,
           :time_dis_slide => 0,
           :time_dis_slide_shape => 1,
-          :time_dis_slide_curve => 0
+          :time_dis_slide_curve => 0,
+
+          :comp => 0,
+          :threshold => 0.2,
+          :threshold_slide => 0,
+          :threshold_slide_shape => 1,
+          :threshold_slide_curve => 0,
+          :clamp_time => 0.01,
+          :clamp_time_slide => 0,
+          :clamp_time_slide_shape => 1,
+          :clamp_time_slide_curve => 0,
+          :slope_above => 0.5,
+          :slope_above_slide => 0,
+          :slope_above_slide_shape => 1,
+          :slope_above_slide_curve => 0,
+          :slope_below => 1,
+          :slope_below_slide => 0,
+          :slope_below_slide_shape => 1,
+          :slope_below_slide_curve => 0,
+          :relax_time => 0.01,
+          :relax_time_slide => 0,
+          :relax_time_slide_shape => 1,
+          :relax_time_slide_curve => 0
         }
       end
 
@@ -2946,6 +2968,89 @@ module SonicPi
             :modulatable => true,
             :bpm_scale => true
           },
+
+          :comp =>
+          {
+            :doc => "Enable the compressor. This sits at the very end of the signal chain. The compressor compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal.",
+            :validations => [v_positive(:threshold)],
+            :modulatable => true
+          },
+
+          :threshold =>
+          {
+            :doc => "Threshold value determining the break point between slope_below and slope_above. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :validations => [v_positive(:threshold)],
+            :modulatable => true
+          },
+
+          :threshold_slide =>
+          {
+            :doc => generic_slide_doc(:threshold),
+            :validations => [v_positive(:threshold_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :slope_below =>
+          {
+            :doc => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :validations => [],
+            :modulatable => true
+          },
+
+          :slope_below_slide =>
+          {
+            :doc => generic_slide_doc(:slope_below),
+            :validations => [v_positive(:slope_below_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :slope_above =>
+          {
+            :doc => "Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the comp: opt.",
+
+            :validations => [],
+            :modulatable => true
+          },
+
+          :slope_above_slide =>
+          {
+            :doc => generic_slide_doc(:slope_above),
+            :validations => [v_positive(:slope_above_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :clamp_time =>
+          {
+            :doc => "Time taken for the amplitude adjustments to kick in fully (in seconds). This is usually pretty small (not much more than 10 milliseconds). Also known as the time of the attack phase. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :validations => [v_positive(:clamp_time)],
+            :modulatable => true
+          },
+
+          :clamp_time_slide =>
+          {
+            :doc => generic_slide_doc(:clamp_time),
+            :validations => [v_positive(:clamp_time_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :relax_time =>
+          {
+            :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :validations => [v_positive(:relax_time)],
+            :modulatable => true
+          },
+
+          :relax_time_slide =>
+          {
+            :doc => generic_slide_doc(:relax_time),
+            :validations => [v_positive(:relax_time_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          }
 
         }
       end
