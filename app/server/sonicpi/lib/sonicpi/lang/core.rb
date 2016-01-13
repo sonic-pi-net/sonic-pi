@@ -2955,7 +2955,7 @@ assert_equal [:a, :b, :c].size,  3 # ensure lists can be correctly counted
 assert_equal 3, 5, \"something is seriously wrong!\"
 " ]
 
-      def load(path)
+      def load_buffer(path)
         if path.is_a? Symbol
           path = Dir[examples_path + '/**/' + path.to_s + '.rb'].first
           raise "Unable to load buffer - no example found with name: #{path}" unless path
