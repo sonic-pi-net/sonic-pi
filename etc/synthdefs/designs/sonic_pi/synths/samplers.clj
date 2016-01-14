@@ -184,7 +184,7 @@
     time_dis_slide 0
     time_dis_slide_shape 1
     time_dis_slide_curve 0
-    comp 0
+    compress 0
     threshold 0.2
     threshold_slide 0
     threshold_slide_shape 1
@@ -283,7 +283,7 @@
                                              slope_below slope_above
                                              clamp_time relax_time)
 
-        snd                       (select:ar comp [snd compressed])
+        snd                       (select:ar compress [snd compressed])
 
 
         snd                       (pan2 snd pan)]
@@ -350,7 +350,7 @@
     time_dis_slide 0
     time_dis_slide_shape 1
     time_dis_slide_curve 0
-    comp 0
+    compress 0
     threshold 0.2
     threshold_slide 0
     threshold_slide_shape 1
@@ -466,8 +466,8 @@
                                               clamp_time relax_time)
 
 
-         snd-l                     (select:ar comp [snd-l compressed-l])
-         snd-r                     (select:ar comp [snd-r compressed-r])
+         snd-l                     (select:ar compress [snd-l compressed-l])
+         snd-r                     (select:ar compress [snd-r compressed-r])
 
          snd                       (balance2 snd-l snd-r pan)]
 

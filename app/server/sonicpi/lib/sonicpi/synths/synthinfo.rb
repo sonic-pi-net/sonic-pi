@@ -2778,7 +2778,7 @@ module SonicPi
           :time_dis_slide_shape => 1,
           :time_dis_slide_curve => 0,
 
-          :comp => 0,
+          :compress => 0,
           :threshold => 0.2,
           :threshold_slide => 0,
           :threshold_slide_shape => 1,
@@ -2969,10 +2969,10 @@ module SonicPi
             :bpm_scale => true
           },
 
-          :comp =>
+          :compress =>
           {
             :doc => "Enable the compressor. This sits at the very end of the signal chain. The compressor compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal.",
-            :validations => [v_positive(:threshold)],
+            :validations => [v_one_of(:compress, [0, 1])],
             :modulatable => true
           },
 
