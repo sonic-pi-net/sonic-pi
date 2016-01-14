@@ -185,6 +185,10 @@
     time_dis_slide_shape 1
     time_dis_slide_curve 0
     compress 0
+    pre_amp 1
+    pre_amp_slide 0
+    pre_amp_slide_shape 1
+    pre_amp_slide_curve 0
     threshold 0.2
     threshold_slide 0
     threshold_slide_shape 1
@@ -208,6 +212,7 @@
     out_bus 0]
   (let [decay_level               (select:kr (= -1 decay_level) [decay_level sustain_level])
         amp                       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+        pre_amp                   (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
         pan                       (varlag pan pan_slide pan_slide_curve pan_slide_shape)
         used_cutoff               (not= -1 cutoff)
         used_cutoff_attack_level  (not= -1 cutoff_attack_level)
@@ -265,7 +270,7 @@
         env                       (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
         filt-env                  (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
 
-        snd                       (buf-rd 1 buf phase)
+        snd                       (* pre_amp (buf-rd 1 buf phase))
 
         snd                       (select:ar (not= 0 pitch)
                                              [snd
@@ -277,7 +282,7 @@
                                            (rlpf snd filt-env res)])
 
         snd                       (select norm [snd (normalizer snd)])
-        snd                       (* amp env snd)
+        snd                       (* env snd)
 
         compressed                (compander snd snd threshold
                                              slope_below slope_above
@@ -286,7 +291,7 @@
         snd                       (select:ar compress [snd compressed])
 
 
-        snd                       (pan2 snd pan)]
+        snd                       (pan2 snd pan amp)]
      (line:kr 1 1 (+ 0.03 (min play-time env-dur)) FREE)
      (out out_bus snd)))
 
@@ -351,6 +356,10 @@
     time_dis_slide_shape 1
     time_dis_slide_curve 0
     compress 0
+    pre_amp 1
+    pre_amp_slide 0
+    pre_amp_slide_shape 1
+    pre_amp_slide_curve 0
     threshold 0.2
     threshold_slide 0
     threshold_slide_shape 1
@@ -374,6 +383,7 @@
     out_bus 0]
    (let [decay_level               (select:kr (= -1 decay_level) [decay_level sustain_level])
          amp                       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         pre_amp                   (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          pan                       (varlag pan pan_slide pan_slide_curve pan_slide_shape)
 
          threshold                 (varlag threshold threshold_slide threshold_slide_curve threshold_slide_shape)
@@ -437,7 +447,7 @@
          env                       (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
          filt-env                  (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
 
-         [snd-l snd-r]             (buf-rd 2 buf phase)
+         [snd-l snd-r]             (* pre_amp (buf-rd 2 buf phase))
 
          snd-l                     (select:ar (not= 0 pitch)
                                               [snd-l
@@ -453,8 +463,8 @@
 
          snd-l                     (select norm [snd-l (normalizer snd-l)])
          snd-r                     (select norm [snd-r (normalizer snd-r)])
-         snd-l                     (* amp env snd-l)
-         snd-r                     (* amp env snd-r)
+         snd-l                     (* env snd-l)
+         snd-r                     (* env snd-r)
 
          control-sig               (/ (+ snd-l snd-r) 2)
          compressed-l              (compander snd-l control-sig threshold
@@ -469,7 +479,7 @@
          snd-l                     (select:ar compress [snd-l compressed-l])
          snd-r                     (select:ar compress [snd-r compressed-r])
 
-         snd                       (balance2 snd-l snd-r pan)]
+         snd                       (balance2 snd-l snd-r pan amp)]
 
      (line:kr 1 1 (+ 0.03 (min play-time env-dur)) FREE)
      (out out_bus snd)))

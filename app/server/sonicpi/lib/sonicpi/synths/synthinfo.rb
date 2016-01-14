@@ -2719,6 +2719,10 @@ module SonicPi
           :amp_slide => 0,
           :amp_slide_shape => 1,
           :amp_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
           :pan => 0,
           :pan_slide => 0,
           :pan_slide_shape => 1,
@@ -2971,7 +2975,7 @@ module SonicPi
 
           :compress =>
           {
-            :doc => "Enable the compressor. This sits at the very end of the signal chain. The compressor compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal.",
+            :doc => "Enable the compressor. This sits at the end of the internal FX chain immediately before the `amp:` opt. Therefore to drive the compressor use the `pre_amp:` opt which will amplify the signal before it hits any internal FX. The compressor compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal.",
             :validations => [v_one_of(:compress, [0, 1])],
             :modulatable => true
           },
@@ -3048,6 +3052,21 @@ module SonicPi
           {
             :doc => generic_slide_doc(:relax_time),
             :validations => [v_positive(:relax_time_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :pre_amp =>
+          {
+            :doc => "Amplitude multiplier which takes place immediately before any internal FX such as the low pass filter, compressor or pitch modification. Use this opt if you want to overload the compressor.",
+            :validations => [v_positive(:pre_amp)],
+            :modulatable => true
+          },
+
+          :pre_amp_slide =>
+          {
+            :doc => generic_slide_doc(:pre_amp),
+            :validations => [v_positive(:pre_amp_slide)],
             :modulatable => true,
             :bpm_scale => true
           }
