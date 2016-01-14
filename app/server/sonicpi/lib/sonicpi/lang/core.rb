@@ -14,6 +14,7 @@
 require_relative 'support/docsystem'
 require_relative "../version"
 require_relative "../util"
+require 'active_support/inflector'
 
 ## TODO: create _* equivalents of all fns - for silent (i.e computation) versions
 
@@ -2956,18 +2957,22 @@ assert_equal 3, 5, \"something is seriously wrong!\"
 " ]
 
       def load_buffer(path)
-        if path.is_a? Symbol
-          path = Dir[examples_path + '/**/' + path.to_s + '.rb'].first
-          raise "Unable to load buffer - no example found with name: #{path}" unless path
-        else
-          path = File.expand_path(path.to_s)
-          raise "Unable to load buffer - no file found with path: #{path}" unless File.exists?(path)
-        end
+        path = File.expand_path(path.to_s)
+        raise "Unable to load buffer - no file found with path: #{path}" unless File.exists?(path)
         buf = __current_job_info[:workspace]
         __info "loading #{buf} with #{path}"
         __replace_buffer(buf, File.read(path))
       end
 
+      def load_example(example_name)
+        path = Dir[examples_path + '/**/' + example_name.to_s + '.rb'].first
+        raise "Error - no example found with name: #{example_name.inspect}" unless path
+        buf = __current_job_info[:workspace]
+        __info "loading #{buf} with #{path}"
+        title = ActiveSupport::Inflector.titleize(example_name)
+        __replace_buffer(buf, "# #{title}\n" + File.read(path))
+
+      end
 
       def __on_thread_death(&block)
         gc_jobs = Thread.current.thread_variable_get(:sonic_pi__not_inherited__spider_in_thread_gc_jobs) || []

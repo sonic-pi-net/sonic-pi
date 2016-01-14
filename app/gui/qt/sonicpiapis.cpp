@@ -33,6 +33,8 @@ SonicPiAPIs::SonicPiAPIs(QsciLexer *lexer)
 
   keywords[SampleParam] << "amp:" << "pan:" << "attack:" << "decay:" << "sustain:" << "release:" << "attack_level:" << "decay_level:" << "sustain_level:" << "env_curve:" << "rate:" << "beat_stretch:" << "start:" << "finish:" << "res:" << "cutoff:" << "cutoff_attack:" << "cutoff_decay:" << "cutoff_sustain:" << "cutoff_release:" << "cutoff_attack_level:" << "cutoff_decay_level:" << "cutoff_sustain_level:" << "cutoff_env_curve:" << "norm:" << "rpitch:" << "pitch:" << "pitch_stretch:" << "window_size:" << "pitch_dis:" << "time_dis:" << "compress:" << "threshold:" << "clamp_time:" << "slope_above:" << "slope_below:" << "relax_time:" << "pre_amp";
 
+  keywords[Examples] << ":haunted" << ":ambient_experiment" << ":chord_inversions" << "filtered_dnb" << ":fm_noise" << ":jungle" << ":ocean" << ":reich_phase" << ":acid" << ":ambient" << ":compus_beats" << ":echo_drama" << ":idm_breakbeat" << ":tron_bike" << ":wob_rhyth" << ":bach" << ":driving_pulse" << ":monday_blues" << ":rerezzed" << ":square_skit" << ":blimp_zones" << ":blip_rhythm" << ":shufflit" << ":tilburg_2" << ":time_machine" << ":sonic_dreams";
+
   keywords[Tuning] << ":just" << ":pythagorean" << ":meantone" << ":equal";
 }
 
@@ -103,6 +105,8 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
     ctx = FX;
   } else if (last == "with_synth" || last == "use_synth" || last == "synth") {
     ctx = Synth;
+  } else if (last == "load_example") {
+    ctx = Examples;
 
   // autocomplete the second arg of scale/chord
   } else if (lastButOne == "scale") {
