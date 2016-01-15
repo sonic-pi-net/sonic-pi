@@ -19,16 +19,19 @@
 
 # -- Change to match the location of QScintilla on your system
 #
- LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 -lqscintilla2
+ LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
  INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
  DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
 # --
 
-QT       += core gui concurrent network
+QT += core gui concurrent network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-
+lessThan(QT_MAJOR_VERSION, 5) {
+  LIBS += -lqscintilla2
+} else {
+  QT += widgets
+  LIBS += -lqt5scintilla2
+}
 
 TARGET = 'sonic-pi'
 
@@ -108,7 +111,6 @@ RESOURCES += \
 RC_FILE = SonicPi.rc
 
 ICON = images/app.icns
-LIBS         += -lqscintilla2
 
 win32 {
 	install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
