@@ -94,6 +94,7 @@ Links to original samples:
 * :bass_hit_c - http://freesound.org/people/oceanictrancer/sounds/211614/
 * :bass_hard_c - http://freesound.org/people/ani_music/sounds/165309/
 * :bass_thick_c - http://freesound.org/people/ani_music/sounds/165314/
+* :bass_trance_c - http://freesound.org/people/ani_music/sounds/165329/
 * :bass_drop_c - http://freesound.org/people/ani_music/sounds/165320/ 
 * :bass_woodsy_c - http://freesound.org/people/ani_music/sounds/165322/
 * :bass_voxy_c - http://freesound.org/people/ani_music/sounds/165325/
@@ -130,3 +131,4 @@ Links to original samples:
 * :loop_amen_full - http://freesound.org/people/gowers/sounds/202537/
 * :loop_garzul - http://freesound.org/people/Garzul/sounds/213524/
 * :loop_mika - http://freesound.org/people/mika55/sounds/188551/
+* :loop_breakbeat - http://freesound.org/people/Snapper4298/sounds/160354/
