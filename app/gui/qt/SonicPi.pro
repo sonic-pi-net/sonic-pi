@@ -24,27 +24,32 @@
  DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
 # --
 
-QT += core gui concurrent network
+TARGET = 'sonic-pi'
 
-lessThan(QT_MAJOR_VERSION, 5) {
-  LIBS += -lqscintilla2
-} else {
+QT += core gui concurrent network
+greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
-  LIBS += -lqt5scintilla2
 }
 
-TARGET = 'sonic-pi'
+linux {
+  lessThan(QT_MAJOR_VERSION, 5) {
+    LIBS += -lqscintilla2
+  } else {
+    LIBS += -lqt5scintilla2
+  }
+  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+}
 
 macx {
   TARGET = 'Sonic Pi'
+  LIBS += -lqscintilla2
   QT += macextras
   DEFINES += DONT_USE_OSX_KEYS
-}
-
-!win32 {
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra
 }
+
 win32 {
+  LIBS += -lqscintilla2
   QMAKE_CXXFLAGS += /WX
   DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS
 }
