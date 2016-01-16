@@ -77,11 +77,12 @@
      mix_slide 0
      mix_slide_shape 1
      mix_slide_curve 0
-     transpose 0.33
+     transpose 12
      transpose_slide 0
      transpose_slide_shape 1
      transpose_slide_curve 0
      deltime 0.05
+     max_delay_time 1
      grainsize 0.075
      pre_amp 1
      pre_amp_slide 0
@@ -92,19 +93,25 @@
     (let [amp             (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           mix             (varlag mix mix_slide mix_slide_curve mix_slide_shape)
           pre_amp         (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
-          transpose       (varlag transpose transpose_slide transpose_slide_curve transpose_slide_shape)
+          transpose       (varlag (midiratio transpose) transpose_slide transpose_slide_curve transpose_slide_shape)
           grainfreq       (/ transpose grainsize)
           [in-l in-r]     (in in_bus 2)
           new-l           (leak-dc (* (delay-c :in (* pre_amp in-l)
-                                               :max-delay-time 1
+                                               :max-delay-time max_delay_time
                                                :delay-time (+ (* (lf-saw grainfreq 1.0)
-                                                                 (lin-lin (sin-osc grainfreq
-                                                                                   -1 1 0 1 )))
+                                                                 (/ grainsize -2))
+                                                               deltime))
+                                      (lin-lin (sin-osc grainfreq
+                                                        (/ (* -1 Math/PI) 2))
+                                               -1 1 0 1 )))
           new-r           (leak-dc (* (delay-c :in (* pre_amp in-r)
-                                               :max-delay-time 1
+                                               :max-delay-time max_delay_time
                                                :delay-time (+ (* (lf-saw grainfreq 0.0)
-                                                                 (lin-lin (sin-osc grainfreq
-                                                                                   -1 1 0 1 )))
+                                                                 (/ grainsize -2))
+                                                               deltime))
+                                      (lin-lin (sin-osc grainfreq
+                                                        (/ Math/PI 2))
+                                             -1 1 0 1 )))
           fin-l           (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r           (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
           (out out_bus [fin-l fin-r])))

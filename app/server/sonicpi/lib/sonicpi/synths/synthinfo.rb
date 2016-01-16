@@ -4594,6 +4594,80 @@ module SonicPi
       end
     end
 
+    class FXWhammy < FXInfo
+      def name
+        "Whammy"
+      end
+
+      def introduced
+        Version.new(2,10,0)
+      end
+
+      def synth_name
+        "fx_whammy"
+      end
+
+      def doc
+        "A cheap sounding transposition effect, with a slightly robotic edge. Good for adding alien sounds and harmonies to everything from beeps to guitar samples. It's similar to pitch shift although not as smooth sounding."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :mix => 1,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+          :transpose => 12,
+          :transpose_slide => 0,
+          :transpose_slide_shape => 1,
+          :transpose_slide_curve => 0,
+          :max_delay_time => 1,
+          :deltime => 0.05,
+          :grainsize => 0.075
+        }
+      end
+
+      def specific_arg_info
+        {
+
+          :transpose =>
+          {
+            :doc => "This is how much to transpose the input, expressed as a midi pitch.",
+            :modulatable => true
+          },
+
+          :transpose_slide =>
+          {
+            :doc => generic_slide_doc(:transpose),
+            :validations => [v_positive(:transpose_slide)],
+            :modulatable => true,
+          },
+
+          :deltime =>
+          {
+            :doc => "The delay time to be used for the effect. This shouldn't need to be adjusted.",
+            :validations => [v_positive(:deltime)],
+          },
+
+          :max_delay_time =>
+          {
+            :doc => "The max delay time to be used for the effect. This shouldn't need to be adjusted.",
+            :validations => [v_positive(:max_delay_time)],
+          },
+
+          :grainsize =>
+          {
+            :doc => "The size of the initial grain used for transposition. This shouldn't need to be adjusted.",
+            :validations => [v_positive(:grainsize)],
+          },
+        }
+      end
+    end
 
     class FXCompressor < FXInfo
       def name
@@ -6200,6 +6274,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_ixi_techno => FXIXITechno.new,
         :fx_replace_ixi_techno => FXIXITechno.new,
         :fx_compressor => FXCompressor.new,
+        :fx_whammy => FXWhammy.new,
         :fx_replace_compressor => FXCompressor.new,
         :fx_rlpf => FXRLPF.new,
         :fx_replace_rlpf => FXRLPF.new,
