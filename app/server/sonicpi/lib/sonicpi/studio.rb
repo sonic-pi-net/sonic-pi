@@ -37,46 +37,60 @@ module SonicPi
       @reboot_mutex = Mutex.new
       @rebooting = false
       @cent_tuning = 0
+      @reboot_queue = Queue.new
+      @reboot_queue << :check
 
       init_studio
       reset_server
-      @last_check = Time.now
-      @check_server_t = Thread.new do
+
+      @server_rebooter = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, "server checker")
         Thread.current.priority = 300
+        Kernel.sleep 10
         loop do
-          Kernel.sleep 5
-          # don't attempt to reboot if we've just woken from sleep
-          if (Time.now - @last_check) < 6
-            unless @rebooting
+          vs = []
+          vs << @reboot_queue.pop
+          # drain any other messages
+          @reboot_queue.size.times {vs << @reboot_queue.pop}
+          begin
+            if vs.include? :reboot
+              begin
+                server_reboot
+                Kernel.sleep 10
+                @reboot_queue << :check
+              rescue Exception => e
+                message "Error rebooting server:  #{e}, #{e.backtrace}"
+                message "Attempting to reboot again in 10s"
+                begin
+                  message "Forcing shutdown of any running server"
+                  @server.shutdown
+                rescue Exception => e
+                  message "Error shutting down server:  #{e}, #{e.backtrace}"
+                end
+                Kernel.sleep 10
+                @reboot_queue.push :reboot
+              end
+            else
               begin
                 if @server.status(5)
                   # server is alive
+                  # check again in 5 seconds...
+                  Thread.new do
+                    Kernel.sleep 5
+                    @reboot_queue << :check
+                  end
                 else
-                  @error_occured_mutex.synchronize do
-                    @error_occurred_since_last_check = true
-                  end
-                  message "Sound server is down."
-                  begin
-                    reboot
-                  rescue Exception => e
-                    message "Error rebooting server: #{e}, #{e.backtrace}"
-                  end
+                  message "Sound server is down. Rebooting..."
+                  @reboot_queue << :reboot
                 end
-              rescue
-                @error_occured_mutex.synchronize do
-                  @error_occurred_since_last_check = true
-                end
-                message "Error communicating with sound server."
-                begin
-                  reboot
-                rescue Exception => e
-                  message "Error rebooting server after we lost comms: #{e}, #{e.backtrace}"
-                end
+              rescue Exception => e
+                message "Error communicating with sound server. Rebooting...  #{e}, #{e.backtrace}"
+                @reboot_queue.push :reboot
               end
             end
+          rescue Exception => e
+            message "Error in reboot thread: #{e}, #{e.backtrace}"
           end
-          @last_check = Time.now
         end
       end
     end
@@ -299,7 +313,14 @@ module SonicPi
       @server.shutdown
     end
 
+
     def reboot
+      @reboot_queue.push :reboot
+    end
+
+    private
+
+    def server_reboot
       return nil if @rebooting
       @reboot_mutex.synchronize do
         @rebooting = true
@@ -312,8 +333,6 @@ module SonicPi
       end
       true
     end
-
-    private
 
     def check_for_server_rebooting!(msg=nil)
       if @rebooting
