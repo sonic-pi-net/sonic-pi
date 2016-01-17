@@ -31,7 +31,8 @@ greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
 }
 
-linux {
+# Linux only
+unix:!macx {
   lessThan(QT_MAJOR_VERSION, 5) {
     LIBS += -lqscintilla2
   } else {
@@ -40,6 +41,7 @@ linux {
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra
 }
 
+# Mac OS X only
 macx {
   TARGET = 'Sonic Pi'
   LIBS += -lqscintilla2
@@ -48,6 +50,7 @@ macx {
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra
 }
 
+# Windows only
 win32 {
   LIBS += -lqscintilla2
   QMAKE_CXXFLAGS += /WX
