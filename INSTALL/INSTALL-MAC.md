@@ -1,0 +1,67 @@
+# Mac OS X
+
+## Dependencies
+
+* Download Qt 5.4+ http://qt-project.org/downloads
+* Run the setup wizard and install to a known location which we'll call `/path/to/qt`
+* Grab a copy of the QScintilla libs http://www.riverbankcomputing.co.uk/software/qscintilla/download and untar into a known location which we'll call `/path/to/qscintilla`
+  (current version is QScintilla-gpl-2.9)
+* Install SuperCollider 3.6 from http://supercollider.github.io/download.html
+* Download SuperCollider extensions from http://sourceforge.net/projects/sc3-plugins/files/OSX_3.6/SC3ExtPlugins-universal.dmg/download and install as per the included README.txt file
+
+## Create Symlinks for Ruby and SuperCollider's scsynth
+
+* Provide a Ruby version for Sonic Pi to use
+  - The Qt app expects Ruby to exist at a certain path. We can use a symlink to provide an appropriate Ruby Version
+  - `cd /root/path/to/sonic-pi`
+  - `mkdir -p app/server/native/osx/ruby/bin`
+  - link the ruby version into place:
+  - `ln -s `which ruby` app/server/native/osx/ruby/bin/ruby`
+* Provide a SuperCollider scsynth for Sonic Pi to use  
+ - The Qt app expects scsynth to exist at a certain path. We can also use a symlink here.
+ - `cd /root/path/to/sonic-pi`
+ - `cd app/server/native/osx/`
+ - `ln -s /Applications/SuperCollider.app/Contents/Resources/scsynth .`
+
+## Compile Ruby Server extensions
+
+Sonic Pi uses some ruby libraries which have native extensions. We need
+to compile these with the provided script:
+
+* `cd /root/path/to/sonic-pi`
+* `cd app/server/bin`
+* `../native/osx/ruby/bin compile-extensions.rb`
+
+This will take some time. Ignore the warnings.
+
+## Qt GUI
+
+* Build QScintilla:
+  - `cd /path/to/qscintilla/Qt4Qt5`
+  - (OSX Xcode7 only) Add the following to qscintilla.pro
+      QMAKE_MAC_SDK = macosx10.11
+  - generate makefile: `/path/to/qt/5.4/clang_64/bin/qmake qscintilla.pro`
+  - `make`
+  - (OSX only) update the dylib inner path part 1: `install_name_tool -id "/path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib`
+  - (OSX only) update the dylib inner path part 2: `install_name_tool -change "libqscintilla2.12.dylib" "/path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib` 
+* Add the following to SonicPi.pro
+    LIBS += -L /path/to/qscintilla/Qt4Qt5/ -lqscintilla2
+    INCLUDEPATH += /path/to/qscintilla/Qt4Qt5/
+    DEPENDPATH += /path/to/qscintilla/Qt4Qt5/
+* (OSX Xcode7 only) Add the following to SonicPi.pro
+    QMAKE_MAC_SDK = macosx10.11
+* Modify top of mac-build-app appropriately i.e.
+    QSCINTILLA=/path/to/qscintilla/Qt4Qt5
+    QTBIN=/path/to/qt/5.4/clang_64/bin
+
+## Building the App
+
+Finally, we need to build the OS X App
+
+* `cd /root/path/to/sonic-pi`
+* `cd app/gui/qt`
+* `./mac-build-app`
+* App should be in `build` dir which you can either launch via Finder or via the following from the `qt dir:
+* `./build/Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi`
+
+Sonic Pi should now boot succesfully.
