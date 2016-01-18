@@ -2547,7 +2547,7 @@ sample :elec_blip # No delay takes place when attempting to trigger it"]
 
       def load_samples(*paths)
         paths.each do |p|
-          if p.kind_of?(Array)
+          if p.kind_of?(Array) || p.kind_of?(SonicPi::Core::RingVector)
             load_samples *p
           else
             load_sample p
