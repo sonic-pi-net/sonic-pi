@@ -42,14 +42,17 @@ This will take some time. Ignore the warnings.
   - `cd /path/to/qscintilla/Qt4Qt5`
   - generate makefile: `/path/to/qt/5.4/clang_64/bin/qmake qscintilla.pro`
   - `make`
-* Add the following to SonicPi.pro
+* Add the following to SonicPi.pro:
+```
     LIBS += -L /path/to/qscintilla/Qt4Qt5/ -lqscintilla2
     INCLUDEPATH += /path/to/qscintilla/Qt4Qt5/
     DEPENDPATH += /path/to/qscintilla/Qt4Qt5/
+```
 * Modify top of mac-build-app appropriately i.e.
+```
     QSCINTILLA=/path/to/qscintilla/Qt4Qt5
     QTBIN=/path/to/qt/5.4/clang_64/bin    
-
+```
 ### Xcode 7+
 
 * Build QScintilla:
@@ -61,15 +64,21 @@ This will take some time. Ignore the warnings.
   - update the dylib inner path part 1: `install_name_tool -id "/path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib`
   - update the dylib inner path part 2: `install_name_tool -change "libqscintilla2.12.dylib" "/path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib" /path/to/qscintilla/Qt4Qt5/libqscintilla2.12.dylib` 
 * Add the following to SonicPi.pro
+```
     LIBS += -L /path/to/qscintilla/Qt4Qt5/ -lqscintilla2
     INCLUDEPATH += /path/to/qscintilla/Qt4Qt5/
     DEPENDPATH += /path/to/qscintilla/Qt4Qt5/
+```    
 * Add the following to SonicPi.pro
+```
     QMAKE_MAC_SDK = macosx10.11
+```    
 * Modify top of mac-build-app appropriately i.e.
+```    
     QSCINTILLA=/path/to/qscintilla/Qt4Qt5
     QTBIN=/path/to/qt/5.4/clang_64/bin
-   
+```    
+
 
 ## Building the App
 
