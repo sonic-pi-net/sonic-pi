@@ -67,7 +67,11 @@ module SonicPi
 
     def shutdown
       log "Sending /quit command to server"
-      @server.send(@hostname, @port, "/quit")
+      begin
+        @server.send(@hostname, @port, "/quit")
+      rescue Exception => e
+        log "Error during scsynth shutdown when attempting to send /quit OSC message to server #{@hostname} on port #{@port}"
+      end
       @server.stop
       t1, t2 = nil, nil
       if @jack_pid
