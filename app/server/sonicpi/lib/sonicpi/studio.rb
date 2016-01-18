@@ -68,7 +68,7 @@ module SonicPi
                   message "Error shutting down server:  #{e}, #{e.backtrace}"
                 end
                 Kernel.sleep 10
-                @reboot_queue.push :reboot
+                @reboot_queue << :reboot
               end
             else
               begin
@@ -85,7 +85,7 @@ module SonicPi
                 end
               rescue Exception => e
                 message "Error communicating with sound server. Rebooting...  #{e}, #{e.backtrace}"
-                @reboot_queue.push :reboot
+                @reboot_queue <<  :reboot
               end
             end
           rescue Exception => e
@@ -321,16 +321,16 @@ module SonicPi
     private
 
     def server_reboot
-      return nil if @rebooting
-      @reboot_mutex.synchronize do
-        @rebooting = true
-        message "Rebooting server. Please wait..."
-        @server.shutdown
-        init_studio
-        reset_server
-        message "Server ready."
-        @rebooting = false
-      end
+      # Important:
+      # This method should only be called from the @server_rebooter
+      # thread.
+      @rebooting = true
+      message "Rebooting server. Please wait..."
+      @server.shutdown
+      init_studio
+      reset_server
+      message "Server ready."
+      @rebooting = false
       true
     end
 
