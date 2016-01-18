@@ -8,18 +8,22 @@
   (current version is QScintilla-gpl-2.9)
 * Install SuperCollider 3.6 from http://supercollider.github.io/download.html
 * Download SuperCollider extensions from http://sourceforge.net/projects/sc3-plugins/files/OSX_3.6/SC3ExtPlugins-universal.dmg/download and install as per the included README.txt file
+* Grab a copy of Sonic Pi's source to a known location (which we'll call `/path/to/sonic-pi/root/`)
+  - `cd /path/to/sonic-pi/root/`
+  - `git clone git://github.com/samaaron/sonic-pi.git`
+
 
 ## Create Symlinks for Ruby and SuperCollider's scsynth
 
 * Provide a Ruby version for Sonic Pi to use
   - The Qt app expects Ruby to exist at a certain path. We can use a symlink to provide an appropriate Ruby Version
-  - `cd /root/path/to/sonic-pi`
+  - `cd /path/to/sonic-pi/root/`
   - `mkdir -p app/server/native/osx/ruby/bin`
   - link the ruby version into place:
   - `ln -s `which ruby` app/server/native/osx/ruby/bin/ruby`
 * Provide a SuperCollider scsynth for Sonic Pi to use  
  - The Qt app expects scsynth to exist at a certain path. We can also use a symlink here.
- - `cd /root/path/to/sonic-pi`
+ - `cd /path/to/sonic-pi/root/`
  - `cd app/server/native/osx/`
  - `ln -s /Applications/SuperCollider.app/Contents/Resources/scsynth .`
 
@@ -28,7 +32,7 @@
 Sonic Pi uses some ruby libraries which have native extensions. We need
 to compile these with the provided script:
 
-* `cd /root/path/to/sonic-pi`
+* `cd /path/to/sonic-pi/root/`
 * `cd app/server/bin`
 * `../native/osx/ruby/bin compile-extensions.rb`
 
@@ -84,7 +88,7 @@ This will take some time. Ignore the warnings.
 
 Finally, we need to build the OS X App
 
-* `cd /root/path/to/sonic-pi`
+* `cd /path/to/sonic-pi/root/`
 * `cd app/gui/qt`
 * `./mac-build-app`
 * App should be in `build` dir which you can either launch via Finder or via the following from the `qt dir:
