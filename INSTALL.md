@@ -11,12 +11,12 @@ platform is highly recommended: http://sonic-pi.net
  
 
 There are instructions for the following platforms in their own separate
-files within the `INSTALL` directory.
+files:
 
-* Raspberry Pi - `INSTALL/INSTALL-RASPBERRY-PI.md`
-* Windows - `INSTALL/INSTALL-WINDOWS.md`
-* Mac - `INSTALL/INSTALL-MAC.md`
-* Linux - `INSTALL/INSTALL-LINUX.md`
+* Raspberry Pi - `INSTALL-RASPBERRY-PI.md`
+* Windows - `INSTALL-WINDOWS.md`
+* Mac - `INSTALL-MAC.md`
+* Linux - `INSTALL-LINUX.md`
 
 ----
 
