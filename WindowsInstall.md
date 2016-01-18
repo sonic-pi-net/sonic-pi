@@ -2,11 +2,9 @@
 
 Last revision 29th December 2015 @ 7:32PM AWST   (minor grammar improvement)
 
-Test bed was a Windows 10 64bit install (running under vmware fusion on a Mac)
+Tested on Windows 10 64bit (running under vmware fusion on a Mac) and Windows 7 64bit.
 
 This document details the process from beginning to end to build Sonic Pi 2.9dev and I hope it will be useful to others, and encourage them to have a go themselves.
-
-Prerequisite. A windows 10 computer with internet connection and working soundcard.
 
 First there is quite a bit of software to install to facilitate the build, not least the source files for Sonic Pi.
 
@@ -120,6 +118,8 @@ and change it to read
 
 ```Unix Makefiles\" -DCMAKE_INSTALL_PREFIX=C:/ -DWINHTTP=OFF")```
 
+NB: this may no longer be needed with current versions of rugged
+
 Then resave the file and quit notepad.
 Go back to the cmd window
 
@@ -132,38 +132,9 @@ Now build the patched rugged
 ```
 ..\bin\gem build rugged.gemspec
 ..\bin\gem install rugged-0.23.3.gem
-
-
 ```
-create the directory path ```c:\sonic-pi\app\server\rb-native\windows\2.2.0```
 
-You will have to create the last two folders windows\2.2.0 in this path. Easiest to do this with  FileExplorer Window NB if you are using Ruby 2.1.x you will substitute the folder 2.1.0 instead of 2.2.0 here. The compiled shared libraries for the gems will be copied to this folder. Keep this window (hereafter referred to as the ```gem .so folder```) open for the purpose.
-
-Different versions of Ruby appear to store the compiled libraries in different places, so it is probably easiest to search for them using a new FileExplorer Window. Open such a window, and navigate to
-```
-c:\ > sonic-pi > app > server > native > windows > ruby > lib > ruby > gems
-```
-You will use this window three times to search for the three .so files which need to be copied.
-
-A) ***did_you_mean gem*** The shared object file in this case is called ```method_receiver.so``` It will be copied to a folder ```did_you_mean``` which you have to create in the ```gem .so folder``` referred to above.
-To find it, type ```method*.so``` in the search field (top right) 
-Select one of the hits, right click and select open file location. This should reveal a file ```method_receiver.so``` which is the shared object file to support the did_you_mean gem. This needs to be copied to the folder ```did_you_mean``` which you created in the  ```gem .so folder```
-
-B) ***ffi gem*** The shared object file in this case is called ```ffi_c.so``` It is copied to the ```gem .so folder```
-use the left arrow in the window where the ```method_receiver.so``` file was found to return to the search screen, and amend the search. Search for ```ffi*.so```
-IF you are using Ruby 2.2.* you will see several matches. Note that they are NOT all the same size. This is because this gem unfortunately builds with several versions of the file for different versions of Ruby. IT IS VERY IMPORTANT TO SELECT THE RIGHT ONE, which will be in a folder ```2.2``` Other versions which you DON'T want are in folders 1.8,1.9,2.0 and 2.1. Copy the correct version to 
-the ```gem .so folder``` If you are using Ruby 2.1.* the problem does not seem to arise, and although there are several matches to the search, they are all identical.
-
-C) ***rugged gem*** The shared object file in this case is ```rugged.so``` It is copied to the ```gem .so folder```
-use the left arrow in the window where the ```ffi_c.so``` file was found to return to the search screen, and amend the search. Search for ```rugged.so``` Select one of the matches and copy the file to the ```gem .so folder```
-
-At the end of this copying process the ```gem .so folder ``` which is 
-```
-c:\app\server\rb-native\windows\2.2.0\
-```
-(assuming you are using Ruby 2.2.*, or a path ending in 2.1.0 if using Ruby 2.1.*) will contain: ```ffi_c.so```, ```rugged.so``` and a folder named ```did_you_mean``` containing ```method_receiver.so```
-
-(Note nothing needs to be copied with the win32-process gem)
+NB: rb-native is not being used for Windows packages, the gems can happily live where they were installed by the "local" Ruby.  You MAY need to delete the vendor/rugged directory so it uses the right version.
 
 That completes the ruby preparation work. Close the cmd and FileExplorer windows.
 
@@ -255,6 +226,16 @@ http://sourceforge.net/projects/sc3-plugins/files/sc3-plugins%20Windows/
 Select the latest version link at the top of the page and download
 ```Looking for the latest version? Download sc3-plugins-3.6.0-win32.zip (10.3 MB)```
 Extract them in the download folder.
+
+NB: The current Sonic Pi 2.9 is packaged with sc3-plugins 3.7.0-beta (f978dc2), which can be compiled in an MSYS environment as follows:
+* install FFTW3 binaries from ftp://ftp.fftw.org/pub/fftw/fftw-3.3.4-dll32.zip to `/home/sc/fftw3.3.4-dll32` for example
+* `git clone https://github.com/supercollider/sc3-plugins.git`
+* `cd sc3-plugins && git submodule init && git submodule update`
+* `mkdir build && cd build`
+* `cmake -DSC_PATH=/home/sc/sources/supercollider/ -DFFTW3F_LIBRARY=/home/sc/fft w-3.3.4-dll32/libfftw3f-3.dll -DFFTW3F_INCLUDE_DIR=/home/sc/fftw3.3.4-dll32 -G "Unix Makefiles" ..`
+* manually add `-IC:/msys/home/sc/fftw-3.3.4-dll32/` to `build/source/CMakeFiles/PitchDetection.dir/includes_CXX.rsp` (no idea why)
+* make install
+* copy SCX files from `c:\program files (x86)\sc3-plugins` or wherever it installs them
 
 We now copy files to the sonic-pi installation.
 
