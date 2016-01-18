@@ -3599,8 +3599,9 @@ kill bar"]
       doc name:          :sample_names,
           introduced:    Version.new(2,0,0),
           summary:       "Get sample names",
-          doc:           "Return a list of sample names for the specified group",
+          doc:           "Return a ring of sample names for the specified group",
           args:          [[:group, :symbol]],
+          returns:        :ring,
           opts:          nil,
           accepts_block: false,
           examples:      []
