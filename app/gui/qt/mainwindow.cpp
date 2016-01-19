@@ -2286,13 +2286,15 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
+
   setupLogPathAndRedirectStdOut();
+  std::cout << "[GUI] - stopping OSC server" << std::endl;
+  sonicPiOSCServer->stop();
+  if(protocol == TCP){
+    clientSock->close();
+  }
   if(serverProcess->state() == QProcess::NotRunning) {
     std::cout << "[GUI] - warning, server process is not running." << std::endl;
-    sonicPiOSCServer->stop();
-    if(protocol == TCP){
-      clientSock->close();
-    }
   } else {
     if (loaded_workspaces) {
       // this should be a synchorous call to avoid the following sleep
