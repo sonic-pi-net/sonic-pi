@@ -25,9 +25,8 @@ module SonicPi
       assert_equal(SonicPi::Core::RingVector, stretch([:e1], 3).class)
       assert_equal([:a2,:a2], stretch(:a2, 2))
 
-      assert_raises SonicPi::Core::EmptyVectorError do
-        stretch([:e2], 0)
-      end
+      assert_equal(stretch([:e2], 0), ring())
+
     end
 
     def test_knit
@@ -35,16 +34,11 @@ module SonicPi
       assert_equal(knit(:e1, 3, :c1, 2), [:e1, :e1, :e1, :c1, :c1])
       assert_equal(knit(:e2, -1, :c1, 3), [:c1, :c1, :c1])
       assert_equal(knit(:e1, 3).class, SonicPi::Core::RingVector)
-      assert_raises SonicPi::Core::EmptyVectorError do
-        knit(:e2, 0)
-      end
-
-      assert_raises SonicPi::Core::EmptyVectorError do
-        knit(:e2, -1)
-      end
+      assert_equal(knit([:e2], 0), ring())
+      assert_equal(knit(:e2, -1), ring())
 
       assert_raises RuntimeError, "even number" do
-        knit(:e2, 1, :c3)
+        assert_equal(knit(:e2, 1, :c3), ring())
       end
 
     end
@@ -59,10 +53,8 @@ module SonicPi
       assert_equal(range(10, 50, step: 10), [10, 20, 30, 40])
       assert_equal(range(1, 5, step: -1), [1, 2, 3, 4])
       assert_equal(range(1, 3).class, SonicPi::Core::RingVector)
+      assert_equal(range(10, 10, step: -1), ring())
 
-      assert_raises SonicPi::Core::EmptyVectorError do
-        range(10, 10, step: -1)
-      end
     end
 
 
@@ -89,9 +81,9 @@ module SonicPi
       assert_equal(bools(:a, 1, nil, true, 0), [true, true, false, true, false])
       assert_equal(bools(1,0, 0).class, SonicPi::Core::RingVector)
 
-      assert_raises SonicPi::Core::EmptyVectorError do
-        assert_equal(bools(), [])
-      end
+
+      assert_equal(bools(), ring())
+
     end
 
     def test_spread

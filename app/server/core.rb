@@ -222,7 +222,6 @@ module SonicPi
     class SPVector < Hamster::Vector
       include TLMixin
       def initialize(list)
-        raise EmptyVectorError, "Cannot create an empty vector" if list.empty?
         super
       end
 
