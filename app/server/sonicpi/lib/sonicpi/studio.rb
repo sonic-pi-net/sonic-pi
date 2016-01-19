@@ -309,8 +309,11 @@ module SonicPi
     end
 
     def shutdown
-      check_for_server_rebooting!(:shutdown)
-      @server.shutdown
+      @server_reboot.kill
+      begin
+        @server.shutdown
+      rescue Exception => e
+      end
     end
 
 
