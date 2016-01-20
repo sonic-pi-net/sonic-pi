@@ -234,8 +234,9 @@ module SonicPi
       end
 
       def [](idx, len=(missing_length = true))
-        return nil if self.empty?
+        return nil unless idx
         raise InvalidIndexError, "Invalid index: #{idx.inspect}, was expecting a number or range" unless idx && (idx.is_a?(Numeric) || idx.is_a?(Range))
+        return nil if self.empty?
         if idx.is_a?(Numeric) && missing_length
           idx = map_index(idx)
           super idx
