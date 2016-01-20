@@ -1381,33 +1381,33 @@
      amp_slide 0
      amp_slide_shape 1
      amp_slide_curve 0
-     oct1_amp 1
-     oct1_amp_slide 0
-     oct1_amp_slide_shape 1
-     oct1_amp_slide_curve 0
-     oct2_amp 1
-     oct2_amp_slide 0
-     oct2_amp_slide_shape 1
-     oct2_amp_slide_curve 0
-     oct3_amp 1
-     oct3_amp_slide 0
-     oct3_amp_slide_shape 1
-     oct3_amp_slide_curve 0
+     super_amp 1
+     super_amp_slide 0
+     super_amp_slide_shape 1
+     super_amp_slide_curve 0
+     sub_amp 1
+     sub_amp_slide 0
+     sub_amp_slide_shape 1
+     sub_amp_slide_curve 0
+     subsub_amp 1
+     subsub_amp_slide 0
+     subsub_amp_slide_shape 1
+     subsub_amp_slide_curve 0
      in_bus 0
      out_bus 0]
     (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-          oct1_amp      (varlag oct1_amp oct1_amp_slide oct1_amp_slide_curve oct1_amp_slide_shape)
-          oct2_amp      (varlag oct2_amp oct2_amp_slide oct2_amp_slide_curve oct2_amp_slide_shape)
-          oct3_amp      (varlag oct3_amp oct3_amp_slide oct3_amp_slide_curve oct3_amp_slide_shape)
+          super_amp     (varlag super_amp super_amp_slide super_amp_slide_curve super_amp_slide_shape)
+          sub_amp       (varlag sub_amp sub_amp_slide sub_amp_slide_curve sub_amp_slide_shape)
+          subsub_amp    (varlag subsub_amp subsub_amp_slide subsub_amp_slide_curve subsub_amp_slide_shape)
           mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
           pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
           direct-lpf    (lpf (* pre_amp (in in_bus 2)) 440)
-          super-oct     (abs direct-lpf)
+          super-oct     (* 2 (leak-dc (abs direct-lpf))) ;; Compensate for resulting wave being half amplitude
           sub-oct       (toggle-ff:ar direct-lpf)
           sub-sub-oct   (toggle-ff:ar sub-oct)
 
           [in-l in-r]   (* pre_amp (in in_bus 2))
-          [new-l new-r] (+ (* super-oct oct1_amp) (* direct-lpf sub-oct oct2_amp) (* direct-lpf sub-sub-oct oct3_amp))
+          [new-l new-r] (+ (* super-oct super_amp) (* direct-lpf sub-oct sub_amp) (* direct-lpf sub-sub-oct subsub_amp))
           fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
           fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
       (out out_bus [fin-l fin-r])))

@@ -4829,52 +4829,48 @@ module SonicPi
           :pre_amp_slide => 0,
           :pre_amp_slide_shape => 1,
           :pre_amp_slide_curve => 0,
-          :oct1_amp => 1,
-          :oct1_amp_slide => 0,
-          :oct1_amp_slide_shape => 1,
-          :oct1_amp_slide_curve => 0,
-          :oct1_interval => 12,
-          :oct1_interval_slide => 0,
-          :oct1_interval_slide_shape => 1,
-          :oct1_interval_slide_curve => 0,
-          :oct2_amp => 1,
-          :oct2_amp_slide => 0,
-          :oct2_amp_slide_shape => 1,
-          :oct2_amp_slide_curve => 0,
-          :oct3_amp => 1,
-          :oct3_amp_slide => 0,
-          :oct3_amp_slide_shape => 1,
-          :oct3_amp_slide_curve => 0
+          :super_amp => 1,
+          :super_amp_slide => 0,
+          :super_amp_slide_shape => 1,
+          :super_amp_slide_curve => 0,
+          :sub_amp => 1,
+          :sub_amp_slide => 0,
+          :sub_amp_slide_shape => 1,
+          :sub_amp_slide_curve => 0,
+          :subsub_amp => 1,
+          :subsub_amp_slide => 0,
+          :subsub_amp_slide_shape => 1,
+          :subsub_amp_slide_curve => 0
         }
       end
 
       def specific_arg_info
         {
-          :oct1_amp =>
+          :super_amp =>
           {
             :doc => "Volume of the signal 1 octave above the input",
-            :validations => [v_positive(:oct1_amp)],
+            :validations => [v_positive(:super_amp)],
             :modulatable => true
           },
-          :oct2_amp =>
+          :sub_amp =>
           {
             :doc => "Volume of the signal 1 octave below the input",
-            :validations => [v_positive(:oct2_amp)],
+            :validations => [v_positive(:sub_amp)],
             :modulatable => true
           },
-          :oct3_amp =>
+          :subsub_amp =>
           {
             :doc => "Volume of the signal 2 octaves below the input",
-            :validations => [v_positive(:oct3_amp)],
+            :validations => [v_positive(:subsub_amp)],
             :modulatable => true
           }
         }
       end
 
       def doc
-        "This harmoniser adds three pitches based on the input sound. The first is the original sound transposed up an octave, the second is the original sound transposed down an octave and the third is the original sound transposed down two octaves.
+        "This effect adds three pitches based on the input sound. The first is the original sound transposed up an octave (super_amp), the second is the original sound transposed down an octave (sub_amp) and the third is the original sound transposed down two octaves (subsub_amp).
 
-  The way the transpositions are done adds some distortion, particularly to the lower octaves, whilst the upper octave has a 'cheap' quality. This effect is often used in guitar effects pedals but it can work with other sounds too."
+  The way the transpositions are done adds some distortion/fuzz, particularly to the lower octaves, whilst the upper octave has a 'cheap' quality. This effect is often used in guitar effects pedals but it can work with other sounds too. There's a great description of the science behind this on Wikipedia here: https://en.wikipedia.org/wiki/Octave_effect"
       end
     end
 
@@ -6307,7 +6303,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_pitch_shift => FXPitchShift.new,
         :fx_ring_mod => FXRingMod.new,
         #:fx_chorus => FXChorus.new,
-        #:fx_harmoniser => FXHarmoniser.new,
+        :fx_octaver => FXOctaver.new,
         :fx_flanger => FXFlanger.new
       }
 
