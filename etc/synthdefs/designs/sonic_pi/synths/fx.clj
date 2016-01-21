@@ -811,25 +811,26 @@
     relax_time_slide_curve 0
     in_bus 0
     out_bus 0]
-   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
-         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
-         pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
-         threshold     (varlag threshold threshold_slide threshold_slide_curve threshold_slide_shape)
-         clamp_time    (varlag clamp_time clamp_time_slide clamp_time_slide_curve clamp_time_slide_shape)
-         slope_above   (varlag slope_above slope_above_slide slope_above_slide_curve slope_above_slide_shape)
-         slope_below   (varlag slope_below slope_below_slide slope_below_slide_curve slope_below_slide_shape)
-         relax_time    (varlag relax_time relax_time_slide relax_time_slide_curve relax_time_slide_shape)
+   (let [amp                       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix                       (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pre_amp                   (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
+         threshold                 (varlag threshold threshold_slide threshold_slide_curve threshold_slide_shape)
+         clamp_time                (varlag clamp_time clamp_time_slide clamp_time_slide_curve clamp_time_slide_shape)
+         slope_above               (varlag slope_above slope_above_slide slope_above_slide_curve slope_above_slide_shape)
+         slope_below               (varlag slope_below slope_below_slide slope_below_slide_curve slope_below_slide_shape)
+         relax_time                (varlag relax_time relax_time_slide relax_time_slide_curve relax_time_slide_shape)
 
-         src           (* pre_amp (in in_bus 2))
-         [in-l in-r]   src
+         src                       (in in_bus 2)
+         [orig-in-l orig-in-r]     src
+         pre-amped-src             (* pre_amp src)
+         [pre-amped-l pre-amped-r] pre-amped-src
+         control-sig               (/ (+ pre-amped-l pre-amped-r) 2)
 
-         control-sig   (/ (+ in-l in-r) 2)
-
-         [new-l new-r] (compander src control-sig threshold
-                                  slope_below slope_above
-                                  clamp_time relax_time)
-         fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
-         fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+         [new-l new-r]             (compander pre-amped-src control-sig threshold
+                                              slope_below slope_above
+                                              clamp_time relax_time)
+         fin-l                     (x-fade2 orig-in-l new-l (- (* mix 2) 1) amp)
+         fin-r                     (x-fade2 orig-in-r new-r (- (* mix 2) 1) amp)]
      (out out_bus [fin-l fin-r])))
 
  (defsynth sonic-pi-fx_band_eq
