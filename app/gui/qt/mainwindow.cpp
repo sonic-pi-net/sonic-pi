@@ -2019,13 +2019,16 @@ void MainWindow::createToolBar()
 
   // Font Size Increase
   QAction *textIncAct = new QAction(QIcon(":/images/size_up.png"),
-			    tr("Increase Text Size"), this);
-  setupAction(textIncAct, 0, tr("Increase Text Size"), SLOT(zoomCurrentWorkspaceIn()));
+			    tr(""), this);
+  setupAction(textIncAct, 0, tr(""), SLOT(zoomCurrentWorkspaceIn()));
+  textIncAct->setToolTip(tooltipStrMeta('+', tr("Increase Text Size")));
 
   // Font Size Decrease
   QAction *textDecAct = new QAction(QIcon(":/images/size_down.png"),
-			    tr("Decrease Text Size"), this);
-  setupAction(textDecAct, 0, tr("Decrease Text Size"), SLOT(zoomCurrentWorkspaceOut()));
+			    tr(""), this);
+
+  setupAction(textDecAct, 0, tr(""), SLOT(zoomCurrentWorkspaceOut()));
+  textDecAct->setToolTip(tooltipStrMeta('-', tr("Decrease Text Size")));
 
   QWidget *spacer = new QWidget();
   spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
