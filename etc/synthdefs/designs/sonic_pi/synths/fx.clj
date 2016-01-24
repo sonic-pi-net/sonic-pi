@@ -140,8 +140,9 @@
          pre_amp       (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          krunch        (varlag krunch krunch_slide krunch_slide_curve krunch_slide_shape)
          krunch        (select:kr (= 0 krunch) [krunch 0.0001])
+         krunch_mul    2 ;; for a krunchier default sound
          [in-l in-r]   (* pre_amp (in in_bus 2))
-         [new-l new-r] (* (/ (tanh (* krunch [in-l in-r])) krunch) (+ 1 (/ krunch 8)))
+         [new-l new-r] (* (/ (tanh (* (* krunch krunch_mul) [in-l in-r])) (* krunch krunch_mul)) (+ 1 (/ krunch (* krunch_mul 8))))
 
          fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
          fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
