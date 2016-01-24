@@ -17,6 +17,46 @@
   (:require [sonic-pi.synths.core :as core]))
 
 (without-namespace-in-synthdef
+ (defsynth sonic-pi-guitar [note 52
+                           amp 1
+                           amp_slide 0
+                           amp_slide_shape 1
+                           amp_slide_curve 0
+                           pan 0
+                           pan_slide 0
+                           pan_slide_shape 1
+                           pan_slide_curve 0
+                           attack 0
+                           decay 0
+                           sustain 0
+                           release 1
+                           attack_level 1
+                           decay_level -1
+                           sustain_level 1
+                           env_curve 1
+                           noise_amp 0.8
+                           max_delay_time 0.125
+                           pluck_decay 30
+                           coef 0.3
+
+                           out_bus 0]
+   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         amp-fudge     2.5 ;; Given the filtering involved this synth is naturally quiet
+         pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+         freq          (midicps note)
+
+         snd           (pluck     {:in           (* noise_amp (pink-noise))
+                                   :trig         1
+                                   :maxdelaytime max_delay_time
+                                   :delaytime    (/ 1.0 freq)
+                                   :decaytime    pluck_decay
+                                   :coef         coef})
+
+         env           (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
+         [new-l new-r] (pan2 (* amp-fudge snd env) pan amp)]
+     (out out_bus [new-l new-r]))
+   )
+
  (defsynth sonic-pi-piano [note 52
                            amp 1
                            amp_slide 0
@@ -157,4 +197,5 @@
 
 (comment
   (core/save-synthdef sonic-pi-piano)
+  (core/save-synthdef sonic-pi-guitar)
   (core/save-synthdef sonic-pi-synth_violin))

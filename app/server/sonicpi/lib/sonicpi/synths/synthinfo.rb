@@ -1786,6 +1786,112 @@ module SonicPi
       end
     end
 
+    class SynthGuitar < SonicPiSynth
+      def name
+        "SynthGuitar"
+      end
+
+      def introduced
+        Version.new(2,10,0)
+      end
+
+      def synth_name
+        "guitar"
+      end
+
+      def doc
+        "A basic guitar synthesiser that uses Karplus-Strong synthesis. Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it. Also, the `note:` opt will only honour whole tones."
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :attack => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay => 0,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :noise_amp => 0.8,
+          :max_delay_time => 0.125,
+          :pluck_decay => 30,
+          :coef => 0.3
+        }
+      end
+
+      def specific_arg_info
+        {
+          :note =>
+          {
+            :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, `:C`, `:C2`, `:Eb4`, or `:Ds3`. Note that the piano synth can only play whole tones such as 60 and does not handle floats such as 60.3",
+            :validations => [v_positive(:note)],
+            :modulatable => true
+          },
+
+          :noise_amp => {
+            :doc => "Amplitude of source (pink) noise.",
+            :validations => [v_between_inclusive(:noise_amp, 0, 1)],
+            :modulatable => false},
+
+          :max_delay_time => {
+            :doc => "Maximum length of the delay line buffer.",
+            :validations => [v_between_inclusive(:max_delay_time, 0.125, 1)],
+            :modulatable => false},
+
+          :pluck_decay => {
+            :doc => "How long the pluck takes to stabilise on a note. This doesn't have a dramatic effect on the sound.",
+            :validations => [v_between_inclusive(:pluck_decay, 1, 100)],
+            :modulatable => false},
+
+          :coef =>
+          {
+            :doc => "Coefficient of the internal OnePole filter. Values around zero are resonant and bright, values towards 1 sound more dampened and cutoff. It's a little bit like playing nearer the soundhole/fingerboard for values near zero and more toward the bridge for values approaching one, although this isn't an exact comparison.",
+            :validations => [v_between_inclusive(:coef, -1, 1)],
+            :modulatable => false
+          },
+
+          :decay =>
+          {
+            :doc => "Amount of time (in beats) for the sound to move from full amplitude (attack_level) to the sustain amplitude (sustain_level). With the piano synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:decay)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :sustain =>
+          {
+            :doc => "Amount of time (in beats) for sound to remain at sustain level amplitude. Longer sustain values result in longer sounds. With the piano synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:sustain)],
+            :modulatable => false,
+            :bpm_scale => true
+          },
+
+          :release =>
+          {
+            :doc => "Amount of time (in beats) for sound to move from sustain level amplitude to silent. A short release (i.e. 0.01) makes the final part of the sound very percussive (potentially resulting in a click). A longer release (i.e 1) fades the sound out gently. With the piano synth, this opt can only have the effect of controlling the amp within the natural duration of the note and can not prolong the sound.",
+            :validations => [v_positive(:release)],
+            :modulatable => false,
+            :bpm_scale => true
+          }
+
+
+        }
+
+      end
+    end
+
     class SynthPiano < SonicPiSynth
       def name
         "SynthPiano"
@@ -6240,6 +6346,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :stereo_player => StereoPlayer.new,
         :blade => SynthViolin.new,
         :piano => SynthPiano.new,
+        :guitar => SynthGuitar.new,
 
         :sound_in => SoundIn.new,
         :noise => Noise.new,
