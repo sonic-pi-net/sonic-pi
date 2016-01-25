@@ -22,6 +22,13 @@ scsynth.exe
 You can also check in Task Manger that there is no application entry sonic-pi.exe  
 and quit it if there is.
 
+## Linux: There is no sound with use_synth :piano
+
+You probably didn't install the SC3 plugins
+package for SuperCollider on your system. If there
+is no binary package provided by your distribution, you can
+[install it from source](https://github.com/hzulla/sonic-pi/blob/build-instructions/INSTALL-LINUX.md#supercollider-sc3-plugins).
+
 ## Linux: Trouble with JACK
 
 If the GUI complains that _"The Sonic Pi server could not be started!"_
