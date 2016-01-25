@@ -28,11 +28,33 @@ Fedora package dependency names:
 * `qscintilla-devel` (will install `qscintilla` and `qt-devel`)
 * `cmake`
 
+### SuperCollider SC3 Plugins
+
+After installing SuperCollider, you will also need to compile and
+install the [SuperCollider SC3 UGen Plugins](https://github.com/supercollider/sc3-plugins)
+from source, if your distribution does not provide a binary package of them.
+
+You will need your distribution's `supercollider-dev` package for this step.
+
+```
+git clone https://github.com/supercollider/sc3-plugins.git
+cd sc3-plugins
+git submodule init
+git submodule update
+mkdir build
+cd build
+cmake -DSC_PATH=/usr/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
+make
+sudo make install
+```
+
 ### Server extensions
 
 Compile the server extensions by `cd`ing into the directory `app/server/bin` and running the script `compile-extensions.rb`. This will take some time.
 
 ### Qt GUI
+
+You must compile the server extensions prior to this step. 
 
 `cd` into the directory `app/gui/qt/` and run the script `rp-build-app`. This will also take some time.
 
