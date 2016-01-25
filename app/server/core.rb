@@ -297,6 +297,12 @@ module SonicPi
         drop_last(1)
       end
 
+      def take(n)
+        return self.reverse.take(-n) if n <= 0
+        return super if n <= @size
+        self + take(n - @size)
+      end
+
       def inspect
         a = self.to_a
         if a.empty?
