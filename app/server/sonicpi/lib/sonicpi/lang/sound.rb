@@ -3832,7 +3832,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         sn = synth_name.to_sym
         info = Synths::SynthInfo.get_info(sn)
 
-        processed_args = normalise_and_resolve_synth_args(args_h, info, nil, true)
+        processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
@@ -3846,7 +3846,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         sn = synth_name.to_sym
         info = Synths::SynthInfo.get_info(sn)
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
-        args_h = normalise_and_resolve_synth_args(args_h, info, nil, true)
+        args_h = normalise_and_resolve_synth_args(args_h, info, true)
 
         chord_group = @mod_sound_studio.new_group(:tail, group, "CHORD")
         cg = ChordGroup.new(chord_group, notes, info)
@@ -3873,7 +3873,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
       def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group, now=false, t_minus_delta=false)
 
-        args_h = normalise_and_resolve_synth_args(args_h, info, nil, true)
+        args_h = normalise_and_resolve_synth_args(args_h, info, true)
         add_arg_slide_times!(args_h, info)
         out_bus = current_out_bus
         n = trigger_synth(synth_name, args_h, group, info, now, out_bus, t_minus_delta)
@@ -3961,7 +3961,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
 
-      def normalise_and_resolve_synth_args(args_h, info, out_bus=nil, combine_tls=false)
+      def normalise_and_resolve_synth_args(args_h, info, combine_tls=false)
         purge_nil_vals!(args_h)
         defaults = info ? info.arg_defaults : {}
         if combine_tls
