@@ -1229,8 +1229,8 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
 
       def synth(synth_name, *args)
-        synth_name = current_synth unless synth_name
         ensure_good_timing!
+        synth_name = current_synth unless synth_name
         args_h = resolve_synth_opts_hash_or_array(args)
 
         return nil unless should_trigger?(args_h)
@@ -1311,7 +1311,17 @@ end
 
 
       def play(n, *args)
-        synth current_synth, {note: n}, *args
+        ensure_good_timing!
+        case n
+        when Numeric, String, Symbol
+          return synth nil, {note: n}, *args
+        when  Array, SonicPi::Core::RingVector
+          return synth nil, {notes: n}, *args
+        when Proc
+          return synth nil, n.call, *args
+        else
+          return synth nil, n, *args
+        end
       end
       doc name:          :play,
           introduced:    Version.new(2,0,0),
