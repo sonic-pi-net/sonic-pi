@@ -329,6 +329,7 @@ module SonicPi
       size = opts_a.size
 
       while (idx < size) && (m = opts_a[idx]).is_a?(Hash)
+        purge_nil_vals!(m)
         res = res.merge(m)
         idx += 1
       end
@@ -336,7 +337,13 @@ module SonicPi
       return res if idx == size
       left = (opts_a[idx..-1])
       raise "There must be an even number of trailing synth args" unless left.size.even?
-      res.merge(Hash[*left])
+      h = Hash[*left]
+      purge_nil_vals!(h)
+      res.merge()
+    end
+
+    def purge_nil_vals!(m)
+      m.delete_if { |k, v| v.nil? }
     end
 
     def arg_h_pp(arg_h)

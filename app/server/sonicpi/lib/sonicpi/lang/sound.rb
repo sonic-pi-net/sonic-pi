@@ -3813,40 +3813,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         # Combine thread local defaults here as
         # normalise_and_resolve_synth_args has only been taught about
         # synth thread local defaults
-        t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
-        t_l_args.each do |k, v|
-            args_h[k] = v unless args_h.has_key? k
-        end
 
-        stretch_duration = args_h[:beat_stretch]
-        if stretch_duration
-          raise "beat_stretch: opt needs to be a positive number. Got: #{stretch_duration.inspect}" unless stretch_duration.is_a?(Numeric) && stretch_duration > 0
-          stretch_duration = stretch_duration.to_f
-          rate = args_h[:rate] || 1
-          dur = load_sample(path).duration
-          args_h[:rate] = (1.0 / stretch_duration) * rate * (current_bpm / (60.0 / dur))
-        end
-
-        pitch_stretch_duration = args_h[:pitch_stretch]
-        if pitch_stretch_duration
-          raise "pitch_stretch: opt needs to be a positive number. Got: #{pitch_stretch_duration.inspect}" unless pitch_stretch_duration.is_a?(Numeric) && pitch_stretch_duration > 0
-          pitch_stretch_duration = pitch_stretch_duration.to_f
-          rate = args_h[:rate] || 1
-          dur = load_sample(path).duration
-          new_rate = (1.0 / pitch_stretch_duration) * (current_bpm / (60.0 / dur))
-          pitch_shift = ratio_to_pitch(new_rate)
-          args_h[:rate] = new_rate * rate
-          args_h[:pitch] = args_h[:pitch].to_f - pitch_shift
-        end
-
-        rate_pitch = args_h[:rpitch]
-        if rate_pitch
-          new_rate = pitch_to_ratio(rate_pitch.to_f)
-          args_h[:rate] = new_rate * (args_h[:rate] || 1)
-        end
-
-        args_h = normalise_and_resolve_synth_args(args_h, info)
-
+        args_h = normalise_and_resolve_sample_args(path, args_h, info)
 
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           if args_h.empty?
@@ -3917,6 +3885,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         add_out_bus_and_rand_buf!(args_h, out_bus)
         orig_synth_name = synth_name
         synth_name = info ? info.scsynth_name : synth_name
+        purge_nil_vals!(args_h)
         validate_if_necessary! info, args_h
         job_id = current_job_id
         __no_kill_block do
@@ -3951,12 +3920,54 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
 
+      def normalise_and_resolve_sample_args(path, args_h, info, combine_tls=false)
+        purge_nil_vals!(args_h)
+        defaults = info ? info.arg_defaults : {}
+        t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
+        t_l_args.each do |k, v|
+          args_h[k] = v unless args_h.has_key? k || v.nil?
+        end
+
+        stretch_duration = args_h[:beat_stretch]
+        if stretch_duration
+          raise "beat_stretch: opt needs to be a positive number. Got: #{stretch_duration.inspect}" unless stretch_duration.is_a?(Numeric) && stretch_duration > 0
+          stretch_duration = stretch_duration.to_f
+          rate = args_h[:rate] || 1
+          dur = load_sample(path).duration
+          args_h[:rate] = (1.0 / stretch_duration) * rate * (current_bpm / (60.0 / dur))
+        end
+
+        pitch_stretch_duration = args_h[:pitch_stretch]
+        if pitch_stretch_duration
+          raise "pitch_stretch: opt needs to be a positive number. Got: #{pitch_stretch_duration.inspect}" unless pitch_stretch_duration.is_a?(Numeric) && pitch_stretch_duration > 0
+          pitch_stretch_duration = pitch_stretch_duration.to_f
+          rate = args_h[:rate] || 1
+          dur = load_sample(path).duration
+          new_rate = (1.0 / pitch_stretch_duration) * (current_bpm / (60.0 / dur))
+          pitch_shift = ratio_to_pitch(new_rate)
+          args_h[:rate] = new_rate * rate
+          args_h[:pitch] = args_h[:pitch].to_f - pitch_shift
+        end
+
+        rate_pitch = args_h[:rpitch]
+        if rate_pitch
+          new_rate = pitch_to_ratio(rate_pitch.to_f)
+          args_h[:rate] = new_rate * (args_h[:rate] || 1)
+        end
+        resolve_midi_args!(args_h, info) if info
+        normalise_args!(args_h, defaults)
+        scale_time_args_to_bpm!(args_h, info, true) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
+        args_h
+      end
+
+
       def normalise_and_resolve_synth_args(args_h, info, out_bus=nil, combine_tls=false)
+        purge_nil_vals!(args_h)
         defaults = info ? info.arg_defaults : {}
         if combine_tls
           t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
           t_l_args.each do |k, v|
-            args_h[k] = v unless args_h.has_key? k
+            args_h[k] = v unless args_h.has_key? k || v.nil?
           end
         end
 

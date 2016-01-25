@@ -41,10 +41,9 @@ module SonicPi
       @mock_sound.expects(:trigger_inst).with(:beep, {note: 60, release: 0.1})
       @mock_sound.play({note: :c, release: 0.1})
 
-      # Hash and args
-      @mock_sound.expects(:trigger_inst).with(:beep, {note: 60, amp: 1, release: 0.1})
-      @mock_sound.play({note: :c, amp: 1}, {release: 0.1})
+      # nils are culled
+      @mock_sound.expects(:trigger_inst).with(:beep, {note: 60})
+      @mock_sound.play({note: :c, cutoff: nil})
     end
-
   end
 end
