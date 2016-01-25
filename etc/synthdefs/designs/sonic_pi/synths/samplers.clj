@@ -152,6 +152,24 @@
     cutoff_decay_level [-1 :ir]
     cutoff_sustain_level [-1 :ir]
     cutoff_env_curve 1
+
+    hpf -1
+    hpf_slide 0
+    hpf_slide_shape 1
+    hpf_slide_curve 0
+    hpf_attack 0
+    hpf_sustain -1
+    hpf_decay 0
+    hpf_release 0
+    hpf_max -1
+    hpf_max_slide 0
+    hpf_max_slide_shape 1
+    hpf_max_slide_curve 0
+    hpf_attack_level [-1 :ir]
+    hpf_decay_level [-1 :ir]
+    hpf_sustain_level [-1 :ir]
+    hpf_env_curve 1
+
     res 0
     res_slide 0
     res_slide_shape 1
@@ -223,7 +241,18 @@
         used_cutoff_release       (not= 0  cutoff_release)
         used_cutoff_sustain       (not= -1  cutoff_sustain)
         used_cutoff_min           (not= -1 cutoff_min)
-        use-filter-env            (or used_cutoff_attack_level
+
+        used_hpf                  (not= -1 hpf)
+        used_hpf_attack_level     (not= -1 hpf_attack_level)
+        used_hpf_decay_level      (not= -1 hpf_decay_level)
+        used_hpf_sustain_level    (not= -1 hpf_sustain_level)
+        used_hpf_attack           (not= 0  hpf_attack)
+        used_hpf_decay            (not= 0  hpf_decay)
+        used_hpf_release          (not= 0  hpf_release)
+        used_hpf_sustain          (not= -1  hpf_sustain)
+        used_hpf_max              (not= -1 hpf_max)
+
+        use-filter-env           (or used_cutoff_attack_level
                                       used_cutoff_decay_level
                                       used_cutoff_sustain_level
                                       used_cutoff_attack
@@ -232,8 +261,21 @@
                                       used_cutoff_sustain
                                       used_cutoff_min)
 
+        use-hpf-env               (or used_hpf_attack_level
+                                      used_hpf_decay_level
+                                      used_hpf_sustain_level
+                                      used_hpf_attack
+                                      used_hpf_decay
+                                      used_hpf_release
+                                      used_hpf_sustain
+                                      used_hpf_max)
+
         use-filter                (or used_cutoff
                                       use-filter-env)
+
+
+        use-hpf                   (or used_hpf
+                                      use-hpf-env)
 
 
         cutoff                    (select:kr (= -1 cutoff) [cutoff 130])
@@ -244,6 +286,16 @@
         cutoff_decay_level        (select:kr (= -1 cutoff_decay_level) [cutoff_decay_level cutoff_sustain_level])
 
         cutoff                    (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+
+        hpf                       (select:kr (= -1 hpf) [hpf 130])
+        hpf_max                   (select:kr (= -1 hpf_max) [hpf_max 50])
+        hpf_attack_level          (select:kr (= -1 hpf_attack_level) [hpf_attack_level hpf])
+
+        hpf_sustain_level         (select:kr (= -1 hpf_sustain_level) [hpf_sustain_level hpf_attack_level])
+        hpf_decay_level           (select:kr (= -1 hpf_decay_level) [hpf_decay_level hpf_sustain_level])
+
+        hpf                       (varlag hpf hpf_slide hpf_slide_curve hpf_slide_shape)
+
         pitch                     (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
         window_size               (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
         pitch_dis                 (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
@@ -253,7 +305,7 @@
         res                       (lin-lin res 1 0 0 1)
         res                       (varlag res res_slide res_slide_curve res_slide_shape)
         cutoff-freq               (midicps cutoff)
-        cutoff-min-freq           (midicps cutoff_min)
+        hpf-freq                  (midicps hpf)
 
         n-frames                  (- (buf-frames buf) 1)
         start-pos                 (* start n-frames)
@@ -266,9 +318,11 @@
         phase                     (line:ar :start n-start-pos :end n-end-pos :dur play-time)
         sustain                   (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
         cutoff_sustain            (select:kr (= -1 cutoff_sustain) [cutoff_sustain (- play-time cutoff_attack cutoff_release cutoff_decay)])
+        hpf_sustain               (select:kr (= -1 hpf_sustain) [hpf_sustain (- play-time hpf_attack hpf_release hpf_decay)])
         env-dur                   (+ attack sustain decay release)
         env                       (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
         filt-env                  (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
+        hpf-env                   (midicps (env-gen (core/shaped-adsr hpf_attack, hpf_decay hpf_sustain (+ 0.1 hpf_release) hpf_attack_level hpf_decay_level hpf_sustain_level hpf_env_curve hpf_max)))
 
         snd                       (* pre_amp (buf-rd 1 buf phase))
 
@@ -277,9 +331,14 @@
                                               (pitch-shift snd window_size pitch_ratio pitch_dis time_dis)])
 
         filt-env                  (select use-filter-env [cutoff-freq (min filt-env cutoff-freq)])
+        hpf-env                   (select use-hpf-env [hpf-freq (min hpf-env hpf-freq)])
         snd                       (select use-filter
                                           [snd
                                            (rlpf snd filt-env res)])
+
+        snd                       (select use-hpf
+                                          [snd
+                                           (rhpf snd hpf-env res)])
 
         snd                       (select norm [snd (normalizer snd)])
         snd                       (* env snd)
@@ -307,22 +366,35 @@
     pan_slide 0
     pan_slide_shape 1
     pan_slide_curve 0
+
     cutoff -1
     cutoff_slide 0
     cutoff_slide_shape 1
     cutoff_slide_curve 0
-    cutoff_attack 0
-    cutoff_sustain -1
-    cutoff_decay 0
-    cutoff_release 0
-    cutoff_min -1
-    cutoff_min_slide 0
-    cutoff_min_slide_shape 1
-    cutoff_min_slide_curve 0
+    cutoff_attack [0 :ir]
+    cutoff_sustain [-1 :ir]
+    cutoff_decay [0 :ir]
+    cutoff_release [0 :ir]
+    cutoff_min [-1 :ir]
     cutoff_attack_level [-1 :ir]
     cutoff_decay_level [-1 :ir]
     cutoff_sustain_level [-1 :ir]
-    cutoff_env_curve 1
+    cutoff_env_curve [1 :ir]
+
+    hpf -1
+    hpf_slide 0
+    hpf_slide_shape 1
+    hpf_slide_curve 0
+    hpf_attack [0 :ir]
+    hpf_sustain [-1 :ir]
+    hpf_decay [0 :ir]
+    hpf_release [0 :ir]
+    hpf_max [-1 :ir]
+    hpf_attack_level [-1 :ir]
+    hpf_decay_level [-1 :ir]
+    hpf_sustain_level [-1 :ir]
+    hpf_env_curve [1 :ir]
+
     res 0
     res_slide 0
     res_slide_shape 1
@@ -385,13 +457,12 @@
          amp                       (varlag amp amp_slide amp_slide_curve amp_slide_shape)
          pre_amp                   (varlag pre_amp pre_amp_slide pre_amp_slide_curve pre_amp_slide_shape)
          pan                       (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-
          threshold                 (varlag threshold threshold_slide threshold_slide_curve threshold_slide_shape)
          clamp_time                (varlag clamp_time clamp_time_slide clamp_time_slide_curve clamp_time_slide_shape)
          slope_above               (varlag slope_above slope_above_slide slope_above_slide_curve slope_above_slide_shape)
+
          slope_below               (varlag slope_below slope_below_slide slope_below_slide_curve slope_below_slide_shape)
          relax_time                (varlag relax_time relax_time_slide relax_time_slide_curve relax_time_slide_shape)
-
          used_cutoff               (not= -1 cutoff)
          used_cutoff_attack_level  (not= -1 cutoff_attack_level)
          used_cutoff_decay_level   (not= -1 cutoff_decay_level)
@@ -401,6 +472,17 @@
          used_cutoff_release       (not= 0  cutoff_release)
          used_cutoff_sustain       (not= -1  cutoff_sustain)
          used_cutoff_min           (not= -1 cutoff_min)
+
+         used_hpf                  (not= -1 hpf)
+         used_hpf_attack_level     (not= -1 hpf_attack_level)
+         used_hpf_decay_level      (not= -1 hpf_decay_level)
+         used_hpf_sustain_level    (not= -1 hpf_sustain_level)
+         used_hpf_attack           (not= 0  hpf_attack)
+         used_hpf_decay            (not= 0  hpf_decay)
+         used_hpf_release          (not= 0  hpf_release)
+         used_hpf_sustain          (not= -1  hpf_sustain)
+         used_hpf_max              (not= -1 hpf_max)
+
          use-filter-env            (or used_cutoff_attack_level
                                        used_cutoff_decay_level
                                        used_cutoff_sustain_level
@@ -410,8 +492,22 @@
                                        used_cutoff_sustain
                                        used_cutoff_min)
 
+         use-hpf-env               (or used_hpf_attack_level
+                                       used_hpf_decay_level
+                                       used_hpf_sustain_level
+                                       used_hpf_attack
+                                       used_hpf_decay
+                                       used_hpf_release
+                                       used_hpf_sustain
+                                       used_hpf_max)
+
          use-filter                (or used_cutoff
                                        use-filter-env)
+
+
+         use-hpf                   (or used_hpf
+                                       use-hpf-env)
+
 
          cutoff                    (select:kr (= -1 cutoff) [cutoff 130])
          cutoff_min                (select:kr (= -1 cutoff_min) [cutoff_min 50])
@@ -421,17 +517,27 @@
          cutoff_decay_level        (select:kr (= -1 cutoff_decay_level) [cutoff_decay_level cutoff_sustain_level])
 
          cutoff                    (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
+
+         hpf                       (select:kr (= -1 hpf) [hpf 50])
+         hpf_max                   (select:kr (= -1 hpf_max) [hpf_max 130])
+         hpf_attack_level          (select:kr (= -1 hpf_attack_level) [hpf_attack_level hpf])
+
+         hpf_sustain_level         (select:kr (= -1 hpf_sustain_level) [hpf_sustain_level hpf_attack_level])
+         hpf_decay_level           (select:kr (= -1 hpf_decay_level) [hpf_decay_level hpf_sustain_level])
+
+         hpf                       (varlag hpf hpf_slide hpf_slide_curve hpf_slide_shape)
+
          pitch                     (varlag pitch pitch_slide pitch_slide_curve pitch_slide_shape)
          window_size               (varlag window_size window_size_slide window_size_slide_curve window_size_slide_shape)
          pitch_dis                 (varlag pitch_dis pitch_dis_slide pitch_dis_slide_curve pitch_dis_slide_shape)
          time_dis                  (varlag time_dis time_dis_slide time_dis_slide_curve time_dis_slide_shape)
-         cutoff_min                (varlag cutoff_min cutoff_min_slide cutoff_min_slide_curve cutoff_min_slide_shape)
          pitch_ratio               (midiratio pitch)
          res                       (lin-lin res 1 0 0 1)
          res                       (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq               (midicps cutoff)
+         hpf-freq                  (midicps hpf)
 
-         n-frames                  (- (buf-frames:ir buf) 1)
+         n-frames                  (- (buf-frames buf) 1)
          start-pos                 (* start n-frames)
          end-pos                   (* finish n-frames)
          n-start-pos               (select:kr (not-pos? rate) [start-pos end-pos])
@@ -439,13 +545,15 @@
          rate                      (abs rate)
          play-time                 (/ (* (buf-dur buf) (absdif finish start))
                                       rate)
-
          phase                     (line:ar :start n-start-pos :end n-end-pos :dur play-time)
          sustain                   (select:kr (= -1 sustain) [sustain (- play-time attack release decay)])
          cutoff_sustain            (select:kr (= -1 cutoff_sustain) [cutoff_sustain (- play-time cutoff_attack cutoff_release cutoff_decay)])
+         hpf_sustain               (select:kr (= -1 hpf_sustain) [hpf_sustain (- play-time hpf_attack hpf_release hpf_decay)])
          env-dur                   (+ attack sustain decay release)
          env                       (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve))
+
          filt-env                  (midicps (env-gen (core/shaped-adsr cutoff_attack, cutoff_decay cutoff_sustain cutoff_release cutoff_attack_level cutoff_decay_level cutoff_sustain_level cutoff_env_curve cutoff_min)))
+         hpf-env                   (midicps (env-gen (core/shaped-adsr hpf_attack, hpf_decay hpf_sustain (+ 0.1 hpf_release) hpf_attack_level hpf_decay_level hpf_sustain_level hpf_env_curve hpf_max)))
 
          [snd-l snd-r]             (* pre_amp (buf-rd 2 buf phase))
 
@@ -458,8 +566,12 @@
                                                (pitch-shift snd-r window_size pitch_ratio pitch_dis time_dis)])
 
          filt-env                  (select use-filter-env [cutoff-freq (min filt-env cutoff-freq)])
+         hpf-env                   (select use-hpf-env [hpf-freq (max hpf-env hpf-freq)])
          snd-l                     (select use-filter [snd-l (rlpf snd-l filt-env res)])
          snd-r                     (select use-filter [snd-r (rlpf snd-r filt-env res)])
+
+         snd-l                     (select use-hpf [snd-l (rhpf snd-l hpf-env res)])
+         snd-r                     (select use-hpf [snd-r (rhpf snd-r hpf-env res)])
 
          snd-l                     (select norm [snd-l (normalizer snd-l)])
          snd-r                     (select norm [snd-r (normalizer snd-r)])
@@ -467,6 +579,7 @@
          snd-r                     (* env snd-r)
 
          control-sig               (/ (+ snd-l snd-r) 2)
+
          compressed-l              (compander snd-l control-sig threshold
                                               slope_below slope_above
                                               clamp_time relax_time)
@@ -480,11 +593,10 @@
          snd-r                     (select:ar compress [snd-r compressed-r])
 
          snd                       (balance2 snd-l snd-r pan amp)]
-
      (line:kr 1 1 (+ 0.03 (min play-time env-dur)) FREE)
      (out out_bus snd)))
 
-
+;(show-graphviz-synth  sonic-pi-stereo_player)
  (comment
    (core/save-synthdef sonic-pi-mono_player)
    (core/save-synthdef sonic-pi-stereo_player)
