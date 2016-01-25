@@ -2085,6 +2085,84 @@ puts slept #=> Returns false as there were no sleeps in the block"]
 
 
 
+          def use_swing(swing, beat_length=1, &block)
+            raise "use_swing does not work with a block. Perhaps you meant with_swing" if block
+            raise "with_swing's swing should be a value between zero and one. You tried to use: #{swing}" unless swing > 0 and swing < 1
+            Thread.current.thread_variable_set(:sonic_pi_spider_swing, swing)
+            Thread.current.thread_variable_set(:sonic_pi_spider_swing_beat_length, beat_length)
+          end
+          doc name:           :use_swing,
+              introduced:     Version.new(2,10,0),
+              summary:        "Changes the behaviour of sleep by offsetting the middle of a 'beat' (as specified by the beat length) to a swing value.",
+              doc:            "This makes it easy to swing a piece by altering the lengths of the notes between beats.",
+          args:           [[:swing, :number],
+                           [:beat_length, :number]],
+          opts:           nil,
+          accepts_block:  false,
+          requires_block: false,
+          examples:       ["
+  use_swing 0.75
+  4.times do
+    sample :drum_bass_hard
+    sleep 0.5 # sleeps for 0.75 seconds, then 0.25 seconds, then 0.75 seconds, then 0.25 seconds
+  end
+
+  use_swing 0.5
+
+  # beat goes back to normal
+  4.times do
+    sample :drum_bass_hard
+    sleep 0.5 # sleeps for 0.5 seconds every time
+  end
+
+  use_swing 0.75, 0.5
+  # where the length of a beat is 0.5
+  4.times do
+    sample :drum_bass_hard
+    sleep 0.25 # sleeps for 0.375, then 0.125, then 0.375, then 0.125
+  end"]
+
+
+
+
+          def with_swing(swing, beat_length, &block)
+            raise "with_swing must be called with a do/end block. Perhaps you meant use_swing" unless block
+            raise "with_swing's swing should be a value between zero and one. You tried to use: #{swing}" unless swing > 0 and swing < 1
+            current_swing = Thread.current.thread_variable_get(:sonic_pi_spider_swing)
+            current_beat_length = Thread.current.thread_variable_get(:sonic_pi_spider_swing_beat_length)
+            Thread.current.thread_variable_set(:sonic_pi_spider_swing, swing)
+            Thread.current.thread_variable_set(:sonic_pi_spider_swing_beat_length, beat_length)
+            res = block.call
+            Thread.current.thread_variable_set(:sonic_pi_spider_swing, current_swing)
+            Thread.current.thread_variable_set(:sonic_pi_spider_swing_beat_length, current_beat_length)
+            res
+          end
+          doc name:           :with_swing,
+              introduced:     Version.new(2,10,0),
+              summary:        "Changes the behaviour of sleep by offsetting the middle of a 'beat' (as specified by the beat length param) to a swing value.",
+              doc:            "This makes it easy to swing a piece by altering the lengths of the notes between beats.",
+          args:           [[:swing, :number],
+                           [:beat_length, :number]],
+          opts:           nil,
+          accepts_block:  true,
+          requires_block: true,
+          examples:       ["
+  with_swing 0.75 do
+    4.times do
+      sample :drum_bass_hard
+      sleep 0.5 # sleeps for 0.75 seconds, then 0.25 seconds, then 0.75 seconds, then 0.25 seconds
+    end
+  end
+
+  # beat goes back to normal
+  4.times do
+    sample :drum_bass_hard
+    sleep 0.5 # sleeps for 0.5 seconds every time
+  end"]
+
+
+
+
       def with_bpm_mul(mul, &block)
         raise "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
         raise "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
@@ -2318,9 +2396,35 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         # Now get on with syncing the rest of the sleep time...
 
         # Calculate the amount of time to sleep (take into account current bpm setting)
-        sleep_time = beats * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+        current_sleep_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+        current_swing_point = Thread.current.thread_variable_get(:sonic_pi_spider_swing) || 0.5
+        current_swing_beat_length = Thread.current.thread_variable_get(:sonic_pi_spider_swing_beat_length) || 1
+
+        if current_swing_point != 0.5
+          # This sort of works but not quite
+          # starting_beat_position = (((__current_local_run_time/current_sleep_mul).round(2) - (__current_local_run_time/current_sleep_mul).round(2).floor) % current_swing_beat_length)
+          starting_beat_position = (__current_local_run_time/current_sleep_mul).round(2) - (__current_local_run_time/current_sleep_mul).round(2).floor
+          whole_beats = beats.floor
+          partial_beat = (beats - whole_beats)
+
+          if starting_beat_position.zero? && partial_beat.zero?
+            timing_adjustment = 0
+          else
+
+            if (starting_beat_position + partial_beat).round(2) <= 0.5
+              timing_adjustment = ((starting_beat_position + partial_beat) / 0.5) * current_swing_point
+            else
+              timing_adjustment = ((partial_beat / 0.5) * (1 - current_swing_point))
+            end
+
+            beats = timing_adjustment + whole_beats
+          end
+        end
+
+        sleep_time = beats * current_sleep_mul
         # Calculate the new virtual time
         new_vt = last_vt + sleep_time
+
 
         # TODO: remove this, api shouldn't need to know about sound module
         sat = @mod_sound_studio.sched_ahead_time
