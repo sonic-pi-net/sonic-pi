@@ -1229,6 +1229,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
 
       def synth(synth_name, *args)
+        synth_name = current_synth unless synth_name
         ensure_good_timing!
         args_h = resolve_synth_opts_hash_or_array(args)
 
@@ -1258,6 +1259,8 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           doc:           "Trigger specified synth with given opts. Bypasses `current_synth` value, yet still honours `current_synth_defaults`. When using `synth`, the note is no longer an explicit argument but an opt with the key `note:`.
 
 If note: opt is `nil`, `:r` or `:rest`, play is ignored and treated as a rest. Also, if the `on:` opt is specified and returns `false`, or `nil` then play is similarly ignored and treated as a rest.
+
+If the synth name is `nil` behaviour is identical to that of `play` in that the `current_synth` will determine the actual synth triggered.
 
 Note that the default opts listed are only a guide to the most common opts across all the synths. Not all synths support all the default opts and each synth typically supports many more opts specific to that synth. For example, the `:tb303` synth supports 45 unique opts. For a full list of a synth's opts see its documentation in the Help system. This can be accessed directly by clicking on the name of the synth and using the shortcut `C-i`",
           args:          [[:synth_name, :symbol]],
