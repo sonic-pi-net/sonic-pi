@@ -29,11 +29,13 @@ em {
 }
 
 .error_description {
+    font-size: medium;
     background-color: deeppink;
     color: white;
 }
 
 .syntax_error_description {
+    font-size: medium;
     background-color: dodgerblue;
     color: white;
 }
