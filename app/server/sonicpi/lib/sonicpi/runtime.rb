@@ -542,10 +542,10 @@ module SonicPi
       # Otherwise comment
       lines = buf_lines[start_line..finish_line]
 
-      if(lines.all?{|el| el.match(/^\s*#.*/) || el.match(/^\s*$/)})
+      if(lines.all?{|el| el.match(/^\s*##\|.*/) || el.match(/^\s*$/)})
         # need to uncomment
         lines = lines.map do |l|
-          m = l.match(/^(\s*)#+[ ]?(.*)/)
+          m = l.match(/^(\s*)##\|[ ]?(.*)/)
           if m
             m[1] + m[2] + "\n"
           else
@@ -563,7 +563,7 @@ module SonicPi
         end
 
         lines.each do |l|
-          l[ws] = "# #{l[ws]}" unless l.match(/^(\s*)$/)
+          l[ws] = "##| #{l[ws]}" unless l.match(/^(\s*)$/)
         end
       end
 
