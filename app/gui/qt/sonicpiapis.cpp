@@ -146,6 +146,9 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   } else if (words.length() >= 2 && first == "sample") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = SampleParam;
+  } else if (first == "use_sample_defaults" || first == "with_sample_defaults") {
+    if (last.endsWith(':')) return; // don't try to complete parameters
+    ctx = SampleParam;
 
   } else if (context.length() > 1) {
     if (partial.length() <= 2) {
