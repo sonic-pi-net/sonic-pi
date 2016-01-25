@@ -1311,39 +1311,7 @@ end
 
 
       def play(n, *args)
-        ensure_good_timing!
-        case n
-        when Array, SonicPi::Core::RingVector
-          return play_chord(n, *args)
-        when Hash
-          # Allow a single hash argument to function unsurprisingly
-          if args.empty?
-            args = n
-          else
-            args_h = resolve_synth_opts_hash_or_array(args)
-            args = n.merge(args_h)
-          end
-        end
-
-        n = note(n)
-
-        synth_name = current_synth_name
-
-        if n.nil?
-          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-            __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
-          end
-
-          return nil
-        end
-
-        init_args_h = {}
-        args_h = resolve_synth_opts_hash_or_array(args)
-
-        return nil unless should_trigger?(args_h)
-
-        n = normalise_transpose_and_tune_note_from_args(n, args_h)
-        trigger_inst synth_name, {note: n}.merge(init_args_h.merge(args_h))
+        synth current_synth, {note: n}, *args
       end
       doc name:          :play,
           introduced:    Version.new(2,0,0),
