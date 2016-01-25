@@ -2503,13 +2503,13 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
           path = File.expand_path(path)
           if File.exists?(path)
             info, cached = @mod_sound_studio.load_sample(path)
-            __info "Loaded sample #{path.inspect}" unless cached
+            __info "Loaded sample #{unify_tilde_dir(path).inspect}" unless cached
             return info
           else
-            raise "No sample exists with path #{path}"
+            raise "No sample exists with path:\n  #{unify_tilde_dir(path).inspect}"
           end
         else
-          raise "Unknown sample description: #{path}. Expected a symbol such as :loop_amen or a string containing a path."
+          raise "Unknown sample description: #{path}\n Expected a symbol such as :loop_amen or a string containing a path."
         end
       end
       doc name:          :load_sample,
