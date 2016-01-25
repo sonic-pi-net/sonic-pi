@@ -38,11 +38,11 @@ module SonicPi
       @mock_sound.play :c, release: 0.1
 
       # Single hash
-      @mock_sound.expects(:trigger_inst).with(:beep, {note: :c, release: 0.1})
+      @mock_sound.expects(:trigger_inst).with(:beep, {note: 60, release: 0.1})
       @mock_sound.play({note: :c, release: 0.1})
 
       # Hash and args
-      @mock_sound.expects(:trigger_inst).with(:beep, {note: :c, amp: 1, release: 0.1})
+      @mock_sound.expects(:trigger_inst).with(:beep, {note: 60, amp: 1, release: 0.1})
       @mock_sound.play({note: :c, amp: 1}, {release: 0.1})
     end
 
