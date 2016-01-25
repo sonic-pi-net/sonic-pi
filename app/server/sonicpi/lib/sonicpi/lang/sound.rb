@@ -2667,7 +2667,9 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
       doc name:          :sample_duration,
           introduced:    Version.new(2,0,0),
           summary:       "Get duration of sample in beats",
-          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current bpm.",
+          doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif` or `.aiff` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current bpm.
+
+*Note:* avoid using `sample_duration` to set the sleep time in `live_loop`s, prefer stretching the sample with the `beat_stretch:` opt or changing the BPM instead. See the examples below for details.",
           args:          [[:path, :string]],
           opts:          {:rate    => "Rate modifier. For example, doubling the rate will halve the duration.",
                           :start   => "Start position of sample playback as a value from 0 to 1",
