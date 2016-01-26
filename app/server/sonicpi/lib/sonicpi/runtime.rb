@@ -859,7 +859,11 @@ module SonicPi
     end
     def beautify_ruby_source(source)
       source = source << "\n" unless source.end_with? "\n"
-      RBeautify.beautify_string :ruby, source
+      begin
+        return RubyBeautify.pretty_string source, indent_token: " ", indent_count: 2
+      rescue
+        return source
+      end
     end
 
 
