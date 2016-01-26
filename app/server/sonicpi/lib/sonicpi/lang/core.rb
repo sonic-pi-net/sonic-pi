@@ -790,6 +790,32 @@ end"
 
 
 
+      def pick(args, n=nil)
+        args.pick(n)
+      end
+      doc name:           :pick,
+          introduced:     Version.new(2,10,0),
+          summary:        "Randomly pick from list (with duplicates)",
+          args:           [[:list, :array], [:n, :number_or_nil]],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Pick n elements from list or ring. Unlike shuffle, after each element has been picked, it is 'returned' to the list so it may be picked again. This means there may be duplicates in the result. If n is greater than the size of the ring/list then duplicates are guaranteed to be in the result.
+
+If `n` isn't supplied it defaults to the size of the list/ring.",
+         examples:       ["
+puts [1, 2, 3, 4, 5].pick(3) #=> [4, 4, 3]",
+"
+puts (ring 1, 2, 3, 4, 5).pick(3) #=> (ring 4, 4, 3)",
+
+"
+puts (ring 1, 2).pick(5) #=> (ring 2, 2, 1, 1, 1)",
+"
+puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)"
+      ]
+
+
+
+
       def inc(n)
         n + 1
       end

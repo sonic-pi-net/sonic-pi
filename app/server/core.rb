@@ -303,6 +303,17 @@ module SonicPi
         self + take(n - @size)
       end
 
+      def pick(n=nil)
+        n = @size unless n
+        raise "pick requires n to be a number, got: #{n.inspect}" unless n.is_a? Numeric
+
+        res = []
+        n.times do
+          res << self.choose
+        end
+        res.ring
+      end
+
       def inspect
         a = self.to_a
         if a.empty?
@@ -463,6 +474,17 @@ class Array
 
   def choose
     self[SonicPi::Core::SPRand.rand_i!(self.size)]
+  end
+
+  def pick(n=nil)
+    n = @size unless n
+    raise "pick requires n to be a number, got: #{n.inspect}" unless n.is_a? Numeric
+
+    res = []
+    n.times do
+      res << self.choose
+    end
+    res
   end
 
   alias_method :__orig_sample__, :sample
