@@ -24,9 +24,9 @@ module RubyBeautify
 		line_lex = []
 
 		# walk through line tokens
-		lex.each do |token|
+		lex.each_with_index do |token, i|
 			line_lex << token
-			if NEW_LINES.include? token[1] # if type of this token is a new line
+			if NEW_LINES.include?(token[1]) || i == lex.size-1 # if token is a new line or last token in list
 
 				# did we just close something?  if so, lets bring it down a level.
 				if closing_block?(line_lex) || closing_assignment?(line_lex)
