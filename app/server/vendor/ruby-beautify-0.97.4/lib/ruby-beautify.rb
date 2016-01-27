@@ -24,7 +24,7 @@ module RubyBeautify
 		indent_level = 0
 		line_lex = []
 
-		# walk through line tokens
+		# walk through tokens, line by line
 		lex.each_with_index do |token, i|
 			line_lex << token
 			if NEW_LINES.include?(token[1]) || i == lex.size-1 # if token is a new line or last token in list
@@ -48,7 +48,9 @@ module RubyBeautify
 			end
 		end
 
+		# in case of syntax error, add remaining input that Ripper didn't want to lex
 		output_string += content[content_index, content.length]
+
 		return output_string
 	end
 
