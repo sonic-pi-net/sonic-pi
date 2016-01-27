@@ -15,7 +15,7 @@ module RubyBeautify
 	NEW_LINES = [:on_nl, :on_ignored_nl, :on_comment, :on_embdoc_end]
 
 
-	def pretty_string(content, indent_token: "\t", indent_count: 1, syntax_check: true)
+	def pretty_string(content, indent_token: "\t", indent_count: 1, indent_empty: false, syntax_check: true)
 		output_string = ""
 		raise "Bad Syntax" if syntax_check && !syntax_ok?(content)
 		lex = ::Ripper.lex(content)
@@ -38,7 +38,7 @@ module RubyBeautify
 				line_string = line_lex.map {|l| l.last}.join
 				content_index += line_string.length
 				line_string.strip!
-				output_string += (indent_token * indent_count * indent_level) + line_string unless line_string.empty?
+				output_string += (indent_token * indent_count * indent_level) + line_string if indent_empty || !line_string.empty?
 				output_string += "\n" unless last_token
 
 				# oh, we opened something did we?  lets indent for the next run.
