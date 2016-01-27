@@ -153,7 +153,7 @@ module RubyBeautify
 	# prepare an indented line. Requires the level, token, count and string.
 	def indented_line(level, token = "\t", count = 1, string)
 		output_string = ""
-		if string =~ /^\s*$/
+		if string =~ /^\s+$/
 			output_string += "\n"
 		else
 			indent = (token * count) * level
