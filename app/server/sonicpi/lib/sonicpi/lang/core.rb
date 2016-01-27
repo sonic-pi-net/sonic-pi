@@ -859,6 +859,8 @@ puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)"
 
         sync_sym = args_h[:sync]
 
+        raise "livelock detection - live_loop cannot sync with itself - please choose another sync name for live_loop #{name.inspect}" if name == sync_sym
+
         delay = args_h[:delay]
         raise "live_loop's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
