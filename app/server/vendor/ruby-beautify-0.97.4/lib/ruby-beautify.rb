@@ -26,8 +26,9 @@ module RubyBeautify
 
 		# walk through tokens, line by line
 		lex.each_with_index do |token, i|
+			last_token = (i == lex.size-1)
 			line_lex << token
-			if NEW_LINES.include?(token[1]) || i == lex.size-1 # if token is a new line or last token in list
+			if NEW_LINES.include?(token[1]) || last_token # if token is a new line or last token in list
 				# did we just close something?  if so, lets bring it down a level.
 				if closing_block?(line_lex) || closing_assignment?(line_lex)
 					indent_level -= 1 if indent_level > 0
@@ -36,7 +37,10 @@ module RubyBeautify
 				# print our line, in place.
 				line_string = line_lex.map {|l| l.last}.join
 				content_index += line_string.length
-				output_string += indented_line(indent_level, indent_token, indent_count, line_string)
+				if line_string.strip!
+					output_string += (indent_token * indent_count * indent_level) + line_string
+				end
+				output_string += "\n" unless last_token
 
 				# oh, we opened something did we?  lets indent for the next run.
 				if opening_block?(line_lex) || opening_assignment?(line_lex)
@@ -148,17 +152,6 @@ module RubyBeautify
 	# count the amount of closing assignments.
 	def closing_assignment_count(line_lex)
 		line_lex.select {|l| CLOSE_BRACKETS.include? l[1]}.count
-	end
-
-	# prepare an indented line. Requires the level, token, count and string.
-	def indented_line(level, token = "\t", count = 1, string)
-		output_string = ""
-		if string =~ /^\s+$/
-			output_string += "\n"
-		else
-			indent = (token * count) * level
-			output_string += "#{indent}#{string.lstrip}"
-		end
 	end
 
 	# try to find a config and return a modified argv, walks all the way to root
