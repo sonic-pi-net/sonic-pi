@@ -37,9 +37,8 @@ module RubyBeautify
 				# print our line, in place.
 				line_string = line_lex.map {|l| l.last}.join
 				content_index += line_string.length
-				if line_string.strip!
-					output_string += (indent_token * indent_count * indent_level) + line_string
-				end
+				line_string.strip!
+				output_string += (indent_token * indent_count * indent_level) + line_string unless line_string.empty?
 				output_string += "\n" unless last_token
 
 				# oh, we opened something did we?  lets indent for the next run.
