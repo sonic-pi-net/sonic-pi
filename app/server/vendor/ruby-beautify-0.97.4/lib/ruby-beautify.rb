@@ -28,7 +28,6 @@ module RubyBeautify
 		lex.each_with_index do |token, i|
 			line_lex << token
 			if NEW_LINES.include?(token[1]) || i == lex.size-1 # if token is a new line or last token in list
-
 				# did we just close something?  if so, lets bring it down a level.
 				if closing_block?(line_lex) || closing_assignment?(line_lex)
 					indent_level -= 1 if indent_level > 0
@@ -154,7 +153,7 @@ module RubyBeautify
 	# prepare an indented line. Requires the level, token, count and string.
 	def indented_line(level, token = "\t", count = 1, string)
 		output_string = ""
-		if string =~ /^\n$/
+		if string =~ /^\s*$/
 			output_string += "\n"
 		else
 			indent = (token * count) * level
