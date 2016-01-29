@@ -17,7 +17,7 @@
   (:require [sonic-pi.synths.core :as core]))
 
 (without-namespace-in-synthdef
- (defsynth sonic-pi-guitar [note 52
+ (defsynth sonic-pi-pluck [note 52
                            amp 1
                            amp_slide 0
                            amp_slide_shape 1
@@ -197,5 +197,5 @@
 
 (comment
   (core/save-synthdef sonic-pi-piano)
-  (core/save-synthdef sonic-pi-guitar)
+  (core/save-synthdef sonic-pi-pluck)
   (core/save-synthdef sonic-pi-synth_violin))

@@ -1786,9 +1786,9 @@ module SonicPi
       end
     end
 
-    class SynthGuitar < SonicPiSynth
+    class SynthPluck < SonicPiSynth
       def name
-        "SynthGuitar"
+        "SynthPluck"
       end
 
       def introduced
@@ -1796,11 +1796,11 @@ module SonicPi
       end
 
       def synth_name
-        "guitar"
+        "pluck"
       end
 
       def doc
-        "A basic guitar synthesiser that uses Karplus-Strong synthesis. Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it. Also, the `note:` opt will only honour whole tones."
+        "A basic plucked string synthesiser that uses Karplus-Strong synthesis. Note that due to the plucked nature of this synth the envelope opts such as `attack:`, `sustain:` and `release:` do not work as expected. They can only shorten the natural length of the note, not prolong it. Also, the `note:` opt will only honour whole tones."
       end
 
       def arg_defaults
@@ -6346,7 +6346,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :stereo_player => StereoPlayer.new,
         :blade => SynthViolin.new,
         :piano => SynthPiano.new,
-        :guitar => SynthGuitar.new,
+        :pluck => SynthPluck.new,
 
         :sound_in => SoundIn.new,
         :noise => Noise.new,
