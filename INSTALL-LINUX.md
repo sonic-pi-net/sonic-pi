@@ -4,10 +4,10 @@
 
 Debian package dependency names (Jessie):
 
-`apt-get install supercollider ruby2.1 libqscintilla2-dev ruby-dev cmake pkg-config g++`
+`apt-get install supercollider ruby2.1 libqscintilla2-dev ruby-dev cmake pkg-config g++ libfftw3-dev`
 
 For Ubuntu 14.04.3 (Trusty Tahr):
-`apt-get install supercollider ruby2.0 libqscintilla2-dev ruby-dev cmake pkg-config g++`
+`apt-get install supercollider ruby2.0 libqscintilla2-dev ruby-dev cmake pkg-config g++ libfftw3-dev`
 
 In addition, under Ubuntu 14.04 based distributions try these:
 
@@ -16,7 +16,7 @@ In addition, under Ubuntu 14.04 based distributions try these:
 * `libqt4-dev`
 * `libffi-dev`
 
-If you are using a newer version of QT, you need the according version of scintilla. For QT5 they are: 
+If you are using a newer version of QT, you need the according version of scintilla. For QT5 they are:
 
 * `libqt5scintilla2-dev` instead of `libqscintilla2-dev`
 * `libqt5scintilla2-l10n` instead of `libqscintilla2-l10n`
@@ -41,6 +41,8 @@ git clone https://github.com/supercollider/sc3-plugins.git
 cd sc3-plugins
 git submodule init
 git submodule update
+git checkout efba3baaea873f4e4d44aec3bb7468dd0938b4a6
+cp -r external_libraries/nova-simd/* source/VBAPUGens
 mkdir build
 cd build
 cmake -DSC_PATH=/usr/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
@@ -54,7 +56,7 @@ Compile the server extensions by `cd`ing into the directory `app/server/bin` and
 
 ### Qt GUI
 
-You must compile the server extensions prior to this step. 
+You must compile the server extensions prior to this step.
 
 `cd` into the directory `app/gui/qt/` and run the script `rp-build-app`. This will also take some time.
 
@@ -66,7 +68,7 @@ that didn't work for me, but typing this, after randomly googling and trying var
 `jackd -R -d alsa -d hw:1`
 
 On systems like Ubuntu that run pulseaudio, use
-`pasuspender -- jackd -R -d alsa` 
+`pasuspender -- jackd -R -d alsa`
 
 Then run the script `sonic-pi` in the directory `app/gui/qt`.
 
@@ -83,8 +85,8 @@ Arch Linux users are strongly recommended to install the [sonic-pi-git](https://
 * Install the built software components to `/opt/sonic-pi-git`
 * Install the launcher to `/usr/bin/sonic-pi`
 
-After installing, users need to follow the instructions in the [Generic Linux](#generic-linux) section to start the `jackd` server, and then run `sonic-pi` at a command prompt. 
+After installing, users need to follow the instructions in the [Generic Linux](#generic-linux) section to start the `jackd` server, and then run `sonic-pi` at a command prompt.
 
 ### Building from source
 
-Users can opt to build from source as well if they would like. Instructions and dependencies can be found within the PKGBUILD file in the AUR package previously mentioned, as well as the required patch file. 
+Users can opt to build from source as well if they would like. Instructions and dependencies can be found within the PKGBUILD file in the AUR package previously mentioned, as well as the required patch file.
