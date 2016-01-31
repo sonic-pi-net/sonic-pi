@@ -78,7 +78,7 @@ grow and improve the Sonic Pi code base:
 * [Tomasz Nurkiewicz](https://github.com/nurkiewicz)
 * [Emlyn Corrin](https://github.com/emlyn)
 * [John Lawrence Aspden](https://github.com/johnlawrenceaspden)
-
+* [Eugene Kovalev](https://github.com/wl8dr3)
 
 
 
