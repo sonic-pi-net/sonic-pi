@@ -3872,8 +3872,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def trigger_fx(synth_name, args_h, info, in_bus, group=current_fx_group, now=false, t_minus_delta=false)
-
-        args_h = normalise_and_resolve_synth_args(args_h, info, true)
+        args_h = normalise_and_resolve_synth_args(args_h, info, false)
         add_arg_slide_times!(args_h, info)
         out_bus = current_out_bus
         n = trigger_synth(synth_name, args_h, group, info, now, out_bus, t_minus_delta)
