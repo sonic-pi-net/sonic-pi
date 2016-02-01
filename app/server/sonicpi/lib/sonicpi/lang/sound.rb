@@ -1236,7 +1236,9 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
         return nil unless should_trigger?(args_h)
 
         if rest? args_h
-          __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
+          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+            __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
+          end
           return nil
         end
 
