@@ -13,13 +13,15 @@
 
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/util"
-require_relative "../../../lib/sonicpi/lang/sound"
+require_relative "../../../lib/sonicpi/sample_loader"
 
 module SonicPi
   module Lang
     module Sound
       module_function :sample_duration
       module_function :pitch_to_ratio
+      module_function :sample_split_filts_and_opts
+
 
       # mock out load_sample to always return a sample with duration 8
       def self.load_sample(path)
@@ -30,6 +32,10 @@ module SonicPi
       # mock out current bpm to be 60
       def self.current_bpm
         60
+      end
+
+      def self.sample_path(*args)
+        "/foo/bar"
       end
     end
   end
