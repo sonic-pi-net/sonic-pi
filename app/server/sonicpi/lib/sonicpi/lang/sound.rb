@@ -2456,7 +2456,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
             raise "No sample exists with path:\n  #{unify_tilde_dir(path).inspect}"
           end
         else
-          raise "Unknown sample description: #{path}\n Expected a symbol such as :loop_amen or a string containing a path."
+          raise "Unknown sample description: #{path.inspect}\n Expected a symbol such as :loop_amen or a string containing a path."
         end
       end
       doc name:          :load_sample,
