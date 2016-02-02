@@ -100,7 +100,7 @@ module SonicPi
 
             @sample_paths_cache = {}
 
-            @sample_loader = SampleLoader.new
+            @sample_loader = SampleLoader.new(samples_path)
 
             @JOB_GROUPS_A = Atom.new(Hamster::Hash.new)
             @JOB_GROUP_MUTEX = Mutex.new
