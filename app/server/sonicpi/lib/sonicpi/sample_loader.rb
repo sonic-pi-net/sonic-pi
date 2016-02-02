@@ -36,7 +36,7 @@ module SonicPi
         filters = []
         candidates = []
         filts_and_sources.each do |arg|
-          consume_filt_or_source!(arg, filters, dirs, candidates)
+          idx = consume_filt_or_source!(arg, idx, filters, dirs, candidates)
         end
 
         if dirs.empty?
@@ -83,7 +83,7 @@ module SonicPi
     end
 
     private
-    def consume_filt_or_source!(filt_or_source, filters, dirs, candidates)
+    def consume_filt_or_source!(filt_or_source, idx, filters, dirs, candidates)
       case filt_or_source
       when Symbol
         filters << /#{filt_or_source}\.(wav|aif|wave|aiff)/
@@ -110,6 +110,8 @@ module SonicPi
       else
         raise "Unknown sample filter or source type: #{filt_or_source.inspect}"
       end
+
+      return idx
     end
   end
 end
