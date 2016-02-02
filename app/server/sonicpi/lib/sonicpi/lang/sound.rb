@@ -27,6 +27,7 @@ require_relative "../chordgroup"
 require_relative "../synthtracker"
 require_relative "../version"
 require_relative "../tuning"
+require_relative "../sample_loader"
 require_relative "support/docsystem"
 
 class Symbol
@@ -98,6 +99,8 @@ module SonicPi
             @job_proms_joiners = {}
 
             @sample_paths_cache = {}
+
+            @sample_loader = SampleLoader.new
 
             @JOB_GROUPS_A = Atom.new(Hamster::Hash.new)
             @JOB_GROUP_MUTEX = Mutex.new
@@ -177,6 +180,22 @@ module SonicPi
           end
         end
       end
+
+      # Deprecated fns
+
+      def current_sample_pack_aliases
+        raise "Sorry, current_sample_pack_aliases is no longer supported since v2.10"
+      end
+
+      def with_sample_pack_as
+        raise "Sorry, with_sample_pack_as is no longer supported since v2.10"
+      end
+
+      def use_sample_pack_as
+        raise "Sorry, use_sample_pack_as is no longer supported since v2.10"
+      end
+
+
 
 
       def reboot
@@ -2108,7 +2127,7 @@ end
       doc name:          :use_sample_pack,
           introduced:    Version.new(2,0,0),
           summary:       "Use sample pack",
-          doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif` or `.aiff` files in that folder available as samples. Consider using `use_sample_pack_as` when using multiple sample packs. Use `use_sample_pack :default` To revert back to the default built-in samples.",
+          doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif` or `.aiff` files in that folder available as samples. Use `use_sample_pack :default` To revert back to the default built-in samples.",
           args:          [[:pack_path, :string]],
           opts:          nil,
           accepts_block: false,
@@ -2121,35 +2140,6 @@ sample :bd_haus #=> will not work unless there's a sample in '/home/yourname/pat
                 #   called bd_haus.{wav|wave|aif|aiff}
 use_sample_pack :default
 sample :bd_haus #=> will play the built-in bd_haus.wav sample" ]
-
-
-
-
-      def use_sample_pack_as(pack, pack_alias, &block)
-        raise "use_sample_pack_as does not work with a block. Perhaps you meant with_sample_pack_as" if block
-        pack = "#{pack}/" if File.directory?(pack)
-        aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases) || Hamster::Hash.new
-        new_aliases = aliases.put pack_alias.to_s, pack
-        Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
-      end
-      doc name:          :use_sample_pack_as,
-          introduced:    Version.new(2,0,0),
-          summary:       "Use sample pack alias",
-          doc:           "Similar to `use_sample_pack` except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
-          args:          [[:path, :string], [:alias, :string]],
-          opts:          nil,
-          accepts_block: false,
-          examples:      ["
-# let's say you have two folders of your own sample files,
-# and they both contain a file named 'bass.wav'
-use_sample_pack_as '/home/yourname/my/cool/samples/guitar', :my_guitars
-use_sample_pack_as '/home/yourname/my/cool/samples/drums', :my_drums
-
-# You can now play both the 'bass.wav' samples, as they've had the symbol stuck on the front
-sample :my_guitars__bass    #=> plays '/home/yourname/my/cool/samples/guitar/bass.wav'
-sample :my_drums__bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav'"]
-
-
 
 
       def with_sample_pack(pack, &block)
@@ -2170,7 +2160,7 @@ sample :my_drums__bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav
       doc name:           :with_sample_pack,
           introduced:     Version.new(2,0,0),
           summary:        "Block-level use sample pack",
-          doc:            "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif`, or `.aiff` files in that folder available as samples inside the given block. Consider using `with_sample_pack_as` when using multiple sample packs.",
+          doc:            "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif`, or `.aiff` files in that folder available as samples inside the given block.",
           args:           [[:pack_path, :string]],
           opts:           nil,
           accepts_block:  true,
@@ -2178,34 +2168,6 @@ sample :my_drums__bass  #=> plays '/home/yourname/my/cool/samples/drums/bass.wav
           examples:       ["
 with_sample_pack '/path/to/sample/dir' do
   sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff}
-end"]
-
-
-
-
-      def with_sample_pack_as(pack, name, &block)
-        raise "with_sample_pack_as requires a do/end block. Perhaps you meant use_sample_pack_as" unless block
-        pack = "#{pack}/" if File.directory?(pack)
-        current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
-        aliases = current || Hamster::Hash.new
-        new_aliases = aliases.put name.to_s, pack
-        Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, new_aliases)
-        res = block.call
-        Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_aliases, current)
-        res
-      end
-      doc name:           :with_sample_pack_as,
-          introduced:     Version.new(2,0,0),
-          summary:        "Block-level use sample pack alias",
-          doc:            "Similar to `with_sample_pack` except you can assign prefix aliases for samples. This lets you 'namespace' your sounds so that they don't clash, even if they have the same filename.",
-          args:           [[:pack_path, :string]],
-          opts:           nil,
-          accepts_block:  true,
-          requires_block: true,
-          examples:       ["
-with_sample_pack_as '/home/yourname/path/to/sample/dir', :my_samples do
-  # The foo sample is now available, with a prefix of 'my_samples'
-  sample :my_samples__foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff}
 end"]
 
 
@@ -2247,20 +2209,7 @@ puts current_sample_pack # Print out the current sample pack"]
 
 
 
-      def current_sample_pack_aliases
-        Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
-      end
-      doc name:          :current_sample_pack_aliases,
-          introduced:    Version.new(2,0,0),
-          summary:       "Get current sample pack aliases",
-          doc:           "Returns a map containing the current sample pack aliases.
 
-This can be set via the fns `use_sample_pack_as` and `with_sample_pack_as`.",
-          args:          [],
-          opts:          nil,
-          accepts_block: false,
-          examples:      ["
-puts current_sample_pack_aliases # Print out the current sample pack aliases"]
 
 
 
@@ -2464,18 +2413,14 @@ set_volume! 2 # Set the main system volume to 2",
 
 
 
-      def sample_loaded?(path)
-        case path
-        when Symbol
-          full_path = resolve_sample_symbol_path(path)
-          return @mod_sound_studio.sample_loaded?(full_path)
-        when String
-          path = File.expand_path(path)
-          return @mod_sound_studio.sample_loaded?(path)
-        else
-          raise "Unknown sample description: #{path}"
-        end
+      def sample_loaded?(*args)
+        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        path = sample_path(filts_and_sources)
+
+        path = File.expand_path(path)
+        return @mod_sound_studio.sample_loaded?(path)
       end
+
       doc name:          :sample_loaded?,
           introduced:    Version.new(2,2,0),
           summary:       "Test if sample was pre-loaded",
@@ -2491,7 +2436,9 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
 
 
-      def load_sample(path)
+      def load_sample(*args)
+        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        path = sample_path(filts_and_sources)
         case path
         when Symbol
           full_path = resolve_sample_symbol_path(path)
@@ -2528,11 +2475,7 @@ sample :elec_blip # No delay takes place when attempting to trigger it"]
 
       def load_samples(*paths)
         paths.each do |p|
-          if p.kind_of?(Array) || p.kind_of?(SonicPi::Core::RingVector)
-            load_samples *p
-          else
-            load_sample p
-          end
+          load_sample p
         end
       end
       doc name:          :load_samples,
@@ -2561,8 +2504,8 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
 
 
 
-      def sample_info(path)
-        load_sample(path)
+      def sample_info(*args)
+        load_sample(*args)
       end
       doc name:          :sample_info,
           introduced:    Version.new(2,0,0),
@@ -2576,8 +2519,8 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
 
 
 
-      def sample_buffer(path)
-        load_sample(path)
+      def sample_buffer(*args)
+        load_sample(*args)
       end
       doc name:          :sample_buffer,
           introduced:    Version.new(2,0,0),
@@ -2591,9 +2534,11 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
 
 
 
-      def sample_duration(path, *args)
+      def sample_duration(*args)
+        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        path = sample_path(filts_and_sources)
         dur = load_sample(path).duration
-        args_h = resolve_synth_opts_hash_or_array(args)
+        args_h = merge_synth_arg_maps_array(args_a)
         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
         t_l_args.each do |k, v|
             args_h[k] = v unless args_h.has_key? k
@@ -2645,6 +2590,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
           return real_dur
         end
       end
+
       doc name:          :sample_duration,
           introduced:    Version.new(2,0,0),
           summary:       "Get duration of sample in beats",
@@ -2790,45 +2736,68 @@ sample :loop_amen                    # starting it again
 
       ]
 
+      def sample_split_filts_and_opts(args)
+        idx = args.find_index {|el| el.is_a?(Hash)}
+        if idx
+          filts_and_sources =  args[0...idx]
+          opts = args[idx..-1]
+        else
+          filts_and_sources =  args
+          opts = {}
+        end
 
+        return filts_and_sources, opts
+      end
 
-
-      def sample(path, *args_a_or_h)
-        return if path == nil
-
-        # Allow for hash only variant with :sample_name
-        # and procs as sample name inline with note()
-        case path
+      def sample_path(filts_and_sources)
+        case filts_and_sources
+        when String
+          return filts_and_sources
         when Proc
-          return sample(path.call, *args_a_or_h)
-        when Hash
-          if path.has_key? :name
-            # handle case where sample receives Hash and args
-            new_path = path.delete(:name)
-            args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
-            return sample(new_path, path.merge(args_h))
+          return sample_path filts_and_sources.call
+        else
+          return @sample_loader.find_path(filts_and_sources)
+        end
+      end
+
+      def sample(*args)
+        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        args_h = merge_synth_arg_maps_array(args_a)
+
+        case filts_and_sources.size
+        when 0
+          if args_h.has_key?(:name)
+            # handle case where sample receives only opts
+            path = args_h.delete(:name)
           else
             return nil
           end
+        when 1
+          path = filts_and_sources[0]
+        else
+          path = sample_path(filts_and_sources)
         end
 
+        return if path == nil
+
         ensure_good_timing!
-        if path.is_a? Buffer
+        case path
+        when Buffer
           buf_info = path
           if buf_info.path
             path = buf_info.path
           else
-            path = "Buffer [#{buffer_info.id}]"
+            path = path[0]
           end
-        else
-          buf_info = load_sample(path)
         end
-        args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
+
+        buf_info = load_sample(path)
 
         return nil unless should_trigger?(args_h, true)
 
         trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
       end
+
       doc name:          :sample,
           introduced:    Version.new(2,0,0),
           summary:       "Trigger sample",
@@ -2836,7 +2805,7 @@ sample :loop_amen                    # starting it again
 
 The sampler synth has two separate envelopes - one for amplitude and one for the cutoff value for a resonant low pass filter. These work very similar to the standard synth envelopes except for two major differences. Firstly, the envelope times do not stretch or shrink to match the BPM. Secondly, the sustain time by default stretches to make the envelope fit the length of the sample. This is explained in detail in the tutorial.
 
-Check out the `use_sample_pack` and `use_sample_pack_as` fns for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider using `load_sample` or `load_samples`.",
+Check out the `use_sample_pack` for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider using `load_sample` or `load_samples`.",
           args:          [[:name_or_path, :symbol_or_string]],
           opts:          {:rate          => "Rate with which to play back the sample. Higher rates mean an increase in pitch and a decrease in duration. Default is 1.",
                           :beat_stretch  => "Stretch (or shrink) the sample to last for exactly the specified number of beats. Please note - this does *not* keep the pitch constant and is essentially the same as modifying the rate directly.",
@@ -4394,6 +4363,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       # end
       # "
       # ]
+
+
     end
   end
 end
