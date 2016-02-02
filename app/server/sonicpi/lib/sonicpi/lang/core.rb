@@ -2125,7 +2125,7 @@ puts slept #=> Returns false as there were no sleeps in the block"]
 
 
 
-          def with_swing(swing, beat_length, &block)
+          def with_swing(swing, beat_length=1, &block)
             raise "with_swing must be called with a do/end block. Perhaps you meant use_swing" unless block
             raise "with_swing's swing should be a value between zero and one. You tried to use: #{swing}" unless swing > 0 and swing < 1
             current_swing = Thread.current.thread_variable_get(:sonic_pi_spider_swing)
@@ -2391,34 +2391,66 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
         return if beats == 0
         # Grab the current virtual time
-        last_vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+        last_vt = Thread.current.thread_variable_get(:sonic_pi_spider_time) || Time.now
 
         # Now get on with syncing the rest of the sleep time...
 
         # Calculate the amount of time to sleep (take into account current bpm setting)
-        current_sleep_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+        current_sleep_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul) || 1
         current_swing_point = Thread.current.thread_variable_get(:sonic_pi_spider_swing) || 0.5
-        current_swing_beat_length = Thread.current.thread_variable_get(:sonic_pi_spider_swing_beat_length) || 1
+        current_swing_beat_length = (Thread.current.thread_variable_get(:sonic_pi_spider_swing_beat_length) || 1)
 
         if current_swing_point != 0.5
           # This sort of works but not quite
-          # starting_beat_position = (((__current_local_run_time/current_sleep_mul).round(2) - (__current_local_run_time/current_sleep_mul).round(2).floor) % current_swing_beat_length)
-          starting_beat_position = (__current_local_run_time/current_sleep_mul).round(2) - (__current_local_run_time/current_sleep_mul).round(2).floor
-          whole_beats = beats.floor
-          partial_beat = (beats - whole_beats)
+          # require 'pry'; binding.pry if __current_local_run_time == 0.5
+          starting_beat_position = ((((__current_local_run_time/current_sleep_mul).round(2) / current_swing_beat_length) - ((__current_local_run_time/current_sleep_mul).round(2) / current_swing_beat_length).floor))
 
-          if starting_beat_position.zero? && partial_beat.zero?
-            timing_adjustment = 0
-          else
+          #This works for beats of length 1
+          #starting_beat_position = (__current_local_run_time/current_sleep_mul).round(2) - (__current_local_run_time/current_sleep_mul).round(2).floor
 
-            if (starting_beat_position + partial_beat).round(2) <= 0.5
-              timing_adjustment = ((starting_beat_position + partial_beat) / 0.5) * current_swing_point
+          whole_beats = ((starting_beat_position + beats) / current_swing_beat_length).floor
+          partial_beat = ((starting_beat_position + beats) / current_swing_beat_length) - whole_beats
+
+          $stdout.puts "partial: #{partial_beat.round(2)}"
+          if beats == current_swing_beat_length/2.0
+            if partial_beat.round(2) <= 0.50
+              $stdout.puts "point: #{current_swing_point}"
+              $stdout.puts "beat_length: #{current_swing_beat_length}"
+              timing_adjustment = (current_swing_point/(current_swing_beat_length/2.0)) * (current_swing_beat_length/2.0)
+              $stdout.puts "timing_adj: #{timing_adjustment}"
+              $stdout.puts "whole_beats: #{whole_beats}"
+
+              beats = timing_adjustment + whole_beats
             else
-              timing_adjustment = ((partial_beat / 0.5) * (1 - current_swing_point))
-            end
+              $stdout.puts "point: #{current_swing_point}"
+              $stdout.puts "beat_length: #{current_swing_beat_length}"
+              timing_adjustment = ((1 - current_swing_point)/(current_swing_beat_length/2.0)) * (current_swing_beat_length/2.0)
+              $stdout.puts "timing_adj: #{timing_adjustment}"
+              $stdout.puts "whole_beats: #{whole_beats}"
 
-            beats = timing_adjustment + whole_beats
+              beats = timing_adjustment + whole_beats
+            end
+          else
+            timing_adjustment = 0
           end
+          # if starting_beat_position.zero? && partial_beat.zero?
+          #   timing_adjustment = 0
+          # else
+
+          #   $stdout.puts starting_beat_position
+          #   $stdout.puts partial_beat
+          #   $stdout.puts (starting_beat_position + partial_beat).round(2)
+          #   if (starting_beat_position + partial_beat).round(2) <= 0.5
+          #     $stdout.puts "long"
+          #     timing_adjustment = ((starting_beat_position + partial_beat) / 0.5) * current_swing_point
+          #   else
+          #     $stdout.puts "short"
+          #     timing_adjustment = (((current_swing_beat_length/2.0) / partial_beat) * (current_swing_beat_length - current_swing_point)) + starting_beat_position
+          #   end
+          #   $stdout.puts timing_adjustment
+
+          #   beats = (timing_adjustment * current_swing_beat_length) + whole_beats
+          # end
         end
 
         sleep_time = beats * current_sleep_mul
