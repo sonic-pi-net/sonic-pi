@@ -20,7 +20,7 @@
   - `cd /path/to/sonic-pi/root/`
   - `mkdir -p app/server/native/osx/ruby/bin`
   - link the ruby version into place:
-  - `ln -s `which ruby` app/server/native/osx/ruby/bin/ruby`
+  - ``ln -s `which ruby` app/server/native/osx/ruby/bin/ruby``
 * Provide a SuperCollider scsynth for Sonic Pi to use  
  - The Qt app expects scsynth to exist at a certain path. We can also use a symlink here.
  - `cd /path/to/sonic-pi/root/`
@@ -34,7 +34,7 @@ to compile these with the provided script:
 
 * `cd /path/to/sonic-pi/root/`
 * `cd app/server/bin`
-* `../native/osx/ruby/bin compile-extensions.rb`
+* `../native/osx/ruby/bin/ruby compile-extensions.rb`
 
 This will take some time. Ignore the warnings.
 
@@ -91,7 +91,7 @@ Finally, we need to build the OS X App
 * `cd /path/to/sonic-pi/root/`
 * `cd app/gui/qt`
 * `./mac-build-app`
-* App should be in `build` dir which you can either launch via Finder or via the following from the `qt dir:
+* App should be in `build` dir which you can either launch via Finder or via the following from the `qt` dir:
 * `./build/Sonic\ Pi.app/Contents/MacOS/Sonic\ Pi`
 
-Sonic Pi should now boot succesfully.
+Sonic Pi should now boot successfully.
