@@ -5736,7 +5736,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :mix_slide => 0,
           :mix_slide_shape => 1,
           :mix_slide_curve => 0,
-          :krunch => 1,
+          :krunch => 5,
           :krunch_slide => 0,
           :krunch_slide_shape => 1,
           :krunch_slide_curve => 0,
