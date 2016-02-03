@@ -3681,7 +3681,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
             when FalseClass
               args_h[k] = 0.0
             when NilClass
-              args_h[k] = 0.0
+              args_h[k] = nil
             else
               begin
                 args_h[k] = res.to_f
@@ -3698,7 +3698,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           when FalseClass
             args_h[k] = 0.0
           when NilClass
-            args_h[k] = 0.0
+            args_h[k] = nil
           else
             begin
               args_h[k] = v.to_f
@@ -3891,7 +3891,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
       def normalise_and_resolve_sample_args(path, args_h, info, combine_tls=false)
-        purge_nil_vals!(args_h)
         defaults = info ? info.arg_defaults : {}
         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
         t_l_args.each do |k, v|
@@ -3932,7 +3931,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
       def normalise_and_resolve_synth_args(args_h, info, combine_tls=false)
-        purge_nil_vals!(args_h)
         defaults = info ? info.arg_defaults : {}
         if combine_tls
           t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
