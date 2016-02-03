@@ -54,11 +54,16 @@
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
 
-         [in-l in-r] (abs (* pre_amp (in in_bus 2)))
-         new-l-sqr   (squared in-l)
-         new-l       (/ (+ new-l-sqr (* gain in-l)) (+ new-l-sqr (* in-l (- gain 1)) 1))
-         new-r-sqr   (squared in-r)
-         new-r       (/ (+ new-r-sqr (* gain in-r)) (+ new-r-sqr (* in-r (- gain 1)) 1))
+         [in-l in-r] (* pre_amp (in in_bus 2))
+
+         new-l-abs   (abs in-l)
+         new-l-sqr   (squared new-l-abs)
+         new-l       (/ (+ new-l-sqr (* gain new-l-abs)) (+ new-l-sqr (* new-l-abs (- gain 1)) 1))
+
+         new-r-abs   (abs in-r)
+         new-r-sqr   (squared new-r-abs)
+         new-r       (/ (+ new-r-sqr (* gain new-r-abs)) (+ new-r-sqr (* new-r-abs (- gain 1)) 1))
+
          new-l       (rlpf new-l cutoff-freq res)
          new-r       (rlpf new-r cutoff-freq res)
          fin-l       (x-fade2 in-l new-l (- (* mix 2) 1) amp)
