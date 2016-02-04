@@ -27,7 +27,7 @@ module SonicPi
       @mock_sound.extend(Lang::Core)
       @mock_sound.stubs(:sleep) # avoid loading Spider class
       @mock_sound.stubs(:ensure_good_timing!) # avoid loading Spider class
-      @mock_sound.stubs(:load_sample).returns(OpenStruct.new({id: 42, num_chans: 2}))
+      @mock_sound.stubs(:load_sample_at_path).returns(OpenStruct.new({id: 42, num_chans: 2}))
     end
 
     def test_sample_with_various_args

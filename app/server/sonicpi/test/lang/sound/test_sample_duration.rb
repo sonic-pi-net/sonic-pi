@@ -24,7 +24,7 @@ module SonicPi
 
 
       # mock out load_sample to always return a sample with duration 8
-      def self.load_sample(path)
+      def self.load_sample_at_path(path)
         mock_samp = Struct.new(:duration)
         mock_samp.new(8)
       end

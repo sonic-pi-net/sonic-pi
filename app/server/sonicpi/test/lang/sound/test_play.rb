@@ -41,8 +41,8 @@ module SonicPi
       @mock_sound.expects(:trigger_inst).with(:beep, {note: 60, release: 0.1})
       @mock_sound.play({note: :c, release: 0.1})
 
-      # nils are culled
-      @mock_sound.expects(:trigger_inst).with(:beep, {note: 60})
+      # nils are culled (but only prior to encoding as an OSC message)
+      @mock_sound.expects(:trigger_inst).with(:beep, {note: 60, cutoff: nil})
       @mock_sound.play({note: :c, cutoff: nil})
     end
   end
