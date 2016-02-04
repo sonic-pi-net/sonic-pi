@@ -1,17 +1,17 @@
 8 Data Structures
 
-# Data Structures
+# Структуры Данных
 
-A very useful tool in a programmer's toolkit is a data structure.
+Очень полезный инструмент в инструментарии программиста - это структуры данных.
 
-Sometimes you may wish to represent and use more than one thing. For
-example, you may find it useful to have a series of notes to play one
-after another. Programming languages have data structures to allow you
-do exactly this.
+Иногда, ты, возможно, захочешь определить и использовать более чем одну вещь.
+Например, ты можешь посчитать полезным иметь последовательность нот, чтобы
+играть их одну за другой. Языки программирования имеют структуры данных, чтобы
+позволять делать именно это.
 
-There are many exciting and exotic data structures available to
-programmers - and people are always inventing new ones. However, for now
-we only really need to consider a very simple data structure - the list.
+Существует множество интересных и экзотических структур данных, доступных для
+программистов, и люди постоянно изобретают новые. Впрочем, пока что мы нуждаемся
+в рассмотрении одной очень простой структуры данных - списка.
 
-Let's look at it in more detail. We'll cover its basic form and then
-also how lists can be used to represent scales and chords.
+Давай рассмотрим его более подробно. Мы узнаем про его базовую форму, а так же
+как списки могут быть использованы для представления гамм и аккордов.
