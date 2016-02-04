@@ -442,7 +442,7 @@ sample :loop_amen        # re-loads and plays amen"]
 
         # Don't use sample_duration as that is stretched to the current
         # bpm!
-        sd = load_sample(sample_name).duration
+        sd = sample_buffer(sample_name).duration
         use_bpm(num_beats * (60.0 / sd))
       end
       doc name:           :use_sample_bpm,
@@ -481,7 +481,7 @@ end"]
         num_beats = args_h[:num_beats] || 1
         # Don't use sample_duration as that is stretched to the current
         # bpm!
-        sd = load_sample(sample_name).duration
+        sd = sample_buffer(sample_name).duration
         with_bpm(num_beats * (60.0 / sd), &block)
       end
       doc name:           :with_sample_bpm,
@@ -3912,7 +3912,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           raise "beat_stretch: opt needs to be a positive number. Got: #{stretch_duration.inspect}" unless stretch_duration.is_a?(Numeric) && stretch_duration > 0
           stretch_duration = stretch_duration.to_f
           rate = args_h[:rate] || 1
-          dur = load_sample(path).duration
+          dur = sample_buffer(path).duration
           args_h[:rate] = (1.0 / stretch_duration) * rate * (current_bpm / (60.0 / dur))
         end
 
@@ -3921,7 +3921,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           raise "pitch_stretch: opt needs to be a positive number. Got: #{pitch_stretch_duration.inspect}" unless pitch_stretch_duration.is_a?(Numeric) && pitch_stretch_duration > 0
           pitch_stretch_duration = pitch_stretch_duration.to_f
           rate = args_h[:rate] || 1
-          dur = load_sample(path).duration
+          dur = sample_buffer(path).duration
           new_rate = (1.0 / pitch_stretch_duration) * (current_bpm / (60.0 / dur))
           pitch_shift = ratio_to_pitch(new_rate)
           args_h[:rate] = new_rate * rate
