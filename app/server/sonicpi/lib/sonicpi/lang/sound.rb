@@ -2450,7 +2450,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
         when String
           raise "Attempted to load sample with an empty string as path" if path.empty?
           path = File.expand_path(path)
-          if File.exists?(path)
+          if File.exists?(path) && !File.directory?(path)
             info, cached = @mod_sound_studio.load_sample(path)
             __info "Loaded sample #{unify_tilde_dir(path).inspect}" unless cached
             return info
