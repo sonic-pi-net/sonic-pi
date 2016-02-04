@@ -241,8 +241,18 @@ module SonicPi
 
 
       def sample_free(*paths)
-        full_paths = paths.map{ |p| resolve_sample_symbol_path(p)}
-        @mod_sound_studio.free_sample(full_paths)
+        paths.each do |p|
+          p = [p] unless p.is_a?(Array)
+          filts_and_sources, args_a = sample_split_filts_and_opts(p)
+          sample_paths(filts_and_sources).each do |p|
+            if sample_loaded?(p)
+              @mod_sound_studio.free_sample([p])
+              __info "Freed sample: #{p.inspect}"
+            end
+          end
+        end
+
+
       end
       doc name:           :sample_free,
           introduced:     Version.new(2,9,0),
@@ -2436,11 +2446,39 @@ puts sample_loaded? :elec_blip # prints true because it has been pre-loaded
 puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
 
-
-
       def load_sample(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
-        path = sample_path(filts_and_sources)
+        paths = @sample_loader.find_candidates(filts_and_sources)
+        paths.map do |p|
+          load_sample_at_path p
+        end
+      end
+      doc name:          :load_sample,
+          introduced:    Version.new(2,0,0),
+          summary:       "Pre-load sample(s)",
+          doc:           "Given a path to a `.wav`, `.wave`, `.aif` or `.aiff` file, this loads the file and makes it available as a sample. See `load_samples` for loading multiple samples in one go.",
+          args:          [[:path, :string]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
+sample :elec_blip # No delay takes place when attempting to trigger it"]
+
+
+      def load_samples(*args)
+        load_sample(*args)
+      end
+      doc name:          :load_samples,
+          introduced:    Version.new(2,0,0),
+          summary:       "Pre-load samples",
+          doc:           "Synonym for load_sample",
+          args:          [[:paths, :list]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["# See load_sample for examples"]
+
+
+      def load_sample_at_path(path)
         case path
         when Symbol
           full_path = resolve_sample_symbol_path(path)
@@ -2461,53 +2499,17 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
           raise "Unknown sample description: #{path.inspect}\n Expected a symbol such as :loop_amen or a string containing a path."
         end
       end
-      doc name:          :load_sample,
-          introduced:    Version.new(2,0,0),
-          summary:       "Pre-load sample",
-          doc:           "Given a path to a `.wav`, `.wave`, `.aif` or `.aiff` file, this loads the file and makes it available as a sample. See `load_samples` for loading multiple samples in one go.",
-          args:          [[:path, :string]],
-          opts:          nil,
-          accepts_block: false,
-          examples:      ["
-load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
-sample :elec_blip # No delay takes place when attempting to trigger it"]
 
 
 
 
-      def load_samples(*paths)
-        paths.each do |p|
-          load_sample p
-        end
-      end
-      doc name:          :load_samples,
-          introduced:    Version.new(2,0,0),
-          summary:       "Pre-load samples",
-          doc:           "Given an array of paths to `.wav`, `.wave`, `.aif` or `.aiff` files, loads them all into memory so that they may be played with via sample with no delay. See `load_sample`.",
-          args:          [[:paths, :list]],
-          opts:          nil,
-          accepts_block: false,
-          examples:      ["
-sample :ambi_choir # This has to first load the sample before it can play it which may
-                   # cause unwanted delay.
 
-load_samples [:elec_plip, :elec_blip] # Let's load some samples in advance of using them
-sample :elec_plip                     # When we play :elec_plip, there is no extra delay
-                                      # as it has already been loaded.",
-
-        "
-load_samples :elec_plip, :elec_blip # You may omit the square brackets, and
-                                    # simply list all samples you wish to load
-sample :elec_blip                   # Before playing them.",
-        "
-load_samples [\"/home/pi/samples/foo.wav\"] # You may also load full paths to samples.
-sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more loading."]
 
 
 
 
       def sample_info(*args)
-        load_sample(*args)
+        sample_buffer(*args)
       end
       doc name:          :sample_info,
           introduced:    Version.new(2,0,0),
@@ -2522,7 +2524,9 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
 
 
       def sample_buffer(*args)
-        load_sample(*args)
+        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        path = sample_path(filts_and_sources)
+        load_sample_at_path(path)
       end
       doc name:          :sample_buffer,
           introduced:    Version.new(2,0,0),
@@ -2539,7 +2543,7 @@ sample \"/home/pi/sample/foo.wav\"          # And then trigger them with no more
       def sample_duration(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
         path = sample_path(filts_and_sources)
-        dur = load_sample(path).duration
+        dur = load_sample_at_path(path).duration
         args_h = merge_synth_arg_maps_array(args_a)
         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
         t_l_args.each do |k, v|
@@ -2751,15 +2755,21 @@ sample :loop_amen                    # starting it again
         return filts_and_sources, opts
       end
 
-      def sample_path(filts_and_sources)
+      def sample_paths(filts_and_sources)
         case filts_and_sources
+        when Array, SonicPi::Core::RingVector
+          return @sample_loader.find_candidates(filts_and_sources)
         when String
           return filts_and_sources
         when Proc
-          return sample_path filts_and_sources.call
+          return sample_paths filts_and_sources.call
         else
-          return @sample_loader.find_path(filts_and_sources)
+          raise "Unknown description for sample_paths: #{filts_and_sources.inspect}"
         end
+      end
+
+      def sample_path(filts_and_sources)
+        sample_paths(filts_and_sources)[0]
       end
 
       def sample(*args)
@@ -2793,7 +2803,7 @@ sample :loop_amen                    # starting it again
           end
         end
 
-        buf_info = load_sample(path)
+        buf_info = load_sample_at_path(path)
 
         return nil unless should_trigger?(args_h, true)
 

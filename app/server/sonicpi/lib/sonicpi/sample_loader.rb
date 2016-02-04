@@ -19,17 +19,17 @@ module SonicPi
       # /
       # C:\
       @file_matcher =  /(~\/|\/|[A-Za-z]:\\)/
-      @candidates = {}
+      @cached_candidates = {}
       @mutex = Mutex.new
       @samples_path = samples_path
     end
 
     def find_candidates(filts_and_sources)
       return [] if filts_and_sources.empty?
-      candidates = @candidates[filts_and_sources]
+      candidates = @cached_candidates[filts_and_sources]
       return candidates if candidates
       @mutex.synchronize do
-        candidates = @candidates[filts_and_sources]
+        candidates = @cached_candidates[filts_and_sources]
         return candidates if candidates
         idx = nil
         dirs = []
@@ -39,7 +39,7 @@ module SonicPi
           idx = consume_filt_or_source!(arg, idx, filters, dirs, candidates)
         end
 
-        if dirs.empty?
+        if dirs.empty? && !filters.empty?
           dirs = [Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || @samples_path]
         end
 
@@ -67,7 +67,7 @@ module SonicPi
 
         candidates = [candidates[idx % candidates.size]] if idx
 
-        @candidates[filts_and_sources] = candidates
+        @cached_candidates[filts_and_sources] = candidates
         #end mutex
       end
 
@@ -76,10 +76,6 @@ module SonicPi
 
     def ls_samples(path)
       Dir.glob(path + "/*.{wav,aif,wave,aiff}")
-    end
-
-    def find_path(filts_and_sources)
-      find_candidates(filts_and_sources)[0]
     end
 
     private
@@ -91,7 +87,11 @@ module SonicPi
         idx = filt_or_source
       when String
         if filt_or_source.match(@file_matcher)
-          dirs << filt_or_source
+          if File.directory?(File.expand_path(filt_or_source))
+            dirs << filt_or_source
+          else
+            candidates << filt_or_source
+          end
         else
           filters << filt_or_source
         end
@@ -102,7 +102,7 @@ module SonicPi
       when Array, SonicPi::Core::RingVector
         filt_or_source.each do |c|
           if File.directory?(c)
-            candidates += ls_samples(c)
+            dirs << c
           else
             candidates << c
           end
