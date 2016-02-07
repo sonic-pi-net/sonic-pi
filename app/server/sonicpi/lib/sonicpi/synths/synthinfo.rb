@@ -4908,6 +4908,56 @@ module SonicPi
       end
     end
 
+    class FXVowel < FXInfo
+      def name
+        "Vowel"
+      end
+
+      def introduced
+        Version.new(2,10,0)
+      end
+
+      def synth_name
+        "fx_vowel"
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pre_amp => 1,
+          :pre_amp_slide => 0,
+          :pre_amp_slide_shape => 1,
+          :pre_amp_slide_curve => 0,
+          :vowel_sound => 1,
+          :voice => 0
+        }
+      end
+
+      def specific_arg_info
+        {
+          :vowel_sound =>
+          {
+            :doc => "1,2,3,4,5 => A,E,I,O,U",
+            :validations => [v_one_of(:vowel_sound, [1,2,3,4,5])],
+            :modulatable => true
+          },
+          :voice =>
+          {
+            :doc => "0,1,2,3,4 => Soprano,Alto,Counter Tenor, Tenor, Bass",
+            :validations => [v_one_of(:voice, [0,1,2,3,4])],
+            :modulatable => true
+          }
+        }
+      end
+
+      def doc
+        "This effect filters the input to match a human voice singing a certain vowel sound. Human singing voice sounds are easily achieved with a source of a saw wave with a little vibrato."
+      end
+    end
+
     class FXOctaver < FXInfo
       def name
         "Octaver"
@@ -6411,6 +6461,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_ring_mod => FXRingMod.new,
         #:fx_chorus => FXChorus.new,
         :fx_octaver => FXOctaver.new,
+        :fx_vowel => FXVowel.new,
         :fx_flanger => FXFlanger.new
       }
 
