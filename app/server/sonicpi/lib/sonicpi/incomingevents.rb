@@ -104,6 +104,10 @@ module SonicPi
       to_s
     end
 
+    def shutdown
+      @handler_thread.kill
+    end
+
     private
 
     def q_sync_insert_handler(handle, key, block, prom)
@@ -179,10 +183,6 @@ module SonicPi
       when :quit
         @continue = false
       end
-    end
-
-    def shutdown
-      @handler_thread.kill
     end
   end
 end
