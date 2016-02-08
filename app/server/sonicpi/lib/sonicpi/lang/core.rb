@@ -1058,7 +1058,9 @@ puts slept #=> Returns false as there were no sleeps in the block"]
       doc name:           :at,
           introduced:     Version.new(2,1,0),
           summary:        "Asynchronous Time. Run a block at the given time(s)",
-          doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If size of params list is smaller than the times list, the param values will act as rings (rotate through). If the block is given 1 arg, the times are fed through. If the block is given 2 args, both the times and the params are fed through. A third block arg will receive the index of the time.",
+          doc:            "Given a list of times, run the block once after waiting each given time. If passed an optional params list, will pass each param individually to each block call. If size of params list is smaller than the times list, the param values will act as rings (rotate through). If the block is given 1 arg, the times are fed through. If the block is given 2 args, both the times and the params are fed through. A third block arg will receive the index of the time.
+
+Note, all code within the block is executed in its own thread. Therefore despite inheriting all thread locals such as the random stream and ticks, modifications will be isolated to the block and will not affect external code.",
           args:           [[:times, :list],
                            [:params, :list]],
           opts:           nil,
@@ -1066,6 +1068,11 @@ puts slept #=> Returns false as there were no sleeps in the block"]
           requires_block: true,
           async_block:    true,
           examples:       ["
+  at 4 do
+    sample :ambi_choir    # play sample after waiting for 4 beats
+  end
+  ",
+  "
   at [1, 2, 4] do  # plays a note after waiting 1 beat,
     play 75           # then after 1 more beat,
   end                 # then after 2 more beats (4 beats total)
@@ -1100,7 +1107,31 @@ puts slept #=> Returns false as there were no sleeps in the block"]
   at [0, 0.5, 2], [:a, :b] do |t, b, idx|  #If you specify the block with 3 args, it will pass through the time, the param and the index
     puts [t, b, idx] #=> prints out [0, :a, 0], [0.5, :b, 1], then [2, :a, 2]
   end
-  "
+  ",
+  " # at does not consume & interfere with the outer random stream
+puts \"main: \", rand  # 0.75006103515625
+rand_back
+at 1 do         # the random stream inside the at block is separate and
+                # isolated from the outer stream.
+  puts \"at:\", rand # 0.9287109375
+  puts \"at:\", rand # 0.1043701171875
+end
+
+sleep 2
+puts \"main: \", rand # value is still 0.75006103515625
+",
+
+"
+            # Each block run within at has its own isolated random stream:
+at [1, 2] do
+            # first time round (after 1 beat) prints:
+  puts rand # 0.9287109375
+  puts rand # 0.1043701171875
+end
+            # second time round (after 2 beats) prints:
+            # 0.1043701171875
+            # 0.764617919921875
+"
       ]
 
 
