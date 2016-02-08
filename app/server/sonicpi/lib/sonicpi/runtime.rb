@@ -542,17 +542,16 @@ module SonicPi
       # Otherwise comment
       lines = buf_lines[start_line..finish_line]
 
-      if(lines.all?{|el| el.match(/^\s*##\|.*/) || el.match(/^\s*$/)})
-        # need to uncomment
+      if(lines.all?{|el| el.match(/^\s*#.*?/) || el.match(/^\s*$/)})
+        # need to uncomment ##| style comments
         lines = lines.map do |l|
-          m = l.match(/^(\s*)##\|[ ]?(.*)/)
+          m = l.match(/^(\s*)#[#\| ]*(.*)/)
           if m
             m[1] + m[2] + "\n"
           else
             l
           end
         end
-
       else
         # need to comment
         # find shortest amount of whitespace at beginning of line
