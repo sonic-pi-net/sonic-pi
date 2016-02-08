@@ -662,11 +662,11 @@ void MainWindow::toggleComment(SonicPiScintilla* ws) {
   int start_line, finish_line, point_line, point_index;
   ws->getCursorPosition(&point_line, &point_index);
   if(ws->hasSelectedText()) {
-    statusBar()->showMessage(tr("Commenting selection..."), 2000);
+    statusBar()->showMessage(tr("Toggle selection comment..."), 2000);
     int unused_a, unused_b;
     ws->getSelection(&start_line, &unused_a, &finish_line, &unused_b);
   } else {
-    statusBar()->showMessage(tr("Commenting line..."), 2000);
+    statusBar()->showMessage(tr("Toggle line comment..."), 2000);
     start_line = point_line;
     finish_line = point_line;
   }
