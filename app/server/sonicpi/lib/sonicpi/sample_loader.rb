@@ -54,6 +54,7 @@ module SonicPi
 
         filters.each do |f|
           candidates.keep_if do |v|
+            v = File.basename(v)
             case f
             when String
               v.include? f
