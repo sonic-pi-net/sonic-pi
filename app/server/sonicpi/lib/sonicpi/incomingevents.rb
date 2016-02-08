@@ -180,5 +180,9 @@ module SonicPi
         @continue = false
       end
     end
+
+    def shutdown
+      @handler_thread.kill
+    end
   end
 end

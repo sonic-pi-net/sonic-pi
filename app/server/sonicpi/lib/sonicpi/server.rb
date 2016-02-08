@@ -451,6 +451,7 @@ module SonicPi
 
     def shutdown
       @scsynth.shutdown
+      @osc_events.shutdown
     end
 
   end
