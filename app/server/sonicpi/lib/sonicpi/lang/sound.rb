@@ -3866,7 +3866,9 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         orig_synth_name = synth_name
         synth_name = info ? info.scsynth_name : synth_name
         purge_nil_vals!(args_h)
+        args_h = info.munge_opts(args_h) if info
         validate_if_necessary! info, args_h
+
         job_id = current_job_id
         __no_kill_block do
 

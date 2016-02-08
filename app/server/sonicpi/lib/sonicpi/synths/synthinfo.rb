@@ -43,6 +43,10 @@ module SonicPi
         r + smallest
       end
 
+      def munge_opts(args_h)
+        args_h
+      end
+
       def doc
         "Please write documentation!"
       end
