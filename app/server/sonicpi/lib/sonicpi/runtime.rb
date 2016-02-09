@@ -574,6 +574,14 @@ module SonicPi
       buf = buf + "\n"
       buf_lines = buf.lines.to_a
 
+      buf_lines = buf_lines.map! do |l|
+        if l.match /^\s*$/
+          "_____sonic_pi_tmp_insert_____\n"
+        else
+          l
+        end
+      end
+      buf = buf_lines.join
       ## ensure point isn't beyond buffer
       max_buf_idx = buf_lines.size - 1
       line  = max_buf_idx if line > max_buf_idx
@@ -590,6 +598,9 @@ module SonicPi
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
       beautiful_len = beautiful_lines.size
+      beautiful_lines.map! {|l| l.slice! "_____sonic_pi_tmp_insert_____" ; l}
+
+      beautiful = beautiful_lines.join
       post_line = beautiful_lines[line]
       post_ws_len = post_line[/\A */].size
 
