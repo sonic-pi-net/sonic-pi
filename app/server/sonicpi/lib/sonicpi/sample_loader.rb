@@ -66,7 +66,7 @@ module SonicPi
           end
         end
 
-        candidates = [candidates[idx % candidates.size]] if idx
+        candidates = [candidates[idx % candidates.size]] if(idx && !candidates.empty?)
 
         @cached_candidates[filts_and_sources] = candidates
         #end mutex
