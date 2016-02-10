@@ -1,10 +1,11 @@
 10 Essential Knowledge
 
-# Essential Knowledge
+# Необходимые Знания
 
-This section will cover some very useful - in fact *essential* - knowledge
-for getting the most out of your Sonic Pi experience.
+Этот раздел будет охватывать некоторые очень полезные - на самом деле
+*необходимые* знания, для получения максимальной отдачи от твоего опыта работы
+с Sonic Pi.
 
-We'll cover how to take advantage of the many keyboard shortcuts
-available to you, how to share your work and some tips on performing
-with Sonic Pi.
+Мы поговорим о том, как получить пользу от множества доступных тебе
+клавиатурных сочетаний, как делиться своими работами, а ещё, я дам тебе
+несколько советов о выступлениях с Sonic Pi.
