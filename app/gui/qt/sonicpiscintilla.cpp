@@ -204,7 +204,7 @@ void SonicPiScintilla::cutLineFromPoint()
   int linenum, index;
   getCursorPosition(&linenum, &index);
 
-  if (text(linenum) == "\n")
+  if (text(linenum).mid(index).contains(QRegExp("^\\s*\\n")))
   {
     setSelection(linenum, index, linenum + 1, 0);
     SendScintilla(SCI_CUT);
