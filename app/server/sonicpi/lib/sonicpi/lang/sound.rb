@@ -2478,6 +2478,8 @@ sample :elec_blip # No delay takes place when attempting to trigger it"]
           examples:      ["# See load_sample for examples"]
 
 
+
+
       def load_sample_at_path(path)
         case path
         when Symbol
@@ -2488,22 +2490,13 @@ sample :elec_blip # No delay takes place when attempting to trigger it"]
         when String
           raise "Attempted to load sample with an empty string as path" if path.empty?
           path = File.expand_path(path)
-          if File.exists?(path) && !File.directory?(path)
-            info, cached = @mod_sound_studio.load_sample(path)
-            __info "Loaded sample #{unify_tilde_dir(path).inspect}" unless cached
-            return info
-          else
-            raise "No sample exists with path:\n  #{unify_tilde_dir(path).inspect}"
-          end
+          info, cached = @mod_sound_studio.load_sample(path)
+          __info "Loaded sample #{unify_tilde_dir(path).inspect}" unless cached
+          return info
         else
           raise "Unknown sample description: #{path.inspect}\n Expected a symbol such as :loop_amen or a string containing a path."
         end
       end
-
-
-
-
-
 
 
 
