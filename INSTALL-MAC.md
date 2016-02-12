@@ -25,7 +25,7 @@
  - The Qt app expects scsynth to exist at a certain path. We can also use a symlink here.
  - `cd /path/to/sonic-pi/root/`
  - `cd app/server/native/osx/`
- - `ln -s /Applications/SuperCollider.app/Contents/Resources/scsynth .`
+ - `ln -s /Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth .`
 
 ## Compile Ruby Server extensions
 
