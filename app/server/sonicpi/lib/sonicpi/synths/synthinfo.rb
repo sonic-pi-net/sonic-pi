@@ -6542,7 +6542,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           doc << "<p class=\"introduced\">"
           doc << "Introduced in " << v.introduced.to_s << "</p>\n\n"
 
-          doc << "<h2>Parameters</h2>\n"
+          doc << "<h2>Options</h2>\n"
 
           doc << "<p><table class=\"details\">\n"
 
@@ -6560,7 +6560,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             doc << "   Default: #{av[:default]}\n"
             doc << "   <br/>#{av[:constraints].join(",").capitalize}\n" unless av[:constraints].empty?
             doc << "   <br/>#{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
-            doc << "   <br/><a href=\"#slide\">Has slide parameters to shape changes</a>\n" if av[:slidable]
+            doc << "   <br/><a href=\"#slide\">Has slide options to shape changes</a>\n" if av[:slidable]
             doc << "   <br/>Scaled with current BPM value\n" if av[:bpm_scale]
             doc << "  </p>\n"
             doc << " </td>\n"
@@ -6572,8 +6572,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
           if any_slidable then
             doc << "<a name=slide></a>\n"
-            doc << "<h2>Slide Parameters</h2>\n"
-            doc << "<p>Any parameter that is slidable has three additional parameters named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:</p>\n"
+            doc << "<h2>Slide Options</h2>\n"
+            doc << "<p>Any parameter that is slidable has three additional options named _slide, _slide_curve, and _slide_shape.  For example, 'amp' is slidable, so you can also set amp_slide, amp_slide_curve, and amp_slide_shape with the following effects:</p>\n"
             slide_args = {
               :_slide => {:default => 0, :doc=>v.generic_slide_doc('parameter')},
               :_slide_shape => {:default=>5, :doc=>v.generic_slide_shape_doc('parameter')},
@@ -6633,7 +6633,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             res << "    - #{av[:modulatable] ? "May be changed whilst playing" : "Can not be changed once set"}\n"
             res << "    - Scaled with current BPM value\n" if av[:bpm_scale]
             res << "    - Accepts note symbols such as :e3\n" if av[:midi]
-            res << "    - Has slide parameters for shaping changes\n" if av[:slidable]
+            res << "    - Has slide options for shaping changes\n" if av[:slidable]
           end
           res << "\n\n"
 
