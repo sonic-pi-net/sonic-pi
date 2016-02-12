@@ -6612,12 +6612,14 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
         get_all.each do |k, v|
           next unless v.is_a? klass
+          next if k.to_s.include? 'replace_'
           snake_case = v.name.downcase.gsub(/ /, "-")
           res << "* [#{v.name}](##{snake_case})\n"
         end
         res << "\n"
         get_all.each do |k, v|
           next unless v.is_a? klass
+          next if k.to_s.include? 'replace_'
           res << "## " << v.name << "\n\n"
           res << "### Key:\n"
           mk = key_mod ? key_mod.call(k) : k
