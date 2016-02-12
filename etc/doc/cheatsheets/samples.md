@@ -53,14 +53,17 @@
 * :guit_harmonics
 * :guit_e_fifths
 * :guit_e_slide
+* :guit_em9
 
 
 ## Miscellaneous Sounds
 * :misc_burp
 
 
-## Percurssive Sounds
+## Percussive Sounds
 * :perc_bell
+* :perc_snap
+* :perc_snap2
 
 
 ## Ambient Sounds
@@ -87,10 +90,34 @@
 * :bass_dnb_f
 
 
+## Snare Drums
+* :sn_dub
+* :sn_dolf
+* :sn_zome
+
+
+## Bass Drums
+* :bd_ada
+* :bd_pure
+* :bd_808
+* :bd_zum
+* :bd_gas
+* :bd_sone
+* :bd_haus
+* :bd_zome
+* :bd_boom
+* :bd_klub
+* :bd_fat
+* :bd_tek
+
+
 ## Sounds for Looping
 * :loop_industrial
 * :loop_compus
 * :loop_amen
 * :loop_amen_full
+* :loop_garzul
+* :loop_mika
+* :loop_breakbeat
 
 
