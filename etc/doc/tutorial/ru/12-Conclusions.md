@@ -1,26 +1,26 @@
 12 Conclusions
 
-# Conclusions
+# Заключение
 
-This concludes the Sonic Pi introductory tutorial. Hopefully you've
-learned something along the way. Don't worry if you feel you didn't
-understand everything - just play and have fun and you'll pick things up
-in your own time. Feel free to dive back in when you have a question that
-might be covered in one of the sections.
+На этом и завершается вводное руководство по Sonic Pi. Надеюсь, вы узнали
+что-нибудь по пути. Не волнуйтесь, если чувствуете, что не всё поняли,
+просто играйте и веселитесь, и всё придёт в своё время. Не стесняйтесь снова
+погрузиться в чтение этого учебника, когда у вас возникнут вопросы, которые
+могут быть раскрыты в одной из секций.
 
-If you have any questions that haven't been covered in the tutorial,
-then please jump onto the [Sonic Pi forums](http://groups.google.com/group/sonic-pi/)
-and ask your question there. You'll find someone friendly and willing to
-lend a hand.
+Если у вас есть вопросы, которые в учебнике освещены не были,
+то, пожалуйста, зайдите на
+[Sonic Pi forums](http://groups.google.com/group/sonic-pi/) и задайте свой
+вопрос там. Вы обязательно найдёте там кого-нибудь доброжелательного и готового
+протянуть руку помощи.
 
-Finally, I also invite you to take a deeper look at the rest of the
-documentation in this help system. There are a number of features that
-haven't been covered in this tutorial that are waiting for your
-discovery.
+Наконец, я также приглашаю вас более детально рассмотреть остальную
+документацию этой справочной системы. Есть ряд особенностей, которые не были
+охвачены в этом учебнике, но ожидают вашего открытия.
 
-So play, have fun, share your code, perform for your friends, show your
-screens and remember:
+Так играйте, веселитесь, делитесь кодом, выступайте для своих друзей,
+показывайте свои экраны и помните:
 
-*There are no mistakes, only opportunities.*
+*Здесь нет ошибок, только возможности.*
 
 [Sam Aaron](http://twitter.com/samaaron)
