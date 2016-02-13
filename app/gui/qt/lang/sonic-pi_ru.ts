@@ -49,7 +49,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="636"/>
         <source>Indenting line...</source>
-        <translation>Отступ линии...</translation>
+        <translation>Отступ строки...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="665"/>
@@ -87,7 +87,7 @@
 external PA systems when performing with Sonic Pi.</source>
         <translatorcomment>Из-за отсутствия контекста непонятно, что такое PA systems</translatorcomment>
         <translation>Расширенные аудио настройки для работы
-с внешними ПА системами.</translation>
+с внешними системами.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="850"/>
@@ -183,7 +183,7 @@ Use these buttons to force the output to the one you want.</source>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Log synths</source>
-        <translation>Журнал синтезаторов</translation>
+        <translation>Журналирование синтезаторов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="898"/>
@@ -198,7 +198,7 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="900"/>
         <source>Clear log on run</source>
-        <translation>Очищать журнал при выполнении</translation>
+        <translation>Очищать журнал при следующем выполнении кода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="901"/>
@@ -212,7 +212,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="903"/>
         <source>Log cues</source>
-        <translation>Журнал сигналов</translation>
+        <translation>Журналирование сигналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="904"/>
@@ -422,7 +422,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1144"/>
         <source>Please consider reporting a bug at</source>
-        <translation>Пожалуйста, рассмотрите возможность сообщать об ошибке в</translation>
+        <translation>Пожалуйста, рассмотрите возможность сообщить об ошибке в</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
@@ -587,7 +587,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2008"/>
         <source>Toggle preferences pane</source>
-        <translation>Показать/скрыть панель настроек</translation>
+        <translation>Показать/скрыть панель параметров</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2012"/>
