@@ -2575,6 +2575,116 @@ module SonicPi
 
     end
 
+    class ChipLead < SonicPiSynth
+      def name
+        "Chip Lead"
+      end
+
+      def introduced
+        Version.new(2,10,0)
+      end
+
+      def synth_name
+        "chiplead"
+      end
+
+      def doc
+        "A slightly clipped square (pulse) wave with phases of 12.5%, 25% or 50% modelled after the 2A03 chip found in voices 1 and 2 of the NES games console. This can be used for retro sounding leads and harmonised lines. This also adds a parameter 'note_slide_step' which locks the note slide to certain pitches which are multiples of the step size. This allows for emulation of the sweep setting on the 2A03."
+      end
+
+      def arg_defaults
+        {
+          :note => 60,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :note_slide_step => 0.1,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :env_curve => 2,
+
+          :width_mode => 0
+        }
+      end
+
+      def specific_arg_info
+        {
+          :width_mode =>
+          {
+            :doc => "Which of the three pulse_widths to use - 0 => 12.5%, 1 => 25%, 2 => 50%",
+            :validations => [v_one_of(:width_mode, [0, 1, 2])],
+            :modulatable => true,
+          },
+
+          :note_slide_step =>
+          {
+            :doc => "Locks the note slide to be multiples of this (MIDI) number, producing a staircase of notes rather than a continuous line which is how things were on the NES. Set to 0 to disable.",
+            :validations => [v_positive(:note_slide_step)],
+            :modulatable => true
+          },
+        }
+      end
+    end
+
+    class ChipBass < SonicPiSynth
+      def name
+        "Chip Bass"
+      end
+
+      def introduced
+        Version.new(2,10,0)
+      end
+
+      def synth_name
+        "chipbass"
+      end
+
+      def doc
+        "A 16 step triangle wave modelled after the 2A03 chip found in voice 3 of the NES games console. This can be used for retro sounding basslines. For complete authenticity with the 2A03 bear in mind that the triangle channel on that chip didn't have a volume control."
+      end
+
+      def arg_defaults
+        {
+          :note => 60,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :note_slide_step => 0.1,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :env_curve => 2,
+        }
+      end
+    end
+
     class Pitchless < SonicPiSynth
     end
 
@@ -2701,6 +2811,70 @@ module SonicPi
         "Generates noise whose values are either -1 or 1. This produces the maximum energy for the least peak to peak amplitude. Useful for generating percussive sounds such as snares and hand claps. Also useful for simulating wind or sea effects."
       end
 
+    end
+
+    class ChipNoise < Noise
+      def name
+        "Chip Noise"
+      end
+
+      def introduced
+        Version.new(2,10,0)
+      end
+
+      def synth_name
+        "chipnoise"
+      end
+
+      def doc
+        "Generates noise whose values are either -1 or 1 (like a pulse or square wave) with one of 16 particular frequencies. This is similar to the noise channel on the 2A03 chip used in the NES games console, although it lacks the same Pseudo-Random Number Generator (PRNG) and doesn't implement the 2A03's lesser used noise mode. The amplitude envelope defaults to moving by step to keep that 16 bit feel and this synth also has a slight soft clipping to better imitate the original sound of the device. Use for retro effects, hand claps, snare drums and hi-hats."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 0,
+          :amp_slide_curve => 1,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 1,
+          :release => 0,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :env_curve => 0,
+
+          :freq_band => 0,
+          :freq_band_slide => 0,
+          :freq_band_slide_shape => 1,
+          :freq_band_slide_curve => 0,
+        }
+      end
+
+      def specific_arg_info
+        {
+          :freq_band =>
+          {
+            :doc => "Which of the 16 frequency bands to use, from 0 to 15. These range from 220Hz to 225kHz as on the original chip. This arg will accept floats but round to the nearest integer to allow for sweeping through the 16 set points with envelopes.",
+            :validations => [v_between_inclusive(:freq_band, 0, 15)],
+            :modulatable => true,
+          },
+
+          :freq_band_slide =>
+          {
+            :doc => generic_slide_doc(:freq_band),
+            :validations => [v_positive(:freq_band_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+        }
+      end
     end
 
     class StudioInfo < SonicPiSynth
@@ -6386,6 +6560,8 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :mod_beep => ModSine.new,
         :mod_tri => ModTri.new,
         :mod_pulse => ModPulse.new,
+        :chiplead => ChipLead.new,
+        :chipbass => ChipBass.new,
         :tb303 => TB303.new,
         :supersaw => Supersaw.new,
         :hoover => Hoover.new,
@@ -6408,6 +6584,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :bnoise => BNoise.new,
         :gnoise => GNoise.new,
         :cnoise => CNoise.new,
+        :chipnoise => ChipNoise.new,
 
         :basic_mono_player => BasicMonoPlayer.new,
         :basic_stereo_player => BasicStereoPlayer.new,
