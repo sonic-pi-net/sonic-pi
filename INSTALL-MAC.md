@@ -28,7 +28,23 @@
  - `ln -s /Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth .`
 
 ## Compile Ruby Server extensions
+### Prerequisites
+In order to compile the ruby libraries successfully, make sure you have
+the following programs installed:
 
+* [cmake](https://cmake.org)
+* [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
+
+If you want to check whether you have them installed already, you can do
+so by typing the following commands in your terminal:
+
+* `cmake` - If installed, it will show the usage of the program
+* `pkg-config` - If installed, it will show a message indicating that a 
+package name should be specified.
+
+Installation of both the programs can be done through Homebrew or MacPorts
+
+### Compiling
 Sonic Pi uses some ruby libraries which have native extensions. We need
 to compile these with the provided script:
 
