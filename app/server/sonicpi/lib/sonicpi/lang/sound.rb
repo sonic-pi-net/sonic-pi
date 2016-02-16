@@ -1342,7 +1342,11 @@ end
 
 
       def play(n, *args)
-        synth nil, {note: n}, *args
+        if n.is_a?(Hash) && args.empty?
+          synth nil, n
+        else
+          synth nil, {note: n}, *args
+        end
       end
       doc name:          :play,
           introduced:    Version.new(2,0,0),
