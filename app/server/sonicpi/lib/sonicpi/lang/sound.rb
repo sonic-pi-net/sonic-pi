@@ -1342,17 +1342,7 @@ end
 
 
       def play(n, *args)
-        ensure_good_timing!
-        case n
-        when Numeric, String, Symbol
-          return synth nil, {note: n}, *args
-        when  Array, SonicPi::Core::RingVector
-          return synth nil, {notes: n}, *args
-        when Proc
-          return synth nil, n.call, *args
-        else
-          return synth nil, n, *args
-        end
+        synth nil, {note: n}, *args
       end
       doc name:          :play,
           introduced:    Version.new(2,0,0),
@@ -2955,7 +2945,7 @@ puts status # Returns something similar to:
         when Proc
           return note(n.call, *args)
         when Hash
-          return note(n[:note], *args)
+          raise "Unable to create a note from the Map: #{n.inspect}"
         end
 
         return Note.resolve_midi_note_without_octave(n) if args.empty?
