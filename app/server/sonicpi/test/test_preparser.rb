@@ -23,7 +23,7 @@ module SonicPi
 
     def test_basic_ring_change
       a = "(ring 50, 60, 70)"
-      b = "ring( 50, 60, 70)"
+      b = " ring( 50, 60, 70)"
       assert_equal(b, PreParser.preparse(a))
     end
 
