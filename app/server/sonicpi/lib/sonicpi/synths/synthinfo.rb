@@ -2683,6 +2683,17 @@ module SonicPi
           :env_curve => 2,
         }
       end
+
+      def specific_arg_info
+        {
+          :note_slide_step =>
+          {
+            :doc => "Locks the note slide to be multiples of this (MIDI) number, producing a staircase of notes rather than a continuous line which is how things were on the NES. Set to 0 to disable. This wasn't a feature of this triangle (bass) channel on the original chip but some emulators have added it in since.",
+            :validations => [v_positive(:note_slide_step)],
+            :modulatable => true
+          },
+        }
+      end
     end
 
     class Pitchless < SonicPiSynth
