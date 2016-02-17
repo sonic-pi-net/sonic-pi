@@ -39,6 +39,7 @@ unix:!macx {
     LIBS += -lqt5scintilla2
   }
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+  RUBY_PATH = /usr/bin/ruby
 }
 
 # Mac OS X only
@@ -48,6 +49,7 @@ macx {
   QT += macextras
   DEFINES += DONT_USE_OSX_KEYS
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+  RUBY_PATH = ../../server/native/osx/ruby/bin/ruby
 }
 
 # Windows only
@@ -55,6 +57,7 @@ win32 {
   LIBS += -lqscintilla2
   QMAKE_CXXFLAGS += /WX
   DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS
+  RUBY_PATH = ..\..\server\native\windows\ruby\bin\ruby
 }
 
 CODECFORSRC = UTF-8
@@ -63,7 +66,7 @@ CODECFORTR = UTF-8
 TEMPLATE = app
 
 sonicpidocs.name = Generate HTML files and ruby_help.h from markdown files
-sonicpidocs.commands = ../../server/bin/qt-doc.rb -o ruby_help.h
+sonicpidocs.commands = $${RUBY_PATH} ../../server/bin/qt-doc.rb -o ruby_help.h
 sonicpidocs.target = ruby_help.h
 sonicpidocs.depends = FORCE
 
