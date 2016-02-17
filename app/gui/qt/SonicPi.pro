@@ -62,6 +62,14 @@ CODECFORTR = UTF-8
 
 TEMPLATE = app
 
+sonicpidocs.name = Generate HTML files and ruby_help.h from markdown files
+sonicpidocs.commands = ../../server/bin/qt-doc.rb -o ruby_help.h
+sonicpidocs.target = ruby_help.h
+sonicpidocs.depends = FORCE
+
+PRE_TARGETDEPS += ruby_help.h
+QMAKE_EXTRA_TARGETS += sonicpidocs
+
 SOURCES += main.cpp \
            mainwindow.cpp \
            sonicpilexer.cpp \
