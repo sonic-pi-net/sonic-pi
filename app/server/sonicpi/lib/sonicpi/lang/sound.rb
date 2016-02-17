@@ -88,7 +88,7 @@ module SonicPi
             @server_init_args = splat.take(4)
 
             @mod_sound_home_dir = Dir.home
-            @simple_sampler_args = [:amp, :amp_slide, :amp_slide_shape, :amp_slide_curve, :pan, :pan_slide, :pan_slide_shape, :pan_slide_curve, :cutoff, :cutoff_slide, :cutoff_slide_shape, :cutoff_slide_curve, :res, :res_slide, :res_slide_shape, :res_slide_curve, :rate, :slide, :beat_stretch, :rpitch, :attack, :decay, :sustain, :release, :attack_level, :decay_level, :sustain_level, :env_curve]
+            @simple_sampler_args = [:amp, :amp_slide, :amp_slide_shape, :amp_slide_curve, :pan, :pan_slide, :pan_slide_shape, :pan_slide_curve, :cutoff, :cutoff_slide, :cutoff_slide_shape, :cutoff_slide_curve, :lpf, :lpf_slide, :lpf_slide_shape, :lpf_slide_curve, :hpf, :hpf_slide, :hpf_slide_shape, :hpf_slide_curve, :rate, :slide, :beat_stretch, :rpitch, :attack, :decay, :sustain, :release, :attack_level, :decay_level, :sustain_level, :env_curve]
 
             @tuning = Tuning.new
 
@@ -2816,23 +2816,48 @@ Check out the `use_sample_pack` for details on making it easy to work with a who
                           :finish        => "Position in sample as a fraction between 0 and 1 to end playback. Default is 1.",
                           :pan           => "Stereo position of audio. -1 is left ear only, 1 is right ear only, and values in between position the sound accordingly. Default is 0",
                           :amp           => "Amplitude of playback",
-                          :norm          => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
-                          :cutoff               => "Cutoff value of the built-in resonant low pass filter (rlpf) in MIDI notes. Unless specified, the rlpf is *not* added to the signal chain.",
-                          :cutoff_attack_level  => "The peak cutoff (value of cutoff at peak of attack) as a MIDI note. Default value is 130.",
-                          :cutoff_decay_level   => "The level of cutoff after the decay phase as a MIDI note. Default value is `:cutoff_attack_level`.",
-                          :cutoff_sustain_level => "The sustain cutoff (value of cutoff at sustain time) as a MIDI note. Default value is `:cutoff_decay_level`.",
-                          :cutoff_attack        => "Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
-                          :cutoff_decay         => "Decay time for cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.",
-                          :cutoff_sustain       =>  "Amount of time for cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.",
-                          :cutoff_release       => "Amount of time (in beats) for sound to move from cutoff sustain value to cutoff min value. Default value is set to match amp envelope's release value.",
-                          :cutoff_env_curve     => "Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
-                          :res           => "Cutoff-specific opt. Only honoured if cutoff: is specified. Filter resonance as a value between 0 and 1. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
+                          :pre_amp           => "Amplitude multiplier which takes place immediately before any internal FX such as the low pass filter, compressor or pitch modification. Use this opt if you want to overload the compressor.",
+                          :norm              => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
+                          :lpf               => "Cutoff value of the built-in low pass filter (lpf) in MIDI notes. Unless specified, the rlpf is *not* added to the signal chain.",
+                          :lpf_attack_level  => "The peak lpf cutoff (value of cutoff at peak of attack) as a MIDI note. Default value is 130.",
+                          :lpf_decay_level   => "The level of lpf cutoff after the decay phase as a MIDI note. Default value is `:lpf_attack_level`.",
+                          :lpf_sustain_level => "The sustain cutoff (value of lpf cutoff at sustain time) as a MIDI note. Default value is `:lpf_decay_level`.",
+                          :lpf_attack        => "Attack time for lpf cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
+                          :lpf_decay         => "Decay time for lpf cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.",
+                          :lpf_sustain       =>  "Amount of time for lpf cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.",
+                          :lpf_release       => "Amount of time (in beats) for sound to move from lpf cutoff sustain value to lpf cutoff min value. Default value is set to match amp envelope's release value.",
+                          :lpf_min           => "Starting value of the lpf cutoff envelope. Default is 30 ",
+                          :lpf_env_curve     => "Select the shape of the curve between levels in the lpf cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
+                          :hpf               => "Cutoff value of the built-in low pass filter (hpf) in MIDI notes. Unless specified, the rhpf is *not* added to the signal chain.",
+                          :hpf_attack_level  => "The peak hpf cutoff (value of cutoff at peak of attack) as a MIDI note. Default value is 130.",
+                          :hpf_decay_level   => "The level of hpf cutoff after the decay phase as a MIDI note. Default value is `:hpf_attack_level`.",
+                          :hpf_sustain_level => "The sustain cutoff (value of hpf cutoff at sustain time) as a MIDI note. Default value is `:hpf_decay_level`.",
+                          :hpf_attack        => "Attack time for hpf cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
+                          :hpf_decay         => "Decay time for hpf cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.",
+                          :hpf_sustain       =>  "Amount of time for hpf cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.",
+                          :hpf_release       => "Amount of time (in beats) for sound to move from hpf cutoff sustain value to hpf cutoff min value. Default value is set to match amp envelope's release value.",
+                          :hpf_env_curve     => "Select the shape of the curve between levels in the hpf cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
+                          :hpf_max           => "Starting value of the hpf cutoff envelope. Default is 50",
                           :rpitch        => "Rate modified pitch. Multiplies the rate by the appropriate ratio to shift up or down the specified amount in MIDI notes. Please note - this does *not* keep the duration and rhythmical rate constant and ie essentially the same as modifying the rate directly.",
                           :pitch         => "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.",
                           :window_size   => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed. The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
                           :pitch_dis     => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
                           :time_dis      => "Pitch shift-specific opt - only honoured if the pitch: opt is used. Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.",
-                          :slide         => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value" },
+
+
+                          :compress => "Enable the compressor. This sits at the end of the internal FX chain immediately before the `amp:` opt. Therefore to drive the compressor use the `pre_amp:` opt which will amplify the signal before it hits any internal FX. The compressor compresses the dynamic range of the incoming signal. Equivalent to automatically turning the amp down when the signal gets too loud and then back up again when it's quiet. Useful for ensuring the containing signal doesn't overwhelm other aspects of the sound. Also a general purpose hard-knee dynamic range processor which can be tuned via the opts to both expand and compress the signal.",
+
+                          :threshold => "Threshold value determining the break point between slope_below and slope_above. Only valid if the compressor is enabled by turning on the comp: opt.",
+
+                          :slope_below => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the comp: opt.",
+                          :slope_above => "Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the comp: opt.",
+
+                          :clamp_time => "Time taken for the amplitude adjustments to kick in fully (in seconds). This is usually pretty small (not much more than 10 milliseconds). Also known as the time of the attack phase. Only valid if the compressor is enabled by turning on the comp: opt.",
+
+                          :relax_time => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase. Only valid if the compressor is enabled by turning on the comp: opt.",
+
+
+                          :slide      => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value" },
           accepts_block: false,
           intro_fn:       true,
 

@@ -43,6 +43,14 @@ module SonicPi
         r + smallest
       end
 
+      def alias_opts!(alias_opt, orig_opt, args_h)
+        if args_h.has_key?(alias_opt) && !args_h.has_key?(orig_opt)
+          args_h[orig_opt] = args_h[alias_opt]
+          args_h.delete(alias_opt)
+        end
+        args_h
+      end
+
       def munge_opts(args_h)
         args_h
       end
@@ -2940,6 +2948,14 @@ module SonicPi
         ""
       end
 
+      def munge_opts(args_h)
+        alias_opts!(:cutoff, :lpf, args_h)
+        alias_opts!(:cutoff_slide, :lpf_slide, args_h)
+        alias_opts!(:cutoff_slide_curve, :lpf_slide_curve, args_h)
+        alias_opts!(:cutoff_slide_shape, :lpf_slide_shape, args_h)
+        args_h
+      end
+
       def arg_defaults
         {
           :amp => 1,
@@ -2951,14 +2967,14 @@ module SonicPi
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
           :rate => 1,
-          :cutoff => 0,
-          :cutoff_slide => 0,
-          :cutoff_slide_shape => 1,
-          :cutoff_slide_curve => 0,
-          :res => 0,
-          :res_slide => 0,
-          :res_slide_shape => 1,
-          :res_slide_curve => 0,
+          :lpf => -1,
+          :lpf_slide => 0,
+          :lpf_slide_shape => 1,
+          :lpf_slide_curve => 0,
+          :hpf => -1,
+          :hpf_slide => 0,
+          :hpf_slide_shape => 1,
+          :hpf_slide_curve => 0
         }
       end
 
@@ -3023,6 +3039,40 @@ module SonicPi
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
 
+          :lpf => -1,
+          :lpf_slide => 0,
+          :lpf_slide_shape => 1,
+          :lpf_slide_curve => 0,
+          :lpf_attack => 0,
+          :lpf_decay => 0,
+          :lpf_sustain => -1,
+          :lpf_release => 0,
+          :lpf_attack_level => -1,
+          :lpf_decay_level => -1,
+          :lpf_sustain_level => -1,
+          :lpf_env_curve => 2,
+          :lpf_min => -1,
+          :lpf_min_slide => 0,
+          :lpf_min_slide_shape => 1,
+          :lpf_min_slide_curve => 0,
+
+          :hpf => -1,
+          :hpf_slide => 0,
+          :hpf_slide_shape => 1,
+          :hpf_slide_curve => 0,
+          :hpf_attack => 0,
+          :hpf_sustain => -1,
+          :hpf_decay => 0,
+          :hpf_release => 0,
+          :hpf_attack_level => -1,
+          :hpf_decay_level => -1,
+          :hpf_sustain_level => -1,
+          :hpf_env_curve => 2,
+          :hpf_max => -1,
+          :hpf_max_slide => 0,
+          :hpf_max_slide_shape => 1,
+          :hpf_max_slide_curve => 0,
+
           :attack => 0,
           :decay => 0,
           :sustain => -1,
@@ -3033,31 +3083,12 @@ module SonicPi
           :sustain_level => 1,
           :env_curve => 2,
 
-          :cutoff_attack => 0,
-          :cutoff_decay => 0,
-          :cutoff_sustain => -1,
-          :cutoff_release => 0,
-          :cutoff_attack_level => :cutoff,
-          :cutoff_decay_level => :cutoff,
-          :cutoff_sustain_level => :cutoff,
-          :cutoff_env_curve => 2,
-          :cutoff_min => 30,
-          :cutoff_min_slide => 0,
-          :cutoff_min_slide_shape => 1,
-          :cutoff_min_slide_curve => 0,
 
           :rate => 1,
           :start => 0,
           :finish => 1,
 
-          :res => 0,
-          :res_slide => 0,
-          :res_slide_shape => 1,
-          :res_slide_curve => 0,
-          :cutoff => 0,
-          :cutoff_slide => 0,
-          :cutoff_slide_shape => 1,
-          :cutoff_slide_curve => 0,
+
           :norm => 0,
 
           :pitch => 0,
@@ -3162,13 +3193,6 @@ module SonicPi
             :modulatable => true
           },
 
-          :res =>
-          {
-            :doc => "Filter resonance as a value between 0 and 1. Only functional if a cutoff value is specified. Large amounts of resonance (a res: near 1) can create a whistling sound around the cutoff frequency. Smaller values produce less resonance.",
-            :validations => [v_positive(:res), v_less_than(:res, 1)],
-            :modulatable => true
-          },
-
           :window_size =>
           {
             :doc => "Pitch shift works by chopping the input into tiny slices, then playing these slices at a higher or lower rate. If we make the slices small enough and overlap them, it sounds like the original sound with the pitch changed.
@@ -3191,79 +3215,156 @@ module SonicPi
             :modulatable => true
           },
 
-          :cutoff_attack_level =>
+          :lpf_attack_level =>
           {
             :doc => "The peak cutoff (value of cutoff at peak of attack) as a MIDI note.",
-            :validations => [v_between_inclusive(:cutoff_attack_level, 0, 130)],
+            :validations => [v_between_inclusive(:lpf_attack_level, 0, 130)],
             :modulatable => false
           },
 
-          :cutoff_decay_level =>
+          :lpf_decay_level =>
           {
             :doc => "The level of cutoff after the decay phase as a MIDI note.",
-            :validations => [v_between_inclusive(:cutoff_decay_level, 0, 130)],
+            :validations => [v_between_inclusive(:lpf_decay_level, 0, 130)],
             :modulatable => false
           },
 
 
-          :cutoff_sustain_level =>
+          :lpf_sustain_level =>
           {
             :doc => "The sustain cutoff (value of cutoff at sustain time) as a MIDI note.",
-            :validations => [v_between_inclusive(:cutoff_sustain_level, 0, 130)],
+            :validations => [v_between_inclusive(:lpf_sustain_level, 0, 130)],
             :modulatable => false
           },
 
-          :cutoff_attack =>
+          :lpf_attack =>
           {
             :doc => "Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
-            :validations => [v_positive(:cutoff_attack)],
+            :validations => [v_positive(:lpf_attack)],
             :modulatable => false,
             :default => "attack"
           },
 
-          :cutoff_decay =>
+          :lpf_decay =>
           {
             :doc => "Decay time for cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.",
-            :validations => [v_positive(:cutoff_decay)],
+            :validations => [v_positive(:lpf_decay)],
             :modulatable => false,
             :default => "decay"
           },
 
-          :cutoff_sustain =>
+          :lpf_sustain =>
           {
             :doc => "Amount of time for cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.",
-            :validations => [[lambda{|args| v = args[:cutoff_sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+            :validations => [[lambda{|args| v = args[:lpf_sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
             :modulatable => false,
             :default => "sustain"
           },
 
-          :cutoff_release =>
+          :lpf_release =>
           {
             :doc => "Amount of time (in beats) for sound to move from cutoff sustain value to cutoff min value. Default value is set to match amp envelope's release value.",
-            :validations => [v_positive(:cutoff_release)],
+            :validations => [v_positive(:lpf_release)],
             :modulatable => false,
             :default => "release"
           },
 
-          :cutoff_env_curve =>
+          :lpf_env_curve =>
           {
             :doc => "Select the shape of the curve between levels in the cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
-            :validations => [v_one_of(:cutoff_env_curve, [1, 2, 3, 4, 6, 7])],
+            :validations => [v_one_of(:lpf_env_curve, [1, 2, 3, 4, 6, 7])],
             :modulatable => false
           },
 
-          :cutoff_min =>
+          :lpf_min =>
           {
             :doc => "The minimum cutoff value.",
-            :validations => [v_less_than_oet(:cutoff_min, 130)],
+            :validations => [v_less_than_oet(:lpf_min, 130)],
             :modulatable => true,
             :midi => true
           },
 
-          :cutoff_min_slide =>
+          :lpf_min_slide =>
           {
-            :doc => generic_slide_doc(:cutoff_min),
-            :validations => [v_positive(:cutoff_min_slide)],
+            :doc => generic_slide_doc(:lpf_min),
+            :validations => [v_positive(:lpf_min_slide)],
+            :modulatable => true,
+            :bpm_scale => true
+          },
+
+          :hpf_attack_level =>
+          {
+            :doc => "The peak hpf cutoff (value of hpf cutoff at peak of attack) as a MIDI note.",
+            :validations => [v_between_inclusive(:hpf_attack_level, 0, 130)],
+            :modulatable => false
+          },
+
+          :hpf_decay_level =>
+          {
+            :doc => "The level of hpf cutoff after the decay phase as a MIDI note.",
+            :validations => [v_between_inclusive(:hpf_decay_level, 0, 130)],
+            :modulatable => false
+          },
+
+
+          :hpf_sustain_level =>
+          {
+            :doc => "The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.",
+            :validations => [v_between_inclusive(:hpf_sustain_level, 0, 130)],
+            :modulatable => false
+          },
+
+          :hpf_attack =>
+          {
+            :doc => "Attack time for hpf cutoff filter. Amount of time (in beats) for sound to reach full hpf cutoff value. Default value is set to match amp envelope's attack value.",
+            :validations => [v_positive(:hpf_attack)],
+            :modulatable => false,
+            :default => "attack"
+          },
+
+          :hpf_decay =>
+          {
+            :doc => "Decay time for hpf cutoff filter. Amount of time (in beats) for sound to move from full hpf cutoff value (cutoff attack level) to the hpf cutoff sustain level. Default value is set to match amp envelope's decay value.",
+            :validations => [v_positive(:hpf_decay)],
+            :modulatable => false,
+            :default => "decay"
+          },
+
+          :hpf_sustain =>
+          {
+            :doc => "Amount of time for hpf cutoff value to remain at hpf sustain level in beats. When -1 (the default) will auto-stretch.",
+            :validations => [[lambda{|args| v = args[:hpf_sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+            :modulatable => false,
+            :default => "sustain"
+          },
+
+          :hpf_release =>
+          {
+            :doc => "Amount of time (in beats) for sound to move from hpf cutoff sustain value to hpf cutoff min value. Default value is set to match amp envelope's release value.",
+            :validations => [v_positive(:hpf_release)],
+            :modulatable => false,
+            :default => "release"
+          },
+
+          :hpf_env_curve =>
+          {
+            :doc => "Select the shape of the curve between levels in the hpf cutoff envelope. 1=linear, 2=exponential, 3=sine, 4=welch, 6=squared, 7=cubed",
+            :validations => [v_one_of(:hpf_env_curve, [1, 2, 3, 4, 6, 7])],
+            :modulatable => false
+          },
+
+          :hpf_max =>
+          {
+            :doc => "The minimum cutoff value.",
+            :validations => [v_less_than_oet(:hpf_min, 130)],
+            :modulatable => true,
+            :midi => true
+          },
+
+          :hpf_max_slide =>
+          {
+            :doc => generic_slide_doc(:hpf_max),
+            :validations => [v_positive(:hpf_max_slide)],
             :modulatable => true,
             :bpm_scale => true
           },
