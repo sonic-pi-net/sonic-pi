@@ -83,7 +83,7 @@ module SonicPi
     def consume_filt_or_source!(filt_or_source, idx, filters, dirs, candidates)
       case filt_or_source
       when Symbol
-        filters << /#{filt_or_source}\.(wav|aif|wave|aiff)/
+        filters << /#{filt_or_source}\.(wav|aif|wave|aiff|flac)/
       when Integer
         idx = filt_or_source
       when String
