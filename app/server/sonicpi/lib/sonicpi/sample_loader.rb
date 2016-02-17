@@ -76,7 +76,7 @@ module SonicPi
     end
 
     def ls_samples(path)
-      Dir.glob(path + "/*.{wav,aif,wave,aiff,flac}")
+      Dir.glob(path + "/*.{wav,wave,aif,aiff,flac}")
     end
 
     private
