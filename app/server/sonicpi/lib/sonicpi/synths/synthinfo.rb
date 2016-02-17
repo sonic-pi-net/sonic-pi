@@ -2663,7 +2663,7 @@ module SonicPi
           :note_slide => 0,
           :note_slide_shape => 1,
           :note_slide_curve => 0,
-          :note_slide_step => 0.1,
+          :note_resolution => 0.1,
           :amp => 1,
           :amp_slide => 0,
           :amp_slide_shape => 1,
@@ -2686,10 +2686,10 @@ module SonicPi
 
       def specific_arg_info
         {
-          :note_slide_step =>
+          :note_resolution =>
           {
-            :doc => "Locks the note slide to be multiples of this (MIDI) number, producing a staircase of notes rather than a continuous line which is how things were on the NES. Set to 0 to disable. This wasn't a feature of this triangle (bass) channel on the original chip but some emulators have added it in since.",
-            :validations => [v_positive(:note_slide_step)],
+            :doc => "Locks down the note resolution to be multiples of this (MIDI) number. For example, a `note_resolution:` of 1 will only allow semitones to be played. When used in conjunction with `note_slide:` produces a staircase of notes rather than a continuous line which is how things were on the NES. Set to 0 to disable. This wasn't a feature of this triangle (bass) channel on the original chip but some emulators have added it in since.",
+            :validations => [v_positive(:note_resolution)],
             :modulatable => true
           },
         }

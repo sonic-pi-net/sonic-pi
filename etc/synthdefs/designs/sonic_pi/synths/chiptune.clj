@@ -22,7 +22,7 @@
      note_slide 0
      note_slide_shape 1
      note_slide_curve 0
-     note_slide_step 0.1
+     note_resolution 0.1
      amp 1
      amp_slide 0
      amp_slide_shape 1
@@ -42,7 +42,7 @@
      width_mode 0
      out_bus 0]
     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
-          note        (round-down (varlag note note_slide note_slide_curve note_slide_shape) note_slide_step)
+          note        (round-down (varlag note note_slide note_slide_curve note_slide_shape) note_resolution)
           freq        (midicps note)
           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           amp-fudge   0.8
