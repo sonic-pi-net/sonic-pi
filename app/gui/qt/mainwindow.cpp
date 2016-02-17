@@ -2493,7 +2493,7 @@ void MainWindow::updateVersionNumber(QString v, int v_num,QString latest_v, int 
   latest_version_num = latest_v_num;
 
   // update status bar
-  versionLabel->setText(QString("Sonic Pi " + v + " on " + platform));
+  versionLabel->setText(QString("Sonic Pi " + v + " on " + platform + " "));
 
   // update preferences
   QString last_update_check = tr("Last checked %1").arg(last_checked.toString());
