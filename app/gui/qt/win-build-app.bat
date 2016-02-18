@@ -1,5 +1,10 @@
 cd %~dp0
 
+copy /Y ruby_help.tmpl ruby_help.h
+..\..\server\native\windows\ruby\bin\ruby ../../server/bin/qt-doc.rb -o ruby_help.h
+@IF ERRORLEVEL==9009 goto :noruby
+@IF ERRORLEVEL==1 goto :docfail
+
 lrelease SonicPi.pro
 @IF ERRORLEVEL==9009 goto :noqt
 
