@@ -259,19 +259,18 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
 end
 
 
+# update ruby_help.h
 if options[:output_name] then
    cpp = options[:output_name]
 else
    cpp = "#{qt_gui_path}/ruby_help.h"
 end
 
-new_content = [<<INCLUDEHEADER]
-// AUTO-GENERATED-DOCS
-// Do not manually add any code below this comment
-// otherwise it may be removed
-
-INCLUDEHEADER
-
+content = File.readlines(cpp)
+new_content = content.take_while { |line| !line.start_with?("// AUTO-GENERATED-DOCS")}
+new_content << "// AUTO-GENERATED-DOCS\n"
+new_content << "// Do not manually add any code below this comment\n"
+new_content << "// otherwise it may be removed\n"
 new_content << "\n"
 new_content << "void MainWindow::initDocsWindow() {\n"
 new_content += docs
