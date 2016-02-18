@@ -329,12 +329,9 @@ void MainWindow::setupWindowStructure() {
     //escape
     QShortcut *escape = new QShortcut(ctrlKey('g'), workspace);
     QShortcut *escape2 = new QShortcut(QKeySequence("Escape"), workspace);
-    connect(escape, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
-    connect(escape, SIGNAL(activated()), this, SLOT(resetErrorPane()));
-    connect(escape, SIGNAL(activated()), workspace, SLOT(clearLineMarkers()));
-    connect(escape2, SIGNAL(activated()), workspace, SLOT(escapeAndCancelSelection()));
-    connect(escape2, SIGNAL(activated()), this, SLOT(resetErrorPane()));
-    connect(escape2, SIGNAL(activated()), workspace, SLOT(clearLineMarkers()));
+    connect(escape, SIGNAL(activated()), this, SLOT(escapeWorkspaces()));
+    connect(escape2, SIGNAL(activated()), this, SLOT(escapeWorkspaces()));
+
 
     //quick nav by jumping up and down 10 lines at a time
     QShortcut *forwardTenLines = new QShortcut(shiftMetaKey('u'), workspace);
@@ -510,6 +507,15 @@ void MainWindow::setupWindowStructure() {
 
 }
 
+void MainWindow::escapeWorkspaces() {
+  resetErrorPane();
+
+  for (int w=0; w < workspace_max; w++) {
+    workspaces[w]->escapeAndCancelSelection();
+    workspaces[w]->clearLineMarkers();
+  }
+}
+
 void MainWindow::changeTab(int id){
   tabs->setCurrentIndex(id);
 }
@@ -581,7 +587,6 @@ void MainWindow::updateLogVisibility(){
     outputWidget->close();
   }
 }
-
 
 void MainWindow::toggleTabsVisibility() {
   show_tabs->toggle();

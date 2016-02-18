@@ -170,6 +170,7 @@ private slots:
     void showWelcomeScreen();
     void setupWindowStructure();
     void setupTheme();
+    void escapeWorkspaces();
 
 private:
 
