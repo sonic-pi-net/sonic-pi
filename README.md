@@ -95,4 +95,5 @@ Sonic Pi is under active development, and welcomes new contributors:
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/samaaron/sonic-pi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <br/>
-<img src="https://travis-ci.org/samaaron/sonic-pi.svg?branch=master"/>
+[![Travis CI](https://travis-ci.org/samaaron/sonic-pi.svg?branch=master)](https://travis-ci.org/samaaron/sonic-pi)
+
