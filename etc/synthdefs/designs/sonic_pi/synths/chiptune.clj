@@ -39,7 +39,7 @@
      decay_level -1
      sustain_level 1
      env_curve 1
-     width_mode 0
+     width 0
      out_bus 0]
     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
           note        (round-down (varlag note note_slide note_slide_curve note_slide_shape) note_resolution)
@@ -47,10 +47,10 @@
           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           amp-fudge   0.8
           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-          width_mode  (select:kr width_mode [0.125
-                                             0.25
-                                             0.5])
-          snd         (softclip (pulse freq width_mode))
+          width       (select:kr width [0.125
+                                        0.25
+                                        0.5])
+          snd         (softclip (pulse freq width))
           env         (env-gen (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
           snd         (* amp-fudge snd env)]
 
@@ -61,6 +61,7 @@
      note_slide 0
      note_slide_shape 1
      note_slide_curve 0
+     note_resolution 0
      amp 1
      amp_slide 0
      amp_slide_shape 1
@@ -79,7 +80,7 @@
      env_curve 1
      out_bus 0]
     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
-          note        (varlag note note_slide note_slide_curve note_slide_shape)
+          note        (round-down (varlag note note_slide note_slide_curve note_slide_shape) note_resolution)
           freq        (midicps note)
           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
           amp-fudge   1

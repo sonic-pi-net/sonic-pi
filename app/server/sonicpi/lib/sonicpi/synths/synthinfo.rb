@@ -2597,7 +2597,7 @@ module SonicPi
       end
 
       def doc
-        "A slightly clipped square (pulse) wave with phases of 12.5%, 25% or 50% modelled after the 2A03 chip found in voices 1 and 2 of the NES games console. This can be used for retro sounding leads and harmonised lines. This also adds a parameter 'note_slide_step' which locks the note slide to certain pitches which are multiples of the step size. This allows for emulation of the sweep setting on the 2A03."
+        "A slightly clipped square (pulse) wave with phases of 12.5%, 25% or 50% modelled after the 2A03 chip found in voices 1 and 2 of the NES games console. This can be used for retro sounding leads and harmonised lines. This also adds a parameter 'note_resolution' which locks the note slide to certain pitches which are multiples of the step size. This allows for emulation of the sweep setting on the 2A03."
       end
 
       def arg_defaults
@@ -2606,7 +2606,7 @@ module SonicPi
           :note_slide => 0,
           :note_slide_shape => 1,
           :note_slide_curve => 0,
-          :note_slide_step => 0.1,
+          :note_resolution => 0.1,
           :amp => 1,
           :amp_slide => 0,
           :amp_slide_shape => 1,
@@ -2625,23 +2625,23 @@ module SonicPi
           :sustain_level => 1,
           :env_curve => 2,
 
-          :width_mode => 0
+          :width => 0
         }
       end
 
       def specific_arg_info
         {
-          :width_mode =>
+          :width =>
           {
             :doc => "Which of the three pulse_widths to use - 0 => 12.5%, 1 => 25%, 2 => 50%",
-            :validations => [v_one_of(:width_mode, [0, 1, 2])],
+            :validations => [v_one_of(:width, [0, 1, 2])],
             :modulatable => true,
           },
 
-          :note_slide_step =>
+          :note_resolution =>
           {
-            :doc => "Locks the note slide to be multiples of this (MIDI) number, producing a staircase of notes rather than a continuous line which is how things were on the NES. Set to 0 to disable.",
-            :validations => [v_positive(:note_slide_step)],
+            :doc => "Locks down the note resolution to be multiples of this (MIDI) number. For example, a `note_resolution:` of 1 will only allow semitones to be played. When used in conjunction with `note_slide:` produces a staircase of notes rather than a continuous line which is how things were on the NES. Set to 0 to disable. This wasn't a feature of this triangle (bass) channel on the original chip but some emulators have added it in since.",
+            :validations => [v_positive(:note_resolution)],
             :modulatable => true
           },
         }
