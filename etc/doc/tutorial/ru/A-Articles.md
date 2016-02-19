@@ -1,25 +1,25 @@
 A Appendix A - MagPi Articles
 
-# MagPi Articles
+# Статьи MagPi
 
-Appendix A collects all the Sonic Pi articles written for the MagPi
-magazine.
+В Приложении A собраны статьи о Sonic Pi, выходившие в журнале MagPi.
 
-## Dive into Topics
+## Погружение В Тему
 
-These articles aren't meant to be read in any strict order and contain a
-lot of cross-over material from the tutorial itself. Rather than try and
-teach you all of Sonic Pi, they instead each focus on a specific aspect
-of Sonic Pi and cover it in a fun and accessible way.
+Эти статьи не были задуманы для чтения в каком-либо определённом порядке и
+содержат много перекрёстных ссылок на материалы из разных глав этого учебника.
+Вместо того, чтобы пытаться рассказать вам обо всём в Sonic Pi, эти статьи
+фокусируются на определённом аспекте и подают это в весёлой и доступной форме.
 
-## Read the MagPi
+## Читать В MagPi
 
-You can see them in their glorious professionally typeset form in the
-free PDF downloads of The MagPi here: https://www.raspberrypi.org/magpi/
+Вы можете прочесть эти статьи в великолепном, профессионально оформленном виде,
+бесплатно загрузив их в формате PDF из
+[MagPi](https://www.raspberrypi.org/magpi/)
 
-## Suggest a Topic
+## Предложить Тему
 
-If you don't see a topic that interests you covered in these articles -
-why not suggest one? The easiest way to do that is to tweet your
-suggestion to [@Sonic_Pi](http://twitter.com/sonic_pi). You never know -
-your suggestion might be the subject of the next article!
+Если вы не находите интересующую вас тему в этих статьях - почему бы не
+предложить свою? Самый простой способ сделать это - твитнуть в
+[@Sonic_Pi](http://twitter.com/sonic_pi). Кто знает, возможно предложенная вами
+тема станет предметом следующей статьи!
