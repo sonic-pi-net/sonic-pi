@@ -2597,7 +2597,7 @@ module SonicPi
       end
 
       def doc
-        "A slightly clipped square (pulse) wave with phases of 12.5%, 25% or 50% modelled after the 2A03 chip found in voices 1 and 2 of the NES games console. This can be used for retro sounding leads and harmonised lines. This also adds a parameter 'note_resolution' which locks the note slide to certain pitches which are multiples of the step size. This allows for emulation of the sweep setting on the 2A03."
+        "A slightly clipped square (pulse) wave with phases of 12.5%, 25% or 50% modelled after the 2A03 chip found in voices 1 and 2 of the NES games console. This can be used for retro sounding leads and harmonised lines. This also adds an opt 'note_resolution' which locks the note slide to certain pitches which are multiples of the step size. This allows for emulation of the sweep setting on the 2A03."
       end
 
       def arg_defaults
