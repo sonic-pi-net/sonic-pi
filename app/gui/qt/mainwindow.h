@@ -210,7 +210,6 @@ private:
     QString tooltipStrMeta(char key, QString str);
     QString readFile(QString name);
     QString rootPath();
-    QString rubyPath();
 
     void addUniversalCopyShortcuts(QTextEdit *te);
 
