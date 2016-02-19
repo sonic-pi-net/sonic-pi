@@ -133,12 +133,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     ruby_path = root_path + "/server/native/osx/ruby/bin/ruby";
 #else
     ruby_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
+#endif
+
     QFile file(ruby_path);
     if(!file.exists()) {
       // fallback to user's locally installed ruby
       ruby_path = "ruby";
     }
-#endif
 
     ruby_server_path = root_path + "/app/server/bin/sonic-pi-server.rb";
     sample_path = root_path + "/etc/samples";
