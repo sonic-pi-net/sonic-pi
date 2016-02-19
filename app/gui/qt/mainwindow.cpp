@@ -128,7 +128,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QString root_path = rootPath();
     
 #if defined(Q_OS_WIN)
-    ruby_path = root_path + "/app/server/native/windows/ruby/bin/ruby.exe";
+    ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/windows/ruby/bin/ruby.exe");
 #elif defined(Q_OS_MAC)
     ruby_path = root_path + "/server/native/osx/ruby/bin/ruby";
 #else
@@ -141,15 +141,11 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
       ruby_path = "ruby";
     }
 
-    ruby_server_path = root_path + "/app/server/bin/sonic-pi-server.rb";
-    sample_path = root_path + "/etc/samples";
+    ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
+    sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
   }
   
-  ruby_path = QDir::toNativeSeparators(ruby_path);
-  ruby_server_path = QDir::toNativeSeparators(ruby_server_path);
-  sample_path = QDir::toNativeSeparators(sample_path);
-
   sp_user_path = QDir::toNativeSeparators(QDir::homePath() + "/.sonic-pi");
   log_path = QDir::toNativeSeparators(sp_user_path + "/log");
   server_error_log_path = QDir::toNativeSeparators(log_path + "/server-errors.log");
