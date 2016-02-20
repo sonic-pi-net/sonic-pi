@@ -42,9 +42,9 @@ module SonicPi
 
     def to_s
       if @path
-        "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}, @path=#{@path}>"
+        "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{@num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}, @path=#{@path}>"
       else
-        "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}>"
+        "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{@num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}>"
       end
     end
 

@@ -18,7 +18,7 @@ require_relative "controlbusallocator"
 require_relative "promise"
 require_relative "incomingevents"
 require_relative "counter"
-require_relative "buffer"
+require_relative "lazybuffer"
 require_relative "bufferstream"
 require_relative "scsynthexternal"
 #require_relative "scsynthnative"
@@ -332,16 +332,15 @@ module SonicPi
     def buffer_info(id)
       prom = Promise.new
       @osc_events.add_handler(@osc_path_b_info, @osc_events.gensym("/sonicpi/server")) do |payload|
-        if (id == payload.to_a[0])
-          prom.deliver!  payload
+        p = payload.to_a
+        if (id == p[0])
+          p.shift
+          prom.deliver! p
           :remove_handler
         end
       end
       osc @osc_path_b_query, id
-      res = prom.get
-
-      args = res.to_a
-      Buffer.new(self, args[0], args[1], args[2], args[3])
+      LazyBuffer.new(self, id, prom)
     end
 
     def with_done_sync(&block)
