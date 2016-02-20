@@ -1,33 +1,33 @@
 A.1 Tips for Sonic Pi
 
-# Five Top Tips
+# Пять Главных Советов
 
-## 1. There are no mistakes
+## 1. Здесь Нет Ошибок
 
-The most important lesson to learn with Sonic Pi is that there really
-are no mistakes. The best way to learn is to just try and try and
-try. Try lots of different things out, stop worrying whether your code
-sounds good or not and start experimenting with as many different
-synths, notes, FX and opts as possible. You'll discover a lot of things
-that make you laugh because they sound just awful and some real gems
-that sound truly amazing. Simply drop the things you don't like and keep
-the things you do. The more 'mistakes' you allow yourself to make the
-quicker you'll learn and discover your personal coding sound.
+Самый главный урок в обучении работе с Sonic Pi заключается в том, что здесь
+действительно нет ошибок. Лучший способ узнать это - пробовать, пробовать и ещё
+раз пробовать. Перестаньте беспокоиться о том, звучит ли ваш код хорошо или
+нет, и начните экспериментировать с как можно большим количеством различных
+синтезаторов, нот, эффектов и параметров. Вы откроете для себя множество вещей,
+которые заставят вас смеяться, потому что они звучат просто ужасно, но
+некоторые - настоящие жемчужины, звучащие просто потрясающе. Просто отбросьте
+то, что не нравится, и продолжайте делать то, что делаете. Чем больше "ошибок"
+вы позволите себе совершить, тем быстрее вы научитесь и откроете ваш
+собственный уникальный звук.
 
+## 2. Используйте Эффекты
 
-## 2. Use the FX
-
-Say you've already mastered the Sonic Pi basics of making sounds with
-`sample`, `play`? What's next? Did you know that Sonic Pi supports over
-27 studio FX to change the sound of your code? FX are like fancy image
-filters in drawing programs except that instead of blurring or making
-something black and white, you can add things like reverb, distortion
-and echo to your sound. Think of it like sticking the cable from your
-guitar to an effects pedal of your choice and then into the
-amplifier. Luckily, Sonic Pi makes using FX really easy and requires no
-cables! All you need to do is to choose which section of your code you'd
-like the FX added to and wrap it with the FX code. Let's look at an
-example. Say you had the following code:
+Допустим, вы уже освоили основы создания звука в Sonic Pi с помощью `sample` и
+`play`. Что дальше? Знаете ли вы, что Sonic Pi поддерживает более 27 студийных
+эффектов для изменения звука вашего кода? Эффекты похожи на причудливые фильтры
+изображений в графических редакторах, за исключением того, что вместо размытия
+или замены чего-то цветного чёрно-белым, вы можете использовать в своём звуке
+такие вещи, как реверберация, искажения и эхо. Думайте об этом, как о
+подключении кабеля от вашей гитары к педали эффектов, которую вы выбрали, а
+затем к усилителью. К счастью, Sonic Pi делает использование эффектов очень
+простым и не требует никаких проводов! Всё что вам нужно сделать - это выбрать,
+какой именно фрагмент кода вы бы обработали эффектом, и обернуть его в FX код.
+Давайте рассмотрим пример. Скажем, у вас есть следующий код:
 
 
     sample :loop_garzul
@@ -38,8 +38,8 @@ example. Say you had the following code:
     end
 
 
-If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it
-inside a `with_fx` block like this:
+Если вы хотите добавить эффект в `:loop_garzul` сэмпл, просто поместите его
+внутрь `with_fx` блока, как здесь:
 
 
     with_fx :flanger do
@@ -52,8 +52,8 @@ inside a `with_fx` block like this:
     end
 
 
-Now, if you wanted to add FX to the bass drum, go and wrap that with
-`with_fx` too:
+Теперь, если вы захотите добавить эффект к басовому барабану, оберните его
+`with_fx` тоже:
 
 
     with_fx :flanger do
@@ -68,32 +68,33 @@ Now, if you wanted to add FX to the bass drum, go and wrap that with
     end
 
 
-Remember, you can wrap *any* code within `with_fx` and any sounds
-created will pass through that FX. 
+Помните, вы можете обернуть *любой* код в `with_fx`, и любые созданные звуки
+будут проходить через выбранный эффект. 
 
+## 3. Параметризируйте Ваши Синтезаторы
 
-## 3. Parameterise your synths
+Для того, чтобы создать действительно уникальный кодированный звук, вы, 
+вероятно, захотите узнать как модифицировать и контролировать синтезаторы и
+эффекты. Например, вы можете захотеть изменить длительность ноты, добавить
+больше реверберации, или изменить время между повторами эхо. К счастью, Sonic
+Pi даёт вам удивительный уровень контроля с помощью специальных штук,
+называемых параметры. Давайте окинем их беглым взглядом. Скопируйте этот код
+в свободный буфер и нажмите "Выполнить":
 
-In order to really discover your coding sound you'll soon want to know
-how to modify and control synths and FX. For example, you might want to
-change the duration of a note, add more reverb, or change the time
-between echoes. Luckily, Sonic Pi gives you an amazing level of control
-to do exactly this with special things called optional parameters or
-opts for short. Let's take a quick look. Copy this code into a workspace
-and hit run:
 
     sample :guit_em9
 
 
-Ooh, a lovely guitar sound! Now, let's start playing with it. How about
-changing its rate?
+О, прекрасный звук гитары! Теперь, давайте начнём играть с ним. Как насчёт
+изменения его скорости?
+
 
     sample :guit_em9, rate: 0.5
 
 
-Hey, what's that `rate: 0.5` bit I just added at the end? That's called
-an opt. All of Sonic Pi's synths and FX support them and there's loads
-to play around with. They're also available for FX too. Try this:
+Эй, что это за `rate: 0.5` я добавил в конце? Это называется параметр.
+Все синтезаторы и эффекты в Sonic Pi поддерживают их, и их тут множество.
+Они также доступны и для эффектов. Попробуйте это:
 
 
     with_fx :flanger, feedback: 0.6 do
@@ -101,17 +102,19 @@ to play around with. They're also available for FX too. Try this:
     end
 
 
-Now, try increasing that feedback to 1 to hear some crazy sounds! Read the
-docs for full details on all the many opts available to you.
+Теперь, попробуйте увеличить обратную связь до 1, чтобы услышать какие-то
+сумасшедшие звуки! Читайте документацию для получения полной информации о всех
+многочисленных параметрах, доступных для вас.
 
+## 4. Лайвкодинг
 
-## 5. Live Code
+Лучший способ быстро экспериментировать и исследовать Sonic Pi - кодирование в
+реальном времени. Это позволяет вам начать выполнять какой-то код, постоянно
+изменяя и подправляя его в то время, как он звучит. Например, если вы не 
+знаете, что делает с сэмплом параметр частоты среза фильтра, просто играйте его
+по кругу и экспериментируйте.
 
-The best way to quickly experiment and explore Sonic Pi is to live
-code. This allows you to start off some code and continually change and
-tweak it whilst it's still playing. For example, if you don't know what
-the cutoff parameter does to a sample, just play around. Let's have a try!
-Copy this code into one of your Sonic Pi workspaces:
+Давайте пробовать! Скопируйте этот код в буфер вашего Sonic Pi:
 
 
     live_loop :experiment do
@@ -120,21 +123,21 @@ Copy this code into one of your Sonic Pi workspaces:
     end
 
 
-Now, hit run and you'll hear a slightly muffled drum break. Now, change
-the `cutoff:` value to `80` and hit run again. Can you hear the
-difference? Try `90`, `100`, `110`...
+Теперь, нажмите "Выполнить" и вы будете слышать чуть приглушенный барабанный
+брейк. Измените значение `cutoff:` на `80` и нажмите "Выполнить" снова. Слышите
+разницу? Попробуйте `90`, `100`, `110`...
 
-Once you get the hang of using `live_loop`s you'll not turn
-back. Whenever I do a live coding gig I rely on `live_loop` as much as a
-drummer relies on their sticks. For more information about live coding
-check out Section 9 of the built-in tutorial.
+Как только вы зависните с `live_loop`, вы уже никогда не вернётесь обратно.
+Всякий раз, когда я делаю лайвкодинг концерт, я завишу от `live_loop` так, как
+ударник зависит от своих палочек. Для получения дополнительной информации о
+лайвкодинге, проверьте раздел 9, встроенного учебника.
 
-## 5. Surf the random streams
+## 5. Поток Случайных Нот
 
-Finally, one thing I love doing is cheating by getting Sonic Pi to
-compose things for me.  A really great way to do this is using
-randomisation. It might sound complicated but it really isn't. Let's
-take a look. Copy this into a spare workspace:
+Наконец, ещё одна вещь, которую я люблю делать, это давать Sonic Pi сочинять
+за меня музыку. Действительно крутой способ сделать это - использовать
+рандомизацию. Это может показаться сложным, но на самом деле это не так.
+Давайте проверим. Скопируйте это в свободное рабочее пространство:
 
 
     live_loop :rand_surfer do
@@ -146,14 +149,15 @@ take a look. Copy this into a spare workspace:
       end
     end
 
-Now, when you play this, you'll hear a constant stream of random notes
-from the scale `:e2 :minor_pentatonic` played with the `:dsaw`
-synth. "Wait, wait! That's not a melody", I hear you shout! Well, here's
-the first part of the magic trick. Every time we go round the
-`live_loop` we can tell Sonic Pi to reset the random stream to a known
-point. This is a bit like going back in time in the TARDIS with the
-Doctor to a particular point in time and space. Let's try it - add the
-line `use_random_seed 1` to the `live_loop`:
+
+Когда вы запустите это, вы услышите постоянный поток случайных нот гаммы
+`:Е2 :minor_pentatonic`, сыгранную `:dsaw` синтезатором. "Подожди, подожди!
+Это не мелодия", слышу я ваш возглас! Ну, это первая часть магического трюка.
+Каждый раз, когда мы проходим круг цикла `live_loop`, мы можем сказать Sonic Pi
+сбросить случайный поток к известной начальной точке. Это как будто возвращаться
+во времени в ТАРДИС С ДОКТОРОМ к определённой точке во времени и пространстве.
+Давайте попробуем это - добавьте строку `use_random_seed 1` к `live_loop`:
+
 
     live_loop :rand_surfer do
       use_random_seed 1
@@ -164,10 +168,12 @@ line `use_random_seed 1` to the `live_loop`:
         sleep 0.125
       end
     end
+
     
-Now, every time the `live_loop` loops around, the random stream is
-reset. This means it chooses the same 16 notes every time. Hey presto!
-An instant melody. Now, here's the really exciting bit. Change the seed
-value from `1` to another number. Say `4923`. Wow! Another melody! So,
-just by changing one number (the random seed), you can explore as many
-melodic combinations as you can imagine! Now, that's the magic of code.
+Теперь каждый раз, как цикл `live_loop` повторяется, случайный поток будет
+сброшен. Это значит, что он выбирает одни и те же 16 нот каждый раз. Мгновенная
+мелодия. Теперь это действительно захватывающий бит. Изменитьте значение
+отправной точки с `1` на другое число. Скажем, `4923`. Ого! Другая мелодия!
+Так, просто изменяя одну цифру (отправную точку), вы можете открыть столько
+мелодических комбинаций, сколько сможете себе представить! Это и есть магия
+кода.
