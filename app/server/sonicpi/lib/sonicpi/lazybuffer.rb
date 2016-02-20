@@ -23,28 +23,34 @@ module SonicPi
     end
 
     def num_frames
-      return @num_frames if @realised
-      wait_for_prom
+      wait_for_prom unless @realised
       @num_frames
     end
 
     def num_chans
-      return @num_chans if @realised
-      wait_for_prom
+      wait_for_prom unless @realised
       @num_chans
     end
 
     def sample_rate
-      return @sample_rate if @realised
-      wait_for_prom
+      wait_for_prom unless @realised
       @sample_rate
     end
 
     def duration
-      return @duration if @realised
-      wait_for_prom
+      wait_for_prom unless @realised
       @duration
     end
+
+    def to_s
+      wait_for_prom unless @realised
+      if @path
+        "#<Buffer @id=#{@id}, @num_chans=#{@num_chans}, @num_frames=#{@num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}, @path=#{@path}>"
+      else
+        "#<Buffer @id=#{@id}, @num_chans=#{@num_chans.inspect}, @num_frames=#{@num_frames}, @sample_rate=#{@sample_rate}, @duration=#{@duration}>"
+      end
+    end
+
 
     private
 
