@@ -1240,7 +1240,7 @@ QString MainWindow::currentTabLabel()
 
 bool MainWindow::saveAs()
 {
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop");
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop", tr("Ruby (*.rb)"));
   if(!fileName.isEmpty()){
     if (!fileName.contains(QRegExp("\\.[a-z]+$"))) {
         fileName = fileName + ".txt";
@@ -2144,7 +2144,7 @@ void MainWindow::toggleRecording() {
     Message msg("/stop-recording");
     msg.pushStr(guiID.toStdString());
     sendOSC(msg);
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), QDir::homePath() + "/Desktop/my-recording.wav");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Recording"), QDir::homePath() + "/Desktop", tr("Wavefile (*.wav)"));
     if (!fileName.isEmpty()) {
       Message msg("/save-recording");
       msg.pushStr(guiID.toStdString());
