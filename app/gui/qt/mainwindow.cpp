@@ -58,7 +58,6 @@
 #include <QScrollArea>
 #include <QShortcut>
 #include <QToolButton>
-#include <QSettings>
 #include <QScrollBar>
 #include <QSignalMapper>
 #include <QSplitter>
