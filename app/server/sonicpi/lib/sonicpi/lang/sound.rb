@@ -1258,7 +1258,6 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
 
       def synth(synth_name, *args)
-        ensure_good_timing!
         synth_name = current_synth unless synth_name
         args_h = resolve_synth_opts_hash_or_array(args)
 
@@ -1472,7 +1471,6 @@ play 44"]
 
 
       def play_chord(notes, *args)
-        ensure_good_timing!
         args_h = resolve_synth_opts_hash_or_array(args)
         return nil unless should_trigger?(args_h)
         shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
@@ -2779,7 +2777,6 @@ sample :loop_amen                    # starting it again
 
         return if path == nil
 
-        ensure_good_timing!
         case path
         when Buffer
           buf_info = path
@@ -3404,7 +3401,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 
 
       def control(node, *args)
-        ensure_good_timing!
+
         return nil if node.nil?
         raise "You may only control a SynthNode. You tried to control a #{node.class}: #{node.inspect}" unless node.is_a?(SynthNode)
         args_h = resolve_synth_opts_hash_or_array(args)
@@ -3441,6 +3438,8 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         if Thread.current.thread_variable_get(:sonic_pi_mod_sound_check_synth_args)
           info.ctl_validate!(args_h) if info
         end
+
+        ensure_good_timing!
 
         node.control args_h
 
@@ -3880,6 +3879,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         purge_nil_vals!(args_h)
         args_h = info.munge_opts(args_h) if info
         validate_if_necessary! info, args_h
+
+        ensure_good_timing!
 
         job_id = current_job_id
         __no_kill_block do
