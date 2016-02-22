@@ -388,7 +388,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1243"/>
         <source>Load Sonic-Pi file</source>
-        <translation>Charger un ficheir Sonic Pi</translation>
+        <translation>Charger un fichier Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2001"/>
