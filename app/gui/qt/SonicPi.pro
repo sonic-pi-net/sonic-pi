@@ -19,7 +19,7 @@
 
 # -- Change to match the location of QScintilla on your system
 #
- LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
+ LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 -lrt
  INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
  DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
 # --
@@ -30,6 +30,8 @@ QT += core gui concurrent network
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
 }
+
+QMAKE_CXXFLAGS += -std=c++11
 
 # Linux only
 unix:!macx {
@@ -72,7 +74,8 @@ SOURCES += main.cpp \
            sonic_pi_osc_server.cpp \
            sonic_pi_udp_osc_server.cpp \
            sonic_pi_tcp_osc_server.cpp \
-           sonicpitheme.cpp
+           sonicpitheme.cpp \
+           scope.cpp
 win32 {
 # have to link these explicitly for some reason
   SOURCES += platform/win/moc_qsciscintilla.cpp \
@@ -91,7 +94,8 @@ HEADERS  += mainwindow.h \
             sonic_pi_udp_osc_server.h \
             sonic_pi_tcp_osc_server.h \
             ruby_help.h \
-            sonicpitheme.h
+            sonicpitheme.h \
+            scope.h
 
 TRANSLATIONS = lang/sonic-pi_de.ts \
                lang/sonic-pi_is.ts \

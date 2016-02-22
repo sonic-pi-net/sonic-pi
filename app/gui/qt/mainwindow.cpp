@@ -20,6 +20,7 @@
 
 // Qt stuff
 #include <QSysInfo>
+#include <QPainter>
 #include <QDate>
 #include <QDesktopServices>
 #include <QDir>
@@ -80,9 +81,7 @@
 // OSC stuff
 #include "oscpkt.hh"
 #include "udp.hh"
-using namespace oscpkt;
-
-// OS specific stuff
+using namespace oscpkt;// OS specific stuff
 #if defined(Q_OS_WIN)
   #include <QtConcurrent/QtConcurrentRun>
   void sleep(int x) { Sleep((x)*1000); }
@@ -95,6 +94,14 @@ using namespace oscpkt;
 #endif
 
 #include "mainwindow.h"
+
+//ADRIAN
+/*
+#include <server_shm.hpp>
+std::unique_ptr<server_shared_memory_client> shm_client;
+scope_buffer_reader shm_reader;
+*/
+//ADRIAN
 
 #ifdef Q_OS_MAC
 MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
@@ -198,6 +205,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   createToolBar();
   createStatusBar();
   createInfoPane();
+  //ADRIAN
+  createScopePane();
+  //ADRIAN
   setWindowTitle(tr("Sonic Pi"));
   initPrefsWindow();
   readSettings();
@@ -242,7 +252,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
-
   }
 }
 
@@ -1479,6 +1488,7 @@ void MainWindow::runCode()
   if(clear_output_on_run->isChecked()){
     outputPane->clear();
   }
+    
 
   msg.pushStr(code);
   msg.pushStr(filename);
@@ -1632,6 +1642,18 @@ void MainWindow::stopCode()
   statusBar()->showMessage(tr("Stopping..."), 2000);
 }
 
+//ADRIAN
+void MainWindow::scope()
+{
+  if(scopeWidget->isVisible())
+  {
+    scopeWidget->hide();
+  } else {
+    scopeWidget->raise();
+    scopeWidget->show();
+  }
+}
+//ADRIAN
 void MainWindow::about()
 {
   // todo: this is returning true even after the window disappears
@@ -2163,6 +2185,10 @@ void MainWindow::createToolBar()
   setupAction(infoAct, 0, tr("See information about Sonic Pi"),
 	      SLOT(about()));
 
+  // Scope
+  QAction *scopeAct = new QAction(QIcon(":/images/info.png"), tr("Scope"), this);
+  setupAction(scopeAct, 0, tr("View audio output"), SLOT(scope()));
+
   // Help
   QAction *helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
   setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
@@ -2208,6 +2234,9 @@ void MainWindow::createToolBar()
 
   toolBar->addAction(saveAsAct);
   toolBar->addAction(loadFileAct);
+  toolBar->addAction(recAct);
+  toolBar->addAction(scopeAct);
+  toolBar->addWidget(spacer);
 
   toolBar->addAction(textDecAct);
   toolBar->addAction(textIncAct);
@@ -2234,6 +2263,12 @@ QString MainWindow::readFile(QString name)
   st.setCodec("UTF-8");
   return st.readAll();
 }
+
+//ADRIAN
+void MainWindow::createScopePane() {
+  scopeWidget.reset( new Scope(/*4556*/) );
+}
+//ADRIAN
 
 void MainWindow::createInfoPane() {
   QTabWidget* infoTabs = new QTabWidget(this);
@@ -2491,7 +2526,11 @@ void MainWindow::onExitCleanup()
   std::cout.rdbuf(coutbuf); // reset to stdout before exiting
 }
 
+//ADRIAN
+//ADRIAN
+
 void MainWindow::heartbeatOSC() {
+
   Message msg("/gui-heartbeat");
   msg.pushStr(guiID.toStdString());
   sendOSC(msg);
