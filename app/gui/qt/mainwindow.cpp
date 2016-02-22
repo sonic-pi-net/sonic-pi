@@ -1234,9 +1234,9 @@ QString MainWindow::currentTabLabel()
 }
 
 
-bool MainWindow::openFile()
+bool MainWindow::loadFile()
 {
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open Sonic-Pi file"), QDir::homePath() + "/Desktop");
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic-Pi file"), QDir::homePath() + "/Desktop");
   if(!fileName.isEmpty()){
     SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
     loadFile(fileName, p);
@@ -2006,9 +2006,9 @@ void MainWindow::createToolBar()
   QAction *saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
   setupAction(saveAsAct, 0, tr("Save current buffer as an external file"), SLOT(saveAs()));
 
-  // Open
-  QAction *openFileAct = new QAction(QIcon(":/images/open.png"), tr("Open"), this);
-  setupAction(openFileAct, 0, tr("Load an external file in the current buffer"), SLOT(openFile()));
+  // Load
+  QAction *loadFileAct = new QAction(QIcon(":/images/load.png"), tr("Load"), this);
+  setupAction(loadFileAct, 0, tr("Load an external file in the current buffer"), SLOT(loadFile()));
 
   // Info
   QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
@@ -2056,7 +2056,7 @@ void MainWindow::createToolBar()
   toolBar->addAction(stopAct);
 
   toolBar->addAction(saveAsAct);
-  toolBar->addAction(openFileAct);
+  toolBar->addAction(loadFileAct);
   toolBar->addAction(recAct);
   toolBar->addWidget(spacer);
 
