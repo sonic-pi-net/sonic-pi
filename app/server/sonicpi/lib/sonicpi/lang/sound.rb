@@ -1267,8 +1267,9 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
             __delayed_message "synth #{synth_name.to_sym.inspect}, {note: :rest}"
           end
-          return nil
+          return @blank_node
         end
+
 
         notes = args_h[:notes] || args_h[:note]
         if notes.is_a?(SonicPi::Core::RingVector) || notes.is_a?(Array)
@@ -3439,7 +3440,10 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
           info.ctl_validate!(args_h) if info
         end
 
-        ensure_good_timing!
+        unless in_good_time?
+          __delayed_message "Out of time, skipping: control node #{node.id}, #{arg_h_pp(args_h)}"
+          return node
+        end
 
         node.control args_h
 
@@ -3536,7 +3540,7 @@ control cg, notes: (chord :e3, :m13)                     # slide to new chord wi
 
 
       def kill(node)
-        ensure_good_timing!
+        in_good_time?
         return nil if node.nil?
 
         alive = node.live?
@@ -3808,6 +3812,16 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         args_h = normalise_and_resolve_sample_args(path, args_h, info)
 
+        unless in_good_time?
+          if args_h.empty?
+            __delayed_message "Out of time, skipping: sample #{path.inspect}"
+          else
+            __delayed_message "Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
+          end
+          return @blank_node
+        end
+
+
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           if args_h.empty?
             __delayed_message "sample #{path.inspect}"
@@ -3826,6 +3840,12 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
+        unless in_good_time?
+          __delayed_message "Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
+
+          return @blank_node
+        end
+
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
         end
@@ -3842,6 +3862,11 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         chord_group = @mod_sound_studio.new_group(:tail, group, "CHORD")
         cg = ChordGroup.new(chord_group, notes, info)
+
+        unless in_good_time?
+          __delayed_message "Out of time, skipping: synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
+          return @blank_node
+        end
 
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
@@ -3873,6 +3898,9 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
       # Function that actually triggers synths now that all args are resolved
       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false)
+
+
+
         add_out_bus_and_rand_buf!(args_h, out_bus)
         orig_synth_name = synth_name
         synth_name = info ? info.scsynth_name : synth_name
@@ -4213,10 +4241,29 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
       def ensure_good_timing!
         return true if Thread.current.thread_variable_get(:sonic_pi_mod_sound_disable_timing_warnings)
+        raise "Timing Exception: thread got too far behind time." if time_diff > 1.1
+      end
 
+      def time_diff
+        # negative values mean we're ahead of time
+        # positive values mean we're behind time
         vt  = Thread.current.thread_variable_get :sonic_pi_spider_time
-        sat = @mod_sound_studio.sched_ahead_time + 1.1
-        raise "Timing Exception: thread got too far behind time." if (Time.now - sat) > vt
+        sat = @mod_sound_studio.sched_ahead_time
+        compensated = (Time.now - sat)
+        compensated - vt
+      end
+
+      def in_good_time?(error_window=0)
+        diff = time_diff
+        if diff < 0
+          return true
+        else
+          if diff < 1.1
+            return false
+          else
+            raise "Timing Exception: thread got too far behind time."
+          end
+        end
       end
 
       def current_synth_name
