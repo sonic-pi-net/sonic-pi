@@ -1238,6 +1238,18 @@ QString MainWindow::currentTabLabel()
 }
 
 
+bool MainWindow::loadFile()
+{
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic-Pi file"), QDir::homePath() + "/Desktop");
+  if(!fileName.isEmpty()){
+    SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
+    loadFile(fileName, p);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 bool MainWindow::saveAs()
 {
   QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop", tr("Ruby (*.rb)"));
@@ -1998,6 +2010,10 @@ void MainWindow::createToolBar()
   QAction *saveAsAct = new QAction(QIcon(":/images/save.png"), tr("Save As..."), this);
   setupAction(saveAsAct, 0, tr("Save current buffer as an external file"), SLOT(saveAs()));
 
+  // Load
+  QAction *loadFileAct = new QAction(QIcon(":/images/load.png"), tr("Load"), this);
+  setupAction(loadFileAct, 0, tr("Load an external file in the current buffer"), SLOT(loadFile()));
+
   // Info
   QAction *infoAct = new QAction(QIcon(":/images/info.png"), tr("Info"), this);
   setupAction(infoAct, 0, tr("See information about Sonic Pi"),
@@ -2044,6 +2060,7 @@ void MainWindow::createToolBar()
   toolBar->addAction(stopAct);
 
   toolBar->addAction(saveAsAct);
+  toolBar->addAction(loadFileAct);
   toolBar->addAction(recAct);
   toolBar->addWidget(spacer);
 
