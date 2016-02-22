@@ -125,7 +125,7 @@ trail again. Now, without stopping the code, just simply change `:melon` to
 `:brick` and hit run. Hey presto, you're now making a brick trail. How
 simple was that! Fancy some music to go with it? Easy. Try this:
 
-    live_loop :bass_trail
+    live_loop :bass_trail do
       tick
       x, y, z = mc_location
       b = (ring :melon, :brick, :glass).look
