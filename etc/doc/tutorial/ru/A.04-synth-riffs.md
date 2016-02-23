@@ -1,28 +1,25 @@
 A.4 Synth Riffs
 
-# Synth Riffs
+# Синтезаторные Риффы
 
-Whether it's the haunting drift of rumbling oscillators or the detuned
-punch of saw waves piercing through the mix, the lead synth plays an
-essential role on any electronic track. In last month's edition of this
-tutorial series we covered how to code our beats. In this tutorial we'll
-cover how to code up the three core components of a synth riff - the
-timbre, melody and rhythm.
+Какой бы звук вы не использовали, солирующий синтезатор всегда играет главную
+роль в любом электронном треке. В статье из прошлого номера мы рассматривали,
+как кодировать барабанные биты. В этой статье мы узнаем, как кодировать три
+основных компонента синтезаторных риффов - тембр, мелодию и ритм.
 
-OK, so power up you Raspberry Pi, crack open Sonic Pi v2.6+ and let's
-make some noise!
+Итак, подключите ваш Paspberry Pi, откройте Sonic Pi версии v2.6+ и давайте
+пошумим!
 
+## Тембральные Возможности
 
-## Timbral Possibilities
+Неотъемлемой частью любого синтезаторного риффа является его тембр. Мы можем
+изменять тембр в Sonic Pi двумя способами - выбирая различные синты для резкой
+смены тембра, и изменяя различные синтовые параметры для более тонкой
+настройки. Мы также можем использовать эффекты, но об этом в другой раз...
 
-An essential part of any synth riff is changing and playing with the
-timbre of the sounds.  We can control the timbre in Sonic Pi in two ways
-- choosing different synths for a dramatic change and setting the
-various synth opts for more subtle modifications. We can also use FX,
-but that's for another tutorial...
+Давайте создадим простой живой цикл, в котором будет постоянно изменяться
+текущий синт:
 
-Let's create a simple live loop where we continually change the current
-synth:
 
     live_loop :timbre do
       use_synth (ring :tb303, :blade, :prophet, :saw, :beep, :tri).tick
@@ -30,59 +27,58 @@ synth:
       sleep 0.5
     end
 
-Take a look at the code. We're simply ticking through a ring of synth
-names (this will cycle through each of these in turn repeating the list
-over and over). We pass this synth name to the `use_synth` fn (function)
-which will change the `live_loop`'s current synth. We also play note
-`:e2` (E at the second octave), with a release time of 0.5 beats (half a
-second at the default BPM of 60) and with the `cutoff:` opt set to 100.
 
-Hear how the different synths have very different sounds even though
-they're all playing the same note. Now experiment and have a
-play. Change the release time to bigger and smaller values. For example,
-change the `attack:` and `release:` opts to see how different fade
-in/out times have a huge impact on the sound. Finally change the
-`cutoff:` opt to see how different cutoff values also massively
-influence the timbre (values between 60 and 130 are good). See how many
-different sounds you can create by just changing a few values. Once
-you've mastered that, just head to the Synths tab in the Help system for
-a full list of all the synths and all the available opts each individual
-synth supports to see just how much power you have under your coding
-fingertips.
+Взгляните на код. Мы просто перебираем по кругу элементы кольцевого списка,
+содержащего имена синтов (цикл переключает синт на следующий в списке снова и
+снова). Мы передаём имена этих синтов функции `use_synth`, которая и
+переключает текущий синтезатор цикла `live_loop`. Ещё мы играем ноту `:Е2` (ми
+второй октавы), со временем затухания 0.5 удара (пол секунды с ВРМ по умолчанию
+60) и с параметром `cutoff:`, равным 100.
 
-## Timbre
+Слышите, разные синтезаторы  звучат совершенно по-разному, хотя играют одну и
+ту же ноту? Теперь давайте поэкспериментируем. Измените время затухания на
+большее или меньшее значение. Изменяйте оба параметра - `attack:` и `release:`,
+чтобы посмотреть, как сильно разные их значения изменяют звук. Наконец, 
+измените параметр `cutoff:`, чтобы услышать, что разные значения среза фильтра
+также радикально изменяют тембр синта (значения между 60 и 130 обычно звучат
+хорошо). Посмотрите, сколько разнообразных звуков можно создать, изменяя всего
+лишь несколько параметров. Как только вы это освоите, откройте вкладку
+"Синтезаторы" справочной системы, и взгляните на полный список синтезаторов и
+их параметров, чтобы увидеть, какую мощь вы держите в руках.
 
-Timbre is just a fancy word describing the sound of a sound. If you play
-the same note with different instruments such as a violin, guitar, or
-piano, the pitch (how high or low it sounds) would be the same, but the
-sound quality would be different. That sound quality - the thing which
-allows you to tell the difference between a piano and a guitar is the
-timbre.
+## Тембр
+
+Тембр - это просто слово, описывающее звук. Если вы сыграете одну и ту же ноту
+на разных инструментах, таких как скрипка, гитара, или пианино, высота звука
+будет одинаковой, но качество звуков будет разным. Это качество звука - то, что
+позволяет вам слышать разницу между пианино и гитарой - и есть тембр.
+
+## Мелодическая Структура
+
+Ещё одним важным аспектом нашего солирующего синтезатора является выбор нот,
+которые он будет играть. Если у вас уже есть хорошая мелодическая идея, то вы
+можете просто создать кольцо с вашими нотами, и воспроизводить его по кругу:
 
 
-## Melodic Composition
-
-Another important aspect to our lead synth is the choice of notes we
-want to play. If you already have a good idea, then you can simply
-create a ring with your notes in and tick through them:
-                                
     live_loop :riff do
       use_synth :prophet
       riff = (ring :e3, :e3, :r, :g3, :r, :r, :r, :a3)
       play riff.tick, release: 0.5, cutoff: 80
       sleep 0.25
     end
-    
-Here, we've defined our melody with a ring which includes both notes
-such as `:e3` and rests represented by `:r`. We're then using `.tick` to
-cycle through each note to give us a repeating riff.
 
-## Auto Melody
 
-It's not always easy to come up with a nice riff from scratch. Instead
-it's often easier to ask Sonic Pi for a selection of random riffs and to
-choose the one you like the best. To do that we need to combine three
-things: rings, randomisation and random seeds. Let's look at an example:
+Здесь мы поместили нашу мелодию в кольцевой список, содержащий ноты, такие как
+`:е3` и паузы, обозначенные `:r`. Затем, мы использовали `.tick`, чтобы
+получить повторяющийся рифф.
+
+## Автомелодия
+
+Не всегда бывает легко придумать хороший рифф с нуля. Вместо этого, иногда
+проще сказать Sonic Pi играть случайный рифф, и выбрать тот, который понравится
+вам больше всего. Для этого нам необходимо объединить три вещи: кольца,
+рандомизацю и отправную точку (зерно) рандомизаци. Взгляните на пример:
+
 
     live_loop :random_riff do
       use_synth :dsaw
@@ -92,44 +88,46 @@ things: rings, randomisation and random seeds. Let's look at an example:
       sleep 0.25
     end
 
-There's a few things going on - let's look at them in turn. First, we
-specify that we're using random seed 3. What does this mean? Well, The
-useful thing is that when we set the seed, we can predict what the next
-random value is going to be - it's the same as it was last time we set
-the seed to 3! Another useful thing to know is that shuffling a ring of
-notes works in the same way. In the example above we're essentially
-asking for the 'third shuffle' in the standard list of shuffles - which
-is also the same every time as we're always setting the random seed to
-the same value right before the shuffle. Finally we're just ticking
-through our shuffled notes to play the riff.
 
-Now, here's where the fun starts. If we change the random seed value to
-another number, say 3000, we get an entirely different shuffling of the
-notes. So now it's extremely easy to explore new melodies. Simply choose
-the list of notes we want to shuffle (scales are a great starting point)
-and then choose the seed we want to shuffle with. If we don't like the
-melody, just change one of those two things and try again. Repeat until
-you like what you hear!
+Здесь происходит несколько вещей - давайте рассмотрим их по очереди. Во-первых,
+мы указли, что используем зерно рандомизаци 3. Что это значит? Ну, смысл в том,
+что когда мы устанавливаем зерно, мы можем предсказать, какой будет
+рандомизаця в следующий раз. Той же самой, что и в тот раз, когда мы 
+устанавливали зерно в 3! Ещё одна вещь, которую полезно знать, что 
+перемешивание нот кольца будет произведено тем же способом. В примере выше, мы,
+по сути, вызываем "третье перемешивание" из стандартного списка перемешиваний,
+который остаётся неизменным всякий раз, когда мы устанавливаем зерно в то же
+значение перед перемешиванием. Наконец, мы просто вызываем по кругу наши
+перемешанные ноты, чтобы получить рифф.
 
+Вот где начинается веселье. Если мы меняем значение зерно рандомизаци на
+другое, скажем 3000, мы получаем совершенно другое перемешивание нот. Так что
+теперь очень легко исследовать новые мелодии. Просто выберите список нот,
+которые вы хотите перемешать (гаммы представляют собой отличную отправную
+точку), а затем выберите зерно рандомизаци, с которого вы хотите начать
+перемешивание. Если вам не нравится мелодия, просто измените одну из этих двух
+вещей и попробуйте снова. Повторяйте до тех пор, пока вам понравится то, что вы
+слышите!
 
-## Pseudo Randomisation
+## Псевдо Рандомизация
 
-Sonic Pi's randomisation is not actually random it's what's called
-pseudo random.  Imagine if you were to roll a dice 100 times and write
-down the result of each roll onto a piece of paper. Sonic Pi has the
-equivalent of this list of results which it uses when you ask for a
-random value. Instead of rolling an actual dice, it just picks the next
-value from the list. Setting the random seed is just jumping to a
-specific point in that list.
+Случайный выбор в Sonic Pi на самом деле не является случайным, это то, что
+обычно называется псевдо рандомизация. Представьте, что вы бросали игральные
+кости 100 раз и записывали результат каждого броска на лист бумаги. Sonic Pi
+имеет эквивалент этого списка результатов, которые он использует, когда вы 
+запрашиваете случайные значения. Только вместо бросков настоящих костей, он
+выбирает следующее значение из списка. Настройка зерна рандомизаци - это просто
+прыжок в определённое место этого списка.
  
-## Finding your Rhythm
+## Поиск Ритма
 
-Another important aspect to our riff is the rhythm - when to play a note
-and when not to. As we saw above we can use `:r` in our rings to insert
-rests. Another very powerful way is to use spreads which we'll cover in
-a future tutorial. Today we'll use randomisation to help us find our
-rhythm. Instead of playing every note we can use a conditional to play a
-note with a given probability. Let's take a look:
+Ещё один важный аспект нашго риффа, это ритм - т.е. последовательность нот и
+пауз. Как мы видели раньше, мы можем использовать `:r` в наших кольцах, чтобы
+вставить паузу. Ещё один очень мощный способ - использовать методы колец, но о
+них мы поговорим в следующий раз. Сегодня мы будем использовать рандомизацию,
+чтобы помочь нам найти подходящий ритм. Вместо того, чтобы играть каждую ноту,
+мы можем играть ноту с заданной вероятностью. Давайте посмотрим:
+
 
     live_loop :random_riff do
       use_synth :dsaw
@@ -141,24 +139,24 @@ note with a given probability. Let's take a look:
       end
     end
 
-A really useful fn to know is `one_in` which will give us a
-`true` or `false` value with the specified probability. Here, we're
-using a value of 2 so on average one time every two calls to `one_in` it
-will return `true`. In other words, 50% of the time it will return
-`true`. Using higher values will make it return `false` more often
-introducing more space into the riff.
 
-Notices that we've added some iteration in here with `16.times`. This is
-because we only want to reset our random seed value every 16 notes so
-our rhythm repeats every 16 times. This doesn't affect the shuffling as
-that is still done immediately after the seed is set. We can use the
-iteration size to alter the length of the riff. Try changing the 16 to 8
-or even 4 or 3 and see how it affects the rhythm of the riff.
+Очень полезно знать функцию `one_in`, которая возвращает нам `true` или `false`
+с заданной вероятностью. Здесь мы используем значение 2, поэтому в среднем
+один раз каждые два вызова, `one_in` возвратит `true`. Другими словами, она
+будет возвращать `true` в 50% случаев. Если использовать более высокие
+значения, `false`будет возвращаться чаще, добавляя в рифф больше пауз.
 
-## Bringing it all together
+Заметим, что мы добавили повторы `16.times`. Это потому, что мы хотим 
+сбрасывать наше зерно рандомизаци каждые 16 нот. Так наш ритм будет повторяться
+каждые 16 ударов. Это не влияет на перемешивание, т.к. оно выполняется сразу
+после того, как установлено зерно рандомизаци. Мы можем использовать разное
+количество повторов для изменения длины риффа. Попробуйте изменить 16 на 8 или
+даже на 4 или 3 и посмотрите, как это повлияет на ритм.
 
-OK, so let's combine everything we've learned together into one final
-example. See you next time!
+## Соберём Всё Вместе
+
+ОК, теперь давайте совместим всё, чему мы научились, в один финальный пример.
+Увидимся в следующий раз!
 
     live_loop :random_riff do
       #  uncomment to bring in:
@@ -184,7 +182,3 @@ example. See you next time!
       sample :bd_haus, cutoff: 100, amp: 3
       sleep 0.5
     end
-
-
-
-
