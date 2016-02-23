@@ -2058,10 +2058,11 @@ void MainWindow::createToolBar()
   toolBar->setIconSize(QSize(270/3, 111/3));
   toolBar->addAction(runAct);
   toolBar->addAction(stopAct);
+  toolBar->addAction(recAct);
 
   toolBar->addAction(saveAsAct);
   toolBar->addAction(loadFileAct);
-  toolBar->addAction(recAct);
+
   toolBar->addWidget(spacer);
 
   toolBar->addAction(textDecAct);
