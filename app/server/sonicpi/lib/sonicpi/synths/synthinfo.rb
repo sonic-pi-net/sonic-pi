@@ -3202,6 +3202,13 @@ module SonicPi
             :modulatable => true
           },
 
+          :pitch =>
+          {
+            :doc => "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.",
+            :validations => [v_greater_than_oet(:pitch, -72), v_less_than_oet(:pitch, 24)],
+            :modulatable => true
+          },
+
           :pitch_dis =>
           {
             :doc => "Pitch dispersion - how much random variation in pitch to add. Using a low value like 0.001 can help to \"soften up\" the metallic sounds, especially on drum loops. To be really technical, pitch_dispersion is the maximum random deviation of the pitch from the pitch ratio (which is set by the pitch param)",
