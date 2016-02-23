@@ -90,3 +90,29 @@ After installing, users need to follow the instructions in the [Generic Linux](#
 ### Building from source
 
 Users can opt to build from source as well if they would like. Instructions and dependencies can be found within the PKGBUILD file in the AUR package previously mentioned, as well as the required patch file.
+
+----
+
+## Linux Mint (beta)
+
+### PPA
+
+Tested on Linux Mint 17.2, inspired by [this issue](https://github.com/samaaron/sonic-pi/issues/827).
+
+First, install the binary:
+
+```
+sudo add-apt-repository ppa:sonic-pi/ppa
+sudo apt-get update
+sudo apt-get install sonic-pi
+```
+
+Next, install qjackctl:
+
+`sudo apt-get install qjackctl`
+
+Then, launch qjackctl from the command line (while suspending PulseAudio):
+
+`pasuspender -- qjackctl`
+
+Click the 'Start' button in qjackctl, then launch Sonic Pi :)
