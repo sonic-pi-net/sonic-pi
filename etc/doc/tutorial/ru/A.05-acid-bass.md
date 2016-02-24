@@ -1,43 +1,44 @@
 A.5 Acid Bass
 
-# Acid Bass
+# Кислотный Бас
 
-It's impossible to look through the history of electronic dance music
-without seeing the enormous impact of the tiny Roland TB-303
-synthesiser. It's the secret sauce behind the original acid bass
-sound. Those classic squealing and squelching TB-303 bass riffs can be
-heard from the early Chicago House scene through to more recent
-electronic artists such as Plastikman, Squarepusher and Aphex Twin.
+Невозможно исследовать историю электронной танцевальной музыки, и не заметить
+огромного влияния крошечного синтезатора Roland TB-303. Это секретный
+ингридиент оригинального кислотного баса. Классическое визжание и чавканье
+басовых риффов TB-303 можно услышать в ранней чикагской хаус сцене благодаря
+таким музыкантам, как Plastikman, Squarepusher и Aphex Twin.
 
-Interestingly, Roland never intended for the TB-303 to be used in dance
-music. It was originally created as a practice aid for guitarists. They
-imagined that people would program them to play bass lines to jam along
-to. Unfortunately there were a number of problems: they were a little
-fiddly to program, didn't sound particularly good as a bass-guitar
-replacement and were pretty expensive to buy. Deciding to cut their
-losses, Roland stopped making them after 10,000 units were sold and
-after a number of years sitting on guitarist's shelves, they soon could
-be found in the windows of second hand shops. These lonely discarded
-TB-303s were waiting to be discovered by a new generation of
-experimenters who started using them in ways that Roland didn't imagine
-to create new crazy sounds. Acid House was born.
+Интересно, что инженеры Roland никогда не предполагали, что TB-303 будет
+использоваться в танцевальной музыке. Он изначально создавался для гитаристов.
+Они расчитывали, что гитаристы будут программировать TB-303 играть басовые
+линии в джемах. К сожалению, существовал ряд проблем: они были немного
+неудобными для программирования, не очень хорошо звучали в качестве замены
+бас-гитары и были довольно дорогими. Решив сократить убытки, Roland прекратили
+их выпуск после продажи 10 000 экземпляров, и после нескольких лет лежания на
+полках, эи синтезаторы можно было найти только в магазинах "секонд хенд". Эти
+одинокие, отвергнутые TB-303 ждали, когда их обнаружит новое поколение
+экспериментаторов, которые начали применять их способом, который в Roland и
+представить не могли, создавая новые сумасшедшие звуки. 
+Так зародился эйсид хаус.
 
-Although getting your hands on an original TB-303 is not so easy you
-will be pleased to know that you can turn your Raspberry Pi into one
-using the power of Sonic Pi. Behold, fire up Sonic Pi and throw this
-code into an empty buffer and hit Run:
+Хотя получить на руки оригинал TB-303 не так уж и просто, вам будет приятно
+узнать, что вы можете превратить ваш Raspberry Pi в один из них, используя мощь
+Sonic Pi. Узрите свет Sonic Pi, забросив этот код в пустой буфер и нажав
+"Выполнить":
+
 
     use_synth :tb303
     play :e1
+
     
-Instant acid bass! Let's play around...
+Мгновенный кислотный бас! Давайте с ним поиграем...
 
-# Squelch that Bass
+# Изменяем Бас
 
-First, let's build a live arpeggiator to make things fun. In the last
-tutorial we looked at how riffs can just be a ring of notes that we tick
-through one after another, repeating when we get to the end. Let's
-create a live loop that does exactly that:
+Во-первых, построим живой арпеджиатор, чтобы играть было веселей. В прошлой
+статье мы узнали, что риффы могут быть простыми кольцами нот, извлекающимися
+одна за другой. Давайте создадим живой цикл, который сделает для нас это:
+
 
     use_synth :tb303
     live_loop :squelch do
@@ -45,81 +46,79 @@ create a live loop that does exactly that:
       play n, release: 0.125, cutoff: 100, res: 0.8, wave: 0
       sleep 0.125
     end
+
     
-Take a look at each line. 
+Для начала рассмотрим код построчно:
 
-1. On the first line we set the default synth to be `tb303` with the
-  `use_synth` fn.
+1. В первой строке мы задаём синтезатор по умолчанию `tb303` с помощью
+   функции `use_synth`.
 
-2. On line two we create a live loop called `:squelch` which will just
-   loop round and round.
+2. Во второй строке мы создаем живой цикл `:squelch`, который будет просто 
+   повторяться снова и снова.
 
-3. Line three is where we create our riff - a ring of notes (E in
-   octaves 1, 2, and 3) which we simply tick through with `.tick`. We
-   define `n` to represent the current note in the riff. The equals sign
-   just means to assign the value on the right to the name on the
-   left. This will be different every time round the loop. The first
-   time round, `n` will be set to `:e1`. The second time round it will
-   be `:e2`, followed by `:e3`, and then back to `:e1`, cycling round
-   forever.
+3. Третья строка - та, где мы создаём наш рифф - кольцо нот (ми в октавах 1, 2
+   и 3), которые мы извлекаем по кругу с помощью `.tick`. Мы определяем `n` для
+   представления текущей ноты в риффе. Знак равенства присваивает значение
+   справа, имени, находящемуся слева. Это значение будет отличаться каждый круг
+   цикла. Первый круг `n` будет иметь значение `:е1`. Второй круг - `:е2`,
+   затем `:е3`, потом снова `:е1` и так круг за кругом.
    
-4. Line four is where we actually trigger our `:tb303` synth. We're
-   passing a few interesting opts here: `release:`, `cutoff:`, `res:`
-   and `wave:` which we'll discuss below.
+4. Четвёртая строка - место, где мы включаем наш `:tb303`. У нас здесь есть
+   несколько интересных параметров: `release:`, `cutoff:`, `res:` и `wave:`,
+   которые мы обсудим чуть позже.
    
-5. Line five is our `sleep` - we're asking the live loop to loop round
-   every `0.125`s or 8 times a second at the default BPM of 60.
+5. В пятой строке появляется `sleep` - мы просим цикл замыкать круг каждые
+   `0.125` удара, или 8 раз в секунду с BPM по умолчанию 60.
    
-6. Line six is the `end` to the live loop. This just tells Sonic Pi
-   where the end of the live loop is.
+6. Строка шесть - это `end` живого цикла. Мы просто говорим Sonic Pi, что
+   здесь конец живого цикла.
 
-Whilst you're still figuring out what's going on, type in the code above
-and hit the Run button. You should hear the `:tb303` kick into
-action. Now, this is where the action is: let's start live coding.
+В то время, как вы всё ещё пытаетесь понять, что здесь происходит, поместите
+этот код в пустой буфер, и нажмите кнопку "Выполнить". Вы должны услышать
+`:tb303` в действии. Теперь пора начинать лайвкодинг.
 
-Whilst the loop is still live, change the `cutoff:` opt to `110`. Now
-hit the Run button again. You should hear the sound become a little
-harsher and more squelchy. Dial in `120` and hit run. Now `130`. Listen
-how higher cutoff values make it sound more piercing and
-intense. Finally, drop it down to `80` when you feel like a rest. Then
-repeat as many times as you want. Don't worry, I'll still be here...
+В то время, как цикл исполняется, измените параметр `cutoff:` на `110`. Затем
+нажмите кнопку "Выполнить" снова. Вы должны услышать, что звук стал немного
+жёстче и более "хлюпающим". Наберите `120` и нажмите "Выполнить". Затем `130`.
+Слушайте, как более высокие значения делают звук более пронзительным и
+интенсивным. Наконец, понизьте значение до `80`, если захотите отдохнуть. Затем
+повторите это столько раз, сколько захотите. Не волнуйтесь, я всё ещё буду
+здесь...
 
-Another opt worth playing with is `res:`. This controls the level of
-resonance of the filter. A high resonance is characteristic of acid bass
-sounds. We currently have our `res:` set to `0.8`. Try cranking it up to
-`0.85`, then `0.9`, and finally `0.95`. You might find that a cutoff
-such as `110` or higher will make the differences easier to
-hear. Finally go crazy and dial in `0.999` for some insane sounds. At a
-`res` this high, you're hearing the cutoff filter resonate so much it
-starts to make sounds of its own!
+Ещё один параметр, с которым стоит поиграть, это `res:`. Он контролирует 
+уровень резонанса фильтра. Для кислотных басовых партий характерен высокий
+резонанс. В настоящее время наш `res:` установлен в `0.8`. Попробуйте изменить
+его на `0.85`, затем на `0.9`, и наконец, на `0.95`. Вы можете обнаружить, что
+предельные значения `cutoff:`, такие как `110` или выше, помагают легче 
+услышать различия. Наконец, сойдите с ума и установите `0.999`, чтобы получить
+действительно безумный звук. С этим значением `res:` вы слышите так много
+резонанса, что он начинает звучать сам по себе!
 
-Finally, for a big impact on the timbre try changing the `wave:` opt to
-`1`. This is the choice of source oscillator. The default is `0` which
-is a sawtooth wave. `1` is a pulse wave and `2` is a triangle wave.
+Наконец, для резкого изменения тембра попробуйте изменить параметр `wawe:` на
+`1`. Это выбор формы волны исходного генератора. Значение по умолчанию - `0` -
+пилообразная волна, `1` - прямоугольная волна, и `2` - треугольная форма волны.
 
-Of course, try different riffs by changing the notes in the ring or even
-picking notes from scales or chords. Have fun with your first acid bass
-synth.
+Конечно, пробуйте разные риффы, изменяя ноты в кольце, или же выбирая ноты из
+гамм, или аккордов. Веселитесь с вашим первым кислотным басовым синтезатором.
 
-# Deconstructing the TB-303
+# Деконструирование TB-303
 
-The design of the original TB-303 is actually pretty simple. As you can
-see from the following diagram there's only 4 core parts. 
+Конструкция оригинальных TB-303 на самом деле довольно проста. Как вы можете 
+видеть из следующей диаграммы, главных составляющих всего 4.
 
 ![TB-303 Design](../images/tutorial/articles/A.05-acid-bass/tb303-design.png)
 
-First is the oscillator wave - the raw ingredients of the sound. In this
-case we have a square wave. Next there's the oscillator's amplitude
-envelope which controls the amp of the square wave through time. These
-are accessed in Sonic Pi by the `attack:`, `decay:`, `sustain:` and
-`release:` opts along with their level counterparts. For more
-information read Section 2.4 'Duration with Envelopes' in the built-in
-tutorial. We then pass our enveloped square wave through a resonant low
-pass filter. This chops off the higher frequencies as well as having
-that nice resonance effect. Now this is where the fun starts. The cutoff
-value of this filter is also controlled by its own envelope! This means
-we have amazing control over the timbre of the sound by playing with
-both of these envelopes. Let's take a look:
+Первой является волновой герератор - сырая основа звука. В этом примере у нас
+прямоугольная волна. Дальше идёт генератор амплитудной огибающей, который
+контролирует амплитуду прямоугольной волны во времени. Он доступен в Sonic Pi
+в виде параметров `attack:`, `decay:`, `sustain:` и `release:`. Для получения
+более подробной информации об этих параметрах читайте раздел 2.4 "Длительность
+с помощью огибающих" встроенного учебника. Затем, мы пропускаем наш амплитудно 
+модулированный сигнал через резонансный низкочастотный фильтр. Это срубает
+высокочастотную составляющую, а также добавляет этот приятный резонансный
+эффект. Теперь начинается самое весёлое. Значение среза этого фильтра может
+управляться своей собственной огибающей! Это значит, что мы имеем удивительный
+контроль над тембром звука, играя двумя этими огибающими. Давайте приступим:
 
   
     use_synth :tb303
@@ -129,22 +128,25 @@ both of these envelopes. Let's take a look:
         sleep 8
       end
     end
-    
-For each standard envelope opt, there's a `cutoff_` equivalent opt in
-the `:tb303` synth. So, to change the cutoff attack time we can use the
-`cutoff_attack:` opt. Copy the code above into an empty buffer and hit
-Run. You'll hear a crazy sound warble in and out. Now start to play. Try
-changing the `cutoff_attack:` time to `1` and then `0.5`. Now try `8`.
 
-Notice that I've passed everything through a `:reverb` FX for extra
-atmosphere - try other FX to see what works!
 
-# Bringing it all together
+В синтезаторе `:tb303`, для каждого стандартного параметра огибающей есть 
+`cutoff_` эквивалент. Так, для изменения времени атаки фильтра, мы можем
+использовать параметр `cutoff_attack:`. Скопируйте приведенный выше код в
+пустой буфер, и нажмите "Выполнить". Вы услышите безумный плавающий звук.
+Теперь поиграем. Попробуйте изменять время `cutoff_attack:` на `1`, а затем
+на `0.5`. Потом попробуйте `8`.
 
-Finally, here's a piece I composed using the ideas in this
-tutorial. Copy it into an empty buffer, listen for a while and then
-start live coding your own changes. See what crazy sounds you can make
-with it! See you next time...
+Заметьте, что я пропустил звук через `:reverb` эффект для создания 
+дополнительной атмосферы - попробуйте другие эффекты, чтобы посмотреть, как
+это работает!
+
+# Соберём Всё Вместе
+
+Наконец, ниже расположен фрагмент кода, который я сочинил, используя идеи этой
+статьи. Скопируйте его в свой буфер, послушайте, а потом начните лайвкодинг,
+внося свои собственные изменения. Посмотрим, какие безумные звуки вы сможете
+создать с помощью этого! Увидимся в следующий раз...
 
     use_synth :tb303
     use_debug false
