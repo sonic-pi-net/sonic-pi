@@ -79,7 +79,12 @@ module SonicPi
 
     def default_sched_ahead_time
       if (os == :raspberry)
-        1
+        if raspberry_pi_1?
+          1
+        else
+          # Raspberry Pi 2
+          0.4
+        end
       else
         0.2
       end
