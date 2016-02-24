@@ -3429,7 +3429,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         end
 
         unless in_good_time?
-          __delayed_message "Out of time, skipping: control node #{node.id}, #{arg_h_pp(args_h)}"
+          __delayed_message "!! Out of time, skipping: control node #{node.id}, #{arg_h_pp(args_h)}"
           return node
         end
 
@@ -3777,9 +3777,9 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         unless in_good_time?
           if args_h.empty?
-            __delayed_message "Out of time, skipping: sample #{path.inspect}"
+            __delayed_message "!! Out of time, skipping: sample #{path.inspect}"
           else
-            __delayed_message "Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
+            __delayed_message "!! Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
           end
           return @blank_node
         end
@@ -3804,7 +3804,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
         unless in_good_time?
-          __delayed_message "Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
+          __delayed_message "!! Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
 
           return @blank_node
         end
@@ -3827,7 +3827,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         cg = ChordGroup.new(chord_group, notes, info)
 
         unless in_good_time?
-          __delayed_message "Out of time, skipping: synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
+          __delayed_message "!! Out of time, skipping: synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
           return @blank_node
         end
 
