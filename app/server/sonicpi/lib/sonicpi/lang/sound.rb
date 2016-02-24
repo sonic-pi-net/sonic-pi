@@ -2441,7 +2441,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
 
       def load_sample(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
-        paths = @sample_loader.find_candidates(filts_and_sources)
+        paths = sample_find_candidates(filts_and_sources)
         paths.map do |p|
           load_sample_at_path p
         end
@@ -2742,16 +2742,7 @@ sample :loop_amen                    # starting it again
       end
 
       def sample_paths(filts_and_sources)
-        case filts_and_sources
-        when Array, SonicPi::Core::RingVector
-          return @sample_loader.find_candidates(filts_and_sources)
-        when String
-          return filts_and_sources
-        when Proc
-          return sample_paths filts_and_sources.call
-        else
-          raise "Unknown description for sample_paths: #{filts_and_sources.inspect}"
-        end
+        sample_find_candidates(filts_and_sources)
       end
 
       def sample_path(filts_and_sources)
@@ -2762,16 +2753,13 @@ sample :loop_amen                    # starting it again
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
         args_h = merge_synth_arg_maps_array(args_a)
 
-        case filts_and_sources.size
-        when 0
+        if filts_and_sources.size == 0
           if args_h.has_key?(:name)
             # handle case where sample receives only opts
-            path = args_h.delete(:name)
+            path = sample_path(args_h.delete(:name))
           else
             return nil
           end
-        when 1
-          path = filts_and_sources[0]
         else
           path = sample_path(filts_and_sources)
         end
@@ -3754,31 +3742,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         res
       end
 
-      def resolve_sample_symbol_path(sym)
-        aliases = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_aliases)
-        path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
-
-        return fetch_or_cache_sample_path(sym) unless (aliases || path)
-
-        if (aliases &&
-            (m       = sym.to_s.match /\A(.+?)__(.+)/) &&
-            (p       = aliases[m[1]]))
-          path = p
-          sym = m[2]
-          partial = "#{p}#{sym}"
-        elsif path
-          partial = path + sym.to_s
-        else
-          path = samples_path
-          partial = path + "/" + sym.to_s
-        end
-
-        res = find_sample_with_path(partial)
-
-        raise "No sample exists called #{sym.inspect} in sample pack #{path.inspect} (#{File.expand_path(path)})" unless res
-
-        res
-      end
 
       def complex_sampler_args?(args_h)
         # break out early if any of the 'complex' keys exist in the
@@ -4401,6 +4364,9 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         return n
       end
 
+      def sample_find_candidates(*args)
+        @sample_loader.find_candidates(*args)
+      end
 
       def __freesound(id, *opts)
         path = __freesound_path(id)
