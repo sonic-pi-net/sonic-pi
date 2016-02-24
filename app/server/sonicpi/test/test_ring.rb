@@ -90,5 +90,23 @@ module SonicPi
       assert_equal(spread(5, 13), [true, false, false, true, false, false, true, false, true, false, false, true, false])
       assert_equal(spread(3, 8, rotate: 1),  [true, false, false, true, false, true, false, false])
     end
+
+    def test_plus
+      assert_equal(ring(1, 2, 3) + 10, ring(11.0, 12.0, 13.0))
+    end
+
+    def test_list_plus
+      assert_equal(ring(1, 2, 3) + ring(4), ring(1, 2, 3, 4))
+      assert_equal(ring(1, 2, 3) + ring(1), ring(1, 2, 3, 1))
+    end
+
+    def test_minus
+      assert_equal(ring(10, 20, 30) - 5, ring(5.0, 15.0, 25.0))
+    end
+
+    def test_list_minus
+      assert_equal(ring(1, 2, 3) - ring(1), ring(2, 3))
+      assert_equal(ring(1, 2, 3) - ring(10), ring(1, 2, 3))
+    end
   end
 end

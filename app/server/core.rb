@@ -233,6 +233,32 @@ module SonicPi
         self.class.new(a)
       end
 
+      def list_diff(other)
+        ___sp_preserve_vec_kind(self.to_a - other.to_a)
+      end
+
+      def list_concat(other)
+        ___sp_preserve_vec_kind(self.to_a + other.to_a)
+      end
+
+      def -(other)
+        if other.is_a?(Array) || other.is_a?(SPVector)
+          return list_diff(other)
+        else
+          o = other.to_f
+          return self.map{|el| el - o}
+        end
+      end
+
+      def +(other)
+        if other.is_a?(Array) || other.is_a?(SPVector)
+          return list_concat(other)
+        else
+          o = other.to_f
+          return self.map{|el| el + o}
+        end
+      end
+
       def [](idx, len=(missing_length = true))
         return nil unless idx
         raise InvalidIndexError, "Invalid index: #{idx.inspect}, was expecting a number or range" unless idx && (idx.is_a?(Numeric) || idx.is_a?(Range))
