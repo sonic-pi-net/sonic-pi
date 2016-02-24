@@ -17,6 +17,8 @@
 #
 #-------------------------------------------------
 
+CONFIG += debug
+
 # -- Change to match the location of QScintilla on your system
 #
  LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 -lrt

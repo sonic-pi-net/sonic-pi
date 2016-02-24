@@ -20,7 +20,7 @@
 #include <QPainter>
 #include <QDebug>
 
-Scope::Scope( QWidget* parent ) : QWidget(parent), shm_client( 4556 )
+Scope::Scope( QWidget* parent ) : QWidget(parent)
 {
   setWindowTitle( "Sonic Pi - Scope" );
   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
@@ -29,8 +29,6 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), shm_client( 4556 )
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
   scopeTimer->start(50);
-  
-  shm_reader = shm_client.get_scope_buffer_reader(0);
 }
 
 Scope::~Scope()
@@ -98,8 +96,8 @@ void Scope::refreshScope() {
     }
   }
   {
-    shm_client = server_shared_memory_client(4556);
-    shm_reader = shm_client.get_scope_buffer_reader(0);
+    shm_client.reset(new server_shared_memory_client(4556));
+    shm_reader = shm_client->get_scope_buffer_reader(0);
     qDebug() << "Retrying";
   }
   update();

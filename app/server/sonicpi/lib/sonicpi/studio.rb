@@ -366,11 +366,13 @@ module SonicPi
       @fx_group = @server.create_group(:before, @mixer_group, "STUDIO-FX")
       @synth_group = @server.create_group(:before, @fx_group, "STUDIO-SYNTHS")
       @recording_group = @server.create_group(:after, @mixer_group, "STUDIO-RECORDING")
+      @scope_group = @server.create_group(:after, @mixer_group, "STUDIO-SCOPE")
     end
 
     def reset_server
       reset_and_setup_groups_and_busses
       start_mixer
+      start_scope
     end
 
     def start_mixer
@@ -380,6 +382,11 @@ module SonicPi
       # set_mixer! :default
       mixer_synth = raspberry_pi_1? ? "sonic-pi-basic_mixer" : "sonic-pi-mixer"
       @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i}, nil, true)
+    end
+
+    def start_scope
+      scope_synth = "scope"
+      @scope = @server.trigger_synth(:head, @scope_group, scope_synth, {})
     end
 
     def internal_load_sample(path, server=@server)

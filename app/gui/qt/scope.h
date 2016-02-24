@@ -59,7 +59,7 @@ private slots:
   void refreshScope();
  
 private: 
-  server_shared_memory_client shm_client;
+  std::unique_ptr<server_shared_memory_client> shm_client;
   scope_buffer_reader shm_reader;
   QPixmap scope_pixmap;
 };
