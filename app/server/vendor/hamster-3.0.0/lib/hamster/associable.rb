@@ -6,6 +6,7 @@ module Hamster
   #
   # * `fetch(index, default = (missing_default = true))`
   # * `put(index, item = yield(get(index)))`
+  # * `get(key)`
   #
   # See {Vector#fetch}, {Vector#put}, {Hash#fetch}, and {Hash#put} for examples.
   module Associable
@@ -44,6 +45,27 @@ module Hamster
         new_value = value.update_in(*key_path[1..-1], &block)
       end
       put(key, new_value)
+    end
+
+    # Return the value of successively indexing into a collection.
+    # If any of the keys is not present in the collection, return `nil`.
+    # keys that the Hamster type doesn't understand, raises an argument error
+    #
+    # @example
+    #   h = Hamster::Hash[:a => 9, :b => Hamster::Vector['a', 'b'], :e => nil]
+    #   h.dig(:b, 0)    # => "a"
+    #   h.dig(:b, 5)    # => nil
+    #   h.dig(:b, 0, 0) # => nil
+    #   h.dig(:b, :a)   # ArgumentError
+    # @params keys to fetch from the collection
+    # @return [Object]
+    def dig(key, *rest)
+      value = get(key)
+      if rest.empty? || value.nil?
+        value
+      elsif value.respond_to?(:dig)
+        value.dig(*rest)
+      end
     end
   end
 end

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+  - 3.0.0
+    * [Changed] the behavior of Hamster::Hash#values_at
+    * [Added] Hamster::Hash#dig and Hamster::Enumerable#grep_v
+    * [Added] Hamster::Enumerable#grep_v
+    * [Added] Hamster::Hash#>
+    * [Added] Hamster::Hash#>=
+    * [Added] Hamster::Hash#<
+
   - 2.0.0
     * [Removing] Hamster.deque since talking to the classes should be the main entry point
     * [Removing] Hamster.mutable_set

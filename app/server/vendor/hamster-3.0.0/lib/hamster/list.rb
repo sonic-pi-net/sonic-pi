@@ -1311,7 +1311,7 @@ module Hamster
     def initialize(&block)
       @head   = block # doubles as storage for block while yet unrealized
       @tail   = nil
-      @atomic = Concurrent::Atomic.new(0) # haven't yet run block
+      @atomic = Concurrent::AtomicReference.new(0) # haven't yet run block
       @size   = nil
     end
 
@@ -1591,5 +1591,5 @@ module Hamster
         true
       end
     end
-  end
-end.freeze
+  end.freeze
+end

@@ -4,7 +4,7 @@ require "concurrent/atomics"
 
 describe Hamster::List do
   it "ensures each node of a lazy list will only be realized on ONE thread, even when accessed by multiple threads" do
-    counter = Concurrent::Atomic.new(0)
+    counter = Concurrent::AtomicReference.new(0)
     list = (1..10000).to_list.map { |x| counter.update { |count| count + 1 }; x * 2 }
 
     threads = 10.times.collect do

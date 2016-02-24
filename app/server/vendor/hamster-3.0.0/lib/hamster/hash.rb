@@ -559,17 +559,34 @@ module Hamster
     end
 
     # Return a {Vector} of the values which correspond to the `wanted` keys.
-    # If any of the `wanted` keys are not present in this `Hash`, they will be skipped.
+    # If any of the `wanted` keys are not present in this `Hash`, `nil` will be
+    # placed instead, or the result of the default proc (if one is defined),
+    # similar to the behavior of {#get}.
     #
     # @example
     #   h = Hamster::Hash["A" => 1, "B" => 2, "C" => 3]
-    #   h.values_at("B", "A", "D")  # => Hamster::Vector[2, 1]
+    #   h.values_at("B", "A", "D")  # => Hamster::Vector[2, 1, nil]
     #
     # @param wanted [Array] The keys to retrieve
     # @return [Vector]
     def values_at(*wanted)
-      array = []
-      wanted.each { |key| array << get(key) if key?(key) }
+      array = wanted.map { |key| get(key) }
+      Vector.new(array.freeze)
+    end
+
+    # Return a {Vector} of the values which correspond to the `wanted` keys.
+    # If any of the `wanted` keys are not present in this `Hash`, raise `KeyError`
+    # exception.
+    #
+    # @example
+    #   h = Hamster::Hash["A" => 1, "B" => 2, "C" => 3]
+    #   h.fetch_values("C", "A")  # => Hamster::Vector[3, 1]
+    #   h.fetch_values("C", "Z")  # => KeyError: key not found: "Z"
+    #
+    # @param wanted [Array] The keys to retrieve
+    # @return [Vector]
+    def fetch_values(*wanted)
+      array = wanted.map { |key| fetch(key) }
       Vector.new(array.freeze)
     end
 
@@ -723,6 +740,50 @@ module Hamster
       self.eql?(other) || (other.respond_to?(:to_hash) && to_hash.eql?(other.to_hash))
     end
 
+    # Return true if this `Hash` is a proper superset of `other`, which means
+    # all `other`'s keys are contained in this `Hash` with the identical
+    # values, and the two hashes are not identical.
+    #
+    # @param other [Hamster::Hash] The object to compare with
+    # @return [Boolean]
+    def >(other)
+      self != other && self >= other
+    end
+
+    # Return true if this `Hash` is a superset of `other`, which means all
+    # `other`'s keys are contained in this `Hash` with the identical values.
+    #
+    # @param other [Hamster::Hash] The object to compare with
+    # @return [Boolean]
+    def >=(other)
+      other.each do |key, value|
+        if self[key] != value
+          return false
+        end
+      end
+      true
+    end
+
+    # Return true if this `Hash` is a proper subset of `other`, which means all
+    # its keys are contained in `other` with the identical values, and the two
+    # hashes are not identical.
+    #
+    # @param other [Hamster::Hash] The object to compare with
+    # @return [Boolean]
+    def <(other)
+      other > self
+    end
+
+    # Return true if this `Hash` is a subset of `other`, which means all its
+    # keys are contained in `other` with the identical values, and the two
+    # hashes are not identical.
+    #
+    # @param other [Hamster::Hash] The object to compare with
+    # @return [Boolean]
+    def <=(other)
+      other >= self
+    end
+
     # See `Object#hash`.
     # @return [Integer]
     def hash
@@ -781,6 +842,22 @@ module Hamster
       output
     end
     alias :to_h :to_hash
+
+    # Return a Proc which accepts a key as an argument and returns the value.
+    # The Proc behaves like {#get} (when the key is missing, it returns nil or
+    # result of the default proc).
+    #
+    # @example
+    #   h = Hamster::Hash["A" => 1, "B" => 2, "C" => 3]
+    #   h.to_proc.call("B")
+    #   # => 2
+    #   ["A", "C", "X"].map(&h)   # The & is short for .to_proc in Ruby
+    #   # => [1, 3, nil]
+    #
+    # @return [Proc]
+    def to_proc
+      lambda { |key| get(key) }
+    end
 
     # @return [::Hash]
     # @private

@@ -29,6 +29,15 @@ module Hamster
       result
     end
 
+    # Search the collection for elements which are not `#===` to `item`. Yield
+    # them to the optional code block if provided, and return them as a new
+    # collection.
+    def grep_v(pattern, &block)
+      result = select { |item| !(pattern === item) }
+      result = result.map(&block) if block_given?
+      result
+    end
+
     # Yield all integers from 0 up to, but not including, the number of items in
     # this collection. For collections which provide indexed access, these are all
     # the valid, non-negative indices into the collection.
