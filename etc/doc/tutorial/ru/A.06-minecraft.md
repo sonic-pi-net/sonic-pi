@@ -1,69 +1,74 @@
 A.6 Musical Minecraft 
 
-# Musical Minecraft
+# Музыкальный Minecraft
 
+Привет, и с возвращением! В предыдущих упражнениях мы сосредотачивались
+исключительно на музыкальных возможностях Sonic Pi - (превращая ваш Raspberry
+Pi в готовый к выступлению музыкальный инструмент). К этому моменту мы 
+научились:
 
+- Кодировать в реальном времени, 
+- Создавать различные ритмы, 
+- Генерировать мощные солирующие синты,
+- Воссоздавать знаменитые кислотные басы TB-303.
 
-Hello and welcome back! In the previous tutorials we've focussed purely
-on the music possibilities of Sonic Pi - (turning your Raspberry Pi into
-a performance ready musical instrument). So far we've learned how to:
+Однако, есть ещё множество аспектов создания музыки, которые нужно показать вам
+(что я и сделаю в будущем). Но в этом месяце мы рассмотрим особенность Sonic
+Pi, о наличии которой вы, наверное, даже и не подозревали: управлять Minecraft.
 
-* Live Code - changing the sounds on-the-fly,
-* Code some huge beats,
-* Generate powerful synth leads,
-* Re-create the famous TB-303 acid-bass sound.
+# Привет, Мир Minecraft
 
-There's so much more to show you (which we will explore in future
-editions). However, this month, let's look at something Sonic Pi can do
-that you probably didn't realise: control Minecraft.
+ОК, давайте начнём. Подключите ваш Raspberry Pi, запустите Minecraft Pi и
+создайте новый мир. Теперь запустите Sonic Pi, измените размеры окон и 
+разместите их так, чтобы вы могли видеть одновременно и Minecraft Pi,
+и Sonic Pi.
 
-# Hello Minecraft World
+В пустом буфере наберите следующее:
 
-OK, let's get started. Boot up your Raspberry Pi, fire up Minecraft Pi
-and create a new world. Now start up Sonic Pi and re-size and move your
-windows so you can see both Sonic Pi and Minecraft Pi at the same time.
-
-In a fresh buffer type the following:
 
     mc_message "Hello Minecraft from Sonic Pi!"
+
     
-Now, hit Run. Boom! Your message appeared in Minecraft! How easy was
-that? Now, stop reading this for a moment and play about with your own
-messages. Have fun!
+Теперь, нажмите "Выполнить". Бум! Ваше сообщение появилось в Minecraft! Ну как,
+это было легко? Теперь, прекратите на мгновение чтение этой статьи и поиграйте
+с вашими собственными сообщениями. Веселитесь!
 
 ![Screen 0](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-0-small.png)
 
-# Sonic Teleporter
+# Sonic Телепортатор
 
-Now let's do some exploring. The standard option is to reach for the
-mouse and keyboard and start walking around. That works, but it's pretty
-slow and boring. It would be far better if we had some sort of teleport
-machine. Well, thanks to Sonic Pi, we have one. Try this:
+Теперь давайте исследовать мир Minecraft. Стандартный вариант - дотянуться до
+мыши и клавиатуры и начать перемещаться в мире Minecraft. Это работает, но это
+довольно медленно и скучно. Было бы гораздо интереснее, если бы у нас было
+что-то вроде телепортатора. Благодаря Sonic Pi, мы имеем один. Попробуйте это:
+
 
     mc_teleport 80, 40, 100
+
     
-Crikey! That was a long way up. If you weren't in flying-mode then you
-would have fallen back down all the way to the ground. If you double-tap
-space to enter flying-mode and teleport again, you'll stay hovering at
-the location you zap to.
+Боже мой! Это был долгий путь вверх. Если вы не находились в режиме полёта, то
+должны были упасть обратно на землю. Если вы дважды нажмёте пробел для входа в
+режим полёта и телепортируетесь снова, вы останетесь висеть на том месте, куда
+вы в телепортировались.
 
-Now, what do those numbers mean? We have three numbers which describe
-the coordinates of where in the world we want to go. We give each number
-a name - x, y and z:
+Итак, что же означают эти цифры? У нас есть три числа, которые описывают 
+координаты места, куда мы хотим переместиться. Мы даём каждой цифре имя -
+х, y и z:
 
-* x - how far left and right (80 in our example)
-* y - how high we want to be (40 in our example)
-* z - how far forward and back (100 in our example)
+- x - как далеко от левого края (в нашем примере - 80) 
+- y - как высоко (в нашем примере - 40) 
+- z - как далеко вглубь мира (в нашем примере - 100)
 
-By choosing different values for x, y and z we can teleport *anywhere*
-in our world. Try it! Choose different numbers and see where you can end
-up. If the screen goes black it's because you've teleported yourself
-under the ground or into a mountain. Just choose a higher y value to get
-back out above land. Keep on exploring until you find somewhere you
-like...
+Выбирая различные значения для x, y и z, мы можем телепортироваться *куда
+угодно*. Попробуйте! Выбирайте различные цифры и смотрите, где вы окажетесь.
+Если экран стал чёрным, это произошло потому, что вы телепортировали себя под
+землю или внутрь скалы. Просто выбирите значение `y` выше, чтобы оказаться
+снова над землёй. Продолжайте исследования, пока не найдёте место, которое вам
+понравится...
 
-Using the ideas so far, let's build a Sonic Teleporter which makes a fun
-teleport sound whilst it whizzes us across the Minecraft world:
+Используя эти идеи, построим телепортатор, который издаёт весёлый звук
+телепортации, пока переносит нас сквозь мир Minecraft:
+
 
     mc_message "Preparing to teleport...."
     sample :ambi_lunar_land, rate: -1
@@ -76,25 +81,29 @@ teleport sound whilst it whizzes us across the Minecraft world:
     sleep 1
     mc_teleport 90, 20, 10
     mc_message "Whoooosh!"
+
     
 ![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png)
 
-# Magic Blocks
+# Магические Блоки
 
-Now you've found a nice spot, let's start building. You could do what
-you're used to and start clicking the mouse furiously to place blocks
-under the cursor. Or you could use the magic of Sonic Pi. Try this:
+Сейчас, когда вы нашли хорошее место, начнём строительство. Вы могли бы делать
+то, к чему привыкли, и начать яростно кликать мышкой, распологая блоки под
+курсором. Или вы могли бы использовать магию Sonic Pi. Попробуйте это:
+
 
     x, y, z = mc_location
     mc_set_block :melon, x, y + 5, z
 
-Now look up! There's a melon in the sky! Take a moment to look at the
-code. What did we do? On line one we grabbed the current location of
-Steve as the variables x, y and z. These correspond to our coordinates
-described above. We use these coordinates in the fn `mc_set_block` which
-will place the block of your choosing at the specified coordinates. In
-order to make something higher up in the sky we just need to increase
-the y value which is why we add 5 to it. Let's make a long trail of them:
+
+Теперь посмотри вверх! В небе дынный блок! Найдите минутку, чтобы посмотреть на
+код. Что он делает? На первой строке мы определили текущее местоположение как
+переменные x, y и z. Они соответствуют нашим координатам, описанным выше. Мы
+использовали эти координаты в функции `mc_set_block`, которая поместила блок,
+который мы выбрали, по указанным координатам. Чтобы указать сделать что-то выше
+в небе, нам просто нужно увеличить значение `y`, вот почему мы добавляем 5 к
+нему. Сделаем длинный след из этих блоков:
+
 
     live_loop :melon_trail do
       x, y, z = mc_location
@@ -102,28 +111,31 @@ the y value which is why we add 5 to it. Let's make a long trail of them:
       sleep 0.125
     end
 
-Now, jump over to Minecraft, make sure you're in flying-mode (double tap
-space if not) and fly all around the world. Look behind you to see a
-pretty trail of melon blocks! See what kind of twisty patterns you can
-make in the sky.
 
-# Live Coding Minecraft
+Теперь переключитесь на Minecraft, убедитесь что вы находитесь в режиме полёта
+(двойное нажатие на пробел, если нет) и летайте по всему миру. Обернитесь,
+чтобы увидеть длинный след дынных блоков! Посмотрите, какие извилистые
+структуры вы можете сделать в небе.
 
-Those of you that have been following this tutorial over the last few
-months will probably have your minds blown at this point. The trail of
-melons is pretty cool, but the most exciting part of the previous
-example is that you can use `live_loop` with Minecraft! For those that
-don't know, `live_loop` is Sonic Pi's special magic ability that no
-other programming language has. It lets you run multiple loops at the
-same time and allows you to change them whilst they run. They are
-incredibly powerful and amazing fun. I use `live_loop`s to perform music
-in nightclubs with Sonic Pi - DJs use discs and I use `live_loop`s :-)
-However, today we're going to live code both music and Minecraft.
+# Лайвкодинг Minecraft
 
-Let's get started. Run the code above and start making your melon
-trail again. Now, without stopping the code, just simply change `:melon` to
-`:brick` and hit run. Hey presto, you're now making a brick trail. How
-simple was that! Fancy some music to go with it? Easy. Try this:
+Тем из вас, кто следит за этими статьями в течение последних нескольких
+месяцев, наверное снесёт крышу к этому моменту. След дынных блоков это очень
+здорово, но самая захватывающая часть предыдущего пример заключается в том, что
+вы можете использовать `live_loop` с Minecraft! Для тех, кто не знает, цикл
+`live_loop` в Sonic Pi - особая магическая способность, которой нет других
+языках программирования. Он позволяет запускать несколько циклов в одно и то
+же время и изменять их, пока они выполняются. Они невероятно мощные и
+удивительно весёлые. Я использую `live_loop`, чтобы исполнять музыку в ночных
+клубах с Sonic Pi - диджеи используют диски, а я циклы `live_loop` :-) Тем не
+менее, сегодня мы собираемся кодировать в реальном времени и музыку, 
+и Minecraft.
+
+Давайте начнём. Запустите приведенный выше код и начните делать свой дынный
+след снова. Теперь, не останавливая код, просто измените `:melon` на `:brick`
+и нажмите "Выполнить". Вуаля, вы теперь делаете кирпичную дорогу. Это было
+просто! Добавим немного музыки в это? Легко. Попробуйте это:
+
 
     live_loop :bass_trail
       tick
@@ -135,21 +147,22 @@ simple was that! Fancy some music to go with it? Easy. Try this:
       play note, release: 0.1, cutoff: 70
       sleep 0.125
     end
-    
-Now, whilst that's playing start changing the code. Change the block
-types - try `:water`, `:grass` or your favourite block type. Also, try
-changing the cutoff value from `70` to `80` and then up to `100`. Isn't
-this fun?
 
-# Bringing it all together
+
+Теперь, пока это играет, начнём вносить изменения в наш код. Измените тип
+блока. Попробуйте `:water`, `:grass` или другой ваш любимый тип блока. Также,
+попробуйте изменть значение отсечки фильтра с `70` до `80` и затем до `100`.
+Разве это не весело?
+
+# Соберём Всё Вместе
 
 ![Screen 2](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-2-small.png)
 
-Let's combine everything we've seen so far with a little extra
-magic. Let's combine our teleportation ability with block placing and
-music to make a Minecraft Music Video. Don't worry if you don't
-understand it all, just type it in and have a play by changing some of
-the values whilst it's running live. Have fun and see you next time...
+Давайте объединим всё, что мы видели до сих пор, с небольшой дополнительной 
+магией. Совместим наши способности к телепортации с размещением блоков и
+музыкой, сделав музыкальное видео Minecraft. Не волнуйтесь, если вы не всё
+здесь понимаете, просто введите код в буфер и играйте, изменяя значения, пока
+код выполняется. Повеселитесь и увидимся в следующий раз...
     
 
     live_loop :note_blocks do
@@ -177,8 +190,3 @@ the values whilst it's running live. Have fun and see you next time...
       sample :bd_haus, cutoff: 100
       sleep 0.5
     end
-          
-
-
-
-
