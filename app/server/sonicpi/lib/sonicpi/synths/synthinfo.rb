@@ -6814,10 +6814,9 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           doc << "<p><table class=\"arguments\"><tr>\n"
           cnt = 0
           v.arg_info.each do |ak, av|
-            doc << "</tr><tr>" if (cnt > 0) and cnt % 6 == 0
-            td_class = cnt.even? ? "even" : "odd"
-            doc << "<td class=\"#{td_class}\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
-            doc << "<td class=\"#{td_class}\">#{av[:default]}</td>\n"
+            doc << "</tr><tr>" if (cnt > 0) and cnt % 4 == 0
+            doc << "<td class=\"even\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
+            doc << "<td class=\"odd\">#{av[:default]}</td>\n"
             cnt += 1
           end
           doc << "</tr></table></p>\n\n"
@@ -6965,10 +6964,9 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           doc << "<h1>" << v[:desc] << "</h1>\n"
           doc << "<p><table class=\"arguments\"><tr>\n"
           StereoPlayer.new.arg_info.each do |ak, av|
-            doc << "</tr><tr>" if (cnt > 0) and cnt % 6 == 0
-            td_class = cnt.even? ? "even" : "odd"
-            doc << "<td class=\"#{td_class}\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
-            doc << "<td class=\"#{td_class}\">#{av[:default]}</td>\n"
+            doc << "</tr><tr>" if (cnt > 0) and cnt % 4 == 0
+            doc << "<td class=\"even\"><a href=\"##{ak}\">#{ak}:</a></td>\n"
+            doc << "<td class=\"odd\">#{av[:default]}</td>\n"
             cnt += 1
           end
           doc << "</tr></table></p>\n"
@@ -6984,11 +6982,10 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
           cnt = 0
           StereoPlayer.new.arg_info.each do |ak, av|
-            td_class = cnt.even? ? "even" : "odd"
             doc << "<a name=\"#{ak}\"></a>\n"
             doc << "<tr>\n"
-            doc << " <td class=\"#{td_class} key\">#{ak}:</td>\n"
-            doc << " <td class=\"#{td_class}\">\n"
+            doc << " <td class=\"even key\">#{ak}:</td>\n"
+            doc << " <td class=\"odd\">\n"
             doc << "  <p>#{av[:doc] || 'write me'}</p>\n"
             doc << "  <p class=\"properties\">\n"
             doc << "   Default: #{av[:default]}\n"
