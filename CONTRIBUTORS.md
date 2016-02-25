@@ -12,6 +12,7 @@ technical and otherwise) with time, advice, and wisdom:
 * [Rachel Drury](https://twitter.com/Rachel_Drury)
 * [Juneau Projects](http://www.juneauprojects.co.uk)
 * Stephan Lachowsky
+* [Paul Winstanley](https://twitter.com/SCCMentor)
 
 ## Organisations
 
