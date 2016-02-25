@@ -40,6 +40,15 @@ class Symbol
     return self if (self == :r) || (self == :rest)
     SonicPi::Note.resolve_midi_note_without_octave(self) + SonicPi::Note.resolve_midi_note_without_octave(other)
   end
+
+  def to_f
+    return 0.0 if (self == :r) || (self == :rest)
+    SonicPi::Note.resolve_midi_note_without_octave(self).to_f
+  end
+
+  def to_i
+    self.to_f.to_i
+  end
 end
 
 class NilClass
