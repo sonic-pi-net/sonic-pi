@@ -2060,13 +2060,14 @@ void MainWindow::createToolBar()
   toolBar->addAction(stopAct);
   toolBar->addAction(recAct);
 
+  toolBar->addWidget(spacer);
+
   toolBar->addAction(saveAsAct);
   toolBar->addAction(loadFileAct);
 
-  toolBar->addWidget(spacer);
-
   toolBar->addAction(textDecAct);
   toolBar->addAction(textIncAct);
+
   dynamic_cast<QToolButton*>(toolBar->widgetForAction(textDecAct))->setAutoRepeat(true);
   dynamic_cast<QToolButton*>(toolBar->widgetForAction(textIncAct))->setAutoRepeat(true);
 
