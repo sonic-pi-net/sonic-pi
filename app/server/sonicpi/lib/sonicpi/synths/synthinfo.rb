@@ -2366,7 +2366,7 @@ module SonicPi
         {
           :norm =>
           {
-            :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
+            :doc => "Normalise the audio (make quieter parts of the synth's sound louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
             :validations => [v_one_of(:norm, [0, 1])],
             :modulatable => true
           },
@@ -2985,8 +2985,18 @@ module SonicPi
           {
             :validations => [v_not_zero(:rate)],
             :modulatable => false
+          },
+
+
+          :lpf =>
+          {
+            :doc => "Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
+            :validations => [v_positive(:lpf), v_less_than(:lpf, 131)],
+            :modulatable => true,
+            :midi => true
           }
         }
+
       end
     end
 
