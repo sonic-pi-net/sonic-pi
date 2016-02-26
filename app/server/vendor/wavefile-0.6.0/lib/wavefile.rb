@@ -25,7 +25,7 @@ module WaveFile
                :sample       => "smpl",
                :instrument   => "inst" }    # :nodoc:
 
-  PACK_CODES = {:pcm => {8 => "C*", 16 => "s*", 24 => "C*", 32 => "l*"},
+  PACK_CODES = {:pcm => {8 => "C*", 16 => "s<*", 24 => "C*", 32 => "l<*"},
                 :float => { 32 => "e*", 64 => "E*"}}    # :nodoc:
 
   UNSIGNED_INT_16 = "v"    # :nodoc:
