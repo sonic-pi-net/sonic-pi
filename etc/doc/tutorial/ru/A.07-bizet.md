@@ -1,113 +1,114 @@
 A.7 Bizet Beats
 
-# Bizet Beats
+# Ритмы Бизе
 
-After our brief excursion to the fantastic world of coding Minecraft
-with Sonic Pi last month, let's get musical again. Today we're going to
-bring a classical operatic dance piece straight into the 21st century
-using the awesome power of code.
+После нашего краткого экскурса в сказочный мир кодинга Minecraft в прошлом
+месяце, давайте снова помузицируем. Сегодня мы собираемся перенести
+классический оперный танцевальный ритм в 21-й век, используя грандиозную силу
+кода.
 
-# Outrageous and Disruptive
+## Возмутительно И Дерзко
 
-Let's jump into a time machine back to the year 1875. A composer called
-Bizet had just finished his latest opera Carmen.  Unfortunately like
-many exciting and disruptive new pieces of music people initially
-didn't like it at all because it was too outrageous and different. Sadly
-Bizet died ten years before the opera gained huge international success
-and became one of the most famous and frequently performed operas
-of all time. In sympathy with this tragedy let's take one of the main
-themes from Carmen and convert it to a modern format of music that is
-also too outrageous and different for most people in our time - live
-coded music!
+Переместимся на машине времени в 1875 год. Композитор Бизе как раз закончил
+свою последнюю оперу "Кармен". К сожалению, как и множество других
+прогрессивных, ломающих стереотипы музыкальных произведений, публика поначалу
+её не приняла, ведь она была слишком дерзкой и непохожей на другие оперы того
+времени. Печально, но Бизе умер за десять лет до того, как эта опера заработала
+ошеломляющий международный успех и стала одной из самых известных и часто
+исполняемых опер всех времён. Из сочувствия к этой трагедии, возьмем одну из
+главных тем оперы "Кармен", и преобразуем её в современный формат музыки,
+который также слишком возмутителен и чужд большинству людей нашего времени -
+кодированную музыку!
 
-# Decoding the Habanera
+## Расшифровка Хабанеры
 
-Trying to live code the whole opera would be a bit of a challenge for
-this tutorial, so let's focus on one of the most famous parts - the bass
-line to the Habanera:
+Пытаться кодировать всю оперу было бы сложноватой задачей для одной статьи,
+так что давайте сосредоточимся на одной из самых известных её частей - басовой
+партии Хабанеры:
 
 ![Habanera Riff](../images/tutorial/articles/A.07-bizet/habanera.png)
 
-This may look extremely unreadable to you if you haven't yet studied
-music notation.  However, as programmers we see music notation as just
-another form of code - only it represents instructions to a musician instead
-of a computer. We therefore need to figure out a way of decoding it. 
+Если вы ещё не изучали нотной записи, это будет выглядеть крайне непонятным для
+вас. Однако, как программисты, мы видим нотную запись просто как другую форму
+кода, содержащего инструкции не для компьютера, а для музыканта. Поэтому нам
+нужно найти способ декодировать его. 
 
-# Notes
+## Ноты
 
-The notes are arranged from left to right like the words in this
-magazine but also have different heights. *The height on the score
-represents the pitch of the note.* The higher the note on the score, the
-higher the pitch of the note.
+Ноты упорядочиваются слева направо, как слова в этой статьи, но имеют разную
+высоту. *Высота относительно нотной партитуры обозначает высоту тона.* Чем выше
+нота находится в партитуре, тем выше высоты тона.
 
-In Sonic Pi we already know how to change the pitch of a note - we
-either use high or low numbers such as `play 75` and `play 80` or we use
-the note names: `play :E` and `play :F`. Luckily each of the vertical
-positions of the musical score represents a specific note name. Take a
-look at this handy look up table:
+Мы уже знаем, как изменить высоту ноты в Sonic Pi  - либо используя цифры,
+такие как `play 75` и `play 80`, либо используя названия нот: `play :Е` и
+`play :F`. К счастью, каждой вертикальной позиции музыкальной партитуры
+соответствует определенная нота. Взгляните на эту удобную таблицу:
 
 ![Notes](../images/tutorial/articles/A.07-bizet/notes.png)
 
-# Rests
+## Паузы
 
-Music scores are an extremely rich and expressive kind of code capable
-of communicating many things. It therefore shouldn't come as much of a
-surprise that musical scores can not only tell you what notes to play but
-also when *not* to play notes. In programming this is pretty much
-equivalent to the idea of `nil` or `null` - the absence of a value. In
-other words not playing a note is like the absence of a note.
+Ноты представляют собой чрезвычайно богатый и выразительный вид кода,
+способного объединить сразу множество вещей. Поэтому дя вас не должно стать
+большим удивлением, что партитура может не только сказать вам, какие ноты
+играть, но также когда ноты играть *не* нужно . В программировании это
+эквивалентно `nil` или `null` - отсутствию значения. Другими словами, пауза -
+это отсутствие ноты.
 
-If you look closely at the score you'll see that it's actually a
-combination of black dots with lines which represent notes to play and
-squiggly things which represent the rests. Luckily Sonic Pi has a very
-handy representation for a rest: `:r`, so if we run: `play :r` it
-actually plays silence! We could also write `play :rest`, `play nil` or
-`play false` which are all equivalent ways of representing rests.
+Если вы внимательно посмотрите на партитуру, вы увидите, что это на самом деле 
+сочетание горизонтальных линий с черными точками, которые представляют собой
+ноты, коротые нужно играть, и волнистых штук, которые представляют собой
+паузы. К счастью, Sonic Pi имеет очень удобное представление для пауз: `:r`,
+так, если мы выполним: `play :r`, он на самом деле сыграет тишину! Мы могли бы
+также написать `play :rest`, `play nil` или `play false` - это всё
+эквивалентные способы представления пауз.
 
-# Rhythm
+## Ритм
 
-Finally, there's one last thing to learn how to decode in the notation -
-the timings of the notes. In the original notation you'll see that the
-notes are connected with thick lines called beams. The second note has
-two of these beams which means it lasts for a 16th of a beat. The other
-notes have a single beam which means they last for an 8th of a beat. The
-rest has two squiggly beams which means it also represents a 16th of the
-beat.
+Наконец, нужно узнать ещё одну вещь - как расшифровывать в партитуре
+длительности нот. В оригинальной партитуре мы видим, что ноты связаны толстыми
+линиями, называемыми рёбрами. Вторая нота имеет два таких ребра, что означает,
+что она длится 16-ю часть такта. Другие ноты имеют одно ребро, которое
+означает, что они дляться 8-ю часть такта. Паузы имеют два волнистых флажка,
+которые означают, что они также длятся 16-ю часть такта.
 
-When we attempt to decode and explore new things a very handy trick is
-to make everything as similar as possible to try and see any
-relationships or patterns. For example, when we re-write our notation
-purely in 16ths you can see that our notation just turns into a nice
-sequence of notes and rests.
-
+Когда мы пытаемся расшифровать и изучить новые вещи, очень удобный приём - 
+сделать всё как можно более однородным, чтобы увидеть соотношения и структуры.
+Например, если мы перепишем нашу партитуру одними только 16-ми длительностями,
+вы сможете увидеть, что она превращается в простую последовательность нот и
+пауз.
 
 ![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)
 
-# Re-coding the Habanera
+## Повторное кодирование Хабанеры
 
-We're now in a position to start translating this bass line to Sonic
-Pi. Let's encode these notes and rests in a ring:
+Теперь мы в состоянии начать переводить эту басовую партию для Sonic Pi.
+Давайте закодируем эти ноты и паузы в кольцо:
+
 
     (ring :d, :r, :r, :a, :f5, :r, :a, :r)
-    
-Let's see what this sounds like. Throw it in a live loop and tick
-through it:
+
+
+Теперь посмотрим, как это звучит. Закиньте это кольцо в живой цикл, чтобы можно
+было последовательно извлекать элементы кольца:
+
 
     live_loop :habanera do
       play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick
       sleep 0.25
     end
-    
-Fabulous, that instantly recognisable riff springs to life through your
-speakers. It took a lot of effort to get here, but it was worth it -
-high five!
-    
-# Moody Synths
 
-Now we have the bass line, let's re-create some of the ambience of the
-operatic scene. One synth to try out is `:blade` which is a moody 80s
-style synth lead.  Let's try it with the starting note `:d` passed
-through a slicer and reverb:
+
+Легендарный, мгновенно узнаваемый рифф возвращается к жизни сквозь ваши
+колонки. Потребовалось немало усилий, чтобы добраться сюда, но это того стоило!
+    
+## Мрачные Синты
+
+Теперь у нас есть басовая партия. Давайте воссоздадим атмосферу оперной сцены.
+Попробуем осуществить это с `:blade`, мрачным солирующим синтом в стиле 80-х.
+Давайте испробуем его, извлекая ноту `:d`, пропущенную через эффекты нарезки и
+реверберации:
+
 
     live_loop :habanera do
       use_synth :fm
@@ -125,19 +126,20 @@ through a slicer and reverb:
       end
     end
 
-Now, try the other notes in the bass line: `:a` and `:f5`. Remember, you
-don't need to hit stop, just modify the code whilst the music is playing
-and hit run again. Also, try different values for the slicer's `phase:`
-opt such as `0.5`, `0.75` and `1`.
 
-# Bringing it all together
+Теперь, попробуйте подставить туда другие ноты басовой партии:`:a` и `:f5`.
+Помните, вам не надо нажимать кнопку "Остановить", просто измените код в то
+время, как музыка играет, и нажмите "Выполнить" снова. Также, попробуйте разные
+значения параметра `phase:` нарезки, такие как `0.5`, `0.75` и `1`.
 
-Finally, let's combine all the ideas so far into a new remix of the
-Habanera. You might notice that I've included another part of the bass
-line as a comment. Once you've typed it all into a fresh buffer hit Run
-to hear the composition. Now, without hitting stop, *uncomment* the
-second line by removing the `#` and hit run again - how marvellous is
-that! Now, start mashing it around yourself and have fun.
+## Соберём Всё Вместе
+
+Наконец, давайте объединим все идеи этой статьи в новый ремикс Хабанеры. Вы
+можете заметить, что я включил ещё одну часть басовой партии как комментарий.
+Как только вы набрали всё это в буфере, нажмите "Выполнить", чтобы прослушать
+композицию. Затем, не нажимая кнопку "Остановить", *раскомментируйте* вторую
+строку, удалив знак `#`, и нажмите "Выполнить" снова - как это удивительно!
+Итак, начинайте лайвкодинг и веселитесь!
 
     use_debug false
     bizet_bass = (ring :d, :r, :r, :a, :f5, :r, :a, :r)
@@ -170,4 +172,3 @@ that! Now, start mashing it around yourself and have fun.
         release: 0.1
       sleep 0.5
     end
-
