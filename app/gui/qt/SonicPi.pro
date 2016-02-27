@@ -17,7 +17,7 @@
 #
 #-------------------------------------------------
 
-CONFIG += debug
+#CONFIG += debug
 
 # -- Change to match the location of QScintilla on your system
 #

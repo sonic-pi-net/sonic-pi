@@ -42,9 +42,12 @@ private:
   std::unique_ptr<server_shared_memory_client> shm_client;
   scope_buffer_reader shm_reader;
   QwtPlot plot;
+  QwtPlot plot2;
   QwtPlotCurve plot_curve;
+  QwtPlotCurve plot_curve2;
   double sample_x[4096];
   double sample_y[4096];
+  double sample_y2[4096];
 };
 
 #endif
