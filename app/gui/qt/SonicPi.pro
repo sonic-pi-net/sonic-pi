@@ -21,8 +21,8 @@ CONFIG += debug
 
 # -- Change to match the location of QScintilla on your system
 #
- LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 -lrt
- INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
+ LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 -lrt -lqwt-qt5
+ INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 /usr/include/qwt
  DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
 # --
 
@@ -42,7 +42,7 @@ unix:!macx {
   } else {
     LIBS += -lqt5scintilla2
   }
-  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+  QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
 }
 
 # Mac OS X only

@@ -20,8 +20,9 @@
 #include <QPainter>
 #include <QDebug>
 
-Scope::Scope( QWidget* parent ) : QWidget(parent)
+Scope::Scope( QWidget* parent ) : QWidget(parent), plot(QwtText("Values"),this)
 {
+  resize(640,480);
   setWindowTitle( "Sonic Pi - Scope" );
   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
   setWindowIcon(QIcon(":images/icon-smaller.png"));
@@ -29,88 +30,50 @@ Scope::Scope( QWidget* parent ) : QWidget(parent)
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
   scopeTimer->start(50);
+
+  for( unsigned int i = 0; i < 4096; ++i )
+  {
+    sample_x[i] = i;
+    sample_y[0] = (i%10)/10.0;
+  }
+  plot_curve.attach(&plot);
+  plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
+  plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
 }
 
 Scope::~Scope()
 {
 }
 
-unsigned int fNum = 0;
 void Scope::refreshScope() {
   if( !isVisible() ) 
   {
-    fNum = 0;
     return;
   }
-  QPainter p(&scope_pixmap);
-  p.fillRect(scope_pixmap.rect(), Qt::black);
 
-  float mid = scope_pixmap.height()/2.0;
-  p.translate(0, mid);
-  
-  QPainterPath path;
-  path.moveTo(0,0);
-  path.lineTo(scope_pixmap.width(),0);
-  p.setPen(Qt::white);
-  p.drawPath(path);
-
-  path = QPainterPath();
-  path.moveTo(0,-mid);
-  path.lineTo(scope_pixmap.width(),-mid);
-  p.setPen(Qt::blue);
-  p.drawPath(path);
-
-  path = QPainterPath();
-  path.moveTo(0,mid-1);
-  path.lineTo(scope_pixmap.width(),mid-1);
-  p.setPen(Qt::red);
-  p.drawPath(path);
-
-  qDebug() << "Refresh scope " << fNum; 
-  ++fNum;
   if( shm_reader.valid() )
   {
-    qDebug() << "Reader is valid";
     unsigned int frames;
     if( shm_reader.pull( frames ) )
     {
-      qDebug() << "Got " << frames << " frames of data";
       float* data = shm_reader.data();
       std::ostringstream vals;
-      path = QPainterPath();
-      path.moveTo(0,data[0]*mid);
-  //    vals << data[0]*mid;  
-      std::random_device rd;
-      std::mt19937 gen(rd());
-      std::uniform_real_distribution<> dis(-1, 1);
-
-      for( unsigned int i = 1; i < frames; ++i )
+      for( unsigned int i = 0; i < frames; ++i )
       {
-  //      data[i] = dis(gen);
-  //      vals << data[i]*mid;
-        path.lineTo(i,data[i]*mid);    
+        sample_y[i] = data[i];
       }
-  //    qDebug() << vals.str().c_str();
-      p.setPen(Qt::yellow);
-      p.drawPath(path);
+      plot_curve.setRawSamples( sample_x, sample_y, frames );
+      plot.replot();
     }
-  }
+  } else
   {
     shm_client.reset(new server_shared_memory_client(4556));
     shm_reader = shm_client->get_scope_buffer_reader(0);
-    qDebug() << "Retrying";
   }
-  update();
-}
-
-void Scope::paintEvent( QPaintEvent* p_evt )
-{
-  QPainter p(this);
-  p.fillRect(p_evt->rect(),Qt::black);
-  p.drawPixmap(0,0,scope_pixmap); 
 }
 
 void Scope::resizeEvent( QResizeEvent* p_evt )
 { 
-  scope_pixmap = QPixmap( p_evt->size() );
+  QWidget::resizeEvent(p_evt);
+  plot.resize(p_evt->size());
 }

@@ -11,30 +11,12 @@
 // notice is included.
 //++
 
-/*
-// This code needs to be executed in scide or sclang in order to instruct
-// scsynth to export the audio data for the scope.
-// TODO: Have sonic pi's server issue these commands instead
-Server.default = Server.new("localhost",NetAddr("127.0.0.1",4556));
-Routine( {
-    var buffer;
-	"Starting thread".postln;
-	s.startAliveThread;
-	s.initTree;
-	s.sync;
-	SynthDef( "my_scope_test", { ScopeOut2.ar(In.ar(),0,1024) } ).send(s);
-    s.sync;
-	"creating synth".postln;
-	Synth.tail(RootNode(s), "my_scope_test");
-	"scope running".postln;
-}).next;
-*/
-
 #ifndef SCOPE_H
 #define SCOPE_H
 
 #include <QWidget>
-#include <QPixmap>
+#include <qwt_plot.h>
+#include <qwt_plot_curve.h>
 
 #include <server_shm.hpp>
 #include <memory>
@@ -49,10 +31,8 @@ class Scope : public QWidget
 public:
   Scope( QWidget* parent = 0 );
   virtual ~Scope();
-//  Scope( int portNumber );
 
 protected:
-  void paintEvent( QPaintEvent* p_evt );
   void resizeEvent( QResizeEvent* p_evt );
 
 private slots:
@@ -61,7 +41,10 @@ private slots:
 private: 
   std::unique_ptr<server_shared_memory_client> shm_client;
   scope_buffer_reader shm_reader;
-  QPixmap scope_pixmap;
+  QwtPlot plot;
+  QwtPlotCurve plot_curve;
+  double sample_x[4096];
+  double sample_y[4096];
 };
 
 #endif
