@@ -100,7 +100,7 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
        << ", partial = " << partial.toStdString() << endl;
   */
 
-  if (last == "sample" || last == "sample_info" || last == "sample_duration" || last == "use_sample_bpm" || last == "sample_buffer" || last == "sample_loaded?") {
+  if (last == "sample" || last == "sample_info" || last == "sample_duration" || last == "use_sample_bpm" || last == "sample_buffer" || last == "sample_loaded?" || last == "load_sample" || last == "load_samples") {
     ctx = Sample;
   } else if (last == "with_fx" || last == "use_fx") {
     ctx = FX;
