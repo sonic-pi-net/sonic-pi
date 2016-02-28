@@ -3401,7 +3401,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
       def control(node, *args)
 
         return nil if node.nil?
-        raise "You may only control a SynthNode. You tried to control a #{node.class}: #{node.inspect}" unless node.is_a?(SynthNode)
+        raise "You may only control a SynthNode. You tried to control a #{node.class}: #{node.inspect}" unless node.is_a?(Node) || node.is_a?
         args_h = resolve_synth_opts_hash_or_array(args)
 
         return nil unless should_trigger?(args_h)
