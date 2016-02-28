@@ -2458,7 +2458,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
       doc name:          :load_sample,
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load sample(s)",
-          doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, this loads the file and makes it available as a sample. See `load_samples` for loading multiple samples in one go.",
+          doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, this loads the file and makes it available as a sample. You may pass multiple samples to load them all in one go",
           args:          [[:path, :string]],
           opts:          nil,
           accepts_block: false,
