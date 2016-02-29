@@ -1,65 +1,66 @@
 A.8 Become a Minecraft VJ
 
-# Become a Minecraft VJ
+# Становимся Minecraft Виджеями
 
 ![Screen 0](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-0-small.png)
 
-Everyone has played Minecraft. You will all have built amazing
-structures, designed cunning traps and even created elaborate cart lines
-controlled by redstone switches. How many of you have performed with
-Minecraft? We bet you didn't know that you could use Minecraft to create
-amazing visuals just like a professional VJ.
+Все вы играли в Minecraft. Все строили удивительные сооружения, конструировали
+хитрые ловушки и даже создавали контролируемые транспортные линии. Но, держу
+пари, вы не догадывались, что могли бы использовать Minecraft для создания
+удивительных визуальных эффектов как профессиональный виджей.
 
-If your only way of modifying Minecraft was with the mouse, you'd have a
-tough time changing things fast enough. Luckily for you your Raspberry
-Pi comes with a version of Minecraft that can be controlled with
-code. It also comes with an app called Sonic Pi which makes coding
-Minecraft not only easy but also incredibly fun.
+Если вашим единственным способом игры с Minecraft была модификация игрового
+мира с помощью мышки, вам наверняка было бы трудно изменять его достаточно
+быстро. К счастью, ваш Raspberry Pi поставляется с версией Minecraft,
+управляемой с помощью кода. Он также содержит приложение Sonic Pi, которое
+делает кодирование Minecraft не только лёгким, но и невероятно весёлым.
 
-In today's article we'll be showing you some of the tips and tricks that
-we've used to create performances in night clubs and music venues around
-the world.
+В этой статье я покажу вам некоторые советы и трюки, использующиеся в
+выступлениях в ночных клубах и концертных площадках по всему миру.
 
-Let's get started...
+Итак, начнём...
 
-# Getting Started
+## Приступая К Работе
 
-Let's start with a simple warm up exercise to refresh ourselves with the
-basics.  First up, crack open your Raspberry Pi and then fire up both
-Minecraft and Sonic Pi. In Minecraft, create a new world, and in Sonic
-Pi choose a fresh buffer and write in this code:
+Давайте начнём с простого разминочного упражнения, дабы освежить в памяти
+основы. Во-первых, подключите ваш Raspberry Pi и запустите Sonic Pi вместе с
+Minecraft. В Minecraft создайте новый мир, а в Sonic Pi выберите пустой буфер
+и наберите там этот код:
+
 
     mc_message "Let's get started..."
+
     
-Hit the Run button and you'll see the message over in the Minecraft
-window. OK, we're ready to start, let's have some fun......
+Нажмите кнопку "Выполнить", и вы увидите сообщение в окне Minecraft. Хорошо,
+мы готовы начать, давайте повеселимся......
 
-# Sand Storms
+## Песчаные Бури
 
-When we're using Minecraft to create visuals we try and think about what
-will both look interesting and also be easy to generate from code. One
-nice trick is to create a sand storm by dropping sand blocks from the
-sky. For that all we need are a few basic fns:
+Когда мы используем Minecraft для создания визуальных эффектов, мы стараемся
+думать о том, чтобы это одновременно выглядело интересно и легко генерировалось
+с помощью кода. Интересный трюк - создать песчаную бурю, сбрасывая песчаные
+блоки с неба. Для этого нам необходимы несколько базовых функций:
 
-* `sleep` - for inserting a delay between actions
-* `mc_location` - to find our current location
-* `mc_set_block`-  to place sand blocks at a specific location
-* `rrand` - to allow us to generate random values within a range
-* `live_loop` - to allow us to continually make it rain sand
+- `sleep` - для того, чтобы вставить задержку между действиями 
+- `mc_location` - для нахождения нашего текущего местоположения
+- `mc_set_block`- чтобы поместить песчаный блок в заданное место
+- `rrand` - для генерации случайных чисел в заданном диапазоне 
+- `live_loop` - позволяет сделать дождь из песка непрерывным
 
 <!-- Breakout box start --> 
 
-If you're unfamiliar with any of the built-in fns such as `rrand`, just
-type the word into your buffer, click on it and then hit the keyboard
-combo `Control-i` to bring up the built-in documentation. Alternatively
-you can navigate to the *lang* tab in the Help system and then look up
-the fns directly along with all the other exciting things you can do.
+Если вы не знакомы с какой-либо из встроенных функций, например `rrand`, просто
+введите её название в свой буфер, кликните на нём, а затем используйте
+клавиатурное сочетание `Ctrl-i`, вызвающее встроенную документацию. В качестве
+альтернативы вы можете переместиться к вкладке *язык* справочной системы, и
+найти нужную функцию прямо там, как и другие интересные вещи.
 
 <!-- Breakout box end -->
 
-Let's make it rain a little first before unleashing the full power of
-the storm. Grab your current location and use it to create a few sand
-blocks up in the sky nearby:
+Прежде чем высвободить всю мощь бури, сделаем небольшой дождь. Возьмём ваше
+текущее местоположение и используем его для создания нескольких песчаных блоков
+в небе неподалеку:
+
 
     x, y, z = mc_location
     mc_set_block :sand, x, y + 20, z + 5
@@ -69,30 +70,33 @@ blocks up in the sky nearby:
     mc_set_block :sand, x, y + 20, z + 7
     sleep 2
     mc_set_block :sand, x, y + 20, z + 8
-    
-When you hit Run, you might have to look around a little as the blocks
-may start falling down behind you depending on which direction you're
-currently facing. Don't worry, if you missed them just hit Run again for
-another batch of sand rain - just make sure you're looking the right
-way!
 
-Let's quickly review what's going on here. On the first line we grabbed
-Steve's location as coordinates with the fn `mc_location` and placed
-them into the vars `x`, `y`, and `z`. Then on the next lines we used the
-`mc_set_block` fn to place some sand at the same coordinates as Steve
-but with some modifications. We chose the same x coordinate, a y
-coordinate 20 blocks higher and then successively larger z coordinates
-so the sand dropped in a line away from Steve.
 
-Why don't you take that code and start playing around with it yourself?
-Try adding more lines, changing the sleep times, try mixing `:sand` with
-`:gravel` and choose different coordinates. Just experiment and have fun!
+Когда вы нажмете "Выполнить", вам, возможно, придется немного осмотреться, так
+как блоки могут начать падать позади вас в зависимости от того, в каком
+направлении вы в настоящее время смотрите. Не волнуйтесь, если вы пропустили
+их, просто нажмите "Выполнить" снова, и вы получите ещё одну порцию песчаного
+дождя - просто убедитесь, что вы смотрите в правильном направлении!
 
-# Live Loops Unleashed
+Давайте быстро посмотрим, что тут у нас происходит. На первой строке мы
+получили местоположение Стива в виде координат с помощью функции `mc_location`
+и присвоили их переменным `х`, `у`, и `z`. На последующих строках мы
+использовали функциию `mc_set_block`, чтобы поместить немного песка в тех же
+координатах, что и Стив но с некоторыми изменениями. Мы выбрали ту же
+координату `x`, но координата `y` стала на 20 блоков выше, а затем
+последовательно увеличивали `z`, чтобы песок падал в линию, удаляющуюся от
+Стива.
 
-OK, it's time to get the storm raging by unleashing the full power of
-the `live_loop` - Sonic Pi's magical ability which unleashes the full
-power of live coding - changing code on-the-fly whilst it's running!
+Почему бы вам самим не поиграть с этим кодом? Попробуйте добавить больше линий,
+изменените время задержки, попробуйте смешать `:sand` с `:gravel` и выбирать
+разные координаты. Просто экспериментируйте и веселитесь!
+
+## Раскручиваем Живые Циклы
+
+Хорошо, пришло время получить бушующую бурю, высвободив мощь `live_loop` -
+магической способности Sonic Pi, раскрывающей всю силу лайвкодинга - изменения
+кода в реальном времени!
+
 
     live_loop :sand_storm do
       x, y, z = mc_location
@@ -100,45 +104,46 @@ power of live coding - changing code on-the-fly whilst it's running!
       zd = rrand(-10, 10)
       co = rrand(70, 130)
       synth :cnoise, attack: 0, release: 0.125, cutoff: co
-      mc_set_block :sand, x + xd, y+20, z+zd
+      mc_set_block :sand, x + xd, y + 20, z + zd
       sleep 0.125
     end
-    
-What fun! We're looping round pretty quickly (8 times a second) and
-during each loop we're finding Steve's location like before but then
-generating 3 random values:
 
-* `xd` - the difference for x which will be between -10 and 10
-* `zd` - the difference for z also between -10 and 10
-* `co` - a cutoff value for the low pass filter between 70 and 130
 
-We then use those random values in the fns `synth` and `mc_set_block`
-giving us sand falling in random locations around Steve along with a
-percussive rain-like sound from the `:cnoise` synth.
+Это весело! Мы выполняем круг цикла довольно быстро (8 раз в секунду), и во
+время каждого круга мы находим местоположение Стива также, как и раньше, но в
+этот раз генерируем 3 случайных значения:
 
-For those of you new to live loops - this is where the fun really starts
-with Sonic Pi. Whilst the code is running and the sand is pouring down,
-try changing one of the values, perhaps the sleep time to `0.25` or the
-`:sand` block type to `:gravel`. Now hit run *again*. Hey Presto! Things
-changed without the code stopping. This is your gateway to performing
-like a real VJ. Keep practising and changing things around. How
-different can you make the visuals without stopping the code?
+- `xd` - разница для `x`, которая будет находиться между -10 и 10 
+- `zd` - разница для `z`, которая также будет между -10 и 10 
+- `co` - значение среза фильтра низких частот между 70 и 130
 
-# Epic Block Patterns
+Затем мы используем эти случайные значения в функциях `synth` и `mc_set_block`,
+что даёт нам песок, падающий случайным образом вокруг Стива вместе с
+перкуссионным звуком, похожим на дождь, от синтезатора `:cnoise`.
+
+Для тех из вас, кто ещё новичок в живых циклах - именно здесь и начинается
+самое интересное. Пока код выполняется и песок сыплется вниз, попробуйте
+изменить одно из значений. Например, время задержки на `0.25`, или тип блока с
+`:sand` на `:gravel`. Теперь нажмите "Выполнить" *снова*. Эй! Всё изменилось
+без остановки кода. Это и есть та самая дверь к выступлениям в роли виджея.
+Продолжайте тренироваться и что-нибудь изменять. Насколько разнообразными можно
+сделать визуальные эффекты, не останавливая кода?
+
+## Эпические Блочные Структуры
 
 ![Screen 1](../images/tutorial/articles/A.08-minecraft-vj/minecraft-vj-1-small.png)
 
-Finally, another great way of generating interesting visuals is to
-generate huge patterned walls to fly towards and close by. For this
-effect we'll need to move from placing the blocks randomly to placing
-them in an ordered manner. We can do this by nesting two sets of
-iteration (hit the Help button and navigate to section 5.2 of the
-tutorial "Iteration and Loops" for more background on iteration). The
-funny `|xd|` after the do means that `xd` will be set for each value of
-the iteration. So the first time it will be 0, then 1, then 2... etc. By
-nesting two lots of iteration together like this we can generate all the
-coordinates for a square. We can then randomly choose block types from a
-ring of blocks for an interesting effect:
+Наконец, еще один отличный способ создания интересных визуальных эффектов - 
+генерировать огромные повторяющиеся стены, парящие рядом. Для этого эффекта нам
+нужно перейти от размещения блоков случайным образом, к размещению их в
+упорядоченном виде. Мы можем сделать это с помощью двух вложеных итераций
+(нажмите кнопку "Помощь", чтобы перейти в раздел 5.2 учебника "Итерации И
+Циклы", чтобы узнать больше об итерациях). Аргумент `|xd|` после `do` означает,
+что `xd` будет соответствовать номеру итерации. Поэтому сначала это будет 0,
+потом 1, потом 2... и т. д. Совмещая две итерации вместе, мы можем
+сгенерировать любые координаты. Затем мы произвольно выбираем типы блоков из
+кольцевого списка для создания интересного эффекта:
+
 
     x, y, z = mc_location
     bs = (ring :gold, :diamond, :glass)
@@ -148,17 +153,19 @@ ring of blocks for an interesting effect:
       end
     end
 
-Pretty neat. Whilst we're having fun here, try changing `bs.choose` to
-`bs.tick` to move from a random pattern to a more regular one. Try
-changing the block types and the more adventurous of you might want to
-try sticking this within a `live_loop` so that the patterns keep changing
-automatically.
 
-Now, for the VJ finale - change the two `10.times` to `100.times` and
-hit Run. Kaboom! A Huge gigantic wall of randomly placed bricks. Imagine
-how long it would take you to build that manually with your mouse!
-Double-tap space to enter fly-mode and start swooping by for some great
-visual effects. Don't stop here though - use your imagination to conjure
-up some cool ideas and then use the coding power of Sonic Pi to make it
-real. When you've practised enough dim the lights and put on a VJ show
-for your friends!
+Довольно аккуратно. В то время как мы здесь веселимся, попробуйте изменить
+`bs.choose`, на `bs.tick`, чтобы перейти от случайного выбора к
+последовательному. Попробуйте изменять типы блоков более радикально. Вы можете
+захотеть делать это с `live_loop`, чтобы узоры продолжали изменяться
+автоматически.
+
+Теперь, измените обе итерации с `10.times` на `100.times` и нажмите
+"Выполнить". Бабах! Огромные исполинские стены с хаотично расположенными
+кирпичами. Представьте сколько времени потребуется вам, чтобы построить их
+вручную с помощью мыши! Дважды нажмите пробел, чтобы переключиться в режим
+полёта и начните парить для создания замечательных визуальных эффектов. Не
+останавливайтесь на этом, используйте своё воображение, чтобы придумать
+интересные идеи, а затем, использовав силу кода Sonic Pi, сделайте это
+реальностью. Когда вы достаточно попрактикуетесь, приглушите свет и покажите
+шоу своим друзьям!
