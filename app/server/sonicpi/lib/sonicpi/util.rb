@@ -22,8 +22,9 @@ module SonicPi
     @@current_uuid = nil
     @@home_dir = nil
     @@util_lock = Mutex.new
-    @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && !(`cat /proc/cpuinfo | grep ARMv6`.empty?)
-
+    @@raspberry_pi_1 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && (`cat /proc/cpuinfo | grep BCM2708`)
+    @@raspberry_pi_2 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && (`cat /proc/cpuinfo | grep BCM2709`) && !(`cat /proc/cpuinfo | grep crc32`)
+    @@raspberry_pi_3 = RUBY_PLATFORM.match(/.*arm.*-linux.*/) && File.exists?('/proc/cpuinfo') && (`cat /proc/cpuinfo | grep BCM2709`) && (`cat /proc/cpuinfo | grep crc32`)
 
     @@home_dir = File.expand_path((ENV['SONIC_PI_HOME'] || Dir.home) + '/.sonic-pi/')
     @@project_path = @@home_dir + '/store/default/'
@@ -56,12 +57,20 @@ module SonicPi
       end
     end
 
+    def raspberry_pi?
+      os == :raspberry
+    end
+
     def raspberry_pi_1?
       os == :raspberry && @@raspberry_pi_1
     end
 
     def raspberry_pi_2?
-      os == :raspberry && !@@raspberry_pi_1
+      os == :raspberry && @@raspberry_pi_2
+    end
+
+    def raspberry_pi_3?
+      os == :raspberry && @@raspberry_pi_3
     end
 
     def unify_tilde_dir(path)
@@ -78,7 +87,7 @@ module SonicPi
     end
 
     def default_sched_ahead_time
-      if (os == :raspberry)
+      if raspberry_pi?
         if raspberry_pi_1?
           1
         else
@@ -94,9 +103,13 @@ module SonicPi
       case os
       when :raspberry
         if raspberry_pi_1?
-          "Raspberry Pi"
-        else
+          "Raspberry Pi 1"
+        elsif raspberry_pi_2?
           "Raspberry Pi 2"
+        elsif raspberry_pi_3?
+          "Raspberry Pi 3"
+        else
+          "Raspberry Pi"
         end
       when :linux
         "Linux"
@@ -108,10 +121,12 @@ module SonicPi
     end
 
     def default_control_delta
-      if raspberry_pi_1?
-        0.02
-      elsif raspberry_pi_2?
-        0.013
+      if raspberry_pi?
+        if raspberry_pi_1?
+          0.02
+        else
+          0.013
+        end
       else
         0.005
       end
