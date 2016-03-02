@@ -25,22 +25,25 @@ module SonicPi
     end
 
     def find_candidates(filts_and_sources)
-      return [] if filts_and_sources.empty?
+!      return [] if filts_and_sources.empty?
       candidates = @cached_candidates[filts_and_sources]
       return candidates if candidates
+      res = []
       @mutex.synchronize do
+
         candidates = @cached_candidates[filts_and_sources]
         return candidates if candidates
+
         idx = nil
         dirs = []
         filters = []
         candidates = []
         filts_and_sources.each do |arg|
-          idx = consume_filt_or_source!(arg, idx, filters, dirs, candidates)
+          idx = consume_filt_or_source!(arg, idx, filters, dirs, candidates, res)
         end
 
         if dirs.empty? && !filters.empty?
-          dirs = [Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || @samples_path]
+          dirs = default_samples_paths
         end
 
         dirs.each do |dir|
@@ -68,11 +71,12 @@ module SonicPi
 
         candidates = [candidates[idx % candidates.size]] if(idx && !candidates.empty?)
 
-        @cached_candidates[filts_and_sources] = candidates
+        res = (res + candidates).uniq
+        @cached_candidates[filts_and_sources] = res
         #end mutex
       end
 
-      return candidates
+      return res
     end
 
     def ls_samples(path)
@@ -80,10 +84,22 @@ module SonicPi
     end
 
     private
-    def consume_filt_or_source!(filt_or_source, idx, filters, dirs, candidates)
+
+    def default_samples_paths
+      [Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || @samples_path]
+    end
+
+    def consume_filt_or_source!(filt_or_source, idx, filters, dirs, candidates, res)
       case filt_or_source
       when Symbol
-        filters << /#{filt_or_source}\.(wav|aif|wave|aiff|flac)/
+        regexp = /#{filt_or_source}\.(wav|aif|wave|aiff|flac)/
+        (dirs + default_samples_paths).each do |d|
+          s = ls_samples(d).find {|el| el.match(regexp)}
+          if s
+            res << s
+            break
+          end
+        end
       when Integer
         idx = filt_or_source
       when String
@@ -102,6 +118,7 @@ module SonicPi
         filters << filt_or_source
       when Array, SonicPi::Core::RingVector
         filt_or_source.each do |c|
+          c = c.to_s
           if File.directory?(c)
             dirs << c
           else
