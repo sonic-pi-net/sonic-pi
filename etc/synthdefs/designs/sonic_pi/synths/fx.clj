@@ -18,6 +18,33 @@
 
 (without-namespace-in-synthdef
 
+ (defsynth sonic-pi-fx_mono
+   [amp 1
+    amp_slide 0
+    amp_slide_shape 1
+    amp_slide_curve 0
+    mix 1
+    mix_slide 0
+    mix_slide_shape 1
+    mix_slide_curve 0
+    pan 0
+    pan_slide 0
+    pan_slide_shape 1
+    pan_slide_curve 0
+    in_bus 0
+    out_bus 0]
+   (let [amp           (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+         mix           (varlag mix mix_slide mix_slide_curve mix_slide_shape)
+         pan           (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+
+         [in-l in-r]   (in in_bus 2)
+         mono          (sum [in-l in-r])
+         [new-l new-r] (pan2 mono pan amp)
+
+         fin-l         (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+         fin-r         (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
+     (out out_bus [fin-l fin-r])))
+
  (defsynth sonic-pi-fx_vowel
     [amp 1
      amp_slide 0
@@ -1699,6 +1726,7 @@
 )
 
 (comment
+  (core/save-synthdef sonic-pi-fx_mono)
   (core/save-synthdef sonic-pi-fx_krush)
   (core/save-synthdef sonic-pi-fx_bitcrusher)
   (core/save-synthdef sonic-pi-fx_reverb)
