@@ -4017,6 +4017,41 @@ module SonicPi
       end
     end
 
+    class FXMono < FXInfo
+      def name
+        "Mono"
+      end
+
+      def introduced
+        Version.new(2,10,0)
+      end
+
+      def synth_name
+        "fx_mono"
+      end
+
+      def doc
+        "Sum left and right channels. Useful with stereo samples that you need as a mono sound, or for use with panslicer."
+      end
+
+      def arg_defaults
+        {
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+          :mix => 1,
+          :mix_slide => 0,
+          :mix_slide_shape => 1,
+          :mix_slide_curve => 0,
+        }
+      end
+    end
+
     class FXEcho < FXInfo
       def name
         "Echo"
@@ -6727,6 +6762,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :fx_gverb => FXGVerb.new,
         :fx_replace_reverb => FXReverb.new,
         :fx_level => FXLevel.new,
+        :fx_mono => FXMono.new,
         :fx_replace_level => FXLevel.new,
         :fx_echo => FXEcho.new,
         :fx_replace_echo => FXEcho.new,
