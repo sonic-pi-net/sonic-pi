@@ -25,7 +25,7 @@ module SonicPi
     end
 
     def find_candidates(filts_and_sources)
-!      return [] if filts_and_sources.empty?
+      return [] if filts_and_sources.empty?
       candidates = @cached_candidates[filts_and_sources]
       return candidates if candidates
       res = []
