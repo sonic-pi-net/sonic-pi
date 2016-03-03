@@ -101,29 +101,50 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
-  if (QCoreApplication::applicationDirPath().startsWith("/usr/bin")) {
+  if (QCoreApplication::applicationDirPath().startsWith("/usr/bin/")) {
 
     // use FHS directory scheme:
-    // Sonic Pi is not running inside the user's home directory, but is
-    // installed in /usr/bin on Linux from a distribution's package
+    // Sonic Pi is installed in /usr/bin from a Linux distribution's package
 
     ruby_path = "/usr/bin/ruby";
     ruby_server_path = "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb";
     sample_path = "/usr/share/sonic-pi/samples";
 
+  } else if (QCoreApplication::applicationDirPath().startsWith("/opt/")) {
+    
+    // use /opt directory scheme:
+    // Sonic Pi is installed in /opt from the Raspbian .deb package
+
+    ruby_path = "/usr/bin/ruby";
+    ruby_server_path = "/opt/sonic-pi/server/bin/sonic-pi-server.rb";
+    sample_path = "/opt/sonic-pi/etc/samples";
+  
   } else {
+  
+    // Sonic Pi is installed in the user's home directory
+    // or has been installed on Windows / OSX
+    
+    QString root_path = rootPath();
+    
+#if defined(Q_OS_WIN)
+    ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/windows/ruby/bin/ruby.exe");
+#elif defined(Q_OS_MAC)
+    ruby_path = root_path + "/server/native/osx/ruby/bin/ruby";
+#else
+    ruby_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
+#endif
 
-    // do not use FHS directory scheme:
-    // Sonic Pi is running in user's home dir or installed on
-    // Win, OS-X or in non-FHS /opt directory scheme
+    QFile file(ruby_path);
+    if(!file.exists()) {
+      // fallback to user's locally installed ruby
+      ruby_path = "ruby";
+    }
 
-    ruby_path = QDir::toNativeSeparators(rubyPath());
-    QString root_path = QDir::toNativeSeparators(rootPath());
     ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
     sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
   }
-
+  
   sp_user_path = QDir::toNativeSeparators(QDir::homePath() + "/.sonic-pi");
   log_path = QDir::toNativeSeparators(sp_user_path + "/log");
   server_error_log_path = QDir::toNativeSeparators(log_path + "/server-errors.log");
@@ -699,24 +720,6 @@ QString MainWindow::rootPath() {
 #else
   return QCoreApplication::applicationDirPath() + "/../../..";
 #endif
-}
-
-QString MainWindow::rubyPath() {
-  QString root_path = rootPath();
-#if defined(Q_OS_WIN)
-  QString prg_path = root_path + "/app/server/native/windows/ruby/bin/ruby.exe";
-#elif defined(Q_OS_MAC)
-  QString prg_path = root_path + "/server/native/osx/ruby/bin/ruby";
-#else
-  //assuming Raspberry Pi
-  QString prg_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
-  QFile file(prg_path);
-  if(!file.exists()) {
-    // use system ruby if bundled ruby doesn't exist
-    prg_path = "/usr/bin/ruby";
-  }
-#endif
-  return prg_path;
 }
 
 void MainWindow::startRubyServer(){
