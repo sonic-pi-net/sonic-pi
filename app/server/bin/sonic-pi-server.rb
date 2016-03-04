@@ -13,6 +13,7 @@
 #++
 
 require 'cgi'
+require 'rbconfig'
 
 require_relative "../core.rb"
 require_relative "../sonicpi/lib/sonicpi/studio"
@@ -43,19 +44,6 @@ protocol = case ARGV[0]
            end
 
 puts "Using protocol: #{protocol}"
-
-os = case RUBY_PLATFORM
-     when /.*arm.*-linux.*/
-       :raspberry
-     when /.*linux.*/
-       :linux
-     when /.*darwin.*/
-       :osx
-     when /.*mingw.*/
-       :windows
-     else
-       RUBY_PLATFORM
-     end
 
 if protocol == :tcp
   gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
@@ -381,7 +369,9 @@ out_t = Thread.new do
   end
 end
 
+puts "This is Sonic Pi #{sp.__current_version} running on #{os} with ruby api #{RbConfig::CONFIG['ruby_version']}."
 puts "Sonic Pi Server successfully booted."
+
 STDOUT.flush
 
 out_t.join
