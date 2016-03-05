@@ -12,6 +12,7 @@ cache:
 # add test runs using the Travis rvm ruby binaries.
 matrix:
   include:
+    - env: USE_QT4=1
     - rvm: 1.9.3
       env: USE_RVM=1
     - rvm: 2.1.2
@@ -21,7 +22,14 @@ matrix:
 
 before_install:
  - sudo apt-get update
- - sudo apt-get --yes install ruby-all-dev rake cmake pkg-config g++ libfftw3-dev libffi-dev libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default
+ - sudo apt-get --yes install ruby-all-dev rake cmake pkg-config g++ libfftw3-dev libffi-dev
+ - |
+   if [[ $USE_QT4 ]]
+   then
+      sudo apt-get --yes install libqscintilla2-dev qt4-dev-tools qt4-default
+   else
+      sudo apt-get --yes install libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default
+   fi
 
 script:
  - set -e
@@ -59,7 +67,12 @@ script:
      # the following are the same steps as in ./app/gui/qt/rp-build-app
      echo ""
      echo "***********************************"
-     echo "* Compiling Sonic Pi GUI with Qt5 *"
+     if [[ $USE_QT4 ]]
+     then
+       echo "* Compiling Sonic Pi GUI with Qt4 *"
+     else
+       echo "* Compiling Sonic Pi GUI with Qt5 *"
+     fi
      echo "***********************************"
      cd $TRAVIS_BUILD_DIR/app/gui/qt
      cp -f ruby_help.tmpl ruby_help.h ; /usr/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
