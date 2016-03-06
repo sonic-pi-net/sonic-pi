@@ -20,6 +20,7 @@ require_relative "../blanknode"
 require_relative "../chainnode"
 require_relative "../fxnode"
 require_relative "../fxreplacenode"
+require_relative "../lazynode"
 require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
@@ -2774,22 +2775,24 @@ sample :loop_amen                    # starting it again
         end
 
         return if path == nil
-
-        case path
-        when Buffer
-          buf_info = path
-          if buf_info.path
-            path = buf_info.path
-          else
-            path = path[0]
-          end
-        end
-
-        buf_info = load_sample_at_path(path)
-
         return nil unless should_trigger?(args_h, true)
 
-        trigger_sampler path, buf_info.id, buf_info.num_chans, args_h
+        info = Synths::SynthInfo.get_info(:stereo_player)
+        path = unify_tilde_dir(path) if path.is_a? String
+
+        # Combine thread local defaults here as
+        # normalise_and_resolve_synth_args has only been taught about
+        # synth thread local defaults
+
+        args_h = normalise_and_resolve_sample_args(path, args_h, info)
+
+        if sample_loaded?(path)
+          return trigger_sampler path, args_h, info
+        else
+          res = Promise.new
+          in_thread { res.deliver!(trigger_sampler path, args_h, info) }
+          return LazyNode.new(res)
+        end
       end
 
       doc name:          :sample,
@@ -3760,29 +3763,31 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
 
-      def trigger_sampler(path, buf_id, num_chans, args_h, group=current_job_synth_group)
+      def resolve_specific_sampler(num_chans, args_h)
         if complex_sampler_args?(args_h)
           #complex
-          synth_name = (num_chans == 1) ? :mono_player : :stereo_player
+          (num_chans == 1) ? :mono_player : :stereo_player
         else
           #basic
-          synth_name = (num_chans == 1) ? :basic_mono_player : :basic_stereo_player
+          (num_chans == 1) ? :basic_mono_player : :basic_stereo_player
         end
-
-        trigger_specific_sampler(synth_name, path, buf_id, num_chans, args_h, group)
       end
 
-      def trigger_specific_sampler(sampler_type, path, buf_id, num_chans, args_h, group=current_job_synth_group)
+      def trigger_sampler(path, args_h, info, group=current_job_synth_group)
+        case path
+        when Buffer
+          buf_info = path
+          if buf_info.path
+            path = buf_info.path
+          else
+            path = path[0]
+          end
+        else
+          buf_info = load_sample_at_path(path)
+        end
 
-        sn = sampler_type.to_sym
-        info = Synths::SynthInfo.get_info(sn)
-        path = unify_tilde_dir(path) if path.is_a? String
-
-        # Combine thread local defaults here as
-        # normalise_and_resolve_synth_args has only been taught about
-        # synth thread local defaults
-
-        args_h = normalise_and_resolve_sample_args(path, args_h, info)
+        sn = resolve_specific_sampler(buf_info.num_chans, args_h)
+        buf_id = buf_info.id
 
         unless in_good_time?
           if args_h.empty?
@@ -3791,19 +3796,19 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
             __delayed_message "!! Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
           end
           return @blank_node
-        end
+        else
 
-
-        unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
-          if args_h.empty?
-            __delayed_message "sample #{path.inspect}"
-          else
-            __delayed_message "sample #{path.inspect}, #{arg_h_pp(args_h)}"
+          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+            if args_h.empty?
+              __delayed_message "sample #{path.inspect}"
+            else
+              __delayed_message "sample #{path.inspect}, #{arg_h_pp(args_h)}"
+            end
           end
+          add_arg_slide_times!(args_h, info)
+          args_h[:buf] = buf_id
+          return trigger_synth(sn, args_h, group, info)
         end
-        add_arg_slide_times!(args_h, info)
-        args_h[:buf] = buf_id
-        trigger_synth(sn, args_h, group, info)
       end
 
       def trigger_inst(synth_name, args_h, group=current_job_synth_group)
