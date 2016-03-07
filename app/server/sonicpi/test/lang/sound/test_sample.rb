@@ -16,6 +16,7 @@ require_relative "../../../lib/sonicpi/atom"
 require_relative "../../../lib/sonicpi/buffer"
 require_relative "../../../lib/sonicpi/lang/core"
 require_relative "../../../lib/sonicpi/lang/sound"
+require_relative "../../../lib/sonicpi/synths/synthinfo"
 require 'mocha/setup'
 require 'ostruct'
 
@@ -27,16 +28,18 @@ module SonicPi
       @mock_sound.extend(Lang::Core)
       @mock_sound.stubs(:sleep) # avoid loading Spider class
       @mock_sound.stubs(:ensure_good_timing!) # avoid loading Spider class
-
+      @mock_sound.stubs(:sample_loaded?).returns(true)
+      @mock_sound.stubs(:__delayed_user_message).returns(true)
       @mock_sound.stubs(:sample_find_candidates).returns(["/foo/bar.wav"])
       @mock_sound.stubs(:load_sample_at_path).returns(OpenStruct.new({id: 42, num_chans: 2}))
+      @info = Synths::SynthInfo.get_info(:stereo_player)
     end
 
     def test_sample_with_various_args
-      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", 42, 2, {})
+      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav",  {}, @info)
       @mock_sound.sample :loop_amen
 
-      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", 42, 2, {rate: 2})
+      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2}, @info)
       @mock_sound.sample :loop_amen, rate: 2
 
       # # This works in the codebase, but need to figure out a nice way of
@@ -45,11 +48,11 @@ module SonicPi
       # @mock_sound.sample lambda { :loop_amen }, rate: 2a
 
       # Single hash
-      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", 42, 2, {rate: 2})
+      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2}, @info)
       @mock_sound.sample name: :loop_amen, rate: 2
 
       # Hash and args
-      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", 42, 2, {rate: 2})
+      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2}, @info)
       @mock_sound.sample({name: :loop_amen}, {rate: 2})
     end
 
