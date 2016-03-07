@@ -1,9 +1,9 @@
-require 'test/unit'
+require 'minitest/autorun'
 require 'wavefile.rb'
 
 include WaveFile
 
-class BufferTest < Test::Unit::TestCase
+class BufferTest < MiniTest::Unit::TestCase
   def test_convert
     old_format = Format.new(:mono, :pcm_16, 44100)
     new_format = Format.new(:stereo, :pcm_16, 22050)
@@ -75,7 +75,7 @@ class BufferTest < Test::Unit::TestCase
         # Unsupported conversion (4-channel => 3-channel)
         b = Buffer.new([[-100, 200, -300, 400], [1, 2, 3, 4]],
                        Format.new(4, bits_per_sample, sample_rate))
-        assert_raise(BufferConversionError) { b.convert!(Format.new(3, bits_per_sample, sample_rate)) }
+        assert_raises(BufferConversionError) { b.convert!(Format.new(3, bits_per_sample, sample_rate)) }
       end
     end
   end

@@ -1,6 +1,6 @@
 A pure Ruby gem for reading and writing sound files in Wave format (*.wav).
 
-You can use this gem to create Ruby programs that produce audio, such as [drum machine](http://beatsdrummachine.com). Since it is written in pure Ruby (as opposed to wrapping an existing C library), you can use it without having to compile a separate extension.
+You can use this gem to create Ruby programs that work with audio, such as [drum machine](http://beatsdrummachine.com). Since it is written in pure Ruby (as opposed to wrapping an existing C library), you can use it without having to compile a separate extension.
 
 For more info, check out the website: <http://wavefilegem.com/>
 
@@ -47,24 +47,28 @@ More examples can be [found on the wiki](https://github.com/jstrait/wavefile/wik
 * Pure Ruby, so no need to compile a separate extension in order to use it.
 
 
-# Current Release: v0.6.0
+# Current Release: v0.7.0
 
-This release includes these improvements:
+Released on March 6, 2016, this version includes these changes:
 
-* Support for reading and writing Wave files containing 24-bit PCM sample data, and the ability to convert buffers containing 24-bit PCM sample data to/from other formats. (Thanks to [Rich Orton](https://github.com/richorton) for suggesting this).
-* Reading files with 2 or more channels is now faster.
-* Converting buffers from one format to another is now faster in certain cases.
-* Bug fix: Files containing certain chunks with an odd size are now read properly. According to the Wave file spec, all chunks should be aligned to an even number of bytes. If the chunk has an odd size, a padding byte should be appended to bring the chunk to an even size. The `Reader` class now properly takes this expected padding byte into account for all chunks when reading files. (Previously it just took this into account for the main `data` chunk). (Thanks to [Andrew Kuklewicz](https://github.com/kookster) for reporting this).
+* The minimum supported Ruby version is now 1.9.3 - earlier versions are no longer supported.
+* New method: `Reader.native_format`. Returns a `Format` instance with information about the underlaying format of the Wave file being read, which is not necessarily the same format the sample data is being converted to as it's being read.
+* `Reader.info()` has been removed. Instead, construct a new `Reader` instance and use `Reader.native_format()` - this will return a `Format` instance with the same info that would have been returned by `Reader.info()`.
+* Similarly, the `Info` class has been removed, due to `Reader.info()` being removed.
+* Constructing a `Reader` instance will no longer raise an exception if the file is valid Wave file, but in a format unsupported by this gem. The purpose of this is to allow calling `Reader.native_format()` on this instance, to get format information for files not supported by this gem.
+* New method: `Reader.readable_format?` returns true if the file is a valid format that the gem can read, false otherwise.
+* `Reader.read()` and `Reader.each_buffer()` will now raise an exception if the file is a valid Wave file, but not a format that the gem can read. Or put differently, if `Reader.readable_format?` returns `false`, any subsequent calls to `Reader.read()` or `Reader.each_buffer()` will raise an exception.
+* Some constants have been made private since they are intended for internal use.
+* Bug fix: Files will now be read/written correctly on big-endian platforms. Or in other words, sample data is always read as little-endian, regardless of the native endianness of the platform.
 
 
 # Compatibility
 
 WaveFile has been tested with these Ruby versions, and appears to be compatible with them:
 
-* MRI 2.0.0, 1.9.3, 1.9.2, 1.9.1, 1.8.7
-* JRuby 1.7.8
-* Rubinius 1.2.4
-* MacRuby 0.12
+* MRI 2.3, 2.2, 2.1, 2.0, 1.9.3
+
+1.9.3 is the minimum supported Ruby version.
 
 If you find any compatibility issues, please let me know by opening a GitHub issue.
 
@@ -84,7 +88,7 @@ First, install the WaveFile gem from rubygems.org:
 
     require 'wavefile'
 
-Note that if you're installing the gem into the default Ruby that comes pre-installed on MacOS (as opposed to a Ruby installed via [RVM](http://beginrescueend.com/) or [rbenv](https://github.com/sstephenson/rbenv/)), you should used `sudo gem install wavefile`. Otherwise you might run into a file permission error.
+Note that if you're installing the gem into the default Ruby that comes pre-installed on MacOS (as opposed to a Ruby installed via [RVM](http://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv/)), you should used `sudo gem install wavefile`. Otherwise you might run into a file permission error.
 
 
 # Contributing

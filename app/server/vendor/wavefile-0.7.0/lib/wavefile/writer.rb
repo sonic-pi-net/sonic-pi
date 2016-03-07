@@ -16,25 +16,6 @@ module WaveFile
   #    writer.close
   class Writer
 
-    # Padding value written to the end of chunks whose payload is an odd number of bytes. The RIFF 
-    # specification requires that each chunk be aligned to an even number of bytes, even if the byte 
-    # count is an odd number.
-    #
-    # See http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/Docs/riffmci.pdf, page 11.
-    EMPTY_BYTE = "\000"    # :nodoc:
-
-    # The number of bytes at the beginning of a wave file before the sample data in the data chunk 
-    # starts, assuming this canonical format:
-    #
-    # RIFF Chunk Header (12 bytes)
-    # Format Chunk (16 bytes for PCM, 18 bytes for floating point)
-    # FACT Chunk (0 bytes for PCM, 12 bytes for floating point)
-    # Data Chunk Header (8 bytes)
-    #
-    # All wave files written by Writer use this canonical format.
-    CANONICAL_HEADER_BYTE_LENGTH = {:pcm => 36, :float => 50}    # :nodoc:
-
-
     # Returns a constructed Writer object which is available for writing sample data to the specified 
     # file (via the write method). When all sample data has been written, the Writer should be closed. 
     # Note that the wave file being written to will NOT be valid (and playable in other programs) until 
@@ -76,7 +57,7 @@ module WaveFile
 
       if @format.bits_per_sample == 24 && @format.sample_format == :pcm
         samples.flatten.each do |sample|
-          @file.syswrite([sample].pack("lX"))
+          @file.syswrite([sample].pack("l<X"))
         end
       else
         @file.syswrite(samples.flatten.pack(@pack_code))
@@ -140,6 +121,26 @@ module WaveFile
     attr_reader :total_sample_frames
 
   private
+
+    # Padding value written to the end of chunks whose payload is an odd number of bytes. The RIFF 
+    # specification requires that each chunk be aligned to an even number of bytes, even if the byte 
+    # count is an odd number.
+    #
+    # See http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/Docs/riffmci.pdf, page 11.
+    EMPTY_BYTE = "\000"    # :nodoc:
+
+    # The number of bytes at the beginning of a wave file before the sample data in the data chunk 
+    # starts, assuming this canonical format:
+    #
+    # RIFF Chunk Header (12 bytes)
+    # Format Chunk (16 bytes for PCM, 18 bytes for floating point)
+    # FACT Chunk (0 bytes for PCM, 12 bytes for floating point)
+    # Data Chunk Header (8 bytes)
+    #
+    # All wave files written by Writer use this canonical format.
+    CANONICAL_HEADER_BYTE_LENGTH = {:pcm => 36, :float => 50}    # :nodoc:
+
+    FORMAT_CHUNK_BYTE_LENGTH = {:pcm => 16, :float => 18}    # :nodoc:
 
     # Writes the RIFF chunk header, format chunk, and the header for the data chunk. After this
     # method is called the file will be "queued up" and ready for writing actual sample data.

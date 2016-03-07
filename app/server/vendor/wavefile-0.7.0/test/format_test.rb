@@ -1,9 +1,9 @@
-require 'test/unit'
+require 'minitest/autorun'
 require 'wavefile.rb'
 
 include WaveFile
 
-class FormatTest < Test::Unit::TestCase
+class FormatTest < MiniTest::Unit::TestCase
   def test_valid_channels
     [1, 2, 3, 4, 65535].each do |valid_channels|
       assert_equal(valid_channels, Format.new(valid_channels, :pcm_16, 44100).channels)
@@ -15,7 +15,7 @@ class FormatTest < Test::Unit::TestCase
 
   def test_invalid_channels
     ["dsfsfsdf", :foo, 0, -1, 65536].each do |invalid_channels|
-      assert_raise(InvalidFormatError) { Format.new(invalid_channels, :pcm_16, 44100) }
+      assert_raises(InvalidFormatError) { Format.new(invalid_channels, :pcm_16, 44100) }
     end
   end
 
@@ -35,7 +35,7 @@ class FormatTest < Test::Unit::TestCase
 
   def test_invalid_sample_format
     ["dsfsfsdf", :foo, 12, :pcm_14, :float_20].each do |invalid_sample_format|
-      assert_raise(InvalidFormatError) { Format.new(:mono, invalid_sample_format, 44100) }
+      assert_raises(InvalidFormatError) { Format.new(:mono, invalid_sample_format, 44100) }
     end
   end
 
@@ -55,7 +55,7 @@ class FormatTest < Test::Unit::TestCase
 
   def test_invalid_bits_per_sample
     ["dsfsfsdf", :foo, :pcm, 0, 12, :pcm_14, :pcm_abc, :float_40].each do |invalid_sample_format|
-      assert_raise(InvalidFormatError) { Format.new(:mono, invalid_sample_format, 44100) }
+      assert_raises(InvalidFormatError) { Format.new(:mono, invalid_sample_format, 44100) }
     end
   end
 
@@ -67,7 +67,7 @@ class FormatTest < Test::Unit::TestCase
 
   def test_invalid_sample_rate
     ["dsfsfsdf", :foo, 0, -1, 4294967297].each do |invalid_sample_rate|
-      assert_raise(InvalidFormatError) { Format.new(:mono, :pcm_16, invalid_sample_rate) }
+      assert_raises(InvalidFormatError) { Format.new(:mono, :pcm_16, invalid_sample_rate) }
     end
   end
 

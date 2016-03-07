@@ -1,10 +1,10 @@
-require 'test/unit'
+require 'minitest/autorun'
 require 'wavefile.rb'
 require 'wavefile_io_test_helper.rb'
 
 include WaveFile
 
-class WriterTest < Test::Unit::TestCase
+class WriterTest < MiniTest::Unit::TestCase
   include WaveFileIOTestHelper
 
   OUTPUT_FOLDER = "test/fixtures/actual_output"
@@ -103,7 +103,7 @@ class WriterTest < Test::Unit::TestCase
     writer.write(Buffer.new([1, 2, 3, 4], format))
     writer.close
 
-    assert_raise(IOError) { writer.write(Buffer.new([5, 6, 7, 8], format)) }
+    assert_raises(IOError) { writer.write(Buffer.new([5, 6, 7, 8], format)) }
   end
 
   def test_total_duration
