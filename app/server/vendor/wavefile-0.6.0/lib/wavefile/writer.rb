@@ -76,7 +76,7 @@ module WaveFile
 
       if @format.bits_per_sample == 24 && @format.sample_format == :pcm
         samples.flatten.each do |sample|
-          @file.syswrite([sample].pack("lX"))
+          @file.syswrite([sample].pack("l<X"))
         end
       else
         @file.syswrite(samples.flatten.pack(@pack_code))
