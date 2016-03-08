@@ -301,6 +301,7 @@ module SonicPi
     def log(message)
       if debug_mode
         res = ""
+        res << "\n" if message.empty?
         first = true
         while !(message.empty?)
           if first
@@ -311,7 +312,6 @@ module SonicPi
             res << "                                        "
             res << message.slice!(0..133)
             res << "\n"
-
           end
         end
         log_raw res
