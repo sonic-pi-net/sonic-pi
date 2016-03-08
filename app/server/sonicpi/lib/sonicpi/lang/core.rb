@@ -2579,7 +2579,22 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       sync :baz          # waiting for :baz cue messages
       sample :elec_blup  # after which play the elec blup sample
     end
-  end"
+  end",
+
+  "
+  in_thread do
+    loop do
+      cue :tick, foo: 64  # sending tick heartbeat messages with a value :foo
+      sleep 0.5
+    end
+  end
+
+  # The value for :foo can now be used in synced threads
+
+  loop do
+    values = sync :tick
+    play values[:foo]    # play the note value from :foo
+  end",
       ]
 
 
