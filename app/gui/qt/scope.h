@@ -20,9 +20,33 @@
 
 #include <server_shm.hpp>
 #include <memory>
+#include <string>
 
 class QPaintEvent;
 class QResizeEvent;
+
+class ScopePanel : public QWidget
+{
+  Q_OBJECT
+
+public:
+  ScopePanel( const std::string& name, QWidget* parent = 0 );
+  virtual ~ScopePanel();
+
+  void setChannel( unsigned int i );
+  void setReader( scope_buffer_reader* shmReader );
+  void refresh();
+
+private:
+  scope_buffer_reader* reader;
+  QwtPlot plot;
+  QwtPlotCurve plot_curve;
+  double sample_x[4096];
+  double sample_y[4096];
+  double max_y;
+  int counter;
+  unsigned int channel;
+};
 
 class Scope : public QWidget
 {
@@ -32,22 +56,13 @@ public:
   Scope( QWidget* parent = 0 );
   virtual ~Scope();
 
-protected:
-  void resizeEvent( QResizeEvent* p_evt );
-
 private slots:
   void refreshScope();
  
 private: 
-  std::unique_ptr<server_shared_memory_client> shm_client;
-  scope_buffer_reader shm_reader;
-  QwtPlot plot;
-  QwtPlot plot2;
-  QwtPlotCurve plot_curve;
-  QwtPlotCurve plot_curve2;
-  double sample_x[4096];
-  double sample_y[4096];
-  double sample_y2[4096];
+  std::unique_ptr<server_shared_memory_client> shmClient;
+  scope_buffer_reader shmReader;
+  ScopePanel left,right;
 };
 
 #endif

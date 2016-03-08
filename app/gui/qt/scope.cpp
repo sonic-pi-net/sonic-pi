@@ -20,39 +20,85 @@
 #include <QTimer>
 #include <QPainter>
 #include <QDebug>
+#include <cmath>
 
-Scope::Scope( QWidget* parent ) : QWidget(parent), plot(QwtText("Left")), plot2(QwtText("Right"))
+ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(parent), plot(QwtText(name.c_str()),this), max_y(0), counter(0), channel(0)
 {
+  for( unsigned int i = 0; i < 4096; ++i )
+  {
+    sample_x[i] = i;
+    sample_y[i] = 0.0f;
+  }
+  plot_curve.setRawSamples( sample_x, sample_y, 4096 );
+  plot_curve.attach(&plot);
+
+  plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
+  plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
+  
+  QVBoxLayout* layout = new QVBoxLayout();
+  layout->addWidget(&plot);
+  setLayout(layout);
+}
+
+ScopePanel::~ScopePanel()
+{
+}
+
+void ScopePanel::setChannel( unsigned int i )
+{
+  channel = i;
+}
+
+void ScopePanel::setReader( scope_buffer_reader* shmReader )
+{
+  reader = shmReader;
+}
+
+void ScopePanel::refresh()
+{
+  if( reader == nullptr ) return;
+  qDebug() << "Have reader";
+  if( !reader->valid() ) return;
+  qDebug() << "Reader is valid";
+
+  unsigned int frames;
+  if( reader->pull( frames ) )
+  {
+    qDebug() << "Reader got " << frames << " frames of audio";
+    ++counter;
+    float* data = reader->data();
+    unsigned int offset = reader->max_frames() * channel;
+    for( unsigned int i = 0; i < frames; ++i )
+    {
+      sample_y[i] = data[i+offset];
+      if( fabs(data[i]) > max_y ) max_y = fabs(data[i]);
+    }
+    if( counter > 50 )
+    {
+      counter = 0;
+      if( max_y == 0 ) max_y = 1;
+//      plot.setAxisScale(QwtPlot::Axis::yLeft,-max_y,max_y);
+      max_y = 0;
+    }
+    plot.replot();
+  }
+}
+
+Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Right",this)
+{
+  right.setChannel(1);
   resize(640,480);
   setWindowTitle( "Sonic Pi - Scope" );
-  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint );
   setWindowIcon(QIcon(":images/icon-smaller.png"));
 
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
   scopeTimer->start(1);
 
-  for( unsigned int i = 0; i < 4096; ++i )
-  {
-    sample_x[i] = i;
-    sample_y[i] = 0.0f;
-    sample_y2[i] = 0.0f;
-  }
-  plot_curve.setRawSamples( sample_x, sample_y, 4096 );
-  plot_curve2.setRawSamples( sample_x, sample_y2, 4096 );
-
-  plot_curve.attach(&plot);
-  plot_curve2.attach(&plot2);
-
-  plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
-  plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
-
-  plot2.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
-  plot2.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
-
   QVBoxLayout* layout = new QVBoxLayout();
-  layout->addWidget(&plot);
-  layout->addWidget(&plot2);
+  layout->addWidget(&left);
+  layout->addWidget(&right);
   setLayout(layout);
 }
 
@@ -66,33 +112,14 @@ void Scope::refreshScope() {
     return;
   }
 
-  if( shm_reader.valid() )
+  if( !shmReader.valid() )
   {
-    unsigned int frames;
-    if( shm_reader.pull( frames ) )
-    {
-      float* data = shm_reader.data();
-      for( unsigned int i = 0; i < frames; ++i )
-      {
-        sample_y[i] = data[i];
-      }
-      for( unsigned int i = 0; i < frames; ++i )
-      {
-        sample_y2[i] = data[i+shm_reader.max_frames()];
-      }
-      plot.replot();
-      plot2.replot();
-    }
-  } else
-  {
-    shm_client.reset(new server_shared_memory_client(4556));
-    shm_reader = shm_client->get_scope_buffer_reader(0);
+    shmClient.reset(new server_shared_memory_client(4556));
+    shmReader = shmClient->get_scope_buffer_reader(0);
+    left.setReader(&shmReader);
+    right.setReader(&shmReader);
   }
-}
-
-void Scope::resizeEvent( QResizeEvent* p_evt )
-{ 
-  QWidget::resizeEvent(p_evt);
-//  plot.resize(p_evt->size());
-//  plot2.resize(p_evt->size());
+  left.refresh();
+  right.refresh();
+  repaint();
 }
