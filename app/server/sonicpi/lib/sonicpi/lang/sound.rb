@@ -2778,7 +2778,7 @@ sample :loop_amen                    # starting it again
 
         args_h = normalise_and_resolve_sample_args(path, args_h, info)
 
-        if sample_loaded?(path)
+        if @mod_sound_studio.sample_loaded?(path)
           return trigger_sampler path, args_h, info
         else
           res = Promise.new
