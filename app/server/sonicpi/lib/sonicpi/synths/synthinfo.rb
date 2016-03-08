@@ -3018,7 +3018,7 @@ module SonicPi
       end
     end
 
-    class MonoPlayer < StudioInfo
+    class MonoPlayer < BasicMonoPlayer
       def name
         "Mono Sample Player"
       end
@@ -3144,7 +3144,7 @@ module SonicPi
       end
 
       def specific_arg_info
-        {
+        super.merge({
 
           :attack =>
           {
@@ -3485,7 +3485,7 @@ module SonicPi
             :bpm_scale => true
           }
 
-        }
+        })
       end
 
     end
