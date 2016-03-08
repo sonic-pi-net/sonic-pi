@@ -17,12 +17,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="360"/>
         <source>Preferences</source>
-        <translation type="unfinished">Oppsett</translation>
+        <translation>Innstillinger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="373"/>
         <source>Log</source>
-        <translation type="unfinished">Logg</translation>
+        <translation>Logg</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="414"/>
@@ -35,12 +35,12 @@
         <location filename="../mainwindow.cpp" line="2152"/>
         <location filename="../mainwindow.cpp" line="2170"/>
         <source>Sonic Pi</source>
-        <translation type="unfinished">Sonic Pi</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="459"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished">Velkommen til Sonic Pi</translation>
+        <translation>Velkommen til Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="601"/>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="605"/>
         <source>Indenting line...</source>
-        <translation type="unfinished">Rykk inn linje...</translation>
+        <translation type="unfinished">Rykker inn linje...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="634"/>
@@ -65,7 +65,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="717"/>
         <source>Ruby could not be started, is it installed and in your PATH?</source>
-        <translation type="unfinished">Kunne ikke starte rubu.  Er den installert og i din PATH?</translation>
+        <translation>Kunne ikke starte ruby.  Er den installert og i din PATH?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="803"/>
@@ -86,21 +86,22 @@
         <location filename="../mainwindow.cpp" line="807"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">Avanserte lydoppsett for å bruke eksterne PA-systemer mens du spiller med Sonic Pi.</translation>
+        <translation>Avanserte lydoppsett for å bruke eksterne
+PA-systemer mens du spiller med Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="808"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished">Inverter stereo</translation>
+        <translation>Inverter stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="809"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished">Styr stereo-invertering.
+        <translation>Styr stereo-invertering.
 Hvis aktiv, så blir lyd sendt til venstre høytaler
-istedet sendt til det høyre høytaleren og visa versa.</translation>
+i stedet overført til det høyre høytaleren og visa versa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="811"/>
@@ -137,7 +138,7 @@ lage uventede høye eller ubehagelige lyder.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished">Lyduttak på Raspberry Pi</translation>
+        <translation>Lyduttak på Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="829"/>
@@ -158,7 +159,7 @@ Bruk disse knappene for å tvinge bruk av lydutgangen du ønsker.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="831"/>
         <source>&amp;Headphones</source>
-        <translation type="unfinished">&amp;Hodetelefoner</translation>
+        <translation>&amp;Hodetelefoner</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="832"/>
@@ -168,7 +169,7 @@ Bruk disse knappene for å tvinge bruk av lydutgangen du ønsker.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="852"/>
         <source>Logging</source>
-        <translation type="unfinished">Logging</translation>
+        <translation>Logging</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="853"/>
@@ -178,7 +179,7 @@ Bruk disse knappene for å tvinge bruk av lydutgangen du ønsker.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="855"/>
         <source>Log synths</source>
-        <translation type="unfinished">Logg synther</translation>
+        <translation>Logg synther</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="856"/>
@@ -192,83 +193,85 @@ sampleutløsning som utgangspunkt ikke skrives til loggen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="858"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">Nullstill logg ved kjøring</translation>
+        <translation>Nullstill logg ved kjøring</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="859"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">Styr logg-nullstilling ved kjøring.
+        <translation>Styr logg-nullstilling ved kjøring.
 Hvis aktiv, så nullstilles loggen hver
 gang kjør-knappen trykkes.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="861"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg vink</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="862"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Styr logging av vink.
+Hvis utkoblet, så vil vink fortsatt utløses.
+De vil dermot ikke være synlige i loggene.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="871"/>
         <source>Transparency</source>
-        <translation type="unfinished">Gjennomsiktighet</translation>
+        <translation>Gjennomsiktighet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="882"/>
         <location filename="../mainwindow.cpp" line="1004"/>
         <source>Updates</source>
-        <translation type="unfinished">Oppdateringer</translation>
+        <translation>Oppdateringer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="884"/>
         <source>Check for updates</source>
-        <translation type="unfinished">Sjekk etter oppdateringer</translation>
+        <translation>Sjekk etter oppdateringer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="886"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Styr automatisk oppdateringsjekk.
+        <translation>Styr automatisk oppdateringsjekk.
 Denne sjekken innebærer å sende anonym informasjon om din platform og versjon.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Check now</source>
-        <translation type="unfinished">Sjekk nå</translation>
+        <translation>Sjekk nå</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="888"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Tving igjennom en sjekk etter oppdateringer nå.
+        <translation>Tving igjennom en sjekk etter oppdateringer nå.
 Denne sjekken innebærer å sende anonym informasjon om din platform og versjon.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="889"/>
         <source>Get update</source>
-        <translation type="unfinished">Hent oppdatering</translation>
+        <translation>Hent oppdatering</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="890"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">Besøk http://sonic-pi.net for å laste ned ny versjon</translation>
+        <translation>Besøk http://sonic-pi.net for å laste ned ny versjon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="895"/>
         <source>Update Info</source>
-        <translation type="unfinished">Oppdateringsopplysninger</translation>
+        <translation>Oppdateringsopplysninger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="914"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">Vis og skjul</translation>
+        <translation>Vis og skjul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"/>
@@ -278,62 +281,62 @@ Denne sjekken innebærer å sende anonym informasjon om din platform og versjon.
     <message>
         <location filename="../mainwindow.cpp" line="916"/>
         <source>Look and Feel</source>
-        <translation type="unfinished">Utseende og oppførsel</translation>
+        <translation>Utseende og oppførsel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">Still inn hvordan skriveprogrammet ser ut og oppfører seg.</translation>
+        <translation>Oppsett av utseende og oppførsel for skrivefeltet.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"/>
         <source>Automation</source>
-        <translation type="unfinished">Automatisering</translation>
+        <translation>Automatisering</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"/>
         <source>Configure automation features.</source>
-        <translation type="unfinished">Still inn automatiseringsegenskaper.</translation>
+        <translation>Sett opp automatiseringsegenskaper.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"/>
         <source>Auto-align</source>
-        <translation type="unfinished">Auto-innrykk</translation>
+        <translation>Auto-innrykk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished">Fiks innrykk automatisk ved kjøring</translation>
+        <translation>Fiks innrykk automatisk ved kjøring</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="923"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">Vis linjenummer</translation>
+        <translation>Vis linjenummer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="924"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">Styr om linjenummer skal vises.</translation>
+        <translation>Styr synlighet for linjenummer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="925"/>
         <source>Show log</source>
-        <translation type="unfinished">Vis logg</translation>
+        <translation>Vis logg</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="926"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished">Styr synligheten for loggen.</translation>
+        <translation>Styr synligheten for loggen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="928"/>
         <source>Show buttons</source>
-        <translation type="unfinished">Vis knapper</translation>
+        <translation>Vis knapper</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="929"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished">Styr synlighet for kontrollknappene.</translation>
+        <translation>Styr synlighet for kontrollknappene.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="931"/>
@@ -348,69 +351,70 @@ Denne sjekken innebærer å sende anonym informasjon om din platform og versjon.
     <message>
         <location filename="../mainwindow.cpp" line="934"/>
         <source>Full screen</source>
-        <translation type="unfinished">Fullskjerm</translation>
+        <translation>Fullskjerm</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished">Styr fullskjermtilstand.</translation>
+        <translation>Styr fullskjermtilstand.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"/>
         <source>Dark mode</source>
-        <translation type="unfinished">Mørk fremtoning</translation>
+        <translation>Mørk fremtoning</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished">Styr mørk fremtoning.</translation>
+        <translation>Styr mørk fremtoning.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished">Mørk fremtoning er perfekt for direkte-kodinger på nattklubber.</translation>
+        <translation>
+Mørk fremtoning er perfekt for koding på direkten i nattklubber.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"/>
         <source>Audio</source>
-        <translation type="unfinished">Lyd</translation>
+        <translation>Lyd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="988"/>
         <source>Editor</source>
-        <translation type="unfinished">Skriveprogram</translation>
+        <translation>Skrivefelt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="989"/>
         <source>Studio</source>
-        <translation type="unfinished">Studio</translation>
+        <translation>Studio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="991"/>
         <location filename="../mainwindow.cpp" line="996"/>
         <source>Performance</source>
-        <translation type="unfinished">Fremvisning</translation>
+        <translation>Fremføring</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Oppsett nyttig for fremføring med Sonic Pi</translation>
+        <translation>Oppsett nyttig ved fremføring med Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Server boot error...</source>
-        <translation type="unfinished">Tjeneroppstart-feil...</translation>
+        <translation>Feil ved tjeneroppstart...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished">Beklager, en kritisk feil skjedde under oppstart</translation>
+        <translation>Beklager, en kritisk feil skjedde under oppstart</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Please consider reporting a bug at</source>
-        <translation type="unfinished">Veldig fint om du vurderer å rapportere feil til</translation>
+        <translation>Veldig fint om du vurderer å rapportere feil til</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1181"/>
@@ -420,12 +424,12 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1249"/>
         <source>Running Code...</source>
-        <translation type="unfinished">Kjørende kode...</translation>
+        <translation>Kjørende kode...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1275"/>
         <source>Workspace %1</source>
-        <translation type="unfinished">Arbeidsområde %1</translation>
+        <translation>Arbeidsområde %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1291"/>
@@ -440,27 +444,27 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1305"/>
         <source>Beautifying...</source>
-        <translation type="unfinished">Gjør vakrere...</translation>
+        <translation>Gjør vakrere...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1325"/>
         <source>Reloading...</source>
-        <translation type="unfinished">Last på nytt...</translation>
+        <translation>Laster på nytt...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1332"/>
         <source>Checking for updates...</source>
-        <translation type="unfinished">Ser etter oppdateringer...</translation>
+        <translation>Ser etter oppdateringer...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1340"/>
         <source>Enabling update checking...</source>
-        <translation type="unfinished">Aktiverer oppdaterings-sjekking...</translation>
+        <translation>Aktiverer oppdaterings-sjekking...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1348"/>
         <source>Disabling update checking...</source>
-        <translation type="unfinished">Kobler ut oppdaterings-sjekking...</translation>
+        <translation>Kobler ut oppdaterings-sjekking...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1356"/>
@@ -485,12 +489,12 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1390"/>
         <source>Enabling Inverted Stereo...</source>
-        <translation type="unfinished">Aktiver invertert stereo...</translation>
+        <translation>Aktiver invertert stereo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1398"/>
         <source>Enabling Standard Stereo...</source>
-        <translation type="unfinished">Aktiverer standard stereo...</translation>
+        <translation>Aktiverer standard stereo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1406"/>
@@ -505,7 +509,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1423"/>
         <source>Stopping...</source>
-        <translation type="unfinished">Stopper...</translation>
+        <translation>Stopper...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1507"/>
@@ -515,17 +519,17 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1729"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation type="unfinished">Bytter til hodetelefonlyduttak...</translation>
+        <translation>Bytter til hodetelefonlyduttak...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Switching To HDMI Audio Output...</source>
-        <translation type="unfinished">Bytter til HDMI-lyduttak...</translation>
+        <translation>Bytter til HDMI-lyduttak...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1760"/>
         <source>Switching To Default Audio Output...</source>
-        <translation type="unfinished">Endrer til default-lyduttak...</translation>
+        <translation>Endrer til default-lyduttak...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1902"/>
@@ -535,7 +539,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1903"/>
         <source>Run the code in the current workspace</source>
-        <translation type="unfinished">Kjør koden i det aktive arbeidsområdet</translation>
+        <translation>Kjør koden i det aktive arbeidsområdet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1907"/>
@@ -545,7 +549,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1908"/>
         <source>Stop all running code</source>
-        <translation type="unfinished">Stopp all kjørende kode</translation>
+        <translation>Stopp all kjørende kode</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1911"/>
@@ -570,17 +574,17 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1921"/>
         <source>Toggle help pane</source>
-        <translation type="unfinished">Styr hjelpepanelet</translation>
+        <translation>Styr hjelpepanel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1924"/>
         <source>Prefs</source>
-        <translation type="unfinished">Oppsett</translation>
+        <translation>Innstillinger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1925"/>
         <source>Toggle preferences pane</source>
-        <translation type="unfinished">Styr oppsettpanelet</translation>
+        <translation>Styr innstillingspanel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1929"/>
@@ -602,19 +606,19 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1935"/>
         <source>Improve readability of code</source>
-        <translation type="unfinished">Forbedre lesbarheten til koden</translation>
+        <translation>Gjør koden mer lesbar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1939"/>
         <location filename="../mainwindow.cpp" line="1940"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished">Øk tekststørrelsen</translation>
+        <translation>Øk skriftstørrelsen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1944"/>
         <location filename="../mainwindow.cpp" line="1945"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished">Reduser tekststørrelsen</translation>
+        <translation>Reduser skriftstørrelsen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1950"/>
@@ -629,27 +633,27 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1998"/>
         <source>Core Team</source>
-        <translation type="unfinished">Kjernegruppen</translation>
+        <translation>Kjernegruppen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1999"/>
         <source>Contributors</source>
-        <translation type="unfinished">Bidragsytere</translation>
+        <translation>Bidragsytere</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Community</source>
-        <translation type="unfinished">Fellesskap</translation>
+        <translation>Fellesskap</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2001"/>
         <source>License</source>
-        <translation type="unfinished">Lisens</translation>
+        <translation>Lisens</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2002"/>
         <source>History</source>
-        <translation type="unfinished">Historie</translation>
+        <translation>Historie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2023"/>
@@ -660,72 +664,75 @@ Dark mode is perfect for live coding in night clubs.</source>
         <location filename="../mainwindow.cpp" line="2043"/>
         <location filename="../mainwindow.cpp" line="2044"/>
         <source>Stop Recording</source>
-        <translation type="unfinished">Stop opptak</translation>
+        <translation>Stop opptak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2057"/>
         <source>Save Recording</source>
-        <translation type="unfinished">Lagre opptak</translation>
+        <translation>Lagre opptak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2076"/>
         <source>Ready...</source>
-        <translation type="unfinished">Klar...</translation>
+        <translation>Klar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2153"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished">Kan ikke lese fil %1: %2.</translation>
+        <translation>Kan ikke lese fil %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2163"/>
         <source>File loaded...</source>
-        <translation type="unfinished">Filen lastet...</translation>
+        <translation>Lastet fil...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2171"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished">Kan ikke skrive filen %1: %2.</translation>
+        <translation>Kan ikke skrive filen %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"/>
         <source>File saved...</source>
-        <translation type="unfinished">Lagret filen...</translation>
+        <translation>Lagret filen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2413"/>
         <source>Last checked %1</source>
-        <translation type="unfinished">Sist sjekket %1</translation>
+        <translation>Sist sjekket %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2415"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished">Sonic Pi sjekker etter oppdateringer hver andre uke.</translation>
+        <translation>Sonic Pi sjekker etter oppdateringer
+hver andre uke.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2417"/>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished">Dette er Sonic Pi %1</translation>
+        <translation>Dette er Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2418"/>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished">Utgave %2 er nå tilgjengelig!</translation>
+        <translation>Utgave %2 er nå tilgjengelig!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished">Ny utgave er tilgjengelig!
+        <translation>Ny utgave er tilgjengelig!
 Skaff Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2448"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished">Velkommen tilbake. Nå kan du live-kode på...</translation>
+        <translation>Velkommen tilbake. Nå kan du direkte-kode på...</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="80"/>
@@ -735,7 +742,7 @@ Skaff Sonic Pi %1</translation>
         <location filename="../ruby_help.h" line="278"/>
         <location filename="../ruby_help.h" line="338"/>
         <source>Tutorial</source>
-        <translation type="unfinished">Innføring</translation>
+        <translation>Innføring</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="370"/>
@@ -745,7 +752,7 @@ Skaff Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="410"/>
         <source>Synths</source>
-        <translation type="unfinished">Synth-er</translation>
+        <translation>Synth-er</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="446"/>
@@ -760,7 +767,7 @@ Skaff Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="629"/>
         <source>Lang</source>
-        <translation type="unfinished">Språk</translation>
+        <translation>Språk</translation>
     </message>
 </context>
 <context>
@@ -775,8 +782,8 @@ Skaff Sonic Pi %1</translation>
     <name>SonicPiUDPServer</name>
     <message>
         <location filename="../sonicpiudpserver.cpp" line="24"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
-        <translation type="unfinished">Kjører Sonic Pi allerede? Klarer ikke åpne UDP port 4558.</translation>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
+        <translation>Kjører Sonic Pi allerede? Klarer ikke åpne UDP port 4558.</translation>
     </message>
 </context>
 </TS>
