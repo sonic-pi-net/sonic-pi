@@ -403,26 +403,10 @@ sample :loop_amen        # re-loads and plays amen"]
         if args_h.has_key?(:on)
           on = args_h.delete(:on)
           return truthy?(on)
+        else
+          return true
         end
-
-        tls = if sample
-                Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults)
-              else
-                Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults)
-              end
-
-        return true unless tls
-
-        if tls.has_key?(:on)
-          # need to normalise it!
-          on = tls.delete(:on)
-          return truthy?(on)
-
-        end
-
-        true
       end
-
 
 
 
@@ -1270,6 +1254,9 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
       def synth(synth_name, *args)
         synth_name = current_synth unless synth_name
         args_h = resolve_synth_opts_hash_or_array(args)
+        tls = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
+
+        args_h = tls.merge(args_h)
 
         return nil unless should_trigger?(args_h)
 
@@ -2762,6 +2749,12 @@ sample :loop_amen                    # starting it again
       def sample(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
         args_h = merge_synth_arg_maps_array(args_a)
+        tls = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
+
+        args_h = tls.merge(args_h)
+
+
+        return nil unless should_trigger?(args_h, true)
 
         if filts_and_sources.size == 0
           if args_h.has_key?(:name)
@@ -2775,7 +2768,6 @@ sample :loop_amen                    # starting it again
         end
 
         return if path == nil
-        return nil unless should_trigger?(args_h, true)
 
         info = Synths::SynthInfo.get_info(:stereo_player)
         path = unify_tilde_dir(path) if path.is_a? String
@@ -3817,6 +3809,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
+
         unless in_good_time?
           __delayed_message "!! Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
 
@@ -3881,7 +3874,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         add_out_bus_and_rand_buf!(args_h, out_bus)
         orig_synth_name = synth_name
         synth_name = info ? info.scsynth_name : synth_name
-        purge_nil_vals!(args_h)
+
         args_h = info.munge_opts(args_h) if info
         validate_if_necessary! info, args_h
 
@@ -3921,6 +3914,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
       def normalise_and_resolve_sample_args(path, args_h, info, combine_tls=false)
+        purge_nil_vals!(args_h)
+
         defaults = info ? info.arg_defaults : {}
         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
         t_l_args.each do |k, v|
@@ -3961,6 +3956,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
       def normalise_and_resolve_synth_args(args_h, info, combine_tls=false)
+        purge_nil_vals!(args_h)
         defaults = info ? info.arg_defaults : {}
         if combine_tls
           t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
