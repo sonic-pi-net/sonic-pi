@@ -1982,37 +1982,37 @@ end
 
 
       def use_cue_logging(v, &block)
-           raise "use_cue_logging does not work with a do/end block. Perhaps you meant with_cue_logging" if block
-           Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, !v)
-         end
-         doc name:          :use_cue_logging,
-             introduced:    Version.new(2,6,0),
-             summary:       "Enable and disable cue logging",
-             doc:           "Enable or disable log messages created on cues. This does not disable the cues themselves, it just stops them from being printed to the log",
-             args:          [[:true_or_false, :boolean]],
-             opts:          nil,
-             accepts_block: false,
-             examples:      ["use_cue_logging true # Turn on cue messages", "use_cue_logging false # Disable cue messages"]
+        raise "use_cue_logging does not work with a do/end block. Perhaps you meant with_cue_logging" if block
+        Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, !v)
+      end
+      doc name:          :use_cue_logging,
+          introduced:    Version.new(2,6,0),
+          summary:       "Enable and disable cue logging",
+          doc:           "Enable or disable log messages created on cues. This does not disable the cues themselves, it just stops them from being printed to the log",
+          args:          [[:true_or_false, :boolean]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["use_cue_logging true # Turn on cue messages", "use_cue_logging false # Disable cue messages"]
 
 
 
 
-         def with_cue_logging(v, &block)
-           raise "with_cue_logging requires a do/end block. Perhaps you meant use_cue_logging" unless block
-           current = Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
-           Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, !v)
-           block.call
-           Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, current)
-         end
-         doc name:          :with_cue_logging,
-             introduced:    Version.new(2,6,0),
-             summary:       "Block-level enable and disable cue logging",
-             doc:           "Similar to use_cue_logging except only applies to code within supplied `do`/`end` block. Previous cue log value is restored after block.",
-             args:          [[:true_or_false, :boolean]],
-             opts:          nil,
-             accepts_block: true,
-             requires_block: true,
-             examples:      ["
+      def with_cue_logging(v, &block)
+        raise "with_cue_logging requires a do/end block. Perhaps you meant use_cue_logging" unless block
+        current = Thread.current.thread_variable_get(:sonic_pi_suppress_cue_logging)
+        Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, !v)
+        block.call
+        Thread.current.thread_variable_set(:sonic_pi_suppress_cue_logging, current)
+      end
+      doc name:          :with_cue_logging,
+          introduced:    Version.new(2,6,0),
+          summary:       "Block-level enable and disable cue logging",
+          doc:           "Similar to use_cue_logging except only applies to code within supplied `do`/`end` block. Previous cue log value is restored after block.",
+          args:          [[:true_or_false, :boolean]],
+          opts:          nil,
+          accepts_block: true,
+          requires_block: true,
+          examples:      ["
   # Turn on debugging:
   use_cue_logging true
 
@@ -2539,7 +2539,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
   "
   in_thread do   # Start a metronome thread
     loop do      # Loop forever:
-      cue :tick # sending tick heartbeat messages
+      cue :tick  # sending tick heartbeat messages
       sleep 0.5  # and sleeping for 0.5 beats between ticks
     end
   end
@@ -2561,22 +2561,22 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
   # We can now play sounds using the metronome:
 
   in_thread do
-    loop do                    # In the main thread, just loop
-      sync :foo               # waiting for :foo cue messages
+    loop do              # In the main thread, just loop
+      sync :foo          # waiting for :foo cue messages
       sample :elec_beep  # after which play the elec beep sample
     end
   end
 
   in_thread do
-    loop do                    # In the main thread, just loop
-      sync :bar               # waiting for :bar cue messages
+    loop do              # In the main thread, just loop
+      sync :bar          # waiting for :bar cue messages
       sample :elec_flip  # after which play the elec flip sample
     end
   end
 
   in_thread do
-    loop do                    # In the main thread, just loop
-      sync :baz               # waiting for :baz cue messages
+    loop do              # In the main thread, just loop
+      sync :baz          # waiting for :baz cue messages
       sample :elec_blup  # after which play the elec blup sample
     end
   end"
@@ -2809,7 +2809,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
               __schedule_delayed_blocks_and_messages!
             end
           rescue Exception => e
-              if name
+            if name
               __error e, "Thread death +--> #{name.inspect}"
             else
               __error e, "Thread death!"
