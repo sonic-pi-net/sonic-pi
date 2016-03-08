@@ -117,20 +117,28 @@ module SonicPi
       log "going to kill #{pid}"
       return kill_pid_win(pid) if os == :windows
       pid = Integer(pid)
-      Process.kill(15, pid)
+      begin
+        Process.kill(15, pid)
 
-      safe_wait.to_i.times do
-        sleep 1
-        begin
-          alive = Process.waitpid(pid, Process::WNOHANG)
-          return unless alive
-        rescue SystemCallError
-          # process is definitely dead!
-          return nil
+        safe_wait.to_i.times do
+          sleep 1
+          begin
+            alive = Process.waitpid(pid, Process::WNOHANG)
+            return unless alive
+          rescue SystemCallError
+            # process is definitely dead!
+            return nil
+          end
         end
+
+        Process.kill(9, pid)
+      rescue Errno::ECHILD => e
+        log "Unable to wait for #{pid} - child process does not exist"
+      rescue Errno::ESRCH
+        log "Unable to kill #{pid} - process does not exist"
       end
 
-      Process.kill(9, pid)
+      return nil
     end
 
     def boot
