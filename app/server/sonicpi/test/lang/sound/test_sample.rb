@@ -22,8 +22,15 @@ require 'ostruct'
 
 module SonicPi
   class SampleTester < Minitest::Test
+    class MockStudio
+      def initialize
+        @mod_sound_studio = Object.new
+        @mod_sound_studio.stubs(:sample_loaded?).returns(true)
+      end
+    end
+
     def setup
-      @mock_sound = Object.new
+      @mock_sound = MockStudio.new
       @mock_sound.extend(Lang::Sound)
       @mock_sound.extend(Lang::Core)
       @mock_sound.stubs(:sleep) # avoid loading Spider class
