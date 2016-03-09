@@ -117,13 +117,8 @@ module SonicPi
       when Regexp
         filters << filt_or_source
       when Array, SonicPi::Core::RingVector
-        filt_or_source.each do |c|
-          c = c.to_s
-          if File.directory?(c)
-            dirs << c
-          else
-            candidates << c
-          end
+        filt_or_source.each do |fos|
+          idx = consume_filt_or_source!(fos, idx, filters, dirs, candidates, res)
         end
       else
         raise "Unknown sample filter or source type: #{filt_or_source.inspect}"
