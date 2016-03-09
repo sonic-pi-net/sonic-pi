@@ -403,6 +403,10 @@ module SonicPi
         end
         ___sp_preserve_vec_kind(res)
       end
+
+      def map_index(idx)
+        idx
+      end
     end
 
     class RingVector < SPVector
