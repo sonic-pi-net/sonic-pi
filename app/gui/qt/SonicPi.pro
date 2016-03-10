@@ -21,10 +21,13 @@
 
 # -- Change to match the location of QScintilla on your system
 #
- LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 -lrt -lqwt-qt5
- INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5 /usr/include/qwt
- DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
+#LIBS += -L../../../../QScintilla-gpl-2.9.1/Qt4Qt5 -L/usr/local/Cellar/boost/1.60.0/lib -L../../../../qwt-6.1/lib
+#INCLUDEPATH += /usr/local/Cellar/boost/1.60.0/include ../../../../QScintilla-gpl-2.9.1/Qt4Qt5 ../../../../qwt-6.1/lib/qwt.framework/Headers /usr/local/Cellar/boost/1.60.0/include
+#DEPENDPATH += ../../../../QScintilla-gpl-2.9.1/Qt4Qt5
 # --
+
+INCLUDEPATH += native/qt5.5/include native/boost/include
+LIBS += -L native/qt5.5/lib
 
 TARGET = 'sonic-pi'
 
@@ -37,6 +40,9 @@ QMAKE_CXXFLAGS += -std=c++11
 
 # Linux only
 unix:!macx {
+  # lib for scope shm interface
+  LIBS += -lrt
+
   lessThan(QT_MAJOR_VERSION, 5) {
     LIBS += -lqscintilla2
   } else {
@@ -47,6 +53,16 @@ unix:!macx {
 
 # Mac OS X only
 macx {
+  CONFIG += warn_off
+
+  include( native/qwt/features/qwt.prf )
+  CONFIG += qwt
+  LIBS += -framework qwt
+#  QMAKE_LFLAGS += -F../../../../qwt-6.1/lib -L../../../../QScintilla-gpl-2.9.1/Qt4Qt5
+  QMAKE_CXXFLAGS += -stdlib=libc++
+  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
+
+
   TARGET = 'Sonic Pi'
   LIBS += -lqscintilla2
   QT += macextras
@@ -129,15 +145,15 @@ RC_FILE = SonicPi.rc
 ICON = images/app.icns
 
 win32 {
-	install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
-	install_qsci.path = release
+  install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
+  install_qsci.path = release
 
-	install_bat.files = sonic-pi.bat
-	install_bat.path = ..\..\..
+  install_bat.files = sonic-pi.bat
+  install_bat.path = ..\..\..
 
-	INSTALLS += install_qsci install_bat
-	# allow to run on XP
-	QMAKE_SUBSYSTEM_SUFFIX = ,5.01
+  INSTALLS += install_qsci install_bat
+  # allow to run on XP
+  QMAKE_SUBSYSTEM_SUFFIX = ,5.01
 }
 
 # not unicode ready

@@ -26,6 +26,7 @@
 #ifndef OSCPKT_UDP_HH
 #define OSCPKT_UDP_HH
 
+#include <ostream>
 #include <sys/types.h>
 #if defined(_MSC_VER) || defined(WIN32)
 /*

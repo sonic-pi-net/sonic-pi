@@ -14,16 +14,16 @@
 #++
 
 ## ---- Modify these to point to your system
-QSCINTILLA=/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
-QTBIN=/Users/sam/Development/Qt/5.4/clang_64/bin
-LIBQS=libqscintilla2.12.0.0.dylib
-LIBQS_LINK=libqscintilla2.12.dylib
+QSCINTILLA="native/qscintilla"
+QTBIN="native/qt5.5/bin"
+#LIBQS=libqscintilla2.12.0.0.dylib
+#LIBQS_LINK=libqscintilla2.12.dylib
 ## ----
 
-QMAKE=$QTBIN/qmake
-LREL=$QTBIN/lrelease
-MACDEPLOYQT=$QTBIN/macdeployqt
-LIBQS_PATH=$QSCINTILLA/$LIBQS
+QMAKE="$QTBIN/qmake"
+LREL="$QTBIN/lrelease"
+MACDEPLOYQT="$QTBIN/macdeployqt"
+LIBQS_PATH="$QSCINTILLA/$LIBQS"
 
 SP='Sonic Pi.app'
 
@@ -39,10 +39,10 @@ cp -f ruby_help.tmpl ruby_help.h
 ../../server/native/osx/ruby/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
 
 # Generate i18n files
-$LREL SonicPi.pro
+"$LREL" SonicPi.pro
 
 # Build app
-$QMAKE -o Makefile SonicPi.pro
+"$QMAKE" -o Makefile SonicPi.pro
 make
 
 # Move to build
