@@ -3875,7 +3875,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         orig_synth_name = synth_name
         synth_name = info ? info.scsynth_name : synth_name
 
-        args_h = info.munge_opts(args_h) if info
         validate_if_necessary! info, args_h
 
         ensure_good_timing!
@@ -3948,6 +3947,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           new_rate = pitch_to_ratio(rate_pitch.to_f)
           args_h[:rate] = new_rate * (args_h[:rate] || 1)
         end
+
+        args_h = info.munge_opts(args_h) if info
         resolve_midi_args!(args_h, info) if info
         normalise_args!(args_h, defaults)
         scale_time_args_to_bpm!(args_h, info, true) if info && Thread.current.thread_variable_get(:sonic_pi_spider_arg_bpm_scaling)
@@ -3964,6 +3965,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
             args_h[k] = v unless args_h.has_key? k || v.nil?
           end
         end
+
+        args_h = info.munge_opts(args_h) if info
 
         resolve_midi_args!(args_h, info) if info
         normalise_args!(args_h, defaults)
