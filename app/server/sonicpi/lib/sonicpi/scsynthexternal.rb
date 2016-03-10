@@ -119,19 +119,23 @@ module SonicPi
       pid = Integer(pid)
       begin
         Process.kill(15, pid)
-
         safe_wait.to_i.times do
-          sleep 1
           begin
             alive = Process.waitpid(pid, Process::WNOHANG)
-            return unless alive
-          rescue SystemCallError
+            unless alive
+              log "Successfully killed #{pid}"
+              return nil
+            end
+          rescue Exception => e
             # process is definitely dead!
+            log "Error waiting for process #{pid} - assumed already killed"
             return nil
           end
+          sleep 1
         end
 
         Process.kill(9, pid)
+        log "Forcibly killed #{pid}"
       rescue Errno::ECHILD => e
         log "Unable to wait for #{pid} - child process does not exist"
       rescue Errno::ESRCH
