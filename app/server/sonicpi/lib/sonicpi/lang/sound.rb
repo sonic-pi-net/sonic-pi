@@ -3792,9 +3792,10 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
           unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
             if args_h.empty?
-              __delayed_message "sample #{path.inspect}"
+              __delayed_message "sample #{File.dirname(path).inspect},\n           #{File.basename(path).inspect}"
             else
-              __delayed_message "sample #{path.inspect}, #{arg_h_pp(args_h)}"
+              __delayed_message "sample #{File.dirname(path).inspect},\n           #{File.basename(path).inspect}, #{arg_h_pp(args_h)}"
+
             end
           end
           add_arg_slide_times!(args_h, info)
