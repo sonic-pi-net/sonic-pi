@@ -104,15 +104,6 @@ module SonicPi
       server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]
       end
-      # load rand stream directly - ensuring it doesn't get considered as a 'sample'
-      rand_buf_id = server.buffer_alloc_read(buffers_path + "/rand-stream.wav").to_i
-      old_samples = @samples
-      @samples = {}
-
-      (old_samples || {}).each do |k, v|
-        message "Reloading sample - #{unify_tilde_dir(k)}"
-        internal_load_sample(k, server)
-      end
 
       old_synthdefs = @loaded_synthdefs
       @loaded_synthdefs = Set.new
@@ -121,6 +112,22 @@ module SonicPi
         message "Reloading synthdefs in #{unify_tilde_dir(s)}"
         internal_load_synthdefs(s, server)
       end
+
+      # load rand stream directly - ensuring it doesn't get considered as a 'sample'
+      rand_buf_id = server.buffer_alloc_read(buffers_path + "/rand-stream.wav").to_i
+      old_samples = @samples
+      @samples = {}
+
+      Thread.new do
+        Thread.current.thread_variable_set(:sonic_pi_thread_group, "Studio sample loader")
+        Thread.current.priority = -10
+        (old_samples || {}).each do |k, v|
+          message "Reloading sample - #{unify_tilde_dir(k)}"
+          internal_load_sample(k, server)
+        end
+      end
+
+
 
       @recorders = {}
       @recording_mutex = Mutex.new
