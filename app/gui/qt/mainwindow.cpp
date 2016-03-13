@@ -1127,6 +1127,16 @@ void MainWindow::initPrefsWindow() {
 
 }
 
+void MainWindow::setMessageBoxStyle() {
+  // Set text color to black and background colors to white for the error message display
+  QPalette p = QApplication::palette();
+  p.setColor(QPalette::WindowText,"#000");
+  p.setColor(QPalette::ButtonText,"#000");
+  p.setColor(QPalette::Text,"#000");
+  p.setColor(QPalette::Base,"#FFF");
+  QApplication::setPalette(p);
+}
+
 void MainWindow::invokeStartupError(QString msg) {
   if(startup_error_reported) {
     return;
@@ -1141,6 +1151,8 @@ void MainWindow::invokeStartupError(QString msg) {
 
 void MainWindow::startupError(QString msg) {
   splashClose();
+  
+  setMessageBoxStyle();
 
   QString gui_log = readFile(log_path + QDir::separator() + "gui.log");
   QString server_errors_log = readFile(log_path + QDir::separator() + "server-errors.log");
@@ -2262,10 +2274,12 @@ void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)
 {
   QFile file(fileName);
   if (!file.open(QFile::ReadOnly)) {
+    setMessageBoxStyle();
     QMessageBox::warning(this, tr("Sonic Pi"),
 			 tr("Cannot read file %1:\n%2.")
 			 .arg(fileName)
 			 .arg(file.errorString()));
+    updateDarkMode();
     return;
   }
 
@@ -2280,10 +2294,12 @@ bool MainWindow::saveFile(const QString &fileName, SonicPiScintilla* text)
 {
   QFile file(fileName);
   if (!file.open(QFile::WriteOnly)) {
+    setMessageBoxStyle();
     QMessageBox::warning(this, tr("Sonic Pi"),
 			 tr("Cannot write file %1:\n%2.")
 			 .arg(fileName)
 			 .arg(file.errorString()));
+    updateDarkMode();
     return false;
   }
 
