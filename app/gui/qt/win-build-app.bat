@@ -18,6 +18,10 @@ nmake
 nmake install
 cd release
 windeployqt Sonic-Pi.exe -printsupport
+
+@echo Removing faulty english translation file
+if exist translations\qt_en.qm del translations\qt_en.qm
+
 cd ..
 
 @goto :done
