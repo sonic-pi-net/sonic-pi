@@ -2769,20 +2769,20 @@ sample :loop_amen                    # starting it again
 
         return if path == nil
 
-        info = Synths::SynthInfo.get_info(:stereo_player)
+
         path = unify_tilde_dir(path) if path.is_a? String
 
         # Combine thread local defaults here as
         # normalise_and_resolve_synth_args has only been taught about
         # synth thread local defaults
 
-        args_h = normalise_and_resolve_sample_args(path, args_h, info)
+
 
         if @mod_sound_studio.sample_loaded?(path)
-          return trigger_sampler path, args_h, info
+          return trigger_sampler path, args_h
         else
           res = Promise.new
-          in_thread { res.deliver!(trigger_sampler path, args_h, info) }
+          in_thread { res.deliver!(trigger_sampler path, args_h)}
           return LazyNode.new(res)
         end
       end
@@ -3765,7 +3765,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         end
       end
 
-      def trigger_sampler(path, args_h, info, group=current_job_synth_group)
+      def trigger_sampler(path, args_h, group=current_job_synth_group)
         case path
         when Buffer
           buf_info = path
@@ -3777,8 +3777,11 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         else
           buf_info = load_sample_at_path(path)
         end
-
         sn = resolve_specific_sampler(buf_info.num_chans, args_h)
+
+        info = Synths::SynthInfo.get_info(sn)
+        args_h = normalise_and_resolve_sample_args(path, args_h, info)
+
         buf_id = buf_info.id
 
         unless in_good_time?
@@ -3874,6 +3877,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
         add_out_bus_and_rand_buf!(args_h, out_bus)
         orig_synth_name = synth_name
+
         synth_name = info ? info.scsynth_name : synth_name
 
         validate_if_necessary! info, args_h
