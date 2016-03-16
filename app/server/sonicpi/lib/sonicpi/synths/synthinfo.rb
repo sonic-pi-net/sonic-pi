@@ -3374,7 +3374,7 @@ module SonicPi
           :hpf_max =>
           {
             :doc => "The minimum cutoff value.",
-            :validations => [v_less_than_oet(:hpf_min, 130)],
+            :validations => [v_less_than_oet(:hpf_max, 130)],
             :modulatable => true,
             :midi => true
           },
