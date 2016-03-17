@@ -71,4 +71,20 @@
    attack_level  attack  env_curve 0
    decay_level   decay   env_curve 0
    sustain_level sustain env_curve 0
-   min           release env_curve 0] ))
+   min           release env_curve 0] )
+
+  ([attack
+    decay
+    sustain
+    release
+    init_level
+    attack_level
+    decay_level
+    sustain_level
+    release_level
+    env_curve]
+  [init_level 4 -99 -99
+   attack_level  attack  env_curve 0
+   decay_level   decay   env_curve 0
+   sustain_level sustain env_curve 0
+   release_level release env_curve 0] ))

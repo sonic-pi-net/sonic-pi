@@ -3050,6 +3050,12 @@ module SonicPi
           :pan_slide_shape => 1,
           :pan_slide_curve => 0,
 
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => -1,
+          :release => 0,
+
           :lpf => -1,
           :lpf_slide => 0,
           :lpf_slide_shape => 1,
@@ -3058,9 +3064,11 @@ module SonicPi
           :lpf_decay => 0,
           :lpf_sustain => -1,
           :lpf_release => 0,
+          :lpf_init_level => -1,
           :lpf_attack_level => -1,
           :lpf_decay_level => -1,
           :lpf_sustain_level => -1,
+          :lpf_release_level => -1,
           :lpf_env_curve => 2,
           :lpf_min => -1,
           :lpf_min_slide => 0,
@@ -3075,19 +3083,17 @@ module SonicPi
           :hpf_sustain => -1,
           :hpf_decay => 0,
           :hpf_release => 0,
+          :hpf_init_level => -1,
           :hpf_attack_level => -1,
           :hpf_decay_level => -1,
           :hpf_sustain_level => -1,
+          :hpf_release_level => -1,
           :hpf_env_curve => 2,
           :hpf_max => -1,
           :hpf_max_slide => 0,
           :hpf_max_slide_shape => 1,
           :hpf_max_slide_curve => 0,
 
-          :attack => 0,
-          :decay => 0,
-          :sustain => -1,
-          :release => 0,
 
           :attack_level => 1,
           :decay_level => :sustain_level,
@@ -3150,14 +3156,16 @@ module SonicPi
           {
             :doc => "Duration of the attack phase of the envelope.",
             :validations => [v_positive(:attack)],
-            :modulatable => false
+            :modulatable => false,
+            :default => 0
           },
 
           :decay =>
           {
             :doc => "Duration of the decay phase of the envelope.",
             :validations => [v_positive(:decay)],
-            :modulatable => false
+            :modulatable => false,
+            :default => 0
           },
 
           :sustain =>
@@ -3165,14 +3173,16 @@ module SonicPi
             :doc => "Duration of the sustain phase of the envelope. When -1 (the default) will auto-stretch.",
             :validations => [[lambda{|args| v = args[:sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
 
-            :modulatable => false
+            :modulatable => false,
+            :default => -1
           },
 
           :release =>
           {
             :doc => "Duration of the release phase of the envelope.",
             :validations => [v_positive(:release)],
-            :modulatable => false
+            :modulatable => false,
+            :default => 0
           },
 
 
@@ -3180,28 +3190,32 @@ module SonicPi
           {
             :doc => "Rate with which to play back - default is 1. Playing the sample at rate 2 will play it back at double the normal speed. This will have the effect of doubling the frequencies in the sample and halving the playback time. Use rates lower than 1 to slow the sample down. Negative rates will play the sample in reverse.",
             :validations => [v_not_zero(:rate)],
-            :modulatable => false
+            :modulatable => false,
+            :default => 1
           },
 
           :start =>
           {
             :doc => "A fraction (between 0 and 1) representing where in the sample to start playback. 1 represents the end of the sample, 0.5 half-way through etc.",
             :validations => [v_between_inclusive(:start, 0, 1)],
-            :modulatable => false
+            :modulatable => false,
+            :default => 0
           },
 
           :finish =>
           {
             :doc => "A fraction (between 0 and 1) representing where in the sample to finish playback. 1 represents the end of the sample, 0.5 half-way through etc.",
             :validations => [v_between_inclusive(:finish, 0, 1)],
-            :modulatable => false
+            :modulatable => false,
+            :default => 1
           },
 
           :norm =>
           {
             :doc => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
             :validations => [v_one_of(:norm, [0, 1])],
-            :modulatable => true
+            :modulatable => true,
+            :default => 0
           },
 
           :window_size =>
@@ -3210,14 +3224,16 @@ module SonicPi
 
   The window_size is the length of the slices and is measured in seconds. It needs to be around 0.2 (200ms) or greater for pitched sounds like guitar or bass, and needs to be around 0.02 (20ms) or lower for percussive sounds like drum loops. You can experiment with this to get the best sound for your input.",
             :validations => [v_greater_than(:window_size, 0.00005)],
-            :modulatable => true
+            :modulatable => true,
+            :default => 0.2
           },
 
           :pitch =>
           {
             :doc => "Pitch adjustment in semitones. 1 is up a semitone, 12 is up an octave, -12 is down an octave etc. Maximum upper limit of 24 (up 2 octaves). Lower limit of -72 (down 6 octaves). Decimal numbers can be used for fine tuning.",
             :validations => [v_greater_than_oet(:pitch, -72), v_less_than_oet(:pitch, 24)],
-            :modulatable => true
+            :modulatable => true,
+            :default => 0
           },
 
           :pitch_dis =>
@@ -3226,6 +3242,7 @@ module SonicPi
             :validations => [v_greater_than_oet(:pitch_dis, 0)],
             :modulatable => true
           },
+
           :time_dis =>
           {
             :doc => "Time dispersion - how much random delay before playing each grain (measured in seconds). Again, low values here like 0.001 can help to soften up metallic sounds introduced by the effect. Large values are also fun as they can make soundscapes and textures from the input, although you will most likely lose the rhythm of the original. NB - This won't have an effect if it's larger than window_size.",
@@ -3233,31 +3250,54 @@ module SonicPi
             :modulatable => true
           },
 
+          :lpf_init_level =>
+          {
+            :doc => "The inital low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.",
+            :validations => [v_between_inclusive(:lpf_init_level, 0, 130)],
+            :default => "lpf_min",
+            :modulatable => false,
+            :midi => true
+          },
+
           :lpf_attack_level =>
           {
-            :doc => "The peak cutoff (value of cutoff at peak of attack) as a MIDI note.",
+            :doc => "The peak low pass filter envelope value after the attack phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is match the `lpf_decay_level:` opt.",
             :validations => [v_between_inclusive(:lpf_attack_level, 0, 130)],
-            :modulatable => false
+            :modulatable => false,
+            :default => "lpf_decay_level",
+            :midi => true
           },
 
           :lpf_decay_level =>
           {
-            :doc => "The level of cutoff after the decay phase as a MIDI note.",
+            :doc => "The level of the low pass filter envelope after the decay phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_sustain_level:` opt.",
             :validations => [v_between_inclusive(:lpf_decay_level, 0, 130)],
-            :modulatable => false
+            :modulatable => false,
+            :default => "lpf_sustain_level",
+            :midi => true
           },
-
 
           :lpf_sustain_level =>
           {
-            :doc => "The sustain cutoff (value of cutoff at sustain time) as a MIDI note.",
+            :doc => "The level of the low pass filter envelope after the sustain phase as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_release_level:` opt.",
             :validations => [v_between_inclusive(:lpf_sustain_level, 0, 130)],
-            :modulatable => false
+            :modulatable => false,
+            :default => "lpf_release_level",
+            :midi => true
+          },
+
+          :lpf_release_level =>
+          {
+            :doc => "The final value of the low pass filter envelope as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf:` opt.",
+            :validations => [v_between_inclusive(:lpf_release_level, 0, 130)],
+            :modulatable => false,
+            :default => "lpf",
+            :midi => true
           },
 
           :lpf_attack =>
           {
-            :doc => "Attack time for cutoff filter. Amount of time (in beats) for sound to reach full cutoff value. Default value is set to match amp envelope's attack value.",
+            :doc => "Attack time for low pass filter envelope. Amount of time (in beats) for sound to reach attack_level value. This envelope is bypassed if no lpf env opts are specified.  Default value is set to match amp envelope's attack value.",
             :validations => [v_positive(:lpf_attack)],
             :modulatable => false,
             :default => "attack"
@@ -3265,7 +3305,7 @@ module SonicPi
 
           :lpf_decay =>
           {
-            :doc => "Decay time for cutoff filter. Amount of time (in beats) for sound to move from full cutoff value (cutoff attack level) to the cutoff sustain level. Default value is set to match amp envelope's decay value.",
+            :doc => "Decay time for low pass filter envelope. Amount of time (in beats) for sound to move from `lpf_attack_level:` to the `lpf_sustain_level:`. This envelope is bypassed if no lpf env opts are specified.  Default value is set to match amp envelope's decay value.",
             :validations => [v_positive(:lpf_decay)],
             :modulatable => false,
             :default => "decay"
@@ -3273,7 +3313,7 @@ module SonicPi
 
           :lpf_sustain =>
           {
-            :doc => "Amount of time for cutoff value to remain at sustain level in beats. When -1 (the default) will auto-stretch.",
+            :doc => "Amount of time for low pass filter envelope value to remain at sustain level in beats. This envelope is bypassed if no lpf env opts are specified.  When -1 (the default) will auto-stretch.",
             :validations => [[lambda{|args| v = args[:lpf_sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
             :modulatable => false,
             :default => "sustain"
@@ -3281,7 +3321,7 @@ module SonicPi
 
           :lpf_release =>
           {
-            :doc => "Amount of time (in beats) for sound to move from cutoff sustain value to cutoff min value. Default value is set to match amp envelope's release value.",
+            :doc => "Amount of time (in beats) for sound to move from `lpf_sustain_level:` to `lpf_release_level:`. This envelope is bypassed if no lpf env opts are specified. ",
             :validations => [v_positive(:lpf_release)],
             :modulatable => false,
             :default => "release"
@@ -3296,9 +3336,10 @@ module SonicPi
 
           :lpf_min =>
           {
-            :doc => "The minimum cutoff value.",
+            :doc => "The minimum low pass filter value.",
             :validations => [v_less_than_oet(:lpf_min, 130)],
             :modulatable => true,
+            :default => 130,
             :midi => true
           },
 
@@ -3308,20 +3349,34 @@ module SonicPi
             :validations => [v_positive(:lpf_min_slide)],
             :modulatable => true,
             :bpm_scale => true
+                      },
+
+          :hpf_init_level =>
+          {
+            :doc => "The initial high pass filter envelope value as a MIDI note. This envelope is bypassed if no hpf env opts are specified. Default value is set to 130",
+            :validations => [v_between_inclusive(:hpf_attack_level, 0, 130)],
+            :modulatable => false,
+            :default => 130,
+            :midi => true
           },
 
           :hpf_attack_level =>
           {
             :doc => "The peak hpf cutoff (value of hpf cutoff at peak of attack) as a MIDI note.",
             :validations => [v_between_inclusive(:hpf_attack_level, 0, 130)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true,
+            :default => "hpf_decay_level"
           },
 
           :hpf_decay_level =>
           {
             :doc => "The level of hpf cutoff after the decay phase as a MIDI note.",
             :validations => [v_between_inclusive(:hpf_decay_level, 0, 130)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true,
+            :default => "hpf_sustain_level"
+
           },
 
 
@@ -3329,8 +3384,20 @@ module SonicPi
           {
             :doc => "The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.",
             :validations => [v_between_inclusive(:hpf_sustain_level, 0, 130)],
-            :modulatable => false
+            :modulatable => false,
+            :midi => true,
+            :default => "hpf_release_level"
           },
+
+          :hpf_release_level =>
+          {
+            :doc => "The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.",
+            :validations => [v_between_inclusive(:hpf_sustain_level, 0, 130)],
+            :modulatable => false,
+            :midi => true,
+            :default => "hpf"
+          },
+
 
           :hpf_attack =>
           {
@@ -3371,21 +3438,32 @@ module SonicPi
             :modulatable => false
           },
 
-          :hpf_max =>
+          :hpf_min =>
           {
             :doc => "The minimum cutoff value.",
-            :validations => [v_less_than_oet(:hpf_max, 130)],
+            :validations => [v_less_than_oet(:hpf_min, 130)],
             :modulatable => true,
             :midi => true
           },
 
-          :hpf_max_slide =>
+          :hpf_min_slide =>
           {
-            :doc => generic_slide_doc(:hpf_max),
-            :validations => [v_positive(:hpf_max_slide)],
+            :doc => generic_slide_doc(:hpf_min),
+            :validations => [v_positive(:hpf_min_slide)],
             :modulatable => true,
             :bpm_scale => true
           },
+
+
+          :hpf_max =>
+          {
+            :doc => "The maximum high pass filter value.",
+            :validations => [v_less_than_oet(:hpf_max, 130)],
+            :modulatable => true,
+            :default => 200,
+            :midi => true
+          },
+
 
           :compress =>
           {
