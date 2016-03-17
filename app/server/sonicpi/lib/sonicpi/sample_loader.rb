@@ -62,7 +62,7 @@ module SonicPi
             when String
               v.include? f
             when Symbol
-              v.include? f.to_s
+              v == f.to_s
             when Regexp
               v.match f
             end
