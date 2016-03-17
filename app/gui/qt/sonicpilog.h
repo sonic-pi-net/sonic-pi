@@ -23,6 +23,7 @@ class SonicPiLog : public QPlainTextEdit
     Q_OBJECT
 public:
     explicit SonicPiLog(QWidget *parent = 0);
+    bool forceScroll;
 
     struct Message
     {
@@ -47,6 +48,7 @@ public slots:
     void setTextBackgroundColor(QColor c);
     void setFontFamily(QString font_name);
     void handleMultiMessage(SonicPiLog::MultiMessage mm);
+    void forceScrollDown(bool force);
 
 protected:
 };

@@ -17,10 +17,18 @@
 // Standard stuff
 #include <vector>
 #include "sonicpitheme.h"
+#include <QScrollBar>
 
 SonicPiLog::SonicPiLog(QWidget *parent) : QPlainTextEdit(parent)
 {
+  forceScroll = true;
 }
+
+void SonicPiLog::forceScrollDown(bool force)
+{
+  forceScroll = force;
+}
+
 
 void SonicPiLog::setTextColor(QColor c)
 {
@@ -119,4 +127,9 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
       setCurrentCharFormat(tf);
     }
     appendPlainText(QString::fromStdString(" "));
+
+    if(forceScroll) {
+      QScrollBar *sb = verticalScrollBar();
+      sb->setValue(sb->maximum());
+    }
 }

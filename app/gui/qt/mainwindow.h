@@ -89,6 +89,7 @@ public slots:
     void invokeStartupError(QString msg);
 
 private slots:
+    void updateLogAutoScroll();
     bool eventFilter(QObject *obj, QEvent *evt);
     void changeTab(int id);
     QString asciiArtLogo();
@@ -268,6 +269,7 @@ private:
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;
+    QCheckBox *log_auto_scroll;
     QCheckBox *show_line_numbers;
     QCheckBox *auto_indent_on_run;
     QCheckBox *full_screen;

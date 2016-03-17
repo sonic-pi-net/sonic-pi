@@ -111,21 +111,21 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     sample_path = "/usr/share/sonic-pi/samples";
 
   } else if (QCoreApplication::applicationDirPath().startsWith("/opt/")) {
-    
+
     // use /opt directory scheme:
     // Sonic Pi is installed in /opt from the Raspbian .deb package
 
     ruby_path = "/usr/bin/ruby";
     ruby_server_path = "/opt/sonic-pi/server/bin/sonic-pi-server.rb";
     sample_path = "/opt/sonic-pi/etc/samples";
-  
+
   } else {
-  
+
     // Sonic Pi is installed in the user's home directory
     // or has been installed on Windows / OSX
-    
+
     QString root_path = rootPath();
-    
+
 #if defined(Q_OS_WIN)
     ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/windows/ruby/bin/ruby.exe");
 #elif defined(Q_OS_MAC)
@@ -144,7 +144,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
   }
-  
+
   sp_user_path = QDir::toNativeSeparators(QDir::homePath() + "/.sonic-pi");
   log_path = QDir::toNativeSeparators(sp_user_path + "/log");
   server_error_log_path = QDir::toNativeSeparators(log_path + "/server-errors.log");
@@ -910,9 +910,13 @@ void MainWindow::initPrefsWindow() {
   log_cues = new QCheckBox(tr("Log cues"));
   log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
 
+  log_auto_scroll = new QCheckBox(tr("Log Auto Scroll"));
+  log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the botton after every new message is displayed."));
+  connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(log_cues);
+  debug_box_layout->addWidget(log_auto_scroll);
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
@@ -1090,6 +1094,7 @@ void MainWindow::initPrefsWindow() {
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
   log_cues->setChecked(settings.value("prefs/log-cues", true).toBool());
+  log_auto_scroll->setChecked(settings.value("prefs/log-auto-scroll", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
   dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
@@ -1113,6 +1118,7 @@ void MainWindow::initPrefsWindow() {
   update_mixer_force_mono();
   changeRPSystemVol(stored_vol);
   update_check_updates();
+  updateLogAutoScroll();
 
   if(settings.value("prefs/rp/force-audio-default", true).toBool()) {
     setRPSystemAudioAuto();
@@ -1151,7 +1157,7 @@ void MainWindow::invokeStartupError(QString msg) {
 
 void MainWindow::startupError(QString msg) {
   splashClose();
-  
+
   setMessageBoxStyle();
 
   QString gui_log = readFile(log_path + QDir::separator() + "gui.log");
@@ -1621,6 +1627,16 @@ void MainWindow::toggleDarkMode() {
   dark_mode->toggle();
   updateDarkMode();
 }
+
+void MainWindow::updateLogAutoScroll() {
+  bool val = log_auto_scroll->isChecked();
+  outputPane->forceScrollDown(val);
+  if(val) {
+    statusBar()->showMessage(tr("Log Auto Scroll on..."), 2000);
+    } else {
+    statusBar()->showMessage(tr("Log Auto Scroll off..."), 2000);
+  }
+ }
 
 void MainWindow::updateDarkMode(){
   SonicPiTheme *currentTheme = lexer->theme;
@@ -2245,6 +2261,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/print-output", print_output->isChecked());
   settings.setValue("prefs/clear-output-on-run", clear_output_on_run->isChecked());
   settings.setValue("prefs/log-cues", log_cues->isChecked());
+  settings.setValue("prefs/log-auto-scroll", log_auto_scroll->isChecked());
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
   settings.setValue("prefs/dark-mode", dark_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
