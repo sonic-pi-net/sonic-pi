@@ -2790,11 +2790,27 @@ sample :loop_amen                    # starting it again
       doc name:          :sample,
           introduced:    Version.new(2,0,0),
           summary:       "Trigger sample",
-          doc:           "This is the main method for playing back recorded sound files (samples). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` files from anywhere on your computer too. The `rate:` opt affects both the speed and the pitch of the playback. To control the rate of the sample in a pitch-meaningful way take a look at the `rpitch:` opt.
+          doc:           "Play back a recorded sound file (sample). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` files from anywhere on your computer too. To play a built-in sample use the corresponding keyword such as `sample :bd_haus`. To play any file on your computer use a full path such as `sample \"/path/to/sample.wav\".
 
-The sampler synth has two separate envelopes - one for amplitude and one for the cutoff value for a resonant low pass filter. These work very similar to the standard synth envelopes except for two major differences. Firstly, the envelope times do not stretch or shrink to match the BPM. Secondly, the sustain time by default stretches to make the envelope fit the length of the sample. This is explained in detail in the tutorial.
+There are many opts for manipulating the playback. For example, the `rate:` opt affects both the speed and the pitch of the playback. To control the rate of the sample in a pitch-meaningful way take a look at the `rpitch:` opt.
 
-Check out the `use_sample_pack` for details on making it easy to work with a whole folder of your own sample files. Note, that on the first trigger of a sample, Sonic Pi has to load the sample which takes some time and may cause timing issues. To preload the samples you wish to work with consider using `load_sample` or `load_samples`.",
+The sampler synth has three separate envelopes - one for amplitude, one for a low pass filter and another for a high pass filter. These work very similar to the standard synth envelopes except for two major differences. Firstly, the envelope times do not stretch or shrink to match the BPM. Secondly, the sustain time by default stretches to make the envelope fit the length of the sample. This is explained in detail in the tutorial.
+
+Samples are loaded on-the-fly when first requested (and subsequently remembered). If the sample loading process takes longer than the schedule ahead time, the sample trigger will be skipped rather than  be played late and out of time. To avoid this you may preload any samples you wish to work with using `load_sample` or `load_samples`.
+
+Finally, the sampler supports a powerful filtering system to make it easier to work with large folders of samples. The filter commands must be used before the first standard opt. There are six kinds of filter parameters you may use:
+
+1. Folder strings - `\"/foo/bar\"` - which will add all samples within the folder to the set of candidates.
+2. Sample strings - `\"/path/to/sample.wav\"` - which will add the specific sample to the set of candidates.
+3. Other strings - `\"foobar\"` - which will filter the candidates based on whether the filename contains the string
+4. Regular expressions - `/b[aA]z.*/` - which will filter the candidates based on wither the regular expression matches the filename
+5. Keywords - `:quux` - will filter the candidates based on whether keyword is a direct match of the filename (without extension)
+7. Numbers - 0 - will select the candidate with that index (wrapping round like a ring if necessary)
+8. Lists of the above - `[\"/foo/bar\", \"baz\", /0-9.*/]` - will recurse down and work through the internal filter parameters as if they were in the top level.
+
+By combining commands which add to the candidates and then filtering those candidates it is possible work with folders full of samples in very powerful ways. Note that the specific ordering of filter parameters is irrelevant with the exception of the numbers - in which case the last number is the index. All the candidates will be gathered first before the filters are applied.
+",
+
           args:          [[:name_or_path, :symbol_or_string]],
           opts:          {:rate          => "Rate with which to play back the sample. Higher rates mean an increase in pitch and a decrease in duration. Default is 1.",
                           :beat_stretch  => "Stretch (or shrink) the sample to last for exactly the specified number of beats. Please note - this does *not* keep the pitch constant and is essentially the same as modifying the rate directly.",
