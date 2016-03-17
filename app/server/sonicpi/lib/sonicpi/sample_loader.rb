@@ -18,7 +18,6 @@ module SonicPi
       # ~/
       # /
       # C:\
-      @file_matcher =  /(~\/|\/|[A-Za-z]:\\)/
       @cached_candidates = {}
       @mutex = Mutex.new
       @samples_path = samples_path
@@ -103,12 +102,10 @@ module SonicPi
       when Integer
         idx = filt_or_source
       when String
-        if filt_or_source.match(@file_matcher)
-          if File.directory?(File.expand_path(filt_or_source))
-            dirs << filt_or_source
-          else
-            candidates << filt_or_source
-          end
+        if File.directory?(File.expand_path(filt_or_source))
+          dirs << filt_or_source
+        elsif File.exists?(File.expand_path(filt_or_source))
+          candidates << filt_or_source
         else
           filters << filt_or_source
         end
