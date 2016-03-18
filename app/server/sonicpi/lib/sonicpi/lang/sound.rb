@@ -2757,9 +2757,9 @@ sample :loop_amen                    # starting it again
         return nil unless should_trigger?(args_h, true)
 
         if filts_and_sources.size == 0
-          if args_h.has_key?(:name)
+          if args_h.has_key?(:sample_name)
             # handle case where sample receives only opts
-            path = sample_path(args_h.delete(:name))
+            path = sample_path([args_h.delete(:sample_name)])
           else
             return nil
           end
