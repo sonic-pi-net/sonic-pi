@@ -3252,7 +3252,7 @@ module SonicPi
 
           :lpf_init_level =>
           {
-            :doc => "The inital low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.",
+            :doc => "The initial low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.",
             :validations => [v_between_inclusive(:lpf_init_level, 0, 130)],
             :default => "lpf_min",
             :modulatable => false,
