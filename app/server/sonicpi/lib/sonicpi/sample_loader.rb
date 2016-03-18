@@ -110,7 +110,7 @@ module SonicPi
           filters << filt_or_source
         end
       when Proc
-        consume_filt_or_source!(filt_or_source.call, filters, dirs, candidates)
+        consume_filt_or_source!(filt_or_source.call, idx, filters, dirs, candidates, res)
       when Regexp
         filters << filt_or_source
       when Array, SonicPi::Core::RingVector
