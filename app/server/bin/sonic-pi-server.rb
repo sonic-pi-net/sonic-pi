@@ -311,7 +311,7 @@ out_t = Thread.new do
         when :multi_message
           gui.send("/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
         when :info
-          gui.send("/info", message[:val])
+          gui.send("/info", message[:style], message[:val])
         when :syntax_error
           desc = message[:val] || ""
           line = message[:line] || -1

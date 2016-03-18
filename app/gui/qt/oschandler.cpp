@@ -58,12 +58,17 @@ void OscHandler::oscMessage(std::vector<char> buffer){
       }
       else if (msg->match("/info")) {
         std::string s;
-        if (msg->arg().popStr(s).isOkNoMoreArgs()) {
+        int style;
+        if (msg->arg().popInt32(style).popStr(s).isOkNoMoreArgs()) {
           // Evil nasties!
           // See: http://www.qtforum.org/article/26801/qt4-threads-and-widgets.html
 
           QMetaObject::invokeMethod( out, "setTextColor",           Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoForeground")));
+          if(style == 1) {
+          QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackgroundStyle1")));
+          } else {
           QMetaObject::invokeMethod( out, "setTextBackgroundColor", Qt::QueuedConnection, Q_ARG(QColor, theme->color("LogInfoBackground")));
+          }
 
           QMetaObject::invokeMethod( out, "appendPlainText",        Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString("=> " + s + "\n")) );
 

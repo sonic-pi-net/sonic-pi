@@ -129,6 +129,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["LogBackground"] = "white";
     themeSettings["LogForeground"] = "black";
     themeSettings["LogInfoBackground"] = "#5e5e5e";
+    themeSettings["LogInfoBackgroundStyle1"] = "DeepPink";
     themeSettings["LogInfoForeground"] = "white";
     themeSettings["LogDefaultForeground"] = "#5e5e5e";
 
@@ -215,6 +216,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["LogBackground"] = "black";
     themeSettings["LogForeground"] = "white";
     themeSettings["LogInfoBackground"] = "#2c3539";
+    themeSettings["LogInfoBackgroundStyle1"] = "DeepPink";
     themeSettings["LogInfoForeground"] = "white";
     themeSettings["LogDefaultForeground"] = "white";
 

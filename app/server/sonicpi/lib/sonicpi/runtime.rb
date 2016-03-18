@@ -192,8 +192,8 @@ module SonicPi
       end
     end
 
-    def __info(s)
-      @msg_queue.push({:type => :info, :val => s.to_s})
+    def __info(s, style=0)
+      @msg_queue.push({:type => :info, :style => style, :val => s.to_s})
     end
 
     def __multi_message(m)
@@ -955,7 +955,7 @@ module SonicPi
 "Turn your head towards the sun
    and the shadows
    will fall
-   behind you."].sample
+   behind you."].sample, 1
 
       msg = @settings.get(:message) || ""
       msg = msg.strip
