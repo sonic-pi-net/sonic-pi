@@ -191,6 +191,10 @@ module SonicPi
       os == :raspberry
     end
 
+    def jackdrc_locations
+      [File.expand_path("~/.jackdrc"), "/etc/jackdrc"]
+    end
+
     def log_boot_msg
       log ""
       log ""
@@ -373,7 +377,18 @@ module SonicPi
       if `jack_wait -c`.match /not.*/
         #Jack not running - start a new instance
         log "Jackd not running on system. Starting..."
-        sys("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
+
+        found_jackdrc = false
+
+        jackdrc_locations.each do |jackdrc|
+          if File.exists?(jackdrc)
+            found_jackdrc = true
+            sys(File.read(jackdrc).strip.chomp("&") + " &")
+            break
+          end
+        end
+
+        sys("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ") unless found_jackdrc
 
         # Wait for Jackd to start
         while `jack_wait -c`.match /not.*/
