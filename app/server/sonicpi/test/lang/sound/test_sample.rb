@@ -43,24 +43,24 @@ module SonicPi
     end
 
     def test_sample_with_various_args
-      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav",  {}, @info)
+      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav",  {})
       @mock_sound.sample :loop_amen
 
-      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2}, @info)
+      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2})
       @mock_sound.sample :loop_amen, rate: 2
 
       # # This works in the codebase, but need to figure out a nice way of
       # # testing it...
-      # @mock_sound.expects(:trigger_sampler).with(:loop_amen, 42, 2, {rate: 2})
-      # @mock_sound.sample lambda { :loop_amen }, rate: 2a
+      # # @mock_sound.expects(:trigger_sampler).with(:loop_amen, 42, 2, {rate: 2})
+      # # @mock_sound.sample lambda { :loop_amen }, rate: 2
 
-      # Single hash
-      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2}, @info)
-      @mock_sound.sample name: :loop_amen, rate: 2
+      #Single hash
+      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2})
+      @mock_sound.sample sample_name: :loop_amen, rate: 2
 
       # Hash and args
-      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2}, @info)
-      @mock_sound.sample({name: :loop_amen}, {rate: 2})
+      @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2})
+      @mock_sound.sample({sample_name: :loop_amen}, {rate: 2})
     end
 
   end
