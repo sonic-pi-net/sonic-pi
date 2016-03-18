@@ -2796,19 +2796,19 @@ There are many opts for manipulating the playback. For example, the `rate:` opt 
 
 The sampler synth has three separate envelopes - one for amplitude, one for a low pass filter and another for a high pass filter. These work very similar to the standard synth envelopes except for two major differences. Firstly, the envelope times do not stretch or shrink to match the BPM. Secondly, the sustain time by default stretches to make the envelope fit the length of the sample. This is explained in detail in the tutorial.
 
-Samples are loaded on-the-fly when first requested (and subsequently remembered). If the sample loading process takes longer than the schedule ahead time, the sample trigger will be skipped rather than  be played late and out of time. To avoid this you may preload any samples you wish to work with using `load_sample` or `load_samples`.
+Samples are loaded on-the-fly when first requested (and subsequently remembered). If the sample loading process takes longer than the schedule ahead time, the sample trigger will be skipped rather than be played late and out of time. To avoid this you may preload any samples you wish to work with using `load_sample` or `load_samples`.
 
 Finally, the sampler supports a powerful filtering system to make it easier to work with large folders of samples. The filter commands must be used before the first standard opt. There are six kinds of filter parameters you may use:
 
 1. Folder strings - `\"/foo/bar\"` - which will add all samples within the folder to the set of candidates.
 2. Sample strings - `\"/path/to/sample.wav\"` - which will add the specific sample to the set of candidates.
-3. Other strings - `\"foobar\"` - which will filter the candidates based on whether the filename contains the string
-4. Regular expressions - `/b[aA]z.*/` - which will filter the candidates based on wither the regular expression matches the filename
-5. Keywords - `:quux` - will filter the candidates based on whether keyword is a direct match of the filename (without extension)
-7. Numbers - 0 - will select the candidate with that index (wrapping round like a ring if necessary)
+3. Other strings - `\"foobar\"` - which will filter the candidates based on whether the filename contains the string.
+4. Regular expressions - `/b[aA]z.*/` - which will filter the candidates based on whether the regular expression matches the filename.
+5. Keywords - `:quux` - will filter the candidates based on whether the keyword is a direct match of the filename (without extension).
+7. Numbers - `0` - will select the candidate with that index (wrapping round like a ring if necessary).
 8. Lists of the above - `[\"/foo/bar\", \"baz\", /0-9.*/]` - will recurse down and work through the internal filter parameters as if they were in the top level.
 
-By combining commands which add to the candidates and then filtering those candidates it is possible work with folders full of samples in very powerful ways. Note that the specific ordering of filter parameters is irrelevant with the exception of the numbers - in which case the last number is the index. All the candidates will be gathered first before the filters are applied.
+By combining commands which add to the candidates and then filtering those candidates it is possible to work with folders full of samples in very powerful ways. Note that the specific ordering of filter parameters is irrelevant with the exception of the numbers - in which case the last number is the index. All the candidates will be gathered first before the filters are applied.
 ",
 
           args:          [[:name_or_path, :symbol_or_string]],
@@ -2825,7 +2825,7 @@ By combining commands which add to the candidates and then filtering those candi
                           :pre_amp           => "Amplitude multiplier which takes place immediately before any internal FX such as the low pass filter, compressor or pitch modification. Use this opt if you want to overload the compressor.",
                           :norm              => "Normalise the audio (make quieter parts of the sample louder and louder parts quieter) - this is similar to the normaliser FX. This may emphasise any clicks caused by clipping.",
                           :lpf               => "Cutoff value of the built-in low pass filter (lpf) in MIDI notes. Unless specified, the lpf is *not* added to the signal chain.",
-                          :lpf_init_level => "The inital low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.",
+                          :lpf_init_level => "The initial low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.",
                           :lpf_attack_level  => "The peak lpf cutoff (value of cutoff at peak of attack) as a MIDI note. Default value is `:lpf_decay_level`.",
                           :lpf_decay_level   => "The level of lpf cutoff after the decay phase as a MIDI note. Default value is `:lpf_sustain_level`.",
                           :lpf_sustain_level => "The sustain cutoff (value of lpf cutoff at sustain time) as a MIDI note. Default value is `:lpf_release_level`.",

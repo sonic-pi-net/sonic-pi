@@ -3252,7 +3252,7 @@ module SonicPi
 
           :lpf_init_level =>
           {
-            :doc => "The inital low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.",
+            :doc => "The initial low pass filter envelope value as a MIDI note. This envelope is bypassed if no lpf env opts are specified. Default value is to match the `lpf_min:` opt.",
             :validations => [v_between_inclusive(:lpf_init_level, 0, 130)],
             :default => "lpf_min",
             :modulatable => false,
@@ -3354,7 +3354,7 @@ module SonicPi
           :hpf_init_level =>
           {
             :doc => "The initial high pass filter envelope value as a MIDI note. This envelope is bypassed if no hpf env opts are specified. Default value is set to 130",
-            :validations => [v_between_inclusive(:hpf_attack_level, 0, 130)],
+            :validations => [v_between_inclusive(:hpf_init_level, 0, 130)],
             :modulatable => false,
             :default => 130,
             :midi => true
@@ -3392,7 +3392,7 @@ module SonicPi
           :hpf_release_level =>
           {
             :doc => "The sustain hpf cutoff (value of hpf cutoff at sustain time) as a MIDI note.",
-            :validations => [v_between_inclusive(:hpf_sustain_level, 0, 130)],
+            :validations => [v_between_inclusive(:hpf_release_level, 0, 130)],
             :modulatable => false,
             :midi => true,
             :default => "hpf"
