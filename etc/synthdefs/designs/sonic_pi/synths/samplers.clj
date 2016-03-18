@@ -321,7 +321,7 @@
         lpf                    (select:kr used_lpf [130 lpf])
         hpf                    (select:kr used_hpf [50 hpf])
         hpf_max                (select:kr used_hpf_max [200 hpf_max])
-        lpf_min                (select:kr used_hpf_max [30 lpf_min])
+        lpf_min                (select:kr used_lpf_min [30 lpf_min])
 
         lpf_release_level      (select:kr used_lpf_release_level [lpf lpf_release_level])
         lpf_sustain_level      (select:kr used_lpf_sustain_level [lpf_release_level lpf_sustain_level])
@@ -601,7 +601,7 @@
          lpf                    (select:kr used_lpf [130 lpf])
          hpf                    (select:kr used_hpf [50 hpf])
          hpf_max                (select:kr used_hpf_max [200 hpf_max])
-         lpf_min                (select:kr used_hpf_max [30 lpf_min])
+         lpf_min                (select:kr used_lpf_min [30 lpf_min])
 
          lpf_release_level      (select:kr used_lpf_release_level [lpf lpf_release_level])
          lpf_sustain_level      (select:kr used_lpf_sustain_level [lpf_release_level lpf_sustain_level])
