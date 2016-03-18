@@ -75,7 +75,7 @@ module SonicPi
             osc_data, network = @socket.recvfrom( 16384 )
           rescue Exception => e
             STDERR.puts "\n==========="
-            STDERR.puts "Critical: UDP Server for addres #{address} had issues receiving reading socket"
+            STDERR.puts "Critical: UDP Server for address #{address} had issues receiving reading socket"
             STDERR.puts e.message
             STDERR.puts e.backtrace.inspect
             STDERR.puts "===========\n"
