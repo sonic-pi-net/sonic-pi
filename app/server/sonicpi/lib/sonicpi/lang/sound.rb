@@ -3125,18 +3125,18 @@ play degree(2, :C3, :minor)
       doc name:          :scale,
           introduced:    Version.new(2,0,0),
           summary:       "Create scale",
-          doc:           "Creates a ring of MIDI note numbers when given a tonic note and a scale type. Also takes an optional `num_octaves:` parameter (octave `1` is the default)",
+          doc:           "Creates a ring of MIDI note numbers when given a tonic note and a scale name. Also takes an optional `num_octaves:` parameter (octave `1` is the default). If only passed the scale name, the tonic defaults to 0. See examples.",
           args:          [[:tonic, :symbol], [:name, :symbol]],
           returns:        :ring,
-          opts:          {:num_octaves => "The number of octaves you'd like the scale to consist of. More octaves means a larger scale. Default is 1. If only passed the scale name, the tonic defaults to 0. See examples."},
+          opts:          {:num_octaves => "The number of octaves you'd like the scale to consist of. More octaves means a larger scale. Default is 1."},
           accepts_block: false,
           intro_fn:       true,
           examples:      ["
-puts scale(:C, :major) # returns the following ring of MIDI note numbers: (ring 60, 62, 64, 65, 67, 69, 71, 72)",
+puts (scale :C, :major) # returns the following ring of MIDI note numbers: (ring 60, 62, 64, 65, 67, 69, 71, 72)",
         "# anywhere you can use a list or ring of notes, you can also use scale
 play_pattern (scale :C, :major)",
         "# you can use the :num_octaves parameter to get more notes
-play_pattern(:C, :major, num_octaves: 2)",
+play_pattern (scale :C, :major, num_octaves: 2)",
         "# Scales can start with any note:
 puts (scale 50, :minor) #=> (ring 50, 52, 53, 55, 57, 58, 60, 62)
 puts (scale 50.1, :minor) #=> (ring 50.1, 52.1, 53.1, 55.1, 57.1, 58.1, 60.1, 62.1)
