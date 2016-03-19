@@ -46,7 +46,7 @@
 * New FX `:vowel` - modifies incoming signal to match human vowel sounds.
 * New FX `:mono` - mono effect for summing stereo channels.
 * `:tanh` FX is now more crunchy by default.
-* `:compressor` and `krush` FX now correctly honour the `mix:` opt.
+* `:compressor` and `:krush` FX now correctly honour the `mix:` opt.
 
 ### Samples
 
