@@ -21,7 +21,7 @@
 ### Breaking Changes
 
 * `use_sample_pack_as` and `with_sample_pack_as` have been removed.
-* A synth opt value of `nil` now no longer resolves to 0.0. Instead it masks any defaults and ensures the downstream default (for the actualy synthdef itself) is honoured. This allows you to override any existing synth defaults specified via `use_synth_defaults` for a given synth trigger.
+* A synth opt value of `nil` now no longer resolves to 0.0. Instead it masks any defaults and ensures the downstream default (for the actual synthdef itself) is honoured. This allows you to override any existing synth defaults specified via `use_synth_defaults` for a given synth trigger.
 * Synths and samples no longer trigger if it is too late - instead they are silent and print a warning message. This behaviour ensures samples or synths are never triggered out of time.
 
 
@@ -29,7 +29,7 @@
 
 * `current_random_seed` - Get the current seed value of the random generator
 * `set_cent_tuning!` - global tuning.
-* `on` - similar if but behaves the same as the `on:` opt for synths and samples.
+* `on` - similar to `if` but behaves the same as the `on:` opt for synths and samples.
 * `halves` - create a ring of successive halves
 * `doubles` - create a ring of successive doubles
 * `pick` - similar to shuffle but allows duplicates. You may also specify how many items to pick.
@@ -42,7 +42,7 @@
 * New synth `:chipbass` - retro NES style bass synth
 * New synth `:chipnoise` - retro NES style noise synth
 * New FX `:whammy` - low-tech transposition effect similar to the Digitech Whammy guitar pedal.
-* New FX `:octaver` - low tech octave effect similar to early guitar pedals.
+* New FX `:octaver` - low-tech octave effect similar to early guitar pedals.
 * New FX `vowel` - modifies incoming signal to match human vowel sounds.
 * New FX `mono` - mono effect for summing stereo channels.
 * `:tanh` FX is now more crunchy by default.
@@ -51,13 +51,13 @@
 ### Samples
 
 * Samplers now have `hpf:` and `lpf:` opts. Any `cutoff:` opts are automatically switched to `lpf:` and any errors will be reported as `lpf:`.
-* The sampler synth gained a compressor enabled via the `compress:` opt. This means you can now compress any triggered sample directly without the need to reach for an FX. 
+* The sampler synth gained a compressor enabled via the `compress:` opt. This means you can now compress any triggered sample directly without the need to reach for an FX.
 * Samplers gained the `pre_amp:` opt which applies the amp at the beginning of its internal signal chain. You can use this to overload the new compressor.
 * Samplers now have both high pass and low pass filter envelopes which behave similarly to the amplitude envelope but control internal hpf and lpf FX.
 * Passing a directory path to `load_samples` will now load all the samples within that directory.
 * Passing a directory path to `free_samples` will now free all the loaded samples within that directory.
-* Samples are now loaded asynchronously in a separate thread. This therefore doesn't blocking the current thread and cause any subequent synth/sample triggers to be late.
-* Sample trigger logging now includes the directory of the containing sample.
+* Samples are now loaded asynchronously in a separate thread. This therefore doesn't block the current thread and cause any subsequent synth/sample triggers to be late.
+* Sample trigger logging now includes the directory of the contained sample.
 
 ### GUI
 
@@ -75,7 +75,7 @@
 
 ### Improvements
 
-* `scale` and `chord` now can handle being passed no tonic such as: `(chord :minor)` which will return a ring of offsets from 0.
+* `scale` and `chord` can now handle being passed no tonic such as: `(chord :minor)` which will return a ring of offsets from 0.
 * The ring's `.take` method can now take more elements than the original ring by wrapping around:  `(ring 1, 2, 3).take(5) #=> (ring 1, 2, 3, 1, 2)`
 * Rings may now be added or subtracted from each other e.g. `(ring 1, 2, 3) + (ring 4) #=> (ring 1, 2, 3, 4)`
 * Adding or subtracting a number from a ring will create a new ring with the number added or subtracted from each of the original ring's elements: `(ring 1, 2, 3) - 1 #=> (ring 0.0, 1.0, 2.0)`
