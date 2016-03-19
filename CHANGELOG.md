@@ -43,8 +43,8 @@
 * New synth `:chipnoise` - retro NES style noise synth
 * New FX `:whammy` - low-tech transposition effect similar to the Digitech Whammy guitar pedal.
 * New FX `:octaver` - low-tech octave effect similar to early guitar pedals.
-* New FX `vowel` - modifies incoming signal to match human vowel sounds.
-* New FX `mono` - mono effect for summing stereo channels.
+* New FX `:vowel` - modifies incoming signal to match human vowel sounds.
+* New FX `:mono` - mono effect for summing stereo channels.
 * `:tanh` FX is now more crunchy by default.
 * `:compressor` and `krush` FX now correctly honour the `mix:` opt.
 
