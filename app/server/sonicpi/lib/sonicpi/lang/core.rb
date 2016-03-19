@@ -797,7 +797,7 @@ end"
           introduced:     Version.new(2,10,0),
           summary:        "Randomly pick from list (with duplicates)",
           args:           [[:list, :array], [:n, :number_or_nil]],
-          opts:           {:skip => "Number of rands to skip over with each sucessive pick"},
+          opts:           {:skip => "Number of rands to skip over with each successive pick"},
           accepts_block:  false,
           doc:            "Pick n elements from list or ring. Unlike shuffle, after each element has been picked, it is 'returned' to the list so it may be picked again. This means there may be duplicates in the result. If n is greater than the size of the ring/list then duplicates are guaranteed to be in the result.
 
