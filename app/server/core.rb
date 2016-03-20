@@ -348,6 +348,11 @@ module SonicPi
         self + take(n - @size)
       end
 
+      def drop(n)
+        return [].ring if n >= @size
+        super
+      end
+
       def pick(n=nil, *opts)
         # mangle args to extract nice behaviour
         if !n.is_a?(Numeric) && opts.empty?
