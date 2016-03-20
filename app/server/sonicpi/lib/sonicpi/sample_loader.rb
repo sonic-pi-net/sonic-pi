@@ -37,8 +37,9 @@ module SonicPi
         dirs = []
         filters = []
         candidates = []
+        procs = []
         filts_and_sources.each do |arg|
-          idx = consume_filt_or_source!(arg, idx, filters, dirs, candidates, res)
+          idx = consume_filt_or_source!(arg, idx, filters, dirs, candidates, procs, res)
         end
 
         if dirs.empty? && !filters.empty?
@@ -52,6 +53,11 @@ module SonicPi
           else
             candidates += Dir.glob(path)
           end
+        end
+
+        procs.each do |p|
+          candidates = p.call(candidates)
+          raise "Sample Pack Filter Proc needs to return an array or ring. Got #{res.class}: #{res.inspect}" unless candidates.is_a?(Array) || candidates.is_a?(SonicPi::Core::RingVector)
         end
 
         filters.each do |f|
@@ -88,7 +94,7 @@ module SonicPi
       [Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || @samples_path]
     end
 
-    def consume_filt_or_source!(filt_or_source, idx, filters, dirs, candidates, res)
+    def consume_filt_or_source!(filt_or_source, idx, filters, dirs, candidates, procs, res)
       case filt_or_source
       when Symbol
         regexp = /#{filt_or_source}\.(wav|aif|wave|aiff|flac)/
@@ -110,12 +116,18 @@ module SonicPi
           filters << filt_or_source
         end
       when Proc
-        consume_filt_or_source!(filt_or_source.call, idx, filters, dirs, candidates, res)
+        if filt_or_source.arity == 0
+          consume_filt_or_source!(filt_or_source.call, idx, filters, dirs, candidates, procs, res)
+        elsif filt_or_source.arity == 1
+          procs << filt_or_source
+        else
+          raise "Sample Pack Proc needs to accept either 0 or 1 arguments. Found #{block.arity}"
+        end
       when Regexp
         filters << filt_or_source
       when Array, SonicPi::Core::RingVector
         filt_or_source.each do |fos|
-          idx = consume_filt_or_source!(fos, idx, filters, dirs, candidates, res)
+          idx = consume_filt_or_source!(fos, idx, filters, dirs, candidates, procs, res)
         end
       else
         raise "Unknown sample filter or source type: #{filt_or_source.inspect}"
