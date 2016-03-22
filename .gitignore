@@ -93,3 +93,7 @@ app/server/vendor/atomic/ext/Makefile
 ## Book
 
 book/
+
+## IntelliJ IDEA
+
+*.iml
