@@ -254,7 +254,7 @@ module SonicPi
         paths.each do |p|
           p = [p] unless p.is_a?(Array)
           filts_and_sources, args_a = sample_split_filts_and_opts(p)
-          sample_paths(filts_and_sources).each do |p|
+          resolve_sample_paths(filts_and_sources).each do |p|
             if sample_loaded?(p)
               @mod_sound_studio.free_sample([p])
               __info "Freed sample: #{p.inspect}"
@@ -2417,7 +2417,7 @@ set_volume! 2 # Set the main system volume to 2",
 
       def sample_loaded?(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
-        path = sample_path(filts_and_sources)
+        path = resolve_sample_path(filts_and_sources)
 
         path = File.expand_path(path)
         return @mod_sound_studio.sample_loaded?(path)
@@ -2508,7 +2508,7 @@ sample :elec_blip # No delay takes place when attempting to trigger it"]
 
       def sample_buffer(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
-        path = sample_path(filts_and_sources)
+        path = resolve_sample_path(filts_and_sources)
         load_sample_at_path(path)
       end
       doc name:          :sample_buffer,
@@ -2525,7 +2525,7 @@ sample :elec_blip # No delay takes place when attempting to trigger it"]
 
       def sample_duration(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
-        path = sample_path(filts_and_sources)
+        path = resolve_sample_path(filts_and_sources)
         dur = load_sample_at_path(path).duration
         args_h = merge_synth_arg_maps_array(args_a)
         t_l_args = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
@@ -2738,13 +2738,39 @@ sample :loop_amen                    # starting it again
         return filts_and_sources, opts
       end
 
-      def sample_paths(filts_and_sources)
+      def resolve_sample_paths(filts_and_sources)
         sample_find_candidates(filts_and_sources)
       end
 
-      def sample_path(filts_and_sources)
-        sample_paths(filts_and_sources)[0]
+      def resolve_sample_path(filts_and_sources)
+        resolve_sample_paths(filts_and_sources)[0]
       end
+
+
+
+
+      def sample_paths(*args)
+        filts_and_sources, args_a = sample_split_filts_and_opts(args)
+        resolve_sample_paths(filts_and_sources).ring
+      end
+      doc name:          :sample_paths,
+          introduced:    Version.new(2,10,0),
+          summary:       "Sample Pack Filter Resolution",
+          doc:           "Accepts the same pre-args and opts as `sample` and returns a ring of matched sample paths.",
+          args:          [[:pre_args, :source_and_filter_types]],
+          returns:       :ring,
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+sample_paths \"/path/to/samples/\" #=> ring of all top-level samples in /path/to/samples",
+"
+sample_paths \"/path/to/samples/**\" #=> ring of all nested samples in /path/to/samples",
+"
+sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/samples
+                                                containing the string \"foo\" in their filename."     ]
+
+
+
 
       def sample(*args)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
@@ -2759,12 +2785,12 @@ sample :loop_amen                    # starting it again
         if filts_and_sources.size == 0
           if args_h.has_key?(:sample_name)
             # handle case where sample receives only opts
-            path = sample_path([args_h.delete(:sample_name)])
+            path = resolve_sample_path([args_h.delete(:sample_name)])
           else
             return nil
           end
         else
-          path = sample_path(filts_and_sources)
+          path = resolve_sample_path(filts_and_sources)
         end
 
         return if path == nil
