@@ -19,7 +19,9 @@ module SonicPi
       # /
       # C:\
       @cached_candidates = {}
+      @cached_folder_contents = {}
       @mutex = Mutex.new
+      @folder_contents_mutex = Mutex.new
       @samples_path = samples_path
     end
 
@@ -48,11 +50,7 @@ module SonicPi
 
         dirs.each do |dir|
           path = File.expand_path(dir)
-          if File.directory?(path)
-            candidates += ls_samples(path)
-          else
-            candidates += Dir.glob(path)
-          end
+          candidates += ls_samples(path)
         end
 
         procs.each do |p|
@@ -85,7 +83,16 @@ module SonicPi
     end
 
     def ls_samples(path)
-      Dir.glob(path + "/*.{wav,wave,aif,aiff,flac}")
+      res = @cached_folder_contents[path]
+      return res if res
+      @folder_contents_mutex.synchronize do
+        res = @cached_folder_contents[path]
+        return res if res
+
+        res = Dir.glob(path + "/*.{wav,wave,aif,aiff,flac}").sort
+        @cached_folder_contents[path] = res
+      end
+      res
     end
 
     private
@@ -108,7 +115,11 @@ module SonicPi
       when Integer
         idx = filt_or_source
       when String
-        if File.directory?(File.expand_path(filt_or_source))
+
+        if filt_or_source.end_with?("**") && File.directory?(File.expand_path(filt_or_source[0...-2]))
+          # allow /foo/bar/baz** recursive dir matches
+          dirs << filt_or_source
+        elsif File.directory?(File.expand_path(filt_or_source))
           dirs << filt_or_source
         elsif File.exists?(File.expand_path(filt_or_source))
           candidates << filt_or_source
