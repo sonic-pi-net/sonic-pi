@@ -194,15 +194,15 @@ module SonicPi
       # Deprecated fns
 
       def current_sample_pack_aliases(*args)
-        raise "Sorry, current_sample_pack_aliases is no longer supported since v2.10"
+        raise "Sorry, current_sample_pack_aliases is no longer supported since v2.10. Please read Section 3.7 of the tutorial for a more powerful replacement."
       end
 
       def with_sample_pack_as(*args)
-        raise "Sorry, with_sample_pack_as is no longer supported since v2.10"
+        raise "Sorry, with_sample_pack_as is no longer supported since v2.10. Please read Section 3.7 of the tutorial for a more powerful replacement."
       end
 
       def use_sample_pack_as(*args)
-        raise "Sorry, use_sample_pack_as is no longer supported since v2.10"
+        raise "Sorry, use_sample_pack_as is no longer supported since v2.10. Please read Section 3.7 of the tutorial for a more powerful replacement."
       end
 
 
