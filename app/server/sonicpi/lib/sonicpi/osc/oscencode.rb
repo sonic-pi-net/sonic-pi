@@ -96,7 +96,7 @@ module SonicPi
 
             args_encoded << get_from_or_add_to_string_cache(arg)
           else
-            raise "Unknown arg type to encode: #{arg}"
+            raise "Unknown arg type to encode: #{arg.inspect}"
           end
         end
 
