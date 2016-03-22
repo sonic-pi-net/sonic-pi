@@ -93,6 +93,15 @@ Users can opt to build from source as well if they would like. Instructions and 
 
 ----
 
+## Debian Gnu/Linux
+
+Starting with Debian Stretch (currently Debian Testing), sonic-pi is packaged in the main archive:
+```
+sudo apt-get install sonic-pi
+```
+
+----
+
 ## Linux Mint (beta)
 
 ### PPA
@@ -116,3 +125,12 @@ Then, launch qjackctl from the command line (while suspending PulseAudio):
 `pasuspender -- qjackctl`
 
 Click the 'Start' button in qjackctl, then launch Sonic Pi :)
+
+----
+
+## Ubuntu
+
+Starting with Ubuntu Xenial 16.04, sonic-pi is packaged in the main archive:
+```
+sudo apt-get install sonic-pi
+```
