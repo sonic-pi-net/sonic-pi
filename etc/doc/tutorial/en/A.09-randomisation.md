@@ -34,7 +34,7 @@ destined to be. Your version of Sonic Pi is destined to always return
 useless, but let me assure you that it's one of the most powerful parts
 of Sonic Pi. If you stick at it you'll learn how to rely on the
 deterministic nature of Sonic Pi's randomisation as a fundamental
-building block to your compositions and live coded DJ sets.
+building block for your compositions and live coded DJ sets.
 
 # A Random Melody
 
@@ -115,7 +115,7 @@ values. Using a random seed simply jumps us to a point in that
 list. Another way of thinking about it is to imagine a huge deck of
 pre-shuffled cards. Using a random seed is cutting the deck at a
 particular point. The fabulous part of this is that it's precisely this
-ability to jump around the random which gives us huge power when making
+ability to jump around the random stream which gives us huge power when making
 music.
 
 Let's revisit our random melody of 8 notes with this new stream
