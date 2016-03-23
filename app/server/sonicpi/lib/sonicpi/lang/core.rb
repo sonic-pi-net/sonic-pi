@@ -858,8 +858,10 @@ puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)"
         args_h = resolve_synth_opts_hash_or_array(args)
 
         sync_sym = args_h[:sync]
+        sync_bpm_sym = args_h[:sync_bpm]
+        sync_sym = nil if sync_bpm_sym
 
-        raise "livelock detection - live_loop cannot sync with itself - please choose another sync name for live_loop #{name.inspect}" if name == sync_sym
+        raise "livelock detection - live_loop cannot sync with itself - please choose another sync name for live_loop #{name.inspect}" if name == sync_sym || name == sync_bpm_sym
 
         delay = args_h[:delay]
         raise "live_loop's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
@@ -883,7 +885,7 @@ puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)"
           raise "Live loop block must only accept 0 or 1 args"
         end
 
-        in_thread(name: ll_name, delay: delay, sync: sync_sym) do
+        in_thread(name: ll_name, delay: delay, sync: sync_sym, sync_bpm: sync_bpm_sym) do
           Thread.current.thread_variable_set :sonic_pi__not_inherited__live_loop_auto_cue, auto_cue
           if args_h.has_key?(:init)
             res = args_h[:init]
@@ -914,6 +916,7 @@ puts (ring 1, 2, 3).pick #=> (ring 3, 3, 2)"
                            :auto_cue => "enable or disable automatic cue (default is true)",
                            :delay    => "Initial delay in beats before the live_loop starts. Default is 0.",
                            :sync     => "Initial sync symbol. Will sync with this symbol before the live_loop starts.",
+                           :sync_bpm => "Initial sync symbol. Will sync with this symbol before the live_loop starts. Live loop will also inherit the BPM of the thread which cued the symbol.",
                            :seed     => "override initial random generator seed before starting loop."
       },
           accepts_block:  true,
@@ -2583,6 +2586,19 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
   end"
       ]
 
+      def sync_bpm(cue_ids, opts={})
+        sync cue_ids, opts.merge({bpm_sync: true})
+      end
+      doc name:           :sync_bpm,
+          introduced:     Version.new(2,10,0),
+          summary:        "Sync and inherit BPM from other threads ",
+          doc:            "An alias for `sync` with the `bpm_sync:` opt set to true.`",
+          args:           [[:cue_id, :symbol]],
+          opts:           {},
+          accepts_block:  false,
+          advances_time:  true,
+          examples:       ["See examples for sync"]
+
 
       def sync(cue_ids, opts={})
         cue_ids = [cue_ids] if cue_ids.is_a?(Symbol) || cue_ids.is_a?(String) || cue_ids.is_a?(SPSym)
@@ -2702,6 +2718,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         name = args_h[:name]
         delay = args_h[:delay]
         sync_sym = args_h[:sync]
+        sync_bpm_sym = args_h[:sync_bpm]
+        sync_sym = nil if sync_bpm_sym
 
         raise "in_thread's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
 
@@ -2798,6 +2816,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
           begin
             sleep delay if delay
             sync sync_sym if sync_sym
+            sync_bpm sync_bpm_sym if sync_bpm_sym
             block.call
             # ensure delayed jobs and messages are honoured for this
             # thread:
@@ -2850,7 +2869,8 @@ It is possible to delay the initial trigger of the thread on creation with both 
           args:           [],
           opts:           {:name  => "Make this thread a named thread with name. If a thread with this name already exists, a new thread will not be created.",
                            :delay => "Initial delay in beats before the thread starts. Default is 0.",
-                           :sync => "Initial sync symbol. Will sync with this symbol before the thread starts."},
+                           :sync => "Initial sync symbol. Will sync with this symbol before the thread starts.",
+                           :sync_bpm => "Initial sync symbol. Will sync with this symbol before the live_loop starts. Live loop will also inherit the BPM of the thread which cued the symbol.",},
           accepts_block:  true,
           requires_block: true,
           async_block:    true,
