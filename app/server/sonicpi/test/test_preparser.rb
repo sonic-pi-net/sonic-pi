@@ -23,7 +23,31 @@ module SonicPi
 
     def test_basic_ring_change
       a = "(ring 50, 60, 70)"
+      b = " ring(50, 60, 70)"
+      assert_equal(b, PreParser.preparse(a))
+    end
+
+    def test_basic_ring_change_with_leading_space
+      a = "(  ring 50, 60, 70)"
+      b = "   ring(50, 60, 70)"
+      assert_equal(b, PreParser.preparse(a))
+    end
+
+    def test_basic_rings_with_commas
+      a = "(ring, 50, 60, 70)"
       b = " ring( 50, 60, 70)"
+      assert_equal(b, PreParser.preparse(a))
+    end
+
+    def test_basic_rings_with_commas_and_no_space
+      a = "(ring,50, 60, 70)"
+      b = " ring(50, 60, 70)"
+      assert_equal(b, PreParser.preparse(a))
+    end
+
+    def test_spaced_rings_with_commas
+      a = "(ring , 50, 60, 70)"
+      b = " ring(  50, 60, 70)"
       assert_equal(b, PreParser.preparse(a))
     end
 
