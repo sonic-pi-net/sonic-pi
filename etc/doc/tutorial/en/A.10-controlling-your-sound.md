@@ -45,7 +45,7 @@ control sn, cutoff: 130
 Let's look at each line in turn: 
 
 Firstly we trigger the `:prophet` synth using the `synth` fn as
-norml. However we also capture the result in a variable called `sn`. We
+normal. However we also capture the result in a variable called `sn`. We
 could have called this variable something completely different such as
 `synth_node` or `jane` - the name doesn't matter. However, it's
 important to choose a name that's meaningful to you for your
@@ -71,7 +71,7 @@ the envelope opts `attack:`, `decay:`, `sustain:` and `release:` can
 only be set when triggering the synth. Figuring out which opts can and
 can't be changed is simple - just head to the documentation for a given
 synth or FX and then scroll down to the individual option documentation
-and look for the phrases "May be changed whilst playing " or "Can not be
+and look for the phrases "May be changed whilst playing" or "Can not be
 changed once set". For example, the documentation for the `:beep`
 synth's `attack:` opt makes it clear that it's not possible to change
 it:
@@ -86,7 +86,7 @@ it:
 
 Whilst a synth is running you're not limited to changing it only once -
 you're free to change it as many times as you like. For example, we can
-turn our `:prophet` into a mini arpegiator with the following:
+turn our `:prophet` into a mini arpeggiator with the following:
 
 ```
 notes = (scale :e3, :minor_pentatonic)
@@ -104,7 +104,7 @@ to cycle through (an arpeggiator is just a fancy name for something that
 cycles through a list of notes in order). Secondly we replaced our
 single call to `control` with an iteration calling it 16 times. In each
 call to `control` we `.tick` through our ring of `notes` which will
-automaticall repeat once we get to the end (thanks to the fabulous power
+automatically repeat once we get to the end (thanks to the fabulous power
 of Sonic Pi's rings). For a bit of variety try replacing `.tick` with
 `.choose` and see if you can hear the difference.
 
@@ -126,7 +126,7 @@ instantaneously. Instead, you might want to smoothly move from the
 current value to the new one as if you'd moved a slider or dial. Of
 course, Sonic Pi can also do this too using the `_slide:` opts.
 
-Each opt that can be modified also has a special corresonding `_slide:`
+Each opt that can be modified also has a special corresponding `_slide:`
 opt that allows you to specify a slide time. For example, `amp:` has
 `amp_slide:` and `cutoff:` has `cutoff_slide:`. These slide opts work
 slightly differently than all the other opts in that they tell the synth
