@@ -1601,6 +1601,7 @@ end
           introduced:     Version.new(2,3,0),
           summary:        "Random number in centred distribution",
           args:           [[:width, :number], [:centre, :number]],
+          alt_args:       [[:width, :number]],
           opts:           {:step => "Step size of value to quantise to."},
           accepts_block:  false,
           doc:            "Returns a random number within the range with width around centre. If optional arg `step:` is used, the result is quantised by step.",
