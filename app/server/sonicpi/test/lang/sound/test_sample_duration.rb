@@ -34,7 +34,7 @@ module SonicPi
         60
       end
 
-      def self.sample_path(*args)
+      def self.resolve_sample_path(*args)
         "/foo/bar"
       end
     end
