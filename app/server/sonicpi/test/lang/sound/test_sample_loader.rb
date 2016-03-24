@@ -19,6 +19,7 @@ module SonicPi
     def setup
       @fake_sample_dir = File.expand_path(File.dirname(__FILE__) + '../../../fake_sample_dir')
       # Contains:
+      # -  a_text_file.txt
       # -  bar_baz.aiff
       # -  buzz_100.flac
       # -  eggs.wav
@@ -104,7 +105,11 @@ module SonicPi
       assert_equal([@fake_sample_dir + "/woo_100.aiff"] , res)
     end
 
-
+    def test_arrays
+      identity_proc = lambda {|c| c }
+      res = @loader.find_candidates([@fake_sample_dir,[1], [[identity_proc, "100"], /100/]])
+      assert_equal([@fake_sample_dir + "/woo_100.aiff"] , res)
+    end
 
   end
 end
