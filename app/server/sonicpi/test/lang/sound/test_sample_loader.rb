@@ -25,6 +25,7 @@ module SonicPi
       # -  eggs.wav
       # -  foo.wav
       # -  woo_100.aiff
+      # -  xylophone-test-samp.wave
       # -  subdir
       #    |
       #    - quux.wav
@@ -38,12 +39,12 @@ module SonicPi
 
     def test_globs_count
       res = @loader.find_candidates([@fake_sample_dir + "/**"])
-      assert_equal(res.count, 6)
+      assert_equal(res.count, 7)
     end
 
     def test_non_globs_count
       res = @loader.find_candidates([@fake_sample_dir])
-      assert_equal(res.count, 5)
+      assert_equal(res.count, 6)
     end
 
     def test_globs_filt
@@ -67,7 +68,7 @@ module SonicPi
     end
 
     def test_idx_wrap
-      res = @loader.find_candidates([@fake_sample_dir, 5])
+      res = @loader.find_candidates([@fake_sample_dir, 6])
       assert_equal([@fake_sample_dir + "/bar_baz.aiff"] , res)
     end
 
@@ -109,6 +110,11 @@ module SonicPi
       identity_proc = lambda {|c| c }
       res = @loader.find_candidates([@fake_sample_dir,[1], [[identity_proc, "100"], /100/]])
       assert_equal([@fake_sample_dir + "/woo_100.aiff"] , res)
+    end
+
+    def test_string_filtering_with_hyphens
+      res = @loader.find_candidates([@fake_sample_dir, "xylophone-"])
+      assert_equal([@fake_sample_dir + "/xylophone-test-samp.wave"] , res)
     end
 
   end
