@@ -1261,8 +1261,8 @@ QString MainWindow::currentTabLabel()
 
 bool MainWindow::loadFile()
 {
-  QString selfilter = tr("Text files(*.txt)");
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic-Pi file"), QDir::homePath() + "/Desktop", tr("Text files (*.txt);;Ruby (*.rb);;All files (*.*)"), &selfilter);
+  QString selfilter = tr("Buffer files(*.rb *.txt)");
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic-Pi Buffer"), QDir::homePath() + "/Desktop", tr("Buffer files(*.rb *.txt);;Text files (*.txt);;Ruby (*.rb);;All files (*.*)"), &selfilter);
   if(!fileName.isEmpty()){
     SonicPiScintilla* p = (SonicPiScintilla*)tabs->currentWidget();
     loadFile(fileName, p);
@@ -1274,8 +1274,8 @@ bool MainWindow::loadFile()
 
 bool MainWindow::saveAs()
 {
-  QString selfilter = tr("Text files(*.txt)");
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop", tr("Text files (*.txt);;Ruby (*.rb);;All Files (*.*)"), &selfilter);
+  QString selfilter = tr("Buffer files(*.rb *.txt)");
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop", tr("Buffer files(*.rb *.txt);;Text files (*.txt);;Ruby (*.rb);;All files (*.*)"), &selfilter);
   if(!fileName.isEmpty()){
     if (!fileName.contains(QRegExp("\\.[a-z]+$"))) {
         fileName = fileName + ".txt";
