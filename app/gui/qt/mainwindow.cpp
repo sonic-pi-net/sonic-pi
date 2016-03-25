@@ -1275,7 +1275,7 @@ bool MainWindow::loadFile()
 bool MainWindow::saveAs()
 {
   QString selfilter = tr("Buffer files(*.rb *.txt)");
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop", tr("Buffer files(*.rb *.txt);;Text files (*.txt);;Ruby (*.rb);;All files (*.*)"), &selfilter);
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), QDir::homePath() + "/Desktop", tr("Buffer files(*.rb *.txt);;Text files (*.txt);;Ruby (*.rb);;All files (*.*)"), &selfilter);
   if(!fileName.isEmpty()){
     if (!fileName.contains(QRegExp("\\.[a-z]+$"))) {
         fileName = fileName + ".txt";
