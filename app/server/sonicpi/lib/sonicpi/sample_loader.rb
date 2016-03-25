@@ -66,7 +66,7 @@ module SonicPi
               bn.downcase.include?(f.downcase) || bne == f
             when Symbol
               # match only sample extensions
-              regexp = /#{f}\.(wav|aif|wave|aiff|flac)/
+              regexp = /^#{f}\.(wav|aif|wave|aiff|flac)$/
               bne.match(regexp)
             when Regexp
               bn.match f
