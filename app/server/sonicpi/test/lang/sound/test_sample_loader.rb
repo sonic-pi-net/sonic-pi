@@ -17,13 +17,16 @@ require_relative "../../../lib/sonicpi/sample_loader"
 module SonicPi
   class SampleLoaderTester < Minitest::Test
     def setup
-      @fake_sample_dir = File.expand_path("#{File.dirname(__FILE__)}../../../fake_sample_dir")
       @fake_built_in_sample_dir = File.expand_path("#{File.dirname(__FILE__)}../../../fake_built_in_sample_dir")
+      # Contains:
+      # -  foo.wav
+      @fake_sample_dir = File.expand_path("#{File.dirname(__FILE__)}../../../fake_sample_dir")
       # Contains:
       # -  a_text_file.txt
       # -  bar_baz.aiff
       # -  buzz_100.flac
       # -  eggs.wav
+      # -  first_foo.wav
       # -  foo.wav
       # -  woo_100.aiff
       # -  xylophone-test-samp.wave
