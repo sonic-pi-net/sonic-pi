@@ -11,6 +11,7 @@
 # notice is included.
 #++
 
+require_relative 'clients'
 require_relative 'oscdecode'
 require_relative 'oscencode'
 require_relative 'udp_client'

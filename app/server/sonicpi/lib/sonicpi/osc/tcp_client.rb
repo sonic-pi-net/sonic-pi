@@ -30,6 +30,10 @@ module SonicPi
         so.close
       end
 
+      def port
+        return @port
+      end
+
       def so
         while(!@so) do
           begin
