@@ -95,11 +95,11 @@ module SonicPi
     end
 
     def midi_to_hz(n)
-      440.0 * (2 ** ((n - 69) / 12.0))
+      (440.0 * (2 ** ((n - 69) / 12.0))).round(9)
     end
 
     def hz_to_midi(freq)
-      (12 * (Math.log(freq * 0.0022727272727) / Math.log(2))) + 69
+      ((12 * (Math.log(freq * 0.0022727272727) / Math.log(2))) + 69).round(9)
     end
 
     private
