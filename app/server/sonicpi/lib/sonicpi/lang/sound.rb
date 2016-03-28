@@ -100,7 +100,7 @@ module SonicPi
             @mod_sound_home_dir = Dir.home
             @simple_sampler_args = [:amp, :amp_slide, :amp_slide_shape, :amp_slide_curve, :pan, :pan_slide, :pan_slide_shape, :pan_slide_curve, :cutoff, :cutoff_slide, :cutoff_slide_shape, :cutoff_slide_curve, :lpf, :lpf_slide, :lpf_slide_shape, :lpf_slide_curve, :hpf, :hpf_slide, :hpf_slide_shape, :hpf_slide_curve, :rate, :slide, :beat_stretch, :rpitch, :attack, :decay, :sustain, :release, :attack_level, :decay_level, :sustain_level, :env_curve]
 
-            @tuning = Tuning.new
+            init_tuning
 
             @blank_node = BlankNode.new
             @job_proms_queues = {}
@@ -1032,10 +1032,11 @@ play 64 # Plays note 64"]
       def with_tuning(tuning, fundamental_note = :c, &block)
         raise "with_tuning requires a do/end block. Perhaps you meant use_tuning" unless block
         raise "tuning value must be a symbol like :just or :equal, got #{tuning.inspect}" unless tuning.is_a?(Symbol)
-        curr_tuning, curr_fundamental = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+        curr_tuning_info = Thread.current.thread_variable_get(:sonic_pi_mod_sound_tuning)
+        curr_tuning, curr_fundamental = curr_tuning_info
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, [tuning, fundamental_note])
         res = block.call
-        Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, [curr_tuning, curr_fundamental])
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_tuning, curr_tuning_info)
         res
       end
       doc name:          :with_tuning,
@@ -3729,6 +3730,10 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           examples:      ["puts chord_names #=>  prints a list of all the chords"]
 
       private
+
+      def init_tuning
+        @tuning = Tuning.new
+      end
 
       def normalise_args!(args_h, defaults={})
         args_h.keys.each do |k|

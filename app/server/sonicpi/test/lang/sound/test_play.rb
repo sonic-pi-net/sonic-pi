@@ -28,6 +28,7 @@ module SonicPi
       @mock_sound.stubs(:ensure_good_timing!) # avoid loading Spider class
       @mock_sound.stubs(:__delayed_user_message)
       @mock_sound.stubs(:current_synth_name).returns(:beep)
+      @mock_sound.send(:init_tuning)
     end
 
     def test_play_with_various_args
@@ -44,6 +45,32 @@ module SonicPi
       # nils are culled (but only prior to encoding as an OSC message)
       @mock_sound.expects(:trigger_inst).with(:beep, {note: 60, cutoff: nil})
       @mock_sound.play({note: :c, cutoff: nil})
+    end
+
+    def test_multi_notes
+      @mock_sound.expects(:trigger_chord).with(:beep, [62.0], {})
+      @mock_sound.play [62]
+    end
+
+    def test_note_with_tuning
+      @mock_sound.expects(:trigger_inst).with(:beep, {note: 62.039100017})
+      @mock_sound.with_tuning :just do
+        @mock_sound.play 62
+      end
+    end
+
+    def test_chord_with_tuning
+      @mock_sound.expects(:trigger_chord).with(:beep, [62.039100017], {})
+      @mock_sound.with_tuning :just do
+        @mock_sound.play [62]
+      end
+    end
+
+    def test_play_chord_with_tuning
+      @mock_sound.expects(:trigger_chord).with(:beep, [62.039100017], {})
+      @mock_sound.with_tuning :just do
+        @mock_sound.play_chord [62]
+      end
     end
   end
 end
