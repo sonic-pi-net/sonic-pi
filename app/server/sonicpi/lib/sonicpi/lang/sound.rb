@@ -1474,7 +1474,7 @@ play 44"]
         shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
 
         synth_name = current_synth_name
-        trigger_chord(synth_name, shifted_notes, args)
+        trigger_chord(synth_name, shifted_notes, args_h)
       end
       doc name:          :play_chord,
           introduced:    Version.new(2,0,0),
