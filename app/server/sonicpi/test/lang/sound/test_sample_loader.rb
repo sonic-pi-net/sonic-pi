@@ -133,5 +133,10 @@ module SonicPi
       assert_equal(["#{@fake_sample_dir}/xylophone-test-samp.wave"], res)
     end
 
+    def test_empty_strings_dont_filter
+      res = @loader.find_candidates([@fake_sample_dir, "", "xylophone-", "", ""])
+      assert_equal(["#{@fake_sample_dir}/xylophone-test-samp.wave"], res)
+    end
+
   end
 end
