@@ -551,6 +551,9 @@ module SonicPi
     end
 
     class SonicPiSynth < SynthInfo
+      def user_facing?
+        true
+      end
     end
 
     class DullBell < SonicPiSynth
@@ -2898,7 +2901,9 @@ module SonicPi
     end
 
     class StudioInfo < SonicPiSynth
-
+      def user_facing?
+        false
+      end
     end
 
     class SoundIn < StudioInfo
@@ -6907,7 +6912,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
       end
 
       def self.all_synths
-        @@synth_infos.keys
+        @@synth_infos.select {|k, v| v.is_a?(SonicPiSynth) && v.user_facing?}.keys
       end
 
       def self.info_doc_html_map(klass)
