@@ -2327,6 +2327,28 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
 
+      def beat
+        Thread.current.thread_variable_get(:sonic_pi_spider_beat)
+      end
+      doc name:          :beat,
+          introduced:    Version.new(2,10,0),
+          summary:       "Get current beat",
+          doc:           "Returns the beat value for the current thread/live_loop. Beats are advanced only by calls to `sleep` and `sync`. Beats are distinct from virtual time (the value obtained by calling `vt`) in that it has no notion of rate. It is just essentially a counter for sleeps. After a `sync`, the beat is overridden with the beat value from the thread which called `cue`. ",
+          args:          [[]],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+  use_bpm 120  # The current BPM makes no difference
+  puts beat    #=> 0
+  sleep 1
+  puts beat    #=> 1
+  use_bpm 2000
+  sleep 2
+  puts beat    #=> 3"]
+
+
+
+
       def rt(t)
         t / Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
       end
@@ -2373,6 +2395,8 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       def sleep(beats)
         # Schedule messages
         __schedule_delayed_blocks_and_messages!
+        curr_beat = Thread.current.thread_variable_get(:sonic_pi_spider_beat)
+        Thread.current.thread_variable_set(:sonic_pi_spider_beat, curr_beat + beats)
 
         return if beats == 0
         # Grab the current virtual time
@@ -2498,6 +2522,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         payload = {
           :time => Thread.current.thread_variable_get(:sonic_pi_spider_time),
           :sleep_mul => Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul),
+          :beat => Thread.current.thread_variable_get(:sonic_pi_spider_beat),
           :run => current_job_id,
           :cue_map => args_h,
           :cue => cue_id
@@ -2624,6 +2649,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         payload = p.get
         time = payload[:time]
         sleep_mul = payload[:sleep_mul]
+        beat = payload[:beat]
         bpm_sync = opts.has_key?(:bpm_sync) ? opts[:bpm_sync] : false
         run_id = payload[:run]
         cue_map = payload[:cue_map]
@@ -2631,6 +2657,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         cue_map = cue_map || {}
         cue_id = payload[:cue]
         cue_map[:cue] = cue_id
+        Thread.current.thread_variable_set :sonic_pi_spider_beat, beat
         Thread.current.thread_variable_set :sonic_pi_spider_time, time
         Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, sleep_mul) if bpm_sync
 

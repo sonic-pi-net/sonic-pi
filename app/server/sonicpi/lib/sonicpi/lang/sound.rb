@@ -2012,6 +2012,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           :sonic_pi_spider_delayed_blocks,
           :sonic_pi_spider_delayed_messages,
           :sonic_pi_spider_time,
+          :sonic_pi_spider_beat,
           :sonic_pi_spider_arg_bpm_scaling,
           :sonic_pi_spider_random_gen_idx,
           :sonic_pi_spider_random_gen_seed,
