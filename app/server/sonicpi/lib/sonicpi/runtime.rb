@@ -389,6 +389,8 @@ module SonicPi
       @user_jobs.each_id do |id|
         __stop_job id
       end
+      # Force a GC collection now everything has stopped
+      GC.start
     end
 
     def __stop_other_jobs
@@ -691,7 +693,11 @@ module SonicPi
           Thread.current.thread_variable_set :sonic_pi_spider_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_start_time, now
           Thread.current.thread_variable_set :sonic_pi_spider_beat, 0
-          @global_start_time = now if num_running_jobs == 1
+          if num_running_jobs == 1
+            @global_start_time = now
+            # Force a GC collection before we start making music!
+            GC.start
+          end
           __info "Starting run #{id}"
           code = PreParser.preparse(code)
 
