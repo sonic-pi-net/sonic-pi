@@ -145,10 +145,22 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   }
 
-  sp_user_path = QDir::toNativeSeparators(QDir::homePath() + "/.sonic-pi");
-  log_path = QDir::toNativeSeparators(sp_user_path + "/log");
-  server_error_log_path = QDir::toNativeSeparators(log_path + "/server-errors.log");
+  sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
+  sp_user_tmp_path       = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
+  log_path               = QDir::toNativeSeparators(sonicPiHomePath() + "/log");
+  server_error_log_path  = QDir::toNativeSeparators(log_path + "/server-errors.log");
   server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
+  gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
+  scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
+
+  QFile file(sp_user_tmp_path);
+  if (!file.open(QIODevice::WriteOnly)) {
+    homeDirWritable = false;
+  }
+  else {
+    homeDirWritable = true;
+    file.close();
+  }
 
   loaded_workspaces = false;
   is_recording = false;
@@ -743,8 +755,10 @@ void MainWindow::startRubyServer(){
   }
 
   std::cout << "[GUI] - booting live coding server" << std::endl;
-  serverProcess->setStandardErrorFile(server_error_log_path);
-  serverProcess->setStandardOutputFile(server_output_log_path);
+  if(homeDirWritable) {
+    serverProcess->setStandardErrorFile(server_error_log_path);
+    serverProcess->setStandardOutputFile(server_output_log_path);
+  }
   serverProcess->start(ruby_path, args);
   if (!serverProcess->waitForStarted()) {
     invokeStartupError(tr("The Sonic Pi server could not be started!"));
@@ -754,18 +768,23 @@ void MainWindow::startRubyServer(){
 
 bool MainWindow::waitForServiceSync() {
   QString contents;
-  std::cout << "[GUI] - waiting for server to boot...";
+  std::cout << "[GUI] - waiting for server to boot..." << std::endl;
   bool server_booted = false;
-
-  for(int i = 0; i < 60; i ++) {
-    contents = readFile(server_output_log_path);
-    if (contents.contains("Sonic Pi Server successfully booted.")) {
-      std::cout << std::endl << "[GUI] - server successfully booted." << std::endl;
-      server_booted = true;
-      break;
-    } else {
-      std::cout << ".";
-      sleep(1);
+  if (!homeDirWritable) {
+    // we can't monitor the logs so hope for the best!
+    sleep(15);
+    server_booted = true;
+  } else {
+    for(int i = 0; i < 60; i ++) {
+      contents = readFile(server_output_log_path);
+      if (contents.contains("Sonic Pi Server successfully booted.")) {
+        std::cout << std::endl << "[GUI] - server successfully booted." << std::endl;
+        server_booted = true;
+        break;
+      } else {
+        std::cout << ".";
+        sleep(1);
+      }
     }
   }
 
@@ -1159,15 +1178,20 @@ void MainWindow::startupError(QString msg) {
   splashClose();
 
   setMessageBoxStyle();
-
-  QString gui_log = readFile(log_path + QDir::separator() + "gui.log");
-  QString server_errors_log = readFile(log_path + QDir::separator() + "server-errors.log");
-  QString server_output_log = readFile(log_path + QDir::separator() + "server-output.log");
-  QString scsynth_log = readFile(log_path + QDir::separator() + "scsynth.log");
+  QString gui_log;
+  QString scsynth_log;
+  if(homeDirWritable) {
+    gui_log = readFile(gui_log_path);
+    scsynth_log = readFile(scsynth_log_path);
+  }
+  else {
+    gui_log = "Permissions error: unable to access " + gui_log_path;
+    scsynth_log = "Permissions error: unable to access " + scsynth_log_path;
+  }
 
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     tr("Server boot error..."), tr("Sonic Pi Boot Error\n\nApologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
-  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nGUI log\n-------\n\n" + gui_log + "\n\n\nServer Errors\n-------------\n\n" + server_errors_log + "\n\n\nServer Output\n-------------\n\n" + server_output_log + "\n\n\nScsynth Output\n--------------\n\n" + scsynth_log;
+  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nGUI log\n-------\n\n" + gui_log + "\n\n\nServer Errors\n-------------\n\n" + server_error_log_path + "\n\n\nServer Output\n-------------\n\n" + server_output_log_path + "\n\n\nScsynth Output\n--------------\n\n" + scsynth_log;
   box->setDetailedText(error_report);
 
   QGridLayout* layout = (QGridLayout*)box->layout();
@@ -2016,7 +2040,7 @@ void MainWindow::createShortcuts()
 
   new QShortcut(metaKey('{'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('}'), this, SLOT(tabNext()));
-  //new QShortcut(metaKey('U'), this, SLOT(reloadServerCode()));
+  new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
 
   new QShortcut(QKeySequence("F9"), this, SLOT(toggleButtonVisibility()));
   new QShortcut(shiftMetaKey('B'), this, SLOT(toggleButtonVisibility()));
@@ -2580,9 +2604,11 @@ void MainWindow::setupLogPathAndRedirectStdOut() {
   QDir().mkdir(sp_user_path);
   QDir().mkdir(log_path);
 
-  coutbuf = std::cout.rdbuf();
-  stdlog.open(QString(log_path + "/gui.log").toStdString().c_str());
-  std::cout.rdbuf(stdlog.rdbuf());
+  if(homeDirWritable) {
+    coutbuf = std::cout.rdbuf();
+    stdlog.open(gui_log_path.toStdString().c_str());
+    std::cout.rdbuf(stdlog.rdbuf());
+  }
 }
 
 
@@ -2594,5 +2620,17 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
       update();
     }
     return QMainWindow::eventFilter(obj, evt);
+}
+
+
+
+QString MainWindow::sonicPiHomePath() {
+  QString path = qgetenv("SONIC_PI_HOME").constData();
+  if (path.isEmpty()) {
+    return QDir::homePath();
+  }
+  else {
+    return path;
+  }
 }
 #include "ruby_help.h"

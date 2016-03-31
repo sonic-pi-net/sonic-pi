@@ -225,8 +225,13 @@ module SonicPi
       connected = false
       FileUtils.rm scsynth_log_path if File.exists?(scsynth_log_path)
 
-      @scsynth_log_file = File.open(scsynth_log_path, 'w')
-      @scsynth_log_file.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
+      begin
+        @scsynth_log_file = File.open(scsynth_log_path, 'w')
+      rescue
+        @scsynth_log_file = nil
+      end
+
+      @scsynth_log_file.puts "# Starting SuperCollider #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}" if @scsynth_log_file
       at_exit { @scsynth_log_file.close if @scsynth_log_file}
       scsynth_pipe = IO.popen(args)
       @scsynth_pid = scsynth_pipe.pid

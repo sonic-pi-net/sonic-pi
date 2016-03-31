@@ -915,7 +915,11 @@ module SonicPi
 
       @gui_heartbeats = {}
       @gui_last_heartbeat = nil
-      @gitsave = GitSave.new(project_path)
+      begin
+        @gitsave = GitSave.new(project_path)
+      rescue
+        @gitsave = nil
+      end
 
       @save_queue = SizedQueue.new(20)
 
@@ -969,7 +973,17 @@ module SonicPi
 
       __info msg unless msg.empty?
 
+
       load_snippets(snippets_path, true)
+
+      if safe_mode?
+        __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{home_dir} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1
+      end
+
+      log "Unable to initialise git repo at #{project_path}" unless @gitsave
+
+      __info "#{@version} Ready..."
+
     end
 
 

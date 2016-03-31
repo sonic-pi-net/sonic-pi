@@ -16,6 +16,7 @@ require 'securerandom'
 
 module SonicPi
   module Util
+    @@safe_mode = false
     @@tilde_dir = Dir.home
     @@project_path = nil
     @@log_path = nil
@@ -30,16 +31,27 @@ module SonicPi
     @@project_path = @@home_dir + '/store/default/'
     @@log_path = @@home_dir + '/log/'
 
-
     [@@home_dir, @@project_path, @@log_path].each do |dir|
-      FileUtils.mkdir_p(dir) unless File.exists?(dir)
+
+      begin
+        FileUtils.mkdir_p(dir) unless File.exists?(dir)
+      rescue
+        @@safe_mode = true
+        STDERR.puts "Unable to create #{dir} due to permissions errors"
+      end
     end
 
-    @@log_file = File.open("#{@@log_path}/debug.log", 'w')
+    begin
+      @@log_file = File.open("#{@@log_path}/debug.log", 'w')
+    rescue
+      @@safe_mode = true
+      STDERR.puts "Unable to open log file #{@@log_path}/debug.log"
+      @@log_file = nil
+    end
 
 
     at_exit do
-      @@log_file.close
+      @@log_file.close if @@log_file
     end
 
     def os
@@ -165,14 +177,24 @@ module SonicPi
 
         # invalid or no uuid - create and store a new one
         new_uuid = SecureRandom.uuid
-        File.open(path, 'w') {|f| f.write(new_uuid)}
+        begin
+          File.open(path, 'w') {|f| f.write(new_uuid)}
+        rescue
+          @@safe_mode = true
+          log "Unable to write uuid file to #{path}"
+        end
         @@current_uuid = new_uuid
         new_uuid
       end
     end
 
     def ensure_dir(d)
-      FileUtils.mkdir_p(d) unless File.exists?(d)
+      begin
+        FileUtils.mkdir_p(dir) unless File.exists?(dir)
+      rescue
+        @@safe_mode = true
+        log "Unable to create #{dir} due to permissions errors"
+      end
     end
 
     def linux_fhs?
@@ -278,8 +300,12 @@ module SonicPi
     end
 
     def log_raw(s)
-      @@log_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")
-      @@log_file.flush
+      if @@log_file
+        @@log_file.write("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")
+        @@log_file.flush
+      else
+        Kernel.puts("[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}] #{s}")
+      end
     end
 
     def log_exception(e, context="")
@@ -375,6 +401,8 @@ module SonicPi
       s.chomp(", ") << "}"
     end
 
-
+    def safe_mode?
+      @@safe_mode
+    end
   end
 end

@@ -101,10 +101,14 @@ begin
   if File.exists?(init_path)
     sp.__spider_eval(File.read(init_path))
   else
+    begin
     File.open(init_path, "w") do |f|
       f.puts "# Sonic Pi init file"
       f.puts "# Code in here will be evaluated on launch."
       f.puts ""
+      end
+    rescue
+      log "Warning: unable to create init file at #{init_path}"
     end
   end
 
