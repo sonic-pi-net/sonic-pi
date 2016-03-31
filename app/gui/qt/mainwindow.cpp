@@ -961,7 +961,7 @@ void MainWindow::initPrefsWindow() {
   visit_sonic_pi_net = new QPushButton(tr("Get update"));
   visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
   visit_sonic_pi_net->setVisible(false);
-  check_updates_now->setMaximumWidth(100);
+  check_updates_now->setMaximumWidth(110);
   visit_sonic_pi_net->setMaximumWidth(150);
 
   QGroupBox *update_info_box = new QGroupBox(tr("Update Info"));
