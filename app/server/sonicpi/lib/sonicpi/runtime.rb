@@ -176,9 +176,7 @@ module SonicPi
     end
 
     def __print_version_outdated_info(v=@server_version)
-      __info "Your version of Sonic Pi is outdated"
-      __info "The latest is #{v}"
-      __info "Please consider updating..."
+      __info "--- IMPORTANT NOTICE ---\n\n   Your version of Sonic Pi is outdated\n   The latest is #{v}\n   Please consider updating:\n\n   http://sonic-pi.net\n\n", 1
     end
 
 
