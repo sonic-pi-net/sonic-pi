@@ -19,6 +19,7 @@
 #include <fstream>
 
 // Qt stuff
+#include <QSysInfo>
 #include <QDate>
 #include <QDesktopServices>
 #include <QDir>
@@ -1180,18 +1181,24 @@ void MainWindow::startupError(QString msg) {
   setMessageBoxStyle();
   QString gui_log;
   QString scsynth_log;
+  QString server_output_log;
+  QString server_error_log;
   if(homeDirWritable) {
     gui_log = readFile(gui_log_path);
     scsynth_log = readFile(scsynth_log_path);
+    server_output_log = readFile(server_output_log_path);
+    server_error_log = readFile(server_error_log_path);
   }
   else {
-    gui_log = "Permissions error: unable to access " + gui_log_path;
-    scsynth_log = "Permissions error: unable to access " + scsynth_log_path;
+    gui_log = "Permissions error: unable to access log";
+    scsynth_log = "Permissions error: unable to access log";
+    server_output_log = "Permissions error: unable to access log";
+    server_error_log = "Permissions error: unable to access log";
   }
 
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     tr("Server boot error..."), tr("Sonic Pi Boot Error\n\nApologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
-  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nGUI log\n-------\n\n" + gui_log + "\n\n\nServer Errors\n-------------\n\n" + server_error_log_path + "\n\n\nServer Output\n-------------\n\n" + server_output_log_path + "\n\n\nScsynth Output\n--------------\n\n" + scsynth_log_path + "\n\n\n" + scsynth_log;
+  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nOperating System\n----------------\n\n" + osDescription() + "\n\n\nGUI Log\n-------\n\n**" + gui_log_path + "**\n```\n" + gui_log + "\n```\n\n\nServer Errors\n-------------\n\n**" + server_error_log_path + "**\n```\n" + server_error_log + "\n```\n\n\nServer Output\n-------------\n\n**" + server_output_log_path + "**\n```\n" + server_output_log + "\n```\n\n\nScsynth Output\n--------------\n\n**" + scsynth_log_path + "**\n```\n" + scsynth_log + "\n```\n";
   box->setDetailedText(error_report);
 
   QGridLayout* layout = (QGridLayout*)box->layout();
@@ -1214,6 +1221,16 @@ void MainWindow::replaceLines(QString id, QString content, int start_line, int f
   SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
   ws->replaceLines(start_line, finish_line, content);
   ws->setCursorPosition(point_line, point_index);
+}
+
+QString MainWindow::osDescription() {
+#if QT_VERSION >= 0x050400
+  return QSysInfo::prettyProductName();
+#else
+  // prettyProductName requires QT 5.4
+  //
+  return QString("Assuming Linux");
+#endif
 }
 
 std::string MainWindow::number_name(int i) {

@@ -178,6 +178,7 @@ private slots:
 
 private:
 
+    QString osDescription();
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;
     void startRubyServer();
