@@ -1191,7 +1191,7 @@ void MainWindow::startupError(QString msg) {
 
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     tr("Server boot error..."), tr("Sonic Pi Boot Error\n\nApologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
-  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nGUI log\n-------\n\n" + gui_log + "\n\n\nServer Errors\n-------------\n\n" + server_error_log_path + "\n\n\nServer Output\n-------------\n\n" + server_output_log_path + "\n\n\nScsynth Output\n--------------\n\n" + scsynth_log;
+  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nGUI log\n-------\n\n" + gui_log + "\n\n\nServer Errors\n-------------\n\n" + server_error_log_path + "\n\n\nServer Output\n-------------\n\n" + server_output_log_path + "\n\n\nScsynth Output\n--------------\n\n" + scsynth_log_path + "\n\n\n" + scsynth_log;
   box->setDetailedText(error_report);
 
   QGridLayout* layout = (QGridLayout*)box->layout();
