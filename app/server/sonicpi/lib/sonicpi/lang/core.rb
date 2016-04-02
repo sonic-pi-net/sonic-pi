@@ -3070,6 +3070,16 @@ assert_equal 3, 5, \"something is seriously wrong!\"
         __info "loading #{buf} with #{path}"
         __replace_buffer(buf, File.read(path))
       end
+      doc name:           :load_buffer,
+          introduced:     Version.new(2,10,0),
+          summary:        "Load the contents of a file to the current buffer",
+          doc:            "Given a path to a file, will read the contents and load it into the current buffer. This will replace any previous content.",
+          args:           [[:path, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+load_buffer \"~/sonic-pi-tracks/phat-beats.rb\" # will replace content of current buffer with contents of the file"]
+
 
       def load_example(example_name)
         path = Dir[examples_path + '/**/' + example_name.to_s + '.rb'].first
@@ -3078,8 +3088,16 @@ assert_equal 3, 5, \"something is seriously wrong!\"
         __info "loading #{buf} with #{path}"
         title = ActiveSupport::Inflector.titleize(example_name)
         __replace_buffer(buf, "# #{title}\n" + File.read(path))
-
       end
+      doc name:           :load_example,
+          introduced:     Version.new(2,10,0),
+          summary:        "Load a built-in example",
+          doc:            "Given a keyword representing an example, will load it into the current buffer. This will replace any previous content.",
+          args:           [[:path, :string]],
+          opts:           nil,
+          accepts_block:  false,
+          examples:       ["
+load_example :rerezzed # will replace content of current buffer with the rerezzed example"]
 
       def __on_thread_death(&block)
         gc_jobs = Thread.current.thread_variable_get(:sonic_pi__not_inherited__spider_in_thread_gc_jobs) || []
