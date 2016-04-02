@@ -1259,7 +1259,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
         args_h = tls.merge(args_h)
 
-        return nil unless should_trigger?(args_h)
+        return @blank_node unless should_trigger?(args_h)
 
         if rest? args_h
           unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
@@ -1471,7 +1471,7 @@ play 44"]
 
       def play_chord(notes, *args)
         args_h = resolve_synth_opts_hash_or_array(args)
-        return nil unless should_trigger?(args_h)
+        return @blank_node unless should_trigger?(args_h)
         shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
 
         synth_name = current_synth_name
