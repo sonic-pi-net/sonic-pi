@@ -2782,21 +2782,23 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
         args_h = tls.merge(args_h)
 
 
-        return nil unless should_trigger?(args_h, true)
+        return @blank_node unless should_trigger?(args_h, true)
 
         if filts_and_sources.size == 0
           if args_h.has_key?(:sample_name)
             # handle case where sample receives only opts
             path = resolve_sample_path([args_h.delete(:sample_name)])
           else
-            return nil
+            return @blank_node
           end
         else
           path = resolve_sample_path(filts_and_sources)
         end
 
-        return if path == nil
-
+        if path == nil
+          __delayed_message "sample #{filts_and_sources.inspect}\n           - no match found, skipping."
+          return @blank_node
+        end
 
         path = unify_tilde_dir(path) if path.is_a? String
 
