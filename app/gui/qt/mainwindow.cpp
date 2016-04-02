@@ -147,7 +147,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
   sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
   sp_user_tmp_path       = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
-  log_path               = QDir::toNativeSeparators(sonicPiHomePath() + "/log");
+  log_path               = QDir::toNativeSeparators(sp_user_path + "/log");
   server_error_log_path  = QDir::toNativeSeparators(log_path + "/server-errors.log");
   server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
   gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
