@@ -343,7 +343,7 @@ module SonicPi
       end
 
       def take(n)
-        return self if n == 0
+        return [].ring if n == 0
         return self.reverse.take(-n) if n < 0
         return super if n <= @size
         self + take(n - @size)
