@@ -108,5 +108,15 @@ module SonicPi
       assert_equal(ring(1, 2, 3) - ring(1), ring(2, 3))
       assert_equal(ring(1, 2, 3) - ring(10), ring(1, 2, 3))
     end
+
+    def test_take
+      assert_equal(ring(1), ring(1, 2, 3).take(1))
+      assert_equal(ring(1, 2), ring(1, 2, 3).take(2))
+      assert_equal(ring(1, 2, 3, 1), ring(1, 2, 3).take(4))
+      assert_equal(ring(3), ring(1, 2, 3).take(-1))
+      assert_equal(ring(3, 2), ring(1, 2, 3).take(-2))
+      assert_equal(ring(3, 2, 1, 3, 2), ring(1, 2, 3).take(-5))
+      assert_equal(ring(1, 2, 3), ring(1, 2, 3).take(0))
+    end
   end
 end
