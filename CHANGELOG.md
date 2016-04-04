@@ -1,5 +1,5 @@
 # History
-* [v2.10 'In Development'](#v2.10), yet to be released
+* [v2.10 'Krunchy'](#v2.10), yet to be released
 * [v2.9 'Venster'](#v2.9), 31st Dec, 2015
 * [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
 * [v2.7 'Rerezzed'](#v2.7), 10th Sept, 2015
@@ -13,7 +13,7 @@
 
 <a name="v2.10"></a>
 
-## Version 2.10 - 'In Development'
+## Version 2.10 - 'Krunchy'
 *yet to be released*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.10.0)
 
@@ -21,18 +21,26 @@
 ### Breaking Changes
 
 * `use_sample_pack_as` and `with_sample_pack_as` have been removed.
-* A synth opt value of `nil` now no longer resolves to 0.0. Instead it masks any defaults and ensures the downstream default (for the actual synthdef itself) is honoured. This allows you to override any existing synth defaults specified via `use_synth_defaults` for a given synth trigger.
-* Synths and samples no longer trigger if it is too late - instead they are silent and print a warning message. This behaviour ensures samples or synths are never triggered out of time.
+* A synth opt value of `nil` now no longer resolves to 0.0. Instead it
+  masks any defaults and ensures the downstream default (for the actual
+  synthdef itself) is honoured. This allows you to override any existing
+  synth defaults specified via `use_synth_defaults` for a given synth
+  trigger.
+* Synths and samples no longer trigger if it is too late - instead they
+  are silent and print a warning message. This behaviour ensures samples
+  or synths are never triggered out of time.
 
 
 ### New Fns
 
 * `current_random_seed` - Get the current seed value of the random generator
 * `set_cent_tuning!` - global tuning.
-* `on` - similar to `if` but behaves the same as the `on:` opt for synths and samples.
+* `on` - similar to `if` but behaves the same as the `on:` opt for
+  synths and samples.
 * `halves` - create a ring of successive halves
 * `doubles` - create a ring of successive doubles
-* `pick` - similar to shuffle but allows duplicates. You may also specify how many items to pick.
+* `pick` - similar to shuffle but allows duplicates. You may also
+  specify how many items to pick.
 
 ### Synths & FX
 
@@ -41,55 +49,98 @@
 * New synth `:chiplead` - retro NES style lead synth
 * New synth `:chipbass` - retro NES style bass synth
 * New synth `:chipnoise` - retro NES style noise synth
-* New FX `:whammy` - low-tech transposition effect similar to the Digitech Whammy guitar pedal.
-* New FX `:octaver` - low-tech octave effect similar to early guitar pedals.
-* New FX `:vowel` - modifies incoming signal to match human vowel sounds.
+* New FX `:whammy` - low-tech transposition effect similar to the
+  Digitech Whammy guitar pedal.
+* New FX `:octaver` - low-tech octave effect similar to early guitar
+  pedals.
+* New FX `:vowel` - modifies incoming signal to match human vowel
+  sounds.
 * New FX `:mono` - mono effect for summing stereo channels.
 * `:tanh` FX is now more crunchy by default.
 * `:compressor` and `:krush` FX now correctly honour the `mix:` opt.
+* Increase default amplitude of `:krush` FX.
 
 ### Samples
 
-* Samplers now have `hpf:` and `lpf:` opts. Any `cutoff:` opts are automatically switched to `lpf:` and any errors will be reported as `lpf:`.
-* The sampler synth gained a compressor enabled via the `compress:` opt. This means you can now compress any triggered sample directly without the need to reach for an FX.
-* Samplers gained the `pre_amp:` opt which applies the amp at the beginning of its internal signal chain. You can use this to overload the new compressor.
-* Samplers now have both high pass and low pass filter envelopes which behave similarly to the amplitude envelope but control internal hpf and lpf FX.
-* Passing a directory path to `load_samples` will now load all the samples within that directory.
-* Passing a directory path to `free_samples` will now free all the loaded samples within that directory.
-* Samples are now loaded asynchronously in a separate thread. This therefore doesn't block the current thread and cause any subsequent synth/sample triggers to be late.
-* Sample trigger logging now includes the directory of the contained sample.
+* The `sample` fn gained source and filter pre-opts. You may now specify
+  a number of parameters directly before the opts which describe both
+  folders containing samples and filters over those folders to allow you
+  to easily and quickly work with large sample sets. See Section 3.7 of
+  the tutorial for more information.
+* Samplers now have `hpf:` and `lpf:` opts. Any `cutoff:` opts are
+  automatically switched to `lpf:` and any errors will be reported as
+  `lpf:`.
+* The sampler synth gained a compressor enabled via the `compress:`
+  opt. This means you can now compress any triggered sample directly
+  without the need to reach for an FX.
+* Samplers gained the `pre_amp:` opt which applies the amp at the
+  beginning of its internal signal chain. You can use this to overload
+  the new compressor.
+* Samplers now have both high pass and low pass filter envelopes which
+  behave similarly to the amplitude envelope but control internal hpf
+  and lpf FX.
+* Passing a directory path to `load_samples` will now load all the
+  samples within that directory.
+* Passing a directory path to `free_samples` will now free all the
+  loaded samples within that directory.
+* Samples are now loaded asynchronously in a separate thread. This
+  therefore doesn't block the current thread and cause any subsequent
+  synth/sample triggers to be late.
+* Sample trigger logging now includes the directory of the contained
+  sample.
+* Samples are now reloaded asynchronously after a server reboot (and
+  therefore no longer blocks execution)
 
 ### GUI
 
-* New load button which will load the contents of a file into the current buffer.
-* The vertical bars which help visualise nesting now render in a contiguous fashion over blank lines.
+* New load button which will load the contents of a file into the
+  current buffer.
+* The vertical bars which help visualise nesting now render in a
+  contiguous fashion over blank lines.
 * `C-k` now nukes over trailing whitespace.
 * `load_sample` now has sample autocompletion.
 * GUI now correctly reports if the host is a Raspberry Pi 3.
-* New editor preference - Log Auto Scroll. When enabled will always scroll log to the bottom after printing every new message.
-
+* New editor preference - Log Auto Scroll. When enabled will always
+  scroll log to the bottom after printing every new message.
+* Whitespace at top and bottom of buffer is no longer trimmed.
+* Hitting `RETURN` now auto-indents the buffer - ensuring that the
+  cursor is moved to the correct indentation on the following line.
+* Added Chinese Simplified GUI translation.
 
 
 ### Documentation
+
+* New tutorial section 3.7 on Sample Pack Filters.
+* New appendix sections
 
 
 ### Improvements
 
 * `scale` and `chord` can now handle being passed no tonic such as: `(chord :minor)` which will return a ring of offsets from 0.
-* The ring's `.take` method can now take more elements than the original ring by wrapping around:  `(ring 1, 2, 3).take(5) #=> (ring 1, 2, 3, 1, 2)`
-* Rings may now be added or subtracted from each other e.g. `(ring 1, 2, 3) + (ring 4) #=> (ring 1, 2, 3, 4)`
-* Adding or subtracting a number from a ring will create a new ring with the number added or subtracted from each of the original ring's elements: `(ring 1, 2, 3) - 1 #=> (ring 0.0, 1.0, 2.0)`
-* Samples are now reloaded asynchronously after a server boot (and therefore no longer block execution)
+* `chord` learned new variants: `add2`, `add4`, `add9`, `add11`,
+  `add13`, `madd2`, `madd4`, `madd9`, `madd11`, `madd13`
+* The ring's `.take` method can now take more elements than the original
+  ring by wrapping around: 
+  `(ring 1, 2, 3).take(5) #=> (ring 1, 2, 3, 1, 2)`
+* Rings may now be added or subtracted from each other e.g. 
+  `(ring 1, 2,  3) + (ring 4) #=> (ring 1, 2, 3, 4)`
+* Adding or subtracting a number from a ring will create a new ring with
+  the number added or subtracted from each of the original ring's
+  elements: `(ring 1, 2, 3) - 1 #=> (ring 0.0, 1.0, 2.0)`
+* Calling `(ring 1, 2, 3).take(0)` will now return an empty ring.
 
 
 ### Bugfixes
 
-* On OS X only raise an error on boot if it's clear the sound card's in and out rates are different.
+* On OS X only raise an error on boot if it's clear the sound card's in
+  and out rates are different.
 * Improve robustness of boot process on Windows
 * Rest notes are no longer printed if synth logging is disabled.
 * No longer apply synth defaults to FX.
-* You may now control opts that have no associated info (previously it would raise a 'not modulatable' error).
+* You may now control opts that have no associated info (previously it
+  would raise a 'not modulatable' error).
 * Fix index lookup of Vectors
+
 
 <a name="v2.9"></a>
 
