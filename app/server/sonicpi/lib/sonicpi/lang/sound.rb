@@ -1270,7 +1270,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
 
         notes = args_h[:notes] || args_h[:note]
-        if notes.is_a?(SonicPi::Core::RingVector) || notes.is_a?(Array)
+        if notes.is_a?(SonicPi::Core::SPVector) || notes.is_a?(Array)
           args_h.delete(:notes)
           args_h.delete(:note)
           shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
@@ -3416,7 +3416,7 @@ end",
 
       def chord_invert(notes, shift)
         raise "Inversion shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
-        raise "Notes must be a list of notes, got #{notes.inspect}" unless (notes.is_a?(SonicPi::Core::RingVector) || notes.is_a?(Array))
+        raise "Notes must be a list of notes, got #{notes.inspect}" unless (notes.is_a?(SonicPi::Core::SPVector) || notes.is_a?(Array))
         if(shift > 0)
           chord_invert(notes.to_a[1..-1] + [notes.to_a[0]+12], shift-1)
         elsif(shift < 0)
