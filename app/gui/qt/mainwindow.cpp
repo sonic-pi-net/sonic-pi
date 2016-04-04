@@ -679,32 +679,31 @@ void MainWindow::returnAndIndentLine(QObject* ws){
   }
   else {
     if(auto_indent_on_run->isChecked()) {
-      spws->newLine();
-      indentCurrentAndPrevLines(spws);
+      newlineAndIndent(spws);
     } else {
       spws->newLine();
     }
   }
 }
 
-void MainWindow::indentCurrentAndPrevLines(SonicPiScintilla* ws) {
-  int start_line, finish_line, point_line, point_index;
-  ws->getCursorPosition(&point_line, &point_index);
-  statusBar()->showMessage(tr("Indenting line..."), 2000);
-  start_line = point_line - 1;
-  finish_line = point_line;
 
+
+void MainWindow::newlineAndIndent(SonicPiScintilla* ws) {
+  int point_line, point_index, first_line;
+  ws->getCursorPosition(&point_line, &point_index);
+  first_line = ws->firstVisibleLine();
+
+  statusBar()->showMessage(tr("Indenting foo..."), 2000);
   std::string code = ws->text().toStdString();
 
-  Message msg("/indent-selection");
+  Message msg("/buffer-newline-and-indent");
   msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);
   msg.pushStr(code);
-  msg.pushInt32(start_line);
-  msg.pushInt32(finish_line);
   msg.pushInt32(point_line);
   msg.pushInt32(point_index);
+  msg.pushInt32(first_line);
   sendOSC(msg);
 }
 
@@ -724,7 +723,7 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
 
   std::string code = ws->text().toStdString();
 
-  Message msg("/complete-snippet-or-indent-selection");
+  Message msg("/buffer-section-complete-snippet-or-indent-selection");
   msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);
@@ -757,7 +756,7 @@ void MainWindow::toggleComment(SonicPiScintilla* ws) {
 
   std::string code = ws->text().toStdString();
 
-  Message msg("/toggle-comment");
+  Message msg("/buffer-section-toggle-comment");
   msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename(ws);
   msg.pushStr(filename);
@@ -1256,10 +1255,7 @@ void MainWindow::startupError(QString msg) {
 
 void MainWindow::replaceBuffer(QString id, QString content, int line, int index, int first_line) {
   SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
-  ws->selectAll();
-  ws->replaceSelectedText(content);
-  ws->setCursorPosition(line, index);
-  ws->setFirstVisibleLine(first_line);
+  ws->replaceBuffer(content, line, index, first_line);
 }
 
 void MainWindow::replaceLines(QString id, QString content, int start_line, int finish_line, int point_line, int point_index) {
@@ -1495,7 +1491,7 @@ void MainWindow::beautifyCode()
   int index = 0;
   ws->getCursorPosition(&line, &index);
   int first_line = ws->firstVisibleLine();
-  Message msg("/beautify-buffer");
+  Message msg("/buffer-beautify");
   msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);

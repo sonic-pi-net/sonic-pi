@@ -105,9 +105,9 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
+    void newlineAndIndent(SonicPiScintilla *ws);
     void returnAndIndentLine(QObject *ws);
     void completeSnippetListOrIndentLine(QObject *ws);
-    void indentCurrentAndPrevLines(SonicPiScintilla *ws);
     void completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla *ws);
     void toggleCommentInCurrentWorkspace();
     void toggleComment(SonicPiScintilla *ws);

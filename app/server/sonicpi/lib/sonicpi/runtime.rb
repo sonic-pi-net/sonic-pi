@@ -437,8 +437,13 @@ module SonicPi
       return nil
     end
 
-    def __indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index)
-      __complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index, false)
+    def __indent_lines(buf)
+
+    end
+
+
+    def __buffer_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index)
+      __buffer_complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index, false)
     end
 
     def __complete_snippet_or_indent_lines(buf, start_line, finish_line, point_line, point_index, complete_snippet=true)
@@ -554,6 +559,15 @@ module SonicPi
       @msg_queue.push(res.merge({type: "replace-lines", buffer_id: id}))
     end
 
+    def __buffer_newline_and_indent(workspace_id, buf, point_line, point_index, first_line)
+      id = workspace_id.to_s
+      lines =  buf.lines.to_a
+      lines[point_line].insert(point_index, "\n")
+      buf = lines.join
+      __buffer_beautify(id, buf, point_line + 1, 0, first_line)
+    end
+
+
     def __toggle_comment(workspace_id, buf, start_line, finish_line, point_line, point_index)
       id = workspace_id.to_s
       indented_linex = ""
@@ -591,7 +605,7 @@ module SonicPi
       @msg_queue.push({type: "replace-lines", buffer_id: id, val: lines.join, start_line: start_line, finish_line: finish_line, point_line: point_line, point_index: point_index})
     end
 
-    def __beautify_buffer(id, buf, line, index, first_line)
+    def __buffer_beautify(id, buf, line, index, first_line)
       id = id.to_s
       buf = buf + "\n"
       buf_lines = buf.lines.to_a
@@ -632,25 +646,12 @@ module SonicPi
       index = index + (post_ws_len - prev_ws_len)
       index = post_line.size - 1 if index > post_line.size
 
-      # Strip whitespace at the beginning of the buffer
-      beautiful.lstrip!
-
       # adjust line number based on how many lines were removed as a
       # result of the whitespace stripping
       post_lstrip_len = beautiful.lines.to_a.size
       line = line - (beautiful_len - post_lstrip_len)
       line = 0 if line < 0
 
-      # Strip whitespace from the end of the buffer
-      beautiful.rstrip!
-      post_rstrip_len = beautiful.lines.to_a.size
-
-      # move point to end of buffer if whitespace stripping at end of
-      # buffer put point out of bounds
-      if line >= post_rstrip_len
-        line = post_rstrip_len
-        index = beautiful.lines.to_a.last.size
-      end
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful, line: line, index: index, first_line: first_line})
     end
 

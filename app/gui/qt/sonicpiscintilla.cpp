@@ -480,3 +480,14 @@ void SonicPiScintilla::zoomFontOut() {
 void SonicPiScintilla::newLine() {
   SendScintilla(QsciCommand::Newline);
 }
+
+void SonicPiScintilla::replaceBuffer(QString content, int line, int index, int first_line) {
+  beginUndoAction();
+  insert(" ");
+  SendScintilla(QsciCommand::Delete);
+  selectAll();
+  replaceSelectedText(content);
+  setCursorPosition(line, index);
+  setFirstVisibleLine(first_line);
+  endUndoAction();
+}

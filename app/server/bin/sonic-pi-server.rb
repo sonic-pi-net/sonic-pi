@@ -156,7 +156,17 @@ osc_server.add_method("/load-buffer") do |args|
   sp.__load_buffer args[1]
 end
 
-osc_server.add_method("/complete-snippet-or-indent-selection") do |args|
+osc_server.add_method("/buffer-newline-and-indent") do |args|
+  gui_id = args[0]
+  id = args[1]
+  buf = args[2]
+  point_line = args[3]
+  point_index = args[4]
+  first_line = args[5]
+  sp.__buffer_newline_and_indent(id, buf, point_line, point_index, first_line)
+end
+
+osc_server.add_method("/buffer-section-complete-snippet-or-indent-selection") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2]
@@ -167,7 +177,7 @@ osc_server.add_method("/complete-snippet-or-indent-selection") do |args|
   sp.__buffer_complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
 end
 
-osc_server.add_method("/indent-selection") do |args|
+osc_server.add_method("/buffer-indent-selection") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2]
@@ -175,10 +185,10 @@ osc_server.add_method("/indent-selection") do |args|
   finish_line = args[4]
   point_line = args[5]
   point_index = args[6]
-  sp.__indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+  sp.__buffer_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
 end
 
-osc_server.add_method("/toggle-comment") do |args|
+osc_server.add_method("/buffer-section-toggle-comment") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2]
@@ -189,14 +199,14 @@ osc_server.add_method("/toggle-comment") do |args|
   sp.__toggle_comment(id, buf, start_line, finish_line, point_line, point_index)
 end
 
-osc_server.add_method("/beautify-buffer") do |args|
+osc_server.add_method("/buffer-beautify") do |args|
   gui_id = args[0]
   id = args[1]
   buf = args[2]
   line = args[3]
   index = args[4]
   first_line = args[5]
-  sp.__beautify_buffer(id, buf, line, index, first_line)
+  sp.__buffer_beautify(id, buf, line, index, first_line)
 end
 
 osc_server.add_method("/ping") do |args|
