@@ -38,17 +38,19 @@ module SonicPi
         procs = []
         filters = []
         idx = nil
-
+        candidate_given = false
 
         filts_and_sources.each do |arg|
-          idx = consume_filt_or_source!(arg, candidates, procs, filters, idx)
+          candidate_given, idx = consume_filt_or_source!(arg, candidates, procs, filters, candidate_given, idx)
         end
 
-        if candidates.empty? && procs.empty? && filters.size == 1 && filters[0].is_a?(Symbol)
-
+        unless candidate_given
           default_samples_paths.each do |p|
-            p = File.expand_path(p)
-            candidates.concat(ls_samples(p)) if File.directory?(p)
+            if p.end_with?("**")
+              candidates.concat(ls_samples(p[0...-2], true))
+            else
+              candidates.concat(ls_samples(p))
+            end
           end
         end
 
@@ -87,6 +89,7 @@ module SonicPi
     end
 
     def ls_samples(path, recursive=false)
+      return [] unless File.directory?(path)
       res = @cached_folder_contents[path]
       return res if res
 
@@ -106,18 +109,22 @@ module SonicPi
     private
 
     def default_samples_paths
-      [Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || @samples_path]
+      path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || @samples_path
+      path = [path] unless path.is_a?(Array) or path.is_a?(SonicPi::Core::SPVector)
     end
 
-    def consume_filt_or_source!(filt_or_source, candidates, procs, filters, idx)
+    def consume_filt_or_source!(filt_or_source, candidates, procs, filters, candidate_given, idx)
       case filt_or_source
       when String
         expanded = File.expand_path(filt_or_source)
         if expanded.end_with?("**") && File.directory?(expanded[0...-2])
+          candidate_given = true
           candidates.concat(ls_samples(expanded[0...-2], true))
         elsif File.directory?(expanded)
+          candidate_given = true
           candidates.concat(ls_samples(expanded))
         elsif File.exists?(expanded)
+          candidate_given = true
           candidates << expanded
         else
           # Treat as a regular filter
@@ -131,7 +138,7 @@ module SonicPi
         filters << filt_or_source
       when Proc
         if filt_or_source.arity == 0
-          idx = consume_filt_or_source!(filt_or_source.call, candidates, procs, filters, idx)
+          candidate_given, idx = consume_filt_or_source!(filt_or_source.call, candidates, procs, filters, candidate_given, idx)
         elsif filt_or_source.arity == 1
           procs << filt_or_source
         else
@@ -139,15 +146,15 @@ module SonicPi
         end
       when Array, SonicPi::Core::RingVector
         filt_or_source.each do |fos|
-          idx = consume_filt_or_source!(fos, candidates, procs, filters, idx)
+          candidate_given, idx = consume_filt_or_source!(fos, candidates, procs, filters, candidate_given, idx)
         end
       when NilClass
-        idx
+        nil
       else
         raise "Unknown sample filter or source type: #{filt_or_source.inspect}"
       end
 
-      idx
+      [candidate_given, idx]
     end
   end
 end

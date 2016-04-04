@@ -110,7 +110,7 @@ module SonicPi
 
             @sample_paths_cache = {}
 
-            @sample_loader = SampleLoader.new(samples_path)
+            @sample_loader = SampleLoader.new("#{samples_path}/**")
 
             @JOB_GROUPS_A = Atom.new(Hamster::Hash.new)
             @JOB_GROUP_MUTEX = Mutex.new
@@ -2121,7 +2121,7 @@ end
       def use_sample_pack(pack, &block)
         raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
         if pack == :default
-          pack = samples_path + "/"
+          pack = samples_path + "/**"
         else
           pack = "#{pack}/" if File.directory?(pack)
         end
@@ -2150,7 +2150,7 @@ sample :bd_haus #=> will play the built-in bd_haus.wav sample" ]
         raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
         if pack == :default
           # allow user to reset sample pack with the :default keyword
-          pack = samples_path
+          pack = samples_path + "/**"
         else
           # ensure directories have trailing /
           pack = "#{pack}/" if File.directory?(pack)
