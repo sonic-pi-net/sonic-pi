@@ -3799,17 +3799,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         return nil
       end
 
-      def fetch_or_cache_sample_path(sym)
-        cached = @sample_paths_cache[sym]
-        return cached if cached
-
-        res = find_sample_with_path("#{samples_path}/#{sym.to_s}")
-
-        raise "No sample exists called :#{sym} in default sample pack" unless res
-        @sample_paths_cache[sym] = res
-        res
-      end
-
 
       def complex_sampler_args?(args_h)
         # break out early if any of the 'complex' keys exist in the
