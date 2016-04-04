@@ -122,6 +122,12 @@ module SonicPi
       assert_equal(["#{@fake_sample_dir}/woo_100.aiff"], res)
     end
 
+    def test_multi_filters_with_nil
+      identity_proc = lambda {|c| c }
+      res = @loader.find_candidates([nil, @fake_sample_dir, 1, nil, identity_proc, "100", /100/, nil])
+      assert_equal(["#{@fake_sample_dir}/woo_100.aiff"], res)
+    end
+
     def test_arrays
       identity_proc = lambda {|c| c }
       res = @loader.find_candidates([@fake_sample_dir,[1], [[identity_proc, "100"], /100/]])

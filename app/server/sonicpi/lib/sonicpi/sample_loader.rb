@@ -141,6 +141,8 @@ module SonicPi
         filt_or_source.each do |fos|
           idx = consume_filt_or_source!(fos, candidates, procs, filters, idx)
         end
+      when NilClass
+        idx
       else
         raise "Unknown sample filter or source type: #{filt_or_source.inspect}"
       end
