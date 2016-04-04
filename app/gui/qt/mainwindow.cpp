@@ -307,6 +307,7 @@ void MainWindow::setupWindowStructure() {
   // create workspaces and add them to the tabs
   // workspace shortcuts
   signalMapper = new QSignalMapper (this) ;
+  retSignalMapper = new QSignalMapper (this) ;
   for(int ws = 0; ws < workspace_max; ws++) {
     std::string s;
 
@@ -317,6 +318,11 @@ void MainWindow::setupWindowStructure() {
     QShortcut *indentLine = new QShortcut(QKeySequence("Tab"), workspace);
     connect (indentLine, SIGNAL(activated()), signalMapper, SLOT(map())) ;
     signalMapper -> setMapping (indentLine, (QObject*)workspace);
+
+    QShortcut *newLineAndIndent = new QShortcut(QKeySequence("Return"), workspace);
+    connect (newLineAndIndent, SIGNAL(activated()), retSignalMapper, SLOT(map())) ;
+    retSignalMapper -> setMapping (newLineAndIndent, (QObject*)workspace);
+
 
     //transpose chars
     QShortcut *transposeChars = new QShortcut(ctrlKey('t'), workspace);
@@ -402,8 +408,9 @@ void MainWindow::setupWindowStructure() {
     tabs->addTab(workspace, w);
   }
 
+  connect(retSignalMapper, SIGNAL(mapped(QObject*)), this, SLOT(returnAndIndentLine(QObject*)));
   connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeTab(int)));
-  connect(signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeListOrIndentLine(QObject*)));
+  connect(signalMapper, SIGNAL(mapped(QObject*)), this, SLOT(completeSnippetListOrIndentLine(QObject*)));
 
   QFont font("Monospace");
   font.setStyleHint(QFont::Monospace);
@@ -653,17 +660,55 @@ void MainWindow::updateButtonVisibility(){
   }
 }
 
-void MainWindow::completeListOrIndentLine(QObject* ws){
+void MainWindow::completeSnippetListOrIndentLine(QObject* ws){
   SonicPiScintilla *spws = ((SonicPiScintilla*)ws);
   if(spws->isListActive()) {
     spws->tabCompleteifList();
   }
   else {
-    indentCurrentLineOrSelection(spws);
+    completeSnippetOrIndentCurrentLineOrSelection(spws);
   }
 }
 
-void MainWindow::indentCurrentLineOrSelection(SonicPiScintilla* ws) {
+
+void MainWindow::returnAndIndentLine(QObject* ws){
+  SonicPiScintilla *spws = ((SonicPiScintilla*)ws);
+
+  if(spws->isListActive()) {
+    spws->tabCompleteifList();
+  }
+  else {
+    if(auto_indent_on_run->isChecked()) {
+      spws->newLine();
+      indentCurrentAndPrevLines(spws);
+    } else {
+      spws->newLine();
+    }
+  }
+}
+
+void MainWindow::indentCurrentAndPrevLines(SonicPiScintilla* ws) {
+  int start_line, finish_line, point_line, point_index;
+  ws->getCursorPosition(&point_line, &point_index);
+  statusBar()->showMessage(tr("Indenting line..."), 2000);
+  start_line = point_line - 1;
+  finish_line = point_line;
+
+  std::string code = ws->text().toStdString();
+
+  Message msg("/indent-selection");
+  msg.pushStr(guiID.toStdString());
+  std::string filename = workspaceFilename(ws);
+  msg.pushStr(filename);
+  msg.pushStr(code);
+  msg.pushInt32(start_line);
+  msg.pushInt32(finish_line);
+  msg.pushInt32(point_line);
+  msg.pushInt32(point_index);
+  sendOSC(msg);
+}
+
+void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla* ws) {
   int start_line, finish_line, point_line, point_index;
   ws->getCursorPosition(&point_line, &point_index);
   if(ws->hasSelectedText()) {

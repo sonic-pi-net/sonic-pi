@@ -437,7 +437,11 @@ module SonicPi
       return nil
     end
 
-    def __complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index)
+    def __indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index)
+      __complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index, false)
+    end
+
+    def __complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index, complete_snippet=true)
       orig_finish_line = finish_line
       snippet_completion = false
       id = workspace_id.to_s
@@ -446,7 +450,7 @@ module SonicPi
       if (start_line == finish_line)
         completion_line = buf_lines[start_line].to_s.rstrip
 
-        c = __snippet_completion?(completion_line[0...point_index])
+        c = complete_snippet && __snippet_completion?(completion_line[0...point_index])
         if c
           snippet_completion = true
           completion_key, val = *c
@@ -489,13 +493,17 @@ module SonicPi
         # Calculate amount of whitespace at start of original line
         orig_point_line = buf_lines[point_line]
         orig_point_line_ws_len = orig_point_line[/\A */].size
+        dummy_lines = false
+        dummy_point_line = false
 
-        if buf_lines[point_line] =~ /^\s*$/
-          #line is just whitespace, put in a dummy line so it gets autoindented
-          buf_lines[point_line] = "#dummy\n"
-          dummy_line = true
-        else
-          dummy_line = false
+        (start_line..finish_line).each do |line_idx|
+          b = buf_lines[line_idx]
+          if b.match(/\A\s*\Z/)
+            #line is just whitespace, put in a dummy line so it gets autoindented
+            buf_lines[line_idx] = "#___sonic_pi_dummy_line___\n"
+            dummy_lines = true
+            dummy_point_line = true if point_line == line_idx
+          end
         end
       else
         manipulate_point = false
@@ -508,7 +516,7 @@ module SonicPi
       # calculate amount of whitespace at start of beautified line
       beautiful_lines = beautiful.lines.to_a
       if manipulate_point
-        if dummy_line
+        if dummy_point_line
           # remove dummy line and extract leading whitespace
           indented_dummy = beautiful_lines[point_line]
           indented_dummy_whitespace = indented_dummy.match(/\A(\s*)/)[1]
@@ -524,6 +532,15 @@ module SonicPi
           point_index = point_index + (new_point_line_ws_len - orig_point_line_ws_len)
           point_index = new_point_line.size - 1 if point_index > new_point_line.size
           point_index = orig_point_line_ws_len if point_index < orig_point_line_ws_len
+        end
+
+        if dummy_lines
+          # remove other dummy lines
+          (start_line..finish_line).each do |line_idx|
+            line = beautiful_lines[line_idx]
+            m = line.match(/\A(\s*)#___sonic_pi_dummy_line___/)
+            beautiful_lines[line_idx] = m[1] + "\n" if m
+          end
         end
       end
       indented_lines = beautiful_lines[start_line..finish_line].join

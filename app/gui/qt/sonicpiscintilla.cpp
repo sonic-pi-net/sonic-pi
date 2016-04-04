@@ -26,7 +26,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
   QString skey;
-  QSettings settings("sonic-pi.net", "Key bindings");
+  QSettings settings("sonic-pi.net", "Default Key bindings");
 
 #if defined(Q_OS_MAC)
   int SPi_CTRL = Qt::META;
@@ -86,9 +86,6 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
 
   addKeyBinding(settings, QsciCommand::Delete, Qt::Key_D | SPi_CTRL);
   addKeyBinding(settings, QsciCommand::VerticalCentreCaret, Qt::Key_L | SPi_CTRL);
-
-  // tab return
-  addKeyBinding(settings, QsciCommand::Newline, Qt::Key_Return);
 
   addKeyBinding(settings, QsciCommand::Backtab, Qt::Key_Tab | Qt::SHIFT);
 
@@ -478,4 +475,8 @@ void SonicPiScintilla::zoomFontOut() {
   if (zoom < -10) zoom = -10;
   setProperty("zoom", QVariant(zoom));
   zoomTo(zoom);
+}
+
+void SonicPiScintilla::newLine() {
+  SendScintilla(QsciCommand::Newline);
 }

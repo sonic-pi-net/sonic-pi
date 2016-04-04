@@ -105,8 +105,10 @@ private slots:
     void disableCheckUpdates();
     void stopCode();
     void beautifyCode();
-    void completeListOrIndentLine(QObject *ws);
-    void indentCurrentLineOrSelection(SonicPiScintilla *ws);
+    void returnAndIndentLine(QObject *ws);
+    void completeSnippetListOrIndentLine(QObject *ws);
+    void indentCurrentAndPrevLines(SonicPiScintilla *ws);
+    void completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla *ws);
     void toggleCommentInCurrentWorkspace();
     void toggleComment(SonicPiScintilla *ws);
     void reloadServerCode();
@@ -181,6 +183,7 @@ private:
     QString osDescription();
     void setupLogPathAndRedirectStdOut();
     QSignalMapper *signalMapper;
+    QSignalMapper *retSignalMapper;
     void startRubyServer();
     bool waitForServiceSync();
     void clearOutputPanels();

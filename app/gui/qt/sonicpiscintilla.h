@@ -57,6 +57,7 @@ class SonicPiScintilla : public QsciScintilla
     void unhighlightAll();
     void zoomFontIn();
     void zoomFontOut();
+    void newLine();
 
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
