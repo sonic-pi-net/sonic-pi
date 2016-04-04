@@ -441,10 +441,9 @@ module SonicPi
       __complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index, false)
     end
 
-    def __complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index, complete_snippet=true)
+    def __complete_snippet_or_indent_lines(buf, start_line, finish_line, point_line, point_index, complete_snippet=true)
       orig_finish_line = finish_line
       snippet_completion = false
-      id = workspace_id.to_s
       buf = buf + "\n"
       buf_lines = buf.lines.to_a
       if (start_line == finish_line)
@@ -545,8 +544,14 @@ module SonicPi
       end
       indented_lines = beautiful_lines[start_line..finish_line].join
       finish_line = orig_finish_line if snippet_completion
-      @msg_queue.push({type: "replace-lines", buffer_id: id, val: indented_lines, start_line: start_line, finish_line: finish_line, point_line: point_line, point_index: point_index})
 
+      return {val: indented_lines, start_line: start_line, finish_line: finish_line, point_line: point_line, point_index: point_index}
+    end
+
+    def __buffer_complete_snippet_or_indent_lines(workspace_id, buf, start_line, finish_line, point_line, point_index, complete_snippet=true)
+      id = workspace_id.to_s
+      res = __complete_snippet_or_indent_lines(buf, start_line, finish_line, point_line, point_index, true)
+      @msg_queue.push(res.merge({type: "replace-lines", buffer_id: id}))
     end
 
     def __toggle_comment(workspace_id, buf, start_line, finish_line, point_line, point_index)

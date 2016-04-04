@@ -164,7 +164,7 @@ osc_server.add_method("/complete-snippet-or-indent-selection") do |args|
   finish_line = args[4]
   point_line = args[5]
   point_index = args[6]
-  sp.__complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
+  sp.__buffer_complete_snippet_or_indent_lines(id, buf, start_line, finish_line, point_line, point_index)
 end
 
 osc_server.add_method("/indent-selection") do |args|
