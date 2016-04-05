@@ -1638,15 +1638,7 @@ void MainWindow::helpContext()
     int line, pos;
     ws->getCursorPosition(&line, &pos);
     QString text = ws->text(line);
-    int start, end;
-    for (start = pos; start > 0; start--) {
-      if (!text[start-1].isLetter() && text[start-1] != '_') break;
-    }
-    QString identifierEndChars = QString("?!_=");
-    for (end = pos; end < text.length(); end++) {
-      if (!text[end].isLetter() && !identifierEndChars.contains(text[end])) break;
-    }
-    selection = text.mid(start, end-start);
+    selection = ws->wordAtLineIndex(line, pos);
   }
   selection = selection.toLower();
   if (selection[0] == ':')
