@@ -30,6 +30,9 @@ Links to original samples:
 * `:drum_cymbal_pedal` - http://www.freesound.org/people/menegass/sounds/100054/
 * `:drum_bass_soft` - http://www.freesound.org/people/menegass/sounds/100052/
 * `:drum_bass_hard` - http://www.freesound.org/people/menegass/sounds/100051/
+* `:drum_cowbell` - http://freesound.org/people/Neotone/sounds/75338/
+* `:drum_roll` - http://freesound.org/people/Heigh-hoo/sounds/19433/
+
 
 ## Electric sounds
 
@@ -59,6 +62,7 @@ Links to original samples:
 * `:elec_plip` - http://www.freesound.org/people/looppool/sounds/13093/
 * `:elec_blup` - http://www.freesound.org/people/looppool/sounds/13092/
 
+
 ## Guitar
 
 * `:guit_harmonics` - http://freesound.org/people/BStateham/sounds/141524/<
@@ -66,15 +70,22 @@ Links to original samples:
 * `:guit_e_slide` - http://freesound.org/people/Suva/sounds/2410/
 * `:guit_em9` - http://www.freesound.org/people/Sub-d/sounds/46992/ 
 
+
 ## Misc
 
 * `:misc_burp` - http://freesound.org/people/anas76/sounds/222022/
+* `:misc_crow` - http://freesound.org/people/davidworksonline/sounds/54973/
+* `:misc_cineboom` - http://freesound.org/people/Northern_Monkey/sounds/177242/
+
 
 ## Percussion
 
 * `:perc_bell` - http://freesound.org/people/AlaskaRobotics/sounds/221515/
 * `:perc_snap` - http://www.freesound.org/people/SoundCollectah/sounds/109400/
 * `:perc_snap2` - http://www.freesound.org/people/Peram/sounds/158615/
+* `:perc_swash` - http://freesound.org/people/qubodup/sounds/60009/
+* `:perc_till` - http://freesound.org/people/Zott820/sounds/209578/
+
 
 ## Ambient
 
@@ -88,6 +99,7 @@ Links to original samples:
 * `:ambi_lunar_land` - http://freesound.org/people/maqsim/sounds/172157/
 * `:ambi_dark_woosh` - http://freesound.org/people/EcoDTR/sounds/27281/
 * `:ambi_choir` - http://freesound.org/people/Exsomniel/sounds/207809/
+
 
 ## Bass
 
@@ -117,11 +129,13 @@ Links to original samples:
 * `:bd_tek` - http://freesound.org/people/DWSD/sounds/171104/
 * `:bd_ada` - http://www.freesound.org/people/adammusic18/sounds/208871/
 
+
 ## Snares
 
 * `:sn_dub` - http://freesound.org/people/Adriak909/sounds/173142/
 * `:sn_dolf` - http://freesound.org/people/Dolfeus/sounds/57534/
 * `:sn_zome` - http://freesound.org/people/Dolfeus/sounds/55232/
+
 
 ## Loops
 
@@ -132,10 +146,11 @@ Links to original samples:
 * `:loop_garzul` - http://freesound.org/people/Garzul/sounds/213524/
 * `:loop_mika` - http://freesound.org/people/mika55/sounds/188551/
 * `:loop_breakbeat` - http://freesound.org/people/Snapper4298/sounds/160354/
+* `:loop_safari` - http://freesound.org/people/nemaavla/sounds/318759/
+* `:loop_tabla` - http://freesound.org/people/lezaarth/sounds/242591/
 
 
 ## Tabla
-
 
 * `:tabla_tas` - http://freesound.org/people/dio_333/sounds/130427/
 * `:tabla_tas2` - http://freesound.org/people/dio_333/sounds/130425/
@@ -163,3 +178,11 @@ Links to original samples:
 * `:tabla_dhec` - http://freesound.org/people/dio_333/sounds/130407/
 * `:tabla_ne_s` - http://freesound.org/people/dio_333/sounds/130428/
 * `:tabla_re` - http://freesound.org/people/dio_333/sounds/130427/
+
+
+# Vinyl
+
+* `:vinyl_backspin` - http://freesound.org/people/il112/sounds/182316/
+* `:vinyl_rewind` - http://freesound.org/people/TasmanianPower/sounds/162493/
+* `:vinyl_scratch` - http://freesound.org/people/hello_flowers/sounds/28681/
+* `:vinyl_hiss` - http://freesound.org/people/veezay/sounds/130393/

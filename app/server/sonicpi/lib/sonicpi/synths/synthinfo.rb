@@ -6664,7 +6664,9 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :drum_cymbal_closed,
             :drum_cymbal_pedal,
             :drum_bass_soft,
-            :drum_bass_hard]},
+            :drum_bass_hard,
+            :drum_cowbell,
+            :drum_roll]},
 
         :elec => {
           :desc => "Electric Sounds",
@@ -6709,7 +6711,9 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :desc => "Miscellaneous Sounds",
           :prefix => "misc_",
           :samples => [
-            :misc_burp]},
+            :misc_burp,
+            :misc_crow,
+            :misc_cineboom]},
 
         :perc => {
           :desc => "Percussive Sounds",
@@ -6717,7 +6721,9 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :samples => [
             :perc_bell,
             :perc_snap,
-            :perc_snap2]},
+            :perc_snap2,
+            :perc_swash,
+            :perc_till]},
 
         :ambi => {
           :desc => "Ambient Sounds",
@@ -6782,7 +6788,51 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :loop_amen_full,
             :loop_garzul,
             :loop_mika,
-            :loop_breakbeat]}}
+            :loop_breakbeat,
+            :loop_safari,
+            :loop_tabla]},
+
+        :tabla_drum => {
+          :desc => "Sounds of a Tabla Drum",
+          :prefix => "tabla_",
+          :samples => [
+            :tabla_tas,
+            :tabla_tas2,
+            :tabla_tas3,
+            :tabla_ke,
+            :tabla_ke2,
+            :tabla_ke3,
+            :tabla_na,
+            :tabla_na_o,
+            :tabla_tun,
+            :tabla_tun2,
+            :tabla_tun3,
+            :tabla_te,
+            :tabla_te2,
+            :tabla_te_ne,
+            :tabla_te_m,
+            :tabla_ghe,
+            :tabla_ghe2,
+            :tabla_ghe3,
+            :tabla_ghe4,
+            :tabla_ghe5,
+            :tabla_ghe6,
+            :tabla_ghe7,
+            :tabla_ghe8,
+            :tabla_dhec,
+            :tabla_ne_s,
+            :tabla_re]},
+
+        :vinyl_sounds => {
+          :desc => "Vinyl sounds",
+          :prefix => "vinyl_",
+          :samples => [
+            :vinyl_backspin,
+            :vinyl_rewind,
+            :vinyl_scratch,
+            :vinyl_hiss]}
+        }
+
 
       @@all_samples = (@@grouped_samples.values.reduce([]) {|s, el| s << el[:samples]}).flatten
 
