@@ -6782,7 +6782,39 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :loop_amen_full,
             :loop_garzul,
             :loop_mika,
-            :loop_breakbeat]}}
+            :loop_breakbeat]},
+
+        :tabla => {
+          :desc => "Tabla Drums",
+          :prefix => "tabla_",
+          :samples => [
+            :tabla_tas,
+            :tabla_tas2,
+            :tabla_tas3,
+            :tabla_ke,
+            :tabla_ke2,
+            :tabla_ke3,
+            :tabla_na,
+            :tabla_na_o,
+            :tabla_tun,
+            :tabla_tun2,
+            :tabla_tun3,
+            :tabla_te,
+            :tabla_te2,
+            :tabla_te_ne,
+            :tabla_te_m,
+            :tabla_ghe,
+            :tabla_ghe2,
+            :tabla_ghe3,
+            :tabla_ghe4,
+            :tabla_ghe5,
+            :tabla_ghe6,
+            :tabla_ghe7,
+            :tabla_ghe8,
+            :tabla_dhec,
+            :tabla_ne_s,
+            :tabla_re]}
+        }
 
       @@all_samples = (@@grouped_samples.values.reduce([]) {|s, el| s << el[:samples]}).flatten
 
