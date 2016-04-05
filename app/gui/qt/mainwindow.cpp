@@ -1646,9 +1646,19 @@ void MainWindow::helpContext()
 
   if (helpKeywords.contains(selection)) {
     struct help_entry entry = helpKeywords[selection];
-    QMetaObject::invokeMethod(docsCentral, "setCurrentIndex",
-			      Q_ARG(int, entry.pageIndex));
     QListWidget *list = helpLists[entry.pageIndex];
+
+    // force current row to be changed
+    // by setting it to a different value to
+    // entry.entryIndex and then setting it
+    // back. That way it always gets displayed
+    // in the GUI :-)
+    if (entry.entryIndex == 0) {
+      list->setCurrentRow(1);
+    } else {
+      list->setCurrentRow(0);
+    }
+    docsCentral->setCurrentIndex(entry.pageIndex);
     list->setCurrentRow(entry.entryIndex);
   }
 }
