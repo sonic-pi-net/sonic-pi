@@ -38,6 +38,8 @@ class SonicPiScintilla : public QsciScintilla
     void copyClear();
     void hideLineNumbers();
     void showLineNumbers();
+    void wordWrapOn();
+    void wordWrapOff();
     void setLineErrorMarker(int lineNumber);
     void clearLineMarkers();
     void replaceLine(int lineNumber, QString newLine);

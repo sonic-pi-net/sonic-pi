@@ -878,6 +878,7 @@ void MainWindow::showWindow() {
 
   }
   changeShowLineNumbers();
+  changeWrapMode();
 }
 
 void MainWindow::update_mixer_invert_stereo() {
@@ -1050,6 +1051,11 @@ void MainWindow::initPrefsWindow() {
   show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
   full_screen = new QCheckBox(tr("Full screen"));
   full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
+
+  wrap_mode = new QCheckBox(tr("Word wrap"));
+  wrap_mode->setToolTip(tr("Wrap long lines. Useful to avoid lots of scrolling."));
+  connect(wrap_mode, SIGNAL(clicked()), this, SLOT(changeWrapMode()));
+
   dark_mode = new QCheckBox(tr("Dark mode"));
   dark_mode->setToolTip(tooltipStrShiftMeta('M', tr("Toggle dark mode.")) + QString(tr("\nDark mode is perfect for live coding in night clubs.")));
   connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(changeShowLineNumbers()));
@@ -1069,6 +1075,7 @@ void MainWindow::initPrefsWindow() {
   editor_display_box_layout->addWidget(show_tabs);
   editor_box_look_feel_layout->addWidget(dark_mode);
   editor_box_look_feel_layout->addWidget(full_screen);
+  editor_box_look_feel_layout->addWidget(wrap_mode);
   editor_display_box->setLayout(editor_display_box_layout);
   editor_look_feel_box->setLayout(editor_box_look_feel_layout);
 
@@ -1160,6 +1167,7 @@ void MainWindow::initPrefsWindow() {
   log_cues->setChecked(settings.value("prefs/log-cues", true).toBool());
   log_auto_scroll->setChecked(settings.value("prefs/log-auto-scroll", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
+  wrap_mode->setChecked(settings.value("prefs/wrap-mode", false).toBool());
   dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
@@ -1914,6 +1922,18 @@ void MainWindow::changeShowLineNumbers(){
   }
 }
 
+void MainWindow::changeWrapMode(){
+    for(int i=0; i < tabs->count(); i++){
+      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+      if (wrap_mode->isChecked()){
+
+        ws->wordWrapOn();
+      } else {
+        ws->wordWrapOff();
+      }
+    }
+}
+
 void MainWindow::setRPSystemAudioHeadphones()
 {
 #if defined(Q_OS_WIN)
@@ -2338,6 +2358,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/log-auto-scroll", log_auto_scroll->isChecked());
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
   settings.setValue("prefs/dark-mode", dark_mode->isChecked());
+  settings.setValue("prefs/wrap-mode", wrap_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
 

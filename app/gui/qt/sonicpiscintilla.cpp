@@ -182,6 +182,14 @@ void SonicPiScintilla::showLineNumbers(){
   SendScintilla(SCI_SHOWLINES);
 }
 
+void SonicPiScintilla::wordWrapOn(){
+    setWrapMode(WrapMode::WrapWord);
+}
+
+void SonicPiScintilla::wordWrapOff(){
+    setWrapMode(WrapMode::WrapNone);
+}
+
 void SonicPiScintilla::addOtherKeyBinding(QSettings &qs, int cmd, int key)
 {
   QString skey;
