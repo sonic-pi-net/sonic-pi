@@ -607,7 +607,6 @@ module SonicPi
 
     def __buffer_beautify(id, buf, line, index, first_line)
       id = id.to_s
-      buf = buf + "\n"
       buf_lines = buf.lines.to_a
 
       buf_lines = buf_lines.map! do |l|
