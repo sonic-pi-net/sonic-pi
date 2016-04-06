@@ -560,10 +560,20 @@ module SonicPi
     end
 
     def __buffer_newline_and_indent(workspace_id, buf, point_line, point_index, first_line)
-      id = workspace_id.to_s
+        id = workspace_id.to_s
       lines =  buf.lines.to_a
-      lines[point_line].insert(point_index, "\n")
+      if lines == []
+        lines = ["\n"]
+      else
+        if lines[point_line]
+          lines[point_line].insert(point_index , "\n")
+        else
+          lines[point_line] = "\n"
+        end
+      end
+
       buf = lines.join
+
       __buffer_beautify(id, buf, point_line + 1, 0, first_line)
     end
 
@@ -607,8 +617,9 @@ module SonicPi
 
     def __buffer_beautify(id, buf, line, index, first_line)
       id = id.to_s
+      buf = buf + "\n"
       buf_lines = buf.lines.to_a
-
+      buf = buf_lines.inspect
       buf_lines = buf_lines.map! do |l|
         if l.match /^\s*$/
           "_____sonic_pi_tmp_insert_____\n"
@@ -635,9 +646,9 @@ module SonicPi
       beautiful_len = beautiful_lines.size
       beautiful_lines.map! {|l| l.slice! "_____sonic_pi_tmp_insert_____" ; l}
 
-      beautiful = beautiful_lines.join
       post_line = beautiful_lines[line]
       post_ws_len = post_line[/\A */].size
+      beautiful = beautiful_lines.join
 
       # shift index based on how much the line was indented so the
       # cursor stays in the same place relative to the original line
@@ -650,7 +661,7 @@ module SonicPi
       post_lstrip_len = beautiful.lines.to_a.size
       line = line - (beautiful_len - post_lstrip_len)
       line = 0 if line < 0
-
+      beautiful.chomp!
       @msg_queue.push({type: "replace-buffer", buffer_id: id, val: beautiful, line: line, index: index, first_line: first_line})
     end
 
