@@ -33,22 +33,22 @@
 
 ### New Fns
 
-* `current_random_seed` - Get the current seed value of the random generator
+* `current_random_seed` - Get the current seed value of the random generator.
 * `set_cent_tuning!` - global tuning.
 * `on` - similar to `if` but behaves the same as the `on:` opt for
   synths and samples.
-* `halves` - create a ring of successive halves
-* `doubles` - create a ring of successive doubles
+* `halves` - create a ring of successive halves.
+* `doubles` - create a ring of successive doubles.
 * `pick` - similar to shuffle but allows duplicates. You may also
   specify how many items to pick.
 
 ### Synths & FX
 
 * New synth `:dtri` - detuned triangle waves.
-* New synth `:pluck` - a lovely synthesised plucked string
-* New synth `:chiplead` - retro NES style lead synth
-* New synth `:chipbass` - retro NES style bass synth
-* New synth `:chipnoise` - retro NES style noise synth
+* New synth `:pluck` - a lovely synthesised plucked string.
+* New synth `:chiplead` - retro NES style lead synth.
+* New synth `:chipbass` - retro NES style bass synth.
+* New synth `:chipnoise` - retro NES style noise synth.
 * New FX `:whammy` - low-tech transposition effect similar to the
   Digitech Whammy guitar pedal.
 * New FX `:octaver` - low-tech octave effect similar to early guitar
@@ -62,14 +62,18 @@
 
 ### Samples
 
+* Samples in FLAC format (Free Lossless Audio Codec) are now supported.!
 * The `sample` fn gained source and filter pre-opts. You may now specify
   a number of parameters directly before the opts which describe both
   folders containing samples and filters over those folders to allow you
   to easily and quickly work with large sample sets. See Section 3.7 of
   the tutorial for more information.
+* Sampler now has a high pass filter envelope which can be accessed via
+  new opts which mirror the standard envelope opts but with a `hpf_`
+  prefix (such as `hpf_attack`, `hpf_decay_level` and friends).
 * Samplers now have `hpf:` and `lpf:` opts. Any `cutoff:` opts are
-  automatically switched to `lpf:` and any errors will be reported as
-  `lpf:`.
+  automatically switched to `lpf:` and any errors will be reported with
+  a `lpf:` prefix.
 * The sampler synth gained a compressor enabled via the `compress:`
   opt. This means you can now compress any triggered sample directly
   without the need to reach for an FX.
@@ -89,7 +93,13 @@
 * Sample trigger logging now includes the directory of the contained
   sample.
 * Samples are now reloaded asynchronously after a server reboot (and
-  therefore no longer blocks execution)
+  therefore no longer blocks execution).
+* Add new `:tabla_` sample group with a range of tabla drum sounds.
+* Add new `:vinyl_` sample group with a range of vinyl scratches and
+  hisses.
+* Add new samples: `:drum_cowbell`, `:drum_roll`, `:misc_cros`,
+  `:misc_cineboom`, `:perc_swash`, `:perc_till`, `:loop_safari`,
+  `:loop_tabla`.
 
 ### GUI
 
@@ -111,7 +121,7 @@
 ### Documentation
 
 * New tutorial section 3.7 on Sample Pack Filters.
-* New appendix sections
+* New appendix sections.
 
 
 ### Improvements
@@ -134,12 +144,15 @@
 
 * On OS X only raise an error on boot if it's clear the sound card's in
   and out rates are different.
-* Improve robustness of boot process on Windows
+* Improve robustness of boot process on Windows.
 * Rest notes are no longer printed if synth logging is disabled.
 * No longer apply synth defaults to FX.
 * You may now control opts that have no associated info (previously it
   would raise a 'not modulatable' error).
-* Fix index lookup of Vectors
+* Fix index lookup of Vectors.
+* Fix `C-i` doc lookup shortcut to work with `:tb303` synth docs.
+* `C-i` now always displays docs where avai lable (previously it was
+  possible for docs not to be displayed).
 
 
 <a name="v2.9"></a>
