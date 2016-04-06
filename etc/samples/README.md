@@ -176,7 +176,7 @@ Links to original samples:
 * `:tabla_ghe7` - http://freesound.org/people/dio_333/sounds/130408/
 * `:tabla_ghe8` - http://freesound.org/people/dio_333/sounds/130414/
 * `:tabla_dhec` - http://freesound.org/people/dio_333/sounds/130407/
-* `:tabla_ne_s` - http://freesound.org/people/dio_333/sounds/130428/
+* `:tabla_na_s` - http://freesound.org/people/dio_333/sounds/130428/
 * `:tabla_re` - http://freesound.org/people/dio_333/sounds/130427/
 
 

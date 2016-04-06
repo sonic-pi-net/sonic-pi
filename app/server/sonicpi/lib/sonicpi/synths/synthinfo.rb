@@ -6820,7 +6820,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :tabla_ghe7,
             :tabla_ghe8,
             :tabla_dhec,
-            :tabla_ne_s,
+            :tabla_na_s,
             :tabla_re]},
 
         :vinyl_sounds => {
