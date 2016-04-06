@@ -9,7 +9,7 @@ tutorial series we covered how to code our beats. In this tutorial we'll
 cover how to code up the three core components of a synth riff - the
 timbre, melody and rhythm.
 
-OK, so power up you Raspberry Pi, crack open Sonic Pi v2.6+ and let's
+OK, so power up your Raspberry Pi, crack open Sonic Pi v2.6+ and let's
 make some noise!
 
 
@@ -93,7 +93,7 @@ things: rings, randomisation and random seeds. Let's look at an example:
     end
 
 There's a few things going on - let's look at them in turn. First, we
-specify that we're using random seed 3. What does this mean? Well, The
+specify that we're using random seed 3. What does this mean? Well, the
 useful thing is that when we set the seed, we can predict what the next
 random value is going to be - it's the same as it was last time we set
 the seed to 3! Another useful thing to know is that shuffling a ring of
@@ -148,7 +148,7 @@ will return `true`. In other words, 50% of the time it will return
 `true`. Using higher values will make it return `false` more often
 introducing more space into the riff.
 
-Notices that we've added some iteration in here with `16.times`. This is
+Notice that we've added some iteration in here with `16.times`. This is
 because we only want to reset our random seed value every 16 notes so
 our rhythm repeats every 16 times. This doesn't affect the shuffling as
 that is still done immediately after the seed is set. We can use the
