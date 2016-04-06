@@ -2213,6 +2213,7 @@ end
 
 
       def density(d, &block)
+        raise "density must be called with a do/end block." unless block
         raise "density must be a positive number" unless d.is_a?(Numeric) && d >= 0
         reps = d < 1 ? 1.0 : d
         with_bpm_mul d do
