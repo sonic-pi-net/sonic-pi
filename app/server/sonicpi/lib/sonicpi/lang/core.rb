@@ -2513,14 +2513,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
 
 
       def immutable?(v)
-        return true if v.is_a?(Numeric) || v.is_a?(Symbol) || v.is_a?(TrueClass) || v.is_a?(FalseClass) || v.is_a?(NilClass)
-        if v.is_a?(SonicPi::Core::SPVector)
-          v.each do |el|
-            return false if not immutable?(el)
-          end
-          return true
-        end
-        return false
+        return v.is_a?(Numeric) || v.is_a?(Symbol) || v.is_a?(TrueClass) || v.is_a?(FalseClass) || v.is_a?(NilClass) || (v.is_a?(SonicPi::Core::SPVector) && v.all? {|el| immutable?(el)})
       end
 
 
