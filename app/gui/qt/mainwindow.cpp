@@ -693,7 +693,6 @@ void MainWindow::newlineAndIndent(SonicPiScintilla* ws) {
   ws->getCursorPosition(&point_line, &point_index);
   first_line = ws->firstVisibleLine();
 
-  statusBar()->showMessage(tr("Indenting foo..."), 2000);
   std::string code = ws->text().toStdString();
 
   Message msg("/buffer-newline-and-indent");
