@@ -99,15 +99,10 @@ module SonicPi
     end
 
     def default_sched_ahead_time
-      if raspberry_pi?
-        if raspberry_pi_1?
-          1
-        else
-          # Raspberry Pi 2
-          0.4
-        end
+      if raspberry_pi_1?
+        1
       else
-        0.2
+        0.5
       end
     end
 
