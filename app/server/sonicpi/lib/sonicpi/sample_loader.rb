@@ -35,13 +35,12 @@ module SonicPi
         return candidates if candidates
 
         candidates = []
-        procs = []
-        filters = []
+        filters_and_procs = []
         idx = nil
         candidate_given = false
 
         filts_and_sources.each do |arg|
-          candidate_given, idx = consume_filt_or_source!(arg, candidates, procs, filters, candidate_given, idx)
+          candidate_given, idx = consume_filt_or_source!(arg, candidates, filters_and_procs, candidate_given, idx)
         end
 
         unless candidate_given
@@ -54,24 +53,24 @@ module SonicPi
           end
         end
 
-        procs.each do |p|
-          candidates = p.call(candidates)
-          raise "Sample Pack Filter Proc needs to return an array or ring. Got #{candidates.class}: #{candidates.inspect}" unless candidates.is_a?(Array) || candidates.is_a?(SonicPi::Core::RingVector)
-        end
-
-        filters.each do |f|
-          candidates.keep_if do |v|
-            bn = File.basename(v, ".*")
-            bne = File.basename(v)
-            case f
-            when String
-              bn.downcase.include?(f.downcase) || bne == f
-            when Symbol
-              # match only sample extensions
-              regexp = /^#{f}\.(wav|aif|wave|aiff|flac)$/
-              bne.match(regexp)
-            when Regexp
-              bn.match f
+        filters_and_procs.each do |f|
+          if f.is_a?(Proc)
+            candidates = f.call(candidates)
+            raise "Sample Pack Filter Proc needs to return an array or ring. Got #{candidates.class}: #{candidates.inspect}" unless candidates.is_a?(Array) || candidates.is_a?(SonicPi::Core::RingVector)
+          else
+            candidates.keep_if do |v|
+              bn = File.basename(v, ".*")
+              bne = File.basename(v)
+              case f
+              when String
+                bn.downcase.include?(f.downcase) || bne == f
+              when Symbol
+                # match only sample extensions
+                regexp = /^#{f}\.(wav|aif|wave|aiff|flac)$/
+                bne.match(regexp)
+              when Regexp
+                bn.match f
+              end
             end
           end
         end
@@ -113,7 +112,7 @@ module SonicPi
       path = [path] unless path.is_a?(Array) or path.is_a?(SonicPi::Core::SPVector)
     end
 
-    def consume_filt_or_source!(filt_or_source, candidates, procs, filters, candidate_given, idx)
+    def consume_filt_or_source!(filt_or_source, candidates, filters_and_procs, candidate_given, idx)
       case filt_or_source
       when String
         expanded = File.expand_path(filt_or_source)
@@ -128,25 +127,25 @@ module SonicPi
           candidates << expanded
         else
           # Treat as a regular filter
-          filters << filt_or_source
+          filters_and_procs << filt_or_source
         end
       when Symbol
-        filters << filt_or_source
+        filters_and_procs << filt_or_source
       when Integer
         idx = filt_or_source
       when Regexp
-        filters << filt_or_source
+        filters_and_procs << filt_or_source
       when Proc
         if filt_or_source.arity == 0
-          candidate_given, idx = consume_filt_or_source!(filt_or_source.call, candidates, procs, filters, candidate_given, idx)
+          candidate_given, idx = consume_filt_or_source!(filt_or_source.call, candidates, filters_and_procs, candidate_given, idx)
         elsif filt_or_source.arity == 1
-          procs << filt_or_source
+          filters_and_procs << filt_or_source
         else
           raise "Sample Pack Proc needs to accept either 0 or 1 arguments. Found #{block.arity}"
         end
       when Array, SonicPi::Core::RingVector
         filt_or_source.each do |fos|
-          candidate_given, idx = consume_filt_or_source!(fos, candidates, procs, filters, candidate_given, idx)
+          candidate_given, idx = consume_filt_or_source!(fos, candidates, filters_and_procs, candidate_given, idx)
         end
       when NilClass
         nil
