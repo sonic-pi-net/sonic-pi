@@ -31,6 +31,7 @@ module SonicPi
       return res if res
 
       candidates, filters_and_procs = split_candidates_and_filts(filts_and_sources)
+
       candidates = extract_candidates(candidates)
       found_proc = false
 
@@ -43,25 +44,21 @@ module SonicPi
           end
         end
       end
-
       filters_and_procs.each do |f|
         case f
         when String
           candidates.keep_if do |v|
             bn = File.basename(v, ".*")
-            bne = File.basename(v)
-            bn.downcase.include?(f.downcase) || bne == f
+            bn.downcase.include?(f.downcase) || (File.basename(v) == f)
           end
         when Symbol
           candidates.keep_if do |v|
-            bne = File.basename(v)
-            regexp = /^#{f}\.(wav|aif|wave|aiff|flac)$/
-            bne.match(regexp)
+            bn = File.basename(v, ".*")
+            bn == f.to_s
           end
         when Regexp
           candidates.keep_if do |v|
             bn = File.basename(v, ".*")
-            regexp = /^#{f}\.(wav|aif|wave|aiff|flac)$/
             bn.match f
           end
         when Fixnum
@@ -82,8 +79,8 @@ module SonicPi
 
       unless found_proc
         @mutex.synchronize do
-          res = @cached_candidates[filts_and_sources]
-          return res if res
+          # res = @cached_candidates[filts_and_sources]
+          # return res if res
 
           @cached_candidates[filts_and_sources] = candidates
         end
@@ -95,6 +92,7 @@ module SonicPi
 
 
     def extract_candidates(candidates)
+      return [] if candidates.empty?
       all_candidates = @cached_candidates[candidates]
       return all_candidates if all_candidates
 

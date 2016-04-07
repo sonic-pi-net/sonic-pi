@@ -19,7 +19,10 @@ module SonicPi
     def setup
       @fake_built_in_sample_dir = File.expand_path("#{File.dirname(__FILE__)}../../../fake_built_in_sample_dir")
       # Contains:
-      # -  foo.wav
+      # - beans.flac
+      # - foo.wav
+      # - quux.wav
+
       @fake_sample_dir = File.expand_path("#{File.dirname(__FILE__)}../../../fake_sample_dir")
       # Contains:
       # -  a_text_file.txt
@@ -35,6 +38,17 @@ module SonicPi
       #    - quux.wav
       @loader = SampleLoader.new(@fake_sample_dir)
       @loader.stubs(:default_samples_paths).returns([@fake_built_in_sample_dir])
+    end
+
+    def test_ls_candidates
+      files = [
+        @fake_built_in_sample_dir + "/beans.flac",
+        @fake_built_in_sample_dir + "/foo.wav",
+        @fake_built_in_sample_dir + "/quux.wav"]
+
+      assert_equal(@loader.ls_samples(@fake_built_in_sample_dir), files)
+      # test cache
+      assert_equal(@loader.ls_samples(@fake_built_in_sample_dir), files)
     end
 
     def test_split_candidates_and_filts_simple
@@ -72,13 +86,19 @@ module SonicPi
       assert_equal([:foo], filts)
     end
 
+    def test_split_candidates_and_filts_no_candidates_one_filt2
+      filts_and_sources = [:woo_100]
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([], candidates)
+      assert_equal([:woo_100], filts)
+    end
+
     def test_split_candidates_and_filts_no_candidates_one_string_filt
       filts_and_sources = ["foobar"]
       candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
       assert_equal([], candidates)
       assert_equal(["foobar"], filts)
     end
-
 
     def test_split_candidates_and_filts_no_candidates_multi_filts
       filts_and_sources = ["foobar", 1, :foo, /bar/]
@@ -95,8 +115,21 @@ module SonicPi
     end
 
     def test_single_builtin_symbol
+      res = @loader.find_candidates([:beans])
+      assert_equal(res, ["#{@fake_built_in_sample_dir}/beans.flac"])
+    end
+
+    def test_single_builtin_symbol_cache
       res = @loader.find_candidates([:foo])
       assert_equal(res, ["#{@fake_built_in_sample_dir}/foo.wav"])
+      res = @loader.find_candidates([:foo])
+      assert_equal(res, ["#{@fake_built_in_sample_dir}/foo.wav"])
+      res = @loader.find_candidates([:foo])
+      assert_equal(res, ["#{@fake_built_in_sample_dir}/foo.wav"])
+      res = @loader.find_candidates([:quux])
+      assert_equal(res, ["#{@fake_built_in_sample_dir}/quux.wav"])
+      res = @loader.find_candidates([:quux])
+      assert_equal(res, ["#{@fake_built_in_sample_dir}/quux.wav"])
     end
 
     def test_path_and_symbol_does_not_include_builtin_samples
