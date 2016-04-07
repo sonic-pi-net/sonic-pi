@@ -37,6 +37,63 @@ module SonicPi
       @loader.stubs(:default_samples_paths).returns([@fake_built_in_sample_dir])
     end
 
+    def test_split_candidates_and_filts_simple
+      filts_and_sources = [@fake_sample_dir, 1]
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([@fake_sample_dir], candidates)
+      assert_equal([1], filts)
+    end
+
+    def test_split_candidates_and_filts_no_filts
+      filts_and_sources = [@fake_sample_dir]
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([@fake_sample_dir], candidates)
+      assert_equal([], filts)
+    end
+
+    def test_split_candidates_and_filts_multi_candidates_no_filts
+      filts_and_sources = [@fake_sample_dir, @fake_sample_dir + "/eggs.wav"]
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([@fake_sample_dir, @fake_sample_dir + "/eggs.wav"], candidates)
+      assert_equal([], filts)
+    end
+
+    def test_split_candidates_and_filts_no_candidates_no_filts
+      filts_and_sources = []
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([], candidates)
+      assert_equal([], filts)
+    end
+
+    def test_split_candidates_and_filts_no_candidates_one_filt
+      filts_and_sources = [:foo]
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([], candidates)
+      assert_equal([:foo], filts)
+    end
+
+    def test_split_candidates_and_filts_no_candidates_one_string_filt
+      filts_and_sources = ["foobar"]
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([], candidates)
+      assert_equal(["foobar"], filts)
+    end
+
+
+    def test_split_candidates_and_filts_no_candidates_multi_filts
+      filts_and_sources = ["foobar", 1, :foo, /bar/]
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([], candidates)
+      assert_equal(["foobar", 1, :foo, /bar/], filts)
+    end
+
+    def test_split_candidates_and_filts_glob_candidate
+      filts_and_sources = [@fake_sample_dir + "/**"]
+      candidates, filts = @loader.split_candidates_and_filts(filts_and_sources)
+      assert_equal([@fake_sample_dir + "/**"], candidates)
+      assert_equal([], filts)
+    end
+
     def test_single_builtin_symbol
       res = @loader.find_candidates([:foo])
       assert_equal(res, ["#{@fake_built_in_sample_dir}/foo.wav"])
@@ -46,6 +103,7 @@ module SonicPi
       res = @loader.find_candidates([@fake_sample_dir, :foo])
       refute_includes(res, "#{@fake_built_in_sample_dir}/foo.wav")
     end
+
 
     def test_globs_count
       res = @loader.find_candidates(["#{@fake_sample_dir}/**"])
@@ -78,7 +136,7 @@ module SonicPi
     end
 
     def test_mult_idx_overrides
-      res = @loader.find_candidates([@fake_sample_dir, 3, 5, 1])
+      res = @loader.find_candidates([@fake_sample_dir, 1, 3, 5, 1])
       assert_equal(["#{@fake_sample_dir}/buzz_100.flac"], res)
     end
 
@@ -103,12 +161,6 @@ module SonicPi
       assert_equal(["#{@fake_sample_dir}/buzz_100.flac"], res)
     end
 
-    def test_0_arity_proc_filter
-      proc = lambda {/b[uU]zz/}
-      res = @loader.find_candidates([@fake_sample_dir, proc])
-      assert_equal(["#{@fake_sample_dir}/buzz_100.flac"], res)
-    end
-
     def test_1_arity_proc_filter
       proc = lambda {|c| c.keep_if { |v| v.include? "foo"}}
       res = @loader.find_candidates([@fake_sample_dir, proc])
@@ -118,19 +170,19 @@ module SonicPi
 
     def test_multi_filters
       identity_proc = lambda {|c| c }
-      res = @loader.find_candidates([@fake_sample_dir, 1, identity_proc, "100", /100/])
+      res = @loader.find_candidates([@fake_sample_dir, identity_proc, "100", /100/, 1])
       assert_equal(["#{@fake_sample_dir}/woo_100.aiff"], res)
     end
 
     def test_multi_filters_with_nil
       identity_proc = lambda {|c| c }
-      res = @loader.find_candidates([nil, @fake_sample_dir, 1, nil, identity_proc, "100", /100/, nil])
+      res = @loader.find_candidates([@fake_sample_dir, nil, identity_proc, "100", /100/, nil, 1])
       assert_equal(["#{@fake_sample_dir}/woo_100.aiff"], res)
     end
 
     def test_arrays
       identity_proc = lambda {|c| c }
-      res = @loader.find_candidates([@fake_sample_dir,[1], [[identity_proc, "100"], /100/]])
+      res = @loader.find_candidates([@fake_sample_dir, [[identity_proc, "100"], /100/], [1]])
       assert_equal(["#{@fake_sample_dir}/woo_100.aiff"], res)
     end
 
