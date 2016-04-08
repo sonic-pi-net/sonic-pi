@@ -163,29 +163,5 @@ module SonicPi
       path = [path] unless path.is_a?(Array) or path.is_a?(SonicPi::Core::SPVector)
     end
 
-    def consume_filt_or_source!(filt_or_source, candidates, filters_and_procs, candidate_given, idx)
-      case filt_or_source
-      when String, Symbol, Regexp
-        filters_and_procs << filt_or_source
-      when Integer
-        idx = filt_or_source
-      when Proc
-        if filt_or_source.arity == 1
-          filters_and_procs << filt_or_source
-        else
-
-        end
-      when Array, SonicPi::Core::RingVector
-        filt_or_source.each do |fos|
-          candidate_given, idx = consume_filt_or_source!(fos, candidates, filters_and_procs, candidate_given, idx)
-        end
-      when NilClass
-        nil
-      else
-        raise "Unknown sample filter or source type: #{filt_or_source.inspect}"
-      end
-
-      [candidate_given, idx]
-    end
   end
 end
