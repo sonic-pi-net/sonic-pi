@@ -207,7 +207,6 @@
          res         (lin-lin res 1 0 0 1)
          res         (varlag res res_slide res_slide_curve res_slide_shape)
          cutoff-freq (midicps cutoff)
-         amp-fudge   2
          [in-l in-r] (* pre_amp (in in_bus 2))
 
          new-l-abs   (abs in-l)
@@ -220,8 +219,8 @@
 
          new-l       (rlpf new-l cutoff-freq res)
          new-r       (rlpf new-r cutoff-freq res)
-         fin-l       (x-fade2 in-l new-l (- (* mix 2) 1) (+ amp amp-fudge))
-         fin-r       (x-fade2 in-r new-r (- (* mix 2) 1) (+ amp amp-fudge))]
+         fin-l       (x-fade2 in-l new-l (- (* mix 2) 1) amp)
+         fin-r       (x-fade2 in-r new-r (- (* mix 2) 1) amp)]
 
      (out out_bus [fin-l fin-r])))
 
