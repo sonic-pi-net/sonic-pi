@@ -15,6 +15,8 @@ module SonicPi
   class SampleLoader
     def initialize(samples_path)
       @cached_candidates = {}
+      @cached_extracted_candidates = {}
+      @cached_extracted_candidates_mutex = Mutex.new
       @cached_candidates_mutex = Mutex.new
       @cached_folder_contents = {}
       @mutex = Mutex.new
@@ -30,12 +32,12 @@ module SonicPi
       res = @cached_candidates[filts_and_sources]
       return res if res
 
-      candidates, filters_and_procs = split_candidates_and_filts(filts_and_sources)
+      orig_candidates, filters_and_procs = split_candidates_and_filts(filts_and_sources)
 
-      candidates = extract_candidates(candidates)
+      candidates = extract_candidates(orig_candidates).dup
       found_proc = false
 
-      if candidates.empty?
+      if orig_candidates.empty?
         default_samples_paths.each do |p|
           if p.end_with?("**")
             candidates.concat(ls_samples(p[0...-2], true))
@@ -77,12 +79,12 @@ module SonicPi
         end
       end
 
+      # don't cache contents if there's a proc as it may be stateful or
+      # random and therefore the same proc might exhibit different
+      # behaviour each time it is called.
       unless found_proc
         @mutex.synchronize do
-          # res = @cached_candidates[filts_and_sources]
-          # return res if res
-
-          @cached_candidates[filts_and_sources] = candidates
+          @cached_candidates[filts_and_sources] = candidates.freeze
         end
         #end mutex
       end
@@ -93,12 +95,12 @@ module SonicPi
 
     def extract_candidates(candidates)
       return [] if candidates.empty?
-      all_candidates = @cached_candidates[candidates]
-      return all_candidates if all_candidates
+      cached_all_candidates = @cached_extracted_candidates[candidates]
+      return cached_all_candidates if cached_all_candidates
 
-      @cached_candidates_mutex.synchronize do
-        all_candidates = @cached_candidates[candidates]
-        return all_candidates if all_candidates
+      @cached_extracted_candidates_mutex.synchronize do
+        cached_all_candidates = @cached_extracted_candidates[candidates]
+        return cached_all_candidates if cached_all_candidates
 
         all_candidates = []
 
@@ -110,10 +112,13 @@ module SonicPi
             all_candidates.concat(ls_samples(expanded))
           elsif File.exists?(expanded)
             all_candidates << expanded
+          else
+            raise "Unknown sample candidate kind: #{expanded.inspect}. Not a file, directory or /** glob."
           end
+          all_candidates_copy = all_candidates.clone
+          @cached_extracted_candidates[candidates] = all_candidates_copy.freeze
         end
 
-        @cached_candidates[candidates] = all_candidates
         return all_candidates
       end
     end
@@ -151,10 +156,11 @@ module SonicPi
         else
           res = Dir.chdir(path) { Dir.glob("*.{wav,wave,aif,aiff,flac}").map {|path| File.expand_path(path) } }.sort
         end
-        @cached_folder_contents[path] = res
+        @cached_folder_contents[path] = res.freeze
       end
       res
     end
+
 
     private
 
