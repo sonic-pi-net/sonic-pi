@@ -209,6 +209,7 @@ module SonicPi
 
 
       def reboot
+        @sample_loader.reset!
         return nil if @mod_sound_studio.rebooting
         __no_kill_block do
           __stop_other_jobs

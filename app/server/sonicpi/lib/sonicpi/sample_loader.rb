@@ -161,6 +161,17 @@ module SonicPi
       res
     end
 
+    def reset!
+      @cached_extracted_candidates_mutex.synchronize do
+        @cached_candidates_mutex.synchronize do
+          @mutex.synchronize do
+            @cached_extracted_candidates = {}
+            @cached_candidates = {}
+            @cached_folder_contents = {}
+          end
+        end
+      end
+    end
 
     private
 
