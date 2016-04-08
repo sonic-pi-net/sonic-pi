@@ -201,10 +201,14 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   setWindowTitle(tr("Sonic Pi"));
   initPrefsWindow();
   updateDarkMode();
-
+  readSettings();
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
+  initDocsWindow();
+
+  //setup autocompletion
+  autocomplete->loadSamples(sample_path);
 
   OscHandler* handler = new OscHandler(this, outputPane, errorPane, theme);
 
@@ -222,15 +226,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   startRubyServer();
   if (waitForServiceSync()){
     // We have a connection! Finish up loading app...
-    initDocsWindow();
 
-    //setup autocompletion
-    autocomplete->loadSamples(sample_path);
 
     loadWorkspaces();
     requestVersion();
-
-    readSettings();
 
     splashClose();
     showWindow();
