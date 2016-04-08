@@ -2521,7 +2521,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
         args_h = resolve_synth_opts_hash_or_array(opts)
         args_h.each do |k, v|
           raise "Invalid cue key type. Must be a Symbol" unless k.is_a? Symbol
-          raise "Invalid cue value type (#{v.class}) for key #{k.inspect}. Must be immutable - currently accepted types: Numbers, Symbols and Booleans." unless immutable?(v)
+          raise "Invalid cue value type (#{v.class}) for key #{k.inspect}. Must be immutable - currently accepted types: Numbers, Symbols, Booleans and Nil, or Vectors/Rings of immutable types" unless immutable?(v)
         end
 
 
