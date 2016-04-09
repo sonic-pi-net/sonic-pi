@@ -17,7 +17,8 @@
 #
 #-------------------------------------------------
 
-#CONFIG += debug
+CONFIG += debug link_pkgconfig
+PKGCONFIG += libqwt libsciscintilla
 
 # -- Change to match the location of QScintilla on your system
 #
@@ -26,8 +27,8 @@
 #DEPENDPATH += ../../../../QScintilla-gpl-2.9.1/Qt4Qt5
 # --
 
-INCLUDEPATH += native/qt5.5/include native/boost/include
-LIBS += -L native/qt5.5/lib
+#INCLUDEPATH += native/qt5.5/include native/boost/include native/qwt/include
+#LIBS += -L native/qt5.5/lib
 
 TARGET = 'sonic-pi'
 
@@ -40,13 +41,16 @@ QMAKE_CXXFLAGS += -std=c++11
 
 # Linux only
 unix:!macx {
+  debug {
+    QMAKE_CXXFLAGS += -ggdb
+  }
   # lib for scope shm interface
   LIBS += -lrt
 
   lessThan(QT_MAJOR_VERSION, 5) {
-    LIBS += -lqscintilla2
+#    LIBS += -lqscintilla2
   } else {
-    LIBS += -lqt5scintilla2
+#    LIBS += -lqt5scintilla2
   }
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
 }
