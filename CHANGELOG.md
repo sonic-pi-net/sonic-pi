@@ -62,7 +62,7 @@
 
 ### Samples
 
-* Samples in FLAC format (Free Lossless Audio Codec) are now supported.!
+* Samples in FLAC format (Free Lossless Audio Codec) are now supported!
 * The `sample` fn gained source and filter pre-opts. You may now specify
   a number of parameters directly before the opts which describe both
   folders containing samples and filters over those folders to allow you
@@ -73,7 +73,7 @@
   prefix (such as `hpf_attack`, `hpf_decay_level` and friends).
 * Samplers now have `hpf:` and `lpf:` opts. Any `cutoff:` opts are
   automatically switched to `lpf:` and any errors will be reported with
-  a `lpf:` prefix.
+  an `lpf:` prefix.
 * The sampler synth gained a compressor enabled via the `compress:`
   opt. This means you can now compress any triggered sample directly
   without the need to reach for an FX.
@@ -93,7 +93,7 @@
 * Sample trigger logging now includes the directory of the contained
   sample.
 * Samples are now reloaded asynchronously after a server reboot (and
-  therefore no longer blocks execution).
+  therefore no longer block execution).
 * Add new `:tabla_` sample group with a range of tabla drum sounds.
 * Add new `:vinyl_` sample group with a range of vinyl scratches and
   hisses.
@@ -151,7 +151,7 @@
   would raise a 'not modulatable' error).
 * Fix index lookup of Vectors.
 * Fix `C-i` doc lookup shortcut to work with `:tb303` synth docs.
-* `C-i` now always displays docs where avai lable (previously it was
+* `C-i` now always displays docs where available (previously it was
   possible for docs not to be displayed).
 
 
