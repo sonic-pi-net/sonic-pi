@@ -123,7 +123,6 @@
      [out-buf 0 in_bus 0]
      (disk-out out-buf (in in_bus 2)))
 
-
    (defsynth sonic-pi-sound_in [amp 1
                                 amp_slide 0
                                 amp_slide_shape 1
@@ -132,34 +131,60 @@
                                 pan_slide 0
                                 pan_slide_shape 1
                                 pan_slide_curve 0
-                                attack 0.01
+                                attack 0
                                 decay 0
-                                sustain 0
-                                release 2
+                                sustain 1
+                                release 0
                                 attack_level 1
                                 decay_level -1
                                 sustain_level 1
                                 env_curve 1
-                                cutoff 100
-                                cutoff_slide 0
-                                cutoff_slide_shape 1
-                                cutoff_slide_curve 0
 
                                 input 0
                                 out_bus 0]
      (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
            amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
            pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
-           cutoff      (varlag cutoff cutoff_slide cutoff_slide_curve cutoff_slide_shape)
-           cutoff-freq (midicps cutoff)
            snd         (sound-in input)
-           snd         (lpf snd cutoff-freq)
            env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)]
-       (out out_bus (pan2 (* env snd) pan amp)))))
+       (out out_bus (pan2 (* env snd) pan amp))))
+
+   (defsynth sonic-pi-sound_in_stereo [amp 1
+                                       amp_slide 0
+                                       amp_slide_shape 1
+                                       amp_slide_curve 0
+                                       pan 0
+                                       pan_slide 0
+                                       pan_slide_shape 1
+                                       pan_slide_curve 0
+                                       attack 0
+                                       decay 0
+                                       sustain 1
+                                       release 0
+                                       attack_level 1
+                                       decay_level -1
+                                       sustain_level 1
+                                       env_curve 1
+
+                                       input 0
+                                       out_bus 0]
+     (let [decay_level (select:kr (= -1 decay_level) [decay_level sustain_level])
+           amp         (varlag amp amp_slide amp_slide_curve amp_slide_shape)
+           pan         (varlag pan pan_slide pan_slide_curve pan_slide_shape)
+           snd-l       (sound-in input)
+           snd-r       (sound-in (+ input 1))
+           env         (env-gen:kr (core/shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve) :action FREE)
+           snd-l       (* env snd-l)
+           snd-r       (* env snd-r)
+           snd         (balance2 snd-l snd-r pan amp)]
+
+       (out out_bus (pan2 (* env snd) pan amp))))
+   )
 
 
   (comment
     (core/save-synthdef sonic-pi-sound_in)
+    (core/save-synthdef sonic-pi-sound_in_stereo)
     (core/save-synthdef sonic-pi-mixer)
     (core/save-synthdef sonic-pi-basic_mixer)
     (core/save-synthdef sonic-pi-recorder)))
