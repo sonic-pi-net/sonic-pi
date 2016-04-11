@@ -17,19 +17,6 @@
 #
 #-------------------------------------------------
 
-CONFIG += debug link_pkgconfig
-PKGCONFIG += libqwt libsciscintilla
-
-# -- Change to match the location of QScintilla on your system
-#
-#LIBS += -L../../../../QScintilla-gpl-2.9.1/Qt4Qt5 -L/usr/local/Cellar/boost/1.60.0/lib -L../../../../qwt-6.1/lib
-#INCLUDEPATH += /usr/local/Cellar/boost/1.60.0/include ../../../../QScintilla-gpl-2.9.1/Qt4Qt5 ../../../../qwt-6.1/lib/qwt.framework/Headers /usr/local/Cellar/boost/1.60.0/include
-#DEPENDPATH += ../../../../QScintilla-gpl-2.9.1/Qt4Qt5
-# --
-
-#INCLUDEPATH += native/qt5.5/include native/boost/include native/qwt/include
-#LIBS += -L native/qt5.5/lib
-
 TARGET = 'sonic-pi'
 
 QT += core gui concurrent network
@@ -41,6 +28,8 @@ QMAKE_CXXFLAGS += -std=c++11
 
 # Linux only
 unix:!macx {
+  CONFIG += debug link_pkgconfig
+  PKGCONFIG += libqwt libsciscintilla
   debug {
     QMAKE_CXXFLAGS += -ggdb
   }
@@ -57,21 +46,22 @@ unix:!macx {
 
 # Mac OS X only
 macx {
+#  QT_CONFIG -= no-pkg-config
   CONFIG += warn_off
+  CONFIG += qscintilla2 qwt
 
-  include( native/qwt/features/qwt.prf )
-  CONFIG += qwt
-  LIBS += -framework qwt
+#  include( native/qwt/features/qwt.prf )
+#  CONFIG += qwt
+#  LIBS += -framework qwt
 #  QMAKE_LFLAGS += -F../../../../qwt-6.1/lib -L../../../../QScintilla-gpl-2.9.1/Qt4Qt5
   QMAKE_CXXFLAGS += -stdlib=libc++
-  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
-
+#  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
 
   TARGET = 'Sonic Pi'
-  LIBS += -lqscintilla2
-  QT += macextras
-  DEFINES += DONT_USE_OSX_KEYS
-  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+#  LIBS += -lqscintilla2
+#  QT += macextras
+#  DEFINES += DONT_USE_OSX_KEYS
+#  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
 }
 
 # Windows only
