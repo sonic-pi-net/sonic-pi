@@ -3000,7 +3000,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
       end
 
       def doc
-        "Treat sound card input as a synth. If your audio card has inputs, you may use this synth to feed the incoming audio into Sonic Pi. This synth will read in a stereo audio stream - for example from a stero microphone or external stereo keyboard. See `:sound_in` for a similar synth capable of reading in a mono signal. The stereo input is expected to be on consectuive sound card channels.
+        "Treat sound card input as a synth. If your audio card has inputs, you may use this synth to feed the incoming audio into Sonic Pi. This synth will read in a stereo audio stream - for example from a stereo microphone or external stereo keyboard. See `:sound_in` for a similar synth capable of reading in a mono signal. The stereo input is expected to be on consecutive sound card channels.
 
 As with all Sonic Pi synths, there is a default envelope which determines the duration of the lifetime of the synth. Therefore, to get a continuous stream of audio, you need to place consecutive calls to this synth in iteration or a `live_loop`. For example:
 
