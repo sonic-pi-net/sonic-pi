@@ -270,7 +270,9 @@ module SonicPi
           returns:        nil,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Frees the memory and resources consumed by loading the sample on the server. Subsequent calls to `sample` and friends will re-load the sample on the server. You may pass multiple samples to free at once.",
+          doc:            "Frees the memory and resources consumed by loading the sample on the server. Subsequent calls to `sample` and friends will re-load the sample on the server.
+
+You may also specify the same set of source and filter pre-args available to `sample` itself. `sample_free` will then free all matching samples. See `sample`'s docs for more information.",
           examples:       ["
 sample :loop_amen # The Amen break is now loaded into memory and played
 sleep 2
@@ -291,7 +293,18 @@ sample :ambi_lunar_land
 sleep 2
 sample_free :loop_amen, :ambi_lunar_land
 sample :loop_amen                        # re-loads and plays amen
-sample :ambi_lunar_land                  # re-loads and plays lunar land"]
+sample :ambi_lunar_land                  # re-loads and plays lunar land",
+
+"# Using source and filter pre-args
+dir = \"/path/to/sample/dir\"
+sample_free dir # frees any loaded samples in \"/path/to/sample/dir\"
+sample_free dir, 1 # frees sample with index 1 in \"/path/to/sample/dir\"
+sample_free dir, :foo # frees sample with name \"foo\" in \"/path/to/sample/dir\"
+sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path/to/sample/dir\"
+
+",
+
+ ]
 
 
 
@@ -2456,13 +2469,25 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
       doc name:          :load_sample,
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load sample(s)",
-          doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, this loads the file and makes it available as a sample. You may pass multiple samples to load them all in one go",
+          doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` file, pre-loads the sample into memory.
+
+You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load all matching samples. See `sample`'s docs for more information." ,
+
           args:          [[:path, :string]],
           opts:          nil,
           accepts_block: false,
           examples:      ["
 load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
-sample :elec_blip # No delay takes place when attempting to trigger it"]
+sample :elec_blip # No delay takes place when attempting to trigger it",
+
+"# Using source and filter pre-args
+dir = \"/path/to/sample/dir\"
+load_sample dir # loads any loaded samples in \"/path/to/sample/dir\"
+load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
+load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
+load_sample dir, /[Bb]ar/ # loads sample which matches regex /[Bb]ar/ in \"/path/to/sample/dir\"
+
+"      ]
 
 
       def load_samples(*args)
