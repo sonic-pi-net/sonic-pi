@@ -18,6 +18,9 @@
 #-------------------------------------------------
 
 TARGET = 'sonic-pi'
+CONFIG += debug link_pkgconfig
+QT_CONFIG -= no-pkg-config
+PKGCONFIG += libboost
 
 QT += core gui concurrent network
 greaterThan(QT_MAJOR_VERSION, 4) {
@@ -28,7 +31,6 @@ QMAKE_CXXFLAGS += -std=c++11
 
 # Linux only
 unix:!macx {
-  CONFIG += debug link_pkgconfig
   PKGCONFIG += libqwt libsciscintilla
   debug {
     QMAKE_CXXFLAGS += -ggdb
@@ -46,7 +48,6 @@ unix:!macx {
 
 # Mac OS X only
 macx {
-#  QT_CONFIG -= no-pkg-config
   CONFIG += warn_off
   CONFIG += qscintilla2 qwt
 
