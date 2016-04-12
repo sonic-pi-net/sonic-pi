@@ -1059,7 +1059,8 @@ end
 play :e4 # Plays note 64"]
 
 
-      def use_synth(synth_name, &block)
+      def use_synth(synth_name, *args, &block)
+        raise "use_synth does not accept opts such as #{arg_h_pp(resolve_synth_opts_hash_or_array(args))}. \n Consider using use_synth_defaults." unless args.empty?
         raise "use_synth does not work with a do/end block. Perhaps you meant with_synth" if block
         set_current_synth synth_name
       end
@@ -1079,7 +1080,8 @@ play 50 # Plays with mod_sine synth"]
 
 
 
-      def with_synth(synth_name, &block)
+      def with_synth(synth_name, *args, &block)
+        raise "with_synth does not accept opts such as #{arg_h_pp(resolve_synth_opts_hash_or_array(args))}. \n Consider using with_synth_defaults." unless args.empty?
         raise "with_synth must be called with a do/end block. Perhaps you meant use_synth" unless block
         orig_synth = current_synth_name
         set_current_synth synth_name
