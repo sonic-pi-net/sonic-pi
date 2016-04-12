@@ -80,8 +80,8 @@ information and examples.
 # Resetting the Stream
 
 Whilst the ability to repeat a sequence of chosen notes is essential to
-allow you to replay a riff on the dance floor, it might not be the
-exactly riff you want. Wouldn't it be great if we could try a number of
+allow you to replay a riff on the dance floor, it might not be exactly
+the riff you want. Wouldn't it be great if we could try a number of
 different riffs and choose the one we liked best? This is where the real
 magic starts.
 
