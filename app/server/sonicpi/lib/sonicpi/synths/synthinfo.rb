@@ -3751,6 +3751,9 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
     end
 
     class FXInfo < BaseInfo
+      def user_facing?
+        true
+      end
 
       def trigger_with_logical_clock?
         true
@@ -7052,6 +7055,11 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
       def self.all_synths
         @@synth_infos.select {|k, v| v.is_a?(SonicPiSynth) && v.user_facing?}.keys
+      end
+
+      def self.all_fx
+        fx = @@synth_infos.select {|k, v| v.is_a?(FXInfo) && v.user_facing? && !k.to_s.include?('replace_')}.keys
+        fx.map { |k, v| k.to_s[3..-1].to_sym }
       end
 
       def self.info_doc_html_map(klass)
