@@ -200,7 +200,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   createInfoPane();
   setWindowTitle(tr("Sonic Pi"));
   initPrefsWindow();
-  updateDarkMode();
   readSettings();
   updateTabsVisibility();
   updateButtonVisibility();
@@ -232,8 +231,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     requestVersion();
 
     splashClose();
-    showWindow();
+
+    updateDarkMode();
     updateFullScreenMode();
+    showWindow();
     showWelcomeScreen();
 
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
