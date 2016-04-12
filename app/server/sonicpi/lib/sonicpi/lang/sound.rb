@@ -3681,7 +3681,7 @@ kill bar"]
 
 
       def all_sample_names
-        Synths::BaseInfo.all_samples.ring
+        Synths::BaseInfo.all_samples.sort.ring
       end
       doc name:          :all_sample_names,
           introduced:    Version.new(2,0,0),
@@ -3696,7 +3696,7 @@ kill bar"]
 
 
       def sample_groups
-        Synths::BaseInfo.grouped_samples.keys.ring
+        Synths::BaseInfo.grouped_samples.keys.sort.ring
       end
       doc name:          :sample_groups,
           introduced:    Version.new(2,0,0),
@@ -3711,7 +3711,7 @@ kill bar"]
 
 
       def synth_names
-        Synths::BaseInfo.all_synths.ring
+        Synths::BaseInfo.all_synths.sort.ring
       end
       doc name:          :synth_names,
           introduced:    Version.new(2,9,0),
@@ -3724,7 +3724,7 @@ kill bar"]
 
 
       def fx_names
-        Synths::BaseInfo.all_fx.ring
+        Synths::BaseInfo.all_fx.sort.ring
       end
       doc name:          :fx_names,
           introduced:    Version.new(2,10,0),
@@ -3775,7 +3775,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
 
       def scale_names
-        Scale::SCALE.keys.ring
+        Scale::SCALE.keys.sort.ring
       end
       doc name:          :scale_names,
           introduced:    Version.new(2,6,0),
@@ -3788,7 +3788,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
 
       def chord_names
-        Chord::CHORD.keys.ring
+        Chord::CHORD.keys.sort.ring
       end
       doc name:          :chord_names,
           introduced:    Version.new(2,6,0),
