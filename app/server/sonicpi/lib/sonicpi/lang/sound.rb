@@ -3665,7 +3665,7 @@ kill bar"]
       def sample_names(group)
         g = Synths::BaseInfo.grouped_samples[group]
         raise "Unknown sample group #{group.inspect}" unless g
-        g[:samples].ring
+        g[:samples].sort.ring
       end
       doc name:          :sample_names,
           introduced:    Version.new(2,0,0),
