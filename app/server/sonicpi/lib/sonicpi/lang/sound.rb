@@ -3691,6 +3691,17 @@ kill bar"]
           examples:      []
 
 
+      def fx_names
+        Synths::BaseInfo.all_fx.ring
+      end
+      doc name:          :fx_names,
+          introduced:    Version.new(2,10,0),
+          summary:       "Get all FX names",
+          doc:           "Return a list of all the FX available",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      []
 
 
       def load_synthdefs(path=synthdef_path)
