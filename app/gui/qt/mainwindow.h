@@ -275,6 +275,7 @@ private:
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;
     QCheckBox *log_auto_scroll;
+    QCheckBox *enable_external_synths_cb;
     QCheckBox *show_line_numbers;
     QCheckBox *auto_indent_on_run;
     QCheckBox *full_screen;

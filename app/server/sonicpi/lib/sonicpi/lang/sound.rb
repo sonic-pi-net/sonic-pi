@@ -206,8 +206,6 @@ module SonicPi
       end
 
 
-
-
       def reboot
         @sample_loader.reset!
         return nil if @mod_sound_studio.rebooting
@@ -409,6 +407,10 @@ sample :loop_amen        # re-loads and plays amen"]
         end
       end
 
+      def use_external_synths(v, &block)
+        raise "use_external_synths does not work with a do/end block. Perhaps you meant with_external_synths" if block
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_use_external_synths, v)
+      end
 
 
       def use_timing_warnings(v, &block)
@@ -1809,7 +1811,10 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         fx_synth_name = "fx_#{fx_name}"
         info = Synths::SynthInfo.get_info(fx_synth_name)
 
-        fx_synth_name = fx_name unless info
+        unless info
+          raise "Unknown FX #{fx_name.inspect}" unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_use_external_synths)
+          fx_synth_name = fx_name
+        end
 
         start_subthreads = []
         end_subthreads = []
@@ -3715,9 +3720,15 @@ kill bar"]
           summary:       "Load external synthdefs",
           doc:           "Load all pre-compiled synth designs in the specified directory. The binary files containing synth designs need to have the extension `.scsyndef`. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
 
-## Important note
+## Important notes
 
-If you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. For example, the following synth would work nicely:
+You may not trigger external synthdefs unless you enable the following GUI preference:
+
+```
+Studio -> Synths -> Enable external synths and FX
+```
+
+Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. For example, the following synth would work nicely:
 
 
     (
@@ -3882,7 +3893,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       def trigger_inst(synth_name, args_h, group=current_job_synth_group)
         sn = synth_name.to_sym
         info = Synths::SynthInfo.get_info(sn)
-
+        raise "Unknown synth #{sn.inspect}" unless info || Thread.current.thread_variable_get(:sonic_pi_mod_sound_use_external_synths)
         processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
 

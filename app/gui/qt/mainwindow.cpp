@@ -963,6 +963,9 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *debug_box = new QGroupBox(tr("Logging"));
   debug_box->setToolTip(tr("Configure debug behaviour"));
 
+  QGroupBox *synths_box = new QGroupBox(tr("Synths"));
+  synths_box->setToolTip(tr("Configure debug behaviour"));
+
   print_output = new QCheckBox(tr("Log synths"));
   print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
 
@@ -975,6 +978,10 @@ void MainWindow::initPrefsWindow() {
   log_auto_scroll = new QCheckBox(tr("Log Auto Scroll"));
   log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the botton after every new message is displayed."));
   connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
+
+  enable_external_synths_cb = new QCheckBox(tr("Enable External Synths and FX"));
+  enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
+
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
   debug_box_layout->addWidget(log_cues);
@@ -982,6 +989,9 @@ void MainWindow::initPrefsWindow() {
   debug_box_layout->addWidget(clear_output_on_run);
   debug_box->setLayout(debug_box_layout);
 
+  QVBoxLayout *synths_box_layout = new QVBoxLayout;
+  synths_box_layout->addWidget(enable_external_synths_cb);
+  synths_box->setLayout(synths_box_layout);
 
   QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
   QGridLayout *transparency_box_layout = new QGridLayout;
@@ -1091,12 +1101,13 @@ void MainWindow::initPrefsWindow() {
   prefTabs->addTab(audio_prefs_box, tr("Audio"));
 #endif
 
-    QGroupBox *studio_prefs_box = new QGroupBox();
+  QGroupBox *studio_prefs_box = new QGroupBox();
   QGridLayout *studio_prefs_box_layout = new QGridLayout;
 
   studio_prefs_box_layout->addWidget(advancedAudioBox, 0, 0);
 
   studio_prefs_box_layout->addWidget(debug_box, 0, 1);
+  studio_prefs_box_layout->addWidget(synths_box, 1, 1);
 
   studio_prefs_box->setLayout(studio_prefs_box_layout);
 
@@ -1158,6 +1169,7 @@ void MainWindow::initPrefsWindow() {
   log_cues->setChecked(settings.value("prefs/log-cues", true).toBool());
   log_auto_scroll->setChecked(settings.value("prefs/log-auto-scroll", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
+  enable_external_synths_cb->setChecked(settings.value("prefs/enable-external-synths", false).toBool());
   dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
@@ -1444,6 +1456,9 @@ void MainWindow::runCode()
   }
   if(!check_args->isChecked()) {
     code = "use_arg_checks false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+  if(enable_external_synths_cb->isChecked()) {
+     code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
   else {
     code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
@@ -2346,9 +2361,11 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/log-cues", log_cues->isChecked());
   settings.setValue("prefs/log-auto-scroll", log_auto_scroll->isChecked());
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
+  settings.setValue("prefs/enable-external-synths", enable_external_synths_cb->isChecked());
   settings.setValue("prefs/dark-mode", dark_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());
+  settings.setValue("prefs/", mixer_invert_stereo->isChecked());
 
   settings.setValue("prefs/rp/force-audio-default", rp_force_audio_default->isChecked());
   settings.setValue("prefs/rp/force-audio-headphones", rp_force_audio_headphones->isChecked());
