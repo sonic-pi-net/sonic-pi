@@ -3474,20 +3474,25 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
           resolve_midi_args!(args_h, info)
         end
 
-        if args_h.has_key?(:note)
-          n = normalise_transpose_and_tune_note_from_args(args_h[:note], args_h)
-          args_h[:note] = n
-        end
 
-        notes = args_h[:notes]
-        if node.is_a?(ChordGroup) && notes
+
+        if node.is_a?(ChordGroup)
+
+          note = args_h.delete(:note)
+          notes = args_h.delete(:notes)
+          notes = note if note && !notes
+          notes = [notes] unless notes.is_a?(Array) || notes.is_a?(SonicPi::Core::SPVector)
+          normalise_args! args_h
           # don't normalise notes key as it is special
           # when controlling ChordGroups.
           # TODO: remove this hard coded behaviour
-          args_h.delete(:notes)
-          normalise_args! args_h
           args_h[:notes] = notes.map{|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
         else
+          note = args_h[:note]
+          if note
+            note = normalise_transpose_and_tune_note_from_args(note, args_h)
+            args_h[:note] = note
+          end
           normalise_args! args_h
         end
 
