@@ -6844,7 +6844,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :bass_voxy_hit_c,
             :bass_dnb_f]},
 
-        :snares => {
+        :sn => {
           :desc => "Snare Drums",
           :prefix => "sn_",
           :samples => [
@@ -6852,7 +6852,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
             :sn_dolf,
             :sn_zome]},
 
-        :bass => {
+        :bd => {
           :desc => "Bass Drums",
           :prefix => "bd_",
           :samples => [
