@@ -4,7 +4,7 @@ A.11 Tick Tock
 
 Last month in this series we took a deep technical dive into the
 randomisation system underpinning Sonic Pi. We explored how we can use
-it to determinisically add new levels of dynamic control over our
+it to deterministically add new levels of dynamic control over our
 code. This month we're going to continue our technical dive and turn our
 attention to Sonic Pi's unique tick system. By the end of this article
 you'll be ticking your way through rhythms and riffs on your way to
