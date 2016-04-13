@@ -310,9 +310,15 @@ module SonicPi
       err_msg.gsub!(/for #<SonicPiSpiderUser[a-z0-9:]+>/, '')
       res = ""
       if line != -1
-        res = res + "[#{info[:workspace]}, line #{line}]"
+
+        # TODO: Remove this hack when we have projects
+        w = info[:workspace]
+        w = "buffer " + w[10..-1]
+        # TODO: end of hack
+
+        res = res + "[#{w}, line #{line}]"
       else
-        res = res + "[#{info[:workspace]}]"
+        res = res + "[#{w}]"
       end
       res = res + "\n" + m if m
       res = res + "\n #{err_msg}"
@@ -744,7 +750,13 @@ module SonicPi
             error_line = ""
             if line
               line = line.to_i
-              err_msg = "[#{info[:workspace]}, line #{line}] \n #{message}"
+
+              # TODO: Remove this hack when we have projects
+              w = info[:workspace]
+              w = "buffer " + w[10..-1]
+              # TODO: end of hack
+
+              err_msg = "[#{w}, line #{line}] \n #{message}"
               error_line = code.lines.to_a[line + 1] ||  ""
             else
               line = -1
