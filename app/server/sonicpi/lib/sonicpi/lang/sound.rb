@@ -2482,7 +2482,7 @@ sample :elec_blip # No delay takes place when attempting to trigger it",
 
 "# Using source and filter pre-args
 dir = \"/path/to/sample/dir\"
-load_sample dir # loads any loaded samples in \"/path/to/sample/dir\"
+load_sample dir # loads any samples in \"/path/to/sample/dir\"
 load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
 load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
 load_sample dir, /[Bb]ar/ # loads sample which matches regex /[Bb]ar/ in \"/path/to/sample/dir\"
