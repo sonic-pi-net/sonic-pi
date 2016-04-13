@@ -232,9 +232,10 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 
     splashClose();
 
+
+    showWindow();
     updateDarkMode();
     updateFullScreenMode();
-    showWindow();
     showWelcomeScreen();
 
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
