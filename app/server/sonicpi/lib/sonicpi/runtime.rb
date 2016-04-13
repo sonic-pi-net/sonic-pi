@@ -910,7 +910,7 @@ module SonicPi
     end
 
     def filter_for_save(s)
-      s.lines.to_a.reject{|l| l.include? "#__nosave__"}.join("\n")
+      s.lines.to_a.reject{|l| l.include? "#__nosave__"}.join
     end
 
     def sthread(name)
