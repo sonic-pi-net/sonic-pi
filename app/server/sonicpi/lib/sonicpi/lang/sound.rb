@@ -4346,7 +4346,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
       def in_good_time?(error_window=0)
         diff = time_diff
-        if diff < 0
+        if diff < error_window
           return true
         else
           if diff < 1.1
