@@ -986,6 +986,7 @@ module SonicPi
             File.open(path, 'w') {|f| f.write(content) }
             @gitsave.save!(filename, content, "#{@version} -- #{@session_id} -- ")
           rescue Exception => e
+            log "Exception saving buffer #{filename}:\n#{e.inspect}"
             ##TODO: remove this and ensure that git saving actually works
             ##instead of cowardly hiding the issue!
           end
