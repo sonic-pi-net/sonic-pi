@@ -700,7 +700,7 @@ module SonicPi
 
       # skip __nosave lines for error reporting
       firstline = 1
-      firstline -= code.lines.to_a.count{|l| l.include? "#__nosave__"}
+      firstline -= code.lines.to_a.take_while{|l| l.include? "#__nosave__"}.count
       start_t_prom = Promise.new
       info[:workspace] = 'eval' unless info[:workspace]
       job = Thread.new do
@@ -757,7 +757,7 @@ module SonicPi
               # TODO: end of hack
 
               err_msg = "[#{w}, line #{line}] \n #{message}"
-              error_line = code.lines.to_a[line + 1] ||  ""
+              error_line = code.lines.to_a[line] ||  ""
             else
               line = -1
               err_msg = "\n #{e.message}"
@@ -910,7 +910,7 @@ module SonicPi
     end
 
     def filter_for_save(s)
-      s.split(/\r?\n/).reject{|l| l.include? "#__nosave__"}.join("\n")
+      s.lines.to_a.reject{|l| l.include? "#__nosave__"}.join("\n")
     end
 
     def sthread(name)

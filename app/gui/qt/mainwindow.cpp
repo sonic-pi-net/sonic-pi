@@ -1455,27 +1455,27 @@ void MainWindow::runCode()
   msg.pushStr(guiID.toStdString());
   std::string filename = workspaceFilename( (SonicPiScintilla*)tabs->currentWidget());
   msg.pushStr(filename);
+
   if(!print_output->isChecked()) {
     code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
+
   if(!log_cues->isChecked()) {
     code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
-  else{
-    code = "use_debug true #__nosave__ set by Qt GUI user preferences.\n" + code ;
-  }
+
   if(!check_args->isChecked()) {
     code = "use_arg_checks false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
+
   if(enable_external_synths_cb->isChecked()) {
      code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
+
   if(synth_trigger_timing_guarantees_cb->isChecked()) {
      code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
-  else {
-    code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
-  }
+
   if(clear_output_on_run->isChecked()){
     outputPane->clear();
   }
