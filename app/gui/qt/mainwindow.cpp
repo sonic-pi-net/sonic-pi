@@ -925,13 +925,10 @@ void MainWindow::initPrefsWindow() {
   mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
 
-  check_args = new QCheckBox(tr("Safe mode"));
-  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
-
   QVBoxLayout *advanced_audio_box_layout = new QVBoxLayout;
   advanced_audio_box_layout->addWidget(mixer_invert_stereo);
   advanced_audio_box_layout->addWidget(mixer_force_mono);
-  advanced_audio_box_layout->addWidget(check_args);
+
   // audio_box->addWidget(radio2);
   // audio_box->addWidget(radio3);
   // audio_box->addStretch(1);
@@ -965,8 +962,8 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *debug_box = new QGroupBox(tr("Logging"));
   debug_box->setToolTip(tr("Configure debug behaviour"));
 
-  QGroupBox *synths_box = new QGroupBox(tr("Synths"));
-  synths_box->setToolTip(tr("Configure debug behaviour"));
+  QGroupBox *synths_box = new QGroupBox(tr("Synths and FX"));
+  synths_box->setToolTip(tr("Modify behaviour of synths and FX"));
 
   print_output = new QCheckBox(tr("Log synths"));
   print_output->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
@@ -981,8 +978,15 @@ void MainWindow::initPrefsWindow() {
   log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the botton after every new message is displayed."));
   connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
 
+  check_args = new QCheckBox(tr("Safe mode"));
+  check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
+
+
   enable_external_synths_cb = new QCheckBox(tr("Enable External Synths and FX"));
   enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
+
+  synth_trigger_timing_guarantees_cb = new QCheckBox(tr("Enforce timing guarantees"));
+  synth_trigger_timing_guarantees_cb->setToolTip(tr("When enabled, Sonic Pi will refuse\nto trigger synths and FX if\nit is too late to do so\n\nWhen disabled, Sonic Pi will always\nattemptto trigger synths and FX\neven when a little late."));
 
   QVBoxLayout *debug_box_layout = new QVBoxLayout;
   debug_box_layout->addWidget(print_output);
@@ -992,7 +996,11 @@ void MainWindow::initPrefsWindow() {
   debug_box->setLayout(debug_box_layout);
 
   QVBoxLayout *synths_box_layout = new QVBoxLayout;
+  synths_box_layout->addWidget(check_args);
+  synths_box_layout->addWidget(synth_trigger_timing_guarantees_cb);
   synths_box_layout->addWidget(enable_external_synths_cb);
+
+
   synths_box->setLayout(synths_box_layout);
 
   QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
@@ -1106,10 +1114,9 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *studio_prefs_box = new QGroupBox();
   QGridLayout *studio_prefs_box_layout = new QGridLayout;
 
-  studio_prefs_box_layout->addWidget(advancedAudioBox, 0, 0);
-
+  studio_prefs_box_layout->addWidget(synths_box, 0, 0);
   studio_prefs_box_layout->addWidget(debug_box, 0, 1);
-  studio_prefs_box_layout->addWidget(synths_box, 1, 1);
+  studio_prefs_box_layout->addWidget(advancedAudioBox, 1, 1);
 
   studio_prefs_box->setLayout(studio_prefs_box_layout);
 
@@ -1172,6 +1179,7 @@ void MainWindow::initPrefsWindow() {
   log_auto_scroll->setChecked(settings.value("prefs/log-auto-scroll", true).toBool());
   show_line_numbers->setChecked(settings.value("prefs/show-line-numbers", true).toBool());
   enable_external_synths_cb->setChecked(settings.value("prefs/enable-external-synths", false).toBool());
+  synth_trigger_timing_guarantees_cb->setChecked(settings.value("prefs/synth-trigger-timing-guarantees", false).toBool());
   dark_mode->setChecked(settings.value("prefs/dark-mode", false).toBool());
   mixer_force_mono->setChecked(settings.value("prefs/mixer-force-mono", false).toBool());
   mixer_invert_stereo->setChecked(settings.value("prefs/mixer-invert-stereo", false).toBool());
@@ -1461,6 +1469,9 @@ void MainWindow::runCode()
   }
   if(enable_external_synths_cb->isChecked()) {
      code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  }
+  if(synth_trigger_timing_guarantees_cb->isChecked()) {
+     code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
   else {
     code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
@@ -2364,6 +2375,7 @@ void MainWindow::writeSettings()
   settings.setValue("prefs/log-auto-scroll", log_auto_scroll->isChecked());
   settings.setValue("prefs/show-line-numbers", show_line_numbers->isChecked());
   settings.setValue("prefs/enable-external-synths", enable_external_synths_cb->isChecked());
+  settings.setValue("prefs/synth-trigger-timing-guarantees", synth_trigger_timing_guarantees_cb->isChecked());
   settings.setValue("prefs/dark-mode", dark_mode->isChecked());
   settings.setValue("prefs/mixer-force-mono", mixer_force_mono->isChecked());
   settings.setValue("prefs/mixer-invert-stereo", mixer_invert_stereo->isChecked());

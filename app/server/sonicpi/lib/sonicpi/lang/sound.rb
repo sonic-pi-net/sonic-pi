@@ -206,6 +206,8 @@ module SonicPi
       end
 
 
+
+
       def reboot
         @sample_loader.reset!
         return nil if @mod_sound_studio.rebooting
@@ -420,6 +422,53 @@ sample :loop_amen        # re-loads and plays amen"]
         end
       end
 
+      def use_timing_guarantees(v, &block)
+        raise "use_timing_guarantees does not work with a do/end block. Perhaps you meant with_timing_guarantees" if block
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_timing_guarantees, v)
+      end
+      doc name:           :use_timing_guarantees,
+          introduced:     Version.new(2,10,0),
+          summary:        "Inhibit synth triggers if too late",
+          doc:            "If set to true, synths will not trigger if it is too late. If false, some synth triggers may be late.",
+          args:           [[:bool, :true_or_false]],
+          opts:           nil,
+          accepts_block:  true,
+          examples:       ["
+use_timing_guarantees true
+
+sample :loop_amen  #=> if time is behind by any margin, this will not trigger",
+        "
+use_timing_guarantees false
+
+sample :loop_amen  #=> unless time is too far behind, this will trigger even when late."]
+
+
+
+      def with_timing_guarantees(v, &block)
+        raise "use_timing_guarantees requires a do/end block. Perhaps you meant use_timing_guarnatees" unless block
+        current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_timing_guarantees)
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_timing_guarantees, v)
+        res = block.call
+        Thread.current.thread_variable_set(:sonic_pi_mod_sound_timing_guarantees, current)
+        res
+      end
+      doc name:           :with_timing_guarantees,
+          introduced:     Version.new(2,10,0),
+          summary:        "Block-scoped inhibition of synth triggers if too late",
+          doc:            "For the given block, if set to true, synths will not trigger if it is too late. If false, some synth triggers may be late. After the block has completed, the previous value is restored. ",
+          args:           [[:bool, :true_or_false]],
+          opts:           nil,
+          accepts_block:  true,
+          examples:       ["
+with_timing_guarantees true
+  sample :loop_amen  #=> if time is behind by any margin, this will not trigger
+end",
+"
+with_timing_guarantees false
+  sample :loop_amen  #=> unless time is too far behind, this will trigger even when late.
+end"]
+
+
       def use_external_synths(v, &block)
         raise "use_external_synths does not work with a do/end block. Perhaps you meant with_external_synths" if block
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_use_external_synths, v)
@@ -442,8 +491,6 @@ sample :loop_amen        # re-loads and plays amen"]
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_disable_timing_warnings, current)
         res
       end
-
-
 
 
       def use_sample_bpm(sample_name, *args)
@@ -3530,9 +3577,11 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
           info.ctl_validate!(args_h) if info
         end
 
-        unless in_good_time?
-          __delayed_message "!! Out of time, skipping: control node #{node.id}, #{arg_h_pp(args_h)}"
-          return node
+        if Thread.current.thread_variable_get(:sonic_pi_mod_sound_timing_guarantees)
+          unless in_good_time?
+            __delayed_message "!! Out of time, skipping: control node #{node.id}, #{arg_h_pp(args_h)}"
+            return node
+          end
         end
 
         node.control args_h
@@ -3894,28 +3943,31 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         buf_id = buf_info.id
 
-        unless in_good_time?
-          if args_h.empty?
-            __delayed_message "!! Out of time, skipping: sample #{path.inspect}"
-          else
-            __delayed_message "!! Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
-          end
-          return @blank_node
-        else
-
-          unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+        if Thread.current.thread_variable_get(:sonic_pi_mod_sound_timing_guarantees)
+          unless in_good_time?
             if args_h.empty?
-              __delayed_message "sample #{File.dirname(path).inspect},\n           #{File.basename(path).inspect}"
+              __delayed_message "!! Out of time, skipping: sample #{path.inspect}"
             else
-              __delayed_message "sample #{File.dirname(path).inspect},\n           #{File.basename(path).inspect}, #{arg_h_pp(args_h)}"
-
+              __delayed_message "!! Out of time, skipping: sample #{path.inspect}, #{arg_h_pp(args_h)}"
             end
+            return @blank_node
           end
-          add_arg_slide_times!(args_h, info)
-          args_h[:buf] = buf_id
-          return trigger_synth(sn, args_h, group, info)
         end
+
+
+        unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
+          if args_h.empty?
+            __delayed_message "sample #{File.dirname(path).inspect},\n           #{File.basename(path).inspect}"
+          else
+            __delayed_message "sample #{File.dirname(path).inspect},\n           #{File.basename(path).inspect}, #{arg_h_pp(args_h)}"
+
+          end
+        end
+        add_arg_slide_times!(args_h, info)
+        args_h[:buf] = buf_id
+        return trigger_synth(sn, args_h, group, info)
       end
+
 
       def trigger_inst(synth_name, args_h, group=current_job_synth_group)
         sn = synth_name.to_sym
@@ -3923,12 +3975,14 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         raise "Unknown synth #{sn.inspect}" unless info || Thread.current.thread_variable_get(:sonic_pi_mod_sound_use_external_synths)
         processed_args = normalise_and_resolve_synth_args(args_h, info, true)
 
+        if Thread.current.thread_variable_get(:sonic_pi_mod_sound_timing_guarantees)
+          unless in_good_time?
+            __delayed_message "!! Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
 
-        unless in_good_time?
-          __delayed_message "!! Out of time, skipping: synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
-
-          return @blank_node
+            return @blank_node
+          end
         end
+
 
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
@@ -3947,9 +4001,11 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         chord_group = @mod_sound_studio.new_group(:tail, group, "CHORD")
         cg = ChordGroup.new(chord_group, notes, info)
 
-        unless in_good_time?
-          __delayed_message "!! Out of time, skipping: synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
-          return @blank_node
+        if Thread.current.thread_variable_get(:sonic_pi_mod_sound_timing_guarantees)
+          unless in_good_time?
+            __delayed_message "!! Out of time, skipping: synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
+            return @blank_node
+          end
         end
 
         unless Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_silent)
@@ -4454,7 +4510,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def sample_find_candidates(*args)
         @sample_loader.find_candidates(*args)
       end
-
     end
+
   end
 end
