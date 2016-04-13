@@ -918,10 +918,10 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *advancedAudioBox = new QGroupBox(tr("Advanced Audio"));
   advancedAudioBox->setToolTip(tr("Advanced audio settings for working with\nexternal PA systems when performing with Sonic Pi."));
-  mixer_invert_stereo = new QCheckBox(tr("Invert Stereo"));
+  mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
   mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and visa versa."));
   connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
-  mixer_force_mono = new QCheckBox(tr("Force Mono"));
+  mixer_force_mono = new QCheckBox(tr("Force mono"));
   mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
   connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
 
@@ -974,7 +974,7 @@ void MainWindow::initPrefsWindow() {
   log_cues = new QCheckBox(tr("Log cues"));
   log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
 
-  log_auto_scroll = new QCheckBox(tr("Log Auto Scroll"));
+  log_auto_scroll = new QCheckBox(tr("Log auto scroll"));
   log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the botton after every new message is displayed."));
   connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
 
@@ -982,7 +982,7 @@ void MainWindow::initPrefsWindow() {
   check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
 
 
-  enable_external_synths_cb = new QCheckBox(tr("Enable External Synths and FX"));
+  enable_external_synths_cb = new QCheckBox(tr("Enable external synths and FX"));
   enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
 
   synth_trigger_timing_guarantees_cb = new QCheckBox(tr("Enforce timing guarantees"));
