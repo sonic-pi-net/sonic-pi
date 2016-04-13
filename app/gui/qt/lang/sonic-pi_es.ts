@@ -65,7 +65,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="754"/>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
-        <translation>Usa este slider para cambiar el volumen del sistema en tu Raspberry Pi</translation>
+        <translation>Usa este "slider" para cambiar el volumen del sistema en tu Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="756"/>
@@ -76,7 +76,8 @@
         <location filename="../mainwindow.cpp" line="757"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Configuraciones de audio avanzadas para trabajar con sistemas externos PA al momento de hacer performing con Sonic Pi</translation>
+        <translation>Configuraciones de audio avanzadas para trabajar con 
+sistemas externos PA al momento de hacer performing con Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="758"/>
@@ -88,7 +89,9 @@ external PA systems when performing with Sonic Pi.</source>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>Cambia la inversión del estereo.  Si se encuentra activado, el audio del speaker izquierdo se ruteara al parlante derecho, o a la inversa</translation>
+        <translation>Cambia la inversión del estéreo.
+Si se encuentra activado, el audio del altavoz izquierdo 
+se desviará al altavoz derecho, o viceversa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="761"/>
@@ -113,7 +116,9 @@ can only handle mono.</source>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Cambia la opción de chequeo de argumentos en el sintetizador. Si se encuentra deshabilitado, ciertas opciones generarán sonidos muy fuertes o incómodos</translation>
+        <translation>Cambia la opción de comprobación de argumentos en el sintetizador.
+Si se encuentra deshabilitado, ciertas opciones generarán sonidos muy
+fuertes o incómodos.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="778"/>
@@ -126,7 +131,10 @@ create unexpectedly loud or uncomfortable sounds.</source>
 Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
-        <translation>Tu Raspberry Pi cuenta con dos opciones para salida de sonido.  Primero, tenemos el conector jack para la conexión de audífonos en el mismo Raspberry Pi Segundo, algunos monitores HDMI soportan salida de audio por medio del puerto HDMI Usa estos botones para forzar la salida de audio en alguna de estas dos opciones</translation>
+        <translation>Tu Raspberry Pi cuenta con dos opciones para salida de sonido.
+Primero, tenemos el conector jack para la conexión de auriculares en el propio Raspberry Pi. 
+Segundo, algunos monitores HDMI soportan salida de audio por medio del puerto HDMI. 
+Usa estos botones para forzar la salida de audio en alguna de estas dos opciones.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
@@ -163,7 +171,9 @@ Use these buttons to force the output to the one you want.</source>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Cambiar opción de logear mensajes. Si esta opción está deshabilitada, actividades como la activación del sintetizador o sample no se imprimirán en el log por default</translation>
+        <translation>Cambiar opción de registrar mensajes.
+Si esta opción está deshabilitada, actividades como el disparador del sintetizador 
+o muestra no se imprimirán en el registro por defecto.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="808"/>
@@ -175,7 +185,9 @@ triggering will not be printed to the log by default.</source>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Cambia opción de limpiar log al iniciar.  Si se encuentra habilitado, el log se limpiará cada vez que se presione el boton de iniciar</translation>
+        <translation>Cambia opción de limpiar registro al iniciar. 
+Si se encuentra habilitado, el registro se limpiará 
+cada vez que se presione el botón de iniciar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="811"/>
@@ -204,7 +216,8 @@ However, they will not be visible in the logs.</source>
         <location filename="../mainwindow.cpp" line="827"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Cambia la opción del chequeo automático de actualizaciones.  Este chequeo consiste en enviar información anónima de tu plataforma y versión actuales</translation>
+        <translation>Cambia la opción del comprobación automática de actualizaciones.  
+Esta verificación conlleva enviar información anónima de tu plataforma y versión actuales.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
@@ -215,7 +228,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="829"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Chequea inmediatamente la existencia de actualizaciones.  Este chequeo consiste en enviar información anónima de tu plataforma y versión actuales</translation>
+        <translation>Comprobar inmediatamente la existencia de actualizaciones.  
+Esta verificación conlleva enviar información anónima de tu plataforma y versión actuales.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="830"/>
@@ -240,7 +254,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="856"/>
         <source>Configure editor display options.</source>
-        <translation>Configurar opciones de display del editor</translation>
+        <translation>Configurar opciones de pantalla del editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="857"/>
@@ -250,7 +264,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="858"/>
         <source>Configure editor look and feel.</source>
-        <translation>Configura el aspecto del editor</translation>
+        <translation>Configura el aspecto del editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="859"/>
@@ -260,7 +274,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="860"/>
         <source>Configure automation features.</source>
-        <translation>Configura las características de automatización</translation>
+        <translation>Configura las características de automatización.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="861"/>
@@ -280,7 +294,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="865"/>
         <source>Toggle line number visibility.</source>
-        <translation>Cambia la visibilidad del número de lineas</translation>
+        <translation>Cambia la visibilidad del número de lineas.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
@@ -290,7 +304,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="867"/>
         <source>Toggle visibility of the log.</source>
-        <translation>Cambia opción de visibilidad del log</translation>
+        <translation>Cambia opción de visibilidad del registro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="869"/>
@@ -300,7 +314,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="870"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>Cambia la opción de visibilidad de las opciones del log</translation>
+        <translation>Cambia la opción de visibilidad de las opciones del registro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="872"/>
@@ -310,7 +324,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="874"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Cambia la visibilidad de los tabs de selección de buffer</translation>
+        <translation>Cambia la visibilidad de los tabs de selección de buffer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="875"/>
@@ -320,7 +334,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
         <source>Toggle full screen mode.</source>
-        <translation>Cambia la opción de pantalla completa</translation>
+        <translation>Cambia la opción de pantalla completa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
@@ -330,13 +344,14 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="878"/>
         <source>Toggle dark mode.</source>
-        <translation>Cambia opción de modo dark</translation>
+        <translation>Cambia opción de modo dark.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="878"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>La opción Dark es perfecta para hacer live coding en discotecas o lugares con poca luminosidad</translation>
+        <translation>
+La opción Dark es perfecta para hacer live coding en discotecas o lugares con poca luminosidad.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"/>
@@ -381,7 +396,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1207"/>
         <source>Workspace %1</source>
-        <translation>Workspace %1</translation>
+        <translation>Directorio de trabajo %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1223"/>
@@ -727,7 +742,7 @@ Get Sonic Pi %1</source>
     <name>SonicPiUDPServer</name>
     <message>
         <location filename="../sonicpiudpserver.cpp" line="24"/>
-        <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
+        <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
         <translation>Se encuentra corriendo otra instancia de Sonic Pi?, no se puede abrir el puerto UDP 4558.</translation>
     </message>
 </context>
