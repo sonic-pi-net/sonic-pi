@@ -33,7 +33,6 @@ module SonicPi
     end
 
     def save!(filename, content, msgpre="")
-      puts "saving: #{filename}"
       oid = @repo.write(content, :blob)
       index = @repo.index
       index.reload
