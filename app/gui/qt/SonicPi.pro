@@ -18,11 +18,10 @@
 #-------------------------------------------------
 
 TARGET = 'sonic-pi'
-CONFIG += debug link_pkgconfig
-QT_CONFIG -= no-pkg-config
+CONFIG += debug link_pkgconfig qscintilla2 qwt
 PKGCONFIG += libboost
 
-QT += core gui concurrent network
+QT += core gui concurrent network 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
 }
@@ -31,23 +30,16 @@ QMAKE_CXXFLAGS += -std=c++11
 
 # Linux only
 unix:!macx {
-  PKGCONFIG += libqwt libsciscintilla
   debug {
     QMAKE_CXXFLAGS += -ggdb
   }
-  # lib for scope shm interface
-  LIBS += -lrt
 
-  lessThan(QT_MAJOR_VERSION, 5) {
-#    LIBS += -lqscintilla2
-  } else {
-#    LIBS += -lqt5scintilla2
-  }
   QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
 }
 
 # Mac OS X only
 macx {
+  QT_CONFIG -= no-pkg-config
   CONFIG += warn_off
   CONFIG += qscintilla2 qwt
 
