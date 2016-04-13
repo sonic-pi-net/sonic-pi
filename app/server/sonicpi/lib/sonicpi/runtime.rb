@@ -700,7 +700,7 @@ module SonicPi
 
       # skip __nosave lines for error reporting
       firstline = 1
-      firstline -= code.split(/\r?\n/).count{|l| l.include? "#__nosave__"}
+      firstline -= code.lines.to_a.count{|l| l.include? "#__nosave__"}
       start_t_prom = Promise.new
       info[:workspace] = 'eval' unless info[:workspace]
       job = Thread.new do
