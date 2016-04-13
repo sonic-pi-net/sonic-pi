@@ -249,7 +249,7 @@ Toutefois, ils ne seront pas visibles dans la trace.</translation>
         <location filename="../mainwindow.cpp" line="932"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Bascule de la vérification automatique des mises à jour.
+        <translation>Activer/Désactiver la vérification automatique des mises à jour.
 Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre plateforme et votre version.</translation>
     </message>
     <message>
@@ -261,8 +261,8 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
         <location filename="../mainwindow.cpp" line="934"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Force une vérification des mises à jour sur le champ.
-Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre plateforme et votre version.</translation>
+        <translation>Force une vérification des mises à jour.
+Cette vérification implique l&apos;envoi d&apos;informations anonymes à propos de votre plateforme et de votre version.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"/>
@@ -307,7 +307,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
     <message>
         <location filename="../mainwindow.cpp" line="965"/>
         <source>Configure automation features.</source>
-        <translation>Configuration des caractéristiques de l&apos;automatisation.</translation>
+        <translation>Configurer les fonctionnalités d&apos;automatisation.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="966"/>
@@ -327,7 +327,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
         <source>Toggle line number visibility.</source>
-        <translation>Changer la visibilité des numéros de ligne.</translation>
+        <translation>Activer/désactiver la visibilité des numéros de ligne.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="971"/>
@@ -337,7 +337,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
     <message>
         <location filename="../mainwindow.cpp" line="972"/>
         <source>Toggle visibility of the log.</source>
-        <translation>Changer la visibilité de la trace.</translation>
+        <translation>Activer/désactiver la visibilité du journal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"/>
@@ -347,7 +347,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
     <message>
         <location filename="../mainwindow.cpp" line="975"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation>Changer la visibilité des boutons de contrôle.</translation>
+        <translation>Activer/désactiver la visibilité des boutons de contrôle.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"/>
@@ -357,7 +357,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
     <message>
         <location filename="../mainwindow.cpp" line="979"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Bascule de l&apos;affichage des onglets de sélection des buffers.</translation>
+        <translation>Activer/désactiver l&apos;affichage des onglets de sélection des buffers.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"/>
@@ -367,7 +367,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
     <message>
         <location filename="../mainwindow.cpp" line="981"/>
         <source>Toggle full screen mode.</source>
-        <translation>Bascule du mode plein écran.</translation>
+        <translation>Activer/désactiver le mode plein écran.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"/>
@@ -377,7 +377,7 @@ Cette vérification implique l&apos;envoi d&apos;informations anonymes sur votre
     <message>
         <location filename="../mainwindow.cpp" line="983"/>
         <source>Toggle dark mode.</source>
-        <translation>Bascule du mode sombre.</translation>
+        <translation>Activer/désactiver le mode sombre.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="983"/>
@@ -397,7 +397,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     </message>
     <message>
         <source>Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="vanished">Le mode sombre est parfait pour le codage en live dans les boîtes de nuit</translation>
+        <translation type="vanished">Le mode sombre est parfait pour le codage en live dans les boites de nuit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1022"/>
@@ -432,8 +432,7 @@ Dark mode is perfect for live coding in night clubs.</source>
     </message>
     <message>
         <source>Apologies, a critical error occurred during startup</source>
-        <translation type="vanished">Veuillez nous excuser, une erreur critique s&apos;est produite
-pendant le démarrage.</translation>
+        <translation type="vanished">Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démarrage</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1148"/>
@@ -551,7 +550,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="1596"/>
         <source>Updating System Volume...</source>
-        <translation>Changement du volume du son du système ...</translation>
+        <translation>Mise à jour du volume système...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1818"/>
@@ -571,7 +570,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2000"/>
         <source>Run</source>
-        <translation>Run</translation>
+        <translation>Lancer</translation>
     </message>
     <message>
         <source>Run the code in the current workspace</source>
@@ -652,7 +651,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2038"/>
         <source>Improve readability of code</source>
-        <translation>Amélioration de la lisibilité du code</translation>
+        <translation>Améliore de la lisibilité du code</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2044"/>
@@ -692,7 +691,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
     <message>
         <location filename="../mainwindow.cpp" line="2108"/>
         <source>License</source>
-        <translation>License</translation>
+        <translation>Licence</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2109"/>
@@ -708,7 +707,7 @@ Veuillez nous excuser, une erreur critique s&apos;est produite pendant le démar
         <location filename="../mainwindow.cpp" line="2150"/>
         <location filename="../mainwindow.cpp" line="2151"/>
         <source>Stop Recording</source>
-        <translation>Arrête l&apos;enregistrement</translation>
+        <translation>Arrêter l&apos;enregistrement</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2164"/>
@@ -781,7 +780,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2553"/>
         <source>Welcome back. Now get your live code on...</source>
-        <translation>Retour bienvenu. Obtenez maintenant votre code sur...</translation>
+        <translation>Bon retour. Obtenez maintenant votre code sur...</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="79"/>
@@ -840,7 +839,7 @@ Obtenez Sonic Pi %1</translation>
     <name>SonicPiUDPServer</name>
     <message>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port 4558.</source>
-        <translation type="vanished">Sonic Pi toujours en cours d&apos;exécution ? Ouverture du port UDP 4558 impossible</translation>
+        <translation type="vanished">Sonic Pi est-il déjà en cours d&apos;exécution ? Impossible d&apos;ouvrir le port UDP 4558.</translation>
     </message>
 </context>
 </TS>
