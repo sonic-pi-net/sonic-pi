@@ -18,7 +18,8 @@
 #-------------------------------------------------
 
 TARGET = 'sonic-pi'
-CONFIG += debug link_pkgconfig qscintilla2 qwt
+#CONFIG += debug
+CONFIG += link_pkgconfig qscintilla2 qwt
 PKGCONFIG += libboost
 
 QT += core gui concurrent network 
@@ -27,6 +28,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
 
 # Linux only
 unix:!macx {
@@ -34,27 +36,19 @@ unix:!macx {
     QMAKE_CXXFLAGS += -ggdb
   }
 
-  QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
 }
 
 # Mac OS X only
 macx {
   QT_CONFIG -= no-pkg-config
   CONFIG += warn_off
-  CONFIG += qscintilla2 qwt
 
-#  include( native/qwt/features/qwt.prf )
-#  CONFIG += qwt
-#  LIBS += -framework qwt
-#  QMAKE_LFLAGS += -F../../../../qwt-6.1/lib -L../../../../QScintilla-gpl-2.9.1/Qt4Qt5
   QMAKE_CXXFLAGS += -stdlib=libc++
-#  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
+  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
 
   TARGET = 'Sonic Pi'
-#  LIBS += -lqscintilla2
-#  QT += macextras
-#  DEFINES += DONT_USE_OSX_KEYS
-#  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
+  QT += macextras
+  DEFINES += DONT_USE_OSX_KEYS
 }
 
 # Windows only
