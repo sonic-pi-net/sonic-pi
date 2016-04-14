@@ -25,6 +25,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+## GUI
+As the Sonic Pi GUI links with the GPLv3-licensed QScintilla2,
+distributors of Sonic Pi GUI binaries must comply with the terms of the
+GPL
 
 ## Docs, Tutorial and Examples 
 (contents of [etc/doc/](https://github.com/samaaron/sonic-pi/tree/master/etc/doc) and [etc/examples](https://github.com/samaaron/sonic-pi/tree/master/etc/examples) directories)
