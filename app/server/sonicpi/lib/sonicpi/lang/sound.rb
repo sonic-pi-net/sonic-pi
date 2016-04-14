@@ -2983,71 +2983,249 @@ By combining commands which add to the candidates and then filtering those candi
 
 
           examples:      ["
-sample :perc_bell # plays one of Sonic Pi's built in samples",
-        "sample '/home/yourname/path/to/a/sample.wav' # plays a wav|wave|aif|aiff|flac file from your local filesystem",
-        "# Let's play with the rate opt
-# play one of the included samples
+# Play a built-in sample
+
+sample :loop_amen # Plays the Amen break",
+        "
+# Play two samples at the same time
+# with incredible timing accuracy
+
 sample :loop_amen
-sleep sample_duration(:loop_amen) # this sleeps for exactly the length of the sample
+sample :ambi_lunar_land # Note, for timing guarantees select the pref:
+                        #   Studio -> Synths and FX -> Enforce timing guarantees",
+        "
+# Create a simple repeating bass drum
 
-# Setting a rate of 0.5 will cause the sample to
-#   a) play half as fast
-#   b) play an octave down in pitch
-#
-# Listen:
-sample :loop_amen, rate: 0.5
-sleep sample_duration(:loop_amen, rate: 0.5)
+live_loop :bass do
+  sample :bd_haus
+  sleep 0.5
+end",
+        "
+# Create a more complex rhythm with multiple live loops:
 
-# Setting a really low number means the sample takes
-# a very long time to finish! Also it sounds very
-# different to the original sound
-sample :loop_amen, rate: 0.05
-sleep sample_duration(:loop_amen, rate: 0.05)",
-        "# Setting a really negative number can be lots of fun
-# It plays the sample backwards!
-sample :loop_amen, rate: -1
-sleep sample_duration(:loop_amen, rate: 1)  # there's no need to give sample_duration a negative number though
+live_loop :rhythm do
+  sample :tabla_ghe3 if (spread 5, 7).tick
+  sleep 0.125
+end
 
-                                             # Using a rate of -0.5 is just like using the positive 0.5
-                                             # (lower in pitch and slower) except backwards
-sample :loop_amen, rate: -0.5
-sleep sample_duration(:loop_amen, rate: 0.5) # there's no need to give sample_duration a negative number though",
-        "# BE CAREFUL
-# Don't set the rate to 0 though because it will get stuck
-# and won't make any sound at all!
-# We can see that the following would take Infinity seconds to finish
-puts sample_duration(:loop_amen, rate: 0)",
-        "# Just like the play method, we can assign our sample player
-# to a variable and control the rate opt whilst it's playing.
-#
-# The following example sounds a bit like a vinyl record speeding up
-# Note, this technique only works when you don't use envelope or start/finish opts.
-s = sample :loop_amen_full, rate: 0.05
-sleep 1
-control(s, rate: 0.2)
-sleep 1
-control(s, rate: 0.4)
-sleep 1
-control(s, rate: 0.6)
-sleep 1
-control(s, rate: 0.8)
-sleep 1
-control(s, rate: 1)",
+live_loop :bd, sync: :rhythm do
+  sample :bd_haus, lpf: 90, amp: 2
+  sleep 0.5
+end",
         "
-# Using the start: and finish: opts you can play a section of the sample.
-# The default start is 0 and the default finish is 1
-sample :loop_amen, start: 0.5, finish: 1 # play the last half of a sample",
+# Change the playback speed of the sample using rate:
+
+sample :loop_amen, rate: 0.5 # Play the Amen break at half speed
+                             # for old school hip-hop",
         "
-# You can also play part of any sample backwards by using a start value that's
-# higher than the finish
-sample :loop_amen, start: 1, finish: 0.5 # play the last half backwards",
+# Speed things up
+
+sample :loop_amen, rate: 1.5 # Play the Amen break at 1.5x speed
+                             # for a jungle/gabba sound",
         "
-# You can also specify the sample using a Hash with a sample_name: key
-sample {sample_name: :loop_amen, rate: 2}",
+# Go backwards
+
+sample :loop_amen, rate: -1 # Negative rates play the sample backwards",
         "
-# You can also specify the sample using a lambda that yields a symbol
-# although you probably don't need a lambda for this in most cases.
-sample lambda { [:loop_amen, :loop_garzul].choose }"]
+# Fast rewind
+
+sample :loop_amen, rate: -3 # Play backwards at 3x speed for a fast rewind effect",
+        "
+# Start mid sample
+
+sample :loop_amen, start: 0.5 # Start playback half way through",
+        "
+# Finish mid sample
+
+sample :loop_amen, finish: 0.5 # Finish playback half way through",
+        "
+# Play part of a sample
+
+sample :loop_amen, start: 0.125, finish: 0.25 # Play the second eighth of the sample",
+        "
+# Finishing before the start plays backwards
+
+sample :loop_amen, start: 0.25, finish: 0.125 # Play the second eighth of the sample backwards",
+        "
+# Play a section of a sample half speed backwards
+
+sample :loop_amen, start: 0.125, finish: 0.25, rate: -0.25 # Play the second eighth of the
+                                                           # amen break backwards at a
+                                                           # quarter speed",
+        "
+# Build a simple beat slicer
+
+use_sample_bpm :loop_amen                    # Set the BPM to match the amen break sample
+
+live_loop :beat_slicer do
+  n = 8                                      # Set number of slices. Try changing this
+                                             # to 2, 4, 6, 16 or 32
+
+  d = 1.0 / n                                # Calculate the duration of a slice as a
+                                             # fraction of the sample
+
+  s = (line 0, 1, steps: n).choose           # Create a ring of starting points and
+                                             # randomly choose one
+
+  f = s + d                                  # Calculate the finish point
+
+  sample :loop_amen, start: s, finish: f     # Play the specific part of the sample
+
+  sleep d                                    # Sleep for the duration of the slice
+end",
+        "
+# Play with the built-in low pass filter, high pass filter and compressor
+
+sample :loop_amen, lpf: 80, hpf: 70, compress: 1, pre_amp: 10 # Make the amen break sound punchy.",
+        "
+# Use the cutoff filter envelopes
+
+sample :loop_garzul, lpf_attack: 8 # Sweep the low pass filter up over 8 beats
+sleep 8
+sample :loop_garzul, hpf_attack: 8 # Sweep the high pass filter down over 8 beats",
+        "
+# Sample stretching
+
+puts sample_duration :loop_industrial                   # => 0.88347
+puts sample_duration :loop_industrial, beat_stretch: 1  # => 1
+
+live_loop :industrial do
+  sample :loop_industrial, beat_stretch: 1              # Stretch the sample to make it 1 beat long
+  sleep 1                                               # This now loops perfectly.
+                                                        # However, note that stretching/shrinking
+                                                        # also modifies the pitch.
+end",
+        "
+# Sample shrinking
+
+puts sample_duration :loop_garzul                       # => 8
+puts sample_duration :loop_garzul, beat_stretch: 6      # => 6
+
+live_loop :garzul do
+  sample :loop_garzul, beat_stretch: 6                  # As :loop_garzul is longer than 6 beats
+                                                        # it is shrunk to fit. This increases the
+                                                        # pitch.
+
+  sleep 6
+end",
+        "
+# Sample stretching matches the BPM
+
+use_bpm 30                                              # Set the BPM to 30
+
+puts sample_duration :loop_garzul                       # => 4.0 (at 30 BPM the sample lasts for 4 beats)
+puts sample_duration :loop_garzul, beat_stretch: 6      # => 6.0
+
+live_loop :garzul do
+  sample :loop_garzul, beat_stretch: 6                  # The sample is stretched to match 6 beats at 30 BPM
+  sleep 6
+end",
+        "
+# External samples
+
+sample \"/path/to/sample.wav\"                          # Play any Wav, Aif or FLAC sample on your computer
+                                                        # by simply passing a string representing the full
+                                                        # path",
+        "
+# Sample pack filtering
+
+dir = \"/path/to/dir/of/samples\"                       # You can easily work with a directory of samples
+
+sample dir                                              # Play the first sample in the directory
+                                                        # (it is sorted alphabetically)
+
+sample dir, 1                                           # Play the second sample in the directory
+
+sample dir, 99                                          # Play the 99th sample in the directory, or if there
+                                                        # are fewer, treat the directory like a ring and keep
+                                                        # wrapping the index round until a sample is found.
+                                                        # For example, if there are 90 samples, the 10th sample
+                                                        # is played (index 9).
+
+sample dir, \"120\"                                     # Play the first sample in the directory that contains
+                                                        # the substring \"120\".
+                                                        # For example, this may be \"beat1_120_rave.wav\"
+
+sample dir, \"120\", 1                                  # Play the second sample in the directory that contains
+                                                        # the substring \"100\".
+                                                        # For example, this may be \"beat2_120_rave.wav\"
+
+sample dir, /beat[0-9]/                                 # Play the first sample in the directory that matches
+                                                        # the regular expression /beat[0-9]/.
+                                                        # For example, this may be \"beat0_100_trance.wav\"
+                                                        # You may use the full power of Ruby's regular expression
+                                                        # system here: http://ruby-doc.org/core-2.1.1/Regexp.html
+
+sample dir, /beat[0-9]0/, \"100\"                       # Play the first sample in the directory that both matches
+                                                        # the regular expression /beat[0-9]0/ and contains the
+                                                        # the substring \"100\".
+                                                        # For example, this may be \"beat10_100_rave.wav\"",
+        "
+# Filtering built-in samples
+
+                                                        # If you don't pass a directory source, you can filter over
+                                                        # the built-in samples.
+sample \"tabla_\"                                       # Play the first built-in sample that contains the substring
+                                                        # \"tabla\"
+
+sample \"tabla_\", 2                                    # Play the second built-in sample that contains the substring
+                                                        # \"tabla\"",
+        "
+# Play with whole directories of samples
+
+load_samples \"tabla_\"                                 # You may pass any of the source/filter options to load_samples
+                                                        # to load all matching samples. This will load all the built-in
+                                                        # samples containing the substring \"tabla_\"
+
+live_loop :tabla do
+  sample \"tabla_\", tick                               # Treat the matching samples as a ring and tick through them
+  sleep 0.125
+end",
+        "
+# Specify multiple sources
+
+dir1 = \"/path/to/sample/directory\"
+dir2 = \"/path/to/other/sample/directory\"
+
+sample dir1, dir2, \"foo\"                              # Match the first sample that contains the string \"foo\" out of
+                                                        # all the samples in dir1 and dir2 combined.
+
+                                                        # Note that the sources must be listed before any filters.",
+        "
+# List contents recursively
+dir = \"/path/to/sample/directory\"                     # By default the list of all top-level samples within the directory
+                                                        # is considered.
+dir_recursive = \"/path/to/sample/directory/**\"        # However, if you finish your directory string with ** then if that
+                                                        # directory contains other directories then the samples within the
+                                                        # subdirectories and their subsubdirectories in turn are considered.
+
+sample dir, 0                                           # Play the first top-level sample in the directory
+
+sample dir_recursive, 0                                 # Play the first sample found after combinining all samples found in
+                                                        # the directory and all directories within it recursively.
+                                                        # Note that if there are many sub directories this may take some time
+                                                        # to execute. However, the result is cached so subsequent calls will
+                                                        # be fast.",
+        "
+# Bespoke filters
+
+
+filter = lambda do |candidates|                         # If the built-in String, Regexp and index filters are not sufficient
+  [candidates.choose]                                   # you may write your own. They need to be a function which takes a list
+end                                                     # of paths to samples and return a list of samples. This one returns a
+                                                        # list of a single randomly selected sample.
+8.times do
+  sample \"drum_\", filter                              # Play 8 randomly selected samples from the built-in sample set that also
+  sleep 0.25                                            # contain the substring \"drum_\"
+end"
+]
+
+
+
+
+
+
+
 
 
 
