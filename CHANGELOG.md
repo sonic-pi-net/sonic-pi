@@ -17,8 +17,7 @@
 *Friday 15th April, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.10.0)
 
-_"I gotta have more cowbell!"_ - you asked for more and `v2.10`
-delivers.
+_"I gotta have more cowbell!"_ - The Bruce Dickinson
 
 The main feature in this release is the completely new sample system for
 working with large folders of samples. You can now easily index into and
