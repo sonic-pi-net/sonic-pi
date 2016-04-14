@@ -1464,8 +1464,8 @@ void MainWindow::runCode()
     code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
-  if(!check_args->isChecked()) {
-    code = "use_arg_checks false #__nosave__ set by Qt GUI user preferences.\n" + code ;
+  if(check_args->isChecked()) {
+    code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code ;
   }
 
   if(enable_external_synths_cb->isChecked()) {
