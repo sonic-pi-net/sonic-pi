@@ -56,7 +56,7 @@ fixed making this the most polished and stable release to date.
 * `doubles` - create a ring of successive doubles.
 * `pick` - similar to shuffle but allows duplicates. You may also
   specify how many items to pick.
-* `fx_names` - create a ring of all available FX o
+* `fx_names` - create a ring of all available FX.
 
 ### Synths & FX
 
@@ -84,9 +84,7 @@ fixed making this the most polished and stable release to date.
   folders containing samples and filters over those folders to allow you
   to easily and quickly work with large sample sets. See Section 3.7 of
   the tutorial for more information.
-* Sampler now has a high pass filter envelope which can be accessed via
-  new opts which mirror the standard envelope opts but with a `hpf_`
-  prefix (such as `hpf_attack`, `hpf_decay_level` and friends).
+
 * Samplers now have `hpf:` and `lpf:` opts. Any `cutoff:` opts are
   automatically switched to `lpf:` and any errors will be reported with
   an `lpf:` prefix.
@@ -98,7 +96,9 @@ fixed making this the most polished and stable release to date.
   the new compressor.
 * Samplers now have both high pass and low pass filter envelopes which
   behave similarly to the amplitude envelope but control internal hpf
-  and lpf FX.
+  and lpf FX. These are available via new opts which mirror the standard
+  envelope opts but with a `hpf_` and `lpf_` prefix (such as
+  `hpf_attack`, `lpf_decay_level` and friends).
 * Passing a directory path to `load_samples` will now load all the
   samples within that directory.
 * Passing a directory path to `free_samples` will now free all the
