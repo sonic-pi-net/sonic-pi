@@ -1,5 +1,5 @@
 # History
-* [v2.10 'Krunchy'](#v2.10), yet to be released
+* [v2.10 'Cowbell'](#v2.10), 15th April, 2016
 * [v2.9 'Venster'](#v2.9), 31st Dec, 2015
 * [v2.8 'Karlsruhe'](#v2.8), 20th Nov, 2015
 * [v2.7 'Rerezzed'](#v2.7), 10th Sept, 2015
@@ -13,9 +13,26 @@
 
 <a name="v2.10"></a>
 
-## Version 2.10 - 'Krunchy'
-*yet to be released*
+## Version 2.10 - 'Cowbell'
+*Friday 15th April, 2016*
 [(view commits)](https://github.com/samaaron/sonic-pi/commits/v2.10.0)
+
+_"I gotta have more cowbell!"_ - you asked for more and `v2.10`
+delivers.
+
+The main feature in this release is the completely new sample system for
+working with large folders of samples. You can now easily index into and
+filter over whole folders of samples with a simple yet powerful filter
+system. This system has been in development for over a year now and has
+been tuned and tweaked over many performances and practice sessions. See
+the documentation and examples for `sample` as well as the new tutorial
+section 3.7 for details.
+
+We also have a number of exciting new samples, synths and FX to play
+with including some beautifully sounding chiptune sounds.
+
+Finally, even more boot issues on both OS X and Windows that have been
+fixed making this the most polished and stable release to date.
 
 
 ### Breaking Changes
@@ -26,9 +43,8 @@
   synthdef itself) is honoured. This allows you to override any existing
   synth defaults specified via `use_synth_defaults` for a given synth
   trigger.
-* Synths and samples no longer trigger if it is too late - instead they
-  are silent and print a warning message. This behaviour ensures samples
-  or synths are never triggered out of time.
+* Default schedule ahead time is now 0.5s on all platforms for
+  consistency (except for Raspberry Pi 1 which remains at 1s).
 
 
 ### New Fns
@@ -41,6 +57,7 @@
 * `doubles` - create a ring of successive doubles.
 * `pick` - similar to shuffle but allows duplicates. You may also
   specify how many items to pick.
+* `fx_names` - create a ring of all available FX o
 
 ### Synths & FX
 
@@ -58,7 +75,7 @@
 * New FX `:mono` - mono effect for summing stereo channels.
 * `:tanh` FX is now more crunchy by default.
 * `:compressor` and `:krush` FX now correctly honour the `mix:` opt.
-* Increase default amplitude of `:krush` FX.
+
 
 ### Samples
 
@@ -103,6 +120,10 @@
 
 ### GUI
 
+* Add new preference to enforce strict synth/FX timing. When enabled
+  synths and samples no longer trigger if it is too late - instead they
+  are silent and print a warning message. This behaviour ensures samples
+  or synths are never triggered out of time.
 * New load button which will load the contents of a file into the
   current buffer.
 * The vertical bars which help visualise nesting now render in a
@@ -116,12 +137,14 @@
 * Hitting `RETURN` now auto-indents the buffer - ensuring that the
   cursor is moved to the correct indentation on the following line.
 * Added Chinese Simplified GUI translation.
+* Log visibility now correctly matches GUI preference.
 
 
 ### Documentation
 
 * New tutorial section 3.7 on Sample Pack Filters.
 * New appendix sections.
+* Completely rewrite examples for `sample` fn.
 
 
 ### Improvements
@@ -138,6 +161,9 @@
   the number added or subtracted from each of the original ring's
   elements: `(ring 1, 2, 3) - 1 #=> (ring 0.0, 1.0, 2.0)`
 * Calling `(ring 1, 2, 3).take(0)` will now return an empty ring.
+* `density` now complains if it isn't passed a do/end block.
+* Improve error messages for `use/with_synth` when accidentally passed opts.
+
 
 
 ### Bugfixes
@@ -153,6 +179,9 @@
 * Fix `C-i` doc lookup shortcut to work with `:tb303` synth docs.
 * `C-i` now always displays docs where available (previously it was
   possible for docs not to be displayed).
+* Sliding between chords now works correctly  
+* Windows version will now boot mutiple networked machines logged in
+  with the same account.
 
 
 <a name="v2.9"></a>
