@@ -223,9 +223,9 @@ module SonicPi
 
       booted = false
       connected = false
-      FileUtils.rm scsynth_log_path if File.exists?(scsynth_log_path)
 
       begin
+        FileUtils.rm scsynth_log_path if File.exists?(scsynth_log_path)
         @scsynth_log_file = File.open(scsynth_log_path, 'w')
       rescue
         @scsynth_log_file = nil
