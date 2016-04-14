@@ -152,22 +152,22 @@ Links to original samples:
 
 ## Tabla
 
-* `:tabla_tas` - http://freesound.org/people/dio_333/sounds/130427/
+* `:tabla_tas1` - http://freesound.org/people/dio_333/sounds/130427/
 * `:tabla_tas2` - http://freesound.org/people/dio_333/sounds/130425/
 * `:tabla_tas3` - http://freesound.org/people/dio_333/sounds/130430/
-* `:tabla_ke` - http://freesound.org/people/dio_333/sounds/130413/
+* `:tabla_ke1` - http://freesound.org/people/dio_333/sounds/130413/
 * `:tabla_ke2` - http://freesound.org/people/dio_333/sounds/130424/
 * `:tabla_ke3` - http://freesound.org/people/dio_333/sounds/130423/
 * `:tabla_na` - http://freesound.org/people/dio_333/sounds/130421/
 * `:tabla_na_o` - http://freesound.org/people/dio_333/sounds/130422/
-* `:tabla_tun` - http://freesound.org/people/dio_333/sounds/130416/
+* `:tabla_tun1` - http://freesound.org/people/dio_333/sounds/130416/
 * `:tabla_tun2` - http://freesound.org/people/dio_333/sounds/130419/
 * `:tabla_tun3` - http://freesound.org/people/dio_333/sounds/130420/
-* `:tabla_te` - http://freesound.org/people/dio_333/sounds/130429/
+* `:tabla_te1` - http://freesound.org/people/dio_333/sounds/130429/
 * `:tabla_te2` - http://freesound.org/people/dio_333/sounds/130418/
 * `:tabla_te_ne` - http://freesound.org/people/dio_333/sounds/130417/
 * `:tabla_te_m` - http://freesound.org/people/dio_333/sounds/130415/
-* `:tabla_ghe` - http://freesound.org/people/dio_333/sounds/130406/
+* `:tabla_ghe1` - http://freesound.org/people/dio_333/sounds/130406/
 * `:tabla_ghe2` - http://freesound.org/people/dio_333/sounds/130405/
 * `:tabla_ghe3` - http://freesound.org/people/dio_333/sounds/130404/
 * `:tabla_ghe4` - http://freesound.org/people/dio_333/sounds/130411/
