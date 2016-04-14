@@ -2906,7 +2906,7 @@ module SonicPi
       end
     end
 
-    class SoundIn < SonicPiSynth
+    class SoundIn < StudioInfo
       def name
         "Sound In"
       end
