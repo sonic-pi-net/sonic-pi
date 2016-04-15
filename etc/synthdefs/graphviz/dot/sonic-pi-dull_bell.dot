@@ -1,0 +1,258 @@
+digraph synthdef {
+21 [label = "{{ <b> 1.0|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+22 [label = "{{ <b> 1.0|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+23 [label = "{{ <b> 1.0|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+36 [label = "{{ <b> |<a> 0.56} |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+38 [label = "{{ <b> |<a> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
+39 [label = "{{ <b> 0.5|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+40 [label = "{{ <b> 0.5|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+41 [label = "{{ <b> 0.5|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+43 [label = "{{ <b> |<a> 1.19} |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+45 [label = "{{ <b> |<a> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
+57 [label = "{{ <b> 0.25|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+58 [label = "{{ <b> 0.25|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+59 [label = "{{ <b> 0.25|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+61 [label = "{{ <b> |<a> 3.0} |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+63 [label = "{{ <b> |<a> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
+65 [label = "{{ <b> 0.125|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+66 [label = "{{ <b> 0.125|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+67 [label = "{{ <b> 0.125|<a> } |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+69 [label = "{{ <b> |<a> 3.76} |<__UG_NAME__>* }" style="bold, rounded" shape=record rankdir=LR];
+71 [label = "{{ <b> |<a> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
+73 [label = "{{ <b> |<a> } |<__UG_NAME__>* }" style="filled, bold, rounded"  shape=record rankdir=LR];
+29 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+33 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+46 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="filled, bold, rounded"  shape=record rankdir=LR];
+51 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+55 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+64 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="filled, bold, rounded"  shape=record rankdir=LR];
+72 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="filled, bold, rounded"  shape=record rankdir=LR];
+78 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+82 [label = "{{ <b> |<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+86 [label = "{{ <b> |<a> -1.0} |<__UG_NAME__>= }" style="bold, rounded" shape=record rankdir=LR];
+28 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+32 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+50 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+54 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+77 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+81 [label = "{{ <b> 0.0|<a> } |<__UG_NAME__>\> }" style="bold, rounded" shape=record rankdir=LR];
+27 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+31 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+49 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+53 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+76 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+80 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="bold, rounded" shape=record rankdir=LR];
+0 [label = "control
+ :note
+ default: 52.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+1 [label = "control
+ :note_slide
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+2 [label = "control
+ :note_slide_shape
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+3 [label = "control
+ :note_slide_curve
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+4 [label = "control
+ :amp
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+5 [label = "control
+ :amp_slide
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+6 [label = "control
+ :amp_slide_shape
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+7 [label = "control
+ :amp_slide_curve
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+8 [label = "control
+ :pan
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+9 [label = "control
+ :pan_slide
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+10 [label = "control
+ :pan_slide_shape
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+11 [label = "control
+ :pan_slide_curve
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+12 [label = "control
+ :attack
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+13 [label = "control
+ :decay
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+14 [label = "control
+ :sustain
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+15 [label = "control
+ :release
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+16 [label = "control
+ :attack_level
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+17 [label = "control
+ :decay_level
+ default: -1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+18 [label = "control
+ :sustain_level
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+19 [label = "control
+ :env_curve
+ default: 1.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+20 [label = "control
+ :out_bus
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+88 [label = "{{ <action> action 2.0|<time> time 0.1|<amp> amp 1.0E-4|<in> in} |<__UG_NAME__>detect-silence }" style="filled, bold, rounded"  shape=record rankdir=LR];
+24 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 0.5|<gate> gate 1.0|{{0.0|4|-99|-99|<envelope___control___4>|<envelope___control___5>|1.0|0.0|<envelope___control___8>|<envelope___binary____op____u____gen___9>|1.0|0.0|<envelope___control___12>|<envelope___binary____op____u____gen___13>|1.0|0.0|0.0|<envelope___binary____op____u____gen___17>|1.0|0.0}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+34 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 1.0|<gate> gate|{{<envelope___control___0>|1.0|-99|-99|<envelope___control___4>|<envelope___control___5>|<envelope___control___6>|<envelope___control___7>}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+42 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 0.25|<gate> gate 1.0|{{0.0|4|-99|-99|<envelope___control___4>|<envelope___control___5>|1.0|0.0|<envelope___control___8>|<envelope___binary____op____u____gen___9>|1.0|0.0|<envelope___control___12>|<envelope___binary____op____u____gen___13>|1.0|0.0|0.0|<envelope___binary____op____u____gen___17>|1.0|0.0}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+56 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 1.0|<gate> gate|{{<envelope___control___0>|1.0|-99|-99|<envelope___control___4>|<envelope___control___5>|<envelope___control___6>|<envelope___control___7>}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+60 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 0.125|<gate> gate 1.0|{{0.0|4|-99|-99|<envelope___control___4>|<envelope___control___5>|1.0|0.0|<envelope___control___8>|<envelope___binary____op____u____gen___9>|1.0|0.0|<envelope___control___12>|<envelope___binary____op____u____gen___13>|1.0|0.0|0.0|<envelope___binary____op____u____gen___17>|1.0|0.0}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+68 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 0.0625|<gate> gate 1.0|{{0.0|4|-99|-99|<envelope___control___4>|<envelope___control___5>|1.0|0.0|<envelope___control___8>|<envelope___binary____op____u____gen___9>|1.0|0.0|<envelope___control___12>|<envelope___binary____op____u____gen___13>|1.0|0.0|0.0|<envelope___binary____op____u____gen___17>|1.0|0.0}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+83 [label = "{{ <action> action 0.0|<time____scale> time-scale 1.0|<level____bias> level-bias 0.0|<level____scale> level-scale 1.0|<gate> gate|{{<envelope___control___0>|1.0|-99|-99|<envelope___control___4>|<envelope___control___5>|<envelope___control___6>|<envelope___control___7>}|envelope}} |<__UG_NAME__>env-gen }" style="bold, rounded" shape=record rankdir=LR];
+26 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+30 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+48 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+52 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+75 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+79 [label = "{{ <in> in} |<__UG_NAME__>hpz1 }" style="bold, rounded" shape=record rankdir=LR];
+25 [label = "{{ <phase> phase 0.0|<freq> freq 0.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
+47 [label = "{{ <phase> phase 0.0|<freq> freq 0.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
+74 [label = "{{ <phase> phase 0.0|<freq> freq 0.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
+35 [label = "{{ <b> |<a> } |<__UG_NAME__>midicps }" style="bold, rounded" shape=record rankdir=LR];
+85 [label = "{{ {{<signals___pan2___0>|<signals___pan2___1>}|signals}|<bus> bus} |<__UG_NAME__>out }" style="filled, bold, rounded"  shape=record rankdir=LR];
+84 [label = "{{ <level> level 1.0|<pos> pos|<in> in} |<__UG_NAME__>pan2 }" style="filled, bold, rounded"  shape=record rankdir=LR];
+87 [label = "{{ {{<array___control___0>|<array___control___1>}|array}|<which> which} |<__UG_NAME__>select }" style="bold, rounded" shape=record rankdir=LR];
+37 [label = "{{ <add> add 0.0|<mul> mul 1.0|<phase> phase 0.0|<freq> freq} |<__UG_NAME__>sin-osc }" style="filled, bold, rounded"  shape=record rankdir=LR];
+44 [label = "{{ <add> add 0.0|<mul> mul 1.0|<phase> phase 0.0|<freq> freq} |<__UG_NAME__>sin-osc }" style="filled, bold, rounded"  shape=record rankdir=LR];
+62 [label = "{{ <add> add 0.0|<mul> mul 1.0|<phase> phase 0.0|<freq> freq} |<__UG_NAME__>sin-osc }" style="filled, bold, rounded"  shape=record rankdir=LR];
+70 [label = "{{ <add> add 0.0|<mul> mul 1.0|<phase> phase 0.0|<freq> freq} |<__UG_NAME__>sin-osc }" style="filled, bold, rounded"  shape=record rankdir=LR];
+
+13:__UG_NAME__ -> 21:a ;
+14:__UG_NAME__ -> 22:a ;
+15:__UG_NAME__ -> 23:a ;
+35:__UG_NAME__ -> 36:b ;
+24:__UG_NAME__ -> 38:a ;
+37:__UG_NAME__ -> 38:b ;
+13:__UG_NAME__ -> 39:a ;
+14:__UG_NAME__ -> 40:a ;
+15:__UG_NAME__ -> 41:a ;
+35:__UG_NAME__ -> 43:b ;
+42:__UG_NAME__ -> 45:a ;
+44:__UG_NAME__ -> 45:b ;
+13:__UG_NAME__ -> 57:a ;
+14:__UG_NAME__ -> 58:a ;
+15:__UG_NAME__ -> 59:a ;
+35:__UG_NAME__ -> 61:b ;
+60:__UG_NAME__ -> 63:a ;
+62:__UG_NAME__ -> 63:b ;
+13:__UG_NAME__ -> 65:a ;
+14:__UG_NAME__ -> 66:a ;
+15:__UG_NAME__ -> 67:a ;
+35:__UG_NAME__ -> 69:b ;
+68:__UG_NAME__ -> 71:a ;
+70:__UG_NAME__ -> 71:b ;
+56:__UG_NAME__ -> 73:a ;
+72:__UG_NAME__ -> 73:b ;
+25:__UG_NAME__ -> 29:a ;
+28:__UG_NAME__ -> 29:b ;
+29:__UG_NAME__ -> 33:a ;
+32:__UG_NAME__ -> 33:b ;
+38:__UG_NAME__ -> 46:a ;
+45:__UG_NAME__ -> 46:b ;
+47:__UG_NAME__ -> 51:a ;
+50:__UG_NAME__ -> 51:b ;
+51:__UG_NAME__ -> 55:a ;
+54:__UG_NAME__ -> 55:b ;
+46:__UG_NAME__ -> 64:a ;
+63:__UG_NAME__ -> 64:b ;
+64:__UG_NAME__ -> 72:a ;
+71:__UG_NAME__ -> 72:b ;
+74:__UG_NAME__ -> 78:a ;
+77:__UG_NAME__ -> 78:b ;
+78:__UG_NAME__ -> 82:a ;
+81:__UG_NAME__ -> 82:b ;
+17:__UG_NAME__ -> 86:b ;
+27:__UG_NAME__ -> 28:a ;
+31:__UG_NAME__ -> 32:a ;
+49:__UG_NAME__ -> 50:a ;
+53:__UG_NAME__ -> 54:a ;
+76:__UG_NAME__ -> 77:a ;
+80:__UG_NAME__ -> 81:a ;
+26:__UG_NAME__ -> 27:a ;
+30:__UG_NAME__ -> 31:a ;
+48:__UG_NAME__ -> 49:a ;
+52:__UG_NAME__ -> 53:a ;
+75:__UG_NAME__ -> 76:a ;
+79:__UG_NAME__ -> 80:a ;
+73:__UG_NAME__ -> 88:in ;
+16:__UG_NAME__ -> 24:envelope___control___4 ;
+12:__UG_NAME__ -> 24:envelope___control___5 ;
+18:__UG_NAME__ -> 24:envelope___control___8 ;
+21:__UG_NAME__ -> 24:envelope___binary____op____u____gen___9 ;
+18:__UG_NAME__ -> 24:envelope___control___12 ;
+22:__UG_NAME__ -> 24:envelope___binary____op____u____gen___13 ;
+23:__UG_NAME__ -> 24:envelope___binary____op____u____gen___17 ;
+0:__UG_NAME__ -> 34:envelope___control___0 ;
+0:__UG_NAME__ -> 34:envelope___control___4 ;
+1:__UG_NAME__ -> 34:envelope___control___5 ;
+2:__UG_NAME__ -> 34:envelope___control___6 ;
+3:__UG_NAME__ -> 34:envelope___control___7 ;
+33:__UG_NAME__ -> 34:gate ;
+16:__UG_NAME__ -> 42:envelope___control___4 ;
+12:__UG_NAME__ -> 42:envelope___control___5 ;
+18:__UG_NAME__ -> 42:envelope___control___8 ;
+39:__UG_NAME__ -> 42:envelope___binary____op____u____gen___9 ;
+18:__UG_NAME__ -> 42:envelope___control___12 ;
+40:__UG_NAME__ -> 42:envelope___binary____op____u____gen___13 ;
+41:__UG_NAME__ -> 42:envelope___binary____op____u____gen___17 ;
+4:__UG_NAME__ -> 56:envelope___control___0 ;
+4:__UG_NAME__ -> 56:envelope___control___4 ;
+5:__UG_NAME__ -> 56:envelope___control___5 ;
+6:__UG_NAME__ -> 56:envelope___control___6 ;
+7:__UG_NAME__ -> 56:envelope___control___7 ;
+55:__UG_NAME__ -> 56:gate ;
+16:__UG_NAME__ -> 60:envelope___control___4 ;
+12:__UG_NAME__ -> 60:envelope___control___5 ;
+18:__UG_NAME__ -> 60:envelope___control___8 ;
+57:__UG_NAME__ -> 60:envelope___binary____op____u____gen___9 ;
+18:__UG_NAME__ -> 60:envelope___control___12 ;
+58:__UG_NAME__ -> 60:envelope___binary____op____u____gen___13 ;
+59:__UG_NAME__ -> 60:envelope___binary____op____u____gen___17 ;
+16:__UG_NAME__ -> 68:envelope___control___4 ;
+12:__UG_NAME__ -> 68:envelope___control___5 ;
+18:__UG_NAME__ -> 68:envelope___control___8 ;
+65:__UG_NAME__ -> 68:envelope___binary____op____u____gen___9 ;
+18:__UG_NAME__ -> 68:envelope___control___12 ;
+66:__UG_NAME__ -> 68:envelope___binary____op____u____gen___13 ;
+67:__UG_NAME__ -> 68:envelope___binary____op____u____gen___17 ;
+8:__UG_NAME__ -> 83:envelope___control___0 ;
+8:__UG_NAME__ -> 83:envelope___control___4 ;
+9:__UG_NAME__ -> 83:envelope___control___5 ;
+10:__UG_NAME__ -> 83:envelope___control___6 ;
+11:__UG_NAME__ -> 83:envelope___control___7 ;
+82:__UG_NAME__ -> 83:gate ;
+0:__UG_NAME__ -> 26:in ;
+1:__UG_NAME__ -> 30:in ;
+4:__UG_NAME__ -> 48:in ;
+5:__UG_NAME__ -> 52:in ;
+8:__UG_NAME__ -> 75:in ;
+9:__UG_NAME__ -> 79:in ;
+34:__UG_NAME__ -> 35:a ;
+20:__UG_NAME__ -> 85:bus ;
+84:__UG_NAME__ -> 85:signals___pan2___0 ;
+84:__UG_NAME__ -> 85:signals___pan2___1 ;
+73:__UG_NAME__ -> 84:in ;
+83:__UG_NAME__ -> 84:pos ;
+86:__UG_NAME__ -> 87:which ;
+17:__UG_NAME__ -> 87:array___control___0 ;
+18:__UG_NAME__ -> 87:array___control___1 ;
+36:__UG_NAME__ -> 37:freq ;
+43:__UG_NAME__ -> 44:freq ;
+61:__UG_NAME__ -> 62:freq ;
+69:__UG_NAME__ -> 70:freq ;
+
+}

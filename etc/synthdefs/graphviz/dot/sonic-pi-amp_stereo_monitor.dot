@@ -1,0 +1,36 @@
+digraph synthdef {
+2 [label = "{{ <b> 1.0|<a> } |<__UG_NAME__>+ }" style="bold, rounded" shape=record rankdir=LR];
+6 [label = "{{ <in> in} |<__UG_NAME__>a2k }" style="bold, rounded" shape=record rankdir=LR];
+10 [label = "{{ <in> in} |<__UG_NAME__>a2k }" style="bold, rounded" shape=record rankdir=LR];
+4 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="filled, bold, rounded"  shape=record rankdir=LR];
+8 [label = "{{ <b> |<a> } |<__UG_NAME__>abs }" style="filled, bold, rounded"  shape=record rankdir=LR];
+0 [label = "control
+ :bus
+ default: 0.0" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+1 [label = "control
+ :smoothness
+ default: 0.1" shape=invhouse style="rounded, filled, bold" fillcolor=black fontcolor=white ]; 
+11 [label = "{{ <phase> phase 0.0|<freq> freq 5.0} |<__UG_NAME__>impulse }" style="bold, rounded" shape=record rankdir=LR];
+3 [label = "{{ <num____channels> num-channels 1|<bus> bus} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+7 [label = "{{ <num____channels> num-channels 1|<bus> bus} |<__UG_NAME__>in }" style="filled, bold, rounded"  shape=record rankdir=LR];
+5 [label = "{{ <lag____time> lag-time|<in> in} |<__UG_NAME__>lag }" style="filled, bold, rounded"  shape=record rankdir=LR];
+9 [label = "{{ <lag____time> lag-time|<in> in} |<__UG_NAME__>lag }" style="filled, bold, rounded"  shape=record rankdir=LR];
+12 [label = "{{ <reply____id> reply-id|{{13}|values}|{{47|115|111|110|105|99|45|112|105|47|97|109|112|<cmd____name___a2k___13>|<cmd____name___a2k___14>}|cmd-name}|<trig> trig} |<__UG_NAME__>send-reply }" style="bold, rounded" shape=record rankdir=LR];
+
+0:__UG_NAME__ -> 2:a ;
+5:__UG_NAME__ -> 6:in ;
+9:__UG_NAME__ -> 10:in ;
+3:__UG_NAME__ -> 4:a ;
+7:__UG_NAME__ -> 8:a ;
+2:__UG_NAME__ -> 3:bus ;
+0:__UG_NAME__ -> 7:bus ;
+4:__UG_NAME__ -> 5:in ;
+1:__UG_NAME__ -> 5:lag____time ;
+8:__UG_NAME__ -> 9:in ;
+1:__UG_NAME__ -> 9:lag____time ;
+11:__UG_NAME__ -> 12:trig ;
+10:__UG_NAME__ -> 12:cmd____name___a2k___13 ;
+6:__UG_NAME__ -> 12:cmd____name___a2k___14 ;
+0:__UG_NAME__ -> 12:reply____id ;
+
+}
