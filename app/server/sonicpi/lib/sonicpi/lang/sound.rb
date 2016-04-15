@@ -3201,7 +3201,7 @@ dir_recursive = \"/path/to/sample/directory/**\"        # However, if you finish
 
 sample dir, 0                                           # Play the first top-level sample in the directory
 
-sample dir_recursive, 0                                 # Play the first sample found after combinining all samples found in
+sample dir_recursive, 0                                 # Play the first sample found after combining all samples found in
                                                         # the directory and all directories within it recursively.
                                                         # Note that if there are many sub directories this may take some time
                                                         # to execute. However, the result is cached so subsequent calls will
