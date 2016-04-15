@@ -445,7 +445,7 @@ sample :loop_amen  #=> unless time is too far behind, this will trigger even whe
 
 
       def with_timing_guarantees(v, &block)
-        raise "use_timing_guarantees requires a do/end block. Perhaps you meant use_timing_guarnatees" unless block
+        raise "with_timing_guarantees requires a do/end block. Perhaps you meant use_timing_guarantees" unless block
         current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_timing_guarantees)
         Thread.current.thread_variable_set(:sonic_pi_mod_sound_timing_guarantees, v)
         res = block.call
@@ -3047,7 +3047,7 @@ sample :loop_amen, start: 0.125, finish: 0.25 # Play the second eighth of the sa
 
 sample :loop_amen, start: 0.25, finish: 0.125 # Play the second eighth of the sample backwards",
         "
-# Play a section of a sample half speed backwards
+# Play a section of a sample at quarter speed backwards
 
 sample :loop_amen, start: 0.125, finish: 0.25, rate: -0.25 # Play the second eighth of the
                                                            # amen break backwards at a
@@ -3136,7 +3136,7 @@ sample dir                                              # Play the first sample 
 
 sample dir, 1                                           # Play the second sample in the directory
 
-sample dir, 99                                          # Play the 99th sample in the directory, or if there
+sample dir, 99                                          # Play the 100th sample in the directory, or if there
                                                         # are fewer, treat the directory like a ring and keep
                                                         # wrapping the index round until a sample is found.
                                                         # For example, if there are 90 samples, the 10th sample
@@ -3168,7 +3168,7 @@ sample dir, /beat[0-9]0/, \"100\"                       # Play the first sample 
 sample \"tabla_\"                                       # Play the first built-in sample that contains the substring
                                                         # \"tabla\"
 
-sample \"tabla_\", 2                                    # Play the second built-in sample that contains the substring
+sample \"tabla_\", 2                                    # Play the third built-in sample that contains the substring
                                                         # \"tabla\"",
         "
 # Play with whole directories of samples
