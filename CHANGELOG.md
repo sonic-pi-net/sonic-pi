@@ -31,8 +31,8 @@ We also have a number of exciting new sounds to play with including some
 beautifully sounding chiptune synths, fun retro FX and new drum samples
 including a full tabla set and a cowbell.
 
-Finally, even more boot issues on both OS X and Windows that have been
-fixed making this the most polished and stable release to date.
+Finally, even more boot issues on both OS X and Windows have been
+fixed, making this the most polished and stable release to date.
 
 Now go and get your live code on!
 
@@ -182,7 +182,7 @@ Now go and get your live code on!
 * `C-i` now always displays docs where available (previously it was
   possible for docs not to be displayed).
 * Sliding between chords now works correctly  
-* Windows version will now boot mutiple networked machines logged in
+* Windows version will now boot on mutiple networked machines logged in
   with the same account.
 
 
