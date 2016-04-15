@@ -27,11 +27,14 @@ been tuned and tweaked over many performances and practice sessions. See
 the documentation and examples for `sample` as well as the new tutorial
 section 3.7 for details.
 
-We also have a number of exciting new samples, synths and FX to play
-with including some beautifully sounding chiptune sounds.
+We also have a number of exciting new sounds to play with including some
+beautifully sounding chiptune synths, fun retro FX and new drum samples
+including a full tabla set and a cowbell.
 
 Finally, even more boot issues on both OS X and Windows that have been
 fixed making this the most polished and stable release to date.
+
+Now go and get your live code on!
 
 
 ### Breaking Changes
@@ -84,7 +87,6 @@ fixed making this the most polished and stable release to date.
   folders containing samples and filters over those folders to allow you
   to easily and quickly work with large sample sets. See Section 3.7 of
   the tutorial for more information.
-
 * Samplers now have `hpf:` and `lpf:` opts. Any `cutoff:` opts are
   automatically switched to `lpf:` and any errors will be reported with
   an `lpf:` prefix.
@@ -143,12 +145,13 @@ fixed making this the most polished and stable release to date.
 
 * New tutorial section 3.7 on Sample Pack Filters.
 * New appendix sections.
-* Completely rewrite examples for `sample` fn.
+* Examples for `sample` fn have been completely rewritten and extended.
 
 
 ### Improvements
 
-* `scale` and `chord` can now handle being passed no tonic such as: `(chord :minor)` which will return a ring of offsets from 0.
+* `scale` and `chord` can now handle being passed no tonic such as:
+  `(chord :minor)` which will return a ring of offsets from 0.
 * `chord` learned new variants: `add2`, `add4`, `add9`, `add11`,
   `add13`, `madd2`, `madd4`, `madd9`, `madd11`, `madd13`
 * The ring's `.take` method can now take more elements than the original
