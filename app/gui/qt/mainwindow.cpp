@@ -570,12 +570,18 @@ void MainWindow::toggleFullScreenMode() {
 
 void MainWindow::updateFullScreenMode(){
   if (full_screen->isChecked()) {
-    int currentScreen = QApplication::desktop()->screenNumber(this);
+
     mainWidgetLayout->setMargin(0);
     outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->show();
+
+#if QT_VERSION >= 0x050400
+    //requires Qt5
+    int currentScreen = QApplication::desktop()->screenNumber(this);
     this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
+#endif
+
     this->setWindowState(Qt::WindowFullScreen);
   }
   else {
