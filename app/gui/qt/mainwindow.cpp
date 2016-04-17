@@ -22,6 +22,8 @@
 #include <QSysInfo>
 #include <QDate>
 #include <QDesktopServices>
+#include <QDesktopWidget>
+#include <QWindow>
 #include <QDir>
 #include <QAction>
 #include <QApplication>
@@ -568,11 +570,13 @@ void MainWindow::toggleFullScreenMode() {
 
 void MainWindow::updateFullScreenMode(){
   if (full_screen->isChecked()) {
+    int currentScreen = QApplication::desktop()->screenNumber(this);
     mainWidgetLayout->setMargin(0);
     outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
-    this->setWindowState(Qt::WindowFullScreen);
     this->show();
+    this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
+    this->setWindowState(Qt::WindowFullScreen);
   }
   else {
     mainWidgetLayout->setMargin(9);
