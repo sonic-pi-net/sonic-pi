@@ -936,7 +936,7 @@ module SonicPi
       @git_hash = __extract_git_hash
       gh_short = @git_hash ? "-#{@git_hash[0, 5]}" : ""
       @settings = Config::Settings.new(user_settings_path)
-      @version = Version.new(2, 10, 0)
+      @version = Version.new(2, 11, 0, "dev#{gh_short}")
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
       @msg_queue = msg_queue
