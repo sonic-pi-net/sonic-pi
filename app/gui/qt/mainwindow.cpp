@@ -18,12 +18,18 @@
 #include <sstream>
 #include <fstream>
 
+// Qt 5 only
+#if QT_VERSION >= 0x050400
+#include <QWindow>
+#endif
+
 // Qt stuff
 #include <QSysInfo>
 #include <QDate>
 #include <QDesktopServices>
 #include <QDesktopWidget>
-#include <QWindow>
+
+
 #include <QDir>
 #include <QAction>
 #include <QApplication>
