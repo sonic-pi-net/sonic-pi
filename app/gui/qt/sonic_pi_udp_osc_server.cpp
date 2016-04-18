@@ -24,6 +24,7 @@ SonicPiUDPOSCServer::SonicPiUDPOSCServer(MainWindow *sonicPiWindow, OscHandler *
 }
 
 void SonicPiUDPOSCServer::stop(){
+  std::cout << "[GUI] - stopping UDP OSC Server..." << std::endl << std::flush;
   stop_server = true;
 }
 
@@ -49,4 +50,6 @@ void SonicPiUDPOSCServer::start(){
       std::cout << std::flush;
     }
   }
+
+  std::cout << "[GUI] - UDP OSC Server no longer listening" << std::endl << std::flush;
 }
