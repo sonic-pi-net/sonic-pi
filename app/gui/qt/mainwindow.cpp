@@ -166,13 +166,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
   scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
 
-  QFile file(sp_user_tmp_path);
-  if (!file.open(QIODevice::WriteOnly)) {
+  QFile tmpFile(sp_user_tmp_path);
+  if (!tmpFile.open(QIODevice::WriteOnly)) {
     homeDirWritable = false;
   }
   else {
     homeDirWritable = true;
-    file.close();
+    tmpFile.close();
   }
 
   loaded_workspaces = false;
