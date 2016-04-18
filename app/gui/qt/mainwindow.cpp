@@ -110,7 +110,8 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
-  if (QCoreApplication::applicationDirPath().startsWith("/usr/bin/")) {
+#if defined(Q_OS_LINUX)
+  if (QCoreApplication::applicationDirPath().startsWith("/usr/bin")) {
 
     // use FHS directory scheme:
     // Sonic Pi is installed in /usr/bin from a Linux distribution's package
@@ -119,7 +120,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     ruby_server_path = "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb";
     sample_path = "/usr/share/sonic-pi/samples";
 
-  } else if (QCoreApplication::applicationDirPath().startsWith("/opt/")) {
+  } else if (QCoreApplication::applicationDirPath().startsWith("/opt")) {
 
     // use /opt directory scheme:
     // Sonic Pi is installed in /opt from the Raspbian .deb package
@@ -129,7 +130,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     sample_path = "/opt/sonic-pi/etc/samples";
 
   } else {
-
+#endif
     // Sonic Pi is installed in the user's home directory
     // or has been installed on Windows / OSX
 
@@ -152,7 +153,9 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
     sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
+#if defined(Q_OS_LINUX)
   }
+#endif
 
   sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
   sp_user_tmp_path       = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
