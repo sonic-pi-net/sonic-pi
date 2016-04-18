@@ -804,7 +804,7 @@ void MainWindow::startRubyServer(){
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
-  std::cout << "[GUI] - shutting down any old audio servers..." << std::endl;
+  std::cout << "[GUI] - shutting down any old SuperCollider servers..." << std::endl;
   Message msg("/exit");
   msg.pushStr(guiID.toStdString());
   sendOSC(msg);
@@ -819,21 +819,21 @@ void MainWindow::startRubyServer(){
     args << "-t";
   }
 
-  std::cout << "[GUI] - booting live coding server" << std::endl;
+  std::cout << "[GUI] - launching Sonic Pi Server" << std::endl;
   if(homeDirWritable) {
     serverProcess->setStandardErrorFile(server_error_log_path);
     serverProcess->setStandardOutputFile(server_output_log_path);
   }
   serverProcess->start(ruby_path, args);
   if (!serverProcess->waitForStarted()) {
-    invokeStartupError(tr("The Sonic Pi server could not be started!"));
+    invokeStartupError(tr("The Sonic Pi Server could not be started!"));
     return;
   }
 }
 
 bool MainWindow::waitForServiceSync() {
   QString contents;
-  std::cout << "[GUI] - waiting for server to boot..." << std::endl;
+  std::cout << "[GUI] - waiting for Sonic Pi Server to boot..." << std::endl;
   bool server_booted = false;
   if (!homeDirWritable) {
     // we can't monitor the logs so hope for the best!
@@ -843,7 +843,7 @@ bool MainWindow::waitForServiceSync() {
     for(int i = 0; i < 60; i ++) {
       contents = readFile(server_output_log_path);
       if (contents.contains("Sonic Pi Server successfully booted.")) {
-        std::cout << std::endl << "[GUI] - server successfully booted." << std::endl;
+        std::cout << std::endl << "[GUI] - Sonic Pi Server successfully booted." << std::endl;
         server_booted = true;
         break;
       } else {
@@ -854,15 +854,16 @@ bool MainWindow::waitForServiceSync() {
   }
 
   if (!server_booted) {
-      std::cout << std::endl << "[GUI] - Critical error! Could not boot server." << std::endl;
-      invokeStartupError("Critical server error - could not boot server!");
+      std::cout << std::endl << "[GUI] - Critical error! Could not boot Sonic Pi Server." << std::endl;
+      invokeStartupError("Critical error! - Could not boot Sonic Pi Server.");
       return false;
   }
 
   int timeout = 60;
-  std::cout << "[GUI] - waiting for server to connect..." << std::endl;
+  std::cout << "[GUI] - waiting for Sonic Pi Server to respond..." << std::endl;
   while (sonicPiOSCServer->waitForServer() && timeout-- > 0) {
     sleep(1);
+    std::cout << ".";
     if(sonicPiOSCServer->isIncomingPortOpen()) {
       Message msg("/ping");
       msg.pushStr(guiID.toStdString());
@@ -871,11 +872,11 @@ bool MainWindow::waitForServiceSync() {
     }
   }
   if (!sonicPiOSCServer->isServerStarted()) {
-      std::cout << "[GUI] - Critical error! Could not connect to server." << std::endl;
-      invokeStartupError("Critical server error - could not connect to server!");
+      std::cout << std::endl <<  "[GUI] - Critical error! Could not connect to Sonic Pi Server." << std::endl;
+      invokeStartupError("Critical server error - could not connect to Sonic Pi Server!");
       return false;
   } else {
-    std::cout << "[GUI] - server connection established" << std::endl;
+    std::cout << std::endl << "[GUI] - Sonic Pi Server connection established" << std::endl;
     return true;
   }
 
