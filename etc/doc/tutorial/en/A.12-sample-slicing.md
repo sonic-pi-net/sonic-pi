@@ -59,7 +59,7 @@ To answer this question we need to take a look at the `start:` and
 positions of our playback of the numbers which represent the sound. The
 values for both of these opts are represented as anumber between `0` and
 `1` where `0` represents the start of the sample and `1` is the end. So,
-to play the last half of the Amen Break, we just need to specify a
+to play the first half of the Amen Break, we just need to specify a
 `finish:` of `0.5`:
 
 ```
@@ -92,7 +92,7 @@ Let's take our Amen Break and chop it up into 8 equally-sized slices and
 then shuffle the pieces around. Take a look at the diagram: at the top
 A) represents the graph our original sample data. Chopping it into 8
 slices gives us B) - notice that we've given each slice a different
-colour to help distinuish them. You can see each slice\s start and
+colour to help distinuish them. You can see each slice's start and
 finish values at the top. Finally C) is one possible re-ordering of the
 slices. We can then play this back to create a new beat. Take a look at
 the code to do this:
