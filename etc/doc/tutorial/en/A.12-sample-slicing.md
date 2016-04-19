@@ -7,7 +7,7 @@ stretch and filter one of the most famous drum breaks of all time - the
 Amen Break. In this tutorial we're going to take this one step further
 and learn how to slice it up, shuffle the slices and glue it back
 together in a completely new order. If that sounds a bit crazy to you,
-don't worry, it will all become clear and you'll soon masster a powerful
+don't worry, it will all become clear and you'll soon master a powerful
 new tool for your live coded sets.
 
 # Sound as Data
@@ -57,7 +57,7 @@ So, how do we code Sonic Pi to play a sample back in a different order?
 To answer this question we need to take a look at the `start:` and
 `finish:` opts for `sample`. These let us control the start and finish
 positions of our playback of the numbers which represent the sound. The
-values for both of these opts are represented as anumber between `0` and
+values for both of these opts are represented as a number between `0` and
 `1` where `0` represents the start of the sample and `1` is the end. So,
 to play the first half of the Amen Break, we just need to specify a
 `finish:` of `0.5`:
