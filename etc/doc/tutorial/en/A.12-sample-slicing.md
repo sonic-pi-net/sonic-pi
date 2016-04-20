@@ -90,7 +90,7 @@ order.
 
 Let's take our Amen Break and chop it up into 8 equally-sized slices and
 then shuffle the pieces around. Take a look at the diagram: at the top
-A) represents the graph our original sample data. Chopping it into 8
+A) represents the graph of our original sample data. Chopping it into 8
 slices gives us B) - notice that we've given each slice a different
 colour to help distinguish them. You can see each slice's start and
 finish values at the top. Finally C) is one possible re-ordering of the
