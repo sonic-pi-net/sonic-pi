@@ -3815,6 +3815,7 @@ with_fx :bitcrusher, sample_rate: 1000, sample_rate_slide: 8 do |bc| # Start FX 
 end",
         "
 ## Controlling chords
+
 cg = play (chord :e4, :minor), sustain: 2  # start a chord
 sleep 1
 control cg, notes: (chord :c3, :major)     # transition to new chord.
@@ -3832,6 +3833,7 @@ control cg, notes: (chord :c3, :major)                    # slide to new chord.
 ",
         "
 ## Sliding from a larger to smaller chord
+
 cg = play (chord :e3, :m13), sustain: 4, note_slide: 3  # start a chord with 7 notes
 sleep 1
 control cg, notes: (chord :c3, :major)                    # slide to new chord with fewer notes (3)
@@ -3850,7 +3852,19 @@ control cg, notes: (chord :e3, :m13)                     # slide to new chord wi
                                                           # This means that the 4th note in the new chord
                                                           # will not sound as there is no 4th note in the
                                                           # original chord.
-"
+",
+
+        "
+## Changing the slide rate
+
+s = synth :prophet, note: :e1, release: 8, cutoff: 70, cutoff_slide: 8 # Start a synth playing with a long cutoff slide
+sleep 1                                                                # wait a beat
+control s, cutoff: 130                                                 # change the cutoff so it starts sliding slowly
+sleep 3                                                                # wait for 3 beats
+control s, cutoff_slide: 1                                             # Change the cutoff_slide - the cutoff now slides more quickly to 130
+                                                                       # it will now take 1 beat to slide from its *current* value
+                                                                       # (somewhere between 70 and 130) to 130"
+
       ]
 
 
