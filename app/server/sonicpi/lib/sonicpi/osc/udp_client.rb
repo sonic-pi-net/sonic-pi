@@ -42,6 +42,10 @@ module SonicPi
         "#<SonicPi::OSC::UDPClient host: #{@host}, port: #{@port}, opts: #{@opts.inspect}>"
       end
 
+      def port
+        return @port
+      end
+
       def inspect
         to_s
       end

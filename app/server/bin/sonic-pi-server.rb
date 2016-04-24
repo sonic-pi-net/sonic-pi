@@ -46,10 +46,11 @@ protocol = case ARGV[0]
 puts "Using protocol: #{protocol}"
 
 if protocol == :tcp
-  gui = SonicPi::OSC::TCPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+  clients = SonicPi::OSC::Clients.new(SonicPi::OSC::TCPClient)
 else
-  gui = SonicPi::OSC::UDPClient.new("127.0.0.1", client_port, use_encoder_cache: true)
+  clients = SonicPi::OSC::Clients.new(SonicPi::OSC::UDPClient)
 end
+clients.new_client(client_port, true)
 
 begin
   if protocol == :tcp
@@ -58,27 +59,19 @@ begin
     osc_server = SonicPi::OSC::UDPServer.new(server_port, use_decoder_cache: true)
   end
 rescue Exception => e
-  begin
-    STDERR.puts "Received Exception!"
-    STDERR.puts e.message
-    STDERR.puts e.backtrace.inspect
-    STDERR.puts e.backtrace
-    gui.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is scsynth already running?")
-  rescue Errno::EPIPE => e
-    STDERR.puts "GUI not listening, exit anyway."
-  end
+  STDERR.puts "Received Exception!"
+  STDERR.puts e.message
+  STDERR.puts e.backtrace.inspect
+  STDERR.puts e.backtrace
+  clients.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is scsynth already running?")
   exit
 end
 
 
 at_exit do
   STDOUT.puts "Server is exiting."
-  begin
-    STDOUT.puts "Shutting down GUI..."
-    gui.send("/exited")
-  rescue Errno::EPIPE => e
-    STDERR.puts "GUI not listening."
-  end
+  STDOUT.puts "Closing clients..."
+  clients.send("/exited")
   STDOUT.puts "Goodbye :-)"
 end
 
@@ -116,8 +109,14 @@ begin
 rescue Exception => e
   STDERR.puts "Failed to start server: " + e.message
   STDERR.puts e.backtrace.join("\n")
-  gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}")
+  clients.send("/exited-with-boot-error", "Server Exception:\n #{e.message}")
   exit
+end
+
+osc_server.add_method("/monitor") do |args|
+  gui_id = args[0]
+  port = args[1]
+  clients.new_client port
 end
 
 osc_server.add_method("/run-code") do |args|
@@ -213,7 +212,7 @@ end
 osc_server.add_method("/ping") do |args|
   gui_id = args[0]
   id = args[1]
-  gui.send("/ack", id)
+  clients.send("/ack", id)
 end
 
 osc_server.add_method("/start-recording") do |args|
@@ -309,7 +308,7 @@ osc_server.add_method("/version") do |args|
   lv = sp.__server_version
   lc = sp.__last_update_check
   plat = host_platform_desc
-  gui.send("/version", v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s)
+  clients.send("/version", v.to_s, v.to_i, lv.to_s, lv.to_i, lc.day, lc.month, lc.year, plat.to_s)
 end
 
 osc_server.add_method("/gui-heartbeat") do |args|
@@ -326,24 +325,20 @@ out_t = Thread.new do
       # message[:ts] = Time.now.strftime("%H:%M:%S")
 
       if message[:type] == :exit
-        begin
-          gui.send("/exited")
-        rescue Errno::EPIPE => e
-          STDERR.puts "GUI not listening, exit anyway."
-        end
+        clients.send("/exited")
         continue = false
       else
         case message[:type]
         when :multi_message
-          gui.send("/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
+          clients.send("/multi_message", message[:jobid], message[:thread_name].to_s, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
         when :info
-          gui.send("/info", message[:style] || 0, message[:val] || "")
+          clients.send("/info", message[:style] || 0, message[:val] || "")
         when :syntax_error
           desc = message[:val] || ""
           line = message[:line] || -1
           error_line = message[:error_line] || ""
           desc = CGI.escapeHTML(desc)
-          gui.send("/syntax_error", message[:jobid], desc, error_line, line, line.to_s)
+          clients.send("/syntax_error", message[:jobid], desc, error_line, line, line.to_s)
         when :error
           desc = message[:val] || ""
           trace = message[:backtrace].join("\n")
@@ -352,7 +347,7 @@ out_t = Thread.new do
           desc = CGI.escapeHTML(desc)
           trace = CGI.escapeHTML(trace)
           # puts "sending: /error #{desc}, #{trace}"
-          gui.send("/error", message[:jobid], desc, trace, line)
+          clients.send("/error", message[:jobid], desc, trace, line)
         when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-buffer without a :val payload"
@@ -360,7 +355,7 @@ out_t = Thread.new do
           index = message[:index] || 0
           first_line = message[:first_line] || 0
           #          puts "replacing buffer #{buf_id}, #{content}"
-          gui.send("/replace-buffer", buf_id, content, line, index, first_line)
+          clients.send("/replace-buffer", buf_id, content, line, index, first_line)
         when "replace-lines"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-line without a :val payload"
@@ -369,7 +364,7 @@ out_t = Thread.new do
           start_line = message[:start_line] || point_line
           finish_line = message[:finish_line] || start_line
           #          puts "replacing line #{buf_id}, #{content}"
-          gui.send("/replace-lines", buf_id, content, start_line, finish_line, point_line, point_index)
+          clients.send("/replace-lines", buf_id, content, start_line, finish_line, point_line, point_index)
         when :version
           v = message[:version]
           v_num = message[:version_num]
@@ -377,7 +372,7 @@ out_t = Thread.new do
           lv_num = message[:latest_version_num]
           lc = message[:last_checked]
           plat = host_platform_desc
-          gui.send("/version", v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year, plat.to_s)
+          clients.send("/version", v.to_s, v_num.to_i, lv.to_s, lv_num.to_i, lc.day, lc.month, lc.year, plat.to_s)
         when :job
           id = message[:job_id]
           action = message[:action]
