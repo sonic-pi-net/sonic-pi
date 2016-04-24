@@ -115,7 +115,7 @@ Now go and get your live code on!
 * Add new `:tabla_` sample group with a range of tabla drum sounds.
 * Add new `:vinyl_` sample group with a range of vinyl scratches and
   hisses.
-* Add new samples: `:drum_cowbell`, `:drum_roll`, `:misc_cros`,
+* Add new samples: `:drum_cowbell`, `:drum_roll`, `:misc_crow`,
   `:misc_cineboom`, `:perc_swash`, `:perc_till`, `:loop_safari`,
   `:loop_tabla`.
 
