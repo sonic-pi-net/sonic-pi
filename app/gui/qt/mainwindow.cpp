@@ -1881,7 +1881,7 @@ void MainWindow::updateDarkMode(){
 
   QString toolButtonStyling = QString("QToolButton:hover{background: transparent;}");
 
-  QString sliderStyling = QString("QSlider::groove:vertical{margin: 2px 0; background: %2; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid %1; border-radius: 3px; height: 30px; background: %2;}").arg(sliderColor, sliderBackgroundColor);
+  QString sliderStyling = QString("QSlider::groove:vertical{margin: 2px 0; background: %2; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid %1; border-radius: 3px; height: 30px; background-color: %1;}").arg(sliderColor, sliderBackgroundColor);
 
   QString menuStyling = QString("QMenu{background: %1; color: %2; } QMenu:selected{background: %3; color: %4}").arg(menuColor, menuTextColor, menuSelectedColor, menuSelectedTextColor);
 
