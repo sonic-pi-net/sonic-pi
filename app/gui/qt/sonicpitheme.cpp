@@ -111,8 +111,8 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["Foreground"]                      = theme_fg;
     themeSettings["Background"]                      = dt_white;
 
-    themeSettings["HighlightedForeground"]           = theme_fg;
-    themeSettings["HighlightedBackground"]           = theme_bg;
+    themeSettings["HighlightedForeground"]           = dt_white;
+    themeSettings["HighlightedBackground"]           = dt_pink;
 
     themeSettings["WindowForeground"]                = theme_fg;
     themeSettings["WindowBackground"]                = theme_bg;
