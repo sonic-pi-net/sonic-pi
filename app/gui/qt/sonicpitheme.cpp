@@ -293,7 +293,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["DefaultBackground"]               = dt_black;
 
     themeSettings["CommentForeground"]               = dt_grey;
-    themeSettings["CommentForeground"]               = dt_black;
+    themeSettings["CommentBackground"]               = dt_black;
 
     themeSettings["PODForeground"]                   = dt_white;
     themeSettings["PODBackground"]                   = dt_warning;
