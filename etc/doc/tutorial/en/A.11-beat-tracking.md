@@ -36,10 +36,10 @@ is still active, we can advance the beat as many times as we want:
   puts tick #=> 2
 ```
 
-<breakout> Whenever you see the symbol `#=>` at the end of a line of
+Whenever you see the symbol `#=>` at the end of a line of
 code it means that that line will log the text on the
 right-hand-side. For example, `puts foo #=> 0` means the code `puts foo`
-prints `0` to the log at that point in the program.  </breakout>
+prints `0` to the log at that point in the program.
 
 # Checking the Beat
 

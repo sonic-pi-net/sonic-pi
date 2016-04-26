@@ -27,7 +27,6 @@ Now press the Run button at the top left to hear a lovely rumbling synth
 sound. Go ahead, press it again a few times to get a feel for it. OK,
 done? Let's start controlling it!
 
-
 ## Synth Nodes
 
 A little known feature in Sonic Pi is that the fns `play`, `synth` and
@@ -61,8 +60,6 @@ tell our running `SynthNode` to change the cutoff value to `130`. If you
 hit the **Run** button, you'll hear the `:prophet` synth start playing
 as before, but after 1 beat it will shift to sound a lot brighter.
 
-
-** Breakout Box Start **
 Modulatable Options
 
 Most of Sonic Pi's synths and FX opts may be changed after being
@@ -80,7 +77,6 @@ it:
 * Must be zero or greater 
 * Can not be changed once set 
 * Scaled with current BPM value 
-** Breakout Box End **
 
 ## Multiple Changes
 
@@ -150,7 +146,6 @@ exactly this way and each `_slide:` value can be totally different so
 you can have the cutoff sliding slowly, the amp sliding fast and the pan
 sliding somewhere in between if that's what you're looking to create...
 
-
 ## Bringing it all together
 
 Let's look at a short example which demonstrates the power of
@@ -163,7 +158,6 @@ Copy the code into a spare buffer and take a listen. Don't stop there
 though - play around with the code. Change the slide times, change the
 notes, the synth, the FX and the sleep times and see if you can turn it
 into something completely different!
-
 
 ```
   live_loop :moon_rise do

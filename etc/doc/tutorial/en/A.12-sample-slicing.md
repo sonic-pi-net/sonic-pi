@@ -23,33 +23,30 @@ pre-recorded drum beat:
   sample :loop_amen
 ```
 
-A recording of a sound is simply represented as data - lots of numbers
-between -1 and 1 which represent the peaks and troughs of the sound wave
-(see the breakout box for more information). If we play those numbers
-back in order, we get the original sound. However, what's to stop us
-from playing them back in a different order and creating a new sound?
+A recording of a sound is simply represented as data - lots of numbers 
+between -1 and 1 which represent the peaks and troughs of the sound 
+wave. If we play those numbers back in order, we get the original 
+sound. However, what's to stop us from playing them back in a different 
+order and creating a new sound?
 
+How are samples actually recorded? It's actually pretty simple once you 
+understand the basic physics of sound. When you make a sound - for 
+example by hitting a drum, the noise travels through the air in a 
+similar fashion to how the surface of a lake ripples when you throw a 
+pebble into it. When those ripples reach your ears, your eardrum moves 
+sympathetically and converts those movements into the sound you hear. 
+If we wish to record and play back the sound, we therefore need a way 
+of capturing, storing and reproducing those ripples. One way is to use 
+a microphone which acts like an eardrum and moves back and forth as the 
+sound ripples hit it. The microphone then converts its position into a 
+tiny electric signal which is then measured many times a second. These 
+measurements are then represented as a series of numbers between -1 and 
+1.
 
-** breakout box** How are samples actually recorded? It's actually
-pretty simple once you understand the basic physics of sound. When you
-make a sound - for example by hitting a drum, the noise travels through
-the air in a similar fashion to how the surface of a lake ripples when
-you throw a pebble into it. When those ripples reach your ears, your
-eardrum moves sympathetically and converts those movements into the
-sound you hear. If we wish to record and play back the sound, we
-therefore need a way of capturing, storing and reproducing those
-ripples. One way is to use a microphone which acts like an eardrum and
-moves back and forth as the sound ripples hit it. The microphone then
-converts its position into a tiny electric signal which is then measured
-many times a second. These measurements are then represented as a series
-of numbers between -1 and 1.
-
-
-If we were to plot a visualisation of the sound it would be a simple
-graph of data with time on the x axis and microphone/speaker position as
-a value between -1 and 1 on the y axis. You can see an example of such a
-graph at the top of the diagram.
-** breakout box end **
+If we were to plot a visualisation of the sound it would be a simple 
+graph of data with time on the x axis and microphone/speaker position 
+as a value between -1 and 1 on the y axis. You can see an example of 
+such a graph at the top of the diagram.
 
 # Playing Part of a Sample
 
