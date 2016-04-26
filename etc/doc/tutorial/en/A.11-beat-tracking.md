@@ -22,7 +22,7 @@ Let's have a play - to advance the beat we just need to call
 `tick`. Open up a fresh buffer, type in the following and hit Run:
 
 ```
-puts tick #=> 0
+  puts tick #=> 0
 ```
 
 This will return the current beat: `0`. Notice that even if you press
@@ -31,15 +31,15 @@ each run starts a fresh beat counting from 0.  However, whilst the run
 is still active, we can advance the beat as many times as we want:
 
 ```
-puts tick #=> 0
-puts tick #=> 1
-puts tick #=> 2
+  puts tick #=> 0
+  puts tick #=> 1
+  puts tick #=> 2
 ```
 
-<breakout> Whenever you see the symbol `#=>` at the end of a line of
+Whenever you see the symbol `#=>` at the end of a line of
 code it means that that line will log the text on the
 right-hand-side. For example, `puts foo #=> 0` means the code `puts foo`
-prints `0` to the log at that point in the program.  </breakout>
+prints `0` to the log at that point in the program.
 
 # Checking the Beat
 
@@ -48,10 +48,10 @@ and returns the current beat. Sometimes we just want to look at the
 current beat without having to increment it which we can do via `look`:
 
 ``` 
-puts tick #=> 0
-puts tick #=> 1
-puts look #=> 1
-puts look #=> 1
+  puts tick #=> 0
+  puts tick #=> 1
+  puts look #=> 1
+  puts look #=> 1
 ``` 
 
 In this code we tick the beat up twice and then call `look` twice. We'll
@@ -71,7 +71,7 @@ it acts like a regular tick and increments the beat. Secondly it looks
 up the ring value using the beat as the index. Let's take a look:
 
 ```
-puts (ring :a, :b, :c).tick #=> :a
+  puts (ring :a, :b, :c).tick #=> :a
 ```
 
 `.tick` is a special dot version of `tick` which will return the first
@@ -79,11 +79,11 @@ value of the ring `:a`. We can grab each of the values in the ring by
 calling `.tick` multiple times:
 
 ```
-puts (ring :a, :b, :c).tick #=> :a
-puts (ring :a, :b, :c).tick #=> :b
-puts (ring :a, :b, :c).tick #=> :c
-puts (ring :a, :b, :c).tick #=> :a
-puts look                   #=> 3
+  puts (ring :a, :b, :c).tick #=> :a
+  puts (ring :a, :b, :c).tick #=> :b
+  puts (ring :a, :b, :c).tick #=> :c
+  puts (ring :a, :b, :c).tick #=> :a
+  puts look                   #=> 3
 ```
 
 Take a look at the log and you'll see `:a`, `:b`, `:c` and then `:a`
@@ -105,13 +105,13 @@ and understand a simple arpegiator. We need just four things:
 These concepts can all be found in the following code:
 
 ```
-notes = (ring 57, 62, 55, 59, 64)
-
-live_loop :arp do
-  use_synth :dpulse
-  play notes.tick, release: 0.2
-  sleep 0.125
-end
+  notes = (ring 57, 62, 55, 59, 64)
+  
+  live_loop :arp do
+    use_synth :dpulse
+    play notes.tick, release: 0.2
+    sleep 0.125
+  end
 ```
 
 Let's look at each of these lines. First we define our ring of notes

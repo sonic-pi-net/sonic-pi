@@ -20,13 +20,12 @@ Let's create a nice simple sound. Fire up Sonic Pi and in a fresh buffer
 type the following:
 
 ```
-synth :prophet, note: :e1, release: 8, cutoff: 100
+  synth :prophet, note: :e1, release: 8, cutoff: 100
 ```
 
 Now press the Run button at the top left to hear a lovely rumbling synth
 sound. Go ahead, press it again a few times to get a feel for it. OK,
 done? Let's start controlling it!
-
 
 ## Synth Nodes
 
@@ -37,9 +36,9 @@ standard variable and then **control** it at a later point in time. For
 example, let's change the value of the `cutoff:` opt after 1 beat:
 
 ```
-sn = synth :prophet, note: :e1, release: 8, cutoff: 100
-sleep 1
-control sn, cutoff: 130
+  sn = synth :prophet, note: :e1, release: 8, cutoff: 100
+  sleep 1
+  control sn, cutoff: 130
 ```
 
 Let's look at each line in turn: 
@@ -61,8 +60,6 @@ tell our running `SynthNode` to change the cutoff value to `130`. If you
 hit the **Run** button, you'll hear the `:prophet` synth start playing
 as before, but after 1 beat it will shift to sound a lot brighter.
 
-
-** Breakout Box Start **
 Modulatable Options
 
 Most of Sonic Pi's synths and FX opts may be changed after being
@@ -80,7 +77,6 @@ it:
 * Must be zero or greater 
 * Can not be changed once set 
 * Scaled with current BPM value 
-** Breakout Box End **
 
 ## Multiple Changes
 
@@ -89,13 +85,13 @@ you're free to change it as many times as you like. For example, we can
 turn our `:prophet` into a mini arpeggiator with the following:
 
 ```
-notes = (scale :e3, :minor_pentatonic)
-sn = synth :prophet, note: :e1, release: 8, cutoff: 100
-sleep 1
-16.times do
-  control sn, note: notes.tick
-  sleep 0.125
-end
+  notes = (scale :e3, :minor_pentatonic)
+  sn = synth :prophet, note: :e1, release: 8, cutoff: 100
+  sleep 1
+  16.times do
+    control sn, note: notes.tick
+    sleep 0.125
+  end
 ```
 
 In this snippet of code we just added a couple of extra things. First we
@@ -112,7 +108,7 @@ Note that we can change multiple opts simultaneously. Try changing the
 control line to the following and listen for the difference:
 
 ```
-control sn, note: notes.tick, cutoff: rrand(70, 130)
+  control sn, note: notes.tick, cutoff: rrand(70, 130)
 ```
 
 ## Sliding 
@@ -133,9 +129,9 @@ slightly differently than all the other opts in that they tell the synth
 note how to behave **next time they are controlled**. Let's take a look:
 
 ```
-sn = synth :prophet, note: :e1, release: 8, cutoff: 70, cutoff_slide: 2
-sleep 1
-control sn, cutoff: 130
+  sn = synth :prophet, note: :e1, release: 8, cutoff: 70, cutoff_slide: 2
+  sleep 1
+  control sn, cutoff: 130
 ```
 
 Notice how this example is exactly the same as before except with the
@@ -150,7 +146,6 @@ exactly this way and each `_slide:` value can be totally different so
 you can have the cutoff sliding slowly, the amp sliding fast and the pan
 sliding somewhere in between if that's what you're looking to create...
 
-
 ## Bringing it all together
 
 Let's look at a short example which demonstrates the power of
@@ -164,19 +159,18 @@ though - play around with the code. Change the slide times, change the
 notes, the synth, the FX and the sleep times and see if you can turn it
 into something completely different!
 
-
 ```
-live_loop :moon_rise do
-  with_fx :echo, mix: 0, mix_slide: 8 do |fx|
-    control fx, mix: 1
-    notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle
-    sn = synth :prophet , sustain: 8, note: :e1, cutoff: 70, cutoff_slide: 8
-    control sn, cutoff: 130
-    sleep 2
-    32.times do
-      control sn, note: notes.tick, pan: rrand(-1, 1)
-      sleep 0.125
+  live_loop :moon_rise do
+    with_fx :echo, mix: 0, mix_slide: 8 do |fx|
+      control fx, mix: 1
+      notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle
+      sn = synth :prophet , sustain: 8, note: :e1, cutoff: 70, cutoff_slide: 8
+      control sn, cutoff: 130
+      sleep 2
+      32.times do
+        control sn, note: notes.tick, pan: rrand(-1, 1)
+        sleep 0.125
+      end
     end
   end
-end
 ```
