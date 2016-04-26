@@ -29,10 +29,12 @@ go afterwards will only be constrained by your imagination.
 The key to live coding with Sonic Pi is mastering the `live_loop`. Let's
 look at one:
 
-    live_loop :beats do
-      sample :bd_haus
-      sleep 0.5
-    end
+```
+  live_loop :beats do
+    sample :bd_haus
+    sleep 0.5
+  end
+```
 
 There are 4 core ingredients to a `live_loop`. The first is its
 name. Our `live_loop` above is called `:beats`. You're free to call your
@@ -55,10 +57,12 @@ can redefine them on-the-fly. This means that whilst they're still
 running, you can change what they do. This is the secret to live coding
 with Sonic Pi. Let's have a play:
 
-    live_loop :choral_drone do
-      sample :ambi_choir, rate: 0.4
-      sleep 1
-    end
+```
+  live_loop :choral_drone do
+    sample :ambi_choir, rate: 0.4
+    sleep 1
+  end
+```
 
 Now press the Run button or hit `alt-r`. You're now listening to
 some gorgeous choir sounds. Now, whilst it's still playing, change the
@@ -75,9 +79,11 @@ numbers. Have fun!
 One of the most important lessons about `live_loop`s is that they need
 rest. Consider the following `live_loop`:
 
-    live_loop :infinite_impossibilities do
-      sample :ambi_choir
-    end
+```
+  live_loop :infinite_impossibilities do
+    sample :ambi_choir
+  end
+```
 
 If you try running this code, you'll immediately see Sonic Pi
 complaining that the `live_loop` did not sleep. This is a safety system
@@ -96,19 +102,21 @@ guitars... In computing we call this concurrency and Sonic Pi provides
 us with an amazingly simple way of playing things at the same
 time. Simply use more than one `live_loop`!
 
-    live_loop :beats do
-      sample :bd_tek
-      with_fx :echo, phase: 0.125, mix: 0.4 do
-        sample  :drum_cymbal_soft, sustain: 0, release: 0.1
-        sleep 0.5
-      end
+```
+  live_loop :beats do
+    sample :bd_tek
+    with_fx :echo, phase: 0.125, mix: 0.4 do
+      sample  :drum_cymbal_soft, sustain: 0, release: 0.1
+      sleep 0.5
     end
+  end
   
-    live_loop :bass do
-      use_synth :tb303
-      synth :tb303, note: :e1, release: 4, cutoff: 120, cutoff_attack: 1
-      sleep 4
-    end
+  live_loop :bass do
+    use_synth :tb303
+    synth :tb303, note: :e1, release: 4, cutoff: 120, cutoff_attack: 1
+    sleep 4
+  end
+```
 
 Here, we have two `live_loop`s, one looping quickly making beats and
 another looping slowly making a crazy bass sound.
@@ -118,20 +126,21 @@ they each manage their own time. This means it's really easy to create
 interesting polyrhythmical structures and even play with phasing Steve
 Reich style. Check this out:
 
-    # Steve Reich's Piano Phase
+```
+  # Steve Reich's Piano Phase
   
-    notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5)
+  notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5)
   
-    live_loop :slow do
-      play notes.tick, release: 0.1
-      sleep 0.3
-    end
+  live_loop :slow do
+    play notes.tick, release: 0.1
+    sleep 0.3
+  end
   
-    live_loop :faster do
-      play notes.tick, release: 0.1
-      sleep 0.295
-    end
-
+  live_loop :faster do
+    play notes.tick, release: 0.1
+    sleep 0.295
+  end
+```
 
 ## Bringing it all together
 
@@ -144,31 +153,33 @@ comment and uncomment things out. See if you can use this as a starting
 point for a new performance, and most of all have fun! See you next
 time...
 
-    with_fx :reverb, room: 1 do
-      live_loop :time do
-        synth :prophet, release: 8, note: :e1, cutoff: 90, amp: 3
-        sleep 8
+```
+  with_fx :reverb, room: 1 do
+    live_loop :time do
+      synth :prophet, release: 8, note: :e1, cutoff: 90, amp: 3
+      sleep 8
+    end
+  end
+  
+  live_loop :machine do
+    sample :loop_garzul, rate: 0.5, finish: 0.25
+    sample :loop_industrial, beat_stretch: 4, amp: 1
+    sleep 4
+  end
+  
+  live_loop :kik do
+    sample :bd_haus, amp: 2
+    sleep 0.5
+  end
+  
+  with_fx :echo do
+    live_loop :vortex do
+      # use_random_seed 800
+      notes = (scale :e3, :minor_pentatonic, num_octaves: 3)
+      16.times do
+        play notes.choose, release: 0.1, amp: 1.5
+        sleep 0.125
       end
     end
-  
-    live_loop :machine do
-      sample :loop_garzul, rate: 0.5, finish: 0.25
-      sample :loop_industrial, beat_stretch: 4, amp: 1
-      sleep 4
-    end
-  
-    live_loop :kik do
-      sample :bd_haus, amp: 2
-      sleep 0.5
-    end
-  
-    with_fx :echo do
-      live_loop :vortex do
-        # use_random_seed 800
-        notes = (scale :e3, :minor_pentatonic, num_octaves: 3)
-        16.times do
-          play notes.choose, release: 0.1, amp: 1.5
-          sleep 0.125
-        end
-      end
-    end
+  end
+```
