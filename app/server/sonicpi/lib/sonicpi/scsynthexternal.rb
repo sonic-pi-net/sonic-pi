@@ -329,7 +329,14 @@ module SonicPi
         end
 
       rescue Exception => e
-       raise "Unable to boot sound synthesis engine: the input and output rates of your audio card are not the same. Got in: #{audio_in_rate}, out: #{audio_out_rate}."
+        if (audio_in_rate == :unknown_in_rate) || (audio_out_rate == :unknown_out_rate)
+          # Something went wrong whilst attempting to determine and modify the audio
+          # rates. Given that there's a chance the rates are correct, try and continue
+          # to boot and let scsynth throw a wobbly if things aren't in order.
+          puts "Boot - Unable to detect input and output audio rates. Continuing in the hope that they are actually the same..."
+        else
+          raise "Unable to boot sound synthesis engine: the input and output rates of your audio card are not the same. Got in: #{audio_in_rate}, out: #{audio_out_rate}."
+        end
       end
       boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1")
     end
