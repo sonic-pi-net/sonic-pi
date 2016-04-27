@@ -111,52 +111,24 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
-#if defined(Q_OS_LINUX)
-  if (QCoreApplication::applicationDirPath().startsWith("/usr/bin")) {
-
-    // use FHS directory scheme:
-    // Sonic Pi is installed in /usr/bin from a Linux distribution's package
-
-    ruby_path = "/usr/bin/ruby";
-    ruby_server_path = "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb";
-    sample_path = "/usr/share/sonic-pi/samples";
-
-  } else if (QCoreApplication::applicationDirPath().startsWith("/opt")) {
-
-    // use /opt directory scheme:
-    // Sonic Pi is installed in /opt from the Raspbian .deb package
-
-    ruby_path = "/usr/bin/ruby";
-    ruby_server_path = "/opt/sonic-pi/server/bin/sonic-pi-server.rb";
-    sample_path = "/opt/sonic-pi/etc/samples";
-
-  } else {
-#endif
-    // Sonic Pi is installed in the user's home directory
-    // or has been installed on Windows / OSX
-
-    QString root_path = rootPath();
+  QString root_path = rootPath();
 
 #if defined(Q_OS_WIN)
-    ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/windows/ruby/bin/ruby.exe");
+  ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/windows/ruby/bin/ruby.exe");
 #elif defined(Q_OS_MAC)
-    ruby_path = root_path + "/server/native/osx/ruby/bin/ruby";
+  ruby_path = root_path + "/server/native/osx/ruby/bin/ruby";
 #else
-    ruby_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
+  ruby_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
 #endif
 
-    QFile file(ruby_path);
-    if(!file.exists()) {
-      // fallback to user's locally installed ruby
-      ruby_path = "ruby";
-    }
-
-    ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
-    sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
-
-#if defined(Q_OS_LINUX)
+  QFile file(ruby_path);
+  if(!file.exists()) {
+    // fallback to user's locally installed ruby
+    ruby_path = "ruby";
   }
-#endif
+
+  ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
+  sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
   sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
   sp_user_tmp_path       = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
