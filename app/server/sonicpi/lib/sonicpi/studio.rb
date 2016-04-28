@@ -13,6 +13,7 @@
 require_relative "util"
 require_relative "server"
 require_relative "note"
+require_relative "samplebuffer"
 
 require 'set'
 
@@ -385,15 +386,16 @@ module SonicPi
     def internal_load_sample(path, server=@server)
       return [@samples[path], true] if @samples[path]
       #message "Loading full sample path: #{path}"
-      buf_info = nil
+      sample_info = nil
       @sample_sem.synchronize do
         return @samples[path] if @samples[path]
         raise "No sample exists with path:\n  #{unify_tilde_dir(path).inspect}" unless File.exists?(path) && !File.directory?(path)
-          buf_info = server.buffer_alloc_read(path)
-          buf_info.path = path
-        @samples[path] = buf_info
+        buf_info = server.buffer_alloc_read(path)
+        sample_info = SampleBuffer.new(buf_info, path)
+        @samples[path] = sample_info
       end
-      [buf_info, false]
+
+      [sample_info, false]
     end
 
     def internal_load_synthdefs(path, server=@server)
