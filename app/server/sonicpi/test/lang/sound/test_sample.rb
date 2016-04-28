@@ -60,7 +60,7 @@ module SonicPi
 
       # Hash and args
       @mock_sound.expects(:trigger_sampler).with("/foo/bar.wav", {rate: 2})
-      @mock_sound.sample({sample_name: :loop_amen}, {rate: 2})
+      @mock_sound.sample({path: :loop_amen}, {rate: 2})
     end
 
   end
