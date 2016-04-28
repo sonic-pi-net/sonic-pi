@@ -2865,9 +2865,9 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
         return @blank_node unless should_trigger?(args_h, true)
 
         if filts_and_sources.size == 0
-          if args_h.has_key?(:sample_name)
+          if args_h.has_key?(:path)
             # handle case where sample receives only opts
-            path = resolve_sample_path([args_h.delete(:sample_name)])
+            path = resolve_sample_path([args_h.delete(:path)])
           else
             return @blank_node
           end
@@ -2977,7 +2977,8 @@ By combining commands which add to the candidates and then filtering those candi
                           :relax_time => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase. Only valid if the compressor is enabled by turning on the `compress:` opt.",
 
 
-                          :slide      => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value." },
+                          :slide      => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value.",
+                          :path       => "Path of the sample to play. Typically this opt is rarely used instead of the more powerful source/filter system. However it can be useful when working with pre-made opt maps."},
           accepts_block: false,
           intro_fn:       true,
 
