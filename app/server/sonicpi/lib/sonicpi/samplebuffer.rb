@@ -12,7 +12,6 @@
 #++
 
 require_relative "buffer"
-require_relative "features/aubio"
 
 module SonicPi
   class SampleBuffer < Buffer
@@ -63,22 +62,6 @@ module SonicPi
 
     def inspect
       to_s
-    end
-
-    def slices
-      a = SonicPi::Features::Aubio.new
-      d = duration
-
-      indexes = a.onsets(path).map do |v|
-        v / d
-      end
-
-      res = []
-      indexes.each_with_index do |v, idx|
-        res[idx] = {:path => path, :start => v, :finish => indexes[idx+1]}
-      end
-      res.pop
-      res.ring
     end
 
     def to_s
