@@ -18,24 +18,23 @@
 #-------------------------------------------------
 
 TARGET = 'sonic-pi'
-#CONFIG += debug
+CONFIG += debug
 CONFIG += link_pkgconfig qscintilla2 qwt
-PKGCONFIG += libboost
+PKGCONFIG += libboost tlsf
 
 QT += core gui concurrent network 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
 }
 
-QMAKE_CXXFLAGS += -std=c++11
-QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
+QMAKE_CXXFLAGS += -std=c++11 -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
+# -I external_libraries/TLSF-2.4.6/src/ -I external_libraries/boost/
 
 # Linux only
 unix:!macx {
   debug {
     QMAKE_CXXFLAGS += -ggdb
   }
-
 }
 
 # Mac OS X only
@@ -47,8 +46,6 @@ macx {
   QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
 
   TARGET = 'Sonic Pi'
-  QT += macextras
-  DEFINES += DONT_USE_OSX_KEYS
 }
 
 # Windows only
