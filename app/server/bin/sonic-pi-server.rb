@@ -122,14 +122,14 @@ end
 
 osc_server.add_method("/run-code") do |args|
   gui_id = args[0]
-  code = args[1]
+  code = args[1].force_encoding("utf-8")
   sp.__spider_eval code
 end
 
 osc_server.add_method("/save-and-run-buffer") do |args|
   gui_id = args[0]
   buffer_id = args[1]
-  code = args[2]
+  code = args[2].force_encoding("utf-8")
   workspace = args[3]
   sp.__save_buffer(buffer_id, code)
   sp.__spider_eval code, {workspace: workspace}
@@ -138,7 +138,7 @@ end
 osc_server.add_method("/save-buffer") do |args|
   gui_id = args[0]
   buffer_id = args[1]
-  code = args[2]
+  code = args[2].force_encoding("utf-8")
   sp.__save_buffer(buffer_id, code)
 end
 
@@ -160,7 +160,7 @@ end
 osc_server.add_method("/buffer-newline-and-indent") do |args|
   gui_id = args[0]
   id = args[1]
-  buf = args[2]
+  buf = args[2].force_encoding("utf-8")
   point_line = args[3]
   point_index = args[4]
   first_line = args[5]
@@ -170,7 +170,7 @@ end
 osc_server.add_method("/buffer-section-complete-snippet-or-indent-selection") do |args|
   gui_id = args[0]
   id = args[1]
-  buf = args[2]
+  buf = args[2].force_encoding("utf-8")
   start_line = args[3]
   finish_line = args[4]
   point_line = args[5]
@@ -181,7 +181,7 @@ end
 osc_server.add_method("/buffer-indent-selection") do |args|
   gui_id = args[0]
   id = args[1]
-  buf = args[2]
+  buf = args[2].force_encoding("utf-8")
   start_line = args[3]
   finish_line = args[4]
   point_line = args[5]
@@ -192,7 +192,7 @@ end
 osc_server.add_method("/buffer-section-toggle-comment") do |args|
   gui_id = args[0]
   id = args[1]
-  buf = args[2]
+  buf = args[2].force_encoding("utf-8")
   start_line = args[3]
   finish_line = args[4]
   point_line = args[5]
@@ -203,7 +203,7 @@ end
 osc_server.add_method("/buffer-beautify") do |args|
   gui_id = args[0]
   id = args[1]
-  buf = args[2]
+  buf = args[2].force_encoding("utf-8")
   line = args[3]
   index = args[4]
   first_line = args[5]

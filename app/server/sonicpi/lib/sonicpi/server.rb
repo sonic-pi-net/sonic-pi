@@ -81,7 +81,7 @@ module SonicPi
       }
 
       at_exit do
-        log "Exiting - shutting down scsynth server..."
+        puts "Exiting - shutting down scsynth server..."
         @scsynth.shutdown
       end
 

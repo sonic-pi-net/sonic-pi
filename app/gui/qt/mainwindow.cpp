@@ -18,11 +18,16 @@
 #include <sstream>
 #include <fstream>
 
+// Qt 5 only
+
 // Qt stuff
 #include <QSysInfo>
 #include <QPainter>
 #include <QDate>
 #include <QDesktopServices>
+#include <QDesktopWidget>
+
+
 #include <QDir>
 #include <QAction>
 #include <QApplication>
@@ -93,6 +98,10 @@ using namespace oscpkt;// OS specific stuff
   #include <QtConcurrentRun>
 #endif
 
+#if QT_VERSION >= 0x050400
+  #include <QWindow>
+#endif
+
 #include "mainwindow.h"
 
 #ifdef Q_OS_MAC
@@ -101,49 +110,24 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QMainWindow* splash)
 MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
 #endif
 {
-  if (QCoreApplication::applicationDirPath().startsWith("/usr/bin/")) {
-
-    // use FHS directory scheme:
-    // Sonic Pi is installed in /usr/bin from a Linux distribution's package
-
-    ruby_path = "/usr/bin/ruby";
-    ruby_server_path = "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb";
-    sample_path = "/usr/share/sonic-pi/samples";
-
-  } else if (QCoreApplication::applicationDirPath().startsWith("/opt/")) {
-
-    // use /opt directory scheme:
-    // Sonic Pi is installed in /opt from the Raspbian .deb package
-
-    ruby_path = "/usr/bin/ruby";
-    ruby_server_path = "/opt/sonic-pi/server/bin/sonic-pi-server.rb";
-    sample_path = "/opt/sonic-pi/etc/samples";
-
-  } else {
-
-    // Sonic Pi is installed in the user's home directory
-    // or has been installed on Windows / OSX
-
-    QString root_path = rootPath();
+  QString root_path = rootPath();
 
 #if defined(Q_OS_WIN)
-    ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/windows/ruby/bin/ruby.exe");
+  ruby_path = QDir::toNativeSeparators(root_path + "/app/server/native/windows/ruby/bin/ruby.exe");
 #elif defined(Q_OS_MAC)
-    ruby_path = root_path + "/server/native/osx/ruby/bin/ruby";
+  ruby_path = root_path + "/server/native/osx/ruby/bin/ruby";
 #else
-    ruby_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
+  ruby_path = root_path + "/app/server/native/raspberry/ruby/bin/ruby";
 #endif
 
-    QFile file(ruby_path);
-    if(!file.exists()) {
-      // fallback to user's locally installed ruby
-      ruby_path = "ruby";
-    }
-
-    ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
-    sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
-
+  QFile file(ruby_path);
+  if(!file.exists()) {
+    // fallback to user's locally installed ruby
+    ruby_path = "ruby";
   }
+
+  ruby_server_path = QDir::toNativeSeparators(root_path + "/app/server/bin/sonic-pi-server.rb");
+  sample_path = QDir::toNativeSeparators(root_path + "/etc/samples");
 
   sp_user_path           = QDir::toNativeSeparators(sonicPiHomePath() + "/.sonic-pi");
   sp_user_tmp_path       = QDir::toNativeSeparators(sp_user_path + "/.writableTesterPath");
@@ -153,13 +137,13 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
   scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
 
-  QFile file(sp_user_tmp_path);
-  if (!file.open(QIODevice::WriteOnly)) {
+  QFile tmpFile(sp_user_tmp_path);
+  if (!tmpFile.open(QIODevice::WriteOnly)) {
     homeDirWritable = false;
   }
   else {
     homeDirWritable = true;
-    file.close();
+    tmpFile.close();
   }
 
   loaded_workspaces = false;
@@ -167,7 +151,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   show_rec_icon_a = false;
   restoreDocPane = false;
   focusMode = false;
-  version = "2.10.0";
+  version = "2.11.0-dev";
   latest_version = "";
   version_num = 0;
   latest_version_num = 0;
@@ -567,11 +551,19 @@ void MainWindow::toggleFullScreenMode() {
 
 void MainWindow::updateFullScreenMode(){
   if (full_screen->isChecked()) {
+
     mainWidgetLayout->setMargin(0);
     outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
-    this->setWindowState(Qt::WindowFullScreen);
     this->show();
+
+#if QT_VERSION >= 0x050400
+    //requires Qt5
+    int currentScreen = QApplication::desktop()->screenNumber(this);
+    this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
+#endif
+
+    this->setWindowState(Qt::WindowFullScreen);
   }
   else {
     mainWidgetLayout->setMargin(9);
@@ -783,7 +775,7 @@ void MainWindow::startRubyServer(){
   // kill any zombie processes that may exist
   // better: test to see if UDP ports are in use, only kill/sleep if so
   // best: kill SCSynth directly if needed
-  std::cout << "[GUI] - shutting down any old audio servers..." << std::endl;
+  std::cout << "[GUI] - shutting down any old SuperCollider servers..." << std::endl;
   Message msg("/exit");
   msg.pushStr(guiID.toStdString());
   sendOSC(msg);
@@ -798,21 +790,21 @@ void MainWindow::startRubyServer(){
     args << "-t";
   }
 
-  std::cout << "[GUI] - booting live coding server" << std::endl;
+  std::cout << "[GUI] - launching Sonic Pi Server" << std::endl;
   if(homeDirWritable) {
     serverProcess->setStandardErrorFile(server_error_log_path);
     serverProcess->setStandardOutputFile(server_output_log_path);
   }
   serverProcess->start(ruby_path, args);
   if (!serverProcess->waitForStarted()) {
-    invokeStartupError(tr("The Sonic Pi server could not be started!"));
+    invokeStartupError(tr("The Sonic Pi Server could not be started!"));
     return;
   }
 }
 
 bool MainWindow::waitForServiceSync() {
   QString contents;
-  std::cout << "[GUI] - waiting for server to boot..." << std::endl;
+  std::cout << "[GUI] - waiting for Sonic Pi Server to boot..." << std::endl;
   bool server_booted = false;
   if (!homeDirWritable) {
     // we can't monitor the logs so hope for the best!
@@ -822,7 +814,7 @@ bool MainWindow::waitForServiceSync() {
     for(int i = 0; i < 60; i ++) {
       contents = readFile(server_output_log_path);
       if (contents.contains("Sonic Pi Server successfully booted.")) {
-        std::cout << std::endl << "[GUI] - server successfully booted." << std::endl;
+        std::cout << std::endl << "[GUI] - Sonic Pi Server successfully booted." << std::endl;
         server_booted = true;
         break;
       } else {
@@ -833,15 +825,16 @@ bool MainWindow::waitForServiceSync() {
   }
 
   if (!server_booted) {
-      std::cout << std::endl << "[GUI] - Critical error! Could not boot server." << std::endl;
-      invokeStartupError("Critical server error - could not boot server!");
+      std::cout << std::endl << "[GUI] - Critical error! Could not boot Sonic Pi Server." << std::endl;
+      invokeStartupError("Critical error! - Could not boot Sonic Pi Server.");
       return false;
   }
 
   int timeout = 60;
-  std::cout << "[GUI] - waiting for server to connect..." << std::endl;
+  std::cout << "[GUI] - waiting for Sonic Pi Server to respond..." << std::endl;
   while (sonicPiOSCServer->waitForServer() && timeout-- > 0) {
     sleep(1);
+    std::cout << ".";
     if(sonicPiOSCServer->isIncomingPortOpen()) {
       Message msg("/ping");
       msg.pushStr(guiID.toStdString());
@@ -850,11 +843,11 @@ bool MainWindow::waitForServiceSync() {
     }
   }
   if (!sonicPiOSCServer->isServerStarted()) {
-      std::cout << "[GUI] - Critical error! Could not connect to server." << std::endl;
-      invokeStartupError("Critical server error - could not connect to server!");
+      std::cout << std::endl <<  "[GUI] - Critical error! Could not connect to Sonic Pi Server." << std::endl;
+      invokeStartupError("Critical server error - could not connect to Sonic Pi Server!");
       return false;
   } else {
-    std::cout << "[GUI] - server connection established" << std::endl;
+    std::cout << std::endl << "[GUI] - Sonic Pi Server connection established" << std::endl;
     return true;
   }
 
@@ -974,7 +967,7 @@ void MainWindow::initPrefsWindow() {
   log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
 
   log_auto_scroll = new QCheckBox(tr("Log auto scroll"));
-  log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the botton after every new message is displayed."));
+  log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
   connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateLogAutoScroll()));
 
   check_args = new QCheckBox(tr("Safe mode"));
@@ -1261,7 +1254,7 @@ void MainWindow::startupError(QString msg) {
 
   QMessageBox *box = new QMessageBox(QMessageBox::Warning,
 				     tr("Server boot error..."), tr("Sonic Pi Boot Error\n\nApologies, a critical error occurred during startup") + ":\n\n " + msg + "\n\n" + tr("Please consider reporting a bug at") + "\nhttp://github.com/samaaron/sonic-pi/issues");
-  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nSystem Information\n----------------\n\n* Sonic Pi version: " + version + "\n* OS: " + osDescription() + "\n\n\nGUI Log\n-------\n\n**" + gui_log_path + "**\n```\n" + gui_log + "\n```\n\n\nServer Errors\n-------------\n\n**" + server_error_log_path + "**\n```\n" + server_error_log + "\n```\n\n\nServer Output\n-------------\n\n**" + server_output_log_path + "**\n```\n" + server_output_log + "\n```\n\n\nScsynth Output\n--------------\n\n**" + scsynth_log_path + "**\n```\n" + scsynth_log + "\n```\n";
+  QString error_report = "Sonic Pi Boot Error Report\n==================\n\n\nSystem Information\n----------------\n\n* Sonic Pi version: " + version + "\n* OS: " + osDescription() + "\n\n\nGUI Log\n-------\n\n**`" + gui_log_path + "`**\n```\n" + gui_log + "\n```\n\n\nServer Errors\n-------------\n\n**`" + server_error_log_path + "`**\n```\n" + server_error_log + "\n```\n\n\nServer Output\n-------------\n\n**`" + server_output_log_path + "`**\n```\n" + server_output_log + "\n```\n\n\nScsynth Output\n--------------\n\n**`" + scsynth_log_path + "`**\n```\n" + scsynth_log + "\n```\n";
   box->setDetailedText(error_report);
 
   QGridLayout* layout = (QGridLayout*)box->layout();
@@ -1763,6 +1756,8 @@ void MainWindow::updateLogAutoScroll() {
 void MainWindow::updateDarkMode(){
   SonicPiTheme *currentTheme = lexer->theme;
 
+
+
   QString css = readFile(QString(":/theme/%1/doc-styles.css").arg(dark_mode->isChecked() ? "dark" : "light"));
   docPane->document()->setDefaultStyleSheet(css);
   docPane->reload();
@@ -1772,175 +1767,150 @@ void MainWindow::updateDarkMode(){
   }
   errorPane->document()->setDefaultStyleSheet(css);
 
+  // switch themes
   if(dark_mode->isChecked()){
     currentTheme->darkMode();
-
-    // clear stylesheets
-    this->setStyleSheet("");
-    infoWidg->setStyleSheet("");
-    mainWidget->setStyleSheet("");
-    statusBar()->setStyleSheet("");
-    outputPane->setStyleSheet("");
-    outputWidget->setStyleSheet("");
-    prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet("");
-    prefTabs->setStyleSheet("");
-    docsCentral->setStyleSheet("");
-    docWidget->setStyleSheet("");
-    toolBar->setStyleSheet("");
-
-    docPane->setStyleSheet(defaultTextBrowserStyle);
-
-    QPalette p = QApplication::palette();
-    p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
-    p.setColor(QPalette::Base,            QColor("#a3a3a3"));
-    p.setColor(QPalette::AlternateBase,   QColor("#a2a2a2"));
-    p.setColor(QPalette::Text,            QColor("#000"));
-    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
-    p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
-    p.setColor(QPalette::ToolTipBase,   QColor("#929292"));
-    p.setColor(QPalette::ToolTipText,   QColor("#fff"));
-    p.setColor(QPalette::Button,        QColor("#000"));
-    p.setColor(QPalette::ButtonText,    QColor("#fff"));
-    p.setColor(QPalette::Shadow,        QColor("#333"));
-    p.setColor(QPalette::Mid, QColor("#222"));
-    p.setColor(QPalette::Dark, QColor("#333"));
-    p.setColor(QPalette::Midlight, QColor("#222"));
-    p.setColor(QPalette::Light, QColor("#111"));
-
-    QApplication::setPalette(p);
-
-    QString windowColor = currentTheme->color("WindowBackground").name();
-    QString windowForegroundColor = currentTheme->color("WindowForeground").name();
-    QString logInfoForegroundColor = currentTheme->color("LogInfoForeground").name();
-    QString paneColor = currentTheme->color("PaneBackground").name();
-    QString windowBorder = currentTheme->color("WindowBorder").name();
-    QString selectedTab = "deeppink";
-
-    QString buttonStyling = QString("QPushButton{padding: 5px; background-color: deeppink; border-radius: 3px; border-color: #808080; border-width: 2px;} QPushButton::pressed{background-color: white; color: #808080; }");
-
-    QString splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
-    QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: #222; border-right: 1px solid #000; border-bottom: 1px solid #000;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(windowColor);
-
-    QString tabStyling =         QString("QTabBar::tab{background: #1c2529; color: %1;} QTabBar::tab:selected{background: %2;} QTabWidget::tab-bar{alignment: center;} QTabWidget::pane{border: 0px;}").arg(windowForegroundColor, selectedTab);
-    QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 #1c2529); font-size 10px;} QDockWidget{font-size:10px;} ").arg(windowColor, windowBorder, windowForegroundColor);
-    QString toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
-
-    this->setStyleSheet(QString(buttonStyling + splitterStyling+ toolTipStyling+scrollStyling + "QToolButton:hover{background: transparent;} QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: white;}").arg(windowColor));
-    statusBar()->setStyleSheet( QString("QWidget{background-color: %1; color: #808080;} QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(windowColor, windowBorder));
-    // Colour log messages as info by default
-    outputPane->setStyleSheet(  QString("QPlainTextEdit{background-color: %1; color: %2; border: 0px;}").arg(paneColor, logInfoForegroundColor));
-    outputWidget->setStyleSheet(widgetTitleStyling);
-    prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color:#1c2325; border: 1px solid #1c2529; color: %1;} QWidget{background-color: %2;}" + buttonStyling).arg(windowForegroundColor, windowColor));
-    tabs->setStyleSheet(tabStyling);
-    prefTabs->setStyleSheet(tabStyling);
-    docsCentral->setStyleSheet(tabStyling);
-    docWidget->setStyleSheet(   QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-background-color: deeppink;}").arg(paneColor, windowForegroundColor));
-    docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor));
-    infoWidg->setStyleSheet(    QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
-    toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorder));
-    errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
-    for(int i=0; i < tabs->count(); i++){
-      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-      ws->setFrameShape(QFrame::NoFrame);
-    }
-
-    foreach(QTextBrowser* pane, infoPanes) {
-      pane->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
-    }
-
-  }else{
-
+  } else {
     currentTheme->lightMode();
-    // clear stylesheets
-    this->setStyleSheet("");
-    infoWidg->setStyleSheet("");
-    mainWidget->setStyleSheet("");
-    statusBar()->setStyleSheet("");
-    outputPane->setStyleSheet("");
-    outputWidget->setStyleSheet("");
-    prefsWidget->setStyleSheet("");
-    tabs->setStyleSheet("");
-    prefTabs->setStyleSheet("");
-    docsCentral->setStyleSheet("");
-    docWidget->setStyleSheet("");
-    toolBar->setStyleSheet("");
-
-    docPane->setStyleSheet(defaultTextBrowserStyle);
-
-    QString l_buttonStyling = QString("QPushButton{background-color: deeppink; border-radius: 3px; padding: 5px; color: white; border-color: white; border-width: 2px;} QPushButton::pressed{background-color: white; color: #808080; }");
-
-    QString l_windowColor = currentTheme->color("WindowBackground").name();
-    QString l_windowForegroundColor = currentTheme->color("WindowForeground").name();
-    QString l_foregroundColor = currentTheme->color("Foreground").name();
-    QString l_logInfoForegroundColor = currentTheme->color("LogInfoForeground").name();
-    QString l_paneColor = currentTheme->color("PaneBackground").name();
-    QString l_windowBorder = currentTheme->color("WindowBorder").name();
-    QString l_selectedTab = "deeppink";
-    QString l_toolTipStyling =     QString("QToolTip {color: #ffffff; background-color: #929292; border: 0px;} ");
-
-    QString l_tabStyling =         QString("QTabBar::tab{background: #808080; color: white;} QTabBar::tab:selected{background: %1;} QTabWidget::tab-bar{alignment: center;} QTabWidget::pane{border: 0px;}").arg(l_selectedTab);
-
-    QString l_splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
-
-    QString l_scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: lightgray; border-right: 1px solid lightgray; border-bottom: 1px solid lightgray;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %1;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(l_windowColor);
-
-    QString l_widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 %1, stop: 1.0 lightgray); font-size 10px;} QDockWidget{font-size:10px;} ").arg(l_windowColor, l_windowBorder, l_windowForegroundColor);
-
-
-    for(int i=0; i < tabs->count(); i++){
-      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-      ws->setFrameShape(QFrame::StyledPanel);
-      ws->setStyleSheet("");
-    }
-
-    QPalette p = QApplication::palette();
-    p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
-    p.setColor(QPalette::Base,            QColor("#fff"));
-    p.setColor(QPalette::Text,            currentTheme->color("WindowForeground"));
-    p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
-    p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
-
-    p.setColor(QPalette::AlternateBase,   QColor("#fff"));
-    p.setColor(QPalette::ToolTipBase,   QColor("#fff"));
-    p.setColor(QPalette::ToolTipText,   QColor("#000"));
-    p.setColor(QPalette::Button,        QColor("#ddd"));
-    p.setColor(QPalette::ButtonText,    QColor("#000"));
-    p.setColor(QPalette::Shadow,        QColor("#fff"));
-    p.setColor(QPalette::Dark, QColor("#000"));
-    p.setColor(QPalette::Midlight, QColor("grey"));
-    p.setColor(QPalette::Light, QColor("#fff"));
-
-    QApplication::setPalette(p);
-
-    this->setStyleSheet(QString(l_buttonStyling + l_splitterStyling+ l_toolTipStyling+l_scrollStyling + "QSlider::groove:vertical{margin: 2px 0; background: dodgerblue; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid #222; border-radius: 3px; height: 30px; background: #333;} QMenu{background: #929292; color: #000; } QMenu:selected{background: deeppink;} QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: white;}").arg(l_windowColor));
-
-    statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; border-top: 1px solid %2;}").arg(l_windowColor, l_windowBorder));
-    // Colour log messages as info by default
-    outputPane->setStyleSheet(  QString("QPlainTextEdit{background-color: %1; color: %2; border: 0px;}").arg(l_paneColor, l_logInfoForegroundColor));
-    outputWidget->setStyleSheet(l_widgetTitleStyling);
-    prefsWidget->setStyleSheet( QString(l_buttonStyling + l_widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color: %2; border: 1px solid lightgray; color: %1;}").arg(l_windowForegroundColor, l_windowColor));
-    tabs->setStyleSheet(        l_tabStyling);
-    prefTabs->setStyleSheet(l_tabStyling);
-    docsCentral->setStyleSheet( l_tabStyling);
-    docWidget->setStyleSheet(   QString(l_widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-color: white; selection-background-color: deeppink;}").arg(l_paneColor,  l_foregroundColor));
-    docPane->setStyleSheet(     QString("QTextBrowser { selection-color: white; selection-background-color: deeppink; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(l_paneColor));
-    infoWidg->setStyleSheet(    QString(l_scrollStyling + l_tabStyling + " QTextEdit{background-color: %1;}").arg(l_paneColor));
-    toolBar->setStyleSheet(     QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(l_windowColor,l_windowBorder));
-    errorPane->setStyleSheet(   QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(l_paneColor, currentTheme->color("ErrorBackground").name()));
-
-
-    for(int i=0; i < tabs->count(); i++){
-      SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
-      ws->setFrameShape(QFrame::NoFrame);
-    }
-
-    foreach(QTextBrowser* pane, infoPanes) {
-      pane->setStyleSheet(defaultTextBrowserStyle);
-    }
   }
+
+  // clear stylesheets
+  this->setStyleSheet("");
+  infoWidg->setStyleSheet("");
+  mainWidget->setStyleSheet("");
+  statusBar()->setStyleSheet("");
+  outputPane->setStyleSheet("");
+  outputWidget->setStyleSheet("");
+  prefsWidget->setStyleSheet("");
+  tabs->setStyleSheet("");
+  prefTabs->setStyleSheet("");
+  docsCentral->setStyleSheet("");
+  docWidget->setStyleSheet("");
+  toolBar->setStyleSheet("");
+
+  docPane->setStyleSheet(defaultTextBrowserStyle);
+
+  QPalette p = QApplication::palette();
+  p.setColor(QPalette::WindowText,      currentTheme->color("WindowForeground"));
+  p.setColor(QPalette::Window,          currentTheme->color("WindowBackground"));
+  p.setColor(QPalette::Base,            currentTheme->color("Base"));
+  p.setColor(QPalette::AlternateBase,   currentTheme->color("AlternateBase"));
+  p.setColor(QPalette::Text,            currentTheme->color("Foreground"));
+  p.setColor(QPalette::HighlightedText, currentTheme->color("HighlightedForeground"));
+  p.setColor(QPalette::Highlight,       currentTheme->color("HighlightedBackground"));
+  p.setColor(QPalette::ToolTipBase,     currentTheme->color("ToolTipBase"));
+  p.setColor(QPalette::ToolTipText,     currentTheme->color("ToolTipText"));
+  p.setColor(QPalette::Button,          currentTheme->color("Button"));
+  p.setColor(QPalette::ButtonText,      currentTheme->color("ButtonText"));
+  p.setColor(QPalette::Shadow,          currentTheme->color("Shadow"));
+  p.setColor(QPalette::Light,           currentTheme->color("Light"));
+  p.setColor(QPalette::Midlight,        currentTheme->color("Midlight"));
+  p.setColor(QPalette::Mid,             currentTheme->color("Mid"));
+  p.setColor(QPalette::Dark,            currentTheme->color("Dark"));
+
+  QApplication::setPalette(p);
+
+  QString windowColor = currentTheme->color("WindowBackground").name();
+  QString windowForegroundColor = currentTheme->color("WindowForeground").name();
+  QString paneColor = currentTheme->color("PaneBackground").name();
+  QString logForegroundColor = currentTheme->color("LogForeground").name();
+  QString logBackgroundColor = currentTheme->color("LogBackground").name();
+  QString windowBorderColor = currentTheme->color("WindowBorder").name();
+  QString windowInternalBorderColor = currentTheme->color("WindowInternalBorder").name();
+
+  QString buttonColor = currentTheme->color("Button").name();
+  QString buttonBorderColor = currentTheme->color("ButtonBorder").name();
+  QString buttonTextColor = currentTheme->color("ButtonText").name();
+  QString pressedButtonColor = currentTheme->color("PressedButton").name();
+  QString pressedButtonTextColor = currentTheme->color("PressedButtonText").name();
+
+  QString scrollBarColor = currentTheme->color("ScrollBar").name();
+  QString scrollBarBackgroundColor = "transparent";
+
+  QString tabColor = currentTheme->color("Tab").name();
+  QString tabTextColor = currentTheme->color("TabText").name();
+  QString tabSelectedColor = currentTheme->color("TabSelected").name();
+  QString tabSelectedTextColor = currentTheme->color("TabSelectedText").name();
+
+  QString toolTipTextColor = currentTheme->color("ToolTipText").name();
+  QString toolTipBaseColor = currentTheme->color("ToolTipBase").name();
+
+  QString statusBarColor = currentTheme->color("StatusBar").name();
+  QString statusBarTextColor = currentTheme->color("StatusBarText").name();
+
+  QString sliderColor = currentTheme->color("Slider").name();
+  QString sliderBackgroundColor = currentTheme->color("SliderBackground").name();
+
+  QString menuColor = currentTheme->color("Menu").name();
+  QString menuTextColor = currentTheme->color("MenuText").name();
+  QString menuSelectedColor = currentTheme->color("MenuSelected").name();
+  QString menuSelectedTextColor = currentTheme->color("MenuSelectedText").name();
+
+  QString selectionForegroundColor = currentTheme->color("SelectionForeground").name();
+  QString selectionBackgroundColor = currentTheme->color("SelectionBackground").name();
+
+  QString buttonStyling = QString("QPushButton{padding: 5px; background-color: %1; border-radius: 3px; border-color: %2; border-width: 2px;} QPushButton::pressed{background-color: %3; color: %4; }").arg( buttonColor, buttonBorderColor, pressedButtonColor, pressedButtonTextColor );
+
+  QString splitterStyling =    QString("QSplitter::handle:vertical{height: 6px; image: url(images/vsplitter.png);} QSplitter::handle:horizontal {width:  6px; image: url(images/hsplitter.png);}");
+
+  QString scrollStyling =      QString("QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {border: 0px;} QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{border:0px;} QScrollBar:horizontal, QScrollBar:vertical{background-color: %1;} QScrollBar::handle:horizontal,QScrollBar::handle:vertical { background: %2;  border-radius: 5px; min-width: 80%;} QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,  QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical{background: none;}").arg(scrollBarBackgroundColor, scrollBarColor);
+
+  QString tabStyling =         QString("QTabBar::tab{background: %1; color: %2;} QTabBar::tab:selected{background: %3; color: %4} QTabWidget::tab-bar{alignment: center;} QTabWidget::pane{border: 0px;}").arg(tabColor, tabTextColor, tabSelectedColor, tabSelectedTextColor);
+
+  QString widgetTitleStyling = QString("QDockWidget::title{color: %3; border-bottom: 1px solid %2; text-align: center; background: %1; font-size 10px;} QDockWidget{font-size:10px;} ").arg(windowColor, windowBorderColor, windowForegroundColor);
+
+
+  QString toolTipStyling =     QString("QToolTip {color: %1; background-color: %2; border: 0px;} ").arg(toolTipTextColor, toolTipBaseColor);
+
+  QString toolButtonStyling = QString("QToolButton:hover{background: transparent;}");
+
+  QString sliderStyling = QString("QSlider::groove:vertical{margin: 2px 0; background: %2; border-radius: 3px;} QSlider::handle:vertical {border: 1px solid %1; border-radius: 3px; height: 30px; background-color: %1;}").arg(sliderColor, sliderBackgroundColor);
+
+  QString menuStyling = QString("QMenu{background: %1; color: %2; } QMenu:selected{background: %3; color: %4}").arg(menuColor, menuTextColor, menuSelectedColor, menuSelectedTextColor);
+
+  QString windowStyling = QString("QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: %2;}").arg(windowBorderColor, windowColor);
+
+  this->setStyleSheet(buttonStyling +
+                      splitterStyling +
+                      toolTipStyling +
+                      scrollStyling +
+                      toolButtonStyling +
+                      sliderStyling +
+                      menuStyling +
+                      windowStyling);
+
+  statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; color: %2;}").arg(statusBarColor, statusBarTextColor));
+
+  // Colour log messages as info by default
+  outputPane->setStyleSheet(  QString("QPlainTextEdit{background-color: %1; color: %2; border: 0px;}").arg(logBackgroundColor, logForegroundColor));
+
+  outputWidget->setStyleSheet(widgetTitleStyling);
+
+  prefsWidget->setStyleSheet( QString(widgetTitleStyling + "QGroupBox:title{subcontrol-origin: margin; top:0px; padding: 0px 0 20px 5px; font-size: 11px; color: %1; background-color: transparent;} QGroupBox{padding: 0 0 0 0; subcontrol-origin: margin; margin-top: 15px; margin-bottom: 0px; font-size: 11px; background-color: %2; border: 1px solid %3; color: %1;} QWidget{background-color: %2;}" + buttonStyling).arg(windowForegroundColor, windowColor, windowInternalBorderColor));
+
+  tabs->setStyleSheet(tabStyling);
+  prefTabs->setStyleSheet(tabStyling);
+  docsCentral->setStyleSheet(tabStyling);
+
+  docWidget->setStyleSheet( QString(widgetTitleStyling + "QDockWidget QListView {color: %2; background: %1; selection-color: %3; selection-background-color: %4;}").arg(paneColor, windowForegroundColor, selectionForegroundColor, selectionBackgroundColor));
+
+  docPane->setStyleSheet( QString("QTextBrowser { selection-color: %2; selection-background-color: %3; padding-left:10; padding-top:10; padding-bottom:10; padding-right:10 ; background: %1}").arg(paneColor, selectionForegroundColor, selectionBackgroundColor));
+
+  infoWidg->setStyleSheet( QString(scrollStyling + tabStyling + " QTextEdit{background-color: %1;}").arg(paneColor));
+
+  toolBar->setStyleSheet( QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorderColor));
+
+  errorPane->setStyleSheet( QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
+
+  for(int i=0; i < tabs->count(); i++){
+    SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
+    ws->setFrameShape(QFrame::NoFrame);
+  }
+
+  foreach(QTextBrowser* pane, infoPanes) {
+    pane->setStyleSheet(QString(scrollStyling + "QTextBrowser{ padding-left:10; padding-top:10; padding-bottom:10; padding-right:10;}"));
+  }
+
 
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);

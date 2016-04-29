@@ -177,7 +177,7 @@ void OscHandler::oscMessage(std::vector<char> buffer){
       else if (msg->match("/exited-with-boot-error")) {
         std::string error_message;
         if (msg->arg().popStr(error_message).isOkNoMoreArgs()) {
-          std::cout << "[GUI] - server failed to start with this error message: " << std::endl;
+          std::cout << std::endl << "[GUI] - Sonic Pi Server failed to start with this error message: " << std::endl;
           std::cout << "      > " << error_message << std::endl;
           signal_server_stop = true;
         } else {

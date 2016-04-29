@@ -66,16 +66,16 @@ module SonicPi
     end
 
     def shutdown
-      log "Sending /quit command to server"
+      puts "Sending /quit command to server"
       begin
         @server.send(@hostname, @port, "/quit")
       rescue Exception => e
-        log "Error during scsynth shutdown when attempting to send /quit OSC message to server #{@hostname} on port #{@port}"
+        puts "Error during scsynth shutdown when attempting to send /quit OSC message to server #{@hostname} on port #{@port}"
       end
       @server.stop
       t1, t2 = nil, nil
       if @jack_pid
-        log "killing jack process #{@jack_pid}"
+        puts "killing jack process #{@jack_pid}"
         t1 = Thread.new do
           kill_pid(@jack_pid)
           @jack_pid = nil
@@ -83,7 +83,7 @@ module SonicPi
       end
 
       if @scsynth_pid
-        log "killing scynth process #{@scsynth_pid}"
+        puts "killing scynth process #{@scsynth_pid}"
         t2 = Thread.new do
           kill_pid(@scsynth_pid)
           @scsynth_pid = nil
@@ -105,16 +105,16 @@ module SonicPi
       # on Windows, so go straight for the jugular
       begin
         Process.kill(9, pid)
-        log "Killed #{pid}"
+        puts "Killed #{pid}"
         return true
       rescue Exception => e
-        log "Could not kill #{pid} - perhaps already killed?"
+        puts "Could not kill #{pid} - perhaps already killed?"
         return nil
       end
     end
 
     def kill_pid(pid, safe_wait=4)
-      log "going to kill #{pid}"
+      puts "going to kill #{pid}"
       return kill_pid_win(pid) if os == :windows
       pid = Integer(pid)
       begin
@@ -123,23 +123,23 @@ module SonicPi
           begin
             alive = Process.waitpid(pid, Process::WNOHANG)
             unless alive
-              log "Successfully killed #{pid}"
+              puts "Successfully killed #{pid}"
               return nil
             end
           rescue Exception => e
             # process is definitely dead!
-            log "Error waiting for process #{pid} - assumed already killed"
+            puts "Error waiting for process #{pid} - assumed already killed"
             return nil
           end
           sleep 1
         end
 
         Process.kill(9, pid)
-        log "Forcibly killed #{pid}"
+        puts "Forcibly killed #{pid}"
       rescue Errno::ECHILD => e
-        log "Unable to wait for #{pid} - child process does not exist"
+        puts "Unable to wait for #{pid} - child process does not exist"
       rescue Errno::ESRCH
-        log "Unable to kill #{pid} - process does not exist"
+        puts "Unable to kill #{pid} - process does not exist"
       end
 
       return nil
@@ -150,7 +150,7 @@ module SonicPi
         server_log "Server already booted..."
         return false
       end
-      log "booting server..."
+      puts "booting server..."
 
       @server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true)
 
@@ -192,11 +192,12 @@ module SonicPi
     end
 
     def log_boot_msg
-      log ""
-      log ""
-      log "Booting Sonic Pi"
-      log "----------------"
-      log ""
+      puts ""
+      puts ""
+      puts "Booting Sonic Pi"
+      puts "----------------"
+      puts ""
+      log "\n\n\n"
     end
 
     def scsynth_path
@@ -217,7 +218,7 @@ module SonicPi
     end
 
     def boot_and_wait(*args)
-      log "Boot - Starting the SuperCollider server..."
+      puts "Boot - Starting the SuperCollider server..."
       p = Promise.new
       p2 = Promise.new
 
@@ -256,11 +257,11 @@ module SonicPi
       end
       raise "Unable to boot SuperCollider - boot server log did not report server ready" unless v
 
-      log "Boot - SuperCollider booted successfully."
-      log "Boot - Connecting to the SuperCollider server..."
+      puts "Boot - SuperCollider booted successfully."
+      puts "Boot - Connecting to the SuperCollider server..."
 
       boot_s = OSC::UDPServer.new(5998) do |a, b|
-        log "Boot - Receiving ack from server on port 5998"
+        puts "Boot - Receiving ack from server on port 5998"
         p2.deliver! true unless connected
         connected = true
       end
@@ -269,10 +270,10 @@ module SonicPi
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_external_boot_ack)
         loop do
           begin
-            log "Boot - Sending /status to server: #{@hostname}:#{@port}"
+            puts "Boot - Sending /status to server: #{@hostname}:#{@port}"
             boot_s.send(@hostname, @port, "/status")
           rescue Exception => e
-            log "Boot - Error sending /status to server: #{e.message}"
+            puts "Boot - Error sending /status to server: #{e.message}"
           end
           sleep 2
         end
@@ -288,17 +289,17 @@ module SonicPi
       end
 
       unless connected
-        log "Boot - Unable to connect to SuperCollider"
+        puts "Boot - Unable to connect to SuperCollider"
         raise "Boot - Unable to connect to SuperCollider"
       end
 
-      log "Boot - Server connection established"
+      puts "Boot - Server connection established"
     end
 
     def boot_server_osx
       log_boot_msg
-      log "Boot - Booting on OS X"
-      log "Boot - Checkout audio rates on OSX:"
+      puts "Boot - Booting on OS X"
+      puts "Boot - Checkout audio rates on OSX:"
       # Force sample rate for both input and output to 44k
       # If these are not identical, then scsynth will refuse
       # to boot.
@@ -308,27 +309,34 @@ module SonicPi
         require 'coreaudio'
         audio_in_rate = CoreAudio.default_input_device.nominal_rate
         audio_out_rate = CoreAudio.default_output_device.nominal_rate
-        log "Boot - Input audio rate: #{audio_in_rate}"
-        log "Boot - Output audio rate: #{audio_out_rate}"
+        puts "Boot - Input audio rate: #{audio_in_rate}"
+        puts "Boot - Output audio rate: #{audio_out_rate}"
         if audio_in_rate != audio_out_rate
-          log "Attempting to set both in and out sample rates to 44100.0..."
+          puts "Attempting to set both in and out sample rates to 44100.0..."
           CoreAudio.default_output_device(nominal_rate: 44100.0)
           CoreAudio.default_input_device(nominal_rate: 44100.0)
           # now check again...
           audio_in_rate = CoreAudio.default_input_device.nominal_rate
           audio_out_rate = CoreAudio.default_output_device.nominal_rate
-          log "Boot - Input audio rate now: #{audio_in_rate}"
-          log "Boot - Output audio rate now: #{audio_out_rate}"
+          puts "Boot - Input audio rate now: #{audio_in_rate}"
+          puts "Boot - Output audio rate now: #{audio_out_rate}"
           if (audio_in_rate != :unknown_in_rate) && (audio_out_rate != :unknown_out_rate) && (audio_in_rate != audio_out_rate)
-            log "Boot - Sample rates do not match, exiting"
+            puts "Boot - Sample rates do not match, exiting"
             raise
           end
         else
-          log "Boot - Sample rates match, we may continue to boot..."
+          puts "Boot - Sample rates match, we may continue to boot..."
         end
 
       rescue Exception => e
-       raise "Unable to boot sound synthesis engine: the input and output rates of your audio card are not the same. Got in: #{audio_in_rate}, out: #{audio_out_rate}."
+        if (audio_in_rate == :unknown_in_rate) || (audio_out_rate == :unknown_out_rate)
+          # Something went wrong whilst attempting to determine and modify the audio
+          # rates. Given that there's a chance the rates are correct, try and continue
+          # to boot and let scsynth throw a wobbly if things aren't in order.
+          puts "Boot - Unable to detect input and output audio rates. Continuing in the hope that they are actually the same..."
+        else
+          raise "Unable to boot sound synthesis engine: the input and output rates of your audio card are not the same. Got in: #{audio_in_rate}, out: #{audio_out_rate}."
+        end
       end
       boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1")
     end
@@ -336,14 +344,14 @@ module SonicPi
 
     def boot_server_windows
       log_boot_msg
-      log "Booting on Windows"
+      puts "Booting on Windows"
 
       boot_and_wait(scsynth_path, "-u", @port.to_s, "-a", num_audio_busses_for_current_os.to_s, "-m", "131072", "-D", "0", "-R", "0", "-l", "1")
     end
 
     def boot_server_raspberry_pi
       log_boot_msg
-      log "Booting on Raspberry Pi"
+      puts "Booting on Raspberry Pi"
       `killall jackd`
       `killall scsynth`
       begin
@@ -352,7 +360,7 @@ module SonicPi
       rescue
         audio_card = "0"
       end
-      sys("jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -r 44100& ")
+      sys("jackd -R -p 32 -d alsa -d hw:#{audio_card} -n 3 -p 2048 -r -i2 -o2 44100& ")
 
       # Wait for Jackd to start
       while `jack_wait -c`.match /^not running$/
@@ -373,11 +381,11 @@ module SonicPi
 
     def boot_server_linux
       log_boot_msg
-      log "Booting on Linux"
+      puts "Booting on Linux"
       #Start Jack if not already running
       if `jack_wait -c`.match /^not running$/
         #Jack not running - start a new instance
-        log "Jackd not running on system. Starting..."
+        puts "Jackd not running on system. Starting..."
         sys("jackd -R -T -p 32 -d alsa -n 3 -p 2048 -r 44100& ")
 
         # Wait for Jackd to start
@@ -386,7 +394,7 @@ module SonicPi
         end
         @jack_pid = `ps cax | grep jackd`.split(" ").first
       else
-        log "Jackd already running. Not starting another server..."
+        puts "Jackd already running. Not starting another server..."
       end
 
       boot_and_wait("scsynth", "-u", @port.to_s, "-m", "131072", "-a", num_audio_busses_for_current_os.to_s, "-D", "0", "-R", "0", "-l", "1")

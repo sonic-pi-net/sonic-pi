@@ -121,22 +121,22 @@ void SonicPiAPIs::updateAutoCompletionList(const QStringList &context,
   } else if (last == "use_tuning" || last == "with_tuning") {
     ctx = Tuning;
 
-  // // FX params
-  // } else if (words.length() >= 2 &&
-  //            (first == "with_fx" || first == "use_fx")) {
-  //   if (last.endsWith(':')) return; // don't try to complete parameters
-  //   if (fxArgs.contains(second)) {
-  //     list = fxArgs[second];
-  //     return;
-  //   }
+  // FX params
+  } else if (words.length() >= 2 &&
+             (first == "with_fx" || first == "use_fx")) {
+    if (last.endsWith(':')) return; // don't try to complete parameters
+    if (fxArgs.contains(second)) {
+      list = fxArgs[second];
+      return;
+    }
 
-  // // Synth params
-  // } else if (words.length() >= 2 && first == "synth") {
-  //   if (last.endsWith(':')) return; // don't try to complete parameters
-  //   if (synthArgs.contains(second)) {
-  //     list = synthArgs[second];
-  //     return;
-  //   }
+  // Synth params
+  } else if (words.length() >= 2 && first == "synth") {
+    if (last.endsWith(':')) return; // don't try to complete parameters
+    if (synthArgs.contains(second)) {
+      list = synthArgs[second];
+      return;
+    }
 
   // Play params
   } else if (words.length() >= 2 && first == "play") {
