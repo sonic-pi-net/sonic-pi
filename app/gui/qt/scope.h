@@ -15,6 +15,7 @@
 #define SCOPE_H
 
 #include <QWidget>
+//#include <QDockWidget>
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 
@@ -48,7 +49,7 @@ private:
   unsigned int channel;
 };
 
-class Scope : public QWidget
+class Scope : public QWidget 
 {
   Q_OBJECT
 
