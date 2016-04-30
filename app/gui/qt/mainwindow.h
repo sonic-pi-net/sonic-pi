@@ -21,6 +21,7 @@
 #include <QLabel>
 #include <QSplashScreen>
 #include <QCheckBox>
+#include <QPixmap>
 #include <QRadioButton>
 #include <QListWidgetItem>
 #include <QListWidget>
@@ -38,6 +39,7 @@
 #include <fstream>
 #include <QSignalMapper>
 #include "sonicpitheme.h"
+#include "scope.h"
 
 class QAction;
 class QMenu;
@@ -125,6 +127,7 @@ private slots:
     bool loadFile();
     bool saveAs();
     void about();
+    void scope();
     void help();
     void onExitCleanup();
     void toggleRecording();
@@ -191,6 +194,7 @@ private:
     void createToolBar();
     void createStatusBar();
     void createInfoPane();
+    void createScopePane();
     void readSettings();
     void writeSettings();
     void loadFile(const QString &fileName, SonicPiScintilla* &text);
@@ -253,6 +257,7 @@ private:
     QTextBrowser *docPane;
 //  QTextBrowser *hudPane;
     QWidget *mainWidget;
+    std::unique_ptr<Scope> scopeWidget;
     bool hidingDocPane;
     bool restoreDocPane;
 

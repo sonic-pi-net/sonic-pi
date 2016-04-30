@@ -68,7 +68,9 @@
         <file>lang/sonic-pi_fr.qm</file>
         <file>lang/sonic-pi_es.qm</file>
         <file>lang/sonic-pi_hu.qm</file>
+<!--
         <file>lang/sonic-pi_zh-Hans.qm</file>
         <file>lang/sonic-pi_zh-Hant.qm</file>
+-->
     </qresource>
 </RCC>

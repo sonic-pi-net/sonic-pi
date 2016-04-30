@@ -17,37 +17,35 @@
 #
 #-------------------------------------------------
 
-# -- Change to match the location of QScintilla on your system
-#
- LIBS += -L/Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
- INCLUDEPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
- DEPENDPATH += /Users/sam/Downloads/tmp/QScintilla-gpl-2.9/Qt4Qt5
-# --
-
 TARGET = 'sonic-pi'
+CONFIG += debug
+CONFIG += link_pkgconfig qscintilla2 qwt
+PKGCONFIG += libboost tlsf
 
-QT += core gui concurrent network
+QT += core gui concurrent network 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
 }
 
+QMAKE_CXXFLAGS += -std=c++11 -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
+# -I external_libraries/TLSF-2.4.6/src/ -I external_libraries/boost/
+
 # Linux only
 unix:!macx {
-  lessThan(QT_MAJOR_VERSION, 5) {
-    LIBS += -lqscintilla2
-  } else {
-    LIBS += -lqt5scintilla2
+  debug {
+    QMAKE_CXXFLAGS += -ggdb
   }
-  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
 }
 
 # Mac OS X only
 macx {
+  QT_CONFIG -= no-pkg-config
+  CONFIG += warn_off
+
+  QMAKE_CXXFLAGS += -stdlib=libc++
+  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
+
   TARGET = 'Sonic Pi'
-  LIBS += -lqscintilla2
-  QT += macextras
-  DEFINES += DONT_USE_OSX_KEYS
-  QMAKE_CXXFLAGS += -Wall -Werror -Wextra
 }
 
 # Windows only
@@ -72,7 +70,8 @@ SOURCES += main.cpp \
            sonic_pi_osc_server.cpp \
            sonic_pi_udp_osc_server.cpp \
            sonic_pi_tcp_osc_server.cpp \
-           sonicpitheme.cpp
+           sonicpitheme.cpp \
+           scope.cpp
 win32 {
 # have to link these explicitly for some reason
   SOURCES += platform/win/moc_qsciscintilla.cpp \
@@ -91,7 +90,8 @@ HEADERS  += mainwindow.h \
             sonic_pi_udp_osc_server.h \
             sonic_pi_tcp_osc_server.h \
             ruby_help.h \
-            sonicpitheme.h
+            sonicpitheme.h \
+            scope.h
 
 TRANSLATIONS = lang/sonic-pi_de.ts \
                lang/sonic-pi_is.ts \
@@ -123,15 +123,15 @@ RC_FILE = SonicPi.rc
 ICON = images/app.icns
 
 win32 {
-	install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
-	install_qsci.path = release
+  install_qsci.files = $$[QT_INSTALL_LIBS]\qscintilla2.dll
+  install_qsci.path = release
 
-	install_bat.files = sonic-pi.bat
-	install_bat.path = ..\..\..
+  install_bat.files = sonic-pi.bat
+  install_bat.path = ..\..\..
 
-	INSTALLS += install_qsci install_bat
-	# allow to run on XP
-	QMAKE_SUBSYSTEM_SUFFIX = ,5.01
+  INSTALLS += install_qsci install_bat
+  # allow to run on XP
+  QMAKE_SUBSYSTEM_SUFFIX = ,5.01
 }
 
 # not unicode ready

@@ -22,6 +22,7 @@
 
 // Qt stuff
 #include <QSysInfo>
+#include <QPainter>
 #include <QDate>
 #include <QDesktopServices>
 #include <QDesktopWidget>
@@ -85,9 +86,7 @@
 // OSC stuff
 #include "oscpkt.hh"
 #include "udp.hh"
-using namespace oscpkt;
-
-// OS specific stuff
+using namespace oscpkt;// OS specific stuff
 #if defined(Q_OS_WIN)
   #include <QtConcurrent/QtConcurrentRun>
   void sleep(int x) { Sleep((x)*1000); }
@@ -182,6 +181,7 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   createToolBar();
   createStatusBar();
   createInfoPane();
+  createScopePane();
   setWindowTitle(tr("Sonic Pi"));
   initPrefsWindow();
   readSettings();
@@ -226,7 +226,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
     timer->start(1000);
-
   }
 }
 
@@ -1472,6 +1471,7 @@ void MainWindow::runCode()
   if(clear_output_on_run->isChecked()){
     outputPane->clear();
   }
+    
 
   msg.pushStr(code);
   msg.pushStr(filename);
@@ -1623,6 +1623,17 @@ void MainWindow::stopCode()
 {
   stopRunningSynths();
   statusBar()->showMessage(tr("Stopping..."), 2000);
+}
+
+void MainWindow::scope()
+{
+  if(scopeWidget->isVisible())
+  {
+    scopeWidget->hide();
+  } else {
+    scopeWidget->raise();
+    scopeWidget->show();
+  }
 }
 
 void MainWindow::about()
@@ -2133,6 +2144,10 @@ void MainWindow::createToolBar()
   setupAction(infoAct, 0, tr("See information about Sonic Pi"),
 	      SLOT(about()));
 
+  // Scope
+  QAction *scopeAct = new QAction(QIcon(":/images/info.png"), tr("Scope"), this);
+  setupAction(scopeAct, 0, tr("View audio output"), SLOT(scope()));
+
   // Help
   QAction *helpAct = new QAction(QIcon(":/images/help.png"), tr("Help"), this);
   setupAction(helpAct, 'I', tr("Toggle help pane"), SLOT(help()));
@@ -2174,10 +2189,11 @@ void MainWindow::createToolBar()
   toolBar->addAction(stopAct);
   toolBar->addAction(recAct);
 
-  toolBar->addWidget(spacer);
-
   toolBar->addAction(saveAsAct);
   toolBar->addAction(loadFileAct);
+  toolBar->addAction(recAct);
+  toolBar->addAction(scopeAct);
+  toolBar->addWidget(spacer);
 
   toolBar->addAction(textDecAct);
   toolBar->addAction(textIncAct);
@@ -2203,6 +2219,10 @@ QString MainWindow::readFile(QString name)
   QTextStream st(&file);
   st.setCodec("UTF-8");
   return st.readAll();
+}
+
+void MainWindow::createScopePane() {
+  scopeWidget.reset( new Scope() );
 }
 
 void MainWindow::createInfoPane() {
@@ -2462,6 +2482,7 @@ void MainWindow::onExitCleanup()
 }
 
 void MainWindow::heartbeatOSC() {
+
   Message msg("/gui-heartbeat");
   msg.pushStr(guiID.toStdString());
   sendOSC(msg);
