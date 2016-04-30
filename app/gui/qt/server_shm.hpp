@@ -101,6 +101,7 @@ private:
 	scope_buffer_vector scope_buffers;
 };
 
+/*
 class server_shared_memory_creator
 {
 public:
@@ -167,7 +168,7 @@ private:
 protected:
 	server_shared_memory * shm;
 };
-
+*/
 
 class server_shared_memory_client
 {
@@ -202,8 +203,8 @@ private:
 }
 
 using detail_server_shm::server_shared_memory_client;
-using detail_server_shm::server_shared_memory_creator;
-using detail_server_shm::scope_buffer_writer;
+//using detail_server_shm::server_shared_memory_creator;
+//using detail_server_shm::scope_buffer_writer;
 using detail_server_shm::scope_buffer_reader;
 using detail_server_shm::scope_buffer;
 

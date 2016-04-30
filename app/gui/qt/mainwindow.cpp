@@ -1478,6 +1478,11 @@ void MainWindow::runCode()
   sendOSC(msg);
 
   QTimer::singleShot(500, this, SLOT(unhighlightCode()));
+
+  if( scopeWidget->isVisible() )
+  {
+    scopeWidget->raise();
+  }
 }
 
 void MainWindow::unhighlightCode()
