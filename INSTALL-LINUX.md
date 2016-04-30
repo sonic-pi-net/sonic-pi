@@ -15,6 +15,7 @@ In addition, under Ubuntu 14.04 based distributions try these:
 * `qt4-qmake`
 * `libqt4-dev`
 * `libffi-dev`
+* `libqwt-qt5-6`
 
 If you are using a newer version of QT, you need the according version of scintilla. For QT5 they are:
 
@@ -27,6 +28,21 @@ Fedora package dependency names:
 * `ruby` (or use [RVM](http://rvm.io/) to manage specific versions)
 * `qscintilla-devel` (will install `qscintilla` and `qt-devel`)
 * `cmake`
+
+### SonicPi Scope
+The scope feature allows you to view the audio output from supercollider in the gui, it uses qwt for
+rendering the display, and connect to scsynth's shared memory interface to get the data, which uses boost.
+
+# Boost 1.57
+Boost is not supplied as an ubuntu package, so you will need to grab it from boost.org
+(http://sourceforge.net/projects/boost/files/boost/1.57.0/), or from the supercollider 3.7.1 
+external_libraries folder. Once boost is installed, you will need to add a pkg-config
+file called 'libboost.pc' to point to the include directory. See https://gist.github.com/Factoid/7c187e28cc7c5c5310cdd60c4460b180 for examples.
+
+# Troubleshooting installs
+qmake expects pkg-config, with a libboost.pc file in its search path, it also expects qwt.prf and qscintilla2.prf
+to be present in your qmake mkspecs/features folder. If the libraries have been installed correctly, they
+should be there.
 
 ### SuperCollider SC3 Plugins
 

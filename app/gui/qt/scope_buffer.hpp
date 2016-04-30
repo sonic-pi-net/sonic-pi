@@ -24,11 +24,11 @@
 #include <atomic>
 
 #include <boost/interprocess/offset_ptr.hpp>
-
+/*
 extern "C" {
 #include "tlsf.h"
 }
-
+*/
 namespace detail_server_shm {
 
 using boost::interprocess::offset_ptr;
@@ -40,7 +40,7 @@ class scope_buffer_reader;
 class scope_buffer_pool
 {
 public:
-
+/*
 	void init (void * pool, size_t size_of_pool)
 	{
 		pool_ = (char*)pool;
@@ -57,7 +57,7 @@ public:
 	{
 		free_ex(ptr, pool_);
 	}
-
+*/
 private:
 	friend class server_shared_memory;
 	char * pool_;
@@ -121,7 +121,7 @@ public:
 private:
 
 	// writer interface
-
+/*
 	bool allocate( scope_buffer_pool & pool, unsigned int channels, unsigned int size )
 	{
 		bool available = _status.load( std::memory_order_relaxed ) == free;
@@ -153,8 +153,8 @@ private:
 
 		_status.store( free, std::memory_order_release );
 	}
-
-	float * write_address() { return _state[_in].data.get(); }
+	
+  float * write_address() { return _state[_in].data.get(); }
 
 	void push( unsigned int frames )
 	{
@@ -162,7 +162,7 @@ private:
 		_state[_in].changed.store( true, std::memory_order_relaxed );
 		_in = _stage.exchange( _in, std::memory_order_release );
 	}
-
+*/
 	// reader interface
 
 	bool valid()
@@ -187,6 +187,7 @@ private:
 	}
 };
 
+/*
 class scope_buffer_writer
 {
 public:
@@ -229,6 +230,7 @@ public:
 		buffer->release( pool );
 	}
 };
+*/
 
 // FIXME: how do we ensure that scope_buffer data members used in the reader
 // are consistent among themselves at all times???

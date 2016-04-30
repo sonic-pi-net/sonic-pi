@@ -20,7 +20,8 @@
 TARGET = 'sonic-pi'
 CONFIG += debug
 CONFIG += link_pkgconfig qscintilla2 qwt
-PKGCONFIG += libboost tlsf
+PKGCONFIG += libboost 
+#tlsf
 
 QT += core gui concurrent network 
 greaterThan(QT_MAJOR_VERSION, 4) {
