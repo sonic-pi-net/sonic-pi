@@ -2240,7 +2240,7 @@ end
 
   density 2 do       # BPM for block is now 120
                      # block is called 2.times
-    sample :bd_hause # sample is played twice
+    sample :bd_haus # sample is played twice
     sleep 0.5        # sleep is 0.25s
   end",
 
