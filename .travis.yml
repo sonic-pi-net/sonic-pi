@@ -26,9 +26,11 @@ before_install:
  - |
    if [[ $USE_QT4 ]]
    then
-      sudo apt-get --yes install libqscintilla2-dev qt4-dev-tools qt4-default
+      sudo apt-get --yes install libqscintilla2-dev qt4-dev-tools qt4-default libqwt-dev libboost-all-dev
    else
-      sudo apt-get --yes install libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default
+      sudo add-apt-repository ppa:latthias/qgis-travis-deps -y
+      sudo apt-get update -q
+      sudo apt-get --yes install libqt5scintilla2-dev qtbase5-dev qttools5-dev qttools5-dev-tools qt5-default libqt5opengl5-dev libqt5svg5-dev libqwt-qt5-dev libboost-all-dev
    fi
 
 script:
