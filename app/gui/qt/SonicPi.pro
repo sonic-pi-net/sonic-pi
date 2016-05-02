@@ -11,33 +11,39 @@
 # notice is included.
 #++
 
-TARGET = 'sonic-pi'
-CONFIG += qwt
+#-------------------------------------------------
+#
+# Project created by QtCreator 2014-02-28T14:51:06
+#
+#-------------------------------------------------
 
-QT += core gui concurrent network
+TARGET = 'sonic-pi'
+CONFIG += link_pkgconfig qscintilla2 qwt c++11
+PKGCONFIG += libboost 
+
+QT += core gui concurrent network 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
 }
 
-QMAKE_CXXFLAGS += -std=c++11 -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
+QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
 
 # Linux only
 unix:!macx {
-  LIBS += -lrt
-  lessThan(QT_MAJOR_VERSION, 5) {
-    LIBS += -lqscintilla2
-  } else {
-    LIBS += -lqt5scintilla2
+  debug {
+    QMAKE_CXXFLAGS += -ggdb
   }
 }
 
 # Mac OS X only
 macx {
-  TARGET = 'Sonic Pi'
+  QT_CONFIG -= no-pkg-config
   CONFIG += warn_off
-  LIBS += -lqscintilla2
-  QMAKE_CXXFLAGS += -stdlib=libc++
-  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
+
+#  QMAKE_CXXFLAGS += -stdlib=libc++
+#  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
+
+  TARGET = 'Sonic Pi'
 }
 
 # Windows only
