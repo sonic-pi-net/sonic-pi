@@ -30,6 +30,7 @@ QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-paramet
 
 # Linux only
 unix:!macx {
+  LIBS += -lrt
   debug {
     QMAKE_CXXFLAGS += -ggdb
   }

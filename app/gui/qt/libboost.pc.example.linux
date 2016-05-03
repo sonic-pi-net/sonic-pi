@@ -1,0 +1,11 @@
+### SAMPLE libboost.pc for ubuntu libboost1.58-dev install
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libboost
+Description: Boost Library
+Version: 1.58.0
+Libs: -L${libdir}
+Cflags: -I${includedir}
