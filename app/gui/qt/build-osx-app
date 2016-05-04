@@ -1,0 +1,35 @@
+#!/bin/sh
+
+SP_APP_SRC=`pwd`
+
+brew install qt5 boost
+cd ../../../../
+wget 'http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
+wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
+tar -xf QScintilla_gpl-2.9.2.tar.gz
+tar -xf qwt-6.1.2.tar.bz2
+
+cd QScintilla_gpl-2.9.2/Qt4Qt5/
+/usr/local/opt/qt5/bin/qmake qscintilla.pro
+make
+sudo make install
+
+cd ../../
+cd qwt-6.1.2
+/usr/local/opt/qt5/bin/qmake qwt.pro
+make
+sudo make install
+sudo cp /usr/local/qwt-6.1.2/features/* /usr/local/opt/qt5/mkspecs/features/
+
+cd $SP_APP_SRC
+../../server/bin/compile-extensions.rb
+cp -f ruby_help.tmpl ruby_help.h
+../../server/bin/qt-doc.rb -o ruby_help.h
+/usr/local/opt/qt5/bin/lrelease SonicPi.pro 
+/usr/local/opt/qt5/bin/qmake SonicPi.pro 
+make
+
+cd Sonic\ Pi.app
+ln -s ../../../../app/ ./
+ln -s ../../../../etc/ ./
+ln -s /Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth ../../../../app/server/native/osx/scsynth

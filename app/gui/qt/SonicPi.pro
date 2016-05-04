@@ -37,6 +37,7 @@ unix:!macx {
 
 # Mac OS X only
 macx {
+  QMAKE_CXXFLAGS += -I/usr/local/include
   CONFIG += warn_off
   TARGET = 'Sonic Pi'
 }
