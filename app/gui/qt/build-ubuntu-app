@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo apt-get install libboost1.58-dev libqwt-q5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake
+sudo apt-get install libboost1.58-dev libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake
 ../../server/bin/compile-extensions.rb
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/bin/qt-doc.rb -o ruby_help.h
