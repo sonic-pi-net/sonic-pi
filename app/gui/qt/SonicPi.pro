@@ -18,8 +18,7 @@
 #-------------------------------------------------
 
 TARGET = 'sonic-pi'
-CONFIG += link_pkgconfig qscintilla2 qwt c++11
-#PKGCONFIG += libboost 
+CONFIG += qscintilla2 qwt c++11
 
 QT += core gui concurrent network 
 greaterThan(QT_MAJOR_VERSION, 4) {
@@ -38,12 +37,7 @@ unix:!macx {
 
 # Mac OS X only
 macx {
-  QT_CONFIG -= no-pkg-config
   CONFIG += warn_off
-
-#  QMAKE_CXXFLAGS += -stdlib=libc++
-#  QMAKE_MACOSX_DEPLOYMENT_TARGET=10.10
-
   TARGET = 'Sonic Pi'
 }
 
