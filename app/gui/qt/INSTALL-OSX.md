@@ -13,9 +13,6 @@ I ended up with qt 5.6.0
 You need boost
 ```brew install boost```
 
-You need pkg-config
-```brew install pkg-config```
-
 You need qscintilla2, download it and build it
 ```
 cd ~/src
@@ -39,12 +36,6 @@ sudo make install
 sudo cp /usr/local/qwt-6.1.2/features/* /usr/local/Cellar/qt5/5.6.0/mkspecs/features/
 ```
 
-You need to tell pkg-config where boost is installed
-```
-mkdir -p /usr/local/share/pkgconfig
-cp libboost.pc.example.osx /usr/local/share/pkgconfig/libboost.pc
-```
-
 Change to the app build directory
 ```
 cd <sonic_pi_root>/app/gui/qt
@@ -65,12 +56,12 @@ Generate i18n files
 ```
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/native/osx/ruby/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
-/usr/local/Cellar/qt5/5.6.0/bin/lrelease SonicPi.pro 
+/usr/local/opt/qt5/bin/lrelease SonicPi.pro 
 ```
 
 Now generate your make file from SonicPi.pro
 ```
-/usr/local/Cellar/qt5/5.6.0/bin/qmake SonicPi.pro
+/usr/local/opt/qt5/bin/qmake SonicPi.pro
 ```
 
 Make the app

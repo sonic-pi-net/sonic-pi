@@ -20,7 +20,6 @@ git clone git@github.com:samaaron/sonic-pi.git
 Install libboost1.58-dev
 ```
 sudo apt-get install libboost1.58-dev
-cp libboost.pc.example.linux /usr/lib/pkgconfig/libboost.pc
 ```
 
 Install libqwt for qt5
@@ -58,9 +57,21 @@ make
 sudo make install
 ```
 
+You need to compiler server extensions
+```
+../../server/bin/compile-extensions.rb 
+```
+
+Generate i18n files
+```
+cp -f ruby_help.tmpl ruby_help.h
+../../server/bin/qt-doc.rb -o ruby_help.h
+lrelease SonicPi.pro 
+```
+
 Build sonic pi
 ```
-/usr/lib/x86_64-linux-gnu/qt5/bin/qmake SonicPi.pro 
+qmake -qt=qt5 SonicPi.pro 
 make
 ```
 
