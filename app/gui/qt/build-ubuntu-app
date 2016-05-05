@@ -24,7 +24,7 @@ git checkout efba3baaea873f4e4d44aec3bb7468dd0938b4a6
 cp -r external_libraries/nova-simd/* source/VBAPUGens
 mkdir build
 cd build
-cmake -DSC_PATH=/usr/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
+cmake -DSC_PATH=/usr/local/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
 make
 sudo make install
 
