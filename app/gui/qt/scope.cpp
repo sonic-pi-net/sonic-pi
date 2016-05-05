@@ -57,14 +57,11 @@ void ScopePanel::setReader( scope_buffer_reader* shmReader )
 void ScopePanel::refresh()
 {
   if( reader == nullptr ) return;
-  qDebug() << "Have reader";
   if( !reader->valid() ) return;
-  qDebug() << "Reader is valid";
 
   unsigned int frames;
   if( reader->pull( frames ) )
   {
-    qDebug() << "Reader got " << frames << " frames of audio";
     ++counter;
     float* data = reader->data();
     unsigned int offset = reader->max_frames() * channel;

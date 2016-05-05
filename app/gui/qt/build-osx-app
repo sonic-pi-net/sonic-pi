@@ -29,7 +29,15 @@ cp -f ruby_help.tmpl ruby_help.h
 /usr/local/opt/qt5/bin/qmake SonicPi.pro 
 make
 
-cd Sonic\ Pi.app
+### FOR FINAL RELEASE ONLY MOVE THIS INTO package-osx-app ###
+#/usr/local/opt/qt5/bin/macdeployqt 'Sonic Pi.app'
+
+cd 'Sonic Pi.app'
 ln -s ../../../../app/ ./
 ln -s ../../../../etc/ ./
 ln -s /Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth ../../../../app/server/native/osx/scsynth
+
+### FOR FINAL RELEASE ONLY MOVE THIS INTO package-osx-app ###
+#rsync -arv ../../../../app ./
+#rsync -arv ../../../../etc ./
+#cp -R /Applications/SuperCollider/SuperCollider.app/Contents/Resources/scsynth ./app/server/native/osx/scsynth
