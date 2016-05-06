@@ -1,5 +1,8 @@
 Install notes for Ubuntu 16.04 – Sonic Pi 2.11
 
+The contents of these notes have colessed into the ./build-ubuntu-app script.
+Information here may be out of date, please check the script for latest details
+
 - Targets supercollider 3.7.1, does not have binary package yet. You must
   install from source.
 - Adds support for accessing scsynth’s shared memory interface for exporting
