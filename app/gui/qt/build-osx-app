@@ -2,18 +2,29 @@
 
 SP_APP_SRC=`pwd`
 
+echo "Note, this script assumes you have already installed SuperCollider 3.7.1 to your Applications folder"
+echo "And you have also installed the sc3-plugins."
+echo "SC 3.7.1 can be downloaded from https://github.com/supercollider/supercollider/releases"
+echo "The plugins can be downloaded from https://github.com/supercollider/sc3-plugins/releases"
+echo "Installation instructions are here https://github.com/supercollider/sc3-plugins"
+
+#Install homebrew prerequisites
 brew install qt5 boost
+
+#Download and extract source packages
 cd ../../../../
 wget 'http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
 wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
 tar -xf QScintilla_gpl-2.9.2.tar.gz
 tar -xf qwt-6.1.2.tar.bz2
 
+#Build qscintilla libraries for Qt5
 cd QScintilla_gpl-2.9.2/Qt4Qt5/
 /usr/local/opt/qt5/bin/qmake qscintilla.pro
 make
 sudo make install
 
+#Build qwt libraries for Qt5
 cd ../../
 cd qwt-6.1.2
 /usr/local/opt/qt5/bin/qmake qwt.pro
@@ -21,6 +32,7 @@ make
 sudo make install
 sudo cp /usr/local/qwt-6.1.2/features/* /usr/local/opt/qt5/mkspecs/features/
 
+#Build Sonic-Pi server extensions, documentation, and gui
 cd $SP_APP_SRC
 ../../server/bin/compile-extensions.rb
 cp -f ruby_help.tmpl ruby_help.h
@@ -32,6 +44,7 @@ make
 ### FOR FINAL RELEASE ONLY MOVE THIS INTO package-osx-app ###
 #/usr/local/opt/qt5/bin/macdeployqt 'Sonic Pi.app'
 
+#Soft Link extra stuff that the app will need at runtime
 cd 'Sonic Pi.app'
 ln -s ../../../../app/ ./
 ln -s ../../../../etc/ ./
