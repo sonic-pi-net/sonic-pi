@@ -77,6 +77,12 @@ module SonicPi
       assert_equal(b, PreParser.preparse(a))
     end
 
+    def test_sp_sym_multiterm_expansion
+      a = "foo :baz:quux:bar:beans eggs"
+      b = "foo ::SonicPi::SPSym.new([:baz, :quux, :bar, :beans]) eggs"
+      assert_equal(b, PreParser.preparse(a))
+    end
+
     def test_sp_sym_complex_expansion
       a = "foo :baz?:quux eggs"
       b = "foo ::SonicPi::SPSym.new([:baz?, :quux]) eggs"
