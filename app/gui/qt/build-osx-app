@@ -7,6 +7,8 @@ echo "And you have also installed the sc3-plugins."
 echo "SC 3.7.1 can be downloaded from https://github.com/supercollider/supercollider/releases"
 echo "The plugins can be downloaded from https://github.com/supercollider/sc3-plugins/releases"
 echo "Installation instructions are here https://github.com/supercollider/sc3-plugins"
+echo "We're working to make this script a one shot solution for all OSX platforms"
+echo "Please direct rage and suggestions to Factoid in (https://gitter.im/samaaron/sonic-pi)"
 
 #Install homebrew prerequisites
 brew install qt5 boost

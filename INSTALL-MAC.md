@@ -1,5 +1,18 @@
 # Mac OS X
 
+IMPORTANT NOTE: The build process for sonic pi is currently in flux, and this document is not
+fully up to date. Please try the build script by executing the following. 
+
+```
+cd app/gui/qt/
+./build-osx-app
+```
+
+The contents of build-osx-app should provide a better idea of what steps are required to get
+sonic-pi 2.11 working on OSX. We are trying to make the process easier for new users, but if
+you have any difficulty please contact Factoid in the sonic-pi gitter channel
+(https://gitter.im/samaaron/sonic-pi)
+
 ## Dependencies
 
 * Download Qt 5.4+ http://qt-project.org/downloads

@@ -33,9 +33,11 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
   plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
   plot_curve.attach(&plot);
   plot_curve.setPen( QColor("deeppink") );
+  plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
 
   plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
   plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
+  plot.enableAxis(QwtPlot::Axis::xBottom, false);
   
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(&plot);
