@@ -93,10 +93,9 @@ void ScopePanel::refresh()
 Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Right",this)
 {
   right.setChannel(1);
-  resize(640,480);
-  setWindowTitle( "Sonic Pi - Scope" );
-  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint );
-  setWindowIcon(QIcon(":images/icon-smaller.png"));
+//  setWindowTitle( "Sonic Pi - Scope" );
+//  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint );
+//  setWindowIcon(QIcon(":images/icon-smaller.png"));
 
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
