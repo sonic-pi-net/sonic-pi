@@ -56,11 +56,6 @@ where help is appreciated.
   and accessible enough for you, so we don't know where to improve it
   for your needs. Your input is highly appreciated.
 
-- Save/Load function for buffers
-  
-  Sonic Pi can save to a file, but it still doesn't have a user-friendly
-  way to load existing code.
-
 - Optimisation: Identify & fix bottlenecks that waste CPU or RAM
 
   Several different parts work together in Sonic Pi, there's
@@ -70,8 +65,30 @@ where help is appreciated.
   keeping things smooth. If you love profiling and optimising existing
   code we'd love to hear from you.
 
+- Clean-Up: Fix our build scripts
+
+  The components of Sonic Pi are written in Ruby, C++ and soon Erlang,
+  pulling in several libraries from various other projects.
+  
+  This makes it difficult to maintain a cross-platform build ruleset
+  and we'd love to have
+  [easier build scripts](https://twitter.com/despair/status/679136039303278593)
+  that work on Linux, Windows and OS X.
+
 ### Hard Projects
 
+- Feature: Add SoundFont support to SuperCollider
+
+  You didn't see it, but you heard it loud and clear: Sonic Pi owes
+  its awesome sound engine to the brilliant
+  [SuperCollider](http://supercollider.github.io/) project.
+  Some of the features we want to see in Sonic Pi actually
+  require enhancing SuperCollider. One that would be really nice
+  is native [SoundFont](https://en.wikipedia.org/wiki/SoundFont) support,
+  which would require writing a
+  [UGen plugin](https://github.com/supercollider/sc3-plugins)
+  for SuperCollider.
+  
 - Sync multiple instances of Sonic Pi on the net
 
   How to play Sonic Pi as an orchestra? Should there be a central
