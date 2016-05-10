@@ -1,4 +1,7 @@
 #!/bin/bash
 
+echo "We're working to update the build process for SP 2.11, this script hasn't been updated yet, and may not work, try ./build-ubuntu-app instead!"
+exit
+
 # need to run this script as root...
 apt-get install qt4-dev-tools cmake ruby-dev libqscintilla2-dev libqwt-qt5-dev libboost1.58-dev

@@ -25,59 +25,59 @@ https://launchpad.net/~sonic-pi/+archive/ubuntu/ppa
 
 ## Generic Linux
 
+We're making an effort to simplify the build process. If you're on 15.10 or 16.04, you should
+be able to get a finished binary with the following commands
+
+cd app/gui/qt/
+./build-ubuntu-app
+
+If this doesn't work for you, please get in touch, we'd like to ensure the script just works
+for as many platforms as possible.
+
+Otherwise you may need to resolve dependencies yourself, suggestions follow.
+
 ### Dependencies
+
+With 2.11 there are some significant changes which make development a little more complex, please
+bear with us as we work to sort out issues. If you're having trouble with a particular platform
+the folks in sonic-pi's gitter channel (https://gitter.im/samaaron/sonic-pi) can assist.
+
+If you're savy with resolving dependencies, here's the general idea.
+
+Sonic-pi is depricating qt4 support. The current build instructions assume qt5
+Sonic-pi is now using supercollider 3.7.1, there isn't a debian package for this yet. You must build from source.
+Sonic-pi is using boost to access real time data from scsynth (For the scope feature)
+Sonic-pi uses the qwt library to render the scope (Tested with 6.1.2 for qt5)
+Sonic-pi uses the qscintilla2 library for the text editor.
+Sonic-pi is moving to c++11 for the gui, in case your compiler doesn't suppor it for some reason.
 
 Debian package dependency names (Jessie):
 
-`apt-get install supercollider ruby2.1 libqscintilla2-dev ruby-dev cmake pkg-config g++ libfftw3-dev`
+`apt-get install ruby2.1 ruby-dev cmake pkg-config g++ libfftw3-dev qt5-qmake libqt5scintilla2-dev libboost-dev`
+
+`libqwt-qt5-dev` is available, but only from stretch.
+It's possible you may need `libboost1.58-dev` from stretch instead. If `libboost-dev` doesn't work for you, please let us know.
+
+For Ubuntu 16.04 (Xenial):
+`apt-get install ruby2.1 ruby-dev cmake pkg-config g++ libfftw3-dev qt5-qmake libqt5scintilla2-dev libqwt-qt5-dev libboost1.58-dev`
+
+For Ubuntu 15.10 (Wily):
+`apt-get install ruby2.1 ruby-dev cmake pkg-config g++ libfftw3-dev qt5-qmake libqt5scintilla2-dev libqwt-qt5-dev libboost1.58-dev`
 
 For Ubuntu 14.04.3 (Trusty Tahr):
-`apt-get install supercollider ruby2.0 libqscintilla2-dev ruby-dev cmake pkg-config g++ libfftw3-dev`
+`apt-get install ruby2.0 ruby-dev cmake pkg-config g++ libfftw3-dev qt5-qmake libqt5scintilla2-dev libboost-dev`
 
-In addition, under Ubuntu 14.04 based distributions try these:
+14.04 does not have libqwt-qt5-dev, you will have to build it from source.
+14.04 libboost-dev is version 1.54, it has not been tested, it may not work.
+Upgrading to 15.10 or later would be recommended.
 
-* `libqscintilla2-l10n`
-* `qt4-qmake`
-* `libqt4-dev`
-* `libffi-dev`
-* `libqwt-qt5-6`
-
-If you are using a newer version of QT, you need the according version
-of scintilla. For QT5 they are:
-
-* `libqt5scintilla2-dev` instead of `libqscintilla2-dev`
-* `libqt5scintilla2-l10n` instead of `libqscintilla2-l10n`
-
+** NOTE ** Fedora instructions have not been updated to reflect changes to 2.11, please get in touch if you'd like to help
 Fedora package dependency names:
 
 * `supercollider` (via [Planet CCRMA](http://ccrma.stanford.edu/planetccrma/software/installplanettwenty.html))
 * `ruby` (or use [RVM](http://rvm.io/) to manage specific versions)
 * `qscintilla-devel` (will install `qscintilla` and `qt-devel`)
 * `cmake`
-
-### SonicPi Scope
-
-The scope feature allows you to view the audio output from supercollider
-in the gui, it uses qwt for rendering the display, and connect to
-scsynth's shared memory interface to get the data, which uses boost.
-
-#### Boost 1.57
-
-Boost is not supplied as an ubuntu package, so you will need to grab it
-from boost.org
-(http://sourceforge.net/projects/boost/files/boost/1.57.0/), or from the
-supercollider 3.7.1 external_libraries folder. Once boost is installed,
-you will need to add a pkg-config file called 'libboost.pc' to point to
-the include directory. See
-https://gist.github.com/Factoid/7c187e28cc7c5c5310cdd60c4460b180 for
-examples.
-
-##### Troubleshooting installs
-
-`qmake` expects `pkg-config`, with a `libboost.pc` file in its search
-path, it also expects `qwt.prf` and `qscintilla2.prf` to be present in
-your `qmake mkspecs/features` folder. If the libraries have been
-installed correctly, they should be there.
 
 ### SuperCollider SC3 Plugins
 
@@ -99,7 +99,11 @@ git checkout efba3baaea873f4e4d44aec3bb7468dd0938b4a6
 cp -r external_libraries/nova-simd/* source/VBAPUGens
 mkdir build
 cd build
-cmake -DSC_PATH=/usr/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
+```
+Depending on if your SuperCollider 3.7.1 installed to /usr/ or /usr/local run either
+```cmake -DSC_PATH=/usr/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..```
+or
+```cmake -DSC_PATH=/usr/local/include/SuperCollider -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..```
 make
 sudo make install
 ```

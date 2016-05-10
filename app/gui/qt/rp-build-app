@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "We're working to update the build process for SP 2.11, this script hasn't been updated yet, and may not work, try ./build-ubuntu-app instead!"
+exit
+
 set -eux
 
 cd $(dirname $0)

@@ -30,10 +30,14 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
     sample_y[i] = 0.0f;
   }
   plot_curve.setRawSamples( sample_x, sample_y, 4096 );
+  plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
   plot_curve.attach(&plot);
+  plot_curve.setPen( QColor("deeppink") );
+  plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
 
   plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
   plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
+  plot.enableAxis(QwtPlot::Axis::xBottom, false);
   
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(&plot);
@@ -57,29 +61,31 @@ void ScopePanel::setReader( scope_buffer_reader* shmReader )
 void ScopePanel::refresh()
 {
   if( reader == nullptr ) return;
-  qDebug() << "Have reader";
   if( !reader->valid() ) return;
-  qDebug() << "Reader is valid";
 
   unsigned int frames;
   if( reader->pull( frames ) )
   {
-    qDebug() << "Reader got " << frames << " frames of audio";
-    ++counter;
+//    ++counter;
     float* data = reader->data();
     unsigned int offset = reader->max_frames() * channel;
     for( unsigned int i = 0; i < frames; ++i )
     {
       sample_y[i] = data[i+offset];
-      if( fabs(data[i]) > max_y ) max_y = fabs(data[i]);
     }
-    if( counter > 50 )
+/*    
+    if( counter > 100 )
     {
       counter = 0;
       if( max_y == 0 ) max_y = 1;
-//      plot.setAxisScale(QwtPlot::Axis::yLeft,-max_y,max_y);
+      if( max_y > 1 ) max_y = 1;
+      if( max_y > plot.axisInterval(QwtPlot::Axis::yLeft).maxValue() )
+      {
+        plot.setAxisScale(QwtPlot::Axis::yLeft,-max_y,max_y);
+      }
       max_y = 0;
     }
+*/
     plot.replot();
   }
 }
@@ -87,10 +93,9 @@ void ScopePanel::refresh()
 Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Right",this)
 {
   right.setChannel(1);
-  resize(640,480);
-  setWindowTitle( "Sonic Pi - Scope" );
-  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint );
-  setWindowIcon(QIcon(":images/icon-smaller.png"));
+//  setWindowTitle( "Sonic Pi - Scope" );
+//  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint );
+//  setWindowIcon(QIcon(":images/icon-smaller.png"));
 
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));

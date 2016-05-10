@@ -257,7 +257,7 @@ private:
     QTextBrowser *docPane;
 //  QTextBrowser *hudPane;
     QWidget *mainWidget;
-    std::unique_ptr<Scope> scopeWidget;
+    QDockWidget *scopeWidget;
     bool hidingDocPane;
     bool restoreDocPane;
 

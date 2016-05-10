@@ -181,7 +181,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   createToolBar();
   createStatusBar();
   createInfoPane();
-  createScopePane();
   setWindowTitle(tr("Sonic Pi"));
   initPrefsWindow();
   readSettings();
@@ -215,7 +214,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     requestVersion();
 
     splashClose();
-
 
     showWindow();
     updateDarkMode();
@@ -452,13 +450,20 @@ void MainWindow::setupWindowStructure() {
   // hudWidget->setWidget(hudPane);
   // hudWidget->setObjectName("hud");
 
+  scopeWidget = new QDockWidget(tr("Scope"),this);
+  scopeWidget->setFocusPolicy(Qt::NoFocus);
+  scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::LeftDockWidgetArea | Qt::TopDockWidgetArea);
+  scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+  scopeWidget->setWidget(new Scope);
+  addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
+
   prefsWidget = new QDockWidget(tr("Preferences"), this);
   prefsWidget->setFocusPolicy(Qt::NoFocus);
   prefsWidget->setAllowedAreas(Qt::RightDockWidgetArea);
   prefsWidget->setFeatures(QDockWidget::DockWidgetClosable);
 
   prefsCentral = new QWidget;
-          prefsWidget->setWidget(prefsCentral);
+  prefsWidget->setWidget(prefsCentral);
   QSizePolicy prefsSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   prefsCentral->setSizePolicy(prefsSizePolicy);
   addDockWidget(Qt::RightDockWidgetArea, prefsWidget);
@@ -551,7 +556,6 @@ void MainWindow::toggleFullScreenMode() {
 
 void MainWindow::updateFullScreenMode(){
   if (full_screen->isChecked()) {
-
     mainWidgetLayout->setMargin(0);
     outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
@@ -1478,11 +1482,6 @@ void MainWindow::runCode()
   sendOSC(msg);
 
   QTimer::singleShot(500, this, SLOT(unhighlightCode()));
-
-  if( scopeWidget->isVisible() )
-  {
-    scopeWidget->raise();
-  }
 }
 
 void MainWindow::unhighlightCode()
@@ -1636,7 +1635,6 @@ void MainWindow::scope()
   {
     scopeWidget->hide();
   } else {
-    scopeWidget->raise();
     scopeWidget->show();
   }
 }
@@ -2224,10 +2222,6 @@ QString MainWindow::readFile(QString name)
   QTextStream st(&file);
   st.setCodec("UTF-8");
   return st.readAll();
-}
-
-void MainWindow::createScopePane() {
-  scopeWidget.reset( new Scope() );
 }
 
 void MainWindow::createInfoPane() {
