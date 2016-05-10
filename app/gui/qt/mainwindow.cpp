@@ -559,11 +559,11 @@ void MainWindow::updateFullScreenMode(){
     mainWidgetLayout->setMargin(0);
     outputWidget->setTitleBarWidget(blankWidget);
     this->setWindowFlags(Qt::FramelessWindowHint);
+    int currentScreen = QApplication::desktop()->screenNumber(this);
     this->show();
 
 #if QT_VERSION >= 0x050400
     //requires Qt5
-    int currentScreen = QApplication::desktop()->screenNumber(this);
     this->windowHandle()->setScreen(qApp->screens()[currentScreen]);
 #endif
 
