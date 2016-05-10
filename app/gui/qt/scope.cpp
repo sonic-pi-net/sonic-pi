@@ -99,7 +99,7 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
 
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  scopeTimer->start(1);
+  scopeTimer->start(100);
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(&left);
