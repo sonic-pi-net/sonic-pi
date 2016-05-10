@@ -1475,7 +1475,7 @@ void MainWindow::runCode()
   if(clear_output_on_run->isChecked()){
     outputPane->clear();
   }
-    
+
 
   msg.pushStr(code);
   msg.pushStr(filename);
@@ -1790,6 +1790,7 @@ void MainWindow::updateDarkMode(){
   docsCentral->setStyleSheet("");
   docWidget->setStyleSheet("");
   toolBar->setStyleSheet("");
+  scopeWidget->setStyleSheet("");
 
   docPane->setStyleSheet(defaultTextBrowserStyle);
 
@@ -1880,7 +1881,8 @@ void MainWindow::updateDarkMode(){
                       toolButtonStyling +
                       sliderStyling +
                       menuStyling +
-                      windowStyling);
+                      windowStyling +
+                      widgetTitleStyling);
 
   statusBar()->setStyleSheet( QString("QStatusBar{background-color: %1; color: %2;}").arg(statusBarColor, statusBarTextColor));
 
