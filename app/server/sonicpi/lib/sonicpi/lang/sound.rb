@@ -900,7 +900,7 @@ play 50 # Plays note 50.01"]
           summary:       "Cent tuning",
           doc:           "Uniformly tunes your music by shifting all notes played by the specified number of cents. To shift up by a cent use a cent tuning of 1. To shift down use negative numbers. One semitone consists of 100 cents.
 
-See `with_cent_tuning` for setting the cent tuning value only for a specific `do`/`end` block. To tranpose entire semitones see `use_transpose`.",
+See `with_cent_tuning` for setting the cent tuning value only for a specific `do`/`end` block. To transpose entire semitones see `use_transpose`.",
           args:          [[:cent_shift, :number]],
           opts:          nil,
           accepts_block: false,
@@ -925,7 +925,7 @@ play 50 # Plays note 50.01"]
       doc name:           :with_cent_tuning,
           introduced:     Version.new(2,9,0),
           summary:        "Block-level cent tuning",
-          doc:            "Similar to `use_cent_tuning` except only applies cent shift to code within supplied `do`/`end` block. Previous cent tuning value is restored after block. One semitone consists of 100 cents. To tranpose entire semitones see `with_transpose`.",
+          doc:            "Similar to `use_cent_tuning` except only applies cent shift to code within supplied `do`/`end` block. Previous cent tuning value is restored after block. One semitone consists of 100 cents. To transpose entire semitones see `with_transpose`.",
           args:           [[:cent_shift, :number]],
           opts:           nil,
           accepts_block:  true,
@@ -3338,7 +3338,7 @@ puts note('C', octave: 2)
       returns:        :ring,
       opts:           {:pitches => "An array of notes (symbols or ints) to filter on. Octave information is ignored."},
       accepts_block:  false,
-      doc:            "Produces a ring of all the notes between a low note and a high note. By default this is chromatic (all the notes) but can be filtered with a :pitches argument. This opens the door to arpeggiator style sequences and other useful patterns. If you try to specify only pitches which aren't in the range it will raise an error - you have been warned!",
+      doc:            "Produces a ring of all the notes between a low note and a high note. By default this is chromatic (all the notes) but can be filtered with a pitches: argument. This opens the door to arpeggiator style sequences and other useful patterns. If you try to specify only pitches which aren't in the range it will raise an error - you have been warned!",
       examples:       [
         "(note_range :c4, :c5) # => (ring 60,61,62,63,64,65,66,67,68,69,70,71,72)",
         "(note_range :c4, :c5, pitches: (chord :c, :major)) # => (ring 60,64,67,72)",
@@ -3994,7 +3994,7 @@ kill bar"]
 You may not trigger external synthdefs unless you enable the following GUI preference:
 
 ```
-Studio -> Synths -> Enable external synths and FX
+Studio -> Synths and FX -> Enable external synths and FX
 ```
 
 Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infrastructure *you need to ensure your synth outputs a stereo signal* to an audio bus with an index specified by a synth arg named `out_bus`. For example, the following synth would work nicely:

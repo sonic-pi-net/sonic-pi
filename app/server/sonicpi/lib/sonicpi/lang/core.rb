@@ -1727,7 +1727,7 @@ end
           accepts_block:  false,
           doc:            "Given a max number, produces a whole number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args returns either `0` or `1`",
           examples:       ["
-  print rand_i(5) #=> will print a either 0, 1, 2, 3, or 4 to the output pane"]
+  print rand_i(5) #=> will print either 0, 1, 2, 3, or 4 to the output pane"]
 
 
 
@@ -2150,7 +2150,7 @@ end
 
       def with_bpm_mul(mul, &block)
         raise "with_bpm_mul must be called with a do/end block. Perhaps you meant use_bpm_mul" unless block
-        raise "use_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
+        raise "with_bpm_mul's mul should be a positive value. You tried to use: #{mul}" unless mul > 0
         current_mul = Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
         new_mul = current_mul.to_f / mul
         Thread.current.thread_variable_set(:sonic_pi_spider_sleep_mul, new_mul)
@@ -2214,7 +2214,7 @@ end
 
       def density(d, &block)
         raise "density must be called with a do/end block." unless block
-        raise "density must be a positive number. Got: #{d.inspect}." unless d.is_a?(Numeric) && d >= 0
+        raise "density must be a positive number. Got: #{d.inspect}." unless d.is_a?(Numeric) && d > 0
         reps = d < 1 ? 1.0 : d
         with_bpm_mul d do
           if block.arity == 0
@@ -2268,7 +2268,7 @@ end
           summary:       "Get current random seed",
           doc:           "Returns the current random seed.
 
-This can be set via the fns `use_random_seed` and `with_random_seed. It is incremented every time you use the random number generator via fns such as `choose` and `rand`.",
+This can be set via the fns `use_random_seed` and `with_random_seed`. It is incremented every time you use the random number generator via fns such as `choose` and `rand`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
@@ -2638,7 +2638,7 @@ Affected by calls to `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bp
       doc name:           :sync_bpm,
           introduced:     Version.new(2,10,0),
           summary:        "Sync and inherit BPM from other threads ",
-          doc:            "An alias for `sync` with the `bpm_sync:` opt set to true.`",
+          doc:            "An alias for `sync` with the `bpm_sync:` opt set to true.",
           args:           [[:cue_id, :symbol]],
           opts:           {},
           accepts_block:  false,
