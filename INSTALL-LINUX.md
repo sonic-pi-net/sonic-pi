@@ -15,13 +15,26 @@ sudo apt-get install sonic-pi
 
 ### Ubuntu
 
+Starting with Ubuntu Xenial 16.04, sonic-pi is packaged in the main archive:
+
+```
+sudo apt-get install sonic-pi
+```
+
 The
 [Sonic Pi Ubuntu PPA repository](https://launchpad.net/~sonic-pi/+archive/ubuntu/ppa)
 always contains the latest stable release for Ubuntu 14.04 "Trusty
-Tahr", 15.10 "Wily Werewolf" and 16.04 "Xenial Xerus". Just follow the
-"Adding this PPA to your system" instructions here:
-https://launchpad.net/~sonic-pi/+archive/ubuntu/ppa
+Tahr", 15.10 "Wily Werewolf" and 16.04 "Xenial Xerus".  You can install it this way:
 
+````
+sudo add-apt-repository ppa:sonic-pi/ppa
+sudo apt-get update
+sudo apt-get install sonic-pi
+````
+
+Then follow the instructions under **Generic Linux** to prepare for **running** it, noting the special steps needed for the `jackd` audio server rather than `pulseaudio`.  You can then run `sonic-pi` from the command line, or from the GUI menu.
+
+If you run into issues with running `jackd`  along with `pulseaudio`, search the issues for `pulseaudio`, and/or help with the port of `supercollider` to be able to use `pulseaudio` as well as `jackd`.
 
 ## Generic Linux
 
@@ -191,13 +204,3 @@ Then, launch qjackctl from the command line (while suspending PulseAudio):
 `pasuspender -- qjackctl`
 
 Click the 'Start' button in `qjackctl`, then launch Sonic Pi :)
-
-----
-
-## Ubuntu
-
-Starting with Ubuntu Xenial 16.04, sonic-pi is packaged in the main archive:
-
-```
-sudo apt-get install sonic-pi
-```
