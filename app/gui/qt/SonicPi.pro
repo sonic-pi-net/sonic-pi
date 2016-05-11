@@ -35,6 +35,7 @@ unix:!macx {
   } else {
     LIBS += -lqt5scintilla2
   }
+  QMAKE_CXXFLAGS += -std=gnu++11
   debug {
     QMAKE_CXXFLAGS += -ggdb
   }
