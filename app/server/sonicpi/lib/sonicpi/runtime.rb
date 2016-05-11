@@ -375,7 +375,7 @@ module SonicPi
     end
 
     def __stop_job(j)
-      __info "Stopping job #{j}"
+      __info "Stopping run #{j}"
       # Only allow a job to be stopped once
       @@stop_job_mutex.synchronize do
         if @user_jobs.running?(j)
