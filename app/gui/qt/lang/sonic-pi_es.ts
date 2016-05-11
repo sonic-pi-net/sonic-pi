@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="is_IS">
+<TS version="2.0" language="es_ES">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>MainWindow</name>
@@ -50,12 +50,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="588"/>
         <source>Indenting line...</source>
-        <translation>Indentando Linea...</translation>
+        <translation>Indentando linea...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="667"/>
         <source>Ruby could not be started, is it installed and in your PATH?</source>
-        <translation>Ruby no pudo ser iniciado, estas seguro de que esta instalado y de que se encuentra en tu PATH?</translation>
+        <translation>Ruby no pudo ser iniciado, ¿estás seguro de que está instalado y de que se encuentra en tu PATH?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="753"/>
@@ -82,7 +82,7 @@ sistemas externos PA al momento de hacer performing con Sonic Pi.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="758"/>
         <source>Invert Stereo</source>
-        <translation>Stereo Invertido</translation>
+        <translation>Estéreo Invertido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="759"/>
@@ -104,7 +104,10 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Cambia el modo mono.  Si se encuentra activado este mezclará el audio del parlante izquierdo y derecho y enviará la misma señal en ambos parlantes. Esto es útil cuando se trabaja con sistemas externos que solo soportan mono.</translation>
+        <translation>Cambia el modo mono.  
+Si se encuentra activado, este mezclará el audio del altavoz izquierdo y derecho,
+y enviará la misma señal en ambos altavoces. Esto es útil cuando se trabaja con
+sistemas externos que solo soportan mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="765"/>
@@ -139,12 +142,12 @@ Usa estos botones para forzar la salida de audio en alguna de estas dos opciones
     <message>
         <location filename="../mainwindow.cpp" line="780"/>
         <source>&amp;Default</source>
-        <translation>&amp;Default</translation>
+        <translation>&amp;Por defecto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="781"/>
         <source>&amp;Headphones</source>
-        <translation>&amp;Audífonos</translation>
+        <translation>&amp;Auriculares</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="782"/>
@@ -154,17 +157,17 @@ Usa estos botones para forzar la salida de audio en alguna de estas dos opciones
     <message>
         <location filename="../mainwindow.cpp" line="802"/>
         <source>Logging</source>
-        <translation>Logeo</translation>
+        <translation>Acceso</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="803"/>
         <source>Configure debug behaviour</source>
-        <translation>Configurar comportamiento en debug</translation>
+        <translation>Configurar comportamiento en depuración</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="805"/>
         <source>Log synths</source>
-        <translation>Log de sintetizador</translation>
+        <translation>Registro de sintetizador</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="806"/>
@@ -178,7 +181,7 @@ o muestra no se imprimirán en el registro por defecto.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="808"/>
         <source>Clear log on run</source>
-        <translation>Limpiar log al iniciar</translation>
+        <translation>Limpiar registro al iniciar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="809"/>
@@ -192,14 +195,16 @@ cada vez que se presione el botón de iniciar.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="811"/>
         <source>Log cues</source>
-        <translation>Log de señales</translation>
+        <translation>Registro de señales</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="812"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Habilita o deshabilita el logeo de señales.  Si se deshabilita, las señales se inicializarán normalmente pero no se podrán visualizar en los logs.</translation>
+        <translation>Habilita o deshabilita el logeo de señales.  
+Si se deshabilita, las señales se inicializarán normalmente
+pero no se podrán visualizar en los registros.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="823"/>
@@ -210,7 +215,7 @@ However, they will not be visible in the logs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="825"/>
         <source>Check for updates</source>
-        <translation>Chequear nuevas actualizaciones</translation>
+        <translation>Comprobar nuevas actualizaciones</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="827"/>
@@ -222,7 +227,7 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Check now</source>
-        <translation>Chequear ahora</translation>
+        <translation>Comprobar ahora</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="829"/>
@@ -249,7 +254,7 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
     <message>
         <location filename="../mainwindow.cpp" line="855"/>
         <source>Show and Hide</source>
-        <translation>Mostrar y Esconder</translation>
+        <translation>Mostrar y Ocultar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="856"/>
@@ -284,7 +289,7 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
     <message>
         <location filename="../mainwindow.cpp" line="862"/>
         <source>Automatically align code on Run</source>
-        <translation>Alinea automáticamente el código al correrlo</translation>
+        <translation>Alinea automáticamente el código al ejecutarlo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="864"/>
@@ -299,7 +304,7 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
     <message>
         <location filename="../mainwindow.cpp" line="866"/>
         <source>Show log</source>
-        <translation>Mostrar log</translation>
+        <translation>Mostrar registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="867"/>
@@ -329,7 +334,7 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
     <message>
         <location filename="../mainwindow.cpp" line="875"/>
         <source>Full screen</source>
-        <translation>Pantalla Completa</translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="876"/>
@@ -339,19 +344,19 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
     <message>
         <location filename="../mainwindow.cpp" line="877"/>
         <source>Dark mode</source>
-        <translation>Modo dark</translation>
+        <translation>Modo oscuro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="878"/>
         <source>Toggle dark mode.</source>
-        <translation>Cambia opción de modo dark.</translation>
+        <translation>Cambia opción de modo oscuro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="878"/>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
         <translation>
-La opción Dark es perfecta para hacer live coding en discotecas o lugares con poca luminosidad.</translation>
+La opción modo oscuro es perfecta para hacer live coding en discotecas o lugares con poca luminosidad.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"/>
@@ -376,7 +381,7 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1019"/>
         <source>Apologies, a critical error occurred during startup</source>
-        <translation>Mil disculpas, ocurrió un error crítico al momento de arrancar la aplicación</translation>
+        <translation>Mil disculpas, ocurrió un error crítico en el momento de arrancar la aplicación</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1019"/>
@@ -411,7 +416,7 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1237"/>
         <source>Beautifying...</source>
-        <translation>Mejorando Interfaz...</translation>
+        <translation>Mejorando interfaz...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1257"/>
@@ -456,12 +461,12 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1322"/>
         <source>Enabling Inverted Stereo...</source>
-        <translation>Habilitando Stereo Invertido...</translation>
+        <translation>Habilitando Estéreo Invertido...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1330"/>
         <source>Enabling Standard Stereo...</source>
-        <translation>Habilitando Stereo Standard...</translation>
+        <translation>Habilitando Estéreo Estándar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1338"/>
@@ -471,7 +476,7 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1346"/>
         <source>Stereo Mode...</source>
-        <translation>Modo Stereo...</translation>
+        <translation>Modo Estéreo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1355"/>
@@ -486,7 +491,7 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1650"/>
         <source>Switching To Headphone Audio Output...</source>
-        <translation>Cambiando a salida de audio por audífonos...</translation>
+        <translation>Cambiando a salida de audio por auriculares...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1666"/>
@@ -496,17 +501,17 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1681"/>
         <source>Switching To Default Audio Output...</source>
-        <translation>Cambiando a salida de audio por default...</translation>
+        <translation>Cambiando a salida de audio por defecto...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1823"/>
         <source>Run</source>
-        <translation>Correr</translation>
+        <translation>Ejecutar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1824"/>
         <source>Run the code in the current workspace</source>
-        <translation>Correr el código en el workspace actual</translation>
+        <translation>Ejecutar el código en el workspace actual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1828"/>
@@ -516,7 +521,7 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1829"/>
         <source>Stop all running code</source>
-        <translation>Parar todo el código que se encuentre corriendo</translation>
+        <translation>Parar todo el código que se encuentre ejecutándose</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1832"/>
@@ -526,7 +531,7 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1833"/>
         <source>Save current buffer as an external file</source>
-        <translation>Guardar el buffer actual como un archivo externo</translation>
+        <translation>Guardar el búffer actual como un archivo externo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1836"/>
@@ -563,7 +568,7 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
     <message>
         <location filename="../mainwindow.cpp" line="1851"/>
         <source>Start recording to WAV audio file</source>
-        <translation>Empezar Grabación en archivo de audio WAV</translation>
+        <translation>Empezar grabación en archivo de audio WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1855"/>
@@ -579,13 +584,13 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
         <location filename="../mainwindow.cpp" line="1860"/>
         <location filename="../mainwindow.cpp" line="1861"/>
         <source>Increase Text Size</source>
-        <translation>Aumentar tamaño del texto</translation>
+        <translation>Incrementar tamaño del texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1865"/>
         <location filename="../mainwindow.cpp" line="1866"/>
         <source>Decrease Text Size</source>
-        <translation>Menorar tamaño del texto</translation>
+        <translation>Decrementar tamaño del texto</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1871"/>
@@ -647,18 +652,20 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
         <location filename="../mainwindow.cpp" line="2074"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation>No se puede leer el archivo %1: %2.</translation>
+        <translation>No se puede leer el archivo %1: 
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2084"/>
         <source>File loaded...</source>
-        <translation>Archivo Iniciado...</translation>
+        <translation>Archivo cargado...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2092"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>No se puede escribir en archivo %1: %2.</translation>
+        <translation>No se puede escribir en archivo %1: 
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2109"/>
@@ -674,7 +681,8 @@ La opción Dark es perfecta para hacer live coding en discotecas o lugares con p
         <location filename="../mainwindow.cpp" line="2336"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi busca nuevas actualizaciones cada 2 semanas.</translation>
+        <translation>Sonic Pi busca nuevas actualizaciones 
+cada 2 semanas.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2338"/>
@@ -684,13 +692,14 @@ every two weeks.</source>
     <message>
         <location filename="../mainwindow.cpp" line="2339"/>
         <source>Version %2 is now available!</source>
-        <translation>Versión %2 se encuentra disponible!</translation>
+        <translation>¡La versión %2 se encuentra disponible!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2343"/>
         <source>New versión available!
 Get Sonic Pi %1</source>
-        <translation>Nueva versión disponible! Obtén Sonic Pi %1</translation>
+        <translation>¡Nueva versión disponible! 
+Obtén Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2369"/>
@@ -743,7 +752,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonicpiudpserver.cpp" line="24"/>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation>Se encuentra corriendo otra instancia de Sonic Pi?, no se puede abrir el puerto UDP 4558.</translation>
+        <translation>¿Hay otra instancia de Sonic Pi ejecutándose?, no se puede abrir el puerto UDP 4558.</translation>
     </message>
 </context>
 </TS>
