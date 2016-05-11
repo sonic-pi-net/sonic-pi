@@ -219,7 +219,6 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
     updateDarkMode();
     updateFullScreenMode();
     showWelcomeScreen();
-
     connect(&app, SIGNAL( aboutToQuit() ), this, SLOT( onExitCleanup() ) );
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
@@ -1874,6 +1873,16 @@ void MainWindow::updateDarkMode(){
 
   QString windowStyling = QString("QMainWindow::separator{border: 1px solid %1;} QMainWindow{background-color: %1; color: %2;}").arg(windowBorderColor, windowColor);
 
+  QString frameStyling = QString(R"MULTI(
+    QFrame {
+      border: 2px solid %1;
+    })MULTI").arg(paneColor);
+
+  QString qwtplotStyling = QString(R"MULTI(
+    QwtPlot{
+      background-color: %1;
+    })MULTI").arg(paneColor);
+
   this->setStyleSheet(buttonStyling +
                       splitterStyling +
                       toolTipStyling +
@@ -1906,6 +1915,10 @@ void MainWindow::updateDarkMode(){
   toolBar->setStyleSheet( QString("QToolBar{background-color: %1; border-bottom: 1px solid %2;}").arg(windowColor,windowBorderColor));
 
   errorPane->setStyleSheet( QString("QTextEdit{background-color: %1;} .error-background{background-color: %2} ").arg(paneColor, currentTheme->color("ErrorBackground").name()));
+
+  scopeWidget->setStyleSheet( QString(frameStyling + qwtplotStyling));
+
+
 
   for(int i=0; i < tabs->count(); i++){
     SonicPiScintilla *ws = (SonicPiScintilla *)tabs->widget(i);
