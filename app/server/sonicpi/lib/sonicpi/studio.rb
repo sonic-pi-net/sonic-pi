@@ -23,7 +23,7 @@ module SonicPi
     class StudioCurrentlyRebootingError < StandardError ; end
     include Util
 
-    attr_reader :synth_group, :fx_group, :mixer_group, :recording_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id, :amp, :rebooting
+    attr_reader :synth_group, :fx_group, :mixer_group, :monitor_group, :mixer_id, :mixer_bus, :mixer, :max_concurrent_synths, :rand_buf_id, :amp, :rebooting
 
     attr_accessor :cent_tuning
 
@@ -187,7 +187,7 @@ module SonicPi
     def start_amp_monitor
       check_for_server_rebooting!(:start_amp_monitor)
       unless @amp_synth
-        @amp_synth = @server.trigger_synth :head, @recording_group, "sonic-pi-amp_stereo_monitor", {"bus" => 0}, true
+        @amp_synth = @server.trigger_synth :head, @monitor_group, "sonic-pi-amp_stereo_monitor", {"bus" => 0}, true
       end
     end
 
@@ -297,7 +297,7 @@ module SonicPi
       @recording_mutex.synchronize do
         return false if @recorders[bus]
         bs = @server.buffer_stream_open(path)
-        s = @server.trigger_synth :head, @recording_group, "sonic-pi-recorder", {"out-buf" => bs.to_i, "in_bus" => bus.to_i}, true
+        s = @server.trigger_synth :head, @monitor_group, "sonic-pi-recorder", {"out-buf" => bs.to_i, "in_bus" => bus.to_i}, true
         @recorders[bus] = [bs, s]
         true
       end
@@ -366,8 +366,7 @@ module SonicPi
       @mixer_group = @server.create_group(:head, 0, "STUDIO-MIXER")
       @fx_group = @server.create_group(:before, @mixer_group, "STUDIO-FX")
       @synth_group = @server.create_group(:before, @fx_group, "STUDIO-SYNTHS")
-      @recording_group = @server.create_group(:after, @mixer_group, "STUDIO-RECORDING")
-      @scope_group = @server.create_group(:after, @mixer_group, "STUDIO-SCOPE")
+      @monitor_group = @server.create_group(:after, @mixer_group, "STUDIO-MONITOR")
     end
 
     def reset_server
@@ -387,7 +386,7 @@ module SonicPi
 
     def start_scope
       scope_synth = "sonic-pi-scope"
-      @scope = @server.trigger_synth(:head, @scope_group, scope_synth, {})
+      @scope = @server.trigger_synth(:head, @monitor_group, scope_synth, {})
     end
 
     def internal_load_sample(path, server=@server)
