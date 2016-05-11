@@ -10,6 +10,25 @@ echo "Please direct rage and suggestions to Factoid in (https://gitter.im/samaar
 #Install dependencies for building supercollider, as well as qt5 and supporting libraries for gui
 sudo apt-get install g++ ruby2.1 ruby-dev pkg-config git build-essential libjack-jackd2-dev libsndfile1-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev cmake libboost1.58-dev libqwt-qt5-dev libqt5scintilla2-dev libqt5svg5-dev qt5-qmake qt5-default qttools5-dev qttools5-dev-tools qtdeclarative5-dev libqt5webkit5-dev qtpositioning5-dev libqt5sensors5-dev
 
+### IF YOU HAVE PROBLEMS WITH qwt
+#cd $SP_APP_SRC/../../../../
+#wget 'http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2'
+#tar -xf qwt-6.1.2.tar.bz2
+#cd qwt-6.1.2
+#/usr/lib/x86_64-linux-gnu/qt5/bin/qmake qwt.pro
+#make
+#sudo make install
+#sudo cp /usr/local/qwt-6.1.2/features/* /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/
+
+### IF YOU HAVE PROBLEMS WITH qscintilla2
+#cd $SP_APP_SRC/../../../../
+#wget 'http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.2/QScintilla_gpl-2.9.2.tar.gz'
+#tar -xf QScintilla_gpl-2.9.2.tar.gz
+#cd QScintilla_gpl-2.9.2/Qt4Qt5/
+#/usr/lib/x86_64-linux-gnu/qt5/bin/qmake qscintilla.pro
+#make
+#sudo make install
+
 #Build supercollider 3.7.1 from source
 cd ../../../../
 git clone git@github.com:supercollider/supercollider.git
