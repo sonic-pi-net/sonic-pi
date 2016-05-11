@@ -386,7 +386,7 @@ module SonicPi
     end
 
     def start_scope
-      scope_synth = "scope"
+      scope_synth = "sonic-pi-scope"
       @scope = @server.trigger_synth(:head, @scope_group, scope_synth, {})
     end
 

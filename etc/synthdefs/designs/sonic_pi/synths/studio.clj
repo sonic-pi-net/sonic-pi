@@ -179,6 +179,11 @@
            snd         (balance2 snd-l snd-r pan amp)]
 
        (out out_bus (pan2 (* env snd) pan amp))))
+
+   (defsynth sonic-pi-scope [bus 0
+                             scope_num 0
+                             max_frames 4096]
+     (scope-out2 (in:ar bus 2) scope_num max_frames))
    )
 
 
@@ -187,4 +192,6 @@
     (core/save-synthdef sonic-pi-sound_in_stereo)
     (core/save-synthdef sonic-pi-mixer)
     (core/save-synthdef sonic-pi-basic_mixer)
-    (core/save-synthdef sonic-pi-recorder)))
+    (core/save-synthdef sonic-pi-recorder)
+    (core/save-synthdef sonic-pi-scope))
+)
