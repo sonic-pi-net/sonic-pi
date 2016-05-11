@@ -1,7 +1,7 @@
 //--
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
-// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md 
+// License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
 //
 // Copyright (C) 2016 by Adrian Cheater
 // All rights reserved.
@@ -38,7 +38,7 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
   plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
   plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
   plot.enableAxis(QwtPlot::Axis::xBottom, false);
-  
+
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(&plot);
   setLayout(layout);
@@ -73,7 +73,7 @@ void ScopePanel::refresh()
     {
       sample_y[i] = data[i+offset];
     }
-/*    
+/*
     if( counter > 100 )
     {
       counter = 0;
@@ -93,13 +93,9 @@ void ScopePanel::refresh()
 Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Right",this)
 {
   right.setChannel(1);
-//  setWindowTitle( "Sonic Pi - Scope" );
-//  setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint );
-//  setWindowIcon(QIcon(":images/icon-smaller.png"));
-
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  scopeTimer->start(100);
+  scopeTimer->start(1);
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(&left);
@@ -112,7 +108,7 @@ Scope::~Scope()
 }
 
 void Scope::refreshScope() {
-  if( !isVisible() ) 
+  if( !isVisible() )
   {
     return;
   }
