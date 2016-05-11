@@ -33,7 +33,9 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
   plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
   plot_curve.attach(&plot);
   plot_curve.setPen(* new QPen(QColor("deeppink"), 2));
+#if QWT_VERSION >= 0x60100
   plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
+#endif
 
   plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
   plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
