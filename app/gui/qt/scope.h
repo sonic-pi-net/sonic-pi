@@ -14,10 +14,9 @@
 #ifndef SCOPE_H
 #define SCOPE_H
 
-#include <QtWidgets>
-//#include <QDockWidget>
-#include <qwt_plot.h>
-#include <qwt_plot_curve.h>
+#include <QWidget>
+#include <qwt/qwt_plot.h>
+#include <qwt/qwt_plot_curve.h>
 
 #include <server_shm.hpp>
 #include <memory>
