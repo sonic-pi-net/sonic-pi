@@ -1882,21 +1882,19 @@ void MainWindow::updateDarkMode(){
 
 
   QString scrollStyling = QString(R"MULTI(
-    QScrollBar::add-line:horizontal, QScrollBar::add-line:vertical {
-      border: 0px;
-    }
-
-    QScrollBar::sub-line:horizontal,QScrollBar::sub-line:vertical{
-      border:0px;
-    }
-
     QScrollBar:horizontal, QScrollBar:vertical{
       background-color: %1;
     }
 
-    QScrollBar::handle:horizontal,QScrollBar::handle:vertical{
+    QScrollBar::handle:horizontal {
       background: %2;
-      border-radius: 5px;
+      border: 2px solid %3;
+      min-width: 80%;
+    }
+
+    QScrollBar::handle:vertical {
+      background: %2;
+      border: 2px solid %3;
       min-width: 80%;
     }
 
@@ -1905,7 +1903,7 @@ void MainWindow::updateDarkMode(){
     QScrollBar::add-page:vertical,
     QScrollBar::sub-page:vertical{
       background: none;
-    })MULTI").arg(scrollBarBackgroundColor, scrollBarColor);
+    })MULTI").arg(scrollBarBackgroundColor, scrollBarColor, paneColor);
 
 
   QString tabStyling = QString(R"MULTI(
