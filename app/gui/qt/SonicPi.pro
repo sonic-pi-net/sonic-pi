@@ -30,6 +30,12 @@ QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-paramet
 # Linux only
 unix:!macx {
   LIBS += -lrt
+  lessThan(QT_MAJOR_VERSION, 5) {
+    LIBS += -lqscintilla2
+  } else {
+    LIBS += -lqt5scintilla2
+  }
+  QMAKE_CXXFLAGS += -std=gnu++11
   debug {
     QMAKE_CXXFLAGS += -ggdb
   }
