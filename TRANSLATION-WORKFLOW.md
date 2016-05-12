@@ -52,20 +52,21 @@ it can be translated.
 Whenever message strings are changed or a major feature introduces new 
 ones, you need to update the `.ts` files.
 
-To initiate a translation update, rebase your repo with the current 
-HEAD of the master branch and then do
+To initiate a translation update, update your repo to the current HEAD 
+of the master branch, update the Qt linguist files using `lupdate`, 
+commit the update and push it back to the master branch.
 
 ```
+  git pull
   cd app/gui/qt
   lupdate -pro SonicPi.pro -no-obsolete
+  git commit lang/sonic-pi_*.ts
+  git push
 ```
 
 This will update all Qt linguist files in 
 `app/gui/qt/lang/sonic-pi_<LANG>.ts` with the new message strings from 
 your code and remove obsolete entries.
-
-After that, commit the updated `.ts` files and push them back to the 
-master branch.
 
 Weblate will then fetch them automatically, translators will update 
 them and the finished translations will flow back into the master 
