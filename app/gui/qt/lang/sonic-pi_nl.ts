@@ -6,31 +6,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="459"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="472"></location>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Logboek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
         <location filename="../mainwindow.cpp" line="2607"></location>
         <location filename="../mainwindow.cpp" line="2627"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="911"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi Systeem Volume</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wissel stereo kanalen.
+Indien ingeschakeld zijn het linker en rechter geluidskanaal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
