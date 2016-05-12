@@ -1,57 +1,68 @@
 # Translating Sonic Pi
 
-At present, you can translate the tutorial and the Qt GUI, only.
+[![Weblate](https://hosted.weblate.org/widgets/sonic-pi/-/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)
 
-Translations for the tutorial are located in
-[`etc/doc/tutorial`](./etc/doc/tutorial/).
+(This document is meant for translators who want to help bring Sonic Pi 
+to their language. If you're contributing code to Sonic Pi and want to 
+make sure that your feature is translatable and the translation always 
+up-to-date, please read the primer to the [Translation 
+Workflow](TRANSLATION-WORKFLOW.md) for coders.)
 
-Translations for the Qt GUI are located in
-[`app/gui/qt/lang/sonic-pi_<LANG>.ts`](./app/gui/qt/lang/).
+Sonic Pi is designed to be used by school kids as early as primary 
+school. We want to make sure that it's usable outside the 
+English-speaking world and if you want to help kids in your country to 
+be able to play with it, please consider translating Sonic Pi to your 
+language.
 
-## Translating the tutorial
+A number of awesome contributors have already translated much of Sonic 
+Pi to their language. We always appreciate help by those willing to 
+proofread, spellcheck or update the existing translations. 
 
-- Sign up with [github](https://help.github.com/categories/bootcamp/)
-- Fork the [Sonic Pi repo](https://github.com/samaaron/sonic-pi)
-  to your own github repo, `git clone` it to your computer
-- `cd etc/doc/tutorial`
-- Want to add a new language to the tutorial? Then copy the `en/`
-  folder and add the new files to your repo with `git add <NEWLANG>/*.md`
-- When you're happy, `git commit`, `git push` to your github repo.
-- [Send a pull request](https://help.github.com/articles/creating-a-pull-request/) to the Sonic Pi repo.
+Thanks to everybody involved!
 
-## Translating the Qt GUI
+As Sonic Pi development moves fast, there are always updates to the 
+screen messages and the tutorial. To help translators keep track of 
+these changes, _we are currently moving to 
+*[Weblate](https://hosted.weblate.org/engage/sonic-pi/)*_, an 
+open-source web-based translation editor.
 
-- Sign up with [github](https://help.github.com/categories/bootcamp/)
-- Fork the [Sonic Pi repo](https://github.com/samaaron/sonic-pi)
-  to your own github repo, `git clone` it to your computer
-- [Build Sonic Pi](./INSTALL.md),
-  first the server extensions, then the Qt GUI.
-- `cd app/gui/qt`
-- Want to add a new language to the Qt GUI? Then first add a reference
-  to the new language file to `SonicPi.Pro` and `SonicPi.qrc`, then run
-  `lupdate -pro SonicPi.pro` to have the new .ts file created for you.
-- Edit the translation with Qt Linguist,
-  `linguist lang/sonic-pi_<LANG>.ts`.
-- Build a new binary, test it.
-- When you're happy, `git add` if you added a new language, then
-  `git commit`, `git push` to your github repo.
-- [Send a pull request](https://help.github.com/articles/creating-a-pull-request/) to the Sonic Pi repo.
+The nice thing about Weblate is that from now on, you don't need to be 
+a developer to help translate Sonic Pi (and you don't need to know 
+anything about github or the other tools we use during development).
 
-## Adding a new translation string to the Qt GUI
+## What you can translate
 
-Messages you want to have translated need to be marked with `tr()`
-in the source.
+The Sonic Pi Qt GUI is the application you use on your desktop screen.
+It contains few screen strings and translating it is fairly easy.
 
-If you added or changed a translation string during development,
-don't forget to run `lupdate -pro SonicPi.pro` afterwards to update
-the `.ts` files.
+The tutorial is a fairly long document. Translating it takes 
+significantly longer, but it's very rewarding as it is the best way to 
+introduce new users to Sonic Pi.
 
-Then push them back to github and ask the translators to pull and
-translate them.
+It is planned to make the language reference translatable in the 
+future, too.
 
-(The translation workflow will hopefully become much easier once
-Transifex is integrated.)
+## How to fix or contribute a translation
 
-## To-Do
+So if you want to...
 
-- Transifex integration
+- proofread an existing translation
+- correct a mistake in a translation
+- translate Sonic Pi to a whole new language
+
+...all you need to do is visit [Sonic Pi on 
+Weblate](https://hosted.weblate.org/engage/sonic-pi/), sign up and 
+follow the instructions there.
+
+_Please note_ that we are still in the process of moving to Weblate. 
+You can already translate the Qt GUI there, but the tutorial will 
+follow soon.
+
+Weblate gives you a number of helpful tools, e.g. it spots common 
+mistakes, you can keep a glossary of recurring terms and be notified 
+when a new string needs to be translated.
+
+By the way, if you spot a spelling mistake in the English texts, please 
+[file an issue](https://github.com/samaaron/sonic-pi/issues) or correct 
+it with a pull request here on github, as you cannot change those via 
+Weblate.
