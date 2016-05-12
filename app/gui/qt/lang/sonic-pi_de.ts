@@ -430,7 +430,7 @@ Diese Suche versendet anonyme Informationen über Deine Plattform und Version.</
     <message>
         <location filename="../mainwindow.cpp" line="1051"></location>
         <source>Automatically align code on Run</source>
-        <translation>Lasse den Code beim Start automatisch ausrichten.</translation>
+        <translation>Lasse den Code beim Start automatisch ausrichten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
