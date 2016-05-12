@@ -23,14 +23,14 @@
     <message>
         <location filename="../mainwindow.cpp" line="911"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation>Raspberry Pi järjestelmän äänenvoimakkuus</translation>
+        <translation>Raspberry Pi äänenvoimakkuus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>Valitse stereo-inversio.
+        <translation>Vaihda stereo-inversio.
 Jos valittuna, vasemman kanavan ääni
 ohjataan oikeaan kanavaan ja toisinpäin.</translation>
     </message>
@@ -42,10 +42,10 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Vaihda monotila.
-Jos valittuna, vasen ja oikea audio sekoitetaan
+Valittuna vasen ja oikea audio yhdistetään
 ja sama signaali lähetetään molempiin kaiuttimiin.
-Hyödyllinen kun käytetään ulkoisten järjestelmien
-kanssa jotka toimivat ainoastaan monona.</translation>
+Hyödyllinen kun käytetään ulkoisia järjestelmiä
+jotka toimivat ainoastaan monona.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
@@ -55,7 +55,7 @@ kanssa jotka toimivat ainoastaan monona.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="935"></location>
         <source>&amp;Default</source>
-        <translation>&amp; Oletus</translation>
+        <translation>&amp;Oletus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
@@ -77,8 +77,8 @@ kanssa jotka toimivat ainoastaan monona.</translation>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Valitse lokiviestit.
-Jos ei valittuna, toiminnot kuten syntetisaattorin tai samplen
+        <translation>Vaihda lokiviestit.
+Jos ei valittuna, toimintoja kuten syntetisaattorin tai samplen
 käynnistystä ei tulosteta oletusarvoisesti lokiin.</translation>
     </message>
     <message>
@@ -103,12 +103,12 @@ kerta kun käynnistä-nappia painetaan.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1054"></location>
         <source>Toggle line number visibility.</source>
-        <translation>Valitse rivinumeron näkyvyys.</translation>
+        <translation>Vaihda rivinumeron näkyvyys.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1066"></location>
         <source>Dark mode</source>
-        <translation>Pimeä tila</translation>
+        <translation>Tumma tila</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"></location>
@@ -164,7 +164,7 @@ kerta kun käynnistä-nappia painetaan.</translation>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation>Käytä tätä säädintä vaihtaaksesi Raspberry Pi:si järjestelmän äänenvoimakkuutta.</translation>
+        <translation>Käytä tätä säädintä vaihtaaksesi Raspberry Pi:si äänenvoimakkuutta.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
@@ -233,7 +233,7 @@ tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="957"></location>
         <source>Logging</source>
-        <translation>Kirjaaminen</translation>
+        <translation>Lokin kirjaaminen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
@@ -259,7 +259,7 @@ tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Invert stereo</source>
-        <translation>Käännä stereo</translation>
+        <translation>Stereo-inversio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"></location>
