@@ -6,12 +6,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="459"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Indstillinger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="472"></location>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
