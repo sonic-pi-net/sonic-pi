@@ -286,16 +286,16 @@ sau chiar deranjante.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="969"></location>
         <source>Log cues</source>
-        <translation>Jurnal cues</translation>
+        <translation>Jurnal marcaje audio (cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"></location>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Activare/dezactivare jurnalizare cues.
-Cues actioneaza si cand este dezactivata jurnalizarea,
-dar nu se vor afisa in jurnal.</translation>
+        <translation>Activare/dezactivare jurnalizare marcaje audio.
+Marcajele (cues) initiaza redarea si cand este dezactivata
+jurnalizarea, dar nu se vor afisa in jurnal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="972"></location>
