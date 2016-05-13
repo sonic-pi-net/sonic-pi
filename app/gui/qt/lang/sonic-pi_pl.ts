@@ -70,7 +70,9 @@
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Zaawansowane ustawienia audio pozwalające na pracę z zewnętrznymi profesjonalnymi sytemami audio używanymi podczas występów na scenie z Sonic Pi. </translation>
+        <translation>Zaawansowane ustawienia audio pozwalające na pracę 
+z zewnętrznymi profesjonalnymi systemami audio 
+używanymi podczas występów na scenie z Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
@@ -105,8 +107,8 @@ audio, które potrafią obsługiwać tylko dźwięk mono.</translation>
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
         <translation>Włącza lub wyłącza funkcje sprawdzające argumenty syntezatorów.
-Jeśłi nie jest włączona, pewne opcje syntezatorów mogą 
-spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu. </translation>
+Jeśli nie jest włączona, pewne opcje syntezatorów mogą
+spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
