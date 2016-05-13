@@ -6,31 +6,33 @@
     <message>
         <location filename="../mainwindow.cpp" line="459"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferenze</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="472"></location>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
         <location filename="../mainwindow.cpp" line="2607"></location>
         <location filename="../mainwindow.cpp" line="2627"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="911"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume di sistema Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attiva inversione stereo.
+Se abilitata, l'audio della cassa sinistra
+verrà inviato alla cassa destra e viceversa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
@@ -39,129 +41,138 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attiva audio mono.
+Se abilitato, i canali audio destro e sinistro saranno mixati e
+lo stesso segnale verrà inviato a entrambe le casse.
+È utile quando si lavora con sistemi esterni che
+possono gestire solo segnali mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Uscita audio Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"></location>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Predefinito</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cuffie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura comportamento debug</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita registro messaggi.
+Se disabilitato, i messaggi di synth e sample
+non saranno, di default, mostrati nel registro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"></location>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modalità provvisoria</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="966"></location>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella registro all'avvio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilità cancella registro all'avvio.
+Se abilitato, i contenuti del registro saranno cancellati
+ogni volta che il pulsante avvio verrà premuto.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1054"></location>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilità vista numeri di riga.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1066"></location>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modalità scura</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"></location>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Esecuzione codice...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1510"></location>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ripulendo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1530"></location>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ricaricando...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1561"></location>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Abilitando HPF Mixer...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1570"></location>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Disabilitando HPF Mixer...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Buffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Benvenuto in Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="708"></location>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Indentando la selezione...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="712"></location>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Indentando la linea...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Usa questo slider per cambiare il volume di sistema del tuo Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni audio avanzate per lavorare
+con sistemi di amplificazione esterni quando ti esibisci con Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
@@ -174,38 +185,41 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Il tuo Raspberry Pi ha due tipologie di uscita audio.
+La prima consiste nel jack cuffie del Raspberry Pi.
+La seconda supporta audio attraverso l'uscita HDMI.
+Usa questi bottoni per forzare l'uscita che desideri usare.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1012"></location>
         <location filename="../mainwindow.cpp" line="1144"></location>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamenti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1014"></location>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla aggiornamenti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1118"></location>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1053"></location>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra numeri di riga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="277"></location>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informazioni aggiornamento Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="914"></location>
         <source>Advanced Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Avanzato</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
