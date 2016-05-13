@@ -18,19 +18,21 @@
         <location filename="../mainwindow.cpp" line="2607"></location>
         <location filename="../mainwindow.cpp" line="2627"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="911"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi Lydstyrke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå lydombytning til
+Når slået til vil lyd sendt til venstre højtaler
+spille i høre højtaler og omvendt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
@@ -39,7 +41,11 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Slå mono til.
+Hvis slået til bliver højre og venstre lyd mixet og
+det samme signal bliver sendt til begge højtalere.
+Nyttigt når det eksterne system kun kan
+håndtere mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
