@@ -1119,7 +1119,7 @@ void MainWindow::initPrefsWindow() {
   prefTabs->addTab(editor_box, tr("Editor"));
   prefTabs->addTab(studio_prefs_box, tr("Studio"));
 
-  QGroupBox *performance_box = new QGroupBox(tr("Performance"));
+  QGroupBox *performance_box = new QGroupBox();
   performance_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
 
 
