@@ -74,24 +74,24 @@ complete the translation.
 
 To initiate a translation update:
 
-- [Lock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
-  on Weblate (this will also commit and merge all oustanding 
-  translation updates from Weblate to Github).
+1. [Lock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
+   on Weblate (this will also commit and merge all oustanding 
+   translation updates from Weblate to Github).
 
-- Update your local repo to the current HEAD of the master branch from 
-  Github, update the Qt linguist files using `lupdate`, commit the 
-  update and push it back to the master branch.
+2. Update your local repo to the current HEAD of the master branch from 
+   Github, update the Qt linguist files using `lupdate`, commit the 
+   update and push it back to the master branch.
   
-  ```
-    git pull
-    cd app/gui/qt
-    lupdate -pro SonicPi.pro -no-obsolete
-    git commit lang/sonic-pi_*.ts
-    git push
-  ```
+   ```
+     git pull
+     cd app/gui/qt
+     lupdate -pro SonicPi.pro -no-obsolete
+     git commit lang/sonic-pi_*.ts
+     git push
+   ```
 
-- [Unlock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
-  on Weblate.
+3. [Unlock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
+   on Weblate.
 
 This will update all Qt linguist files in 
 `app/gui/qt/lang/sonic-pi_<LANG>.ts` with the new message strings from 
