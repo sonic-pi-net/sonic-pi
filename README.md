@@ -71,7 +71,7 @@ Sonic Pi's built in tutorial has been translated into several languages thanks t
 :jp:         | Japanese         | merged      |                     | @keikomachiya                                              |
 :pl:         | Polish           | merged      | @hopbit             | @hopbit, @nurkiewicz                                       |
 :fi:         | Finnish          | merged      |                     | Tuomas Pyylampi                                            |
-:it:         | Italian          | in progress |                     | @marco-giordano                                            |
+:it:         | Italian          | merged      |                     | @federico-pepe, @marco-giordano                            |
 :ru:         | Russian          | in progress |                     | @RomanSaveljev, @dcromster                                 |
 :pt:         | Portuguese       | in progress |                     | @SiIky                                                     |
 :sp:         | Spanish          | in progress |                     | @merongivian, @thraex41                                    |
