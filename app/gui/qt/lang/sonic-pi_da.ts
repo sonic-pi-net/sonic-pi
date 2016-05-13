@@ -23,7 +23,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="911"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation>Raspberry Pi Lydstyrke</translation>
+        <translation>Raspberry Pi lydstyrke</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
@@ -31,7 +31,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Slå lydombytning til
-Når slået til vil lyd sendt til venstre højtaler
+Hvis slået til, vil lyd sendt til venstre højtaler
 spille i høre højtaler og omvendt.</translation>
     </message>
     <message>
@@ -42,7 +42,7 @@ the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
         <translation>Slå mono til.
-Hvis slået til bliver højre og venstre lyd mixet og
+Hvis slået til, bliver højre og venstre lyd mixet, og
 det samme signal bliver sendt til begge højtalere.
 Nyttigt når det eksterne system kun kan
 håndtere mono.</translation>
@@ -50,7 +50,7 @@ håndtere mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi lydudgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"></location>
@@ -60,17 +60,17 @@ håndtere mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hovedtelefoner</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurer standardindstilling</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
