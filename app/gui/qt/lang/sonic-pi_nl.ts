@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="472"></location>
         <source>Log</source>
-        <translation type="unfinished">Logboek</translation>
+        <translation>Logboek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
@@ -30,8 +30,8 @@
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished">Wissel stereo kanalen.
-Indien ingeschakeld zijn het linker en rechter geluidskanaal</translation>
+        <translation>Wissel stereo kanalen.
+Indien ingeschakeld zijn het linker en rechter geluidskanaal omgewisseld</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
