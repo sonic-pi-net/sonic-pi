@@ -55,7 +55,7 @@ håndtere mono.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="935"></location>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Standard</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>

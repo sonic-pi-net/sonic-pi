@@ -70,7 +70,9 @@
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Zaawansowane ustawienia audio pozwalające na pracę z zewnętrznymi profesjonalnymi sytemami audio używanymi podczas występów na scenie z Sonic Pi. </translation>
+        <translation>Zaawansowane ustawienia audio pozwalające na pracę 
+z zewnętrznymi profesjonalnymi systemami audio 
+używanymi podczas występów na scenie z Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
@@ -105,8 +107,8 @@ audio, które potrafią obsługiwać tylko dźwięk mono.</translation>
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
         <translation>Włącza lub wyłącza funkcje sprawdzające argumenty syntezatorów.
-Jeśłi nie jest włączona, pewne opcje syntezatorów mogą 
-spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu. </translation>
+Jeśli nie jest włączona, pewne opcje syntezatorów mogą
+spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
@@ -117,27 +119,27 @@ spowodować dźwięki o nieoczekiwanej głośności lub nieprzyjemnym brzmieniu.
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2360"></location>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Zasięg</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="741"></location>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Przełącz wybór komentarza...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="745"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Oznacz lub odznacz daną linię jako komentarza...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="803"></location>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się uruchomić serwera Sonic Pi!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Odwrócone stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"></location>
@@ -184,12 +186,12 @@ Użyj tych przycisków aby wymusić wyjście na takie urządzenie, które chesz.
     <message>
         <location filename="../mainwindow.cpp" line="960"></location>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Syntezatory i Efekty</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmieniaj zachowanie syntezatorów i efektów</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="963"></location>
@@ -239,18 +241,20 @@ Jednakżę, nie będą one widoczne panelu logowania.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="972"></location>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczne przewijanie panelu logowania</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz automatycznie przewijanie logów.
+Jeśli włączymy tę opcję to logi będą się automatycznie przewijać przy pojawieniu 
+się każdego kolejnego komunikatu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"></location>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz lub wyłącz zewnętrzne syntezatory i efekty</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
@@ -261,12 +265,20 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gdy jest włączone, Sonic Pi pozwoli 
+aby syntezatory i efekty ładowane za pomocą 
+polecenia load_synthdefs mogły 
+być uruchamiane.
+
+Gdy opcja jest wyłączona, Sonic Pi będzie 
+wyświetlał komunikat o błędzie gdy spróbujesz 
+użyć syntezatora lub efektu, którego nie 
+potrafi rozpoznać.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="983"></location>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuszenie gwarancji wykonania "o czasie"</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
@@ -277,7 +289,15 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiedy jest włączone, Sonic Pi nie będzie 
+pozwalał na uruchamianie syntezatorów 
+i efektów, jeśli jest już zbyt późno aby 
+móc wykonać dane polecenie.
+
+Kiedy opcja jest wyłączona, Sonic Pi 
+będzie zawsze próbował uruchomić 
+syntezator lub efekt, nawet jeśli 
+uda mu się to zrobić z lekkim opóźnieniem.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"></location>
@@ -471,7 +491,7 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2338"></location>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchom kod w aktualnym buforze</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"></location>
@@ -483,7 +503,9 @@ Tryb nocny jest idealny do kodowania na żywo w klubach.</translation>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd przy uruchamianiu Sonic Pi
+
+Przepraszam, ale w trakcie startu wystąpił krytyczny błąd</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"></location>
@@ -491,30 +513,30 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1374"></location>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Pliki buforów</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj plik do buforu w Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Pliki tekstowe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik programu Ruby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie pliki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1375"></location>
@@ -615,12 +637,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1752"></location>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatycznie przewijanie logów zostało włączone...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1754"></location>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczne przewijanie logów zostało wyłączone...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2155"></location>
@@ -665,12 +687,13 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2351"></location>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2352"></location>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj do aktualnego buforu plik, który 
+znajduje się na dysku twojego komputera</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2355"></location>
@@ -685,7 +708,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2361"></location>
         <source>View audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>Obejrzyj wynik dźwięku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2365"></location>
@@ -788,7 +811,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2508"></location>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik dźwiękowy WAV (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2527"></location>
@@ -900,7 +923,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"></location>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation type="unfinished">Czy Sonic Pi nie jest już uruchoiony? Nie można otworzyć portu UDP o numerze 4558.</translation>
+        <translation>Czy Sonic Pi nie jest już uruchomiony? Nie można otworzyć portu UDP o numerze 4558.</translation>
     </message>
 </context>
 </TS>
