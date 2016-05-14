@@ -23,7 +23,7 @@ module SonicPi
         @opts = opts
         use_encoder_cache = opts[:use_encoder_cache]
         encoder_cache_size = opts[:encoder_cache_size] || 1000
-        @encoder = OscEncode.new(use_encoder_cache, encoder_cache_size)
+        @encoder = FastOsc
         @so = UDPSocket.new
         @so.connect(host, port)
       end
