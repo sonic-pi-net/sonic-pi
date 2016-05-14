@@ -43,6 +43,8 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->addWidget(&plot);
+  layout->setContentsMargins(0,0,0,0);
+  layout->setSpacing(0);
   setLayout(layout);
 }
 
@@ -100,6 +102,8 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
   scopeTimer->start(1);
 
   QVBoxLayout* layout = new QVBoxLayout();
+  layout->setSpacing(0);
+  layout->setContentsMargins(0,0,0,0);
   layout->addWidget(&left);
   layout->addWidget(&right);
   setLayout(layout);
