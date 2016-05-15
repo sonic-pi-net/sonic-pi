@@ -17,14 +17,14 @@ zwróca losową wartość pomiędzy dwoma liczbami - minimum *min* i maksimum
 z określonego przedziału). Spróbujmy zagrać losową nutę:
 
 ```
-play rrand(50, 100)
+  play rrand(50, 95)
 ```
 
-Oh, została zagrana losowa nuta. Zagrana nuta to `77.4407`. Fajna liczba 
+Oh, została zagrana losowa nuta. Zagrana nuta to `83.7527`. Fajna liczba 
 losowa pomiędzy 50 a 100. Zaraz zaraz, czy przypadkiem nie zgadłem dokładnej 
 wartości losowej nuty, którą przed chwilą otrzymałeś? Dzieje się tu coś 
 podejrzanego. Spróbuj uruchomić kod ponownie. I co? Znowu została wybrana 
-liczba `77.4407`? Toć to nie jest liczba losowa!
+liczba `83.7527`? Toć to nie jest liczba losowa!
 
 Odpowiedzią jest fakt, że tak naprawde wynik nie jest naprawdę losowy, 
 jest pseudo losowy. Sonic Pi wygeneruje dla Ciebie liczby, które wyglądają 
@@ -34,14 +34,14 @@ brzmieć identycznie na każdym innym komputerze - nawet jeśli używasz
 w swojej kompozycji pewnej losowości.
 
 Oczywiście, jeśli w danym utworze, ta 'losowo wybrana liczba' będzie 
-za każdym razem miała wartość `77.4407`, to nie będzie to zbyt interesujące. 
+za każdym razem miała wartość `83.7527`, to nie będzie to zbyt interesujące. 
 Jednakże jest inaczej. Spróbój poniższego kawałka kodu: 
 
 ```
-loop do
-  play rrand(50, 100)
-  sleep 0.5
-end 
+  loop do
+    play rrand(50, 95)
+    sleep 0.5
+  end 
 ```
 
 Tak! Wreszcie uzyskaliśmy losowe dźwieki. W ramach danego *uruchomienia* 
@@ -61,10 +61,10 @@ losowe tempo (parametr rate) oraz czas przerwy (polecenie sleep) pomiędzy
 poszczególnymi dźwiękami dzwonów:
 
 ```
-loop do
-  sample :perc_bell, rate: (rrand 0.125, 1.5)
-  sleep rrand(0.2, 2)
-end
+  loop do
+    sample :perc_bell, rate: (rrand 0.125, 1.5)
+    sleep rrand(0.2, 2)
+  end
 ```
 
 ## Losowe odcięcie
@@ -75,15 +75,15 @@ spróbować jest syntezator emulujący `:tb303`:
 
 
 ```
-use_synth :tb303
-
-loop do
-  play 50, release: 0.1, cutoff: rrand(60, 120)
-  sleep 0.125
-end
+  use_synth :tb303
+  
+  loop do
+    play 50, release: 0.1, cutoff: rrand(60, 120)
+    sleep 0.125
+  end
 ```
 
-## Losowe zarzewie
+## Losowe ziarna
 
 A co, jeśli nie podoba Ci się ta konkretna sekwencja liczb losowych, 
 które generuje Sonic Pi? Nic nie stoi na przeszkodzie abyś wybrał 
@@ -94,10 +94,10 @@ inną wartość aby uzyskać inne wartości losowe.
 Weźmy pod uwagę poniższy przykład:
 
 ```
-5.times do
-  play rrand(50, 100)
-  sleep 0.5
-end
+  5.times do
+    play rrand(50, 100)
+    sleep 0.5
+  end
 ```
 
 Za każdym razem gdy uruchomisz powyższy kod, usłyszysz sekwencję 
@@ -105,11 +105,11 @@ tych samych 5 nut. Aby uzyskać inną sekwencję wystarczy zmienić
 wartość odsiewu (?seed):
 
 ```
-use_random_seed 40
-5.times do
-  play rrand(50, 100)
-  sleep 0.5
-end
+  use_random_seed 40
+  5.times do
+    play rrand(50, 100)
+    sleep 0.5
+  end
 ```
 
 Spowoduje to wygenerowanie sekwencji 5 innych losowych nut. Zmieniając 
@@ -119,6 +119,7 @@ się nią z innymi, usłyszą oni dokładnie to samo co ty.
 
 A teraz przyjrzyjmy się kilku innym, przydatnym funkcją generującym wartości 
 losowe.
+
 
 ## choose (wybierz)
 
@@ -132,16 +133,16 @@ przecinkiem: `[60, 65, 72]`. Następnie wystarczy przekazać je jako
 parametr do polecenia `choose`: 
 
 ```
-choose([60, 65, 72])
+  choose([60, 65, 72])
 ```
 
 Posłuchajmy zatem jak to brzmi: 
 
 ```
-loop do
-  play choose([60, 65, 72])
-  sleep 1
-end
+  loop do
+    play choose([60, 65, 72])
+    sleep 1
+  end
 ```
 
 ## rrand
@@ -154,9 +155,9 @@ liczba będzie liczbą zmiennoprzecinkową - oznacza to, że nie jest to liczba 
 tylko ułamek. Oto kilka przykładów liczb zmiennoprzecinkowych zwracanych przez 
 polecenie `rrand(20,110)`:
 
-* 20.343235
-* 42.324324
-* 100.93423
+* 87.5054931640625
+* 86.05255126953125
+* 61.77825927734375
 
 ## rrand_i
 
@@ -167,9 +168,9 @@ polecenie `rrand_i`. Polecenie to działa bardzo podobnie do `rrand`, z tą jedn
 wartość losowa (co oznacza, że podawany przedział jest domknięty, a nie otwarty). Poniżej 
 przykłady liczb losowych, które mogą zostać zwrócone przez polecenie `rrand_i(20,110)`:
 
-* 20
-* 46
-* 99
+* 88
+* 86
+* 62
 
 ## rand
 
@@ -180,10 +181,10 @@ zauważyć, że polecenie to może być bardzo użyteczne do ustawiania losowego
 poziomu amplitudy `amp:` 
 
 ```
-loop do
-  play 60, amp: rand
-  sleep 0.25
-end
+  loop do
+    play 60, amp: rand
+    sleep 0.25
+  end
 ```
 
 ## rand_i
