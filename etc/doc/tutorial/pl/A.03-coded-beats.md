@@ -29,8 +29,10 @@ styles such as drum and bass, breakbeat, hardcore techno and breakcore.
 
 I'm sure you're excited to hear that it's also built right into Sonic
 Pi. Clear up a buffer and throw in the following code:
- 
-    sample :loop_amen
+
+```
+  sample :loop_amen
+```
 
 Hit *Run* and boom! You're listening to one of the most influential
 drum breaks in the history of dance music. However, this sample wasn't famous
@@ -42,10 +44,12 @@ for being played as a one-shot, it was built for being looped.
 Let's loop the Amen Break by using our old friend the `live_loop`
 introduced in this tutorial last month:
 
-    live_loop :amen_break do
-      sample :loop_amen
-      sleep 2
-    end
+```
+  live_loop :amen_break do
+    sample :loop_amen
+    sleep 2
+  end
+```
 
 OK, so it is looping, but there's an annoying pause every time
 round. That is because we asked it to sleep for `2` beats and with
@@ -56,16 +60,17 @@ though it's short, it's still noticeable.
 To fix this issue we can use the `beat_stretch:` opt to ask Sonic Pi to
 stretch (or shrink) the sample to match the specified number of beats.
 
-[Breakout box start] Sonic Pi's `sample` and `synth` fns give you a lot
+Sonic Pi's `sample` and `synth` fns give you a lot
 of control via optional parameters such as `amp:`, `cutoff:` and
 `release:`. However, the term optional parameter is a real mouthful so
 we just call them *opts* to keep things nice and simple. 
-[Breakout box end]
 
-    live_loop :amen_break do
-      sample :loop_amen, beat_stretch: 2
-      sleep 2
-    end  
+```
+  live_loop :amen_break do
+    sample :loop_amen, beat_stretch: 2
+    sleep 2
+  end  
+```
 
 Now we're dancing! Although, perhaps we want to speed it up or slow it down
 to suit the mood.
@@ -77,11 +82,13 @@ breakcore? One simple way of doing this is to play with time - or in
 other words mess with the tempo. This is super easy in Sonic Pi - just
 throw in a `use_bpm` into your live loop:
 
-    live_loop :amen_break do
-      use_bpm 30
-      sample :loop_amen, beat_stretch: 2
-      sleep 2
-    end 
+```
+  live_loop :amen_break do
+    use_bpm 30
+    sample :loop_amen, beat_stretch: 2
+    sleep 2
+  end 
+```
 
 Whilst you're rapping over those slow beats, notice that we're still
 sleeping for 2 and our BPM is 30, yet everything is in time. The
@@ -100,12 +107,13 @@ provided by the `sample` synth. First up is `cutoff:` which controls the
 cutoff filter of the sampler. By default this is disabled but you can
 easily turn it on:
 
-
-    live_loop :amen_break do
-      use_bpm 50
-      sample :loop_amen, beat_stretch: 2, cutoff: 70
-      sleep 2
-    end  
+```
+  live_loop :amen_break do
+    use_bpm 50
+    sample :loop_amen, beat_stretch: 2, cutoff: 70
+    sleep 2
+  end  
+```
 
 Go ahead and change the `cutoff:` opt. For example, increase it to 100,
 hit *Run* and wait for the loop to cycle round to hear the change in the
@@ -122,13 +130,15 @@ left over.
 Another great tool to play with is the slicer FX. This will chop (slice)
 the sound up. Wrap the `sample` line with the FX code like this:
 
-    live_loop :amen_break do
-      use_bpm 50
-      with_fx :slicer, phase: 0.25, wave: 0, mix: 1 do
-        sample :loop_amen, beat_stretch: 2, cutoff: 100
-      end
-      sleep 2
+```
+  live_loop :amen_break do
+    use_bpm 50
+    with_fx :slicer, phase: 0.25, wave: 0, mix: 1 do
+      sample :loop_amen, beat_stretch: 2, cutoff: 100
     end
+    sleep 2
+  end
+```
 
 Notice how the sound bounces up and down a little more. (You can hear
 the original sound without the FX by changing the `mix:` opt to `0`.)
@@ -150,27 +160,29 @@ all this means, just type it in, hit Run, then start live coding it by
 changing opt numbers and see where you can take it. Please do share what
 you create! See you next time...
 
-    use_bpm 100
+```
+  use_bpm 100
   
-    live_loop :amen_break do
-      p = [0.125, 0.25, 0.5].choose
-      with_fx :slicer, phase: p, wave: 0, mix: rrand(0.7, 1) do
-        r = [1, 1, 1, -1].choose
-        sample :loop_amen, beat_stretch: 2, rate: r, amp: 2
-      end
-      sleep 2
+  live_loop :amen_break do
+    p = [0.125, 0.25, 0.5].choose
+    with_fx :slicer, phase: p, wave: 0, mix: rrand(0.7, 1) do
+      r = [1, 1, 1, -1].choose
+      sample :loop_amen, beat_stretch: 2, rate: r, amp: 2
     end
+    sleep 2
+  end
   
-    live_loop :bass_drum do
-      sample :bd_haus, cutoff: 70, amp: 1.5
-      sleep 0.5
-    end
+  live_loop :bass_drum do
+    sample :bd_haus, cutoff: 70, amp: 1.5
+    sleep 0.5
+  end
   
-    live_loop :landing do
-      bass_line = (knit :e1, 3, [:c1, :c2].choose, 1)
-      with_fx :slicer, phase: [0.25, 0.5].choose, invert_wave: 1, wave: 0 do
-        s = synth :square, note: bass_line.tick, sustain: 4, cutoff: 60
-        control s, cutoff_slide: 4, cutoff: 120
-      end
-      sleep 4
+  live_loop :landing do
+    bass_line = (knit :e1, 3, [:c1, :c2].choose, 1)
+    with_fx :slicer, phase: [0.25, 0.5].choose, invert_wave: 1, wave: 0 do
+      s = synth :square, note: bass_line.tick, sustain: 4, cutoff: 60
+      control s, cutoff_slide: 4, cutoff: 120
     end
+    sleep 4
+  end
+```

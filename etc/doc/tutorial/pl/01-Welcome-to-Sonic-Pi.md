@@ -7,7 +7,7 @@ rozpoczęcia tworzenia zwariowanych dźwięków tak samo, jak ja jestem
 podekcytowany tym, że mogę Ci to pokazać. To będzie naprawdę *świetna* 
 zabawa, podczas której nauczysz się wszystkiego o muzyce, syntezie, 
 programowaniu, kompozycji, wydajności i wielu innych rzeczach.
-           
+
 Ale zaraz, zaraz, gdzie moje maniery! Pozwól, że się przedstawię - jestem 
 [Sam Aaron](http://twitter.com/samaaron) - facet, który stworzył Sonic Pi.
 Możesz znaleźć mnie pod nikiem [@samaaron](http://twitter.com/samaaron) na 

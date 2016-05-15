@@ -14,7 +14,7 @@ Integracja z Minecraft Pi została zaprojektowana aby być szalenie
 i stworzyć nowy świat. Gdy już to zrobić możesz dowolnie używać funkcji 
 `mc_*` tak samo jak używałeś do tej pory poleceń `play` i `synth`. Nie 
 ma konieczności importowania czegokolwiek lub instalacji dodatkowych 
-bibliotek - wszystko jest gotowe i działa po wyjęciu z pudełka. 
+bibliotek - wszystko jest gotowe i działa po wyjęciu z pudełka.
 
 ## Automatyczne Połączenie
 
@@ -26,7 +26,7 @@ jeśli zamkniesz Minecraft Pi w momencie kiedy wciąż masz uruchomioną
 żywą pętlę `live_loop`, która korzysta z API, żywa pętla zatrzyma sie 
 i uprzejmie poinformuje Cię, że nie może się połączyć. Aby wznowić 
 połączenie wystarczy, że ponownie włączysz Minecraft Pi a Sonic Pi 
-automatycznie wykryje i ponownie utworzy połączenie za Ciebie. 
+automatycznie wykryje i ponownie utworzy połączenie za Ciebie.
 
 ## Zaprojektowanie do Kodowania Na Żywo
 
@@ -38,7 +38,7 @@ w dźwiękach brzmiących w twoim Sonic Pi. Błyskawiczne nagrania wideo
 z muzyką bazujące na grze Minecraft! Jeśli jednak zdarzy się, że natrafisz 
 na jakieś problemy, po prostu uruchom ponownie Minecraft Pi i kontynuuj 
 wcześniejszą zabawę. Funkcjonalność automatycznego połączenia Sonic Pi 
-zajmie się wszystkim za Ciebie. 
+zajmie się wszystkim za Ciebie.
 
 ## Wymaga Raspberry Pi 2.0
 
@@ -51,4 +51,4 @@ możliwości dźwiękowe Sonic Pi.
 Na ten moment, Sonic Pi wspiera podstawowe bloki oraz manipulacje 
 graczy, które sa opisane w rozdziale 11.1. Wsparcie dla zdarzeń zwrotnych 
 wywoływanych przez interakcje gracza w świecie jest planowane na 
-przyszłe wydanie. 
+przyszłe wydanie.

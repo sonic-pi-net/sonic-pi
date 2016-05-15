@@ -9,7 +9,7 @@ Czasami będziesz chciał reprezentować i używać czegoś więcej niż
 tylko jednej rzeczy. Na przykład, przydatnym może okazać się możliwość 
 posiadania serii nut do zagrania jedna po drugiej. Języki programowania 
 posiadają coś takiego jak struktury danych, które pozwalają Ci robić 
-takie rzeczy.  
+takie rzeczy.
 
 Istnieje wiele ekscytujących i egzotycznych struktur danych dostępnych 
 dla programistów - a ludzie wciąż wymyślają nowe. Na razie potrzebujemy

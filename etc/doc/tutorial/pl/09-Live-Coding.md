@@ -11,7 +11,6 @@ w kółko i zacznij dopieszczać ją aż zacznie brzmieć idealnie). Główną
 i podstawową zaletą jest jednak to, że możesz wziąć Sonic Pi ze sobą na scenę 
 i wykorzystać go do występów na żywo.
 
-
 W tym rozdziale przedstawimy Ci podstawy tego w jaki sposób możesz zmienić 
 twoje statyczne kompozycje w pełne życia występy.
 
