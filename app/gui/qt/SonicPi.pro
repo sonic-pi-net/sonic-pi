@@ -106,7 +106,6 @@ TRANSLATIONS = lang/sonic-pi_de.ts \
                lang/sonic-pi_ro.ts \
                lang/sonic-pi_ru.ts \
                lang/sonic-pi_zh-Hans.ts \
-               lang/sonic-pi_zh-Hant.ts \
 
 OTHER_FILES += \
     images/copy.png \
