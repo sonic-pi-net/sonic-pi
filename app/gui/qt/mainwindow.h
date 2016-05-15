@@ -138,6 +138,9 @@ private slots:
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
+    void toggleLeftScope();
+    void toggleRightScope();
+    void toggleScopeAxes();
     void toggleDarkMode();
     void updateDarkMode();
     void showPrefsPane();
@@ -321,7 +324,7 @@ private:
     QSplitter *docsplit;
 
     QLabel *versionLabel;
-
+    Scope* scopeInterface;
     QString guiID;
     bool homeDirWritable;
 };

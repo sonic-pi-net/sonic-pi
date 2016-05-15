@@ -36,8 +36,10 @@ public:
   void setChannel( unsigned int i );
   void setReader( scope_buffer_reader* shmReader );
   void refresh();
+  bool toggleAxes();
 
 private:
+  std::string name;
   scope_buffer_reader* reader;
   QwtPlot plot;
   QwtPlotCurve plot_curve;
@@ -55,6 +57,10 @@ class Scope : public QWidget
 public:
   Scope( QWidget* parent = 0 );
   virtual ~Scope();
+
+  bool toggleLeftScope();
+  bool toggleRightScope();
+  bool toggleScopeAxes();
 
 private slots:
   void refreshScope();

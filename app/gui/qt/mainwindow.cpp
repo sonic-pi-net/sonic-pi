@@ -453,7 +453,8 @@ void MainWindow::setupWindowStructure() {
   scopeWidget->setFocusPolicy(Qt::NoFocus);
   scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
   scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-  scopeWidget->setWidget(new Scope);
+  scopeInterface = new Scope();
+  scopeWidget->setWidget(scopeInterface);
   scopeWidget->setObjectName("scope");
   addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
 
@@ -1007,9 +1008,6 @@ void MainWindow::initPrefsWindow() {
   transparency_box->setLayout(transparency_box_layout);
 
 
-
-
-
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
   QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   check_updates = new QCheckBox(tr("Check for updates"));
@@ -1121,6 +1119,23 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *performance_box = new QGroupBox();
   performance_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
+
+  QGroupBox *scope_box = new QGroupBox();
+  QGridLayout* scope_box_layout = new QGridLayout();
+  QCheckBox *show_left = new QCheckBox(tr("Left Channel"));
+  show_left->setChecked(true);
+  QCheckBox *show_right = new QCheckBox(tr("Right Channel"));
+  show_right->setChecked(true);
+  QCheckBox *show_axes = new QCheckBox(tr("Show Axes"));
+  show_axes->setChecked(true);
+  scope_box_layout->addWidget(show_left);
+  scope_box_layout->addWidget(show_right);
+  scope_box_layout->addWidget(show_axes);
+  scope_box->setLayout(scope_box_layout);
+  connect(show_left, SIGNAL(clicked()), this, SLOT(toggleLeftScope()));
+  connect(show_right, SIGNAL(clicked()), this, SLOT(toggleRightScope()));
+  connect(show_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+  prefTabs->addTab(scope_box, tr("Scope"));
 
 
 #if defined(Q_OS_WIN)
@@ -1739,6 +1754,21 @@ void MainWindow::changeRPSystemVol(int)
   p->start(prog);
 #endif
 
+}
+
+void MainWindow::toggleLeftScope() 
+{
+  scopeInterface->toggleLeftScope();
+}
+
+void MainWindow::toggleRightScope()
+{
+  scopeInterface->toggleRightScope();
+}
+
+void MainWindow::toggleScopeAxes()
+{
+  scopeInterface->toggleScopeAxes();
 }
 
 void MainWindow::toggleDarkMode() {

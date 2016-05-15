@@ -20,9 +20,10 @@
 #include <QTimer>
 #include <QPainter>
 #include <QDebug>
+#include <qwt_text_label.h>
 #include <cmath>
 
-ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(parent), plot(QwtText(name.c_str()),this), max_y(0), counter(0), channel(0)
+ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this), max_y(0), counter(0), channel(0)
 {
   for( unsigned int i = 0; i < 4096; ++i )
   {
@@ -53,6 +54,20 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
 
 ScopePanel::~ScopePanel()
 {
+}
+
+bool ScopePanel::toggleAxes()
+{
+  bool b = !plot.axisEnabled(QwtPlot::Axis::yLeft);
+  plot.enableAxis(QwtPlot::Axis::yLeft,b);
+  if( b )
+  {
+    plot.setTitle(QwtText(name.c_str()));
+  } else
+  {
+    plot.setTitle(QwtText(""));
+  }
+  return b;
 }
 
 void ScopePanel::setChannel( unsigned int i )
@@ -114,6 +129,26 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
 
 Scope::~Scope()
 {
+}
+
+bool Scope::toggleLeftScope()
+{
+  bool b = !left.isVisible();
+  left.setVisible(b);
+  return b;
+}
+
+bool Scope::toggleRightScope()
+{
+  bool b = !right.isVisible();
+  right.setVisible(b);
+  return b;
+}
+
+bool Scope::toggleScopeAxes()
+{
+  left.toggleAxes();
+  return right.toggleAxes();
 }
 
 void Scope::refreshScope() {
