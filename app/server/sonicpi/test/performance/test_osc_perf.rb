@@ -18,23 +18,39 @@
 if ENV['RUN_PERF_TESTS']
   require_relative '../setup_test.rb'
   require_relative "../../lib/sonicpi/osc/osc"
+  require_relative "../../lib/sonicpi/osc/oscencode"
+  require_relative "../../lib/sonicpi/osc/oscdecode"
   require 'benchmark/ips'
+  require 'osc-ruby'
+  require 'fast_osc'
 
-  decoder = SonicPi::OSC::OscDecode.new(false)
-  encoder = SonicPi::OSC::OscEncode.new(false)
+  samosc = SonicPi::OSC::OscDecode.new(true)
+  samoscenc = SonicPi::OSC::OscEncode.new(false)
+  oscruby = OSC::OSCPacket
 
   address = "/feeooblah"
   args = ["beans", 1, 2.0]
+  msg = OSC::Message.new(address, *args)
+  test_message = msg.encode
+  # puts test_message.inspect
 
+  # puts [address, args].inspect
+  puts "ENCODING TEST"
   Benchmark.ips do |bencher|
-    bencher.report("osc") { encoder.encode_single_message(address, args) }
+    bencher.report("fast_osc") { FastOsc.encode_single_message(address, args) }
+    bencher.report("samsosc") { samoscenc.encode_single_message(address, args) }
+    bencher.report("osc-ruby") { msg.encode }
+
     bencher.compare
   end
 
-  # Benchmark.ips do |bencher|
-  #   bencher.report("samsosc") { samosc.decode_single_message(test_message) }
-  #   bencher.report("oscruby") { oscruby.messages_from_network(test_message) }
-  #
-  #   bencher.compare
-  # end
+  # puts samosc.decode_single_message(test_message).inspect
+  puts "DECODING TEST"
+  Benchmark.ips do |bencher|
+    bencher.report("fast_osc") { FastOsc.decode_single_message(test_message) }
+    bencher.report("samsosc") { samosc.decode_single_message(test_message) }
+    bencher.report("osc-ruby") { oscruby.messages_from_network(test_message) }
+
+    bencher.compare
+  end
 end

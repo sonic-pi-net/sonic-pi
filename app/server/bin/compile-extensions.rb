@@ -45,6 +45,8 @@ native_ext_dirs = [
 
   File.expand_path(File.dirname(__FILE__) + '/../vendor/interception/ext/'),
 
+  File.expand_path(File.dirname(__FILE__) + '/../vendor/fast_osc/ext/fast_osc'),
+
   [File.expand_path(File.dirname(__FILE__) + '/../vendor/did_you_mean-0.10.0/ext/did_you_mean'), "did_you_mean"]
 ]
 

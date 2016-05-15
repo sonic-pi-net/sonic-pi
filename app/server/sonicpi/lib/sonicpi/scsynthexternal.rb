@@ -50,7 +50,7 @@ module SonicPi
         else
           vt = -1
         end
-        log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_i}] #{address} #{args.inspect}"
+        log "BDL #{'%11.5f' % vt} ~ [#{vt}:#{ts.to_f}] #{address} #{args.inspect}"
       end
 
       @server.send_ts(ts, @hostname, @port, address, *args)
