@@ -297,18 +297,19 @@ maar zij zullen niet zichtbaar zijn in het logvenster.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="972"></location>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Log auto scroll</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel auto scrolling in of uit.
+Indien ingeschakeld scrollt het logvenster automatisch tot beneden nadat elk nieuw bericht wordt weergegeven.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"></location>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel externe synths en effecten in</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
@@ -319,7 +320,10 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien ingeschakeld kunnen synths en effecten geladen via load_synthdefs worden getriggered.
+
+Indien uitgeschakeld zal Sonic Pi een waarschuwing geven indien 
+je probeert een synth of effect te gebruiken dat niet wordt herkend.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="983"></location>
