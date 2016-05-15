@@ -232,7 +232,7 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
     <message>
         <location filename="../mainwindow.cpp" line="957"></location>
         <source>Logging</source>
-        <translation>Logging</translation>
+        <translation>Loggen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
@@ -258,27 +258,27 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Stereo inverteren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"></location>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono geluid forceren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="960"></location>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths en effecten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Wijzig gedrag van synths en effecten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="963"></location>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Log synths</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="969"></location>
@@ -290,7 +290,9 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel het loggen van cues in of uit.
+Indien uitgeschakeld zullen cues nog altijd triggeren,
+maar zij zullen niet zichtbaar zijn in het logvenster.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="972"></location>
