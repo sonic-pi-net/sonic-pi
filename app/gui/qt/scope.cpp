@@ -56,9 +56,8 @@ ScopePanel::~ScopePanel()
 {
 }
 
-bool ScopePanel::toggleAxes()
+bool ScopePanel::setAxes(bool b)
 {
-  bool b = !plot.axisEnabled(QwtPlot::Axis::yLeft);
   plot.enableAxis(QwtPlot::Axis::yLeft,b);
   if( b )
   {
@@ -131,24 +130,23 @@ Scope::~Scope()
 {
 }
 
-bool Scope::toggleLeftScope()
+bool Scope::setLeftScope(bool b)
 {
-  bool b = !left.isVisible();
   left.setVisible(b);
   return b;
 }
 
-bool Scope::toggleRightScope()
+bool Scope::setRightScope(bool b)
 {
-  bool b = !right.isVisible();
   right.setVisible(b);
   return b;
 }
 
-bool Scope::toggleScopeAxes()
+bool Scope::setScopeAxes(bool on)
 {
-  left.toggleAxes();
-  return right.toggleAxes();
+  left.setAxes(on);
+  right.setAxes(on);
+  return on;
 }
 
 void Scope::refreshScope() {

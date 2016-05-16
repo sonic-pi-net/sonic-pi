@@ -1122,19 +1122,19 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *scope_box = new QGroupBox();
   QGridLayout* scope_box_layout = new QGridLayout();
-  QCheckBox *show_left = new QCheckBox(tr("Left Channel"));
-  show_left->setChecked(true);
-  QCheckBox *show_right = new QCheckBox(tr("Right Channel"));
-  show_right->setChecked(true);
-  QCheckBox *show_axes = new QCheckBox(tr("Show Axes"));
-  show_axes->setChecked(true);
-  scope_box_layout->addWidget(show_left);
-  scope_box_layout->addWidget(show_right);
-  scope_box_layout->addWidget(show_axes);
+  show_left_scope = new QCheckBox(tr("Left Channel"));
+  show_left_scope->setChecked(true);
+  show_right_scope = new QCheckBox(tr("Right Channel"));
+  show_right_scope->setChecked(true);
+  show_scope_axes = new QCheckBox(tr("Show Axes"));
+  show_scope_axes->setChecked(true);
+  scope_box_layout->addWidget(show_left_scope);
+  scope_box_layout->addWidget(show_right_scope);
+  scope_box_layout->addWidget(show_scope_axes);
   scope_box->setLayout(scope_box_layout);
-  connect(show_left, SIGNAL(clicked()), this, SLOT(toggleLeftScope()));
-  connect(show_right, SIGNAL(clicked()), this, SLOT(toggleRightScope()));
-  connect(show_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+  connect(show_left_scope, SIGNAL(clicked()), this, SLOT(toggleLeftScope()));
+  connect(show_right_scope, SIGNAL(clicked()), this, SLOT(toggleRightScope()));
+  connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
   prefTabs->addTab(scope_box, tr("Scope"));
 
 
@@ -1207,6 +1207,10 @@ void MainWindow::initPrefsWindow() {
 
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
+
+  show_left_scope->setChecked( scopeInterface->setLeftScope( settings.value("prefs/scope/show-left", true).toBool() ) );
+  show_right_scope->setChecked( scopeInterface->setRightScope( settings.value("prefs/scope/show-right", true).toBool() ) );
+  show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", true).toBool() ) );
 
   // Ensure prefs are honoured on boot
   update_mixer_invert_stereo();
@@ -1758,17 +1762,17 @@ void MainWindow::changeRPSystemVol(int)
 
 void MainWindow::toggleLeftScope() 
 {
-  scopeInterface->toggleLeftScope();
+  scopeInterface->setLeftScope(show_left_scope->isChecked());
 }
 
 void MainWindow::toggleRightScope()
 {
-  scopeInterface->toggleRightScope();
+  scopeInterface->setRightScope(show_right_scope->isChecked());
 }
 
 void MainWindow::toggleScopeAxes()
 {
-  scopeInterface->toggleScopeAxes();
+  scopeInterface->setScopeAxes(show_scope_axes->isChecked());
 }
 
 void MainWindow::toggleDarkMode() {
@@ -2628,6 +2632,10 @@ void MainWindow::writeSettings()
   settings.setValue("docsplitState", docsplit->saveState());
   settings.setValue("windowState", saveState());
   settings.setValue("windowGeom", saveGeometry());
+
+  settings.setValue("prefs/scope/show-left", show_left_scope->isChecked() );
+  settings.setValue("prefs/scope/show-right", show_right_scope->isChecked() );
+  settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)

@@ -36,7 +36,7 @@ public:
   void setChannel( unsigned int i );
   void setReader( scope_buffer_reader* shmReader );
   void refresh();
-  bool toggleAxes();
+  bool setAxes( bool on );
 
 private:
   std::string name;
@@ -58,9 +58,9 @@ public:
   Scope( QWidget* parent = 0 );
   virtual ~Scope();
 
-  bool toggleLeftScope();
-  bool toggleRightScope();
-  bool toggleScopeAxes();
+  bool setLeftScope(bool on);
+  bool setRightScope(bool on);
+  bool setScopeAxes(bool on);
 
 private slots:
   void refreshScope();
