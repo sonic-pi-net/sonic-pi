@@ -340,7 +340,7 @@ Cette vérification implique l'envoi d'informations anonymes à propos de votre 
     <message>
         <location filename="../mainwindow.cpp" line="1047"></location>
         <source>Look and Feel</source>
-        <translation>Look and Feel</translation>
+        <translation>Regarde et ressent</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"></location>
@@ -869,7 +869,7 @@ Obtenez Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="522"></location>
         <source>Synths</source>
-        <translation>Synths</translation>
+        <translation>synthétiseur</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="564"></location>
