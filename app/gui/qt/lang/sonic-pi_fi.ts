@@ -15,8 +15,8 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"/>
-        <location filename="../mainwindow.cpp" line="2608"/>
-        <location filename="../mainwindow.cpp" line="2628"/>
+        <location filename="../mainwindow.cpp" line="2609"/>
+        <location filename="../mainwindow.cpp" line="2629"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
@@ -111,31 +111,31 @@ kerta kun käynnistä-nappia painetaan.</translation>
         <translation>Tumma tila</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1448"/>
+        <location filename="../mainwindow.cpp" line="1449"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
         <translation>Suorittaa koodia...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="1512"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
         <translation>Kaunistaa...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1531"/>
+        <location filename="../mainwindow.cpp" line="1532"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
         <translation>Lataa uudelleen...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1562"/>
+        <location filename="../mainwindow.cpp" line="1563"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
         <translation>Mikserin HPF käyttöön...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1571"/>
+        <location filename="../mainwindow.cpp" line="1572"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
         <translation>Mikserin HPF:n poistaminen...</translation>
@@ -237,7 +237,7 @@ tuottaa odottamattoman kovia tai epämiellyttäviä ääniä.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"/>
-        <location filename="../mainwindow.cpp" line="2361"/>
+        <location filename="../mainwindow.cpp" line="2362"/>
         <source>Scope</source>
         <translation>Oskilloskooppi</translation>
     </message>
@@ -533,42 +533,42 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
         <translation>Kaikki tiedostot</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1753"/>
+        <location filename="../mainwindow.cpp" line="1754"/>
         <source>Log Auto Scroll on...</source>
         <translation>Lokin automaattinen vieritys päällä...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1755"/>
+        <location filename="../mainwindow.cpp" line="1756"/>
         <source>Log Auto Scroll off...</source>
         <translation>Lokin automaattinen vieritys pois päältä...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2339"/>
+        <location filename="../mainwindow.cpp" line="2340"/>
         <source>Run the code in the current buffer</source>
         <translation>Aja koodi nykyisessä puskurissa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2352"/>
+        <location filename="../mainwindow.cpp" line="2353"/>
         <source>Load</source>
         <translation>Lataa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2353"/>
+        <location filename="../mainwindow.cpp" line="2354"/>
         <source>Load an external file in the current buffer</source>
         <translation>Lataa ulkoinen tiedosto nykyiseen puskuriin</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2362"/>
+        <location filename="../mainwindow.cpp" line="2363"/>
         <source>View audio output</source>
         <translation>Katso äänen ulostulo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2509"/>
+        <location filename="../mainwindow.cpp" line="2510"/>
         <source>Wavefile (*.wav)</source>
         <translation>Wave-tiedosto (*.wav)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2909"/>
+        <location filename="../mainwindow.cpp" line="2910"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>Tervetuloa takaisin. Nyt aloita live-koodaus...</translation>
     </message>
@@ -578,183 +578,183 @@ Pahoittelut, vakava virhe käynnistäessä</translation>
         <translation>Tallenna nykyinen puskuri</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1497"/>
+        <location filename="../mainwindow.cpp" line="1498"/>
         <source>Zooming In...</source>
         <translation>Lähentää...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1504"/>
+        <location filename="../mainwindow.cpp" line="1505"/>
         <source>Zooming Out...</source>
         <translation>Loitontaa...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1538"/>
+        <location filename="../mainwindow.cpp" line="1539"/>
         <source>Checking for updates...</source>
         <translation>Päivityksiä tarkistetaan...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1546"/>
+        <location filename="../mainwindow.cpp" line="1547"/>
         <source>Enabling update checking...</source>
         <translation>Päivitysten tarkistus käyttöön...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1554"/>
+        <location filename="../mainwindow.cpp" line="1555"/>
         <source>Disabling update checking...</source>
         <translation>Päivitysten tarkistus pois käytöstä...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1579"/>
+        <location filename="../mainwindow.cpp" line="1580"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
         <translation>Mikserin LPF käyttöön...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
+        <location filename="../mainwindow.cpp" line="1589"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
         <translation>Mikserin LPF pois käytöstä...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1596"/>
+        <location filename="../mainwindow.cpp" line="1597"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
         <translation>Invertoitu stereo käyttöön...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1604"/>
+        <location filename="../mainwindow.cpp" line="1605"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
         <translation>Normaali stereo käyttöön...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1612"/>
+        <location filename="../mainwindow.cpp" line="1613"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
         <translation>Monotila...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1620"/>
+        <location filename="../mainwindow.cpp" line="1621"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
         <translation>Stereotila...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1629"/>
+        <location filename="../mainwindow.cpp" line="1630"/>
         <source>Stopping...</source>
         <translation>Pysäytetään...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1737"/>
+        <location filename="../mainwindow.cpp" line="1738"/>
         <source>Updating System Volume...</source>
         <translation>Päivitetään järjestelmää...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2156"/>
+        <location filename="../mainwindow.cpp" line="2157"/>
         <source>Switching To Headphone Audio Output...</source>
         <translation>Vaihdetaan kuulokeliitäntään...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2172"/>
+        <location filename="../mainwindow.cpp" line="2173"/>
         <source>Switching To HDMI Audio Output...</source>
         <translation>Vaihdetaan HDMI-audioliitäntään...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2187"/>
+        <location filename="../mainwindow.cpp" line="2188"/>
         <source>Switching To Default Audio Output...</source>
         <translation>Vaihdetaan oletus audio-ulostuloon...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2349"/>
+        <location filename="../mainwindow.cpp" line="2350"/>
         <source>Save current buffer as an external file</source>
         <translation>Tallenna nykyinen puskuri ulkoiseen tiedostoon</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2375"/>
+        <location filename="../mainwindow.cpp" line="2376"/>
         <source>Start recording to WAV audio file</source>
         <translation>Aloitetaan nauhoitus WAV-äänitiedostoon</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2380"/>
+        <location filename="../mainwindow.cpp" line="2381"/>
         <source>Improve readability of code</source>
         <translation>Paranna koodin luettavuutta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2528"/>
+        <location filename="../mainwindow.cpp" line="2529"/>
         <source>Ready...</source>
         <translation>Valmis...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2620"/>
+        <location filename="../mainwindow.cpp" line="2621"/>
         <source>File loaded...</source>
         <translation>Tiedosto ladattu...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2647"/>
+        <location filename="../mainwindow.cpp" line="2648"/>
         <source>File saved...</source>
         <translation>Tiedosto tallennettu...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2874"/>
+        <location filename="../mainwindow.cpp" line="2875"/>
         <source>Last checked %1</source>
         <translation>Viimeksi tarkistettu %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2876"/>
+        <location filename="../mainwindow.cpp" line="2877"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
         <translation>Sonic Pi tarkistaa päivitykset 
 kahden viikon välein.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2878"/>
+        <location filename="../mainwindow.cpp" line="2879"/>
         <source>This is Sonic Pi %1</source>
         <translation>Tämä on Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2879"/>
+        <location filename="../mainwindow.cpp" line="2880"/>
         <source>Version %2 is now available!</source>
         <translation>Versio %2 on nyt saatavilla!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2883"/>
+        <location filename="../mainwindow.cpp" line="2884"/>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>Uusi versio saatavilla!
 Lataa Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2338"/>
+        <location filename="../mainwindow.cpp" line="2339"/>
         <source>Run</source>
         <translation>Suorita</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2344"/>
+        <location filename="../mainwindow.cpp" line="2345"/>
         <source>Stop</source>
         <translation>Pysäytä</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2345"/>
+        <location filename="../mainwindow.cpp" line="2346"/>
         <source>Stop all running code</source>
         <translation>Pysäytä kaikki käynnissä oleva koodi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2348"/>
+        <location filename="../mainwindow.cpp" line="2349"/>
         <source>Save As...</source>
         <translation>Tallenna nimellä...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2356"/>
+        <location filename="../mainwindow.cpp" line="2357"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2357"/>
+        <location filename="../mainwindow.cpp" line="2358"/>
         <source>See information about Sonic Pi</source>
         <translation>Lisätietoja Sonic Pi:stä</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="514"/>
-        <location filename="../mainwindow.cpp" line="2365"/>
+        <location filename="../mainwindow.cpp" line="2366"/>
         <source>Help</source>
         <translation>Ohje</translation>
     </message>
@@ -779,103 +779,103 @@ Lataa Sonic Pi %1</translation>
         <translation>Harkitse ilmoittamaan bugista</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2366"/>
+        <location filename="../mainwindow.cpp" line="2367"/>
         <source>Toggle help pane</source>
         <translation>Näytä tai piilota ohjeruutu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2369"/>
+        <location filename="../mainwindow.cpp" line="2370"/>
         <source>Prefs</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2370"/>
+        <location filename="../mainwindow.cpp" line="2371"/>
         <source>Toggle preferences pane</source>
         <translation>Näytä/piilota asetusruutu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2374"/>
-        <location filename="../mainwindow.cpp" line="2503"/>
+        <location filename="../mainwindow.cpp" line="2375"/>
         <location filename="../mainwindow.cpp" line="2504"/>
+        <location filename="../mainwindow.cpp" line="2505"/>
         <source>Start Recording</source>
         <translation>Aloita äänitys</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2379"/>
+        <location filename="../mainwindow.cpp" line="2380"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
         <translation>Tasaa teksti automaattisesti</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2386"/>
+        <location filename="../mainwindow.cpp" line="2387"/>
         <source>Increase Text Size</source>
         <translation>Suurenna tekstikokoa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2393"/>
+        <location filename="../mainwindow.cpp" line="2394"/>
         <source>Decrease Text Size</source>
         <translation>Pienennä tekstikokoa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2398"/>
+        <location filename="../mainwindow.cpp" line="2399"/>
         <source>Tools</source>
         <translation>Työkalut</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2449"/>
+        <location filename="../mainwindow.cpp" line="2450"/>
         <source>About</source>
         <translation>Tietoja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2450"/>
+        <location filename="../mainwindow.cpp" line="2451"/>
         <source>Core Team</source>
         <translation>Ydintiimi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2451"/>
+        <location filename="../mainwindow.cpp" line="2452"/>
         <source>Contributors</source>
         <translation>Avustajat</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2452"/>
+        <location filename="../mainwindow.cpp" line="2453"/>
         <source>Community</source>
         <translation>Yhteisö</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2453"/>
+        <location filename="../mainwindow.cpp" line="2454"/>
         <source>License</source>
         <translation>Lisenssi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2454"/>
+        <location filename="../mainwindow.cpp" line="2455"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2475"/>
+        <location filename="../mainwindow.cpp" line="2476"/>
         <source>Sonic Pi - Info</source>
         <translation>Sonic Pi - Info</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2495"/>
         <location filename="../mainwindow.cpp" line="2496"/>
+        <location filename="../mainwindow.cpp" line="2497"/>
         <source>Stop Recording</source>
         <translation>Lopeta nauhoitus</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2509"/>
+        <location filename="../mainwindow.cpp" line="2510"/>
         <source>Save Recording</source>
         <translation>Tallenna nauhoitus</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2609"/>
+        <location filename="../mainwindow.cpp" line="2610"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>Ei voi lukea tiedostoa %1
 %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2629"/>
+        <location filename="../mainwindow.cpp" line="2630"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>Ei voi kirjoittaa tiedostoa %1

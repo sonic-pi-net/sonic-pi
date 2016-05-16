@@ -25,14 +25,14 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="514"/>
-        <location filename="../mainwindow.cpp" line="2365"/>
+        <location filename="../mainwindow.cpp" line="2366"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"/>
-        <location filename="../mainwindow.cpp" line="2608"/>
-        <location filename="../mainwindow.cpp" line="2628"/>
+        <location filename="../mainwindow.cpp" line="2609"/>
+        <location filename="../mainwindow.cpp" line="2629"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
@@ -115,7 +115,7 @@ fuertes o incómodos.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"/>
-        <location filename="../mainwindow.cpp" line="2361"/>
+        <location filename="../mainwindow.cpp" line="2362"/>
         <source>Scope</source>
         <translation type="unfinished"></translation>
     </message>
@@ -463,12 +463,12 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
         <translation>Error en la carga de servidor...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2339"/>
+        <location filename="../mainwindow.cpp" line="2340"/>
         <source>Run the code in the current buffer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2883"/>
+        <location filename="../mainwindow.cpp" line="2884"/>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation type="unfinished"></translation>
@@ -522,326 +522,326 @@ Apologies, a critical error occurred during startup</source>
         <translation>Guardar el buffer actual</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1448"/>
+        <location filename="../mainwindow.cpp" line="1449"/>
         <source>Running Code...</source>
         <translation>Corriendo el código...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1497"/>
+        <location filename="../mainwindow.cpp" line="1498"/>
         <source>Zooming In...</source>
         <translation>Aumentando zoom...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1504"/>
+        <location filename="../mainwindow.cpp" line="1505"/>
         <source>Zooming Out...</source>
         <translation>Disminuyendo zoom...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="1512"/>
         <source>Beautifying...</source>
         <translation>Mejorando interfaz...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1531"/>
+        <location filename="../mainwindow.cpp" line="1532"/>
         <source>Reloading...</source>
         <translation>Recargando...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1538"/>
+        <location filename="../mainwindow.cpp" line="1539"/>
         <source>Checking for updates...</source>
         <translation>Comprobando actualizaciones...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1546"/>
+        <location filename="../mainwindow.cpp" line="1547"/>
         <source>Enabling update checking...</source>
         <translation>Habilitando el chequeo de actualizaciones...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1554"/>
+        <location filename="../mainwindow.cpp" line="1555"/>
         <source>Disabling update checking...</source>
         <translation>Deshabilitando el chequeo de actualizaciones...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1562"/>
+        <location filename="../mainwindow.cpp" line="1563"/>
         <source>Enabling Mixer HPF...</source>
         <translation>Habilitando Mixer HPF...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1571"/>
+        <location filename="../mainwindow.cpp" line="1572"/>
         <source>Disabling Mixer HPF...</source>
         <translation>Deshabilitando chequeo HPF...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1579"/>
+        <location filename="../mainwindow.cpp" line="1580"/>
         <source>Enabling Mixer LPF...</source>
         <translation>Habilitando Mixer LPF...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
+        <location filename="../mainwindow.cpp" line="1589"/>
         <source>Disabling Mixer LPF...</source>
         <translation>Deshabilitando Mixer LPF...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1596"/>
+        <location filename="../mainwindow.cpp" line="1597"/>
         <source>Enabling Inverted Stereo...</source>
         <translation>Habilitando Estéreo Invertido...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1604"/>
+        <location filename="../mainwindow.cpp" line="1605"/>
         <source>Enabling Standard Stereo...</source>
         <translation>Habilitando Estéreo Estándar...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1612"/>
+        <location filename="../mainwindow.cpp" line="1613"/>
         <source>Mono Mode...</source>
         <translation>Modo Mono...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1620"/>
+        <location filename="../mainwindow.cpp" line="1621"/>
         <source>Stereo Mode...</source>
         <translation>Modo Estéreo...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1629"/>
+        <location filename="../mainwindow.cpp" line="1630"/>
         <source>Stopping...</source>
         <translation>Parando...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1737"/>
+        <location filename="../mainwindow.cpp" line="1738"/>
         <source>Updating System Volume...</source>
         <translation>Actualizando volumen del sistema...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1753"/>
+        <location filename="../mainwindow.cpp" line="1754"/>
         <source>Log Auto Scroll on...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1755"/>
+        <location filename="../mainwindow.cpp" line="1756"/>
         <source>Log Auto Scroll off...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2156"/>
+        <location filename="../mainwindow.cpp" line="2157"/>
         <source>Switching To Headphone Audio Output...</source>
         <translation>Cambiando a salida de audio por auriculares...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2172"/>
+        <location filename="../mainwindow.cpp" line="2173"/>
         <source>Switching To HDMI Audio Output...</source>
         <translation>Cambiando a salida de audio por HDMI...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2187"/>
+        <location filename="../mainwindow.cpp" line="2188"/>
         <source>Switching To Default Audio Output...</source>
         <translation>Cambiando a salida de audio por defecto...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2338"/>
+        <location filename="../mainwindow.cpp" line="2339"/>
         <source>Run</source>
         <translation>Ejecutar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2344"/>
+        <location filename="../mainwindow.cpp" line="2345"/>
         <source>Stop</source>
         <translation>Parar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2345"/>
+        <location filename="../mainwindow.cpp" line="2346"/>
         <source>Stop all running code</source>
         <translation>Parar todo el código que se encuentre ejecutándose</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2348"/>
+        <location filename="../mainwindow.cpp" line="2349"/>
         <source>Save As...</source>
         <translation>Guardar como...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2349"/>
+        <location filename="../mainwindow.cpp" line="2350"/>
         <source>Save current buffer as an external file</source>
         <translation>Guardar el búffer actual como un archivo externo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2352"/>
+        <location filename="../mainwindow.cpp" line="2353"/>
         <source>Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2353"/>
+        <location filename="../mainwindow.cpp" line="2354"/>
         <source>Load an external file in the current buffer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2356"/>
+        <location filename="../mainwindow.cpp" line="2357"/>
         <source>Info</source>
         <translation>Información</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2357"/>
+        <location filename="../mainwindow.cpp" line="2358"/>
         <source>See information about Sonic Pi</source>
         <translation>Mira información sobre Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2362"/>
+        <location filename="../mainwindow.cpp" line="2363"/>
         <source>View audio output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2366"/>
+        <location filename="../mainwindow.cpp" line="2367"/>
         <source>Toggle help pane</source>
         <translation>Cambiar opción para mostrar panel de ayuda</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2369"/>
+        <location filename="../mainwindow.cpp" line="2370"/>
         <source>Prefs</source>
         <translation>Preferencias</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2370"/>
+        <location filename="../mainwindow.cpp" line="2371"/>
         <source>Toggle preferences pane</source>
         <translation>Cambiar opción para mostrar panel de preferencias</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2374"/>
-        <location filename="../mainwindow.cpp" line="2503"/>
+        <location filename="../mainwindow.cpp" line="2375"/>
         <location filename="../mainwindow.cpp" line="2504"/>
+        <location filename="../mainwindow.cpp" line="2505"/>
         <source>Start Recording</source>
         <translation>Empezar Grabación</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2375"/>
+        <location filename="../mainwindow.cpp" line="2376"/>
         <source>Start recording to WAV audio file</source>
         <translation>Empezar grabación en archivo de audio WAV</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2379"/>
+        <location filename="../mainwindow.cpp" line="2380"/>
         <source>Auto-Align Text</source>
         <translation>Alinear texto automáticamente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2380"/>
+        <location filename="../mainwindow.cpp" line="2381"/>
         <source>Improve readability of code</source>
         <translation>Mejorar legibilidad del código</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2386"/>
+        <location filename="../mainwindow.cpp" line="2387"/>
         <source>Increase Text Size</source>
         <translation>Incrementar tamaño del texto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2393"/>
+        <location filename="../mainwindow.cpp" line="2394"/>
         <source>Decrease Text Size</source>
         <translation>Decrementar tamaño del texto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2398"/>
+        <location filename="../mainwindow.cpp" line="2399"/>
         <source>Tools</source>
         <translation>Herramientas</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2449"/>
+        <location filename="../mainwindow.cpp" line="2450"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2450"/>
+        <location filename="../mainwindow.cpp" line="2451"/>
         <source>Core Team</source>
         <translation>Miembros del Equipo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2451"/>
+        <location filename="../mainwindow.cpp" line="2452"/>
         <source>Contributors</source>
         <translation>Contribuyentes</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2452"/>
+        <location filename="../mainwindow.cpp" line="2453"/>
         <source>Community</source>
         <translation>Comunidad</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2453"/>
+        <location filename="../mainwindow.cpp" line="2454"/>
         <source>License</source>
         <translation>Licencia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2454"/>
+        <location filename="../mainwindow.cpp" line="2455"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2475"/>
+        <location filename="../mainwindow.cpp" line="2476"/>
         <source>Sonic Pi - Info</source>
         <translation>Sonic Pi - Información</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2495"/>
         <location filename="../mainwindow.cpp" line="2496"/>
+        <location filename="../mainwindow.cpp" line="2497"/>
         <source>Stop Recording</source>
         <translation>Parar Grabación</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2509"/>
+        <location filename="../mainwindow.cpp" line="2510"/>
         <source>Save Recording</source>
         <translation>Guardar Grabación</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2509"/>
+        <location filename="../mainwindow.cpp" line="2510"/>
         <source>Wavefile (*.wav)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2528"/>
+        <location filename="../mainwindow.cpp" line="2529"/>
         <source>Ready...</source>
         <translation>Listo...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2609"/>
+        <location filename="../mainwindow.cpp" line="2610"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>No se puede leer el archivo %1: 
 %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2620"/>
+        <location filename="../mainwindow.cpp" line="2621"/>
         <source>File loaded...</source>
         <translation>Archivo cargado...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2629"/>
+        <location filename="../mainwindow.cpp" line="2630"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>No se puede escribir en archivo %1: 
 %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2647"/>
+        <location filename="../mainwindow.cpp" line="2648"/>
         <source>File saved...</source>
         <translation>Archivos guardados...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2874"/>
+        <location filename="../mainwindow.cpp" line="2875"/>
         <source>Last checked %1</source>
         <translation>Comprobado por última vez %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2876"/>
+        <location filename="../mainwindow.cpp" line="2877"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
         <translation>Sonic Pi busca nuevas actualizaciones 
 cada 2 semanas.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2878"/>
+        <location filename="../mainwindow.cpp" line="2879"/>
         <source>This is Sonic Pi %1</source>
         <translation>Esto es Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2879"/>
+        <location filename="../mainwindow.cpp" line="2880"/>
         <source>Version %2 is now available!</source>
         <translation>¡La versión %2 se encuentra disponible!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2909"/>
+        <location filename="../mainwindow.cpp" line="2910"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>Bienvenido de vuelta. Ahora empieza a codificar música...</translation>
     </message>

@@ -15,8 +15,8 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"/>
-        <location filename="../mainwindow.cpp" line="2608"/>
-        <location filename="../mainwindow.cpp" line="2628"/>
+        <location filename="../mainwindow.cpp" line="2609"/>
+        <location filename="../mainwindow.cpp" line="2629"/>
         <source>Sonic Pi</source>
         <translation>Sonic Pi</translation>
     </message>
@@ -112,31 +112,31 @@ de fiecare data cand se apasa &apos;Executa&apos;.</translation>
         <translation>Mod intunecat</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1448"/>
+        <location filename="../mainwindow.cpp" line="1449"/>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
         <translation>Executie cod...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="1512"/>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
         <translation>Infrumusetare...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1531"/>
+        <location filename="../mainwindow.cpp" line="1532"/>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
         <translation>Reincarcare...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1562"/>
+        <location filename="../mainwindow.cpp" line="1563"/>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
         <translation>Activare Mixer HPF...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1571"/>
+        <location filename="../mainwindow.cpp" line="1572"/>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
         <translation>Dezactivare Mixer HPF...</translation>
@@ -239,7 +239,7 @@ sau chiar deranjante.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"/>
-        <location filename="../mainwindow.cpp" line="2361"/>
+        <location filename="../mainwindow.cpp" line="2362"/>
         <source>Scope</source>
         <translation>Domeniu</translation>
     </message>
@@ -537,42 +537,42 @@ Scuze, a aparut o eroare critica la pornire</translation>
         <translation>Toate fisierele</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1753"/>
+        <location filename="../mainwindow.cpp" line="1754"/>
         <source>Log Auto Scroll on...</source>
         <translation>Derulare automata jurnal activa...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1755"/>
+        <location filename="../mainwindow.cpp" line="1756"/>
         <source>Log Auto Scroll off...</source>
         <translation>Derulare automata jurnal inactiva...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2339"/>
+        <location filename="../mainwindow.cpp" line="2340"/>
         <source>Run the code in the current buffer</source>
         <translation>Executa codul din bufferul curent</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2352"/>
+        <location filename="../mainwindow.cpp" line="2353"/>
         <source>Load</source>
         <translation>Incarca</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2353"/>
+        <location filename="../mainwindow.cpp" line="2354"/>
         <source>Load an external file in the current buffer</source>
         <translation>Incarca un fisier extern in bufferul curent</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2362"/>
+        <location filename="../mainwindow.cpp" line="2363"/>
         <source>View audio output</source>
         <translation>Vezi iesire audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2509"/>
+        <location filename="../mainwindow.cpp" line="2510"/>
         <source>Wavefile (*.wav)</source>
         <translation>Fisier wave (*.wav)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2909"/>
+        <location filename="../mainwindow.cpp" line="2910"/>
         <source>Welcome back. Now get your live code on...</source>
         <translation>Bine ai revenit. Sa prornim programarea live...</translation>
     </message>
@@ -582,183 +582,183 @@ Scuze, a aparut o eroare critica la pornire</translation>
         <translation>Salveaza buffer curent</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1497"/>
+        <location filename="../mainwindow.cpp" line="1498"/>
         <source>Zooming In...</source>
         <translation>Afisare marita...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1504"/>
+        <location filename="../mainwindow.cpp" line="1505"/>
         <source>Zooming Out...</source>
         <translation>Afisare micsorata...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1538"/>
+        <location filename="../mainwindow.cpp" line="1539"/>
         <source>Checking for updates...</source>
         <translation>Verificare actualizari...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1546"/>
+        <location filename="../mainwindow.cpp" line="1547"/>
         <source>Enabling update checking...</source>
         <translation>Activare verificare actualizari...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1554"/>
+        <location filename="../mainwindow.cpp" line="1555"/>
         <source>Disabling update checking...</source>
         <translation>Dezactivare verificare actualizari...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1579"/>
+        <location filename="../mainwindow.cpp" line="1580"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
         <translation>Activare Mixer LPF...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
+        <location filename="../mainwindow.cpp" line="1589"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
         <translation>Dezactivare Mixer LPF...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1596"/>
+        <location filename="../mainwindow.cpp" line="1597"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
         <translation>Activare inversare stereo...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1604"/>
+        <location filename="../mainwindow.cpp" line="1605"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
         <translation>Activare stereo standard...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1612"/>
+        <location filename="../mainwindow.cpp" line="1613"/>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
         <translation>Mod mono...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1620"/>
+        <location filename="../mainwindow.cpp" line="1621"/>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
         <translation>Mod stereo...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1629"/>
+        <location filename="../mainwindow.cpp" line="1630"/>
         <source>Stopping...</source>
         <translation>Oprire...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1737"/>
+        <location filename="../mainwindow.cpp" line="1738"/>
         <source>Updating System Volume...</source>
         <translation>Actualizare volum sistem...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2156"/>
+        <location filename="../mainwindow.cpp" line="2157"/>
         <source>Switching To Headphone Audio Output...</source>
         <translation>Comutare la iesire audio Casti...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2172"/>
+        <location filename="../mainwindow.cpp" line="2173"/>
         <source>Switching To HDMI Audio Output...</source>
         <translation>Comutare la iesire audio HDMI...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2187"/>
+        <location filename="../mainwindow.cpp" line="2188"/>
         <source>Switching To Default Audio Output...</source>
         <translation>Comutare la iesire audio Implicita...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2349"/>
+        <location filename="../mainwindow.cpp" line="2350"/>
         <source>Save current buffer as an external file</source>
         <translation>Salvare buffer curent ca fisier extern</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2375"/>
+        <location filename="../mainwindow.cpp" line="2376"/>
         <source>Start recording to WAV audio file</source>
         <translation>Incepe inregistrare in fisier audio WAV</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2380"/>
+        <location filename="../mainwindow.cpp" line="2381"/>
         <source>Improve readability of code</source>
         <translation>Imbunatateste lizibilitate cod</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2528"/>
+        <location filename="../mainwindow.cpp" line="2529"/>
         <source>Ready...</source>
         <translation>Gata...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2620"/>
+        <location filename="../mainwindow.cpp" line="2621"/>
         <source>File loaded...</source>
         <translation>Fisier incarcat...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2647"/>
+        <location filename="../mainwindow.cpp" line="2648"/>
         <source>File saved...</source>
         <translation>Fisier salvat...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2874"/>
+        <location filename="../mainwindow.cpp" line="2875"/>
         <source>Last checked %1</source>
         <translation>Verificat ultima data %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2876"/>
+        <location filename="../mainwindow.cpp" line="2877"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
         <translation>Sonic Pi cauta actualizari
 la fiecare 2 saptamani.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2878"/>
+        <location filename="../mainwindow.cpp" line="2879"/>
         <source>This is Sonic Pi %1</source>
         <translation>Acesta este Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2879"/>
+        <location filename="../mainwindow.cpp" line="2880"/>
         <source>Version %2 is now available!</source>
         <translation>Este disponibila versiunea %2!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2883"/>
+        <location filename="../mainwindow.cpp" line="2884"/>
         <source>New version available!
 Get Sonic Pi %1</source>
         <translation>Este disponibila o noua versiune!
 Descarca Sonic Pi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2338"/>
+        <location filename="../mainwindow.cpp" line="2339"/>
         <source>Run</source>
         <translation>Executa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2344"/>
+        <location filename="../mainwindow.cpp" line="2345"/>
         <source>Stop</source>
         <translation>Opreste</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2345"/>
+        <location filename="../mainwindow.cpp" line="2346"/>
         <source>Stop all running code</source>
         <translation>Opreste tot</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2348"/>
+        <location filename="../mainwindow.cpp" line="2349"/>
         <source>Save As...</source>
         <translation>Salveaza ca...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2356"/>
+        <location filename="../mainwindow.cpp" line="2357"/>
         <source>Info</source>
         <translation>Informatii</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2357"/>
+        <location filename="../mainwindow.cpp" line="2358"/>
         <source>See information about Sonic Pi</source>
         <translation>Vezi informatii despre Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="514"/>
-        <location filename="../mainwindow.cpp" line="2365"/>
+        <location filename="../mainwindow.cpp" line="2366"/>
         <source>Help</source>
         <translation>Ajutor</translation>
     </message>
@@ -783,103 +783,103 @@ Descarca Sonic Pi %1</translation>
         <translation>Ai putea raporta eroarea la</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2366"/>
+        <location filename="../mainwindow.cpp" line="2367"/>
         <source>Toggle help pane</source>
         <translation>Activare panou ajutor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2369"/>
+        <location filename="../mainwindow.cpp" line="2370"/>
         <source>Prefs</source>
         <translation>Preferinte</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2370"/>
+        <location filename="../mainwindow.cpp" line="2371"/>
         <source>Toggle preferences pane</source>
         <translation>Activare panou preferinte</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2374"/>
-        <location filename="../mainwindow.cpp" line="2503"/>
+        <location filename="../mainwindow.cpp" line="2375"/>
         <location filename="../mainwindow.cpp" line="2504"/>
+        <location filename="../mainwindow.cpp" line="2505"/>
         <source>Start Recording</source>
         <translation>Incepe inregistrarea</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2379"/>
+        <location filename="../mainwindow.cpp" line="2380"/>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
         <translation>Aliniere automata text</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2386"/>
+        <location filename="../mainwindow.cpp" line="2387"/>
         <source>Increase Text Size</source>
         <translation>Mareste dimensiunea caracterelor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2393"/>
+        <location filename="../mainwindow.cpp" line="2394"/>
         <source>Decrease Text Size</source>
         <translation>Micsoreaza dimensiunea caracterelor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2398"/>
+        <location filename="../mainwindow.cpp" line="2399"/>
         <source>Tools</source>
         <translation>Unelte</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2449"/>
+        <location filename="../mainwindow.cpp" line="2450"/>
         <source>About</source>
         <translation>Despre Sonic Pi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2450"/>
+        <location filename="../mainwindow.cpp" line="2451"/>
         <source>Core Team</source>
         <translation>Echipa de baza</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2451"/>
+        <location filename="../mainwindow.cpp" line="2452"/>
         <source>Contributors</source>
         <translation>Au contribuit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2452"/>
+        <location filename="../mainwindow.cpp" line="2453"/>
         <source>Community</source>
         <translation>Comunitate</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2453"/>
+        <location filename="../mainwindow.cpp" line="2454"/>
         <source>License</source>
         <translation>Licenta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2454"/>
+        <location filename="../mainwindow.cpp" line="2455"/>
         <source>History</source>
         <translation>Istoric</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2475"/>
+        <location filename="../mainwindow.cpp" line="2476"/>
         <source>Sonic Pi - Info</source>
         <translation>Sonic Pi - Informatii</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2495"/>
         <location filename="../mainwindow.cpp" line="2496"/>
+        <location filename="../mainwindow.cpp" line="2497"/>
         <source>Stop Recording</source>
         <translation>Opreste inregistrarea</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2509"/>
+        <location filename="../mainwindow.cpp" line="2510"/>
         <source>Save Recording</source>
         <translation>Salveaza inregistrarea</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2609"/>
+        <location filename="../mainwindow.cpp" line="2610"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>Nu pot citi fisierul %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2629"/>
+        <location filename="../mainwindow.cpp" line="2630"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>Nu pot scrie fisierul %1:

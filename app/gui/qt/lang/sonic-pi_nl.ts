@@ -31,7 +31,7 @@
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
         <translation>Wissel stereo kanalen.
-Indien ingeschakeld zijn het linker en rechter geluidskanaal omgewisseld</translation>
+Indien ingeschakeld wordt het geluid voor de linker speaker naar de rechter speaker gestuurd, en omgekeerd.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
@@ -40,129 +40,138 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel mono in of uit.
+Indien ingeschakeld wordt zowel rechts als links kanaal gemixt,
+en wordt hetzelfde signaal naar beide speakers gestuurd.
+Dit kan nuttig zijn wanneer gewerkt wordt met externe systemen
+die enkel met mono geluid overweg kunnen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi Audio Uitgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"></location>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan&amp;daard instelling</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hoofdtelefoon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Configureer de debugger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel logberichten in of uit.
+Wanneer deze uitgeschakeld worden
+zullen activiteiten zoals triggers bij synths en samples
+standaard niet naar het logbestand geschreven worden.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"></location>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Veilige modus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="966"></location>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Logbestand wissen bij afspelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Leegmaken van logvenster in- of uitschakelen.
+Wanneer ingeschakeld wordt het logvenster
+leeggemaakt telkens op afspelen wordt gedrukt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1054"></location>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel lijnnummers in of uit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1066"></location>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Donkere modus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1447"></location>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Code wordt uitgevoerd...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1510"></location>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Opleuken...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1530"></location>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Herladen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1561"></location>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mixer HPF wordt ingeschakeld...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1570"></location>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mixer HPF wordt uitgeschakeld...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Buffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Welkom in Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="708"></location>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Selectie wordt geindenteerd...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="712"></location>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijn wordt geindenteerd...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik deze slider om het systeemvolume aan te passen van je Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Geavanceerde geluidsinstellingen om met externe PA systemen te werken wanneer je optreedt met Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
@@ -175,96 +184,101 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Je Raspberry Pi heeft twee vormen van audio output.
+Ten eerste heb je de hoofdtelefoonuitgang van de Raspberry Pi zelf.
+Ten tweede hebben sommige HDMI monitoren of TV's ondersteuning voor audio via de HDMI poort.
+Gebruik deze knoppen om de output door de uitgang die je verkiest te sturen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1012"></location>
         <location filename="../mainwindow.cpp" line="1144"></location>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Updates</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1014"></location>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Check of er nieuwe updates zijn</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1118"></location>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1053"></location>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon lijnnummers</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="277"></location>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi update info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="914"></location>
         <source>Advanced Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Geavanceerde Audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel functies in die argumenten voor synths controleren.
+Indien je dit uitschakelt kunnen bepaalde synth opties
+er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="957"></location>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Loggen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2360"></location>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Bereik</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="741"></location>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel commentaar aan of uit voor de selectie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="745"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel commentaar per lijn aan of uit...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="803"></location>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>De Sonic Pi Server kon niet worden gestart!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Stereo inverteren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"></location>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mono geluid forceren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="960"></location>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synths en effecten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Wijzig gedrag van synths en effecten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="963"></location>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Log synths</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="969"></location>
@@ -276,23 +290,26 @@ create unexpectedly loud or uncomfortable sounds.</source>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel het loggen van cues in of uit.
+Indien uitgeschakeld zullen cues nog altijd triggeren,
+maar zij zullen niet zichtbaar zijn in het logvenster.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="972"></location>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Log auto scroll</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel auto scrolling in of uit.
+Indien ingeschakeld scrollt het logvenster automatisch tot beneden nadat elk nieuw bericht wordt weergegeven.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"></location>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel externe synths en effecten in</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
@@ -303,7 +320,10 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indien ingeschakeld kunnen synths en effecten geladen via load_synthdefs worden getriggered.
+
+Indien uitgeschakeld zal Sonic Pi een waarschuwing geven indien 
+je probeert een synth of effect te gebruiken dat niet wordt herkend.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="983"></location>
