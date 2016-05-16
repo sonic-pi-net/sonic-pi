@@ -40,16 +40,16 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Schakel mono in of uit.
-Indien ingeschakeld wordt zowel rechts als links kanaal gemixt,
-en wordt hetzelfde signaal naar beide speakers gestuurd.
+        <translation>Schakel mono in/uit.
+Indien ingeschakeld,worden het rechtse en het linkse kanaal samengevoegd en
+wordt hetzelfde signaal naar beide luidsprekers gestuurd.
 Dit kan nuttig zijn wanneer gewerkt wordt met externe systemen
 die enkel met mono geluid overweg kunnen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="933"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation>Raspberry Pi Audio Uitgang</translation>
+        <translation>Raspberry Pi Audio-Uitgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="935"></location>
@@ -59,7 +59,7 @@ die enkel met mono geluid overweg kunnen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Headphones</source>
-        <translation>&amp;Hoofdtelefoon</translation>
+        <translation>&amp; Hoofdtelefoon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
@@ -69,14 +69,14 @@ die enkel met mono geluid overweg kunnen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Configure debug behaviour</source>
-        <translation>Configureer de debugger</translation>
+        <translation>Configureer de „debugger"</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Schakel logberichten in of uit.
+        <translation>Schakel logberichten in/uit.
 Wanneer deze uitgeschakeld worden
 zullen activiteiten zoals triggers bij synths en samples
 standaard niet naar het logbestand geschreven worden.</translation>
@@ -89,7 +89,7 @@ standaard niet naar het logbestand geschreven worden.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="966"></location>
         <source>Clear log on run</source>
-        <translation>Logbestand wissen bij afspelen</translation>
+        <translation>Logbestand wissen tijdens afspelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
@@ -232,7 +232,7 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
     <message>
         <location filename="../mainwindow.cpp" line="957"></location>
         <source>Logging</source>
-        <translation>Loggen</translation>
+        <translation>Het „Loggen"</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
@@ -494,7 +494,7 @@ Donkere modus is ideaal voor "Live coding" in nachtclubs.</translation>
 
 Apologies, a critical error occurred during startup</source>
         <translation>Opstart fout van Sonic Pi 
-Onze excuses,een kritische fout is opgetreden, tijdens het opstarten</translation>
+Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"></location>
