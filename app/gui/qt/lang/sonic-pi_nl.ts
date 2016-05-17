@@ -59,7 +59,7 @@ die enkel met mono geluid overweg kunnen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Headphones</source>
-        <translation>&amp; Hoofdtelefoon</translation>
+        <translation>&amp;Koptelefoon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
