@@ -232,7 +232,7 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
     <message>
         <location filename="../mainwindow.cpp" line="957"></location>
         <source>Logging</source>
-        <translation>Het „Loggen"</translation>
+        <translation>Logging</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
