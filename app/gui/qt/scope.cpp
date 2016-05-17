@@ -116,7 +116,7 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
   right.setChannel(1);
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  scopeTimer->start(1);
+  scopeTimer->start(4096*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setSpacing(0);
