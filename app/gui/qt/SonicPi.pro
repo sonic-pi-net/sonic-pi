@@ -25,7 +25,6 @@ greaterThan(QT_MAJOR_VERSION, 4) {
   QT += widgets
 }
 
-QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
 
 # Linux only
 unix:!macx {
@@ -36,6 +35,7 @@ unix:!macx {
     LIBS += -lqt5scintilla2
   }
   QMAKE_CXXFLAGS += -std=gnu++11
+  QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   debug {
     QMAKE_CXXFLAGS += -ggdb
   }
@@ -44,6 +44,7 @@ unix:!macx {
 # Mac OS X only
 macx {
   QMAKE_CXXFLAGS += -I/usr/local/include
+  QMAKE_CXXFLAGS += -Wall -Werror -Wextra -Wno-unused-variable -Wno-unused-parameter
   CONFIG += warn_off
   TARGET = 'Sonic Pi'
 }
