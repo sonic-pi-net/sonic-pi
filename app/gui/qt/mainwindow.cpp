@@ -453,7 +453,8 @@ void MainWindow::setupWindowStructure() {
   scopeWidget->setFocusPolicy(Qt::NoFocus);
   scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
   scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-  scopeWidget->setWidget(new Scope);
+  scopeInterface = new Scope();
+  scopeWidget->setWidget(scopeInterface);
   scopeWidget->setObjectName("scope");
   addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
 
@@ -1007,9 +1008,6 @@ void MainWindow::initPrefsWindow() {
   transparency_box->setLayout(transparency_box_layout);
 
 
-
-
-
   QGroupBox *update_box = new QGroupBox(tr("Updates"));
   QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
   check_updates = new QCheckBox(tr("Check for updates"));
@@ -1122,6 +1120,23 @@ void MainWindow::initPrefsWindow() {
   QGroupBox *performance_box = new QGroupBox();
   performance_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
 
+  QGroupBox *scope_box = new QGroupBox();
+  QGridLayout* scope_box_layout = new QGridLayout();
+  show_left_scope = new QCheckBox(tr("Left Channel"));
+  show_left_scope->setChecked(true);
+  show_right_scope = new QCheckBox(tr("Right Channel"));
+  show_right_scope->setChecked(true);
+  show_scope_axes = new QCheckBox(tr("Show Axes"));
+  show_scope_axes->setChecked(true);
+  scope_box_layout->addWidget(show_left_scope);
+  scope_box_layout->addWidget(show_right_scope);
+  scope_box_layout->addWidget(show_scope_axes);
+  scope_box->setLayout(scope_box_layout);
+  connect(show_left_scope, SIGNAL(clicked()), this, SLOT(toggleLeftScope()));
+  connect(show_right_scope, SIGNAL(clicked()), this, SLOT(toggleRightScope()));
+  connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+  prefTabs->addTab(scope_box, tr("Scope"));
+
 
 #if defined(Q_OS_WIN)
   // do nothing
@@ -1192,6 +1207,10 @@ void MainWindow::initPrefsWindow() {
 
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
+
+  show_left_scope->setChecked( scopeInterface->setLeftScope( settings.value("prefs/scope/show-left", true).toBool() ) );
+  show_right_scope->setChecked( scopeInterface->setRightScope( settings.value("prefs/scope/show-right", true).toBool() ) );
+  show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", true).toBool() ) );
 
   // Ensure prefs are honoured on boot
   update_mixer_invert_stereo();
@@ -1739,6 +1758,21 @@ void MainWindow::changeRPSystemVol(int)
   p->start(prog);
 #endif
 
+}
+
+void MainWindow::toggleLeftScope() 
+{
+  scopeInterface->setLeftScope(show_left_scope->isChecked());
+}
+
+void MainWindow::toggleRightScope()
+{
+  scopeInterface->setRightScope(show_right_scope->isChecked());
+}
+
+void MainWindow::toggleScopeAxes()
+{
+  scopeInterface->setScopeAxes(show_scope_axes->isChecked());
 }
 
 void MainWindow::toggleDarkMode() {
@@ -2598,6 +2632,10 @@ void MainWindow::writeSettings()
   settings.setValue("docsplitState", docsplit->saveState());
   settings.setValue("windowState", saveState());
   settings.setValue("windowGeom", saveGeometry());
+
+  settings.setValue("prefs/scope/show-left", show_left_scope->isChecked() );
+  settings.setValue("prefs/scope/show-right", show_right_scope->isChecked() );
+  settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
 }
 
 void MainWindow::loadFile(const QString &fileName, SonicPiScintilla* &text)

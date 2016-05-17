@@ -20,9 +20,10 @@
 #include <QTimer>
 #include <QPainter>
 #include <QDebug>
+#include <qwt_text_label.h>
 #include <cmath>
 
-ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(parent), plot(QwtText(name.c_str()),this), max_y(0), counter(0), channel(0)
+ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this), max_y(0), counter(0), channel(0)
 {
   for( unsigned int i = 0; i < 4096; ++i )
   {
@@ -53,6 +54,19 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
 
 ScopePanel::~ScopePanel()
 {
+}
+
+bool ScopePanel::setAxes(bool b)
+{
+  plot.enableAxis(QwtPlot::Axis::yLeft,b);
+  if( b )
+  {
+    plot.setTitle(QwtText(name.c_str()));
+  } else
+  {
+    plot.setTitle(QwtText(""));
+  }
+  return b;
 }
 
 void ScopePanel::setChannel( unsigned int i )
@@ -102,7 +116,7 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
   right.setChannel(1);
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  scopeTimer->start(1);
+  scopeTimer->start(4096*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setSpacing(0);
@@ -114,6 +128,25 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
 
 Scope::~Scope()
 {
+}
+
+bool Scope::setLeftScope(bool b)
+{
+  left.setVisible(b);
+  return b;
+}
+
+bool Scope::setRightScope(bool b)
+{
+  right.setVisible(b);
+  return b;
+}
+
+bool Scope::setScopeAxes(bool on)
+{
+  left.setAxes(on);
+  right.setAxes(on);
+  return on;
 }
 
 void Scope::refreshScope() {
