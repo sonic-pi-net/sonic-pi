@@ -309,7 +309,7 @@ Indien ingeschakeld scrollt het logvenster automatisch tot beneden nadat elk nie
     <message>
         <location filename="../mainwindow.cpp" line="980"></location>
         <source>Enable external synths and FX</source>
-        <translation>Toestaan van externe synths en effecten</translation>
+        <translation>Schakel externe synths en effecten in</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
