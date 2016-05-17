@@ -102,6 +102,7 @@ TRANSLATIONS = lang/sonic-pi_de.ts \
                lang/sonic-pi_it.ts \
                lang/sonic-pi_ja.ts \
                lang/sonic-pi_nb.ts \
+               lang/sonic-pi_nl.ts \
                lang/sonic-pi_pl.ts \
                lang/sonic-pi_ro.ts \
                lang/sonic-pi_ru.ts \
