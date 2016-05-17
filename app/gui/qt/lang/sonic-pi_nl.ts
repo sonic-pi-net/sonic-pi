@@ -6,19 +6,19 @@
     <message>
         <location filename="../mainwindow.cpp" line="459"></location>
         <source>Preferences</source>
-        <translation>Voorkeursinstellingen</translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="472"></location>
         <source>Log</source>
-        <translation>Logboek</translation>
+        <translation>Log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
         <location filename="../mainwindow.cpp" line="2607"></location>
         <location filename="../mainwindow.cpp" line="2627"></location>
         <source>Sonic Pi</source>
-        <translation>"Sonic Pi"</translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="911"></location>
