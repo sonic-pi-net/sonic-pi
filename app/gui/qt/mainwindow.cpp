@@ -1456,6 +1456,7 @@ void MainWindow::resetErrorPane() {
 
 void MainWindow::runCode()
 {
+  update();
   if(auto_indent_on_run->isChecked()) {
     beautifyCode();
   }
