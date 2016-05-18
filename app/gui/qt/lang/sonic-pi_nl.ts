@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="459"></location>
         <source>Preferences</source>
-        <translation>Instellingen</translation>
+        <translation>Voorkeursinstellingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="472"></location>
@@ -43,7 +43,7 @@ can only handle mono.</source>
         <translation>Schakel mono in/uit.
 Indien ingeschakeld,worden het rechtse en het linkse kanaal samengevoegd en
 wordt hetzelfde signaal naar beide luidsprekers gestuurd.
-Dit kan nuttig zijn wanneer gewerkt wordt met externe systemen
+Dit kan nuttig zijn wanneer men werkt met externe systemen
 die enkel met mono geluid overweg kunnen.</translation>
     </message>
     <message>
@@ -69,17 +69,16 @@ die enkel met mono geluid overweg kunnen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Configure debug behaviour</source>
-        <translation>Configureer de „debugger"</translation>
+        <translation>Configureer fout-opsproring</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation>Schakel logberichten in/uit.
-Wanneer deze uitgeschakeld worden
-zullen activiteiten zoals triggers bij synths en samples
-standaard niet naar het logbestand geschreven worden.</translation>
+        <translation>Schakel log-weergave in/uit.
+Indien uitgeschakeld, zullen activiteiten zoals triggers bij synths en samples,
+niet meer standaard naar het logbestand geschreven worden.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="976"></location>
@@ -103,7 +102,7 @@ leeggemaakt telkens op afspelen wordt gedrukt.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1054"></location>
         <source>Toggle line number visibility.</source>
-        <translation>Schakel lijnnummers in of uit.</translation>
+        <translation>Schakel lijnnummers in/uit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1066"></location>
@@ -132,13 +131,13 @@ leeggemaakt telkens op afspelen wordt gedrukt.</translation>
         <location filename="../mainwindow.cpp" line="1561"></location>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation>Mixer HPF wordt ingeschakeld...</translation>
+        <translation>Mixer HPF inschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1570"></location>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation>Mixer HPF wordt uitgeschakeld...</translation>
+        <translation>Mixer HPF uitschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
@@ -148,30 +147,31 @@ leeggemaakt telkens op afspelen wordt gedrukt.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
         <source>Welcome to Sonic Pi</source>
-        <translation>Welkom in Sonic Pi</translation>
+        <translation>Welkom bij Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="708"></location>
         <source>Indenting selection...</source>
-        <translation>Selectie wordt geindenteerd...</translation>
+        <translation>Selectie inspringen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="712"></location>
         <source>Indenting line...</source>
-        <translation>Lijn wordt geindenteerd...</translation>
+        <translation>Lijn inspringen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation>Gebruik deze slider om het systeemvolume aan te passen van je Raspberry Pi.</translation>
+        <translation>Gebruik deze regelaar om het systeemvolume van je Raspberry Pi aan te passen .</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
         <oldsource>Advanced audio settings for working with external PA systems when performing with Sonic Pi.</oldsource>
-        <translation>Geavanceerde geluidsinstellingen om met externe PA systemen te werken wanneer je optreedt met Sonic Pi.</translation>
+        <translation>Geavanceerde geluidsinstellingen om met 
+externe PA systemen te werken wanneer je optreedt met Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
@@ -218,21 +218,21 @@ Gebruik deze knoppen om de output door de uitgang die je verkiest te sturen.</tr
     <message>
         <location filename="../mainwindow.cpp" line="914"></location>
         <source>Advanced Audio</source>
-        <translation>Geavanceerde Audio</translation>
+        <translation>Geavanceerde Audio-instellingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Schakel functies in die argumenten voor synths controleren.
-Indien je dit uitschakelt kunnen bepaalde synth opties
-er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.</translation>
+        <translation>De controle-functies voor synth argumenten, in/uitschakelen.
+Indien uitgeschakeld, kunnen bepaalde synth opties
+voor onverwachts luide of onaangename geluiden zorgen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="957"></location>
         <source>Logging</source>
-        <translation>Logging</translation>
+        <translation>Logregistratie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
@@ -243,7 +243,7 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
     <message>
         <location filename="../mainwindow.cpp" line="741"></location>
         <source>Toggle selection comment...</source>
-        <translation>Schakel commentaar aan of uit voor de selectie...</translation>
+        <translation>Schakel commentaar aan/uit voor de selectie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="745"></location>
@@ -263,7 +263,7 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
     <message>
         <location filename="../mainwindow.cpp" line="919"></location>
         <source>Force mono</source>
-        <translation>Mono geluid forceren</translation>
+        <translation>Herleid naar mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="960"></location>
@@ -278,7 +278,7 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
     <message>
         <location filename="../mainwindow.cpp" line="963"></location>
         <source>Log synths</source>
-        <translation>Log synthesizer</translation>
+        <translation>Log synths</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="969"></location>
@@ -290,7 +290,7 @@ er voor zorgen dat er onverwachts luide of onaangename geluiden gemaakt worden.<
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Schakel het loggen van cues in of uit.
+        <translation>Schakel het loggen van cues in/uit.
 Indien uitgeschakeld zullen cues nog altijd triggeren,
 maar zij zullen niet zichtbaar zijn in het logvenster.</translation>
     </message>
@@ -303,8 +303,8 @@ maar zij zullen niet zichtbaar zijn in het logvenster.</translation>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation>Schakel auto scrolling in of uit.
-Indien ingeschakeld scrollt het logvenster automatisch tot beneden nadat elk nieuw bericht wordt weergegeven.</translation>
+        <translation>Schakel auto-scrollen in/uit.
+Indien ingeschakeld scrolt het logvenster automatisch tot beneden na elk nieuw weergegeven bericht.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="980"></location>
@@ -320,15 +320,18 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation>Indien ingeschakeld kunnen synths en effecten geladen via load_synthdefs worden getriggered.
+        <translation>Indien ingeschakeld zal Sonic Pi toestaan om
+synths en effecten die geladen zijn via load_synthdefs 
+te triggeren.
 
-Indien uitgeschakeld zal Sonic Pi een waarschuwing geven indien 
-je probeert een synth of effect te gebruiken dat niet wordt herkend.</translation>
+Indien uitgeschakeld zal Sonic Pi een waarschuwing geven wanneer 
+je probeert een synth of effect te gebruiken 
+dat niet wordt herkend.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="983"></location>
         <source>Enforce timing guarantees</source>
-        <translation>Afdwingen van timing borgstelling</translation>
+        <translation>Garanties voor "In maat blijven" handhaven</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
@@ -339,13 +342,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation>Wanneer deze is ingeschakeld,zal Sonic Pi weigeren
+        <translation>Wanneer ingeschakeld,zal Sonic Pi weigeren
 om Synths en Effecten te triggeren als
 het te laat is om dit te doen.
 
 Wanneer deze is uitgeschakeld,zal Sonic Pi altijd
 trachten Synths en Effecten te triggeren,
-zelfs wanneer,een beetje te laat.</translation>
+zelfs wanneer dit een beetje te laat komt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"></location>
@@ -356,7 +359,7 @@ zelfs wanneer,een beetje te laat.</translation>
         <location filename="../mainwindow.cpp" line="1016"></location>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Pluk naar een automatische controle van Updates .
+        <translation>Automatische controle van Updates.
 Deze controle omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
     </message>
     <message>
@@ -374,12 +377,12 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1019"></location>
         <source>Get update</source>
-        <translation>Update aankrijgen</translation>
+        <translation>Update verkrijgen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"></location>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation>Bezoek http://sonic-pi.net to download new version</translation>
+        <translation>Bezoek http://sonic-pi.net om een nieuwe versie te downloaden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1025"></location>
@@ -394,7 +397,7 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1045"></location>
         <source>Configure editor display options.</source>
-        <translation>Configureren van de weergave van de Editor-opties.</translation>
+        <translation>Configureer de weergave-opties van de editor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1046"></location>
@@ -404,7 +407,7 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1047"></location>
         <source>Configure editor look and feel.</source>
-        <translation>Configureer het uitzicht en hoe deze aanvoelt,van de editor .</translation>
+        <translation>Configureer het uitzicht en het aanvoelen,van de editor .</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"></location>
@@ -414,7 +417,7 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1049"></location>
         <source>Configure automation features.</source>
-        <translation>Configureer Automatiserings-functies.</translation>
+        <translation>Configureer Automatiseringsfuncties.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1050"></location>
@@ -424,7 +427,7 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1051"></location>
         <source>Automatically align code on Run</source>
-        <translation>Automatisch uitlijnen van de code als deze loopt</translation>
+        <translation>Automatisch uitlijnen van de code wanneer deze loopt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
@@ -454,22 +457,22 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1063"></location>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Zichtbaarheid van de buffer selectie tabbladen in-/ uitschakelen.</translation>
+        <translation>Zichtbaarheid van de buffer tabbladen in-/uitschakelen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1064"></location>
         <source>Full screen</source>
-        <translation>Volledig scherm,in-/ uitschakelen</translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"></location>
         <source>Toggle full screen mode.</source>
-        <translation>Volledig scherm,in-/ uitschakelen.</translation>
+        <translation>Volledig scherm,in-/uitschakelen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
         <source>Toggle dark mode.</source>
-        <translation>In-/ uitschakelen van de donkere modus.</translation>
+        <translation>In-/uitschakelen van de donkere modus.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
@@ -494,7 +497,7 @@ Donkere modus is ideaal voor "Live coding" in nachtclubs.</translation>
 
 Apologies, a critical error occurred during startup</source>
         <translation>Opstart fout van Sonic Pi 
-Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation>
+Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1361"></location>
@@ -507,7 +510,7 @@ Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
         <source>Load Sonic Pi Buffer</source>
-        <translation>Buffer van Sonic Pi laden</translation>
+        <translation>Sonic Pi buffer laden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
@@ -550,7 +553,7 @@ Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation
     <message>
         <location filename="../mainwindow.cpp" line="2352"></location>
         <source>Load an external file in the current buffer</source>
-        <translation>Laden van een extern bestand in de huidige buffer</translation>
+        <translation>Extern bestand in de huidige buffer laden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2361"></location>
@@ -570,7 +573,7 @@ Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation
     <message>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <source>Save Current Buffer</source>
-        <translation>Opslaan van de huidige Buffer</translation>
+        <translation>Huidige Buffer opslaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1496"></location>
@@ -613,7 +616,7 @@ Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation
         <location filename="../mainwindow.cpp" line="1595"></location>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation>Stereo Omgekering inschakelen...</translation>
+        <translation>Stereo Omkering inschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1603"></location>
@@ -625,13 +628,13 @@ Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation
         <location filename="../mainwindow.cpp" line="1611"></location>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation>Mono-modus...</translation>
+        <translation>Mono modus...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1619"></location>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation>Stereo-modus...</translation>
+        <translation>Stereo modus...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1628"></location>
@@ -641,7 +644,7 @@ Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation
     <message>
         <location filename="../mainwindow.cpp" line="1736"></location>
         <source>Updating System Volume...</source>
-        <translation>Systeemvolume worden bijgewerkt...</translation>
+        <translation>Systeemvolume word bijgewerkt...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2155"></location>
@@ -651,7 +654,7 @@ Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation
     <message>
         <location filename="../mainwindow.cpp" line="2171"></location>
         <source>Switching To HDMI Audio Output...</source>
-        <translation>Omschakelen naar Audio HDMI-uitgang...</translation>
+        <translation>Omschakelen naar HDMI Audio-uitgang...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2186"></location>
@@ -691,13 +694,13 @@ Onze excuses,een kritische fout is opgetreden tijdens het opstarten</translation
     <message>
         <location filename="../mainwindow.cpp" line="2873"></location>
         <source>Last checked %1</source>
-        <translation>Laatste gecontroleerd %1</translation>
+        <translation>Laatst gecontroleerd %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2875"></location>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi controleert om de twee weken op updates .</translation>
+        <translation>Sonic Pi controleert om de twee weken naar updates .</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2877"></location>
@@ -719,7 +722,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2337"></location>
         <source>Run</source>
-        <translation>Draaien</translation>
+        <translation>Afspelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2343"></location>
@@ -756,7 +759,7 @@ Krijg Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="1121"></location>
         <location filename="../mainwindow.cpp" line="1131"></location>
         <source>Performance</source>
-        <translation>Optreden</translation>
+        <translation>UItvoering</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1122"></location>
@@ -771,12 +774,12 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1259"></location>
         <source>Please consider reporting a bug at</source>
-        <translation>Overweeg aub het rapporteren van een eventuele bug bij</translation>
+        <translation>Overweeg aub. het rapporteren van een eventuele bug aan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2365"></location>
         <source>Toggle help pane</source>
-        <translation>tonen/verbergen van het help-venster</translation>
+        <translation>Toon/verberg het help-venster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2368"></location>
@@ -786,14 +789,14 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2369"></location>
         <source>Toggle preferences pane</source>
-        <translation>tonen/verbergen van het voorkeursinstellings-venster</translation>
+        <translation>Toon/verberg voorkeursinstellingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2373"></location>
         <location filename="../mainwindow.cpp" line="2502"></location>
         <location filename="../mainwindow.cpp" line="2503"></location>
         <source>Start Recording</source>
-        <translation>De opname te starten</translation>
+        <translation>Opname  starten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2378"></location>
@@ -804,7 +807,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2385"></location>
         <source>Increase Text Size</source>
-        <translation>Tekst vergroten</translation>
+        <translation>Tekstgrootte vergroten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2392"></location>
