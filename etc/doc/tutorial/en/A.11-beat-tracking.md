@@ -10,7 +10,6 @@ attention to Sonic Pi's unique tick system. By the end of this article
 you'll be ticking your way through rhythms and riffs on your way to
 being a live coding DJ.
 
-
 # Beat Counting
 
 When making music we often want to do a different thing depending on
@@ -47,7 +46,7 @@ We've seen that `tick` does two things. It increments (adds one)
 and returns the current beat. Sometimes we just want to look at the
 current beat without having to increment it which we can do via `look`:
 
-``` 
+```
 puts tick #=> 0
 puts tick #=> 1
 puts look #=> 1
@@ -129,6 +128,7 @@ A really important thing to know is that `tick`s are local to the
 beat counter. This is much more powerful than having a global metronome
 and beat. Let's take a look at this in action:
 
+```
 notes = (ring 57, 62, 55, 59, 64)
 
 with_fx :reverb do
@@ -144,12 +144,14 @@ live_loop :arp2 do
   play notes.tick - 12, release: 0.2
   sleep 0.75
 end
+```
 
 # Clashing Beats
 
 A big cause of confusion with Sonic Pi's tick system is when people want
 to tick over multiple rings in the same `live_loop`:
 
+```
 use_bpm 300
 use_synth :blade
 live_loop :foo do
@@ -157,6 +159,7 @@ live_loop :foo do
   play (scale :e3, :minor_pentatonic).tick
   sleep 1
 end
+```
 
 Even though each `live_loop` has its own independent beat counter, we're
 calling `.tick` twice within the same `live_loop`. This means that the
@@ -177,7 +180,7 @@ together for a final fun example. As usual, don't treat this as a
 finished piece. Start changing things and play around with it and see
 what you can turn it into. See you next time...
 
-
+```
 use_bpm 240
 notes = (scale :e3, :minor_pentatonic).shuffle
 
@@ -201,3 +204,4 @@ live_loop :bar do
   play notes.look, release: r, cutoff: co
   sleep 0.5
 end
+```

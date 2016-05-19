@@ -80,7 +80,6 @@ relationships or patterns. For example, when we re-write our notation
 purely in 16ths you can see that our notation just turns into a nice
 sequence of notes and rests.
 
-
 ![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)
 
 # Re-coding the Habanera
