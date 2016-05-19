@@ -332,7 +332,7 @@ which isn't recognised.</source>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>タイミングを強制的に保証</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"></location>
@@ -507,30 +507,30 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>bufferファイル</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>bufferにロード</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストファイル</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>rubyファイル</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>全てのファイル</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1754"></location>
@@ -545,32 +545,32 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2340"></location>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>現在のbufferのコードを実行</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2353"></location>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>ロード</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2354"></location>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>外部ファイルを現在のbufferにロード</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2363"></location>
         <source>View audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ出力(スコープ)を表示</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"></location>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>WAVファイル (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2910"></location>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>おかえりなさい。ライブコーディングを始めよう…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1376"></location>
@@ -931,7 +931,7 @@ Sonic Pi %1 を入手</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"></location>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation type="unfinished">Sonic Piはすでに実行されていませんか？ UDPポート4558を開くことができませんでした。</translation>
+        <translation>Sonic Piが既に実行されていませんか？ UDPポート4558を開くことができませんでした。</translation>
     </message>
 </context>
 </TS>
