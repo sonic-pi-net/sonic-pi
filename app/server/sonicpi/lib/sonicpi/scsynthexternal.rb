@@ -236,6 +236,7 @@ module SonicPi
       at_exit { @scsynth_log_file.close if @scsynth_log_file}
       scsynth_pipe = IO.popen(args)
       @scsynth_pid = scsynth_pipe.pid
+      register_process(@scsynth_pid)
 
       t1 = Thread.new do
         Thread.current.thread_variable_set(:sonic_pi_thread_group, :scsynth_log_tracker)

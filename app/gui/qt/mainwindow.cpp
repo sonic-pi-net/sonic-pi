@@ -136,6 +136,12 @@ MainWindow::MainWindow(QApplication &app, bool i18n, QSplashScreen* splash)
   server_output_log_path = QDir::toNativeSeparators(log_path + "/server-output.log");
   gui_log_path           = QDir::toNativeSeparators(log_path + QDir::separator() + "gui.log");
   scsynth_log_path       = QDir::toNativeSeparators(log_path + QDir::separator() + "scsynth.log");
+  task_clear_path        = QDir::toNativeSeparators(root_path + "/app/server/bin/task-clear.rb");
+
+  // Clear out old tasks from previous sessions if they still exist
+  QProcess *clearProcess = new QProcess();
+  clearProcess->start(ruby_path, QStringList(task_clear_path));
+  clearProcess->waitForFinished();
 
   QFile tmpFile(sp_user_tmp_path);
   if (!tmpFile.open(QIODevice::WriteOnly)) {
@@ -791,6 +797,7 @@ void MainWindow::startRubyServer(){
   QStringList args;
   args << ruby_server_path;
 
+
   if(protocol == TCP){
     args << "-t";
   }
@@ -801,6 +808,14 @@ void MainWindow::startRubyServer(){
     serverProcess->setStandardOutputFile(server_output_log_path);
   }
   serverProcess->start(ruby_path, args);
+  // Register server pid for potential zombie clearing
+  QStringList regServerArgs;
+  regServerArgs << QDir::toNativeSeparators(rootPath() + "/app/server/bin/task-register.rb")<< QString::number(serverProcess->processId());
+  QProcess *regServerProcess = new QProcess();
+  regServerProcess->start(ruby_path, regServerArgs);
+  regServerProcess->waitForFinished();
+  std::cout << "[GUI] - Ruby server pid registered: "<< serverProcess->processId() << std::endl;
+
   if (!serverProcess->waitForStarted()) {
     invokeStartupError(tr("The Sonic Pi Server could not be started!"));
     return;
@@ -1456,6 +1471,7 @@ void MainWindow::resetErrorPane() {
 
 void MainWindow::runCode()
 {
+  update();
   if(auto_indent_on_run->isChecked()) {
     beautifyCode();
   }
@@ -2009,7 +2025,7 @@ void MainWindow::updateDarkMode(){
     "  background: %1;"
     "  color: %2;"
     "}"
-    "" 
+    ""
     "QMenu:selected{"
     "  background: %3;"
     "  color: %4"
@@ -2724,6 +2740,14 @@ void MainWindow::onExitCleanup()
   if(protocol == UDP){
     osc_thread.waitForFinished();
   }
+  sleep(2);
+
+  // ensure all child processes are nuked if they didn't die gracefully
+  std::cout << "[GUI] - clearing out all child processes" << std::endl;
+  QProcess* clearProcess = new QProcess();
+  clearProcess->start(ruby_path, QStringList(task_clear_path));
+  clearProcess->waitForFinished();
+
   std::cout << "[GUI] - exiting. Cheerio :-)" << std::endl;
   std::cout.rdbuf(coutbuf); // reset to stdout before exiting
 }
