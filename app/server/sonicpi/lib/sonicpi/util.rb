@@ -399,5 +399,9 @@ module SonicPi
     def safe_mode?
       @@safe_mode
     end
+
+    def register_process(pid)
+      `'#{ruby_path}' '#{server_path}/bin/task-register.rb' '#{pid}'`
+    end
   end
 end
