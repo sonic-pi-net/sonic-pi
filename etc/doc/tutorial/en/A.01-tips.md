@@ -30,42 +30,42 @@ like the FX added to and wrap it with the FX code. Let's look at an
 example. Say you had the following code:
 
 ```
-  sample :loop_garzul
-  
-  16.times do
-    sample :bd_haus
-    sleep 0.5
-  end
+sample :loop_garzul
+
+16.times do
+  sample :bd_haus
+  sleep 0.5
+end
 ```
 
 If you wanted to add FX to the `:loop_garzul` sample, you'd just tuck it
 inside a `with_fx` block like this:
 
 ```
-  with_fx :flanger do
-    sample :loop_garzul
-  end
-  
-  16.times do
-    sample :bd_haus
-    sleep 0.5
-  end
+with_fx :flanger do
+  sample :loop_garzul
+end
+
+16.times do
+  sample :bd_haus
+  sleep 0.5
+end
 ```
 
 Now, if you wanted to add FX to the bass drum, go and wrap that with
 `with_fx` too:
 
 ```
-  with_fx :flanger do
-    sample :loop_garzul
+with_fx :flanger do
+  sample :loop_garzul
+end
+
+with_fx :echo do
+  16.times do
+    sample :bd_haus
+    sleep 0.5
   end
-  
-  with_fx :echo do
-    16.times do
-      sample :bd_haus
-      sleep 0.5
-    end
-  end
+end
 ```
 
 Remember, you can wrap *any* code within `with_fx` and any sounds
@@ -83,14 +83,14 @@ opts for short. Let's take a quick look. Copy this code into a workspace
 and hit run:
 
 ```
-  sample :guit_em9
+sample :guit_em9
 ```
 
 Ooh, a lovely guitar sound! Now, let's start playing with it. How about
 changing its rate?
 
 ```
-  sample :guit_em9, rate: 0.5
+sample :guit_em9, rate: 0.5
 ```
 
 Hey, what's that `rate: 0.5` bit I just added at the end? That's called
@@ -98,9 +98,9 @@ an opt. All of Sonic Pi's synths and FX support them and there's loads
 to play around with. They're also available for FX too. Try this:
 
 ```
-  with_fx :flanger, feedback: 0.6 do
-    sample :guit_em9
-  end
+with_fx :flanger, feedback: 0.6 do
+  sample :guit_em9
+end
 ```
 
 Now, try increasing that feedback to 1 to hear some crazy sounds! Read the
@@ -116,10 +116,10 @@ the cutoff parameter does to a sample, just play around. Let's have a try!
 Copy this code into one of your Sonic Pi workspaces:
 
 ```
-  live_loop :experiment do
-    sample :loop_amen, cutoff: 70
-    sleep 1.75
-  end
+live_loop :experiment do
+  sample :loop_amen, cutoff: 70
+  sleep 1.75
+end
 ```
 
 Now, hit run and you'll hear a slightly muffled drum break. Now, change
@@ -139,14 +139,14 @@ randomisation. It might sound complicated but it really isn't. Let's
 take a look. Copy this into a spare workspace:
 
 ```
-  live_loop :rand_surfer do
-    use_synth :dsaw
-    notes = (scale :e2, :minor_pentatonic, num_octaves: 2)
-    16.times do
-      play notes.choose, release: 0.1, cutoff: rrand(70, 120)
-      sleep 0.125
-    end
+live_loop :rand_surfer do
+  use_synth :dsaw
+  notes = (scale :e2, :minor_pentatonic, num_octaves: 2)
+  16.times do
+    play notes.choose, release: 0.1, cutoff: rrand(70, 120)
+    sleep 0.125
   end
+end
 ```
 
 Now, when you play this, you'll hear a constant stream of random notes
@@ -159,15 +159,15 @@ Doctor to a particular point in time and space. Let's try it - add the
 line `use_random_seed 1` to the `live_loop`:
 
 ```
-  live_loop :rand_surfer do
-    use_random_seed 1
-    use_synth :dsaw
-    notes = (scale :e2, :minor_pentatonic, num_octaves: 2)
-    16.times do
-      play notes.choose, release: 0.1, cutoff: rrand(70, 120)
-      sleep 0.125
-    end
+live_loop :rand_surfer do
+  use_random_seed 1
+  use_synth :dsaw
+  notes = (scale :e2, :minor_pentatonic, num_octaves: 2)
+  16.times do
+    play notes.choose, release: 0.1, cutoff: rrand(70, 120)
+    sleep 0.125
   end
+end
 ```
 
 Now, every time the `live_loop` loops around, the random stream is

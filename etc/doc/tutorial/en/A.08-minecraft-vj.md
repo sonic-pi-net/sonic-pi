@@ -30,7 +30,7 @@ Minecraft and Sonic Pi. In Minecraft, create a new world, and in Sonic
 Pi choose a fresh buffer and write in this code:
 
 ```
-  mc_message "Let's get started..."
+mc_message "Let's get started..."
 ```
     
 Hit the Run button and you'll see the message over in the Minecraft
@@ -60,14 +60,14 @@ the storm. Grab your current location and use it to create a few sand
 blocks up in the sky nearby:
 
 ```
-  x, y, z = mc_location
-  mc_set_block :sand, x, y + 20, z + 5
-  sleep 2
-  mc_set_block :sand, x, y + 20, z + 6
-  sleep 2
-  mc_set_block :sand, x, y + 20, z + 7
-  sleep 2
-  mc_set_block :sand, x, y + 20, z + 8
+x, y, z = mc_location
+mc_set_block :sand, x, y + 20, z + 5
+sleep 2
+mc_set_block :sand, x, y + 20, z + 6
+sleep 2
+mc_set_block :sand, x, y + 20, z + 7
+sleep 2
+mc_set_block :sand, x, y + 20, z + 8
 ```
     
 When you hit Run, you might have to look around a little as the blocks
@@ -95,15 +95,15 @@ the `live_loop` - Sonic Pi's magical ability which unleashes the full
 power of live coding - changing code on-the-fly whilst it's running!
 
 ```
-  live_loop :sand_storm do
-    x, y, z = mc_location
-    xd = rrand(-10, 10)
-    zd = rrand(-10, 10)
-    co = rrand(70, 130)
-    synth :cnoise, attack: 0, release: 0.125, cutoff: co
-    mc_set_block :sand, x + xd, y+20, z+zd
-    sleep 0.125
-  end
+live_loop :sand_storm do
+  x, y, z = mc_location
+  xd = rrand(-10, 10)
+  zd = rrand(-10, 10)
+  co = rrand(70, 130)
+  synth :cnoise, attack: 0, release: 0.125, cutoff: co
+  mc_set_block :sand, x + xd, y+20, z+zd
+  sleep 0.125
+end
 ```
     
 What fun! We're looping round pretty quickly (8 times a second) and
@@ -143,13 +143,13 @@ coordinates for a square. We can then randomly choose block types from a
 ring of blocks for an interesting effect:
 
 ```
-  x, y, z = mc_location
-  bs = (ring :gold, :diamond, :glass)
-  10.times do |xd|
-    10.times do |yd|
-      mc_set_block bs.choose, x + xd, y + yd, z
-    end
+x, y, z = mc_location
+bs = (ring :gold, :diamond, :glass)
+10.times do |xd|
+  10.times do |yd|
+    mc_set_block bs.choose, x + xd, y + yd, z
   end
+end
 ```
 
 Pretty neat. Whilst we're having fun here, try changing `bs.choose` to

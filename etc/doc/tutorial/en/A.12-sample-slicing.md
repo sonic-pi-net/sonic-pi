@@ -20,7 +20,7 @@ following into a fresh buffer and then hit the Run button to hear a
 pre-recorded drum beat:
 
 ```
-  sample :loop_amen
+sample :loop_amen
 ```
 
 A recording of a sound is simply represented as data - lots of numbers 
@@ -60,20 +60,20 @@ to play the first half of the Amen Break, we just need to specify a
 `finish:` of `0.5`:
 
 ```
-  sample :loop_amen, finish: 0.5
+sample :loop_amen, finish: 0.5
 ```
 
 We can add in a `start:` value to play an even smaller section of the sample:
 
 ```
-  sample :loop_amen, start: 0.25, finish: 0.5
+sample :loop_amen, start: 0.25, finish: 0.5
 ```
 
 For fun, you can even have the `finish:` opt's value be *before*
 `start:` and it will play the section backwards:
 
 ```
-  sample :loop_amen, start: 0.5, finish: 0.25
+sample :loop_amen, start: 0.5, finish: 0.25
 ```
 
 # Re-ordering Sample Playback
@@ -95,14 +95,14 @@ slices. We can then play this back to create a new beat. Take a look at
 the code to do this:
 
 ```
-  live_loop :beat_slicer do
-    slice_idx = rand_i(8)
-    slice_size = 0.125
-    s = slice_idx * slice_size
-    f = s + slice_size
-    sample :loop_amen, start: s, finish: f
-    sleep sample_duration :loop_amen, start: s, finish: f
-  end
+live_loop :beat_slicer do
+  slice_idx = rand_i(8)
+  slice_size = 0.125
+  s = slice_idx * slice_size
+  f = s + slice_size
+  sample :loop_amen, start: s, finish: f
+  sleep sample_duration :loop_amen, start: s, finish: f
+end
 ```
 
 1. we choose a random slice to play which should be a random number
@@ -143,22 +143,22 @@ track. Now it's your turn - take the code below as a starting point and
 see if you can take it in your own direction and create something new...
 
 ```
-  live_loop :sliced_amen do
-    n = 8
-    s =  line(0, 1, steps: n).choose
-    f = s + (1.0 / n)
-    sample :loop_amen, beat_stretch: 2, start: s, finish: f
-    sleep 2.0  / n
+live_loop :sliced_amen do
+  n = 8
+  s =  line(0, 1, steps: n).choose
+  f = s + (1.0 / n)
+  sample :loop_amen, beat_stretch: 2, start: s, finish: f
+  sleep 2.0  / n
+end
+
+live_loop :acid_bass do
+  with_fx :reverb, room: 1, reps: 32, amp: 0.6 do
+    tick
+    n = (octs :e0, 3).look - (knit 0, 3 * 8, -4, 3 * 8).look
+    co = rrand(70, 110)
+    synth :beep, note: n + 36, release: 0.1, wave: 0, cutoff: co
+    synth :tb303, note: n, release: 0.2, wave: 0, cutoff: co
+    sleep (ring 0.125, 0.25).look
   end
-  
-  live_loop :acid_bass do
-    with_fx :reverb, room: 1, reps: 32, amp: 0.6 do
-      tick
-      n = (octs :e0, 3).look - (knit 0, 3 * 8, -4, 3 * 8).look
-      co = rrand(70, 110)
-      synth :beep, note: n + 36, release: 0.1, wave: 0, cutoff: co
-      synth :tb303, note: n, release: 0.2, wave: 0, cutoff: co
-      sleep (ring 0.125, 0.25).look
-    end
-  end
+end
 ```

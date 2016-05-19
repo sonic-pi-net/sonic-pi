@@ -26,7 +26,7 @@ windows so you can see both Sonic Pi and Minecraft Pi at the same time.
 In a fresh buffer type the following:
 
 ```
-  mc_message "Hello Minecraft from Sonic Pi!"
+mc_message "Hello Minecraft from Sonic Pi!"
 ```
     
 Now, hit Run. Boom! Your message appeared in Minecraft! How easy was
@@ -43,7 +43,7 @@ slow and boring. It would be far better if we had some sort of teleport
 machine. Well, thanks to Sonic Pi, we have one. Try this:
 
 ```
-  mc_teleport 80, 40, 100
+mc_teleport 80, 40, 100
 ```
     
 Crikey! That was a long way up. If you weren't in flying-mode then you
@@ -70,17 +70,17 @@ Using the ideas so far, let's build a Sonic Teleporter which makes a fun
 teleport sound whilst it whizzes us across the Minecraft world:
 
 ```
-  mc_message "Preparing to teleport...."
-  sample :ambi_lunar_land, rate: -1
-  sleep 1
-  mc_message "3"
-  sleep 1
-  mc_message "2"
-  sleep 1
-  mc_message "1"
-  sleep 1
-  mc_teleport 90, 20, 10
-  mc_message "Whoooosh!"
+mc_message "Preparing to teleport...."
+sample :ambi_lunar_land, rate: -1
+sleep 1
+mc_message "3"
+sleep 1
+mc_message "2"
+sleep 1
+mc_message "1"
+sleep 1
+mc_teleport 90, 20, 10
+mc_message "Whoooosh!"
 ```
     
 ![Screen 1](../images/tutorial/articles/A.06-minecraft/Musical-Minecraft-1-small.png)
@@ -92,8 +92,8 @@ you're used to and start clicking the mouse furiously to place blocks
 under the cursor. Or you could use the magic of Sonic Pi. Try this:
 
 ```
-  x, y, z = mc_location
-  mc_set_block :melon, x, y + 5, z
+x, y, z = mc_location
+mc_set_block :melon, x, y + 5, z
 ```
 
 Now look up! There's a melon in the sky! Take a moment to look at the
@@ -105,11 +105,11 @@ order to make something higher up in the sky we just need to increase
 the y value which is why we add 5 to it. Let's make a long trail of them:
 
 ```
-  live_loop :melon_trail do
-    x, y, z = mc_location
-    mc_set_block :melon, x, y-1, z
-    sleep 0.125
-  end
+live_loop :melon_trail do
+  x, y, z = mc_location
+  mc_set_block :melon, x, y-1, z
+  sleep 0.125
+end
 ```
 
 Now, jump over to Minecraft, make sure you're in flying-mode (double tap
@@ -136,16 +136,16 @@ trail again. Now, without stopping the code, just simply change `:melon` to
 simple was that! Fancy some music to go with it? Easy. Try this:
 
 ```
-  live_loop :bass_trail do
-    tick
-    x, y, z = mc_location
-    b = (ring :melon, :brick, :glass).look
-    mc_set_block b, x, y -1, z
-    note = (ring :e1, :e2, :e3).look
-    use_synth :tb303
-    play note, release: 0.1, cutoff: 70
-    sleep 0.125
-  end
+live_loop :bass_trail do
+  tick
+  x, y, z = mc_location
+  b = (ring :melon, :brick, :glass).look
+  mc_set_block b, x, y -1, z
+  note = (ring :e1, :e2, :e3).look
+  use_synth :tb303
+  play note, release: 0.1, cutoff: 70
+  sleep 0.125
+end
 ```
     
 Now, whilst that's playing start changing the code. Change the block
@@ -164,29 +164,29 @@ understand it all, just type it in and have a play by changing some of
 the values whilst it's running live. Have fun and see you next time...
     
 ```
-  live_loop :note_blocks do
-    mc_message "This is Sonic Minecraft"
-    with_fx :reverb do
-      with_fx :echo, phase: 0.125, reps: 32 do
-        tick
-        x = (range 30, 90, step: 0.1).look
-        y = 20
-        z = -10
-        mc_teleport x, y, z
-        ns = (scale :e3, :minor_pentatonic)
-        n = ns.shuffle.choose
-        bs = (knit :glass, 3, :sand, 1)
-        b = bs.look
-        synth :beep, note: n, release: 0.1
-        mc_set_block b, x+20, n-60+y, z+10
-        mc_set_block b, x+20, n-60+y, z-10
-        sleep 0.25
-      end
+live_loop :note_blocks do
+  mc_message "This is Sonic Minecraft"
+  with_fx :reverb do
+    with_fx :echo, phase: 0.125, reps: 32 do
+      tick
+      x = (range 30, 90, step: 0.1).look
+      y = 20
+      z = -10
+      mc_teleport x, y, z
+      ns = (scale :e3, :minor_pentatonic)
+      n = ns.shuffle.choose
+      bs = (knit :glass, 3, :sand, 1)
+      b = bs.look
+      synth :beep, note: n, release: 0.1
+      mc_set_block b, x+20, n-60+y, z+10
+      mc_set_block b, x+20, n-60+y, z-10
+      sleep 0.25
     end
   end
-  
-  live_loop :beats do
-    sample :bd_haus, cutoff: 100
-    sleep 0.5
-  end
+end
+
+live_loop :beats do
+  sample :bd_haus, cutoff: 100
+  sleep 0.5
+end
 ```
