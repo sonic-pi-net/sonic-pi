@@ -3567,7 +3567,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
 
           :threshold =>
           {
-            :doc => "Threshold value determining the break point between slope_below and slope_above. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :doc => "Threshold value determining the break point between slope_below and slope_above. Only valid if the compressor is enabled by turning on the compress: opt.",
             :validations => [v_positive(:threshold)],
             :modulatable => true
           },
@@ -3582,7 +3582,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
 
           :slope_below =>
           {
-            :doc => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :doc => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.",
             :validations => [],
             :modulatable => true
           },
@@ -3597,7 +3597,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
 
           :slope_above =>
           {
-            :doc => "Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :doc => "Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.",
 
             :validations => [],
             :modulatable => true
@@ -3613,7 +3613,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
 
           :clamp_time =>
           {
-            :doc => "Time taken for the amplitude adjustments to kick in fully (in seconds). This is usually pretty small (not much more than 10 milliseconds). Also known as the time of the attack phase. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :doc => "Time taken for the amplitude adjustments to kick in fully (in seconds). This is usually pretty small (not much more than 10 milliseconds). Also known as the time of the attack phase. Only valid if the compressor is enabled by turning on the compress: opt.",
             :validations => [v_positive(:clamp_time)],
             :modulatable => true
           },
@@ -3628,7 +3628,7 @@ Note that if the microphone and speaker are close together (on a laptop or in a 
 
           :relax_time =>
           {
-            :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase. Only valid if the compressor is enabled by turning on the comp: opt.",
+            :doc => "Time taken for the amplitude adjustments to be released. Usually a little longer than clamp_time. If both times are too short, you can get some (possibly unwanted) artefacts. Also known as the time of the release phase. Only valid if the compressor is enabled by turning on the compress: opt.",
             :validations => [v_positive(:relax_time)],
             :modulatable => true
           },
