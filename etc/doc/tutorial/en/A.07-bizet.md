@@ -80,7 +80,6 @@ relationships or patterns. For example, when we re-write our notation
 purely in 16ths you can see that our notation just turns into a nice
 sequence of notes and rests.
 
-
 ![Habanera Riff 2](../images/tutorial/articles/A.07-bizet/habanera2.png)
 
 # Re-coding the Habanera
@@ -89,17 +88,17 @@ We're now in a position to start translating this bass line to Sonic
 Pi. Let's encode these notes and rests in a ring:
 
 ```
-  (ring :d, :r, :r, :a, :f5, :r, :a, :r)
+(ring :d, :r, :r, :a, :f5, :r, :a, :r)
 ```
     
 Let's see what this sounds like. Throw it in a live loop and tick
 through it:
 
 ```
-  live_loop :habanera do
-    play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick
-    sleep 0.25
-  end
+live_loop :habanera do
+  play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick
+  sleep 0.25
+end
 ```
     
 Fabulous, that instantly recognisable riff springs to life through your
@@ -114,21 +113,21 @@ style synth lead.  Let's try it with the starting note `:d` passed
 through a slicer and reverb:
 
 ```
-  live_loop :habanera do
-    use_synth :fm
-    use_transpose -12
-    play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick
-    sleep 0.25
-  end
-  
-  with_fx :reverb do
-    live_loop :space_light do
-      with_fx :slicer, phase: 0.25 do
-        synth :blade, note: :d, release: 8, cutoff: 100, amp: 2
-      end
-      sleep 8
+live_loop :habanera do
+  use_synth :fm
+  use_transpose -12
+  play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick
+  sleep 0.25
+end
+
+with_fx :reverb do
+  live_loop :space_light do
+    with_fx :slicer, phase: 0.25 do
+      synth :blade, note: :d, release: 8, cutoff: 100, amp: 2
     end
+    sleep 8
   end
+end
 ```
 
 Now, try the other notes in the bass line: `:a` and `:f5`. Remember, you
@@ -146,35 +145,35 @@ second line by removing the `#` and hit run again - how marvellous is
 that! Now, start mashing it around yourself and have fun.
 
 ```
-  use_debug false
-  bizet_bass = (ring :d, :r, :r, :a, :f5, :r, :a, :r)
-  #bizet_bass = (ring :d, :r, :r, :Bb, :g5, :r, :Bb, :r)
-   
-  with_fx :reverb, room: 1, mix: 0.3 do
-    live_loop :bizet do
-      with_fx :slicer, phase: 0.125 do
-        synth :blade, note: :d4, release: 8,
-          cutoff: 100, amp: 1.5
-      end
-      16.times do
-        tick
-        play bizet_bass.look, release: 0.1
-        play bizet_bass.look - 12, release: 0.3
-        sleep 0.125
-      end
+use_debug false
+bizet_bass = (ring :d, :r, :r, :a, :f5, :r, :a, :r)
+#bizet_bass = (ring :d, :r, :r, :Bb, :g5, :r, :Bb, :r)
+ 
+with_fx :reverb, room: 1, mix: 0.3 do
+  live_loop :bizet do
+    with_fx :slicer, phase: 0.125 do
+      synth :blade, note: :d4, release: 8,
+        cutoff: 100, amp: 1.5
+    end
+    16.times do
+      tick
+      play bizet_bass.look, release: 0.1
+      play bizet_bass.look - 12, release: 0.3
+      sleep 0.125
     end
   end
-   
-  live_loop :ind do
-    sample :loop_industrial, beat_stretch: 1,
-      cutoff: 100, rate: 1
-    sleep 1
-  end
-   
-  live_loop :drums do
-    sample :bd_haus, cutoff: 110
-    synth :beep, note: 49, attack: 0,
-      release: 0.1
-    sleep 0.5
-  end
+end
+ 
+live_loop :ind do
+  sample :loop_industrial, beat_stretch: 1,
+    cutoff: 100, rate: 1
+  sleep 1
+end
+ 
+live_loop :drums do
+  sample :bd_haus, cutoff: 110
+  synth :beep, note: 49, attack: 0,
+    release: 0.1
+  sleep 0.5
+end
 ```

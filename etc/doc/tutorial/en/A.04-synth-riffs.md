@@ -25,11 +25,11 @@ Let's create a simple live loop where we continually change the current
 synth:
 
 ```
-  live_loop :timbre do
-    use_synth (ring :tb303, :blade, :prophet, :saw, :beep, :tri).tick
-    play :e2, attack: 0, release: 0.5, cutoff: 100
-    sleep 0.5
-  end
+live_loop :timbre do
+  use_synth (ring :tb303, :blade, :prophet, :saw, :beep, :tri).tick
+  play :e2, attack: 0, release: 0.5, cutoff: 100
+  sleep 0.5
+end
 ```
 
 Take a look at the code. We're simply ticking through a ring of synth
@@ -69,12 +69,12 @@ want to play. If you already have a good idea, then you can simply
 create a ring with your notes in and tick through them:
 
 ```
-  live_loop :riff do
-    use_synth :prophet
-    riff = (ring :e3, :e3, :r, :g3, :r, :r, :r, :a3)
-    play riff.tick, release: 0.5, cutoff: 80
-    sleep 0.25
-  end
+live_loop :riff do
+  use_synth :prophet
+  riff = (ring :e3, :e3, :r, :g3, :r, :r, :r, :a3)
+  play riff.tick, release: 0.5, cutoff: 80
+  sleep 0.25
+end
 ```
     
 Here, we've defined our melody with a ring which includes both notes
@@ -89,13 +89,13 @@ choose the one you like the best. To do that we need to combine three
 things: rings, randomisation and random seeds. Let's look at an example:
 
 ```
-  live_loop :random_riff do
-    use_synth :dsaw
-    use_random_seed 3
-    notes = (scale :e3, :minor_pentatonic).shuffle
-    play notes.tick, release: 0.25, cutoff: 80
-    sleep 0.25
-  end
+live_loop :random_riff do
+  use_synth :dsaw
+  use_random_seed 3
+  notes = (scale :e3, :minor_pentatonic).shuffle
+  play notes.tick, release: 0.25, cutoff: 80
+  sleep 0.25
+end
 ```
 
 There's a few things going on - let's look at them in turn. First, we
@@ -138,15 +138,15 @@ rhythm. Instead of playing every note we can use a conditional to play a
 note with a given probability. Let's take a look:
 
 ```
-  live_loop :random_riff do
-    use_synth :dsaw
-    use_random_seed 30
-    notes = (scale :e3, :minor_pentatonic).shuffle
-    16.times do
-      play notes.tick, release: 0.2, cutoff: 90 if one_in(2)
-      sleep 0.125
-    end
+live_loop :random_riff do
+  use_synth :dsaw
+  use_random_seed 30
+  notes = (scale :e3, :minor_pentatonic).shuffle
+  16.times do
+    play notes.tick, release: 0.2, cutoff: 90 if one_in(2)
+    sleep 0.125
   end
+end
 ```
 
 A really useful fn to know is `one_in` which will give us a
@@ -169,28 +169,28 @@ OK, so let's combine everything we've learned together into one final
 example. See you next time!
 
 ```
-  live_loop :random_riff do
-    #  uncomment to bring in:
-    #  synth :blade, note: :e4, release: 4, cutoff: 100, amp: 1.5
-    use_synth :dsaw
-    use_random_seed 43
-    notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle.take(8)
-    8.times do
-      play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)
-      sleep 0.125
-    end
+live_loop :random_riff do
+  #  uncomment to bring in:
+  #  synth :blade, note: :e4, release: 4, cutoff: 100, amp: 1.5
+  use_synth :dsaw
+  use_random_seed 43
+  notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle.take(8)
+  8.times do
+    play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)
+    sleep 0.125
   end
-   
-  live_loop :drums do
-    use_random_seed 500
-    16.times do
-      sample :bd_haus, rate: 2, cutoff: 110 if rand < 0.35
-      sleep 0.125
-    end
+end
+ 
+live_loop :drums do
+  use_random_seed 500
+  16.times do
+    sample :bd_haus, rate: 2, cutoff: 110 if rand < 0.35
+    sleep 0.125
   end
-   
-  live_loop :bd do
-    sample :bd_haus, cutoff: 100, amp: 3
-    sleep 0.5
-  end
+end
+ 
+live_loop :bd do
+  sample :bd_haus, cutoff: 100, amp: 3
+  sleep 0.5
+end
 ```

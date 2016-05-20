@@ -15,7 +15,7 @@ value between two numbers - a *min* and a *max*. (`rrand` is short for
 ranged random). Let's try playing a random note:
 
 ```
-  play rrand(50, 95)
+play rrand(50, 95)
 ```
 
 Ooh, it played a random note. It played note `83.7527`. A nice random
@@ -34,10 +34,10 @@ every time, then it wouldn't be very interesting. However, it
 doesn't. Try the following:
 
 ```
-  loop do
-    play rrand(50, 95)
-    sleep 0.5
-  end 
+loop do
+  play rrand(50, 95)
+  sleep 0.5
+end 
 ```
 
 Yes! It finally sounds random. Within a given *run* subsequent calls
@@ -54,10 +54,10 @@ example which loops the `:perc_bell` sample with a random rate and sleep
 time between bell sounds:
 
 ```
-  loop do
-    sample :perc_bell, rate: (rrand 0.125, 1.5)
-    sleep rrand(0.2, 2)
-  end
+loop do
+  sample :perc_bell, rate: (rrand 0.125, 1.5)
+  sleep rrand(0.2, 2)
+end
 ```
 
 ## Random cutoff
@@ -67,12 +67,12 @@ synth randomly. A great synth to try this out on is the `:tb303`
 emulator:
 
 ```
-  use_synth :tb303
-  
-  loop do
-    play 50, release: 0.1, cutoff: rrand(60, 120)
-    sleep 0.125
-  end
+use_synth :tb303
+
+loop do
+  play 50, release: 0.1, cutoff: rrand(60, 120)
+  sleep 0.125
+end
 ```
 
 ## Random seeds
@@ -85,21 +85,21 @@ starting point via `use_random_seed`. The default seed happens to be
 Consider the following:
 
 ```
-  5.times do
-    play rrand(50, 100)
-    sleep 0.5
-  end
+5.times do
+  play rrand(50, 100)
+  sleep 0.5
+end
 ```
 
 Every time you run this code, you'll hear the same sequence of 5
 notes. To get a different sequence simply change the seed:
 
 ```
-  use_random_seed 40
-  5.times do
-    play rrand(50, 100)
-    sleep 0.5
-  end
+use_random_seed 40
+5.times do
+  play rrand(50, 100)
+  sleep 0.5
+end
 ```
 
 This will produce a different sequence of 5 notes. By changing the seed
@@ -120,16 +120,16 @@ which is done by wrapping them in square brackets and separating them
 with commas: `[60, 65, 72]`. Next I just need to pass them to `choose`:
 
 ```
-  choose([60, 65, 72])
+choose([60, 65, 72])
 ```
 
 Let's hear what that sounds like:
 
 ```
-  loop do
-    play choose([60, 65, 72])
-    sleep 1
-  end
+loop do
+  play choose([60, 65, 72])
+  sleep 1
+end
 ```
 
 ## rrand
@@ -165,10 +165,10 @@ between 0 and one. It's therefore useful for choosing random `amp:`
 values:
 
 ```
-  loop do
-    play 60, amp: rand
-    sleep 0.25
-  end
+loop do
+  play 60, amp: rand
+  sleep 0.25
+end
 ```
 
 ## rand_i

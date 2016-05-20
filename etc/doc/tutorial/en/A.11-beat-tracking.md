@@ -10,7 +10,6 @@ attention to Sonic Pi's unique tick system. By the end of this article
 you'll be ticking your way through rhythms and riffs on your way to
 being a live coding DJ.
 
-
 # Beat Counting
 
 When making music we often want to do a different thing depending on
@@ -22,7 +21,7 @@ Let's have a play - to advance the beat we just need to call
 `tick`. Open up a fresh buffer, type in the following and hit Run:
 
 ```
-  puts tick #=> 0
+puts tick #=> 0
 ```
 
 This will return the current beat: `0`. Notice that even if you press
@@ -31,9 +30,9 @@ each run starts a fresh beat counting from 0.  However, whilst the run
 is still active, we can advance the beat as many times as we want:
 
 ```
-  puts tick #=> 0
-  puts tick #=> 1
-  puts tick #=> 2
+puts tick #=> 0
+puts tick #=> 1
+puts tick #=> 2
 ```
 
 Whenever you see the symbol `#=>` at the end of a line of
@@ -47,11 +46,11 @@ We've seen that `tick` does two things. It increments (adds one)
 and returns the current beat. Sometimes we just want to look at the
 current beat without having to increment it which we can do via `look`:
 
-``` 
-  puts tick #=> 0
-  puts tick #=> 1
-  puts look #=> 1
-  puts look #=> 1
+```
+puts tick #=> 0
+puts tick #=> 1
+puts look #=> 1
+puts look #=> 1
 ``` 
 
 In this code we tick the beat up twice and then call `look` twice. We'll
@@ -71,7 +70,7 @@ it acts like a regular tick and increments the beat. Secondly it looks
 up the ring value using the beat as the index. Let's take a look:
 
 ```
-  puts (ring :a, :b, :c).tick #=> :a
+puts (ring :a, :b, :c).tick #=> :a
 ```
 
 `.tick` is a special dot version of `tick` which will return the first
@@ -79,11 +78,11 @@ value of the ring `:a`. We can grab each of the values in the ring by
 calling `.tick` multiple times:
 
 ```
-  puts (ring :a, :b, :c).tick #=> :a
-  puts (ring :a, :b, :c).tick #=> :b
-  puts (ring :a, :b, :c).tick #=> :c
-  puts (ring :a, :b, :c).tick #=> :a
-  puts look                   #=> 3
+puts (ring :a, :b, :c).tick #=> :a
+puts (ring :a, :b, :c).tick #=> :b
+puts (ring :a, :b, :c).tick #=> :c
+puts (ring :a, :b, :c).tick #=> :a
+puts look                   #=> 3
 ```
 
 Take a look at the log and you'll see `:a`, `:b`, `:c` and then `:a`
@@ -105,13 +104,13 @@ and understand a simple arpegiator. We need just four things:
 These concepts can all be found in the following code:
 
 ```
-  notes = (ring 57, 62, 55, 59, 64)
-  
-  live_loop :arp do
-    use_synth :dpulse
-    play notes.tick, release: 0.2
-    sleep 0.125
-  end
+notes = (ring 57, 62, 55, 59, 64)
+
+live_loop :arp do
+  use_synth :dpulse
+  play notes.tick, release: 0.2
+  sleep 0.125
+end
 ```
 
 Let's look at each of these lines. First we define our ring of notes
@@ -129,6 +128,7 @@ A really important thing to know is that `tick`s are local to the
 beat counter. This is much more powerful than having a global metronome
 and beat. Let's take a look at this in action:
 
+```
 notes = (ring 57, 62, 55, 59, 64)
 
 with_fx :reverb do
@@ -144,12 +144,14 @@ live_loop :arp2 do
   play notes.tick - 12, release: 0.2
   sleep 0.75
 end
+```
 
 # Clashing Beats
 
 A big cause of confusion with Sonic Pi's tick system is when people want
 to tick over multiple rings in the same `live_loop`:
 
+```
 use_bpm 300
 use_synth :blade
 live_loop :foo do
@@ -157,6 +159,7 @@ live_loop :foo do
   play (scale :e3, :minor_pentatonic).tick
   sleep 1
 end
+```
 
 Even though each `live_loop` has its own independent beat counter, we're
 calling `.tick` twice within the same `live_loop`. This means that the
@@ -177,7 +180,7 @@ together for a final fun example. As usual, don't treat this as a
 finished piece. Start changing things and play around with it and see
 what you can turn it into. See you next time...
 
-
+```
 use_bpm 240
 notes = (scale :e3, :minor_pentatonic).shuffle
 
@@ -201,3 +204,4 @@ live_loop :bar do
   play notes.look, release: r, cutoff: co
   sleep 0.5
 end
+```

@@ -28,8 +28,8 @@ using the power of Sonic Pi. Behold, fire up Sonic Pi and throw this
 code into an empty buffer and hit Run:
 
 ```
-  use_synth :tb303
-  play :e1
+use_synth :tb303
+play :e1
 ```
     
 Instant acid bass! Let's play around...
@@ -42,12 +42,12 @@ through one after another, repeating when we get to the end. Let's
 create a live loop that does exactly that:
 
 ```
-  use_synth :tb303
-  live_loop :squelch do
-    n = (ring :e1, :e2, :e3).tick
-    play n, release: 0.125, cutoff: 100, res: 0.8, wave: 0
-    sleep 0.125
-  end
+use_synth :tb303
+live_loop :squelch do
+  n = (ring :e1, :e2, :e3).tick
+  play n, release: 0.125, cutoff: 100, res: 0.8, wave: 0
+  sleep 0.125
+end
 ```
 
 Take a look at each line. 
@@ -126,13 +126,13 @@ we have amazing control over the timbre of the sound by playing with
 both of these envelopes. Let's take a look:
 
 ```
-  use_synth :tb303
-  with_fx :reverb, room: 1 do
-    live_loop :space_scanner do
-      play :e1, cutoff: 100, release: 7, attack: 1, cutoff_attack: 4, cutoff_release: 4
-      sleep 8
-    end
+use_synth :tb303
+with_fx :reverb, room: 1 do
+  live_loop :space_scanner do
+    play :e1, cutoff: 100, release: 7, attack: 1, cutoff_attack: 4, cutoff_release: 4
+    sleep 8
   end
+end
 ```
     
 For each standard envelope opt, there's a `cutoff_` equivalent opt in
@@ -152,25 +152,25 @@ start live coding your own changes. See what crazy sounds you can make
 with it! See you next time...
 
 ```
-  use_synth :tb303
-  use_debug false
-   
-  with_fx :reverb, room: 0.8 do
-    live_loop :space_scanner do
-      with_fx :slicer, phase: 0.25, amp: 1.5 do
-        co = (line 70, 130, steps: 8).tick
-        play :e1, cutoff: co, release: 7, attack: 1, cutoff_attack: 4, cutoff_release: 4
-        sleep 8
-      end
-    end
-   
-    live_loop :squelch do
-      use_random_seed 3000
-      16.times do
-        n = (ring :e1, :e2, :e3).tick
-        play n, release: 0.125, cutoff: rrand(70, 130), res: 0.9, wave: 1, amp: 0.8
-        sleep 0.125
-      end
+use_synth :tb303
+use_debug false
+ 
+with_fx :reverb, room: 0.8 do
+  live_loop :space_scanner do
+    with_fx :slicer, phase: 0.25, amp: 1.5 do
+      co = (line 70, 130, steps: 8).tick
+      play :e1, cutoff: co, release: 7, attack: 1, cutoff_attack: 4, cutoff_release: 4
+      sleep 8
     end
   end
+ 
+  live_loop :squelch do
+    use_random_seed 3000
+    16.times do
+      n = (ring :e1, :e2, :e3).tick
+      play n, release: 0.125, cutoff: rrand(70, 130), res: 0.9, wave: 1, amp: 0.8
+      sleep 0.125
+    end
+  end
+end
 ```
