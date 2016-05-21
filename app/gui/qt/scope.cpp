@@ -83,6 +83,7 @@ void ScopePanel::refresh()
 {
   if( reader == nullptr ) return;
   if( !reader->valid() ) return;
+  if( !plot.isVisible() ) return;
 
   unsigned int frames;
   if( reader->pull( frames ) )
@@ -90,10 +91,17 @@ void ScopePanel::refresh()
 //    ++counter;
     float* data = reader->data();
     unsigned int offset = reader->max_frames() * channel;
+    for( unsigned int i = 0; i < 4096 - frames; ++i )
+    {
+      sample_y[i] = sample_y[i+frames];
+    }
+
     for( unsigned int i = 0; i < frames; ++i )
     {
-      sample_y[i] = data[i+offset];
+      sample_y[4096-frames+i] = data[i+offset];
     }
+    plot.replot();
+  }
 /*
     if( counter > 100 )
     {
@@ -107,8 +115,6 @@ void ScopePanel::refresh()
       max_y = 0;
     }
 */
-    plot.replot();
-  }
 }
 
 Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Right",this)
@@ -116,7 +122,8 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
   right.setChannel(1);
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  scopeTimer->start(4096*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
+  //scopeTimer->start(735*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
+  scopeTimer->start(20);
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setSpacing(0);
