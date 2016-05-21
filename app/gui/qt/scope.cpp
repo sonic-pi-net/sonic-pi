@@ -94,6 +94,8 @@ void ScopePanel::refresh()
     {
       sample_y[i] = data[i+offset];
     }
+    plot.replot();
+  }
 /*
     if( counter > 100 )
     {
@@ -107,8 +109,6 @@ void ScopePanel::refresh()
       max_y = 0;
     }
 */
-    plot.replot();
-  }
 }
 
 Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Right",this)
@@ -116,7 +116,7 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
   right.setChannel(1);
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  scopeTimer->start(735*2*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
+  scopeTimer->start(735*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setSpacing(0);

@@ -181,9 +181,9 @@ private:
 		{
 			_state[_out].changed.store( false, std::memory_order_relaxed );
 			_out = _stage.exchange( _out, std::memory_order_acquire );
+		  return _state[_out].frames;
 		}
-
-		return _state[_out].frames;
+    return 0;
 	}
 };
 
