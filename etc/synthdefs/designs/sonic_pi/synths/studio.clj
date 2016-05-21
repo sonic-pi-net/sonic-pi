@@ -182,9 +182,8 @@
 
    (defsynth sonic-pi-scope [bus 0
                              scope_num 0
-                             max_frames 4096
-                             scope_frames 4096]
-     (scope-out2 (in:ar bus 2) scope_num max_frames scope_frames))
+                             max_frames 4096]
+     (scope-out2 (in:ar bus 2) scope_num max_frames))
    )
 
 
