@@ -30,7 +30,7 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
     sample_x[i] = i;
     sample_y[i] = 0.0f;
   }
-  plot_curve.setRawSamples( sample_x, sample_y, 735*2 );
+  plot_curve.setRawSamples( sample_x, sample_y, 4096 );
   plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
   plot_curve.attach(&plot);
   plot_curve.setPen(QPen(QColor("deeppink"), 2));
@@ -39,7 +39,7 @@ ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(par
 #endif
 
   plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
-  plot.setAxisScale(QwtPlot::Axis::xBottom,0,735*2);
+  plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
   plot.enableAxis(QwtPlot::Axis::xBottom, false);
 
   QSizePolicy sp(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
@@ -83,6 +83,7 @@ void ScopePanel::refresh()
 {
   if( reader == nullptr ) return;
   if( !reader->valid() ) return;
+  if( !plot.isVisible() ) return;
 
   unsigned int frames;
   if( reader->pull( frames ) )
@@ -90,9 +91,14 @@ void ScopePanel::refresh()
 //    ++counter;
     float* data = reader->data();
     unsigned int offset = reader->max_frames() * channel;
+    for( unsigned int i = 0; i < 4096 - frames; ++i )
+    {
+      sample_y[i] = sample_y[i+frames];
+    }
+
     for( unsigned int i = 0; i < frames; ++i )
     {
-      sample_y[i] = data[i+offset];
+      sample_y[4096-frames+i] = data[i+offset];
     }
     plot.replot();
   }
@@ -116,7 +122,8 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Rig
   right.setChannel(1);
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  scopeTimer->start(735*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
+  //scopeTimer->start(735*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
+  scopeTimer->start(20);
 
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setSpacing(0);
