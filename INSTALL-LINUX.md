@@ -72,7 +72,7 @@ Debian package dependency names (Jessie):
 It's possible you may need `libboost1.58-dev` from stretch instead. If `libboost-dev` doesn't work for you, please let us know.
 
 For Ubuntu 16.04 (Xenial):
-`apt-get install ruby2.1 ruby-dev cmake pkg-config g++ libfftw3-dev qt5-qmake libqt5scintilla2-dev libqwt-qt5-dev libboost1.58-dev`
+`apt-get install ruby ruby-dev cmake pkg-config g++ libfftw3-dev qt5-qmake libqt5scintilla2-dev libqwt-qt5-dev libboost1.58-dev libqt5svg5-dev`
 
 For Ubuntu 15.10 (Wily):
 `apt-get install ruby2.1 ruby-dev cmake pkg-config g++ libfftw3-dev qt5-qmake libqt5scintilla2-dev libqwt-qt5-dev libboost1.58-dev`
