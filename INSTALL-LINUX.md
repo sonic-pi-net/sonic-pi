@@ -41,8 +41,10 @@ If you run into issues with running `jackd`  along with `pulseaudio`, search the
 We're making an effort to simplify the build process. If you're on 15.10 or 16.04, you should
 be able to get a finished binary with the following commands
 
+````
 cd app/gui/qt/
 ./build-ubuntu-app
+````
 
 If this doesn't work for you, please get in touch, we'd like to ensure the script just works
 for as many platforms as possible.
