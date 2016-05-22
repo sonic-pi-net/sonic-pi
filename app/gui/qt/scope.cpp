@@ -23,13 +23,8 @@
 #include <qwt_text_label.h>
 #include <cmath>
 
-ScopePanel::ScopePanel( const std::string& name, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this), max_y(0), counter(0), channel(0)
+ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sample_y, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this) 
 {
-  for( unsigned int i = 0; i < 4096; ++i )
-  {
-    sample_x[i] = i;
-    sample_y[i] = 0.0f;
-  }
   plot_curve.setRawSamples( sample_x, sample_y, 4096 );
   plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
   plot_curve.attach(&plot);
@@ -69,60 +64,17 @@ bool ScopePanel::setAxes(bool b)
   return b;
 }
 
-void ScopePanel::setChannel( unsigned int i )
+void ScopePanel::refresh( )
 {
-  channel = i;
-}
-
-void ScopePanel::setReader( scope_buffer_reader* shmReader )
-{
-  reader = shmReader;
-}
-
-void ScopePanel::refresh()
-{
-  if( reader == nullptr ) return;
-  if( !reader->valid() ) return;
   if( !plot.isVisible() ) return;
-
-  unsigned int frames;
-  if( reader->pull( frames ) )
-  {
-//    ++counter;
-    float* data = reader->data();
-    unsigned int offset = reader->max_frames() * channel;
-    for( unsigned int i = 0; i < 4096 - frames; ++i )
-    {
-      sample_y[i] = sample_y[i+frames];
-    }
-
-    for( unsigned int i = 0; i < frames; ++i )
-    {
-      sample_y[4096-frames+i] = data[i+offset];
-    }
-    plot.replot();
-  }
-/*
-    if( counter > 100 )
-    {
-      counter = 0;
-      if( max_y == 0 ) max_y = 1;
-      if( max_y > 1 ) max_y = 1;
-      if( max_y > plot.axisInterval(QwtPlot::Axis::yLeft).maxValue() )
-      {
-        plot.setAxisScale(QwtPlot::Axis::yLeft,-max_y,max_y);
-      }
-      max_y = 0;
-    }
-*/
+  plot.replot();
 }
 
-Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",this), right("Right",this)
+Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",sample_x,sample[0],this), right("Right",sample_x,sample[1],this), paused( false )
 {
-  right.setChannel(1);
+  for( unsigned int i = 0; i < 4096; ++i ) sample_x[i] = i;
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  //scopeTimer->start(735*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
   scopeTimer->start(20);
 
   QVBoxLayout* layout = new QVBoxLayout();
@@ -156,20 +108,38 @@ bool Scope::setScopeAxes(bool on)
   return on;
 }
 
+void Scope::togglePause() {
+  paused = !paused;
+}
+
 void Scope::refreshScope() {
-  if( !isVisible() )
-  {
-    return;
-  }
+  if( paused ) return;
+  if( !isVisible() ) return;
 
   if( !shmReader.valid() )
   {
     shmClient.reset(new server_shared_memory_client(4556));
     shmReader = shmClient->get_scope_buffer_reader(0);
-    left.setReader(&shmReader);
-    right.setReader(&shmReader);
   }
-  left.refresh();
-  right.refresh();
-  repaint();
+
+  unsigned int frames;
+  if( shmReader.pull( frames ) )
+  {
+    float* data = shmReader.data();
+    for( unsigned int j = 0; j < 2; ++j )
+    {
+      unsigned int offset = shmReader.max_frames() * j;
+      for( unsigned int i = 0; i < 4096 - frames; ++i )
+      {
+        sample[j][i] = sample[j][i+frames];
+      }
+
+      for( unsigned int i = 0; i < frames; ++i )
+      {
+        sample[j][4096-frames+i] = data[i+offset];
+      }
+    }
+    left.refresh();
+    right.refresh();
+  }
 }

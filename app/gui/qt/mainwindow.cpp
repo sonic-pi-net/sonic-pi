@@ -249,7 +249,6 @@ if(settings.value("first_time", 1).toInt() == 1) {
 }
 
 void MainWindow::setupTheme() {
-
   // Syntax highlighting
   QString themeFilename = QDir::homePath() + QDir::separator() + ".sonic-pi" + QDir::separator() + "theme.properties";
   QFile themeFile(themeFilename);
@@ -615,6 +614,10 @@ void MainWindow::updateFocusMode(){
   updateTabsVisibility();
   updateButtonVisibility();
   updateLogVisibility();
+}
+
+void MainWindow::toggleScopePaused() {
+  scopeInterface->togglePause();
 }
 
 void MainWindow::toggleLogVisibility() {
@@ -2372,7 +2375,6 @@ void MainWindow::setupAction(QAction *action, char key, QString tooltip,
 
 void MainWindow::createShortcuts()
 {
-
   new QShortcut(metaKey('{'), this, SLOT(tabPrev()));
   new QShortcut(metaKey('}'), this, SLOT(tabNext()));
   new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
@@ -2384,6 +2386,7 @@ void MainWindow::createShortcuts()
   new QShortcut(shiftMetaKey('M'), this, SLOT(toggleDarkMode()));
   new QShortcut(QKeySequence("F11"), this, SLOT(toggleLogVisibility()));
   new QShortcut(shiftMetaKey('L'), this, SLOT(toggleLogVisibility()));
+  new QShortcut(QKeySequence("F12"),this, SLOT(toggleScopePaused()));
 }
 
 void MainWindow::createToolBar()
