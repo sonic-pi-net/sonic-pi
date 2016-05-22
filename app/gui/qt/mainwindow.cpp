@@ -810,11 +810,15 @@ void MainWindow::startRubyServer(){
   serverProcess->start(ruby_path, args);
   // Register server pid for potential zombie clearing
   QStringList regServerArgs;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
   regServerArgs << QDir::toNativeSeparators(rootPath() + "/app/server/bin/task-register.rb")<< QString::number(serverProcess->processId());
+#endif
   QProcess *regServerProcess = new QProcess();
   regServerProcess->start(ruby_path, regServerArgs);
   regServerProcess->waitForFinished();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
   std::cout << "[GUI] - Ruby server pid registered: "<< serverProcess->processId() << std::endl;
+#endif
 
   if (!serverProcess->waitForStarted()) {
     invokeStartupError(tr("The Sonic Pi Server could not be started!"));
