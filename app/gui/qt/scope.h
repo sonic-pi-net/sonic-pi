@@ -30,24 +30,16 @@ class ScopePanel : public QWidget
   Q_OBJECT
 
 public:
-  ScopePanel( const std::string& name, QWidget* parent = 0 );
+  ScopePanel( const std::string& name, double* sample_x, double* sample_y, QWidget* parent = 0 );
   virtual ~ScopePanel();
 
-  void setChannel( unsigned int i );
-  void setReader( scope_buffer_reader* shmReader );
   void refresh();
   bool setAxes( bool on );
 
 private:
   std::string name;
-  scope_buffer_reader* reader;
   QwtPlot plot;
   QwtPlotCurve plot_curve;
-  double sample_x[4096];
-  double sample_y[4096];
-  double max_y;
-  int counter;
-  unsigned int channel;
 };
 
 class Scope : public QWidget 
@@ -67,6 +59,8 @@ private slots:
  
 private: 
   std::unique_ptr<server_shared_memory_client> shmClient;
+  double sample_x[4096];
+  double sample[2][4096];
   scope_buffer_reader shmReader;
   ScopePanel left,right;
 };
