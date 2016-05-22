@@ -165,6 +165,7 @@ private slots:
     void toggleFullScreenMode();
     void updateFocusMode();
     void toggleFocusMode();
+    void toggleScopePaused();
     void updateLogVisibility();
     void toggleLogVisibility();
     void updateTabsVisibility();

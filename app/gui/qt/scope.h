@@ -53,6 +53,7 @@ public:
   bool setLeftScope(bool on);
   bool setRightScope(bool on);
   bool setScopeAxes(bool on);
+  void togglePause();
 
 private slots:
   void refreshScope();
@@ -63,6 +64,7 @@ private:
   double sample[2][4096];
   scope_buffer_reader shmReader;
   ScopePanel left,right;
+  bool paused;
 };
 
 #endif

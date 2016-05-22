@@ -386,7 +386,7 @@ module SonicPi
 
     def start_scope
       scope_synth = "sonic-pi-scope"
-      @scope = @server.trigger_synth(:head, @monitor_group, scope_synth, { "max_frames" => 735 })
+      @scope = @server.trigger_synth(:head, @monitor_group, scope_synth, { "max_frames" => 1024 })
     end
 
     def internal_load_sample(path, server=@server)

@@ -70,12 +70,11 @@ void ScopePanel::refresh( )
   plot.replot();
 }
 
-Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",sample_x,sample[0],this), right("Right",sample_x,sample[1],this)
+Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",sample_x,sample[0],this), right("Right",sample_x,sample[1],this), paused( false )
 {
   for( unsigned int i = 0; i < 4096; ++i ) sample_x[i] = i;
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
-  //scopeTimer->start(735*1000/44100); // sample size (4096)*1000 ms/s / Sample Rate (Hz)
   scopeTimer->start(20);
 
   QVBoxLayout* layout = new QVBoxLayout();
@@ -109,30 +108,26 @@ bool Scope::setScopeAxes(bool on)
   return on;
 }
 
+void Scope::togglePause() {
+  paused = !paused;
+}
+
 void Scope::refreshScope() {
-  if( !isVisible() )
-  {
-    return;
-  }
+  if( paused ) return;
+  if( !isVisible() ) return;
 
   if( !shmReader.valid() )
   {
     shmClient.reset(new server_shared_memory_client(4556));
     shmReader = shmClient->get_scope_buffer_reader(0);
   }
-  if( !shmReader.valid() )
-  {
-    qDebug() << "Couldn't get reader!";
-    return;
-  }
 
   unsigned int frames;
   if( shmReader.pull( frames ) )
   {
-    qDebug() << "Got " << frames << " frames";
+    float* data = shmReader.data();
     for( unsigned int j = 0; j < 2; ++j )
     {
-      float* data = shmReader.data();
       unsigned int offset = shmReader.max_frames() * j;
       for( unsigned int i = 0; i < 4096 - frames; ++i )
       {
@@ -144,7 +139,7 @@ void Scope::refreshScope() {
         sample[j][4096-frames+i] = data[i+offset];
       }
     }
+    left.refresh();
+    right.refresh();
   }
-  left.refresh();
-  right.refresh();
 }
