@@ -23,7 +23,7 @@
 #include <qwt_text_label.h>
 #include <cmath>
 
-ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sample_y, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this) 
+ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sample_y, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this)
 {
   plot_curve.setRawSamples( sample_x, sample_y, 4096 );
   plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
