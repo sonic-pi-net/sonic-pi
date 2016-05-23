@@ -897,7 +897,7 @@ Skaff Sonic Pi %1</translation>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"></location>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation type="unfinished">Kjører Sonic Pi allerede? Klarer ikke åpne UDP port 4558.</translation>
+        <translation>Kjører Sonic Pi allerede? Klarer ikke åpne UDP-port 4558.</translation>
     </message>
 </context>
 </TS>
