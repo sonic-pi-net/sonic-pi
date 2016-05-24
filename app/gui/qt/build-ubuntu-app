@@ -58,6 +58,7 @@ sudo make install
 #Build sonic-pi server extensions, documentation, and binary.
 cd $SP_APP_SRC
 ../../server/bin/compile-extensions.rb
+../../server/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/bin/qt-doc.rb -o ruby_help.h
 lrelease SonicPi.pro 

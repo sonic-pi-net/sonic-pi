@@ -7,6 +7,7 @@ set -eux
 
 cd $(dirname $0)
 
+../../server/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/bin/qt-doc.rb -o ruby_help.h
 lrelease SonicPi.pro

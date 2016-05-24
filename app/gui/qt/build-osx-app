@@ -37,6 +37,7 @@ sudo cp /usr/local/qwt-6.1.2/features/* /usr/local/opt/qt5/mkspecs/features/
 #Build Sonic-Pi server extensions, documentation, and gui
 cd $SP_APP_SRC
 ../../server/bin/compile-extensions.rb
+../../server/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/bin/qt-doc.rb -o ruby_help.h
 /usr/local/opt/qt5/bin/lrelease SonicPi.pro 
