@@ -49,7 +49,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="713"></location>
         <source>Indenting line...</source>
-        <translation type="unfinished">Rykker inn linje...</translation>
+        <translation>Rykke inn linje...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
@@ -118,17 +118,17 @@ lage uventede høye eller ubehagelige lyder.</translation>
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2362"></location>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation>Omfang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veksle mellom valgt kommentar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="746"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Velge linjekommentar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
@@ -184,12 +184,12 @@ Bruk disse knappene for å tvinge bruk av lydutgangen du ønsker.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Synther og FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="962"></location>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Endre atferden til synths og FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
@@ -229,25 +229,26 @@ gang kjør-knappen trykkes.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Styr logging av vink.
-Hvis utkoblet, så vil vink fortsatt utløses.
-De vil dermot ikke være synlige i loggene.</translation>
+        <translation>Aktivere eller deaktiviere cues.
+Hvis deaktivert, så vil cues fortsatt utløses.
+De vil derimot ikke være synlige i loggene.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg autorulling</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver logg autorulling.
+Hvis aktivert blir loggen skrollet helt ned etter hver ny melding er vist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver ekstern synths og FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"></location>
@@ -258,12 +259,18 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Når aktivert, vil Sonic Pi tillate
+synths og FX å bli lastet via load_synthdefs
+og bli utløst.
+
+Når deaktivert, vil Sonic Pi si ifra
+når du prøver å bruke en synth eller FX
+ som ikke blir gjenkjent.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Håndheve tidsgarantier</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"></location>
@@ -274,7 +281,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Når aktivert, vil Sonic Pi nekte
+å utløse synther og FX hvis
+det er for sent å gjøre det 
+
+Når deaktivert, vil Sonic Pi alltid
+forsøke å utløse synther og FX
+selv når det er litt sent.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1002"></location>
@@ -478,7 +491,9 @@ Mørk fremtoning er perfekt for koding på direkten i nattklubber.</translation>
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Boot Error
+
+Unnskyld, det oppstod en kritisk feil under oppstart</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
@@ -486,12 +501,12 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Buffer-filer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Last Sonic Pi Buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
@@ -609,12 +624,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1754"></location>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg Auto Scroll på...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1756"></location>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg av Auto Scroll...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2157"></location>
@@ -679,7 +694,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2363"></location>
         <source>View audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis lydutgang</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2367"></location>
