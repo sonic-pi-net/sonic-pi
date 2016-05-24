@@ -1,0 +1,107 @@
+= locale - locale for Ruby
+
+Locale gem is the pure ruby library which provides basic and general
+purpose APIs for localization.
+
+This library was called as "Ruby-Locale". Since 2.0.6, this library is
+called just "locale". You can call this library as "locale gem" or
+"Ruby Locale" to distinguish from other "locale"s.
+
+This library aims to support all environments which Ruby works and all
+kind of programs (GUI, WWW, library, etc), and becomes the hub of
+other i18n/l10n libs/apps to handle major locale ID standards.
+
+* Manage Locale ID(Language Tag)
+  * Each thread has a Locale ID.
+  * POSIX, CLDR, IETF(RFC4646, 3066(BCP47)), Win32 and Java language tags 
+    and convert the tag string to each other.
+  * Auto detect Locale ID.
+    POSIX(Unix/Linux/*BSD), Win32, JRuby, CGI(CGI, Rack, others).
+
+* Resources
+  * ISO 639-3 languages
+  * ISO 3166 region(countries).
+
+* Support Ruby 1.8.7, Ruby 1.9.1, JRuby 1.1.4. Tested on Win32 and Linux.
+
+== Website
+* https://github.com/ruby-gettext/locale
+
+== Requirements
+* Ruby-1.8.7 or later <http://www.ruby-lang.org/ja/>
+* JRuby-1.1.4 or later <http://jruby.codehaus.org/>
+
+== Install
+
+  % gem install locale
+
+== The simplest usage
+
+ require 'rubygems'
+ require 'locale'
+ 
+ p Locale.candidates
+
+== APIs
+The most important APIs are defined in Locale module.
+
+* Locale.candidates - Returns the current locale candidates.
+* Locale.current= - Sets the current locale(in a thread).
+* Locale.default= - Sets the default locale(in the whole program).
+* Locale.set_app_language_tags - Sets the locale that is supported by the App.
+
+== License
+This program is licenced under the same licence as Ruby(See COPYING) or
+LGPL(Lesser General Public License: http://www.gnu.org/licenses/lgpl-3.0.txt).
+
+* locale/language.rb, locale/region.rb, 
+  locale/data/language.tab.gz, locale/data/region.tab.gz:
+  * Copyright (C) 2006 Brian Pontarelli, Antonio Terceiro
+  * Copyright (C) 2008,2009 Masao Mutoh <mutomasa at gmail.com>
+
+* Others(Some files are separated from Ruby-GetText-Package-1.92.0)
+  * Copyright (C) 2008,2009 Masao Mutoh <mutoh at highwhay.ne.jp>
+
+== References
+=== Other libraries
+* langtag-0.1.0 
+  * by Martin Dürst <http://rubyforge.org/projects/langtag/>
+
+* gettext gem
+  * by The ruby-gettext project <https://ruby-gettext.github.com/>
+
+=== Documents
+* The Open Group Base Specifications Issue 6 IEEE Std 1003.1, 2004 Edition 
+  Internationalization Variables 
+  <http://www.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap08.html>
+
+* GNU `gettext' utilities - Setting the Locale through Environment Variables
+  <http://www.gnu.org/software/gettext/manual/gettext.html#Setting-the-POSIX-Locale>
+
+* BCP47 / RFC4646, RFC3066 - Tags for Identifying Languages (Keep RFC3066 compatibility)
+  <http://www.ietf.org/rfc/rfc4646.txt>
+  <http://www.ietf.org/rfc/rfc3066.txt>
+
+* Unicode Locale Data Markup Language (LDML) 1.6.1
+  Unicode Language and Locale Identifiers
+  <http://www.unicode.org/reports/tr35/tr35-11.html#Unicode_Language_and_Locale_Identifiers>
+
+* JDK 6 Documentation - Java Supported Locales
+  <http://java.sun.com/javase/6/docs/technotes/guides/intl/locale.doc.html>
+
+* Microsoft Developer Network - Locales and Languages
+  <http://msdn.microsoft.com/en-us/library/ms776264(VS.85).aspx>
+
+* ISO 639
+
+* ISO 3166
+
+== Maintainer
+
+=== Active
+
+Kouhei Sutou <kou@clear-code.com>
+
+=== Inactive
+
+Masao Mutoh <mutomasa at gmail.com>

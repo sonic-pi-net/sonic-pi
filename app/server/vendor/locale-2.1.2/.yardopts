@@ -1,0 +1,6 @@
+--protected
+--no-private
+--output doc/reference
+--title "locale API Reference"
+-
+doc/text/*
