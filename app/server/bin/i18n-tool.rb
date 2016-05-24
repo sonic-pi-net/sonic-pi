@@ -166,7 +166,7 @@ lang.each do |l|
     raise "no .pot file, run 'i18n-tool.rb --extract' first" unless File.exist?pot_filename
     cmdline = ['--update', '--no-obsolete-entries', po_filename, pot_filename]
     GetText::Tools::MsgMerge.run(*cmdline)
-    $stderr.puts "Merged #{l}"
+    $stderr.puts "Merged tutorial translation #{l}"
     
   else
 
@@ -215,7 +215,7 @@ lang.each do |l|
         pt = 0
         pf = 0
       end
-      $stderr.puts "Translated #{l}: #{format("%.1f", pt)}% ready, #{format("%.1f", pf)}% fuzzy."
+      $stderr.puts "Translated tutorial #{l}: #{format("%.1f", pt)}% ready, #{format("%.1f", pf)}% fuzzy."
     
     when :extract
       File.open(File.expand_path("../../../etc/doc/lang/sonic-pi-tutorial.pot", __dir__), 'w') do |f|
