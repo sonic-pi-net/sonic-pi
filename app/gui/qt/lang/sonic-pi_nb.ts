@@ -128,7 +128,7 @@ lage uventede høye eller ubehagelige lyder.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="746"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished">Velge linjekommentar...</translation>
+        <translation>Styr linjekommentar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
