@@ -888,7 +888,7 @@ Krijg Sonic Pi %1</translation>
         <location filename="../ruby_help.h" line="367"></location>
         <location filename="../ruby_help.h" line="442"></location>
         <source>Tutorial</source>
-        <translation>Zelfstudie</translation>
+        <translation>Handleiding</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="476"></location>
@@ -913,7 +913,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="779"></location>
         <source>Lang</source>
-        <translation>Taalgebruik</translation>
+        <translation>Taal</translation>
     </message>
 </context>
 <context>
