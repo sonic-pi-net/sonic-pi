@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-24 11:41+0000\n"
-"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
+"PO-Revision-Date: 2016-05-24 22:28+0000\n"
+"Last-Translator: Ole-Erik <oeyrvin@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nb/>\n"
 "Language: nb\n"
@@ -20,7 +20,6 @@ msgid "1 Welcome to Sonic Pi"
 msgstr "1 Velkommen til Sonic Pi"
 
 #: 01-Welcome-to-Sonic-Pi.md:3
-#, fuzzy
 msgid "Welcome friend :-)"
 msgstr "Velkommen, venn :-)"
 
