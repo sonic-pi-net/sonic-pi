@@ -1,0 +1,30 @@
+# Hello World 2 -- sample for ruby-gettext-package
+#
+# Copyright (C) 2002-2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Malte Milatz <malte@gmx-topmail.de>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 1.1.1\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Malte Milatz <malte@gmx-topmail.de>\n"
+"Language-Team: Esperanto\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid ""
+"One is %{num}\n"
+msgstr ""
+"Unu estas %{num}.\n"
+
+msgid ""
+"Hello %{world}\n"
+msgstr ""
+"Saluton, %{world}!\n"
+
+msgid "World"
+msgstr "homoj"

@@ -1,0 +1,14 @@
+Sample scripts for gettext.
+
+$rake sample:gettext
+$ruby sample_script.rb
+
+hello.rb        - Basic sample
+hello2.rb       - Basic sample2 (using printf)
+hello_noop.rb   - N_ sample
+hello_plural.rb - n_ sample
+hello_gtk.rb     - Ruby/GTK2 sample
+hello_tk.rb      - Ruby/TK sample
+hello_glade2.rb  - Ruby/Glade2 sample
+
+cgi/* - CGI/ERB sample (See cgi/README)

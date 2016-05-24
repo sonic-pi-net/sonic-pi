@@ -1,0 +1,27 @@
+# hello_plural.po - sample for plural messages
+#
+# Copyright (C) 2005-2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Detlef Reichl, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2005-04-24 17:10+0100\n"
+"Last-Translator: Detlef Reichl <detlef!reichl()gmx!org\n"
+"Language-Team: Detlef Reichl <detlef!reichl()gmx!org\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+
+msgid ""
+"There is an apple.\n"
+msgid_plural ""
+"There are %{num} apples.\n"
+msgstr[0] ""
+"Da ist ein Apfel.\n"
+msgstr[1] ""
+"Da sind %{num} Äpfel.\n"

@@ -1,0 +1,24 @@
+# hello_tk.po - sample for Ruby/TK
+#
+# Copyright (C) 2004-2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# LIN CHUNG-YI <xmarsh at gmail.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 1.1.1\n"
+"PO-Revision-Date: 2006-08-21 09:10+0800\n"
+"Last-Translator: LIN CHUNG-YI <xmarsh at gmail.com>\n"
+"Language-Team: zh_TW <xmarsh at gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: TAIWAN\n"
+
+#: ../hello_tk.rb:16
+msgid "hello, tk world"
+msgstr "哈囉, tk 世界"

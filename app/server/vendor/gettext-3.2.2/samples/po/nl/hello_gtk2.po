@@ -1,0 +1,21 @@
+# Hello World for Ruby/GTK -- sample for ruby-gettext-package
+#
+# Copyright (C) 2005 Masao Mutoh <mutomasa at gmail.com>
+#
+# This file is distributed under the same license as the gettext.
+#
+# Menno Jonkers <ruby-gettext@jonkers.com>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext-package 0.0.1\n"
+"PO-Revision-Date: 2005-12-19 21:44+0100\n"
+"Last-Translator: Menno Jonkers <ruby-gettext@jonkers.com>\n"
+"Language-Team: Dutch <ruby_gettext@jonkers.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgid "hello, gtk world"
+msgstr "hallo, gtk-wereld"

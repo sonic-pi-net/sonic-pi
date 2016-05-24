@@ -1,0 +1,32 @@
+# hello2.po - sample for GetText._()
+#
+# Copyright (C) 2002-2004 Masao Mutoh
+#
+# Joao Pedrosa <joaopedrosa@gmail.com>, 2004, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 1.1.0\n"
+"PO-Revision-Date: 2005-12-17 10:12-0300\n"
+"Last-Translator: Joao Pedrosa <joaopedrosa@gmail.com>\n"
+"Language-Team: Portuguese(Brazil)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../hello2.rb:19
+msgid ""
+"One is %{num}\n"
+msgstr ""
+"Um é %{num}\n"
+
+#: ../hello2.rb:20
+msgid ""
+"Hello %{world}\n"
+msgstr ""
+"Olá, %{world}\n"
+
+#: ../hello2.rb:20
+msgid "World"
+msgstr "Mundo"

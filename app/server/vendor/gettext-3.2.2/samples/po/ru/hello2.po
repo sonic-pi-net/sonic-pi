@@ -1,0 +1,29 @@
+# translation of hello2.po to Russian
+# Hello World 2 -- sample for ruby-gettext-package
+# Copyright (C) 2002-2006 Masao Mutoh#
+# This file is distributed under the same license as the gettext.#
+# Yuri Kozlov <kozlov.y@gmail.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 1.1.1\n"
+"PO-Revision-Date: 2006-04-17 20:15+0300\n"
+"Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
+"Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.9.1\n"
+
+msgid ""
+"One is %{num}\n"
+msgstr ""
+"Один пишется как %{num}\n"
+
+msgid ""
+"Hello %{world}\n"
+msgstr ""
+"Здравствуй %{world}\n"
+
+msgid "World"
+msgstr "мир"

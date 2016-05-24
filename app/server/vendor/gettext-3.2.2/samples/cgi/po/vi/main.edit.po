@@ -1,0 +1,74 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Ngoc DAO Thanh <ngocdaothanh at gmail.com>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2007-03-21 11:18+0900\n"
+"Last-Translator: Ngoc DAO Thanh <ngocdaothanh at gmail.com>\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../cookie.cgi:46 ../index.cgi:52
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Script ví dụ mẫu về CGI/ERB và gói Ruby-GetText"
+
+#: ../cookie.cgi:52
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Đặt [%s] là cookie của trình duyệt WWW của bạn."
+
+#: ../cookie.cgi:56
+msgid "Back"
+msgstr "Quay lui"
+
+#: ../index.cgi:38
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "ví dụ mẫu về ERB/CGI (UTF-8)."
+
+#: ../index.cgi:39
+msgid "an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but has a different rhtml file."
+msgstr "ví dụ mẫu về ERB/CGI (UTF-8). Ví dụ này dùng cùng container như ví dụ 1, nhưng có tập tin rhtml khác."
+
+#: ../index.cgi:40
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "ví dụ mẫu về ERB/CGI (Auto-Detect charset)."
+
+#: ../index.cgi:57
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Những script CGI ví dụ mẫu về Ruby-GetText"
+
+#: ../index.cgi:59
+msgid "Supported Locales:"
+msgstr "Những ngôn ngữ được hỗ trợ:"
+
+#: ../index.cgi:60
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "Tự động nhận biết bảng mã từ trình duyệt WWW"
+
+#: ../index.cgi:68
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Đặt tham số ngôn ngữ \"lang\""
+
+#: ../index.cgi:84
+msgid "Set \"lang\" to cookie."
+msgstr "Đặt \"lang\" vào cookie."
+
+#: ../index.cgi:85
+msgid "Click one of the link below, and then click \"Auto-Detect a locale from the WWW browser\" samples."
+msgstr "Click một trong những link ở dưới, sau đó click những ví dụ mẫu \"Tự động nhận biết bảng mã từ trình duyệt WWW\"."
+
+#: ../index.cgi:94
+msgid "Source codes"
+msgstr "Mã nguồn"
+
+#: ../index.cgi:105
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "index.cgi cũng là script ví dụ mẫu về Ruby-GetText dùng CGI (không phải ERB)."

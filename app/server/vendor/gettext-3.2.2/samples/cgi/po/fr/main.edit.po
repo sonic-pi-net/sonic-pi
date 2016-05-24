@@ -1,0 +1,74 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Laurent Sansonetti <lrz@rubymonks.org>, 2005
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Laurent Sansonetti <lrz@rubymonks.org>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+
+#: ../cookie.cgi:46 ../index.cgi:52
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Un exemple de script CGI/ERB avec gettext"
+
+#: ../cookie.cgi:52
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Assigne [%s] comme Ã©tant le cookie de votre navigateur Internet."
+
+#: ../cookie.cgi:56
+msgid "Back"
+msgstr "PrÃ©cÃ©dent"
+
+#: ../index.cgi:38
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "un exemple ERB/CGI (UTF-8)."
+
+#: ../index.cgi:39
+msgid "an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but has a different rhtml file."
+msgstr "un exemple ERB/CGI (UTF-8) qui utilise le mÃªme conteneur qu'Ã  l'exemple 1 mais avec un autre fichier rhtml."
+
+#: ../index.cgi:40
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "un exemple ERB/CGI (jeu de caractÃ¨res automatiquement dÃ©tectÃ©)."
+
+#: ../index.cgi:57
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Exemples de script CGI avec Ruby-GetText"
+
+#: ../index.cgi:59
+msgid "Supported Locales:"
+msgstr "Locales supportÃ©es:"
+
+#: ../index.cgi:60
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "DÃ©tection automatique de la locale Ã  partir du navigateur Internet"
+
+#: ../index.cgi:68
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Assigne la locale au paramÃªtre \"lang\""
+
+#: ../index.cgi:84
+msgid "Set \"lang\" to cookie."
+msgstr "Assigne \"lang\" au cookie."
+
+#: ../index.cgi:85
+msgid "Click one of the link below, and then click \"Auto-Detect a locale from the WWW browser\" samples."
+msgstr "Cliquez sur un des liens en dessous, et cliquez ensuite sur les exemples \"DÃ©tection automatique de la locale Ã  partir du navigateur Internet\"."
+
+#: ../index.cgi:94
+msgid "Source codes"
+msgstr "Code source"
+
+#: ../index.cgi:105
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "index.cgi est aussi un exemple de script Ruby-GetText utilisant CGI (non ERB)."

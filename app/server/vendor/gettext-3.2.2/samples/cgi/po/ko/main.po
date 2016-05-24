@@ -1,0 +1,64 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Gyoung-Yoon Noh <nohmad@gmail.com>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2005-12-23 02:00+0900\n"
+"Last-Translator: Gyoung-Yoon Noh <nohmad@gmail.com>\n"
+"Language-Team: Korean\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "CGI/ERB와 Ruby-GetText 꾸러미를 위한 예제 스크립트"
+
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "[%s]를 웹 브라우저의 쿠키로 설정합니다."
+
+msgid "Back"
+msgstr "뒤로가기"
+
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "ERB/CGI 예제 (UTF-8)"
+
+msgid ""
+"an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but"
+" has a different rhtml file."
+msgstr "ERB/CGI 샘플 (UTF-8). 이 예제는 예제 1과 같은 컨테이너를 사용하지만 다른 rhtml 파일을 사용합니다."
+
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "ERB/CGI 샘플 (문자집합 자동탐지)"
+
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Ruby-GetText CGI 예제 스크립트들"
+
+msgid "Supported Locales:"
+msgstr "지원되는 로케일:"
+
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "웹 브라우저로부터 로케일을 자동탐지"
+
+msgid "Set locale as a \"lang\" parameter"
+msgstr "\"lang\" 매개변수로 로케일을 설정"
+
+msgid "Set \"lang\" to cookie."
+msgstr "\"lang\"을 쿠키에 설정합니다."
+
+msgid ""
+"Click one of the link below, and then click \"Auto-Detect a locale from the WWW"
+" browser\" samples."
+msgstr "아래 링크 중 하나를 선택하시고 \"웹 브라우저로부터 로케일을 자동탐지\" 예제를 클릭하세요."
+
+msgid "Source codes"
+msgstr "소스 코드들"
+
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "index.cgi 역시 ERB가 아닌 CGI를 사용하는 Ruby-GetText 예제 스크립트입니다."

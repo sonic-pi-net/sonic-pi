@@ -1,0 +1,74 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Malte Milatz <malte@gmx-topmail.de>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Malte Milatz <malte@gmx-topmail.de>\n"
+"Language-Team: Esperanto\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../cookie.cgi:46 ../index.cgi:52
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Ekzemplo pri ERB/CGI kaj Ruby-GetText"
+
+#: ../cookie.cgi:52
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Registru [%s] en krozilan kuketon."
+
+#: ../cookie.cgi:56
+msgid "Back"
+msgstr "Reen"
+
+#: ../index.cgi:38
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "programekzemplo pri ERB/CGI (UTF-8)."
+
+#: ../index.cgi:39
+msgid "an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but has a different rhtml file."
+msgstr "ekzemplo pri ERB/CGI (UTF-8), kiu uzas la saman ujon kiel la unua ekzemplo sed alian rhtml-dosieron."
+
+#: ../index.cgi:40
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "Ekzemplo pri ERB/CGI (aŭtomata diveno de la signaro)."
+
+#: ../index.cgi:57
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Programekzemploj pri Ruby-GetText kaj CGI"
+
+#: ../index.cgi:59
+msgid "Supported Locales:"
+msgstr "Disponeblaj lokaĵaroj:"
+
+#: ../index.cgi:60
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "Elekto de la lokaĵaron surbaze de krozilaj informoj"
+
+#: ../index.cgi:68
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Agordo de la lokaĵaro per la parametro \"lang\""
+
+#: ../index.cgi:84
+msgid "Set \"lang\" to cookie."
+msgstr "Registro de \"lang\" en kuketon."
+
+#: ../index.cgi:85
+msgid "Click one of the link below, and then click \"Auto-Detect a locale from the WWW browser\" samples."
+msgstr "Alklaku unu el la jenaj ligiloj, poste alklaku \"Elekto de la lokaĵaro surbaze de krozilaj informoj."
+
+#: ../index.cgi:94
+msgid "Source codes"
+msgstr "Fontkodo"
+
+#: ../index.cgi:105
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "index.cgi estas programekzemplo pri Ruby-GetText kaj CGI (ne ERB)."

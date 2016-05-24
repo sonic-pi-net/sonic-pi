@@ -1,0 +1,116 @@
+/*
+   CSS for gettext
+                    by Masao Mutoh.
+*/
+
+body {
+  margin: 0px;
+  padding: 0px;
+  color: #000;
+  background-color: #fff;
+  font-size: 90%;
+  font-family: Times, Sans-Serif;
+  line-height: 1.5em;
+}
+
+h1 {
+  color: #002288;
+  text-align: left;
+  clear: both;
+  padding:0.4em;
+   font-weight: bold;
+   font-size: 1.8em;
+   padding-left:0.5em;
+   padding-right:10px;
+   margin-top: 10px;
+   margin-left: 20px;
+   margin-bottom:1em;
+   margin-right:5px;
+   border: solid thin;
+   border-left: solid;
+   border-color: #9999ff;
+   border-top-width: 0px;
+   border-right-width: 0px;
+   border-bottom-width: 1px;
+   border-left-width: 15px;
+}
+h2 {
+  margin: 0px;
+  font-size: large;
+  font-weight: bold;
+   font-size: 1.4em;
+   padding: 0.3em;
+   padding-left:0.5em;
+   padding-right:10px;
+   margin-top: 1em;
+   margin-left: 1.5em;
+   margin-right: 10px;
+   margin-bottom:0.8em;
+   border: solid thin;
+   border-left: solid;
+   border-color: #9999ff;
+   border-top-width: 0px;
+   border-right-width: 0px;
+   border-bottom-width: 1px;
+   border-left-width: 15px;
+
+}
+
+h3 {
+  margin:1em;
+  margin-bottom: 0.5em;
+  margin-top: 1.5em;
+  margin-left: 2em;
+  margin-right: 24px;
+  padding: 0.1em;
+  padding-top: 0;
+  padding-left: 0.7em;
+  font-size: 1.2em;
+  border-style: dashed;
+  border-width: 0px 0px 1px 1px;
+  border-color: #ddddff;
+}
+
+p {
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 0px;
+  margin-left: 1.5em;
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+
+ol, ul {
+  margin-top: 0.2em;
+  margin-left: 3em;
+  padding-left: 1.5em;
+}
+
+li {
+  margin-top: 0.2em;
+  margin-left: 0em;
+  padding-left: 0em;
+  line-height: 1.2em;
+}
+
+.locale {
+  margin: 2em;
+  padding: 1em;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+  border-color: #ddddff;
+}
+
+pre {
+  margin: 2em;
+  padding: 1em;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+  border-color: #ddddff;
+  background-color: #eeffee;
+}
+
+.copyright { 
+  text-align: right;
+  padding: 2em;
+}

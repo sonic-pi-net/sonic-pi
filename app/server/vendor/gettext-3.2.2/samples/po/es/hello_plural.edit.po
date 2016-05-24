@@ -1,0 +1,26 @@
+# hello_plural.po - sample for GetText.n_().
+#
+# Copyright (C) 2002-2006 Masao Mutoh
+#
+# David Espada <davinci at escomposlinux.org>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 1.6.0\n"
+"PO-Revision-Date: 2004-11-05 10:32+0100\n"
+"Last-Translator: David Espada <davinci at escomposlinux.org>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+
+#: ../hello_plural.rb:20
+msgid ""
+"There is an apple.\n"
+msgid_plural ""
+"There are %{num} apples.\n"
+msgstr[0] ""
+"Hay una manzana.\n"
+msgstr[1] ""
+"Hay %{num} manzanas.\n"

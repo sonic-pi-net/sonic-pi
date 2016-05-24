@@ -1,0 +1,66 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# David Moreno Garza <damog at damog.net>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"Last-Translator: David Moreno Garza <damog at damog.net>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Script de ejemplo para CGI/ERB y gettext"
+
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Definir [%s] como la cookie del navegador web."
+
+msgid "Back"
+msgstr "Regresar"
+
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "un ejemplo ERB/CGI (UTF-8)."
+
+msgid ""
+"an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but"
+" has a different rhtml file."
+msgstr ""
+"un ejemplo ERB/CGI (UTF-8). Este ejemplo utiliza el mismo contenedor como prue"
+"ba 1 pero tiene otro archivo rhtml."
+
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "un ejemplo ERB/CGI (charset Auto-Detect)."
+
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Scripts de ejemplo CGI de Ruby-GetText"
+
+msgid "Supported Locales:"
+msgstr "Locales soportadas:"
+
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "Auto-detectar la locale del navegador web"
+
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Definir la locale como el parámetro \"lang\""
+
+msgid "Set \"lang\" to cookie."
+msgstr "Definir \"lang\" como una cookie."
+
+msgid ""
+"Click one of the link below, and then click \"Auto-Detect a locale from the WWW"
+" browser\" samples."
+msgstr ""
+"Dele clic en alguno de los enlaces de abajo y luego sobre los ejemplos de \"Aut"
+"o-detectar la locale del navegador web\"."
+
+msgid "Source codes"
+msgstr "Códigos fuentes"
+
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "index.cgi es también un script de ejempli Ruby-GetText usando CGI (no ERB)."

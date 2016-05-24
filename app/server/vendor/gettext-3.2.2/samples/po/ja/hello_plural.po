@@ -1,0 +1,23 @@
+# hello_plural.po - sample for GetText.n_()
+#
+# Copyright (C) 2002-2006 Masao Mutoh
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 1.6.0\n"
+"PO-Revision-Date: 2002-10-21 19:32:15+0900\n"
+"Last-Translator: Masao Mutoh\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=Shift_JIS\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid ""
+"There is an apple.\n"
+msgid_plural ""
+"There are %{num} apples.\n"
+msgstr[0] ""
+"ÇËÇÒÇ≤Ç™Ç†ÇËÇ‹Ç∑ÅB\n"
+msgstr[1] ""
+"ÇËÇÒÇ≤Ç™%{num}å¬Ç†ÇËÇ‹Ç∑ÅB\n"
