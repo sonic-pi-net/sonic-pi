@@ -1,0 +1,69 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2007-07-03 00:20+0900\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../fixtures/ns_.rb:28 ../fixtures/ns_.rb:32
+msgid "AAA|BBB"
+msgid_plural "CCC"
+msgstr[0] "single"
+msgstr[1] "plural"
+
+#: ../fixtures/ns_.rb:36
+msgid "AAA"
+msgid_plural "BBB"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../fixtures/ns_.rb:40
+msgid "AAA|CCC"
+msgid_plural "DDD"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../fixtures/ns_.rb:44
+msgid "AAA|BBB|CCC"
+msgid_plural "DDD"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../fixtures/ns_.rb:48
+msgid "AAA$BBB"
+msgid_plural "CCC"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../fixtures/ns_.rb:52
+msgid "AAA$B|BB"
+msgid_plural "CCC"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../fixtures/ns_.rb:56
+msgid "AAA$B|CC"
+msgid_plural "DDD"
+msgstr[0] "single"
+msgstr[1] "plural"
+
+#: ../fixtures/ns_.rb:60
+msgid "AAA|CCC|BBB"
+msgid_plural "DDD"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../fixtures/ns_/custom.rb:28
+msgid "context|context$message"
+msgid_plural "context|context$messages"
+msgstr[0] ""
+msgstr[1] ""

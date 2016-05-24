@@ -1,0 +1,364 @@
+# -*- mode: ruby; coding: utf-8 -*-
+#
+#  po_parser.ry - ruby version of msgfmt
+#
+#  Copyright (C) 2002-2008 Masao Mutoh <mutomasa at gmail.com>
+#  Copyright (C) 2012-2014 Kouhei Sutou <kou@clear-code.com>
+#  Copyright (C) 2012-2013 Haruka Yoshihara <yoshihara@clear-code.com>
+#
+#  You may redistribute it and/or modify it under the same
+#  license terms as Ruby or LGPL.
+
+class GetText::POParser
+  token COMMENT MSGID MSGCTXT MSGID_PLURAL MSGSTR STRING PLURAL_NUM
+
+  rule
+
+  msgfmt
+  : /* empty */
+  | msgfmt comment
+  | msgfmt msgctxt
+  | msgfmt message
+  ;
+
+  msgctxt
+  : MSGCTXT string_list
+  {
+    @msgctxt = unescape(val[1])
+  }
+  ;
+
+  message
+  : single_message
+  | plural_message
+  ;
+
+  single_message
+  : MSGID string_list MSGSTR string_list
+  {
+    msgid_raw = val[1]
+    msgid = unescape(msgid_raw)
+    msgstr = unescape(val[3])
+    use_message_p = true
+    if @fuzzy and not msgid.empty?
+      use_message_p = (not ignore_fuzzy?)
+      if report_warning?
+        if ignore_fuzzy?
+          $stderr.print _("Warning: fuzzy message was ignored.\n")
+        else
+          $stderr.print _("Warning: fuzzy message was used.\n")
+        end
+        $stderr.print "  #{@po_file}: msgid '#{msgid_raw}'\n"
+      end
+    end
+    @fuzzy = false
+    on_message(msgid, msgstr) if use_message_p
+    result = ""
+  }
+
+  plural_message
+  : MSGID string_list MSGID_PLURAL string_list msgstr_plural
+  {
+    if @fuzzy and ignore_fuzzy?
+      if val[1] != ""
+        if report_warning?
+          $stderr.print _("Warning: fuzzy message was ignored.\n")
+          $stderr.print "msgid = '#{val[1]}\n"
+        end
+      else
+        on_message("", unescape(val[3]))
+      end
+      @fuzzy = false
+    else
+      @msgid_plural = unescape(val[3])
+      on_message(unescape(val[1]), unescape(val[4]))
+    end
+    result = ""
+  }
+  ;
+
+  msgstr_plural
+  : msgstr_plural msgstr_plural_line
+  {
+    if val[0].size > 0
+      result = val[0] + "\000" + val[1]
+    else
+      result = ""
+    end
+  }
+  | msgstr_plural_line
+  ;
+
+  msgstr_plural_line
+  : MSGSTR PLURAL_NUM string_list
+  {
+    result = val[2]
+  }
+  ;
+
+  comment
+  : COMMENT
+  {
+    on_comment(val[0])
+  }
+  #| COMMENT
+  #;
+
+  string_list
+  : string_list STRING
+  {
+    result = val.delete_if{|item| item == ""}.join
+  }
+  | STRING
+  {
+    result = val[0]
+  }
+  ;
+end
+
+---- header
+require "gettext/po"
+
+---- inner
+  if GetText.respond_to?(:bindtextdomain)
+    include GetText
+    GetText.bindtextdomain("gettext")
+  else
+    def _(message_id)
+      message_id
+    end
+    private :_
+  end
+
+  attr_writer :ignore_fuzzy, :report_warning
+  def initialize
+    @ignore_fuzzy = true
+    @report_warning = true
+  end
+
+  def ignore_fuzzy?
+    @ignore_fuzzy
+  end
+
+  def report_warning?
+    @report_warning
+  end
+
+  def unescape(orig)
+    ret = orig.gsub(/\\n/, "\n")
+    ret.gsub!(/\\t/, "\t")
+    ret.gsub!(/\\r/, "\r")
+    ret.gsub!(/\\"/, "\"")
+    ret
+  end
+  private :unescape
+
+  def unescape_string(string)
+    string.gsub(/\\\\/, "\\")
+  end
+  private :unescape_string
+
+  def parse(str, data)
+    @translator_comments = []
+    @extracted_comments = []
+    @references = []
+    @flags = []
+    @previous = []
+    @comments = []
+    @data = data
+    @fuzzy = false
+    @msgctxt = nil
+    @msgid_plural = nil
+
+    str.strip!
+    @q = []
+    until str.empty? do
+      case str
+      when /\A\s+/
+        str = $'
+      when /\Amsgctxt/
+        @q.push [:MSGCTXT, $&]
+        str = $'
+      when /\Amsgid_plural/
+        @q.push [:MSGID_PLURAL, $&]
+        str = $'
+      when /\Amsgid/
+        @q.push [:MSGID, $&]
+        str = $'
+      when /\Amsgstr/
+        @q.push [:MSGSTR, $&]
+        str = $'
+      when /\A\[(\d+)\]/
+        @q.push [:PLURAL_NUM, $1]
+        str = $'
+      when /\A\#~(.*)/
+        if report_warning?
+          $stderr.print _("Warning: obsolete msgid exists.\n")
+          $stderr.print "         #{$&}\n"
+        end
+        @q.push [:COMMENT, $&]
+        str = $'
+      when /\A\#(.*)/
+        @q.push [:COMMENT, $&]
+        str = $'
+      when /\A\"(.*)\"/
+        @q.push [:STRING, unescape_string($1)]
+        str = $'
+      else
+        #c = str[0,1]
+        #@q.push [:STRING, c]
+        str = str[1..-1]
+      end
+    end
+    @q.push [false, "$end"]
+    if $DEBUG
+      @q.each do |a,b|
+      puts "[#{a}, #{b}]"
+      end
+    end
+    @yydebug = true if $DEBUG
+    do_parse
+
+    if @comments.size > 0
+      @data.set_comment(:last, @comments.join("\n"))
+    end
+    @data
+  end
+
+  def next_token
+    @q.shift
+  end
+
+  def on_message(msgid, msgstr)
+    msgstr = nil if msgstr.empty?
+
+    if @data.instance_of?(PO)
+      type = detect_entry_type
+      entry = POEntry.new(type)
+      entry.translator_comment = format_comment(@translator_comments)
+      entry.extracted_comment = format_comment(@extracted_comments)
+      entry.flags = @flags
+      entry.previous = format_comment(@previous)
+      entry.references = @references
+      entry.msgctxt = @msgctxt
+      entry.msgid = msgid
+      entry.msgid_plural = @msgid_plural
+      entry.msgstr = msgstr
+
+      @data[@msgctxt, msgid] = entry
+    else
+      options = {}
+      options[:msgctxt] = @msgctxt
+      options[:msgid_plural] = @msgid_plural
+      @data.store(msgid, msgstr, options)
+      @data.set_comment(msgid, format_comment(@comments))
+    end
+
+    @translator_comments = []
+    @extracted_comments = []
+    @references = []
+    @flags = []
+    @previous = []
+    @references = []
+    @comments.clear
+    @msgctxt = nil
+    @msgid_plural = nil
+  end
+
+  def format_comment(comments)
+    return "" if comments.empty?
+
+    comment = comments.join("\n")
+    comment << "\n" if comments.last.empty?
+    comment
+  end
+
+  def on_comment(comment)
+    @fuzzy = true if (/fuzzy/ =~ comment)
+    if @data.instance_of?(PO)
+      if comment == "#"
+        @translator_comments << ""
+      elsif /\A(#.)\s*(.*)\z/ =~ comment
+        mark = $1
+        content = $2
+        case mark
+        when POFormat::TRANSLATOR_COMMENT_MARK
+          @translator_comments << content
+        when POFormat::EXTRACTED_COMMENT_MARK
+          @extracted_comments << content
+        when POFormat::REFERENCE_COMMENT_MARK
+          @references.concat(parse_references_line(content))
+        when POFormat::FLAG_MARK
+          @flags.concat(parse_flags_line(content))
+        when POFormat::PREVIOUS_COMMENT_MARK
+          @previous << content
+        else
+          @comments << comment
+        end
+      end
+    else
+      @comments << comment
+    end
+  end
+
+  def parse_file(po_file, data)
+    args = [ po_file ]
+    # In Ruby 1.9, we must detect proper encoding of a PO file.
+    if String.instance_methods.include?(:encode)
+      encoding = detect_file_encoding(po_file)
+      args << "r:#{encoding}"
+    end
+    @po_file = po_file
+    parse(File.open(*args) {|io| io.read }, data)
+  end
+
+  private
+  def detect_file_encoding(po_file)
+    open(po_file, :encoding => "ASCII-8BIT") do |input|
+      in_header = false
+      input.each_line do |line|
+        case line.chomp
+        when /\Amsgid\s+"(.*)"\z/
+          id = $1
+          break unless id.empty?
+          in_header = true
+        when /\A"Content-Type:.*\scharset=(.*)\\n"\z/
+          charset = $1
+          next unless in_header
+          break if template_charset?(charset)
+          return Encoding.find(charset)
+        end
+      end
+    end
+    Encoding.default_external
+  end
+
+  def template_charset?(charset)
+    charset == "CHARSET"
+  end
+
+  def detect_entry_type
+    if @msgctxt.nil?
+      if @msgid_plural.nil?
+        :normal
+      else
+        :plural
+      end
+    else
+      if @msgid_plural.nil?
+        :msgctxt
+      else
+        :msgctxt_plural
+      end
+    end
+  end
+
+  def parse_references_line(line)
+    line.split(/\s+/)
+  end
+
+  def parse_flags_line(line)
+    line.split(/\s+/)
+  end
+---- footer
+

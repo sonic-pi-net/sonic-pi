@@ -1,0 +1,18 @@
+# Chinese translations for gettext package.
+# Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gettext package.
+# Kouhei Sutou <kou@clear-code.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext 3.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2013-09-03 21:34+0900\n"
+"Last-Translator: Kouhei Sutou <kou@clear-code.com>\n"
+"Language-Team: Chinese\n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"\n"

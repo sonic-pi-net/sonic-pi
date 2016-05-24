@@ -1,0 +1,21 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Tamás Tompa <tompata at gmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2008-01-15 00:00+0900\n"
+"Last-Translator: Tamás Tompa <tompata at gmail.com>\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This message is from hellolib."
+msgstr "Az az üzenet a hellolib-ből jön."

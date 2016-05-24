@@ -1,0 +1,68 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Ramon Salvadó <rsalvado at gnuine.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2005-12-20 10:33+0900E\n"
+"Last-Translator: Ramon Salvadó <rsalvado at gnuine.com>\n"
+"Language-Team: Catalan\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Script d'exemple per CGI/ERB i gettext"
+
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Fixa [%s] com la galeta del teu navegaor WWW."
+
+msgid "Back"
+msgstr "Enrere"
+
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "un exemple d'ERB/CGI (UTF-8)."
+
+msgid ""
+"an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but"
+" has a different rhtml file."
+msgstr ""
+"Un exemple d'ERB/CGI (UTF-8). Aquest exemple utilitza el mateix contenidor que"
+" l'exemple 1 però té un fitxer rhtml diferent."
+
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "un exemple d'ERB/CGI (Auto-detecció charset)."
+
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Scripts d'exemple per Ruby-GetText CGI"
+
+msgid "Supported Locales:"
+msgstr "Locales suportats:"
+
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "Auto-Detecció del locale des del navegador WWW"
+
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Fixa el locale com a paràmetre \"lang\""
+
+msgid "Set \"lang\" to cookie."
+msgstr "Fixa \"lang\" a la galeta."
+
+msgid ""
+"Click one of the link below, and then click \"Auto-Detect a locale from the WWW"
+" browser\" samples."
+msgstr ""
+"Clica un dels següents enllaços i seguidament clica a \"Exemples d'Auto-Detecci"
+"ó del locale des del navegador WWW\"."
+
+msgid "Source codes"
+msgstr "Codis font"
+
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "index.cgi és també un exemple de script Ruby-GetText utilitzant CGI(no ERB)."

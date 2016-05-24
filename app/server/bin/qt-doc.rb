@@ -158,7 +158,12 @@ make_tutorial = lambda do |lang|
 
   docs << "\n  // language #{lang}\n"
   tutorial_html_map = {}
-  Dir["#{tutorial_path}/#{lang}/*.md"].sort.each do |path|
+  if lang == "en" then
+    markdown_path = tutorial_path
+  else
+    markdown_path = File.expand_path("../generated/#{lang}/tutorial", tutorial_path)
+  end
+  Dir["#{markdown_path}/*.md"].sort.each do |path|
     f = File.open(path, 'r:UTF-8')
     # read first line (title) of the markdown, use as title
     name = f.readline.strip
@@ -204,11 +209,9 @@ ruby_html_map = {
 # to make sure that a more specific locale is handled
 # before the generic language code,
 # e.g., "de_CH" should be handled before "de"
-languages = Dir.
-  glob("#{tutorial_path}/*").
-  select {|f| File.directory? f}.
-  map {|f| File.basename f}.
-  select {|n| n != "en"}.
+languages = 
+  Dir[File.expand_path("../lang/sonic-pi-tutorial-*.po", tutorial_path)].
+  map { |p| File.basename(p).gsub(/sonic-pi-tutorial-(.*?).po/, '\1') }.
   sort_by {|n| -n.length}
 
 docs << "\n  QString systemLocale = QLocale::system().name();\n\n" unless languages.empty?

@@ -1,0 +1,68 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Gabriele Renzi <surrender_it at yahoo.it>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2005-04-24 12:44+0100\n"
+"Last-Translator: Gabriele Renzi <surrender_it at yahoo.it>\n"
+"Language-Team: Gabriele Renzi <surrender_it at yahoo.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Script di esempio per CGI/ERB e per il pacchetto Ruby-GetText"
+
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Imposta [%s] come cookie sul tuo browser WWW."
+
+msgid "Back"
+msgstr "Indietro"
+
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "un esempio di ERB/CGI (UTF-8)."
+
+msgid ""
+"an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but"
+" has a different rhtml file."
+msgstr ""
+"un esempio di ERB/CGI (UTF-8). Questo esmepio usa lo stesso container dell'ese"
+"mpio 1 ma ha un altro file rhtml."
+
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "un esempio ERB/CGI (Riconoscimento charset automatico)."
+
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Script di esempio per Ruby-GetText CGI"
+
+msgid "Supported Locales:"
+msgstr "Locale supportati:"
+
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "Riconoscimento automatico del locale da un browser WWW"
+
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Imposta locale come un parametro \"lang\" "
+
+msgid "Set \"lang\" to cookie."
+msgstr "Imposta \"lang\" su cookie"
+
+msgid ""
+"Click one of the link below, and then click \"Auto-Detect a locale from the WWW"
+" browser\" samples."
+msgstr ""
+"Cliccare su uno dei link sottostanti, e poi sugli esempi \"Riconoscimento autom"
+"atico del locale da un browser WWW\"."
+
+msgid "Source codes"
+msgstr "Codici sorgente"
+
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "Anche index.cgi Ã¨ un esempio Ruby-GetText usando CGI (non ERB)."

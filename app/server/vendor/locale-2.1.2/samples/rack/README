@@ -1,0 +1,10 @@
+= Install Rack:
+$ sudo gem install rack
+
+= Run rack server:
+$rackup hello_rack.ru
+
+= Access from WWW browser: 
+http://localhost:9292/
+http://localhost:9292/?lang=ja
+

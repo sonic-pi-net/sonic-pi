@@ -1,0 +1,21 @@
+# hello_noop.po - sample for GetText.N_()
+#
+# Copyright (C) 2002-2004 Masao Mutoh
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 0.8.0\n"
+"PO-Revision-Date: 2002-02-21 22:50:00+0900\n"
+"Last-Translator: Masao Mutoh\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=euc-jp\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../hello_noop.rb:13
+msgid "Hello World"
+msgstr "こんにちは、世界。"
+
+#: ../hello_noop.rb:13
+msgid "Hello World2"
+msgstr "こんにちは、世界2。"

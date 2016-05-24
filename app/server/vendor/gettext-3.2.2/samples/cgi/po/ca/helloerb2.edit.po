@@ -1,0 +1,22 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Ramon Salvadó <rsalvado at gnuine.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2005-12-20 10:33+0900E\n"
+"Last-Translator: Ramon Salvadó <rsalvado at gnuine.com>\n"
+"Language-Team: Catalan\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../helloerb2.cgi:35
+msgid "Sample script for CGI/ERB (Auto-Detect charset)."
+msgstr "Script d'exemple per a CGI/ERB (Auto-detecció de charset)"

@@ -1,0 +1,68 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Tamás Tompa <tompata at gmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2008-01-15 00:00+0900\n"
+"Last-Translator: Tamás Tompa <tompata at gmail.com>\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Példa script CGI/ERB-hez és a gettext-hez"
+
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Cookie [%s] beállítása a böngésződben."
+
+msgid "Back"
+msgstr "Vissza"
+
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "egy ERB/CGI példa (UTF-8)."
+
+msgid ""
+"an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but"
+" has a different rhtml file."
+msgstr ""
+"egy ERB/CGI példa (UTF-8). Ez a példa ugyanazt a container-t használja, mint a"
+" példa 1de másik rhtml fájlt."
+
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "egy ERB/CGI példa (Automatikus karakterkódolás felismerő)."
+
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Ruby-GetText CGI példa script-ek"
+
+msgid "Supported Locales:"
+msgstr "Támogatott területek (locale-ek):"
+
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "Automatikus (locale) felismerés böngészőből"
+
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Locale beállítása mint \"lang\" paraméter"
+
+msgid "Set \"lang\" to cookie."
+msgstr "A megfelelő \"lang\" cookie beállítása."
+
+msgid ""
+"Click one of the link below, and then click \"Auto-Detect a locale from the WWW"
+" browser\" samples."
+msgstr ""
+"Kattints az alábbi linkre, aztán kattints az \"Automatikus (locale) felismerés "
+"böngészőből\" példákra."
+
+msgid "Source codes"
+msgstr "Forrás kód"
+
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "az index.cgi is egy Ruby-GetText példa script, ami CGI-t használ (nem ERB)."

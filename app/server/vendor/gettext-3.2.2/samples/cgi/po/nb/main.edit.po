@@ -1,0 +1,74 @@
+# CGI/ERB sample for gettext.
+# Copyright (C) 2005,2006 Masao Mutoh
+# This file is distributed under the same license as the gettext.
+# Runar Ingebrigtsen <runar@mopo.no>, 2008.
+# , fuzzy
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2008-07-14 16:35+0200\n"
+"Last-Translator: Runar Ingebrigtsen <runar@mopo.no>\n"
+"Language-Team: Norwegian/Bokmaal <i18n-nb@lister.ping.uio.no>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
+
+#: ../cookie.cgi:46 ../index.cgi:52
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Eksempelskript for CGI/ERB og Ruby-GetText-pakken"
+
+#: ../cookie.cgi:52
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Sett [%s] som informasjonskapsel i din nettleser."
+
+#: ../cookie.cgi:56
+msgid "Back"
+msgstr "Tilbake"
+
+#: ../index.cgi:38
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "et ERB/CGI-eksempel (UTF-8)."
+
+#: ../index.cgi:39
+msgid "an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but has a different rhtml file."
+msgstr "et ERB/CGI-eksempel (UTF-8). Dette eksempelet bruker den samme containeren someksempel 1, men har en annen rhtml-fil."
+
+#: ../index.cgi:40
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "et ERB/CGI-eksempel (Auto-Detect charset)."
+
+#: ../index.cgi:57
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Ruby-GetText CGI eksempelskript"
+
+#: ../index.cgi:59
+msgid "Supported Locales:"
+msgstr "Støttede lokale:"
+
+#: ../index.cgi:60
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "Auto-Detect et lokale fra nettleseren"
+
+#: ../index.cgi:68
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Sett lokale som en \"lang\"-parameter"
+
+#: ../index.cgi:84
+msgid "Set \"lang\" to cookie."
+msgstr "Sett \"lang\" til en informasjonskapsel."
+
+#: ../index.cgi:85
+msgid "Click one of the link below, and then click \"Auto-Detect a locale from the WWW browser\" samples."
+msgstr "Klikk på en lenke under og deretter på \"Auto-Detect et lokale fra nettleseren\"eksemplene."
+
+#: ../index.cgi:94
+msgid "Source codes"
+msgstr "Kildekode"
+
+#: ../index.cgi:105
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "index.cgi er også et Ruby-GetText eksempelskript som bruker CGI, ikke ERB."

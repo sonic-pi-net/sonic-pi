@@ -98,3 +98,8 @@ book/
 ## IntelliJ IDEA
 
 *.iml
+
+## i18n auto-generated files
+
+etc/doc/lang/sonic-pi-tutorial.pot
+etc/doc/generated/

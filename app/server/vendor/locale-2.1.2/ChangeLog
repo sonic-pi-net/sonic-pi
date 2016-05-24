@@ -1,0 +1,158 @@
+= locale-2.0.5 (2009-11-14)
+ * Update license information(obiviously Ruby's and LGPL).
+   [Pointed out by Masateru Yoshikawa]
+ * Fixed bugs [Bug #26995 by Thomas Nichols][Bug #26998 by Patrick Guiran]
+
+= locale-2.0.4 (2009-05-22)
+ * Enhance Win32 support. [Reported by Dice]
+ * Enhance JRuby support
+ * Fixed a waring with ruby -d option.
+ * Update version.
+
+= locale-2.0.3 (2009-05-09)
+ * Update version.
+
+= locale-2.0.2 (2009-05-04)
+ * Add Locale.set_app_language_tags to restrict the target locales whole the application. [Suggested by Vladimir Dobriakov]
+ * locale/driver/cgi.rb: Add Locale.set_request.
+ * sample/rack: Add a sample for rack.
+ * Improve documents.
+ * Fix bugs
+   * Illegular -> Irregular [by Denis Defreyne]
+   * test_thread.rb doesn't work under the environment where LC_ALL is set .
+     [Reported by Hans de Graaff (Bug#24831)]
+   * Fixed Locale::Drive::CGI.charset don't work when accept_charset is nil.
+     [Reported by hallelujah (Bug#25583)]
+   * Fixed Locale::Drive::Win32.charset don't work.
+
+Thanks to:
+  Denis Defreyne, Hans de Graaff, hallelujah, Vladimir Dobriakov
+
+= locale-2.0.1 (2009-04-18)
+ * Locale::Tag::Common#extensions are shown order by the keys.[reported by
+ Dan Coutu]
+ * Enhance to support ruby-1.9.x [by OZAWA Sakuro]
+ * Reimplement memoize to be able to freeze or dup the object.
+ * Improve Locale.candidates.
+
+ Thanks to:
+   Dan Coutu, OZAWA Sakuro
+
+= locale-2.0.0 (2009-03-21)
+ * Support Rack.
+ * move to github from svn.
+
+== Older format.
+2008-12-04  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/util/memoizable.rb: Modified. 
+
+2008-12-03  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/tag/*.rb: Add attribute writer to subtags.
+	* lib/locale/tag/*.rb: Remove tag attributes.
+	* lib/locale/tag/common.rb: Variant accept 3 or later size because of RFC3066 compatibility. 
+	* test/test_tag.rb: Add tests. 
+
+2008-12-01  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/driver/win32.rb: Work on Win32 again. 
+
+2008-11-22  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale.rb: Rename Locale.current_language_tags to Locale.candidates.
+	Locale.current_charset to Locale.charset.
+
+2008-11-21  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/tag/simple.rb: Add Locale::Tag::Simple#to_str.
+	* lib/locale.rb: Remove set_current_charset. current_charset becomes read only.
+
+2008-11-20  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/driver/cgi.rb: Accept plural lang values(query string and
+	cookies). 
+
+2008-11-19  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale.rb: Locale.current_language_tags returns Locale::TagList.
+	* lib/tag/*.rb: Add #candidates method.
+
+2008-11-12  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/util/meoizable.rb: Added. 
+
+2008-11-03  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* README: Updated.
+	* Rakefile: Add package tasks. Revise RDoc task.
+	* lib/locale/driver/win32.rb, win32_table.rb, jruby.rb: Work on Windows.
+
+2008-10-29  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* samples/cgi/*.rb: Added CGI sample (Based on Ruby-GetText sample).
+
+2008-10-21  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* samples/sample1.rb: Added.
+
+2008-10-07  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/*.rb: Support Ruby 1.9.
+
+2008-10-01  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/*.rb: Support JRuby. Tested on JRuby 1.1.4.
+
+2008-09-26  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/driver/*: Apply tags.
+	* lib/locale/taglist.rb: Added. An array of tags. Also, it behaves
+	as the first tag in the array.
+	* test/test_detect_general.rb: Added.
+	
+2008-09-25  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/tag.rb, lib/locale/tag/*: Added. Support rfc4646/posix/cldr
+	language tags powerfully.
+	* lib/locale/object.rb: Removed(Moved to tags).
+	* test/test_tag.rb: Added.
+
+2008-09-21  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* test/*: Added.
+
+2008-09-02  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale.rb: Added Locale.current_language_tags which returns
+	language tags strings as an Array order by priority.
+
+2008-08-20  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale/info/language.rb, region.rb: Move from 
+	lib/locale/language.rb, country.rb.
+
+2008-08-18  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* lib/locale.rb: Remove Locale.codeset, .charset, .current_charset. 
+	Use Locale.get.charset instead.
+	Add Locale.current_preferable_locales, supported_locales, 
+	.set_supported_locales
+
+2008-08-10  Masao Mutoh  <mutoh@highway.ne.jp>
+
+	* Separates this locale library from Ruby-GetText-Package-1.92.0.
+	* lib/locale/country.rb, language.rb: Merge locale-0.1 by Brian Pontarelli.
+	Reimplement Locale::Language and Locale::Country. All APIs don't have
+	backward compatibility from locale-0.1.
+	* lib/locale/data/countries.tab.gz, languages.tab.gz: Merge from locale-0.1.
+	* lib/locale/base.rb, win32.rb, win32_table.rb, posix.rb, jruby.rb, cgi.rb: 
+	Move to lib/locale/driver/.
+	These classes detect the user/system locale (the language tag or 
+	the charset) from the environment variables or the system APIs
+	(Win32/Java). Support POSIX, Win32, JRuby, CGI and ENV.
+
+	* lib/locale.rb: Add Locale.init.
+	* lib/locale/info.rb: Added.
+	* lib/locale.rb: Locale.set_current becomes thread safe. Each thread has
+	a current locale.

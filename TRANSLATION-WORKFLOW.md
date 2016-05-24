@@ -64,8 +64,11 @@ strategy.
 The Qt Linguist `.ts` files are created and updated from the source 
 code, using the Qt `lupdate` tool.
 
-Whenever message strings are changed or a major feature introduces new 
-ones, you need to update the `.ts` files.
+The Tutorial `.po` files are created and updated from the tutorial's
+Markdown source texts, using the `i18n-tool.rb` script.
+
+Whenever message strings or parts of the tutorial are changed or a
+major feature introduces new texts, you need to update these files.
 
 Don't update too often, as we don't want to annoy the volunteer 
 translators with many small work chunks. Remember to do an extra update 
@@ -75,27 +78,33 @@ complete the translation.
 To initiate a translation update:
 
 1. [Lock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
-   on Weblate (this will also commit and merge all oustanding 
-   translation updates from Weblate to Github).
+   on Weblate, then wait for Weblate to automatically commit and merge
+   all oustanding  translation updates and wait for it to push them from
+   Weblate to Github.
 
 2. Update your local repo to the current HEAD of the master branch from 
-   Github, update the Qt linguist files using `lupdate`, commit the 
-   update and push it back to the master branch.
+   Github, update the translation files, commit the update and push it
+   back to the master branch.
   
    ```
      git pull
-     cd app/gui/qt
-     lupdate -pro SonicPi.pro -no-obsolete
+
+     lupdate -pro app/gui/qt/SonicPi.pro -no-obsolete
      git commit lang/sonic-pi_*.ts
+
+     app/server/bin/i18n-tool.rb -x
+     # the following will complain about every fuzzy entry
+     app/server/bin/i18n-tool.rb -u
+     git commit etc/doc/lang/*.po
+     
      git push
    ```
 
-3. [Unlock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
+3. Wait for Weblate to sync these changes back from Github, then
+   [unlock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
    on Weblate.
 
-This will update all Qt linguist files in 
-`app/gui/qt/lang/sonic-pi_<LANG>.ts` with the new message strings from 
-your code and remove obsolete entries.
+This will update all translation files and remove obsolete entries.
 
 Weblate will then fetch the changes automatically, translators can 
 update them and the finished translations will flow back into the 

@@ -1,0 +1,66 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# LIN CHUNG-YI <xmarsh at gmail.com>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2006-08-18 14:43+0800\n"
+"Last-Translator: LIN CHUNG-YI <xmarsh at gmail.com>\n"
+"Language-Team: zh_TW <xmarsh at gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: TAIWAN\n"
+
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "CGI/ERB 與 gettext 的範例程式"
+
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "設定 [%s] 為瀏覽器的 cookie"
+
+msgid "Back"
+msgstr "返回"
+
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "ERB/CGI 範例 (UTF-8)"
+
+msgid ""
+"an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but"
+" has a different rhtml file."
+msgstr "ERB/CGI 範例 (UTF-8) 該範例使用範例一同樣的 container 只是 rhtml 檔案不同"
+
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "ERB/CGI 範例 (字集自動偵測)"
+
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Ruby-GetText 的 CGI 範例"
+
+msgid "Supported Locales:"
+msgstr "支援字集:"
+
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "自動從瀏覽器判斷字集"
+
+msgid "Set locale as a \"lang\" parameter"
+msgstr "利用 \"lang\" 參數設定字集"
+
+msgid "Set \"lang\" to cookie."
+msgstr "設定 \"lang\" 到 cookie."
+
+msgid ""
+"Click one of the link below, and then click \"Auto-Detect a locale from the WWW"
+" browser\" samples."
+msgstr "按下面連結再按 \"自動從瀏覽器判斷字集\"  範例"
+
+msgid "Source codes"
+msgstr "原始碼"
+
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "index.cgi 也是 Ruby-GetText 的  CGI 範例 (非 ERB)"
