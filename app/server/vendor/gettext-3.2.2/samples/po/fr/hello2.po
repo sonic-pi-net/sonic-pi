@@ -1,0 +1,26 @@
+# hello2.po - sample for GetText._()
+#
+# Copyright (C) 2004 Laurent Sansonetti <lrz@rubymonks.org>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext-package 0.8.0\n"
+"PO-Revision-Date: 2004-11-04 09:22+0100\n"
+"Last-Translator: Laurent Sansonetti\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid ""
+"One is %{num}\n"
+msgstr ""
+"Le premier est %{num}\n"
+
+msgid ""
+"Hello %{world}\n"
+msgstr ""
+"Bonjour %{world}\n"
+
+msgid "World"
+msgstr "Monde"

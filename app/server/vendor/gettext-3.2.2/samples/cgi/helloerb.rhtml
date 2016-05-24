@@ -1,0 +1,28 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=<%= GetText.output_charset %>">
+  <link rel="stylesheet" type="text/css" href="gettext.css" media="all">
+<title><%= _("Sample script for CGI/ERB and gettext") %></title>
+</head>
+<body>
+<%
+  require 'hellolib'
+	require 'cgi'
+  lib = HelloLib.new
+%>
+<h1><%= _("Hello World") %> - <%= @domainname %></h1>
+<p><%= description %></p>
+<div class="locale">
+<p><%= _("locale") %>: <%= Locale.get %></p>
+<p><%= _("output_charset") %>: <%= GetText.output_charset %></p>
+<p><%= _("QUERY_STRING") %>: <%= cgi.query_string %></p>
+</div>
+<p><%= _("Call a library method which has another textdomain.") %></p>
+<div class="locale"><%=  lib.hello %></div>
+<p><a href="/"><%= _("Back") %></a></p>
+
+<div class="copyright">
+Copyright (C) 2005 Masao Mutoh
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+# CGI/ERB sample for gettext.
+#
+# Copyright (C) 2005,2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# damphyr <damphyr@gmx.net>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cgi-sample 1.1.1\n"
+"PO-Revision-Date: 2006-01-06 19:50+0100\n"
+"Last-Translator: damphyr <damphyr@gmx.net>\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Sample script for CGI/ERB and gettext"
+msgstr "Υπόδειγμα για CGI/ERB και τη βιβλιοθήκη Ruby-GetText"
+
+msgid "Set [%s] as the cookie of your WWW Browser."
+msgstr "Θέσε [%s] ως το μπισκότο του ξεφυλιστή σου (αστείο είναι, όχι μετάφραση)"
+
+msgid "Back"
+msgstr "Πίσω"
+
+msgid "an ERB/CGI sample (UTF-8)."
+msgstr "ένα υπόδειγμα ERB/CGI (UTF-8)."
+
+msgid ""
+"an ERB/CGI sample (UTF-8). This sample uses the same container as sample 1 but"
+" has a different rhtml file."
+msgstr "ένα υπόδειγμα ERB/CGI (UTF-8). Αυτό το υπόδειγμα χρησιμοποιεί  "
+
+msgid "an ERB/CGI sample (Auto-Detect charset)."
+msgstr "ένα υπόδειγμα για CGI/ERB (αυτόματη αναγνώριση συνόλου χρακτήρων)"
+
+msgid "Ruby-GetText CGI sample scripts"
+msgstr "Ruby-GetText υποδείγματα CGI"
+
+msgid "Supported Locales:"
+msgstr "Υποστηριζόμενα locale"
+
+msgid "Auto-Detect a locale from the WWW browser"
+msgstr "Αυτόματη αναγνώριση locale από τον browser"
+
+msgid "Set locale as a \"lang\" parameter"
+msgstr "Set locale as a \"lang\" parameter"
+
+msgid "Set \"lang\" to cookie."
+msgstr "Set \"lang\" to cookie."
+
+msgid ""
+"Click one of the link below, and then click \"Auto-Detect a locale from the WWW"
+" browser\" samples."
+msgstr ""
+"Ακολούθησε έναν από τους δεσμούς και επέλεξε τα υποδείγματα \"Αυτόματη αναγνώρι"
+"ση locale από τον browser\""
+
+msgid "Source codes"
+msgstr "Κώδικας"
+
+msgid "index.cgi is also a Ruby-GetText sample script using CGI(not ERB)."
+msgstr "Το index.cgi είναι επίσης ένα υπόδειγμα χρήσης Ruby-GetText με CGI (χωρίς ERB)"

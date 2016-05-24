@@ -31,8 +31,7 @@ to help translate Sonic Pi.
 ## What you can translate
 
 * The *Sonic Pi Qt GUI* is the application you use on your desktop
-  screen. It contains few message strings and translating it is fairly 
-  easy.
+  screen. It contains few message strings and translating it is easy.
 
 * The *Tutorial* is a fairly long document. Translating it requires
   significantly more effort, but it's very rewarding as it is a 

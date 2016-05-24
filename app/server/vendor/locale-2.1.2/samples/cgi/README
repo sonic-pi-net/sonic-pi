@@ -1,0 +1,20 @@
+Sample script for CGI/ERB and Ruby/Locale.
+
+Run the http server.
+$ ruby http.rb
+
+Access the http server from WWW browser:
+
+http://localhost:10080/
+
+or
+
+If you want to set locale(lang) forcely, then:
+
+http://localhost:10080/?lang=ja
+     #ja is a target locale in this sample.
+
+http.rb        - an http server for samples using WEBrick
+index.cgi      - a sample menu (CGI sample)
+cookie.cgi     - Set lang to cookie value.
+locale.css     - CSS file.

@@ -1,0 +1,19 @@
+# Hello World noop -- a sample for ruby-gettext package.
+#
+# Copyright (C) Masao Mutoh <mutomasa at gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 0.0.0\n"
+"PO-Revision-Date: 2005-12-23 02:00+0900\n"
+"Last-Translator: Gyoung-Yoon Noh <nohmad@gmail.com>\n"
+"Language-Team: Korean\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Hello World"
+msgstr "안녕 세상"
+
+msgid "Hello World2"
+msgstr "안녕 세상 2"

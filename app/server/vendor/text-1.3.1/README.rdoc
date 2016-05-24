@@ -1,0 +1,59 @@
+= Text
+
+A collection of text algorithms.
+
+== Usage
+
+  require 'text'
+
+=== Levenshtein distance
+
+  Text::Levenshtein.distance('test', 'test')
+  # => 0
+  Text::Levenshtein.distance('test', 'tent')
+  # => 1
+  Text::Levenshtein.distance('test', 'testing')
+  # => 3
+  Text::Levenshtein.distance('test', 'testing', 2)
+  # => 2
+
+=== Metaphone
+
+  Text::Metaphone.metaphone('BRIAN')
+  # => 'BRN'
+
+  Text::Metaphone.double_metaphone('Coburn')
+  # => ['KPRN', nil]
+  Text::Metaphone.double_metaphone('Angier')
+  # => ['ANJ', 'ANJR']
+
+=== Soundex
+
+  Text::Soundex.soundex('Knuth')
+  # => 'K530'
+
+=== Porter stemming
+
+  Text::PorterStemming.stem('abatements')  # => 'abat'
+
+=== White similarity
+
+  white = Text::WhiteSimilarity.new
+  white.similarity('Healed', 'Sealed')   # 0.8
+  white.similarity('Healed', 'Help')     # 0.25
+
+Note that some intermediate information is cached on the instance to improve
+performance.
+
+== Ruby version compatibility
+
+The library has been tested on Ruby 1.8.6 to 1.9.3 and on JRuby.
+
+== Thanks
+
+* Hampton Catlin (hcatlin) for Ruby 1.9 compatibility work
+* Wilker Lúcio for the initial implementation of the White algorithm
+
+== License
+
+MIT. See COPYING.txt for details.

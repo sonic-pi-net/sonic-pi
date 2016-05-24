@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2004-07-03 23:03+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: test_rubyparser.rb:8
+msgid "aaa"
+msgstr "AAA"
+
+#: test_rubyparser.rb:12
+msgid "aaa\n"
+msgstr "AAA\n"
+
+#: test_rubyparser.rb:16
+msgid "bbb\nccc"
+msgstr "BBB\nCCC"
+
+#: test_rubyparser.rb:20
+msgid "bbb\nccc\nddd\n"
+msgstr "BBB\nCCC\nDDD\n"
+
+#: test_rubyparser.rb:27 test_rubyparser.rb:31
+msgid "eee"
+msgstr "EEE"
+
+#: test_rubyparser.rb:31
+msgid "fff"
+msgstr "FFF"
+
+#: test_rubyparser.rb:35
+msgid "ggghhhiii"
+msgstr "GGGHHHIII"

@@ -54,6 +54,7 @@ You need to compiler server extensions
 
 Generate i18n files
 ```
+../../server/native/osx/ruby/bin/ruby ../../server/bin/i18n-tool.rb -t
 cp -f ruby_help.tmpl ruby_help.h
 ../../server/native/osx/ruby/bin/ruby ../../server/bin/qt-doc.rb -o ruby_help.h
 /usr/local/opt/qt5/bin/lrelease SonicPi.pro 

@@ -1,0 +1,23 @@
+# Hello World noop -- sample for ruby-gettext-package
+#
+# Copyright (C) 2002-2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Alex Rootoff <rootoff at pisem.net>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 1.1.1\n"
+"PO-Revision-Date: 2007-12-23 13:58+0200\n"
+"Last-Translator: Alex Rootoff <rootoff at pisem.net>\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Hello World"
+msgstr "Привіт, світ"
+
+msgid "Hello World2"
+msgstr "Привіт, світ2"

@@ -1,0 +1,41 @@
+Sample script for CGI/ERB and gettext.
+
+At first, create mo file once:
+$ rake 
+
+# You need 'rake' to execute it.
+
+(One click ruby installer for Windonws user only)
+Edit ruby.bat to fit your environment. If you don't have GTK,
+removes 'set PATH=c:\gtk\bin' line.
+
+Then run the http server.
+$ ruby http.rb
+
+Access the http server from WWW browser:
+
+http://localhost:10080/
+http://localhost:10080/1
+http://localhost:10080/2
+
+or
+
+If you want to set locale(lang) forcely, then:
+
+http://localhost:10080/?lang=ja
+http://localhost:10080/1?lang=ja
+http://localhost:10080/2?lang=ja
+     #ja is a target locale in this sample.
+
+http.rb        - an http server for samples using WEBrick
+
+index.cgi      - a sample menu (CGI sample)     - textdomain: main
+cookie.cgi     - a sample menu (CGI sample)     - textdomain: main
+helloerb1.cgi  - an ERB/CGI sample (UTF-8)       - textdomain: helloerb1
+helloerb2.cgi  - an ERB/CGI sample (Auto-Detect) - textdomain: helloerb2
+
+helloerb.rhtml - an ERB file (used from both of helloerb1/helloerb2)
+other.rhtml    - an ERB file (used from helloerb1)
+
+hellolib.rb    - a smple library called from helloerb.rhtml which have an 
+                 independent textdomain: hellolib

@@ -1,0 +1,27 @@
+# hello_plural.po - sample for plural messages
+#
+# Copyright (C) 2002-2006 Masao Mutoh
+#
+# This file is distributed under the same license as the gettext.
+#
+# Malte Milatz <malte@gmx-topmail.de>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ruby-gettext 1.1.1\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Malte Milatz <malte@gmx-topmail.de>\n"
+"Language-Team: Esperanto\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+
+msgid ""
+"There is an apple.\n"
+msgid_plural ""
+"There are %{num} apples.\n"
+msgstr[0] ""
+"Jen pomo.\n"
+msgstr[1] ""
+"Jen %{num} pomoj.\n"

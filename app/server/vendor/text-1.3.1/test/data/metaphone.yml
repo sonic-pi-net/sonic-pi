@@ -1,0 +1,53 @@
+#
+# Based on the table at http://aspell.net/metaphone/metaphone-kuhn.txt,
+# with surprising results changed to 'correct' ones (according to my interpretation
+# of the algorithm description), and some more results from around the web:
+#
+ANASTHA: ANS0
+DAVIS-CARTER: TFSKRTR
+ESCARMANT: ESKRMNT
+MCCALL: MKL
+MCCROREY: MKRR
+MERSEAL: MRSL
+PIEURISSAINT: PRSNT
+ROTMAN: RTMN
+SCHEVEL: SXFL
+SCHROM: SXRM
+SEAL: SL
+SPARR: SPR
+STARLEPER: STRLPR
+THRASH: 0RX
+LOGGING: LKNK
+LOGIC: LJK
+JUDGES: JJS
+SHOOS: XS
+SHOES: XS
+CHUTE: XT
+SCHUSS: SXS
+OTTO: OT
+ERIC: ERK
+BUCK: BK
+COCK: KK
+DAVE: TF
+CATHERINE: K0RN
+KATHERINE: K0RN
+AUBREY: ABR
+BRYAN: BRYN
+BRYCE: BRS
+STEVEN: STFN
+RICHARD: RXRT
+HEIDI: HT
+AUTO: AT
+MAURICE: MRS
+RANDY: RNT
+CAMBRILLO: KMBRL
+BRIAN: BRN
+RAY: R
+GEOFF: JF
+BOB: BB
+AHA: AH
+AAH: A
+PAUL: PL
+BATTLEY: BTL
+WROTE: RT
+THIS: 0S
