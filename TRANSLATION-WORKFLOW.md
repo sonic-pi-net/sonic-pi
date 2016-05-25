@@ -82,7 +82,7 @@ To initiate a translation update:
 
 1. [Lock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
    on Weblate, then wait for Weblate to automatically commit and merge
-   all oustanding  translation updates and wait for it to push them from
+   all outstanding  translation updates and wait for it to push them from
    Weblate to Github.
 
 2. Update your local repo to the current HEAD of the master branch from 
