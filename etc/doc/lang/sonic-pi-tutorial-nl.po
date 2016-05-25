@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-24 17:47+0000\n"
+"PO-Revision-Date: 2016-05-25 14:40+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -30,10 +30,10 @@ msgid ""
 "you'll learn all about music, synthesis, programming, composition, "
 "performance and more."
 msgstr ""
-"Welkom bij Sonic Pi. Hopelijk ben je zo enthousiast om aan de slag te gaan "
-"om te gekke geluiden te gaan maken,zoals ik jou ga tonen. He gaat een echte  "
-"plezier-rit worden,waar u alles over muziek, synthese, programmeren, "
-"compositie, performen leert en meer..."
+"Welkom bij Sonic Pi. Hopelijk ben je ook zo enthousiast  om van start te "
+"gaan,en om te gekke geluiden te gaan maken,zoals ik jou dat ga laten zien. "
+"Het gaat een leuke trip worden,waar u alles over muziek, synthese, "
+"programmeren, compositie, performen leert en veel meer..."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -45,10 +45,10 @@ msgid ""
 "where I code with Sonic Pi live in front of audiences."
 msgstr ""
 "Maar wacht,hoe onbeleefd van mij! Ik moet mij nog voorstellen!\n"
-"Ik ben [Sam Aaron] ( http://twitter.com/samaaron ) de kerel die Sonic Pi "
-"creerde.\n"
+"Ik ben [Sam Aaron] ( http://twitter.com/samaaron ) de man die Sonic Pi "
+"creëerde.\n"
 "Je vind mij als [@samaaron](http://twitter.com/samaaron) op Twitter en ik "
-"zal meer dan blij zijn om je te begroeten. Misschien ben je ook "
+"zal heel blij zijn om je daar te groeten. Misschien ben je ook "
 "geïnteresseerd om meer te weten te komen over mijn [Live Coding Performances]"
 " (http://facebook.com/livecodersamaaron) waar ik live,voor publiek,codeer in "
 "Sonic Pi."
@@ -60,8 +60,8 @@ msgid ""
 "feature!"
 msgstr ""
 "Als je bedenkingen,of ideeën hebt om Sonic Pi te verbeteren, aarzel dan niet "
-"om deze te laten weten-feedback is heel nuttig.Je weet nooit, jouw idee kan "
-"wel eens de volgende grote nieuwe functie wezen!"
+"om deze te laten weten-daar feedback heel nuttig is.Je weet nooit, jouw idee "
+"kan wel eens de volgende grote nieuwe functie wezen!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -74,8 +74,8 @@ msgstr ""
 "Deze handleiding is verdeeld in secties en gegroepeerd per categorie.Hoewel "
 "ik deze in een volgorde geschreven heb met een eenvoudige leercurve voor "
 "ogen, wees vrij om in afzonderlijke secties te duiken,zoals het je "
-"belieft.Heb je het gevoel dat er iets mankeert,laat het mij weten en ik zal "
-"deze overwegen voor een volgende versie."
+"belieft.Heb je het gevoel dat er iets ontbreekt,laat het mij weten en ik zal "
+"deze in beraad nemen voor een volgende versie."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -83,8 +83,8 @@ msgid ""
 "regularly stream live on [livecoding.tv/samaaron](http://livecoding.tv/"
 "samaaron) so please do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Tot slot, de “live code” van anderen is een fantastische manier om het te "
-"leren. Regelmatig live-stream ik op  "
+"Tot slot, de “live code” van anderen is een fantastische manier om te leren. "
+"Regelmatig live-stream ik op  "
 "[livecoding.tv/samaaron](http://livecoding.tv/samaaron) dus neem daar af en "
 "toe een kijkje, zeg even dag en stel me veel vragen :-)"
 
@@ -94,12 +94,12 @@ msgstr "OK, laat ons beginnen..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr "1.1 Live Coderen (  Live Coding )"
+msgstr "1.1 \"Live\" Coderen (  Live Coding )"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "Live Coderen"
+msgstr "\"Live\" Coderen"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -108,10 +108,14 @@ msgid ""
 "a guitar. This means that given some practice you can take Sonic Pi on stage "
 "and gig with it."
 msgstr ""
+"Een van de meest opwindende aspecten van Sonic Pi is dat het je in staat "
+"stelt om code te gaan schrijven, deze ook “live” te wijzigen, om muziek te "
+"kunnen maken, net zoals je live gitaar zou spelen.Dit betekent dat je, mits "
+"wat oefening, met Sonic Pi het podium op kan en hiermee gaat optreden."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr ""
+msgstr "Geef je gedachten een vrije loop"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -120,14 +124,19 @@ msgid ""
 "code. Don't worry if you don't understand much (or any) of this. Just try to "
 "hold onto your seats and enjoy..."
 msgstr ""
+"Voordat we in detail gaan over hoe Sonic Pi werkt,verder in deze "
+"handleiding, wil ik je een ervaring meegeven van wat het is om live te "
+"coderen . Maak je geen zorgen als je er niet veel (of niets ) van begrijpt. "
+"Ga gewoon even zitten en geniet ..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
-msgstr ""
+msgstr "Een \"live\" loop"
 
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
 msgstr ""
+"Laten we beginnen, kopieer de volgende code in een lege buffer hierboven :"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -137,6 +146,10 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"live_loop :flibble do\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 0.5\n"
+"end"
 
 #: 01.1-Live-Coding.md:28
 msgid ""
@@ -144,14 +157,20 @@ msgid ""
 "away. If at any time you wish to stop the sound just hit the `Stop` button. "
 "Although don't hit it just yet... Instead, follow these steps:"
 msgstr ""
+"Klik nu op de afspeelknop en je zal een lekker snelle bas drum horen slaan. "
+"Je kan nu, wanneer jij dat wenst, het geluid stoppen door op de 'Stop' knop "
+"te klikken. Maar doe dat nog even niet,en neem in plaats daarvan de volgende "
+"stappen:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr ""
+msgstr "Zorg dat de basdrum nog steeds loopt"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
 msgstr ""
+"Verander de waarde van 'sleep' van '0.5' naar een ietwat hoger getal,zoals "
+"'1' ."
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
