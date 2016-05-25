@@ -62,7 +62,7 @@ Foundation and the Broadcom Foundation.
 
 ## Translations
 
-Sonic Pi's application and built in tutorial have been translated into several languages thanks to the awesome work of several [volunteer translators](CONTRIBUTORS.md#Translation):
+Sonic Pi's application and built in tutorial have been translated into several languages thanks to the awesome work of several [volunteer translators](CONTRIBUTORS.md#translation):
 
 Status                                                                                                                                                       | Language            | Application        | Tutorial
 -----------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------ | :----------------: | :----------------: 
