@@ -62,26 +62,28 @@ Foundation and the Broadcom Foundation.
 
 ## Translations
 
-Sonic Pi's built in tutorial has been translated into several languages thanks to the awesome work of the following contributors.
+Sonic Pi's application and built in tutorial have been translated into several languages thanks to the awesome work of several [volunteer translators](CONTRIBUTORS.md#Translation):
 
-\-           | Language         | Status      | Maintainer          | Contributors                                                                                          |
------------- | ---------------- | ----------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
-:fr:         | French           | merged      |                     | @echevresm, @nicoder, @SergeStinckwich                                                                |
-:de:         | German           | merged      |                     | @hzulla, G. Martin Butz, @hztirf, @mbutz, @wwerner, @st01c                                            |
-:jp:         | Japanese         | merged      |                     | @keikomachiya                                                                                         |
-:pl:         | Polish           | merged      | @hopbit             | @hopbit, @nurkiewicz                                                                                  |
-:fi:         | Finnish          | merged      |                     | Tuomas Pyylampi                                                                                       |
-:it:         | Italian          | merged      |                     | @federico-pepe, @marco-giordano                                                                       |
-:ro:         | Romanian         | merged      |                     | @mpatrascu                                                                                            |
-:ru:         | Russian          | in progress |                     | @RomanSaveljev, @dcromster                                                                            |
-:pt:         | Portuguese       | in progress |                     | @SiIky                                                                                                |
-:sp:         | Spanish          | in progress |                     | @merongivian, @thraex41                                                                               |
-:nl:         | Dutch            | in progress | @DuchessFounder     | @DuchessFounder, @PrisDiest, @mozinator, @nathanvda, Nico Staelens, Servaas Tilkin, Joek van Montfort |
-:gr:         | Greek            | in progress | @aspra              | @aspra                                                                                                |
-:nb:         | Norwegian Bokmål | in progress | @petterreinholdtsen | @petterreinholdtsen                                                                                   |
-:se:         | Swedish          | in progress | @bjornekstrom       | @bjornekstrom                                                                                         |
+Status                                                                                                                                                       | Language            | Application        | Tutorial
+-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------ | :----------------: | :----------------: 
+[![Translation Status of Sonic Pi: da](https://hosted.weblate.org/widgets/sonic-pi/da/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Danish              | :white_check_mark: | :red_circle:
+[![Translation Status of Sonic Pi: nl](https://hosted.weblate.org/widgets/sonic-pi/nl/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Dutch               | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: fi](https://hosted.weblate.org/widgets/sonic-pi/fi/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Finnish             | :white_check_mark: | :red_circle:
+[![Translation Status of Sonic Pi: fr](https://hosted.weblate.org/widgets/sonic-pi/fr/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | French              | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: de](https://hosted.weblate.org/widgets/sonic-pi/de/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | German              | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: hu](https://hosted.weblate.org/widgets/sonic-pi/hu/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Hungarian           | :white_check_mark: | :red_circle:
+[![Translation Status of Sonic Pi: is](https://hosted.weblate.org/widgets/sonic-pi/is/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Icelandic           | :white_check_mark: | :red_circle:
+[![Translation Status of Sonic Pi: it](https://hosted.weblate.org/widgets/sonic-pi/it/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Italian             | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: ja](https://hosted.weblate.org/widgets/sonic-pi/ja/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Japanese            | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: nb](https://hosted.weblate.org/widgets/sonic-pi/nb/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Norwegian Bokmål    | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: pl](https://hosted.weblate.org/widgets/sonic-pi/pl/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Polish              | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: pt](https://hosted.weblate.org/widgets/sonic-pi/pt/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Portuguese          | :red_circle:       | :white_check_mark:
+[![Translation Status of Sonic Pi: ro](https://hosted.weblate.org/widgets/sonic-pi/ro/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Romanian            | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: ru](https://hosted.weblate.org/widgets/sonic-pi/ru/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Russian             | :white_check_mark: | :white_check_mark:
+[![Translation Status of Sonic Pi: zh_Hans](https://hosted.weblate.org/widgets/sonic-pi/zh_Hans/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/) | Simplified Chinese  | :white_check_mark: | :red_circle:
+[![Translation Status of Sonic Pi: es](https://hosted.weblate.org/widgets/sonic-pi/es/svg-badge.svg)](https://hosted.weblate.org/engage/sonic-pi/)           | Spanish             | :white_check_mark: | :white_check_mark:
 
-Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started. Additionally [here](https://github.com/samaaron/sonic-pi/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+i18n) you can find translations (i18n) related issues.
+Would you like to contribute a translation too? If so, please take a look at our [translation docs](https://github.com/samaaron/sonic-pi/blob/master/TRANSLATION.md) to get started.
 
 ## Information for developers
 
