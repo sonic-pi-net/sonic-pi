@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-25 14:36+0000\n"
+"PO-Revision-Date: 2016-05-26 23:52+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -1754,7 +1754,7 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr ""
+msgstr "Nivelul de declin"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
