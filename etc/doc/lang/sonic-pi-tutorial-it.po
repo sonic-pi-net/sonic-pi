@@ -972,15 +972,14 @@ msgstr ""
 "avere un parametro che si chiama `cheese:` e volerlo impostare al valore `1`."
 
 #: 02.2-Synth-Params.md:27
-#, fuzzy
 msgid ""
 "Opts are passed to calls to `play` by using a comma `,` and then the name of t"
 "he opt such as `amp:` (don't forget the colon `:`) and then a space and the va"
 "lue of the opt. For example:"
 msgstr ""
-"I parametri sono passati alle istruzioni `play` usando una virgola `,` seguita"
-" dal nome del parametro, per esempio `amp:` (non dimenticare i due punti `:`) "
-"e quindi da uno spazio e dal valore del parametro. Per esempio:"
+"I parametri sono passati alle istruzioni `play` usando una virgola `,` "
+"seguita dal nome del parametro, per esempio `amp:` (non dimenticare i due "
+"punti `:`) e quindi da uno spazio e dal valore del parametro. Per esempio:"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
