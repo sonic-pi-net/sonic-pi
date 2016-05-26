@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-26 13:37+0000\n"
+"PO-Revision-Date: 2016-05-26 13:50+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -148,42 +148,36 @@ msgid "Make sure the bass drum sound is still running"
 msgstr "-バスドラムがまだ鳴っていることを確認します。"
 
 #: 01.1-Live-Coding.md:33
-#, fuzzy
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
 msgstr "-`sleep`の値を、`0.5`から、`1`より大きい値に書き換えてみましょう。"
 
 #: 01.1-Live-Coding.md:34
-#, fuzzy
 msgid "Press the `Run` button again"
 msgstr "-`Run`（再生）ボタンをもう一度押します。"
 
 #: 01.1-Live-Coding.md:35
-#, fuzzy
 msgid "Notice how the drum speed has changed."
 msgstr "-ドラムの早さがどのように変わったかを確認してみましょう。"
 
 #: 01.1-Live-Coding.md:36
-#, fuzzy
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"-この瞬間を忘れないでください。これが、あなたが初めてSonic Piでライブコーディングをした瞬間です。*この瞬間を忘れないでください。*そしてこれが最後"
-"にはならないはず・・・"
+"-この瞬間を忘れないでください。これが、あなたが初めてSonic "
+"Piでライブコーディングをした瞬間です。*この瞬間を忘れないでください。*そしてこれが最後にはならないはず・・・"
 
 #: 01.1-Live-Coding.md:39
-#, fuzzy
 msgid ""
 "Ok, that was simple enough. Let's add something else into the mix. Above `samp"
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"これは簡単でした。では他の要素を加えてみましょう。`sample :bd_haus`の上に、 `sample :ambi_choir, rate: 0.3`"
-" を追加してみます。コードはこのようになるはずです。"
+"これは簡単でした。では他の要素を加えてみましょう。`sample :bd_haus`の上に、 `sample :ambi_choir, rate: "
+"0.3` を追加してみます。コードはこのようになるはずです。"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :flibble do\n"
 "  sample :ambi_choir, rate: 0.3\n"
@@ -198,7 +192,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -207,19 +200,17 @@ msgid ""
 "your computer will stop with an error because it can't keep up (if that happen"
 "s, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"では、ちょっと遊んでみましょう。値を変えてみてください。大きな値、小さな値、もしくはマイナスの値にしたとき、 何が起こるでしょうか？では、`:ambi_ch"
-"oir` の `rate:` の値をほんの少し（0.29などに）変えた時、どうなるでしょう？ `sleep` の値をすごく小さくすると、どうでしょう？操作が"
-"速すぎると、エラーが出て コンピュータが止まってしまいます。これはコンピュータがついていけないからです。 （そんな時は、より大きい値を `sleep` に設"
-"定して`Run`ボタンをもう一度押しましょう。）"
+"では、ちょっと遊んでみましょう。値を変えてみてください。大きな値、小さな値、もしくはマイナスの値にしたとき、 "
+"何が起こるでしょうか？では、`:ambi_choir` の `rate:` の値をほんの少し（0.29などに）変えた時、どうなるでしょう？ `sleep`"
+" の値をすごく小さくすると、どうでしょう？操作が速すぎると、エラーが出て コンピュータが止まってしまいます。これはコンピュータがついていけないからです。 "
+"（そんな時は、より大きい値を `sleep` に設定して`Run`ボタンをもう一度押しましょう。）"
 
 #: 01.1-Live-Coding.md:59
-#, fuzzy
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr "では、`sample` の行に `#` をつけることで、 「コメント」してみてください。"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :flibble do\n"
 "  sample :ambi_choir, rate: 0.3\n"
@@ -234,67 +225,60 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:70
-#, fuzzy
 msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"コンピュータに#をつけた行を無視するよう命令したので、聞こえませんね。これはコメントと呼ばれます。 Sonic Piでは、要素を削除したり追加したりするのに"
-"コメントを使います。 最後に、楽しむための技をお伝えしましょう。以下のコードを、上の空欄のWorkspace(ワークスペース)にコピーします。 そして、2つ"
-"は同時にループ（繰り返し）します。まずは精一杯、体験して楽しみましょう！"
+"コンピュータに#をつけた行を無視するよう命令したので、聞こえませんね。これはコメントと呼ばれます。 Sonic "
+"Piでは、要素を削除したり追加したりするのにコメントを使います。"
 
 #: 01.1-Live-Coding.md:74
-#, fuzzy
 msgid ""
 "Finally, let me leave you something fun to play with. Take the code below, and"
 " copy it into a spare buffer. Now, don't try to understand it too much other t"
 "han see that there are two loops - so two things going round at the same time."
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
-msgstr "いくつかを試してみましょう。"
+msgstr ""
+"最後に、楽しむための技をお伝えしましょう。以下のコードを、上の空欄のbuffer(バッファ)にコピーします。 "
+"そして、2つは同時にループ（繰り返し）します。まずは精一杯、体験して楽しみましょう！いくつかを試してみましょう。"
 
 #: 01.1-Live-Coding.md:80
-#, fuzzy
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr "`rate:`の青い値を変更し、`sample`の音が変わることを聞いてみましょう。"
 
 #: 01.1-Live-Coding.md:81
-#, fuzzy
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr "`sleep`の時間を変更し、それぞれのループを異なる速度で繰り返すのを聞いてみましょう。"
 
 #: 01.1-Live-Coding.md:83
-#, fuzzy
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr "`sample`の行のコメントを解除して（ `#`を削除）、ギターの逆再生を楽しみましょう。"
 
 #: 01.1-Live-Coding.md:85
-#, fuzzy
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr "いくつかの`mix:` の値を`0` (最小値) から `1` (最大値)の間で変えてみましょう。"
 
 #: 01.1-Live-Coding.md:88
-#, fuzzy
 msgid ""
 "Remember to press `Run` and you'll hear the change next time the loop goes rou"
 "nd. If you end up in a pickle, don't worry - hit `Stop`, delete the code in th"
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"`Run` ボタンを押し、次に繰り返しがどう変化したかに耳を傾けることを忘れないでください。 うまくいかなくても気にしないでください。`Stop`ボタンを押"
-"して、Workspace内のコードを削除して、 新しいコードをコピーアンドペーストして、再び演奏の準備をすれば良いです。 失敗することがどんなことよりも学習"
-"の近道になるのですから。"
+"`Run` ボタンを押し、次に繰り返しがどう変化したかに耳を傾けることを忘れないでください。 "
+"うまくいかなくても気にしないでください。`Stop`ボタンを押して、buffer内のコードを削除して、 "
+"新しいコードをコピーアンドペーストして、再び演奏の準備をすれば良いです。 失敗することがどんなことよりも学習の近道になるのですから。"
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :guit do\n"
 "  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
@@ -325,17 +309,15 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:111
-#, fuzzy
 msgid ""
 "Now, keep playing and experimenting until your curiosity about how this all ac"
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"さあ、これらが実際にどう動くか好奇心が動き出すまで、 そしてあなたが次に何をしたらいいかを知りたくなるまで、演奏と実験を続けましょう。 さあ、残りのチュート"
-"リアルを読む準備ができました。"
+"さあ、これらが実際にどう動くか好奇心が動き出すまで、 そしてあなたが次に何をしたらいいかを知りたくなるまで、演奏と実験を続けましょう。 "
+"さあ、残りのチュートリアルを読む準備ができました。"
 
 #: 01.1-Live-Coding.md:115
-#, fuzzy
 msgid "So what are you waiting for..."
 msgstr "次にあなたを待っているものは・・・"
 
