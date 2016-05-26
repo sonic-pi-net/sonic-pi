@@ -132,7 +132,7 @@ fuertes o incómodos.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>El servidor Sonic Pi no puede iniciarse!</translation>
+        <translation>¡El servidor Sonic Pi no puede iniciarse!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
