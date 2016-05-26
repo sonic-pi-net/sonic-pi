@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-26 13:37+0000\n"
+"PO-Revision-Date: 2016-05-26 17:02+0000\n"
 "Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -987,14 +987,12 @@ msgid "play 50, cheese: 1"
 msgstr "play 50, cheese: 1"
 
 #: 02.2-Synth-Params.md:35
-#, fuzzy
 msgid "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr ""
-"(Nota bene che `cheese:` non è un parametro valido, è solo per fare un esempio"
-")."
+"(Nota bene che `cheese:` non è un parametro valido, è solo per fare un "
+"esempio)."
 
 #: 02.2-Synth-Params.md:37
-#, fuzzy
 msgid "You can pass multiple opts by separating them with a comma:"
 msgstr "Puoi passare più parametri in una volta separandoli con una virgola:"
 
@@ -1004,11 +1002,10 @@ msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, cheese: 1, beans: 0.5"
 
 #: 02.2-Synth-Params.md:43
-#, fuzzy
 msgid "The order of the opts doesn't matter, so the following is identical:"
 msgstr ""
-"L’ordine dei parametri non conta, quindi questa istruzione ha lo stesso effett"
-"o di quella precedente:"
+"L’ordine dei parametri non conta, quindi questa istruzione ha lo stesso "
+"effetto di quella precedente:"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
@@ -1016,23 +1013,21 @@ msgid "play 50, beans: 0.5, cheese: 1"
 msgstr "play 50, beans: 0.5, cheese: 1"
 
 #: 02.2-Synth-Params.md:49
-#, fuzzy
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and `"
 "beans` which are clearly ridiculous opt names!)"
 msgstr ""
-"I parametri che non sono riconosciuti dal synth vengono ignorati (come `cheese"
-"` e `beans` che sono ovviamente nomi assurdi per dei parametri!)"
+"I parametri che non sono riconosciuti dal synth vengono ignorati (come "
+"`cheese` e `beans` che sono ovviamente nomi assurdi per dei parametri!)"
 
 #: 02.2-Synth-Params.md:52
-#, fuzzy
 msgid ""
 "If you accidentally use the same opt twice with different values, the last one"
 " wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
-"Se per sbaglio usi lo stesso parametro due volte con diversi valori, l’ultimo "
-"vince. Per esempio `beans` in questa istruzione avrà il valore 2 invece di 0.5"
-":"
+"Se per sbaglio usi lo stesso parametro due volte con diversi valori, l’"
+"ultimo vince. Per esempio `beans` in questa istruzione avrà il valore 2 "
+"invece di 0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
@@ -1040,22 +1035,19 @@ msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
 #: 02.2-Synth-Params.md:60
-#, fuzzy
 msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning how "
 "to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
-"Molte cose in Sonic Pi accettano parametri, quindi passa un po’ di tempo a cap"
-"ire come usarli e sarai pronto! Giochiamo un po’ con il nostro primo parametro"
-" `amp:`"
+"Molte cose in Sonic Pi accettano parametri, quindi passa un po’ di tempo a "
+"capire come usarli e sarai pronto! Giochiamo un po' con il nostro primo "
+"parametro `amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
-#, fuzzy
 msgid "Amplitude"
 msgstr "Ampiezza"
 
 #: 02.2-Synth-Params.md:66
-#, fuzzy
 msgid ""
 "Amplitude is a computer representation of the loudness of a sound. A *high amp"
 "litude produces a loud sound* and a *low amplitude produces a quiet sound*. Ju"
@@ -1068,31 +1060,30 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
-"L’ampiezza è una rappresentazione digitale del volume di un suono. *Un’ampiezz"
-"a elevata produce un suono forte* mentre *un valore basso di ampiezza produce "
-"un suono debole*. Come Sonic Pi usa numeri per rappresentare il tempo e le not"
-"e, allo stesso modo usa numeri per rappresentare anche l’ampiezza. Un’ampiezza"
-" di valore 0 equivale al silenzio (non si sentirà nulla) mentre un’ampiezza di"
-" valore 1 equivale al volume normale. Puoi anche forzare l’ampiezza a valori p"
-"iù alti (2, 10, 100), ma vedrai che quando l’ampiezza complessiva di tutti i s"
-"uoni diventa troppo alta, Sonic Pi usa il cosiddetto compressore per riportarl"
-"a di nuovo a valori tali da non risultare troppo alti per le orecchie. Ciò può"
-" rendere il suono confuso e strano. Perciò prova ad usare ampiezze basse, dici"
-"amo tra 0 e 0.5, per evitare la compressione."
+"L’ampiezza è una rappresentazione digitale del volume di un suono. *Un’"
+"ampiezza elevata produce un suono forte* mentre *un valore basso di ampiezza "
+"produce un suono debole*. Come Sonic Pi usa numeri per rappresentare il "
+"tempo e le note, allo stesso modo usa numeri per rappresentare anche l’"
+"ampiezza. Un’ampiezza di valore 0 equivale al silenzio (non si sentirà nulla)"
+" mentre un’ampiezza di valore 1 equivale al volume normale. Puoi anche "
+"forzare l’ampiezza a valori più alti (2, 10, 100), ma vedrai che quando l’"
+"ampiezza complessiva di tutti i suoni diventa troppo alta, Sonic Pi usa il "
+"cosiddetto compressore per riportarla di nuovo a valori tali da non "
+"risultare troppo alti per le orecchie. Ciò può rendere il suono confuso e "
+"strano. Perciò prova ad usare ampiezze basse, diciamo tra 0 e 0.5, per "
+"evitare la compressione."
 
 #: 02.2-Synth-Params.md:79
-#, fuzzy
 msgid "Amp it up"
-msgstr "Amp-lificato...!"
+msgstr "Amplifichiamo"
 
 #: 02.2-Synth-Params.md:81
-#, fuzzy
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, t"
 "o play at half amplitude pass 0.5:"
 msgstr ""
-"Per cambiare l’ampiezza di un suono, puoi usare il parametro `amp:`. Ad esempi"
-"o, per suonare a metà ampiezza, dai un valore di 0.5:"
+"Per cambiare l’ampiezza di un suono, puoi usare il parametro `amp:`. Ad "
+"esempio, per suonare alla metà del volume, dai un valore di 0.5:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
@@ -1100,9 +1091,8 @@ msgid "play 60, amp: 0.5"
 msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
-#, fuzzy
 msgid "To play at double amplitude pass 2:"
-msgstr "Per suonare ad ampiezza doppia, dai un valore di 2"
+msgstr "Per suonare ad ampiezza doppia, dai un valore di 2:"
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
@@ -1110,15 +1100,14 @@ msgid "play 60, amp: 2"
 msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
-#, fuzzy
 msgid ""
 "The `amp:` opt only modifies the call to `play` it's associated with. So, in t"
 "his example, the first call to play is at half volume and the second is back t"
 "o the default (1):"
 msgstr ""
-"Il parametro `amp:` modifica soltanto la chiamata a `play` a cui è associato. "
-"Così, ad esempio, la prima chiamata a `play` è a metà volume, mentre la second"
-"a è di nuovo sul valore di default:"
+"Il parametro `amp:` modifica soltanto la chiamata a `play` a cui è "
+"associato. Così, ad esempio, la prima chiamata a `play` è a metà volume, "
+"mentre la seconda è di nuovo sul valore di default:"
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -1132,7 +1121,6 @@ msgstr ""
 "play 65"
 
 #: 02.2-Synth-Params.md:104
-#, fuzzy
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr "Naturalmente puoi usare differenti valori per `amp:` per ogni play:"
 
@@ -1157,10 +1145,9 @@ msgstr ""
 
 #: 02.2-Synth-Params.md:116
 msgid "Panning"
-msgstr ""
+msgstr "Bilanciamento"
 
 #: 02.2-Synth-Params.md:118
-#, fuzzy
 msgid ""
 "Another fun opt to use is `pan:` which controls the panning of a sound in ster"
 "eo. Panning a sound to the left means that you hear it out of the left speaker"
@@ -1169,13 +1156,16 @@ msgid ""
 "to represent fully right in the stereo field. Of course, we're free to use any"
 " value between -1 and 1 to control the exact positioning of our sound."
 msgstr ""
-"Un altro parametro divertente è `pan:`, che controlla la collocazione del suon"
-"o (*panning*) sul fronte stereofonico. In Sonic Pi usiamo un -1 per posizionar"
-"e il suono tutto a sinistra, 0 per posizionare il suono al centro e 1 per posi"
-"zionare il suono tutto a destra."
+"Un altro parametro divertente è `pan:`, che controlla la collocazione del "
+"suono (*panning*) sul fronte stereofonico. Bilanciare il suono a sinistra "
+"significa sentirlo solo dalla cassa di sinistra mentre, spostarlo a destra "
+"significa sentirlo dalla cassa di destra. In Sonic Pi usiamo un -1 per "
+"posizionare il suono tutto a sinistra, 0 per posizionare il suono al centro "
+"e 1 per posizionare il suono tutto a destra. Ovviamente siamo liberi di "
+"usare qualsiasi parametro tra -1 e 1 per controllare l'esatto posizionamento "
+"del nostro suono."
 
 #: 02.2-Synth-Params.md:126
-#, fuzzy
 msgid "Let's play a beep out of the left speaker:"
 msgstr "Facciamo suonare un beep dall’altoparlante a sinistra:"
 
@@ -1185,7 +1175,6 @@ msgid "play 60, pan: -1"
 msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
-#, fuzzy
 msgid "Now, let's play it out of the right speaker:"
 msgstr "Ora, dall’altoparlante a destra:"
 
@@ -1195,7 +1184,6 @@ msgid "play 60, pan: 1"
 msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
-#, fuzzy
 msgid "Finally let's play it back out of the center of both (the default position):"
 msgstr "Infine, facciamolo suonare al centro (che è la posizione di default):"
 
@@ -1205,22 +1193,18 @@ msgid "play 60, pan: 0"
 msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
-#, fuzzy
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
 msgstr "E adesso divertiti a cambiare le ampiezze e il panning dei tuoi suoni!"
 
 #: 02.3-Switching-Synths.md:1
-#, fuzzy
 msgid "2.3 Switching Synths"
 msgstr "2.3 Muoversi fra i Synth"
 
 #: 02.3-Switching-Synths.md:3
-#, fuzzy
 msgid "Switching Synths"
 msgstr "Muoversi fra i Synth"
 
 #: 02.3-Switching-Synths.md:5
-#, fuzzy
 msgid ""
 "So far we've had quite a lot of fun making beeps. However, you're probably sta"
 "rting to get bored of the basic beep noise. Is that all Sonic Pi has to offer?"
@@ -1228,14 +1212,13 @@ msgid ""
 " in this section we'll explore the exciting range of sounds that Sonic Pi has "
 "to offer."
 msgstr ""
-"Finora ci siamo divertiti un sacco con i beep. Ma probabilmente questi semplic"
-"i beep staranno cominciando ad annoiarti. È tutto qui quello che Sonic Pi ha d"
-"a offrire? Ci sarà qualcosa di più nel live coding che suonare dei beep! Certo"
-" che c’è, e in questa sezione esploriamo la vasta gamma di suoni che offre Son"
-"ic Pi."
+"Finora ci siamo divertiti un sacco con i beep. Ma probabilmente questi "
+"semplici beep staranno cominciando ad annoiarti. È tutto qui quello che "
+"Sonic Pi ha da offrire? Ci sarà qualcosa di più nel live coding che suonare "
+"dei beep! Certo che c’è, e in questa sezione esploriamo la vasta gamma di "
+"suoni che offre Sonic Pi."
 
 #: 02.3-Switching-Synths.md:13
-#, fuzzy
 msgid ""
 "Sonic Pi has a range of instruments it calls synths which is *short for synthe"
 "sisers*. Whereas samples represent pre-recorded sounds, synths are capable of "
@@ -1244,20 +1227,18 @@ msgid ""
 " you'll have a lot of fun exploring and playing with them. First, let's learn "
 "how to select the current synth to use."
 msgstr ""
-"Sonic Pi offre una ampia gamma di strumenti chiamati synth, forma abbreviata p"
-"er *sintetizzatori*. Mentre i sample contengono suoni pre-registrati, i synth "
-"sono in grado di generare nuovi suoni in base a come li controlli (cosa che es"
-"ploreremo più in là nel tutorial). I synth di Sonic Pi sono molto potenti ed e"
-"spressivi e ti divertirai molto nell’esplorarne le possibilità e nel suonarli."
-" Per prima cosa, impariamo a selezionare il synth da suonare."
+"Sonic Pi offre una ampia gamma di strumenti chiamati synth, forma abbreviata "
+"per *sintetizzatori*. Mentre i sample contengono suoni pre-registrati, i "
+"synth sono in grado di generare nuovi suoni in base a come li controlli ("
+"cosa che esploreremo più in là nel tutorial). I synth di Sonic Pi sono molto "
+"potenti ed espressivi e ti divertirai molto nell’esplorarne le possibilità e "
+"nel suonarli. Per prima cosa, impariamo a selezionare il synth da suonare."
 
 #: 02.3-Switching-Synths.md:21
-#, fuzzy
 msgid "Buzzy saws and prophets"
-msgstr "Denti di sega e profeti"
+msgstr "Onde a dente di sega e prophets"
 
 #: 02.3-Switching-Synths.md:23
-#, fuzzy
 msgid "A fun sound is the *saw wave* - let's give it a try:"
 msgstr "Un suono divertente è il *dente di sega*. Proviamolo:"
 
@@ -1281,7 +1262,6 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
-#, fuzzy
 msgid "Let's try another sound - the *prophet*:"
 msgstr "Adesso proviamo un altro suono - il *prophet*:"
 
@@ -1305,9 +1285,8 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
-#, fuzzy
 msgid "How about combining two sounds. First one after another:"
-msgstr "E se combinassimo insieme due suoni? Prima uno dietro l’altro:"
+msgstr "E se combinassimo insieme due suoni? Prima uno, poi l’altro:"
 
 #: 02.3-Switching-Synths.md:49
 #, no-wrap
@@ -1331,9 +1310,8 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
-#, fuzzy
 msgid "Now at the same time:"
-msgstr "Ora, tutti insieme"
+msgstr "Ora, tutti insieme:"
 
 #: 02.3-Switching-Synths.md:62
 #, no-wrap
@@ -1359,131 +1337,118 @@ msgstr ""
 "sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
-#, fuzzy
 msgid ""
 "Notice that the `use_synth` command only affects the following calls to `play`"
 ". Think of it like a *big switch* - new calls to `play` will play whatever syn"
 "th it's currently pointing to. You can move the switch to a new synth with `us"
 "e_synth`."
 msgstr ""
-"Nota che il comando `use_synth` influenza soltanto le chiamate seguenti a `pla"
-"y`. Pensalo come un *grande switch* - le nuove chiamate a `play` useranno qual"
-"siasi sintetizzatore sia in uso in quel momento. Puoi regolare lo switch su un"
-" nuovo synth con l’istruzione `use_synth`."
+"Nota che il comando `use_synth` influenza soltanto le chiamate seguenti a "
+"`play`. Pensalo come un *grande switch* - le nuove chiamate a `play` "
+"useranno qualsiasi sintetizzatore sia in uso in quel momento. Puoi regolare "
+"lo switch su un nuovo synth con l’istruzione `use_synth`."
 
 #: 02.3-Switching-Synths.md:80
-#, fuzzy
 msgid "Discovering Synths"
 msgstr "Alla scoperta dei Synth"
 
 #: 02.3-Switching-Synths.md:82
-#, fuzzy
 msgid ""
 "To see which synths Sonic Pi has for you to play with take a look at the Synth"
 "s option in the far left vertical menu (above Fx). There are over 20 to choose"
 " from. Here are a few of my favourites:"
 msgstr ""
-"Per vedere quali sintetizzatori Sonic Pi mette a tua disposizione, dai un’occh"
-"iata all’opzione Synths (prima di Fx) nel menu verticale in basso a sinistra. "
-"Ce ne sono più di 20 tra cui scegliere. Ecco qui sotto soltanto alcuni dei mie"
-"i preferiti:"
+"Per vedere quali sintetizzatori Sonic Pi mette a tua disposizione, dai un’"
+"occhiata all’opzione Synths (prima di Fx) nel menu verticale in basso a "
+"sinistra. Ce ne sono più di 20 tra cui scegliere. Ecco qui sotto soltanto "
+"alcuni dei miei preferiti:"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
-#, fuzzy
 msgid ""
 "Now play around with *switching synths during your music*. Have fun combining "
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
 msgstr ""
-"Ora divertiti a *cambiare i synth mentre fai la tua musica*. Divertiti a combi"
-"nare i synth per fare nuovi suoni e ad usare synth differenti in diverse sezio"
-"ni della tua musica."
+"Ora divertiti a *cambiare i synth mentre fai la tua musica*. Divertiti a "
+"combinare i synth per fare nuovi suoni e ad usare synth differenti in "
+"diverse sezioni della tua musica."
 
 #: 02.4-Durations-with-Envelopes.md:1
-#, fuzzy
 msgid "2.4 Duration with Envelopes"
 msgstr "2.4 Durate e inviluppi"
 
 #: 02.4-Durations-with-Envelopes.md:3
-#, fuzzy
 msgid "Duration with Envelopes"
 msgstr "Durate e inviluppi"
 
 #: 02.4-Durations-with-Envelopes.md:5
-#, fuzzy
 msgid ""
 "In an earlier section, we looked at how we can use the `sleep` command to cont"
 "rol when to trigger our sounds. However, we haven't yet been able to control t"
 "he duration of our sounds."
 msgstr ""
-"Nelle sezioni precedenti, abbiamo visto come usare il comando `sleep` per cont"
-"rollare l’attacco della nota, ma non siamo ancora in grado di controllare la d"
-"urata dei suoni."
+"Nelle sezioni precedenti, abbiamo visto come usare il comando `sleep` per "
+"controllare l’attacco della nota, ma non siamo ancora in grado di "
+"controllare la durata dei suoni."
 
 #: 02.4-Durations-with-Envelopes.md:9
-#, fuzzy
 msgid ""
 "In order to give us a simple, yet powerful means of *controlling the duration*"
 " of our sounds, Sonic Pi provides the notion of an *ADSR amplitude envelope* ("
 "we'll cover what ADSR means later in this section). An amplitude envelope offe"
 "rs two useful aspects of control:"
 msgstr ""
-"Per dotarci di uno strumento semplice ma potente per *controllare le durate* d"
-"ei suoni, Sonic Pi implementa il concetto di *inviluppo ADSR* (ci occuperemo p"
-"iù oltre in questa stessa sezione di cosa voglia dire ADSR). Un inviluppo di a"
-"mpiezza permette di gestire due utili aspetti del controllo:"
+"Per dotarci di uno strumento semplice ma potente per *controllare le durate* "
+"dei suoni, Sonic Pi implementa il concetto di *inviluppo ADSR* (ci "
+"occuperemo più oltre in questa stessa sezione di cosa voglia dire ADSR). Un "
+"inviluppo di ampiezza permette di gestire due utili aspetti del controllo:"
 
 #: 02.4-Durations-with-Envelopes.md:14
-#, fuzzy
 msgid "control over the duration of a sound"
 msgstr "controllo della durata di un suono"
 
 #: 02.4-Durations-with-Envelopes.md:15
-#, fuzzy
 msgid "control over the amplitude of a sound"
-msgstr "controllo dell’ampiezza"
+msgstr "controllo dell’ampiezza di un suono"
 
 #: 02.4-Durations-with-Envelopes.md:17
-#, fuzzy
 msgid "Duration"
 msgstr "Durata"
 
 #: 02.4-Durations-with-Envelopes.md:19
-#, fuzzy
 msgid ""
 "The duration is the length the sound lasts for. A longer duration means that y"
 "ou hear the sound for longer. Sonic Pi's sounds all have a controllable amplit"
 "ude envelope, and the total duration of that envelope is the duration of the s"
 "ound. Therefore, by controlling the envelope you control the duration."
 msgstr ""
-"La durata è il tempo che un suono...dura! Una durata più lunga significa che s"
-"entirai il suono per un tempo più lungo. Tutti i suoni in Sonic Pi hanno un in"
-"viluppo di ampiezza controllabile, e la durata di tale inviluppo corrisponde a"
-"lla durata del suono. Quindi, controllando l’inviluppo, controlli allo stesso "
-"tempo la durata."
+"La durata è il tempo che un suono... dura! Una durata più lunga significa "
+"che sentirai il suono per un tempo più lungo. Tutti i suoni in Sonic Pi "
+"hanno un inviluppo di ampiezza controllabile, e la durata di tale inviluppo "
+"corrisponde alla durata del suono. Quindi, controllando l’inviluppo, "
+"controlli allo stesso tempo la durata."
 
 #: 02.4-Durations-with-Envelopes.md:27
-#, fuzzy
 msgid ""
 "The ADSR envelope not only controls duration, it also gives you *fine control "
 "over the amplitude of the sound*. All audible sounds start and end silent and "
@@ -1494,59 +1459,53 @@ msgid ""
 " hold it for a bit, then quickly fall back to silence.\" Sonic Pi allows you to"
 " program exactly this behaviour with envelopes."
 msgstr ""
-"L’inviluppo ADSR non controlla soltanto la durata, ma fornisce anche un *contr"
-"ollo accurato dell’ampiezza del suono*. Tutti i suoni udibili iniziano dal sil"
-"enzio e finiscono nel silenzio, e contengono una parte non-silenziosa nel mezz"
-"o. Gli inviluppi ti permettono di variare e mantenere l’ampiezza della parte n"
-"on-silenziosa del suono. È come dare a qualcuno istruzioni su come e quanto al"
-"zare e abbassare il volume dell’amplificatore della chitarra. Per esempio, pot"
-"resti chiedere a questa persona di *iniziare dal silenzio, alzare il volume le"
-"ntamente fino al massimo, mantenerlo per un po’ e riabbassarlo di colpo*. Soni"
-"c Pi ti permette di controllare con precisione questo tipo di comportamento me"
-"diante gli inviluppi."
+"L'inviluppo ADSR non controlla soltanto la durata, ma fornisce anche un *"
+"controllo accurato dell’ampiezza del suono*. Tutti i suoni udibili iniziano "
+"dal silenzio e finiscono nel silenzio, e contengono una parte non-silenziosa "
+"nel mezzo. Gli inviluppi ti permettono di variare e mantenere l’ampiezza "
+"della parte non-silenziosa del suono. È come dare a qualcuno istruzioni su "
+"come e quanto alzare e abbassare il volume dell’amplificatore della "
+"chitarra. Per esempio, potresti chiedere a questa persona di *iniziare dal "
+"silenzio, alzare il volume lentamente fino al massimo, mantenerlo per un po’ "
+"e riabbassarlo di colpo*. Sonic Pi ti permette di controllare con precisione "
+"questo tipo di comportamento mediante gli inviluppi."
 
 #: 02.4-Durations-with-Envelopes.md:37
-#, fuzzy
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an amp"
 "litude of 1 is normal volume."
 msgstr ""
-"Tanto per riassumere: come abbiamo visto prima, una ampiezza di 0 equivale a s"
-"ilenzio e un’ampiezza 1 è il volume normale (cioè il volume massimo che il com"
-"puter può esprimere senza distorcere il segnale).."
+"Tanto per riassumere: come abbiamo visto prima, una ampiezza di 0 equivale a "
+"silenzio e un’ampiezza 1 è il volume normale."
 
 #: 02.4-Durations-with-Envelopes.md:40
-#, fuzzy
 msgid "Now, let us look at each of the parts of the envelopes in turn."
 msgstr "Ora, diamo un’occhiata alle parti da cui l’inviluppo è composto."
 
 #: 02.4-Durations-with-Envelopes.md:42
-#, fuzzy
 msgid "Release Phase"
 msgstr "Fase di rilascio (Release)"
 
 #: 02.4-Durations-with-Envelopes.md:44
-#, fuzzy
 msgid ""
 "The only part of the envelope that's used by default is the release time. This"
 " is the time it takes for the synth's sound to fade out. All synths have a rel"
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
-"L’unica parte dell’inviluppo che viene usata di default è il rilascio (release"
-"). Si tratta del tempo che il suono di un synth impiega a dissolvere. Tutti i "
-"synth hanno un tempo di rilascio impostato a 1, il che vuol dire che, di defau"
-"lt, hanno la durata di 1 beat (che a sua volta, al tempo di default di 60BPM, "
-"equivale a 1 secondo):"
+"L’unica parte dell’inviluppo che viene usata di default è il rilascio "
+"(release). Si tratta del tempo che il suono di un synth impiega a sfumare. "
+"Tutti i synth hanno un tempo di rilascio impostato a 1, il che vuol dire "
+"che, di default, hanno la durata di 1 beat (che a sua volta, al tempo di "
+"default di 60BPM, equivale a 1 secondo):"
 
 #: 02.4-Durations-with-Envelopes.md:53
-#, fuzzy
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
-"La nota resterà udibile per 1 secondo. Prova a verificare tu stesso. Questa er"
-"a la forma breve in luogo di quella più lunga ed esplicita:"
+"La nota resterà udibile per 1 secondo. Prova a verificare tu stesso. Questa "
+"era la forma breve in luogo di quella più lunga ed esplicita:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
@@ -1554,15 +1513,14 @@ msgid "play 70, release: 1"
 msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
-#, fuzzy
 msgid ""
 "Notice how this sounds exactly the same (the sound lasts for one second). Howe"
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
-"Nota come il suono abbia esattamente la stessa durata di prima (il suono dura "
-"un secondo). Ma ora è molto facile cambiare la durata modificando il valore de"
-"ll’opzione `release:`"
+"Nota come il suono abbia esattamente la stessa durata di prima (il suono "
+"dura un secondo). Ma ora è molto facile cambiare la durata modificando il "
+"valore dell’opzione `release:`:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1570,13 +1528,12 @@ msgid "play 60, release: 2"
 msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
-#, fuzzy
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
 msgstr ""
-"Possiamo anche far suonare il synth per una durata molto breve usando un valor"
-"e molto piccolo del tempo di rilascio:"
+"Possiamo anche far suonare il synth per una durata molto breve usando un "
+"valore molto piccolo del tempo di rilascio:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
@@ -1584,22 +1541,20 @@ msgid "play 60, release: 0.2"
 msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
-#, fuzzy
 msgid ""
 "The duration of the release of the sound is called the *release phase* and by "
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
-"La durata del rilascio di un suono è chiamata *fase di rilascio* e, di default"
-", è una transizione lineare (cioè segue una linea retta), Il seguente diagramm"
-"a illustra questa transizione:"
+"La durata del rilascio di un suono è chiamata *fase di rilascio* e, di "
+"default, è una transizione lineare (cioè segue una linea retta), Il seguente "
+"diagramma illustra questa transizione:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1607,40 +1562,37 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"La linea verticale sulla sinistra del diagramma indica che il suono comincia a"
-"d ampiezza 0, ma sale ad ampiezza massima immediatamente (questa è la fase di "
-"attacco, di cui ci occuperemo dopo). Raggiunta l’ampiezza massima, scende con "
-"una linea diritta fino a zero, e per fare questo impiega esattamente il tempo "
-"specificato da `release:`. *Valori di release più lunghi producono dissolvenze"
-" più lente*."
+"La linea verticale sulla sinistra del diagramma indica che il suono comincia "
+"ad ampiezza 0, ma sale ad ampiezza massima immediatamente (questa è la fase "
+"di attacco, di cui ci occuperemo dopo). Raggiunta l’ampiezza massima, scende "
+"con una linea diritta fino a zero, e per fare questo impiega esattamente il "
+"tempo specificato da `release:`. *Valori di release più lunghi producono "
+"dissolvenze più lente.*"
 
 #: 02.4-Durations-with-Envelopes.md:88
-#, fuzzy
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
-"Ora poi cambiare la durata dei suoni cambiando il tempo di rilascio. Divertiti"
-" ad aggiungere i tempi di rilascio alle note della tua musica."
+"Ora poi cambiare la durata dei suoni cambiando il tempo di rilascio. "
+"Divertiti ad aggiungere i tempi di rilascio alle note della tua musica."
 
 #: 02.4-Durations-with-Envelopes.md:91
-#, fuzzy
 msgid "Attack Phase"
 msgstr "Fase d’attacco"
 
 #: 02.4-Durations-with-Envelopes.md:93
-#, fuzzy
 msgid ""
 "By default, the *attack phase* is 0 for all synths which means they move from "
 "0 amplitude to 1 immediately. This gives the synth an initial percussive sound"
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
-"Di default, la *fase d’attacco* è 0 per tutti i synth, il che significa che qu"
-"esti salgono da ampiezza 0 a 1 immediatamente. Ciò conferisce ai synth un timb"
-"ro percussivo. Tuttavia, potresti volere che il suono raggiunga l’ampiezza 1 p"
-"iù lentamente (*fade in*). Puoi ottenere questo risultato con l’opzione `attac"
-"k:`"
+"Di default, la *fase d’attacco* è 0 per tutti i synth, il che significa che "
+"questi salgono da ampiezza 0 a 1 immediatamente. Ciò conferisce ai synth un "
+"timbro percussivo. Tuttavia, potresti volere che il suono raggiunga l’"
+"ampiezza 1 più lentamente (*fade in*). Puoi ottenere questo risultato con l’"
+"opzione `attack:`:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1654,13 +1606,12 @@ msgstr ""
 "play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
-#, fuzzy
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
-"Puoi usare opzioni multiple contemporaneamente. Per esempio, per un attacco co"
-"rto e un rilascio lungo, prova così:"
+"Puoi usare opzioni multiple contemporaneamente. Per esempio, per un attacco "
+"corto e un rilascio lungo, prova così:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
@@ -1668,26 +1619,24 @@ msgid "play 60, attack: 0.7, release: 4"
 msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
-#, fuzzy
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
 msgstr ""
-"Un inviluppo con attacco corto e rilascio lungo è illustrato nel diagramma seg"
-"uente:"
+"Un inviluppo con attacco corto e rilascio lungo è illustrato nel diagramma "
+"seguente:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr ""
+msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
-#, fuzzy
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
 msgstr ""
-"È ovvio che puoi fare anche l’inverso. Prova un attacco lungo e un rilascio co"
-"rto:"
+"È ovvio che puoi fare anche l’inverso. Prova un attacco lungo e un rilascio "
+"corto:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
@@ -1699,15 +1648,16 @@ msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![long attack short release envelope](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
-#, fuzzy
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
 msgstr ""
-"Infine, puoi anche impostare un tempo corto sia per l’attacco che per il rilas"
-"cio, per avere suoni più brevi:"
+"Infine, puoi anche impostare un tempo corto sia per l’attacco che per il "
+"rilascio, per avere suoni più brevi."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
@@ -1719,23 +1669,23 @@ msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 msgstr ""
+"![short attack short release envelope](../images/tutorial/env-short-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
-#, fuzzy
 msgid "Sustain Phase"
 msgstr "Fase di sostegno (Sustain)"
 
 #: 02.4-Durations-with-Envelopes.md:136
-#, fuzzy
 msgid ""
 "In addition to specifying attack and release times, you may also specify a sus"
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
 msgstr ""
-"Oltre ai tempi di attacco e rilascio, puoi specificare anche un tempo di soste"
-"gno (sustain) per controllare la *fase di sostegno*. Essa corrisponde al tempo"
-" in cui il suono è mantenuto ad ampiezza fissa dopo l’attacco e prima del rila"
-"scio:"
+"Oltre ai tempi di attacco e rilascio, puoi specificare anche un tempo di "
+"sostegno (sustain) per controllare la *fase di sostegno*. Essa corrisponde "
+"al tempo in cui il suono è mantenuto ad ampiezza fissa dopo l’attacco e "
+"prima del rilascio."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
@@ -1744,10 +1694,9 @@ msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
-#, fuzzy
 msgid ""
 "The sustain time is useful for important sounds you wish to give full presence"
 " in the mix before entering an optional release phase. Of course, it's totally"
@@ -1756,20 +1705,18 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
-"Il tempo di sostegno è utile per suoni a cui vuoi dare maggior presenza nel mi"
-"x prima di inserire una fase, opzionale, di rilascio. Naturalmente, è del tutt"
-"o valido anche impostare sia l’attacco che il rilascio a 0 per non avere alcun"
-" tipo di dissolvenza né in entrata né in uscita. Bada però che un tempo di ril"
-"ascio uguale a 0 genera dei click, ed è meglio usare valori molto piccoli come"
-" 0.2."
+"Il tempo di sostegno è utile per suoni a cui vuoi dare maggior presenza nel "
+"mix prima di inserire una fase, opzionale, di rilascio. Naturalmente, è del "
+"tutto valido anche impostare sia l’attacco che il rilascio a 0 per non avere "
+"alcun tipo di dissolvenza né in entrata né in uscita. Bada però che un tempo "
+"di rilascio uguale a 0 genera dei click, ed è meglio usare valori molto "
+"piccoli come 0.2."
 
 #: 02.4-Durations-with-Envelopes.md:154
-#, fuzzy
 msgid "Decay Phase"
 msgstr "Fase di decadimento (Decay)"
 
 #: 02.4-Durations-with-Envelopes.md:156
-#, fuzzy
 msgid ""
 "For an extra level of control, you can also specify a decay time. This is a ph"
 "ase of the envelope that fits between the attack and sustain phases and specif"
@@ -1778,13 +1725,14 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
-"Per un ulteriore livello di controllo, puoi specificare anche un tempo di deca"
-"dimento. Si tratta di una fase dell’inviluppo che si trova tra attacco e soste"
-"gno e specifica il tempo in cui l’ampiezza cade da `attack_level:` (livello d’"
-"attacco) a `decay_level:` (livello di decadimento). Di default, l’opzione `dec"
-"ay:` ha valore 0 e sia il livello di attacco che il livello di sostegno sono i"
-"mpostati su 1, e ciò significa che dovrai impostarne il valore in modo esplici"
-"to se vuoi che il tempo di decadimento sortisca qualche effetto:"
+"Per un ulteriore livello di controllo, puoi specificare anche un tempo di "
+"decadimento. Si tratta di una fase dell’inviluppo che si trova tra attacco e "
+"sostegno e specifica il tempo in cui l’ampiezza scende da `attack_level:` ("
+"livello d’attacco) a `decay_level:` (livello di decadimento). Di default, l’"
+"opzione `decay:` ha valore 0 e sia il livello di attacco che il livello di "
+"sostegno sono impostati su 1, e ciò significa che dovrai impostarne il "
+"valore in modo esplicito se vuoi che il tempo di decadimento sortisca "
+"qualche effetto:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1798,23 +1746,22 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:168
 msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 msgstr ""
+"![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
-#, fuzzy
 msgid "Decay Level"
 msgstr "Livello di decadimento"
 
 #: 02.4-Durations-with-Envelopes.md:172
-#, fuzzy
 msgid ""
 "One last trick is that although the `decay_level:` opt defaults to be the same"
 " value as `sustain_level:` you can explicitly set them to different values for"
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
-"Un’altra possibilità è impostare esplicitamente i valori di `decay_level:` e `"
-"sustain_level:` (anche se di default sono uguali) per avere pieno controllo su"
-"ll’inviluppo. Ciò consente di creare inviluppi nel modo seguente:"
+"Un’altra possibilità è impostare esplicitamente i valori di `decay_level:` e "
+"`sustain_level:` (anche se di default sono uguali) per avere pieno controllo "
+"sull’inviluppo. Ciò consente di creare inviluppi nel modo seguente:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1827,14 +1774,14 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
-#, fuzzy
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
-msgstr "È possibile anche impostare un `decay_level:` più alto del `sustain_level:`"
+msgstr ""
+"È possibile anche impostare un `decay_level:` più alto del `sustain_level:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -1847,47 +1794,42 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr ""
+msgstr "Inviluppi ADSR"
 
 #: 02.4-Durations-with-Envelopes.md:193
-#, fuzzy
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
 msgstr "Riassumendo, gli inviluppi di Sonic Pi hanno le seguenti fasi:"
 
 #: 02.4-Durations-with-Envelopes.md:195
-#, fuzzy
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr "tempo di *attacco* per transitare da ampiezza 0 a `attack_level`,"
+msgstr "tempo di *attacco*: per transitare da ampiezza 0 a `attack_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:196
-#, fuzzy
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
-msgstr "tempo di *decadimento* per transitare da `attack_level` a `decay_level`,"
+msgstr ""
+"tempo di *decadimento*: per transitare da `attack_level` a `decay_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:197
-#, fuzzy
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
-msgstr "tempo di *sostegno* per transitare da `decay_level` a `sustain_level`,"
+msgstr "tempo di *sostegno*: per transitare da `decay_level` a `sustain_level`,"
 
 #: 02.4-Durations-with-Envelopes.md:198
-#, fuzzy
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
-msgstr "tempo di *rilascio* per transitare da `sustain_level` a 0"
+msgstr "tempo di *rilascio*: per transitare da `sustain_level` a 0"
 
 #: 02.4-Durations-with-Envelopes.md:200
-#, fuzzy
 msgid ""
 "It's important to note that the duration of a sound is the summation of the ti"
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
-"È importante sottolineare che la durata di un suono è pari alla somma dei temp"
-"i di ciascuna di queste quattro fasi. Quindi, il suono seguente avrà una durat"
-"a pari a 0.5 + 1 + 2 + 0.5 beat:"
+"È importante sottolineare che la durata di un suono è pari alla somma dei "
+"tempi di ciascuna di queste quattro fasi. Quindi, il suono seguente avrà una "
+"durata pari a 0.5 + 1 + 2 + 0.5, ovvero 4 beat:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
@@ -1899,64 +1841,56 @@ msgstr ""
 "2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
-#, fuzzy
 msgid "Now go and have a play adding envelopes to your sounds..."
 msgstr "E adesso datti da fare ad aggiungere gli inviluppi ai tuoi suoni..."
 
 #: 03-Samples.md:1
-#, fuzzy
 msgid "3 Samples"
 msgstr "3 Campioni"
 
 #: 03-Samples.md:3
-#, fuzzy
 msgid "Samples"
 msgstr "Campioni (Samples)"
 
 #: 03-Samples.md:5
-#, fuzzy
 msgid ""
 "Another great way to develop your music is to use pre-recorded sounds. In grea"
 "t hip-hop tradition, we call these pre-recorded sounds *samples*. So, if you t"
 "ake a microphone outside, go and record the gentle sound of rain hitting canva"
 "s, you've just created a sample."
 msgstr ""
-"Un altro modo molto interessante per creare musica è quello di usare suoni pre"
-"-registrati. Nella grande tradizione hip-hop li chiamiamo *campioni* (in ingle"
-"se, *samples*). Quindi, se ti armi di microfono e vai in giro a registrare, pe"
-"r esempio, il suono leggero della pioggia su una tela, hai appena creato un ca"
-"mpione."
+"Un altro modo molto interessante per creare musica è quello di usare suoni "
+"pre-registrati. Nella grande tradizione hip-hop li chiamiamo *campioni* (in "
+"inglese, *samples*). Quindi, se ti armi di microfono e vai in giro a "
+"registrare, per esempio, il suono leggero della pioggia su una tela, hai "
+"appena creato un campione."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th over 90 public domain samples ready for you to jam with, it lets you play a"
 "nd manipulate your own. Let's get to it..."
 msgstr ""
-"Con Sonic Pi puoi fare un sacco di cose divertenti coi campioni. Non solo ci t"
-"rovi più di 90 campioni di pubblico dominio, pronti per i tuoi mix, ma ti perm"
-"ette anche di suonare e trasformare quelli creati da te. Vediamo subito come.."
-"."
+"Con Sonic Pi puoi fare un sacco di cose divertenti coi campioni: non solo "
+"sono presenti più di 90 campioni di pubblico dominio, pronti per i tuoi mix, "
+"ma ti permette anche di suonare e trasformare quelli creati da te. Vediamo "
+"subito come..."
 
 #: 03.1-Triggering-Samples.md:1
-#, fuzzy
 msgid "3.1 Triggering Samples"
 msgstr "3.1 Suonare i campioni"
 
 #: 03.1-Triggering-Samples.md:3
-#, fuzzy
 msgid "Triggering Samples"
 msgstr "Suonare i campioni"
 
 #: 03.1-Triggering-Samples.md:5
-#, fuzzy
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is triggeri"
 "ng pre-recorded samples. Try it:"
 msgstr ""
-"Fare i beep è soltanto l’inizio. Una cosa molto divertente è suonare campioni "
-"pre-registrati. Prova questo:"
+"Fare i beep è soltanto l’inizio. Una cosa molto divertente è suonare "
+"campioni pre-registrati. Prova questo:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
@@ -1964,15 +1898,14 @@ msgid "sample :ambi_lunar_land"
 msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
-#, fuzzy
 msgid ""
 "Sonic Pi includes many samples for you to play with. You can use them just lik"
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
 msgstr ""
-"In Sonic Pi troverai molti campioni precaricati coi quali lavorare. Puoi usarl"
-"i nello stesso modo in cui usi il comando `play`. Per suonare insieme note e c"
-"ampioni ti basta scrivere le istruzioni una dopo l’altra:"
+"In Sonic Pi troverai molti campioni precaricati coi quali lavorare. Puoi "
+"usarli nello stesso modo in cui usi il comando `play`. Per suonare insieme "
+"note e campioni ti basta scrivere le istruzioni una dopo l’altra:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1988,7 +1921,6 @@ msgstr ""
 "sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
-#, fuzzy
 msgid "If you want to space them out in time, use the `sleep` command:"
 msgstr "Se vuoi distribuirli nel tempo, usa l’istruzione `sleep`:"
 
@@ -2014,7 +1946,6 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
@@ -2022,112 +1953,104 @@ msgid ""
 "esting overlap effects. Later in this tutorial we'll take a look at controllin"
 "g the *duration* of sounds with envelopes."
 msgstr ""
-"Hai notato come Sonic Pi non aspetta la fine di un suono per farne partire un "
-"altro? L’istruzione `sleep` determina solo la separazione degli *attacchi* dei"
-" suoni. Questo ti permette di sovrapporre facilmente i suoni creando interessa"
-"nti effetti d’insieme. Più avanti nel tutorial vedremo come controllare la *du"
-"rata* dei suoni con gli inviluppi."
+"Forse avrai notato come Sonic Pi non aspetta la fine di un suono per farne "
+"partire un altro? L’istruzione `sleep` determina solo la separazione degli "
+"*attacchi* dei suoni. Questo ti permette di sovrapporre facilmente i suoni "
+"creando interessanti effetti d’insieme. Più avanti nel tutorial vedremo come "
+"controllare la *durata* dei suoni con gli inviluppi."
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid "Discovering Samples"
 msgstr "Scopriamo i campioni"
 
 #: 03.1-Triggering-Samples.md:46
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the far left vertical men"
 "u, choose your category and then you'll see a list of available sounds."
 msgstr ""
-"Ci sono due modi per esplorare la varietà di campioni forniti da Sonic Pi. Pri"
-"mo, puoi usare l’help del programma. Fai click su *Samples* nel menu verticale"
-" in basso a sinistra, scegli la categoria e lì vedrai la lista dei suoni dispo"
-"nibili."
+"Ci sono due modi per esplorare la varietà di campioni forniti da Sonic Pi. "
+"Primo, puoi usare l’help del programma. Fai click su *Samples* nel menu "
+"verticale in basso a sinistra, scegli la categoria e lì vedrai la lista dei "
+"suoni disponibili."
 
 #: 03.1-Triggering-Samples.md:51
-#, fuzzy
 msgid ""
 "Alternatively you can use the *auto-completion system*. Simply type the start "
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
-"Altrimenti puoi usare il *sistema di autocompletamento*. Prova a scrivere la p"
-"rima parte del nome di un gruppo di campioni, come: `sample: ambi_` e vedrai c"
-"he apparirà un menu a tendina con i nomi dei campioni tra i quali potrai scegl"
-"iere. Prova con questi prefissi di categoria:"
+"Altrimenti puoi usare il *sistema di autocompletamento*. Prova a scrivere la "
+"prima parte del nome di un gruppo di campioni, come: `sample: ambi_` e "
+"vedrai che apparirà un menu a tendina con i nomi dei campioni tra i quali "
+"potrai scegliere. Prova con questi prefissi di categoria:"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
-#, fuzzy
 msgid "Now start mixing samples into your compositions!"
-msgstr "Ora puoi cominciare a mixare campioni per realizzare le tue composizioni!"
+msgstr ""
+"Ora puoi cominciare a mixare campioni per realizzare le tue composizioni!"
 
 #: 03.2-Sample-Params.md:1
-#, fuzzy
 msgid "3.2 Sample Parameters"
 msgstr "3.2 I parametri dei campioni"
 
 #: 03.2-Sample-Params.md:3
-#, fuzzy
 msgid "Sample Parameters: Amp and Pan"
 msgstr "I parametri dei campioni: Amp e Pan"
 
 #: 03.2-Sample-Params.md:5
-#, fuzzy
 msgid ""
 "As we saw with synths, we can easily control our sounds with parameters. Sampl"
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
-"Come abbiamo visto con i sintetizzatori, possiamo facilmente controllare i nos"
-"tri suoni con i parametri. I campioni supportano esattamente lo stesso meccani"
-"smo di parametrizzazione. Torniamo dai nostri amici `amp:` e `pan:`."
+"Come abbiamo visto con i sintetizzatori, possiamo facilmente controllare i "
+"nostri suoni con i parametri. I campioni supportano esattamente lo stesso "
+"meccanismo di parametrizzazione. Torniamo dai nostri amici `amp:` e `pan:`."
 
 #: 03.2-Sample-Params.md:9
-#, fuzzy
 msgid "Amping samples"
 msgstr "Regolare l’ampiezza dei campioni"
 
 #: 03.2-Sample-Params.md:11
-#, fuzzy
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
 msgstr ""
-"Puoi cambiare l’ampiezza dei campioni con lo stesso sistema che hai usato per "
-"i synth:"
+"Puoi cambiare l’ampiezza dei campioni con lo stesso sistema che hai usato "
+"per i synth:"
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
@@ -2135,20 +2058,18 @@ msgid "sample :ambi_lunar_land, amp: 0.5"
 msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
-#, fuzzy
 msgid "Panning samples"
 msgstr "Il panning dei campioni"
 
 #: 03.2-Sample-Params.md:20
-#, fuzzy
 msgid ""
 "We're also able to use the `pan:` parameter on samples. For example, here's ho"
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
-"Sui campioni possiamo usare anche il parametro `pan:`. Per esempio, ecco come "
-"faremmo per suonare un loop di batteria due volte passando dall’orecchio sinis"
-"tro al destro:"
+"Sui campioni possiamo usare anche il parametro `pan:`. Per esempio, ecco "
+"come faremmo per suonare un loop di batteria due volte passando dall’"
+"orecchio sinistro al destro:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -2162,51 +2083,45 @@ msgstr ""
 "sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
-#, fuzzy
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
-msgstr "Osserva che 0.877 è metà della durata in secondi del campione `:loop_amen`."
+msgstr ""
+"Osserva che 0.877 è metà della durata in secondi del campione `:loop_amen`."
 
 #: 03.2-Sample-Params.md:33
-#, fuzzy
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr ""
-"Ricorda infine che, se imposti alcuni parametri di default dei synth con `use_"
-"synth_defaults` (di cui parleremo più in là), questi saranno ignorati dall’ist"
-"ruzione `sample`."
+"Ricorda infine che, se imposti alcuni parametri di default dei synth con "
+"`use_synth_defaults` (di cui parleremo più in là), questi saranno ignorati "
+"dall’istruzione `sample`."
 
 #: 03.3-Stretching-Samples.md:1
-#, fuzzy
 msgid "3.3 Stretching Samples"
 msgstr "3.3 Stretching dei campioni"
 
 #: 03.3-Stretching-Samples.md:3
-#, fuzzy
 msgid "Stretching Samples"
 msgstr "Stretching dei campioni"
 
 #: 03.3-Stretching-Samples.md:5
-#, fuzzy
 msgid ""
 "Now that we can play a variety of synths and samples to create some music, it'"
 "s time to learn how to modify both the synths and samples to make the music ev"
 "en more unique and interesting. First, let's explore the ability to *stretch* "
 "and *squash* samples."
 msgstr ""
-"Finora abbiamo imparato a suonare una varietà di synth e campioni per fare un "
-"po’ di musica. È tempo di imparare a modificare sia i synth che i campioni per"
-" rendere la musica ancora più originale e interessante. Prima di tutto, esplor"
-"iamo la capacità di Sonic Pi di *stirare* (in inglese, *stretch*) e *schiaccia"
-"re* i suoni."
+"Finora abbiamo imparato a suonare una varietà di synth e campioni per fare "
+"un po’ di musica. È tempo di imparare a modificare sia i synth che i "
+"campioni per rendere la musica ancora più originale e interessante. Prima di "
+"tutto, esploriamo la capacità di Sonic Pi di *stirare* (in inglese, "
+"*stretch*) e *schiacciare* i suoni."
 
 #: 03.3-Stretching-Samples.md:10
-#, fuzzy
 msgid "Sample Representation"
 msgstr "Rappresentazione dei campioni"
 
 #: 03.3-Stretching-Samples.md:12
-#, fuzzy
 msgid ""
 "Samples are pre-recorded sounds stored as numbers which represent how to move "
 "the speaker cone to reproduce the sound. The speaker cone can move in and out,"
@@ -2218,32 +2133,31 @@ msgid ""
 "d. However, it's also fun to change the speed with which the numbers are fed t"
 "o the speaker to change the sound."
 msgstr ""
-"I campioni sono suoni pre-registrati immagazzinati come dati numerici che rapp"
-"resentano come muovere il cono dell’altoparlante per riprodurre il suono. Il c"
-"ono dell’altoparlante può muoversi in dentro e in fuori, quindi i numeri devon"
-"o rappresentare lo stato (cioè quanto in dentro o quanto in fuori) in cui si d"
-"eve trovare il cono dell’altoparlante in ogni istante. Per riprodurre fedelmen"
-"te un suono registrato, un campione ha bisogno tipicamente di alcune migliaia "
-"di numeri al secondo! Sonic Pi prende questa lista di numeri e li riproduce al"
-"la velocità opportuna per creare il movimento in dentro e in fuori della membr"
-"ana degli altoparlanti del computer, esattamente nel modo richiesto per riprod"
-"urre quel dato suono. Ma è divertente anche cambiare la velocità con cui i num"
-"eri sono inviati agli altoparlanti, in modo da cambiare anche il suono."
+"I campioni sono suoni pre-registrati immagazzinati come dati numerici che "
+"rappresentano come muovere il cono dell’altoparlante per riprodurre il "
+"suono. Il cono dell’altoparlante può muoversi in dentro e in fuori, quindi i "
+"numeri devono rappresentare lo stato (cioè quanto in dentro o quanto in "
+"fuori) in cui si deve trovare il cono dell’altoparlante in ogni istante. Per "
+"riprodurre fedelmente un suono registrato, un campione ha bisogno "
+"tipicamente di alcune migliaia di numeri al secondo! Sonic Pi prende questa "
+"lista di numeri e li riproduce alla velocità opportuna per creare il "
+"movimento in dentro e in fuori della membrana degli altoparlanti del "
+"computer, esattamente nel modo richiesto per riprodurre quel dato suono. Ma "
+"è divertente anche cambiare la velocità con cui i numeri sono inviati agli "
+"altoparlanti, in modo da cambiare anche il suono."
 
 #: 03.3-Stretching-Samples.md:23
-#, fuzzy
 msgid "Changing Rate"
 msgstr "Cambiare la velocità"
 
 #: 03.3-Stretching-Samples.md:25
-#, fuzzy
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
-"Proviamo a suonare uno dei nostri suoni *ambient*: `:ambi_choir`. Per suonarlo"
-" alla velocità di default, puoi passare un argomento `rate:` all’istruzione `s"
-"ample:`"
+"Proviamo a suonare uno dei nostri suoni *ambient*: `:ambi_choir`. Per "
+"suonarlo alla velocità di default, puoi passare un argomento `rate:` all’"
+"istruzione `sample:`:"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
@@ -2251,14 +2165,13 @@ msgid "sample :ambi_choir, rate: 1"
 msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
-#, fuzzy
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
-"Questa istruzione fa suonare il campione a velocità normale (1), e per il mome"
-"nto non succede niente di speciale. Ma siamo liberi di cambiare quel numero in"
-" qualcos’altro. Che ne dici di `0.5:`?"
+"Questa istruzione fa suonare il campione a velocità normale (1), e per il "
+"momento non succede niente di speciale. Ma siamo liberi di cambiare quel "
+"numero in qualcos’altro. Proviamo con `0.5:`:"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
@@ -2266,30 +2179,27 @@ msgid "sample :ambi_choir, rate: 0.5"
 msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
-#, fuzzy
 msgid ""
 "Woah! What's going on here? Well, two things. Firstly, the sample takes twice "
 "as long to play, secondly the sound is an octave lower. Let's explore these th"
 "ings in a little more detail."
 msgstr ""
-"Forte! Che cosa sta succedendo? Essenzialmente due cose. Primo, il campione ci"
-" mette il doppio a suonare; secondo, il suono è un’ottava sotto. Esploriamo la"
-" cosa nel dettaglio."
+"Forte! Che cosa sta succedendo? Essenzialmente due cose. Primo, il campione "
+"ci mette il doppio a suonare; secondo, il suono è un’ottava sotto. "
+"Esploriamo la cosa nel dettaglio."
 
 #: 03.3-Stretching-Samples.md:43
-#, fuzzy
 msgid "Let's stretch"
-msgstr "Stretchiamo!"
+msgstr "Stretchiamo"
 
 #: 03.3-Stretching-Samples.md:45
-#, fuzzy
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
-"Un campione divertente da stirare e comprimere è il loop di batteria *Amen*. A"
-" velocità normale, potremmo immaginare di buttarlo dentro una traccia *drum’n "
-"bass*:"
+"Un campione divertente da stirare e comprimere è il loop di batteria *Amen "
+"Break*. A velocità normale, potremmo immaginare di buttarlo dentro una "
+"traccia *drum’n bass*:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
@@ -2298,13 +2208,12 @@ msgid "sample :loop_amen"
 msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
-#, fuzzy
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
 msgstr ""
-"Ma, cambiando la velocità, ecco che possiamo anche cambiare genere. Proviamo a"
-" mezza velocità per un *hip-hop* vintage:"
+"Ma, cambiando la velocità, ecco che possiamo anche cambiare genere. Proviamo "
+"a mezza velocità per un *hip-hop* vintage:"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
@@ -2312,7 +2221,6 @@ msgid "sample :loop_amen, rate: 0.5"
 msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
-#, fuzzy
 msgid "If we speed it up, we enter *jungle* territory:"
 msgstr "Se aumentiamo la velocità, entriamo nel territorio del *jungle*:"
 
@@ -2322,13 +2230,12 @@ msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
-#, fuzzy
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative ra"
 "te:"
 msgstr ""
-"Adesso, come ultimo effetto a sorpresa, vediamo che succede se usiamo una velo"
-"cità negativa:"
+"Adesso, come ultimo effetto a sorpresa, vediamo che succede se usiamo una "
+"velocità negativa:"
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
@@ -2336,23 +2243,20 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
-#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
 msgstr ""
-"Wow! Suona *al contrario*! Proviamo a suonare molti campioni diversi a velocit"
-"à diverse. Provatene di molto veloci o di lentissime. Guarda che suoni interes"
-"santi puoi creare."
+"Wow! Suona *al contrario*! Proviamo a suonare molti campioni diversi a "
+"velocità diverse. Provatene di molto veloci o di lentissime. Guarda che "
+"suoni interessanti puoi creare."
 
 #: 03.3-Stretching-Samples.md:76
-#, fuzzy
 msgid "A Simple Explanation of Sample Rate"
-msgstr "Una semplice spiegazione della velocità di lettura del campione."
+msgstr "Una semplice spiegazione della velocità di lettura del campione"
 
 #: 03.3-Stretching-Samples.md:78
-#, fuzzy
 msgid ""
 "A useful way to think of samples is as springs. Playback rate is like squashin"
 "g and stretching the spring. If you play the sample at rate 2, you're *squashi"
@@ -2363,57 +2267,55 @@ msgid ""
 "rate), the shorter it gets, the more you stretch (lower rate), the longer it g"
 "ets."
 msgstr ""
-"Un modo utile di pensare i campioni è pensarli come molle. La velocità di lett"
-"ura corrisponde a comprimere e distendere la molla. Se suoni con una velocità "
-"2, stai *comprimento la molla* a metà della sua lunghezza normale, quindi il c"
-"ampione dura circa metà del tempo, essendo più corto. Se invece suoni il campi"
-"one a metà velocità, stai *distendendo la molla* fino a raddoppiarne la lunghe"
-"zza; di conseguenza il campione dura due volte il tempo normale, essendo più l"
-"ungo. Più comprimi (velocità maggiori), più corto diventa il suono; più disten"
-"di (velocità più basse) più il suono diventa lungo."
+"Un modo utile di pensare i campioni è pensarli come molle. La velocità di "
+"lettura corrisponde a comprimere e distendere la molla. Se suoni con una "
+"velocità 2, stai *comprimento la molla* a metà della sua lunghezza normale, "
+"quindi il campione dura circa metà del tempo, essendo più corto. Se invece "
+"suoni il campione a metà velocità, stai *distendendo la molla* fino a "
+"raddoppiarne la lunghezza; di conseguenza il campione dura due volte il "
+"tempo normale, essendo più lungo. Più comprimi (velocità maggiori), più "
+"corto diventa il suono; più distendi (velocità più basse) più il suono "
+"diventa lungo."
 
 #: 03.3-Stretching-Samples.md:87
-#, fuzzy
 msgid ""
 "Compressing a spring increases its density (the number of coils per cm) - this"
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
 msgstr ""
-"Comprimere la molla ne aumenta la densità (numero di giri della molla per cent"
-"imetro) analogamente al campione che suona *più acuto*. Allungare la molla fa "
-"diminuire la densità, analogamente al campione che suona *più basso*."
+"Comprimere la molla ne aumenta la densità (numero di giri della molla per "
+"centimetro) analogamente al campione che suona *più acuto*. Allungare la "
+"molla fa diminuire la densità, analogamente al campione che suona *più "
+"grave*."
 
 #: 03.3-Stretching-Samples.md:93
-#, fuzzy
 msgid "The Maths Behind Sample Rate"
-msgstr "La matematica della velocità di lettura del campione."
+msgstr "La matematica della velocità di lettura del campione"
 
 #: 03.3-Stretching-Samples.md:95
-#, fuzzy
 msgid ""
 "(This section is provided for those that are interested in the details. Please"
 " feel free to skip it...)"
 msgstr ""
-"(Questa parte è per quelli che sono interessati ai dettagli. Sentitevi liberi "
-"di saltarla…)"
+"(Questa parte è per quelli che sono interessati ai dettagli. Sentitevi "
+"liberi di saltarla…)"
 
 #: 03.3-Stretching-Samples.md:98
-#, fuzzy
 msgid ""
 "As we saw above, a sample is represented by a big long list of numbers represe"
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
 msgstr ""
-"Come abbiamo visto, un campione è rappresentato da una lunga lista di numeri c"
-"he rappresentano come la membrana dell’altoparlante deve muoversi nel tempo. P"
-"ossiamo usare questa lista di numeri per tracciare un grafico simile a questo:"
+"Come abbiamo visto, un campione è rappresentato da una lunga lista di numeri "
+"che rappresentano come la membrana dell’altoparlante deve muoversi nel "
+"tempo. Possiamo usare questa lista di numeri per tracciare un grafico simile "
+"a questo:"
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
-#, fuzzy
 msgid ""
 "You might have seen pictures like this before. It's called the *waveform* of a"
 " sample. It's just a graph of numbers. Typically a waveform like this will hav"
@@ -2425,53 +2327,49 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
-"Potreste aver già visto immagini come questa prima d’ora. Si tratta della *for"
-"ma d’onda* del campione. È semplicemente un grafico dei numeri. Tipicamente, u"
-"na forma d’onda come questa avrà 44100 punti per ogni secondo (ciò è una conse"
-"guenza del teorema del campionamento di Nyquist-Shannon). Così, se il campione"
-" dura 2 secondi, la forma d’onda sarà rappresentata da 88200 numeri che vengon"
-"o inviati all’altoparlante, opportunamente convertiti in segnale elettrico, al"
-"la velocità di 44100 numeri al secondo. Potremmo naturalmente farlo a frequenz"
-"a doppia (88200 numeri al secondo), e ci vorrebbe solo un secondo per suonarli"
-" tutti. Potremmo anche dimezzare la frequenza a 22050 numeri al secondo, e in "
-"quel caso ci vorrebbero 4 secondi per suonare tutta la lista di numeri."
+"Potreste aver già visto immagini come questa prima d’ora. Si tratta della *"
+"forma d’onda* del campione. È semplicemente un grafico dei numeri. "
+"Tipicamente, una forma d’onda come questa avrà 44100 punti per ogni secondo ("
+"ciò è una conseguenza del teorema del campionamento di Nyquist-Shannon). "
+"Così, se il campione dura 2 secondi, la forma d’onda sarà rappresentata da "
+"88200 numeri che vengono inviati all’altoparlante, opportunamente convertiti "
+"in segnale elettrico, alla velocità di 44100 numeri al secondo. Potremmo "
+"naturalmente farlo a frequenza doppia (88200 numeri al secondo), e ci "
+"vorrebbe solo un secondo per suonarli tutti. Potremmo anche dimezzare la "
+"frequenza a 22050 numeri al secondo, e in quel caso ci vorrebbero 4 secondi "
+"per suonare tutta la lista di numeri."
 
 #: 03.3-Stretching-Samples.md:116
-#, fuzzy
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr "La durata di un campione dipende dalla velocità di lettura del dato digitale:"
+msgstr ""
+"La durata di un campione dipende dalla velocità di lettura del dato digitale:"
 
 #: 03.3-Stretching-Samples.md:118
-#, fuzzy
 msgid "Doubling the playback rate halves the playback time,"
 msgstr "Raddoppiare la velocità dimezza la durata,"
 
 #: 03.3-Stretching-Samples.md:119
-#, fuzzy
 msgid "Halving the playback rate doubles the playback time,"
 msgstr "Dimezzare la velocità raddoppia la durata,"
 
 #: 03.3-Stretching-Samples.md:120
-#, fuzzy
 msgid "Using a playback rate of one fourth quadruples the playback time,"
 msgstr "Usare una velocità di lettura di un quarto quadruplica la durata,"
 
 #: 03.3-Stretching-Samples.md:121
-#, fuzzy
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
 msgstr "Usare una velocità di 1/10 rende la durata 10 volte più lunga."
 
 #: 03.3-Stretching-Samples.md:123
 msgid "We can represent this with the formula:"
-msgstr ""
+msgstr "Possiamo rappresentare questo concetto con la seguente formula:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr "new_sample_duration = (1 / rate) * sample_duration "
+msgstr "nuova_durata_campione = (1 / velocità) * durata_del_campione "
 
 #: 03.3-Stretching-Samples.md:129
-#, fuzzy
 msgid ""
 "Changing the playback rate also affects the pitch of the sample. The frequency"
 " or pitch of a waveform is determined by how fast it moves up and down. Our br"
@@ -2480,16 +2378,16 @@ msgid ""
 "speaker move as it pumps out super low bass - it's actually moving a lot slowe"
 "r in and out than a speaker producing higher notes."
 msgstr ""
-"Cambiare la velocità di lettura influisce anche sul pitch del campione. La fre"
-"quenza, o pitch di una forma d’onda, è determinata da quanto velocemente essa "
-"oscilla. Il nostro cervello interpreta un’oscillazione veloce come note acute "
-"e un’oscillazione lenta come note gravi. Ecco perché a volte puoi perfino vede"
-"r muovere il cono di un grosso altoparlante che emette frequenze molto basse: "
-"in effetti, sta effettuando il suo movimento in dentro e in fuori a una veloci"
-"tà molto più bassa di quella di un altoparlante che produce note acute."
+"Cambiare la velocità di lettura influisce anche sul pitch del campione. La "
+"frequenza, o pitch di una forma d’onda, è determinata da quanto velocemente "
+"essa oscilla. Il nostro cervello interpreta un’oscillazione veloce come note "
+"acute e un’oscillazione lenta come note gravi. Ecco perché a volte puoi "
+"perfino veder muovere il cono di un grosso altoparlante che emette frequenze "
+"molto basse: in effetti, sta effettuando il suo movimento in dentro e in "
+"fuori a una velocità molto più bassa di quella di un altoparlante che "
+"produce note acute."
 
 #: 03.3-Stretching-Samples.md:137
-#, fuzzy
 msgid ""
 "If you take a waveform and squash it it will move up and down more times per s"
 "econd. This will make it sound higher pitched. It turns out that doubling the "
@@ -2498,25 +2396,22 @@ msgid ""
 "*halving the rate will halve the frequency*. Other rates will affect the frequ"
 "ency accordingly."
 msgstr ""
-"Se prendi una forma d’onda e la comprimi, quella oscillerà un numero maggiore "
-"di volte al secondo. Ciò renderà il suono più acuto. Comprendiamo allora che r"
-"addoppiare il numero di oscillazioni raddoppia la frequenza. Così, *suonare il"
-" tuo campione a velocità doppia raddoppia la frequenza che ascolti*. E *dimezz"
-"are la velocità dimezza la frequenza*. Diverse variazioni di velocità influira"
-"nno sulla frequenza in proporzione."
+"Se prendi una forma d’onda e la comprimi, quella oscillerà un numero "
+"maggiore di volte al secondo. Ciò renderà il suono più acuto. Comprendiamo "
+"allora che raddoppiare il numero di oscillazioni raddoppia la frequenza. "
+"Così, *suonare il tuo campione a velocità doppia raddoppia la frequenza che "
+"ascolti*. E *dimezzare la velocità dimezza la frequenza*. Diverse variazioni "
+"di velocità influiranno sulla frequenza in proporzione."
 
 #: 03.4-Enveloped-Samples.md:1
-#, fuzzy
 msgid "3.4 Enveloped Samples"
-msgstr "3.4 Campioni inviluppati"
+msgstr "3.4 Inviluppo dei campioni"
 
 #: 03.4-Enveloped-Samples.md:3
-#, fuzzy
 msgid "Enveloped Samples"
-msgstr "Campioni inviluppati"
+msgstr "Inviluppo dei campioni"
 
 #: 03.4-Enveloped-Samples.md:5
-#, fuzzy
 msgid ""
 "It is also possible to modify the *duration* and *amplitude* of a sample using"
 " an ADSR envelope. However, this works slightly differently to the ADSR envelo"
@@ -2526,34 +2421,31 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
-"È possibile anche modificare la *durata* e l’*ampiezza* di un campione adopera"
-"ndo un inviluppo ADSR. Questo funziona però in modo lievemente differente dall"
-"’ADSR disponibile nei synth. Gli inviluppi dei campioni ti permettono soltanto"
-" di ridurre l’ampiezza e la durata di un campione, ma mai di aumentarle. Il ca"
-"mpione si fermerà o quando sarà stato suonato tutto oppure quando sarà complet"
-"ato l’inviluppo, quale delle due cose accada per prima. Quindi, anche se usi u"
-"n tempo di rilascio (`release:`) molto lungo, non per questo aumenterai la dur"
-"ata del campione."
+"È possibile anche modificare la *durata* e l’*ampiezza* di un campione "
+"adoperando un inviluppo ADSR. Questo funziona però in modo lievemente "
+"differente dall’ADSR disponibile nei synth. Gli inviluppi dei campioni ti "
+"permettono soltanto di ridurre l’ampiezza e la durata di un campione, ma mai "
+"di aumentarle. Il campione si fermerà o quando sarà stato suonato tutto "
+"oppure quando sarà completato l’inviluppo, quale delle due cose accada per "
+"prima. Quindi, anche se usi un tempo di rilascio (`release:`) molto lungo, "
+"non per questo aumenterai la durata del campione."
 
 #: 03.4-Enveloped-Samples.md:13
-#, fuzzy
 msgid "Amen Envelopes"
-msgstr "Inviluppare il campione Amen"
+msgstr "Inviluppo del campione Amen"
 
 #: 03.4-Enveloped-Samples.md:15
-#, fuzzy
 msgid "Let's return to our trusty friend the Amen Break:"
 msgstr "Torniamo al nostro amico fidato, il loop di batteria Amen:"
 
 #: 03.4-Enveloped-Samples.md:21
-#, fuzzy
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade th"
 "is in over 1 second we can use the `attack:` param:"
 msgstr ""
-"Senza parametri, ascoltiamo il campione intero ad ampiezza piena. Se vogliamo "
-"creare un *fade-in* (dissolvenza in entrata) di 1 secondo, possiamo usare il p"
-"arametro `attack:` (tempo di attacco):"
+"Senza parametri, ascoltiamo il campione intero ad ampiezza piena. Se "
+"vogliamo creare un *fade-in* (dissolvenza in entrata) di 1 secondo, possiamo "
+"usare il parametro `attack:` (tempo di attacco):"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
@@ -2561,7 +2453,6 @@ msgid "sample :loop_amen, attack: 1"
 msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
-#, fuzzy
 msgid "For a shorter fade in, choose a shorter attack value:"
 msgstr "Per un fade-in più corto, impostiamo un tempo di attacco più corto:"
 
@@ -2571,12 +2462,10 @@ msgid "sample :loop_amen, attack: 0.3"
 msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
-#, fuzzy
 msgid "Auto Sustain"
 msgstr "Auto sustain"
 
 #: 03.4-Enveloped-Samples.md:36
-#, fuzzy
 msgid ""
 "Where the ADSR envelope's behaviour differs from the standard synth envelope i"
 "s in the *sustain* value. In the standard synth envelope, the sustain defaulte"
@@ -2589,32 +2478,30 @@ msgid ""
 " values add up to more than the duration of the sample, the sustain is simply "
 "set to 0."
 msgstr ""
-"La fase dell’inviluppo in cui il comportamento dell’ADSR differisce, per i cam"
-"pioni, da quello standard dei synth, è il tempo di `sustain:` (sostegno). Negl"
-"i inviluppi standard dei synth, esso è impostato di default su 0 a meno che no"
-"n venga impostato manualmente su un valore diverso. Con i campioni, il sustain"
-" si imposta su un valore *automagico*, cioè il tempo necessario ad eseguire il"
-" resto del campione. Ecco perché sentiamo l’intero campione quando non imposti"
-"amo alcun valore. Se attacco, decadimento, sostegno e rilascio fossero tutti i"
-"mpostati su 0, non sentiremmo un bel niente. Sonic Pi calcola perciò la lunghe"
-"zza del campione, ne sottrae eventuali tempi di attacco, decadimento e rilasci"
-"o, e usa il risultato come tempo di sostegno. Se attacco, decadimento e rilasc"
-"io sommati durano più della durata effettiva del campione, il sustain è lascia"
-"to, semplicemente, a 0."
+"La fase dell’inviluppo in cui il comportamento dell’ADSR differisce, per i "
+"campioni, da quello standard dei synth, è il tempo di `sustain:` (sostegno). "
+"Negli inviluppi standard dei synth, esso è impostato di default su 0 a meno "
+"che non venga impostato manualmente su un valore diverso. Con i campioni, il "
+"sustain si imposta su un valore *automagico*, cioè il tempo necessario ad "
+"eseguire il resto del campione. Ecco perché sentiamo l’intero campione "
+"quando non impostiamo alcun valore. Se attacco, decadimento, sostegno e "
+"rilascio fossero tutti impostati su 0, non sentiremmo un bel niente. Sonic "
+"Pi calcola perciò la lunghezza del campione, ne sottrae eventuali tempi di "
+"attacco, decadimento e rilascio, e usa il risultato come tempo di sostegno. "
+"Se attacco, decadimento e rilascio sommati durano più della durata effettiva "
+"del campione, il sustain è lasciato, semplicemente, a 0."
 
 #: 03.4-Enveloped-Samples.md:48
-#, fuzzy
 msgid "Fade Outs"
 msgstr "Fade out (dissolvenza in uscita)"
 
 #: 03.4-Enveloped-Samples.md:50
-#, fuzzy
 msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask Sonic"
 " Pi how long the sample is:"
 msgstr ""
-"Per esaminare questo aspetto, consideriamo il nostro loop Amen più in dettagli"
-"o. Se chiediamo a Sonic Pi quanto dura il campione:"
+"Per esaminare questo aspetto, consideriamo il nostro loop Amen più in "
+"dettaglio. Se chiediamo a Sonic Pi quanto dura il campione:"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
@@ -2622,15 +2509,14 @@ msgid "print sample_duration :loop_amen"
 msgstr "print sample_duration :loop_amen"
 
 #: 03.4-Enveloped-Samples.md:57
-#, fuzzy
 msgid ""
 "It will print out `1.753310657596372` which is the length of the sample in sec"
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
-"lui stamperà `1.753310657596372`, che è la lunghezza del campione in secondi. "
-"Per comodità, arrotondiamolo a `1.75`. Adesso, se impostiamo il rilascio a `0."
-"75`, ecco cosa accade:"
+"lui stamperà `1.753310657596372`, che è la lunghezza del campione in "
+"secondi. Per comodità, arrotondiamolo a `1.75`. Adesso, se impostiamo il "
+"rilascio a `0.75`, ecco cosa accade:"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
@@ -2638,7 +2524,6 @@ msgid "sample :loop_amen, release: 0.75"
 msgstr "sample :loop_amen, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:65
-#, fuzzy
 msgid ""
 "It will play the first second of the sample at full amplitude before then fadi"
 "ng out over a period of 0.75 seconds. This is the *auto sustain* in action. By"
@@ -2646,30 +2531,28 @@ msgid ""
 "as 10.75 seconds long, it would play the first 10 seconds at full amplitude be"
 "fore fading out over 0.75s."
 msgstr ""
-"Suonerà il primo secondo del campione ad ampiezza piena prima di dissolvere in"
-" un tempo di 0.75 secondi. Ecco l’*autosustain* in azione. Di default, il rila"
-"scio funziona sempre contando a ritroso dalla fine del campione. Se il nostro "
-"campione fosse di 10.75 secondi, suonerebbe i primi 10 secondi ad ampiezza pie"
-"na prima di dissolvere in 0.75 secondi."
+"Suonerà il primo secondo del campione ad ampiezza piena prima di dissolvere "
+"in un tempo di 0.75 secondi. Ecco l’*autosustain* in azione. Di default, il "
+"rilascio funziona sempre contando a ritroso dalla fine del campione. Se il "
+"nostro campione fosse di 10.75 secondi, suonerebbe i primi 10 secondi ad "
+"ampiezza piena prima di dissolvere in 0.75 secondi."
 
 #: 03.4-Enveloped-Samples.md:71
-#, fuzzy
 msgid "Remember: by default, `release:` fades out at the end of a sample."
-msgstr "Ricorda: di default il tempo di rilascio va contato dalla fine del campione."
+msgstr ""
+"Ricorda: di default il tempo di rilascio va contato dalla fine del campione."
 
 #: 03.4-Enveloped-Samples.md:73
-#, fuzzy
 msgid "Fade In and Out"
 msgstr "Fade in e fade out (dissolvenza in entrata e in uscita)"
 
 #: 03.4-Enveloped-Samples.md:75
-#, fuzzy
 msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
 msgstr ""
-"Possiamo usare insieme sia `attack:` che `release:` con l’autosustain per aver"
-"e sia il fade in che il fade out sulla durata del campione:"
+"Possiamo usare insieme sia `attack:` che `release:` con l’autosustain per "
+"avere sia il fade in che il fade out sulla durata del campione:"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
@@ -2677,30 +2560,27 @@ msgid "sample :loop_amen, attack: 0.75, release: 0.75"
 msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
-#, fuzzy
 msgid ""
 "As the full duration of the sample is 1.75s and our attack and release phases "
 "add up to 1.5s, the sustain is automatically set to 0.25s. This allows us to e"
 "asily fade the sample in and out."
 msgstr ""
-"Dal momento che la durata completa del campione è 1.75 secondi e i nostri temp"
-"i di attacco e rilascio durano complessivamente 1.5 secondi, il sustain è impo"
-"stato automaticamente a 0.25 secondi. Ciò permette di applicare le dissolvenze"
-" al campione con grande facilità."
+"Dal momento che la durata completa del campione è 1.75 secondi e i nostri "
+"tempi di attacco e rilascio durano complessivamente 1.5 secondi, il sustain "
+"è impostato automaticamente a 0.25 secondi. Ciò permette di applicare le "
+"dissolvenze al campione con grande facilità."
 
 #: 03.4-Enveloped-Samples.md:86
-#, fuzzy
 msgid "Explicit sustain"
 msgstr "Sustain esplicito"
 
 #: 03.4-Enveloped-Samples.md:88
-#, fuzzy
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually setting "
 "`sustain:` to a value such as 0:"
 msgstr ""
-"Possiamo benissimo tornare al comportamento normale dell’ADSR dei synth impost"
-"ando `sustain:` manualmente su un valore, ad esempio 0:"
+"Possiamo benissimo tornare al comportamento normale dell’ADSR dei synth "
+"impostando `sustain:` manualmente su un valore, ad esempio 0:"
 
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
@@ -2708,32 +2588,29 @@ msgid "sample :loop_amen, sustain: 0, release: 0.75"
 msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:95
-#, fuzzy
 msgid ""
 "Now, our sample only plays for 0.75 seconds in total. With the default for `at"
 "tack:` and `decay:` at 0, the sample jumps straight to full amplitude, sustain"
 "s there for 0s then releases back down to 0 amplitude over the release period "
 "- 0.75s."
 msgstr ""
-"Adesso il nostro campione suona per soli 0.75 secondi totali. Con il valore di"
-" default 0 per `attack:` e `decay:`, il campione va immediatamente alla massim"
-"a ampiezza, tiene il suono per...0 secondi e poi se ne va ad ampiezza 0 con un"
-" tempo di rilascio di 0.75 secondi."
+"Adesso il nostro campione suona per soli 0.75 secondi totali. Con il valore "
+"di default 0 per `attack:` e `decay:`, il campione va immediatamente alla "
+"massima ampiezza, tiene il suono per...0 secondi e poi se ne va ad ampiezza "
+"0 con un tempo di rilascio di 0.75 secondi."
 
 #: 03.4-Enveloped-Samples.md:100
-#, fuzzy
 msgid "Percussive cymbals"
-msgstr "Piatti...percussivi"
+msgstr "Piatti... percussivi"
 
 #: 03.4-Enveloped-Samples.md:102
-#, fuzzy
 msgid ""
 "We can use this behaviour to good effect to turn longer sounding samples into "
 "shorter, more percussive versions. Consider the sample `:drum_cymbal_open`:"
 msgstr ""
-"Possiamo servirci di questo comportamento come effetto per trasformare campion"
-"i lunghi in versioni corte e più percussive dello stesso campione. Consideriam"
-"o il campione `:drum_cymbal_open`:"
+"Possiamo servirci di questo comportamento come effetto per trasformare "
+"campioni lunghi in versioni corte e più percussive dello stesso campione. "
+"Consideriamo il campione `:drum_cymbal_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
@@ -2741,13 +2618,12 @@ msgid "sample :drum_cymbal_open"
 msgstr "sample :drum_cymbal_open"
 
 #: 03.4-Enveloped-Samples.md:110
-#, fuzzy
 msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we c"
 "an use our envelope to make it more percussive:"
 msgstr ""
-"Puoi sentire il suono del piatto riusuonare per un certo tempo. Tuttavia, poss"
-"iamo usare il nostro inviluppo per rendere il suono più percussivo:"
+"Puoi sentire il suono del piatto riusuonare per un certo tempo. Tuttavia, "
+"possiamo usare il nostro inviluppo per rendere il suono più percussivo:"
 
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
@@ -2755,13 +2631,12 @@ msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
-#, fuzzy
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
 msgstr ""
-"Puoi emulare il colpo di piatto e il successivo smorzamento aumentando il temp"
-"o di sostegno:"
+"Puoi emulare il colpo di piatto e il successivo smorzamento aumentando il "
+"tempo di sostegno:"
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
@@ -2769,49 +2644,43 @@ msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:124
-#, fuzzy
 msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the rate "
 "too for really interesting results."
 msgstr ""
-"E adesso divertiti ad applicare gli inviluppi ai campioni. Prova a cambiare an"
-"che la velocità di lettura per risultati davvero interessanti."
+"E adesso divertiti ad applicare gli inviluppi ai campioni. Prova a cambiare "
+"anche la velocità di lettura per risultati davvero interessanti."
 
 #: 03.5-Partial-Samples.md:1
-#, fuzzy
 msgid "3.5 Partial Samples"
 msgstr "3.5 Esecuzione parziale dei campioni"
 
 #: 03.5-Partial-Samples.md:3
-#, fuzzy
 msgid "Partial Samples"
 msgstr "Esecuzione parziale dei campioni"
 
 #: 03.5-Partial-Samples.md:5
-#, fuzzy
 msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
-"Con questa sezione si conclude la nostra esplorazione su come Sonic Pi gestisc"
-"e i campioni audio. Facciamo un breve riassunto. Finora abbiamo visto come avv"
-"iare l’esecuzione di un campione:"
+"Con questa sezione si conclude la nostra esplorazione su come Sonic Pi "
+"gestisce i campioni audio. Facciamo un breve riassunto. Finora abbiamo visto "
+"come avviare l’esecuzione di un campione:"
 
 #: 03.5-Partial-Samples.md:13
-#, fuzzy
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
 msgstr ""
-"Quindi abbiamo visto come cambiare la velocità di lettura dei campioni in modo"
-" da farli suonare a velocità dimezzata:"
+"Quindi abbiamo visto come cambiare la velocità di lettura dei campioni in "
+"modo da farli suonare a velocità dimezzata:"
 
 #: 03.5-Partial-Samples.md:20
-#, fuzzy
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr ""
-"Abbiamo visto come inserire un fade-in all’inizio del campione (ora facciamolo"
-" a velocità dimezzata):"
+"Abbiamo visto come inserire un fade-in all’inizio del campione (ora "
+"facciamolo a velocità dimezzata):"
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
@@ -2819,15 +2688,14 @@ msgid "sample :loop_amen, rate: 0.5, attack: 1"
 msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
-#, fuzzy
 msgid ""
 "We also looked at how we could use the start of a sample percussively by givin"
 "g `sustain:` an explicit value and setting both the attack and release to be s"
 "hort values:"
 msgstr ""
-"Abbiamo visto anche come dare al campione un attacco percussivo dando un valor"
-"e di `sustain:` esplicito (zero) e impostando attacco e rilascio su valori mol"
-"to corti:"
+"Abbiamo visto anche come dare al campione un attacco percussivo dando un "
+"valore di `sustain:` esplicito (zero) e impostando attacco e rilascio su "
+"valori molto corti:"
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
@@ -2835,32 +2703,31 @@ msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
 #: 03.5-Partial-Samples.md:35
-#, fuzzy
 msgid ""
 "However, wouldn't it be nice if we didn't have to always start at the beginnin"
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
 "t the end of the sample?"
 msgstr ""
-"Ma non sarebbe bello se non dovessimo suonare il campione sempre dall’inizio? "
-"E non sarebbe altrettanto bello non doverlo suonare sempre fino alla fine?"
+"Ma non sarebbe bello se non dovessimo suonare il campione sempre dall’"
+"inizio? E non sarebbe altrettanto bello non doverlo suonare sempre fino alla "
+"fine?"
 
 #: 03.5-Partial-Samples.md:39
-#, fuzzy
 msgid "Choosing a starting point"
 msgstr "Scegliere il punto d’inizio"
 
 #: 03.5-Partial-Samples.md:41
-#, fuzzy
 msgid ""
 "It is possible to choose an arbitrary starting point in the sample as a value "
 "between 0 and 1 where 0 is the start of the sample, 1 is the end and 0.5 is ha"
 "lf way through the sample. Let's try playing only the last half of the amen br"
 "eak:"
 msgstr ""
-"È possibile scegliere un punto d’inizio a piacere nell’esecuzione del campione"
-" come valore associato al parametro `start:` compreso tra 0 e 1, dove 0 corris"
-"ponde all’inizio del campione, 1 alla fine e 0.5 esattamente a metà. Proviamo "
-"a suonare soltanto la seconda metà del nostro solito loop di batteria:"
+"È possibile scegliere un punto d’inizio a piacere nell’esecuzione del "
+"campione come valore associato al parametro `start:` compreso tra 0 e 1, "
+"dove 0 corrisponde all’inizio del campione, 1 alla fine e 0.5 esattamente a "
+"metà. Proviamo a suonare soltanto la seconda metà del nostro solito loop di "
+"batteria:"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
@@ -2868,7 +2735,6 @@ msgid "sample :loop_amen, start: 0.5"
 msgstr "sample :loop_amen, start: 0.5"
 
 #: 03.5-Partial-Samples.md:50
-#, fuzzy
 msgid "How about the last quarter of the sample:"
 msgstr "Ed ecco l’ultimo quarto soltanto:"
 
@@ -2878,19 +2744,17 @@ msgid "sample :loop_amen, start: 0.75"
 msgstr "sample :loop_amen, start: 0.75"
 
 #: 03.5-Partial-Samples.md:56
-#, fuzzy
 msgid "Choosing a finish point"
 msgstr "Scegliere il punto finale"
 
 #: 03.5-Partial-Samples.md:58
-#, fuzzy
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample as"
 " a value between 0 and 1. Let's finish the amen break half way through:"
 msgstr ""
-"In modo simile è possibile scegliere a piacere un punto finale all’interno del"
-" campione impostando un valore tra 0 e 1 per il parametro `finish:`. Eseguiamo"
-" il loop di batteria fino a metà campione:"
+"In modo simile è possibile scegliere a piacere un punto finale all’interno "
+"del campione impostando un valore tra 0 e 1 per il parametro `finish:`. "
+"Eseguiamo il loop di batteria fino a metà campione:"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
@@ -2898,19 +2762,17 @@ msgid "sample :loop_amen, finish: 0.5"
 msgstr "sample :loop_amen, finish: 0.5"
 
 #: 03.5-Partial-Samples.md:66
-#, fuzzy
 msgid "Specifying start and finish"
 msgstr "Specificare un punto d’inizio e un punto finale"
 
 #: 03.5-Partial-Samples.md:68
-#, fuzzy
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio fi"
 "le. How about only a small section in the middle:"
 msgstr ""
-"È possibile, naturalmente, combinare queste due istruzioni per eseguire a piac"
-"ere un frammento del file audio. Ecco come eseguire una piccola porzione al ce"
-"ntro del file:"
+"È possibile, naturalmente, combinare queste due istruzioni per eseguire a "
+"piacere un frammento del file audio. Ecco come eseguire una piccola porzione "
+"al centro del file:"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
@@ -2918,9 +2780,10 @@ msgid "sample :loop_amen, start: 0.4, finish: 0.6"
 msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
 #: 03.5-Partial-Samples.md:75
-#, fuzzy
 msgid "What happens if we choose a start position after the finish position?"
-msgstr "Ma cosa succede se scegliamo un punto d’inizio collocato dopo il punto finale?"
+msgstr ""
+"Ma cosa succede se scegliamo un punto d’inizio collocato dopo il punto "
+"finale?"
 
 #: 03.5-Partial-Samples.md:78
 #, no-wrap
@@ -2928,26 +2791,23 @@ msgid "sample :loop_amen, start: 0.6, finish: 0.4"
 msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
 #: 03.5-Partial-Samples.md:82
-#, fuzzy
 msgid "Cool! It plays it backwards!"
 msgstr "Forte! Suona all’indietro!"
 
 #: 03.5-Partial-Samples.md:84
-#, fuzzy
 msgid "Combining with rate"
 msgstr "Combinare velocità di lettura ed esecuzione parziale del campione"
 
 #: 03.5-Partial-Samples.md:86
-#, fuzzy
 msgid ""
 "We can combine this new ability to play arbitrary segments of audio with our f"
 "riend `rate:`. For example, we can play a very small section of the middle of "
 "the amen break very slowly:"
 msgstr ""
-"Possiamo combinare questa nuova possibilità di suonare frammenti a scelta di u"
-"n file audio con la nostra vecchia conoscenza `rate:`, la velocità di lettura."
-" Possiamo ad esempio eseguire un frammento brevissimo del loop di batteria ad "
-"una velocità molto bassa:"
+"Possiamo combinare questa nuova possibilità di suonare frammenti a scelta di "
+"un file audio con la nostra vecchia conoscenza `rate:`, la velocità di "
+"lettura. Possiamo ad esempio eseguire un frammento brevissimo del loop di "
+"batteria ad una velocità molto bassa:"
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
@@ -2955,18 +2815,16 @@ msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
 #: 03.5-Partial-Samples.md:94
-#, fuzzy
 msgid "Combining with envelopes"
 msgstr "Combinare inviluppi ed esecuzione parziale del campione"
 
 #: 03.5-Partial-Samples.md:96
-#, fuzzy
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce interes"
 "ting results:"
 msgstr ""
-"Possiamo infine combinare tutto questo con gli inviluppi ADSR per ottenere ris"
-"ultati interessanti:"
+"Possiamo infine combinare tutto questo con gli inviluppi ADSR per ottenere "
+"risultati interessanti:"
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
@@ -2978,41 +2836,36 @@ msgstr ""
 "1"
 
 #: 03.5-Partial-Samples.md:103
-#, fuzzy
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
 msgstr ""
-"E ora sbizzarriamoci a creare mix di campioni manipolati in tutti questi fanta"
-"stici modi..."
+"E ora sbizzarriamoci a creare mix di campioni manipolati in tutti questi "
+"fantastici modi..."
 
 #: 03.6-External-Samples.md:1
-#, fuzzy
 msgid "3.6 External Samples"
 msgstr "3.6 Campioni esterni"
 
 #: 03.6-External-Samples.md:3
-#, fuzzy
 msgid "External Samples"
 msgstr "Campioni esterni"
 
 #: 03.6-External-Samples.md:5
-#, fuzzy
 msgid ""
 "Whilst the built-in samples can get you up and started quickly, you might wish"
 " to experiment with other recorded sounds in your music. Sonic Pi totally supp"
 "orts this. First though, let's have a quick discussion on the portability of y"
 "our piece."
 msgstr ""
-"Con i campioni compresi in Sonic Pi puoi cominciare a lavorare subito. Tuttavi"
-"a, arriverai a voler sperimentare inserendo altri suoni registrati nella tua m"
-"usica. Prima però discutiamo brevemente sulla portabilità del tuo pezzo."
+"Con i campioni compresi in Sonic Pi puoi cominciare a lavorare subito. "
+"Tuttavia, arriverai a voler sperimentare inserendo altri suoni registrati "
+"nella tua musica. Prima però discutiamo brevemente sulla portabilità del tuo "
+"pezzo."
 
 #: 03.6-External-Samples.md:10
-#, fuzzy
 msgid "Portability"
 msgstr "Portabilità"
 
 #: 03.6-External-Samples.md:12
-#, fuzzy
 msgid ""
 "When you compose your piece purely with built-in synths and samples, the code "
 "is all you need to faithfully reproduce your music. Think about that for a mom"
@@ -3021,16 +2874,15 @@ msgid ""
 "your sounds. That makes it *really easy to share* with your friends as they ju"
 "st need to get hold of the code."
 msgstr ""
-"Quando componi un pezzo soltanto con i synth e i campioni compresi in Sonic Pi"
-", tutto ciò di cui hai bisogno per riprodurre fedelmente la tua musica è il co"
-"dice. Pensaci un attimo - è straordinario! Un semplice frammento di testo che "
-"puoi inviare per email o depositare in un \\[Gist\\] (https://gist.github.com) è"
-" tutto quello che ti serve per riprodurre i tuoi suoni. Ciò rende *davvero fac"
-"ile condividerli* con i tuoi amici, perché tutto quello di cui anche loro hann"
-"o bisogno è il codice."
+"Quando componi un pezzo soltanto con i synth e i campioni compresi in Sonic "
+"Pi, tutto ciò di cui hai bisogno per riprodurre fedelmente la tua musica è "
+"il codice. Pensaci un attimo - è straordinario! Un semplice frammento di "
+"testo che puoi inviare per email o depositare in un \\[Gist\\] "
+"(https://gist.github.com) è tutto quello che ti serve per riprodurre i tuoi "
+"suoni. Ciò rende *davvero facile condividerli* con i tuoi amici, perché "
+"tutto quello di cui anche loro hanno bisogno è il codice."
 
 #: 03.6-External-Samples.md:19
-#, fuzzy
 msgid ""
 "However, if you start using your own pre-recorded samples, you lose this porta"
 "bility. This is because to reproduce your music other people not only need you"
@@ -3038,27 +2890,25 @@ msgid ""
 "pulate, mash-up and experiment with your work. Of course this shouldn't stop y"
 "ou from using your own samples, it's just something to consider."
 msgstr ""
-"Tuttavia, se cominci ad usare campioni tuoi, perdi la portabilità. Questo perc"
-"hé, per riprodurre la tua musica, le altre persona non hanno bisogno soltanto "
-"del codice, ma anche dei campioni. Ciò limita la possibilità per gli altri di "
-"manipolare, creare mix e sperimentare con il tuo lavoro. Naturalmente questo n"
-"on deve impedirti di usare suoni tuoi: è solo un fatto da tenere in consideraz"
-"ione."
+"Tuttavia, se cominci ad usare campioni tuoi, perdi la portabilità. Questo "
+"perché, per riprodurre la tua musica, le altre persona non hanno bisogno "
+"soltanto del codice, ma anche dei campioni. Ciò limita la possibilità per "
+"gli altri di manipolare, creare mix e sperimentare con il tuo lavoro. "
+"Naturalmente questo non deve impedirti di usare suoni tuoi: è solo un fatto "
+"da tenere in considerazione."
 
 #: 03.6-External-Samples.md:26
-#, fuzzy
 msgid "Local Samples"
 msgstr "Campioni locali"
 
 #: 03.6-External-Samples.md:28
-#, fuzzy
 msgid ""
 "So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? All "
 "you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"Ma insomma come si fa a suonare un qualsiasi file WAV o AIFF residente nel tuo"
-" computer? Devi soltanto passare il percorso di quel file all’istruzione `samp"
-"le`:"
+"Ma insomma come si fa a suonare un qualsiasi file WAV o AIFF residente nel "
+"tuo computer? Devi soltanto passare il percorso di quel file all’istruzione "
+"`sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -3074,14 +2924,13 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
-#, fuzzy
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all th"
 "e standard params you're used to passing `sample`:"
 msgstr ""
-"In questo modo Sonic Pi carica automaticamente il campione e lo suona. A quel "
-"punto puoi passare tutti i parametri standard che hai usato finora con `sample"
-"`:"
+"In questo modo Sonic Pi carica automaticamente il campione e lo suona. A "
+"quel punto puoi passare tutti i parametri standard che hai usato finora con "
+"`sample`:"
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
@@ -3098,11 +2947,11 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:1
 msgid "3.7 Sample Packs"
-msgstr ""
+msgstr "3.7 Pacchetti di sample"
 
 #: 03.7-Sample-Packs.md:3
 msgid "Sample Packs"
-msgstr ""
+msgstr "Pacchetti di sample"
 
 #: 03.7-Sample-Packs.md:5
 msgid ""
@@ -3110,20 +2959,29 @@ msgid ""
 " large directories of your own samples. This will be the case if you've downlo"
 "aded or bought your own sample packs and wish to use them within Sonic Pi.**"
 msgstr ""
+"**Nota: questa sezione del tutorial copre argomenti avanzati e spiega come "
+"lavorare con directory contenenti molti sample. Questo, ad esempio, può "
+"accadere se hai scaricato o comprato dei sample pack e vuoi utilizzarli con "
+"Sonic Pi.**"
 
 #: 03.7-Sample-Packs.md:10
 msgid "**Feel free to skip this if you're happy working with the built-in samples.**"
 msgstr ""
+"**Sentiti libero di saltare questa sezione se i campioni già presenti in "
+"Sonic Pi ti sono sufficienti.**"
 
 #: 03.7-Sample-Packs.md:13
 msgid ""
 "When working with large folders of external samples it can be cumbersome to ha"
 "ve to type the whole path every time to trigger an individual sample."
 msgstr ""
+"Quando lavori con cartelle piene di file esterni, può essere scomodo "
+"digitare l'intero percorso ogni volta che vuoi lanciare un singolo campione."
 
 #: 03.7-Sample-Packs.md:17
 msgid "For example, say you have the following folder on your machine:"
 msgstr ""
+"Per esempio, facciamo finta che tu abbia questa cartella sul tuo computer:"
 
 #: 03.7-Sample-Packs.md:19
 #, no-wrap
@@ -3133,34 +2991,38 @@ msgstr "/path/to/my/samples/"
 #: 03.7-Sample-Packs.md:23
 msgid "When we look inside that folder we find the following samples:"
 msgstr ""
+"Quando guardiamo all'interno di quella cartella, troviamo i seguenti "
+"campioni:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
-msgstr ""
+msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
 msgid "`100_A#_melody2.wav`"
-msgstr ""
+msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
 msgid "`100_A#_melody3.wav`"
-msgstr ""
+msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
 msgid "`120_A#_melody4.wav`"
-msgstr ""
+msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
 msgid "`120_Bb_guit1.wav`"
-msgstr ""
+msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
 msgid "`120_Bb_piano1.wav`"
-msgstr ""
+msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
 msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr ""
+"Di solito, per suonare i campioni di pianoforte dovremmo usare il percorso "
+"completo:"
 
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
@@ -3170,6 +3032,8 @@ msgstr "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 #: 03.7-Sample-Packs.md:38
 msgid "If we want to then play the guitar sample we can use its full path too:"
 msgstr ""
+"Se volessimo usare anche i campioni di chitarra, anche in questo caso "
+"dovremmo usare il percorso completo:"
 
 #: 03.7-Sample-Packs.md:40
 #, no-wrap
@@ -3182,16 +3046,22 @@ msgid ""
 "samples within our directory. What if we just want to listen to each sample in"
 " turn quickly?"
 msgstr ""
+"Purtroppo, per caricare questi campioni è necessario *conoscere* i nomi dei "
+"campioni all'interno della nostra cartella. E se volessimo ascoltare "
+"velocemente ciascun sample a turno?"
 
 #: 03.7-Sample-Packs.md:48
 msgid "Indexing Sample Packs"
-msgstr ""
+msgstr "Indicizzare i pacchetti di campioni"
 
 #: 03.7-Sample-Packs.md:50
 msgid ""
 "If we want to play the first sample in a directory we just need to pass the di"
 "rectory's name to `sample` and the index `0` as follows:"
 msgstr ""
+"Se vogliamo suonare il primo campione in una cartella, dobbiamo "
+"semplicemente passare il nome della cartella al comando `sample`e l'indice "
+"`0` in questo modo:"
 
 #: 03.7-Sample-Packs.md:53
 #, no-wrap
@@ -3201,6 +3071,8 @@ msgstr "sample \"/path/to/my/samples/\", 0"
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
 msgstr ""
+"Se vogliamo, possiamo anche creare una scorciatoia per la nostra cartella "
+"utilizzando una variabile:"
 
 #: 03.7-Sample-Packs.md:59
 #, no-wrap
@@ -3216,6 +3088,8 @@ msgid ""
 "Now, if we want to play the second sample in our directory, we just need to ad"
 "d 1 to our index:"
 msgstr ""
+"Ora, se vogliamo suonare il secondo sample nella directory, dobbiamo "
+"aggiungere 1 al nostro indice:"
 
 #: 03.7-Sample-Packs.md:67
 #, no-wrap
@@ -3234,10 +3108,16 @@ msgid ""
 " round just like Rings. Therefore, whatever number we use we're guaranteed to "
 "get one of the samples in that directory."
 msgstr ""
+"Puoi notare come non sia più necessario conoscere i nomi dei campioni nella "
+"cartella, dobbiamo solo conoscere la posizione della cartella stessa (o "
+"avere una scorciatoia). Se proviamo a utilizzare un indice maggiore del "
+"numero dei campioni, ripartirà semplicemente da capo come nei Rings. Per "
+"cui, indipendentemente dal numero usato, abbiamo la sicurezza che verrà "
+"utilizzato un campione in quella cartella."
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
-msgstr ""
+msgstr "Filtrare i pacchetti di campioni"
 
 #: 03.7-Sample-Packs.md:81
 msgid ""
@@ -3245,6 +3125,10 @@ msgid ""
 "ise our samples. Luckily many sample packs add useful information in the filen"
 "ames. Let's take another look at the sample file names in our directory:"
 msgstr ""
+"Di solito è sufficiente indicizzare, ma qualche volta abbiamo bisogno di "
+"maggiore potenza per organizzare i nostri campioni. Per fortuna molti "
+"pacchetti di campioni aggiungono informazioni nei nomi dei file. Diamo "
+"ancora un'occhiata ai campioni nella nostra cartella:"
 
 #: 03.7-Sample-Packs.md:93
 msgid ""
@@ -3256,6 +3140,14 @@ msgid ""
 "r code. For example, we know we can only play the piano sample with code that'"
 "s in 120 BPM and in the key of Bb."
 msgstr ""
+"Puoi notare come i nomi dei file hanno molte informazioni. Per iniziare "
+"abbiamo il BPM del sample (beat per minuto) all'inizio del nome. PEr cui se "
+"il campione del pianoforte è a 120BPM mentre le nostre tre melodie sono a "
+"100BPM. In aggiunta, il nome dei campioni contiene anche la tonalità: il "
+"campione di chitarra è in Bb (Si bemolle) e le melodie in A# (La diesis). "
+"Questa informazione è molto utile per mixare questi sample con il nostro "
+"codice. Per esempio, sappiamo che possiamo suonare il campione del piano se "
+"il nostro codice è a 120BPM e in tonalità di Bb."
 
 #: 03.7-Sample-Packs.md:102
 msgid ""
@@ -3264,6 +3156,10 @@ msgid ""
 "working at 120 BPM, we can filter down to all the samples that contain the str"
 "ing `\"120\"` with the following:"
 msgstr ""
+"È possibile usare questa convenzione sui nomi dei file del nostro set di "
+"campioni nel codice per aiutarci a filtrare quelli che vogliamo. Per "
+"esempio, se stiamo lavorando a 120BPM, possiamo visualizzare tutti i "
+"campioni che contengono la stringa `\"120\"` come segue:"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
@@ -3279,6 +3175,8 @@ msgid ""
 "This will play us the first match. If we want the second match we just need to"
 " use the index:"
 msgstr ""
+"Questo farà suonare il primo risultato. Se volessimo il secondo, possiamo "
+"usare l'indice:"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -3295,6 +3193,9 @@ msgid ""
 "ample whose filename contains both the substrings \"120\" and \"A#\" we can find i"
 "t easily with the following code:"
 msgstr ""
+"Possiamo anche usare più filtri contemporaneamente. Per esempio, se vogliamo "
+"utilizzare i campioni il cui nome contenga sia \"120\" che \"A#\" possiamo "
+"farlo usando questo codice:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3308,6 +3209,8 @@ msgstr ""
 #: 03.7-Sample-Packs.md:129
 msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
 msgstr ""
+"Infine, possiamo sentirci liberi di usare i parametri di `sample` che "
+"abbiamo già visto:"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -3320,7 +3223,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:136
 msgid "Sources"
-msgstr ""
+msgstr "Fonti"
 
 #: 03.7-Sample-Packs.md:138
 msgid ""
@@ -3328,14 +3231,21 @@ msgid ""
 " and filters. Sources are information used to create the list of potential can"
 "didates. A source can take two forms:"
 msgstr ""
+"Il sistema di filtro dei campioni capisce due tipi di informazioni: la fonte "
+"e i filtri. Le fonti sono informazioni usate per creare la lista dei "
+"potenziali candidati. Una fonte può avere due forme:"
 
 #: 03.7-Sample-Packs.md:142
 msgid "\"/path/to/samples\" - a string representing a valid path to a directory"
 msgstr ""
+"\"/path/to/samples\" - una stringa che rappresenta un percorso valido a una "
+"cartella"
 
 #: 03.7-Sample-Packs.md:143
 msgid "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
+"\"/path/to/samples/foo.wav\" - una stringa che rappresenta un percorso "
+"valido per un campione"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -3344,10 +3254,14 @@ msgid ""
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` files"
 " contained within the directories."
 msgstr ""
+"La funzione `sample` raccoglierà per prima cosa tutte le fondi e le userà "
+"per creare una lunga lista di possibili candidati. Questa lista viene "
+"costruita aggiungendo tutti i percorsi e tutti i file con estensione `.flac`"
+", `.aif`, `.aiff`, `.wav`, `.wave` contenuti all'interno della cartella."
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "Per esempio, diamo un'occhiata a questo codice:"
 
 #: 03.7-Sample-Packs.md:152
 #, no-wrap
@@ -3369,6 +3283,10 @@ msgid ""
 "\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples to index"
 " and filter (3 + 12 + 1)."
 msgstr ""
+"In questo caso stiamo combinando il contenuto dei campioni all'interno di "
+"due cartelle e aggiungendo un campione specifico. Se `\"/path/to/my/samples/"
+"\"` contiene 3 campioni e `\"/path/to/my/samples2/\"` ne contiene 12, "
+"abbiamo 16 potenziali campioni da indicizzare e filtrare (3 + 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
