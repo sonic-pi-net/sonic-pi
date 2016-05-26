@@ -192,14 +192,6 @@ module SonicPi
       end
     end
 
-    def linux_fhs?
-      # use FHS directory scheme:
-      # check if Sonic Pi's ruby server is not running inside the
-      # user's home directory, but is installed in /usr/lib/sonic-pi
-      # on Linux from a distribution's package
-      File.dirname(__FILE__).start_with?("/usr/lib/sonic-pi")
-    end
-
     def root_path
       File.absolute_path("#{File.dirname(__FILE__)}/../../../../../")
     end
@@ -209,15 +201,11 @@ module SonicPi
     end
 
     def snippets_path
-      linux_fhs? ?
-        File.absolute_path("/usr/share/sonic-pi/snippets") :
-        File.absolute_path("#{etc_path}/snippets")
+      File.absolute_path("#{etc_path}/snippets")
     end
 
     def doc_path
-      linux_fhs? ?
-        File.absolute_path("/usr/share/doc/sonic-pi") :
-        File.absolute_path("#{etc_path}/doc")
+      File.absolute_path("#{etc_path}/doc")
     end
 
     def cheatsheets_path
@@ -229,27 +217,19 @@ module SonicPi
     end
 
     def tmp_path
-      linux_fhs? ?
-        File.absolute_path("/tmp") :
-        File.absolute_path("#{root_path}/tmp")
+      File.absolute_path("#{root_path}/tmp")
     end
 
     def synthdef_path
-      linux_fhs? ?
-        File.absolute_path("/usr/share/sonic-pi/synthdefs/compiled") :
-        File.absolute_path("#{etc_path}/synthdefs/compiled")
+      File.absolute_path("#{etc_path}/synthdefs/compiled")
     end
 
     def samples_path
-      linux_fhs? ?
-        File.absolute_path("/usr/share/sonic-pi/samples") :
-        File.absolute_path("#{etc_path}/samples")
+      File.absolute_path("#{etc_path}/samples")
     end
 
     def buffers_path
-      linux_fhs? ?
-        File.absolute_path("/usr/share/sonic-pi/buffers") :
-        File.absolute_path("#{etc_path}/buffers")
+      File.absolute_path("#{etc_path}/buffers")
     end
 
     def app_path
