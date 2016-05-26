@@ -64,7 +64,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced Audio</source>
-        <translation>Audio Avanzado</translation>
+        <translation>Audio avanzado</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
@@ -89,10 +89,10 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">Cambia el modo mono.  
+        <translation>Cambia el modo mono.  
 Si se encuentra activado, éste mezclará el audio del altavoz izquierdo y derecho,
-y enviará la misma señal en ambos altavoces. Esto es útil cuando se trabaja con
-sistemas externos que solo soportan mono.</translation>
+y enviará la misma señal a ambos altavoces. Esto es útil cuando se trabaja con
+sistemas externos que solo soportan sonido mono.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
@@ -104,14 +104,14 @@ sistemas externos que solo soportan mono.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>Cambia la opción de comprobación de argumentos en el sintetizador.
+        <translation type="unfinished">Cambia la opción de comprobación de argumentos en el sintetizador.
 Si se encuentra deshabilitado, ciertas opciones generarán sonidos muy
 fuertes o incómodos.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation>Salida de Audio Raspberry Pi</translation>
+        <translation>Salida de Audio de Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
@@ -151,7 +151,7 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port.
 Use these buttons to force the output to the one you want.</source>
         <translation>Tu Raspberry Pi cuenta con dos opciones para salida de sonido.
-Primero, tenemos el conector jack para la conexión de auriculares en el propio Raspberry Pi. 
+Primero, tenemos el conector jack para conectar auriculares a la Raspberry Pi. 
 Segundo, algunos monitores HDMI soportan salida de audio por medio del puerto HDMI. 
 Usa estos botones para forzar la salida de audio en alguna de estas dos opciones.</translation>
     </message>
@@ -173,7 +173,7 @@ Usa estos botones para forzar la salida de audio en alguna de estas dos opciones
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Logging</source>
-        <translation>Acceso</translation>
+        <translation type="unfinished">Acceso</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="959"></location>
@@ -193,7 +193,7 @@ Usa estos botones para forzar la salida de audio en alguna de estas dos opciones
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
         <source>Log synths</source>
-        <translation>Registro de sintetizador</translation>
+        <translation>Registro de sintetizadores</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="965"></location>
@@ -207,15 +207,15 @@ o muestra no se imprimirán en el registro por defecto.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Clear log on run</source>
-        <translation>Limpiar log al iniciar</translation>
+        <translation>Limpiar el registro al iniciar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"></location>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Cambia opción de limpiar log al iniciar. 
-Si se encuentra habilitado, el log se limpiará 
+        <translation>Cambia opción de limpiar el registro al iniciar. 
+Si se encuentra habilitado, el registro se limpiará 
 cada vez que se presione el botón de iniciar.</translation>
     </message>
     <message>
@@ -228,9 +228,9 @@ cada vez que se presione el botón de iniciar.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Habilita o deshabilita el logeo de señales.  
-Si se deshabilita, las señales se inicializarán normalmente
-pero no se podrán visualizar en los registros.</translation>
+        <translation type="unfinished">Habilita o deshabilita el registro de señales.  
+Si se deshabilita, las señales se iniciarán normalmente
+pero no se verán en los registros.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
@@ -322,7 +322,7 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
         <location filename="../mainwindow.cpp" line="1019"></location>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Comprobar inmediatamente la existencia de actualizaciones.  
+        <translation type="unfinished">Comprobar inmediatamente la existencia de actualizaciones.  
 Esta verificación conlleva enviar información anónima de tu plataforma y versión actuales.</translation>
     </message>
     <message>
@@ -413,12 +413,12 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
     <message>
         <location filename="../mainwindow.cpp" line="1062"></location>
         <source>Show tabs</source>
-        <translation>Mostrar tabs</translation>
+        <translation type="unfinished">Mostrar Buffers</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1064"></location>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation>Cambia la visibilidad de los tabs de selección de buffer.</translation>
+        <translation type="unfinished">Cambia la visibilidad de las pestañas de los buffer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"></location>
@@ -444,8 +444,8 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation>
-La opción modo oscuro es perfecta para hacer live coding en discotecas o lugares con poca luminosidad.</translation>
+        <translation type="unfinished">
+La opción modo oscuro es perfecta para hacer live coding en discotecas o lugares con poca luz.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1107"></location>
@@ -828,7 +828,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
         <location filename="../mainwindow.cpp" line="2630"></location>
         <source>Cannot write file %1:
 %2.</source>
-        <translation>No se puede escribir en archivo %1: 
+        <translation>No se puede escribir el archivo %1: 
 %2.</translation>
     </message>
     <message>
