@@ -21,7 +21,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
         <source>Log</source>
-        <translation>Log</translation>
+        <translation>Registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="514"></location>
@@ -54,12 +54,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation>Sistema de Volumen de Raspberry Pi</translation>
+        <translation type="unfinished">Volumen del Sistema de Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="913"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
-        <translation>Usa este "slider" para cambiar el volumen del sistema en tu Raspberry Pi.</translation>
+        <translation type="unfinished">Usa este "slider" para cambiar el volumen del sistema de tu Raspberry Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
@@ -70,17 +70,17 @@
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation>Configuraciones de audio avanzadas para trabajar con 
-sistemas externos PA al momento de hacer performing con Sonic Pi.</translation>
+        <translation type="unfinished">Configuraciones de audio avanzadas para trabajar con 
+sistemas externos PA cuando actúas con Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation>Cambia la inversión del estéreo.
+        <translation type="unfinished">Cambia la inversión del estéreo.
 Si se encuentra activado, el audio del altavoz izquierdo 
-se desviará al altavoz derecho, o viceversa.</translation>
+se desviará al altavoz derecho, y viceversa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"></location>
@@ -89,8 +89,8 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation>Cambia el modo mono.  
-Si se encuentra activado, este mezclará el audio del altavoz izquierdo y derecho,
+        <translation type="unfinished">Cambia el modo mono.  
+Si se encuentra activado, éste mezclará el audio del altavoz izquierdo y derecho,
 y enviará la misma señal en ambos altavoces. Esto es útil cuando se trabaja con
 sistemas externos que solo soportan mono.</translation>
     </message>
@@ -117,22 +117,22 @@ fuertes o incómodos.</translation>
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2362"></location>
         <source>Scope</source>
-        <translation>Rango</translation>
+        <translation type="unfinished">Rango</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comenta la selección</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="746"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comenta la linea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation>¡El servidor Sonic Pi no puede iniciarse!</translation>
+        <translation>¡El servidor de Sonic Pi no puede iniciarse!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
@@ -207,15 +207,15 @@ o muestra no se imprimirán en el registro por defecto.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Clear log on run</source>
-        <translation>Limpiar registro al iniciar</translation>
+        <translation>Limpiar log al iniciar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"></location>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Cambia opción de limpiar registro al iniciar. 
-Si se encuentra habilitado, el registro se limpiará 
+        <translation>Cambia opción de limpiar log al iniciar. 
+Si se encuentra habilitado, el log se limpiará 
 cada vez que se presione el botón de iniciar.</translation>
     </message>
     <message>
@@ -235,13 +235,14 @@ pero no se podrán visualizar en los registros.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Desplazamiento automático del registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cambiar el desplazamiento automático del registro
+Si se activa el registro se desplaza al último mensaje mostrado.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
@@ -268,7 +269,7 @@ que no está reconocido.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cumplir las garantías de temporización</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"></location>
@@ -464,12 +465,12 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
     <message>
         <location filename="../mainwindow.cpp" line="1132"></location>
         <source>Performance</source>
-        <translation>Presentación</translation>
+        <translation type="unfinished">Actuación</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1123"></location>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Configuraciones útiles para presentación con Sonic Pi</translation>
+        <translation type="unfinished">Configuraciones útiles para actuaciones con Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
@@ -631,12 +632,12 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1754"></location>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Auto desplazamiento en el registro ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1756"></location>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Quitar scroll automatico en el registro ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2157"></location>
