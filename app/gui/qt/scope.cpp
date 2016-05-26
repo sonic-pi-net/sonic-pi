@@ -25,17 +25,29 @@
 
 ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sample_y, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this)
 {
-  plot_curve.setRawSamples( sample_x, sample_y, 4096 );
-  plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
-  plot_curve.attach(&plot);
-  plot_curve.setPen(QPen(QColor("deeppink"), 2));
 #if QWT_VERSION >= 0x60100
   plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
 #endif
 
   plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
-  plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
-  plot.enableAxis(QwtPlot::Axis::xBottom, false);
+  if( name == "Lissajous" )
+  {
+    plot_curve.setPen(QPen(QColor("deeppink"), 2));
+    plot_curve.setRawSamples( sample_x + (4096-1024), sample_y + (4096-1024), 1024 );
+    plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
+    plot.setAxisScale(QwtPlot::Axis::xBottom,-1,1);
+    plot.enableAxis(QwtPlot::Axis::xBottom, true);
+    plot_curve.setPen(QPen(QColor("deeppink"), 1));
+  }
+  else
+  {
+    plot_curve.setPen(QPen(QColor("deeppink"), 2));
+    plot_curve.setRawSamples( sample_x, sample_y, 4096 );
+    plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
+    plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
+    plot.enableAxis(QwtPlot::Axis::xBottom, false);
+  }
+  plot_curve.attach(&plot);
 
   QSizePolicy sp(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
   plot.setSizePolicy(sp);
@@ -70,7 +82,7 @@ void ScopePanel::refresh( )
   plot.replot();
 }
 
-Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",sample_x,sample[0],this), right("Right",sample_x,sample[1],this), paused( false )
+Scope::Scope( QWidget* parent ) : QWidget(parent), lissajous("Lissajous", sample[0], sample[1], this ), left("Left",sample_x,sample[0],this), right("Right",sample_x,sample[1],this), paused( false )
 {
   for( unsigned int i = 0; i < 4096; ++i ) sample_x[i] = i;
   QTimer *scopeTimer = new QTimer(this);
@@ -82,6 +94,7 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), left("Left",sample_x,sample[0
   layout->setContentsMargins(0,0,0,0);
   layout->addWidget(&left);
   layout->addWidget(&right);
+  layout->addWidget(&lissajous);
   setLayout(layout);
 }
 
@@ -141,5 +154,6 @@ void Scope::refreshScope() {
     }
     left.refresh();
     right.refresh();
+    lissajous.refresh();
   }
 }

@@ -63,7 +63,7 @@ private:
   double sample_x[4096];
   double sample[2][4096];
   scope_buffer_reader shmReader;
-  ScopePanel left,right;
+  ScopePanel lissajous, left,right;
   bool paused;
 };
 
