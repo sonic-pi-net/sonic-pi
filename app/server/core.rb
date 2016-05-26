@@ -31,26 +31,7 @@ os = case RUBY_PLATFORM
      else
        RUBY_PLATFORM
      end
-ruby_gem_native_path = "#{File.expand_path("../rb-native", __FILE__)}"
-ruby_gem_api_path = "#{ruby_gem_native_path}/#{os}/#{ruby_api}"
-
-unless File.directory?(ruby_gem_api_path)
-  STDERR.puts "*** COULD NOT FIND RUBY GEMS REQUIRED BY SONIC PI ***"
-  STDERR.puts "Directory '#{ruby_gem_api_path}' not found."
-  STDERR.puts "Your ruby interpreter is '#{RbConfig.ruby}', supporting ruby api #{ruby_api}."
-  Dir.entries("#{ruby_gem_native_path}/#{os}/")
-    .select { |d| (File.directory?("#{ruby_gem_native_path}/#{os}/#{d}") && d != '.' && d != '..') }
-    .each do |installed_ruby_api|
-      STDERR.puts "The Sonic Pi on your computer was installed for ruby api #{installed_ruby_api}."
-    end
-  STDERR.puts "Please refer to the Sonic Pi install instructions."
-  STDERR.puts "For installation, you need to run 'app/server/bin/compile-extensions.rb'."
-  STDERR.puts "If you change or upgrade your ruby interpreter later, you may need to run it again."
-
-  raise "Could not access ruby gem directory"
-end
-
-$:.unshift ruby_gem_api_path
+$:.unshift "#{File.expand_path("../rb-native", __FILE__)}/#{os}/#{ruby_api}/" 
 
 require 'win32/process' if os == :windows
 
