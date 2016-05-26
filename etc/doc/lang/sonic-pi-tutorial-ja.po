@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-25 01:32+0000\n"
+"PO-Revision-Date: 2016-05-26 13:37+0000\n"
 "Last-Translator: kn1kn1 <kanai.kenichi@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ja/>\n"
@@ -50,25 +50,24 @@ msgstr ""
 "onic Piの例の中で見つけることができます。"
 
 #: 01-Welcome-to-Sonic-Pi.md:18
-#, fuzzy
 msgid ""
 "If you have any thoughts, or ideas for improving Sonic Pi - please pass them o"
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Sonic Piを改善するために、気づいたことや、アイデアでを持っていたら、是非、知らせてください。 フィードバックはとても役立ちます。あなたのアイデアが次"
-"の重要な機能になるかもしれません！"
+"Sonic Piを改善するために、気づいたことや、アイデアでを持っていたら、是非、知らせてください。 "
+"フィードバックはとても役立ちます。あなたのアイデアが次の重要な機能になるかもしれません！"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
-#, fuzzy
 msgid ""
 "This tutorial is divided up into sections grouped by category. Whilst I've wri"
 "tten it to have an easy learning progression from start to finish, feel very f"
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
-"最後に、このチュートリアル（使いかた）は、カテゴリ別にグループ化されたセクションに分かれています。 始まりから終わりまで、簡単に学べるように手引きを書いたの"
-"で、自由に、色々なセクションを覗いてみてください。 何か、不足している点に気がついたら、将来のバージョンのために検討したいので、知らせてください。"
+"最後に、このチュートリアル（使いかた）は、カテゴリ別にグループ化されたセクションに分かれています。 "
+"始まりから終わりまで、簡単に学べるように手引きを書いたので、自由に、色々なセクションを覗いてみてください。 "
+"何か、不足している点に気がついたら、将来のバージョンのために検討したいので、知らせてください。"
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -78,61 +77,52 @@ msgid ""
 msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
-#, fuzzy
 msgid "OK, let's get started..."
 msgstr "では、早速はじめましょう！"
 
 #: 01.1-Live-Coding.md:1
-#, fuzzy
 msgid "1.1 Live Coding"
 msgstr "1.1 ライブコーディング"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
-#, fuzzy
 msgid "Live Coding"
 msgstr "ライブコーディング"
 
 #: 01.1-Live-Coding.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to write a"
 "nd *modify code live* to make music, just like you might perform live with a g"
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Sonic Piの最もエキサイティングな側面のひとつは、まるでギターをライブで演奏するかのように、 ライブでコードを書いて音楽を作ることができることです。つ"
-"まり、ステージやコンサートでSonic Piが 使えるということです！"
+"Sonic Piの最もエキサイティングな側面のひとつは、まるでギターをライブで演奏するかのように、 "
+"ライブでコードを書いて音楽を作ることができることです。つまり、ステージやコンサートでSonic Piが 使えるということです！"
 
 #: 01.1-Live-Coding.md:10
-#, fuzzy
 msgid "Free your mind"
 msgstr "心を解き放て"
 
 #: 01.1-Live-Coding.md:12
-#, fuzzy
 msgid ""
 "Before we get into the real details of how Sonic Pi works in the rest of this "
 "tutorial, I'd like to give you an experience of what it's like to live code. D"
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
-"これからチュートリアルで、実際のSonic Piの詳しい使い方に入る前に、まず、 ライブコーディングがどんなものか体験してみましょう。あまり（もしくは全然）"
-"わからなくても、 心配ご無用！そのまま席についたまま、楽しんでいきましょう。"
+"これからチュートリアルで、実際のSonic Piの詳しい使い方に入る前に、まず、 "
+"ライブコーディングがどんなものか体験してみましょう。あまり（もしくは全然）わからなくても、 心配ご無用！そのまま席についたまま、楽しんでいきましょう。"
 
 #: 01.1-Live-Coding.md:17
-#, fuzzy
 msgid "A live loop"
 msgstr "ライブループ"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "さぁ、はじめましょう！下のコードを上の空欄のWorkspace（ワークスペース）にコピーしてみましょう。"
+msgstr "さぁ、はじめましょう！下のコードを上の空欄のbuffer（バッファ）にコピーしてみましょう。"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
-#, fuzzy
 msgid ""
 "live_loop :flibble do\n"
 "  sample :bd_haus, rate: 1\n"
@@ -145,17 +135,15 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:28
-#, fuzzy
 msgid ""
 "Now, press the `Run` button and you'll hear a nice fast bass drum beating away"
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"左上の`Run`（再生）ボタンを押すと、いい感じの速さでバスドラムの音が聞こえてきます。 `Stop`（停止）ボタンを押せば、いつでも音を止めることができま"
-"す。ですが、 まだ`Stop`（停止）ボタンを押さずに、次のステップを実行しましょう。"
+"左上の`Run`（再生）ボタンを押すと、いい感じの速さでバスドラムの音が聞こえてきます。 "
+"`Stop`（停止）ボタンを押せば、いつでも音を止めることができます。ですが、 まだ`Stop`（停止）ボタンを押さずに、次のステップを実行しましょう。"
 
 #: 01.1-Live-Coding.md:32
-#, fuzzy
 msgid "Make sure the bass drum sound is still running"
 msgstr "-バスドラムがまだ鳴っていることを確認します。"
 
