@@ -71,13 +71,8 @@ require 'wavefile'
 module SonicPi
   module Core
     module SPRand
-      # use FHS directory scheme:
-      # check if Sonic Pi's ruby server is not running inside the
-      # user's home directory, but is installed in /usr/lib/sonic-pi
-      # on Linux from a distribution's package
-      random_numbers_path = File.dirname(__FILE__).start_with?("/usr/lib/sonic-pi") ? "/usr/share/sonic-pi" : "../../../etc"
       # Read in same random numbers as server for random stream sync
-      @@random_numbers = ::WaveFile::Reader.new(File.expand_path("#{random_numbers_path}/buffers/rand-stream.wav", __FILE__), ::WaveFile::Format.new(:mono, :float, 44100)).read(441000).samples.freeze
+      @@random_numbers = ::WaveFile::Reader.new(File.expand_path("../../../etc/buffers/rand-stream.wav", __FILE__), ::WaveFile::Format.new(:mono, :float, 44100)).read(441000).samples.freeze
 
       def self.to_a
         @@random_numbers
