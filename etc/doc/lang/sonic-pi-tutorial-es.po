@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-26 01:05+0000\n"
+"PO-Revision-Date: 2016-05-26 01:28+0000\n"
 "Last-Translator: Francisco Llaryora <fllaryora@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -36,7 +36,6 @@ msgstr ""
 "s música, síntesis, programación, composición, ejecución y más."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
-#, fuzzy
 msgid ""
 "But wait, how rude of me! Let me introduce myself - I'm [Sam Aaron](http://twi"
 "tter.com/samaaron) - the chap that created Sonic Pi. You can find me at [@sama"
@@ -45,35 +44,34 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Pero espera, ¡qué rudeza la mía! Deja que me presente - yo soy [Sam Aaron](htt"
-"p://twitter.com/samaaron) - quien creó Sonic Pi. Puedes encontrarme en Twitter"
-"[@samaaron](http://twitter.com/samaaron) y estaré encantado de saludarte. Quiz"
-"ás te interese saber más de mis ejecuciones [Live Coding Performances](http://"
-"facebook.com/livecodersamaaron) donde codifico con Sonic Pi en vivo frente a a"
-"udiencias."
+"Pero espera, ¡qué rudeza la mía! Deja que me presente - yo soy [Sam "
+"Aaron](http://twitter.com/samaaron) - quien creó Sonic Pi. Puedes "
+"encontrarme en Twitter[@samaaron](http://twitter.com/samaaron) y estaré "
+"encantado de saludarte. Quizás te interese saber más de mi [Live Coding "
+"Performances](http://facebook.com/livecodersamaaron) donde programo en Sonic "
+"Pi en vivo frente a audiencias."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
-#, fuzzy
 msgid ""
 "If you have any thoughts, or ideas for improving Sonic Pi - please pass them o"
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
-"Si tienes ideas para mejorar Sonic Pi - por favor pásamelas - la retroalimenta"
-"ción es bienvenida. ¡Nunca sabes, tu idea podría ser la próxima gran adición!"
+"Si tienes ideas para mejorar Sonic Pi - por favor pásamelas - los "
+"comentarios son bienvenidos. ¡Nunca sabes, tu idea podría ser la próxima "
+"característica de la aplicación!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
-#, fuzzy
 msgid ""
 "This tutorial is divided up into sections grouped by category. Whilst I've wri"
 "tten it to have an easy learning progression from start to finish, feel very f"
 "ree just to dip in and out of sections as you see fit. If you feel that there'"
 "s something missing, do let me know and I'll consider it for a future version."
 msgstr ""
-"Este tutorial está dividido en secciones, agrupadas por categoría. Lo he escri"
-"to para tener una fácil progresión desde principio a fin, siéntete libre de sa"
-"ltar de una sección a otra, cuanto te apetezca. Si sientes que hay algo que fa"
-"lta, dímelo y consideraré añadirlo en el futuro."
+"Este tutorial está dividido en secciones, agrupadas por categoría. Lo he "
+"escrito para tener una fácil progresión desde principio a fin, siéntete "
+"libre de saltar de una sección a otra, cuanto te apetezca. Si sientes que "
+"hay algo que falta, dímelo y consideraré añadirlo en el futuro."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 #, fuzzy
