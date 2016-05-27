@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-26 01:28+0000\n"
-"Last-Translator: Francisco Llaryora <fllaryora@gmail.com>\n"
+"PO-Revision-Date: 2016-05-27 06:11+0000\n"
+"Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
 "Language: es\n"
@@ -24,16 +24,16 @@ msgid "Welcome friend :-)"
 msgstr "Bienvenido amigo :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
-#, fuzzy
 msgid ""
 "Welcome to Sonic Pi. Hopefully you're as excited to get started making crazy s"
 "ounds as I am to show you. It's going to be a really *fun* ride where you'll l"
 "earn all about music, synthesis, programming, composition, performance and mor"
 "e."
 msgstr ""
-"Bienvenido a Sonic Pi. Ojalá estés tan emocionado por comenzar a hacer sonidos"
-" de locura, como yo de mostrarte cómo. Va a ser realmente divertido, aprenderá"
-"s música, síntesis, programación, composición, ejecución y más."
+"Bienvenido a Sonic Pi. Ojalá estés tan emocionado por comenzar a hacer "
+"sonidos de locura, como yo de mostrarte cómo. Va a ser realmente divertido, "
+"aprenderás sobre música, síntesis, programación, composición, ejecución y "
+"más."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -44,21 +44,22 @@ msgid ""
 "e Coding Performances](http://facebook.com/livecodersamaaron) where I code wit"
 "h Sonic Pi live in front of audiences."
 msgstr ""
-"Pero espera, ¡qué rudeza la mía! Deja que me presente - yo soy [Sam "
-"Aaron](http://twitter.com/samaaron) - quien creó Sonic Pi. Puedes "
-"encontrarme en Twitter[@samaaron](http://twitter.com/samaaron) y estaré "
-"encantado de saludarte. Quizás te interese saber más de mi [Live Coding "
-"Performances](http://facebook.com/livecodersamaaron) donde programo en Sonic "
-"Pi en vivo frente a audiencias."
+"Pero espera, ¡qué rudeza la mía! Deja que me presente - soy [Sam "
+"Aaron](http://twitter.com/samaaron) - el creador de Sonic Pi. Puedes "
+"encontrarme en Twitter [@samaaron](http://twitter.com/samaaron) y estaré "
+"encantado de saludarte. Quizás te interese saber más de mis [Live Coding "
+"Performances](http://facebook.com/livecodersamaaron) donde programo en "
+"directo con Sonic Pi frente a audiencias."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
+#, fuzzy
 msgid ""
 "If you have any thoughts, or ideas for improving Sonic Pi - please pass them o"
 "n - feedback is so helpful. You never know, your idea might be the next big fe"
 "ature!"
 msgstr ""
 "Si tienes ideas para mejorar Sonic Pi - por favor pásamelas - los "
-"comentarios son bienvenidos. ¡Nunca sabes, tu idea podría ser la próxima "
+"comentarios son bienvenidos. ¡Nunca se sabe, tu idea podría ser la próxima "
 "característica de la aplicación!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
@@ -85,18 +86,19 @@ msgstr ""
 "ron) así que visita, saluda y pregunta todo lo que quieras :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
-#, fuzzy
 msgid "OK, let's get started..."
 msgstr "OK, comencemos..."
 
 #: 01.1-Live-Coding.md:1
+#, fuzzy
 msgid "1.1 Live Coding"
-msgstr ""
+msgstr "1.1 Live Coding"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
+#, fuzzy
 msgid "Live Coding"
-msgstr ""
+msgstr "Live Coding"
 
 #: 01.1-Live-Coding.md:5
 #, fuzzy
@@ -112,7 +114,6 @@ msgstr ""
 "a y tocar con él."
 
 #: 01.1-Live-Coding.md:10
-#, fuzzy
 msgid "Free your mind"
 msgstr "Libera tu mente"
 
@@ -135,9 +136,8 @@ msgid "A live loop"
 msgstr "Un Bucle Vivo"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "Comencemos copiando el siguiente código en un buffer vacío arriba:"
+msgstr "Comencemos copiando el siguiente código en un buffer vacío:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -153,18 +153,17 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:28
-#, fuzzy
 msgid ""
 "Now, press the `Run` button and you'll hear a nice fast bass drum beating away"
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Ahora presiona el botón \"Ejecutar\" y escucharás una batería tocada rápidamente"
-". Si en cualquier momento deseas parar el sonido, sólo debes presional el botó"
-"n \"Parar\". Pero no lo pares, aún...En vez de ello sigue los siguientes pasos:"
+"Ahora presiona el botón \"Ejecutar\" y escucharás una batería tocada "
+"rápidamente. Si en cualquier momento deseas parar el sonido, sólo debes "
+"presionar el botón \"Parar\". Pero no lo pares, aún... En vez de ello sigue "
+"los siguientes pasos:"
 
 #: 01.1-Live-Coding.md:32
-#, fuzzy
 msgid "Make sure the bass drum sound is still running"
 msgstr "Asegúrate que el sonido de batería sigue sonando."
 
@@ -179,29 +178,27 @@ msgid "Press the `Run` button again"
 msgstr "Presiona de nuevo el botón \"Ejecutar\"."
 
 #: 01.1-Live-Coding.md:35
-#, fuzzy
 msgid "Notice how the drum speed has changed."
 msgstr "¿Notas cómo cambió la velocidad de la batería?."
 
 #: 01.1-Live-Coding.md:36
-#, fuzzy
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"Finalmente, *recuerda este momento*, esta es la primera vez que has codificado"
-" en tiempo real con Sonic Pi y muy probablemente no será tu última..."
+"Finalmente, *recuerda este momento*, esta es la primera vez que has "
+"codificado en tiempo real con Sonic Pi y muy probablemente no será la "
+"última..."
 
 #: 01.1-Live-Coding.md:39
-#, fuzzy
 msgid ""
 "Ok, that was simple enough. Let's add something else into the mix. Above `samp"
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"Ok, eso fue lo suficientemente sencillo. Añadamos algo a la mezcla. Encima de "
-"`sample :bd_haus` añade la línea `sample :ambi_choir, rate: 0.3`. Tu código de"
-"bería mirarse, así:"
+"Ok, eso fue lo suficientemente sencillo. Añadamos algo a la mezcla. Encima "
+"de `sample :bd_haus` añade la línea `sample :ambi_choir, rate: 0.3`. Tu "
+"código debería ser así:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -256,15 +253,14 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:70
-#, fuzzy
 msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"¿Notas que el numeral hace que la computadora ignore esa línea? Esto se llama "
-"'comentar'. En sonic Pi podemos usar comentarios para quitar y añadir cosas a "
-"la mezcla."
+"¿Nota cómo le indica al ordenador que lo ignore, así que no lo oímos? Esto "
+"se llama 'comentar'. En Sonic Pi podemos usar comentarios para quitar y "
+"añadir cosas a la mezcla."
 
 #: 01.1-Live-Coding.md:74
 #, fuzzy
@@ -295,13 +291,12 @@ msgstr ""
 "dan vueltas a diferentes valores."
 
 #: 01.1-Live-Coding.md:83
-#, fuzzy
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Prueba quitando el numeral de la línea de ejemplo y disfruta el sonidos de la "
-"guitarra en reversa."
+"Prueba quitando el comentario de la línea de ejemplo (quita '#') y disfruta "
+"del sonido de la guitarra tocada al revés."
 
 #: 01.1-Live-Coding.md:85
 #, fuzzy
@@ -392,8 +387,9 @@ msgstr ""
 " momento."
 
 #: 01.2-Exploring-the-Interface.md:8
+#, fuzzy
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 #, fuzzy
@@ -416,7 +412,6 @@ msgid "*D* - Code Editor"
 msgstr "*D* - Editor de código"
 
 #: 01.2-Exploring-the-Interface.md:15
-#, fuzzy
 msgid "*E* - Prefs Panel"
 msgstr "*E* - Panel de Preferencias"
 
@@ -443,11 +438,11 @@ msgid ""
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"Estos botones rosados son los principales controles para comenzar y parar soni"
-"dos. Está el botón de 'Ejecutar' para correr el código en el editor y 'Parar' "
-"para parar todo código en Ejecución en el editor, 'Guardar' para guardar el có"
-"digo a un archivo externo y 'Grabar' para crear una grabación (archivo WAV) de"
-" los sonidos ejecutándose."
+"Estos botones rosados son los principales controles para comenzar y parar "
+"sonidos. El botón de 'Ejecutar' sirve para iniciar el código y 'Parar' para "
+"parar todo código en Ejecución, 'Guardar' para guardar el código a un "
+"archivo externo y 'Grabar' para crear una grabación (archivo WAV) de los "
+"sonidos ejecutándose."
 
 #: 01.2-Exploring-the-Interface.md:28
 #, fuzzy
@@ -455,15 +450,14 @@ msgid "B. Editor Controls"
 msgstr "B. Controles de edición"
 
 #: 01.2-Exploring-the-Interface.md:30
-#, fuzzy
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
-"Estos botones anaranjados te permiten manipular el editor del código. Los boto"
-"nes *Tamaño+* y *Tamaño-* te permiten cambiar el tamaño del texto. El botón *A"
-"linear* hará que tu código este más claro y profesional."
+"Estos botones anaranjados te permiten manipular el editor del código. Los "
+"botones *Tamaño+* y *Tamaño-* permiten cambiar el tamaño del texto. El botón "
+"*Alinear* hará que tu código este más claro y profesional."
 
 #: 01.2-Exploring-the-Interface.md:35
 #, fuzzy
@@ -718,8 +712,9 @@ msgstr ""
 "ión (ese espacio grande en blanco debajo del botón Run) Ahora, presiona 'Run'"
 
 #: 02.1-Your-First-Beeps.md:15
+#, fuzzy
 msgid "Beep!"
-msgstr ""
+msgstr "Beep!"
 
 #: 02.1-Your-First-Beeps.md:17
 #, fuzzy
@@ -1444,24 +1439,29 @@ msgstr ""
 "elegir. Aquí están algunos de mis favoritos:"
 
 #: 02.3-Switching-Synths.md:86
+#, fuzzy
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
+#, fuzzy
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
+#, fuzzy
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
+#, fuzzy
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
+#, fuzzy
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
 #, fuzzy
@@ -1646,8 +1646,9 @@ msgstr ""
 "n:"
 
 #: 02.4-Durations-with-Envelopes.md:79
+#, fuzzy
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 #, fuzzy
@@ -1705,13 +1706,12 @@ msgstr ""
 "play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
-#, fuzzy
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
-"Puedes utilizar múltiples operadores al mismo tiempo. Por ejemplo para un ataq"
-"ue corto y un largo release, prueba:"
+"Puedes utilizar varios operadores al mismo tiempo. Por ejemplo para un "
+"ataque corto y un release largo, prueba:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
@@ -1728,17 +1728,17 @@ msgstr ""
 "agrama:"
 
 #: 02.4-Durations-with-Envelopes.md:114
+#, fuzzy
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr ""
+msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
-#, fuzzy
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
 msgstr ""
-"También puedes invertir las cosas. Intenta con un ataque largo y un release co"
-"rto:"
+"También puedes invertirlo, prueba ahora con un ataque largo y un release "
+"corto:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
@@ -1752,13 +1752,12 @@ msgid ""
 msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:125
-#, fuzzy
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
 msgstr ""
-"Finalmente, puedes tener el ataque y el release cortos, para obtener sonidos c"
-"ortos."
+"Finalmente, puedes poner el ataque y release cortos, para obtener sonidos "
+"cortos."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
