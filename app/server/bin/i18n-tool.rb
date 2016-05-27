@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 # This script creates translated versions of the English tutorial.
+require_relative "../core.rb"
 
 require 'kramdown'
 require 'gettext'
