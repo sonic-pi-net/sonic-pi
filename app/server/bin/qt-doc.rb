@@ -91,12 +91,12 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
         toc_level -= 1
       end
     end
-    toc << "<li><a href=\"\##{item_var}\">#{title}</a></li>\n"
+    toc << "<li><a href=\"\##{item_var}\">#{title.gsub(/"/, '&quot;')}</a></li>\n"
 
     docs << "    { "
 
     docs << "QString::fromUtf8(" unless title.ascii_only?
-    docs << "\"#{title}\""
+    docs << "\"#{title.gsub(/"/, '\\"')}\""
     docs << ")" unless title.ascii_only?
 
     docs << ", "
