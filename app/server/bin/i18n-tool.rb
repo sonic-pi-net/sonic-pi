@@ -1,4 +1,16 @@
 #!/usr/bin/env ruby
+#--
+# This file is part of Sonic Pi: http://sonic-pi.net
+# Full project source: https://github.com/samaaron/sonic-pi
+# License: https://github.com/samaaron/sonic-pi/blob/master/LICENSE.md
+#
+# Copyright 2013, 2014, 2015, 2016 by Sam Aaron (http://sam.aaron.name).
+# All rights reserved.
+#
+# Permission is granted for use, copying, modification, and
+# distribution of modified versions of this work as long as this
+# notice is included.
+#++
 
 # This script creates translated versions of the English tutorial.
 require_relative "../core.rb"
@@ -28,7 +40,7 @@ class KramdownToOurMarkdown < Kramdown::Converter::Kramdown
       "[#{inner(el, opts)}](#{el.attr['href']}#{title})"
     end
   end
-        
+
 end
 
 
@@ -57,7 +69,7 @@ def handle_entry(msgid, filename, line, flags = [])
 
   $pot[msgid] = entry
   $count_msgid += 1
-  
+
   if $po.has_key?msgid then
     $count_msgstr += 1 unless ($po[msgid].msgstr == nil) || ($po[msgid].msgstr == "")
     $count_fuzzy += 1 if $po[msgid].flags.include?"fuzzy"
@@ -70,7 +82,7 @@ end
 
 def convert_element(filename, el, bullet = nil)
   case el.type
-  
+
   when :root, :li, :ul, :ol
     i = 0
     while i < el.children.count do
@@ -102,7 +114,7 @@ def convert_element(filename, el, bullet = nil)
     root.children = [el]
     output, warnings = KramdownToOurMarkdown.convert(root)
     output.gsub!(/\n/, ' ').strip!
-    
+
     t = handle_entry(output, filename, el.options[:location])
 
     if $task == :translate then
@@ -111,28 +123,28 @@ def convert_element(filename, el, bullet = nil)
       end
       $translated[filename] += t + "\n"
     end
-    
+
   when :codeblock
     t = handle_entry(el.value.gsub(/\n+$/, ""), filename, el.options[:location], ["no-wrap"])
 
     if $task == :translate then
       $translated[filename] += "```\n" + t + "\n" + "```\n"
     end
-    
+
   when :header
     t = handle_entry(el.options[:raw_text].strip, filename, el.options[:location])
 
     if $task == :translate then
       $translated[filename] += ("#" * el.options[:level]) + " " + t + "\n"
     end
-    
+
   else
     raise "Error #{filename}: Please implement conversion for unknown Kramdown element type :#{el.type} in line #{el.options[:location]}"
   end
 end
 
 
-# ------------ main ------------ 
+# ------------ main ------------
 
 $task = nil
 
@@ -168,7 +180,7 @@ lang.each do |l|
     cmdline = ['--update', '--no-obsolete-entries', po_filename, pot_filename]
     GetText::Tools::MsgMerge.run(*cmdline)
     $stderr.puts "Merged tutorial translation #{l}"
-    
+
   else
 
     $pot = GetText::PO.new
@@ -177,19 +189,19 @@ lang.each do |l|
     $count_msgid = 0
     $count_msgstr = 0
     $count_fuzzy = 0
-  
+
     if $task == :translate then
       parser = GetText::POParser.new
       parser.ignore_fuzzy = false
       parser.report_warning = false
       parser.parse_file(File.expand_path("../../../etc/doc/lang/sonic-pi-tutorial-#{l}.po", __dir__), $po)
     end
-    
+
     Dir[File.expand_path("../../../etc/doc/tutorial/*.md", __dir__)].sort.each do |path|
       $stderr.puts "Parsing #{path}" if $task == :extract
       basename = File.basename(path)
       $translated[basename] = ""
-      
+
       content = IO.read(path, :encoding => 'utf-8')
       content = content.to_s
       # GitHub markdown syntax uses ```` to mark code blocks Kramdown uses ~~~~
@@ -199,7 +211,7 @@ lang.each do |l|
       k = Kramdown::Document.new(content)
       convert_element(basename, k.root)
     end
-    
+
     case $task
     when :translate
       FileUtils::rm_rf File.expand_path("../../../etc/doc/generated/#{l}/tutorial", __dir__)
@@ -217,7 +229,7 @@ lang.each do |l|
         pf = 0
       end
       $stderr.puts "Translated tutorial #{l}: #{format("%.1f", pt)}% ready, #{format("%.1f", pf)}% fuzzy."
-    
+
     when :extract
       File.open(File.expand_path("../../../etc/doc/lang/sonic-pi-tutorial.pot", __dir__), 'w') do |f|
         $stderr.puts "Writing ../../../etc/doc/lang/sonic-pi-tutorial.pot"
@@ -239,6 +251,5 @@ HEADER
     end
 
   end
-  
+
 end
-  
