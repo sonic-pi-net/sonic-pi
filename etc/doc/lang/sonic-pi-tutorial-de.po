@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-26 08:31+0000\n"
+"PO-Revision-Date: 2016-05-27 10:16+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -454,10 +454,10 @@ msgid ""
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
 "Die blauen Buttons bieten Dir den Zugriff auf Informationen, die Hilfe und "
-"die Voreinstellungen. Der `Info`-Button öffnet ein Fenster mit Informationen "
+"die Voreinstellungen. Der *Info*-Button öffnet ein Fenster mit Informationen "
 "über Sonic Pi selbst und wo Du mehr Informationen und Hilfe von anderen "
-"findest. Der `Hilfe`-Button zeigt/verbirgt das eingebaute Hilfesystem (*F*) "
-"und `Einstellungen` zeigt/verbirgt das Fenster, wo Du einige grundsätzliche "
+"findest. Der *Help*-Button zeigt/verbirgt das eingebaute Hilfesystem (*F*) "
+"und *Prefs* zeigt/verbirgt das Fenster, wo Du einige grundsätzliche "
 "Einstellungen regeln kannst."
 
 #: 01.2-Exploring-the-Interface.md:44
@@ -493,6 +493,11 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, Toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
+"Du kannst verschiedene Einstellungen von Sonic Pi verändern, wenn Du den "
+"*Prefs*-Button drückst. Einige davon sind z.B.: Die Ausgabe von Mono-Ton, "
+"der Tausch der Stereokanäle, die Ausführlichkeit des Protokolls. Auf dem "
+"Raspberry Pi kannst Du hier auch noch die Lautstärke und den Ausgabekanal "
+"für den Ton auswählen."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
@@ -1054,7 +1059,6 @@ msgid "Amplitude"
 msgstr "Amplitude"
 
 #: 02.2-Synth-Params.md:66
-#, fuzzy
 msgid ""
 "Amplitude is a computer representation of the loudness of a sound. A *high amp"
 "litude produces a loud sound* and a *low amplitude produces a quiet sound*. Ju"
@@ -1067,17 +1071,17 @@ msgid ""
 "e the sound muddy and strange. So try to use low amplitudes, i.e. in the range"
 " 0 to 0.5 to avoid compression."
 msgstr ""
-"Die Amplitude ist die Weise, wie sich der Computer die Lautstärke eines Klangs"
-" vorstellt. Eine *hohe Amplitude ergibt einen lauteren Klang* und eine *niedri"
-"ge Amplitude ergibt einen leiseren Klang*. So wie Sonic Pi Zahlen dazu benutzt"
-", um Zeit und Töne darzustellen, so benutzt es Zahlen auch dazu, um die Lautst"
-"ärke abzubilden. Eine Amplitude von 0 bedeutet Stille (Du wirst nichts hören),"
-" eine Amplitude von 1 steht für normale Lautstärke. Du kannst die Amplitude au"
-"fdrehen auf 2, 10, 100. Aber Vorsicht: Wenn die Amplitude aller gemeinsamen Kl"
-"änge zu hoch wird, setzt Sonic Pi einen sogenannten Kompressor ein, damit die "
-"Klänge nicht zu laut für Dein Ohr werden. Oft klingt das dann matschig und sch"
-"räg. Verwende also lieber niedrigere Amplituden, das heißt zwischen 0 und 0.5,"
-" um die Kompression zu verhindern."
+"Die Amplitude ist die Weise, wie sich der Computer die Lautstärke eines "
+"Klangs vorstellt. Eine *hohe Amplitude ergibt einen lauteren Klang* und eine "
+"*niedrige Amplitude ergibt einen leiseren Klang*. So wie Sonic Pi Zahlen "
+"dazu benutzt, um Zeit und Töne darzustellen, bildet es auch die Lautstärke "
+"mit Zahlen ab. Eine Amplitude von 0 bedeutet Stille (Du wirst nichts hören), "
+"eine Amplitude von 1 steht für normale Lautstärke. Du kannst die Amplitude "
+"aufdrehen auf 2, 10, 100. Aber Vorsicht: Wenn die Amplitude aller "
+"gemeinsamen Klänge zu hoch wird, setzt Sonic Pi einen sogenannten Kompressor "
+"ein, damit die Klänge nicht zu laut für Dein Ohr werden. Oft klingt das dann "
+"matschig und schräg. Verwende also lieber niedrigere Amplituden, das heißt "
+"zwischen 0 und 0.5, um die Kompression zu verhindern."
 
 #: 02.2-Synth-Params.md:79
 msgid "Amp it up"
@@ -1501,12 +1505,18 @@ msgid ""
 "ease time of 1 which means that by default they have a duration of 1 beat (whi"
 "ch at the default BPM of 60 is 1 second):"
 msgstr ""
+"Wenn man Sonic Pi nichts anderes sagt, verwendet jeder Synth eine sehr "
+"einfache Hüllkurve mit einer Release-Zeit von 1. Solange dauert es, bis der "
+"Synth ausklingt - eine Schlagzeit (was beim BPM-Wert 60 genau 1 Sekunde "
+"entspricht):"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is short "
 "hand for the longer more explicit version:"
 msgstr ""
+"Diesen Ton wirst Du 1 Sekunde lang hören. Los, stopp die Zeit. :-) Es "
+"bedeutet das gleiche für diese etwas längere, ausführliche Variante:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
@@ -1519,6 +1529,9 @@ msgid ""
 "ver, it's now very easy to change the duration by modifying the value of the `"
 "release:` opt:"
 msgstr ""
+"Du hast gemerkt, dass dieser Ton genau gleich klang (der Klang war eine "
+"Sekunden lang zu hören). Aber jetzt kannst Du sehr einfach die Dauer über "
+"die `release:`-Opt verändern:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1529,7 +1542,7 @@ msgstr "play 60, release: 2"
 msgid ""
 "We can make the synth sound for a very short amount of time by using a very sm"
 "all release time:"
-msgstr ""
+msgstr "Mit einer sehr kurzen Release-Zeit wird der Synth-Klang sehr kurz:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
@@ -1542,13 +1555,15 @@ msgid ""
 "default is a linear transition (i.e. a straight line). The following diagram i"
 "llustrates this transition:"
 msgstr ""
+"Die Dauer des Ausklingens eines Klangs nennt sich *Release-Phase*. "
+"Normalerweise ist das ein lineares Ausklingen (also eine gerade Linie), wie "
+"das folgende Diagramm zeigt:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
 msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
-#, fuzzy
 msgid ""
 "The vertical line at the far left of the diagram shows that the sound starts a"
 "t 0 amplitude, but goes up to full amplitude immediately (this is the attack p"
@@ -1556,39 +1571,36 @@ msgid ""
 "ht line down to zero taking the amount of time specified by `release:`. *Longe"
 "r release times produce longer synth fade outs.*"
 msgstr ""
-"Die senkrechte Linie ganz links im Bild zeigt, dass der Klang mit einer Amplit"
-"ude von 0 startet, jedoch sofort auf die volle Höhe geht (das ist die Attack-P"
-"hase, die wir gleich ansehen werden). Wenn die volle Höhe erreicht ist, geht d"
-"ie Amplitude in einer geraden Linie bis auf Null zurück, wobei dies so lange d"
-"auert, wie es mit `release` festgelegt wurde. *Je länger die Release-Zeit eine"
-"s Synth, desto länger klingt dieser aus.*"
+"Die senkrechte Linie ganz links im Bild zeigt, dass der Klang mit einer "
+"Amplitude von 0 startet, jedoch sofort auf die volle Höhe geht (das ist die "
+"Attack-Phase, die wir gleich ansehen werden). Wenn die volle Höhe erreicht "
+"ist, geht die Amplitude in einer geraden Linie bis auf Null zurück, wobei "
+"dies so lange dauert, wie es mit `release` festgelegt wurde. *Je länger die "
+"Release-Zeit eines Synth, desto länger klingt dieser aus.*"
 
 #: 02.4-Durations-with-Envelopes.md:88
-#, fuzzy
 msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
-"Deshalb kannst Du die Länge eines Klangs ändern, wenn Du seine Release-Zeit än"
-"derst. Spiele einmal mit unterschiedlichen Release-Zeiten herum."
+"Deshalb kannst Du mit der Release-Zeit die Länge eines Klangs ändern. Spiele "
+"einmal mit unterschiedlichen Release-Zeiten herum."
 
 #: 02.4-Durations-with-Envelopes.md:91
-#, fuzzy
 msgid "Attack Phase"
 msgstr "Attack-Zeit"
 
 #: 02.4-Durations-with-Envelopes.md:93
-#, fuzzy
 msgid ""
 "By default, the *attack phase* is 0 for all synths which means they move from "
 "0 amplitude to 1 immediately. This gives the synth an initial percussive sound"
 ". However, you may wish to fade your sound in. This can be achieved with the `"
 "attack:` opt. Try fading in some sounds:"
 msgstr ""
-"Standardmäßig ist die Attack-Phase für alle Synths 0, was bedeutet, dass diese"
-" sofort von der Amplitude 0 auf 1 hochgehen. Dies gibt dem Synth einen perkuss"
-"iven Klang. Vielleicht möchtest Du den Klang jedoch einblenden. Dies kannst Du"
-" mit dem `attack`-Argument erreichen. Blende einige Klänge ein:"
+"Normalerweise ist die Attack-Phase für alle Synths 0, die Amplitude geht "
+"also sofort von 0 auf 1 hoch. Dies gibt dem Synth einen perkussiven Klang. "
+"Vielleicht möchtest Du den Klang jedoch einblenden. Dies kannst Du mit der "
+"`attack`-Opt erreichen. Blende einige Klänge ein:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1602,13 +1614,12 @@ msgstr ""
 "play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
-#, fuzzy
 msgid ""
 "You may use multiple opts at the same time. For example for a short attack and"
 " a long release try:"
 msgstr ""
-"Du kannst mehrere Argumente zur selben Zeit anwenden. Zum Beispiel für eine ku"
-"rze Attack- und eine lange Release-Zeit:"
+"Du kannst mehrere Opts zur selben Zeit anwenden. Zum Beispiel für eine kurze "
+"Attack- und eine lange Release-Zeit:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
@@ -1616,24 +1627,22 @@ msgid "play 60, attack: 0.7, release: 4"
 msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
-#, fuzzy
 msgid ""
 "This short attack and long release envelope is illustrated in the following di"
 "agram:"
-msgstr "Diese Hüllkurve mit einem kurzen Attack und langem Release sieht so aus:"
+msgstr ""
+"Diese Hüllkurve mit einem kurzen Attack und langem Release sieht so aus:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr ""
+msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
-#, fuzzy
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short release"
 ":"
 msgstr ""
-"Natürlich kann man die Dinge auch umdrehen. Versuche einen langen Attack und e"
-"inen kurzen Release:"
+"Oder mal andersherum: Versuche einen langen Attack und einen kurzen Release:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
@@ -1645,15 +1654,16 @@ msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-short"
 "-release.png)"
 msgstr ""
+"![long attack short release envelope](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
-#, fuzzy
 msgid ""
 "Finally, you can also have both short attack and release times for shorter sou"
 "nds."
 msgstr ""
-"Schließlich kannst Du auch einen kurzen Attack und Release für kürzere Klänge "
-"verwenden."
+"Schließlich kannst Du auch einen kurzen Attack und Release für kürzere "
+"Klänge verwenden."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
@@ -1665,22 +1675,23 @@ msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-sho"
 "rt-release.png)"
 msgstr ""
+"![short attack short release envelope](../images/tutorial/env-short-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
-#, fuzzy
 msgid "Sustain Phase"
 msgstr "Sustain-Zeit"
 
 #: 02.4-Durations-with-Envelopes.md:136
-#, fuzzy
 msgid ""
 "In addition to specifying attack and release times, you may also specify a sus"
 "tain time to control the *sustain phase*. This is the time for which the sound"
 " is maintained at full amplitude between the attack and release phases."
 msgstr ""
-"Zusätzlich zu den Attack- und Release-Zeiten kannst Du auch die Sustain-Zeit b"
-"estimmen. Das ist die Zeitdauer, die der Klang anhält, wenn er die eingestellt"
-"e Lautstärke erreicht hat, also zwischen dem Attack- und dem Release-Stadium."
+"Zusätzlich zu den Attack- und Release-Zeiten kannst Du auch die Sustain-Zeit "
+"bestimmen. Das ist die Zeitdauer, die der Klang anhält, wenn er die "
+"eingestellte Lautstärke erreicht hat, also zwischen dem Attack- und dem "
+"Release-Stadium."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
@@ -1689,7 +1700,7 @@ msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 #, fuzzy
