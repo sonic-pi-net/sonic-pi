@@ -23,16 +23,20 @@
 #include <qwt_text_label.h>
 #include <cmath>
 
-ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sample_y, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this)
+ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this) 
 {
 #if QWT_VERSION >= 0x60100
   plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
 #endif
 
-  plot.setAxisScale(QwtPlot::Axis::yLeft,-1,1);
+  plot_curve.setRawSamples( sample_x, sample_y, num_samples );
+  setXRange( 0, num_samples, false );
+  setYRange( -1, 1, true );
+  setPen(QPen(QColor("deeppink"), 2));
+
+/*
   if( name == "Lissajous" )
   {
-    plot_curve.setPen(QPen(QColor("deeppink"), 2));
     plot_curve.setRawSamples( sample_x + (4096-1024), sample_y + (4096-1024), 1024 );
     plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
     plot.setAxisScale(QwtPlot::Axis::xBottom,-1,1);
@@ -42,11 +46,11 @@ ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sampl
   else
   {
     plot_curve.setPen(QPen(QColor("deeppink"), 2));
-    plot_curve.setRawSamples( sample_x, sample_y, 4096 );
     plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
     plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
     plot.enableAxis(QwtPlot::Axis::xBottom, false);
   }
+*/
   plot_curve.attach(&plot);
 
   QSizePolicy sp(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
@@ -59,13 +63,34 @@ ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sampl
   setLayout(layout);
 }
 
+void ScopePanel::setYRange( float min, float max, bool showLabel )
+{
+  plot.setAxisScale( QwtPlot::Axis::yLeft, min, max );
+  plot.enableAxis( QwtPlot::Axis::yLeft, showLabel );
+  defaultShowY = showLabel;
+}
+
+void ScopePanel::setXRange( float min, float max, bool showLabel )
+{
+  plot.setAxisScale( QwtPlot::Axis::xBottom, min, max );
+  plot.enableAxis( QwtPlot::Axis::xBottom, showLabel );
+  defaultShowX = showLabel;
+}
+
+void ScopePanel::setPen( QPen pen )
+{
+  plot_curve.setPen( pen );
+}
+
+
 ScopePanel::~ScopePanel()
 {
 }
 
-bool ScopePanel::setAxes(bool b)
+bool ScopePanel::setAxesVisible(bool b)
 {
-  plot.enableAxis(QwtPlot::Axis::yLeft,b);
+  plot.enableAxis(QwtPlot::Axis::yLeft,b && defaultShowY );
+  plot.enableAxis(QwtPlot::Axis::xBottom,b && defaultShowX );
   if( b )
   {
     plot.setTitle(QwtText(name.c_str()));
@@ -82,8 +107,15 @@ void ScopePanel::refresh( )
   plot.replot();
 }
 
-Scope::Scope( QWidget* parent ) : QWidget(parent), lissajous("Lissajous", sample[0], sample[1], this ), left("Left",sample_x,sample[0],this), right("Right",sample_x,sample[1],this), paused( false )
+Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false )
 {
+  //lissajous("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ), left("Left",sample_x,sample[0],4096,this), right("Right",sample_x,sample[1],4096, this)
+  panels.push_back( new ScopePanel("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) );
+  panels.push_back( new ScopePanel("Left",sample_x,sample[0],4096,this) );
+  panels.push_back( new ScopePanel("Right",sample_x,sample[1],4096, this) );
+  panels[0]->setPen(QPen(QColor("deeppink"), 1));
+  panels[0]->setXRange( -1, 1, true );
+
   for( unsigned int i = 0; i < 4096; ++i ) sample_x[i] = i;
   QTimer *scopeTimer = new QTimer(this);
   connect(scopeTimer, SIGNAL(timeout()), this, SLOT(refreshScope()));
@@ -92,9 +124,9 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), lissajous("Lissajous", sample
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setSpacing(0);
   layout->setContentsMargins(0,0,0,0);
-  layout->addWidget(&left);
-  layout->addWidget(&right);
-  layout->addWidget(&lissajous);
+  layout->addWidget(panels[0]);
+  layout->addWidget(panels[1]);
+  layout->addWidget(panels[2]);
   setLayout(layout);
 }
 
@@ -116,8 +148,8 @@ bool Scope::setRightScope(bool b)
 
 bool Scope::setScopeAxes(bool on)
 {
-  left.setAxes(on);
-  right.setAxes(on);
+  left.setAxesVisible(on);
+  right.setAxesVisible(on);
   return on;
 }
 
