@@ -36,9 +36,9 @@ Run the installer, selecting the option **Add to the System PATH for all (or cur
 
 
 Install **Ruby** from http://rubyinstaller.org/downloads/
-I choose **Ruby 2.2.3** although the install works with 2.1.7 with minor alterations which are detailed below.
+I choose **Ruby 2.3.0**.
 Choose the **32 bit version**
-Run the installer when downloaded. Choose the default install ```c:\Ruby22``` (C:\Ruby21 if you use Ruby2.1.7)
+Run the installer when downloaded. Choose the default install ```c:\Ruby23```
 Select **add Ruby Executables to your path** and **associate .rb and .rbw files with this installation**.
 
 Scroll further down the page of http://rubyinstaller.org/downloads/ and select
@@ -56,8 +56,8 @@ ruby dk.rb init
 This will create a file ```config.yml``` inside the ```RubyDev``` folder
 Check its contents by typing;
 ```Notepad config.yml```
-You should see a line ``` - C:\Ruby22```
-at the end of the file. ( - C:\Ruby21 if you use Ruby2.1.7)
+You should see a line ``` - C:\Ruby23```
+at the end of the file.
 Close notepad
 Now type
 ```ruby dk.rb install```
@@ -75,9 +75,9 @@ That completes the setup for RubyDev
 ### Preparing the Ruby section
 This section of the Sonic Pi install.md file should be completed next BEFORE attempting the section **Qt GUI** (unlike in the original install.md document) as the final build in this section requires one of the gems to be installed before it is run.
 
-Copy ```c:\ruby22\*``` into ```c:\sonic-pi\apps\server\native\windows\ruby```
-(amend to c:\Ruby21\* if you use Ruby2.1.7)
-You will need to create the last two folders windows\ruby before doing this, which is best done from a File Explorer window. The copying is also best done using **two** File Explorer windows, one set to ```c:\Ruby22``` (or C:Ruby21  if you use Ruby2.1.7) and the other to ```c:\sonic-pi\app\server\native\windows\ruby```
+Copy ```c:\ruby23\*``` into ```c:\sonic-pi\app\server\native\windows\ruby```
+
+You will need to create the last two folders windows\ruby before doing this, which is best done from a File Explorer window. The copying is also best done using **two** File Explorer windows, one set to ```c:\Ruby22``` and the other to ```c:\sonic-pi\app\server\native\windows\ruby```
 You can leave out the **Doc** folder and the two **unins000** files.
 Now open a cmd window and navigate to c:\sonic-pi\app\server\native\windows\ruby
 From there we will install gem files required by Sonic Pi
@@ -86,7 +86,7 @@ From there we will install gem files required by Sonic Pi
 
 (allow access if you are asked). The install may take a little time. Eventually it will say two gems installed (did_you_mean and interception)
 
-```.\bin\gem install ffi```
+```.\bin\gem install ffi --platform=ruby```
 
 
 Another gem recently added, that is needed specifically for the windows install is ```win32-process```
@@ -97,17 +97,17 @@ The fourth gem file is problematical, and needs a patch to install. It goes like
 
 ```.\bin\gem fetch rugged```
 
-This will fetch the latest version which is rugged-0.23.3
+This will fetch the latest version which is rugged-0.24.0
 
 ```
-.\bin\gem unpack rugged-0.23.3.gem
-.\bin\gem spec rugged-0.23.3.gem --ruby > rugged-0.23.3\rugged.gemspec
+.\bin\gem unpack rugged-0.24.0.gem
+.\bin\gem spec rugged-0.24.0.gem --ruby > rugged-0.24.0\rugged.gemspec
 ```
 
 Now we have to apply a patch to one of the files.
 
 ```
-cd rugged-0.23.3\ext\rugged
+cd rugged-0.24.0\ext\rugged
 notepad extconf.rb
 ```
 In the notepad window select **Find** from the Edit Menu (**ctrl+F**) and search for
@@ -116,22 +116,30 @@ In the notepad window select **Find** from the Edit Menu (**ctrl+F**) and search
 
 and change it to read
 
-```Unix Makefiles\" -DCMAKE_INSTALL_PREFIX=C:/ -DWINHTTP=OFF")```
+```Unix Makefiles\" -DCMAKE_INSTALL_PREFIX=C:/ -DWINHTTP=OFF -DUSE_OPENSSL=OFF")```
 
-NB: this may no longer be needed with current versions of rugged
+Also, some lines below this, comment the 2 lines inside the ```if windows?``` putting a ```#``` in front of them, so that they read:
+```
+      if windows?
+#        $LDFLAGS << " " + "-L#{Dir.pwd}/deps/winhttp"
+#        $LIBS << " -lwinhttp -lcrypt32 -lrpcrt4 -lole32"
+      else
+```
+
+NB: this may no longer be needed with more recent versions of rugged
 
 Then resave the file and quit notepad.
 Go back to the cmd window
 
 ```cd ..\..\```
  
-you should be back in the folder ```c:\sonic-pi\app\server\native\windows\ruby\rugged-0.23.3```
+you should be back in the folder ```c:\sonic-pi\app\server\native\windows\ruby\rugged-0.24.0```
 
 Now build the patched rugged
 
 ```
 ..\bin\gem build rugged.gemspec
-..\bin\gem install rugged-0.23.3.gem
+..\bin\gem install rugged-0.24.0.gem
 ```
 
 NB: rb-native is not being used for Windows packages, the gems can happily live where they were installed by the "local" Ruby.  You MAY need to delete the vendor/rugged directory so it uses the right version.
@@ -175,12 +183,12 @@ Leave this window open.
 
 Download **Qscintilla** from https://www.riverbankcomputing.com/software/qscintilla/download
 
-Select the ```Qscintilla-gpl-2.9.1.zip``` file to download
-When downloaded extract the ```Qscintilla-gpl-2.9.1``` folder to ```c:\```
+Select the ```Qscintilla_gpl-2.9.2.zip``` file to download
+When downloaded extract the ```Qscintilla_gpl-2.9.2``` folder to ```c:\```
 
 Return to the visual studio command window. 
 ```
-cd c:\QScintilla-gpl-2.9.1\Qt4Qt5
+cd c:\QScintilla_gpl-2.9.2\Qt4Qt5
 qmake qscintilla.pro
 nmake
 ```
@@ -194,7 +202,10 @@ copy ```Qt4Qt5\release\moc_qsciscintilla.cpp``` and ```moc_qsciscintillabase.cpp
 ```c:\sonic-pi\app\gui\qt\platform\win``` (There may be two files there already, but overwrite them)
 Best done using two FileExplorer windows as before.
 
+Create the C:\sonic-pi\app\server\rb-native\windows\2.3.0 directory.
+
 Now we do the main build of Sonic-Pi gui, using the open cmd window.
+
 ```
 cd c:\sonic-pi
 .\app\gui\qt\win-build-app.bat
