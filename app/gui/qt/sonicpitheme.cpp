@@ -193,7 +193,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["SelectionForeground"]             = dt_white;
     themeSettings["SelectionBackground"]             = dt_pink;
 
-    themeSettings["MatchedBraceForeground"]          = dt_white;
+    themeSettings["MatchedBraceForeground"]          = dt_pink;
     themeSettings["MatchedBraceBackground"]          = dt_lightgrey;
 
     themeSettings["BraceForeground"]                 = theme_fg;
@@ -360,7 +360,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["SelectionForeground"]             = dt_white;
     themeSettings["SelectionBackground"]             = dt_pink;
 
-    themeSettings["MatchedBraceForeground"]          = dt_white;
+    themeSettings["MatchedBraceForeground"]          = dt_pink;
     themeSettings["MatchedBraceBackground"]          = dt_lightgrey;
 
     themeSettings["BraceForeground"]                 = dt_white;
