@@ -205,6 +205,14 @@ module SonicPi
         raise "Sorry, use_sample_pack_as is no longer supported since v2.10. Please read Section 3.7 of the tutorial for a more powerful replacement."
       end
 
+      def use_sample_pack(pack, &block)
+        raise "Sorry, use_sample_pack is no longer supported since v2.11. \n  Please read Section 3.7 of the tutorial for a more powerful replacement."
+      end
+
+      def with_sample_pack(pack, &block)
+        raise "Sorry, with_sample_pack is no longer supported since v2.11. \n  Please read Section 3.7 of the tutorial for a more powerful replacement."
+      end
+
 
 
 
@@ -2182,66 +2190,6 @@ with_fx :reverb do
 end
 "
       ]
-
-
-
-
-      def use_sample_pack(pack, &block)
-        raise "use_sample_pack does not work with a block. Perhaps you meant with_sample_pack" if block
-        if pack == :default
-          pack = samples_path + "/**"
-        else
-          pack = "#{pack}/" if File.directory?(pack)
-        end
-
-        Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
-      end
-      doc name:          :use_sample_pack,
-          introduced:    Version.new(2,0,0),
-          summary:       "Use sample pack",
-          doc:           "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` files in that folder available as samples. Use `use_sample_pack :default` To revert back to the default built-in samples.",
-          args:          [[:pack_path, :string]],
-          opts:          nil,
-          accepts_block: false,
-          examples:
-        ["
-use_sample_pack '/home/yourname/path/to/sample/dir'
-sample :foo  #=> plays /home/yourname/path/to/sample/dir/foo.{wav|wave|aif|aiff|flac}
-             #   where {wav|wave|aif|aiff|flac} means one of wav, wave, aif, aiff or flac.
-sample :bd_haus #=> will not work unless there's a sample in '/home/yourname/path/to/sample/dir'
-                #   called bd_haus.{wav|wave|aif|aiff|flac}
-use_sample_pack :default
-sample :bd_haus #=> will play the built-in bd_haus.wav sample" ]
-
-
-      def with_sample_pack(pack, &block)
-        raise "with_sample_pack requires a block. Perhaps you meant use_sample_pack" unless block
-        if pack == :default
-          # allow user to reset sample pack with the :default keyword
-          pack = samples_path + "/**"
-        else
-          # ensure directories have trailing /
-          pack = "#{pack}/" if File.directory?(pack)
-        end
-        current = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path)
-        Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, pack)
-        res = block.call
-        Thread.current.thread_variable_set(:sonic_pi_mod_sound_sample_path, current)
-        res
-      end
-      doc name:           :with_sample_pack,
-          introduced:     Version.new(2,0,0),
-          summary:        "Block-level use sample pack",
-          doc:            "Given a path to a folder of samples on your filesystem, this method makes any `.wav`, `.wave`, `.aif`, `.aiff` or `.flac` files in that folder available as samples inside the given block.",
-          args:           [[:pack_path, :string]],
-          opts:           nil,
-          accepts_block:  true,
-          requires_block: true,
-          examples:       ["
-with_sample_pack '/path/to/sample/dir' do
-  sample :foo  #=> plays /path/to/sample/dir/foo.{wav|wave|aif|aiff|flac}
-end"]
-
 
 
 

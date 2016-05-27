@@ -13,7 +13,7 @@
 
 module SonicPi
   class SampleLoader
-    def initialize(samples_path)
+    def initialize(samples_paths)
       @cached_candidates = {}
       @cached_extracted_candidates = {}
       @cached_extracted_candidates_mutex = Mutex.new
@@ -22,7 +22,8 @@ module SonicPi
       @mutex = Mutex.new
       @folder_contents_mutex = Mutex.new
 
-      @samples_path = samples_path
+      @samples_paths = samples_paths
+      @samples_paths = [@samples_paths] unless @samples_paths.is_a?(Array) or @samples_pathspaths.is_a?(SonicPi::Core::SPVector)
     end
 
     def find_candidates(filts_and_sources)
@@ -38,7 +39,7 @@ module SonicPi
       found_proc = false
 
       if orig_candidates.empty?
-        default_samples_paths.each do |p|
+        @samples_paths.each do |p|
           if p.end_with?("**")
             candidates.concat(ls_samples(p[0...-2], true))
           else
@@ -172,13 +173,5 @@ module SonicPi
         end
       end
     end
-
-    private
-
-    def default_samples_paths
-      path = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_path) || @samples_path
-      path = [path] unless path.is_a?(Array) or path.is_a?(SonicPi::Core::SPVector)
-    end
-
   end
 end
