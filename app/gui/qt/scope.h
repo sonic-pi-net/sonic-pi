@@ -30,16 +30,21 @@ class ScopePanel : public QWidget
   Q_OBJECT
 
 public:
-  ScopePanel( const std::string& name, double* sample_x, double* sample_y, QWidget* parent = 0 );
+  ScopePanel( const QString& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent = 0 );
   virtual ~ScopePanel();
 
+  const QString& getName();
   void refresh();
-  bool setAxes( bool on );
+  void setPen( QPen pen );
+  void setXRange( float min, float max, bool showLabel = true );
+  void setYRange( float min, float max, bool showLabel = true );
+  bool setAxesVisible( bool on );
 
 private:
-  std::string name;
+  QString name;
   QwtPlot plot;
   QwtPlotCurve plot_curve;
+  bool defaultShowX, defaultShowY;
 };
 
 class Scope : public QWidget 
@@ -50,20 +55,21 @@ public:
   Scope( QWidget* parent = 0 );
   virtual ~Scope();
 
-  bool setLeftScope(bool on);
-  bool setRightScope(bool on);
+  std::vector<QString> getScopeNames() const;
+  bool enableScope( const QString& name, bool on );
   bool setScopeAxes(bool on);
   void togglePause();
 
 private slots:
   void refreshScope();
  
-private: 
+private:
   std::unique_ptr<server_shared_memory_client> shmClient;
   double sample_x[4096];
   double sample[2][4096];
   scope_buffer_reader shmReader;
-  ScopePanel left,right;
+  std::vector<std::shared_ptr<ScopePanel>> panels;
+  //ScopePanel lissajous, left,right;
   bool paused;
 };
 

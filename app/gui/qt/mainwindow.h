@@ -138,6 +138,7 @@ private slots:
     void setRPSystemAudioHeadphones();
     void setRPSystemAudioHDMI();
     void changeShowLineNumbers();
+    void toggleScope(QWidget* qw);
     void toggleLeftScope();
     void toggleRightScope();
     void toggleScopeAxes();
@@ -293,9 +294,12 @@ private:
     QCheckBox *show_buttons;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
-    QCheckBox *show_left_scope;
-    QCheckBox *show_right_scope;
+
+    QSignalMapper *scopeSignalMap;
+//    QCheckBox *show_left_scope;
+//    QCheckBox *show_right_scope;
     QCheckBox *show_scope_axes;
+
     QPushButton *check_updates_now;
     QPushButton *visit_sonic_pi_net;
     QLabel *update_info;
