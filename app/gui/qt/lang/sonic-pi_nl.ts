@@ -69,7 +69,7 @@ die enkel met mono geluid overweg kunnen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Configure debug behaviour</source>
-        <translation>Configureer fout-opsproring</translation>
+        <translation>Configureer foutopsporingsmodus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="964"></location>
@@ -95,7 +95,7 @@ niet meer standaard naar het logbestand geschreven worden.</translation>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation>Leegmaken van logvenster in- of uitschakelen.
+        <translation>Logvenster leegmaken in/uitschakelen.
 Wanneer ingeschakeld wordt het logvenster
 leeggemaakt telkens op afspelen wordt gedrukt.</translation>
     </message>
@@ -113,7 +113,7 @@ leeggemaakt telkens op afspelen wordt gedrukt.</translation>
         <location filename="../mainwindow.cpp" line="1447"></location>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation>Code wordt uitgevoerd...</translation>
+        <translation>Lopende Code...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1510"></location>
@@ -193,7 +193,7 @@ Gebruik deze knoppen om de output door de uitgang die je verkiest te sturen.</tr
         <location filename="../mainwindow.cpp" line="1012"></location>
         <location filename="../mainwindow.cpp" line="1144"></location>
         <source>Updates</source>
-        <translation>„Updates"</translation>
+        <translation>Updates</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1014"></location>
@@ -213,7 +213,7 @@ Gebruik deze knoppen om de output door de uitgang die je verkiest te sturen.</tr
     <message>
         <location filename="../mainwindow.cpp" line="277"></location>
         <source>Sonic Pi update info</source>
-        <translation>Sonic Pi "update info"</translation>
+        <translation>Sonic Pi update info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="914"></location>
@@ -225,7 +225,7 @@ Gebruik deze knoppen om de output door de uitgang die je verkiest te sturen.</tr
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation>De controle-functies voor synth argumenten, in/uitschakelen.
+        <translation>De controle-functies van argumenten voor synths , in/uitschakelen.
 Indien uitgeschakeld, kunnen bepaalde synth opties
 voor onverwachts luide of onaangename geluiden zorgen.</translation>
     </message>
@@ -243,12 +243,12 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="741"></location>
         <source>Toggle selection comment...</source>
-        <translation>Schakel commentaar aan/uit voor de selectie...</translation>
+        <translation>Schakel commentaar aan/uit van selectie...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="745"></location>
         <source>Toggle line comment...</source>
-        <translation>Schakel commentaar per lijn aan of uit...</translation>
+        <translation>Schakel commentaar per lijn aan/uit...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="803"></location>
@@ -258,17 +258,17 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
         <source>Invert stereo</source>
-        <translation>Stereo inverteren</translation>
+        <translation>Stereo omdraaien</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="919"></location>
         <source>Force mono</source>
-        <translation>Herleid naar mono</translation>
+        <translation>Herleidt naar mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="960"></location>
         <source>Synths and FX</source>
-        <translation>Synths en effecten</translation>
+        <translation>Synths en Effecten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
@@ -283,21 +283,21 @@ voor onverwachts luide of onaangename geluiden zorgen.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="969"></location>
         <source>Log cues</source>
-        <translation>Log „cues"</translation>
+        <translation>Log startseinen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"></location>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation>Schakel het loggen van cues in/uit.
-Indien uitgeschakeld zullen cues nog altijd triggeren,
+        <translation>Schakel het loggen van startseinen in/uit.
+Indien uitgeschakeld zullen startseinen nog altijd triggeren,
 maar zij zullen niet zichtbaar zijn in het logvenster.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="972"></location>
         <source>Log auto scroll</source>
-        <translation>Log auto scroll</translation>
+        <translation>Log automatisch scrollen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
@@ -331,7 +331,7 @@ dat niet wordt herkend.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="983"></location>
         <source>Enforce timing guarantees</source>
-        <translation>Garanties voor "In maat blijven" handhaven</translation>
+        <translation>"In maat te blijven" afdwingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
@@ -348,18 +348,18 @@ het te laat is om dit te doen.
 
 Wanneer deze is uitgeschakeld,zal Sonic Pi altijd
 trachten Synths en Effecten te triggeren,
-zelfs wanneer dit een beetje te laat komt.</translation>
+zelfs wanneer een beetje te laat .</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1001"></location>
         <source>Transparency</source>
-        <translation>transparantie</translation>
+        <translation>Transparantie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1016"></location>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation>Automatische controle van Updates.
+        <translation>Automatische controle van Updates opvragen.
 Deze controle omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
     </message>
     <message>
@@ -372,7 +372,7 @@ Deze controle omvat het verzenden van anonieme gegevens over het platform en de 
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
         <translation>De Update controle,nu afdwingen .
-Deze controle omvat het verzenden van anonieme gegevens over uw platform en versie van uw computer.</translation>
+Deze controle omvat het verzenden van anonieme gegevens over het platform en de versie van uw computer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1019"></location>
@@ -402,7 +402,7 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1046"></location>
         <source>Look and Feel</source>
-        <translation>Uitzicht en aanvoelen</translation>
+        <translation>De vormgeving en de interactieve stijl</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"></location>
@@ -417,7 +417,7 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1049"></location>
         <source>Configure automation features.</source>
-        <translation>Configureer Automatiseringsfuncties.</translation>
+        <translation>Configureer automatiseringsfuncties.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1050"></location>
@@ -432,12 +432,12 @@ Deze controle omvat het verzenden van anonieme gegevens over uw platform en vers
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
         <source>Show log</source>
-        <translation>Toon het log</translation>
+        <translation>Toon log</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1056"></location>
         <source>Toggle visibility of the log.</source>
-        <translation>in-/ uitschakelen van het logboekvenster.</translation>
+        <translation>In-/ uitschakelen van het logboekvenster.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1058"></location>
@@ -543,7 +543,7 @@ Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2338"></location>
         <source>Run the code in the current buffer</source>
-        <translation>De code uitvoeren in de huidige buffer</translation>
+        <translation>Code laten lopen in de huidige buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2351"></location>
@@ -593,24 +593,24 @@ Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1545"></location>
         <source>Enabling update checking...</source>
-        <translation>Update controle toestaan...</translation>
+        <translation>Update controle inschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1553"></location>
         <source>Disabling update checking...</source>
-        <translation>Update controle NIET toestaan...</translation>
+        <translation>Update controle uitschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1578"></location>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation>Mixer LPF aan...</translation>
+        <translation>Mixer LPF inschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1587"></location>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation>Mixer LPF uit...</translation>
+        <translation>Mixer LPF uitschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1595"></location>
@@ -639,7 +639,7 @@ Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1628"></location>
         <source>Stopping...</source>
-        <translation>Stoppen...</translation>
+        <translation>Stopt...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1736"></location>
@@ -700,7 +700,7 @@ Excuseer,er trad een belangrijke fout op tijdens het opstarten</translation>
         <location filename="../mainwindow.cpp" line="2875"></location>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi controleert om de twee weken naar updates .</translation>
+        <translation>Sonic Pi controleert naar updates om de twee weken.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2877"></location>
@@ -747,7 +747,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2356"></location>
         <source>See information about Sonic Pi</source>
-        <translation>Bekijk de informatie omtrent Sonic Pi</translation>
+        <translation>Bekijk de informatie over Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="513"></location>
@@ -764,17 +764,17 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1122"></location>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation>Instellingen die nuttig zijn voor het uitvoeren van een live coding met Sonic Pi</translation>
+        <translation>Instellingen die nuttig zijn om met Sonic Pi een optreden te doen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"></location>
         <source>Server boot error...</source>
-        <translation>Server opstart foutmelding...</translation>
+        <translation>Server opstart fout...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"></location>
         <source>Please consider reporting a bug at</source>
-        <translation>Overweeg aub. het rapporteren van een eventuele bug aan</translation>
+        <translation>Overweeg aub. het rapporteren van een bug aan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2365"></location>
@@ -802,7 +802,7 @@ Krijg Sonic Pi %1</translation>
         <location filename="../mainwindow.cpp" line="2378"></location>
         <source>Auto-Align Text</source>
         <oldsource>Auto Align Text</oldsource>
-        <translation>Automatisch uitlijnen van tekst</translation>
+        <translation>Tekst automatisch uitlijnen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2385"></location>
@@ -817,7 +817,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2397"></location>
         <source>Tools</source>
-        <translation>Hulpmiddelen</translation>
+        <translation>Gereedschappen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2448"></location>
@@ -852,7 +852,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2474"></location>
         <source>Sonic Pi - Info</source>
-        <translation>Sonic Pi - „Info"</translation>
+        <translation>Sonic Pi - Info</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2494"></location>
@@ -908,12 +908,12 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
         <source>Samples</source>
-        <translation>„Samples"</translation>
+        <translation>Samples</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="779"></location>
         <source>Lang</source>
-        <translation>Taal</translation>
+        <translation>Programmeertaal</translation>
     </message>
 </context>
 <context>
@@ -921,7 +921,7 @@ Krijg Sonic Pi %1</translation>
     <message>
         <location filename="../main.cpp" line="43"></location>
         <source>Sonic Pi</source>
-        <translation>"Sonic Pi"</translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
