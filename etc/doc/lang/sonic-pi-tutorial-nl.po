@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-25 14:40+0000\n"
+"PO-Revision-Date: 2016-05-28 21:29+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -30,10 +30,10 @@ msgid ""
 "you'll learn all about music, synthesis, programming, composition, "
 "performance and more."
 msgstr ""
-"Welkom bij Sonic Pi. Hopelijk ben je ook zo enthousiast  om van start te "
-"gaan,en om te gekke geluiden te gaan maken,zoals ik jou dat ga laten zien. "
-"Het gaat een leuke trip worden,waar u alles over muziek, synthese, "
-"programmeren, compositie, performen leert en veel meer..."
+"Welkom bij Sonic Pi. Hopelijk ben je ook zo enthousiast, zoals ik, om jou te "
+"tonen hoe je, te gekke geluiden, kunt gaan maken. Het zal een leuke trip "
+"worden, waarin je alles over muziek, synthese, programmeren, compositie, "
+"performen gaat leren en nog veel meer..."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -44,14 +44,14 @@ msgid ""
 "about my [Live Coding Performances](http://facebook.com/livecodersamaaron) "
 "where I code with Sonic Pi live in front of audiences."
 msgstr ""
-"Maar wacht,hoe onbeleefd van mij! Ik moet mij nog voorstellen!\n"
-"Ik ben [Sam Aaron] ( http://twitter.com/samaaron ) de man die Sonic Pi "
+"Maar wacht,dat was onbeleefd van mij! Ik moet mij nog voorstellen.\n"
+"Ik ben [Sam Aaron] ( http://twitter.com/samaaron ) de kerel die Sonic Pi "
 "creëerde.\n"
 "Je vind mij als [@samaaron](http://twitter.com/samaaron) op Twitter en ik "
-"zal heel blij zijn om je daar te groeten. Misschien ben je ook "
+"zal heel blij zijn om je daar te kunnen groeten. Misschien ben je ook "
 "geïnteresseerd om meer te weten te komen over mijn [Live Coding Performances]"
-" (http://facebook.com/livecodersamaaron) waar ik live,voor publiek,codeer in "
-"Sonic Pi."
+" (http://facebook.com/livecodersamaaron) waar ik, voor publiek, live codeer "
+"met Sonic Pi."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -59,9 +59,10 @@ msgid ""
 "on - feedback is so helpful. You never know, your idea might be the next big "
 "feature!"
 msgstr ""
-"Als je bedenkingen,of ideeën hebt om Sonic Pi te verbeteren, aarzel dan niet "
-"om deze te laten weten-daar feedback heel nuttig is.Je weet nooit, jouw idee "
-"kan wel eens de volgende grote nieuwe functie wezen!"
+"Wanneer je bedenkingen hebt, of ideeën, om Sonic Pi te verbeteren, aarzel "
+"dan niet om deze te laten weten, want feedback is heel nuttig. En, je weet "
+"nooit, … jouw idee kan dan wel eens de volgende en voornaamste nieuwe "
+"functie worden!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -73,9 +74,9 @@ msgid ""
 msgstr ""
 "Deze handleiding is verdeeld in secties en gegroepeerd per categorie.Hoewel "
 "ik deze in een volgorde geschreven heb met een eenvoudige leercurve voor "
-"ogen, wees vrij om in afzonderlijke secties te duiken,zoals het je "
-"belieft.Heb je het gevoel dat er iets ontbreekt,laat het mij weten en ik zal "
-"deze in beraad nemen voor een volgende versie."
+"ogen, wees vrij om in afzonderlijke secties te duiken,zoals jij dat wil.Heb "
+"je het gevoel dat er iets ontbreekt,laat het mij weten en ik zal deze in "
+"overwegen voor een toekomstige versie."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -94,12 +95,12 @@ msgstr "OK, laat ons beginnen..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr "1.1 \"Live\" Coderen (  Live Coding )"
+msgstr "1.1 Live Coderen (  Live Coding )"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
 msgid "Live Coding"
-msgstr "\"Live\" Coderen"
+msgstr "Live Coderen"
 
 #: 01.1-Live-Coding.md:5
 msgid ""
@@ -108,14 +109,14 @@ msgid ""
 "a guitar. This means that given some practice you can take Sonic Pi on stage "
 "and gig with it."
 msgstr ""
-"Een van de meest opwindende aspecten van Sonic Pi is dat het je in staat "
-"stelt om code te gaan schrijven, deze ook “live” te wijzigen, om muziek te "
-"kunnen maken, net zoals je live gitaar zou spelen.Dit betekent dat je, mits "
-"wat oefening, met Sonic Pi het podium op kan en hiermee gaat optreden."
+"Een van de meest opwindende aspecten van Sonic Pi is, dat het je in staat "
+"stelt, om code te gaan schrijven - deze ook “live” te wijzigen - om muziek "
+"te maken, zoals je live gitaar zou spelen. Dit betekent dat je, mits wat "
+"oefening, met Sonic Pi het podium op kan en hiermee kan optreden."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
-msgstr "Geef je gedachten een vrije loop"
+msgstr "Geef je gedachten de vrije loop"
 
 #: 01.1-Live-Coding.md:12
 msgid ""
@@ -124,9 +125,9 @@ msgid ""
 "code. Don't worry if you don't understand much (or any) of this. Just try to "
 "hold onto your seats and enjoy..."
 msgstr ""
-"Voordat we in detail gaan over hoe Sonic Pi werkt,verder in deze "
-"handleiding, wil ik je een ervaring meegeven van wat het is om live te "
-"coderen . Maak je geen zorgen als je er niet veel (of niets ) van begrijpt. "
+"Voordat we in detail gaan over hoe Sonic Pi werkt, verderop in deze "
+"handleiding, wil ik je even een ervaring meegeven, hoe het is om live te "
+"coderen. Maak je geen zorgen als je er niet veel (of niets ) van begrijpt. "
 "Ga gewoon even zitten en geniet ..."
 
 #: 01.1-Live-Coding.md:17
@@ -136,7 +137,7 @@ msgstr "Een \"live\" loop"
 #: 01.1-Live-Coding.md:19
 msgid "Let's get started, copy the following code into an empty buffer above:"
 msgstr ""
-"Laten we beginnen, kopieer de volgende code in een lege buffer hierboven :"
+"We gaan van start, kopieer de volgende code in een lege buffer hierboven:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
@@ -146,7 +147,7 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"live_loop :flibble do\n"
+"live_loop :typmaarlustig do\n"
 "  sample :bd_haus, rate: 1\n"
 "  sleep 0.5\n"
 "end"
@@ -157,14 +158,14 @@ msgid ""
 "away. If at any time you wish to stop the sound just hit the `Stop` button. "
 "Although don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Klik nu op de afspeelknop en je zal een lekker snelle bas drum horen slaan. "
-"Je kan nu, wanneer jij dat wenst, het geluid stoppen door op de 'Stop' knop "
-"te klikken. Maar doe dat nog even niet,en neem in plaats daarvan de volgende "
+"Klik nu op de afspeelknop en je hoort een lekker snelle bas drum slaan. Je "
+"kan nu, wanneer jij dat wenst, het geluid stoppen door op de 'Stop' knop te "
+"klikken. Maar doe dat nog even niet,en neem in plaats daarvan de volgende "
 "stappen:"
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr "Zorg dat de basdrum nog steeds loopt"
+msgstr "Zorg dat deze basdrum nog steeds loopt"
 
 #: 01.1-Live-Coding.md:33
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
@@ -174,17 +175,19 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:34
 msgid "Press the `Run` button again"
-msgstr ""
+msgstr "Klik opnieuw op de afspeelknop"
 
 #: 01.1-Live-Coding.md:35
 msgid "Notice how the drum speed has changed."
-msgstr ""
+msgstr "Merk op, dat de snelheid van de drum, nu veranderd is."
 
 #: 01.1-Live-Coding.md:36
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded "
 "with Sonic Pi and it's unlikely to be your last..."
 msgstr ""
+"Ten slotte, * onthoud dit moment *, dit is de eerste keer dat je live hebt "
+"gecodeerd met Sonic Pi en het is waarschijnlijk niet je laatste keer . . ."
 
 #: 01.1-Live-Coding.md:39
 msgid ""
@@ -202,6 +205,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :typmaarlustig do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:51
 msgid ""
