@@ -23,7 +23,7 @@
 #include <qwt_text_label.h>
 #include <cmath>
 
-ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name.c_str()),this) 
+ScopePanel::ScopePanel( const QString& name, double* sample_x, double* sample_y, int num_samples, QWidget* parent ) : QWidget(parent), name(name), plot(QwtText(name),this) 
 {
 #if QWT_VERSION >= 0x60100
   plot_curve.setPaintAttribute( QwtPlotCurve::PaintAttribute::FilterPoints );
@@ -34,23 +34,6 @@ ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sampl
   setYRange( -1, 1, true );
   setPen(QPen(QColor("deeppink"), 2));
 
-/*
-  if( name == "Lissajous" )
-  {
-    plot_curve.setRawSamples( sample_x + (4096-1024), sample_y + (4096-1024), 1024 );
-    plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
-    plot.setAxisScale(QwtPlot::Axis::xBottom,-1,1);
-    plot.enableAxis(QwtPlot::Axis::xBottom, true);
-    plot_curve.setPen(QPen(QColor("deeppink"), 1));
-  }
-  else
-  {
-    plot_curve.setPen(QPen(QColor("deeppink"), 2));
-    plot_curve.setItemAttribute( QwtPlotItem::AutoScale );
-    plot.setAxisScale(QwtPlot::Axis::xBottom,0,4096);
-    plot.enableAxis(QwtPlot::Axis::xBottom, false);
-  }
-*/
   plot_curve.attach(&plot);
 
   QSizePolicy sp(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
@@ -62,6 +45,8 @@ ScopePanel::ScopePanel( const std::string& name, double* sample_x, double* sampl
   layout->setSpacing(0);
   setLayout(layout);
 }
+
+const QString& ScopePanel::getName() { return name; }
 
 void ScopePanel::setYRange( float min, float max, bool showLabel )
 {
@@ -82,7 +67,6 @@ void ScopePanel::setPen( QPen pen )
   plot_curve.setPen( pen );
 }
 
-
 ScopePanel::~ScopePanel()
 {
 }
@@ -93,7 +77,7 @@ bool ScopePanel::setAxesVisible(bool b)
   plot.enableAxis(QwtPlot::Axis::xBottom,b && defaultShowX );
   if( b )
   {
-    plot.setTitle(QwtText(name.c_str()));
+    plot.setTitle(QwtText(name));
   } else
   {
     plot.setTitle(QwtText(""));
@@ -110,9 +94,9 @@ void ScopePanel::refresh( )
 Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false )
 {
   //lissajous("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ), left("Left",sample_x,sample[0],4096,this), right("Right",sample_x,sample[1],4096, this)
-  panels.push_back( new ScopePanel("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) );
-  panels.push_back( new ScopePanel("Left",sample_x,sample[0],4096,this) );
-  panels.push_back( new ScopePanel("Right",sample_x,sample[1],4096, this) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Left",sample_x,sample[0],4096,this) ) );
+  panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Right",sample_x,sample[1],4096, this) ) );
   panels[0]->setPen(QPen(QColor("deeppink"), 1));
   panels[0]->setXRange( -1, 1, true );
 
@@ -124,9 +108,9 @@ Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false )
   QVBoxLayout* layout = new QVBoxLayout();
   layout->setSpacing(0);
   layout->setContentsMargins(0,0,0,0);
-  layout->addWidget(panels[0]);
-  layout->addWidget(panels[1]);
-  layout->addWidget(panels[2]);
+  layout->addWidget(panels[0].get());
+  layout->addWidget(panels[1].get());
+  layout->addWidget(panels[2].get());
   setLayout(layout);
 }
 
@@ -134,22 +118,35 @@ Scope::~Scope()
 {
 }
 
-bool Scope::setLeftScope(bool b)
+std::vector<QString> Scope::getScopeNames() const
 {
-  left.setVisible(b);
-  return b;
+  std::vector<QString> names;
+  for( auto scope : panels )
+  {
+    names.push_back(scope->getName());
+  }
+  return names;
 }
 
-bool Scope::setRightScope(bool b)
+bool Scope::enableScope( const QString& name, bool on )
 {
-  right.setVisible(b);
-  return b;
+  for( auto scope : panels )
+  {
+    if( scope->getName() == name )
+    {
+      scope->setVisible(on);
+      return on;
+    }
+  }
+  return true;
 }
 
 bool Scope::setScopeAxes(bool on)
 {
-  left.setAxesVisible(on);
-  right.setAxesVisible(on);
+  for( auto scope : panels )
+  {
+    scope->setAxesVisible(on);
+  }
   return on;
 }
 
@@ -184,8 +181,9 @@ void Scope::refreshScope() {
         sample[j][4096-frames+i] = data[i+offset];
       }
     }
-    left.refresh();
-    right.refresh();
-    lissajous.refresh();
+    for( auto scope : panels )
+    {
+      scope->refresh();
+    }
   }
 }

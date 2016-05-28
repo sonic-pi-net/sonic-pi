@@ -1144,19 +1144,24 @@ void MainWindow::initPrefsWindow() {
 
   QGroupBox *scope_box = new QGroupBox();
   QGridLayout* scope_box_layout = new QGridLayout();
-  show_left_scope = new QCheckBox(tr("Left Channel"));
-  show_left_scope->setChecked(true);
-  show_right_scope = new QCheckBox(tr("Right Channel"));
-  show_right_scope->setChecked(true);
+
+  scopeSignalMap = new QSignalMapper(this);
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  for( auto name : scopeInterface->getScopeNames() )
+  {
+    QCheckBox* cb = new QCheckBox( tr(name.toLocal8Bit().data()) ); 
+    cb->setChecked( scopeInterface->enableScope( name, settings.value("prefs/scope/show-"+name.toLower(), true).toBool() ) );
+    scopeSignalMap->setMapping( cb, cb );
+    scope_box_layout->addWidget(cb);
+    connect(cb, SIGNAL(clicked()), scopeSignalMap, SLOT(map())); 
+  }
+  connect( scopeSignalMap, SIGNAL(mapped(QWidget*)), this, SLOT(toggleScope(QWidget*)));
   show_scope_axes = new QCheckBox(tr("Show Axes"));
   show_scope_axes->setChecked(true);
-  scope_box_layout->addWidget(show_left_scope);
-  scope_box_layout->addWidget(show_right_scope);
   scope_box_layout->addWidget(show_scope_axes);
-  scope_box->setLayout(scope_box_layout);
-  connect(show_left_scope, SIGNAL(clicked()), this, SLOT(toggleLeftScope()));
-  connect(show_right_scope, SIGNAL(clicked()), this, SLOT(toggleRightScope()));
   connect(show_scope_axes, SIGNAL(clicked()), this, SLOT(toggleScopeAxes()));
+  
+  scope_box->setLayout(scope_box_layout);
   prefTabs->addTab(scope_box, tr("Scope"));
 
 
@@ -1204,7 +1209,6 @@ void MainWindow::initPrefsWindow() {
   prefsCentral->setLayout(grid);
 
   // Read in preferences from previous session
-  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
   check_args->setChecked(settings.value("prefs/check-args", true).toBool());
   print_output->setChecked(settings.value("prefs/print-output", true).toBool());
   clear_output_on_run->setChecked(settings.value("prefs/clear-output-on-run", true).toBool());
@@ -1230,8 +1234,8 @@ void MainWindow::initPrefsWindow() {
   int stored_vol = settings.value("prefs/rp/system-vol", 50).toInt();
   rp_system_vol->setValue(stored_vol);
 
-  show_left_scope->setChecked( scopeInterface->setLeftScope( settings.value("prefs/scope/show-left", true).toBool() ) );
-  show_right_scope->setChecked( scopeInterface->setRightScope( settings.value("prefs/scope/show-right", true).toBool() ) );
+  //show_left_scope->setChecked( scopeInterface->enableScope( "Left", settings.value("prefs/scope/show-left", true).toBool() ) );
+  //show_right_scope->setChecked( scopeInterface->enableScope( "Right", settings.value("prefs/scope/show-right", true).toBool() ) );
   show_scope_axes->setChecked( scopeInterface->setScopeAxes( settings.value("prefs/scope/show-axes", true).toBool() ) );
 
   // Ensure prefs are honoured on boot
@@ -1783,14 +1787,22 @@ void MainWindow::changeRPSystemVol(int)
 
 }
 
+void MainWindow::toggleScope( QWidget* qw )
+{
+  QCheckBox* cb = static_cast<QCheckBox*>(qw);
+  QSettings settings("uk.ac.cam.cl", "Sonic Pi");
+  settings.setValue("prefs/scope/show-"+cb->text().toLower(), cb->isChecked() );
+  scopeInterface->enableScope( cb->text(), cb->isChecked() );
+}
+
 void MainWindow::toggleLeftScope() 
 {
-  scopeInterface->setLeftScope(show_left_scope->isChecked());
+  //scopeInterface->enableScope("Left",show_left_scope->isChecked());
 }
 
 void MainWindow::toggleRightScope()
 {
-  scopeInterface->setRightScope(show_right_scope->isChecked());
+  //scopeInterface->enableScope("Right",show_right_scope->isChecked());
 }
 
 void MainWindow::toggleScopeAxes()
@@ -2656,8 +2668,8 @@ void MainWindow::writeSettings()
   settings.setValue("windowState", saveState());
   settings.setValue("windowGeom", saveGeometry());
 
-  settings.setValue("prefs/scope/show-left", show_left_scope->isChecked() );
-  settings.setValue("prefs/scope/show-right", show_right_scope->isChecked() );
+  //settings.setValue("prefs/scope/show-left", show_left_scope->isChecked() );
+  //settings.setValue("prefs/scope/show-right", show_right_scope->isChecked() );
   settings.setValue("prefs/scope/show-axes", show_scope_axes->isChecked() );
 }
 
