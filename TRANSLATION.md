@@ -36,6 +36,10 @@ to help translate Sonic Pi.
 * The *Tutorial* is a fairly long document. Translating it requires
   significantly more effort, but it's very rewarding as it is a 
   step-by-step introduction for new users to Sonic Pi.
+  
+  The tutorial is written in
+  [Github Markdown](https://guides.github.com/features/mastering-markdown/),
+  which contains a few special control character sequences.
 
 * (The *Reference* cannot be translated - yet. We're working on that.)
 
