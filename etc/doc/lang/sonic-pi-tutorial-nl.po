@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-29 10:33+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2016-05-29 19:12+0000\n"
+"Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
 "Language: nl\n"
@@ -195,6 +195,9 @@ msgid ""
 "`sample :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code "
 "should look like this:"
 msgstr ""
+"Ok,dat was simpel. We gaan er nu iets tussen mixen. Boven `sample :bd_haus` "
+"voeg je deze lijn toe  `sample :ambi_choir, rate: 0.3`. Jouw code moet er nu "
+"als volgt uitzien:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -220,12 +223,21 @@ msgid ""
 "go so fast your computer will stop with an error because it can't keep up "
 "(if that happens, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
+"Speel hier even mee. Verander de koers (rate) - wat gebeurd er als je hoge "
+"waarden gebruikt,of kleine waarden of negatieve waarden? Kijk wat er gebeurd "
+"wanneer je de ‚rate:’ waarde van de  `:ambi_choir` sample maar een tikkeltje "
+"veranderd (bv. 0.29). Wat gebeurd er als je een héél kleine ‚sleep’ (rust) "
+"waarde kiest? Kijk nu of je het zo snel kan laten gaan dat je computer ervan "
+"stopt omdat hij het niet meer kan verwerken (wanneer dit gebeurd,moet je "
+"maar een een grotere ‚sleep’ (rust) tijd instellen en op afspelen klikken)."
 
 #: 01.1-Live-Coding.md:59
 msgid ""
 "Try commenting one of the `sample` lines out by adding a `#` to the "
 "beginning:"
 msgstr ""
+"Probeer één van de ’sample' lijnen van commentaar te voorzien door er een ‚#’"
+" voor te zetten:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -236,6 +248,11 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"live_loop :typmaarlustig do\n"
+"  sample :ambi_choir, rate: 0.3\n"
+"#  sample :bd_haus, rate: 1\n"
+"  sleep 1\n"
+"end"
 
 #: 01.1-Live-Coding.md:70
 msgid ""
@@ -243,6 +260,9 @@ msgid ""
 "called a comment. In Sonic Pi we can use comments to remove and add things "
 "into the mix."
 msgstr ""
+"Merk op hoe het de computer vertelt om deze lijn te negeren, zodat we deze "
+"niet horen. Dit heet een opmerking. In Sonic Pi kunnen we opmerkingen "
+"gebruiken om stukken in de mix te verwijderen en toe te voegen ."
 
 #: 01.1-Live-Coding.md:74
 msgid ""
@@ -252,28 +272,42 @@ msgid ""
 "same time. Now, do what you do best - experiment and play around. Here are "
 "some suggestions:"
 msgstr ""
+"Ik laat je  nu, bij deze, even spelen. Neem de onderstaande code, en kopieer "
+"deze in een lege buffer. Probeer nu nog niet, er al te veel van te begrijpen "
+"behalve dan op te merken er twee „loops” zijn - dus twee stukken die spelen "
+"op het zelfde moment. Wat je nu het beste kan doen is experimenteren en er, "
+"wat op los, mee te gaan spelen. Hier zijn enkele suggesties:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
+"Wijzig de blauwe ' rate:' waarden om de klank van de „sample” te horen "
+"veranderen."
 
 #: 01.1-Live-Coding.md:81
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at "
 "different rates."
 msgstr ""
+"Wijzig de ‚sleep' tijd en hoor hierbij dat beide „loops\" kunnen afspelen in "
+"verschillende verhouding tot elkaar."
 
 #: 01.1-Live-Coding.md:83
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the "
 "guitar played backwards."
 msgstr ""
+"Probeer de commentaar-lijn te wissen (Verwijder het '#’) van onze "
+"voorbeeldlijn en geniet van het geluid van de gitaar die nu achteruit "
+"afspeelt."
 
 #: 01.1-Live-Coding.md:85
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in "
 "the mix) and `1` (fully in the mix)."
 msgstr ""
+"Probeer de blauwe „mix” waarden te veranderen naar cijfers tussen „0” (niet "
+"in de mix) en „1” ( voluit in de mix)."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -282,6 +316,11 @@ msgid ""
 "in the buffer and paste a fresh copy in and you're ready to jam again. "
 "Making mistakes is how you'll learn the quickest..."
 msgstr ""
+"Vergeet niet van te klikken op „afspelen” om deze veranderingen te kunnen "
+"horen bij het begin van de volgende „loop”. Maak je geen zorgen als het in "
+"de soep loopt. Klik op „Stop”, wis de code in de buffer en plak er een "
+"nieuwe kopie in, en je bent weer gereed om opnieuw te gaan „jammen”. Van "
+"fouten kan je nu het beste leren."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -300,6 +339,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
+"live_loop :guit do\n"
+"  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
+"    sample :guit_em9, rate: 0.5\n"
+"  end\n"
+"#  sample :guit_em9, rate: -0.5\n"
+"  sleep 8\n"
+"end\n"
+"live_loop :boom do\n"
+"  with_fx :reverb, room: 1 do\n"
+"    sample :bd_boom, amp: 10, rate: 1\n"
+"  end\n"
+"  sleep 8\n"
+"end"
 
 #: 01.1-Live-Coding.md:111
 msgid ""
@@ -307,60 +359,65 @@ msgid ""
 "actually works kicks in and you start wondering what else you can do with "
 "this. You're now ready to read the rest of the tutorial."
 msgstr ""
+"Blijf nu spelen en experimenteren tot je de nieuwsgierig voelt en je je "
+"begint af te vragen wat je er nog allemaal mee kan gaan doen.\n"
+"Je bent nu klaar om de rest van de handleiding te lezen."
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr ""
+msgstr "Zo,waar wacht je op? . . ."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
-msgstr ""
+msgstr "1.2 De Interface verkennen"
 
 #: 01.2-Exploring-the-Interface.md:3
 msgid "The Sonic Pi Interface"
-msgstr ""
+msgstr "De Interface van Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little "
 "time exploring it."
 msgstr ""
+"Sonic Pi heeft een zeer eenvoudige interface voor het coderen van muziek. "
+"Laten we hier wat tijd besteden om deze te verkennen."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr ""
+msgstr "*A* - Afspeel-bedieningselementen"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
-msgstr ""
+msgstr "*B* - Editor aanpassen"
 
 #: 01.2-Exploring-the-Interface.md:13
 msgid "*C* - Info and Help"
-msgstr ""
+msgstr "*C* - Info en Hulp"
 
 #: 01.2-Exploring-the-Interface.md:14
 msgid "*D* - Code Editor"
-msgstr ""
+msgstr "*D* - Code Editor"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr ""
+msgstr "*E* - Voorkeursintellingen-Venster"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
-msgstr ""
+msgstr "*F* - Log Venster"
 
 #: 01.2-Exploring-the-Interface.md:17
 msgid "*G* - Help System"
-msgstr ""
+msgstr "*G* - Hulp-Systeem"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
-msgstr ""
+msgstr "A. Afspeel-Bedieningselementen"
 
 #: 01.2-Exploring-the-Interface.md:22
 msgid ""
@@ -369,10 +426,15 @@ msgid ""
 "stopping all running code, *Save* for saving the code to an external file "
 "and *Record* to create a recording (a WAV file) of the sound playing."
 msgstr ""
+"Deze roze knoppen zijn de belangrijkste bedieningselementen voor het starten "
+"en stoppen van de geluiden. Er is de * Afspeel* knop voor het uitvoeren van "
+"de code in de editor, * Stop * voor het stoppen van alle actieve code, * "
+"opslaan * voor het opslaan van de code naar een extern bestand en * Opnemen *"
+" voor het maken van een opname (een WAV-bestand) van het afgespeelde geluid."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
-msgstr ""
+msgstr "B. Editor Controle"
 
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
@@ -381,10 +443,14 @@ msgid ""
 "*Align* button will neaten the code for you to make it look more "
 "professional."
 msgstr ""
+"Deze oranje knoppen kunt u gebruiken de code editor te manipuleren. Met de * "
+"grootte + * en * grootte-* knoppen kunt u de tekst groter en kleiner maken. "
+"De * uitlijnen-knop zal de code voor u netjes maken zodat deze er "
+"professioneler gaat uitzien."
 
 #: 01.2-Exploring-the-Interface.md:35
 msgid "C. Info and Help"
-msgstr ""
+msgstr "C. Info and Hulp"
 
 #: 01.2-Exploring-the-Interface.md:37
 msgid ""
@@ -395,10 +461,16 @@ msgid ""
 "toggles the preferences window which allows you to control some basic system "
 "parameters."
 msgstr ""
+"Deze blauwe knoppen geven je toegang tot hulp-, informatie- en voorkeuren. "
+"De * Info-knop opent het venster dat informatie over Sonic Pi zelf bevat - "
+"het kernteam, de geschiedenis, de medewerkers en de „Sonic Pi gemeenschap\" "
+"bevat. De * Hulp-knop schakelt naar het hulp-systeem (* G *) en de * Prefs-"
+"knop schakelt naar het voorkeurenvenster waarmee u een aantal fundamentele "
+"systeemparameters kan bijsturen."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
-msgstr ""
+msgstr "D. Code Editor"
 
 #: 01.2-Exploring-the-Interface.md:46
 msgid ""
@@ -409,10 +481,17 @@ msgid ""
 "code. This may seem strange at first, but you'll soon find it very useful. "
 "For example, you'll know something is a number because it is blue."
 msgstr ""
+"Dit is het gebied waar u uw code schrijft en muziek componeert/uitvoert. Het "
+"is een eenvoudige tekst-editor, waarin u code kan schrijven, verwijderen, "
+"knippen en plakken, enz. Denk aan een zeer basic versie van Word of Google "
+"Docs. De editor zal de kleur van woorden automatisch aanpassen op basis van "
+"hun betekenis in de code. Dit lijkt misschien eerst wat vreemd, maar je zal "
+"het snel zeer nuttig vinden. Bijvoorbeeld, ziet het blauw, dan weet u dat "
+"het om een getal gaat."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr ""
+msgstr "E. Voorkeursinstelling-Venster"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
@@ -423,10 +502,17 @@ msgid ""
 "log output verbosity and also a volume slider and audio selector on the "
 "Raspberry Pi."
 msgstr ""
+"Sonic Pi ondersteunt een aantal regelbare voorkeursinstellingen die "
+"toegankelijk zijn door het in-/uitschakelen van de * Voorkeursinstellingen* "
+"knop in de Info en Hulp knoppenreeks. Dit zal de zichtbaarheid van het "
+"„Voorkeursinstellingen-Venster”, deze bevat een aantal regelbare opties, in-/"
+" uitschakelen. Voorbeelden zijn het brengen van stereo naar mono, stereo "
+"omkeren, de detaillering van het log en ook een volumeregelaar en audio "
+"keuze voor de Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
 msgid "F. Log Viewer"
-msgstr ""
+msgstr "F. Log Venster"
 
 #: 01.2-Exploring-the-Interface.md:65
 msgid ""
@@ -435,10 +521,14 @@ msgid ""
 "sound you create with the exact time the sound was triggered. This is very "
 "useful for debugging your code and understanding what your code is doing."
 msgstr ""
+"Wanneer u uw code uitvoert, wordt informatie over wat het programma doet "
+"getoond in een soort logboek. Standaard ziet u een bericht voor elk geluid "
+"dat u maakt, met de exacte tijd dat het geluid werd geactiveerd. Dit is zeer "
+"handig om fouten op te sporen in uw code en om te begrijpen wat de code doet."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
-msgstr ""
+msgstr "G. Hulp Systeem"
 
 #: 01.2-Exploring-the-Interface.md:73
 msgid ""
@@ -449,14 +539,21 @@ msgid ""
 "a list of available synths, samples, examples, FX and a full list of all the "
 "functions Sonic Pi provides for coding music."
 msgstr ""
+"Tot slot, een van de belangrijkste onderdelen van de Sonic Pi-interface is "
+"het hulp-systeem dat wordt weergegeven aan de onderkant van het venster. Dit "
+"kan worden in- en uitschakelt door te klikken op de blauwe * Hulp-knop. Het "
+"hulp-systeem bevat hulp en informatie over alle aspecten van Sonic Pi, met "
+"inbegrip van deze handleiding, een lijst van beschikbare synths, samples, "
+"voorbeelden, Effecten en een volledige lijst van alle functies die Sonic Pi "
+"biedt voor het coderen van muziek."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
-msgstr ""
+msgstr "1.3 Spelenderwijs Leren"
 
 #: 01.3-Learning-through-Play.md:3
 msgid "Learning through Play"
-msgstr ""
+msgstr "Spelenderwijs Leren"
 
 #: 01.3-Learning-through-Play.md:5
 msgid ""
@@ -465,10 +562,14 @@ msgid ""
 "before you know it you'll have accidentally learned how to code, compose and "
 "perform."
 msgstr ""
+"Sonic Pi moedigt je aan meer te leren over, zowel de computer alsook muziek "
+"door middel van spelen en experimenteren. Het belangrijkste is dat je "
+"plezier hebt, en voor je het weet heb je geleerd hoe te coderen, te "
+"componeren en live te spelen."
 
 #: 01.3-Learning-through-Play.md:10
 msgid "There are no mistakes"
-msgstr ""
+msgstr "Er bestaan geen fouten"
 
 #: 01.3-Learning-through-Play.md:12
 msgid ""
@@ -483,10 +584,21 @@ msgid ""
 "with it. Take the sound, manipulate it and morph it into something awesome. "
 "The crowd will go *wild*."
 msgstr ""
+"Nu we 't over dit onderwerp hebben, geef ik je graag een raad die ik heb "
+"geleerd,over de jaren heen, met live codering van muziek - * er bestaan geen "
+"fouten, alleen kansen *. Dit is iets wat ik vaak heb gehoord over jazz, maar "
+"het werkt even goed met live codering. Ongeacht hoe ervaren je bent - van "
+"een complete beginner tot een doorgewinterde Algoraver, zal je soms code "
+"uitvoeren die een geheel onverwacht resultaat heeft. Het klinkt misschien "
+"waanzinnig cool - in dit geval komen we er mee weg. Het kan ook compleet "
+"dwaas en ontoepasselijk klinken. Maar het maakt niet uit dat het gebeurd is -"
+" waar het om gaat is wat u er vervolgens mee doet. Neem het geluid, "
+"manipuleren en morph het in iets ongelofelijk. Je publiek zal uit de bol "
+"gaan."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr ""
+msgstr "Start Eenvoudig"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -498,22 +610,31 @@ msgid ""
 "then try and build it, play with it and then see what new ideas it gives "
 "you. Before long you'll be too busy having fun and making real progress."
 msgstr ""
+"Wanneer je aan het leren bent, is het verleidelijk om „NU\" "
+"verbazingwekkende dingen te willen gaan doen. Het is echter beter om die "
+"wens vast te houden en als toekomstig doel voor ogen te houden en later te "
+"bereiken, later. In plaats daarvan, tracht kleine, eenvoudige stappen te "
+"zetten om je het plezier geven te zien dat deze jou dichter tot je doel "
+"brengen. Eens je de kleine stappen onder de knie hebt, kan je deze als "
+"bouwstenen gebruiken en ermee spelen, en je zal zien dat deze nieuwe "
+"inzichten, jou verse ideeën zullen geven. Snel genoeg ben je leuk bezig én "
+"maak je vooruitgang."
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
-msgstr ""
+msgstr "Zorg ervoor dat je je werk deelt met anderen!"
 
 #: 02-Synths.md:1
 msgid "2 Synths"
-msgstr ""
+msgstr "2 Synthesizers (Synths)"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
 msgid "Synths"
-msgstr ""
+msgstr "Synthesizers"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr ""
+msgstr "OK, genoeg intro's - laat ons in wat geluiden duiken."
 
 #: 02-Synths.md:7
 msgid ""
@@ -523,6 +644,12 @@ msgid ""
 "especially analog synths with many patch wires and modules. However, Sonic "
 "Pi gives you much of that power in a very simple and approachable manner."
 msgstr ""
+"In deze sectie zullen we de basisprincipes van triggering en het manipuleren "
+"van synths behandelen. Synth is kort voor synthesizer, wat een chique woord "
+"voor iets dat geluiden kan creëren. Synths zijn doorgaans vrij ingewikkeld "
+"om te gebruiken - met name analoge synths met vele patch kabels en modules. "
+"Sonic Pi geeft u veel van die kracht op een zeer eenvoudige en toegankelijke "
+"wijze."
 
 #: 02-Synths.md:14
 msgid ""
@@ -530,23 +657,26 @@ msgid ""
 "get very deep into very sophisticated sound manipulation if that's your "
 "thing. Hold on to your hats..."
 msgstr ""
+"Laat je niet misleiden door de directe eenvoud van Sonic Pi's interface. Je "
+"kunt zeer diep in zeer geavanceerde geluidsmanipulatie gaan als dat uw ding "
+"is. Hou je vast..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
-msgstr ""
+msgstr "2.1 Je Eerste Bliepjes"
 
 #: 02.1-Your-First-Beeps.md:3
 msgid "Your First Beeps"
-msgstr ""
+msgstr "Je Eerste Bliepjes"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr ""
+msgstr "Neem een kijkje naar de volgende code:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
 msgid "play 70"
-msgstr ""
+msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
 msgid ""
@@ -554,34 +684,40 @@ msgid ""
 "window at the top of the app (the big white space under the Run button). "
 "Now, press Run..."
 msgstr ""
+"Dit is waar het allemaal begint. Ga je gang, kopieer en plak deze in het "
+"codevenster aan de bovenzijde van de app (de grote witte ruimte onder de "
+"Afspeel-knop). Nu, klik op „Afspelen\"..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
-msgstr ""
+msgstr "Bliep!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr ""
+msgstr "Heftig. Klik opnieuw. En opnieuw. (En opnieuw.)"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before "
 "you lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
+"Woah, te gek, ik weet zeker dat je dit een hele dag kan blijven doen. Maar "
+"wacht, voordat je jezelf verliest in een oneindige stroom van bliepjes, "
+"probeer het cijfer te wijzigen:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
 msgid "play 75"
-msgstr ""
+msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
 msgid "Can you hear the difference? Try a lower number:"
-msgstr ""
+msgstr "Hoor je het verschil? Probeer een lager cijfer:"
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
 msgid "play 60"
-msgstr ""
+msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
 msgid ""
@@ -594,6 +730,14 @@ msgid ""
 "right). It just so happens that the 4th octave C is number 60. Go ahead and "
 "play it: `play 60`."
 msgstr ""
+"Dus, lagere nummers maken lagere piepjes en hogere getallen maken hogere "
+"pieptonen. Net zoals op een piano, de toetsen op het onderste deel van de "
+"piano (de linker kant) lagere noten spelen en de toetsen op het hogere deel "
+"van de piano (de rechterkant) hogere noten spelen. De cijfers betreffen in "
+"feite eigenlijk notities op de piano. 'play 47' betekent eigenlijk dat de "
+"47e noot op de piano speelt. Wat betekent dat 'play 48' is een noot omhoog ("
+"de volgende notitie naar rechts). Het is dan gewoon zo dat het 4e octaaf C "
+"het cijfer 60 is . Ga je gang en speel deze: ‚play 60'."
 
 #: 02.1-Your-First-Beeps.md:42
 msgid ""
@@ -601,16 +745,21 @@ msgid ""
 "started. All that matters right now is that you know that *low numbers make "
 "lower beeps* and *high numbers make higher beeps*."
 msgstr ""
+"Maak je geen zorgen wanneer dit niets voor jou betekent, ik deed dat ook "
+"niet toen ik begon. Het belangrijkste is dat je weet dat lage getallen, "
+"lagere tonen maken en hoge getallen, hogere tonen."
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
-msgstr ""
+msgstr "Akkoorden"
 
 #: 02.1-Your-First-Beeps.md:48
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even "
 "better. Try it:"
 msgstr ""
+"Een noot spelen is leuk, maar veel noten op het zelfde moment spelen kan "
+"zelfs beter zijn. Probeer dit:"
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
@@ -619,6 +768,9 @@ msgid ""
 "play 75\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"play 75\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:57
 msgid ""
@@ -626,10 +778,13 @@ msgid ""
 "Try it for yourself - which numbers sound good together? Which sound "
 "terrible? Experiment, explore and find out for yourself."
 msgstr ""
+"Jazzy! Dus, als je meerdere „play”s typt, spelen ze allemaal op hetzelfde "
+"moment. Probeer het voor jezelf - welke cijfers klinken goed samen? En welke "
+"verschrikkelijk samen? Experimenteer, verken en ontdek dit voor jezelf."
 
 #: 02.1-Your-First-Beeps.md:61
 msgid "Melody"
-msgstr ""
+msgstr "Melodie"
 
 #: 02.1-Your-First-Beeps.md:63
 msgid ""
@@ -637,6 +792,10 @@ msgid ""
 "wanted to play one note after another and not at the same time? Well, that's "
 "easy, you just need to `sleep` between the notes:"
 msgstr ""
+"Zo, het spelen van noten en akkoorden is leuk, maar hoe zit dat met een "
+"melodie? Wat als je noten achter elkaar wil spelen en niet op dezelfde "
+"moment? Wel dat is eenvoudig, je moet enkel een rust („sleep\") zetten "
+"tussen de noten."
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -647,6 +806,11 @@ msgid ""
 "sleep 1\n"
 "play 79"
 msgstr ""
+"play 72\n"
+"sleep 1\n"
+"play 75\n"
+"sleep 1\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:75
 msgid ""
@@ -656,6 +820,11 @@ msgid ""
 "wanted to make our arpeggio a little faster? Well, we need to use shorter "
 "sleep values. What about a half i.e. `0.5`:"
 msgstr ""
+"Hoe mooi, zo een beetje arpeggio. Dus wat betekent de '1' in 'sleep 1'? Nou "
+"het betekent de *duur van de rust*. Het betekent eigenlijk slaap voor één "
+"tel , voor 1 seconde rusten. Dus, wat als we onze arpeggio een beetje "
+"sneller willen? Nou, dan moeten we kortere slaap waarde gebruiken. Wat denk "
+"je van de helft? D.w.z. '0.5':"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -666,12 +835,19 @@ msgid ""
 "sleep 0.5\n"
 "play 79"
 msgstr ""
+"lay 72\n"
+"sleep 0.5\n"
+"play 75\n"
+"sleep 0.5\n"
+"play 79"
 
 #: 02.1-Your-First-Beeps.md:89
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use "
 "different times and notes."
 msgstr ""
+"Merk op hoe het sneller speelt. Probeer dit nu voor jezelf, verander de "
+"rusttijd- gebruik verschillende tijden en noten."
 
 #: 02.1-Your-First-Beeps.md:92
 msgid ""
@@ -679,10 +855,13 @@ msgid ""
 "There's absolutely no need to stick to standard whole notes. Play around and "
 "have fun."
 msgstr ""
+"Wat je zeker ook kan proberen is om \"tussen” noten te spelen zoals `play "
+"52.3` and `play 52.63`. Het is absoluut niet noodzakelijk om te blijven "
+"vasthouden aan standaard „hele” noten. Speel erop los en amuseer je."
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
-msgstr ""
+msgstr "Traditionele notenbenaming"
 
 #: 02.1-Your-First-Beeps.md:99
 msgid ""
