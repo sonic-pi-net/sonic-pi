@@ -139,8 +139,11 @@ Now build the patched rugged
 
 ```
 ..\bin\gem build rugged.gemspec
-..\bin\gem install rugged-0.24.0.gem
+..\bin\gem install rugged-0.24.0.gem --platform=ruby
 ```
+
+Now, install the fast_osc gem
+.\bin\gem install fast_osc
 
 NB: rb-native is not being used for Windows packages, the gems can happily live where they were installed by the "local" Ruby.  You MAY need to delete the vendor/rugged directory so it uses the right version.
 
@@ -164,7 +167,7 @@ notepad
 
 In the open notepad window type
 ```
-PATH=%PATH%;C:\Qt\Qt5.5.1\5.5\msvc2013\bin
+PATH=C:\Qt\Qt5.5.1\5.5\msvc2013\bin;%PATH%
 ```
 
 Then select **save** and save the file as ```pathupdate.bat```, at the top level of ```c:\``` Make sure you select **All Files** for the type so the extension can be set to **.bat** and NOT **.txt**
@@ -201,6 +204,19 @@ keep the cmd window open
 copy ```Qt4Qt5\release\moc_qsciscintilla.cpp``` and ```moc_qsciscintillabase.cpp``` to 
 ```c:\sonic-pi\app\gui\qt\platform\win``` (There may be two files there already, but overwrite them)
 Best done using two FileExplorer windows as before.
+
+Next step is to install QWT.
+Download the installer from https://sourceforge.net/projects/qwt/files/qwt/6.1.2/. Select the qwt-6.1.2.zip file.
+Once downloaded, extract in c:\qwt-6.1.2.
+In one **VS2013 x86 Native Tools Command Prompt**, cd into c:\qwt-6.1.2 and execute the following:
+```qmake qwt.pro
+nmake
+nmake install
+```
+
+And now, install Boost C++ libs:
+Download Boost 1.61 from http://www.boost.org/users/history/version_1_61_0.html, and decompress into c:\.
+
 
 Create the C:\sonic-pi\app\server\rb-native\windows\2.3.0 directory.
 

@@ -51,8 +51,9 @@ macx {
 
 # Windows only
 win32 {
+  include ( c:/qwt-6.1.2/features/qwt.prf )
   LIBS += -lqscintilla2
-  QMAKE_CXXFLAGS += /WX
+  QMAKE_CXXFLAGS += /WX 
   DEFINES += _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS
 }
 
