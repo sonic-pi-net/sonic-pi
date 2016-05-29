@@ -2900,6 +2900,60 @@ module SonicPi
       end
     end
 
+    class TechSaws < SonicPiSynth
+      def name
+        "TechSaws"
+      end
+
+      def introduced
+        Version.new(2,11,0)
+      end
+
+      def synth_name
+        "tech_saws"
+      end
+
+      def doc
+        "Slightly modified supersaw implementation beased on http://sccode.org/1-4YS"
+      end
+
+      def arg_defaults
+        {
+          :note => 52,
+          :note_slide => 0,
+          :note_slide_shape => 1,
+          :note_slide_curve => 0,
+          :amp => 1,
+          :amp_slide => 0,
+          :amp_slide_shape => 1,
+          :amp_slide_curve => 0,
+          :pan => 0,
+          :pan_slide => 0,
+          :pan_slide_shape => 1,
+          :pan_slide_curve => 0,
+
+          :attack => 0,
+          :decay => 0,
+          :sustain => 0,
+          :release => 1,
+          :attack_level => 1,
+          :decay_level => :sustain_level,
+          :sustain_level => 1,
+          :env_curve => 2,
+
+          :cutoff => 130,
+          :cutoff_slide => 0,
+          :cutoff_slide_shape => 1,
+          :cutoff_slide_curve => 0,
+          :res => 0.7,
+          :res_slide => 0,
+          :res_slide_shape => 1,
+          :res_slide_curve => 0,
+
+        }
+      end
+    end
+
     class StudioInfo < SonicPiSynth
       def user_facing?
         false
@@ -6966,6 +7020,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
         :blade => SynthViolin.new,
         :piano => SynthPiano.new,
         :pluck => SynthPluck.new,
+        :tech_saws => TechSaws.new,
 
         :sound_in => SoundIn.new,
         :sound_in_stereo => SoundInStereo.new,
