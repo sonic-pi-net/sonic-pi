@@ -6,31 +6,33 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>환경설정</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>기록</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
         <location filename="../mainwindow.cpp" line="2609"></location>
         <location filename="../mainwindow.cpp" line="2629"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>소닉 파이</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>라즈베리 파이 시스템 볼륨</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished"></translation>
+        <translation>스테레오 반전 활성화
+활성화되었을 시, 좌측 오디오가 우측 스피커로 
+전송되며 우측 오디오는 좌측 스피커로 전송됩니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="921"></location>
@@ -39,12 +41,15 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation>모노 모드 활성화.
+좌측 오디오와 우측 오디오가 혼합된 신호가
+양쪽 스피커로 전송됩니다.
+모노만 지원하는 외부장치를 사용할 시 유용합니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>라즈베리 파이 오디오 출력</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
@@ -76,59 +81,60 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>안전 모드</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>실행 시 기록 삭제</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"></location>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>실행 시 기록 삭제 설정.
+실행 버튼을 누를 때마다 기록이 삭제됩니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>줄 번호의 가시성을 변경합니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>야간 모드</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1449"></location>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>코드 실행중...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1512"></location>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>미화중...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"></location>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>재배치중...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1563"></location>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>믹서 고역필터 활성화중...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1572"></location>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>믹서 고역필터 비활성화중...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
