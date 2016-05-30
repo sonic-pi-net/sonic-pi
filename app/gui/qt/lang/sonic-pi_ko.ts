@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation>환경설정</translation>
+        <translation>설정</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
@@ -54,29 +54,31 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;기본값</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;헤드폰</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="938"></location>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="959"></location>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>디버그 모드 설정</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="965"></location>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>기록 메시지 설정.
+비활성화 시, 신디사이저와 샘플 트리거 메시지가
+기록상으로 나타나지 않습니다.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
@@ -139,12 +141,12 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>버퍼 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>소닉 파이에 오신 것을 환영합니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="709"></location>
