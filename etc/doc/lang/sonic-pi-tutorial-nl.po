@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-30 12:36+0000\n"
+"PO-Revision-Date: 2016-05-30 14:44+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -795,7 +795,7 @@ msgstr ""
 "Zo, het spelen van noten en akkoorden is leuk, maar hoe zit dat met een "
 "melodie? Wat als je noten achter elkaar wil spelen en niet op dezelfde "
 "moment? Wel dat is eenvoudig, je moet enkel een rust („sleep\") zetten "
-"tussen de noten."
+"tussen de noten:"
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -929,14 +929,16 @@ msgstr ""
 #: 02.1-Your-First-Beeps.md:127
 msgid "Now go *crazy* and have fun making your own tunes."
 msgstr ""
+"Ga nu maar lekker loos bij het maken van je eigen melodietjes, veel plezier "
+"ermee."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
-msgstr ""
+msgstr "2.2 Synthesizer Opties"
 
 #: 02.2-Synth-Params.md:3
 msgid "Synth Options: Amp and Pan"
-msgstr ""
+msgstr "Synthesizer Opties: Amp en Pan"
 
 #: 02.2-Synth-Params.md:5
 msgid ""
@@ -947,10 +949,16 @@ msgid ""
 "introduce two of the most useful: *amplitude* and *pan*. First, let's look "
 "at what options actually are."
 msgstr ""
+"Zoals je kan bepalen welke noot er gespeeld wordt of welke sample er wordt "
+"getriggert, zo biedt Sonic Pi een hele waaier aan mogelijkheden om geluiden "
+"te bewerken en manipuleren. We gaan velen daarvan in deze handleiding "
+"bekijken en in het hulp systeem is een uitgebreide documentatie voorzien van "
+"deze 'opties'. De belangrijkste op dit moment zijn: 'amplitude' en 'pan'. "
+"Laat ons eerst even bekijken wat opties eigenlijk zijn."
 
 #: 02.2-Synth-Params.md:13
 msgid "Options"
-msgstr ""
+msgstr "Opties"
 
 #: 02.2-Synth-Params.md:15
 msgid ""
@@ -960,6 +968,13 @@ msgid ""
 "sound. However, there are common sets of opts shared by many sounds such as "
 "`amp:` and envelope opts (covered in another section)."
 msgstr ""
+"Sonic Pi ondersteunt het noteren van opties (afgekort: opts) voor haar "
+"synths. Opts zijn controle-elementen  die je samen met het commando 'play' "
+"doorgeeft die wijzigingen en manipulaties van het afgespeelde geluid. Elke "
+"synth heeft zijn eigen unieke set van opts om haar geluid fijn af te "
+"stemmen. Er zijn echter opts die bij elke synth, of bij elk geluid gebruikt "
+"kunnen worden zoals 'amp:' en 'envelope' (= geluidsverloop) opties (In een "
+"andere sectie gaan we dieper op die 'envelopes' in)."
 
 #: 02.2-Synth-Params.md:22
 msgid ""
@@ -967,6 +982,10 @@ msgid ""
 "value (the value you want to set the control at). For example, you might "
 "have a opt called `cheese:` and want to set it with a value of `1`."
 msgstr ""
+"Opts bestaan uit twee belangrijke delen (de naam van het element waar je "
+"controle over wil hebben) en de waarde hiervan (de mate van controle over "
+"dit element). Een voorbeeld, je hebt een opt genaamd 'kaas' en je wilt deze "
+"instellen op een waarde van '1'."
 
 #: 02.2-Synth-Params.md:27
 msgid ""
@@ -974,51 +993,63 @@ msgid ""
 "the opt such as `amp:` (don't forget the colon `:`) and then a space and the "
 "value of the opt. For example:"
 msgstr ""
+"Opts worden samen met 'play' commando's doorgegeven, dor gebruik te maken "
+"van een komma ',' gevolgd door de naam van de optie, we kiezen hier 'amp:' ("
+"vergeet de dubbelpunt niet ':' ) gevolgd door een spatie en de waarde van de "
+"optie. Bijvoorbeeld:"
 
 #: 02.2-Synth-Params.md:31
 #, no-wrap
 msgid "play 50, cheese: 1"
-msgstr ""
+msgstr "play 50, kaas: 1"
 
 #: 02.2-Synth-Params.md:35
 msgid ""
 "(Note that `cheese:` isn't a valid opt, we're just using it as an example)."
 msgstr ""
+"(Merk op dat ' kaas: \"geen geldige opt is, we gebruiken deze gewoon als "
+"voorbeeld)."
 
 #: 02.2-Synth-Params.md:37
 msgid "You can pass multiple opts by separating them with a comma:"
 msgstr ""
+"Je kan meerdere opts tegelijk doorgeven door deze te scheiden met een komma:"
 
 #: 02.2-Synth-Params.md:39
 #, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
-msgstr ""
+msgstr "play 50, kaas: 1, eieren: 0.5"
 
 #: 02.2-Synth-Params.md:43
 msgid "The order of the opts doesn't matter, so the following is identical:"
-msgstr ""
+msgstr "De volgorde van de opts maakt niet uit, dus het volgende is identiek:"
 
 #: 02.2-Synth-Params.md:45
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
-msgstr ""
+msgstr "play 50, eieren: 0.5, kaas: 1"
 
 #: 02.2-Synth-Params.md:49
 msgid ""
 "Opts that aren't recognised by the synth are just ignored (like `cheese` and "
 "`beans` which are clearly ridiculous opt names!)"
 msgstr ""
+"Opts die door de synth niet worden herkent zullen gewoon genegeerd worden ("
+"zoals 'kaas' en 'eieren' duidelijk zeer ridicule opt namen!)"
 
 #: 02.2-Synth-Params.md:52
 msgid ""
 "If you accidentally use the same opt twice with different values, the last "
 "one wins. For example, `beans:` here will have the value 2 rather than 0.5:"
 msgstr ""
+"Mocht je per ongeluk twee keer dezelfde opt hebben ingevoerd maar met "
+"verschillende waarden, dan zal de laatste waarde winnen. Bijvoorbeeld, "
+"'eieren' zal de waarde 2 hebben in plaats van 0.5:"
 
 #: 02.2-Synth-Params.md:56
 #, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
-msgstr ""
+msgstr "play 50, eieren: 0.5, kaas: 3, tomaat: 0.1, eieren: 2"
 
 #: 02.2-Synth-Params.md:60
 msgid ""
