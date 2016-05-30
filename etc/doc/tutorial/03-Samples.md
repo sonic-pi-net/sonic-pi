@@ -8,5 +8,5 @@ sounds. In great hip-hop tradition, we call these pre-recorded sounds
 sound of rain hitting canvas, you've just created a sample.
 
 Sonic Pi lets you do lots of fun things with samples. Not only does it
-ship with over 90 public domain samples ready for you to jam with, it
+ship with 130 public domain samples ready for you to jam with, it
 lets you play and manipulate your own. Let's get to it...
