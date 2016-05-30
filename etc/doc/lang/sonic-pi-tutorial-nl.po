@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-29 19:12+0000\n"
+"PO-Revision-Date: 2016-05-30 12:36+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -861,7 +861,7 @@ msgstr ""
 
 #: 02.1-Your-First-Beeps.md:97
 msgid "Traditional Note Names"
-msgstr "Traditionele notenbenaming"
+msgstr "Traditionele Notennamen"
 
 #: 02.1-Your-First-Beeps.md:99
 msgid ""
@@ -870,6 +870,11 @@ msgid ""
 "using note names such as C and F# rather than numbers. Sonic Pi has you "
 "covered. You can do the following:"
 msgstr ""
+"Als je al kennis hebt van muzieknotatie (maak je geen zorgen als dit niet "
+"het geval is, zonder deze kennis blijft het even leuk), dan wil je  bij het "
+"schrijven van een melodie, misschien liever de nootnamen gebruiken zoals: C "
+"en F# in plaats van cijfers. In Sonic Pi kan je dat.\n"
+"Je kan dan het volgende doen:"
 
 #: 02.1-Your-First-Beeps.md:104
 #, no-wrap
@@ -880,6 +885,11 @@ msgid ""
 "sleep 0.5\n"
 "play :E"
 msgstr ""
+"play :C\n"
+"sleep 0.5\n"
+"play :D\n"
+"sleep 0.5\n"
+"play :E"
 
 #: 02.1-Your-First-Beeps.md:112
 msgid ""
@@ -887,6 +897,9 @@ msgid ""
 "pink. Also, you can specify the octave by adding a number after the note "
 "name:"
 msgstr ""
+"Denk eraan, een dubbelpunt voor de nootnaam te plaatsen, zodat deze in roze "
+"wordt. Je kan hierbij ook het octaaf aangeven door achter de nootnaam een "
+"cijfer te plaatsen:"
 
 #: 02.1-Your-First-Beeps.md:116
 #, no-wrap
@@ -897,6 +910,11 @@ msgid ""
 "sleep 0.5\n"
 "play :E4"
 msgstr ""
+"play :C3\n"
+"sleep 0.5\n"
+"play :D3\n"
+"sleep 0.5\n"
+"play :E4"
 
 #: 02.1-Your-First-Beeps.md:124
 msgid ""
@@ -904,6 +922,9 @@ msgid ""
 "`play :Fs3` and if you want to make a note flat, add a `b` such as `play :"
 "Eb3`."
 msgstr ""
+"Als je een verhoogde alteratie (bv. F#) zet je een 's' achter de nootnaam, "
+"bv. `play :Fs3`. Als je een verlaagde alteratie wil maken (bv. E mol), zet "
+"dan een 'b' achter de nootnaam bv. `play :Eb3`."
 
 #: 02.1-Your-First-Beeps.md:127
 msgid "Now go *crazy* and have fun making your own tunes."
