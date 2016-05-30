@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-30 08:00+0000\n"
+"PO-Revision-Date: 2016-05-30 08:26+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -1988,88 +1988,81 @@ msgstr ""
 "verfügbaren Klänge."
 
 #: 03.1-Triggering-Samples.md:51
-#, fuzzy
 msgid ""
 "Alternatively you can use the *auto-completion system*. Simply type the start "
 "of a sample group such as: `sample :ambi_` and you'll see a drop-down of sampl"
 "e names appear for you to select. Try the following category prefixes:"
 msgstr ""
-"Zweitens hilft Dir das *Auto-Completion System*. Tipp einfach den Anfang eines"
-" Gruppennamens von Samples ein, also: `sample :ambi_`. Nun klappt ein Menü auf"
-", aus dem Du ein Sample auswählen kannst. Versuche einen der folgenden Anfänge"
-" von Gruppennamen:"
+"Zweitens hilft Dir das *Auto-Completion System*. Tipp einfach den Anfang "
+"eines Gruppennamens von Samples ein, also: `sample :ambi_`. Nun klappt ein "
+"Menü mit allen dazu passenden Samples auf. Versuche einen der folgenden "
+"Anfänge von Gruppennamen:"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
-#, fuzzy
 msgid "Now start mixing samples into your compositions!"
 msgstr "Jetzt leg los und mische Samples in Deine Komposition!"
 
 #: 03.2-Sample-Params.md:1
-#, fuzzy
 msgid "3.2 Sample Parameters"
 msgstr "3.2 Sample-Parameter"
 
 #: 03.2-Sample-Params.md:3
-#, fuzzy
 msgid "Sample Parameters: Amp and Pan"
 msgstr "Sample-Parameter: Amp und Pan"
 
 #: 03.2-Sample-Params.md:5
-#, fuzzy
 msgid ""
 "As we saw with synths, we can easily control our sounds with parameters. Sampl"
 "es support exactly the same parameterisation mechanism. Let's revisit our frie"
 "nds `amp:` and `pan:`."
 msgstr ""
-"Genauso wie mit den Synths können wir auch unsere Sounds mit Parametern steuer"
-"n. Der selbe Parameter-Mechanismus funktioniert auch mit Samples. Besuchen wir"
-" unsere Freunde `amp:` and `pan:` noch einmal."
+"Genauso wie mit den Synths können wir auch unsere Sounds mit Parametern "
+"steuern. Der selbe Parameter-Mechanismus funktioniert auch mit Samples. "
+"Besuchen wir unsere Freunde `amp:` and `pan:` noch einmal."
 
 #: 03.2-Sample-Params.md:9
-#, fuzzy
 msgid "Amping samples"
 msgstr "Die Amplitude von Samples verändern"
 
 #: 03.2-Sample-Params.md:11
-#, fuzzy
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you use"
 "d for synths:"
 msgstr ""
-"Du kannst die Amplitude (Lautstärke) von Samples so steuern, wie Du es schon v"
-"on den Synths kennst:"
+"Du kannst die Amplitude (Lautstärke) von Samples so steuern, wie Du es schon "
+"von den Synths kennst:"
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
@@ -2077,20 +2070,18 @@ msgid "sample :ambi_lunar_land, amp: 0.5"
 msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
-#, fuzzy
 msgid "Panning samples"
 msgstr "Das Stereo-Feld von Samples verändern"
 
 #: 03.2-Sample-Params.md:20
-#, fuzzy
 msgid ""
 "We're also able to use the `pan:` parameter on samples. For example, here's ho"
 "w we'd play the amen break in the left ear and then half way through play it a"
 "gain through the right ear:"
 msgstr ""
-"Wir können auch den `pan:`-Parameter auf Samples anwenden. Hier zum Beispiel s"
-"pielen wir den Amen-Break zunächst für das linke und nach der Hälfte für das r"
-"echte Ohr:"
+"Wir können auch den `pan:`-Parameter auf Samples anwenden. Hier zum Beispiel "
+"spielen wir den Amen-Break zunächst für das linke und nach der Hälfte für "
+"das rechte Ohr:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -2104,50 +2095,43 @@ msgstr ""
 "sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
-#, fuzzy
 msgid "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr "0.877 ist genau die Hälfte der Dauer des Amen-Breaks in Sekunden."
 
 #: 03.2-Sample-Params.md:33
-#, fuzzy
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` (w"
 "hich we will discuss later), these will be ignored by `sample`."
 msgstr ""
-"Beachte: Samples berücksichtigen nicht die Grundeinstellungen für einen Synth,"
-" die Du mit `use_synth_defaults` setzen kannst (aber dazu kommen wir später no"
-"ch)."
+"Beachte: Samples berücksichtigen nicht die Grundeinstellungen für einen "
+"Synth, die Du mit `use_synth_defaults` setzen kannst (aber dazu kommen wir "
+"später noch)."
 
 #: 03.3-Stretching-Samples.md:1
-#, fuzzy
 msgid "3.3 Stretching Samples"
 msgstr "3.3 Samples dehnen"
 
 #: 03.3-Stretching-Samples.md:3
-#, fuzzy
 msgid "Stretching Samples"
 msgstr "Samples dehnen"
 
 #: 03.3-Stretching-Samples.md:5
-#, fuzzy
 msgid ""
 "Now that we can play a variety of synths and samples to create some music, it'"
 "s time to learn how to modify both the synths and samples to make the music ev"
 "en more unique and interesting. First, let's explore the ability to *stretch* "
 "and *squash* samples."
 msgstr ""
-"Jetzt können wir schon eine ganze Menge Synths und Samples spielen, um damit M"
-"usik zu machen. Es wird Zeit zu lernen, wie wir diese Synths und Samples verän"
-"dern können. Das macht unsere Musik einzigartiger und spannender. Als erstes s"
-"ehen wir uns an, wie wir Samples *strecken* und *stauchen* können."
+"Jetzt können wir schon eine ganze Menge Synths und Samples spielen und damit "
+"Musik machen. Es wird Zeit zu lernen, wie wir diese Synths und Samples "
+"verändern können. Das macht unsere Musik einzigartiger und spannender. Als "
+"erstes sehen wir uns an, wie wir Samples *strecken* und *stauchen*."
 
 #: 03.3-Stretching-Samples.md:10
-#, fuzzy
 msgid "Sample Representation"
 msgstr "Wie Samples Klänge darstellen"
 
 #: 03.3-Stretching-Samples.md:12
-#, fuzzy
 msgid ""
 "Samples are pre-recorded sounds stored as numbers which represent how to move "
 "the speaker cone to reproduce the sound. The speaker cone can move in and out,"
@@ -2159,32 +2143,29 @@ msgid ""
 "d. However, it's also fun to change the speed with which the numbers are fed t"
 "o the speaker to change the sound."
 msgstr ""
-"Samples sind aufgenommene Klänge und werden als eine Zahlenreihe von Messwerte"
-"n (deshalb \"Sample\") gespeichert. Diese Zahlen sagen der Lautsprechermembran, "
-"wie sie sich bewegen muss, um den Klang wiederzugeben. Die Lautsprechermembran"
-" kann sich nach innen und nach außen bewegen und die Zahlen geben deshalb an, "
-"wie weit sich die Membran zu jedem Zeitpunkt nach innen oder außen bewegen sol"
-"l. Um einen Klang als Aufnahme wirklichkeitsgetreu wiederzugeben, muss das Sam"
-"ple je Sekunde viele tausend Zahlen speichern. Sonic Pi nimmt diese Zahlenreih"
-"e und gibt sie in der richtigen Samplerate (bzw. Samplingrate oder Abtastrate)"
-" an den Lautsprecher in Deinem Computer, so dass der Klang richtig wiedergegeb"
-"en wird. Es macht aber auch Spaß, die Samplerate zu beeinflussen, denn das ver"
-"ändert den Klang."
+"Samples sind aufgenommene Klänge und werden als eine Zahlenreihe von "
+"Messwerten (deshalb \"Sample\") gespeichert. Diese Zahlen sagen der "
+"Lautsprechermembran, wie sie sich bewegen muss, um den Klang wiederzugeben. "
+"Die Lautsprechermembran kann sich nach innen und nach außen bewegen und die "
+"Zahlen geben deshalb an, wie weit sich die Membran zu jedem Zeitpunkt nach "
+"innen oder außen bewegen soll. Um einen Klang als Aufnahme "
+"wirklichkeitsgetreu wiederzugeben, muss das Sample je Sekunde viele tausend "
+"Zahlen speichern. Sonic Pi nimmt diese Zahlenreihe und gibt sie in der "
+"richtigen Samplerate (bzw. Samplingrate oder Abtastrate) an den Lautsprecher "
+"in Deinem Computer, so dass der Klang richtig wiedergegeben wird. Es macht "
+"aber auch Spaß, die Samplerate zu beeinflussen, denn das verändert den Klang."
 
 #: 03.3-Stretching-Samples.md:23
-#, fuzzy
 msgid "Changing Rate"
 msgstr "Die Samplerate ändern"
 
 #: 03.3-Stretching-Samples.md:25
-#, fuzzy
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with the "
 "default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
-"Lass uns mit einem der Ambient-Klänge spielen: `ambi_choir`. Um diesen mit Sta"
-"ndard-Samplerate wiederzugeben, kannst Du dem `sample` das Argument `rate:` üb"
-"ergeben:"
+"Lass uns mit einem der Ambient-Klänge spielen: `ambi_choir`. Beim Befehl "
+"`sample` kannst Du mit der Opt `rate` die Samplerate verändern:"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
@@ -2192,14 +2173,13 @@ msgid "sample :ambi_choir, rate: 1"
 msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
-#, fuzzy
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're free "
 "to change that number to something else. How about `0.5`:"
 msgstr ""
-"Das Sample wird unverändert mit der normalen Samplerate (1) abgespielt, also n"
-"ichts Besonderes. Aber wir können die Zahl jederzeit verändern. Was passiert b"
-"ei `0.5`?"
+"Das Sample wird unverändert mit der normalen Samplerate (1) abgespielt, also "
+"nichts Besonderes. Aber wir können die Zahl jederzeit verändern. Was "
+"passiert bei `0.5`?"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
@@ -2207,30 +2187,27 @@ msgid "sample :ambi_choir, rate: 0.5"
 msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
-#, fuzzy
 msgid ""
 "Woah! What's going on here? Well, two things. Firstly, the sample takes twice "
 "as long to play, secondly the sound is an octave lower. Let's explore these th"
 "ings in a little more detail."
 msgstr ""
-"Wow! Was ist denn jetzt los? Also, hier passieren zwei Dinge. Erstens braucht "
-"das Sample doppelt so lange und zweitens klingt er eine Oktave niedriger. Sehe"
-"n wir uns das mal genauer an."
+"Wow! Was ist denn jetzt los? Also, hier passieren zwei Dinge. Erstens "
+"braucht das Sample doppelt so lange und zweitens klingt er eine Oktave "
+"niedriger. Sehen wir uns das mal genauer an."
 
 #: 03.3-Stretching-Samples.md:43
-#, fuzzy
 msgid "Let's stretch"
 msgstr "Lasst uns stretchen"
 
 #: 03.3-Stretching-Samples.md:45
-#, fuzzy
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal rate,"
 " we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
-"Mit dem Amen-Break-Sample macht das strecken und zusammenstauchen besonders vi"
-"el Spass. Mit der normalen Samplerate passt das Sample gut in einen *Drum 'n' "
-"Bass*-Track:"
+"Mit dem Amen-Break-Sample macht das Strecken und Zusammenstauchen besonders "
+"viel Spass. Mit der normalen Samplerate passt das Sample gut in einen *Drum "
+"'n' Bass*-Track:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
@@ -2239,13 +2216,12 @@ msgid "sample :loop_amen"
 msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
-#, fuzzy
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for *old "
 "school hip-hop*:"
 msgstr ""
-"Wenn wir die Samplerate ändern, dann können wir die Stilrichtungen wechseln. V"
-"ersuche es mal mit halber Samplerate für *Hip-Hop der alten Schule*:"
+"Mit einer anderen Samplerate passt es zu einer ganz anderen Stilrichtung. "
+"Versuche es mal mit halber Samplerate für *Hip-Hop der alten Schule*:"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
@@ -2253,7 +2229,6 @@ msgid "sample :loop_amen, rate: 0.5"
 msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
-#, fuzzy
 msgid "If we speed it up, we enter *jungle* territory:"
 msgstr "Wenn wir es beschleunigen, betreten wir das *Jungle*-Territorium:"
 
@@ -2263,13 +2238,12 @@ msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
-#, fuzzy
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative ra"
 "te:"
 msgstr ""
-"Und als letzten Trick - sehen wir mal, was passiert, wenn wir eine negative Ra"
-"te angeben:"
+"Und als letzten Trick - sehen wir mal, was passiert, wenn wir eine negative "
+"Rate angeben:"
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
@@ -2277,19 +2251,17 @@ msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
-#, fuzzy
 msgid ""
 "Woah! It plays it *backwards*! Now try playing with lots of different samples "
 "at different rates. Try very fast rates. Try crazy slow rates. See what intere"
 "sting sounds you can produce."
 msgstr ""
-"Boah! Er wird *rückwärts* gespielt! Jetzt probiere mit vielen unterschiedliche"
-"n Samples und unterschiedlichen Sampleraten herum. Versuch es mit sehr hohen o"
-"der mit verrückt langsamen. Finde heraus, welche spannenden Klänge Du damit pr"
-"oduzieren kannst."
+"Boah! Das Sample spielt *rückwärts*! Jetzt probiere mit vielen "
+"unterschiedlichen Samples und unterschiedlichen Sampleraten herum. Versuch "
+"es mit sehr hohen oder mit verrückt langsamen. Finde heraus, welche "
+"spannenden Klänge Du damit produzieren kannst."
 
 #: 03.3-Stretching-Samples.md:76
-#, fuzzy
 msgid "A Simple Explanation of Sample Rate"
 msgstr "Eine einfache Erklärung der Samplerate"
 
