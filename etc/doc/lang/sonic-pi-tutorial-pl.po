@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-24 21:20+0000\n"
+"PO-Revision-Date: 2016-05-30 20:07+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -95,58 +95,53 @@ msgid "OK, let's get started..."
 msgstr "Dobra, zaczynamy..."
 
 #: 01.1-Live-Coding.md:1
-#, fuzzy
 msgid "1.1 Live Coding"
 msgstr "1.1 Kodowanie na żywo"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
-#, fuzzy
 msgid "Live Coding"
 msgstr "Kodowanie na żywo"
 
 #: 01.1-Live-Coding.md:5
-#, fuzzy
 msgid ""
 "One of the most exciting aspects of Sonic Pi is that it enables you to write a"
 "nd *modify code live* to make music, just like you might perform live with a g"
 "uitar. This means that given some practice you can take Sonic Pi on stage and "
 "gig with it."
 msgstr ""
-"Jednym z najbardziej ekscytujących aspektów Sonic Pi jest to, że pozwala Ci na"
-" pisanie i *modyfikację kodu na żywo* aby tworzyć muzykę w czasie rzeczywistym"
-", tak samo jak w momencie gdy grasz na żywo na gitarze. Oznacza to, że dzięki "
-"odpowiednim ćwiczeniom możesz wykorzytać Sonic Pi do koncertów przed publiczno"
-"ścią na żywo."
+"Jednym z najbardziej ekscytujących aspektów Sonic Pi jest to, że pozwala Ci "
+"na pisanie i *modyfikację kodu na żywo* aby móc tworzyć muzykę w czasie "
+"rzeczywistym, tak samo jak podczas gry na gitarze na żywo. Oznacza to, że "
+"dzięki odpowiednim ćwiczeniom i praktyce możesz wykorzystać Sonic Pi do "
+"koncertów przed publicznością na żywo."
 
 #: 01.1-Live-Coding.md:10
-#, fuzzy
 msgid "Free your mind"
 msgstr "Uwolnij swój umysł"
 
 #: 01.1-Live-Coding.md:12
-#, fuzzy
 msgid ""
 "Before we get into the real details of how Sonic Pi works in the rest of this "
 "tutorial, I'd like to give you an experience of what it's like to live code. D"
 "on't worry if you don't understand much (or any) of this. Just try to hold ont"
 "o your seats and enjoy..."
 msgstr ""
-"Zanim przejdziemy do dalszej części samouczka i zaczniemy zgłębiać szczegóły t"
-"ego w jaki sposób działa Sonic Pi, chciałbym abyś mógł przez chwilę poczuć czy"
-"m jest Live Coding (kodowanie na żywo). Nie przejmuj się, jeśli nic nie zrozum"
-"iesz z tego co zobaczysz i zrobisz za chwilę. Po prostu usiądź wygodnie, zapni"
-"j pasy i poczuj radość..."
+"Zanim przejdziemy do dalszej części samouczka i zaczniemy zgłębiać szczegóły "
+"tego w jaki sposób działa Sonic Pi, chciałbym abyś mógł przez chwilę poczuć "
+"czym jest Live kodowanie na żywo (Live Coding). Nie przejmuj się, jeśli nic "
+"nie zrozumiesz z tego co zobaczysz i zrobisz za chwilę. Po prostu usiądź "
+"wygodnie, zapnij pasy i poczuj radość..."
 
 #: 01.1-Live-Coding.md:17
-#, fuzzy
 msgid "A live loop"
 msgstr "Żywa Pętla"
 
 #: 01.1-Live-Coding.md:19
-#, fuzzy
 msgid "Let's get started, copy the following code into an empty buffer above:"
-msgstr "Zacznijmy od skopiowania następującego kawałka kodu do pustego buforu powyżej:"
+msgstr ""
+"Zacznijmy od skopiowania następującego kawałka kodu do pustego buforu "
+"powyżej:"
 
 #: 01.1-Live-Coding.md:21
 #, no-wrap
