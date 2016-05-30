@@ -1325,7 +1325,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
       end
 
 
-      def synth(synth_name, *args)
+      def synth(synth_name, *args, &blk)
         synth_name = current_synth unless synth_name
         args_h = resolve_synth_opts_hash_or_array(args)
         tls = Thread.current.thread_variable_get(:sonic_pi_mod_sound_synth_defaults) || {}
@@ -1353,7 +1353,13 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
         n = args_h[:note] || 52
         n = normalise_transpose_and_tune_note_from_args(n, args_h)
         args_h[:note] = n
-        trigger_inst synth_name, args_h
+        res_node = trigger_inst synth_name, args_h
+        if block_given?
+          in_thread do
+            blk.call(res_node)
+          end
+        end
+        res_node
       end
       doc name:          :synth,
           introduced:    Version.new(2,0,0),
@@ -1364,11 +1370,13 @@ If note: opt is `nil`, `:r` or `:rest`, play is ignored and treated as a rest. A
 
 If the synth name is `nil` behaviour is identical to that of `play` in that the `current_synth` will determine the actual synth triggered.
 
+If a block is given, it is assumed to take one arg which will be the controllable synth node and the body of the block is run in an implicit `in_thread`. This allows for asynchronous control of the synth without interferring with time. For synchronous control capture the result of `synth` as a variable and use that.
+
 Note that the default opts listed are only a guide to the most common opts across all the synths. Not all synths support all the default opts and each synth typically supports many more opts specific to that synth. For example, the `:tb303` synth supports 45 unique opts. For a full list of a synth's opts see its documentation in the Help system. This can be accessed directly by clicking on the name of the synth and using the shortcut `C-i`",
           args:          [[:synth_name, :symbol]],
           opts:          DEFAULT_PLAY_OPTS,
-          accepts_block: false,
-      examples:      [
+          accepts_block: true,
+          examples:      [
 "
 use_synth :beep            # Set current synth to :beep
 play 60                    # Play note 60 with opt defaults
@@ -1407,16 +1415,32 @@ live_loop :rhyth2 do
     sleep 0.125
   end
 end
-"
+",
+" # controlling a synth synchronously
+s = synth :beep, note: :e3, release: 4
+sleep 1
+control s, note: :e5
+sleep 0.5
+synth :dsaw, note: :e3   # This is triggered after 1.5s from start",
+
+" # Controlling a synth asynchronously
+synth :beep, note: :e3, release: 4 do |s|
+  sleep 1                                               # This block is run in an implicit in_thread
+  control s, note: :e5                                  # and therefore is asynchronous
+end
+
+sleep 0.5
+synth :dsaw, note: :e3 # This is triggered after 0.5s from start"
+
       ]
 
 
 
-      def play(n, *args)
+      def play(n, *args, &blk)
         if n.is_a?(Hash) && args.empty?
-          synth nil, n
+          synth nil, n, &blk
         else
-          synth nil, {note: n}, *args
+          synth nil, {note: n}, *args, &blk
         end
       end
       doc name:          :play,
@@ -1432,14 +1456,32 @@ Note that the default opts listed are only a guide to the most common opts acros
     ",
           args:          [[:note, :symbol_or_number]],
           opts:          DEFAULT_PLAY_OPTS,
-          accepts_block: false,
-          intro_fn:       true,
+          accepts_block: true,
+          intro_fn:      true,
           examples:      ["
 play 50 # Plays note 50 on the current synth",
 
         "play 50, attack: 1 # Plays note 50 with a fade-in time of 1s",
 
-        "play 62, pan: -1, release: 3 # Play note 62 in the left ear with a fade-out time of 3s." ]
+        "play 62, pan: -1, release: 3 # Play note 62 in the left ear with a fade-out time of 3s.",
+
+      " # controlling a synth synchronously
+s = play :e3, release: 4
+sleep 1
+control s, note: :e5
+sleep 0.5
+use_synth :dsaw
+play :e3   # This is triggered after 1.5s from start",
+
+" # Controlling a synth asynchronously
+play :e3, release: 4 do |s|
+  sleep 1                                               # This block is run in an implicit in_thread
+  control s, note: :e5                                  # and therefore is asynchronous
+end
+
+sleep 0.5
+use_synth :dsaw
+play :e3 # This is triggered after 0.5s from start"]
 
 
 
@@ -2802,7 +2844,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
 
 
 
-      def sample(*args)
+      def sample(*args, &blk)
         filts_and_sources, args_a = sample_split_filts_and_opts(args)
         args_h = merge_synth_arg_maps_array(args_a)
         tls = Thread.current.thread_variable_get(:sonic_pi_mod_sound_sample_defaults) || {}
@@ -2834,15 +2876,20 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
         # normalise_and_resolve_synth_args has only been taught about
         # synth thread local defaults
 
-
-
         if @mod_sound_studio.sample_loaded?(path)
-          return trigger_sampler path, args_h
+          res_node = trigger_sampler path, args_h
         else
           res = Promise.new
           in_thread { res.deliver!(trigger_sampler path, args_h)}
-          return LazyNode.new(res)
+          res_node = LazyNode.new(res)
         end
+
+        if block_given?
+          in_thread do
+            blk.call(res_node)
+          end
+        end
+        res_node
       end
 
       doc name:          :sample,
@@ -2927,7 +2974,7 @@ By combining commands which add to the candidates and then filtering those candi
 
                           :slide      => "Default slide time in beats for all slide opts. Individually specified slide opts will override this value.",
                           :path       => "Path of the sample to play. Typically this opt is rarely used instead of the more powerful source/filter system. However it can be useful when working with pre-made opt maps."},
-          accepts_block: false,
+          accepts_block:  true,
           intro_fn:       true,
 
 
@@ -3001,6 +3048,22 @@ sample :loop_amen, start: 0.25, finish: 0.125 # Play the second eighth of the sa
 sample :loop_amen, start: 0.125, finish: 0.25, rate: -0.25 # Play the second eighth of the
                                                            # amen break backwards at a
                                                            # quarter speed",
+        "
+# Control a sample synchronously
+s = sample :loop_amen, lpf: 70
+sleep 0.5
+control s, lpf: 130
+sleep 0.5
+synth :dsaw, note: :e3 # This is triggered 1s from start",
+
+" # Controlling a sample asynchronously
+sample :loop_amen, lpf: 70 do |s|
+  sleep 1                                # This block is run in an implicit in_thread
+  control s, lpf: 130                    # and therefore is asynchronous
+end
+sleep 0.5
+synth :dsaw, note: :e3 # This is triggered 0.5s from start",
+
         "
 # Build a simple beat slicer
 
