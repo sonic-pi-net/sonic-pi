@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-27 10:16+0000\n"
+"PO-Revision-Date: 2016-05-30 08:00+0000\n"
 "Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
@@ -1703,7 +1703,6 @@ msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
-#, fuzzy
 msgid ""
 "The sustain time is useful for important sounds you wish to give full presence"
 " in the mix before entering an optional release phase. Of course, it's totally"
@@ -1712,20 +1711,18 @@ msgid ""
 "d, a release of 0 can produce clicks in the audio and it's often better to use"
 " a very small value such as 0.2."
 msgstr ""
-"Die Sustain-Zeit kann man gut dafür gebrauchen, um wichtige Klänge in einem Mi"
-"x hervorzuheben, bevor möglicherweise der Release einsetzt. Natürlich kann man"
-" ohne weiteres sowohl den Attack als auch den Release auf 0 setzen und nur den"
-" Sustain gebrauchen. Damit bekommt man einen Klang ohne Ein- und Ausblendung. "
-"Aber vorsicht, ein Release von 0 kann Klickgeräusche in der Aufnahme verursach"
-"en. Meist ist es besser, einen geringen Wert wie z.B. 0.2 zu verwenden."
+"Mit der Sustain-Zeit kannst Du wichtige Klänge in einem Mix hervorheben, "
+"bevor möglicherweise der Release einsetzt. Natürlich kann man ohne weiteres "
+"sowohl den `attack:` als auch den `release:` auf 0 setzen und nur den "
+"Sustain gebrauchen. Damit bekommt man einen Klang ohne Ein- und Ausblendung. "
+"Aber Vorsicht, ein Release von 0 kann Klickgeräusche in der Aufnahme "
+"verursachen. Meist ist ein geringer Wert wie z.B. 0.2 besser."
 
 #: 02.4-Durations-with-Envelopes.md:154
-#, fuzzy
 msgid "Decay Phase"
 msgstr "Decay-Zeit"
 
 #: 02.4-Durations-with-Envelopes.md:156
-#, fuzzy
 msgid ""
 "For an extra level of control, you can also specify a decay time. This is a ph"
 "ase of the envelope that fits between the attack and sustain phases and specif"
@@ -1734,13 +1731,14 @@ msgid ""
 "l:`). By default, the `decay:` opt is 0 and both the attack and sustain levels"
 " are 1 so you'll need to specify them for the decay time to have any effect:"
 msgstr ""
-"Und schließlich, falls Du alles ganz genau beeinflussen möchtest, kannst Du no"
-"ch die Decay-Zeit festlegen. Das ist eine Phase der Hüllkurve, die zwischen di"
-"e Attack- und die Release-Phase passt; sie gibt die Zeit an, wo die Amplitude "
-"vom `attack_level` zum `sustain_level` hinunterfällt. Normalerweise steht das "
-"Decay-Argument auf 0, während sowohl das Attack- als auch das Sustain-Level au"
-"f 1 stehen. Damit die Decay-Zeit einen hörbaren Effekt hat, müssen Attack und "
-"Sustain also auch angegeben werden:"
+"Und falls Du alles ganz genau beeinflussen möchtest, kannst Du noch die "
+"Decay-Zeit festlegen. Das ist die Phase der Hüllkurve, die zwischen die "
+"Attack- und die Release-Phase passt; sie gibt die Zeit an, wo die Amplitude "
+"hinunterfällt vom `attack_level:` zum `decay_level:` (welche den gleichen "
+"Wert wie `sustain_level:` erhält, wenn Du es nicht anders vorgibst). "
+"Normalerweise steht die Opt `decay:` auf 0, während sowohl das Attack- als "
+"auch das Sustain-Level auf 1 stehen. Damit die Decay-Zeit einen hörbaren "
+"Effekt hat, müssen Attack und Sustain also auch angegeben werden:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
@@ -1754,10 +1752,11 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:168
 msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 msgstr ""
+"![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr ""
+msgstr "Decay-Level"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
@@ -1766,6 +1765,10 @@ msgid ""
 " full control over the envelope. This allows you to to create envelopes such a"
 "s the following:"
 msgstr ""
+"Normalerweise hat die Opt `decay_level:` den gleichen Wert wie "
+"`sustain_level:`, aber Du kannst auch bewusst einen anderen Wert setzen. So "
+"hast Du volle Kontrolle über die Hüllkurve und kannst z.B. eine wie diese "
+"vorgeben:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
@@ -1778,13 +1781,14 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than `sustain_level:"
 "`:"
 msgstr ""
+"Ebenso ist für `decay_level:` ein höherer Wert als `sustain_level:` möglich:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
@@ -1797,118 +1801,108 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
-#, fuzzy
 msgid "ADSR Envelopes"
 msgstr "ADSR-Hüllkurven"
 
 #: 02.4-Durations-with-Envelopes.md:193
-#, fuzzy
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
 msgstr ""
-"Fassen wir noch einmal zusammen: Die ADSR-Hüllkurven von Sonic Pi bestehen aus"
-" den folgenden Phasen:"
+"Fassen wir noch einmal zusammen: Die ADSR-Hüllkurven von Sonic Pi bestehen "
+"aus den folgenden Phasen:"
 
 #: 02.4-Durations-with-Envelopes.md:195
-#, fuzzy
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
 msgstr ""
-"*attack* - die Zeit, welche die Amplitude von 0 bis zum `attack_level` benötig"
-"t,"
+"*Attack* - die Zeit, welche die Amplitude von 0 bis zum `attack_level` "
+"benötigt,"
 
 #: 02.4-Durations-with-Envelopes.md:196
-#, fuzzy
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
-"*decay* - die Zeit, in der die Amplitude vom `attack_level` zum `sustain_level"
-"` übergeht,"
+"*Decay* - die Zeit, in der die Amplitude vom `attack_level` zum "
+"`sustain_level` übergeht,"
 
 #: 02.4-Durations-with-Envelopes.md:197
-#, fuzzy
 msgid "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
-msgstr "*sustain* - die Zeit, in der sich die Amplitude auf dem `sustain_level` hält,"
+msgstr ""
+"*Sustain* - die Zeit, in der sich die Amplitude auf dem `sustain_level` hält,"
 
 #: 02.4-Durations-with-Envelopes.md:198
-#, fuzzy
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
-msgstr "*release* - die Zeit, welche die Amplitude vom `sustain_level` auf 0 bringt"
+msgstr ""
+"*Release* - die Zeit, welche die Amplitude vom `sustain_level` auf 0 bringt"
 
 #: 02.4-Durations-with-Envelopes.md:200
-#, fuzzy
 msgid ""
 "It's important to note that the duration of a sound is the summation of the ti"
 "mes of each of these phases. Therefore the following sound will have a duratio"
 "n of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
-"Eins ist wichtig: der Klang dauert so lange wie die Summe aller Zeiten der unt"
-"erschiedlichen Phasen. Deshalb hat der folgende Klang eine Dauer von 0.5 + 1 +"
-" 2 + 0.5 = 4 Schlägen:"
+"Eins ist wichtig: der Klang dauert so lange wie die Summe aller Zeiten der "
+"unterschiedlichen Phasen. Deshalb hat der folgende Klang eine Dauer von 0.5 +"
+" 1 + 2 + 0.5 = 4 Schlägen:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
-#, fuzzy
 msgid ""
 "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
 "2, release: 0.5"
-msgstr "play 60, attack: 0.5, decay: 1, sustain_level: 0.4, sustain: 2, release: 0.5"
+msgstr ""
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
-#, fuzzy
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr "Jetzt weisst Du, wie Du Deine Klänge mit Hüllkurven verändern kannst..."
+msgstr "Jetzt weißt Du, wie Du Deine Klänge mit Hüllkurven verändern kannst..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3 Samples"
 
 #: 03-Samples.md:3
 msgid "Samples"
-msgstr ""
+msgstr "Samples"
 
 #: 03-Samples.md:5
-#, fuzzy
 msgid ""
 "Another great way to develop your music is to use pre-recorded sounds. In grea"
 "t hip-hop tradition, we call these pre-recorded sounds *samples*. So, if you t"
 "ake a microphone outside, go and record the gentle sound of rain hitting canva"
 "s, you've just created a sample."
 msgstr ""
-"Du kannst auch aufgenommene Sounds in Deiner Musik verwenden. In der großen Tr"
-"adition des Hip-Hop nennen wir diese aufgenommenen Sounds auch *Samples*. Also"
-", wenn Du ein Mikrophon mit nach draußen nimmst und den zarten Klang der Regen"
-"tropfen auf einem Zeltdach aufnimmst, dann ist das Ergebnis ein Sample."
+"Du kannst auch aufgenommene Sounds in Deiner Musik verwenden. In der großen "
+"Tradition des Hip-Hop nennen wir diese aufgenommenen Sounds auch *Samples*. "
+"Wenn Du ein Mikrophon mit nach draußen nimmst und den zarten Klang der "
+"Regentropfen auf einem Zeltdach aufnimmst, dann ist das Ergebnis ein Sample."
 
 #: 03-Samples.md:10
-#, fuzzy
 msgid ""
 "Sonic Pi lets you do lots of fun things with samples. Not only does it ship wi"
 "th over 90 public domain samples ready for you to jam with, it lets you play a"
 "nd manipulate your own. Let's get to it..."
 msgstr ""
-"Mit Samples kann man in Sonic Pi viele tolle Sachen machen. Es sind nicht nur "
-"90 freie Samples zum sofortigen Gebrauch dabei, sondern Du kannst auch Deine e"
-"igenen Samples einbauen und verändern. Legen wir los..."
+"Mit Samples kann man in Sonic Pi viele tolle Sachen machen. Es sind über 90 "
+"freie Samples zum sofortigen Gebrauch dabei und Du kannst auch Deine eigenen "
+"Samples einbauen und verändern. Legen wir los..."
 
 #: 03.1-Triggering-Samples.md:1
-#, fuzzy
 msgid "3.1 Triggering Samples"
 msgstr "3.1 Samples ansteuern"
 
 #: 03.1-Triggering-Samples.md:3
-#, fuzzy
 msgid "Triggering Samples"
 msgstr "Samples ansteuern"
 
 #: 03.1-Triggering-Samples.md:5
-#, fuzzy
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is triggeri"
 "ng pre-recorded samples. Try it:"
 msgstr ""
-"Pieptöne zu spielen ist erst der Anfang. Mit aufgenommenen Samples hat man noc"
-"h viel mehr Spaß. Probier mal:"
+"Pieptöne zu spielen ist erst der Anfang. Mit aufgenommenen Samples hat man "
+"noch viel mehr Spaß. Probier mal:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
@@ -1916,15 +1910,14 @@ msgid "sample :ambi_lunar_land"
 msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
-#, fuzzy
 msgid ""
 "Sonic Pi includes many samples for you to play with. You can use them just lik"
 "e you use the `play` command. To play multiple samples and notes just write th"
 "em one after another:"
 msgstr ""
-"Sonic Pi enthält viele Samples, mit denen Du spielen kannst. Du kannst sie ebe"
-"nso wie das `play`-Kommando benutzen. Um mehrere Samples gleichzeitig zu spiel"
-"en, schreib sie einfach untereinander:"
+"Sonic Pi enthält viele Samples, mit denen Du spielen kannst. Du kannst sie "
+"ebenso wie das `play`-Kommando benutzen. Um mehrere Samples gleichzeitig zu "
+"spielen, schreib sie einfach untereinander:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1940,7 +1933,6 @@ msgstr ""
 "sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
-#, fuzzy
 msgid "If you want to space them out in time, use the `sleep` command:"
 msgstr "Wenn Du sie nacheinander spielen willst, füge einen `sleep`-Befehl ein:"
 
@@ -1966,7 +1958,6 @@ msgstr ""
 "play 36"
 
 #: 03.1-Triggering-Samples.md:36
-#, fuzzy
 msgid ""
 "Notice how Sonic Pi doesn't wait for a sound to finish before starting the nex"
 "t sound. The `sleep` command only describes the separation of the *triggering*"
@@ -1974,29 +1965,27 @@ msgid ""
 "esting overlap effects. Later in this tutorial we'll take a look at controllin"
 "g the *duration* of sounds with envelopes."
 msgstr ""
-"Hast Du bemerkt, dass Sonic Pi nicht wartet, bis ein Klang beendet ist, bevor "
-"der nächste beginnt? Der `sleep`-Befehl beschreibt nur, wann ein Klang *ausgel"
-"öst* wird, und wann der nächste nachfolgt. Damit kannst Du Klänge in Schichten"
-" übereinander legen und interessante überlappende Effekte herstellen. Später s"
-"ehen wir uns an, wie man die Länge von Klängen mit *Hüllkurven* kontrollieren "
-"kann."
+"Hast Du bemerkt, dass Sonic Pi nicht wartet, bis ein Klang beendet ist, "
+"bevor der nächste beginnt? Der `sleep`-Befehl beschreibt nur, wann ein Klang "
+"*ausgelöst* wird, und wann der nächste nachfolgt. Damit kannst Du Klänge in "
+"Schichten übereinander legen und interessante überlappende Effekte "
+"herstellen. Später sehen wir uns an, wie man die Länge von Klängen mit "
+"*Hüllkurven* kontrollieren kann."
 
 #: 03.1-Triggering-Samples.md:44
-#, fuzzy
 msgid "Discovering Samples"
 msgstr "Samples entdecken"
 
 #: 03.1-Triggering-Samples.md:46
-#, fuzzy
 msgid ""
 "There are two ways to discover the range of samples provided in Sonic Pi. Firs"
 "t, you can use this help system. Click on Samples in the far left vertical men"
 "u, choose your category and then you'll see a list of available sounds."
 msgstr ""
-"Die Samples, die Sonic Pi mitbringt, kannst Du auf zwei Arten entdecken. Erste"
-"ns kannst Du dieses Hilfesystem benutzen. Klicke auf `Samples` im Menü auf der"
-" linken Seite, wähle eine Gruppe aus und lass Dir die Liste aller verfügbaren "
-"Klänge anzeigen."
+"Du kannst die Samples, die Sonic Pi mitbringt, auf zwei Arten entdecken. "
+"Erstens kannst Du dieses Hilfesystem benutzen. Klicke auf `Samples` im Menü "
+"auf der linken Seite, wähle eine Gruppe aus und Du findest eine Liste aller "
+"verfügbaren Klänge."
 
 #: 03.1-Triggering-Samples.md:51
 #, fuzzy
