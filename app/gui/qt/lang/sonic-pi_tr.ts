@@ -76,7 +76,7 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
         <source>Safe mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Güvenli Mod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
@@ -104,7 +104,7 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1449"></location>
         <source>Running Code...</source>
         <oldsource>Running Code....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Kodlar Çalışıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1512"></location>
