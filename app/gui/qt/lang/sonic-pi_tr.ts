@@ -353,17 +353,17 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1021"></location>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni versiyonu indirmek için "http://sonic-pi.net"i ziyaret edin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1026"></location>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Güncelleme Bilgisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1045"></location>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Göster ve Sakla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1046"></location>
@@ -403,7 +403,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1056"></location>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıtları göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1057"></location>
@@ -413,7 +413,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1059"></location>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Düğmeleri göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"></location>
@@ -433,7 +433,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1065"></location>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1066"></location>
@@ -449,17 +449,18 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Karanlık mod gece klüplerinde canlı olarak kodlamak için mükemmeldir.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1107"></location>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1120"></location>
         <source>Studio</source>
-        <translation type="unfinished"></translation>
+        <translation>Stüdyo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
@@ -485,7 +486,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin dosyaları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
@@ -497,7 +498,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm dosyalar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1754"></location>
@@ -512,12 +513,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2340"></location>
         <source>Run the code in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodu geçerli kanalda çalıştır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2353"></location>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Yükle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2354"></location>
@@ -527,12 +528,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2363"></location>
         <source>View audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses çıktısıını göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"></location>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wave dosyası (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2910"></location>
@@ -542,7 +543,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Save Current Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçerli Kanalı Kaydet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1498"></location>
@@ -557,29 +558,29 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1539"></location>
         <source>Checking for updates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Güncelleştirmeler kontrol ediliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1547"></location>
         <source>Enabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Güncelleme kontrolü aktifleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1555"></location>
         <source>Disabling update checking...</source>
-        <translation type="unfinished"></translation>
+        <translation>Güncelleme kontrolü devreden çıkarılıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1580"></location>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Karıştırıcı LPF aktifleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1589"></location>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Karıştırıcı LPF devreden çıkarılıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1597"></location>
@@ -591,24 +592,24 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1605"></location>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Standart Stereo aktifleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1613"></location>
         <source>Mono Mode...</source>
         <oldsource>Mono Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Mono Mod...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1621"></location>
         <source>Stereo Mode...</source>
         <oldsource>Stereo Mode....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Stereo Mod...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1630"></location>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>Durduruluyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1738"></location>
@@ -618,27 +619,27 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2157"></location>
         <source>Switching To Headphone Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kulaklık Ses Çıkışı Olarak Değiştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2173"></location>
         <source>Switching To HDMI Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>HDMI Ses Çıkışı Olarak Değiştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2188"></location>
         <source>Switching To Default Audio Output...</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan Ses Çıkışı Olarak Değiştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2350"></location>
         <source>Save current buffer as an external file</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçerli kanalı harici dosya olarak kaydet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2376"></location>
         <source>Start recording to WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation>WAV ses dosyası kaydetmeye başla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2381"></location>
@@ -648,17 +649,17 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2529"></location>
         <source>Ready...</source>
-        <translation type="unfinished"></translation>
+        <translation>Hazır...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2621"></location>
         <source>File loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya yüklendi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2648"></location>
         <source>File saved...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya kaydedildi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2875"></location>
@@ -669,17 +670,18 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="2877"></location>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi güncellemeleri
+iki haftada bir kontrol eder.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2879"></location>
         <source>This is Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu Sonic Pi %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2880"></location>
         <source>Version %2 is now available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Versiyon %2 şimdi kullanılabilir!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"></location>
@@ -690,22 +692,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2339"></location>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalıştır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2345"></location>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Durdur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2346"></location>
         <source>Stop all running code</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalışan tüm kodları durdur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2349"></location>
         <source>Save As...</source>
-        <translation type="unfinished"></translation>
+        <translation>Farklı Kaydet...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2357"></location>
@@ -715,18 +717,18 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2358"></location>
         <source>See information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi hakkındaki bilgileri gör</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="514"></location>
         <location filename="../mainwindow.cpp" line="2366"></location>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1132"></location>
         <source>Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Performans</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1123"></location>
@@ -736,7 +738,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
         <source>Server boot error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu başlatma hatası...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
@@ -763,7 +765,7 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="2504"></location>
         <location filename="../mainwindow.cpp" line="2505"></location>
         <source>Start Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıta Başla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2380"></location>
@@ -784,37 +786,37 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2399"></location>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Araçlar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2450"></location>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Hakkında</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2451"></location>
         <source>Core Team</source>
-        <translation type="unfinished"></translation>
+        <translation>Çekirdek Takım</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2452"></location>
         <source>Contributors</source>
-        <translation type="unfinished"></translation>
+        <translation>Katkıda Bulunanlar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2453"></location>
         <source>Community</source>
-        <translation type="unfinished"></translation>
+        <translation>Topluluk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2454"></location>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Lisans</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2455"></location>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarih</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2476"></location>
@@ -825,12 +827,12 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="2496"></location>
         <location filename="../mainwindow.cpp" line="2497"></location>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydı Durdur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2510"></location>
         <source>Save Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaydı Kaydet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2610"></location>
@@ -853,12 +855,12 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="367"></location>
         <location filename="../ruby_help.h" line="442"></location>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğretici</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="476"></location>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Örnekler</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="522"></location>
@@ -868,7 +870,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="564"></location>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>Fx</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
