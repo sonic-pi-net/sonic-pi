@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation type="unfinished">Tercihler</translation>
+        <translation>Tercihler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
@@ -891,7 +891,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../sonic_pi_udp_osc_server.cpp" line="38"></location>
         <source>Is Sonic Pi already running?  Can't open UDP port 4558.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi hala çalışıyor mu?  UDP portu 4558 açılamıyor.</translation>
     </message>
 </context>
 </TS>
