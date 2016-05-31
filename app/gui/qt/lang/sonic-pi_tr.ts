@@ -11,7 +11,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="184"></location>
