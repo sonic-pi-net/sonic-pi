@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 14:06+0000\n"
+"PO-Revision-Date: 2016-05-31 17:35+0000\n"
 "Last-Translator: Sam Aaron <samaaron@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -3304,13 +3304,13 @@ msgstr ""
 "cartella, aggiungendo '**' alla fine del percorso:"
 
 #: 03.7-Sample-Packs.md:171
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "samps = \"/path/to/nested/samples/**\"\n"
 "sample samps, 0"
 msgstr ""
-"Campioni = \"/path/to/nested/samples/**\"\n"
-"Esempi di campioni, 0"
+"samps = \"/path/to/nested/samples/**\"\n"
+"sample samps, 0"
 
 #: 03.7-Sample-Packs.md:176
 msgid ""
