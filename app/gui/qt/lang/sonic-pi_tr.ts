@@ -785,7 +785,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2387"></location>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazı Boyutunu Büyüt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2394"></location>
