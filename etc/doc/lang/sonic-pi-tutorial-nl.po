@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 15:38+0000\n"
+"PO-Revision-Date: 2016-05-31 16:26+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -1415,10 +1415,14 @@ msgid ""
 "combining synths to make new sounds as well as using different synths for "
 "different sections of your music."
 msgstr ""
+"Speel nu een beetje met dit schakelen van synths terwijl je muziekstuk "
+"afspeelt. Veel plezier met het combineren van synths om nieuwe klanken te "
+"maken of om verschillende secties in uw muziekstuk van verschillende synths "
+"te voorzien."
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr ""
+msgstr "2.4 Duur van het Geluidsverloop"
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
