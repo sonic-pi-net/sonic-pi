@@ -122,13 +122,13 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1563"></location>
         <source>Enabling Mixer HPF...</source>
         <oldsource>Enabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Karıştırıcı HPF Aktifleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1572"></location>
         <source>Disabling Mixer HPF...</source>
         <oldsource>Disabling Mixer HPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Karıştırıcı HPF Devreden Çıkarılıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
@@ -138,7 +138,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi'ye Hoşgeldiniz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="709"></location>
@@ -154,7 +154,7 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="913"></location>
         <source>Use this slider to change the system volume of your Raspberry Pi.</source>
         <oldsource>Use this slider to change the system volume of your Raspberry Pi</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Bu çubuğu Raspberry Pi'ın sistem sesini ayarlamak için kullanın.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="916"></location>
@@ -174,28 +174,31 @@ Firstly, there is the headphone jack of the Raspberry Pi itself.
 Secondly, some HDMI monitors/TVs support audio through the HDMI port. 
 Use these buttons to force the output to the one you want. 
 For example, if you have headphones connected to your Raspberry Pi, choose 'Headphones'. </oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi'ın 2 farklı ses çıkış modu bulunmaktadır.
+Birincisi, Raspbery Pi'ın üzerinde kulaklık jackı vardır.
+İkincisi, Bazı HDMI monitörler/TVler HDMI portundan ses aktarımını desteklerler.
+Bu düğmeyi istediğiniz modu seçmek için kullanın.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1013"></location>
         <location filename="../mainwindow.cpp" line="1145"></location>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Güncellemeler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1015"></location>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Güncellemeleri kontrol et</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1119"></location>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editör</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1054"></location>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Satır numaralarını göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="277"></location>
@@ -238,7 +241,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi sunucusu başlatılamadı!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
@@ -323,7 +326,7 @@ even when a little late.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1002"></location>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Saydamlık</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1017"></location>
@@ -334,7 +337,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1018"></location>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Şimdi kontrol et</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1019"></location>
