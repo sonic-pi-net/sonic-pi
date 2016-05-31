@@ -23,7 +23,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi Sistem Sesi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
@@ -71,7 +71,9 @@ can only handle mono.</source>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Log mesajlarını aktif et.
+Kapalıysa, örnek ve sistem sesleri
+kayıt defterine yazılmaz.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="977"></location>
@@ -81,19 +83,21 @@ triggering will not be printed to the log by default.</source>
     <message>
         <location filename="../mainwindow.cpp" line="967"></location>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation>Çalıştırmada kayıt defterini temizle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="968"></location>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıçta kayıt defterini temizleme.
+Açıksa, kayıt defteri çalıştır butonu
+her basıldığında temizlenir.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1055"></location>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation>Satır sayısını göster.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
@@ -110,13 +114,13 @@ time the run button is pressed.</source>
         <location filename="../mainwindow.cpp" line="1512"></location>
         <source>Beautifying...</source>
         <oldsource>Beautifying....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Güzelleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1532"></location>
         <source>Reloading...</source>
         <oldsource>Reloading....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Yenileniyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1563"></location>
@@ -133,7 +137,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="387"></location>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
@@ -143,12 +147,12 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="709"></location>
         <source>Indenting selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçim girintileme...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="713"></location>
         <source>Indenting line...</source>
-        <translation type="unfinished"></translation>
+        <translation>Satır girintisini...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="913"></location>
@@ -203,12 +207,12 @@ Bu düğmeyi istediğiniz modu seçmek için kullanın.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="277"></location>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi güncelleme bilgisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="915"></location>
         <source>Advanced Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelişmiş Ses</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="978"></location>
@@ -220,7 +224,7 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Günlüğe kaydediliyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"></location>
@@ -231,12 +235,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Satır yorumlarını aktifleştir...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="746"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation>Satır yorumlarını aktif et...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
@@ -246,12 +250,12 @@ create unexpectedly loud or uncomfortable sounds.</source>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Ters stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Mecburi mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
@@ -332,7 +336,8 @@ even when a little late.</source>
         <location filename="../mainwindow.cpp" line="1017"></location>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomatik güncelleme kontrolü.
+Bu kutucuk platform ve versiyonunuz hakkında anonim bilgi göndermeyi kapsar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"></location>
@@ -343,7 +348,8 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../mainwindow.cpp" line="1019"></location>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Şuan mecburi bir güncelleme kontrolü yap.
+Bu kutucuk platform ve versiyonunuz hakkında anonim bilgi göndermeyi kapsar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"></location>
@@ -373,7 +379,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1047"></location>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation>Bak ve Hisset</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"></location>
@@ -383,12 +389,12 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1049"></location>
         <source>Automation</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomasyon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1050"></location>
         <source>Configure automation features.</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomasyon özelliklerini ayarla.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1051"></location>
@@ -408,7 +414,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1057"></location>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıt defterini görünür yap.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1059"></location>
@@ -418,12 +424,12 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../mainwindow.cpp" line="1060"></location>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrol düğmelerini görünür yap.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1062"></location>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>"tab"ları göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1064"></location>
