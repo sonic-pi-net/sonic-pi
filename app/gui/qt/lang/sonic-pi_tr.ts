@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tercihler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="2609"></location>
         <location filename="../mainwindow.cpp" line="2629"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
@@ -44,22 +44,22 @@ can only handle mono.</source>
     <message>
         <location filename="../mainwindow.cpp" line="934"></location>
         <source>Raspberry Pi Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Raspberry Pi Ses Çıkışı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="936"></location>
         <source>&amp;Default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Varsayılan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="937"></location>
         <source>&amp;Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kulaklıklar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="938"></location>
         <source>&amp;HDMI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;HDMI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="959"></location>
@@ -98,7 +98,7 @@ time the run button is pressed.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1067"></location>
         <source>Dark mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Karanlık Mod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1449"></location>
