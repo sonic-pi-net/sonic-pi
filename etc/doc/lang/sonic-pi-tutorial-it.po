@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-26 17:02+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2016-05-31 13:45+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -3296,6 +3296,12 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
+"Di base, soltanto i campioni all'interno di una directory sono raccolti "
+"all'interno della lista che risulta da una ricerca. A volte, potresti aver "
+"bisogno di indagare una serie di sottocartelle dove sono salvati i campioni "
+"e filtrare i risultati. Se desideri fare questo, puoi ripetere la ricerca "
+"per tutti i campioni all'interno di ogni sottocartella di una particolare "
+"cartella, aggiungendo '**' alla fine del percorso:"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -3303,8 +3309,8 @@ msgid ""
 "samps = \"/path/to/nested/samples/**\"\n"
 "sample samps, 0"
 msgstr ""
-"samps = \"/path/to/nested/samples/**\"\n"
-"sample samps, 0"
+"Campioni = \"/path/to/nested/samples/**\"\n"
+"Esempi di campioni, 0"
 
 #: 03.7-Sample-Packs.md:176
 msgid ""
@@ -3312,6 +3318,10 @@ msgid ""
 "ong time. However, the contents of all folder sources are cached, so the delay"
 " will only happen the first time."
 msgstr ""
+"Fai attenzione quindi, perché la ricerca all'interno di un gruppo di "
+"cartelle ampio può impegare parecchio tempo ad essere portata a termine. "
+"Comunque, il contenuto di tutte le cartelle sorgenti sono memorizzati nella "
+"cache, quindi soltanto la prima volta la ricerca impiegherà più tempo."
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
@@ -3319,16 +3329,22 @@ msgid ""
 "e set of built-in samples will be selected as the default list of candidates t"
 "o work with."
 msgstr ""
+"Infine, tieni presente che la sorgente *deve essere inserita prima*. Ne "
+"nessuna sorgente viene indicata, allora il gruppo di campioni già presenti "
+"nel sistema verrà selezionato automaticamente per la sessione."
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
-msgstr ""
+msgstr "Filtri"
 
 #: 03.7-Sample-Packs.md:186
 msgid ""
 "Once you have a list of candidates you may use the following filtering types t"
 "o further reduce the selection:"
 msgstr ""
+"Quando avrai ottenuto una lista di campioni da usare durante la sessione, "
+"puoi quindi utilizzare le seguenti chiavi per ridurne ulteriormente il "
+"numero:"
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
