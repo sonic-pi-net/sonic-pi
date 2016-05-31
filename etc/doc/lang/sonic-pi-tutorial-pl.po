@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-30 20:07+0000\n"
+"PO-Revision-Date: 2016-05-31 14:50+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -157,15 +157,15 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:28
-#, fuzzy
 msgid ""
 "Now, press the `Run` button and you'll hear a nice fast bass drum beating away"
 ". If at any time you wish to stop the sound just hit the `Stop` button. Althou"
 "gh don't hit it just yet... Instead, follow these steps:"
 msgstr ""
-"Teraz nacisnij przycisk `Run` a usłyszysz fajne i szybkie uderzenia bębna. W k"
-"ażdym momencie możesz zatrzymać dźwięk naciskając przycisk `Stop `. Aczkolwiek"
-" nie rób tego jeszcze... Zamiast tego wykonaj następujące kroki:"
+"A teraz naciśnij przycisk `Run`, usłyszysz fajne i rytmiczne uderzenia "
+"bębna. W każdym momencie możesz zatrzymać dźwięk naciskając przycisk `Stop`. "
+"Na razie wstrzymaj się i jeszcze tego nie rób... Zamiast tego wykonaj "
+"następujące kroki:"
 
 #: 01.1-Live-Coding.md:32
 #, fuzzy
