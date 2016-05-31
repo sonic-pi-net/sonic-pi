@@ -21,7 +21,7 @@ Thanks to everybody involved!
 
 As Sonic Pi development moves fast, there are always updates to the 
 screen messages and the tutorial. To help translators keep track of 
-these changes, _we are currently moving to 
+these changes, we are using 
 *[Weblate](https://hosted.weblate.org/engage/sonic-pi/)*_, an 
 open-source web-based translation editor.
 
@@ -36,6 +36,10 @@ to help translate Sonic Pi.
 * The *Tutorial* is a fairly long document. Translating it requires
   significantly more effort, but it's very rewarding as it is a 
   step-by-step introduction for new users to Sonic Pi.
+  
+  The tutorial is written in
+  [Github Markdown](https://guides.github.com/features/mastering-markdown/),
+  which contains a few special control character sequences.
 
 * (The *Reference* cannot be translated - yet. We're working on that.)
 
@@ -50,10 +54,6 @@ So if you want to...
 ...all you need to do is visit [Sonic Pi on 
 Weblate](https://hosted.weblate.org/engage/sonic-pi/), sign up and 
 follow the instructions there.
-
-_Please note_ that we are still in the process of moving to Weblate. 
-You can already translate the Qt GUI there, but the tutorial will 
-follow soon.
 
 Weblate gives you a number of helpful tools, e.g. it spots common 
 mistakes and you can keep a glossary of recurring terms that you can 

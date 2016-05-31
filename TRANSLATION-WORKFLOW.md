@@ -4,7 +4,7 @@
 
 (This document is meant for contributors to the Sonic Pi codebase. If 
 you're a translator who wants to help bring Sonic Pi to your language 
-please read the [Translation Guide Workflow](TRANSLATION.md).)
+please read the [Translation Guide](TRANSLATION.md).)
 
 ## Making your code translatable
 
@@ -20,6 +20,9 @@ There is an extensive [I18N
 Tutorial](http://doc.qt.io/qt-5/internationalization.html) for Qt, but 
 the condensed version is: _When you mark a message string with `tr()`, 
 it can be translated._
+
+And that's it, that's already all you need to know to have your code
+ready for i18n in Sonic Pi.
 
 ## Integrating Weblate
 
@@ -79,7 +82,7 @@ To initiate a translation update:
 
 1. [Lock the Sonic Pi project](https://hosted.weblate.org/projects/sonic-pi/#repository)
    on Weblate, then wait for Weblate to automatically commit and merge
-   all oustanding  translation updates and wait for it to push them from
+   all outstanding  translation updates and wait for it to push them from
    Weblate to Github.
 
 2. Update your local repo to the current HEAD of the master branch from 
