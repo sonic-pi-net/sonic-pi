@@ -888,7 +888,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="43"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
 </context>
 <context>
