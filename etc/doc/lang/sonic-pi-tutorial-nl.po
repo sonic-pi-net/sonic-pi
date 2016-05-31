@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 15:24+0000\n"
+"PO-Revision-Date: 2016-05-31 15:38+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -1249,10 +1249,17 @@ msgid ""
 "and expressive and you'll have a lot of fun exploring and playing with them. "
 "First, let's learn how to select the current synth to use."
 msgstr ""
+"Sonic Pi heeft een waaier aan instrumenten, synths genaamd -dat is de "
+"verkorting van synthesizers. Waar samples reeds opgenomen klanken "
+"vertegenwoordigen, zijn synths in staat om nieuwe klanken te genereren, "
+"afhankelijk van hoe je deze instelt (dat gaan we  later in deze handleiding "
+"ontdekken). Sonic Pi's synths zijn heel krachtig en expressief en je zal er "
+"een veel plezier aan beleven deze te leren kenen en te bespelen. Maar eerst  "
+"gaan we leren hoe we deze kunnen selecteren."
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
-msgstr "Zaagtand-golven en \"Prophets\""
+msgstr "Drukke Zaagtand-golven en \"Prophets\""
 
 #: 02.3-Switching-Synths.md:23
 msgid "A fun sound is the *saw wave* - let's give it a try:"
@@ -1388,19 +1395,19 @@ msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
 msgid ""
