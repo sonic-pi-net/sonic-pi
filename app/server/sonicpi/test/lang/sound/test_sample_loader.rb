@@ -36,8 +36,7 @@ module SonicPi
       # -  subdir
       #    |
       #    - quux.wav
-      @loader = SampleLoader.new(@fake_sample_dir)
-      @loader.stubs(:default_samples_paths).returns([@fake_built_in_sample_dir])
+      @loader = SampleLoader.new(@fake_built_in_sample_dir)
     end
 
     def test_ls_candidates
