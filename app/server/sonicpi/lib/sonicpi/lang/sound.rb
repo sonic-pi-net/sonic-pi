@@ -2802,6 +2802,15 @@ sample :loop_amen                    # starting it again
           opts = {}
         end
 
+        filts_and_sources.map! do |f|
+          if f.is_a? SampleBuffer
+            f.path
+          else
+            f
+          end
+        end
+
+
         return filts_and_sources, opts
       end
 
