@@ -444,12 +444,12 @@ Bu kutucuk platform ve versiyonunuz hakkında anonim bilgi göndermeyi kapsar.</
     <message>
         <location filename="../mainwindow.cpp" line="1066"></location>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tam ekran modu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>Toggle dark mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Karanlık mod.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1068"></location>
@@ -473,7 +473,9 @@ Karanlık mod gece klüplerinde canlı olarak kodlamak için mükemmeldir.</tran
         <source>Sonic Pi Boot Error
 
 Apologies, a critical error occurred during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi Başlatma Hatası
+
+Özür dileriz, başlatma sırasında ciddi bir hata meydana geldi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1362"></location>
@@ -544,7 +546,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2910"></location>
         <source>Welcome back. Now get your live code on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekrar hoşgeldiniz. Kodunuzu şimdi canlı olarak...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1376"></location>
@@ -554,12 +556,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1498"></location>
         <source>Zooming In...</source>
-        <translation type="unfinished"></translation>
+        <translation>Yaklaştırılıyor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1505"></location>
         <source>Zooming Out...</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzaklaştırılıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1539"></location>
@@ -592,7 +594,7 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1597"></location>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Ters Stereo Açılıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1605"></location>
@@ -620,7 +622,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1738"></location>
         <source>Updating System Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistem Sesi Güncelleniyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2157"></location>
@@ -650,7 +652,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2381"></location>
         <source>Improve readability of code</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodun okunulabilirliğini geliştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"></location>
@@ -670,7 +672,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2875"></location>
         <source>Last checked %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Son kontrol %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2877"></location>
@@ -693,7 +695,8 @@ iki haftada bir kontrol eder.</translation>
         <location filename="../mainwindow.cpp" line="2884"></location>
         <source>New version available!
 Get Sonic Pi %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni versiyon mevcut!
+Sonic Pi %1 i Al</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2339"></location>
@@ -718,7 +721,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2357"></location>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilgi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2358"></location>
@@ -759,7 +762,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2370"></location>
         <source>Prefs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tercihler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2371"></location>
