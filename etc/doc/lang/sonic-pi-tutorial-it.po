@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 13:45+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-05-31 14:00+0000\n"
+"Last-Translator: davidegiovannini <davide.giovannini@studenti.unitn.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -12245,12 +12245,16 @@ msgid ""
 "We calculate the start position `s` by multiplying the `slice_idx` by the `sli"
 "ce_size`."
 msgstr ""
+"Calcoliamo la posizione iniziale `s` moltiplicando l'indice `slice_idx` per "
+"la dimensione `slice_size`."
 
 #: A.12-sample-slicing.md:120
 msgid ""
 "We calculate the finish position `f` by adding the `slice_size` to the start p"
 "osition `s`."
 msgstr ""
+"Calcoliamo la posizione finale `f` aggiungendo la dimensione della "
+"sottosequenza `slice_size` alla posizione iniziale `s`."
 
 #: A.12-sample-slicing.md:123
 msgid ""
