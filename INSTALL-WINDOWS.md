@@ -192,7 +192,7 @@ When downloaded extract the ```Qscintilla_gpl-2.9.2``` folder to ```c:\```
 Return to the visual studio command window. 
 ```
 cd c:\QScintilla_gpl-2.9.2\Qt4Qt5
-qmake qscintilla.pro
+qmake qscintilla.pro CONFIG+=staticlib
 nmake
 ```
 (it will now be compiled)
