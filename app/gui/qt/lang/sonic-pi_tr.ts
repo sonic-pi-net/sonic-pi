@@ -790,7 +790,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2394"></location>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazı Boyutunu Küçült</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2399"></location>
@@ -830,7 +830,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="2476"></location>
         <source>Sonic Pi - Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi - Bilgi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2496"></location>
@@ -847,13 +847,15 @@ Sonic Pi %1 i Al</translation>
         <location filename="../mainwindow.cpp" line="2610"></location>
         <source>Cannot read file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya okunamıyor %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2630"></location>
         <source>Cannot write file %1:
 %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya yazılamıyor %1:
+%2.</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="81"></location>
@@ -884,12 +886,12 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Örnekler</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="779"></location>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Dil</translation>
     </message>
 </context>
 <context>
