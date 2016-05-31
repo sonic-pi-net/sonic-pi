@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 16:26+0000\n"
+"PO-Revision-Date: 2016-05-31 16:57+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -1422,11 +1422,11 @@ msgstr ""
 
 #: 02.4-Durations-with-Envelopes.md:1
 msgid "2.4 Duration with Envelopes"
-msgstr "2.4 Duur van het Geluidsverloop"
+msgstr "2.4 Geluidsduur met \"Envelopes\""
 
 #: 02.4-Durations-with-Envelopes.md:3
 msgid "Duration with Envelopes"
-msgstr ""
+msgstr "Geluidsduur met \"Envelopes\""
 
 #: 02.4-Durations-with-Envelopes.md:5
 msgid ""
@@ -1434,6 +1434,9 @@ msgid ""
 "control when to trigger our sounds. However, we haven't yet been able to "
 "control the duration of our sounds."
 msgstr ""
+"In een eerdere sectie, hebben we gezien hoe we de opdracht 'sleep' gebruiken "
+"om te bepalen wanneer we onze geluiden activeren . We zijn echter nog in "
+"staat geweest om te bepalen hoe lang onze klank duurt."
 
 #: 02.4-Durations-with-Envelopes.md:9
 msgid ""
@@ -1442,10 +1445,15 @@ msgid ""
 "envelope* (we'll cover what ADSR means later in this section). An amplitude "
 "envelope offers two useful aspects of control:"
 msgstr ""
+"Om ons een eenvoudig maar krachtig middel te geven waar we de controle "
+"hebben over de tijdsduur van onze klank, biedt Sonic Pi ons een zekere "
+"manier van notering van een zogenaamde *ADSR amplitude envelope* (we "
+"bespreken later in deze sectie wat dat betekent). Een amplitude \"envelope\" "
+"biedt twee manieren van controle:"
 
 #: 02.4-Durations-with-Envelopes.md:14
 msgid "control over the duration of a sound"
-msgstr ""
+msgstr "controle over de duurtijd van een klank"
 
 #: 02.4-Durations-with-Envelopes.md:15
 msgid "control over the amplitude of a sound"
