@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-30 14:44+0000\n"
+"PO-Revision-Date: 2016-05-31 12:53+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -1056,10 +1056,13 @@ msgid ""
 "Many things in Sonic Pi accept opts, so just spend a little time learning "
 "how to use them and you'll be set! Let's play with our first opt: `amp:`."
 msgstr ""
+"Opts worden door veel items in Sonic Pi geaccepteerd, dus probeer deze onder "
+"de knie te krijgen, het loont echt! Laten we wat spelen met onze eerste opt: "
+"`amp:`."
 
 #: 02.2-Synth-Params.md:64 02.4-Durations-with-Envelopes.md:25
 msgid "Amplitude"
-msgstr ""
+msgstr "Amplitude"
 
 #: 02.2-Synth-Params.md:66
 msgid ""
@@ -1074,30 +1077,43 @@ msgid ""
 "for your ears. This can often make the sound muddy and strange. So try to "
 "use low amplitudes, i.e. in the range 0 to 0.5 to avoid compression."
 msgstr ""
+"Amplitude is de representatie van het geluidsvolume op een computer. Een "
+"hoge amplitude produceert het geluid op een luid volume en een lage "
+"amplitude op een zacht volume. Net zoals Sonic Pi cijfers gebruikt om noten "
+"en tijden aan te geven, gebruikt het cijfers om amplitude te bepalen. Een "
+"amplitude van '0' is stil (je zal niets horen) en een amplitude van '1' is "
+"een normaal volume. Je kan het volume zelfs nog opdrijven en verhogen tot 2, "
+"10, 100. Maar u moet er wel rekening mee houden dat wanneer het globale "
+"volume te hoog wordt, zal Sonic Pi een compressie inschakelen en het geluid "
+"onderdrukken om ervoor te zorgen dat je oren gespaard blijven. Dit kan het "
+"geluid dan weer dof en vreemd doen laten klinken. Dus is het beter lage "
+"amplitudes te gebruiken, dwz. tussen 0 tot0.5 om compressie te vermijden."
 
 #: 02.2-Synth-Params.md:79
 msgid "Amp it up"
-msgstr ""
+msgstr "Amp 't op"
 
 #: 02.2-Synth-Params.md:81
 msgid ""
 "To change the amplitude of a sound, you can use the `amp:` opt. For example, "
 "to play at half amplitude pass 0.5:"
 msgstr ""
+"Om de amplitude van een geluid te veranderen, kan je de 'amp:' optie "
+"gebruiken. Bijvoorbeeld, op gemiddelde amplitude afspelen, gebruik dan 0.5:"
 
 #: 02.2-Synth-Params.md:84
 #, no-wrap
 msgid "play 60, amp: 0.5"
-msgstr ""
+msgstr "play 60, amp: 0.5"
 
 #: 02.2-Synth-Params.md:88
 msgid "To play at double amplitude pass 2:"
-msgstr ""
+msgstr "Afspelen op dubbel zo hoge amplitude gebruik 2:"
 
 #: 02.2-Synth-Params.md:90
 #, no-wrap
 msgid "play 60, amp: 2"
-msgstr ""
+msgstr "play 60, amp: 2"
 
 #: 02.2-Synth-Params.md:94
 msgid ""
@@ -1105,6 +1121,9 @@ msgid ""
 "this example, the first call to play is at half volume and the second is "
 "back to the default (1):"
 msgstr ""
+"De amp opt verandert enkel de 'play' oproep waarmee deze wordt geassocieerd. "
+"In dit voorbeeld zal de eerste oproep dus aan de helft van het volume spelen "
+"en de tweede op standaard-instelling (1):"
 
 #: 02.2-Synth-Params.md:98
 #, no-wrap
@@ -1113,10 +1132,15 @@ msgid ""
 "sleep 0.5\n"
 "play 65"
 msgstr ""
+"play 60, amp: 0.5\n"
+"sleep 0.5\n"
+"play 65"
 
 #: 02.2-Synth-Params.md:104
 msgid "Of course, you can use different `amp:` values for each call to play:"
 msgstr ""
+"Natuurlijk kunnen verschillende 'amp:' waarden per 'play' oproep worden "
+"gebruikt:"
 
 #: 02.2-Synth-Params.md:106
 #, no-wrap
@@ -1129,10 +1153,17 @@ msgid ""
 "sleep 0.25\n"
 "play 62, amp: 1"
 msgstr ""
+"play 50, amp: 0.1\n"
+"sleep 0.25\n"
+"play 55, amp: 0.2\n"
+"sleep 0.25\n"
+"play 57, amp: 0.4\n"
+"sleep 0.25\n"
+"play 62, amp: 1"
 
 #: 02.2-Synth-Params.md:116
 msgid "Panning"
-msgstr ""
+msgstr "Pannen"
 
 #: 02.2-Synth-Params.md:118
 msgid ""
@@ -1144,46 +1175,55 @@ msgid ""
 "free to use any value between -1 and 1 to control the exact positioning of "
 "our sound."
 msgstr ""
+"Een ander leuke opt om te gebruiken is 'pan:' die bepaalt de panning van een "
+"geluid in stereo. Naar links pannen betekent dat je het geluid door de "
+"linker-luidspreker hoort,  naar rechts pannen betekent dat je het geluid "
+"door de rechter-luidspreker hoort. Onze cijferwaarde -1 betekend helemaal "
+"links, 0 geeft het midden weer en 1 geeft helemaal rechts van ons "
+"stereobeeld. Natuurlijk zijn we vrij om elke waarde tussen -1 en 1 te "
+"gebruiken om de exacte positie van ons geluid te bepalen."
 
 #: 02.2-Synth-Params.md:126
 msgid "Let's play a beep out of the left speaker:"
-msgstr ""
+msgstr "Laten we eens een bliepje uit de linkerluidspreker doen klinken:"
 
 #: 02.2-Synth-Params.md:128
 #, no-wrap
 msgid "play 60, pan: -1"
-msgstr ""
+msgstr "play 60, pan: -1"
 
 #: 02.2-Synth-Params.md:132
 msgid "Now, let's play it out of the right speaker:"
-msgstr ""
+msgstr "En nu uit de rechter luidspreker:"
 
 #: 02.2-Synth-Params.md:134
 #, no-wrap
 msgid "play 60, pan: 1"
-msgstr ""
+msgstr "play 60, pan: 1"
 
 #: 02.2-Synth-Params.md:138
 msgid ""
 "Finally let's play it back out of the center of both (the default position):"
-msgstr ""
+msgstr "En nu terug vanuit beiden samen (standaard positie):"
 
 #: 02.2-Synth-Params.md:141
 #, no-wrap
 msgid "play 60, pan: 0"
-msgstr ""
+msgstr "play 60, pan: 0"
 
 #: 02.2-Synth-Params.md:145
 msgid "Now, go and have fun changing the amplitude and panning of your sounds!"
 msgstr ""
+"Doe nu maar, en veel plezier met het veranderen van de amplitude en het "
+"pannen van uw geluiden!"
 
 #: 02.3-Switching-Synths.md:1
 msgid "2.3 Switching Synths"
-msgstr ""
+msgstr "2.3 Synths Veranderen"
 
 #: 02.3-Switching-Synths.md:3
 msgid "Switching Synths"
-msgstr ""
+msgstr "Synths Veranderen"
 
 #: 02.3-Switching-Synths.md:5
 msgid ""
