@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 12:53+0000\n"
+"PO-Revision-Date: 2016-05-31 15:24+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -1233,6 +1233,12 @@ msgid ""
 "is, and in this section we'll explore the exciting range of sounds that "
 "Sonic Pi has to offer."
 msgstr ""
+"Tot nu hebben we al heel wat plezier beleeft met onze biepjes. Dit standaard "
+"biepje zal ons echter na een tijdje gaan vervelen. Is het dit alles wat "
+"Sonic Pi ons te bieden heeft? Er moet toch meer kunnen dan alleen maar wat "
+"biepjes maken met dit hele gedoe van live-coderen? Oh ja zeker, en in deze "
+"sectie gaan we de spannende serie klanken die Sonic Pi te bieden heeft "
+"verkennen."
 
 #: 02.3-Switching-Synths.md:13
 msgid ""
@@ -1246,11 +1252,11 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:21
 msgid "Buzzy saws and prophets"
-msgstr ""
+msgstr "Zaagtand-golven en \"Prophets\""
 
 #: 02.3-Switching-Synths.md:23
 msgid "A fun sound is the *saw wave* - let's give it a try:"
-msgstr ""
+msgstr "Een leuke klank is de *zaagtand-golf*, laten we deze uitproberen:"
 
 #: 02.3-Switching-Synths.md:25
 #, no-wrap
@@ -1263,10 +1269,17 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:35
 msgid "Let's try another sound - the *prophet*:"
-msgstr ""
+msgstr "Laten we nog een andere klank proberen, de *prophet*:"
 
 #: 02.3-Switching-Synths.md:37
 #, no-wrap
@@ -1279,10 +1292,19 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :prophet\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:47
 msgid "How about combining two sounds. First one after another:"
 msgstr ""
+"Hoe zit het dan met het combineren van twee verschillende klanken? Eerst de "
+"ene na de andere:"
 
 #: 02.3-Switching-Synths.md:49
 #, no-wrap
@@ -1296,10 +1318,18 @@ msgid ""
 "play 57\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :saw\n"
+"play 38\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:60
 msgid "Now at the same time:"
-msgstr ""
+msgstr "En nu tezelfdertijd:"
 
 #: 02.3-Switching-Synths.md:62
 #, no-wrap
@@ -1314,6 +1344,15 @@ msgid ""
 "play 57\n"
 "sleep 0.25"
 msgstr ""
+"use_synth :tb303\n"
+"play 38\n"
+"sleep 0.25\n"
+"use_synth :dsaw\n"
+"play 50\n"
+"sleep 0.25\n"
+"use_synth :prophet\n"
+"play 57\n"
+"sleep 0.25"
 
 #: 02.3-Switching-Synths.md:74
 msgid ""
@@ -1322,10 +1361,15 @@ msgid ""
 "whatever synth it's currently pointing to. You can move the switch to a new "
 "synth with `use_synth`."
 msgstr ""
+"Merk hierbij op dat het `use_synth` commando, alleen invloed heeft op de "
+"daarop volgende oproepen van 'play'. Stel je deze even voor,als een grote "
+"schakelaar, die bij nieuwe 'play' opvragingen, eender welke synth laat "
+"afspelen waar momenteel naar verwezen wordt. Je kan die dan omschakelen naar "
+"andere synth door het gebruik van `use_synth`."
 
 #: 02.3-Switching-Synths.md:80
 msgid "Discovering Synths"
-msgstr ""
+msgstr "Synths Ontdekken"
 
 #: 02.3-Switching-Synths.md:82
 msgid ""
@@ -1333,10 +1377,14 @@ msgid ""
 "Synths option in the far left vertical menu (above Fx). There are over 20 to "
 "choose from. Here are a few of my favourites:"
 msgstr ""
+"Om te zien welke synths Sonic Pi voor u heeft om mee te spelen neem dan een "
+"kijkje op de Synths-opties in het uiterst links verticale menu (boven "
+"Effecten). Er zijn er meer dan 20 om uit te kiezen. Hier zijn een paar van "
+"mijn favorieten:"
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
