@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 17:37+0000\n"
+"PO-Revision-Date: 2016-05-31 19:01+0000\n"
 "Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -3359,12 +3359,17 @@ msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name (m"
 "inus directory path and extension)."
 msgstr ""
+"L'espressione regolare `/fo[oO]/` filtrerà il pattern riconosciuto nel nome "
+"del file (cartella di percorso ed estensione esclusi)."
 
 #: 03.7-Sample-Packs.md:191
 msgid ""
 "`:foo` - Keywords will filter candidates on whether the keyword is a direct ma"
 "tch of the filename (minus directory path and extension)."
 msgstr ""
+"La parola chiave `:foo` filtrerà i vari file candidati se la parola chiave "
+"avrà riscontro diretto nel nome del file (cartella di percorso ed estensione "
+"esclusi)."
 
 #: 03.7-Sample-Packs.md:192
 msgid ""
@@ -3373,18 +3378,28 @@ msgid ""
 "nd must return a new list of candidates (a list of valid paths to sample files"
 ")."
 msgstr ""
+"I Procs `lambda{|a| ... }` (ndT: in Ruby i Procs sono blocchi di codice "
+"legati a variabili locali) con un argomento saranno trattati come filtri o "
+"funzioni di generazione. La lista dei file correnti candidati deve essere "
+"passata all'oggetto che restituirà una nuova lista di candidati (una lista "
+"di percorsi validi ai file)."
 
 #: 03.7-Sample-Packs.md:193
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like a"
 " ring if necessary)."
 msgstr ""
+"I numeri `1` selezioneranno il file candidato a quell'indice (ripartendo "
+"dall'inizio se necessario)."
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
 "For example, we can filter over all the samples in a directory containing the "
 "string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
+"Per esempio, possiamo filtrare tutti i campioni in una cartella che "
+"contengono la stringa `\"foo\"` e riproduttre il primo risultato a metà "
+"della velocità:"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
@@ -3396,10 +3411,13 @@ msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the orde"
 "ring of the filters is honoured."
 msgstr ""
+"Vedi il capitolo relativo ai `sample` nel manuale per altri esempi di "
+"utilizzo. Attenzione: verrà rispettato l'ordine dei filtri."
 
 #: 03.7-Sample-Packs.md:206
+#, fuzzy
 msgid "Composites"
-msgstr ""
+msgstr "Compositi"
 
 #: 03.7-Sample-Packs.md:208
 msgid ""
@@ -3408,6 +3426,10 @@ msgid ""
 "ources and filters. Therefore the following calls to `sample` are semantically"
 " equivalent:"
 msgstr ""
+"Infine, puoi usare delle liste sia al posto delle fonti che dei filtri. Le "
+"liste saranno automaticamente appiattite e il loro contenuto sarà trattato "
+"come una fonte o un filtro. Per questo motivo, i seguenti esempi su `sample` "
+"sono equivalenti a livello semantico:"
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -3424,7 +3446,7 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:220
 msgid "Wrapping Up"
-msgstr ""
+msgstr "Conclusione"
 
 #: 03.7-Sample-Packs.md:222
 msgid ""
@@ -3434,14 +3456,19 @@ msgid ""
 "you'll know when you do need it and you can come back and re-read this when yo"
 "u start working with large directories of samples."
 msgstr ""
+"Questa era una sezione per coloro che hanno bisogno di manipolare e usare i "
+"pacchetti di campioni in modo avanzato. Se per te questa sezione non aveva "
+"alcun senso, non ti preoccupare. Probabilmente non hai ancora bisogno di "
+"utilizzare queste funzionalità. In ogni caso ora sai dove si trova questa "
+"sezione e potrai tornare indietro a rileggerla quando ne avrai bisogno."
 
 #: 04-Randomisation.md:1
 msgid "4 Randomisation"
-msgstr ""
+msgstr "4 Randomizzazione"
 
 #: 04-Randomisation.md:3
 msgid "Randomisation"
-msgstr ""
+msgstr "Randomizzazione"
 
 #: 04-Randomisation.md:5
 msgid ""
@@ -3450,10 +3477,15 @@ msgid ""
 "t before we start we need to learn a shocking truth: in Sonic Pi *random is no"
 "t truly random*. What on earth does this mean? Well, let's see."
 msgstr ""
+"Un modo molto efficace per rendere interessante la tua musica è utilizzare "
+"numeri casuali. Sonic Pi ha delle funzioni che ti permettono di introdurre "
+"un po' di casualità all'interno della tua musica ma, prima di cominciare, "
+"dovete conoscere un'importante verità: in Sonic Pi i numeri casuali non sono "
+"*veramente casuali*. Che significa? Vediamo insieme."
 
 #: 04-Randomisation.md:11
 msgid "Repeatability"
-msgstr ""
+msgstr "Ripetibilità"
 
 #: 04-Randomisation.md:13
 msgid ""
@@ -3461,6 +3493,10 @@ msgid ""
 "between two numbers - a *min* and a *max*. (`rrand` is short for ranged random"
 "). Let's try playing a random note:"
 msgstr ""
+"Una delle funzioni per avere numeri casuali è `rrand` che restituisce un "
+"valore compreso tra due numeri, un *minimo* e un *massimo*. (`rrand` è "
+"l'abbreviazione di ranged random, ovvero una casualità tra una serie di "
+"valori). Proviamo a suonare una nota casuale:"
 
 #: 04-Randomisation.md:17
 #, no-wrap
@@ -3474,6 +3510,11 @@ msgid ""
 "oo? Something fishy is going on here. Try running the code again. What? It cho"
 "se `83.7527` again? That can't be random!"
 msgstr ""
+"Wow, abbiamo suonato una nota a caso. La nota suonata è `83.7527`. Un numero "
+"casuale tra 50 e 95. Ehi, un momento, ho appena predetto il valore esatto "
+"della nota casuale che hai suonato anche tu? Sta succedendo qualcosa di "
+"strano. Prova a eseguire nuovamente il codice. È uscito ancora `83.7527`? "
+"Non può essere casuale!"
 
 #: 04-Randomisation.md:26
 msgid ""
@@ -3482,6 +3523,11 @@ msgid ""
 "suring that the music you create on your machine sounds identical on everybody"
 " else's machine - even if you use some randomness in your composition."
 msgstr ""
+"La risposta è che non è realmente casuale, è pseudo-random. Sonic Pi "
+"restituirà sempre dei valori pseudo-casuali in un modo ripetibile. Questo è "
+"utile per essere sicuri che la musica create sulla nostra macchina suonerà "
+"identica su qualsiasi altro computer, anche utilizzando un po' di casualità "
+"nella nostra composizione."
 
 #: 04-Randomisation.md:32
 msgid ""
@@ -3489,6 +3535,9 @@ msgid ""
 "ime, then it wouldn't be very interesting. However, it doesn't. Try the follow"
 "ing:"
 msgstr ""
+"Ovviamente, in un brano musicale, se venisse scelto in modo \"casuale\" "
+"sempre il valore `83.7527` non sarebbe interessante. Comunque non sempre "
+"restituirà quel risultato. Prova con il seguente codice:"
 
 #: 04-Randomisation.md:36
 #, no-wrap
@@ -3511,10 +3560,17 @@ msgid ""
 "ll Sonic Pi code went back in time to exactly the same point every time the Ru"
 "n button was pressed. It's the Groundhog Day of music synthesis!"
 msgstr ""
+"Evviva! Finalmente suona casuale. Se richiamiamo più volte la funzione "
+"random, otterremo in cambio valori davvero casuali. Ricorda comunque che al "
+"successivo avvio, otterremo la stessa sequenza di numeri casuali per cui "
+"suonerà esattamente nello stesso modo. È come se il codice scritto in Sonic "
+"Pi andasse indietro nel tempo tornando allo stesso punto di inizio ogni "
+"volta che premiamo il pulsante di avvio. È il giorno della marmotta nella "
+"sintesi musicale!"
 
 #: 04-Randomisation.md:50
 msgid "Haunted Bells"
-msgstr ""
+msgstr "Campane stregate"
 
 #: 04-Randomisation.md:52
 msgid ""
@@ -3522,6 +3578,10 @@ msgid ""
 "which loops the `:perc_bell` sample with a random rate and sleep time between "
 "bell sounds:"
 msgstr ""
+"Un bell'esempio dell'utilizzo di valori casuali è nel seguente codice, "
+"chiamato \"Campane stregate\" che esegue una ripetizione del campione "
+"`:perc_bell` con valori casuali di velocità (rate) e pausa (sleep) tra i "
+"vari suoni di campana:"
 
 #: 04-Randomisation.md:56
 #, no-wrap
@@ -3538,13 +3598,16 @@ msgstr ""
 
 #: 04-Randomisation.md:63
 msgid "Random cutoff"
-msgstr ""
+msgstr "Cutoff (taglio di frequenze) casuale"
 
 #: 04-Randomisation.md:65
 msgid ""
 "Another fun example of randomisation is to modify the cutoff of a synth random"
 "ly. A great synth to try this out on is the `:tb303` emulator:"
 msgstr ""
+"Un altro esempio sull'utilizzo di valori casuali può essere applicato al "
+"taglio di frequenze su un sintetizzatore. Un ottimo synth con cui provarlo è "
+"l'emulatore `:tb303`:"
 
 #: 04-Randomisation.md:69
 #, no-wrap
@@ -3563,7 +3626,7 @@ msgstr ""
 
 #: 04-Randomisation.md:78
 msgid "Random seeds"
-msgstr ""
+msgstr "Semi casuali"
 
 #: 04-Randomisation.md:80
 msgid ""
@@ -3572,10 +3635,14 @@ msgid ""
 " `use_random_seed`. The default seed happens to be 0, so choose a different se"
 "ed for a different random experience!"
 msgstr ""
+"E se non ci piacesse la sequenza casuale generata da Sonic Pi? Ovviamente è "
+"possibile scegliere un punto di partenza diverso utilizzando "
+"`use_random_seed`. Il seme di default è 0; puoi utilizzare semi differenti "
+"per ottenere effetti casuali diversi!"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
-msgstr ""
+msgstr "Prova con questo esempio:"
 
 #: 04-Randomisation.md:87
 #, no-wrap
@@ -3595,6 +3662,8 @@ msgid ""
 "Every time you run this code, you'll hear the same sequence of 5 notes. To get"
 " a different sequence simply change the seed:"
 msgstr ""
+"Ogni volta che avvierai questo codice, sentirai la stessa sequenza di 5 "
+"note. Per avere una sequenza differente, proviamo a cambiare il seme:"
 
 #: 04-Randomisation.md:97
 #, no-wrap
@@ -3617,6 +3686,10 @@ msgid ""
 "stening to the results you can find something that you like - and when you sha"
 "re it with others, they will hear exactly what you heard too."
 msgstr ""
+"Questo codice produrrà una sequenza di 5 note diversa dalla precedente. "
+"Cambiando il seme e ascoltando il risultato ottenuto possiamo trovare "
+"qualcosa che ci piace e quando lo condivideremo con altre persone, loro "
+"ascolteranno sempre la stessa identica cosa."
 
 #: 04-Randomisation.md:110
 msgid "Let's have a look at some other useful random functions."
