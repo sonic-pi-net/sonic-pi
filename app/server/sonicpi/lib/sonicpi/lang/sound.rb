@@ -2544,11 +2544,6 @@ load_sample dir, /[Bb]ar/ # loads sample which matches regex /[Bb]ar/ in \"/path
 
       def load_sample_at_path(path)
         case path
-        when Symbol
-          full_path = resolve_sample_symbol_path(path)
-          info, cached = @mod_sound_studio.load_sample(full_path)
-          __info "Loaded sample :#{path}" unless cached
-          return info
         when String
           raise "Attempted to load sample with an empty string as path" if path.empty?
           path = File.expand_path(path)
@@ -2556,7 +2551,7 @@ load_sample dir, /[Bb]ar/ # loads sample which matches regex /[Bb]ar/ in \"/path
           __info "Loaded sample #{unify_tilde_dir(path).inspect}" unless cached
           return info
         else
-          raise "Unknown sample description: #{path.inspect}\n Expected a symbol such as :loop_amen or a string containing a path."
+          raise "Unknown sample description: #{path.inspect}\n expected a string containing a path."
         end
       end
 
