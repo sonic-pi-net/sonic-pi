@@ -266,7 +266,7 @@ module SonicPi
           resolve_sample_paths(filts_and_sources).each do |p|
             if sample_loaded?(p)
               @mod_sound_studio.free_sample([p])
-              __info "Freed sample: #{p.inspect}"
+              __info "Freed sample: #{unify_tilde_dir(p).inspect}"
             end
           end
         end
