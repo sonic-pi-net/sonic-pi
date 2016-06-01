@@ -33,7 +33,7 @@ static char default_font[] = "Bitstream Vera Sans Mono";
 
 
 // triggers autocompletion for the next word
-QStringList QsciLexer::autoCompletionWordSeparators() const {
+QStringList SonicPiLexer::autoCompletionWordSeparators() const {
   QStringList seps;
   seps << " " << "," << "(" << ")" << "{" << "}";
   return seps;
