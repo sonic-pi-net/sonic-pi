@@ -1,10 +1,10 @@
-# SONIC PI DETAILED BUILD YOUR OWN INSTRUCTIONS FOR WINDOWS 10 BASED ON LATEST SP 2.9dev after e7fde3a
+# SONIC PI DETAILED BUILD YOUR OWN INSTRUCTIONS FOR WINDOWS 10 BASED ON LATEST SP 2.11dev
 
-Last revision 29th December 2015 @ 7:32PM AWST   (minor grammar improvement)
+Last revision 1st June 2016  
 
-Tested on Windows 10 64bit (running under vmware fusion on a Mac) and Windows 7 64bit.
+Tested on Windows 10 64bit.
 
-This document details the process from beginning to end to build Sonic Pi 2.9dev and I hope it will be useful to others, and encourage them to have a go themselves.
+This document details the process from beginning to end to build Sonic Pi 2.11dev and I hope it will be useful to others, and encourage them to have a go themselves.
 
 First there is quite a bit of software to install to facilitate the build, not least the source files for Sonic Pi.
 
@@ -261,7 +261,7 @@ Select the latest version link at the top of the page and download
 ```Looking for the latest version? Download sc3-plugins-3.6.0-win32.zip (10.3 MB)```
 Extract them in the download folder.
 
-NB: The current Sonic Pi 2.9 is packaged with sc3-plugins 3.7.0-beta (f978dc2), which can be compiled in an MSYS environment as follows:
+NB: The current Sonic Pi 2.11 is packaged with sc3-plugins 3.7.0-beta (f978dc2), which can be compiled in an MSYS environment as follows:
 * install FFTW3 binaries from ftp://ftp.fftw.org/pub/fftw/fftw-3.3.4-dll32.zip to `/home/sc/fftw3.3.4-dll32` for example
 * `git clone https://github.com/supercollider/sc3-plugins.git`
 * `cd sc3-plugins && git submodule init && git submodule update`
