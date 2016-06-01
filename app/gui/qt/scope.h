@@ -59,10 +59,11 @@ public:
   bool enableScope( const QString& name, bool on );
   bool setScopeAxes(bool on);
   void togglePause();
+  void resetScope();
 
 private slots:
   void refreshScope();
- 
+
 private:
   std::unique_ptr<server_shared_memory_client> shmClient;
   double sample_x[4096];
@@ -71,6 +72,7 @@ private:
   std::vector<std::shared_ptr<ScopePanel>> panels;
   //ScopePanel lissajous, left,right;
   bool paused;
+  unsigned int emptyFrames;
 };
 
 #endif

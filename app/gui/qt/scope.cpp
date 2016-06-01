@@ -91,7 +91,7 @@ void ScopePanel::refresh( )
   plot.replot();
 }
 
-Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false )
+Scope::Scope( QWidget* parent ) : QWidget(parent), paused( false ), emptyFrames(0)
 {
   //lissajous("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ), left("Left",sample_x,sample[0],4096,this), right("Right",sample_x,sample[1],4096, this)
   panels.push_back( std::shared_ptr<ScopePanel>(new ScopePanel("Lissajous", sample[0]+(4096-1024), sample[1]+(4096-1024), 1024, this ) ) );
@@ -154,19 +154,25 @@ void Scope::togglePause() {
   paused = !paused;
 }
 
+void Scope::resetScope()
+{
+  shmClient.reset(new server_shared_memory_client(4556));
+  shmReader = shmClient->get_scope_buffer_reader(0);
+}
+
 void Scope::refreshScope() {
   if( paused ) return;
   if( !isVisible() ) return;
 
   if( !shmReader.valid() )
   {
-    shmClient.reset(new server_shared_memory_client(4556));
-    shmReader = shmClient->get_scope_buffer_reader(0);
+    resetScope();
   }
 
   unsigned int frames;
   if( shmReader.pull( frames ) )
   {
+    emptyFrames = 0;
     float* data = shmReader.data();
     for( unsigned int j = 0; j < 2; ++j )
     {
@@ -184,6 +190,14 @@ void Scope::refreshScope() {
     for( auto scope : panels )
     {
       scope->refresh();
+    }
+  } else
+  {
+    ++emptyFrames;
+    if( emptyFrames > 10 )
+    {
+      resetScope();
+      emptyFrames = 0;
     }
   }
 }
