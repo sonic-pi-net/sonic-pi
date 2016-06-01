@@ -149,7 +149,7 @@ Klick auf den Ausführen-Button.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="235"></location>
         <source>Welcome to Sonic Pi</source>
-        <translation>Willkommen bei Sonic Pi!</translation>
+        <translation>Willkommen bei Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="709"></location>
@@ -916,7 +916,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../ruby_help.h" line="779"></location>
         <source>Lang</source>
-        <translation>Lang</translation>
+        <translation>Sprache</translation>
     </message>
 </context>
 <context>
