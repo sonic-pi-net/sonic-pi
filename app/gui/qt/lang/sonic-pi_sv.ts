@@ -6,7 +6,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="460"></location>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="473"></location>
@@ -18,12 +18,12 @@
         <location filename="../mainwindow.cpp" line="2609"></location>
         <location filename="../mainwindow.cpp" line="2629"></location>
         <source>Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Raspberry Pi systemvolym</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="918"></location>
