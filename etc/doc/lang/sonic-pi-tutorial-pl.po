@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 14:50+0000\n"
+"PO-Revision-Date: 2016-06-01 19:59+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -168,46 +168,39 @@ msgstr ""
 "następujące kroki:"
 
 #: 01.1-Live-Coding.md:32
-#, fuzzy
 msgid "Make sure the bass drum sound is still running"
-msgstr "Upewnij się, że wciąż słyszysz dźwięk uderzającego bębna."
+msgstr "Upewnij się, że wciąż słyszysz dźwięk uderzającego bębna"
 
 #: 01.1-Live-Coding.md:33
-#, fuzzy
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
 msgstr ""
-"Zmień wartość znajdującą się przy poleceniu `sleep` z wartości \\`0.5' na więks"
-"zą, np. 1."
+"Zmień wartość `0.5` znajdującą się przy poleceniu `sleep` na większą, np. 1."
 
 #: 01.1-Live-Coding.md:34
-#, fuzzy
 msgid "Press the `Run` button again"
-msgstr "Ponownie naciśnij przycisk `Run`"
+msgstr "A teraz ponownie naciśnij przycisk `Run`"
 
 #: 01.1-Live-Coding.md:35
-#, fuzzy
 msgid "Notice how the drum speed has changed."
 msgstr "Zauważ jak zmieniła się szybkość uderzeń bębna."
 
 #: 01.1-Live-Coding.md:36
-#, fuzzy
 msgid ""
 "Finally, *remember this moment*, this is the first time you've live coded with"
 " Sonic Pi and it's unlikely to be your last..."
 msgstr ""
-"*Zapamiętaj ten moment*, gdyż jest to twój pierwszy raz (i prawdopobnie nie os"
-"tatni), kiedy kodujesz na żywo używając Sonic Pi..."
+"A teraz... *zapamiętaj ten moment*, gdyż jest to pierwszy (i prawdopodobnie "
+"nie ostatni) raz, kiedy kodujesz na żywo w Sonic Pi..."
 
 #: 01.1-Live-Coding.md:39
-#, fuzzy
 msgid ""
 "Ok, that was simple enough. Let's add something else into the mix. Above `samp"
 "le :bd_haus` add the line `sample :ambi_choir, rate: 0.3`. Your code should lo"
 "ok like this:"
 msgstr ""
-"OK, to było dosyć łatwe. Dodajmy do naszego miksu coś innego. Powyżej linii `s"
-"ample :bd_haus` dodaj linijkę `sample :ambi_choir, rate: 0.3`. Twój kod powini"
-"en teraz wyglądać następująco:"
+"No dobra, to było całkiem łatwe. Dodajmy do naszego miksu coś jeszcze. "
+"Powyżej linii `sample :bd_haus` dodaj linijkę `sample :ambi_choir, rate: 0.3`"
+". Twój kod powinien teraz wyglądać następująco:"
 
 #: 01.1-Live-Coding.md:43
 #, no-wrap
@@ -225,7 +218,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -234,21 +226,20 @@ msgid ""
 "your computer will stop with an error because it can't keep up (if that happen"
 "s, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"A teraz czas na zabawę. Zacznij zmieniać liczby - co się stanie gdy użyjesz du"
-"żych wartości, co się stanie gdy użyjesz małych lub ujemnych liczb? Spróbuj zo"
-"baczyć co się stanie gdy zmienisz wartość parametru `rate:` dla sampla `:ambi_"
-"choir` tylko odrobinę (np. na 0.29). Co się stanie jeśli wybierzesz naprawdę m"
-"ałą wartość dla parametru `sleep`? Zobacz, czy uda Ci się uruchomić powyższą p"
-"ętlę tak szybko, że twój komputer zatrzyma się z powodu błedu, gdyż nie będzie"
-" w stanie nadążyć (jeśli to się zdarzy, po prostu wybierz większa wartość dla "
-"parametru `sleep` i ponownie naciśnij przycisk `Run`)."
+"A teraz czas na zabawę. Zacznij zmieniać liczby - co się stanie gdy użyjesz "
+"dużych, małych lub ujemnych liczb? Zobacz co się stanie gdy zmienisz "
+"odrobinę wartość parametru `rate:` dla sampla `:ambi_choir` (np. na 0.29). "
+"Co się stanie jeśli wybierzesz naprawdę małą wartość dla parametru `sleep`? "
+"Zobacz, czy uda Ci się uruchomić powyższą pętlę w tak szybkim tempie, że "
+"twój komputer zatrzyma się z powodu błędu, gdyż nie będzie w stanie nadążyć ("
+"jeśli to się zdarzy, po prostu wybierz większa wartość dla parametru `sleep` "
+"i ponownie naciśnij przycisk `Run`)."
 
 #: 01.1-Live-Coding.md:59
-#, fuzzy
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
 msgstr ""
-"Spróbuj zrobić komentarz w jednej z linii zawierających `sample` dodając na po"
-"czątku linii znak `#`, np.:"
+"Spróbuj zrobić komentarz w jednej z linii zawierających polecenie `sample` "
+"dodając na początku linii znak `#`, np.:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -266,19 +257,17 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:70
-#, fuzzy
 msgid ""
 "Notice how it tells the computer to ignore it, so we don't hear it. This is ca"
 "lled a comment. In Sonic Pi we can use comments to remove and add things into "
 "the mix."
 msgstr ""
-"Zauważ, że dodanie znaku `#` na początku linii mówi komputerowi aby zignorował"
-" daną linię, dzięki czemu jej nie słyszymy. Taką linijkę nazywamy komentarzem."
-" W Sonic Pi możemy używać komentarzy do usuwania i dodawania różnych rzeczy do"
-" naszej muzyki."
+"Zauważ, że dodanie znaku `#` na początku linii nakazuje komputerowi aby "
+"zignorował daną linię, dzięki temu jej nie słyszymy. Taką linijkę nazywamy "
+"komentarzem. W Sonic Pi możemy używać komentarzy do usuwania i dodawania "
+"różnych rzeczy do naszej muzyki."
 
 #: 01.1-Live-Coding.md:74
-#, fuzzy
 msgid ""
 "Finally, let me leave you something fun to play with. Take the code below, and"
 " copy it into a spare buffer. Now, don't try to understand it too much other t"
@@ -286,28 +275,26 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"Na koniec pozwól, że pozostawię Ci do zabawy coś fajnego. Spójrz na kod poniże"
-"j i skopiuj go do wolnego i pustego bufora. Teraz, nie próbuj zrozumieć nic wi"
-"ęcej niż to, że w tym kodzie są dwie pętle (`live_loop`). Oznacza to, że w tym"
-" samym czasie dzieją się dwie rzeczy. Teraz, rób to co umiesz najlepiej - eksp"
-"erymentuj i baw się próbując zmieniać ten kod. Oto kilka sugestii co możesz zr"
-"obić:"
+"Na koniec pozwól, że pozostawię Ci do zabawy coś fajnego. Spójrz na kod "
+"poniżej i skopiuj go do wolnego i pustego bufora. Teraz, nie próbuj "
+"zrozumieć nic więcej ponadto, że w tym kodzie są dwie pętle (`live_loop`). "
+"Oznacza to, że w tym samym czasie dzieją się dwie rzeczy. A teraz, rób to co "
+"umiesz najlepiej - eksperymentuj i baw się próbując zmieniać ten kod. Oto "
+"kilka sugestii co możesz zrobić:"
 
 #: 01.1-Live-Coding.md:80
-#, fuzzy
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Spróbuj zmienić wartości niebieskich wskaźników `rate:` aby usłyszeć zmianę w "
-"dźwiękach poszczególnych sampli."
+"Spróbuj zmienić wartość niebieskich wskaźników `rate:` aby usłyszeć jak "
+"zmienia się brzmienie sampli."
 
 #: 01.1-Live-Coding.md:81
-#, fuzzy
 msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at diff"
 "erent rates."
 msgstr ""
-"Spróbuj zminiać wartości parametrów `sleep` dzięki czemu usłyszysz, że obie pę"
-"tle mogą kręcić się z różną szybkością."
+"Spróbuj zmieniać wartości parametrów `sleep` dzięki czemu usłyszysz, że obie "
+"pętle mogą kręcić się z różną szybkością."
 
 #: 01.1-Live-Coding.md:83
 #, fuzzy
