@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 16:57+0000\n"
+"PO-Revision-Date: 2016-06-01 14:45+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -1457,11 +1457,11 @@ msgstr "controle over de duurtijd van een klank"
 
 #: 02.4-Durations-with-Envelopes.md:15
 msgid "control over the amplitude of a sound"
-msgstr ""
+msgstr "controle over de amplitude van een klank"
 
 #: 02.4-Durations-with-Envelopes.md:17
 msgid "Duration"
-msgstr ""
+msgstr "Duurtijd"
 
 #: 02.4-Durations-with-Envelopes.md:19
 msgid ""
@@ -1471,6 +1471,11 @@ msgid ""
 "of the sound. Therefore, by controlling the envelope you control the "
 "duration."
 msgstr ""
+"De duurtijd is de lengte dat het geluid aanhoud . Een langere duur betekent "
+"dat u het geluid langer hoort. Sonic Pi's klanken hebben allen een "
+"instelbare amplitude-envelop en de totale duur van die envelop is dan de "
+"duurtijd van dat geluid. Dus, door het instellen van de envelop kan je de "
+"duurtijd bepalen."
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1483,7 +1488,7 @@ msgid ""
 "slowly move up to full volume, hold it for a bit, then quickly fall back to "
 "silence.\" Sonic Pi allows you to program exactly this behaviour with "
 "envelopes."
-msgstr ""
+msgstr "De ADSR \"envelope\" controleert niet alleen de duurtijd,"
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
@@ -1516,7 +1521,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
 msgid "play 70, release: 1"
-msgstr ""
+msgstr "play 70, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:60
 msgid ""
@@ -1528,7 +1533,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
 msgid "play 60, release: 2"
-msgstr ""
+msgstr "play 60, release: 2"
 
 #: 02.4-Durations-with-Envelopes.md:68
 msgid ""
@@ -1539,7 +1544,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
 msgid "play 60, release: 0.2"
-msgstr ""
+msgstr "play 60, release: 0.2"
 
 #: 02.4-Durations-with-Envelopes.md:75
 msgid ""
@@ -1586,6 +1591,9 @@ msgid ""
 "sleep 3\n"
 "play 65, attack: 0.5"
 msgstr ""
+"play 60, attack: 2\n"
+"sleep 3\n"
+"play 65, attack: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:104
 msgid ""
@@ -1596,7 +1604,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
 msgid "play 60, attack: 0.7, release: 4"
-msgstr ""
+msgstr "play 60, attack: 0.7, release: 4"
 
 #: 02.4-Durations-with-Envelopes.md:111
 msgid ""
@@ -1617,7 +1625,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
-msgstr ""
+msgstr "play 60, attack: 4, release: 0.7"
 
 #: 02.4-Durations-with-Envelopes.md:123
 msgid ""
@@ -1634,7 +1642,7 @@ msgstr ""
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
 msgid "play 60, attack: 0.5, release: 0.5"
-msgstr ""
+msgstr "play 60, attack: 0.5, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:132
 msgid ""
