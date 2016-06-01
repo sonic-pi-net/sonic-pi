@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-31 19:01+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2016-06-01 11:14+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -3415,7 +3415,6 @@ msgstr ""
 "utilizzo. Attenzione: verrà rispettato l'ordine dei filtri."
 
 #: 03.7-Sample-Packs.md:206
-#, fuzzy
 msgid "Composites"
 msgstr "Compositi"
 
@@ -3693,11 +3692,11 @@ msgstr ""
 
 #: 04-Randomisation.md:110
 msgid "Let's have a look at some other useful random functions."
-msgstr ""
+msgstr "Allora, diamo un'occhiata ad alcune funzioni casuali."
 
 #: 04-Randomisation.md:113
 msgid "choose"
-msgstr ""
+msgstr "choose (scegli)"
 
 #: 04-Randomisation.md:115
 msgid ""
@@ -3708,6 +3707,14 @@ msgid ""
 "uare brackets and separating them with commas: `[60, 65, 72]`. Next I just nee"
 "d to pass them to `choose`:"
 msgstr ""
+"Un'opzione molto utile è quella di scegliere in oggetto a caso da una lista "
+"di oggetti già conosciuti. Per esempio, potrei voler suonare una nota dal "
+"seguente elenco: 60, 65, 72. Posso ottenere questo risultato con la funzione "
+"'choose' che mi permette di scegliere un oggetto da una lista. Prima di "
+"tutto, devo mettere i miei numeri in una lista che può essere creata "
+"inserendo i numeri all'interno di parentesi quadre, separati da virgole. "
+"Così: '[60,65,72]'. Successivamente, è sufficiente attivare la funzione "
+"'choose':"
 
 #: 04-Randomisation.md:122
 #, no-wrap
@@ -3716,7 +3723,7 @@ msgstr "choose([60, 65, 72])"
 
 #: 04-Randomisation.md:126
 msgid "Let's hear what that sounds like:"
-msgstr ""
+msgstr "Ascoltiamo che cosa ne è venuto fuori:"
 
 #: 04-Randomisation.md:128
 #, no-wrap
@@ -3733,7 +3740,7 @@ msgstr ""
 
 #: 04-Randomisation.md:135
 msgid "rrand"
-msgstr ""
+msgstr "rrand (Funzione random)"
 
 #: 04-Randomisation.md:137
 msgid ""
@@ -3743,10 +3750,17 @@ msgid ""
 " always be a float - meaning it's not a whole number but a fraction of a numbe"
 "r. Examples of floats returned by `rrand(20, 110)`:"
 msgstr ""
+"Abbiamo già visto la funzione 'rrand', ma proviamo a riavviarla di nuovo. Il "
+"risultato è un numero casuale contenuto all'interno di due valori. Questo "
+"significa che non otterremo mai il valore esatto dei due numeri estremi ma "
+"sempre numeri contenuti in questo intervallo. I numeri saranno sempre dei "
+"numeri decimali, ovvero non dei numeri interi ma piuttosto delle frazioni di "
+"un numero. Per esempio, proviamo a osservare i numeri che escono da: "
+"'rrand(20,110)':"
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
-msgstr ""
+msgstr "rrand_i (numeri interi casuali)"
 
 #: 04-Randomisation.md:150
 msgid ""
@@ -9309,9 +9323,9 @@ msgid ""
 "  sleep 0.295\n"
 "end"
 msgstr ""
-"# Steve Reich's Piano Phase\n"
-"notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5"
-")\n"
+"# Piano Phase di Steve Reich\n"
+"notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, "
+":Cs5)\n"
 "live_loop :slow do\n"
 "  play notes.tick, release: 0.1\n"
 "  sleep 0.3\n"
@@ -9975,13 +9989,15 @@ msgid ""
 "end"
 msgstr ""
 "live_loop :random_riff do\n"
-"  #  uncomment to bring in:\n"
+"  #  togli il cancelletto che serve per i commenti per attivare la funzione:"
+"\n"
 "  #  synth :blade, note: :e4, release: 4, cutoff: 100, amp: 1.5\n"
 "  use_synth :dsaw\n"
 "  use_random_seed 43\n"
 "  notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle.take(8)\n"
 "  8.times do\n"
-"    play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)\n"
+"    play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)"
+"\n"
 "    sleep 0.125\n"
 "  end\n"
 "end\n"
@@ -11258,7 +11274,7 @@ msgstr ""
 #: A.09-randomisation.md:22
 #, no-wrap
 msgid "print rand"
-msgstr "print rand"
+msgstr "print rand (stampa i numeri casuali)"
 
 #: A.09-randomisation.md:26
 msgid ""
