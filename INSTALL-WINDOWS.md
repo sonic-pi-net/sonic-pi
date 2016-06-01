@@ -217,6 +217,13 @@ nmake install
 And now, install Boost C++ libs:
 Download Boost 1.61 from http://www.boost.org/users/history/version_1_61_0.html, and decompress into c:\.
 
+An now we compile the binary boost files. Go to c:\boost_1_61_0, and execute the following:
+```
+bootstrap
+b2 toolset=msvc-12.0
+```
+
+
 
 Create the C:\sonic-pi\app\server\rb-native\windows\2.3.0 directory.
 
