@@ -143,9 +143,11 @@ Now build the patched rugged
 ```
 
 Now, install the fast_osc gem
-.\bin\gem install fast_osc
+```
+..\bin\gem install fast_osc
+```
 
-NB: rb-native is not being used for Windows packages, the gems can happily live where they were installed by the "local" Ruby.  You MAY need to delete the vendor/rugged directory so it uses the right version.
+NB: rb-native is not being used for Windows packages, the gems can happily live where they were installed by the "local" Ruby.  You will probably need to delete the vendor/rugged directory so it uses the right version.
 
 That completes the ruby preparation work. Close the cmd and FileExplorer windows.
 
@@ -194,9 +196,6 @@ Return to the visual studio command window.
 cd c:\QScintilla_gpl-2.9.2\Qt4Qt5
 qmake qscintilla.pro CONFIG+=staticlib
 nmake
-```
-(it will now be compiled)
-```
 nmake install
 ```
 keep the cmd window open
@@ -209,7 +208,8 @@ Next step is to install QWT.
 Download the installer from https://sourceforge.net/projects/qwt/files/qwt/6.1.2/. Select the qwt-6.1.2.zip file.
 Once downloaded, extract in c:\qwt-6.1.2.
 In one **VS2013 x86 Native Tools Command Prompt**, cd into c:\qwt-6.1.2 and execute the following:
-```qmake qwt.pro
+```
+qmake qwt.pro
 nmake
 nmake install
 ```
@@ -217,7 +217,7 @@ nmake install
 And now, install Boost C++ libs:
 Download Boost 1.61 from http://www.boost.org/users/history/version_1_61_0.html, and decompress into c:\.
 
-An now we compile the binary boost files. Go to c:\boost_1_61_0, and execute the following:
+And now we compile the binary boost files. Go to c:\boost_1_61_0, and execute the following:
 ```
 bootstrap
 b2 toolset=msvc-12.0
