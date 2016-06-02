@@ -99,6 +99,8 @@ module SonicPi
       request_notifications
 
 
+    def info(s)
+      message "info        - #{s}"
     end
 
     def message(s)
@@ -106,19 +108,19 @@ module SonicPi
     end
 
    def request_notifications
-      message "info        - Requesting notifications" if @debug_mode
+      info "Requesting notifications" if @debug_mode
       osc @osc_path_notify, 1
     end
 
     def load_synthdefs(path)
-      message "info        - Loading synthdefs from path: #{path}" if @debug_mode
+      info "Loading synthdefs from path: #{path}" if @debug_mode
       with_server_sync do
         osc @osc_path_d_loaddir, path.to_s
       end
     end
 
     def clear_scsynth!
-      message "info        - Clearing scsynth" if @debug_mode
+      info "Clearing scsynth" if @debug_mode
       @CURRENT_NODE_ID.reset!
       clear_schedule
       group_clear 0, true
