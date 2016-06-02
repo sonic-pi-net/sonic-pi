@@ -184,6 +184,24 @@
                              scope_num 0
                              max_frames 4096]
      (scope-out2 (in:ar bus 2) scope_num max_frames))
+
+   (defsynth sonic-pi-server-info
+    [response-id -1]
+    (send-reply (impulse 2)
+                "/sonic-pi/server-info"
+                [(sample-rate)
+                 (sample-dur)
+                 (radians-per-sample)
+                 (control-rate)
+                 (control-dur)
+                 (subsample-offset)
+                 (num-output-buses)
+                 (num-input-buses)
+                 (num-audio-buses)
+                 (num-control-buses)
+                 (num-buffers)
+                 (num-running-synths)]
+                response-id))
    )
 
 
@@ -193,5 +211,7 @@
     (core/save-synthdef sonic-pi-mixer)
     (core/save-synthdef sonic-pi-basic_mixer)
     (core/save-synthdef sonic-pi-recorder)
-    (core/save-synthdef sonic-pi-scope))
+    (core/save-synthdef sonic-pi-scope)
+    (core/save-synthdef sonic-pi-server-info))
+
 )

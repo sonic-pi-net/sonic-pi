@@ -28,7 +28,7 @@ module SonicPi
   class Server
     include Util
 
-    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta
+    attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :sched_ahead_time, :control_delta, :info
 
     def initialize(hostname, port, msg_queue)
       # Cache common OSC path strings as frozen instance
@@ -72,6 +72,8 @@ module SonicPi
 
       @scsynth = SCSynthExternal.new(@osc_events)
 
+
+
       @position_codes = {
         head: 0,
         tail: 1,
@@ -85,19 +87,48 @@ module SonicPi
         @scsynth.shutdown
       end
 
+      request_notifications
+
       # Push all incoming OSC messages to the event system
 
 
       @CURRENT_NODE_ID = Counter.new(1)
       @CURRENT_SYNC_ID = Counter.new(0)
       @BUFFER_ALLOCATOR = Allocator.new(1024) # TODO: Another magic num to remove
-      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new num_audio_busses_for_current_os, 10 #TODO: remove these magic nums
-      @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new 4096
+
+      info_prom = Promise.new
+
+      add_event_oneshot_handler("/sonic-pi/server-info") do |payload|
+        info_prom.deliver! payload
+      end
+      load_synthdefs(synthdef_path)
+      osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0, []
+      info = info_prom.get
+      @info = {
+        :sample_rate => info[2],
+        :sample_dur => info[3],
+        :radians_per_sample => info[4],
+        :control_rate => info[5],
+        :control_dur => info[6],
+        :subsample_offset => info[7],
+        :num_output_busses => info[8],
+        :num_input_busses => info[9],
+        :num_audio_busses => info[10],
+        :num_control_busses => info[11],
+        :num_buffers => info[12]
+      }
+
+      info "num input busses: #{@info[:num_input_busses]}"
+      info "num output busses: #{@info[:num_output_busses]}"
+      info "num control busses: #{@info[:num_control_busses]}"
+      info "num audio busses: #{@info[:num_audio_busses]}"
+      @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new @info[:num_audio_busses], @info[:num_output_busses] + @info[:num_input_busses]
+      @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new @info[:num_control_busses]
 
       message "info        - Initialising comms... #{msg_queue}" if @debug_mode
-      clear_scsynth!
-      request_notifications
 
+      clear_scsynth!
+    end
 
     def info(s)
       message "info        - #{s}"
