@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-01 11:14+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-06-02 17:42+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -3770,10 +3770,15 @@ msgid ""
 " rather than exclusive of the range). Examples of numbers returned by `rrand_i"
 "(20, 110)` are:"
 msgstr ""
+"Può capitare di avere bisogno di un numero casuale che sia intero e non "
+"decimale. Qui entra in gioco la funzione `rrand_i`. Funziona in modo simile "
+"a `rrand` con la differenza che può restituire il valore minimo e massimo "
+"come possibili valori (si tratta, infatti, di una funzione inclusiva). "
+"Questi sono degli esempi di valori restituiti da `rrand_i(20, 110)`:"
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
 msgid ""
@@ -3781,6 +3786,10 @@ msgid ""
 "ecify (exclusive). By default it will return a value between 0 and one. It's t"
 "herefore useful for choosing random `amp:` values:"
 msgstr ""
+"Questa funzione restituirà un numero compreso tra 0 (incluso) e il valore "
+"massimo specificato (escluso). Di default restituirà un valore compreso tra "
+"0 e 1. Ad esempio, può essere usata per scegliere un valore casuale per "
+"`amp:`:"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -3797,17 +3806,19 @@ msgstr ""
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
 msgid ""
 "Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will retur"
 "n a random whole number between 0 and the max value you specify."
 msgstr ""
+"Dal momento che `rrand_i` e `rrand` si comportano in modo simile, `rand_i` "
+"restituirà un numero intero compreso tra 0 e il valore massimo specificato."
 
 #: 04-Randomisation.md:179
 msgid "dice"
-msgstr ""
+msgstr "dice (ndT: dado)"
 
 #: 04-Randomisation.md:181
 msgid ""
@@ -3818,10 +3829,16 @@ msgid ""
 "r, just like fantasy role-play games, you might find value in a 4 sided dice, "
 "or a 12 sided dice, or a 20 sided dice - perhaps even a 120 sided dice!"
 msgstr ""
+"A volte vuoi simulare il lancio di un dato. Questo è un caso specifico della "
+"funzione `rrand_i` dove il valore più basso è sempre 1. Quando utilizziamo "
+"la funzione `dice` dobbiamo specificare il numero di facce del dado. Un dado "
+"comune ha 6 facce, quindi `dice(6)` può restituire i valori 1, 2, 3, 4, 5 "
+"oppure 6. Ciononostante, come avviene nei giochi di ruolo fantasy, può "
+"capitare di usare dadi a 4 facce, a 12, 20 oppure a 120!"
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
 msgid ""
@@ -3832,18 +3849,25 @@ msgid ""
 "eful for `if` statements which we will cover in a subsequent section of this t"
 "utorial."
 msgstr ""
+"Infine può capitare di voler simulare l'uscita del punteggio più alto di un "
+"dado (6, nel caso di un dado comune). La funzione `one_in` restituisce true "
+"con una probabilità di uno sul numero di facce del dado. Di conseguenza "
+"`one_in(6)` restituirà true con una probabilità di 1/6 e false negli altri "
+"casi. I valori true e false sono molto utili quando si utilizzano i "
+"costrutti `if` di cui parleremo più avanti."
 
 #: 04-Randomisation.md:198
 msgid "Now, go and jumble up your code with some randomness!"
 msgstr ""
+"È arrivato il momento di sperimentare un po' di casualità nel tuo codice!"
 
 #: 05-Programming-Structures.md:1
 msgid "5 Programming Structures"
-msgstr ""
+msgstr "5 Strutture di programmazione"
 
 #: 05-Programming-Structures.md:3
 msgid "Programming Structures"
-msgstr ""
+msgstr "Strutture di programmazione"
 
 #: 05-Programming-Structures.md:5
 msgid ""
