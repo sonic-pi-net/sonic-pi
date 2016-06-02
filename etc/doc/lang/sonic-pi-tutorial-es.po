@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-27 06:11+0000\n"
+"PO-Revision-Date: 2016-06-02 16:20+0000\n"
 "Last-Translator: Ruben Tobalina <lagrimaescrita@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/es/>\n"
@@ -75,15 +75,15 @@ msgstr ""
 "hay algo que falta, dímelo y consideraré añadirlo en el futuro."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
-#, fuzzy
 msgid ""
 "Finally, watching others live code is a really great way to learn. I regularly"
 " stream live on [livecoding.tv/samaaron](http://livecoding.tv/samaaron) so ple"
 "ase do drop by, say hi and ask me lots of questions :-)"
 msgstr ""
-"Finalmente, el observar a otros codificar en vivo es una gran manera de aprend"
-"er. Yo lo hago en vivo por [livecoding.tv/samaaron](http://livecoding.tv/samaa"
-"ron) así que visita, saluda y pregunta todo lo que quieras :-)"
+"Finalmente, observar a otros programar en directo es una gran manera de "
+"aprender. Yo lo programo en directo semanalmente en "
+"[livecoding.tv/samaaron](http://livecoding.tv/samaaron) así que pasate por "
+"allí, saluda y pregunta todo lo que quieras :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
@@ -165,12 +165,12 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:32
 msgid "Make sure the bass drum sound is still running"
-msgstr "Asegúrate que el sonido de batería sigue sonando."
+msgstr "Asegúrate que el sonido de batería sigue sonando"
 
 #: 01.1-Live-Coding.md:33
-#, fuzzy
 msgid "Change the `sleep` value from `0.5` to something higher like `1`."
-msgstr "Cambia el valor \"sleep\" desde \"0.5\" a algo más alto como \"1\"."
+msgstr ""
+"Cambia el valor \"sleep\" de \"0.5\" a algo más alto como, por ejemplo \"1\"."
 
 #: 01.1-Live-Coding.md:34
 #, fuzzy
@@ -216,7 +216,6 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:51
-#, fuzzy
 msgid ""
 "Now, play around. Change the rates - what happens when you use high values, or"
 " small values or negative values? See what happens when you change the `rate:`"
@@ -225,17 +224,18 @@ msgid ""
 "your computer will stop with an error because it can't keep up (if that happen"
 "s, just choose a bigger `sleep` time and hit `Run` again)."
 msgstr ""
-"Ahora juega, cambia valores. ¿qué pasa cuando usas valores altos, bajos o nega"
-"tivos? Mira lo que pasa cuando cambias el valor `rate:` por `:ambi_choir` ajus"
-"talo mìnimamente (digamos a 0.29). ¿Qué pasa si pones un valor muy bajo para `"
-"sleep` ? Mira si puedes hacerlo sonar tan ràpido que tu computadora se paraliz"
-"a con un error (si eso sucede, simplemente elige un valor más alto para `sleep"
-"` y presiona `Ejecutar` de nuevo)."
+"Ahora juega, cambia valores. ¿qué pasa cuando usas valores altos, bajos o "
+"negativos? Mira lo que pasa cuando cambias el valor `rate:` por `:ambi_choir`"
+" ajústalo mínimamente (digamos a 0.29). ¿Qué pasa si pones un valor muy bajo "
+"para `sleep` ? Mira si puedes hacerlo sonar tan ràpido que tu computadora se "
+"paraliza con un error (si eso sucede, simplemente elige un valor más alto "
+"para `sleep` y presiona `Ejecutar` de nuevo)."
 
 #: 01.1-Live-Coding.md:59
-#, fuzzy
 msgid "Try commenting one of the `sample` lines out by adding a `#` to the beginning:"
-msgstr "Prueba a comentar una de las líneas del ejemplo, añadiendo un `#` al comienzo:"
+msgstr ""
+"Prueba a comentar una de las líneas del 'sample', añadiendo un `#` al "
+"comienzo:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -263,7 +263,6 @@ msgstr ""
 "añadir cosas a la mezcla."
 
 #: 01.1-Live-Coding.md:74
-#, fuzzy
 msgid ""
 "Finally, let me leave you something fun to play with. Take the code below, and"
 " copy it into a spare buffer. Now, don't try to understand it too much other t"
@@ -271,15 +270,15 @@ msgid ""
 " Now, do what you do best - experiment and play around. Here are some suggesti"
 "ons:"
 msgstr ""
-"Finalmente, te dejo con algo divertido con lo que jugar. Toma el siguiente cód"
-"igo y cópialo en un buffer vacío. Por el momento no intentes comprender demasi"
-"ado más que notar que hay dos bucles - lo que significa que hay dos eventos al"
-" mismo tiempo - experimenta y juega. Te dejo algunas sugerencias:"
+"Finalmente, te dejo con algo divertido con lo que jugar. Toma el siguiente "
+"código y cópialo en un buffer vacío. Por el momento no intentes comprender "
+"demasiado más que notar que hay dos bucles - lo que significa que hay dos "
+"eventos al mismo tiempo - experimenta y juega. Te dejo algunas sugerencias:"
 
 #: 01.1-Live-Coding.md:80
-#, fuzzy
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
-msgstr "Prueba cambiando el valor de `rate:` para escuchar cambios en el sample."
+msgstr ""
+"Prueba cambiando el valor azul de `rate:` para escuchar cambios en el sample."
 
 #: 01.1-Live-Coding.md:81
 #, fuzzy
@@ -321,7 +320,7 @@ msgstr ""
 "errores es como aprenderás más rápidamente."
 
 #: 01.1-Live-Coding.md:94
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :guit do\n"
 "  with_fx :echo, mix: 0.3, phase: 0.25 do\n"
@@ -697,7 +696,7 @@ msgid "Take a look at the following code:"
 msgstr "Échale una mirada al siguiente código:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 70"
 msgstr "play 70"
 
@@ -732,7 +731,7 @@ msgstr ""
 "úmero:"
 
 #: 02.1-Your-First-Beeps.md:23
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 75"
 msgstr "play 75"
 
@@ -742,7 +741,7 @@ msgid "Can you hear the difference? Try a lower number:"
 msgstr "¿Escuchas la diferencia? Intenta con un número menor:"
 
 #: 02.1-Your-First-Beeps.md:29
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60"
 msgstr "play 60"
 
@@ -792,7 +791,7 @@ msgstr ""
 "uébalo:"
 
 #: 02.1-Your-First-Beeps.md:51
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 72\n"
 "play 75\n"
@@ -829,7 +828,7 @@ msgstr ""
 "erentes momentos? ¡Fácil! sólo debes poner un `sleep` entre las notas:"
 
 #: 02.1-Your-First-Beeps.md:67
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 72\n"
 "sleep 1\n"
@@ -859,7 +858,7 @@ msgstr ""
 "aríamos usar valores de 'sleep' menores. ¿qué tal, por ejemplo `0.5`:"
 
 #: 02.1-Your-First-Beeps.md:81
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 72\n"
 "sleep 0.5\n"
@@ -911,7 +910,7 @@ msgstr ""
 " Pi tiene todo eso cubierto. Puedes hacer lo siguiente:"
 
 #: 02.1-Your-First-Beeps.md:104
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play :C\n"
 "sleep 0.5\n"
@@ -936,7 +935,7 @@ msgstr ""
 " de la nota:"
 
 #: 02.1-Your-First-Beeps.md:116
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play :C3\n"
 "sleep 0.5\n"
@@ -1034,7 +1033,7 @@ msgstr ""
 "espués un espacio y el valor del opt. Ejemplo:"
 
 #: 02.2-Synth-Params.md:31
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, cheese: 1"
 msgstr "play 50, cheese: 1"
 
@@ -1049,7 +1048,7 @@ msgid "You can pass multiple opts by separating them with a comma:"
 msgstr "Puedes pasar múltiples opts por medio de comas que los separen:"
 
 #: 02.2-Synth-Params.md:39
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, cheese: 1, beans: 0.5"
 msgstr "play 50, cheese: 1, beans: 0.5"
 
@@ -1059,7 +1058,7 @@ msgid "The order of the opts doesn't matter, so the following is identical:"
 msgstr "El orden de los opts no importa, el siguiente será igual al anterior:"
 
 #: 02.2-Synth-Params.md:45
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, beans: 0.5, cheese: 1"
 msgstr "play 50, beans: 0.5, cheese: 1"
 
@@ -1083,7 +1082,7 @@ msgstr ""
 " último gana. Por ejemplo, `beans:` aquí tendrá el valor de 2 y no el de 0.5:"
 
 #: 02.2-Synth-Params.md:56
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 msgstr "play 50, beans: 0.5, cheese: 3, eggs: 0.1, beans: 2"
 
@@ -1141,7 +1140,7 @@ msgstr ""
 "a tocar a la mitad de la amplitud, 0.5:"
 
 #: 02.2-Synth-Params.md:84
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, amp: 0.5"
 msgstr "play 60, amp: 0.5"
 
@@ -1151,7 +1150,7 @@ msgid "To play at double amplitude pass 2:"
 msgstr "Para hacerlo al doble de amplitud 2:"
 
 #: 02.2-Synth-Params.md:90
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, amp: 2"
 msgstr "play 60, amp: 2"
 
@@ -1167,7 +1166,7 @@ msgstr ""
 "egunda es a la predeterminada (1):"
 
 #: 02.2-Synth-Params.md:98
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 60, amp: 0.5\n"
 "sleep 0.5\n"
@@ -1185,7 +1184,7 @@ msgstr ""
 "play:"
 
 #: 02.2-Synth-Params.md:106
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 50, amp: 0.1\n"
 "sleep 0.25\n"
@@ -1232,7 +1231,7 @@ msgid "Let's play a beep out of the left speaker:"
 msgstr "Toquemos un pitido desde la bocina izquierda:"
 
 #: 02.2-Synth-Params.md:128
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, pan: -1"
 msgstr "play 60, pan: -1"
 
@@ -1242,7 +1241,7 @@ msgid "Now, let's play it out of the right speaker:"
 msgstr "ahora que salga de la bocina derecha:"
 
 #: 02.2-Synth-Params.md:134
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, pan: 1"
 msgstr "play 60, pan: 1"
 
@@ -1252,7 +1251,7 @@ msgid "Finally let's play it back out of the center of both (the default positio
 msgstr "Finalmente, pongámoslo de nuevo al centro (predeterminado):"
 
 #: 02.2-Synth-Params.md:141
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, pan: 0"
 msgstr "play 60, pan: 0"
 
@@ -1314,7 +1313,7 @@ msgid "A fun sound is the *saw wave* - let's give it a try:"
 msgstr "Un sonido divertido es el de la *onda sierra* - probémoslo:"
 
 #: 02.3-Switching-Synths.md:25
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1338,7 +1337,7 @@ msgid "Let's try another sound - the *prophet*:"
 msgstr "Probemos otro sonido - el *profeta*:"
 
 #: 02.3-Switching-Synths.md:37
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :prophet\n"
 "play 38\n"
@@ -1362,7 +1361,7 @@ msgid "How about combining two sounds. First one after another:"
 msgstr "¿qué tal si combinamos ambos sonidos. Uno después del otro?"
 
 #: 02.3-Switching-Synths.md:49
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :saw\n"
 "play 38\n"
@@ -1388,7 +1387,7 @@ msgid "Now at the same time:"
 msgstr "Ahora al mismo tiempo:"
 
 #: 02.3-Switching-Synths.md:62
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "play 38\n"
@@ -1600,7 +1599,7 @@ msgstr ""
 "eviada de decir lo mismo que:"
 
 #: 02.4-Durations-with-Envelopes.md:56
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 70, release: 1"
 msgstr "play 70, release: 1"
 
@@ -1616,7 +1615,7 @@ msgstr ""
 "se:`:"
 
 #: 02.4-Durations-with-Envelopes.md:64
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, release: 2"
 msgstr "play 60, release: 2"
 
@@ -1630,7 +1629,7 @@ msgstr ""
 "poner un valor de release muy pequeño:"
 
 #: 02.4-Durations-with-Envelopes.md:71
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, release: 0.2"
 msgstr "play 60, release: 0.2"
 
@@ -1741,7 +1740,7 @@ msgstr ""
 "corto:"
 
 #: 02.4-Durations-with-Envelopes.md:119
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, attack: 4, release: 0.7"
 msgstr "play 60, attack: 4, release: 0.7"
 
@@ -1788,7 +1787,7 @@ msgstr ""
 " las fases de ataque y release."
 
 #: 02.4-Durations-with-Envelopes.md:141
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play 60, attack: 0.3, sustain: 1, release: 1"
 msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
@@ -1838,13 +1837,13 @@ msgstr ""
 "."
 
 #: 02.4-Durations-with-Envelopes.md:164
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain"
 ": 1, release: 0.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain"
-": 1, release: 0.5"
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, "
+"sustain: 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
 msgid "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
@@ -1869,13 +1868,13 @@ msgstr ""
 "mo el siguiente:"
 
 #: 02.4-Durations-with-Envelopes.md:177
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
 "1, sustain_level: 0.4, release: 0.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: "
-"1, sustain_level: 0.4, release: 0.5"
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
@@ -1891,13 +1890,13 @@ msgstr ""
 ":"
 
 #: 02.4-Durations-with-Envelopes.md:185
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: "
 "0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
-"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: "
-"0.5, sustain_level: 0.8, release: 1.5"
+"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain:"
+" 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
@@ -1949,13 +1948,13 @@ msgstr ""
 " 0.5 + 1 + 2 + 0.5 = 4 pulsos:"
 
 #: 02.4-Durations-with-Envelopes.md:204
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
 "2, release: 0.5"
 msgstr ""
-"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: "
-"2, release: 0.5"
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 #, fuzzy
@@ -2017,7 +2016,7 @@ msgstr ""
 "mpleos pre-grabados. Inténtalo:"
 
 #: 03.1-Triggering-Samples.md:8
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :ambi_lunar_land"
 msgstr "sample :ambi_lunar_land"
 
@@ -2033,7 +2032,7 @@ msgstr ""
 "o detrás del otro:"
 
 #: 03.1-Triggering-Samples.md:16
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 36\n"
 "play 48\n"
@@ -2051,7 +2050,7 @@ msgid "If you want to space them out in time, use the `sleep` command:"
 msgstr "Si quieres espacearlos en el tiempo, usa el comando `sleep`:"
 
 #: 03.1-Triggering-Samples.md:25
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :ambi_lunar_land\n"
 "sleep 1\n"
@@ -2188,7 +2187,7 @@ msgstr ""
 "tilizamos para los sintetizadores:"
 
 #: 03.2-Sample-Params.md:14
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :ambi_lunar_land, amp: 0.5"
 msgstr "sample :ambi_lunar_land, amp: 0.5"
 
@@ -2209,7 +2208,7 @@ msgstr ""
 "ad, la tocaríamos en el oído derecho:"
 
 #: 03.2-Sample-Params.md:24
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :loop_amen, pan: -1\n"
 "sleep 0.877\n"
@@ -2301,7 +2300,7 @@ msgstr ""
 "ocidad predeterminada, puedes añadir `rate:` a `sample`:"
 
 #: 03.3-Stretching-Samples.md:28
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :ambi_choir, rate: 1"
 msgstr "sample :ambi_choir, rate: 1"
 
@@ -2315,7 +2314,7 @@ msgstr ""
 "r ese número a otros. ¿qué tal a `0.5` ?:"
 
 #: 03.3-Stretching-Samples.md:35
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :ambi_choir, rate: 0.5"
 msgstr "sample :ambi_choir, rate: 0.5"
 
@@ -2346,7 +2345,7 @@ msgstr ""
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen"
 msgstr "sample :loop_amen"
 
@@ -2360,7 +2359,7 @@ msgstr ""
 "mitad de la velocidad para un \"hip hop de vieja escuela\":"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: 0.5"
 msgstr "sample :loop_amen, rate: 0.5"
 
@@ -2370,7 +2369,7 @@ msgid "If we speed it up, we enter *jungle* territory:"
 msgstr "Si lo aceleramos, entramos al territorio estilístico de *jungle*:"
 
 #: 03.3-Stretching-Samples.md:61
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
 msgstr "sample :loop_amen, rate: 1.5"
 
@@ -2384,7 +2383,7 @@ msgstr ""
 "egativa:"
 
 #: 03.3-Stretching-Samples.md:68
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: -1"
 msgstr "sample :loop_amen, rate: -1"
 
@@ -2612,7 +2611,7 @@ msgstr ""
 "mos aparecerlo dentro de 1 segundo, podemos utilizar el parámetro `attack:`:"
 
 #: 03.4-Enveloped-Samples.md:24
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, attack: 1"
 msgstr "sample :loop_amen, attack: 1"
 
@@ -2622,7 +2621,7 @@ msgid "For a shorter fade in, choose a shorter attack value:"
 msgstr "Para un desaparecimiento más corto, elegiríamos un valor de ataque menor:"
 
 #: 03.4-Enveloped-Samples.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, attack: 0.3"
 msgstr "sample :loop_amen, attack: 0.3"
 
@@ -2670,7 +2669,7 @@ msgstr ""
 "eguntamos a Sonic Pi cuán largo es el sampleo:"
 
 #: 03.4-Enveloped-Samples.md:53
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "print sample_duration :loop_amen"
 msgstr "print sample_duration :loop_amen"
 
@@ -2686,7 +2685,7 @@ msgstr ""
 "`0.75`, algo sorpresivo pasará:"
 
 #: 03.4-Enveloped-Samples.md:61
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, release: 0.75"
 msgstr "sample :loop_amen, release: 0.75"
 
@@ -2724,7 +2723,7 @@ msgstr ""
 "ain para aparecer y desvanecer en la duración del sampleo:"
 
 #: 03.4-Enveloped-Samples.md:78
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, attack: 0.75, release: 0.75"
 msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
@@ -2753,7 +2752,7 @@ msgstr ""
 "zador al setear manualmente el `sustain:` a un valor como 0:"
 
 #: 03.4-Enveloped-Samples.md:91
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, sustain: 0, release: 0.75"
 msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
@@ -2785,7 +2784,7 @@ msgstr ""
 "l_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :drum_cymbal_open"
 msgstr "sample :drum_cymbal_open"
 
@@ -2799,7 +2798,7 @@ msgstr ""
 "podemos usar el sobre para hacerlo más percusivo:"
 
 #: 03.4-Enveloped-Samples.md:113
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
@@ -2813,7 +2812,7 @@ msgstr ""
 "iodo de sustain:"
 
 #: 03.4-Enveloped-Samples.md:120
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 
@@ -2863,7 +2862,7 @@ msgstr ""
 "locidad):"
 
 #: 03.5-Partial-Samples.md:23
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: 0.5, attack: 1"
 msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
@@ -2879,7 +2878,7 @@ msgstr ""
 "on valores cortos:"
 
 #: 03.5-Partial-Samples.md:31
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
@@ -2912,7 +2911,7 @@ msgstr ""
 "de amen break:"
 
 #: 03.5-Partial-Samples.md:46
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, start: 0.5"
 msgstr "sample :loop_amen, start: 0.5"
 
@@ -2922,7 +2921,7 @@ msgid "How about the last quarter of the sample:"
 msgstr "¿Qué tal escuchar el último cuarto del sample?:"
 
 #: 03.5-Partial-Samples.md:52
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, start: 0.75"
 msgstr "sample :loop_amen, start: 0.75"
 
@@ -2941,7 +2940,7 @@ msgstr ""
 "n un valor entre 0 y 1. Vamos a terminar el amen break a la mitad:"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, finish: 0.5"
 msgstr "sample :loop_amen, finish: 0.5"
 
@@ -2960,7 +2959,7 @@ msgstr ""
 "o arbitrariamente. ¿Qué tal una pequeña sección en el medio?"
 
 #: 03.5-Partial-Samples.md:71
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, start: 0.4, finish: 0.6"
 msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
@@ -2970,7 +2969,7 @@ msgid "What happens if we choose a start position after the finish position?"
 msgstr "¿Qué pasa si elegimos comenzar en una posición después del final?"
 
 #: 03.5-Partial-Samples.md:78
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, start: 0.6, finish: 0.4"
 msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
@@ -2996,7 +2995,7 @@ msgstr ""
 "al medio de amen break muy lentamente:"
 
 #: 03.5-Partial-Samples.md:90
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
@@ -3015,13 +3014,13 @@ msgstr ""
 "os interesantes:"
 
 #: 03.5-Partial-Samples.md:99
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release: "
 "1"
 msgstr ""
-"sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release: "
-"1"
+"sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release:"
+" 1"
 
 #: 03.5-Partial-Samples.md:103
 #, fuzzy
@@ -3078,7 +3077,7 @@ msgid ""
 msgstr ""
 
 #: 03.6-External-Samples.md:31
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "# Raspberry Pi, Mac, Linux\n"
 "sample \"/Users/sam/Desktop/my-sound.wav\"\n"
@@ -3097,7 +3096,7 @@ msgid ""
 msgstr ""
 
 #: 03.6-External-Samples.md:41
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "# Raspberry Pi, Mac, Linux\n"
 "sample \"/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3\n"
@@ -3176,7 +3175,7 @@ msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr ""
 
 #: 03.7-Sample-Packs.md:34
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 msgstr "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 
@@ -3185,7 +3184,7 @@ msgid "If we want to then play the guitar sample we can use its full path too:"
 msgstr ""
 
 #: 03.7-Sample-Packs.md:40
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_guit.wav\""
 msgstr "sample \"/path/to/my/samples/120_Bb_guit.wav\""
 
@@ -3207,7 +3206,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:53
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample \"/path/to/my/samples/\", 0"
 msgstr "sample \"/path/to/my/samples/\", 0"
 
@@ -3216,7 +3215,7 @@ msgid "We can even make a shortcut to our directory path using a variable:"
 msgstr ""
 
 #: 03.7-Sample-Packs.md:59
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 0"
@@ -3231,7 +3230,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:67
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 1"
@@ -3279,7 +3278,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:107
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\""
@@ -3294,7 +3293,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:115
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", 1"
@@ -3310,7 +3309,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:124
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"A#\""
@@ -3323,7 +3322,7 @@ msgid "Finally, we're still free to add our usual opts to the call to `sample`:"
 msgstr ""
 
 #: 03.7-Sample-Packs.md:131
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
@@ -3363,7 +3362,7 @@ msgid "For example, take a look at the following code:"
 msgstr ""
 
 #: 03.7-Sample-Packs.md:152
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "samps2 = \"/path/to/my/samples2/\"\n"
@@ -3393,7 +3392,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:171
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "samps = \"/path/to/nested/samples/**\"\n"
 "sample samps, 0"
@@ -3464,7 +3463,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:199
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 msgstr "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 
@@ -3487,7 +3486,7 @@ msgid ""
 msgstr ""
 
 #: 03.7-Sample-Packs.md:213
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample \"/path/to/dir\", \"100\", \"C#\"\n"
 "sample [\"/path/to/dir\", \"100\", \"C#\"]\n"
@@ -3552,7 +3551,7 @@ msgstr ""
 "m). Intentemos tocar una nota al azar:"
 
 #: 04-Randomisation.md:17
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play rrand(50, 95)"
 msgstr "play rrand(50, 95)"
 
@@ -3593,7 +3592,7 @@ msgstr ""
 " Intenta lo siguiente:"
 
 #: 04-Randomisation.md:36
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  play rrand(50, 95)\n"
@@ -3637,7 +3636,7 @@ msgstr ""
 "pausa entre los sonidos:"
 
 #: 04-Randomisation.md:56
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  sample :perc_bell, rate: (rrand 0.125, 1.5)\n"
@@ -3665,7 +3664,7 @@ msgstr ""
 "tb303`"
 
 #: 04-Randomisation.md:69
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "loop do\n"
@@ -3703,7 +3702,7 @@ msgid "Consider the following:"
 msgstr "Considera el siguiente:"
 
 #: 04-Randomisation.md:87
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "5.times do\n"
 "  play rrand(50, 100)\n"
@@ -3725,7 +3724,7 @@ msgstr ""
 "cambiar la secuencia, simplemente cambia el valor de seed_:"
 
 #: 04-Randomisation.md:97
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_random_seed 40\n"
 "5.times do\n"
@@ -3777,7 +3776,7 @@ msgstr ""
 "`[60, 65, 72]`. Después sólo necesito pasarlos por `choose`:"
 
 #: 04-Randomisation.md:122
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "choose([60, 65, 72])"
 msgstr "choose([60, 65, 72])"
 
@@ -3787,7 +3786,7 @@ msgid "Let's hear what that sounds like:"
 msgstr "Escuchemos a lo que suena:"
 
 #: 04-Randomisation.md:128
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  play choose([60, 65, 72])\n"
@@ -3855,7 +3854,7 @@ msgstr ""
 " es útil para elegir valores de `amp:` aleatorios:"
 
 #: 04-Randomisation.md:167
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  play 60, amp: rand\n"
@@ -3992,7 +3991,7 @@ msgstr ""
 " 5 veces. Considera el siguiente código:"
 
 #: 05.1-Blocks.md:13
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 50\n"
 "sleep 0.5\n"
@@ -4018,7 +4017,7 @@ msgstr ""
 "o` y para el *final* `end` . Por ejemplo:"
 
 #: 05.1-Blocks.md:25
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "do\n"
 "  play 50\n"
@@ -4104,7 +4103,7 @@ msgstr ""
 " algo así:"
 
 #: 05.2-Iteration-and-Loops.md:20
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 50\n"
 "sleep 0.5\n"
@@ -4130,7 +4129,7 @@ msgstr ""
 "iarlo 3 veces:"
 
 #: 05.2-Iteration-and-Loops.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 50\n"
 "sleep 0.5\n"
@@ -4208,7 +4207,7 @@ msgstr ""
 "da escribir `end` al final del código que quieras repetir:"
 
 #: 05.2-Iteration-and-Loops.md:72
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "3.times do\n"
 "  play 50\n"
@@ -4238,7 +4237,7 @@ msgstr ""
 "as repetitivas_:"
 
 #: 05.2-Iteration-and-Loops.md:86
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "4.times do\n"
 "  play 50\n"
@@ -4281,7 +4280,7 @@ msgstr ""
 "antes. Por ejemplo:"
 
 #: 05.2-Iteration-and-Loops.md:108
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "4.times do\n"
 "  sample :drum_heavy_kick\n"
@@ -4328,7 +4327,7 @@ msgstr ""
 " amen break infinitamente:"
 
 #: 05.2-Iteration-and-Loops.md:130
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  sample :loop_amen\n"
@@ -4355,7 +4354,7 @@ msgstr ""
 "scucharás. Por ejemplo, el platillo después de este bucle nunca se ejecutará:"
 
 #: 05.2-Iteration-and-Loops.md:143
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  play 50\n"
@@ -4419,7 +4418,7 @@ msgstr ""
 "tre dos piezas de código, el de batería o el de platillos:"
 
 #: 05.3-Conditionals.md:20
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  if one_in(2)\n"
@@ -4489,7 +4488,7 @@ msgstr ""
 "ares. Por ejemplo:"
 
 #: 05.3-Conditionals.md:50
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  if one_in(2)\n"
@@ -4537,7 +4536,7 @@ msgstr ""
 "locar `if` y después la pregunta al final. Por ejemplo:"
 
 #: 05.3-Conditionals.md:73
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :dsaw\n"
 "loop do\n"
@@ -4613,7 +4612,7 @@ msgstr ""
 "ulso y bajo:"
 
 #: 05.4-Threads.md:19
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  sample :drum_heavy_kick\n"
@@ -4656,7 +4655,7 @@ msgid "Threads to the Rescue"
 msgstr "Hilos al rescate"
 
 #: 05.4-Threads.md:40
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -4701,7 +4700,7 @@ msgid "Now, what if we wanted to add a synth on top. Something like:"
 msgstr "Ahora, si quisiésemos añadir un sintetizador, haríamos algo así:"
 
 #: 05.4-Threads.md:63
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -4749,7 +4748,7 @@ msgstr ""
 "bucle nunca se alcanza*. Por lo tanto, necesitamos otro hilo:"
 
 #: 05.4-Threads.md:88
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -4831,7 +4830,7 @@ msgstr ""
 "otro hilo cambiarás su sintetizador. Veamos esto en acción:"
 
 #: 05.4-Threads.md:129
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 50\n"
 "sleep 1\n"
@@ -4877,7 +4876,7 @@ msgstr ""
 "figuración del hilo actual. Veamos:"
 
 #: 05.4-Threads.md:152
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "play 50\n"
@@ -4924,7 +4923,7 @@ msgid "Finally, we can give our threads names:"
 msgstr "Por último, podemos darles nombre a los hilos:"
 
 #: 05.4-Threads.md:173
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread(name: :bass) do\n"
 "  loop do\n"
@@ -4964,7 +4963,7 @@ msgstr ""
 "e del hilo?"
 
 #: 05.4-Threads.md:193
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "[Run 36, Time 4.0, Thread :bass]\n"
 " |- synth :prophet, {release: 0.6, note: 47}"
@@ -4988,7 +4987,7 @@ msgstr ""
 "ede estar corriendo a la vez. Exploremos esto, considerando el código:"
 
 #: 05.4-Threads.md:204
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -5034,7 +5033,7 @@ msgid "However, with named threads it is different:"
 msgstr "sin embargo, con hilos nombrados, es diferente:"
 
 #: 05.4-Threads.md:224
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread(name: :amen) do\n"
 "  loop do\n"
@@ -5060,7 +5059,7 @@ msgstr ""
 "charás un bucle del amen break. También verás lo siguiente en la bitácora:"
 
 #: 05.4-Threads.md:236
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "==> Skipping thread creation: thread with name :amen already exists."
 msgstr "==> Skipping thread creation: thread with name :amen already exists."
 
@@ -5111,7 +5110,7 @@ msgid "Defining functions"
 msgstr "Definiendo Funciones"
 
 #: 05.5-Functions.md:12
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :foo do\n"
 "  play 50\n"
@@ -5162,7 +5161,7 @@ msgstr ""
 "do su nombre:"
 
 #: 05.5-Functions.md:35
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :foo do\n"
 "  play 50\n"
@@ -5221,7 +5220,7 @@ msgstr ""
 " tu buffer y reemplazandolo por:"
 
 #: 05.5-Functions.md:65
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "foo"
 msgstr "foo"
 
@@ -5255,7 +5254,7 @@ msgstr ""
 "iremos:"
 
 #: 05.5-Functions.md:81
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :my_player do |n|\n"
 "  play n\n"
@@ -5319,7 +5318,7 @@ msgid "Let's see a more interesting example:"
 msgstr "Veamos un ejemplo más interesante:"
 
 #: 05.5-Functions.md:110
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :chord_player do |root, repeats| \n"
 "  repeats.times do\n"
@@ -5385,7 +5384,7 @@ msgstr ""
 "), después lo que quieres recordar:"
 
 #: 05.6-Variables.md:9
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample_name = :loop_amen"
 msgstr "sample_name = :loop_amen"
 
@@ -5401,7 +5400,7 @@ msgstr ""
 "p_amen`. Por ejemplo:"
 
 #: 05.6-Variables.md:17
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample_name = :loop_amen\n"
 "sample sample_name"
@@ -5455,7 +5454,7 @@ msgid ""
 msgstr ""
 
 #: 05.6-Variables.md:40
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sleep 1.7533"
 msgstr "sleep 1.7533"
 
@@ -5469,7 +5468,7 @@ msgstr ""
 "os el código siguiente:"
 
 #: 05.6-Variables.md:47
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop_amen_duration = 1.7533\n"
 "sleep loop_amen_duration"
@@ -5487,7 +5486,7 @@ msgstr ""
 "e `:loop_amen`! claro que puedes pensar que es mucho más simple escribir:"
 
 #: 05.6-Variables.md:55
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sleep sample_duration(:loop_amen)"
 msgstr "sleep sample_duration(:loop_amen)"
 
@@ -5511,7 +5510,7 @@ msgstr ""
 "ienes que cambiarlo enmuchos lugares. Mira este código:"
 
 #: 05.6-Variables.md:68
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :loop_amen\n"
 "sleep sample_duration(:loop_amen)\n"
@@ -5548,7 +5547,7 @@ msgid "What if you'd written your code like this:"
 msgstr "¿qué tal si hubieses escrito tú código, así?:"
 
 #: 05.6-Variables.md:86
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample_name = :loop_amen\n"
 "sample sample_name\n"
@@ -5592,7 +5591,7 @@ msgstr ""
 ". Por ejemplo, quizás desees hacer algo con la duración de un sampleo:"
 
 #: 05.6-Variables.md:107
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sd = sample_duration(:loop_amen)"
 msgstr "sd = sample_duration(:loop_amen)"
 
@@ -5613,7 +5612,7 @@ msgstr ""
 "mada a `play` o `sample`:"
 
 #: 05.6-Variables.md:117
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "s = play 50, release: 8"
 msgstr "s = play 50, release: 8"
 
@@ -5627,7 +5626,7 @@ msgstr ""
 "trolar el sintetizador mientras corre:"
 
 #: 05.6-Variables.md:124
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "s = play 50, release: 8\n"
 "sleep 2\n"
@@ -5737,7 +5736,7 @@ msgid "Let's explore this in a little more detail:"
 msgstr "Exploremos esto en más detalle:"
 
 #: 05.7-Thread-Synchronisation.md:42
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -5790,7 +5789,7 @@ msgstr ""
 " ejecución al mismo tiempo:"
 
 #: 05.7-Thread-Synchronisation.md:67
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -5855,7 +5854,7 @@ msgid "Let's play with a few `cue` names:"
 msgstr "Juguemos con unos cuantos nombres para `cue`:"
 
 #: 05.7-Thread-Synchronisation.md:99
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "in_thread do\n"
 "  loop do \n"
@@ -5994,7 +5993,7 @@ msgstr ""
 "ina siendo conectada al amplificador:"
 
 #: 06-FX.md:29
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "Guitar -> Distortion -> Reverb -> Amplifier"
 msgstr "Guitar -> Distortion -> Reverb -> Amplifier"
 
@@ -6064,7 +6063,7 @@ msgstr ""
 "pecial para nuestro bloque, así:"
 
 #: 06.1-Adding-FX.md:17
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb do\n"
 "  play 50\n"
@@ -6097,7 +6096,7 @@ msgid "Now let's look what happens if we have code outside the do/end block:"
 msgstr "Ahora veamos qué sucede si dejamos código fuera del bloque do/end:"
 
 #: 06.1-Adding-FX.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb do\n"
 "  play 50\n"
@@ -6138,7 +6137,7 @@ msgstr ""
 "á:"
 
 #: 06.1-Adding-FX.md:51
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 55\n"
 "sleep 1\n"
@@ -6174,7 +6173,7 @@ msgid "There are many FX to choose from. How about some echo?"
 msgstr "Hay muchos FX (efectos) para escoger. ¿probamos con eco?"
 
 #: 06.1-Adding-FX.md:71
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :echo do\n"
 "  play 50\n"
@@ -6206,7 +6205,7 @@ msgstr ""
 "n eco dado en pulsos. Hagamos el eco más lento:"
 
 #: 06.1-Adding-FX.md:87
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :echo, phase: 0.5 do\n"
 "  play 50\n"
@@ -6230,7 +6229,7 @@ msgid "Let's also make the echo faster:"
 msgstr "Ahora hagamos el eco más rápido:"
 
 #: 06.1-Adding-FX.md:99
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :echo, phase: 0.125 do\n"
 "  play 50\n"
@@ -6256,7 +6255,7 @@ msgid ""
 msgstr "Hagamos que al eco le tome 8 pulsos en desvanecerse, gracias a `decay:`"
 
 #: 06.1-Adding-FX.md:112
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :echo, phase: 0.5, decay: 8 do\n"
 "  play 50\n"
@@ -6293,7 +6292,7 @@ msgstr ""
 "tro:"
 
 #: 06.1-Adding-FX.md:129
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb do\n"
 "  with_fx :echo, phase: 0.5, decay: 8 do\n"
@@ -6413,7 +6412,7 @@ msgid "Consider this code:"
 msgstr "Considera este código:"
 
 #: 06.2-FX-in-Practice.md:14
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  with_fx :reverb do\n"
@@ -6471,7 +6470,7 @@ msgstr ""
 " reverberación a través del cual pasan todos los sonidos? Simple:"
 
 #: 06.2-FX-in-Practice.md:41
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb do\n"
 "  loop do\n"
@@ -6504,7 +6503,7 @@ msgid "A compromise is to use `with_fx` over an iteration within a loop:"
 msgstr "Al utilizar `with_fx` sobre una iteración en un bucle:"
 
 #: 06.2-FX-in-Practice.md:56
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  with_fx :reverb do\n"
@@ -6537,7 +6536,7 @@ msgid ""
 msgstr ""
 
 #: 06.2-FX-in-Practice.md:73
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "loop do\n"
 "  with_fx :reverb, reps: 16 do\n"
@@ -6632,7 +6631,7 @@ msgstr ""
 "e un sintetizador:"
 
 #: 07.1-Controlling-Running-Synths.md:10
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "s = play 60, release: 5"
 msgstr "s = play 60, release: 5"
 
@@ -6653,7 +6652,7 @@ msgid "Once we have `s`, we can start controlling it via the `control` function:
 msgstr "Con `s`, utilizaremos la función `control`:"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "s = play 60, release: 5\n"
 "sleep 0.5\n"
@@ -6726,7 +6725,7 @@ msgid ""
 msgstr "También es posible controlar los efectos, aunque de una manera diferente:"
 
 #: 07.2-Controlling-FX.md:8
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb do |r|\n"
 "  play 50\n"
@@ -6815,7 +6814,7 @@ msgstr ""
 "ento (slide), debemos setear el `note_slide` del sintetizador:"
 
 #: 07.3-Sliding-Parameters.md:28
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "s = play 60, release: 5, note_slide: 1\n"
 "sleep 0.5\n"
@@ -6881,7 +6880,7 @@ msgid "It is also possible to slide FX opts:"
 msgstr "También es posible deslizar opciones de efectos (FX):"
 
 #: 07.3-Sliding-Parameters.md:57
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :wobble, phase: 1, phase_slide: 5 do |e|\n"
 "  use_synth :dsaw\n"
@@ -6973,7 +6972,7 @@ msgstr ""
 "legía al azar las notas a tocar:"
 
 #: 08.1-Lists.md:9
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play choose([50, 55, 62])"
 msgstr "play choose([50, 55, 62])"
 
@@ -6989,7 +6988,7 @@ msgstr ""
 "s sonidos suceden al mismo tiempo:"
 
 #: 08.1-Lists.md:17
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 52\n"
 "play 55\n"
@@ -7020,7 +7019,7 @@ msgstr ""
 "e notas. Probemos:"
 
 #: 08.1-Lists.md:31
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play [52, 55, 59]"
 msgstr "play [52, 55, 59]"
 
@@ -7034,7 +7033,7 @@ msgstr ""
 "e no puedas usar los otros parámetros, normalmente:"
 
 #: 08.1-Lists.md:38
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play [52, 55, 59], amp: 0.3"
 msgstr "play [52, 55, 59], amp: 0.3"
 
@@ -7048,7 +7047,7 @@ msgstr ""
 " MIDI"
 
 #: 08.1-Lists.md:45
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play [:E3, :G3, :B3]"
 msgstr "play [:E3, :G3, :B3]"
 
@@ -7108,7 +7107,7 @@ msgstr ""
 "dernoslo, también:"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "puts [52, 55, 59][1]"
 msgstr "puts [52, 55, 59][1]"
 
@@ -7131,7 +7130,7 @@ msgstr ""
 "el conteo comienza en `0`, el índice para el segundo elemento es `1`. Mira:"
 
 #: 08.1-Lists.md:85
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "# indexes:  0   1   2\n"
 "           [52, 55, 59]"
@@ -7165,7 +7164,7 @@ msgid ""
 msgstr "Sonic Pi soporta nombres de acordes que regresarán listas. Pruébalo:"
 
 #: 08.2-Chords.md:8
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play chord(:E3, :minor)"
 msgstr "play chord(:E3, :minor)"
 
@@ -7209,7 +7208,7 @@ msgstr ""
 "y_pattern`:"
 
 #: 08.2-Chords.md:26
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern chord(:E3, :m7)"
 msgstr "play_pattern chord(:E3, :m7)"
 
@@ -7227,7 +7226,7 @@ msgstr ""
 "uestros propios tiempos y acelerar las cosas:"
 
 #: 08.2-Chords.md:35
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern_timed chord(:E3, :m7), 0.25"
 msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 
@@ -7239,7 +7238,7 @@ msgstr ""
 "n círculo de tiempos:"
 
 #: 08.2-Chords.md:42
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 msgstr "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 
@@ -7249,7 +7248,7 @@ msgid "This is the equivalent to:"
 msgstr "Eso equivale a:"
 
 #: 08.2-Chords.md:48
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play 52\n"
 "sleep 0.25\n"
@@ -7304,7 +7303,7 @@ msgstr ""
 "yor?"
 
 #: 08.3-Scales.md:8
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 msgstr "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 
@@ -7314,9 +7313,10 @@ msgid "We can even ask for more octaves:"
 msgstr "Podemos pedir para más octavas:"
 
 #: 08.3-Scales.md:14
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
-msgstr "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
+msgstr ""
+"play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:18
 #, fuzzy
@@ -7324,13 +7324,13 @@ msgid "How about all the notes in a pentatonic scale?"
 msgstr "¿qué tal todas las notas de la escala pentatónica?"
 
 #: 08.3-Scales.md:20
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, relea"
 "se: 0.1"
 msgstr ""
-"play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, relea"
-"se: 0.1"
+"play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, "
+"release: 0.1"
 
 #: 08.3-Scales.md:24
 #, fuzzy
@@ -7349,7 +7349,7 @@ msgstr ""
 "l azar del acorde de E3 menor:"
 
 #: 08.3-Scales.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "loop do\n"
@@ -7443,7 +7443,7 @@ msgstr ""
 "va incrementando. Hagamos nuestro contador y lista:"
 
 #: 08.4-Rings.md:23
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "counter = 0\n"
 "notes = [52, 55, 59]"
@@ -7456,7 +7456,7 @@ msgid "We can now use our counter to access a note in our list:"
 msgstr ""
 
 #: 08.4-Rings.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "puts notes[counter]"
 msgstr "puts notes[counter]"
 
@@ -7468,7 +7468,7 @@ msgstr ""
 "otra nota:"
 
 #: 08.4-Rings.md:37
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "counter = (inc counter)\n"
 "puts notes[counter]"
@@ -7503,7 +7503,7 @@ msgstr ""
 " anillo como parámetros:"
 
 #: 08.4-Rings.md:52
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "(ring 52, 55, 59)"
 msgstr "(ring 52, 55, 59)"
 
@@ -7517,7 +7517,7 @@ msgstr ""
 ":"
 
 #: 08.4-Rings.md:59
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "[52, 55, 59].ring"
 msgstr "[52, 55, 59].ring"
 
@@ -7539,7 +7539,7 @@ msgstr ""
 "es envolverán y apuntarán siempre a alguno de los elementos del anillo:"
 
 #: 08.4-Rings.md:70
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "(ring 52, 55, 59)[0] #=> 52\n"
 "(ring 52, 55, 59)[1] #=> 55\n"
@@ -7647,7 +7647,7 @@ msgid "To explore this, take a simple ring:"
 msgstr ""
 
 #: 08.5-Ring-Chains.md:13
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "(ring 10, 20, 30, 40, 50)"
 msgstr "(ring 10, 20, 30, 40, 50)"
 
@@ -7658,7 +7658,7 @@ msgid ""
 msgstr ""
 
 #: 08.5-Ring-Chains.md:20
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 msgstr "(ring 10, 20, 30, 40, 50).reverse  #=> (ring 50, 40, 30, 20, 10)"
 
@@ -7667,7 +7667,7 @@ msgid "Now, what if we wanted the first three values from the ring?"
 msgstr ""
 
 #: 08.5-Ring-Chains.md:26
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 msgstr "(ring 10, 20, 30, 40, 50).take(3)  #=> (ring 10, 20, 30)"
 
@@ -7676,7 +7676,7 @@ msgid "Finally, what if we wanted to shuffle the ring?"
 msgstr ""
 
 #: 08.5-Ring-Chains.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 msgstr "(ring 10, 20, 30, 40, 50).shuffle  #=> (ring 40, 30, 10, 50, 20)"
 
@@ -7888,7 +7888,7 @@ msgstr ""
 " un hilo:"
 
 #: 09.1-Live-Coding-Fundamentals.md:18
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  play 50\n"
@@ -7974,7 +7974,7 @@ msgstr ""
 "_synth`? Por ejemplo, esto:"
 
 #: 09.1-Live-Coding-Fundamentals.md:55
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -7998,7 +7998,7 @@ msgstr ""
 " nota, hagámoslo con un acorde:"
 
 #: 09.1-Live-Coding-Fundamentals.md:67
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -8018,7 +8018,7 @@ msgid "How about playing random notes from the chord:"
 msgstr "¿tocamos notas del acorde al azar?:"
 
 #: 09.1-Live-Coding-Fundamentals.md:77
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -8038,7 +8038,7 @@ msgid "Or using a random cutoff value:"
 msgstr "o usando un valor de corte al azar:"
 
 #: 09.1-Live-Coding-Fundamentals.md:87
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -8058,7 +8058,7 @@ msgid "Finally, add some drums:"
 msgstr "Al final, añadamos un poco de batería:"
 
 #: 09.1-Live-Coding-Fundamentals.md:97
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -8128,7 +8128,7 @@ msgid "Let's play. Write the following in a new buffer:"
 msgstr "Toquemos algo. Escribe el siguiente código en un buffer nuevo:"
 
 #: 09.2-Live-Loops.md:15
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play 60\n"
@@ -8166,7 +8166,7 @@ msgid ""
 msgstr "Hagámoslo más a bajo, sólo cambiemos el código un poco:"
 
 #: 09.2-Live-Loops.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  use_synth :prophet\n"
@@ -8191,7 +8191,7 @@ msgid "Let's make the cutoff move around:"
 msgstr "Movamos el punto de corte:"
 
 #: 09.2-Live-Loops.md:42
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  use_synth :prophet\n"
@@ -8216,7 +8216,7 @@ msgid "Add some drums:"
 msgstr "Añadamos baterías:"
 
 #: 09.2-Live-Loops.md:54
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  sample :loop_garzul\n"
@@ -8238,7 +8238,7 @@ msgid "Change the note from `e1` to `c1`:"
 msgstr "Cambiemos la nota de `e1` a `c1`:"
 
 #: 09.2-Live-Loops.md:65
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  sample :loop_garzul\n"
@@ -8275,7 +8275,7 @@ msgid "Consider the following live loop:"
 msgstr "Considera el siguiente bucle en vivo:"
 
 #: 09.3-Multiple-Live-Loops.md:7
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play 50\n"
@@ -8314,7 +8314,7 @@ msgstr ""
 "iferentes nombres:"
 
 #: 09.3-Multiple-Live-Loops.md:23
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  use_synth :prophet\n"
@@ -8370,7 +8370,7 @@ msgid "Consider this badly synced code:"
 msgstr "Considera este código mal sincronizado:"
 
 #: 09.3-Multiple-Live-Loops.md:49
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -8401,7 +8401,7 @@ msgstr ""
 "mos el bucle `:foo` para hacer el factor de sleep 1 a algo como `0.5`:"
 
 #: 09.3-Multiple-Live-Loops.md:65
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -8433,7 +8433,7 @@ msgstr ""
 "to sincronizándolos entre sí:"
 
 #: 09.3-Multiple-Live-Loops.md:81
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -8503,7 +8503,7 @@ msgstr ""
 "ckear a través de anillos*. Veamos un ejemplo:"
 
 #: 09.4-Ticking.md:17
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "counter = 0\n"
 "live_loop :arp do\n"
@@ -8524,7 +8524,7 @@ msgid "This is equivalent to:"
 msgstr ""
 
 #: 09.4-Ticking.md:28
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :arp do\n"
 "  play (scale :e3, :minor_pentatonic).tick, release: 0.1\n"
@@ -8550,7 +8550,7 @@ msgstr ""
 "endiente tick:"
 
 #: 09.4-Ticking.md:40
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :arp do\n"
 "  play (scale :e3, :minor_pentatonic).tick, release: 0.1\n"
@@ -8584,7 +8584,7 @@ msgstr ""
 " índice:"
 
 #: 09.4-Ticking.md:57
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :arp do\n"
 "  idx = tick\n"
@@ -8648,7 +8648,7 @@ msgstr ""
 "o lograrás nombrando a tus ticks:"
 
 #: 09.4-Ticking.md:86
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :arp do\n"
 "  play (scale :e3, :minor_pentatonic).tick(:foo), release: 0.1\n"
@@ -9666,7 +9666,7 @@ msgid "In a fresh Sonic Pi buffer simply enter the following code:"
 msgstr "Escribe lo siguiente en un buffer vacío de Sonic Pi:"
 
 #: 11.1-Basic-API.md:25
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_message \"Hello from Sonic Pi\""
 msgstr "mc_message \"Hello from Sonic Pi\""
 
@@ -9690,7 +9690,7 @@ msgstr ""
 "nte:"
 
 #: 11.1-Basic-API.md:38
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_teleport 50, 50, 50"
 msgstr "mc_teleport 50, 50, 50"
 
@@ -9783,7 +9783,7 @@ msgstr ""
 "aft y después pásate a Sonic Pi. Ahora pon el siguiente código:"
 
 #: 11.1-Basic-API.md:76
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "puts mc_location"
 msgstr "puts mc_location"
 
@@ -9825,7 +9825,7 @@ msgstr ""
 " vidrio el bloque en las coordenadas `40`, `50`, `60`. Super fácil:"
 
 #: 11.1-Basic-API.md:96
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_set_block :glass, 40, 50, 60"
 msgstr "mc_set_block :glass, 40, 50, 60"
 
@@ -9839,7 +9839,7 @@ msgstr ""
 " las cercanías y echa un vistazo:"
 
 #: 11.1-Basic-API.md:103
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_teleport 35, 50, 60"
 msgstr "mc_teleport 35, 50, 60"
 
@@ -9853,7 +9853,7 @@ msgstr ""
 "diamante:"
 
 #: 11.1-Basic-API.md:110
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_set_block :diamond, 40, 50, 60"
 msgstr "mc_set_block :diamond, 40, 50, 60"
 
@@ -9883,7 +9883,7 @@ msgstr ""
 " Intentémoslo con el bloque de diamante que acabamos de crear:"
 
 #: 11.1-Basic-API.md:124
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "puts mc_get_block 40, 50, 60"
 msgstr "puts mc_get_block 40, 50, 60"
 
@@ -9911,7 +9911,7 @@ msgstr ""
 "siguiente lista de bloques disponibles:"
 
 #: 11.1-Basic-API.md:136
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "    :air\n"
 "    :stone\n"
@@ -10219,7 +10219,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sample :loop_garzul\n"
 "16.times do\n"
@@ -10240,7 +10240,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:44
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :flanger do\n"
 "  sample :loop_garzul\n"
@@ -10265,7 +10265,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:58
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :flanger do\n"
 "  sample :loop_garzul\n"
@@ -10308,7 +10308,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:85
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :guit_em9"
 msgstr "sample :guit_em9"
 
@@ -10319,7 +10319,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:92
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :guit_em9, rate: 0.5"
 msgstr "sample :guit_em9, rate: 0.5"
 
@@ -10331,7 +10331,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:100
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :flanger, feedback: 0.6 do\n"
 "  sample :guit_em9\n"
@@ -10361,7 +10361,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:118
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :experiment do\n"
 "  sample :loop_amen, cutoff: 70\n"
@@ -10401,7 +10401,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:141
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :rand_surfer do\n"
 "  use_synth :dsaw\n"
@@ -10433,7 +10433,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:161
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :rand_surfer do\n"
 "  use_random_seed 1\n"
@@ -10510,7 +10510,7 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :beats do\n"
 "  sample :bd_haus\n"
@@ -10550,7 +10550,7 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:60
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :choral_drone do\n"
 "  sample :ambi_choir, rate: 0.4\n"
@@ -10585,7 +10585,7 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:82
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :infinite_impossibilities do\n"
 "  sample :ambi_choir\n"
@@ -10619,7 +10619,7 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:105
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :beats do\n"
 "  sample :bd_tek\n"
@@ -10662,7 +10662,7 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:129
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "# Steve Reich's Piano Phase\n"
 "notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5"
@@ -10677,8 +10677,8 @@ msgid ""
 "end"
 msgstr ""
 "# Steve Reich's Piano Phase\n"
-"notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, :Cs5"
-")\n"
+"notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, "
+":Cs5)\n"
 "live_loop :slow do\n"
 "  play notes.tick, release: 0.1\n"
 "  sleep 0.3\n"
@@ -10707,7 +10707,7 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:156
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "with_fx :reverb, room: 1 do\n"
 "  live_loop :time do\n"
@@ -10828,7 +10828,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:47
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  sample :loop_amen\n"
@@ -10863,7 +10863,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:68
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  sample :loop_amen, beat_stretch: 2\n"
@@ -10894,7 +10894,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:85
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  use_bpm 30\n"
@@ -10934,7 +10934,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:110
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  use_bpm 50\n"
@@ -10970,7 +10970,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:133
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  use_bpm 50\n"
@@ -11011,7 +11011,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:163
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_bpm 100\n"
 "live_loop :amen_break do\n"
@@ -11097,7 +11097,7 @@ msgid "Let's create a simple live loop where we continually change the current s
 msgstr ""
 
 #: A.04-synth-riffs.md:27
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :timbre do\n"
 "  use_synth (ring :tb303, :blade, :prophet, :saw, :beep, :tri).tick\n"
@@ -11160,7 +11160,7 @@ msgid ""
 msgstr ""
 
 #: A.04-synth-riffs.md:71
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :riff do\n"
 "  use_synth :prophet\n"
@@ -11196,7 +11196,7 @@ msgid ""
 msgstr ""
 
 #: A.04-synth-riffs.md:91
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :random_riff do\n"
 "  use_synth :dsaw\n"
@@ -11266,7 +11266,7 @@ msgid ""
 msgstr ""
 
 #: A.04-synth-riffs.md:140
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :random_riff do\n"
 "  use_synth :dsaw\n"
@@ -11314,7 +11314,7 @@ msgid ""
 msgstr ""
 
 #: A.04-synth-riffs.md:171
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :random_riff do\n"
 "  #  uncomment to bring in:\n"
@@ -11348,7 +11348,8 @@ msgstr ""
 "  use_random_seed 43\n"
 "  notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle.take(8)\n"
 "  8.times do\n"
-"    play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)\n"
+"    play notes.tick, release: rand(0.5), cutoff: rrand(60, 130) if one_in(2)"
+"\n"
 "    sleep 0.125\n"
 "  end\n"
 "end\n"
@@ -11408,7 +11409,7 @@ msgid ""
 msgstr ""
 
 #: A.05-acid-bass.md:30
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "play :e1"
@@ -11433,7 +11434,7 @@ msgid ""
 msgstr ""
 
 #: A.05-acid-bass.md:44
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "live_loop :squelch do\n"
@@ -11566,7 +11567,7 @@ msgid ""
 msgstr ""
 
 #: A.05-acid-bass.md:128
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "with_fx :reverb, room: 1 do\n"
@@ -11580,8 +11581,8 @@ msgstr ""
 "use_synth :tb303\n"
 "with_fx :reverb, room: 1 do\n"
 "  live_loop :space_scanner do\n"
-"    play :e1, cutoff: 100, release: 7, attack: 1, cutoff_attack: 4, cutoff_rel"
-"ease: 4\n"
+"    play :e1, cutoff: 100, release: 7, attack: 1, cutoff_attack: 4, "
+"cutoff_release: 4\n"
 "    sleep 8\n"
 "  end\n"
 "end"
@@ -11609,7 +11610,7 @@ msgid ""
 msgstr ""
 
 #: A.05-acid-bass.md:154
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "use_debug false\n"
@@ -11642,8 +11643,8 @@ msgstr ""
 "  live_loop :space_scanner do\n"
 "    with_fx :slicer, phase: 0.25, amp: 1.5 do\n"
 "      co = (line 70, 130, steps: 8).tick\n"
-"      play :e1, cutoff: co, release: 7, attack: 1, cutoff_attack: 4, cutoff_re"
-"lease: 4\n"
+"      play :e1, cutoff: co, release: 7, attack: 1, cutoff_attack: 4, "
+"cutoff_release: 4\n"
 "      sleep 8\n"
 "    end\n"
 "  end\n"
@@ -11652,8 +11653,8 @@ msgstr ""
 "    use_random_seed 3000\n"
 "    16.times do\n"
 "      n = (ring :e1, :e2, :e3).tick\n"
-"      play n, release: 0.125, cutoff: rrand(70, 130), res: 0.9, wave: 1, amp: "
-"0.8\n"
+"      play n, release: 0.125, cutoff: rrand(70, 130), res: 0.9, wave: 1, amp:"
+" 0.8\n"
 "      sleep 0.125\n"
 "    end\n"
 "  end\n"
@@ -11713,7 +11714,7 @@ msgid "In a fresh buffer type the following:"
 msgstr ""
 
 #: A.06-minecraft.md:28
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_message \"Hello Minecraft from Sonic Pi!\""
 msgstr "mc_message \"Hello Minecraft from Sonic Pi!\""
 
@@ -11743,7 +11744,7 @@ msgid ""
 msgstr ""
 
 #: A.06-minecraft.md:45
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_teleport 80, 40, 100"
 msgstr "mc_teleport 80, 40, 100"
 
@@ -11790,7 +11791,7 @@ msgid ""
 msgstr ""
 
 #: A.06-minecraft.md:72
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "mc_message \"Preparing to teleport....\"\n"
 "sample :ambi_lunar_land, rate: -1\n"
@@ -11834,7 +11835,7 @@ msgid ""
 msgstr ""
 
 #: A.06-minecraft.md:94
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "x, y, z = mc_location\n"
 "mc_set_block :melon, x, y + 5, z"
@@ -11854,7 +11855,7 @@ msgid ""
 msgstr ""
 
 #: A.06-minecraft.md:107
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :melon_trail do\n"
 "  x, y, z = mc_location\n"
@@ -11901,7 +11902,7 @@ msgid ""
 msgstr ""
 
 #: A.06-minecraft.md:138
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :bass_trail do\n"
 "  tick\n"
@@ -11948,7 +11949,7 @@ msgid ""
 msgstr ""
 
 #: A.06-minecraft.md:166
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :note_blocks do\n"
 "  mc_message \"This is Sonic Minecraft\"\n"
@@ -12141,7 +12142,7 @@ msgid ""
 msgstr ""
 
 #: A.07-bizet.md:90
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 msgstr "(ring :d, :r, :r, :a, :f5, :r, :a, :r)"
 
@@ -12150,7 +12151,7 @@ msgid "Let's see what this sounds like. Throw it in a live loop and tick through
 msgstr ""
 
 #: A.07-bizet.md:97
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :habanera do\n"
 "  play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick\n"
@@ -12181,7 +12182,7 @@ msgid ""
 msgstr ""
 
 #: A.07-bizet.md:115
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :habanera do\n"
 "  use_synth :fm\n"
@@ -12232,7 +12233,7 @@ msgid ""
 msgstr ""
 
 #: A.07-bizet.md:147
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_debug false\n"
 "bizet_bass = (ring :d, :r, :r, :a, :f5, :r, :a, :r)\n"
@@ -12353,7 +12354,7 @@ msgid ""
 msgstr ""
 
 #: A.08-minecraft-vj.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "mc_message \"Let's get started...\""
 msgstr "mc_message \"Let's get started...\""
 
@@ -12412,7 +12413,7 @@ msgid ""
 msgstr ""
 
 #: A.08-minecraft-vj.md:62
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "x, y, z = mc_location\n"
 "mc_set_block :sand, x, y + 20, z + 5\n"
@@ -12469,7 +12470,7 @@ msgid ""
 msgstr ""
 
 #: A.08-minecraft-vj.md:97
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :sand_storm do\n"
 "  x, y, z = mc_location\n"
@@ -12553,7 +12554,7 @@ msgid ""
 msgstr ""
 
 #: A.08-minecraft-vj.md:145
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "x, y, z = mc_location\n"
 "bs = (ring :gold, :diamond, :glass)\n"
@@ -12623,7 +12624,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:22
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "print rand"
 msgstr "print rand"
 
@@ -12668,7 +12669,7 @@ msgid "Let's use this knowledge to generate a repeatable random melody:"
 msgstr ""
 
 #: A.09-randomisation.md:56
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "8.times do\n"
 " play rrand_i(50, 95)\n"
@@ -12747,7 +12748,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:94
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_random_seed 0\n"
 "3.times do\n"
@@ -12768,7 +12769,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:106
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_random_seed 1\n"
 "3.times do\n"
@@ -12807,7 +12808,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:130
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :random_riff do    \n"
 "  use_random_seed 0\n"
@@ -12856,7 +12857,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:165
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :random_riff do\n"
 "  use_random_seed 10300\n"
@@ -12933,7 +12934,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:22
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "synth :prophet, note: :e1, release: 8, cutoff: 100"
 msgstr "synth :prophet, note: :e1, release: 8, cutoff: 100"
 
@@ -12958,7 +12959,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:38
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sn = synth :prophet, note: :e1, release: 8, cutoff: 100\n"
 "sleep 1\n"
@@ -13041,7 +13042,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:87
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "notes = (scale :e3, :minor_pentatonic)\n"
 "sn = synth :prophet, note: :e1, release: 8, cutoff: 100\n"
@@ -13078,7 +13079,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:110
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "control sn, note: notes.tick, cutoff: rrand(70, 130)"
 msgstr "control sn, note: notes.tick, cutoff: rrand(70, 130)"
 
@@ -13108,7 +13109,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:131
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "sn = synth :prophet, note: :e1, release: 8, cutoff: 70, cutoff_slide: 2\n"
 "sleep 1\n"
@@ -13149,7 +13150,7 @@ msgid ""
 msgstr ""
 
 #: A.10-controlling-your-sound.md:162
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :moon_rise do\n"
 "  with_fx :echo, mix: 0, mix_slide: 8 do |fx|\n"
@@ -13169,7 +13170,8 @@ msgstr ""
 "  with_fx :echo, mix: 0, mix_slide: 8 do |fx|\n"
 "    control fx, mix: 1\n"
 "    notes = (scale :e3, :minor_pentatonic, num_octaves: 2).shuffle\n"
-"    sn = synth :prophet , sustain: 8, note: :e1, cutoff: 70, cutoff_slide: 8\n"
+"    sn = synth :prophet , sustain: 8, note: :e1, cutoff: 70, cutoff_slide: "
+"8\n"
 "    control sn, cutoff: 130\n"
 "    sleep 2\n"
 "    32.times do\n"
@@ -13216,7 +13218,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:23
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "puts tick #=> 0"
 msgstr "puts tick #=> 0"
 
@@ -13229,7 +13231,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:32
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "puts tick #=> 0\n"
 "puts tick #=> 1\n"
@@ -13259,7 +13261,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:49
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "puts tick #=> 0\n"
 "puts tick #=> 1\n"
@@ -13296,7 +13298,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:72
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "puts (ring :a, :b, :c).tick #=> :a"
 msgstr "puts (ring :a, :b, :c).tick #=> :a"
 
@@ -13308,7 +13310,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:80
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "puts (ring :a, :b, :c).tick #=> :a\n"
 "puts (ring :a, :b, :c).tick #=> :b\n"
@@ -13370,7 +13372,7 @@ msgid "These concepts can all be found in the following code:"
 msgstr "Estos conceptos pueden ser comprobados en el siguiente código:"
 
 #: A.11-beat-tracking.md:106
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "notes = (ring 57, 62, 55, 59, 64)\n"
 "live_loop :arp do\n"
@@ -13421,7 +13423,7 @@ msgstr ""
 "global . Veamos como funciona esto:"
 
 #: A.11-beat-tracking.md:131
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "notes = (ring 57, 62, 55, 59, 64)\n"
 "with_fx :reverb do\n"
@@ -13467,7 +13469,7 @@ msgstr ""
 "`live_loop`:"
 
 #: A.11-beat-tracking.md:154
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_bpm 300\n"
 "use_synth :blade\n"
@@ -13512,7 +13514,7 @@ msgstr ""
 "transformarlo. Nos vemos..."
 
 #: A.11-beat-tracking.md:183
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "use_bpm 240\n"
 "notes = (scale :e3, :minor_pentatonic).shuffle\n"
@@ -13668,7 +13670,7 @@ msgstr ""
 "pequeña del sample"
 
 #: A.12-sample-slicing.md:68
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, start: 0.25, finish: 0.5"
 msgstr "sample :loop_amen, start: 0.25, finish: 0.5"
 
@@ -13681,7 +13683,7 @@ msgstr ""
 "del  `start:` y así tocará la sección macha atrás:"
 
 #: A.12-sample-slicing.md:75
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.25"
 msgstr "sample :loop_amen, start: 0.5, finish: 0.25"
 
@@ -13716,7 +13718,7 @@ msgid ""
 msgstr ""
 
 #: A.12-sample-slicing.md:97
-#, no-wrap
+#, fuzzy, no-wrap
 msgid ""
 "live_loop :beat_slicer do\n"
 "  slice_idx = rand_i(8)\n"
