@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-30 08:26+0000\n"
-"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
+"PO-Revision-Date: 2016-06-02 20:51+0000\n"
+"Last-Translator: Peter Bolch <peter@bolch-steinegger.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -2497,7 +2497,6 @@ msgid "Auto Sustain"
 msgstr "Auto-Sustain"
 
 #: 03.4-Enveloped-Samples.md:36
-#, fuzzy
 msgid ""
 "Where the ADSR envelope's behaviour differs from the standard synth envelope i"
 "s in the *sustain* value. In the standard synth envelope, the sustain defaulte"
@@ -2510,17 +2509,18 @@ msgid ""
 " values add up to more than the duration of the sample, the sustain is simply "
 "set to 0."
 msgstr ""
-"Beim *Sustain*-Wert unterscheidet sich das Verhalten einer ADSR-Hüllkuve. Bei "
-"der Hüllkurve für Standard-Synths steht der Sustain normalerweise auf 0 - auße"
-"r Du setzt den Wert ausdrücklich. Bei Samples wird der Sustain-Wert auf einen "
-"*automagical* Wert gesetzt - nämlich die Zeit, die es braucht, bis das gesamte"
-" Sample abgelaufen ist. Darum hören wir das Sample komplett, wenn wir keine De"
-"fault-Werte übergeben. Wenn die Werte für Attack, Decay, Sustain und Release a"
-"lle 0 wären, würden wir keinen Pieps hören. Deshalb berechnet Sonic Pi zunächs"
-"t, wie lange das Sample von sich aus dauert, zieht etwaige Dauern für Attack, "
-"Decay und Release davon ab und setzt die restliche Zeit als Sustain-Wert. Wenn"
-" die Werte von Attack, Decay und Release zusammengenommen länger dauern als da"
-"s gesamte Sample, wird der Sustain-Wert einfach auf 0 gesetzt."
+"Beim *Sustain*-Wert unterscheidet sich das Verhalten einer ADSR-Hüllkurve. "
+"Bei der Hüllkurve für Standard-Synths steht der Sustain normalerweise auf 0 -"
+" außer Du setzt den Wert ausdrücklich. Bei Samples wird der Sustain-Wert auf "
+"einen *automagical* Wert gesetzt - nämlich die Zeit, die es braucht, bis das "
+"gesamte Sample abgelaufen ist. Darum hören wir das Sample komplett, wenn wir "
+"keine Default-Werte übergeben. Wenn die Werte für Attack, Decay, Sustain und "
+"Release alle 0 wären, würden wir keinen Pieps hören. Deshalb berechnet Sonic "
+"Pi zunächst, wie lange das Sample von sich aus dauert, zieht etwaige Dauern "
+"für Attack, Decay und Release davon ab und setzt die restliche Zeit als "
+"Sustain-Wert. Wenn die Werte von Attack, Decay und Release zusammengenommen "
+"länger dauern als das gesamte Sample, wird der Sustain-Wert einfach auf 0 "
+"gesetzt."
 
 #: 03.4-Enveloped-Samples.md:48
 #, fuzzy
@@ -2688,13 +2688,12 @@ msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:124
-#, fuzzy
 msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the rate "
 "too for really interesting results."
 msgstr ""
-"Jetzt versuch einmal, Hüllkuven über Samples zu legen. Verändere auch die Samp"
-"lerate; damit kannst Du sehr interessante Ergebnisse erzielen."
+"Jetzt versuch einmal, Hüllkurven über Samples zu legen. Verändere auch die "
+"Samplerate; damit kannst Du sehr interessante Ergebnisse erzielen."
 
 #: 03.5-Partial-Samples.md:1
 #, fuzzy
