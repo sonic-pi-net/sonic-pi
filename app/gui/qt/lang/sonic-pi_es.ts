@@ -78,7 +78,7 @@ sistemas externos PA cuando actúas con Sonic Pi.</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and visa versa.</source>
-        <translation type="unfinished">Cambia la inversión del estéreo.
+        <translation>Estéreo invertido.
 Si se encuentra activado, el audio del altavoz izquierdo 
 se desviará al altavoz derecho, y viceversa.</translation>
     </message>
@@ -228,9 +228,9 @@ cada vez que se presione el botón de iniciar.</translation>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Habilita o deshabilita el registro de señales.  
+        <translation>Habilita o deshabilita el registro de señales.  
 Si se deshabilita, las señales se iniciarán normalmente
-pero no se verán en los registros.</translation>
+pero no se verán en el registro.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
@@ -322,8 +322,8 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
         <location filename="../mainwindow.cpp" line="1019"></location>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Comprobar inmediatamente la existencia de actualizaciones.  
-Esta verificación conlleva enviar información anónima de tu plataforma y versión actuales.</translation>
+        <translation>Comprobar inmediatamente la existencia de actualizaciones.  
+Esta verificación conlleva enviar información anónima acerca de tu plataforma y versión actuales.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1020"></location>
@@ -444,7 +444,7 @@ Esta verificación conlleva enviar información anónima de tu plataforma y vers
         <location filename="../mainwindow.cpp" line="1068"></location>
         <source>
 Dark mode is perfect for live coding in night clubs.</source>
-        <translation type="unfinished">
+        <translation>
 La opción modo oscuro es perfecta para hacer live coding en discotecas o lugares con poca luz.</translation>
     </message>
     <message>
@@ -637,7 +637,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1756"></location>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished">Quitar scroll automatico en el registro ...</translation>
+        <translation>Quitar desplazamiento automático en el registro ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2157"></location>
