@@ -429,14 +429,24 @@ class String
 end
 
 class Numeric
+  # Upper bound - will clamp the value
+  # to a value below max
   def max(other)
     return self if self <= other
     other
   end
 
+  # Minimum bound - will clamp the value
+  # to a value above min
   def min(other)
     return self if self >= other
     other
+  end
+
+  # Max and minimum bound - will clamp other
+  # to a value below other and above -1 * other
+  def clamp(other)
+    self.max(other).min(other * -1)
   end
 end
 
