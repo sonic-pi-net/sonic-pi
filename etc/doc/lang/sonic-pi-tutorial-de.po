@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-02 20:51+0000\n"
-"Last-Translator: Peter Bolch <peter@bolch-steinegger.de>\n"
+"PO-Revision-Date: 2016-06-06 14:36+0000\n"
+"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -2326,8 +2326,9 @@ msgstr ""
 "fähr so aussieht:"
 
 #: 03.3-Stretching-Samples.md:103
+#, fuzzy
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 #, fuzzy
@@ -2430,12 +2431,14 @@ msgstr ""
 "en werden dementsprechend die Tonhöhe beinflussen."
 
 #: 03.4-Enveloped-Samples.md:1
+#, fuzzy
 msgid "3.4 Enveloped Samples"
-msgstr ""
+msgstr "3.4 Samples mit Hüllkurven"
 
 #: 03.4-Enveloped-Samples.md:3
+#, fuzzy
 msgid "Enveloped Samples"
-msgstr ""
+msgstr "Samples mit Hüllkurven"
 
 #: 03.4-Enveloped-Samples.md:5
 #, fuzzy
@@ -3008,12 +3011,14 @@ msgstr ""
 "sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 
 #: 03.7-Sample-Packs.md:1
+#, fuzzy
 msgid "3.7 Sample Packs"
-msgstr ""
+msgstr "3.7 Sample-Pakete"
 
 #: 03.7-Sample-Packs.md:3
+#, fuzzy
 msgid "Sample Packs"
-msgstr ""
+msgstr "Sample-Pakete"
 
 #: 03.7-Sample-Packs.md:5
 #, fuzzy
@@ -3061,28 +3066,34 @@ msgid "When we look inside that folder we find the following samples:"
 msgstr "Wenn wir in den Ordner schauen, finden wir folgende Samples:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
+#, fuzzy
 msgid "`100_A#_melody1.wav`"
-msgstr ""
+msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
+#, fuzzy
 msgid "`100_A#_melody2.wav`"
-msgstr ""
+msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
+#, fuzzy
 msgid "`100_A#_melody3.wav`"
-msgstr ""
+msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
+#, fuzzy
 msgid "`120_A#_melody4.wav`"
-msgstr ""
+msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
+#, fuzzy
 msgid "`120_Bb_guit1.wav`"
-msgstr ""
+msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
+#, fuzzy
 msgid "`120_Bb_piano1.wav`"
-msgstr ""
+msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
 #, fuzzy
@@ -3309,8 +3320,9 @@ msgstr ""
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 
 #: 03.7-Sample-Packs.md:136
+#, fuzzy
 msgid "Sources"
-msgstr ""
+msgstr "Quellen"
 
 #: 03.7-Sample-Packs.md:138
 msgid ""
