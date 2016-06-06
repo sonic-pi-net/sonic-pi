@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-02 17:42+0000\n"
-"Last-Translator: Federico P. <federico@federicopepe.com>\n"
+"PO-Revision-Date: 2016-06-06 10:53+0000\n"
+"Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -3875,6 +3875,10 @@ msgid ""
 " and creating simple melodies and rhythms by `sleep`ing between sounds, you mi"
 "ght be wondering what else the world of code can offer you..."
 msgstr ""
+"Adesso che hai imparato come creare i suoni attraverso l'uso delle funzioni "
+"'play' e 'sample' e che hai creato semplici melodie e ritmi utilizzando la "
+"funzione 'sleep' combinata con le precedenti, ti starai chiedendo che "
+"cos'altro può offrirti il mondo della programmazione..."
 
 #: 05-Programming-Structures.md:10
 msgid ""
@@ -3882,18 +3886,22 @@ msgid ""
 "uctures such as looping, conditionals, functions and threads give you amazingl"
 "y powerful tools to express your musical ideas."
 msgstr ""
+"Bene, ti aspetta qualcosa di davvero eccitante! Ci risulta che le strutture "
+"basilari della programmazione, come i concetti di loop, condizionali, "
+"funzioni e catene ti mettono in mano degli strumenti davvero potenti per "
+"esprimere le tue idee musicali."
 
 #: 05-Programming-Structures.md:14
 msgid "Let's get stuck in with the basics..."
-msgstr ""
+msgstr "Cominciamo a vedere come funzionano questi elementi di base..."
 
 #: 05.1-Blocks.md:1
 msgid "5.1 Blocks"
-msgstr ""
+msgstr "5.1 Blocchi"
 
 #: 05.1-Blocks.md:3
 msgid "Blocks"
-msgstr ""
+msgstr "Blocchi"
 
 #: 05.1-Blocks.md:5
 msgid ""
@@ -3904,6 +3912,15 @@ msgid ""
 " For example, we may wish to loop it, to add reverb to it, to only run it 1 ti"
 "me out of 5, etc. Consider the following code:"
 msgstr ""
+"Una struttura che vedrai molto spesso utilizzando Sonic Pi è il blocco. I "
+"blocchi ci permettono di fare delle cose molto utili con pezzi di codice "
+"notevolmente lunghi. Per esempio, abbiamo visto come con i parametri dei "
+"sintetizzatori e dei campioni eravamo in grado di cambiare qualcosa che "
+"accadeva soltanto all'interno di una singola linea di programma. Però a "
+"volte potremmo voler fare qualcosa che abbia effetto su diverse linee di "
+"programma e non una sola. Per esempio, potremmo volerle mettere in loop, "
+"aggiungerci un riverbero, avviarlo soltanto una volta ogni cinque cicli e "
+"così via. Prendi in considerazione il codice che segue:"
 
 #: 05.1-Blocks.md:13
 #, no-wrap
@@ -3926,6 +3943,10 @@ msgid ""
 "block *starts* and where it *ends*. We use `do` for start and `end` for end. F"
 "or example:"
 msgstr ""
+"Per fare qualcosa con un pezzo di codice, dobbiamo dire a Sonic Pi dove il "
+"blocco inizia e finisce. Per indicare l'inizio, il linguaggio di Sonic Pi "
+"utilizza il termine 'do' mentre per indicare la fine utilizza il termine "
+"'end'. Per esempio:"
 
 #: 05.1-Blocks.md:25
 #, no-wrap
@@ -3955,14 +3976,22 @@ msgid ""
 "s important to know that wrapping your code within `do` and `end` tells Sonic "
 "Pi you wish to do something special with that chunk of code."
 msgstr ""
+"Tuttavia, questo ancora non è completo e infatti non è funzionante (prova tu "
+"stesso/a ad avviarlo e otterrai un errore). Infatti non abbiamo detto a "
+"Sonic Pi cosa deve fare con il blocco in questione. Dobbiamo indicare "
+"l'azione da compiere scrivendo un codice particolare dopo il 'do'. Vedremo "
+"una serie di esempi in seguito, all'interno di questa guida. Per il momento "
+"è importante sapere che avvolgendo il codice all'interno di 'do' e 'end' "
+"comunichi a Sonic Pi la tua intenzione di fare qualcosa di particolare con "
+"quelle linee di codice."
 
 #: 05.2-Iteration-and-Loops.md:1
 msgid "5.2 Iteration and Loops"
-msgstr ""
+msgstr "5.2 Iterazioni e anelli"
 
 #: 05.2-Iteration-and-Loops.md:3
 msgid "Iteration and Loops"
-msgstr ""
+msgstr "Iterazioni e anelli"
 
 #: 05.2-Iteration-and-Loops.md:5
 msgid ""
@@ -3970,6 +3999,10 @@ msgid ""
 "with `play` and `sample` blocks. We've also learned how to trigger these sound"
 "s through time using `sleep`."
 msgstr ""
+"Fino a questo momento, abbiamo passato molto tempo a spiegare i differenti "
+"suoni che puoi ottenere utilizzando le funzioni 'play' e 'sample'. Hai anche "
+"imparato come scansionare il tempo tra i suoni attraverso la funzione "
+"'sleep'."
 
 #: 05.2-Iteration-and-Loops.md:9
 msgid ""
@@ -3979,16 +4012,24 @@ msgid ""
 " next few sections we'll explore some of these powerful new tools. First up is"
 " iteration and loops."
 msgstr ""
+"Come avrai probabilmente scoperto, puoi divertirti un sacco con questi "
+"blocchi basilari. Tuttavia, quando comincerai a utilizzare il potere del "
+"codice per strutturare le tue composizioni e la tua musica, tutta una nuova "
+"dimensione di divertimento ti si aprirà davanti. Nelle prossime sezioni, "
+"illustreremo alcuni di questi potenti strumenti. I primi saranno le "
+"iterazioni e gli anelli."
 
 #: 05.2-Iteration-and-Loops.md:15
 msgid "Repetition"
-msgstr ""
+msgstr "Ripetizione"
 
 #: 05.2-Iteration-and-Loops.md:17
 msgid ""
 "Have you written some code you'd like to repeat a few times? For example, you "
 "might have something like this:"
 msgstr ""
+"Hai mai scritto una stringa di codice che ti piacerebbe ripetere alcune "
+"volte? Per esempio, qualcosa tipo:"
 
 #: 05.2-Iteration-and-Loops.md:20
 #, no-wrap
@@ -4012,6 +4053,8 @@ msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple a"
 "nd just copy and paste it three times:"
 msgstr ""
+"Che cosa dobbiamo fare se vogliamo ripetere questo codice tre volte? Bene, "
+"potremmo semplicemente copiarlo e incollarlo per tre volte di seguito:"
 
 #: 05.2-Iteration-and-Loops.md:32
 #, no-wrap
@@ -4062,10 +4105,17 @@ msgid ""
 "he original piece of code 50 times or 1000? Now that would be a lot of code, a"
 "nd a lot of lines of code to alter if you wanted to make a change."
 msgstr ""
+"Certo che è proprio un codice lunghissimo! Che cosa accadrebbe se tu volessi "
+"cambiare il campione indicato con 'elec_plip'? Dovresti trovare tutti i "
+"punti in cui è menzionato l'originale, cioè 'elec_blup', e cambiarlo. Ma "
+"ancora peggio, che cosa accadrebbe se tu volessi ripetere il codice "
+"originale per 50 o adirittura 1000 volte? A questo punto avresti un codice "
+"enorme, con un sacco di linee da variare se tu volessi effettuare un "
+"qualsiasi cambiamento."
 
 #: 05.2-Iteration-and-Loops.md:62
 msgid "Iteration"
-msgstr ""
+msgstr "Iterazione"
 
 #: 05.2-Iteration-and-Loops.md:64
 msgid ""
@@ -4076,6 +4126,13 @@ msgid ""
 "*, we write `3.times do` - that's not too hard. Just remember to write `end` a"
 "t the end of the code you'd like to repeat:"
 msgstr ""
+"Ripetere più volte una o più stringhe di codice può essere semplice come "
+"dire *fai questo tre volte*. Alla fine, è proprio questo che faremo. Ti "
+"ricordi del nostro vecchio amico chiamato blocco di codice? Possiamo "
+"utilizzarlo per indicare l'inizio e la fine di un gruppo di codice che "
+"vogliamo ripetere per tre volte. Quindi, invece di scrivere *fai questo tre "
+"volte*, noi scriveremo '3.times do'. Non è troppo difficile, vero? Devi solo "
+"ricordare di scrivere 'end' alla fine del codice che vuoi ripetere:"
 
 #: 05.2-Iteration-and-Loops.md:72
 #, no-wrap
@@ -4103,6 +4160,9 @@ msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to create"
 " lots of nice repeating structures:"
 msgstr ""
+"Non è molto più facile che fare copia e incolla? Possiamo usare questa "
+"struttura per creare un sacco di strutture interessanti fatte con la "
+"ripetizione:"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -4135,13 +4195,15 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:103
 msgid "Nesting Iterations"
-msgstr ""
+msgstr "Intrecciare le iterazioni"
 
 #: 05.2-Iteration-and-Loops.md:105
 msgid ""
 "We can put iterations inside other iterations to create interesting patterns. "
 "For example:"
 msgstr ""
+"Possiamo anche mettere le iterazioni una dentro l'altra per creare delle "
+"strutture interessanti. Per esempio:"
 
 #: 05.2-Iteration-and-Loops.md:108
 #, no-wrap
@@ -4174,7 +4236,7 @@ msgstr ""
 
 #: 05.2-Iteration-and-Loops.md:123
 msgid "Looping"
-msgstr ""
+msgstr "Creare anelli (loop)"
 
 #: 05.2-Iteration-and-Loops.md:125
 msgid ""
@@ -4183,6 +4245,11 @@ msgid ""
 "tter off asking Sonic Pi to repeat forever (at least until you press the stop "
 "button!). Let's loop the amen break forever:"
 msgstr ""
+"Se volessi che un blocco di codice si ripetesse tante volte, potresti "
+"trovare utile l'utilizzo di numeri grandi come '1000.times do'. In questi "
+"casi, però, faresti forse meglio a dire a Sonic Pi di ripetere il blocco "
+"all'infinito (o almeno finché non premi stop!). Proviamo a creare un anello "
+"con il campione amen_break:"
 
 #: 05.2-Iteration-and-Loops.md:130
 #, no-wrap
@@ -4205,6 +4272,12 @@ msgid ""
 "ter the loop you will *never* hear it. For example, the cymbal after this loop"
 " will never play:"
 msgstr ""
+"Un'aspetto importante da sapere degli anelli è che essi si comportano come "
+"dei buchi neri per il codice. Infatti, una volta che il codice entra in un "
+"anello, non riesce più a uscirne finché non premi stop. Il codice continuerà "
+"a girare in cerchio all'infinito. Quindi, se hai scritto del codice "
+"successivamente a un anello, questo non verrà mai eseguito. Nel caso "
+"seguente il piatto scritto dopo l'anello non suonerà mai:"
 
 #: 05.2-Iteration-and-Loops.md:143
 #, no-wrap
@@ -4224,14 +4297,16 @@ msgstr ""
 #: 05.2-Iteration-and-Loops.md:152
 msgid "Now, get structuring your code with iteration and loops!"
 msgstr ""
+"Adesso puoi cominciare a strutturare il tuo codice inserendo le iterazioni e "
+"gli anelli, vai!"
 
 #: 05.3-Conditionals.md:1
 msgid "5.3 Conditionals"
-msgstr ""
+msgstr "5.3 Condizionali"
 
 #: 05.3-Conditionals.md:3
 msgid "Conditionals"
-msgstr ""
+msgstr "Condizionali"
 
 #: 05.3-Conditionals.md:5
 msgid ""
@@ -4241,10 +4316,16 @@ msgid ""
 ", you might want to randomly play a drum or a cymbal. We can achieve this with"
 " an `if` statement."
 msgstr ""
+"Una cosa che probabilmente vorrai fare è non soltanto suonare note casuali ("
+"se vuoi riguardati la sezione precedente sulla casualità) ma anche prendere "
+"decisioni casuali e basate sul risultato ottenuto da una o un'altra stringa "
+"di codice precisa. Per esempio, potresti voler suonare in maniera casuale un "
+"tamburo o un piatto. Possiamo ottenere quanto detto sopra utilizzando la "
+"funzione 'if'."
 
 #: 05.3-Conditionals.md:11
 msgid "Flipping a Coin"
-msgstr ""
+msgstr "Tirare una moneta"
 
 #: 05.3-Conditionals.md:13
 msgid ""
@@ -4254,6 +4335,12 @@ msgid ""
 " can then use the result of this to decide between two pieces of code, the cod"
 "e to play the drum and the code to play the cymbal:"
 msgstr ""
+"Quindi, tiriamo una moneta: se fosse testa, suona un tamburo, se fosse "
+"croce, suona un piatto. Facile no? Possiamo imitare il comportamento del "
+"lancio di una moneta con la funzione 'one_in' (introdotto nella sezione "
+"sulla casualità) specificando la probabilità di 1 ogni 2: 'one_in(2)'. "
+"Possiamo quindi utilizzare i risultati di questa funzione per decidere quali "
+"di due stringhe di codice scegliere, quello del tamburo o quello del piatto:"
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
@@ -4282,19 +4369,21 @@ msgstr ""
 
 #: 05.3-Conditionals.md:34
 msgid "Notice that `if` statements have three parts:"
-msgstr ""
+msgstr "Tieni conto che la struttura di 'if' è composta di tre parti:"
 
 #: 05.3-Conditionals.md:36
 msgid "The question to ask"
-msgstr ""
+msgstr "La domanda da chiedere"
 
 #: 05.3-Conditionals.md:37
 msgid "The first choice of code to run (if the answer to the question is yes)"
 msgstr ""
+"La prima scelta del codice da eseguire (se la risposta alla domanda è sì)"
 
 #: 05.3-Conditionals.md:38
 msgid "The second choice of code to run (if the answer to the question is no)"
 msgstr ""
+"La seconda scelta del codice da eseguire (se la risposta alla domanda è no)"
 
 #: 05.3-Conditionals.md:40
 msgid ""
@@ -4303,6 +4392,10 @@ msgid ""
 "to find a question that will give us a `true` or `false` answer which is exact"
 "ly what `one_in` does."
 msgstr ""
+"Di solito all'interno dei linguaggi di programmazione, la nozione di sì è "
+"definita come 'vera', mentre la nozione di no è definita come 'falsa'. "
+"Quindi dobbiamo trovare una domanda che ci dia una risposta 'vera' o "
+"'falsa', il che è esattamente quello che la funzione 'one_in' fa."
 
 #: 05.3-Conditionals.md:45
 msgid ""
@@ -4310,6 +4403,10 @@ msgid ""
 " second choice is wrapped between the `else` and the `end`. Just like do/end b"
 "locks you can put multiple lines of code in either place. For example:"
 msgstr ""
+"Fai caso a come la prima scelta è inclusa tra la parola 'if' e la parola "
+"'else' e invece la seconda scelta è tra 'else' e 'end'. Funziona ugualmente "
+"alla struttura 'do/end', dove puoi inserire più linee di codice in ogni "
+"posizione. Per esempio:"
 
 #: 05.3-Conditionals.md:50
 #, no-wrap
@@ -4341,16 +4438,21 @@ msgid ""
 "This time we're sleeping for a different amount of time depending on which cho"
 "ice we make."
 msgstr ""
+"Nel caso precedente, abbiamo creato suoni di lunghezza diversa attraverso la "
+"funzione 'sleep' a seconda della scelta eseguta."
 
 #: 05.3-Conditionals.md:68
 msgid "Simple if"
-msgstr ""
+msgstr "Funzione 'if' semplice"
 
 #: 05.3-Conditionals.md:70
 msgid ""
 "Sometimes you want to optionally execute just one line of code. This is possib"
 "le by placing `if` and then the question at the end. For example:"
 msgstr ""
+"A volte puoi aver bisogno di creare un'opzione per eseguire una linea di "
+"codice. Puoi fare questo costruendo la struttura di 'if' e ponendo la "
+"domanda alla fine. Per esempio:"
 
 #: 05.3-Conditionals.md:73
 #, no-wrap
@@ -4378,14 +4480,17 @@ msgid ""
 "This will play chords of different numbers with the chance of each note playin"
 "g having a different probability."
 msgstr ""
+"Il codice scritto precedentemente suonerà un accordo composto da un numero "
+"sempre differente di note dipendente dal grado diverso di probabilità "
+"attribuito all'esecuzione di ogni nota."
 
 #: 05.4-Threads.md:1
 msgid "5.4 Threads"
-msgstr ""
+msgstr "5.4 Catene"
 
 #: 05.4-Threads.md:3
 msgid "Threads"
-msgstr ""
+msgstr "Catene"
 
 #: 05.4-Threads.md:5
 msgid ""
@@ -4394,22 +4499,34 @@ msgid ""
 ", then a bit of drums, then more bass... However, the timing soon gets hard to"
 " think about, especially when you start weaving in more elements."
 msgstr ""
+"Quindi per il momento hai creato un ritmo coinvolgente e un basso che ti "
+"entra dentro. Come puoi fare a suonarli contemporaneamente? Una delle "
+"soluzioni è di intrecciarli a mano: suona un po' di bassi, poi qualche colpo "
+"di batteria, poi ancora bassi...Tuttavia, la loro sincronizzazione può "
+"diventare presto difficile, specialmente quando cominci ad aggiungere "
+"numerosi elementi."
 
 #: 05.4-Threads.md:11
 msgid ""
 "What if Sonic Pi could weave things for you automatically? Well, it can, and y"
 "ou do it with a special thing called a *thread*."
 msgstr ""
+"Che ne dici se Sonic Pi intrecciasse i vari strumenti per te, "
+"automaticamente? Bene, non ci crederai ma Sonic Pi può farlo per te! E lo "
+"può fare utilizzando una funzione speciale chiamata *thread*, ovvero "
+"tessitura."
 
 #: 05.4-Threads.md:14
 msgid "Infinite Loops"
-msgstr ""
+msgstr "Anelli infiniti"
 
 #: 05.4-Threads.md:16
 msgid ""
 "To keep this example simple, you'll have to imagine that this is a phat beat a"
 "nd a killer bassline:"
 msgstr ""
+"Per fare un esempio semplice, devi immaginarti che il codice che segue sia "
+"un basso che pompa e un ritmo coinvolgente:"
 
 #: 05.4-Threads.md:19
 #, no-wrap
@@ -4442,10 +4559,16 @@ msgid ""
 "rt something at the same time as the rest of the code. This is where threads c"
 "ome to the rescue."
 msgstr ""
+"Come abbiamo detto in precedenza, gli anelli sono delle specie di *buchi "
+"neri* per il programma. Una volta che entri all'interno di un anello non "
+"puoi più uscirne finché non premi stop. Quindi, come facciamo a suonare "
+"entrambi gli anelli contemporaneamente? Dobbiamo dire a Sonic Pi che "
+"vogliamo iniziare diverse parti di codice nello stesso momento. Questo è "
+"quello che fa la funzione *thread*."
 
 #: 05.4-Threads.md:38
 msgid "Threads to the Rescue"
-msgstr ""
+msgstr "La funzione *thread* viene a salvarci dai buchi neri"
 
 #: 05.4-Threads.md:40
 #, no-wrap
@@ -4481,10 +4604,15 @@ msgid ""
 "atement after the do/end block (which happens to be the second loop). Try it a"
 "nd you'll hear both the drums and the bassline weaved together!"
 msgstr ""
+"Abbiamo messo all'interno di una struttura 'in_thread', composta da un "
+"blocco do/end, il primo anello. Questo comunica a Sonic Pi di eseguire il "
+"contenuto di questo blocco *esattamente* nello stesso momento del codice "
+"presente dopo il blocco (che in questo caso è il secondo anello). Prova a "
+"eseguirlo e potrai sentire sia la batteria sia il basso contemporaneamente!"
 
 #: 05.4-Threads.md:61
 msgid "Now, what if we wanted to add a synth on top. Something like:"
-msgstr ""
+msgstr "Proviamo adesso a inserire un synth all'inizio:"
 
 #: 05.4-Threads.md:63
 #, no-wrap
@@ -4529,6 +4657,10 @@ msgid ""
 "ime as the second loop due to the `in_thread`. However, *the third loop is nev"
 "er reached*. We therefore need another thread:"
 msgstr ""
+"Ci ritroviamo con lo stesso problema di prima. Il primo anello è suonato "
+"contemporaneamente al secondo, grazie a 'in_thread'. Però *il terzo anello "
+"non viene mai eseguito*. Dobbiamo quindi aggiungere un altro 'filo' al "
+"tessuto:"
 
 #: 05.4-Threads.md:88
 #, no-wrap
@@ -4573,7 +4705,7 @@ msgstr ""
 
 #: 05.4-Threads.md:111
 msgid "Runs as threads"
-msgstr ""
+msgstr "Avvii come ulteriori fili aggiunti al tessuto sonoro"
 
 #: 05.4-Threads.md:113
 msgid ""
@@ -4582,10 +4714,15 @@ msgid ""
 "es will layer sounds over each other. As the runs themselves are threads, they"
 " will automatically weave the sounds together for you."
 msgstr ""
+"Potrebbe sorprenderti il fatto che, quando premi il bottone 'run', in realtà "
+"stai creando un nuovo filo di codice da eseguire. Questo spiega perché "
+"quando premi il tasto più volte, il suono si sovrappone a quello che che è "
+"già in esecuzione. Visto che ogni esecuzione è un filo di codice, questi "
+"fili vengono intrecciati automaticamente."
 
 #: 05.4-Threads.md:119
 msgid "Scope"
-msgstr ""
+msgstr "Influenza del codice"
 
 #: 05.4-Threads.md:121
 msgid ""
@@ -4596,6 +4733,13 @@ msgid ""
 "itching the synth in the *current thread* - no other thread will have their sy"
 "nth switched. Let's see this in action:"
 msgstr ""
+"Via via che scoprirai tutti i segreti di Sonic Pi, imparerai come questi "
+"'tessuti' di suoni sono in realtà i mattoni principali con cui costruire la "
+"tua musica. Uno dei compiti principali di questi tessuti è quello di isolare "
+"la nozione di *impostazioni correnti* da quello degli altri orditi. Che cosa "
+"significa? Per esempio, quando associ un synth a un blocco utilizzando "
+"'use_synth' stai associandolo soltanto a quel blocco e non ad altri. Vediamo "
+"un esempio:"
 
 #: 05.4-Threads.md:129
 #, no-wrap
@@ -4623,10 +4767,13 @@ msgid ""
 "Notice how the middle sound was different to the others? The `use_synth` state"
 "ment only affected the thread it was in and not the outer main run thread."
 msgstr ""
+"Hai sentito come il suono di mezzo era differente dagli altri? La funzione "
+"'use_synth' aveva effetto soltanto sul blocco in cui era incluso e non sugli "
+"altri blocchi all'esterno."
 
 #: 05.4-Threads.md:146
 msgid "Inheritance"
-msgstr ""
+msgstr "Ereditarietà"
 
 #: 05.4-Threads.md:148
 msgid ""
@@ -4634,6 +4781,9 @@ msgid ""
 "ly inherit all of the current settings from the current thread. Let's see that"
 ":"
 msgstr ""
+"Quando crei un nuovo filone, un nuovo ordito utilizzando 'in_thread', "
+"quest'ultimo erediterà automaticamente tutte le impostazioni correnti da "
+"quello precedente. Prova a dare un'occhiata qui:"
 
 #: 05.4-Threads.md:152
 #, no-wrap
@@ -4658,20 +4808,28 @@ msgid ""
 "s played from a separate thread? Any of the settings modified with the various"
 " `use_*` functions will behave in the same way."
 msgstr ""
+"Hai visto che la seconda nota è suonata con il timbro del synth ':tb303' "
+"nonostante questo appartenesse a un altro blocco? Qualsiasi impostazione che "
+"viene modificata utilizzando la stringa 'use_*' si comporterà nello stesso "
+"modo."
 
 #: 05.4-Threads.md:166
 msgid ""
 "When threads are created, they inherit all the settings from their parent but "
 "they don't share any changes back."
 msgstr ""
+"Quando i fili di codice vengono creati, ereditano tutte le impostazioni dai "
+"fili 'genitori', ovvero quelli che li hanno generati. Tuttavia, le modifiche "
+"effettuate nel codice 'figlio' non hanno nessun effetto sui 'genitori'."
 
 #: 05.4-Threads.md:169
 msgid "Naming Threads"
-msgstr ""
+msgstr "Dare un nome ai diversi fili"
 
 #: 05.4-Threads.md:171
 msgid "Finally, we can give our threads names:"
 msgstr ""
+"Per concludere, se vogliamo, possiamo dare dei nomi ai nostri fili di codice:"
 
 #: 05.4-Threads.md:173
 #, no-wrap
@@ -4709,6 +4867,9 @@ msgid ""
 "Look at the log pane when you run this code. See how the log reports the name "
 "of the thread with the message?"
 msgstr ""
+"Dai uno sguardo alla sezione di destra quando esegui questo codice. Qui "
+"vengono visualizzati tutti i codici eseguiti. Vedi come questo 'diario' "
+"riporta il nome del filo da noi creato accoppiato con il messaggio?"
 
 #: 05.4-Threads.md:193
 #, no-wrap
@@ -4721,7 +4882,7 @@ msgstr ""
 
 #: 05.4-Threads.md:198
 msgid "Only One Thread per Name Allowed"
-msgstr ""
+msgstr "Un nome può essere attribuito a un solo filo"
 
 #: 05.4-Threads.md:200
 msgid ""
@@ -4729,6 +4890,9 @@ msgid ""
 "name may be running at the same time. Let's explore this. Consider the followi"
 "ng code:"
 msgstr ""
+"Un'ultima cosa da sapere a proposito dei nomi è che non possono essere "
+"eseguiti due fili con lo stesso nome contemporaneamente. Proviamo a dare "
+"un'occhiata a questa caratteristica. Leggi il codice seguente:"
 
 #: 05.4-Threads.md:204
 #, no-wrap
@@ -4753,6 +4917,10 @@ msgid ""
 " a couple of times. Listen to the cacophony of multiple amen breaks looping ou"
 "t of time with each other. Ok, you can press Stop now."
 msgstr ""
+"Vai avanti e incollalo all'interno di una finestra e premi Run. Prova a "
+"premerlo ancora un paio di volte. Ascolta per un po' la cacofonia creata da "
+"più campioni 'amen_break' che suonano contemporaneamente ma fuori tempo. "
+"Bene, adesso puoi premere stop."
 
 #: 05.4-Threads.md:217
 msgid ""
@@ -4761,10 +4929,14 @@ msgid ""
 "press the Run button three times, you'll have three layers of loops playing si"
 "multaneously."
 msgstr ""
+"Questo è il comportamento che abbiamo osservato numerose volte, ovvero: se "
+"premi Run, i suoni si sovrappongono agli altri già in esecuzione. Quindi, se "
+"hai un anello e premi Run tre volte, otterrai tre strati di suono che sono "
+"eseguiti contemporaneamente."
 
 #: 05.4-Threads.md:222
 msgid "However, with named threads it is different:"
-msgstr ""
+msgstr "Con i fili ai quali è stato attribuito un nome, è tutta un'altra cosa:"
 
 #: 05.4-Threads.md:224
 #, no-wrap
@@ -4788,27 +4960,37 @@ msgid ""
 "Try pressing the Run button multiple times with this code. You'll only ever he"
 "ar one amen break loop. You'll also see this in the log:"
 msgstr ""
+"Prova a premere Run numerose volte inserendo questo codice. Potrai ascoltare "
+"un solo 'amen_break'. Puoi verificare il perché leggendo nella finestra a "
+"destra:"
 
 #: 05.4-Threads.md:236
 #, no-wrap
 msgid "==> Skipping thread creation: thread with name :amen already exists."
-msgstr "==> Skipping thread creation: thread with name :amen already exists."
+msgstr ""
+"Visualizzerai questo messaggio ==> Skipping thread creation: thread with "
+"name :amen already exists."
 
 #: 05.4-Threads.md:240
 msgid ""
 "Sonic Pi is telling you that a thread with the name `:amen` is already playing"
 ", so it's not creating another."
 msgstr ""
+"Sonic Pi, che parla inglese, ti sta dicendo che il filo di codice chiamato ':"
+"amen' è già in esecuzione, quindi non ne può creare un altro."
 
 #: 05.4-Threads.md:243
 msgid ""
 "This behaviour may not seem immediately useful to you now - but it will be ver"
 "y handy when we start to live code..."
 msgstr ""
+"Questo comportamento potrebbe non sembrarti particolarmente utile adesso, ma "
+"invece lo sarà quando cominceremo a fare live coding, ovvero a suonare dal "
+"vivo..."
 
 #: 05.5-Functions.md:1
 msgid "5.5 Functions"
-msgstr ""
+msgstr "5.5 Funzioni"
 
 #: 05.5-Functions.md:3
 msgid "Functions"
