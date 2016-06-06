@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-01 14:45+0000\n"
+"PO-Revision-Date: 2016-06-06 13:32+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -30,10 +30,10 @@ msgid ""
 "you'll learn all about music, synthesis, programming, composition, "
 "performance and more."
 msgstr ""
-"Welkom bij Sonic Pi. Hopelijk ben je ook zo enthousiast, zoals ik, om jou te "
-"tonen hoe je, te gekke geluiden, kunt gaan maken. Het zal een leuke trip "
-"worden, waarin je alles over muziek, synthese, programmeren, compositie, "
-"performen gaat leren en nog veel meer..."
+"Welkom bij Sonic Pi. Hopelijk ben je ook zo enthousiast, zoals ik ben, om "
+"jou te tonen hoe je, te gekke klanken kunt gaan maken. Het zal een *prettige*"
+" reis worden, waarin je alles over muziek, synthese, programmeren, "
+"compositie en optreden gaat leren en nog veel meer..."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -59,10 +59,9 @@ msgid ""
 "on - feedback is so helpful. You never know, your idea might be the next big "
 "feature!"
 msgstr ""
-"Wanneer je bedenkingen hebt, of ideeën, om Sonic Pi te verbeteren, aarzel "
-"dan niet om deze te laten weten, want feedback is heel nuttig. En, je weet "
-"nooit, … jouw idee kan dan wel eens de volgende en voornaamste nieuwe "
-"functie worden!"
+"Mocht je bedenkingen hebben, of ideeën, om Sonic Pi te verbeteren, aarzel "
+"dan niet om deze te laten weten, daar feedback zo nuttig is . En, je weet "
+"nooit, … jouw idee kan wel eens de volgende, voornaamste nieuwe functie zijn!"
 
 #: 01-Welcome-to-Sonic-Pi.md:22
 msgid ""
@@ -72,11 +71,11 @@ msgid ""
 "that there's something missing, do let me know and I'll consider it for a "
 "future version."
 msgstr ""
-"Deze handleiding is verdeeld in secties en gegroepeerd per categorie.Hoewel "
+"Deze handleiding is verdeeld in secties en gegroepeerd per categorie. Hoewel "
 "ik deze in een volgorde geschreven heb met een eenvoudige leercurve voor "
-"ogen, wees vrij om in afzonderlijke secties te duiken,zoals jij dat wil.Heb "
-"je het gevoel dat er iets ontbreekt,laat het mij weten en ik zal deze in "
-"overwegen voor een toekomstige versie."
+"ogen, wees vrij, om in afzonderlijke secties te duiken, zoals jij dat wil. "
+"Heb je het gevoel dat er iets ontbreekt, laat het mij weten en ik zal deze "
+"in overweging nemen voor een toekomstige versie."
 
 #: 01-Welcome-to-Sonic-Pi.md:28
 msgid ""
@@ -91,11 +90,11 @@ msgstr ""
 
 #: 01-Welcome-to-Sonic-Pi.md:33
 msgid "OK, let's get started..."
-msgstr "OK, laat ons beginnen..."
+msgstr "OK, laten we beginnen..."
 
 #: 01.1-Live-Coding.md:1
 msgid "1.1 Live Coding"
-msgstr "1.1 Live Coderen (  Live Coding )"
+msgstr "1.1 Live Coderen (Live Coding)"
 
 #: 01.1-Live-Coding.md:3 09-Live-Coding.md:3 09.1-Live-Coding-Fundamentals.md:3
 #: A.02-live-coding.md:3
@@ -110,9 +109,9 @@ msgid ""
 "and gig with it."
 msgstr ""
 "Een van de meest opwindende aspecten van Sonic Pi is, dat het je in staat "
-"stelt, om code te gaan schrijven - deze ook “live” te wijzigen - om muziek "
-"te maken, zoals je live gitaar zou spelen. Dit betekent dat je, mits wat "
-"oefening, met Sonic Pi het podium op kan en hiermee kan optreden."
+"stelt, om code te gaan schrijven en deze ook \"live” te gaan wijzigen - om "
+"muziek te spelen, zoals je „live\" gitaar zou spelen. Dit betekent dat je, "
+"mits wat oefening, met Sonic Pi het podium op kan en hiermee kan optreden."
 
 #: 01.1-Live-Coding.md:10
 msgid "Free your mind"
@@ -126,9 +125,9 @@ msgid ""
 "hold onto your seats and enjoy..."
 msgstr ""
 "Voordat we in detail gaan over hoe Sonic Pi werkt, verderop in deze "
-"handleiding, wil ik je even een ervaring meegeven, hoe het is om live te "
-"coderen. Maak je geen zorgen als je er niet veel (of niets ) van begrijpt. "
-"Ga gewoon even zitten en geniet ..."
+"handleiding, wil ik je even een kleine ervaring meegeven, hoe het voelt om "
+"live te coderen. Maak je geen zorgen als je er niet veel (of niets) van "
+"begrijpt. Ga gewoon even zitten en geniet ..."
 
 #: 01.1-Live-Coding.md:17
 msgid "A live loop"
@@ -225,19 +224,20 @@ msgid ""
 msgstr ""
 "Speel hier even mee. Verander de koers (rate) - wat gebeurd er als je hoge "
 "waarden gebruikt,of kleine waarden of negatieve waarden? Kijk wat er gebeurd "
-"wanneer je de ‚rate:’ waarde van de  `:ambi_choir` sample maar een tikkeltje "
-"veranderd (bv. 0.29). Wat gebeurd er als je een héél kleine ‚sleep’ (rust) "
-"waarde kiest? Kijk nu of je het zo snel kan laten gaan dat je computer ervan "
-"stopt omdat hij het niet meer kan verwerken (wanneer dit gebeurd,moet je "
-"maar een een grotere ‚sleep’ (rust) tijd instellen en op afspelen klikken)."
+"wanneer je de `rate:`  waarde van de  `:ambi_choir` sample maar een "
+"tikkeltje veranderd (bv. 0.29). Wat gebeurd er als je een héél kleine `sleep`"
+" (rust) waarde kiest? Kijk nu of je het zo snel kan laten gaan dat je "
+"computer ervan stopt omdat hij het niet meer kan verwerken (wanneer dit "
+"gebeurd,moet je maar een een grotere 'sleep' tijd instellen en op afspelen "
+"klikken)."
 
 #: 01.1-Live-Coding.md:59
 msgid ""
 "Try commenting one of the `sample` lines out by adding a `#` to the "
 "beginning:"
 msgstr ""
-"Probeer één van de ’sample' lijnen van commentaar te voorzien door er een ‚#’"
-" voor te zetten:"
+"Probeer één van de  `sample` lijnen van commentaar te voorzien door er een "
+"`#` voor te zetten:"
 
 #: 01.1-Live-Coding.md:62
 #, no-wrap
@@ -272,16 +272,17 @@ msgid ""
 "same time. Now, do what you do best - experiment and play around. Here are "
 "some suggestions:"
 msgstr ""
-"Ik laat je  nu, bij deze, even spelen. Neem de onderstaande code, en kopieer "
-"deze in een lege buffer. Probeer nu nog niet, er al te veel van te begrijpen "
-"behalve dan op te merken er twee „loops” zijn - dus twee stukken die spelen "
-"op het zelfde moment. Wat je nu het beste kan doen is experimenteren en er, "
-"wat op los, mee te gaan spelen. Hier zijn enkele suggesties:"
+"Ik laat je nu met deze even spelen. Neem de onderstaande code, en kopieer "
+"deze in een lege buffer. Probeer er nu nog niet, al te veel van te "
+"begrijpen, maar wel in te zien, dat er twee „loops” zijn - dus twee stukken "
+"die spelen op het zelfde moment. Wat je nu het beste kan doen is "
+"experimenteren en, gewoon er wat op los, mee te gaan spelen. Hier zijn "
+"enkele suggesties:"
 
 #: 01.1-Live-Coding.md:80
 msgid "Try changing the blue `rate:` values to hear the sample sound change."
 msgstr ""
-"Wijzig de blauwe ' rate:' waarden om de klank van de „sample” te horen "
+"Wijzig de blauwe `rate:` waarden om de klank van de „sample” te horen "
 "veranderen."
 
 #: 01.1-Live-Coding.md:81
@@ -289,7 +290,7 @@ msgid ""
 "Try changing the `sleep` times and hear that both loops can spin round at "
 "different rates."
 msgstr ""
-"Wijzig de ‚sleep' tijd en hoor hierbij dat beide „loops\" kunnen afspelen in "
+"Wijzig de `sleep` tijd en hoor hierbij dat beide „loops\" kunnen afspelen in "
 "verschillende verhouding tot elkaar."
 
 #: 01.1-Live-Coding.md:83
@@ -297,8 +298,8 @@ msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the "
 "guitar played backwards."
 msgstr ""
-"Probeer de commentaar-lijn te wissen (Verwijder het '#’) van onze "
-"voorbeeldlijn en geniet van het geluid van de gitaar die nu achteruit "
+"Probeer de commentaar-lijn te wissen (Verwijder het `#`) van onze "
+"voorbeeldlijn en geniet van het geluid van de gitaar die nu achterùit "
 "afspeelt."
 
 #: 01.1-Live-Coding.md:85
@@ -306,8 +307,8 @@ msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in "
 "the mix) and `1` (fully in the mix)."
 msgstr ""
-"Probeer de blauwe „mix” waarden te veranderen naar cijfers tussen „0” (niet "
-"in de mix) en „1” ( voluit in de mix)."
+"Probeer de blauwe `mix:` waarden te veranderen naar cijfers tussen `0` (niet "
+"in de mix) en `1` (voluit in de mix)."
 
 #: 01.1-Live-Coding.md:88
 msgid ""
@@ -316,11 +317,11 @@ msgid ""
 "in the buffer and paste a fresh copy in and you're ready to jam again. "
 "Making mistakes is how you'll learn the quickest..."
 msgstr ""
-"Vergeet niet van te klikken op „afspelen” om deze veranderingen te kunnen "
-"horen bij het begin van de volgende „loop”. Maak je geen zorgen als het in "
-"de soep loopt. Klik op „Stop”, wis de code in de buffer en plak er een "
-"nieuwe kopie in, en je bent weer gereed om opnieuw te gaan „jammen”. Van "
-"fouten kan je nu het beste leren."
+"Vergeet niet te klikken op 'afspelen' om deze veranderingen te kunnen horen, "
+"bij het begin van de volgende „loop”. Maak je geen zorgen als het in de soep "
+"loopt, klik dan op `Stop`, wis de code in de buffer en plak er een nieuwe "
+"kopie in, zo je bent weer gereed om opnieuw te gaan improviseren. Van fouten "
+"kan je nu eenmaal het beste leren."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -365,7 +366,7 @@ msgstr ""
 
 #: 01.1-Live-Coding.md:115
 msgid "So what are you waiting for..."
-msgstr "Zo,waar wacht je op? . . ."
+msgstr "Zo,waar wacht je nog op . . ."
 
 #: 01.2-Exploring-the-Interface.md:1
 msgid "1.2 Exploring the Interface"
@@ -380,8 +381,8 @@ msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little "
 "time exploring it."
 msgstr ""
-"Sonic Pi heeft een zeer eenvoudige interface voor het coderen van muziek. "
-"Laten we hier wat tijd besteden om deze te verkennen."
+"Sonic Pi heeft een zeer eenvoudige interface om muziek te gaan coderen. "
+"Laten we hier wat tijd aan besteden om deze te verkennen."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
@@ -389,7 +390,7 @@ msgstr "![Sonic Pi Interface](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
 msgid "*A* - Play Controls"
-msgstr "*A* - Afspeel-bedieningselementen"
+msgstr "*A* - Afspeel-bediening"
 
 #: 01.2-Exploring-the-Interface.md:12
 msgid "*B* - Editor Controls"
@@ -405,7 +406,7 @@ msgstr "*D* - Code Editor"
 
 #: 01.2-Exploring-the-Interface.md:15
 msgid "*E* - Prefs Panel"
-msgstr "*E* - Voorkeursintellingen-Venster"
+msgstr "*E* - Voorkeursinstellingen Paneel"
 
 #: 01.2-Exploring-the-Interface.md:16
 msgid "*F* - Log Viewer"
@@ -417,7 +418,7 @@ msgstr "*G* - Hulp-Systeem"
 
 #: 01.2-Exploring-the-Interface.md:20
 msgid "A. Play Controls"
-msgstr "A. Afspeel-Bedieningselementen"
+msgstr "A. Afspeel-Bediening"
 
 #: 01.2-Exploring-the-Interface.md:22
 msgid ""
@@ -427,14 +428,14 @@ msgid ""
 "and *Record* to create a recording (a WAV file) of the sound playing."
 msgstr ""
 "Deze roze knoppen zijn de belangrijkste bedieningselementen voor het starten "
-"en stoppen van de geluiden. Er is de * Afspeel* knop voor het uitvoeren van "
-"de code in de editor, * Stop * voor het stoppen van alle actieve code, * "
-"opslaan * voor het opslaan van de code naar een extern bestand en * Opnemen *"
-" voor het maken van een opname (een WAV-bestand) van het afgespeelde geluid."
+"en stoppen van de geluiden. Er is de *Afspelen* knop voor het uitvoeren van "
+"de code in de editor, *Stop* voor het stoppen van alle actieve code, "
+"*opslaan* voor het opslaan van de code naar een extern bestand en *Opnemen* "
+"voor het maken van een opname (een WAV-bestand) van het afgespeelde geluid."
 
 #: 01.2-Exploring-the-Interface.md:28
 msgid "B. Editor Controls"
-msgstr "B. Editor Controle"
+msgstr "B.  Controle over de Editor"
 
 #: 01.2-Exploring-the-Interface.md:30
 msgid ""
@@ -445,7 +446,7 @@ msgid ""
 msgstr ""
 "Deze oranje knoppen kunt u gebruiken de code editor te manipuleren. Met de * "
 "grootte + * en * grootte-* knoppen kunt u de tekst groter en kleiner maken. "
-"De * uitlijnen-knop zal de code voor u netjes maken zodat deze er "
+"De *uitlijnen* knop zal de code voor u netjes maken zodat deze er "
 "professioneler gaat uitzien."
 
 #: 01.2-Exploring-the-Interface.md:35
@@ -461,12 +462,12 @@ msgid ""
 "toggles the preferences window which allows you to control some basic system "
 "parameters."
 msgstr ""
-"Deze blauwe knoppen geven je toegang tot hulp-, informatie- en voorkeuren. "
-"De * Info-knop opent het venster dat informatie over Sonic Pi zelf bevat - "
-"het kernteam, de geschiedenis, de medewerkers en de „Sonic Pi gemeenschap\" "
-"bevat. De * Hulp-knop schakelt naar het hulp-systeem (* G *) en de * Prefs-"
-"knop schakelt naar het voorkeurenvenster waarmee u een aantal fundamentele "
-"systeemparameters kan bijsturen."
+"Deze blauwe knoppen geven je toegang tot hulp-, informatie- en "
+"voorkeursinstellingen. De *Info* knop opent het venster dat informatie over "
+"Sonic Pi zelf bevat - het kernteam, de geschiedenis, de medewerkers en de „"
+"Sonic Pi gemeenschap\" bevat. De *Hulp* knop schakelt naar het hulp-systeem "
+"(*G*) en de *Voorkeuren* knop schakelt naar het voorkeurenvenster waarmee u "
+"een aantal fundamentele systeemparameters kan bijsturen."
 
 #: 01.2-Exploring-the-Interface.md:44
 msgid "D. Code Editor"
@@ -481,17 +482,17 @@ msgid ""
 "code. This may seem strange at first, but you'll soon find it very useful. "
 "For example, you'll know something is a number because it is blue."
 msgstr ""
-"Dit is het gebied waar u uw code schrijft en muziek componeert/uitvoert. Het "
-"is een eenvoudige tekst-editor, waarin u code kan schrijven, verwijderen, "
-"knippen en plakken, enz. Denk aan een zeer basic versie van Word of Google "
-"Docs. De editor zal de kleur van woorden automatisch aanpassen op basis van "
-"hun betekenis in de code. Dit lijkt misschien eerst wat vreemd, maar je zal "
-"het snel zeer nuttig vinden. Bijvoorbeeld, ziet het blauw, dan weet u dat "
-"het om een getal gaat."
+"Dit is het veld waarin je je code schrijft en muziek componeert/uitvoert. "
+"Het is een eenvoudige tekst-editor, waarin je code kan schrijven, "
+"verwijderen, knippen en plakken, enz. Denk aan een zeer eenvoudige versie "
+"van Word of Google Docs. De editor zal de kleur van woorden automatisch "
+"aanpassen op basis van hun betekenis in de code. Dit lijkt misschien eerst "
+"wat vreemd, maar je zal het snel heel nuttig vinden. Bijvoorbeeld als het "
+"het blauw ziet, dan weet je dat het om een getal gaat."
 
 #: 01.2-Exploring-the-Interface.md:54
 msgid "E. Prefs Panel"
-msgstr "E. Voorkeursinstelling-Venster"
+msgstr "E. Voorkeursinstellingen Paneel"
 
 #: 01.2-Exploring-the-Interface.md:56
 msgid ""
@@ -503,10 +504,10 @@ msgid ""
 "Raspberry Pi."
 msgstr ""
 "Sonic Pi ondersteunt een aantal regelbare voorkeursinstellingen die "
-"toegankelijk zijn door het in-/uitschakelen van de * Voorkeursinstellingen* "
-"knop in de Info en Hulp knoppenreeks. Dit zal de zichtbaarheid van het "
-"„Voorkeursinstellingen-Venster”, deze bevat een aantal regelbare opties, in-/"
-" uitschakelen. Voorbeelden zijn het brengen van stereo naar mono, stereo "
+"toegankelijk zijn door het in-/uitschakelen van de *Voorkeur* knop in de "
+"Info en Hulp knoppenreeks. Dit zal de zichtbaarheid van het "
+"Voorkeursinstellingen Paneel, deze bevat een aantal regelbare opties, in-/ "
+"uitschakelen. Voorbeelden zijn het brengen van stereo naar mono, stereo "
 "omkeren, de detaillering van het log en ook een volumeregelaar en audio "
 "keuze voor de Raspberry Pi."
 
@@ -521,10 +522,11 @@ msgid ""
 "sound you create with the exact time the sound was triggered. This is very "
 "useful for debugging your code and understanding what your code is doing."
 msgstr ""
-"Wanneer u uw code uitvoert, wordt informatie over wat het programma doet "
-"getoond in een soort logboek. Standaard ziet u een bericht voor elk geluid "
-"dat u maakt, met de exacte tijd dat het geluid werd geactiveerd. Dit is zeer "
-"handig om fouten op te sporen in uw code en om te begrijpen wat de code doet."
+"Wanneer je je code uitvoert, wordt informatie over wat het programma doet "
+"getoond in een soort logboek. Standaard zie je een bericht voor elk geluid "
+"dat je maakt, met de exacte tijd dat het geluid werd geactiveerd. Dit is "
+"zeer handig om fouten op te sporen in je code en om te begrijpen wat de code "
+"doet."
 
 #: 01.2-Exploring-the-Interface.md:71
 msgid "G. Help System"
@@ -541,7 +543,7 @@ msgid ""
 msgstr ""
 "Tot slot, een van de belangrijkste onderdelen van de Sonic Pi-interface is "
 "het hulp-systeem dat wordt weergegeven aan de onderkant van het venster. Dit "
-"kan worden in- en uitschakelt door te klikken op de blauwe * Hulp-knop. Het "
+"kan worden in-/uitschakelt door te klikken op de blauwe *Hulp* knop. Het "
 "hulp-systeem bevat hulp en informatie over alle aspecten van Sonic Pi, met "
 "inbegrip van deze handleiding, een lijst van beschikbare synths, samples, "
 "voorbeelden, Effecten en een volledige lijst van alle functies die Sonic Pi "
@@ -562,8 +564,8 @@ msgid ""
 "before you know it you'll have accidentally learned how to code, compose and "
 "perform."
 msgstr ""
-"Sonic Pi moedigt je aan meer te leren over, zowel de computer alsook muziek "
-"door middel van spelen en experimenteren. Het belangrijkste is dat je "
+"Sonic Pi moedigt je aan om meer te leren over zowel de computer alsook over "
+"muziek door middel van spelen en experimenteren. Het belangrijkste is dat je "
 "plezier hebt, en voor je het weet heb je geleerd hoe te coderen, te "
 "componeren en live te spelen."
 
@@ -584,21 +586,21 @@ msgid ""
 "with it. Take the sound, manipulate it and morph it into something awesome. "
 "The crowd will go *wild*."
 msgstr ""
-"Nu we 't over dit onderwerp hebben, geef ik je graag een raad die ik heb "
-"geleerd,over de jaren heen, met live codering van muziek - * er bestaan geen "
-"fouten, alleen kansen *. Dit is iets wat ik vaak heb gehoord over jazz, maar "
-"het werkt even goed met live codering. Ongeacht hoe ervaren je bent - van "
-"een complete beginner tot een doorgewinterde Algoraver, zal je soms code "
+"Nu we 't over dit onderwerp hebben, geef ik je graag een raad mee die ik heb "
+"geleerd,over de jaren heen, met het live coderen van muziek - *er bestaan "
+"geen fouten, alleen kansen*. Dit is iets wat ik vaak heb gehoord over jazz, "
+"maar het werkt even goed met live codering. Ongeacht hoe ervaren je bent - "
+"van een complete beginner tot een doorgewinterde Algoraver, zal je soms code "
 "uitvoeren die een geheel onverwacht resultaat heeft. Het klinkt misschien "
 "waanzinnig cool - in dit geval komen we er mee weg. Het kan ook compleet "
 "dwaas en ontoepasselijk klinken. Maar het maakt niet uit dat het gebeurd is -"
-" waar het om gaat is wat u er vervolgens mee doet. Neem het geluid, "
-"manipuleren en morph het in iets ongelofelijk. Je publiek zal uit de bol "
+" waar het om gaat is wat u er vervolgens mee doet. Neem deze klank, "
+"manipuleer en morph het in iets ongelofelijk. Je publiek zal uit de *bol* "
 "gaan."
 
 #: 01.3-Learning-through-Play.md:24
 msgid "Start Simple"
-msgstr "Start Eenvoudig"
+msgstr "Start Simpel"
 
 #: 01.3-Learning-through-Play.md:26
 msgid ""
@@ -610,15 +612,14 @@ msgid ""
 "then try and build it, play with it and then see what new ideas it gives "
 "you. Before long you'll be too busy having fun and making real progress."
 msgstr ""
-"Wanneer je aan het leren bent, is het verleidelijk om „NU\" "
-"verbazingwekkende dingen te willen gaan doen. Het is echter beter om die "
-"wens vast te houden en als toekomstig doel voor ogen te houden en later te "
-"bereiken, later. In plaats daarvan, tracht kleine, eenvoudige stappen te "
-"zetten om je het plezier geven te zien dat deze jou dichter tot je doel "
-"brengen. Eens je de kleine stappen onder de knie hebt, kan je deze als "
-"bouwstenen gebruiken en ermee spelen, en je zal zien dat deze nieuwe "
-"inzichten, jou verse ideeën zullen geven. Snel genoeg ben je leuk bezig én "
-"maak je vooruitgang."
+"Wanneer je aan het leren bent, is het verleidelijk om *nu* verbazingwekkende "
+"dingen te willen gaan doen. Het is echter beter om die wens vast te houden "
+"en als toekomstig doel voor ogen te houden om deze later te bereiken. "
+"Probeer kleine, eenvoudige stappen te zetten en te zien hoe deze jou plezier "
+"geven en dichter tot je doel brengen. Eens je de kleine stappen onder de "
+"knie hebt, kan je deze als bouwstenen gebruiken en ermee spelen, en je zal "
+"zien dat deze nieuwe inzichten, jou ook verse ideeën zullen geven. Snel "
+"genoeg ben je leuk bezig én maak je vooruitgang."
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
@@ -634,7 +635,7 @@ msgstr "Synthesizers"
 
 #: 02-Synths.md:5
 msgid "OK, enough of the intros - let's get into some sound."
-msgstr "OK, genoeg intro's - laat ons in wat geluiden duiken."
+msgstr "OK, genoeg intro's - laat ons in enkele klanken duiken."
 
 #: 02-Synths.md:7
 msgid ""
@@ -646,10 +647,10 @@ msgid ""
 msgstr ""
 "In deze sectie zullen we de basisprincipes van triggering en het manipuleren "
 "van synths behandelen. Synth is kort voor synthesizer, wat een chique woord "
-"voor iets dat geluiden kan creëren. Synths zijn doorgaans vrij ingewikkeld "
-"om te gebruiken - met name analoge synths met vele patch kabels en modules. "
-"Sonic Pi geeft u veel van die kracht op een zeer eenvoudige en toegankelijke "
-"wijze."
+"is voor iets dat geluiden kan creëren. Synths zijn doorgaans vrij "
+"ingewikkeld om te gebruiken - met name analoge synths met vele patch kabels "
+"en modules. Sonic Pi geeft je veel van hun kracht op een zeer eenvoudige en "
+"toegankelijke wijze."
 
 #: 02-Synths.md:14
 msgid ""
@@ -657,9 +658,9 @@ msgid ""
 "get very deep into very sophisticated sound manipulation if that's your "
 "thing. Hold on to your hats..."
 msgstr ""
-"Laat je niet misleiden door de directe eenvoud van Sonic Pi's interface. Je "
-"kunt zeer diep in zeer geavanceerde geluidsmanipulatie gaan als dat uw ding "
-"is. Hou je vast..."
+"Laat je niet misleiden door de directe eenvoud van de Sonic Pi interface. Je "
+"kunt hier diepgaand, in zeer geavanceerde geluidsmanipulatie gaan als dat je "
+"ding mocht zijn. Hou je maar vast..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
@@ -671,7 +672,7 @@ msgstr "Je Eerste Bliepjes"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
-msgstr "Neem een kijkje naar de volgende code:"
+msgstr "Bestudeer de volgende code:"
 
 #: 02.1-Your-First-Beeps.md:7 02.4-Durations-with-Envelopes.md:49
 #, no-wrap
@@ -686,7 +687,7 @@ msgid ""
 msgstr ""
 "Dit is waar het allemaal begint. Ga je gang, kopieer en plak deze in het "
 "codevenster aan de bovenzijde van de app (de grote witte ruimte onder de "
-"Afspeel-knop). Nu, klik op „Afspelen\"..."
+"Afspeel knop). Nu, klik op Afspelen..."
 
 #: 02.1-Your-First-Beeps.md:15
 msgid "Beep!"
@@ -694,7 +695,7 @@ msgstr "Bliep!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "Heftig. Klik opnieuw. En opnieuw. (En opnieuw.)"
+msgstr "Heftig. Klik opnieuw. En opnieuw. *En opnieuw…*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
@@ -730,14 +731,14 @@ msgid ""
 "right). It just so happens that the 4th octave C is number 60. Go ahead and "
 "play it: `play 60`."
 msgstr ""
-"Dus, lagere nummers maken lagere piepjes en hogere getallen maken hogere "
-"pieptonen. Net zoals op een piano, de toetsen op het onderste deel van de "
-"piano (de linker kant) lagere noten spelen en de toetsen op het hogere deel "
-"van de piano (de rechterkant) hogere noten spelen. De cijfers betreffen in "
-"feite eigenlijk notities op de piano. 'play 47' betekent eigenlijk dat de "
-"47e noot op de piano speelt. Wat betekent dat 'play 48' is een noot omhoog ("
-"de volgende notitie naar rechts). Het is dan gewoon zo dat het 4e octaaf C "
-"het cijfer 60 is . Ga je gang en speel deze: ‚play 60'."
+"Dus, lagere nummers maken lagere bieps en hogere getallen maken hogere biep-"
+"tonen. Net zoals bij een piano, de toetsen op het onderste deel van de piano "
+"(de linker kant) lagere noten spelen en de toetsen op het hogere deel van de "
+"piano (de rechterkant) hogere noten spelen. De cijfers betreffen in feite "
+"eigenlijk notities op de piano.  `play 47` betekent eigenlijk dat de 47e "
+"noot op de piano speelt. Wat betekent dat `play 48`  is een noot omhoog (de "
+"volgende noot naar rechts). Het is dan gewoon zo dat het 4e octaaf C het "
+"cijfer 60 is . Ga je gang en speel deze: `play 60`."
 
 #: 02.1-Your-First-Beeps.md:42
 msgid ""
@@ -745,9 +746,9 @@ msgid ""
 "started. All that matters right now is that you know that *low numbers make "
 "lower beeps* and *high numbers make higher beeps*."
 msgstr ""
-"Maak je geen zorgen wanneer dit niets voor jou betekent, ik deed dat ook "
-"niet toen ik begon. Het belangrijkste is dat je weet dat lage getallen, "
-"lagere tonen maken en hoge getallen, hogere tonen."
+"*Maak je geen zorgen* wanneer dit niets voor jou betekent, mij betekende het "
+"ook niets toen ik er eerst aan begon. Het belangrijkste is dat je weet dat *"
+"lage getallen, lagere tonen maken* en *hoge getallen, hogere tonen*."
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
@@ -758,8 +759,8 @@ msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even "
 "better. Try it:"
 msgstr ""
-"Een noot spelen is leuk, maar veel noten op het zelfde moment spelen kan "
-"zelfs beter zijn. Probeer dit:"
+"Een noot spelen kan leuk zijn, maar veel noten op het zelfde moment spelen "
+"kan het beter maken. Probeer dit:"
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
@@ -1471,11 +1472,11 @@ msgid ""
 "of the sound. Therefore, by controlling the envelope you control the "
 "duration."
 msgstr ""
-"De duurtijd is de lengte dat het geluid aanhoud . Een langere duur betekent "
-"dat u het geluid langer hoort. Sonic Pi's klanken hebben allen een "
-"instelbare amplitude-envelop en de totale duur van die envelop is dan de "
-"duurtijd van dat geluid. Dus, door het instellen van de envelop kan je de "
-"duurtijd bepalen."
+"De duurtijd is de lengte dat een klank aanhoud . Een langere duur betekent "
+"dat u de klank langer hoort. De klanken van Sonic Pi hebben allen een "
+"instelbare amplitude envelop, de totale duur van die envelop is dan de "
+"totale duurtijd van die klank. Daarom kan je, door het instellen van de "
+"envelop,  de duurtijd bepalen."
 
 #: 02.4-Durations-with-Envelopes.md:27
 msgid ""
@@ -1488,21 +1489,33 @@ msgid ""
 "slowly move up to full volume, hold it for a bit, then quickly fall back to "
 "silence.\" Sonic Pi allows you to program exactly this behaviour with "
 "envelopes."
-msgstr "De ADSR \"envelope\" controleert niet alleen de duurtijd,"
+msgstr ""
+"De ADSR envelop regelt niet alleen de duurtijd, het geeft je ook een *"
+"fijnregeling van de geluidssterkte van de klank*. Alle hoorbare klanken "
+"starten en eindigen van en naar onhoorbaarheid en bevatten, tussendoor, "
+"luidere en minder luide delen. De ASDR envelop staat je toe de "
+"geluidssterkte van de hoorbare gedeelten van een klank te verschuiven en "
+"vast te houden. Zoals je iemand instructies zou geven aan het volume van een "
+"gitaarversterker en deze van stil, naar langzaam omhoog tot het hoogste "
+"volume en deze even aan te laten houden, om deze dan, snel of traag, terug "
+"naar stil te brengen. Door de envelop kan je dit gedrag in Sonic Pi "
+"programmeren."
 
 #: 02.4-Durations-with-Envelopes.md:37
 msgid ""
 "Just to recap, as we have seen before, an amplitude of 0 is silence and an "
 "amplitude of 1 is normal volume."
 msgstr ""
+"Even recapituleren, zoals we eerder hebben gezien, is een amplitude van 0 is "
+"stilte en een amplitude van 1 is het normale volume."
 
 #: 02.4-Durations-with-Envelopes.md:40
 msgid "Now, let us look at each of the parts of the envelopes in turn."
-msgstr ""
+msgstr "Laten we nu kijken naar elk onderdeel van de envelop."
 
 #: 02.4-Durations-with-Envelopes.md:42
 msgid "Release Phase"
-msgstr ""
+msgstr "Release fase"
 
 #: 02.4-Durations-with-Envelopes.md:44
 msgid ""
@@ -1511,12 +1524,19 @@ msgid ""
 "a release time of 1 which means that by default they have a duration of 1 "
 "beat (which at the default BPM of 60 is 1 second):"
 msgstr ""
+"Het enige deel van de envelop die standaard wordt gebruikt is de release "
+"tijd. Dit is de tijd die nodig is om het geluid van een synth uit te "
+"vervagen. Alle synthesizers hebben een release tijd van 1, wat betekent dat "
+"ze standaard een duur van 1 beat hebben (en dus op onze standaard 60 BPM, 1 "
+"seconde lang is):"
 
 #: 02.4-Durations-with-Envelopes.md:53
 msgid ""
 "The note will be audible for 1 second. Go ahead and time it :-) This is "
 "short hand for the longer more explicit version:"
 msgstr ""
+"De noot zal 1 seconde lang hoorbaar zijn. Chronometreer maar :-) Dit is de "
+"verkorting van de langere, meer uitgesproken versie:"
 
 #: 02.4-Durations-with-Envelopes.md:56
 #, no-wrap
@@ -1529,6 +1549,9 @@ msgid ""
 "However, it's now very easy to change the duration by modifying the value of "
 "the `release:` opt:"
 msgstr ""
+"Merk op dat deze exact hetzelfde klinkt (de klank duurt één seconde). Het is "
+"dus heel makkelijk om de duurtijd in te stellen door de waarde te veranderen "
+"van de  `release:` optie:"
 
 #: 02.4-Durations-with-Envelopes.md:64
 #, no-wrap
@@ -1540,6 +1563,8 @@ msgid ""
 "We can make the synth sound for a very short amount of time by using a very "
 "small release time:"
 msgstr ""
+"We kunnen de synth voor een heel korte tijd laten klinken door een heel "
+"korte release tijd te gebruiken:"
 
 #: 02.4-Durations-with-Envelopes.md:71
 #, no-wrap
@@ -1552,10 +1577,13 @@ msgid ""
 "by default is a linear transition (i.e. a straight line). The following "
 "diagram illustrates this transition:"
 msgstr ""
+"De duur van het “vrijlaten\" van het geluid noemen we de *release fase* en "
+"staat standaard op een lineaire overgang ingesteld (dwz rechtlijnig).Het "
+"volgende diagram illustreert deze overgang:"
 
 #: 02.4-Durations-with-Envelopes.md:79
 msgid "![release envelope](../images/tutorial/env-release.png)"
-msgstr ""
+msgstr "![release envelope](../images/tutorial/env-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:81
 msgid ""
@@ -1565,16 +1593,25 @@ msgid ""
 "in a straight line down to zero taking the amount of time specified by "
 "`release:`. *Longer release times produce longer synth fade outs.*"
 msgstr ""
+"De verticale lijn aan de linkerkant van het diagram toont ons dat het geluid "
+"bij amplitude 0 begint, onmiddellijk klimt naar volledige amplitude (dit is "
+"de  aanslag fase, die zullen we vervolgens bespreken). Eens bij volledige "
+"amplitude gaat het in een rechte lijn naar nul zakken in de tijd die is "
+"opgegeven met `release:`. *Langere release tijden leveren een langer "
+"verloop, waarmee het geluid van de synth uitvaagt, op*"
 
 #: 02.4-Durations-with-Envelopes.md:88
 msgid ""
 "You can therefore change the duration of your sound by changing the release "
 "time. Have a play adding release times to your music."
 msgstr ""
+"Je kan dus de duurtijd van je klank veranderen aan de hand van de release "
+"tijd. Speel hier even mee, door deze release tijden toe te voegen aan je "
+"klanken."
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
-msgstr ""
+msgstr "Aanslag fase (de Attack)"
 
 #: 02.4-Durations-with-Envelopes.md:93
 msgid ""
@@ -1583,6 +1620,11 @@ msgid ""
 "percussive sound. However, you may wish to fade your sound in. This can be "
 "achieved with the `attack:` opt. Try fading in some sounds:"
 msgstr ""
+"De aanslag fase is voor alle synths standaard ingesteld op 0, wat betekend "
+"dat deze onmiddellijk van 0 naar 1 gaat. Dit geeft aan de synth een korte "
+"hevige klank zoals bij een percussie-instrument. Maar misschien wil je je "
+"geluid zachtjes luider laten worden. Dit kunnen we met de `attack:` optie. "
+"Probeer nu eens van klanken te laten aanzwellen:"
 
 #: 02.4-Durations-with-Envelopes.md:98
 #, no-wrap
@@ -1600,6 +1642,8 @@ msgid ""
 "You may use multiple opts at the same time. For example for a short attack "
 "and a long release try:"
 msgstr ""
+"Je kan meerdere opties tegelijk kiezen. Probeer deze bijvoorbeeld voor een "
+"kortere aanslag en een langere uitloop:"
 
 #: 02.4-Durations-with-Envelopes.md:107
 #, no-wrap
@@ -1611,16 +1655,20 @@ msgid ""
 "This short attack and long release envelope is illustrated in the following "
 "diagram:"
 msgstr ""
+"Deze korte attack en lange release envelop wordt geïllustreerd in het "
+"volgende diagram:"
 
 #: 02.4-Durations-with-Envelopes.md:114
 msgid "![attack release envelope](../images/tutorial/env-attack-release.png)"
-msgstr ""
+msgstr "![attack release envelope](../images/tutorial/env-attack-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:116
 msgid ""
 "Of course, you may switch things around. Try a long attack and a short "
 "release:"
 msgstr ""
+"Natuurlijk, kan je de dingen omdraaien. Probeer een lange attack en een "
+"korte release:"
 
 #: 02.4-Durations-with-Envelopes.md:119
 #, no-wrap
@@ -1632,12 +1680,15 @@ msgid ""
 "![long attack short release envelope](../images/tutorial/env-long-attack-"
 "short-release.png)"
 msgstr ""
+"![long attack short release envelope](../images/tutorial/env-long-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:125
 msgid ""
 "Finally, you can also have both short attack and release times for shorter "
 "sounds."
 msgstr ""
+"Voorts kan je ook korte Attack en release tijden hebben voor korte klanken."
 
 #: 02.4-Durations-with-Envelopes.md:128
 #, no-wrap
@@ -1649,10 +1700,12 @@ msgid ""
 "![short attack short release envelope](../images/tutorial/env-short-attack-"
 "short-release.png)"
 msgstr ""
+"![short attack short release envelope](../images/tutorial/env-short-attack-"
+"short-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:134
 msgid "Sustain Phase"
-msgstr ""
+msgstr "SustainFase"
 
 #: 02.4-Durations-with-Envelopes.md:136
 msgid ""
@@ -1660,15 +1713,19 @@ msgid ""
 "sustain time to control the *sustain phase*. This is the time for which the "
 "sound is maintained at full amplitude between the attack and release phases."
 msgstr ""
+"Naast het opgeven van attack en release tijden, u kunt ook een sustain-tijd "
+"opgeven om de *sustain fase* in te stellen. Dit is de tijd dat het geluid "
+"bij een volledige amplitude tussen de attack en de release fase wordt "
+"gehandhaafd."
 
 #: 02.4-Durations-with-Envelopes.md:141
 #, no-wrap
 msgid "play 60, attack: 0.3, sustain: 1, release: 1"
-msgstr ""
+msgstr "play 60, attack: 0.3, sustain: 1, release: 1"
 
 #: 02.4-Durations-with-Envelopes.md:145
 msgid "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-attack-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:147
 msgid ""
@@ -1679,10 +1736,17 @@ msgid ""
 "However, be warned, a release of 0 can produce clicks in the audio and it's "
 "often better to use a very small value such as 0.2."
 msgstr ""
+"De sustain-tijd is nuttig voor de klanken die je een volledige "
+"tegenwoordigheid in de mix wil geven voordat deze een release fase "
+"doorlopen. Natuurlijk, is het volkomen geldig om zowel de `attack:` als de  "
+"`release:` optie in te stellen op 0, om gewoon geen fade in- of fade out aan "
+"het geluid toe te voegen. Maar hier moet je mee opletten, een release van 0 "
+"kan klikjes in de audio produceren en het is vaak beter om een zeer kleine "
+"waarde te gebruiken zoals 0,2."
 
 #: 02.4-Durations-with-Envelopes.md:154
 msgid "Decay Phase"
-msgstr ""
+msgstr "Verval fase (Decay Phase)"
 
 #: 02.4-Durations-with-Envelopes.md:156
 msgid ""
@@ -1694,20 +1758,30 @@ msgid ""
 "sustain levels are 1 so you'll need to specify them for the decay time to "
 "have any effect:"
 msgstr ""
+"Voor een extra controle niveau kunt u ook de verval tijd instellen. Dit is "
+"de fase van de envelop die past tussen de attack en sustain fasen en geeft u "
+"een tijdwaarde waarbij de amplitude zal dalen het  `attack_niveau:` naar het "
+"`decay_niveau:` (die, tenzij u die expliciet instelt, op het ' "
+"sustain_niveau:' gebracht zal worden). Standaard, is de `decay:` optie 0 en "
+"hebben zowel attack en sustain niveaus zijn 1, deze zal je dus moeten "
+"opgeven voor de verval  tijd effect heeft:"
 
 #: 02.4-Durations-with-Envelopes.md:164
 #, no-wrap
 msgid "play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, sustain: 1, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, sustain_level: 0.4, "
+"sustain: 1, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:168
 msgid ""
 "![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 msgstr ""
+"![ADSR envelope](../images/tutorial/env-attack-decay-sustain-release.png)"
 
 #: 02.4-Durations-with-Envelopes.md:170
 msgid "Decay Level"
-msgstr ""
+msgstr "Verval niveau"
 
 #: 02.4-Durations-with-Envelopes.md:172
 msgid ""
@@ -1716,55 +1790,69 @@ msgid ""
 "values for full control over the envelope. This allows you to to create "
 "envelopes such as the following:"
 msgstr ""
+"Één laatste truc is dat hoewel de `decay_level:` optie dezelfde standaard "
+"ingestelde waarde heeft als `sustain_level:` kan je deze wel expliciet "
+"instellen op verschillende waarden voor de volledige controle over de "
+"envelop. Hierdoor kan je een envelop maken zoals de volgende:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
 msgid "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: 1, sustain_level: 0.4, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than "
 "`sustain_level:`:"
 msgstr ""
+"Het is ook mogelijk om het  `decay_niveau:` hoger te zetten dan het "
+"`sustain_niveau:`:"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
 msgid "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: 0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain:"
+" 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![ASR envelope](../images/tutorial/env-decay-level-2.png"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr ""
+msgstr "ADSR Enveloppen"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr ""
+msgstr "Dus samengevat , hebben Sonic Pi's ADSR enveloppen de volgende fasen:"
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
-msgstr ""
+msgstr "*attack* - tijd vanaf 0 amplitude naar `attack_niveau`,"
 
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
+"*decay* - tijd om de amplitude van `attack_niveau` naar `decay_niveau` te "
+"brengen,"
 
 #: 02.4-Durations-with-Envelopes.md:197
 msgid ""
 "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr ""
+"*sustain* - tijd om de amplitude van `decay_niveau` naar `sustain_niveau` te "
+"brengen,"
 
 #: 02.4-Durations-with-Envelopes.md:198
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
-msgstr ""
+msgstr "*release* - tijd om de amplitude van `sustain_niveau` naar 0 te brengen"
 
 #: 02.4-Durations-with-Envelopes.md:200
 msgid ""
@@ -1772,23 +1860,29 @@ msgid ""
 "times of each of these phases. Therefore the following sound will have a "
 "duration of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
+"Het is belangrijk op te merken dat de duur van een geluid de som is van van "
+"de tijd van elk van deze fasen. Daarom zal het volgende geluid een duur van "
+"0,5 + 1 + 2 + 0,5 = 4 hebben:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
 msgid "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: 2, release: 0.5"
 msgstr ""
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
 msgstr ""
+"Nu gaan we hiermee spelen, door deze envelop aan jouw klanken toe te voegen…"
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3 Samples"
 
 #: 03-Samples.md:3
 msgid "Samples"
-msgstr ""
+msgstr "Samples"
 
 #: 03-Samples.md:5
 msgid ""
@@ -1797,6 +1891,11 @@ msgid ""
 "you take a microphone outside, go and record the gentle sound of rain "
 "hitting canvas, you've just created a sample."
 msgstr ""
+"Een andere goede manier om je muziek op te bouwen is het gebruik van vooraf "
+"opgenomen geluiden. In de traditie van de hip-hop, noemen we deze vooraf "
+"opgenomen geluiden *samples*. Dus, als je met een microfoon buiten gaat en "
+"je neemt het geluid van de regen op, dat zachtjes tegen een zeil tikt, heb "
+"je een sample gemaakt."
 
 #: 03-Samples.md:10
 msgid ""
@@ -1804,25 +1903,31 @@ msgid ""
 "with over 90 public domain samples ready for you to jam with, it lets you "
 "play and manipulate your own. Let's get to it..."
 msgstr ""
+"Sonic Pi laat je allerlei prettige dingen doen door gebruik te maken van "
+"samples. En niet alleen omdat deze over de 90 samples aan boord heeft waar "
+"je mee aan de slag kan gaan, ook laat het je toe om jouw eigen samples te "
+"gebruiken en deze te manipuleren. We vertrekken…"
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
-msgstr ""
+msgstr "3.1 Samples Triggeren"
 
 #: 03.1-Triggering-Samples.md:3
 msgid "Triggering Samples"
-msgstr ""
+msgstr "Samples Triggeren"
 
 #: 03.1-Triggering-Samples.md:5
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is "
 "triggering pre-recorded samples. Try it:"
 msgstr ""
+"Bliepjes spelen was slechts het begin. Vooraf opgenomen samples triggeren is "
+"ook echt fijn . Probeer het:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
 msgid "sample :ambi_lunar_land"
-msgstr ""
+msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
 msgid ""
@@ -1830,6 +1935,9 @@ msgid ""
 "like you use the `play` command. To play multiple samples and notes just "
 "write them one after another:"
 msgstr ""
+"Sonic Pi bevat vele samples waarmee je aan de slag kunt gaan. Je kan ze "
+"gebruiken met het `play` commando, net zoals de bliepjes. Als je meerder "
+"samples en noten wil gebruiken kan je ze dus achter elkaar schrijven:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1839,10 +1947,15 @@ msgid ""
 "sample :ambi_lunar_land\n"
 "sample :ambi_drone"
 msgstr ""
+"play 36\n"
+"play 48\n"
+"sample :ambi_lunar_land\n"
+"sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
 msgid "If you want to space them out in time, use the `sleep` command:"
 msgstr ""
+"Als je ze in tijd wil verspreiden, maak dan gebruik van het `sleep` commando:"
 
 #: 03.1-Triggering-Samples.md:25
 #, no-wrap
@@ -1856,6 +1969,14 @@ msgid ""
 "sleep 1\n"
 "play 36"
 msgstr ""
+"sample :ambi_lunar_land\n"
+"sleep 1\n"
+"play 48\n"
+"sleep 0.5\n"
+"play 36\n"
+"sample :ambi_drone\n"
+"sleep 1\n"
+"play 36"
 
 #: 03.1-Triggering-Samples.md:36
 msgid ""
@@ -1865,10 +1986,16 @@ msgid ""
 "creating interesting overlap effects. Later in this tutorial we'll take a "
 "look at controlling the *duration* of sounds with envelopes."
 msgstr ""
+"Merk op hoe Sonic Pi niet zal wachten om een geluid te voltooien voordat het "
+"volgende geluid begint. De opdracht `sleep` beschrijft alleen de scheiding "
+"tussen het *activeren* van de geluiden. Hierdoor kan je makkelijk "
+"verschillende lagen van klanken creëren die een interessant effect kunnen "
+"hebben door overlapping. Verderop in deze handleiding zullen we een kijkje  "
+"nemen om de *duur* van geluiden met enveloppen in te stellen."
 
 #: 03.1-Triggering-Samples.md:44
 msgid "Discovering Samples"
-msgstr ""
+msgstr "Samples Ontdekken"
 
 #: 03.1-Triggering-Samples.md:46
 msgid ""
@@ -1877,6 +2004,9 @@ msgid ""
 "vertical menu, choose your category and then you'll see a list of available "
 "sounds."
 msgstr ""
+"Er zijn twee manieren om samples in Sonic Pi te verkennen. Eerst, kunt u dit "
+"hulp-systeem gebruiken. Klik op Samples in het meest linkse verticale menu, "
+"kies uw categorie en vervolgens ziet u een lijst met beschikbare geluiden."
 
 #: 03.1-Triggering-Samples.md:51
 msgid ""
@@ -1885,50 +2015,54 @@ msgid ""
 "of sample names appear for you to select. Try the following category "
 "prefixes:"
 msgstr ""
+"Alternatief kan je het *auto-vervollediging systeem* gebruiken.  Typ enkel "
+"het begin van de groep waartoe de sample behoort zoals `sample :ambi_`  en "
+"je zal een menu zien openklappen waarin de samples weergegeven worden die je "
+"kan selecteren. Probeer de volgende categorie-voorvoegsels:"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
 msgid "Now start mixing samples into your compositions!"
-msgstr ""
+msgstr "Begin nu de samples in je composities te mixen!"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr ""
+msgstr "3.2 Sample Parameters"
 
 #: 03.2-Sample-Params.md:3
 msgid "Sample Parameters: Amp and Pan"
-msgstr ""
+msgstr "Sample Parameters: Amp en Pan"
 
 #: 03.2-Sample-Params.md:5
 msgid ""
@@ -1936,25 +2070,30 @@ msgid ""
 "Samples support exactly the same parameterisation mechanism. Let's revisit "
 "our friends `amp:` and `pan:`."
 msgstr ""
+"Zoals we met synths zagen, kunnen we gemakkelijk onze geluiden met "
+"parameters regelen. Samples steunen op precies hetzelfde parameter "
+"mechanisme. Laten we opnieuw onze vrienden `amp:` en `pan:` erbij halen."
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
-msgstr ""
+msgstr "Samples amp-en"
 
 #: 03.2-Sample-Params.md:11
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you "
 "used for synths:"
 msgstr ""
+"Je kan de amplitude van de samples met precies dezelfde aanpak instellen die "
+"je voor synthesizers gebruikt:"
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
 msgid "sample :ambi_lunar_land, amp: 0.5"
-msgstr ""
+msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr ""
+msgstr "Samples Pannen"
 
 #: 03.2-Sample-Params.md:20
 msgid ""
@@ -1962,6 +2101,9 @@ msgid ""
 "how we'd play the amen break in the left ear and then half way through play "
 "it again through the right ear:"
 msgstr ""
+"We kunnen ook gebruik maken van de `pan:` parameter op samples. "
+"Bijvoorbeeld, hier zouden we de amen break met het linker oor en halverwege "
+"met het rechter oor horen:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -1970,25 +2112,33 @@ msgid ""
 "sleep 0.877\n"
 "sample :loop_amen, pan: 1"
 msgstr ""
+"sample :loop_amen, pan: -1\n"
+"sleep 0.877\n"
+"sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
 msgid ""
 "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
+"Merk op dat 0.877 de helft van de lengte is, van de ': loop_amen' sample in "
+"seconden uitgedrukt."
 
 #: 03.2-Sample-Params.md:33
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` "
 "(which we will discuss later), these will be ignored by `sample`."
 msgstr ""
+"Hou er tenslotte ook rekening mee dat als je sommige synths van het commando "
+"`use_synth_defaults` voorziet (welke we later zullen bespreken), deze door "
+"`sample` zullen genegeerd worden."
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
-msgstr ""
+msgstr "3.3  Samples Stretchen"
 
 #: 03.3-Stretching-Samples.md:3
 msgid "Stretching Samples"
-msgstr ""
+msgstr "Samples Stretchen"
 
 #: 03.3-Stretching-Samples.md:5
 msgid ""
@@ -1997,10 +2147,14 @@ msgid ""
 "music even more unique and interesting. First, let's explore the ability to "
 "*stretch* and *squash* samples."
 msgstr ""
+"Nu  we  met verschillende synths en samples muziek kunnen gaan spelen, is "
+"het tijd om te leren hoe je zowel de synths als de samples in kan stellen om "
+"de muziek nog meer uniek en interessant te maken. Ten eerste, laten we  de "
+"mogelijkheid onderzoeken om te samples te *stretchen* of te *krimpen*."
 
 #: 03.3-Stretching-Samples.md:10
 msgid "Sample Representation"
-msgstr ""
+msgstr "Sample Representatie"
 
 #: 03.3-Stretching-Samples.md:12
 msgid ""
@@ -2014,32 +2168,49 @@ msgid ""
 "way to reproduce the sound. However, it's also fun to change the speed with "
 "which the numbers are fed to the speaker to change the sound."
 msgstr ""
+"Samples zijn eigenlijk vooraf opgenomen geluiden die opgeslagen zijn als "
+"getallen die het verplaatsen van de conus van de luidspreker veroorzaken, om "
+"het geluid te kunnen representeren. De conus van de luidspreker kan zich "
+"naar voor en naar achter verplaatsen , en dus hoeven de nummers alleen maar "
+"weer te geven, hoe ver in en uit de kegel op elk moment in de tijd moet "
+"bewegen. Om een getrouwe afspiegeling van een opgenomen geluid te kunnen "
+"zijn moet de sample meestal vele duizenden nummers per seconde opslaan! "
+"Sonic Pi neemt deze lijst van nummers en voedt hen met de juiste snelheid, "
+"om de luidspreker van uw computer op de juiste manier in en uit te "
+"verplaatsen om het geluid te kunnen weergeven. Het is echter ook leuk om  de "
+"snelheid waarmee de nummers worden gevoed aan de luidspreker te veranderen, "
+"om het geluid te veranderen ."
 
 #: 03.3-Stretching-Samples.md:23
 msgid "Changing Rate"
-msgstr ""
+msgstr "Koers wijzigen (rate)"
 
 #: 03.3-Stretching-Samples.md:25
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with "
 "the default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
+"Laten we even spelen met één van de  ambient sounds: `:ambi_choir`. Om deze "
+"af te spelen op de standaard ingestelde koers, kan je een `rate:` optie aan "
+"`sample` doorgeven:"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
 msgid "sample :ambi_choir, rate: 1"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're "
 "free to change that number to something else. How about `0.5`:"
 msgstr ""
+"Deze speelt de normale koers (1), nog niets bijzonders dus. We zijn echter "
+"vrij om dat cijfer te veranderen naar iets anders. Hoe zit het met '0.5':"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
 msgid "sample :ambi_choir, rate: 0.5"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
 msgid ""
@@ -2047,53 +2218,63 @@ msgid ""
 "twice as long to play, secondly the sound is an octave lower. Let's explore "
 "these things in a little more detail."
 msgstr ""
+"Woah! Wat gebeurt hier? Nou, twee dingen. Ten eerste, de sample duurt twee "
+"keer zo lang in deze weergave, ten tweede is het geluid een octaaf lager. "
+"Laten we deze dingen meer in detail gaan bekijken."
 
 #: 03.3-Stretching-Samples.md:43
 msgid "Let's stretch"
-msgstr ""
+msgstr "Laten we stretchen"
 
 #: 03.3-Stretching-Samples.md:45
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal "
 "rate, we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
+"Een sample die is leuk om te stretchen en te comprimeren is de Amen Break. "
+"Op normale koers, kunnen we het ons voorstellen deze in een *drum 'n' bass* "
+"track te gooien:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
 #, no-wrap
 msgid "sample :loop_amen"
-msgstr ""
+msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for "
 "*old school hip-hop*:"
 msgstr ""
+"Door de koerssnelheid te veranderen kunnen we van genre schakelen. Probeer "
+"eens halve snelheid voor *old school hiphop*:"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
 msgid "If we speed it up, we enter *jungle* territory:"
-msgstr ""
+msgstr "Als we het versnellen, komen we op het grondgebied van *jungle*:"
 
 #: 03.3-Stretching-Samples.md:61
 #, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative "
 "rate:"
 msgstr ""
+"En nog een laatste truc - laten we eens kijken wat er gebeurt als we gebruik "
+"maken van een negatieve koers:"
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
 msgid "sample :loop_amen, rate: -1"
-msgstr ""
+msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
 msgid ""
@@ -2101,10 +2282,14 @@ msgid ""
 "samples at different rates. Try very fast rates. Try crazy slow rates. See "
 "what interesting sounds you can produce."
 msgstr ""
+"Woah! Nu speelt het *achteruit*! Proberen nu met een heleboel verschillende "
+"samples aan verschillende koerssnelheden te spelen. Probeer zeer snelle "
+"rates. Probeer gek trage rates. Zie welke interessante geluiden je zo kan "
+"produceren."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
-msgstr ""
+msgstr "Een eenvoudige uitleg over de Sample Rate"
 
 #: 03.3-Stretching-Samples.md:78
 msgid ""
@@ -2117,6 +2302,15 @@ msgid ""
 "longer. The more you squash (higher rate), the shorter it gets, the more you "
 "stretch (lower rate), the longer it gets."
 msgstr ""
+"Een handige manier van denken is om samples te zien als een veer. Afspeel "
+"snelheid is als het stretchen en indrukken van de veer. Als je de sample aan "
+"snelheid (rate) 2 afspeelt, ben je de *veer aan het indrukken* met de helft "
+"daarvan, heb je de veer in rust. Het neemt de sample dus de helft van de "
+"tijd om te spelen, aangezien deze nu korter is. Als je de sample aan half "
+"tempo speelt, *stretch je de veer* tot het dubbele van zijn lengte. De "
+"sample neemt daarom tweemaal zolang tijd om te spelen, aangezien deze nu "
+"langer is. Hoe meer u indrukt (hogere snelheid), hoe korter deze wordt, hoe "
+"meer je stretcht (lagere snelheid), hoe langer deze wordt."
 
 #: 03.3-Stretching-Samples.md:87
 msgid ""
@@ -2125,16 +2319,22 @@ msgid ""
 "spring decreases its density and is similar to the sound having a *lower "
 "pitch*."
 msgstr ""
+"Het comprimeren van een veer verhoogt de dichtheid (het aantal windingen per "
+"cm) - deze is vergelijkbaar met de sample die dan *hoger gepitcht* klinkt. "
+"De veer rekken neemt de dichtheid af en is dan vergelijkbaar met het geluid "
+"met een *lagere toonhoogte*."
 
 #: 03.3-Stretching-Samples.md:93
 msgid "The Maths Behind Sample Rate"
-msgstr ""
+msgstr "De wiskunde achter Sample Rate"
 
 #: 03.3-Stretching-Samples.md:95
 msgid ""
 "(This section is provided for those that are interested in the details. "
 "Please feel free to skip it...)"
 msgstr ""
+"(Deze sectie is bedoeld voor degenen die geïnteresseerd zijn in de details. "
+"Je kan deze gerust overslaan...)"
 
 #: 03.3-Stretching-Samples.md:98
 msgid ""
@@ -2142,10 +2342,14 @@ msgid ""
 "representing where the speaker should be through time. We can take this list "
 "of numbers and use it to draw a graph which would look similar to this:"
 msgstr ""
+"Zoals we hierboven zagen, wordt een sample vertegenwoordigd door een grote "
+"lange lijst nummers, die de luidspreker vertelt waar deze zou moeten zijn "
+"doorheen een zekere tijd. We kunnen deze lijst van getallen gebruiken om bv. "
+"deze grafiek te tekenen:"
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -2159,35 +2363,46 @@ msgid ""
 "play back. We could also play it back at half rate which would be 22050 "
 "points per second taking 4 seconds to play back."
 msgstr ""
+"Misschien hebt u al wel eens afbeeldingen gezien zoals deze. Het is een "
+"*geluidsgolf* van een sample.Het is gewoon een grafiek van getallen. Meestal "
+"zal een golfvorm 44100 punten per seconde bevatten over de gegevens (dit is "
+"te wijten aan de Nyquist-Shannon sample-theoriën). Dus, als de sample 2 "
+"seconden duurt, za de golfvorm vertegenwoordigd worden door 88200 nummers "
+"die we aan de luidspreker met een snelheid van 44100 punten per seconde "
+"zouden voeden. Natuurlijk, kunnen we deze aan dubbele snelheid voeden, dat "
+"zou dan 88200 punten per seconde zijn. Dit zou dus slechts 1 seconde in "
+"beslag nemen om af te spelen. We kunnen ook aan halve snelheid afspelen, dat "
+"zou 22050 punten per seconde zijn waarbij deze 4 seconden nodig heeft om af "
+"te spelen."
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr ""
+msgstr "De duur van de sample wordt beïnvloed door de afspeelsnelheid (rate):"
 
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
-msgstr ""
+msgstr "De afspeelsnelheid verdubbelen, halveert de afspeeltijd,"
 
 #: 03.3-Stretching-Samples.md:119
 msgid "Halving the playback rate doubles the playback time,"
-msgstr ""
+msgstr "Halvering van de afspeelsnelheid, verdubbelt de afspeeltijd,"
 
 #: 03.3-Stretching-Samples.md:120
 msgid "Using a playback rate of one fourth quadruples the playback time,"
-msgstr ""
+msgstr "Een kwart van de afspeelsnelheid, verviervoudigt de speeltijd,"
 
 #: 03.3-Stretching-Samples.md:121
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
-msgstr ""
+msgstr "1/10 van de afspeelsnelheid, maakt het afspelen 10 keer langer."
 
 #: 03.3-Stretching-Samples.md:123
 msgid "We can represent this with the formula:"
-msgstr ""
+msgstr "Wij kunnen deze representeren met de formule:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr ""
+msgstr "new_sample_duur = (1 / rate) * sample_duur "
 
 #: 03.3-Stretching-Samples.md:129
 msgid ""
@@ -2198,6 +2413,13 @@ msgid ""
 "see a big bass speaker move as it pumps out super low bass - it's actually "
 "moving a lot slower in and out than a speaker producing higher notes."
 msgstr ""
+"De afspeelsnelheid zal ook de toonhoogte van de sample wijzigen. De "
+"frequentie of toonhoogte van een golfvorm wordt bepaald door hoe snel deze "
+"op en neer beweegt. Onze hersenen vormen  de snelle beweging van "
+"luidsprekers om tot hoge noten en de trage beweging tot lage noten. Daarom "
+"kan je soms zelfs zien hoe uit een grote bas luidspreker de super lage tonen "
+"worden gepompt, en in feite gaan deze veel trager dan een luidspreker die "
+"hoge noten reproduceert."
 
 #: 03.3-Stretching-Samples.md:137
 msgid ""
@@ -2208,14 +2430,21 @@ msgid ""
 "it*. Also, *halving the rate will halve the frequency*. Other rates will "
 "affect the frequency accordingly."
 msgstr ""
+"Als je een golfvorm neemt van een geluid en deze over de lengte samendruk,t "
+"zal deze per seconde vaker op en neer gaan. Dit zal het geluid hoger laten "
+"klinken.Het blijkt dat een verdubbeling van het aantal op en neer bewegingen "
+"(trillingen) de frequentie verdubbelt . Ook zal *bij het afspelen van je "
+"sample aan dubbele rate, de frequentie verdubbelen die je hoort*. Dus ook "
+"zal *een halvering van de rate waarde, de frequentie halveren*. Andere "
+"waarden zullen de frequenties dan naargelang beïnvloeden."
 
 #: 03.4-Enveloped-Samples.md:1
 msgid "3.4 Enveloped Samples"
-msgstr ""
+msgstr "3.4 Envelop op Samples"
 
 #: 03.4-Enveloped-Samples.md:3
 msgid "Enveloped Samples"
-msgstr ""
+msgstr "Envelop op Samples"
 
 #: 03.4-Enveloped-Samples.md:5
 msgid ""
@@ -2227,38 +2456,48 @@ msgid ""
 "completed - whichever is first. So, if you use a very long `release:`, it "
 "won't extend the duration of the sample."
 msgstr ""
+"Het is ook mogelijk om  de *duur* en *amplitude* te wijzigen van een samples "
+"met behulp van een ADSR-envelop. Nochtans, werkt dit enigszins anders dan de "
+"ADSR envelop voor synths. Sample enveloppen kunnen alleen de amplitude en de "
+"duur van een sample verminderen  - en nooit om deze te verhogen. De sample "
+"wordt gestopt wanneer de sample is afgespeeld of de envelop heeft voltooid - "
+"welke van deze het eerst is. Dus, bij een erg lange release:`, het zal de "
+"sample niet verlengen."
 
 #: 03.4-Enveloped-Samples.md:13
 msgid "Amen Envelopes"
-msgstr ""
+msgstr "Amen Envelop"
 
 #: 03.4-Enveloped-Samples.md:15
 msgid "Let's return to our trusty friend the Amen Break:"
-msgstr ""
+msgstr "Laten we terugkeren naar onze trouwe vriend de Amen Break:"
 
 #: 03.4-Enveloped-Samples.md:21
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade "
 "this in over 1 second we can use the `attack:` param:"
 msgstr ""
+"Zonder opties zullen we de volledige sample horen aan normale volle "
+"amplitude. Als we deze met behulp van het volume in willen mixen over een "
+"tijd van 1 seconde kunnen we de `attack:` parameter gebruiken:"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
 msgid "sample :loop_amen, attack: 1"
-msgstr ""
+msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
 msgid "For a shorter fade in, choose a shorter attack value:"
-msgstr ""
+msgstr "Voor een kortere fade in, kies een kleinere waarde voor de attack:"
 
 #: 03.4-Enveloped-Samples.md:30
 #, no-wrap
 msgid "sample :loop_amen, attack: 0.3"
-msgstr ""
+msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
 msgid "Auto Sustain"
-msgstr ""
+msgstr "Auto Sustain"
 
 #: 03.4-Enveloped-Samples.md:36
 msgid ""
@@ -2273,21 +2512,34 @@ msgid ""
 "attack, decay and release values add up to more than the duration of the "
 "sample, the sustain is simply set to 0."
 msgstr ""
+"Waar de ADSR envelop zeker van gedrag verschilt met de standaard synth-"
+"envelop is in de *sustain* waarde. In de standaard synth envelop, is de "
+"sustain waarde, standaard op 0 ingesteld, tenzij u deze handmatig instelt. "
+"Met samples, is de sustain waarde, standaard  een *automagische* waarde - "
+"namelijk de speelduur die de sample rest . Dit is de reden waarom we de "
+"totale sample horen als we geen waarden instellen. Als de attack, decay, "
+"sustain en release waarden allen 0 waren zouden we  niks horen . Sonic Pi "
+"berekent dus hoe lang de sample is, trekt elke attack, decay en release "
+"tijden af en wordt het resultaat, de sustain tijd. Als de som van de attack, "
+"decay en release waarden meer dan de duur van de sample zijn, is de sustain "
+"gewoon ingesteld op 0."
 
 #: 03.4-Enveloped-Samples.md:48
 msgid "Fade Outs"
-msgstr ""
+msgstr "Fade Outs"
 
 #: 03.4-Enveloped-Samples.md:50
 msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask "
 "Sonic Pi how long the sample is:"
 msgstr ""
+"Om deze te ontdekken, laten we dan onze Amen break in meer detail bekijken. "
+"Als wij Sonic Pi nu eens vragen hoe lang de sample is:"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
 msgid "print sample_duration :loop_amen"
-msgstr ""
+msgstr "print sample_duration :loop_amen"
 
 #: 03.4-Enveloped-Samples.md:57
 msgid ""
@@ -2295,11 +2547,15 @@ msgid ""
 "seconds. Let's just round that to `1.75` for convenience here. Now, if we "
 "set the release to `0.75`, something surprising will happen:"
 msgstr ""
+"Het zal `1.753310657596372` uitprinten wat de de lengte is  van de sample in "
+"seconden uitgedrukt. Laten we dit gewoon even afronden naar '1,75' voor het "
+"gemak hier. Nu, als we de release naar '0,75' instellen zal er iets "
+"verrassend gebeuren:"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
 msgid "sample :loop_amen, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:65
 msgid ""
@@ -2309,25 +2565,35 @@ msgid ""
 "our sample was 10.75 seconds long, it would play the first 10 seconds at "
 "full amplitude before fading out over 0.75s."
 msgstr ""
+"Het zal de eerste seconde van de sample met volledige amplitude afspelen "
+"voordat deze dan uit-fade over een periode van 0.75 seconden. Dit is de *"
+"auto sustain* in actie. Standaard werkt de release altijd vanaf het einde "
+"van de sample. Als onze sample 10.75 seconden lang was, zou het de eerste 10 "
+"seconden spelen met volledige amplitude vooraleer deze met 0.75s uit te fade-"
+"en ."
 
 #: 03.4-Enveloped-Samples.md:71
 msgid "Remember: by default, `release:` fades out at the end of a sample."
 msgstr ""
+"Dus onthoud: standaard geeft de release, aan het einde van de sample, een "
+"fade-out ."
 
 #: 03.4-Enveloped-Samples.md:73
 msgid "Fade In and Out"
-msgstr ""
+msgstr "Fade In en Uit"
 
 #: 03.4-Enveloped-Samples.md:75
 msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain "
 "behaviour to fade both in and out over the duration of the sample:"
 msgstr ""
+"We kunnen `attack:` een `release:` samen met het gedrag van de auto sustain "
+"gebruiken om in de duurtijd van de sample  in en uit te fade-en:"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, attack: 0.75, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
 msgid ""
@@ -2335,21 +2601,26 @@ msgid ""
 "phases add up to 1.5s, the sustain is automatically set to 0.25s. This "
 "allows us to easily fade the sample in and out."
 msgstr ""
+"Als de totale duurtijd van de sample 1.75s is en onze attack en release fase "
+"opgeteld 1.5 is, wordt de sustain fase automatisch op 0.25 ingesteld. Dit "
+"staat ons toe van makkelijk in en uit te fade-en."
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
-msgstr ""
+msgstr "Expliciete sustain"
 
 #: 03.4-Enveloped-Samples.md:88
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually "
 "setting `sustain:` to a value such as 0:"
 msgstr ""
+"We kunnen makkelijk naar ons normale synth ADSR gedrag terugkeren door de "
+"`sustain:` manueel naar een waarde te brengen zoals bv. 0:"
 
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
 msgid "sample :loop_amen, sustain: 0, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:95
 msgid ""
@@ -2358,10 +2629,14 @@ msgid ""
 "sustains there for 0s then releases back down to 0 amplitude over the "
 "release period - 0.75s."
 msgstr ""
+"Nu zal onze sample in totaal 0.75s spelen. Met de standaard waarden voor "
+"`attack:` en`decay:` van 0, springt de sample recht naar volle amplitude, "
+"zal 0s sustain-en maakt een neerwaardse release tot amplitude 0 over een "
+"periode van 0.75s."
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
-msgstr ""
+msgstr "Percussieve cymbalen"
 
 #: 03.4-Enveloped-Samples.md:102
 msgid ""
@@ -2369,69 +2644,85 @@ msgid ""
 "into shorter, more percussive versions. Consider the sample `:"
 "drum_cymbal_open`:"
 msgstr ""
+"We kunnen dit gedrag goed gebruiken om langer klinkende geluiden om te "
+"zetten naar korte, meer percussieve geluiden. We overwegen dit even met de "
+"sample `:drum_cymbal_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
 msgid "sample :drum_cymbal_open"
-msgstr ""
+msgstr "sample :drum_cymbal_open"
 
 #: 03.4-Enveloped-Samples.md:110
 msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we "
 "can use our envelope to make it more percussive:"
 msgstr ""
+"Je hoort het cimbaal over een zekere periode uitzingen. We kunnen nu de "
+"envelop gebruiken om deze meer percussief te maken:"
 
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
-msgstr ""
+msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing "
 "the sustain period:"
 msgstr ""
+"Je kan het slaan op de cymbaal, en het dempen ervan veranderen, door de "
+"sustain fase te vergroten:"
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
-msgstr ""
+msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:124
 msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the "
 "rate too for really interesting results."
 msgstr ""
+"Leef je uit door aan samples een envelop toe te voegen. Probeer ook de rate "
+"te veranderen voor echt interessante resultaten."
 
 #: 03.5-Partial-Samples.md:1
 msgid "3.5 Partial Samples"
-msgstr ""
+msgstr "3.5 gedeeltelijke Samples"
 
 #: 03.5-Partial-Samples.md:3
 msgid "Partial Samples"
-msgstr ""
+msgstr "gedeeltelijke Samples"
 
 #: 03.5-Partial-Samples.md:5
 msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. "
 "Let's do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
+"Deze sectie zal onze verkenning afsluiten van Sonic Pi's sample player. "
+"Laten we een snelle samenvatting maken. Tot nu toe hebben we gekeken hoe we "
+"samples kunnen triggeren:"
 
 #: 03.5-Partial-Samples.md:13
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them "
 "at half speed:"
 msgstr ""
+"Vervolgens hebben we gekeken hoe we de rate kunnen wijzigen naar bv. het "
+"afspelen op halve snelheid:"
 
 #: 03.5-Partial-Samples.md:20
 msgid ""
 "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr ""
+"Verder hebben we gekeken hoe we deze sample konden in fade-en (we doen deze "
+"op halve snelheid):"
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5, attack: 1"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
 msgid ""
@@ -2439,11 +2730,14 @@ msgid ""
 "giving `sustain:` an explicit value and setting both the attack and release "
 "to be short values:"
 msgstr ""
+"We hebben ook gekeken hoe we de start van een sample meer percussief kunne "
+"maken door aan de `sustain:` een expliciete waarde te geven en aan zowel de "
+"attack als de release korte waarden te geven:"
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
 msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
-msgstr ""
+msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
 #: 03.5-Partial-Samples.md:35
 msgid ""
@@ -2451,10 +2745,13 @@ msgid ""
 "beginning of the sample? Wouldn't it also be nice if we didn't have to "
 "always finish at the end of the sample?"
 msgstr ""
+"Zou het niet leuk zijn, als we deze niet altijd hoeven te laten starten "
+"vanaf het begin van de sample? Zou het niet leuk zijn, als we deze niet "
+"altijd hoeven te laten stoppen tot het einde van de sample?"
 
 #: 03.5-Partial-Samples.md:39
 msgid "Choosing a starting point"
-msgstr ""
+msgstr "Startpunt kiezen"
 
 #: 03.5-Partial-Samples.md:41
 msgid ""
@@ -2463,67 +2760,76 @@ msgid ""
 "0.5 is half way through the sample. Let's try playing only the last half of "
 "the amen break:"
 msgstr ""
+"Het is mogelijk om een willekeurige startpunt in de sample te kiezen als een "
+"waarde tussen 0 en 1, waarbij 0 is het begin van de sample 1 is het einde en "
+"0,5 is halverwege sample. Laten we proberen om alleen de laatste helft van "
+"de amen break te spelen:"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.5"
 
 #: 03.5-Partial-Samples.md:50
 msgid "How about the last quarter of the sample:"
-msgstr ""
+msgstr "Of het laatste kwart van de sample:"
 
 #: 03.5-Partial-Samples.md:52
 #, no-wrap
 msgid "sample :loop_amen, start: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.75"
 
 #: 03.5-Partial-Samples.md:56
 msgid "Choosing a finish point"
-msgstr ""
+msgstr "Eindpunt kiezen"
 
 #: 03.5-Partial-Samples.md:58
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample "
 "as a value between 0 and 1. Let's finish the amen break half way through:"
 msgstr ""
+"Ook is het mogelijk om een willekeurig eindpunt te bepalen in de sample met "
+"een waarde tussen 0 en 1. Laat ons de Amen Break halverwege doen stoppen:"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
 msgid "sample :loop_amen, finish: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, finish: 0.5"
 
 #: 03.5-Partial-Samples.md:66
 msgid "Specifying start and finish"
-msgstr ""
+msgstr "Specifieke begin- en eindpunten opgeven"
 
 #: 03.5-Partial-Samples.md:68
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio "
 "file. How about only a small section in the middle:"
 msgstr ""
+"Natuurlijk kunnen we deze alle twee gebruiken om elk willekeurig segment van "
+"het audiobestand af te laten spelen. Hoe zit dat met een heel kleine sectie "
+"ergens in het midden:"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
 msgid "sample :loop_amen, start: 0.4, finish: 0.6"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
 #: 03.5-Partial-Samples.md:75
 msgid "What happens if we choose a start position after the finish position?"
-msgstr ""
+msgstr "Wat gebeurd er als we een startpunt achter het eind punt kiezen?"
 
 #: 03.5-Partial-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, start: 0.6, finish: 0.4"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
-msgstr ""
+msgstr "Cool! Het speelt achterstevoren!"
 
 #: 03.5-Partial-Samples.md:84
 msgid "Combining with rate"
-msgstr ""
+msgstr "Combineren met rate"
 
 #: 03.5-Partial-Samples.md:86
 msgid ""
@@ -2531,38 +2837,48 @@ msgid ""
 "friend `rate:`. For example, we can play a very small section of the middle "
 "of the amen break very slowly:"
 msgstr ""
+"We kunnen deze nieuwe mogelijkheid combineren om een willekeurige selectie "
+"in ons audiofragment met onze oude vriend `rate:`. We kunnen bijvoorbeeld "
+"een heel klein stukje in het midden van onze amen break sample traag laten "
+"afspelen:"
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
 #: 03.5-Partial-Samples.md:94
 msgid "Combining with envelopes"
-msgstr ""
+msgstr "Combineren met de envelop"
 
 #: 03.5-Partial-Samples.md:96
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce "
 "interesting results:"
 msgstr ""
+"Tot slot kunnen we dit alles combineren met onze ADSR envelop om tot "
+"interessante resultaten te komen:"
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release: 1"
 msgstr ""
+"sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release:"
+" 1"
 
 #: 03.5-Partial-Samples.md:103
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
 msgstr ""
+"Experimenteer er nu maar even op los en maak leuke mash-ups van samples met "
+"deze toffe nieuwigheden..."
 
 #: 03.6-External-Samples.md:1
 msgid "3.6 External Samples"
-msgstr ""
+msgstr "3.6 Externe Samples"
 
 #: 03.6-External-Samples.md:3
 msgid "External Samples"
-msgstr ""
+msgstr "Externe Sample"
 
 #: 03.6-External-Samples.md:5
 msgid ""
@@ -2571,10 +2887,15 @@ msgid ""
 "totally supports this. First though, let's have a quick discussion on the "
 "portability of your piece."
 msgstr ""
+"Terwijl de ingebouwde samples je direct lanceren om mee aan de slag te laten "
+"gaan, wil je misschien experimenteren met ander vooraf opgenomen materiaal "
+"om jouw muziek mee te maken. Sonic Pi ondersteund dit ook. Vooraleerst, gaan "
+"we eerst even snel iets anders bespreken nl. de portabiliteit van jouw "
+"muziekstuk."
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
-msgstr ""
+msgstr "Portabiliteit"
 
 #: 03.6-External-Samples.md:12
 msgid ""
@@ -2585,6 +2906,14 @@ msgid ""
 "to reproduce your sounds. That makes it *really easy to share* with your "
 "friends as they just need to get hold of the code."
 msgstr ""
+"Wanneer je je muziekstuk louter met de ingebouwde synth's en samples "
+"componeert, is de code het enige wat je nodig hebt om een getrouwe weergave "
+"van jou muziek te horen. Fantastisch toch,als je hier even over nadenkt! Een "
+"simpel stukje tekst dat je rond kan e-mailen  of in een "
+"[Gist](https://gist.github.com) kan steken, vertegenwoordigd alles wat je "
+"nodig hebt om jouw klanken te laten horen. Dit maakt het *echt makkelijk om "
+"te delen* met jouw vrienden, daar zij alleen over jouw stukje code moeten "
+"beschikken."
 
 #: 03.6-External-Samples.md:19
 msgid ""
@@ -2595,16 +2924,26 @@ msgid ""
 "shouldn't stop you from using your own samples, it's just something to "
 "consider."
 msgstr ""
+"Als je echter met je eigen voor-opgenomen samples begint te werken verlies "
+"je deze portabiliteit. Dit komt  omdat je nu  niet alleen de code nodig "
+"hebt, maar ook de samples om je muziek getrouw af te spelen. Dit beperkt  de "
+"mogelijkheid voor anderen om met jouw werk te gaan experimenteren, te "
+"manipuleren of een mash up van te  maken. Natuurlijk mag dit jou niet "
+"tegenhouden om je eigen samples te gaan gebruiken, gewoon om even bij stil "
+"te staan."
 
 #: 03.6-External-Samples.md:26
 msgid "Local Samples"
-msgstr ""
+msgstr "Lokale Samples"
 
 #: 03.6-External-Samples.md:28
 msgid ""
 "So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? "
 "All you need to do is pass the path of that file to `sample`:"
 msgstr ""
+"Dus hoe speel je elke willekeurige WAV-, AIFF- of FLAC-bestand op uw "
+"computer? Het enige wat je hoeft te doen is het pad opgeven van het bestand "
+"naar `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -2614,12 +2953,18 @@ msgid ""
 "# Windows\n"
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 msgstr ""
+"# Raspberry Pi, Mac, Linux\n"
+"sample \"/Users/sam/Desktop/my-sound.wav\"\n"
+"# Windows\n"
+"sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all "
 "the standard params you're used to passing `sample`:"
 msgstr ""
+"Sonic Pi zal deze samples automatisch laden en afspelen. Je kan ook alle "
+"standaard parameters toewijzen aan deze doorgegeven `sample`:"
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
@@ -2629,6 +2974,10 @@ msgid ""
 "# Windows\n"
 "sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 msgstr ""
+"# Raspberry Pi, Mac, Linux\n"
+"sample \"/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3\n"
+"# Windows\n"
+"sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 
 #: 03.7-Sample-Packs.md:1
 msgid "3.7 Sample Packs"
