@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-01 19:59+0000\n"
+"PO-Revision-Date: 2016-06-06 19:52+0000\n"
 "Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
@@ -297,37 +297,35 @@ msgstr ""
 "pętle mogą kręcić się z różną szybkością."
 
 #: 01.1-Live-Coding.md:83
-#, fuzzy
 msgid ""
 "Try uncommenting the sample line (remove the `#`) and enjoy the sound of the g"
 "uitar played backwards."
 msgstr ""
-"Spróbuj odkomentować linijkę z samplem (usuń znak `#`) a usłyszysz dźwięk gita"
-"ry granej od tyłu."
+"Spróbuj odkomentować linijkę z samplem (usuń znak `#`) a usłyszysz dźwięk "
+"gitary granej od tyłu."
 
 #: 01.1-Live-Coding.md:85
-#, fuzzy
 msgid ""
 "Try changing any of the blue `mix:` values to numbers between `0` (not in the "
 "mix) and `1` (fully in the mix)."
 msgstr ""
-"Spróbuj zmieniać niebieską liczbę znajdującą się przy parametrze `mix:` na war"
-"tości pomiędzy `0` (brak dźwięku w naszym utworze) a `1` (brzmienie o normalne"
-"j głośności)."
+"Spróbuj zmieniać niebieską liczbę znajdującą się przy parametrze `mix:` na "
+"wartości pomiędzy `0` (brak dźwięku w naszym utworze) a `1` (brzmienie o "
+"normalnej głośności)."
 
 #: 01.1-Live-Coding.md:88
-#, fuzzy
 msgid ""
 "Remember to press `Run` and you'll hear the change next time the loop goes rou"
 "nd. If you end up in a pickle, don't worry - hit `Stop`, delete the code in th"
 "e buffer and paste a fresh copy in and you're ready to jam again. Making mista"
 "kes is how you'll learn the quickest..."
 msgstr ""
-"Pamiętaj aby wcisnąć przycisk `Run`. Dzięki temu usłyszysz zmianę przy kolejny"
-"m przebiegu pętli. Jeśli coś pójdzie nie tak i zacznie się kakofonia nie przej"
-"muj się tym. Wystarczy, że naciśniesz przycisk `Stop`, usuniesz cały kod w buf"
-"orze, wkleisz świeżą kopię poniższego kodu i jesteś znowu gotowy do improwizac"
-"ji. Pamiętaj, człowiek najszybciej uczy się na błędach..."
+"Pamiętaj tylko, żeby wcisnąć przycisk `Run`. Dzięki temu usłyszysz zmianę "
+"przy kolejnym przebiegu pętli. Jeśli coś pójdzie nie tak i zacznie się "
+"kakofonia nie przejmuj się tym. Wystarczy, że naciśniesz przycisk `Stop`, "
+"usuniesz cały kod w buforze, wkleisz świeżą kopię poniższego kodu i będziesz "
+"znowu gotowy do zabawy od nowa. Pamiętaj, człowiek najszybciej uczy się na "
+"błędach..."
 
 #: 01.1-Live-Coding.md:94
 #, no-wrap
@@ -361,125 +359,108 @@ msgstr ""
 "end"
 
 #: 01.1-Live-Coding.md:111
-#, fuzzy
 msgid ""
 "Now, keep playing and experimenting until your curiosity about how this all ac"
 "tually works kicks in and you start wondering what else you can do with this. "
 "You're now ready to read the rest of the tutorial."
 msgstr ""
-"Baw się i eksperymentuj tym kawałkiem kodu do momentu, w którym twoja ciekawoś"
-"ć sprawi, że zaczniesz zastanawiać się jak to wszystko właściwie działa oraz c"
-"o innego można jeszcze wyczarować za pomocą Sonic Pi. Jeśli ten moment już nas"
-"tąpił to jesteś gotów aby przejść do dalszej części samouczka."
+"Baw się i eksperymentuj tym kawałkiem kodu do momentu, w którym twoja "
+"ciekawość sprawi, że zaczniesz zastanawiać się jak to wszystko właściwie "
+"działa oraz co innego można jeszcze wyczarować za pomocą Sonic Pi. Jeśli ten "
+"moment już nastąpił to jesteś gotów aby przejść do dalszej części samouczka."
 
 #: 01.1-Live-Coding.md:115
-#, fuzzy
 msgid "So what are you waiting for..."
 msgstr "Więc na co czekasz..."
 
 #: 01.2-Exploring-the-Interface.md:1
-#, fuzzy
 msgid "1.2 Exploring the Interface"
 msgstr "1.2 Zapoznanie z interfejsem użytkownika"
 
 #: 01.2-Exploring-the-Interface.md:3
-#, fuzzy
 msgid "The Sonic Pi Interface"
-msgstr "Interfejs użytkownika w Sonic Pi"
+msgstr "Interfejs użytkownika Sonic Pi"
 
 #: 01.2-Exploring-the-Interface.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi has a very simple interface for coding music. Let's spend a little ti"
 "me exploring it."
 msgstr ""
-"Sonic Pi ma bardzo prosty interfejs umożliwiający kodowanie muzyki. Poświęćmy "
-"chwilę na zapoznanie się z nim."
+"Sonic Pi ma bardzo prosty interfejs umożliwiający kodowanie muzyki. "
+"Poświęćmy chwilę na zapoznanie się z nim."
 
 #: 01.2-Exploring-the-Interface.md:8
 msgid "![Sonic Pi Interface](../images/tutorial/GUI.png)"
-msgstr ""
+msgstr "![Interfejs Sonic Pi](../images/tutorial/GUI.png)"
 
 #: 01.2-Exploring-the-Interface.md:11
-#, fuzzy
 msgid "*A* - Play Controls"
-msgstr "*A* - Kontrola Odtwarzania (Play Controls)"
+msgstr "*A* - Kontrola Odtwarzania"
 
 #: 01.2-Exploring-the-Interface.md:12
-#, fuzzy
 msgid "*B* - Editor Controls"
-msgstr "*B* - Kotrola Edytora (Editor Controls)"
+msgstr "*B* - Kontrola Edytora"
 
 #: 01.2-Exploring-the-Interface.md:13
-#, fuzzy
 msgid "*C* - Info and Help"
-msgstr "*C* - Informacje i Pomoc (Info and Help)"
+msgstr "*C* - Informacje i Pomoc"
 
 #: 01.2-Exploring-the-Interface.md:14
-#, fuzzy
 msgid "*D* - Code Editor"
-msgstr "*D* - Edytor Kodu (Code Editor)"
+msgstr "*D* - Edytor Kodu"
 
 #: 01.2-Exploring-the-Interface.md:15
-#, fuzzy
 msgid "*E* - Prefs Panel"
-msgstr "*E* - Panel Preferencji (Prefs Panel)"
+msgstr "*E* - Panel Preferencji (Ustawienia)"
 
 #: 01.2-Exploring-the-Interface.md:16
-#, fuzzy
 msgid "*F* - Log Viewer"
-msgstr "*F* - Podgląd Logów (Log Viewer)"
+msgstr "*F* - Podgląd Logów"
 
 #: 01.2-Exploring-the-Interface.md:17
-#, fuzzy
 msgid "*G* - Help System"
-msgstr "*G* - System Pomocy (Help System)"
+msgstr "*G* - System Pomocy"
 
 #: 01.2-Exploring-the-Interface.md:20
-#, fuzzy
 msgid "A. Play Controls"
-msgstr "A. Kontrola Odtwarzania (Play Controls)"
+msgstr "A. Kontrola Odtwarzania"
 
 #: 01.2-Exploring-the-Interface.md:22
-#, fuzzy
 msgid ""
 "These pink buttons are the main controls for starting and stopping sounds. The"
 "re's the *Run* button for running the code in the editor, *Stop* for stopping "
 "all running code, *Save* for saving the code to an external file and *Record* "
 "to create a recording (a WAV file) of the sound playing."
 msgstr ""
-"Różowe przyciski są głównymi kontrolerami uruchamiania i zatrzymywania dźwiękó"
-"w. Jest przycisk *Run* (Start) umożliwiający uruchomienie kodu znajdującego si"
-"ę w edytorze. Przycisk *Stop* umożliwia zatrzymanie całego uruchomionego kodu."
-" Przycisk *Save* (Zapisz) służy do zapisywania kodu wpisanego w edytorze do ze"
-"wnętrznego pliku tekstowego. Przycisk *Record* (Nagrywaj) umożliwia nagrywanie"
-" (w formacie WAV) aktualnie odtwarzanego dźwięku."
+"Różowe przyciski zapewniają podstawową kontrolę nad uruchamianiem i "
+"zatrzymywaniem dźwięków. Jest przycisk *Run* (Uruchom), który umożliwia "
+"uruchomienie kodu znajdującego się w edytorze. Przycisk *Stop* (Zatrzymaj) "
+"umożliwia zatrzymanie aktualnie uruchomionego kodu. Przycisk *Save* (Zapisz) "
+"służy do zapisywania kodu wpisanego w edytorze do zewnętrznego pliku "
+"tekstowego. Przycisk *Record* (Nagrywaj) umożliwia nagranie aktualnie "
+"odtwarzanego dźwięku (w formacie WAV) ."
 
 #: 01.2-Exploring-the-Interface.md:28
-#, fuzzy
 msgid "B. Editor Controls"
-msgstr "B. Kontrola Edytora (Editor Controls)"
+msgstr "B. Kontrola Edytora"
 
 #: 01.2-Exploring-the-Interface.md:30
-#, fuzzy
 msgid ""
 "These orange buttons allow you to manipulate the code editor. The *Size +* and"
 " *Size -* buttons allow you to make the text bigger and smaller. The *Align* b"
 "utton will neaten the code for you to make it look more professional."
 msgstr ""
-"Pomarańczowe przyciski pozwalają Ci manipulować edytorem kodu. Przyciski *Size"
-" +* (Zwiększ rozmiar) i *Size -* (Zmniejsz rozmiar) umożliwiają powiększanie i"
-" zmniejszanie rozmiaru tekstu (czcionki). Przycisk *Align* (Wyrównaj) pozwala "
-"na uporządkowanie wyglądu twojego kodu tak aby wyglądał bardziej profesjonalni"
-"e (poprawia wcięcia)."
+"Pomarańczowe przyciski pozwalają Ci manipulować edytorem kodu. Przyciski *"
+"Size +* (Zwiększ rozmiar) i *Size -* (Zmniejsz rozmiar) umożliwiają "
+"powiększanie i zmniejszanie rozmiaru tekstu (czcionki). Przycisk *Align* "
+"(Wyrównaj) pozwala na uporządkowanie wyglądu twojego kodu tak aby wyglądał "
+"bardziej profesjonalnie (poprawia wcięcia)."
 
 #: 01.2-Exploring-the-Interface.md:35
-#, fuzzy
 msgid "C. Info and Help"
-msgstr "C. Informacje i Pomoc (Info and Help)"
+msgstr "C. Informacje i Pomoc"
 
 #: 01.2-Exploring-the-Interface.md:37
-#, fuzzy
 msgid ""
 "These blue buttons give you access to information, help and preferences. The *"
 "Info* button will open up the information window which contains information ab"
@@ -487,20 +468,19 @@ msgid ""
 "*Help* button toggles the help system (*G*) and the *Prefs* button toggles the"
 " preferences window which allows you to control some basic system parameters."
 msgstr ""
-"Niebieskie przyciski dają Ci dostęp do informacji, pomocy i ustawień. Naciśnię"
-"cie przycisku *Info* spowoduje otworzenie dodatkowego okna, które zawiera info"
-"rmacje dotyczące Sonic Pi - zespół podstawowy, historia, współtwórcy oraz społ"
-"eczność. Przycisk *Help* (Pomoc) otwiera i zamyka system pomocy (*F*), który w"
-"łaśnie czytasz. Przycisk *Prefs* (Ustawienia) otwiera i zamyka panel ustawień,"
-" który pozwala Ci na kontrolę kilku podstawowych ustawień aplikacji."
+"Niebieskie przyciski dają Ci dostęp do informacji, pomocy i ustawień. "
+"Naciśnięcie przycisku *Info* (Informacje) spowoduje otworzenie dodatkowego "
+"okna, które zawiera informacje dotyczące Sonic Pi - podstawowa ekipa twórców "
+"programu, historia, współtwórcy oraz społeczność. Przycisk *Help* (Pomoc) "
+"otwiera i zamyka system pomocy (*G*), który właśnie czytasz. Przycisk *Prefs*"
+" (Ustawienia) otwiera i zamyka panel preferencji, który pozwala Ci na "
+"kontrolę kilku podstawowych ustawień aplikacji."
 
 #: 01.2-Exploring-the-Interface.md:44
-#, fuzzy
 msgid "D. Code Editor"
-msgstr "D. Edytor Kodu (Code Editor)"
+msgstr "D. Edytor Kodu"
 
 #: 01.2-Exploring-the-Interface.md:46
-#, fuzzy
 msgid ""
 "This is the area where you'll write your code and compose/perform music. It's "
 "a simple text editor where you can write code, delete it, cut and paste, etc. "
@@ -509,21 +489,19 @@ msgid ""
 "trange at first, but you'll soon find it very useful. For example, you'll know"
 " something is a number because it is blue."
 msgstr ""
-"Obszar, w którym będziesz pisał swój kod oraz komponował/wykonywał muzykę. Jes"
-"t to prosty edytor tekstowy, w którym możesz pisać kod, kasować go, wycinać, w"
-"klejać, itd. Myśl o nim jako o bardzo prostej wersji edytora Word czy Google D"
-"ocs. Edytor automatycznie koloruje słowa bazując na ich znaczeniu w kodzie. Mo"
-"że się to wydawać dziwne na początku, ale bardzo szybko zauważysz, że jest to "
-"bardzo przydatne. Na przykład - wiesz, że coś dany tekst jest liczbą ponieważ "
-"ma kolor niebieski."
+"Jest to obszar, w którym będziesz pisał kod oraz komponował i wykonywał "
+"muzykę. Jest to prosty edytor tekstowy, w którym możesz pisać kod, kasować "
+"go, wycinać, wklejać, itd. Myśl o nim jako o bardzo prostej wersji edytora "
+"Word czy Google Docs. Edytor automatycznie koloruje słowa bazując na ich "
+"znaczeniu w kodzie. Na początku może się to wydawać dziwne, ale bardzo "
+"szybko zauważysz, że jest to bardzo przydatne. Na przykład - wiesz, że coś "
+"dany tekst jest liczbą ponieważ ma kolor niebieski."
 
 #: 01.2-Exploring-the-Interface.md:54
-#, fuzzy
 msgid "E. Prefs Panel"
-msgstr "E. Panel preferencji (Prefs Panel)"
+msgstr "E. Panel preferencji"
 
 #: 01.2-Exploring-the-Interface.md:56
-#, fuzzy
 msgid ""
 "Sonic Pi supports a number of tweakable preferences which can be accessed by t"
 "oggling the *prefs* button in the Info and Help button set. This will toggle t"
@@ -531,39 +509,36 @@ msgid ""
 "ged. Examples are forcing mono mode, inverting stereo, Toggling log output ver"
 "bosity and also a volume slider and audio selector on the Raspberry Pi."
 msgstr ""
-"Sonic Pi wspiera wiele ustawień, które są dostępne za pomocą przycisku *Prefer"
-"encje (prefs)*, który znajduje się tuż za przyciskami Informacje i Pomoc. Naci"
-"śnięcie go spowoduje pokazanie panelu ustawień, który zawiera wiele opcji, któ"
-"re można zmianiać. Przykłady takich ustawień to: wymuszenie trybu mono, odwróc"
-"one stereo, włączanie i wyłączanie panelu logowania a także suwak głośności se"
-"lektor dźwięku, które są dostępne tylko na platformie Raspberry Pi."
+"Sonic Pi wspiera wiele ustawień, które są dostępne po naciśnięciu przycisku "
+"*Prefs* (ustawienia). Jest to przycisk, który znajduje się tuż za "
+"przyciskami Info (informacje) i Help (pomoc). Naciśnięcie go spowoduje "
+"pokazanie Panelu Ustawień, gdzie znajduje się wiele opcji, które można "
+"zmieniać. Przykłady takich ustawień to: wymuszenie trybu mono, odwrócone "
+"stereo, włączanie i wyłączanie panelu logowania a także suwak głośności i "
+"selektor dźwięku, które są dostępne tylko na platformie Raspberry Pi."
 
 #: 01.2-Exploring-the-Interface.md:63
-#, fuzzy
 msgid "F. Log Viewer"
-msgstr "F. Podgląd Logów (Log Viewer)"
+msgstr "F. Podgląd Logów"
 
 #: 01.2-Exploring-the-Interface.md:65
-#, fuzzy
 msgid ""
 "When you run your code, information about what the program is doing will be di"
 "splayed in the log viewer. By default, you'll see a message for every sound yo"
 "u create with the exact time the sound was triggered. This is very useful for "
 "debugging your code and understanding what your code is doing."
 msgstr ""
-"Kiedy uruchamiasz swój kod, informacja o tym co program aktualnie robi będzie "
-"wyświetlana w panelu podglądu logów. Domyślnie, zobaczysz wiadomość pojawiając"
-"ą się dla każdego dźwięku, który stworzysz wraz z dokładnym czasem kiedy ten d"
-"źwięk został uruchomiony. Jest to bardzo przydatne do debugowania twojego kodu"
-" i zrozumienia co twój kod robi."
+"Kiedy uruchamiasz swój kod, informacja o tym co program aktualnie robi "
+"będzie wyświetlana w panelu z logami. Domyślnie, zobaczysz wiadomość "
+"pojawiającą się dla każdego dźwięku, który stworzysz wraz z dokładnym czasem "
+"kiedy ten dźwięk został uruchomiony. Jest to bardzo przydatne do debugowania "
+"twojego kodu i zrozumienia co on robi."
 
 #: 01.2-Exploring-the-Interface.md:71
-#, fuzzy
 msgid "G. Help System"
-msgstr "G. System Pomocy (Help System)"
+msgstr "G. System Pomocy"
 
 #: 01.2-Exploring-the-Interface.md:73
-#, fuzzy
 msgid ""
 "Finally, one of the most important parts of the Sonic Pi interface is the help"
 " system which appears at the bottom of the window. This can be toggled on and "
@@ -572,13 +547,13 @@ msgid ""
 "ailable synths, samples, examples, FX and a full list of all the functions Son"
 "ic Pi provides for coding music."
 msgstr ""
-"I na samym końcu została jedna z najważniejszych cześci interfejsu Sonic Pi - "
-"system pomocy, który pojawia się w dolnym oknie. Może on być włączony i wyłącz"
-"ony za pomocą naciśnięcia niebieskiego przycisku *Help* (Pomoc). System pomocy"
-" zawiera pomoc oraz informacje dotyczące wszystkich aspektów związanych z Soni"
-"c Pi włączając w to ten samouczek, listę dostępnych syntezatorów, sample (prób"
-"ki dźwięków), przykłady, efekty (FX) oraz listę wszystkich funkcji umożliwiają"
-"cych tworzenie muzyki jakie Sonic Pi udostępnia."
+"I na koniec została jedna z najważniejszych części interfejsu Sonic Pi - "
+"system pomocy, który pojawia się w dolnym oknie. Może on być włączony i "
+"wyłączony za pomocą niebieskiego przycisku *Help* (pomoc). System pomocy "
+"zawiera pomoc oraz informacje dotyczące wszystkich aspektów związanych z "
+"Sonic Pi włączając w to ten samouczek, listę dostępnych syntezatorów, sampli "
+"(próbki dźwięków), przykłady, FX (efekty) oraz listę wszystkich funkcji "
+"jakie Sonic Pi udostępnia do tworzenia muzyki."
 
 #: 01.3-Learning-through-Play.md:1
 #, fuzzy
