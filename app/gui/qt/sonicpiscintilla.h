@@ -63,4 +63,7 @@ class SonicPiScintilla : public QsciScintilla
  private:
     void addKeyBinding(QSettings &qs, int cmd, int key);
     void addOtherKeyBinding(QSettings &qs, int cmd, int key);
+    void dragEnterEvent(QDragEnterEvent *pEvent);
+    void dropEvent(QDropEvent *pEvent);
+    void dragMoveEvent(QDragMoveEvent *event);
 };

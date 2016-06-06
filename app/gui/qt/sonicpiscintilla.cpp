@@ -15,13 +15,16 @@
 
 #include <QSettings>
 #include <QShortcut>
-
+#include <QDrag>
+#include <QDragEnterEvent>
+#include <QDropEvent>
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
 
 SonicPiScintilla::SonicPiScintilla(SonicPiLexer *lexer, SonicPiTheme *theme)
   : QsciScintilla()
 {
+  setAcceptDrops(true);
   this->theme = theme;
   standardCommands()->clearKeys();
   standardCommands()->clearAlternateKeys();
@@ -486,4 +489,31 @@ void SonicPiScintilla::replaceBuffer(QString content, int line, int index, int f
   setCursorPosition(line, index);
   setFirstVisibleLine(first_line);
   endUndoAction();
+}
+
+void SonicPiScintilla::dragEnterEvent(QDragEnterEvent *event)
+{
+  if (event->mimeData()->hasFormat("text/uri-list")) {
+    event->acceptProposedAction();
+  }
+}
+
+void SonicPiScintilla::dragMoveEvent(QDragMoveEvent *event)
+{
+  if (event->mimeData()->hasFormat("text/uri-list")) {
+    event->acceptProposedAction();
+  }
+}
+
+void SonicPiScintilla::dropEvent(QDropEvent *dropEvent)
+{
+  if (dropEvent->mimeData()->hasFormat("text/uri-list")) {
+    dropEvent->acceptProposedAction();
+    QList<QUrl> urlList = dropEvent->mimeData()->urls();
+    QString text;
+    for (int i = 0; i < urlList.size(); ++i) {
+      text += "\"" + urlList.at(i).path() + "\"" + QLatin1Char('\n');
+    }
+    insert(text);
+  }
 }
