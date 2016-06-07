@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-06 19:52+0000\n"
-"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"PO-Revision-Date: 2016-06-07 14:32+0000\n"
+"Last-Translator: Szymon Jakubiak <sz.a.jakubiak@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -566,17 +566,16 @@ msgid "Learning through Play"
 msgstr "Nauka przez zabawę"
 
 #: 01.3-Learning-through-Play.md:5
-#, fuzzy
 msgid ""
 "Sonic Pi encourages you to learn about both computing and music through play a"
 "nd experimentation. The most important thing is that you're having fun, and be"
 "fore you know it you'll have accidentally learned how to code, compose and per"
 "form."
 msgstr ""
-"Sonic Pi zachęca abyś poprzez zabawę i eksperymentowanie uczył się jednocześni"
-"e programowania i tworzenia muzyki. Najważniejsze jest   abyś się dobrze bawił"
-". W międzyczasie, nawet się nie obejrzysz, a zauważysz, że nauczyłeś się progr"
-"amować, komponowac i \"grać\" na żywo."
+"Sonic Pi zachęca Cię abyś uczył się programowania i tworzenia muzyki poprzez "
+"zabawę i eksperymentowanie. A najważniejsze jest, abyś przy tym dobrze się "
+"bawił. Nawet się nie obejrzysz jak stwierdzisz, że nauczyłeś się "
+"programować, komponować i tworzyć muzykę na żywo."
 
 #: 01.3-Learning-through-Play.md:10
 #, fuzzy
