@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-06 10:53+0000\n"
+"PO-Revision-Date: 2016-06-07 13:54+0000\n"
 "Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -4994,7 +4994,7 @@ msgstr "5.5 Funzioni"
 
 #: 05.5-Functions.md:3
 msgid "Functions"
-msgstr ""
+msgstr "Funzioni"
 
 #: 05.5-Functions.md:5
 msgid ""
@@ -5003,10 +5003,15 @@ msgid ""
 " a very powerful way to do this. They give us the ability to give a name to a "
 "bunch of code. Let's take a look."
 msgstr ""
+"Quando cominci ad avere dei codici molto lunghi, potresti sentire il bisogno "
+"di organizzare e strutturare le cose per renderle più pulite e chiare da "
+"comprendere. Le funzioni sono un modo molto efficace per farlo. Ci "
+"consentono di dare un nome a un insieme di linee. Diamo un'occhiata a questa "
+"possibilità."
 
 #: 05.5-Functions.md:10
 msgid "Defining functions"
-msgstr ""
+msgstr "Definire le funzioni"
 
 #: 05.5-Functions.md:12
 #, no-wrap
@@ -5033,20 +5038,31 @@ msgid ""
 "t anything we want such as `bar`, `baz` or ideally something meaningful to you"
 " like `main_section` or `lead_riff`."
 msgstr ""
+"Qui sopra, abbiamo definito una nuova funzione chiamandola 'foo'. L'abbiamo "
+"fatto usando la nostra vecchia conoscenza, il blocco do/end, accoppiato alla "
+"parola magica 'define', seguita dal nome che abbiamo voluto dare alla "
+"funzione. Non dobbiamo per forza chiamarla 'foo' ma possiamo usare un nome "
+"qualsiasi, come 'bar', 'baz' o qualsiasi cosa che ci aiuti a ricordarne il "
+"ruolo, come 'sezione_principale' o 'riff_principale'. Si può usare un "
+"termine in qualsiasi lingua."
 
 #: 05.5-Functions.md:27
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define i"
 "t."
 msgstr ""
+"Ricorda sempre di anteporre i due punti ':' al nome della funzione quando "
+"vai a definirla."
 
 #: 05.5-Functions.md:30
 msgid "Calling functions"
-msgstr ""
+msgstr "Richiamare le funzioni"
 
 #: 05.5-Functions.md:32
 msgid "Once we have defined our function we can call it by just writing its name:"
 msgstr ""
+"Una volta che abbiamo definito la nostra funzione, possiamo poi richiamarla "
+"semplicemente scrivendo il suo nome:"
 
 #: 05.5-Functions.md:35
 #, no-wrap
@@ -5081,10 +5097,14 @@ msgid ""
 "`play` or `sample`. This gives us a great way to express ourselves and to crea"
 "te new meaningful words for use in our compositions."
 msgstr ""
+"Possiamo utilizzare 'foo' anche dentro un blocco di iterazione o ovunque "
+"abbiamo scritto 'play' o 'sample'. Questo ci permette di esprimere i nostri "
+"pensieri musicali e di creare delle parole con un senso preciso da "
+"utilizzare nelle nostre composizioni."
 
 #: 05.5-Functions.md:56
 msgid "Functions are remembered across runs"
-msgstr ""
+msgstr "Le funzioni vengono ricordate anche in esecuzioni diverse"
 
 #: 05.5-Functions.md:58
 msgid ""
@@ -5094,6 +5114,12 @@ msgid ""
 "change that. When you define a function, Sonic Pi *remembers* it. Let's try it"
 ". Delete all the code in your buffer and replace it with:"
 msgstr ""
+"Fin qui, ogni volta che hai premuto Run, Sonic Pi ha iniziato da zero. Il "
+"sistema non conosceva niente più di quello che era scritto della finestra. "
+"Non puoi richiamare un codice tra una finestra e l'altra o tra un gruppo di "
+"codice e l'altro. Le funzioni sono diverse. Quando ne hai definita una, "
+"Sonic Pi si *ricorda* di lei. Prova. Cancella tutto il codice che hai "
+"scritto e sostituiscilo con questo:"
 
 #: 05.5-Functions.md:65
 #, no-wrap
@@ -5107,10 +5133,15 @@ msgid ""
 "ven after you deleted it from the buffer, it remembered what you had typed. Th"
 "is behaviour only works with functions created using `define` (and `defonce`)."
 msgstr ""
+"Premi Run e ascolta la fuzione in esecuzione. Dov'è finito il codice? Come "
+"fa Sonic Pi a sapere cosa eseguire? Sonic Pi, semplicemente, si ricorda "
+"della tua funzione, quindi anche se l'ha cancellata dalla finestra, si "
+"ricorda che cosa avevi digitato. Tutto ciò funziona soltanto se le funzioni "
+"sono state create utilizzando 'define' (e 'defonce')."
 
 #: 05.5-Functions.md:75
 msgid "Parameterised functions"
-msgstr ""
+msgstr "Funzioni parametrizzate"
 
 #: 05.5-Functions.md:77
 msgid ""
