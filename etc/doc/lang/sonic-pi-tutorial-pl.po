@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2024-04-29 17:04+0000\n"
-"Last-Translator: tupteq <tupteq@gmail.com>\n"
+"Last-Translator: Szymon Jakubiak <sz.a.jakubiak@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
 "pl/>\n"
 "Language: pl\n"
@@ -720,9 +720,9 @@ msgid ""
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
-"Nie daj się zwieść prostocie interfejsu Sonic Pi. Jeśli tylko będziesz tego ch"
-"ciał, masz do swojej dyspozycji bardzo wyszukane możliwości manipulacji dźwięk"
-"iem. Lepiej zapnij pasy..."
+"Nie daj się zwieść prostocie interfejsu Sonic Pi. Jeśli tylko będziesz tego "
+"chciał, masz do swojej dyspozycji bardzo wyszukane możliwości manipulacji "
+"dźwiękiem. Lepiej zapnij pasy..."
 
 #: 02.1-Your-First-Beeps.md:1
 msgid "2.1 Your First Beeps"
@@ -758,7 +758,8 @@ msgstr "Bip!"
 
 #: 02.1-Your-First-Beeps.md:17
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "A teraz naciśnij przycisk jeszcze raz. I jeszcze raz. *I jeszcze raz...*"
+msgstr ""
+"A teraz naciśnij przycisk jeszcze raz. I jeszcze raz. *I jeszcze raz...*"
 
 #: 02.1-Your-First-Beeps.md:19
 #, fuzzy
