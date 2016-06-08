@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-08 13:37+0000\n"
+"PO-Revision-Date: 2016-06-08 14:22+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -3819,6 +3819,10 @@ msgid ""
 "specify (exclusive). By default it will return a value between 0 and one. "
 "It's therefore useful for choosing random `amp:` values:"
 msgstr ""
+"Dit geeft een willekeurig niet-geheel getal tussen 0 (inbegrepen) en de max "
+"waarde die u opgeeft (exclusieve). Standaard wordt een waarde tussen 0 en 1 "
+"geretourneerd. Daarom is deze nuttig voor het kiezen van willekeurige ' amp:"
+"' waarden:"
 
 #: 04-Randomisation.md:167
 #, no-wrap
@@ -3828,20 +3832,26 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"loop do\n"
+"  play 60, amp: rand\n"
+"  sleep 0.25\n"
+"end"
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
 msgid ""
 "Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will "
 "return a random whole number between 0 and the max value you specify."
 msgstr ""
+"Vergelijkbaar met de relatie tussen 'rrand_i' en 'rrand', 'rand_i' geeft een "
+"willekeurig geheel getal tussen 0 en de max waarde die u opgeeft."
 
 #: 04-Randomisation.md:179
 msgid "dice"
-msgstr ""
+msgstr "dice (teerling)"
 
 #: 04-Randomisation.md:181
 msgid ""
@@ -3853,10 +3863,18 @@ msgid ""
 "a 4 sided dice, or a 12 sided dice, or a 20 sided dice - perhaps even a 120 "
 "sided dice!"
 msgstr ""
+"Soms wil je een gooi van een dobbelstenen nabootsen - dit is een speciaal "
+"geval van 'rrand_i' waar de laagste waarde altijd 1 is . Een oproep naar de "
+"'dobbelstenen' moet je het aantal zijden op de dobbelsteen opgeven. Een "
+"standaard dobbelsteen heeft 6 zijden, dus 'dice(6)' zich evenzeer zo "
+"gedragen - en waarden van ofwel 1, 2, 3, 4, 5 of 6 reproduceren.Misschien "
+"wil je wel, net zoals in een fantasy rollenspel , een 4-zijdige "
+"dobbelstenen, of een 12 zijdige dobbelstenen, of een 20 zijdige dobbelsteen -"
+" misschien zelfs een 120 zijdige dobbelsteen!"
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
 msgid ""
@@ -3867,18 +3885,24 @@ msgid ""
 "are very useful for `if` statements which we will cover in a subsequent "
 "section of this tutorial."
 msgstr ""
+"Tot slot wil je ook de gooi naar het hoogste getal nabootsen, zoals onze 6 "
+"op een normale dobbelsteen.  `one_in` zal daarom de waarde true met een kans "
+"van één op het aantal zijden op de dobbelsteen reproduceren. Daarom geeft "
+"'one_in(6)' true met een waarschijnlijkheid van 1 in 6 of anders als false "
+"weergeven . True  en False waarden zijn zeer nuttig voor 'als' verklaringen "
+"die wij in een latere sectie van dit leerprogramma zullen behandelen."
 
 #: 04-Randomisation.md:198
 msgid "Now, go and jumble up your code with some randomness!"
-msgstr ""
+msgstr "Maak maar even een wirwar aan van (on)willekeurigheden!"
 
 #: 05-Programming-Structures.md:1
 msgid "5 Programming Structures"
-msgstr ""
+msgstr "5 Programmeerstructuren"
 
 #: 05-Programming-Structures.md:3
 msgid "Programming Structures"
-msgstr ""
+msgstr "Programmeerstructuren"
 
 #: 05-Programming-Structures.md:5
 msgid ""
@@ -3886,6 +3910,10 @@ msgid ""
 "`sample` and creating simple melodies and rhythms by `sleep`ing between "
 "sounds, you might be wondering what else the world of code can offer you..."
 msgstr ""
+"Nu dat je de basis hebt geleerd  om geluiden met 'play' en 'samplen' te "
+"creërenen , en eenvoudige melodieën en ritmes door ' sleep' tussen klanken "
+"te gebruiken, kan je je nu gaan afvragen wat de wereld van code je nog heeft "
+"te bieden..."
 
 #: 05-Programming-Structures.md:10
 msgid ""
@@ -3893,18 +3921,21 @@ msgid ""
 "structures such as looping, conditionals, functions and threads give you "
 "amazingly powerful tools to express your musical ideas."
 msgstr ""
+"Nou, sta je voor een spannende traktatie! Het blijkt dat fundame "
+"programmeerstructuren zoals loops, conditionals, functies en threads jou  "
+"ongelooflijk krachtige tools geven om jou muzikale ideeën uit te drukken."
 
 #: 05-Programming-Structures.md:14
 msgid "Let's get stuck in with the basics..."
-msgstr ""
+msgstr "Laat ons in de basics duiken..."
 
 #: 05.1-Blocks.md:1
 msgid "5.1 Blocks"
-msgstr ""
+msgstr "5.1 Blocks"
 
 #: 05.1-Blocks.md:3
 msgid "Blocks"
-msgstr ""
+msgstr "Blocks"
 
 #: 05.1-Blocks.md:5
 msgid ""
