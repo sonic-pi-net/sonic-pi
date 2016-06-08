@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-08 00:15+0000\n"
-"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
+"PO-Revision-Date: 2016-06-08 21:59+0000\n"
+"Last-Translator: Szymon Jakubiak <sz.a.jakubiak@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -611,7 +611,6 @@ msgid "Start Simple"
 msgstr "Zacznij od czegoś prostego"
 
 #: 01.3-Learning-through-Play.md:26
-#, fuzzy
 msgid ""
 "When you're learning, it's tempting to want to do amazing things *now*. Howeve"
 "r, just hold that thought and see it as a distant goal to reach *later*. For n"
@@ -621,15 +620,16 @@ msgid ""
 "with it and then see what new ideas it gives you. Before long you'll be too bu"
 "sy having fun and making real progress."
 msgstr ""
-"Zawsze kiedy się uczysz, najbardziej kuszące jest to, że chcesz robić niesamow"
-"ite rzeczy *tu i teraz*. Postaraj się jednak powstrzymać te myśli i spójrz na "
-"nie jako odległy cel, który uda się się osiągnąć *później*. Zamiast tego, pomy"
-"śl o *najprostszej* rzeczy jaką potrafisz napisać, która będzie fajna, a jedno"
-"cześnie sprawi, że będziesz czuł satysfakcję z tego, że jest to mały krok w ki"
-"erunku wizji, która wypełnia twoją głowę. Gdy już będziesz widział w swojej gł"
-"owie ten mały krok, spróbuj go wykonać - napisz kawałek kodu, uruchom go, baw "
-"się nim i zobacz jakie nowe pomysły przyjdą Ci do głowy. Zobaczysz, niedługo b"
-"ędziesz tak pochłonięty zabawą, że zaczniesz robić prawdziwe postępy."
+"Zawsze kiedy się czegoś uczysz istnieje pokusa żeby robić niesamowite rzeczy "
+"*tu i teraz*. Postaraj się jednak powstrzymać tę chęć i spójrz na nią jako "
+"odległy cel, który uda się się osiągnąć *później*. Zamiast tego, pomyśl o "
+"*najprostszej* rzeczy jaką potrafisz napisać, która będzie fajna, a "
+"jednocześnie sprawi, że będziesz czuł satysfakcję ze zrobienia małego kroku "
+"w kierunku realizacji wizji, która istnieje w twojej głowie. Gdy już "
+"będziesz miał pomysł na ten mały krok, spróbuj go wykonać - napisz kawałek "
+"kodu, uruchom go, baw się nim i zobacz jakie nowe pomysły przyjdą Ci do "
+"głowy. Zobaczysz, niedługo będziesz w całości pochłonięty tą zabawą i "
+"będziesz robić szybkie postępy."
 
 #: 01.3-Learning-through-Play.md:35
 msgid "Just make sure to share your work with others!"
@@ -648,7 +648,6 @@ msgid "OK, enough of the intros - let's get into some sound."
 msgstr "OK, tyle tytułem wstępu - pora zająć się muzyką."
 
 #: 02-Synths.md:7
-#, fuzzy
 msgid ""
 "In this section we'll cover the basics of triggering and manipulating synths. "
 "Synth is short for synthesiser which is a fancy word for something which creat"
@@ -656,32 +655,30 @@ msgid ""
 "ynths with many patch wires and modules. However, Sonic Pi gives you much of t"
 "hat power in a very simple and approachable manner."
 msgstr ""
-"W tym rozdziale poznasz podstawy uruchamiania i manipulowania syntezatorami. S"
-"yntezator to taka fajna nazwa dla czegoś co wytwarza dźwięk. Normalnie synteza"
-"tory są dość skomplikowane w użyciu. Zwłaszcza syntezatory analogowe zawierają"
-" wiele różnych połączeń, kabelków i modułów. Natomiast Sonic Pi oddaje w twoje"
-" ręce wiele z tych możliwości   w bardzo prostej i przystępnej formie."
+"W tym rozdziale poznasz podstawy uruchamiania i operowania syntezatorami. "
+"Syntezator to taka fajna nazwa dla czegoś co wytwarza dźwięk. Normalnie "
+"syntezatory są dość skomplikowane w użyciu. Zwłaszcza syntezatory analogowe "
+"zawierają wiele różnych połączeń, kabelków i modułów. Natomiast Sonic Pi "
+"oddaje w twoje ręce wiele z tych możliwości w bardzo prostej i przystępnej "
+"formie."
 
 #: 02-Synths.md:14
-#, fuzzy
 msgid ""
 "Don't be fooled by the immediate simplicity of Sonic Pi's interface. You can g"
 "et very deep into very sophisticated sound manipulation if that's your thing. "
 "Hold on to your hats..."
 msgstr ""
-"Nie daj się zwieść prostocie interfejsu, który prezentuje Sonic Pi. Masz możli"
-"wość zanurzyć się bardzo głęboko. Jeśli to twoja dziłka, to do twojej dyspozyc"
-"ji są bardzo wyszukane możliwości manipulacji dźwiękiem. Zapnij pasy..."
+"Nie daj się zwieść prostocie interfejsu Sonic Pi. Jeśli tylko będziesz tego "
+"chciał, masz do swojej dyspozycji bardzo wyszukane możliwości manipulacji "
+"dźwiękiem. Lepiej zapnij pasy..."
 
 #: 02.1-Your-First-Beeps.md:1
-#, fuzzy
 msgid "2.1 Your First Beeps"
-msgstr "2.1 Twoje pierwsze bipy"
+msgstr "2.1 Twoje pierwsze dźwięki"
 
 #: 02.1-Your-First-Beeps.md:3
-#, fuzzy
 msgid "Your First Beeps"
-msgstr "Twoje pierwsze bipy"
+msgstr "Twoje pierwsze dźwięki"
 
 #: 02.1-Your-First-Beeps.md:5
 msgid "Take a look at the following code:"
@@ -707,9 +704,9 @@ msgid "Beep!"
 msgstr "Bip!"
 
 #: 02.1-Your-First-Beeps.md:17
-#, fuzzy
 msgid "Intense. Press it again. And again. *And again...*"
-msgstr "A teraz naciśnij przycisk jescze raz. I jeszcze raz. *I jeszcze raz...*"
+msgstr ""
+"A teraz naciśnij przycisk jeszcze raz. I jeszcze raz. *I jeszcze raz...*"
 
 #: 02.1-Your-First-Beeps.md:19
 msgid ""
@@ -735,7 +732,6 @@ msgid "play 60"
 msgstr "play 60"
 
 #: 02.1-Your-First-Beeps.md:33
-#, fuzzy
 msgid ""
 "So, lower numbers make lower pitched beeps and higher numbers make higher pitc"
 "hed beeps. Just like on a piano, the keys at the lower part of the piano (the "
@@ -746,27 +742,26 @@ msgid ""
 "just so happens that the 4th octave C is number 60. Go ahead and play it: `pla"
 "y 60`."
 msgstr ""
-"Zauważ, że mniejsze liczby powodują bipy o niższym tonie a większe liczby powo"
-"dują bipy o wyższym tonie. Tak samo jak na pianinie - klawisze znajdujące się "
-"po lewej stronie instrumentu grają nuty o niższym brzmieniu a klawisze znajduj"
-"ące się po prawej stronie grają nuty o wyższym brzmieniu. I faktycznie tak jes"
-"t, powyższe liczby odpowiadają nutom na pianinie. Kod `play 47` znaczy nic inn"
-"ego jak - zagraj nutę znajdującą się pod 47 klawiszem na pianinie. Oznacza to,"
-" że kod `play 48` to dźwięk o jedną nutę wyżej (następny klawisz po prawej). T"
-"ak się składa, że nuta C w 4-tej oktawie odpowiada liczbie 60. Smiało, spróbuj"
-" zagrać ten dźwięk: `play 60`."
+"Zauważ, że mniejsze liczby generują dźwięki o niższym tonie, a większe "
+"liczby generują dźwięki o wyższym tonie. Tak samo jak na pianinie - klawisze "
+"znajdujące się po lewej stronie instrumentu grają nuty o niższym brzmieniu, "
+"a klawisze znajdujące się po prawej stronie grają nuty o wyższym brzmieniu. "
+"I faktycznie powyższe liczby odpowiadają nutom na pianinie. Kod `play 47` "
+"znaczy nic innego jak zagraj nutę znajdującą się pod 47 klawiszem na "
+"pianinie. Oznacza to, że kod `play 48` to dźwięk o jedną nutę wyższy ("
+"następny klawisz po prawej). Tak się składa, że nuta C w 4-tej oktawie "
+"odpowiada liczbie 60. Śmiało, spróbuj zagrać ten dźwięk: `play 60`."
 
 #: 02.1-Your-First-Beeps.md:42
-#, fuzzy
 msgid ""
 "*Don't worry* if this means nothing to you - it didn't to me when I first star"
 "ted. All that matters right now is that you know that *low numbers make lower "
 "beeps* and *high numbers make higher beeps*."
 msgstr ""
-"*Nie przejmuj się* jeśli nic z tego nie rozumiesz - ja również nie rozumiałem "
-"gdy zaczynałem na poczatku tak jak Ty teraz. Wszystko co się teraz liczy to to"
-", że wiesz, że *małe liczby powodują bipy o niskim brzmieniu* a *duże liczby p"
-"owodują bipy o wyższym brzmieniu*."
+"*Nie przejmuj się* jeśli nic z tego nie rozumiesz - ja również nie "
+"rozumiałem gdy zaczynałem, dokładnie jak Ty teraz. Wszystko co się teraz "
+"liczy to to, że wiesz już, że *małe liczby generują dźwięki o niskim "
+"brzmieniu* a *duże liczby generują dźwięki o wyższym brzmieniu*."
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
 msgid "Chords"
@@ -792,16 +787,15 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:57
-#, fuzzy
 msgid ""
 "Jazzy! So, when you write multiple `play`s, they all play at the same time. Tr"
 "y it for yourself - which numbers sound good together? Which sound terrible? E"
 "xperiment, explore and find out for yourself."
 msgstr ""
-"Super! Zauważ, że kiedy napiszesz kilka razy komendę `play`, wszytkie dźwięki "
-"zagrają w tym samym momencie. Teraz spróbuj sam - które liczby brzmią razem do"
-"brze? Które brzmią okropnie? Eksperymentuj, odkrywaj i przekonaj się na własne"
-"j skórze."
+"Super! Zauważ, że kiedy napiszesz kilka razy komendę `play`, wszystkie "
+"dźwięki zagrają w tym samym momencie. Teraz spróbuj sam - które dźwięki "
+"brzmią dobrze razem? Które brzmią okropnie? Eksperymentuj, odkrywaj i "
+"przekonaj się na własnej skórze."
 
 #: 02.1-Your-First-Beeps.md:61
 #, fuzzy
@@ -809,16 +803,15 @@ msgid "Melody"
 msgstr "Melodia"
 
 #: 02.1-Your-First-Beeps.md:63
-#, fuzzy
 msgid ""
 "So, playing notes and chords is fun - but how about a melody? What if you want"
 "ed to play one note after another and not at the same time? Well, that's easy,"
 " you just need to `sleep` between the notes:"
 msgstr ""
-"Granie nut i akordów jest fajne - a co powiesz na zagranie melodii? Co jeśli c"
-"hciałbyś zagrać jedną nutę po drugiej ale nie w tym samym czasie? Nic prostsze"
-"go, wystarczy że odczekasz kawałek czasu pomiędzy poszczególnymi nutami używaj"
-"ąc polecenia `sleep`:"
+"Granie nut i akordów jest fajne - a co powiesz na zagranie melodii? Co jeśli "
+"chciałbyś zagrać jedną nutę po drugiej, a nie obie w tym samym czasie? Nic "
+"prostszego, wystarczy że odczekasz chwilę pomiędzy zagraniem poszczególnych "
+"nut. Możesz to zrobić używając polecenia `sleep`:"
 
 #: 02.1-Your-First-Beeps.md:67
 #, no-wrap
@@ -844,13 +837,13 @@ msgid ""
 "to make our arpeggio a little faster? Well, we need to use shorter sleep value"
 "s. What about a half i.e. `0.5`:"
 msgstr ""
-"Cudownie, właśnie stworzyłeś małe arpeggio. No dobrze, ale co oznacza liczba `"
-"1` w poleceniu `sleep 1`? Oznacza to *długość trwania odstępu pomiędzy nutami*"
-". Zasadniczo oznacza to odstęp o długości jednego uderzenia, ale póki co możes"
-"z myśleć o tym jako o przeczekaniu 1-ną sekundę. Co powinniśmy w takim razie z"
-"robić jeśli chcielibyśmy trochę przyśpieszyć nasze arpeggio? Jedyne co musimy "
-"zrobić to użyć \"krótszych\" wartości dla polecenia sleep. Weźmy na przykład poł"
-"owę, czyli wartość `0.5`:"
+"Cudownie, właśnie stworzyłeś małe arpeggio. No dobrze, ale co oznacza liczba "
+"`1` w poleceniu `sleep 1`? Oznacza ona *długość trwania odstępu pomiędzy "
+"nutami*. Zasadniczo oznacza to odstęp o długości jednego uderzenia, ale póki "
+"co możesz myśleć o tym jako o przeczekaniu jednej sekundy. Co powinniśmy w "
+"takim razie zrobić, jeśli chcielibyśmy trochę przyśpieszyć nasze arpeggio? "
+"Jedyne co musimy zrobić to użyć \"krótszych\" wartości dla polecenia sleep. "
+"Weźmy na przykład połowę, czyli wartość `0.5`:"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -868,26 +861,24 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:89
-#, fuzzy
 msgid ""
 "Notice how it plays faster. Now, try for yourself, change the times - use diff"
 "erent times and notes."
 msgstr ""
-"Zauważ, że arpeggio gra teraz szybciej. Teraz twoja kolej, pobaw się tym kawał"
-"kiem kodu zmieniając czasy na takie jak uważasz, tak jak wcześniej spróbuj uży"
-"ć przy tym różnych nut."
+"Zauważ, że arpeggio gra teraz szybciej. Teraz twoja kolej, pobaw się tym "
+"kawałkiem kodu zmieniając czasy według własnego uznania oraz używając "
+"różnych nut."
 
 #: 02.1-Your-First-Beeps.md:92
-#, fuzzy
 msgid ""
 "One thing to try is in-between notes such as `play 52.3` and `play 52.63`. The"
 "re's absolutely no need to stick to standard whole notes. Play around and have"
 " fun."
 msgstr ""
-"Jest jedna rzecz, którą szczególnie warto wypróbować. Spróbuj użyć nut, które "
-"są \"pomiędzy\" całymi nutami, np. `play 52.3`, `play 52.63`. Nie ma absolutnie "
-"żadnej konieczności, abyś kurczowo trzymał się standardowych pełnych nut. Komb"
-"inuj z różnymi wartościami i baw się dobrze."
+"Jest jeszcze jedna rzecz, którą warto wypróbować. Spróbuj użyć nut, które są "
+"\"pomiędzy\" całymi nutami, np. `play 52.3`, `play 52.63`. Nie ma absolutnie "
+"żadnej konieczności, abyś kurczowo trzymał się standardowych, pełnych nut. "
+"Pokombinuj z różnymi wartościami i baw się dobrze."
 
 #: 02.1-Your-First-Beeps.md:97
 #, fuzzy
