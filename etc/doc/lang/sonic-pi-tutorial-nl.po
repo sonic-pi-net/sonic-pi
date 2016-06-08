@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-06 13:32+0000\n"
+"PO-Revision-Date: 2016-06-08 13:37+0000\n"
 "Last-Translator: nico staelens <nickstaelens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/nl/>\n"
@@ -2981,11 +2981,11 @@ msgstr ""
 
 #: 03.7-Sample-Packs.md:1
 msgid "3.7 Sample Packs"
-msgstr ""
+msgstr "3.7 Sample Packs"
 
 #: 03.7-Sample-Packs.md:3
 msgid "Sample Packs"
-msgstr ""
+msgstr "Sample Packs"
 
 #: 03.7-Sample-Packs.md:5
 msgid ""
@@ -2994,72 +2994,83 @@ msgid ""
 "downloaded or bought your own sample packs and wish to use them within Sonic "
 "Pi.**"
 msgstr ""
+"**Opmerking dit gedeelte van de handleiding behandeld een meer geavanceerd "
+"thema, nl. over het werken met grote bestanden van eigen samples. Dit zal "
+"bijvoorbeeld het geval zijn als je sample packs kocht of hebt gedownload en "
+"deze in Sonic Pi wenst te gebruiken.**"
 
 #: 03.7-Sample-Packs.md:10
 msgid ""
 "**Feel free to skip this if you're happy working with the built-in samples.**"
 msgstr ""
+"**U mag dit gedeelte gerust overslaan wanneer je tevreden bent met de "
+"ingebouwde samples.**"
 
 #: 03.7-Sample-Packs.md:13
 msgid ""
 "When working with large folders of external samples it can be cumbersome to "
 "have to type the whole path every time to trigger an individual sample."
 msgstr ""
+"Wanneer je werkt met grote mappen van externe samples kan het erg onhandig "
+"zijn om telkens het hele pad te typen die jouw eigen samples triggeren."
 
 #: 03.7-Sample-Packs.md:17
 msgid "For example, say you have the following folder on your machine:"
-msgstr ""
+msgstr "Bijvoorbeeld, stel dat je de volgende map hebt op je computer:"
 
 #: 03.7-Sample-Packs.md:19
 #, no-wrap
 msgid "/path/to/my/samples/"
-msgstr ""
+msgstr "/path/to/my/samples/"
 
 #: 03.7-Sample-Packs.md:23
 msgid "When we look inside that folder we find the following samples:"
-msgstr ""
+msgstr "Als we in die map kijken vinden we de volgende voorbeelden:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
-msgstr ""
+msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
 msgid "`100_A#_melody2.wav`"
-msgstr ""
+msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
 msgid "`100_A#_melody3.wav`"
-msgstr ""
+msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
 msgid "`120_A#_melody4.wav`"
-msgstr ""
+msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
 msgid "`120_Bb_guit1.wav`"
-msgstr ""
+msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
 msgid "`120_Bb_piano1.wav`"
-msgstr ""
+msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
 msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr ""
+"Om de piano sample te spelen gebruiken we dan normaal gezien het volledige "
+"pad:"
 
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
-msgstr ""
+msgstr "sample \"/pad/naar/mijn/samples/120_Bb_piano1.wav\""
 
 #: 03.7-Sample-Packs.md:38
 msgid "If we want to then play the guitar sample we can use its full path too:"
 msgstr ""
+"Om vervolgens de gitaar sample te willen gebruiken we ook het volledige pad:"
 
 #: 03.7-Sample-Packs.md:40
 #, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_guit.wav\""
-msgstr ""
+msgstr "sample \"/pad/naar/mijn/samples/120_Bb_guit.wav\""
 
 #: 03.7-Sample-Packs.md:44
 msgid ""
@@ -3067,25 +3078,32 @@ msgid ""
 "the samples within our directory. What if we just want to listen to each "
 "sample in turn quickly?"
 msgstr ""
+"Echter, om beide samples op te roepen zijn we genoodzaakt te weten welke de "
+"naam is van deze samples in onze map. Wat als we  snel door onze samples "
+"willen gaan om deze even te beluisteren?"
 
 #: 03.7-Sample-Packs.md:48
 msgid "Indexing Sample Packs"
-msgstr ""
+msgstr "Sample Packs Indexeren"
 
 #: 03.7-Sample-Packs.md:50
 msgid ""
 "If we want to play the first sample in a directory we just need to pass the "
 "directory's name to `sample` and the index `0` as follows:"
 msgstr ""
+"Als we de eerste sample binnen een map willen spelen moeten we alleen de "
+"naam van de map doorgeven aan `sample` en de index `0` als volgt:"
 
 #: 03.7-Sample-Packs.md:53
 #, no-wrap
 msgid "sample \"/path/to/my/samples/\", 0"
-msgstr ""
+msgstr "sample \"/pad/naar/mijn/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
 msgstr ""
+"We kunnen zelfs een binnenweg maken naar ons pad van de map met behulp van "
+"een variabele:"
 
 #: 03.7-Sample-Packs.md:59
 #, no-wrap
@@ -3093,12 +3111,16 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 0"
 msgstr ""
+"samps = \"/pad/naar/mijn/samples/\"\n"
+"sample samps, 0"
 
 #: 03.7-Sample-Packs.md:64
 msgid ""
 "Now, if we want to play the second sample in our directory, we just need to "
 "add 1 to our index:"
 msgstr ""
+"Als we dan de tweede sample in onze folder willen afspelen, moeten we gewoon "
+"1 aan onze index toevoegen:"
 
 #: 03.7-Sample-Packs.md:67
 #, no-wrap
@@ -3106,6 +3128,8 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 1"
 msgstr ""
+"samps = \"/pad/naar/mijn/samples/\"\n"
+"sample samps, 1"
 
 #: 03.7-Sample-Packs.md:72
 msgid ""
@@ -3115,10 +3139,16 @@ msgid ""
 "simply wraps round just like Rings. Therefore, whatever number we use we're "
 "guaranteed to get one of the samples in that directory."
 msgstr ""
+"Merk op dat we hierbij niet meer de naam van de sample in de map hoeven op "
+"te geven,  alleen de map zelf (of de snelkoppeling). Als we nu een "
+"indexnummer zouden gebruiken dat hoger is dan het aantal samples, gaan de "
+"eerste samples in de map terug aan de beurt komen, als in een kring werpt "
+"deze er zich rond. Welk nummer we ook gaan gebruiken, we komen gegarandeerd "
+"één van onze samples tegen in deze map."
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
-msgstr ""
+msgstr "Sample Packs Filteren"
 
 #: 03.7-Sample-Packs.md:81
 msgid ""
@@ -3127,6 +3157,10 @@ msgid ""
 "the filenames. Let's take another look at the sample file names in our "
 "directory:"
 msgstr ""
+"Meestal is indexeren genoeg, maar soms moeten we wat meer \"power\" hebben "
+"om onze samples te sorteren en te organiseren. Gelukkig voegen veel sample "
+"packs nuttige informatie in de bestandsnamen toe. Laten we nog eens kijken "
+"naar de sample-bestandsnamen in onze folder:"
 
 #: 03.7-Sample-Packs.md:93
 msgid ""
@@ -3138,6 +3172,14 @@ msgid ""
 "our other code. For example, we know we can only play the piano sample with "
 "code that's in 120 BPM and in the key of Bb."
 msgstr ""
+"Merk op dat we in deze bestandsnamen vrij veel informatie hebben. Ten eerste "
+"hebben we de BPM van de sample (beats per minute) aan het begin. Dus, de "
+"piano sample bedraagt 120 BPM en onze eerste drie melodieën hebben 100 BPM. "
+"Ook bevatten onze samples,de toonhoogte (key). Dus de sample van de gitaar "
+"is in Bb en de melodieën zijn in A #. Deze informatie is zeer nuttig bij het "
+"mengen van deze samples, samen met onze andere code. Bijvoorbeeld, nu weten "
+"we dat de piano sample enkel in een code past die 120 BPM heeft met "
+"toonhoogte van Bb."
 
 #: 03.7-Sample-Packs.md:102
 msgid ""
@@ -3146,6 +3188,10 @@ msgid ""
 "we're working at 120 BPM, we can filter down to all the samples that contain "
 "the string `\"120\"` with the following:"
 msgstr ""
+"Het komt wel goed uit dat we deze bijzondere naamgeving van onze sample sets "
+"ook in de code kunnen gebruiken om onze samples uit te filteren naar degene "
+"die we willen. Bijvoorbeeld, als we op 120 BPM werken, kunnen we als volgt, "
+"alle samples uitfilteren die de tekenreeks `\"120\"` bevatten:"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
@@ -3153,12 +3199,16 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\""
 msgstr ""
+"samps = \"/pad/naar/mijn/samples/\"\n"
+"sample samps, \"120\""
 
 #: 03.7-Sample-Packs.md:112
 msgid ""
 "This will play us the first match. If we want the second match we just need "
 "to use the index:"
 msgstr ""
+"Deze zal ons een eerste filtering opleveren. Als we verder willen gaan "
+"zoeken naar een sample die goed past, kunnen we de index gebruiken:"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -3166,6 +3216,8 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", 1"
 msgstr ""
+"samps = “/pad/naar/mijn/samples/\"\n"
+"sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120
 msgid ""
@@ -3173,6 +3225,10 @@ msgid ""
 "sample whose filename contains both the substrings \"120\" and \"A#\" we can "
 "find it easily with the following code:"
 msgstr ""
+"We kunnen zelfs meerdere filters tegelijk gebruiken. Bijvoorbeeld, als we "
+"willen dat een sample waarvan de bestandsnaam zowel de subtekenreeksen \""
+"120\" en \"A#\" bevat, kunnen we die met de volgende code gemakkelijk "
+"terugvinden:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -3180,11 +3236,15 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"A#\""
 msgstr ""
+"samps = \"/pad/naar/mijn/samples/\"\n"
+"sample samps, \"120\", \"A#\""
 
 #: 03.7-Sample-Packs.md:129
 msgid ""
 "Finally, we're still free to add our usual opts to the call to `sample`:"
 msgstr ""
+"Voorts zijn we nog altijd vrij om onze gebruikelijke opties voor de weergave "
+"van onze `sample` toe te voegen:"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -3192,10 +3252,12 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 msgstr ""
+"samps = \"/pad/naar/mijn/samples/\"\n"
+"sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 
 #: 03.7-Sample-Packs.md:136
 msgid "Sources"
-msgstr ""
+msgstr "Bronnen"
 
 #: 03.7-Sample-Packs.md:138
 msgid ""
@@ -3203,16 +3265,24 @@ msgid ""
 "sources and filters. Sources are information used to create the list of "
 "potential candidates. A source can take two forms:"
 msgstr ""
+"Het prearg(-umenten) van het sample filtersysteem herkent twee informatie "
+"types: bronnen en filters. Bronnen worden gebruikt om een lijst van "
+"potentiële te maken. Een bron kan twee vormen aannemen: Een bron kan twee "
+"vormen aannemen:"
 
 #: 03.7-Sample-Packs.md:142
 msgid ""
 "\"/path/to/samples\" - a string representing a valid path to a directory"
 msgstr ""
+"\"/pad/naar/samples\" - een tekenreeks dat een geldig pad naar een map "
+"weergeeft"
 
 #: 03.7-Sample-Packs.md:143
 msgid ""
 "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
+"\"/pad/naar/samples/foo.wav\" - en tekenreeks die een geldig pad naar een "
+"sample weergeeft"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -3221,10 +3291,14 @@ msgid ""
 "and then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` "
 "files contained within the directories."
 msgstr ""
+"De `sample` functie zal eerst alle bronnen verzamelen en deze gebruiken om "
+"een lange lijst van kandidaten te maken.Deze lijst wordt gevormd door eerst "
+"alle geldige paden toe te voegen en daarna alle geldige  `.flac`, `.aif`, "
+"`.aiff`, `.wav`, `.wave` bestanden die deze mappen bevatten."
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "Kijk bijvoorbeeld even naar deze code:"
 
 #: 03.7-Sample-Packs.md:152
 #, no-wrap
@@ -3234,6 +3308,10 @@ msgid ""
 "path = \"/path/to/my/samples3/foo.wav\"\n"
 "sample samps, samps2, path, 0"
 msgstr ""
+"samps = \"/pad/naar/mijn/samples/\"\n"
+"samps2 = \"/pad/naar/mijn/samples2/\"\n"
+"path = \"/pad/naar/mijn/samples3/foo.wav\"\n"
+"sample samps, samps2, path, 0"
 
 #: 03.7-Sample-Packs.md:160
 msgid ""
@@ -3242,6 +3320,10 @@ msgid ""
 "and `\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples "
 "to index and filter (3 + 12 + 1)."
 msgstr ""
+"Hier combineren we de inhoud van de samples binnen twee mappen en het "
+"toevoegen van een specifieke sample. Als `\"/pad/naar/mijn/samples/\"` 3 "
+"samples bevat en  `\"/pad/naar/mijn/samples/\"` bevat er 12, zouden we 16 "
+"potentiële samples om te indexeren en te filteren hebben (3 + 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -3251,6 +3333,11 @@ msgid ""
 "recursive search for all samples within all subfolders of a particular "
 "folder by adding `**` to the end of the path:"
 msgstr ""
+"Standaard worden alleen de voorbeeldbestanden binnen een map in de lijst met "
+"kandidaten verzameld. Soms heb je misschien een aantal geneste mappen van "
+"samples die je lokaal wil gaan zoeken en filteren. Je kan daarom een "
+"recursieve zoekopdracht voor alle samples in alle sub-mappen van een "
+"bepaalde map doen door toevoeging van `**` aan het einde van het pad:"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -3258,6 +3345,8 @@ msgid ""
 "samps = \"/path/to/nested/samples/**\"\n"
 "sample samps, 0"
 msgstr ""
+"samps = \"/pad/naar/geneste/samples/**\"\n"
+"sample samps, 0"
 
 #: 03.7-Sample-Packs.md:176
 msgid ""
@@ -3265,6 +3354,9 @@ msgid ""
 "long time. However, the contents of all folder sources are cached, so the "
 "delay will only happen the first time."
 msgstr ""
+"Hou er wel rekening mee dat als je door een groot aantal folders gaat "
+"zoeken,dit veel tijd in beslag kan nemen. Maar de inhoud van alle "
+"folderbronnen worden ge-cached, dus de vertraging zal maar één keer optreden."
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
@@ -3272,34 +3364,45 @@ msgid ""
 "the set of built-in samples will be selected as the default list of "
 "candidates to work with."
 msgstr ""
+"Ten slotte, merk op dat de bronnen *eerst moeten gaan*. Als er geen bron is "
+"opgegeven, zal de set van ingebouwde samples geselecteerd worden als de "
+"standaardlijst van kandidaten om mee te werken."
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
-msgstr ""
+msgstr "Filters"
 
 #: 03.7-Sample-Packs.md:186
 msgid ""
 "Once you have a list of candidates you may use the following filtering types "
 "to further reduce the selection:"
 msgstr ""
+"Als u eenmaal een lijst van kandidaten hebt mag u het volgende filter typen "
+"om de selectie verder te reduceren:"
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name "
 "(minus directory path and extension)."
 msgstr ""
+"`\"foo\"` Tekenreeksen zullen filteren op sub-tekenreeksen gebeurtenissen "
+"binnen de bestandsnaam (min het pad van de map en de extensie)."
 
 #: 03.7-Sample-Packs.md:190
 msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name "
 "(minus directory path and extension)."
 msgstr ""
+"`/fo[oO]/` Reguliere expressies zullen filteren op patroonherkenning van "
+"bestandsnamen (min het pad van de map en de extensie)."
 
 #: 03.7-Sample-Packs.md:191
 msgid ""
 "`:foo` - Keywords will filter candidates on whether the keyword is a direct "
 "match of the filename (minus directory path and extension)."
 msgstr ""
+"`:foo` -trefwoorden zullen naar kandidaten filteren op basis van hun "
+"gelijkenis met de bestandsnaam (min het pad van de map en extentie)."
 
 #: 03.7-Sample-Packs.md:192
 msgid ""
@@ -3308,33 +3411,45 @@ msgid ""
 "candidates and must return a new list of candidates (a list of valid paths "
 "to sample files)."
 msgstr ""
+"`lambda{|a| ... }` - Procedures met één argument zullen als een kandidaat-"
+"filter gezien worden of als een genereer-functie. \n"
+"Het zal worden doorgegeven aan de lijst van de huidige kandidaten en moet "
+"een nieuwe lijst van kandidaten oproepen ( een lijst met geldige paden naar "
+"sample bestanden)."
 
 #: 03.7-Sample-Packs.md:193
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like "
 "a ring if necessary)."
 msgstr ""
+"`1` - Nummers zullen de kandidaat met dit index selecteren (en als een kring "
+"rond gaan als dit nodig is)."
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
 "For example, we can filter over all the samples in a directory containing "
 "the string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
+"We kunnen bijvoorbeeld alle samples filteren in een map die bevat de "
+"tekenreeks `\"foo\"` bevat en de eerste overeenkomende sample spelen op "
+"halve snelheid:"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
 msgid "sample \"/path/to/samples\", \"foo\", rate: 0.5"
-msgstr ""
+msgstr "sample \"/pad/naar/samples\", \"foo\", rate: 0.5"
 
 #: 03.7-Sample-Packs.md:203
 msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the "
 "ordering of the filters is honoured."
 msgstr ""
+"Zie hulp voor `sample` voor vele gedetailleerde gebruiksvoorbeelden. Merk op "
+"dat de volgorde van de filters geëerd wordt."
 
 #: 03.7-Sample-Packs.md:206
 msgid "Composites"
-msgstr ""
+msgstr "Mengsels"
 
 #: 03.7-Sample-Packs.md:208
 msgid ""
@@ -3343,6 +3458,10 @@ msgid ""
 "regular sources and filters. Therefore the following calls to `sample` are "
 "semantically equivalent:"
 msgstr ""
+"En tot slot, je mag lijsten gebruiken waar ook je een bron of filter kan "
+"plaatsen. De lijst zal automatisch afgevlakt worden en hun inhoud zal als "
+"reguliere bronnen en filters behandeld worden. Daarom zijn de volgende "
+"aanroepen naar `sample`, semantisch equivalent:"
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -3352,10 +3471,14 @@ msgid ""
 "sample \"/path/to/dir\", [\"100\", \"C#\"]\n"
 "sample [\"/path/to/dir\", [\"100\", [\"C#\"]]]"
 msgstr ""
+"sample \"/pad/naar/map\", \"100\", \"C#\"\n"
+"sample [\"/pad/naar/map\", \"100\", \"C#\"]\n"
+"sample \"/pad/naar/map\", [\"100\", \"C#\"]\n"
+"sample [\"/pad/naar/map\", [\"100\", [\"C#\"]]]"
 
 #: 03.7-Sample-Packs.md:220
 msgid "Wrapping Up"
-msgstr ""
+msgstr "Rond Wikkelen"
 
 #: 03.7-Sample-Packs.md:222
 msgid ""
@@ -3365,14 +3488,20 @@ msgid ""
 "However, you'll know when you do need it and you can come back and re-read "
 "this when you start working with large directories of samples."
 msgstr ""
+"Dit was een geavanceerd gedeelte voor mensen die veel kracht om sample packs "
+"te manipuleren en gebruiken nodig hebben. Moest het meeste van dit deel "
+"vraagtekens oproepen, geen nood. Waarschijnlijk hebt u dan deze "
+"functionaliteit nu nog niet echt nodig. Je zal wel merken wanneer je er aan "
+"toe bent om dan terug te keren naar dit gedeelte om met grote sample "
+"bestanden te gaan werken."
 
 #: 04-Randomisation.md:1
 msgid "4 Randomisation"
-msgstr ""
+msgstr "4 Randomiseren"
 
 #: 04-Randomisation.md:3
 msgid "Randomisation"
-msgstr ""
+msgstr "Randomiseren"
 
 #: 04-Randomisation.md:5
 msgid ""
@@ -3381,10 +3510,15 @@ msgid ""
 "music, but before we start we need to learn a shocking truth: in Sonic Pi "
 "*random is not truly random*. What on earth does this mean? Well, let's see."
 msgstr ""
+"Een geweldige manier om jouw muziek interessant te maken is het gebruik van "
+"willekeurige getallen. Sonic Pi heeft een goede functionaliteit om "
+"willekeurigheid in jouw muziek toe te voegen, maar eerst moeten we naakte "
+"waarheid onder ogen zien: in Sonic Pi is *random geen echte random*. Wat "
+"heeft dit nu weer te betekenen? Laat ons eens kijken."
 
 #: 04-Randomisation.md:11
 msgid "Repeatability"
-msgstr ""
+msgstr "Herhaalbaarheid"
 
 #: 04-Randomisation.md:13
 msgid ""
@@ -3392,11 +3526,15 @@ msgid ""
 "value between two numbers - a *min* and a *max*. (`rrand` is short for "
 "ranged random). Let's try playing a random note:"
 msgstr ""
+"Een heel nuttige willekeurige functie is 'rrand', welke je een willekeurige "
+"waarde tussen twee nummers geeft - een *min* en *max*. ('rrand' is kort voor "
+"ranged random (willekeurigen binnen een bepaald bereik)). Laten we proberen "
+"een willekeurige opmerking te spelen:"
 
 #: 04-Randomisation.md:17
 #, no-wrap
 msgid "play rrand(50, 95)"
-msgstr ""
+msgstr "play rrand(50, 95)"
 
 #: 04-Randomisation.md:21
 msgid ""
@@ -3405,6 +3543,11 @@ msgid ""
 "got too? Something fishy is going on here. Try running the code again. What? "
 "It chose `83.7527` again? That can't be random!"
 msgstr ""
+"Ooh het speelt een willekeurige noot. Het speelde de noot `83.7527`. Een "
+"mooie willekeurige noot tussen 50 en 95. Hu, heb ik nu net de willekeurige "
+"noot die jij ook had exact voorspeld? Hier is iets verdacht gaande. Probeer "
+"de code nu nog eens opnieuw uit te voeren. Wat?? Het koos `83.7527` opnieuw? "
+"Niet echt random dus!"
 
 #: 04-Randomisation.md:26
 msgid ""
@@ -3414,6 +3557,11 @@ msgid ""
 "everybody else's machine - even if you use some randomness in your "
 "composition."
 msgstr ""
+"Het antwoord is, dat deze niet echt random is, maar pseudo-random. Sonic Pi "
+"zal jou random-achtige cijfers geven op een repetitieve manier. Dit is heel "
+"nuttig om ervoor te zorgen dat jouw muziek,gemaakt op jou toestel, hetzelfde "
+"klinkt op iemand anders toestel, ook al heb je de functie van randomiseren "
+"gebruikt in je compositie."
 
 #: 04-Randomisation.md:32
 msgid ""
@@ -3421,6 +3569,9 @@ msgid ""
 "time, then it wouldn't be very interesting. However, it doesn't. Try the "
 "following:"
 msgstr ""
+"Natuurlijk, bij een zeker stukje muziek, moest het elke keer 'random' "
+"`83.7527` kiezen, dan zou het niet interessant meer zijn. Maar dat doet het "
+"niet. Probeer het volgende:"
 
 #: 04-Randomisation.md:36
 #, no-wrap
@@ -3430,6 +3581,10 @@ msgid ""
 "  sleep 0.5\n"
 "end "
 msgstr ""
+"loop do\n"
+"  play rrand(50, 95)\n"
+"  sleep 0.5\n"
+"end "
 
 #: 04-Randomisation.md:43
 msgid ""
@@ -3440,10 +3595,16 @@ msgid ""
 "point every time the Run button was pressed. It's the Groundhog Day of music "
 "synthesis!"
 msgstr ""
+"Ja, Eindelijk klinkt het random. Binnen een gegeven doorloop gaan de "
+"volgende opvragingen naar random functies randum waarden weergeven. Bij de "
+"daar opvolgende doorloop gaan zij echter exact dezelfde sequentie van deze "
+"random waarden spelen en dus net hetzelfde klinken. Alsof Sonic Pi terug in "
+"de tijd ging naar exact hetselfde punt elke keer de afspeelknop werd "
+"ingedrukt. De \"Groundhog Day\" in de wereld van muziek synthese!"
 
 #: 04-Randomisation.md:50
 msgid "Haunted Bells"
-msgstr ""
+msgstr "\"Haunted Bells\""
 
 #: 04-Randomisation.md:52
 msgid ""
@@ -3451,6 +3612,9 @@ msgid ""
 "example which loops the `:perc_bell` sample with a random rate and sleep "
 "time between bell sounds:"
 msgstr ""
+"Een mooie illustratie van randomiseren in actie is het voorbeeld \"haunted "
+"bell's\" die de `:perc_bell`' sample laat \"loop-en\" met een willekeurige "
+"rate en sleep tijd tussen de klokkengeluiden:"
 
 #: 04-Randomisation.md:56
 #, no-wrap
@@ -3460,16 +3624,23 @@ msgid ""
 "  sleep rrand(0.2, 2)\n"
 "end"
 msgstr ""
+"loop do\n"
+"  sample :perc_bell, rate: (rrand 0.125, 1.5)\n"
+"  sleep rrand(0.2, 2)\n"
+"end"
 
 #: 04-Randomisation.md:63
 msgid "Random cutoff"
-msgstr ""
+msgstr "Random cutoff"
 
 #: 04-Randomisation.md:65
 msgid ""
 "Another fun example of randomisation is to modify the cutoff of a synth "
 "randomly. A great synth to try this out on is the `:tb303` emulator:"
 msgstr ""
+"Een ander leuk voorbeeld van randomiseren is het willekeurig wijzigen van de "
+"cutoff van een synth. Een geweldige synth om dit op uit te proberen is de ': "
+"tb303' emulator:"
 
 #: 04-Randomisation.md:69
 #, no-wrap
@@ -3480,10 +3651,15 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"loop do\n"
+"  play 50, release: 0.1, cutoff: rrand(60, 120)\n"
+"  sleep 0.125\n"
+"end"
 
 #: 04-Randomisation.md:78
 msgid "Random seeds"
-msgstr ""
+msgstr "Random \"seeds\""
 
 #: 04-Randomisation.md:80
 msgid ""
@@ -3492,10 +3668,14 @@ msgid ""
 "via `use_random_seed`. The default seed happens to be 0, so choose a "
 "different seed for a different random experience!"
 msgstr ""
+"Dus, wat als deze bijzondere reeks willekeurige getallen die  Sonic Pi "
+"biedt  je niet bevalt ? Nou is het volledig mogelijk om een ander "
+"uitgangspunt  te kiezen via 'use_random_seed'. De standaard seed instelling "
+"is 0, kies dus een andere seed voor een andere  ervaring in randomisering!"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
-msgstr ""
+msgstr "Houd rekening met het volgende:"
 
 #: 04-Randomisation.md:87
 #, no-wrap
@@ -3505,12 +3685,18 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"5.times do\n"
+"  play rrand(50, 100)\n"
+"  sleep 0.5\n"
+"end"
 
 #: 04-Randomisation.md:94
 msgid ""
 "Every time you run this code, you'll hear the same sequence of 5 notes. To "
 "get a different sequence simply change the seed:"
 msgstr ""
+"Telkens wanneer u deze code uitvoert, zult u dezelfde sequentie van 5 noten "
+"horen. Voor een andere volgorde verander gewoon de seed:"
 
 #: 04-Randomisation.md:97
 #, no-wrap
@@ -3521,6 +3707,11 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"use_random_seed 40\n"
+"5.times do\n"
+"  play rrand(50, 100)\n"
+"  sleep 0.5\n"
+"end"
 
 #: 04-Randomisation.md:105
 msgid ""
@@ -3528,14 +3719,18 @@ msgid ""
 "listening to the results you can find something that you like - and when you "
 "share it with others, they will hear exactly what you heard too."
 msgstr ""
+"Dit zal een andere sequentie van 5 noten produceren. Door het veranderen van "
+"de seed en door het beluisteren van de resultaten vindt u  wel iets dat u "
+"goed vind - en wanneer u deze met anderen deelt, horen zij precies wat u ook "
+"hebt gehoord."
 
 #: 04-Randomisation.md:110
 msgid "Let's have a look at some other useful random functions."
-msgstr ""
+msgstr "Laten we eens kijken naar enkele andere nuttige randomisering functies."
 
 #: 04-Randomisation.md:113
 msgid "choose"
-msgstr ""
+msgstr "choose"
 
 #: 04-Randomisation.md:115
 msgid ""
@@ -3546,15 +3741,22 @@ msgid ""
 "them in square brackets and separating them with commas: `[60, 65, 72]`. "
 "Next I just need to pass them to `choose`:"
 msgstr ""
+"Een zeer gebruikelijk actie zou zijn, random te kiezen uit een lijst van "
+"gekende items. Bijvoorbeeld, ik zou één van de volgende noten willen spelen: "
+"60, 65 of 72. Ik kan dit bewerkstelligen met `choose` die mij een item uit "
+"een lijst laat kiezen. Eerst moet ik mijn getallen in een lijst zetten, "
+"hetgeen ik kan doen door deze in rechthoekige haakjes te plaatsen en door "
+"middel van komma's te scheiden: : `[60, 65, 72]. Vervolgens moet ik deze "
+"doorgeven aan  `choose`:"
 
 #: 04-Randomisation.md:122
 #, no-wrap
 msgid "choose([60, 65, 72])"
-msgstr ""
+msgstr "choose([60, 65, 72])"
 
 #: 04-Randomisation.md:126
 msgid "Let's hear what that sounds like:"
-msgstr ""
+msgstr "Laten we eens horen hoe dat klinkt:"
 
 #: 04-Randomisation.md:128
 #, no-wrap
@@ -3564,10 +3766,14 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
+"loop do\n"
+"  play choose([60, 65, 72])\n"
+"  sleep 1\n"
+"end"
 
 #: 04-Randomisation.md:135
 msgid "rrand"
-msgstr ""
+msgstr "rrand"
 
 #: 04-Randomisation.md:137
 msgid ""
@@ -3577,10 +3783,17 @@ msgid ""
 "number will always be a float - meaning it's not a whole number but a "
 "fraction of a number. Examples of floats returned by `rrand(20, 110)`:"
 msgstr ""
+"We hebben `rrand` al gezien, maar laat ons deze nog even overlopen. Deze "
+"reproduceert een willekeurig getal tussen twee getallen die hierbij "
+"exclusief zijn. Dit wil zeggen dat deze getallen,noch het onderste, noch het "
+"bovenrste zal weergeven worden, maar altijd een getal tussen die twee. Het "
+"getal zal altijd een niet-geheel getal zijn- wat betekend dat dit nooit een "
+"geheel getal zal zijn, maar een breuk van een getal. Voorbeelden van niet-"
+"gehele getallen die worden gereproduceerd door `rrand(20, 110)`:"
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
-msgstr ""
+msgstr "rrand_i"
 
 #: 04-Randomisation.md:150
 msgid ""
@@ -3590,10 +3803,15 @@ msgid ""
 "inclusive rather than exclusive of the range). Examples of numbers returned "
 "by `rrand_i(20, 110)` are:"
 msgstr ""
+"Soms zal je een geheel getal, willen doen uitkomen in plaats van een niet-"
+"geheel getal in de ranomisering. Hier komt  `rrand_i` redding brengen. Dit "
+"werk het zelfde als `rrand` behalve dat deze hier de min en max waarden als "
+"potentiële random waarden laat uitkomen (inclusief ipv. exclusief bereik). "
+"Voorbeelden van getallen die gereproduceerd kunnen worden door `rrand` zijn:"
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
 msgid ""
