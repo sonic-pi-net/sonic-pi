@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-07 14:32+0000\n"
-"Last-Translator: Szymon Jakubiak <sz.a.jakubiak@gmail.com>\n"
+"PO-Revision-Date: 2016-06-08 00:15+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -556,12 +556,10 @@ msgstr ""
 "jakie Sonic Pi udostępnia do tworzenia muzyki."
 
 #: 01.3-Learning-through-Play.md:1
-#, fuzzy
 msgid "1.3 Learning through Play"
 msgstr "1.3 Nauka przez zabawę"
 
 #: 01.3-Learning-through-Play.md:3
-#, fuzzy
 msgid "Learning through Play"
 msgstr "Nauka przez zabawę"
 
@@ -578,12 +576,10 @@ msgstr ""
 "programować, komponować i tworzyć muzykę na żywo."
 
 #: 01.3-Learning-through-Play.md:10
-#, fuzzy
 msgid "There are no mistakes"
 msgstr "Błędów nie ma"
 
 #: 01.3-Learning-through-Play.md:12
-#, fuzzy
 msgid ""
 "Whilst we're on this subject, let me just give you one piece of advice I've le"
 "arned over my years of live coding with music - *there are no mistakes, only o"
@@ -596,21 +592,21 @@ msgid ""
 "ound, manipulate it and morph it into something awesome. The crowd will go *wi"
 "ld*."
 msgstr ""
-"Skoro jesteśmy przy tym temacie, pozwól że dam Ci jedną radę, coś czego nauczy"
-"łem się przez lata kodowania muzyki na żywo - *błędów nie ma, są tylko nowe mo"
-"żliwości*. To jest coś, co często słyszy się w kontekście muzyki z gatunku jaz"
-"z, ale sprawdza się równie dobrze w odniesieniu do kodowania na żywo. Nie ma z"
-"naczenia jak dużo masz doświadczenia - niezależnie czy jesteś całkowitym żółto"
-"dziobem, czy zaprawionym w bojach Algorejwerem, na pewno zdarzy Ci się napisać"
-" kod, którego wynik po uruchomieniu będzie całkowicie nieprzewidziany. Może to"
-" brzmieć niesamowicie fascynująco - i w tym przypadku faktycznie tak jest. Moż"
-"na też, patrząc na to z innej strony, stwierdzić że brzmi to kiepsko i jest ca"
-"łkowicie nie na miejscu. Pamiętaj, to że to się wydarzyło jest całkowicie niei"
-"stotne - to co jest naprawdę ważne to co z tym zrobisz dalej. Weź dźwięk, mani"
-"puluj nim i przekształć go w coś niesamowitego. Tłum będzie *szalał*."
+"Skoro jesteśmy już przy tym temacie, to pozwól że dam Ci radę, coś czego "
+"nauczyłem się przez lata kodowania muzyki na żywo - *błędów nie ma, są tylko "
+"nowe możliwości*. Jest to zdanie, które często słyszy się w kontekście "
+"muzyki z gatunku jazz, ale sprawdza się równie dobrze w odniesieniu do "
+"kodowania na żywo. Nie ma znaczenia jak dużo masz doświadczenia - "
+"niezależnie czy jesteś całkowitym żółtodziobem, czy zaprawionym w bojach "
+"Algorejwerem, na pewno zdarzy Ci się napisać kod, którego wynik po "
+"uruchomieniu będzie całkowicie niespodziewany. Czasami może brzmieć odlotowo "
+"- i w takim przypadku po prostu pozwól mu grać. Innym razem zdarzy się, że "
+"będzie brzmiał beznadziejnie i totalnie nie będzie pasował do reszty. Ale "
+"pamiętaj, to że się to wydarzyło jest całkowicie nieistotne - ważne jest to "
+"co zrobisz dalej. Weź te brzmienie, zabaw się nim i przekształć go w coś "
+"niesamowitego. Tłum będzie *szalał*."
 
 #: 01.3-Learning-through-Play.md:24
-#, fuzzy
 msgid "Start Simple"
 msgstr "Zacznij od czegoś prostego"
 
@@ -636,22 +632,18 @@ msgstr ""
 "ędziesz tak pochłonięty zabawą, że zaczniesz robić prawdziwe postępy."
 
 #: 01.3-Learning-through-Play.md:35
-#, fuzzy
 msgid "Just make sure to share your work with others!"
 msgstr "Nie zapomnij tylko podzielić się swoją pracą z innymi!"
 
 #: 02-Synths.md:1
-#, fuzzy
 msgid "2 Synths"
 msgstr "2 Syntezatory"
 
 #: 02-Synths.md:3 02.3-Switching-Synths.md:11
-#, fuzzy
 msgid "Synths"
 msgstr "Syntezatory"
 
 #: 02-Synths.md:5
-#, fuzzy
 msgid "OK, enough of the intros - let's get into some sound."
 msgstr "OK, tyle tytułem wstępu - pora zająć się muzyką."
 
@@ -692,7 +684,6 @@ msgid "Your First Beeps"
 msgstr "Twoje pierwsze bipy"
 
 #: 02.1-Your-First-Beeps.md:5
-#, fuzzy
 msgid "Take a look at the following code:"
 msgstr "Spójrz na poniższy kod:"
 
@@ -702,18 +693,16 @@ msgid "play 70"
 msgstr "play 70"
 
 #: 02.1-Your-First-Beeps.md:11
-#, fuzzy
 msgid ""
 "This is where it all starts. Go ahead, copy and paste it into the code window "
 "at the top of the app (the big white space under the Run button). Now, press R"
 "un..."
 msgstr ""
-"To jest miejsce, w którym wszystko się zaczyna. Śmiało, skopiuj powyższy kod i"
-" wklej go do edytora kodu na górze aplikacji (duża biała przestrzeń tuż pod pr"
-"zyciskiem *Run*). Kiedy już to zrobisz, naciśnij przycisk Run..."
+"To jest miejsce, w którym wszystko się zaczyna. Śmiało, skopiuj powyższy kod "
+"i wklej go do edytora kodu na górze aplikacji (duża biała przestrzeń tuż pod "
+"przyciskiem *Run*). Kiedy już to zrobisz, naciśnij przycisk Run..."
 
 #: 02.1-Your-First-Beeps.md:15
-#, fuzzy
 msgid "Beep!"
 msgstr "Bip!"
 
@@ -723,13 +712,13 @@ msgid "Intense. Press it again. And again. *And again...*"
 msgstr "A teraz naciśnij przycisk jescze raz. I jeszcze raz. *I jeszcze raz...*"
 
 #: 02.1-Your-First-Beeps.md:19
-#, fuzzy
 msgid ""
 "Woah, crazy, I'm sure you could keep doing that all day. But wait, before you "
 "lose yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Łał, szaleństwo. Jestem pewien, że możesz tak przez cały dzień. Ale poczekaj. "
-"Zanim zatracisz się w pętli nieskończonych bipów, spróbuj zmienić liczbę:"
+"Łał, szaleństwo. Jestem pewien, że możesz tak przez cały dzień. Ale "
+"poczekaj. Zanim zatracisz się w pętli nieskończonych bipów, spróbuj zmienić "
+"liczbę:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -737,9 +726,8 @@ msgid "play 75"
 msgstr "play 75"
 
 #: 02.1-Your-First-Beeps.md:27
-#, fuzzy
 msgid "Can you hear the difference? Try a lower number:"
-msgstr "Słyszysz różnicę? OK, teraz spróbuj mniejszej liczby:"
+msgstr "Słyszysz różnicę? Teraz spróbuj mniejszej liczby:"
 
 #: 02.1-Your-First-Beeps.md:29
 #, no-wrap
@@ -781,18 +769,16 @@ msgstr ""
 "owodują bipy o wyższym brzmieniu*."
 
 #: 02.1-Your-First-Beeps.md:46 08.2-Chords.md:3
-#, fuzzy
 msgid "Chords"
 msgstr "Akordy"
 
 #: 02.1-Your-First-Beeps.md:48
-#, fuzzy
 msgid ""
 "Playing a note is quite fun, but playing many at the same time can be even bet"
 "ter. Try it:"
 msgstr ""
-"Zagranie nuty jest całkiem fajne, ale zagranie kilku jednocześnie może być jes"
-"zcze fajniejsze. Spróbuj:"
+"Zagranie nuty jest całkiem fajne, ale zagranie kilku jednocześnie może być "
+"jeszcze fajniejsze. Spróbuj:"
 
 #: 02.1-Your-First-Beeps.md:51
 #, no-wrap
@@ -1479,34 +1465,33 @@ msgstr ""
 
 #: 02.3-Switching-Synths.md:86
 msgid "`:prophet`"
-msgstr ""
+msgstr "`:prophet`"
 
 #: 02.3-Switching-Synths.md:87
 msgid "`:dsaw`"
-msgstr ""
+msgstr "`:dsaw`"
 
 #: 02.3-Switching-Synths.md:88
 msgid "`:fm`"
-msgstr ""
+msgstr "`:fm`"
 
 #: 02.3-Switching-Synths.md:89
 msgid "`:tb303`"
-msgstr ""
+msgstr "`:tb303`"
 
 #: 02.3-Switching-Synths.md:90
 msgid "`:pulse`"
-msgstr ""
+msgstr "`:pulse`"
 
 #: 02.3-Switching-Synths.md:92
-#, fuzzy
 msgid ""
 "Now play around with *switching synths during your music*. Have fun combining "
 "synths to make new sounds as well as using different synths for different sect"
 "ions of your music."
 msgstr ""
-"Tera pobaw się *zmieniając syntezatory w trakcie odtwarzania twojej muzyki*. P"
-"róbuj bawić się łącząc ze sobą różne dźwięki aby tworzyć nowe brzmienia jak ró"
-"wnież używająć różnych syntezatorów w różnych sekcjach twojego utworu."
+"Teraz pobaw się *zmieniając syntezatory gdy twoja muzyka wciąż gra*. Próbuj "
+"bawić się łącząc ze sobą różne dźwięki aby tworzyć nowe brzmienia jak "
+"również używając różnych syntezatorów w różnych sekcjach twojego utworu."
 
 #: 02.4-Durations-with-Envelopes.md:1
 #, fuzzy
