@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-05-26 23:52+0000\n"
+"PO-Revision-Date: 2016-06-08 13:23+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -1763,55 +1763,73 @@ msgid ""
 "values for full control over the envelope. This allows you to to create "
 "envelopes such as the following:"
 msgstr ""
+"Inca un truc: desi 'decay_level:' are implicit aceeasi valoare cu "
+"'sustain_level:', poti sa le atribui valori diferite pentru a avea un "
+"control mai bun asupra anvelopei. Acest lucru iti permite sa creezi anvelope "
+"precum cea care urmeaza:"
 
 #: 02.4-Durations-with-Envelopes.md:177
 #, no-wrap
 msgid "play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain: 1, sustain_level: 0.4, release: 0.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 1, decay: 0.2, decay_level: 0.3, sustain:"
+" 1, sustain_level: 0.4, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:181
 msgid "![ASR envelope](../images/tutorial/env-decay-level.png)"
-msgstr ""
+msgstr "![anvelopa ASR](../images/tutorial/env-decay-level.png)"
 
 #: 02.4-Durations-with-Envelopes.md:183
 msgid ""
 "It's also possible to set the `decay_level:` to be higher than "
 "`sustain_level:`:"
 msgstr ""
+"Poti de asemenea sa alegi pentru 'decay_level:' o valoare mai mare decat cea "
+"pentru 'sustain_level:':"
 
 #: 02.4-Durations-with-Envelopes.md:185
 #, no-wrap
 msgid "play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain: 0.5, sustain_level: 0.8, release: 1.5"
 msgstr ""
+"play 60, attack: 0.1, attack_level: 0.1, decay: 0.2, decay_level: 1, sustain:"
+" 0.5, sustain_level: 0.8, release: 1.5"
 
 #: 02.4-Durations-with-Envelopes.md:189
 msgid "![ASR envelope](../images/tutorial/env-decay-level-2.png)"
-msgstr ""
+msgstr "![anvelopa ASR](../images/tutorial/env-decay-level-2.png)"
 
 #: 02.4-Durations-with-Envelopes.md:191
 msgid "ADSR Envelopes"
-msgstr ""
+msgstr "Anvelope ADSR"
 
 #: 02.4-Durations-with-Envelopes.md:193
 msgid "So to summarise, Sonic Pi's ADSR envelopes have the following phases:"
-msgstr ""
+msgstr "In concluzie, in Sonic Pi anvelopele ADSR au urmatoarele faze:"
 
 #: 02.4-Durations-with-Envelopes.md:195
 msgid "*attack* - time from 0 amplitude to the `attack_level`,"
 msgstr ""
+"*attack (atac)* - timpul de la amplitudine 0 la 'attack_level' (nivelul de "
+"atac),"
 
 #: 02.4-Durations-with-Envelopes.md:196
 msgid "*decay* - time to move amplitude from `attack_level` to `decay_level`,"
 msgstr ""
+"*decay (declin)* - timpul de trecere de la amplitudinea nivelului de atac la "
+"cea a nivelului de declin - 'decay_level',"
 
 #: 02.4-Durations-with-Envelopes.md:197
 msgid ""
 "*sustain* - time to move the amplitude from `decay_level` to `sustain_level`,"
 msgstr ""
+"*sustain (sustinut)* - timpul de trecere de la amplitudinea nivelului de "
+"declin la cea a nivelului sustinut - 'sustain_level',"
 
 #: 02.4-Durations-with-Envelopes.md:198
 msgid "*release* - time to move amplitude from `sustain_level` to 0"
 msgstr ""
+"*release (eliberare)* - timpul de trecere de la amplitudinea nivelului "
+"sustinut la 0"
 
 #: 02.4-Durations-with-Envelopes.md:200
 msgid ""
@@ -1819,23 +1837,28 @@ msgid ""
 "times of each of these phases. Therefore the following sound will have a "
 "duration of 0.5 + 1 + 2 + 0.5 = 4 beats:"
 msgstr ""
+"Este important de retinut ca durata sunetului este suma timpilor pentru "
+"toate aceste faze. Ca urmare, urmatorul sunet va avea o durata de 0.5 + 1 + "
+"2 + 0.5 = 4 batai:"
 
 #: 02.4-Durations-with-Envelopes.md:204
 #, no-wrap
 msgid "play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain: 2, release: 0.5"
 msgstr ""
+"play 60, attack: 0.5, attack_level: 1, decay: 1, sustain_level: 0.4, sustain:"
+" 2, release: 0.5"
 
 #: 02.4-Durations-with-Envelopes.md:208
 msgid "Now go and have a play adding envelopes to your sounds..."
-msgstr ""
+msgstr "Acum joaca-te adaugand anvelope sunetelor tale..."
 
 #: 03-Samples.md:1
 msgid "3 Samples"
-msgstr ""
+msgstr "3 Esantioane (samples)"
 
 #: 03-Samples.md:3
 msgid "Samples"
-msgstr ""
+msgstr "Esantioane"
 
 #: 03-Samples.md:5
 msgid ""
@@ -1844,6 +1867,10 @@ msgid ""
 "you take a microphone outside, go and record the gentle sound of rain "
 "hitting canvas, you've just created a sample."
 msgstr ""
+"O alta cale de a-ti imbogati muzica este sa folosesti sunete pre-"
+"inregistrate. In buna traditie hip-hop, aceste sunete se numesc *esantioane "
+"(samples)*. Deci, daca iesi cu microfonul afara si inregistrezi sunetul "
+"discret al ploii lovind o copertina, tocmai ai creat un esantion."
 
 #: 03-Samples.md:10
 msgid ""
@@ -1851,25 +1878,31 @@ msgid ""
 "with over 90 public domain samples ready for you to jam with, it lets you "
 "play and manipulate your own. Let's get to it..."
 msgstr ""
+"Sonic Pi iti permite sa faci o gramada de chestii interesante cu "
+"esantioanele. Nu doar ca vine cu peste 90 de esantioane din domeniul public ("
+"cu utilizare gratuita), dar iti permite si sa creezi si sa modifici "
+"propriile esantioane. Sa trecem la treaba..."
 
 #: 03.1-Triggering-Samples.md:1
 msgid "3.1 Triggering Samples"
-msgstr ""
+msgstr "3.1 Activarea esantioanelor"
 
 #: 03.1-Triggering-Samples.md:3
 msgid "Triggering Samples"
-msgstr ""
+msgstr "Activarea esantioanelor"
 
 #: 03.1-Triggering-Samples.md:5
 msgid ""
 "Playing beeps is only the beginning. Something that's a lot of fun is "
 "triggering pre-recorded samples. Try it:"
 msgstr ""
+"Redarea de beep-uri este doar inceputul. Un lucru mult mai interesant este "
+"sa redai esantioane deja inregistrate. Incearca asta:"
 
 #: 03.1-Triggering-Samples.md:8
 #, no-wrap
 msgid "sample :ambi_lunar_land"
-msgstr ""
+msgstr "sample :ambi_lunar_land"
 
 #: 03.1-Triggering-Samples.md:12
 msgid ""
@@ -1877,6 +1910,9 @@ msgid ""
 "like you use the `play` command. To play multiple samples and notes just "
 "write them one after another:"
 msgstr ""
+"Sonic Pi contine multe esantioane cu care te poti juca. Poti sa le folosesti "
+"la fel cum folosesti comanda 'play'. Pentru a reda mai multe esantioane si "
+"note, scrie-le unele dupa altele:"
 
 #: 03.1-Triggering-Samples.md:16
 #, no-wrap
@@ -1886,10 +1922,14 @@ msgid ""
 "sample :ambi_lunar_land\n"
 "sample :ambi_drone"
 msgstr ""
+"play 36\n"
+"play 48\n"
+"sample :ambi_lunar_land\n"
+"sample :ambi_drone"
 
 #: 03.1-Triggering-Samples.md:23
 msgid "If you want to space them out in time, use the `sleep` command:"
-msgstr ""
+msgstr "Daca vrei sa lasi pauze intre ele, foloseste comanda 'sleep':"
 
 #: 03.1-Triggering-Samples.md:25
 #, no-wrap
@@ -1903,6 +1943,14 @@ msgid ""
 "sleep 1\n"
 "play 36"
 msgstr ""
+"sample :ambi_lunar_land\n"
+"sleep 1\n"
+"play 48\n"
+"sleep 0.5\n"
+"play 36\n"
+"sample :ambi_drone\n"
+"sleep 1\n"
+"play 36"
 
 #: 03.1-Triggering-Samples.md:36
 msgid ""
@@ -1912,10 +1960,15 @@ msgid ""
 "creating interesting overlap effects. Later in this tutorial we'll take a "
 "look at controlling the *duration* of sounds with envelopes."
 msgstr ""
+"Observi ca Sonic Pi nu asteapta ca un sunet sa se termine inainte de a-l "
+"porni pe urmatorul. Comanda 'sleep' separa doar *activarea (triggering)* "
+"sunetelor. Aceasta permite combinarea sunetelor creand efecte de suprapunere "
+"interesante. Pe parcursul acestui tutorial vom arunca o privire asupra "
+"controlului *duratei* sunetelor folosind anvelopele."
 
 #: 03.1-Triggering-Samples.md:44
 msgid "Discovering Samples"
-msgstr ""
+msgstr "Explorarea esantioanelor"
 
 #: 03.1-Triggering-Samples.md:46
 msgid ""
@@ -1924,6 +1977,10 @@ msgid ""
 "vertical menu, choose your category and then you'll see a list of available "
 "sounds."
 msgstr ""
+"Exista doua moduri de a explora esantioanele oferite de Sonic Pi. Primul "
+"presupune folosirea acestui sistem de ajutor. Fa click pe Esantioane in "
+"meniul vertical din marginea stanga, alege categoria dorita si vei vedea o "
+"lista cu sunetele disponibile."
 
 #: 03.1-Triggering-Samples.md:51
 msgid ""
@@ -1932,50 +1989,54 @@ msgid ""
 "of sample names appear for you to select. Try the following category "
 "prefixes:"
 msgstr ""
+"O metoda alternativa este sa folosesti sistemul de *completare automata*. "
+"Scrie inceputul unui grup de esantioane, cum ar fi: 'sample :ambi_' si vei "
+"vedea o lista derulanta cu numele esantioanelor, din care poti alege ce "
+"doresti. Incearca aceste categorii de prefixe:"
 
 #: 03.1-Triggering-Samples.md:56
 msgid "`:ambi_`"
-msgstr ""
+msgstr "`:ambi_`"
 
 #: 03.1-Triggering-Samples.md:57
 msgid "`:bass_`"
-msgstr ""
+msgstr "`:bass_`"
 
 #: 03.1-Triggering-Samples.md:58
 msgid "`:elec_`"
-msgstr ""
+msgstr "`:elec_`"
 
 #: 03.1-Triggering-Samples.md:59
 msgid "`:perc_`"
-msgstr ""
+msgstr "`:perc_`"
 
 #: 03.1-Triggering-Samples.md:60
 msgid "`:guit_`"
-msgstr ""
+msgstr "`:guit_`"
 
 #: 03.1-Triggering-Samples.md:61
 msgid "`:drum_`"
-msgstr ""
+msgstr "`:drum_`"
 
 #: 03.1-Triggering-Samples.md:62
 msgid "`:misc_`"
-msgstr ""
+msgstr "`:misc_`"
 
 #: 03.1-Triggering-Samples.md:63
 msgid "`:bd_`"
-msgstr ""
+msgstr "`:bd_`"
 
 #: 03.1-Triggering-Samples.md:65
 msgid "Now start mixing samples into your compositions!"
-msgstr ""
+msgstr "Acum poti incepe sa combini esantioanele pentru a crea compozitii!"
 
 #: 03.2-Sample-Params.md:1
 msgid "3.2 Sample Parameters"
-msgstr ""
+msgstr "3.2. Parametri Esantioane"
 
 #: 03.2-Sample-Params.md:3
 msgid "Sample Parameters: Amp and Pan"
-msgstr ""
+msgstr "Parametri Esantioane: Amplitudine (Amp) si Pozitionare (Pan)"
 
 #: 03.2-Sample-Params.md:5
 msgid ""
@@ -1983,25 +2044,30 @@ msgid ""
 "Samples support exactly the same parameterisation mechanism. Let's revisit "
 "our friends `amp:` and `pan:`."
 msgstr ""
+"Asa cum am vazut la sintetizatoare, putem controla cu usurinta sunetele "
+"folosind diferiti parametri. Esantioanele suporta exact acelasi model de "
+"parametri. Sa-i revedem pe vechii prieteni - 'amp:' si 'pan:'."
 
 #: 03.2-Sample-Params.md:9
 msgid "Amping samples"
-msgstr ""
+msgstr "Amplificarea esantioanelor"
 
 #: 03.2-Sample-Params.md:11
 msgid ""
 "You can change the amplitude of samples with exactly the same approach you "
 "used for synths:"
 msgstr ""
+"Poti schimba amplitudinea esantioanelor folosind aceeasi metoda ca in cazul "
+"sintetizatoarelor:"
 
 #: 03.2-Sample-Params.md:14
 #, no-wrap
 msgid "sample :ambi_lunar_land, amp: 0.5"
-msgstr ""
+msgstr "sample :ambi_lunar_land, amp: 0.5"
 
 #: 03.2-Sample-Params.md:18
 msgid "Panning samples"
-msgstr ""
+msgstr "Pozitionarea esantioanelor"
 
 #: 03.2-Sample-Params.md:20
 msgid ""
@@ -2009,6 +2075,9 @@ msgid ""
 "how we'd play the amen break in the left ear and then half way through play "
 "it again through the right ear:"
 msgstr ""
+"Putem folosi parametrul 'pan:' pentru esantioane. De exemplu, iata cum am "
+"putea reda esantionul amen in stanga,  iar la jumatatea duratei sa il redam "
+"si in dreapta:"
 
 #: 03.2-Sample-Params.md:24
 #, no-wrap
@@ -2017,25 +2086,32 @@ msgid ""
 "sleep 0.877\n"
 "sample :loop_amen, pan: 1"
 msgstr ""
+"sample :loop_amen, pan: -1\n"
+"sleep 0.877\n"
+"sample :loop_amen, pan: 1"
 
 #: 03.2-Sample-Params.md:30
 msgid ""
 "Note that 0.877 is half the duration of the `:loop_amen` sample in seconds."
 msgstr ""
+"0.877 reprezinta jumatate din durata esantionului `:loop_amen` in secunde."
 
 #: 03.2-Sample-Params.md:33
 msgid ""
 "Finally, note that if you set some synth defaults with `use_synth_defaults` "
 "(which we will discuss later), these will be ignored by `sample`."
 msgstr ""
+"De retinut ca daca ai setat niste valori implicite pentru sintetizatoare "
+"folosind 'use_synth_defaults' (despre care vom discuta mai tarziu), acestea "
+"vor fi ignorate de 'sample'."
 
 #: 03.3-Stretching-Samples.md:1
 msgid "3.3 Stretching Samples"
-msgstr ""
+msgstr "3.3 Comprimarea/Intinderea esantioanelor"
 
 #: 03.3-Stretching-Samples.md:3
 msgid "Stretching Samples"
-msgstr ""
+msgstr "Comprimarea/Intinderea esantioanelor"
 
 #: 03.3-Stretching-Samples.md:5
 msgid ""
@@ -2044,10 +2120,14 @@ msgid ""
 "music even more unique and interesting. First, let's explore the ability to "
 "*stretch* and *squash* samples."
 msgstr ""
+"Acum, ca putem folosi o multime de sintetizatoare si esantioane pentru a "
+"crea muzica, este timpul sa invatam cum putem sa le modificam si pe unele si "
+"pe celelalte pentru a individualiza muzica si a o face mai interesanta. Mai "
+"intai, sa exploram posibilitatea de a *intinde* si a *comprima* esantioanele."
 
 #: 03.3-Stretching-Samples.md:10
 msgid "Sample Representation"
-msgstr ""
+msgstr "Reprezentarea esantioanelor"
 
 #: 03.3-Stretching-Samples.md:12
 msgid ""
@@ -2061,32 +2141,49 @@ msgid ""
 "way to reproduce the sound. However, it's also fun to change the speed with "
 "which the numbers are fed to the speaker to change the sound."
 msgstr ""
+"Esantioanele sunt sunete deja inregistrate memorate sub forma de numere care "
+"reprezinta miscarea pe care conul difuzorului o face pentru a reproduce "
+"sunetele. Conul difuzorului se poate misca inainte si inapoi, deci aceste "
+"numere trebuie sa reprezinte cat de mult trebuie sa fie deplasat conul la "
+"fiecare moment. Pentru a putea reproduce cu fidelitate un sunet inregistrat "
+"esantionul trebuie sa contina in general mii de numere pentru fiecare "
+"secunda! Sonic Pi ia aceasta lista de numere si o trimite cu viteza "
+"potrivita pentru a misca difuzorul computerului inainte si inapoi exact in "
+"modul necesar pentru a reproduce sunetul. Totusi, poate fi distractiv sa "
+"schimbi viteza cu care aceste numere sunt trimise catre difuzor pentru a "
+"schimba sunetul."
 
 #: 03.3-Stretching-Samples.md:23
 msgid "Changing Rate"
-msgstr ""
+msgstr "Schimbarea vitezei de redare"
 
 #: 03.3-Stretching-Samples.md:25
 msgid ""
 "Let's play with one of the ambient sounds: `:ambi_choir`. To play it with "
 "the default rate, you can pass a `rate:` opt to `sample`:"
 msgstr ""
+"Sa ne jucam cu unul dintre sunetele ambientale: ':ambi_choir'. Pentru a-l "
+"reda la viteza normala, puteti sa transmiteti parametrul 'rate' pentru "
+"'sample':"
 
 #: 03.3-Stretching-Samples.md:28
 #, no-wrap
 msgid "sample :ambi_choir, rate: 1"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 1"
 
 #: 03.3-Stretching-Samples.md:32
 msgid ""
 "This plays it at normal rate (1), so nothing special yet. However, we're "
 "free to change that number to something else. How about `0.5`:"
 msgstr ""
+"Aceasta linie reda esantionul cu viteza normala (1), deci nu este nimic "
+"special deocamdata. Totusi, putem schimba acest numar cu un altul. Sa zicem "
+"'0.5':"
 
 #: 03.3-Stretching-Samples.md:35
 #, no-wrap
 msgid "sample :ambi_choir, rate: 0.5"
-msgstr ""
+msgstr "sample :ambi_choir, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:39
 msgid ""
@@ -2094,53 +2191,62 @@ msgid ""
 "twice as long to play, secondly the sound is an octave lower. Let's explore "
 "these things in a little more detail."
 msgstr ""
+"Oho! Ce se intampla aici? Ei bine, doua lucruri. In primul rand, esantionul "
+"va dura de doua ori mai mult, iar in al doilea rand, sunetul este cu o "
+"octava mai jos. Sa examinam aceste lucruri mai in detaliu."
 
 #: 03.3-Stretching-Samples.md:43
 msgid "Let's stretch"
-msgstr ""
+msgstr "Intinderea"
 
 #: 03.3-Stretching-Samples.md:45
 msgid ""
 "A sample that's fun to stretch and compress is the Amen Break. At normal "
 "rate, we might imagine throwing it into a *drum 'n' bass* track:"
 msgstr ""
+"Un esantion cu care ne putem distra lungindu-l sau comprimandu-l este Amen. "
+"La viteza normala, am putea sa-l adaugam la o pista *toba & bass*:"
 
 #: 03.3-Stretching-Samples.md:48 03.4-Enveloped-Samples.md:17
 #: 03.5-Partial-Samples.md:9 A.03-coded-beats.md:33 A.12-sample-slicing.md:22
 #, no-wrap
 msgid "sample :loop_amen"
-msgstr ""
+msgstr "sample :loop_amen"
 
 #: 03.3-Stretching-Samples.md:52
 msgid ""
 "However by changing the rate we can switch up genres. Try half speed for "
 "*old school hip-hop*:"
 msgstr ""
+"Schimbandu-i viteza insa, putem sa schimbam stilul. Incearca viteza redusa "
+"la jumatate pentru un *hip-hop de moda veche*:"
 
 #: 03.3-Stretching-Samples.md:55 03.5-Partial-Samples.md:16
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5"
 
 #: 03.3-Stretching-Samples.md:59
 msgid "If we speed it up, we enter *jungle* territory:"
-msgstr ""
+msgstr "Daca il facem mai rapid, intram in zona *jungle*:"
 
 #: 03.3-Stretching-Samples.md:61
 #, no-wrap
 msgid "sample :loop_amen, rate: 1.5"
-msgstr ""
+msgstr "sample :loop_amen, rate: 1.5"
 
 #: 03.3-Stretching-Samples.md:65
 msgid ""
 "Now for our final party trick - let's see what happens if we use a negative "
 "rate:"
 msgstr ""
+"Iar acum ultimul truc - sa vedem ce se intampla daca folosim o viteza "
+"negativa:"
 
 #: 03.3-Stretching-Samples.md:68
 #, no-wrap
 msgid "sample :loop_amen, rate: -1"
-msgstr ""
+msgstr "sample :loop_amen, rate: -1"
 
 #: 03.3-Stretching-Samples.md:72
 msgid ""
@@ -2148,10 +2254,13 @@ msgid ""
 "samples at different rates. Try very fast rates. Try crazy slow rates. See "
 "what interesting sounds you can produce."
 msgstr ""
+"Hei, sunetul este redat *de la coada la cap*! Acum incearca sa te joci cu "
+"diferite esantioane la viteze diferite. Incearca viteze foarte mari. "
+"Incearca viteze enervant de mici. Vezi ce sunete interesante poti obtine."
 
 #: 03.3-Stretching-Samples.md:76
 msgid "A Simple Explanation of Sample Rate"
-msgstr ""
+msgstr "O explicatie simpla a vitezei de redare a esantioanelor"
 
 #: 03.3-Stretching-Samples.md:78
 msgid ""
@@ -2164,6 +2273,15 @@ msgid ""
 "longer. The more you squash (higher rate), the shorter it gets, the more you "
 "stretch (lower rate), the longer it gets."
 msgstr ""
+"Un mod de a vedea lucrurile este sa te gandesti la esantioane ca la niste "
+"arcuri. Modificarea vitezei de redare este asemanatoare cu alungirea sau "
+"comprimarea arcului. Daca redai esantionul cu o viteza dubla, *comprimi "
+"arcul* la jumatate din lungimea sa normala. Ca urmare, esantionul va dura "
+"jumatate din durata normala, fiind mai scurt. Daca redai esantionul la "
+"jumatate din viteza normala, *intinzi arcul* la o lungime dubla. Esantionul "
+"va dura de doua ori mai mult, fiind mai lung. Cu cat il comprimi mai tare ("
+"viteza mai mare), cu atat devine mai scurt. Cu cat il intinzi mai mult ("
+"viteza mai mica), cu atat devine mai lung."
 
 #: 03.3-Stretching-Samples.md:87
 msgid ""
@@ -2172,16 +2290,22 @@ msgid ""
 "spring decreases its density and is similar to the sound having a *lower "
 "pitch*."
 msgstr ""
+"Comprimarea unui arc il face mai dens (creste numarul de spire pe cm) - "
+"acest lucru este similar cu un esantion care va contine sunete care *variaza "
+"mai des*. Intinderea arcului scade densitatea de spire si este similara cu "
+"un sunet care *variaza mai lent*."
 
 #: 03.3-Stretching-Samples.md:93
 msgid "The Maths Behind Sample Rate"
-msgstr ""
+msgstr "Matematica din spatele vitezei de redare a esantioanelor"
 
 #: 03.3-Stretching-Samples.md:95
 msgid ""
 "(This section is provided for those that are interested in the details. "
 "Please feel free to skip it...)"
 msgstr ""
+"(Aceasta sectiune se adreseaza celor care sunt interesati de detalii. Poti "
+"sari peste ea daca doresti...)"
 
 #: 03.3-Stretching-Samples.md:98
 msgid ""
@@ -2189,10 +2313,14 @@ msgid ""
 "representing where the speaker should be through time. We can take this list "
 "of numbers and use it to draw a graph which would look similar to this:"
 msgstr ""
+"Dupa cum am vazut mai sus, un esantion este reprezentat de o lista lunga de "
+"numere care specifica unde trebuie sa se afle speakerul la fiecare moment de "
+"timp. Putem lua aceasta lista de numere si sa trasam un grafic care ar arata "
+"similar cu acesta:"
 
 #: 03.3-Stretching-Samples.md:103
 msgid "![sample graph](../images/tutorial/sample.png)"
-msgstr ""
+msgstr "![grafic esantion](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
 msgid ""
@@ -2206,35 +2334,45 @@ msgid ""
 "play back. We could also play it back at half rate which would be 22050 "
 "points per second taking 4 seconds to play back."
 msgstr ""
+"Probabil ai mai vazut imagini ca aceasta inainte. Se numeste *forma de unda* "
+"a unui esantion. Este doar un grafic pe baza unor numere.Uzual, o astfel de "
+"forma de unda va avea 44100 puncte de date pentru fiecare secunda (acest "
+"lucru este impus de Teorema eșantionării Nyquist–Shannon). Deci, daca un "
+"esantion dureaza 2 secunde, forma de unda va fi reprezentata de 88200 de "
+"numere care vor fi trimise difuzorului cu o viteza de 44100 de puncte pe "
+"secunda. Desigur, am putea sa trimitem datele cu o viteza dubla, de 88200 de "
+"puncte pe secunda. Aceasta ar face ca redarea sa dureze 1 secunda. Am putea "
+"de asemenea sa redam 22050 puncte pe secunda, durata fiind in acest caz de 4 "
+"secunde."
 
 #: 03.3-Stretching-Samples.md:116
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr ""
+msgstr "Durata unui esantion este influentata de viteza de redare:"
 
 #: 03.3-Stretching-Samples.md:118
 msgid "Doubling the playback rate halves the playback time,"
-msgstr ""
+msgstr "Dublarea vitezei de redare injumatateste durata,"
 
 #: 03.3-Stretching-Samples.md:119
 msgid "Halving the playback rate doubles the playback time,"
-msgstr ""
+msgstr "Injumatatirea vitezei de redare dubleaza durata,"
 
 #: 03.3-Stretching-Samples.md:120
 msgid "Using a playback rate of one fourth quadruples the playback time,"
-msgstr ""
+msgstr "Reducand viteza la un sfert durata creste de patru ori,"
 
 #: 03.3-Stretching-Samples.md:121
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
-msgstr ""
+msgstr "Reducand viteza de 10 ori, durata va fi de 10 ori mai mare."
 
 #: 03.3-Stretching-Samples.md:123
 msgid "We can represent this with the formula:"
-msgstr ""
+msgstr "Putem reprezenta aceasta regula prin formula:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr ""
+msgstr "durata_esantion_noua = ( 1 / viteza) * durata_esantion "
 
 #: 03.3-Stretching-Samples.md:129
 msgid ""
@@ -2245,6 +2383,13 @@ msgid ""
 "see a big bass speaker move as it pumps out super low bass - it's actually "
 "moving a lot slower in and out than a speaker producing higher notes."
 msgstr ""
+"Schimbarea vitezei de redare influenteaza si tonalitatea esantionului. "
+"Frecventa formei de unda este determinata de cat de repede se misca in sus "
+"si in jos. Creierul nostru transforma cumva miscarea rapida a difuzorului in "
+"sunete in alte si miscarea lenta in sunete joase. De aceea uneori poti vedea "
+"cum un difuzor mare de bas se misca atunci cand reda un sunet cu frecvente "
+"foarte joase - se misca mult mai lent inainte si inapoi decat un difuzor "
+"care produce sunete inalte."
 
 #: 03.3-Stretching-Samples.md:137
 msgid ""
@@ -2255,14 +2400,20 @@ msgid ""
 "it*. Also, *halving the rate will halve the frequency*. Other rates will "
 "affect the frequency accordingly."
 msgstr ""
+"Daca iei o forma de unda si o comprimi, vor exista mai multe miscari in sus "
+"si in jos intr-o secunda. Aceasta va face sunetul sa aiba o tonalitate mai "
+"inalta. Dublarea miscarilor in sus si in jos (oscilatii) dubleaza frecventa. "
+"Deci, *redarea unui esantion cu viteza dubla va dubla frecventa pe care o "
+"auzi*. De asemenea, *injumatatirea vitezei va injumatati frecventa*. Alte "
+"viteze de redare vor modifica frecventa corespunzator."
 
 #: 03.4-Enveloped-Samples.md:1
 msgid "3.4 Enveloped Samples"
-msgstr ""
+msgstr "3.4 Anvelope pentru esantioane"
 
 #: 03.4-Enveloped-Samples.md:3
 msgid "Enveloped Samples"
-msgstr ""
+msgstr "Anvelope pentru esantioane"
 
 #: 03.4-Enveloped-Samples.md:5
 msgid ""
@@ -2274,38 +2425,49 @@ msgid ""
 "completed - whichever is first. So, if you use a very long `release:`, it "
 "won't extend the duration of the sample."
 msgstr ""
+"Este posibil sa modificam *durata* si *amplitudinea* unui esantion folosind "
+"o anvelopa ADSR. Totusi, functionarea va fi putin diferita fata de anvelopa "
+"ADSR folosita pentru sintetizatoare. Anvelopele pentru esantioane permit "
+"doar reducerea amplitudinii si duratei unui esantion - nu si marirea "
+"acestora. Esantionul se va opri fie cand s-a epuizat continutul sau fie cand "
+"s-a terminat anvelopa - in functie de care eveniment se produce primul. "
+"Deci, daca folosesti un 'release:' foarte lung, nu vei putea mari durata "
+"esantionului."
 
 #: 03.4-Enveloped-Samples.md:13
 msgid "Amen Envelopes"
-msgstr ""
+msgstr "Anvelopa Amen"
 
 #: 03.4-Enveloped-Samples.md:15
 msgid "Let's return to our trusty friend the Amen Break:"
-msgstr ""
+msgstr "Sa ne intoarcem la esantionul cunoscut - Amen Break:"
 
 #: 03.4-Enveloped-Samples.md:21
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade "
 "this in over 1 second we can use the `attack:` param:"
 msgstr ""
+"Fara parametri, auzim esantionul intreg, la amplitudine intreaga. Daca vrem "
+"sa-l pornim treptat pe durata de 1 secunda, putem folosi parametrul "
+"'attack:':"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
 msgid "sample :loop_amen, attack: 1"
-msgstr ""
+msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
 msgid "For a shorter fade in, choose a shorter attack value:"
-msgstr ""
+msgstr "Pentru o intrare mai rapida, alege un timp de atac mai mic:"
 
 #: 03.4-Enveloped-Samples.md:30
 #, no-wrap
 msgid "sample :loop_amen, attack: 0.3"
-msgstr ""
+msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
 msgid "Auto Sustain"
-msgstr ""
+msgstr "Auto mentinere"
 
 #: 03.4-Enveloped-Samples.md:36
 msgid ""
@@ -2320,21 +2482,34 @@ msgid ""
 "attack, decay and release values add up to more than the duration of the "
 "sample, the sustain is simply set to 0."
 msgstr ""
+"Anvelopa ADSR se comporta diferit data de cea pentru sintetizatoare in ceea "
+"ce priveste valoarea *sustain* (de mentinere). In cazul anvelopei standard "
+"pentru sintetizatoare, 'sustain:' avea implicit valoarea 0 daca nu il "
+"modificai manual. In cazul esantioanelor, 'sustain:' este calculat "
+"*automagic* ca timpul ramas de redat din sample. De aceea vom auzi intregul "
+"esantion daca nu transmitem valori. Daca valorile pentru attack, decay, "
+"sustain si release ar fi toate 0 nu am auzi nimic. Sonic Pi calculeaza cat "
+"de lung este esantionul, scade valorile pentru attack, decay si release si "
+"foloseste rezultatul ca valoare pentru sustain. Daca valorile pentru attack, "
+"decay si release depasesc durata esantionului, valoarea pentru sustain va fi "
+"0."
 
 #: 03.4-Enveloped-Samples.md:48
 msgid "Fade Outs"
-msgstr ""
+msgstr "Stingerea sunetului (fade out)"
 
 #: 03.4-Enveloped-Samples.md:50
 msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask "
 "Sonic Pi how long the sample is:"
 msgstr ""
+"Pentru a examina acest comportament, sa privim mai cu atentie esantionul "
+"Amen break. Daca cerem Sonic Pi sa ne spuna cat este de lung:"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
 msgid "print sample_duration :loop_amen"
-msgstr ""
+msgstr "print sample_duration :loop_amen"
 
 #: 03.4-Enveloped-Samples.md:57
 msgid ""
@@ -2342,11 +2517,14 @@ msgid ""
 "seconds. Let's just round that to `1.75` for convenience here. Now, if we "
 "set the release to `0.75`, something surprising will happen:"
 msgstr ""
+"Va afisa `1.753310657596372` care reprezinta lungimea esantionului in "
+"secunde. Sa rotunjim valoarea la '1.75' pentru comoditate. Acum, daca setam "
+"valoarea pentru release la '0.75', se va intampla un lucru surprinzator:"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
 msgid "sample :loop_amen, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:65
 msgid ""
@@ -2356,25 +2534,33 @@ msgid ""
 "our sample was 10.75 seconds long, it would play the first 10 seconds at "
 "full amplitude before fading out over 0.75s."
 msgstr ""
+"Va fi redata prima secunda a esantionului la amplitudine intreaga, apoi "
+"acesta se va stinge pe o durata de 0.75 secunde. Acest lucru arata cum "
+"functioneaza *auto mentinerea*. Implicit, valoarea pentru release se scade "
+"de la sfarsitul esantionului. Daca lungimea acestuia ar fi fost 10.75 "
+"secunde, ar fi fost redate primele 10 secunde la amplitudine intreaga apoi "
+"ar fi urmat stingerea pe o durata de 0.75s."
 
 #: 03.4-Enveloped-Samples.md:71
 msgid "Remember: by default, `release:` fades out at the end of a sample."
-msgstr ""
+msgstr "Tine minte: implicit, 'release:' actioneaza la sfarsitul esantionului."
 
 #: 03.4-Enveloped-Samples.md:73
 msgid "Fade In and Out"
-msgstr ""
+msgstr "Intrarea progresiva (fade in) si stingerea treptata (fade out)"
 
 #: 03.4-Enveloped-Samples.md:75
 msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain "
 "behaviour to fade both in and out over the duration of the sample:"
 msgstr ""
+"Putem folosi 'attack:' si 'release:' impreuna cu auto mentinerea pentru a "
+"avea atat o intrare progresiva cat si o stingere treptata pentru esantion:"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, attack: 0.75, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
 msgid ""
@@ -2382,21 +2568,27 @@ msgid ""
 "phases add up to 1.5s, the sustain is automatically set to 0.25s. This "
 "allows us to easily fade the sample in and out."
 msgstr ""
+"Cum durata completa a esantionului este de 1.75s si fazele de atac si "
+"eliberare impreuna au 1.5s, durata de mentinere este stabilita automat la "
+"0.25s. Acest lucru ne ajuta sa realizam usor intrarea progresiva si "
+"stingerea treptata a esantionului."
 
 #: 03.4-Enveloped-Samples.md:86
 msgid "Explicit sustain"
-msgstr ""
+msgstr "Faza de mentinere specificata explicit"
 
 #: 03.4-Enveloped-Samples.md:88
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually "
 "setting `sustain:` to a value such as 0:"
 msgstr ""
+"Putem reveni cu usurinta la comportamentul ADSR normal pentru sintetizatoare "
+"atribuind explicit o valoare pentru 'sustain:', cum ar fi 0:"
 
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
 msgid "sample :loop_amen, sustain: 0, release: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:95
 msgid ""
@@ -2405,10 +2597,14 @@ msgid ""
 "sustains there for 0s then releases back down to 0 amplitude over the "
 "release period - 0.75s."
 msgstr ""
+"Acum, esantionul nostru dureaza doar 0.75s in total. Cu valorile implicite "
+"pentru 'attack:' si 'decay:' egale cu 0, esantionul intra direct cu "
+"amplitudinea maxima, este mentinut astfel pentru 0s, apoi urmeaza coborarea "
+"la amplitudine 0 pe durata fazei de release - 0.75s."
 
 #: 03.4-Enveloped-Samples.md:100
 msgid "Percussive cymbals"
-msgstr ""
+msgstr "Talere"
 
 #: 03.4-Enveloped-Samples.md:102
 msgid ""
@@ -2416,69 +2612,85 @@ msgid ""
 "into shorter, more percussive versions. Consider the sample `:"
 "drum_cymbal_open`:"
 msgstr ""
+"Putem folosi acest comportament pentru a transforma esantioane lungi in "
+"versiuni mai scurte si mai percutante. Sa luam ca exemplu esantionul "
+"`:drum_cymbal_open`:"
 
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
 msgid "sample :drum_cymbal_open"
-msgstr ""
+msgstr "sample :drum_cymbal_open"
 
 #: 03.4-Enveloped-Samples.md:110
 msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we "
 "can use our envelope to make it more percussive:"
 msgstr ""
+"Poti auzi sunetul talerului continuand o anumita perioada de timp. Totusi, "
+"putem folosi anvelopa pentru a il face mai percutant:"
 
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
-msgstr ""
+msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing "
 "the sustain period:"
 msgstr ""
+"Poti simula lovirea unui taler si apoi amortizarea lui crescand durata de "
+"mentinere:"
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
 msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
-msgstr ""
+msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0.3, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:124
 msgid ""
 "Now go and have fun putting envelopes over the samples. Try changing the "
 "rate too for really interesting results."
 msgstr ""
+"Acum distreaza-te aplicand anvelope esantioanelor. Incearca sa schimbi si "
+"viteza de redare pentru efecte cu adevarat interesante."
 
 #: 03.5-Partial-Samples.md:1
 msgid "3.5 Partial Samples"
-msgstr ""
+msgstr "3.5 Esantioane partiale"
 
 #: 03.5-Partial-Samples.md:3
 msgid "Partial Samples"
-msgstr ""
+msgstr "Esantioane partiale"
 
 #: 03.5-Partial-Samples.md:5
 msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. "
 "Let's do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
+"Aceasta sectiune va incheia explorarea player-ului de esantioane din Sonic "
+"Pi. Sa facem o scurta recapitulare. Pana acum am vazut cum putem porni "
+"esantioanele:"
 
 #: 03.5-Partial-Samples.md:13
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them "
 "at half speed:"
 msgstr ""
+"Apoi am vazut cum putem schimba viteza de redare a esantioanelor, cum ar fi "
+"ascultandu-le la jumatate din viteza initiala:"
 
 #: 03.5-Partial-Samples.md:20
 msgid ""
 "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr ""
+"Apoi, am vazut cum putem introduce progresiv un esantion (sa facem asta la "
+"jumatate din viteza):"
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
 msgid "sample :loop_amen, rate: 0.5, attack: 1"
-msgstr ""
+msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
 msgid ""
@@ -2486,11 +2698,14 @@ msgid ""
 "giving `sustain:` an explicit value and setting both the attack and release "
 "to be short values:"
 msgstr ""
+"Am vazut de asemenea cum putem sa folosim un start mai percutant al "
+"esantionului, dand o valoare explicita pentru 'sustain:' si atribuind valori "
+"mici pentru fazele de attack si release:"
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
 msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
-msgstr ""
+msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
 #: 03.5-Partial-Samples.md:35
 msgid ""
@@ -2498,10 +2713,13 @@ msgid ""
 "beginning of the sample? Wouldn't it also be nice if we didn't have to "
 "always finish at the end of the sample?"
 msgstr ""
+"Totusi, nu ar fi frumos daca nu ar trebui sa pornim mereu de la inceputul "
+"esantionului? Nu ar fi frumos daca nu ar trebui sa mergem mereu pana la "
+"sfarsitul esantionului?"
 
 #: 03.5-Partial-Samples.md:39
 msgid "Choosing a starting point"
-msgstr ""
+msgstr "Alegerea punctului de pornire"
 
 #: 03.5-Partial-Samples.md:41
 msgid ""
@@ -2510,67 +2728,76 @@ msgid ""
 "0.5 is half way through the sample. Let's try playing only the last half of "
 "the amen break:"
 msgstr ""
+"Putem alege un punct de pornire arbitrar in esantion specificand un numar "
+"intre 0 si 1, unde 0 este inceputul acestuia, 1 sfarsitul, iar 0.5 este la "
+"jumatatea esantionului. Sa incercam sa redam doar a doua jumatate din amen "
+"break:"
 
 #: 03.5-Partial-Samples.md:46
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.5"
 
 #: 03.5-Partial-Samples.md:50
 msgid "How about the last quarter of the sample:"
-msgstr ""
+msgstr "Ce-ar fi sa incercam ultimul sfert din esantion:"
 
 #: 03.5-Partial-Samples.md:52
 #, no-wrap
 msgid "sample :loop_amen, start: 0.75"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.75"
 
 #: 03.5-Partial-Samples.md:56
 msgid "Choosing a finish point"
-msgstr ""
+msgstr "Alegerea punctului de oprire"
 
 #: 03.5-Partial-Samples.md:58
 msgid ""
 "Similarly, it is possible to choose an arbitrary finish point in the sample "
 "as a value between 0 and 1. Let's finish the amen break half way through:"
 msgstr ""
+"Asemanator, este posibil sa alegem un punct de oprire arbitrar in cadrul "
+"esantionului , ca o valoare intre 0 si 1. Sa oprim amen break la jumatate:"
 
 #: 03.5-Partial-Samples.md:62 A.12-sample-slicing.md:62
 #, no-wrap
 msgid "sample :loop_amen, finish: 0.5"
-msgstr ""
+msgstr "sample :loop_amen, finish: 0.5"
 
 #: 03.5-Partial-Samples.md:66
 msgid "Specifying start and finish"
-msgstr ""
+msgstr "Precizarea inceputului si sfarsitului"
 
 #: 03.5-Partial-Samples.md:68
 msgid ""
 "Of course, we can combine these two to play arbitrary segments of the audio "
 "file. How about only a small section in the middle:"
 msgstr ""
+"Desigur, putem combina aceste 2 valori pentru a reda segmente arbitrare din "
+"fisierul audio. Cum ar fi doar o mica bucata de la mijloc:"
 
 #: 03.5-Partial-Samples.md:71
 #, no-wrap
 msgid "sample :loop_amen, start: 0.4, finish: 0.6"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.4, finish: 0.6"
 
 #: 03.5-Partial-Samples.md:75
 msgid "What happens if we choose a start position after the finish position?"
 msgstr ""
+"Ce se intampla daca alegem o pozitie de inceput dupa pozitia de sfarsit?"
 
 #: 03.5-Partial-Samples.md:78
 #, no-wrap
 msgid "sample :loop_amen, start: 0.6, finish: 0.4"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.6, finish: 0.4"
 
 #: 03.5-Partial-Samples.md:82
 msgid "Cool! It plays it backwards!"
-msgstr ""
+msgstr "Super! Este redat de la coada la cap!"
 
 #: 03.5-Partial-Samples.md:84
 msgid "Combining with rate"
-msgstr ""
+msgstr "In combinatie cu viteza"
 
 #: 03.5-Partial-Samples.md:86
 msgid ""
@@ -2578,38 +2805,47 @@ msgid ""
 "friend `rate:`. For example, we can play a very small section of the middle "
 "of the amen break very slowly:"
 msgstr ""
+"Putem combina aceasta posibilitate de a reda segmente audio arbitrare cu "
+"parametrul deja cunoscut 'rate:' (viteza de redare). De exemplu, putem reda "
+"o bucata foarte mica de la mijlocul esantionului amen break foarte lent:"
 
 #: 03.5-Partial-Samples.md:90
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
-msgstr ""
+msgstr "sample :loop_amen, start: 0.5, finish: 0.7, rate: 0.2"
 
 #: 03.5-Partial-Samples.md:94
 msgid "Combining with envelopes"
-msgstr ""
+msgstr "In combinatie cu anvelopele"
 
 #: 03.5-Partial-Samples.md:96
 msgid ""
 "Finally, we can combine all of this with our ADSR envelopes to produce "
 "interesting results:"
 msgstr ""
+"In fine, putem combina toate acestea cu anvelopele ADSR pentru a produce "
+"rezultate interesante:"
 
 #: 03.5-Partial-Samples.md:99
 #, no-wrap
 msgid "sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release: 1"
 msgstr ""
+"sample :loop_amen, start: 0.5, finish: 0.8, rate: -0.2, attack: 0.3, release:"
+" 1"
 
 #: 03.5-Partial-Samples.md:103
 msgid "Now go and have a play mashing up samples with all of this fun stuff..."
 msgstr ""
+"Acum poti sa te joci modeland esantioanele cu ajutorul acestor chestii "
+"distractive..."
 
 #: 03.6-External-Samples.md:1
 msgid "3.6 External Samples"
-msgstr ""
+msgstr "3.6 Esantioane externe"
 
 #: 03.6-External-Samples.md:3
 msgid "External Samples"
-msgstr ""
+msgstr "Esantioane externe"
 
 #: 03.6-External-Samples.md:5
 msgid ""
@@ -2618,10 +2854,14 @@ msgid ""
 "totally supports this. First though, let's have a quick discussion on the "
 "portability of your piece."
 msgstr ""
+"Desi esantioanele care vin impreuna cu Sonic Pi te pot ajuta sa pornesti "
+"rapid incercarile tale, ai putea experimenta si cu alte sunete inregistrate. "
+"Sonic Pi ofera suport complet pentru acest lucru. Totusi, sa discutam pe "
+"scurt despre portabilitatea creatiei tale."
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
-msgstr ""
+msgstr "Portabilitatea"
 
 #: 03.6-External-Samples.md:12
 msgid ""
@@ -2632,6 +2872,13 @@ msgid ""
 "to reproduce your sounds. That makes it *really easy to share* with your "
 "friends as they just need to get hold of the code."
 msgstr ""
+"Cand compui o piesa bazata doar pe sintetizatoarele si esantioanele incluse "
+"in program, codul este tot ce iti trebuie ca sa reproduci fidel muzica ta. "
+"Gandeste-te putin - asta este un lucru uimitor! O simpla bucata de text pe "
+"care o poti trimite prin email sau pe care o poti incarca intr-un "
+"[Gist](https://gist.github.com) este tot ce iti trebuie ca sa reproduci "
+"sunetele tale. Asta le face *usor de impartasit* cu prietenii tai, deoarece "
+"ei au nevoie doar de bucata de cod."
 
 #: 03.6-External-Samples.md:19
 msgid ""
@@ -2642,16 +2889,25 @@ msgid ""
 "shouldn't stop you from using your own samples, it's just something to "
 "consider."
 msgstr ""
+"Totusi, daca incepi sa folosesti propriile esantioane, vei pierde aceasta "
+"portabilitate, deoarece pentru a reproduce piesa ta alte persoane vor avea "
+"nevoie nu doar de cod, ci si de acele esantioane. Acest lucru limiteaza "
+"posbilitatile altora de a modifica si de a face experimente cu creatia ta. "
+"Desigur, asta nu inseamna ca nu trebuie sa folosesti propriile esantioane, "
+"este doar un lucru de care trebuie sa tii cont."
 
 #: 03.6-External-Samples.md:26
 msgid "Local Samples"
-msgstr ""
+msgstr "Esantioane salvate loca"
 
 #: 03.6-External-Samples.md:28
 msgid ""
 "So how do you play any arbitrary WAV, AIFF or FLAC file on your computer? "
 "All you need to do is pass the path of that file to `sample`:"
 msgstr ""
+"Cum poti reda un fisier oarecare WAV, AIFF sau FLAC din computerul tau? Tot "
+"ce trebuie sa faci este sa transmiti calea catre acest fisier pentru "
+"'sample':"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -2661,12 +2917,19 @@ msgid ""
 "# Windows\n"
 "sample \"C:/Users/sam/Desktop/my-sound.wav\""
 msgstr ""
+"# Raspberry Pi, Mac, Linux\n"
+"sample \"/Users/sam/Desktop/my-sound.wav\"\n"
+"# Windows\n"
+"sample \"C:/Users/sam/Desktop/my-sound.wav\""
 
 #: 03.6-External-Samples.md:38
 msgid ""
 "Sonic Pi will automatically load and play the sample. You can also pass all "
 "the standard params you're used to passing `sample`:"
 msgstr ""
+"Sonic Pi va incarca automat si va reda acest esantion. Poti de asemenea sa "
+"folosesti toti parametrii standard pe care ai invatat sa-i folosesti cu "
+"'sample':"
 
 #: 03.6-External-Samples.md:41
 #, no-wrap
@@ -2676,14 +2939,18 @@ msgid ""
 "# Windows\n"
 "sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 msgstr ""
+"# Raspberry Pi, Mac, Linux\n"
+"sample \"/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3\n"
+"# Windows\n"
+"sample \"C:/Users/sam/Desktop/my-sound.wav\", rate: 0.5, amp: 0.3"
 
 #: 03.7-Sample-Packs.md:1
 msgid "3.7 Sample Packs"
-msgstr ""
+msgstr "3.7 Pachete de esantioane"
 
 #: 03.7-Sample-Packs.md:3
 msgid "Sample Packs"
-msgstr ""
+msgstr "Pachete de esantioane"
 
 #: 03.7-Sample-Packs.md:5
 msgid ""
@@ -2692,72 +2959,83 @@ msgid ""
 "downloaded or bought your own sample packs and wish to use them within Sonic "
 "Pi.**"
 msgstr ""
+"**Nota: aceasta sectiune din tutorial se refera la situatia in care vrei sa "
+"folosesti foldere mai cu propriile esantioane. Acest lucru se va intampla "
+"daca ai descarcat sau cumparat un pachet de esantioane si vrei sa-l foloseti "
+"cu Sonic Pi.**"
 
 #: 03.7-Sample-Packs.md:10
 msgid ""
 "**Feel free to skip this if you're happy working with the built-in samples.**"
 msgstr ""
+"**Poti sa sari peste aceasta sectiune daca esti multumit cu esantioanele "
+"deja incluse in program.**"
 
 #: 03.7-Sample-Packs.md:13
 msgid ""
 "When working with large folders of external samples it can be cumbersome to "
 "have to type the whole path every time to trigger an individual sample."
 msgstr ""
+"Cand lucrezi cu foldere mari de esantioane externe poate fi dificil sa scrii "
+"de fiecare data calea completa cand vrei sa incarci un anumit esantion."
 
 #: 03.7-Sample-Packs.md:17
 msgid "For example, say you have the following folder on your machine:"
-msgstr ""
+msgstr "De exemplu, sa spunem ca ai folderul de mai jos in calculatorul tau:"
 
 #: 03.7-Sample-Packs.md:19
 #, no-wrap
 msgid "/path/to/my/samples/"
-msgstr ""
+msgstr "/path/to/my/samples/"
 
 #: 03.7-Sample-Packs.md:23
 msgid "When we look inside that folder we find the following samples:"
-msgstr ""
+msgstr "Inauntrul folderului gasim urmatoarele esantioane:"
 
 #: 03.7-Sample-Packs.md:25 03.7-Sample-Packs.md:86
 msgid "`100_A#_melody1.wav`"
-msgstr ""
+msgstr "`100_A#_melody1.wav`"
 
 #: 03.7-Sample-Packs.md:26 03.7-Sample-Packs.md:87
 msgid "`100_A#_melody2.wav`"
-msgstr ""
+msgstr "`100_A#_melody2.wav`"
 
 #: 03.7-Sample-Packs.md:27 03.7-Sample-Packs.md:88
 msgid "`100_A#_melody3.wav`"
-msgstr ""
+msgstr "`100_A#_melody3.wav`"
 
 #: 03.7-Sample-Packs.md:28 03.7-Sample-Packs.md:89
 msgid "`120_A#_melody4.wav`"
-msgstr ""
+msgstr "`120_A#_melody4.wav`"
 
 #: 03.7-Sample-Packs.md:29 03.7-Sample-Packs.md:90
 msgid "`120_Bb_guit1.wav`"
-msgstr ""
+msgstr "`120_Bb_guit1.wav`"
 
 #: 03.7-Sample-Packs.md:30 03.7-Sample-Packs.md:91
 msgid "`120_Bb_piano1.wav`"
-msgstr ""
+msgstr "`120_Bb_piano1.wav`"
 
 #: 03.7-Sample-Packs.md:32
 msgid "Typically in order to play the piano sample we can use the full path:"
 msgstr ""
+"In mod normal, pentru a reda esantionul de pian putem folosi calea completa:"
 
 #: 03.7-Sample-Packs.md:34
 #, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
-msgstr ""
+msgstr "sample \"/path/to/my/samples/120_Bb_piano1.wav\""
 
 #: 03.7-Sample-Packs.md:38
 msgid "If we want to then play the guitar sample we can use its full path too:"
 msgstr ""
+"Daca vrem ca apoi sa redam esantionul de chitara putem folosi de asemenea "
+"calea completa:"
 
 #: 03.7-Sample-Packs.md:40
 #, no-wrap
 msgid "sample \"/path/to/my/samples/120_Bb_guit.wav\""
-msgstr ""
+msgstr "sample \"/path/to/my/samples/120_Bb_guit.wav\""
 
 #: 03.7-Sample-Packs.md:44
 msgid ""
@@ -2765,25 +3043,31 @@ msgid ""
 "the samples within our directory. What if we just want to listen to each "
 "sample in turn quickly?"
 msgstr ""
+"Totusi, ambele apeluri ale comenzii sample cer ca noi sa *stim* numele "
+"esantioanelor din folder. Cum ar fi daca am dori sa ascultam fiecare "
+"esantion pe rand?"
 
 #: 03.7-Sample-Packs.md:48
 msgid "Indexing Sample Packs"
-msgstr ""
+msgstr "Indexarea pachetelor de esantioane"
 
 #: 03.7-Sample-Packs.md:50
 msgid ""
 "If we want to play the first sample in a directory we just need to pass the "
 "directory's name to `sample` and the index `0` as follows:"
 msgstr ""
+"Daca vrem sa redam primul esantion dintr-un folder trebuie doar sa "
+"transmitem catre comanda 'sample' numele folderului si indexul '0' ca mai "
+"jos:"
 
 #: 03.7-Sample-Packs.md:53
 #, no-wrap
 msgid "sample \"/path/to/my/samples/\", 0"
-msgstr ""
+msgstr "sample \"/path/to/my/samples/\", 0"
 
 #: 03.7-Sample-Packs.md:57
 msgid "We can even make a shortcut to our directory path using a variable:"
-msgstr ""
+msgstr "Putem crea o scurtatura catre folder folosind o variabila:"
 
 #: 03.7-Sample-Packs.md:59
 #, no-wrap
@@ -2791,12 +3075,16 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 0"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, 0"
 
 #: 03.7-Sample-Packs.md:64
 msgid ""
 "Now, if we want to play the second sample in our directory, we just need to "
 "add 1 to our index:"
 msgstr ""
+"Acum, daca dorim sa redam al doilea esantion din folder, trebuie doar sa "
+"adaugam 1 la index:"
 
 #: 03.7-Sample-Packs.md:67
 #, no-wrap
@@ -2804,6 +3092,8 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, 1"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, 1"
 
 #: 03.7-Sample-Packs.md:72
 msgid ""
@@ -2813,10 +3103,15 @@ msgid ""
 "simply wraps round just like Rings. Therefore, whatever number we use we're "
 "guaranteed to get one of the samples in that directory."
 msgstr ""
+"Observi ca nu mai este nevoie sa stim numele esantioanelor din folder - "
+"trebuie doar sa stim numele folderului (sau sa avem o scurtatura catre el). "
+"Daca cerem un index mai mare decat numarul de esantioane, va relua "
+"numaratoarea de la inceputul listei. Astfel, orice numar vom folosi, avem "
+"garantia ca vom obtine un esantion din acel folder."
 
 #: 03.7-Sample-Packs.md:79
 msgid "Filtering Sample Packs"
-msgstr ""
+msgstr "Filtrarea pachetelor de esantioane"
 
 #: 03.7-Sample-Packs.md:81
 msgid ""
@@ -2825,8 +3120,13 @@ msgid ""
 "the filenames. Let's take another look at the sample file names in our "
 "directory:"
 msgstr ""
+"De obicei indexarea este suficienta, dar uneori avem nevoie de o metoda mai "
+"puternica de sortare si organizare a esantioanelor. Din fericire, multe "
+"pachete de esantioane contin informatii utile in numele fisierelor. Sa mai "
+"aruncam o privire la numele fisierelor din folderul nostru:"
 
 #: 03.7-Sample-Packs.md:93
+#, fuzzy
 msgid ""
 "Notice that in these filenames we have quite a bit of information. Firstly, "
 "we have the BPM of the sample (beats per minute) at the start. So, the piano "
@@ -2836,6 +3136,13 @@ msgid ""
 "our other code. For example, we know we can only play the piano sample with "
 "code that's in 120 BPM and in the key of Bb."
 msgstr ""
+"Observi ca in aceste nume de fisiere avem ceva informatii. In primul rand, "
+"avem ritmul in BPM (batai pe minut) la inceput. Deci, esantionul de pian "
+"este la 120 BPM si primele trei melodii sunt la 100 BPM. De asemenea, numele "
+"esantioanelor contin cheia. Esantionul de chitara este in Bb, iar melodiile "
+"in A#. Aceasta informatie este foarte utila cand combini aceste esantioane "
+"cu restul codului. De exemplu, stim ca putem reda esantionul de pian doar cu "
+"cod care este la 120 BPM si in cheia Bb."
 
 #: 03.7-Sample-Packs.md:102
 msgid ""
@@ -2844,6 +3151,10 @@ msgid ""
 "we're working at 120 BPM, we can filter down to all the samples that contain "
 "the string `\"120\"` with the following:"
 msgstr ""
+"Se pare ca putem folosi aceasta conventie de numire a esantioanelor in codul "
+"nostru pentru a le filtra pe cele pe care le vrem. De exemplu, daca lucram "
+"la 120 BPM, putem aplica un filtru care retine toate esantioanele al caror "
+"nume contine sirul '\"120\"' astfel:"
 
 #: 03.7-Sample-Packs.md:107
 #, no-wrap
@@ -2851,12 +3162,16 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\""
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, \"120\""
 
 #: 03.7-Sample-Packs.md:112
 msgid ""
 "This will play us the first match. If we want the second match we just need "
 "to use the index:"
 msgstr ""
+"Aceasta va reda primul esantion care se potriveste. Daca dorim sa il redam "
+"pe al doilea trebuie sa folosim un index:"
 
 #: 03.7-Sample-Packs.md:115
 #, no-wrap
@@ -2864,6 +3179,8 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", 1"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120
 msgid ""
@@ -2871,6 +3188,9 @@ msgid ""
 "sample whose filename contains both the substrings \"120\" and \"A#\" we can "
 "find it easily with the following code:"
 msgstr ""
+"Putem chiar folosi mai multe filtre in acelasi timp. De exemplu, daca vrem "
+"un esantion al carui nume contine atat subsirurile \"120\" cat si \"A#\", "
+"putem sa-l gasim usor astfel:"
 
 #: 03.7-Sample-Packs.md:124
 #, no-wrap
@@ -2878,11 +3198,13 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"A#\""
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, \"120\", \"A#\""
 
 #: 03.7-Sample-Packs.md:129
 msgid ""
 "Finally, we're still free to add our usual opts to the call to `sample`:"
-msgstr ""
+msgstr "Putem de asemenea sa adaugam parametrii obisnuiti pentru 'sample':"
 
 #: 03.7-Sample-Packs.md:131
 #, no-wrap
@@ -2890,10 +3212,12 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"sample samps, \"120\", \"Bb\", 1, lpf: 70, amp: 2"
 
 #: 03.7-Sample-Packs.md:136
 msgid "Sources"
-msgstr ""
+msgstr "Surse"
 
 #: 03.7-Sample-Packs.md:138
 msgid ""
@@ -2901,16 +3225,22 @@ msgid ""
 "sources and filters. Sources are information used to create the list of "
 "potential candidates. A source can take two forms:"
 msgstr ""
+"Sistemul de filtrare a esantioanelor intelege doua tipuri de informatii: "
+"surse si fltre. Sursele sunt informatii utilizate pentru a crea liste de "
+"potentiali candidati. O sursa poate lua doua forme:"
 
 #: 03.7-Sample-Packs.md:142
 msgid ""
 "\"/path/to/samples\" - a string representing a valid path to a directory"
 msgstr ""
+"\"/path/to/samples\" - un sir reprezentand o cale valida catre un folder"
 
 #: 03.7-Sample-Packs.md:143
 msgid ""
 "\"/path/to/samples/foo.wav\" - a string representing a valid path to a sample"
 msgstr ""
+"\"/path/to/samples/foo.wav\" - un sir reprezentand o cale valida catre un "
+"esantion"
 
 #: 03.7-Sample-Packs.md:145
 msgid ""
@@ -2919,10 +3249,14 @@ msgid ""
 "and then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave` "
 "files contained within the directories."
 msgstr ""
+"Functia 'sample' va aduna mai intai toate sursele si le va folosi pentru a "
+"crea o lista mare de candidati. Lista este construita adaugand mai intai "
+"toate caile valide si apoi adaugand toate fisierele '.flac', '.aif', "
+"'.aiff', '.wav' sau '.wave' din aceste foldere."
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
-msgstr ""
+msgstr "De exemplu, sa aruncam o privire la codul acesta:"
 
 #: 03.7-Sample-Packs.md:152
 #, no-wrap
@@ -2932,6 +3266,10 @@ msgid ""
 "path = \"/path/to/my/samples3/foo.wav\"\n"
 "sample samps, samps2, path, 0"
 msgstr ""
+"samps = \"/path/to/my/samples/\"\n"
+"samps2 = \"/path/to/my/samples2/\"\n"
+"path = \"/path/to/my/samples3/foo.wav\"\n"
+"sample samps, samps2, path, 0"
 
 #: 03.7-Sample-Packs.md:160
 msgid ""
@@ -2940,6 +3278,10 @@ msgid ""
 "and `\"/path/to/my/samples2/\"` contained 12, we'd have 16 potential samples "
 "to index and filter (3 + 12 + 1)."
 msgstr ""
+"Aici am combinat continutul a doua foldere cu esantioane, apoi am adaugat "
+"inca un esantion individual. Daca `\"/path/to/my/samples/\"` contine 3 "
+"esantioane, iar `\"/path/to/my/samples2/\"` contine 12, avem 16 esantioane "
+"de indexat si de filtrat (3 + 12 + 1)."
 
 #: 03.7-Sample-Packs.md:165
 msgid ""
@@ -2949,6 +3291,10 @@ msgid ""
 "recursive search for all samples within all subfolders of a particular "
 "folder by adding `**` to the end of the path:"
 msgstr ""
+"Implicit, doar esantioanele din folder sunt adaugate la lista de candidati. "
+"Uneori ai putea avea si subfoldere in care ai vrea sa cauti. Poti sa "
+"efectuezi o cautare recursiva a tuturor esantioanelor din toate subfolderele "
+"unui anumit folder, adaugand '**' la sfarsitul caii:"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -2956,6 +3302,8 @@ msgid ""
 "samps = \"/path/to/nested/samples/**\"\n"
 "sample samps, 0"
 msgstr ""
+"samps = \"/path/to/nested/samples/**\"\n"
+"sample samps, 0"
 
 #: 03.7-Sample-Packs.md:176
 msgid ""
@@ -2963,6 +3311,9 @@ msgid ""
 "long time. However, the contents of all folder sources are cached, so the "
 "delay will only happen the first time."
 msgstr ""
+"Ai grija totusi, cautarea printr-un set mare de foldere poate dura foarte "
+"mult. Continutul tututor folderelor este pastrat in cache, deci intarzierea "
+"sa va manifesta doar prima data."
 
 #: 03.7-Sample-Packs.md:180
 msgid ""
@@ -2970,34 +3321,45 @@ msgid ""
 "the set of built-in samples will be selected as the default list of "
 "candidates to work with."
 msgstr ""
+"O observatie de final - sursele *trebuie sa treaca inainte*. Daca nicio "
+"sursa nu este specificata, setul de esantioane incluse in Sonic Pi va fi "
+"selectat ca lista implicita de candidati."
 
 #: 03.7-Sample-Packs.md:184
 msgid "Filters"
-msgstr ""
+msgstr "Filtre"
 
 #: 03.7-Sample-Packs.md:186
 msgid ""
 "Once you have a list of candidates you may use the following filtering types "
 "to further reduce the selection:"
 msgstr ""
+"Odata ce ai lista de candidati, poti folosi urmatoarele tipuri de filtre "
+"pentru a reduce selectia:"
 
 #: 03.7-Sample-Packs.md:189
 msgid ""
 "`\"foo\"` Strings will filter on substring occurrence within file name "
 "(minus directory path and extension)."
 msgstr ""
+"'\"foo\"' Siruri - filtrarea dupa un subsir care apare in numele fisierului ("
+"fara cale sau extensie)."
 
 #: 03.7-Sample-Packs.md:190
 msgid ""
 "`/fo[oO]/` Regular Expressions will filter on pattern matching of file name "
 "(minus directory path and extension)."
 msgstr ""
+"`/fo[oO]/` Expresii regulate - filtrarea se face prin compararea numelui "
+"fisierului (fara cale sau extensie) cu un sablon."
 
 #: 03.7-Sample-Packs.md:191
 msgid ""
 "`:foo` - Keywords will filter candidates on whether the keyword is a direct "
 "match of the filename (minus directory path and extension)."
 msgstr ""
+"':foo' Cuvinte cheie - se verifica daca numele fisierului (fara cale sau "
+"extensie) se potriveste cu cuvantul cheie."
 
 #: 03.7-Sample-Packs.md:192
 msgid ""
@@ -3006,33 +3368,43 @@ msgid ""
 "candidates and must return a new list of candidates (a list of valid paths "
 "to sample files)."
 msgstr ""
+"`lambda{|a| ... }` Proceduri cu un argument vor fi tratate ca filtre. Vor "
+"primi lista curenta de candidati si trebuie sa intoarca o noua lista ("
+"continand cai valide catre esantioane)."
 
 #: 03.7-Sample-Packs.md:193
 msgid ""
 "`1` - Numbers will select the candidate with that index (wrapping round like "
 "a ring if necessary)."
 msgstr ""
+"'1' Numere - vor selecta candidatul cu indexul respectiv (cu reluarea "
+"numararii de la inceput daca este cazul)."
 
 #: 03.7-Sample-Packs.md:195
 msgid ""
 "For example, we can filter over all the samples in a directory containing "
 "the string `\"foo\"` and play the first matching sample at half speed:"
 msgstr ""
+"De exemplu, putem filtra toate esantioanele dintr-un folder care contin "
+"sirul '\"foo\"' si sa redam primul esantion care se potriveste, la jumatate "
+"din viteza normala:"
 
 #: 03.7-Sample-Packs.md:199
 #, no-wrap
 msgid "sample \"/path/to/samples\", \"foo\", rate: 0.5"
-msgstr ""
+msgstr "sample \"/path/to/samples\", \"foo\", rate: 0.5"
 
 #: 03.7-Sample-Packs.md:203
 msgid ""
 "See the help for `sample` for many detailed usage examples. Note that the "
 "ordering of the filters is honoured."
 msgstr ""
+"Cauta in help (sistemul de ajutor) exemple mai detaliate de utilizare. "
+"Observa cum este respectata ordinea filtrelor."
 
 #: 03.7-Sample-Packs.md:206
 msgid "Composites"
-msgstr ""
+msgstr "Combinatii"
 
 #: 03.7-Sample-Packs.md:208
 msgid ""
@@ -3041,6 +3413,10 @@ msgid ""
 "regular sources and filters. Therefore the following calls to `sample` are "
 "semantically equivalent:"
 msgstr ""
+"Poti folosi liste oriunde poti folosi o sursa sau un filtru. Lista va fi "
+"normalizata automat si continutul va fi tratat ca sursele si filtrele "
+"obisnuite. Ca urmare, urmatoarele apeluri ale functiei 'sample' sunt "
+"echivalente semantic:"
 
 #: 03.7-Sample-Packs.md:213
 #, no-wrap
@@ -3050,10 +3426,14 @@ msgid ""
 "sample \"/path/to/dir\", [\"100\", \"C#\"]\n"
 "sample [\"/path/to/dir\", [\"100\", [\"C#\"]]]"
 msgstr ""
+"sample \"/path/to/dir\", \"100\", \"C#\"\n"
+"sample [\"/path/to/dir\", \"100\", \"C#\"]\n"
+"sample \"/path/to/dir\", [\"100\", \"C#\"]\n"
+"sample [\"/path/to/dir\", [\"100\", [\"C#\"]]]"
 
 #: 03.7-Sample-Packs.md:220
 msgid "Wrapping Up"
-msgstr ""
+msgstr "Concluzie"
 
 #: 03.7-Sample-Packs.md:222
 msgid ""
@@ -3063,14 +3443,20 @@ msgid ""
 "However, you'll know when you do need it and you can come back and re-read "
 "this when you start working with large directories of samples."
 msgstr ""
+"Aceasta a fost o sectiune avansata pentru cei care au nevoie de posibiltatea "
+"de a manevra pachete de esantioane. Daca n-ai inteles mare lucru din "
+"sectiunea asta, nu te ingrijora. Probabil inca nu ai nevoie de "
+"functionalitatea asta. Totusi, cand vei avea nevoie de ea vei sti ca exista "
+"si te vei putea intoarce sa recitesti aceasta parte cand vei lucra cu "
+"foldere mari cu esantioane."
 
 #: 04-Randomisation.md:1
 msgid "4 Randomisation"
-msgstr ""
+msgstr "4 Randomizare"
 
 #: 04-Randomisation.md:3
 msgid "Randomisation"
-msgstr ""
+msgstr "Randomizare"
 
 #: 04-Randomisation.md:5
 msgid ""
@@ -3079,10 +3465,15 @@ msgid ""
 "music, but before we start we need to learn a shocking truth: in Sonic Pi "
 "*random is not truly random*. What on earth does this mean? Well, let's see."
 msgstr ""
+"O modalitate de a face muzica ta mai interesanta este sa adaugi niste numere "
+"aleatoare (random). Sonic Pi ofera functii puternice pentru adaugarea unui "
+"caracter aleatoriu muzicii, dar inainte de a incepe trebuie sa aflam un "
+"lucru socant: in Sonic Pi *aleator nu inseamna cu adevarat aleator*. Ce "
+"naiba mai inseamna si asa? Ei bine, sa vedem."
 
 #: 04-Randomisation.md:11
 msgid "Repeatability"
-msgstr ""
+msgstr "Repetabilitate"
 
 #: 04-Randomisation.md:13
 msgid ""
@@ -3090,11 +3481,15 @@ msgid ""
 "value between two numbers - a *min* and a *max*. (`rrand` is short for "
 "ranged random). Let's try playing a random note:"
 msgstr ""
+"O functie cu adevarat utila este 'rrand', care va intoarce o valoare "
+"aleatoare intre doua numere - un *min* si un *max*. ('rrand' este "
+"prescurtarea de la ranged random - aleator intr-un interval). Sa incercam sa "
+"redam o nota aleatoare:"
 
 #: 04-Randomisation.md:17
 #, no-wrap
 msgid "play rrand(50, 95)"
-msgstr ""
+msgstr "play rrand(50, 95)"
 
 #: 04-Randomisation.md:21
 msgid ""
@@ -3103,6 +3498,10 @@ msgid ""
 "got too? Something fishy is going on here. Try running the code again. What? "
 "It chose `83.7527` again? That can't be random!"
 msgstr ""
+"O, a cantat o nota aleatoare. A cantat nota '83.7527'. O nota draguta aleasa "
+"aleator intre 50 si 95. Hei, stai asa, tocmai am prezis nota exacta pe care "
+"ai obtinut-o si tu? Ceva nu e in regula aici. Incearca sa mai executi codul "
+"o data. Ce? A ales `83.7527` din nou? Asta nu poate fi aleator!"
 
 #: 04-Randomisation.md:26
 msgid ""
@@ -3112,6 +3511,11 @@ msgid ""
 "everybody else's machine - even if you use some randomness in your "
 "composition."
 msgstr ""
+"Raspunsul este ca nu este cu adevarat aleator, ci pseudo-aleator. Sonic Pi "
+"va genera numere aparent aleatoare intr-un mode repetabil. Acest lucru este "
+"util daca vrei sa te asiguri ca muzica pe care ai creat-o pe calculatorul "
+"tau va suna identica pe oricare alt calculator - chiar si atunci cand ai "
+"introdus un pic de aleatorism in compozitia ta."
 
 #: 04-Randomisation.md:32
 msgid ""
@@ -3119,6 +3523,9 @@ msgid ""
 "time, then it wouldn't be very interesting. However, it doesn't. Try the "
 "following:"
 msgstr ""
+"Desigur, intr-o piesa oarecare, daca alege mereu 'aleator' valoarea  "
+"`83.7527`, nu este prea interesant. Totusi, nu se intampla asa. Incearca "
+"asta:"
 
 #: 04-Randomisation.md:36
 #, no-wrap
@@ -3142,10 +3549,16 @@ msgid ""
 "point every time the Run button was pressed. It's the Groundhog Day of music "
 "synthesis!"
 msgstr ""
+"Da! In fine, suna aleator. In cadrul unei executii a codului, apelurile "
+"succesive ale functiilor vor intoarce valori aleatoare. Totusi, la "
+"urmatoarea rulare vor fi generate aceleasi numere aleatoare si sunetul va fi "
+"exact la fel. Este ca si cand Sonic Pi s-ar intoarce in timp exact in "
+"acelasi punct de fiecare data cand apesi butonu Executa (Run). Este Ziua "
+"Cartitei pentru compozitia muzicala!"
 
 #: 04-Randomisation.md:50
 msgid "Haunted Bells"
-msgstr ""
+msgstr "Clopotele bantuite"
 
 #: 04-Randomisation.md:52
 msgid ""
@@ -3153,6 +3566,9 @@ msgid ""
 "example which loops the `:perc_bell` sample with a random rate and sleep "
 "time between bell sounds:"
 msgstr ""
+"Un ilustrare draguta a aleatorismului este exemplul cu clopotele bantuite "
+"care reda in bucla esantionul `:perc_bell` folosind valori aleatoare pentru "
+"viteza si pentru durata pauzelor intre sunete:"
 
 #: 04-Randomisation.md:56
 #, no-wrap
@@ -3169,16 +3585,19 @@ msgstr ""
 
 #: 04-Randomisation.md:63
 msgid "Random cutoff"
-msgstr ""
+msgstr "Intrerupere (cutoff) aleatoare"
 
 #: 04-Randomisation.md:65
 msgid ""
 "Another fun example of randomisation is to modify the cutoff of a synth "
 "randomly. A great synth to try this out on is the `:tb303` emulator:"
 msgstr ""
+"Un alt exemplu de utilizare a randomizarii este modificarea aleatoare a "
+"momentului de cutoff pentru un sintetizator. Un sintetizator potrivit pentru "
+"a incerca asta este emulatorul ':tb303':"
 
 #: 04-Randomisation.md:69
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_synth :tb303\n"
 "loop do\n"
@@ -3191,11 +3610,11 @@ msgstr ""
 "  sample :bd_haus, rate: 1\n"
 "  sleep 0.5\n"
 "end\n"
-"```\n"
+"```"
 
 #: 04-Randomisation.md:78
 msgid "Random seeds"
-msgstr ""
+msgstr "Valoarea de initializare (seed) a secventei aleatoare"
 
 #: 04-Randomisation.md:80
 msgid ""
@@ -3204,34 +3623,38 @@ msgid ""
 "via `use_random_seed`. The default seed happens to be 0, so choose a "
 "different seed for a different random experience!"
 msgstr ""
+"Deci, ce faci faca nu-ti place o anumita secventa de numere aleatoare "
+"produsa de Sonic Pi? Ei bine, este posibil sa alegi un alt punct de pornire "
+"folosind 'use_random_seed'. Valoarea implicita este 0, deci alege o alta "
+"valoare pentru seed si vei avea o secventa aleatoare diferita!"
 
 #: 04-Randomisation.md:85
 msgid "Consider the following:"
-msgstr ""
+msgstr "Priveste aceasta bucata de cod:"
 
 #: 04-Randomisation.md:87
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "5.times do\n"
 "  play rrand(50, 100)\n"
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"5.times do\n"
+"  play rrand(50, 100)\n"
 "  sleep 0.5\n"
-"end\n"
-"```\n"
+"end"
 
 #: 04-Randomisation.md:94
 msgid ""
 "Every time you run this code, you'll hear the same sequence of 5 notes. To "
 "get a different sequence simply change the seed:"
 msgstr ""
+"De fiecare data cand vei exexuta acest cod, vei auzi aceeasi secventa de 5 "
+"note. Pentru a obtine o secventa diferita schimba valoarea pentru seed:"
 
 #: 04-Randomisation.md:97
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_random_seed 40\n"
 "5.times do\n"
@@ -3239,12 +3662,11 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"use_random_seed 40\n"
+"5.times do\n"
+"  play rrand(50, 100)\n"
 "  sleep 0.5\n"
-"end\n"
-"```\n"
+"end"
 
 #: 04-Randomisation.md:105
 msgid ""
@@ -3252,14 +3674,19 @@ msgid ""
 "listening to the results you can find something that you like - and when you "
 "share it with others, they will hear exactly what you heard too."
 msgstr ""
+"Aceasta va produce o alta secventa de 5 note. Schimband valoarea de "
+"initializare si ascultand rezultatul poti gasi ceva ce iti place - iar cand "
+"vei transmite altora piesa, ei vor auzi exact acelasi lucru pe care l-ai "
+"auzit si tu."
 
 #: 04-Randomisation.md:110
 msgid "Let's have a look at some other useful random functions."
 msgstr ""
+"Sa aruncam o privire si asupra altor functii utile pentru numere aleatoare."
 
 #: 04-Randomisation.md:113
 msgid "choose"
-msgstr ""
+msgstr "choose (alege)"
 
 #: 04-Randomisation.md:115
 msgid ""
@@ -3270,34 +3697,38 @@ msgid ""
 "them in square brackets and separating them with commas: `[60, 65, 72]`. "
 "Next I just need to pass them to `choose`:"
 msgstr ""
+"O situatie des intalnita este cea in care vrem sa alegem un element la "
+"intamplare dintr-o lista predefinita. De exemplu, vreau sa redau o nota "
+"dintre urmatoarele: 60, 65 sau 72. Poti face acest lucru folosind 'choose' "
+"care imi permite sa aleg un element dintr-o lista. Mai intai, trebuie sa "
+"trec numerele intr-o lista, introducandu-le intre paranteze patrate si "
+"separandu-le cu virgule: '[60, 65, 72]'. Apoi le transmit functiei 'choose':"
 
 #: 04-Randomisation.md:122
 #, no-wrap
 msgid "choose([60, 65, 72])"
-msgstr ""
+msgstr "choose([60, 65, 72])"
 
 #: 04-Randomisation.md:126
 msgid "Let's hear what that sounds like:"
-msgstr ""
+msgstr "Sa ascultam sunetul obtinut:"
 
 #: 04-Randomisation.md:128
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  play choose([60, 65, 72])\n"
 "  sleep 1\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"loop do\n"
+"  play choose([60, 65, 72])\n"
+"  sleep 1\n"
+"end"
 
 #: 04-Randomisation.md:135
 msgid "rrand"
-msgstr ""
+msgstr "rrand"
 
 #: 04-Randomisation.md:137
 msgid ""
@@ -3307,10 +3738,17 @@ msgid ""
 "number will always be a float - meaning it's not a whole number but a "
 "fraction of a number. Examples of floats returned by `rrand(20, 110)`:"
 msgstr ""
+"Am discutat deja despre functia 'rrand', dar sa ne mai oprim putin asupra "
+"ei. Functia intoarce un numar aleator dintr-un interval deschis. Asta "
+"inseamna ca nu va intoarce niciodata valoarea minima sau pe cea maxima - "
+"intotdeauna va fi un numar intre cele doua. Numarul va fi intotdeauna de "
+"tipul float (cu virgula mobila) - insemnand ca nu este un numar intreg, ci "
+"are si o parte zecimala. Exemple de numere de tip float returnate de 'rrand("
+"20, 110)':"
 
 #: 04-Randomisation.md:148
 msgid "rrand_i"
-msgstr ""
+msgstr "rrand_i"
 
 #: 04-Randomisation.md:150
 msgid ""
@@ -3320,10 +3758,14 @@ msgid ""
 "inclusive rather than exclusive of the range). Examples of numbers returned "
 "by `rrand_i(20, 110)` are:"
 msgstr ""
+"Vor fi si situatii in care vei dori un numar aleator intreg, nu unul cu "
+"virgula. Aici intervine 'rrand_i'. Functioneaza la fel ca 'rrand', doar ca "
+"poate returna si valorile minima sau maxima (foloseste un interval inchis de "
+"valori). Exemple de numere returnate de `rrand_i(20, 110)`:"
 
 #: 04-Randomisation.md:160
 msgid "rand"
-msgstr ""
+msgstr "rand"
 
 #: 04-Randomisation.md:162
 msgid ""
@@ -3331,35 +3773,38 @@ msgid ""
 "specify (exclusive). By default it will return a value between 0 and one. "
 "It's therefore useful for choosing random `amp:` values:"
 msgstr ""
+"Va returna un numar tip float intre 0 (inclusiv) si valoarea maxima pe care "
+"o specifici (exclusiv). Implicit va returna o valoare intre 0 si 1. Este "
+"deci util pentru alegerea aleatoare a valorilor pentru 'amp:':"
 
 #: 04-Randomisation.md:167
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  play 60, amp: rand\n"
 "  sleep 0.25\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"loop do\n"
+"  play 60, amp: rand\n"
+"  sleep 0.25\n"
+"end"
 
 #: 04-Randomisation.md:174
 msgid "rand_i"
-msgstr ""
+msgstr "rand_i"
 
 #: 04-Randomisation.md:176
 msgid ""
 "Similar to the relationship between `rrand_i` and `rrand`, `rand_i` will "
 "return a random whole number between 0 and the max value you specify."
 msgstr ""
+"Asemanator cu 'rrand_i' pentru 'rrand', exista 'rand_i' care va returna o "
+"valoare intreaga intre 0 si valoarea maxima pe care i-o transmiti."
 
 #: 04-Randomisation.md:179
 msgid "dice"
-msgstr ""
+msgstr "dice"
 
 #: 04-Randomisation.md:181
 msgid ""
@@ -3371,10 +3816,16 @@ msgid ""
 "a 4 sided dice, or a 12 sided dice, or a 20 sided dice - perhaps even a 120 "
 "sided dice!"
 msgstr ""
+"Uneori vrei sa simulezi ca dai cu zarul - este un caz particular pentru "
+"'rrand_i' in care valoarea minima este mereu 1. Un apel al functiei 'dice' "
+"cere sa specifici numarul de fete ale zarului. Un zar standard are 6 fete, "
+"deci 'dice(6)' va avea un comportament asemanator - va returna valorile 1, "
+"2, 3, 4, 5 sau 6. Totusi, la fel ca in jocurile fantasy ai putea considera "
+"util un zar cu 4 fete, sau cu 12, sau 20 - poate chiar cu 120 de fete!"
 
 #: 04-Randomisation.md:189
 msgid "one_in"
-msgstr ""
+msgstr "one_in"
 
 #: 04-Randomisation.md:191
 msgid ""
@@ -3385,18 +3836,24 @@ msgid ""
 "are very useful for `if` statements which we will cover in a subsequent "
 "section of this tutorial."
 msgstr ""
+"In fine, poate doresti sa emulezi obtinerea scorului maxim la un zar, cum ar "
+"fi 6 in cazul celui standard. 'one_in' returneaza true cu o probabilitate de "
+"1 din numarul de fete ale zarului. Astfel, 'one_in(6)' va returna true cu "
+"probabilitate de 1 din 6 si false in celelalte cazuri. True si false ("
+"adevarat si fals) sunt valori utile pentru instructiunile 'if' (daca) despre "
+"care vom vorbi mai tarziu in acest tutorial."
 
 #: 04-Randomisation.md:198
 msgid "Now, go and jumble up your code with some randomness!"
-msgstr ""
+msgstr "Acum, poti incepe sa zapacesti codul tau cu putin aleatorism!"
 
 #: 05-Programming-Structures.md:1
 msgid "5 Programming Structures"
-msgstr ""
+msgstr "5 Structuri de programare"
 
 #: 05-Programming-Structures.md:3
 msgid "Programming Structures"
-msgstr ""
+msgstr "Structuri de programare"
 
 #: 05-Programming-Structures.md:5
 msgid ""
@@ -3404,6 +3861,9 @@ msgid ""
 "`sample` and creating simple melodies and rhythms by `sleep`ing between "
 "sounds, you might be wondering what else the world of code can offer you..."
 msgstr ""
+"Acum ca ai invatat bazele producerii de sunete folosind 'play' si 'sample' "
+"si crearea de melodii simple folosind 'sleep' (pauza) intre sunete, ai putea "
+"sa te intrebi ce iti mai poate oferi lumea programarii..."
 
 #: 05-Programming-Structures.md:10
 msgid ""
@@ -3411,18 +3871,22 @@ msgid ""
 "structures such as looping, conditionals, functions and threads give you "
 "amazingly powerful tools to express your musical ideas."
 msgstr ""
+"Ei bine, te asteapta lucruri interesante.Se pare ca structurile de baza din "
+"programare, cum ar fi buclele, conditiile, functiile si firele de executie "
+"iti ofera niste unelte incredibil de puternice pentru a-ti manifesta "
+"talentul muzical."
 
 #: 05-Programming-Structures.md:14
 msgid "Let's get stuck in with the basics..."
-msgstr ""
+msgstr "Sa ramanem la elementele de baza..."
 
 #: 05.1-Blocks.md:1
 msgid "5.1 Blocks"
-msgstr ""
+msgstr "5.1 Blocuri"
 
 #: 05.1-Blocks.md:3
 msgid "Blocks"
-msgstr ""
+msgstr "Blocuri"
 
 #: 05.1-Blocks.md:5
 msgid ""
@@ -3433,6 +3897,13 @@ msgid ""
 "of code. For example, we may wish to loop it, to add reverb to it, to only "
 "run it 1 time out of 5, etc. Consider the following code:"
 msgstr ""
+"O structura pe care o vei intalni adesea in Sonic Pi este blocul. Blocurile "
+"iti permit sa faci lucruri utile cu bucati mari de cod. De exemplu, cu "
+"comanda synth si cativa parametri am reusit sa schimbam ceva ce a influentat "
+"o singura linie. Totusi, uneori vrem sa facem astfel de modificari care sa "
+"influenteze mai multe linii de cod. De exemplu, am putea dori sa le reluam "
+"in bucla (loop), sa adaugam un efect reverb, sa le rulam doar 1 data din 5, "
+"etc. Sa analizam codul urmator:"
 
 #: 05.1-Blocks.md:13
 #, no-wrap
@@ -3443,6 +3914,11 @@ msgid ""
 "sleep 0.5\n"
 "play 62"
 msgstr ""
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_plip\n"
+"sleep 0.5\n"
+"play 62"
 
 #: 05.1-Blocks.md:21
 msgid ""
@@ -3450,6 +3926,9 @@ msgid ""
 "code block *starts* and where it *ends*. We use `do` for start and `end` for "
 "end. For example:"
 msgstr ""
+"Pentru a actiona asupra unei bucati de cod, trebuie sa transmitem catre "
+"Sonic Pi unde *incepe* si unde *se termina*. Folosim 'do' pentru inceput si "
+"'end' pentru sfarsit. De exemplu:"
 
 #: 05.1-Blocks.md:25
 #, no-wrap
@@ -3462,6 +3941,13 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 05.1-Blocks.md:35
 msgid ""
@@ -3473,14 +3959,22 @@ msgid ""
 "`do` and `end` tells Sonic Pi you wish to do something special with that "
 "chunk of code."
 msgstr ""
+"Totusi, nu este inca suficient si bucata respectiva nu functioneaza ("
+"incearca sa o executi si vei primi un mesaj de eroare) deoarece nu am "
+"transmis Sonic Pi ce vrem sa faca cu acest *bloc do/end*. Putem transmite "
+"acest lucru catre Sonic Pi scriind comenzi specifice inainte de 'do'. Vom "
+"vedea mai multe astfele de bucati de cod mai tarziu pe parcursul "
+"tutorialului. Pentru moment este important de stiut ca delimitand o parte "
+"din cod cu 'do' si 'end' Sonic Pi va sti ca vrei sa faci ceva special cu "
+"acea bucata."
 
 #: 05.2-Iteration-and-Loops.md:1
 msgid "5.2 Iteration and Loops"
-msgstr ""
+msgstr "5.2 Iteratii si bucle"
 
 #: 05.2-Iteration-and-Loops.md:3
 msgid "Iteration and Loops"
-msgstr ""
+msgstr "Iteratii si bucle"
 
 #: 05.2-Iteration-and-Loops.md:5
 msgid ""
@@ -3488,6 +3982,9 @@ msgid ""
 "make with `play` and `sample` blocks. We've also learned how to trigger "
 "these sounds through time using `sleep`."
 msgstr ""
+"Pana acum am petrecut mare parte din timp analizand diferite sunete pe care "
+"le poti crea folosind comenzi 'play' si 'sample'. Am invatat de asemenea cum "
+"putem alege momentul cand pornim aceste sunete folosind 'sleep'."
 
 #: 05.2-Iteration-and-Loops.md:9
 msgid ""
@@ -3497,16 +3994,23 @@ msgid ""
 "In the next few sections we'll explore some of these powerful new tools. "
 "First up is iteration and loops."
 msgstr ""
+"Dupa cum ai observat probabil, poti face *o gramada* de chestii interesante "
+"folosind aceste blocuri de baza. Folosind puterea programarii pentru a-ti "
+"structura muzica si compozitiile ti se vor deschide insa noi perspective. In "
+"urmatoarele sectiuni vom explora cateva dintre aceste unelte noi si "
+"puternice. Sa incepem cu iteratiile si buclele."
 
 #: 05.2-Iteration-and-Loops.md:15
 msgid "Repetition"
-msgstr ""
+msgstr "Repetitia"
 
 #: 05.2-Iteration-and-Loops.md:17
 msgid ""
 "Have you written some code you'd like to repeat a few times? For example, "
 "you might have something like this:"
 msgstr ""
+"Ai scris vreo bucata de cod pe care ai vrea sa o repeti de cateva ori? De "
+"exemplu, ai putea avea ceva de genul:"
 
 #: 05.2-Iteration-and-Loops.md:20
 #, no-wrap
@@ -3518,12 +4022,20 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_blup\n"
+"sleep 0.5\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:29
 msgid ""
 "What if we wished to repeat this 3 times? Well, we could do something simple "
 "and just copy and paste it three times:"
 msgstr ""
+"Cum ar fi daca ai vrea sa se repete de 3 ori? Ei bine, putem face ceva "
+"simplu - o copiem si apoi o lipim de 3 ori:"
 
 #: 05.2-Iteration-and-Loops.md:32
 #, no-wrap
@@ -3547,6 +4059,24 @@ msgid ""
 "play 62\n"
 "sleep 0.25"
 msgstr ""
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_blup\n"
+"sleep 0.5\n"
+"play 62\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_blup\n"
+"sleep 0.5\n"
+"play 62\n"
+"sleep 0.25\n"
+"play 50\n"
+"sleep 0.5\n"
+"sample :elec_blup\n"
+"sleep 0.5\n"
+"play 62\n"
+"sleep 0.25"
 
 #: 05.2-Iteration-and-Loops.md:55
 msgid ""
@@ -3556,10 +4086,16 @@ msgid ""
 "repeat the original piece of code 50 times or 1000? Now that would be a lot "
 "of code, and a lot of lines of code to alter if you wanted to make a change."
 msgstr ""
+"E ceva cod acolo! Ce se intampla daca vrei sa schimbi esantionul cu ':"
+"elec_plip'? Va trebui sa gasesti toate locurile in care apare cel initial - "
+"':elec_blup' si sa il inlocuiesti peste tot. Mai mult, ce s-ar intampla daca "
+"ai vrea sa repeti bucata initiale de 50 de ori sau chiar de 1000? Atunci "
+"chiar ar fi o gramada de cod si deci o gramada de linii pe care ar trebui sa "
+"le modifici daca ai vrea sa faci o schimbare."
 
 #: 05.2-Iteration-and-Loops.md:62
 msgid "Iteration"
-msgstr ""
+msgstr "Iteratia"
 
 #: 05.2-Iteration-and-Loops.md:64
 msgid ""
@@ -3570,6 +4106,13 @@ msgid ""
 "this three times*, we write `3.times do` - that's not too hard. Just "
 "remember to write `end` at the end of the code you'd like to repeat:"
 msgstr ""
+"De fapt, repetarea unei bucati de cod ar trebui sa fie la fel de simpla ca a "
+"spune *fa asta de trei ori*. Cam asa si este. Iti aduci aminte de prietenul "
+"nostru - blocul de cod? Putem sa-l folosim pentru a marca inceputul si "
+"sfarsitul codului pe care vrem sa-l repetam de trei ori. Apoi vom folosi "
+"comanda speciala '3.times'. Deci, in loc sa scriem *fa asta de trei ori (do "
+"this three times)*, scriem `3.times do` - nu pare prea greu. Tine minte sa "
+"scrii 'end' la sfarsitul codului care vrei sa se repete:"
 
 #: 05.2-Iteration-and-Loops.md:72
 #, no-wrap
@@ -3583,12 +4126,22 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"3.times do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_blup\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"  sleep 0.25\n"
+"end"
 
 #: 05.2-Iteration-and-Loops.md:83
 msgid ""
 "Now isn't that much neater than cutting and pasting! We can use this to "
 "create lots of nice repeating structures:"
 msgstr ""
+"Nu-i asa ca e mult mai curat decat metoda copy/paste? Putem folosi blocurile "
+"pentru a crea  mai multe structuri repetitive:"
 
 #: 05.2-Iteration-and-Loops.md:86
 #, no-wrap
@@ -3606,16 +4159,30 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"4.times do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"end\n"
+"8.times do\n"
+"  play 55, release: 0.2\n"
+"  sleep 0.25\n"
+"end\n"
+"4.times do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.2-Iteration-and-Loops.md:103
 msgid "Nesting Iterations"
-msgstr ""
+msgstr "Iteratii in cadrul altor iteratii"
 
 #: 05.2-Iteration-and-Loops.md:105
 msgid ""
 "We can put iterations inside other iterations to create interesting "
 "patterns. For example:"
 msgstr ""
+"Putem pune iteratii inauntrul altor iteratii pentru a crea niste midele "
+"interesante. De exemplu:"
 
 #: 05.2-Iteration-and-Loops.md:108
 #, no-wrap
@@ -3633,10 +4200,22 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"4.times do\n"
+"  sample :drum_heavy_kick\n"
+"  2.times do\n"
+"    sample :elec_blip2, rate: 2\n"
+"    sleep 0.25\n"
+"  end\n"
+"  sample :elec_snare\n"
+"  4.times do\n"
+"    sample :drum_tom_mid_soft\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: 05.2-Iteration-and-Loops.md:123
 msgid "Looping"
-msgstr ""
+msgstr "Reluarea in bucla"
 
 #: 05.2-Iteration-and-Loops.md:125
 msgid ""
@@ -3645,6 +4224,10 @@ msgid ""
 "probably better off asking Sonic Pi to repeat forever (at least until you "
 "press the stop button!). Let's loop the amen break forever:"
 msgstr ""
+"Daca vrei ca o bucata sa se repete de multe ori, ai putea fi nevoit sa "
+"folosesti numere foarte mari, de exemplu `1000.times do`. In acest caz, "
+"probabil ca e mai bine sa ceri Sonic Pi sa repete la infinit (sau macar pana "
+"cand apesi butonul de oprire!). Sa redam amen break in bucla la infinit:"
 
 #: 05.2-Iteration-and-Loops.md:130
 #, no-wrap
@@ -3654,6 +4237,10 @@ msgid ""
 "  sleep sample_duration :loop_amen\n"
 "end"
 msgstr ""
+"loop do\n"
+"  sample :loop_amen\n"
+"  sleep sample_duration :loop_amen\n"
+"end"
 
 #: 05.2-Iteration-and-Loops.md:137
 msgid ""
@@ -3663,6 +4250,11 @@ msgid ""
 "have code after the loop you will *never* hear it. For example, the cymbal "
 "after this loop will never play:"
 msgstr ""
+"Un lucru de tinut minte este ca aceste bucle actioneaza ca niste gauri negre "
+"pentru cod. Odata ce codul ajunge la bucla (loop), el nu o va parasi "
+"niciodata daca nu apesi pe butonul de oprire - pur si simplu va relua la "
+"nesfarsit bucla. Asta inseamna ca daca ai cod scris dupa loop, nu il vei "
+"auzi *niciodata*. De exemplu, talerul de dupa loop nu va fi redat niciodata:"
 
 #: 05.2-Iteration-and-Loops.md:143
 #, no-wrap
@@ -3673,18 +4265,23 @@ msgid ""
 "end\n"
 "sample :drum_cymbal_open"
 msgstr ""
+"loop do\n"
+"  play 50\n"
+"  sleep 1\n"
+"end\n"
+"sample :drum_cymbal_open"
 
 #: 05.2-Iteration-and-Loops.md:152
 msgid "Now, get structuring your code with iteration and loops!"
-msgstr ""
+msgstr "Acum poti incepe sa-ti structurezi codul folosind iteratii si bucle!"
 
 #: 05.3-Conditionals.md:1
 msgid "5.3 Conditionals"
-msgstr ""
+msgstr "5.3 Conditii"
 
 #: 05.3-Conditionals.md:3
 msgid "Conditionals"
-msgstr ""
+msgstr "Conditii"
 
 #: 05.3-Conditionals.md:5
 msgid ""
@@ -3694,10 +4291,15 @@ msgid ""
 "For example, you might want to randomly play a drum or a cymbal. We can "
 "achieve this with an `if` statement."
 msgstr ""
+"Ai putea dori nu doar sa redai o nota aleatoare (vezi sectiunea precedenta "
+"pentru aleatorism), dar si sa iei o decizie aleatoare si pe baza "
+"rezultatului ei sa executi o bucata de cod sau alta. De exemplu, ai putea "
+"dori sa redai la intamplare o toba sau un taler. Putem obtine acest lucru "
+"folosind instructiunea 'if'."
 
 #: 05.3-Conditionals.md:11
 msgid "Flipping a Coin"
-msgstr ""
+msgstr "Datul cu banul"
 
 #: 05.3-Conditionals.md:13
 msgid ""
@@ -3707,6 +4309,11 @@ msgid ""
 "2: `one_in(2)`. We can then use the result of this to decide between two "
 "pieces of code, the code to play the drum and the code to play the cymbal:"
 msgstr ""
+"Deci, sa dam cu banul: daca iese cap, redam toba, daca este pajura, redam "
+"talerul. Usor. Putem simula datul cu banul cu functia 'one_in' (prezentata "
+"in sectiunea despre aleatorism) specificand o probabilitate de 1 din 2: "
+"`one_in(2)`. Putem apoi folosi rezultatul pentru a decide intre doua bucati "
+"de cod, cea pentru toba si cea pentru taler:"
 
 #: 05.3-Conditionals.md:20
 #, no-wrap
@@ -3722,22 +4329,34 @@ msgid ""
 "  \n"
 "end"
 msgstr ""
+"loop do\n"
+"  if one_in(2)\n"
+"    sample :drum_heavy_kick\n"
+"  else\n"
+"    sample :drum_cymbal_closed\n"
+"  end\n"
+"  \n"
+"  sleep 0.5\n"
+"  \n"
+"end"
 
 #: 05.3-Conditionals.md:34
 msgid "Notice that `if` statements have three parts:"
-msgstr ""
+msgstr "Instructiunea 'if' are trei parti:"
 
 #: 05.3-Conditionals.md:36
 msgid "The question to ask"
-msgstr ""
+msgstr "Intrebarea care trebuie pusa"
 
 #: 05.3-Conditionals.md:37
 msgid "The first choice of code to run (if the answer to the question is yes)"
 msgstr ""
+"Prima optiune pentru codul de executat (daca raspunsul la intrebare este da)"
 
 #: 05.3-Conditionals.md:38
 msgid "The second choice of code to run (if the answer to the question is no)"
 msgstr ""
+"A doua optiune pentru codul de executat (daca raspunsul la intrebare este nu)"
 
 #: 05.3-Conditionals.md:40
 msgid ""
@@ -3746,6 +4365,10 @@ msgid ""
 "need to find a question that will give us a `true` or `false` answer which "
 "is exactly what `one_in` does."
 msgstr ""
+"In general, in limbajele de programare, raspunsul da este reprezentat prin "
+"termenul 'true' (adevarat), iar raspunsul nu este reprezentat prin termenul "
+"'false' (fals). Deci trebuie sa gasim o intrebare la care raspunsul este "
+"'true' sau 'false', adica exact ceea ce face 'one_in'."
 
 #: 05.3-Conditionals.md:45
 msgid ""
@@ -3753,6 +4376,9 @@ msgid ""
 "the second choice is wrapped between the `else` and the `end`. Just like do/"
 "end blocks you can put multiple lines of code in either place. For example:"
 msgstr ""
+"Prima optiune este delimitata de 'if' si 'else', in timp ce a doua este "
+"delimitata de 'else' si 'end'. La fel ca in cazul blocurilor do/end, poti "
+"pune mai multe linii de cod in oricare dintre cele doua locuri. De exemplu:"
 
 #: 05.3-Conditionals.md:50
 #, no-wrap
@@ -3768,22 +4394,36 @@ msgid ""
 "  \n"
 "end"
 msgstr ""
+"loop do\n"
+"  if one_in(2)\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 0.5\n"
+"  else\n"
+"    sample :drum_cymbal_closed\n"
+"    sleep 0.25\n"
+"  end\n"
+"  \n"
+"end"
 
 #: 05.3-Conditionals.md:64
 msgid ""
 "This time we're sleeping for a different amount of time depending on which "
 "choice we make."
 msgstr ""
+"De data asta vom face pauze de durate diferite in functie de algerile pe "
+"care le facem."
 
 #: 05.3-Conditionals.md:68
 msgid "Simple if"
-msgstr ""
+msgstr "If simplu"
 
 #: 05.3-Conditionals.md:70
 msgid ""
 "Sometimes you want to optionally execute just one line of code. This is "
 "possible by placing `if` and then the question at the end. For example:"
 msgstr ""
+"Uneori vrem ca o instructiune unica sa se execute optional. Acest lucru este "
+"posibil prin adaugarea unui 'if' si a conditiei la sfarsit. De exemplu:"
 
 #: 05.3-Conditionals.md:73
 #, no-wrap
@@ -3797,20 +4437,30 @@ msgid ""
 "  sleep 1.5\n"
 "end"
 msgstr ""
+"use_synth :dsaw\n"
+"loop do\n"
+"  play 50, amp: 0.3, release: 2\n"
+"  play 53, amp: 0.3, release: 2 if one_in(2)\n"
+"  play 57, amp: 0.3, release: 2 if one_in(3)\n"
+"  play 60, amp: 0.3, release: 2 if one_in(4)\n"
+"  sleep 1.5\n"
+"end"
 
 #: 05.3-Conditionals.md:85
 msgid ""
 "This will play chords of different numbers with the chance of each note "
 "playing having a different probability."
 msgstr ""
+"Acest cod va reda acorduri cu componente diferite, cu probabilitati diferite "
+"pentru fiecare nota de a face parte din acestea."
 
 #: 05.4-Threads.md:1
 msgid "5.4 Threads"
-msgstr ""
+msgstr "5.5 Fire de executie"
 
 #: 05.4-Threads.md:3
 msgid "Threads"
-msgstr ""
+msgstr "Fire de executie"
 
 #: 05.4-Threads.md:5
 msgid ""
@@ -3819,6 +4469,10 @@ msgid ""
 "bass, then a bit of drums, then more bass... However, the timing soon gets "
 "hard to think about, especially when you start weaving in more elements."
 msgstr ""
+"Sa zicem ca ai obtinut un bass mortal si un beat pe masura. Cum le redai in "
+"acelasi timp? O solutie este sa combini liniile manual - redai un pic de "
+"bas, apoi putin toba, iarasi bas... Dar potrivirea timpilor va deveni rapid "
+"greu de gestionat, mai ales daca mai ai de introdus si alte elemente."
 
 #: 05.4-Threads.md:11
 msgid ""
@@ -3837,7 +4491,7 @@ msgid ""
 msgstr ""
 
 #: 05.4-Threads.md:19
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  sample :drum_heavy_kick\n"
@@ -3849,12 +4503,15 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
+"loop do\n"
+"  sample :drum_heavy_kick\n"
+"  sleep 1\n"
 "end\n"
-"```\n"
+"loop do\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.4-Threads.md:32
 msgid ""
@@ -4080,7 +4737,7 @@ msgid ""
 msgstr ""
 
 #: 05.4-Threads.md:204
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "in_thread do\n"
 "  loop do\n"
@@ -4089,12 +4746,12 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"in_thread do\n"
+"  loop do\n"
+"    sample :loop_amen\n"
+"    sleep sample_duration :loop_amen\n"
+"  end\n"
+"end"
 
 #: 05.4-Threads.md:213
 msgid ""
@@ -4170,7 +4827,7 @@ msgid "Defining functions"
 msgstr ""
 
 #: 05.5-Functions.md:12
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "define :foo do\n"
 "  play 50\n"
@@ -4179,12 +4836,12 @@ msgid ""
 "  sleep 2\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"define :foo do\n"
+"  play 50\n"
+"  sleep 1\n"
+"  play 55\n"
+"  sleep 2\n"
+"end"
 
 #: 05.5-Functions.md:21
 msgid ""
@@ -4889,7 +5546,7 @@ msgid "There are many FX to choose from. How about some echo?"
 msgstr ""
 
 #: 06.1-Adding-FX.md:71
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "with_fx :echo do\n"
 "  play 50\n"
@@ -4899,12 +5556,13 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"with_fx :echo do\n"
+"  play 50\n"
 "  sleep 0.5\n"
-"end\n"
-"```\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:81
 msgid ""
@@ -5060,7 +5718,7 @@ msgid "Consider this code:"
 msgstr ""
 
 #: 06.2-FX-in-Practice.md:14
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  with_fx :reverb do\n"
@@ -5069,12 +5727,12 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"loop do\n"
+"  with_fx :reverb do\n"
+"    play 60, release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: 06.2-FX-in-Practice.md:23
 msgid ""
@@ -5103,7 +5761,7 @@ msgid ""
 msgstr ""
 
 #: 06.2-FX-in-Practice.md:41
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "with_fx :reverb do\n"
 "  loop do\n"
@@ -5112,12 +5770,12 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"with_fx :reverb do\n"
+"  loop do\n"
+"    play 60, release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: 06.2-FX-in-Practice.md:50
 msgid ""
@@ -5131,7 +5789,7 @@ msgid "A compromise is to use `with_fx` over an iteration within a loop:"
 msgstr ""
 
 #: 06.2-FX-in-Practice.md:56
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  with_fx :reverb do\n"
@@ -5142,12 +5800,14 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"loop do\n"
+"  with_fx :reverb do\n"
+"    16.times do\n"
+"      play 60, release: 0.1\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: 06.2-FX-in-Practice.md:67
 msgid ""
@@ -5162,7 +5822,7 @@ msgid ""
 msgstr ""
 
 #: 06.2-FX-in-Practice.md:73
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "loop do\n"
 "  with_fx :reverb, reps: 16 do\n"
@@ -5171,12 +5831,12 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"loop do\n"
+"  with_fx :reverb, reps: 16 do\n"
+"    play 60, release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: 06.2-FX-in-Practice.md:82
 msgid ""
@@ -6260,7 +6920,7 @@ msgid ""
 msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:55
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -6268,12 +6928,11 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play 50, release: 0.3\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:63
 msgid ""
@@ -6282,7 +6941,7 @@ msgid ""
 msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:67
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -6290,19 +6949,18 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play chord(:e3, :minor), release: 0.3\n"
 "  sleep 0.5\n"
-"end\n"
-"```\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:75
 msgid "How about playing random notes from the chord:"
 msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:77
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -6310,19 +6968,18 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play choose(chord(:e3, :minor)), release: 0.3\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:85
 msgid "Or using a random cutoff value:"
 msgstr ""
 
 #: 09.1-Live-Coding-Fundamentals.md:87
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "define :my_loop do\n"
 "  use_synth :tb303\n"
@@ -6330,12 +6987,11 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"define :my_loop do\n"
+"  use_synth :tb303\n"
+"  play choose(chord(:e3, :minor)), release: 0.2, cutoff: rrand(60, 130)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 09.1-Live-Coding-Fundamentals.md:95
 msgid "Finally, add some drums:"
@@ -6390,19 +7046,17 @@ msgid "Let's play. Write the following in a new buffer:"
 msgstr ""
 
 #: 09.2-Live-Loops.md:15
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play 60\n"
 "  sleep 1\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :foo do\n"
+"  play 60\n"
+"  sleep 1\n"
+"end"
 
 #: 09.2-Live-Loops.md:22
 msgid ""
@@ -6423,7 +7077,7 @@ msgid ""
 msgstr ""
 
 #: 09.2-Live-Loops.md:30
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  use_synth :prophet\n"
@@ -6431,12 +7085,11 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:38
 msgid "Then hit Run."
@@ -6447,7 +7100,7 @@ msgid "Let's make the cutoff move around:"
 msgstr ""
 
 #: 09.2-Live-Loops.md:42
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  use_synth :prophet\n"
@@ -6455,12 +7108,11 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:50
 msgid "Hit Run again."
@@ -6471,7 +7123,7 @@ msgid "Add some drums:"
 msgstr ""
 
 #: 09.2-Live-Loops.md:54
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  sample :loop_garzul\n"
@@ -6480,19 +7132,19 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :foo do\n"
+"  sample :loop_garzul\n"
+"  use_synth :prophet\n"
+"  play :e1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:63
 msgid "Change the note from `e1` to `c1`:"
 msgstr ""
 
 #: 09.2-Live-Loops.md:65
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  sample :loop_garzul\n"
@@ -6501,12 +7153,12 @@ msgid ""
 "  sleep 8\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :foo do\n"
+"  sample :loop_garzul\n"
+"  use_synth :prophet\n"
+"  play :c1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
+"end"
 
 #: 09.2-Live-Loops.md:74
 msgid "Now stop listening to me and play around yourself! Have fun!"
@@ -6525,19 +7177,17 @@ msgid "Consider the following live loop:"
 msgstr ""
 
 #: 09.3-Multiple-Live-Loops.md:7
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play 50\n"
 "  sleep 1\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :foo do\n"
+"  play 50\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:14
 msgid ""
@@ -6557,7 +7207,7 @@ msgid ""
 msgstr ""
 
 #: 09.3-Multiple-Live-Loops.md:23
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  use_synth :prophet\n"
@@ -6569,12 +7219,15 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
+"live_loop :foo do\n"
+"  use_synth :prophet\n"
+"  play :c1, release: 8, cutoff: rrand(70, 130)\n"
+"  sleep 8\n"
 "end\n"
-"```\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 0.5\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:36
 msgid ""
@@ -6600,7 +7253,7 @@ msgid "Consider this badly synced code:"
 msgstr ""
 
 #: 09.3-Multiple-Live-Loops.md:49
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -6611,12 +7264,14 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
+"  sleep 0.4\n"
 "end\n"
-"```\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:61
 msgid ""
@@ -6626,7 +7281,7 @@ msgid ""
 msgstr ""
 
 #: 09.3-Multiple-Live-Loops.md:65
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -6637,12 +7292,14 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
 "  sleep 0.5\n"
 "end\n"
-"```\n"
+"live_loop :bar do\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:77
 msgid ""
@@ -6652,7 +7309,7 @@ msgid ""
 msgstr ""
 
 #: 09.3-Multiple-Live-Loops.md:81
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :foo do\n"
 "  play :e4, release: 0.5\n"
@@ -6664,12 +7321,15 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"live_loop :foo do\n"
+"  play :e4, release: 0.5\n"
 "  sleep 0.5\n"
 "end\n"
-"```\n"
+"live_loop :bar do\n"
+"  sync :foo\n"
+"  sample :bd_haus\n"
+"  sleep 1\n"
+"end"
 
 #: 09.3-Multiple-Live-Loops.md:94
 msgid "Wow, everything is now perfectly in time - all without stopping."
@@ -6708,7 +7368,7 @@ msgid ""
 msgstr ""
 
 #: 09.4-Ticking.md:17
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "counter = 0\n"
 "live_loop :arp do\n"
@@ -6717,31 +7377,29 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"counter = 0\n"
+"live_loop :arp do\n"
+"  play (scale :e3, :minor_pentatonic)[counter], release: 0.1\n"
+"  counter += 1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 09.4-Ticking.md:26
 msgid "This is equivalent to:"
 msgstr ""
 
 #: 09.4-Ticking.md:28
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :arp do\n"
 "  play (scale :e3, :minor_pentatonic).tick, release: 0.1\n"
 "  sleep 0.125\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :arp do\n"
+"  play (scale :e3, :minor_pentatonic).tick, release: 0.1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 09.4-Ticking.md:35
 msgid ""
@@ -6775,7 +7433,7 @@ msgid ""
 msgstr ""
 
 #: 09.4-Ticking.md:57
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :arp do\n"
 "  idx = tick\n"
@@ -6783,12 +7441,11 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :arp do\n"
+"  idx = tick\n"
+"  play (scale :e3, :minor_pentatonic)[idx], release: 0.1\n"
+"  sleep 0.125\n"
+"end"
 
 #: 09.4-Ticking.md:65
 msgid ""
@@ -6823,19 +7480,17 @@ msgid ""
 msgstr ""
 
 #: 09.4-Ticking.md:86
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :arp do\n"
 "  play (scale :e3, :minor_pentatonic).tick(:foo), release: 0.1\n"
 "  sleep (ring 0.125, 0.25).tick(:bar)\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :arp do\n"
+"  play (scale :e3, :minor_pentatonic).tick(:foo), release: 0.1\n"
+"  sleep (ring 0.125, 0.25).tick(:bar)\n"
+"end"
 
 #: 09.4-Ticking.md:93
 msgid ""
@@ -7956,7 +8611,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:32
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "sample :loop_garzul\n"
 "16.times do\n"
@@ -7964,12 +8619,11 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"sample :loop_garzul\n"
+"16.times do\n"
+"  sample :bd_haus\n"
 "  sleep 0.5\n"
-"end\n"
-"```\n"
+"end"
 
 #: A.01-tips.md:41
 msgid ""
@@ -7978,7 +8632,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:44
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "with_fx :flanger do\n"
 "  sample :loop_garzul\n"
@@ -7988,12 +8642,13 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
+"with_fx :flanger do\n"
+"  sample :loop_garzul\n"
 "end\n"
-"```\n"
+"16.times do\n"
+"  sample :bd_haus\n"
+"  sleep 0.5\n"
+"end"
 
 #: A.01-tips.md:55
 msgid ""
@@ -8002,7 +8657,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:58
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "with_fx :flanger do\n"
 "  sample :loop_garzul\n"
@@ -8014,12 +8669,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
+"with_fx :flanger do\n"
+"  sample :loop_garzul\n"
 "end\n"
-"```\n"
+"with_fx :echo do\n"
+"  16.times do\n"
+"    sample :bd_haus\n"
+"    sleep 0.5\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:71
 msgid ""
@@ -8079,7 +8737,6 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:110
-#, fuzzy
 msgid "5. Live Code"
 msgstr "5. Programare live"
 
@@ -8093,19 +8750,17 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:118
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :experiment do\n"
 "  sample :loop_amen, cutoff: 70\n"
 "  sleep 1.75\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :experiment do\n"
+"  sample :loop_amen, cutoff: 70\n"
+"  sleep 1.75\n"
+"end"
 
 #: A.01-tips.md:125
 msgid ""
@@ -8135,7 +8790,7 @@ msgid ""
 msgstr ""
 
 #: A.01-tips.md:141
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :rand_surfer do\n"
 "  use_synth :dsaw\n"
@@ -8146,12 +8801,14 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :rand_surfer do\n"
+"  use_synth :dsaw\n"
+"  notes = (scale :e2, :minor_pentatonic, num_octaves: 2)\n"
+"  16.times do\n"
+"    play notes.choose, release: 0.1, cutoff: rrand(70, 120)\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.01-tips.md:152
 msgid ""
@@ -8225,9 +8882,8 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:27
-#, fuzzy
 msgid "Live Loop"
-msgstr "O bucla live"
+msgstr "Bucla live"
 
 #: A.02-live-coding.md:29
 msgid ""
@@ -8236,19 +8892,17 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:32
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :beats do\n"
 "  sample :bd_haus\n"
 "  sleep 0.5\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
+"live_loop :beats do\n"
+"  sample :bd_haus\n"
 "  sleep 0.5\n"
-"end\n"
-"```\n"
+"end"
 
 #: A.02-live-coding.md:39
 msgid ""
@@ -8279,20 +8933,17 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:60
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :choral_drone do\n"
 "  sample :ambi_choir, rate: 0.4\n"
 "  sleep 1\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :ambi_choir, rate: 0.3\n"
-"  sample :bd_haus, rate: 1\n"
+"live_loop :choral_drone do\n"
+"  sample :ambi_choir, rate: 0.4\n"
 "  sleep 1\n"
-"end\n"
-"```\n"
+"end"
 
 #: A.02-live-coding.md:67
 msgid ""
@@ -8317,18 +8968,15 @@ msgid ""
 msgstr ""
 
 #: A.02-live-coding.md:82
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :infinite_impossibilities do\n"
 "  sample :ambi_choir\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :infinite_impossibilities do\n"
+"  sample :ambi_choir\n"
+"end"
 
 #: A.02-live-coding.md:88
 msgid ""
@@ -8515,19 +9163,17 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:47
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  sample :loop_amen\n"
 "  sleep 2\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :amen_break do\n"
+"  sample :loop_amen\n"
+"  sleep 2\n"
+"end"
 
 #: A.03-coded-beats.md:54
 msgid ""
@@ -8553,19 +9199,17 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:68
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  sample :loop_amen, beat_stretch: 2\n"
 "  sleep 2\n"
 "end  "
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :amen_break do\n"
+"  sample :loop_amen, beat_stretch: 2\n"
+"  sleep 2\n"
+"end  "
 
 #: A.03-coded-beats.md:75
 msgid ""
@@ -8586,7 +9230,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:85
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  use_bpm 30\n"
@@ -8594,12 +9238,11 @@ msgid ""
 "  sleep 2\n"
 "end "
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :amen_break do\n"
+"  use_bpm 30\n"
+"  sample :loop_amen, beat_stretch: 2\n"
+"  sleep 2\n"
+"end "
 
 #: A.03-coded-beats.md:93
 msgid ""
@@ -8629,7 +9272,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:110
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  use_bpm 50\n"
@@ -8637,12 +9280,11 @@ msgid ""
 "  sleep 2\n"
 "end  "
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :amen_break do\n"
+"  use_bpm 50\n"
+"  sample :loop_amen, beat_stretch: 2, cutoff: 70\n"
+"  sleep 2\n"
+"end  "
 
 #: A.03-coded-beats.md:118
 msgid ""
@@ -8666,7 +9308,7 @@ msgid ""
 msgstr ""
 
 #: A.03-coded-beats.md:133
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :amen_break do\n"
 "  use_bpm 50\n"
@@ -8676,12 +9318,13 @@ msgid ""
 "  sleep 2\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :amen_break do\n"
+"  use_bpm 50\n"
+"  with_fx :slicer, phase: 0.25, wave: 0, mix: 1 do\n"
+"    sample :loop_amen, beat_stretch: 2, cutoff: 100\n"
+"  end\n"
+"  sleep 2\n"
+"end"
 
 #: A.03-coded-beats.md:143
 msgid ""
@@ -8865,7 +9508,7 @@ msgid ""
 msgstr ""
 
 #: A.04-synth-riffs.md:91
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :random_riff do\n"
 "  use_synth :dsaw\n"
@@ -8875,12 +9518,13 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :random_riff do\n"
+"  use_synth :dsaw\n"
+"  use_random_seed 3\n"
+"  notes = (scale :e3, :minor_pentatonic).shuffle\n"
+"  play notes.tick, release: 0.25, cutoff: 80\n"
+"  sleep 0.25\n"
+"end"
 
 #: A.04-synth-riffs.md:101
 msgid ""
@@ -9457,9 +10101,8 @@ msgid ""
 msgstr ""
 
 #: A.06-minecraft.md:120
-#, fuzzy
 msgid "Live Coding Minecraft"
-msgstr ""
+msgstr "Programare live in Minecraft"
 
 #: A.06-minecraft.md:122
 msgid ""
@@ -9702,19 +10345,17 @@ msgid ""
 msgstr ""
 
 #: A.07-bizet.md:97
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :habanera do\n"
 "  play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick\n"
 "  sleep 0.25\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :habanera do\n"
+"  play (ring :d, :r, :r, :a, :f5, :r, :a, :r).tick\n"
+"  sleep 0.25\n"
+"end"
 
 #: A.07-bizet.md:104
 msgid ""
@@ -9849,11 +10490,11 @@ msgstr ""
 
 #: A.08-minecraft-vj.md:23
 msgid "Let's get started..."
-msgstr ""
+msgstr "Sa incepem..."
 
 #: A.08-minecraft-vj.md:25
 msgid "Getting Started"
-msgstr ""
+msgstr "Inceputul"
 
 #: A.08-minecraft-vj.md:27
 msgid ""
@@ -9864,7 +10505,7 @@ msgid ""
 msgstr ""
 
 #: A.08-minecraft-vj.md:32
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "mc_message \"Let's get started...\""
 msgstr "mc_message \"Sa incepem...\""
 
@@ -10159,19 +10800,17 @@ msgid "Let's use this knowledge to generate a repeatable random melody:"
 msgstr ""
 
 #: A.09-randomisation.md:56
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "8.times do\n"
 " play rrand_i(50, 95)\n"
 " sleep 0.125\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"8.times do\n"
+" play rrand_i(50, 95)\n"
+" sleep 0.125\n"
+"end"
 
 #: A.09-randomisation.md:63
 msgid ""
@@ -10240,7 +10879,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:94
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_random_seed 0\n"
 "3.times do\n"
@@ -10248,12 +10887,11 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"use_random_seed 0\n"
+"3.times do\n"
+"  play rrand_i(50, 95)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.09-randomisation.md:102
 msgid ""
@@ -10263,7 +10901,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:106
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_random_seed 1\n"
 "3.times do\n"
@@ -10271,12 +10909,11 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"use_random_seed 1\n"
+"3.times do\n"
+"  play rrand_i(50, 95)\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.09-randomisation.md:114
 msgid ""
@@ -10303,7 +10940,7 @@ msgid ""
 msgstr ""
 
 #: A.09-randomisation.md:130
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "live_loop :random_riff do    \n"
 "  use_random_seed 0\n"
@@ -10313,12 +10950,13 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"live_loop :random_riff do    \n"
+"  use_random_seed 0\n"
+"  8.times do\n"
+"    play rrand_i(50, 95), release: 0.1\n"
+"    sleep 0.125\n"
+"  end\n"
+"end"
 
 #: A.09-randomisation.md:140
 msgid ""
@@ -10796,7 +11434,7 @@ msgid "These concepts can all be found in the following code:"
 msgstr ""
 
 #: A.11-beat-tracking.md:106
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "notes = (ring 57, 62, 55, 59, 64)\n"
 "live_loop :arp do\n"
@@ -10805,12 +11443,12 @@ msgid ""
 "  sleep 0.125\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"notes = (ring 57, 62, 55, 59, 64)\n"
+"live_loop :arp do\n"
+"  use_synth :dpulse\n"
+"  play notes.tick, release: 0.2\n"
+"  sleep 0.125\n"
+"end"
 
 #: A.11-beat-tracking.md:116
 msgid ""
@@ -10864,7 +11502,7 @@ msgid ""
 msgstr ""
 
 #: A.11-beat-tracking.md:154
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "use_bpm 300\n"
 "use_synth :blade\n"
@@ -10874,12 +11512,13 @@ msgid ""
 "  sleep 1\n"
 "end"
 msgstr ""
-"```\n"
-"live_loop :flibble do\n"
-"  sample :bd_haus, rate: 1\n"
-"  sleep 0.5\n"
-"end\n"
-"```\n"
+"use_bpm 300\n"
+"use_synth :blade\n"
+"live_loop :foo do\n"
+"  play (ring :e1, :e2, :e3).tick\n"
+"  play (scale :e3, :minor_pentatonic).tick\n"
+"  sleep 1\n"
+"end"
 
 #: A.11-beat-tracking.md:164
 msgid ""
