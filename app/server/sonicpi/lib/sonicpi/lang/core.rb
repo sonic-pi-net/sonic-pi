@@ -29,6 +29,73 @@ module SonicPi
 
       THREAD_RAND_SEED_MAX = 10e20
 
+      def time_shift(delta, &blk)
+        raise "Timeshift requires a do/end block" unless blk
+        sat = @mod_sound_studio.sched_ahead_time
+        sleep_time = delta * Thread.current.thread_variable_get(:sonic_pi_spider_sleep_mul)
+        raise "Timeshift delta is too large.\nYou specified #{delta} yet the sched ahead time is #{sat}" if sleep_time.abs >= sat
+        vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+        Thread.current.thread_variable_set :sonic_pi_spider_time, vt + sleep_time
+        curr_beat = Thread.current.thread_variable_get(:sonic_pi_spider_beat)
+        Thread.current.thread_variable_set(:sonic_pi_spider_beat, curr_beat + delta)
+        blk.call
+        __schedule_delayed_blocks_and_messages!
+        vt = Thread.current.thread_variable_get :sonic_pi_spider_time
+        Thread.current.thread_variable_set :sonic_pi_spider_time, vt - sleep_time
+        curr_beat = Thread.current.thread_variable_get(:sonic_pi_spider_beat)
+        Thread.current.thread_variable_set(:sonic_pi_spider_beat, curr_beat - delta)
+      end
+      doc name:           :time_shift,
+          introduced:     Version.new(2,11,0),
+          summary:        "Slide time forwards or backwards for the given block",
+          args:           [[:delta_time, :number]],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  true,
+          doc:            "The code within the given block is executed with the specified delta time shift specified in beats. For example, if the delta value is 0.1 then all code within the block is executed with a 0.1 beat delay. Negative values are allowed which means you can move a block of code *backwards in time*. For example a delta value of -0.1 will execute the code in the block 0.1 beats ahead of time. Normal time is restored after the execution of the block.
+
+Note that the the block is executed synchronously, so all sleeps within the block will be accounted for.
+
+Also, note that the abs of the delta value must be less than the `sched_ahead_time!`.",
+          examples:       ["# shift forwards in time
+play 70            #=> plays at time 0
+sleep 1
+play 75            #=> plays at time 1
+
+time_shift 0.1 do
+                   # time shifts forward by 0.1 beats
+  play 80          #=> plays at 1.1
+  sleep 0.5
+  play 80          #=> plays at 1.6
+                   # time shifts back by 0.1 beats
+                   # however, the sleep 0.5 is still accounted for
+end
+                   # we now honour the original sleep 1 and the
+                   # sleep 0.5 within the time_shift block, but
+                   # any time shift delta has been removed
+play 70            #=> plays at 1.5",
+
+        "# shift backwards in time
+
+play 70            #=> plays at time 0
+sleep 1
+play 75            #=> plays at time 1
+
+time_shift -0.1 do
+                   # time shifts backwards by 0.1 beats
+  play 80          #=> plays at 0.9
+  sleep 0.5
+  play 80          #=> plays at 1.4
+                   # time shifts forward by 0.1 beats
+                   # however, the sleep 0.5 is still accounted for
+end
+                   # we now honour the original sleep 1 and the
+                   # sleep 0.5 within the time_shift block, but
+                   # any time shift delta has been removed
+play 70            #=> plays at 1.5"
+      ]
+
+
       def tick_set(*args)
         SonicPi::Core::ThreadLocalCounter.set(*args)
       end
@@ -212,6 +279,7 @@ module SonicPi
 
 
       def look(*args)
+        return args[1] if args[1].is_a?(Numeric) && args.size == 1
         SonicPi::Core::ThreadLocalCounter.look(*args)
       end
       doc name:           :look,
@@ -256,7 +324,13 @@ module SonicPi
     play (ring :e1, :e2, :e3).look, release: 0.25 # use the same look on another ring
     sleep 0.25
   end
-  "
+  ",
+"
+# Returns numbers unchanged if single argument
+puts look(0)     #=> 0
+puts look(4)     #=> 4
+puts look(-4)    #=> -4
+puts look(20.3)  #=> 20.3"
       ]
 
 
