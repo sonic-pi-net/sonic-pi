@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-08 13:23+0000\n"
+"PO-Revision-Date: 2016-06-09 14:12+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -2854,10 +2854,10 @@ msgid ""
 "totally supports this. First though, let's have a quick discussion on the "
 "portability of your piece."
 msgstr ""
-"Desi esantioanele care vin impreuna cu Sonic Pi te pot ajuta sa pornesti "
-"rapid incercarile tale, ai putea experimenta si cu alte sunete inregistrate. "
-"Sonic Pi ofera suport complet pentru acest lucru. Totusi, sa discutam pe "
-"scurt despre portabilitatea creatiei tale."
+"Desi esantioanele care vin impreuna cu Sonic Pi te pot ajuta sa incepi rapid "
+"sa experimentezi, ai putea incerca si cu alte sunete inregistrate. Sonic Pi "
+"ofera suport complet pentru acest lucru. Totusi, sa discutam pe scurt despre "
+"portabilitatea creatiei tale."
 
 #: 03.6-External-Samples.md:10
 msgid "Portability"
@@ -3126,7 +3126,6 @@ msgstr ""
 "aruncam o privire la numele fisierelor din folderul nostru:"
 
 #: 03.7-Sample-Packs.md:93
-#, fuzzy
 msgid ""
 "Notice that in these filenames we have quite a bit of information. Firstly, "
 "we have the BPM of the sample (beats per minute) at the start. So, the piano "
@@ -3136,7 +3135,7 @@ msgid ""
 "our other code. For example, we know we can only play the piano sample with "
 "code that's in 120 BPM and in the key of Bb."
 msgstr ""
-"Observi ca in aceste nume de fisiere avem ceva informatii. In primul rand, "
+"Observi ca in aceste nume de fisiere avem cateva informatii. In primul rand, "
 "avem ritmul in BPM (batai pe minut) la inceput. Deci, esantionul de pian "
 "este la 120 BPM si primele trei melodii sunt la 100 BPM. De asemenea, numele "
 "esantioanelor contin cheia. Esantionul de chitara este in Bb, iar melodiile "
@@ -4469,8 +4468,8 @@ msgid ""
 "bass, then a bit of drums, then more bass... However, the timing soon gets "
 "hard to think about, especially when you start weaving in more elements."
 msgstr ""
-"Sa zicem ca ai obtinut un bass mortal si un beat pe masura. Cum le redai in "
-"acelasi timp? O solutie este sa combini liniile manual - redai un pic de "
+"Sa zicem ca ai obtinut un bass incredibil si un beat pe masura. Cum le redai "
+"in acelasi timp? O solutie este sa combini liniile manual - redai un pic de "
 "bas, apoi putin toba, iarasi bas... Dar potrivirea timpilor va deveni rapid "
 "greu de gestionat, mai ales daca mai ai de introdus si alte elemente."
 
@@ -4479,16 +4478,21 @@ msgid ""
 "What if Sonic Pi could weave things for you automatically? Well, it can, and "
 "you do it with a special thing called a *thread*."
 msgstr ""
+"Dar daca Sonic Pi ar putea sa faca automat intreteserea sunetelor? Ei bine, "
+"chiar poate si acest lucru se realizeaza folosind ceea ce se numeste *thread "
+"(fir de executie)*."
 
 #: 05.4-Threads.md:14
 msgid "Infinite Loops"
-msgstr ""
+msgstr "Bucle infinite"
 
 #: 05.4-Threads.md:16
 msgid ""
 "To keep this example simple, you'll have to imagine that this is a phat beat "
 "and a killer bassline:"
 msgstr ""
+"Pentru simplitate, vom considera ca acestea sunt basul incredibil si beatul "
+"pe masura:"
 
 #: 05.4-Threads.md:19
 #, no-wrap
@@ -4521,10 +4525,14 @@ msgid ""
 "to start something at the same time as the rest of the code. This is where "
 "threads come to the rescue."
 msgstr ""
+"Asa cum am discutat, buclele sunt *gauri negre* pentru program. Odata intrat "
+"intr-o bucla (loop) nu mai poti sa iesi decat apasand pe stop. Cum redam "
+"cele doua bucle in acelasi timp? Trebuie sa instruim Sonic Pi sa porneasca "
+"ceva in acelasi timp cu restul codului. Aici intervin firele de executie."
 
 #: 05.4-Threads.md:38
 msgid "Threads to the Rescue"
-msgstr ""
+msgstr "Salvarea oferita de firele de executie (threads)"
 
 #: 05.4-Threads.md:40
 #, no-wrap
@@ -4541,6 +4549,17 @@ msgid ""
 "  sleep 0.5\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"loop do\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
+"end"
 
 #: 05.4-Threads.md:55
 msgid ""
@@ -4549,10 +4568,15 @@ msgid ""
 "next statement after the do/end block (which happens to be the second loop). "
 "Try it and you'll hear both the drums and the bassline weaved together!"
 msgstr ""
+"Introducand prima bucla intr-un bloc do/end 'in_thread', spunem Sonic Pi sa "
+"ruleze continutul blocului do/end *exact* in acelasi timp cu instructiunea "
+"care urmeaza dupa blocul respectiv (care se intampla sa fie a doua bucla). "
+"Incearca si vei auzi atat tobele cat si basul in acelasi timp!"
 
 #: 05.4-Threads.md:61
 msgid "Now, what if we wanted to add a synth on top. Something like:"
 msgstr ""
+"Cum ar fi daca am vrea sa adaugam si un sintetizator pe deasupra? Ceva gen:"
 
 #: 05.4-Threads.md:63
 #, no-wrap
@@ -4574,6 +4598,22 @@ msgid ""
 "  sleep 2\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"loop do\n"
+"  use_synth :fm\n"
+"  play 40, release: 0.2\n"
+"  sleep 0.5\n"
+"end\n"
+"loop do\n"
+"  use_synth :zawa\n"
+"  play 52, release: 2.5, phase: 2, amp: 0.5\n"
+"  sleep 2\n"
+"end"
 
 #: 05.4-Threads.md:84
 msgid ""
@@ -4581,6 +4621,9 @@ msgid ""
 "time as the second loop due to the `in_thread`. However, *the third loop is "
 "never reached*. We therefore need another thread:"
 msgstr ""
+"Avem aceeasi problema ca mai inainte. Prima bucla este redata in acelasi "
+"timp cu a doua datorita instructiunii 'in_thread'. Totusi, *a treia bucla nu "
+"este redata niciodata*. Trebuie deci sa folosim un nou thread:"
 
 #: 05.4-Threads.md:88
 #, no-wrap
@@ -4604,10 +4647,28 @@ msgid ""
 "  sleep 2\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    sample :drum_heavy_kick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do\n"
+"    use_synth :fm\n"
+"    play 40, release: 0.2\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"loop do\n"
+"  use_synth :zawa\n"
+"  play 52, release: 2.5, phase: 2, amp: 0.5\n"
+"  sleep 2\n"
+"end"
 
 #: 05.4-Threads.md:111
 msgid "Runs as threads"
-msgstr ""
+msgstr "Rularea ca fire de executie"
 
 #: 05.4-Threads.md:113
 msgid ""
@@ -4616,10 +4677,14 @@ msgid ""
 "times will layer sounds over each other. As the runs themselves are threads, "
 "they will automatically weave the sounds together for you."
 msgstr ""
+"S-ar putea sa te surprinda faptul ca atunci cand apesi butonul Executa (Run)"
+", de fapt creezi un nou fir de executie pentru cod. De aceea, apasarea "
+"repetata a butonului va face ca sunetele sa se suprapuna. Cum rularile "
+"codului sunt fire de executie, ele vor imbina automat sunetele pentru tine."
 
 #: 05.4-Threads.md:119
 msgid "Scope"
-msgstr ""
+msgstr "Domeniu"
 
 #: 05.4-Threads.md:121
 msgid ""
@@ -4630,6 +4695,13 @@ msgid ""
 "actually just switching the synth in the *current thread* - no other thread "
 "will have their synth switched. Let's see this in action:"
 msgstr ""
+"Pe masura ce inveti cum sa stapanesti Sonic Pi, vei invata ca firele de "
+"executie sunt cele mai importante blocuri din care este construita muzica. "
+"Unul dintre cele mai importante roluri pe care le au este sa izoleze *"
+"setarile curente* de celelalte fire. Ce inseamna asta? Ei bine, cand schimbi "
+"sintetizatorul folosind 'use_synth', acest lucru se refera doar la *firul "
+"curent* - in niciun alt thread sintetizatorul nu va fi schimbat. Sa vedem un "
+"exemplu:"
 
 #: 05.4-Threads.md:129
 #, no-wrap
@@ -4643,6 +4715,14 @@ msgid ""
 "sleep 1\n"
 "play 50"
 msgstr ""
+"play 50\n"
+"sleep 1\n"
+"in_thread do\n"
+"  use_synth :tb303\n"
+"  play 50\n"
+"end\n"
+"sleep 1\n"
+"play 50"
 
 #: 05.4-Threads.md:142
 msgid ""
@@ -4650,10 +4730,13 @@ msgid ""
 "statement only affected the thread it was in and not the outer main run "
 "thread."
 msgstr ""
+"Ai observat ca sunetul de la jumatate este diferit de celelalte? Comanda "
+"'use_synth' a afectat doar thread-ul din care face parte, nu si thread-ul "
+"principal."
 
 #: 05.4-Threads.md:146
 msgid "Inheritance"
-msgstr ""
+msgstr "Mostenire"
 
 #: 05.4-Threads.md:148
 msgid ""
@@ -4661,6 +4744,8 @@ msgid ""
 "automatically inherit all of the current settings from the current thread. "
 "Let's see that:"
 msgstr ""
+"Cand creezi un nou thread folosind 'in_thread', acesta va mosteni automat "
+"toate setarile de la thread-ul curent. Sa vedem:"
 
 #: 05.4-Threads.md:152
 #, no-wrap
@@ -4672,6 +4757,12 @@ msgid ""
 "  play 55\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"play 50\n"
+"sleep 1\n"
+"in_thread do\n"
+"  play 55\n"
+"end"
 
 #: 05.4-Threads.md:162
 msgid ""
@@ -4679,20 +4770,25 @@ msgid ""
 "was played from a separate thread? Any of the settings modified with the "
 "various `use_*` functions will behave in the same way."
 msgstr ""
+"Ai observat ca a doua nota a fost redata folosind sintetizatorul ':tb303' "
+"desi a fost redata intr-un thread separat? Oricare dintre parametrii "
+"modificati cu diferitele functii 'use*' se va comporta in acelasi mod."
 
 #: 05.4-Threads.md:166
 msgid ""
 "When threads are created, they inherit all the settings from their parent "
 "but they don't share any changes back."
 msgstr ""
+"Cand un thread este creat, va mosteni toate setarile de la thread-ul "
+"parinte, dar nu va transmite inapoi nicio modificare."
 
 #: 05.4-Threads.md:169
 msgid "Naming Threads"
-msgstr ""
+msgstr "Numele thread-urilor"
 
 #: 05.4-Threads.md:171
 msgid "Finally, we can give our threads names:"
-msgstr ""
+msgstr "Putem da nume thread-urilor noastre:"
 
 #: 05.4-Threads.md:173
 #, no-wrap
@@ -4711,12 +4807,27 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread(name: :bass) do\n"
+"  loop do\n"
+"    use_synth :prophet\n"
+"    play chord(:e2, :m7).choose, release: 0.6\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"in_thread(name: :drums) do\n"
+"  loop do\n"
+"    sample :elec_snare\n"
+"    sleep 1\n"
+"  end\n"
+"end"
 
 #: 05.4-Threads.md:190
 msgid ""
 "Look at the log pane when you run this code. See how the log reports the "
 "name of the thread with the message?"
 msgstr ""
+"Priveste panoul continand jurnalul cand executi codul acesta. Ai observat ca "
+"in jurnal apare numele thread-ului?"
 
 #: 05.4-Threads.md:193
 #, no-wrap
@@ -4724,10 +4835,12 @@ msgid ""
 "[Run 36, Time 4.0, Thread :bass]\n"
 " |- synth :prophet, {release: 0.6, note: 47}"
 msgstr ""
+"[Run 36, Time 4.0, Thread :bass]\n"
+" |- synth :prophet, {release: 0.6, note: 47}"
 
 #: 05.4-Threads.md:198
 msgid "Only One Thread per Name Allowed"
-msgstr ""
+msgstr "Un singur thread poate avea un anumit nume"
 
 #: 05.4-Threads.md:200
 msgid ""
@@ -4735,6 +4848,9 @@ msgid ""
 "given name may be running at the same time. Let's explore this. Consider the "
 "following code:"
 msgstr ""
+"Un ultim lucru de retinut despre thread-uri este ca un singur thread cu un "
+"anumit nume poate rula la un moment dat. Sa exprimentam folosind urmatorul "
+"cod:"
 
 #: 05.4-Threads.md:204
 #, no-wrap
@@ -4759,6 +4875,9 @@ msgid ""
 "again a couple of times. Listen to the cacophony of multiple amen breaks "
 "looping out of time with each other. Ok, you can press Stop now."
 msgstr ""
+"Incearca sa copiezi codul asta intr-un buffer si apasa pe butonul Run. Apasa "
+"din nou de mai multe ori. Asculta cacofonia de amen break care se reiau si "
+"se suprapun. Ok, acum apasa pe Stop."
 
 #: 05.4-Threads.md:217
 msgid ""
@@ -4767,10 +4886,14 @@ msgid ""
 "loop and press the Run button three times, you'll have three layers of loops "
 "playing simultaneously."
 msgstr ""
+"Acesta este comportamentul pe care l-am vazut de mai multe ori - apesi pe "
+"Run si sunetele se suprapun peste cele deja existente. Deci daca ai o bucla "
+"si apesi pe Run de trei ori, vei avea trei randuri de bucle care sunt redate "
+"concomitent."
 
 #: 05.4-Threads.md:222
 msgid "However, with named threads it is different:"
-msgstr ""
+msgstr "Totusi, folosind thread-urile cu nume, lucrurile stau diferit:"
 
 #: 05.4-Threads.md:224
 #, no-wrap
@@ -4782,37 +4905,49 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread(name: :amen) do\n"
+"  loop do\n"
+"    sample :loop_amen\n"
+"    sleep sample_duration :loop_amen\n"
+"  end\n"
+"end"
 
 #: 05.4-Threads.md:233
 msgid ""
 "Try pressing the Run button multiple times with this code. You'll only ever "
 "hear one amen break loop. You'll also see this in the log:"
 msgstr ""
+"Incearca sa apesi butonul Run de mai multe ori pentru acest cod. Vei auzi o "
+"singura bucla cu amen break. De asemenea, vei observa asta in jurnal:"
 
 #: 05.4-Threads.md:236
 #, no-wrap
 msgid "==> Skipping thread creation: thread with name :amen already exists."
-msgstr ""
+msgstr "==> Skipping thread creation: thread with name :amen already exists."
 
 #: 05.4-Threads.md:240
 msgid ""
 "Sonic Pi is telling you that a thread with the name `:amen` is already "
 "playing, so it's not creating another."
 msgstr ""
+"Sonic Pi iti spune ca exista deja un thread cu numele ':amen' care ruleaza, "
+"deci nu va crea un altul."
 
 #: 05.4-Threads.md:243
 msgid ""
 "This behaviour may not seem immediately useful to you now - but it will be "
 "very handy when we start to live code..."
 msgstr ""
+"Acest comportament poate ca nu pare util pentru moment, dar va fi folositor "
+"cand vei incepe sa programezi in direct..."
 
 #: 05.5-Functions.md:1
 msgid "5.5 Functions"
-msgstr ""
+msgstr "5.5 Functii"
 
 #: 05.5-Functions.md:3
 msgid "Functions"
-msgstr ""
+msgstr "Functii"
 
 #: 05.5-Functions.md:5
 msgid ""
@@ -4821,10 +4956,15 @@ msgid ""
 "are a very powerful way to do this. They give us the ability to give a name "
 "to a bunch of code. Let's take a look."
 msgstr ""
+"Dupa ce vei incepe sa scrii serios la cod, vei dori sa gasesti o cale sa "
+"organizezi si sa structurezi lucrurile astfel incat sa arate mai curat si sa "
+"fie usor de inteles. Functiile ofera o unealta foarte utila pentru aceasta. "
+"Ele ne ofera posibilitatea sa dam un nume unei bucati de cod. Sa aruncam o "
+"privire."
 
 #: 05.5-Functions.md:10
 msgid "Defining functions"
-msgstr ""
+msgstr "Definirea functiilor"
 
 #: 05.5-Functions.md:12
 #, no-wrap
@@ -4851,21 +4991,29 @@ msgid ""
 "called it anything we want such as `bar`, `baz` or ideally something "
 "meaningful to you like `main_section` or `lead_riff`."
 msgstr ""
+"Aici am definit o functie noua, numita 'foo'. Pentru asta folosim blocul do/"
+"end si cuvantul magic 'define' (defineste) urmat de numele pe care vrem sa-l "
+"dam functiei. Nu suntem obligati sa o numim 'foo', puteam sa ii spunem si "
+"'bar, 'baz' sau, mai bine, un nume care chiar inseamna ceva, gen "
+"'sectiune_principala' sau 'lead_riff'."
 
 #: 05.5-Functions.md:27
 msgid ""
 "Remember to prepend a colon `:` to the name of your function when you define "
 "it."
 msgstr ""
+"Tine minte sa treci intotdeauna doua puncte ':' inaintea numelui functiei "
+"cand o definesti."
 
 #: 05.5-Functions.md:30
 msgid "Calling functions"
-msgstr ""
+msgstr "Apelarea functiilor"
 
 #: 05.5-Functions.md:32
 msgid ""
 "Once we have defined our function we can call it by just writing its name:"
 msgstr ""
+"Odata ce am definit o functie, putem sa o apelam doar scriindu-i numele:"
 
 #: 05.5-Functions.md:35
 #, no-wrap
@@ -4882,6 +5030,17 @@ msgid ""
 "  foo\n"
 "end"
 msgstr ""
+"define :foo do\n"
+"  play 50\n"
+"  sleep 1\n"
+"  play 55\n"
+"  sleep 0.5\n"
+"end\n"
+"foo\n"
+"sleep 1\n"
+"2.times do\n"
+"  foo\n"
+"end"
 
 #: 05.5-Functions.md:52
 msgid ""
@@ -4889,10 +5048,13 @@ msgid ""
 "written `play` or `sample`. This gives us a great way to express ourselves "
 "and to create new meaningful words for use in our compositions."
 msgstr ""
+"Putem folosi 'foo' in interiorul unor iteratii sau oriunde am fi folosit "
+"'play' sau 'sample'. Aceasta ne ofera un mod interesat de a ne exprima si de "
+"a crea cuvinte noi pe care sa le folosim in compozitii."
 
 #: 05.5-Functions.md:56
 msgid "Functions are remembered across runs"
-msgstr ""
+msgstr "Functiile sunt memorate intre executii"
 
 #: 05.5-Functions.md:58
 msgid ""
@@ -4902,11 +5064,16 @@ msgid ""
 "functions change that. When you define a function, Sonic Pi *remembers* it. "
 "Let's try it. Delete all the code in your buffer and replace it with:"
 msgstr ""
+"Pana acum, de fiecare data cand ai apasat butonul Run, Sonic Pi a pornit de "
+"la zero. Nu stie nimic in afara de ceea ce se afla in buffer. Nu poti sa "
+"faci referire la codul din alt buffer sau din alt thread. Functiile schimba "
+"acest lucru. Cand definesti o functie, Sonic Pi *o tine minte*. Sa incercam. "
+"Sterge tot codul din buffer si inlocuieste-l cu:"
 
 #: 05.5-Functions.md:65
 #, no-wrap
 msgid "foo"
-msgstr ""
+msgstr "foo"
 
 #: 05.5-Functions.md:69
 msgid ""
@@ -4916,10 +5083,14 @@ msgid ""
 "typed. This behaviour only works with functions created using `define` (and "
 "`defonce`)."
 msgstr ""
+"Apasa butonul Run si vei auzi functia cantand. Unde s-a dus codul? Cum a "
+"stiut Sonic Pi ce sa cante? Sonic Pi a memorat functia ta - deci si dupa ce "
+"ai sters-o din buffer, tine minte ce ai scris acolo. Acest comportament este "
+"valabil doar pentru functiile create folosind 'define' (si 'defonce')."
 
 #: 05.5-Functions.md:75
 msgid "Parameterised functions"
-msgstr ""
+msgstr "Functii cu parametri"
 
 #: 05.5-Functions.md:77
 msgid ""
@@ -4927,6 +5098,8 @@ msgid ""
 "values to `rrand`, you can teach your functions to accept arguments. Let's "
 "take a look:"
 msgstr ""
+"Asa cum poti transmite functiei 'rrand' valorile pentru min si max, poti "
+"invata functiile tale sa accepte argumente. Sa aruncam o privire:"
 
 #: 05.5-Functions.md:81
 #, no-wrap
@@ -4938,12 +5111,20 @@ msgid ""
 "sleep 0.5\n"
 "my_player 90"
 msgstr ""
+"define :my_player do |n|\n"
+"  play n\n"
+"end\n"
+"my_player 80\n"
+"sleep 0.5\n"
+"my_player 90"
 
 #: 05.5-Functions.md:91
 msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our "
 "own version of `play` called `my_player` which is parameterised."
 msgstr ""
+"Nu e prea palpitant, dar ilustreaza ce am spus. Am creat propria versiune "
+"pentru 'play', numita 'my_player', care accepta un argument."
 
 #: 05.5-Functions.md:94
 msgid ""
@@ -4951,6 +5132,9 @@ msgid ""
 "surrounded by vertical goalposts `|` and separated by commas `,`. You may "
 "use any words you want for the parameter names."
 msgstr ""
+"Argumentele (parametrii functiei) trebuie sa urmeze dupa 'do' din blocul do/"
+"end 'define', incadrati de bare verticale '|' si separati de virgule ','. "
+"Poti utiliza ce cuvinte vrei pentru numele parametrilor."
 
 #: 05.5-Functions.md:98
 msgid ""
@@ -4963,10 +5147,19 @@ msgid ""
 "80, so `play n` turns into `play 80`. When I call it again with `my_player "
 "90`, `n` is now replaced with 90, so `play n` turns into `play 90`."
 msgstr ""
+"Partea magica se afla in interiorul blocului do/end 'define'. Poti folosi "
+"numele parametrilor ca si cum ar fi valori reale. In acest exemplu, redau "
+"nota 'n'. Poti considera parametrii ca un fel de promisiune ca la momentul "
+"executiei codului ei vor fi inlocuiti cu valori reale. Acest lucru se face "
+"transmitand parametrii functiei cand o apelezi. Eu am facut asta in linia "
+"'my_player 80' pentru a reda nota 80. In cadrul definitiei functiei, 'n' "
+"este acum inlocuit cu 80, deci 'play n' se transforma in 'play 80'. Cand voi "
+"apela din nou functia cu 'my_player 90', 'n' va fi inlocuit cu 90, deci "
+"'play n' va deveni 'play 90'."
 
 #: 05.5-Functions.md:108
 msgid "Let's see a more interesting example:"
-msgstr ""
+msgstr "Sa vedem un exemplu mai interesant:"
 
 #: 05.5-Functions.md:110
 #, no-wrap
@@ -4984,26 +5177,43 @@ msgid ""
 "sleep 0.5\n"
 "chord_player :e3, 3"
 msgstr ""
+"define :chord_player do |root, repeats| \n"
+"  repeats.times do\n"
+"    play chord(root, :minor), release: 0.3\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"chord_player :e3, 2\n"
+"sleep 0.5\n"
+"chord_player :a3, 3\n"
+"chord_player :g3, 4\n"
+"sleep 0.5\n"
+"chord_player :e3, 3"
 
 #: 05.5-Functions.md:126
 msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. "
 "I also used `root` as if it was a note name in my call to `play`."
 msgstr ""
+"Aici am folosit 'repeats' ca si cum ar fi fost un numar in linia "
+"'repeats.times do'. De asemenea am folosit 'root' ca si cand ar fi fost "
+"numele unei note cand am apelat 'play'."
 
 #: 05.5-Functions.md:129
 msgid ""
 "See how we're able to write something very expressive and easy to read by "
 "moving a lot of our logic into a function!"
 msgstr ""
+"Iata cum am reusit sa scriem ceva foarte expresiv si usor de citit mutand o "
+"parte din cod intr-o functie!"
 
 #: 05.6-Variables.md:1
 msgid "5.6 Variables"
-msgstr ""
+msgstr "5.6 Variabile"
 
 #: 05.6-Variables.md:3
 msgid "Variables"
-msgstr ""
+msgstr "Variabile"
 
 #: 05.6-Variables.md:5
 msgid ""
@@ -5011,11 +5221,15 @@ msgid ""
 "makes this very easy, you write the name you wish to use, an equal sign "
 "(`=`), then the thing you want to remember:"
 msgstr ""
+"Un lucru util pe care il putem face in cadrul codului nostru este sa cream "
+"nume pentru obiecte. In Sonic Pi asta se face foarte usor, scrii un nume pe "
+"care vrei sa-l folosesti, semnul egal ('='), apoi obiectul pe care vrei sa-l "
+"memorezi:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
 msgid "sample_name = :loop_amen"
-msgstr ""
+msgstr "sample_name = :loop_amen"
 
 #: 05.6-Variables.md:13
 msgid ""
@@ -5023,6 +5237,8 @@ msgid ""
 "`sample_name`. We can now use `sample_name` everywhere we might have used `:"
 "loop_amen`. For example:"
 msgstr ""
+"Aici, am 'memorat' simbolul ':loop_amen' in variabila 'sample_name'. Putem "
+"folosi 'sample_name' oriunde am fi folosit ':loop_amen'. De exemplu:"
 
 #: 05.6-Variables.md:17
 #, no-wrap
@@ -5030,16 +5246,21 @@ msgid ""
 "sample_name = :loop_amen\n"
 "sample sample_name"
 msgstr ""
+"sample_name = :loop_amen\n"
+"sample sample_name"
 
 #: 05.6-Variables.md:22
 msgid ""
 "There are three main reasons for using variables in Sonic Pi: communicating "
 "meaning, managing repetition and capturing the results of things."
 msgstr ""
+"Exista trei motive principale pentru utilizarea variabilelor in Sonic Pi: "
+"comunicarea rolului, gestiunea repetitiilor si stocarea rezultatului unor "
+"actiuni."
 
 #: 05.6-Variables.md:26
 msgid "Communicating Meaning"
-msgstr ""
+msgstr "Comunicarea rolului"
 
 #: 05.6-Variables.md:28
 msgid ""
@@ -5051,6 +5272,14 @@ msgid ""
 "what's going on. Although it might seem obvious to you now - it might not be "
 "so obvious to others or even your future self!"
 msgstr ""
+"Cand scrii cod e usor sa te gandesti doar ca tu ii spui calculatorului sa "
+"faca un anumit lucru - cat timp computerul intelege este OK. Totusi, e "
+"important sa te gandesti ca nu doar computerul citeste codul. Alte persoane "
+"ar putea sa il citeasca de asemenea si sa incerce sa inteleaga despre ce "
+"este vorba. De asemenea, e posibil ca tu sa iti recitesti propriul cod mai "
+"tarziu si sa vrei sa intelegi cum functioneaza. Desi ar putea sa ti se para "
+"evident acum, acest lucru ar putea sa nu fie valabil pentru altii sau chiar "
+"pentru tine in viitor!"
 
 #: 05.6-Variables.md:36
 msgid ""
@@ -5058,17 +5287,22 @@ msgid ""
 "comments (as we saw in a previous section). Another is to use meaningful "
 "variable names. Look at this code:"
 msgstr ""
+"Un mod de a-i ajuta pe altii sa inteleaga ce face codul tau este sa scrii "
+"comentarii (asa cum am vazut intr-o sectiune anterioare). Alt mod este sa "
+"folosesti variabile cu nume alese conform rolului lor. Priveste acest cod:"
 
 #: 05.6-Variables.md:40
 #, no-wrap
 msgid "sleep 1.7533"
-msgstr ""
+msgstr "sleep 1.7533"
 
 #: 05.6-Variables.md:44
 msgid ""
 "Why does it use the number `1.7533`? Where did this number come from? What "
 "does it mean? However, look at this code:"
 msgstr ""
+"De ce foloseste acest numar,  `1.7533`? De unde vine acest numar? Ce "
+"inseamna? Priveste acum acest cod:"
 
 #: 05.6-Variables.md:47
 #, no-wrap
@@ -5076,32 +5310,39 @@ msgid ""
 "loop_amen_duration = 1.7533\n"
 "sleep loop_amen_duration"
 msgstr ""
+"loop_amen_duration = 1.7533\n"
+"sleep loop_amen_duration"
 
 #: 05.6-Variables.md:52
 msgid ""
 "Now, it's much clearer what `1.7533` means: it's the duration of the sample "
 "`:loop_amen`! Of course, you might say why not simply write:"
 msgstr ""
+"Acum este mult mai clar ce inseamna  `1.7533`: este durata esantionului ':"
+"loop_amen'! Desigur, ai putea spune ca e mai simplu sa scrii:"
 
 #: 05.6-Variables.md:55
 #, no-wrap
 msgid "sleep sample_duration(:loop_amen)"
-msgstr ""
+msgstr "sleep sample_duration(:loop_amen)"
 
 #: 05.6-Variables.md:59
 msgid ""
 "Which, of course, is a very nice way of communicating the intent of the code."
 msgstr ""
+"Care este, desigur, un mod potrivit de a comunica scopul codului respectiv."
 
 #: 05.6-Variables.md:62
 msgid "Managing Repetition"
-msgstr ""
+msgstr "Gestionarea repetitiilor"
 
 #: 05.6-Variables.md:64
 msgid ""
 "Often you see a lot of repetition in your code and when you want to change "
 "things, you have to change it in a lot of places. Take a look at this code:"
 msgstr ""
+"Adesea poti vedea multe repetitii in cod si cand vrei sa schimbi ceva "
+"trebuie sa schimbi intr-o multime de locuri. Priveste acest cod:"
 
 #: 05.6-Variables.md:68
 #, no-wrap
@@ -5113,6 +5354,12 @@ msgid ""
 "sample :loop_amen\n"
 "sleep sample_duration(:loop_amen)"
 msgstr ""
+"sample :loop_amen\n"
+"sleep sample_duration(:loop_amen)\n"
+"sample :loop_amen, rate: 0.5\n"
+"sleep sample_duration(:loop_amen, rate: 0.5)\n"
+"sample :loop_amen\n"
+"sleep sample_duration(:loop_amen)"
 
 #: 05.6-Variables.md:77
 msgid ""
@@ -5123,10 +5370,16 @@ msgid ""
 "Sometimes you don't have the luxury of time - especially if you want to keep "
 "people dancing."
 msgstr ""
+"Folosim in multe locuri ':loop_amen!' Sa presupunem ca vrem sa auzim cum ar "
+"suna daca am folosi un alt esantion, cum ar fi ':loop_garzul'. Ar trebui sa "
+"inlocuim peste tot  `:loop_amen` cu `:loop_garzul`. Ar putea fi OK daca ai "
+"avea o gramada de timp la dispozitie, dar daca interpretezi live pe scena? "
+"Uneori nu iti permiti luxul de a pierde timpul, mai ales cand vrei ca lumea "
+"sa danseze in continuu."
 
 #: 05.6-Variables.md:84
 msgid "What if you'd written your code like this:"
-msgstr ""
+msgstr "Daca ai fi scris codul astfel:"
 
 #: 05.6-Variables.md:86
 #, no-wrap
@@ -5139,6 +5392,13 @@ msgid ""
 "sample sample_name\n"
 "sleep sample_duration(sample_name)"
 msgstr ""
+"sample_name = :loop_amen\n"
+"sample sample_name\n"
+"sleep sample_duration(sample_name)\n"
+"sample sample_name, rate: 0.5\n"
+"sleep sample_duration(sample_name, rate: 0.5)\n"
+"sample sample_name\n"
+"sleep sample_duration(sample_name)"
 
 #: 05.6-Variables.md:96
 msgid ""
@@ -5147,43 +5407,56 @@ msgid ""
 "= :loop_garzul` and we change it in many places through the magic of "
 "variables."
 msgstr ""
+"Codul ar face acelasi lucru ca cel de mai sus (poti incerca). Dar ne da si "
+"posibilitatea de a modifica o singura linie din `sample_name = :loop_amen` "
+"in `sample_name = :loop_garzul`, ceea ce va schimba esantionul redat in mai "
+"multe locuri folosind magia variabilelor."
 
 #: 05.6-Variables.md:101
 msgid "Capturing Results"
-msgstr ""
+msgstr "Stocarea rezultatelor"
 
 #: 05.6-Variables.md:103
 msgid ""
 "Finally, a good motivation for using variables is to capture the results of "
 "things. For example, you may wish to do things with the duration of a sample:"
 msgstr ""
+"In fine, un motiv bun pentru a utiliza variabilele este acela ca ajuta la "
+"stocarea rezultatelor. De exemplu, ai putea dori sa faci anumite lucruri cu "
+"durata esantionului:"
 
 #: 05.6-Variables.md:107
 #, no-wrap
 msgid "sd = sample_duration(:loop_amen)"
-msgstr ""
+msgstr "sd = sample_duration(:loop_amen)"
 
 #: 05.6-Variables.md:111
 msgid ""
 "We can now use `sd` anywhere we need the duration of the `:loop_amen` sample."
 msgstr ""
+"Acum putem folosi 'sd' oriunde avem nevoie de durata esantionului "
+"':loop_amen'."
 
 #: 05.6-Variables.md:114
 msgid ""
 "Perhaps more importantly, a variable allows us to capture the result of a "
 "call to `play` or `sample`:"
 msgstr ""
+"Poate mai important, o variabila ne permite sa stocam rezultatul unui apel "
+"al unei functii 'play' sau 'sample':"
 
 #: 05.6-Variables.md:117
 #, no-wrap
 msgid "s = play 50, release: 8"
-msgstr ""
+msgstr "s = play 50, release: 8"
 
 #: 05.6-Variables.md:121
 msgid ""
 "Now we have caught and remembered `s` as a variable, which allows us to "
 "control the synth as it is running:"
 msgstr ""
+"Acum am memorat 's' ca o variabila, ceea ce ne permite sa controlam "
+"sintetizatorul in timpul functionarii:"
 
 #: 05.6-Variables.md:124
 #, no-wrap
@@ -5192,18 +5465,23 @@ msgid ""
 "sleep 2\n"
 "control s, note: 62"
 msgstr ""
+"s = play 50, release: 8\n"
+"sleep 2\n"
+"control s, note: 62"
 
 #: 05.6-Variables.md:130
 msgid "We'll look into controlling synths in more detail in a later section."
 msgstr ""
+"Vom intra in detalii privind controlul sintetizatoarelor intr-o sectiune "
+"ulterioara."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
-msgstr ""
+msgstr "5.7 Sincronizarea firelor de executie"
 
 #: 05.7-Thread-Synchronisation.md:3
 msgid "Thread Synchronisation"
-msgstr ""
+msgstr "Sincronizarea firelor de executie"
 
 #: 05.7-Thread-Synchronisation.md:5
 msgid ""
@@ -5214,10 +5492,15 @@ msgid ""
 "However, when you restart the thread it is now *out of time* with the "
 "original threads."
 msgstr ""
+"Cand ai devenit suficient de avansat sa programezi live cu un numar de "
+"functii si thread-uri simultane, ai observat probabil ca este destul de usor "
+"sa faci o greseala intr-un thread astfel incat sa il blochezi. Asta nu e o "
+"mare problema, fiindca poti reporni usor thread-ul apasand pe Run. Totusi, "
+"daca repornesti un thread el va fi *decalat* fata de thread-urile originale."
 
 #: 05.7-Thread-Synchronisation.md:12
 msgid "Inherited Time"
-msgstr ""
+msgstr "Mostenirea pozitiei in timp"
 
 #: 05.7-Thread-Synchronisation.md:14
 msgid ""
@@ -5226,6 +5509,10 @@ msgid ""
 "means that threads are always in time with each other when started "
 "simultaneously."
 msgstr ""
+"Asa cum am discutat anterior, thread-urile noi create cu 'in_thread' "
+"mostenesc toti parametrii de la thread-ul parinte. Asta include si pozitia "
+"in timp. Acest lucru inseamna ca thread-urile sunt mereu aliniate in timp "
+"daca au pornit simultan."
 
 #: 05.7-Thread-Synchronisation.md:19
 msgid ""
@@ -5233,16 +5520,21 @@ msgid ""
 "which is unlikely to be in sync with any of the other currently running "
 "threads."
 msgstr ""
+"Totusi, daca pornesti un thread de sine statator, el va porni cu timpul sau "
+"propriu care este putin probabil sa fie sincronizat cu cel al altor thread-"
+"uri care ruleaza la momentul respectiv."
 
 #: 05.7-Thread-Synchronisation.md:23
 msgid "Cue and Sync"
-msgstr ""
+msgstr "Marcaje de timp si sincronizare"
 
 #: 05.7-Thread-Synchronisation.md:25
 msgid ""
 "Sonic Pi provides a solution to this problem with the functions `cue` and "
 "`sync`."
 msgstr ""
+"Sonic Pi ofera o solutie pentru aceast problema cu functiile 'cue' (marcaj "
+"de timp) si 'sync' (sincronizare)."
 
 #: 05.7-Thread-Synchronisation.md:28
 msgid ""
@@ -5250,6 +5542,10 @@ msgid ""
 "default the other threads aren't interested and ignore these heartbeat "
 "messages. However, you can easily register interest with the `sync` function."
 msgstr ""
+"'cue' ne permite sa transmitem mesaje referitoare la tact catre alte thread-"
+"uri. Implicit celelalte thread-uri nu sunt interesate si vor ignora aceste "
+"mesaje. Totusi, poti sa le determini cu usurinta sa devina interesate "
+"folosind functia 'sync'."
 
 #: 05.7-Thread-Synchronisation.md:33
 msgid ""
@@ -5259,10 +5555,15 @@ msgid ""
 "`sync` you don't know how long you will wait - as `sync` waits for the next "
 "`cue` from another thread which may be soon or a long time away."
 msgstr ""
+"Trebuie sa fii constient ca 'sync' este oarecum similar cu 'sleep' prin "
+"aceea ca opreste thread-ul curent sa faca orice pentru o anumita perioada de "
+"timp. Totusi, cu 'sleep' tu decizi cat vrei sa dureze pauza, in timp ce cu "
+"'sync' nu stii cat timp va dura asteptare, deoarece 'sync' asteapta "
+"urmatorul 'cue' de la alt thread, care poate sosi mai devreme sau mai tarziu."
 
 #: 05.7-Thread-Synchronisation.md:40
 msgid "Let's explore this in a little more detail:"
-msgstr ""
+msgstr "Sa examinam acest lucru mai in detaliu:"
 
 #: 05.7-Thread-Synchronisation.md:42
 #, no-wrap
@@ -5280,6 +5581,18 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    cue :tick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do\n"
+"    sync :tick\n"
+"    sample :drum_heavy_kick\n"
+"  end\n"
+"end"
 
 #: 05.7-Thread-Synchronisation.md:58
 msgid ""
@@ -5288,6 +5601,10 @@ msgid ""
 "thread is synchronising on `tick` messages and when it receives one it "
 "inherits the time of the `cue` thread and continues running."
 msgstr ""
+"Aici avem doua thread-uri, unul actionand ca un metronom, fara sa redea "
+"vreun sunet, dar trimitand mesaje ':tick' corespunzator tactului la fiecare "
+"bataie. Al doilea thread este sincronizat cu mesajele 'tick' si cand "
+"primeste unul mosteneste timpul din thread-ul 'cue' continuand sa ruleze."
 
 #: 05.7-Thread-Synchronisation.md:63
 msgid ""
@@ -5295,6 +5612,9 @@ msgid ""
 "other thread sends the `:tick` message, even if the two threads didn't start "
 "their execution at the same time:"
 msgstr ""
+"Ca urmare, vom auzi esantionul `:drum_heavy_kick` exact cand cealalt thread "
+"trimite mesajul ':tick', chiar daca cele doua thread-uri nu au fost pornite "
+"in acelasi timp:"
 
 #: 05.7-Thread-Synchronisation.md:67
 #, no-wrap
@@ -5313,6 +5633,19 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do\n"
+"    cue :tick\n"
+"    sleep 1\n"
+"  end\n"
+"end\n"
+"sleep(0.3)\n"
+"in_thread do\n"
+"  loop do\n"
+"    sync :tick\n"
+"    sample :drum_heavy_kick\n"
+"  end\n"
+"end"
 
 #: 05.7-Thread-Synchronisation.md:85
 msgid ""
@@ -5320,10 +5653,13 @@ msgid ""
 "phase with the first. However, as we're using `cue` and `sync`, we "
 "automatically sync the threads bypassing any accidental timing offsets."
 msgstr ""
+"Acel apel buclucas al functiei 'sleep' ar face in mod normal ca al doilea "
+"thread sa fie defazat fata de primul. Totusi, folosind 'cue' si 'sync', "
+"putem sincroniza automat thread-urile trecand peste decalajele accidentale."
 
 #: 05.7-Thread-Synchronisation.md:90
 msgid "Cue Names"
-msgstr ""
+msgstr "Nume pentru marcajele de timp"
 
 #: 05.7-Thread-Synchronisation.md:92
 msgid ""
@@ -5332,10 +5668,14 @@ msgid ""
 "on the correct name - otherwise they'll be waiting for ever (or at least "
 "until you press the Stop button)."
 msgstr ""
+"Esti liber sa folosesti ce nume doresti pentru mesajele 'cue', nu doar ':"
+"tick'. Trebuie doar sa te asiguri ca celelalte thread-uri se sincronizeaza "
+"dupa numele corect - in caz contrar ar putea astepta la infinit (sau pana "
+"cand apesi butonul Stop)."
 
 #: 05.7-Thread-Synchronisation.md:97
 msgid "Let's play with a few `cue` names:"
-msgstr ""
+msgstr "Sa ne jucam putin cu numele pentru marcajele 'cue':"
 
 #: 05.7-Thread-Synchronisation.md:99
 #, no-wrap
@@ -5365,6 +5705,30 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"in_thread do\n"
+"  loop do \n"
+"    cue [:foo, :bar, :baz].choose\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do \n"
+"    sync :foo \n"
+"    sample :elec_beep\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do\n"
+"    sync :bar\n"
+"    sample :elec_flip\n"
+"  end\n"
+"end\n"
+"in_thread do\n"
+"  loop do\n"
+"    sync :baz\n"
+"    sample :elec_blup\n"
+"  end\n"
+"end"
 
 #: 05.7-Thread-Synchronisation.md:129
 msgid ""
@@ -5375,20 +5739,29 @@ msgid ""
 "each of the `sync` threads is randomly synced with the `cue` thread and "
 "plays its sample."
 msgstr ""
+"Aici avem o bucla 'cue' principala care trimite aleator un tact dintre `:foo`"
+", `:bar` si `:baz`. Avem apoi trei thread-uri de tip bucla care se "
+"sincronizeaza fiecare cu unul dintre cele trei nume si redau fiecare un alt "
+"esantion. Efectul final este ca auzim un sunet la fiecare 0.5 batai deoarece "
+"de fiecare data unul dintre thread-urile 'sync' se va sincroniza cu thread-"
+"ul 'cue' si va reda propriul esantion."
 
 #: 05.7-Thread-Synchronisation.md:136
 msgid ""
 "This of course also works if you order the threads in reverse as the `sync` "
 "threads will simply sit and wait for the next `cue`."
 msgstr ""
+"Acest lucru va fi valabil desigur si daca schimbi ordinea thread-urilor, "
+"deoarece thread-urile 'sync' vor sta si vor astepta pur si simplu urmatorul "
+"'cue'."
 
 #: 06-FX.md:1
 msgid "6 FX"
-msgstr ""
+msgstr "6 Efecte"
 
 #: 06-FX.md:3
 msgid "Studio FX"
-msgstr ""
+msgstr "Efecte de studio"
 
 #: 06-FX.md:5
 msgid ""
@@ -5397,6 +5770,10 @@ msgid ""
 "some reverb to parts of your piece, or some echo or perhaps even distort or "
 "wobble your basslines."
 msgstr ""
+"Una dintre caracteristicile cele mai atractive ale Sonic Pi este "
+"posibilitatea de a adauga cu usurinta efecte de studio sunetelor. De "
+"exemplu, ai putea dori sa adaugi un efect de reverb anumitor parti din piesa "
+"ta, sau un ecou, sau chiar distort sau wobble asupra basului."
 
 #: 06-FX.md:10
 msgid ""
@@ -5407,10 +5784,17 @@ msgid ""
 "modify the opts of the FX whilst it's still running. So, for example, you "
 "could increase the reverb on your bass throughout the track..."
 msgstr ""
+"Sonic Pi ofera o cale foarte simpla dar foarte puternica pentru adaugarea "
+"efectelor. Iti permite chiar sa le inlantuiesti (astfel incat poti sa aplici "
+"sunetelor tale o distorsiune, apoi un ecou, apoi o reverberatie si sa "
+"controlezi fiecare efect individual folosind parametri (intr-un mod similar "
+"cu transmiterea parametrilor pentru sintetizatoare si esantioane). Poti "
+"chiar modifica parametrii pentru efecte in timp ce ruleaza. De exemplu, poti "
+"creste reverberatia pentru bas pe durata unui track..."
 
 #: 06-FX.md:18
 msgid "Guitar Pedals"
-msgstr ""
+msgstr "Pedala de chitara"
 
 #: 06-FX.md:20
 msgid ""
@@ -5422,11 +5806,18 @@ msgid ""
 "another cable and connect (chain) a reverb pedal. The output of the reverb "
 "pedal can then be plugged into the amplifier:"
 msgstr ""
+"Daca suna putin complicat, nu te ingrijora. Dupa ce te vei juca putin cu ele "
+"va deveni destul de clar. Inainte sa faci asta, putem sa facem o analogie cu "
+"pedalele pentru chitara. Exista multe feluri de pedale pentru efecte pe care "
+"le poti cumpara. Unele adauga reverb, altele distort, etc. Un chitarist va "
+"conecta chitara sa la o pedala de efecte - sa zicem la cea de distorsiune - "
+", apoi va lua alt cablu si va conecta (inlantui) si o pedala de reverb. "
+"Iesirea de la pedala reverb poate fi conectata la amplificator:"
 
 #: 06-FX.md:29
 #, no-wrap
 msgid "Guitar -> Distortion -> Reverb -> Amplifier"
-msgstr ""
+msgstr "Chitara -> Distorsiune -> Reverberatie -> Amplificator"
 
 #: 06-FX.md:33
 msgid ""
@@ -5438,40 +5829,54 @@ msgid ""
 "but instead of needing someone else to control things for you, that's where "
 "the computer steps in."
 msgstr ""
+"Aceasta se numeste o inlanuire de efecte. Sonic Pi suporta acest mod de "
+"lucru. In plus, fiecare pedala are adesea butoane si potentiometre pentru a-"
+"ti permite controlul asupra efectului pe care il aplici. Sonic Pi suporta si "
+"acest tip de control. Acum sa ne imaginam un chitarist care canta in timp ce "
+"cineva se joaca cu controlul efectelor chiar in timp ce acestea actioneaza. "
+"Sonic Pi suporta si acest mod, dar in loc sa fie nevoie de altcineva care sa "
+"controleze lucrurile pentru tine, computerul este cel care preia acest rol."
 
 #: 06-FX.md:42
 msgid "Let's explore FX!"
-msgstr ""
+msgstr "Sa exploram efectele (FX)!"
 
 #: 06.1-Adding-FX.md:1
 msgid "6.1 Adding FX"
-msgstr ""
+msgstr "6.1 Adaugarea de efecte"
 
 #: 06.1-Adding-FX.md:3
 msgid "Adding FX"
-msgstr ""
+msgstr "Adaugarea de efecte"
 
 #: 06.1-Adding-FX.md:5
 msgid ""
 "In this section we'll look at a couple of FX: reverb and echo. We'll see how "
 "to use them, how to control their opts and how to chain them."
 msgstr ""
+"In aceasta sectiune vom discuta despre doua efecte: reverb si echo. Vom "
+"vedea cum le putem folosi, cum sa le controlam parametrii si cum sa le "
+"inlantuim."
 
 #: 06.1-Adding-FX.md:9
 msgid ""
 "Sonic Pi's FX system uses blocks. So if you haven't read section 5.1 you "
 "might want to take a quick look and then head back."
 msgstr ""
+"Sonic Pi foloseste blocuri pentru efecte. Deci, daca nu ai citit sectinea "
+"5.1, ar fi bine sa arunci o privire asupra ei si apoi sa revii."
 
 #: 06.1-Adding-FX.md:12
 msgid "Reverb"
-msgstr ""
+msgstr "Reverb (reverberatie)"
 
 #: 06.1-Adding-FX.md:14
 msgid ""
 "If we want to use reverb we write `with_fx :reverb` as the special code to "
 "our block like this:"
 msgstr ""
+"Daca vrem sa folosim efectul reverb adaugam codul special 'with_fx :reverb' "
+"la inceputul blocului:"
 
 #: 06.1-Adding-FX.md:17
 #, no-wrap
@@ -5484,16 +5889,25 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:27
 msgid ""
 "Now play this code and you'll hear it played with reverb. It sounds good, "
 "doesn't it! Everything sounds pretty nice with reverb."
 msgstr ""
+"Acum executa acest cod si vei auzi cum este redat cu efectul reverb. Suna "
+"bine, nu? Aproape orice suna bine cu reverb."
 
 #: 06.1-Adding-FX.md:30
 msgid "Now let's look what happens if we have code outside the do/end block:"
-msgstr ""
+msgstr "Acum sa vedem ce se intampla daca avem cod in afara blocului do/end:"
 
 #: 06.1-Adding-FX.md:32
 #, no-wrap
@@ -5508,18 +5922,32 @@ msgid ""
 "sleep 1\n"
 "play 55"
 msgstr ""
+"with_fx :reverb do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end\n"
+"sleep 1\n"
+"play 55"
 
 #: 06.1-Adding-FX.md:45
 msgid ""
 "Notice how the final `play 55` isn't played with reverb. This is because it "
 "is *outside* the do/end block, so it isn't captured by the reverb FX."
 msgstr ""
+"Observi ca la sfarsit 'play 55' este redat fara reverb. Asta se intmpla "
+"deoarece este *in afara* blocului do/end, deci nu este influentat de efectul "
+"reverb."
 
 #: 06.1-Adding-FX.md:48
 msgid ""
 "Similarly, if you make sounds before the do/end block, they also won't be "
 "captured:"
 msgstr ""
+"La fel, daca ai sunete generate inainte de blocul do/end, nici ele nu sunt "
+"influentate:"
 
 #: 06.1-Adding-FX.md:51
 #, no-wrap
@@ -5536,14 +5964,26 @@ msgid ""
 "sleep 1\n"
 "play 55"
 msgstr ""
+"play 55\n"
+"sleep 1\n"
+"with_fx :reverb do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end\n"
+"sleep 1\n"
+"play 55"
 
 #: 06.1-Adding-FX.md:67
 msgid "Echo"
-msgstr ""
+msgstr "Echo (ecou)"
 
 #: 06.1-Adding-FX.md:69
 msgid "There are many FX to choose from. How about some echo?"
 msgstr ""
+"Exista multe efecte pe care le poti aplica. Ce-ar fi sa incercam putin ecou?"
 
 #: 06.1-Adding-FX.md:71
 #, no-wrap
@@ -5571,6 +6011,10 @@ msgid ""
 "example a fun echo opt to play with is `phase:` which represents the "
 "duration of a given echo in beats. Let's make the echo slower:"
 msgstr ""
+"Una dintre caracteristicile importante ale efectelor din Sonic Pi este ca "
+"permit specificarea de parametri asemanatori cu cei pentru 'play' sau "
+"'sample'. De exemplu, un parametru interesant pentru echo este 'phase:' care "
+"reprezinta durata ecoului in batai. Sa facem ecoul mai lent:"
 
 #: 06.1-Adding-FX.md:87
 #, no-wrap
@@ -5583,10 +6027,17 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :echo, phase: 0.5 do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:97
 msgid "Let's also make the echo faster:"
-msgstr ""
+msgstr "Acum sa facem ecoul mai rapid:"
 
 #: 06.1-Adding-FX.md:99
 #, no-wrap
@@ -5599,12 +6050,21 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :echo, phase: 0.125 do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:109
 msgid ""
 "Let's make the echo take longer to fade away by setting the `decay:` time to "
 "8 beats:"
 msgstr ""
+"Sa facem acum ca ecoul sa se atenueze mai lent adaugand parametrul 'decay:' "
+"cu durata de 8 batai:"
 
 #: 06.1-Adding-FX.md:112
 #, no-wrap
@@ -5617,10 +6077,17 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :echo, phase: 0.5, decay: 8 do\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  sample :elec_plip\n"
+"  sleep 0.5\n"
+"  play 62\n"
+"end"
 
 #: 06.1-Adding-FX.md:122
 msgid "Nesting FX"
-msgstr ""
+msgstr "Efecte in efecte"
 
 #: 06.1-Adding-FX.md:124
 msgid ""
@@ -5629,6 +6096,10 @@ msgid ""
 "wanted to play some code with echo and then with reverb? Easy, just put one "
 "inside the other:"
 msgstr ""
+"Un aspect important legat de blocurile de efecte este poti fi continute "
+"unele in altele. Asta inseamna ca efectele pot fi inlantuite cu usurinta. De "
+"exemplu, daca vrei sa redai o parte din cod cu echo apoi cu reverb, poti "
+"face asta foarte simplu, punandu-le unul in interiorul celuilalt:"
 
 #: 06.1-Adding-FX.md:129
 #, no-wrap
@@ -5643,6 +6114,15 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb do\n"
+"  with_fx :echo, phase: 0.5, decay: 8 do\n"
+"    play 50\n"
+"    sleep 0.5\n"
+"    sample :elec_blup\n"
+"    sleep 0.5\n"
+"    play 62\n"
+"  end\n"
+"end"
 
 #: 06.1-Adding-FX.md:141
 msgid ""
@@ -5650,6 +6130,10 @@ msgid ""
 "within the inner do/end block such as `play 50` is first sent to the echo FX "
 "and the sound of the echo FX is in turn sent out to the reverb FX."
 msgstr ""
+"Imagineaza-ti fluxul audio dinspre interior spre exterior. Sunetul din toata "
+"bucata de cod din blocul do/end din interior, cum ar fi 'play 50', este "
+"trimis mai intai catre efectul echo, iar sunetul efectului echo este apoi "
+"trimis catre efectul reverb."
 
 #: 06.1-Adding-FX.md:146
 msgid ""
@@ -5658,10 +6142,15 @@ msgid ""
 "multiple FX simultaneously. So be sparing with your use of FX especially on "
 "low powered platforms such as the Raspberry Pi."
 msgstr ""
+"Putem folosi inlantuirea pe mai multe niveluri pentru rezultate cat mai "
+"surprinzatoare. Dar, ai grija, efectele consuma multe resurse, iar atunci "
+"cand le inlantuiesti de fapt se executa mai multe efecte in acelasi timp. "
+"Deci, fii grijuliu cu folosirea efectelor mai ales pe platforme hardware mai "
+"putin puternice, cum ar fi Raspberry Pi."
 
 #: 06.1-Adding-FX.md:151
 msgid "Discovering FX"
-msgstr ""
+msgstr "Explorarea efectelor"
 
 #: 06.1-Adding-FX.md:153
 msgid ""
@@ -5670,38 +6159,43 @@ msgid ""
 "and you'll see a list of available options. Here's a list of some of my "
 "favourites:"
 msgstr ""
+"Sonic Pi vine cu un mare numar de efecte cu care te poti juca. Pentru a "
+"vedea care sunt cele disponibile, fa click pe Efecte in marginea din stanga "
+"a sistemului de ajutor si vei vedea lista de optiuni. Iata o lista cu "
+"preferatele mele:"
 
 #: 06.1-Adding-FX.md:158
 msgid "wobble,"
-msgstr ""
+msgstr "wobble,"
 
 #: 06.1-Adding-FX.md:159
 msgid "reverb,"
-msgstr ""
+msgstr "reverb,"
 
 #: 06.1-Adding-FX.md:160
 msgid "echo,"
-msgstr ""
+msgstr "echo,"
 
 #: 06.1-Adding-FX.md:161
 msgid "distortion,"
-msgstr ""
+msgstr "distortion,"
 
 #: 06.1-Adding-FX.md:162
 msgid "slicer"
-msgstr ""
+msgstr "slicer"
 
 #: 06.1-Adding-FX.md:164
 msgid "Now go crazy and add FX everywhere for some amazing new sounds!"
 msgstr ""
+"Acum te poti dezlantui adaugand efecte peste tot, pentru sunete incredibile!"
 
 #: 06.2-FX-in-Practice.md:1
 msgid "6.2 FX in Practice"
-msgstr ""
+msgstr "6.2 Efectele in viata reala"
 
 #: 06.2-FX-in-Practice.md:3
 msgid "FX in Practice"
-msgstr ""
+msgstr "Efectele in viata reala"
 
 #: 06.2-FX-in-Practice.md:5
 msgid ""
@@ -5712,10 +6206,16 @@ msgid ""
 "about how much work you ask it to do if you want to ensure the beats keep "
 "flowing."
 msgstr ""
+"Desi par simple vazute din afara, efectele sunt niste unelte foarte complexe "
+"la interior. Simplitatea lor determina adesea utilizatorii sa exagereze cu "
+"folosirea lor in piese. Asta nu e o mare problema daca ai o masina "
+"puternica, dar daca folosesti ca mine un Raspberry Pi pentru improvizatii pe "
+"scena, trebuie sa ai grija cat de multe ii ceri daca vrei sa fii sigur ca "
+"poate tine pasul."
 
 #: 06.2-FX-in-Practice.md:12
 msgid "Consider this code:"
-msgstr ""
+msgstr "Sa ne uitam la codul de mai jos:"
 
 #: 06.2-FX-in-Practice.md:14
 #, no-wrap
@@ -5740,6 +6240,9 @@ msgid ""
 "short note. We also want reverb so we've wrapped it in a reverb block. All "
 "good so far. Except..."
 msgstr ""
+"Aici redam nota 60 cu un release foarte scurt, deci este o nota scurta. Vrem "
+"sa aiba reverberatie, deci am inclus-o intr-un bloc reverb. Toate bune pana "
+"aici. Numai ca..."
 
 #: 06.2-FX-in-Practice.md:27
 msgid ""
@@ -5753,12 +6256,24 @@ msgid ""
 "stopped and removed is all handled by `with_fx` for you, but this takes CPU "
 "power which may be precious."
 msgstr ""
+"Sa privim ce face codul. Mai intai avem o bucla ('loop'), ceea ce inseamna "
+"ca tot ce se afla in interiorul ei este repetat la nesfarsit. Apoi avem un "
+"bloc 'with_fx'. Asta inseamna ca vom crea un nou efect reverb *de fiecare "
+"data cand bucla se reia*. E ca si cand ai avea o pedala de efecte separata "
+"pentru fiecare ciupire a corzii unei chitare. E tare ca poti face asta, dar "
+"nu e ce-ti doresti intotdeauna. De exemplu, acest cod va fi redat cu "
+"dificultate de un Raspberry Pi. Toata munca de crearea a efectului reverb si "
+"apoi asteptarea pana cand trebuie oprit si anulat este gestionata de "
+"'with_fx' pentru tine, dar consuma din timpul pretios al procesorului."
 
 #: 06.2-FX-in-Practice.md:37
 msgid ""
 "How do we make it more similar to a traditional setup where our guitarist "
 "has just *one* reverb pedal which all sounds pass through? Simple:"
 msgstr ""
+"Cum putem face sa se comporte similar cu o configuratie uzuala in care "
+"chitaristul are *o singura* pedala pentru reverb care controleaza toate "
+"sunetele? Simplu:"
 
 #: 06.2-FX-in-Practice.md:41
 #, no-wrap
@@ -5783,10 +6298,15 @@ msgid ""
 "single reverb for all notes played in our loop. This code is a lot more "
 "efficient and would work fine on a Raspberry Pi."
 msgstr ""
+"Punem bucla *in interiorul* blocului 'with_fx'. In felul asta cream un "
+"singur reverb pentru toate notele redate in bucla. Acest cod este mult mai "
+"eficient si va functiona fara probleme pe un Raspberry Pi."
 
 #: 06.2-FX-in-Practice.md:54
 msgid "A compromise is to use `with_fx` over an iteration within a loop:"
 msgstr ""
+"O solutie de compromis este sa folosim 'with_fx' cu un bloc de iteratii in "
+"cadrul unei bucle:"
 
 #: 06.2-FX-in-Practice.md:56
 #, no-wrap
@@ -5814,12 +6334,16 @@ msgid ""
 "This way we've lifted the `with_fx` out of the inner part of the `loop` and "
 "we're now creating a new reverb every 16 notes."
 msgstr ""
+"In felul asta am ridicat cu un nivel 'with_fx' din interiorul buclei si "
+"cream un reverb nou la fiecare 16 note."
 
 #: 06.2-FX-in-Practice.md:70
 msgid ""
 "This is such a common pattern that `with_fx` supports an opt to do exactly "
 "this but without having to write the `16.times` block:"
 msgstr ""
+"Este un lucru atat de des intalnit, incat 'with_fx' ofera suport pentru un "
+"parametru care face exact asta, fara a fi nevoie sa scrii blocul '16.times':"
 
 #: 06.2-FX-in-Practice.md:73
 #, no-wrap
@@ -5845,6 +6369,9 @@ msgid ""
 "you can use them both interchangeably and choose the one that feels best for "
 "you."
 msgstr ""
+"Ambele exemple, cel cu `reps: 16` si cel cu `16.times do`, se comporta la "
+"fel. In mare, `reps: 16`codul din blocul do/end de 16 ori, deci poti folosi "
+"oricare dintre cele doua forme in functie de preferintele personale."
 
 #: 06.2-FX-in-Practice.md:87
 msgid ""
@@ -5853,14 +6380,19 @@ msgid ""
 "characteristics. So play around and use the approach that sounds best to you "
 "whilst also working within the performance constraints of your platform."
 msgstr ""
+"Cum spuneam, nu exista greseli, ci doar posibilitati. Totusi, unele dintre "
+"abodari pot crea sunete diferite si pot avea un impact diferit asupra "
+"performantelor. Deci te poti juca incercand sa gasesti metoda care suna cel "
+"mai bine pentru tine, tinand cont in acelasi timp de constrangerile legate "
+"de performantele sistemului."
 
 #: 07-Control.md:1
 msgid "7 Control"
-msgstr ""
+msgstr "7 Controlul"
 
 #: 07-Control.md:3
 msgid "Controlling running sounds"
-msgstr ""
+msgstr "Controlul sunetelor in timpul redarii"
 
 #: 07-Control.md:5
 msgid ""
@@ -5869,6 +6401,10 @@ msgid ""
 "more. Each sound triggered is essentially its own sound with its own list of "
 "options set for the duration of the sound."
 msgstr ""
+"Pana acum am vazut cum putem porni sintetizatoare sau esantioane si cum le "
+"putem modifica valorile implicite pentru parametri ca amplitudine, "
+"pozitionare, anvelopa si altele. Fiecare sunet in curs de redare este "
+"independent, avand propria lista de parametri valabili pe toata durata lui."
 
 #: 07-Control.md:11
 msgid ""
@@ -5876,18 +6412,21 @@ msgid ""
 "still playing, just like you might bend a string of a guitar whilst it's "
 "still vibrating?"
 msgstr ""
+"N-ar fi interesant daca ai putea schimna parametrii unui sunet in timp ce "
+"este redat, exact cum ai putea apasa pe o coarda de la chitara in timp ce "
+"inca vibreaza?"
 
 #: 07-Control.md:15
 msgid "You're in luck - this section will show you how to do exactly this."
-msgstr ""
+msgstr "Se pare ca ai noroc - exact despre asta vom vorbi in aceasta sectiune."
 
 #: 07.1-Controlling-Running-Synths.md:1
 msgid "7.1 Controlling Running Synths"
-msgstr ""
+msgstr "7.1 Controlul sintetizatorului in timpul redarii"
 
 #: 07.1-Controlling-Running-Synths.md:3
 msgid "Controlling Running Synths"
-msgstr ""
+msgstr "Controlul sintetizatorului in timpul redarii"
 
 #: 07.1-Controlling-Running-Synths.md:5
 msgid ""
@@ -5896,11 +6435,14 @@ msgid ""
 "running sounds. We do this by using a variable to capture a reference to a "
 "synth:"
 msgstr ""
+"Pana acum ne-am concentrat doar pe pornirea sunetelor si efectelor. Totusi, "
+"Sonic Pi ne da posibilitatea sa manipulam sunetele si in timpul redarii. Vom "
+"face asta folosind o variabila care memoreaza o referinta la un sintetizator:"
 
 #: 07.1-Controlling-Running-Synths.md:10
 #, no-wrap
 msgid "s = play 60, release: 5"
-msgstr ""
+msgstr "s = play 60, release: 5"
 
 #: 07.1-Controlling-Running-Synths.md:14
 msgid ""
@@ -5908,11 +6450,16 @@ msgid ""
 "note 60. Note that this is *run-local* - you can't access it from other runs "
 "like functions."
 msgstr ""
+"Aici avem o variabila locala (in cadrul unui Run) 's' care reprezinta "
+"sintetizatorul ce reda nota 60. Aceasta variabila *locala* nu poate fi "
+"accesata din alte blocuri, cum ar fi functii."
 
 #: 07.1-Controlling-Running-Synths.md:18
 msgid ""
 "Once we have `s`, we can start controlling it via the `control` function:"
 msgstr ""
+"Din momentul in care il avem pe 's', putem incepe sa il controlam folosind "
+"functia 'control':"
 
 #: 07.1-Controlling-Running-Synths.md:21 07.3-Sliding-Parameters.md:13
 #, no-wrap
@@ -5925,6 +6472,13 @@ msgid ""
 "sleep 3\n"
 "control s, note: 72"
 msgstr ""
+"s = play 60, release: 5\n"
+"sleep 0.5\n"
+"control s, note: 65\n"
+"sleep 0.5\n"
+"control s, note: 67\n"
+"sleep 3\n"
+"control s, note: 72"
 
 #: 07.1-Controlling-Running-Synths.md:31
 msgid ""
@@ -5932,16 +6486,20 @@ msgid ""
 "we're just triggering one synth and then change the pitch 3 times "
 "afterwards, while it's playing."
 msgstr ""
+"Un amanunt important este ca nu pornim 4 sintetizatoare diferite, ci pornim "
+"doar unul apoi ii schimbam tonalitatea de 3 ori, in timp ce canta."
 
 #: 07.1-Controlling-Running-Synths.md:35
 msgid ""
 "We can pass any of the standard opts to `control`, so you can control things "
 "like `amp:`, `cutoff:` or `pan:`."
 msgstr ""
+"Putem transmite orice parametru standard catre 'control', deci poti controla "
+"valori ca 'amp:', 'cutoff:', sau 'pan:'."
 
 #: 07.1-Controlling-Running-Synths.md:38
 msgid "Non-controllable Options"
-msgstr ""
+msgstr "Parametri care nu pot fi controlati"
 
 #: 07.1-Controlling-Running-Synths.md:40
 msgid ""
@@ -5951,20 +6509,28 @@ msgid ""
 "documentation says *Can not be changed once set*, you know it's not possible "
 "to control the opt after the synth has started."
 msgstr ""
+"Unii parametri nu pot fi controlati odata ce sintetizatorul a fost pornit. "
+"Asa sta treaba pentru toti parametrii anvelopei ADSR. Poti vedea ce poate fi "
+"controlat cautand in documentatia pentru fiecare parametru in sistemul de "
+"ajutor. Daca documentatia spune *Nu poate fi schimbat odata setat*, vei sti "
+"ca nu este posibil sa controlezi acest parametru dupa pornirea "
+"sintetizatorului."
 
 #: 07.2-Controlling-FX.md:1
 msgid "7.2 Controlling FX"
-msgstr ""
+msgstr "7.2 Controlul efectelor"
 
 #: 07.2-Controlling-FX.md:3
 msgid "Controlling FX"
-msgstr ""
+msgstr "Controlul efectelor"
 
 #: 07.2-Controlling-FX.md:5
 msgid ""
 "It is also possible to control FX, although this is achieved in a slightly "
 "different way:"
 msgstr ""
+"Este posibil sa controlezi si efectele, dar acest lucru se face intr-un mod "
+"usor diferit:"
 
 #: 07.2-Controlling-FX.md:8
 #, no-wrap
@@ -5980,6 +6546,16 @@ msgid ""
 "  play 62\n"
 "end"
 msgstr ""
+"with_fx :reverb do |r|\n"
+"  play 50\n"
+"  sleep 0.5\n"
+"  control r, mix: 0.7\n"
+"  play 55\n"
+"  sleep 1\n"
+"  control r, mix: 0.9\n"
+"  sleep 1\n"
+"  play 62\n"
+"end"
 
 #: 07.2-Controlling-FX.md:21
 msgid ""
@@ -5988,18 +6564,25 @@ msgid ""
 "FX which we then reference from the containing do/end block. This behaviour "
 "is identical to using parameterised functions."
 msgstr ""
+"In loc sa folosim o variabila, folosim parametrii delimitati de bare - '|' - "
+"din cadrul blocurilor do/end. Trebuie sa specificam intre bare un nume unic "
+"pentru efectul care se executa, putand apoi folosi acest nume in cadrul "
+"blocului do/end care-l contine. Acest comportament este identic cu cel al "
+"functiilor cu parametri."
 
 #: 07.2-Controlling-FX.md:26
 msgid "Now go and control some synths and FX!"
 msgstr ""
+"Acum poti sa te joci controland niste sintetizatoare si efecte in timpul "
+"redarii!"
 
 #: 07.3-Sliding-Parameters.md:1
 msgid "7.3 Sliding Options"
-msgstr ""
+msgstr "7.3 Optiuni de modificare progresiva sau alunecare (sliding)"
 
 #: 07.3-Sliding-Parameters.md:3
 msgid "Sliding Opts"
-msgstr ""
+msgstr "Optiuni de modificare progresiva sau alunecare (sliding)"
 
 #: 07.3-Sliding-Parameters.md:5
 msgid ""
@@ -6009,10 +6592,16 @@ msgid ""
 "they're special opts that only work when you control synths as introduced in "
 "the previous section."
 msgstr ""
+"Cand am discutat despre sintetizatoare si efecte ai observat probabil ca "
+"exista anumiti parametri al caror nume se termina cu '_slide'. Poate chiar "
+"ai incercat sa ii folosesti si nu ai remarcat niciun efect. Asta se intampla "
+"pentru ca nu sunt parametri normali, ci optiuni speciale care sunt active "
+"doar cand controlezi sintetizatoarele asa cum am explicat in sectiunea "
+"precedenta."
 
 #: 07.3-Sliding-Parameters.md:11
 msgid "Consider the following example:"
-msgstr ""
+msgstr "Sa analizam exemplul urmator:"
 
 #: 07.3-Sliding-Parameters.md:23
 msgid ""
@@ -6021,6 +6610,11 @@ msgid ""
 "controlling the `note:` parameter, to add slide, we need to set the "
 "`note_slide` parameter of the synth:"
 msgstr ""
+"Aici, poti auzi tonalitatea sintetizatorului schimbandu-se imediat dupa "
+"fiecare apel al functiei 'control'. Totusi, am dori ca tonalitatea sa "
+"alunece (slide) intre schimbari. Deoarece controlam parametrul 'note:', "
+"pentru a adauga alunecarea, trebuie sa modificam parametrul 'note_slide' al "
+"sintetizatorului:"
 
 #: 07.3-Sliding-Parameters.md:28
 #, no-wrap
@@ -6033,6 +6627,13 @@ msgid ""
 "sleep 3\n"
 "control s, note: 72"
 msgstr ""
+"s = play 60, release: 5, note_slide: 1\n"
+"sleep 0.5\n"
+"control s, note: 65\n"
+"sleep 0.5\n"
+"control s, note: 67\n"
+"sleep 3\n"
+"control s, note: 72"
 
 #: 07.3-Sliding-Parameters.md:38
 msgid ""
@@ -6040,16 +6641,21 @@ msgid ""
 "nice, doesn't it? You can speed up the slide by using a shorter time such as "
 "`note_slide: 0.2` or slow it down by using a longer slide time."
 msgstr ""
+"Acum vom auzi notele deformate intre apelurile 'control'. Suna bine, nu? "
+"Poti grabi alunecarea folosind un timp mai scurt, cum ar fi 'note_slide: "
+"0.2' sau sa o incetinesti folosind un timp mai mare."
 
 #: 07.3-Sliding-Parameters.md:43
 msgid ""
 "Every parameter that can be controlled has a corresponding `_slide` "
 "parameter for you to play with."
 msgstr ""
+"Fiecare parametru care poate fi controlat are asociat si un parametru "
+"'_slide' cu care te poti juca."
 
 #: 07.3-Sliding-Parameters.md:46
 msgid "Sliding is sticky"
-msgstr ""
+msgstr "Alunecarea este persistenta"
 
 #: 07.3-Sliding-Parameters.md:48
 msgid ""
@@ -6058,14 +6664,18 @@ msgid ""
 "stop sliding you must set the `_slide` value to 0 before the next `control` "
 "call."
 msgstr ""
+"Odata ce ai setat un parametru '_slide' pentru un sintetizator care canta, "
+"el va fi retinut de fiecare data cand faci sa alunece resprectivul "
+"parametru. Pentru a opri alunecarea trebuie sa setezi '_slide' la 0 inainte "
+"de urmatorul apel 'control'."
 
 #: 07.3-Sliding-Parameters.md:53
 msgid "Sliding FX Opts"
-msgstr ""
+msgstr "Modificarea progresiva a parametrilor efectelor"
 
 #: 07.3-Sliding-Parameters.md:55
 msgid "It is also possible to slide FX opts:"
-msgstr ""
+msgstr "Si parametrii efectelor pot fi modificati progresiv:"
 
 #: 07.3-Sliding-Parameters.md:57
 #, no-wrap
@@ -6076,24 +6686,30 @@ msgid ""
 "  control e, phase: 0.025\n"
 "end"
 msgstr ""
+"with_fx :wobble, phase: 1, phase_slide: 5 do |e|\n"
+"  use_synth :dsaw\n"
+"  play 50, release: 5\n"
+"  control e, phase: 0.025\n"
+"end"
 
 #: 07.3-Sliding-Parameters.md:65
 msgid ""
 "Now have fun sliding things around for smooth transitions and flowing "
 "control..."
-msgstr ""
+msgstr "Acum te poti juca cu alunecarea pentru tranzitii line..."
 
 #: 08-Data-Structures.md:1
 msgid "8 Data Structures"
-msgstr ""
+msgstr "8 Structuri de date"
 
 #: 08-Data-Structures.md:3
 msgid "Data Structures"
-msgstr ""
+msgstr "Structuri de date"
 
 #: 08-Data-Structures.md:5
 msgid "A very useful tool in a programmer's toolkit is a data structure."
 msgstr ""
+"O unealta foarte utila din trusa oricarui programator este structura de date."
 
 #: 08-Data-Structures.md:7
 msgid ""
@@ -6102,6 +6718,10 @@ msgid ""
 "another. Programming languages have data structures to allow you do exactly "
 "this."
 msgstr ""
+"Uneori ai putea dori sa reprezinti si sa folosesti mai mult decat o singura "
+"valoare. De exemplu, ti-ar fi util sa ai un sir de note pe care sa le redai "
+"una dupa alta. Limbajele de programare au structuri de date care permit "
+"acest lucru."
 
 #: 08-Data-Structures.md:12
 msgid ""
@@ -6109,20 +6729,25 @@ msgid ""
 "- and people are always inventing new ones. However, for now we only really "
 "need to consider a very simple data structure - the list."
 msgstr ""
+"Exista multe structuri de date care mai de care mai exotice si mai "
+"interesante si altele noi continua sa apara. Totusi, pentru moment ne vom "
+"opri la una foarte simpla - lista."
 
 #: 08-Data-Structures.md:16
 msgid ""
 "Let's look at it in more detail. We'll cover its basic form and then also "
 "how lists can be used to represent scales and chords."
 msgstr ""
+"Sa privim mai in detaliu. Vom discuta intai despre forma sa uzuala iar apoi "
+"vom vede cum poate fi folosita pentru a reprezenta game si acorduri."
 
 #: 08.1-Lists.md:1
 msgid "8.1 Lists"
-msgstr ""
+msgstr "8.1 Listele"
 
 #: 08.1-Lists.md:3
 msgid "Lists"
-msgstr ""
+msgstr "Listele"
 
 #: 08.1-Lists.md:5
 msgid ""
@@ -6130,11 +6755,14 @@ msgid ""
 "the list. We met it very briefly before in the section on randomisation when "
 "we randomly chose from a list of notes to play:"
 msgstr ""
+"In aceasta sectiune vom discuta despre o structura de date foarte utila - "
+"lista. Am intalnit-o in treacat in sectiunea despre aleatorism cand am ales "
+"pentru redare o nota la intamplare dintr-o lista:"
 
 #: 08.1-Lists.md:9
 #, no-wrap
 msgid "play choose([50, 55, 62])"
-msgstr ""
+msgstr "play choose([50, 55, 62])"
 
 #: 08.1-Lists.md:13
 msgid ""
@@ -6142,6 +6770,9 @@ msgid ""
 "scales. First let's recap how we might play a chord. Remember that if we "
 "don't use `sleep`, sounds all happen at the same time:"
 msgstr ""
+"In aceasta sectiune vom vedea cum putem folosi listele pentru a reprezenta "
+"acorduri si game. Mai intai sa ne amintim cum putem canta un acord. Retine "
+"ca in lipsa comenzii 'sleep', toate sunetele sunt redate in acelasi timp:"
 
 #: 08.1-Lists.md:17
 #, no-wrap
@@ -6150,57 +6781,67 @@ msgid ""
 "play 55\n"
 "play 59"
 msgstr ""
+"play 52\n"
+"play 55\n"
+"play 59"
 
 #: 08.1-Lists.md:23
 msgid "Let's look at other ways to represent this code."
-msgstr ""
+msgstr "Sa vedem si alte moduri de a scrie aceste instructiuni."
 
 #: 08.1-Lists.md:25
 msgid "Playing a List"
-msgstr ""
+msgstr "Redarea unei liste"
 
 #: 08.1-Lists.md:27
 msgid ""
 "One option is to place all the notes in a list: `[52, 55, 59]`. Our friendly "
 "`play` function is smart enough to know how to play a list of notes. Try it:"
 msgstr ""
+"O varianta ar fi sa punem toate notele intr-o lista: `[52, 55, 59]`. Functia "
+"'play' este suficient de desteapta sa stie cum sa redea o lista de note. "
+"Incearca:"
 
 #: 08.1-Lists.md:31
 #, no-wrap
 msgid "play [52, 55, 59]"
-msgstr ""
+msgstr "play [52, 55, 59]"
 
 #: 08.1-Lists.md:35
 msgid ""
 "Ooh, that's already nicer to read. Playing a list of notes doesn't stop you "
 "from using any of the parameters as normal:"
 msgstr ""
+"Oho, deja este mai placut de citit. Redarea unei liste de note nu te "
+"impiedica sa folosesti parametrii cu care esti obisnuit:"
 
 #: 08.1-Lists.md:38
 #, no-wrap
 msgid "play [52, 55, 59], amp: 0.3"
-msgstr ""
+msgstr "play [52, 55, 59], amp: 0.3"
 
 #: 08.1-Lists.md:42
 msgid ""
 "Of course, you can also use the traditional note names instead of the MIDI "
 "numbers:"
-msgstr ""
+msgstr "Desigur, poti sa folosesti si numele notelor in loc de numere MIDI:"
 
 #: 08.1-Lists.md:45
 #, no-wrap
 msgid "play [:E3, :G3, :B3]"
-msgstr ""
+msgstr "play [:E3, :G3, :B3]"
 
 #: 08.1-Lists.md:49
 msgid ""
 "Now those of you lucky enough to have studied some music theory might "
 "recognise that chord as *E Minor* played in the 3rd octave."
 msgstr ""
+"Cei dintre voi care au fost suficient de norocosi sa studieze teorie "
+"muzicala au recunoscut probabil acordul *E Minor* redat in octava a treia."
 
 #: 08.1-Lists.md:52
 msgid "Accessing a List"
-msgstr ""
+msgstr "Accesul la o lista"
 
 #: 08.1-Lists.md:54
 msgid ""
@@ -6210,19 +6851,24 @@ msgid ""
 "the element at index 23? The only strange thing is that in programming "
 "indexes usually start at 0 not 1."
 msgstr ""
+"O alta caracteristica utila a unei liste este posibilitatea de a extrage "
+"informatia din ea. Asta suna putin cam ciudat, dar nu este mai complicat "
+"decat ar fi daca cineva ti-ar cere sa deschizi o carte la pagina 23. In "
+"cazul listei ai intreba ce element este la indexul 23. Singurul lucru cu "
+"adevara ciudat este ca in programare indexul porneste de la 0, nu de la 1."
 
 #: 08.1-Lists.md:60
 msgid "With list indexes we don't count 1, 2, 3... Instead we count 0, 1, 2..."
-msgstr ""
+msgstr "In cazul indexului unei liste nu numaram 1, 2, 3..., ci 0, 1, 2..."
 
 #: 08.1-Lists.md:62
 msgid "Let's look at this in a little more detail. Take a look at this list:"
-msgstr ""
+msgstr "Sa analizam acest lucru mai in detaliu. Priveste lista aceasta:"
 
 #: 08.1-Lists.md:64
 #, no-wrap
 msgid "[52, 55, 59]"
-msgstr ""
+msgstr "[52, 55, 59]"
 
 #: 08.1-Lists.md:68
 msgid ""
@@ -6230,11 +6876,14 @@ msgid ""
 "in that list? Yes, of course, it's `55`. That was easy. Let's see if we can "
 "get the computer to answer it for us too:"
 msgstr ""
+"Nu e nimic de speriat aici. Acum, spune care este al doilea element din "
+"lista. Desigur, este '55'. A fost usor. Sa vedem daca putem sa facem "
+"computerul sa ne raspunda:"
 
 #: 08.1-Lists.md:72 08.4-Rings.md:12
 #, no-wrap
 msgid "puts [52, 55, 59][1]"
-msgstr ""
+msgstr "puts [52, 55, 59][1]"
 
 #: 08.1-Lists.md:76
 msgid ""
@@ -6247,6 +6896,14 @@ msgid ""
 "because counting starts at `0`, the index for the second element is `1`. "
 "Look:"
 msgstr ""
+"OK, poate parea putin ciudat daca nu ai mai vazut asa ceva inainte. Dar ai "
+"incredere in mine, nu e chiar asa de greu. Exista trei parti in linia de mai "
+"sus: cuvantul 'puts', lista `52, 55, 59` si indexul nostru '[1]'. Mai intai "
+"spunem 'puts' care inseamna ca vrem ca Sonic Pi sa afiseze rezultatul in "
+"jurnal. Apoi, transmitem lista noastra si la final indexul care cere al "
+"doilea element. Indexul se trece incadrat de paranteze patrate, iar deoarece "
+"numaratoarea incepe de la '0'. indexul pentru cel de-al doilea element este "
+"'1'. Priveste:"
 
 #: 08.1-Lists.md:85
 #, no-wrap
@@ -6254,6 +6911,8 @@ msgid ""
 "# indexes:  0   1   2\n"
 "           [52, 55, 59]"
 msgstr ""
+"# indexes:  0   1   2\n"
+"           [52, 55, 59]"
 
 #: 08.1-Lists.md:90
 msgid ""
@@ -6262,21 +6921,27 @@ msgid ""
 "about how you might use a list in your next code jam. For example, what "
 "musical structures might be represented as a series of numbers..."
 msgstr ""
+"Incearca sa executi `puts [52, 55, 59][1]` si vei vedea ca in jurnal apare "
+"'55'. Schimba indexul din '1' in alta valoare, incearca liste mai lungi si "
+"gandeste-te cum ai putea utiliza o lista data viitoare cand improvizezi. De "
+"exemplu, ce structuri muzicale pot fi reprezentate ca serii de numere..."
 
 #: 08.2-Chords.md:1
 msgid "8.2 Chords"
-msgstr ""
+msgstr "8.2 Acorduri"
 
 #: 08.2-Chords.md:5
 msgid ""
 "Sonic Pi has built-in support for chord names which will return lists. Try "
 "it for yourself:"
 msgstr ""
+"Sonic Pi ofera suport pentru denumirile standard ale acordurilor. Incearca "
+"singur:"
 
 #: 08.2-Chords.md:8
 #, no-wrap
 msgid "play chord(:E3, :minor)"
-msgstr ""
+msgstr "play chord(:E3, :minor)"
 
 #: 08.2-Chords.md:12
 msgid ""
@@ -6284,36 +6949,39 @@ msgid ""
 "raw lists (and is easier to read for other people). So what other chords "
 "does Sonic Pi support? Well, a *lot*. Try some of these:"
 msgstr ""
+"Asa mai merge. Acum arata mai bine decat o lista bruta (si e mai usor de "
+"citit pentru altii). Ce alte acorduri mai suporta Sonic Pi? Ei bine, *o "
+"multime*. Incearca-le pe acestea:"
 
 #: 08.2-Chords.md:16
 msgid "`chord(:E3, :m7)`"
-msgstr ""
+msgstr "`chord(:E3, :m7)`"
 
 #: 08.2-Chords.md:17
 msgid "`chord(:E3, :minor)`"
-msgstr ""
+msgstr "`chord(:E3, :minor)`"
 
 #: 08.2-Chords.md:18
 msgid "`chord(:E3, :dim7)`"
-msgstr ""
+msgstr "`chord(:E3, :dim7)`"
 
 #: 08.2-Chords.md:19
 msgid "`chord(:E3, :dom7)`"
-msgstr ""
+msgstr "`chord(:E3, :dom7)`"
 
 #: 08.2-Chords.md:21
 msgid "Arpeggios"
-msgstr ""
+msgstr "Arpegii"
 
 #: 08.2-Chords.md:23
 msgid ""
 "We can easily turn chords into arpeggios with the function `play_pattern`:"
-msgstr ""
+msgstr "Putem transforma usor acordurile in arpegii cu functia 'play_pattern':"
 
 #: 08.2-Chords.md:26
 #, no-wrap
 msgid "play_pattern chord(:E3, :m7)"
-msgstr ""
+msgstr "play_pattern chord(:E3, :m7)"
 
 #: 08.2-Chords.md:30
 msgid ""
@@ -6322,25 +6990,31 @@ msgid ""
 "to `play`. We can use another function `play_pattern_timed` to specify our "
 "own timings and speed things up:"
 msgstr ""
+"Ok, n-a sunat prea bine, a cantat prea incet. 'play_pattern' reda toate "
+"notele din lista cu pauze de 1 secunda intre ele. Putem folosi o alta "
+"functie - 'play_pattern_timed' pentru a specifica propriul nostru ritm si a "
+"grabi putin lucrurile:"
 
 #: 08.2-Chords.md:35
 #, no-wrap
 msgid "play_pattern_timed chord(:E3, :m7), 0.25"
-msgstr ""
+msgstr "play_pattern_timed chord(:E3, :m7), 0.25"
 
 #: 08.2-Chords.md:39
 msgid ""
 "We can even pass a list of times which it will treat as a circle of times:"
 msgstr ""
+"Putem sa ii transmitem o lista de intervale de timp care va fi citita "
+"circular (dupa ultima valoare o reia de la inceput):"
 
 #: 08.2-Chords.md:42
 #, no-wrap
 msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
-msgstr ""
+msgstr "play_pattern_timed chord(:E3, :m13), [0.25, 0.5]"
 
 #: 08.2-Chords.md:46
 msgid "This is the equivalent to:"
-msgstr ""
+msgstr "Aceasta linie este echivalenta cu:"
 
 #: 08.2-Chords.md:48
 #, no-wrap
@@ -6359,51 +7033,68 @@ msgid ""
 "sleep 0.5\n"
 "play 73"
 msgstr ""
+"play 52\n"
+"sleep 0.25\n"
+"play 55\n"
+"sleep 0.5\n"
+"play 59\n"
+"sleep 0.25\n"
+"play 62\n"
+"sleep 0.5\n"
+"play 66\n"
+"sleep 0.25\n"
+"play 69\n"
+"sleep 0.5\n"
+"play 73"
 
 #: 08.2-Chords.md:64
 msgid "Which would you prefer to write?"
-msgstr ""
+msgstr "Cum preferi sa scrii?"
 
 #: 08.3-Scales.md:1
 msgid "8.3 Scales"
-msgstr ""
+msgstr "8.3 Game"
 
 #: 08.3-Scales.md:3
 msgid "Scales"
-msgstr ""
+msgstr "Game"
 
 #: 08.3-Scales.md:5
 msgid ""
 "Sonic Pi has support for a wide range of scales. How about playing a C3 "
 "major scale?"
 msgstr ""
+"Sonic Pi ofera suport pentru o multime de game. Hai sa cantam gama C3 major."
 
 #: 08.3-Scales.md:8
 #, no-wrap
 msgid "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
-msgstr ""
+msgstr "play_pattern_timed scale(:c3, :major), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:12
 msgid "We can even ask for more octaves:"
-msgstr ""
+msgstr "Putem chiar cere mai multe octave:"
 
 #: 08.3-Scales.md:14
 #, no-wrap
 msgid "play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 msgstr ""
+"play_pattern_timed scale(:c3, :major, num_octaves: 3), 0.125, release: 0.1"
 
 #: 08.3-Scales.md:18
 msgid "How about all the notes in a pentatonic scale?"
-msgstr ""
+msgstr "Sau toate notele dintr-o gama pentatonica."
 
 #: 08.3-Scales.md:20
 #, no-wrap
 msgid "play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, release: 0.1"
 msgstr ""
+"play_pattern_timed scale(:c3, :major_pentatonic, num_octaves: 3), 0.125, "
+"release: 0.1"
 
 #: 08.3-Scales.md:24
 msgid "Random notes"
-msgstr ""
+msgstr "Note aleatoare"
 
 #: 08.3-Scales.md:26
 msgid ""
@@ -6411,6 +7102,9 @@ msgid ""
 "something meaningful. Have a play with this example which picks random notes "
 "from the chord E3 minor:"
 msgstr ""
+"Acordurile si gamele ajuta la restrangerea domeniului din care se face o "
+"selectie aleatoare la valori utile. Incearca acest exemplu care alege note "
+"aleatoare din acordul E3 minor:"
 
 #: 08.3-Scales.md:30
 #, no-wrap
@@ -6421,14 +7115,19 @@ msgid ""
 "  sleep 0.25\n"
 "end"
 msgstr ""
+"use_synth :tb303\n"
+"loop do\n"
+"  play choose(chord(:E3, :minor)), release: 0.3, cutoff: rrand(60, 120)\n"
+"  sleep 0.25\n"
+"end"
 
 #: 08.3-Scales.md:38
 msgid "Try switching in different chord names and cutoff ranges."
-msgstr ""
+msgstr "Incearca sa schimbi numele acordului si intervalul pentru cutoff."
 
 #: 08.3-Scales.md:40
 msgid "Discovering Chords and Scales"
-msgstr ""
+msgstr "Explorarea acordurilor si gamelor"
 
 #: 08.3-Scales.md:42
 msgid ""
@@ -6438,18 +7137,22 @@ msgid ""
 "down until you see a long list of chords or scales (depending on which "
 "you're looking at)."
 msgstr ""
+"Pentru a vedea ce game si acorduri sunt suportate de Sonic Pi apasa pe "
+"butonul Lang din marginea din stanga a acestui tutorial apoi alege fie chord "
+"fie scale din lista. In panoul principal deruleaza informatiile pana cand "
+"ajungi la o lunga lista de acorduri sau scale (in functie de ce ai ales)."
 
 #: 08.3-Scales.md:48
 msgid "Have fun and remember: there are no mistakes, only opportunities."
-msgstr ""
+msgstr "Exploreaza si tine minte: nu exista greseli, doar oportunitati."
 
 #: 08.4-Rings.md:1
 msgid "8.4 Rings"
-msgstr ""
+msgstr "8.4 Liste circulare"
 
 #: 08.4-Rings.md:3 A.11-beat-tracking.md:62
 msgid "Rings"
-msgstr ""
+msgstr "Liste circulare"
 
 #: 08.4-Rings.md:5
 msgid ""
@@ -6457,12 +7160,17 @@ msgid ""
 "programming, you might have come across ring buffers or ring arrays. Here, "
 "we'll just go for ring - it's short and simple."
 msgstr ""
+"Un tip special de lista este lista circulara. Daca stii ceva programare, ai "
+"intalnit probabil buffere circulare sau siruri circulare. Aici vor fi numite "
+"doar ring (inel) - un nume scurt si simplu."
 
 #: 08.4-Rings.md:9
 msgid ""
 "In the previous section on lists we saw how we could fetch elements out of "
 "them by using the indexing mechanism:"
 msgstr ""
+"In sectiunile precedente referitoare la liste am vazut cum putem citi "
+"elemente din ele folosind mecanismul de indexare:"
 
 #: 08.4-Rings.md:16
 msgid ""
@@ -6470,12 +7178,17 @@ msgid ""
 "at index 100 as the list has only three elements in it. So Sonic Pi will "
 "return you `nil` which means nothing."
 msgstr ""
+"Ce se intampla daca doresti indexul '100'? Ei bine, este evident ca nu "
+"exista un element la indexul 100 deoarece lista are doar trei elemente in "
+"ea. Deci Sonic Pi va returna 'nil' adica nimic."
 
 #: 08.4-Rings.md:20
 msgid ""
 "However, consider you have a counter such as the current beat which "
 "continually increases. Let's create our counter and our list:"
 msgstr ""
+"Sa ne imaginam insa ca ai un contor cum ar fi bataia curenta, care creste "
+"continnuu. Sa cream contorul si lista:"
 
 #: 08.4-Rings.md:23
 #, no-wrap
@@ -6483,20 +7196,24 @@ msgid ""
 "counter = 0\n"
 "notes = [52, 55, 59]"
 msgstr ""
+"counter = 0\n"
+"notes = [52, 55, 59]"
 
 #: 08.4-Rings.md:28
 msgid "We can now use our counter to access a note in our list:"
-msgstr ""
+msgstr "Putem acum folosi contorul pentru a citi o nota din lista:"
 
 #: 08.4-Rings.md:30
 #, no-wrap
 msgid "puts notes[counter]"
-msgstr ""
+msgstr "puts notes[counter]"
 
 #: 08.4-Rings.md:34
 msgid ""
 "Great, we got `52`. Now, let's increment our counter and get another note:"
 msgstr ""
+"Super, am obtinut '52'. Acum, sa incrementam contorul si sa citim o alta "
+"nota:"
 
 #: 08.4-Rings.md:37
 #, no-wrap
@@ -6504,6 +7221,8 @@ msgid ""
 "counter = (inc counter)\n"
 "puts notes[counter]"
 msgstr ""
+"counter = (inc counter)\n"
+"puts notes[counter]"
 
 #: 08.4-Rings.md:42
 msgid ""
@@ -6512,21 +7231,27 @@ msgid ""
 "wanted to just loop back round and start at the beginning of the list again? "
 "This is what rings are for."
 msgstr ""
+"Am obtinut '55' si daca mai incercam o data obtinem '59'. Totusi, daca "
+"incercam din nou vom ramane fara numere in lista si vom obtine 'nil'. Dar "
+"daca am dori sa o luam pur si simplu de la inceputul listei din nou? Pentru "
+"asta exista listele circulare."
 
 #: 08.4-Rings.md:47
 msgid "Creating Rings"
-msgstr ""
+msgstr "Crearea listelor circulare"
 
 #: 08.4-Rings.md:49
 msgid ""
 "We can create rings one of two ways. Either we use the `ring` function with "
 "the elements of the ring as parameters:"
 msgstr ""
+"Putem crea liste circulare in doua moduri. Fie folosim functia 'ring' cu "
+"elementele din lista ca parametri:"
 
 #: 08.4-Rings.md:52
 #, no-wrap
 msgid "(ring 52, 55, 59)"
-msgstr ""
+msgstr "(ring 52, 55, 59)"
 
 #: 08.4-Rings.md:56
 msgid ""
