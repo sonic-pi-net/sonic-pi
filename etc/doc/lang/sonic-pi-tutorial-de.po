@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-06 19:08+0000\n"
-"Last-Translator: G. Martin Butz <mb@mkblog.org>\n"
+"PO-Revision-Date: 2016-06-09 07:44+0000\n"
+"Last-Translator: Hanno Zulla <hanno.zulla@epublica.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/de/>\n"
 "Language: de\n"
@@ -2266,7 +2266,6 @@ msgid "A Simple Explanation of Sample Rate"
 msgstr "Eine einfache Erklärung der Samplerate"
 
 #: 03.3-Stretching-Samples.md:78
-#, fuzzy
 msgid ""
 "A useful way to think of samples is as springs. Playback rate is like squashin"
 "g and stretching the spring. If you play the sample at rate 2, you're *squashi"
@@ -2277,61 +2276,56 @@ msgid ""
 "rate), the shorter it gets, the more you stretch (lower rate), the longer it g"
 "ets."
 msgstr ""
-"Man kann sich Samples gut als Sprungfedern vorstellen. Wenn man die Samplerate"
-" verändert, ist das so, als ob man die Feder zusammendrückt oder auseinanderzi"
-"eht. Wenn Du ein Sample mit der doppelten Samplerate abspielst, dann drückst D"
-"u die Feder zusammen, bis sie nur noch die Hälfte ihrer normalen Länge hat. Da"
-"s Sample braucht also auch nur die Hälfte der Abspielzeit. Wenn Du das Sample "
-"mit halber Samplerate spielst, dann ziehst Du die Feder auf ihre doppelte Läng"
-"e auseinander. Das Sample dauert also nun doppelt so lange. Je mehr Du zusamme"
-"ndrückst (höhere Rate), desto kürzer das Sample, je mehr Du auseinanderziehst "
-"(geringere Rate), desto länger dauert das Sample."
+"Man kann sich Samples gut als Sprungfedern vorstellen. Wenn man die "
+"Samplerate verändert, ist das so, als ob man die Feder zusammendrückt oder "
+"auseinanderzieht. Wenn Du ein Sample mit der doppelten Samplerate abspielst, "
+"dann drückst Du die Feder zusammen, bis sie nur noch die Hälfte ihrer "
+"normalen Länge hat. Das Sample braucht also auch nur die Hälfte der "
+"Abspielzeit. Wenn Du das Sample mit halber Samplerate spielst, dann ziehst "
+"Du die Feder auf ihre doppelte Länge auseinander. Das Sample dauert also nun "
+"doppelt so lange. Je mehr Du zusammendrückst (höhere Rate), desto kürzer das "
+"Sample, je mehr Du auseinanderziehst (geringere Rate), desto länger dauert "
+"das Sample."
 
 #: 03.3-Stretching-Samples.md:87
-#, fuzzy
 msgid ""
 "Compressing a spring increases its density (the number of coils per cm) - this"
 " is similar to the sample sounding *higher pitched*. Stretching the spring dec"
 "reases its density and is similar to the sound having a *lower pitch*."
 msgstr ""
-"Wenn man eine Feder zusammendrückt, dann erhöht man ihre Dichtheit (die Anzahl"
-" der Windungen je Zentimeter) - das ist so ähnlich wie bei einem Sample, der *"
-"höher klingt*. Wenn man die Feder auseinanderzieht, dann verringert sich ihre "
-"Dichtheit, vergleichbar einem Klang, der tiefer klingt."
+"Wenn man eine Feder zusammendrückt, dann erhöht man ihre Dichtheit (die "
+"Anzahl der Windungen je Zentimeter) - das ist so ähnlich wie bei einem "
+"Sample, der *höher klingt*. Wenn man die Feder auseinanderzieht, dann "
+"verringert sich ihre Dichtheit, vergleichbar einem Klang, der tiefer klingt."
 
 #: 03.3-Stretching-Samples.md:93
-#, fuzzy
 msgid "The Maths Behind Sample Rate"
 msgstr "Die Mathematik hinter der Samplerate"
 
 #: 03.3-Stretching-Samples.md:95
-#, fuzzy
 msgid ""
 "(This section is provided for those that are interested in the details. Please"
 " feel free to skip it...)"
 msgstr ""
-"(Dieser Abschnitt ist für diejenigen, die es genauer wissen möchten. Wenn nich"
-"t, könnt Ihr den gerne überspringen...)"
+"(Dieser Abschnitt geht etwas tiefer ins Detail. Wenn Du nicht so tief "
+"eintauchen willst, kannst Du das folgende gerne überspringen...)"
 
 #: 03.3-Stretching-Samples.md:98
-#, fuzzy
 msgid ""
 "As we saw above, a sample is represented by a big long list of numbers represe"
 "nting where the speaker should be through time. We can take this list of numbe"
 "rs and use it to draw a graph which would look similar to this:"
 msgstr ""
-"Wie wir oben gesehen haben, wird ein Sample durch eine lange Liste von Zahlen "
-"dargestellt, die der Lautsprechermembran sagen, wo sie zu welchem Zeitpunkt se"
-"in soll. Wir können diese Zahlenliste nehmen und eine Kurve zeichnen, die unge"
-"fähr so aussieht:"
+"Wie wir oben gesehen haben, wird ein Sample durch eine lange Liste von "
+"Zahlen dargestellt, die der Lautsprechermembran sagen, wo sie zu welchem "
+"Zeitpunkt sein soll. Wir können diese Zahlenliste nehmen und eine Kurve "
+"zeichnen, die ungefähr so aussieht:"
 
 #: 03.3-Stretching-Samples.md:103
-#, fuzzy
 msgid "![sample graph](../images/tutorial/sample.png)"
 msgstr "![sample graph](../images/tutorial/sample.png)"
 
 #: 03.3-Stretching-Samples.md:105
-#, fuzzy
 msgid ""
 "You might have seen pictures like this before. It's called the *waveform* of a"
 " sample. It's just a graph of numbers. Typically a waveform like this will hav"
@@ -2343,59 +2337,51 @@ msgid ""
 " could also play it back at half rate which would be 22050 points per second t"
 "aking 4 seconds to play back."
 msgstr ""
-"Vielleicht hast Du Bilder wie dieses schon einmal gesehen. Das ist die *Kurven"
-"form* eines Sample. Es ist bloß eine Kurve, die aus Zahlen gebildet ist. Typis"
-"cherweise wird eine solche Kurve aus 44100 Datenpunkten je Sekunde gebildet (d"
-"as hat mit dem Nyquist-Shannon-Abtasttheorem zu tun). Wenn also das Sample 2 S"
-"ekunden dauert, dann wird die Kurve aus 88200 Zahlen gebildet, die wir an den "
-"Lautsprecher mit einer Datenrate von 44100 Datenpunkten pro Sekunde senden. Na"
-"türlich könnten wir es mit der doppelten Datenrate senden, also 88200 Datenpun"
-"kten pro Sekunde. Dann würde das Sample nur eine Sekunde lang dauern. Wir könn"
-"en es auch mit der halben Datenrate abspielen; das wären dann 22050 Datenpunkt"
-"e pro Sekunde und würde 4 Sekunden dauern."
+"Vielleicht hast Du Bilder wie dieses schon einmal gesehen. Das ist die "
+"*Kurvenform* eines Sample. Es ist bloß eine Kurve aus Zahlenwerten. "
+"Typischerweise entsteht eine solche Kurve aus 44100 Datenpunkten je Sekunde ("
+"das hat mit dem Nyquist-Shannon-Abtasttheorem zu tun). Wenn also das Sample "
+"2 Sekunden dauert, dann wird die Kurve aus 88200 Zahlen gebildet, die wir an "
+"den Lautsprecher mit einer Datenrate von 44100 Datenpunkten pro Sekunde "
+"senden. Natürlich könnten wir es mit der doppelten Datenrate senden, also "
+"88200 Datenpunkten pro Sekunde. Dann würde das Sample nur eine Sekunde lang "
+"dauern. Wir können es auch mit der halben Datenrate abspielen; das wären "
+"dann 22050 Datenpunkte pro Sekunde und würde 4 Sekunden dauern."
 
 #: 03.3-Stretching-Samples.md:116
-#, fuzzy
 msgid "The duration of the sample is affected by the playback rate:"
-msgstr "Die Dauer des Sample ist also abhängig von der Datenrate:"
+msgstr "Die Sample-Dauer ist also abhängig von der Datenrate:"
 
 #: 03.3-Stretching-Samples.md:118
-#, fuzzy
 msgid "Doubling the playback rate halves the playback time,"
-msgstr "Wird die Abtastrate verdoppelt, halbiert das die Abspielzeit,"
+msgstr "Wird die Abtastrate verdoppelt, halbiert das die Abspielzeit."
 
 #: 03.3-Stretching-Samples.md:119
-#, fuzzy
 msgid "Halving the playback rate doubles the playback time,"
-msgstr "wird die Abtastrate halbiert, dann verdoppelt sich die Abspielzeit."
+msgstr "Wird die Abtastrate halbiert, dann verdoppelt sich die Abspielzeit."
 
 #: 03.3-Stretching-Samples.md:120
-#, fuzzy
 msgid "Using a playback rate of one fourth quadruples the playback time,"
 msgstr ""
-"Verwendest Du eine Abtastrate von einem Viertel, dann vervierfachst Du die Abs"
-"pielzeit,"
+"Verwendest Du eine Abtastrate von einem Viertel, dann vervierfachst Du die "
+"Abspielzeit."
 
 #: 03.3-Stretching-Samples.md:121
-#, fuzzy
 msgid "Using a playback rate of 1/10 makes playback last 10 times longer."
 msgstr ""
-"verwendest Du eine Abtastrate von 1/10, dann dauert die Abspielzeit 10mal läng"
-"er."
+"Verwendest Du eine Abtastrate von 1/10, dann dauert die Abspielzeit 10mal "
+"länger."
 
 #: 03.3-Stretching-Samples.md:123
-#, fuzzy
 msgid "We can represent this with the formula:"
-msgstr "Wir können das in einer Formel zusammenfassen:"
+msgstr "Es gibt eine Formel dafür:"
 
 #: 03.3-Stretching-Samples.md:125
 #, no-wrap
-#, fuzzy
 msgid "new_sample_duration = (1 / rate) * sample_duration "
-msgstr "neue_sample_dauer = (1 / rate) * sample_dauer"
+msgstr "neue_sample_dauer = (1 / rate) * sample_dauer "
 
 #: 03.3-Stretching-Samples.md:129
-#, fuzzy
 msgid ""
 "Changing the playback rate also affects the pitch of the sample. The frequency"
 " or pitch of a waveform is determined by how fast it moves up and down. Our br"
@@ -2404,16 +2390,15 @@ msgid ""
 "speaker move as it pumps out super low bass - it's actually moving a lot slowe"
 "r in and out than a speaker producing higher notes."
 msgstr ""
-"Eine Veränderung der Samplerate beeinflusst auch die Tonhöhen des Samples. Die"
-" Frequenz oder Tonhöhe einer Kurve wird dadurch bestimmt, wie schnell sie hoch"
-" und runter geht. Unsere Gehirne machen aus schnellen Bewegungen einer Lautspr"
-"echermembran hohe Töne und aus langsamen tiefe. Deshalb kannst Du manchmal sog"
-"ar sehen, wie sich ein großer Basslautsprecher bewegt, wenn ein sehr tiefer To"
-"n rauskommt. Er bewegt sich dann wesentlich langsamer als ein Lautsprecher, de"
-"r hohe Töne wiedergibt."
+"Eine Veränderung der Samplerate beeinflusst auch die Tonhöhen des Samples. "
+"Die Frequenz oder Tonhöhe einer Kurve wird dadurch bestimmt, wie schnell sie "
+"hoch und runter geht. Unsere Gehirne machen aus schnellen Bewegungen einer "
+"Lautsprechermembran hohe Töne und aus langsamen tiefe. Deshalb kannst Du "
+"manchmal sogar sehen, wie sich ein großer Basslautsprecher bewegt, wenn ein "
+"sehr tiefer Ton rauskommt. Er bewegt sich dann wesentlich langsamer als ein "
+"Lautsprecher, der hohe Töne wiedergibt."
 
 #: 03.3-Stretching-Samples.md:137
-#, fuzzy
 msgid ""
 "If you take a waveform and squash it it will move up and down more times per s"
 "econd. This will make it sound higher pitched. It turns out that doubling the "
@@ -2422,26 +2407,24 @@ msgid ""
 "*halving the rate will halve the frequency*. Other rates will affect the frequ"
 "ency accordingly."
 msgstr ""
-"Wenn Du eine Kurve nimmst und sie zusammendrückst, wird sie je Sekunde öfter h"
-"och und runter gehen als vorher. Der Ton wird dann auch höher sein. Wenn man d"
-"ie Auf- und Abbewegungen je Sekunde verdoppelt (Oszillationen), dann wird die "
-"Frequenz, die Tonhöhe, verdoppelt. Also, *wenn Du Dein Sample mit doppelter Sa"
-"mplerate abspielst, wird es auch doppelt so hoch klingen*; andererseits: *eine"
-" Halbierung der Samplerate wird auch die Frequenz halbieren*. Andere Samplerat"
-"en werden dementsprechend die Tonhöhe beinflussen."
+"Wenn Du eine Kurve nimmst und sie zusammendrückst, wird sie je Sekunde öfter "
+"hoch und runter gehen als vorher. Der Ton wird dann auch höher sein. Wenn "
+"man die Auf- und Abbewegungen je Sekunde verdoppelt (Oszillationen), dann "
+"wird die Frequenz, die Tonhöhe, verdoppelt. Also, *wenn Du Dein Sample mit "
+"doppelter Samplerate abspielst, wird es auch doppelt so hoch klingen*; "
+"andererseits: *eine Halbierung der Samplerate wird auch die Frequenz "
+"halbieren*. Andere Sampleraten werden dementsprechend die Tonhöhe "
+"beinflussen."
 
 #: 03.4-Enveloped-Samples.md:1
-#, fuzzy
 msgid "3.4 Enveloped Samples"
 msgstr "3.4 Samples mit Hüllkurven"
 
 #: 03.4-Enveloped-Samples.md:3
-#, fuzzy
 msgid "Enveloped Samples"
 msgstr "Samples mit Hüllkurven"
 
 #: 03.4-Enveloped-Samples.md:5
-#, fuzzy
 msgid ""
 "It is also possible to modify the *duration* and *amplitude* of a sample using"
 " an ADSR envelope. However, this works slightly differently to the ADSR envelo"
@@ -2451,33 +2434,30 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
-"Es ist auch möglich, die *Dauer* und *Amplitude* eines Sample mit einer ADSR-H"
-"üllkurve zu verändern. Das funktioniert jedoch ein wenig anders als die ADSR-H"
-"üllkurven bei den Synths. Mit Sample-Hüllkurven kannst Du die Amplitude und di"
-"e Dauer eines Samples nur verringern - niemals vergrößern. Das Sample wird ent"
-"weder stoppen, wenn seine normale Laufzeit vorbei ist, oder wenn die Hüllkurve"
-" das Sample begrenzt - je nachdem welche kürzer ist. Mit einem sehr langen `re"
-"lease` kannst Du ein Sample also nicht über seine normale Laufzeit hinaus verl"
-"ängern."
+"Es ist auch möglich, die *Dauer* und *Amplitude* eines Sample mit einer ADSR-"
+"Hüllkurve zu verändern. Das funktioniert jedoch ein wenig anders als die "
+"ADSR-Hüllkurven bei den Synths. Mit Sample-Hüllkurven kannst Du die "
+"Amplitude und die Dauer eines Samples nur verringern - niemals vergrößern. "
+"Das Sample wird entweder stoppen, wenn seine normale Laufzeit vorbei ist, "
+"oder wenn die Hüllkurve das Sample begrenzt - je nachdem welche kürzer ist. "
+"Mit einem sehr langen `release:` kannst Du ein Sample also nicht über seine "
+"normale Laufzeit hinaus verlängern."
 
 #: 03.4-Enveloped-Samples.md:13
-#, fuzzy
 msgid "Amen Envelopes"
-msgstr "Amen-Hüllkuven"
+msgstr "Amen-Hüllkurven"
 
 #: 03.4-Enveloped-Samples.md:15
-#, fuzzy
 msgid "Let's return to our trusty friend the Amen Break:"
-msgstr "Kommen wir zu unserem treuen Freund zurück, dem Amen-Break:"
+msgstr "Kommen wir zu unserem alten Freund zurück, dem Amen-Break:"
 
 #: 03.4-Enveloped-Samples.md:21
-#, fuzzy
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade th"
 "is in over 1 second we can use the `attack:` param:"
 msgstr ""
-"Ohne Parameter hören wir das Sample in seiner gesamten Länge und mit voller La"
-"utstärke. Mit dem `attack`-Parameter können wir das Sample einblenden lassen:"
+"Ohne Opts hören wir das Sample in seiner gesamten Länge und mit voller "
+"Lautstärke. Mit der `attack:`-Opt können wir das Sample einblenden lassen:"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
@@ -2485,9 +2465,8 @@ msgid "sample :loop_amen, attack: 1"
 msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
-#, fuzzy
 msgid "For a shorter fade in, choose a shorter attack value:"
-msgstr "Wähle für eine kürzere Blende einen kürzeren Attack-Wert:"
+msgstr "Wähle für ein kürzeres Einblenden einen kürzeren Attack-Wert:"
 
 #: 03.4-Enveloped-Samples.md:30
 #, no-wrap
@@ -2495,7 +2474,6 @@ msgid "sample :loop_amen, attack: 0.3"
 msgstr "sample :loop_amen, attack: 0.3"
 
 #: 03.4-Enveloped-Samples.md:34
-#, fuzzy
 msgid "Auto Sustain"
 msgstr "Auto-Sustain"
 
@@ -2526,18 +2504,16 @@ msgstr ""
 "gesetzt."
 
 #: 03.4-Enveloped-Samples.md:48
-#, fuzzy
 msgid "Fade Outs"
 msgstr "Ausblenden"
 
 #: 03.4-Enveloped-Samples.md:50
-#, fuzzy
 msgid ""
 "To explore this, let's consider our Amen break in more detail. If we ask Sonic"
 " Pi how long the sample is:"
 msgstr ""
-"Um das auszuprobieren, schauen wir uns den Amen-Break genauer an. Wir fragen S"
-"onic Pi, wie lang das Sample ist:"
+"Um das auszuprobieren, schauen wir uns den Amen-Break genauer an. Wir fragen "
+"Sonic Pi, wie lang das Sample ist:"
 
 #: 03.4-Enveloped-Samples.md:53
 #, no-wrap
@@ -2545,15 +2521,14 @@ msgid "print sample_duration :loop_amen"
 msgstr "print sample_duration :loop_amen"
 
 #: 03.4-Enveloped-Samples.md:57
-#, fuzzy
 msgid ""
 "It will print out `1.753310657596372` which is the length of the sample in sec"
 "onds. Let's just round that to `1.75` for convenience here. Now, if we set the"
 " release to `0.75`, something surprising will happen:"
 msgstr ""
-"Es wird `1.753310657596372` ausgeben; das ist die Länge des Sample in Sekunden"
-". Wir runden das einmal bequemerweise auf `1.75` ab. Wenn wir nun den Release-"
-"Wert auf `0.75` setzen, wird etwas erstaunliches passieren:"
+"Es wird `1.753310657596372` ausgeben; das ist die Länge des Sample in "
+"Sekunden. Wir runden das einmal bequemerweise auf `1.75` ab. Wenn wir nun "
+"den Release-Wert auf `0.75` setzen, wird etwas erstaunliches passieren:"
 
 #: 03.4-Enveloped-Samples.md:61
 #, no-wrap
@@ -2561,7 +2536,6 @@ msgid "sample :loop_amen, release: 0.75"
 msgstr "sample :loop_amen, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:65
-#, fuzzy
 msgid ""
 "It will play the first second of the sample at full amplitude before then fadi"
 "ng out over a period of 0.75 seconds. This is the *auto sustain* in action. By"
@@ -2569,31 +2543,29 @@ msgid ""
 "as 10.75 seconds long, it would play the first 10 seconds at full amplitude be"
 "fore fading out over 0.75s."
 msgstr ""
-"Die erste Sekunde des Sample wird mit voller Lautstärke gespielt, danach wird "
-"über eine Periode von 0.75 Sekunden ausgeblendet. Das ist der *Auto-Sustain* i"
-"n Aktion. Standardmäßig berechnet Sonic Pi den Release immer vom Ende des Samp"
-"les aus. Wenn unser Sample 10.75 Sekunden lang wäre, würden die ersten 10 Seku"
-"nden in voller Lautstärke gespielt bevor dann eine Ausblende über 0.75 Sekunde"
-"n erfolgt."
+"Die erste Sekunde des Sample wird mit voller Lautstärke gespielt, danach "
+"wird über eine Periode von 0.75 Sekunden ausgeblendet. Das ist der *Auto-"
+"Sustain* in Aktion. Standardmäßig berechnet Sonic Pi den Release immer vom "
+"Ende des Samples aus. Wenn unser Sample 10.75 Sekunden lang wäre, würden die "
+"ersten 10 Sekunden in voller Lautstärke gespielt bevor dann eine Ausblende "
+"über 0.75 Sekunden erfolgt."
 
 #: 03.4-Enveloped-Samples.md:71
-#, fuzzy
 msgid "Remember: by default, `release:` fades out at the end of a sample."
-msgstr "Zur Erinnerung: Standardmäßig blendet `release:` das Ende des Sample aus."
+msgstr ""
+"Zur Erinnerung: Normalerweise blendet `release:` das Ende des Sample aus."
 
 #: 03.4-Enveloped-Samples.md:73
-#, fuzzy
 msgid "Fade In and Out"
 msgstr "Ein- und Ausblenden"
 
 #: 03.4-Enveloped-Samples.md:75
-#, fuzzy
 msgid ""
 "We can use both `attack:` and `release:` together with the auto sustain behavi"
 "our to fade both in and out over the duration of the sample:"
 msgstr ""
-"Wir können `attack:` und `release:` zusammen mit Auto-Sustain nutzen, um über "
-"die Laufzeit des Sample ein- und auszublenden:"
+"Wir können `attack:` und `release:` zusammen mit Auto-Sustain nutzen, um "
+"über die Laufzeit des Samples ein- und auszublenden:"
 
 #: 03.4-Enveloped-Samples.md:78
 #, no-wrap
@@ -2601,28 +2573,26 @@ msgid "sample :loop_amen, attack: 0.75, release: 0.75"
 msgstr "sample :loop_amen, attack: 0.75, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:82
-#, fuzzy
 msgid ""
 "As the full duration of the sample is 1.75s and our attack and release phases "
 "add up to 1.5s, the sustain is automatically set to 0.25s. This allows us to e"
 "asily fade the sample in and out."
 msgstr ""
-"Da die Gesamtdauer des Sample 1.75s beträgt und unsere Attack- und Release-Pha"
-"sen zusammen 1.5s ergeben, erhält der Sustain automatisch den Wert 0.25s."
+"Da die Gesamtdauer des Sample 1.75s beträgt und unsere Attack- und Release-"
+"Phasen zusammen 1.5s ergeben, erhält der Sustain automatisch die Länge "
+"0.25s. So ist es ganz einfach, das Sample ein- und auszublenden."
 
 #: 03.4-Enveloped-Samples.md:86
-#, fuzzy
 msgid "Explicit sustain"
 msgstr "Ausdrücklich angegebener Sustain"
 
 #: 03.4-Enveloped-Samples.md:88
-#, fuzzy
 msgid ""
 "We can easily get back to our normal synth ADSR behaviour by manually setting "
 "`sustain:` to a value such as 0:"
 msgstr ""
-"Wir können ohne weiteres das normales Synth-ADSR-Verhalten aktivieren, indem w"
-"ir dem `sustain` den Wert 0 geben:"
+"Wir können ohne weiteres das normales Synth-ADSR-Verhalten aktivieren, indem "
+"wir `sustain:` auf den Wert 0 setzen:"
 
 #: 03.4-Enveloped-Samples.md:91
 #, no-wrap
@@ -2630,32 +2600,29 @@ msgid "sample :loop_amen, sustain: 0, release: 0.75"
 msgstr "sample :loop_amen, sustain: 0, release: 0.75"
 
 #: 03.4-Enveloped-Samples.md:95
-#, fuzzy
 msgid ""
 "Now, our sample only plays for 0.75 seconds in total. With the default for `at"
 "tack:` and `decay:` at 0, the sample jumps straight to full amplitude, sustain"
 "s there for 0s then releases back down to 0 amplitude over the release period "
 "- 0.75s."
 msgstr ""
-"Jetzt spielt unser Sample insgesamt nur 0.75 Sekunden. Mit dem Standardwert 0 "
-"für `attack:` und `decay:` springt das Sample direkt auf die volle Lautstärke,"
-" bleibt dort für 0s und fällt dann innerhalb der Release-Phase mit einer Dauer"
-" von 0.75s auf den Lautstärkenwert 0 ab."
+"Jetzt spielt unser Sample insgesamt nur 0.75 Sekunden. Mit dem Standardwert "
+"0 für `attack:` und `decay:` springt das Sample direkt auf die volle "
+"Lautstärke, bleibt dort für 0s und fällt dann innerhalb der Release-Phase "
+"mit einer Dauer von 0.75s auf die Lautstärke 0 ab."
 
 #: 03.4-Enveloped-Samples.md:100
-#, fuzzy
 msgid "Percussive cymbals"
 msgstr "Perkussive Becken"
 
 #: 03.4-Enveloped-Samples.md:102
-#, fuzzy
 msgid ""
 "We can use this behaviour to good effect to turn longer sounding samples into "
 "shorter, more percussive versions. Consider the sample `:drum_cymbal_open`:"
 msgstr ""
-"Wir können dieses Verhalten gut dazu benutzen, um länger klingende Samples in "
-"kürzere, perkussivere Versionen zu verwandeln. Sieh Dir das Sample `:drum_cymb"
-"al_open` an:"
+"Wir können dieses Verhalten gut dazu benutzen, um länger klingende Samples "
+"in kürzere, perkussivere Versionen zu verwandeln. Sieh Dir das Sample "
+"`:drum_cymbal_open` an:"
 
 #: 03.4-Enveloped-Samples.md:106
 #, no-wrap
@@ -2663,13 +2630,12 @@ msgid "sample :drum_cymbal_open"
 msgstr "sample :drum_cymbal_open"
 
 #: 03.4-Enveloped-Samples.md:110
-#, fuzzy
 msgid ""
 "You can hear the cymbal sound ringing out over a period of time. However, we c"
 "an use our envelope to make it more percussive:"
 msgstr ""
-"Man kann hören, wie das Becken eine Zeit lang ausklingt. Mit ein paar kleinen "
-"Änderungen an der Hüllkurve klingt es perkussiver:"
+"Man kann hören, wie das Becken eine Zeit lang ausklingt. Mit einer leicht "
+"veränderten Hüllkurve klingt es perkussiver:"
 
 #: 03.4-Enveloped-Samples.md:113
 #, no-wrap
@@ -2677,13 +2643,12 @@ msgid "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 msgstr "sample :drum_cymbal_open, attack: 0.01, sustain: 0, release: 0.1"
 
 #: 03.4-Enveloped-Samples.md:117
-#, fuzzy
 msgid ""
 "You can then emulate hitting the cymbal and then dampening it by increasing th"
 "e sustain period:"
 msgstr ""
-"Indem Du die Sustain-Dauer verlängerst, kannst Du es so klingen lassen, als ob"
-" das Becken erst angeschlagen und dann abgedämpft würde:"
+"Mit einer längeren Sustain-Dauer kannst Du es so klingen lassen, als ob das "
+"Becken erst angeschlagen und dann abgedämpft würde:"
 
 #: 03.4-Enveloped-Samples.md:120
 #, no-wrap
@@ -2699,40 +2664,35 @@ msgstr ""
 "Samplerate; damit kannst Du sehr interessante Ergebnisse erzielen."
 
 #: 03.5-Partial-Samples.md:1
-#, fuzzy
 msgid "3.5 Partial Samples"
 msgstr "3.5 Teil-Samples"
 
 #: 03.5-Partial-Samples.md:3
-#, fuzzy
 msgid "Partial Samples"
 msgstr "Teil-Samples"
 
 #: 03.5-Partial-Samples.md:5
-#, fuzzy
 msgid ""
 "This section will conclude our exploration of Sonic Pi's sample player. Let's "
 "do a quick recap. So far we've looked at how we can trigger samples:"
 msgstr ""
-"Dieses Kapitel schließt unsere Erkundung von Sonic Pi's Sample-Player ab. Fass"
-"en wir noch einmal zusammen. Wir haben uns angesehen, wie wir Samples abspiele"
-"n können:"
+"Dieses Kapitel schließt unsere Erkundung von Sonic Pi's Sample-Player ab. "
+"Fassen wir noch einmal zusammen. Wir haben uns angesehen, wie wir Samples "
+"abspielen können:"
 
 #: 03.5-Partial-Samples.md:13
-#, fuzzy
 msgid ""
 "We then looked at how we can change the rate of samples such as playing them a"
 "t half speed:"
 msgstr ""
-"Dann haben wir gesehen, dass wir die Samplerate ändern können - etwa um ein Sa"
-"mple mit halber Geschwindigkeit abzuspielen:"
+"Dann haben wir gesehen, dass wir die Samplerate ändern können - etwa um ein "
+"Sample mit halber Geschwindigkeit abzuspielen:"
 
 #: 03.5-Partial-Samples.md:20
-#, fuzzy
 msgid "Next, we looked at how we could fade a sample in (let's do it at half speed):"
 msgstr ""
-"Als nächstes haben wir einen Blick darauf geworfen, wie wir ein Sample ein- un"
-"d ausblenden lassen (hier zum Beispiel mit halber Geschwindigkeit):"
+"Als nächstes haben wir einen Blick darauf geworfen, wie wir ein Sample ein- "
+"und ausblenden lassen (hier zum Beispiel mit halber Geschwindigkeit):"
 
 #: 03.5-Partial-Samples.md:23
 #, no-wrap
@@ -2740,15 +2700,14 @@ msgid "sample :loop_amen, rate: 0.5, attack: 1"
 msgstr "sample :loop_amen, rate: 0.5, attack: 1"
 
 #: 03.5-Partial-Samples.md:27
-#, fuzzy
 msgid ""
 "We also looked at how we could use the start of a sample percussively by givin"
 "g `sustain:` an explicit value and setting both the attack and release to be s"
 "hort values:"
 msgstr ""
-"Wir haben uns auch angeschaut, wie wir ein Sample am Anfang perkussiver klinge"
-"n lassen können, indem wir `sustain:` ausdrücklich einen Wert zuweisen, und so"
-"wohl der Attack als auch der Release kurze Werte bekommen:"
+"Wir haben uns auch angeschaut, wie wir ein Sample am Anfang perkussiver "
+"klingen lassen können, indem wir `sustain:` ausdrücklich einen Wert "
+"zuweisen, und sowohl der Attack als auch der Release kurze Werte bekommen:"
 
 #: 03.5-Partial-Samples.md:31
 #, no-wrap
@@ -2756,18 +2715,16 @@ msgid "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 msgstr "sample :loop_amen, rate: 2, attack: 0.01, sustain: 0, release: 0.35"
 
 #: 03.5-Partial-Samples.md:35
-#, fuzzy
 msgid ""
 "However, wouldn't it be nice if we didn't have to always start at the beginnin"
 "g of the sample? Wouldn't it also be nice if we didn't have to always finish a"
 "t the end of the sample?"
 msgstr ""
-"Wäre es aber nicht toll, wenn wir ein Sample nicht immer vom Anfang starten la"
-"ssen müssten? Wäre es nicht auch prima, wenn das Ende des klingenden Sample ni"
-"cht immer seinem wirklichen Ende entsprechen müsste?"
+"Wäre es aber nicht toll, wenn wir ein Sample nicht immer vom Anfang starten "
+"lassen müssten? Wäre es nicht auch prima, wenn das Ende des klingenden "
+"Sample nicht immer seinem wirklichen Ende entsprechen müsste?"
 
 #: 03.5-Partial-Samples.md:39
-#, fuzzy
 msgid "Choosing a starting point"
 msgstr "Einen Startpunkt bestimmen"
 
