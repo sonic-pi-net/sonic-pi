@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-07 13:54+0000\n"
+"PO-Revision-Date: 2016-06-09 10:54+0000\n"
 "Last-Translator: verbgio <giova1982@tin.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
@@ -3296,12 +3296,12 @@ msgid ""
 "r all samples within all subfolders of a particular folder by adding `**` to t"
 "he end of the path:"
 msgstr ""
-"Di base, soltanto i campioni all'interno di una directory sono raccolti "
-"all'interno della lista che risulta da una ricerca. A volte, potresti aver "
-"bisogno di indagare una serie di sottocartelle dove sono salvati i campioni "
-"e filtrare i risultati. Se desideri fare questo, puoi ripetere la ricerca "
-"per tutti i campioni all'interno di ogni sottocartella di una particolare "
-"cartella, aggiungendo '**' alla fine del percorso:"
+"Per impostazione predefinita, sono inclusi nella lista dei candidati solo i "
+"campioni contenuti in una cartella. E' possibile talvolta che in una serie "
+"di cartelle di campioni annidate, si voglia eseguire una ricerca e "
+"applicarvi dei filtraggi. Pertanto, è possibile eseguire una ricerca "
+"ricorsiva per tutti i campioni contenuti in ogni sottocartella di una data "
+"cartella aggiungendo `**` alla fine del percorso:"
 
 #: 03.7-Sample-Packs.md:171
 #, no-wrap
@@ -5149,6 +5149,10 @@ msgid ""
 "ues to `rrand`, you can teach your functions to accept arguments. Let's take a"
 " look:"
 msgstr ""
+"Potresti essere interessato/a a sapere che, nello stesso modo in cui puoi "
+"passare da valori minimi a massimi o addittura casuali ('rrand'), puoi "
+"insegnare alle tue funzioni ad accettare degli argomenti. Prova a dare "
+"un'occhiata a quanto segue:"
 
 #: 05.5-Functions.md:81
 #, no-wrap
@@ -5172,6 +5176,9 @@ msgid ""
 "This isn't very exciting, but it illustrates the point. We've created our own "
 "version of `play` called `my_player` which is parameterised."
 msgstr ""
+"Quanto presentato non è molto eccitante, ma illustra bene la questione. "
+"Abbiamo creato la nostra personale versione di 'play' chiamata 'my_player' "
+"che è stata poi sottoposta a dei parametri."
 
 #: 05.5-Functions.md:94
 msgid ""
@@ -5179,6 +5186,10 @@ msgid ""
 "ded by vertical goalposts `|` and separated by commas `,`. You may use any wor"
 "ds you want for the parameter names."
 msgstr ""
+"I parametri devono essere scritti successivmente al 'do' del blocco do/end "
+"'define'. Devono essere inclusi nelle barre verticali '|' ed essere separati "
+"dalle virgole ','. Puoi usare una qualsiasi parola a tuo piacimento per dare "
+"il nome ai parametri."
 
 #: 05.5-Functions.md:98
 msgid ""
@@ -5191,10 +5202,22 @@ msgid ""
 "to `play 80`. When I call it again with `my_player 90`, `n` is now replaced wi"
 "th 90, so `play n` turns into `play 90`."
 msgstr ""
+"La magia accade sempre all'interno del blocco do/end 'define'. Puoi usare "
+"anche i nomi dei parametri come se fossero dei valori reali. Nell'esempio "
+"precedente noi stavamo suonando la nota 'n'. Puoi considerare i parametri "
+"come una sorta di promessa che quando il codice è in esecuzione, essi "
+"verranno sostituiti con valori reali. Puoi fare ciò passando un parametro a "
+"una funzione quando lo richiami. Scrivendo il codice precedente, quanto "
+"detto è stato ottenuto digitando 'my_player 80' per suonare la nota "
+"corrispondente. All'interno della definizione della funzione, 'n' è "
+"sostituito con 80. Quindi se scrivi 'play n' la n verrà sostituita con 80. "
+"Se richiamassi di nuovo questa funzione scrivendo 'my_player 90', il valore "
+"n diventerebbe 90 e quindi scrivendo 'play n' otteniamo questa volta lo "
+"stesso suono di 'play 90'."
 
 #: 05.5-Functions.md:108
 msgid "Let's see a more interesting example:"
-msgstr ""
+msgstr "Ma guardiamo un esempio più interessante:"
 
 #: 05.5-Functions.md:110
 #, no-wrap
@@ -5230,20 +5253,25 @@ msgid ""
 "Here I used `repeats` as if it was a number in the line `repeats.times do`. I "
 "also used `root` as if it was a note name in my call to `play`."
 msgstr ""
+"Qui abbiamo digitato 'repeats' come se fosse un numero nella linea "
+"'repeats.times do'. Abbiamo inserito 'roots' come se fosse un nome di una "
+"nota all'interno dell'esecuzione di 'play'."
 
 #: 05.5-Functions.md:129
 msgid ""
 "See how we're able to write something very expressive and easy to read by movi"
 "ng a lot of our logic into a function!"
 msgstr ""
+"Guarda come, grazie alle funzioni, riusciamo a scrivere qualcosa di molto "
+"espressivo, semplice da leggere e che compatta tutti i nostri ragionamenti!"
 
 #: 05.6-Variables.md:1
 msgid "5.6 Variables"
-msgstr ""
+msgstr "5.6 Variabili"
 
 #: 05.6-Variables.md:3
 msgid "Variables"
-msgstr ""
+msgstr "Variabili"
 
 #: 05.6-Variables.md:5
 msgid ""
@@ -5251,6 +5279,9 @@ msgid ""
 "s this very easy, you write the name you wish to use, an equal sign (`=`), the"
 "n the thing you want to remember:"
 msgstr ""
+"Una cosa che può risultarti utile è quella di dare dei nomi alle cose. Sonic "
+"Pi rende questo processo molto semplice. Basta che scrivi il nome "
+"desiderato, il segno uguale ('='), e dopo la cosa che vuoi ricordarti:"
 
 #: 05.6-Variables.md:9
 #, no-wrap
@@ -5263,6 +5294,9 @@ msgid ""
 ". We can now use `sample_name` everywhere we might have used `:loop_amen`. For"
 " example:"
 msgstr ""
+"Nell'esempio sopra ci siamo 'ricordati' il simbolo ':loop_amen' grazie alla "
+"variabile 'sample_name'. Adesso, possiamo utilizzare 'sample_name' ovunque "
+"avremmo usato ':loop_amen'. Ecco un esempio:"
 
 #: 05.6-Variables.md:17
 #, no-wrap
@@ -5278,10 +5312,13 @@ msgid ""
 "There are three main reasons for using variables in Sonic Pi: communicating me"
 "aning, managing repetition and capturing the results of things."
 msgstr ""
+"Ci sono tre ragioni principali che rendono utile l'impiego di variabili in "
+"Sonic_Pi: comunicare significati, organizzare le ripetizioni e catturare i "
+"risultati delle cose."
 
 #: 05.6-Variables.md:26
 msgid "Communicating Meaning"
-msgstr ""
+msgstr "Comunicare i significati"
 
 #: 05.6-Variables.md:28
 msgid ""
@@ -5293,6 +5330,14 @@ msgid ""
 "hough it might seem obvious to you now - it might not be so obvious to others "
 "or even your future self!"
 msgstr ""
+"Quando programmi è facile pensare semplicemente che stai dicendo al computer "
+"come fare qualcosa. E finché il computer capisce, va tutto bene! Tuttavia, è "
+"importante tenere a mente che non solo il computer legge il codice,ma anche "
+"altre persone potrebbero farlo per capire cosa sta succedendo. Inoltre, è "
+"probabile che tu stesso/a andrai prima o poi a rileggere il tuo codice e "
+"cercare di capire a che cosa serve. Anche se adesso qualche passaggio ti "
+"sembra ovvio, potrebbe non esserlo per qualcun altro o per te stesso/a nel "
+"futuro!"
 
 #: 05.6-Variables.md:36
 msgid ""
@@ -5300,6 +5345,10 @@ msgid ""
 " (as we saw in a previous section). Another is to use meaningful variable name"
 "s. Look at this code:"
 msgstr ""
+"Un modo per aiutare gli altri a comprendere il tuo programma è scrivere "
+"commenti (come abbiamo visto nella sezione precedente. Un altro modo è usare "
+"dei nomi di variabili che abbiano un significato. Per esempio, guarda il "
+"codice seguente:"
 
 #: 05.6-Variables.md:40
 #, no-wrap
@@ -5311,6 +5360,8 @@ msgid ""
 "Why does it use the number `1.7533`? Where did this number come from? What doe"
 "s it mean? However, look at this code:"
 msgstr ""
+"Perché in questo codice è scritto il numero '1,7533'? Da dove salta fuori? "
+"Che cosa significa? Guarda invece questo codice:"
 
 #: 05.6-Variables.md:47
 #, no-wrap
@@ -5326,6 +5377,9 @@ msgid ""
 "Now, it's much clearer what `1.7533` means: it's the duration of the sample `:"
 "loop_amen`! Of course, you might say why not simply write:"
 msgstr ""
+"Adesso è molto più chiaro a cosa si riferisce '1,7533':è la durata del "
+"campione ':loop_amen'! Adesso, potresti domandarti perché non scrivere "
+"semplicemente:"
 
 #: 05.6-Variables.md:55
 #, no-wrap
@@ -5335,10 +5389,12 @@ msgstr "sleep sample_duration(:loop_amen)"
 #: 05.6-Variables.md:59
 msgid "Which, of course, is a very nice way of communicating the intent of the code."
 msgstr ""
+"Questa è certamente un modo molto semplice e carino di comunicare lo scopo "
+"di un codice."
 
 #: 05.6-Variables.md:62
 msgid "Managing Repetition"
-msgstr ""
+msgstr "Gestire le ripetizioni"
 
 #: 05.6-Variables.md:64
 msgid ""
