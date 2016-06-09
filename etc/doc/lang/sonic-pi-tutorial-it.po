@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-09 10:54+0000\n"
-"Last-Translator: verbgio <giova1982@tin.it>\n"
+"PO-Revision-Date: 2016-06-09 11:44+0000\n"
+"Last-Translator: Federico P. <federico@federicopepe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/it/>\n"
 "Language: it\n"
@@ -5401,6 +5401,8 @@ msgid ""
 "Often you see a lot of repetition in your code and when you want to change thi"
 "ngs, you have to change it in a lot of places. Take a look at this code:"
 msgstr ""
+"Spesso può succedere che nel codice ci siano molte ripetizioni e quando vuoi "
+"cambiare qualcosa, è necessario farlo in molti punti. Guarda questo esempio:"
 
 #: 05.6-Variables.md:68
 #, no-wrap
@@ -5427,10 +5429,16 @@ msgid ""
 "you have lots of time - but what if you're performing on stage? Sometimes you "
 "don't have the luxury of time - especially if you want to keep people dancing."
 msgstr ""
+"Facciamo un sacco di cose con `:loop_amen`! E se volessimo sentire la stessa "
+"cosa ma con un loop diverso come, ad esempio, `:loop_garzul`? Saremmo "
+"costretti a trovare e rimpiazzare tutti i `:loop_amen`con `:loop_garzul`. "
+"Potresti farlo se avessi a disposizione molto tempo ma se ti stai esibendo "
+"su un palco? Spesso non hai il lusso di avere molto tempo, specialmente se "
+"non vuoi che la gente smetta di ballare."
 
 #: 05.6-Variables.md:84
 msgid "What if you'd written your code like this:"
-msgstr ""
+msgstr "E se avessimo scritto il codice in questo modo:"
 
 #: 05.6-Variables.md:86
 #, no-wrap
@@ -5457,16 +5465,23 @@ msgid ""
 "y to just change one line `sample_name = :loop_amen` to `sample_name = :loop_g"
 "arzul` and we change it in many places through the magic of variables."
 msgstr ""
+"Questo codice fa esattamente la stessa cosa di quello di prima (prova) ma ci "
+"dà la possibilità di cambiare una riga di codice `sample_name = :loop_amen` "
+"in `sample_name = :loop_garzul` e, grazie a questa variabile magica, verrà "
+"cambiato dappertutto."
 
 #: 05.6-Variables.md:101
 msgid "Capturing Results"
-msgstr ""
+msgstr "Catturare i risultati"
 
 #: 05.6-Variables.md:103
 msgid ""
 "Finally, a good motivation for using variables is to capture the results of th"
 "ings. For example, you may wish to do things with the duration of a sample:"
 msgstr ""
+"Un buon motivo per utilizzare le variabili è la possibilità di catturare i "
+"risultati delle cose. Per esempio, magari vuoi provare a lavorare con la "
+"durata di un sample:"
 
 #: 05.6-Variables.md:107
 #, no-wrap
@@ -5476,12 +5491,16 @@ msgstr "sd = sample_duration(:loop_amen)"
 #: 05.6-Variables.md:111
 msgid "We can now use `sd` anywhere we need the duration of the `:loop_amen` sample."
 msgstr ""
+"Ora possiamo usare `sd` in ogni punto dove abbiamo bisogno della durata del "
+"camptione `:loop_amen`."
 
 #: 05.6-Variables.md:114
 msgid ""
 "Perhaps more importantly, a variable allows us to capture the result of a call"
 " to `play` or `sample`:"
 msgstr ""
+"Un risultato ancora più importante, forse, è che una variabile ci permette "
+"di catturare il risultato quando chiamiamo `play` o `sample`:"
 
 #: 05.6-Variables.md:117
 #, no-wrap
@@ -5493,6 +5512,8 @@ msgid ""
 "Now we have caught and remembered `s` as a variable, which allows us to contro"
 "l the synth as it is running:"
 msgstr ""
+"Ora che abbiamo catturato `s` come variabile, possiamo controllare il "
+"sintetizzatore mentre sta funzionando:"
 
 #: 05.6-Variables.md:124
 #, no-wrap
@@ -5508,14 +5529,16 @@ msgstr ""
 #: 05.6-Variables.md:130
 msgid "We'll look into controlling synths in more detail in a later section."
 msgstr ""
+"Vedremo come controllare i sintetizzatori in modo più dettagliato più tardi "
+"in questa sezione."
 
 #: 05.7-Thread-Synchronisation.md:1
 msgid "5.7 Thread Synchronisation"
-msgstr ""
+msgstr "5.7 Sincronizzazione dei thread"
 
 #: 05.7-Thread-Synchronisation.md:3
 msgid "Thread Synchronisation"
-msgstr ""
+msgstr "Sincronizzazione dei thread"
 
 #: 05.7-Thread-Synchronisation.md:5
 msgid ""
@@ -5525,10 +5548,15 @@ msgid ""
 "cause you can easily restart the thread by hitting Run. However, when you rest"
 "art the thread it is now *out of time* with the original threads."
 msgstr ""
+"Raggiungendo un livello avanzato di live coding e usando molte funzioni e "
+"thread simultaneamente, ti sarai accordo che è semplice fare un errore che "
+"ferma un thread. Non è un problema perché puoi sempre farlo ripartire "
+"premendo Run ma, quando si riavvierà, sarà *fuori tempo* rispetto al thread "
+"originale."
 
 #: 05.7-Thread-Synchronisation.md:12
 msgid "Inherited Time"
-msgstr ""
+msgstr "Ereditare il tempo"
 
 #: 05.7-Thread-Synchronisation.md:14
 msgid ""
@@ -5536,22 +5564,30 @@ msgid ""
 "he settings from the parent thread. This includes the current time. This means"
 " that threads are always in time with each other when started simultaneously."
 msgstr ""
+"Come abbiamo discusso in precedenza, i nuovi thread creati con `in_thread` "
+"ereditano le impostazioni dal thread principale. Questo include, ovviamente, "
+"anche il tempo. Questo significa che i thread sono sempre a tempo quando "
+"partono in simultanea."
 
 #: 05.7-Thread-Synchronisation.md:19
 msgid ""
 "However, when you start a thread on its own it starts with its own time which "
 "is unlikely to be in sync with any of the other currently running threads."
 msgstr ""
+"Tuttavia, quando fai partire un thread da solo, questo partirà con il suo "
+"tempo ed è davvero improbabile che sia sincronizzato con gli altri thread."
 
 #: 05.7-Thread-Synchronisation.md:23
 msgid "Cue and Sync"
-msgstr ""
+msgstr "Segnale (cue) e sincronizzazione"
 
 #: 05.7-Thread-Synchronisation.md:25
 msgid ""
 "Sonic Pi provides a solution to this problem with the functions `cue` and `syn"
 "c`."
 msgstr ""
+"Sonic Pi offre una soluzione a questo problema con le funzioni `cue` e "
+"`sync`."
 
 #: 05.7-Thread-Synchronisation.md:28
 msgid ""
@@ -5559,6 +5595,10 @@ msgid ""
 "t the other threads aren't interested and ignore these heartbeat messages. How"
 "ever, you can easily register interest with the `sync` function."
 msgstr ""
+"La funzione `cue`ci permette di inviare il messaggio del cuore pulsante a "
+"tutti gli altri thread. Di default, gli altri thread non sono interessati a "
+"ricevere questo messaggio e lo ignorano. È possibile, però, attivare "
+"l'interesse al segnale utilizzando la funzione `sync`."
 
 #: 05.7-Thread-Synchronisation.md:33
 msgid ""
@@ -5568,10 +5608,16 @@ msgid ""
 "n't know how long you will wait - as `sync` waits for the next `cue` from anot"
 "her thread which may be soon or a long time away."
 msgstr ""
+"La cosa importante da sapere è che `sync` funziona in modo simile a `sleep` "
+"nel senso che ferma il thread corrente per un certo periodo di tempo. La "
+"differenza è che con `sleep` specifichiamo quanto tempo aspettare mentre con "
+"`sync` non è possibile sapere quando aspetterà dal momento che `sync` "
+"aspetta il segnale `cue` da un altro thread che potrebbe essere vicino "
+"oppure lontano nel tempo."
 
 #: 05.7-Thread-Synchronisation.md:40
 msgid "Let's explore this in a little more detail:"
-msgstr ""
+msgstr "Proviamo ad andare nel dettaglio:"
 
 #: 05.7-Thread-Synchronisation.md:42
 #, no-wrap
@@ -5609,6 +5655,10 @@ msgid ""
 "ynchronising on `tick` messages and when it receives one it inherits the time "
 "of the `cue` thread and continues running."
 msgstr ""
+"Qui abbiamo due thread, uno che si comporta come un metronomo e non "
+"riproduce alcun suono ma invia il segnale `:tick` a ogni battito. Il secondo "
+"thread è sincronizzato al messaggio `tick` e quando ne riceve uno, eredita "
+"il tempo del thread `cue`e continua a funzionare."
 
 #: 05.7-Thread-Synchronisation.md:63
 msgid ""
@@ -5616,6 +5666,9 @@ msgid ""
 " thread sends the `:tick` message, even if the two threads didn't start their "
 "execution at the same time:"
 msgstr ""
+"Di conseguenza, sentiremo il campione `:drum_heavy_kick` esattamente nel "
+"momento in cui l'altro thread invia il messaggio `:tick`, anche se i due "
+"thread non vengono avviati in contemporanea:"
 
 #: 05.7-Thread-Synchronisation.md:67
 #, no-wrap
@@ -5654,10 +5707,14 @@ msgid ""
 "with the first. However, as we're using `cue` and `sync`, we automatically syn"
 "c the threads bypassing any accidental timing offsets."
 msgstr ""
+"Quella chiamata a `sleep` normalmente manderebbe il secondo thread fuori "
+"fase rispetto al primo, ma, dal momento che usiamo `cue` e `sync`, "
+"sincronizziamo automaticamente i thread bypassando ogni possibile deviazione "
+"di tempo."
 
 #: 05.7-Thread-Synchronisation.md:90
 msgid "Cue Names"
-msgstr ""
+msgstr "Nominare i segnali di cue"
 
 #: 05.7-Thread-Synchronisation.md:92
 msgid ""
@@ -5666,10 +5723,14 @@ msgid ""
 " correct name - otherwise they'll be waiting for ever (or at least until you p"
 "ress the Stop button)."
 msgstr ""
+"Sei libero di usare tutti i nomi che vuoi per i messaggi `cue`, non solo "
+"`:tick`. Devi solo assicurarti che tutti i thread siano sincronizzati sullo "
+"stesso nome, altrimenti aspetteranno all'infinito (o, fino alla pressione "
+"del pulsante di Stop)."
 
 #: 05.7-Thread-Synchronisation.md:97
 msgid "Let's play with a few `cue` names:"
-msgstr ""
+msgstr "Facciamo qualche prova con diversi nomi per `cue`:"
 
 #: 05.7-Thread-Synchronisation.md:99
 #, no-wrap
@@ -5732,12 +5793,20 @@ msgid ""
 "et effect is that we hear a sound every 0.5 beats as each of the `sync` thread"
 "s is randomly synced with the `cue` thread and plays its sample."
 msgstr ""
+"Qui abbiamo un loop principale `cue` che in modo casuale invia segnali "
+"chiamati `:foo`, `:bar` o `:baz`. Abbiamo poi tre thread di loop con suoni "
+"differenti, ciascuno dei quali si sincronizza con quei segnali in modo "
+"indipendente. L'effetto rete fa si che sentiamo un suono ogni 0.5 battiti "
+"dal momento che ciascuno dei thread `sync` è sincronizzato in modo casuale "
+"con i thread `cue` che riproducono il campione."
 
 #: 05.7-Thread-Synchronisation.md:136
 msgid ""
 "This of course also works if you order the threads in reverse as the `sync` th"
 "reads will simply sit and wait for the next `cue`."
 msgstr ""
+"Questo ovviamente funziona se ordini i thread al contrario dal momento che i "
+"thread `sync` aspetteranno di ricevere il `cue` successivo."
 
 #: 06-FX.md:1
 msgid "6 FX"
