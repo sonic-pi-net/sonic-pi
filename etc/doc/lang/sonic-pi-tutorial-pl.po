@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-08 21:59+0000\n"
-"Last-Translator: Szymon Jakubiak <sz.a.jakubiak@gmail.com>\n"
+"PO-Revision-Date: 2016-06-09 20:45+0000\n"
+"Last-Translator: Łukasz Siwiński <lsiwinski@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/pl/>\n"
 "Language: pl\n"
@@ -798,7 +798,6 @@ msgstr ""
 "przekonaj się na własnej skórze."
 
 #: 02.1-Your-First-Beeps.md:61
-#, fuzzy
 msgid "Melody"
 msgstr "Melodia"
 
@@ -829,7 +828,6 @@ msgstr ""
 "play 79"
 
 #: 02.1-Your-First-Beeps.md:75
-#, fuzzy
 msgid ""
 "How lovely, a little arpeggio. So what does the `1` mean in `sleep 1`? Well it"
 " means the *duration of the sleep*. It actually means sleep for one beat, but "
@@ -840,10 +838,10 @@ msgstr ""
 "Cudownie, właśnie stworzyłeś małe arpeggio. No dobrze, ale co oznacza liczba "
 "`1` w poleceniu `sleep 1`? Oznacza ona *długość trwania odstępu pomiędzy "
 "nutami*. Zasadniczo oznacza to odstęp o długości jednego uderzenia, ale póki "
-"co możesz myśleć o tym jako o przeczekaniu jednej sekundy. Co powinniśmy w "
-"takim razie zrobić, jeśli chcielibyśmy trochę przyśpieszyć nasze arpeggio? "
-"Jedyne co musimy zrobić to użyć \"krótszych\" wartości dla polecenia sleep. "
-"Weźmy na przykład połowę, czyli wartość `0.5`:"
+"co możesz myśleć o tym jako o przerwie trwającej jedną sekundę. Co "
+"powinniśmy w takim razie zrobić, jeśli chcielibyśmy trochę przyśpieszyć "
+"nasze arpeggio? Jedyne co musimy zrobić to użyć \"krótszych\" wartości dla "
+"polecenia sleep. Weźmy na przykład połowę, czyli wartość `0.5`:"
 
 #: 02.1-Your-First-Beeps.md:81
 #, no-wrap
@@ -881,7 +879,6 @@ msgstr ""
 "Pokombinuj z różnymi wartościami i baw się dobrze."
 
 #: 02.1-Your-First-Beeps.md:97
-#, fuzzy
 msgid "Traditional Note Names"
 msgstr "Tradycyjne Nazwy Nut"
 
