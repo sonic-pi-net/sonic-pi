@@ -154,6 +154,14 @@ void Scope::togglePause() {
   paused = !paused;
 }
 
+void Scope::pause() {
+  paused = true;
+}
+
+void Scope::resume() {
+  paused = false;
+}
+
 void Scope::resetScope()
 {
   shmClient.reset(new server_shared_memory_client(4556));

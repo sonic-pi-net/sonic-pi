@@ -185,6 +185,7 @@ private slots:
     void setupWindowStructure();
     void setupTheme();
     void escapeWorkspaces();
+    void allJobsCompleted();
 
 private:
 

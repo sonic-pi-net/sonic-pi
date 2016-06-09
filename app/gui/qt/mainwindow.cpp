@@ -459,6 +459,7 @@ void MainWindow::setupWindowStructure() {
   scopeWidget->setAllowedAreas(Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
   scopeWidget->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
   scopeInterface = new Scope();
+  scopeInterface->pause();
   scopeWidget->setWidget(scopeInterface);
   scopeWidget->setObjectName("scope");
   addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
@@ -618,6 +619,10 @@ void MainWindow::updateFocusMode(){
 
 void MainWindow::toggleScopePaused() {
   scopeInterface->togglePause();
+}
+
+void MainWindow::allJobsCompleted() {
+  scopeInterface->pause();
 }
 
 void MainWindow::toggleLogVisibility() {
@@ -1482,6 +1487,7 @@ void MainWindow::resetErrorPane() {
 
 void MainWindow::runCode()
 {
+  scopeInterface->resume();
   update();
   if(auto_indent_on_run->isChecked()) {
     beautifyCode();

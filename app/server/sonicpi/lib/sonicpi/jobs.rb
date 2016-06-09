@@ -55,5 +55,9 @@ module SonicPi
     def each_id(&block)
       @jobs_A.deref.keys.each(&block)
     end
+
+    def any_jobs_running?
+      !@jobs_A.deref.empty?
+    end
   end
 end

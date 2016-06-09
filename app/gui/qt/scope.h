@@ -59,6 +59,8 @@ public:
   bool enableScope( const QString& name, bool on );
   bool setScopeAxes(bool on);
   void togglePause();
+  void pause();
+  void resume();
   void resetScope();
 
 private slots:

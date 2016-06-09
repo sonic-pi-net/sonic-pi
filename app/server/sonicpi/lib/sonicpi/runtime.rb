@@ -791,7 +791,13 @@ module SonicPi
         @user_jobs.job_completed(id)
         Kernel.sleep @mod_sound_studio.sched_ahead_time
         __info "Completed run #{id}"
+        unless @user_jobs.any_jobs_running?
+          __info "All runs completed"
+          @msg_queue.push({type: :all_jobs_completed})
+        end
+
         @msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
+
       end
     end
 

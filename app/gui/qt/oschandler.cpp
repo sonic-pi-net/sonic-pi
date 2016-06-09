@@ -208,6 +208,12 @@ void OscHandler::oscMessage(std::vector<char> buffer){
         } else
           std::cout << "[GUI] - error: unhandled OSC msg /version " << std::endl;
       }
+      else if (msg->match("/all-jobs-completed")) {
+        if (msg->arg().isOkNoMoreArgs()) {
+          QMetaObject::invokeMethod( window, "allJobsCompleted", Qt::QueuedConnection);
+        } else
+          std::cout << "[GUI] - error: unhandled OSC msg /all-jobs-completed " << std::endl;
+      }
       else {
         std::cout << "[GUI] - error: unhandled OSC message" << std::endl;
       }
