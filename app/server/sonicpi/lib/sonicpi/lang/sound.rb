@@ -261,7 +261,7 @@ module SonicPi
 
       def sample_free(*paths)
         paths.each do |p|
-          p = [p] unless p.is_a?(Array)
+          p = [p] unless is_list_like?(p)
           filts_and_sources, args_a = sample_split_filts_and_opts(p)
           resolve_sample_paths(filts_and_sources).each do |p|
             if sample_loaded?(p)
@@ -1343,7 +1343,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
 
 
         notes = args_h[:notes] || args_h[:note]
-        if notes.is_a?(SonicPi::Core::SPVector) || notes.is_a?(Array)
+        if is_list_like?(notes)
           args_h.delete(:notes)
           args_h.delete(:note)
           shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
@@ -1514,7 +1514,7 @@ play_pattern [40, 41, 42] # Same as:
 
 
       def play_pattern_timed(notes, times, *args)
-        if times.is_a?(Array) || times.is_a?(SonicPi::Core::SPVector)
+        if is_list_like?(times)
           t = times.ring
           notes.each_with_index{|note, idx| play(note, *args) ; sleep(t[idx])}
         else
@@ -3579,7 +3579,7 @@ end",
         return [] unless tonic
         opts = resolve_synth_opts_hash_or_array(opts)
         c = []
-        if tonic.is_a? Array
+        if is_list_like?(tonic)
           raise "List passed as parameter to chord needs two elements i.e. (chord [:e3, :minor]), you passed: #{tonic.inspect}" unless tonic.size == 2
           c = Chord.new(tonic[0], tonic[1], opts[:num_octaves])
         else
@@ -3690,7 +3690,7 @@ end",
 
       def chord_invert(notes, shift)
         raise "Inversion shift value must be a number, got #{shift.inspect}" unless shift.is_a?(Numeric)
-        raise "Notes must be a list of notes, got #{notes.inspect}" unless (notes.is_a?(SonicPi::Core::SPVector) || notes.is_a?(Array))
+        raise "Notes must be a list of notes, got #{notes.inspect}" unless is_list_like?(notes)
         if(shift > 0)
           chord_invert(notes.to_a[1..-1] + [notes.to_a[0]+12], shift-1)
         elsif(shift < 0)
@@ -3752,7 +3752,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
           note = args_h.delete(:note)
           notes = args_h.delete(:notes)
           notes = note if note && !notes
-          notes = [notes] unless notes.is_a?(Array) || notes.is_a?(SonicPi::Core::SPVector)
+          notes = [notes] unless is_list_like?(notes)
           normalise_args! args_h
           # don't normalise notes key as it is special
           # when controlling ChordGroups.

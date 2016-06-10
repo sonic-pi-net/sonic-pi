@@ -380,6 +380,10 @@ module SonicPi
       @@safe_mode
     end
 
+    def is_list_like?(o)
+      o.is_a?(SonicPi::Core::SPVector) || o.is_a?(Array)
+    end
+
     def register_process(pid)
       `'#{ruby_path}' '#{server_path}/bin/task-register.rb' '#{pid}'`
     end

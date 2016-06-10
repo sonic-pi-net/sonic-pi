@@ -618,7 +618,7 @@ end"
 
 
       def range(start, finish, *args)
-        if args.is_a?(Array) && args.size == 1 && args.first.is_a?(Numeric)
+        if is_list_like?(args) && args.size == 1 && args.first.is_a?(Numeric)
           # Allow one optional arg for legacy reasons. Versions earlier
           # than v2.5 allowed: range(1, 10, 2)
           step_size = args.first
@@ -1237,7 +1237,7 @@ end
 
 
       def spark_graph(*values)
-        if (values.first.is_a?(Array) || values.first.is_a?(SonicPi::Core::RingVector)) && values.length == 1
+        if is_list_like?(values) && values.length == 1
           values = values.first
         end
 
