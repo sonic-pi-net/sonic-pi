@@ -398,43 +398,44 @@ Dark mode is perfect for live coding in night clubs.</source>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
         <source>The Sonic Pi Server could not be started!</source>
-        <translation type="unfinished"></translation>
+        <translation>Сервер Sonic Pi не может запуститься!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="917"></location>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Инвертировать стерео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"></location>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Принудительный моно режим</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="961"></location>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Синтезаторы и FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="962"></location>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменяй поведение синтезаторов и FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="973"></location>
         <source>Log auto scroll</source>
-        <translation type="unfinished"></translation>
+        <translation>Логировать автопрокрутку</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"></location>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключить логирование автопрокрутки.
+Если включено - лог прокручен до конца, после каждого нового сообщения.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="981"></location>
         <source>Enable external synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить внешние синтезаторы и FX</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="982"></location>
@@ -445,12 +446,18 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn't recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation>Когда включен, Sonic Pi разрешит
+синтезаторам и FX загружаться через load_synthdefs
+чтобы иметь возможность переключать.
+
+Если выключен, Sonic Pi пожалуется,
+когда вы попробуете использовать синтезатор или FX,
+которые не распознаны.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation>Соблюдение сроков гарантии</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"></location>
@@ -461,7 +468,7 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation>Когда включен, Sonic Pi откажется возбуждать синтезаторов и FX, если это слишком поздно, сделать это при отключении, Sonic Pi всегда будет пытаться вызвать синтезаторов и FX даже тогда, когда это немного поздно.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
@@ -488,30 +495,30 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1375"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Buffer files</source>
-        <translation type="unfinished"></translation>
+        <translation>Файлы буфера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <source>Load Sonic Pi Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить буфер Sonic PI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Текстовые файлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>Ruby files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruby файлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1363"></location>
         <location filename="../mainwindow.cpp" line="1376"></location>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Все файлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1376"></location>
@@ -611,12 +618,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="1754"></location>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished"></translation>
+        <translation>Логирование автопрокрутки вкл...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1756"></location>
         <source>Log Auto Scroll off...</source>
-        <translation type="unfinished"></translation>
+        <translation>Логирование автопрокрутки выкл...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2157"></location>
@@ -666,12 +673,12 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2353"></location>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2354"></location>
         <source>Load an external file in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить внешний файл в текущем буфере</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2357"></location>
@@ -686,7 +693,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2363"></location>
         <source>View audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>Просмотреть аудиовыход</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2367"></location>
@@ -789,7 +796,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2510"></location>
         <source>Wavefile (*.wav)</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл формата (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2529"></location>
@@ -861,32 +868,32 @@ Get Sonic Pi %1</source>
         <location filename="../ruby_help.h" line="367"></location>
         <location filename="../ruby_help.h" line="442"></location>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation>Учебник</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="476"></location>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation>Примеры</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="522"></location>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation>Синтезаторы</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="564"></location>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation>FX</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="583"></location>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation>Образцы</translation>
     </message>
     <message>
         <location filename="../ruby_help.h" line="779"></location>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
 </context>
 <context>
