@@ -1585,6 +1585,7 @@ play 44"]
 
 
       def play_chord(notes, *args)
+        raise "play_chord expects a list of notes such as [70, 75, 82], got #{notes.inspect}" unless is_list_like?(notes)
         args_h = resolve_synth_opts_hash_or_array(args)
         return @blank_node unless should_trigger?(args_h)
         shifted_notes = notes.map {|n| normalise_transpose_and_tune_note_from_args(n, args_h)}
