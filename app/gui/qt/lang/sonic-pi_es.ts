@@ -54,7 +54,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="912"></location>
         <source>Raspberry Pi System Volume</source>
-        <translation type="unfinished">Volumen del Sistema de Raspberry Pi</translation>
+        <translation>Volumen del Sistema de Raspberry Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="913"></location>
@@ -104,7 +104,7 @@ sistemas externos que solo soportan sonido mono.</translation>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Cambia la opción de comprobación de argumentos en el sintetizador.
+        <translation>Cambia la opción de comprobación de argumentos en el sintetizador.
 Si se encuentra deshabilitado, ciertas opciones generarán sonidos muy
 fuertes o incómodos.</translation>
     </message>
@@ -117,17 +117,17 @@ fuertes o incómodos.</translation>
         <location filename="../mainwindow.cpp" line="452"></location>
         <location filename="../mainwindow.cpp" line="2362"></location>
         <source>Scope</source>
-        <translation type="unfinished">Rango</translation>
+        <translation>Ámbito</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="742"></location>
         <source>Toggle selection comment...</source>
-        <translation type="unfinished">Comenta la selección</translation>
+        <translation>Comenta / descomenta la selección...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="746"></location>
         <source>Toggle line comment...</source>
-        <translation type="unfinished">Comenta la linea</translation>
+        <translation>Comenta / descomenta la línea...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="804"></location>
@@ -173,7 +173,7 @@ Usa estos botones para forzar la salida de audio en alguna de estas dos opciones
     <message>
         <location filename="../mainwindow.cpp" line="958"></location>
         <source>Logging</source>
-        <translation type="unfinished">Acceso</translation>
+        <translation>Registro</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="959"></location>
@@ -269,7 +269,7 @@ que no está reconocido.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="984"></location>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">Cumplir las garantías de temporización</translation>
+        <translation>Imponer garantías de temporización</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="985"></location>
@@ -413,12 +413,12 @@ Esta verificación conlleva enviar información anónima acerca de tu plataforma
     <message>
         <location filename="../mainwindow.cpp" line="1062"></location>
         <source>Show tabs</source>
-        <translation type="unfinished">Mostrar Buffers</translation>
+        <translation>Mostrar pestañas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1064"></location>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished">Cambia la visibilidad de las pestañas de los buffer.</translation>
+        <translation>Cambia la visibilidad de las pestañas de selección de los buffers.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1065"></location>
@@ -465,12 +465,12 @@ La opción modo oscuro es perfecta para hacer live coding en discotecas o lugare
     <message>
         <location filename="../mainwindow.cpp" line="1132"></location>
         <source>Performance</source>
-        <translation type="unfinished">Actuación</translation>
+        <translation>Rendimiento</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1123"></location>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Configuraciones útiles para actuaciones con Sonic Pi</translation>
+        <translation>Configuraciones útiles para actuar con Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1260"></location>
@@ -632,7 +632,7 @@ Lo sentimos, un error crítico ha ocurrido durante el inicio</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1754"></location>
         <source>Log Auto Scroll on...</source>
-        <translation type="unfinished">Auto desplazamiento en el registro ...</translation>
+        <translation>Auto desplazamiento del registro...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1756"></location>
