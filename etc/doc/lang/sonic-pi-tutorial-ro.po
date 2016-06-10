@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2016-06-10 14:03+0000\n"
+"PO-Revision-Date: 2016-06-10 21:17+0000\n"
 "Last-Translator: Mircea Patrascu <mpatrascu@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/sonic-"
 "pi/tutorial/ro/>\n"
@@ -10231,6 +10231,7 @@ msgid ""
 "The key to live coding with Sonic Pi is mastering the `live_loop`. Let's "
 "look at one:"
 msgstr ""
+"Cheia programarii live este sa stapanesti 'live_loop'. Sa aruncam o privire:"
 
 #: A.02-live-coding.md:32
 #, no-wrap
@@ -10259,10 +10260,20 @@ msgid ""
 "This produces a nice regular bass beat. Go ahead, copy it into an empty "
 "Sonic Pi buffer and hit run. Boom, Boom, Boom!."
 msgstr ""
+"Exista 4 elemente de baza intr-un 'live_loop'. Primul este numele. Bucla "
+"noastra de mai sus se numeste ':beats'. Poti sa denumesti bucla cum vrei. "
+"Lasa-te purtat de imaginatie, fii creativ. Eu folosesc adesea nume care "
+"transmit ceva audientei despre muzica pe care o produc. Al doilea element "
+"este cuvantul cheie 'do' care marcheaza inceputul buclei. Al treilea este "
+"cuvantul cheie 'end' care marcheaza sfarsitul buclei si, in fine, exista "
+"continutul care arata ceea ce se va repeta in bucla respectiva - partea "
+"dintre 'do' so 'end'. In acest caz am redat in mod repetat un esantion de "
+"toba bas si am asteptat jumatate de bataie. Asta produce  un bas regulat. "
+"Copiaza textul intr-un buffer Sonic Pi si apasa Run. Boom, Boom, Boom!"
 
 #: A.02-live-coding.md:52
 msgid "Redefining On-the-fly"
-msgstr ""
+msgstr "Redefinirea din mers"
 
 #: A.02-live-coding.md:54
 msgid ""
@@ -10272,6 +10283,11 @@ msgid ""
 "change what they do. This is the secret to live coding with Sonic Pi. Let's "
 "have a play:"
 msgstr ""
+"Ok, deci ce e asa special la o bucla 'live_loop'? Pana acum pare sa fie doar "
+"o bucla obisnuita cu un nume mai pompos. Ei bine, frumusetea buclelor de tip "
+"'live_loop' este ca pot fi redefinite din mers. Asta inseamna ca poti "
+"schimba ce fac in timp ce ele se executa. Acesta este secretul programarii "
+"live cu Sonic Pi. Sa ne jucam putin:"
 
 #: A.02-live-coding.md:60
 #, no-wrap
@@ -10297,16 +10313,26 @@ msgid ""
 "with the rate yourself - choose your own values. Try negative numbers, "
 "really small numbers and large numbers. Have fun!"
 msgstr ""
+"Acum apasa butonul Run sau combinatia 'M-r'. Poti asculat niste sunete "
+"corale minunate. In timp ce canta, schimba viteza de la '0.4' la '0.38'. "
+"Apasa din nou Run. Uau! Ai auzit cum s-a schimbat tonalitatea corului? "
+"Schimba la loc cu '0.4' ca sa fie ca la inceput. Acum, coboara la '0.2', "
+"apoi la '0.19' si revino la '0.4'. Observi ca schimbarea din mers a unui "
+"singur parametru poate sa iti ofere un control real asupra muzicii. Acum "
+"joca-te cu viteza de redare - alege valorile pe care le doresti. Incearca "
+"numere negative, numere foarte mici sau numere mari. Savureaza rezultatul!"
 
 #: A.02-live-coding.md:77
 msgid "Sleeping is important"
-msgstr ""
+msgstr "Pauzele sunt importante"
 
 #: A.02-live-coding.md:79
 msgid ""
 "One of the most important lessons about `live_loop`s is that they need rest. "
 "Consider the following `live_loop`:"
 msgstr ""
+"Una dintre cele mai importante lectii despre 'live_loop' este ca are nevoie "
+"de pauze. Sa luam urmatorul 'live_loop':"
 
 #: A.02-live-coding.md:82
 #, no-wrap
@@ -10329,10 +10355,17 @@ msgid ""
 "this and crash and burn in the process. So remember, your `live_loop`s must "
 "contain a `sleep`."
 msgstr ""
+"Daca incerci sa rulezi acest cod, vei observa imediat ca Sonic Pi se plange "
+"ca 'live_loop' nu a facut nicio pazua (sleep). Acesta este sistemul de "
+"siguranta care s-a activat! Sa ne gandim putin ce cere codul respectiv "
+"computerului. Asa e, ii cere computerului sa redea la nesfarsit esantioane "
+"corale de lungime zero. Fara sistemul de siguranta bietul computer ar "
+"incerca sa redea o infinitate de esantioane si ar lua-o razna. Deci, tine "
+"minte, orice 'live_loop' trebuie sa contina un 'sleep'."
 
 #: A.02-live-coding.md:97
 msgid "Combining Sounds"
-msgstr ""
+msgstr "Combinarea sunetelor"
 
 #: A.02-live-coding.md:99
 msgid ""
@@ -10342,6 +10375,11 @@ msgid ""
 "amazingly simple way of playing things at the same time. Simply use more "
 "than one `live_loop`!"
 msgstr ""
+"Muzica inseamna multe lucruri care se intampla in acelasi timp. Tobele in "
+"acelasi timp cu basul, in acelasi timp cu vocea, in acelasi timp cu "
+"chitarele... In lumea computerelor acestea se numesc procese concurente iar "
+"Sonic Pi ne ofera o cale uimitor de simpla pentru a face mai multe lucruri "
+"in acelasi timp. Pur si simplu folosim mai multe 'live_loop' in acelasi timp!"
 
 #: A.02-live-coding.md:105
 #, no-wrap
@@ -10359,12 +10397,26 @@ msgid ""
 "  sleep 4\n"
 "end"
 msgstr ""
+"live_loop :beats do\n"
+"  sample :bd_tek\n"
+"  with_fx :echo, phase: 0.125, mix: 0.4 do\n"
+"    sample  :drum_cymbal_soft, sustain: 0, release: 0.1\n"
+"    sleep 0.5\n"
+"  end\n"
+"end\n"
+"live_loop :bass do\n"
+"  use_synth :tb303\n"
+"  synth :tb303, note: :e1, release: 4, cutoff: 120, cutoff_attack: 1\n"
+"  sleep 4\n"
+"end"
 
 #: A.02-live-coding.md:121
 msgid ""
 "Here, we have two `live_loop`s, one looping quickly making beats and another "
 "looping slowly making a crazy bass sound."
 msgstr ""
+"Aici avem doua bucle 'live_loop', una rapida care genereaza batai de taler "
+"si alta mai lenta cu un sunet dement de bas."
 
 #: A.02-live-coding.md:124
 msgid ""
@@ -10373,6 +10425,10 @@ msgid ""
 "interesting polyrhythmical structures and even play with phasing Steve Reich "
 "style. Check this out:"
 msgstr ""
+"Interesant cu buclele 'live_loop' multiple este ca fiecare isi gestioneaza "
+"separat timpul. Asta insemana ca este foarte usoe sa creezi structuri "
+"poliritmice interesante si chiar sa te joci cu fazele in stilul Steve Reich. "
+"Asculta asta:"
 
 #: A.02-live-coding.md:129
 #, no-wrap
@@ -10388,13 +10444,24 @@ msgid ""
 "  sleep 0.295\n"
 "end"
 msgstr ""
+"# Steve Reich's Piano Phase\n"
+"notes = (ring :E4, :Fs4, :B4, :Cs5, :D5, :Fs4, :E4, :Cs5, :B4, :Fs4, :D5, "
+":Cs5)\n"
+"live_loop :slow do\n"
+"  play notes.tick, release: 0.1\n"
+"  sleep 0.3\n"
+"end\n"
+"live_loop :faster do\n"
+"  play notes.tick, release: 0.1\n"
+"  sleep 0.295\n"
+"end"
 
 #: A.02-live-coding.md:145 A.03-coded-beats.md:155 A.04-synth-riffs.md:166
 #: A.05-acid-bass.md:147 A.06-minecraft.md:156 A.07-bizet.md:138
 #: A.09-randomisation.md:145 A.10-controlling-your-sound.md:149
 #: A.11-beat-tracking.md:176 A.12-sample-slicing.md:137
 msgid "Bringing it all together"
-msgstr ""
+msgstr "Sa punem totul cap la cap"
 
 #: A.02-live-coding.md:147
 msgid ""
@@ -10406,6 +10473,13 @@ msgid ""
 "can use this as a starting point for a new performance, and most of all have "
 "fun! See you next time..."
 msgstr ""
+"In fiecare dintre aceste tutoriale incheiem cu un exemplu final sub forma "
+"unei noi piese muzicale care se bazeaza pe ideile prezentate. Citeste codul "
+"acesta si incearca sa-ti imaginezi ce face. Apoi, copiaza-l intr-un buffer "
+"nou in Sonic Pi si apasa Run ca sa vezi cum suna de fapt. Schimba apoi unul "
+"dintre numere sau transforma o parte din cod in comentariu. Vezi daca poti "
+"folosi rezultatul ca un punct de plecare pentru o noua piesa si, in primul "
+"rand, simte muzica! Ne vedem data viitoare..."
 
 #: A.02-live-coding.md:156
 #, no-wrap
@@ -10436,14 +10510,39 @@ msgid ""
 "  end\n"
 "end"
 msgstr ""
+"with_fx :reverb, room: 1 do\n"
+"  live_loop :time do\n"
+"    synth :prophet, release: 8, note: :e1, cutoff: 90, amp: 3\n"
+"    sleep 8\n"
+"  end\n"
+"end\n"
+"live_loop :machine do\n"
+"  sample :loop_garzul, rate: 0.5, finish: 0.25\n"
+"  sample :loop_industrial, beat_stretch: 4, amp: 1\n"
+"  sleep 4\n"
+"end\n"
+"live_loop :kik do\n"
+"  sample :bd_haus, amp: 2\n"
+"  sleep 0.5\n"
+"end\n"
+"with_fx :echo do\n"
+"  live_loop :vortex do\n"
+"    # use_random_seed 800\n"
+"    notes = (scale :e3, :minor_pentatonic, num_octaves: 3)\n"
+"    16.times do\n"
+"      play notes.choose, release: 0.1, amp: 1.5\n"
+"      sleep 0.125\n"
+"    end\n"
+"  end\n"
+"end"
 
 #: A.03-coded-beats.md:1
 msgid "A.3 Coded Beats"
-msgstr ""
+msgstr "A.3 Beat-uri programate"
 
 #: A.03-coded-beats.md:3
 msgid "Coded Beats"
-msgstr ""
+msgstr "Beat-uri programate"
 
 #: A.03-coded-beats.md:5
 msgid ""
@@ -10458,6 +10557,16 @@ msgid ""
 "samples is a really great way of easily introducing new and interesting "
 "elements into your live coded performances."
 msgstr ""
+"Una dintre cele mai incitante si mai revolutionare inventii in muzica "
+"moderna a fost sampler-ul. Acesta este o cutie care iti permite sa "
+"inregistrezi orice sunet pe car apoi il poti manipula si reda in diferite "
+"moduri interesante. De exemplu, poti sa iei o inregistrare veche, sa gasesti "
+"un solo de toba (break), sa o memorezi in sampler si apoi sa o redai in "
+"bucla la viteza injumatatita ca sa ai baza pentru cel mai nou beat al tau. "
+"Asa s-a nascut muzica hip-hop iar astazi este aproape imposibil sa gasesti "
+"muzica electronica in care nu exista macar un tip de esantion (sample). "
+"Folosirea esantioanelor este o metoda foarte buna de a introduce elemente "
+"noi si interesante in interpretarea bazata pe programare live."
 
 #: A.03-coded-beats.md:17
 msgid ""
@@ -10465,10 +10574,13 @@ msgid ""
 "Raspberry Pi! The built-in live coding app Sonic Pi has an extremely "
 "powerful sampler built into its core. Let's play with it!"
 msgstr ""
+"De unde putem lua un sampler? Ai deja unul - este Raspberry Pi! Aplicatia "
+"Sonic Pi pentru programare live care vine preinstalata are inclus in nucleu "
+"un sampler foarte puternic. Sa ne jucam cu el!"
 
 #: A.03-coded-beats.md:21
 msgid "The Amen Break"
-msgstr ""
+msgstr "Amen Break"
 
 #: A.03-coded-beats.md:23
 msgid ""
@@ -10479,12 +10591,20 @@ msgid ""
 "being heavily used in a wide variety of other styles such as drum and bass, "
 "breakbeat, hardcore techno and breakcore."
 msgstr ""
+"Unul dintre solourile de toba cele mai usor de recunoscut se numeste Amen "
+"Break. A fost interpretat prima data in 1969 in piesa \"Amen Brother\" de "
+"Winstons ca parte a soloului de toba. Dar abia cand a fost descoperit de "
+"muzicienii de la inceputurile hip-hop-ului in anii 80 si a fost fost folosit "
+"in samplere a inceput sa fie folosit din greu in multe alte stiluri, cum ar "
+"fi drum & bass, breakbeat, hardcore techno sau breakcore."
 
 #: A.03-coded-beats.md:30
 msgid ""
 "I'm sure you're excited to hear that it's also built right into Sonic Pi. "
 "Clear up a buffer and throw in the following code:"
 msgstr ""
+"Sunt sigur ca te bucuri sa afli ca este inclus si in Sonic Pi. Goleste un "
+"buffer si pune acolo urmatorul cod:"
 
 #: A.03-coded-beats.md:37
 msgid ""
@@ -10492,16 +10612,21 @@ msgid ""
 "breaks in the history of dance music. However, this sample wasn't famous for "
 "being played as a one-shot, it was built for being looped."
 msgstr ""
+"Apasa *Run* si boom! Asculti unul dintre solourile de toba cu cea mai mare "
+"influenta din istoria muzicii dance. Totusi, acest esantion nu a devenit "
+"faimos pentru redarea normala, el a fost construit pentru redarea in bucla."
 
 #: A.03-coded-beats.md:42
 msgid "Beat Stretching"
-msgstr ""
+msgstr "Intinderea unui beat"
 
 #: A.03-coded-beats.md:44
 msgid ""
 "Let's loop the Amen Break by using our old friend the `live_loop` introduced "
 "in this tutorial last month:"
 msgstr ""
+"Sa redam in bucla Amen Break folosind vechea noastra cunostinta 'live_loop' "
+"prezentata in acest tutorial:"
 
 #: A.03-coded-beats.md:47
 #, no-wrap
@@ -10524,6 +10649,10 @@ msgid ""
 "silence of `2 - 1.753 = 0.247` beats. Even though it's short, it's still "
 "noticeable."
 msgstr ""
+"Ok, acum se repeta, dar exista o pauza deranjanta de fiecare data. Asta se "
+"intampla deoarece am cerut o pauza de '2' batai iar la ritmul implicit de 60 "
+"BPM esantionul ':loop_amen' dureaza '1.753' batai. Avem deci liniste timp de "
+"'2 - 1.753 = 0.247' batai. Desi dureaza putin, este sesizabila."
 
 #: A.03-coded-beats.md:60
 msgid ""
